@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="100"
+   height="100"
+   viewBox="0 0 100 100"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="busy-indicator.svg">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="7.9195959"
+     inkscape:cx="47.618004"
+     inkscape:cy="28.551323"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     units="px"
+     inkscape:window-width="2880"
+     inkscape:window-height="1752"
+     inkscape:window-x="0"
+     inkscape:window-y="48"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-952.36216)">
+    <g
+       id="g7211"
+       transform="matrix(0.03708988,0,0,0.03708988,50.490111,1016.2974)">
+      <rect
+         inkscape:tile-y0="-771.42855"
+         inkscape:tile-x0="-103.92857"
+         inkscape:tile-h="791.42859"
+         inkscape:tile-w="181.42857"
+         inkscape:tile-cy="-375.71426"
+         inkscape:tile-cx="-13.214287"
+         ry="108.89703"
+         y="292.05038"
+         x="-103.92857"
+         height="680.31183"
+         width="217.79407"
+         id="rect4154"
+         style="opacity:1;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+      <use
+         id="use7187"
+         xlink:href="#rect4154"
+         inkscape:tiled-clone-of="#rect4154"
+         y="0"
+         x="0"
+         width="100%"
+         height="100%" />
+      <use
+         id="use7189"
+         transform="matrix(0.8660254,0.5,-0.5,0.8660254,-189.62751,-43.729022)"
+         xlink:href="#rect4154"
+         inkscape:tiled-clone-of="#rect4154"
+         y="0"
+         x="0"
+         style="opacity:0.92000002"
+         width="100%"
+         height="100%" />
+      <use
+         id="use7191"
+         transform="matrix(0.5,0.8660254,-0.8660254,0.5,-331.98523,-176.41322)"
+         xlink:href="#rect4154"
+         inkscape:tiled-clone-of="#rect4154"
+         y="0"
+         x="0"
+         style="opacity:0.83999999"
+         width="100%"
+         height="100%" />
+      <use
+         id="use7193"
+         transform="matrix(0,1,-1,0,-388.92854,-362.49997)"
+         xlink:href="#rect4154"
+         inkscape:tiled-clone-of="#rect4154"
+         y="0"
+         x="0"
+         style="opacity:0.76000001"
+         width="100%"
+         height="100%" />
+      <use
+         id="use7195"
+         transform="matrix(-0.5,0.8660254,-0.8660254,-0.5,-345.19952,-552.12748)"
+         xlink:href="#rect4154"
+         inkscape:tiled-clone-of="#rect4154"
+         y="0"
+         x="0"
+         style="opacity:0.68000022"
+         width="100%"
+         height="100%" />
+      <use
+         id="use7197"
+         transform="matrix(-0.8660254,0.5,-0.5,-0.8660254,-212.51532,-694.4852)"
+         xlink:href="#rect4154"
+         inkscape:tiled-clone-of="#rect4154"
+         y="0"
+         x="0"
+         style="opacity:0.6"
+         width="100%"
+         height="100%" />
+      <use
+         id="use7199"
+         transform="matrix(-1,0,0,-1,-26.428574,-751.42851)"
+         xlink:href="#rect4154"
+         inkscape:tiled-clone-of="#rect4154"
+         y="0"
+         x="0"
+         style="opacity:0.51999996"
+         width="100%"
+         height="100%" />
+      <use
+         id="use7201"
+         transform="matrix(-0.8660254,-0.5,0.5,-0.8660254,163.19893,-707.69949)"
+         xlink:href="#rect4154"
+         inkscape:tiled-clone-of="#rect4154"
+         y="0"
+         x="0"
+         style="opacity:0.43999999"
+         width="100%"
+         height="100%" />
+      <use
+         id="use7203"
+         transform="matrix(-0.5,-0.8660254,0.8660254,-0.5,305.55666,-575.01529)"
+         xlink:href="#rect4154"
+         inkscape:tiled-clone-of="#rect4154"
+         y="0"
+         x="0"
+         style="opacity:0.36000001"
+         width="100%"
+         height="100%" />
+      <use
+         id="use7205"
+         transform="matrix(0,-1,1,0,362.49997,-388.92854)"
+         xlink:href="#rect4154"
+         inkscape:tiled-clone-of="#rect4154"
+         y="0"
+         x="0"
+         style="opacity:0.28000004"
+         width="100%"
+         height="100%" />
+      <use
+         id="use7207"
+         transform="matrix(0.5,-0.8660254,0.8660254,0.5,318.77095,-199.30104)"
+         xlink:href="#rect4154"
+         inkscape:tiled-clone-of="#rect4154"
+         y="0"
+         x="0"
+         style="opacity:0.2"
+         width="100%"
+         height="100%" />
+      <use
+         id="use7209"
+         transform="matrix(0.8660254,-0.5,0.5,0.8660254,186.08675,-56.943309)"
+         xlink:href="#rect4154"
+         inkscape:tiled-clone-of="#rect4154"
+         y="0"
+         x="0"
+         style="opacity:0.12000002"
+         width="100%"
+         height="100%" />
+    </g>
+  </g>
+</svg>

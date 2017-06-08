@@ -20,59 +20,53 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef STATETYPE_H
-#define STATETYPE_H
+import QtQuick 2.7
+import QtQuick.Controls 2.0
+import QtQuick.Layouts 1.1
 
-#include <QVariant>
-#include <QObject>
-#include <QUuid>
+Page {
+    id: root
 
-#include "types.h"
+    TabBar {
+        id: tabBar
+        currentIndex: swipeView.currentIndex
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: parent.top
 
-class StateType : public QObject
-{
-    Q_OBJECT
-    Q_PROPERTY(QUuid id READ id CONSTANT)
-    Q_PROPERTY(QString name READ name CONSTANT)
-    Q_PROPERTY(QString type READ type CONSTANT)
-    Q_PROPERTY(int index READ index CONSTANT)
-    Q_PROPERTY(QVariant defaultValue READ defaultValue CONSTANT)
-    Q_PROPERTY(Types::Unit unit READ unit CONSTANT)
-    Q_PROPERTY(QString unitString READ unitString CONSTANT)
+        TabButton {
+            text: qsTr("Devices")
+        }
 
-public:
-    StateType(QObject *parent = 0);
+        TabButton {
+            text: qsTr("Rules")
+        }
 
-    QUuid id() const;
-    void setId(const QUuid &id);
+        TabButton {
+            text: qsTr("Settings")
+        }
+    }
 
-    QString name() const;
-    void setName(const QString &name);
+    SwipeView {
+        id: swipeView
+        anchors.fill: parent
+        anchors.topMargin: tabBar.height
+        currentIndex: tabBar.currentIndex
 
-    QString type() const;
-    void setType(const QString &type);
+        DevicesPage { id: devicePage }
 
-    int index() const;
-    void setIndex(const int &index);
+        Page {
+            Label {
+                text: qsTr("Rules")
+                anchors.centerIn: parent
+            }
+        }
 
-    QVariant defaultValue() const;
-    void setDefaultValue(const QVariant &defaultValue);
-
-    Types::Unit unit() const;
-    void setUnit(const Types::Unit &unit);
-
-    QString unitString() const;
-    void setUnitString(const QString &unitString);
-
-private:
-    QUuid m_id;
-    QString m_name;
-    QString m_type;
-    int m_index;
-    QVariant m_defaultValue;
-    Types::Unit m_unit;
-    QString m_unitString;
-
-};
-
-#endif // STATETYPE_H
+        Page {
+            Label {
+                text: qsTr("Settings")
+                anchors.centerIn: parent
+            }
+        }
+    }
+}

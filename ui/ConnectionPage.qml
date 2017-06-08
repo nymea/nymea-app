@@ -20,59 +20,28 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef STATETYPE_H
-#define STATETYPE_H
+import QtQuick 2.7
+import QtQuick.Controls 2.0
+import QtQuick.Layouts 1.1
+import Guh 1.0
 
-#include <QVariant>
-#include <QObject>
-#include <QUuid>
+Page {
+    id: root
 
-#include "types.h"
+    Connections {
+        target: Engine
+        onConnectedChanged: {
+            if (connected) {
+                mainStack.push(Qt.resolvedUrl("MainPage.qml"))
+            }
+        }
+    }
 
-class StateType : public QObject
-{
-    Q_OBJECT
-    Q_PROPERTY(QUuid id READ id CONSTANT)
-    Q_PROPERTY(QString name READ name CONSTANT)
-    Q_PROPERTY(QString type READ type CONSTANT)
-    Q_PROPERTY(int index READ index CONSTANT)
-    Q_PROPERTY(QVariant defaultValue READ defaultValue CONSTANT)
-    Q_PROPERTY(Types::Unit unit READ unit CONSTANT)
-    Q_PROPERTY(QString unitString READ unitString CONSTANT)
-
-public:
-    StateType(QObject *parent = 0);
-
-    QUuid id() const;
-    void setId(const QUuid &id);
-
-    QString name() const;
-    void setName(const QString &name);
-
-    QString type() const;
-    void setType(const QString &type);
-
-    int index() const;
-    void setIndex(const int &index);
-
-    QVariant defaultValue() const;
-    void setDefaultValue(const QVariant &defaultValue);
-
-    Types::Unit unit() const;
-    void setUnit(const Types::Unit &unit);
-
-    QString unitString() const;
-    void setUnitString(const QString &unitString);
-
-private:
-    QUuid m_id;
-    QString m_name;
-    QString m_type;
-    int m_index;
-    QVariant m_defaultValue;
-    Types::Unit m_unit;
-    QString m_unitString;
-
-};
-
-#endif // STATETYPE_H
+    Button {
+        text: qsTr("Connect")
+        anchors.centerIn: parent
+        onClicked: {
+            Engine.connectGuh()
+        }
+    }
+}

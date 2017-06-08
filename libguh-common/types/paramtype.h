@@ -34,6 +34,7 @@ class ParamType : public QObject
     Q_OBJECT
     Q_PROPERTY(QString name READ name CONSTANT)
     Q_PROPERTY(QString type READ type CONSTANT)
+    Q_PROPERTY(int index READ index CONSTANT)
     Q_PROPERTY(QVariant defaultValue READ defaultValue CONSTANT)
     Q_PROPERTY(QVariant minValue READ minValue CONSTANT)
     Q_PROPERTY(QVariant maxValue READ maxValue CONSTANT)
@@ -51,6 +52,9 @@ public:
 
     QString type() const;
     void setType(const QString &type);
+
+    int index() const;
+    void setIndex(const int &index);
 
     QVariant defaultValue() const;
     void setDefaultValue(const QVariant &defaultValue);
@@ -79,6 +83,7 @@ public:
 private:
     QString m_name;
     QString m_type;
+    int m_index;
     QVariant m_defaultValue;
     QVariant m_minValue;
     QVariant m_maxValue;

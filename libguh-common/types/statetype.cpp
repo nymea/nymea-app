@@ -57,6 +57,16 @@ void StateType::setType(const QString &type)
     m_type = type;
 }
 
+int StateType::index() const
+{
+    return m_index;
+}
+
+void StateType::setIndex(const int &index)
+{
+    m_index = index;
+}
+
 QVariant StateType::defaultValue() const
 {
     return m_defaultValue;

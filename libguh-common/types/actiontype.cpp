@@ -47,6 +47,16 @@ void ActionType::setName(const QString &name)
     m_name = name;
 }
 
+int ActionType::index() const
+{
+    return m_index;
+}
+
+void ActionType::setIndex(const int &index)
+{
+    m_index = index;
+}
+
 ParamTypes *ActionType::paramTypes() const
 {
     return m_paramTypes;

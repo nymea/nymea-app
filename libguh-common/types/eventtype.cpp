@@ -47,6 +47,16 @@ void EventType::setName(const QString &name)
     m_name = name;
 }
 
+int EventType::index() const
+{
+    return m_index;
+}
+
+void EventType::setIndex(const int &index)
+{
+    m_index = index;
+}
+
 ParamTypes *EventType::paramTypes() const
 {
     return m_paramTypes;

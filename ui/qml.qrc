@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>MainPage.qml</file>
+        <file>ConnectionPage.qml</file>
+        <file>DevicesPage.qml</file>
+        <file>DevicePage.qml</file>
+    </qresource>
+</RCC>

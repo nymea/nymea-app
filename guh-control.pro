@@ -1,3 +1,5 @@
+include(guh-control.pri)
+
 TEMPLATE=subdirs
 
 SUBDIRS += backend libguh-common

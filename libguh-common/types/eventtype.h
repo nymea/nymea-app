@@ -33,6 +33,7 @@ class EventType : public QObject
     Q_OBJECT
     Q_PROPERTY(QUuid id READ id CONSTANT)
     Q_PROPERTY(QString name READ name CONSTANT)
+    Q_PROPERTY(int index READ index CONSTANT)
     Q_PROPERTY(ParamTypes paramTypes READ paramTypes CONSTANT)
 
 public:
@@ -44,12 +45,16 @@ public:
     QString name() const;
     void setName(const QString &name);
 
+    int index() const;
+    void setIndex(const int &index);
+
     ParamTypes *paramTypes() const;
     void setParamTypes(ParamTypes *paramTypes);
 
 private:
     QUuid m_id;
     QString m_name;
+    int m_index;
     ParamTypes *m_paramTypes;
 };
 

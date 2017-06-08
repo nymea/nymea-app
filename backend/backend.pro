@@ -1,17 +1,48 @@
-QT += qml quick websockets
+include(../guh-control.pri)
+
+QT += qml quick websockets quickcontrols2
 
 TARGET = guh-control
 
-CONFIG += c++11
+RESOURCES += ../ui/qml.qrc ../data.qrc
 
-SOURCES += main.cpp
+INCLUDEPATH += $$top_srcdir/libguh-common
+LIBS += -L$$top_builddir/libguh-common/ -lguh-common
 
-RESOURCES += ui/qml.qrc
+QML_FILES += $$files(*.qml,true) \
+             $$files(*.js,true)
 
-# Additional import path used to resolve QML modules in Qt Creator's code model
-QML_IMPORT_PATH = ui/
+OTHER_FILES += $${QML_FILES}
 
-# Default rules for deployment.
-qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: target.path = /opt/$${TARGET}/bin
-!isEmpty(target.path): INSTALLS += target
+HEADERS += \
+    engine.h \
+    guhinterface.h \
+    devicemanager.h \
+    websocketinterface.h \
+    jsonrpc/jsontypes.h \
+    jsonrpc/jsonrpcclient.h \
+    jsonrpc/devicehandler.h \
+    jsonrpc/jsonhandler.h \
+    jsonrpc/actionhandler.h \
+    jsonrpc/eventhandler.h \
+    jsonrpc/logginghandler.h \
+    jsonrpc/networkmanagerhandler.h \
+    jsonrpc/configurationhandler.h
+
+SOURCES += main.cpp \
+    engine.cpp \
+    guhinterface.cpp \
+    devicemanager.cpp \
+    websocketinterface.cpp \
+    jsonrpc/jsontypes.cpp \
+    jsonrpc/jsonrpcclient.cpp \
+    jsonrpc/devicehandler.cpp \
+    jsonrpc/jsonhandler.cpp \
+    jsonrpc/actionhandler.cpp \
+    jsonrpc/eventhandler.cpp \
+    jsonrpc/logginghandler.cpp \
+    jsonrpc/networkmanagerhandler.cpp \
+    jsonrpc/configurationhandler.cpp
+
+target.path = /usr/bin
+INSTALLS += target

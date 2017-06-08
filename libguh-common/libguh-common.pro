@@ -1,3 +1,5 @@
+include(../guh-control.pri)
+
 TARGET = guh-common
 TEMPLATE = lib
 
@@ -58,7 +60,6 @@ SOURCES += types/vendor.cpp \
            types/plugin.cpp \
            types/plugins.cpp \
            types/pluginsproxy.cpp \
-
 
 # install header file with relative subdirectory
 for(header, HEADERS) {

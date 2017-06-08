@@ -57,6 +57,16 @@ void ParamType::setType(const QString &type)
     m_type = type;
 }
 
+int ParamType::index() const
+{
+    return m_index;
+}
+
+void ParamType::setIndex(const int &index)
+{
+    m_index = index;
+}
+
 QVariant ParamType::defaultValue() const
 {
     return m_defaultValue;

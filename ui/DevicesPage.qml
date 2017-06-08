@@ -20,59 +20,54 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef STATETYPE_H
-#define STATETYPE_H
+import QtQuick 2.7
+import QtQuick.Controls 2.0
+import QtQuick.Layouts 1.1
 
-#include <QVariant>
-#include <QObject>
-#include <QUuid>
+import Guh 1.0
 
-#include "types.h"
+Page {
+    id: root
 
-class StateType : public QObject
-{
-    Q_OBJECT
-    Q_PROPERTY(QUuid id READ id CONSTANT)
-    Q_PROPERTY(QString name READ name CONSTANT)
-    Q_PROPERTY(QString type READ type CONSTANT)
-    Q_PROPERTY(int index READ index CONSTANT)
-    Q_PROPERTY(QVariant defaultValue READ defaultValue CONSTANT)
-    Q_PROPERTY(Types::Unit unit READ unit CONSTANT)
-    Q_PROPERTY(QString unitString READ unitString CONSTANT)
+    GridView {
+        id: gridView
+        anchors.fill: parent
 
-public:
-    StateType(QObject *parent = 0);
+        anchors.margins: 10
 
-    QUuid id() const;
-    void setId(const QUuid &id);
+        property real cellSize: width / 5
 
-    QString name() const;
-    void setName(const QString &name);
 
-    QString type() const;
-    void setType(const QString &type);
+        cellWidth: cellSize
+        cellHeight: cellSize
 
-    int index() const;
-    void setIndex(const int &index);
+        model: Engine.deviceManager.devicesProxy
 
-    QVariant defaultValue() const;
-    void setDefaultValue(const QVariant &defaultValue);
+        clip: true
 
-    Types::Unit unit() const;
-    void setUnit(const Types::Unit &unit);
+        delegate:  Item {
+            height: gridView.cellSize
+            width: gridView.cellSize
 
-    QString unitString() const;
-    void setUnitString(const QString &unitString);
+            Button {
+                anchors.fill: parent
+                anchors.margins: 5
+                text: model.name
 
-private:
-    QUuid m_id;
-    QString m_name;
-    QString m_type;
-    int m_index;
-    QVariant m_defaultValue;
-    Types::Unit m_unit;
-    QString m_unitString;
+                onClicked: mainStack.push(Qt.resolvedUrl("DevicePage.qml"), { device: Engine.deviceManager.devices.getDevice(model.id)})
+            }
 
-};
+//            Rectangle {
+//                anchors.fill: parent
+//                anchors.margins: 4
+//                color: "lightgray"
 
-#endif // STATETYPE_H
+//                radius: width / 8
+
+//                border.width: 1
+//                border.color: "darkgray"
+//            }
+
+        }
+    }
+}
