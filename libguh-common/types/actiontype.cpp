@@ -67,4 +67,3 @@ void ActionType::setParamTypes(ParamTypes *paramTypes)
     m_paramTypes = paramTypes;
     emit paramTypesChanged();
 }
-

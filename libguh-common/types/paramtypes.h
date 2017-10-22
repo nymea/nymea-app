@@ -25,11 +25,12 @@
 
 #include <QAbstractListModel>
 
-#include "paramtype.h"
+#include "types/paramtype.h"
 
 class ParamTypes : public QAbstractListModel
 {
     Q_OBJECT
+    Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
 public:
     enum ParamTypeRole {
         NameRole = Qt::DisplayRole,
@@ -47,7 +48,6 @@ public:
 
     QList<ParamType *> paramTypes();
 
-    Q_INVOKABLE int count() const;
     Q_INVOKABLE ParamType *get(int index) const;
     Q_INVOKABLE ParamType *getParamType(const QString &name) const;
 
@@ -57,6 +57,9 @@ public:
     void addParamType(ParamType *paramType);
 
     void clearModel();
+
+signals:
+    void countChanged();
 
 protected:
     QHash<int, QByteArray> roleNames() const;

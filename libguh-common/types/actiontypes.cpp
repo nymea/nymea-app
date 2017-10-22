@@ -81,6 +81,16 @@ void ActionTypes::addActionType(ActionType *actionType)
     endInsertRows();
 }
 
+ActionType *ActionTypes::findByName(const QString &name) const
+{
+    foreach (ActionType *at, m_actionTypes) {
+        if (at->name() == name) {
+            return at;
+        }
+    }
+    return nullptr;
+}
+
 void ActionTypes::clearModel()
 {
     beginResetModel();

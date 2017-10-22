@@ -1,6 +1,7 @@
-include(guh-control.pri)
-
 TEMPLATE=subdirs
 
-SUBDIRS += backend libguh-common
-backend.depends = libguh-common
+SUBDIRS += libguh-common guh-control
+libguh-common.subdir = libguh-common
+guh-control.subdir = guh-control
+
+guh-control.depends = libguh-common

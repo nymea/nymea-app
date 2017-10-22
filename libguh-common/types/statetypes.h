@@ -55,6 +55,8 @@ public:
 
     void addStateType(StateType *stateType);
 
+    Q_INVOKABLE StateType *findByName(const QString &name) const;
+
     void clearModel();
 
 protected:

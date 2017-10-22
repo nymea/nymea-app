@@ -90,6 +90,16 @@ void StateTypes::addStateType(StateType *stateType)
     endInsertRows();
 }
 
+StateType *StateTypes::findByName(const QString &name) const
+{
+    foreach (StateType *stateType, m_stateTypes) {
+        if (stateType->name() == name) {
+            return stateType;
+        }
+    }
+    return nullptr;
+}
+
 void StateTypes::clearModel()
 {
     beginResetModel();

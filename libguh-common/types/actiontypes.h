@@ -51,6 +51,8 @@ public:
 
     void addActionType(ActionType *actionType);
 
+    Q_INVOKABLE ActionType *findByName(const QString &name) const;
+
     void clearModel();
 
 protected:

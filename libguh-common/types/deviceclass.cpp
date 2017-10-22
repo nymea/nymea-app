@@ -27,6 +27,7 @@
 DeviceClass::DeviceClass(QObject *parent) :
     QObject(parent)
 {
+    qRegisterMetaType<BasicTags>();
 }
 
 QUuid DeviceClass::id() const
@@ -87,6 +88,35 @@ DeviceClass::SetupMethod DeviceClass::setupMethod() const
 void DeviceClass::setSetupMethod(DeviceClass::SetupMethod setupMethod)
 {
     m_setupMethod = setupMethod;
+}
+
+QList<DeviceClass::BasicTag> DeviceClass::basicTags() const
+{
+    return m_basicTags;
+}
+
+QStringList DeviceClass::basicTagNames() const
+{
+    QStringList ret;
+    foreach (DeviceClass::BasicTag tag, m_basicTags) {
+        ret << basicTagToString(tag);
+    }
+    return ret;
+}
+
+void DeviceClass::setBasicTags(QList<DeviceClass::BasicTag> basicTags)
+{
+    m_basicTags = basicTags;
+}
+
+QStringList DeviceClass::interfaces() const
+{
+    return m_interfaces;
+}
+
+void DeviceClass::setInterfaces(const QStringList &interfaces)
+{
+    m_interfaces = interfaces;
 }
 
 ParamTypes *DeviceClass::paramTypes() const
@@ -152,4 +182,49 @@ bool DeviceClass::hasActionType(const QUuid &actionTypeId)
         }
     }
     return false;
+}
+
+QString DeviceClass::basicTagToString(DeviceClass::BasicTag basicTag)
+{
+    switch (basicTag) {
+    case DeviceClass::BasicTagActuator:
+        return "Actuators";
+    case DeviceClass::BasicTagAppliance:
+        return "Apliances";
+    case DeviceClass::BasicTagCamera:
+        return "Cameras";
+    case DeviceClass::BasicTagCooling:
+        return "Cooling";
+    case DeviceClass::BasicTagDevice:
+        return "Devices";
+    case DeviceClass::BasicTagEnergy:
+        return "Energy";
+    case DeviceClass::BasicTagGateway:
+        return "Gateways";
+    case DeviceClass::BasicTagHeating:
+        return "Heating";
+    case DeviceClass::BasicTagLighting:
+        return "Lighting";
+    case DeviceClass::BasicTagLock:
+        return "Locks";
+    case DeviceClass::BasicTagMultimedia:
+        return "Multimedia";
+    case DeviceClass::BasicTagNotification:
+        return "Notifications";
+    case DeviceClass::BasicTagSecurity:
+        return "Security";
+    case DeviceClass::BasicTagSensor:
+        return "Sensors";
+    case DeviceClass::BasicTagService:
+        return "Services";
+    case DeviceClass::BasicTagShading:
+        return "Shading";
+    case DeviceClass::BasicTagTime:
+        return "Time";
+    case DeviceClass::BasicTagWeather:
+        return "Weather";
+    default:
+        return "Unknown";
+    }
+    return "Unknown";
 }

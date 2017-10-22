@@ -26,12 +26,14 @@
 #include <QVariant>
 #include <QObject>
 #include <QDebug>
+#include <QUuid>
 
 #include "types.h"
 
 class ParamType : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(QUuid id READ id CONSTANT)
     Q_PROPERTY(QString name READ name CONSTANT)
     Q_PROPERTY(QString type READ type CONSTANT)
     Q_PROPERTY(int index READ index CONSTANT)
@@ -46,6 +48,9 @@ class ParamType : public QObject
 public:
     ParamType(QObject *parent = 0);
     ParamType(const QString &name, const QVariant::Type type, const QVariant &defaultValue = QVariant(), QObject *parent = 0);
+
+    QUuid id() const;
+    void setId(const QUuid &id);
 
     QString name() const;
     void setName(const QString &name);
@@ -81,6 +86,7 @@ public:
     void setReadOnly(const bool &readOnly);
 
 private:
+    QUuid m_id;
     QString m_name;
     QString m_type;
     int m_index;

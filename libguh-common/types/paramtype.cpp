@@ -37,6 +37,16 @@ ParamType::ParamType(const QString &name, const QVariant::Type type, const QVari
 {
 }
 
+QUuid ParamType::id() const
+{
+    return m_id;
+}
+
+void ParamType::setId(const QUuid &id)
+{
+    m_id = id;
+}
+
 QString ParamType::name() const
 {
     return m_name;

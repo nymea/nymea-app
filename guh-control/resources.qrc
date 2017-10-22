@@ -1,0 +1,47 @@
+<RCC>
+    <qresource prefix="/">
+        <file>ui/ConnectPage.qml</file>
+        <file>ui/DevicePage.qml</file>
+        <file>ui/DevicesPage.qml</file>
+        <file>ui/main.qml</file>
+        <file>ui/NewDeviceWizard.qml</file>
+        <file>ui/SettingsPage.qml</file>
+        <file>ui/actiondelegates/ActionDelegateBase.qml</file>
+        <file>ui/actiondelegates/ActionDelegateBool.qml</file>
+        <file>ui/actiondelegates/ActionDelegateSlider.qml</file>
+        <file>ui/components/GuhHeader.qml</file>
+        <file>ui/components/HeaderButton.qml</file>
+        <file>ui/images/add.svg</file>
+        <file>ui/images/back.svg</file>
+        <file>ui/images/close.svg</file>
+        <file>ui/MainPage.qml</file>
+        <file>ui/images/weathericons/weather-clear-night-symbolic.svg</file>
+        <file>ui/images/weathericons/weather-few-clouds-night-symbolic.svg</file>
+        <file>ui/images/weathericons/weather-few-clouds-symbolic.svg</file>
+        <file>ui/images/weathericons/weather-flurries-symbolic.svg</file>
+        <file>ui/images/weathericons/weather-fog-symbolic.svg</file>
+        <file>ui/images/weathericons/weather-hazy-symbolic.svg</file>
+        <file>ui/images/weathericons/weather-overcast-symbolic.svg</file>
+        <file>ui/images/weathericons/weather-severe-alert-symbolic.svg</file>
+        <file>ui/images/weathericons/weather-sleet-symbolic.svg</file>
+        <file>ui/images/weathericons/weather-snow-symbolic.svg</file>
+        <file>ui/images/weathericons/weather-chance-of-wind-symbolic.svg</file>
+        <file>ui/actiondelegates/ActionDelegateFallback.qml</file>
+        <file>ui/images/info.svg</file>
+        <file>ui/images/weathericons/weather-rain-symbolic.svg</file>
+        <file>ui/actiondelegates/ActionDelegateColor.qml</file>
+        <file>ui/components/ColorPicker.qml</file>
+        <file>ui/images/weathericons/weather-scattered-symbolic.svg</file>
+        <file>ui/actiondelegates/ActionDelegateNoParams.qml</file>
+        <file>ui/images/weathericons/weather-cloud-night-symbolic.svg</file>
+        <file>ui/images/weathericons/weather-cloud-symbolic.svg</file>
+        <file>ui/actiondelegates/ActionDelegateStringFromStringList.qml</file>
+        <file>ui/images/weathericons/weather-sun-symbolic.svg</file>
+        <file>ui/customviews/CustomViewBase.qml</file>
+        <file>ui/customviews/WeatherView.qml</file>
+        <file>ui/images/weathericons/weather-thunder-symbolic.svg</file>
+        <file>ui/customviews/MediaControllerView.qml</file>
+        <file>ui/LoginPage.qml</file>
+        <file>ui/customviews/SensorView.qml</file>
+    </qresource>
+</RCC>

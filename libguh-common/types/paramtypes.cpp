@@ -32,11 +32,6 @@ QList<ParamType *> ParamTypes::paramTypes()
     return m_paramTypes;
 }
 
-int ParamTypes::count() const
-{
-    return m_paramTypes.count();
-}
-
 ParamType *ParamTypes::get(int index) const
 {
     return m_paramTypes.at(index);
@@ -92,6 +87,7 @@ void ParamTypes::addParamType(ParamType *paramType)
     //qDebug() << "ParamTypes: loaded paramType" << paramType->name();
     m_paramTypes.append(paramType);
     endInsertRows();
+    emit countChanged();
 }
 
 void ParamTypes::clearModel()
@@ -99,6 +95,7 @@ void ParamTypes::clearModel()
     beginResetModel();
     m_paramTypes.clear();
     endResetModel();
+    emit countChanged();
 }
 
 QHash<int, QByteArray> ParamTypes::roleNames() const

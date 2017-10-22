@@ -4,6 +4,7 @@ TARGET = guh-common
 TEMPLATE = lib
 
 QT += network
+CONFIG += static
 
 target.path = /usr/lib/$$system('dpkg-architecture -q DEB_HOST_MULTIARCH')
 INSTALLS += target
@@ -11,13 +12,8 @@ INSTALLS += target
 HEADERS += types/types.h \
            types/vendor.h \
            types/vendors.h \
-           types/vendorsproxy.h \
            types/deviceclass.h \
-           types/deviceclasses.h \
-           types/deviceclassesproxy.h \
            types/device.h \
-           types/devices.h \
-           types/devicesproxy.h \
            types/param.h \
            types/params.h \
            types/paramtype.h \
@@ -33,17 +29,11 @@ HEADERS += types/types.h \
            types/statesproxy.h \
            types/plugin.h \
            types/plugins.h \
-           types/pluginsproxy.h \
 
 SOURCES += types/vendor.cpp \
            types/vendors.cpp \
-           types/vendorsproxy.cpp \
            types/deviceclass.cpp \
-           types/deviceclasses.cpp \
-           types/deviceclassesproxy.cpp \
            types/device.cpp \
-           types/devices.cpp \
-           types/devicesproxy.cpp \
            types/param.cpp \
            types/params.cpp \
            types/paramtype.cpp \
@@ -59,7 +49,6 @@ SOURCES += types/vendor.cpp \
            types/statesproxy.cpp \
            types/plugin.cpp \
            types/plugins.cpp \
-           types/pluginsproxy.cpp \
 
 # install header file with relative subdirectory
 for(header, HEADERS) {

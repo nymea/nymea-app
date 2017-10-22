@@ -36,13 +36,14 @@
 class DeviceClass : public QObject
 {
     Q_OBJECT
-    Q_ENUMS(SetupMethod)
 
     Q_PROPERTY(QString name READ name CONSTANT)
     Q_PROPERTY(QUuid id READ id CONSTANT)
     Q_PROPERTY(QUuid vendorId READ vendorId CONSTANT)
     Q_PROPERTY(QStringList createMethods READ createMethods CONSTANT)
     Q_PROPERTY(SetupMethod setupMethod READ setupMethod CONSTANT)
+    Q_PROPERTY(QStringList basicTags READ basicTagNames CONSTANT)
+    Q_PROPERTY(QStringList interfaces READ interfaces CONSTANT)
     Q_PROPERTY(ParamTypes *paramTypes READ paramTypes NOTIFY paramTypesChanged)
     Q_PROPERTY(ParamTypes *discoveryParamTypes READ discoveryParamTypes NOTIFY discoveryParamTypesChanged)
     Q_PROPERTY(StateTypes *stateTypes READ stateTypes NOTIFY stateTypesChanged)
@@ -57,6 +58,32 @@ public:
         SetupMethodEnterPin,
         SetupMethodPushButton
     };
+    Q_ENUM(SetupMethod)
+
+    enum BasicTag {
+        BasicTagNone         = 0,
+        BasicTagService      = 1 << 0,
+        BasicTagDevice       = 1 << 1,
+        BasicTagSensor       = 1 << 2,
+        BasicTagActuator     = 1 << 3,
+        BasicTagLighting     = 1 << 4,
+        BasicTagEnergy       = 1 << 5,
+        BasicTagMultimedia   = 1 << 6,
+        BasicTagWeather      = 1 << 7,
+        BasicTagGateway      = 1 << 8,
+        BasicTagHeating      = 1 << 9,
+        BasicTagCooling      = 1 << 10,
+        BasicTagNotification = 1 << 11,
+        BasicTagSecurity     = 1 << 12,
+        BasicTagTime         = 1 << 13,
+        BasicTagShading      = 1 << 14,
+        BasicTagAppliance    = 1 << 15,
+        BasicTagCamera       = 1 << 16,
+        BasicTagLock         = 1 << 17
+    };
+    Q_ENUM(BasicTag)
+    Q_DECLARE_FLAGS(BasicTags, BasicTag)
+    Q_FLAGS(BasicTags)
 
     DeviceClass(QObject *parent = 0);
 
@@ -78,6 +105,13 @@ public:
     SetupMethod setupMethod() const;
     void setSetupMethod(SetupMethod setupMethod);
 
+    QList<BasicTag> basicTags() const;
+    QStringList basicTagNames() const;
+    void setBasicTags(QList<BasicTag> basicTag);
+
+    QStringList interfaces() const;
+    void setInterfaces(const QStringList &interfaces);
+
     ParamTypes *paramTypes() const;
     void setParamTypes(ParamTypes *paramTypes);
 
@@ -95,6 +129,8 @@ public:
 
     Q_INVOKABLE bool hasActionType(const QUuid &actionTypeId);
 
+    static QString basicTagToString(BasicTag basicTag);
+
 private:
     QUuid m_id;
     QUuid m_vendorId;
@@ -102,6 +138,8 @@ private:
     QString m_name;
     QStringList m_createMethods;
     SetupMethod m_setupMethod;
+    QList<BasicTag> m_basicTags;
+    QStringList m_interfaces;
 
     ParamTypes *m_paramTypes;
     ParamTypes *m_discoveryParamTypes;
@@ -115,7 +153,8 @@ signals:
     void stateTypesChanged();
     void eventTypesChanged();
     void actionTypesChanged();
-
 };
-
+Q_DECLARE_OPERATORS_FOR_FLAGS(DeviceClass::BasicTags)
+Q_DECLARE_METATYPE(DeviceClass::BasicTags)
+Q_DECLARE_METATYPE(DeviceClass::BasicTag)
 #endif // DEVICECLASS_H
