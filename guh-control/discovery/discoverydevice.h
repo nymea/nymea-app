@@ -18,17 +18,17 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef UPNPDEVICE_H
-#define UPNPDEVICE_H
+#ifndef DISCOVERYDEVICE_H
+#define DISCOVERYDEVICE_H
 
 #include <QObject>
 #include <QUrl>
 #include <QHostAddress>
 
-class UpnpDevice
+class DiscoveryDevice
 {
 public:
-    explicit UpnpDevice();
+    explicit DiscoveryDevice();
 
     QUrl location() const;
     void setLocation(const QUrl &location);
@@ -88,6 +88,6 @@ private:
     QString m_uuid;
 };
 
-QDebug operator<< (QDebug debug, const UpnpDevice &upnpDevice);
+QDebug operator<< (QDebug debug, const DiscoveryDevice &discoveryDevice);
 
-#endif // UPNPDEVICE_H
+#endif // DISCOVERYDEVICE_H

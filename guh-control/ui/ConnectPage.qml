@@ -12,8 +12,8 @@ Page {
         if (settings.lastConnectedHost.length > 0) {
             internalPageStack.push(connectingPage)
             Engine.connection.connect(settings.lastConnectedHost)
-        } else if (upnpDiscovery.discoveryModel.count <= 1) {
-            upnpDiscovery.discover()
+        } else if (discovery.discoveryModel.count <= 1) {
+            discovery.discover()
         } else {
             internalPageStack.pop();
             internalPageStack.push(searchResultsPage)
@@ -29,25 +29,25 @@ Page {
             certDialog.open();
         }
         onConnectionError: {
-            upnpDiscovery.discover();
+            discovery.discover();
         }
     }
 
 
     Connections {
-        target: upnpDiscovery
+        target: discovery
 
         onDiscoveringChanged: {
-            print("discoverying changed", upnpDiscovery.discovering)
-            if (upnpDiscovery.discovering) {
+            print("discoverying changed", discovery.discovering)
+            if (discovery.discovering) {
                 internalPageStack.pop();
             } else {
-                switch (upnpDiscovery.discoveryModel.count) {
+                switch (discovery.discoveryModel.count) {
                 case 0:
                     internalPageStack.push(noResultsPage);
                     break;
                 case 1:
-                    Engine.connection.connect(upnpDiscovery.discoveryModel.get(0, "guhRpcUrl"))
+                    Engine.connection.connect(discovery.discoveryModel.get(0, "guhRpcUrl"))
                     internalPageStack.push(connectingPage);
                     break;
                 default:
@@ -77,7 +77,7 @@ Page {
 
                 BusyIndicator {
                     anchors.horizontalCenter: parent.horizontalCenter
-                    running: upnpDiscovery.discovering
+                    running: discovery.discovering
                 }
             }
         }
@@ -107,7 +107,7 @@ Page {
                 Button {
                     Layout.fillWidth: true
                     text: "Try again!"
-                    onClicked: upnpDiscovery.discover()
+                    onClicked: discovery.discover()
                 }
             }
         }
@@ -136,7 +136,7 @@ Page {
 
                     Label {
                         Layout.fillWidth: true
-                        text: qsTr("There are %1 guh boxes in your network! Which one would you like to use?").arg(upnpDiscovery.discoveryModel.count)
+                        text: qsTr("There are %1 guh boxes in your network! Which one would you like to use?").arg(discovery.discoveryModel.count)
                         wrapMode: Text.WordWrap
                     }
                 }
@@ -150,7 +150,7 @@ Page {
                 ListView {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
-                    model: upnpDiscovery.discoveryModel
+                    model: discovery.discoveryModel
                     delegate: ItemDelegate {
                         width: parent.width
                         height: app.delegateHeight
@@ -194,7 +194,7 @@ Page {
                         text: "Search again!"
                         Layout.fillWidth: true
                         onClicked: {
-                            upnpDiscovery.discover()
+                            discovery.discover()
                         }
                     }
                 }

@@ -32,12 +32,13 @@ UpnpDiscovery::UpnpDiscovery(QObject *parent) :
     m_networkAccessManager = new QNetworkAccessManager(this);
     connect(m_networkAccessManager, &QNetworkAccessManager::finished, this, &UpnpDiscovery::networkReplyFinished);
 
-    m_discoveryModel = new UpnpDiscoveryModel(this);
+    m_discoveryModel = new DiscoveryModel(this);
 
-    m_timer = new QTimer(this);
-    m_timer->setSingleShot(true);
-    m_timer->setInterval(5000);
-    connect(m_timer, &QTimer::timeout, this, &UpnpDiscovery::onTimeout);
+    m_timer.setSingleShot(true);
+    m_timer.setInterval(5000);
+    connect(&m_timer, &QTimer::timeout, this, &UpnpDiscovery::onTimeout);
+    m_repeatTimer.setInterval(500);
+    connect(&m_repeatTimer, &QTimer::timeout, this, &UpnpDiscovery::writeDiscoveryPacket);
 
     // bind udp socket and join multicast group
     m_port = 1900;
@@ -68,7 +69,7 @@ bool UpnpDiscovery::discovering() const
     return m_discovering;
 }
 
-UpnpDiscoveryModel *UpnpDiscovery::discoveryModel()
+DiscoveryModel *UpnpDiscovery::discoveryModel()
 {
     return m_discoveryModel;
 }
@@ -86,25 +87,21 @@ void UpnpDiscovery::discover()
     }
 
     qDebug() << "start discovering...";
-    m_timer->start();
+    m_timer.start();
+    m_repeatTimer.start();
 //    m_discoveryModel->clearModel();
     m_foundDevices.clear();
 
     setDiscovering(true);
 
-    QByteArray ssdpSearchMessage = QByteArray("M-SEARCH * HTTP/1.1\r\n"
-                                              "HOST:239.255.255.250:1900\r\n"
-                                              "MAN:\"ssdp:discover\"\r\n"
-                                              "MX:2\r\n"
-                                              "ST: ssdp:all\r\n\r\n");
-
-    writeDatagram(ssdpSearchMessage, m_host, m_port);
+    writeDiscoveryPacket();
 }
 
 void UpnpDiscovery::stopDiscovery()
 {
     qDebug() << "stop discovering";
-    m_timer->stop();
+    m_timer.stop();
+    m_repeatTimer.stop();
     m_discoveryModel->clearModel();
     setDiscovering(false);
 }
@@ -119,6 +116,17 @@ void UpnpDiscovery::setAvailable(const bool &available)
 {
     m_available = available;
     emit availableChanged();
+}
+
+void UpnpDiscovery::writeDiscoveryPacket()
+{
+    QByteArray ssdpSearchMessage = QByteArray("M-SEARCH * HTTP/1.1\r\n"
+                                              "HOST:239.255.255.250:1900\r\n"
+                                              "MAN:\"ssdp:discover\"\r\n"
+                                              "MX:2\r\n"
+                                              "ST: ssdp:all\r\n\r\n");
+
+    writeDatagram(ssdpSearchMessage, m_host, m_port);
 }
 
 void UpnpDiscovery::error(QAbstractSocket::SocketError error)
@@ -165,17 +173,17 @@ void UpnpDiscovery::readData()
 
         if (!m_foundDevices.contains(location) && isGuh) {
             m_foundDevices.append(location);
-            UpnpDevice upnpDevice;
-            upnpDevice.setHostAddress(hostAddress);
-            upnpDevice.setPort(port);
-            upnpDevice.setLocation(location.toString());
+            DiscoveryDevice discoveryDevice;
+            discoveryDevice.setHostAddress(hostAddress);
+            discoveryDevice.setPort(port);
+            discoveryDevice.setLocation(location.toString());
 
             qDebug() << "Getting server data from:" << location;
             QNetworkReply *reply = m_networkAccessManager->get(QNetworkRequest(location));
             connect(reply, &QNetworkReply::sslErrors, [this, reply](const QList<QSslError> &errors){
                 reply->ignoreSslErrors(errors);
             });
-            m_runningReplies.insert(reply, upnpDevice);
+            m_runningReplies.insert(reply, discoveryDevice);
         }
     }
 }
@@ -187,7 +195,7 @@ void UpnpDiscovery::networkReplyFinished(QNetworkReply *reply)
     switch (status) {
     case(200):{
         QByteArray data = reply->readAll();
-        UpnpDevice upnpDevice = m_runningReplies.take(reply);
+        DiscoveryDevice discoveryDevice = m_runningReplies.take(reply);
 
         // parse XML data
         QXmlStreamReader xml(data);
@@ -199,13 +207,13 @@ void UpnpDiscovery::networkReplyFinished(QNetworkReply *reply)
 
             if (xml.isStartElement()) {
                 if (xml.name().toString() == "websocketURL") {
-                    upnpDevice.setWebSocketUrl(xml.readElementText());
+                    discoveryDevice.setWebSocketUrl(xml.readElementText());
                 }
             }
 
             if (xml.isStartElement()) {
                 if (xml.name().toString() == "guhRpcURL") {
-                    upnpDevice.setGuhRpcUrl(xml.readElementText());
+                    discoveryDevice.setGuhRpcUrl(xml.readElementText());
                 }
             }
 
@@ -213,28 +221,28 @@ void UpnpDiscovery::networkReplyFinished(QNetworkReply *reply)
                 if (xml.name().toString() == "device") {
                     while (!xml.atEnd()) {
                         if (xml.name() == "friendlyName" && xml.isStartElement()) {
-                            upnpDevice.setFriendlyName(xml.readElementText());
+                            discoveryDevice.setFriendlyName(xml.readElementText());
                         }
                         if (xml.name() == "manufacturer" && xml.isStartElement()) {
-                            upnpDevice.setManufacturer(xml.readElementText());
+                            discoveryDevice.setManufacturer(xml.readElementText());
                         }
                         if (xml.name() == "manufacturerURL" && xml.isStartElement()) {
-                            upnpDevice.setManufacturerURL(QUrl(xml.readElementText()));
+                            discoveryDevice.setManufacturerURL(QUrl(xml.readElementText()));
                         }
                         if (xml.name() == "modelDescription" && xml.isStartElement()) {
-                            upnpDevice.setModelDescription(xml.readElementText());
+                            discoveryDevice.setModelDescription(xml.readElementText());
                         }
                         if (xml.name() == "modelName" && xml.isStartElement()) {
-                            upnpDevice.setModelName(xml.readElementText());
+                            discoveryDevice.setModelName(xml.readElementText());
                         }
                         if (xml.name() == "modelNumber" && xml.isStartElement()) {
-                            upnpDevice.setModelNumber(xml.readElementText());
+                            discoveryDevice.setModelNumber(xml.readElementText());
                         }
                         if (xml.name() == "modelURL" && xml.isStartElement()) {
-                            upnpDevice.setModelURL(QUrl(xml.readElementText()));
+                            discoveryDevice.setModelURL(QUrl(xml.readElementText()));
                         }
                         if (xml.name() == "UDN" && xml.isStartElement()) {
-                            upnpDevice.setUuid(xml.readElementText());
+                            discoveryDevice.setUuid(xml.readElementText());
                         }
                         xml.readNext();
                     }
@@ -244,10 +252,10 @@ void UpnpDiscovery::networkReplyFinished(QNetworkReply *reply)
         }
 
 
-        if (upnpDevice.friendlyName().contains("guh")) {
-            qDebug() << upnpDevice;
-            if (!m_discoveryModel->contains(upnpDevice.uuid())) {
-                m_discoveryModel->addDevice(upnpDevice);
+        if (discoveryDevice.friendlyName().contains("guh")) {
+            qDebug() << discoveryDevice;
+            if (!m_discoveryModel->contains(discoveryDevice.uuid())) {
+                m_discoveryModel->addDevice(discoveryDevice);
             }
         }
 
@@ -264,5 +272,6 @@ void UpnpDiscovery::networkReplyFinished(QNetworkReply *reply)
 void UpnpDiscovery::onTimeout()
 {
     qDebug() << "discovery timeout";
+    m_repeatTimer.stop();
     setDiscovering(false);
 }

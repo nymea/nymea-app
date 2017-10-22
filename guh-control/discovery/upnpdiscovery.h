@@ -27,21 +27,21 @@
 #include <QNetworkAccessManager>
 #include <QTimer>
 
-#include "upnpdevice.h"
-#include "upnpdiscoverymodel.h"
+#include "discoverydevice.h"
+#include "discoverymodel.h"
 
 class UpnpDiscovery : public QUdpSocket
 {
     Q_OBJECT
     Q_PROPERTY(bool discovering READ discovering NOTIFY discoveringChanged)
     Q_PROPERTY(bool available READ available NOTIFY availableChanged)
-    Q_PROPERTY(UpnpDiscoveryModel *discoveryModel READ discoveryModel NOTIFY discoveryModelChanged)
+    Q_PROPERTY(DiscoveryModel *discoveryModel READ discoveryModel NOTIFY discoveryModelChanged)
 
 public:
     explicit UpnpDiscovery(QObject *parent = 0);
 
     bool discovering() const;
-    UpnpDiscoveryModel *discoveryModel();
+    DiscoveryModel *discoveryModel();
 
     bool available() const;
 
@@ -51,16 +51,17 @@ public:
 private:
     QNetworkAccessManager *m_networkAccessManager;
 
-    QTimer *m_timer;
+    QTimer m_timer;
+    QTimer m_repeatTimer;
 
     QHostAddress m_host;
     qint16 m_port;
 
-    UpnpDiscoveryModel *m_discoveryModel;
+    DiscoveryModel *m_discoveryModel;
 
     bool m_discovering;
     bool m_available;
-    QHash<QNetworkReply *, UpnpDevice> m_runningReplies;
+    QHash<QNetworkReply *, DiscoveryDevice> m_runningReplies;
     QList<QUrl> m_foundDevices;
 
     void setDiscovering(const bool &discovering);
@@ -72,6 +73,7 @@ signals:
     void discoveryModelChanged();
 
 private slots:
+    void writeDiscoveryPacket();
     void error(QAbstractSocket::SocketError error);
     void readData();
     void networkReplyFinished(QNetworkReply *reply);

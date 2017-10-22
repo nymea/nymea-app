@@ -31,6 +31,7 @@
 #include "pluginsproxy.h"
 #include "devicediscovery.h"
 #include "discovery/upnpdiscovery.h"
+#include "discovery/zeroconfdiscovery.h"
 #include "interfacesmodel.h"
 
 int main(int argc, char *argv[])
@@ -85,6 +86,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<PluginsProxy>(uri, 1, 0, "PluginsProxy");
 
     qmlRegisterType<UpnpDiscovery>(uri, 1, 0, "UpnpDiscovery");
+    qmlRegisterType<ZeroconfDiscovery>(uri, 1, 0, "ZeroconfDiscovery");
 
     Engine::instance();
 

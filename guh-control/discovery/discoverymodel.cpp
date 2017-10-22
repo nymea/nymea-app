@@ -18,30 +18,30 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include "upnpdiscoverymodel.h"
+#include "discoverymodel.h"
 
-UpnpDiscoveryModel::UpnpDiscoveryModel(QObject *parent) :
+DiscoveryModel::DiscoveryModel(QObject *parent) :
     QAbstractListModel(parent)
 {
 }
 
-QList<UpnpDevice> UpnpDiscoveryModel::devices()
+QList<DiscoveryDevice> DiscoveryModel::devices()
 {
     return m_devices;
 }
 
-int UpnpDiscoveryModel::rowCount(const QModelIndex &parent) const
+int DiscoveryModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
     return m_devices.count();
 }
 
-QVariant UpnpDiscoveryModel::data(const QModelIndex &index, int role) const
+QVariant DiscoveryModel::data(const QModelIndex &index, int role) const
 {
     if (index.row() < 0 || index.row() >= m_devices.count())
         return QVariant();
 
-    UpnpDevice device = m_devices.at(index.row());
+    DiscoveryDevice device = m_devices.at(index.row());
     if (role == NameRole) {
         return device.friendlyName();
     } else if (role == HostAddressRole) {
@@ -58,22 +58,29 @@ QVariant UpnpDiscoveryModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-void UpnpDiscoveryModel::addDevice(UpnpDevice device)
+void DiscoveryModel::addDevice(const DiscoveryDevice &device)
 {
+    for (int i = 0; i < m_devices.count(); i++) {
+        if (m_devices.at(i).uuid() == device.uuid()) {
+            m_devices[i] = device;
+            emit dataChanged(index(i), index(i));
+            return;
+        }
+    }
     beginInsertRows(QModelIndex(), m_devices.count(), m_devices.count());
     m_devices.append(device);
     endInsertRows();
     emit countChanged();
 }
 
-QString UpnpDiscoveryModel::get(int index, const QByteArray &role) const
+QString DiscoveryModel::get(int index, const QByteArray &role) const
 {
     return data(this->index(index), roleNames().key(role)).toString();
 }
 
-bool UpnpDiscoveryModel::contains(const QString &uuid) const
+bool DiscoveryModel::contains(const QString &uuid) const
 {
-    foreach (const UpnpDevice &dev, m_devices) {
+    foreach (const DiscoveryDevice &dev, m_devices) {
         if (dev.uuid() == uuid) {
             return true;
         }
@@ -81,7 +88,17 @@ bool UpnpDiscoveryModel::contains(const QString &uuid) const
     return false;
 }
 
-void UpnpDiscoveryModel::clearModel()
+DiscoveryDevice DiscoveryModel::find(const QHostAddress &address) const
+{
+    foreach (const DiscoveryDevice &dev, m_devices) {
+        if (dev.hostAddress() == address) {
+            return dev;
+        }
+    }
+    return DiscoveryDevice();
+}
+
+void DiscoveryModel::clearModel()
 {
     beginResetModel();
     m_devices.clear();
@@ -89,7 +106,7 @@ void UpnpDiscoveryModel::clearModel()
     emit countChanged();
 }
 
-QHash<int, QByteArray> UpnpDiscoveryModel::roleNames() const
+QHash<int, QByteArray> DiscoveryModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
     roles[NameRole] = "name";

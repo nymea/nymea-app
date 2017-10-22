@@ -47,7 +47,7 @@ void TcpSocketInterface::connect(const QUrl &url)
 {
     m_url = url;
     if (url.scheme() == "guhs") {
-        qDebug() << "connecting to" << url.host();
+        qDebug() << "connecting to" << url.host() << url.port();
         m_socket.connectToHostEncrypted(url.host(), url.port());
     } else if (url.scheme() == "guh") {
         m_socket.connectToHost(url.host(), url.port());

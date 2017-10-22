@@ -71,6 +71,10 @@ ApplicationWindow {
     }
 
     UpnpDiscovery {
-        id: upnpDiscovery
+        id: discovery
     }
+
+//    ZeroconfDiscovery {
+//        id: discovery
+//    }
 }

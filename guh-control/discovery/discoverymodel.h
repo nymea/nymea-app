@@ -18,15 +18,15 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef UPNPDISCOVERYMODEL_H
-#define UPNPDISCOVERYMODEL_H
+#ifndef DISCOVERYMODEL_H
+#define DISCOVERYMODEL_H
 
 #include <QAbstractListModel>
 #include <QList>
 
-#include "upnpdevice.h"
+#include "discoverydevice.h"
 
-class UpnpDiscoveryModel : public QAbstractListModel
+class DiscoveryModel : public QAbstractListModel
 {
     Q_OBJECT
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
@@ -40,17 +40,18 @@ public:
         VersionRole
     };
 
-    explicit UpnpDiscoveryModel(QObject *parent = 0);
+    explicit DiscoveryModel(QObject *parent = 0);
 
-    QList<UpnpDevice> devices();
+    QList<DiscoveryDevice> devices();
 
     int rowCount(const QModelIndex & parent = QModelIndex()) const;
     QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;
 
-    void addDevice(UpnpDevice device);
+    void addDevice(const DiscoveryDevice &device);
 
     Q_INVOKABLE QString get(int index, const QByteArray &role) const;
     bool contains(const QString &uuid) const;
+    DiscoveryDevice find(const QHostAddress &address) const;
 
     void clearModel();
 
@@ -61,9 +62,7 @@ protected:
     QHash<int, QByteArray> roleNames() const;
 
 private:
-    QList<UpnpDevice> m_devices;
-
-
+    QList<DiscoveryDevice> m_devices;
 };
 
-#endif // UPNPDISCOVERYMODEL_H
+#endif // DISCOVERYMODEL_H
