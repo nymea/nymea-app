@@ -13,6 +13,8 @@ CustomViewBase {
         Engine.jsonRpcClient.executeAction(device.id, actionTypeId)
     }
 
+    property var playbackState: device.states.getState(deviceClass.stateTypes.findByName("playbackStatus").id)
+
     ColumnLayout {
         id: column
         anchors { left: parent.left; right: parent.right }
@@ -32,19 +34,21 @@ CustomViewBase {
                 }
             }
             Button {
-                text: "X"
+                text: "X"+ playbackState.value
                 onClicked: {
                     executeAction("stop")
                 }
             }
             Button {
                 text: ">"
+                visible: playbackState.value == "PAUSED"
                 onClicked: {
                     executeAction("play")
                 }
             }
             Button {
                 text: "||"
+                visible: playbackState.value == "PLAYING"
                 onClicked: {
                     executeAction("pause")
                 }

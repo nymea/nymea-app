@@ -1,7 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>ui/ConnectPage.qml</file>
-        <file>ui/DevicePage.qml</file>
         <file>ui/DevicesPage.qml</file>
         <file>ui/main.qml</file>
         <file>ui/NewDeviceWizard.qml</file>
@@ -43,5 +42,13 @@
         <file>ui/customviews/MediaControllerView.qml</file>
         <file>ui/LoginPage.qml</file>
         <file>ui/customviews/SensorView.qml</file>
+        <file>ui/devicepages/GenericDevicePage.qml</file>
+        <file>ui/devicepages/MediaDevicePage.qml</file>
+        <file>ui/devicelistpages/GenericDeviceListPage.qml</file>
+        <file>ui/devicelistpages/LightsDeviceListPage.qml</file>
+        <file>ui/customviews/ExtendedVolumeController.qml</file>
+        <file>ui/components/ColorIcon.qml</file>
+        <file>ui/images/torch-on.svg</file>
+        <file>ui/images/media-preview-start.svg</file>
     </qresource>
 </RCC>

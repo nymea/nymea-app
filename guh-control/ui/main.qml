@@ -10,14 +10,16 @@ ApplicationWindow {
     width: 270 * 1.5
     height: 480 * 1.5
 
+    property color guhAccent: "#ff57baae"
 //    Material.primary: "#ff57baae"
     Material.primary: "white"
-    Material.accent: "#ff57baae"
+    Material.accent: guhAccent
 
     property int margins: 10
     property int bigMargins: 20
     property int smallFont: 10
     property int largeFont: 20
+    property int iconSize: 30
     property int delegateHeight: 60
 
     Settings {
@@ -72,6 +74,28 @@ ApplicationWindow {
 
     UpnpDiscovery {
         id: discovery
+    }
+
+    function interfaceToString(name) {
+        switch(name) {
+        case "light":
+            return "Lighting"
+        case "weather":
+            return "Weather"
+        case "sensor":
+            return "Sensor"
+        case "media":
+            return "Media"
+        }
+    }
+
+    function interfaceToIcon(name) {
+        switch (name) {
+        case "light":
+            return Qt.resolvedUrl("images/torch-on.svg")
+        case "media":
+            return Qt.resolvedUrl("images/media-preview-start.svg")
+        }
     }
 
 //    ZeroconfDiscovery {

@@ -2,7 +2,7 @@ import QtQuick 2.5
 import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.1
 import Guh 1.0
-import "components"
+import "../components"
 
 Page {
     id: root
@@ -15,7 +15,7 @@ Page {
         onBackPressed: pageStack.pop()
 
         HeaderButton {
-            imageSource: "images/info.svg"
+            imageSource: "../images/info.svg"
             onClicked: pageStack.push(deviceStateDetailsPage)
         }
     }
@@ -43,16 +43,16 @@ Page {
                     var src = "";
                     print("**** devicetags", deviceClass.basicTags)
                     if (deviceClass.interfaces.indexOf("weather") >= 0) {
-                        src = "customviews/WeatherView.qml";
+                        src = "WeatherView.qml";
                     }
                     if (deviceClass.interfaces.indexOf("mediacontroller") >= 0) {
-                        src = "customviews/MediaControllerView.qml"
+                        src = "MediaControllerView.qml"
                     }
                     if (deviceClass.interfaces.indexOf("sensor") >= 0) {
-                        src = "customviews/SensorView.qml"
+                        src = "SensorView.qml"
                     }
 
-                    return Qt.resolvedUrl(src);
+                    return Qt.resolvedUrl("../customviews/" + src);
                 }
                 Binding {
                     target: stateViewLoader.item ? stateViewLoader.item : null
@@ -99,7 +99,7 @@ Page {
                                     delegate = "ActionDelegateStringFromStringList.qml";
                                 }
                             }
-                            return Qt.resolvedUrl("actiondelegates/" + delegate);
+                            return Qt.resolvedUrl("../actiondelegates/" + delegate);
                         }
 
                         Binding {
