@@ -20,7 +20,7 @@ CustomViewBase {
                 muteParam["paramTypeId"] = deviceClass.stateTypes.findByName("mute").id
                 muteParam["value"] = !isMuted
                 paramList.push(muteParam)
-                Engine.jsonRpcClient.executeAction(root.device.id, deviceClass.actionTypes.findByName("mute").id, paramList)
+                Engine.deviceManager.executeAction(root.device.id, deviceClass.actionTypes.findByName("mute").id, paramList)
             }
         }
 
@@ -36,7 +36,7 @@ CustomViewBase {
                     muteParam["paramTypeId"] = deviceClass.stateTypes.findByName("volume").id
                     muteParam["value"] = value
                     paramList.push(muteParam)
-                    Engine.jsonRpcClient.executeAction(root.device.id, deviceClass.actionTypes.findByName("volume").id, paramList)
+                    Engine.deviceManager.executeAction(root.device.id, deviceClass.actionTypes.findByName("volume").id, paramList)
                 }
             }
         }

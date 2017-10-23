@@ -117,7 +117,7 @@ Page {
                         Connections {
                             target: delegateLoader.item ? delegateLoader.item : null
                             onExecuteAction: {
-                                delegateLoader.commandId = Engine.jsonRpcClient.executeAction(root.device.id, model.id, params)
+                                delegateLoader.commandId = Engine.deviceManager.executeAction(root.device.id, model.id, params)
                             }
                         }
                         Connections {

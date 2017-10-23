@@ -23,12 +23,12 @@ public:
     QHash<int, QByteArray> roleNames() const;
 
 
-    Q_INVOKABLE void discoverDevices(const QUuid &deviceClassId, const QVariantList &params = {});
+    Q_INVOKABLE void discoverDevices(const QUuid &deviceClassId, const QVariantList &discoveryParams = {});
 
     bool busy() const;
 
 private slots:
-    void responseReceived(int id, const QVariantMap &params);
+    void discoverDevicesResponse(const QVariantMap &params);
 
 signals:
     void busyChanged();
@@ -43,7 +43,7 @@ private:
         QString m_description;
     };
 
-    QList<int> m_requests;
+    bool m_busy = false;
 
     bool contains(const QUuid &deviceDescriptorId) const;
     QList<DeviceDescriptor> m_foundDevices;

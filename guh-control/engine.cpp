@@ -58,8 +58,8 @@ GuhConnection *Engine::connection() const
 Engine::Engine(QObject *parent) :
     QObject(parent),
     m_connection(new GuhConnection(this)),
-    m_deviceManager(new DeviceManager(this)),
-    m_jsonRpcClient(new JsonRpcClient(m_connection, this))
+    m_jsonRpcClient(new JsonRpcClient(m_connection, this)),
+    m_deviceManager(new DeviceManager(m_jsonRpcClient, this))
 {
     connect(m_jsonRpcClient, &JsonRpcClient::connectedChanged, this, &Engine::onConnectedChanged);
 }
@@ -67,14 +67,10 @@ Engine::Engine(QObject *parent) :
 void Engine::onConnectedChanged(bool connected)
 {
     qDebug() << "Engine: connected changed:" << connected;
-    if (!connected) {
-        deviceManager()->devices()->clearModel();
-        deviceManager()->deviceClasses()->clearModel();
-        deviceManager()->vendors()->clearModel();
-        deviceManager()->plugins()->clearModel();
-    } else {
+    deviceManager()->clear();
+    if (connected) {
         if (!jsonRpcClient()->initialSetupRequired() && !jsonRpcClient()->authenticationRequired()) {
-            jsonRpcClient()->getVendors();
+            deviceManager()->init();
         }
     }
 }

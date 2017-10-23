@@ -50,5 +50,7 @@
         <file>ui/components/ColorIcon.qml</file>
         <file>ui/images/torch-on.svg</file>
         <file>ui/images/media-preview-start.svg</file>
+        <file>ui/MagicPage.qml</file>
+        <file>ui/magic/NewRulePage.qml</file>
     </qresource>
 </RCC>

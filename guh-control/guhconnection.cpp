@@ -61,6 +61,7 @@ QString GuhConnection::url() const
 void GuhConnection::sendData(const QByteArray &data)
 {
     if (connected()) {
+        qDebug() << "sending data:" << data;
         m_currentInterface->sendData(data);
     } else {
         qWarning() << "Not connected. Cannot send.";

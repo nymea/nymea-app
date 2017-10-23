@@ -32,7 +32,7 @@ Page {
                         param1["paramTypeId"] = actionType.paramTypes.get(0).id;
                         param1["value"] = checked;
                         params.push(param1)
-                        Engine.jsonRpcClient.executeAction(device.id, actionType.id, params)
+                        Engine.deviceManager.executeAction(device.id, actionType.id, params)
                     }
                 }
             }
@@ -66,8 +66,9 @@ Page {
                             visible: model.interfaces.indexOf("dimmablelight") >= 0
                             property var stateType: deviceClass.stateTypes.findByName("brightness");
                             property var actionType: deviceClass.actionTypes.findByName("brightness");
+                            property var actionState: device.states.getState(stateType.id)
                             from: 0; to: 100
-                            value: device.stateValue(stateType.id)
+                            value: actionState.value
                             onValueChanged: {
                                 if (pressed) {
                                     var params = [];
@@ -75,21 +76,22 @@ Page {
                                     param1["paramTypeId"] = actionType.paramTypes.get(0).id;
                                     param1["value"] = value;
                                     params.push(param1)
-                                    Engine.jsonRpcClient.executeAction(device.id, actionType.id, params)
+                                    Engine.deviceManager.executeAction(device.id, actionType.id, params)
                                 }
                             }
                         }
                         Switch {
                             property var stateType: deviceClass.stateTypes.findByName("power");
                             property var actionType: deviceClass.actionTypes.findByName("power");
-                            checked: device.stateValue(stateType.id) === true
+                            property var actionState: device.states.getState(stateType.id)
+                            checked: actionState.value === true
                             onClicked: {
                                 var params = [];
                                 var param1 = {};
                                 param1["paramTypeId"] = actionType.paramTypes.get(0).id;
                                 param1["value"] = checked;
                                 params.push(param1)
-                                Engine.jsonRpcClient.executeAction(device.id, actionType.id, params)
+                                Engine.deviceManager.executeAction(device.id, actionType.id, params)
                             }
 
                         }

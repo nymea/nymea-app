@@ -24,12 +24,8 @@
 #include <QObject>
 #include <QVariantMap>
 
-#include "devicehandler.h"
-#include "actionhandler.h"
-#include "eventhandler.h"
-#include "logginghandler.h"
-#include "networkmanagerhandler.h"
 #include "guhconnection.h"
+#include "jsonhandler.h"
 
 class JsonRpcReply;
 class Param;
@@ -47,12 +43,10 @@ public:
 
     QString nameSpace() const override;
 
-    // internal
-    void getVendors();
-    void getPlugins();
-    void getDevices();
-    void getDeviceClasses();
-    void setNotificationsEnabled(bool enabled);
+    void registerNotificationHandler(JsonHandler *handler, const QString &method);
+
+    JsonRpcReply* sendCommand(const QString &method, const QVariantMap &params, QObject *caller = nullptr, const QString &callbackMethod = QString());
+    JsonRpcReply* sendCommand(const QString &method, QObject *caller = nullptr, const QString &callbackMethod = QString());
 
     void setConnection(GuhConnection *connection);
     bool connected() const;
@@ -62,37 +56,31 @@ public:
     // ui methods
     Q_INVOKABLE int createUser(const QString &username, const QString &password);
     Q_INVOKABLE int authenticate(const QString &username, const QString &password, const QString &deviceName);
-    Q_INVOKABLE int addDevice(const QUuid &deviceClassId, const QVariantList &deviceParams);
-    Q_INVOKABLE int addDiscoveredDevice(const QUuid &deviceClassId, const QUuid &deviceDescriptorId, const QString &name);
-    Q_INVOKABLE int pairDevice(const QUuid &deviceClassId, const QUuid &deviceDescriptorId);
-    Q_INVOKABLE int confirmPairing(const QUuid &pairingTransactionId, const QString &secret = QString());
-    Q_INVOKABLE int removeDevice(const QUuid &deviceId);
-    Q_INVOKABLE int discoverDevices(const QUuid &deviceClassId, const QVariantList &discoveryParams = QVariantList());
-    Q_INVOKABLE int executeAction(const QUuid &deviceId, const QUuid &actionTypeId, const QVariantList &params = QVariantList());
 
     // json handler
     Q_INVOKABLE void processAuthenticate(const QVariantMap &data);
     Q_INVOKABLE void processCreateUser(const QVariantMap &data);
+
 signals:
     void initialSetupRequiredChanged();
     void authenticationRequiredChanged();
     void connectedChanged(bool connected);
     void tokenChanged();
 
+    void responseReceived(const int &commandId, const QVariantMap &response);
+
+private slots:
+    void onInterfaceConnectedChanged(bool connected);
+    void dataReceived(const QByteArray &data);
+
 private:
     int m_id;
-    QHash<QString, JsonHandler *> m_handlers;
+    // < namespace, <Handler, method> >
+    QHash<QString, QPair<JsonHandler*, QString> > m_notificationHandlers;
     QHash<int, JsonRpcReply *> m_replies;
-
     GuhConnection *m_connection = nullptr;
 
-    DeviceHandler *m_deviceHandler;
-    ActionHandler *m_actionHandler;
-    EventHandler *m_eventHandler;
-    LoggingHandler *m_loggingHandler;
-    NetworkManagerHandler *m_networkManagerHandler;
-
-    JsonRpcReply *createReply(QString nameSpace, QString method, QVariantMap params = QVariantMap());
+    JsonRpcReply *createReply(const QString &method, const QVariantMap &params, QObject *caller, const QString &callback);
 
     bool m_connected = false;
     bool m_initialSetupRequired = false;
@@ -101,14 +89,9 @@ private:
     QByteArray m_token;
     QByteArray m_receiveBuffer;
 
+    void setNotificationsEnabled(bool enabled);
+    Q_INVOKABLE void setNotificationsEnabledResponse(const QVariantMap &params);
     void sendRequest(const QVariantMap &request);
-
-signals:
-    void responseReceived(const int &commandId, const QVariantMap &response);
-
-public slots:
-    void onInterfaceConnectedChanged(bool connected);
-    void dataReceived(const QByteArray &data);
 
 };
 
@@ -117,7 +100,7 @@ class JsonRpcReply : public QObject
 {
     Q_OBJECT
 public:
-    explicit JsonRpcReply(int commandId, QString nameSpace, QString method, QVariantMap params = QVariantMap(), QObject *parent = 0);
+    explicit JsonRpcReply(int commandId, QString nameSpace, QString method, QVariantMap params = QVariantMap(), QObject *caller = 0, const QString &callback = QString());
 
     int commandId() const;
     QString nameSpace() const;
@@ -125,11 +108,17 @@ public:
     QVariantMap params() const;
     QVariantMap requestMap();
 
+    QObject *caller() const;
+    QString callback() const;
+
 private:
     int m_commandId;
     QString m_nameSpace;
     QString m_method;
     QVariantMap m_params;
+
+    QObject *m_caller;
+    QString m_callback;
 };
 
 

@@ -10,7 +10,7 @@ CustomViewBase {
     function executeAction(actionName) {
         var actionTypeId = deviceClass.actionTypes.findByName(actionName).id;
         print("executing", device, device.id, actionTypeId, actionName, deviceClass.actionTypes)
-        Engine.jsonRpcClient.executeAction(device.id, actionTypeId)
+        Engine.deviceManager.executeAction(device.id, actionTypeId)
     }
 
     property var playbackState: device.states.getState(deviceClass.stateTypes.findByName("playbackStatus").id)

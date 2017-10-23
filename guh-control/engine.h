@@ -52,8 +52,8 @@ private:
     static Engine *s_instance;
 
     GuhConnection *m_connection;
-    DeviceManager *m_deviceManager;
     JsonRpcClient *m_jsonRpcClient;
+    DeviceManager *m_deviceManager;
 
 private slots:
     void onConnectedChanged(bool connected);

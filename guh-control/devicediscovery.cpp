@@ -5,8 +5,6 @@
 DeviceDiscovery::DeviceDiscovery(QObject *parent) :
     QAbstractListModel(parent)
 {
-
-    connect(Engine::instance()->jsonRpcClient(), &JsonRpcClient::responseReceived, this, &DeviceDiscovery::responseReceived);
 }
 
 int DeviceDiscovery::rowCount(const QModelIndex &parent) const
@@ -38,25 +36,27 @@ QHash<int, QByteArray> DeviceDiscovery::roleNames() const
     return roles;
 }
 
-void DeviceDiscovery::discoverDevices(const QUuid &deviceClassId, const QVariantList &params)
+void DeviceDiscovery::discoverDevices(const QUuid &deviceClassId, const QVariantList &discoveryParams)
 {
-    int request = Engine::instance()->jsonRpcClient()->discoverDevices(deviceClassId, params);
-    m_requests.append(request);
+    QVariantMap params;
+    params.insert("deviceClassId", deviceClassId.toString());
+    if (!discoveryParams.isEmpty()) {
+        params.insert("discoveryParams", discoveryParams);
+    }
+    Engine::instance()->jsonRpcClient()->sendCommand("Devices.DiscoverDevices", params, this, "discoverDevicesResponse");
+    m_busy = true;
     emit busyChanged();
     emit countChanged();
 }
 
 bool DeviceDiscovery::busy() const
 {
-    return m_requests.count() > 0;
+    return m_busy;
 }
 
-void DeviceDiscovery::responseReceived(int id, const QVariantMap &params)
+void DeviceDiscovery::discoverDevicesResponse(const QVariantMap &params)
 {
-    if (!m_requests.contains(id)) {
-        return;
-    }
-    m_requests.removeAll(id);
+    m_busy = false;
     emit busyChanged();
 
     qDebug() << "response received" << params;

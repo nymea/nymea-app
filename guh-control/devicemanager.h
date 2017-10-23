@@ -27,8 +27,10 @@
 #include "devices.h"
 #include "deviceclasses.h"
 #include "types/plugins.h"
+#include "jsonrpc/jsonhandler.h"
+#include "jsonrpc/jsonrpcclient.h"
 
-class DeviceManager : public QObject
+class DeviceManager : public JsonHandler
 {
     Q_OBJECT
     Q_PROPERTY(Vendors *vendors READ vendors CONSTANT)
@@ -37,18 +39,43 @@ class DeviceManager : public QObject
     Q_PROPERTY(DeviceClasses *deviceClasses READ deviceClasses CONSTANT)
 
 public:
-    explicit DeviceManager(QObject *parent = 0);
+    explicit DeviceManager(JsonRpcClient *jsonclient, QObject *parent = 0);
+
+    void clear();
+    void init();
+
+    QString nameSpace() const override;
 
     Vendors *vendors() const;
     Plugins *plugins() const;
     Devices *devices() const;
     DeviceClasses *deviceClasses() const;
 
+    Q_INVOKABLE void addDevice(const QUuid &deviceClassId, const QVariantList &deviceParams);
+    Q_INVOKABLE void addDiscoveredDevice(const QUuid &deviceClassId, const QUuid &deviceDescriptorId, const QString &name);
+    Q_INVOKABLE void pairDevice(const QUuid &deviceClassId, const QUuid &deviceDescriptorId);
+    Q_INVOKABLE void confirmPairing(const QUuid &pairingTransactionId, const QString &secret = QString());
+    Q_INVOKABLE void removeDevice(const QUuid &deviceId);
+    Q_INVOKABLE void executeAction(const QUuid &deviceId, const QUuid &actionTypeId, const QVariantList &params = QVariantList());
+
+private:
+    Q_INVOKABLE void notificationReceived(const QVariantMap &data);
+    Q_INVOKABLE void getVendorsResponse(const QVariantMap &params);
+    Q_INVOKABLE void getSupportedDevicesResponse(const QVariantMap &params);
+    Q_INVOKABLE void getPluginsResponse(const QVariantMap &params);
+    Q_INVOKABLE void getConfiguredDevicesResponse(const QVariantMap &params);
+    Q_INVOKABLE void addDeviceResponse(const QVariantMap &params);
+    Q_INVOKABLE void removeDeviceResponse(const QVariantMap &params);
+
+
+
 private:
     Vendors *m_vendors;
     Plugins *m_plugins;
     Devices *m_devices;
     DeviceClasses *m_deviceClasses;
+
+    JsonRpcClient *m_jsonClient = nullptr;
 
 };
 
