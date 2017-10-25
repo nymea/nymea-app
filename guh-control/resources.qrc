@@ -52,5 +52,11 @@
         <file>ui/images/media-preview-start.svg</file>
         <file>ui/MagicPage.qml</file>
         <file>ui/magic/NewRulePage.qml</file>
+        <file>ui/images/mediaplayer-app-symbolic.svg</file>
+        <file>ui/images/system-shutdown.svg</file>
+        <file>ui/devicepages/ButtonDevicePage.qml</file>
+        <file>ui/magic/SelectActionPage.qml</file>
+        <file>ui/devicepages/GenericDeviceStateDetailsPage.qml</file>
+        <file>ui/images/delete.svg</file>
     </qresource>
 </RCC>

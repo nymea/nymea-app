@@ -45,8 +45,8 @@ public:
 
     void registerNotificationHandler(JsonHandler *handler, const QString &method);
 
-    JsonRpcReply* sendCommand(const QString &method, const QVariantMap &params, QObject *caller = nullptr, const QString &callbackMethod = QString());
-    JsonRpcReply* sendCommand(const QString &method, QObject *caller = nullptr, const QString &callbackMethod = QString());
+    void sendCommand(const QString &method, const QVariantMap &params, QObject *caller = nullptr, const QString &callbackMethod = QString());
+    void sendCommand(const QString &method, QObject *caller = nullptr, const QString &callbackMethod = QString());
 
     void setConnection(GuhConnection *connection);
     bool connected() const;

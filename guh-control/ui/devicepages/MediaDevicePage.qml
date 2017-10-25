@@ -17,7 +17,7 @@ Page {
 
         HeaderButton {
             imageSource: "../images/info.svg"
-            onClicked: pageStack.push(deviceStateDetailsPage)
+            onClicked: pageStack.push(Qt.resolvedUrl("GenericDeviceStateDetailsPage.qml"), {device: root.device})
         }
     }
 

@@ -89,6 +89,17 @@ void EventTypes::clearModel()
     endResetModel();
 }
 
+EventType *EventTypes::findByName(const QString &name) const
+{
+    foreach (EventType *eventType, m_eventTypes) {
+        qDebug() << "have eventtypoe" << eventType->name();
+        if (eventType->name() == name) {
+            return eventType;
+        }
+    }
+    return nullptr;
+}
+
 QHash<int, QByteArray> EventTypes::roleNames() const
 {
     QHash<int, QByteArray> roles;

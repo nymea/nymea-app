@@ -31,7 +31,7 @@ Page {
                 model: InterfacesModel {
                     id: interfacesModel
                     devices: Engine.deviceManager.devices
-                    shownInterfaces: ["light", "weather", "sensor", "media"]
+                    shownInterfaces: ["light", "weather", "sensor", "media", "button"]
                 }
 
                 cellWidth: {

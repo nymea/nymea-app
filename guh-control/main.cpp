@@ -33,6 +33,13 @@
 #include "discovery/upnpdiscovery.h"
 #include "discovery/zeroconfdiscovery.h"
 #include "interfacesmodel.h"
+#include "rulemanager.h"
+#include "models/rulesfiltermodel.h"
+#include "types/ruleactions.h"
+#include "types/ruleaction.h"
+#include "types/ruleactionparams.h"
+#include "types/ruleactionparam.h"
+#include "types/rule.h"
 
 int main(int argc, char *argv[])
 {
@@ -80,6 +87,15 @@ int main(int argc, char *argv[])
     qmlRegisterUncreatableType<DeviceClasses>(uri, 1, 0, "DeviceClasses", "Can't create this in QML. Get it from the DeviceManager.");
     qmlRegisterType<DeviceClassesProxy>(uri, 1, 0, "DeviceClassesProxy");
     qmlRegisterType<DeviceDiscovery>(uri, 1, 0, "DeviceDiscovery");
+
+    qmlRegisterUncreatableType<RuleManager>(uri, 1, 0, "RuleManager", "Get it from the Engine");
+    qmlRegisterUncreatableType<Rules>(uri, 1, 0, "Rules", "Get it from RuleManager");
+    qmlRegisterUncreatableType<Rule>(uri, 1, 0, "Rule", "Get it from Rules");
+    qmlRegisterUncreatableType<RuleActions>(uri, 1, 0, "RuleActions", "Get them from the rule");
+    qmlRegisterUncreatableType<RuleAction>(uri, 1, 0, "RuleAction", "Get it from RuleActions");
+    qmlRegisterUncreatableType<RuleActionParams>(uri, 1, 0, "RuleActionParams", "Get it from RuleActions");
+    qmlRegisterUncreatableType<RuleActionParam>(uri, 1, 0, "RuleActionParam", "Get it from RuleActionParams");
+    qmlRegisterType<RulesFilterModel>(uri, 1, 0, "RulesFilterModel");
 
     qmlRegisterUncreatableType<Plugin>(uri, 1, 0, "Plugin", "Can't create this in QML. Get it from the Plugins.");
     qmlRegisterUncreatableType<Plugins>(uri, 1, 0, "Plugins", "Can't create this in QML. Get it from the DeviceManager.");

@@ -1,6 +1,7 @@
 import QtQuick 2.8
 import QtQuick.Controls 2.2
 import "components"
+import Guh 1.0
 
 Page {
     id: root
@@ -16,6 +17,13 @@ Page {
 
     ListView {
         anchors.fill: parent
-//        model: Engine.
+
+        model: Engine.ruleManager.rules
+        delegate: ItemDelegate {
+            width: parent.width
+            Label {
+                text: model.name
+            }
+        }
     }
 }

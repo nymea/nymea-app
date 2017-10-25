@@ -117,7 +117,7 @@ void DeviceManager::getSupportedDevicesResponse(const QVariantMap &params)
         QVariantList deviceClassList = params.value("params").toMap().value("deviceClasses").toList();
         foreach (QVariant deviceClassVariant, deviceClassList) {
             DeviceClass *deviceClass = JsonTypes::unpackDeviceClass(deviceClassVariant.toMap(), Engine::instance()->deviceManager()->deviceClasses());
-            qDebug() << "Server has device class:" << deviceClass->name() << deviceClass->id();
+//            qDebug() << "Server has device class:" << deviceClass->name() << deviceClass->id();
             m_deviceClasses->addDeviceClass(deviceClass);
         }
     }

@@ -29,11 +29,15 @@
 #include "guhinterface.h"
 #include "jsonrpc/jsonrpcclient.h"
 
+
+class RuleManager;
+
 class Engine : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(GuhConnection *connection READ connection CONSTANT)
     Q_PROPERTY(DeviceManager *deviceManager READ deviceManager CONSTANT)
+    Q_PROPERTY(RuleManager *ruleManager READ ruleManager CONSTANT)
     Q_PROPERTY(JsonRpcClient *jsonRpcClient READ jsonRpcClient CONSTANT)
 
 public:
@@ -45,6 +49,7 @@ public:
 
     GuhConnection *connection() const;
     DeviceManager *deviceManager() const;
+    RuleManager *ruleManager() const;
     JsonRpcClient *jsonRpcClient() const;
 
 private:
@@ -54,9 +59,10 @@ private:
     GuhConnection *m_connection;
     JsonRpcClient *m_jsonRpcClient;
     DeviceManager *m_deviceManager;
+    RuleManager *m_ruleManager;
 
 private slots:
-    void onConnectedChanged(bool connected);
+    void onConnectedChanged();
 
 };
 

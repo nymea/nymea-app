@@ -29,6 +29,14 @@ HEADERS += types/types.h \
            types/statesproxy.h \
            types/plugin.h \
            types/plugins.h \
+    types/rules.h \
+    types/rule.h \
+    types/eventdescriptor.h \
+    types/eventdescriptors.h \
+    types/ruleaction.h \
+    types/ruleactions.h \
+    types/ruleactionparams.h \
+    types/ruleactionparam.h
 
 SOURCES += types/vendor.cpp \
            types/vendors.cpp \
@@ -49,6 +57,14 @@ SOURCES += types/vendor.cpp \
            types/statesproxy.cpp \
            types/plugin.cpp \
            types/plugins.cpp \
+    types/rules.cpp \
+    types/rule.cpp \
+    types/eventdescriptor.cpp \
+    types/eventdescriptors.cpp \
+    types/ruleaction.cpp \
+    types/ruleactions.cpp \
+    types/ruleactionparams.cpp \
+    types/ruleactionparam.cpp
 
 # install header file with relative subdirectory
 for(header, HEADERS) {

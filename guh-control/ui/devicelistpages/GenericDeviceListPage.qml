@@ -40,11 +40,15 @@ Page {
                 var device = devicesProxy.get(index);
                 var deviceClass = Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
                 print("clicked", deviceClass.interfaces)
+                var page;
                 if (deviceClass.interfaces.indexOf("media") >= 0) {
-                    pageStack.push(Qt.resolvedUrl("../devicepages/MediaDevicePage.qml"), {device: devicesProxy.get(index)})
+                    page = "MediaDevicePage.qml";
+                } else if (deviceClass.interfaces.indexOf("button") >= 0) {
+                    page = "ButtonDevicePage.qml";
                 } else {
-                    pageStack.push(Qt.resolvedUrl("../devicepages/GenericDevicePage.qml"), {device: devicesProxy.get(index)})
+                    page = "GenericDevicePage.qml";
                 }
+                pageStack.push(Qt.resolvedUrl("../devicepages/" + page), {device: devicesProxy.get(index)})
             }
         }
     }

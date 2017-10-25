@@ -21,6 +21,7 @@
 #include "engine.h"
 
 #include "tcpsocketinterface.h"
+#include "rulemanager.h"
 
 Engine* Engine::s_instance = 0;
 
@@ -45,6 +46,11 @@ DeviceManager *Engine::deviceManager() const
     return m_deviceManager;
 }
 
+RuleManager *Engine::ruleManager() const
+{
+    return m_ruleManager;
+}
+
 JsonRpcClient *Engine::jsonRpcClient() const
 {
     return m_jsonRpcClient;
@@ -59,18 +65,22 @@ Engine::Engine(QObject *parent) :
     QObject(parent),
     m_connection(new GuhConnection(this)),
     m_jsonRpcClient(new JsonRpcClient(m_connection, this)),
-    m_deviceManager(new DeviceManager(m_jsonRpcClient, this))
+    m_deviceManager(new DeviceManager(m_jsonRpcClient, this)),
+    m_ruleManager(new RuleManager(m_jsonRpcClient, this))
 {
     connect(m_jsonRpcClient, &JsonRpcClient::connectedChanged, this, &Engine::onConnectedChanged);
+    connect(m_jsonRpcClient, &JsonRpcClient::authenticationRequiredChanged, this, &Engine::onConnectedChanged);
 }
 
-void Engine::onConnectedChanged(bool connected)
+void Engine::onConnectedChanged()
 {
-    qDebug() << "Engine: connected changed:" << connected;
-    deviceManager()->clear();
-    if (connected) {
-        if (!jsonRpcClient()->initialSetupRequired() && !jsonRpcClient()->authenticationRequired()) {
-            deviceManager()->init();
+    qDebug() << "Engine: connected changed:" << m_jsonRpcClient->connected();
+    m_deviceManager->clear();
+    m_ruleManager->clear();
+    if (m_jsonRpcClient->connected()) {
+        if (!m_jsonRpcClient->initialSetupRequired() && !m_jsonRpcClient->authenticationRequired()) {
+            m_deviceManager->init();
+            m_ruleManager->init();
         }
     }
 }

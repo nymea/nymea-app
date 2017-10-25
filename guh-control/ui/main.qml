@@ -86,6 +86,8 @@ ApplicationWindow {
             return "Sensor"
         case "media":
             return "Media"
+        case "button":
+            return "Switches"
         }
     }
 
@@ -94,7 +96,9 @@ ApplicationWindow {
         case "light":
             return Qt.resolvedUrl("images/torch-on.svg")
         case "media":
-            return Qt.resolvedUrl("images/media-preview-start.svg")
+            return Qt.resolvedUrl("images/mediaplayer-app-symbolic.svg")
+        case "button":
+            return Qt.resolvedUrl("images/system-shutdown.svg")
         }
     }
 

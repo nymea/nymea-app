@@ -53,6 +53,8 @@ public:
 
     void clearModel();
 
+    Q_INVOKABLE EventType *findByName(const QString &name) const;
+
 protected:
     QHash<int, QByteArray> roleNames() const;
 
