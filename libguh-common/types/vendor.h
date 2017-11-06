@@ -31,6 +31,7 @@ class Vendor : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString name READ name CONSTANT)
+    Q_PROPERTY(QString displayName READ displayName)
     Q_PROPERTY(QUuid id READ id CONSTANT)
 
 public:
@@ -42,9 +43,13 @@ public:
     QString name() const;
     void setName(const QString &name);
 
+    QString displayName() const;
+    void setDisplayName(const QString &displayName);
+
 private:
     QUuid m_id;
     QString m_name;
+    QString m_displayName;
 };
 
 #endif // VENDOR_H

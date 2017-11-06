@@ -51,7 +51,7 @@ public:
     Devices *devices() const;
     DeviceClasses *deviceClasses() const;
 
-    Q_INVOKABLE void addDevice(const QUuid &deviceClassId, const QVariantList &deviceParams);
+    Q_INVOKABLE void addDevice(const QUuid &deviceClassId, const QString &name, const QVariantList &deviceParams);
     Q_INVOKABLE void addDiscoveredDevice(const QUuid &deviceClassId, const QUuid &deviceDescriptorId, const QString &name);
     Q_INVOKABLE void pairDevice(const QUuid &deviceClassId, const QUuid &deviceDescriptorId);
     Q_INVOKABLE void confirmPairing(const QUuid &pairingTransactionId, const QString &secret = QString());
@@ -66,8 +66,13 @@ private:
     Q_INVOKABLE void getConfiguredDevicesResponse(const QVariantMap &params);
     Q_INVOKABLE void addDeviceResponse(const QVariantMap &params);
     Q_INVOKABLE void removeDeviceResponse(const QVariantMap &params);
+    Q_INVOKABLE void pairDeviceResponse(const QVariantMap &params);
+    Q_INVOKABLE void confirmPairintResponse(const QVariantMap &params);
 
-
+signals:
+    void pairDeviceReply(const QVariantMap &params);
+    void confirmPairingReply(const QVariantMap &params);
+    void addDeviceReply(const QVariantMap &params);
 
 private:
     Vendors *m_vendors;

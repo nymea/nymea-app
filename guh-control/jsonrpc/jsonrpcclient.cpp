@@ -28,6 +28,7 @@
 #include <QDebug>
 #include <QUuid>
 #include <QSettings>
+#include <QVersionNumber>
 
 JsonRpcClient::JsonRpcClient(GuhConnection *connection, QObject *parent) :
     JsonHandler(parent),
@@ -202,6 +203,11 @@ void JsonRpcClient::dataReceived(const QByteArray &data)
         m_authenticationRequired = dataMap.value("authenticationRequired").toBool();
         m_serverUuid = dataMap.value("uuid").toString();
 
+        QString protoVersionString = dataMap.value("protocol version").toString();
+        if (!protoVersionString.contains('.')) {
+            protoVersionString.prepend("0.");
+        }
+
         if (m_initialSetupRequired) {
             emit initialSetupRequiredChanged();
         } else if (m_authenticationRequired) {
@@ -218,13 +224,20 @@ void JsonRpcClient::dataReceived(const QByteArray &data)
 
         m_connected = true;
         emit connectedChanged(true);
+
+        QVersionNumber minimumRequiredVersion = QVersionNumber(1, 0);
+        QVersionNumber protocolVersion = QVersionNumber::fromString(protoVersionString);
+        if (protocolVersion < minimumRequiredVersion) {
+            m_connection->disconnect();
+            emit invalidProtocolVersion(protocolVersion.toString(), minimumRequiredVersion.toString());
+        }
     }
 
     // check if this is a reply to a request
     int commandId = dataMap.value("id").toInt();
     JsonRpcReply *reply = m_replies.take(commandId);
     if (reply) {
-        qDebug() << QString("JsonRpc: got response for %1.%2").arg(reply->nameSpace(), reply->method()) << reply->callback() << reply->callback();
+//        qDebug() << QString("JsonRpc: got response for %1.%2: %3").arg(reply->nameSpace(), reply->method(), QString::fromUtf8(jsonDoc.toJson(QJsonDocument::Indented))) << reply->callback() << reply->callback();
 
         if (reply->caller() != nullptr && !reply->callback().isEmpty()) {
             QMetaObject::invokeMethod(reply->caller(), reply->callback().toLatin1().data(), Q_ARG(QVariantMap, dataMap));

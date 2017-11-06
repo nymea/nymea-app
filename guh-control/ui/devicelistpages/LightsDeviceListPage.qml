@@ -41,6 +41,7 @@ Page {
         ListView {
             Layout.fillHeight: true
             Layout.fillWidth: true
+            clip: true
             model: DevicesProxy {
                 id: devicesProxy
                 devices: Engine.deviceManager.devices
@@ -98,12 +99,12 @@ Page {
                     }
                 }
 
-
                 onClicked: {
-                    pageStack.push(Qt.resolvedUrl("../devicepages/GenericDevicePage.qml"), {device: devicesProxy.get(index)})
+                    if (deviceClass.interfaces.indexOf("colorlight") >= 0) {
+                        pageStack.push(Qt.resolvedUrl("../devicepages/ColorLightDevicePage.qml"), {device: devicesProxy.get(index)})
+                    }
                 }
             }
-
         }
     }
 }

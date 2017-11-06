@@ -1,6 +1,6 @@
 TEMPLATE=subdirs
 
-SUBDIRS += libguh-common guh-control
+SUBDIRS = libguh-common guh-control
 libguh-common.subdir = libguh-common
 guh-control.subdir = guh-control
 

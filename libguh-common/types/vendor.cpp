@@ -48,3 +48,12 @@ void Vendor::setName(const QString &name)
 {
     m_name = name;
 }
+
+QString Vendor::displayName() const
+{
+    return m_displayName;
+}
+void Vendor::setDisplayName(const QString &displayName)
+{
+    m_displayName = displayName;
+}

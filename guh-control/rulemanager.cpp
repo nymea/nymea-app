@@ -99,7 +99,7 @@ void RuleManager::getRuleDetailsReply(const QVariantMap &params)
         qDebug() << "Got rule details for a rule we don't know";
         return;
     }
-    qDebug() << "got rule details for rule" << ruleMap;
+//    qDebug() << "got rule details for rule" << ruleMap;
     parseEventDescriptors(ruleMap.value("eventDescriptors").toList(), rule);
     parseRuleActions(ruleMap.value("actions").toList(), rule);
 }

@@ -3,6 +3,7 @@ import QtQuick.Layouts 1.1
 import QtQuick.Controls 2.1
 import Guh 1.0
 import "components"
+import "paramdelegates"
 
 Page {
     id: root
@@ -38,26 +39,27 @@ Page {
     }
 
     Connections {
-        target: Engine.jsonRpcClient
-        onResponseReceived: {
-            print("response received", response)
-            if (commandId == d.addRequestId) {
-                print("result", response["deviceError"])
-                d.addResult = (response["deviceError"] === "DeviceErrorNoError")
-                internalPageStack.push(resultsPage)
-            } else if (commandId == d.pairRequestId) {
-                switch (response["setupMethod"]) {
-                case "SetupMethodPushButton":
-                    d.pairingTransactionId = response["pairingTransactionId"];
-                    print("response", response["displayMessage"], d.pairingTransactionId)
-                    internalPageStack.push(pairingPage, {text: response["displayMessage"]})
-                    break;
-                default:
-                    print("Setup method", response["setupMethod"], "not handled");
-
-                }
+        target: Engine.deviceManager
+        onPairDeviceReply: {
+            switch (params["setupMethod"]) {
+            case "SetupMethodPushButton":
+                d.pairingTransactionId = params["pairingTransactionId"];
+                print("response", params["displayMessage"], d.pairingTransactionId)
+                internalPageStack.push(pairingPage, {text: params["displayMessage"]})
+                break;
+            default:
+                print("Setup method", params["setupMethod"], "not handled");
 
             }
+        }
+        onConfirmPairingReply: {
+            print("result", params["deviceError"])
+            d.addResult = (params["deviceError"] === "DeviceErrorNoError")
+            internalPageStack.push(resultsPage)
+        }
+        onAddDeviceReply: {
+            d.addResult = (params["deviceError"] === "DeviceErrorNoError")
+            internalPageStack.push(resultsPage)
         }
     }
 
@@ -77,7 +79,7 @@ Page {
                         anchors.fill: parent
                         anchors.margins: app.margins
                         Label {
-                            text: model.name
+                            text: model.displayName
                             Layout.fillWidth: true
                             Layout.fillHeight: true
                             verticalAlignment: Text.AlignVCenter
@@ -111,7 +113,7 @@ Page {
                         anchors.fill: parent
                         anchors.margins: app.margins
                         Label {
-                            text: model.name
+                            text: model.displayName
                             Layout.fillWidth: true
                             Layout.fillHeight: true
                             verticalAlignment: Text.AlignVCenter
@@ -128,6 +130,8 @@ Page {
                                 discovery.discoverDevices(deviceClass.id)
                                 internalPageStack.push(discoveryPage)
                             }
+                        } else if (deviceClass.createMethods.indexOf("CreateMethodUser") !== -1) {
+                            internalPageStack.push(paramsPage)
                         }
 
                         print("should setup", deviceClass.name, deviceClass.setupMethod, deviceClass.createMethods, deviceClass["discoveryParamTypes"].count)
@@ -281,22 +285,39 @@ Page {
             id: paramsView
             ColumnLayout {
                 anchors.fill: parent
-                anchors.margins: 10
-                spacing: 10
-                Label {
-                    text: "Name the thing:"
+                spacing: app.margins
+                ColumnLayout {
+                    Layout.margins: app.margins
                     Layout.fillWidth: true
-                }
-                TextField {
-                    id: nameTextField
-                    text: d.deviceName ? d.deviceName : ""
-                    Layout.fillWidth: true
+                    Label {
+                        text: "Name the thing:"
+                        Layout.fillWidth: true
+                    }
+                    TextField {
+                        id: nameTextField
+                        text: d.deviceName ? d.deviceName : ""
+                        Layout.fillWidth: true
+                    }
                 }
 
-                Item {
+                ThinDivider {}
+                Flickable {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
+
+                    Column {
+                        width: parent.width
+                        Repeater {
+                            id: paramRepeater
+                            model: d.deviceClass.paramTypes
+                            delegate: ParamDelegate {
+                                width: parent.width
+                                paramType: d.deviceClass.paramTypes.get(index)
+                            }
+                        }
+                    }
                 }
+
 
                 Button {
                     Layout.fillWidth: true
@@ -305,12 +326,25 @@ Page {
                         print("setupMethod", d.deviceClass.setupMethod)
                         switch (d.deviceClass.setupMethod) {
                         case 0:
-                            d.addRequestId = Engine.jsonRpcClient.addDiscoveredDevice(d.deviceClass.id, d.deviceDescriptorId, nameTextField.text);
+                            if (d.deviceDescriptorId) {
+                                Engine.deviceManager.addDiscoveredDevice(d.deviceClass.id, d.deviceDescriptorId, nameTextField.text);
+                            } else {
+                                var params = []
+                                for (var i = 0; i < paramRepeater.count; i++) {
+                                    var param = {}
+                                    param.paramTypeId = paramRepeater.itemAt(i).paramType.id
+                                    param.value = paramRepeater.itemAt(i).value
+                                    params.push(param)
+                                }
+
+                                Engine.deviceManager.addDevice(d.deviceClass.id, nameTextField.text, params);
+                            }
+
                             break;
                         case 1:
                         case 2:
                         case 3:
-                            d.pairRequestId = Engine.jsonRpcClient.pairDevice(d.deviceClass.id, d.deviceDescriptorId);
+                            Engine.deviceManager.pairDevice(d.deviceClass.id, d.deviceDescriptorId);
                             break;
                         }
 
@@ -339,7 +373,7 @@ Page {
                     Layout.fillWidth: true
                     text: "OK"
                     onClicked: {
-                        d.addRequestId = Engine.jsonRpcClient.confirmPairing(d.pairingTransactionId, d.deviceDescriptorId);
+                        Engine.deviceManager.confirmPairing(d.pairingTransactionId, d.deviceDescriptorId);
                     }
                 }
             }

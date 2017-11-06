@@ -31,9 +31,10 @@ class Vendors : public QAbstractListModel
 {
     Q_OBJECT
 public:
-    enum VendorRole {
-        NameRole = Qt::DisplayRole,
-        IdRole
+    enum Role {
+        RoleId,
+        RoleName,
+        RoleDisplayName
     };
 
     explicit Vendors(QObject *parent = 0);

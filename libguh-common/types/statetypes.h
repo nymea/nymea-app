@@ -33,13 +33,14 @@ class StateTypes : public QAbstractListModel
     Q_OBJECT
 
 public:
-    enum StateTypeRole {
-        NameRole = Qt::DisplayRole,
-        IdRole,
-        TypeRole,
-        DefaultValueRole,
-        UnitRole,
-        UnitStringRole
+    enum Role {
+        RoleId,
+        RoleName,
+        RoleDisplayName,
+        RoleType,
+        RoleDefaultValue,
+        RoleUnit,
+        RoleUnitString
     };
 
     StateTypes(QObject *parent = 0);

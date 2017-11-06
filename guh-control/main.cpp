@@ -40,6 +40,8 @@
 #include "types/ruleactionparams.h"
 #include "types/ruleactionparam.h"
 #include "types/rule.h"
+#include "models/logsmodel.h"
+#include "models/valuelogsproxymodel.h"
 
 int main(int argc, char *argv[])
 {
@@ -103,6 +105,10 @@ int main(int argc, char *argv[])
 
     qmlRegisterType<UpnpDiscovery>(uri, 1, 0, "UpnpDiscovery");
     qmlRegisterType<ZeroconfDiscovery>(uri, 1, 0, "ZeroconfDiscovery");
+
+    qmlRegisterType<LogsModel>(uri, 1, 0, "LogsModel");
+    qmlRegisterType<ValueLogsProxyModel>(uri, 1, 0, "ValueLogsProxyModel");
+    qmlRegisterUncreatableType<LogEntry>(uri, 1, 0, "LogEntry", "Get them from LogsModel");
 
     Engine::instance();
 

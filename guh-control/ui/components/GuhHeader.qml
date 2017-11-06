@@ -1,7 +1,7 @@
 import QtQuick 2.5
 import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.1
-import QtQuick.Controls.Material 2.2
+import QtQuick.Controls.Material 2.1
 
 ToolBar {
     id: root
@@ -9,9 +9,11 @@ ToolBar {
 
     property string text
     property alias backButtonVisible: backButton.visible
+    property alias menuButtonVisible: menuButton.visible
     default property alias data: layout.data
 
     signal backPressed();
+    signal menuPressed();
 
     Rectangle {
         anchors.fill: parent
@@ -21,6 +23,13 @@ ToolBar {
     RowLayout {
         id: layout
         anchors { fill: parent; leftMargin: app.margins; rightMargin: app.margins }
+
+        HeaderButton {
+            id: menuButton
+            imageSource: "../images/navigation-menu.svg"
+            visible: false
+            onClicked: root.menuPressed();
+        }
 
         HeaderButton {
             id: backButton

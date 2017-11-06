@@ -2,6 +2,7 @@ import QtQuick 2.5
 import QtQuick.Layouts 1.1
 import QtQuick.Controls 2.1
 import Guh 1.0
+import "../components"
 
 CustomViewBase {
     id: root
@@ -21,51 +22,100 @@ CustomViewBase {
 
         RowLayout {
             Layout.fillWidth: true
-            Button {
-                text: "|<"
+
+            Item { Layout.fillWidth: true; height: 1 }
+
+            property int iconSize: Math.min(root.width / 6, app.iconSize * 2)
+
+            AbstractButton {
+                Layout.fillWidth: true
+                height: Math.min(app.iconSize * 2)
+                ColorIcon {
+                    height: parent.height
+                    width: height
+                    name: "../images/media-skip-backward.svg"
+                }
                 onClicked: {
                     executeAction("skipBack")
                 }
             }
-            Button {
-                text: "<<"
+            AbstractButton {
+                Layout.fillWidth: true
+                height: Math.min(app.iconSize * 2)
+                ColorIcon {
+                    height: parent.height
+                    width: height
+                    name: "../images/media-seek-backward.svg"
+                }
                 onClicked: {
                     executeAction("rewind")
                 }
             }
-            Button {
-                text: "X"+ playbackState.value
+            AbstractButton {
+                Layout.fillWidth: true
+                height: Math.min(app.iconSize * 2)
+                ColorIcon {
+                    height: parent.height
+                    width: height
+                    name: "../images/media-playback-stop.svg"
+                }
                 onClicked: {
                     executeAction("stop")
                 }
             }
-            Button {
-                text: ">"
-                visible: playbackState.value == "PAUSED"
+            AbstractButton {
+                Layout.fillWidth: true
+                height: Math.min(app.iconSize * 2)
+                ColorIcon {
+                    height: parent.height
+                    width: height
+                    name: "../images/media-playback-start.svg"
+                }
+                visible: playbackState.value == "PAUSED" || playbackState.value == "STOPPED"
                 onClicked: {
                     executeAction("play")
                 }
             }
-            Button {
-                text: "||"
+            AbstractButton {
+                Layout.fillWidth: true
+                height: Math.min(app.iconSize * 2)
+                ColorIcon {
+                    height: parent.height
+                    width: height
+                    name: "../images/media-playback-pause.svg"
+                }
                 visible: playbackState.value == "PLAYING"
                 onClicked: {
                     executeAction("pause")
                 }
             }
 
-            Button {
-                text: ">>"
+            AbstractButton {
+                Layout.fillWidth: true
+                height: Math.min(app.iconSize * 2)
+                ColorIcon {
+                    height: parent.height
+                    width: height
+                    name: "../images/media-seek-forward.svg"
+                }
                 onClicked: {
                     executeAction("fastForward")
                 }
             }
-            Button {
-                text: ">|"
+            AbstractButton {
+                Layout.fillWidth: true
+                height: Math.min(app.iconSize * 2)
+                ColorIcon {
+                    height: parent.height
+                    width: height
+                    name: "../images/media-skip-forward.svg"
+                }
                 onClicked: {
                     executeAction("skipNext")
                 }
             }
+            Item { Layout.fillWidth: true; height: 1 }
+
         }
     }
 }

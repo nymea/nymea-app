@@ -36,6 +36,10 @@ void GuhConnection::connect(const QString &url)
 
 void GuhConnection::disconnect()
 {
+    if (!m_currentInterface || !m_currentInterface->isConnected()) {
+        qWarning() << "not connected, cannot disconnect";
+        return;
+    }
     m_currentInterface->disconnect();
 }
 

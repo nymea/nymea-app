@@ -4,11 +4,8 @@ import QtQuick.Layouts 1.1
 import Guh 1.0
 import "../components"
 
-Page {
+DevicePageBase {
     id: root
-    property var device: null
-    readonly property var deviceClass: Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId)
-
 
     header: GuhHeader {
         text: device.name
@@ -46,9 +43,18 @@ Page {
                 property var ruleActionType: ruleAction ? ruleActionDeviceClass.actionTypes.getActionType(ruleAction.actionTypeId) : null
                 property var ruleActionDevice: ruleAction ? Engine.deviceManager.devices.getDevice(ruleAction.deviceId) : null
                 property var ruleActionDeviceClass: ruleActionDevice ? Engine.deviceManager.deviceClasses.getDeviceClass(ruleActionDevice.deviceClassId) : null
-                property var ruleActionParams: ruleAction ? ruleAction.ruleActionParams : null
+                property var ruleActionParams: ruleAction && ruleAction ? ruleAction.ruleActionParams : null
                 property var ruleActionParam: ruleActionParams.count == 1 ? ruleActionParams.get(0) : null
-                text: ruleActions.count > 1 ? "Multiple actions" : qsTr("%1: Set %2 to %3").arg(ruleActionDevice.name).arg(ruleActionType.name).arg(ruleActionParam.value)
+                text: {
+                    if (ruleActions && ruleActions.count > 1) {
+                        return "Multiple actions";
+                    } else if (ruleActionParam) {
+                        return qsTr("%1: Set %2 to %3").arg(ruleActionDevice.name).arg(ruleActionType.name).arg(ruleActionParam.value)
+                    } else {
+                        return qsTr("%1: Call %2").arg(ruleActionDevice.name).arg(ruleActionType.name)
+                    }
+                }
+
                 swipe.right: MouseArea {
                     anchors.right: parent.right
                     height: parent.height
@@ -92,13 +98,7 @@ Page {
                     event["eventTypeId"] = eventDeviceClass.eventTypes.findByName("pressed").id;
                     events.push(event);
                     rule["eventDescriptors"] = events;
-                    var actions = [];
-                    var action = {};
-                    action["actionTypeId"] = page.actionType.id;
-                    action["deviceId"] = page.device.id;
-                    action["ruleActionParams"] = page.params;
-                    actions.push(action);
-                    rule["actions"] = actions;
+                    rule["actions"] = page.actions;
                     Engine.ruleManager.addRule(rule);
                     pageStack.pop(root)
                 })

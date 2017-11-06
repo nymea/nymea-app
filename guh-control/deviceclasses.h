@@ -31,11 +31,12 @@ class DeviceClasses : public QAbstractListModel
 {
     Q_OBJECT
 public:
-    enum DeviceClassRole {
-        NameRole = Qt::DisplayRole,
-        IdRole,
-        PluginIdRole,
-        VendorIdRole
+    enum Role {
+        RoleId,
+        RoleName,
+        RoleDisplayName,
+        RolePluginId,
+        RoleVendorId
     };
 
     explicit DeviceClasses(QObject *parent = 0);

@@ -34,6 +34,7 @@ class StateType : public QObject
     Q_OBJECT
     Q_PROPERTY(QUuid id READ id CONSTANT)
     Q_PROPERTY(QString name READ name CONSTANT)
+    Q_PROPERTY(QString displayName READ displayName CONSTANT)
     Q_PROPERTY(QString type READ type CONSTANT)
     Q_PROPERTY(int index READ index CONSTANT)
     Q_PROPERTY(QVariant defaultValue READ defaultValue CONSTANT)
@@ -48,6 +49,9 @@ public:
 
     QString name() const;
     void setName(const QString &name);
+
+    QString displayName() const;
+    void setDisplayName(const QString &displayName);
 
     QString type() const;
     void setType(const QString &type);
@@ -67,6 +71,7 @@ public:
 private:
     QUuid m_id;
     QString m_name;
+    QString m_displayName;
     QString m_type;
     int m_index;
     QVariant m_defaultValue;

@@ -43,7 +43,7 @@ void DeviceDiscovery::discoverDevices(const QUuid &deviceClassId, const QVariant
     if (!discoveryParams.isEmpty()) {
         params.insert("discoveryParams", discoveryParams);
     }
-    Engine::instance()->jsonRpcClient()->sendCommand("Devices.DiscoverDevices", params, this, "discoverDevicesResponse");
+    Engine::instance()->jsonRpcClient()->sendCommand("Devices.GetDiscoveredDevices", params, this, "discoverDevicesResponse");
     m_busy = true;
     emit busyChanged();
     emit countChanged();
@@ -60,8 +60,9 @@ void DeviceDiscovery::discoverDevicesResponse(const QVariantMap &params)
     emit busyChanged();
 
     qDebug() << "response received" << params;
-    QVariantList descriptors = params.value("deviceDescriptors").toList();
+    QVariantList descriptors = params.value("params").toMap().value("deviceDescriptors").toList();
     foreach (const QVariant &descriptor, descriptors) {
+        qDebug() << "descriptor" << descriptor;
         if (!contains(descriptor.toMap().value("id").toUuid())) {
             beginInsertRows(QModelIndex(), m_foundDevices.count(), m_foundDevices.count());
             m_foundDevices.append(DeviceDescriptor(descriptor.toMap().value("id").toUuid(),

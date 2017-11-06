@@ -14,31 +14,14 @@
         <file>ui/images/back.svg</file>
         <file>ui/images/close.svg</file>
         <file>ui/MainPage.qml</file>
-        <file>ui/images/weathericons/weather-clear-night-symbolic.svg</file>
-        <file>ui/images/weathericons/weather-few-clouds-night-symbolic.svg</file>
-        <file>ui/images/weathericons/weather-few-clouds-symbolic.svg</file>
-        <file>ui/images/weathericons/weather-flurries-symbolic.svg</file>
-        <file>ui/images/weathericons/weather-fog-symbolic.svg</file>
-        <file>ui/images/weathericons/weather-hazy-symbolic.svg</file>
-        <file>ui/images/weathericons/weather-overcast-symbolic.svg</file>
-        <file>ui/images/weathericons/weather-severe-alert-symbolic.svg</file>
-        <file>ui/images/weathericons/weather-sleet-symbolic.svg</file>
-        <file>ui/images/weathericons/weather-snow-symbolic.svg</file>
-        <file>ui/images/weathericons/weather-chance-of-wind-symbolic.svg</file>
         <file>ui/actiondelegates/ActionDelegateFallback.qml</file>
         <file>ui/images/info.svg</file>
-        <file>ui/images/weathericons/weather-rain-symbolic.svg</file>
         <file>ui/actiondelegates/ActionDelegateColor.qml</file>
         <file>ui/components/ColorPicker.qml</file>
-        <file>ui/images/weathericons/weather-scattered-symbolic.svg</file>
         <file>ui/actiondelegates/ActionDelegateNoParams.qml</file>
-        <file>ui/images/weathericons/weather-cloud-night-symbolic.svg</file>
-        <file>ui/images/weathericons/weather-cloud-symbolic.svg</file>
         <file>ui/actiondelegates/ActionDelegateStringFromStringList.qml</file>
-        <file>ui/images/weathericons/weather-sun-symbolic.svg</file>
         <file>ui/customviews/CustomViewBase.qml</file>
         <file>ui/customviews/WeatherView.qml</file>
-        <file>ui/images/weathericons/weather-thunder-symbolic.svg</file>
         <file>ui/customviews/MediaControllerView.qml</file>
         <file>ui/LoginPage.qml</file>
         <file>ui/customviews/SensorView.qml</file>
@@ -58,5 +41,65 @@
         <file>ui/magic/SelectActionPage.qml</file>
         <file>ui/devicepages/GenericDeviceStateDetailsPage.qml</file>
         <file>ui/images/delete.svg</file>
+        <file>ui/images/audio-speakers-muted-symbolic.svg</file>
+        <file>ui/images/audio-speakers-symbolic.svg</file>
+        <file>ui/images/media-playback-pause.svg</file>
+        <file>ui/images/media-playback-start.svg</file>
+        <file>ui/images/media-playback-stop.svg</file>
+        <file>ui/images/media-seek-backward.svg</file>
+        <file>ui/images/media-seek-forward.svg</file>
+        <file>ui/images/media-skip-backward.svg</file>
+        <file>ui/images/media-skip-forward.svg</file>
+        <file>ui/paramdelegates/BoolParamDelegate.qml</file>
+        <file>ui/components/ThinDivider.qml</file>
+        <file>ui/images/weather-app-symbolic.svg</file>
+        <file>ui/images/weathericons/weather-clear-day.svg</file>
+        <file>ui/images/weathericons/weather-clear-night.svg</file>
+        <file>ui/images/weathericons/weather-clouds.svg</file>
+        <file>ui/images/weathericons/weather-few-clouds-day.svg</file>
+        <file>ui/images/weathericons/weather-few-clouds-night.svg</file>
+        <file>ui/images/weathericons/weather-fog.svg</file>
+        <file>ui/images/weathericons/weather-light-rain.svg</file>
+        <file>ui/images/weathericons/weather-overcast.svg</file>
+        <file>ui/images/weathericons/weather-shower-rain.svg</file>
+        <file>ui/images/weathericons/weather-snow.svg</file>
+        <file>ui/images/weathericons/weather-thunderstorm.svg</file>
+        <file>ui/images/weathericons/humidity.svg</file>
+        <file>ui/images/weathericons/wind.svg</file>
+        <file>ui/devicepages/WeatherDevicePage.qml</file>
+        <file>ui/devicepages/ColorLightDevicePage.qml</file>
+        <file>ui/images/torch-off.svg</file>
+        <file>ui/components/ThrottledSlider.qml</file>
+        <file>ui/components/ColorPickerCt.qml</file>
+        <file>ui/images/navigation-menu.svg</file>
+        <file>ui/components/IconMenuItem.qml</file>
+        <file>ui/images/settings.svg</file>
+        <file>ui/images/stock_link.svg</file>
+        <file>ui/images/share.svg</file>
+        <file>ui/SystemInfoPage.qml</file>
+        <file>ui/devicepages/SensorDevicePage.qml</file>
+        <file>ui/components/Graph.qml</file>
+        <file>ui/images/sensors.svg</file>
+        <file>ui/images/temperature.svg</file>
+        <file>ui/images/network-wired-symbolic.svg</file>
+        <file>ui/paramdelegates/StringParamDelegate.qml</file>
+        <file>ui/paramdelegates/ParamDelegate.qml</file>
+        <file>ui/paramdelegates/ParamDelegateBase.qml</file>
+        <file>ui/images/notification.svg</file>
+        <file>ui/paramdelegates/IntParamDelegate.qml</file>
+        <file>ui/customviews/NotificationsView.qml</file>
+        <file>ui/devicepages/DevicePageBase.qml</file>
+        <file>ui/images/battery/battery-000.svg</file>
+        <file>ui/images/battery/battery-010.svg</file>
+        <file>ui/images/battery/battery-020.svg</file>
+        <file>ui/images/battery/battery-030.svg</file>
+        <file>ui/images/battery/battery-040.svg</file>
+        <file>ui/images/battery/battery-050.svg</file>
+        <file>ui/images/battery/battery-060.svg</file>
+        <file>ui/images/battery/battery-070.svg</file>
+        <file>ui/images/battery/battery-080.svg</file>
+        <file>ui/images/battery/battery-090.svg</file>
+        <file>ui/images/battery/battery-100.svg</file>
+        <file>ui/images/dialog-warning-symbolic.svg</file>
     </qresource>
 </RCC>

@@ -66,6 +66,7 @@ signals:
     void authenticationRequiredChanged();
     void connectedChanged(bool connected);
     void tokenChanged();
+    void invalidProtocolVersion(const QString &actualVersion, const QString &minimumVersion);
 
     void responseReceived(const int &commandId, const QVariantMap &response);
 

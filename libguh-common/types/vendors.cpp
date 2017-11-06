@@ -61,9 +61,12 @@ QVariant Vendors::data(const QModelIndex &index, int role) const
         return QVariant();
 
     Vendor *vendor = m_vendors.at(index.row());
-    if (role == NameRole) {
+    switch (role) {
+    case RoleName:
         return vendor->name();
-    } else if (role == IdRole) {
+    case RoleDisplayName:
+        return vendor->displayName();
+    case RoleId:
         return vendor->id().toString();
     }
     return QVariant();
@@ -89,7 +92,8 @@ void Vendors::clearModel()
 QHash<int, QByteArray> Vendors::roleNames() const
 {
     QHash<int, QByteArray> roles;
-    roles[NameRole] = "name";
-    roles[IdRole] = "id";
+    roles[RoleId] = "id";
+    roles[RoleName] = "name";
+    roles[RoleDisplayName] = "displayName";
     return roles;
 }

@@ -34,7 +34,9 @@ JsonTypes::JsonTypes(QObject *parent) :
 
 Vendor *JsonTypes::unpackVendor(const QVariantMap &vendorMap, QObject *parent)
 {
-    return new Vendor(vendorMap.value("id").toUuid(), vendorMap.value("name").toString(), parent);
+    Vendor *v = new Vendor(vendorMap.value("id").toUuid(), vendorMap.value("name").toString(), parent);
+    v->setDisplayName(vendorMap.value("displayName").toString());
+    return v;
 }
 
 Plugin *JsonTypes::unpackPlugin(const QVariantMap &pluginMap, QObject *parent)
@@ -54,6 +56,7 @@ DeviceClass *JsonTypes::unpackDeviceClass(const QVariantMap &deviceClassMap, QOb
 {
     DeviceClass *deviceClass = new DeviceClass(parent);
     deviceClass->setName(deviceClassMap.value("name").toString());
+    deviceClass->setDisplayName(deviceClassMap.value("displayName").toString());
     deviceClass->setId(deviceClassMap.value("id").toUuid());
     deviceClass->setVendorId(deviceClassMap.value("vendorId").toUuid());
     QVariantList createMethodsList = deviceClassMap.value("createMethods").toList();
@@ -133,6 +136,7 @@ StateType *JsonTypes::unpackStateType(const QVariantMap &stateTypeMap, QObject *
     StateType *stateType = new StateType(parent);
     stateType->setId(stateTypeMap.value("id").toUuid());
     stateType->setName(stateTypeMap.value("name").toString());
+    stateType->setDisplayName(stateTypeMap.value("displayName").toString());
     stateType->setIndex(stateTypeMap.value("index").toInt());
     stateType->setDefaultValue(stateTypeMap.value("defaultValue"));
     stateType->setType(stateTypeMap.value("type").toString());

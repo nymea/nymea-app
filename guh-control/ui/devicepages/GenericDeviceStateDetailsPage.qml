@@ -27,7 +27,7 @@ Page {
                 Label {
                     id: stateLabel
                     Layout.preferredWidth: parent.width / 2
-                    text: name
+                    text: displayName
                 }
 
                 Label {

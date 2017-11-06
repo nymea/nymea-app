@@ -46,13 +46,16 @@ QVariant DeviceClasses::data(const QModelIndex &index, int role) const
         return QVariant();
 
     DeviceClass *deviceClass = m_deviceClasses.at(index.row());
-    if (role == NameRole) {
-        return deviceClass->name();
-    } else if (role == IdRole) {
+    switch (role) {
+    case RoleId:
         return deviceClass->id().toString();
-    } else if (role == PluginIdRole) {
+    case RoleName:
+        return deviceClass->name();
+    case RoleDisplayName:
+        return deviceClass->displayName();
+    case RolePluginId:
         return deviceClass->pluginId().toString();
-    } else if (role == VendorIdRole) {
+    case RoleVendorId:
         return deviceClass->vendorId().toString();
     }
     return QVariant();
@@ -98,9 +101,10 @@ void DeviceClasses::clearModel()
 QHash<int, QByteArray> DeviceClasses::roleNames() const
 {
     QHash<int, QByteArray> roles;
-    roles[NameRole] = "name";
-    roles[IdRole] = "id";
-    roles[PluginIdRole] = "pluginId";
-    roles[VendorIdRole] = "vendorId";
+    roles[RoleId] = "id";
+    roles[RoleName] = "name";
+    roles[RoleDisplayName] = "displayName";
+    roles[RolePluginId] = "pluginId";
+    roles[RoleVendorId] = "vendorId";
     return roles;
 }

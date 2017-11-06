@@ -47,6 +47,16 @@ void StateType::setName(const QString &name)
     m_name = name;
 }
 
+QString StateType::displayName() const
+{
+    return m_displayName;
+}
+
+void StateType::setDisplayName(const QString &displayName)
+{
+    m_displayName = displayName;
+}
+
 QString StateType::type() const
 {
     return m_type;

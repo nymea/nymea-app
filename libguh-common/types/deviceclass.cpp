@@ -70,6 +70,16 @@ void DeviceClass::setName(const QString &name)
     m_name = name;
 }
 
+QString DeviceClass::displayName() const
+{
+    return m_displayName;
+}
+
+void DeviceClass::setDisplayName(const QString &displayName)
+{
+    m_displayName = displayName;
+}
+
 QStringList DeviceClass::createMethods() const
 {
     return m_createMethods;

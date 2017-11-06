@@ -36,7 +36,8 @@ HEADERS += types/types.h \
     types/ruleaction.h \
     types/ruleactions.h \
     types/ruleactionparams.h \
-    types/ruleactionparam.h
+    types/ruleactionparam.h \
+    types/logentry.h
 
 SOURCES += types/vendor.cpp \
            types/vendors.cpp \
@@ -64,7 +65,8 @@ SOURCES += types/vendor.cpp \
     types/ruleaction.cpp \
     types/ruleactions.cpp \
     types/ruleactionparams.cpp \
-    types/ruleactionparam.cpp
+    types/ruleactionparam.cpp \
+    types/logentry.cpp
 
 # install header file with relative subdirectory
 for(header, HEADERS) {

@@ -22,6 +22,8 @@
 
 #include "state.h"
 
+#include <QDebug>
+
 State::State(const QUuid &deviceId, const QUuid &stateTypeId, const QVariant &value, QObject *parent) :
     QObject(parent),
     m_deviceId(deviceId),
@@ -42,6 +44,7 @@ QUuid State::stateTypeId() const
 
 QVariant State::value() const
 {
+    qDebug() << "returning value:" << m_value;
     return m_value;
 }
 

@@ -2,6 +2,7 @@ import QtQuick 2.5
 import QtQuick.Layouts 1.1
 import QtQuick.Controls 2.1
 import Guh 1.0
+import "../components"
 
 CustomViewBase {
     id: root
@@ -10,10 +11,20 @@ CustomViewBase {
     RowLayout {
         id: row
         anchors { left: parent.left; top: parent.top; right: parent.right; margins: app.margins }
-        Button {
+
+        AbstractButton {
+            width: app.iconSize * 2
+            height: width
+
             property var muteState: root.device.states.getState(deviceClass.stateTypes.findByName("mute").id)
-            property bool isMuted: muteState.value
-            text: isMuted ? "unmute" : "mute"
+            property bool isMuted: muteState.value === true
+
+            ColorIcon {
+                anchors.fill: parent
+                name: "../images/audio-speakers-muted-symbolic.svg"
+                color: parent.isMuted ? app.guhAccent : keyColor
+            }
+
             onClicked: {
                 var paramList = []
                 var muteParam = {}

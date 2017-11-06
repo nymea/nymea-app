@@ -38,6 +38,7 @@ class DeviceClass : public QObject
     Q_OBJECT
 
     Q_PROPERTY(QString name READ name CONSTANT)
+    Q_PROPERTY(QString displayName READ displayName CONSTANT)
     Q_PROPERTY(QUuid id READ id CONSTANT)
     Q_PROPERTY(QUuid vendorId READ vendorId CONSTANT)
     Q_PROPERTY(QStringList createMethods READ createMethods CONSTANT)
@@ -90,6 +91,9 @@ public:
     QString name() const;
     void setName(const QString &name);
 
+    QString displayName() const;
+    void setDisplayName(const QString &displayName);
+
     QUuid id() const;
     void setId(const QUuid &id);
 
@@ -136,6 +140,7 @@ private:
     QUuid m_vendorId;
     QUuid m_pluginId;
     QString m_name;
+    QString m_displayName;
     QStringList m_createMethods;
     SetupMethod m_setupMethod;
     QList<BasicTag> m_basicTags;

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg id="svg4874" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" height="96" viewBox="0 0 96 96.000001" width="96" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+ <metadata id="metadata4879">
+  <rdf:RDF>
+   <cc:Work rdf:about="">
+    <dc:format>image/svg+xml</dc:format>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:title/>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <g id="layer1" transform="translate(67.857 -78.505)">
+  <rect id="rect4782" style="color:#000000;fill:none" transform="rotate(90)" height="96" width="96" y="-28.143" x="78.505"/>
+  <path id="path4205" style="color-rendering:auto;text-decoration-color:#000000;color:#000000;font-variant-numeric:normal;shape-rendering:auto;solid-color:#000000;text-decoration-line:none;fill:#808080;font-variant-position:normal;mix-blend-mode:normal;block-progression:tb;font-feature-settings:normal;shape-padding:0;font-variant-alternates:normal;text-indent:0;font-variant-caps:normal;image-rendering:auto;white-space:normal;text-decoration-style:solid;font-variant-ligatures:normal;isolation:auto;text-transform:none" d="m18.729 85.092-80 80 2.8281 2.8281 80-80-2.8281-2.8281z"/>
+  <path id="path4160" style="fill:#808080" d="m7.8772 95.935-3.5352 3.5352c6.9061 7.2961 10.777 16.961 10.777 27.035 0 10.435-4.1431 20.438-11.521 27.816l3.5352 3.5371c8.3148-8.3148 12.986-19.595 12.986-31.354 0-11.398-4.4005-22.337-12.242-30.57z"/>
+  <path id="path4158" style="fill:#808080" d="m-2.0056 105.82-3.5352 3.5352c4.2886 4.6701 6.6836 10.785 6.6836 17.152 0 6.7278-2.6704 13.176-7.4277 17.934l3.5352 3.5352c5.6936-5.6936 8.8926-13.417 8.8926-21.469 0-7.6913-2.9247-15.078-8.1484-20.688z"/>
+  <path id="path4180" style="fill:#808080" d="m48 8l-19.777 19.777h-15.778s-4.445 7.581-4.445 20.231 4.445 20.215 4.445 20.215h6.848l4.002-4.002h-8.219c-1.02-2.105-3.076-6.96-3.076-16.213 0-9.256 2.058-14.122 3.078-16.231h14.801l14.121-14.121v25.86l4-4v-31.516zm0 37.172l-4 4v29.17l-14.121-14.121h-0.928l-4.002 4.002h3.274l19.777 19.777v-42.828z" transform="translate(-67.857 78.505)"/>
+ </g>
+</svg>

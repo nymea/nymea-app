@@ -66,17 +66,20 @@ QVariant StateTypes::data(const QModelIndex &index, int role) const
         return QVariant();
 
     StateType *stateType = m_stateTypes.at(index.row());
-    if (role == NameRole) {
-        return stateType->name();
-    } else if (role == IdRole) {
+    switch (role) {
+    case RoleId:
         return stateType->id().toString();
-    } else if (role == TypeRole) {
+    case RoleName:
+        return stateType->name();
+    case RoleDisplayName:
+        return stateType->displayName();
+    case RoleType:
         return stateType->type();
-    } else if (role == DefaultValueRole) {
+    case RoleDefaultValue:
         return stateType->defaultValue();
-    } else if (role == UnitStringRole) {
+    case RoleUnitString:
         return stateType->unitString();
-    } else if (role == UnitRole) {
+    case RoleUnit:
         return stateType->unit();
     }
     return QVariant();
@@ -112,12 +115,13 @@ void StateTypes::clearModel()
 QHash<int, QByteArray> StateTypes::roleNames() const
 {
     QHash<int, QByteArray> roles;
-    roles[NameRole] = "name";
-    roles[IdRole] = "id";
-    roles[TypeRole] = "type";
-    roles[DefaultValueRole] = "defaultValue";
-    roles[UnitStringRole] = "unitString";
-    roles[UnitRole] = "unit";
+    roles[RoleId] = "id";
+    roles[RoleName] = "name";
+    roles[RoleDisplayName] = "displayName";
+    roles[RoleType] = "type";
+    roles[RoleDefaultValue] = "defaultValue";
+    roles[RoleUnitString] = "unitString";
+    roles[RoleUnit] = "unit";
     return roles;
 }
 

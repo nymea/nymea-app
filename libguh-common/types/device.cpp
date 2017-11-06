@@ -22,6 +22,8 @@
 
 #include "device.h"
 
+#include <QDebug>
+
 Device::Device(QObject *parent) :
     QObject(parent),
     m_statesProxy(new StatesProxy(this))

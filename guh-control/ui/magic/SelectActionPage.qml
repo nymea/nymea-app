@@ -4,6 +4,7 @@ import QtQuick.Layouts 1.1
 import Guh 1.0
 import "../components"
 import "../actiondelegates"
+import "../paramdelegates"
 
 Page {
     id: root
@@ -12,9 +13,7 @@ Page {
     property string text
 
     // output
-    property var device: null
-    property var actionType: null
-    property var params: []
+    property var actions: []
     signal complete();
 
     header: GuhHeader {
@@ -23,24 +22,41 @@ Page {
     }
 
     ColumnLayout {
-        anchors { left: parent.left; top: parent.top; right: parent.right; margins: app.margins }
-        spacing: app.margins
+        anchors.fill: parent
 
         Label {
-            text: root.text
             Layout.fillWidth: true
+            Layout.margins: app.margins
+            text: root.text
+            font.pixelSize: app.largeFont
         }
 
-        Button {
-            text: "control a certain device"
+        ListView {
             Layout.fillWidth: true
-            onClicked: {
-                pageStack.push(selectDeviceComponent)
+            Layout.fillHeight: true
+            model: ListModel {
+                ListElement { name: "switchLights"; text: "Switch lights..." }
+                ListElement { name: "controlMedia"; text: "Control media playback..." }
+                ListElement { name: "manualAction"; text: "Manually configure an action..." }
             }
-        }
-        Button {
-            text: "control a group of devices"
-            Layout.fillWidth: true
+            delegate: ItemDelegate {
+                width: parent.width
+                text: model.text
+                onClicked: {
+                    switch (model.name) {
+                    case "switchLights":
+                        pageStack.push(switchLightsCompoent)
+                        break;
+                    case "controlMedia":
+                        break;
+                    case "muteMedia":
+                        break;
+                    case "manualAction":
+                        pageStack.push(selectDeviceComponent)
+                        break;
+                    }
+                }
+            }
         }
     }
 
@@ -68,9 +84,8 @@ Page {
                             verticalAlignment: Text.AlignVCenter
                         }
                         onClicked: {
-                            root.device = Engine.deviceManager.devices.get(index)
-                            var deviceClass = Engine.deviceManager.deviceClasses.getDeviceClass(model.deviceClassId)
-                            pageStack.push(selectDeviceActionComponent, {deviceClass: deviceClass})
+                            var device = Engine.deviceManager.devices.get(index)
+                            pageStack.push(selectDeviceActionComponent, {device: device})
                         }
                     }
                 }
@@ -82,7 +97,8 @@ Page {
         id: selectDeviceActionComponent
         Page {
             id: page
-            property var deviceClass
+            property var device
+            readonly property var deviceClass: Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId)
 
             header: GuhHeader {
                 text: "Select action"
@@ -106,14 +122,17 @@ Page {
                         }
 
                         onClicked: {
-                            root.actionType = page.deviceClass.actionTypes.get(index)
+                            var actionType = page.deviceClass.actionTypes.get(index)
                             if (page.deviceClass.actionTypes.get(index).paramTypes.count == 0) {
                                 // We're all set.
+                                var action = {}
+                                action["deviceId"] = page.device.id
+                                action["actionTypeId"] = actionType.id
+                                root.actions.push(action)
                                 root.complete();
                             } else {
                                 // need to fill in params
-                                var actionType = page.deviceClass.actionTypes.get(index)
-                                pageStack.push(selectDeviceActionParamComponent, {actionType: actionType})
+                                pageStack.push(selectDeviceActionParamComponent, {device: page.device, actionType: actionType})
                             }
                         }
                     }
@@ -126,6 +145,7 @@ Page {
         id: selectDeviceActionParamComponent
         Page {
             id: page
+            property var device
             property var actionType
             header: GuhHeader {
                 text: "params"
@@ -137,22 +157,10 @@ Page {
                 Repeater {
                     id: delegateRepeater
                     model: page.actionType.paramTypes
-                    ItemDelegate {
-                        id: paramDelegate
-                        Layout.fillWidth: true
-                        property var paramType: page.actionType.paramTypes.get(index)
-                        property var value: paramType.defaultValue
-                        RowLayout {
-                            anchors.fill: parent
-                            Label {
-                                Layout.fillWidth: true
-                                text: paramDelegate.paramType.name
-                            }
-                            Switch {
-                                checked: paramDelegate.value
-                                onClicked: paramDelegate.value = checked
-                            }
-                        }
+                    delegate: ParamDelegate {
+                        paramType: page.actionType.paramTypes.get(index)
+                        value: paramType.defaultValue
+
                     }
                 }
                 Item {
@@ -164,14 +172,99 @@ Page {
                     Layout.fillWidth: true
                     Layout.margins: app.margins
                     onClicked: {
+                        var params = [];
                         for (var i = 0; i < delegateRepeater.count; i++) {
                             var paramDelegate = delegateRepeater.itemAt(i);
                             var param = {}
                             param["paramTypeId"] = paramDelegate.paramType.id
                             param["value"] = paramDelegate.value
-                            root.params.push(param)
+                            params.push(param)
                         }
+                        var action = {};
+                        action["deviceId"] = page.device.id
+                        action["actionTypeId"] = page.actionType.id
+                        action["ruleActionParams"] = params
+                        root.actions.push(action)
                         root.complete()
+                    }
+                }
+            }
+        }
+    }
+
+    Component {
+        id: switchLightsCompoent
+        Page {
+            header: GuhHeader {
+                text: "Switch lights"
+                onBackPressed: pageStack.pop()
+            }
+
+            ColumnLayout {
+                anchors.fill: parent
+
+                SwitchDelegate {
+                    id: switchDelegate
+                    Layout.fillWidth: true
+                    text: "Set selected lights power to"
+                    position: 0
+                }
+                ThinDivider {}
+
+                Flickable {
+                    Layout.fillHeight: true
+                    Layout.fillWidth: true
+                    interactive: contentHeight > height
+                    clip: true
+
+                    Column {
+                        width: parent.width
+
+                        Repeater {
+                            id: lightsRepeater
+
+                            model: DevicesProxy {
+                                id: lightsModel
+                                devices: Engine.deviceManager.devices
+                                filterInterface: "light"
+                            }
+                            delegate: CheckDelegate {
+                                width: parent.width
+                                text: model.name
+                            }
+                        }
+                    }
+                }
+
+                Button {
+                    Layout.fillWidth: true
+                    Layout.margins: app.margins
+                    text: "OK"
+                    onClicked:  {
+                        for (var i = 0; i < lightsRepeater.count; i++) {
+                            if (lightsRepeater.itemAt(i).checkState === Qt.Unchecked) {
+                                continue;
+                            }
+                            var device = lightsModel.get(i);
+                            var deviceClass = Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId)
+
+                            var action = {}
+                            action["deviceId"] = device.id
+
+                            var actionType = deviceClass.actionTypes.findByName("power")
+                            action["actionTypeId"] = actionType.id
+
+                            var params = [];
+                            var paramType = actionType.paramTypes.getParamType("power");
+                            var param = {}
+                            param["paramTypeId"] = paramType.id
+                            param["value"] = switchDelegate.position === 1 ? true : false;
+                            params.push(param)
+
+                            action["ruleActionParams"] = params
+                            root.actions.push(action)
+                        }
+                        root.complete();
                     }
                 }
             }

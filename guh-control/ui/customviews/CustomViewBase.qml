@@ -4,5 +4,6 @@ Item {
 
     property var device: null
     property var deviceClass: null
+    property string interfaceName
 
 }

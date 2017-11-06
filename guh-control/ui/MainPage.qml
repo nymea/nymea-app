@@ -1,40 +1,74 @@
 import QtQuick 2.5
 import QtQuick.Controls 2.1
-import QtQuick.Controls.Material 2.2
+import QtQuick.Controls.Material 2.1
+import QtQuick.Layouts 1.2
+import Guh 1.0
+import "components"
 
 Page {
     id: root
-    footer: TabBar {
-        Material.elevation: 2
-        TabButton {
-            text: "Things"
-            onClicked: mainSwipeView.currentIndex = 0
+
+    header: GuhHeader {
+        text: "My things"
+        backButtonVisible: false
+        menuButtonVisible: true
+        onMenuPressed: mainMenu.open()
+    }
+
+    Menu {
+        id: mainMenu
+        width: implicitWidth + app.margins
+        IconMenuItem {
+            iconSource: "../images/share.svg"
+            text: "Configure things"
         }
-        TabButton {
-            text: "Magic"
-            onClicked: mainSwipeView.currentIndex = 1
+        IconMenuItem {
+            iconSource: "../images/add.svg"
+            text: "Add a new thing..."
+            onTriggered: pageStack.push(Qt.resolvedUrl("NewDeviceWizard.qml"))
         }
-        TabButton {
-            text: "Settings"
-            onClicked: mainSwipeView.currentIndex = 2
+        IconMenuItem {
+            iconSource: "../images/settings.svg"
+            text: "App settings"
+            onTriggered: pageStack.push(Qt.resolvedUrl("SettingsPage.qml"))
+        }
+        IconMenuItem {
+            iconSource: "../images/info.svg"
+            text: "System information"
+            onTriggered: pageStack.push(Qt.resolvedUrl("SystemInfoPage.qml"))
         }
     }
 
-    SwipeView {
-        id: mainSwipeView
+    ColumnLayout {
         anchors.fill: parent
-        interactive: false
+        anchors.margins: app.margins
 
-        DevicesPage {
+        SwipeView {
+            id: swipeView
+            Layout.fillWidth: true
+            Layout.fillHeight: true
 
+            DevicesPage {
+                width: parent.view.width
+                height: parent.view.height
+                shownInterfaces: ["light", "weather", "sensor", "media"]
+            }
+
+            DevicesPage {
+                width: parent.view.width
+                height: parent.view.height
+                shownInterfaces: ["gateway", "button", "notifications"]
+            }
         }
 
-        MagicPage {
-
-        }
-
-        SettingsPage {
-
+        PageIndicator {
+            Layout.alignment: Qt.AlignHCenter
+            count: swipeView.count
+            currentIndex: swipeView.currentIndex
         }
     }
+
+
+
+
 }
