@@ -44,10 +44,10 @@ Param *Params::get(int index) const
     return m_params.at(index);
 }
 
-Param *Params::getParam(QString name) const
+Param *Params::getParam(QString paramTypeId) const
 {
     foreach (Param *param, m_params) {
-        if (param->name() == name) {
+        if (param->id() == paramTypeId) {
             return param;
         }
     }
@@ -71,9 +71,9 @@ QVariant Params::data(const QModelIndex &index, int role) const
         return QVariant();
 
     Param *param = m_params.at(index.row());
-    if (role == NameRole) {
-        return param->name();
-    } else if (role == ValueRole) {
+    if (role == RoleId) {
+        return param->id();
+    } else if (role == RoleValue) {
         return param->value();
     }
     return QVariant();
@@ -97,7 +97,7 @@ void Params::clearModel()
 QHash<int, QByteArray> Params::roleNames() const
 {
     QHash<int, QByteArray> roles;
-    roles[NameRole] = "name";
-    roles[ValueRole] = "value";
+    roles[RoleId] = "id";
+    roles[RoleValue] = "value";
     return roles;
 }

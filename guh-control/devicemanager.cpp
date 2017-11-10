@@ -83,7 +83,8 @@ void DeviceManager::addDevice(const QUuid &deviceClassId, const QString &name, c
 
 void DeviceManager::notificationReceived(const QVariantMap &data)
 {
-    if (data.value("notification").toString() == "Devices.StateChanged") {
+    QString notification = data.value("notification").toString();
+    if (notification == "Devices.StateChanged") {
         qDebug() << "Device state changed" << data.value("params");
         Device *dev = m_devices->getDevice(data.value("params").toMap().value("deviceId").toUuid());
         if (!dev) {
@@ -91,20 +92,33 @@ void DeviceManager::notificationReceived(const QVariantMap &data)
             return;
         }
         dev->setStateValue(data.value("params").toMap().value("stateTypeId").toUuid(), data.value("params").toMap().value("value"));
+    } else if (notification == "Devices.DeviceAdded") {
+        Device *dev = JsonTypes::unpackDevice(data.value("params").toMap().value("device").toMap(), m_devices);
+        if (!dev) {
+            qWarning() << "Cannot parse json device:" << data;
+            return;
+        }
+        m_devices->addDevice(dev);
+    } else if (notification == "Devices.DeviceRemoved") {
+        QUuid deviceId = data.value("params").toMap().value("deviceId").toUuid();
+        qDebug() << "JsonRpc: Notification: Device removed" << deviceId.toString();
+        Device *device = m_devices->getDevice(deviceId);
+        m_devices->removeDevice(device);
+        device->deleteLater();
     } else {
-        qWarning() << "DeviceManager unhandled device notification received" << data;
+        qWarning() << "DeviceManager unhandled device notification received" << notification;
     }
 }
 
 void DeviceManager::getVendorsResponse(const QVariantMap &params)
 {
-    qDebug() << "Got GetSupportedVendors response" << params;
+//    qDebug() << "Got GetSupportedVendors response" << params;
     if (params.value("params").toMap().keys().contains("vendors")) {
         QVariantList vendorList = params.value("params").toMap().value("vendors").toList();
         foreach (QVariant vendorVariant, vendorList) {
             Vendor *vendor = JsonTypes::unpackVendor(vendorVariant.toMap(), Engine::instance()->deviceManager()->vendors());
             m_vendors->addVendor(vendor);
-            qDebug() << "Added Vendor:" << vendor->name();
+//            qDebug() << "Added Vendor:" << vendor->name();
         }
     }
 
@@ -166,6 +180,10 @@ void DeviceManager::getConfiguredDevicesResponse(const QVariantMap &params)
                 QVariant value = stateMap.toMap().value("value");
                 if (st->type() == "Bool") {
                     value.convert(QVariant::Bool);
+                } else if (st->type() == "Double") {
+                    value.convert(QVariant::Double);
+                } else if (st->type() == "Int") {
+                    value.convert(QVariant::Int);
                 }
                 device->setStateValue(stateTypeId, value);
             }
@@ -189,11 +207,8 @@ void DeviceManager::addDeviceResponse(const QVariantMap &params)
 
 void DeviceManager::removeDeviceResponse(const QVariantMap &params)
 {
-    QUuid deviceId = params.value("params").toMap().value("deviceId").toUuid();
-    qDebug() << "JsonRpc: Notification: Device removed" << deviceId.toString();
-    Device *device = m_devices->getDevice(deviceId);
-    m_devices->removeDevice(device);
-    device->deleteLater();
+    qDebug() << "Device removed response" << params;
+    emit removeDeviceReply(params.value("params").toMap());
 }
 
 void DeviceManager::pairDeviceResponse(const QVariantMap &params)

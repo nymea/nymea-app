@@ -49,7 +49,7 @@ public:
     QList<ParamType *> paramTypes();
 
     Q_INVOKABLE ParamType *get(int index) const;
-    Q_INVOKABLE ParamType *getParamType(const QString &name) const;
+    Q_INVOKABLE ParamType *getParamType(const QString &id) const;
 
     int rowCount(const QModelIndex & parent = QModelIndex()) const;
     QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;

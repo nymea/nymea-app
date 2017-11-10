@@ -11,6 +11,21 @@ Page {
 
     default property alias data: contentItem.data
 
+    header: GuhHeader {
+        text: device.name
+        onBackPressed: pageStack.pop()
+
+        HeaderButton {
+            imageSource: "../images/magic.svg"
+            onClicked: pageStack.push(Qt.resolvedUrl("../magic/DeviceRulesPage.qml"), {device: root.device})
+        }
+
+        HeaderButton {
+            imageSource: "../images/info.svg"
+            onClicked: pageStack.push(Qt.resolvedUrl("GenericDeviceStateDetailsPage.qml"), {device: root.device})
+        }
+    }
+
     Pane {
         id: infoPane
         visible: batteryState !== null || (connectedState !== null && connectedState.value === false)

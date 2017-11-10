@@ -42,6 +42,7 @@ ToolBar {
             Layout.fillHeight: true
             verticalAlignment: Text.AlignVCenter
             font.pixelSize: app.largeFont
+            elide: Text.ElideRight
             color: "#333"
             text: root.text.toUpperCase()
         }

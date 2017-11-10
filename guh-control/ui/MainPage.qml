@@ -21,17 +21,26 @@ Page {
         IconMenuItem {
             iconSource: "../images/share.svg"
             text: "Configure things"
+            onTriggered: pageStack.push(Qt.resolvedUrl("EditDevicesPage.qml"))
         }
         IconMenuItem {
             iconSource: "../images/add.svg"
-            text: "Add a new thing..."
+            text: "Add a new thing"
             onTriggered: pageStack.push(Qt.resolvedUrl("NewDeviceWizard.qml"))
         }
+        MenuSeparator {}
+        IconMenuItem {
+            iconSource: "../images/magic.svg"
+            text: "Magic"
+            onTriggered: pageStack.push(Qt.resolvedUrl("MagicPage.qml"))
+        }
+        MenuSeparator {}
         IconMenuItem {
             iconSource: "../images/settings.svg"
             text: "App settings"
             onTriggered: pageStack.push(Qt.resolvedUrl("SettingsPage.qml"))
         }
+        MenuSeparator {}
         IconMenuItem {
             iconSource: "../images/info.svg"
             text: "System information"

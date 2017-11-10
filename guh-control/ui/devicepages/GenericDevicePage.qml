@@ -7,16 +7,6 @@ import "../components"
 DevicePageBase {
     id: root
 
-    header: GuhHeader {
-        text: device.name
-        onBackPressed: pageStack.pop()
-
-        HeaderButton {
-            imageSource: "../images/info.svg"
-            onClicked: pageStack.push(Qt.resolvedUrl("GenericDeviceStateDetailsPage.qml"), {device: root.device})
-        }
-    }
-
     Flickable {
         id: flickable
         anchors.fill: parent

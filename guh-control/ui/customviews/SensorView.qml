@@ -1,6 +1,8 @@
 import QtQuick 2.5
 import QtQuick.Controls 2.1
+import QtQuick.Controls.Material 2.1
 import QtQuick.Layouts 1.3
+//import QtCharts 2.1
 import "../components"
 import Guh 1.0
 
@@ -22,11 +24,25 @@ CustomViewBase {
         Component.onCompleted: updateTimer.start();
         onAverageChanged: updateTimer.start()
         onStartTimeChanged: updateTimer.start();
+
+        onBusyChanged: {
+            if (!busy) {
+
+//                lineSeries1.clear()
+//                splineSeries.clear()
+//                print("---", axisX.min, axisX.max)
+//                for (var i = 0; i < logsModel.count; i++) {
+//                    print("adding", logsModel.get(i).timestamp, logsModel.get(i).value)
+//                    lineSeries1.append(logsModel.get(i).timestamp, logsModel.get(i).value)
+//                    splineSeries.append(logsModel.get(i).timestamp, logsModel.get(i).value)
+//                }
+            }
+        }
     }
 
     Timer {
         id: updateTimer
-        interval: 0
+        interval: 10
         repeat: false
         onTriggered: {
             print("updating:", logsModel.startTime)
@@ -91,5 +107,70 @@ CustomViewBase {
             model: logsModel
             color: app.interfaceToColor(root.interfaceName)
         }
+
+//        ChartView {
+//            id: chartView
+//            Layout.fillWidth: true
+//            Layout.preferredHeight: 300
+//            animationOptions: ChartView.SeriesAnimations
+//            theme: ChartView.ChartThemeQt
+//            backgroundColor: Material.background
+//            property bool openGL: false
+//            property bool openGLSupported: true
+//            onOpenGLChanged: {
+//                if (openGLSupported) {
+//                    series("signal 1").useOpenGL = openGL;
+//                    series("signal 2").useOpenGL = openGL;
+//                }
+//            }
+//            Component.onCompleted: {
+//                if (!series("signal 1").useOpenGL) {
+//                    openGLSupported = false
+//                    openGL = false
+//                }
+//            }
+
+//            ValueAxis {
+//                id: axisY1
+//                min: logsModel.minimumValue - 1
+//                max: logsModel.maximumValue + 1
+//            }
+
+//            DateTimeAxis {
+//                id: axisX
+//                min: logsModel.startTime
+//                max: logsModel.endTime
+//                format: {
+//                    switch (logsModel.average) {
+//                    case ValueLogsProxyModel.AverageMinute:
+//                    case ValueLogsProxyModel.AverageHourly:
+//                    case ValueLogsProxyModel.AverageQuarterHour:
+//                        return "hh:mm"
+//                    }
+//                    return "ddd<br> dd.MM.<br>hh:mm"
+//                }
+//            }
+
+
+//            AreaSeries {
+//                axisX: axisX
+//                axisY: axisY1
+//                borderWidth: 0
+//                name: app.interfaceToString(interfaceName)
+//                borderColor: app.interfaceToColor(interfaceName)
+//                color: Qt.rgba(borderColor.r, borderColor.g, borderColor.b, .4)
+//                useOpenGL: chartView.openGL
+//                upperSeries: LineSeries {
+//                    id: lineSeries1
+//                }
+//            }
+//            SplineSeries {
+//                id: splineSeries
+//                axisX: axisX
+//                axisY: axisY1
+//                width: 3
+//                color: app.interfaceToColor(interfaceName)
+//            }
+//        }
     }
 }

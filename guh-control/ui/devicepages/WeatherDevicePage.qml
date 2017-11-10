@@ -5,26 +5,33 @@ import Guh 1.0
 import "../components"
 import "../customviews"
 
-Page {
+DevicePageBase {
     id: root
-    property var device: null
-    readonly property var deviceClass: Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId)
 
-
-    header: GuhHeader {
-        text: device.name
-        onBackPressed: pageStack.pop()
-
-        HeaderButton {
-            imageSource: "../images/info.svg"
-            onClicked: pageStack.push(Qt.resolvedUrl("GenericDeviceStateDetailsPage.qml"), {device: root.device})
+    Flickable {
+        anchors.fill: parent
+        clip: true
+        contentHeight: content.implicitHeight
+        ColumnLayout {
+            id: content
+            width: parent.width
+            WeatherView {
+                Layout.fillWidth: true
+                device: root.device
+                deviceClass: root.deviceClass
+            }
+            SensorView {
+                Layout.fillWidth: true
+                device: root.device
+                deviceClass: root.deviceClass
+                interfaceName: "temperaturesensor"
+            }
+            SensorView {
+                Layout.fillWidth: true
+                device: root.device
+                deviceClass: root.deviceClass
+                interfaceName: "humiditysensor"
+            }
         }
     }
-
-    WeatherView {
-        anchors.fill: parent
-        device: root.device
-        deviceClass: root.deviceClass
-    }
-
 }

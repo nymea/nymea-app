@@ -100,9 +100,7 @@ Page {
                 }
 
                 onClicked: {
-                    if (deviceClass.interfaces.indexOf("colorlight") >= 0) {
-                        pageStack.push(Qt.resolvedUrl("../devicepages/ColorLightDevicePage.qml"), {device: devicesProxy.get(index)})
-                    }
+                    pageStack.push(Qt.resolvedUrl("../devicepages/ColorLightDevicePage.qml"), {device: devicesProxy.get(index)})
                 }
             }
         }

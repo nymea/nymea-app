@@ -109,7 +109,7 @@ DeviceClass *JsonTypes::unpackDeviceClass(const QVariantMap &deviceClassMap, QOb
 
 Param *JsonTypes::unpackParam(const QVariantMap &paramMap, QObject *parent)
 {
-    return new Param(paramMap.value("name").toString(), paramMap.value("value"), parent);
+    return new Param(paramMap.value("paramTypeId").toString(), paramMap.value("value"), parent);
 }
 
 ParamType *JsonTypes::unpackParamType(const QVariantMap &paramTypeMap, QObject *parent)
@@ -117,6 +117,7 @@ ParamType *JsonTypes::unpackParamType(const QVariantMap &paramTypeMap, QObject *
     ParamType *paramType = new ParamType(parent);
     paramType->setId(paramTypeMap.value("id").toString());
     paramType->setName(paramTypeMap.value("name").toString());
+    paramType->setDisplayName(paramTypeMap.value("displayName").toString());
     paramType->setType(paramTypeMap.value("type").toString());
     paramType->setIndex(paramTypeMap.value("index").toInt());
     paramType->setDefaultValue(paramTypeMap.value("defaultValue"));

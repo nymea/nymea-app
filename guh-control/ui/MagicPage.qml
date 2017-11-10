@@ -7,10 +7,10 @@ Page {
     id: root
     header: GuhHeader {
         text: "Magic"
-        backButtonVisible: false
+        onBackPressed: pageStack.pop()
 
         HeaderButton {
-            imageSource: "images/add.svg"
+            imageSource: Qt.resolvedUrl("images/add.svg")
             onClicked: pageStack.push(Qt.resolvedUrl("magic/NewRulePage.qml"))
         }
     }

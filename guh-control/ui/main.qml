@@ -117,18 +117,28 @@ ApplicationWindow {
             return "Gateways"
         case "notifications":
             return "Notifications"
+        case "temperaturesensor":
+            return "Temperature";
+        case "humiditysensor":
+            return "Humidity";
         }
     }
 
     function interfaceToIcon(name) {
         switch (name) {
         case "light":
+        case "colorlight":
+        case "dimmablelight":
             return Qt.resolvedUrl("images/torch-on.svg")
         case "sensor":
             return Qt.resolvedUrl("images/sensors.svg")
         case "media":
+        case "mediacontroller":
             return Qt.resolvedUrl("images/mediaplayer-app-symbolic.svg")
         case "button":
+        case "longpressbutton":
+        case "multibutton":
+        case "longpressmultibutton":
             return Qt.resolvedUrl("images/system-shutdown.svg")
         case "weather":
             return Qt.resolvedUrl("images/weather-app-symbolic.svg")

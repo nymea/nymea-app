@@ -57,6 +57,16 @@ void ParamType::setName(const QString &name)
     m_name = name;
 }
 
+QString ParamType::displayName() const
+{
+    return m_displayName;
+}
+
+void ParamType::setDisplayName(const QString &displayName)
+{
+    m_displayName = displayName;
+}
+
 QString ParamType::type() const
 {
     return m_type;

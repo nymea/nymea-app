@@ -5,21 +5,8 @@ import Guh 1.0
 import "../components"
 import "../actiondelegates"
 
-Page {
+DevicePageBase {
     id: root
-    property var device: null
-    readonly property var deviceClass: Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId)
-
-
-    header: GuhHeader {
-        text: device.name
-        onBackPressed: pageStack.pop()
-
-        HeaderButton {
-            imageSource: "../images/info.svg"
-            onClicked: pageStack.push(Qt.resolvedUrl("GenericDeviceStateDetailsPage.qml"), {device: root.device})
-        }
-    }
 
     ColumnLayout {
         anchors.fill: parent
@@ -96,8 +83,9 @@ Page {
             Layout.fillWidth: true
             Layout.margins: app.margins
             property var actionType: root.deviceClass.actionTypes.findByName("colorTemperature")
-            property var ctState: root.device.states.getState(actionType.id)
-            ct: ctState.value
+            property var ctState: actionType ? root.device.states.getState(actionType.id) : null
+            ct: ctState ? ctState.value : 0
+            visible: root.deviceClass.interfaces.indexOf("colorlight") >= 0
 
             height: 80
 
@@ -132,11 +120,17 @@ Page {
             Layout.fillWidth: true
             Layout.fillHeight: true
             actionType: root.deviceClass.actionTypes.findByName("color")
-            actionState: root.device.states.getState(actionType.id).value
+            actionState: actionType ? root.device.states.getState(actionType.id).value : null
+            visible: root.deviceClass.interfaces.indexOf("colorlight") >= 0
 
             onExecuteAction: {
                 Engine.deviceManager.executeAction(root.device.id, actionType.id, params)
             }
+        }
+
+        Item {
+            Layout.fillWidth: true
+            Layout.fillHeight: true
         }
 
     }

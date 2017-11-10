@@ -21,6 +21,45 @@ Page {
         onBackPressed: pageStack.pop()
     }
 
+    ListModel {
+        id: actionModel
+        ListElement { interfaceName: "light"; text: "Switch lights..."; identifier: "switchLights" }
+        ListElement { interfaceName: "mediacontroller"; text: "Control media playback..."; identifier: "controlMedia" }
+        ListElement { interfaceName: "extendedvolumecontroller"; text: "Mute media playback..."; identifier: "muteMedia" }
+        ListElement { interfaceName: "notifications"; text: "Notify me..."; identifier: "notify" }
+        ListElement { interfaceName: ""; text: "Manually configure an action..."; identifier: "manualAction" }
+    }
+
+    DevicesProxy {
+        id: ifaceFilterModel
+        devices: Engine.deviceManager.devices
+    }
+
+    Component.onCompleted: {
+        actualModel.clear()
+        for (var i = 0; i < actionModel.count; i++) {
+            ifaceFilterModel.filterInterface = actionModel.get(i).interfaceName;
+            if (actionModel.get(i).interfaceName === "" || ifaceFilterModel.count > 0) {
+                actualModel.append(actionModel.get(i))
+            }
+        }
+    }
+
+    function actionSelected(identifier) {
+        switch (identifier) {
+        case "switchLights":
+            pageStack.push(switchLightsCompoent)
+            break;
+        case "controlMedia":
+            break;
+        case "muteMedia":
+            break;
+        case "manualAction":
+            pageStack.push(selectDeviceComponent)
+            break;
+        }
+    }
+
     ColumnLayout {
         anchors.fill: parent
 
@@ -35,26 +74,13 @@ Page {
             Layout.fillWidth: true
             Layout.fillHeight: true
             model: ListModel {
-                ListElement { name: "switchLights"; text: "Switch lights..." }
-                ListElement { name: "controlMedia"; text: "Control media playback..." }
-                ListElement { name: "manualAction"; text: "Manually configure an action..." }
+                id: actualModel
             }
             delegate: ItemDelegate {
                 width: parent.width
                 text: model.text
                 onClicked: {
-                    switch (model.name) {
-                    case "switchLights":
-                        pageStack.push(switchLightsCompoent)
-                        break;
-                    case "controlMedia":
-                        break;
-                    case "muteMedia":
-                        break;
-                    case "manualAction":
-                        pageStack.push(selectDeviceComponent)
-                        break;
-                    }
+                    root.actionSelected(model.identifier)
                 }
             }
         }

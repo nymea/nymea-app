@@ -73,6 +73,7 @@ signals:
     void pairDeviceReply(const QVariantMap &params);
     void confirmPairingReply(const QVariantMap &params);
     void addDeviceReply(const QVariantMap &params);
+    void removeDeviceReply(const QVariantMap &params);
 
 private:
     Vendors *m_vendors;

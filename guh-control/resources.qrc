@@ -101,5 +101,11 @@
         <file>ui/images/battery/battery-090.svg</file>
         <file>ui/images/battery/battery-100.svg</file>
         <file>ui/images/dialog-warning-symbolic.svg</file>
+        <file>ui/images/magic.svg</file>
+        <file>ui/EditDevicesPage.qml</file>
+        <file>ui/devicepages/ConfigureThingPage.qml</file>
+        <file>ui/magic/DeviceRulesPage.qml</file>
+        <file>ui/magic/SelectEventPage.qml</file>
+        <file>ui/magic/NewThingMagicPage.qml</file>
     </qresource>
 </RCC>

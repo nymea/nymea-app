@@ -4,6 +4,9 @@ import "../components"
 
 Page {
     id: root
+
+    property var device: null
+
     header: GuhHeader {
         text: "New rule"
         onBackPressed: pageStack.pop()

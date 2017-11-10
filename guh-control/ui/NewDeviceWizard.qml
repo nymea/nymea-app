@@ -16,7 +16,7 @@ Page {
         }
 
         HeaderButton {
-            imageSource: "images/close.svg"
+            imageSource: "../images/close.svg"
             onClicked: pageStack.pop();
         }
     }

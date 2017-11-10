@@ -31,9 +31,9 @@ class Params : public QAbstractListModel
 {
     Q_OBJECT
 public:
-    enum ParamRole {
-        NameRole = Qt::DisplayRole,
-        ValueRole
+    enum RoleId {
+        RoleId,
+        RoleValue
     };
 
     explicit Params(QObject *parent = 0);
@@ -42,7 +42,7 @@ public:
 
     Q_INVOKABLE int count() const;
     Q_INVOKABLE Param *get(int index) const;
-    Q_INVOKABLE Param *getParam(QString name) const;
+    Q_INVOKABLE Param *getParam(QString paramTypeId) const;
 
     Q_INVOKABLE int paramCount() const;
 

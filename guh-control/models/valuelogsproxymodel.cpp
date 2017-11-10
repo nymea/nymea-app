@@ -4,7 +4,8 @@
 
 ValueLogsProxyModel::ValueLogsProxyModel(QObject *parent) : LogsModel(parent)
 {
-
+    m_minimumValue = QVariant(0);
+    m_maximumValue = QVariant(0);
 }
 
 void ValueLogsProxyModel::update()
@@ -40,8 +41,6 @@ QVariant ValueLogsProxyModel::maximumValue() const
 
 void ValueLogsProxyModel::logsReply(const QVariantMap &data)
 {
-    m_busy = false;
-    emit busyChanged();
 
     qDebug() << "logs reply";
 
@@ -84,7 +83,9 @@ void ValueLogsProxyModel::logsReply(const QVariantMap &data)
             continue;
         }
         QList<QVariant> tmp = entries[slot];
-        tmp.append(entryMap.value("value"));
+        QVariant value = entryMap.value("value");
+        value.convert(QVariant::Double);
+        tmp.append(value);
         entries[slot] = tmp;
 //        qDebug() << "adding value to slot" << slot << entryMap.value("value") << QDateTime::fromMSecsSinceEpoch(entryMap.value("timestamp").toLongLong());
     }
@@ -114,15 +115,16 @@ void ValueLogsProxyModel::logsReply(const QVariantMap &data)
             continue;
         }
         LogEntry *entry = new LogEntry(startTime().addSecs(stepSize * i).addSecs(stepSize * .5), avg, this);
-//        qDebug() << "filling slot" << i << "average:" << avg << entry->timestamp();
         m_list.append(entry);
 
+//        qDebug() << "**" << m_minimumValue << entry->value();
         if (m_minimumValue.isNull() || entry->value() < m_minimumValue) {
             m_minimumValue = qRound(entry->value().toDouble());
         }
         if (m_maximumValue.isNull() || entry->value() > m_maximumValue) {
             m_maximumValue = qRound(entry->value().toDouble());
         }
+        qDebug() << "filling slot" << i << "average:" << avg << entry->timestamp().toString() << "min:" << m_minimumValue << "max:" << m_maximumValue;
 
     }
 
@@ -132,5 +134,8 @@ void ValueLogsProxyModel::logsReply(const QVariantMap &data)
     emit maximumValueChanged();
     emit countChanged();
     qDebug() << "min" << minimumValue() << "max" << maximumValue();
+
+    m_busy = false;
+    emit busyChanged();
 
 }

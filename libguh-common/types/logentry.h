@@ -10,6 +10,7 @@ class LogEntry : public QObject
     Q_OBJECT
     Q_PROPERTY(QVariant value READ value CONSTANT)
 
+    Q_PROPERTY(QDateTime timestamp READ timestamp CONSTANT)
     Q_PROPERTY(QString timeString READ timeString CONSTANT)
     Q_PROPERTY(QString dayString READ dayString CONSTANT)
     Q_PROPERTY(QString dateString READ dateString CONSTANT)
