@@ -10,7 +10,7 @@ CustomViewBase {
 
     ColumnLayout {
         id: grid
-        anchors { left: parent.left; top: parent.top; right: parent.right }
+        anchors { left: parent.left; top: parent.top; right: parent.right; margins: app.margins }
         Label {
             Layout.fillWidth: true
             text: "Send a notification now:"
@@ -26,7 +26,8 @@ CustomViewBase {
 
                 var params = []
                 var param1 = {}
-                var paramTypeId = root.deviceClass.actionTypes.findByName("notify").paramTypes.getParamType("title").id
+                print("bla:", root.deviceClass.actionTypes.findByName("notify").paramTypes)
+                var paramTypeId = root.deviceClass.actionTypes.findByName("notify").paramTypes.findByName("title").id
                 param1.paramTypeId = paramTypeId
                 param1.value = textArea.text
                 params.push(param1)

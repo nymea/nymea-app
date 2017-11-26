@@ -47,6 +47,16 @@ ParamType *ParamTypes::getParamType(const QString &id) const
     return 0;
 }
 
+ParamType *ParamTypes::findByName(const QString &name) const
+{
+    foreach (ParamType *paramType, m_paramTypes) {
+        if (paramType->name() == name) {
+            return paramType;
+        }
+    }
+    return 0;
+}
+
 int ParamTypes::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
