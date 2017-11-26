@@ -31,6 +31,7 @@ ApplicationWindow {
         property string lastConnectedHost: ""
         property bool fullscreen: false
         property bool returnToHome: false
+        property string graphStyle: "bars"
     }
 
     Component.onCompleted: {
@@ -89,6 +90,10 @@ ApplicationWindow {
     UpnpDiscovery {
         id: discovery
     }
+
+//    ZeroconfDiscovery {
+//        id: discovery
+//    }
 
     Connections {
         target: Qt.application
@@ -162,10 +167,6 @@ ApplicationWindow {
         }
         return "grey";
     }
-
-//    ZeroconfDiscovery {
-//        id: discovery
-//    }
 
     Component {
         id: invalidVersionComponent

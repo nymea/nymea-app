@@ -8,6 +8,7 @@ Item {
     property var model: null
 
     property color color: "grey"
+    property string mode: "bezier" // "bezier" or "bars"
 
     Connections {
         target: model
@@ -107,8 +108,13 @@ Item {
 
             paintGrid(ctx)
             enumerate(ctx)
-//            paintWifis(ctx, canvas.selectedIndex)
-            paintGraph(ctx)
+
+            if (root.mode == "bezier") {
+                paintGraph(ctx)
+            } else {
+                paintBars(ctx)
+            }
+
             ctx.restore();
 
         }
@@ -170,8 +176,8 @@ Item {
             // enumerate Y axis
 
             var lastTextX = -1;
-            for (var i = 0; i < model.count - 1; i++) {
-                var x = contentWidth / (model.count - 1) * i;
+            for (var i = 0; i < model.count; i++) {
+                var x = contentWidth / (model.count) * i;
                 if (x < lastTextX) continue;
 
                 var label = model.get(i).dayString
@@ -307,6 +313,37 @@ Item {
                                       points[i].secondcontrolx, points[i].secondcontroly,
                                       points[i + 1].x, points[i + 1].y)
                 }
+            }
+        }
+
+        function paintBars(ctx) {
+            if (model.count <= 1) {
+                return;
+            }
+
+            var tempInterval = (maxTemp - minTemp) / sections;
+
+            ctx.globalAlpha = 1;
+            ctx.lineWidth = 2;
+            var graphStroke = root.color;
+            var grapFill = Qt.rgba(root.color.r, root.color.g, root.color.b, .2);
+
+            ctx.strokeStyle = graphStroke;
+            ctx.fillStyle = grapFill;
+
+
+            for (var i = 0; i < model.count; i++) {
+                ctx.beginPath();
+                var value = model.get(i).value;
+                var x = contentWidth / (model.count) * i;
+                var y = contentHeight - (value - minTemp) / tempInterval * pps;
+
+                var slotWidth = contentWidth / model.count
+                ctx.rect(x,y, slotWidth - 5, contentHeight - y)
+                ctx.fillRect(x,y, slotWidth - 5, contentHeight - y);
+                ctx.stroke();
+                ctx.fill();
+                ctx.closePath();
             }
         }
 

@@ -114,7 +114,7 @@ void ValueLogsProxyModel::logsReply(const QVariantMap &data)
         } else {
             continue;
         }
-        LogEntry *entry = new LogEntry(startTime().addSecs(stepSize * i).addSecs(stepSize * .5), avg, this);
+        LogEntry *entry = new LogEntry(startTime().addSecs(stepSize * i)/*.addSecs(stepSize * .5)*/, avg, this);
         m_list.append(entry);
 
 //        qDebug() << "**" << m_minimumValue << entry->value();

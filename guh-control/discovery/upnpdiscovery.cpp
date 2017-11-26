@@ -126,6 +126,7 @@ void UpnpDiscovery::writeDiscoveryPacket()
                                               "MX:2\r\n"
                                               "ST: ssdp:all\r\n\r\n");
 
+    qDebug() << "sending discovery packet";
     writeDatagram(ssdpSearchMessage, m_host, m_port);
 }
 

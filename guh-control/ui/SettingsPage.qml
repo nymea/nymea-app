@@ -43,5 +43,23 @@ Page {
                 onClicked: settings.returnToHome = checked
             }
         }
+        RowLayout {
+            Layout.fillWidth: true
+            Label {
+                Layout.fillWidth: true
+                text: "Graph style"
+            }
+            RadioButton {
+                checked: settings.graphStyle === "bars"
+                text: "Bars"
+                onClicked: settings.graphStyle = "bars"
+            }
+            RadioButton {
+                checked: settings.graphStyle === "bezier"
+                text: "Lines"
+                onClicked: settings.graphStyle = "bezier"
+            }
+
+        }
     }
 }
