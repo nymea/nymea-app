@@ -3,6 +3,7 @@
 #include "types/rule.h"
 #include "types/eventdescriptors.h"
 #include "types/eventdescriptor.h"
+#include "types/stateevaluator.h"
 
 #include <QDebug>
 
@@ -58,7 +59,7 @@ bool RulesFilterModel::filterAcceptsRow(int source_row, const QModelIndex &sourc
                 break;
             }
         }
-        if (!found) {
+        if (!found && !rule->stateEvaluator()->containsDevice(m_filterEventDeviceId)) {
             return false;
         }
     }

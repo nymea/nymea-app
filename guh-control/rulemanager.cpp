@@ -8,6 +8,8 @@
 #include "types/ruleaction.h"
 #include "types/ruleactionparams.h"
 #include "types/ruleactionparam.h"
+#include "types/stateevaluator.h"
+#include "types/statedescriptor.h"
 
 RuleManager::RuleManager(JsonRpcClient* jsonClient, QObject *parent) :
     JsonHandler(parent),
@@ -61,6 +63,9 @@ void RuleManager::handleRulesNotification(const QVariantMap &params)
         rule->setName(name);
         rule->setEnabled(enabled);
         parseEventDescriptors(ruleMap.value("eventDescriptors").toList(), rule);
+        StateEvaluator* stateEvaluator = parseStateEvaluator(ruleMap.value("stateEvaluator").toMap());
+        stateEvaluator->setParent(rule);
+
         parseRuleActions(ruleMap.value("actions").toList(), rule);
         m_rules->insert(rule);
     } else if (params.value("notification").toString() == "Rules.RuleRemoved") {
@@ -122,6 +127,32 @@ void RuleManager::parseEventDescriptors(const QVariantList &eventDescriptorList,
         eventDescriptor->setEventTypeId(eventDescriptorVariant.toMap().value("eventTypeId").toUuid());
 //        eventDescriptor->setParamDescriptors(eventDescriptorVariant.toMap().value("deviceId").toUuid());
         rule->eventDescriptors()->addEventDescriptor(eventDescriptor);
+    }
+}
+
+StateEvaluator *RuleManager::parseStateEvaluator(const QVariantMap &stateEvaluatorMap)
+{
+    StateEvaluator *stateEvaluator = new StateEvaluator(this);
+    if (stateEvaluatorMap.contains("stateDescriptor")) {
+        QVariantMap sdMap = stateEvaluatorMap.value("sateDescriptor").toMap();
+        QString operatorString = sdMap.value("stateOperator").toString();
+        StateDescriptor::ValueOperator op;
+        if (operatorString == "ValueOperatorEquals") {
+            op = StateDescriptor::ValueOperatorEquals;
+        } else if (operatorString == "ValueOperatorNotEquals") {
+            op = StateDescriptor::ValueOperatorNotEquals;
+        } else if (operatorString == "ValueOperatorLess") {
+            op = StateDescriptor::ValueOperatorLess;
+        } else if (operatorString == "ValueOperatorGreater") {
+            op = StateDescriptor::ValueOperatorGreater;
+        } else if (operatorString == "ValueOperatorLessOrEqual") {
+            op = StateDescriptor::ValueOperatorLessOrEqual;
+        } else if (operatorString == "ValueOperatorGreaterOrEqual") {
+            op = StateDescriptor::ValueOperatorGreaterOrEqual;
+        }
+        StateDescriptor *sd = new StateDescriptor(sdMap.value("deviceId").toUuid(), op, sdMap.value("stateTypeId").toUuid(), sdMap.value("value"), stateEvaluator);
+//        stateEvaluator->
+
     }
 }
 

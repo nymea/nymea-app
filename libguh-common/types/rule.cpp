@@ -2,11 +2,13 @@
 
 #include "eventdescriptors.h"
 #include "ruleactions.h"
+#include "stateevaluator.h"
 
 Rule::Rule(const QUuid &id, QObject *parent) :
     QObject(parent),
     m_id(id),
     m_eventDescriptors(new EventDescriptors(this)),
+    m_stateEvaluator(new StateEvaluator(this)),
     m_ruleActions(new RuleActions(this))
 {
 
@@ -46,6 +48,11 @@ void Rule::setEnabled(bool enabled)
 EventDescriptors *Rule::eventDescriptors() const
 {
     return m_eventDescriptors;
+}
+
+StateEvaluator *Rule::stateEvaluator() const
+{
+    return m_stateEvaluator;
 }
 
 RuleActions *Rule::ruleActions() const

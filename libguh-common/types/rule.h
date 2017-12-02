@@ -6,6 +6,7 @@
 
 class EventDescriptors;
 class RuleActions;
+class StateEvaluator;
 
 class Rule : public QObject
 {
@@ -14,6 +15,7 @@ class Rule : public QObject
     Q_PROPERTY(QString name READ name NOTIFY nameChanged)
     Q_PROPERTY(bool enabled READ enabled NOTIFY enabledChanged)
     Q_PROPERTY(EventDescriptors* eventDescriptors READ eventDescriptors CONSTANT)
+    Q_PROPERTY(StateEvaluator* stateEvaluator READ stateEvaluator CONSTANT)
     Q_PROPERTY(RuleActions* ruleActions READ ruleActions CONSTANT)
 public:
     explicit Rule(const QUuid &id, QObject *parent = nullptr);
@@ -27,6 +29,7 @@ public:
     void setEnabled(bool enabled);
 
     EventDescriptors* eventDescriptors() const;
+    StateEvaluator *stateEvaluator() const;
     RuleActions* ruleActions() const;
 
 signals:
@@ -38,6 +41,7 @@ private:
     QString m_name;
     bool m_enabled = false;
     EventDescriptors *m_eventDescriptors = nullptr;
+    StateEvaluator *m_stateEvaluator = nullptr;
     RuleActions *m_ruleActions = nullptr;
 };
 

@@ -57,6 +57,8 @@ Page {
         case "manualAction":
             pageStack.push(selectDeviceComponent)
             break;
+        case "notify":
+            pageStack.push(notificationActionComponent)
         }
     }
 
@@ -291,6 +293,77 @@ Page {
                             root.actions.push(action)
                         }
                         root.complete();
+                    }
+                }
+            }
+        }
+    }
+
+    Component {
+        id: notificationActionComponent
+        Page {
+            header: GuhHeader {
+                text: "Send notification"
+                onBackPressed: pageStack.pop()
+            }
+
+            ColumnLayout {
+                anchors.fill: parent
+                spacing: app.margins
+                Label {
+                    Layout.fillWidth: true
+                    text: "Notification text"
+                    Layout.topMargin: app.margins
+                    Layout.leftMargin: app.margins
+                    Layout.rightMargin: app.margins
+                }
+                TextField {
+                    id: notificationTextField
+                    Layout.fillWidth: true
+                    Layout.leftMargin: app.margins
+                    Layout.rightMargin: app.margins
+                }
+                ThinDivider {}
+                Flickable {
+                    Layout.fillHeight: true
+                    Layout.fillWidth: true
+                    interactive: contentHeight > height
+                    clip: true
+
+                    Column {
+                        width: parent.width
+
+                        Repeater {
+                            id: notificationsRepeater
+
+                            model: DevicesProxy {
+                                id: notificationsModel
+                                devices: Engine.deviceManager.devices
+                                filterInterface: "notifications"
+                            }
+                            delegate: CheckDelegate {
+                                width: parent.width
+                                text: model.name
+                                checked: true
+                            }
+                        }
+                    }
+                }
+                Button {
+                    Layout.fillWidth: true
+                    Layout.margins: app.margins
+                    text: "OK"
+                    onClicked: {
+                        var action = {}
+                        action["interface"] = "notifications";
+                        action["interfaceAction"] = "notify";
+                        action["ruleActionParams"] = [];
+                        var ruleActionParam = {};
+                        ruleActionParam["paramName"] = "title";
+                        ruleActionParam["value"] = notificationTextField.text
+                        action["ruleActionParams"].push(ruleActionParam)
+                        root.actions.push(action)
+                        root.complete()
                     }
                 }
             }

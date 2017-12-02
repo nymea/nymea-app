@@ -19,6 +19,7 @@ Page {
         ListElement { interfaceName: "temperaturesensor"; text: "When it's freezing..."; identifier: "freeze"}
         ListElement { interfaceName: "battery"; text: "When the device runs out of battery..."; identifier: "lowBattery"}
         ListElement { interfaceName: "weather"; text: "When it starts raining..."; identifier: "rain" }
+        ListElement { interfaceName: "weather"; text: "When it's freezing..."; identifier: "freeze"}
     }
 
     ListModel {
@@ -37,7 +38,25 @@ Page {
     function entrySelected(identifier) {
         switch (identifier) {
         case "freeze":
-            pageStack.push(Qt.resolvedUrl("SelectActionPage.qml"), {device: root.device })
+            var page = pageStack.push(Qt.resolvedUrl("SelectActionPage.qml"), {device: root.device })
+            page.complete.connect(function() {
+                print("have action:", page.actions.length)
+                var rule = {};
+                rule["name"] = "Freeze in " + root.device.name
+                var stateEvaluator = {};
+                var stateDescriptor = {};
+                stateDescriptor["deviceId"] = root.device.id;
+                stateDescriptor["operator"] = "ValueOperatorLessOrEqual";
+                stateDescriptor["stateTypeId"] = root.deviceClass.stateTypes.findByName("temperature").id;
+                stateDescriptor["value"] = 0;
+                stateEvaluator["stateDescriptor"] = stateDescriptor;
+
+                rule["stateEvaluator"] = stateEvaluator;
+                rule["actions"] = page.actions;
+                Engine.ruleManager.addRule(rule);
+                pageStack.pop(root);
+
+            })
         }
     }
 

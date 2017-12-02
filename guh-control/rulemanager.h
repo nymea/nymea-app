@@ -7,6 +7,7 @@
 #include "jsonrpc/jsonhandler.h"
 
 class JsonRpcClient;
+class StateEvaluator;
 
 class RuleManager : public JsonHandler
 {
@@ -35,6 +36,7 @@ private slots:
 
 private:
     void parseEventDescriptors(const QVariantList &eventDescriptorList, Rule *rule);
+    StateEvaluator* parseStateEvaluator(const QVariantMap &stateEvaluatorMap);
     void parseRuleActions(const QVariantList &ruleActions, Rule *rule);
 
 private:
