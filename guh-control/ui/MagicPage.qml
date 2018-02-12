@@ -24,6 +24,10 @@ Page {
             Label {
                 text: model.name
             }
+
+            onClicked: {
+                pageStack.push(Qt.resolvedUrl("magic/EditRulePage.qml"))
+            }
         }
     }
 }

@@ -107,5 +107,6 @@
         <file>ui/magic/DeviceRulesPage.qml</file>
         <file>ui/magic/SelectEventPage.qml</file>
         <file>ui/magic/NewThingMagicPage.qml</file>
+        <file>ui/magic/EditRulePage.qml</file>
     </qresource>
 </RCC>

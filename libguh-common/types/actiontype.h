@@ -33,6 +33,7 @@ class ActionType : public QObject
     Q_OBJECT
     Q_PROPERTY(QUuid id READ id CONSTANT)
     Q_PROPERTY(QString name READ name CONSTANT)
+    Q_PROPERTY(QString displayName READ displayName CONSTANT)
     Q_PROPERTY(int index READ index CONSTANT)
     Q_PROPERTY(ParamTypes *paramTypes READ paramTypes NOTIFY paramTypesChanged)
 
@@ -45,6 +46,9 @@ public:
     QString name() const;
     void setName(const QString &name);
 
+    QString displayName() const;
+    void setDisplayName(const QString &displayName);
+
     int index() const;
     void setIndex(const int &index);
 
@@ -54,6 +58,7 @@ public:
 private:
     QUuid m_id;
     QString m_name;
+    QString m_displayName;
     int m_index;
     ParamTypes *m_paramTypes;
 

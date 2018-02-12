@@ -166,6 +166,7 @@ ActionType *JsonTypes::unpackActionType(const QVariantMap &actionTypeMap, QObjec
     ActionType *actionType = new ActionType(parent);
     actionType->setId(actionTypeMap.value("id").toUuid());
     actionType->setName(actionTypeMap.value("name").toString());
+    actionType->setDisplayName(actionTypeMap.value("displayName").toString());
     actionType->setIndex(actionTypeMap.value("index").toInt());
     ParamTypes *paramTypes = new ParamTypes(actionType);
     foreach (QVariant paramType, actionTypeMap.value("paramTypes").toList()) {

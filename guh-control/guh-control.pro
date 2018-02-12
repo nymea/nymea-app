@@ -3,7 +3,7 @@ TARGET=guh-control
 include(../guh-control.pri)
 
 
-QT += qml quick quickcontrols2 websockets svg charts
+QT += qml quick quickcontrols2 websockets svg
 
 INCLUDEPATH += $$top_srcdir/libguh-common
 LIBS += -L$$top_builddir/libguh-common/ -lguh-common

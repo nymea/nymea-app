@@ -27,6 +27,7 @@ public:
     StateEvaluators* childEvaluators() const;
 
     StateDescriptor* stateDescriptor() const;
+    void setStateDescriptor(StateDescriptor *stateDescriptor);
 
     bool containsDevice(const QUuid &deviceId) const;
 

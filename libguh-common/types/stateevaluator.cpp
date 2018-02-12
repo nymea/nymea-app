@@ -28,9 +28,18 @@ StateDescriptor *StateEvaluator::stateDescriptor() const
     return m_stateDescriptor;
 }
 
+void StateEvaluator::setStateDescriptor(StateDescriptor *stateDescriptor)
+{
+    if (m_stateDescriptor) {
+        m_stateDescriptor->deleteLater();
+    }
+    stateDescriptor->setParent(this);
+    m_stateDescriptor = stateDescriptor;
+}
+
 bool StateEvaluator::containsDevice(const QUuid &deviceId) const
 {
-    if (m_stateDescriptor->deviceId() == deviceId) {
+    if (m_stateDescriptor && m_stateDescriptor->deviceId() == deviceId) {
         return true;
     }
     for (int i = 0; i < m_childEvaluators->rowCount(); i++) {

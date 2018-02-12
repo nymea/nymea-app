@@ -10,7 +10,7 @@ ActionDelegateBase {
         id: layout
         anchors { left: parent.left; right: parent.right; top: parent.top; margins: app.margins }
         Label {
-            text: root.actionType.name
+            text: root.actionType.displayName
             Layout.fillWidth: true
         }
         Button {

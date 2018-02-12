@@ -12,7 +12,7 @@ ActionDelegateBase {
 
         Label {
             Layout.fillWidth: true
-            text: actionType.name
+            text: actionType.displayName
         }
         Label {
             Layout.fillWidth: true

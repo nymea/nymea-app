@@ -47,6 +47,16 @@ void ActionType::setName(const QString &name)
     m_name = name;
 }
 
+QString ActionType::displayName() const
+{
+    return m_displayName;
+}
+
+void ActionType::setDisplayName(const QString &displayName)
+{
+    m_displayName = displayName;
+}
+
 int ActionType::index() const
 {
     return m_index;

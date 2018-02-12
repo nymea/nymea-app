@@ -33,7 +33,7 @@ Page {
         TextField {
             id: usernameTextField
             Layout.fillWidth: true
-
+            inputMethodHints: Qt.ImhEmailCharactersOnly
         }
         Label {
             Layout.fillWidth: true
@@ -42,7 +42,7 @@ Page {
         TextField {
             id: passwordTextField
             Layout.fillWidth: true
-
+            echoMode: TextInput.Password
         }
         Button {
             Layout.fillWidth: true
