@@ -34,11 +34,6 @@ QList<EventType *> EventTypes::eventTypes()
     return m_eventTypes;
 }
 
-int EventTypes::count() const
-{
-    return m_eventTypes.count();
-}
-
 EventType *EventTypes::get(int index) const
 {
     return m_eventTypes.at(index);
@@ -80,6 +75,7 @@ void EventTypes::addEventType(EventType *eventType)
     //qDebug() << "EventTypes: loaded eventType" << eventType->name();
     m_eventTypes.append(eventType);
     endInsertRows();
+    emit countChanged();
 }
 
 void EventTypes::clearModel()
@@ -87,12 +83,12 @@ void EventTypes::clearModel()
     beginResetModel();
     m_eventTypes.clear();
     endResetModel();
+    emit countChanged();
 }
 
 EventType *EventTypes::findByName(const QString &name) const
 {
     foreach (EventType *eventType, m_eventTypes) {
-        qDebug() << "have eventtypoe" << eventType->name();
         if (eventType->name() == name) {
             return eventType;
         }

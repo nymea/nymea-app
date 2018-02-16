@@ -11,7 +11,8 @@ class EventDescriptors : public QAbstractListModel
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
 public:
     enum Roles {
-        RoleName
+        RoleDeviceId,
+        RoleEventTypeId
     };
     explicit EventDescriptors(QObject *parent = nullptr);
 
@@ -19,9 +20,10 @@ public:
     QVariant data(const QModelIndex &index, int role) const override;
     QHash<int, QByteArray> roleNames() const override;
 
-    EventDescriptor* get(int index) const;
+    Q_INVOKABLE EventDescriptor* get(int index) const;
 
-    void addEventDescriptor(EventDescriptor *eventDescriptor);
+    Q_INVOKABLE EventDescriptor* createNewEventDescriptor();
+    Q_INVOKABLE void addEventDescriptor(EventDescriptor *eventDescriptor);
 
 signals:
     void countChanged();

@@ -47,6 +47,16 @@ void EventType::setName(const QString &name)
     m_name = name;
 }
 
+QString EventType::displayName() const
+{
+    return m_displayName;
+}
+
+void EventType::setDisplayName(const QString &displayName)
+{
+    m_displayName = displayName;
+}
+
 int EventType::index() const
 {
     return m_index;

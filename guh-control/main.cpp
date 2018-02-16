@@ -18,7 +18,7 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include <QApplication>
+#include <QCoreApplication>
 #include <QCommandLineParser>
 #include <QtQml/QQmlContext>
 #include <QQmlApplicationEngine>
@@ -39,6 +39,8 @@
 #include "types/ruleaction.h"
 #include "types/ruleactionparams.h"
 #include "types/ruleactionparam.h"
+#include "types/eventdescriptors.h"
+#include "types/eventdescriptor.h"
 #include "types/rule.h"
 #include "models/logsmodel.h"
 #include "models/valuelogsproxymodel.h"
@@ -46,13 +48,14 @@
 int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    QApplication application(argc, argv);
+    QCoreApplication application(argc, argv);
     application.setApplicationName("guh-control");
     application.setOrganizationName("guh");
 
     QQuickStyle::setStyle("Material");
 
     const char uri[] = "Guh";
+
     qmlRegisterSingletonType<Engine>(uri, 1, 0, "Engine", Engine::qmlInstance);
 
     qmlRegisterUncreatableType<DeviceManager>(uri, 1, 0, "DeviceManager", "Can't create this in QML. Get it from the Core.");
@@ -98,6 +101,12 @@ int main(int argc, char *argv[])
     qmlRegisterUncreatableType<RuleActionParams>(uri, 1, 0, "RuleActionParams", "Get it from RuleActions");
     qmlRegisterUncreatableType<RuleActionParam>(uri, 1, 0, "RuleActionParam", "Get it from RuleActionParams");
     qmlRegisterType<RulesFilterModel>(uri, 1, 0, "RulesFilterModel");
+    qmlRegisterUncreatableType<EventDescriptors>(uri, 1, 0, "EventDescriptors", "Get them from rules");
+    qmlRegisterUncreatableType<EventDescriptor>(uri, 1, 0, "EventDescriptor", "Get them from rules");
+    qmlRegisterUncreatableType<ParamTypes>(uri, 1, 0, "ParamTypes", "Uncreatable");
+    qmlRegisterUncreatableType<ParamType>(uri, 1, 0, "ParamType", "Uncreatable");
+    qmlRegisterUncreatableType<ParamDescriptor>(uri, 1, 0, "ParamDescriptor", "Uncreatable");
+    qmlRegisterUncreatableType<ParamDescriptors>(uri, 1, 0, "ParamDescriptors", "Uncreatable");
 
     qmlRegisterUncreatableType<Plugin>(uri, 1, 0, "Plugin", "Can't create this in QML. Get it from the Plugins.");
     qmlRegisterUncreatableType<Plugins>(uri, 1, 0, "Plugins", "Can't create this in QML. Get it from the DeviceManager.");

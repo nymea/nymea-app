@@ -193,11 +193,11 @@ void UpnpDiscovery::networkReplyFinished(QNetworkReply *reply)
 {
     int status = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
 
+    QByteArray data = reply->readAll();
+    DiscoveryDevice discoveryDevice = m_runningReplies.take(reply);
+
     switch (status) {
     case(200):{
-        QByteArray data = reply->readAll();
-        DiscoveryDevice discoveryDevice = m_runningReplies.take(reply);
-
         // parse XML data
         QXmlStreamReader xml(data);
         while (!xml.atEnd() && !xml.hasError()) {
@@ -252,9 +252,9 @@ void UpnpDiscovery::networkReplyFinished(QNetworkReply *reply)
             }
         }
 
+        qDebug() << "discovered device" << discoveryDevice.friendlyName() << discoveryDevice.hostAddress();
 
-        if (discoveryDevice.friendlyName().contains("guh")) {
-            qDebug() << discoveryDevice;
+        if (discoveryDevice.manufacturer().contains("guh")) {
             if (!m_discoveryModel->contains(discoveryDevice.uuid())) {
                 m_discoveryModel->addDevice(discoveryDevice);
             }
@@ -264,7 +264,6 @@ void UpnpDiscovery::networkReplyFinished(QNetworkReply *reply)
     }
     default:
         qWarning() << "HTTP request error " << status;
-        m_runningReplies.remove(reply);
     }
 
     reply->deleteLater();

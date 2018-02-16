@@ -18,7 +18,7 @@ class Rule : public QObject
     Q_PROPERTY(StateEvaluator* stateEvaluator READ stateEvaluator CONSTANT)
     Q_PROPERTY(RuleActions* ruleActions READ ruleActions CONSTANT)
 public:
-    explicit Rule(const QUuid &id, QObject *parent = nullptr);
+    explicit Rule(const QUuid &id = QUuid(), QObject *parent = nullptr);
 
     QUuid id() const;
 

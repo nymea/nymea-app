@@ -24,6 +24,8 @@ public:
 
     Rules* rules() const;
 
+    Q_INVOKABLE Rule* createNewRule();
+
     Q_INVOKABLE void addRule(const QVariantMap params);
     Q_INVOKABLE void removeRule(const QUuid &ruleId);
 

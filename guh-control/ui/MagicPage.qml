@@ -11,7 +11,7 @@ Page {
 
         HeaderButton {
             imageSource: Qt.resolvedUrl("images/add.svg")
-            onClicked: pageStack.push(Qt.resolvedUrl("magic/NewRulePage.qml"))
+            onClicked: pageStack.push(Qt.resolvedUrl("magic/NewRulePage.qml"), {rule: Engine.ruleManager.createNewRule() })
         }
     }
 
@@ -26,7 +26,7 @@ Page {
             }
 
             onClicked: {
-                pageStack.push(Qt.resolvedUrl("magic/EditRulePage.qml"))
+                pageStack.push(Qt.resolvedUrl("magic/EditRulePage.qml"), {rule: Engine.ruleManager.rules.get(index) })
             }
         }
     }

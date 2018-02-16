@@ -16,7 +16,13 @@ CustomViewBase {
             text: "Send a notification now:"
         }
         TextArea {
-            id: textArea
+            id: titleTextArea
+            placeholderText: "Title"
+            Layout.fillWidth: true
+        }
+        TextArea {
+            id: bodyTextArea
+            placeholderText: "Text"
             Layout.fillWidth: true
         }
         Button {
@@ -29,8 +35,13 @@ CustomViewBase {
                 print("bla:", root.deviceClass.actionTypes.findByName("notify").paramTypes)
                 var paramTypeId = root.deviceClass.actionTypes.findByName("notify").paramTypes.findByName("title").id
                 param1.paramTypeId = paramTypeId
-                param1.value = textArea.text
+                param1.value = titleTextArea.text
                 params.push(param1)
+                var param2 = {}
+                paramTypeId = root.deviceClass.actionTypes.findByName("notify").paramTypes.findByName("body").id
+                param2.paramTypeId = paramTypeId
+                param2.value = bodyTextArea.text
+                params.push(param2)
                 Engine.deviceManager.executeAction(root.device.id, root.deviceClass.actionTypes.findByName("notify").id, params)
             }
         }

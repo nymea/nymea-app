@@ -31,6 +31,7 @@
 class EventTypes : public QAbstractListModel
 {
     Q_OBJECT
+    Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
 
 public:
     enum EventTypeRole {
@@ -42,7 +43,6 @@ public:
 
     QList<EventType *> eventTypes();
 
-    Q_INVOKABLE int count() const;
     Q_INVOKABLE EventType *get(int index) const;
     Q_INVOKABLE EventType *getEventType(const QUuid &eventTypeId) const;
 
@@ -54,6 +54,9 @@ public:
     void clearModel();
 
     Q_INVOKABLE EventType *findByName(const QString &name) const;
+
+signals:
+    void countChanged();
 
 protected:
     QHash<int, QByteArray> roleNames() const;

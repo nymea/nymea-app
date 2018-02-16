@@ -39,6 +39,11 @@ Rules *RuleManager::rules() const
     return m_rules;
 }
 
+Rule *RuleManager::createNewRule()
+{
+    return new Rule();
+}
+
 void RuleManager::addRule(const QVariantMap params)
 {
     m_jsonClient->sendCommand("Rules.AddRule", params, this, "addRuleReply");

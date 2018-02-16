@@ -152,6 +152,7 @@ EventType *JsonTypes::unpackEventType(const QVariantMap &eventTypeMap, QObject *
     EventType *eventType = new EventType(parent);
     eventType->setId(eventTypeMap.value("id").toUuid());
     eventType->setName(eventTypeMap.value("name").toString());
+    eventType->setDisplayName(eventTypeMap.value("displayName").toString());
     eventType->setIndex(eventTypeMap.value("index").toInt());
     ParamTypes *paramTypes = new ParamTypes(eventType);
     foreach (QVariant paramType, eventTypeMap.value("paramTypes").toList()) {

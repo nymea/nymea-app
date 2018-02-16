@@ -108,5 +108,9 @@
         <file>ui/magic/SelectEventPage.qml</file>
         <file>ui/magic/NewThingMagicPage.qml</file>
         <file>ui/magic/EditRulePage.qml</file>
+        <file>ui/magic/SelectThingPage.qml</file>
+        <file>ui/magic/ComposeEventDescriptorPage.qml</file>
+        <file>ui/images/view-expand.svg</file>
+        <file>ui/images/view-collapse.svg</file>
     </qresource>
 </RCC>

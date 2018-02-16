@@ -9,6 +9,7 @@ RuleActionParams::RuleActionParams(QObject *parent) : QAbstractListModel(parent)
 
 int RuleActionParams::rowCount(const QModelIndex &parent) const
 {
+    Q_UNUSED(parent)
     return m_list.count();
 }
 
