@@ -1,6 +1,7 @@
 #include "rulemanager.h"
 
 #include "jsonrpc/jsonrpcclient.h"
+#include "jsonrpc/jsontypes.h"
 #include "types/rule.h"
 #include "types/eventdescriptor.h"
 #include "types/eventdescriptors.h"
@@ -49,11 +50,24 @@ void RuleManager::addRule(const QVariantMap params)
     m_jsonClient->sendCommand("Rules.AddRule", params, this, "addRuleReply");
 }
 
+void RuleManager::addRule(Rule *rule)
+{
+    QVariantMap params = JsonTypes::packRule(rule);
+    m_jsonClient->sendCommand("Rules.AddRule", params, this, "addRuleReply");
+}
+
 void RuleManager::removeRule(const QUuid &ruleId)
 {
     QVariantMap params;
     params.insert("ruleId", ruleId);
     m_jsonClient->sendCommand("Rules.RemoveRule", params, this, "removeRuleReply");
+}
+
+void RuleManager::editRule(Rule *rule)
+{
+    QVariantMap params = JsonTypes::packRule(rule);
+    m_jsonClient->sendCommand("Rules.EditRule", params, this, "editRuleReply");
+
 }
 
 void RuleManager::handleRulesNotification(const QVariantMap &params)
@@ -124,6 +138,11 @@ void RuleManager::removeRuleReply(const QVariantMap &params)
     qDebug() << "Have remove rule reply" << params;
 }
 
+void RuleManager::editRuleReply(const QVariantMap &params)
+{
+    qDebug() << "Edit rule reply:" << params;
+}
+
 void RuleManager::parseEventDescriptors(const QVariantList &eventDescriptorList, Rule *rule)
 {
     foreach (const QVariant &eventDescriptorVariant, eventDescriptorList) {
@@ -156,9 +175,10 @@ StateEvaluator *RuleManager::parseStateEvaluator(const QVariantMap &stateEvaluat
             op = StateDescriptor::ValueOperatorGreaterOrEqual;
         }
         StateDescriptor *sd = new StateDescriptor(sdMap.value("deviceId").toUuid(), op, sdMap.value("stateTypeId").toUuid(), sdMap.value("value"), stateEvaluator);
-//        stateEvaluator->
+        stateEvaluator->setStateDescriptor(sd);
 
     }
+    return stateEvaluator;
 }
 
 void RuleManager::parseRuleActions(const QVariantList &ruleActions, Rule *rule)

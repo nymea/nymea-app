@@ -27,7 +27,9 @@ public:
     Q_INVOKABLE Rule* createNewRule();
 
     Q_INVOKABLE void addRule(const QVariantMap params);
+    Q_INVOKABLE void addRule(Rule *rule);
     Q_INVOKABLE void removeRule(const QUuid &ruleId);
+    Q_INVOKABLE void editRule(Rule *rule);
 
 private slots:
     void handleRulesNotification(const QVariantMap &params);
@@ -35,6 +37,7 @@ private slots:
     void getRuleDetailsReply(const QVariantMap &params);
     void addRuleReply(const QVariantMap &params);
     void removeRuleReply(const QVariantMap &params);
+    void editRuleReply(const QVariantMap &params);
 
 private:
     void parseEventDescriptors(const QVariantList &eventDescriptorList, Rule *rule);

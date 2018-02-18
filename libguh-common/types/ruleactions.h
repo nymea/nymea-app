@@ -15,9 +15,10 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role) const override;
 
-    void addRuleAction(RuleAction* ruleAction);
+    Q_INVOKABLE void addRuleAction(RuleAction* ruleAction);
 
     Q_INVOKABLE RuleAction* get(int index) const;
+    Q_INVOKABLE RuleAction* createNewRuleAction() const;
 
 signals:
     void countChanged();

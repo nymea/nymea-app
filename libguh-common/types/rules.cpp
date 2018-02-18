@@ -23,6 +23,8 @@ QVariant Rules::data(const QModelIndex &index, int role) const
     switch (role) {
     case RoleName:
         return m_list.at(index.row())->name();
+    case RoleId:
+        return m_list.at(index.row())->id();
     }
     return QVariant();
 }
@@ -31,6 +33,7 @@ QHash<int, QByteArray> Rules::roleNames() const
 {
     QHash<int, QByteArray> roles;
     roles.insert(RoleName, "name");
+    roles.insert(RoleId, "id");
     return roles;
 }
 

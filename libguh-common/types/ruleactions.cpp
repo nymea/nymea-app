@@ -28,3 +28,8 @@ RuleAction *RuleActions::get(int index) const
 {
     return m_list.at(index);
 }
+
+RuleAction *RuleActions::createNewRuleAction() const
+{
+    return new RuleAction();
+}

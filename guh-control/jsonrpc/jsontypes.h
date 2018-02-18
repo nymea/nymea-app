@@ -37,6 +37,7 @@
 #include "types/actiontype.h"
 
 class Vendor;
+class Rule;
 
 class JsonTypes : public QObject
 {
@@ -54,6 +55,7 @@ public:
     static ActionType *unpackActionType(const QVariantMap &actionTypeMap, QObject *parent);
     static Device *unpackDevice(const QVariantMap &deviceMap, QObject *parent);
 
+    static QVariantMap packRule(Rule* rule);
 private:
     static DeviceClass::SetupMethod stringToSetupMethod(const QString &setupMethodString);
     static QList<DeviceClass::BasicTag> stringListToBasicTags(const QStringList &basicTagsStringList);

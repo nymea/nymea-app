@@ -10,6 +10,7 @@ Loader {
         var comp;
         switch (loader.paramType.type) {
         case "bool":
+        case "Bool":
             comp = "Bool";
             break;
         case "String":

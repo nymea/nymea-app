@@ -11,7 +11,12 @@ Page {
 
         HeaderButton {
             imageSource: Qt.resolvedUrl("images/add.svg")
-            onClicked: pageStack.push(Qt.resolvedUrl("magic/NewRulePage.qml"), {rule: Engine.ruleManager.createNewRule() })
+            onClicked: {
+                var newRulePage = pageStack.push(Qt.resolvedUrl("magic/EditRulePage.qml"), {rule: Engine.ruleManager.createNewRule() });
+                newRulePage.onAccept.connect(function() {
+                    Engine.ruleManager.addRule(newRulePage.rule);
+                })
+            }
         }
     }
 
@@ -19,15 +24,37 @@ Page {
         anchors.fill: parent
 
         model: Engine.ruleManager.rules
-        delegate: ItemDelegate {
+        delegate: SwipeDelegate {
             width: parent.width
-            Label {
-                text: model.name
-            }
+            text: model.name
 
             onClicked: {
-                pageStack.push(Qt.resolvedUrl("magic/EditRulePage.qml"), {rule: Engine.ruleManager.rules.get(index) })
+                var editRulePage = pageStack.push(Qt.resolvedUrl("magic/EditRulePage.qml"), {rule: Engine.ruleManager.rules.get(index) })
+                editRulePage.onAccept.connect(function() {
+                    Engine.ruleManager.editRule(editRulePage.rule);
+                })
             }
+
+//            swipe.right: ColorIcon {
+//                name: "delete.svg"
+//                color: "red"
+//            }
+
+            swipe.right: Label {
+                    id: deleteLabel
+                    text: qsTr("Delete")
+                    color: "white"
+                    verticalAlignment: Label.AlignVCenter
+                    padding: 12
+                    height: parent.height
+                    anchors.right: parent.right
+
+                    SwipeDelegate.onClicked: Engine.ruleManager.removeRule(model.id)
+
+                    background: Rectangle {
+                        color: deleteLabel.SwipeDelegate.pressed ? Qt.darker("tomato", 1.1) : "tomato"
+                    }
+                }
         }
     }
 }

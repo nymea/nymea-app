@@ -12,7 +12,7 @@ class Rule : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QUuid id READ id CONSTANT)
-    Q_PROPERTY(QString name READ name NOTIFY nameChanged)
+    Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
     Q_PROPERTY(bool enabled READ enabled NOTIFY enabledChanged)
     Q_PROPERTY(EventDescriptors* eventDescriptors READ eventDescriptors CONSTANT)
     Q_PROPERTY(StateEvaluator* stateEvaluator READ stateEvaluator CONSTANT)

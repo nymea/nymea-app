@@ -17,6 +17,7 @@ public:
 
     void addRuleActionParam(RuleActionParam* ruleActionParam);
 
+    Q_INVOKABLE void setRuleActionParam(const QString &paramTypeId, const QVariant &value);
     Q_INVOKABLE RuleActionParam* get(int index) const;
 
 signals:

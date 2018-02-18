@@ -31,7 +31,7 @@
 class ActionTypes : public QAbstractListModel
 {
     Q_OBJECT
-
+    Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
 public:
     enum ActionTypeRole {
         NameRole = Qt::DisplayRole,
@@ -42,9 +42,8 @@ public:
 
     QList<ActionType *> actionTypes();
 
-    Q_INVOKABLE int count() const;
     Q_INVOKABLE ActionType *get(int index) const;
-    Q_INVOKABLE ActionType *getActionType(const QUuid &actionTypeId) const;
+    Q_INVOKABLE ActionType *getActionType(const QString &actionTypeId) const;
 
     int rowCount(const QModelIndex & parent = QModelIndex()) const;
     QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;
@@ -54,6 +53,9 @@ public:
     Q_INVOKABLE ActionType *findByName(const QString &name) const;
 
     void clearModel();
+
+signals:
+    void countChanged();
 
 protected:
     QHash<int, QByteArray> roleNames() const;

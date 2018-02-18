@@ -184,7 +184,7 @@ void DeviceClass::setActionTypes(ActionTypes *actionTypes)
     emit actionTypesChanged();
 }
 
-bool DeviceClass::hasActionType(const QUuid &actionTypeId)
+bool DeviceClass::hasActionType(const QString &actionTypeId)
 {
     foreach (ActionType *actionType, m_actionTypes->actionTypes()) {
         if (actionType->id() == actionTypeId) {

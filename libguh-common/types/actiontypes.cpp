@@ -33,17 +33,12 @@ QList<ActionType *> ActionTypes::actionTypes()
     return m_actionTypes;
 }
 
-int ActionTypes::count() const
-{
-    return m_actionTypes.count();
-}
-
 ActionType *ActionTypes::get(int index) const
 {
     return m_actionTypes.at(index);
 }
 
-ActionType *ActionTypes::getActionType(const QUuid &actionTypeId) const
+ActionType *ActionTypes::getActionType(const QString &actionTypeId) const
 {
     foreach (ActionType *actionType, m_actionTypes) {
         if (actionType->id() == actionTypeId) {
@@ -68,7 +63,7 @@ QVariant ActionTypes::data(const QModelIndex &index, int role) const
     if (role == NameRole) {
         return actionType->name();
     } else if (role == IdRole) {
-        return actionType->id().toString();
+        return actionType->id();
     }
     return QVariant();
 }
@@ -79,6 +74,7 @@ void ActionTypes::addActionType(ActionType *actionType)
     //qDebug() << "ActionTypes: loaded actionType" << actionType->name();
     m_actionTypes.append(actionType);
     endInsertRows();
+    emit countChanged();
 }
 
 ActionType *ActionTypes::findByName(const QString &name) const
@@ -96,6 +92,7 @@ void ActionTypes::clearModel()
     beginResetModel();
     m_actionTypes.clear();
     endResetModel();
+    emit countChanged();
 }
 
 QHash<int, QByteArray> ActionTypes::roleNames() const

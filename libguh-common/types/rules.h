@@ -10,7 +10,8 @@ class Rules : public QAbstractListModel
     Q_OBJECT
 public:
     enum Roles {
-        RoleName
+        RoleName,
+        RoleId
     };
     explicit Rules(QObject *parent = nullptr);
 

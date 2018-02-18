@@ -131,7 +131,7 @@ public:
     ActionTypes *actionTypes() const;
     void setActionTypes(ActionTypes *actionTypes);
 
-    Q_INVOKABLE bool hasActionType(const QUuid &actionTypeId);
+    Q_INVOKABLE bool hasActionType(const QString &actionTypeId);
 
     static QString basicTagToString(BasicTag basicTag);
 

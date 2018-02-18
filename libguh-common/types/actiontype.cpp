@@ -27,12 +27,12 @@ ActionType::ActionType(QObject *parent) :
 {
 }
 
-QUuid ActionType::id() const
+QString ActionType::id() const
 {
     return m_id;
 }
 
-void ActionType::setId(const QUuid &id)
+void ActionType::setId(const QString &id)
 {
     m_id = id;
 }

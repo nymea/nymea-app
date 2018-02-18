@@ -254,10 +254,11 @@ void JsonRpcClient::dataReceived(const QByteArray &data)
         JsonHandler *handler = m_notificationHandlers.value(nameSpace).first;
 
         if (!handler) {
-            qWarning() << "JsonRpc: handler not implemented:" << nameSpace;
+//            qWarning() << "JsonRpc: handler not implemented:" << nameSpace;
             return;
         }
 
+//        qDebug() << "Incoming notification:" << jsonDoc.toJson();
         QMetaObject::invokeMethod(handler, m_notificationHandlers.value(nameSpace).second.toLatin1().data(), Q_ARG(QVariantMap, dataMap));
     }
 }

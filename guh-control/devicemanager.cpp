@@ -85,7 +85,7 @@ void DeviceManager::notificationReceived(const QVariantMap &data)
 {
     QString notification = data.value("notification").toString();
     if (notification == "Devices.StateChanged") {
-        qDebug() << "Device state changed" << data.value("params");
+//        qDebug() << "Device state changed" << data.value("params");
         Device *dev = m_devices->getDevice(data.value("params").toMap().value("deviceId").toUuid());
         if (!dev) {
             qWarning() << "Device state change notification received for an unknown device";

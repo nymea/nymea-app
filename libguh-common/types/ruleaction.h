@@ -9,8 +9,8 @@ class RuleActionParams;
 class RuleAction : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QUuid deviceId READ deviceId NOTIFY deviceIdChanged)
-    Q_PROPERTY(QUuid actionTypeId READ actionTypeId NOTIFY actionTypeIdChanged)
+    Q_PROPERTY(QUuid deviceId READ deviceId WRITE setDeviceId NOTIFY deviceIdChanged)
+    Q_PROPERTY(QUuid actionTypeId READ actionTypeId WRITE setActionTypeId NOTIFY actionTypeIdChanged)
     Q_PROPERTY(RuleActionParams* ruleActionParams READ ruleActionParams CONSTANT)
 
 public:

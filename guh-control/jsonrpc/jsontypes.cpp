@@ -24,6 +24,13 @@
 #include "deviceclasses.h"
 #include "types/params.h"
 #include "types/paramtypes.h"
+#include "types/rule.h"
+#include "types/ruleaction.h"
+#include "types/ruleactions.h"
+#include "types/eventdescriptor.h"
+#include "types/eventdescriptors.h"
+#include "types/ruleactionparam.h"
+#include "types/ruleactionparams.h"
 
 #include <QMetaEnum>
 
@@ -165,7 +172,7 @@ EventType *JsonTypes::unpackEventType(const QVariantMap &eventTypeMap, QObject *
 ActionType *JsonTypes::unpackActionType(const QVariantMap &actionTypeMap, QObject *parent)
 {
     ActionType *actionType = new ActionType(parent);
-    actionType->setId(actionTypeMap.value("id").toUuid());
+    actionType->setId(actionTypeMap.value("id").toString());
     actionType->setName(actionTypeMap.value("name").toString());
     actionType->setDisplayName(actionTypeMap.value("displayName").toString());
     actionType->setIndex(actionTypeMap.value("index").toInt());
@@ -205,6 +212,58 @@ Device *JsonTypes::unpackDevice(const QVariantMap &deviceMap, QObject *parent)
     device->setStates(states);
 
     return device;
+}
+
+QVariantMap JsonTypes::packRule(Rule *rule)
+{
+    QVariantMap ret;
+    ret.insert("ruleId", rule->id());
+    ret.insert("name", rule->name());
+    ret.insert("enabled", true);
+
+    if (rule->ruleActions()->rowCount() > 0) {
+        QVariantList actions;
+        for (int i = 0; i < rule->ruleActions()->rowCount(); i++) {
+            QVariantMap ruleAction;
+            ruleAction.insert("actionTypeId", rule->ruleActions()->get(i)->actionTypeId());
+            ruleAction.insert("deviceId", rule->ruleActions()->get(i)->deviceId());
+            if (rule->ruleActions()->get(i)->ruleActionParams()->rowCount() > 0) {
+                QVariantList ruleActionParams;
+                for (int j = 0; j < rule->ruleActions()->get(i)->ruleActionParams()->rowCount(); j++) {
+                    QVariantMap ruleActionParam;
+                    ruleActionParam.insert("paramTypeId", rule->ruleActions()->get(i)->ruleActionParams()->get(j)->paramTypeId());
+                    ruleActionParam.insert("value", rule->ruleActions()->get(i)->ruleActionParams()->get(j)->value());
+                    ruleActionParams.append(ruleActionParam);
+                }
+                ruleAction.insert("ruleActionParams", ruleActionParams);
+            }
+            actions.append(ruleAction);
+        }
+        ret.insert("actions", actions);
+    }
+
+    if (rule->eventDescriptors()->rowCount() > 0) {
+        QVariantList eventDescriptors;
+        for (int i = 0; i < rule->eventDescriptors()->rowCount(); i++) {
+            QVariantMap eventDescriptor;
+            eventDescriptor.insert("eventTypeId", rule->eventDescriptors()->get(i)->eventTypeId());
+            eventDescriptor.insert("deviceId", rule->eventDescriptors()->get(i)->deviceId());
+            if (rule->eventDescriptors()->get(i)->paramDescriptors()->rowCount() > 0) {
+                QVariantList paramDescriptors;
+                for (int j = 0; j < rule->eventDescriptors()->get(i)->paramDescriptors()->rowCount(); j++) {
+                    QVariantMap paramDescriptor;
+                    paramDescriptor.insert("paramTypeId", rule->eventDescriptors()->get(i)->paramDescriptors()->get(j)->id());
+                    paramDescriptor.insert("value", rule->eventDescriptors()->get(i)->paramDescriptors()->get(j)->value());
+                    paramDescriptors.append(paramDescriptor);
+                }
+                eventDescriptor.insert("paramDescriptors", paramDescriptors);
+            }
+            eventDescriptors.append(eventDescriptor);
+        }
+        ret.insert("eventDescriptors", eventDescriptors);
+    }
+
+    return ret;
 }
 
 DeviceClass::SetupMethod JsonTypes::stringToSetupMethod(const QString &setupMethodString)

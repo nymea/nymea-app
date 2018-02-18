@@ -17,6 +17,11 @@ QVariant ParamDescriptors::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
+ParamDescriptor *ParamDescriptors::get(int index) const
+{
+    return m_list.at(index);
+}
+
 ParamDescriptor *ParamDescriptors::createNewParamDescriptor() const
 {
     return new ParamDescriptor();

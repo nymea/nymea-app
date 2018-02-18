@@ -26,6 +26,22 @@ void RuleActionParams::addRuleActionParam(RuleActionParam *ruleActionParam)
     endInsertRows();
 }
 
+void RuleActionParams::setRuleActionParam(const QString &paramTypeId, const QVariant &value)
+{
+    foreach (RuleActionParam *rap, m_list) {
+        if (rap->paramTypeId() == paramTypeId) {
+            rap->setValue(value);
+            return;
+        }
+    }
+
+    // Still here? Need to add it
+    RuleActionParam *rap = new RuleActionParam(this);
+    rap->setParamTypeId(paramTypeId);
+    rap->setValue(value);
+    addRuleActionParam(rap);
+}
+
 RuleActionParam *RuleActionParams::get(int index) const
 {
     return m_list.at(index);

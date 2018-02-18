@@ -120,4 +120,6 @@ DISTFILES += \
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
 
+target.path = /usr/bin
+INSTALLS += target
 
