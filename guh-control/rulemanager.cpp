@@ -12,6 +12,8 @@
 #include "types/stateevaluator.h"
 #include "types/statedescriptor.h"
 
+#include <QMetaEnum>
+
 RuleManager::RuleManager(JsonRpcClient* jsonClient, QObject *parent) :
     JsonHandler(parent),
     m_jsonClient(jsonClient),
@@ -66,7 +68,7 @@ void RuleManager::removeRule(const QUuid &ruleId)
 void RuleManager::editRule(Rule *rule)
 {
     QVariantMap params = JsonTypes::packRule(rule);
-    m_jsonClient->sendCommand("Rules.EditRule", params, this, "editRuleReply");
+    m_jsonClient->sendCommand("Rules.EditRule", params, this, "onEditRuleReply");
 
 }
 
@@ -126,6 +128,7 @@ void RuleManager::getRuleDetailsReply(const QVariantMap &params)
 //    qDebug() << "got rule details for rule" << ruleMap;
     parseEventDescriptors(ruleMap.value("eventDescriptors").toList(), rule);
     parseRuleActions(ruleMap.value("actions").toList(), rule);
+     parseStateEvaluator(ruleMap.value("stateEvaluator").toMap());
 }
 
 void RuleManager::addRuleReply(const QVariantMap &params)
@@ -138,9 +141,10 @@ void RuleManager::removeRuleReply(const QVariantMap &params)
     qDebug() << "Have remove rule reply" << params;
 }
 
-void RuleManager::editRuleReply(const QVariantMap &params)
+void RuleManager::onEditRuleReply(const QVariantMap &params)
 {
-    qDebug() << "Edit rule reply:" << params;
+    qDebug() << "Edit rule reply:" << params.value("params").toMap();
+    emit editRuleReply(params.value("params").toMap().value("ruleError").toString());
 }
 
 void RuleManager::parseEventDescriptors(const QVariantList &eventDescriptorList, Rule *rule)
@@ -149,7 +153,12 @@ void RuleManager::parseEventDescriptors(const QVariantList &eventDescriptorList,
         EventDescriptor *eventDescriptor = new EventDescriptor(rule);
         eventDescriptor->setDeviceId(eventDescriptorVariant.toMap().value("deviceId").toUuid());
         eventDescriptor->setEventTypeId(eventDescriptorVariant.toMap().value("eventTypeId").toUuid());
-//        eventDescriptor->setParamDescriptors(eventDescriptorVariant.toMap().value("deviceId").toUuid());
+        foreach (const QVariant &paramDescriptorVariant, eventDescriptorVariant.toMap().value("paramDescriptors").toList()) {
+            ParamDescriptor *paramDescriptor = new ParamDescriptor(paramDescriptorVariant.toMap().value("paramTypeId").toString(), paramDescriptorVariant.toMap().value("value"));
+            QMetaEnum operatorEnum = QMetaEnum::fromType<ParamDescriptor::ValueOperator>();
+            paramDescriptor->setOperatorType((ParamDescriptor::ValueOperator)operatorEnum.keyToValue(paramDescriptorVariant.toMap().value("operator").toString().toLocal8Bit()));
+            eventDescriptor->paramDescriptors()->addParamDescriptor(paramDescriptor);
+        }
         rule->eventDescriptors()->addEventDescriptor(eventDescriptor);
     }
 }

@@ -14,7 +14,24 @@ int ParamDescriptors::rowCount(const QModelIndex &parent) const
 
 QVariant ParamDescriptors::data(const QModelIndex &index, int role) const
 {
+    switch (role) {
+    case RoleId:
+        return m_list.at(index.row())->id();
+    case RoleValue:
+        return m_list.at(index.row())->value();
+    case RoleOperator:
+        return m_list.at(index.row())->operatorType();
+    }
     return QVariant();
+}
+
+QHash<int, QByteArray> ParamDescriptors::roleNames() const
+{
+    QHash<int, QByteArray> roles;
+    roles.insert(RoleId, "id");
+    roles.insert(RoleValue, "value");
+    roles.insert(RoleOperator, "operator");
+    return roles;
 }
 
 ParamDescriptor *ParamDescriptors::get(int index) const

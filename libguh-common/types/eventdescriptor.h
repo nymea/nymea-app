@@ -34,6 +34,8 @@ public:
 
     ParamDescriptors* paramDescriptors() const;
 
+    EventDescriptor* clone() const;
+
 signals:
     void deviceIdChanged();
     void eventTypeIdChanged();

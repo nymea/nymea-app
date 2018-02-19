@@ -10,10 +10,17 @@ class RuleActionParams : public QAbstractListModel
     Q_OBJECT
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
 public:
+    enum Roles {
+        RoleParamTypeId,
+        RoleValue
+    };
+    Q_ENUM(Roles)
+
     explicit RuleActionParams(QObject *parent = nullptr);
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role) const override;
+    QHash<int, QByteArray> roleNames() const override;
 
     void addRuleActionParam(RuleActionParam* ruleActionParam);
 

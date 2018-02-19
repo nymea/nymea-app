@@ -105,7 +105,6 @@
         <file>ui/EditDevicesPage.qml</file>
         <file>ui/devicepages/ConfigureThingPage.qml</file>
         <file>ui/magic/DeviceRulesPage.qml</file>
-        <file>ui/magic/SelectEventPage.qml</file>
         <file>ui/magic/NewThingMagicPage.qml</file>
         <file>ui/magic/EditRulePage.qml</file>
         <file>ui/magic/SelectThingPage.qml</file>
@@ -115,5 +114,9 @@
         <file>ui/magic/SelectRuleActionPage.qml</file>
         <file>ui/magic/SelectRuleActionParamsPage.qml</file>
         <file>ui/images/tick.svg</file>
+        <file>ui/magic/SelectEventDescriptorParamsPage.qml</file>
+        <file>ui/magic/SelectEventDescriptorPage.qml</file>
+        <file>ui/paramdelegates/DoubleParamDelegate.qml</file>
+        <file>ui/paramdescriptordelegates/ParamDescriptorDelegateBase.qml</file>
     </qresource>
 </RCC>

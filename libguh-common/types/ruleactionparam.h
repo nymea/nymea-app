@@ -19,6 +19,7 @@ public:
     QVariant value() const;
     void setValue(const QVariant &value);
 
+    RuleActionParam* clone() const;
 signals:
     void paramTypeIdChanged();
     void valueChanged();

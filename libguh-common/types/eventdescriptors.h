@@ -24,6 +24,7 @@ public:
 
     Q_INVOKABLE EventDescriptor* createNewEventDescriptor();
     Q_INVOKABLE void addEventDescriptor(EventDescriptor *eventDescriptor);
+    Q_INVOKABLE void removeEventDescriptor(int index);
 
 signals:
     void countChanged();

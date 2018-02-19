@@ -23,6 +23,7 @@ public:
     ValueOperator operatorType() const;
     void setOperatorType(ValueOperator operatorType);
 
+    ParamDescriptor* clone() const;
 signals:
     void operatorTypeChanged();
 

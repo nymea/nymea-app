@@ -34,7 +34,10 @@ QHash<int, QByteArray> EventDescriptors::roleNames() const
 
 EventDescriptor *EventDescriptors::get(int index) const
 {
-    return m_list.at(index);
+    if (index >= 0 && index < m_list.count()) {
+        return m_list.at(index);
+    }
+    return nullptr;
 }
 
 EventDescriptor *EventDescriptors::createNewEventDescriptor()
@@ -48,5 +51,13 @@ void EventDescriptors::addEventDescriptor(EventDescriptor *eventDescriptor)
     beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
     m_list.append(eventDescriptor);
     endInsertRows();
+    emit countChanged();
+}
+
+void EventDescriptors::removeEventDescriptor(int index)
+{
+    beginRemoveRows(QModelIndex(), index, index);
+    m_list.takeAt(index)->deleteLater();
+    endRemoveRows();
     emit countChanged();
 }

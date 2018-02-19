@@ -1,8 +1,11 @@
 #include "rule.h"
 
+#include "eventdescriptor.h"
 #include "eventdescriptors.h"
-#include "ruleactions.h"
 #include "stateevaluator.h"
+#include "stateevaluators.h"
+#include "ruleaction.h"
+#include "ruleactions.h"
 
 Rule::Rule(const QUuid &id, QObject *parent) :
     QObject(parent),
@@ -58,4 +61,23 @@ StateEvaluator *Rule::stateEvaluator() const
 RuleActions *Rule::ruleActions() const
 {
     return m_ruleActions;
+}
+
+Rule *Rule::clone() const
+{
+    Rule *ret = new Rule(this->id());
+    ret->setName(this->name());
+    ret->setEnabled(this->enabled());
+    for (int i = 0; i < this->eventDescriptors()->rowCount(); i++) {
+        ret->eventDescriptors()->addEventDescriptor(this->eventDescriptors()->get(i)->clone());
+    }
+//    ret->stateEvaluator()->setStateDescriptor(this->stateEvaluator()->stateDescriptor()->clone());
+//    ret->stateEvaluator()->setStateOperator(this->stateEvaluator()->stateOperator());
+//    for (int i = 0; i < this->stateEvaluator()->childEvaluators()->rowCount(); i++) {
+//        ret->stateEvaluator()->childEvaluators()->
+//    }
+    for (int i = 0; i < this->ruleActions()->rowCount(); i++) {
+        ret->ruleActions()->addRuleAction(this->ruleActions()->get(i)->clone());
+    }
+    return ret;
 }

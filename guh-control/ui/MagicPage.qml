@@ -20,11 +20,21 @@ Page {
         }
     }
 
+    Connections {
+        target: Engine.ruleManager
+        onEditRuleReply: {
+            if (ruleError == "RuleErrorNoError") {
+                pageStack.pop();
+            }
+        }
+    }
+
     ListView {
         anchors.fill: parent
 
         model: Engine.ruleManager.rules
         delegate: SwipeDelegate {
+            id: ruleDelegate
             width: parent.width
             text: model.name
 
@@ -35,26 +45,18 @@ Page {
                 })
             }
 
-//            swipe.right: ColorIcon {
-//                name: "delete.svg"
-//                color: "red"
-//            }
-
-            swipe.right: Label {
-                    id: deleteLabel
-                    text: qsTr("Delete")
-                    color: "white"
-                    verticalAlignment: Label.AlignVCenter
-                    padding: 12
-                    height: parent.height
-                    anchors.right: parent.right
-
-                    SwipeDelegate.onClicked: Engine.ruleManager.removeRule(model.id)
-
-                    background: Rectangle {
-                        color: deleteLabel.SwipeDelegate.pressed ? Qt.darker("tomato", 1.1) : "tomato"
-                    }
+            swipe.right: Item {
+                height: ruleDelegate.height
+                width: height
+                anchors.right: parent.right
+                ColorIcon {
+                    anchors.fill: parent
+                    anchors.margins: app.margins
+                    name: "../images/delete.svg"
+                    color: "red"
                 }
+                SwipeDelegate.onClicked: Engine.ruleManager.removeRule(model.id)
+            }
         }
     }
 }

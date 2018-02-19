@@ -20,10 +20,18 @@ public:
     };
     Q_ENUM(ValueOperator)
 
+    enum Roles {
+        RoleId,
+        RoleValue,
+        RoleOperator
+    };
+    Q_ENUM(Roles)
+
     explicit ParamDescriptors(QObject *parent = nullptr);
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role) const override;
+    QHash<int, QByteArray> roleNames() const override;
 
     ParamDescriptor* get(int index) const;
 

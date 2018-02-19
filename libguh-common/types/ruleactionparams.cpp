@@ -15,7 +15,21 @@ int RuleActionParams::rowCount(const QModelIndex &parent) const
 
 QVariant RuleActionParams::data(const QModelIndex &index, int role) const
 {
+    switch (role) {
+    case RoleParamTypeId:
+        return m_list.at(index.row())->paramTypeId();
+    case RoleValue:
+        return m_list.at(index.row())->value();
+    }
     return QVariant();
+}
+
+QHash<int, QByteArray> RuleActionParams::roleNames() const
+{
+    QHash<int, QByteArray> roles;
+    roles.insert(RoleParamTypeId, "paramTypeId");
+    roles.insert(RoleValue, "value");
+    return roles;
 }
 
 void RuleActionParams::addRuleActionParam(RuleActionParam *ruleActionParam)

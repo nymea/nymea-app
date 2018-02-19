@@ -28,5 +28,13 @@ void RuleActionParam::setValue(const QVariant &value)
     if (m_value != value) {
         m_value = value;
         emit valueChanged();
-   }
+    }
+}
+
+RuleActionParam *RuleActionParam::clone() const
+{
+    RuleActionParam *ret = new RuleActionParam();
+    ret->setParamTypeId(paramTypeId());
+    ret->setValue(value());
+    return ret;
 }

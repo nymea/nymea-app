@@ -37,12 +37,15 @@ private slots:
     void getRuleDetailsReply(const QVariantMap &params);
     void addRuleReply(const QVariantMap &params);
     void removeRuleReply(const QVariantMap &params);
-    void editRuleReply(const QVariantMap &params);
+    void onEditRuleReply(const QVariantMap &params);
 
 private:
     void parseEventDescriptors(const QVariantList &eventDescriptorList, Rule *rule);
     StateEvaluator* parseStateEvaluator(const QVariantMap &stateEvaluatorMap);
     void parseRuleActions(const QVariantList &ruleActions, Rule *rule);
+
+signals:
+    void editRuleReply(const QString &ruleError);
 
 private:
     JsonRpcClient *m_jsonClient;

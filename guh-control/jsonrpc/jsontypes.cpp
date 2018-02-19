@@ -157,7 +157,7 @@ StateType *JsonTypes::unpackStateType(const QVariantMap &stateTypeMap, QObject *
 EventType *JsonTypes::unpackEventType(const QVariantMap &eventTypeMap, QObject *parent)
 {
     EventType *eventType = new EventType(parent);
-    eventType->setId(eventTypeMap.value("id").toUuid());
+    eventType->setId(eventTypeMap.value("id").toString());
     eventType->setName(eventTypeMap.value("name").toString());
     eventType->setDisplayName(eventTypeMap.value("displayName").toString());
     eventType->setIndex(eventTypeMap.value("index").toInt());
@@ -217,7 +217,9 @@ Device *JsonTypes::unpackDevice(const QVariantMap &deviceMap, QObject *parent)
 QVariantMap JsonTypes::packRule(Rule *rule)
 {
     QVariantMap ret;
-    ret.insert("ruleId", rule->id());
+    if (!rule->id().isNull()) {
+        ret.insert("ruleId", rule->id());
+    }
     ret.insert("name", rule->name());
     ret.insert("enabled", true);
 
@@ -254,6 +256,8 @@ QVariantMap JsonTypes::packRule(Rule *rule)
                     QVariantMap paramDescriptor;
                     paramDescriptor.insert("paramTypeId", rule->eventDescriptors()->get(i)->paramDescriptors()->get(j)->id());
                     paramDescriptor.insert("value", rule->eventDescriptors()->get(i)->paramDescriptors()->get(j)->value());
+                    QMetaEnum operatorEnum = QMetaEnum::fromType<ParamDescriptor::ValueOperator>();
+                    paramDescriptor.insert("operator", operatorEnum.valueToKey(rule->eventDescriptors()->get(i)->paramDescriptors()->get(j)->operatorType()));
                     paramDescriptors.append(paramDescriptor);
                 }
                 eventDescriptor.insert("paramDescriptors", paramDescriptors);

@@ -29,3 +29,9 @@ QVariant StateDescriptor::value() const
 {
     return m_value;
 }
+
+StateDescriptor *StateDescriptor::clone() const
+{
+    StateDescriptor *ret = new StateDescriptor(deviceId(), valueOperator(), stateTypeId(), value());
+    return ret;
+}

@@ -19,6 +19,9 @@ Loader {
         case "Int":
             comp = "Int";
             break;
+        case "Double":
+            comp = "Double";
+            break;
         default:
             print("unhandled param type:", paramType.type)
         }

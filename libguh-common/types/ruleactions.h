@@ -16,6 +16,7 @@ public:
     QVariant data(const QModelIndex &index, int role) const override;
 
     Q_INVOKABLE void addRuleAction(RuleAction* ruleAction);
+    Q_INVOKABLE void removeRuleAction(int index);
 
     Q_INVOKABLE RuleAction* get(int index) const;
     Q_INVOKABLE RuleAction* createNewRuleAction() const;

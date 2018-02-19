@@ -32,6 +32,8 @@ public:
     StateEvaluator *stateEvaluator() const;
     RuleActions* ruleActions() const;
 
+    Rule *clone() const;
+
 signals:
     void nameChanged();
     void enabledChanged();

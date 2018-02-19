@@ -39,7 +39,7 @@ EventType *EventTypes::get(int index) const
     return m_eventTypes.at(index);
 }
 
-EventType *EventTypes::getEventType(const QUuid &eventTypeId) const
+EventType *EventTypes::getEventType(const QString &eventTypeId) const
 {
     foreach (EventType *eventType, m_eventTypes) {
         if (eventType->id() == eventTypeId) {
@@ -64,7 +64,7 @@ QVariant EventTypes::data(const QModelIndex &index, int role) const
     if (role == NameRole) {
         return eventType->name();
     } else if (role == IdRole) {
-        return eventType->id().toString();
+        return eventType->id();
     }
     return QVariant();
 }

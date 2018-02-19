@@ -107,6 +107,7 @@ Page {
                         root.ruleAction.actionTypeId = actionType.id;
                         if (actionType.paramTypes.count > 0) {
                             var paramsPage = pageStack.push(Qt.resolvedUrl("SelectRuleActionParamsPage.qml"), {ruleAction: root.ruleAction})
+                            paramsPage.onBackPressed.connect(function() { pageStack.pop(); });
                             paramsPage.onCompleted.connect(function() {
                                 pageStack.pop();
                                 root.done();

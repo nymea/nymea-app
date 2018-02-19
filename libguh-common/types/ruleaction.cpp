@@ -1,5 +1,6 @@
 #include "ruleaction.h"
 
+#include "ruleactionparam.h"
 #include "ruleactionparams.h"
 
 RuleAction::RuleAction(QObject *parent) : QObject(parent)
@@ -36,4 +37,15 @@ void RuleAction::setActionTypeId(const QUuid &actionTypeId)
 RuleActionParams *RuleAction::ruleActionParams() const
 {
     return m_ruleActionParams;
+}
+
+RuleAction *RuleAction::clone() const
+{
+    RuleAction *ret = new RuleAction();
+    ret->setActionTypeId(actionTypeId());
+    ret->setDeviceId(deviceId());
+    for (int i = 0; i < ruleActionParams()->rowCount(); i++) {
+        ret->ruleActionParams()->addRuleActionParam(ruleActionParams()->get(i)->clone());
+    }
+    return ret;
 }

@@ -58,3 +58,16 @@ ParamDescriptors *EventDescriptor::paramDescriptors() const
 {
     return m_paramDescriptors;
 }
+
+EventDescriptor *EventDescriptor::clone() const
+{
+    EventDescriptor *ret = new EventDescriptor();
+    ret->setDeviceId(this->deviceId());
+    ret->setEventTypeId(this->eventTypeId());
+    ret->setInterfaceName(this->interfaceName());
+    ret->setInterfaceEvent(this->interfaceEvent());
+    for (int i = 0; i < this->paramDescriptors()->rowCount(); i++) {
+        ret->paramDescriptors()->addParamDescriptor(this->paramDescriptors()->get(i)->clone());
+    }
+    return ret;
+}

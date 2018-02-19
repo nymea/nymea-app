@@ -24,6 +24,8 @@ public:
 
     RuleActionParams* ruleActionParams() const;
 
+    RuleAction *clone() const;
+
 signals:
     void deviceIdChanged();
     void actionTypeIdChanged();

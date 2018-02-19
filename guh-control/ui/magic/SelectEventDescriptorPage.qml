@@ -62,10 +62,8 @@ Page {
             }
         } else {
             if (root.device) {
-                print("fdsfasdfdsafdas", deviceClass.eventTypes.count)
                 for (var i = 0; i < deviceClass.eventTypes.count; i++) {
-                    print("bla", deviceClass.eventTypes.get(i).name, deviceClass.eventTypes.get(i).displayName)
-                    actualModel.append({text: deviceClass.eventTypes.get(i).displayName})
+                    actualModel.append({text: deviceClass.eventTypes.get(i).displayName, eventTypeId: deviceClass.eventTypes.get(i).id})
                 }
             }
         }
@@ -73,6 +71,7 @@ Page {
 
     ListModel {
         id: actualModel
+        ListElement { text: ""; eventTypeId: "" }
     }
 
     ListView {
@@ -97,7 +96,24 @@ Page {
                         }
                     }
                 } else {
-                    console.warn("FIXME: not implemented yet")
+                    if (root.device) {
+                        var eventType = root.deviceClass.eventTypes.getEventType(model.eventTypeId);
+                        root.eventDescriptor.eventTypeId = model.eventTypeId;
+                        if (eventType.paramTypes.count > 0) {
+                            var paramsPage = pageStack.push(Qt.resolvedUrl("SelectEventDescriptorParamsPage.qml"), {eventDescriptor: root.eventDescriptor})
+                            paramsPage.onBackPressed.connect(function() {pageStack.pop()});
+                            paramsPage.onCompleted.connect(function() {
+                                pageStack.pop();
+                                root.done();
+                            })
+                        } else {
+                            root.done();
+                        }
+
+                        print("have type", eventType.id)
+                    } else {
+                        console.warn("FIXME: not implemented yet");
+                    }
                 }
             }
         }

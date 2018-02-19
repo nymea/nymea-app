@@ -31,6 +31,7 @@ public:
     QUuid stateTypeId() const;
     QVariant value() const;
 
+    StateDescriptor* clone() const;
 private:
     QUuid m_deviceId;
     ValueOperator m_operator = ValueOperatorEquals;

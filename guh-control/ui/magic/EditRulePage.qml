@@ -11,6 +11,8 @@ Page {
 
     signal accept();
 
+    onAccept: busyOverlay.opacity = 1
+
     function addEventDescriptor() {
         var eventDescriptor = root.rule.eventDescriptors.createNewEventDescriptor();
         var page = pageStack.push(Qt.resolvedUrl("SelectThingPage.qml"));
@@ -26,7 +28,7 @@ Page {
     }
 
     function selectEventDescriptorData(eventDescriptor) {
-        var eventPage = pageStack.push(Qt.resolvedUrl("SelectEventPage.qml"), {text: "Select event", eventDescriptor: eventDescriptor});
+        var eventPage = pageStack.push(Qt.resolvedUrl("SelectEventDescriptorPage.qml"), {text: "Select event", eventDescriptor: eventDescriptor});
         eventPage.onBackPressed.connect(function() {pageStack.pop()})
         eventPage.onDone.connect(function() {
             root.rule.eventDescriptors.addEventDescriptor(eventPage.eventDescriptor);
@@ -64,107 +66,193 @@ Page {
         onBackPressed: pageStack.pop()
         HeaderButton {
             imageSource: "../images/tick.svg"
+            enabled: actionsRepeater.count > 0 && root.rule.name.length > 0
+            opacity: enabled ? 1 : .3
             onClicked: {
                 root.accept()
             }
         }
     }
 
-    ColumnLayout {
+    Flickable {
         anchors.fill: parent
-        Label {
-            text: "Rule name"
-        }
-        TextField {
-            Layout.fillWidth: true
-            text: root.rule.name
-            onTextChanged: {
-                root.rule.name = text;
+        contentHeight: contentColumn.implicitHeight + app.margins
 
-            }
-        }
-
-        RowLayout {
-            Layout.fillWidth: true
-            RadioButton {
-                id: whenButton
-                text: "When"
-                checked: true
-            }
-            RadioButton {
-                id: whileButton
-                text: "While"
-            }
-        }
-
-        RowLayout {
-            Layout.fillWidth: true
-            visible: eventsRepeater.count == 0
-            Label {
+        ColumnLayout {
+            id: contentColumn
+            anchors { left: parent.left; top: parent.top; right: parent.right; topMargin: app.margins }
+            ColumnLayout {
                 Layout.fillWidth: true
-                text: "Add an event which should trigger the execution of the rule"
-            }
-            Button {
-                text: "+"
-                onClicked: root.addEventDescriptor();
-            }
-        }
+                Layout.margins: app.margins
+                Label {
+                    Layout.fillWidth: true
+                    text: "Rule name"
+                }
+                TextField {
+                    Layout.fillWidth: true
+                    text: root.rule.name
+                    onTextChanged: {
+                        root.rule.name = text;
 
-        Repeater {
-            id: eventsRepeater
-            model: root.rule.eventDescriptors
-            delegate: ItemDelegate {
-                id: eventDelegate
-                property var device: Engine.deviceManager.devices.getDevice(root.rule.eventDescriptors.get(index).deviceId)
-                property var deviceClass: device ? Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
-                property var eventType: deviceClass ? deviceClass.eventTypes.getEventType(root.rule.eventDescriptors.get(index).eventTypeId) : null
-                contentItem: ColumnLayout {
-                    Label {
-                        text: eventDelegate.device ? eventDelegate.device.name : "Unknown device" + root.rule.eventDescriptors.get(index).deviceId
-                        Layout.fillWidth: true
-                    }
-                    Label {
-                        text: eventDelegate.eventType ? eventDelegate.eventType.displayName : "Unknown event" + root.rule.eventDescriptors.get(index).eventTypeId
                     }
                 }
             }
-        }
 
-        Label {
-            text: "do the following:" + root.rule.ruleActions.count
-        }
+            ThinDivider {}
 
-        RowLayout {
-            Layout.fillWidth: true
-            visible: actionsRepeater.count == 0
             Label {
                 Layout.fillWidth: true
-                text: "Add action which should be executed when the rule is triggered"
-                wrapMode: Text.WordWrap
+                Layout.margins: app.margins
+                font.pixelSize: app.mediumFont
+                text: "Events triggering this rule"
             }
+
+            Repeater {
+                id: eventsRepeater
+                model: root.rule.eventDescriptors
+                delegate: SwipeDelegate {
+                    id: eventDelegate
+                    Layout.fillWidth: true
+                    property var device: Engine.deviceManager.devices.getDevice(root.rule.eventDescriptors.get(index).deviceId)
+                    property var deviceClass: device ? Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
+                    property var eventType: deviceClass ? deviceClass.eventTypes.getEventType(root.rule.eventDescriptors.get(index).eventTypeId) : null
+                    contentItem: ColumnLayout {
+                        Label {
+                            text: qsTr("%1 - %2").arg(eventDelegate.device.name).arg(eventDelegate.eventType.displayName)
+                            Layout.fillWidth: true
+                            elide: Text.ElideRight
+                        }
+                        RowLayout {
+                            Layout.fillWidth: true
+                            spacing: app.margins
+                            Repeater {
+                                model: root.rule.eventDescriptors.get(index).paramDescriptors
+                                Label {
+                                    text: {
+                                        var ret = eventDelegate.eventType.paramTypes.getParamType(model.id).displayName
+                                        switch (model.operator) {
+                                        case ParamDescriptor.ValueOperatorEquals:
+                                            ret += " = ";
+                                            break;
+                                        case ParamDescriptor.ValueOperatorNotEquals:
+                                            ret += " != ";
+                                            break;
+                                        case ParamDescriptor.ValueOperatorGreater:
+                                            ret += " > ";
+                                            break;
+                                        case ParamDescriptor.ValueOperatorGreaterOrEqual:
+                                            ret += " >= ";
+                                            break;
+                                        case ParamDescriptor.ValueOperatorLess:
+                                            ret += " < ";
+                                            break;
+                                        case ParamDescriptor.ValueOperatorLessOrEqual:
+                                            ret += " <= ";
+                                            break;
+                                        default:
+                                            ret += " ? ";
+                                        }
+
+                                        ret += model.value
+                                        return ret;
+                                    }
+                                }
+                            }
+
+                        }
+
+                    }
+                    swipe.right: Item {
+                        height: eventDelegate.height
+                        width: height
+                        anchors.right: parent.right
+                        ColorIcon {
+                            anchors.fill: parent
+                            anchors.margins: app.margins
+                            name: "../images/delete.svg"
+                            color: "red"
+                        }
+                        SwipeDelegate.onClicked: root.rule.eventDescriptors.removeEventDescriptor(index)
+                    }
+                }
+            }
+
             Button {
-                text: "+"
+                Layout.fillWidth: true
+                Layout.margins: app.margins
+                text: eventsRepeater.count == 0 ? "Add an event..." : "Add another event..."
+                onClicked: root.addEventDescriptor();
+            }
+
+            ThinDivider {}
+
+            Label {
+                text: "Actions to execute"
+                font.pixelSize: app.mediumFont
+                Layout.fillWidth: true
+                Layout.margins: app.margins
+            }
+
+            Repeater {
+                id: actionsRepeater
+                model: root.rule.ruleActions
+                delegate: SwipeDelegate {
+                    id: actionDelegate
+                    Layout.fillWidth: true
+                    property var device: Engine.deviceManager.devices.getDevice(root.rule.ruleActions.get(index).deviceId)
+                    property var deviceClass: device ? Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
+                    property var actionType: deviceClass ? deviceClass.actionTypes.getActionType(root.rule.ruleActions.get(index).actionTypeId) : null
+                    contentItem: ColumnLayout {
+                        Label {
+                            Layout.fillWidth: true
+                            text: qsTr("%1 - %2").arg(actionDelegate.device.name).arg(actionDelegate.actionType.displayName)
+                        }
+
+                        RowLayout {
+                            Layout.fillWidth: true
+                            spacing: app.margins
+                            Repeater {
+                                model: root.rule.ruleActions.get(index).ruleActionParams
+                                Label {
+                                    text: actionType.paramTypes.getParamType(model.paramTypeId).displayName + " -> " + model.value
+                                    font.pixelSize: app.smallFont
+                                }
+                            }
+                        }
+                    }
+                    swipe.right: Item {
+                        height: actionDelegate.height
+                        width: height
+                        anchors.right: parent.right
+                        ColorIcon {
+                            anchors.fill: parent
+                            anchors.margins: app.margins
+                            name: "../images/delete.svg"
+                            color: "red"
+                        }
+                        SwipeDelegate.onClicked: root.rule.ruleActions.removeRuleAction(index)
+                    }
+                }
+            }
+
+            Button {
+                Layout.fillWidth: true
+                Layout.margins: app.margins
+                text: actionsRepeater.count == 0 ? "Add an action..." : "Add another action..."
                 onClicked: root.addRuleAction();
             }
         }
+    }
 
-        Repeater {
-            id: actionsRepeater
-            model: root.rule.ruleActions
-            delegate: ItemDelegate {
-                id: actionDelegate
-                property var device: Engine.deviceManager.devices.getDevice(root.rule.ruleActions.get(index).deviceId)
-                property var deviceClass: device ? Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
-                property var actionType: deviceClass ? deviceClass.actionTypes.getActionType(root.rule.ruleActions.get(index).actionTypeId) : null
-                contentItem: ColumnLayout {
-                    Label {
-                        text: actionDelegate.device.name
-                    }
-                    Label {
-                        text: actionDelegate.actionType.displayName
-                    }
-                }
-            }
+    Rectangle {
+        id: busyOverlay
+        anchors.fill: parent
+        color: "#55000000"
+        opacity: 0
+        Behavior on opacity { NumberAnimation {duration: 200 } }
+        BusyIndicator {
+            anchors.centerIn: parent
+            running: parent.opacity > 0
         }
     }
 }
