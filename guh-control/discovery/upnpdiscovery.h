@@ -33,15 +33,10 @@
 class UpnpDiscovery : public QUdpSocket
 {
     Q_OBJECT
-    Q_PROPERTY(bool discovering READ discovering NOTIFY discoveringChanged)
-    Q_PROPERTY(bool available READ available NOTIFY availableChanged)
-    Q_PROPERTY(DiscoveryModel *discoveryModel READ discoveryModel NOTIFY discoveryModelChanged)
-
 public:
-    explicit UpnpDiscovery(QObject *parent = 0);
+    explicit UpnpDiscovery(DiscoveryModel *discoveryModel, QObject *parent = 0);
 
     bool discovering() const;
-    DiscoveryModel *discoveryModel();
 
     bool available() const;
 
@@ -51,7 +46,6 @@ public:
 private:
     QNetworkAccessManager *m_networkAccessManager;
 
-    QTimer m_timer;
     QTimer m_repeatTimer;
 
     QHostAddress m_host;
@@ -77,8 +71,6 @@ private slots:
     void error(QAbstractSocket::SocketError error);
     void readData();
     void networkReplyFinished(QNetworkReply *reply);
-    void onTimeout();
-
 };
 
 #endif // UPNPDISCOVERY_H

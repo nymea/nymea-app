@@ -6,17 +6,15 @@ import Guh 1.0
 import "components"
 
 Page {
+    id: root
+
+    readonly property bool haveHosts: discovery.discoveryModel.count > 0
 
     Component.onCompleted: {
         print("completed connectPage. last connected host:", settings.lastConnectedHost)
         if (settings.lastConnectedHost.length > 0) {
-            internalPageStack.push(connectingPage)
+            pageStack.push(connectingPage)
             Engine.connection.connect(settings.lastConnectedHost)
-        } else if (discovery.discoveryModel.count <= 1) {
-            discovery.discover()
-        } else {
-            internalPageStack.pop();
-            internalPageStack.push(searchResultsPage)
         }
     }
 
@@ -28,176 +26,100 @@ Page {
             certDialog.fingerprint = fingerprint
             certDialog.open();
         }
-        onConnectionError: {
-            discovery.discover();
-        }
     }
 
+    ColumnLayout {
+        anchors.fill: parent
+        anchors.topMargin: app.bigMargins
+        spacing: app.margins
 
-    Connections {
-        target: discovery
+        ColumnLayout {
+            Layout.fillWidth: true
+            Layout.margins: app.margins
+            spacing: app.margins
 
-        onDiscoveringChanged: {
-            print("discoverying changed", discovery.discovering)
-            if (discovery.discovering) {
-                internalPageStack.pop();
-            } else {
-                switch (discovery.discoveryModel.count) {
-                case 0:
-                    internalPageStack.push(noResultsPage);
-                    break;
-                case 1:
-                    Engine.connection.connect(discovery.discoveryModel.get(0, "guhRpcUrl"))
-                    internalPageStack.push(connectingPage);
-                    break;
-                default:
-                    internalPageStack.push(searchResultsPage)
-                }
+            Label {
+                Layout.fillWidth: true
+                text: root.haveHosts ? "Oh, look!" : "Uh oh"
+                color: "black"
+                font.pixelSize: app.largeFont
+            }
+
+            Label {
+                Layout.fillWidth: true
+                text: root.haveHosts ?
+                          qsTr("There are %1 guh boxes in your network! Which one would you like to use?").arg(discovery.discoveryModel.count)
+                        : qsTr("There doesn't seem to be a guh box installed in your network. Please make sure your guh box is correctly set up and connected.")
+                wrapMode: Text.WordWrap
             }
         }
-    }
 
-    StackView {
-        id: internalPageStack
-        anchors.fill: parent
+        Rectangle {
+            Layout.fillWidth: true
+            Layout.preferredHeight: 1
+            color: Material.accent
+        }
 
-        initialItem: Page {
-            ColumnLayout {
+        ListView {
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            model: discovery.discoveryModel
+            clip: true
+
+            delegate: ItemDelegate {
+                width: parent.width
+                height: app.delegateHeight
+                ColumnLayout {
+                    anchors.fill: parent
+                    anchors.margins: app.margins
+                    Label {
+                        text: model.name
+                    }
+                    Label {
+                        text: model.hostAddress
+                        font.pixelSize: app.smallFont
+                    }
+                }
+                onClicked: {
+                    print("should connect to", model.guhRpcUrl)
+                    Engine.connection.connect(model.guhRpcUrl)
+                    pageStack.push(connectingPage)
+                }
+            }
+
+            Column {
                 anchors.centerIn: parent
-                width: parent.width - app.margins * 2
                 spacing: app.margins
+                visible: !root.haveHosts
 
                 Label {
-                    Layout.fillWidth: true
-                    text: "Just a second, looking for your guh box..."
-                    wrapMode: Text.WordWrap
-                    horizontalAlignment: Text.AlignHCenter
-                    font.pixelSize: app.largeFont
+                    text: qsTr("Searching for guh boxes...")
                 }
 
                 BusyIndicator {
+                    running: visible
                     anchors.horizontalCenter: parent.horizontalCenter
-                    running: discovery.discovering
                 }
             }
+
         }
-    }
 
-    Component {
-        id: noResultsPage
-        Page {
-            ColumnLayout {
-                anchors.centerIn: parent
-                width: parent.width - app.margins * 2
-                spacing: app.margins
+        Rectangle {
+            Layout.fillWidth: true
+            Layout.preferredHeight: 1
+            color: Material.accent
+        }
 
-                Label {
-                    Layout.fillWidth: true
-                    font.pixelSize: app.largeFont
-                    horizontalAlignment: Text.AlignHCenter
-                    text: "Uh oh!"
-                }
-
-                Label {
-                    Layout.fillWidth: true
-                    horizontalAlignment: Text.AlignHCenter
-                    wrapMode: Text.WordWrap
-                    text: "There doesn't seem to be a guh box installed in your network. Please make sure your guh box is correctly set up and connected and try searching for it again."
-                }
-                Button {
-                    Layout.fillWidth: true
-                    text: "Try again!"
-                    onClicked: discovery.discover()
-                }
+        RowLayout {
+            Layout.fillWidth: true
+            Layout.margins: app.margins
+            visible: root.haveHosts
+            Label {
+                Layout.fillWidth: true
+                text: "Not the ones you're looking for? We're looking for more!"
+                wrapMode: Text.WordWrap
             }
-        }
-    }
-
-    Component {
-        id: searchResultsPage
-
-        Page {
-            ColumnLayout {
-                anchors.fill: parent
-                anchors.topMargin: app.bigMargins
-                spacing: app.margins
-
-                ColumnLayout {
-                    Layout.fillWidth: true
-                    Layout.margins: app.margins
-                    spacing: app.margins
-
-                    Label {
-                        Layout.fillWidth: true
-                        text: "Oh, look!"
-                        color: "black"
-                        font.pixelSize: app.largeFont
-                    }
-
-                    Label {
-                        Layout.fillWidth: true
-                        text: qsTr("There are %1 guh boxes in your network! Which one would you like to use?").arg(discovery.discoveryModel.count)
-                        wrapMode: Text.WordWrap
-                    }
-                }
-
-                Rectangle {
-                    Layout.fillWidth: true
-                    Layout.preferredHeight: 1
-                    color: Material.accent
-                }
-
-                ListView {
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    model: discovery.discoveryModel
-                    delegate: ItemDelegate {
-                        width: parent.width
-                        height: app.delegateHeight
-                        ColumnLayout {
-                            anchors.fill: parent
-                            anchors.margins: app.margins
-                            Label {
-                                text: model.name
-                            }
-                            Label {
-                                text: model.hostAddress
-                                font.pixelSize: app.smallFont
-                            }
-                        }
-                        onClicked: {
-                            print("should connect to", model.guhRpcUrl)
-                            Engine.connection.connect(model.guhRpcUrl)
-                            internalPageStack.push(connectingPage)
-                        }
-                    }
-                }
-
-                Rectangle {
-                    Layout.fillWidth: true
-                    Layout.preferredHeight: 1
-                    color: Material.accent
-                }
-
-                ColumnLayout {
-                    Layout.fillWidth: true
-                    Layout.margins: app.margins
-                    spacing: app.margins
-
-                    Label {
-                        Layout.fillWidth: true
-                        text: "Not the ones you're looking for? Try again!"
-                        wrapMode: Text.WordWrap
-                    }
-
-                    Button {
-                        text: "Search again!"
-                        Layout.fillWidth: true
-                        onClicked: {
-                            discovery.discover()
-                        }
-                    }
-                }
+            BusyIndicator {
             }
         }
     }
@@ -248,5 +170,4 @@ Page {
             Engine.connection.acceptCertificate(certDialog.fingerprint)
         }
     }
-
 }

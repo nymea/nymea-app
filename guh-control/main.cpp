@@ -30,8 +30,8 @@
 #include "devicesproxy.h"
 #include "pluginsproxy.h"
 #include "devicediscovery.h"
-#include "discovery/upnpdiscovery.h"
-#include "discovery/zeroconfdiscovery.h"
+#include "discovery/guhdiscovery.h"
+#include "discovery/discoverymodel.h"
 #include "interfacesmodel.h"
 #include "rulemanager.h"
 #include "models/rulesfiltermodel.h"
@@ -112,8 +112,8 @@ int main(int argc, char *argv[])
     qmlRegisterUncreatableType<Plugins>(uri, 1, 0, "Plugins", "Can't create this in QML. Get it from the DeviceManager.");
     qmlRegisterType<PluginsProxy>(uri, 1, 0, "PluginsProxy");
 
-    qmlRegisterType<UpnpDiscovery>(uri, 1, 0, "UpnpDiscovery");
-    qmlRegisterType<ZeroconfDiscovery>(uri, 1, 0, "ZeroconfDiscovery");
+    qmlRegisterType<GuhDiscovery>(uri, 1, 0, "GuhDiscovery");
+    qmlRegisterUncreatableType<DiscoveryModel>(uri, 1, 0, "DiscoveryModel", "Get it from GuhDiscovery");
 
     qmlRegisterType<LogsModel>(uri, 1, 0, "LogsModel");
     qmlRegisterType<ValueLogsProxyModel>(uri, 1, 0, "ValueLogsProxyModel");

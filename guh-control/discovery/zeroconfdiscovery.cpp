@@ -3,10 +3,10 @@
 #include <QUuid>
 
 
-ZeroconfDiscovery::ZeroconfDiscovery(QObject *parent) : QObject(parent)
+ZeroconfDiscovery::ZeroconfDiscovery(DiscoveryModel *discoveryModel, QObject *parent) :
+    QObject(parent),
+    m_discoveryModel(discoveryModel)
 {
-    m_discoveryModel = new DiscoveryModel(this);
-
 #ifdef WITH_AVAHI
     m_serviceBrowser = new QtAvahiServiceBrowser(this);
     connect(m_serviceBrowser, &QtAvahiServiceBrowser::serviceEntryAdded, this, &ZeroconfDiscovery::serviceEntryAdded);
@@ -28,10 +28,6 @@ bool ZeroconfDiscovery::discovering() const
     return true;
 }
 
-DiscoveryModel *ZeroconfDiscovery::discoveryModel() const
-{
-    return m_discoveryModel;
-}
 #ifdef WITH_AVAHI
 void ZeroconfDiscovery::serviceEntryAdded(const AvahiServiceEntry &entry)
 {

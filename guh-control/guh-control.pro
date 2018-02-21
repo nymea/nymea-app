@@ -34,7 +34,8 @@ HEADERS += engine.h \
     rulemanager.h \
     models/rulesfiltermodel.h \
     models/logsmodel.h \
-    models/valuelogsproxymodel.h
+    models/valuelogsproxymodel.h \
+    discovery/guhdiscovery.h
 
 
 SOURCES += main.cpp \
@@ -64,7 +65,8 @@ SOURCES += main.cpp \
     rulemanager.cpp \
     models/rulesfiltermodel.cpp \
     models/logsmodel.cpp \
-    models/valuelogsproxymodel.cpp
+    models/valuelogsproxymodel.cpp \
+    discovery/guhdiscovery.cpp
 
 withavahi {
 DEFINES += WITH_AVAHI

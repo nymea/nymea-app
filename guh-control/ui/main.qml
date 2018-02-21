@@ -10,7 +10,7 @@ ApplicationWindow {
     visible: true
     width: 270 * 1.5
     height: 480 * 1.5
-    visibility: settings.fullscreen ? ApplicationWindow.FullScreen : ApplicationWindow.Windowed
+    visibility: settings.viewMode
 
 
     property color guhAccent: "#ff57baae"
@@ -29,13 +29,14 @@ ApplicationWindow {
     Settings {
         id: settings
         property string lastConnectedHost: ""
-        property bool fullscreen: false
+        property int viewMode: ApplicationWindow.Maximized
         property bool returnToHome: false
         property string graphStyle: "bars"
     }
 
     Component.onCompleted: {
         pageStack.push(Qt.resolvedUrl("ConnectPage.qml"))
+        discovery.discovering = true
     }
 
     Connections {
@@ -68,6 +69,7 @@ ApplicationWindow {
 
     function init() {
         pageStack.clear()
+        discovery.discovering = false;
         if (Engine.jsonRpcClient.authenticationRequired || Engine.jsonRpcClient.initialSetupRequired) {
             var page = pageStack.push(Qt.resolvedUrl("LoginPage.qml"));
             page.backPressed.connect(function() {
@@ -78,6 +80,8 @@ ApplicationWindow {
             pageStack.push(Qt.resolvedUrl("MainPage.qml"))
         } else {
             pageStack.push(Qt.resolvedUrl("ConnectPage.qml"))
+            print("starting discovery")
+            discovery.discovering = true;
         }
     }
 
@@ -87,13 +91,9 @@ ApplicationWindow {
         initialItem: Page {}
     }
 
-    UpnpDiscovery {
+    GuhDiscovery {
         id: discovery
     }
-
-//    ZeroconfDiscovery {
-//        id: discovery
-//    }
 
     Connections {
         target: Qt.application

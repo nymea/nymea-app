@@ -25,11 +25,33 @@ Page {
             Layout.fillWidth: true
             Label {
                 Layout.fillWidth: true
-                text: "Full screen"
+                text: "View mode"
             }
-            CheckBox {
-                checked: settings.fullscreen
-                onClicked: settings.fullscreen = checked
+            ComboBox {
+                model: ["Windowed", "Maximized", "Fullscreen"]
+                currentIndex: {
+                    switch (settings.viewMode) {
+                    case ApplicationWindow.Windowed:
+                        return 0;
+                    case ApplicationWindow.Maximized:
+                        return 1;
+                    case ApplicationWindow.FullScreen:
+                        return 2;
+                    }
+                }
+
+                onCurrentIndexChanged: {
+                    switch (currentIndex) {
+                    case 0:
+                        settings.viewMode = ApplicationWindow.Windowed;
+                        break;
+                    case 1:
+                        settings.viewMode = ApplicationWindow.Maximized;
+                        break;
+                    case 2:
+                        settings.viewMode = ApplicationWindow.FullScreen;
+                    }
+                }
             }
         }
         RowLayout {

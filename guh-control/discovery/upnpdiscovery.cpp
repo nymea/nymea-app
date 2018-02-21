@@ -24,19 +24,15 @@
 #include <QUrl>
 #include <QXmlStreamReader>
 
-UpnpDiscovery::UpnpDiscovery(QObject *parent) :
+UpnpDiscovery::UpnpDiscovery(DiscoveryModel *discoveryModel, QObject *parent) :
     QUdpSocket(parent),
+    m_discoveryModel(discoveryModel),
     m_discovering(false),
     m_available(false)
 {
     m_networkAccessManager = new QNetworkAccessManager(this);
     connect(m_networkAccessManager, &QNetworkAccessManager::finished, this, &UpnpDiscovery::networkReplyFinished);
 
-    m_discoveryModel = new DiscoveryModel(this);
-
-    m_timer.setSingleShot(true);
-    m_timer.setInterval(5000);
-    connect(&m_timer, &QTimer::timeout, this, &UpnpDiscovery::onTimeout);
     m_repeatTimer.setInterval(500);
     connect(&m_repeatTimer, &QTimer::timeout, this, &UpnpDiscovery::writeDiscoveryPacket);
 
@@ -69,11 +65,6 @@ bool UpnpDiscovery::discovering() const
     return m_discovering;
 }
 
-DiscoveryModel *UpnpDiscovery::discoveryModel()
-{
-    return m_discoveryModel;
-}
-
 bool UpnpDiscovery::available() const
 {
     return m_available;
@@ -87,7 +78,6 @@ void UpnpDiscovery::discover()
     }
 
     qDebug() << "start discovering...";
-    m_timer.start();
     m_repeatTimer.start();
 //    m_discoveryModel->clearModel();
     m_foundDevices.clear();
@@ -100,9 +90,7 @@ void UpnpDiscovery::discover()
 void UpnpDiscovery::stopDiscovery()
 {
     qDebug() << "stop discovering";
-    m_timer.stop();
     m_repeatTimer.stop();
-    m_discoveryModel->clearModel();
     setDiscovering(false);
 }
 
@@ -267,11 +255,4 @@ void UpnpDiscovery::networkReplyFinished(QNetworkReply *reply)
     }
 
     reply->deleteLater();
-}
-
-void UpnpDiscovery::onTimeout()
-{
-    qDebug() << "discovery timeout";
-    m_repeatTimer.stop();
-    setDiscovering(false);
 }
