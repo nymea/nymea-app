@@ -344,7 +344,7 @@ Page {
                         case 1:
                         case 2:
                         case 3:
-                            Engine.deviceManager.pairDevice(d.deviceClass.id, d.deviceDescriptorId);
+                            Engine.deviceManager.pairDevice(d.deviceClass.id, d.deviceDescriptorId, nameTextField.text);
                             break;
                         }
 

@@ -2,10 +2,14 @@
 
 #include <QDateTime>
 
-LogEntry::LogEntry(const QDateTime &timestamp, const QVariant &value, QObject *parent):
+LogEntry::LogEntry(const QDateTime &timestamp, const QVariant &value, const QString &deviceId, const QString &typeId, LoggingSource source, LoggingEventType loggingEventType, QObject *parent):
     QObject(parent),
     m_value(value),
-    m_timeStamp(timestamp)
+    m_timeStamp(timestamp),
+    m_deviceId(deviceId),
+    m_typeId(typeId),
+    m_source(source),
+    m_loggingEventType(loggingEventType)
 {
 
 }
@@ -18,6 +22,26 @@ QVariant LogEntry::value() const
 QDateTime LogEntry::timestamp() const
 {
     return m_timeStamp;
+}
+
+QString LogEntry::deviceId() const
+{
+    return m_deviceId;
+}
+
+QString LogEntry::typeId() const
+{
+    return m_typeId;
+}
+
+LogEntry::LoggingSource LogEntry::source() const
+{
+    return m_source;
+}
+
+LogEntry::LoggingEventType LogEntry::loggingEventType() const
+{
+    return m_loggingEventType;
 }
 
 QString LogEntry::timeString() const

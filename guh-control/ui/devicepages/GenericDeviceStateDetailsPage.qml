@@ -3,6 +3,7 @@ import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.1
 import Guh 1.0
 import "../components"
+import "../paramdelegates"
 
 Page {
     id: root
@@ -14,28 +15,123 @@ Page {
         text: "Details for " + root.device.name
         onBackPressed: pageStack.pop()
     }
-    ColumnLayout {
-        anchors { left: parent.left; top: parent.top; right: parent.right; margins: app.margins }
-        spacing: app.margins
+    Flickable {
+        anchors.fill: parent
+        contentHeight: statesColumn.height + app.margins*2
 
-        Repeater {
-            model: deviceClass.stateTypes
-            delegate: RowLayout {
-                width: parent.width
-                height: app.largeFont
+        ColumnLayout {
+            id: statesColumn
+            anchors { left: parent.left; top: parent.top; right: parent.right; margins: app.margins }
+            spacing: app.margins
 
-                Label {
-                    id: stateLabel
-                    Layout.preferredWidth: parent.width / 2
-                    text: displayName
-                }
+            Repeater {
+                model: deviceClass.stateTypes
+                delegate: RowLayout {
+                    width: parent.width
+                    height: app.largeFont
 
-                Label {
-                    id: valueLable
-                    Layout.fillWidth: true
-                    text: device.states.getState(id).value + " " + deviceClass.stateTypes.getStateType(id).unitString
+                    property var stateType: deviceClass.stateTypes.get(index)
+
+                    Label {
+                        id: stateLabel
+                        Layout.preferredWidth: parent.width / 2
+                        text: displayName
+                    }
+
+                    Loader {
+                        id: placeHolder
+                        Layout.fillWidth: true
+                        sourceComponent: {
+                            var writable = deviceClass.actionTypes.getActionType(id) !== null;
+                            if (!writable) {
+                                return labelComponent;
+                            }
+
+                            switch (stateType.type) {
+                            case "Bool":
+                                return boolComponent;
+                            case "Int":
+                            case "Double":
+                                if (stateType.minValue !== undefined && stateType.maxValue !== undefined) {
+                                    return sliderComponent;
+                                }
+                                return textFieldComponent;
+                            case "String":
+                                return textFieldComponent;
+                            }
+                            console.warn("DeviceStateDetailsPage: Type delegate not implemented", stateType.type)
+                            return null;
+                        }
+                    }
+
+                    Binding {
+                        target: placeHolder.item
+                        when: placeHolder.item
+                        property: "value"
+                        value: device.states.getState(id).value
+                    }
+//                    Binding {
+//                        target: placeHolder.item
+//                        when: placeHolder.item
+//                        property: "enabled"
+//                        value: deviceClass.actionTypes.getActionType(id) !== null
+//                    }
+                    Binding {
+                        target: placeHolder.item
+                        when: placeHolder.item
+                        property: "stateTypeId"
+                        value: id
+                    }
+
+    //                Label {
+    //                    id: valueLable
+    //                    Layout.fillWidth: true
+    //                    text: device.states.getState(id).value + " " + deviceClass.stateTypes.getStateType(id).unitString
+    //                }
                 }
             }
         }
+    }
+
+
+    Component {
+        id: labelComponent
+        Label {
+            property var value: ""
+            property var stateTypeId: null
+            text: value + " " + deviceClass.stateTypes.getStateType(stateTypeId).unitString
+            horizontalAlignment: Text.AlignHCenter
+        }
+    }
+
+    Component {
+        id: textFieldComponent
+        TextField {
+            property var value: ""
+            property var stateTypeId: null
+            text: value
+            onEditingFinished: {
+                executeAction(stateTypeId, text)
+            }
+        }
+    }
+
+    Component {
+        id: boolComponent
+        Switch {
+            property var value: false
+            property var stateTypeId: null
+            checked: value
+            onClicked: executeAction(stateTypeId, checked)
+        }
+    }
+
+    function executeAction(stateTypeId, value) {
+        var paramList = []
+        var muteParam = {}
+        muteParam["paramTypeId"] = stateTypeId;
+        muteParam["value"] = value;
+        paramList.push(muteParam)
+        Engine.deviceManager.executeAction(root.device.id, stateTypeId, paramList)
     }
 }

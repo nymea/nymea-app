@@ -69,8 +69,8 @@ void JsonRpcClient::sendCommand(const QString &method, QObject *caller, const QS
 void JsonRpcClient::setNotificationsEnabled(bool enabled)
 {
     QVariantMap params;
-    params.insert("notificationsEnabled", enabled);
-    JsonRpcReply *reply = createReply("JSONRPC.SetNotificationsEnabled", params, this, "setNotificationsEnabledResponse");
+    params.insert("enabled", enabled);
+    JsonRpcReply *reply = createReply("JSONRPC.SetNotificationStatus", params, this, "setNotificationsEnabledResponse");
     m_replies.insert(reply->commandId(), reply);
     sendRequest(reply->requestMap());
 }
@@ -238,6 +238,13 @@ void JsonRpcClient::dataReceived(const QByteArray &data)
     JsonRpcReply *reply = m_replies.take(commandId);
     if (reply) {
 //        qDebug() << QString("JsonRpc: got response for %1.%2: %3").arg(reply->nameSpace(), reply->method(), QString::fromUtf8(jsonDoc.toJson(QJsonDocument::Indented))) << reply->callback() << reply->callback();
+
+        if (dataMap.value("status").toString() == "unauthorized") {
+            qWarning() << "Something's off with the token";
+            m_authenticationRequired = true;
+            m_token.clear();
+            emit authenticationRequiredChanged();
+        }
 
         if (reply->caller() != nullptr && !reply->callback().isEmpty()) {
             QMetaObject::invokeMethod(reply->caller(), reply->callback().toLatin1().data(), Q_ARG(QVariantMap, dataMap));

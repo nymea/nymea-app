@@ -23,7 +23,7 @@ Page {
         id: header
         onBackPressed: root.backPressed();
 
-        property bool interfacesMode: true
+        property bool interfacesMode: false
         onInterfacesModeChanged: root.buildInterface()
 
         HeaderButton {
@@ -88,6 +88,7 @@ Page {
 
         delegate: ItemDelegate {
             text: model.text
+            width: parent.width
             onClicked: {
                 if (header.interfacesMode) {
                     if (root.device) {

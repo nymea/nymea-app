@@ -1,5 +1,6 @@
 import QtQuick 2.8
 import QtQuick.Controls 2.1
+import QtQuick.Layouts 1.2
 import "components"
 import Guh 1.0
 
@@ -22,7 +23,14 @@ Page {
 
     Connections {
         target: Engine.ruleManager
+        onAddRuleReply: {
+            if (ruleError == "RuleErrorNoError") {
+                pageStack.pop();
+            }
+        }
+
         onEditRuleReply: {
+            print("have add rule reply")
             if (ruleError == "RuleErrorNoError") {
                 pageStack.pop();
             }
@@ -36,7 +44,21 @@ Page {
         delegate: SwipeDelegate {
             id: ruleDelegate
             width: parent.width
-            text: model.name
+
+            contentItem: RowLayout {
+                spacing: app.margins
+                ColorIcon {
+                    height: app.iconSize
+                    width: height
+                    name: "../images/magic.svg"
+                    color: !model.enabled ? "gray" : (model.active ? "red" : app.guhAccent)
+                }
+
+                Label {
+                    Layout.fillWidth: true
+                    text: model.name
+                }
+            }
 
             onClicked: {
                 var editRulePage = pageStack.push(Qt.resolvedUrl("magic/EditRulePage.qml"), {rule: Engine.ruleManager.rules.get(index) })

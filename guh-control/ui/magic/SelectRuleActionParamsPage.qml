@@ -27,6 +27,7 @@ Page {
             id: delegateRepeater
             model: root.actionType.paramTypes
             delegate: ParamDelegate {
+                width: parent.width
                 paramType: root.actionType.paramTypes.get(index)
                 value: paramType.defaultValue
 

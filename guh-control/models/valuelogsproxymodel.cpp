@@ -108,16 +108,15 @@ void ValueLogsProxyModel::logsReply(const QVariantMap &data)
         if (counter > 0) {
             avg = avg.toDouble() / counter;
         } else if (entries[i-1].count() > 0) {
-            avg = entries[i-1].last();
+            avg = entries[i-1].last().toDouble();
         } else if (m_list.count() > 0){
-            avg = m_list.last()->value();
+            avg = m_list.last()->value().toDouble();
         } else {
             continue;
         }
-        LogEntry *entry = new LogEntry(startTime().addSecs(stepSize * i)/*.addSecs(stepSize * .5)*/, avg, this);
+        LogEntry *entry = new LogEntry(startTime().addSecs(stepSize * i)/*.addSecs(stepSize * .5)*/, avg, m_deviceId, QString(), LogEntry::LoggingSourceStates, LogEntry::LoggingEventTypeTrigger, this);
         m_list.append(entry);
 
-//        qDebug() << "**" << m_minimumValue << entry->value();
         if (m_minimumValue.isNull() || entry->value() < m_minimumValue) {
             m_minimumValue = qRound(entry->value().toDouble());
         }
@@ -129,6 +128,13 @@ void ValueLogsProxyModel::logsReply(const QVariantMap &data)
     }
 
     endResetModel();
+
+    if (m_minimumValue.isNull()) {
+        m_minimumValue = 0;
+    }
+    if (m_maximumValue.isNull()) {
+        m_maximumValue = 0;
+    }
 
     emit minimumValueChanged();
     emit maximumValueChanged();

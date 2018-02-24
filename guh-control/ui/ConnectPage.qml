@@ -26,6 +26,9 @@ Page {
             certDialog.fingerprint = fingerprint
             certDialog.open();
         }
+        onConnectionError: {
+            pageStack.pop(root)
+        }
     }
 
     ColumnLayout {

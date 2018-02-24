@@ -11,7 +11,9 @@ class Rules : public QAbstractListModel
 public:
     enum Roles {
         RoleName,
-        RoleId
+        RoleId,
+        RoleEnabled,
+        RoleActive
     };
     explicit Rules(QObject *parent = nullptr);
 

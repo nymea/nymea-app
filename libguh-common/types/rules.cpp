@@ -25,6 +25,10 @@ QVariant Rules::data(const QModelIndex &index, int role) const
         return m_list.at(index.row())->name();
     case RoleId:
         return m_list.at(index.row())->id();
+    case RoleEnabled:
+        return m_list.at(index.row())->enabled();
+    case RoleActive:
+        return m_list.at(index.row())->active();
     }
     return QVariant();
 }
@@ -34,6 +38,8 @@ QHash<int, QByteArray> Rules::roleNames() const
     QHash<int, QByteArray> roles;
     roles.insert(RoleName, "name");
     roles.insert(RoleId, "id");
+    roles.insert(RoleEnabled, "enabled");
+    roles.insert(RoleActive, "active");
     return roles;
 }
 

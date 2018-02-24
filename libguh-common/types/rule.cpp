@@ -48,6 +48,19 @@ void Rule::setEnabled(bool enabled)
     }
 }
 
+bool Rule::active() const
+{
+    return m_active;
+}
+
+void Rule::setActive(bool active)
+{
+    if (m_active != active) {
+        m_active = active;
+        emit activeChanged();
+    }
+}
+
 EventDescriptors *Rule::eventDescriptors() const
 {
     return m_eventDescriptors;

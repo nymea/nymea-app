@@ -5,13 +5,15 @@ import Guh 1.0
 
 ItemDelegate {
     id: root
+    height: layout.height
 
     property var paramType: null
     property var value: null
     property int operatorType: ParamDescriptors.ValueOperatorEquals
 
     RowLayout {
-        anchors.fill: parent
+        id: layout
+        anchors { left: parent.left; top: parent.top; right: parent.right}
         anchors.margins: app.margins
         spacing: app.margins
         Label {
@@ -42,13 +44,14 @@ ItemDelegate {
                 case "is smaller":
                     root.operatorType = ParamDescriptor.ValueOperatorLess;
                     break;
-                case "is greater of equal":
+                case "is greater or equal":
                     root.operatorType = ParamDescriptor.ValueOperatorGreaterOrEqual;
                     break;
                 case "is smaller or equal":
                     root.operatorType = ParamDescriptor.ValueOperatorLessOrEqual;
                     break;
                 }
+                print("set operator to", root.operatorType, currentText)
             }
         }
 
@@ -78,6 +81,9 @@ ItemDelegate {
         id: textFieldComponent
         TextField {
             text: ""
+            onTextChanged: {
+                root.value = text;
+            }
         }
     }
 

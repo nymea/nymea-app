@@ -1,10 +1,11 @@
 #include "logsmodel.h"
 
 #include "engine.h"
+#include "logmanager.h"
 
 LogsModel::LogsModel(QObject *parent) : QAbstractListModel(parent)
 {
-
+    connect(Engine::instance()->logManager(), &LogManager::logEntryReceived, this, &LogsModel::newLogEntryReceived);
 }
 
 bool LogsModel::busy() const
@@ -19,14 +20,46 @@ int LogsModel::rowCount(const QModelIndex &parent) const
 
 QVariant LogsModel::data(const QModelIndex &index, int role) const
 {
+    switch (role) {
+    case RoleTimestamp:
+        return m_list.at(index.row())->timestamp();
+    case RoleValue:
+        return m_list.at(index.row())->value();
+    case RoleDeviceId:
+        return m_list.at(index.row())->deviceId();
+    case RoleTypeId:
+        return m_list.at(index.row())->typeId();
+    case RoleSource:
+        return m_list.at(index.row())->source();
+    case RoleLoggingEventType:
+        return m_list.at(index.row())->loggingEventType();
+    }
     return QVariant();
 }
 
 QHash<int, QByteArray> LogsModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
+    roles.insert(RoleTimestamp, "timestamp");
     roles.insert(RoleValue, "value");
+    roles.insert(RoleDeviceId, "deviceId");
+    roles.insert(RoleTypeId, "typeId");
+    roles.insert(RoleSource, "source");
+    roles.insert(RoleLoggingEventType, "loggingEventType");
     return roles;
+}
+
+bool LogsModel::live() const
+{
+    return m_live;
+}
+
+void LogsModel::setLive(bool live)
+{
+    if (m_live != live) {
+        m_live = live;
+        emit liveChanged();
+    }
 }
 
 QString LogsModel::deviceId() const
@@ -89,6 +122,11 @@ LogEntry *LogsModel::get(int index) const
     return nullptr;
 }
 
+void LogsModel::notificationReceived(const QVariantMap &data)
+{
+    qDebug() << "KLogModel notificatiion" << data;
+}
+
 void LogsModel::update()
 {
     m_busy = true;
@@ -116,6 +154,7 @@ void LogsModel::update()
 
 void LogsModel::logsReply(const QVariantMap &data)
 {
+    qDebug() << "logs reply";
     m_busy = false;
     emit busyChanged();
     beginResetModel();
@@ -124,11 +163,43 @@ void LogsModel::logsReply(const QVariantMap &data)
 
     QList<QVariant> logEntries = data.value("params").toMap().value("logEntries").toList();
     foreach (const QVariant &logEntryVariant, logEntries) {
-        LogEntry *entry = new LogEntry(QDateTime::fromMSecsSinceEpoch(logEntryVariant.toMap().value("timestamp").toLongLong()), logEntryVariant.toMap().value("value"), this);
+        QVariantMap entryMap = logEntryVariant.toMap();
+        QDateTime timeStamp = QDateTime::fromMSecsSinceEpoch(entryMap.value("timestamp").toLongLong());
+        QString deviceId = entryMap.value("deviceId").toString();
+        QVariant value = entryMap.value("value");
+        QString typeId = entryMap.value("typeId").toString();
+        QMetaEnum sourceEnum = QMetaEnum::fromType<LogEntry::LoggingSource>();
+        LogEntry::LoggingSource loggingSource = (LogEntry::LoggingSource)sourceEnum.keyToValue(entryMap.value("source").toByteArray());
+        QMetaEnum loggingEventTypeEnum = QMetaEnum::fromType<LogEntry::LoggingEventType>();
+        LogEntry::LoggingEventType loggingEventType = (LogEntry::LoggingEventType)loggingEventTypeEnum.keyToValue(entryMap.value("eventType").toByteArray());
+        LogEntry *entry = new LogEntry(timeStamp, value, deviceId, typeId, loggingSource, loggingEventType, this);
         m_list.append(entry);
-        qDebug() << "Added log entry" << entry->dayString() << QDateTime::fromMSecsSinceEpoch(logEntryVariant.toMap().value("timestamp").toLongLong()).date().dayOfWeek();
+        qDebug() << "Added log entry" << entry->dayString() << entry->value() << entry->deviceId() << entryMap << loggingEventType;
     }
 
     endResetModel();
+    emit countChanged();
+}
+
+void LogsModel::newLogEntryReceived(const QVariantMap &data)
+{
+    if (!m_live) {
+        return;
+    }
+
+    beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
+    QVariantMap entryMap = data;
+    QDateTime timeStamp = QDateTime::fromMSecsSinceEpoch(entryMap.value("timestamp").toLongLong());
+    QString deviceId = entryMap.value("deviceId").toString();
+    QVariant value = entryMap.value("value");
+    QString typeId = entryMap.value("typeId").toString();
+    QMetaEnum sourceEnum = QMetaEnum::fromType<LogEntry::LoggingSource>();
+    LogEntry::LoggingSource loggingSource = (LogEntry::LoggingSource)sourceEnum.keyToValue(entryMap.value("source").toByteArray());
+    QMetaEnum loggingEventTypeEnum = QMetaEnum::fromType<LogEntry::LoggingEventType>();
+    LogEntry::LoggingEventType loggingEventType = (LogEntry::LoggingEventType)loggingEventTypeEnum.keyToValue(entryMap.value("eventType").toByteArray());
+    LogEntry *entry = new LogEntry(timeStamp, value, deviceId, typeId, loggingSource, loggingEventType, this);
+    m_list.append(entry);
+    qDebug() << "Added log entry" << entry->dayString() << entry->value() << entry->deviceId() << entryMap << loggingEventType;
+    endInsertRows();
     emit countChanged();
 }

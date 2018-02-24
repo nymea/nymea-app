@@ -11,7 +11,7 @@ class RulesFilterModel : public QSortFilterProxyModel
 {
     Q_OBJECT
     Q_PROPERTY(Rules* rules READ rules WRITE setRules NOTIFY rulesChanged)
-    Q_PROPERTY(QUuid filterEventDeviceId READ filterEventDeviceId WRITE setFilterEventDeviceId NOTIFY filterEventDeviceIdChanged)
+    Q_PROPERTY(QUuid filterDeviceId READ filterDeviceId WRITE setFilterDeviceId NOTIFY filterDeviceIdChanged)
 
 public:
     explicit RulesFilterModel(QObject *parent = nullptr);
@@ -19,21 +19,21 @@ public:
     Rules* rules() const;
     void setRules(Rules* rules);
 
-    QUuid filterEventDeviceId() const;
-    void setFilterEventDeviceId(const QUuid &filterEventDeviceId);
+    QUuid filterDeviceId() const;
+    void setFilterDeviceId(const QUuid &filterDeviceId);
 
     Q_INVOKABLE Rule* get(int index) const;
 
 signals:
     void rulesChanged();
-    void filterEventDeviceIdChanged();
+    void filterDeviceIdChanged();
 
 protected:
     bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const override;
 
 private:
     Rules *m_rules = nullptr;
-    QUuid m_filterEventDeviceId;
+    QUuid m_filterDeviceId;
 };
 
 #endif // RULESFILTERMODEL_H

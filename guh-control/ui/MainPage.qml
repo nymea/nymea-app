@@ -56,11 +56,12 @@ Page {
             id: swipeView
             Layout.fillWidth: true
             Layout.fillHeight: true
+            currentIndex: pageIndicator.currentIndex
 
             DevicesPage {
                 width: parent.view.width
                 height: parent.view.height
-                shownInterfaces: ["light", "weather", "sensor", "media"]
+                shownInterfaces: ["light", "weather", "sensor", "media", "garagegate"]
             }
 
             DevicesPage {
@@ -97,13 +98,11 @@ Page {
         }
 
         PageIndicator {
+            id: pageIndicator
             Layout.alignment: Qt.AlignHCenter
             count: swipeView.count
             currentIndex: swipeView.currentIndex
+            interactive: true
         }
     }
-
-
-
-
 }

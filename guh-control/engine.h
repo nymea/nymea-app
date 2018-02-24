@@ -29,8 +29,8 @@
 #include "guhinterface.h"
 #include "jsonrpc/jsonrpcclient.h"
 
-
 class RuleManager;
+class LogManager;
 
 class Engine : public QObject
 {
@@ -51,6 +51,7 @@ public:
     DeviceManager *deviceManager() const;
     RuleManager *ruleManager() const;
     JsonRpcClient *jsonRpcClient() const;
+    LogManager *logManager() const;
 
 private:
     explicit Engine(QObject *parent = 0);
@@ -60,6 +61,7 @@ private:
     JsonRpcClient *m_jsonRpcClient;
     DeviceManager *m_deviceManager;
     RuleManager *m_ruleManager;
+    LogManager *m_logManager;
 
 private slots:
     void onConnectedChanged();

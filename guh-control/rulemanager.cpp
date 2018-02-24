@@ -49,13 +49,13 @@ Rule *RuleManager::createNewRule()
 
 void RuleManager::addRule(const QVariantMap params)
 {
-    m_jsonClient->sendCommand("Rules.AddRule", params, this, "addRuleReply");
+    m_jsonClient->sendCommand("Rules.AddRule", params, this, "onAddRuleReply");
 }
 
 void RuleManager::addRule(Rule *rule)
 {
     QVariantMap params = JsonTypes::packRule(rule);
-    m_jsonClient->sendCommand("Rules.AddRule", params, this, "addRuleReply");
+    m_jsonClient->sendCommand("Rules.AddRule", params, this, "onAddRuleReply");
 }
 
 void RuleManager::removeRule(const QUuid &ruleId)
@@ -80,9 +80,11 @@ void RuleManager::handleRulesNotification(const QVariantMap &params)
         QUuid ruleId = ruleMap.value("id").toUuid();
         QString name = ruleMap.value("name").toString();
         bool enabled = ruleMap.value("enabled").toBool();
+        bool active = ruleMap.value("active").toBool();
         Rule* rule = new Rule(ruleId, m_rules);
         rule->setName(name);
         rule->setEnabled(enabled);
+        rule->setActive(active);
         parseEventDescriptors(ruleMap.value("eventDescriptors").toList(), rule);
         StateEvaluator* stateEvaluator = parseStateEvaluator(ruleMap.value("stateEvaluator").toMap());
         stateEvaluator->setParent(rule);
@@ -131,9 +133,10 @@ void RuleManager::getRuleDetailsReply(const QVariantMap &params)
      parseStateEvaluator(ruleMap.value("stateEvaluator").toMap());
 }
 
-void RuleManager::addRuleReply(const QVariantMap &params)
+void RuleManager::onAddRuleReply(const QVariantMap &params)
 {
     qDebug() << "Add rule reply" << params;
+    emit addRuleReply(params.value("params").toMap().value("ruleError").toString());
 }
 
 void RuleManager::removeRuleReply(const QVariantMap &params)

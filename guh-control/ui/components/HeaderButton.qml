@@ -4,6 +4,7 @@ import QtQuick.Controls 2.1
 ToolButton {
     property alias imageSource: image.name
     property alias color: image.color
+    property alias keyColor: image.keyColor
 
     contentItem: Item {
         height: 20

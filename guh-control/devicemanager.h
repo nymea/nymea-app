@@ -53,7 +53,7 @@ public:
 
     Q_INVOKABLE void addDevice(const QUuid &deviceClassId, const QString &name, const QVariantList &deviceParams);
     Q_INVOKABLE void addDiscoveredDevice(const QUuid &deviceClassId, const QUuid &deviceDescriptorId, const QString &name);
-    Q_INVOKABLE void pairDevice(const QUuid &deviceClassId, const QUuid &deviceDescriptorId);
+    Q_INVOKABLE void pairDevice(const QUuid &deviceClassId, const QUuid &deviceDescriptorId, const QString &name);
     Q_INVOKABLE void confirmPairing(const QUuid &pairingTransactionId, const QString &secret = QString());
     Q_INVOKABLE void removeDevice(const QUuid &deviceId);
     Q_INVOKABLE void executeAction(const QUuid &deviceId, const QUuid &actionTypeId, const QVariantList &params = QVariantList());
@@ -67,7 +67,7 @@ private:
     Q_INVOKABLE void addDeviceResponse(const QVariantMap &params);
     Q_INVOKABLE void removeDeviceResponse(const QVariantMap &params);
     Q_INVOKABLE void pairDeviceResponse(const QVariantMap &params);
-    Q_INVOKABLE void confirmPairintResponse(const QVariantMap &params);
+    Q_INVOKABLE void confirmPairingResponse(const QVariantMap &params);
 
 signals:
     void pairDeviceReply(const QVariantMap &params);

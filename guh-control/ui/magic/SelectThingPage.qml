@@ -35,14 +35,17 @@ Page {
             id: supportedInterfacesModel
             ListElement { interfaceName: "battery"; name: "Battery powered devices" }
             ListElement { interfaceName: "temperatureSensor"; name: "Temperature sensors" }
+            ListElement { interfaceName: "light"; name: "Lights" }
         }
 
         ListView {
             Layout.fillWidth: true
             Layout.fillHeight: true
             model: thingButton.checked ? Engine.deviceManager.devices : supportedInterfacesModel
+            clip: true
             delegate: ItemDelegate {
                 text: model.name
+                width: parent.width
                 onClicked: {
                     if (thingButton.checked) {
                         root.thingSelected(Engine.deviceManager.devices.get(index))

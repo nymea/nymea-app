@@ -35,7 +35,7 @@ private slots:
     void handleRulesNotification(const QVariantMap &params);
     void getRulesReply(const QVariantMap &params);
     void getRuleDetailsReply(const QVariantMap &params);
-    void addRuleReply(const QVariantMap &params);
+    void onAddRuleReply(const QVariantMap &params);
     void removeRuleReply(const QVariantMap &params);
     void onEditRuleReply(const QVariantMap &params);
 
@@ -45,6 +45,7 @@ private:
     void parseRuleActions(const QVariantList &ruleActions, Rule *rule);
 
 signals:
+    void addRuleReply(const QString &ruleError);
     void editRuleReply(const QString &ruleError);
 
 private:

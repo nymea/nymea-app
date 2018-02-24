@@ -15,28 +15,50 @@ Page {
 
     ColumnLayout {
         anchors.fill: parent
-        anchors.margins: app.margins
 
-        Label {
+        ColumnLayout {
             Layout.fillWidth: true
-            text: "Connected to:"
-            color: Material.accent
-        }
-
-        RowLayout {
-            Layout.fillWidth: true
+            Layout.margins: app.margins
 
             Label {
                 Layout.fillWidth: true
-                text: Engine.connection.url
+                text: "Connected to:"
+                color: Material.accent
             }
-            Button {
-                text: "Disconnect"
-                onClicked: {
-                    settings.lastConnectedHost = "";
-                    Engine.connection.disconnect();
+            RowLayout {
+                Layout.fillWidth: true
+
+                Label {
+                    Layout.fillWidth: true
+                    text: Engine.connection.url
+                }
+                Button {
+                    text: "Disconnect"
+                    onClicked: {
+                        settings.lastConnectedHost = "";
+                        Engine.connection.disconnect();
+                    }
                 }
             }
+        }
+
+        ThinDivider {}
+
+        ItemDelegate {
+            Layout.fillWidth: true
+            contentItem: RowLayout {
+                Label {
+                    text: "Log viewer"
+                    Layout.fillWidth: true
+                }
+                Image {
+                    source: "images/next.svg"
+                    Layout.preferredHeight: parent.height
+                    Layout.preferredWidth: height
+                }
+            }
+
+            onClicked: pageStack.push(Qt.resolvedUrl("system/LogViewerPage.qml"))
         }
 
         Item {

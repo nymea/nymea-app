@@ -118,5 +118,8 @@
         <file>ui/magic/SelectEventDescriptorPage.qml</file>
         <file>ui/paramdelegates/DoubleParamDelegate.qml</file>
         <file>ui/paramdescriptordelegates/ParamDescriptorDelegateBase.qml</file>
+        <file>ui/system/LogViewerPage.qml</file>
+        <file>ui/images/next.svg</file>
+        <file>ui/images/go-down.svg</file>
     </qresource>
 </RCC>

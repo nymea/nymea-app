@@ -98,7 +98,7 @@ DevicePageBase {
                         property var actionType: deviceClass.actionTypes.get(index)
                         property var actionValue: device.hasState(actionType.id) ? device.states.getState(actionType.id).value : null
                         source: {
-                            print("actiontyoe is", actionType.name, actionValue, actionType.paramTypes.count)
+                            print("actiontype is", actionType.name, actionValue, actionType.paramTypes.count)
                             for (var i = 0; i < actionType.paramTypes.count; i++) {
                                 print("have actionType param:", actionType.paramTypes.get(i).name, actionType.paramTypes.get(i).type)
                             }

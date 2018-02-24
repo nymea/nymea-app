@@ -40,11 +40,11 @@ Item {
         property int minTemp: {
             var lower = Math.floor(root.model.minimumValue - 2);
             var upper = Math.ceil(root.model.maximumValue + 2);
-            print("upper", upper, "lower", lower)
-            if (!lower || !upper) {
+            if (lower == undefined || upper == undefined) {
                 return 0
             }
 
+            print("upper", upper, "lower", lower)
             while ((upper - lower) % 10 != 0) {
                 lower -= 1;
                 if ((upper - lower) % 10 != 0) {
@@ -57,7 +57,7 @@ Item {
         property int maxTemp: {
             var lower = Math.floor(root.model.minimumValue - 2);
             var upper = Math.ceil(root.model.maximumValue + 2);
-            if (!lower || !upper) {
+            if (lower == undefined || upper == undefined) {
                 return 0
             }
             while ((upper - lower) % 10 != 0) {
