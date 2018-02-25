@@ -23,71 +23,55 @@ Page {
         id: header
         onBackPressed: root.backPressed();
 
-        property bool interfacesMode: false
+        property bool interfacesMode: root.ruleAction.interfaceName !== ""
         onInterfacesModeChanged: root.buildInterface()
 
         HeaderButton {
             imageSource: header.interfacesMode ? "../images/view-expand.svg" : "../images/view-collapse.svg"
+            visible: root.ruleAction.interfaceName === ""
             onClicked: header.interfacesMode = !header.interfacesMode
         }
     }
 
-    ListModel {
-        id: actionTemplateModel
-        ListElement { interfaceName: "light"; text: "Switch light"; identifier: "switchLight"}
-        ListElement { interfaceName: "dimmablelight"; text: "Dim light"; identifier: "dimLight"}
-        ListElement { interfaceName: "colorlight"; text: "Set light color"; identifier: "colorLight" }
-        ListElement { interfaceName: "mediacontroller"; text: "Pause playback"; identifier: "pausePlayback" }
-        ListElement { interfaceName: "mediacontroller"; text: "Resume playback"; identifier: "resumePlayback" }
-        ListElement { interfaceName: "extendedvolumecontroller"; text: "Set volume"; identifier: "setVolume" }
-        ListElement { interfaceName: "extendedvolumecontroller"; text: "Mute"; identifier: "mute" }
-        ListElement { interfaceName: "extendedvolumecontroller"; text: "Unmute"; identifier: "unmute" }
-        ListElement { interfaceName: "notifications"; text: "Notify me"; identifier: "notify" }
-    }
+//    ListModel {
+//        id: actionTemplateModel
+//        ListElement { interfaceName: "light"; text: "Switch light"; identifier: "switchLight"}
+//        ListElement { interfaceName: "dimmablelight"; text: "Dim light"; identifier: "dimLight"}
+//        ListElement { interfaceName: "colorlight"; text: "Set light color"; identifier: "colorLight" }
+//        ListElement { interfaceName: "mediacontroller"; text: "Pause playback"; identifier: "pausePlayback" }
+//        ListElement { interfaceName: "mediacontroller"; text: "Resume playback"; identifier: "resumePlayback" }
+//        ListElement { interfaceName: "extendedvolumecontroller"; text: "Set volume"; identifier: "setVolume" }
+//        ListElement { interfaceName: "extendedvolumecontroller"; text: "Mute"; identifier: "mute" }
+//        ListElement { interfaceName: "extendedvolumecontroller"; text: "Unmute"; identifier: "unmute" }
+//        ListElement { interfaceName: "notifications"; text: "Notify me"; identifier: "notify" }
+//    }
 
     function buildInterface() {
-        actualModel.clear()
-
         if (header.interfacesMode) {
             if (root.device) {
-                print("device supports interfaces", deviceClass.interfaces)
-                for (var i = 0; i < actionTemplateModel.count; i++) {
-                    print("action is for interface", actionTemplateModel.get(i).interfaceName)
+                for (var i = 0; i < Interfaces.count; i++) {
                     if (deviceClass.interfaces.indexOf(actionTemplateModel.get(i).interfaceName) >= 0) {
                         actualModel.append(actionTemplateModel.get(i))
                     }
                 }
             } else if (root.ruleAction.interfaceName !== "") {
-                for (var i = 0; i < actionTemplateModel.count; i++) {
-                    if (actionTemplateModel.get(i).interfaceName === root.ruleAction.interfaceName) {
-                        actualModel.append(actionTemplateModel.get(i))
-                    }
-                }
+                listView.model = Interfaces.findByName(root.ruleAction.interfaceName).actionTypes
             } else {
                 console.warn("You need to set device or interfaceName");
             }
         } else {
             if (root.device) {
-                print("fdsfasdfdsafdas", deviceClass.actionTypes.count)
-                for (var i = 0; i < deviceClass.actionTypes.count; i++) {
-                    print("bla", deviceClass.actionTypes.get(i).name, deviceClass.actionTypes.get(i).displayName, deviceClass.actionTypes.get(i).id)
-                    actualModel.append({text: deviceClass.actionTypes.get(i).displayName, actionTypeId: deviceClass.actionTypes.get(i).id})
-                }
+                listView.model = deviceClass.actionTypes
             }
         }
     }
 
-    ListModel {
-        id: actualModel
-        ListElement { text: ""; actionTypeId: "" }
-    }
-
     ListView {
+        id: listView
         anchors.fill: parent
-        model: actualModel
 
         delegate: ItemDelegate {
-            text: model.text
+            text: model.displayName
             width: parent.width
             onClicked: {
                 if (header.interfacesMode) {
@@ -100,10 +84,24 @@ Page {
                         default:
                             console.warn("FIXME: Unhandled interface action");
                         }
+                    } else if (root.ruleAction.interfaceName != "") {
+                        root.ruleAction.interfaceAction = model.name;
+                        if (listView.model.get(index).paramTypes.count > 0) {
+                            var paramsPage = pageStack.push(Qt.resolvedUrl("SelectRuleActionParamsPage.qml"), {ruleAction: root.ruleAction})
+                            paramsPage.onBackPressed.connect(function() {pageStack.pop()});
+                            paramsPage.onCompleted.connect(function() {
+                                pageStack.pop();
+                                root.done();
+                            })
+                        } else {
+                            root.done();
+                        }
+                    } else {
+                        console.warn("Neither deviceId not interfaceName set. Cannot continue...");
                     }
                 } else {
                     if (root.device) {
-                        var actionType = root.deviceClass.actionTypes.getActionType(model.actionTypeId);
+                        var actionType = root.deviceClass.actionTypes.getActionType(model.id);
                         console.log("ActionType", actionType.id, "selected. Has", actionType.paramTypes.count, "params");
                         root.ruleAction.actionTypeId = actionType.id;
                         if (actionType.paramTypes.count > 0) {

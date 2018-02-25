@@ -43,9 +43,7 @@ Page {
     function buildInterface() {
         if (header.interfacesMode) {
             if (root.device) {
-                print("device supports interfaces", deviceClass.interfaces)
                 for (var i = 0; i < Interfaces.count; i++) {
-                    print("event is for interface", Interfaces.get(i).name)
                     if (deviceClass.interfaces.indexOf(Interfaces.get(i).name) >= 0) {
                         actualModel.append(Interfaces.get(i))
                     }

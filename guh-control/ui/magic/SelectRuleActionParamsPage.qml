@@ -11,7 +11,9 @@ Page {
     property var ruleAction
 
     readonly property var device: ruleAction && ruleAction.deviceId ? Engine.deviceManager.devices.getDevice(ruleAction.deviceId) : null
-    readonly property var actionType: device ? Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId).actionTypes.getActionType(ruleAction.actionTypeId) : null
+    readonly property var iface: ruleAction && ruleAction.interfaceName ? Interfaces.findByName(ruleAction.interfaceName) : null
+    readonly property var actionType: device ? Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId).actionTypes.getActionType(ruleAction.actionTypeId)
+                                            : iface ? iface.actionTypes.findByName(ruleAction.interfaceAction) : null
 
     signal backPressed();
     signal completed();

@@ -3,41 +3,63 @@
 
 #include "eventtypes.h"
 #include "eventtype.h"
+#include "actiontypes.h"
+#include "actiontype.h"
 
 Interfaces::Interfaces(QObject *parent) : QAbstractListModel(parent)
 {
 
     Interface* iface = nullptr;
-    EventType* ev = nullptr;
+    EventType* et = nullptr;
+    ActionType* at = nullptr;
     ParamType* pt = nullptr;
     ParamTypes *pts = nullptr;
 
     iface = new Interface("battery", "Battery powered devices");
-    ev = new EventType();
-    pts = new ParamTypes(ev);
-    ev->setParamTypes(pts);
+    et = new EventType();
+    pts = new ParamTypes(et);
+    et->setParamTypes(pts);
 
-    ev->setName("batteryLevel");
-    ev->setDisplayName("Battery level changed");
+    et->setName("batteryLevel");
+    et->setDisplayName("Battery level changed");
     pt = new ParamType("batteryLevel", QVariant::Int, 50);
     pt->setDisplayName("Battery Level");
     qDebug() << "added param" << pt->type();
     pt->setMinValue(0);
     pt->setMaxValue(100);
-    ev->paramTypes()->addParamType(pt);
-    iface->eventTypes()->addEventType(ev);
+    et->paramTypes()->addParamType(pt);
+    iface->eventTypes()->addEventType(et);
 
-    ev = new EventType();
-    pts = new ParamTypes(ev);
-    ev->setParamTypes(pts);
-    ev->setName("batteryCritical");
-    ev->setDisplayName("Battery level critical");
+    et = new EventType();
+    pts = new ParamTypes(et);
+    et->setParamTypes(pts);
+    et->setName("batteryCritical");
+    et->setDisplayName("Battery level critical");
     pt = new ParamType("batteryCritical", QVariant::Bool, true);
     pt->setDisplayName("Battery critical");
-    ev->paramTypes()->addParamType(pt);
-    iface->eventTypes()->addEventType(ev);
+    et->paramTypes()->addParamType(pt);
+    iface->eventTypes()->addEventType(et);
 
     m_list.append(iface);
+
+
+    iface = new Interface("notification", "Notification services");
+    at = new ActionType();
+    pts = new ParamTypes(at);
+    at->setParamTypes(pts);
+
+    at->setName("notify");
+    at->setDisplayName("Send notification");
+    pt = new ParamType("title", QVariant::String);
+    pt->setDisplayName("Title");
+    at->paramTypes()->addParamType(pt);
+    pt = new ParamType("body", QVariant::String);
+    pt->setDisplayName("Message body");
+    at->paramTypes()->addParamType(pt);
+    iface->actionTypes()->addActionType(at);
+
+    m_list.append(iface);
+
 }
 
 int Interfaces::rowCount(const QModelIndex &parent) const

@@ -23,7 +23,6 @@ GridView {
         Pane {
             anchors.fill: parent
             anchors.margins: app.margins
-//                        color: "#22000000"
             Material.elevation: 1
             Column {
                 anchors.centerIn: parent

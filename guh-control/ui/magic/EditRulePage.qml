@@ -142,10 +142,9 @@ Page {
                             Layout.fillWidth: true
                             spacing: app.margins
                             Repeater {
-                                model: root.rule.eventDescriptors.get(index).paramDescriptors
+                                model: eventDelegate.eventDescriptor.paramDescriptors
                                 Label {
                                     text: {
-                                        print("***", eventDelegate.iface, eventDelegate.eventDescriptor.interfaceName, Interfaces.findByName(eventDelegate.eventDescriptor.interfaceName), eventDescriptor.interfaceName ? Interfaces.findByName(eventDescriptor.interfaceName) : null)
                                         var ret = eventDelegate.eventType.paramTypes.getParamType(model.id).displayName
                                         switch (model.operator) {
                                         case ParamDescriptor.ValueOperatorEquals:
@@ -216,22 +215,25 @@ Page {
                 delegate: SwipeDelegate {
                     id: actionDelegate
                     Layout.fillWidth: true
-                    property var device: Engine.deviceManager.devices.getDevice(root.rule.ruleActions.get(index).deviceId)
+                    property var ruleAction: root.rule.ruleActions.get(index)
+                    property var device: ruleAction.deviceId ? Engine.deviceManager.devices.getDevice(ruleAction.deviceId) : null
+                    property var iface: ruleAction.interfaceName ? Interfaces.findByName(ruleAction.interfaceName) : null
                     property var deviceClass: device ? Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
-                    property var actionType: deviceClass ? deviceClass.actionTypes.getActionType(root.rule.ruleActions.get(index).actionTypeId) : null
+                    property var actionType: deviceClass ? deviceClass.actionTypes.getActionType(ruleAction.actionTypeId)
+                                                         : iface ? iface.actionTypes.findByName(ruleAction.interfaceAction) : null
                     contentItem: ColumnLayout {
                         Label {
                             Layout.fillWidth: true
-                            text: qsTr("%1 - %2").arg(actionDelegate.device.name).arg(actionDelegate.actionType.displayName)
+                            text: qsTr("%1 - %2").arg(actionDelegate.device ? actionDelegate.device.name : actionDelegate.iface.displayName).arg(actionDelegate.actionType.displayName)
                         }
 
                         RowLayout {
                             Layout.fillWidth: true
                             spacing: app.margins
                             Repeater {
-                                model: root.rule.ruleActions.get(index).ruleActionParams
+                                model: actionDelegate.ruleAction.ruleActionParams
                                 Label {
-                                    text: actionType.paramTypes.getParamType(model.paramTypeId).displayName + " -> " + model.value
+                                    text: actionDelegate.actionType.paramTypes.getParamType(model.paramTypeId).displayName + " -> " + model.value
                                     font.pixelSize: app.smallFont
                                 }
                             }

@@ -60,10 +60,13 @@ QVariant ActionTypes::data(const QModelIndex &index, int role) const
         return QVariant();
 
     ActionType *actionType = m_actionTypes.at(index.row());
-    if (role == NameRole) {
-        return actionType->name();
-    } else if (role == IdRole) {
+    switch (role) {
+    case RoleId:
         return actionType->id();
+    case RoleName:
+        return actionType->name();
+    case RoleDisplayName:
+        return actionType->displayName();
     }
     return QVariant();
 }
@@ -98,7 +101,8 @@ void ActionTypes::clearModel()
 QHash<int, QByteArray> ActionTypes::roleNames() const
 {
     QHash<int, QByteArray> roles;
-    roles[NameRole] = "name";
-    roles[IdRole] = "id";
+    roles.insert(RoleId, "id");
+    roles.insert(RoleName, "name");
+    roles.insert(RoleDisplayName, "displayName");
     return roles;
 }

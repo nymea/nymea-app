@@ -33,9 +33,10 @@ class ActionTypes : public QAbstractListModel
     Q_OBJECT
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
 public:
-    enum ActionTypeRole {
-        NameRole = Qt::DisplayRole,
-        IdRole
+    enum Roles {
+        RoleId,
+        RoleName,
+        RoleDisplayName
     };
 
     ActionTypes(QObject *parent = 0);

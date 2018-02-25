@@ -23,6 +23,7 @@ ItemDelegate {
                     switch (paramType.type.toLowerCase()) {
                     case "bool":
                     case "string":
+                    case "qstring":
                         return ["is", "is not"];
                     case "int":
                     case "double":
@@ -71,6 +72,7 @@ ItemDelegate {
                         }
                         return textFieldComponent;
                     case "string":
+                    case "qstring":
                         if (paramType.allowedValues.length > 0) {
                             return comboBoxComponent
                         }
@@ -85,9 +87,9 @@ ItemDelegate {
         Loader {
             Layout.fillWidth: true
             sourceComponent: {
-                switch (paramType.type) {
-                case "Int":
-                case "Double":
+                switch (paramType.type.toLowerCase()) {
+                case "int":
+                case "double":
                     if (paramType.minValue !== undefined && paramType.maxValue !== undefined) {
                         return sliderComponent
                     }
@@ -102,8 +104,8 @@ ItemDelegate {
         id: labelComponent
         Label {
             text: {
-                switch (root.paramType.type) {
-                case "Int":
+                switch (root.paramType.type.toLowerCase()) {
+                case "int":
                     return Math.round(root.value)
                 }
                 return root.value

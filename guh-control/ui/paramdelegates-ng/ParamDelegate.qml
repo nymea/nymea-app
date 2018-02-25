@@ -32,17 +32,18 @@ ItemDelegate {
                         return stringComponent;
                     }
 
-                    switch (root.paramType.type) {
-                    case "Bool":
+                    switch (root.paramType.type.toLowerCase()) {
+                    case "bool":
                         return boolComponent;
-                    case "Int":
+                    case "int":
                         return stringComponent;
-                    case "String":
+                    case "string":
+                    case "qstring":
                         if (root.paramType.allowedValues.length > 0) {
                             return comboBoxComponent;
                         }
                         return textFieldComponent;
-                    case "Color":
+                    case "color":
                         return colorPreviewComponent;
                     }
                     console.warn("Param Delegate: Fallback to stringComponent", root.paramType.name, root.paramType.type)
@@ -53,14 +54,14 @@ ItemDelegate {
         Loader {
             Layout.fillWidth: true
             sourceComponent: {
-                switch (root.paramType.type) {
-                case "Int":
-                case "Double":
+                switch (root.paramType.type.toLowerCase()) {
+                case "int":
+                case "double":
                     if (root.paramType.minValue != undefined && root.paramType.maxValue != undefined) {
                         return sliderComponent
                     }
                     break;
-                case "Color":
+                case "color":
                     return colorPickerComponent
                 }
                 return null;
@@ -72,8 +73,8 @@ ItemDelegate {
         id: stringComponent
         Label {
             text: {
-                switch (root.paramType.type) {
-                case "Int":
+                switch (root.paramType.type.toLowerCase()) {
+                case "int":
                     return Math.round(root.param.value);
                 }
                 return root.param.value;

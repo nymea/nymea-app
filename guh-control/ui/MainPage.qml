@@ -50,14 +50,13 @@ Page {
 
     ColumnLayout {
         anchors.fill: parent
-        anchors.margins: app.margins
 
         SwipeView {
             id: swipeView
             Layout.fillWidth: true
             Layout.fillHeight: true
             currentIndex: pageIndicator.currentIndex
-//            clip: true
+            clip: true
 
             DevicesPage {
                 width: parent.view.width
