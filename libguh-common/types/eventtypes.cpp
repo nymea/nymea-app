@@ -57,14 +57,14 @@ int EventTypes::rowCount(const QModelIndex &parent) const
 
 QVariant EventTypes::data(const QModelIndex &index, int role) const
 {
-    if (index.row() < 0 || index.row() >= m_eventTypes.count())
-        return QVariant();
-
     EventType *eventType = m_eventTypes.at(index.row());
-    if (role == NameRole) {
-        return eventType->name();
-    } else if (role == IdRole) {
+    switch (role) {
+    case RoleId:
         return eventType->id();
+    case RoleName:
+        return eventType->name();
+    case RoleDisplayName:
+        return eventType->displayName();
     }
     return QVariant();
 }
@@ -99,8 +99,9 @@ EventType *EventTypes::findByName(const QString &name) const
 QHash<int, QByteArray> EventTypes::roleNames() const
 {
     QHash<int, QByteArray> roles;
-    roles[NameRole] = "name";
-    roles[IdRole] = "id";
+    roles.insert(RoleId, "id");
+    roles.insert(RoleName, "name");
+    roles.insert(RoleDisplayName, "displayName");
     return roles;
 }
 

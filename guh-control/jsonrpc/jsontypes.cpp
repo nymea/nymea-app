@@ -221,7 +221,7 @@ QVariantMap JsonTypes::packRule(Rule *rule)
         ret.insert("ruleId", rule->id());
     }
     ret.insert("name", rule->name());
-    ret.insert("enabled", true);
+    ret.insert("enabled", rule->enabled());
 
     if (rule->ruleActions()->rowCount() > 0) {
         QVariantList actions;

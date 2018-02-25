@@ -31,26 +31,23 @@ Page {
             }
         }
 
-        ListModel {
-            id: supportedInterfacesModel
-            ListElement { interfaceName: "battery"; name: "Battery powered devices" }
-            ListElement { interfaceName: "temperatureSensor"; name: "Temperature sensors" }
-            ListElement { interfaceName: "light"; name: "Lights" }
+        Interfaces {
+            id: interfacesModel
         }
 
         ListView {
             Layout.fillWidth: true
             Layout.fillHeight: true
-            model: thingButton.checked ? Engine.deviceManager.devices : supportedInterfacesModel
+            model: thingButton.checked ? Engine.deviceManager.devices : interfacesModel
             clip: true
             delegate: ItemDelegate {
-                text: model.name
+                text: thingButton.checked ? model.name : model.displayName
                 width: parent.width
                 onClicked: {
                     if (thingButton.checked) {
                         root.thingSelected(Engine.deviceManager.devices.get(index))
                     } else {
-                        root.interfaceSelected(supportedInterfacesModel.get(index).interfaceName)
+                        root.interfaceSelected(interfacesModel.get(index).name)
                     }
                 }
             }

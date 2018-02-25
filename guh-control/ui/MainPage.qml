@@ -57,7 +57,7 @@ Page {
             Layout.fillWidth: true
             Layout.fillHeight: true
             currentIndex: pageIndicator.currentIndex
-            clip: true
+//            clip: true
 
             DevicesPage {
                 width: parent.view.width

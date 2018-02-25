@@ -40,6 +40,7 @@ private slots:
     void onEditRuleReply(const QVariantMap &params);
 
 private:
+    Rule *parseRule(const QVariantMap &ruleMap);
     void parseEventDescriptors(const QVariantList &eventDescriptorList, Rule *rule);
     StateEvaluator* parseStateEvaluator(const QVariantMap &stateEvaluatorMap);
     void parseRuleActions(const QVariantList &ruleActions, Rule *rule);

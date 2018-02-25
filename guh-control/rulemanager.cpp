@@ -77,23 +77,27 @@ void RuleManager::handleRulesNotification(const QVariantMap &params)
 //    qDebug() << "rules notification received" << params;
     if (params.value("notification").toString() == "Rules.RuleAdded") {
         QVariantMap ruleMap = params.value("params").toMap().value("rule").toMap();
-        QUuid ruleId = ruleMap.value("id").toUuid();
-        QString name = ruleMap.value("name").toString();
-        bool enabled = ruleMap.value("enabled").toBool();
-        bool active = ruleMap.value("active").toBool();
-        Rule* rule = new Rule(ruleId, m_rules);
-        rule->setName(name);
-        rule->setEnabled(enabled);
-        rule->setActive(active);
-        parseEventDescriptors(ruleMap.value("eventDescriptors").toList(), rule);
-        StateEvaluator* stateEvaluator = parseStateEvaluator(ruleMap.value("stateEvaluator").toMap());
-        stateEvaluator->setParent(rule);
-
-        parseRuleActions(ruleMap.value("actions").toList(), rule);
-        m_rules->insert(rule);
+        m_rules->insert(parseRule(ruleMap));
     } else if (params.value("notification").toString() == "Rules.RuleRemoved") {
         QUuid ruleId = params.value("params").toMap().value("ruleId").toUuid();
         m_rules->remove(ruleId);
+    } else if (params.value("notification").toString() == "Rules.RuleConfigurationChanged") {
+        QVariantMap ruleMap = params.value("params").toMap().value("rule").toMap();
+        QUuid ruleId = ruleMap.value("id").toUuid();
+        int idx = -1;
+        for (int i = 0; i < m_rules->rowCount(); i++) {
+            if (m_rules->get(i)->id() == ruleId) {
+                idx = i;
+                break;
+            }
+        }
+        if (idx == -1) {
+            qWarning() << "Got a rule update notification for a rule we don't know" << ruleId;
+            return;
+        }
+        m_rules->remove(ruleId);
+        m_rules->insert(parseRule(ruleMap));
+
     } else {
         qWarning() << "Unhandled rule notification" << params;
     }
@@ -132,7 +136,7 @@ void RuleManager::getRuleDetailsReply(const QVariantMap &params)
 //    qDebug() << "got rule details for rule" << ruleMap;
     parseEventDescriptors(ruleMap.value("eventDescriptors").toList(), rule);
     parseRuleActions(ruleMap.value("actions").toList(), rule);
-     parseStateEvaluator(ruleMap.value("stateEvaluator").toMap());
+    parseStateEvaluator(ruleMap.value("stateEvaluator").toMap());
 }
 
 void RuleManager::onAddRuleReply(const QVariantMap &params)
@@ -150,6 +154,23 @@ void RuleManager::onEditRuleReply(const QVariantMap &params)
 {
     qDebug() << "Edit rule reply:" << params.value("params").toMap().value("ruleError").toString();
     emit editRuleReply(params.value("params").toMap().value("ruleError").toString());
+}
+
+Rule *RuleManager::parseRule(const QVariantMap &ruleMap)
+{
+    QUuid ruleId = ruleMap.value("id").toUuid();
+    QString name = ruleMap.value("name").toString();
+    bool enabled = ruleMap.value("enabled").toBool();
+    bool active = ruleMap.value("active").toBool();
+    Rule* rule = new Rule(ruleId);
+    rule->setName(name);
+    rule->setEnabled(enabled);
+    rule->setActive(active);
+    parseEventDescriptors(ruleMap.value("eventDescriptors").toList(), rule);
+    StateEvaluator* stateEvaluator = parseStateEvaluator(ruleMap.value("stateEvaluator").toMap());
+    stateEvaluator->setParent(rule);
+    parseRuleActions(ruleMap.value("actions").toList(), rule);
+    return rule;
 }
 
 void RuleManager::parseEventDescriptors(const QVariantList &eventDescriptorList, Rule *rule)

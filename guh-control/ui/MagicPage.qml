@@ -26,13 +26,16 @@ Page {
         onAddRuleReply: {
             if (ruleError == "RuleErrorNoError") {
                 pageStack.pop();
+            } else {
+                errorDialog.createComponent(root, {text: ruleError })
             }
         }
 
         onEditRuleReply: {
-            print("have add rule reply")
             if (ruleError == "RuleErrorNoError") {
                 pageStack.pop();
+            } else {
+                errorDialog.createComponent(root, {text: ruleError })
             }
         }
     }

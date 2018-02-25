@@ -8,8 +8,11 @@ Rules::Rules(QObject *parent) : QAbstractListModel(parent)
 
 void Rules::clear()
 {
+    beginResetModel();
     qDeleteAll(m_list);
     m_list.clear();
+    endResetModel();
+    emit countChanged();
 }
 
 int Rules::rowCount(const QModelIndex &parent) const
@@ -45,9 +48,11 @@ QHash<int, QByteArray> Rules::roleNames() const
 
 void Rules::insert(Rule *rule)
 {
+    rule->setParent(this);
     beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
     m_list.append(rule);
     endInsertRows();
+    emit countChanged();
 }
 
 void Rules::remove(const QUuid &ruleId)
@@ -57,6 +62,7 @@ void Rules::remove(const QUuid &ruleId)
             beginRemoveRows(QModelIndex(), i, i);
             m_list.takeAt(i)->deleteLater();
             endRemoveRows();
+            emit countChanged();
             return;
         }
     }

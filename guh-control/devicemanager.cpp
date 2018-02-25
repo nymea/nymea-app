@@ -162,7 +162,7 @@ void DeviceManager::getPluginsResponse(const QVariantMap &params)
 
 void DeviceManager::getPluginConfigResponse(const QVariantMap &params)
 {
-    qDebug() << "plugin config response" << params;
+//    qDebug() << "plugin config response" << params;
     Plugin *p = m_plugins->get(m_currentGetConfigIndex);
     if (!p) {
         qDebug() << "Received a plugin config for a plugin we don't know";

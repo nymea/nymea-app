@@ -96,6 +96,19 @@ Page {
 
                     }
                 }
+                RowLayout {
+                    Layout.fillWidth: true
+                    Label {
+                        Layout.fillWidth: true
+                        text: qsTr("This rule is enabled")
+                    }
+                    CheckBox {
+                        checked: root.rule.enabled
+                        onClicked: {
+                            root.rule.enabled = checked
+                        }
+                    }
+                }
             }
 
             ThinDivider {}

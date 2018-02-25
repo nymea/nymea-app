@@ -23,11 +23,12 @@ Page {
         id: header
         onBackPressed: root.backPressed();
 
-        property bool interfacesMode: false
+        property bool interfacesMode: root.eventDescriptor.interfaceName !== ""
         onInterfacesModeChanged: root.buildInterface()
 
         HeaderButton {
             imageSource: header.interfacesMode ? "../images/view-expand.svg" : "../images/view-collapse.svg"
+            visible: root.eventDescriptor.interfaceName === ""
             onClicked: header.interfacesMode = !header.interfacesMode
         }
     }
@@ -39,48 +40,39 @@ Page {
         ListElement { interfaceName: "weather"; text: "When it starts raining..."; event: "rain" }
     }
 
-    function buildInterface() {
-        actualModel.clear()
+    Interfaces {
+        id: interfacesModel
+    }
 
+    function buildInterface() {
         if (header.interfacesMode) {
             if (root.device) {
                 print("device supports interfaces", deviceClass.interfaces)
-                for (var i = 0; i < eventTemplateModel.count; i++) {
-                    print("event is for interface", eventTemplateModel.get(i).interfaceName)
-                    if (deviceClass.interfaces.indexOf(eventTemplateModel.get(i).interfaceName) >= 0) {
-                        actualModel.append(eventTemplateModel.get(i))
+                for (var i = 0; i < interfacesModel.count; i++) {
+                    print("event is for interface", interfacesModel.get(i).name)
+                    if (deviceClass.interfaces.indexOf(interfacesModel.get(i).name) >= 0) {
+                        actualModel.append(interfacesModel.get(i))
                     }
                 }
             } else if (root.eventDescriptor.interfaceName !== "") {
-                for (var i = 0; i < eventTemplateModel.count; i++) {
-                    if (eventTemplateModel.get(i).interfaceName === root.eventDescriptor.interfaceName) {
-                        actualModel.append(eventTemplateModel.get(i))
-                    }
-                }
+                listView.model = interfacesModel.findByName(root.eventDescriptor.interfaceName).eventTypes
             } else {
                 console.warn("You need to set device or interfaceName");
             }
         } else {
             if (root.device) {
-                for (var i = 0; i < deviceClass.eventTypes.count; i++) {
-                    actualModel.append({text: deviceClass.eventTypes.get(i).displayName, eventTypeId: deviceClass.eventTypes.get(i).id})
-                }
+                listView.model = deviceClass.eventTypes;
             }
         }
     }
 
-    ListModel {
-        id: actualModel
-        ListElement { text: ""; eventTypeId: "" }
-    }
-
     ListView {
+        id: listView
         anchors.fill: parent
-        model: actualModel
 
         delegate: ItemDelegate {
             width: parent.width
-            text: model.text
+            text: model.displayName
             onClicked: {
                 if (header.interfacesMode) {
                     if (root.device) {
@@ -98,8 +90,8 @@ Page {
                     }
                 } else {
                     if (root.device) {
-                        var eventType = root.deviceClass.eventTypes.getEventType(model.eventTypeId);
-                        root.eventDescriptor.eventTypeId = model.eventTypeId;
+                        var eventType = root.deviceClass.eventTypes.getEventType(model.id);
+                        root.eventDescriptor.eventTypeId = model.id;
                         if (eventType.paramTypes.count > 0) {
                             var paramsPage = pageStack.push(Qt.resolvedUrl("SelectEventDescriptorParamsPage.qml"), {eventDescriptor: root.eventDescriptor})
                             paramsPage.onBackPressed.connect(function() {pageStack.pop()});

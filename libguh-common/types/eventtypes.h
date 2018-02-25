@@ -34,9 +34,10 @@ class EventTypes : public QAbstractListModel
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
 
 public:
-    enum EventTypeRole {
-        NameRole = Qt::DisplayRole,
-        IdRole
+    enum Roles {
+        RoleId,
+        RoleName,
+        RoleDisplayName
     };
 
     EventTypes(QObject *parent = 0);

@@ -133,5 +133,6 @@
         <file>ui/fonts/Ubuntu-MI.ttf</file>
         <file>ui/fonts/Ubuntu-R.ttf</file>
         <file>ui/fonts/Ubuntu-RI.ttf</file>
+        <file>ui/components/InterfacesModels.qml</file>
     </qresource>
 </RCC>

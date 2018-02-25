@@ -8,6 +8,7 @@ class Rule;
 class Rules : public QAbstractListModel
 {
     Q_OBJECT
+    Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
 public:
     enum Roles {
         RoleName,
@@ -19,7 +20,7 @@ public:
 
     void clear();
 
-    int rowCount(const QModelIndex &parent) const override;
+    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role) const override;
     QHash<int, QByteArray> roleNames() const override;
 
@@ -28,6 +29,9 @@ public:
 
     Q_INVOKABLE Rule* get(int index) const;
     Q_INVOKABLE Rule* getRule(const QUuid &ruleId) const;
+
+signals:
+    void countChanged();
 
 private:
     QList<Rule*> m_list;

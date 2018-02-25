@@ -42,7 +42,9 @@ HEADERS += types/types.h \
     types/stateevaluator.h \
     types/statedescriptor.h \
     types/paramdescriptor.h \
-    types/paramdescriptors.h
+    types/paramdescriptors.h \
+    types/interface.h \
+    types/interfaces.h
 
 SOURCES += types/vendor.cpp \
            types/vendors.cpp \
@@ -76,7 +78,9 @@ SOURCES += types/vendor.cpp \
     types/stateevaluator.cpp \
     types/statedescriptor.cpp \
     types/paramdescriptor.cpp \
-    types/paramdescriptors.cpp
+    types/paramdescriptors.cpp \
+    types/interface.cpp \
+    types/interfaces.cpp
 
 # install header file with relative subdirectory
 for(header, HEADERS) {

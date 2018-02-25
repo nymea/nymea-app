@@ -42,6 +42,8 @@
 #include "types/eventdescriptors.h"
 #include "types/eventdescriptor.h"
 #include "types/rule.h"
+#include "types/interfaces.h"
+#include "types/interface.h"
 #include "models/logsmodel.h"
 #include "models/valuelogsproxymodel.h"
 #include "basicconfiguration.h"
@@ -121,6 +123,9 @@ int main(int argc, char *argv[])
     qmlRegisterType<Param>(uri, 1, 0, "Param");
     qmlRegisterUncreatableType<ParamDescriptor>(uri, 1, 0, "ParamDescriptor", "Uncreatable");
     qmlRegisterUncreatableType<ParamDescriptors>(uri, 1, 0, "ParamDescriptors", "Uncreatable");
+
+    qmlRegisterUncreatableType<Interface>(uri, 1, 0, "Interface", "Uncreatable");
+    qmlRegisterType<Interfaces>(uri, 1, 0, "Interfaces");
 
     qmlRegisterUncreatableType<Plugin>(uri, 1, 0, "Plugin", "Can't create this in QML. Get it from the Plugins.");
     qmlRegisterUncreatableType<Plugins>(uri, 1, 0, "Plugins", "Can't create this in QML. Get it from the DeviceManager.");
