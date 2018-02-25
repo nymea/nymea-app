@@ -49,10 +49,10 @@ Page {
         clip: true
         headerPositioning: ListView.OverlayHeader
 
-        property int column0Width: root.width / 10 * 3
+        property int column0Width: root.width / 10 * 2
         property int column1Width: root.width / 10 * 1
         property int column2Width: root.width / 10 * 3
-        property int column3Width: root.width / 10 * 2
+        property int column3Width: root.width / 10 * 3
         property int column4Width: root.width / 10 * 1
 
         header: Rectangle {
@@ -97,7 +97,7 @@ Page {
             property var deviceClass: device ? Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
             Label {
                 width: listView.column0Width
-                text: Qt.formatDateTime(model.timestamp,"dd.MM.yy - hh:mm:ss")
+                text: width > 130 ? Qt.formatDateTime(model.timestamp,"dd.MM.yy - hh:mm:ss") : Qt.formatDateTime(model.timestamp,"hh:mm:ss")
                 elide: Text.ElideRight
             }
             Label {

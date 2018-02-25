@@ -31,14 +31,16 @@
 
 class RuleManager;
 class LogManager;
+class BasicConfiguration;
 
 class Engine : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(GuhConnection *connection READ connection CONSTANT)
-    Q_PROPERTY(DeviceManager *deviceManager READ deviceManager CONSTANT)
-    Q_PROPERTY(RuleManager *ruleManager READ ruleManager CONSTANT)
-    Q_PROPERTY(JsonRpcClient *jsonRpcClient READ jsonRpcClient CONSTANT)
+    Q_PROPERTY(GuhConnection* connection READ connection CONSTANT)
+    Q_PROPERTY(DeviceManager* deviceManager READ deviceManager CONSTANT)
+    Q_PROPERTY(RuleManager* ruleManager READ ruleManager CONSTANT)
+    Q_PROPERTY(JsonRpcClient* jsonRpcClient READ jsonRpcClient CONSTANT)
+    Q_PROPERTY(BasicConfiguration* basicConfiguration READ basicConfiguration CONSTANT)
 
 public:
     static Engine *instance();
@@ -52,6 +54,7 @@ public:
     RuleManager *ruleManager() const;
     JsonRpcClient *jsonRpcClient() const;
     LogManager *logManager() const;
+    BasicConfiguration* basicConfiguration() const;
 
 private:
     explicit Engine(QObject *parent = 0);
@@ -62,6 +65,7 @@ private:
     DeviceManager *m_deviceManager;
     RuleManager *m_ruleManager;
     LogManager *m_logManager;
+    BasicConfiguration *m_basicConfiguration;
 
 private slots:
     void onConnectedChanged();

@@ -37,7 +37,7 @@ Page {
         MenuSeparator {}
         IconMenuItem {
             iconSource: "../images/settings.svg"
-            text: "App settings"
+            text: "Settings"
             onTriggered: pageStack.push(Qt.resolvedUrl("SettingsPage.qml"))
         }
         MenuSeparator {}
@@ -50,13 +50,13 @@ Page {
 
     ColumnLayout {
         anchors.fill: parent
-        anchors.margins: app.margins
 
         SwipeView {
             id: swipeView
             Layout.fillWidth: true
             Layout.fillHeight: true
             currentIndex: pageIndicator.currentIndex
+            clip: true
 
             DevicesPage {
                 width: parent.view.width

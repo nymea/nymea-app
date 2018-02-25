@@ -23,6 +23,7 @@
 #include "tcpsocketinterface.h"
 #include "rulemanager.h"
 #include "logmanager.h"
+#include "basicconfiguration.h"
 
 Engine* Engine::s_instance = 0;
 
@@ -62,6 +63,11 @@ LogManager *Engine::logManager() const
     return m_logManager;
 }
 
+BasicConfiguration *Engine::basicConfiguration() const
+{
+    return m_basicConfiguration;
+}
+
 GuhConnection *Engine::connection() const
 {
     return m_connection;
@@ -73,7 +79,8 @@ Engine::Engine(QObject *parent) :
     m_jsonRpcClient(new JsonRpcClient(m_connection, this)),
     m_deviceManager(new DeviceManager(m_jsonRpcClient, this)),
     m_ruleManager(new RuleManager(m_jsonRpcClient, this)),
-    m_logManager(new LogManager(m_jsonRpcClient, this))
+    m_logManager(new LogManager(m_jsonRpcClient, this)),
+    m_basicConfiguration(new BasicConfiguration(m_jsonRpcClient, this))
 {
     connect(m_jsonRpcClient, &JsonRpcClient::connectedChanged, this, &Engine::onConnectedChanged);
     connect(m_jsonRpcClient, &JsonRpcClient::authenticationRequiredChanged, this, &Engine::onConnectedChanged);
@@ -88,6 +95,7 @@ void Engine::onConnectedChanged()
         if (!m_jsonRpcClient->initialSetupRequired() && !m_jsonRpcClient->authenticationRequired()) {
             m_deviceManager->init();
             m_ruleManager->init();
+            m_basicConfiguration->init();
         }
     }
 }

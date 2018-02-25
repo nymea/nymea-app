@@ -74,7 +74,7 @@ void RuleManager::editRule(Rule *rule)
 
 void RuleManager::handleRulesNotification(const QVariantMap &params)
 {
-    qDebug() << "rules notification received" << params;
+//    qDebug() << "rules notification received" << params;
     if (params.value("notification").toString() == "Rules.RuleAdded") {
         QVariantMap ruleMap = params.value("params").toMap().value("rule").toMap();
         QUuid ruleId = ruleMap.value("id").toUuid();
@@ -94,6 +94,8 @@ void RuleManager::handleRulesNotification(const QVariantMap &params)
     } else if (params.value("notification").toString() == "Rules.RuleRemoved") {
         QUuid ruleId = params.value("params").toMap().value("ruleId").toUuid();
         m_rules->remove(ruleId);
+    } else {
+        qWarning() << "Unhandled rule notification" << params;
     }
 }
 
@@ -146,7 +148,7 @@ void RuleManager::removeRuleReply(const QVariantMap &params)
 
 void RuleManager::onEditRuleReply(const QVariantMap &params)
 {
-    qDebug() << "Edit rule reply:" << params.value("params").toMap();
+    qDebug() << "Edit rule reply:" << params.value("params").toMap().value("ruleError").toString();
     emit editRuleReply(params.value("params").toMap().value("ruleError").toString());
 }
 

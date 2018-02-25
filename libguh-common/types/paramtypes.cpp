@@ -71,6 +71,10 @@ QVariant ParamTypes::data(const QModelIndex &index, int role) const
     ParamType *paramType = m_paramTypes.at(index.row());
     if (role == NameRole) {
         return paramType->name();
+    } else if (role == DisplayNameRole) {
+        return paramType->displayName();
+    } else if (role == IdRole) {
+        return paramType->id();
     } else if (role == TypeRole) {
         return paramType->type();
     } else if (role == DefaultValueRole) {
@@ -111,7 +115,9 @@ void ParamTypes::clearModel()
 QHash<int, QByteArray> ParamTypes::roleNames() const
 {
     QHash<int, QByteArray> roles;
+    roles[IdRole] = "id";
     roles[NameRole] = "name";
+    roles[DisplayNameRole] = "displayName";
     roles[TypeRole] = "type";
     roles[MinValueRole] = "minValue";
     roles[MaxValueRole] = "maxValue";

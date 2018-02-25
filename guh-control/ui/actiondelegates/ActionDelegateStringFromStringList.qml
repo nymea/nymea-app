@@ -11,7 +11,7 @@ ActionDelegateBase {
         id: layout
         anchors { left: parent.left; top: parent.top; right: parent.right; margins: app.margins }
         Label {
-            text: root.paramType.name
+            text: root.paramType.displayName
             Layout.fillWidth: true
         }
         ComboBox {

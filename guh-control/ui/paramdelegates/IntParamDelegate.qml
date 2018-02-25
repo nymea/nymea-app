@@ -10,16 +10,16 @@ ParamDelegateBase {
 
         Label {
             id: label
-            text: root.paramType.name
+            text: root.paramType.displayName
+            Layout.fillWidth: true
         }
         TextField {
             id: textField
-            Layout.fillWidth: true
             text: root.value ? root.value : root.paramType.defaultValue
+            Layout.preferredWidth: implicitWidth
             onTextChanged: {
                 root.value = text;
             }
-
         }
     }
 }

@@ -56,6 +56,7 @@ public:
     static Device *unpackDevice(const QVariantMap &deviceMap, QObject *parent);
 
     static QVariantMap packRule(Rule* rule);
+    static QVariantMap packParam(Param *param);
 private:
     static DeviceClass::SetupMethod stringToSetupMethod(const QString &setupMethodString);
     static QList<DeviceClass::BasicTag> stringListToBasicTags(const QStringList &basicTagsStringList);

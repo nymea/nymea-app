@@ -22,22 +22,24 @@
 
 #include "param.h"
 
-Param::Param(const QString &id, const QVariant &value, QObject *parent) :
+Param::Param(const QString &paramTypeId, const QVariant &value, QObject *parent) :
     QObject(parent),
-    m_id(id),
+    m_paramTypeId(paramTypeId),
     m_value(value)
 {
 }
 
-QString Param::id() const
+QString Param::paramTypeId() const
 {
-    return m_id;
+    return m_paramTypeId;
 }
 
-void Param::setId(const QString &id)
+void Param::setParamTypeId(const QString &paramTypeId)
 {
-    m_id = id;
-    emit idChanged();
+    if (m_paramTypeId != paramTypeId) {
+        m_paramTypeId = paramTypeId;
+        emit paramTypeIdChanged();
+    }
 }
 
 QVariant Param::value() const

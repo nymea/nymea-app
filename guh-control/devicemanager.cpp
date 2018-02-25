@@ -151,6 +151,35 @@ void DeviceManager::getPluginsResponse(const QVariantMap &params)
         }
     }
     m_jsonClient->sendCommand("Devices.GetSupportedVendors", this, "getVendorsResponse");
+
+    if (m_plugins->count() > 0) {
+        m_currentGetConfigIndex = 0;
+        QVariantMap configRequestParams;
+        configRequestParams.insert("pluginId", m_plugins->get(m_currentGetConfigIndex)->pluginId());
+        m_jsonClient->sendCommand("Devices.GetPluginConfiguration", configRequestParams, this, "getPluginConfigResponse");
+    }
+}
+
+void DeviceManager::getPluginConfigResponse(const QVariantMap &params)
+{
+    qDebug() << "plugin config response" << params;
+    Plugin *p = m_plugins->get(m_currentGetConfigIndex);
+    if (!p) {
+        qDebug() << "Received a plugin config for a plugin we don't know";
+        return;
+    }
+    QVariantList pluginParams = params.value("params").toMap().value("configuration").toList();
+    foreach (const QVariant &paramVariant, pluginParams) {
+        Param* param = JsonTypes::unpackParam(paramVariant.toMap(), p->params());
+        p->params()->addParam(param);
+    }
+
+    m_currentGetConfigIndex++;
+    if (m_plugins->count() > m_currentGetConfigIndex) {
+        QVariantMap configRequestParams;
+        configRequestParams.insert("pluginId", m_plugins->get(m_currentGetConfigIndex)->pluginId());
+        m_jsonClient->sendCommand("Devices.GetPluginConfiguration", configRequestParams, this, "getPluginConfigResponse");
+    }
 }
 
 void DeviceManager::getConfiguredDevicesResponse(const QVariantMap &params)
@@ -219,6 +248,29 @@ void DeviceManager::pairDeviceResponse(const QVariantMap &params)
 void DeviceManager::confirmPairingResponse(const QVariantMap &params)
 {
     emit confirmPairingReply(params.value("params").toMap());
+}
+
+void DeviceManager::setPluginConfigResponse(const QVariantMap &params)
+{
+    qDebug() << "set plugin config respionse" << params;
+    emit savePluginConfigReply(params);
+}
+
+void DeviceManager::savePluginConfig(const QUuid &pluginId)
+{
+    Plugin *p = m_plugins->getPlugin(pluginId);
+    if (!p) {
+        qWarning()<< "Error: can't find plugin with id" << pluginId;
+        return;
+    }
+    QVariantMap params;
+    params.insert("pluginId", pluginId);
+    QVariantList pluginParams;
+    for (int i = 0; i < p->params()->rowCount(); i++) {
+        pluginParams.append(JsonTypes::packParam(p->params()->get(i)));
+    }
+    params.insert("configuration", pluginParams);
+    m_jsonClient->sendCommand("Devices.SetPluginConfiguration", params, this, "setPluginConfigResponse");
 }
 
 void DeviceManager::addDiscoveredDevice(const QUuid &deviceClassId, const QUuid &deviceDescriptorId, const QString &name)

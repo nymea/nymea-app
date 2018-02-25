@@ -2,19 +2,20 @@ import QtQuick 2.8
 import QtQuick.Layouts 1.2
 import QtQuick.Controls 2.1
 
-RowLayout {
+ParamDelegateBase {
     id: root
+    contentItem: RowLayout {
 
-    property alias text: label.text
-    property alias value: theSwitch.checked
-
-    Label {
-        id: label
-        Layout.fillWidth: true
-    }
-    Switch {
-        id: theSwitch
-        checked: root.value === true
-        onClicked: root.value = checked
+        Label {
+            id: label
+            Layout.fillWidth: true
+            text: root.paramType.displayName + "- " + root.value
+        }
+        Switch {
+            id: theSwitch
+            checked: root.value == true
+            onClicked: root.value = checked
+        }
     }
 }
+

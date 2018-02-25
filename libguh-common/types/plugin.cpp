@@ -24,7 +24,7 @@
 
 Plugin::Plugin(QObject *parent) : QObject(parent)
 {
-
+    m_params = new Params(this);
 }
 
 QString Plugin::name() const

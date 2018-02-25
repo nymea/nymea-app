@@ -39,8 +39,8 @@ Page {
             page = "ButtonDevicePage.qml";
         } else if (deviceClass.interfaces.indexOf("weather") >= 0) {
             page = "WeatherDevicePage.qml";
-//        } else if (deviceClass.interfaces.indexOf("sensor") >= 0) {
-//            page = "SensorDevicePage.qml";
+        } else if (deviceClass.interfaces.indexOf("sensor") >= 0) {
+            page = "SensorDevicePage.qml";
         } else {
             page = "GenericDevicePage.qml";
         }

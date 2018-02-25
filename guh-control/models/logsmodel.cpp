@@ -15,6 +15,7 @@ bool LogsModel::busy() const
 
 int LogsModel::rowCount(const QModelIndex &parent) const
 {
+    Q_UNUSED(parent)
     return m_list.count();
 }
 
@@ -174,7 +175,6 @@ void LogsModel::logsReply(const QVariantMap &data)
         LogEntry::LoggingEventType loggingEventType = (LogEntry::LoggingEventType)loggingEventTypeEnum.keyToValue(entryMap.value("eventType").toByteArray());
         LogEntry *entry = new LogEntry(timeStamp, value, deviceId, typeId, loggingSource, loggingEventType, this);
         m_list.append(entry);
-        qDebug() << "Added log entry" << entry->dayString() << entry->value() << entry->deviceId() << entryMap << loggingEventType;
     }
 
     endResetModel();
@@ -199,7 +199,6 @@ void LogsModel::newLogEntryReceived(const QVariantMap &data)
     LogEntry::LoggingEventType loggingEventType = (LogEntry::LoggingEventType)loggingEventTypeEnum.keyToValue(entryMap.value("eventType").toByteArray());
     LogEntry *entry = new LogEntry(timeStamp, value, deviceId, typeId, loggingSource, loggingEventType, this);
     m_list.append(entry);
-    qDebug() << "Added log entry" << entry->dayString() << entry->value() << entry->deviceId() << entryMap << loggingEventType;
     endInsertRows();
     emit countChanged();
 }

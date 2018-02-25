@@ -20,7 +20,7 @@ void ParamDescriptor::setOperatorType(ParamDescriptor::ValueOperator operatorTyp
 
 ParamDescriptor *ParamDescriptor::clone() const
 {
-    ParamDescriptor *ret = new ParamDescriptor(this->id(), this->value());
+    ParamDescriptor *ret = new ParamDescriptor(this->paramTypeId(), this->value());
     ret->setOperatorType(this->operatorType());
     return ret;
 }

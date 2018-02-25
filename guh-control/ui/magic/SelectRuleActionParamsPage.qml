@@ -2,7 +2,7 @@ import QtQuick 2.8
 import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.2
 import "../components"
-import "../paramdelegates"
+import "../paramdelegates-ng"
 import Guh 1.0
 
 Page {
@@ -27,10 +27,8 @@ Page {
             id: delegateRepeater
             model: root.actionType.paramTypes
             delegate: ParamDelegate {
-                width: parent.width
+                Layout.fillWidth: true
                 paramType: root.actionType.paramTypes.get(index)
-                value: paramType.defaultValue
-
             }
         }
         Item {

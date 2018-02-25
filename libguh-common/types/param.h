@@ -30,24 +30,24 @@
 class Param : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QString id READ id WRITE setId NOTIFY idChanged)
+    Q_PROPERTY(QString paramTypeId READ paramTypeId WRITE setParamTypeId NOTIFY paramTypeIdChanged)
     Q_PROPERTY(QVariant value READ value WRITE setValue NOTIFY valueChanged)
 
 public:
-    Param(const QString &id = QString(), const QVariant &value = QVariant(), QObject *parent = 0);
+    Param(const QString &paramTypeId = QString(), const QVariant &value = QVariant(), QObject *parent = 0);
 
-    QString id() const;
-    void setId(const QString &id);
+    QString paramTypeId() const;
+    void setParamTypeId(const QString &paramTypeId);
 
     QVariant value() const;
     void setValue(const QVariant &value);
 
 private:
-    QString m_id;
+    QString m_paramTypeId;
     QVariant m_value;
 
 signals:
-    void idChanged();
+    void paramTypeIdChanged();
     void valueChanged();
 
 };

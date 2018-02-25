@@ -12,7 +12,7 @@ ActionDelegateBase {
 
         Label {
             Layout.fillWidth: true
-            text: root.actionType.paramTypes.get(0).name
+            text: root.actionType.paramTypes.get(0).displayName
         }
 
         Slider {

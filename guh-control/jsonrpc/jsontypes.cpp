@@ -254,7 +254,7 @@ QVariantMap JsonTypes::packRule(Rule *rule)
                 QVariantList paramDescriptors;
                 for (int j = 0; j < rule->eventDescriptors()->get(i)->paramDescriptors()->rowCount(); j++) {
                     QVariantMap paramDescriptor;
-                    paramDescriptor.insert("paramTypeId", rule->eventDescriptors()->get(i)->paramDescriptors()->get(j)->id());
+                    paramDescriptor.insert("paramTypeId", rule->eventDescriptors()->get(i)->paramDescriptors()->get(j)->paramTypeId());
                     paramDescriptor.insert("value", rule->eventDescriptors()->get(i)->paramDescriptors()->get(j)->value());
                     QMetaEnum operatorEnum = QMetaEnum::fromType<ParamDescriptor::ValueOperator>();
                     paramDescriptor.insert("operator", operatorEnum.valueToKey(rule->eventDescriptors()->get(i)->paramDescriptors()->get(j)->operatorType()));
@@ -267,6 +267,14 @@ QVariantMap JsonTypes::packRule(Rule *rule)
         ret.insert("eventDescriptors", eventDescriptors);
     }
 
+    return ret;
+}
+
+QVariantMap JsonTypes::packParam(Param *param)
+{
+    QVariantMap ret;
+    ret.insert("paramTypeId", param->paramTypeId());
+    ret.insert("value", param->value());
     return ret;
 }
 

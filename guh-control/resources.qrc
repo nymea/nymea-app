@@ -34,7 +34,6 @@
         <file>ui/images/torch-on.svg</file>
         <file>ui/images/media-preview-start.svg</file>
         <file>ui/MagicPage.qml</file>
-        <file>ui/magic/NewRulePage.qml</file>
         <file>ui/images/mediaplayer-app-symbolic.svg</file>
         <file>ui/images/system-shutdown.svg</file>
         <file>ui/devicepages/ButtonDevicePage.qml</file>
@@ -121,5 +120,9 @@
         <file>ui/system/LogViewerPage.qml</file>
         <file>ui/images/next.svg</file>
         <file>ui/images/go-down.svg</file>
+        <file>ui/system/PluginsPage.qml</file>
+        <file>ui/system/PluginParamsPage.qml</file>
+        <file>ui/paramdelegates-ng/ParamDelegate.qml</file>
+        <file>ui/components/ErrorDialog.qml</file>
     </qresource>
 </RCC>

@@ -16,7 +16,7 @@ QVariant ParamDescriptors::data(const QModelIndex &index, int role) const
 {
     switch (role) {
     case RoleId:
-        return m_list.at(index.row())->id();
+        return m_list.at(index.row())->paramTypeId();
     case RoleValue:
         return m_list.at(index.row())->value();
     case RoleOperator:
@@ -56,7 +56,7 @@ void ParamDescriptors::addParamDescriptor(ParamDescriptor *paramDescriptor)
 void ParamDescriptors::setParamDescriptor(const QString &paramTypeId, const QVariant &value, ValueOperator operatorType)
 {
     foreach (ParamDescriptor* paramDescriptor, m_list) {
-        if (paramDescriptor->id() == paramTypeId) {
+        if (paramDescriptor->paramTypeId() == paramTypeId) {
             paramDescriptor->setValue(value);
             paramDescriptor->setOperatorType((ParamDescriptor::ValueOperator)operatorType);
             return;
@@ -64,7 +64,7 @@ void ParamDescriptors::setParamDescriptor(const QString &paramTypeId, const QVar
     }
     // Still here? need to add a new one
     ParamDescriptor* paramDescriptor = createNewParamDescriptor();
-    paramDescriptor->setId(paramTypeId);
+    paramDescriptor->setParamTypeId(paramTypeId);
     paramDescriptor->setValue(value);
     paramDescriptor->setOperatorType((ParamDescriptor::ValueOperator)operatorType);
     addParamDescriptor(paramDescriptor);

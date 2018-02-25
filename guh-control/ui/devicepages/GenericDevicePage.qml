@@ -27,7 +27,7 @@ DevicePageBase {
                 id: interfaceViewsRepeater
                 property bool unhandledInterface: false
 
-                model: deviceClass.interfaces
+//                model: deviceClass.interfaces
                 delegate: Loader {
                     id: stateViewLoader
                     Layout.fillWidth: true

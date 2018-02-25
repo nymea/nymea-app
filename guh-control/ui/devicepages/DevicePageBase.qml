@@ -42,6 +42,11 @@ Page {
                 height: app.iconSize
             }
 
+            Label {
+                text: qsTr("Thing is not connected!")
+                visible: infoPane.connectedState !== null && infoPane.connectedState.value === false
+            }
+
             ColorIcon {
                 height: app.iconSize
                 width: height
@@ -54,6 +59,7 @@ Page {
                 height: app.iconSize
                 width: height * 1.23
                 name: infoPane.batteryState !== null ? "../images/battery/battery-" + ("00" + (Math.floor(infoPane.batteryState.value / 10) * 10)).slice(-3) + ".svg" : ""
+                visible: infoPane.batteryState !== null
             }
         }
     }

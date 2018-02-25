@@ -44,6 +44,7 @@
 #include "types/rule.h"
 #include "models/logsmodel.h"
 #include "models/valuelogsproxymodel.h"
+#include "basicconfiguration.h"
 
 int main(int argc, char *argv[])
 {
@@ -105,12 +106,15 @@ int main(int argc, char *argv[])
     qmlRegisterUncreatableType<EventDescriptor>(uri, 1, 0, "EventDescriptor", "Get them from rules");
     qmlRegisterUncreatableType<ParamTypes>(uri, 1, 0, "ParamTypes", "Uncreatable");
     qmlRegisterUncreatableType<ParamType>(uri, 1, 0, "ParamType", "Uncreatable");
+    qmlRegisterType<Param>(uri, 1, 0, "Param");
     qmlRegisterUncreatableType<ParamDescriptor>(uri, 1, 0, "ParamDescriptor", "Uncreatable");
     qmlRegisterUncreatableType<ParamDescriptors>(uri, 1, 0, "ParamDescriptors", "Uncreatable");
 
     qmlRegisterUncreatableType<Plugin>(uri, 1, 0, "Plugin", "Can't create this in QML. Get it from the Plugins.");
     qmlRegisterUncreatableType<Plugins>(uri, 1, 0, "Plugins", "Can't create this in QML. Get it from the DeviceManager.");
     qmlRegisterType<PluginsProxy>(uri, 1, 0, "PluginsProxy");
+
+    qmlRegisterUncreatableType<BasicConfiguration>(uri, 1, 0, "BasicConfiguration", "Uncreatable");
 
     qmlRegisterType<GuhDiscovery>(uri, 1, 0, "GuhDiscovery");
     qmlRegisterUncreatableType<DiscoveryModel>(uri, 1, 0, "DiscoveryModel", "Get it from GuhDiscovery");

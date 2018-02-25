@@ -63,23 +63,31 @@ private:
     Q_INVOKABLE void getVendorsResponse(const QVariantMap &params);
     Q_INVOKABLE void getSupportedDevicesResponse(const QVariantMap &params);
     Q_INVOKABLE void getPluginsResponse(const QVariantMap &params);
+    Q_INVOKABLE void getPluginConfigResponse(const QVariantMap &params);
     Q_INVOKABLE void getConfiguredDevicesResponse(const QVariantMap &params);
     Q_INVOKABLE void addDeviceResponse(const QVariantMap &params);
     Q_INVOKABLE void removeDeviceResponse(const QVariantMap &params);
     Q_INVOKABLE void pairDeviceResponse(const QVariantMap &params);
     Q_INVOKABLE void confirmPairingResponse(const QVariantMap &params);
+    Q_INVOKABLE void setPluginConfigResponse(const QVariantMap &params);
+
+public slots:
+    void savePluginConfig(const QUuid &pluginId);
 
 signals:
     void pairDeviceReply(const QVariantMap &params);
     void confirmPairingReply(const QVariantMap &params);
     void addDeviceReply(const QVariantMap &params);
     void removeDeviceReply(const QVariantMap &params);
+    void savePluginConfigReply(const QVariantMap &params);
 
 private:
     Vendors *m_vendors;
     Plugins *m_plugins;
     Devices *m_devices;
     DeviceClasses *m_deviceClasses;
+
+    int m_currentGetConfigIndex = 0;
 
     JsonRpcClient *m_jsonClient = nullptr;
 

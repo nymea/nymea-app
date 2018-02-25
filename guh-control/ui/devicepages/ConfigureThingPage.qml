@@ -3,6 +3,7 @@ import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.2
 import Guh 1.0
 import "../components"
+import "../paramdelegates-ng"
 
 Page {
     id: root
@@ -29,25 +30,24 @@ Page {
                 pageStack.pop();
                 return;
             }
-            print("Remove device error!", params)
+            var popup = errorDialog.createObject(root, {text: "Remove device error: " + JSON.stringify(params.deviceError) })
+            popup.open();
         }
     }
 
     ListView {
         anchors.fill: parent
         model: root.device.params
-        delegate: ItemDelegate {
+        delegate: ParamDelegate {
             width: parent.width
-            contentItem: RowLayout {
-                Label {
-                    text: root.deviceClass.paramTypes.getParamType(model.id).displayName
-                }
-                Label {
-                    Layout.fillWidth: true
-                    text: model.value
-                    horizontalAlignment: Text.AlignRight
-                }
-            }
+            paramType: root.deviceClass.paramTypes.getParamType(model.id)
+            param: root.device.params.get(index)
+            writable: false
         }
+    }
+
+    Component {
+        id: errorDialog
+        ErrorDialog { }
     }
 }

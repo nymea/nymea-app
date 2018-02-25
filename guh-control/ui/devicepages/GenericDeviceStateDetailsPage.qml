@@ -10,6 +10,7 @@ Page {
 
     property var device
     readonly property var deviceClass: Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId)
+    property bool readOnly: true
 
     header: GuhHeader {
         text: "Details for " + root.device.name
@@ -43,7 +44,7 @@ Page {
                         Layout.fillWidth: true
                         sourceComponent: {
                             var writable = deviceClass.actionTypes.getActionType(id) !== null;
-                            if (!writable) {
+                            if (root.readOnly || !writable) {
                                 return labelComponent;
                             }
 
@@ -58,6 +59,8 @@ Page {
                                 return textFieldComponent;
                             case "String":
                                 return textFieldComponent;
+                            case "Color":
+                                return colorPreviewComponent;
                             }
                             console.warn("DeviceStateDetailsPage: Type delegate not implemented", stateType.type)
                             return null;
@@ -123,6 +126,18 @@ Page {
             property var stateTypeId: null
             checked: value
             onClicked: executeAction(stateTypeId, checked)
+        }
+    }
+
+    Component {
+        id: colorPreviewComponent
+        Rectangle {
+            property var value: "blue"
+            property var stateTypeId: null
+            color: value
+            implicitHeight: app.mediumFont
+            implicitWidth: height
+            radius: height / 4
         }
     }
 

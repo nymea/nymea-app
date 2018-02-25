@@ -34,6 +34,8 @@ class ParamTypes : public QAbstractListModel
 public:
     enum ParamTypeRole {
         NameRole = Qt::DisplayRole,
+        DisplayNameRole,
+        IdRole,
         TypeRole,
         DefaultValueRole,
         MinValueRole,

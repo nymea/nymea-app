@@ -47,7 +47,7 @@ Param *Params::get(int index) const
 Param *Params::getParam(QString paramTypeId) const
 {
     foreach (Param *param, m_params) {
-        if (param->id() == paramTypeId) {
+        if (param->paramTypeId() == paramTypeId) {
             return param;
         }
     }
@@ -72,7 +72,7 @@ QVariant Params::data(const QModelIndex &index, int role) const
 
     Param *param = m_params.at(index.row());
     if (role == RoleId) {
-        return param->id();
+        return param->paramTypeId();
     } else if (role == RoleValue) {
         return param->value();
     }

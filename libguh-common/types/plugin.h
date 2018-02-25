@@ -55,8 +55,8 @@ public:
 private:
     QString m_name;
     QUuid m_pluginId;
-    ParamTypes *m_paramTypes;
-    Params *m_params;
+    ParamTypes *m_paramTypes = nullptr;
+    Params *m_params = nullptr;
 };
 
 #endif // PLUGIN_H

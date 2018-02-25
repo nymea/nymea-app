@@ -14,7 +14,7 @@ ActionDelegateBase {
         Label {
             Layout.fillWidth: true
             verticalAlignment: Text.AlignVCenter
-            text: root.actionType ? root.actionType.name : ""
+            text: root.actionType ? root.actionType.displayName : ""
         }
         Switch {
             position: root.actionState ? root.actionState : 0

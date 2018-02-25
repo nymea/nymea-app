@@ -10,7 +10,7 @@ ParamDelegateBase {
 
         Label {
             id: label
-            text: root.paramType.name
+            text: root.paramType.displayName
         }
         TextField {
             id: textField
