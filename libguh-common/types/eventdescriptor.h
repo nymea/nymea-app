@@ -13,7 +13,7 @@ class EventDescriptor : public QObject
     Q_PROPERTY(QUuid eventTypeId READ eventTypeId WRITE setEventTypeId NOTIFY eventTypeIdChanged)
 
     Q_PROPERTY(QString interfaceName READ interfaceName WRITE setInterfaceName NOTIFY interfaceNameChanged)
-    Q_PROPERTY(QString interfaceEvent READ interfaceEvent CONSTANT)
+    Q_PROPERTY(QString interfaceEvent READ interfaceEvent WRITE setInterfaceEvent NOTIFY interfaceEventChanged)
 
     Q_PROPERTY(ParamDescriptors* paramDescriptors READ paramDescriptors CONSTANT)
 
@@ -40,6 +40,7 @@ signals:
     void deviceIdChanged();
     void eventTypeIdChanged();
     void interfaceNameChanged();
+    void interfaceEventChanged();
 
 private:
     QUuid m_deviceId;

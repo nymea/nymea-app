@@ -126,12 +126,15 @@ Page {
                 delegate: SwipeDelegate {
                     id: eventDelegate
                     Layout.fillWidth: true
-                    property var device: Engine.deviceManager.devices.getDevice(root.rule.eventDescriptors.get(index).deviceId)
+                    readonly property var eventDescriptor: root.rule.eventDescriptors.get(index)
+                    property var device: Engine.deviceManager.devices.getDevice(eventDescriptor.deviceId)
                     property var deviceClass: device ? Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
-                    property var eventType: deviceClass ? deviceClass.eventTypes.getEventType(root.rule.eventDescriptors.get(index).eventTypeId) : null
+                    property var iface: eventDescriptor.interfaceName ? Interfaces.findByName(eventDescriptor.interfaceName) : null
+                    property var eventType: deviceClass ? deviceClass.eventTypes.getEventType(eventDescriptor.eventTypeId)
+                                                        : iface ? iface.eventTypes.findByName(eventDescriptor.interfaceEvent) : null
                     contentItem: ColumnLayout {
                         Label {
-                            text: qsTr("%1 - %2").arg(eventDelegate.device.name).arg(eventDelegate.eventType.displayName)
+                            text: qsTr("%1 - %2").arg(eventDelegate.device ? eventDelegate.device.name : eventDelegate.iface.displayName).arg(eventDelegate.eventType.displayName)
                             Layout.fillWidth: true
                             elide: Text.ElideRight
                         }
@@ -142,6 +145,7 @@ Page {
                                 model: root.rule.eventDescriptors.get(index).paramDescriptors
                                 Label {
                                     text: {
+                                        print("***", eventDelegate.iface, eventDelegate.eventDescriptor.interfaceName, Interfaces.findByName(eventDelegate.eventDescriptor.interfaceName), eventDescriptor.interfaceName ? Interfaces.findByName(eventDescriptor.interfaceName) : null)
                                         var ret = eventDelegate.eventType.paramTypes.getParamType(model.id).displayName
                                         switch (model.operator) {
                                         case ParamDescriptor.ValueOperatorEquals:
@@ -175,7 +179,7 @@ Page {
                         }
 
                     }
-                    swipe.right: Item {
+                    swipe.right: MouseArea {
                         height: eventDelegate.height
                         width: height
                         anchors.right: parent.right
@@ -185,7 +189,7 @@ Page {
                             name: "../images/delete.svg"
                             color: "red"
                         }
-                        SwipeDelegate.onClicked: root.rule.eventDescriptors.removeEventDescriptor(index)
+                        onClicked: root.rule.eventDescriptors.removeEventDescriptor(index)
                     }
                 }
             }
@@ -233,7 +237,7 @@ Page {
                             }
                         }
                     }
-                    swipe.right: Item {
+                    swipe.right: MouseArea {
                         height: actionDelegate.height
                         width: height
                         anchors.right: parent.right
@@ -243,7 +247,7 @@ Page {
                             name: "../images/delete.svg"
                             color: "red"
                         }
-                        SwipeDelegate.onClicked: root.rule.ruleActions.removeRuleAction(index)
+                        onClicked: root.rule.ruleActions.removeRuleAction(index)
                     }
                 }
             }

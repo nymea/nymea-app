@@ -51,7 +51,10 @@ QString EventDescriptor::interfaceEvent() const
 
 void EventDescriptor::setInterfaceEvent(const QString &interfaceEvent)
 {
-    m_interfaceEvent = interfaceEvent;
+    if (m_interfaceEvent != interfaceEvent) {
+        m_interfaceEvent = interfaceEvent;
+        emit interfaceEventChanged();
+    }
 }
 
 ParamDescriptors *EventDescriptor::paramDescriptors() const

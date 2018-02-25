@@ -11,7 +11,9 @@ Page {
     property var eventDescriptor: null
 
     readonly property var device: eventDescriptor && eventDescriptor.deviceId ? Engine.deviceManager.devices.getDevice(eventDescriptor.deviceId) : null
-    readonly property var eventType: device ? Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId).eventTypes.getEventType(eventDescriptor.eventTypeId) : null
+    readonly property var iface: eventDescriptor && eventDescriptor.interfaceName ? Interfaces.findByName(eventDescriptor.interfaceName) : null
+    readonly property var eventType: device ? Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId).eventTypes.getEventType(eventDescriptor.eventTypeId)
+                                            : iface ? iface.eventTypes.findByName(eventDescriptor.interfaceEvent) : null
 
     signal backPressed();
     signal completed();

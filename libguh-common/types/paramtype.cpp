@@ -31,7 +31,7 @@ ParamType::ParamType(QObject *parent) :
 ParamType::ParamType(const QString &name, const QVariant::Type type, const QVariant &defaultValue, QObject *parent) :
     QObject(parent),
     m_name(name),
-    m_type(type),
+    m_type(QVariant::typeToName(type)),
     m_defaultValue(defaultValue),
     m_readOnly(false)
 {

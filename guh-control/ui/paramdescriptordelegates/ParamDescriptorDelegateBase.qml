@@ -20,12 +20,12 @@ ItemDelegate {
             ComboBox {
                 Layout.fillWidth: true
                 model: {
-                    switch (paramType.type) {
-                    case "Bool":
-                    case "String":
+                    switch (paramType.type.toLowerCase()) {
+                    case "bool":
+                    case "string":
                         return ["is", "is not"];
-                    case "Int":
-                    case "Double":
+                    case "int":
+                    case "double":
                         return ["is", "is not", "is greater", "is smaller", "is greater or equal", "is smaller or equal"]
                     }
                 }
@@ -61,16 +61,16 @@ ItemDelegate {
 
                 sourceComponent: {
                     print("Datatye is:", paramType.type, paramType.minValue, paramType.maxValue)
-                    switch (paramType.type) {
-                    case "Bool":
+                    switch (paramType.type.toLowerCase()) {
+                    case "bool":
                         return boolComponent;
-                    case "Int":
-                    case "Double":
+                    case "int":
+                    case "double":
                         if (paramType.minValue !== undefined && paramType.maxValue !== undefined) {
                             return labelComponent;
                         }
                         return textFieldComponent;
-                    case "String":
+                    case "string":
                         if (paramType.allowedValues.length > 0) {
                             return comboBoxComponent
                         }

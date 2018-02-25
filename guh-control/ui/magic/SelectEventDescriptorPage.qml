@@ -40,22 +40,18 @@ Page {
         ListElement { interfaceName: "weather"; text: "When it starts raining..."; event: "rain" }
     }
 
-    Interfaces {
-        id: interfacesModel
-    }
-
     function buildInterface() {
         if (header.interfacesMode) {
             if (root.device) {
                 print("device supports interfaces", deviceClass.interfaces)
-                for (var i = 0; i < interfacesModel.count; i++) {
-                    print("event is for interface", interfacesModel.get(i).name)
-                    if (deviceClass.interfaces.indexOf(interfacesModel.get(i).name) >= 0) {
-                        actualModel.append(interfacesModel.get(i))
+                for (var i = 0; i < Interfaces.count; i++) {
+                    print("event is for interface", Interfaces.get(i).name)
+                    if (deviceClass.interfaces.indexOf(Interfaces.get(i).name) >= 0) {
+                        actualModel.append(Interfaces.get(i))
                     }
                 }
             } else if (root.eventDescriptor.interfaceName !== "") {
-                listView.model = interfacesModel.findByName(root.eventDescriptor.interfaceName).eventTypes
+                listView.model = Interfaces.findByName(root.eventDescriptor.interfaceName).eventTypes
             } else {
                 console.warn("You need to set device or interfaceName");
             }
@@ -87,6 +83,20 @@ Page {
                         default:
                             console.warn("FIXME: Unhandled interface event");
                         }
+                    } else if (root.eventDescriptor.interfaceName != "") {
+                        root.eventDescriptor.interfaceEvent = model.name;
+                        if (listView.model.get(index).paramTypes.count > 0) {
+                            var paramsPage = pageStack.push(Qt.resolvedUrl("SelectEventDescriptorParamsPage.qml"), {eventDescriptor: root.eventDescriptor})
+                            paramsPage.onBackPressed.connect(function() {pageStack.pop()});
+                            paramsPage.onCompleted.connect(function() {
+                                pageStack.pop();
+                                root.done();
+                            })
+                        } else {
+                            root.done();
+                        }
+                    } else {
+                        console.warn("Neither deviceId not interfaceName set. Cannot continue...");
                     }
                 } else {
                     if (root.device) {

@@ -31,14 +31,10 @@ Page {
             }
         }
 
-        Interfaces {
-            id: interfacesModel
-        }
-
         ListView {
             Layout.fillWidth: true
             Layout.fillHeight: true
-            model: thingButton.checked ? Engine.deviceManager.devices : interfacesModel
+            model: thingButton.checked ? Engine.deviceManager.devices : Interfaces
             clip: true
             delegate: ItemDelegate {
                 text: thingButton.checked ? model.name : model.displayName
@@ -47,7 +43,7 @@ Page {
                     if (thingButton.checked) {
                         root.thingSelected(Engine.deviceManager.devices.get(index))
                     } else {
-                        root.interfaceSelected(interfacesModel.get(index).name)
+                        root.interfaceSelected(Interfaces.get(index).name)
                     }
                 }
             }

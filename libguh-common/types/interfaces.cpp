@@ -20,6 +20,8 @@ Interfaces::Interfaces(QObject *parent) : QAbstractListModel(parent)
     ev->setName("batteryLevel");
     ev->setDisplayName("Battery level changed");
     pt = new ParamType("batteryLevel", QVariant::Int, 50);
+    pt->setDisplayName("Battery Level");
+    qDebug() << "added param" << pt->type();
     pt->setMinValue(0);
     pt->setMaxValue(100);
     ev->paramTypes()->addParamType(pt);
@@ -31,6 +33,7 @@ Interfaces::Interfaces(QObject *parent) : QAbstractListModel(parent)
     ev->setName("batteryCritical");
     ev->setDisplayName("Battery level critical");
     pt = new ParamType("batteryCritical", QVariant::Bool, true);
+    pt->setDisplayName("Battery critical");
     ev->paramTypes()->addParamType(pt);
     iface->eventTypes()->addEventType(ev);
 

@@ -247,10 +247,16 @@ QVariantMap JsonTypes::packRule(Rule *rule)
     if (rule->eventDescriptors()->rowCount() > 0) {
         QVariantList eventDescriptors;
         for (int i = 0; i < rule->eventDescriptors()->rowCount(); i++) {
-            QVariantMap eventDescriptor;
-            eventDescriptor.insert("eventTypeId", rule->eventDescriptors()->get(i)->eventTypeId());
-            eventDescriptor.insert("deviceId", rule->eventDescriptors()->get(i)->deviceId());
-            if (rule->eventDescriptors()->get(i)->paramDescriptors()->rowCount() > 0) {
+            QVariantMap eventDescriptorMap;
+            EventDescriptor* eventDescriptor = rule->eventDescriptors()->get(i);
+            if (!eventDescriptor->deviceId().isNull() && !eventDescriptor->eventTypeId().isNull()) {
+                eventDescriptorMap.insert("eventTypeId", eventDescriptor->eventTypeId());
+                eventDescriptorMap.insert("deviceId", eventDescriptor->deviceId());
+            } else {
+                eventDescriptorMap.insert("interface", eventDescriptor->interfaceName());
+                eventDescriptorMap.insert("interfaceEvent", eventDescriptor->interfaceEvent());
+            }
+            if (eventDescriptor->paramDescriptors()->rowCount() > 0) {
                 QVariantList paramDescriptors;
                 for (int j = 0; j < rule->eventDescriptors()->get(i)->paramDescriptors()->rowCount(); j++) {
                     QVariantMap paramDescriptor;
@@ -260,9 +266,9 @@ QVariantMap JsonTypes::packRule(Rule *rule)
                     paramDescriptor.insert("operator", operatorEnum.valueToKey(rule->eventDescriptors()->get(i)->paramDescriptors()->get(j)->operatorType()));
                     paramDescriptors.append(paramDescriptor);
                 }
-                eventDescriptor.insert("paramDescriptors", paramDescriptors);
+                eventDescriptorMap.insert("paramDescriptors", paramDescriptors);
             }
-            eventDescriptors.append(eventDescriptor);
+            eventDescriptors.append(eventDescriptorMap);
         }
         ret.insert("eventDescriptors", eventDescriptors);
     }

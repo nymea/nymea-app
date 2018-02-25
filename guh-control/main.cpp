@@ -48,6 +48,14 @@
 #include "models/valuelogsproxymodel.h"
 #include "basicconfiguration.h"
 
+static QObject* interfacesModel_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
+{
+    Q_UNUSED(engine)
+    Q_UNUSED(scriptEngine)
+
+    return new Interfaces();
+}
+
 int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
@@ -125,7 +133,7 @@ int main(int argc, char *argv[])
     qmlRegisterUncreatableType<ParamDescriptors>(uri, 1, 0, "ParamDescriptors", "Uncreatable");
 
     qmlRegisterUncreatableType<Interface>(uri, 1, 0, "Interface", "Uncreatable");
-    qmlRegisterType<Interfaces>(uri, 1, 0, "Interfaces");
+    qmlRegisterSingletonType<Interfaces>(uri, 1, 0, "Interfaces", interfacesModel_provider);
 
     qmlRegisterUncreatableType<Plugin>(uri, 1, 0, "Plugin", "Can't create this in QML. Get it from the Plugins.");
     qmlRegisterUncreatableType<Plugins>(uri, 1, 0, "Plugins", "Can't create this in QML. Get it from the DeviceManager.");

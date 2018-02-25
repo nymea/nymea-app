@@ -27,7 +27,8 @@ Page {
             if (ruleError == "RuleErrorNoError") {
                 pageStack.pop();
             } else {
-                errorDialog.createComponent(root, {text: ruleError })
+                var popup = errorDialog.createObject(root, {text: ruleError })
+                popup.open();
             }
         }
 
@@ -35,7 +36,8 @@ Page {
             if (ruleError == "RuleErrorNoError") {
                 pageStack.pop();
             } else {
-                errorDialog.createComponent(root, {text: ruleError })
+                var popup = errorDialog.createObject(root, {text: ruleError })
+                popup.open();
             }
         }
     }
@@ -70,7 +72,7 @@ Page {
                 })
             }
 
-            swipe.right: Item {
+            swipe.right: MouseArea {
                 height: ruleDelegate.height
                 width: height
                 anchors.right: parent.right
@@ -80,8 +82,13 @@ Page {
                     name: "../images/delete.svg"
                     color: "red"
                 }
-                SwipeDelegate.onClicked: Engine.ruleManager.removeRule(model.id)
+                onClicked: Engine.ruleManager.removeRule(model.id)
             }
         }
+    }
+
+    Component {
+        id: errorDialog
+        ErrorDialog {}
     }
 }
