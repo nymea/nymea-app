@@ -164,7 +164,7 @@ Page {
             }
             Label {
                 Layout.fillWidth: true
-                wrapMode: Text.WordWrap
+                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 text: "Fingerprint: " + certDialog.fingerprint
             }
         }

@@ -56,7 +56,7 @@ int main(int argc, char *argv[])
     application.setOrganizationName("guh");
 
     foreach (const QFileInfo &fi, QDir(":/ui/fonts/").entryInfoList()) {
-        int id = QFontDatabase::addApplicationFont(":/ui/fonts/OldaniaADFStd-Regular.otf");
+        int id = QFontDatabase::addApplicationFont(fi.absoluteFilePath());
         qDebug() << "Added font" << fi.absoluteFilePath() << QFontDatabase::applicationFontFamilies(id);
     }
 
