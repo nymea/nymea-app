@@ -11,7 +11,7 @@ ApplicationWindow {
     width: 270 * 1.5
     height: 480 * 1.5
     visibility: settings.viewMode
-
+    font: Qt.application.font
 
     property color guhAccent: "#ff57baae"
 //    Material.primary: "#ff57baae"

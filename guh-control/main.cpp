@@ -53,6 +53,18 @@ int main(int argc, char *argv[])
     application.setApplicationName("guh-control");
     application.setOrganizationName("guh");
 
+    foreach (const QFileInfo &fi, QDir(":/ui/fonts/").entryInfoList()) {
+        int id = QFontDatabase::addApplicationFont(":/ui/fonts/OldaniaADFStd-Regular.otf");
+        qDebug() << "Added font" << fi.absoluteFilePath() << QFontDatabase::applicationFontFamilies(id);
+    }
+
+    QFont applicationFont;
+    applicationFont.setFamily("Ubuntu");
+    applicationFont.setCapitalization(QFont::MixedCase);
+    applicationFont.setPixelSize(16);
+    applicationFont.setWeight(QFont::Normal);
+    QGuiApplication::setFont(applicationFont);
+
     QQuickStyle::setStyle("Material");
 
     const char uri[] = "Guh";

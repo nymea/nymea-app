@@ -124,5 +124,14 @@
         <file>ui/system/PluginParamsPage.qml</file>
         <file>ui/paramdelegates-ng/ParamDelegate.qml</file>
         <file>ui/components/ErrorDialog.qml</file>
+        <file>ui/fonts/Ubuntu-B.ttf</file>
+        <file>ui/fonts/Ubuntu-BI.ttf</file>
+        <file>ui/fonts/Ubuntu-C.ttf</file>
+        <file>ui/fonts/Ubuntu-L.ttf</file>
+        <file>ui/fonts/Ubuntu-LI.ttf</file>
+        <file>ui/fonts/Ubuntu-M.ttf</file>
+        <file>ui/fonts/Ubuntu-MI.ttf</file>
+        <file>ui/fonts/Ubuntu-R.ttf</file>
+        <file>ui/fonts/Ubuntu-RI.ttf</file>
     </qresource>
 </RCC>

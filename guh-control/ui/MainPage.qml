@@ -50,6 +50,7 @@ Page {
 
     ColumnLayout {
         anchors.fill: parent
+        anchors.margins: app.margins
 
         SwipeView {
             id: swipeView
