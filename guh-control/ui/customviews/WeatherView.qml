@@ -41,13 +41,11 @@ CustomViewBase {
                 horizontalAlignment: Text.AlignHCenter
             }
 
-            Image {
+            ColorIcon {
                 id: mainImage
-                // h : w = ss.h : ss.w
-                Layout.preferredWidth: height * implicitWidth / implicitHeight
+                Layout.preferredWidth: app.largeFont * 4
                 Layout.preferredHeight: app.largeFont * 4
-                source: weatherConditionState ? "../images/weathericons/weather-" + weatherConditionState.value + ".svg" : ""
-                sourceSize.height: height
+                name: weatherConditionState ? "../images/weathericons/weather-" + weatherConditionState.value + ".svg" : ""
             }
             ColumnLayout {
                 Layout.fillWidth: true

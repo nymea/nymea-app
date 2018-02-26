@@ -123,7 +123,7 @@ void ValueLogsProxyModel::logsReply(const QVariantMap &data)
         if (m_maximumValue.isNull() || entry->value() > m_maximumValue) {
             m_maximumValue = qRound(entry->value().toDouble());
         }
-        qDebug() << "filling slot" << i << "average:" << avg << entry->timestamp().toString() << "min:" << m_minimumValue << "max:" << m_maximumValue;
+//        qDebug() << "filling slot" << i << "average:" << avg << entry->timestamp().toString() << "min:" << m_minimumValue << "max:" << m_maximumValue;
 
     }
 

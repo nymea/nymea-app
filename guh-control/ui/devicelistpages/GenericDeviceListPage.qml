@@ -31,7 +31,6 @@ Page {
     function enterPage(index, replace) {
         var device = devicesProxy.get(index);
         var deviceClass = Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
-        print("clicked", deviceClass.interfaces)
         var page;
 /*        if (deviceClass.interfaces.indexOf("media") >= 0) {
             page = "MediaDevicePage.qml";

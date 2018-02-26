@@ -44,7 +44,6 @@ Item {
                 return 0
             }
 
-            print("upper", upper, "lower", lower)
             while ((upper - lower) % 10 != 0) {
                 lower -= 1;
                 if ((upper - lower) % 10 != 0) {
@@ -91,10 +90,6 @@ Item {
         property real pps: contentHeight / sections;
 
         onPaint: {
-
-            print("painting canvas", totalSections, sections)
-            var minTemp
-
             var ctx = canvas.getContext('2d');
             ctx.save();
 

@@ -158,7 +158,7 @@ void JsonRpcClient::sendRequest(const QVariantMap &request)
 {
     QVariantMap newRequest = request;
     newRequest.insert("token", m_token);
-    qDebug() << "Sending request" << QJsonDocument::fromVariant(newRequest).toJson();
+//    qDebug() << "Sending request" << QJsonDocument::fromVariant(newRequest).toJson();
     m_connection->sendData(QJsonDocument::fromVariant(newRequest).toJson());
 }
 
