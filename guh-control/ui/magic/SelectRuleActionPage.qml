@@ -28,7 +28,7 @@ Page {
 
         HeaderButton {
             imageSource: header.interfacesMode ? "../images/view-expand.svg" : "../images/view-collapse.svg"
-            visible: root.ruleAction.interfaceName === ""
+            visible: root.ruleAction.deviceId || root.ruleAction.interfaceName === ""
             onClicked: header.interfacesMode = !header.interfacesMode
         }
     }
@@ -50,8 +50,8 @@ Page {
         if (header.interfacesMode) {
             if (root.device) {
                 for (var i = 0; i < Interfaces.count; i++) {
-                    if (deviceClass.interfaces.indexOf(actionTemplateModel.get(i).interfaceName) >= 0) {
-                        actualModel.append(actionTemplateModel.get(i))
+                    if (deviceClass.interfaces.indexOf(Interfaces.get(i).interfaceName) >= 0) {
+                        actualModel.append(Interfaces.get(i))
                     }
                 }
             } else if (root.ruleAction.interfaceName !== "") {

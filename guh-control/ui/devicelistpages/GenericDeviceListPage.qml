@@ -25,7 +25,10 @@ Page {
             return qsTr("All my things")
         }
 
-        onBackPressed: pageStack.pop()
+        onBackPressed: {
+            print("popping")
+            pageStack.pop()
+        }
     }
 
     function enterPage(index, replace) {

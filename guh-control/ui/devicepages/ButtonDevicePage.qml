@@ -9,7 +9,10 @@ DevicePageBase {
 
     header: GuhHeader {
         text: device.name
-        onBackPressed: pageStack.pop()
+        onBackPressed: {
+            print("popping")
+            pageStack.pop()
+        }
 
         HeaderButton {
             imageSource: "../images/info.svg"
@@ -34,11 +37,11 @@ DevicePageBase {
             model: RulesFilterModel {
                 id: rulesFilterModel
                 rules: Engine.ruleManager.rules
-                filterEventDeviceId: root.device.id
+                filterDeviceId: root.device.id
             }
             delegate: SwipeDelegate {
                 width: parent.width
-                property var ruleActions: rulesFilterModel.get(index).ruleActions
+                property var ruleActions: rulesFilterModel.get(index).actions
                 property var ruleAction: ruleActions.count == 1 ? ruleActions.get(0) : null
                 property var ruleActionType: ruleAction ? ruleActionDeviceClass.actionTypes.getActionType(ruleAction.actionTypeId) : null
                 property var ruleActionDevice: ruleAction ? Engine.deviceManager.devices.getDevice(ruleAction.deviceId) : null

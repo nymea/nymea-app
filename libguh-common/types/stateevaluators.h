@@ -8,6 +8,8 @@ class StateEvaluator;
 class StateEvaluators : public QAbstractListModel
 {
     Q_OBJECT
+    Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
+
 public:
     explicit StateEvaluators(QObject *parent = nullptr);
 
@@ -15,7 +17,13 @@ public:
     QVariant data(const QModelIndex &index, int role) const override;
     QHash<int, QByteArray> roleNames() const override;
 
-    StateEvaluator* get(int index) const;
+    void addStateEvaluator(StateEvaluator* stateEvaluator);
+    Q_INVOKABLE StateEvaluator* get(int index) const;
+    StateEvaluator* take(int index);
+
+signals:
+    void countChanged();
+
 private:
     QList<StateEvaluator*> m_list;
 };

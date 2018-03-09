@@ -148,7 +148,7 @@ void UpnpDiscovery::readData()
 
 
             if (key.contains("Server") || key.contains("SERVER")) {
-                if (value.contains("guh")) {
+                if (value.contains("nymea")) {
                     qDebug() << " --> " << key << value;
                     isGuh = true;
                 }
@@ -158,6 +158,10 @@ void UpnpDiscovery::readData()
             if (key.contains("LOCATION") || key.contains("Location")) {
                 location = QUrl(value);
             }
+        }
+
+        if (isGuh) {
+            qDebug() << "Found guh device:" << location;
         }
 
         if (!m_foundDevices.contains(location) && isGuh) {
@@ -201,7 +205,7 @@ void UpnpDiscovery::networkReplyFinished(QNetworkReply *reply)
             }
 
             if (xml.isStartElement()) {
-                if (xml.name().toString() == "guhRpcURL") {
+                if (xml.name().toString() == "nymeaRpcURL") {
                     discoveryDevice.setGuhRpcUrl(xml.readElementText());
                 }
             }

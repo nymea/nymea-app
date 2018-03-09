@@ -66,8 +66,17 @@ bool RulesFilterModel::filterAcceptsRow(int source_row, const QModelIndex &sourc
             found = true;
         }
         if (!found) {
-            for (int i = 0; i < rule->ruleActions()->rowCount(); i++) {
-                RuleAction *ra = rule->ruleActions()->get(i);
+            for (int i = 0; i < rule->actions()->rowCount(); i++) {
+                RuleAction *ra = rule->actions()->get(i);
+                if (ra->deviceId() == m_filterDeviceId) {
+                    found = true;
+                    break;
+                }
+            }
+        }
+        if (!found) {
+            for (int i = 0; i < rule->exitActions()->rowCount(); i++) {
+                RuleAction *ra = rule->exitActions()->get(i);
                 if (ra->deviceId() == m_filterDeviceId) {
                     found = true;
                     break;

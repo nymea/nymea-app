@@ -5,7 +5,7 @@
 StateEvaluator::StateEvaluator(QObject *parent) : QObject(parent)
 {
     m_childEvaluators = new StateEvaluators(this);
-//    m_stateDescriptor = new StateDescriptor(this);
+    m_stateDescriptor = new StateDescriptor(this);
 }
 
 StateEvaluator::StateOperator StateEvaluator::stateOperator() const
@@ -15,7 +15,10 @@ StateEvaluator::StateOperator StateEvaluator::stateOperator() const
 
 void StateEvaluator::setStateOperator(StateEvaluator::StateOperator stateOperator)
 {
-    m_operator = stateOperator;
+    if (m_operator != stateOperator) {
+        m_operator = stateOperator;
+        emit stateOperatorChanged();
+    }
 }
 
 StateEvaluators *StateEvaluator::childEvaluators() const
@@ -48,4 +51,11 @@ bool StateEvaluator::containsDevice(const QUuid &deviceId) const
         }
     }
     return false;
+}
+
+StateEvaluator* StateEvaluator::addChildEvaluator()
+{
+    StateEvaluator* stateEvaluator = new StateEvaluator(m_childEvaluators);
+    m_childEvaluators->addStateEvaluator(stateEvaluator);
+    return stateEvaluator;
 }

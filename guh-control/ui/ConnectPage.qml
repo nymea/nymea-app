@@ -130,11 +130,26 @@ Page {
     Component {
         id: connectingPage
         Page {
-            Label {
+            ColumnLayout {
                 anchors.centerIn: parent
                 width: parent.width - app.margins * 2
-                text: "Connecting to your guh box..."
-                font.pixelSize: app.largeFont
+                spacing: app.margins
+
+                Label {
+                    text: qsTr("Connecting to your guh box...")
+                    wrapMode: Text.WordWrap
+                    font.pixelSize: app.largeFont
+                    Layout.fillWidth: true
+                }
+
+                Button {
+                    text: "Cancel"
+                    Layout.fillWidth: true
+                    onClicked: {
+                        Engine.connection.disconnect()
+                        pageStack.pop();
+                    }
+                }
             }
         }
     }

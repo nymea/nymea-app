@@ -31,6 +31,9 @@
 #include "types/eventdescriptors.h"
 #include "types/ruleactionparam.h"
 #include "types/ruleactionparams.h"
+#include "types/stateevaluator.h"
+#include "types/stateevaluators.h"
+#include "types/statedescriptor.h"
 
 #include <QMetaEnum>
 
@@ -223,56 +226,74 @@ QVariantMap JsonTypes::packRule(Rule *rule)
     ret.insert("name", rule->name());
     ret.insert("enabled", rule->enabled());
 
-    if (rule->ruleActions()->rowCount() > 0) {
-        QVariantList actions;
-        for (int i = 0; i < rule->ruleActions()->rowCount(); i++) {
-            QVariantMap ruleAction;
-            ruleAction.insert("actionTypeId", rule->ruleActions()->get(i)->actionTypeId());
-            ruleAction.insert("deviceId", rule->ruleActions()->get(i)->deviceId());
-            if (rule->ruleActions()->get(i)->ruleActionParams()->rowCount() > 0) {
-                QVariantList ruleActionParams;
-                for (int j = 0; j < rule->ruleActions()->get(i)->ruleActionParams()->rowCount(); j++) {
-                    QVariantMap ruleActionParam;
-                    ruleActionParam.insert("paramTypeId", rule->ruleActions()->get(i)->ruleActionParams()->get(j)->paramTypeId());
-                    ruleActionParam.insert("value", rule->ruleActions()->get(i)->ruleActionParams()->get(j)->value());
-                    ruleActionParams.append(ruleActionParam);
-                }
-                ruleAction.insert("ruleActionParams", ruleActionParams);
-            }
-            actions.append(ruleAction);
-        }
-        ret.insert("actions", actions);
+    if (rule->actions()->rowCount() > 0) {
+        ret.insert("actions", packRuleActions(rule->actions()));
+    }
+    if (rule->exitActions()->rowCount() > 0) {
+        ret.insert("exitActions", packRuleActions(rule->exitActions()));
     }
 
     if (rule->eventDescriptors()->rowCount() > 0) {
-        QVariantList eventDescriptors;
-        for (int i = 0; i < rule->eventDescriptors()->rowCount(); i++) {
-            QVariantMap eventDescriptorMap;
-            EventDescriptor* eventDescriptor = rule->eventDescriptors()->get(i);
-            if (!eventDescriptor->deviceId().isNull() && !eventDescriptor->eventTypeId().isNull()) {
-                eventDescriptorMap.insert("eventTypeId", eventDescriptor->eventTypeId());
-                eventDescriptorMap.insert("deviceId", eventDescriptor->deviceId());
-            } else {
-                eventDescriptorMap.insert("interface", eventDescriptor->interfaceName());
-                eventDescriptorMap.insert("interfaceEvent", eventDescriptor->interfaceEvent());
-            }
-            if (eventDescriptor->paramDescriptors()->rowCount() > 0) {
-                QVariantList paramDescriptors;
-                for (int j = 0; j < rule->eventDescriptors()->get(i)->paramDescriptors()->rowCount(); j++) {
-                    QVariantMap paramDescriptor;
-                    paramDescriptor.insert("paramTypeId", rule->eventDescriptors()->get(i)->paramDescriptors()->get(j)->paramTypeId());
-                    paramDescriptor.insert("value", rule->eventDescriptors()->get(i)->paramDescriptors()->get(j)->value());
-                    QMetaEnum operatorEnum = QMetaEnum::fromType<ParamDescriptor::ValueOperator>();
-                    paramDescriptor.insert("operator", operatorEnum.valueToKey(rule->eventDescriptors()->get(i)->paramDescriptors()->get(j)->operatorType()));
-                    paramDescriptors.append(paramDescriptor);
-                }
-                eventDescriptorMap.insert("paramDescriptors", paramDescriptors);
-            }
-            eventDescriptors.append(eventDescriptorMap);
-        }
-        ret.insert("eventDescriptors", eventDescriptors);
+        ret.insert("eventDescriptors", packEventDescriptors(rule->eventDescriptors()));
     }
 
+    if (rule->stateEvaluator()) {
+        ret.insert("stateEvaluator", packStateEvaluator(rule->stateEvaluator()));
+    }
+
+    return ret;
+}
+
+QVariantList JsonTypes::packRuleActions(RuleActions *ruleActions)
+{
+    QVariantList ret;
+    for (int i = 0; i < ruleActions->rowCount(); i++) {
+        QVariantMap ruleAction;
+        ruleAction.insert("actionTypeId", ruleActions->get(i)->actionTypeId());
+        ruleAction.insert("deviceId", ruleActions->get(i)->deviceId());
+        if (ruleActions->get(i)->ruleActionParams()->rowCount() > 0) {
+            QVariantList ruleActionParams;
+            for (int j = 0; j < ruleActions->get(i)->ruleActionParams()->rowCount(); j++) {
+                QVariantMap ruleActionParam;
+                ruleActionParam.insert("paramTypeId", ruleActions->get(i)->ruleActionParams()->get(j)->paramTypeId());
+                ruleActionParam.insert("value", ruleActions->get(i)->ruleActionParams()->get(j)->value());
+                ruleActionParams.append(ruleActionParam);
+            }
+            ruleAction.insert("ruleActionParams", ruleActionParams);
+        }
+        ret.append(ruleAction);
+    }
+
+    return ret;
+}
+
+QVariantList JsonTypes::packEventDescriptors(EventDescriptors *eventDescriptors)
+{
+    QVariantList ret;
+    for (int i = 0; i < eventDescriptors->rowCount(); i++) {
+        QVariantMap eventDescriptorMap;
+        EventDescriptor* eventDescriptor = eventDescriptors->get(i);
+        if (!eventDescriptor->deviceId().isNull() && !eventDescriptor->eventTypeId().isNull()) {
+            eventDescriptorMap.insert("eventTypeId", eventDescriptor->eventTypeId());
+            eventDescriptorMap.insert("deviceId", eventDescriptor->deviceId());
+        } else {
+            eventDescriptorMap.insert("interface", eventDescriptor->interfaceName());
+            eventDescriptorMap.insert("interfaceEvent", eventDescriptor->interfaceEvent());
+        }
+        if (eventDescriptor->paramDescriptors()->rowCount() > 0) {
+            QVariantList paramDescriptors;
+            for (int j = 0; j < eventDescriptor->paramDescriptors()->rowCount(); j++) {
+                QVariantMap paramDescriptor;
+                paramDescriptor.insert("paramTypeId", eventDescriptor->paramDescriptors()->get(j)->paramTypeId());
+                paramDescriptor.insert("value", eventDescriptor->paramDescriptors()->get(j)->value());
+                QMetaEnum operatorEnum = QMetaEnum::fromType<ParamDescriptor::ValueOperator>();
+                paramDescriptor.insert("operator", operatorEnum.valueToKey(eventDescriptor->paramDescriptors()->get(j)->operatorType()));
+                paramDescriptors.append(paramDescriptor);
+            }
+            eventDescriptorMap.insert("paramDescriptors", paramDescriptors);
+        }
+        ret.append(eventDescriptorMap);
+    }
     return ret;
 }
 
@@ -281,6 +302,26 @@ QVariantMap JsonTypes::packParam(Param *param)
     QVariantMap ret;
     ret.insert("paramTypeId", param->paramTypeId());
     ret.insert("value", param->value());
+    return ret;
+}
+
+QVariantMap JsonTypes::packStateEvaluator(StateEvaluator *stateEvaluator)
+{
+    QVariantMap ret;
+    QMetaEnum stateOperatorEnum = QMetaEnum::fromType<StateEvaluator::StateOperator>();
+    ret.insert("operator", stateOperatorEnum.valueToKey(stateEvaluator->stateOperator()));
+    QVariantMap stateDescriptor;
+    stateDescriptor.insert("deviceId", stateEvaluator->stateDescriptor()->deviceId());
+    QMetaEnum valueOperatorEnum = QMetaEnum::fromType<StateDescriptor::ValueOperator>();
+    stateDescriptor.insert("operator", valueOperatorEnum.valueToKeys(stateEvaluator->stateDescriptor()->valueOperator()));
+    stateDescriptor.insert("stateTypeId", stateEvaluator->stateDescriptor()->stateTypeId());
+    stateDescriptor.insert("value", stateEvaluator->stateDescriptor()->value());
+    ret.insert("stateDescriptor", stateDescriptor);
+    QVariantList childEvaluators;
+    for (int i = 0; i < stateEvaluator->childEvaluators()->rowCount(); i++) {
+        childEvaluators.append(packStateEvaluator(stateEvaluator->childEvaluators()->get(i)));
+    }
+    ret.insert("childEvaluators", childEvaluators);
     return ret;
 }
 

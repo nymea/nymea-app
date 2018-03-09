@@ -155,7 +155,7 @@ void LogsModel::update()
 
 void LogsModel::logsReply(const QVariantMap &data)
 {
-    qDebug() << "logs reply";
+    qDebug() << "logs reply" << data;
     m_busy = false;
     emit busyChanged();
     beginResetModel();
@@ -167,12 +167,12 @@ void LogsModel::logsReply(const QVariantMap &data)
         QVariantMap entryMap = logEntryVariant.toMap();
         QDateTime timeStamp = QDateTime::fromMSecsSinceEpoch(entryMap.value("timestamp").toLongLong());
         QString deviceId = entryMap.value("deviceId").toString();
-        QVariant value = entryMap.value("value");
         QString typeId = entryMap.value("typeId").toString();
         QMetaEnum sourceEnum = QMetaEnum::fromType<LogEntry::LoggingSource>();
         LogEntry::LoggingSource loggingSource = (LogEntry::LoggingSource)sourceEnum.keyToValue(entryMap.value("source").toByteArray());
         QMetaEnum loggingEventTypeEnum = QMetaEnum::fromType<LogEntry::LoggingEventType>();
         LogEntry::LoggingEventType loggingEventType = (LogEntry::LoggingEventType)loggingEventTypeEnum.keyToValue(entryMap.value("eventType").toByteArray());
+        QVariant value = loggingEventType == LogEntry::LoggingEventTypeActiveChange ? entryMap.value("active").toBool() : entryMap.value("value");
         LogEntry *entry = new LogEntry(timeStamp, value, deviceId, typeId, loggingSource, loggingEventType, this);
         m_list.append(entry);
     }
@@ -191,12 +191,12 @@ void LogsModel::newLogEntryReceived(const QVariantMap &data)
     QVariantMap entryMap = data;
     QDateTime timeStamp = QDateTime::fromMSecsSinceEpoch(entryMap.value("timestamp").toLongLong());
     QString deviceId = entryMap.value("deviceId").toString();
-    QVariant value = entryMap.value("value");
     QString typeId = entryMap.value("typeId").toString();
     QMetaEnum sourceEnum = QMetaEnum::fromType<LogEntry::LoggingSource>();
     LogEntry::LoggingSource loggingSource = (LogEntry::LoggingSource)sourceEnum.keyToValue(entryMap.value("source").toByteArray());
     QMetaEnum loggingEventTypeEnum = QMetaEnum::fromType<LogEntry::LoggingEventType>();
     LogEntry::LoggingEventType loggingEventType = (LogEntry::LoggingEventType)loggingEventTypeEnum.keyToValue(entryMap.value("eventType").toByteArray());
+    QVariant value = loggingEventType == LogEntry::LoggingEventTypeActiveChange ? entryMap.value("active").toBool() : entryMap.value("value");
     LogEntry *entry = new LogEntry(timeStamp, value, deviceId, typeId, loggingSource, loggingEventType, this);
     m_list.append(entry);
     endInsertRows();

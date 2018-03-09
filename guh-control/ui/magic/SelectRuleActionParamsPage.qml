@@ -7,7 +7,7 @@ import Guh 1.0
 
 Page {
     id: root
-    // Needs to be set and filled in with deviceId and actionTypeId
+    // Needs to be set and filled in with deviceId and actionTypeId or interfaceName and interfaceAction
     property var ruleAction
 
     readonly property var device: ruleAction && ruleAction.deviceId ? Engine.deviceManager.devices.getDevice(ruleAction.deviceId) : null

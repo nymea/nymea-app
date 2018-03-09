@@ -10,6 +10,7 @@
 #include "types/ruleactionparams.h"
 #include "types/ruleactionparam.h"
 #include "types/stateevaluator.h"
+#include "types/stateevaluators.h"
 #include "types/statedescriptor.h"
 
 #include <QMetaEnum>
@@ -68,6 +69,7 @@ void RuleManager::removeRule(const QUuid &ruleId)
 void RuleManager::editRule(Rule *rule)
 {
     QVariantMap params = JsonTypes::packRule(rule);
+    qWarning() << "Packed rule:" << params;
     m_jsonClient->sendCommand("Rules.EditRule", params, this, "onEditRuleReply");
 
 }
@@ -97,7 +99,8 @@ void RuleManager::handleRulesNotification(const QVariantMap &params)
         }
         m_rules->remove(ruleId);
         m_rules->insert(parseRule(ruleMap));
-
+    } else if (params.value("notification").toString() == "Rules.RuleActiveChanged") {
+        m_rules->getRule(params.value("params").toMap().value("ruleId").toUuid())->setActive(params.value("params").toMap().value("active").toBool());
     } else {
         qWarning() << "Unhandled rule notification" << params;
     }
@@ -113,10 +116,12 @@ void RuleManager::getRulesReply(const QVariantMap &params)
         QUuid ruleId = ruleDescriptionVariant.toMap().value("id").toUuid();
         QString name = ruleDescriptionVariant.toMap().value("name").toString();
         bool enabled = ruleDescriptionVariant.toMap().value("enabled").toBool();
+        bool active = ruleDescriptionVariant.toMap().value("active").toBool();
 
         Rule *rule = new Rule(ruleId, m_rules);
         rule->setName(name);
         rule->setEnabled(enabled);
+        rule->setActive(active);
         m_rules->insert(rule);
 
         QVariantMap requestParams;
@@ -136,7 +141,8 @@ void RuleManager::getRuleDetailsReply(const QVariantMap &params)
     qDebug() << "got rule details for rule" << ruleMap;
     parseEventDescriptors(ruleMap.value("eventDescriptors").toList(), rule);
     parseRuleActions(ruleMap.value("actions").toList(), rule);
-    parseStateEvaluator(ruleMap.value("stateEvaluator").toMap());
+    parseRuleExitActions(ruleMap.value("exitActions").toList(), rule);
+    rule->setStateEvaluator(parseStateEvaluator(ruleMap.value("stateEvaluator").toMap()));
 }
 
 void RuleManager::onAddRuleReply(const QVariantMap &params)
@@ -167,9 +173,9 @@ Rule *RuleManager::parseRule(const QVariantMap &ruleMap)
     rule->setEnabled(enabled);
     rule->setActive(active);
     parseEventDescriptors(ruleMap.value("eventDescriptors").toList(), rule);
-    StateEvaluator* stateEvaluator = parseStateEvaluator(ruleMap.value("stateEvaluator").toMap());
-    stateEvaluator->setParent(rule);
     parseRuleActions(ruleMap.value("actions").toList(), rule);
+    parseRuleExitActions(ruleMap.value("exitActions").toList(), rule);
+    rule->setStateEvaluator(parseStateEvaluator(ruleMap.value("stateEvaluator").toMap()));
     return rule;
 }
 
@@ -193,28 +199,21 @@ void RuleManager::parseEventDescriptors(const QVariantList &eventDescriptorList,
 
 StateEvaluator *RuleManager::parseStateEvaluator(const QVariantMap &stateEvaluatorMap)
 {
+    qDebug() << "bla" << stateEvaluatorMap;
     StateEvaluator *stateEvaluator = new StateEvaluator(this);
     if (stateEvaluatorMap.contains("stateDescriptor")) {
-        QVariantMap sdMap = stateEvaluatorMap.value("sateDescriptor").toMap();
-        QString operatorString = sdMap.value("stateOperator").toString();
-        StateDescriptor::ValueOperator op;
-        if (operatorString == "ValueOperatorEquals") {
-            op = StateDescriptor::ValueOperatorEquals;
-        } else if (operatorString == "ValueOperatorNotEquals") {
-            op = StateDescriptor::ValueOperatorNotEquals;
-        } else if (operatorString == "ValueOperatorLess") {
-            op = StateDescriptor::ValueOperatorLess;
-        } else if (operatorString == "ValueOperatorGreater") {
-            op = StateDescriptor::ValueOperatorGreater;
-        } else if (operatorString == "ValueOperatorLessOrEqual") {
-            op = StateDescriptor::ValueOperatorLessOrEqual;
-        } else if (operatorString == "ValueOperatorGreaterOrEqual") {
-            op = StateDescriptor::ValueOperatorGreaterOrEqual;
-        }
+        QVariantMap sdMap = stateEvaluatorMap.value("stateDescriptor").toMap();
+        QMetaEnum operatorEnum = QMetaEnum::fromType<StateDescriptor::ValueOperator>();
+        StateDescriptor::ValueOperator op = (StateDescriptor::ValueOperator)operatorEnum.keyToValue(sdMap.value("operator").toByteArray());
         StateDescriptor *sd = new StateDescriptor(sdMap.value("deviceId").toUuid(), op, sdMap.value("stateTypeId").toUuid(), sdMap.value("value"), stateEvaluator);
         stateEvaluator->setStateDescriptor(sd);
-
     }
+
+    foreach (const QVariant &childEvaluatorVariant, stateEvaluatorMap.value("childEvaluators").toList()) {
+        stateEvaluator->childEvaluators()->addStateEvaluator(parseStateEvaluator(childEvaluatorVariant.toMap()));
+    }
+    QMetaEnum operatorEnum = QMetaEnum::fromType<StateEvaluator::StateOperator>();
+    stateEvaluator->setStateOperator((StateEvaluator::StateOperator)operatorEnum.keyToValue(stateEvaluatorMap.value("operator").toByteArray()));
     return stateEvaluator;
 }
 
@@ -230,6 +229,22 @@ void RuleManager::parseRuleActions(const QVariantList &ruleActions, Rule *rule)
             param->setValue(ruleActionParamVariant.toMap().value("value"));
             ruleAction->ruleActionParams()->addRuleActionParam(param);
         }
-        rule->ruleActions()->addRuleAction(ruleAction);
+        rule->actions()->addRuleAction(ruleAction);
+    }
+}
+
+void RuleManager::parseRuleExitActions(const QVariantList &ruleActions, Rule *rule)
+{
+    foreach (const QVariant &ruleActionVariant, ruleActions) {
+        RuleAction *ruleAction = new RuleAction();
+        ruleAction->setDeviceId(ruleActionVariant.toMap().value("deviceId").toUuid());
+        ruleAction->setActionTypeId(ruleActionVariant.toMap().value("actionTypeId").toUuid());
+        foreach (const QVariant &ruleActionParamVariant, ruleActionVariant.toMap().value("ruleActionParams").toList()) {
+            RuleActionParam *param = new RuleActionParam();
+            param->setParamTypeId(ruleActionParamVariant.toMap().value("paramTypeId").toUuid());
+            param->setValue(ruleActionParamVariant.toMap().value("value"));
+            ruleAction->ruleActionParams()->addRuleActionParam(param);
+        }
+        rule->exitActions()->addRuleAction(ruleAction);
     }
 }

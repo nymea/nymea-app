@@ -22,7 +22,23 @@ QHash<int, QByteArray> StateEvaluators::roleNames() const
     return roles;
 }
 
+void StateEvaluators::addStateEvaluator(StateEvaluator *stateEvaluator)
+{
+    beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
+    m_list.append(stateEvaluator);
+    endInsertRows();
+    emit countChanged();
+}
+
 StateEvaluator *StateEvaluators::get(int index) const
 {
     return m_list.at(index);
+}
+
+StateEvaluator *StateEvaluators::take(int index)
+{
+    beginRemoveRows(QModelIndex(), index, index);
+    return m_list.takeAt(index);
+    endInsertRows();
+    emit countChanged();
 }

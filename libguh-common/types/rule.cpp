@@ -11,8 +11,9 @@ Rule::Rule(const QUuid &id, QObject *parent) :
     QObject(parent),
     m_id(id),
     m_eventDescriptors(new EventDescriptors(this)),
-    m_stateEvaluator(new StateEvaluator(this)),
-    m_ruleActions(new RuleActions(this))
+//    m_stateEvaluator(new StateEvaluator(this)),
+    m_actions(new RuleActions(this)),
+    m_exitActions(new RuleActions(this))
 {
 
 }
@@ -71,9 +72,29 @@ StateEvaluator *Rule::stateEvaluator() const
     return m_stateEvaluator;
 }
 
-RuleActions *Rule::ruleActions() const
+RuleActions *Rule::actions() const
 {
-    return m_ruleActions;
+    return m_actions;
+}
+
+RuleActions *Rule::exitActions() const
+{
+    return m_exitActions;
+}
+
+void Rule::setStateEvaluator(StateEvaluator *stateEvaluator)
+{
+    if (m_stateEvaluator) {
+        m_stateEvaluator->deleteLater();
+    }
+    m_stateEvaluator = stateEvaluator;
+    m_stateEvaluator->setParent(this);
+    emit stateEvaluatorChanged();
+}
+
+void Rule::createStateEvaluator()
+{
+    setStateEvaluator(new StateEvaluator(this));
 }
 
 Rule *Rule::clone() const
@@ -89,8 +110,11 @@ Rule *Rule::clone() const
 //    for (int i = 0; i < this->stateEvaluator()->childEvaluators()->rowCount(); i++) {
 //        ret->stateEvaluator()->childEvaluators()->
 //    }
-    for (int i = 0; i < this->ruleActions()->rowCount(); i++) {
-        ret->ruleActions()->addRuleAction(this->ruleActions()->get(i)->clone());
+    for (int i = 0; i < this->actions()->rowCount(); i++) {
+        ret->actions()->addRuleAction(this->actions()->get(i)->clone());
+    }
+    for (int i = 0; i < this->exitActions()->rowCount(); i++) {
+        ret->exitActions()->addRuleAction(this->exitActions()->get(i)->clone());
     }
     return ret;
 }

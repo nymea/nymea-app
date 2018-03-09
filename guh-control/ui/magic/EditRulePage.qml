@@ -13,6 +13,11 @@ Page {
 
     onAccept: busyOverlay.opacity = 1
 
+    readonly property bool isStateBased: rule.eventDescriptors.count === 0
+    readonly property bool actionsVisible: rule.eventDescriptors.count > 0 || rule.stateEvaluator !== null
+    readonly property bool exitActionsVisible: actionsVisible && isStateBased
+    readonly property bool hasExitActions: rule.exitActions.count > 0
+
     function addEventDescriptor() {
         var eventDescriptor = root.rule.eventDescriptors.createNewEventDescriptor();
         var page = pageStack.push(Qt.resolvedUrl("SelectThingPage.qml"));
@@ -36,27 +41,51 @@ Page {
         })
     }
 
-    function addRuleAction() {
-        var ruleAction = root.rule.ruleActions.createNewRuleAction();
+    function editStateEvaluator() {
+        print("opening page", root.rule.stateEvaluator)
+        var page = pageStack.push(Qt.resolvedUrl("EditStateEvaluatorPage.qml"), { stateEvaluator: root.rule.stateEvaluator })
+    }
+
+    function addAction() {
+        var ruleAction = root.rule.actions.createNewRuleAction();
         var page = pageStack.push(Qt.resolvedUrl("SelectThingPage.qml"));
         page.onBackPressed.connect(function() { pageStack.pop() })
         page.onThingSelected.connect(function(device) {
+            print("thing selected", device.name, device.id)
             ruleAction.deviceId = device.id;
-            selectRuleActionData(ruleAction)
+            selectRuleActionData(root.rule.actions, ruleAction)
         })
         page.onInterfaceSelected.connect(function(interfaceName) {
+            print("interface selected", interfaceName)
             ruleAction.interfaceName = interfaceName;
-            selectRuleActionData(ruleAction)
+            selectRuleActionData(root.rule.actions, ruleAction)
         })
     }
-    function selectRuleActionData(ruleAction) {
+    function addExitAction() {
+        var ruleAction = root.rule.exitActions.createNewRuleAction();
+        var page = pageStack.push(Qt.resolvedUrl("SelectThingPage.qml"));
+        page.onBackPressed.connect(function() { pageStack.pop() })
+        page.onThingSelected.connect(function(device) {
+            print("thing selected", device.name, device.id)
+            ruleAction.deviceId = device.id;
+            selectRuleActionData(root.rule.exitActions, ruleAction)
+        })
+        page.onInterfaceSelected.connect(function(interfaceName) {
+            print("interface selected", interfaceName)
+            ruleAction.interfaceName = interfaceName;
+            selectRuleActionData(root.rule.exitActions, ruleAction)
+        })
+    }
+
+    function selectRuleActionData(ruleActions, ruleAction) {
+        print("opening with ruleAction", ruleAction)
         var ruleActionPage = pageStack.push(Qt.resolvedUrl("SelectRuleActionPage.qml"), {text: "Select action", ruleAction: ruleAction });
         ruleActionPage.onBackPressed.connect(function() {
-            ruleAction.destroy();
             pageStack.pop(root);
+            ruleAction.destroy();
         })
         ruleActionPage.onDone.connect(function() {
-            root.rule.ruleActions.addRuleAction(ruleAction)
+            ruleActions.addRuleAction(ruleAction)
             pageStack.pop(root);
         })
     }
@@ -111,18 +140,19 @@ Page {
                 }
             }
 
-            ThinDivider {}
+            ThinDivider { visible: !root.hasExitActions }
 
             Label {
                 Layout.fillWidth: true
                 Layout.margins: app.margins
                 font.pixelSize: app.mediumFont
                 text: "Events triggering this rule"
+                visible: !root.hasExitActions
             }
 
             Repeater {
                 id: eventsRepeater
-                model: root.rule.eventDescriptors
+                model: root.hasExitActions ? null : root.rule.eventDescriptors
                 delegate: SwipeDelegate {
                     id: eventDelegate
                     Layout.fillWidth: true
@@ -174,9 +204,7 @@ Page {
                                     }
                                 }
                             }
-
                         }
-
                     }
                     swipe.right: MouseArea {
                         height: eventDelegate.height
@@ -198,24 +226,52 @@ Page {
                 Layout.margins: app.margins
                 text: eventsRepeater.count == 0 ? "Add an event..." : "Add another event..."
                 onClicked: root.addEventDescriptor();
+                visible: !root.hasExitActions
             }
 
             ThinDivider {}
 
             Label {
-                text: "Actions to execute"
+                text: "Conditions to be met"
                 font.pixelSize: app.mediumFont
                 Layout.fillWidth: true
                 Layout.margins: app.margins
             }
 
+            StateEvaluatorDelegate {
+                Layout.fillWidth: true
+                stateEvaluator: root.rule.stateEvaluator
+                visible: root.rule.stateEvaluator !== null
+            }
+
+            Button {
+                Layout.fillWidth: true
+                Layout.margins: app.margins
+                text: "Add a condition"
+                visible: root.rule.stateEvaluator === null
+                onClicked: {
+                    root.rule.createStateEvaluator();
+//                    root.editStateEvaluator()
+                }
+            }
+
+            ThinDivider { visible: root.actionsVisible }
+
+            Label {
+                text: root.isStateBased ? "Active state enter actions" : "Actions to execute"
+                font.pixelSize: app.mediumFont
+                Layout.fillWidth: true
+                Layout.margins: app.margins
+                visible: root.actionsVisible
+            }
+
             Repeater {
                 id: actionsRepeater
-                model: root.rule.ruleActions
+                model: root.actionsVisible ? root.rule.actions : null
                 delegate: SwipeDelegate {
                     id: actionDelegate
                     Layout.fillWidth: true
-                    property var ruleAction: root.rule.ruleActions.get(index)
+                    property var ruleAction: root.rule.actions.get(index)
                     property var device: ruleAction.deviceId ? Engine.deviceManager.devices.getDevice(ruleAction.deviceId) : null
                     property var iface: ruleAction.interfaceName ? Interfaces.findByName(ruleAction.interfaceName) : null
                     property var deviceClass: device ? Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
@@ -249,7 +305,7 @@ Page {
                             name: "../images/delete.svg"
                             color: "red"
                         }
-                        onClicked: root.rule.ruleActions.removeRuleAction(index)
+                        onClicked: root.rule.actions.removeRuleAction(index)
                     }
                 }
             }
@@ -258,7 +314,72 @@ Page {
                 Layout.fillWidth: true
                 Layout.margins: app.margins
                 text: actionsRepeater.count == 0 ? "Add an action..." : "Add another action..."
-                onClicked: root.addRuleAction();
+                onClicked: root.addAction();
+                visible: root.actionsVisible
+            }
+
+            ThinDivider { visible: root.exitActionsVisible }
+
+            Label {
+                text: "Active state exit actions"
+                font.pixelSize: app.mediumFont
+                Layout.fillWidth: true
+                Layout.margins: app.margins
+                visible: root.exitActionsVisible
+            }
+
+
+            Repeater {
+                id: exitActionsRepeater
+                model: root.exitActionsVisible ? root.rule.exitActions : null
+                delegate: SwipeDelegate {
+                    id: exitActionDelegate
+                    Layout.fillWidth: true
+                    property var ruleAction: root.rule.exitActions.get(index)
+                    property var device: ruleAction.deviceId ? Engine.deviceManager.devices.getDevice(ruleAction.deviceId) : null
+                    property var iface: ruleAction.interfaceName ? Interfaces.findByName(ruleAction.interfaceName) : null
+                    property var deviceClass: device ? Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
+                    property var actionType: deviceClass ? deviceClass.actionTypes.getActionType(ruleAction.actionTypeId)
+                                                         : iface ? iface.actionTypes.findByName(ruleAction.interfaceAction) : null
+                    contentItem: ColumnLayout {
+                        Label {
+                            Layout.fillWidth: true
+                            text: qsTr("%1 - %2").arg(exitActionDelegate.device ? exitActionDelegate.device.name : exitActionDelegate.iface.displayName).arg(exitActionDelegate.actionType.displayName)
+                        }
+
+                        RowLayout {
+                            Layout.fillWidth: true
+                            spacing: app.margins
+                            Repeater {
+                                model: exitActionDelegate.ruleAction.ruleActionParams
+                                Label {
+                                    text: exitActionDelegate.actionType.paramTypes.getParamType(model.paramTypeId).displayName + " -> " + model.value
+                                    font.pixelSize: app.smallFont
+                                }
+                            }
+                        }
+                    }
+                    swipe.right: MouseArea {
+                        height: exitActionDelegate.height
+                        width: height
+                        anchors.right: parent.right
+                        ColorIcon {
+                            anchors.fill: parent
+                            anchors.margins: app.margins
+                            name: "../images/delete.svg"
+                            color: "red"
+                        }
+                        onClicked: root.rule.exitActions.removeRuleAction(index)
+                    }
+                }
+            }
+
+            Button {
+                Layout.fillWidth: true
+                Layout.margins: app.margins
+                text: actionsRepeater.count == 0 ? "Add an action..." : "Add another action..."
+                onClicked: root.addExitAction();
+                visible: root.exitActionsVisible
             }
         }
     }

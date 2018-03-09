@@ -27,17 +27,22 @@
 #include <QUuid>
 
 #include "types/types.h"
-#include "types/device.h"
-#include "types/plugin.h"
 #include "types/deviceclass.h"
-#include "types/paramtype.h"
-#include "types/statetype.h"
-#include "types/state.h"
-#include "types/eventtype.h"
-#include "types/actiontype.h"
 
+class Plugin;
 class Vendor;
+
+class StateType;
+class EventType;
+class ActionType;
+class ParamType;
+
+class Device;
+class Param;
 class Rule;
+class StateEvaluator;
+class RuleActions;
+class EventDescriptors;
 
 class JsonTypes : public QObject
 {
@@ -56,7 +61,10 @@ public:
     static Device *unpackDevice(const QVariantMap &deviceMap, QObject *parent);
 
     static QVariantMap packRule(Rule* rule);
+    static QVariantList packRuleActions(RuleActions* ruleActions);
+    static QVariantList packEventDescriptors(EventDescriptors* eventDescriptors);
     static QVariantMap packParam(Param *param);
+    static QVariantMap packStateEvaluator(StateEvaluator* stateEvaluator);
 private:
     static DeviceClass::SetupMethod stringToSetupMethod(const QString &setupMethodString);
     static QList<DeviceClass::BasicTag> stringListToBasicTags(const QStringList &basicTagsStringList);

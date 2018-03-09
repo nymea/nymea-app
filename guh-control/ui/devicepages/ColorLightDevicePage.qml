@@ -1,9 +1,9 @@
 import QtQuick 2.5
 import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.1
+import QtQuick.Controls.Material 2.1
 import Guh 1.0
 import "../components"
-import "../actiondelegates"
 
 DevicePageBase {
     id: root
@@ -116,23 +116,55 @@ DevicePageBase {
 
         }
 
-        ActionDelegateColor {
+        ColorPicker {
+            id: colorPicker
             Layout.fillWidth: true
             Layout.fillHeight: true
-            actionType: root.deviceClass.actionTypes.findByName("color")
-            actionState: actionType ? root.device.states.getState(actionType.id).value : null
+            Layout.margins: app.margins
+            property var actionType: root.deviceClass.actionTypes.findByName("color")
+            property var actionState: actionType ? root.device.states.getState(actionType.id).value : null
             visible: root.deviceClass.interfaces.indexOf("colorlight") >= 0
 
-            onExecuteAction: {
-                Engine.deviceManager.executeAction(root.device.id, actionType.id, params)
+            color: actionState ? actionState : "white"
+            touchDelegate: Rectangle {
+                height: 15
+                width: height
+                radius: height / 2
+                color: Material.accent
+
+                Rectangle {
+                    color: colorPicker.hovered || colorPicker.pressed ? "#11000000" : "transparent"
+                    anchors.centerIn: parent
+                    height: 30
+                    width: height
+                    radius: width / 2
+                    Behavior on color {
+                        ColorAnimation {
+                            duration: 200
+                        }
+                    }
+                }
+            }
+
+            property var lastSentTime: new Date()
+            onColorChanged: {
+                var currentTime = new Date();
+                if (pressed && currentTime - lastSentTime > 200) {
+                    var params = [];
+                    var param1 = new Object();
+                    param1["paramTypeId"] = actionType.paramTypes.get(0).id;
+                    param1["value"] = color;
+                    params.push(param1)
+                    Engine.deviceManager.executeAction(root.device.id, actionType.id, params)
+                    lastSentTime = currentTime
+                }
             }
         }
 
         Item {
             Layout.fillWidth: true
             Layout.fillHeight: true
+            Layout.preferredHeight: 0
         }
-
     }
-
 }

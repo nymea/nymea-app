@@ -31,7 +31,7 @@ bool ZeroconfDiscovery::discovering() const
 #ifdef WITH_AVAHI
 void ZeroconfDiscovery::serviceEntryAdded(const AvahiServiceEntry &entry)
 {
-    if (!entry.name().startsWith("guhIO") || entry.serviceType() != "_jsonrpc._tcp") {
+    if (!entry.name().startsWith("nymea") || entry.serviceType() != "_jsonrpc._tcp") {
         return;
     }
     qDebug() << "avahi service entry added" << entry.name() << entry.hostAddress() << entry.port() << entry.txt() << entry.serviceType();
@@ -57,7 +57,7 @@ void ZeroconfDiscovery::serviceEntryAdded(const AvahiServiceEntry &entry)
     dev.setHostAddress(entry.hostAddress());
     dev.setPort(entry.port());
     dev.setFriendlyName(entry.hostName());
-    dev.setGuhRpcUrl(QString("%1://%2:%3").arg(sslEnabled ? "guhs" : "guh").arg(entry.hostAddress().toString()).arg(entry.port()));
+    dev.setGuhRpcUrl(QString("%1://%2:%3").arg(sslEnabled ? "nymeas" : "nymea").arg(entry.hostAddress().toString()).arg(entry.port()));
     m_discoveryModel->addDevice(dev);
 
 //    DiscoveryDevice *dev = new DiscoveryDevice();

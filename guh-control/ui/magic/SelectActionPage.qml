@@ -3,7 +3,6 @@ import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.1
 import Guh 1.0
 import "../components"
-import "../actiondelegates"
 import "../paramdelegates"
 
 Page {

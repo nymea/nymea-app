@@ -75,7 +75,7 @@ Page {
 
                 Label {
                     width: listView.column2Width
-                    text: "Device"
+                    text: "Thing"
                 }
                 Label {
                     width: listView.column3Width
@@ -134,7 +134,7 @@ Page {
 
             Label {
                 width: listView.column2Width
-                text: delegate.device.name
+                text: model.source === LogEntry.LoggingSourceSystem ? "Nymea Server" : delegate.device.name
                 elide: Text.ElideRight
             }
             Label {
@@ -144,7 +144,7 @@ Page {
                     case LogEntry.LoggingSourceStates:
                         return delegate.deviceClass.stateTypes.getStateType(model.typeId).displayName;
                     case LogEntry.LoggingSourceSystem:
-                        return "SYS";
+                        return model.loggingEventType === LogEntry.LoggingEventTypeActiveChange ? "Active changed" : "FIXME"
                     case LogEntry.LoggingSourceActions:
                         return delegate.deviceClass.actionTypes.getActionType(model.typeId).displayName;
                     case LogEntry.LoggingSourceEvents:

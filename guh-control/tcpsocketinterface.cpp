@@ -16,7 +16,7 @@ TcpSocketInterface::TcpSocketInterface(QObject *parent) : GuhInterface(parent)
 
 QStringList TcpSocketInterface::supportedSchemes() const
 {
-    return {"guh", "guhs"};
+    return {"nymea", "nymeas"};
 }
 
 void TcpSocketInterface::sendData(const QByteArray &data)
@@ -31,7 +31,7 @@ void TcpSocketInterface::ignoreSslErrors(const QList<QSslError> &errors)
 
 void TcpSocketInterface::onConnected()
 {
-    if (m_url.scheme() == "guh") {
+    if (m_url.scheme() == "nymea") {
         qDebug() << "TCP socket connected";
         emit connected();
     }
@@ -46,10 +46,10 @@ void TcpSocketInterface::onEncrypted()
 void TcpSocketInterface::connect(const QUrl &url)
 {
     m_url = url;
-    if (url.scheme() == "guhs") {
+    if (url.scheme() == "nymeas") {
         qDebug() << "connecting to" << url.host() << url.port();
         m_socket.connectToHostEncrypted(url.host(), url.port());
-    } else if (url.scheme() == "guh") {
+    } else if (url.scheme() == "nymea") {
         m_socket.connectToHost(url.host(), url.port());
     } else {
         qWarning() << "Unsupported scheme";

@@ -103,6 +103,7 @@ DevicePageBase {
                                 print("have actionType param:", actionType.paramTypes.get(i).name, actionType.paramTypes.get(i).type)
                             }
 
+                            return Qt.resolvedUrl("../actiondelegates-ng/ActionDelegate.qml");
                             var delegate = "ActionDelegateFallback.qml";
                             if (actionType.paramTypes.count === 0) {
                                 delegate = "ActionDelegateNoParams.qml";
@@ -117,7 +118,10 @@ DevicePageBase {
                                 } else if (paramType.type === "String" && paramType.allowedValues.length > 0) {
                                     delegate = "ActionDelegateStringFromStringList.qml";
                                 }
+                            } else {
+
                             }
+
                             return Qt.resolvedUrl("../actiondelegates/" + delegate);
                         }
 
@@ -136,7 +140,7 @@ DevicePageBase {
                         Connections {
                             target: delegateLoader.item ? delegateLoader.item : null
                             onExecuteAction: {
-                                delegateLoader.commandId = Engine.deviceManager.executeAction(root.device.id, model.id, params)
+                                Engine.deviceManager.executeAction(root.device.id, model.id, params)
                             }
                         }
                         Connections {

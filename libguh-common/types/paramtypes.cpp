@@ -34,7 +34,10 @@ QList<ParamType *> ParamTypes::paramTypes()
 
 ParamType *ParamTypes::get(int index) const
 {
-    return m_paramTypes.at(index);
+    if (index >= 0 && index < m_paramTypes.count()) {
+        return m_paramTypes.at(index);
+    }
+    return nullptr;
 }
 
 ParamType *ParamTypes::getParamType(const QString &id) const

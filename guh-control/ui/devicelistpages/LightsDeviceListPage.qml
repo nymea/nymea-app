@@ -61,6 +61,7 @@ Page {
                         Label {
                             Layout.fillWidth: true
                             text: model.name
+                            elide: Text.ElideRight
                             verticalAlignment: Text.AlignVCenter
                         }
                         Slider {

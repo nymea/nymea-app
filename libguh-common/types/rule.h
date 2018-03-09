@@ -16,8 +16,9 @@ class Rule : public QObject
     Q_PROPERTY(bool enabled READ enabled WRITE setEnabled NOTIFY enabledChanged)
     Q_PROPERTY(bool active READ active NOTIFY activeChanged)
     Q_PROPERTY(EventDescriptors* eventDescriptors READ eventDescriptors CONSTANT)
-    Q_PROPERTY(StateEvaluator* stateEvaluator READ stateEvaluator CONSTANT)
-    Q_PROPERTY(RuleActions* ruleActions READ ruleActions CONSTANT)
+    Q_PROPERTY(StateEvaluator* stateEvaluator READ stateEvaluator NOTIFY stateEvaluatorChanged)
+    Q_PROPERTY(RuleActions* actions READ actions CONSTANT)
+    Q_PROPERTY(RuleActions* exitActions READ exitActions CONSTANT)
 public:
     explicit Rule(const QUuid &id = QUuid(), QObject *parent = nullptr);
 
@@ -34,7 +35,12 @@ public:
 
     EventDescriptors* eventDescriptors() const;
     StateEvaluator *stateEvaluator() const;
-    RuleActions* ruleActions() const;
+    RuleActions* actions() const;
+    RuleActions* exitActions() const;
+
+    void setStateEvaluator(StateEvaluator* stateEvaluator);
+
+    Q_INVOKABLE void createStateEvaluator();
 
     Rule *clone() const;
 
@@ -42,6 +48,7 @@ signals:
     void nameChanged();
     void enabledChanged();
     void activeChanged();
+    void stateEvaluatorChanged();
 
 private:
     QUuid m_id;
@@ -50,7 +57,8 @@ private:
     bool m_active = false;
     EventDescriptors *m_eventDescriptors = nullptr;
     StateEvaluator *m_stateEvaluator = nullptr;
-    RuleActions *m_ruleActions = nullptr;
+    RuleActions *m_actions = nullptr;
+    RuleActions *m_exitActions = nullptr;
 };
 
 #endif // RULE_H

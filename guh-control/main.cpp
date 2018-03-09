@@ -44,6 +44,9 @@
 #include "types/rule.h"
 #include "types/interfaces.h"
 #include "types/interface.h"
+#include "types/statedescriptor.h"
+#include "types/stateevaluator.h"
+#include "types/stateevaluators.h"
 #include "models/logsmodel.h"
 #include "models/valuelogsproxymodel.h"
 #include "basicconfiguration.h"
@@ -131,6 +134,9 @@ int main(int argc, char *argv[])
     qmlRegisterType<Param>(uri, 1, 0, "Param");
     qmlRegisterUncreatableType<ParamDescriptor>(uri, 1, 0, "ParamDescriptor", "Uncreatable");
     qmlRegisterUncreatableType<ParamDescriptors>(uri, 1, 0, "ParamDescriptors", "Uncreatable");
+    qmlRegisterUncreatableType<StateDescriptor>(uri, 1, 0, "StateDescriptor", "Uncreatable");
+    qmlRegisterUncreatableType<StateEvaluator>(uri, 1, 0, "StateEvaluator", "Uncreatable");
+    qmlRegisterUncreatableType<StateEvaluators>(uri, 1, 0, "StateEvaluators", "Uncreatable");
 
     qmlRegisterUncreatableType<Interface>(uri, 1, 0, "Interface", "Uncreatable");
     qmlRegisterSingletonType<Interfaces>(uri, 1, 0, "Interfaces", interfacesModel_provider);
