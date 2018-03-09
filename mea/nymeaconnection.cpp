@@ -1,0 +1,145 @@
+#include "nymeaconnection.h"
+
+#include <QUrl>
+#include <QDebug>
+#include <QSslKey>
+#include <QSettings>
+
+#include "nymeainterface.h"
+#include "tcpsocketinterface.h"
+#include "websocketinterface.h"
+
+NymeaConnection::NymeaConnection(QObject *parent) : QObject(parent)
+{
+    NymeaInterface *iface = new TcpSocketInterface(this);
+    registerInterface(iface);
+
+    iface = new WebsocketInterface(this);
+    registerInterface(iface);
+}
+
+void NymeaConnection::connect(const QString &url)
+{
+    if (connected()) {
+        qWarning() << "Already connected. Cannot connect multiple times";
+        return;
+    }
+    m_currentUrl = QUrl(url);
+    m_currentInterface = m_interfaces.value(m_currentUrl.scheme());
+    if (!m_currentInterface) {
+        qWarning() << "Cannot connect to urls of scheme" << m_currentUrl.scheme() << "Supported schemes are" << m_interfaces.keys();
+        return;
+    }
+    qDebug() << "Should connect to url" << m_currentUrl;
+    m_currentInterface->connect(m_currentUrl);
+}
+
+void NymeaConnection::disconnect()
+{
+    if (!m_currentInterface || !m_currentInterface->isConnected()) {
+        qWarning() << "not connected, cannot disconnect";
+        return;
+    }
+    m_currentInterface->disconnect();
+}
+
+void NymeaConnection::acceptCertificate(const QByteArray &fingerprint)
+{
+    QSettings settings;
+    settings.beginGroup("acceptedCertificates");
+    settings.setValue(m_currentUrl.toString(), fingerprint);
+    settings.endGroup();
+    connect(m_currentUrl.toString());
+}
+
+bool NymeaConnection::connected()
+{
+    return m_currentInterface && m_currentInterface->isConnected();
+}
+
+QString NymeaConnection::url() const
+{
+    return m_currentUrl.toString();
+}
+
+void NymeaConnection::sendData(const QByteArray &data)
+{
+    if (connected()) {
+//        qDebug() << "sending data:" << data;
+        m_currentInterface->sendData(data);
+    } else {
+        qWarning() << "Not connected. Cannot send.";
+    }
+}
+
+void NymeaConnection::onSslErrors(const QList<QSslError> &errors)
+{
+    qDebug() << "ssl errors";
+    QList<QSslError> ignoredErrors;
+    foreach (const QSslError &error, errors) {
+        if (error.error() == QSslError::HostNameMismatch) {
+            qDebug() << "Ignoring host mismatch on certificate.";
+            ignoredErrors.append(error);
+        } else if (error.error() == QSslError::SelfSignedCertificate) {
+            qDebug() << "have a self signed certificate." << error.certificate() << error.certificate().issuerInfoAttributes();
+
+            QSettings settings;
+            settings.beginGroup("acceptedCertificates");
+            QByteArray storedFingerPrint = settings.value(m_currentUrl.toString()).toByteArray();
+            settings.endGroup();
+
+            if (storedFingerPrint == error.certificate().digest(QCryptographicHash::Sha256).toBase64()) {
+                ignoredErrors.append(error);
+            } else {
+//                QString cn = error.certificate().issuerInfo(QSslCertificate::CommonName);
+                emit verifyConnectionCertificate(error.certificate().issuerInfo(QSslCertificate::CommonName).first(), error.certificate().digest(QCryptographicHash::Sha256).toBase64());
+            }
+        } else {
+            // Reject the connection on all other errors...
+            qDebug() << "error:" << error.errorString() << error.certificate();
+        }
+    }
+    m_currentInterface->ignoreSslErrors(ignoredErrors);
+}
+
+void NymeaConnection::onError(QAbstractSocket::SocketError error)
+{
+    qWarning() << "socket error" << error;
+    emit connectionError();
+}
+
+void NymeaConnection::onConnected()
+{
+    if (m_currentInterface != sender()) {
+        qWarning() << "An inactive interface is emitting signals... ignoring.";
+        return;
+    }
+    qDebug() << "connected";
+    emit connectedChanged(true);
+}
+
+void NymeaConnection::onDisconnected()
+{
+    if (m_currentInterface != sender()) {
+        qWarning() << "An inactive interface is emitting signals... ignoring.";
+        return;
+    }
+    m_currentInterface = nullptr;
+    qDebug() << "disconnected";
+    emit connectedChanged(false);
+}
+
+void NymeaConnection::registerInterface(NymeaInterface *iface)
+{
+    QObject::connect(iface, &NymeaInterface::sslErrors, this, &NymeaConnection::onSslErrors);
+    QObject::connect(iface, &NymeaInterface::error, this, &NymeaConnection::onError);
+    QObject::connect(iface, &NymeaInterface::connected, this, &NymeaConnection::onConnected);
+    QObject::connect(iface, &NymeaInterface::disconnected, this, &NymeaConnection::onDisconnected);
+
+    // signal forwarding
+    QObject::connect(iface, &NymeaInterface::dataReady, this, &NymeaConnection::dataAvailable);
+
+    foreach (const QString &scheme, iface->supportedSchemes()) {
+        m_interfaces[scheme] = iface;
+    }
+}

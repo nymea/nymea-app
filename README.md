@@ -1,2 +1,2 @@
-# guh-control
-QtQuick guh client application
+# mea
+QtQuick nymea client application
