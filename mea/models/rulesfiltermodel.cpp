@@ -29,12 +29,12 @@ void RulesFilterModel::setRules(Rules *rules)
     }
 }
 
-QUuid RulesFilterModel::filterDeviceId() const
+QString RulesFilterModel::filterDeviceId() const
 {
     return m_filterDeviceId;
 }
 
-void RulesFilterModel::setFilterDeviceId(const QUuid &filterDeviceId)
+void RulesFilterModel::setFilterDeviceId(const QString &filterDeviceId)
 {
     if (m_filterDeviceId != filterDeviceId) {
         m_filterDeviceId = filterDeviceId;
@@ -62,7 +62,7 @@ bool RulesFilterModel::filterAcceptsRow(int source_row, const QModelIndex &sourc
                 break;
             }
         }
-        if (!found && rule->stateEvaluator()->containsDevice(m_filterDeviceId)) {
+        if (!found && rule->stateEvaluator() && rule->stateEvaluator()->containsDevice(m_filterDeviceId)) {
             found = true;
         }
         if (!found) {

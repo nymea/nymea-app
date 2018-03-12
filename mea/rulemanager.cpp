@@ -158,7 +158,7 @@ void RuleManager::removeRuleReply(const QVariantMap &params)
 
 void RuleManager::onEditRuleReply(const QVariantMap &params)
 {
-    qDebug() << "Edit rule reply:" << params.value("params").toMap().value("ruleError").toString();
+    qDebug() << "Edit rule reply:" << params; //params.value("params").toMap().value("ruleError").toString();
     emit editRuleReply(params.value("params").toMap().value("ruleError").toString());
 }
 
@@ -183,8 +183,8 @@ void RuleManager::parseEventDescriptors(const QVariantList &eventDescriptorList,
 {
     foreach (const QVariant &eventDescriptorVariant, eventDescriptorList) {
         EventDescriptor *eventDescriptor = new EventDescriptor(rule);
-        eventDescriptor->setDeviceId(eventDescriptorVariant.toMap().value("deviceId").toUuid());
-        eventDescriptor->setEventTypeId(eventDescriptorVariant.toMap().value("eventTypeId").toUuid());
+        eventDescriptor->setDeviceId(eventDescriptorVariant.toMap().value("deviceId").toString());
+        eventDescriptor->setEventTypeId(eventDescriptorVariant.toMap().value("eventTypeId").toString());
         eventDescriptor->setInterfaceName(eventDescriptorVariant.toMap().value("interface").toString());
         eventDescriptor->setInterfaceEvent(eventDescriptorVariant.toMap().value("interfaceEvent").toString());
         foreach (const QVariant &paramDescriptorVariant, eventDescriptorVariant.toMap().value("paramDescriptors").toList()) {
@@ -199,20 +199,20 @@ void RuleManager::parseEventDescriptors(const QVariantList &eventDescriptorList,
 
 StateEvaluator *RuleManager::parseStateEvaluator(const QVariantMap &stateEvaluatorMap)
 {
-    qDebug() << "bla" << stateEvaluatorMap;
-    StateEvaluator *stateEvaluator = new StateEvaluator(this);
-    if (stateEvaluatorMap.contains("stateDescriptor")) {
-        QVariantMap sdMap = stateEvaluatorMap.value("stateDescriptor").toMap();
-        QMetaEnum operatorEnum = QMetaEnum::fromType<StateDescriptor::ValueOperator>();
-        StateDescriptor::ValueOperator op = (StateDescriptor::ValueOperator)operatorEnum.keyToValue(sdMap.value("operator").toByteArray());
-        StateDescriptor *sd = new StateDescriptor(sdMap.value("deviceId").toUuid(), op, sdMap.value("stateTypeId").toUuid(), sdMap.value("value"), stateEvaluator);
-        stateEvaluator->setStateDescriptor(sd);
+    if (!stateEvaluatorMap.contains("stateDescriptor")) {
+        return nullptr;
     }
+    StateEvaluator *stateEvaluator = new StateEvaluator(this);
+    QVariantMap sdMap = stateEvaluatorMap.value("stateDescriptor").toMap();
+    QMetaEnum operatorEnum = QMetaEnum::fromType<StateDescriptor::ValueOperator>();
+    StateDescriptor::ValueOperator op = (StateDescriptor::ValueOperator)operatorEnum.keyToValue(sdMap.value("operator").toByteArray());
+    StateDescriptor *sd = new StateDescriptor(sdMap.value("deviceId").toUuid(), op, sdMap.value("stateTypeId").toUuid(), sdMap.value("value"), stateEvaluator);
+    stateEvaluator->setStateDescriptor(sd);
 
     foreach (const QVariant &childEvaluatorVariant, stateEvaluatorMap.value("childEvaluators").toList()) {
         stateEvaluator->childEvaluators()->addStateEvaluator(parseStateEvaluator(childEvaluatorVariant.toMap()));
     }
-    QMetaEnum operatorEnum = QMetaEnum::fromType<StateEvaluator::StateOperator>();
+    operatorEnum = QMetaEnum::fromType<StateEvaluator::StateOperator>();
     stateEvaluator->setStateOperator((StateEvaluator::StateOperator)operatorEnum.keyToValue(stateEvaluatorMap.value("operator").toByteArray()));
     return stateEvaluator;
 }
@@ -227,6 +227,8 @@ void RuleManager::parseRuleActions(const QVariantList &ruleActions, Rule *rule)
             RuleActionParam *param = new RuleActionParam();
             param->setParamTypeId(ruleActionParamVariant.toMap().value("paramTypeId").toUuid());
             param->setValue(ruleActionParamVariant.toMap().value("value"));
+            param->setEventTypeId(ruleActionParamVariant.toMap().value("eventTypeId").toString());
+            param->setEventParamTypeId(ruleActionParamVariant.toMap().value("eventParamTypeId").toString());
             ruleAction->ruleActionParams()->addRuleActionParam(param);
         }
         rule->actions()->addRuleAction(ruleAction);
@@ -243,6 +245,8 @@ void RuleManager::parseRuleExitActions(const QVariantList &ruleActions, Rule *ru
             RuleActionParam *param = new RuleActionParam();
             param->setParamTypeId(ruleActionParamVariant.toMap().value("paramTypeId").toUuid());
             param->setValue(ruleActionParamVariant.toMap().value("value"));
+            param->setEventTypeId(ruleActionParamVariant.toMap().value("eventTypeId").toString());
+            param->setEventParamTypeId(ruleActionParamVariant.toMap().value("eventParamTypeId").toString());
             ruleAction->ruleActionParams()->addRuleActionParam(param);
         }
         rule->exitActions()->addRuleAction(ruleAction);

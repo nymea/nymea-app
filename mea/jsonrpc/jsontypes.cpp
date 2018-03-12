@@ -256,7 +256,12 @@ QVariantList JsonTypes::packRuleActions(RuleActions *ruleActions)
             for (int j = 0; j < ruleActions->get(i)->ruleActionParams()->rowCount(); j++) {
                 QVariantMap ruleActionParam;
                 ruleActionParam.insert("paramTypeId", ruleActions->get(i)->ruleActionParams()->get(j)->paramTypeId());
-                ruleActionParam.insert("value", ruleActions->get(i)->ruleActionParams()->get(j)->value());
+                if (!ruleActions->get(i)->ruleActionParams()->get(j)->eventTypeId().isEmpty() && !ruleActions->get(i)->ruleActionParams()->get(j)->eventParamTypeId().isEmpty()) {
+                    ruleActionParam.insert("eventTypeId", ruleActions->get(i)->ruleActionParams()->get(j)->eventTypeId());
+                    ruleActionParam.insert("eventParamTypeId", ruleActions->get(i)->ruleActionParams()->get(j)->eventParamTypeId());
+                } else {
+                    ruleActionParam.insert("value", ruleActions->get(i)->ruleActionParams()->get(j)->value());
+                }
                 ruleActionParams.append(ruleActionParam);
             }
             ruleAction.insert("ruleActionParams", ruleActionParams);

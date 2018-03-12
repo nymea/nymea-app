@@ -88,7 +88,9 @@ void Rule::setStateEvaluator(StateEvaluator *stateEvaluator)
         m_stateEvaluator->deleteLater();
     }
     m_stateEvaluator = stateEvaluator;
-    m_stateEvaluator->setParent(this);
+    if (m_stateEvaluator) { // Might be a nullptr now if cleared
+        m_stateEvaluator->setParent(this);
+    }
     emit stateEvaluatorChanged();
 }
 

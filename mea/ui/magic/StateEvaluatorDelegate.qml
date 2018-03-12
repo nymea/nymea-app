@@ -30,15 +30,15 @@ SwipeDelegate {
         ComboBox {
             Layout.fillWidth: true
             model: ["and all of those", "or any of those"]
-            currentIndex: root.stateEvaluator.stateOperator === StateEvaluator.StateOperatorAnd ? 0 : 1
-            visible: root.stateEvaluator.childEvaluators.count > 0
+            currentIndex: root.stateEvaluator && root.stateEvaluator.stateOperator === StateEvaluator.StateOperatorAnd ? 0 : 1
+            visible: root.stateEvaluator && root.stateEvaluator.childEvaluators.count > 0
             onActivated: {
                 root.stateEvaluator.stateOperator = index == 0 ? StateEvaluator.StateOperatorAnd : StateEvaluator.StateOperatorOr
             }
         }
 
         Repeater {
-            model: root.stateEvaluator.childEvaluators
+            model: root.stateEvaluator ? root.stateEvaluator.childEvaluators : null
             delegate: SimpleStateEvaluatorDelegate {
                 Layout.fillWidth: true
                 stateEvaluator: root.stateEvaluator.childEvaluators.get(index)

@@ -37,7 +37,8 @@ HEADERS += engine.h \
     models/valuelogsproxymodel.h \
     discovery/nymeadiscovery.h \
     logmanager.h \
-    basicconfiguration.h
+    basicconfiguration.h \
+    models/eventdescriptorparamsfiltermodel.h
 
 
 SOURCES += main.cpp \
@@ -70,7 +71,8 @@ SOURCES += main.cpp \
     models/valuelogsproxymodel.cpp \
     discovery/nymeadiscovery.cpp \
     logmanager.cpp \
-    basicconfiguration.cpp
+    basicconfiguration.cpp \
+    models/eventdescriptorparamsfiltermodel.cpp
 
 withavahi {
 DEFINES += WITH_AVAHI

@@ -20,6 +20,10 @@ QVariant RuleActionParams::data(const QModelIndex &index, int role) const
         return m_list.at(index.row())->paramTypeId();
     case RoleValue:
         return m_list.at(index.row())->value();
+    case RoleEventTypeId:
+        return m_list.at(index.row())->eventTypeId();
+    case RoleEventParamTypeId:
+        return m_list.at(index.row())->eventParamTypeId();
     }
     return QVariant();
 }
@@ -29,6 +33,8 @@ QHash<int, QByteArray> RuleActionParams::roleNames() const
     QHash<int, QByteArray> roles;
     roles.insert(RoleParamTypeId, "paramTypeId");
     roles.insert(RoleValue, "value");
+    roles.insert(RoleEventTypeId, "eventTypeId");
+    roles.insert(RoleEventParamTypeId, "eventParamTypeId");
     return roles;
 }
 
@@ -53,6 +59,22 @@ void RuleActionParams::setRuleActionParam(const QString &paramTypeId, const QVar
     RuleActionParam *rap = new RuleActionParam(this);
     rap->setParamTypeId(paramTypeId);
     rap->setValue(value);
+    addRuleActionParam(rap);
+}
+
+void RuleActionParams::setRuleActionParamEvent(const QString &paramTypeId, const QString &eventTypeId, const QString &eventParamTypeId)
+{
+    foreach (RuleActionParam *rap, m_list) {
+        if (rap->paramTypeId() == paramTypeId) {
+            rap->setEventTypeId(eventTypeId);
+            rap->setEventParamTypeId(eventParamTypeId);
+            return;
+        }
+    }
+    RuleActionParam *rap = new RuleActionParam(this);
+    rap->setParamTypeId(paramTypeId);
+    rap->setEventTypeId(eventTypeId);
+    rap->setEventParamTypeId(eventParamTypeId);
     addRuleActionParam(rap);
 }
 

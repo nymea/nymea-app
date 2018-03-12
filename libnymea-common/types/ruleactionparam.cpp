@@ -31,6 +31,32 @@ void RuleActionParam::setValue(const QVariant &value)
     }
 }
 
+QString RuleActionParam::eventTypeId() const
+{
+    return m_eventTypeId;
+}
+
+void RuleActionParam::setEventTypeId(const QString &eventTypeId)
+{
+    if (m_eventTypeId != eventTypeId) {
+        m_eventTypeId = eventTypeId;
+        emit eventTypeIdChanged();
+    }
+}
+
+QString RuleActionParam::eventParamTypeId() const
+{
+    return m_eventParamTypeId;
+}
+
+void RuleActionParam::setEventParamTypeId(const QString &eventParamTypeId)
+{
+    if (m_eventParamTypeId != eventParamTypeId) {
+        m_eventParamTypeId = eventParamTypeId;
+        emit eventParamTypeIdChanged();
+    }
+}
+
 RuleActionParam *RuleActionParam::clone() const
 {
     RuleActionParam *ret = new RuleActionParam();

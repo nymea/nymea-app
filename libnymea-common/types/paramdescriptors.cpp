@@ -36,7 +36,10 @@ QHash<int, QByteArray> ParamDescriptors::roleNames() const
 
 ParamDescriptor *ParamDescriptors::get(int index) const
 {
-    return m_list.at(index);
+    if (index >= 0 && index < m_list.count()) {
+        return m_list.at(index);
+    }
+    return nullptr;
 }
 
 ParamDescriptor *ParamDescriptors::createNewParamDescriptor() const

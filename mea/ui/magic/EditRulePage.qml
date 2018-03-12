@@ -79,7 +79,7 @@ Page {
 
     function selectRuleActionData(ruleActions, ruleAction) {
         print("opening with ruleAction", ruleAction)
-        var ruleActionPage = pageStack.push(Qt.resolvedUrl("SelectRuleActionPage.qml"), {text: "Select action", ruleAction: ruleAction });
+        var ruleActionPage = pageStack.push(Qt.resolvedUrl("SelectRuleActionPage.qml"), {text: "Select action", ruleAction: ruleAction, rule: rule });
         ruleActionPage.onBackPressed.connect(function() {
             pageStack.pop(root);
             ruleAction.destroy();
@@ -289,7 +289,8 @@ Page {
                             Repeater {
                                 model: actionDelegate.ruleAction.ruleActionParams
                                 Label {
-                                    text: actionDelegate.actionType.paramTypes.getParamType(model.paramTypeId).displayName + " -> " + model.value
+                                    text: actionDelegate.actionType.paramTypes.getParamType(model.paramTypeId).displayName + " -> " +
+                                          (model.eventParamTypeId.length > 0 ? "value from event" : model.value)
                                     font.pixelSize: app.smallFont
                                 }
                             }

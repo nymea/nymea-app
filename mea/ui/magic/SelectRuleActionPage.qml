@@ -10,6 +10,9 @@ Page {
     // a ruleAction object needs to be set and prefilled with either deviceId or interfaceName
     property var ruleAction: null
 
+    // optionally, a rule which will be used when determining params for the actions
+    property var rule: null
+
     readonly property var device: ruleAction && ruleAction.deviceId ? Engine.deviceManager.devices.getDevice(ruleAction.deviceId) : null
     readonly property var deviceClass: device ? Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
 
@@ -23,7 +26,7 @@ Page {
         id: header
         onBackPressed: root.backPressed();
 
-        property bool interfacesMode: root.ruleAction.interfaceName !== ""
+        property bool interfacesMode: false//root.ruleAction.interfaceName !== ""
         onInterfacesModeChanged: root.buildInterface()
 
         HeaderButton {
@@ -87,7 +90,7 @@ Page {
                     } else if (root.ruleAction.interfaceName != "") {
                         root.ruleAction.interfaceAction = model.name;
                         if (listView.model.get(index).paramTypes.count > 0) {
-                            var paramsPage = pageStack.push(Qt.resolvedUrl("SelectRuleActionParamsPage.qml"), {ruleAction: root.ruleAction})
+                            var paramsPage = pageStack.push(Qt.resolvedUrl("SelectRuleActionParamsPage.qml"), {ruleAction: root.ruleAction, rule: root.rule})
                             paramsPage.onBackPressed.connect(function() {pageStack.pop()});
                             paramsPage.onCompleted.connect(function() {
                                 pageStack.pop();
@@ -105,7 +108,7 @@ Page {
                         console.log("ActionType", actionType.id, "selected. Has", actionType.paramTypes.count, "params");
                         root.ruleAction.actionTypeId = actionType.id;
                         if (actionType.paramTypes.count > 0) {
-                            var paramsPage = pageStack.push(Qt.resolvedUrl("SelectRuleActionParamsPage.qml"), {ruleAction: root.ruleAction})
+                            var paramsPage = pageStack.push(Qt.resolvedUrl("SelectRuleActionParamsPage.qml"), {ruleAction: root.ruleAction, rule: root.rule})
                             paramsPage.onBackPressed.connect(function() { pageStack.pop(); });
                             paramsPage.onCompleted.connect(function() {
                                 pageStack.pop();

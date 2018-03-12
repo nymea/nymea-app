@@ -7,8 +7,11 @@ import Mea 1.0
 
 Page {
     id: root
-    // Needs to be set and filled in with deviceId and actionTypeId or interfaceName and interfaceAction
-    property var ruleAction
+    // Needs to be set and have rule.ruleActions filled in with deviceId and actionTypeId or interfaceName and interfaceAction
+    property var ruleAction: null
+
+    // optionally a rule which will be used to propse event's params as param values
+    property var rule: null
 
     readonly property var device: ruleAction && ruleAction.deviceId ? Engine.deviceManager.devices.getDevice(ruleAction.deviceId) : null
     readonly property var iface: ruleAction && ruleAction.interfaceName ? Interfaces.findByName(ruleAction.interfaceName) : null
@@ -28,9 +31,67 @@ Page {
         Repeater {
             id: delegateRepeater
             model: root.actionType.paramTypes
-            delegate: ParamDelegate {
+            delegate: ColumnLayout {
                 Layout.fillWidth: true
-                paramType: root.actionType.paramTypes.get(index)
+                property string type: {
+                    if (staticParamRadioButton.checked) {
+                        return "static"
+                    }
+                    if (eventParamRadioButton.checked) {
+                        return "event"
+                    }
+                    return ""
+                }
+
+                property alias paramType: paramDelegate.paramType
+                property alias value: paramDelegate.value
+                property alias eventType: eventDescriptorParamsFilterModel.eventType
+                property alias eventParamTypeId: eventDescriptorParamsFilterModel.paramTypeId
+
+                RadioButton {
+                    id: staticParamRadioButton
+                    text: qsTr("Use static value as parameter")
+                    checked: true
+                }
+                ParamDelegate {
+                    id: paramDelegate
+                    Layout.fillWidth: true
+                    paramType: root.actionType.paramTypes.get(index)
+                    enabled: staticParamRadioButton.checked
+                }
+
+                RadioButton {
+                    id: eventParamRadioButton
+                    text: qsTr("Use event parameter")
+                    visible: eventParamsComboBox.count > 0
+                }
+                ComboBox {
+                    id: eventParamsComboBox
+                    Layout.fillWidth: true
+                    Layout.margins: app.margins
+                    enabled: eventParamRadioButton.checked
+                    visible: count > 0
+                    Component.onCompleted: currentIndex = 0;
+                    model: EventDescriptorParamsFilterModel {
+                        id: eventDescriptorParamsFilterModel
+                        eventDescriptor: root.rule.eventDescriptors.count === 1 ? root.rule.eventDescriptors.get(0) : null
+                        property var device: Engine.deviceManager.devices.getDevice(eventDescriptor.deviceId)
+                        property var deviceClass: Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId)
+                        property var eventType: deviceClass.eventTypes.getEventType(eventDescriptor.eventTypeId)
+                        property var paramDescriptor: eventDescriptorParamsFilterModel.eventType.paramTypes.get(eventParamsComboBox.currentIndex)
+                        property var paramTypeId: paramDescriptor.id
+                    }
+                    delegate: ItemDelegate {
+                        width: parent.width
+                        text: eventDescriptorParamsFilterModel.device.name + " - " + eventDescriptorParamsFilterModel.eventType.displayName + " - " + eventDescriptorParamsFilterModel.eventType.paramTypes.getParamType(model.id).displayName
+                    }
+                    contentItem: Label {
+                        id: eventParamsComboBoxContentItem
+                        anchors.fill: parent
+                        anchors.margins: app.margins
+                        text: eventDescriptorParamsFilterModel.device.name + " - " + eventDescriptorParamsFilterModel.eventType.displayName + " - " + eventDescriptorParamsFilterModel.paramDescriptor.displayName
+                    }
+                }
             }
         }
         Item {
@@ -45,7 +106,12 @@ Page {
                 var params = [];
                 for (var i = 0; i < delegateRepeater.count; i++) {
                     var paramDelegate = delegateRepeater.itemAt(i);
-                    root.ruleAction.ruleActionParams.setRuleActionParam(paramDelegate.paramType.id, paramDelegate.value)
+                    if (paramDelegate.type === "static") {
+                        root.ruleAction.ruleActionParams.setRuleActionParam(paramDelegate.paramType.id, paramDelegate.value)
+                    } else if (paramDelegate.type === "event") {
+                        print("adding event based rule action param", paramDelegate.paramType.id, paramDelegate.eventType.id, paramDelegate.eventParamTypeId)
+                        root.ruleAction.ruleActionParams.setRuleActionParamEvent(paramDelegate.paramType.id, paramDelegate.eventType.id, paramDelegate.eventParamTypeId)
+                    }
                 }
                 root.completed()
             }

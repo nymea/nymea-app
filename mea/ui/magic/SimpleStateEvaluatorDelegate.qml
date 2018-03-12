@@ -25,6 +25,10 @@ SwipeDelegate {
         Label {
             Layout.fillWidth: true
             property string operatorString: {
+                if (!root.stateEvaluator) {
+                    return "";
+                }
+
                 switch (root.stateEvaluator.stateDescriptor.valueOperator) {
                 case StateDescriptor.ValueOperatorEquals:
                     return "=";

@@ -49,6 +49,7 @@
 #include "types/stateevaluators.h"
 #include "models/logsmodel.h"
 #include "models/valuelogsproxymodel.h"
+#include "models/eventdescriptorparamsfiltermodel.h"
 #include "basicconfiguration.h"
 
 static QObject* interfacesModel_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
@@ -149,6 +150,8 @@ int main(int argc, char *argv[])
 
     qmlRegisterType<NymeaDiscovery>(uri, 1, 0, "NymeaDiscovery");
     qmlRegisterUncreatableType<DiscoveryModel>(uri, 1, 0, "DiscoveryModel", "Get it from NymeaDiscovery");
+
+    qmlRegisterType<EventDescriptorParamsFilterModel>(uri, 1, 0, "EventDescriptorParamsFilterModel");
 
     qmlRegisterType<LogsModel>(uri, 1, 0, "LogsModel");
     qmlRegisterType<ValueLogsProxyModel>(uri, 1, 0, "ValueLogsProxyModel");

@@ -5,12 +5,12 @@ EventDescriptor::EventDescriptor(QObject *parent) : QObject(parent)
     m_paramDescriptors = new ParamDescriptors(this);
 }
 
-QUuid EventDescriptor::deviceId() const
+QString EventDescriptor::deviceId() const
 {
     return m_deviceId;
 }
 
-void EventDescriptor::setDeviceId(const QUuid &deviceId)
+void EventDescriptor::setDeviceId(const QString &deviceId)
 {
     if (m_deviceId != deviceId) {
         m_deviceId = deviceId;
@@ -18,12 +18,12 @@ void EventDescriptor::setDeviceId(const QUuid &deviceId)
     }
 }
 
-QUuid EventDescriptor::eventTypeId() const
+QString EventDescriptor::eventTypeId() const
 {
     return m_eventTypeId;
 }
 
-void EventDescriptor::setEventTypeId(const QUuid &eventTypeId)
+void EventDescriptor::setEventTypeId(const QString &eventTypeId)
 {
     if (m_eventTypeId != eventTypeId) {
         m_eventTypeId = eventTypeId;

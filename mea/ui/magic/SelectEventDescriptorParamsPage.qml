@@ -28,10 +28,26 @@ Page {
         Repeater {
             id: delegateRepeater
             model: root.eventType.paramTypes
-            delegate: ParamDescriptorDelegateBase {
+            delegate: ColumnLayout {
                 Layout.fillWidth: true
-                paramType: root.eventType.paramTypes.get(index)
-                value: paramType.defaultValue
+                property alias paramType: paramDescriptorDelegate.paramType
+                property alias value: paramDescriptorDelegate.value
+                property alias considerParam: paramCheckBox.checked
+                CheckBox {
+                    id: paramCheckBox
+                    text: "Only consider event if"
+                    Layout.fillWidth: true
+                    Layout.leftMargin: app.margins
+                    Layout.rightMargin: app.margins
+                }
+
+                ParamDescriptorDelegateBase {
+                    id: paramDescriptorDelegate
+                    enabled: paramCheckBox.checked
+                    Layout.fillWidth: true
+                    paramType: root.eventType.paramTypes.get(index)
+                    value: paramType.defaultValue
+                }
             }
         }
         Item {
@@ -46,7 +62,9 @@ Page {
                 var params = [];
                 for (var i = 0; i < delegateRepeater.count; i++) {
                     var paramDelegate = delegateRepeater.itemAt(i);
-                    root.eventDescriptor.paramDescriptors.setParamDescriptor(paramDelegate.paramType.id, paramDelegate.value, paramDelegate.operatorType)
+                    if (paramDelegate.considerParam) {
+                        root.eventDescriptor.paramDescriptors.setParamDescriptor(paramDelegate.paramType.id, paramDelegate.value, paramDelegate.operatorType)
+                    }
                 }
                 root.completed()
             }
