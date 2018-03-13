@@ -33,6 +33,9 @@ public:
 signals:
     void countChanged();
 
+private slots:
+    void ruleChanged();
+
 private:
     QList<Rule*> m_list;
 };

@@ -56,7 +56,7 @@ Page {
                     height: app.iconSize
                     width: height
                     name: "../images/magic.svg"
-                    color: !model.enabled ? "gray" : (model.active ? "red" : app.guhAccent)
+                    color: !model.enabled ? "red" : (model.active ? app.guhAccent : "grey")
                 }
 
                 Label {

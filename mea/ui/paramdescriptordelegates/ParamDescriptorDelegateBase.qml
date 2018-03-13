@@ -61,7 +61,7 @@ ItemDelegate {
                 Layout.fillWidth: true
 
                 sourceComponent: {
-                    print("Datatye is:", paramType.type, paramType.minValue, paramType.maxValue)
+                    print("Datatye is:", paramType.type, paramType.minValue, paramType.maxValue, paramType.allowedValues)
                     switch (paramType.type.toLowerCase()) {
                     case "bool":
                         return boolComponent;
@@ -158,8 +158,7 @@ ItemDelegate {
         id: comboBoxComponent
         ComboBox {
             model: paramType.allowedValues
-            currentIndex: root.paramType.value
-            onActivated: {
+            onCurrentIndexChanged: {
                 root.value = paramType.allowedValues[index]
             }
         }

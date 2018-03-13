@@ -1,6 +1,8 @@
 #include "rules.h"
 #include "rule.h"
 
+#include <QDebug>
+
 Rules::Rules(QObject *parent) : QAbstractListModel(parent)
 {
 
@@ -51,6 +53,9 @@ void Rules::insert(Rule *rule)
     rule->setParent(this);
     beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
     m_list.append(rule);
+    connect(rule, &Rule::enabledChanged, this, &Rules::ruleChanged);
+    connect(rule, &Rule::activeChanged, this, &Rules::ruleChanged);
+    connect(rule, &Rule::nameChanged, this, &Rules::ruleChanged);
     endInsertRows();
     emit countChanged();
 }
@@ -84,4 +89,19 @@ Rule *Rules::getRule(const QUuid &ruleId) const
         }
     }
     return nullptr;
+}
+
+void Rules::ruleChanged()
+{
+    Rule *rule = dynamic_cast<Rule*>(sender());
+    if (!rule) {
+        return;
+    }
+    int idx = m_list.indexOf(rule);
+    if (idx < 0) {
+        qDebug() << "Rule not found in list. Discarding changed event.";
+        return;
+    }
+    QModelIndex modelIndex = index(idx);
+    emit dataChanged(modelIndex, modelIndex, {RoleActive, RoleEnabled, RoleName});
 }

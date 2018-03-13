@@ -112,6 +112,7 @@ void RuleManager::getRulesReply(const QVariantMap &params)
         qWarning() << "Error getting rules:" << params.value("error").toString();
         return;
     }
+    qDebug() << "Get Rules reply" << params;
     foreach (const QVariant &ruleDescriptionVariant, params.value("params").toMap().value("ruleDescriptions").toList()) {
         QUuid ruleId = ruleDescriptionVariant.toMap().value("id").toUuid();
         QString name = ruleDescriptionVariant.toMap().value("name").toString();

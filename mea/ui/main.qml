@@ -142,7 +142,7 @@ ApplicationWindow {
             return Qt.resolvedUrl("images/mediaplayer-app-symbolic.svg")
         case "button":
         case "longpressbutton":
-        case "multibutton":
+        case "simplemultibutton":
         case "longpressmultibutton":
             return Qt.resolvedUrl("images/system-shutdown.svg")
         case "weather":
