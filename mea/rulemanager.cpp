@@ -112,7 +112,7 @@ void RuleManager::getRulesReply(const QVariantMap &params)
         qWarning() << "Error getting rules:" << params.value("error").toString();
         return;
     }
-    qDebug() << "Get Rules reply" << params;
+//    qDebug() << "Get Rules reply" << params;
     foreach (const QVariant &ruleDescriptionVariant, params.value("params").toMap().value("ruleDescriptions").toList()) {
         QUuid ruleId = ruleDescriptionVariant.toMap().value("id").toUuid();
         QString name = ruleDescriptionVariant.toMap().value("name").toString();
@@ -139,7 +139,7 @@ void RuleManager::getRuleDetailsReply(const QVariantMap &params)
         qDebug() << "Got rule details for a rule we don't know";
         return;
     }
-    qDebug() << "got rule details for rule" << ruleMap;
+//    qDebug() << "got rule details for rule" << ruleMap;
     parseEventDescriptors(ruleMap.value("eventDescriptors").toList(), rule);
     parseRuleActions(ruleMap.value("actions").toList(), rule);
     parseRuleExitActions(ruleMap.value("exitActions").toList(), rule);

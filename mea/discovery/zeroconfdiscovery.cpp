@@ -34,7 +34,7 @@ void ZeroconfDiscovery::serviceEntryAdded(const AvahiServiceEntry &entry)
     if (!entry.name().startsWith("nymea") || entry.serviceType() != "_jsonrpc._tcp") {
         return;
     }
-    qDebug() << "avahi service entry added" << entry.name() << entry.hostAddress() << entry.port() << entry.txt() << entry.serviceType();
+//    qDebug() << "avahi service entry added" << entry.name() << entry.hostAddress() << entry.port() << entry.txt() << entry.serviceType();
 
     QString uuid;
     bool sslEnabled = false;

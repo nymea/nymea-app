@@ -8,13 +8,12 @@ GridView {
     id: interfacesGridView
 
     property alias shownInterfaces: interfacesModel.shownInterfaces
+    property int tilesPerRow: Math.ceil(Math.sqrt(interfacesGridView.count))
 
     model: InterfacesModel {
         id: interfacesModel
         devices: Engine.deviceManager.devices
     }
-
-    property int tilesPerRow: Math.ceil(Math.sqrt(interfacesGridView.count))
     cellWidth: width / tilesPerRow
     cellHeight: height / tilesPerRow
     delegate: Item {

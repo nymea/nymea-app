@@ -21,7 +21,7 @@ Page {
                 ColorIcon {
                     height: app.iconSize
                     width: height
-                    name: app.interfaceToIcon(model.interfaces[0])
+                    name: app.interfacesToIcon(model.interfaces)
                     color: app.guhAccent
                 }
 

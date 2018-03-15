@@ -40,7 +40,7 @@ void BasicConfiguration::init()
 
 void BasicConfiguration::getConfigurationsResponse(const QVariantMap &params)
 {
-    qDebug() << "have config reply" << params;
+//    qDebug() << "have config reply" << params;
     QVariantMap basicConfig = params.value("params").toMap().value("basicConfiguration").toMap();
     m_debugServerEnabled = basicConfig.value("debugServerEnabled").toBool();
     m_serverName = basicConfig.value("serverName").toString();

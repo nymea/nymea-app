@@ -140,5 +140,6 @@
         <file>ui/magic/SimpleStateEvaluatorDelegate.qml</file>
         <file>ui/magic/SelectStateDescriptorParamsPage.qml</file>
         <file>ui/magic/SelectStateDescriptorPage.qml</file>
+        <file>ui/images/select-none.svg</file>
     </qresource>
 </RCC>

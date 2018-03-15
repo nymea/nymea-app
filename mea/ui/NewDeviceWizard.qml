@@ -3,7 +3,7 @@ import QtQuick.Layouts 1.1
 import QtQuick.Controls 2.1
 import Mea 1.0
 import "components"
-import "paramdelegates"
+import "paramdelegates-ng"
 
 Page {
     id: root
@@ -334,6 +334,7 @@ Page {
                                     var param = {}
                                     param.paramTypeId = paramRepeater.itemAt(i).paramType.id
                                     param.value = paramRepeater.itemAt(i).value
+                                    print("adding param", param.paramTypeId, param.value)
                                     params.push(param)
                                 }
 

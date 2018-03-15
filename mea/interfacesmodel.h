@@ -9,6 +9,7 @@
 class InterfacesModel : public QAbstractListModel
 {
     Q_OBJECT
+    Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
     Q_PROPERTY(Devices* devices READ devices WRITE setDevices NOTIFY devicesChanged)
     Q_PROPERTY(QStringList shownInterfaces READ shownInterfaces WRITE setShownInterfaces NOTIFY shownInterfacesChanged)
 
@@ -31,6 +32,7 @@ public:
     void setShownInterfaces(const QStringList &shownInterfaces);
 
 signals:
+    void countChanged();
     void devicesChanged();
     void shownInterfacesChanged();
 

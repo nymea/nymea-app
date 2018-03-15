@@ -129,6 +129,16 @@ ApplicationWindow {
         }
     }
 
+    function interfacesToIcon(interfaces) {
+        for (var i = 0; i < interfaces.length; i++) {
+            var icon = interfaceToIcon(interfaces[i]);
+            if (icon !== "") {
+                return icon;
+            }
+        }
+        return Qt.resolvedUrl("images/select-none.svg")
+    }
+
     function interfaceToIcon(name) {
         switch (name) {
         case "light":
@@ -136,6 +146,8 @@ ApplicationWindow {
         case "dimmablelight":
             return Qt.resolvedUrl("images/torch-on.svg")
         case "sensor":
+        case "temperaturesensor":
+        case "humiditysensor":
             return Qt.resolvedUrl("images/sensors.svg")
         case "media":
         case "mediacontroller":
@@ -155,7 +167,10 @@ ApplicationWindow {
             return Qt.resolvedUrl("images/network-wired-symbolic.svg")
         case "notifications":
             return Qt.resolvedUrl("images/notification.svg")
+        case "connectable":
+            return Qt.resolvedUrl("images/stock_link.svg")
         }
+        return "";
     }
 
     function interfaceToColor(name) {

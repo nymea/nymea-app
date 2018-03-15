@@ -36,7 +36,10 @@ ItemDelegate {
                     case "bool":
                         return boolComponent;
                     case "int":
-                        return stringComponent;
+                        if (root.paramType.minimumValue !== undefined && root.paramType.maximumValue !== undefined) {
+                            return sliderComponent;
+                        }
+                        return textFieldComponent;
                     case "string":
                     case "qstring":
                         if (root.paramType.allowedValues.length > 0) {

@@ -83,23 +83,26 @@ void InterfacesModel::syncInterfaces()
         }
     }
     QStringList interfacesToAdd = interfacesInSource;
+    QStringList interfacesToRemove;
 
-    for (QStringList::iterator i = m_interfaces.begin(); i != m_interfaces.end();) {
-        if (!interfacesInSource.contains(*i)) {
-            int idx = m_interfaces.indexOf(*i);
-            beginRemoveRows(QModelIndex(), idx, idx);
-            m_interfaces.takeAt(idx);
-            endRemoveRows();
-            continue;
+    foreach (const QString &interface, m_interfaces) {
+        if (!interfacesInSource.contains(interface)) {
+            interfacesToRemove.append(interface);
         }
-        interfacesToAdd.removeAll(*i);
-        ++i;
+        interfacesToAdd.removeAll(interface);
+    }
+    foreach (const QString &interface, interfacesToRemove) {
+        int idx = m_interfaces.indexOf(interface);
+        beginRemoveRows(QModelIndex(), idx, idx);
+        m_interfaces.takeAt(idx);
+        endRemoveRows();
     }
     if (!interfacesToAdd.isEmpty()) {
         beginInsertRows(QModelIndex(), m_interfaces.count(), m_interfaces.count() + interfacesToAdd.count() - 1);
         m_interfaces.append(interfacesToAdd);
         endInsertRows();
     }
+    emit countChanged();
 }
 
 void InterfacesModel::rowsChanged(const QModelIndex &index, int first, int last)
