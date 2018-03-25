@@ -59,6 +59,7 @@ Page {
                     }
                 }
             }
+
             RowLayout {
                 Layout.fillWidth: true
                 Label {

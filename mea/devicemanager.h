@@ -38,6 +38,8 @@ class DeviceManager : public JsonHandler
     Q_PROPERTY(Devices *devices READ devices CONSTANT)
     Q_PROPERTY(DeviceClasses *deviceClasses READ deviceClasses CONSTANT)
 
+    Q_PROPERTY(bool fetchingData READ fetchingData NOTIFY fetchingDataChanged)
+
 public:
     explicit DeviceManager(JsonRpcClient *jsonclient, QObject *parent = 0);
 
@@ -50,6 +52,8 @@ public:
     Plugins *plugins() const;
     Devices *devices() const;
     DeviceClasses *deviceClasses() const;
+
+    bool fetchingData() const;
 
     Q_INVOKABLE void addDevice(const QUuid &deviceClassId, const QString &name, const QVariantList &deviceParams);
     Q_INVOKABLE void addDiscoveredDevice(const QUuid &deviceClassId, const QUuid &deviceDescriptorId, const QString &name);
@@ -80,12 +84,15 @@ signals:
     void addDeviceReply(const QVariantMap &params);
     void removeDeviceReply(const QVariantMap &params);
     void savePluginConfigReply(const QVariantMap &params);
+    void fetchingDataChanged();
 
 private:
     Vendors *m_vendors;
     Plugins *m_plugins;
     Devices *m_devices;
     DeviceClasses *m_deviceClasses;
+
+    bool m_fetchingData = false;
 
     int m_currentGetConfigIndex = 0;
 

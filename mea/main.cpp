@@ -23,6 +23,7 @@
 #include <QtQml/QQmlContext>
 #include <QQmlApplicationEngine>
 #include <QtQuickControls2>
+#include <QSysInfo>
 
 #include "engine.h"
 #include "vendorsproxy.h"
@@ -79,9 +80,12 @@ int main(int argc, char *argv[])
     applicationFont.setWeight(QFont::Normal);
     QGuiApplication::setFont(applicationFont);
 
-    QQuickStyle::setStyle("Material");
+    QSettings settings;
+    QQuickStyle::setStyle(settings.value("style", "Material").toString());
 
     const char uri[] = "Mea";
+
+    qDebug() << "Running on" << QSysInfo::machineHostName() << QSysInfo::prettyProductName() << QSysInfo::productType() << QSysInfo::productVersion();
 
     qmlRegisterSingletonType<Engine>(uri, 1, 0, "Engine", Engine::qmlInstance);
 

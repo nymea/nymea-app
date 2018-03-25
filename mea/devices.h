@@ -31,6 +31,7 @@
 class Devices : public QAbstractListModel
 {
     Q_OBJECT
+    Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
 public:
     enum Roles {
         RoleName,
@@ -47,7 +48,6 @@ public:
 
     QList<Device *> devices();
 
-    Q_INVOKABLE int count() const;
     Q_INVOKABLE Device *get(int index) const;
     Q_INVOKABLE Device *getDevice(const QUuid &deviceId) const;
 
@@ -63,6 +63,9 @@ public:
 
 protected:
     QHash<int, QByteArray> roleNames() const;
+
+signals:
+    void countChanged();
 
 private:
     QList<Device *> m_devices;

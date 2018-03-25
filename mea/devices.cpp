@@ -35,11 +35,6 @@ QList<Device *> Devices::devices()
     return m_devices;
 }
 
-int Devices::count() const
-{
-    return m_devices.count();
-}
-
 Device *Devices::get(int index) const
 {
     return m_devices.at(index);
@@ -95,6 +90,7 @@ void Devices::addDevice(Device *device)
 //    qDebug() << "Devices: add device" << device->name();
     m_devices.append(device);
     endInsertRows();
+    emit countChanged();
 }
 
 void Devices::removeDevice(Device *device)
@@ -104,6 +100,7 @@ void Devices::removeDevice(Device *device)
     qDebug() << "Devices: removed device" << device->name();
     m_devices.removeAt(index);
     endRemoveRows();
+    emit countChanged();
 }
 
 void Devices::clearModel()
@@ -113,6 +110,7 @@ void Devices::clearModel()
     qDeleteAll(m_devices);
     m_devices.clear();
     endResetModel();
+    emit countChanged();
 }
 
 QHash<int, QByteArray> Devices::roleNames() const

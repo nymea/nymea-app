@@ -103,7 +103,24 @@ Page {
             ColumnLayout {
                 anchors { left: parent.left; right: parent.right; verticalCenter: parent.verticalCenter; margins: app.margins }
                 spacing: app.margins
-                visible: Engine.deviceManager.devices.count === 0
+                visible: Engine.deviceManager.fetchingData
+                BusyIndicator {
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    running: parent.visible
+                }
+                Label {
+                    text: "Loading data..."
+                    font.pixelSize: app.largeFont
+                    Layout.fillWidth: true
+                    wrapMode: Text.WordWrap
+                    horizontalAlignment: Text.AlignHCenter
+                }
+            }
+
+            ColumnLayout {
+                anchors { left: parent.left; right: parent.right; verticalCenter: parent.verticalCenter; margins: app.margins }
+                spacing: app.margins
+                visible: Engine.deviceManager.devices.count === 0 && !Engine.deviceManager.fetchingData
                 Label {
                     text: "Welcome to nymea!"
                     font.pixelSize: app.largeFont

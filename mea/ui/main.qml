@@ -91,6 +91,13 @@ ApplicationWindow {
         initialItem: Page {}
     }
 
+    onClosing: {
+        if (Qt.platform.os == "android") {
+            close.accepted = false;
+            if (pageStack.depth > 1) pageStack.pop();
+        }
+    }
+
     NymeaDiscovery {
         id: discovery
     }

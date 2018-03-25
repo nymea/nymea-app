@@ -68,7 +68,7 @@ void InterfacesModel::syncInterfaces()
     }
 
     QStringList interfacesInSource;
-    for (int i = 0; i < m_devices->count(); i++) {
+    for (int i = 0; i < m_devices->rowCount(); i++) {
         DeviceClass *dc = Engine::instance()->deviceManager()->deviceClasses()->getDeviceClass(m_devices->get(i)->deviceClassId());
 //        qDebug() << "device" <<dc->name() << "has interfaces" << dc->interfaces();
 

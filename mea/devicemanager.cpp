@@ -43,6 +43,8 @@ void DeviceManager::clear()
 
 void DeviceManager::init()
 {
+    m_fetchingData = true;
+    emit fetchingDataChanged();
     m_jsonClient->sendCommand("Devices.GetPlugins", this, "getPluginsResponse");
 }
 
@@ -69,6 +71,11 @@ Devices *DeviceManager::devices() const
 DeviceClasses *DeviceManager::deviceClasses() const
 {
     return m_deviceClasses;
+}
+
+bool DeviceManager::fetchingData() const
+{
+    return m_fetchingData;
 }
 
 void DeviceManager::addDevice(const QUuid &deviceClassId, const QString &name, const QVariantList &deviceParams)
@@ -218,6 +225,8 @@ void DeviceManager::getConfiguredDevicesResponse(const QVariantMap &params)
             Engine::instance()->deviceManager()->devices()->addDevice(device);
         }
     }
+    m_fetchingData = false;
+    emit fetchingDataChanged();
 }
 
 void DeviceManager::addDeviceResponse(const QVariantMap &params)
