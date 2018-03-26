@@ -6,6 +6,7 @@
 #include "stateevaluators.h"
 #include "ruleaction.h"
 #include "ruleactions.h"
+#include "timedescriptor.h"
 
 Rule::Rule(const QUuid &id, QObject *parent) :
     QObject(parent),
@@ -80,6 +81,11 @@ RuleActions *Rule::actions() const
 RuleActions *Rule::exitActions() const
 {
     return m_exitActions;
+}
+
+TimeDescriptor *Rule::timeDescriptor() const
+{
+    return m_timeDescriptor;
 }
 
 void Rule::setStateEvaluator(StateEvaluator *stateEvaluator)

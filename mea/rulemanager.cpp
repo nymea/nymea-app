@@ -12,6 +12,7 @@
 #include "types/stateevaluator.h"
 #include "types/stateevaluators.h"
 #include "types/statedescriptor.h"
+#include "types/timeeventitem.h"
 
 #include <QMetaEnum>
 
@@ -139,10 +140,11 @@ void RuleManager::getRuleDetailsReply(const QVariantMap &params)
         qDebug() << "Got rule details for a rule we don't know";
         return;
     }
-//    qDebug() << "got rule details for rule" << ruleMap;
+    qDebug() << "got rule details for rule" << ruleMap;
     parseEventDescriptors(ruleMap.value("eventDescriptors").toList(), rule);
     parseRuleActions(ruleMap.value("actions").toList(), rule);
     parseRuleExitActions(ruleMap.value("exitActions").toList(), rule);
+    parseTimeDescriptor(ruleMap.value("timeDescriptor").toMap(), rule);
     rule->setStateEvaluator(parseStateEvaluator(ruleMap.value("stateEvaluator").toMap()));
 }
 
@@ -251,5 +253,15 @@ void RuleManager::parseRuleExitActions(const QVariantList &ruleActions, Rule *ru
             ruleAction->ruleActionParams()->addRuleActionParam(param);
         }
         rule->exitActions()->addRuleAction(ruleAction);
+    }
+}
+
+void RuleManager::parseTimeDescriptor(const QVariantMap &timeDescriptor, Rule *rule)
+{
+    foreach (const QVariant &timeEventItemVariant, timeDescriptor.value("timeEventItems").toList()) {
+        TimeEventItem *timeEventItem = new TimeEventItem();
+        timeEventItem->setDateTime(QDateTime::fromSecsSinceEpoch(timeEventItemVariant.toMap().value("datetime").toULongLong()));
+        timeEventItem->setTime(QTime::fromString(timeEventItemVariant.toMap().value("time").toString()));
+//        timeEventItem->setRepeatingOption();
     }
 }

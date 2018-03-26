@@ -45,6 +45,7 @@ private:
     StateEvaluator* parseStateEvaluator(const QVariantMap &stateEvaluatorMap);
     void parseRuleActions(const QVariantList &ruleActions, Rule *rule);
     void parseRuleExitActions(const QVariantList &ruleActions, Rule *rule);
+    void parseTimeDescriptor(const QVariantMap &timeDescriptor, Rule *rule);
 
 signals:
     void addRuleReply(const QString &ruleError);

@@ -44,7 +44,12 @@ HEADERS += types/types.h \
     types/paramdescriptor.h \
     types/paramdescriptors.h \
     types/interface.h \
-    types/interfaces.h
+    types/interfaces.h \
+    types/timedescriptor.h \
+    types/timeeventitem.h \
+    types/calendaritem.h \
+    types/timeeventitems.h \
+    types/calendaritems.h
 
 SOURCES += types/vendor.cpp \
            types/vendors.cpp \
@@ -80,7 +85,12 @@ SOURCES += types/vendor.cpp \
     types/paramdescriptor.cpp \
     types/paramdescriptors.cpp \
     types/interface.cpp \
-    types/interfaces.cpp
+    types/interfaces.cpp \
+    types/timedescriptor.cpp \
+    types/timeeventitem.cpp \
+    types/calendaritem.cpp \
+    types/timeeventitems.cpp \
+    types/calendaritems.cpp
 
 # install header file with relative subdirectory
 for(header, HEADERS) {

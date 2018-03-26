@@ -7,6 +7,7 @@
 class EventDescriptors;
 class RuleActions;
 class StateEvaluator;
+class TimeDescriptor;
 
 class Rule : public QObject
 {
@@ -19,6 +20,7 @@ class Rule : public QObject
     Q_PROPERTY(StateEvaluator* stateEvaluator READ stateEvaluator NOTIFY stateEvaluatorChanged)
     Q_PROPERTY(RuleActions* actions READ actions CONSTANT)
     Q_PROPERTY(RuleActions* exitActions READ exitActions CONSTANT)
+    Q_PROPERTY(TimeDescriptor* timeDescriptor READ timeDescriptor CONSTANT)
 public:
     explicit Rule(const QUuid &id = QUuid(), QObject *parent = nullptr);
 
@@ -37,6 +39,7 @@ public:
     StateEvaluator *stateEvaluator() const;
     RuleActions* actions() const;
     RuleActions* exitActions() const;
+    TimeDescriptor* timeDescriptor() const;
 
     void setStateEvaluator(StateEvaluator* stateEvaluator);
 
@@ -59,6 +62,7 @@ private:
     StateEvaluator *m_stateEvaluator = nullptr;
     RuleActions *m_actions = nullptr;
     RuleActions *m_exitActions = nullptr;
+    TimeDescriptor *m_timeDescriptor = nullptr;
 };
 
 #endif // RULE_H
