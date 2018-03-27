@@ -31,7 +31,7 @@ bool ZeroconfDiscovery::discovering() const
 #ifdef WITH_AVAHI
 void ZeroconfDiscovery::serviceEntryAdded(const AvahiServiceEntry &entry)
 {
-    if (!entry.name().startsWith("nymea") || entry.serviceType() != "_jsonrpc._tcp") {
+    if (!entry.name().startsWith("nymea") || entry.serviceType() != "_jsonrpc._tcp" || entry.hostAddress().protocol() == QAbstractSocket::IPv6Protocol) {
         return;
     }
 //    qDebug() << "avahi service entry added" << entry.name() << entry.hostAddress() << entry.port() << entry.txt() << entry.serviceType();
@@ -57,7 +57,14 @@ void ZeroconfDiscovery::serviceEntryAdded(const AvahiServiceEntry &entry)
     dev.setHostAddress(entry.hostAddress());
     dev.setPort(entry.port());
     dev.setFriendlyName(entry.hostName());
-    dev.setNymeaRpcUrl(QString("%1://%2:%3").arg(sslEnabled ? "nymeas" : "nymea").arg(entry.hostAddress().toString()).arg(entry.port()));
+    QHostAddress address = entry.hostAddress();
+    QString addressString;
+    if (address.protocol() == QAbstractSocket::IPv6Protocol) {
+        addressString = "[" + address.toString() + "]";
+    } else {
+        addressString = address.toString();
+    }
+    dev.setNymeaRpcUrl(QString("%1://%2:%3").arg(sslEnabled ? "nymeas" : "nymea").arg(addressString).arg(entry.port()));
     m_discoveryModel->addDevice(dev);
 
 //    DiscoveryDevice *dev = new DiscoveryDevice();

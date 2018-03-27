@@ -35,20 +35,18 @@ CustomViewBase {
             }
         }
 
-        Slider {
+        ThrottledSlider {
             Layout.fillWidth: true
             value: root.device.stateValue(deviceClass.stateTypes.findByName("volume").id)
             from: 0
             to: 100
-            onValueChanged: {
-                if (pressed) {
-                    var paramList = []
-                    var muteParam = {}
-                    muteParam["paramTypeId"] = deviceClass.stateTypes.findByName("volume").id
-                    muteParam["value"] = value
-                    paramList.push(muteParam)
-                    Engine.deviceManager.executeAction(root.device.id, deviceClass.actionTypes.findByName("volume").id, paramList)
-                }
+            onMoved: {
+                var paramList = []
+                var muteParam = {}
+                muteParam["paramTypeId"] = deviceClass.stateTypes.findByName("volume").id
+                muteParam["value"] = value
+                paramList.push(muteParam)
+                Engine.deviceManager.executeAction(root.device.id, deviceClass.actionTypes.findByName("volume").id, paramList)
             }
         }
     }

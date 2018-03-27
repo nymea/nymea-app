@@ -137,7 +137,7 @@ ItemDelegate {
             Label {
                 text: sliderRow.paramType.minValue
             }
-            Slider {
+            ThrottledSlider {
                 Layout.fillWidth: true
                 from: sliderRow.paramType.minValue
                 to: sliderRow.paramType.maxValue
@@ -151,15 +151,13 @@ ItemDelegate {
 
                 }
 
-                onValueChanged: {
-                    if (pressed) {
-                        var params = [];
-                        var param1 = new Object();
-                        param1["paramTypeId"] = sliderRow.paramType.id;
-                        param1["value"] = value;
-                        params.push(param1)
-                        root.executeAction(params)
-                    }
+                onMoved: {
+                    var params = [];
+                    var param1 = new Object();
+                    param1["paramTypeId"] = sliderRow.paramType.id;
+                    param1["value"] = value;
+                    params.push(param1)
+                    root.executeAction(params)
                 }
             }
             Label {

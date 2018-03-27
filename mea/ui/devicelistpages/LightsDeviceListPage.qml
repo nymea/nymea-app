@@ -64,22 +64,20 @@ Page {
                             elide: Text.ElideRight
                             verticalAlignment: Text.AlignVCenter
                         }
-                        Slider {
+                        ThrottledSlider {
                             visible: model.interfaces.indexOf("dimmablelight") >= 0
                             property var stateType: deviceClass.stateTypes.findByName("brightness");
                             property var actionType: deviceClass.actionTypes.findByName("brightness");
                             property var actionState: device.states.getState(stateType.id)
                             from: 0; to: 100
                             value: actionState.value
-                            onValueChanged: {
-                                if (pressed) {
-                                    var params = [];
-                                    var param1 = {};
-                                    param1["paramTypeId"] = actionType.paramTypes.get(0).id;
-                                    param1["value"] = value;
-                                    params.push(param1)
-                                    Engine.deviceManager.executeAction(device.id, actionType.id, params)
-                                }
+                            onMoved: {
+                                var params = [];
+                                var param1 = {};
+                                param1["paramTypeId"] = actionType.paramTypes.get(0).id;
+                                param1["value"] = value;
+                                params.push(param1)
+                                Engine.deviceManager.executeAction(device.id, actionType.id, params)
                             }
                         }
                         Switch {

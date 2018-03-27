@@ -4,10 +4,12 @@ import QtQuick.Controls 2.1
 Item {
     id: root
     implicitHeight: slider.implicitHeight
+    implicitWidth: slider.implicitWidth
 
     property real value: 0
     property alias from: slider.from
     property alias to: slider.to
+    property alias stepSize: slider.stepSize
     signal moved(real value);
 
     Slider {
