@@ -34,10 +34,11 @@ void ZeroconfDiscovery::serviceEntryAdded(const AvahiServiceEntry &entry)
     if (!entry.name().startsWith("nymea") || entry.serviceType() != "_jsonrpc._tcp" || entry.hostAddress().protocol() == QAbstractSocket::IPv6Protocol) {
         return;
     }
-//    qDebug() << "avahi service entry added" << entry.name() << entry.hostAddress() << entry.port() << entry.txt() << entry.serviceType();
+    qDebug() << "avahi service entry added" << entry.name() << entry.hostAddress() << entry.port() << entry.txt() << entry.serviceType();
 
     QString uuid;
     bool sslEnabled = false;
+    QString serverName;
     foreach (const QString &txt, entry.txt()) {
         QPair<QString, QString> txtRecord = qMakePair<QString, QString>(txt.split("=").first(), txt.split("=").at(1));
         if (!sslEnabled && txtRecord.first == "sslEnabled") {
@@ -45,6 +46,9 @@ void ZeroconfDiscovery::serviceEntryAdded(const AvahiServiceEntry &entry)
         }
         if (txtRecord.first == "uuid") {
             uuid = txtRecord.second;
+        }
+        if (txtRecord.first == "name") {
+            serverName = txtRecord.second;
         }
     }
 
@@ -56,7 +60,7 @@ void ZeroconfDiscovery::serviceEntryAdded(const AvahiServiceEntry &entry)
     dev.setUuid(uuid);
     dev.setHostAddress(entry.hostAddress());
     dev.setPort(entry.port());
-    dev.setFriendlyName(entry.hostName());
+    dev.setFriendlyName(serverName + " on " + entry.hostName());
     QHostAddress address = entry.hostAddress();
     QString addressString;
     if (address.protocol() == QAbstractSocket::IPv6Protocol) {

@@ -1,6 +1,6 @@
 import QtQuick 2.8
 import QtQuick.Layouts 1.2
-import QtQuick.Controls 2.1
+import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.1
 import Mea 1.0
 import "../components"
@@ -102,21 +102,29 @@ ItemDelegate {
                 text: root.paramType.minValue
             }
             Slider {
+                id: slider
                 Layout.fillWidth: true
                 from: root.paramType.minValue
                 to: root.paramType.maxValue
                 value: root.param.value
                 stepSize: {
-                    switch (root.paramType.type) {
-                    case "Int":
+                    switch (root.paramType.type.toLowerCase()) {
+                    case "int":
                         return 1;
                     }
                     return 0.01;
-
                 }
 
                 onMoved: {
-                    root.param.value = value;
+                    var newValue
+                    switch (root.paramType.type.toLowerCase()) {
+                    case "int":
+                        newValue = Math.round(value)
+                        break;
+                    default:
+                        newValue = Math.round(value * 10) / 10
+                    }
+                    root.param.value = newValue;
                 }
             }
             Label {

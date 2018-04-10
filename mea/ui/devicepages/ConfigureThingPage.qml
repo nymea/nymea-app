@@ -15,10 +15,26 @@ Page {
         onBackPressed: pageStack.pop()
 
         HeaderButton {
-            imageSource: "../images/delete.svg"
-            color: "red"
-            onClicked: {
-                Engine.deviceManager.removeDevice(root.device.id)
+            imageSource: "../images/navigation-menu.svg"
+            onClicked: deviceMenu.open()
+        }
+    }
+
+    Menu {
+        id: deviceMenu
+        width: implicitWidth + app.margins
+        x: parent.width - width
+        IconMenuItem {
+            iconSource: "../images/delete.svg"
+            text: "Delete Thing"
+            onTriggered: Engine.deviceManager.removeDevice(root.device.id)
+        }
+        IconMenuItem {
+            iconSource: "../images/edit.svg"
+            text: "Rename Thing"
+            onTriggered: {
+                var popup = renameDialog.createObject(root);
+                popup.open();
             }
         }
     }
@@ -35,19 +51,61 @@ Page {
         }
     }
 
-    ListView {
+    Flickable {
         anchors.fill: parent
-        model: root.device.params
-        delegate: ParamDelegate {
+
+        ColumnLayout {
             width: parent.width
-            paramType: root.deviceClass.paramTypes.getParamType(model.id)
-            param: root.device.params.get(index)
-            writable: false
+
+            Label {
+                Layout.fillWidth: true
+                Layout.leftMargin: app.margins
+                Layout.rightMargin: app.margins
+                Layout.topMargin: app.margins
+                text: "Thing parameters".toUpperCase()
+                color: app.guhAccent
+            }
+
+            Repeater {
+                model: root.device.params
+                delegate: ParamDelegate {
+                    Layout.fillWidth: true
+                    paramType: root.deviceClass.paramTypes.getParamType(model.id)
+                    param: root.device.params.get(index)
+                    writable: false
+                }
+            }
+
+//            ThinDivider {}
         }
+
     }
 
     Component {
         id: errorDialog
         ErrorDialog { }
+    }
+
+    Component {
+        id: renameDialog
+        Dialog {
+            id: dialog
+            width: parent.width * .8
+            x: (parent.width - width) / 2
+            y: app.margins
+
+            standardButtons: Dialog.Ok | Dialog.Cancel
+
+            TextField {
+                id: textField
+                text: root.device.name
+                width: parent.width
+            }
+
+            onAccepted: {
+                Engine.deviceManager.editDevice(root.device.id, textField.text)
+                dialog.destroy();
+            }
+        }
     }
 }

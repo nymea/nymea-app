@@ -36,19 +36,15 @@ class Device : public QObject
     Q_PROPERTY(QUuid id READ id CONSTANT)
     Q_PROPERTY(QUuid deviceClassId READ deviceClassId CONSTANT)
     Q_PROPERTY(QString name READ name NOTIFY nameChanged)
-    Q_PROPERTY(QString deviceName READ deviceName NOTIFY nameChanged)
     Q_PROPERTY(bool setupComplete READ setupComplete NOTIFY setupCompleteChanged)
     Q_PROPERTY(Params *params READ params NOTIFY paramsChanged)
     Q_PROPERTY(States *states READ states NOTIFY statesChanged)
-    Q_PROPERTY(StatesProxy *statesProxy READ statesProxy CONSTANT)
 
 public:
     explicit Device(QObject *parent = 0);
 
     QString name() const;
-
-    QString deviceName() const;
-    void setDeviceName(const QString &deviceName);
+    void setName(const QString &name);
 
     QUuid id() const;
     void setId(const QUuid &id);
@@ -65,8 +61,6 @@ public:
     States *states() const;
     void setStates(States *states);
 
-    StatesProxy *statesProxy() const;
-
     Q_INVOKABLE bool hasState(const QUuid &stateTypeId);
 
     Q_INVOKABLE QVariant stateValue(const QUuid &stateTypeId);
@@ -77,9 +71,8 @@ private:
     QUuid m_id;
     QUuid m_deviceClassId;
     bool m_setupComplete;
-    Params *m_params;
-    States *m_states;
-    StatesProxy *m_statesProxy;
+    Params *m_params = nullptr;
+    States *m_states = nullptr;
 
 signals:
     void nameChanged();

@@ -65,7 +65,8 @@ Page {
                             verticalAlignment: Text.AlignVCenter
                         }
                         ThrottledSlider {
-                            visible: model.interfaces.indexOf("dimmablelight") >= 0
+                            id: inlineSlider
+                            visible: model.interfaces.indexOf("dimmablelight") >= 0 && parent.width > 350
                             property var stateType: deviceClass.stateTypes.findByName("brightness");
                             property var actionType: deviceClass.actionTypes.findByName("brightness");
                             property var actionState: device.states.getState(stateType.id)

@@ -25,8 +25,7 @@
 #include <QDebug>
 
 Device::Device(QObject *parent) :
-    QObject(parent),
-    m_statesProxy(new StatesProxy(this))
+    QObject(parent)
 {
 }
 
@@ -35,14 +34,9 @@ QString Device::name() const
     return m_name;
 }
 
-QString Device::deviceName() const
+void Device::setName(const QString &name)
 {
-    return m_name;
-}
-
-void Device::setDeviceName(const QString &deviceName)
-{
-    m_name = deviceName;
+    m_name = name;
     emit nameChanged();
 }
 
@@ -97,12 +91,6 @@ void Device::setStates(States *states)
 {
     m_states = states;
     emit statesChanged();
-    m_statesProxy->setStates(states);
-}
-
-StatesProxy *Device::statesProxy() const
-{
-    return m_statesProxy;
 }
 
 bool Device::hasState(const QUuid &stateTypeId)

@@ -47,7 +47,7 @@ Device *Devices::getDevice(const QUuid &deviceId) const
             return device;
         }
     }
-    return 0;
+    return nullptr;
 }
 
 int Devices::rowCount(const QModelIndex &parent) const
@@ -65,8 +65,6 @@ QVariant Devices::data(const QModelIndex &index, int role) const
     switch (role) {
     case RoleName:
         return device->name();
-    case RoleDeviceName:
-        return device->deviceName();
     case RoleId:
         return device->id().toString();
     case RoleDeviceClass:
@@ -86,10 +84,21 @@ QVariant Devices::data(const QModelIndex &index, int role) const
 
 void Devices::addDevice(Device *device)
 {
+    device->setParent(this);
     beginInsertRows(QModelIndex(), m_devices.count(), m_devices.count());
 //    qDebug() << "Devices: add device" << device->name();
     m_devices.append(device);
     endInsertRows();
+    connect(device, &Device::nameChanged, this, [device, this]() {
+        int idx = m_devices.indexOf(device);
+        if (idx < 0) return;
+        emit dataChanged(index(idx), index(idx), {RoleName});
+    });
+    connect(device, &Device::setupCompleteChanged, this, [device, this]() {
+        int idx = m_devices.indexOf(device);
+        if (idx < 0) return;
+        emit dataChanged(index(idx), index(idx), {RoleSetupComplete});
+    });
     emit countChanged();
 }
 
@@ -117,7 +126,6 @@ QHash<int, QByteArray> Devices::roleNames() const
 {
     QHash<int, QByteArray> roles;
     roles[RoleName] = "name";
-    roles[RoleDeviceName] = "deviceName";
     roles[RoleId] = "id";
     roles[RoleDeviceClass] = "deviceClassId";
     roles[RoleSetupComplete] = "setupComplete";

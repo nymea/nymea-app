@@ -35,7 +35,6 @@ class Devices : public QAbstractListModel
 public:
     enum Roles {
         RoleName,
-        RoleDeviceName,
         RoleId,
         RoleDeviceClass,
         RoleSetupComplete,

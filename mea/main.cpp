@@ -107,7 +107,6 @@ int main(int argc, char *argv[])
 
     qmlRegisterUncreatableType<State>(uri, 1, 0, "State", "Can't create this in QML. Get it from the States.");
     qmlRegisterUncreatableType<States>(uri, 1, 0, "States", "Can't create this in QML. Get it from the Device.");
-    qmlRegisterUncreatableType<StatesProxy>(uri, 1, 0, "StatesProxy", "Can't create this in QML. Get it from the Device.");
 
     qmlRegisterUncreatableType<Vendor>(uri, 1, 0, "Vendor", "Can't create this in QML. Get it from the Vendors.");
     qmlRegisterUncreatableType<Vendors>(uri, 1, 0, "Vendors", "Can't create this in QML. Get it from the DeviceManager.");

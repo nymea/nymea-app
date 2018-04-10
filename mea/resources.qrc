@@ -141,5 +141,6 @@
         <file>ui/magic/SelectStateDescriptorParamsPage.qml</file>
         <file>ui/magic/SelectStateDescriptorPage.qml</file>
         <file>ui/images/select-none.svg</file>
+        <file>ui/images/edit.svg</file>
     </qresource>
 </RCC>

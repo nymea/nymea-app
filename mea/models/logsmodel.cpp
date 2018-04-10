@@ -155,7 +155,7 @@ void LogsModel::update()
 
 void LogsModel::logsReply(const QVariantMap &data)
 {
-    qDebug() << "logs reply" << data;
+    qDebug() << "logs reply";// << data;
     m_busy = false;
     emit busyChanged();
     beginResetModel();
