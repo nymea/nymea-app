@@ -28,7 +28,7 @@ public:
     void sendData(const QByteArray &data);
 
 signals:
-    void verifyConnectionCertificate(const QString &commonName, const QByteArray &fingerprint);
+    void verifyConnectionCertificate(const QStringList &issuerInfo, const QByteArray &fingerprint);
     void connectedChanged(bool connected);
     void connectionError();
     void dataAvailable(const QByteArray &data);

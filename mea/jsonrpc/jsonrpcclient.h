@@ -37,6 +37,7 @@ class JsonRpcClient : public JsonHandler
     Q_PROPERTY(bool connected READ connected NOTIFY connectedChanged)
     Q_PROPERTY(bool initialSetupRequired READ initialSetupRequired NOTIFY initialSetupRequiredChanged)
     Q_PROPERTY(bool authenticationRequired READ authenticationRequired NOTIFY authenticationRequiredChanged)
+    Q_PROPERTY(bool pushButtonAuthAvailable READ pushButtonAuthAvailable NOTIFY pushButtonAuthAvailableChanged)
 
 public:
     explicit JsonRpcClient(NymeaConnection *connection, QObject *parent = 0);
@@ -52,21 +53,24 @@ public:
     bool connected() const;
     bool initialSetupRequired() const;
     bool authenticationRequired() const;
+    bool pushButtonAuthAvailable() const;
 
     // ui methods
     Q_INVOKABLE int createUser(const QString &username, const QString &password);
     Q_INVOKABLE int authenticate(const QString &username, const QString &password, const QString &deviceName);
+    Q_INVOKABLE int requestPushButtonAuth(const QString &deviceName);
 
-    // json handler
-    Q_INVOKABLE void processAuthenticate(const QVariantMap &data);
-    Q_INVOKABLE void processCreateUser(const QVariantMap &data);
 
 signals:
     void initialSetupRequiredChanged();
     void authenticationRequiredChanged();
+    void pushButtonAuthAvailableChanged();
     void connectedChanged(bool connected);
     void tokenChanged();
     void invalidProtocolVersion(const QString &actualVersion, const QString &minimumVersion);
+    void authenticationFailed();
+    void pushButtonAuthFailed();
+    void createUserFailed(const QString &error);
 
     void responseReceived(const int &commandId, const QVariantMap &response);
 
@@ -86,12 +90,22 @@ private:
     bool m_connected = false;
     bool m_initialSetupRequired = false;
     bool m_authenticationRequired = false;
+    bool m_pushButtonAuthAvailable = false;
+    int m_pendingPushButtonTransaction = -1;
     QString m_serverUuid;
     QByteArray m_token;
     QByteArray m_receiveBuffer;
 
     void setNotificationsEnabled(bool enabled);
+
+    // json handler
+    Q_INVOKABLE void processAuthenticate(const QVariantMap &data);
+    Q_INVOKABLE void processCreateUser(const QVariantMap &data);
+    Q_INVOKABLE void processRequestPushButtonAuth(const QVariantMap &data);
+
     Q_INVOKABLE void setNotificationsEnabledResponse(const QVariantMap &params);
+    Q_INVOKABLE void notificationReceived(const QVariantMap &data);
+
     void sendRequest(const QVariantMap &request);
 
 };

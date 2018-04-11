@@ -92,6 +92,7 @@ void Engine::onConnectedChanged()
     m_deviceManager->clear();
     m_ruleManager->clear();
     if (m_jsonRpcClient->connected()) {
+        qDebug() << "Engine: inital setup required:" << m_jsonRpcClient->initialSetupRequired() << "auth required:" << m_jsonRpcClient->authenticationRequired();
         if (!m_jsonRpcClient->initialSetupRequired() && !m_jsonRpcClient->authenticationRequired()) {
             m_deviceManager->init();
             m_ruleManager->init();

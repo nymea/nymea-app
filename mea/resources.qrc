@@ -142,5 +142,7 @@
         <file>ui/magic/SelectStateDescriptorPage.qml</file>
         <file>ui/images/select-none.svg</file>
         <file>ui/images/edit.svg</file>
+        <file>ui/PushButtonAuthPage.qml</file>
+        <file>ui/images/dialog-error-symbolic.svg</file>
     </qresource>
 </RCC>

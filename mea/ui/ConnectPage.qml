@@ -22,7 +22,7 @@ Page {
         target: Engine.connection
         onVerifyConnectionCertificate: {
             print("verify cert!")
-            certDialog.commonName = commonName
+            certDialog.issuerInfo = issuerInfo
             certDialog.fingerprint = fingerprint
             certDialog.open();
         }
@@ -156,31 +156,77 @@ Page {
 
     Dialog {
         id: certDialog
-        width: parent.width * .8
-        height: parent.height * .8
+        width: Math.min(parent.width * .9, 400)
+        height: content.height
         x: (parent.width - width) / 2
         y: (parent.height - height) / 2
         standardButtons: Dialog.Yes | Dialog.No
 
         property var fingerprint
-        property string commonName
+        property var issuerInfo
 
         ColumnLayout {
-            anchors.fill: parent
+            anchors { left: parent.left; right: parent.right; top: parent.top }
+            height: childrenRect.height
+            spacing: app.margins
+
+            RowLayout {
+                Layout.fillWidth: true
+                spacing: app.margins
+                ColorIcon {
+                    Layout.preferredHeight: app.iconSize * 2
+                    Layout.preferredWidth: height
+                    name: "../images/dialog-warning-symbolic.svg"
+                    color: app.guhAccent
+                }
+
+                Label {
+                    id: titleLabel
+                    Layout.fillWidth: true
+                    wrapMode: Text.WordWrap
+                    text: qsTr("Warning")
+                    color: app.guhAccent
+                    font.pixelSize: app.largeFont
+                }
+            }
+
             Label {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: "The authenticity of this nymea box cannot be verified. Do you want to trust this device?"
+                text: "The authenticity of this nymea box cannot be verified."
             }
+
             Label {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: "Device name: " + certDialog.commonName
+                text: "If this is the first time you connect to this box, this is expected. Once you trust a box, you should never see this message again for that one. If you see this message multiple times for the same box, something suspicious is going on!"
             }
+
+            GridLayout {
+                columns: 2
+
+                Repeater {
+                    model: certDialog.issuerInfo
+
+                    Label {
+                        Layout.fillWidth: true
+                        wrapMode: Text.WordWrap
+                        text: modelData
+                    }
+                }
+            }
+
             Label {
                 Layout.fillWidth: true
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 text: "Fingerprint: " + certDialog.fingerprint
+            }
+
+            Label {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: "Do you want to trust this device?"
+                font.bold: true
             }
         }
 

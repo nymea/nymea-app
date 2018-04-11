@@ -42,7 +42,7 @@ ApplicationWindow {
     Connections {
         target: Engine.jsonRpcClient
         onConnectedChanged: {
-            print("json client connected changed")
+            print("json client connected changed", Engine.jsonRpcClient.connected)
             if (Engine.jsonRpcClient.connected) {
                 settings.lastConnectedHost = Engine.connection.url
             }
@@ -68,14 +68,33 @@ ApplicationWindow {
     }
 
     function init() {
+        print("calling init. Auth required:", Engine.jsonRpcClient.authenticationRequired, "initial setup required:", Engine.jsonRpcClient.initialSetupRequired, "jsonrpc connected:", Engine.jsonRpcClient.connected)
         pageStack.clear()
         discovery.discovering = false;
+        if (!Engine.connection.connected) {
+            pageStack.push(Qt.resolvedUrl("ConnectPage.qml"))
+            print("starting discovery")
+            discovery.discovering = true;
+            return;
+        }
+
         if (Engine.jsonRpcClient.authenticationRequired || Engine.jsonRpcClient.initialSetupRequired) {
-            var page = pageStack.push(Qt.resolvedUrl("LoginPage.qml"));
-            page.backPressed.connect(function() {
-                settings.lastConnectedHost = "";
-                Engine.connection.disconnect()
-            })
+            if (Engine.jsonRpcClient.pushButtonAuthAvailable) {
+                print("opening push button auth")
+                var page = pageStack.push(Qt.resolvedUrl("PushButtonAuthPage.qml"))
+                page.backPressed.connect(function() {
+                    settings.lastConnectedHost = "";
+                    Engine.connection.disconnect();
+                    init();
+                })
+            } else {
+                var page = pageStack.push(Qt.resolvedUrl("LoginPage.qml"));
+                page.backPressed.connect(function() {
+                    settings.lastConnectedHost = "";
+                    Engine.connection.disconnect()
+                    init();
+                })
+            }
         } else if (Engine.jsonRpcClient.connected) {
             pageStack.push(Qt.resolvedUrl("MainPage.qml"))
         } else {

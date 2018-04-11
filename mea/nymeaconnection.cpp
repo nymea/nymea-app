@@ -88,11 +88,29 @@ void NymeaConnection::onSslErrors(const QList<QSslError> &errors)
             QByteArray storedFingerPrint = settings.value(m_currentUrl.toString()).toByteArray();
             settings.endGroup();
 
-            if (storedFingerPrint == error.certificate().digest(QCryptographicHash::Sha256).toBase64()) {
+            QByteArray certificateFingerprint;
+            QByteArray digest = error.certificate().digest(QCryptographicHash::Sha256);
+            for (int i = 0; i < digest.length(); i++) {
+                if (certificateFingerprint.length() > 0) {
+                    certificateFingerprint.append(":");
+                }
+                certificateFingerprint.append(digest.mid(i,1).toHex().toUpper());
+            }
+
+            if (storedFingerPrint == certificateFingerprint) {
                 ignoredErrors.append(error);
             } else {
-//                QString cn = error.certificate().issuerInfo(QSslCertificate::CommonName);
-                emit verifyConnectionCertificate(error.certificate().issuerInfo(QSslCertificate::CommonName).first(), error.certificate().digest(QCryptographicHash::Sha256).toBase64());
+                QStringList info;
+                info << tr("Common Name:") << error.certificate().issuerInfo(QSslCertificate::CommonName);
+                info << tr("Oragnisation:") <<error.certificate().issuerInfo(QSslCertificate::Organization);
+                info << tr("Locality:") << error.certificate().issuerInfo(QSslCertificate::LocalityName);
+                info << tr("Oragnisational Unit:")<< error.certificate().issuerInfo(QSslCertificate::OrganizationalUnitName);
+                info << tr("Country:")<< error.certificate().issuerInfo(QSslCertificate::CountryName);
+//                info << tr("State:")<< error.certificate().issuerInfo(QSslCertificate::StateOrProvinceName);
+//                info << tr("Name Qualifier:")<< error.certificate().issuerInfo(QSslCertificate::DistinguishedNameQualifier);
+//                info << tr("Email:")<< error.certificate().issuerInfo(QSslCertificate::EmailAddress);
+
+                emit verifyConnectionCertificate(info, certificateFingerprint);
             }
         } else {
             // Reject the connection on all other errors...
