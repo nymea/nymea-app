@@ -117,17 +117,30 @@ Item {
                     onClicked: {
                         switch (model.name) {
                         case "light":
-                            for (var i = 0; i < devicesProxy.count; i++) {
-                                var device = devicesProxy.get(i);
+                            if (devicesProxy.count == 1) {
+                                var device = devicesProxy.get(0);
                                 var deviceClass = Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
-                                var actionType = deviceClass.actionTypes.findByName("power");
-
+                                var stateType = deviceClass.stateTypes.findByName("power")
+                                var actionType = deviceClass.actionTypes.findByName("power")
                                 var params = [];
                                 var param1 = {};
                                 param1["paramTypeId"] = actionType.paramTypes.get(0).id;
-                                param1["value"] = false;
+                                param1["value"] = !device.states.getState(stateType.id).value;
                                 params.push(param1)
                                 Engine.deviceManager.executeAction(device.id, actionType.id, params)
+                            } else {
+                                for (var i = 0; i < devicesProxy.count; i++) {
+                                    var device = devicesProxy.get(i);
+                                    var deviceClass = Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
+                                    var actionType = deviceClass.actionTypes.findByName("power");
+
+                                    var params = [];
+                                    var param1 = {};
+                                    param1["paramTypeId"] = actionType.paramTypes.get(0).id;
+                                    param1["value"] = false;
+                                    params.push(param1)
+                                    Engine.deviceManager.executeAction(device.id, actionType.id, params)
+                                }
                             }
                             break;
                         case "media":
