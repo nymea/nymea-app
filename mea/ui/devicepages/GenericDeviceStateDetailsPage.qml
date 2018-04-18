@@ -67,6 +67,18 @@ Page {
                         }
                     }
 
+                    ColorIcon {
+                        Layout.fillHeight: true
+                        Layout.preferredWidth: height
+                        name: "../images/info.svg"
+
+                        MouseArea {
+                            anchors.fill: parent
+                            onClicked: pageStack.push(Qt.resolvedUrl("StateLogPage.qml"),
+                                                      {device: root.device, stateType: stateType})
+                        }
+                    }
+
                     Binding {
                         target: placeHolder.item
                         when: placeHolder.item

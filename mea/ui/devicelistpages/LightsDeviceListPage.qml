@@ -30,7 +30,7 @@ Page {
                         var params = [];
                         var param1 = {};
                         param1["paramTypeId"] = actionType.paramTypes.get(0).id;
-                        param1["value"] = checked;
+                        param1["value"] = false;
                         params.push(param1)
                         Engine.deviceManager.executeAction(device.id, actionType.id, params)
                     }

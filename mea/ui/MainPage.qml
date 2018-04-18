@@ -58,7 +58,7 @@ Page {
     InterfacesModel {
         id: page2Model
         devices: Engine.deviceManager.devices
-        shownInterfaces: ["gateway", "button", "notifications"]
+        shownInterfaces: ["gateway", "button", "notifications", "inputtrigger", "outputtrigger"]
         property var view: null
         onCountChanged: buildView()
     }
@@ -69,7 +69,6 @@ Page {
             width: swipeView.width
             height: swipeView.height
             visible: count > 0
-            shownInterfaces: ["light", "weather", "sensor", "media", "garagegate"]
         }
     }
 

@@ -26,40 +26,51 @@ Page {
         }
     }
 
-    Pane {
+    Rectangle {
         id: infoPane
         visible: batteryState !== null || (connectedState !== null && connectedState.value === false)
-        height: visible ? implicitHeight : 0
+        height: visible ? contentRow.implicitHeight : 0
         anchors { left: parent.left; top: parent.top; right: parent.right }
         property var batteryState: deviceClass.interfaces.indexOf("battery") >= 0 ? device.states.getState(deviceClass.stateTypes.findByName("batteryLevel").id) : null
+        property var batteryCriticalState: deviceClass.interfaces.indexOf("battery") >= 0 ? device.states.getState(deviceClass.stateTypes.findByName("batteryCritical").id) : null
 //        property var connectedState: deviceClass.interfaces.indexOf("connectable") >= 0 ? device.states.getState(deviceClass.stateTypes.findByName("connected").id) : null
         property var connectedState: deviceClass.interfaces.indexOf("connectable") >= 0 ? device.states.getState(deviceClass.stateTypes.findByName("connected").id) : null
+        property bool alertState: (connectedState !== null && connectedState.value === false) ||
+                                  (batteryCriticalState !== null && batteryCriticalState.value === true)
+        color: alertState ? "red" : "transparent"
+        z: 1000
 
         RowLayout {
-            anchors { left: parent.left; top: parent.top; right: parent.right }
+            id: contentRow
+            anchors { left: parent.left; top: parent.top; right: parent.right; leftMargin: app.margins; rightMargin: app.margins }
             Item {
                 Layout.fillWidth: true
                 height: app.iconSize
             }
 
             Label {
-                text: qsTr("Thing is not connected!")
-                visible: infoPane.connectedState !== null && infoPane.connectedState.value === false
+                text: (infoPane.connectedState !== null && infoPane.connectedState.value === false) ?
+                          qsTr("Thing is not connected!")
+                        : qsTr("Thing runs out of battery!")
+                visible: infoPane.alertState
+                font.pixelSize: app.smallFont
+                color: "white"
             }
 
             ColorIcon {
-                height: app.iconSize
+                height: app.iconSize / 2
                 width: height
                 visible: infoPane.connectedState !== null && infoPane.connectedState.value === false
-                color: "red"
+                color: "white"
                 name: "../images/dialog-warning-symbolic.svg"
             }
 
             ColorIcon {
-                height: app.iconSize
+                height: app.iconSize / 2
                 width: height * 1.23
                 name: infoPane.batteryState !== null ? "../images/battery/battery-" + ("00" + (Math.floor(infoPane.batteryState.value / 10) * 10)).slice(-3) + ".svg" : ""
                 visible: infoPane.batteryState !== null
+                color: infoPane.alertState ? "white" : keyColor
             }
         }
     }
@@ -68,5 +79,6 @@ Page {
         id: contentItem
         anchors.fill: parent
         anchors.topMargin: infoPane.height
+        clip: true
     }
 }

@@ -8,8 +8,8 @@ import Mea 1.0
 ApplicationWindow {
     id: app
     visible: true
-    width: 270 * 1.5
-    height: 480 * 1.5
+    width: 360
+    height: 580
     visibility: settings.viewMode
     font: Qt.application.font
 
@@ -112,8 +112,10 @@ ApplicationWindow {
 
     onClosing: {
         if (Qt.platform.os == "android") {
-            close.accepted = false;
-            if (pageStack.depth > 1) pageStack.pop();
+            if (pageStack.depth > 1) {
+                close.accepted = false;
+                pageStack.pop();
+            }
         }
     }
 
@@ -152,6 +154,10 @@ ApplicationWindow {
             return "Temperature";
         case "humiditysensor":
             return "Humidity";
+        case "inputtrigger":
+            return "Incoming Events";
+        case "outputtrigger":
+            return "Events";
         }
     }
 
@@ -195,6 +201,10 @@ ApplicationWindow {
             return Qt.resolvedUrl("images/notification.svg")
         case "connectable":
             return Qt.resolvedUrl("images/stock_link.svg")
+        case "inputtrigger":
+            return Qt.resolvedUrl("images/mail-mark-important.svg")
+        case "outputtrigger":
+            return Qt.resolvedUrl("images/send.svg")
         }
         return "";
     }

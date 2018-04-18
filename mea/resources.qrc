@@ -144,5 +144,11 @@
         <file>ui/images/edit.svg</file>
         <file>ui/PushButtonAuthPage.qml</file>
         <file>ui/images/dialog-error-symbolic.svg</file>
+        <file>ui/images/send.svg</file>
+        <file>ui/images/mail-mark-important.svg</file>
+        <file>ui/devicepages/InputTriggerDevicePage.qml</file>
+        <file>ui/images/clock-app-symbolic.svg</file>
+        <file>ui/devicepages/StateLogPage.qml</file>
+        <file>ui/customviews/GenericTypeLogView.qml</file>
     </qresource>
 </RCC>

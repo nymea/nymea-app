@@ -6,7 +6,6 @@ import "../components"
 
 Page {
     id: subPage
-    property alias filterTag: devicesProxy.filterTag
     property alias filterInterface: devicesProxy.filterInterface
 
     Component.onCompleted: {
@@ -17,9 +16,7 @@ Page {
 
     header: GuhHeader {
         text: {
-            if (subPage.filterTag != DeviceClass.BasicTagNone) {
-                return qsTr("My %1 things").arg(devicesBasicTagsModel.basicTagToString(subPage.filterTag))
-            } else if (subPage.filterInterface.length > 0) {
+            if (subPage.filterInterface.length > 0) {
                 return qsTr("My %1 things").arg(interfaceToString(subPage.filterInterface))
             }
             return qsTr("All my things")
@@ -35,14 +32,16 @@ Page {
         var device = devicesProxy.get(index);
         var deviceClass = Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
         var page;
-/*        if (deviceClass.interfaces.indexOf("media") >= 0) {
+        if (deviceClass.interfaces.indexOf("media") >= 0) {
             page = "MediaDevicePage.qml";
-        } else */if (deviceClass.interfaces.indexOf("button") >= 0) {
+        } else if (deviceClass.interfaces.indexOf("button") >= 0) {
             page = "ButtonDevicePage.qml";
         } else if (deviceClass.interfaces.indexOf("weather") >= 0) {
             page = "WeatherDevicePage.qml";
         } else if (deviceClass.interfaces.indexOf("sensor") >= 0) {
             page = "SensorDevicePage.qml";
+        } else if (deviceClass.interfaces.indexOf("inputtrigger") >= 0) {
+            page = "InputTriggerDevicePage.qml";
         } else {
             page = "GenericDevicePage.qml";
         }

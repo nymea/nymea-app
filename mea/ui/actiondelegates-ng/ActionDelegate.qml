@@ -39,7 +39,8 @@ ItemDelegate {
                         if (paramType.allowedValues.length > 0) {
                             return comboBoxComponent;
                         }
-                        return textFieldComponent;
+                        return buttonComponent;
+//                        return textFieldComponent;
                     case "color":
                         return colorPreviewComponent;
                     }
@@ -78,8 +79,11 @@ ItemDelegate {
                     case "color":
                         return colorPickerComponent
                     case "string":
-                        return paramType.allowedValues.length === 0 ? textFieldComponent : null
+                        return paramType.allowedValues.length === 0 ? textFieldComponent :
+                                                                      root.actionType.paramTypes.count === 1 ? null : comboBoxComponent
+
                     }
+                    console.warn("WARNING", root.actionType.paramTypes.get(index).name, "not implemented")
                     return null;
                 }
 
@@ -170,6 +174,7 @@ ItemDelegate {
     Component {
         id: textFieldComponent
         RowLayout {
+            id: textFieldRow
             property alias value: textField.text
             property var paramType: null
             spacing: app.margins
@@ -271,9 +276,11 @@ ItemDelegate {
             text: "Do it"
             onClicked: {
                 var params = [];
+                print("fooo", root.actionType.paramTypes.count)
                 for (var i = 0; i < root.actionType.paramTypes.count; i++) {
                     var param = new Object();
                     param["paramTypeId"] = root.actionType.paramTypes.get(i).id;
+                    print("bla", paramRepeater.itemAt(i), root.actionType.paramTypes.get(i).name)
                     param["value"] = paramRepeater.itemAt(i).item.value;
                     params.push(param)
                 }

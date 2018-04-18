@@ -33,7 +33,7 @@ public:
     QVariant data(const QModelIndex &index, int role) const override;
     QHash<int, QByteArray> roleNames() const override;
 
-    ParamDescriptor* get(int index) const;
+    Q_INVOKABLE ParamDescriptor* get(int index) const;
 
     ParamDescriptor* createNewParamDescriptor() const;
     void addParamDescriptor(ParamDescriptor* paramDescriptor);

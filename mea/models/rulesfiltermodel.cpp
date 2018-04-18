@@ -26,6 +26,7 @@ void RulesFilterModel::setRules(Rules *rules)
         setSourceModel(rules);
         emit rulesChanged();
         invalidateFilter();
+        emit countChanged();
     }
 }
 
@@ -40,6 +41,7 @@ void RulesFilterModel::setFilterDeviceId(const QString &filterDeviceId)
         m_filterDeviceId = filterDeviceId;
         emit filterDeviceIdChanged();
         invalidateFilter();
+        emit countChanged();
     }
 }
 

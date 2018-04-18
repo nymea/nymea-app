@@ -10,6 +10,7 @@ class Rule;
 class RulesFilterModel : public QSortFilterProxyModel
 {
     Q_OBJECT
+    Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
     Q_PROPERTY(Rules* rules READ rules WRITE setRules NOTIFY rulesChanged)
     Q_PROPERTY(QString filterDeviceId READ filterDeviceId WRITE setFilterDeviceId NOTIFY filterDeviceIdChanged)
 
@@ -27,6 +28,7 @@ public:
 signals:
     void rulesChanged();
     void filterDeviceIdChanged();
+    void countChanged();
 
 protected:
     bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const override;

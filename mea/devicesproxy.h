@@ -29,45 +29,6 @@
 
 #include "devices.h"
 
-class DevicesBasicTagsModel: public QAbstractListModel
-{
-    Q_OBJECT
-    Q_PROPERTY(Devices* devices READ devices WRITE setDevices NOTIFY devicesChanged)
-    Q_PROPERTY(bool hideSystemTags READ hideSystemTags WRITE setHideSystemTags NOTIFY hideSystemTagsChanged)
-public:
-    enum Roles {
-        RoleTag,
-        RoleTagLabel
-    };
-
-    DevicesBasicTagsModel(QObject *parent = nullptr);
-
-    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
-    QVariant data(const QModelIndex &index, int role) const override;
-    QHash<int, QByteArray> roleNames() const override;
-
-    Devices* devices() const;
-    void setDevices(Devices *devices);
-
-    bool hideSystemTags() const;
-    void setHideSystemTags(bool hideSystemTags);
-
-    Q_INVOKABLE QString basicTagToString(DeviceClass::BasicTag basicTag) const;
-
-signals:
-    void devicesChanged();
-    void hideSystemTagsChanged();
-
-private:
-    void rowsChanged(const QModelIndex &index, int first, int last);
-    void syncTags();
-
-private:
-    Devices* m_devices = nullptr;
-    QList<DeviceClass::BasicTag> m_tags;
-    bool m_hideSystemTags = false;
-};
-
 class DevicesProxy : public QSortFilterProxyModel
 {
     Q_OBJECT

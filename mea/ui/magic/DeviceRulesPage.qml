@@ -20,16 +20,21 @@ Page {
         }
     }
 
-    function addRule() {
-//        pageStack.push(Qt.resolvedUrl("NewThingMagicPage.qml"), {device: root.device, text: "Add magic"})
-        var rule = Engine.ruleManager.createNewRule();
+    // Rule is optional and might be initialized with anything wanted. A new, empty one will be created if null
+    function addRule(rule) {
+        if (rule === null || rule === undefined) {
+            rule = Engine.ruleManager.createNewRule();
+        }
         var page = pageStack.push(Qt.resolvedUrl("EditRulePage.qml"), {rule: rule});
-        var eventDescriptor = rule.eventDescriptors.createNewEventDescriptor();
-        eventDescriptor.deviceId = device.id;
-        page.selectEventDescriptorData(eventDescriptor);
         page.onAccept.connect(function() {
             Engine.ruleManager.addRule(page.rule);
         })
+
+//        if (rule.eventDescriptors.count === 0) {
+//            var eventDescriptor = rule.eventDescriptors.createNewEventDescriptor();
+//            eventDescriptor.deviceId = device.id;
+//            page.selectEventDescriptorData(eventDescriptor);
+//        }
 
     }
 

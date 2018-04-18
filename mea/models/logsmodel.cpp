@@ -187,11 +187,19 @@ void LogsModel::newLogEntryReceived(const QVariantMap &data)
         return;
     }
 
-    beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
     QVariantMap entryMap = data;
-    QDateTime timeStamp = QDateTime::fromMSecsSinceEpoch(entryMap.value("timestamp").toLongLong());
     QString deviceId = entryMap.value("deviceId").toString();
+    if (!m_deviceId.isNull() && deviceId != m_deviceId) {
+        return;
+    }
+
     QString typeId = entryMap.value("typeId").toString();
+    if (!m_typeId.isNull() && typeId != m_typeId) {
+        return;
+    }
+
+    beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
+    QDateTime timeStamp = QDateTime::fromMSecsSinceEpoch(entryMap.value("timestamp").toLongLong());
     QMetaEnum sourceEnum = QMetaEnum::fromType<LogEntry::LoggingSource>();
     LogEntry::LoggingSource loggingSource = (LogEntry::LoggingSource)sourceEnum.keyToValue(entryMap.value("source").toByteArray());
     QMetaEnum loggingEventTypeEnum = QMetaEnum::fromType<LogEntry::LoggingEventType>();

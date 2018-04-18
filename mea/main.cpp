@@ -115,7 +115,6 @@ int main(int argc, char *argv[])
     qmlRegisterUncreatableType<Device>(uri, 1, 0, "Device", "Can't create this in QML. Get it from the Devices.");
     qmlRegisterUncreatableType<Devices>(uri, 1, 0, "Devices", "Can't create this in QML. Get it from the DeviceManager.");
     qmlRegisterType<DevicesProxy>(uri, 1, 0, "DevicesProxy");
-    qmlRegisterType<DevicesBasicTagsModel>(uri, 1, 0, "DevicesBasicTagsModel");
     qmlRegisterType<InterfacesModel>(uri, 1, 0, "InterfacesModel");
 
     qmlRegisterUncreatableType<DeviceClass>(uri, 1, 0, "DeviceClass", "Can't create this in QML. Get it from the DeviceClasses.");
