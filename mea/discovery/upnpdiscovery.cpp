@@ -134,9 +134,11 @@ void UpnpDiscovery::readData()
         data.resize(pendingDatagramSize());
         readDatagram(data.data(), data.size(), &hostAddress, &port);
     }
+    if (data.contains("10.10.10.128"))
+        qDebug() << "Data received" << data;
 
     // if the data contains the HTTP OK header...
-    if (data.contains("HTTP/1.1 200 OK")) {
+    if (data.contains("HTTP/1.1 200 OK") || data.contains("NOTIFY * HTTP/1.1")) {
         QUrl location;
         bool isNymea = false;
 

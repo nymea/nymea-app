@@ -78,6 +78,13 @@ DevicePageBase {
         }
 
 
+
+
+
+
+
+
+
         ColorPickerCt {
             id: pickerCt
             Layout.fillWidth: true

@@ -114,7 +114,8 @@ Page {
         Label {
             property var value: ""
             property var stateTypeId: null
-            text: value + " " + deviceClass.stateTypes.getStateType(stateTypeId).unitString
+            property var unitString: deviceClass.stateTypes.getStateType(stateTypeId).unitString
+            text: unitString === "datetime" ? Qt.formatDateTime(new Date(value * 1000), Qt.DefaultLocaleShortDate) : value + " " + unitString
             horizontalAlignment: Text.AlignHCenter
         }
     }

@@ -407,7 +407,7 @@ QPair<Types::Unit, QString> JsonTypes::stringToUnit(const QString &unitString)
     } else if (unitString == "UnitHours") {
         return QPair<Types::Unit, QString>(Types::UnitHours, "h");
     } else if (unitString == "UnitUnixTime") {
-        return QPair<Types::Unit, QString>(Types::UnitUnixTime, "");
+        return QPair<Types::Unit, QString>(Types::UnitUnixTime, "datetime");
     } else if (unitString == "UnitMeterPerSecond") {
         return QPair<Types::Unit, QString>(Types::UnitMeterPerSecond, "m/s");
     } else if (unitString == "UnitKiloMeterPerHour") {
