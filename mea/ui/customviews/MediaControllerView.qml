@@ -15,106 +15,64 @@ CustomViewBase {
     }
 
     property var playbackState: device.states.getState(deviceClass.stateTypes.findByName("playbackStatus").id)
+    property var playbackStateValue: playbackState.value
+    onPlaybackStateValueChanged: populateControls()
+    Component.onCompleted: populateControls()
+
+    function populateControls() {
+        print("generating controls")
+        controlsModel.clear();
+        controlsModel.append({image: "../images/media-skip-backward.svg", action: "skipBack"})
+        controlsModel.append({image: "../images/media-seek-backward.svg", action: "rewind"})
+        controlsModel.append({image: "../images/media-playback-stop.svg", action: "stop"})
+        if (playbackState.value === "PAUSED" || playbackState.value === "STOPPED") {
+            controlsModel.append({image: "../images/media-playback-start.svg", action: "play"})
+        }
+        if (playbackState.value === "PLAYING") {
+            controlsModel.append({image: "../images/media-playback-pause.svg", action: "pause"})
+        }
+
+        controlsModel.append({image: "../images/media-seek-forward.svg", action: "fastForward"})
+        controlsModel.append({image: "../images/media-skip-forward.svg", action: "skipNext"})
+    }
 
     ColumnLayout {
         id: column
         anchors { left: parent.left; right: parent.right }
 
-        RowLayout {
+        Row {
+            id: controlsRow
             Layout.fillWidth: true
 
-            Item { Layout.fillWidth: true; height: 1 }
+            property int iconSize: Math.max(app.iconSize * 2, column.width / (controlsModel.count + 0))
 
-            property int iconSize: Math.min(root.width / 6, app.iconSize * 2)
+//            Item {
+//                width: Math.max(app.iconSize * 2, column.width / (controlsModel.count + 2))
+//                height: 1
+//            }
 
-            AbstractButton {
-                Layout.fillWidth: true
-                height: Math.min(app.iconSize * 2)
-                ColorIcon {
-                    height: parent.height
-                    width: height
-                    name: "../images/media-skip-backward.svg"
+
+            Repeater {
+                model: ListModel {
+                    id: controlsModel
                 }
-                onClicked: {
-                    executeAction("skipBack")
-                }
-            }
-            AbstractButton {
-                Layout.fillWidth: true
-                height: Math.min(app.iconSize * 2)
-                ColorIcon {
-                    height: parent.height
-                    width: height
-                    name: "../images/media-seek-backward.svg"
-                }
-                onClicked: {
-                    executeAction("rewind")
-                }
-            }
-            AbstractButton {
-                Layout.fillWidth: true
-                height: Math.min(app.iconSize * 2)
-                ColorIcon {
-                    height: parent.height
-                    width: height
-                    name: "../images/media-playback-stop.svg"
-                }
-                onClicked: {
-                    executeAction("stop")
-                }
-            }
-            AbstractButton {
-                Layout.fillWidth: true
-                height: Math.min(app.iconSize * 2)
-                ColorIcon {
-                    height: parent.height
-                    width: height
-                    name: "../images/media-playback-start.svg"
-                }
-                visible: playbackState.value == "PAUSED" || playbackState.value == "STOPPED"
-                onClicked: {
-                    executeAction("play")
-                }
-            }
-            AbstractButton {
-                Layout.fillWidth: true
-                height: Math.min(app.iconSize * 2)
-                ColorIcon {
-                    height: parent.height
-                    width: height
-                    name: "../images/media-playback-pause.svg"
-                }
-                visible: playbackState.value == "PLAYING"
-                onClicked: {
-                    executeAction("pause")
+                delegate: AbstractButton {
+
+                    height: app.iconSize * 2
+                    width: controlsRow.iconSize
+                    ColorIcon {
+                        height: parent.height
+                        width: height
+                        name: model.image
+                        anchors.horizontalCenter: parent.horizontalCenter
+                    }
+                    onClicked: {
+                        executeAction(model.action)
+                    }
                 }
             }
 
-            AbstractButton {
-                Layout.fillWidth: true
-                height: Math.min(app.iconSize * 2)
-                ColorIcon {
-                    height: parent.height
-                    width: height
-                    name: "../images/media-seek-forward.svg"
-                }
-                onClicked: {
-                    executeAction("fastForward")
-                }
-            }
-            AbstractButton {
-                Layout.fillWidth: true
-                height: Math.min(app.iconSize * 2)
-                ColorIcon {
-                    height: parent.height
-                    width: height
-                    name: "../images/media-skip-forward.svg"
-                }
-                onClicked: {
-                    executeAction("skipNext")
-                }
-            }
-            Item { Layout.fillWidth: true; height: 1 }
+//            Item { Layout.fillWidth: true; height: 1 }
 
         }
     }

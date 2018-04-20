@@ -73,6 +73,7 @@ QVariant ActionTypes::data(const QModelIndex &index, int role) const
 
 void ActionTypes::addActionType(ActionType *actionType)
 {
+    actionType->setParent(this);
     beginInsertRows(QModelIndex(), m_actionTypes.count(), m_actionTypes.count());
     //qDebug() << "ActionTypes: loaded actionType" << actionType->name();
     m_actionTypes.append(actionType);

@@ -60,7 +60,7 @@ private:
     QString m_name;
     QString m_displayName;
     int m_index;
-    ParamTypes *m_paramTypes;
+    ParamTypes *m_paramTypes = nullptr;
 };
 
 #endif // EVENTTYPE_H

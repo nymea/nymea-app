@@ -23,6 +23,7 @@
 
 #include <QObject>
 #include <QVariantMap>
+#include <QPointer>
 
 #include "nymeaconnection.h"
 #include "jsonhandler.h"
@@ -115,7 +116,8 @@ class JsonRpcReply : public QObject
 {
     Q_OBJECT
 public:
-    explicit JsonRpcReply(int commandId, QString nameSpace, QString method, QVariantMap params = QVariantMap(), QObject *caller = 0, const QString &callback = QString());
+    explicit JsonRpcReply(int commandId, QString nameSpace, QString method, QVariantMap params = QVariantMap(), QPointer<QObject> caller = QPointer<QObject>(), const QString &callback = QString());
+    ~JsonRpcReply();
 
     int commandId() const;
     QString nameSpace() const;
@@ -123,7 +125,7 @@ public:
     QVariantMap params() const;
     QVariantMap requestMap();
 
-    QObject *caller() const;
+    QPointer<QObject> caller() const;
     QString callback() const;
 
 private:
@@ -132,7 +134,7 @@ private:
     QString m_method;
     QVariantMap m_params;
 
-    QObject *m_caller;
+    QPointer<QObject> m_caller;
     QString m_callback;
 };
 

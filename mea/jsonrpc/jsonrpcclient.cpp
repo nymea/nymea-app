@@ -309,6 +309,7 @@ void JsonRpcClient::dataReceived(const QByteArray &data)
     int commandId = dataMap.value("id").toInt();
     JsonRpcReply *reply = m_replies.take(commandId);
     if (reply) {
+        reply->deleteLater();
 //        qDebug() << QString("JsonRpc: got response for %1.%2: %3").arg(reply->nameSpace(), reply->method(), QString::fromUtf8(jsonDoc.toJson(QJsonDocument::Indented))) << reply->callback() << reply->callback();
 
         if (dataMap.value("status").toString() == "unauthorized") {
@@ -322,7 +323,7 @@ void JsonRpcClient::dataReceived(const QByteArray &data)
             emit authenticationRequiredChanged();
         }
 
-        if (reply->caller() != nullptr && !reply->callback().isEmpty()) {
+        if (!reply->caller().isNull() && !reply->callback().isEmpty()) {
             QMetaObject::invokeMethod(reply->caller(), reply->callback().toLatin1().data(), Q_ARG(QVariantMap, dataMap));
         }
 
@@ -346,14 +347,17 @@ void JsonRpcClient::dataReceived(const QByteArray &data)
     }
 }
 
-JsonRpcReply::JsonRpcReply(int commandId, QString nameSpace, QString method, QVariantMap params, QObject *caller, const QString &callback):
-    QObject(caller),
+JsonRpcReply::JsonRpcReply(int commandId, QString nameSpace, QString method, QVariantMap params, QPointer<QObject> caller, const QString &callback):
     m_commandId(commandId),
     m_nameSpace(nameSpace),
     m_method(method),
     m_params(params),
     m_caller(caller),
     m_callback(callback)
+{
+}
+
+JsonRpcReply::~JsonRpcReply()
 {
 }
 
@@ -388,7 +392,7 @@ QVariantMap JsonRpcReply::requestMap()
     return request;
 }
 
-QObject* JsonRpcReply::caller() const
+QPointer<QObject> JsonRpcReply::caller() const
 {
     return m_caller;
 }

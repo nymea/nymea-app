@@ -44,7 +44,6 @@ QUuid State::stateTypeId() const
 
 QVariant State::value() const
 {
-    qDebug() << "returning value:" << m_value;
     return m_value;
 }
 

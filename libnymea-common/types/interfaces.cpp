@@ -15,7 +15,7 @@ Interfaces::Interfaces(QObject *parent) : QAbstractListModel(parent)
     ParamType* pt = nullptr;
     ParamTypes *pts = nullptr;
 
-    iface = new Interface("battery", "Battery powered devices");
+    iface = new Interface("battery", "Battery powered devices", this);
     et = new EventType();
     pts = new ParamTypes(et);
     et->setParamTypes(pts);
@@ -43,7 +43,7 @@ Interfaces::Interfaces(QObject *parent) : QAbstractListModel(parent)
     m_list.append(iface);
 
 
-    iface = new Interface("notification", "Notification services");
+    iface = new Interface("notification", "Notification services", this);
     at = new ActionType();
     pts = new ParamTypes(at);
     at->setParamTypes(pts);

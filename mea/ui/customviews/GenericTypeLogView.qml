@@ -15,7 +15,7 @@ Item {
 
     signal addRuleClicked(var value)
 
-    readonly property var deviceClass: Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId)
+    readonly property var deviceClass: device ? Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
 
     LogsModel {
         id: logs

@@ -74,6 +74,10 @@ ParamTypes *EventType::paramTypes() const
 
 void EventType::setParamTypes(ParamTypes *paramTypes)
 {
+    if (m_paramTypes && m_paramTypes->parent() == this) {
+        m_paramTypes->deleteLater();
+    }
+    paramTypes->setParent(this);
     m_paramTypes = paramTypes;
 }
 

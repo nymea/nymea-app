@@ -100,6 +100,7 @@ QVariant ParamTypes::data(const QModelIndex &index, int role) const
 
 void ParamTypes::addParamType(ParamType *paramType)
 {
+    paramType->setParent(this);
     beginInsertRows(QModelIndex(), m_paramTypes.count(), m_paramTypes.count());
     //qDebug() << "ParamTypes: loaded paramType" << paramType->name();
     m_paramTypes.append(paramType);
