@@ -103,20 +103,6 @@ Page {
             color: app.guhAccent
         }
 
-        RowLayout {
-            Layout.fillWidth: true
-            Layout.leftMargin: app.margins
-            Layout.rightMargin: app.margins
-            spacing: app.margins
-            Label {
-                text: qsTr("Debug server enabled")
-                Layout.fillWidth: true
-            }
-            Switch {
-                checked: Engine.basicConfiguration.debugServerEnabled
-                onClicked: Engine.basicConfiguration.debugServerEnabled = checked
-            }
-        }
 
         RowLayout {
             Layout.fillWidth: true
@@ -130,6 +116,25 @@ Page {
                 Layout.fillWidth: true
                 text: Engine.basicConfiguration.serverName
                 onAccepted: Engine.basicConfiguration.serverName = text
+            }
+        }
+
+        ColumnLayout {
+            Layout.fillWidth: true
+
+            RowLayout {
+                Layout.fillWidth: true
+                Layout.leftMargin: app.margins
+                Layout.rightMargin: app.margins
+                spacing: app.margins
+                Label {
+                    text: qsTr("Debug server enabled")
+                    Layout.fillWidth: true
+                }
+                Switch {
+                    checked: Engine.basicConfiguration.debugServerEnabled
+                    onClicked: Engine.basicConfiguration.debugServerEnabled = checked
+                }
             }
         }
 
@@ -150,6 +155,5 @@ Page {
                 pageStack.push(Qt.resolvedUrl("system/PluginsPage.qml"))
             }
         }
-
     }
 }

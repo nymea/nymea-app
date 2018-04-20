@@ -157,7 +157,6 @@ Page {
     Dialog {
         id: certDialog
         width: Math.min(parent.width * .9, 400)
-        height: content.height
         x: (parent.width - width) / 2
         y: (parent.height - height) / 2
         standardButtons: Dialog.Yes | Dialog.No
@@ -167,7 +166,6 @@ Page {
 
         ColumnLayout {
             anchors { left: parent.left; right: parent.right; top: parent.top }
-            height: childrenRect.height
             spacing: app.margins
 
             RowLayout {

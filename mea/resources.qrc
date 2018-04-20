@@ -150,5 +150,6 @@
         <file>ui/images/clock-app-symbolic.svg</file>
         <file>ui/devicepages/StateLogPage.qml</file>
         <file>ui/customviews/GenericTypeLogView.qml</file>
+        <file>guh-logo.svg</file>
     </qresource>
 </RCC>

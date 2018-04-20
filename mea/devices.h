@@ -38,7 +38,6 @@ public:
         RoleId,
         RoleDeviceClass,
         RoleSetupComplete,
-        RoleBasicTag,
         RoleInterfaces
     };
     Q_ENUM(Roles)

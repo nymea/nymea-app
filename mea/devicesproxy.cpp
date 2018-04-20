@@ -39,6 +39,7 @@ void DevicesProxy::setDevices(Devices *devices)
     if (m_devices != devices) {
         m_devices = devices;
         setSourceModel(devices);
+        setSortRole(Devices::RoleName);
         sort(0);
         connect(devices, &Devices::countChanged, this, &DevicesProxy::countChanged);
         emit devicesChanged();
@@ -83,8 +84,8 @@ Device *DevicesProxy::get(int index) const
 
 bool DevicesProxy::lessThan(const QModelIndex &left, const QModelIndex &right) const
 {
-    QVariant leftName = sourceModel()->data(left);
-    QVariant rightName = sourceModel()->data(right);
+    QVariant leftName = sourceModel()->data(left, Devices::RoleName);
+    QVariant rightName = sourceModel()->data(right, Devices::RoleName);
 
     return QString::localeAwareCompare(leftName.toString(), rightName.toString()) < 0;
 }

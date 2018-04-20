@@ -78,21 +78,17 @@ DevicePageBase {
         }
 
 
-
-
-
-
-
-
-
         ColorPickerCt {
             id: pickerCt
             Layout.fillWidth: true
             Layout.margins: app.margins
             property var actionType: root.deviceClass.actionTypes.findByName("colorTemperature")
+            property var stateType: root.deviceClass.stateTypes.findByName("colorTemperature")
             property var ctState: actionType ? root.device.states.getState(actionType.id) : null
             ct: ctState ? ctState.value : 0
             visible: root.deviceClass.interfaces.indexOf("colorlight") >= 0
+            minCt: actionType.paramTypes.findByName("colorTemperature").minValue
+            maxCt: actionType.paramTypes.findByName("colorTemperature").maxValue
 
             height: 80
 

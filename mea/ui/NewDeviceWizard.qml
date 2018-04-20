@@ -34,10 +34,6 @@ Page {
         property bool addResult: false
     }
 
-    DeviceDiscovery {
-        id: discovery
-    }
-
     Connections {
         target: Engine.deviceManager
         onPairDeviceReply: {
@@ -63,6 +59,10 @@ Page {
         }
     }
 
+    DeviceDiscovery {
+        id: discovery
+    }
+
     StackView {
         id: internalPageStack
         anchors.fill: parent
@@ -75,14 +75,15 @@ Page {
                 delegate: ItemDelegate {
                     width: parent.width
                     height: app.delegateHeight
-                    ColumnLayout {
-                        anchors.fill: parent
-                        anchors.margins: app.margins
+                    contentItem: RowLayout {
                         Label {
-                            text: model.displayName
                             Layout.fillWidth: true
-                            Layout.fillHeight: true
-                            verticalAlignment: Text.AlignVCenter
+                            text: model.displayName
+                        }
+                        Image {
+                            source: "images/next.svg"
+                            Layout.preferredHeight: parent.height
+                            Layout.preferredWidth: height
                         }
                     }
 
@@ -109,14 +110,15 @@ Page {
                 delegate: ItemDelegate {
                     width: parent.width
                     height: app.delegateHeight
-                    ColumnLayout {
-                        anchors.fill: parent
-                        anchors.margins: app.margins
+                    contentItem: RowLayout {
                         Label {
-                            text: model.displayName
                             Layout.fillWidth: true
-                            Layout.fillHeight: true
-                            verticalAlignment: Text.AlignVCenter
+                            text: model.displayName
+                        }
+                        Image {
+                            source: "images/next.svg"
+                            Layout.preferredHeight: parent.height
+                            Layout.preferredWidth: height
                         }
                     }
 
@@ -145,49 +147,58 @@ Page {
         Page {
 
             id: discoveryParamsView
+
             ColumnLayout {
                 anchors.fill: parent
                 anchors.margins: 10
 
-                Repeater {
-                    id: paramRepeater
-                    model: d.deviceClass ? d.deviceClass["discoveryParamTypes"] : null
-                    Loader {
-                        Layout.fillWidth: true
-                        sourceComponent: searchStringEntryComponent
-                        property var discoveryParams: model
-                        property var value: item ? item.value : null
+                Flickable {
+                    Layout.fillHeight: true
+                    Layout.fillWidth: true
+                    ColumnLayout {
+                        width: parent.width
+
+                        Repeater {
+                            id: paramRepeater
+                            model: d.deviceClass ? d.deviceClass["discoveryParamTypes"] : null
+                            Loader {
+                                Layout.fillWidth: true
+                                sourceComponent: searchStringEntryComponent
+                                property var discoveryParams: model
+                                property var value: item ? item.value : null
+                            }
+                        }
+                        Button {
+                            Layout.fillWidth: true
+                            text: "Next"
+                            onClicked: {
+                                var paramTypes = d.deviceClass["discoveryParamTypes"];
+                                d.discoveryParams = [];
+                                for (var i = 0; i < paramTypes.count; i++) {
+                                    var param = {};
+                                    param["paramTypeId"] = paramTypes.get(i).id;
+                                    param["value"] = paramRepeater.itemAt(i).value
+                                    d.discoveryParams.push(param);
+                                }
+                                discovery.discoverDevices(d.deviceClass.id, d.discoveryParams)
+                                internalPageStack.push(discoveryPage)
+                            }
+                        }
                     }
                 }
+
                 Component {
                     id: searchStringEntryComponent
                     ColumnLayout {
                         property alias value: searchTextField.text
                         Label {
-                            text: discoveryParams.name
+                            text: discoveryParams.displayName
                             Layout.fillWidth: true
                         }
                         TextField {
                             id: searchTextField
                             Layout.fillWidth: true
                         }
-                    }
-                }
-
-                Button {
-                    Layout.fillWidth: true
-                    text: "Next"
-                    onClicked: {
-                        var paramTypes = d.deviceClass["discoveryParamTypes"];
-                        d.discoveryParams = [];
-                        for (var i = 0; i < paramTypes.count; i++) {
-                            var param = {};
-                            param["paramTypeId"] = paramTypes.get(i).id;
-                            param["value"] = paramRepeater.itemAt(i).value
-                            d.discoveryParams.push(param);
-                        }
-                        discovery.discoverDevices(d.deviceClass.id, d.discoveryParams)
-                        internalPageStack.push(discoveryPage)
                     }
                 }
             }
@@ -200,6 +211,7 @@ Page {
 
         Page {
             id: discoveryView
+
             ListView {
                 anchors.fill: parent
                 model: discovery
@@ -286,6 +298,7 @@ Page {
             ColumnLayout {
                 anchors.fill: parent
                 spacing: app.margins
+
                 ColumnLayout {
                     Layout.margins: app.margins
                     Layout.fillWidth: true
@@ -301,15 +314,19 @@ Page {
                 }
 
                 ThinDivider {}
+
                 Flickable {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
+                    contentHeight: paramsColumn.implicitHeight
+                    clip: true
 
                     Column {
+                        id: paramsColumn
                         width: parent.width
                         Repeater {
                             id: paramRepeater
-                            model: d.deviceClass.paramTypes
+                            model: d.deviceDescriptorId == null ? d.deviceClass.paramTypes : null
                             delegate: ParamDelegate {
                                 width: parent.width
                                 paramType: d.deviceClass.paramTypes.get(index)
@@ -321,6 +338,8 @@ Page {
 
                 Button {
                     Layout.fillWidth: true
+                    Layout.margins: app.margins
+
                     text: "OK"
                     onClicked: {
                         print("setupMethod", d.deviceClass.setupMethod)

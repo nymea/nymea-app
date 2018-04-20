@@ -38,6 +38,11 @@ QHash<int, QByteArray> DeviceDiscovery::roleNames() const
 
 void DeviceDiscovery::discoverDevices(const QUuid &deviceClassId, const QVariantList &discoveryParams)
 {
+    beginResetModel();
+    m_foundDevices.clear();
+    endResetModel();
+    emit countChanged();
+
     QVariantMap params;
     params.insert("deviceClassId", deviceClassId.toString());
     if (!discoveryParams.isEmpty()) {
@@ -46,7 +51,6 @@ void DeviceDiscovery::discoverDevices(const QUuid &deviceClassId, const QVariant
     Engine::instance()->jsonRpcClient()->sendCommand("Devices.GetDiscoveredDevices", params, this, "discoverDevicesResponse");
     m_busy = true;
     emit busyChanged();
-    emit countChanged();
 }
 
 bool DeviceDiscovery::busy() const

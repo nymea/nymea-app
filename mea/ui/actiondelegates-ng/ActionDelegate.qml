@@ -32,7 +32,11 @@ ItemDelegate {
                     switch (paramType.type.toLowerCase()) {
                     case "bool":
                         return boolComponent;
+                    case "double":
                     case "int":
+                        if (paramType.minValue === undefined || paramType.maxValue === undefined) {
+                            return textFieldComponent
+                        }
                         return stringComponent;
                     case "string":
                     case "qstring":
@@ -72,7 +76,7 @@ ItemDelegate {
                     switch (paramType.type.toLowerCase()) {
                     case "int":
                     case "double":
-                        if (paramType.minValue != undefined && paramType.maxValue != undefined) {
+                        if (paramType.minValue !== undefined && paramType.maxValue !== undefined) {
                             return sliderComponent
                         }
                         break;

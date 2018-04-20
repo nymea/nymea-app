@@ -129,7 +129,6 @@ QHash<int, QByteArray> Devices::roleNames() const
     roles[RoleId] = "id";
     roles[RoleDeviceClass] = "deviceClassId";
     roles[RoleSetupComplete] = "setupComplete";
-    roles[RoleBasicTag] = "basicTag";
     roles[RoleInterfaces] = "interfaces";
     return roles;
 }

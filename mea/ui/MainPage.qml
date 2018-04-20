@@ -15,6 +15,14 @@ Page {
         onMenuPressed: mainMenu.open()
     }
 
+    Image {
+        id: bg
+        source: "../guh-logo.svg"
+        anchors.fill: parent
+        fillMode: Image.PreserveAspectFit
+        opacity: .2
+    }
+
     Menu {
         id: mainMenu
         width: implicitWidth + app.margins
@@ -77,9 +85,13 @@ Page {
         ListView {
             width: swipeView.width
             height: swipeView.height
-            model: Engine.deviceManager.devices
+            model: DevicesProxy {
+                id: devicesProxy
+                devices: Engine.deviceManager.devices
+            }
             delegate: ItemDelegate {
                 width: parent.width
+                property string mainInterface: app.interfacesToIcon(model.interfaces)
                 contentItem: RowLayout {
                     spacing: app.margins
                     ColorIcon {
@@ -93,9 +105,14 @@ Page {
                         Layout.fillWidth: true
                         text: model.name
                     }
+                    Image {
+                        source: "images/next.svg"
+                        Layout.preferredHeight: parent.height
+                        Layout.preferredWidth: height
+                    }
                 }
                 onClicked: {
-                    pageStack.push(Qt.resolvedUrl("devicepages/GenericDevicePage.qml"), {device: Engine.deviceManager.devices.get(index)})
+                    pageStack.push(Qt.resolvedUrl("devicepages/GenericDevicePage.qml"), {device: devicesProxy.get(index)})
                 }
             }
 
@@ -117,7 +134,7 @@ Page {
             }
 
             ColumnLayout {
-                anchors { left: parent.left; right: parent.right; verticalCenter: parent.verticalCenter; margins: app.margins }
+                anchors { left: parent.left; right: parent.right; top: parent.top; margins: app.margins }
                 spacing: app.margins
                 visible: Engine.deviceManager.devices.count === 0 && !Engine.deviceManager.fetchingData
                 Label {
