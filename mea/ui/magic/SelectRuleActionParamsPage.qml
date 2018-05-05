@@ -107,7 +107,7 @@ Page {
                 Layout.fillHeight: true
             }
             Button {
-                text: "OK"
+                text: qsTr("OK")
                 Layout.fillWidth: true
                 Layout.margins: app.margins
                 onClicked: {

@@ -36,7 +36,7 @@ Page {
                 property alias operatorType: paramDescriptorDelegate.operatorType
                 CheckBox {
                     id: paramCheckBox
-                    text: "Only consider event if"
+                    text: qsTr("Only consider event if")
                     Layout.fillWidth: true
                     Layout.leftMargin: app.margins
                     Layout.rightMargin: app.margins

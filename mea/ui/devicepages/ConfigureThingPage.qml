@@ -26,12 +26,12 @@ Page {
         x: parent.width - width
         IconMenuItem {
             iconSource: "../images/delete.svg"
-            text: "Delete Thing"
+            text: qsTr("Delete Thing")
             onTriggered: Engine.deviceManager.removeDevice(root.device.id)
         }
         IconMenuItem {
             iconSource: "../images/edit.svg"
-            text: "Rename Thing"
+            text: qsTr("Rename Thing")
             onTriggered: {
                 var popup = renameDialog.createObject(root);
                 popup.open();
@@ -51,7 +51,7 @@ Page {
                 popup.open();
                 return;
             default:
-                var popup = errorDialog.createObject(root, {text: "Remove device error: " + JSON.stringify(params.deviceError) })
+                var popup = errorDialog.createObject(root, {text: qsTr("Remove device error: %1").arg(JSON.stringify(params.deviceError)) })
                 popup.open();
             }
         }
@@ -68,7 +68,7 @@ Page {
                 Layout.leftMargin: app.margins
                 Layout.rightMargin: app.margins
                 Layout.topMargin: app.margins
-                text: "Thing parameters".toUpperCase()
+                text: qsTr("Thing parameters").toUpperCase()
                 color: app.guhAccent
             }
 

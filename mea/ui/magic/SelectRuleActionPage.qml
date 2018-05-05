@@ -87,7 +87,7 @@ Page {
                         default:
                             console.warn("FIXME: Unhandled interface action");
                         }
-                    } else if (root.ruleAction.interfaceName != "") {
+                    } else if (root.ruleAction.interfaceName !== "") {
                         root.ruleAction.interfaceAction = model.name;
                         if (listView.model.get(index).paramTypes.count > 0) {
                             var paramsPage = pageStack.push(Qt.resolvedUrl("SelectRuleActionParamsPage.qml"), {ruleAction: root.ruleAction, rule: root.rule})

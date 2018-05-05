@@ -26,11 +26,11 @@ Page {
     Connections {
         target: Engine.deviceManager
         onSavePluginConfigReply: {
-            if (params.params.deviceError == "DeviceErrorNoError") {
+            if (params.params.deviceError === "DeviceErrorNoError") {
                 pageStack.pop();
             } else {
                 console.warn("Error saving plugin params:", JSON.stringify(params))
-                var dialog = errorDialog.createObject(root, {title: "Error", text: "Error saving params: " + JSON.stringify(params.params.deviceError)});
+                var dialog = errorDialog.createObject(root, {title: "Error", text: qsTr("Error saving params: ") + JSON.stringify(params.params.deviceError)});
                 dialog.open();
             }
         }

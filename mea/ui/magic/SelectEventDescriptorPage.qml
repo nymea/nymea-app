@@ -35,9 +35,9 @@ Page {
 
     ListModel {
         id: eventTemplateModel
-        ListElement { interfaceName: "temperaturesensor"; text: "When it's freezing..."; event: "freeze"}
-        ListElement { interfaceName: "battery"; text: "When the device runs out of battery..."; event: "lowBattery"}
-        ListElement { interfaceName: "weather"; text: "When it starts raining..."; event: "rain" }
+        ListElement { interfaceName: "temperaturesensor"; text: qsTr("When it's freezing..."); event: "freeze"}
+        ListElement { interfaceName: "battery"; text: qsTr("When the device runs out of battery..."); event: "lowBattery"}
+        ListElement { interfaceName: "weather"; text: qsTr("When it starts raining..."); event: "rain" }
     }
 
     function buildInterface() {
@@ -81,7 +81,7 @@ Page {
                         default:
                             console.warn("FIXME: Unhandled interface event");
                         }
-                    } else if (root.eventDescriptor.interfaceName != "") {
+                    } else if (root.eventDescriptor.interfaceName !== "") {
                         root.eventDescriptor.interfaceEvent = model.name;
                         if (listView.model.get(index).paramTypes.count > 0) {
                             var paramsPage = pageStack.push(Qt.resolvedUrl("SelectEventDescriptorParamsPage.qml"), {eventDescriptor: root.eventDescriptor})

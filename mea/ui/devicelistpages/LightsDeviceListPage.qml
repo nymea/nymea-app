@@ -7,7 +7,7 @@ import "../components"
 Page {
     property alias filterInterface: devicesProxy.filterInterface
     header: GuhHeader {
-        text: "Lights"
+        text: qsTr("Lights")
         onBackPressed: pageStack.pop()
     }
     ColumnLayout {
@@ -16,11 +16,11 @@ Page {
             Layout.fillWidth: true
             Layout.margins: 10
             Label {
-                text: "All"
+                text: qsTr("All")
                 Layout.fillWidth: true
             }
             Button {
-                text: "off"
+                text: qsTr("off")
                 onClicked: {
                     for (var i = 0; i < devicesProxy.count; i++) {
                         var device = devicesProxy.get(i);

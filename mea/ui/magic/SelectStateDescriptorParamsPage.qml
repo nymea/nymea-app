@@ -17,7 +17,7 @@ Page {
     signal completed();
 
     header: GuhHeader {
-        text: "params"
+        text: qsTr("params")
         onBackPressed: root.backPressed();
     }
 
@@ -30,7 +30,7 @@ Page {
             value: paramType.defaultValue
         }
         Button {
-            text: "OK"
+            text: qsTr("OK")
             Layout.fillWidth: true
             Layout.margins: app.margins
             onClicked: {

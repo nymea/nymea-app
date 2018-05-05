@@ -91,7 +91,7 @@ Page {
     }
 
     header: GuhHeader {
-        text: "New rule"
+        text: qsTr("New rule")
         onBackPressed: pageStack.pop()
         HeaderButton {
             imageSource: "../images/tick.svg"
@@ -115,7 +115,7 @@ Page {
                 Layout.margins: app.margins
                 Label {
                     Layout.fillWidth: true
-                    text: "Rule name"
+                    text: qsTr("Rule name")
                 }
                 TextField {
                     Layout.fillWidth: true
@@ -146,7 +146,7 @@ Page {
                 Layout.fillWidth: true
                 Layout.margins: app.margins
                 font.pixelSize: app.mediumFont
-                text: "Events triggering this rule"
+                text: qsTr("Events triggering this rule")
                 visible: !root.hasExitActions
             }
 
@@ -224,7 +224,7 @@ Page {
             Button {
                 Layout.fillWidth: true
                 Layout.margins: app.margins
-                text: eventsRepeater.count == 0 ? "Add an event..." : "Add another event..."
+                text: eventsRepeater.count == 0 ? qsTr("Add an event...") : qsTr("Add another event...")
                 onClicked: root.addEventDescriptor();
                 visible: !root.hasExitActions
             }
@@ -232,7 +232,7 @@ Page {
             ThinDivider {}
 
             Label {
-                text: "Conditions to be met"
+                text: qsTr("Conditions to be met")
                 font.pixelSize: app.mediumFont
                 Layout.fillWidth: true
                 Layout.margins: app.margins
@@ -247,7 +247,7 @@ Page {
             Button {
                 Layout.fillWidth: true
                 Layout.margins: app.margins
-                text: "Add a condition"
+                text: qsTr("Add a condition")
                 visible: root.rule.stateEvaluator === null
                 onClicked: {
                     root.rule.createStateEvaluator();
@@ -258,7 +258,7 @@ Page {
             ThinDivider { visible: root.actionsVisible }
 
             Label {
-                text: root.isStateBased ? "Active state enter actions" : "Actions to execute"
+                text: root.isStateBased ? qsTr("Active state enter actions") : qsTr("Actions to execute")
                 font.pixelSize: app.mediumFont
                 Layout.fillWidth: true
                 Layout.margins: app.margins
@@ -290,7 +290,7 @@ Page {
                                 model: actionDelegate.ruleAction.ruleActionParams
                                 Label {
                                     text: actionDelegate.actionType.paramTypes.getParamType(model.paramTypeId).displayName + " -> " +
-                                          (model.eventParamTypeId.length > 0 ? "value from event" : model.value)
+                                          (model.eventParamTypeId.length > 0 ? qsTr("value from event") : model.value)
                                     font.pixelSize: app.smallFont
                                 }
                             }
@@ -314,7 +314,7 @@ Page {
             Button {
                 Layout.fillWidth: true
                 Layout.margins: app.margins
-                text: actionsRepeater.count == 0 ? "Add an action..." : "Add another action..."
+                text: actionsRepeater.count == 0 ? qsTr("Add an action...") : qsTr("Add another action...")
                 onClicked: root.addAction();
                 visible: root.actionsVisible
             }
@@ -322,7 +322,7 @@ Page {
             ThinDivider { visible: root.exitActionsVisible }
 
             Label {
-                text: "Active state exit actions"
+                text: qsTr("Active state exit actions")
                 font.pixelSize: app.mediumFont
                 Layout.fillWidth: true
                 Layout.margins: app.margins
@@ -378,7 +378,7 @@ Page {
             Button {
                 Layout.fillWidth: true
                 Layout.margins: app.margins
-                text: actionsRepeater.count == 0 ? "Add an action..." : "Add another action..."
+                text: actionsRepeater.count == 0 ? qsTr("Add an action...") : qsTr("Add another action...")
                 onClicked: root.addExitAction();
                 visible: root.exitActionsVisible
             }

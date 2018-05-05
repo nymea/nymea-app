@@ -9,7 +9,7 @@ Page {
     property var device: null
 
     header: GuhHeader {
-        text: "Select event"
+        text: qsTr("Select event")
     }
 
     ColumnLayout {
@@ -22,11 +22,11 @@ Page {
             RowLayout {
                 Layout.fillWidth: true
                 RadioButton {
-                    text: "A specific thing"
+                    text: qsTr("A specific thing")
                     checked: true
                 }
                 RadioButton {
-                    text: "A group of things"
+                    text: qsTr("A group of things")
                 }
             }
 

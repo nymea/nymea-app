@@ -68,6 +68,11 @@ BasicConfiguration *Engine::basicConfiguration() const
     return m_basicConfiguration;
 }
 
+BluetoothDiscovery *Engine::bluetoothDiscovery() const
+{
+    return m_bluetoothDiscovery;
+}
+
 NymeaConnection *Engine::connection() const
 {
     return m_connection;
@@ -80,7 +85,8 @@ Engine::Engine(QObject *parent) :
     m_deviceManager(new DeviceManager(m_jsonRpcClient, this)),
     m_ruleManager(new RuleManager(m_jsonRpcClient, this)),
     m_logManager(new LogManager(m_jsonRpcClient, this)),
-    m_basicConfiguration(new BasicConfiguration(m_jsonRpcClient, this))
+    m_basicConfiguration(new BasicConfiguration(m_jsonRpcClient, this)),
+    m_bluetoothDiscovery(new BluetoothDiscovery(this))
 {
     connect(m_jsonRpcClient, &JsonRpcClient::connectedChanged, this, &Engine::onConnectedChanged);
     connect(m_jsonRpcClient, &JsonRpcClient::authenticationRequiredChanged, this, &Engine::onConnectedChanged);

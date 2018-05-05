@@ -28,6 +28,7 @@
 #include "devicemanager.h"
 #include "nymeainterface.h"
 #include "jsonrpc/jsonrpcclient.h"
+#include "wifisetup/bluetoothdiscovery.h"
 
 class RuleManager;
 class LogManager;
@@ -41,6 +42,7 @@ class Engine : public QObject
     Q_PROPERTY(RuleManager* ruleManager READ ruleManager CONSTANT)
     Q_PROPERTY(JsonRpcClient* jsonRpcClient READ jsonRpcClient CONSTANT)
     Q_PROPERTY(BasicConfiguration* basicConfiguration READ basicConfiguration CONSTANT)
+    Q_PROPERTY(BluetoothDiscovery* bluetoothDiscovery READ bluetoothDiscovery CONSTANT)
 
 public:
     static Engine *instance();
@@ -54,7 +56,8 @@ public:
     RuleManager *ruleManager() const;
     JsonRpcClient *jsonRpcClient() const;
     LogManager *logManager() const;
-    BasicConfiguration* basicConfiguration() const;
+    BasicConfiguration *basicConfiguration() const;
+    BluetoothDiscovery *bluetoothDiscovery() const;
 
 private:
     explicit Engine(QObject *parent = 0);
@@ -66,6 +69,7 @@ private:
     RuleManager *m_ruleManager;
     LogManager *m_logManager;
     BasicConfiguration *m_basicConfiguration;
+    BluetoothDiscovery *m_bluetoothDiscovery;
 
 private slots:
     void onConnectedChanged();

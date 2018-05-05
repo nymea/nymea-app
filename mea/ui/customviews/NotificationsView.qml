@@ -13,21 +13,21 @@ CustomViewBase {
         anchors { left: parent.left; top: parent.top; right: parent.right; margins: app.margins }
         Label {
             Layout.fillWidth: true
-            text: "Send a notification now:"
+            text: qsTr("Send a notification now:")
         }
         TextArea {
             id: titleTextArea
-            placeholderText: "Title"
+            placeholderText: qsTr("Title")
             Layout.fillWidth: true
         }
         TextArea {
             id: bodyTextArea
-            placeholderText: "Text"
+            placeholderText: qsTr("Text")
             Layout.fillWidth: true
         }
         Button {
             Layout.fillWidth: true
-            text: "Send"
+            text: qsTr("Send")
             onClicked: {
 
                 var params = []

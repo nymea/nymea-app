@@ -59,7 +59,7 @@ CustomViewBase {
                 id: zoomTabBar
                 Layout.fillWidth: true
                 TabButton {
-                    text: "6 h"
+                    text: qsTr("6 h")
                     property int avg: ValueLogsProxyModel.AverageQuarterHour
                     property date startTime: {
                         var date = new Date();
@@ -70,7 +70,7 @@ CustomViewBase {
                     }
                 }
                 TabButton {
-                    text: "24 h"
+                    text: qsTr("24 h")
                     property int avg: ValueLogsProxyModel.AverageHourly
                     property date startTime: {
                         var date = new Date();
@@ -81,7 +81,7 @@ CustomViewBase {
                     }
                 }
                 TabButton {
-                    text: "7 d"
+                    text: qsTr("7 d")
                     property int avg: ValueLogsProxyModel.AverageDayTime
                     property date startTime: {
                         var date = new Date();

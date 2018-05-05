@@ -8,7 +8,7 @@ import Mea 1.0
 Page {
     id: root
     header: GuhHeader {
-        text: "System information"
+        text: qsTr("System information")
         backButtonVisible: true
         onBackPressed: pageStack.pop()
     }
@@ -22,7 +22,7 @@ Page {
 
             Label {
                 Layout.fillWidth: true
-                text: "Connected to:"
+                text: qsTr("Connected to:")
                 color: Material.accent
             }
             RowLayout {
@@ -33,7 +33,7 @@ Page {
                     text: Engine.connection.url
                 }
                 Button {
-                    text: "Disconnect"
+                    text: qsTr("Disconnect")
                     onClicked: {
                         settings.lastConnectedHost = "";
                         Engine.connection.disconnect();
@@ -48,7 +48,7 @@ Page {
             Layout.fillWidth: true
             contentItem: RowLayout {
                 Label {
-                    text: "Log viewer"
+                    text: qsTr("Log viewer")
                     Layout.fillWidth: true
                 }
                 Image {

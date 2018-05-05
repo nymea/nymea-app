@@ -9,7 +9,7 @@ Page {
     signal backPressed();
 
     header: GuhHeader {
-        text: "Welcome to nymea!"
+        text: qsTr("Welcome to nymea!")
         backButtonVisible: true
         onBackPressed: root.backPressed()
     }
@@ -49,8 +49,8 @@ Page {
         Label {
             Layout.fillWidth: true
             text: Engine.jsonRpcClient.initialSetupRequired ?
-                      "In order to use your nymea system, please enter your email address and set a password for your nymea box."
-                    : "In order to use your nymea system, please log in."
+                      qsTr("In order to use your nymea system, please enter your email address and set a password for your nymea box.")
+                    : qsTr("In order to use your nymea system, please log in.")
             wrapMode: Text.WordWrap
         }
 
@@ -58,7 +58,7 @@ Page {
             Layout.fillWidth: true
 
             Label {
-                text: "Your e-mail address:"
+                text: qsTr("Your e-mail address:")
                 Layout.fillWidth: true
             }
             TextField {
@@ -73,7 +73,7 @@ Page {
 
             Label {
                 Layout.fillWidth: true
-                text: "Password:"
+                text: qsTr("Password:")
             }
             TextField {
                 id: passwordTextField
@@ -88,7 +88,7 @@ Page {
 
             Label {
                 Layout.fillWidth: true
-                text: "Confirm password:"
+                text: qsTr("Confirm password:")
             }
             TextField {
                 id: confirmPasswordTextField
@@ -110,7 +110,7 @@ Page {
 
         Button {
             Layout.fillWidth: true
-            text: "OK"
+            text: qsTr("OK")
             enabled: usernameTextField.text.length >= 5 && passwordTextField.text.length >= 8
                      && (!Engine.jsonRpcClient.initialSetupRequired || confirmPasswordTextField.text == passwordTextField.text)
             onClicked: {

@@ -14,6 +14,7 @@ class NymeaConnection : public QObject
     Q_OBJECT
     Q_PROPERTY(bool connected READ connected NOTIFY connectedChanged)
     Q_PROPERTY(QString url READ url NOTIFY connectedChanged)
+    Q_PROPERTY(QString hostAddress READ hostAddress NOTIFY connectedChanged)
 
 public:
     explicit NymeaConnection(QObject *parent = nullptr);
@@ -23,7 +24,9 @@ public:
     Q_INVOKABLE void acceptCertificate(const QByteArray &fingerprint);
 
     bool connected();
+
     QString url() const;
+    QString hostAddress() const;
 
     void sendData(const QByteArray &data);
 

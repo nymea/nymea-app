@@ -62,6 +62,11 @@ QString NymeaConnection::url() const
     return m_currentUrl.toString();
 }
 
+QString NymeaConnection::hostAddress() const
+{
+    return m_currentUrl.host();
+}
+
 void NymeaConnection::sendData(const QByteArray &data)
 {
     if (connected()) {

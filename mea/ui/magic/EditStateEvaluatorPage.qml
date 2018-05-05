@@ -7,7 +7,7 @@ import "../components"
 Page {
     id: root
     header: GuhHeader {
-        text: "Conditions"
+        text: qsTr("Conditions")
         onBackPressed: pageStack.pop()
     }
 

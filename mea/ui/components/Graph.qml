@@ -20,7 +20,7 @@ Item {
         anchors.centerIn: parent
         width: parent.width - 2 * app.margins
         wrapMode: Text.WordWrap
-        text: "Sorry, there isn't enough data to display a graph here yet!"
+        text: qsTr("Sorry, there isn't enough data to display a graph here yet!")
         visible: !root.model.busy && root.model.count <= 2
         horizontalAlignment: Text.AlignHCenter
         font.pixelSize: app.largeFont

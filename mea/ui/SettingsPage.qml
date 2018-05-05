@@ -8,7 +8,7 @@ import "components"
 Page {
     id: root
     header: GuhHeader {
-        text: "Settings"
+        text: qsTr("Settings")
         backButtonVisible: true
         onBackPressed: pageStack.pop()
     }
@@ -21,7 +21,7 @@ Page {
             Layout.margins: app.margins
 
             Label {
-                text: "Application".toUpperCase()
+                text: qsTr("Application").toUpperCase()
                 color: app.guhAccent
                 Layout.fillWidth: true
             }
@@ -30,10 +30,10 @@ Page {
                 Layout.fillWidth: true
                 Label {
                     Layout.fillWidth: true
-                    text: "View mode"
+                    text: qsTr("View mode")
                 }
                 ComboBox {
-                    model: ["Windowed", "Maximized", "Fullscreen"]
+                    model: [qsTr("Windowed"), qsTr("Maximized"), qsTr("Fullscreen")]
                     currentIndex: {
                         switch (settings.viewMode) {
                         case ApplicationWindow.Windowed:
@@ -90,7 +90,7 @@ Page {
                 Layout.fillWidth: true
                 Label {
                     Layout.fillWidth: true
-                    text: "Return to home on idle"
+                    text: qsTr("Return to home on idle")
                 }
                 CheckBox {
                     checked: settings.returnToHome
@@ -101,16 +101,16 @@ Page {
                 Layout.fillWidth: true
                 Label {
                     Layout.fillWidth: true
-                    text: "Graph style"
+                    text: qsTr("Graph style")
                 }
                 RadioButton {
                     checked: settings.graphStyle === "bars"
-                    text: "Bars"
+                    text: qsTr("Bars")
                     onClicked: settings.graphStyle = "bars"
                 }
                 RadioButton {
                     checked: settings.graphStyle === "bezier"
-                    text: "Lines"
+                    text: qsTr("Lines")
                     onClicked: settings.graphStyle = "bezier"
                 }
 
@@ -125,7 +125,7 @@ Page {
             Layout.leftMargin: app.margins
             Layout.rightMargin: app.margins
             Layout.topMargin: app.margins
-            text: "System".toUpperCase()
+            text: qsTr("System").toUpperCase()
             color: app.guhAccent
         }
 
@@ -158,10 +158,20 @@ Page {
                     Layout.fillWidth: true
                 }
                 Switch {
+                    id: debugServerEnabledSwitch
                     checked: Engine.basicConfiguration.debugServerEnabled
                     onClicked: Engine.basicConfiguration.debugServerEnabled = checked
                 }
             }
+
+            Button {
+                id: debugServerButton
+                Layout.fillWidth: true
+                visible: debugServerEnabledSwitch.checked
+                text: qsTr("Open debug interface")
+                onClicked: Qt.openUrlExternally("http://" + Engine.connection.hostAddress + "/debug")
+            }
+
         }
 
         ItemDelegate {
@@ -169,7 +179,7 @@ Page {
             contentItem: RowLayout {
                 Label {
                     Layout.fillWidth: true
-                    text: "Plugins"
+                    text: qsTr("Plugins")
                 }
                 Image {
                     source: "images/next.svg"
