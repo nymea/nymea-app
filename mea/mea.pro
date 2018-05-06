@@ -6,7 +6,7 @@ include(../mea.pri)
 QT += qml quick quickcontrols2 websockets svg
 
 INCLUDEPATH += $$top_srcdir/libnymea-common
-LIBS += -L$$top_builddir/libnymea-common/ -lnymea-common
+LIBS += -L$$top_builddir/libnymea-common/release -L$$top_builddir/libnymea-common/ -lnymea-common
 
 HEADERS += engine.h \
     nymeainterface.h \
@@ -100,17 +100,6 @@ SOURCES += discovery/avahi/avahiserviceentry.cpp \
 RESOURCES += \
     resources.qrc
 
-#DISTFILES += \
-#    android/AndroidManifest.xml \
-#    android/gradle/wrapper/gradle-wrapper.jar \
-#    android/gradlew \
-#    android/res/values/libs.xml \
-#    android/build.gradle \
-#    android/gradle/wrapper/gradle-wrapper.properties \
-#    android/gradlew.bat
-
-#ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
-
 contains(ANDROID_TARGET_ARCH,armeabi-v7a) {
     ANDROID_EXTRA_LIBS = \
         $$PWD/../../android-openssl/prebuilt/armeabi-v7a/libcrypto.so \
@@ -124,10 +113,13 @@ DISTFILES += \
     android/res/values/libs.xml \
     android/build.gradle \
     android/gradle/wrapper/gradle-wrapper.properties \
-    android/gradlew.bat
+    android/gradlew.bat \
+    LICENSE
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
 
+
+DISTFILES += \
+    $$PWD/../win-installer.nsi
 target.path = /usr/bin
 INSTALLS += target
-
