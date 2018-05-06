@@ -291,6 +291,12 @@ void DeviceManager::editDeviceResponse(const QVariantMap &params)
     emit editDeviceReply(params);
 }
 
+void DeviceManager::executeActionResponse(const QVariantMap &params)
+{
+    qDebug() << "Execute Action response" << params;
+    emit executeActionReply(params.value("params").toMap());
+}
+
 void DeviceManager::savePluginConfig(const QUuid &pluginId)
 {
     Plugin *p = m_plugins->getPlugin(pluginId);
@@ -364,5 +370,5 @@ void DeviceManager::executeAction(const QUuid &deviceId, const QUuid &actionType
     }
 
     qDebug() << "Params:" << p;
-    m_jsonClient->sendCommand("Actions.ExecuteAction", p);
+    m_jsonClient->sendCommand("Actions.ExecuteAction", p, this, "executeActionResponse");
 }

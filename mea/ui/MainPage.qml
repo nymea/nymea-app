@@ -1,4 +1,4 @@
-import QtQuick 2.5
+import QtQuick 2.8
 import QtQuick.Controls 2.1
 import QtQuick.Controls.Material 2.1
 import QtQuick.Layouts 1.2
@@ -22,6 +22,26 @@ Page {
         fillMode: Image.PreserveAspectFit
         opacity: .2
     }
+
+    // FIXME: Currently we don't have any feedback for executeAction
+    // we don't want all the results, e.g. on looped calls like "all off"
+//    Connections {
+//        target: Engine.deviceManager
+//        onExecuteActionReply: {
+//            var text = params["deviceError"]
+//            switch(text) {
+//            case "DeviceErrorNoError":
+//                return;
+//            case "DeviceErrorHardwareNotAvailable":
+//                text = qsTr("Could not execute action. The thing is not available");
+//                break;
+//            }
+
+//            var errorDialog = Qt.createComponent(Qt.resolvedUrl("components/ErrorDialog.qml"))
+//            var popup = errorDialog.createObject(root, {text: text})
+//            popup.open()
+//        }
+//    }
 
     Menu {
         id: mainMenu

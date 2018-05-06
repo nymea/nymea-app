@@ -44,13 +44,7 @@ CustomViewBase {
             id: controlsRow
             Layout.fillWidth: true
 
-            property int iconSize: Math.max(app.iconSize * 2, column.width / (controlsModel.count + 0))
-
-//            Item {
-//                width: Math.max(app.iconSize * 2, column.width / (controlsModel.count + 2))
-//                height: 1
-//            }
-
+            property int iconSize: Math.max(app.iconSize * 2, column.width / controlsModel.count)
 
             Repeater {
                 model: ListModel {
@@ -71,9 +65,6 @@ CustomViewBase {
                     }
                 }
             }
-
-//            Item { Layout.fillWidth: true; height: 1 }
-
         }
     }
 }

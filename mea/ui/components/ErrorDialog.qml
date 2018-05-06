@@ -4,10 +4,10 @@ import QtQuick.Layouts 1.2
 
 Dialog {
     id: root
-    width: Math.min(parent.width * .6, 400)
-//    height: content.height
+    width: Math.min(parent.width * .8, contentLabel.implicitWidth)
     x: (parent.width - width) / 2
     y: (parent.height - height) / 2
+    modal: true
 
     title: qsTr("Error")
     property alias text: contentLabel.text
@@ -31,7 +31,7 @@ Dialog {
             Label {
                 id: titleLabel
                 Layout.fillWidth: true
-                wrapMode: Text.WordWrap
+                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 text: root.title
                 color: app.guhAccent
                 font.pixelSize: app.largeFont
@@ -42,12 +42,11 @@ Dialog {
     ColumnLayout {
         id: content
         anchors { left: parent.left; top: parent.top; right: parent.right }
-        height: childrenRect.height
 
         Label {
             id: contentLabel
             Layout.fillWidth: true
-            wrapMode: Text.WordWrap
+            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }
     }
 }
