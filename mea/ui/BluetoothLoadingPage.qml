@@ -8,6 +8,10 @@ import Mea 1.0
 
 Page {
     id: root
+    header: GuhHeader {
+        text: qsTr("Establish bluetooth connection")
+        onBackPressed: pageStack.pop()
+    }
 
     property string name
     property string address
@@ -39,13 +43,6 @@ Page {
 
     ColumnLayout {
         anchors.centerIn: parent
-
-        Label {
-            wrapMode: Text.WordWrap
-            font.pixelSize: app.largeFont
-            Layout.fillWidth: true
-            text: qsTr("Establish bluetooth LE connection")
-        }
 
         BusyIndicator {
             Layout.alignment: Qt.AlignHCenter

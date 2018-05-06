@@ -44,7 +44,6 @@ class WirelessSetupManager : public BluetoothDevice
     Q_PROPERTY(QString firmwareRevision READ firmwareRevision NOTIFY firmwareRevisionChanged)
     Q_PROPERTY(QString hardwareRevision READ hardwareRevision NOTIFY hardwareRevisionChanged)
 
-
     Q_PROPERTY(QString networkStatus READ networkStatus NOTIFY networkStatusChanged)
     Q_PROPERTY(QString wirelessStatus READ wirelessStatus NOTIFY wirelessStatusChanged)
     Q_PROPERTY(bool networkingEnabled READ networkingEnabled NOTIFY networkingEnabledChanged)
@@ -207,6 +206,8 @@ signals:
     void wirelessStatusChanged();
     void networkingEnabledChanged();
     void wirelessEnabledChanged();
+
+    void errorOccured(const QString &errorMessage);
 
 private slots:
     void onConnectedChanged();

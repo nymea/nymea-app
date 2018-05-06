@@ -33,6 +33,15 @@ Page {
 
     Component.onCompleted: networkManger.manager.loadNetworks()
 
+    Connections {
+        target: networkManger.manager
+        onErrorOccured: {
+            print("Error occured", errorMessage)
+            errorDialog.errorText = errorMessage
+            errorDialog.open()
+        }
+    }
+
     ColumnLayout {
         anchors.fill: parent
         visible: networkManger.manager.initialized
@@ -191,6 +200,29 @@ Page {
         }
     }
 
+
+    Dialog {
+        id: errorDialog
+        width: Math.min(parent.width * .9, 400)
+        x: (parent.width - width) / 2
+        y: (parent.height - height) / 2
+        standardButtons: Dialog.Ok
+
+        property string errorText
+
+        ColumnLayout {
+            anchors { left: parent.left; right: parent.right; top: parent.top }
+            spacing: app.margins
+
+            Label {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: errorDialog.errorText
+            }
+        }
+
+    }
+
     Component {
         id: settingsPage
 
@@ -204,7 +236,6 @@ Page {
             ColumnLayout {
                 anchors.fill: parent
                 anchors.margins: app.margins
-
 
                 RowLayout {
                     anchors.margins: app.margins
@@ -236,6 +267,13 @@ Page {
                         checked: networkManger.manager.wirelessEnabled
                         onCheckedChanged: networkManger.manager.enableWireless(checked)
                     }
+                }
+
+                ThinDivider { }
+
+                Label {
+                    Layout.fillWidth: true
+                    text: qsTr("Bluetooth device information")
                 }
 
                 ThinDivider { }

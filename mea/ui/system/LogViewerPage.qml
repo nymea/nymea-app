@@ -58,7 +58,7 @@ Page {
         header: Rectangle {
             width: parent.width
             height: app.margins * 3
-            color: "white"
+            color: Material.primary
             z: 2
 
             Row {

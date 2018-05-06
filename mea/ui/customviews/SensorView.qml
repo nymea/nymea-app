@@ -23,7 +23,6 @@ CustomViewBase {
         Component.onCompleted: updateTimer.start();
         onAverageChanged: updateTimer.start()
         onStartTimeChanged: updateTimer.start();
-
     }
 
     Timer {

@@ -311,9 +311,9 @@ void WirelessSetupManager::pressPushButton()
 void WirelessSetupManager::checkInitialized()
 {
     setInitialized(m_deviceInformationService->state() == QLowEnergyService::ServiceDiscovered
-            && m_netwokService->state() == QLowEnergyService::ServiceDiscovered
-            && m_wifiService->state() == QLowEnergyService::ServiceDiscovered
-            && m_systemService->state() == QLowEnergyService::ServiceDiscovered);
+                   && m_netwokService->state() == QLowEnergyService::ServiceDiscovered
+                   && m_wifiService->state() == QLowEnergyService::ServiceDiscovered
+                   && m_systemService->state() == QLowEnergyService::ServiceDiscovered);
 }
 
 void WirelessSetupManager::setModelNumber(const QString &modelNumber)
@@ -434,7 +434,7 @@ void WirelessSetupManager::setWirelessStatus(int wirelessStatus)
         break;
     case 4:
         m_wirelessStatus = tr("Prepare");
-                break;
+        break;
     case 5:
         m_wirelessStatus = tr("Configure");
         break;
@@ -544,6 +544,31 @@ void WirelessSetupManager::processWifiResponse(const QVariantMap &response)
 
     if (responseCode != WirelessServiceResponseSuccess) {
         qWarning() << "WifiSetupManager: Got error for command" << command << responseCode;
+
+        switch (responseCode) {
+        case WirelessServiceResponseIvalidCommand:
+            emit errorOccured(tr("Invalid command."));
+            break;
+        case WirelessServiceResponseIvalidParameters:
+            emit errorOccured(tr("Invalid parameters."));
+            break;
+        case WirelessServiceResponseNetworkManagerNotAvailable:
+            emit errorOccured(tr("There is no networkmanager available on the device."));
+            break;
+        case WirelessServiceResponseWirelessNotAvailable:
+            emit errorOccured(tr("There is no wireless device available on the device."));
+            break;
+        case WirelessServiceResponseWirelessNotEnabled:
+            emit errorOccured(tr("The wireless networking is disabled on the device."));
+            break;
+        case WirelessServiceResponseNetworkingNotEnabled:
+            emit errorOccured(tr("The networking is disabled on the device."));
+            break;
+        default:
+            emit errorOccured("Unknown error occured.");
+            break;
+        }
+
         return;
     }
 
@@ -866,33 +891,62 @@ void WirelessSetupManager::onWifiServiceCharacteristicChanged(const QLowEnergyCh
 {
     Q_UNUSED(characteristic)
 
-    // Check if currently reading
-    if (m_readingResponse) {
-        m_inputDataStream.append(value);
-    } else {
-        m_inputDataStream.clear();
-        m_readingResponse = true;
-        m_inputDataStream.append(value);
-    }
-
-    // If command finished
-    if (value.endsWith('\n')) {
-        QJsonParseError error;
-        QJsonDocument jsonDocument = QJsonDocument::fromJson(m_inputDataStream, &error);
-        if (error.error != QJsonParseError::NoError) {
-            qWarning() << "Got invalid json object" << m_inputDataStream;
+    if (characteristic.uuid() == wifiResponseCharacteristicUuid) {
+        // Check if currently reading
+        if (m_readingResponse) {
+            m_inputDataStream.append(value);
+        } else {
             m_inputDataStream.clear();
-            m_readingResponse = false;
-            return;
+            m_readingResponse = true;
+            m_inputDataStream.append(value);
         }
 
-        qDebug() << "Got command stream" << qUtf8Printable(jsonDocument.toJson());
+        // If command finished
+        if (value.endsWith('\n')) {
+            QJsonParseError error;
+            QJsonDocument jsonDocument = QJsonDocument::fromJson(m_inputDataStream, &error);
+            if (error.error != QJsonParseError::NoError) {
+                qWarning() << "Got invalid json object" << m_inputDataStream;
+                m_inputDataStream.clear();
+                m_readingResponse = false;
+                return;
+            }
 
-        processWifiResponse(jsonDocument.toVariant().toMap());
+            qDebug() << "Got command stream" << qUtf8Printable(jsonDocument.toJson());
 
-        m_inputDataStream.clear();
-        m_readingResponse = false;
+            processWifiResponse(jsonDocument.toVariant().toMap());
+
+            m_inputDataStream.clear();
+            m_readingResponse = false;
+        }
     }
+
+    if (characteristic.uuid() == wifiStatusCharacteristicUuid) {
+        qDebug() << "Wireless status changed:" << value;
+        setWirelessStatus(value.toHex().toUInt(0, 16));
+        return;
+    }
+
+    if (characteristic.uuid() == networkStatusCharacteristicUuid) {
+        qDebug() << "Network status changed:" << value.toHex().toUInt(0, 16);
+        setNetworkStatus(value.toHex().toUInt(0, 16));
+        return;
+    }
+
+    if (characteristic.uuid() == networkingEnabledCharacteristicUuid) {
+        qDebug() << "Networking enabled changed" << (bool)value.toHex().toUInt(0, 16);
+        setNetworkingEnabled((bool)value.toHex().toUInt(0, 16));
+        return;
+    }
+
+    if (characteristic.uuid() == wirelessEnabledCharacteristicUuid) {
+        qDebug() << "Wireless enabled changed" << (bool)value.toHex().toUInt(0, 16);
+        setWirelessEnabled((bool)value.toHex().toUInt(0, 16));
+        return;
+    }
+
+    qDebug() << "Bluetooth: Unhandled service characteristic changed" << characteristic.uuid() << value;
+
 }
 
 void WirelessSetupManager::onWifiServiceReadFinished(const QLowEnergyCharacteristic &characteristic, const QByteArray &value)
