@@ -343,11 +343,15 @@ void DeviceManager::confirmPairing(const QUuid &pairingTransactionId, const QStr
     m_jsonClient->sendCommand("Devices.ConfirmPairing", params, this, "confirmPairingResponse");
 }
 
-void DeviceManager::removeDevice(const QUuid &deviceId)
+void DeviceManager::removeDevice(const QUuid &deviceId, RemovePolicy removePolicy)
 {
     qDebug() << "JsonRpc: delete device" << deviceId.toString();
     QVariantMap params;
     params.insert("deviceId", deviceId.toString());
+    if (removePolicy != RemovePolicyNone) {
+        QMetaEnum policyEnum = QMetaEnum::fromType<DeviceManager::RemovePolicy>();
+        params.insert("removePolicy", policyEnum.valueToKey(removePolicy));
+    }
     m_jsonClient->sendCommand("Devices.RemoveConfiguredDevice", params, this, "removeDeviceResponse");
 }
 

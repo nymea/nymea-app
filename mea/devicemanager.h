@@ -41,6 +41,13 @@ class DeviceManager : public JsonHandler
     Q_PROPERTY(bool fetchingData READ fetchingData NOTIFY fetchingDataChanged)
 
 public:
+    enum RemovePolicy {
+        RemovePolicyNone,
+        RemovePolicyCascade,
+        RemovePolicyUpdate
+    };
+    Q_ENUM(RemovePolicy)
+
     explicit DeviceManager(JsonRpcClient *jsonclient, QObject *parent = 0);
 
     void clear();
@@ -59,7 +66,7 @@ public:
     Q_INVOKABLE void addDiscoveredDevice(const QUuid &deviceClassId, const QUuid &deviceDescriptorId, const QString &name);
     Q_INVOKABLE void pairDevice(const QUuid &deviceClassId, const QUuid &deviceDescriptorId, const QString &name);
     Q_INVOKABLE void confirmPairing(const QUuid &pairingTransactionId, const QString &secret = QString());
-    Q_INVOKABLE void removeDevice(const QUuid &deviceId);
+    Q_INVOKABLE void removeDevice(const QUuid &deviceId, RemovePolicy policy = RemovePolicyNone);
     Q_INVOKABLE void editDevice(const QUuid &deviceId, const QString &name);
     Q_INVOKABLE void executeAction(const QUuid &deviceId, const QUuid &actionTypeId, const QVariantList &params = QVariantList());
 

@@ -254,7 +254,7 @@ void JsonRpcClient::dataReceived(const QByteArray &data)
  //       qWarning() << "Could not parse json data from mea" << data << error.errorString();
         return;
     }
-//    qDebug() << "received response" << m_receiveBuffer.left(splitIndex);
+    qDebug() << "received response" << m_receiveBuffer.left(splitIndex);
     m_receiveBuffer = m_receiveBuffer.right(m_receiveBuffer.length() - splitIndex - 1);
     if (!m_receiveBuffer.isEmpty()) {
         staticMetaObject.invokeMethod(this, "dataReceived", Qt::QueuedConnection, Q_ARG(QByteArray, QByteArray()));
