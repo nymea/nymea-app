@@ -36,7 +36,8 @@ public:
         WirelessAccesspointRoleSsid = Qt::DisplayRole,
         WirelessAccesspointRoleMacAddress,
         WirelessAccesspointRoleSignalStrength,
-        WirelessAccesspointRoleProtected
+        WirelessAccesspointRoleProtected,
+        WirelessAccesspointRoleSelectedNetwork
     };
 
     explicit WirelessAccesspoints(QObject *parent = 0);
@@ -51,6 +52,8 @@ public:
     Q_INVOKABLE WirelessAccessPoint *get(const QString &ssid) const;
 
     void clearModel();
+
+    Q_INVOKABLE void setSelectedNetwork(const QString &ssid, const QString &macAdderss);
 
     static bool signalStrengthLessThan(const WirelessAccessPoint *a, const WirelessAccessPoint *b);
 

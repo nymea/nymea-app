@@ -44,8 +44,8 @@ class WirelessSetupManager : public BluetoothDevice
     Q_PROPERTY(QString firmwareRevision READ firmwareRevision NOTIFY firmwareRevisionChanged)
     Q_PROPERTY(QString hardwareRevision READ hardwareRevision NOTIFY hardwareRevisionChanged)
 
-    Q_PROPERTY(QString networkStatus READ networkStatus NOTIFY networkStatusChanged)
-    Q_PROPERTY(QString wirelessStatus READ wirelessStatus NOTIFY wirelessStatusChanged)
+    Q_PROPERTY(NetworkStatus networkStatus READ networkStatus NOTIFY networkStatusChanged)
+    Q_PROPERTY(WirelessStatus wirelessStatus READ wirelessStatus NOTIFY wirelessStatusChanged)
     Q_PROPERTY(bool networkingEnabled READ networkingEnabled NOTIFY networkingEnabledChanged)
     Q_PROPERTY(bool wirelessEnabled READ wirelessEnabled NOTIFY wirelessEnabledChanged)
 
@@ -107,6 +107,35 @@ public:
     };
     Q_ENUM(SystemServiceResponse)
 
+    enum NetworkStatus {
+        NetworkStatusUnknown = 0x00,
+        NetworkStatusAsleep = 0x01,
+        NetworkStatusDisconnected = 0x02,
+        NetworkStatusDisconnecting = 0x03,
+        NetworkStatusConnecting = 0x04,
+        NetworkStatusLocal = 0x05,
+        NetworkStatusConnectedSite = 0x06,
+        NetworkStatusGlobal = 0x07
+    };
+    Q_ENUM(NetworkStatus)
+
+    enum WirelessStatus {
+        WirelessStatusUnknown = 0x00,
+        WirelessStatusUnmanaged = 0x01,
+        WirelessStatusUnavailable = 0x02,
+        WirelessStatusDisconnected = 0x03,
+        WirelessStatusPrepare = 0x04,
+        WirelessStatusConfig = 0x05,
+        WirelessStatusNeedAuth = 0x06,
+        WirelessStatusIpConfig = 0x07,
+        WirelessStatusIpCheck = 0x08,
+        WirelessStatusSecondaries = 0x09,
+        WirelessStatusActivated = 0x0A,
+        WirelessStatusDeactivating = 0x0B,
+        WirelessStatusFailed = 0x0C
+    };
+    Q_ENUM(WirelessStatus)
+
     explicit WirelessSetupManager(const QBluetoothDeviceInfo &deviceInfo, QObject *parent = nullptr);
 
     QString modelNumber() const;
@@ -119,13 +148,15 @@ public:
     bool initializing() const;
     bool working() const;
 
-    QString networkStatus() const;
-    QString wirelessStatus() const;
+    NetworkStatus networkStatus() const;
+    WirelessSetupManager::WirelessStatus wirelessStatus() const;
 
     bool networkingEnabled() const;
     bool wirelessEnabled() const;
 
     WirelessAccesspoints *accessPoints();
+
+    void reloadData();
 
     // Wireless commands
     Q_INVOKABLE void loadNetworks();
@@ -158,14 +189,16 @@ private:
     bool m_initialized = false;
     bool m_initializing = false;
 
-    QString m_networkStatus;
-    QString m_wirelessStatus;
+    NetworkStatus m_networkStatus;
+    WirelessStatus m_wirelessStatus;
 
     bool m_readingResponse;
     QByteArray m_inputDataStream;
 
     QString m_ssid;
     QString m_password;
+
+    QVariantList m_accessPointsVariantList;
 
     void checkInitialized();
 

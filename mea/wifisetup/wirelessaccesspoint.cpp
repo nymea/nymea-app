@@ -67,3 +67,13 @@ void WirelessAccessPoint::setProtected(const bool &isProtected)
 {
     m_isProtected = isProtected;
 }
+
+bool WirelessAccessPoint::selectedNetwork() const
+{
+    return m_selectedNetwork;
+}
+
+void WirelessAccessPoint::setSelectedNetwork(bool selected)
+{
+    m_selectedNetwork = selected;
+}

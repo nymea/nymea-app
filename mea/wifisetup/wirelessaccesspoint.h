@@ -45,11 +45,15 @@ public:
     bool isProtected() const;
     void setProtected(const bool &isProtected);
 
+    bool selectedNetwork() const;
+    void setSelectedNetwork(bool selected);
+
 private:
     QString m_ssid;
     QString m_macAddress;
     int m_signalStrength;
     bool m_isProtected;
+    bool m_selectedNetwork;
 
 };
 

@@ -79,7 +79,7 @@ void NymeaConnection::sendData(const QByteArray &data)
 
 void NymeaConnection::onSslErrors(const QList<QSslError> &errors)
 {
-    qDebug() << "ssl errors";
+    qDebug() << "Connection: SSL errors:" << errors;
     QList<QSslError> ignoredErrors;
     foreach (const QSslError &error, errors) {
         if (error.error() == QSslError::HostNameMismatch) {
@@ -119,7 +119,7 @@ void NymeaConnection::onSslErrors(const QList<QSslError> &errors)
             }
         } else {
             // Reject the connection on all other errors...
-            qDebug() << "error:" << error.errorString() << error.certificate();
+            qDebug() << "SSL Error:" << error.errorString() << error.certificate();
         }
     }
     m_currentInterface->ignoreSslErrors(ignoredErrors);
@@ -127,7 +127,7 @@ void NymeaConnection::onSslErrors(const QList<QSslError> &errors)
 
 void NymeaConnection::onError(QAbstractSocket::SocketError error)
 {
-    qWarning() << "socket error" << error;
+    qWarning() << "Socket error" << error;
     emit connectionError();
 }
 

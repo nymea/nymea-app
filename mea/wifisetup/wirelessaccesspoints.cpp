@@ -21,6 +21,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #include "wirelessaccesspoints.h"
+#include <QDebug>
 
 WirelessAccesspoints::WirelessAccesspoints(QObject *parent) : QAbstractListModel(parent)
 {
@@ -66,6 +67,8 @@ QVariant WirelessAccesspoints::data(const QModelIndex &index, int role) const
         return accessPoint->signalStrength();
     } else if (role == WirelessAccesspointRoleProtected) {
         return accessPoint->isProtected();
+    } else if (role == WirelessAccesspointRoleSelectedNetwork) {
+        return accessPoint->selectedNetwork();
     }
 
     return QVariant();
@@ -94,8 +97,34 @@ void WirelessAccesspoints::clearModel()
     endResetModel();
 }
 
+void WirelessAccesspoints::setSelectedNetwork(const QString &ssid, const QString &macAdderss)
+{
+    beginResetModel();
+
+    foreach (WirelessAccessPoint *accessPoint, m_wirelessAccessPoints) {
+        if (accessPoint->ssid() == ssid && accessPoint->macAddress() == macAdderss) {
+            qDebug() << "Set selected network:" << ssid << macAdderss;
+            accessPoint->setSelectedNetwork(true);
+        } else {
+            accessPoint->setSelectedNetwork(false);
+        }
+    }
+
+    // FIXME: find a better way to update network selected and resort the list
+    QList<WirelessAccessPoint *> wirelessAccessPoints = m_wirelessAccessPoints;
+
+    qSort(wirelessAccessPoints.begin(), wirelessAccessPoints.end(), signalStrengthLessThan);
+    m_wirelessAccessPoints = wirelessAccessPoints;
+
+    endResetModel();
+}
+
 bool WirelessAccesspoints::signalStrengthLessThan(const WirelessAccessPoint *a, const WirelessAccessPoint *b)
 {
+    // Keep the selected network on top
+    if (a->selectedNetwork())
+        return true;
+
     return a->signalStrength() > b->signalStrength();
 }
 
@@ -106,6 +135,7 @@ QHash<int, QByteArray> WirelessAccesspoints::roleNames() const
     roles[WirelessAccesspointRoleMacAddress] = "macAddress";
     roles[WirelessAccesspointRoleSignalStrength] = "signalStrength";
     roles[WirelessAccesspointRoleProtected] = "protected";
+    roles[WirelessAccesspointRoleSelectedNetwork] = "selectedNetwork";
     return roles;
 }
 

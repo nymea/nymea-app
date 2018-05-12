@@ -1,6 +1,7 @@
 import QtQuick 2.4
 import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.2
+import QtQuick.Controls.Material 2.1
 
 import "components"
 import Mea 1.0
@@ -40,6 +41,13 @@ Page {
             errorDialog.errorText = errorMessage
             errorDialog.open()
         }
+
+        onWirelessStatusChanged: {
+            switch(networkManger.manager.wirelessStatus) {
+            case WirelessSetupManager.WirelessStatusDisconnected:
+                networkManger.manager.accessPoints.setSelectedNetwork("", "")
+            }
+        }
     }
 
     ColumnLayout {
@@ -48,15 +56,27 @@ Page {
 
         Label {
             wrapMode: Text.WordWrap
-            Layout.fillWidth: true
-            text: qsTr("Network status: ") +  networkManger.manager.networkStatus
-        }
-
-
-        Label {
-            wrapMode: Text.WordWrap
-            Layout.fillWidth: true
-            text: qsTr("Wireless status: ") +  networkManger.manager.wirelessStatus
+            Layout.alignment: Qt.AlignHCenter
+            text:{
+                switch (networkManger.manager.networkStatus) {
+                case WirelessSetupManager.NetworkStatusUnknown:
+                    return qsTr("Unknown status.");
+                case WirelessSetupManager.NetworkStatusAsleep:
+                    return qsTr("Asleep.");
+                case WirelessSetupManager.NetworkStatusDisconnected:
+                    return qsTr("Disconnected.");
+                case WirelessSetupManager.NetworkStatusDisconnecting:
+                    return qsTr("Disconnecting...");
+                case WirelessSetupManager.NetworkStatusConnecting:
+                    return qsTr("Connecting...");
+                case WirelessSetupManager.NetworkStatusLocal:
+                    return qsTr("Connected local.");
+                case WirelessSetupManager.NetworkStatusConnectedSite:
+                    return qsTr("Connected site.");
+                case WirelessSetupManager.NetworkStatusGlobal:
+                    return qsTr("Online.");
+                }
+            }
         }
 
         BusyIndicator {
@@ -75,7 +95,13 @@ Page {
 
             delegate: ItemDelegate {
                 width: parent.width
-                height: app.delegateHeight
+                height: model.selectedNetwork ? app.delegateHeight * 1.5 : app.delegateHeight
+
+                Rectangle {
+                    anchors.fill: parent
+                    color: guhAccent
+                    visible: model.selectedNetwork
+                }
 
                 RowLayout {
                     anchors.verticalCenter: parent.verticalCenter
@@ -83,7 +109,7 @@ Page {
                     anchors.right: parent.right
 
                     Item {
-                        Layout.fillHeight: true
+                        Layout.preferredHeight: app.delegateHeight
                         Layout.preferredWidth: height
 
                         ColorIcon {
@@ -130,7 +156,7 @@ Page {
 
                     ColumnLayout {
                         Layout.fillWidth: true
-
+                        Layout.alignment: Qt.AlignVCenter
                         Label {
                             text: model.ssid
                         }
@@ -139,6 +165,48 @@ Page {
                             text: model.macAddress
                             font.pixelSize: app.smallFont
                         }
+
+                        Label {
+                            text: {
+                                switch (networkManger.manager.wirelessStatus) {
+                                case WirelessSetupManager.WirelessStatusUnknown:
+                                    return qsTr("Unknown status.");
+                                case WirelessSetupManager.WirelessStatusUnmanaged:
+                                    return qsTr("Network unmanaged.");
+                                case WirelessSetupManager.WirelessStatusUnavailable:
+                                    return qsTr("Network unavailable.");
+                                case WirelessSetupManager.WirelessStatusDisconnected:
+                                    return qsTr("Disconnected.");
+                                case WirelessSetupManager.WirelessStatusPrepare:
+                                    return qsTr("Prepare connection...");
+                                case WirelessSetupManager.WirelessStatusConfig:
+                                    return qsTr("Configure network...");
+                                case WirelessSetupManager.WirelessStatusNeedAuth:
+                                    return qsTr("Authentication needed");
+                                case WirelessSetupManager.WirelessStatusIpConfig:
+                                    return qsTr("Configuration IP...");
+                                case WirelessSetupManager.WirelessStatusIpCheck:
+                                    return qsTr("Check IP...");
+                                case WirelessSetupManager.WirelessStatusSecondaries:
+                                    return qsTr("Secondaries...");
+                                case WirelessSetupManager.WirelessStatusActivated:
+                                    return qsTr("Network connected.");
+                                case WirelessSetupManager.WirelessStatusDeactivating:
+                                    return qsTr("Network disconnecting...");
+                                case WirelessSetupManager.WirelessStatusFailed:
+                                    return qsTr("Network connection failed.");
+                                }
+                            }
+
+                            font.pixelSize: app.smallFont
+                            visible: model.selectedNetwork
+                        }
+                    }
+
+                    Button {
+                        text: qsTr("Disconnect")
+                        visible: model.selectedNetwork && networkManger.manager.wirelessStatus === WirelessSetupManager.WirelessStatusActivated
+                        onClicked: networkManger.manager.disconnectWirelessNetwork()
                     }
                 }
 
@@ -181,10 +249,27 @@ Page {
                     text: qsTr("Please enter the password for the Wifi network.")
                 }
 
-                TextField {
+                RowLayout {
                     Layout.fillWidth: true
-                    id: passwordTextField
-                    echoMode: TextInput.Password
+
+                    TextField {
+                        id: passwordTextField
+                        Layout.fillWidth: true
+                        echoMode: TextInput.Password
+                    }
+
+                    Button {
+                        text: qsTr("Show password")
+                        onClicked: {
+                            if (passwordTextField.echoMode === TextInput.Normal) {
+                                text = qsTr("Show password")
+                                passwordTextField.echoMode = TextInput.Password
+                            } else {
+                                text = qsTr("Hide password")
+                                passwordTextField.echoMode = TextInput.Normal
+                            }
+                        }
+                    }
                 }
 
                 Button {
@@ -192,6 +277,7 @@ Page {
                     text: qsTr("Connect")
                     onPressed: {
                         networkManger.manager.connectWirelessNetwork(ssid, passwordTextField.text)
+                        networkManger.manager.accessPoints.setSelectedNetwork(ssid, macAddress)
                         pageStack.pop()
                     }
                 }
@@ -229,7 +315,7 @@ Page {
         Page {
             id: root
             header: GuhHeader {
-                text: qsTr("Network manager settings")
+                text: qsTr("Network settings")
                 onBackPressed: pageStack.pop()
             }
 
