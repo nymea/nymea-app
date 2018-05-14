@@ -30,7 +30,7 @@ InstallDir "$PROGRAMFILES\${COMPANYNAME}\${APPNAME}"
 LicenseData "LICENSE"
 # This will be in the installer/uninstaller's title bar
 Name "${COMPANYNAME} - ${APPNAME}"
-Icon "guh-logo.ico"
+Icon "mea\guh-logo.ico"
 outFile "mea-installer.exe"
 
 !include LogicLib.nsh

@@ -116,7 +116,7 @@ DISTFILES += \
     android/gradlew.bat \
     LICENSE
 
-ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
+ANDROID_PACKAGE_SOURCE_DIR = $$PWD/../packaging/android
 
 
 DISTFILES += \

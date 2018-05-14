@@ -15,7 +15,7 @@ wininstaller.depends = mea
 wininstaller.commands += rmdir /S /Q mea\release\out && mkdir mea\release\out &&
 wininstaller.commands += copy mea\release\mea.exe mea\release\out\ &&
 wininstaller.commands += windeployqt --qmldir mea\ui mea\release\out &&
-wininstaller.commands += makensis win-installer.nsi
+wininstaller.commands += makensis packaging\windows\win-installer.nsi
 QMAKE_EXTRA_TARGETS += wininstaller
 
 target.depends += wininstaller
