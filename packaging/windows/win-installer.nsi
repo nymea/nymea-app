@@ -30,8 +30,8 @@ InstallDir "$PROGRAMFILES\${COMPANYNAME}\${APPNAME}"
 LicenseData "LICENSE"
 # This will be in the installer/uninstaller's title bar
 Name "${COMPANYNAME} - ${APPNAME}"
-Icon "mea\guh-logo.ico"
-outFile "mea-installer.exe"
+Icon "${BRANDING}-logo.ico"
+outFile "..\..\mea-${BRANDING}-installer.exe"
 
 !include LogicLib.nsh
 
@@ -59,15 +59,15 @@ section "install"
         # Files for the install directory - to build the installer, these should be in the same directory as the install script (this file)
         setOutPath $INSTDIR
 
-        file "guh-logo.ico"
-        file /r "mea\release\out\*"
+        file "${BRANDING}-logo.ico"
+        file /r "..\..\mea\release\out\*"
 
         # Uninstaller - See function un.onInit and section "uninstall" for configuration
         writeUninstaller "$INSTDIR\uninstall.exe"
 
         # Start Menu
         createDirectory "$SMPROGRAMS\${COMPANYNAME}"
-        createShortCut "$SMPROGRAMS\${COMPANYNAME}\${APPNAME}.lnk" "$INSTDIR\mea.exe" "" "$INSTDIR\guh-logo.ico"
+        createShortCut "$SMPROGRAMS\${COMPANYNAME}\${APPNAME}.lnk" "$INSTDIR\mea.exe" "" "$INSTDIR\${BRANDING}-logo.ico"
 
         # Registry information for add/remove programs
         WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${COMPANYNAME} ${APPNAME}" "DisplayName" "${COMPANYNAME} - ${APPNAME} - ${DESCRIPTION}"
