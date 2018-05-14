@@ -80,9 +80,6 @@ int main(int argc, char *argv[])
     applicationFont.setWeight(QFont::Normal);
     QGuiApplication::setFont(applicationFont);
 
-    QSettings settings;
-    QQuickStyle::setStyle(settings.value("style", "Material").toString());
-
     const char uri[] = "Mea";
 
     qDebug() << "Running on" << QSysInfo::machineHostName() << QSysInfo::prettyProductName() << QSysInfo::productType() << QSysInfo::productVersion();
@@ -160,6 +157,9 @@ int main(int argc, char *argv[])
     qmlRegisterUncreatableType<LogEntry>(uri, 1, 0, "LogEntry", "Get them from LogsModel");
 
     Engine::instance();
+
+    QSettings settings;
+    QQuickStyle::setStyle(":/styles/" + settings.value("style", "light").toString());
 
     QQmlApplicationEngine engine;
     engine.load(QUrl(QLatin1String("qrc:/ui/main.qml")));

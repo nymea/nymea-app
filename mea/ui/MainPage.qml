@@ -15,14 +15,6 @@ Page {
         onMenuPressed: mainMenu.open()
     }
 
-    Image {
-        id: bg
-        source: "../guh-logo.svg"
-        anchors.fill: parent
-        fillMode: Image.PreserveAspectFit
-        opacity: .2
-    }
-
     // FIXME: Currently we don't have any feedback for executeAction
     // we don't want all the results, e.g. on looped calls like "all off"
 //    Connections {

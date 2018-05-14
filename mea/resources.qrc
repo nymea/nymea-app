@@ -151,5 +151,12 @@
         <file>ui/devicepages/StateLogPage.qml</file>
         <file>ui/customviews/GenericTypeLogView.qml</file>
         <file>guh-logo.svg</file>
+        <file>qtquickcontrols2.conf</file>
+        <file>styles/dark/ApplicationWindow.qml</file>
+        <file>styles/light/ApplicationWindow.qml</file>
+        <file>styles/light/Page.qml</file>
+        <file>styles/dark/Page.qml</file>
+        <file>styles/marantec/ApplicationWindow.qml</file>
+        <file>styles/maveo/ApplicationWindow.qml</file>
     </qresource>
 </RCC>

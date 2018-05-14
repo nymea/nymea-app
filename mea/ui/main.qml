@@ -13,11 +13,6 @@ ApplicationWindow {
     visibility: settings.viewMode
     font: Qt.application.font
 
-    property color guhAccent: "#ff57baae"
-//    Material.primary: "#ff57baae"
-    Material.primary: "white"
-    Material.accent: guhAccent
-
     property int margins: 14
     property int bigMargins: 20
     property int smallFont: 14
@@ -32,6 +27,7 @@ ApplicationWindow {
         property int viewMode: ApplicationWindow.Maximized
         property bool returnToHome: false
         property string graphStyle: "bars"
+        property string style: "light"
     }
 
     Component.onCompleted: {

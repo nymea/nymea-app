@@ -64,6 +64,31 @@ Page {
                 Layout.fillWidth: true
                 Label {
                     Layout.fillWidth: true
+                    text: "Style"
+                }
+                ComboBox {
+                    model: ["light", "dark", "maveo"]
+                    currentIndex: {
+                        switch (settings.style) {
+                        case "light":
+                            return 0;
+                        case "dark":
+                            return 1;
+                        case "maveo":
+                            return 2;
+                        }
+                    }
+
+                    onActivated: {
+                        settings.style = model[index]
+                    }
+                }
+            }
+
+            RowLayout {
+                Layout.fillWidth: true
+                Label {
+                    Layout.fillWidth: true
                     text: "Return to home on idle"
                 }
                 CheckBox {

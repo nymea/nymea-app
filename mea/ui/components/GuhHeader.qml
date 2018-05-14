@@ -15,11 +15,6 @@ ToolBar {
     signal backPressed();
     signal menuPressed();
 
-    Rectangle {
-        anchors.fill: parent
-        color: "#fefefe"
-    }
-
     RowLayout {
         id: layout
         anchors { fill: parent; leftMargin: app.margins; rightMargin: app.margins }
@@ -43,7 +38,6 @@ ToolBar {
             verticalAlignment: Text.AlignVCenter
             font.pixelSize: app.largeFont
             elide: Text.ElideRight
-            color: "#333"
             text: root.text.toUpperCase()
         }
     }
