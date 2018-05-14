@@ -158,10 +158,14 @@ int main(int argc, char *argv[])
 
     Engine::instance();
 
+    QQmlApplicationEngine engine;
+#ifdef BRANDING
+    engine.rootContext()->setContextProperty("appBranding", BRANDING);
+    QQuickStyle::setStyle(QString(":/styles/%1").arg(BRANDING));
+#else
     QSettings settings;
     QQuickStyle::setStyle(":/styles/" + settings.value("style", "light").toString());
-
-    QQmlApplicationEngine engine;
+#endif
     engine.load(QUrl(QLatin1String("qrc:/ui/main.qml")));
 
     return application.exec();

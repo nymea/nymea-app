@@ -19,7 +19,7 @@ BR=$$BRANDING
 equals(BR, "") {
     wininstaller.commands += makensis /DBRANDING=guh packaging\windows\win-installer.nsi
 } else {
-    wininstaller.commands += makensis /DBRANDING=BR packaging\windows\win-installer.nsi
+    wininstaller.commands += makensis /DBRANDING=$$BR packaging\windows\win-installer.nsi
 }
 QMAKE_EXTRA_TARGETS += wininstaller
 

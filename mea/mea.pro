@@ -118,6 +118,10 @@ DISTFILES += \
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/../packaging/android
 
+BR=$$BRANDING
+!equals(BR, "") {
+DEFINES += BRANDING=\\\"maveo\\\"
+}
 
 DISTFILES += \
     $$PWD/../win-installer.nsi

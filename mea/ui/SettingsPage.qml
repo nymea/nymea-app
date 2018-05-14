@@ -62,6 +62,7 @@ Page {
 
             RowLayout {
                 Layout.fillWidth: true
+                visible: appBranding.length === 0
                 Label {
                     Layout.fillWidth: true
                     text: "Style"
