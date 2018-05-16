@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package>
+    <DisplayName>Mea application</DisplayName>
+    <Description>Install the mea application.</Description>
+    <Version>0.1.0-1</Version>
+    <ReleaseDate>2018-05-16</ReleaseDate>
+    <Licenses>
+        <License name="Beer Public License Agreement" file="license.txt" />
+    </Licenses>
+    <Default>true</Default>
+    <Script>installscript.qs</Script>
+</Package>
