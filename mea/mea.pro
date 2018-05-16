@@ -102,8 +102,8 @@ RESOURCES += \
 
 contains(ANDROID_TARGET_ARCH,armeabi-v7a) {
     ANDROID_EXTRA_LIBS = \
-        $$PWD/../../android-openssl/prebuilt/armeabi-v7a/libcrypto.so \
-        $$PWD/../../android-openssl/prebuilt/armeabi-v7a/libssl.so
+        /opt/android-openssl/prebuilt/armeabi-v7a/libcrypto.so \
+        /opt/android-openssl/prebuilt/armeabi-v7a/libssl.so
 }
 
 DISTFILES += \
