@@ -120,10 +120,13 @@ ANDROID_PACKAGE_SOURCE_DIR = $$PWD/../packaging/android
 
 BR=$$BRANDING
 !equals(BR, "") {
-DEFINES += BRANDING=\\\"maveo\\\"
+    DEFINES += BRANDING=\\\"$${BR}\\\"
+    win32:RCC_ICONS += ../packaging/windows/packages/io.guh.mea/logo-$${BR}.ico
+} else {
+    win32:RCC_ICONS += ../packaging/windows/packages/io.guh.mea/logo-guh.ico
 }
+message("RCC_ICONS= $${RCC_ICONS}")
 
-DISTFILES += \
-    $$PWD/../win-installer.nsi
+
 target.path = /usr/bin
 INSTALLS += target

@@ -1,0 +1,68 @@
+<html>
+<h1>Data Privacy Statement</h1>
+<h2>“maveo” <br />Products & Services</h2>
+  <h3>1. Data processed by “maveo”</h3>
+  <p>The “maveo” box, “maveo” stick, “maveo” app, and if applicable other devices interacting with the “maveo” box process the following information and exchange it among them:</p>
+  <ul>
+    <li>Personal data and configuration data provided by you, including:</li>
+    <ul>
+      <li>WiFi access data</li>
+      <li>Access data for a Netatmo server infrastructure</li>
+      <li>Access data for external server infrastructures added by you, for example:</li>
+        <ul>
+            <li>Netatmo account</li>
+            <li>Pushbullet token</li>
+            <li>Google account</li>
+            <li>Yahoo account</li>
+        </ul>
+        <li>Location data</li>
+    </ul>
+    <li>Bluetooth pairing information and other control data to establish connections between devices</li>
+    <li>Your IP address</li>
+    <li>Temperature and humidity data, battery charge level</li>
+    <li>Technical device data</li>
+    <li>Usage data regarding:</li>
+    <ul>
+        <li>Door cycles</li>
+        <li>Garage door type</li>
+        <li>Forces in the garage door</li>
+        <li>Opening/closing times</li>
+        <li>Temperature & relative humidity</li>
+    </ul>
+  </ul>
+  <h3>2. Interaction with products from other providers</h3>
+  <p>The “maveo” products are designed for interaction and integration with products of other providers. This applies in particular to products based on the ZigBee specification (Philips Hue for example). When a connection is established with such products, “maveo” only provides the access data required to establish the connection.</p>
+  <p>We have no influence on the processing of personal data by third-party providers of such products. Please consult the data protection guideline of the respective third party in this regard.</p>
+  <h3>3. Use and dissemination of data</h3>
+  <p>Personal data are used and disseminated exclusively for the purpose of operating and maintaining the “maveo” products.</p>
+  <h4>3.1. Operation of the “maveo” products</h4>
+  <p>The personal data listed below are used as follows for the operation of the “maveo” products:</p>
+  <p><b>WiFi access data:</b><br>WiFi access data are recorded for the integration of the “maveo” box in a WLAN and stored in the “maveo” box.</p>
+  <p><b>E-mail address/password:</b><br>A user has to be set up to use the “maveo” box. This requires the user to enter his or her e-mail address one time as well as a password chosen by the user. Both are stored in the device and in the control app.</p>
+  <p><b>Bluetooth pairing information:</b><br>To establish connections between the mobile unit and “maveo” box, and between the “maveo” stick/“maveo” sensor and the “maveo” box, pairing information is exchanged and stored in the “maveo” box for subsequent connections.</p>
+  <p><b>ZigBee control data:</b><br>To establish and maintain a connection with ZigBee devices (Philips Hue for example), control data are exchanged and stored in the “maveo” box.</br>
+  <p><b>SnapStore:</b><br>There is no use of personal data.</p>
+  <p><b>Certificate/CPU serial number:</b><br>To connect to the guh-cloud, a certificate preconfigured in the “maveo” box and the CPU serial number are transmitted. The guh-cloud is required for remote access, push notifications, and other services that have not been implemented yet. Possible services include paid weather services, camera streams, and SMS services.</p>
+  <p><b>Device information:</b><br>To assist with problems, “maveo” can grant the user the option to connect his or her device with a help desk server, thereby giving help desk personnel full access to the device and the data stored on it for a predefined period of time; the connection is severed automatically. Passwords are not transmitted or displayed.</p>
+  <p><b>Crash information:</b><br>The “maveo” box and the “maveo” app can provide functionality that, in case of a crash, automatically generates and sends a report describing when and why the crash occurred. No personal data are involved here.</p>
+  <h4>3.2. Other processing of data</h4>
+  <p>We use the personal data to optimize the delivery of services, including remote diagnosis of malfunctions and fault elimination if applicable. Data stored for this purpose are located on servers in the EU and are protected against unauthorized access using state-of-the-art, established security measures.</p>
+  <p>We also used state-of-the-art, established methods to protect the transmission of information from your home network over the Internet to our servers and from our servers to your home network.</p>
+  <p>There is no dissemination of personal data for promotional or marketing purposes. Personal data are only disseminated in the following cases:</p>
+  <ul>
+    <li>To the suppliers and service providers used by us in order to provide services contractually agreed with you, and/or to provide services requested by you</li>
+    <li>Upon transferring the company or “maveo” business area to a third party, wherein the third party is obligated to handle the data exclusively according to the data privacy statement applicable for you</li>
+    <li>In case of a legal obligation, in particular due to an official or court order for the purpose of criminal prosecution</li>
+  </ul>
+  <p>There is no transmission of personal data to countries outside the EU/EEA.</p>
+  <p>Data that are not personal, in particular anonymized data, are not subject to the provisions of the Federal Data Protection Act (BDSG) and the General Data Protection Regulation. We are not restricted in regards to the handling of such data, in particular regarding the use of such data for product development and improvement. In any case, we ensure in the use of non-personal data that relating them to a specific person is excluded.</p>
+  <h3>4. Deletion of personal data</h3>
+  <p>We store your personal data as long as we need them to provide our services for you. You can demand the deletion of your personal data at any time. Please note that we are obligated to verify your legitimization prior to deletion. Your deletion request should therefore be accompanied by a photocopy of a valid identification document.</p>
+  <p>The storage of data for the purpose of concluding a contractual relationship is reserved, as is the case where the blocking of data takes the place of deletion as an exception pursuant to Section 35, Paragraph 3 of the Federal Data Protection Act (BDSG).</p>
+  <h3>5. Amendment of the data privacy statement</h3>
+  <p>We reserve the right to update or amend this data privacy statement. This is not associated with a restriction of your rights. If adjustments associated with your rights become necessary for technical, organizational, or legal reasons, we will obtain your consent.</p>
+  <h3>6. Information according to Section 34 BDSG</h3>
+  <p>To obtain information about your personal data that is stored, please get in touch with:</p>
+  <p>Marantec Antriebs- und Steuerungstechnik GmbH & Co. KG<br />Remser Brook 11,  33428 Marienfeld, Deutschland<br />T +49 5247 705-0</p>
+  <p>Please note that we are obligated to verify your legitimization before providing information. We therefore need a photocopy of a valid identification document to respond to your request for information.</p>
+</html>
