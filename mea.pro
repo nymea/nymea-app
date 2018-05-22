@@ -14,7 +14,7 @@ mea.depends = libnymea-common
 wininstaller.depends = mea
 wininstaller.commands += rmdir /S /Q packaging\windows\packages\io.guh.mea\data & mkdir packaging\windows\packages\io.guh.mea\data &&
 wininstaller.commands += copy mea\release\mea.exe packaging\windows\packages\io.guh.mea\data\ &&
-wininstaller.commands += windeployqt --qmldir mea\ui packaging\windows\packages\io.guh.mea\data\ &&
+wininstaller.commands += windeployqt --compiler-runtime --qmldir mea\ui packaging\windows\packages\io.guh.mea\data\ &&
 BR=$$BRANDING
 equals(BR, "") {
     wininstaller.commands += copy packaging\windows\packages\io.guh.mea\logo-guh.ico packaging\windows\packages\io.guh.mea\data\logo.ico &&
