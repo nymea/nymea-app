@@ -9,7 +9,7 @@ Page {
     id: root
 
     header: GuhHeader {
-        text: "My things"
+        text: qsTr("My things")
         backButtonVisible: false
         menuButtonVisible: true
         onMenuPressed: mainMenu.open()
@@ -40,30 +40,30 @@ Page {
         width: implicitWidth + app.margins
         IconMenuItem {
             iconSource: "../images/share.svg"
-            text: "Configure things"
+            text: qsTr("Configure things")
             onTriggered: pageStack.push(Qt.resolvedUrl("EditDevicesPage.qml"))
         }
         IconMenuItem {
             iconSource: "../images/add.svg"
-            text: "Add a new thing"
+            text: qsTr("Add a new thing")
             onTriggered: pageStack.push(Qt.resolvedUrl("NewDeviceWizard.qml"))
         }
         MenuSeparator {}
         IconMenuItem {
             iconSource: "../images/magic.svg"
-            text: "Magic"
+            text: qsTr("Magic")
             onTriggered: pageStack.push(Qt.resolvedUrl("MagicPage.qml"))
         }
         MenuSeparator {}
         IconMenuItem {
             iconSource: "../images/settings.svg"
-            text: "Settings"
+            text: qsTr("Settings")
             onTriggered: pageStack.push(Qt.resolvedUrl("SettingsPage.qml"))
         }
         MenuSeparator {}
         IconMenuItem {
             iconSource: "../images/info.svg"
-            text: "System information"
+            text: qsTr("System information")
             onTriggered: pageStack.push(Qt.resolvedUrl("SystemInfoPage.qml"))
         }
     }
@@ -137,7 +137,7 @@ Page {
                     running: parent.visible
                 }
                 Label {
-                    text: "Loading data..."
+                    text: qsTr("Loading data...")
                     font.pixelSize: app.largeFont
                     Layout.fillWidth: true
                     wrapMode: Text.WordWrap
@@ -150,7 +150,7 @@ Page {
                 spacing: app.margins
                 visible: Engine.deviceManager.devices.count === 0 && !Engine.deviceManager.fetchingData
                 Label {
-                    text: "Welcome to nymea!"
+                    text: qsTr("Welcome to nymea!")
                     font.pixelSize: app.largeFont
                     Layout.fillWidth: true
                     wrapMode: Text.WordWrap
@@ -158,7 +158,7 @@ Page {
                     color: app.guhAccent
                 }
                 Label {
-                    text: "There are no things set up yet. You can start with adding your things by using the menu on the upper left and selecting \"Add a new thing\"."
+                    text: qsTr("There are no things set up yet. You can start with adding your things by using the menu on the upper left and selecting \"Add a new thing\".")
                     Layout.fillWidth: true
                     wrapMode: Text.WordWrap
                     horizontalAlignment: Text.AlignHCenter

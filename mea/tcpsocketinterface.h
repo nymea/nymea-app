@@ -25,6 +25,7 @@ private slots:
     void onConnected();
     void onEncrypted();
     void socketReadyRead();
+    void onSocketStateChanged(const QAbstractSocket::SocketState &state);
 
 private:
     QSslSocket m_socket;

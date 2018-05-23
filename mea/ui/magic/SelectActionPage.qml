@@ -22,11 +22,11 @@ Page {
 
     ListModel {
         id: actionModel
-        ListElement { interfaceName: "light"; text: "Switch lights..."; identifier: "switchLights" }
-        ListElement { interfaceName: "mediacontroller"; text: "Control media playback..."; identifier: "controlMedia" }
-        ListElement { interfaceName: "extendedvolumecontroller"; text: "Mute media playback..."; identifier: "muteMedia" }
-        ListElement { interfaceName: "notifications"; text: "Notify me..."; identifier: "notify" }
-        ListElement { interfaceName: ""; text: "Manually configure an action..."; identifier: "manualAction" }
+        ListElement { interfaceName: "light"; text: qsTr("Switch lights..."); identifier: "switchLights" }
+        ListElement { interfaceName: "mediacontroller"; text: qsTr("Control media playback..."); identifier: "controlMedia" }
+        ListElement { interfaceName: "extendedvolumecontroller"; text: qsTr("Mute media playback..."); identifier: "muteMedia" }
+        ListElement { interfaceName: "notifications"; text: qsTr("Notify me..."); identifier: "notify" }
+        ListElement { interfaceName: ""; text: qsTr("Manually configure an action..."); identifier: "manualAction" }
     }
 
     DevicesProxy {
@@ -91,7 +91,7 @@ Page {
         id: selectDeviceComponent
         Page {
             header: GuhHeader {
-                text: "Select device"
+                text: qsTr("Select device")
                 onBackPressed: pageStack.pop()
             }
 
@@ -128,7 +128,7 @@ Page {
             readonly property var deviceClass: Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId)
 
             header: GuhHeader {
-                text: "Select action"
+                text: qsTr("Select action")
                 onBackPressed: pageStack.pop()
             }
 
@@ -150,7 +150,7 @@ Page {
 
                         onClicked: {
                             var actionType = page.deviceClass.actionTypes.get(index)
-                            if (page.deviceClass.actionTypes.get(index).paramTypes.count == 0) {
+                            if (page.deviceClass.actionTypes.get(index).paramTypes.count === 0) {
                                 // We're all set.
                                 var action = {}
                                 action["deviceId"] = page.device.id
@@ -175,7 +175,7 @@ Page {
             property var device
             property var actionType
             header: GuhHeader {
-                text: "params"
+                text: qsTr("params")
                 onBackPressed: pageStack.pop()
             }
 
@@ -195,7 +195,7 @@ Page {
                     Layout.fillHeight: true
                 }
                 Button {
-                    text: "OK"
+                    text: qsTr("OK")
                     Layout.fillWidth: true
                     Layout.margins: app.margins
                     onClicked: {
@@ -223,7 +223,7 @@ Page {
         id: switchLightsCompoent
         Page {
             header: GuhHeader {
-                text: "Switch lights"
+                text: qsTr("Switch lights")
                 onBackPressed: pageStack.pop()
             }
 
@@ -233,7 +233,7 @@ Page {
                 SwitchDelegate {
                     id: switchDelegate
                     Layout.fillWidth: true
-                    text: "Set selected lights power to"
+                    text: qsTr("Set selected lights power to")
                     position: 0
                 }
                 ThinDivider {}
@@ -266,7 +266,7 @@ Page {
                 Button {
                     Layout.fillWidth: true
                     Layout.margins: app.margins
-                    text: "OK"
+                    text: qsTr("OK")
                     onClicked:  {
                         for (var i = 0; i < lightsRepeater.count; i++) {
                             if (lightsRepeater.itemAt(i).checkState === Qt.Unchecked) {
@@ -302,7 +302,7 @@ Page {
         id: notificationActionComponent
         Page {
             header: GuhHeader {
-                text: "Send notification"
+                text: qsTr("Send notification")
                 onBackPressed: pageStack.pop()
             }
 
@@ -311,7 +311,7 @@ Page {
                 spacing: app.margins
                 Label {
                     Layout.fillWidth: true
-                    text: "Notification text"
+                    text: qsTr("Notification text")
                     Layout.topMargin: app.margins
                     Layout.leftMargin: app.margins
                     Layout.rightMargin: app.margins
@@ -351,7 +351,7 @@ Page {
                 Button {
                     Layout.fillWidth: true
                     Layout.margins: app.margins
-                    text: "OK"
+                    text: qsTr("OK")
                     onClicked: {
                         var action = {}
                         action["interface"] = "notifications";

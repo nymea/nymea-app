@@ -16,7 +16,7 @@ ActionDelegateBase {
         }
         Label {
             Layout.fillWidth: true
-            text: "Note: This action type has not been implemented yet"
+            text: qsTr("Note: This action type has not been implemented yet")
             font.pixelSize: app.smallFont
         }
     }

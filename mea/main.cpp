@@ -52,6 +52,7 @@
 #include "models/valuelogsproxymodel.h"
 #include "models/eventdescriptorparamsfiltermodel.h"
 #include "basicconfiguration.h"
+#include "wifisetup/networkmanagercontroler.h"
 
 static QObject* interfacesModel_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
@@ -155,6 +156,13 @@ int main(int argc, char *argv[])
     qmlRegisterType<LogsModel>(uri, 1, 0, "LogsModel");
     qmlRegisterType<ValueLogsProxyModel>(uri, 1, 0, "ValueLogsProxyModel");
     qmlRegisterUncreatableType<LogEntry>(uri, 1, 0, "LogEntry", "Get them from LogsModel");
+
+    qmlRegisterType<NetworkManagerControler>(uri, 1, 0, "NetworkManagerControler");
+    qmlRegisterUncreatableType<BluetoothDiscovery>(uri, 1, 0, "BluetoothDiscovery", "Can't create this in QML. Get it from the Engine instance.");
+    qmlRegisterUncreatableType<BluetoothDeviceInfo>(uri, 1, 0, "BluetoothDeviceInfo", "Can't create this in QML. Get it from the DeviceInfos.");
+    qmlRegisterUncreatableType<BluetoothDeviceInfos>(uri, 1, 0, "BluetoothDeviceInfos", "Can't create this in QML. Get it from the BluetoothDiscovery.");
+    qmlRegisterUncreatableType<WirelessSetupManager>(uri, 1, 0, "WirelessSetupManager", "Can't create this in QML. Get it from the NetworkManagerControler.");
+    qmlRegisterUncreatableType<WirelessAccesspoints>(uri, 1, 0, "WirelessAccesspoints", "Can't create this in QML. Get it from the Loop.");
 
     Engine::instance();
 

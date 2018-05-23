@@ -18,7 +18,7 @@ ActionDelegateBase {
             model: root.paramType.allowedValues
             currentIndex: root.paramType.allowedValues.indexOf(root.actionState)
             onActivated: {
-                if (root.actionState == root.paramType.allowedValues[index]) {
+                if (root.actionState === root.paramType.allowedValues[index]) {
                     return;
                 }
 

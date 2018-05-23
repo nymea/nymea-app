@@ -2,8 +2,7 @@ TEMPLATE=app
 TARGET=mea
 include(../mea.pri)
 
-
-QT += qml quick quickcontrols2 websockets svg
+QT += qml quick quickcontrols2 websockets svg bluetooth
 
 INCLUDEPATH += $$top_srcdir/libnymea-common
 LIBS += -L$$top_builddir/libnymea-common/release -L$$top_builddir/libnymea-common/ -lnymea-common
@@ -38,7 +37,15 @@ HEADERS += engine.h \
     discovery/nymeadiscovery.h \
     logmanager.h \
     basicconfiguration.h \
-    models/eventdescriptorparamsfiltermodel.h
+    models/eventdescriptorparamsfiltermodel.h \
+    wifisetup/bluetoothdevice.h \
+    wifisetup/bluetoothdeviceinfo.h \
+    wifisetup/bluetoothdeviceinfos.h \
+    wifisetup/bluetoothdiscovery.h \
+    wifisetup/wirelessaccesspoint.h \
+    wifisetup/wirelessaccesspoints.h \
+    wifisetup/wirelesssetupmanager.h \
+    wifisetup/networkmanagercontroler.h
 
 
 SOURCES += main.cpp \
@@ -72,7 +79,15 @@ SOURCES += main.cpp \
     discovery/nymeadiscovery.cpp \
     logmanager.cpp \
     basicconfiguration.cpp \
-    models/eventdescriptorparamsfiltermodel.cpp
+    models/eventdescriptorparamsfiltermodel.cpp \
+    wifisetup/bluetoothdevice.cpp \
+    wifisetup/bluetoothdeviceinfo.cpp \
+    wifisetup/bluetoothdeviceinfos.cpp \
+    wifisetup/bluetoothdiscovery.cpp \
+    wifisetup/wirelessaccesspoint.cpp \
+    wifisetup/wirelessaccesspoints.cpp \
+    wifisetup/wirelesssetupmanager.cpp \
+    wifisetup/networkmanagercontroler.cpp
 
 withavahi {
 DEFINES += WITH_AVAHI

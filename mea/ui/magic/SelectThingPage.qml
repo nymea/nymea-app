@@ -12,7 +12,7 @@ Page {
     signal interfaceSelected(string interfaceName);
 
     header: GuhHeader {
-        text: "Select a thing"
+        text: qsTr("Select a thing")
         onBackPressed: root.backPressed()
     }
     ColumnLayout {
@@ -22,12 +22,12 @@ Page {
             Layout.fillWidth: true
             RadioButton {
                 id: thingButton
-                text: "A specific thing"
+                text: qsTr("A specific thing")
                 checked: true
             }
             RadioButton {
                 id: interfacesButton
-                text: "A group of things"
+                text: qsTr("A group of things")
             }
         }
 

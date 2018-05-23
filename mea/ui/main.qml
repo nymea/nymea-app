@@ -26,6 +26,7 @@ ApplicationWindow {
         property string lastConnectedHost: ""
         property int viewMode: ApplicationWindow.Maximized
         property bool returnToHome: false
+        property bool darkTheme: false
         property string graphStyle: "bars"
         property string style: "light"
     }
@@ -133,27 +134,27 @@ ApplicationWindow {
     function interfaceToString(name) {
         switch(name) {
         case "light":
-            return "Lighting"
+            return qsTr("Lighting")
         case "weather":
-            return "Weather"
+            return qsTr("Weather")
         case "sensor":
-            return "Sensors"
+            return qsTr("Sensors")
         case "media":
-            return "Media"
+            return qsTr("Media")
         case "button":
-            return "Switches"
+            return qsTr("Switches")
         case "gateway":
-            return "Gateways"
+            return qsTr("Gateways")
         case "notifications":
-            return "Notifications"
+            return qsTr("Notifications")
         case "temperaturesensor":
-            return "Temperature";
+            return qsTr("Temperature");
         case "humiditysensor":
-            return "Humidity";
+            return qsTr("Humidity");
         case "inputtrigger":
-            return "Incoming Events";
+            return qsTr("Incoming Events");
         case "outputtrigger":
-            return "Events";
+            return qsTr("Events");
         }
     }
 
@@ -233,7 +234,7 @@ ApplicationWindow {
                 anchors { left: parent.left; right: parent.right }
                 spacing: app.margins
                 Label {
-                    text: "Connection error"
+                    text: qsTr("Connection error")
                     Layout.fillWidth: true
                     font.pixelSize: app.largeFont
                 }
@@ -244,7 +245,7 @@ ApplicationWindow {
                 }
                 Button {
                     Layout.fillWidth: true
-                    text: "OK"
+                    text: qsTr("OK")
                     onClicked: {
                         Engine.connection.disconnect();
                         popup.close()

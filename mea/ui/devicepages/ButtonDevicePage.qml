@@ -26,7 +26,7 @@ DevicePageBase {
         Label {
             Layout.fillWidth: true
             Layout.margins: app.margins
-            text: "When this switch is pressed..."
+            text: qsTr("When this switch is pressed...")
             visible: actionListView.count > 0
         }
 
@@ -42,15 +42,15 @@ DevicePageBase {
             delegate: SwipeDelegate {
                 width: parent.width
                 property var ruleActions: rulesFilterModel.get(index).actions
-                property var ruleAction: ruleActions.count == 1 ? ruleActions.get(0) : null
+                property var ruleAction: ruleActions.count === 1 ? ruleActions.get(0) : null
                 property var ruleActionType: ruleAction ? ruleActionDeviceClass.actionTypes.getActionType(ruleAction.actionTypeId) : null
                 property var ruleActionDevice: ruleAction ? Engine.deviceManager.devices.getDevice(ruleAction.deviceId) : null
                 property var ruleActionDeviceClass: ruleActionDevice ? Engine.deviceManager.deviceClasses.getDeviceClass(ruleActionDevice.deviceClassId) : null
                 property var ruleActionParams: ruleAction && ruleAction ? ruleAction.ruleActionParams : null
-                property var ruleActionParam: ruleActionParams.count == 1 ? ruleActionParams.get(0) : null
+                property var ruleActionParam: ruleActionParams.count === 1 ? ruleActionParams.get(0) : null
                 text: {
                     if (ruleActions && ruleActions.count > 1) {
-                        return "Multiple actions";
+                        return qsTr("Multiple actions");
                     } else if (ruleActionParam) {
                         return qsTr("%1: Set %2 to %3").arg(ruleActionDevice.name).arg(ruleActionType.name).arg(ruleActionParam.value)
                     } else {
@@ -79,7 +79,7 @@ DevicePageBase {
                 wrapMode: Text.WordWrap
                 horizontalAlignment: Text.AlignHCenter
                 anchors.centerIn: parent
-                text: "No actions configured for this switch. You may add some actions for this switch by using the \"Add action\" button at the bottom."
+                text: qsTr("No actions configured for this switch. You may add some actions for this switch by using the \"Add action\" button at the bottom.")
                 visible: actionListView.count == 0
             }
         }
@@ -87,9 +87,9 @@ DevicePageBase {
         Button {
             Layout.fillWidth: true
             Layout.margins: app.margins
-            text: "Add an action"
+            text: qsTr("Add an action")
             onClicked: {
-                var page = pageStack.push(Qt.resolvedUrl("../magic/SelectActionPage.qml"), {text: "When this switch is pressed..."});
+                var page = pageStack.push(Qt.resolvedUrl("../magic/SelectActionPage.qml"), {text: qsTr("When this switch is pressed...")});
                 page.complete.connect(function() {
                     print("have action:", page.device, page.actionType, page.params)
                     var rule = {};

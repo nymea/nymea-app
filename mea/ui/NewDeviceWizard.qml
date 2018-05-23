@@ -9,7 +9,7 @@ Page {
     id: root
 
     header: GuhHeader {
-        text: "Set up new thing"
+        text: qsTr("Set up new thing")
         backButtonVisible: internalPageStack.depth > 1
         onBackPressed: {
             internalPageStack.pop();
@@ -246,7 +246,7 @@ Page {
                 visible: discovery.busy
                 spacing: app.margins * 2
                 Label {
-                    text: "Searching for things..."
+                    text: qsTr("Searching for things...")
                     Layout.fillWidth: true
                     font.pixelSize: app.largeFont
                     horizontalAlignment: Text.AlignHCenter
@@ -264,23 +264,23 @@ Page {
                 visible: !discovery.busy && discovery.count == 0
                 spacing: app.margins * 2
                 Label {
-                    text: "Too bad..."
+                    text: qsTr("Too bad...")
                     font.pixelSize: app.largeFont
                     Layout.fillWidth: true
                 }
                 Label {
-                    text: "No things of this kind could be found..."
+                    text: qsTr("No things of this kind could be found...")
                     Layout.fillWidth: true
                     wrapMode: Text.WordWrap
                 }
 
                 Label {
                     Layout.fillWidth: true
-                    text: "Make sure your things are set up and connected, try searching again or go back and pick a different kind of thing."
+                    text: qsTr("Make sure your things are set up and connected, try searching again or go back and pick a different kind of thing.")
                     wrapMode: Text.WordWrap
                 }
                 Button {
-                    text: "Try again!"
+                    text: qsTr("Try again!")
                     Layout.fillWidth: true
                     onClicked: {
                         discovery.discoverDevices(d.deviceClass.id, d.discoveryParams)

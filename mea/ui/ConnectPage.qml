@@ -10,6 +10,35 @@ Page {
 
     readonly property bool haveHosts: discovery.discoveryModel.count > 0
 
+    header: GuhHeader {
+        text: qsTr("Connect nymea")
+        backButtonVisible: false
+        menuButtonVisible: true
+        onMenuPressed: connectionMenu.open()
+    }
+
+    Menu {
+        id: connectionMenu
+        width: implicitWidth + app.margins
+
+        IconMenuItem {
+            iconSource: "../images/network-vpn.svg"
+            text: qsTr("Manual connect")
+            onTriggered: pageStack.push(manualConnectPage)
+        }
+
+        MenuSeparator {}
+
+        IconMenuItem {
+            iconSource: "../images/bluetooth.svg"
+            text: qsTr("Wireless setup")
+            onTriggered: pageStack.push(Qt.resolvedUrl("BluetoothDiscoveryPage.qml"))
+        }
+
+
+
+    }
+
     Component.onCompleted: {
         print("completed connectPage. last connected host:", settings.lastConnectedHost)
         if (settings.lastConnectedHost.length > 0) {
@@ -43,8 +72,8 @@ Page {
 
             Label {
                 Layout.fillWidth: true
-                text: root.haveHosts ? "Oh, look!" : "Uh oh"
-                color: "black"
+                text: root.haveHosts ? qsTr("Oh, look!") : qsTr("Uh oh")
+                //color: "black"
                 font.pixelSize: app.largeFont
             }
 
@@ -84,7 +113,7 @@ Page {
                     }
                 }
                 onClicked: {
-                    print("should connect to", model.nymeaRpcUrl)
+                    print("Should connect to", model.nymeaRpcUrl)
                     Engine.connection.connect(model.nymeaRpcUrl)
                     pageStack.push(connectingPage)
                 }
@@ -119,10 +148,109 @@ Page {
             visible: root.haveHosts
             Label {
                 Layout.fillWidth: true
-                text: "Not the ones you're looking for? We're looking for more!"
+                text: qsTr("Not the ones you're looking for? We're looking for more!")
                 wrapMode: Text.WordWrap
             }
-            BusyIndicator {
+
+            BusyIndicator { }
+        }
+    }
+
+    Component {
+        id: manualConnectPage
+
+        Page {
+
+            header: GuhHeader {
+                text: qsTr("Manual connect to nymea")
+                onBackPressed: pageStack.pop()
+            }
+
+            ColumnLayout {
+                anchors.fill: parent
+                anchors.margins: app.margins
+                spacing: app.margins
+
+                GridLayout {
+                    Layout.fillHeight: true
+                    Layout.fillWidth: true
+
+                    columns: 2
+
+                    ComboBox {
+                        id: connectionTypeComboBox
+                        Layout.fillWidth: true
+                        Layout.columnSpan: 2
+                        model: [ qsTr("TCP"), qsTr("Websocket") ]
+                    }
+
+                    Label { text: qsTr("Address:") }
+                    TextField {
+                        id: addressTextInput
+                        Layout.fillWidth: true
+                        placeholderText: "127.0.0.1"
+                        validator: RegExpValidator { regExp:  /^((?:[0-1]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])\.){0,3}(?:[0-1]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])$/ }
+                    }
+
+                    Label { text: qsTr("Port:") }
+                    TextField {
+                        id: portTextInput
+                        Layout.fillWidth: true
+                        placeholderText: connectionTypeComboBox.currentIndex === 0 ? "2222" : "4444"
+                        validator: IntValidator{bottom: 1; top: 65535;}
+                    }
+
+                    Label {
+                        Layout.fillWidth: true
+                        text: qsTr("Encrypted connection:")
+                    }
+                    CheckBox {
+                        id: secureCheckBox
+                        checked: true
+                    }
+                }
+
+
+                Button {
+                    text: qsTr("Connect")
+                    Layout.fillWidth: true
+                    onClicked: {
+                        var rpcUrl
+                        var hostAddress
+                        var port
+
+                        // Set default to placeholder
+                        if (addressTextInput.text === "") {
+                            hostAddress = addressTextInput.placeholderText
+                        } else {
+                            hostAddress = addressTextInput.text
+                        }
+
+                        if (portTextInput.text === "") {
+                            port = portTextInput.placeholderText
+                        } else {
+                            port = portTextInput.text
+                        }
+
+                        if (connectionTypeComboBox.currentIndex == 0) {
+                            if (secureCheckBox.checked) {
+                                rpcUrl = "nymeas://" + hostAddress + ":" + port
+                            } else {
+                                rpcUrl = "nymea://" + hostAddress + ":" + port
+                            }
+                        } else if (connectionTypeComboBox.currentIndex == 1) {
+                            if (secureCheckBox.checked) {
+                                rpcUrl = "wss://" + hostAddress + ":" + port
+                            } else {
+                                rpcUrl = "ws://" + hostAddress + ":" + port
+                            }
+                        }
+
+                        print("Try to connect ", rpcUrl)
+                        Engine.connection.connect(rpcUrl)
+                        pageStack.push(connectingPage)
+                    }
+                }
             }
         }
     }
@@ -143,7 +271,7 @@ Page {
                 }
 
                 Button {
-                    text: "Cancel"
+                    text: qsTr("Cancel")
                     Layout.fillWidth: true
                     onClicked: {
                         Engine.connection.disconnect()
@@ -191,13 +319,13 @@ Page {
             Label {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: "The authenticity of this nymea box cannot be verified."
+                text: qsTr("The authenticity of this nymea box cannot be verified.")
             }
 
             Label {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: "If this is the first time you connect to this box, this is expected. Once you trust a box, you should never see this message again for that one. If you see this message multiple times for the same box, something suspicious is going on!"
+                text: qsTr("If this is the first time you connect to this box, this is expected. Once you trust a box, you should never see this message again for that one. If you see this message multiple times for the same box, something suspicious is going on!")
             }
 
             GridLayout {
@@ -217,13 +345,13 @@ Page {
             Label {
                 Layout.fillWidth: true
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                text: "Fingerprint: " + certDialog.fingerprint
+                text: qsTr("Fingerprint: ") + certDialog.fingerprint
             }
 
             Label {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: "Do you want to trust this device?"
+                text: qsTr("Do you want to trust this device?")
                 font.bold: true
             }
         }

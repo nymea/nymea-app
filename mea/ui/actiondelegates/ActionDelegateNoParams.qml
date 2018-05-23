@@ -14,7 +14,7 @@ ActionDelegateBase {
             Layout.fillWidth: true
         }
         Button {
-            text: "Do it!"
+            text: qsTr("Do it!")
             onClicked: root.executeAction([])
         }
     }

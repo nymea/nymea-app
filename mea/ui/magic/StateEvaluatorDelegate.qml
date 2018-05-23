@@ -29,7 +29,7 @@ SwipeDelegate {
 
         ComboBox {
             Layout.fillWidth: true
-            model: ["and all of those", "or any of those"]
+            model: [qsTr("and all of those"), qsTr("or any of those")]
             currentIndex: root.stateEvaluator && root.stateEvaluator.stateOperator === StateEvaluator.StateOperatorAnd ? 0 : 1
             visible: root.stateEvaluator && root.stateEvaluator.childEvaluators.count > 0
             onActivated: {
@@ -51,7 +51,7 @@ SwipeDelegate {
 
         Button {
             Layout.fillWidth: true
-            text: "Add a condition"
+            text: qsTr("Add a condition")
             onClicked: {
                 root.stateEvaluator.addChildEvaluator()
                 //                    root.editStateEvaluator()

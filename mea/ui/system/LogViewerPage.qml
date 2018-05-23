@@ -8,7 +8,7 @@ import "../components"
 Page {
     id: root
     header: GuhHeader {
-        text: "Log viewer"
+        text: qsTr("Log viewer")
         onBackPressed: pageStack.pop()
 
         HeaderButton {
@@ -58,7 +58,7 @@ Page {
         header: Rectangle {
             width: parent.width
             height: app.margins * 3
-            color: "white"
+            color: Material.primary
             z: 2
 
             Row {
@@ -66,24 +66,24 @@ Page {
                 anchors.verticalCenter: parent.verticalCenter
                 Label {
                     width: listView.column0Width
-                    text: "Time"
+                    text: qsTr("Time")
                 }
                 Label {
-                    text: "Type"
+                    text: qsTr("Type")
                     width: listView.column1Width
                 }
 
                 Label {
                     width: listView.column2Width
-                    text: "Thing"
+                    text: qsTr("Thing")
                 }
                 Label {
                     width: listView.column3Width
-                    text: "Object"
+                    text: qsTr("Object")
                 }
                 Label {
                     width: listView.column4Width
-                    text: "Value"
+                    text: qsTr("Value")
                 }
             }
             ThinDivider {
@@ -134,7 +134,7 @@ Page {
 
             Label {
                 width: listView.column2Width
-                text: model.source === LogEntry.LoggingSourceSystem ? "Nymea Server" : delegate.device.name
+                text: model.source === LogEntry.LoggingSourceSystem ? qsTr("Nymea Server") : delegate.device.name
                 elide: Text.ElideRight
             }
             Label {
@@ -144,7 +144,7 @@ Page {
                     case LogEntry.LoggingSourceStates:
                         return delegate.deviceClass.stateTypes.getStateType(model.typeId).displayName;
                     case LogEntry.LoggingSourceSystem:
-                        return model.loggingEventType === LogEntry.LoggingEventTypeActiveChange ? "Active changed" : "FIXME"
+                        return model.loggingEventType === LogEntry.LoggingEventTypeActiveChange ? qsTr("Active changed") : "FIXME"
                     case LogEntry.LoggingSourceActions:
                         return delegate.deviceClass.actionTypes.getActionType(model.typeId).displayName;
                     case LogEntry.LoggingSourceEvents:

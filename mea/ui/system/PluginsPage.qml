@@ -8,7 +8,7 @@ import Mea 1.0
 Page {
     id: root
     header: GuhHeader {
-        text: "Plugins"
+        text: qsTr("Plugins")
         backButtonVisible: true
         onBackPressed: pageStack.pop()
     }

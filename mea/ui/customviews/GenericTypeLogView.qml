@@ -91,7 +91,7 @@ Item {
                                         var matching = true;
                                         for (var k = 0; k < eventDescriptor.paramDescriptors.count; k++) {
                                             var paramDescriptor = eventDescriptor.paramDescriptors.get(k);
-                                            if (paramDescriptor.value == model.value) {
+                                            if (paramDescriptor.value === model.value) {
                                                 return app.guhAccent;
                                             }
                                         }

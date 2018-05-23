@@ -26,7 +26,7 @@ ItemDelegate {
             }
             Loader {
                 id: loader
-                Layout.fillWidth: sourceComponent == textFieldComponent
+                Layout.fillWidth: sourceComponent === textFieldComponent
                 sourceComponent: {
                     if (!root.writable) {
                         return stringComponent;
@@ -60,7 +60,7 @@ ItemDelegate {
                 switch (root.paramType.type.toLowerCase()) {
                 case "int":
                 case "double":
-                    if (root.paramType.minValue != undefined && root.paramType.maxValue != undefined) {
+                    if (root.paramType.minValue !== undefined && root.paramType.maxValue !== undefined) {
                         return sliderComponent
                     }
                     break;

@@ -24,30 +24,30 @@ ItemDelegate {
                     case "bool":
                     case "string":
                     case "qstring":
-                        return ["is", "is not"];
+                        return [qsTr("is"), qsTr("is not")];
                     case "int":
                     case "double":
-                        return ["is", "is not", "is greater", "is smaller", "is greater or equal", "is smaller or equal"]
+                        return [qsTr("is"), qsTr("is not"), qsTr("is greater"), qsTr("is smaller"), qsTr("is greater or equal"), qsTr("is smaller or equal")]
                     }
                 }
                 onCurrentTextChanged: {
                     switch (currentText) {
-                    case "is":
+                    case qsTr("is"):
                         root.operatorType = ParamDescriptor.ValueOperatorEquals;
                         break;
-                    case "is not":
+                    case qsTr("is not"):
                         root.operatorType = ParamDescriptor.ValueOperatorNotEquals;
                         break;
-                    case "is greater":
+                    case qsTr("is greater"):
                         root.operatorType = ParamDescriptor.ValueOperatorGreater;
                         break;
-                    case "is smaller":
+                    case qsTr("is smaller"):
                         root.operatorType = ParamDescriptor.ValueOperatorLess;
                         break;
-                    case "is greater or equal":
+                    case qsTr("is greater or equal"):
                         root.operatorType = ParamDescriptor.ValueOperatorGreaterOrEqual;
                         break;
-                    case "is smaller or equal":
+                    case qsTr("is smaller or equal"):
                         root.operatorType = ParamDescriptor.ValueOperatorLessOrEqual;
                         break;
                     }

@@ -259,6 +259,8 @@ void RuleManager::parseRuleExitActions(const QVariantList &ruleActions, Rule *ru
 
 void RuleManager::parseTimeDescriptor(const QVariantMap &timeDescriptor, Rule *rule)
 {
+    Q_UNUSED(rule)
+
     foreach (const QVariant &timeEventItemVariant, timeDescriptor.value("timeEventItems").toList()) {
         TimeEventItem *timeEventItem = new TimeEventItem();
         timeEventItem->setDateTime(QDateTime::fromSecsSinceEpoch(timeEventItemVariant.toMap().value("datetime").toULongLong()));

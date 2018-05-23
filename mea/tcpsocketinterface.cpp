@@ -12,6 +12,8 @@ TcpSocketInterface::TcpSocketInterface(QObject *parent) : NymeaInterface(parent)
     QObject::connect(&m_socket, &QSslSocket::readyRead, this, &TcpSocketInterface::socketReadyRead);
     typedef void (QSslSocket:: *errorSignal)(QAbstractSocket::SocketError);
     QObject::connect(&m_socket, static_cast<errorSignal>(&QSslSocket::error), this, &TcpSocketInterface::error);
+    QObject::connect(&m_socket, &QSslSocket::stateChanged, this, &TcpSocketInterface::onSocketStateChanged);
+
 }
 
 QStringList TcpSocketInterface::supportedSchemes() const
@@ -47,12 +49,12 @@ void TcpSocketInterface::connect(const QUrl &url)
 {
     m_url = url;
     if (url.scheme() == "nymeas") {
-        qDebug() << "connecting to" << url.host() << url.port();
+        qDebug() << "TCP socket connecting to" << url.host() << url.port();
         m_socket.connectToHostEncrypted(url.host(), url.port());
     } else if (url.scheme() == "nymea") {
         m_socket.connectToHost(url.host(), url.port());
     } else {
-        qWarning() << "Unsupported scheme";
+        qWarning() << "TCP socket: Unsupported scheme";
     }
 }
 
@@ -70,4 +72,9 @@ void TcpSocketInterface::socketReadyRead()
 {
     QByteArray data = m_socket.readAll();
     emit dataReady(data);
+}
+
+void TcpSocketInterface::onSocketStateChanged(const QAbstractSocket::SocketState &state)
+{
+    qDebug() << "Socket state changed -->" << state;
 }

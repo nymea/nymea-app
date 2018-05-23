@@ -9,26 +9,27 @@ CONFIG += static
 target.path = /usr/lib/$$system('dpkg-architecture -q DEB_HOST_MULTIARCH')
 INSTALLS += target
 
-HEADERS += types/types.h \
-           types/vendor.h \
-           types/vendors.h \
-           types/deviceclass.h \
-           types/device.h \
-           types/param.h \
-           types/params.h \
-           types/paramtype.h \
-           types/paramtypes.h \
-           types/statetype.h \
-           types/statetypes.h \
-           types/eventtype.h \
-           types/eventtypes.h \
-           types/actiontype.h \
-           types/actiontypes.h \
-           types/state.h \
-           types/states.h \
-           types/statesproxy.h \
-           types/plugin.h \
-           types/plugins.h \
+HEADERS += \
+    types/types.h \
+    types/vendor.h \
+    types/vendors.h \
+    types/deviceclass.h \
+    types/device.h \
+    types/param.h \
+    types/params.h \
+    types/paramtype.h \
+    types/paramtypes.h \
+    types/statetype.h \
+    types/statetypes.h \
+    types/eventtype.h \
+    types/eventtypes.h \
+    types/actiontype.h \
+    types/actiontypes.h \
+    types/state.h \
+    types/states.h \
+    types/statesproxy.h \
+    types/plugin.h \
+    types/plugins.h \
     types/rules.h \
     types/rule.h \
     types/eventdescriptor.h \
@@ -51,25 +52,26 @@ HEADERS += types/types.h \
     types/timeeventitems.h \
     types/calendaritems.h
 
-SOURCES += types/vendor.cpp \
-           types/vendors.cpp \
-           types/deviceclass.cpp \
-           types/device.cpp \
-           types/param.cpp \
-           types/params.cpp \
-           types/paramtype.cpp \
-           types/paramtypes.cpp \
-           types/statetype.cpp \
-           types/statetypes.cpp \
-           types/eventtype.cpp \
-           types/eventtypes.cpp \
-           types/actiontype.cpp \
-           types/actiontypes.cpp \
-           types/state.cpp \
-           types/states.cpp \
-           types/statesproxy.cpp \
-           types/plugin.cpp \
-           types/plugins.cpp \
+SOURCES += \
+    types/vendor.cpp \
+    types/vendors.cpp \
+    types/deviceclass.cpp \
+    types/device.cpp \
+    types/param.cpp \
+    types/params.cpp \
+    types/paramtype.cpp \
+    types/paramtypes.cpp \
+    types/statetype.cpp \
+    types/statetypes.cpp \
+    types/eventtype.cpp \
+    types/eventtypes.cpp \
+    types/actiontype.cpp \
+    types/actiontypes.cpp \
+    types/state.cpp \
+    types/states.cpp \
+    types/statesproxy.cpp \
+    types/plugin.cpp \
+    types/plugins.cpp \
     types/rules.cpp \
     types/rule.cpp \
     types/eventdescriptor.cpp \
