@@ -12,6 +12,14 @@ ApplicationWindow {
     height: 580
     visibility: settings.viewMode
     font: Qt.application.font
+    title: {
+        switch (appBranding) {
+        case "maveo":
+            return qsTr("Maveo Pro Box Dashboard")
+        default:
+            return "Mea";
+        }
+    }
 
     property int margins: 14
     property int bigMargins: 20
@@ -109,7 +117,10 @@ ApplicationWindow {
 
     onClosing: {
         if (Qt.platform.os == "android") {
-            if (pageStack.depth > 1) {
+            // If we're connected, allow going back up to MainPage
+            if ((Engine.jsonRpcClient.connected && pageStack.depth > 1)
+                    // if we're not connected, only allow using the back button in wizards
+                    || (!Engine.jsonRpcClient.connected && pageStack.depth > 3)) {
                 close.accepted = false;
                 pageStack.pop();
             }

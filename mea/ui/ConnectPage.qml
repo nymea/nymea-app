@@ -10,40 +10,13 @@ Page {
 
     readonly property bool haveHosts: discovery.discoveryModel.count > 0
 
-    header: GuhHeader {
-        text: qsTr("Connect nymea")
-        backButtonVisible: false
-        menuButtonVisible: true
-        onMenuPressed: connectionMenu.open()
-    }
-
-    Menu {
-        id: connectionMenu
-        width: implicitWidth + app.margins
-
-        IconMenuItem {
-            iconSource: "../images/network-vpn.svg"
-            text: qsTr("Manual connect")
-            onTriggered: pageStack.push(manualConnectPage)
-        }
-
-        MenuSeparator {}
-
-        IconMenuItem {
-            iconSource: "../images/bluetooth.svg"
-            text: qsTr("Wireless setup")
-            onTriggered: pageStack.push(Qt.resolvedUrl("BluetoothDiscoveryPage.qml"))
-        }
-
-
-
-    }
-
     Component.onCompleted: {
         print("completed connectPage. last connected host:", settings.lastConnectedHost)
         if (settings.lastConnectedHost.length > 0) {
             pageStack.push(connectingPage)
             Engine.connection.connect(settings.lastConnectedHost)
+        } else {
+            pageStack.push(discoveryPage)
         }
     }
 
@@ -57,130 +30,170 @@ Page {
         }
         onConnectionError: {
             pageStack.pop(root)
+            pageStack.push(discoveryPage)
         }
     }
 
-    ColumnLayout {
-        anchors.fill: parent
-        anchors.topMargin: app.bigMargins
-        spacing: app.margins
+    Component {
+        id: discoveryPage
 
-        ColumnLayout {
-            Layout.fillWidth: true
-            Layout.margins: app.margins
-            spacing: app.margins
-
-            Label {
-                Layout.fillWidth: true
-                text: root.haveHosts ? qsTr("Oh, look!") : qsTr("Uh oh")
-                //color: "black"
-                font.pixelSize: app.largeFont
+        Page {
+            header: GuhHeader {
+                text: qsTr("Connect nymea")
+                backButtonVisible: false
+                menuButtonVisible: true
+                onMenuPressed: connectionMenu.open()
             }
 
-            Label {
-                Layout.fillWidth: true
-                text: root.haveHosts ?
-                          qsTr("There are %1 nymea boxes in your network! Which one would you like to use?").arg(discovery.discoveryModel.count)
-                        : qsTr("There doesn't seem to be a nymea box installed in your network. Please make sure your nymea box is correctly set up and connected.")
-                wrapMode: Text.WordWrap
+            Timer {
+                id: startupTimer
+                interval: 5000
+                repeat: false
+                running: true
             }
-        }
 
-        Rectangle {
-            Layout.fillWidth: true
-            Layout.preferredHeight: 1
-            color: Material.accent
-        }
+            Menu {
+                id: connectionMenu
+                width: implicitWidth + app.margins
 
-        ListView {
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            model: discovery.discoveryModel
-            clip: true
-
-            delegate: ItemDelegate {
-                width: parent.width
-                height: app.delegateHeight
-                ColumnLayout {
-                    anchors.fill: parent
-                    anchors.margins: app.margins
-                    Label {
-                        text: model.name
-                    }
-                    Label {
-                        text: model.hostAddress
-                        font.pixelSize: app.smallFont
-                    }
+                IconMenuItem {
+                    iconSource: "../images/network-vpn.svg"
+                    text: qsTr("Manual connect")
+                    onTriggered: pageStack.push(manualConnectPage)
                 }
-                onClicked: {
-                    print("Should connect to", model.nymeaRpcUrl)
-                    Engine.connection.connect(model.nymeaRpcUrl)
-                    pageStack.push(connectingPage)
+
+                MenuSeparator {}
+
+                IconMenuItem {
+                    iconSource: "../images/bluetooth.svg"
+                    text: qsTr("Wireless setup")
+                    onTriggered: pageStack.push(Qt.resolvedUrl("BluetoothDiscoveryPage.qml"))
                 }
             }
 
-            Column {
-                anchors.centerIn: parent
+            ColumnLayout {
+                anchors.fill: parent
                 spacing: app.margins
-                visible: !root.haveHosts
 
-                Label {
-                    text: qsTr("Searching for nymea boxes...")
+                ColumnLayout {
+                    Layout.fillWidth: true
+                    Layout.margins: app.margins
+                    spacing: app.margins
+
+                    Label {
+                        Layout.fillWidth: true
+                        text: root.haveHosts ? qsTr("Oh, look!") : startupTimer.running ? qsTr("Just a moment...") : qsTr("Uh oh")
+                        //color: "black"
+                        font.pixelSize: app.largeFont
+                    }
+
+                    Label {
+                        Layout.fillWidth: true
+                        text: root.haveHosts ?
+                                  qsTr("There are %1 nymea boxes in your network! Which one would you like to use?").arg(discovery.discoveryModel.count)
+                                : startupTimer.running ? qsTr("We haven't found any nymea boxes in your network yet.")
+                                                       : qsTr("There doesn't seem to be a nymea box installed in your network. Please make sure your nymea box is correctly set up and connected.")
+                        wrapMode: Text.WordWrap
+                    }
                 }
 
-                BusyIndicator {
-                    running: visible
-                    anchors.horizontalCenter: parent.horizontalCenter
+                Rectangle {
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 1
+                    color: Material.accent
+                }
+
+                ListView {
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    model: discovery.discoveryModel
+                    clip: true
+
+                    delegate: ItemDelegate {
+                        width: parent.width
+                        height: app.delegateHeight
+                        ColumnLayout {
+                            anchors.fill: parent
+                            anchors.margins: app.margins
+                            Label {
+                                text: model.name
+                            }
+                            Label {
+                                text: model.hostAddress
+                                font.pixelSize: app.smallFont
+                            }
+                        }
+                        onClicked: {
+                            print("Should connect to", model.nymeaRpcUrl)
+                            Engine.connection.connect(model.nymeaRpcUrl)
+                            pageStack.push(connectingPage)
+                        }
+                    }
+
+                    Column {
+                        anchors.centerIn: parent
+                        spacing: app.margins
+                        visible: !root.haveHosts
+
+                        Label {
+                            text: qsTr("Searching for nymea boxes...")
+                        }
+
+                        BusyIndicator {
+                            running: visible
+                            anchors.horizontalCenter: parent.horizontalCenter
+                        }
+                    }
+
+                }
+
+                Rectangle {
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 1
+                    color: Material.accent
+                }
+
+                RowLayout {
+                    Layout.fillWidth: true
+                    Layout.margins: app.margins
+                    visible: root.haveHosts
+                    Label {
+                        Layout.fillWidth: true
+                        text: qsTr("Not the ones you're looking for? We're looking for more!")
+                        wrapMode: Text.WordWrap
+                    }
+
+                    BusyIndicator { }
                 }
             }
-
-        }
-
-        Rectangle {
-            Layout.fillWidth: true
-            Layout.preferredHeight: 1
-            color: Material.accent
-        }
-
-        RowLayout {
-            Layout.fillWidth: true
-            Layout.margins: app.margins
-            visible: root.haveHosts
-            Label {
-                Layout.fillWidth: true
-                text: qsTr("Not the ones you're looking for? We're looking for more!")
-                wrapMode: Text.WordWrap
-            }
-
-            BusyIndicator { }
         }
     }
+
 
     Component {
         id: manualConnectPage
 
         Page {
-
             header: GuhHeader {
-                text: qsTr("Manual connect to nymea")
+                text: qsTr("Manual connection")
                 onBackPressed: pageStack.pop()
             }
 
             ColumnLayout {
-                anchors.fill: parent
+                anchors { left: parent.left; top: parent.top; right: parent.right }
                 anchors.margins: app.margins
                 spacing: app.margins
 
                 GridLayout {
-                    Layout.fillHeight: true
-                    Layout.fillWidth: true
-
                     columns: 2
+
+                    Label {
+                        text: qsTr("Protocol")
+                    }
 
                     ComboBox {
                         id: connectionTypeComboBox
                         Layout.fillWidth: true
-                        Layout.columnSpan: 2
                         model: [ qsTr("TCP"), qsTr("Websocket") ]
                     }
 
@@ -264,7 +277,7 @@ Page {
                 spacing: app.margins
 
                 Label {
-                    text: qsTr("Connecting to your nymea box...")
+                    text: qsTr("Trying to connect...")
                     wrapMode: Text.WordWrap
                     font.pixelSize: app.largeFont
                     Layout.fillWidth: true
@@ -275,7 +288,8 @@ Page {
                     Layout.fillWidth: true
                     onClicked: {
                         Engine.connection.disconnect()
-                        pageStack.pop();
+                        pageStack.pop(root);
+                        pageStack.push(discoveryPage);
                     }
                 }
             }

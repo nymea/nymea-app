@@ -1,7 +1,6 @@
 import QtQuick 2.4
 import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.2
-
 import "components"
 import Mea 1.0
 
@@ -22,6 +21,7 @@ Page {
 
     ColumnLayout {
         anchors.fill: parent
+        spacing: app.margins
 
         BusyIndicator {
             Layout.alignment: Qt.AlignHCenter
@@ -77,5 +77,4 @@ Page {
             }
         }
     }
-
 }

@@ -53,6 +53,7 @@
 #include "models/eventdescriptorparamsfiltermodel.h"
 #include "basicconfiguration.h"
 #include "wifisetup/networkmanagercontroler.h"
+#include "stylecontroller.h"
 
 static QObject* interfacesModel_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
@@ -166,15 +167,17 @@ int main(int argc, char *argv[])
 
     Engine::instance();
 
-    QQmlApplicationEngine engine;
+    QQmlApplicationEngine *engine = new QQmlApplicationEngine();
 #ifdef BRANDING
-    engine.rootContext()->setContextProperty("appBranding", BRANDING);
-    QQuickStyle::setStyle(QString(":/styles/%1").arg(BRANDING));
+    engine->rootContext()->setContextProperty("appBranding", BRANDING);
 #else
-    QSettings settings;
-    QQuickStyle::setStyle(":/styles/" + settings.value("style", "light").toString());
+    engine->rootContext()->setContextProperty("appBranding", "");
 #endif
-    engine.load(QUrl(QLatin1String("qrc:/ui/main.qml")));
+
+    StyleController styleController;
+    engine->rootContext()->setContextProperty("styleController", &styleController);
+
+    engine->load(QUrl(QLatin1String("qrc:/ui/main.qml")));
 
     return application.exec();
 }

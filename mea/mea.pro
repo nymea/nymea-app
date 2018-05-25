@@ -45,7 +45,8 @@ HEADERS += engine.h \
     wifisetup/wirelessaccesspoint.h \
     wifisetup/wirelessaccesspoints.h \
     wifisetup/wirelesssetupmanager.h \
-    wifisetup/networkmanagercontroler.h
+    wifisetup/networkmanagercontroler.h \
+    stylecontroller.h
 
 
 SOURCES += main.cpp \
@@ -87,7 +88,8 @@ SOURCES += main.cpp \
     wifisetup/wirelessaccesspoint.cpp \
     wifisetup/wirelessaccesspoints.cpp \
     wifisetup/wirelesssetupmanager.cpp \
-    wifisetup/networkmanagercontroler.cpp
+    wifisetup/networkmanagercontroler.cpp \
+    stylecontroller.cpp
 
 withavahi {
 DEFINES += WITH_AVAHI

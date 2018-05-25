@@ -68,20 +68,19 @@ Page {
                     text: "Style"
                 }
                 ComboBox {
-                    model: ["light", "dark", "maveo"]
-                    currentIndex: {
-                        switch (settings.style) {
-                        case "light":
-                            return 0;
-                        case "dark":
-                            return 1;
-                        case "maveo":
-                            return 2;
-                        }
-                    }
+                    model: styleController.allStyles
+                    currentIndex: styleController.allStyles.indexOf(styleController.currentStyle)
 
                     onActivated: {
-                        settings.style = model[index]
+                        styleController.currentStyle = model[index]
+                    }
+                }
+
+                Connections {
+                    target: styleController
+                    onCurrentStyleChanged: {
+                        var popup = styleChangedDialog.createObject(root)
+                        popup.open()
                     }
                 }
             }
@@ -167,6 +166,7 @@ Page {
             Button {
                 id: debugServerButton
                 Layout.fillWidth: true
+                Layout.margins: app.margins
                 visible: debugServerEnabledSwitch.checked
                 text: qsTr("Open debug interface")
                 onClicked: Qt.openUrlExternally("http://" + Engine.connection.hostAddress + "/debug")
@@ -189,6 +189,32 @@ Page {
             }
             onClicked: {
                 pageStack.push(Qt.resolvedUrl("system/PluginsPage.qml"))
+            }
+        }
+    }
+
+    Component {
+        id: styleChangedDialog
+        Dialog {
+            width: Math.min(parent.width * .8, contentLabel.implicitWidth)
+            x: (parent.width - width) / 2
+            y: (parent.height - height) / 2
+            modal: true
+
+            title: qsTr("Style changed")
+
+            standardButtons: Dialog.Ok
+
+            ColumnLayout {
+                id: content
+                anchors { left: parent.left; top: parent.top; right: parent.right }
+
+                Label {
+                    id: contentLabel
+                    Layout.fillWidth: true
+                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                    text: qsTr("The application needs to be restarted for style changes to take effect.")
+                }
             }
         }
     }
