@@ -134,7 +134,7 @@ Page {
 
             Label {
                 width: listView.column2Width
-                text: model.source === LogEntry.LoggingSourceSystem ? qsTr("Nymea Server") : delegate.device.name
+                text: model.source === LogEntry.LoggingSourceSystem ? qsTr("%1 Server").arg(app.systemName) : delegate.device.name
                 elide: Text.ElideRight
             }
             Label {

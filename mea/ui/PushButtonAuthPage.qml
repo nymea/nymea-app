@@ -9,7 +9,7 @@ Page {
     signal backPressed();
 
     header: GuhHeader {
-        text: qsTr("Welcome to nymea!")
+        text: qsTr("Welcome to %1!").arg(app.systemName)
         backButtonVisible: true
         onBackPressed: {
             root.backPressed();
@@ -58,7 +58,7 @@ Page {
 
         Label {
             Layout.fillWidth: true
-            text: qsTr("Please press the button on your nymea box to authenticate this device.")
+            text: qsTr("Please press the button on your %1 box to authenticate this device.").arg(app.systemName)
             wrapMode: Text.WordWrap
         }
 

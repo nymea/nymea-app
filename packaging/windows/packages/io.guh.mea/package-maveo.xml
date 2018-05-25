@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package>
+    <DisplayName>Maveo Pro Box Dashboard</DisplayName>
+    <Description>Install the Maveo Pro Box Dashboard application.</Description>
+    <Version>0.1.0-1</Version>
+    <ReleaseDate>2018-05-16</ReleaseDate>
+    <Licenses>
+        <License name="Marantec License Agreement" file="license-maveo.txt" />
+    </Licenses>
+    <Default>true</Default>
+    <Script>installscript.qs</Script>
+</Package>

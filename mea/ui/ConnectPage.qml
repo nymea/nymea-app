@@ -39,7 +39,7 @@ Page {
 
         Page {
             header: GuhHeader {
-                text: qsTr("Connect nymea")
+                text: qsTr("Connect %1").arg(app.systemName)
                 backButtonVisible: false
                 menuButtonVisible: true
                 onMenuPressed: connectionMenu.open()
@@ -90,9 +90,9 @@ Page {
                     Label {
                         Layout.fillWidth: true
                         text: root.haveHosts ?
-                                  qsTr("There are %1 nymea boxes in your network! Which one would you like to use?").arg(discovery.discoveryModel.count)
-                                : startupTimer.running ? qsTr("We haven't found any nymea boxes in your network yet.")
-                                                       : qsTr("There doesn't seem to be a nymea box installed in your network. Please make sure your nymea box is correctly set up and connected.")
+                                  qsTr("There are %1 %2 boxes in your network! Which one would you like to use?").arg(discovery.discoveryModel.count).arg(app.systemName)
+                                : startupTimer.running ? qsTr("We haven't found any %1 boxes in your network yet.").arg(app.systemName)
+                                                       : qsTr("There doesn't seem to be a %1 box installed in your network. Please make sure your %1 box is correctly set up and connected.").arg(app.systemName)
                         wrapMode: Text.WordWrap
                     }
                 }
@@ -136,7 +136,7 @@ Page {
                         visible: !root.haveHosts
 
                         Label {
-                            text: qsTr("Searching for nymea boxes...")
+                            text: qsTr("Searching for %1 boxes...").arg(app.systemName)
                         }
 
                         BusyIndicator {
@@ -333,7 +333,7 @@ Page {
             Label {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("The authenticity of this nymea box cannot be verified.")
+                text: qsTr("The authenticity of this %1 box cannot be verified.").arg(app.systemName)
             }
 
             Label {

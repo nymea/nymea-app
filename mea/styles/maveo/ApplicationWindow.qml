@@ -6,6 +6,8 @@ ApplicationWindow {
     property color guhAccent: "#ffcc00"
     property string systemName: "maveo"
 
+    title: qsTr("Maveo Pro Box Dashboard")
+
     Material.theme: Material.Light
     Material.accent: guhAccent
     Material.primary: Material.Grey

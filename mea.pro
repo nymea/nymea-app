@@ -18,11 +18,11 @@ wininstaller.commands += windeployqt --compiler-runtime --qmldir mea\ui packagin
 BR=$$BRANDING
 equals(BR, "") {
     wininstaller.commands += copy packaging\windows\packages\io.guh.mea\logo-guh.ico packaging\windows\packages\io.guh.mea\data\logo.ico &&
-    wininstaller.commands += copy packaging\windows\packages\io.guh.mea\license-mea.txt packaging\windows\packages\io.guh.mea\meta\license.txt &&
+    wininstaller.commands += copy packaging\windows\packages\io.guh.mea\package-mea.xml packaging\windows\packages\io.guh.mea\meta\package.xml &&
     wininstaller.commands += binarycreator -c packaging\windows\config\config.xml -p packaging\windows\packages\ mea-win-installer
 } else {
     wininstaller.commands += copy packaging\windows\packages\io.guh.mea\logo-$${BR}.ico packaging\windows\packages\io.guh.mea\data\logo.ico &&
-    wininstaller.commands += copy packaging\windows\packages\io.guh.mea\license-$${BR}.txt packaging\windows\packages\io.guh.mea\meta\license.txt &&
+    wininstaller.commands += copy packaging\windows\packages\io.guh.mea\package-$${BR}.xml packaging\windows\packages\io.guh.mea\meta\package.xml &&
     wininstaller.commands += binarycreator -c packaging\windows\config\config.xml -p packaging\windows\packages\ mea-$${BR}-win-installer
 }
 QMAKE_EXTRA_TARGETS += wininstaller
