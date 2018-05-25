@@ -23,7 +23,7 @@ Page {
 
     ColumnLayout {
         anchors.fill: parent
-        ParamDescriptorDelegateBase {
+        ParamDescriptorDelegate {
             id: paramDelegate
             Layout.fillWidth: true
             paramType: root.stateType

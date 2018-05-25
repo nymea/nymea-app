@@ -3,7 +3,7 @@ import QtQuick.Controls 2.1
 import QtQuick.Controls.Material 2.1
 import QtQuick.Layouts 1.3
 import "../components"
-import "../paramdelegates-ng"
+import "../delegates"
 import Mea 1.0
 
 Page {

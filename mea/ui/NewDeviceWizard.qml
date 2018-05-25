@@ -3,7 +3,7 @@ import QtQuick.Layouts 1.1
 import QtQuick.Controls 2.1
 import Mea 1.0
 import "components"
-import "paramdelegates-ng"
+import "delegates"
 
 Page {
     id: root

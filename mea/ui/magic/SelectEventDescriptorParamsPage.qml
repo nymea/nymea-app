@@ -42,7 +42,7 @@ Page {
                     Layout.rightMargin: app.margins
                 }
 
-                ParamDescriptorDelegateBase {
+                ParamDescriptorDelegate {
                     id: paramDescriptorDelegate
                     enabled: paramCheckBox.checked
                     Layout.fillWidth: true
