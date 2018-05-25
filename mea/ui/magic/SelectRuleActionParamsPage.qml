@@ -2,7 +2,7 @@ import QtQuick 2.8
 import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.2
 import "../components"
-import "../paramdelegates-ng"
+import "../delegates"
 import Mea 1.0
 
 Page {

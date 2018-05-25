@@ -97,33 +97,7 @@ DevicePageBase {
                         width: parent.width
                         property var actionType: deviceClass.actionTypes.get(index)
                         property var actionValue: device.hasState(actionType.id) ? device.states.getState(actionType.id).value : null
-                        source: {
-                            print("actiontype is", actionType.name, actionValue, actionType.paramTypes.count)
-                            for (var i = 0; i < actionType.paramTypes.count; i++) {
-                                print("have actionType param:", actionType.paramTypes.get(i).name, actionType.paramTypes.get(i).type)
-                            }
-
-                            return Qt.resolvedUrl("../actiondelegates-ng/ActionDelegate.qml");
-                            var delegate = "ActionDelegateFallback.qml";
-                            if (actionType.paramTypes.count === 0) {
-                                delegate = "ActionDelegateNoParams.qml";
-                            } else if (actionType.paramTypes.count === 1) {
-                                var paramType = actionType.paramTypes.get(0)
-                                if (paramType.type === "Int" && paramType.minValue !== null && paramType.maxValue !== null) {
-                                    delegate = "ActionDelegateSlider.qml";
-                                } else if (paramType.type === "Bool") {
-                                    delegate = "ActionDelegateBool.qml";
-                                } else if (paramType.type === "Color") {
-                                    delegate = "ActionDelegateColor.qml";
-                                } else if (paramType.type === "String" && paramType.allowedValues.length > 0) {
-                                    delegate = "ActionDelegateStringFromStringList.qml";
-                                }
-                            } else {
-
-                            }
-
-                            return Qt.resolvedUrl("../actiondelegates/" + delegate);
-                        }
+                        source: Qt.resolvedUrl("../delegates/ActionDelegate.qml")
 
                         Binding {
                             target: delegateLoader.item ? delegateLoader.item : null

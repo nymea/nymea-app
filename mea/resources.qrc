@@ -5,21 +5,14 @@
         <file>ui/main.qml</file>
         <file>ui/NewDeviceWizard.qml</file>
         <file>ui/SettingsPage.qml</file>
-        <file>ui/actiondelegates/ActionDelegateBase.qml</file>
-        <file>ui/actiondelegates/ActionDelegateBool.qml</file>
-        <file>ui/actiondelegates/ActionDelegateSlider.qml</file>
         <file>ui/components/GuhHeader.qml</file>
         <file>ui/components/HeaderButton.qml</file>
         <file>ui/images/add.svg</file>
         <file>ui/images/back.svg</file>
         <file>ui/images/close.svg</file>
         <file>ui/MainPage.qml</file>
-        <file>ui/actiondelegates/ActionDelegateFallback.qml</file>
         <file>ui/images/info.svg</file>
-        <file>ui/actiondelegates/ActionDelegateColor.qml</file>
         <file>ui/components/ColorPicker.qml</file>
-        <file>ui/actiondelegates/ActionDelegateNoParams.qml</file>
-        <file>ui/actiondelegates/ActionDelegateStringFromStringList.qml</file>
         <file>ui/customviews/CustomViewBase.qml</file>
         <file>ui/customviews/WeatherView.qml</file>
         <file>ui/customviews/MediaControllerView.qml</file>
@@ -49,7 +42,6 @@
         <file>ui/images/media-seek-forward.svg</file>
         <file>ui/images/media-skip-backward.svg</file>
         <file>ui/images/media-skip-forward.svg</file>
-        <file>ui/paramdelegates/BoolParamDelegate.qml</file>
         <file>ui/components/ThinDivider.qml</file>
         <file>ui/images/weather-app-symbolic.svg</file>
         <file>ui/images/weathericons/weather-clear-day.svg</file>
@@ -81,11 +73,7 @@
         <file>ui/images/sensors.svg</file>
         <file>ui/images/temperature.svg</file>
         <file>ui/images/network-wired-symbolic.svg</file>
-        <file>ui/paramdelegates/StringParamDelegate.qml</file>
-        <file>ui/paramdelegates/ParamDelegate.qml</file>
-        <file>ui/paramdelegates/ParamDelegateBase.qml</file>
         <file>ui/images/notification.svg</file>
-        <file>ui/paramdelegates/IntParamDelegate.qml</file>
         <file>ui/customviews/NotificationsView.qml</file>
         <file>ui/devicepages/DevicePageBase.qml</file>
         <file>ui/images/battery/battery-000.svg</file>
@@ -104,7 +92,6 @@
         <file>ui/EditDevicesPage.qml</file>
         <file>ui/devicepages/ConfigureThingPage.qml</file>
         <file>ui/magic/DeviceRulesPage.qml</file>
-        <file>ui/magic/NewThingMagicPage.qml</file>
         <file>ui/magic/EditRulePage.qml</file>
         <file>ui/magic/SelectThingPage.qml</file>
         <file>ui/magic/ComposeEventDescriptorPage.qml</file>
@@ -115,14 +102,14 @@
         <file>ui/images/tick.svg</file>
         <file>ui/magic/SelectEventDescriptorParamsPage.qml</file>
         <file>ui/magic/SelectEventDescriptorPage.qml</file>
-        <file>ui/paramdelegates/DoubleParamDelegate.qml</file>
-        <file>ui/paramdescriptordelegates/ParamDescriptorDelegateBase.qml</file>
+        <file>ui/delegates/ParamDescriptorDelegate.qml</file>
+        <file>ui/delegates/ParamDelegate.qml</file>
+        <file>ui/delegates/ActionDelegate.qml</file>
         <file>ui/system/LogViewerPage.qml</file>
         <file>ui/images/next.svg</file>
         <file>ui/images/go-down.svg</file>
         <file>ui/system/PluginsPage.qml</file>
         <file>ui/system/PluginParamsPage.qml</file>
-        <file>ui/paramdelegates-ng/ParamDelegate.qml</file>
         <file>ui/components/ErrorDialog.qml</file>
         <file>ui/fonts/Ubuntu-B.ttf</file>
         <file>ui/fonts/Ubuntu-BI.ttf</file>
@@ -136,7 +123,6 @@
         <file>ui/components/InterfacesModels.qml</file>
         <file>ui/magic/StateEvaluatorDelegate.qml</file>
         <file>ui/magic/EditStateEvaluatorPage.qml</file>
-        <file>ui/actiondelegates-ng/ActionDelegate.qml</file>
         <file>ui/magic/SimpleStateEvaluatorDelegate.qml</file>
         <file>ui/magic/SelectStateDescriptorParamsPage.qml</file>
         <file>ui/magic/SelectStateDescriptorPage.qml</file>
