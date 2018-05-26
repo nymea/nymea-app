@@ -8,10 +8,11 @@ import "../customviews"
 GenericDevicePage {
     id: root
 
-
     GenericTypeLogView {
         anchors.fill: parent
         text: qsTr("This event has appeared %1 times in the last 24 hours.")
+
+        device: root.device
 
         onAddRuleClicked: {
             var rule = Engine.ruleManager.createNewRule();
