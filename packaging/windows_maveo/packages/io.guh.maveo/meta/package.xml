@@ -5,7 +5,8 @@
     <Version>0.1.0-1</Version>
     <ReleaseDate>2018-05-16</ReleaseDate>
     <Licenses>
-        <License name="Marantec License Agreement" file="license-maveo.txt" />
+        <License name="Maveo Privacy Statement" file="license-maveo.txt" />
+        <License name="GPLv2" file="license-gpl.txt" />
     </Licenses>
     <Default>true</Default>
     <Script>installscript.qs</Script>
