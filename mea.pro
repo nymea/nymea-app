@@ -12,19 +12,22 @@ mea.depends = libnymea-common
 # Use QtCreator to create a release build, make sure to *disable* shadow build.
 # After building, run "make wininstaller"
 wininstaller.depends = mea
-wininstaller.commands += rmdir /S /Q packaging\windows\packages\io.guh.mea\data & mkdir packaging\windows\packages\io.guh.mea\data &&
-wininstaller.commands += copy mea\release\mea.exe packaging\windows\packages\io.guh.mea\data\ &&
-wininstaller.commands += windeployqt --compiler-runtime --qmldir mea\ui packaging\windows\packages\io.guh.mea\data\ &&
 BR=$$BRANDING
 equals(BR, "") {
-    wininstaller.commands += copy packaging\windows\packages\io.guh.mea\logo-guh.ico packaging\windows\packages\io.guh.mea\data\logo.ico &&
-    wininstaller.commands += copy packaging\windows\packages\io.guh.mea\license-mea.txt packaging\windows\packages\io.guh.mea\meta\license.txt &&
-    wininstaller.commands += binarycreator -c packaging\windows\config\config.xml -p packaging\windows\packages\ mea-win-installer
+    APP_NAME = mea
+    PACKAGE_DIR = packaging\windows
+    PACKAGE_NAME = mea-win-installer
 } else {
-    wininstaller.commands += copy packaging\windows\packages\io.guh.mea\logo-$${BR}.ico packaging\windows\packages\io.guh.mea\data\logo.ico &&
-    wininstaller.commands += copy packaging\windows\packages\io.guh.mea\license-$${BR}.txt packaging\windows\packages\io.guh.mea\meta\license.txt &&
-    wininstaller.commands += binarycreator -c packaging\windows\config\config.xml -p packaging\windows\packages\ mea-$${BR}-win-installer
+    APP_NAME = $${BR}
+    PACKAGE_NAME = $${BR}-win-installer
+    PACKAGE_DIR = packaging\windows_$${APP_NAME}
 }
+wininstaller.commands += rmdir /S /Q $${PACKAGE_DIR}\packages\io.guh.$${APP_NAME}\data & mkdir $${PACKAGE_DIR}\packages\io.guh.$${APP_NAME}\data &&
+wininstaller.commands += copy $${PACKAGE_DIR}\packages\io.guh.$${APP_NAME}\meta\logo.ico $${PACKAGE_DIR}\packages\io.guh.$${APP_NAME}\data\logo.ico &&
+wininstaller.commands += copy mea\release\mea.exe $${PACKAGE_DIR}\packages\io.guh.$${APP_NAME}\data\\$${APP_NAME}.exe &&
+wininstaller.commands += windeployqt --compiler-runtime --qmldir mea\ui $${PACKAGE_DIR}\packages\io.guh.$${APP_NAME}\data\ &&
+wininstaller.commands += binarycreator -c $${PACKAGE_DIR}\config\config.xml -p $${PACKAGE_DIR}\packages\ $${PACKAGE_NAME}
+
 QMAKE_EXTRA_TARGETS += wininstaller
 
 target.depends += wininstaller

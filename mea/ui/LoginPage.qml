@@ -9,7 +9,7 @@ Page {
     signal backPressed();
 
     header: GuhHeader {
-        text: qsTr("Welcome to nymea!")
+        text: qsTr("Welcome to %1!").arg(app.systemName)
         backButtonVisible: true
         onBackPressed: root.backPressed()
     }
@@ -49,8 +49,8 @@ Page {
         Label {
             Layout.fillWidth: true
             text: Engine.jsonRpcClient.initialSetupRequired ?
-                      qsTr("In order to use your nymea system, please enter your email address and set a password for your nymea box.")
-                    : qsTr("In order to use your nymea system, please log in.")
+                      qsTr("In order to use your %1 system, please enter your email address and set a password for your nymea box.").arg(app.systemName)
+                    : qsTr("In order to use your %1 system, please log in.").arg(app.systemName)
             wrapMode: Text.WordWrap
         }
 

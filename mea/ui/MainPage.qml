@@ -150,7 +150,7 @@ Page {
                 spacing: app.margins
                 visible: Engine.deviceManager.devices.count === 0 && !Engine.deviceManager.fetchingData
                 Label {
-                    text: qsTr("Welcome to nymea!")
+                    text: qsTr("Welcome to %1!").arg(app.systemName)
                     font.pixelSize: app.largeFont
                     Layout.fillWidth: true
                     wrapMode: Text.WordWrap

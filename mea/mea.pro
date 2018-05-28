@@ -138,12 +138,10 @@ ANDROID_PACKAGE_SOURCE_DIR = $$PWD/../packaging/android
 BR=$$BRANDING
 !equals(BR, "") {
     DEFINES += BRANDING=\\\"$${BR}\\\"
-    win32:RCC_ICONS += ../packaging/windows/packages/io.guh.mea/logo-$${BR}.ico
+    win32:RCC_ICONS += ../packaging/windows_$${BR}/packages/io.guh.$${BR}/meta/logo.ico
 } else {
-    win32:RCC_ICONS += ../packaging/windows/packages/io.guh.mea/logo-guh.ico
+    win32:RCC_ICONS += ../packaging/windows/packages/io.guh.mea/meta/logo.ico
 }
-message("RCC_ICONS= $${RCC_ICONS}")
-
 
 target.path = /usr/bin
 INSTALLS += target

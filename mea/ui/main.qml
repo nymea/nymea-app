@@ -12,14 +12,6 @@ ApplicationWindow {
     height: 580
     visibility: settings.viewMode
     font: Qt.application.font
-    title: {
-        switch (appBranding) {
-        case "maveo":
-            return qsTr("Maveo Pro Box Dashboard")
-        default:
-            return "Mea";
-        }
-    }
 
     property int margins: 14
     property int bigMargins: 20
@@ -250,7 +242,7 @@ ApplicationWindow {
                     font.pixelSize: app.largeFont
                 }
                 Label {
-                    text: qsTr("Sorry, the version of the nymea box you are trying to connect to is too old. This app requires at least version %1 but the nymea box only supports %2").arg(popup.minimumVersion).arg(popup.actualVersion)
+                    text: qsTr("Sorry, the version of the %1 box you are trying to connect to is too old. This app requires at least version %2 but the %1 box only supports %3").arg(app.systemName).arg(popup.minimumVersion).arg(popup.actualVersion)
                     wrapMode: Text.WordWrap
                     Layout.fillWidth: true
                 }

@@ -5,7 +5,7 @@
     <Version>0.1.0-1</Version>
     <ReleaseDate>2018-05-16</ReleaseDate>
     <Licenses>
-        <License name="Beer Public License Agreement" file="license.txt" />
+        <License name="GNU General Public License Agreement v2" file="license-gpl.txt" />
     </Licenses>
     <Default>true</Default>
     <Script>installscript.qs</Script>
