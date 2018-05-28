@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1">
+<TS version="2.1" language="de_DE">
 <context>
     <name>ApplicationWindow</name>
     <message>
         <source>Maveo Pro Box Dashboard</source>
-        <translation type="unfinished"></translation>
+        <translation>MAveo Pro Box Dashboard</translation>
     </message>
 </context>
 <context>
