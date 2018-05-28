@@ -1167,35 +1167,35 @@
     </message>
     <message>
         <source>Notifications</source>
-        <translation type="unfinished"></translation>
+        <translation>Benachrichtigungen</translation>
     </message>
     <message>
         <source>Temperature</source>
-        <translation type="unfinished"></translation>
+        <translation>Temperatur</translation>
     </message>
     <message>
         <source>Humidity</source>
-        <translation type="unfinished"></translation>
+        <translation>Feuchtigkeit</translation>
     </message>
     <message>
         <source>Incoming Events</source>
-        <translation type="unfinished"></translation>
+        <translation>Einkommende Ereignisse</translation>
     </message>
     <message>
         <source>Events</source>
-        <translation type="unfinished"></translation>
+        <translation>Ereignisse</translation>
     </message>
     <message>
         <source>Connection error</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbindungsfehler</translation>
     </message>
     <message>
         <source>Sorry, the version of the %1 box you are trying to connect to is too old. This app requires at least version %2 but the %1 box only supports %3</source>
-        <translation type="unfinished"></translation>
+        <translation>Entschuldigung, die Version dieser %1 Box ist zu alt. Diese Anwendung benötigt mindestens Version %2 aber die diese %1 Box unterstützt nur %3</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
 </context>
 </TS>
