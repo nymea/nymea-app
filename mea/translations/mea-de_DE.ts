@@ -5,7 +5,7 @@
     <name>ApplicationWindow</name>
     <message>
         <source>Maveo Pro Box Dashboard</source>
-        <translation>MAveo Pro Box Dashboard</translation>
+        <translation>Maveo Pro Box Dashboard</translation>
     </message>
 </context>
 <context>
