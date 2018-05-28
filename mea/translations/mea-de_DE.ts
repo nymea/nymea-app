@@ -436,261 +436,261 @@
     </message>
     <message>
         <source>Active changed</source>
-        <translation>Aktiv geänert</translation>
+        <translation>Aktiv geändert</translation>
     </message>
 </context>
 <context>
     <name>LoginPage</name>
     <message>
         <source>Welcome to %1!</source>
-        <translation type="unfinished"></translation>
+        <translation>Willkommen zu %1!</translation>
     </message>
     <message>
         <source>Sorry, that wasn&apos;t right. Try again please.</source>
-        <translation type="unfinished"></translation>
+        <translation>Entschuldingung, das war nicht richtig. Bitte erneut versuchen.</translation>
     </message>
     <message>
         <source>The email you&apos;ve entered isn&apos;t valid.</source>
-        <translation type="unfinished"></translation>
+        <translation>Die eingegebene E-Mail Adresse ist ungültig.</translation>
     </message>
     <message>
         <source>The password you&apos;ve chose is too weak.</source>
-        <translation type="unfinished"></translation>
+        <translation>Das gewählte Passwort ist zu schwach.</translation>
     </message>
     <message>
         <source>An error happened creating the user.</source>
-        <translation type="unfinished"></translation>
+        <translation>Beim Erstellen des Benutzers ist ein Fehler aufgetreten.</translation>
     </message>
     <message>
         <source>In order to use your %1 system, please enter your email address and set a password for your nymea box.</source>
-        <translation type="unfinished"></translation>
+        <translation>Um Ihr %1 system zu nutzen, geben Sie bitte eine E-Mail Adresse ein und setzen Sie ein Passwort für Ihre nymea Box.</translation>
     </message>
     <message>
         <source>In order to use your %1 system, please log in.</source>
-        <translation type="unfinished"></translation>
+        <translation>Um Ihr %1 system zu nutzen, melden Sie sich bitte an.</translation>
     </message>
     <message>
         <source>Your e-mail address:</source>
-        <translation type="unfinished"></translation>
+        <translation>Ihre E-Mail Adresse:</translation>
     </message>
     <message>
         <source>Password:</source>
-        <translation type="unfinished"></translation>
+        <translation>Passwort:</translation>
     </message>
     <message>
         <source>Confirm password:</source>
-        <translation type="unfinished"></translation>
+        <translation>Passwort bestätigen:</translation>
     </message>
     <message>
         <source>This password isn&apos;t long enought to be secure, add some more characters please.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dieses Passwort ist nicht lange genug um sicher zu sein, fügen Sie weitere Zeichen hinzu.</translation>
     </message>
     <message>
         <source>The passwords don&apos;t match.</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Passwörter stimmen nicht überein.</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
 </context>
 <context>
     <name>MainPage</name>
     <message>
         <source>My things</source>
-        <translation type="unfinished"></translation>
+        <translation>Meine &quot;Things&quot;</translation>
     </message>
     <message>
         <source>Configure things</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;Things&quot; einrichten</translation>
     </message>
     <message>
         <source>Add a new thing</source>
-        <translation type="unfinished"></translation>
+        <translation>Neues &quot;Thing&quot; hinzufügen</translation>
     </message>
     <message>
         <source>Magic</source>
-        <translation type="unfinished"></translation>
+        <translation>Magie</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Einstellungen</translation>
     </message>
     <message>
         <source>System information</source>
-        <translation type="unfinished"></translation>
+        <translation>System-Informationen</translation>
     </message>
     <message>
         <source>Loading data...</source>
-        <translation type="unfinished"></translation>
+        <translation>Lade Daten...</translation>
     </message>
     <message>
         <source>Welcome to %1!</source>
-        <translation type="unfinished"></translation>
+        <translation>Willkommen bei %1!</translation>
     </message>
     <message>
         <source>There are no things set up yet. You can start with adding your things by using the menu on the upper left and selecting &quot;Add a new thing&quot;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Es sind noch keine &quot;Things&quot; eingerichtet. Legen Sie los indem Sie Ihre &quot;Things&quot; mit dem Menü links oben hinzufügen.</translation>
     </message>
 </context>
 <context>
     <name>NewDeviceWizard</name>
     <message>
         <source>Set up new thing</source>
-        <translation type="unfinished"></translation>
+        <translation>Neues &quot;Thing&quot; hinzufügen</translation>
     </message>
     <message>
         <source>Searching for things...</source>
-        <translation type="unfinished"></translation>
+        <translation>Suche nach &quot;Things&quot;...</translation>
     </message>
     <message>
         <source>Too bad...</source>
-        <translation type="unfinished"></translation>
+        <translation>Schade...</translation>
     </message>
     <message>
         <source>No things of this kind could be found...</source>
-        <translation type="unfinished"></translation>
+        <translation>Keine &quot;Things&quot; von diesem Typ gefunden...</translation>
     </message>
     <message>
         <source>Make sure your things are set up and connected, try searching again or go back and pick a different kind of thing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Stellen Sie sicher, dass Ihr &quot;Thing&quot; eingerichtet und verbunden ist, versuchen Sie dann erneut zu suchen oder wählen Sie einen anderen Typ von &quot;Things&quot;.</translation>
     </message>
     <message>
         <source>Try again!</source>
-        <translation type="unfinished"></translation>
+        <translation>Nochmals versuchen!</translation>
     </message>
 </context>
 <context>
     <name>NotificationsView</name>
     <message>
         <source>Send a notification now:</source>
-        <translation type="unfinished"></translation>
+        <translation>Jetzt eine Benachrichtigung schicken:</translation>
     </message>
     <message>
         <source>Title</source>
-        <translation type="unfinished"></translation>
+        <translation>Titel</translation>
     </message>
     <message>
         <source>Text</source>
-        <translation type="unfinished"></translation>
+        <translation>Text</translation>
     </message>
     <message>
         <source>Send</source>
-        <translation type="unfinished"></translation>
+        <translation>Senden</translation>
     </message>
 </context>
 <context>
     <name>NymeaConnection</name>
     <message>
         <source>Common Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Allgemeiner Name:</translation>
     </message>
     <message>
         <source>Oragnisation:</source>
-        <translation type="unfinished"></translation>
+        <translation>Organisation:</translation>
     </message>
     <message>
         <source>Locality:</source>
-        <translation type="unfinished"></translation>
+        <translation>Lokalität:</translation>
     </message>
     <message>
         <source>Oragnisational Unit:</source>
-        <translation type="unfinished"></translation>
+        <translation>Organisationseinheit:</translation>
     </message>
     <message>
         <source>Country:</source>
-        <translation type="unfinished"></translation>
+        <translation>Land:</translation>
     </message>
 </context>
 <context>
     <name>ParamDescriptorDelegate</name>
     <message>
         <source>is</source>
-        <translation type="unfinished"></translation>
+        <translation>ist</translation>
     </message>
     <message>
         <source>is not</source>
-        <translation type="unfinished"></translation>
+        <translation>ist nicht</translation>
     </message>
     <message>
         <source>is greater</source>
-        <translation type="unfinished"></translation>
+        <translation>ist größer</translation>
     </message>
     <message>
         <source>is smaller</source>
-        <translation type="unfinished"></translation>
+        <translation>ist kleiner</translation>
     </message>
     <message>
         <source>is greater or equal</source>
-        <translation type="unfinished"></translation>
+        <translation>ist größer oder gleich</translation>
     </message>
     <message>
         <source>is smaller or equal</source>
-        <translation type="unfinished"></translation>
+        <translation>ist kleiner oder gleich</translation>
     </message>
 </context>
 <context>
     <name>PluginParamsPage</name>
     <message>
         <source>%1 settings</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 Einstellungen</translation>
     </message>
     <message>
         <source>Error saving params: </source>
-        <translation type="unfinished"></translation>
+        <translation>Fehler beim Speichern der Parameter: </translation>
     </message>
 </context>
 <context>
     <name>PluginsPage</name>
     <message>
         <source>Plugins</source>
-        <translation type="unfinished"></translation>
+        <translation>Plugins</translation>
     </message>
 </context>
 <context>
     <name>PushButtonAuthPage</name>
     <message>
         <source>Welcome to %1!</source>
-        <translation type="unfinished"></translation>
+        <translation>Willkommen zu %1!</translation>
     </message>
     <message>
         <source>Sorry, something went wrong during the setup. Try again please.</source>
-        <translation type="unfinished"></translation>
+        <translation>Entschuldigung, bei der Einrichtung ist etwas schief gelaufen. Bitte versuchen Sie es erneut.</translation>
     </message>
     <message>
         <source>Authentication required</source>
-        <translation type="unfinished"></translation>
+        <translation>Authentifizierung erforderlich</translation>
     </message>
     <message>
         <source>Please press the button on your %1 box to authenticate this device.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bitte drücken Sie die Taste auf Ihrer %1 Box um sich zu authentifizieren.</translation>
     </message>
 </context>
 <context>
     <name>SelectActionPage</name>
     <message>
         <source>Switch lights...</source>
-        <translation type="unfinished"></translation>
+        <translation>Lichter schalten...</translation>
     </message>
     <message>
         <source>Control media playback...</source>
-        <translation type="unfinished"></translation>
+        <translation>Medienwiedergabe steuern...</translation>
     </message>
     <message>
         <source>Mute media playback...</source>
-        <translation type="unfinished"></translation>
+        <translation>Medienwiedergabe stumm schalten...</translation>
     </message>
     <message>
         <source>Notify me...</source>
-        <translation type="unfinished"></translation>
+        <translation>Mich benachrichtigen...</translation>
     </message>
     <message>
         <source>Manually configure an action...</source>
-        <translation type="unfinished"></translation>
+        <translation>Manuelle Aktion einrichten...</translation>
     </message>
     <message>
         <source>Select device</source>
-        <translation type="unfinished"></translation>
+        <translation>Gerät auswählen</translation>
     </message>
     <message>
         <source>Select action</source>
