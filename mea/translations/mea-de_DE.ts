@@ -694,79 +694,79 @@
     </message>
     <message>
         <source>Select action</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktion auswählen</translation>
     </message>
     <message>
         <source>params</source>
-        <translation type="unfinished"></translation>
+        <translation>Parameter</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Switch lights</source>
-        <translation type="unfinished"></translation>
+        <translation>Lichter schalten</translation>
     </message>
     <message>
         <source>Set selected lights power to</source>
-        <translation type="unfinished"></translation>
+        <translation>Schalte ausgwählte Lichter auf</translation>
     </message>
     <message>
         <source>Send notification</source>
-        <translation type="unfinished"></translation>
+        <translation>Benachrichtigung senden</translation>
     </message>
     <message>
         <source>Notification text</source>
-        <translation type="unfinished"></translation>
+        <translation>Benachrichtigungstext</translation>
     </message>
 </context>
 <context>
     <name>SelectEventDescriptorPage</name>
     <message>
         <source>When it&apos;s freezing...</source>
-        <translation type="unfinished"></translation>
+        <translation>Wenn es fröstelt...</translation>
     </message>
     <message>
         <source>When the device runs out of battery...</source>
-        <translation type="unfinished"></translation>
+        <translation>Wenn die Batterie des Gerätes schwach wird...</translation>
     </message>
     <message>
         <source>When it starts raining...</source>
-        <translation type="unfinished"></translation>
+        <translation>Wenn es regnet...</translation>
     </message>
 </context>
 <context>
     <name>SelectEventDescriptorParamsPage</name>
     <message>
         <source>Only consider event if</source>
-        <translation type="unfinished"></translation>
+        <translation>Ereignis nur berücksichtigen wenn</translation>
     </message>
 </context>
 <context>
     <name>SelectRuleActionParamsPage</name>
     <message>
         <source>Use static value as parameter</source>
-        <translation type="unfinished"></translation>
+        <translation>Festen Wert als Parameter verwenden</translation>
     </message>
     <message>
         <source>Use event parameter</source>
-        <translation type="unfinished"></translation>
+        <translation>Ereignis Parameter verwenden</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
 </context>
 <context>
     <name>SelectStateDescriptorParamsPage</name>
     <message>
         <source>params</source>
-        <translation type="unfinished"></translation>
+        <translation>Parameter</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation>PL</translation>
     </message>
 </context>
 <context>
