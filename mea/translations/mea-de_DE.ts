@@ -766,134 +766,134 @@
     </message>
     <message>
         <source>OK</source>
-        <translation>PL</translation>
+        <translation>OK</translation>
     </message>
 </context>
 <context>
     <name>SelectThingPage</name>
     <message>
         <source>Select a thing</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;Thing&quot; auswählen</translation>
     </message>
     <message>
         <source>A specific thing</source>
-        <translation type="unfinished"></translation>
+        <translation>Ein bestimmtes &quot;Thing&quot;</translation>
     </message>
     <message>
         <source>A group of things</source>
-        <translation type="unfinished"></translation>
+        <translation>Eine Gruppe von &quot;Things&quot;</translation>
     </message>
 </context>
 <context>
     <name>SensorView</name>
     <message>
         <source>6 h</source>
-        <translation type="unfinished"></translation>
+        <translation>6 h</translation>
     </message>
     <message>
         <source>24 h</source>
-        <translation type="unfinished"></translation>
+        <translation>24 h</translation>
     </message>
     <message>
         <source>7 d</source>
-        <translation type="unfinished"></translation>
+        <translation>7 T</translation>
     </message>
 </context>
 <context>
     <name>SettingsPage</name>
     <message>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Einstellungen</translation>
     </message>
     <message>
         <source>Application</source>
-        <translation type="unfinished"></translation>
+        <translation>Anwendung</translation>
     </message>
     <message>
         <source>View mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Ansicht</translation>
     </message>
     <message>
         <source>Windowed</source>
-        <translation type="unfinished"></translation>
+        <translation>Fenster</translation>
     </message>
     <message>
         <source>Maximized</source>
-        <translation type="unfinished"></translation>
+        <translation>Maximiert</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished"></translation>
+        <translation>Vollbild</translation>
     </message>
     <message>
         <source>Return to home on idle</source>
-        <translation type="unfinished"></translation>
+        <translation>Zurück zum Hauptmenü im Leerlauf</translation>
     </message>
     <message>
         <source>Graph style</source>
-        <translation type="unfinished"></translation>
+        <translation>Diagrammstil</translation>
     </message>
     <message>
         <source>Bars</source>
-        <translation type="unfinished"></translation>
+        <translation>Balken</translation>
     </message>
     <message>
         <source>Lines</source>
-        <translation type="unfinished"></translation>
+        <translation>Linien</translation>
     </message>
     <message>
         <source>System</source>
-        <translation type="unfinished"></translation>
+        <translation>System</translation>
     </message>
     <message>
         <source>Server name</source>
-        <translation type="unfinished"></translation>
+        <translation>Servername</translation>
     </message>
     <message>
         <source>Debug server enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Testmodus aktiviert</translation>
     </message>
     <message>
         <source>Open debug interface</source>
-        <translation type="unfinished"></translation>
+        <translation>Testschnittstelle öffnen</translation>
     </message>
     <message>
         <source>Plugins</source>
-        <translation type="unfinished"></translation>
+        <translation>Plugins</translation>
     </message>
     <message>
         <source>Style changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Stil geändert</translation>
     </message>
     <message>
         <source>The application needs to be restarted for style changes to take effect.</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Anwendung muss neu gestartet werden damit änderunge des Stils wirksam werden.</translation>
     </message>
 </context>
 <context>
     <name>SimpleStateEvaluatorDelegate</name>
     <message>
         <source>Press to edit condition</source>
-        <translation type="unfinished"></translation>
+        <translation>Drücken um Bedingung zu ändern</translation>
     </message>
     <message>
         <source>%1: %2 %3 %4</source>
-        <translation type="unfinished"></translation>
+        <translation>%1: %2 %3 %4</translation>
     </message>
     <message>
         <source>%1 %2: %3 %4 %5%6</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 %2: %3 %4 %5%6</translation>
     </message>
 </context>
 <context>
     <name>StateEvaluatorDelegate</name>
     <message>
         <source>and all of those</source>
-        <translation type="unfinished"></translation>
+        <translation>und alle folgenden</translation>
     </message>
     <message>
         <source>or any of those</source>
-        <translation type="unfinished"></translation>
+        <translation>oder eine der Folgenden</translation>
     </message>
     <message>
         <source>Add a condition</source>
