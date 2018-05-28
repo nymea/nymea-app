@@ -82,6 +82,16 @@ int main(int argc, char *argv[])
     applicationFont.setWeight(QFont::Normal);
     QGuiApplication::setFont(applicationFont);
 
+    QTranslator qtTranslator;
+    qtTranslator.load("qt_" + QLocale::system().name(),
+            QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+    application.installTranslator(&qtTranslator);
+
+    QTranslator meaTranslator;
+    qDebug() << "Loading translation file:" << ":/translations/mea-" + QLocale::system().name();
+    meaTranslator.load(":/translations/mea-" + QLocale::system().name());
+    application.installTranslator(&meaTranslator);
+
     const char uri[] = "Mea";
 
     qDebug() << "Running on" << QSysInfo::machineHostName() << QSysInfo::prettyProductName() << QSysInfo::productType() << QSysInfo::productVersion();
