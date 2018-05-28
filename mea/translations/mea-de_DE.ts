@@ -424,19 +424,19 @@
     </message>
     <message>
         <source>Object</source>
-        <translation type="unfinished"></translation>
+        <translation>Objekt</translation>
     </message>
     <message>
         <source>Value</source>
-        <translation type="unfinished"></translation>
+        <translation>Wert</translation>
     </message>
     <message>
         <source>%1 Server</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 Server</translation>
     </message>
     <message>
         <source>Active changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktiv geänert</translation>
     </message>
 </context>
 <context>
