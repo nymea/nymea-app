@@ -12,34 +12,34 @@
     <name>BluetoothDevice</name>
     <message>
         <source>Connecting to %1...</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbinde zu %1...</translation>
     </message>
     <message>
         <source>Connected to %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbunden mit %1</translation>
     </message>
     <message>
         <source>Disconnecting from %1...</source>
-        <translation type="unfinished"></translation>
+        <translation>Trenne von %1...</translation>
     </message>
     <message>
         <source>Discovering services of %1...</source>
-        <translation type="unfinished"></translation>
+        <translation>Suche Dienste auf %1...</translation>
     </message>
     <message>
         <source>%1 connected and discovered.</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 verbunden und durchsucht.</translation>
     </message>
     <message>
         <source>%1 disconnected.</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 verbunden.</translation>
     </message>
 </context>
 <context>
     <name>BluetoothDiscoveryPage</name>
     <message>
         <source>Bluetooth discovery</source>
-        <translation type="unfinished"></translation>
+        <translation>Bluetooth suche</translation>
     </message>
 </context>
 <context>
