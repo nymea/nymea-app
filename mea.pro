@@ -4,8 +4,6 @@ SUBDIRS = libnymea-common mea
 libnymea-common.subdir = libnymea-common
 mea.subdir = mea
 
-mea.depends = libnymea-common
-
 
 # Building a Windows installer:
 # Install Visual Studio, Qt and NSIS on Windows. Make sure NSIS is in your path.
@@ -30,5 +28,10 @@ wininstaller.commands += binarycreator -c $${PACKAGE_DIR}\config\config.xml -p $
 
 QMAKE_EXTRA_TARGETS += wininstaller
 
-target.depends += wininstaller
+TRANSLATIONS += $$files(mea/translations/*.ts, true)
+lrelease.commands = lrelease $$_FILE_
+lrelease-make_first.commands = lrelease $$_FILE_
+lrelease-qmake_all.commands = lrelease $$_FILE_
+QMAKE_EXTRA_TARGETS += lrelease lrelease-make_first lrelease-qmake_all lrelease-install_subtargets
 
+mea.depends = libnymea-common lrelease

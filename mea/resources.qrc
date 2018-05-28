@@ -160,5 +160,7 @@
         <file>ui/images/nm-signal-100.svg</file>
         <file>ui/images/nm-signal-100-secure.svg</file>
         <file>ui/images/network-vpn.svg</file>
+        <file>translations/mea-de_DE.qm</file>
+        <file>translations/mea-en_US.qm</file>
     </qresource>
 </RCC>
