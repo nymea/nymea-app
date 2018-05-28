@@ -174,253 +174,253 @@
     </message>
     <message>
         <source>Address:</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresse:</translation>
     </message>
     <message>
         <source>Port:</source>
-        <translation type="unfinished"></translation>
+        <translation>Port:</translation>
     </message>
     <message>
         <source>Encrypted connection:</source>
-        <translation type="unfinished"></translation>
+        <translation>Verschlüsselte Verbindung:</translation>
     </message>
     <message>
         <source>Connect</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbinden</translation>
     </message>
     <message>
         <source>Trying to connect...</source>
-        <translation type="unfinished"></translation>
+        <translation>Versuche zu verbinden...</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Abbrechen</translation>
     </message>
     <message>
         <source>Warning</source>
-        <translation type="unfinished"></translation>
+        <translation>Warnung</translation>
     </message>
     <message>
         <source>The authenticity of this %1 box cannot be verified.</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Herkunft dieser %1 Box konnte nicht verifiziert werden.</translation>
     </message>
     <message>
         <source>If this is the first time you connect to this box, this is expected. Once you trust a box, you should never see this message again for that one. If you see this message multiple times for the same box, something suspicious is going on!</source>
-        <translation type="unfinished"></translation>
+        <translation>Wenn dies die erste Verbindung zu dieser Box ist, ist es normal dass Sie diese Meldung sehen. Sobald Sie einer Box ein mal Vertrauen sollten Sie diese Meldung nicht mehr wieder sehen. Sollten Sie diese Meldung wieder Erwarten öfters sehen, könnte dies auf eine Verdächtige Aktivität in Ihrem Netzwerk hinweisen!</translation>
     </message>
     <message>
         <source>Fingerprint: </source>
-        <translation type="unfinished"></translation>
+        <translation>Fingerabdruck: </translation>
     </message>
     <message>
         <source>Do you want to trust this device?</source>
-        <translation type="unfinished"></translation>
+        <translation>Möchten Sie diesem Gerät vertrauen?</translation>
     </message>
 </context>
 <context>
     <name>DevicePageBase</name>
     <message>
         <source>Thing is not connected!</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;Thing&quot; ist nicht verbunden!</translation>
     </message>
     <message>
         <source>Thing runs out of battery!</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Batterie neigt sich dem Ende zu!</translation>
     </message>
 </context>
 <context>
     <name>DeviceRulesPage</name>
     <message>
         <source>Magic involving %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Magie mit %1</translation>
     </message>
     <message>
         <source>There&apos;s no magic involving %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Es gibt noch keine Magie mit %1.</translation>
     </message>
     <message>
         <source>Add some using the wizard stick!</source>
-        <translation type="unfinished"></translation>
+        <translation>Fügen Sie welche mit dem Zauberstab hinzu!</translation>
     </message>
 </context>
 <context>
     <name>DevicesPage</name>
     <message>
         <source>All off</source>
-        <translation type="unfinished"></translation>
+        <translation>Alle aus</translation>
     </message>
     <message>
         <source>%1 on</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 an</translation>
     </message>
 </context>
 <context>
     <name>EditDevicesPage</name>
     <message>
         <source>Configure Things</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;Things&quot; einrichten</translation>
     </message>
 </context>
 <context>
     <name>EditRulePage</name>
     <message>
         <source>New rule</source>
-        <translation type="unfinished"></translation>
+        <translation>Neue Regel</translation>
     </message>
     <message>
         <source>Rule name</source>
-        <translation type="unfinished"></translation>
+        <translation>Regel Name</translation>
     </message>
     <message>
         <source>This rule is enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Diese Regel ist aktiviert</translation>
     </message>
     <message>
         <source>Events triggering this rule</source>
-        <translation type="unfinished"></translation>
+        <translation>Ereignisse welche diese Regel auslösen</translation>
     </message>
     <message>
         <source>%1 - %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 - %2</translation>
     </message>
     <message>
         <source>Add an event...</source>
-        <translation type="unfinished"></translation>
+        <translation>Ereignis hinzufügen...</translation>
     </message>
     <message>
         <source>Add another event...</source>
-        <translation type="unfinished"></translation>
+        <translation>Weiteres Ereignis hinzufügen...</translation>
     </message>
     <message>
         <source>Conditions to be met</source>
-        <translation type="unfinished"></translation>
+        <translation>Bedingungen welche erfüllt sein müssen</translation>
     </message>
     <message>
         <source>Add a condition</source>
-        <translation type="unfinished"></translation>
+        <translation>Bedingung hinzufügen</translation>
     </message>
     <message>
         <source>Active state enter actions</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktionen wenn Zustand eintritt</translation>
     </message>
     <message>
         <source>Actions to execute</source>
-        <translation type="unfinished"></translation>
+        <translation>Auszuführende Aktionen</translation>
     </message>
     <message>
         <source>value from event</source>
-        <translation type="unfinished"></translation>
+        <translation>Wert von Ereignis</translation>
     </message>
     <message>
         <source>Add an action...</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktion hinzufügen...</translation>
     </message>
     <message>
         <source>Add another action...</source>
-        <translation type="unfinished"></translation>
+        <translation>Weitere Aktion hinzufügen...</translation>
     </message>
     <message>
         <source>Active state exit actions</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktionen wenn Zustand verlassen wird</translation>
     </message>
 </context>
 <context>
     <name>EditStateEvaluatorPage</name>
     <message>
         <source>Conditions</source>
-        <translation type="unfinished"></translation>
+        <translation>Bedingungen</translation>
     </message>
 </context>
 <context>
     <name>ErrorDialog</name>
     <message>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Fehler</translation>
     </message>
 </context>
 <context>
     <name>GenericDeviceListPage</name>
     <message>
         <source>My %1 things</source>
-        <translation type="unfinished"></translation>
+        <translation>Meine %1 &quot;Things&quot;</translation>
     </message>
     <message>
         <source>All my things</source>
-        <translation type="unfinished"></translation>
+        <translation>Alle meine &quot;Things&quot;</translation>
     </message>
 </context>
 <context>
     <name>GenericTypeLogView</name>
     <message>
         <source>Data:</source>
-        <translation type="unfinished"></translation>
+        <translation>Daten:</translation>
     </message>
 </context>
 <context>
     <name>Graph</name>
     <message>
         <source>Sorry, there isn&apos;t enough data to display a graph here yet!</source>
-        <translation type="unfinished"></translation>
+        <translation>Entschuldigung, es gibt noch nicht genügend Daten um hier ein Diagramm anzuzeigen!</translation>
     </message>
 </context>
 <context>
     <name>InputTriggerDevicePage</name>
     <message>
         <source>This event has appeared %1 times in the last 24 hours.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dieses Ereignis ist in den letzten 24 Stunden %1 mal eingetreten.</translation>
     </message>
 </context>
 <context>
     <name>InterfacesModels</name>
     <message>
         <source>Battery level</source>
-        <translation type="unfinished"></translation>
+        <translation>Batteriezustand</translation>
     </message>
     <message>
         <source>Battery level changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Batteriezustand geändert</translation>
     </message>
     <message>
         <source>Battery critical</source>
-        <translation type="unfinished"></translation>
+        <translation>Batterieladung kritisch</translation>
     </message>
     <message>
         <source>Battery critical changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Batterie kritisch geändert</translation>
     </message>
 </context>
 <context>
     <name>LightsDeviceListPage</name>
     <message>
         <source>Lights</source>
-        <translation type="unfinished"></translation>
+        <translation>Lichter</translation>
     </message>
     <message>
         <source>All</source>
-        <translation type="unfinished"></translation>
+        <translation>Alle</translation>
     </message>
     <message>
         <source>off</source>
-        <translation type="unfinished"></translation>
+        <translation>aus</translation>
     </message>
 </context>
 <context>
     <name>LogViewerPage</name>
     <message>
         <source>Log viewer</source>
-        <translation type="unfinished"></translation>
+        <translation>Log anzeigen</translation>
     </message>
     <message>
         <source>Time</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeit</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Typ</translation>
     </message>
     <message>
         <source>Thing</source>
-        <translation type="unfinished"></translation>
+        <translation>Thing</translation>
     </message>
     <message>
         <source>Object</source>
