@@ -39,138 +39,138 @@
     <name>BluetoothDiscoveryPage</name>
     <message>
         <source>Bluetooth discovery</source>
-        <translation>Bluetooth suche</translation>
+        <translation>Bluetooth Suche</translation>
     </message>
 </context>
 <context>
     <name>BluetoothLoadingPage</name>
     <message>
         <source>Establish bluetooth connection</source>
-        <translation type="unfinished"></translation>
+        <translation>Bluetooth Verbindung aufbauen</translation>
     </message>
     <message>
         <source>Initialize services...</source>
-        <translation type="unfinished"></translation>
+        <translation>Dienste initialisieren...</translation>
     </message>
 </context>
 <context>
     <name>ButtonDevicePage</name>
     <message>
         <source>This button has been pressed %1 times in the last 24 hours.</source>
-        <translation type="unfinished"></translation>
+        <translation>Diese Taste wurde in den letzten 24 Stunden %1 mal gedrückt.</translation>
     </message>
 </context>
 <context>
     <name>ComposeEventDescriptorPage</name>
     <message>
         <source>Select event</source>
-        <translation type="unfinished"></translation>
+        <translation>Ereignis auswählen</translation>
     </message>
     <message>
         <source>A specific thing</source>
-        <translation type="unfinished"></translation>
+        <translation>Ein spezifisches &quot;Thing&quot;</translation>
     </message>
     <message>
         <source>A group of things</source>
-        <translation type="unfinished"></translation>
+        <translation>Eine Gruppe von &quot;Things&quot;</translation>
     </message>
 </context>
 <context>
     <name>ConfigureThingPage</name>
     <message>
         <source>Delete Thing</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;Thing&quot; löschen</translation>
     </message>
     <message>
         <source>Rename Thing</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;Thing&quot; umbenennen</translation>
     </message>
     <message>
         <source>Remove device error: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Fehler beim Entfernen: %1</translation>
     </message>
     <message>
         <source>Thing parameters</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;Thing&quot; Parameter</translation>
     </message>
     <message>
         <source>This thing is currently used in one or more rules:</source>
-        <translation type="unfinished"></translation>
+        <translation>Dieses &quot;Thing&quot; wird momentan von einer oder mehreren Regeln verwendet:</translation>
     </message>
     <message>
         <source>Remove all those rules</source>
-        <translation type="unfinished"></translation>
+        <translation>Alle diese Regeln entfernen</translation>
     </message>
     <message>
         <source>Update rules, removing this thing</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;Thing&quot; entfernen und Regeln aktualisieren</translation>
     </message>
     <message>
         <source>Don&apos;t remove this thing</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;Thing&quot; nicht entfernen</translation>
     </message>
 </context>
 <context>
     <name>ConnectPage</name>
     <message>
         <source>Connect %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbinde %1</translation>
     </message>
     <message>
         <source>Manual connect</source>
-        <translation type="unfinished"></translation>
+        <translation>Manuelle Verbindung</translation>
     </message>
     <message>
         <source>Wireless setup</source>
-        <translation type="unfinished"></translation>
+        <translation>Kabelloses Setup</translation>
     </message>
     <message>
         <source>Oh, look!</source>
-        <translation type="unfinished">Oh, sieh an!</translation>
+        <translation>Oh, sieh an!</translation>
     </message>
     <message>
         <source>Just a moment...</source>
-        <translation type="unfinished">Nur einen Moment...</translation>
+        <translation>Nur einen Moment...</translation>
     </message>
     <message>
         <source>Uh oh</source>
-        <translation type="unfinished">Oh oh</translation>
+        <translation>Oh oh</translation>
     </message>
     <message>
         <source>There are %1 %2 boxes in your network! Which one would you like to use?</source>
-        <translation type="unfinished">Es befinden sich %1 %2 Boxen in Ihrem Netzwerk! Welche möchten Sie benutzen?</translation>
+        <translation>Es befinden sich %1 %2 Boxen in Ihrem Netzwerk! Welche möchten Sie benutzen?</translation>
     </message>
     <message>
         <source>We haven&apos;t found any %1 boxes in your network yet.</source>
-        <translation type="unfinished">Wir haben noch keine %1 Boxen in Ihrem Netzwerk gefunden.</translation>
+        <translation>Wir haben noch keine %1 Boxen in Ihrem Netzwerk gefunden.</translation>
     </message>
     <message>
         <source>There doesn&apos;t seem to be a %1 box installed in your network. Please make sure your %1 box is correctly set up and connected.</source>
-        <translation type="unfinished">Es scheint keine %1 box in Ihrem Netzwerk installiert zu sein. Bitte stellen Sie sicher, dass Ihre %1 box korrekt installiert und verbunden ist.</translation>
+        <translation>Es scheint keine %1 Box in Ihrem Netzwerk installiert zu sein. Bitte stellen Sie sicher, dass Ihre %1 Box korrekt installiert und verbunden ist.</translation>
     </message>
     <message>
         <source>Searching for %1 boxes...</source>
-        <translation type="unfinished"></translation>
+        <translation>Suche nach %1 Boxen...</translation>
     </message>
     <message>
         <source>Not the ones you&apos;re looking for? We&apos;re looking for more!</source>
-        <translation type="unfinished"></translation>
+        <translation>Die gesuchte Box ist nicht dabei? Wir suchen nach weiteren!</translation>
     </message>
     <message>
         <source>Manual connection</source>
-        <translation type="unfinished"></translation>
+        <translation>Manuelle Verbindung</translation>
     </message>
     <message>
         <source>Protocol</source>
-        <translation type="unfinished"></translation>
+        <translation>Protokoll</translation>
     </message>
     <message>
         <source>TCP</source>
-        <translation type="unfinished"></translation>
+        <translation>TCP</translation>
     </message>
     <message>
         <source>Websocket</source>
-        <translation type="unfinished"></translation>
+        <translation>Websocket</translation>
     </message>
     <message>
         <source>Address:</source>
