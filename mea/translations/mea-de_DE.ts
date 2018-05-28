@@ -1001,169 +1001,169 @@
     </message>
     <message>
         <source>Online.</source>
-        <translation>Online</translation>
+        <translation>Online.</translation>
     </message>
     <message>
         <source>Network unmanaged.</source>
-        <translation type="unfinished"></translation>
+        <translation>Netzwerk nicht verwaltet.</translation>
     </message>
     <message>
         <source>Network unavailable.</source>
-        <translation type="unfinished"></translation>
+        <translation>Netzwerk nicht verfügbar.</translation>
     </message>
     <message>
         <source>Prepare connection...</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbindung vorbereiten...</translation>
     </message>
     <message>
         <source>Configure network...</source>
-        <translation type="unfinished"></translation>
+        <translation>Netzwerk einrichten...</translation>
     </message>
     <message>
         <source>Authentication needed</source>
-        <translation type="unfinished"></translation>
+        <translation>Authentifizierung erforderlich</translation>
     </message>
     <message>
         <source>Configuration IP...</source>
-        <translation type="unfinished"></translation>
+        <translation>IP Einstellungen...</translation>
     </message>
     <message>
         <source>Check IP...</source>
-        <translation type="unfinished"></translation>
+        <translation>IP überprüfen...</translation>
     </message>
     <message>
         <source>Secondaries...</source>
-        <translation type="unfinished"></translation>
+        <translation>Zweitrangige...</translation>
     </message>
     <message>
         <source>Network connected.</source>
-        <translation type="unfinished"></translation>
+        <translation>Netzwerk verbunden.</translation>
     </message>
     <message>
         <source>Network disconnecting...</source>
-        <translation type="unfinished"></translation>
+        <translation>Netzwerk trennen...</translation>
     </message>
     <message>
         <source>Network connection failed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Netzwerkverbindung fehlgeschlagen.</translation>
     </message>
     <message>
         <source>Disconnect</source>
-        <translation type="unfinished"></translation>
+        <translation>Trennen</translation>
     </message>
     <message>
         <source>Wireless authentication</source>
-        <translation type="unfinished"></translation>
+        <translation>Funknetzwerk Authentifizierung</translation>
     </message>
     <message>
         <source>Please enter the password for the Wifi network.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bitte geben Sie das Passwort für das Funknetzwerk ein.</translation>
     </message>
     <message>
         <source>Show password</source>
-        <translation type="unfinished"></translation>
+        <translation>Passwort anzeigen</translation>
     </message>
     <message>
         <source>Hide password</source>
-        <translation type="unfinished"></translation>
+        <translation>Passwort verbergen</translation>
     </message>
     <message>
         <source>Connect</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbinden</translation>
     </message>
     <message>
         <source>Network settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Netzwerkeinstellungen</translation>
     </message>
     <message>
         <source>Networking</source>
-        <translation type="unfinished"></translation>
+        <translation>Netzwerk</translation>
     </message>
     <message>
         <source>Wireless networking</source>
-        <translation type="unfinished"></translation>
+        <translation>Funknetzwerk</translation>
     </message>
     <message>
         <source>Bluetooth device information</source>
-        <translation type="unfinished"></translation>
+        <translation>Bluetooth Geräteinformationen</translation>
     </message>
     <message>
         <source>System UUID</source>
-        <translation type="unfinished"></translation>
+        <translation>Sytem UUID</translation>
     </message>
     <message>
         <source>Manufacturer</source>
-        <translation type="unfinished"></translation>
+        <translation>Hersteller</translation>
     </message>
     <message>
         <source>Software revision</source>
-        <translation type="unfinished"></translation>
+        <translation>Software Revision</translation>
     </message>
     <message>
         <source>Firmware revision</source>
-        <translation type="unfinished"></translation>
+        <translation>Firmare Revision</translation>
     </message>
     <message>
         <source>Hardware revision</source>
-        <translation type="unfinished"></translation>
+        <translation>Hardware Revision</translation>
     </message>
 </context>
 <context>
     <name>WirelessSetupManager</name>
     <message>
         <source>Invalid value.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ungültiger Wert.</translation>
     </message>
     <message>
         <source>There is no networkmanager available on the device.</source>
-        <translation type="unfinished"></translation>
+        <translation>Auf diesem Gerät ist keine Netzwerkverwaltung verfügbar.</translation>
     </message>
     <message>
         <source>There is no wireless device available on the device.</source>
-        <translation type="unfinished"></translation>
+        <translation>Auf diesem Gerät ist kein Funkverbindungsmodul vorhanden.</translation>
     </message>
     <message>
         <source>Invalid command.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ungültiger Befehl.</translation>
     </message>
     <message>
         <source>Invalid parameters.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ungültige Parameter.</translation>
     </message>
     <message>
         <source>The wireless networking is disabled on the device.</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Funkverbindung ist auf diesem Gerät deaktiviert.</translation>
     </message>
     <message>
         <source>The networking is disabled on the device.</source>
-        <translation type="unfinished"></translation>
+        <translation>Das Netzwerk ist auf diesem Geräg deaktiviert.</translation>
     </message>
 </context>
 <context>
     <name>main</name>
     <message>
         <source>Lighting</source>
-        <translation type="unfinished"></translation>
+        <translation>Beleuchtung</translation>
     </message>
     <message>
         <source>Weather</source>
-        <translation type="unfinished"></translation>
+        <translation>Wetter</translation>
     </message>
     <message>
         <source>Sensors</source>
-        <translation type="unfinished"></translation>
+        <translation>Sensoren</translation>
     </message>
     <message>
         <source>Media</source>
-        <translation type="unfinished"></translation>
+        <translation>Medien</translation>
     </message>
     <message>
         <source>Switches</source>
-        <translation type="unfinished"></translation>
+        <translation>Schalter</translation>
     </message>
     <message>
         <source>Gateways</source>
-        <translation type="unfinished"></translation>
+        <translation>Gateways</translation>
     </message>
     <message>
         <source>Notifications</source>
