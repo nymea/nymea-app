@@ -889,7 +889,7 @@
     <name>StateEvaluatorDelegate</name>
     <message>
         <source>and all of those</source>
-        <translation>und alle folgenden</translation>
+        <translation>und alle Folgenden</translation>
     </message>
     <message>
         <source>or any of those</source>
@@ -897,111 +897,111 @@
     </message>
     <message>
         <source>Add a condition</source>
-        <translation type="unfinished"></translation>
+        <translation>Bedingung hinzufügen</translation>
     </message>
 </context>
 <context>
     <name>StateLogPage</name>
     <message>
         <source>History</source>
-        <translation type="unfinished"></translation>
+        <translation>Verlauf</translation>
     </message>
     <message>
         <source>%1, %2 has changed %3 times in the last 24h</source>
-        <translation type="unfinished"></translation>
+        <translation>%1, %2 änderte sich %3 mal in den letzten 24 Sunden</translation>
     </message>
 </context>
 <context>
     <name>SystemInfoPage</name>
     <message>
         <source>System information</source>
-        <translation type="unfinished"></translation>
+        <translation>Systeminformationen</translation>
     </message>
     <message>
         <source>Connected to:</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbunden mit:</translation>
     </message>
     <message>
         <source>Disconnect</source>
-        <translation type="unfinished"></translation>
+        <translation>Trennen</translation>
     </message>
     <message>
         <source>Log viewer</source>
-        <translation type="unfinished"></translation>
+        <translation>Logansicht</translation>
     </message>
 </context>
 <context>
     <name>WeatherView</name>
     <message>
         <source>N</source>
-        <translation type="unfinished"></translation>
+        <translation>N</translation>
     </message>
     <message>
         <source>NE</source>
-        <translation type="unfinished"></translation>
+        <translation>NO</translation>
     </message>
     <message>
         <source>E</source>
-        <translation type="unfinished"></translation>
+        <translation>O</translation>
     </message>
     <message>
         <source>SE</source>
-        <translation type="unfinished"></translation>
+        <translation>SO</translation>
     </message>
     <message>
         <source>S</source>
-        <translation type="unfinished"></translation>
+        <translation>S</translation>
     </message>
     <message>
         <source>SW</source>
-        <translation type="unfinished"></translation>
+        <translation>SW</translation>
     </message>
     <message>
         <source>W</source>
-        <translation type="unfinished"></translation>
+        <translation>W</translation>
     </message>
     <message>
         <source>NW</source>
-        <translation type="unfinished"></translation>
+        <translation>NW</translation>
     </message>
 </context>
 <context>
     <name>WirelessControlerPage</name>
     <message>
         <source>Wireless network</source>
-        <translation type="unfinished"></translation>
+        <translation>Funknetzwerk</translation>
     </message>
     <message>
         <source>Unknown status.</source>
-        <translation type="unfinished"></translation>
+        <translation>Unbekannter Zustand.</translation>
     </message>
     <message>
         <source>Asleep.</source>
-        <translation type="unfinished"></translation>
+        <translation>Schlafend.</translation>
     </message>
     <message>
         <source>Disconnected.</source>
-        <translation type="unfinished"></translation>
+        <translation>Getrennt.</translation>
     </message>
     <message>
         <source>Disconnecting...</source>
-        <translation type="unfinished"></translation>
+        <translation>Trennen...</translation>
     </message>
     <message>
         <source>Connecting...</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbinden...</translation>
     </message>
     <message>
         <source>Connected local.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lokal verbunden.</translation>
     </message>
     <message>
         <source>Connected site.</source>
-        <translation type="unfinished"></translation>
+        <translation>Standort verbunden.</translation>
     </message>
     <message>
         <source>Online.</source>
-        <translation type="unfinished"></translation>
+        <translation>Online</translation>
     </message>
     <message>
         <source>Network unmanaged.</source>
