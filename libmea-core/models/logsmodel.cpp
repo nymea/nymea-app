@@ -3,6 +3,8 @@
 #include "engine.h"
 #include "logmanager.h"
 
+#include <QMetaEnum>
+
 LogsModel::LogsModel(QObject *parent) : QAbstractListModel(parent)
 {
     connect(Engine::instance()->logManager(), &LogManager::logEntryReceived, this, &LogsModel::newLogEntryReceived);

@@ -39,6 +39,7 @@ public:
         PortRole,
         VersionRole
     };
+    Q_ENUM(DeviceRole)
 
     explicit DiscoveryModel(QObject *parent = 0);
 
@@ -49,7 +50,7 @@ public:
 
     void addDevice(const DiscoveryDevice &device);
 
-    Q_INVOKABLE QString get(int index, const QByteArray &role) const;
+    Q_INVOKABLE QString get(int index, DiscoveryModel::DeviceRole role) const;
     bool contains(const QString &uuid) const;
     DiscoveryDevice find(const QHostAddress &address) const;
 

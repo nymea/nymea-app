@@ -21,6 +21,7 @@
 #include "devicemanager.h"
 #include "engine.h"
 #include "jsonrpc/jsontypes.h"
+#include <QMetaEnum>
 
 DeviceManager::DeviceManager(JsonRpcClient* jsonclient, QObject *parent) :
     JsonHandler(parent),

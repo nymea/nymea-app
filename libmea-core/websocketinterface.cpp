@@ -21,7 +21,7 @@
 #include "websocketinterface.h"
 #include "engine.h"
 
-#include <QGuiApplication>
+#include <QCoreApplication>
 #include <QJsonDocument>
 #include <QJsonParseError>
 #include <QSettings>
@@ -29,7 +29,7 @@
 WebsocketInterface::WebsocketInterface(QObject *parent) :
     NymeaInterface(parent)
 {
-    m_socket = new QWebSocket(QGuiApplication::applicationName(), QWebSocketProtocol::Version13, this);
+    m_socket = new QWebSocket(QCoreApplication::applicationName(), QWebSocketProtocol::Version13, this);
 
     QObject::connect(m_socket, &QWebSocket::connected, this, &WebsocketInterface::connected);
     QObject::connect(m_socket, &QWebSocket::disconnected, this, &WebsocketInterface::disconnected);

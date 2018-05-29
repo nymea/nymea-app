@@ -73,9 +73,9 @@ void DiscoveryModel::addDevice(const DiscoveryDevice &device)
     emit countChanged();
 }
 
-QString DiscoveryModel::get(int index, const QByteArray &role) const
+QString DiscoveryModel::get(int index, DeviceRole role) const
 {
-    return data(this->index(index), roleNames().key(role)).toString();
+    return data(this->index(index), role).toString();
 }
 
 bool DiscoveryModel::contains(const QString &uuid) const

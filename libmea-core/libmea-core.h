@@ -1,0 +1,134 @@
+#ifndef LIBMEACORE_H
+#define LIBMEACORE_H
+
+#include "engine.h"
+#include "vendorsproxy.h"
+#include "deviceclassesproxy.h"
+#include "devicesproxy.h"
+#include "pluginsproxy.h"
+#include "devicediscovery.h"
+#include "discovery/nymeadiscovery.h"
+#include "discovery/discoverymodel.h"
+#include "interfacesmodel.h"
+#include "rulemanager.h"
+#include "models/rulesfiltermodel.h"
+#include "types/ruleactions.h"
+#include "types/ruleaction.h"
+#include "types/ruleactionparams.h"
+#include "types/ruleactionparam.h"
+#include "types/eventdescriptors.h"
+#include "types/eventdescriptor.h"
+#include "types/rule.h"
+#include "types/interfaces.h"
+#include "types/interface.h"
+#include "types/statedescriptor.h"
+#include "types/stateevaluator.h"
+#include "types/stateevaluators.h"
+#include "models/logsmodel.h"
+#include "models/valuelogsproxymodel.h"
+#include "models/eventdescriptorparamsfiltermodel.h"
+#include "basicconfiguration.h"
+#include "wifisetup/networkmanagercontroler.h"
+
+static QObject* interfacesModel_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
+{
+    Q_UNUSED(engine)
+    Q_UNUSED(scriptEngine)
+
+    return new Interfaces();
+}
+
+QObject* engine_provider(QQmlEngine *qmlEngine, QJSEngine *jsEngine)
+{
+    Q_UNUSED(qmlEngine)
+    Q_UNUSED(jsEngine)
+
+    return Engine::instance();
+}
+
+void registerQmlTypes() {
+
+    const char uri[] = "Mea";
+
+    qmlRegisterSingletonType<Engine>(uri, 1, 0, "Engine", engine_provider);
+
+    qmlRegisterUncreatableType<DeviceManager>(uri, 1, 0, "DeviceManager", "Can't create this in QML. Get it from the Core.");
+    qmlRegisterUncreatableType<JsonRpcClient>(uri, 1, 0, "JsonRpcClient", "Can't create this in QML. Get it from the Core.");
+    qmlRegisterUncreatableType<NymeaConnection>(uri, 1, 0, "NymeaConnection", "Can't create this in QML. Get it from the Core.");
+
+    // libnymea-common
+    qmlRegisterUncreatableType<Types>(uri, 1, 0, "Types", "Can't create this in QML. Get it from the Core.");
+
+    qmlRegisterUncreatableType<ParamType>(uri, 1, 0, "ParamType", "Can't create this in QML. Get it from the ParamTypes.");
+    qmlRegisterUncreatableType<ParamTypes>(uri, 1, 0, "ParamTypes", "Can't create this in QML. Get it from the DeviceClass.");
+    qmlRegisterUncreatableType<EventType>(uri, 1, 0, "EventType", "Can't create this in QML. Get it from the EventTypes.");
+    qmlRegisterUncreatableType<EventTypes>(uri, 1, 0, "EventTypes", "Can't create this in QML. Get it from the DeviceClass.");
+    qmlRegisterUncreatableType<StateType>(uri, 1, 0, "StateType", "Can't create this in QML. Get it from the StateTypes.");
+    qmlRegisterUncreatableType<StateTypes>(uri, 1, 0, "StateTypes", "Can't create this in QML. Get it from the DeviceClass.");
+    qmlRegisterUncreatableType<ActionType>(uri, 1, 0, "ActionType", "Can't create this in QML. Get it from the ActionTypes.");
+    qmlRegisterUncreatableType<ActionTypes>(uri, 1, 0, "ActionTypes", "Can't create this in QML. Get it from the DeviceClass.");
+
+    qmlRegisterUncreatableType<State>(uri, 1, 0, "State", "Can't create this in QML. Get it from the States.");
+    qmlRegisterUncreatableType<States>(uri, 1, 0, "States", "Can't create this in QML. Get it from the Device.");
+
+    qmlRegisterUncreatableType<Vendor>(uri, 1, 0, "Vendor", "Can't create this in QML. Get it from the Vendors.");
+    qmlRegisterUncreatableType<Vendors>(uri, 1, 0, "Vendors", "Can't create this in QML. Get it from the DeviceManager.");
+    qmlRegisterType<VendorsProxy>(uri, 1, 0, "VendorsProxy");
+
+    qmlRegisterUncreatableType<Device>(uri, 1, 0, "Device", "Can't create this in QML. Get it from the Devices.");
+    qmlRegisterUncreatableType<Devices>(uri, 1, 0, "Devices", "Can't create this in QML. Get it from the DeviceManager.");
+    qmlRegisterType<DevicesProxy>(uri, 1, 0, "DevicesProxy");
+    qmlRegisterType<InterfacesModel>(uri, 1, 0, "InterfacesModel");
+
+    qmlRegisterUncreatableType<DeviceClass>(uri, 1, 0, "DeviceClass", "Can't create this in QML. Get it from the DeviceClasses.");
+    qmlRegisterUncreatableType<DeviceClasses>(uri, 1, 0, "DeviceClasses", "Can't create this in QML. Get it from the DeviceManager.");
+    qmlRegisterType<DeviceClassesProxy>(uri, 1, 0, "DeviceClassesProxy");
+    qmlRegisterType<DeviceDiscovery>(uri, 1, 0, "DeviceDiscovery");
+
+    qmlRegisterUncreatableType<RuleManager>(uri, 1, 0, "RuleManager", "Get it from the Engine");
+    qmlRegisterUncreatableType<Rules>(uri, 1, 0, "Rules", "Get it from RuleManager");
+    qmlRegisterUncreatableType<Rule>(uri, 1, 0, "Rule", "Get it from Rules");
+    qmlRegisterUncreatableType<RuleActions>(uri, 1, 0, "RuleActions", "Get them from the rule");
+    qmlRegisterUncreatableType<RuleAction>(uri, 1, 0, "RuleAction", "Get it from RuleActions");
+    qmlRegisterUncreatableType<RuleActionParams>(uri, 1, 0, "RuleActionParams", "Get it from RuleActions");
+    qmlRegisterUncreatableType<RuleActionParam>(uri, 1, 0, "RuleActionParam", "Get it from RuleActionParams");
+    qmlRegisterType<RulesFilterModel>(uri, 1, 0, "RulesFilterModel");
+    qmlRegisterUncreatableType<EventDescriptors>(uri, 1, 0, "EventDescriptors", "Get them from rules");
+    qmlRegisterUncreatableType<EventDescriptor>(uri, 1, 0, "EventDescriptor", "Get them from rules");
+    qmlRegisterUncreatableType<ParamTypes>(uri, 1, 0, "ParamTypes", "Uncreatable");
+    qmlRegisterUncreatableType<ParamType>(uri, 1, 0, "ParamType", "Uncreatable");
+    qmlRegisterType<Param>(uri, 1, 0, "Param");
+    qmlRegisterUncreatableType<ParamDescriptor>(uri, 1, 0, "ParamDescriptor", "Uncreatable");
+    qmlRegisterUncreatableType<ParamDescriptors>(uri, 1, 0, "ParamDescriptors", "Uncreatable");
+    qmlRegisterUncreatableType<StateDescriptor>(uri, 1, 0, "StateDescriptor", "Uncreatable");
+    qmlRegisterUncreatableType<StateEvaluator>(uri, 1, 0, "StateEvaluator", "Uncreatable");
+    qmlRegisterUncreatableType<StateEvaluators>(uri, 1, 0, "StateEvaluators", "Uncreatable");
+
+    qmlRegisterUncreatableType<Interface>(uri, 1, 0, "Interface", "Uncreatable");
+    qmlRegisterSingletonType<Interfaces>(uri, 1, 0, "Interfaces", interfacesModel_provider);
+
+    qmlRegisterUncreatableType<Plugin>(uri, 1, 0, "Plugin", "Can't create this in QML. Get it from the Plugins.");
+    qmlRegisterUncreatableType<Plugins>(uri, 1, 0, "Plugins", "Can't create this in QML. Get it from the DeviceManager.");
+    qmlRegisterType<PluginsProxy>(uri, 1, 0, "PluginsProxy");
+
+    qmlRegisterUncreatableType<BasicConfiguration>(uri, 1, 0, "BasicConfiguration", "Uncreatable");
+
+    qmlRegisterType<NymeaDiscovery>(uri, 1, 0, "NymeaDiscovery");
+    qmlRegisterUncreatableType<DiscoveryModel>(uri, 1, 0, "DiscoveryModel", "Get it from NymeaDiscovery");
+
+    qmlRegisterType<EventDescriptorParamsFilterModel>(uri, 1, 0, "EventDescriptorParamsFilterModel");
+
+    qmlRegisterType<LogsModel>(uri, 1, 0, "LogsModel");
+    qmlRegisterType<ValueLogsProxyModel>(uri, 1, 0, "ValueLogsProxyModel");
+    qmlRegisterUncreatableType<LogEntry>(uri, 1, 0, "LogEntry", "Get them from LogsModel");
+
+    qmlRegisterType<NetworkManagerControler>(uri, 1, 0, "NetworkManagerControler");
+    qmlRegisterUncreatableType<BluetoothDiscovery>(uri, 1, 0, "BluetoothDiscovery", "Can't create this in QML. Get it from the Engine instance.");
+    qmlRegisterUncreatableType<BluetoothDeviceInfo>(uri, 1, 0, "BluetoothDeviceInfo", "Can't create this in QML. Get it from the DeviceInfos.");
+    qmlRegisterUncreatableType<BluetoothDeviceInfos>(uri, 1, 0, "BluetoothDeviceInfos", "Can't create this in QML. Get it from the BluetoothDiscovery.");
+    qmlRegisterUncreatableType<WirelessSetupManager>(uri, 1, 0, "WirelessSetupManager", "Can't create this in QML. Get it from the NetworkManagerControler.");
+    qmlRegisterUncreatableType<WirelessAccesspoints>(uri, 1, 0, "WirelessAccesspoints", "Can't create this in QML. Get it from the Loop.");
+
+}
+
+#endif // LIBMEACORE_H

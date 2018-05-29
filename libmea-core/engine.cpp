@@ -35,14 +35,6 @@ Engine *Engine::instance()
     return s_instance;
 }
 
-QObject *Engine::qmlInstance(QQmlEngine *qmlEngine, QJSEngine *jsEngine)
-{
-    Q_UNUSED(qmlEngine)
-    Q_UNUSED(jsEngine)
-
-    return Engine::instance();
-}
-
 DeviceManager *Engine::deviceManager() const
 {
     return m_deviceManager;

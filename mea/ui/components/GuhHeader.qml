@@ -21,6 +21,7 @@ ToolBar {
 
         HeaderButton {
             id: menuButton
+            objectName: "headerMenuButton"
             imageSource: "../images/navigation-menu.svg"
             visible: false
             onClicked: root.menuPressed();
@@ -28,6 +29,7 @@ ToolBar {
 
         HeaderButton {
             id: backButton
+            objectName: "backButton"
             imageSource: "../images/back.svg"
             onClicked: root.backPressed();
         }

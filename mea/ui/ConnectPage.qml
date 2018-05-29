@@ -38,6 +38,7 @@ Page {
         id: discoveryPage
 
         Page {
+            objectName: "discoveryPage"
             header: GuhHeader {
                 text: qsTr("Connect %1").arg(app.systemName)
                 backButtonVisible: false
@@ -54,9 +55,11 @@ Page {
 
             Menu {
                 id: connectionMenu
+                objectName: "connectionMenu"
                 width: implicitWidth + app.margins
 
                 IconMenuItem {
+                    objectName: "manualConnectMenuItem"
                     iconSource: "../images/network-vpn.svg"
                     text: qsTr("Manual connect")
                     onTriggered: pageStack.push(manualConnectPage)
@@ -112,6 +115,8 @@ Page {
                     delegate: ItemDelegate {
                         width: parent.width
                         height: app.delegateHeight
+                        objectName: "discoveryDelegate" + index
+                        property string hostAddress: model.hostAddress
                         ColumnLayout {
                             anchors.fill: parent
                             anchors.margins: app.margins
@@ -174,6 +179,7 @@ Page {
         id: manualConnectPage
 
         Page {
+            objectName: "manualConnectPage"
             header: GuhHeader {
                 text: qsTr("Manual connection")
                 onBackPressed: pageStack.pop()
@@ -200,6 +206,7 @@ Page {
                     Label { text: qsTr("Address:") }
                     TextField {
                         id: addressTextInput
+                        objectName: "addressTextInput"
                         Layout.fillWidth: true
                         placeholderText: "127.0.0.1"
                         validator: RegExpValidator { regExp:  /^((?:[0-1]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])\.){0,3}(?:[0-1]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])$/ }
@@ -226,6 +233,7 @@ Page {
 
                 Button {
                     text: qsTr("Connect")
+                    objectName: "connectButton"
                     Layout.fillWidth: true
                     onClicked: {
                         var rpcUrl
