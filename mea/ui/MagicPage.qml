@@ -7,7 +7,7 @@ import Mea 1.0
 Page {
     id: root
     header: GuhHeader {
-        text: "Magic"
+        text: qsTr("Magic")
         onBackPressed: pageStack.pop()
 
         HeaderButton {

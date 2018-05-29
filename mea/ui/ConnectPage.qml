@@ -61,16 +61,22 @@ Page {
                 IconMenuItem {
                     objectName: "manualConnectMenuItem"
                     iconSource: "../images/network-vpn.svg"
-                    text: qsTr("Manual connect")
+                    text: qsTr("Manual connection")
                     onTriggered: pageStack.push(manualConnectPage)
                 }
-
-                MenuSeparator {}
 
                 IconMenuItem {
                     iconSource: "../images/bluetooth.svg"
                     text: qsTr("Wireless setup")
                     onTriggered: pageStack.push(Qt.resolvedUrl("BluetoothDiscoveryPage.qml"))
+                }
+
+                MenuSeparator {}
+
+                IconMenuItem {
+                    iconSource: "../images/stock_application.svg"
+                    text: qsTr("App settings")
+                    onTriggered: pageStack.push(Qt.resolvedUrl("AppSettingsPage.qml"))
                 }
             }
 

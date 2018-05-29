@@ -67,7 +67,6 @@
         <file>ui/images/settings.svg</file>
         <file>ui/images/stock_link.svg</file>
         <file>ui/images/share.svg</file>
-        <file>ui/SystemInfoPage.qml</file>
         <file>ui/devicepages/SensorDevicePage.qml</file>
         <file>ui/components/Graph.qml</file>
         <file>ui/images/sensors.svg</file>
@@ -162,5 +161,8 @@
         <file>ui/images/network-vpn.svg</file>
         <file>translations/mea-de_DE.qm</file>
         <file>translations/mea-en_US.qm</file>
+        <file>ui/AppSettingsPage.qml</file>
+        <file>ui/images/stock_application.svg</file>
+        <file>ui/delegates/ThingDelegate.qml</file>
     </qresource>
 </RCC>

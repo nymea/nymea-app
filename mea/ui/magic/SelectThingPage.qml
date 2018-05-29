@@ -2,6 +2,7 @@ import QtQuick 2.6
 import QtQuick.Layouts 1.2
 import QtQuick.Controls 2.1
 import "../components"
+import "../delegates"
 import Mea 1.0
 
 Page {
@@ -20,6 +21,8 @@ Page {
 
         RowLayout {
             Layout.fillWidth: true
+            // TODO: unfinished, disabled for now
+            visible: false
             RadioButton {
                 id: thingButton
                 text: qsTr("A specific thing")
@@ -36,9 +39,9 @@ Page {
             Layout.fillHeight: true
             model: thingButton.checked ? Engine.deviceManager.devices : Interfaces
             clip: true
-            delegate: ItemDelegate {
-                text: thingButton.checked ? model.name : model.displayName
-                width: parent.width
+            delegate: ThingDelegate {
+                name: thingButton.checked ? model.name : model.displayName
+                interfaces: model.interfaces
                 onClicked: {
                     if (thingButton.checked) {
                         root.thingSelected(Engine.deviceManager.devices.get(index))

@@ -4,6 +4,7 @@ import QtQuick.Controls.Material 2.1
 import QtQuick.Layouts 1.2
 import Mea 1.0
 import "components"
+import "delegates"
 
 Page {
     id: root
@@ -17,23 +18,23 @@ Page {
 
     // FIXME: Currently we don't have any feedback for executeAction
     // we don't want all the results, e.g. on looped calls like "all off"
-//    Connections {
-//        target: Engine.deviceManager
-//        onExecuteActionReply: {
-//            var text = params["deviceError"]
-//            switch(text) {
-//            case "DeviceErrorNoError":
-//                return;
-//            case "DeviceErrorHardwareNotAvailable":
-//                text = qsTr("Could not execute action. The thing is not available");
-//                break;
-//            }
+    //    Connections {
+    //        target: Engine.deviceManager
+    //        onExecuteActionReply: {
+    //            var text = params["deviceError"]
+    //            switch(text) {
+    //            case "DeviceErrorNoError":
+    //                return;
+    //            case "DeviceErrorHardwareNotAvailable":
+    //                text = qsTr("Could not execute action. The thing is not available");
+    //                break;
+    //            }
 
-//            var errorDialog = Qt.createComponent(Qt.resolvedUrl("components/ErrorDialog.qml"))
-//            var popup = errorDialog.createObject(root, {text: text})
-//            popup.open()
-//        }
-//    }
+    //            var errorDialog = Qt.createComponent(Qt.resolvedUrl("components/ErrorDialog.qml"))
+    //            var popup = errorDialog.createObject(root, {text: text})
+    //            popup.open()
+    //        }
+    //    }
 
     Menu {
         id: mainMenu
@@ -57,14 +58,14 @@ Page {
         MenuSeparator {}
         IconMenuItem {
             iconSource: "../images/settings.svg"
-            text: qsTr("Settings")
+            text: qsTr("System settings")
             onTriggered: pageStack.push(Qt.resolvedUrl("SettingsPage.qml"))
         }
         MenuSeparator {}
         IconMenuItem {
-            iconSource: "../images/info.svg"
-            text: qsTr("System information")
-            onTriggered: pageStack.push(Qt.resolvedUrl("SystemInfoPage.qml"))
+            iconSource: "../images/stock_application.svg"
+            text: qsTr("App settings")
+            onTriggered: pageStack.push(Qt.resolvedUrl("AppSettingsPage.qml"))
         }
     }
 
@@ -101,28 +102,9 @@ Page {
                 id: devicesProxy
                 devices: Engine.deviceManager.devices
             }
-            delegate: ItemDelegate {
-                width: parent.width
-                property string mainInterface: app.interfacesToIcon(model.interfaces)
-                contentItem: RowLayout {
-                    spacing: app.margins
-                    ColorIcon {
-                        height: app.iconSize
-                        width: height
-                        name: app.interfacesToIcon(model.interfaces)
-                        color: app.guhAccent
-                    }
-
-                    Label {
-                        Layout.fillWidth: true
-                        text: model.name
-                    }
-                    Image {
-                        source: "images/next.svg"
-                        Layout.preferredHeight: parent.height
-                        Layout.preferredWidth: height
-                    }
-                }
+            delegate: ThingDelegate {
+                interfaces: model.interfaces
+                name: model.name
                 onClicked: {
                     pageStack.push(Qt.resolvedUrl("devicepages/GenericDevicePage.qml"), {device: devicesProxy.get(index)})
                 }

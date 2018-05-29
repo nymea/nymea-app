@@ -1,6 +1,7 @@
 import QtQuick 2.4
 import QtQuick.Controls 2.1
 import Mea 1.0
+import QtQuick.Controls.Material 2.2
 
 Item {
     id: root
@@ -116,7 +117,7 @@ Item {
 
         function paintGrid(ctx) {
             ctx.strokeStyle = canvas.gridColor;
-            ctx.fillStyle = "black"
+            ctx.fillStyle = Material.foreground
             ctx.lineWidth = 1;
 
             ctx.beginPath();
@@ -139,8 +140,8 @@ Item {
                 ctx.beginPath();
                 var label = maxTemp - (tempInterval * i).toFixed(0)
                 var textSize = ctx.measureText(label)
-                ctx.strokeStyle = "black"
-                ctx.fillStyle = "black"
+                ctx.strokeStyle = Material.foreground
+                ctx.fillStyle = Material.foreground
                 ctx.lineWidth = 0;
                 ctx.text(label, -textSize.width - app.margins, i * pps + 5)
 //                ctx.stroke();
@@ -149,8 +150,8 @@ Item {
             }
 
             ctx.beginPath();
-            ctx.strokeStyle = "black"
-            ctx.fillStyle = "black"
+            ctx.strokeStyle = Material.foreground
+            ctx.fillStyle = Material.foreground
             ctx.lineWidth = 0;
             var label = "°C"
             var textSize = ctx.measureText(label)
@@ -165,8 +166,8 @@ Item {
             // enumate x axis
             ctx.beginPath();
             ctx.globalAlpha = 1;
-            ctx.strokeStyle = "black"
-            ctx.fillStyle = "black"
+            ctx.strokeStyle = Material.foreground
+            ctx.fillStyle = Material.foreground
             ctx.lineWidth = 0;
             // enumerate Y axis
 
