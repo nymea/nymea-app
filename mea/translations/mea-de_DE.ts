@@ -5,47 +5,47 @@
     <name>AppSettingsPage</name>
     <message>
         <source>App Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>App-Einstellungen</translation>
     </message>
     <message>
         <source>View mode</source>
-        <translation type="unfinished">Ansicht</translation>
+        <translation>Ansicht</translation>
     </message>
     <message>
         <source>Windowed</source>
-        <translation type="unfinished">Fenster</translation>
+        <translation>Fenster</translation>
     </message>
     <message>
         <source>Maximized</source>
-        <translation type="unfinished">Maximiert</translation>
+        <translation>Maximiert</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished">Vollbild</translation>
+        <translation>Vollbild</translation>
     </message>
     <message>
         <source>Return to home on idle</source>
-        <translation type="unfinished">Zurück zum Hauptmenü im Leerlauf</translation>
+        <translation>Zurück zum Hauptmenü bei Leerlauf</translation>
     </message>
     <message>
         <source>Graph style</source>
-        <translation type="unfinished">Diagrammstil</translation>
+        <translation>Diagrammstil</translation>
     </message>
     <message>
         <source>Bars</source>
-        <translation type="unfinished">Balken</translation>
+        <translation>Balken</translation>
     </message>
     <message>
         <source>Lines</source>
-        <translation type="unfinished">Linien</translation>
+        <translation>Linien</translation>
     </message>
     <message>
         <source>Style changed</source>
-        <translation type="unfinished">Stil geändert</translation>
+        <translation>Stil geändert</translation>
     </message>
     <message>
         <source>The application needs to be restarted for style changes to take effect.</source>
-        <translation type="unfinished">Die Anwendung muss neu gestartet werden damit änderunge des Stils wirksam werden.</translation>
+        <translation>Die Anwendung muss neu gestartet werden damit Änderung des Stils wirksam wird.</translation>
     </message>
 </context>
 <context>
@@ -265,7 +265,7 @@
     </message>
     <message>
         <source>App settings</source>
-        <translation type="unfinished"></translation>
+        <translation>App Einstellungen</translation>
     </message>
 </context>
 <context>
@@ -592,38 +592,38 @@
     </message>
     <message>
         <source>System settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Systemeinstellungen</translation>
     </message>
     <message>
         <source>App settings</source>
-        <translation type="unfinished"></translation>
+        <translation>App-Einstellungen</translation>
     </message>
 </context>
 <context>
     <name>Mea</name>
     <message>
         <source>Lighting</source>
-        <translation type="unfinished">Beleuchtung</translation>
+        <translation>Beleuchtung</translation>
     </message>
     <message>
         <source>Weather</source>
-        <translation type="unfinished">Wetter</translation>
+        <translation>Wetter</translation>
     </message>
     <message>
         <source>Sensors</source>
-        <translation type="unfinished">Sensoren</translation>
+        <translation>Sensoren</translation>
     </message>
     <message>
         <source>Media</source>
-        <translation type="unfinished">Medien</translation>
+        <translation>Medien</translation>
     </message>
     <message>
         <source>Switches</source>
-        <translation type="unfinished">Schalter</translation>
+        <translation>Schalter</translation>
     </message>
     <message>
         <source>Gateways</source>
-        <translation type="unfinished">Gateways</translation>
+        <translation>Gateways</translation>
     </message>
     <message>
         <source>Notifications</source>
