@@ -14,9 +14,11 @@ MenuItem {
             width: height
         }
         Label {
+            id: label
             text: root.text
             Layout.fillWidth: true
             font.pixelSize: app.mediumFont
+            elide: Text.ElideRight
         }
     }
 }

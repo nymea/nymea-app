@@ -8,7 +8,7 @@ import "components"
 Page {
     id: root
     header: GuhHeader {
-        text: qsTr("Settings")
+        text: qsTr("System settings")
         backButtonVisible: true
         onBackPressed: pageStack.pop()
     }
@@ -21,113 +21,28 @@ Page {
             Layout.margins: app.margins
 
             Label {
-                text: qsTr("Application").toUpperCase()
-                color: app.guhAccent
                 Layout.fillWidth: true
-            }
-
-            RowLayout {
-                Layout.fillWidth: true
-                Label {
-                    Layout.fillWidth: true
-                    text: qsTr("View mode")
-                }
-                ComboBox {
-                    model: [qsTr("Windowed"), qsTr("Maximized"), qsTr("Fullscreen")]
-                    currentIndex: {
-                        switch (settings.viewMode) {
-                        case ApplicationWindow.Windowed:
-                            return 0;
-                        case ApplicationWindow.Maximized:
-                            return 1;
-                        case ApplicationWindow.FullScreen:
-                            return 2;
-                        }
-                    }
-
-                    onCurrentIndexChanged: {
-                        switch (currentIndex) {
-                        case 0:
-                            settings.viewMode = ApplicationWindow.Windowed;
-                            break;
-                        case 1:
-                            settings.viewMode = ApplicationWindow.Maximized;
-                            break;
-                        case 2:
-                            settings.viewMode = ApplicationWindow.FullScreen;
-                        }
-                    }
-                }
-            }
-
-            RowLayout {
-                Layout.fillWidth: true
-                visible: appBranding.length === 0
-                Label {
-                    Layout.fillWidth: true
-                    text: "Style"
-                }
-                ComboBox {
-                    model: styleController.allStyles
-                    currentIndex: styleController.allStyles.indexOf(styleController.currentStyle)
-
-                    onActivated: {
-                        styleController.currentStyle = model[index]
-                    }
-                }
-
-                Connections {
-                    target: styleController
-                    onCurrentStyleChanged: {
-                        var popup = styleChangedDialog.createObject(root)
-                        popup.open()
-                    }
-                }
-            }
-
-            RowLayout {
-                Layout.fillWidth: true
-                Label {
-                    Layout.fillWidth: true
-                    text: qsTr("Return to home on idle")
-                }
-                CheckBox {
-                    checked: settings.returnToHome
-                    onClicked: settings.returnToHome = checked
-                }
+                text: qsTr("Connected to:")
+                color: Material.accent
             }
             RowLayout {
                 Layout.fillWidth: true
+
                 Label {
                     Layout.fillWidth: true
-                    text: qsTr("Graph style")
+                    text: Engine.connection.url
                 }
-                RadioButton {
-                    checked: settings.graphStyle === "bars"
-                    text: qsTr("Bars")
-                    onClicked: settings.graphStyle = "bars"
+                Button {
+                    text: qsTr("Disconnect")
+                    onClicked: {
+                        settings.lastConnectedHost = "";
+                        Engine.connection.disconnect();
+                    }
                 }
-                RadioButton {
-                    checked: settings.graphStyle === "bezier"
-                    text: qsTr("Lines")
-                    onClicked: settings.graphStyle = "bezier"
-                }
-
             }
         }
-
 
         ThinDivider {}
-
-        Label {
-            Layout.fillWidth: true
-            Layout.leftMargin: app.margins
-            Layout.rightMargin: app.margins
-            Layout.topMargin: app.margins
-            text: qsTr("System").toUpperCase()
-            color: app.guhAccent
-        }
-
 
         RowLayout {
             Layout.fillWidth: true
@@ -191,6 +106,24 @@ Page {
                 pageStack.push(Qt.resolvedUrl("system/PluginsPage.qml"))
             }
         }
+
+        ItemDelegate {
+            Layout.fillWidth: true
+            contentItem: RowLayout {
+                Label {
+                    text: qsTr("Log viewer")
+                    Layout.fillWidth: true
+                }
+                Image {
+                    source: "images/next.svg"
+                    Layout.preferredHeight: parent.height
+                    Layout.preferredWidth: height
+                }
+            }
+
+            onClicked: pageStack.push(Qt.resolvedUrl("system/LogViewerPage.qml"))
+        }
+
     }
 
     Component {

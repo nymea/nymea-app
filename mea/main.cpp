@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
     applicationFont.setWeight(QFont::Normal);
     QGuiApplication::setFont(applicationFont);
 
-    QTranslator qtTranslator;
+    QTranslator qtTranslator;    
     qtTranslator.load("qt_" + QLocale::system().name(),
             QLibraryInfo::location(QLibraryInfo::TranslationsPath));
     application.installTranslator(&qtTranslator);

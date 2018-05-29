@@ -50,7 +50,7 @@ Item {
                         text: interfaceToString(model.name).toUpperCase()
                         width: parent.width
                         horizontalAlignment: Text.AlignHCenter
-                        wrapMode: Text.WordWrap
+                        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                     }
                 }
 

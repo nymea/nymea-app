@@ -2,6 +2,7 @@ import QtQuick 2.4
 import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.2
 import "components"
+import "delegates"
 import Mea 1.0
 
 Page {
@@ -14,22 +15,9 @@ Page {
     ListView {
         anchors.fill: parent
         model: Engine.deviceManager.devices
-        delegate: ItemDelegate {
-            width: parent.width
-            contentItem: RowLayout {
-                spacing: app.margins
-                ColorIcon {
-                    height: app.iconSize
-                    width: height
-                    name: app.interfacesToIcon(model.interfaces)
-                    color: app.guhAccent
-                }
-
-                Label {
-                    Layout.fillWidth: true
-                    text: model.name
-                }
-            }
+        delegate: ThingDelegate {
+            interfaces:model.interfaces
+            name: model.name
             onClicked: {
                 pageStack.push(Qt.resolvedUrl("devicepages/ConfigureThingPage.qml"), {device: Engine.deviceManager.devices.get(index)})
             }
