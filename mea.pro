@@ -34,7 +34,6 @@ QMAKE_EXTRA_TARGETS += wininstaller
 
 TRANSLATIONS += $$files(mea/translations/*.ts, true)
 lrelease.commands = lrelease $$_FILE_
-lrelease-make_first.commands = lrelease $$_FILE_
 lrelease-qmake_all.commands = lrelease $$_FILE_
 QMAKE_EXTRA_TARGETS += lrelease lrelease-make_first lrelease-qmake_all lrelease-install_subtargets
 
