@@ -2,6 +2,53 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="de_DE">
 <context>
+    <name>AppSettingsPage</name>
+    <message>
+        <source>App Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>View mode</source>
+        <translation type="unfinished">Ansicht</translation>
+    </message>
+    <message>
+        <source>Windowed</source>
+        <translation type="unfinished">Fenster</translation>
+    </message>
+    <message>
+        <source>Maximized</source>
+        <translation type="unfinished">Maximiert</translation>
+    </message>
+    <message>
+        <source>Fullscreen</source>
+        <translation type="unfinished">Vollbild</translation>
+    </message>
+    <message>
+        <source>Return to home on idle</source>
+        <translation type="unfinished">Zurück zum Hauptmenü im Leerlauf</translation>
+    </message>
+    <message>
+        <source>Graph style</source>
+        <translation type="unfinished">Diagrammstil</translation>
+    </message>
+    <message>
+        <source>Bars</source>
+        <translation type="unfinished">Balken</translation>
+    </message>
+    <message>
+        <source>Lines</source>
+        <translation type="unfinished">Linien</translation>
+    </message>
+    <message>
+        <source>Style changed</source>
+        <translation type="unfinished">Stil geändert</translation>
+    </message>
+    <message>
+        <source>The application needs to be restarted for style changes to take effect.</source>
+        <translation type="unfinished">Die Anwendung muss neu gestartet werden damit änderunge des Stils wirksam werden.</translation>
+    </message>
+</context>
+<context>
     <name>ApplicationWindow</name>
     <message>
         <source>Maveo Pro Box Dashboard</source>
@@ -118,7 +165,7 @@
     </message>
     <message>
         <source>Manual connect</source>
-        <translation>Manuelle Verbindung</translation>
+        <translation type="vanished">Manuelle Verbindung</translation>
     </message>
     <message>
         <source>Wireless setup</source>
@@ -215,6 +262,10 @@
     <message>
         <source>Do you want to trust this device?</source>
         <translation>Möchten Sie diesem Gerät vertrauen?</translation>
+    </message>
+    <message>
+        <source>App settings</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -495,6 +546,13 @@
     </message>
 </context>
 <context>
+    <name>MagicPage</name>
+    <message>
+        <source>Magic</source>
+        <translation type="unfinished">Magie</translation>
+    </message>
+</context>
+<context>
     <name>MainPage</name>
     <message>
         <source>My things</source>
@@ -514,11 +572,11 @@
     </message>
     <message>
         <source>Settings</source>
-        <translation>Einstellungen</translation>
+        <translation type="vanished">Einstellungen</translation>
     </message>
     <message>
         <source>System information</source>
-        <translation>System-Informationen</translation>
+        <translation type="vanished">System-Informationen</translation>
     </message>
     <message>
         <source>Loading data...</source>
@@ -531,6 +589,73 @@
     <message>
         <source>There are no things set up yet. You can start with adding your things by using the menu on the upper left and selecting &quot;Add a new thing&quot;.</source>
         <translation>Es sind noch keine &quot;Things&quot; eingerichtet. Legen Sie los indem Sie Ihre &quot;Things&quot; mit dem Menü links oben hinzufügen.</translation>
+    </message>
+    <message>
+        <source>System settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>App settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Mea</name>
+    <message>
+        <source>Lighting</source>
+        <translation type="unfinished">Beleuchtung</translation>
+    </message>
+    <message>
+        <source>Weather</source>
+        <translation type="unfinished">Wetter</translation>
+    </message>
+    <message>
+        <source>Sensors</source>
+        <translation type="unfinished">Sensoren</translation>
+    </message>
+    <message>
+        <source>Media</source>
+        <translation type="unfinished">Medien</translation>
+    </message>
+    <message>
+        <source>Switches</source>
+        <translation type="unfinished">Schalter</translation>
+    </message>
+    <message>
+        <source>Gateways</source>
+        <translation type="unfinished">Gateways</translation>
+    </message>
+    <message>
+        <source>Notifications</source>
+        <translation type="unfinished">Benachrichtigungen</translation>
+    </message>
+    <message>
+        <source>Temperature</source>
+        <translation type="unfinished">Temperatur</translation>
+    </message>
+    <message>
+        <source>Humidity</source>
+        <translation type="unfinished">Feuchtigkeit</translation>
+    </message>
+    <message>
+        <source>Incoming Events</source>
+        <translation type="unfinished">Einkommende Ereignisse</translation>
+    </message>
+    <message>
+        <source>Events</source>
+        <translation type="unfinished">Ereignisse</translation>
+    </message>
+    <message>
+        <source>Connection error</source>
+        <translation type="unfinished">Verbindungsfehler</translation>
+    </message>
+    <message>
+        <source>Sorry, the version of the %1 box you are trying to connect to is too old. This app requires at least version %2 but the %1 box only supports %3</source>
+        <translation type="unfinished">Entschuldigung, die Version dieser %1 Box ist zu alt. Diese Anwendung benötigt mindestens Version %2 aber die diese %1 Box unterstützt nur %3</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation type="unfinished">OK</translation>
     </message>
 </context>
 <context>
@@ -803,47 +928,47 @@
     <name>SettingsPage</name>
     <message>
         <source>Settings</source>
-        <translation>Einstellungen</translation>
+        <translation type="vanished">Einstellungen</translation>
     </message>
     <message>
         <source>Application</source>
-        <translation>Anwendung</translation>
+        <translation type="vanished">Anwendung</translation>
     </message>
     <message>
         <source>View mode</source>
-        <translation>Ansicht</translation>
+        <translation type="vanished">Ansicht</translation>
     </message>
     <message>
         <source>Windowed</source>
-        <translation>Fenster</translation>
+        <translation type="vanished">Fenster</translation>
     </message>
     <message>
         <source>Maximized</source>
-        <translation>Maximiert</translation>
+        <translation type="vanished">Maximiert</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Vollbild</translation>
+        <translation type="vanished">Vollbild</translation>
     </message>
     <message>
         <source>Return to home on idle</source>
-        <translation>Zurück zum Hauptmenü im Leerlauf</translation>
+        <translation type="vanished">Zurück zum Hauptmenü im Leerlauf</translation>
     </message>
     <message>
         <source>Graph style</source>
-        <translation>Diagrammstil</translation>
+        <translation type="vanished">Diagrammstil</translation>
     </message>
     <message>
         <source>Bars</source>
-        <translation>Balken</translation>
+        <translation type="vanished">Balken</translation>
     </message>
     <message>
         <source>Lines</source>
-        <translation>Linien</translation>
+        <translation type="vanished">Linien</translation>
     </message>
     <message>
         <source>System</source>
-        <translation>System</translation>
+        <translation type="vanished">System</translation>
     </message>
     <message>
         <source>Server name</source>
@@ -868,6 +993,22 @@
     <message>
         <source>The application needs to be restarted for style changes to take effect.</source>
         <translation>Die Anwendung muss neu gestartet werden damit änderunge des Stils wirksam werden.</translation>
+    </message>
+    <message>
+        <source>System settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connected to:</source>
+        <translation type="unfinished">Verbunden mit:</translation>
+    </message>
+    <message>
+        <source>Disconnect</source>
+        <translation type="unfinished">Trennen</translation>
+    </message>
+    <message>
+        <source>Log viewer</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -915,19 +1056,19 @@
     <name>SystemInfoPage</name>
     <message>
         <source>System information</source>
-        <translation>Systeminformationen</translation>
+        <translation type="vanished">Systeminformationen</translation>
     </message>
     <message>
         <source>Connected to:</source>
-        <translation>Verbunden mit:</translation>
+        <translation type="vanished">Verbunden mit:</translation>
     </message>
     <message>
         <source>Disconnect</source>
-        <translation>Trennen</translation>
+        <translation type="vanished">Trennen</translation>
     </message>
     <message>
         <source>Log viewer</source>
-        <translation>Logansicht</translation>
+        <translation type="vanished">Logansicht</translation>
     </message>
 </context>
 <context>
@@ -1143,59 +1284,59 @@
     <name>main</name>
     <message>
         <source>Lighting</source>
-        <translation>Beleuchtung</translation>
+        <translation type="vanished">Beleuchtung</translation>
     </message>
     <message>
         <source>Weather</source>
-        <translation>Wetter</translation>
+        <translation type="vanished">Wetter</translation>
     </message>
     <message>
         <source>Sensors</source>
-        <translation>Sensoren</translation>
+        <translation type="vanished">Sensoren</translation>
     </message>
     <message>
         <source>Media</source>
-        <translation>Medien</translation>
+        <translation type="vanished">Medien</translation>
     </message>
     <message>
         <source>Switches</source>
-        <translation>Schalter</translation>
+        <translation type="vanished">Schalter</translation>
     </message>
     <message>
         <source>Gateways</source>
-        <translation>Gateways</translation>
+        <translation type="vanished">Gateways</translation>
     </message>
     <message>
         <source>Notifications</source>
-        <translation>Benachrichtigungen</translation>
+        <translation type="vanished">Benachrichtigungen</translation>
     </message>
     <message>
         <source>Temperature</source>
-        <translation>Temperatur</translation>
+        <translation type="vanished">Temperatur</translation>
     </message>
     <message>
         <source>Humidity</source>
-        <translation>Feuchtigkeit</translation>
+        <translation type="vanished">Feuchtigkeit</translation>
     </message>
     <message>
         <source>Incoming Events</source>
-        <translation>Einkommende Ereignisse</translation>
+        <translation type="vanished">Einkommende Ereignisse</translation>
     </message>
     <message>
         <source>Events</source>
-        <translation>Ereignisse</translation>
+        <translation type="vanished">Ereignisse</translation>
     </message>
     <message>
         <source>Connection error</source>
-        <translation>Verbindungsfehler</translation>
+        <translation type="vanished">Verbindungsfehler</translation>
     </message>
     <message>
         <source>Sorry, the version of the %1 box you are trying to connect to is too old. This app requires at least version %2 but the %1 box only supports %3</source>
-        <translation>Entschuldigung, die Version dieser %1 Box ist zu alt. Diese Anwendung benötigt mindestens Version %2 aber die diese %1 Box unterstützt nur %3</translation>
+        <translation type="vanished">Entschuldigung, die Version dieser %1 Box ist zu alt. Diese Anwendung benötigt mindestens Version %2 aber die diese %1 Box unterstützt nur %3</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation type="vanished">OK</translation>
     </message>
 </context>
 </TS>

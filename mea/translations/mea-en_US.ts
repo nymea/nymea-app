@@ -2,6 +2,53 @@
 <!DOCTYPE TS>
 <TS version="2.1">
 <context>
+    <name>AppSettingsPage</name>
+    <message>
+        <source>App Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>View mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Windowed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Maximized</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Fullscreen</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Return to home on idle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Graph style</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Lines</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Style changed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The application needs to be restarted for style changes to take effect.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ApplicationWindow</name>
     <message>
         <source>Maveo Pro Box Dashboard</source>
@@ -117,10 +164,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Manual connect</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Wireless setup</source>
         <translation type="unfinished"></translation>
     </message>
@@ -214,6 +257,10 @@
     </message>
     <message>
         <source>Do you want to trust this device?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>App settings</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -495,6 +542,13 @@
     </message>
 </context>
 <context>
+    <name>MagicPage</name>
+    <message>
+        <source>Magic</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>MainPage</name>
     <message>
         <source>My things</source>
@@ -513,14 +567,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>System information</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Loading data...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -530,6 +576,73 @@
     </message>
     <message>
         <source>There are no things set up yet. You can start with adding your things by using the menu on the upper left and selecting &quot;Add a new thing&quot;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>System settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>App settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Mea</name>
+    <message>
+        <source>Lighting</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Weather</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sensors</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Media</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Switches</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Gateways</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Notifications</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Temperature</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Humidity</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Incoming Events</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Events</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connection error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sorry, the version of the %1 box you are trying to connect to is too old. This app requires at least version %2 but the %1 box only supports %3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -802,50 +915,6 @@
 <context>
     <name>SettingsPage</name>
     <message>
-        <source>Settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Application</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>View mode</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Windowed</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Maximized</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Return to home on idle</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Graph style</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Bars</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Lines</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>System</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Server name</source>
         <translation type="unfinished"></translation>
     </message>
@@ -867,6 +936,22 @@
     </message>
     <message>
         <source>The application needs to be restarted for style changes to take effect.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>System settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connected to:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disconnect</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Log viewer</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -908,25 +993,6 @@
     </message>
     <message>
         <source>%1, %2 has changed %3 times in the last 24h</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>SystemInfoPage</name>
-    <message>
-        <source>System information</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Connected to:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Disconnect</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Log viewer</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1136,65 +1202,6 @@
     </message>
     <message>
         <source>The networking is disabled on the device.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>main</name>
-    <message>
-        <source>Lighting</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Weather</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Sensors</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Media</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Switches</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Gateways</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Notifications</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Temperature</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Humidity</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Incoming Events</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Events</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Connection error</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Sorry, the version of the %1 box you are trying to connect to is too old. This app requires at least version %2 but the %1 box only supports %3</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
