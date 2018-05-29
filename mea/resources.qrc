@@ -2,7 +2,7 @@
     <qresource prefix="/">
         <file>ui/ConnectPage.qml</file>
         <file>ui/DevicesPage.qml</file>
-        <file>ui/main.qml</file>
+        <file>ui/Mea.qml</file>
         <file>ui/NewDeviceWizard.qml</file>
         <file>ui/SettingsPage.qml</file>
         <file>ui/components/GuhHeader.qml</file>

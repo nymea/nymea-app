@@ -22,8 +22,6 @@
 #define ENGINE_H
 
 #include <QObject>
-#include <QQmlEngine>
-#include <QJSEngine>
 
 #include "devicemanager.h"
 #include "nymeainterface.h"
@@ -46,7 +44,6 @@ class Engine : public QObject
 
 public:
     static Engine *instance();
-    static QObject *qmlInstance(QQmlEngine *qmlEngine, QJSEngine *jsEngine);
 
     bool connected() const;
     QString connectedHost() const;

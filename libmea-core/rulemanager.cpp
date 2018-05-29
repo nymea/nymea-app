@@ -262,9 +262,9 @@ void RuleManager::parseTimeDescriptor(const QVariantMap &timeDescriptor, Rule *r
     Q_UNUSED(rule)
 
     foreach (const QVariant &timeEventItemVariant, timeDescriptor.value("timeEventItems").toList()) {
-        TimeEventItem *timeEventItem = new TimeEventItem();
-        timeEventItem->setDateTime(QDateTime::fromSecsSinceEpoch(timeEventItemVariant.toMap().value("datetime").toULongLong()));
-        timeEventItem->setTime(QTime::fromString(timeEventItemVariant.toMap().value("time").toString()));
+//        TimeEventItem *timeEventItem = new TimeEventItem();
+//        timeEventItem->setDateTime(QDateTime::fromSecsSinceEpoch(timeEventItemVariant.toMap().value("datetime").toULongLong()));
+//        timeEventItem->setTime(QTime::fromString(timeEventItemVariant.toMap().value("time").toString()));
 //        timeEventItem->setRepeatingOption();
     }
 }

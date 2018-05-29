@@ -1,9 +1,13 @@
 TEMPLATE=subdirs
 
-SUBDIRS = libnymea-common mea
-libnymea-common.subdir = libnymea-common
-mea.subdir = mea
+SUBDIRS = libnymea-common libmea-core mea
+libmea-core.depends = libnymea-common
+mea.depends = libmea-core
 
+withtests: {
+    SUBDIRS += tests
+    tests.depends = libmea-core
+}
 
 # Building a Windows installer:
 # Install Visual Studio, Qt and NSIS on Windows. Make sure NSIS is in your path.
@@ -34,4 +38,4 @@ lrelease-make_first.commands = lrelease $$_FILE_
 lrelease-qmake_all.commands = lrelease $$_FILE_
 QMAKE_EXTRA_TARGETS += lrelease lrelease-make_first lrelease-qmake_all lrelease-install_subtargets
 
-mea.depends = libnymea-common lrelease
+mea.depends += lrelease

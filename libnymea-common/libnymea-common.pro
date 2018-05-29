@@ -2,9 +2,10 @@ include(../mea.pri)
 
 TARGET = nymea-common
 TEMPLATE = lib
+CONFIG += staticlib
 
+QT -= gui
 QT += network
-CONFIG += static
 
 target.path = /usr/lib/$$system('dpkg-architecture -q DEB_HOST_MULTIARCH')
 INSTALLS += target

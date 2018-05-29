@@ -21,8 +21,7 @@ ApplicationWindow {
     property int iconSize: 30
     property int delegateHeight: 60
 
-    Settings {
-        id: settings
+    property var settings: Settings {
         property string lastConnectedHost: ""
         property int viewMode: ApplicationWindow.Maximized
         property bool returnToHome: false
@@ -103,6 +102,7 @@ ApplicationWindow {
 
     StackView {
         id: pageStack
+        objectName: "pageStack"
         anchors.fill: parent
         initialItem: Page {}
     }
@@ -121,6 +121,7 @@ ApplicationWindow {
 
     NymeaDiscovery {
         id: discovery
+        objectName: "discovery"
     }
 
     Connections {
