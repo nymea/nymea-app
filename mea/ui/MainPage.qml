@@ -72,7 +72,7 @@ Page {
     InterfacesModel {
         id: page1Model
         devices: Engine.deviceManager.devices
-        shownInterfaces: ["light", "weather", "sensor", "media", "garagegate"]
+        shownInterfaces: ["light", "weather", "sensor", "media", "garagegate", "shutter", "garagegate"]
         property var view: null
         onCountChanged: buildView()
     }

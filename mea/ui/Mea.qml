@@ -159,6 +159,12 @@ ApplicationWindow {
             return qsTr("Incoming Events");
         case "outputtrigger":
             return qsTr("Events");
+        case "shutter":
+            return qsTr("Shutters");
+        case "blind":
+            return qsTr("Blinds");
+        case "garagegate":
+            return qsTr("Garage gates");
         }
     }
 
@@ -206,6 +212,11 @@ ApplicationWindow {
             return Qt.resolvedUrl("images/mail-mark-important.svg")
         case "outputtrigger":
             return Qt.resolvedUrl("images/send.svg")
+        case "shutter":
+        case "blind":
+            return Qt.resolvedUrl("images/sort-listitem.svg")
+        case "garagegate":
+            return Qt.resolvedUrl("images/shutter-10.svg")
         }
         return "";
     }

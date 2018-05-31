@@ -42,6 +42,10 @@ Page {
             page = "SensorDevicePage.qml";
         } else if (deviceClass.interfaces.indexOf("inputtrigger") >= 0) {
             page = "InputTriggerDevicePage.qml";
+        } else if (deviceClass.interfaces.indexOf("shutter") >= 0 ) {
+            page = "ShutterDevicePage.qml";
+        } else if (deviceClass.interfaces.indexOf("garagegate") >= 0 ) {
+            page = "GarageGateDevicePage.qml";
         } else {
             page = "GenericDevicePage.qml";
         }

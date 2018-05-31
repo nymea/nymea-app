@@ -105,6 +105,9 @@ Item {
 
                         case "light":
                         case "media":
+                        case "garagegate":
+                        case "shutter":
+                        case "blind":
                             return buttonComponent
                         }
                     }
@@ -163,6 +166,16 @@ Item {
                             print("executing", device, device.id, actionTypeId, actionName, deviceClass.actionTypes)
 
                             Engine.deviceManager.executeAction(device.id, actionTypeId)
+                        case "garagegate":
+                        case "shutter":
+                        case "blind":
+                            for (var i = 0; i < devicesProxy.count; i++) {
+                                var device = devicesProxy.get(i);
+                                var deviceClass = Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
+                                var actionType = deviceClass.actionTypes.findByName("close");
+                                Engine.deviceManager.executeAction(device.id, actionType.id)
+                            }
+
                         }
                     }
 
@@ -187,7 +200,19 @@ Item {
                                         }
                                     }
                                     return count === 0 ? qsTr("All off") : qsTr("%1 on").arg(count)
+                                case "garagegate":
+                                    var count = 0;
+                                    for (var i = 0; i < devicesProxy.count; i++) {
+                                        var device = devicesProxy.get(i);
+                                        var deviceClass = Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
+                                        var stateType = deviceClass.stateTypes.findByName("state");
+                                        if (device.states.getState(stateType.id).value !== "closed") {
+                                            count++;
+                                        }
+                                    }
+                                    return count === 0 ? qsTr("All closed") : qsTr("%1 open").arg(count)
                                 }
+                                console.warn("Unhandled interface", model.name)
                             }
                             font.pixelSize: app.smallFont
                             elide: Text.ElideRight
@@ -210,6 +235,10 @@ Item {
                                                                                                   ""
                                 case "light":
                                     return "../images/system-shutdown.svg"
+                                case "garagegate":
+                                case "shutter":
+                                case "blind":
+                                    return "../images/down.svg"
                                 }
                             }
                         }
