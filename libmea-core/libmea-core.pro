@@ -3,11 +3,18 @@ TEMPLATE = lib
 CONFIG += staticlib
 
 include(../mea.pri)
+!win32: {
+    # To enable this on Windows we'd need to install Bonjour
+    # https://support.apple.com/kb/DL999
+    DEFINES += QZEROCONF_STATIC
+    DEFINES += WITH_ZEROCONF
+    include(../QtZeroConf/qtzeroconf.pri)
+}
 
 QT -= gui
 QT += websockets bluetooth
 
-INCLUDEPATH += $$top_srcdir/libnymea-common
+INCLUDEPATH += $$top_srcdir/libnymea-common $$top_srcdir/QtZeroConf
 
 SOURCES += \
     engine.cpp \
@@ -91,29 +98,6 @@ HEADERS += \
     wifisetup/wirelesssetupmanager.h \
     wifisetup/networkmanagercontroler.h \
     libmea-core.h
-
-withavahi {
-DEFINES += WITH_AVAHI
-
-LIBS +=  -lavahi-client -lavahi-common
-
-HEADERS += discovery/avahi/avahiserviceentry.h \
-    discovery/avahi/qt-watch.h \
-    discovery/avahi/qtavahiclient.h \
-    discovery/avahi/qtavahiservice_p.h \
-    discovery/avahi/qtavahiservice.h \
-    discovery/avahi/qtavahiservicebrowser_p.h \
-    discovery/avahi/qtavahiservicebrowser.h \
-
-SOURCES += discovery/avahi/avahiserviceentry.cpp \
-    discovery/avahi/qt-watch.cpp \
-    discovery/avahi/qtavahiclient.cpp \
-    discovery/avahi/qtavahiservice_p.cpp \
-    discovery/avahi/qtavahiservice.cpp \
-    discovery/avahi/qtavahiservicebrowser_p.cpp \
-    discovery/avahi/qtavahiservicebrowser.cpp \
-
-}
 
 unix {
     target.path = /usr/lib

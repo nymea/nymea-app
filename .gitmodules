@@ -1,0 +1,6 @@
+[submodule "-f"]
+	path = -f
+	url = https://github.com/mzanetti/QtZeroConf.git
+[submodule "QtZeroConf"]
+	path = QtZeroConf
+	url = https://github.com/jbagg/QtZeroConf.git

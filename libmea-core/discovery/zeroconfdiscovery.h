@@ -1,8 +1,8 @@
 #ifndef ZEROCONFDISCOVERY_H
 #define ZEROCONFDISCOVERY_H
 
-#ifdef WITH_AVAHI
-#include "avahi/qtavahiservicebrowser.h"
+#ifdef WITH_ZEROCONF
+#include "qzeroconf.h"
 #endif
 
 #include "discoverymodel.h"
@@ -22,14 +22,13 @@ public:
 private:
     DiscoveryModel *m_discoveryModel;
 
-#ifdef WITH_AVAHI
-    QtAvahiServiceBrowser *m_serviceBrowser;
+#ifdef WITH_ZEROCONF
+    QZeroConf *m_zeroconfJsonRPC = nullptr;
+    QZeroConf *m_zeroconfWebSocket = nullptr;
 
 private slots:
-    void serviceEntryAdded(const AvahiServiceEntry &entry);
-
+    void serviceEntryAdded(const QZeroConfService &entry);
 #endif
-
 };
 
 #endif // ZEROCONFDISCOVERY_H
