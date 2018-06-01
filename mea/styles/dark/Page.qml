@@ -6,12 +6,5 @@ Page {
 
     background: Rectangle {
         color: Material.background
-        Image {
-            id: bg
-            source: "qrc:/guh-logo.svg"
-            anchors.fill: parent
-            fillMode: Image.PreserveAspectFit
-            opacity: .2
-        }
     }
 }
