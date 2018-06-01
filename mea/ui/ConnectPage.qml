@@ -135,8 +135,15 @@ Page {
                             }
                         }
                         onClicked: {
-                            print("Should connect to", model.nymeaRpcUrl)
-                            Engine.connection.connect(model.nymeaRpcUrl)
+                            var url;
+                            if (model.nymeaRpcUrl) {
+                                url = model.nymeaRpcUrl;
+                            } else {
+                                url = model.webSocketUrl;
+                            }
+                            print("Should connect to", url)
+                            Engine.connection.connect(url)
+
                             pageStack.push(connectingPage)
                         }
                     }

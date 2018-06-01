@@ -7,6 +7,11 @@ Required packages:
 It is recommended to install a complete Qt installation. Minimum required Version 5.7.
 No extra modules are required for a basic desktop build.
 
+After cloning the repository, run
+
+$ git submodule init
+$ git submodule update
+
 To build a binary run
 $ mkdir builddir
 $ cd builddir
@@ -16,8 +21,6 @@ $ make
 Or open mea.pro in QtCreator and click the "Play" button.
 
 Optional configuration flags to be passed to qmake:
-- CONFIG+=withavahi
-  Enables avahi support. Requires libavahi-common and libavahi-client to be present on the system
 - CONFIG+=withtests
   Enables building the testrunner target
 
