@@ -114,7 +114,7 @@ void UpnpDiscovery::writeDiscoveryPacket()
                                               "MX:2\r\n"
                                               "ST: ssdp:all\r\n\r\n");
 
-    qDebug() << "sending discovery packet";
+//    qDebug() << "sending discovery packet";
     writeDatagram(ssdpSearchMessage, m_host, m_port);
 }
 
@@ -170,97 +170,104 @@ void UpnpDiscovery::readData()
 
         if (!m_foundDevices.contains(location) && isNymea) {
             m_foundDevices.append(location);
-            DiscoveryDevice discoveryDevice;
-            discoveryDevice.setHostAddress(hostAddress);
-            discoveryDevice.setPort(port);
-            discoveryDevice.setLocation(location.toString());
-
             qDebug() << "Getting server data from:" << location;
             QNetworkReply *reply = m_networkAccessManager->get(QNetworkRequest(location));
             connect(reply, &QNetworkReply::sslErrors, [this, reply](const QList<QSslError> &errors){
                 reply->ignoreSslErrors(errors);
             });
-            m_runningReplies.insert(reply, discoveryDevice);
+            m_runningReplies.insert(reply, hostAddress);
         }
     }
 }
 
 void UpnpDiscovery::networkReplyFinished(QNetworkReply *reply)
 {
+    reply->deleteLater();
+    QHostAddress discoveredAddress = m_runningReplies.take(reply);
+
     int status = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+    if (reply->error() != QNetworkReply::NoError || status != 200) {
+        qWarning() << "Error fetching UPnP discovery data:" << status << reply->error() << reply->errorString();
+        return;
+    }
 
     QByteArray data = reply->readAll();
-    DiscoveryDevice discoveryDevice = m_runningReplies.take(reply);
 
-    switch (status) {
-    case(200):{
-        // parse XML data
-        QXmlStreamReader xml(data);
-        while (!xml.atEnd() && !xml.hasError()) {
-            xml.readNext();
+    QString name;
+    QString version;
+    QUuid uuid;
+    QList<PortConfig*> portConfigList;
 
-            if (xml.isStartDocument())
-                continue;
+    // parse XML data
+    QXmlStreamReader xml(data);
+    while (!xml.atEnd() && !xml.hasError()) {
+        xml.readNext();
 
-            if (xml.isStartElement()) {
-                if (xml.name().toString() == "websocketURL") {
-                    discoveryDevice.setWebSocketUrl(xml.readElementText());
-                }
+        if (xml.isStartDocument())
+            continue;
+
+        if (xml.isStartElement()) {
+            if (xml.name().toString() == "websocketURL") {
+                QUrl u(xml.readElementText());
+                PortConfig *pc = new PortConfig(u.port());
+                pc->setProtocol(PortConfig::ProtocolWebSocket);
+                pc->setSslEnabled(u.scheme().endsWith('s'));
+                portConfigList.append(pc);
             }
+        }
 
-            if (xml.isStartElement()) {
-                if (xml.name().toString() == "nymeaRpcURL") {
-                    discoveryDevice.setNymeaRpcUrl(xml.readElementText());
-                }
+        if (xml.isStartElement()) {
+            if (xml.name().toString() == "nymeaRpcURL") {
+                QUrl u(xml.readElementText());
+                qDebug() << "have url" << u << u.scheme();
+                PortConfig *pc = new PortConfig(u.port());
+                pc->setProtocol(PortConfig::ProtocolNymeaRpc);
+                pc->setSslEnabled(u.scheme().endsWith('s'));
+                portConfigList.append(pc);
             }
+        }
 
-            if (xml.isStartElement()) {
-                if (xml.name().toString() == "device") {
-                    while (!xml.atEnd()) {
-                        if (xml.name() == "friendlyName" && xml.isStartElement()) {
-                            discoveryDevice.setFriendlyName(xml.readElementText());
-                        }
-                        if (xml.name() == "manufacturer" && xml.isStartElement()) {
-                            discoveryDevice.setManufacturer(xml.readElementText());
-                        }
-                        if (xml.name() == "manufacturerURL" && xml.isStartElement()) {
-                            discoveryDevice.setManufacturerURL(QUrl(xml.readElementText()));
-                        }
-                        if (xml.name() == "modelDescription" && xml.isStartElement()) {
-                            discoveryDevice.setModelDescription(xml.readElementText());
-                        }
-                        if (xml.name() == "modelName" && xml.isStartElement()) {
-                            discoveryDevice.setModelName(xml.readElementText());
-                        }
-                        if (xml.name() == "modelNumber" && xml.isStartElement()) {
-                            discoveryDevice.setModelNumber(xml.readElementText());
-                        }
-                        if (xml.name() == "modelURL" && xml.isStartElement()) {
-                            discoveryDevice.setModelURL(QUrl(xml.readElementText()));
-                        }
-                        if (xml.name() == "UDN" && xml.isStartElement()) {
-                            discoveryDevice.setUuid(xml.readElementText());
-                        }
-                        xml.readNext();
+        if (xml.isStartElement()) {
+            if (xml.name().toString() == "device") {
+                while (!xml.atEnd()) {
+                    if (xml.name() == "friendlyName" && xml.isStartElement()) {
+                        name = xml.readElementText();
+                    }
+                    if (xml.name() == "modelNumber" && xml.isStartElement()) {
+                        version = xml.readElementText();
+                    }
+                    if (xml.name() == "UDN" && xml.isStartElement()) {
+                        uuid = xml.readElementText().split(':').last();
                     }
                     xml.readNext();
                 }
+                xml.readNext();
             }
         }
+    }
 
-        qDebug() << "discovered device" << discoveryDevice.friendlyName() << discoveryDevice.hostAddress();
+    qDebug() << "discovered device" << uuid << name << discoveredAddress << version;
 
-        if (discoveryDevice.manufacturer().contains("guh")) {
-            if (!m_discoveryModel->contains(discoveryDevice.uuid())) {
-                m_discoveryModel->addDevice(discoveryDevice);
-            }
+    DiscoveryDevice* device = m_discoveryModel->find(uuid);
+    if (!device) {
+        device = new DiscoveryDevice(m_discoveryModel);
+        device->setUuid(uuid);
+        qDebug() << "Adding new host to model";
+        m_discoveryModel->addDevice(device);
+    }
+    device->setHostAddress(discoveredAddress);
+    device->setName(name);
+    device->setVersion(version);
+    foreach (PortConfig *pc, portConfigList) {
+        PortConfig *portConfig = device->portConfigs()->find(pc->port());
+        if (portConfig) {
+            qDebug() << "Updating port config" << portConfig->port() << portConfig->sslEnabled() << portConfig->protocol();
+            portConfig->setProtocol(pc->protocol());
+            portConfig->setSslEnabled(pc->sslEnabled());
+            pc->deleteLater();
+        } else {
+            qDebug() << "adding new port config" << pc->port() << pc->sslEnabled() << pc->protocol();
+            device->portConfigs()->insert(pc);
         }
-
-        break;
     }
-    default:
-        qWarning() << "HTTP request error " << status;
-    }
-
-    reply->deleteLater();
 }

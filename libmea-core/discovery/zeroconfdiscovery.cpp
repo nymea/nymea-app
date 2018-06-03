@@ -49,6 +49,7 @@ void ZeroconfDiscovery::serviceEntryAdded(const QZeroConfService &entry)
     QString uuid;
     bool sslEnabled = false;
     QString serverName;
+    QString version;
     foreach (const QByteArray &key, entry.txt().keys()) {
         QPair<QString, QString> txtRecord = qMakePair<QString, QString>(key, entry.txt().value(key));
         if (!sslEnabled && txtRecord.first == "sslEnabled") {
@@ -60,34 +61,30 @@ void ZeroconfDiscovery::serviceEntryAdded(const QZeroConfService &entry)
         if (txtRecord.first == "name") {
             serverName = txtRecord.second;
         }
+        if (txtRecord.first == "serverVersion") {
+            version = txtRecord.second;
+        }
     }
     qDebug() << "avahi service entry added" << serverName << uuid << sslEnabled;
 
-    DiscoveryDevice dev = m_discoveryModel->find(entry.ip());
-    if (dev.uuid() == uuid && dev.nymeaRpcUrl().startsWith("nymeas") && !sslEnabled) {
-        // We already have this host and with a more secure configuration... skip this one...
-        return;
-    }
-    qDebug() << "Adding new found entry:" << entry.name() << entry.ip();
-    dev.setUuid(uuid);
-    dev.setHostAddress(entry.ip());
-    dev.setPort(entry.port());
-    dev.setFriendlyName(serverName + " on " + entry.ip().toString());
-    QHostAddress address = entry.ip();
-    QString addressString;
-    if (address.protocol() == QAbstractSocket::IPv6Protocol) {
-        addressString = "[" + address.toString() + "]";
-    } else {
-        addressString = address.toString();
-    }
-    if (entry.type() == "_ws._tcp") {
-        dev.setWebSocketUrl(QString("%1://%2:%3").arg(sslEnabled ? "wss" : "ws").arg(addressString).arg(entry.port()));
-    } else {
-        dev.setNymeaRpcUrl(QString("%1://%2:%3").arg(sslEnabled ? "nymeas" : "nymea").arg(addressString).arg(entry.port()));
-    }
-    m_discoveryModel->addDevice(dev);
 
-//    DiscoveryDevice *dev = new DiscoveryDevice();
-//    dev->setFriendlyName(entry.hostName());
+    DiscoveryDevice* device = m_discoveryModel->find(uuid);
+    if (!device) {
+        device = new DiscoveryDevice(m_discoveryModel);
+        device->setUuid(uuid);
+        qDebug() << "Adding new host to model";
+        m_discoveryModel->addDevice(device);
+    }
+    device->setHostAddress(entry.ip());
+    device->setName(serverName);
+    device->setVersion(version);
+    PortConfig *portConfig = device->portConfigs()->find(entry.port());
+    if (!portConfig) {
+        qDebug() << "Adding new port config";
+        portConfig = new PortConfig(entry.port());
+        device->portConfigs()->insert(portConfig);
+    }
+    portConfig->setProtocol(entry.type() == "_ws._tcp" ? PortConfig::ProtocolWebSocket : PortConfig::ProtocolNymeaRpc);
+    portConfig->setSslEnabled(sslEnabled);
 }
 #endif

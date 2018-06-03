@@ -164,5 +164,7 @@
         <file>ui/AppSettingsPage.qml</file>
         <file>ui/images/stock_application.svg</file>
         <file>ui/delegates/ThingDelegate.qml</file>
+        <file>ui/images/network-secure.svg</file>
+        <file>ui/images/lock-broken.svg</file>
     </qresource>
 </RCC>

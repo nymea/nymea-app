@@ -1,7 +1,7 @@
-import QtQuick 2.5
-import QtQuick.Controls 2.1
-import QtQuick.Controls.Material 2.1
-import QtQuick.Layouts 1.1
+import QtQuick 2.9
+import QtQuick.Controls 2.2
+import QtQuick.Controls.Material 2.2
+import QtQuick.Layouts 1.3
 import Mea 1.0
 import "components"
 
@@ -24,9 +24,8 @@ Page {
         target: Engine.connection
         onVerifyConnectionCertificate: {
             print("verify cert!")
-            certDialog.issuerInfo = issuerInfo
-            certDialog.fingerprint = fingerprint
-            certDialog.open();
+            var popup = certDialogComponent.createObject(app, {issuerInfo: issuerInfo, fingerprint: fingerprint});
+            popup.open();
         }
         onConnectionError: {
             pageStack.pop(root)
@@ -118,34 +117,81 @@ Page {
                     model: discovery.discoveryModel
                     clip: true
 
-                    delegate: ItemDelegate {
+                    delegate: SwipeDelegate {
                         width: parent.width
                         height: app.delegateHeight
                         objectName: "discoveryDelegate" + index
-                        property string hostAddress: model.hostAddress
-                        ColumnLayout {
-                            anchors.fill: parent
-                            anchors.margins: app.margins
-                            Label {
-                                text: model.name
+                        contentItem: RowLayout {
+                            ColumnLayout {
+                                Layout.fillWidth: true
+                                Label {
+                                    text: model.name
+                                    Layout.fillWidth: true
+                                    elide: Text.ElideRight
+                                }
+                                Label {
+                                    text: model.hostAddress
+                                    font.pixelSize: app.smallFont
+                                }
                             }
-                            Label {
-                                text: model.hostAddress
-                                font.pixelSize: app.smallFont
+                            ColorIcon {
+                                Layout.fillHeight: true
+                                Layout.preferredWidth: height
+                                name: "../images/network-secure.svg"
+                                visible: {
+                                    var discoveryDevice = discovery.discoveryModel.get(index);
+                                    for (var i = 0; i < discoveryDevice.portConfigs.count; i++) {
+                                        if (discoveryDevice.portConfigs.get(i).sslEnabled) {
+                                            return true;
+                                        }
+                                    }
+                                    return false;
+                                }
                             }
                         }
-                        onClicked: {
-                            var url;
-                            if (model.nymeaRpcUrl) {
-                                url = model.nymeaRpcUrl;
-                            } else {
-                                url = model.webSocketUrl;
-                            }
-                            print("Should connect to", url)
-                            Engine.connection.connect(url)
 
+                        onClicked: {
+                            var discoveryDevice = discovery.discoveryModel.get(index);
+                            print("discoveryDevice:", discoveryDevice.name, discoveryDevice.uuid, discoveryDevice.hostAddress)
+                            var usedConfigIndex = 0;
+                            for (var i = 1; i < discoveryDevice.portConfigs.count; i++) {
+                                var oldConfig = discoveryDevice.portConfigs.get(usedConfigIndex);
+                                var newConfig = discoveryDevice.portConfigs.get(i);
+
+                                // prefer secure over insecure
+                                if (!oldConfig.sslEnabled && newConfig.sslEnabled) {
+                                    usedConfigIndex = i;
+                                    continue;
+                                }
+                                if (oldConfig.sslEnabled && !newConfig.sslEnabled) {
+                                    continue; // discard new one as the one we already have is more secure
+                                }
+
+                                // both options are new either secure or insecure, prefer nymearpc over websocket for less overhead
+                                if (oldConfig.protocol === PortConfig.ProtocolWebSocket && newConfig.protocol === PortConfig.ProtocolNymeaRpc) {
+                                    usedConfigIndex = i;
+                                }
+                            }
+                            Engine.connection.connect(discoveryDevice.toUrl(usedConfigIndex))
                             pageStack.push(connectingPage)
                         }
+
+                        swipe.right: MouseArea {
+                            height: parent.height
+                            width: height
+                            anchors.right: parent.right
+                            ColorIcon {
+                                anchors.fill: parent
+                                anchors.margins: app.margins
+                                name: "../images/info.svg"
+                            }
+                            onClicked: {
+                                swipe.close()
+                                var popup = infoDialog.createObject(app,{discoveryDevice: discovery.discoveryModel.get(index)})
+                                popup.open()
+                            }
+                        }
+
                     }
 
                     Column {
@@ -317,82 +363,231 @@ Page {
         }
     }
 
-    Dialog {
-        id: certDialog
-        width: Math.min(parent.width * .9, 400)
-        x: (parent.width - width) / 2
-        y: (parent.height - height) / 2
-        standardButtons: Dialog.Yes | Dialog.No
+    Component {
+        id: certDialogComponent
 
-        property var fingerprint
-        property var issuerInfo
+        Dialog {
+            id: certDialog
+            width: Math.min(parent.width * .9, 400)
+            x: (parent.width - width) / 2
+            y: (parent.height - height) / 2
+            standardButtons: Dialog.Yes | Dialog.No
 
-        ColumnLayout {
-            anchors { left: parent.left; right: parent.right; top: parent.top }
-            spacing: app.margins
+            property var fingerprint
+            property var issuerInfo
 
-            RowLayout {
-                Layout.fillWidth: true
-                spacing: app.margins
-                ColorIcon {
-                    Layout.preferredHeight: app.iconSize * 2
-                    Layout.preferredWidth: height
-                    name: "../images/dialog-warning-symbolic.svg"
-                    color: app.guhAccent
+            ColumnLayout {
+                id: certLayout
+                anchors.fill: parent
+//                spacing: app.margins
+
+                RowLayout {
+                    Layout.fillWidth: true
+                    spacing: app.margins
+                    ColorIcon {
+                        Layout.preferredHeight: app.iconSize * 2
+                        Layout.preferredWidth: height
+                        name: "../images/dialog-warning-symbolic.svg"
+                        color: app.guhAccent
+                    }
+
+                    Label {
+                        id: titleLabel
+                        Layout.fillWidth: true
+                        wrapMode: Text.WordWrap
+                        text: qsTr("Warning")
+                        color: app.guhAccent
+                        font.pixelSize: app.largeFont
+                    }
                 }
 
                 Label {
-                    id: titleLabel
                     Layout.fillWidth: true
                     wrapMode: Text.WordWrap
-                    text: qsTr("Warning")
-                    color: app.guhAccent
-                    font.pixelSize: app.largeFont
+                    text: qsTr("The authenticity of this %1 box cannot be verified.").arg(app.systemName)
+                }
+
+                Label {
+                    Layout.fillWidth: true
+                    wrapMode: Text.WordWrap
+                    text: qsTr("If this is the first time you connect to this box, this is expected. Once you trust a box, you should never see this message again for that one. If you see this message multiple times for the same box, something suspicious is going on!")
+                }
+
+                ThinDivider {}
+                Item {
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    implicitHeight: certGridLayout.implicitHeight
+                    Flickable {
+                        anchors.fill: parent
+                        contentHeight: certGridLayout.implicitHeight
+                        clip: true
+
+                        GridLayout {
+                            id: certGridLayout
+                            columns: 2
+                            width: parent.width
+
+                            Repeater {
+                                model: certDialog.issuerInfo
+
+                                Label {
+                                    Layout.fillWidth: true
+                                    wrapMode: Text.WordWrap
+                                    text: modelData
+                                }
+                            }
+                            Label {
+                                Layout.fillWidth: true
+                                Layout.columnSpan: 2
+                                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                                text: qsTr("Fingerprint: ") + certDialog.fingerprint
+                            }
+                        }
+                    }
+                }
+
+                ThinDivider {}
+
+                Label {
+                    Layout.fillWidth: true
+                    wrapMode: Text.WordWrap
+                    text: qsTr("Do you want to trust this device?")
+                    font.bold: true
                 }
             }
 
-            Label {
-                Layout.fillWidth: true
-                wrapMode: Text.WordWrap
-                text: qsTr("The authenticity of this %1 box cannot be verified.").arg(app.systemName)
+
+            onAccepted: {
+                Engine.connection.acceptCertificate(certDialog.fingerprint)
             }
+        }
+    }
 
-            Label {
-                Layout.fillWidth: true
-                wrapMode: Text.WordWrap
-                text: qsTr("If this is the first time you connect to this box, this is expected. Once you trust a box, you should never see this message again for that one. If you see this message multiple times for the same box, something suspicious is going on!")
-            }
 
-            GridLayout {
-                columns: 2
+    Component {
+        id: infoDialog
+        Dialog {
+            id: dialog
+            width: Math.min(parent.width, contentGrid.implicitWidth)
+            x: (parent.width - width) / 2
+            y: (parent.height - height) / 2
+            modal: true
+            title: qsTr("Box information")
 
-                Repeater {
-                    model: certDialog.issuerInfo
+            standardButtons: Dialog.Ok
+
+            property var discoveryDevice: null
+
+            header: Item {
+                implicitHeight: headerRow.height + app.margins * 2
+                implicitWidth: parent.width
+                RowLayout {
+                    id: headerRow
+                    anchors { left: parent.left; right: parent.right; top: parent.top; margins: app.margins }
+                    spacing: app.margins
+                    ColorIcon {
+                        Layout.preferredHeight: app.iconSize * 2
+                        Layout.preferredWidth: height
+                        name: "../images/info.svg"
+                        color: app.guhAccent
+                    }
 
                     Label {
+                        id: titleLabel
                         Layout.fillWidth: true
-                        wrapMode: Text.WordWrap
-                        text: modelData
+                        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                        text: dialog.title
+                        color: app.guhAccent
+                        font.pixelSize: app.largeFont
                     }
                 }
             }
 
-            Label {
-                Layout.fillWidth: true
-                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                text: qsTr("Fingerprint: ") + certDialog.fingerprint
-            }
+            GridLayout {
+                id: contentGrid
+                anchors.fill: parent
+                rowSpacing: app.margins
+                columns: 2
+                Label {
+                    text: "Name:"
+                }
+                Label {
+                    text: dialog.discoveryDevice.name
+                    Layout.fillWidth: true
+                    elide: Text.ElideRight
+                }
+                Label {
+                    text: "UUID:"
+                }
+                Label {
+                    text: dialog.discoveryDevice.uuid
+                    Layout.fillWidth: true
+                    elide: Text.ElideRight
+                }
+                Label {
+                    text: "Version:"
+                }
+                Label {
+                    text: dialog.discoveryDevice.version
+                    Layout.fillWidth: true
+                    elide: Text.ElideRight
+                }
+                Label {
+                    text: "IP Address:"
+                }
+                Label {
+                    text: dialog.discoveryDevice.hostAddress
+                    Layout.fillWidth: true
+                    elide: Text.ElideRight
+                }
+                ThinDivider { Layout.columnSpan: 2 }
+                Label {
+                    Layout.columnSpan: 2
+                    text: qsTr("Available connections")
+                }
 
-            Label {
-                Layout.fillWidth: true
-                wrapMode: Text.WordWrap
-                text: qsTr("Do you want to trust this device?")
-                font.bold: true
-            }
-        }
+                Flickable {
+                    Layout.columnSpan: 2
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 200
+                    contentHeight: contentColumn.implicitHeight
+                    clip: true
+                    ColumnLayout {
+                        id: contentColumn
+                        width: parent.width
+                        Repeater {
+                            model: dialog.discoveryDevice.portConfigs
+                            ItemDelegate {
+                                Layout.fillWidth: true
+                                contentItem: RowLayout {
+                                    ColumnLayout {
+                                        Layout.fillWidth: true
+                                        Label {
+                                            text: qsTr("Port: %1").arg(model.port)
+                                        }
+                                        Label {
+                                            text: model.protocol === PortConfig.ProtocolNymeaRpc ? "nymea-rpc" : "websocket"
+                                            Layout.fillWidth: true
+                                            font.pixelSize: app.smallFont
+                                        }
+                                    }
 
-        onAccepted: {
-            Engine.connection.acceptCertificate(certDialog.fingerprint)
+                                    ColorIcon {
+                                        Layout.preferredHeight: app.iconSize
+                                        Layout.preferredWidth: height
+                                        name: model.sslEnabled ? "../images/network-secure.svg" : "../images/lock-broken.svg"
+                                        color: model.sslEnabled ? app.guhAccent : "red"
+                                    }
+                                }
+                                onClicked: {
+                                    Engine.connection.connect(dialog.discoveryDevice.toUrl(index))
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }

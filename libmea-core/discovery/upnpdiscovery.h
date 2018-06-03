@@ -55,7 +55,7 @@ private:
 
     bool m_discovering;
     bool m_available;
-    QHash<QNetworkReply *, DiscoveryDevice> m_runningReplies;
+    QHash<QNetworkReply *, QHostAddress> m_runningReplies;
     QList<QUrl> m_foundDevices;
 
     void setDiscovering(const bool &discovering);

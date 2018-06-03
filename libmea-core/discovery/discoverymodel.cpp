@@ -25,11 +25,6 @@ DiscoveryModel::DiscoveryModel(QObject *parent) :
 {
 }
 
-QList<DiscoveryDevice> DiscoveryModel::devices()
-{
-    return m_devices;
-}
-
 int DiscoveryModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
@@ -41,61 +36,54 @@ QVariant DiscoveryModel::data(const QModelIndex &index, int role) const
     if (index.row() < 0 || index.row() >= m_devices.count())
         return QVariant();
 
-    DiscoveryDevice device = m_devices.at(index.row());
-    if (role == NameRole) {
-        return device.friendlyName();
-    } else if (role == HostAddressRole) {
-        return device.hostAddress().toString();
-    } else if (role == WebSocketUrlRole) {
-        return device.webSocketUrl();
-    } else if (role == PortRole) {
-        return device.port();
-    } else if (role == VersionRole) {
-        return device.modelNumber();
-    } else if (role == NymeaRpcUrlRole) {
-        return device.nymeaRpcUrl();
+    DiscoveryDevice *device = m_devices.at(index.row());
+    switch (role) {
+    case UuidRole:
+        return device->uuid();
+    case NameRole:
+        return device->name();
+    case HostAddressRole:
+        return device->hostAddress().toString();
+//    case WebSocketUrlRole:
+//        return device.webSocketUrl();
+//    case PortRole:
+//        return device.port();
+    case VersionRole:
+        return device->version();
+//    case NymeaRpcUrlRole:
+//        return device.nymeaRpcUrl();
     }
     return QVariant();
 }
 
-void DiscoveryModel::addDevice(const DiscoveryDevice &device)
+void DiscoveryModel::addDevice(DiscoveryDevice *device)
 {
     for (int i = 0; i < m_devices.count(); i++) {
-        if (m_devices.at(i).uuid() == device.uuid()) {
-            m_devices[i] = device;
-            emit dataChanged(index(i), index(i));
+        if (m_devices.at(i)->uuid() == device->uuid()) {
+            qWarning() << "Device already added. Update existing device instead.";
             return;
         }
     }
+    device->setParent(this);
     beginInsertRows(QModelIndex(), m_devices.count(), m_devices.count());
     m_devices.append(device);
     endInsertRows();
     emit countChanged();
 }
 
-QString DiscoveryModel::get(int index, DeviceRole role) const
+DiscoveryDevice *DiscoveryModel::get(int index) const
 {
-    return data(this->index(index), role).toString();
+    return m_devices.at(index);
 }
 
-bool DiscoveryModel::contains(const QString &uuid) const
+DiscoveryDevice *DiscoveryModel::find(const QUuid &uuid)
 {
-    foreach (const DiscoveryDevice &dev, m_devices) {
-        if (dev.uuid() == uuid) {
-            return true;
-        }
-    }
-    return false;
-}
-
-DiscoveryDevice DiscoveryModel::find(const QHostAddress &address) const
-{
-    foreach (const DiscoveryDevice &dev, m_devices) {
-        if (dev.hostAddress() == address) {
+    foreach (DiscoveryDevice *dev, m_devices) {
+        if (dev->uuid() == uuid) {
             return dev;
         }
     }
-    return DiscoveryDevice();
+    return nullptr;
 }
 
 void DiscoveryModel::clearModel()
@@ -109,11 +97,9 @@ void DiscoveryModel::clearModel()
 QHash<int, QByteArray> DiscoveryModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
+    roles[UuidRole] = "uuid";
     roles[NameRole] = "name";
     roles[HostAddressRole] = "hostAddress";
-    roles[WebSocketUrlRole] = "webSocketUrl";
-    roles[NymeaRpcUrlRole] = "nymeaRpcUrl";
-    roles[PortRole] = "port";
     roles[VersionRole] = "version";
     return roles;
 }
