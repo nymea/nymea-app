@@ -1,6 +1,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                         *
- *  Copyright (C) 2015 Simon Stuerz <stuerz.simon@gmail.com>               *
+ *  Copyright (C) 2018 Michael Zanetti <michael.zanetti@guh.io>            *
  *                                                                         *
  *  This file is part of mea.                                              *
  *                                                                         *
@@ -22,38 +22,19 @@
 
 #include <QUrl>
 
-DiscoveryDevice::DiscoveryDevice()
+DiscoveryDevice::DiscoveryDevice(QObject *parent): QObject(parent)
 {
+    m_portConfigs = new PortConfigs(this);
 }
 
-QUrl DiscoveryDevice::location() const
+QUuid DiscoveryDevice::uuid() const
 {
-    return m_location;
+    return m_uuid;
 }
 
-void DiscoveryDevice::setLocation(const QUrl &location)
+void DiscoveryDevice::setUuid(const QUuid &uuid)
 {
-    m_location = location;
-}
-
-QString DiscoveryDevice::webSocketUrl() const
-{
-    return m_webSocketUrl;
-}
-
-void DiscoveryDevice::setWebSocketUrl(const QString &webSocketUrl)
-{
-    m_webSocketUrl = webSocketUrl;
-}
-
-QString DiscoveryDevice::nymeaRpcUrl() const
-{
-    return m_nymeaRpcUrl;
-}
-
-void DiscoveryDevice::setNymeaRpcUrl(const QString &nymeaRpcUrl)
-{
-    m_nymeaRpcUrl = nymeaRpcUrl;
+    m_uuid = uuid;
 }
 
 QHostAddress DiscoveryDevice::hostAddress() const
@@ -61,116 +42,156 @@ QHostAddress DiscoveryDevice::hostAddress() const
     return m_hostAddress;
 }
 
-void DiscoveryDevice::setHostAddress(const QHostAddress &hostAddress)
+QString DiscoveryDevice::hostAddressString() const
 {
-    m_hostAddress = hostAddress;
+    return m_hostAddress.toString();
 }
 
-int DiscoveryDevice::port() const
+void DiscoveryDevice::setHostAddress(const QHostAddress &hostAddress)
+{
+    if (m_hostAddress != hostAddress) {
+        m_hostAddress = hostAddress;
+        emit hostAddressChanged();
+    }
+}
+
+QString DiscoveryDevice::name() const
+{
+    return m_name;
+}
+
+void DiscoveryDevice::setName(const QString &name)
+{
+    if (m_name != name) {
+        m_name = name;
+        emit nameChanged();
+    }
+}
+
+QString DiscoveryDevice::version() const
+{
+    return m_version;
+}
+
+void DiscoveryDevice::setVersion(const QString &version)
+{
+    if (m_version != version) {
+        m_version = version;
+        emit versionChanged();
+    }
+}
+
+PortConfigs* DiscoveryDevice::portConfigs() const
+{
+    return m_portConfigs;
+}
+
+QString DiscoveryDevice::toUrl(int portConfigIndex)
+{
+    PortConfig *pc = m_portConfigs->get(portConfigIndex);
+    if (!pc) {
+        qWarning() << "No portconfig for index" << portConfigIndex;
+    }
+    QString ret = pc->protocol() == PortConfig::ProtocolNymeaRpc ? "nymea" : "ws";
+    ret += pc->sslEnabled() ? "s" : "";
+    ret += "://";
+    ret += m_hostAddress.toString();
+    ret += ":";
+    ret += QString::number(pc->port());
+    return ret;
+}
+
+PortConfigs::PortConfigs(QObject *parent): QAbstractListModel(parent)
+{
+
+}
+
+int PortConfigs::rowCount(const QModelIndex &parent) const
+{
+    Q_UNUSED(parent)
+    return m_portConfigs.count();
+}
+
+QVariant PortConfigs::data(const QModelIndex &index, int role) const
+{
+    switch (role) {
+    case RolePort:
+        return m_portConfigs.at(index.row())->port();
+    case RoleProtocol:
+        return m_portConfigs.at(index.row())->protocol();
+    case RoleSSLEnabled:
+        return m_portConfigs.at(index.row())->sslEnabled();
+    }
+    return QVariant();
+}
+
+PortConfig *PortConfigs::find(int port)
+{
+    foreach (PortConfig* pc, m_portConfigs) {
+        if (pc->port() == port) {
+            return pc;
+        }
+    }
+    return nullptr;
+}
+
+void PortConfigs::insert(PortConfig *portConfig)
+{
+    portConfig->setParent(this);
+    beginInsertRows(QModelIndex(), m_portConfigs.count(), m_portConfigs.count());
+    m_portConfigs.append(portConfig);
+    endInsertRows();
+    emit countChanged();
+}
+
+PortConfig* PortConfigs::get(int index) const
+{
+    return m_portConfigs.at(index);
+}
+
+QHash<int, QByteArray> PortConfigs::roleNames() const
+{
+    QHash<int, QByteArray> roles;
+    roles.insert(RolePort, "port");
+    roles.insert(RoleProtocol, "protocol");
+    roles.insert(RoleSSLEnabled, "sslEnabled");
+    return roles;
+}
+
+PortConfig::PortConfig(int port, QObject *parent):
+    QObject(parent),
+    m_port(port)
+{
+
+}
+
+int PortConfig::port() const
 {
     return m_port;
 }
 
-void DiscoveryDevice::setPort(const int &port)
+PortConfig::Protocol PortConfig::protocol() const
 {
-    m_port = port;
+    return m_protocol;
 }
 
-QString DiscoveryDevice::friendlyName() const
+void PortConfig::setProtocol(PortConfig::Protocol protocol)
 {
-    return m_friendlyName;
+    if (m_protocol != protocol) {
+        m_protocol = protocol;
+        emit protocolChanged();
+    }
 }
 
-void DiscoveryDevice::setFriendlyName(const QString &friendlyName)
+bool PortConfig::sslEnabled() const
 {
-    m_friendlyName = friendlyName;
+    return m_sslEnabled;
 }
 
-QString DiscoveryDevice::manufacturer() const
+void PortConfig::setSslEnabled(bool sslEnabled)
 {
-    return m_manufacturer;
-}
-
-void DiscoveryDevice::setManufacturer(const QString &manufacturer)
-{
-    m_manufacturer = manufacturer;
-}
-
-QUrl DiscoveryDevice::manufacturerURL() const
-{
-    return m_manufacturerURL;
-}
-
-void DiscoveryDevice::setManufacturerURL(const QUrl &manufacturerURL)
-{
-    m_manufacturerURL = manufacturerURL;
-}
-
-QString DiscoveryDevice::modelDescription() const
-{
-    return m_modelDescription;
-}
-
-void DiscoveryDevice::setModelDescription(const QString &modelDescription)
-{
-    m_modelDescription = modelDescription;
-}
-
-QString DiscoveryDevice::modelName() const
-{
-    return m_modelName;
-}
-
-void DiscoveryDevice::setModelName(const QString &modelName)
-{
-    m_modelName = modelName;
-}
-
-QString DiscoveryDevice::modelNumber() const
-{
-    return m_modelNumber;
-}
-
-void DiscoveryDevice::setModelNumber(const QString &modelNumber)
-{
-    m_modelNumber = modelNumber;
-}
-
-QUrl DiscoveryDevice::modelURL() const
-{
-    return m_modelURL;
-}
-
-void DiscoveryDevice::setModelURL(const QUrl &modelURL)
-{
-    m_modelURL = modelURL;
-}
-
-QString DiscoveryDevice::uuid() const
-{
-    return m_uuid;
-}
-
-void DiscoveryDevice::setUuid(const QString &uuid)
-{
-    m_uuid = uuid;
-}
-
-QDebug operator<<(QDebug debug, const DiscoveryDevice &DiscoveryDevice)
-{
-    debug << "----------------------------------------------\n";
-    debug << "UPnP device on " << QString("%1:%2").arg(DiscoveryDevice.hostAddress().toString()).arg(DiscoveryDevice.port()) << "\n";
-    debug << "location              | " << DiscoveryDevice.location().toString() << "\n";
-    debug << "websocket             | " << DiscoveryDevice.webSocketUrl() << "\n";
-    debug << "nymearpc              | " << DiscoveryDevice.nymeaRpcUrl() << "\n";
-    debug << "friendly name         | " << DiscoveryDevice.friendlyName() << "\n";
-    debug << "manufacturer          | " << DiscoveryDevice.manufacturer() << "\n";
-    debug << "manufacturer URL      | " << DiscoveryDevice.manufacturerURL().toString() << "\n";
-    debug << "model name            | " << DiscoveryDevice.modelName() << "\n";
-    debug << "model number          | " << DiscoveryDevice.modelNumber() << "\n";
-    debug << "model description     | " << DiscoveryDevice.modelDescription() << "\n";
-    debug << "model URL             | " << DiscoveryDevice.modelURL().toString() << "\n";
-    debug << "UUID                  | " << DiscoveryDevice.uuid() << "\n";
-
-    return debug;
+    if (m_sslEnabled != sslEnabled) {
+        m_sslEnabled = sslEnabled;
+        emit sslEnabledChanged();
+    }
 }

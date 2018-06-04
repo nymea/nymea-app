@@ -115,6 +115,9 @@ void registerQmlTypes() {
 
     qmlRegisterType<NymeaDiscovery>(uri, 1, 0, "NymeaDiscovery");
     qmlRegisterUncreatableType<DiscoveryModel>(uri, 1, 0, "DiscoveryModel", "Get it from NymeaDiscovery");
+    qmlRegisterUncreatableType<DiscoveryDevice>(uri, 1, 0, "DiscoveryDevice", "Get it from DiscoveryModel");
+    qmlRegisterUncreatableType<PortConfigs>(uri, 1, 0, "PortConfigs", "Get it from DiscoveryDevice");
+    qmlRegisterUncreatableType<PortConfig>(uri, 1, 0, "PortConfig", "Get it from DiscoveryDevice");
 
     qmlRegisterType<EventDescriptorParamsFilterModel>(uri, 1, 0, "EventDescriptorParamsFilterModel");
 

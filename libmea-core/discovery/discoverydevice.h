@@ -1,20 +1,20 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                         *
- *  Copyright (C) 2015 Simon Stuerz <stuerz.simon@gmail.com>               *
+ *  Copyright (C) 2018 Michael Zanetti <michael.zanetti@guh.io>            *
  *                                                                         *
- *  This file is part of mea.                                       *
+ *  This file is part of mea.                                              *
  *                                                                         *
- *  mea is free software: you can redistribute it and/or modify     *
+ *  mea is free software: you can redistribute it and/or modify            *
  *  it under the terms of the GNU General Public License as published by   *
  *  the Free Software Foundation, version 3 of the License.                *
  *                                                                         *
- *  mea is distributed in the hope that it will be useful,          *
+ *  mea is distributed in the hope that it will be useful,                 *
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of         *
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the           *
  *  GNU General Public License for more details.                           *
  *                                                                         *
  *  You should have received a copy of the GNU General Public License      *
- *  along with mea. If not, see <http://www.gnu.org/licenses/>.     *
+ *  along with mea. If not, see <http://www.gnu.org/licenses/>.            *
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -22,72 +22,115 @@
 #define DISCOVERYDEVICE_H
 
 #include <QObject>
+#include <QUuid>
 #include <QUrl>
 #include <QHostAddress>
+#include <QObject>
+#include <QAbstractListModel>
 
-class DiscoveryDevice
+class PortConfig: public QObject
 {
+    Q_OBJECT
+    Q_PROPERTY(int port READ port CONSTANT)
+    Q_PROPERTY(Protocol protocol READ protocol NOTIFY protocolChanged)
+    Q_PROPERTY(bool sslEnabled READ sslEnabled NOTIFY sslEnabledChanged)
 public:
-    explicit DiscoveryDevice();
-
-    QUrl location() const;
-    void setLocation(const QUrl &location);
-
-    QString webSocketUrl() const;
-    void setWebSocketUrl(const QString &webSocketUrl);
-
-    QString nymeaRpcUrl() const;
-    void setNymeaRpcUrl(const QString &nymeaRpcUrl);
-
-    QHostAddress hostAddress() const;
-    void setHostAddress(const QHostAddress &hostAddress);
+    enum Protocol {
+        ProtocolNymeaRpc,
+        ProtocolWebSocket
+    };
+    Q_ENUM(Protocol)
+    PortConfig(int port, QObject *parent = nullptr);
 
     int port() const;
-    void setPort(const int &port);
 
-    QString deviceType() const;
-    void setDeviceType(const QString & deviceType);
+    Protocol protocol() const;
+    void setProtocol(Protocol protocol);
 
-    QString friendlyName() const;
-    void setFriendlyName(const QString &friendlyName);
+    bool sslEnabled() const;
+    void setSslEnabled(bool sslEnabled);
 
-    QString manufacturer() const;
-    void setManufacturer(const QString &manufacturer);
-
-    QUrl manufacturerURL() const;
-    void setManufacturerURL(const QUrl & manufacturerURL);
-
-    QString modelDescription() const;
-    void setModelDescription(const QString & modelDescription);
-
-    QString modelName() const;
-    void setModelName(const QString & modelName);
-
-    QString modelNumber() const;
-    void setModelNumber(const QString &modelNumber);
-
-    QUrl modelURL() const;
-    void setModelURL(const QUrl &modelURL);
-
-    QString uuid() const;
-    void setUuid(const QString &uuid);
+signals:
+    void protocolChanged();
+    void sslEnabledChanged();
 
 private:
-    QUrl m_location;
-    QString m_webSocketUrl;
-    QString m_nymeaRpcUrl;
-    QHostAddress m_hostAddress;
-    int m_port;
-    QString m_friendlyName;
-    QString m_manufacturer;
-    QUrl m_manufacturerURL;
-    QString m_modelDescription;
-    QString m_modelName;
-    QString m_modelNumber;
-    QUrl m_modelURL;
-    QString m_uuid;
+    int m_port = -1;
+    Protocol m_protocol = ProtocolNymeaRpc;
+    bool m_sslEnabled = false;
 };
 
-QDebug operator<< (QDebug debug, const DiscoveryDevice &discoveryDevice);
+class PortConfigs: public QAbstractListModel
+{
+    Q_OBJECT
+    Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
+public:
+    enum Roles {
+        RolePort,
+        RoleProtocol,
+        RoleSSLEnabled
+    };
+    Q_ENUM(Roles)
+    PortConfigs(QObject* parent = nullptr);
+    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+    QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const override;
+
+    PortConfig* find(int port);
+    void insert(PortConfig* portConfig);
+
+    Q_INVOKABLE PortConfig *get(int index) const;
+
+signals:
+    void countChanged();
+
+protected:
+    QHash<int, QByteArray> roleNames() const override;
+
+private:
+    QList<PortConfig*> m_portConfigs;
+
+};
+
+class DiscoveryDevice: public QObject
+{
+    Q_OBJECT
+    Q_PROPERTY(QUuid uuid READ uuid CONSTANT)
+    Q_PROPERTY(QString hostAddress READ hostAddressString NOTIFY hostAddressChanged)
+    Q_PROPERTY(QString name READ name NOTIFY nameChanged)
+    Q_PROPERTY(QString version READ version NOTIFY versionChanged)
+    Q_PROPERTY(PortConfigs* portConfigs READ portConfigs CONSTANT)
+
+public:
+    explicit DiscoveryDevice(QObject *parent = nullptr);
+
+    QUuid uuid() const;
+    void setUuid(const QUuid &uuid);
+
+    QHostAddress hostAddress() const;
+    QString hostAddressString() const;
+    void setHostAddress(const QHostAddress &hostAddress);
+
+    QString name() const;
+    void setName(const QString &name);
+
+    QString version() const;
+    void setVersion(const QString &version);
+
+    PortConfigs *portConfigs() const;
+
+    Q_INVOKABLE QString toUrl(int portConfigIndex);
+
+signals:
+    void nameChanged();
+    void hostAddressChanged();
+    void versionChanged();
+
+private:
+    QUuid m_uuid;
+    QHostAddress m_hostAddress;
+    QString m_name;
+    QString m_version;
+    PortConfigs *m_portConfigs = nullptr;
+};
 
 #endif // DISCOVERYDEVICE_H

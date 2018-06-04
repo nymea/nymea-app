@@ -13,7 +13,7 @@ win32:Debug:LIBS += -L$$top_builddir/libmea-core/debug \
 win32:Release:LIBS += -L$$top_builddir/libmea-core/release \
                       -L$$top_builddir/libnymea-common/release
 linux:!android:LIBS += -lavahi-client -lavahi-common
-
+PRE_TARGETDEPS += ../libmea-core
 HEADERS += \
     stylecontroller.h
 

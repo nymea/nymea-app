@@ -32,27 +32,22 @@ class DiscoveryModel : public QAbstractListModel
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
 public:
     enum DeviceRole {
+        UuidRole,
         NameRole,
         HostAddressRole,
-        WebSocketUrlRole,
-        NymeaRpcUrlRole,
-        PortRole,
         VersionRole
     };
     Q_ENUM(DeviceRole)
 
     explicit DiscoveryModel(QObject *parent = 0);
 
-    QList<DiscoveryDevice> devices();
-
     int rowCount(const QModelIndex & parent = QModelIndex()) const;
     QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;
 
-    void addDevice(const DiscoveryDevice &device);
+    void addDevice(DiscoveryDevice *device);
 
-    Q_INVOKABLE QString get(int index, DiscoveryModel::DeviceRole role) const;
-    bool contains(const QString &uuid) const;
-    DiscoveryDevice find(const QHostAddress &address) const;
+    Q_INVOKABLE DiscoveryDevice* get(int index) const;
+    Q_INVOKABLE DiscoveryDevice* find(const QUuid &uuid);
 
     void clearModel();
 
@@ -63,7 +58,7 @@ protected:
     QHash<int, QByteArray> roleNames() const;
 
 private:
-    QList<DiscoveryDevice> m_devices;
+    QList<DiscoveryDevice*> m_devices;
 };
 
 #endif // DISCOVERYMODEL_H
