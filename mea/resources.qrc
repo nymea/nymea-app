@@ -166,5 +166,6 @@
         <file>ui/delegates/ThingDelegate.qml</file>
         <file>ui/images/network-secure.svg</file>
         <file>ui/images/lock-broken.svg</file>
+        <file>ui/AboutPage.qml</file>
     </qresource>
 </RCC>

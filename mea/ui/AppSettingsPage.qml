@@ -109,6 +109,26 @@ Page {
 
             }
         }
+        ThinDivider {}
+        ItemDelegate {
+            Layout.fillWidth: true
+
+            contentItem: RowLayout {
+                Label {
+                    Layout.fillWidth: true
+                    text: qsTr("About %1").arg(app.systemName)
+                }
+                Image {
+                    source: "images/next.svg"
+                    Layout.preferredHeight: parent.height
+                    Layout.preferredWidth: height
+                }
+            }
+
+            onClicked: {
+                pageStack.push(Qt.resolvedUrl("AboutPage.qml"))
+            }
+        }
     }
 
 
