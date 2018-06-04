@@ -18,7 +18,5 @@ Component.prototype.createOperations = function()
         component.addOperation("CreateShortcut", "@TargetDir@/maveo.exe", "@StartMenuDir@/Maveo Pro Box Dashboard.lnk",
             "workingDirectory=@TargetDir@", "iconPath=@TargetDir@/logo.ico",
             "description=Maveo Pro Box Dashboard");
-
-        component.addOperation("Execute", "@TargetDir@/vc_redist.x64.exe", "/quiet", "/norestart");
     }
 }
