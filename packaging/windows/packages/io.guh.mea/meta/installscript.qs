@@ -18,7 +18,5 @@ Component.prototype.createOperations = function()
         component.addOperation("CreateShortcut", "@TargetDir@/mea.exe", "@StartMenuDir@/Mea.lnk",
             "workingDirectory=@TargetDir@", "iconPath=@TargetDir@/logo.ico",
             "description=mea - The nymea frontend");
-
-        component.addOperation("Execute", "@TargetDir@/vc_redist.x64.exe", "/quiet", "/norestart");
     }
 }
