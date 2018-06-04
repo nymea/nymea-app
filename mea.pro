@@ -27,6 +27,12 @@ equals(BR, "") {
 wininstaller.commands += rmdir /S /Q $${PACKAGE_DIR}\packages\io.guh.$${APP_NAME}\data & mkdir $${PACKAGE_DIR}\packages\io.guh.$${APP_NAME}\data &&
 wininstaller.commands += copy $${PACKAGE_DIR}\packages\io.guh.$${APP_NAME}\meta\logo.ico $${PACKAGE_DIR}\packages\io.guh.$${APP_NAME}\data\logo.ico &&
 wininstaller.commands += copy mea\release\mea.exe $${PACKAGE_DIR}\packages\io.guh.$${APP_NAME}\data\\$${APP_NAME}.exe &&
+SSLL=$$SSL_LIBS
+!equals(SSLL, "") {
+message("Deploying SSL libs from $${SSLL} to package.")
+wininstaller.commands += copy $${SSLL}\libeay32.dll $${PACKAGE_DIR}\packages\io.guh.$${APP_NAME}\data &&
+wininstaller.commands += copy $${SSLL}\ssleay32.dll $${PACKAGE_DIR}\packages\io.guh.$${APP_NAME}\data &&
+}
 wininstaller.commands += windeployqt --compiler-runtime --qmldir mea\ui $${PACKAGE_DIR}\packages\io.guh.$${APP_NAME}\data\ &&
 wininstaller.commands += binarycreator -c $${PACKAGE_DIR}\config\config.xml -p $${PACKAGE_DIR}\packages\ $${PACKAGE_NAME}
 
