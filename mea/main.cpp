@@ -70,6 +70,8 @@ int main(int argc, char *argv[])
 #else
     engine->rootContext()->setContextProperty("appBranding", "");
 #endif
+    engine->rootContext()->setContextProperty("appVersion", MEA_VERSION);
+    engine->rootContext()->setContextProperty("qtVersion", QT_VERSION_STR);
 
     StyleController styleController;
     engine->rootContext()->setContextProperty("styleController", &styleController);

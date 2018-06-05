@@ -30,17 +30,19 @@ contains(ANDROID_TARGET_ARCH,armeabi-v7a) {
         /opt/android-openssl/prebuilt/armeabi-v7a/libssl.so
 }
 
-DISTFILES += \
-    android/AndroidManifest.xml \
-    android/gradle/wrapper/gradle-wrapper.jar \
-    android/gradlew \
-    android/res/values/libs.xml \
-    android/build.gradle \
-    android/gradle/wrapper/gradle-wrapper.properties \
-    android/gradlew.bat \
-    LICENSE
-
+android {
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/../packaging/android
+
+DISTFILES += \
+    $$ANDROID_PACKAGE_SOURCE_DIR/AndroidManifest.xml \
+    $$ANDROID_PACKAGE_SOURCE_DIR/gradle/wrapper/gradle-wrapper.jar \
+    $$ANDROID_PACKAGE_SOURCE_DIR/gradlew \
+    $$ANDROID_PACKAGE_SOURCE_DIR/res/values/libs.xml \
+    $$ANDROID_PACKAGE_SOURCE_DIR/build.gradle \
+    $$ANDROID_PACKAGE_SOURCE_DIR/gradle/wrapper/gradle-wrapper.properties \
+    $$ANDROID_PACKAGE_SOURCE_DIR/gradlew.bat \
+    $$ANDROID_PACKAGE_SOURCE_DIR/LICENSE
+}
 
 BR=$$BRANDING
 !equals(BR, "") {
