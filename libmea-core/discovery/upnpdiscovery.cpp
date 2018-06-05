@@ -23,12 +23,11 @@
 #include <QDebug>
 #include <QUrl>
 #include <QXmlStreamReader>
+#include <QNetworkInterface>
 
 UpnpDiscovery::UpnpDiscovery(DiscoveryModel *discoveryModel, QObject *parent) :
-    QUdpSocket(parent),
-    m_discoveryModel(discoveryModel),
-    m_discovering(false),
-    m_available(false)
+    QObject(parent),
+    m_discoveryModel(discoveryModel)
 {
     m_networkAccessManager = new QNetworkAccessManager(this);
     connect(m_networkAccessManager, &QNetworkAccessManager::finished, this, &UpnpDiscovery::networkReplyFinished);
@@ -36,74 +35,63 @@ UpnpDiscovery::UpnpDiscovery(DiscoveryModel *discoveryModel, QObject *parent) :
     m_repeatTimer.setInterval(500);
     connect(&m_repeatTimer, &QTimer::timeout, this, &UpnpDiscovery::writeDiscoveryPacket);
 
-    // bind udp socket and join multicast group
-    m_port = 1900;
-    m_host = QHostAddress("239.255.255.250");
-
-    setSocketOption(QAbstractSocket::MulticastTtlOption,QVariant(1));
-    setSocketOption(QAbstractSocket::MulticastLoopbackOption,QVariant(1));
-
-    if(!bind(QHostAddress::AnyIPv4, m_port, QUdpSocket::ShareAddress)){
-        qWarning() << "UPnP discovery could not bind to port" << m_port;
-        setAvailable(false);
-        return;
+    foreach (const QNetworkInterface &iface, QNetworkInterface::allInterfaces()) {
+        if (!iface.flags().testFlag(QNetworkInterface::CanMulticast)) {
+            continue;
+        }
+        foreach (const QNetworkAddressEntry &netAddressEntry, iface.addressEntries()) {
+            if (netAddressEntry.ip().protocol() == QAbstractSocket::IPv4Protocol) {
+                QUdpSocket *socket = new QUdpSocket(this);
+                int port = -1;
+                for (int i = 49125; i < 65535; i++) {
+                    if(socket->bind(netAddressEntry.ip(), i, QUdpSocket::DontShareAddress)){
+                        port = i;
+                        break;
+                    }
+                }
+                if (port == 65535 || socket->state() != QUdpSocket::BoundState) {
+                    socket->deleteLater();
+                    qWarning() << "UPnP discovery could not bind to interface" << netAddressEntry.ip();
+                    continue;
+                }
+                qDebug() << "Discovering on" << netAddressEntry.ip() << port;
+                m_sockets.append(socket);
+                connect(socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(error(QAbstractSocket::SocketError)));
+                connect(socket, &QUdpSocket::readyRead, this, &UpnpDiscovery::readData);
+            }
+        }
     }
-
-    if(!joinMulticastGroup(m_host)){
-        qWarning() << "UPnP discovery could not join multicast group" << m_host;
-        setAvailable(false);
-        return;
-    }
-
-    connect(this, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(error(QAbstractSocket::SocketError)));
-    connect(this, &UpnpDiscovery::readyRead, this, &UpnpDiscovery::readData);
-    setAvailable(true);
 }
 
 bool UpnpDiscovery::discovering() const
 {
-    return m_discovering;
+    return m_repeatTimer.isActive();
 }
 
 bool UpnpDiscovery::available() const
 {
-    return m_available;
+    return !m_sockets.isEmpty();
 }
 
 void UpnpDiscovery::discover()
 {
-    if (!m_available) {
+    if (!available()) {
         qWarning() << "Could not discover. UPnP not available.";
         return;
     }
 
     qDebug() << "start discovering...";
     m_repeatTimer.start();
-//    m_discoveryModel->clearModel();
     m_foundDevices.clear();
-
-    setDiscovering(true);
-
     writeDiscoveryPacket();
+    emit discoveringChanged();
 }
 
 void UpnpDiscovery::stopDiscovery()
 {
     qDebug() << "stop discovering";
     m_repeatTimer.stop();
-    setDiscovering(false);
-}
-
-void UpnpDiscovery::setDiscovering(const bool &discovering)
-{
-    m_discovering = discovering;
     emit discoveringChanged();
-}
-
-void UpnpDiscovery::setAvailable(const bool &available)
-{
-    m_available = available;
-    emit availableChanged();
 }
 
 void UpnpDiscovery::writeDiscoveryPacket()
@@ -114,33 +102,43 @@ void UpnpDiscovery::writeDiscoveryPacket()
                                               "MX:2\r\n"
                                               "ST: ssdp:all\r\n\r\n");
 
-//    qDebug() << "sending discovery packet";
-    writeDatagram(ssdpSearchMessage, m_host, m_port);
+    qDebug() << "sending discovery package";
+    foreach (QUdpSocket* socket, m_sockets) {
+        quint64 ret = socket->writeDatagram(ssdpSearchMessage, QHostAddress("239.255.255.250"), 1900);
+        if (ret != ssdpSearchMessage.length()) {
+            qWarning() << "Error sending SSDP query on socket" << socket->localAddress();
+        }
+
+    }
 }
 
 void UpnpDiscovery::error(QAbstractSocket::SocketError error)
 {
-    qWarning() << "UPnP socket error:" << error << errorString();
+    QUdpSocket* socket = static_cast<QUdpSocket*>(sender());
+    qWarning() << "UPnP socket error:" << error << socket->errorString();
 }
 
 void UpnpDiscovery::readData()
 {
+    QUdpSocket* socket = static_cast<QUdpSocket*>(sender());
     QByteArray data;
     quint16 port;
     QHostAddress hostAddress;
 
     // read the answere from the multicast
-    while (hasPendingDatagrams()) {
-        data.resize(pendingDatagramSize());
-        readDatagram(data.data(), data.size(), &hostAddress, &port);
+    while (socket->hasPendingDatagrams()) {
+        data.resize(socket->pendingDatagramSize());
+        socket->readDatagram(data.data(), data.size(), &hostAddress, &port);
     }
 
     if (!discovering()) {
         return;
     }
 
+//    qDebug() << "upnp packet" << data;
+
     // if the data contains the HTTP OK header...
-    if (data.contains("HTTP/1.1 200 OK") || data.contains("NOTIFY * HTTP/1.1")) {
+    if (data.contains("HTTP/1.1 200 OK")) {
         QUrl location;
         bool isNymea = false;
 
@@ -206,42 +204,63 @@ void UpnpDiscovery::networkReplyFinished(QNetworkReply *reply)
         if (xml.isStartDocument())
             continue;
 
+
         if (xml.isStartElement()) {
+
+            // Check for old style websocketURL and nymeaRpcURL
             if (xml.name().toString() == "websocketURL") {
                 QUrl u(xml.readElementText());
                 PortConfig *pc = new PortConfig(u.port());
                 pc->setProtocol(PortConfig::ProtocolWebSocket);
-                pc->setSslEnabled(u.scheme().endsWith('s'));
+                pc->setSslEnabled(u.scheme() == "wss");
                 portConfigList.append(pc);
             }
-        }
 
-        if (xml.isStartElement()) {
             if (xml.name().toString() == "nymeaRpcURL") {
                 QUrl u(xml.readElementText());
                 qDebug() << "have url" << u << u.scheme();
                 PortConfig *pc = new PortConfig(u.port());
                 pc->setProtocol(PortConfig::ProtocolNymeaRpc);
-                pc->setSslEnabled(u.scheme().endsWith('s'));
+                pc->setSslEnabled(u.scheme() == "nymeas");
                 portConfigList.append(pc);
             }
-        }
 
-        if (xml.isStartElement()) {
-            if (xml.name().toString() == "device") {
-                while (!xml.atEnd()) {
-                    if (xml.name() == "friendlyName" && xml.isStartElement()) {
-                        name = xml.readElementText();
-                    }
-                    if (xml.name() == "modelNumber" && xml.isStartElement()) {
-                        version = xml.readElementText();
-                    }
-                    if (xml.name() == "UDN" && xml.isStartElement()) {
-                        uuid = xml.readElementText().split(':').last();
-                    }
+            if (xml.name().toString() == "guhRpcURL") {
+                QUrl u(xml.readElementText());
+                qDebug() << "have url" << u << u.scheme();
+                PortConfig *pc = new PortConfig(u.port());
+                pc->setProtocol(PortConfig::ProtocolNymeaRpc);
+                pc->setSslEnabled(u.scheme() == "guhs");
+                portConfigList.append(pc);
+            }
+
+            // But also for new style serviceList
+            if (xml.name().toString() == "serviceList") {
+                while (!(xml.isEndElement() && xml.name().toString() == "serviceList") && !xml.atEnd()) {
                     xml.readNext();
+                    if (xml.name().toString() == "service") {
+                        while (!(xml.isEndElement() && xml.name().toString() == "service") && !xml.atEnd()) {
+                            xml.readNext();
+                            if (xml.name().toString() == "SCPDURL") {
+                                QUrl u(xml.readElementText());
+                                PortConfig *pc = new PortConfig(u.port());
+                                pc->setProtocol(u.scheme().startsWith("nymea") ? PortConfig::ProtocolNymeaRpc : PortConfig::ProtocolWebSocket);
+                                pc->setSslEnabled(u.scheme() == "nymeas" || u.scheme() == "wss");
+                                portConfigList.append(pc);
+                            }
+                        }
+                    }
                 }
-                xml.readNext();
+            }
+
+            if (xml.name() == "friendlyName") {
+                name = xml.readElementText();
+            }
+            if (xml.name() == "modelNumber") {
+                version = xml.readElementText();
+            }
+            if (xml.name() == "UDN") {
+                uuid = xml.readElementText().split(':').last();
             }
         }
     }
