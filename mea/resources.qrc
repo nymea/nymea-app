@@ -167,5 +167,23 @@
         <file>ui/images/network-secure.svg</file>
         <file>ui/images/lock-broken.svg</file>
         <file>ui/AboutPage.qml</file>
+        <file>ui/images/sort-listitem.svg</file>
+        <file>ui/devicepages/ShutterDevicePage.qml</file>
+        <file>ui/images/shutter-1.svg</file>
+        <file>ui/images/shutter-2.svg</file>
+        <file>ui/images/shutter-3.svg</file>
+        <file>ui/images/shutter-4.svg</file>
+        <file>ui/images/shutter-5.svg</file>
+        <file>ui/images/shutter-6.svg</file>
+        <file>ui/images/shutter-7.svg</file>
+        <file>ui/images/shutter-8.svg</file>
+        <file>ui/images/shutter-9.svg</file>
+        <file>ui/images/shutter-10.svg</file>
+        <file>ui/images/down.svg</file>
+        <file>ui/images/up.svg</file>
+        <file>ui/devicepages/GarageGateDevicePage.qml</file>
+        <file>ui/images/remove.svg</file>
+        <file>ui/images/shutter-0.svg</file>
+        <file>ui/components/ShutterControls.qml</file>
     </qresource>
 </RCC>

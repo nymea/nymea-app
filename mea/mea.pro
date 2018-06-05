@@ -52,5 +52,9 @@ BR=$$BRANDING
     win32:RCC_ICONS += ../packaging/windows/packages/io.guh.mea/meta/logo.ico
 }
 
+withavahi: {
+    LIBS += -lavahi-client -lavahi-common
+}
+
 target.path = /usr/bin
 INSTALLS += target
