@@ -102,7 +102,7 @@ void UpnpDiscovery::writeDiscoveryPacket()
                                               "MX:2\r\n"
                                               "ST: ssdp:all\r\n\r\n");
 
-    qDebug() << "sending discovery package";
+//    qDebug() << "sending discovery package";
     foreach (QUdpSocket* socket, m_sockets) {
         quint64 ret = socket->writeDatagram(ssdpSearchMessage, QHostAddress("239.255.255.250"), 1900);
         if (ret != ssdpSearchMessage.length()) {
@@ -151,7 +151,6 @@ void UpnpDiscovery::readData()
 
             if (key.contains("Server") || key.contains("SERVER")) {
                 if (value.contains("nymea")) {
-                    qDebug() << " --> " << key << value;
                     isNymea = true;
                 }
             }
@@ -160,10 +159,6 @@ void UpnpDiscovery::readData()
             if (key.contains("LOCATION") || key.contains("Location")) {
                 location = QUrl(value);
             }
-        }
-
-        if (isNymea) {
-            qDebug() << "Found nymea device:" << location;
         }
 
         if (!m_foundDevices.contains(location) && isNymea) {

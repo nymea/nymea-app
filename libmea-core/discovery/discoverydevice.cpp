@@ -91,6 +91,7 @@ QString DiscoveryDevice::toUrl(int portConfigIndex)
     PortConfig *pc = m_portConfigs->get(portConfigIndex);
     if (!pc) {
         qWarning() << "No portconfig for index" << portConfigIndex;
+        return QString();
     }
     QString ret = pc->protocol() == PortConfig::ProtocolNymeaRpc ? "nymea" : "ws";
     ret += pc->sslEnabled() ? "s" : "";

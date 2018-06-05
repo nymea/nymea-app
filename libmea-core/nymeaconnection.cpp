@@ -43,13 +43,19 @@ void NymeaConnection::disconnect()
     m_currentInterface->disconnect();
 }
 
-void NymeaConnection::acceptCertificate(const QByteArray &fingerprint)
+void NymeaConnection::acceptCertificate(const QString &url, const QByteArray &fingerprint)
 {
     QSettings settings;
     settings.beginGroup("acceptedCertificates");
-    settings.setValue(m_currentUrl.toString(), fingerprint);
+    settings.setValue(QUrl(url).host(), fingerprint);
     settings.endGroup();
-    connect(m_currentUrl.toString());
+}
+
+bool NymeaConnection::isTrusted(const QString &url)
+{
+    QSettings settings;
+    settings.beginGroup("acceptedCertificates");
+    return settings.contains(QUrl(url).host());
 }
 
 bool NymeaConnection::connected()
@@ -90,7 +96,7 @@ void NymeaConnection::onSslErrors(const QList<QSslError> &errors)
 
             QSettings settings;
             settings.beginGroup("acceptedCertificates");
-            QByteArray storedFingerPrint = settings.value(m_currentUrl.toString()).toByteArray();
+            QByteArray storedFingerPrint = settings.value(m_currentUrl.host()).toByteArray();
             settings.endGroup();
 
             QByteArray certificateFingerprint;
@@ -115,7 +121,7 @@ void NymeaConnection::onSslErrors(const QList<QSslError> &errors)
 //                info << tr("Name Qualifier:")<< error.certificate().issuerInfo(QSslCertificate::DistinguishedNameQualifier);
 //                info << tr("Email:")<< error.certificate().issuerInfo(QSslCertificate::EmailAddress);
 
-                emit verifyConnectionCertificate(info, certificateFingerprint);
+                emit verifyConnectionCertificate(m_currentUrl.toString(), info, certificateFingerprint);
             }
         } else {
             // Reject the connection on all other errors...

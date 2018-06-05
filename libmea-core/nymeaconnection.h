@@ -21,7 +21,8 @@ public:
 
     Q_INVOKABLE void connect(const QString &url);
     Q_INVOKABLE void disconnect();
-    Q_INVOKABLE void acceptCertificate(const QByteArray &fingerprint);
+    Q_INVOKABLE void acceptCertificate(const QString &url, const QByteArray &fingerprint);
+    Q_INVOKABLE bool isTrusted(const QString &url);
 
     bool connected();
 
@@ -31,7 +32,7 @@ public:
     void sendData(const QByteArray &data);
 
 signals:
-    void verifyConnectionCertificate(const QStringList &issuerInfo, const QByteArray &fingerprint);
+    void verifyConnectionCertificate(const QString &url, const QStringList &issuerInfo, const QByteArray &fingerprint);
     void connectedChanged(bool connected);
     void connectionError();
     void dataAvailable(const QByteArray &data);
