@@ -21,13 +21,10 @@ void NymeaDiscovery::setDiscovering(bool discovering)
     if (m_discovering != discovering) {
         m_discovering = discovering;
         // For zeroconf we'll ignore it as zeroconf doesn't do active discovery but just listens for changes in the net all the time
-        // If we don't have zeroconf available, start an active upnp discovery
-        if (!m_zeroConf->available()) {
-            if (discovering) {
-                m_upnp->discover();
-            } else {
-                m_upnp->stopDiscovery();
-            }
+        if (discovering) {
+            m_upnp->discover();
+        } else {
+            m_upnp->stopDiscovery();
         }
         emit discoveringChanged();
     }

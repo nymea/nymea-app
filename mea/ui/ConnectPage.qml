@@ -582,6 +582,7 @@ Page {
                                 }
                                 onClicked: {
                                     Engine.connection.connect(dialog.discoveryDevice.toUrl(index))
+                                    dialog.close()
                                 }
                             }
                         }

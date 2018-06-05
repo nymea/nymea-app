@@ -30,7 +30,7 @@
 #include "discoverydevice.h"
 #include "discoverymodel.h"
 
-class UpnpDiscovery : public QUdpSocket
+class UpnpDiscovery : public QObject
 {
     Q_OBJECT
 public:
@@ -44,22 +44,15 @@ public:
     Q_INVOKABLE void stopDiscovery();
 
 private:
+    QList<QUdpSocket*> m_sockets;
     QNetworkAccessManager *m_networkAccessManager;
 
     QTimer m_repeatTimer;
 
-    QHostAddress m_host;
-    qint16 m_port;
-
     DiscoveryModel *m_discoveryModel;
 
-    bool m_discovering;
-    bool m_available;
     QHash<QNetworkReply *, QHostAddress> m_runningReplies;
     QList<QUrl> m_foundDevices;
-
-    void setDiscovering(const bool &discovering);
-    void setAvailable(const bool &available);
 
 signals:
     void discoveringChanged();
