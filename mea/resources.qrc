@@ -185,5 +185,6 @@
         <file>ui/images/remove.svg</file>
         <file>ui/images/shutter-0.svg</file>
         <file>ui/components/ShutterControls.qml</file>
+        <file>../LICENSE</file>
     </qresource>
 </RCC>
