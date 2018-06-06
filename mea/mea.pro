@@ -59,6 +59,7 @@ ios: {
     plist.output = $$OUT_PWD/Info.plist
     QMAKE_SUBSTITUTES += plist
     QMAKE_INFO_PLIST = $$OUT_PWD/Info.plist
+    OTHER_FILES += ../packaging/ios/Info.plist.in
 }
 
 BR=$$BRANDING
@@ -68,6 +69,7 @@ BR=$$BRANDING
 } else {
     win32:RCC_ICONS += ../packaging/windows/packages/io.guh.mea/meta/logo.ico
 }
+
 
 target.path = /usr/bin
 INSTALLS += target
