@@ -54,6 +54,13 @@ macx: {
     ICON = ../packaging/osx/icon.icns
 }
 
+ios: {
+    plist.input = ../packaging/ios/Info.plist.in
+    plist.output = $$OUT_PWD/Info.plist
+    QMAKE_SUBSTITUTES += plist
+    QMAKE_INFO_PLIST = $$OUT_PWD/Info.plist
+}
+
 BR=$$BRANDING
 !equals(BR, "") {
     DEFINES += BRANDING=\\\"$${BR}\\\"
