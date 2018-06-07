@@ -9,7 +9,7 @@
 	<key>CFBundleIconFile</key>
         <string>icon.icns</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.yourcompany.mea</string>
+	<string>io.guh.mea</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleSignature</key>
