@@ -70,11 +70,11 @@ ios: {
     message("iOS build")
     QMAKE_TARGET_BUNDLE_PREFIX = io.guh
     QMAKE_BUNDLE = mea
-    plist.input = ../packaging/ios/Info.plist.in
-    plist.output = $$OUT_PWD/Info.plist
-    QMAKE_SUBSTITUTES += plist
-    QMAKE_INFO_PLIST = $$OUT_PWD/Info.plist
-    OTHER_FILES += ../packaging/ios/Info.plist.in
+#    plist.input = ../packaging/ios/Info.plist.in
+#    plist.output = $$OUT_PWD/Info.plist
+#    QMAKE_SUBSTITUTES += plist
+#    QMAKE_INFO_PLIST = $$OUT_PWD/Info.plist
+#    OTHER_FILES += ../packaging/ios/Info.plist.in
 }
 
 BR=$$BRANDING
