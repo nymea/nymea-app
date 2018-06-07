@@ -82,13 +82,14 @@ Page {
 
             ColumnLayout {
                 Layout.fillWidth: true
+
                 ItemDelegate {
                     Layout.fillWidth: true
 
                     contentItem: RowLayout {
                         Label {
                             Layout.fillWidth: true
-                            text: qsTr("View license text")
+                            text: qsTr("Visit the nymea website")
                         }
                         Image {
                             source: "images/next.svg"
@@ -98,7 +99,7 @@ Page {
                     }
 
                     onClicked: {
-                        pageStack.push(licenseTextComponent)
+                        Qt.openUrlExternally("https://nymea.io")
                     }
                 }
 
@@ -118,6 +119,26 @@ Page {
                     }
                     onClicked: {
                         Qt.openUrlExternally("https://github.com/guh/mea")
+                    }
+                }
+
+                ItemDelegate {
+                    Layout.fillWidth: true
+
+                    contentItem: RowLayout {
+                        Label {
+                            Layout.fillWidth: true
+                            text: qsTr("View license text")
+                        }
+                        Image {
+                            source: "images/next.svg"
+                            Layout.preferredHeight: parent.height
+                            Layout.preferredWidth: height
+                        }
+                    }
+
+                    onClicked: {
+                        pageStack.push(licenseTextComponent)
                     }
                 }
             }
@@ -161,7 +182,7 @@ Page {
                 }
 
                 onClicked: {
-                    Qt.openUrlExternally("https://qt.io")
+                    Qt.openUrlExternally("https://www.qt.io")
                 }
             }
         }
