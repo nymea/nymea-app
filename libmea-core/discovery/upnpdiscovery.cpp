@@ -104,7 +104,7 @@ void UpnpDiscovery::writeDiscoveryPacket()
 
 //    qDebug() << "sending discovery package";
     foreach (QUdpSocket* socket, m_sockets) {
-        quint64 ret = socket->writeDatagram(ssdpSearchMessage, QHostAddress("239.255.255.250"), 1900);
+        qint64 ret = socket->writeDatagram(ssdpSearchMessage, QHostAddress("239.255.255.250"), 1900);
         if (ret != ssdpSearchMessage.length()) {
             qWarning() << "Error sending SSDP query on socket" << socket->localAddress();
         }
@@ -165,7 +165,7 @@ void UpnpDiscovery::readData()
             m_foundDevices.append(location);
             qDebug() << "Getting server data from:" << location;
             QNetworkReply *reply = m_networkAccessManager->get(QNetworkRequest(location));
-            connect(reply, &QNetworkReply::sslErrors, [this, reply](const QList<QSslError> &errors){
+            connect(reply, &QNetworkReply::sslErrors, [reply](const QList<QSslError> &errors){
                 reply->ignoreSslErrors(errors);
             });
             m_runningReplies.insert(reply, hostAddress);

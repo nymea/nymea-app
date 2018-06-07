@@ -23,7 +23,7 @@ QStringList TcpSocketInterface::supportedSchemes() const
 
 void TcpSocketInterface::sendData(const QByteArray &data)
 {
-    quint64 ret = m_socket.write(data);
+    qint64 ret = m_socket.write(data);
     if (ret != data.length()) {
         qWarning() << "Error writing data to socket.";
     }
