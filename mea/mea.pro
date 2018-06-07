@@ -67,7 +67,9 @@ macx: {
 }
 
 ios: {
-    QMAKE_TARGET_BUNDLE_PREFIX = "io.guh"
+    message("iOS build")
+    QMAKE_TARGET_BUNDLE_PREFIX = io.guh
+    QMAKE_BUNDLE = mea
     plist.input = ../packaging/ios/Info.plist.in
     plist.output = $$OUT_PWD/Info.plist
     QMAKE_SUBSTITUTES += plist
