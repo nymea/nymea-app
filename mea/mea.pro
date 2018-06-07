@@ -44,6 +44,18 @@ android {
         $$ANDROID_PACKAGE_SOURCE_DIR/LICENSE
 }
 
+BR=$$BRANDING
+!equals(BR, "") {
+    DEFINES += BRANDING=\\\"$${BR}\\\"
+    win32:RCC_ICONS += ../packaging/windows_$${BR}/packages/io.guh.$${BR}/meta/logo.ico
+} else {
+    win32:RCC_ICONS += ../packaging/windows/packages/io.guh.mea/meta/logo.ico
+}
+
+withavahi: {
+    LIBS += -lavahi-client -lavahi-common
+}
+
 macx: {
     PRODUCT_NAME=mea
     plist.input = ../packaging/osx/Info.plist.in
@@ -55,6 +67,7 @@ macx: {
 }
 
 ios: {
+    QMAKE_TARGET_BUNDLE_PREFIX = "io.guh"
     plist.input = ../packaging/ios/Info.plist.in
     plist.output = $$OUT_PWD/Info.plist
     QMAKE_SUBSTITUTES += plist
