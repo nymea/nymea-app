@@ -5,6 +5,7 @@ import QtQuick.Controls.Material 2.2
 ApplicationWindow {
     property color guhAccent: "#ff57baae"
     property string systemName: "nymea"
+    property string appName: "mea"
 
     Material.theme: Material.Light
     Material.accent: guhAccent

@@ -141,7 +141,6 @@
         <file>styles/light/ApplicationWindow.qml</file>
         <file>styles/light/Page.qml</file>
         <file>styles/dark/Page.qml</file>
-        <file>styles/marantec/ApplicationWindow.qml</file>
         <file>styles/maveo/ApplicationWindow.qml</file>
         <file>ui/BluetoothDiscoveryPage.qml</file>
         <file>ui/images/bluetooth.svg</file>
@@ -186,5 +185,7 @@
         <file>ui/images/shutter-0.svg</file>
         <file>ui/components/ShutterControls.qml</file>
         <file>../LICENSE</file>
+        <file>ui/images/Built_with_Qt_RGB_logo.svg</file>
+        <file>ui/images/Built_with_Qt_RGB_logo_vertical.svg</file>
     </qresource>
 </RCC>

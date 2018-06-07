@@ -116,7 +116,7 @@ Page {
             contentItem: RowLayout {
                 Label {
                     Layout.fillWidth: true
-                    text: qsTr("About %1").arg(app.systemName)
+                    text: qsTr("About %1").arg(app.appName)
                 }
                 Image {
                     source: "images/next.svg"

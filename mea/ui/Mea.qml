@@ -12,6 +12,7 @@ ApplicationWindow {
     height: 580
     visibility: settings.viewMode
     font: Qt.application.font
+    title: appName
 
     property int margins: 14
     property int bigMargins: 20

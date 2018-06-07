@@ -8,66 +8,193 @@ import "components"
 Page {
     id: root
     header: GuhHeader {
-        text: qsTr("About %1").arg(app.systemName)
+        text: qsTr("About %1").arg(app.appName)
         backButtonVisible: true
         onBackPressed: pageStack.pop()
     }
 
-    ColumnLayout {
+    Flickable {
         anchors.fill: parent
-        spacing: app.margins
+        contentHeight: aboutColumn.implicitHeight
 
-        Image {
-            Layout.preferredHeight: app.iconSize * 4
-            Layout.fillWidth: true
-            fillMode: Image.PreserveAspectFit
-            horizontalAlignment: Image.AlignHCenter
-            source: "../guh-logo.svg"
-        }
+        ColumnLayout {
+            id: aboutColumn
+            width: parent.width
 
-        ThinDivider {}
+            RowLayout {
+                Layout.fillWidth: true
+                Layout.margins: app.margins
+                spacing: app.margins
 
-        GridLayout {
-            Layout.fillWidth: true
-            Layout.margins: app.margins
-            columns: 2
+                Image {
+                    Layout.preferredHeight: app.iconSize * 2
+                    Layout.preferredWidth: height
+                    fillMode: Image.PreserveAspectFit
+                    source: "../guh-logo.svg"
+                }
+
+                GridLayout {
+                    Layout.fillWidth: true
+                    columns: 2
+
+                    Label {
+                        text: qsTr("App version:")
+                    }
+                    Label {
+                        text: appVersion
+                    }
+                    Label {
+                        text: qsTr("Qt version:")
+                    }
+                    Label {
+                        text: qtVersion
+                    }
+                }
+            }
+
+            ThinDivider {}
 
             Label {
-                text: qsTr("App version:")
-            }
-            Label {
-                text: appVersion
-            }
-            Label {
-                text: qsTr("Qt version:")
-            }
-            Label {
-                text: qtVersion
-            }
-        }
-
-        ThinDivider { }
-
-        Flickable {
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-            contentHeight: licenseText.implicitHeight
-            clip: true
-            ScrollBar.vertical: ScrollBar {}
-            TextArea {
-                id: licenseText
+                Layout.fillWidth: true
+                Layout.topMargin: app.margins
+                Layout.leftMargin: app.margins
+                Layout.rightMargin: app.margins
                 wrapMode: Text.WordWrap
-                font.pixelSize: app.smallFont
-                anchors { left: parent.left; right: parent.right; margins: app.margins }
-                Component.onCompleted: {
-                    var xhr = new XMLHttpRequest;
-                    xhr.open("GET", "../../LICENSE");
-                    xhr.onreadystatechange = function() {
-                        if (xhr.readyState === XMLHttpRequest.DONE) {
-                            text = xhr.responseText.replace(/(^\ *)/gm, "").replace(/(\n\n)/gm,"\t").replace(/(\n)/gm, " ").replace(/(\t)/gm, "\n\n");
+                font.bold: true
+                text: "Copyright (C) 2018 guh GmbH"
+            }
+
+            Label {
+                Layout.fillWidth: true
+                Layout.leftMargin: app.margins
+                Layout.rightMargin: app.margins
+                wrapMode: Text.WordWrap
+                text: qsTr("nymea is a registered trademark of guh GmbH.")
+            }
+
+            Label {
+                Layout.fillWidth: true
+                Layout.leftMargin: app.margins
+                Layout.rightMargin: app.margins
+                wrapMode: Text.WordWrap
+                text: qsTr("Licensed under the terms of the GNU general public license, version 2. Please visit the GitHub page for source code and build instructions.")
+            }
+
+            ColumnLayout {
+                Layout.fillWidth: true
+                ItemDelegate {
+                    Layout.fillWidth: true
+
+                    contentItem: RowLayout {
+                        Label {
+                            Layout.fillWidth: true
+                            text: qsTr("View license text")
                         }
-                    };
-                    xhr.send();
+                        Image {
+                            source: "images/next.svg"
+                            Layout.preferredHeight: parent.height
+                            Layout.preferredWidth: height
+                        }
+                    }
+
+                    onClicked: {
+                        pageStack.push(licenseTextComponent)
+                    }
+                }
+
+                ItemDelegate {
+                    Layout.fillWidth: true
+
+                    contentItem: RowLayout {
+                        Label {
+                            Layout.fillWidth: true
+                            text: qsTr("Visit GitHub page")
+                        }
+                        Image {
+                            source: "images/next.svg"
+                            Layout.preferredHeight: parent.height
+                            Layout.preferredWidth: height
+                        }
+                    }
+                    onClicked: {
+                        Qt.openUrlExternally("https://github.com/guh/mea")
+                    }
+                }
+            }
+
+
+            ThinDivider { }
+
+            RowLayout {
+                Layout.fillWidth: true
+                Layout.margins: app.margins
+                spacing: app.margins
+
+                Image {
+                    Layout.preferredHeight: app.iconSize * 2
+                    Layout.preferredWidth: height
+                    fillMode: Image.PreserveAspectFit
+                    source: "images/Built_with_Qt_RGB_logo_vertical.svg"
+                    sourceSize.width: app.iconSize * 2
+                    sourceSize.height: app.iconSize * 2
+                }
+
+                Label {
+                    Layout.fillWidth: true
+                    text: qsTr("Qt is a registered trademark of The Qt Company Ltd. and its subsidiaries.")
+                    wrapMode: Text.WordWrap
+                }
+            }
+            ItemDelegate {
+                Layout.fillWidth: true
+
+                contentItem: RowLayout {
+                    Label {
+                        Layout.fillWidth: true
+                        text: qsTr("Visit the Qt website")
+                    }
+                    Image {
+                        source: "images/next.svg"
+                        Layout.preferredHeight: parent.height
+                        Layout.preferredWidth: height
+                    }
+                }
+
+                onClicked: {
+                    Qt.openUrlExternally("https://qt.io")
+                }
+            }
+        }
+    }
+
+
+    Component {
+        id: licenseTextComponent
+        Page {
+            header: GuhHeader {
+                text: qsTr("License text")
+                onBackPressed: pageStack.pop()
+            }
+            Flickable {
+                anchors.fill: parent
+                contentHeight: licenseText.implicitHeight
+                clip: true
+                ScrollBar.vertical: ScrollBar {}
+                TextArea {
+                    id: licenseText
+                    wrapMode: Text.WordWrap
+                    font.pixelSize: app.smallFont
+                    anchors { left: parent.left; right: parent.right; margins: app.margins }
+                    Component.onCompleted: {
+                        var xhr = new XMLHttpRequest;
+                        xhr.open("GET", "../../LICENSE");
+                        xhr.onreadystatechange = function() {
+                            if (xhr.readyState === XMLHttpRequest.DONE) {
+                                text = xhr.responseText.replace(/(^\ *)/gm, "").replace(/(\n\n)/gm,"\t").replace(/(\n)/gm, " ").replace(/(\t)/gm, "\n\n");
+                            }
+                        };
+                        xhr.send();
+                    }
                 }
             }
         }
