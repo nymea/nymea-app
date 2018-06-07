@@ -31,17 +31,27 @@ contains(ANDROID_TARGET_ARCH,armeabi-v7a) {
 }
 
 android {
-ANDROID_PACKAGE_SOURCE_DIR = $$PWD/../packaging/android
+    ANDROID_PACKAGE_SOURCE_DIR = $$PWD/../packaging/android
 
-DISTFILES += \
-    $$ANDROID_PACKAGE_SOURCE_DIR/AndroidManifest.xml \
-    $$ANDROID_PACKAGE_SOURCE_DIR/gradle/wrapper/gradle-wrapper.jar \
-    $$ANDROID_PACKAGE_SOURCE_DIR/gradlew \
-    $$ANDROID_PACKAGE_SOURCE_DIR/res/values/libs.xml \
-    $$ANDROID_PACKAGE_SOURCE_DIR/build.gradle \
-    $$ANDROID_PACKAGE_SOURCE_DIR/gradle/wrapper/gradle-wrapper.properties \
-    $$ANDROID_PACKAGE_SOURCE_DIR/gradlew.bat \
-    $$ANDROID_PACKAGE_SOURCE_DIR/LICENSE
+    DISTFILES += \
+        $$ANDROID_PACKAGE_SOURCE_DIR/AndroidManifest.xml \
+        $$ANDROID_PACKAGE_SOURCE_DIR/gradle/wrapper/gradle-wrapper.jar \
+        $$ANDROID_PACKAGE_SOURCE_DIR/gradlew \
+        $$ANDROID_PACKAGE_SOURCE_DIR/res/values/libs.xml \
+        $$ANDROID_PACKAGE_SOURCE_DIR/build.gradle \
+        $$ANDROID_PACKAGE_SOURCE_DIR/gradle/wrapper/gradle-wrapper.properties \
+        $$ANDROID_PACKAGE_SOURCE_DIR/gradlew.bat \
+        $$ANDROID_PACKAGE_SOURCE_DIR/LICENSE
+}
+
+macx: {
+    PRODUCT_NAME=mea
+    plist.input = ../packaging/osx/Info.plist.in
+    plist.output = $$OUT_PWD/Info.plist
+    QMAKE_SUBSTITUTES += plist
+    QMAKE_INFO_PLIST = $$OUT_PWD/Info.plist
+    OTHER_FILES += ../packaging/osx/Info.plist.in
+    ICON = ../packaging/osx/icon.icns
 }
 
 BR=$$BRANDING
@@ -50,10 +60,6 @@ BR=$$BRANDING
     win32:RCC_ICONS += ../packaging/windows_$${BR}/packages/io.guh.$${BR}/meta/logo.ico
 } else {
     win32:RCC_ICONS += ../packaging/windows/packages/io.guh.mea/meta/logo.ico
-}
-
-withavahi: {
-    LIBS += -lavahi-client -lavahi-common
 }
 
 target.path = /usr/bin

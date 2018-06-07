@@ -42,9 +42,25 @@ wininstaller.commands += binarycreator -c $${PACKAGE_DIR}\config\config.xml -p $
 message("cmd: $${wininstaller.commands}")
 QMAKE_EXTRA_TARGETS += wininstaller
 
+
+# OS X installer bundle
+osxbundle.commands += cd mea && rm -f mea.dmg mea_writable.dmg mea-osx-bundle.dmg || true &&
+osxbundle.commands += hdiutil eject /Volumes/mea || true &&
+osxbundle.commands += macdeployqt mea.app -qmldir=$$top_srcdir/mea/ui -dmg &&
+osxbundle.commands += hdiutil convert mea.dmg -format UDRW -o mea_writable.dmg &&
+osxbundle.commands += hdiutil attach -readwrite -noverify mea_writable.dmg &&
+osxbundle.commands += mkdir /Volumes/mea/.background/ && cp $$top_srcdir/packaging/osx/installer.tiff /Volumes/mea/.background/ &&
+osxbundle.commands += ln -s /Applications /Volumes/mea/Applications &&
+osxbundle.commands += osascript $$top_srcdir/packaging/osx/patchinstaller.sctp &&
+osxbundle.commands += hdiutil eject /Volumes/mea &&
+osxbundle.commands += hdiutil convert mea_writable.dmg -format UDRO -o mea-osx-bundle.dmg &&
+osxbundle.commands += rm mea.dmg mea_writable.dmg
+QMAKE_EXTRA_TARGETS += osxbundle
+
+
+# Translations support
 TRANSLATIONS += $$files(mea/translations/*.ts, true)
 lrelease.commands = lrelease $$_FILE_
 lrelease-qmake_all.commands = lrelease $$_FILE_
 QMAKE_EXTRA_TARGETS += lrelease lrelease-make_first lrelease-qmake_all lrelease-install_subtargets
-
 mea.depends += lrelease
