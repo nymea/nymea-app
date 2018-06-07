@@ -38,7 +38,7 @@ public:
     bool isConnected() const override;
     void disconnect() override;
     void sendData(const QByteArray &data) override;
-    void ignoreSslErrors(const QList<QSslError> &errors);
+    void ignoreSslErrors(const QList<QSslError> &errors) override;
 
 private:
     QWebSocket *m_socket;
