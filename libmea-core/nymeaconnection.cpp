@@ -91,7 +91,7 @@ void NymeaConnection::onSslErrors(const QList<QSslError> &errors)
         if (error.error() == QSslError::HostNameMismatch) {
             qDebug() << "Ignoring host mismatch on certificate.";
             ignoredErrors.append(error);
-        } else if (error.error() == QSslError::SelfSignedCertificate) {
+        } else if (error.error() == QSslError::SelfSignedCertificate || error.error() == QSslError::CertificateUntrusted) {
             qDebug() << "have a self signed certificate." << error.certificate() << error.certificate().issuerInfoAttributes();
 
             QSettings settings;
