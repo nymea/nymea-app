@@ -44,18 +44,6 @@ android {
         $$ANDROID_PACKAGE_SOURCE_DIR/LICENSE
 }
 
-BR=$$BRANDING
-!equals(BR, "") {
-    DEFINES += BRANDING=\\\"$${BR}\\\"
-    win32:RCC_ICONS += ../packaging/windows_$${BR}/packages/io.guh.$${BR}/meta/logo.ico
-} else {
-    win32:RCC_ICONS += ../packaging/windows/packages/io.guh.mea/meta/logo.ico
-}
-
-withavahi: {
-    LIBS += -lavahi-client -lavahi-common
-}
-
 macx: {
     PRODUCT_NAME=mea
     plist.input = ../packaging/osx/Info.plist.in
@@ -86,7 +74,6 @@ BR=$$BRANDING
 } else {
     win32:RCC_ICONS += ../packaging/windows/packages/io.guh.mea/meta/logo.ico
 }
-
 
 target.path = /usr/bin
 INSTALLS += target
