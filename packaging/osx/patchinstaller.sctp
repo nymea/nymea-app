@@ -9,8 +9,8 @@ tell app "Finder"
     set arrangement of viewOptions to not arranged
     set icon size of viewOptions to 128
     set background picture of viewOptions to file ".background:installer.tiff"
-    set position of item "mea.app" of container window to {130, 220}
-    set position of item "Applications" of container window to {412, 220}
+    set position of item "mea.app" of container window to {135, 224}
+    set position of item "Applications" of container window to {412, 224}
     close
     open
     update without registering applications
