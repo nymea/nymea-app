@@ -210,7 +210,7 @@ void DeviceManager::getConfiguredDevicesResponse(const QVariantMap &params)
         foreach (QVariant deviceVariant, deviceList) {
             Device *device = new Device();
             if (!JsonTypes::unpackDevice(deviceVariant.toMap(), device)) {
-                qWarning() << "Error parsing device json";
+                qWarning() << "Error parsing device json" << deviceVariant;
                 continue;
             }
 

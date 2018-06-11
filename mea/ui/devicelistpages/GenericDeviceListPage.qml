@@ -3,6 +3,7 @@ import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.1
 import Mea 1.0
 import "../components"
+import "../delegates"
 
 Page {
     id: subPage
@@ -62,14 +63,10 @@ Page {
             id: devicesProxy
             devices: Engine.deviceManager.devices
         }
-        delegate: ItemDelegate {
+        delegate: ThingDelegate {
             width: parent.width
-            Label {
-                anchors { fill: parent; leftMargin: app.margins; rightMargin: app.margins }
-                text: model.name
-                verticalAlignment: Text.AlignVCenter
-            }
-
+            name: model.name
+            interfaces: Engine.deviceManager.deviceClasses.getDeviceClass(model.deviceClassId).interfaces
             onClicked: {
                 enterPage(index, false)
             }

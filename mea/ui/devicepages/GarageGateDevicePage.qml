@@ -21,64 +21,67 @@ DevicePageBase {
 
         ColorIcon {
             id: shutterImage
-            Layout.preferredWidth: root.landscape ? height : parent.width
-            Layout.preferredHeight: root.landscape ? parent.height : width
-            property int currentImage: 0
+            Layout.preferredWidth: root.landscape ? Math.min(parent.width - shutterControlsContainer.width, parent.height) - app.margins : parent.width
+            Layout.preferredHeight: width
+            property int currentImage: root.openState.value === "closed" ? 10 :
+                                    root.openState.value === "open" && root.intermediatePositionState.value === false ? 0 : 5
             name: "../images/shutter-" + currentImage + ".svg"
-            Component.onCompleted: update()
 
-            function update() {
-                switch (root.openState.value) {
-                case "open":
-                    if (root.intermediatePositionState.value === true) {
-                        shutterImage.currentImage = 5;
-                    } else {
-                        shutterImage.currentImage = 0;
-                    }
-                    break;
-                case "closed":
-                    if (root.intermediatePositionState.value === true) {
-                        shutterImage.currentImage = 5;
-                    } else {
-                        shutterImage.currentImage = 10;
-                    }
+            Item {
+                id: arrows
+                anchors.centerIn: parent
+                width: app.iconSize * 2
+                height: parent.height * .6
+                clip: true
+                visible: root.openState.value === "opening" || root.openState.value === "closing"
+                property bool up: root.openState.value === "opening"
+
+                // NumberAnimation doesn't reload to/from while it's running. If we switch from closing to opening or vice versa
+                // we need to somehow stop and start the animation
+                property bool animationHack: true
+                onAnimationHackChanged: {
+                    if (!animationHack) hackTimer.start();
                 }
-                print("shutter is now:", shutterImage.currentImage, root.intermediatePositionState.value)
-            }
+                Timer { id: hackTimer; interval: 1; onTriggered: arrows.animationHack = true }
+                Connections { target: root.openState; onValueChanged: arrows.animationHack = false }
 
-            Connections {
-                target: root.openState
-                onValueChanged: shutterImage.update();
-            }
-            Connections {
-                target: root.intermediatePositionState
-                onValueChanged: shutterImage.update();
-            }
+                NumberAnimation {
+                    target: arrowColumn
+                    property: "y"
+                    duration: 500
+                    easing.type: Easing.Linear
+                    from: arrows.up ? app.iconSize : -app.iconSize
+                    to: arrows.up ? -app.iconSize : app.iconSize
+                    loops: Animation.Infinite
+                    running: arrows.animationHack && (root.openState.value === "opening" || root.openState.value === "closing")
+                }
 
-            Timer {
-                running: root.openState.value === "closing" || root.openState.value === "opening"
-                interval: 500
-                repeat: true
-                onTriggered: {
-                    var value = shutterImage.currentImage;
-                    if (root.openState.value === "opening") {
-                        value--;
-                    } else if (root.openState.value === "closing") {
-                        value++;
+                Column {
+                    id: arrowColumn
+                    width: parent.width
+
+                    Repeater {
+                        model: arrows.height / app.iconSize + 1
+                        ColorIcon {
+                            name: arrows.up ? "../images/up.svg" : "../images/down.svg"
+                            width: parent.width
+                            height: width
+                            color: app.guhAccent
+                        }
                     }
-                    if (value > 10) value = 0;
-                    if (value < 0) value = 10;
-                    shutterImage.currentImage = value;
                 }
             }
         }
 
         Item {
-            Layout.preferredWidth: root.landscape ? parent.width / 2 : parent.width
+            id: shutterControlsContainer
+            Layout.preferredWidth: root.landscape ? Math.max(parent.width / 2, shutterControls.implicitWidth) : parent.width
+            Layout.minimumWidth: shutterControls.implicitWidth
             Layout.fillHeight: true
             Layout.minimumHeight: app.iconSize * 2.5
 
             ShutterControls {
+                id: shutterControls
                 device: root.device
                 anchors.centerIn: parent
 

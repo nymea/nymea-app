@@ -7,6 +7,8 @@ import Mea 1.0
 RowLayout {
     id: root
     spacing: (parent.width - app.iconSize*2*children.length) / 4
+//    implicitWidth: app.iconSize * 2 * children.length + spacing * (children.length - 1)
+    implicitWidth: childrenRect.width
 
     property var device: null
     readonly property var deviceClass: device ? Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null

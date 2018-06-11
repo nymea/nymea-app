@@ -211,6 +211,8 @@ Item {
                                         }
                                     }
                                     return count === 0 ? qsTr("All closed") : qsTr("%1 open").arg(count)
+                                case "shutter":
+                                    return qsTr("%1 installed").arg(devicesProxy.count)
                                 }
                                 console.warn("Unhandled interface", model.name)
                             }
