@@ -159,7 +159,7 @@ ItemDelegate {
         ComboBox {
             model: paramType.allowedValues
             onCurrentIndexChanged: {
-                root.value = paramType.allowedValues[index]
+                root.value = paramType.allowedValues[currentIndex]
             }
         }
     }

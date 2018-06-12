@@ -64,7 +64,6 @@ Page {
                 for (var i = 0; i < delegateRepeater.count; i++) {
                     var paramDelegate = delegateRepeater.itemAt(i);
                     if (paramDelegate.considerParam) {
-                        print("setting param descriptor to", paramDelegate.operatorType)
                         root.eventDescriptor.paramDescriptors.setParamDescriptor(paramDelegate.paramType.id, paramDelegate.value, paramDelegate.operatorType)
                     }
                 }
