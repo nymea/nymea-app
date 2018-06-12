@@ -12,7 +12,12 @@ GenericDevicePage {
         anchors.fill: parent
         text: qsTr("This event has appeared %1 times in the last 24 hours.")
 
-        device: root.device
+        logsModel: LogsModel {
+            deviceId: root.device.id
+            live: true
+            Component.onCompleted: update()
+            typeId: root.deviceClass.eventTypes.findByName("triggered").id;
+        }
 
         onAddRuleClicked: {
             var rule = Engine.ruleManager.createNewRule();

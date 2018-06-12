@@ -36,6 +36,7 @@ Page {
                         id: stateLabel
                         Layout.preferredWidth: parent.width / 2
                         text: displayName
+                        elide: Text.ElideRight
                     }
 
                     Loader {
@@ -73,6 +74,7 @@ Page {
 
                         MouseArea {
                             anchors.fill: parent
+                            anchors.margins: -app.margins / 2
                             onClicked: pageStack.push(Qt.resolvedUrl("StateLogPage.qml"),
                                                       {device: root.device, stateType: stateType})
                         }

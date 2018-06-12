@@ -51,7 +51,7 @@ StateType *StateTypes::getStateType(const QUuid &stateTypeId) const
             return stateType;
         }
     }
-    return 0;
+    return nullptr;
 }
 
 int StateTypes::rowCount(const QModelIndex &parent) const

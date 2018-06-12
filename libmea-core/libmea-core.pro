@@ -56,6 +56,7 @@ SOURCES += \
     wifisetup/wirelessaccesspoints.cpp \
     wifisetup/wirelesssetupmanager.cpp \
     wifisetup/networkmanagercontroler.cpp \
+    models/logsmodelng.cpp
 
 HEADERS += \
     engine.h \
@@ -97,7 +98,8 @@ HEADERS += \
     wifisetup/wirelessaccesspoints.h \
     wifisetup/wirelesssetupmanager.h \
     wifisetup/networkmanagercontroler.h \
-    libmea-core.h
+    libmea-core.h \
+    models/logsmodelng.h
 
 unix {
     target.path = /usr/lib
