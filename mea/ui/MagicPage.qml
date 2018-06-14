@@ -13,30 +13,45 @@ Page {
         HeaderButton {
             imageSource: Qt.resolvedUrl("images/add.svg")
             onClicked: {
-                var newRulePage = pageStack.push(Qt.resolvedUrl("magic/EditRulePage.qml"), {rule: Engine.ruleManager.createNewRule() });
-                newRulePage.onAccept.connect(function() {
-                    Engine.ruleManager.addRule(newRulePage.rule);
+                d.editRulePage = pageStack.push(Qt.resolvedUrl("magic/EditRulePage.qml"), {rule: Engine.ruleManager.createNewRule() });
+                d.editRulePage.StackView.onRemoved.connect(function() {
+                    d.editRulePage.rule.destroy()
+                    d.editRulePage = null;
+                })
+                d.editRulePage.onAccept.connect(function() {
+                    d.editRulePage.busy = true;
+                    Engine.ruleManager.addRule(d.editRulePage.rule);
+                })
+                d.editRulePage.onCancel.connect(function() {
+                    pageStack.pop();
                 })
             }
         }
     }
 
+    QtObject {
+        id: d
+        property var editRulePage: null
+    }
+
     Connections {
         target: Engine.ruleManager
         onAddRuleReply: {
+            d.editRulePage.busy = false;
             if (ruleError == "RuleErrorNoError") {
                 pageStack.pop();
             } else {
-                var popup = errorDialog.createObject(root, {text: ruleError })
+                var popup = errorDialog.createObject(app, {errorCode: ruleError })
                 popup.open();
             }
         }
 
         onEditRuleReply: {
+            d.editRulePage.busy = false;
             if (ruleError == "RuleErrorNoError") {
                 pageStack.pop();
             } else {
-                var popup = errorDialog.createObject(root, {text: ruleError })
+                var popup = errorDialog.createObject(app, {errorCode: ruleError })
                 popup.open();
             }
         }
@@ -66,9 +81,17 @@ Page {
             }
 
             onClicked: {
-                var editRulePage = pageStack.push(Qt.resolvedUrl("magic/EditRulePage.qml"), {rule: Engine.ruleManager.rules.get(index) })
-                editRulePage.onAccept.connect(function() {
+                d.editRulePage = pageStack.push(Qt.resolvedUrl("magic/EditRulePage.qml"), {rule: Engine.ruleManager.rules.get(index).clone()})
+                d.editRulePage.StackView.onRemoved.connect(function() {
+                    d.editRulePage.rule.destroy();
+                    d.editRulePage = null
+                })
+                d.editRulePage.onAccept.connect(function() {
+                    d.editRulePage.busy = true;
                     Engine.ruleManager.editRule(editRulePage.rule);
+                })
+                d.editRulePage.onCancel.connect(function() {
+                    pageStack.pop();
                 })
             }
 

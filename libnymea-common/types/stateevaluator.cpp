@@ -59,3 +59,17 @@ StateEvaluator* StateEvaluator::addChildEvaluator()
     m_childEvaluators->addStateEvaluator(stateEvaluator);
     return stateEvaluator;
 }
+
+StateEvaluator *StateEvaluator::clone() const
+{
+    StateEvaluator *ret = new StateEvaluator();
+    ret->m_operator = this->m_operator;
+    ret->m_stateDescriptor->setDeviceId(this->m_stateDescriptor->deviceId());
+    ret->m_stateDescriptor->setStateTypeId(this->m_stateDescriptor->stateTypeId());
+    ret->m_stateDescriptor->setValueOperator(this->m_stateDescriptor->valueOperator());
+    ret->m_stateDescriptor->setValue(this->m_stateDescriptor->value());
+    for (int i = 0; i < this->m_childEvaluators->rowCount(); i++) {
+        ret->m_childEvaluators->addStateEvaluator(this->m_childEvaluators->get(i)->clone());
+    }
+    return ret;
+}

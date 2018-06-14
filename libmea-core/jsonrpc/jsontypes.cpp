@@ -34,6 +34,12 @@
 #include "types/stateevaluator.h"
 #include "types/stateevaluators.h"
 #include "types/statedescriptor.h"
+#include "types/timeeventitem.h"
+#include "types/timeeventitems.h"
+#include "types/timedescriptor.h"
+#include "types/repeatingoption.h"
+#include "types/calendaritems.h"
+#include "types/calendaritem.h"
 
 #include <QMetaEnum>
 
@@ -245,6 +251,10 @@ QVariantMap JsonTypes::packRule(Rule *rule)
         ret.insert("eventDescriptors", packEventDescriptors(rule->eventDescriptors()));
     }
 
+    if (rule->timeDescriptor()->timeEventItems()->rowCount() > 0 || rule->timeDescriptor()->calendarItems()->rowCount() > 0) {
+        ret.insert("timeDescriptor", packTimeDescriptor(rule->timeDescriptor()));
+    }
+
     if (rule->stateEvaluator()) {
         ret.insert("stateEvaluator", packStateEvaluator(rule->stateEvaluator()));
     }
@@ -335,6 +345,67 @@ QVariantMap JsonTypes::packStateEvaluator(StateEvaluator *stateEvaluator)
         childEvaluators.append(packStateEvaluator(stateEvaluator->childEvaluators()->get(i)));
     }
     ret.insert("childEvaluators", childEvaluators);
+    return ret;
+}
+
+QVariantMap JsonTypes::packTimeDescriptor(TimeDescriptor *timeDescriptor)
+{
+    QVariantMap ret;
+    QVariantList timeEventItems;
+    for (int i = 0; i < timeDescriptor->timeEventItems()->rowCount(); i++) {
+        timeEventItems.append(packTimeEventItem(timeDescriptor->timeEventItems()->get(i)));
+    }
+    if (!timeEventItems.isEmpty()) {
+        ret.insert("timeEventItems", timeEventItems);
+    }
+    QVariantList calendarItems;
+    for (int i = 0; i < timeDescriptor->calendarItems()->rowCount(); i++) {
+        calendarItems.append(packCalendarItem(timeDescriptor->calendarItems()->get(i)));
+    }
+    if (!calendarItems.isEmpty()) {
+        ret.insert("calendarItems", calendarItems);
+    }
+    return ret;
+}
+
+QVariantMap JsonTypes::packTimeEventItem(TimeEventItem *timeEventItem)
+{
+    QVariantMap ret;
+    if (!timeEventItem->time().isNull()) {
+        ret.insert("time", timeEventItem->time().toString("hh:mm"));
+    }
+    if (!timeEventItem->dateTime().isNull()) {
+        ret.insert("dateTime", timeEventItem->dateTime().toSecsSinceEpoch());
+    }
+    ret.insert("repeating", packRepeatingOption(timeEventItem->repeatingOption()));
+    return ret;
+}
+
+QVariantMap JsonTypes::packCalendarItem(CalendarItem *calendarItem)
+{
+    QVariantMap ret;
+    ret.insert("duration", calendarItem->duration());
+    if (!calendarItem->dateTime().isNull()) {
+        ret.insert("datetime", calendarItem->dateTime().toSecsSinceEpoch());
+    }
+    if (!calendarItem->startTime().isNull()) {
+        ret.insert("startTime", calendarItem->startTime().toString("hh:mm"));
+    }
+    ret.insert("repeating", packRepeatingOption(calendarItem->repeatingOption()));
+    return ret;
+}
+
+QVariantMap JsonTypes::packRepeatingOption(RepeatingOption *repeatingOption)
+{
+    QVariantMap ret;
+    QMetaEnum repeatingModeEnum = QMetaEnum::fromType<RepeatingOption::RepeatingMode>();
+    ret.insert("mode", repeatingModeEnum.valueToKey(repeatingOption->repeatingMode()));
+    if (!repeatingOption->weekDays().isEmpty()) {
+        ret.insert("weekDays", repeatingOption->weekDays());
+    }
+    if (!repeatingOption->monthDays().isEmpty()) {
+        ret.insert("monthDays", repeatingOption->monthDays());
+    }
     return ret;
 }
 

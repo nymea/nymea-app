@@ -1,8 +1,11 @@
 #include "timeeventitem.h"
 
-TimeEventItem::TimeEventItem(QObject *parent) : QObject(parent)
-{
+#include "repeatingoption.h"
 
+TimeEventItem::TimeEventItem(QObject *parent):
+    QObject(parent),
+    m_repeatingOption(new RepeatingOption(this))
+{
 }
 
 QDateTime TimeEventItem::dateTime() const
@@ -29,4 +32,18 @@ void TimeEventItem::setTime(const QTime &time)
         m_time = time;
         emit timeChanged();
     }
+}
+
+RepeatingOption *TimeEventItem::repeatingOption() const
+{
+    return m_repeatingOption;
+}
+
+TimeEventItem *TimeEventItem::clone() const
+{
+    TimeEventItem* ret = new TimeEventItem();
+    ret->m_dateTime = this->m_dateTime;
+    ret->m_time = this->m_time;
+    ret->m_repeatingOption = this->m_repeatingOption;
+    return ret;
 }

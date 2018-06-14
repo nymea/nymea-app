@@ -187,5 +187,16 @@
         <file>../LICENSE</file>
         <file>ui/images/Built_with_Qt_RGB_logo.svg</file>
         <file>ui/images/Built_with_Qt_RGB_logo_vertical.svg</file>
+        <file>ui/magic/TimeEventDelegate.qml</file>
+        <file>ui/magic/EditTimeEventItemPage.qml</file>
+        <file>ui/magic/EventDescriptorDelegate.qml</file>
+        <file>ui/components/MeaDialog.qml</file>
+        <file>ui/magic/RuleActionDelegate.qml</file>
+        <file>ui/magic/EditCalendarItemPage.qml</file>
+        <file>ui/magic/CalendarItemDelegate.qml</file>
+        <file>ui/images/alarm-clock.svg</file>
+        <file>ui/images/action.svg</file>
+        <file>ui/images/event.svg</file>
+        <file>ui/images/state.svg</file>
     </qresource>
 </RCC>

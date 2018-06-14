@@ -18,6 +18,12 @@
 #include "types/ruleactionparam.h"
 #include "types/eventdescriptors.h"
 #include "types/eventdescriptor.h"
+#include "types/timedescriptor.h"
+#include "types/timeeventitems.h"
+#include "types/timeeventitem.h"
+#include "types/repeatingoption.h"
+#include "types/calendaritems.h"
+#include "types/calendaritem.h"
 #include "types/rule.h"
 #include "types/interfaces.h"
 #include "types/interface.h"
@@ -104,6 +110,12 @@ void registerQmlTypes() {
     qmlRegisterUncreatableType<StateDescriptor>(uri, 1, 0, "StateDescriptor", "Uncreatable");
     qmlRegisterUncreatableType<StateEvaluator>(uri, 1, 0, "StateEvaluator", "Uncreatable");
     qmlRegisterUncreatableType<StateEvaluators>(uri, 1, 0, "StateEvaluators", "Uncreatable");
+    qmlRegisterUncreatableType<TimeDescriptor>(uri, 1, 0, "TimeDescriptor", "Uncreatable");
+    qmlRegisterUncreatableType<TimeEventItems>(uri, 1, 0, "TimeEventItems", "Uncreatable");
+    qmlRegisterUncreatableType<TimeEventItem>(uri, 1, 0, "TimeEventItem", "Uncreatable");
+    qmlRegisterUncreatableType<RepeatingOption>(uri, 1, 0, "RepeatingOption", "Uncreatable");
+    qmlRegisterUncreatableType<CalendarItems>(uri, 1, 0, "CalendarItems", "Uncreatable");
+    qmlRegisterUncreatableType<CalendarItem>(uri, 1, 0, "CalendarItem", "Uncreatable");
 
     qmlRegisterUncreatableType<Interface>(uri, 1, 0, "Interface", "Uncreatable");
     qmlRegisterSingletonType<Interfaces>(uri, 1, 0, "Interfaces", interfacesModel_provider);

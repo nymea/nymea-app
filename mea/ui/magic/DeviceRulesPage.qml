@@ -21,13 +21,22 @@ Page {
     }
 
     // Rule is optional and might be initialized with anything wanted. A new, empty one will be created if null
+    // This Page will take ownership of the rule and delete it eventually.
     function addRule(rule) {
         if (rule === null || rule === undefined) {
             rule = Engine.ruleManager.createNewRule();
         }
-        var page = pageStack.push(Qt.resolvedUrl("EditRulePage.qml"), {rule: rule});
-        page.onAccept.connect(function() {
+        d.editRulePage = pageStack.push(Qt.resolvedUrl("EditRulePage.qml"), {rule: rule});
+        d.editRulePage.StackView.onRemoved.connect(function() {
+            d.editRulePage.rule.destroy();
+            d.editRulePage = null
+        })
+        d.editRulePage.onAccept.connect(function() {
+            d.editRulePage.busy = true;
             Engine.ruleManager.addRule(page.rule);
+        })
+        d.editRulePage.onCancel.connect(function() {
+            pageStack.pop();
         })
 
 //        if (rule.eventDescriptors.count === 0) {
@@ -38,18 +47,32 @@ Page {
 
     }
 
+    QtObject {
+        id: d
+        property var editRulePage: null
+    }
+
     Connections {
         target: Engine.ruleManager
         onAddRuleReply: {
+            d.editRulePage.busy = false;
             if (ruleError == "RuleErrorNoError") {
                 pageStack.pop();
+            } else {
+                var errorDialog = Qt.createComponent(Qt.resolvedUrl("../components/ErrorDialog.qml"));
+                var popup = errorDialog.createObject(root, {errorCode: ruleError })
+                popup.open();
             }
         }
 
         onEditRuleReply: {
-            print("have add rule reply")
+            d.editRulePage.busy = false;
             if (ruleError == "RuleErrorNoError") {
                 pageStack.pop();
+            } else {
+                var errorDialog = Qt.createComponent(Qt.resolvedUrl("../components/ErrorDialog.qml"));
+                var popup = errorDialog.createObject(root, {errorCode: ruleError })
+                popup.open();
             }
         }
     }
@@ -72,7 +95,7 @@ Page {
                     height: app.iconSize
                     width: height
                     name: "../images/magic.svg"
-                    color: !model.enabled ? "gray" : (model.active ? "red" : app.guhAccent)
+                    color: !model.enabled ? "red" : (model.active ? app.guhAccent : "grey")
                 }
 
                 Label {
@@ -82,9 +105,16 @@ Page {
             }
 
             onClicked: {
-                var editRulePage = pageStack.push(Qt.resolvedUrl("EditRulePage.qml"), {rule: rulesFilterModel.get(index) })
-                editRulePage.onAccept.connect(function() {
-                    Engine.ruleManager.editRule(editRulePage.rule);
+                d.editRulePage = pageStack.push(Qt.resolvedUrl("EditRulePage.qml"), {rule: rulesFilterModel.get(index).clone() })
+                d.editRulePage.StackView.onRemoved.connect(function() {
+                    d.editRulePage.rule.destroy();
+                })
+                d.editRulePage.onAccept.connect(function() {
+                    d.editRulePage.busy = true
+                    Engine.ruleManager.editRule(d.editRulePage.rule);
+                })
+                d.editRulePage.onCancel.connect(function() {
+                    pageStack.pop();
                 })
             }
 

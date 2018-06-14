@@ -8,15 +8,17 @@ Page {
     id: root
 
     property var rule: null
+    property bool busy: false
 
-    signal accept();
-
-    onAccept: busyOverlay.opacity = 1
-
-    readonly property bool isStateBased: rule.eventDescriptors.count === 0
-    readonly property bool actionsVisible: rule.eventDescriptors.count > 0 || rule.stateEvaluator !== null
+    readonly property bool isEventBased: rule.eventDescriptors.count > 0 || rule.timeDescriptor.timeEventItems.count > 0
+    readonly property bool isStateBased: (rule.stateEvaluator !== null || rule.timeDescriptor.calendarItems.count > 0) && !isEventBased
+    readonly property bool actionsVisible: !isEmpty
     readonly property bool exitActionsVisible: actionsVisible && isStateBased
     readonly property bool hasExitActions: rule.exitActions.count > 0
+    readonly property bool isEmpty: !isEventBased && !isStateBased
+
+    signal accept();
+    signal cancel();
 
     function addEventDescriptor() {
         var eventDescriptor = root.rule.eventDescriptors.createNewEventDescriptor();
@@ -38,6 +40,32 @@ Page {
         eventPage.onDone.connect(function() {
             root.rule.eventDescriptors.addEventDescriptor(eventPage.eventDescriptor);
             pageStack.pop(root)
+        })
+    }
+
+    function addTimeEventItem() {
+        var timeEventItem = root.rule.timeDescriptor.timeEventItems.createNewTimeEventItem();
+        var page = pageStack.push(Qt.resolvedUrl("EditTimeEventItemPage.qml"), {timeEventItem: timeEventItem});
+        page.onBackPressed.connect(function() {
+            pageStack.pop()
+            timeEventItem.destroy();
+        })
+        page.onDone.connect(function() {
+            root.rule.timeDescriptor.timeEventItems.addTimeEventItem(timeEventItem);
+            pageStack.pop();
+        })
+    }
+
+    function addCalendarItem() {
+        var calendarItem = root.rule.timeDescriptor.calendarItems.createNewCalendarItem();
+        var page = pageStack.push(Qt.resolvedUrl("EditCalendarItemPage.qml"), {calendarItem: calendarItem});
+        page.onBackPressed.connect(function() {
+            pageStack.pop();
+            calendarItem.destroy();
+        })
+        page.onDone.connect(function() {
+            root.rule.timeDescriptor.calendarItems.addCalendarItem(calendarItem);
+            pageStack.pop();
         })
     }
 
@@ -91,15 +119,14 @@ Page {
     }
 
     header: GuhHeader {
-        text: qsTr("New rule")
-        onBackPressed: pageStack.pop()
+        text: root.rule.name.length === 0 ? qsTr("Add new magic") : qsTr("Edit %1").arg(root.rule.name)
+        onBackPressed: root.cancel()
+
         HeaderButton {
             imageSource: "../images/tick.svg"
             enabled: actionsRepeater.count > 0 && root.rule.name.length > 0
             opacity: enabled ? 1 : .3
-            onClicked: {
-                root.accept()
-            }
+            onClicked: root.accept()
         }
     }
 
@@ -109,24 +136,47 @@ Page {
 
         ColumnLayout {
             id: contentColumn
-            anchors { left: parent.left; top: parent.top; right: parent.right; topMargin: app.margins }
+            anchors { left: parent.left; top: parent.top; right: parent.right; }
             ColumnLayout {
+                id: ruleSettings
                 Layout.fillWidth: true
-                Layout.margins: app.margins
-                Label {
-                    Layout.fillWidth: true
-                    text: qsTr("Rule name")
-                }
-                TextField {
-                    Layout.fillWidth: true
-                    text: root.rule.name
-                    onTextChanged: {
-                        root.rule.name = text;
+                Layout.leftMargin: app.margins
+                Layout.rightMargin: app.margins
+                Layout.topMargin: app.margins
 
-                    }
-                }
+                property bool showDetails: false
+
                 RowLayout {
                     Layout.fillWidth: true
+                    spacing: app.margins
+
+                    Label {
+                        text: qsTr("Name:")
+                    }
+
+                    TextField {
+                        Layout.fillWidth: true
+                        text: root.rule.name
+                        onTextChanged: root.rule.name = text;
+                    }
+
+                    ColorIcon {
+                        name: "../images/settings.svg"
+                        Layout.preferredHeight: app.iconSize
+                        Layout.preferredWidth: app.iconSize
+                        MouseArea {
+                            anchors.fill: parent
+                            onClicked: ruleSettings.showDetails = !ruleSettings.showDetails
+                        }
+                    }
+                }
+
+                RowLayout {
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: ruleSettings.showDetails ? implicitHeight : 0
+                    opacity: ruleSettings.showDetails ? 1 : 0
+                    Behavior on Layout.preferredHeight { NumberAnimation { duration: 200; easing.type: Easing.InOutQuad} }
+                    Behavior on opacity { NumberAnimation {duration: 200; easing.type: Easing.InOutQuad } }
                     Label {
                         Layout.fillWidth: true
                         text: qsTr("This rule is enabled")
@@ -140,83 +190,49 @@ Page {
                 }
             }
 
-            ThinDivider { visible: !root.hasExitActions }
+            ThinDivider { visible: !root.isStateBased }
 
             Label {
                 Layout.fillWidth: true
                 Layout.margins: app.margins
                 font.pixelSize: app.mediumFont
-                text: qsTr("Events triggering this rule")
-                visible: !root.hasExitActions
+                wrapMode: Text.WordWrap
+                text: eventsRepeater.count === 0 && timeEventRepeater.count === 0 ?
+                          qsTr("Execute actions when something happens.") :
+                          qsTr("When any of these events happen...")
+                visible: !root.isStateBased
+                font.bold: true
             }
+            Label {
+                Layout.fillWidth: true
+                Layout.leftMargin: app.margins
+                Layout.rightMargin: app.margins
+                wrapMode: Text.WordWrap
+                font.pixelSize: app.smallFont
+                font.italic: true
+                text: qsTr("Examples:\n• When a button is pressed...\n• When the temperature changes...\n• At 7 am...")
+                visible: root.isEmpty
+            }
+
 
             Repeater {
                 id: eventsRepeater
                 model: root.hasExitActions ? null : root.rule.eventDescriptors
-                delegate: SwipeDelegate {
-                    id: eventDelegate
+                delegate: EventDescriptorDelegate {
                     Layout.fillWidth: true
-                    readonly property var eventDescriptor: root.rule.eventDescriptors.get(index)
-                    property var device: Engine.deviceManager.devices.getDevice(eventDescriptor.deviceId)
-                    property var deviceClass: device ? Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
-                    property var iface: eventDescriptor.interfaceName ? Interfaces.findByName(eventDescriptor.interfaceName) : null
-                    property var eventType: deviceClass ? deviceClass.eventTypes.getEventType(eventDescriptor.eventTypeId)
-                                                        : iface ? iface.eventTypes.findByName(eventDescriptor.interfaceEvent) : null
-                    contentItem: ColumnLayout {
-                        Label {
-                            text: qsTr("%1 - %2").arg(eventDelegate.device ? eventDelegate.device.name : eventDelegate.iface.displayName).arg(eventDelegate.eventType.displayName)
-                            Layout.fillWidth: true
-                            elide: Text.ElideRight
-                        }
-                        RowLayout {
-                            Layout.fillWidth: true
-                            spacing: app.margins
-                            Repeater {
-                                model: eventDelegate.eventDescriptor.paramDescriptors
-                                Label {
-                                    text: {
-                                        var ret = eventDelegate.eventType.paramTypes.getParamType(model.id).displayName
-                                        switch (model.operator) {
-                                        case ParamDescriptor.ValueOperatorEquals:
-                                            ret += " = ";
-                                            break;
-                                        case ParamDescriptor.ValueOperatorNotEquals:
-                                            ret += " != ";
-                                            break;
-                                        case ParamDescriptor.ValueOperatorGreater:
-                                            ret += " > ";
-                                            break;
-                                        case ParamDescriptor.ValueOperatorGreaterOrEqual:
-                                            ret += " >= ";
-                                            break;
-                                        case ParamDescriptor.ValueOperatorLess:
-                                            ret += " < ";
-                                            break;
-                                        case ParamDescriptor.ValueOperatorLessOrEqual:
-                                            ret += " <= ";
-                                            break;
-                                        default:
-                                            ret += " ? ";
-                                        }
+                    eventDescriptor: root.rule.eventDescriptors.get(index)
+                    onRemoveEventDescriptor: root.rule.eventDescriptors.removeEventDescriptor(index)
+                }
+            }
 
-                                        ret += model.value
-                                        return ret;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    swipe.right: MouseArea {
-                        height: eventDelegate.height
-                        width: height
-                        anchors.right: parent.right
-                        ColorIcon {
-                            anchors.fill: parent
-                            anchors.margins: app.margins
-                            name: "../images/delete.svg"
-                            color: "red"
-                        }
-                        onClicked: root.rule.eventDescriptors.removeEventDescriptor(index)
+            Repeater {
+                id: timeEventRepeater
+                model: root.rule.timeDescriptor.timeEventItems
+                delegate: TimeEventDelegate {
+                    Layout.fillWidth: true
+                    timeEventItem: root.rule.timeDescriptor.timeEventItems.get(index)
+                    onRemoveTimeEventItem: {
+                        root.rule.timeDescriptor.timeEventItems.removeTimeEventItem(index);
                     }
                 }
             }
@@ -224,18 +240,58 @@ Page {
             Button {
                 Layout.fillWidth: true
                 Layout.margins: app.margins
-                text: eventsRepeater.count == 0 ? qsTr("Add an event...") : qsTr("Add another event...")
-                onClicked: root.addEventDescriptor();
-                visible: !root.hasExitActions
+                text: eventsRepeater.count == 0 && timeEventRepeater.count === 0 ? qsTr("Configure...") : qsTr("Add another...")
+                visible: !root.isStateBased
+                onClicked: {
+                    if (root.rule.timeDescriptor.calendarItems.count > 0) {
+                        root.addEventDescriptor()
+                    } else {
+                        var popup = eventQuestionDialogComponent.createObject(root)
+                        popup.open();
+                    }
+                }
             }
 
             ThinDivider {}
 
             Label {
-                text: qsTr("Conditions to be met")
+                text: root.isEmpty ?
+                          qsTr("Do something while a condition is met.") :
+                          root.isEventBased ?
+                              qsTr("...but only if those conditions are met...") :
+                              qsTr("When this condition...")
                 font.pixelSize: app.mediumFont
                 Layout.fillWidth: true
                 Layout.margins: app.margins
+                font.bold: true
+                visible: {
+                    if (root.isEventBased) {
+                        if (root.rule.timeDescriptor.calendarItems.count === 0) {
+                            return true;
+                        }
+
+                        if (root.rule.stateEvaluator === null) {
+                            return false;
+                        }
+                    } else {
+                        if (root.rule.stateEvaluator === null && root.rule.timeDescriptor.calendarItems.count > 0) {
+                            return false;
+                        }
+                    }
+
+                    return true;
+                }
+            }
+
+            Label {
+                Layout.fillWidth: true
+                Layout.leftMargin: app.margins
+                Layout.rightMargin: app.margins
+                wrapMode: Text.WordWrap
+                font.pixelSize: app.smallFont
+                font.italic: true
+                text: qsTr("Examples:\n• While I'm at home...\n• When the temperature is below 0...\n• Between 9 am and 6 pm...")
+                visible: root.isEmpty
             }
 
             StateEvaluatorDelegate {
@@ -244,70 +300,68 @@ Page {
                 visible: root.rule.stateEvaluator !== null
             }
 
+            Label {
+                text: root.rule.stateEvaluator === null && !root.isEventBased ?
+                          qsTr("When time is in...") :
+                          qsTr("...during this time...")
+                font.pixelSize: app.mediumFont
+                Layout.fillWidth: true
+                Layout.margins: app.margins
+                font.bold: true
+                visible: root.rule.timeDescriptor.timeEventItems.count === 0 && (root.rule.timeDescriptor.calendarItems.count > 0 || root.rule.stateEvaluator !== null)
+            }
+
+            Repeater {
+                model: root.rule.timeDescriptor.calendarItems
+                delegate: CalendarItemDelegate {
+                    Layout.fillWidth: true
+                    calendarItem: root.rule.timeDescriptor.calendarItems.get(index)
+                    onRemoveCalendarItem: {
+                        root.rule.timeDescriptor.calendarItems.removeCalendarItem(index)
+                    }
+                }
+            }
+
             Button {
                 Layout.fillWidth: true
                 Layout.margins: app.margins
-                text: qsTr("Add a condition")
-                visible: root.rule.stateEvaluator === null
+                text: root.rule.stateEvaluator === null && root.rule.timeDescriptor.calendarItems.count === 0 ?
+                          qsTr("Configure...") :
+                          qsTr("Add another...")
+                visible: root.rule.timeDescriptor.timeEventItems.count === 0 || root.rule.stateEvaluator === null
                 onClicked: {
-                    root.rule.createStateEvaluator();
-//                    root.editStateEvaluator()
+                    if (root.rule.timeDescriptor.timeEventItems.count > 0) {
+                        root.rule.createStateEvaluator()
+                    } else if (root.rule.stateEvaluator !== null) {
+                        root.addCalendarItem();
+                    } else {
+                        var popup = stateQuestionDialogComponent.createObject(root)
+                        popup.open()
+                    }
                 }
             }
 
             ThinDivider { visible: root.actionsVisible }
 
             Label {
-                text: root.isStateBased ? qsTr("Active state enter actions") : qsTr("Actions to execute")
+                text: root.isStateBased ?
+                          (root.rule.stateEvaluator === 0 ? qsTr("...come true, execute those actions:") : qsTr("...comes true, execute those actions:")) :
+                          qsTr("...execute those actions:")
                 font.pixelSize: app.mediumFont
                 Layout.fillWidth: true
                 Layout.margins: app.margins
+                wrapMode: Text.WordWrap
                 visible: root.actionsVisible
+                font.bold: true
             }
 
             Repeater {
                 id: actionsRepeater
                 model: root.actionsVisible ? root.rule.actions : null
-                delegate: SwipeDelegate {
-                    id: actionDelegate
+                delegate: RuleActionDelegate {
                     Layout.fillWidth: true
-                    property var ruleAction: root.rule.actions.get(index)
-                    property var device: ruleAction.deviceId ? Engine.deviceManager.devices.getDevice(ruleAction.deviceId) : null
-                    property var iface: ruleAction.interfaceName ? Interfaces.findByName(ruleAction.interfaceName) : null
-                    property var deviceClass: device ? Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
-                    property var actionType: deviceClass ? deviceClass.actionTypes.getActionType(ruleAction.actionTypeId)
-                                                         : iface ? iface.actionTypes.findByName(ruleAction.interfaceAction) : null
-                    contentItem: ColumnLayout {
-                        Label {
-                            Layout.fillWidth: true
-                            text: qsTr("%1 - %2").arg(actionDelegate.device ? actionDelegate.device.name : actionDelegate.iface.displayName).arg(actionDelegate.actionType.displayName)
-                        }
-
-                        RowLayout {
-                            Layout.fillWidth: true
-                            spacing: app.margins
-                            Repeater {
-                                model: actionDelegate.ruleAction.ruleActionParams
-                                Label {
-                                    text: actionDelegate.actionType.paramTypes.getParamType(model.paramTypeId).displayName + " -> " +
-                                          (model.eventParamTypeId.length > 0 ? qsTr("value from event") : model.value)
-                                    font.pixelSize: app.smallFont
-                                }
-                            }
-                        }
-                    }
-                    swipe.right: MouseArea {
-                        height: actionDelegate.height
-                        width: height
-                        anchors.right: parent.right
-                        ColorIcon {
-                            anchors.fill: parent
-                            anchors.margins: app.margins
-                            name: "../images/delete.svg"
-                            color: "red"
-                        }
-                        onClicked: root.rule.actions.removeRuleAction(index)
-                    }
+                    ruleAction: root.rule.actions.get(index)
+                    onRemoveRuleAction: root.rule.actions.removeRuleAction(index)
                 }
             }
 
@@ -322,56 +376,23 @@ Page {
             ThinDivider { visible: root.exitActionsVisible }
 
             Label {
-                text: qsTr("Active state exit actions")
-                font.pixelSize: app.mediumFont
+                text: qsTr("...isn't met any more, execute those actions:")
                 Layout.fillWidth: true
                 Layout.margins: app.margins
+                wrapMode: Text.WordWrap
                 visible: root.exitActionsVisible
+                font.pixelSize: app.mediumFont
+                font.bold: true
             }
 
 
             Repeater {
                 id: exitActionsRepeater
                 model: root.exitActionsVisible ? root.rule.exitActions : null
-                delegate: SwipeDelegate {
-                    id: exitActionDelegate
+                delegate: RuleActionDelegate {
                     Layout.fillWidth: true
-                    property var ruleAction: root.rule.exitActions.get(index)
-                    property var device: ruleAction.deviceId ? Engine.deviceManager.devices.getDevice(ruleAction.deviceId) : null
-                    property var iface: ruleAction.interfaceName ? Interfaces.findByName(ruleAction.interfaceName) : null
-                    property var deviceClass: device ? Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
-                    property var actionType: deviceClass ? deviceClass.actionTypes.getActionType(ruleAction.actionTypeId)
-                                                         : iface ? iface.actionTypes.findByName(ruleAction.interfaceAction) : null
-                    contentItem: ColumnLayout {
-                        Label {
-                            Layout.fillWidth: true
-                            text: qsTr("%1 - %2").arg(exitActionDelegate.device ? exitActionDelegate.device.name : exitActionDelegate.iface.displayName).arg(exitActionDelegate.actionType.displayName)
-                        }
-
-                        RowLayout {
-                            Layout.fillWidth: true
-                            spacing: app.margins
-                            Repeater {
-                                model: exitActionDelegate.ruleAction.ruleActionParams
-                                Label {
-                                    text: exitActionDelegate.actionType.paramTypes.getParamType(model.paramTypeId).displayName + " -> " + model.value
-                                    font.pixelSize: app.smallFont
-                                }
-                            }
-                        }
-                    }
-                    swipe.right: MouseArea {
-                        height: exitActionDelegate.height
-                        width: height
-                        anchors.right: parent.right
-                        ColorIcon {
-                            anchors.fill: parent
-                            anchors.margins: app.margins
-                            name: "../images/delete.svg"
-                            color: "red"
-                        }
-                        onClicked: root.rule.exitActions.removeRuleAction(index)
-                    }
+                    ruleAction: root.rule.exitActions.get(index)
+                    onClicked: root.rule.exitActions.removeRuleAction(index)
                 }
             }
 
@@ -389,11 +410,145 @@ Page {
         id: busyOverlay
         anchors.fill: parent
         color: "#55000000"
-        opacity: 0
+        opacity: root.busy ? 1 : 0
         Behavior on opacity { NumberAnimation {duration: 200 } }
         BusyIndicator {
             anchors.centerIn: parent
             running: parent.opacity > 0
+        }
+    }
+
+    Component {
+        id: eventQuestionDialogComponent
+        MeaDialog {
+            id: questionDialog
+            title: qsTr("Add event...")
+            standardButtons: Dialog.Cancel
+
+            Button {
+                Layout.fillWidth: true
+                Layout.preferredHeight: (app.largeFont * 2) + (app.margins * 3)
+                contentItem: RowLayout {
+                    spacing: app.margins
+                    ColorIcon {
+                        Layout.preferredHeight: app.iconSize
+                        Layout.preferredWidth: height
+                        name: "../images/event.svg"
+                        color: "black"
+                    }
+                    Label {
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        text: qsTr("When one of my things triggers an event")
+                        wrapMode: Text.WordWrap
+                        verticalAlignment: Text.AlignVCenter
+                    }
+                }
+                onClicked: {
+                    root.addEventDescriptor()
+                    questionDialog.close()
+                }
+            }
+
+            Label {
+                text: qsTr("or")
+                Layout.fillWidth: true
+                Layout.margins: app.margins
+                horizontalAlignment: Text.AlignHCenter
+            }
+
+            Button {
+                Layout.fillWidth: true
+                Layout.preferredHeight: (app.largeFont * 2) + (app.margins * 3)
+                contentItem: RowLayout {
+                    spacing: app.margins
+                    ColorIcon {
+                        Layout.preferredHeight: app.iconSize
+                        Layout.preferredWidth: height
+                        name: "../images/alarm-clock.svg"
+                        color: "black"
+                    }
+                    Label {
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        text: qsTr("At a particular time or date")
+                        wrapMode: Text.WordWrap
+                        verticalAlignment: Text.AlignVCenter
+                    }
+                }
+                onClicked: {
+                    root.addTimeEventItem()
+                    questionDialog.close()
+                }
+            }
+        }
+    }
+
+    Component {
+        id: stateQuestionDialogComponent
+        MeaDialog {
+            id: questionDialog
+            title: qsTr("Add condition...")
+            standardButtons: Dialog.Cancel
+
+
+            Button {
+                Layout.fillWidth: true
+                Layout.preferredHeight: (app.largeFont * 2) + (app.margins * 3)
+                contentItem: RowLayout {
+                    spacing: app.margins
+                    ColorIcon {
+                        Layout.preferredHeight: app.iconSize
+                        Layout.preferredWidth: height
+                        name: "../images/state.svg"
+                        color: "black"
+                    }
+
+                    Label {
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        text: qsTr("When one of my things is in a certain state")
+                        wrapMode: Text.WordWrap
+                        verticalAlignment: Text.AlignVCenter
+                    }
+                }
+                onClicked: {
+                    root.rule.createStateEvaluator()
+                    questionDialog.close()
+                }
+            }
+
+            Label {
+                text: qsTr("or")
+                Layout.fillWidth: true
+                Layout.margins: app.margins
+                horizontalAlignment: Text.AlignHCenter
+            }
+
+            Button {
+                Layout.fillWidth: true
+                Layout.preferredHeight: (app.largeFont * 2) + (app.margins * 3)
+                contentItem: RowLayout {
+                    spacing: app.margins
+                    ColorIcon {
+                        Layout.preferredHeight: app.iconSize
+                        Layout.preferredWidth: height
+                        name: "../images/clock-app-symbolic.svg"
+                        color: "black"
+                    }
+                    Label {
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        text: qsTr("During a given time")
+                        wrapMode: Text.WordWrap
+                        verticalAlignment: Text.AlignVCenter
+                    }
+                }
+                onClicked: {
+                    root.addCalendarItem()
+                    questionDialog.close()
+                }
+            }
         }
     }
 }

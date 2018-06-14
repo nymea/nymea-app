@@ -22,6 +22,8 @@ ApplicationWindow {
     property int iconSize: 30
     property int delegateHeight: 60
 
+    property bool landscape: app.width > app.height
+
     property var settings: Settings {
         property string lastConnectedHost: ""
         property int viewMode: ApplicationWindow.Maximized

@@ -96,6 +96,7 @@ Page {
                             anchors.fill: parent
                             anchors.margins: app.margins
                             text: eventDescriptorParamsFilterModel.device.name + " - " + eventDescriptorParamsFilterModel.eventType.displayName + " - " + eventDescriptorParamsFilterModel.paramDescriptor.displayName
+                            elide: Text.ElideRight
                         }
                     }
 

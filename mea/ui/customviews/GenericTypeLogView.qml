@@ -39,60 +39,72 @@ Item {
             model: logsModel
             clip: true
             onCountChanged: positionViewAtEnd()
-            delegate: ItemDelegate {
+            delegate: SwipeDelegate {
+                id: logEntryDelegate
                 width: parent.width
+                implicitHeight: app.delegateHeight
                 contentItem: RowLayout {
+                    ColorIcon {
+                        Layout.preferredHeight: app.iconSize
+                        Layout.preferredWidth: height
+                        name: "../images/event.svg"
+                        color: app.guhAccent
+                    }
+
                     ColumnLayout {
-                        Layout.fillWidth: true
-                        RowLayout {
+                        Label {
+                            id: timeStampLabel
                             Layout.fillWidth: true
-
-                            ColorIcon {
-                                Layout.preferredHeight: timeStampLabel.height
-                                Layout.preferredWidth: height
-                                name: "../images/clock-app-symbolic.svg"
-                            }
-
-                            Label {
-                                id: timeStampLabel
-                                Layout.fillWidth: true
-                                text: Qt.formatDateTime(model.timestamp,"dd.MM.yy - hh:mm:ss")
-                            }
+                            text: Qt.formatDateTime(model.timestamp,"dd.MM.yy - hh:mm:ss")
                         }
-                        RowLayout {
+                        Label {
                             Layout.fillWidth: true
-                            Label {
-                                text: qsTr("Data:")
-                            }
-                            Label {
-                                Layout.fillWidth: true
-                                text: model.value.trim()
-                                elide: Text.ElideRight
-                            }
+                            text: qsTr("Data: %1").arg(model.value.trim())
+                            elide: Text.ElideRight
+                            font.pixelSize: app.smallFont
                         }
                     }
-                    HeaderButton {
-                        imageSource: "../images/magic.svg"
-                        color: {
-                            for (var i = 0; i < rulesFilterModel.count; i++) {
-                                var rule = rulesFilterModel.get(i);
-                                for (var j = 0; j < rule.eventDescriptors.count; j++) {
-                                    var eventDescriptor = rule.eventDescriptors.get(j);
-                                    if (eventDescriptor.eventTypeId === root.logsModel.typeId) {
-                                        var matching = true;
-                                        for (var k = 0; k < eventDescriptor.paramDescriptors.count; k++) {
-                                            var paramDescriptor = eventDescriptor.paramDescriptors.get(k);
-                                            if (paramDescriptor.value === model.value) {
-                                                return app.guhAccent;
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                            return keyColor;
-                        }
+//                    ColorIcon {
+//                        Layout.preferredWidth: app.iconSize
+//                        Layout.preferredHeight: width
+//                        name: "../images/magic.svg"
+//                        color: {
+//                            for (var i = 0; i < rulesFilterModel.count; i++) {
+//                                var rule = rulesFilterModel.get(i);
+//                                for (var j = 0; j < rule.eventDescriptors.count; j++) {
+//                                    var eventDescriptor = rule.eventDescriptors.get(j);
+//                                    if (eventDescriptor.eventTypeId === root.logsModel.typeId) {
+//                                        var matching = true;
+//                                        for (var k = 0; k < eventDescriptor.paramDescriptors.count; k++) {
+//                                            var paramDescriptor = eventDescriptor.paramDescriptors.get(k);
+//                                            if (paramDescriptor.value === model.value) {
+//                                                return app.guhAccent;
+//                                            }
+//                                        }
+//                                    }
+//                                }
+//                            }
+//                            return keyColor;
+//                        }
 
-                        onClicked: root.addRuleClicked(model.value)
+//                    }
+                }
+                swipe.right: MouseArea {
+                    height: logEntryDelegate.height
+                    width: height
+                    anchors.right: parent.right
+                    ColorIcon {
+                        anchors.fill: parent
+                        anchors.margins: app.margins
+                        name: "../images/magic.svg"
+                    }
+                    onClicked: root.addRuleClicked(model.value)
+                }
+                onClicked: {
+                    if (swipe.complete) {
+                        swipe.close()
+                    } else {
+                        swipe.open(SwipeDelegate.Right)
                     }
                 }
             }

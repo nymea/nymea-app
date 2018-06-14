@@ -33,6 +33,8 @@ public:
 
     Q_INVOKABLE StateEvaluator* addChildEvaluator();
 
+    StateEvaluator* clone() const;
+
 signals:
     void stateOperatorChanged();
 

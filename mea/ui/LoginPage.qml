@@ -23,20 +23,23 @@ Page {
             popup.open();
         }
         onCreateUserFailed: {
-            print("create user failed")
-            var text
+            print("createUser failed")
+            var message;
             switch (error) {
             case "UserErrorInvalidUserId":
-                text = qsTr("The email you've entered isn't valid.");
+                message = qsTr("The email you've entered isn't valid.")
+                break;
+            case "UserErrorDuplicateUserId":
+                message = qsTr("The email you've entered is already userd.")
                 break;
             case "UserErrorBadPassword":
-                text = qsTr("The password you've chose is too weak.");
+                message = qsTr("The password you've chose is too weak.")
                 break;
-            default:
-                text = qsTr("An error happened creating the user.");
+            case "UserErrorBackendError":
+                message = qsTr("An error happened with the user storage. Please make sure your %1 box is installed correctly.")
+                break;
             }
-//            var popup = errorDialog.createObject(root, {title: qsTr("Error creating user"), text: text})
-            var popup = errorDialog.createObject(root, {title: "Error creating user", text: text})
+            var popup = errorDialog.createObject(root, {text: message});
             popup.open();
         }
     }

@@ -12,7 +12,12 @@
 #include "types/stateevaluator.h"
 #include "types/stateevaluators.h"
 #include "types/statedescriptor.h"
+#include "types/timedescriptor.h"
+#include "types/timeeventitems.h"
 #include "types/timeeventitem.h"
+#include "types/repeatingoption.h"
+#include "types/calendaritems.h"
+#include "types/calendaritem.h"
 
 #include <QMetaEnum>
 
@@ -179,6 +184,7 @@ Rule *RuleManager::parseRule(const QVariantMap &ruleMap)
     parseEventDescriptors(ruleMap.value("eventDescriptors").toList(), rule);
     parseRuleActions(ruleMap.value("actions").toList(), rule);
     parseRuleExitActions(ruleMap.value("exitActions").toList(), rule);
+    parseTimeDescriptor(ruleMap.value("timeDescriptor").toMap(), rule);
     rule->setStateEvaluator(parseStateEvaluator(ruleMap.value("stateEvaluator").toMap()));
     return rule;
 }
@@ -259,12 +265,36 @@ void RuleManager::parseRuleExitActions(const QVariantList &ruleActions, Rule *ru
 
 void RuleManager::parseTimeDescriptor(const QVariantMap &timeDescriptor, Rule *rule)
 {
-    Q_UNUSED(rule)
-    Q_UNUSED(timeDescriptor)
-//    foreach (const QVariant &timeEventItemVariant, timeDescriptor.value("timeEventItems").toList()) {
-//        TimeEventItem *timeEventItem = new TimeEventItem();
-//        timeEventItem->setDateTime(QDateTime::fromSecsSinceEpoch(timeEventItemVariant.toMap().value("datetime").toULongLong()));
-//        timeEventItem->setTime(QTime::fromString(timeEventItemVariant.toMap().value("time").toString()));
-//        timeEventItem->setRepeatingOption();
-//    }
+    foreach (const QVariant &timeEventItemVariant, timeDescriptor.value("timeEventItems").toList()) {
+        TimeEventItem *timeEventItem = new TimeEventItem();
+        if (timeEventItemVariant.toMap().contains("datetime")) {
+            timeEventItem->setDateTime(QDateTime::fromSecsSinceEpoch(timeEventItemVariant.toMap().value("datetime").toULongLong()));
+        }
+        if (timeEventItemVariant.toMap().contains("time")){
+            timeEventItem->setTime(QTime::fromString(timeEventItemVariant.toMap().value("time").toString()));
+        }
+        QVariantMap repeatingOptionMap = timeEventItemVariant.toMap().value("repeating").toMap();
+        QMetaEnum modeEnum = QMetaEnum::fromType<RepeatingOption::RepeatingMode>();
+        timeEventItem->repeatingOption()->setRepeatingMode((RepeatingOption::RepeatingMode)modeEnum.keyToValue(repeatingOptionMap.value("mode").toByteArray()));
+        timeEventItem->repeatingOption()->setWeekDays(repeatingOptionMap.value("weekDays").toList());
+        timeEventItem->repeatingOption()->setMonthDays(repeatingOptionMap.value("monthDays").toList());
+        rule->timeDescriptor()->timeEventItems()->addTimeEventItem(timeEventItem);
+    }
+    foreach (const QVariant &calendarItemVariant, timeDescriptor.value("calendarItems").toList()) {
+        CalendarItem *calendarItem = new CalendarItem();
+        if (calendarItemVariant.toMap().contains("datetime")) {
+            calendarItem->setDateTime(QDateTime::fromSecsSinceEpoch(calendarItemVariant.toMap().value("datetime").toULongLong()));
+        }
+        if (calendarItemVariant.toMap().contains("startTime")) {
+            calendarItem->setStartTime(QTime::fromString(calendarItemVariant.toMap().value("startTime").toString()));
+        }
+        calendarItem->setDuration(calendarItemVariant.toMap().value("duration").toInt());
+        QVariantMap repeatingOptionMap = calendarItemVariant.toMap().value("repeating").toMap();
+        QMetaEnum modeEnum = QMetaEnum::fromType<RepeatingOption::RepeatingMode>();
+        calendarItem->repeatingOption()->setRepeatingMode((RepeatingOption::RepeatingMode)modeEnum.keyToValue(repeatingOptionMap.value("mode").toByteArray()));
+        calendarItem->repeatingOption()->setWeekDays(repeatingOptionMap.value("weekDays").toList());
+        calendarItem->repeatingOption()->setMonthDays(repeatingOptionMap.value("monthDays").toList());
+        rule->timeDescriptor()->calendarItems()->addCalendarItem(calendarItem);
+    }
+//    rule->timeDescriptor()
 }

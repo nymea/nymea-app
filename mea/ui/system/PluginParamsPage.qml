@@ -30,7 +30,7 @@ Page {
                 pageStack.pop();
             } else {
                 console.warn("Error saving plugin params:", JSON.stringify(params))
-                var dialog = errorDialog.createObject(root, {title: "Error", text: qsTr("Error saving params: ") + JSON.stringify(params.params.deviceError)});
+                var dialog = errorDialog.createObject(root, {errorCode: params.params.deviceError});
                 dialog.open();
             }
         }

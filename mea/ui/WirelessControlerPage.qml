@@ -38,8 +38,9 @@ Page {
         target: networkManger.manager
         onErrorOccured: {
             print("Error occured", errorMessage)
-            errorDialog.errorText = errorMessage
-            errorDialog.open()
+            var errorDialog = Qt.createComponent(Qt.resolvedUrl("components/ErrorDialog.qml"));
+            var popup = errorDialog.createObject(app, {text: errorMessage})
+            popup.open()
         }
 
         onWirelessStatusChanged: {
@@ -286,28 +287,6 @@ Page {
         }
     }
 
-
-    Dialog {
-        id: errorDialog
-        width: Math.min(parent.width * .9, 400)
-        x: (parent.width - width) / 2
-        y: (parent.height - height) / 2
-        standardButtons: Dialog.Ok
-
-        property string errorText
-
-        ColumnLayout {
-            anchors { left: parent.left; right: parent.right; top: parent.top }
-            spacing: app.margins
-
-            Label {
-                Layout.fillWidth: true
-                wrapMode: Text.WordWrap
-                text: errorDialog.errorText
-            }
-        }
-
-    }
 
     Component {
         id: settingsPage

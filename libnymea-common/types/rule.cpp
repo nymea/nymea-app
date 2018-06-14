@@ -4,9 +4,16 @@
 #include "eventdescriptors.h"
 #include "stateevaluator.h"
 #include "stateevaluators.h"
+#include "statedescriptor.h"
 #include "ruleaction.h"
 #include "ruleactions.h"
 #include "timedescriptor.h"
+#include "timeeventitems.h"
+#include "timeeventitem.h"
+#include "calendaritems.h"
+#include "calendaritem.h"
+
+#include <QDebug>
 
 Rule::Rule(const QUuid &id, QObject *parent) :
     QObject(parent),
@@ -14,9 +21,15 @@ Rule::Rule(const QUuid &id, QObject *parent) :
     m_eventDescriptors(new EventDescriptors(this)),
 //    m_stateEvaluator(new StateEvaluator(this)),
     m_actions(new RuleActions(this)),
-    m_exitActions(new RuleActions(this))
+    m_exitActions(new RuleActions(this)),
+    m_timeDescriptor(new TimeDescriptor(this))
 {
+    qDebug() << "### Creating rule" << this;
+}
 
+Rule::~Rule()
+{
+    qDebug() << "### Destroying rule" << this;
 }
 
 QUuid Rule::id() const
@@ -113,11 +126,15 @@ Rule *Rule::clone() const
     for (int i = 0; i < this->eventDescriptors()->rowCount(); i++) {
         ret->eventDescriptors()->addEventDescriptor(this->eventDescriptors()->get(i)->clone());
     }
-//    ret->stateEvaluator()->setStateDescriptor(this->stateEvaluator()->stateDescriptor()->clone());
-//    ret->stateEvaluator()->setStateOperator(this->stateEvaluator()->stateOperator());
-//    for (int i = 0; i < this->stateEvaluator()->childEvaluators()->rowCount(); i++) {
-//        ret->stateEvaluator()->childEvaluators()->
-//    }
+    for (int i = 0; i < this->timeDescriptor()->timeEventItems()->rowCount(); i++) {
+        ret->timeDescriptor()->timeEventItems()->addTimeEventItem(this->timeDescriptor()->timeEventItems()->get(i)->clone());
+    }
+    for (int i = 0; i < this->timeDescriptor()->calendarItems()->rowCount(); i++) {
+        ret->timeDescriptor()->calendarItems()->addCalendarItem(this->timeDescriptor()->calendarItems()->get(i)->clone());
+    }
+    if (this->stateEvaluator()) {
+        ret->setStateEvaluator(this->stateEvaluator()->clone());
+    }
     for (int i = 0; i < this->actions()->rowCount(); i++) {
         ret->actions()->addRuleAction(this->actions()->get(i)->clone());
     }

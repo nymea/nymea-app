@@ -23,6 +23,7 @@ class Rule : public QObject
     Q_PROPERTY(TimeDescriptor* timeDescriptor READ timeDescriptor CONSTANT)
 public:
     explicit Rule(const QUuid &id = QUuid(), QObject *parent = nullptr);
+    ~Rule();
 
     QUuid id() const;
 
@@ -45,7 +46,7 @@ public:
 
     Q_INVOKABLE void createStateEvaluator();
 
-    Rule *clone() const;
+    Q_INVOKABLE Rule *clone() const;
 
 signals:
     void nameChanged();

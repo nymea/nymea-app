@@ -51,7 +51,7 @@ Page {
                 popup.open();
                 return;
             default:
-                var popup = errorDialog.createObject(root, {text: qsTr("Remove device error: %1").arg(JSON.stringify(params.deviceError)) })
+                var popup = errorDialog.createObject(root, {errorCode: params.deviceError})
                 popup.open();
             }
         }

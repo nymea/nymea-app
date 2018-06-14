@@ -2,51 +2,15 @@ import QtQuick 2.8
 import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.2
 
-Dialog {
+MeaDialog {
     id: root
-    width: Math.min(parent.width * .8, contentLabel.implicitWidth)
-    x: (parent.width - width) / 2
-    y: (parent.height - height) / 2
-    modal: true
 
-    title: qsTr("Error")
-    property alias text: contentLabel.text
+    title: qsTr("Oh snap!")
+    headerIcon: "../images/dialog-error-symbolic.svg"
 
-    standardButtons: Dialog.Ok
+    property string errorCode: ""
 
-    header: Item {
-        implicitHeight: headerRow.height + app.margins * 2
-        implicitWidth: parent.width
-        RowLayout {
-            id: headerRow
-            anchors { left: parent.left; right: parent.right; top: parent.top; margins: app.margins }
-            spacing: app.margins
-            ColorIcon {
-                Layout.preferredHeight: app.iconSize * 2
-                Layout.preferredWidth: height
-                name: "../images/dialog-error-symbolic.svg"
-                color: app.guhAccent
-            }
+    text: qsTr("An unexpected error happened. We're sorry for that.") +
+          (errorCode.length > 0 ? "\n\n" + qsTr("Error code: %1").arg(errorCode) : "")
 
-            Label {
-                id: titleLabel
-                Layout.fillWidth: true
-                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                text: root.title
-                color: app.guhAccent
-                font.pixelSize: app.largeFont
-            }
-        }
-    }
-
-    ColumnLayout {
-        id: content
-        anchors { left: parent.left; top: parent.top; right: parent.right }
-
-        Label {
-            id: contentLabel
-            Layout.fillWidth: true
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-        }
-    }
 }

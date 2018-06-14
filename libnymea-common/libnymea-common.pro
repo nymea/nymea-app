@@ -51,7 +51,8 @@ HEADERS += \
     types/timeeventitem.h \
     types/calendaritem.h \
     types/timeeventitems.h \
-    types/calendaritems.h
+    types/calendaritems.h \
+    types/repeatingoption.h
 
 SOURCES += \
     types/vendor.cpp \
@@ -93,7 +94,8 @@ SOURCES += \
     types/timeeventitem.cpp \
     types/calendaritem.cpp \
     types/timeeventitems.cpp \
-    types/calendaritems.cpp
+    types/calendaritems.cpp \
+    types/repeatingoption.cpp
 
 # install header file with relative subdirectory
 for(header, HEADERS) {
