@@ -6,23 +6,12 @@ import "../components"
 
 Item {
     id: root
-
-    property var device: null
-    property alias typeId: logs.typeId
-
     // %1 will be replaced with count
     property string text
 
     signal addRuleClicked(var value)
 
-    readonly property var deviceClass: device ? Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
-
-    LogsModel {
-        id: logs
-        deviceId: root.device.id
-        live: true
-        Component.onCompleted: update()
-    }
+    property var logsModel: null
 
     ColumnLayout {
         anchors.fill: parent
@@ -32,7 +21,7 @@ Item {
             Layout.fillWidth: true
             Layout.margins: app.margins
             wrapMode: Text.WordWrap
-            text: root.text.arg(logs.count)
+            text: root.text.arg(logsModel.count)
         }
 
         ThinDivider {}
@@ -40,14 +29,16 @@ Item {
         RulesFilterModel {
             id: rulesFilterModel
             rules: Engine.ruleManager.rules
-            filterDeviceId: root.device.id
+            filterDeviceId: root.logsModel.deviceId
         }
 
         ListView {
+            id: listView
             Layout.fillWidth: true
             Layout.fillHeight: true
-            model: logs
+            model: logsModel
             clip: true
+            onCountChanged: positionViewAtEnd()
             delegate: ItemDelegate {
                 width: parent.width
                 contentItem: RowLayout {
@@ -87,7 +78,7 @@ Item {
                                 var rule = rulesFilterModel.get(i);
                                 for (var j = 0; j < rule.eventDescriptors.count; j++) {
                                     var eventDescriptor = rule.eventDescriptors.get(j);
-                                    if (eventDescriptor.eventTypeId === root.deviceClass.eventTypes.findByName("triggered").id) {
+                                    if (eventDescriptor.eventTypeId === root.logsModel.typeId) {
                                         var matching = true;
                                         for (var k = 0; k < eventDescriptor.paramDescriptors.count; k++) {
                                             var paramDescriptor = eventDescriptor.paramDescriptors.get(k);
@@ -104,6 +95,12 @@ Item {
                         onClicked: root.addRuleClicked(model.value)
                     }
                 }
+            }
+
+            BusyIndicator {
+                anchors.centerIn: parent
+                visible: root.logsModel.busy
+                running: visible
             }
         }
     }

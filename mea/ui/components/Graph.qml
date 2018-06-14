@@ -17,6 +17,10 @@ Item {
     }
     onModelChanged: canvas.requestPaint()
 
+    readonly property var device: root.model ? Engine.deviceManager.devices.getDevice(root.model.deviceId) : null
+    readonly property var deviceClass: device ? Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
+    readonly property var stateType: deviceClass ? deviceClass.stateTypes.getStateType(root.model.typeId) : null
+
     Label {
         anchors.centerIn: parent
         width: parent.width - 2 * app.margins
@@ -41,7 +45,7 @@ Item {
         property int minTemp: {
             var lower = Math.floor(root.model.minimumValue - 2);
             var upper = Math.ceil(root.model.maximumValue + 2);
-            if (lower == undefined || upper == undefined) {
+            if (isNaN(lower) || isNaN(upper) || lower == undefined || upper == undefined) {
                 return 0
             }
 
@@ -57,7 +61,7 @@ Item {
         property int maxTemp: {
             var lower = Math.floor(root.model.minimumValue - 2);
             var upper = Math.ceil(root.model.maximumValue + 2);
-            if (lower == undefined || upper == undefined) {
+            if (isNaN(lower) || isNaN(upper) || lower == undefined || upper == undefined) {
                 return 0
             }
             while ((upper - lower) % 10 != 0) {
@@ -70,8 +74,8 @@ Item {
         }
 
         property int topMargins: app.margins
-        property int bottomMargins: app.margins * 4
-        property int leftMargins: app.margins * 3
+        property int bottomMargins: app.margins
+        property int leftMargins: app.margins
         property int rightMargins: app.margins
 
         property color gridColor: "#d0d0d0"
@@ -87,53 +91,60 @@ Item {
             }
             return tmp;
         }
-        // Pixel per section
-        property real pps: contentHeight / sections;
 
         onPaint: {
+            print("painting graph")
             var ctx = canvas.getContext('2d');
             ctx.save();
 
             ctx.reset()
 
-            ctx.translate(leftMargins, topMargins)
-
+            ctx.font = "" + app.smallFont + "px Ubuntu";
             ctx.globalAlpha = 1//canvas.alpha;
             //ctx.fillStyle = canvas.fillStyle;
-            ctx.font = "" + app.smallFont + "px Ubuntu";
 
-            paintGrid(ctx)
-            enumerate(ctx)
+            var textSize = ctx.measureText(maxTemp);
+            var leftTextWidth = textSize.width + app.margins;
+            var bottomTextHeight = app.smallFont * 2 + app.margins;
+            var topTextHeight = app.smallFont + app.margins;
+            ctx.translate(leftMargins + leftTextWidth, topMargins);
+            var gridWidth = contentWidth - leftTextWidth;
+            var gridHeight = contentHeight - bottomTextHeight;
+
+
+            paintGrid(ctx, gridWidth, gridHeight)
+            enumerate(ctx, gridWidth, gridHeight)
 
             if (root.mode == "bezier") {
-                paintGraph(ctx)
+                paintGraph(ctx, gridWidth, gridHeight)
             } else {
-                paintBars(ctx)
+                paintBars(ctx, gridWidth, gridHeight)
             }
 
             ctx.restore();
 
         }
 
-        function paintGrid(ctx) {
+        function paintGrid(ctx, width, height) {
             ctx.strokeStyle = canvas.gridColor;
             ctx.fillStyle = Material.foreground
             ctx.lineWidth = 1;
 
             ctx.beginPath();
-            ctx.rect(0, 0, contentWidth, contentHeight)
+            ctx.rect(0, 0, width, height)
             ctx.stroke();
             ctx.closePath();
 
             // Horizontal lines
             var tempInterval = (maxTemp - minTemp) / sections;
+            var pps = (height / sections);
 
             for (var i = 0; i <= sections; i++) {
                 ctx.beginPath();
                 ctx.lineWidth = 1;
                 ctx.strokeStyle = canvas.gridColor
                 ctx.moveTo(0, i * pps);
-                ctx.lineTo(contentWidth, i * pps)
+                ctx.lineTo(width, i * pps)
                 ctx.stroke();
                 ctx.closePath();
 
@@ -153,16 +164,17 @@ Item {
             ctx.strokeStyle = Material.foreground
             ctx.fillStyle = Material.foreground
             ctx.lineWidth = 0;
-            var label = "°C"
+            print("blubb", root.stateType.unitString)
+            var label = root.stateType ? root.stateType.unitString : ""
             var textSize = ctx.measureText(label)
-            ctx.text(label, -textSize.width - 1, -1 * pps + 5)
+            ctx.text(label, -textSize.width - app.margins, height + app.margins + app.smallFont)
 //            ctx.stroke();
             ctx.fill()
             ctx.closePath()
 
         }
 
-        function enumerate(ctx) {
+        function enumerate(ctx, width, height) {
             // enumate x axis
             ctx.beginPath();
             ctx.globalAlpha = 1;
@@ -173,12 +185,12 @@ Item {
 
             var lastTextX = -1;
             for (var i = 0; i < model.count; i++) {
-                var x = contentWidth / (model.count) * i;
+                var x = width / (model.count) * i;
                 if (x < lastTextX) continue;
 
                 var label = model.get(i).dayString
                 var textSize = ctx.measureText(label)
-                ctx.text(label.slice(0,2).concat("."), x, contentHeight + app.smallFont + app.margins / 2)
+                ctx.text(label.slice(0,2).concat("."), x, height + app.smallFont + app.margins / 2)
 
                 switch (model.average) {
                 case ValueLogsProxyModel.AverageQuarterHour:
@@ -191,7 +203,7 @@ Item {
                 }
 
                 textSize = ctx.measureText(label)
-                ctx.text(label, x, contentHeight + app.smallFont * 2 + app.margins)
+                ctx.text(label, x, height + app.smallFont * 2 + app.margins)
                 lastTextX = x + textSize.width;
             }
 
@@ -200,12 +212,13 @@ Item {
             ctx.closePath();
         }
 
-        function paintGraph(ctx) {
+        function paintGraph(ctx, width, height) {
             if (model.count <= 1) {
                 return;
             }
 
             var tempInterval = (maxTemp - minTemp) / sections;
+            var pps = (height / sections)
 
             ctx.beginPath();
             ctx.globalAlpha = 1;
@@ -221,8 +234,8 @@ Item {
                 var value = model.get(i).value;
                 var point = new Object();
 //                print("painting value", value)
-                point.x = (i == 0) ? 0 : (contentWidth / (model.count - 2) * i);
-                point.y = contentHeight - (value - minTemp) / tempInterval * pps;
+                point.x = (i == 0) ? 0 : (width / (model.count - 2) * i);
+                point.y = height - (value - minTemp) / tempInterval * pps;
                 points.push(point);
             }
 
@@ -232,8 +245,8 @@ Item {
 
             ctx.beginPath();
             paintBezier(ctx, points)
-            ctx.lineTo(contentWidth, contentHeight);
-            ctx.lineTo(0, contentHeight);
+            ctx.lineTo(width, height);
+            ctx.lineTo(0, height);
             ctx.fill();
             ctx.closePath();
 
@@ -248,7 +261,7 @@ Item {
             for (var i = 0; i < model.count; i++) {
                 var dayMaxTemp = model.get(i).maxTemp;
                 var point = new Object();
-                point.x = (i == 0) ? 0 : (contentWidth / (model.count - 1) * i);
+                point.x = (i == 0) ? 0 : (width / (model.count - 1) * i);
                 point.y = - (dayMaxTemp - maxTemp) / tempInterval * pps;
                 points.push(point);
             }
@@ -312,12 +325,13 @@ Item {
             }
         }
 
-        function paintBars(ctx) {
+        function paintBars(ctx, width, height) {
             if (model.count <= 1) {
                 return;
             }
 
             var tempInterval = (maxTemp - minTemp) / sections;
+            var pps = (height / sections)
 
             ctx.globalAlpha = 1;
             ctx.lineWidth = 2;
@@ -331,21 +345,21 @@ Item {
             for (var i = 0; i < model.count; i++) {
                 ctx.beginPath();
                 var value = model.get(i).value;
-                var x = contentWidth / (model.count) * i;
-                var y = contentHeight - (value - minTemp) / tempInterval * pps;
+                var x = width / (model.count) * i;
+                var y = height - (value - minTemp) / tempInterval * pps;
 
-                var slotWidth = contentWidth / model.count
-                ctx.rect(x,y, slotWidth - 5, contentHeight - y)
-                ctx.fillRect(x,y, slotWidth - 5, contentHeight - y);
+                var slotWidth = width / model.count
+                ctx.rect(x,y, slotWidth - 5, height - y)
+                ctx.fillRect(x,y, slotWidth - 5, height - y);
                 ctx.stroke();
                 ctx.fill();
                 ctx.closePath();
             }
         }
 
-        function hourToX(hour) {
+        function hourToX(hour, width) {
             var entries = root.day.count;
-            return canvas.contentWidth / entries * hour
+            return canvas.width / entries * hour
         }
     }
 }

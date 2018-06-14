@@ -12,8 +12,13 @@ GenericDevicePage {
     GenericTypeLogView {
         anchors.fill: parent
         text: qsTr("This button has been pressed %1 times in the last 24 hours.")
-        device: root.device
-        typeId: root.deviceClass.eventTypes.findByName("pressed").id
+
+        logsModel: LogsModel {
+            deviceId: root.device.id
+            live: true
+            typeId: root.deviceClass.eventTypes.findByName("pressed").id
+            Component.onCompleted: update()
+        }
 
         onAddRuleClicked: {
             var rule = Engine.ruleManager.createNewRule();

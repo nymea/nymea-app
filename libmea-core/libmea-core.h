@@ -25,6 +25,7 @@
 #include "types/stateevaluator.h"
 #include "types/stateevaluators.h"
 #include "models/logsmodel.h"
+#include "models/logsmodelng.h"
 #include "models/valuelogsproxymodel.h"
 #include "models/eventdescriptorparamsfiltermodel.h"
 #include "basicconfiguration.h"
@@ -122,6 +123,7 @@ void registerQmlTypes() {
     qmlRegisterType<EventDescriptorParamsFilterModel>(uri, 1, 0, "EventDescriptorParamsFilterModel");
 
     qmlRegisterType<LogsModel>(uri, 1, 0, "LogsModel");
+    qmlRegisterType<LogsModelNg>(uri, 1, 0, "LogsModelNg");
     qmlRegisterType<ValueLogsProxyModel>(uri, 1, 0, "ValueLogsProxyModel");
     qmlRegisterUncreatableType<LogEntry>(uri, 1, 0, "LogEntry", "Get them from LogsModel");
 
