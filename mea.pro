@@ -59,8 +59,8 @@ QMAKE_EXTRA_TARGETS += osxbundle
 
 
 # Translations support
-TRANSLATIONS += $$files(mea/translations/*.ts, true)
-lrelease.commands = lrelease $$_FILE_
-lrelease-qmake_all.commands = lrelease $$_FILE_
+TRANSLATIONS += $$files($$absolute_path(mea)/translations/*.ts, true)
+lrelease.commands = lrelease $$TRANSLATIONS
+lrelease-qmake_all.commands = lrelease $$TRANSLATIONS
 QMAKE_EXTRA_TARGETS += lrelease lrelease-make_first lrelease-qmake_all lrelease-install_subtargets
 mea.depends += lrelease

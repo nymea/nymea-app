@@ -54,6 +54,19 @@ macx: {
     ICON = ../packaging/osx/icon.icns
 }
 
+ios: {
+    message("iOS build")
+    QMAKE_TARGET_BUNDLE_PREFIX = io.guh
+    QMAKE_BUNDLE = mea
+    # Configure generated xcode project to have our bundle id
+    xcode_product_bundle_identifier_setting.value = $${QMAKE_TARGET_BUNDLE_PREFIX}.$${QMAKE_BUNDLE}
+    plist.input = ../packaging/ios/Info.plist.in
+    plist.output = $$OUT_PWD/Info.plist
+    QMAKE_SUBSTITUTES += plist
+    QMAKE_INFO_PLIST = $$OUT_PWD/Info.plist
+    OTHER_FILES += ../packaging/ios/Info.plist.in
+}
+
 BR=$$BRANDING
 !equals(BR, "") {
     DEFINES += BRANDING=\\\"$${BR}\\\"
