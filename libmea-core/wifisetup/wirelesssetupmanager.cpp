@@ -479,7 +479,7 @@ void WirelessSetupManager::processNetworkResponse(const QVariantMap &response)
             emit errorOccured(tr("There is no wireless device available on the device."));
             break;
         default:
-            emit errorOccured("Unknown error occured.");
+            emit errorOccured(tr("Unknown error occured."));
             break;
         }
 
@@ -524,7 +524,7 @@ void WirelessSetupManager::processWifiResponse(const QVariantMap &response)
             emit errorOccured(tr("The networking is disabled on the device."));
             break;
         default:
-            emit errorOccured("Unknown error occured.");
+            emit errorOccured(tr("Unknown error occured."));
             break;
         }
 
@@ -794,34 +794,39 @@ void WirelessSetupManager::onNetworkServiceStateChanged(const QLowEnergyService:
 
 void WirelessSetupManager::onNetworkServiceCharacteristicChanged(const QLowEnergyCharacteristic &characteristic, const QByteArray &value)
 {
-    Q_UNUSED(characteristic)
 
-    // Check if currently reading
-    if (m_readingResponse) {
-        m_inputDataStream.append(value);
-    } else {
-        m_inputDataStream.clear();
-        m_readingResponse = true;
-        m_inputDataStream.append(value);
-    }
-
-    // If command finished
-    if (value.endsWith('\n')) {
-        QJsonParseError error;
-        QJsonDocument jsonDocument = QJsonDocument::fromJson(m_inputDataStream, &error);
-        if (error.error != QJsonParseError::NoError) {
-            qWarning() << "Got invalid json object" << m_inputDataStream;
+    if (characteristic.uuid() == networkStatusCharacteristicUuid) {
+        qDebug() << "Network status changed:" << value;
+        setNetworkStatus(value.toHex().toUInt(0, 16));
+        return;
+    } else if (characteristic.uuid() == networkResponseCharacteristicUuid) {
+        // Check if currently reading
+        if (m_readingResponse) {
+            m_inputDataStream.append(value);
+        } else {
             m_inputDataStream.clear();
-            m_readingResponse = false;
-            return;
+            m_readingResponse = true;
+            m_inputDataStream.append(value);
         }
 
-        qDebug() << "Got command stream" << qUtf8Printable(jsonDocument.toJson());
+        // If command finished
+        if (value.endsWith('\n')) {
+            QJsonParseError error;
+            QJsonDocument jsonDocument = QJsonDocument::fromJson(m_inputDataStream, &error);
+            if (error.error != QJsonParseError::NoError) {
+                qWarning() << "Got invalid json object" << m_inputDataStream;
+                m_inputDataStream.clear();
+                m_readingResponse = false;
+                return;
+            }
 
-        processNetworkResponse(jsonDocument.toVariant().toMap());
+            qDebug() << "Got command stream" << qUtf8Printable(jsonDocument.toJson());
 
-        m_inputDataStream.clear();
-        m_readingResponse = false;
+            processNetworkResponse(jsonDocument.toVariant().toMap());
+
+            m_inputDataStream.clear();
+            m_readingResponse = false;
+        }
     }
 }
 
