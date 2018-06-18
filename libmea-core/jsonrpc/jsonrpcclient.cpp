@@ -269,7 +269,7 @@ void JsonRpcClient::dataReceived(const QByteArray &data)
 
 
     // Check if this is the initial handshake
-    if (dataMap.value("id").toInt() == 0 && dataMap.contains("params")) {
+    if (dataMap.value("id").toInt() == 0 && dataMap.contains("params") && !dataMap.contains("notification")) {
         dataMap = dataMap.value("params").toMap();
         m_initialSetupRequired = dataMap.value("initialSetupRequired").toBool();
         m_authenticationRequired = dataMap.value("authenticationRequired").toBool();
@@ -286,6 +286,7 @@ void JsonRpcClient::dataReceived(const QByteArray &data)
         QVersionNumber minimumRequiredVersion = QVersionNumber(1, 0);
         QVersionNumber protocolVersion = QVersionNumber::fromString(protoVersionString);
         if (protocolVersion < minimumRequiredVersion) {
+            qWarning() << "Nymea box doesn't support minimum required version. Required:" << minimumRequiredVersion << "Found:" << protocolVersion;
             m_connection->disconnect();
             emit invalidProtocolVersion(protocolVersion.toString(), minimumRequiredVersion.toString());
             return;
