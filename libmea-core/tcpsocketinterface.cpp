@@ -61,14 +61,28 @@ void TcpSocketInterface::connect(const QUrl &url)
     }
 }
 
-bool TcpSocketInterface::isConnected() const
+NymeaInterface::ConnectionState TcpSocketInterface::connectionState() const
 {
-    return m_socket.state() == QAbstractSocket::ConnectedState;
+    switch (m_socket.state()) {
+    case QAbstractSocket::ConnectedState:
+        return NymeaInterface::ConnectionStateConnected;
+    case QAbstractSocket::ConnectingState:
+    case QAbstractSocket::HostLookupState:
+        return NymeaInterface::ConnectionStateConnecting;
+    default:
+        return NymeaInterface::ConnectionStateDisconnected;
+    }
 }
 
 void TcpSocketInterface::disconnect()
 {
+    qDebug() << "closing socket";
     m_socket.disconnectFromHost();
+    m_socket.close();
+    // QTcpSocket might endlessly wait for a timeout if we call connectToHost() for an IP which isn't
+    // reable at all (e.g. has disappeared from the network). Closing the socket is not enough, we need
+    // abort the exiting connection attempts too.
+    m_socket.abort();
 }
 
 void TcpSocketInterface::socketReadyRead()

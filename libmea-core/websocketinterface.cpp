@@ -51,14 +51,24 @@ void WebsocketInterface::connect(const QUrl &url)
     m_socket->open(QUrl(url));
 }
 
-bool WebsocketInterface::isConnected() const
+NymeaInterface::ConnectionState WebsocketInterface::connectionState() const
 {
-    return m_socket->state() == QAbstractSocket::ConnectedState;
+    switch (m_socket->state()) {
+    case QAbstractSocket::ConnectedState:
+        return NymeaInterface::ConnectionStateConnected;
+    case QAbstractSocket::ConnectingState:
+    case QAbstractSocket::HostLookupState:
+        return NymeaInterface::ConnectionStateConnecting;
+    default:
+        return NymeaInterface::ConnectionStateDisconnected;
+    }
+
 }
 
 void WebsocketInterface::disconnect()
 {
     m_socket->close();
+    m_socket->abort();
 }
 
 void WebsocketInterface::sendData(const QByteArray &data)

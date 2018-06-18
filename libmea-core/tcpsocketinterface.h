@@ -16,7 +16,7 @@ public:
     QStringList supportedSchemes() const override;
 
     void connect(const QUrl &url) override;
-    bool isConnected() const override;
+    ConnectionState connectionState() const override;
     void disconnect() override;
     void sendData(const QByteArray &data) override;
     void ignoreSslErrors(const QList<QSslError> &errors) override;

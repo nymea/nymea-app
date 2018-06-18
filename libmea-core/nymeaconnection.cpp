@@ -36,7 +36,7 @@ void NymeaConnection::connect(const QString &url)
 
 void NymeaConnection::disconnect()
 {
-    if (!m_currentInterface || !m_currentInterface->isConnected()) {
+    if (!m_currentInterface || m_currentInterface->connectionState() == NymeaInterface::ConnectionStateDisconnected) {
         qWarning() << "not connected, cannot disconnect";
         return;
     }
@@ -60,7 +60,7 @@ bool NymeaConnection::isTrusted(const QString &url)
 
 bool NymeaConnection::connected()
 {
-    return m_currentInterface && m_currentInterface->isConnected();
+    return m_currentInterface && m_currentInterface->connectionState() == NymeaInterface::ConnectionStateConnected;
 }
 
 QString NymeaConnection::url() const

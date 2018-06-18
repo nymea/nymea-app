@@ -29,13 +29,20 @@ class NymeaInterface : public QObject
 {
     Q_OBJECT
 public:
+    enum ConnectionState {
+        ConnectionStateDisconnected,
+        ConnectionStateConnecting,
+        ConnectionStateConnected
+    };
+    Q_ENUM(ConnectionState)
+
     explicit NymeaInterface(QObject *parent = 0);
 
     virtual QStringList supportedSchemes() const = 0;
 
     virtual void connect(const QUrl &url) = 0;
     virtual void disconnect() = 0;
-    virtual bool isConnected() const = 0;
+    virtual ConnectionState connectionState() const = 0;
     virtual void sendData(const QByteArray &data) = 0;
     virtual void ignoreSslErrors(const QList<QSslError> &errors) = 0;
 
