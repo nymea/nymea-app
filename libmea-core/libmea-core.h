@@ -34,6 +34,7 @@
 #include "models/logsmodelng.h"
 #include "models/valuelogsproxymodel.h"
 #include "models/eventdescriptorparamsfiltermodel.h"
+#include "models/interfacesproxy.h"
 #include "basicconfiguration.h"
 #include "wifisetup/networkmanagercontroler.h"
 
@@ -119,6 +120,7 @@ void registerQmlTypes() {
 
     qmlRegisterUncreatableType<Interface>(uri, 1, 0, "Interface", "Uncreatable");
     qmlRegisterSingletonType<Interfaces>(uri, 1, 0, "Interfaces", interfacesModel_provider);
+    qmlRegisterType<InterfacesProxy>(uri, 1, 0, "InterfacesProxy");
 
     qmlRegisterUncreatableType<Plugin>(uri, 1, 0, "Plugin", "Can't create this in QML. Get it from the Plugins.");
     qmlRegisterUncreatableType<Plugins>(uri, 1, 0, "Plugins", "Can't create this in QML. Get it from the DeviceManager.");

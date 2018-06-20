@@ -10,7 +10,7 @@ ToolBar {
     property string text
     property alias backButtonVisible: backButton.visible
     property alias menuButtonVisible: menuButton.visible
-    default property alias data: layout.data
+    default property alias children: layout.data
 
     signal backPressed();
     signal menuPressed();

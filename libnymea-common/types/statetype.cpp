@@ -27,12 +27,12 @@ StateType::StateType(QObject *parent) :
 {
 }
 
-QUuid StateType::id() const
+QString StateType::id() const
 {
     return m_id;
 }
 
-void StateType::setId(const QUuid &id)
+void StateType::setId(const QString &id)
 {
     m_id = id;
 }
@@ -65,6 +65,11 @@ QString StateType::type() const
 void StateType::setType(const QString &type)
 {
     m_type = type;
+}
+
+void StateType::setType(QVariant::Type type)
+{
+    m_type = QVariant::typeToName(type);
 }
 
 int StateType::index() const

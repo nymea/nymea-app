@@ -62,6 +62,22 @@ void RuleActionParams::setRuleActionParam(const QString &paramTypeId, const QVar
     addRuleActionParam(rap);
 }
 
+void RuleActionParams::setRuleActionParamByName(const QString &paramName, const QVariant &value)
+{
+    foreach (RuleActionParam *rap, m_list) {
+        if (rap->paramName() == paramName) {
+            rap->setValue(value);
+            return;
+        }
+    }
+
+    // Still here? Need to add it
+    RuleActionParam *rap = new RuleActionParam(this);
+    rap->setParamName(paramName);
+    rap->setValue(value);
+    addRuleActionParam(rap);
+}
+
 void RuleActionParams::setRuleActionParamEvent(const QString &paramTypeId, const QString &eventTypeId, const QString &eventParamTypeId)
 {
     foreach (RuleActionParam *rap, m_list) {

@@ -10,7 +10,7 @@ Page {
     // Needs to be set and have rule.ruleActions filled in with deviceId and actionTypeId or interfaceName and interfaceAction
     property var ruleAction: null
 
-    // optionally a rule which will be used to propse event's params as param values
+    // optionally a rule which will be used to propose event's params as param values
     property var rule: null
 
     readonly property var device: ruleAction && ruleAction.deviceId ? Engine.deviceManager.devices.getDevice(ruleAction.deviceId) : null
@@ -81,9 +81,9 @@ Page {
                         model: EventDescriptorParamsFilterModel {
                             id: eventDescriptorParamsFilterModel
                             eventDescriptor: root.rule.eventDescriptors.count === 1 ? root.rule.eventDescriptors.get(0) : null
-                            property var device: Engine.deviceManager.devices.getDevice(eventDescriptor.deviceId)
-                            property var deviceClass: Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId)
-                            property var eventType: deviceClass.eventTypes.getEventType(eventDescriptor.eventTypeId)
+                            property var device: eventDescriptor ? Engine.deviceManager.devices.getDevice(eventDescriptor.deviceId) : null
+                            property var deviceClass: device ? Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
+                            property var eventType: deviceClass ? deviceClass.eventTypes.getEventType(eventDescriptor.eventTypeId) : null
                             property var paramDescriptor: eventDescriptorParamsFilterModel.eventType.paramTypes.get(eventParamsComboBox.currentIndex)
                             property var paramTypeId: paramDescriptor.id
                         }
@@ -116,7 +116,11 @@ Page {
                     for (var i = 0; i < delegateRepeater.count; i++) {
                         var paramDelegate = delegateRepeater.itemAt(i);
                         if (paramDelegate.type === "static") {
-                            root.ruleAction.ruleActionParams.setRuleActionParam(paramDelegate.paramType.id, paramDelegate.value)
+                            if (root.device) {
+                                root.ruleAction.ruleActionParams.setRuleActionParam(paramDelegate.paramType.id, paramDelegate.value)
+                            } else if (root.iface) {
+                                root.ruleAction.ruleActionParams.setRuleActionParamByName(root.actionType.paramTypes.get(i).name, paramDelegate.value)
+                            }
                         } else if (paramDelegate.type === "event") {
                             print("adding event based rule action param", paramDelegate.paramType.id, paramDelegate.eventType.id, paramDelegate.eventParamTypeId)
                             root.ruleAction.ruleActionParams.setRuleActionParamEvent(paramDelegate.paramType.id, paramDelegate.eventType.id, paramDelegate.eventParamTypeId)

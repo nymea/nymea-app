@@ -198,5 +198,9 @@
         <file>ui/images/action.svg</file>
         <file>ui/images/event.svg</file>
         <file>ui/images/state.svg</file>
+        <file>ui/images/event-interface.svg</file>
+        <file>ui/components/MeaListItemDelegate.qml</file>
+        <file>ui/images/state-interface.svg</file>
+        <file>ui/images/action-interface.svg</file>
     </qresource>
 </RCC>

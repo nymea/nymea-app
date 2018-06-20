@@ -39,6 +39,8 @@ public:
     void addParamDescriptor(ParamDescriptor* paramDescriptor);
 
     Q_INVOKABLE void setParamDescriptor(const QString &paramTypeId, const QVariant &value, ValueOperator operatorType);
+    Q_INVOKABLE void setParamDescriptorByName(const QString &paramName, const QVariant &value, ValueOperator operatorType);
+    Q_INVOKABLE void clear();
 
 signals:
     void countChanged();

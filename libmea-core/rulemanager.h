@@ -8,6 +8,7 @@
 
 class JsonRpcClient;
 class StateEvaluator;
+class RuleAction;
 
 class RuleManager : public JsonHandler
 {
@@ -45,6 +46,7 @@ private:
     StateEvaluator* parseStateEvaluator(const QVariantMap &stateEvaluatorMap);
     void parseRuleActions(const QVariantList &ruleActions, Rule *rule);
     void parseRuleExitActions(const QVariantList &ruleActions, Rule *rule);
+    RuleAction* parseRuleAction(const QVariantMap &ruleAction);
     void parseTimeDescriptor(const QVariantMap &timeDescriptor, Rule *rule);
 
 signals:

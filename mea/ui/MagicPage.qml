@@ -61,24 +61,15 @@ Page {
         anchors.fill: parent
 
         model: Engine.ruleManager.rules
-        delegate: SwipeDelegate {
+        delegate: MeaListItemDelegate {
             id: ruleDelegate
             width: parent.width
+            iconName: "../images/magic.svg"
+            iconColor: !model.enabled ? "red" : (model.active ? app.guhAccent : "grey")
+            text: model.name
+            canDelete: true
 
-            contentItem: RowLayout {
-                spacing: app.margins
-                ColorIcon {
-                    height: app.iconSize
-                    width: height
-                    name: "../images/magic.svg"
-                    color: !model.enabled ? "red" : (model.active ? app.guhAccent : "grey")
-                }
-
-                Label {
-                    Layout.fillWidth: true
-                    text: model.name
-                }
-            }
+            onDeleteClicked: Engine.ruleManager.removeRule(model.id)
 
             onClicked: {
                 d.editRulePage = pageStack.push(Qt.resolvedUrl("magic/EditRulePage.qml"), {rule: Engine.ruleManager.rules.get(index).clone()})
@@ -88,24 +79,11 @@ Page {
                 })
                 d.editRulePage.onAccept.connect(function() {
                     d.editRulePage.busy = true;
-                    Engine.ruleManager.editRule(editRulePage.rule);
+                    Engine.ruleManager.editRule(d.editRulePage.rule);
                 })
                 d.editRulePage.onCancel.connect(function() {
                     pageStack.pop();
                 })
-            }
-
-            swipe.right: MouseArea {
-                height: ruleDelegate.height
-                width: height
-                anchors.right: parent.right
-                ColorIcon {
-                    anchors.fill: parent
-                    anchors.margins: app.margins
-                    name: "../images/delete.svg"
-                    color: "red"
-                }
-                onClicked: Engine.ruleManager.removeRule(model.id)
             }
         }
     }

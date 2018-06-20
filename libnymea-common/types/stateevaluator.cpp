@@ -66,6 +66,8 @@ StateEvaluator *StateEvaluator::clone() const
     ret->m_operator = this->m_operator;
     ret->m_stateDescriptor->setDeviceId(this->m_stateDescriptor->deviceId());
     ret->m_stateDescriptor->setStateTypeId(this->m_stateDescriptor->stateTypeId());
+    ret->m_stateDescriptor->setInterfaceName(this->m_stateDescriptor->interfaceName());
+    ret->m_stateDescriptor->setInterfaceState(this->m_stateDescriptor->interfaceState());
     ret->m_stateDescriptor->setValueOperator(this->m_stateDescriptor->valueOperator());
     ret->m_stateDescriptor->setValue(this->m_stateDescriptor->value());
     for (int i = 0; i < this->m_childEvaluators->rowCount(); i++) {

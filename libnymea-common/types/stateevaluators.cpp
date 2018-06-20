@@ -1,4 +1,5 @@
 #include "stateevaluators.h"
+#include "stateevaluator.h"
 
 StateEvaluators::StateEvaluators(QObject *parent) : QAbstractListModel(parent)
 {
@@ -34,13 +35,23 @@ void StateEvaluators::addStateEvaluator(StateEvaluator *stateEvaluator)
 
 StateEvaluator *StateEvaluators::get(int index) const
 {
+    if (index < 0 || index >= m_list.count()) {
+        return nullptr;
+    }
     return m_list.at(index);
 }
 
 StateEvaluator *StateEvaluators::take(int index)
 {
     beginRemoveRows(QModelIndex(), index, index);
-    return m_list.takeAt(index);
-    endInsertRows();
+    StateEvaluator* ret = m_list.takeAt(index);
+    endRemoveRows();
     emit countChanged();
+    ret->setParent(nullptr);
+    return ret;
+}
+
+void StateEvaluators::remove(int index)
+{
+    take(index)->deleteLater();
 }

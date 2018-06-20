@@ -16,5 +16,6 @@ Page {
     StateEvaluatorDelegate {
         width: parent.width
         stateEvaluator: root.stateEvaluator
+        canDelete: false
     }
 }

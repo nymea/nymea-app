@@ -8,45 +8,41 @@ import Mea 1.0
 Page {
     id: root
 
+    property bool selectInterface: false
     signal backPressed();
     signal thingSelected(var device);
     signal interfaceSelected(string interfaceName);
+    property alias showEvents: interfacesProxy.showEvents
+    property alias showActions: interfacesProxy.showActions
+    property alias showStates: interfacesProxy.showStates
 
     header: GuhHeader {
-        text: qsTr("Select a thing")
+        text: root.selectInterface ? qsTr("Select a kind of things") : qsTr("Select a thing")
         onBackPressed: root.backPressed()
     }
+
+    InterfacesProxy {
+        id: interfacesProxy
+        devicesFilter: Engine.deviceManager.devices
+    }
+
     ColumnLayout {
         anchors.fill: parent
-
-        RowLayout {
-            Layout.fillWidth: true
-            // TODO: unfinished, disabled for now
-            visible: false
-            RadioButton {
-                id: thingButton
-                text: qsTr("A specific thing")
-                checked: true
-            }
-            RadioButton {
-                id: interfacesButton
-                text: qsTr("A group of things")
-            }
-        }
 
         ListView {
             Layout.fillWidth: true
             Layout.fillHeight: true
-            model: thingButton.checked ? Engine.deviceManager.devices : Interfaces
+            model: root.selectInterface ? interfacesProxy : Engine.deviceManager.devices
             clip: true
-            delegate: ThingDelegate {
-                name: thingButton.checked ? model.name : model.displayName
-                interfaces: model.interfaces
+            delegate: MeaListItemDelegate {
+                width: parent.width
+                text: root.selectInterface ? model.displayName : model.name
+                iconName: root.selectInterface ? app.interfaceToIcon(model.name) : app.interfacesToIcon(model.interfaces)
                 onClicked: {
-                    if (thingButton.checked) {
-                        root.thingSelected(Engine.deviceManager.devices.get(index))
+                    if (root.selectInterface) {
+                        root.interfaceSelected(interfacesProxy.get(index).name)
                     } else {
-                        root.interfaceSelected(Interfaces.get(index).name)
+                        root.thingSelected(Engine.deviceManager.devices.get(index))
                     }
                 }
             }

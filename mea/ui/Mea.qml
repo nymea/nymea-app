@@ -16,7 +16,7 @@ ApplicationWindow {
 
     property int margins: 14
     property int bigMargins: 20
-    property int smallFont: 14
+    property int smallFont: 13
     property int mediumFont: 16
     property int largeFont: 20
     property int iconSize: 30
@@ -220,6 +220,8 @@ ApplicationWindow {
             return Qt.resolvedUrl("images/sort-listitem.svg")
         case "garagegate":
             return Qt.resolvedUrl("images/shutter-10.svg")
+        case "battery":
+            return Qt.resolvedUrl("images/battery/battery-050.svg")
         }
         return "";
     }

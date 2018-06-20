@@ -19,7 +19,12 @@ public:
 
     void addStateEvaluator(StateEvaluator* stateEvaluator);
     Q_INVOKABLE StateEvaluator* get(int index) const;
-    StateEvaluator* take(int index);
+
+    // Caller takes ownership, is responsible for deleting
+    Q_INVOKABLE StateEvaluator* take(int index);
+
+    // StateEvaluator will be deleted
+    Q_INVOKABLE void remove(int index);
 
 signals:
     void countChanged();

@@ -78,11 +78,12 @@ Page {
 
                 onAddRuleClicked: {
                     var rule = Engine.ruleManager.createNewRule();
-                    rule.createStateEvaluator();
-                    rule.stateEvaluator.stateDescriptor.deviceId = device.id;
-                    rule.stateEvaluator.stateDescriptor.stateTypeId = root.stateType.id;
-                    rule.stateEvaluator.stateDescriptor.value = value;
-                    rule.stateEvaluator.stateDescriptor.valueOperator = StateDescriptor.ValueOperatorEquals;
+                    var stateEvaluator = rule.createStateEvaluator();
+                    stateEvaluator.stateDescriptor.deviceId = device.id;
+                    stateEvaluator.stateDescriptor.stateTypeId = root.stateType.id;
+                    stateEvaluator.stateDescriptor.value = value;
+                    stateEvaluator.stateDescriptor.valueOperator = StateDescriptor.ValueOperatorEquals;
+                    rule.setStateEvaluator(stateEvaluator);
                     rule.name = root.device.name + " - " + stateType.displayName + " = " + value;
 
                     var rulePage = pageStack.push(Qt.resolvedUrl("../magic/DeviceRulesPage.qml"), {device: root.device});

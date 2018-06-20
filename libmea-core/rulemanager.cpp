@@ -198,7 +198,10 @@ void RuleManager::parseEventDescriptors(const QVariantList &eventDescriptorList,
         eventDescriptor->setInterfaceName(eventDescriptorVariant.toMap().value("interface").toString());
         eventDescriptor->setInterfaceEvent(eventDescriptorVariant.toMap().value("interfaceEvent").toString());
         foreach (const QVariant &paramDescriptorVariant, eventDescriptorVariant.toMap().value("paramDescriptors").toList()) {
-            ParamDescriptor *paramDescriptor = new ParamDescriptor(paramDescriptorVariant.toMap().value("paramTypeId").toString(), paramDescriptorVariant.toMap().value("value"));
+            ParamDescriptor *paramDescriptor = new ParamDescriptor();
+            paramDescriptor->setParamTypeId(paramDescriptorVariant.toMap().value("paramTypeId").toString());
+            paramDescriptor->setParamName(paramDescriptorVariant.toMap().value("paramName").toString());
+            paramDescriptor->setValue(paramDescriptorVariant.toMap().value("value"));
             QMetaEnum operatorEnum = QMetaEnum::fromType<ParamDescriptor::ValueOperator>();
             paramDescriptor->setOperatorType((ParamDescriptor::ValueOperator)operatorEnum.keyToValue(paramDescriptorVariant.toMap().value("operator").toString().toLocal8Bit()));
             eventDescriptor->paramDescriptors()->addParamDescriptor(paramDescriptor);
@@ -216,7 +219,14 @@ StateEvaluator *RuleManager::parseStateEvaluator(const QVariantMap &stateEvaluat
     QVariantMap sdMap = stateEvaluatorMap.value("stateDescriptor").toMap();
     QMetaEnum operatorEnum = QMetaEnum::fromType<StateDescriptor::ValueOperator>();
     StateDescriptor::ValueOperator op = (StateDescriptor::ValueOperator)operatorEnum.keyToValue(sdMap.value("operator").toByteArray());
-    StateDescriptor *sd = new StateDescriptor(sdMap.value("deviceId").toUuid(), op, sdMap.value("stateTypeId").toUuid(), sdMap.value("value"), stateEvaluator);
+
+    StateDescriptor *sd = nullptr;
+    if (sdMap.contains("deviceId") && sdMap.contains("stateTypeId")) {
+         sd = new StateDescriptor(sdMap.value("deviceId").toUuid(), sdMap.value("stateTypeId").toUuid(), op, sdMap.value("value"), stateEvaluator);
+    } else {
+        sd = new StateDescriptor(sdMap.value("interface").toString(), sdMap.value("interfaceState").toString(), op, sdMap.value("value"), stateEvaluator);
+    }
+    qDebug() << "Created StateDescriptor:" << sd->interfaceName() << sd->interfaceState() << sd->deviceId() << sd->stateTypeId();
     stateEvaluator->setStateDescriptor(sd);
 
     foreach (const QVariant &childEvaluatorVariant, stateEvaluatorMap.value("childEvaluators").toList()) {
@@ -230,37 +240,37 @@ StateEvaluator *RuleManager::parseStateEvaluator(const QVariantMap &stateEvaluat
 void RuleManager::parseRuleActions(const QVariantList &ruleActions, Rule *rule)
 {
     foreach (const QVariant &ruleActionVariant, ruleActions) {
-        RuleAction *ruleAction = new RuleAction();
-        ruleAction->setDeviceId(ruleActionVariant.toMap().value("deviceId").toUuid());
-        ruleAction->setActionTypeId(ruleActionVariant.toMap().value("actionTypeId").toUuid());
-        foreach (const QVariant &ruleActionParamVariant, ruleActionVariant.toMap().value("ruleActionParams").toList()) {
-            RuleActionParam *param = new RuleActionParam();
-            param->setParamTypeId(ruleActionParamVariant.toMap().value("paramTypeId").toUuid());
-            param->setValue(ruleActionParamVariant.toMap().value("value"));
-            param->setEventTypeId(ruleActionParamVariant.toMap().value("eventTypeId").toString());
-            param->setEventParamTypeId(ruleActionParamVariant.toMap().value("eventParamTypeId").toString());
-            ruleAction->ruleActionParams()->addRuleActionParam(param);
-        }
-        rule->actions()->addRuleAction(ruleAction);
+        rule->actions()->addRuleAction(parseRuleAction(ruleActionVariant.toMap()));
     }
 }
 
 void RuleManager::parseRuleExitActions(const QVariantList &ruleActions, Rule *rule)
 {
     foreach (const QVariant &ruleActionVariant, ruleActions) {
-        RuleAction *ruleAction = new RuleAction();
-        ruleAction->setDeviceId(ruleActionVariant.toMap().value("deviceId").toUuid());
-        ruleAction->setActionTypeId(ruleActionVariant.toMap().value("actionTypeId").toUuid());
-        foreach (const QVariant &ruleActionParamVariant, ruleActionVariant.toMap().value("ruleActionParams").toList()) {
-            RuleActionParam *param = new RuleActionParam();
-            param->setParamTypeId(ruleActionParamVariant.toMap().value("paramTypeId").toUuid());
-            param->setValue(ruleActionParamVariant.toMap().value("value"));
-            param->setEventTypeId(ruleActionParamVariant.toMap().value("eventTypeId").toString());
-            param->setEventParamTypeId(ruleActionParamVariant.toMap().value("eventParamTypeId").toString());
-            ruleAction->ruleActionParams()->addRuleActionParam(param);
-        }
-        rule->exitActions()->addRuleAction(ruleAction);
+        rule->exitActions()->addRuleAction(parseRuleAction(ruleActionVariant.toMap()));
     }
+}
+
+RuleAction *RuleManager::parseRuleAction(const QVariantMap &ruleAction)
+{
+    RuleAction *ret = new RuleAction();
+    if (ruleAction.contains("deviceId") && ruleAction.contains("actionTypeId")) {
+        ret->setDeviceId(ruleAction.value("deviceId").toUuid());
+        ret->setActionTypeId(ruleAction.value("actionTypeId").toUuid());
+    } else {
+        ret->setInterfaceName(ruleAction.value("interface").toString());
+        ret->setInterfaceAction(ruleAction.value("interfaceAction").toString());
+    }
+    foreach (const QVariant &ruleActionParamVariant, ruleAction.value("ruleActionParams").toList()) {
+        RuleActionParam *param = new RuleActionParam();
+        param->setParamTypeId(ruleActionParamVariant.toMap().value("paramTypeId").toString());
+        param->setParamName(ruleActionParamVariant.toMap().value("paramName").toString());
+        param->setValue(ruleActionParamVariant.toMap().value("value"));
+        param->setEventTypeId(ruleActionParamVariant.toMap().value("eventTypeId").toString());
+        param->setEventParamTypeId(ruleActionParamVariant.toMap().value("eventParamTypeId").toString());
+        ret->ruleActionParams()->addRuleActionParam(param);
+    }
+    return ret;
 }
 
 void RuleManager::parseTimeDescriptor(const QVariantMap &timeDescriptor, Rule *rule)

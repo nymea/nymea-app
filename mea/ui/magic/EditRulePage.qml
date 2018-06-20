@@ -20,23 +20,39 @@ Page {
     signal accept();
     signal cancel();
 
-    function addEventDescriptor() {
-        var eventDescriptor = root.rule.eventDescriptors.createNewEventDescriptor();
-        var page = pageStack.push(Qt.resolvedUrl("SelectThingPage.qml"));
-        page.onBackPressed.connect(function() { pageStack.pop(); });
+    function addEventDescriptor(interfaceMode) {
+        if (interfaceMode === undefined) {
+            interfaceMode = false;
+        }
+
+        var page = pageStack.push(Qt.resolvedUrl("SelectThingPage.qml"), {selectInterface: interfaceMode, showEvents: true});
+        page.onBackPressed.connect(function() {
+            pageStack.pop();
+        });
         page.onThingSelected.connect(function(device) {
+            var eventDescriptor = root.rule.eventDescriptors.createNewEventDescriptor();
             eventDescriptor.deviceId = device.id;
-            selectEventDescriptorData(eventDescriptor)
+            selectEventDescriptorData(eventDescriptor);
         })
         page.onInterfaceSelected.connect(function(interfaceName) {
+            var eventDescriptor = root.rule.eventDescriptors.createNewEventDescriptor();
             eventDescriptor.interfaceName = interfaceName;
-            selectEventDescriptorData(eventDescriptor)
+            selectEventDescriptorData(eventDescriptor);
         })
+    }
+
+    function addInterfaceEventDescriptor() {
+        addEventDescriptor(true);
     }
 
     function selectEventDescriptorData(eventDescriptor) {
         var eventPage = pageStack.push(Qt.resolvedUrl("SelectEventDescriptorPage.qml"), {text: "Select event", eventDescriptor: eventDescriptor});
-        eventPage.onBackPressed.connect(function() {pageStack.pop()})
+        eventPage.onBackPressed.connect(function() {
+            eventPage.StackView.onRemoved.connect(function() {
+                eventDescriptor.destroy();
+            });
+            pageStack.pop();
+        })
         eventPage.onDone.connect(function() {
             root.rule.eventDescriptors.addEventDescriptor(eventPage.eventDescriptor);
             pageStack.pop(root)
@@ -47,8 +63,10 @@ Page {
         var timeEventItem = root.rule.timeDescriptor.timeEventItems.createNewTimeEventItem();
         var page = pageStack.push(Qt.resolvedUrl("EditTimeEventItemPage.qml"), {timeEventItem: timeEventItem});
         page.onBackPressed.connect(function() {
+            page.StackView.onRemoved.connect(function() {
+                timeEventItem.destroy();
+            });
             pageStack.pop()
-            timeEventItem.destroy();
         })
         page.onDone.connect(function() {
             root.rule.timeDescriptor.timeEventItems.addTimeEventItem(timeEventItem);
@@ -60,8 +78,10 @@ Page {
         var calendarItem = root.rule.timeDescriptor.calendarItems.createNewCalendarItem();
         var page = pageStack.push(Qt.resolvedUrl("EditCalendarItemPage.qml"), {calendarItem: calendarItem});
         page.onBackPressed.connect(function() {
+            page.StackView.onRemoved.connect(function() {
+                calendarItem.destroy();
+            });
             pageStack.pop();
-            calendarItem.destroy();
         })
         page.onDone.connect(function() {
             root.rule.timeDescriptor.calendarItems.addCalendarItem(calendarItem);
@@ -69,48 +89,109 @@ Page {
         })
     }
 
+    function createStateEvaluator(interfaceMode) {
+        if (interfaceMode === undefined) {
+            interfaceMode = false;
+        }
+
+        var page = pageStack.push(Qt.resolvedUrl("SelectThingPage.qml"), {selectInterface: interfaceMode, showStates: true});
+        page.backPressed.connect(function() {
+            pageStack.pop();
+        });
+        page.interfaceSelected.connect(function(interfaceName) {
+            var stateEvaluator = root.rule.createStateEvaluator();
+            stateEvaluator.stateDescriptor.interfaceName = interfaceName;
+            selectStateDescriptorData(stateEvaluator)
+        });
+        page.thingSelected.connect(function(device) {
+            var stateEvaluator = root.rule.createStateEvaluator();
+            stateEvaluator.stateDescriptor.deviceId = device.id
+            selectStateDescriptorData(stateEvaluator)
+        })
+    }
+
+    function selectStateDescriptorData(stateEvaluator) {
+        print("Selecting stateDescriptorData for", stateEvaluator.stateDescriptor.deviceId, stateEvaluator.stateDescriptor.interfaceName)
+        var statePage = pageStack.push(Qt.resolvedUrl("SelectStateDescriptorPage.qml"), {text: "Select state", stateDescriptor: stateEvaluator.stateDescriptor})
+        statePage.backPressed.connect(function() {
+            statePage.StackView.onRemoved.connect(function() {
+                stateEvaluator.destroy();
+            })
+            pageStack.pop()
+        })
+        statePage.done.connect(function() {
+            root.rule.setStateEvaluator(stateEvaluator)
+            pageStack.pop();
+            pageStack.pop();
+            pageStack.pop();
+        })
+    }
+
+    function createInterfaceStateEvaluator() {
+        createStateEvaluator(true)
+    }
+
     function editStateEvaluator() {
         print("opening page", root.rule.stateEvaluator)
         var page = pageStack.push(Qt.resolvedUrl("EditStateEvaluatorPage.qml"), { stateEvaluator: root.rule.stateEvaluator })
     }
 
-    function addAction() {
-        var ruleAction = root.rule.actions.createNewRuleAction();
-        var page = pageStack.push(Qt.resolvedUrl("SelectThingPage.qml"));
-        page.onBackPressed.connect(function() { pageStack.pop() })
+    function addRuleAction(interfaceMode) {
+        if (interfaceMode === undefined) {
+            interfaceMode = false;
+        }
+
+        var page = pageStack.push(Qt.resolvedUrl("SelectThingPage.qml"), {selectInterface: interfaceMode, showActions: true});
+        page.onBackPressed.connect(function() {
+            pageStack.pop();
+        })
         page.onThingSelected.connect(function(device) {
-            print("thing selected", device.name, device.id)
+            var ruleAction = root.rule.actions.createNewRuleAction();
             ruleAction.deviceId = device.id;
             selectRuleActionData(root.rule.actions, ruleAction)
         })
         page.onInterfaceSelected.connect(function(interfaceName) {
-            print("interface selected", interfaceName)
+            var ruleAction = root.rule.actions.createNewRuleAction();
             ruleAction.interfaceName = interfaceName;
             selectRuleActionData(root.rule.actions, ruleAction)
         })
     }
-    function addExitAction() {
-        var ruleAction = root.rule.exitActions.createNewRuleAction();
-        var page = pageStack.push(Qt.resolvedUrl("SelectThingPage.qml"));
-        page.onBackPressed.connect(function() { pageStack.pop() })
+    function addInterfaceRuleAction() {
+        addRuleAction(true);
+    }
+
+    function addRuleExitAction(interfaceMode) {
+        if (interfaceMode === undefined) {
+            interfaceMode = false;
+        }
+
+        var page = pageStack.push(Qt.resolvedUrl("SelectThingPage.qml"), {selectInterface: interfaceMode, showActions: true});
+        page.onBackPressed.connect(function() {
+            pageStack.pop();
+        })
         page.onThingSelected.connect(function(device) {
-            print("thing selected", device.name, device.id)
+            var ruleAction = root.rule.exitActions.createNewRuleAction();
             ruleAction.deviceId = device.id;
             selectRuleActionData(root.rule.exitActions, ruleAction)
         })
         page.onInterfaceSelected.connect(function(interfaceName) {
-            print("interface selected", interfaceName)
+            var ruleAction = root.rule.exitActions.createNewRuleAction();
             ruleAction.interfaceName = interfaceName;
             selectRuleActionData(root.rule.exitActions, ruleAction)
         })
+    }
+    function addInterfaceRuleExitAction() {
+        addRuleExitAction(true);
     }
 
     function selectRuleActionData(ruleActions, ruleAction) {
-        print("opening with ruleAction", ruleAction)
+        print("opening with ruleAction", ruleAction, ruleAction.interfaceName)
         var ruleActionPage = pageStack.push(Qt.resolvedUrl("SelectRuleActionPage.qml"), {text: "Select action", ruleAction: ruleAction, rule: rule });
         ruleActionPage.onBackPressed.connect(function() {
-            pageStack.pop(root);
-            ruleAction.destroy();
+            ruleActionPage.StackView.onRemoved.connect(function() {
+                ruleAction.destroy();
+            });
+            pageStack.pop();
         })
         ruleActionPage.onDone.connect(function() {
             ruleActions.addRuleAction(ruleAction)
@@ -246,8 +327,7 @@ Page {
                     if (root.rule.timeDescriptor.calendarItems.count > 0) {
                         root.addEventDescriptor()
                     } else {
-                        var popup = eventQuestionDialogComponent.createObject(root)
-                        popup.open();
+                        pageStack.push(eventQuestionPageComponent)
                     }
                 }
             }
@@ -298,6 +378,9 @@ Page {
                 Layout.fillWidth: true
                 stateEvaluator: root.rule.stateEvaluator
                 visible: root.rule.stateEvaluator !== null
+                onDeleteClicked: {
+                    root.rule.stateEvaluator = null
+                }
             }
 
             Label {
@@ -331,12 +414,11 @@ Page {
                 visible: root.rule.timeDescriptor.timeEventItems.count === 0 || root.rule.stateEvaluator === null
                 onClicked: {
                     if (root.rule.timeDescriptor.timeEventItems.count > 0) {
-                        root.rule.createStateEvaluator()
+                        root.rule.setStateEvaluator(root.rule.createStateEvaluator());
                     } else if (root.rule.stateEvaluator !== null) {
                         root.addCalendarItem();
                     } else {
-                        var popup = stateQuestionDialogComponent.createObject(root)
-                        popup.open()
+                        pageStack.push(stateQuestionPageComponent)
                     }
                 }
             }
@@ -369,7 +451,9 @@ Page {
                 Layout.fillWidth: true
                 Layout.margins: app.margins
                 text: actionsRepeater.count == 0 ? qsTr("Add an action...") : qsTr("Add another action...")
-                onClicked: root.addAction();
+                onClicked: {
+                    var page = pageStack.push(ruleActionQuestionPageComponent, {exitAction: false});
+                }
                 visible: root.actionsVisible
             }
 
@@ -400,7 +484,9 @@ Page {
                 Layout.fillWidth: true
                 Layout.margins: app.margins
                 text: actionsRepeater.count == 0 ? qsTr("Add an action...") : qsTr("Add another action...")
-                onClicked: root.addExitAction();
+                onClicked: {
+                    var page = pageStack.push(ruleActionQuestionPageComponent, {exitAction: true});
+                }
                 visible: root.exitActionsVisible
             }
         }
@@ -419,134 +505,151 @@ Page {
     }
 
     Component {
-        id: eventQuestionDialogComponent
-        MeaDialog {
-            id: questionDialog
-            title: qsTr("Add event...")
-            standardButtons: Dialog.Cancel
-
-            Button {
-                Layout.fillWidth: true
-                Layout.preferredHeight: (app.largeFont * 2) + (app.margins * 3)
-                contentItem: RowLayout {
-                    spacing: app.margins
-                    ColorIcon {
-                        Layout.preferredHeight: app.iconSize
-                        Layout.preferredWidth: height
-                        name: "../images/event.svg"
-                        color: "black"
-                    }
-                    Label {
-                        Layout.fillWidth: true
-                        Layout.fillHeight: true
-                        text: qsTr("When one of my things triggers an event")
-                        wrapMode: Text.WordWrap
-                        verticalAlignment: Text.AlignVCenter
-                    }
-                }
-                onClicked: {
-                    root.addEventDescriptor()
-                    questionDialog.close()
-                }
+        id: eventQuestionPageComponent
+        Page {
+            header: GuhHeader {
+                text: qsTr("Add event")
+                onBackPressed: pageStack.pop()
             }
 
-            Label {
-                text: qsTr("or")
-                Layout.fillWidth: true
-                Layout.margins: app.margins
-                horizontalAlignment: Text.AlignHCenter
-            }
+            ColumnLayout {
+                anchors.fill: parent
 
-            Button {
-                Layout.fillWidth: true
-                Layout.preferredHeight: (app.largeFont * 2) + (app.margins * 3)
-                contentItem: RowLayout {
-                    spacing: app.margins
-                    ColorIcon {
-                        Layout.preferredHeight: app.iconSize
-                        Layout.preferredWidth: height
-                        name: "../images/alarm-clock.svg"
-                        color: "black"
+                Repeater {
+                    model: ListModel {
+                        ListElement {
+                            iconName: "../images/event.svg"
+                            text: qsTr("When one of my things triggers an event")
+                            method: "addEventDescriptor"
+                        }
+                        ListElement {
+                            iconName: "../images/event-interface.svg"
+                            text: qsTr("When a thing of a given type triggers an event")
+                            method: "addInterfaceEventDescriptor"
+                        }
+                        ListElement {
+                            iconName: "../images/alarm-clock.svg"
+                            text: qsTr("At a particular time or date")
+                            method: "addTimeEventItem"
+                        }
                     }
-                    Label {
+                    delegate: MeaListItemDelegate {
                         Layout.fillWidth: true
-                        Layout.fillHeight: true
-                        text: qsTr("At a particular time or date")
-                        wrapMode: Text.WordWrap
-                        verticalAlignment: Text.AlignVCenter
+                        iconName: model.iconName
+                        text: model.text
+                        progressive: true
+                        iconSize: app.iconSize * 2
+
+                        onClicked: {
+                            root[model.method]()
+                        }
                     }
-                }
-                onClicked: {
-                    root.addTimeEventItem()
-                    questionDialog.close()
                 }
             }
         }
     }
 
     Component {
-        id: stateQuestionDialogComponent
-        MeaDialog {
-            id: questionDialog
-            title: qsTr("Add condition...")
-            standardButtons: Dialog.Cancel
+        id: stateQuestionPageComponent
+        Page {
+            header: GuhHeader {
+                text: qsTr("Add condition...")
 
-
-            Button {
-                Layout.fillWidth: true
-                Layout.preferredHeight: (app.largeFont * 2) + (app.margins * 3)
-                contentItem: RowLayout {
-                    spacing: app.margins
-                    ColorIcon {
-                        Layout.preferredHeight: app.iconSize
-                        Layout.preferredWidth: height
-                        name: "../images/state.svg"
-                        color: "black"
-                    }
-
-                    Label {
-                        Layout.fillWidth: true
-                        Layout.fillHeight: true
-                        text: qsTr("When one of my things is in a certain state")
-                        wrapMode: Text.WordWrap
-                        verticalAlignment: Text.AlignVCenter
-                    }
-                }
-                onClicked: {
-                    root.rule.createStateEvaluator()
-                    questionDialog.close()
-                }
+                onBackPressed: pageStack.pop()
             }
 
-            Label {
-                text: qsTr("or")
-                Layout.fillWidth: true
-                Layout.margins: app.margins
-                horizontalAlignment: Text.AlignHCenter
-            }
+            ColumnLayout {
+                anchors.fill: parent
 
-            Button {
-                Layout.fillWidth: true
-                Layout.preferredHeight: (app.largeFont * 2) + (app.margins * 3)
-                contentItem: RowLayout {
-                    spacing: app.margins
-                    ColorIcon {
-                        Layout.preferredHeight: app.iconSize
-                        Layout.preferredWidth: height
-                        name: "../images/clock-app-symbolic.svg"
-                        color: "black"
+                Repeater {
+                    model: ListModel {
+                        ListElement {
+                            iconName: "../images/state.svg"
+                            text: qsTr("When one of my things is in a certain state")
+                            method: "createStateEvaluator"
+
+                        }
+                        ListElement {
+                            iconName: "../images/state-interface.svg"
+                            text: qsTr("When a thing of a given type enters a state")
+                            method: "createInterfaceStateEvaluator"
+                        }
+                        ListElement {
+                            iconName: "../images/clock-app-symbolic.svg"
+                            text: qsTr("During a given time")
+                            method: "addCalendarItem"
+                        }
                     }
-                    Label {
+                    delegate: MeaListItemDelegate {
                         Layout.fillWidth: true
-                        Layout.fillHeight: true
-                        text: qsTr("During a given time")
-                        wrapMode: Text.WordWrap
-                        verticalAlignment: Text.AlignVCenter
+                        iconName: model.iconName
+                        text: model.text
+                        progressive: true
+                        iconSize: app.iconSize * 2
+
+                        onClicked: {
+                            root[model.method]()
+                        }
                     }
                 }
-                onClicked: {
-                    root.addCalendarItem()
-                    questionDialog.close()
+            }
+        }
+    }
+
+    Component {
+        id: ruleActionQuestionPageComponent
+        Page {
+            id: ruleActionQuestionPage
+            property bool exitAction: false
+
+            header: GuhHeader {
+                text: qsTr("Add action...")
+
+                onBackPressed: pageStack.pop()
+            }
+
+            ColumnLayout {
+                anchors.fill: parent
+
+                Repeater {
+                    model: ListModel {
+                        ListElement {
+                            iconName: "../images/action.svg"
+                            text: qsTr("Execute an action on of my things")
+                            method: "addRuleAction"
+                            isExitAction: false
+                        }
+                        ListElement {
+                            iconName: "../images/action-interface.svg"
+                            text: qsTr("Execute an action on an entire kind of things")
+                            method: "addInterfaceRuleAction"
+                            isExitAction: false
+                        }
+                        ListElement {
+                            iconName: "../images/action.svg"
+                            text: qsTr("Execute an action on of my things")
+                            method: "addRuleExitAction"
+                            isExitAction: true
+                        }
+                        ListElement {
+                            iconName: "../images/action-interface.svg"
+                            text: qsTr("Execute an action on an entire kind of things")
+                            method: "addInterfaceRuleExitAction"
+                            isExitAction: true
+                        }
+                    }
+                    delegate: MeaListItemDelegate {
+                        Layout.fillWidth: true
+                        iconName: model.iconName
+                        text: model.text
+                        progressive: true
+                        iconSize: app.iconSize * 2
+                        visible: ruleActionQuestionPage.exitAction === model.isExitAction
+
+                        onClicked: {
+                            root[model.method]()
+                        }
+                    }
                 }
             }
         }

@@ -17,7 +17,7 @@ class Rule : public QObject
     Q_PROPERTY(bool enabled READ enabled WRITE setEnabled NOTIFY enabledChanged)
     Q_PROPERTY(bool active READ active NOTIFY activeChanged)
     Q_PROPERTY(EventDescriptors* eventDescriptors READ eventDescriptors CONSTANT)
-    Q_PROPERTY(StateEvaluator* stateEvaluator READ stateEvaluator NOTIFY stateEvaluatorChanged)
+    Q_PROPERTY(StateEvaluator* stateEvaluator READ stateEvaluator WRITE setStateEvaluator NOTIFY stateEvaluatorChanged)
     Q_PROPERTY(RuleActions* actions READ actions CONSTANT)
     Q_PROPERTY(RuleActions* exitActions READ exitActions CONSTANT)
     Q_PROPERTY(TimeDescriptor* timeDescriptor READ timeDescriptor CONSTANT)
@@ -42,9 +42,9 @@ public:
     RuleActions* exitActions() const;
     TimeDescriptor* timeDescriptor() const;
 
-    void setStateEvaluator(StateEvaluator* stateEvaluator);
+    Q_INVOKABLE StateEvaluator* createStateEvaluator() const;
 
-    Q_INVOKABLE void createStateEvaluator();
+    Q_INVOKABLE void setStateEvaluator(StateEvaluator* stateEvaluator);
 
     Q_INVOKABLE Rule *clone() const;
 
