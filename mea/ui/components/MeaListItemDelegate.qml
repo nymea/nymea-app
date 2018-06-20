@@ -23,6 +23,7 @@ SwipeDelegate {
             Layout.preferredWidth: height
             name: root.iconName
             color: root.iconColor
+            visible: root.iconName
         }
         ColumnLayout {
             Layout.fillWidth: true

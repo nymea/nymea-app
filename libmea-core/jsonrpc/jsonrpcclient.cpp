@@ -134,6 +134,21 @@ bool JsonRpcClient::pushButtonAuthAvailable() const
     return m_pushButtonAuthAvailable;
 }
 
+QString JsonRpcClient::serverVersion() const
+{
+    return m_serverVersion;
+}
+
+QString JsonRpcClient::jsonRpcVersion() const
+{
+    return m_jsonRpcVersion.toString();
+}
+
+QString JsonRpcClient::serverUuid() const
+{
+    return m_serverUuid;
+}
+
 int JsonRpcClient::createUser(const QString &username, const QString &password)
 {
     QVariantMap params;
@@ -168,6 +183,10 @@ int JsonRpcClient::requestPushButtonAuth(const QString &deviceName)
     return reply->commandId();
 }
 
+bool JsonRpcClient::ensureServerVersion(const QString &jsonRpcVersion)
+{
+    return QVersionNumber(m_jsonRpcVersion) >= QVersionNumber::fromString(jsonRpcVersion);
+}
 
 void JsonRpcClient::processAuthenticate(const QVariantMap &data)
 {
@@ -274,23 +293,27 @@ void JsonRpcClient::dataReceived(const QByteArray &data)
         m_initialSetupRequired = dataMap.value("initialSetupRequired").toBool();
         m_authenticationRequired = dataMap.value("authenticationRequired").toBool();
         m_pushButtonAuthAvailable = dataMap.value("pushButtonAuthAvailable").toBool();
+        emit pushButtonAuthAvailableChanged();
+
         qDebug() << "Handshake received" << "initRequired:" << m_initialSetupRequired << "authRequired:" << m_authenticationRequired << "pushButtonAvailable:" << m_pushButtonAuthAvailable;;
         m_serverUuid = dataMap.value("uuid").toString();
-        emit pushButtonAuthAvailableChanged();
+        m_serverVersion = dataMap.value("version").toString();
 
         QString protoVersionString = dataMap.value("protocol version").toString();
         if (!protoVersionString.contains('.')) {
             protoVersionString.prepend("0.");
         }
+        m_jsonRpcVersion = QVersionNumber::fromString(protoVersionString);
 
         QVersionNumber minimumRequiredVersion = QVersionNumber(1, 0);
-        QVersionNumber protocolVersion = QVersionNumber::fromString(protoVersionString);
-        if (protocolVersion < minimumRequiredVersion) {
-            qWarning() << "Nymea box doesn't support minimum required version. Required:" << minimumRequiredVersion << "Found:" << protocolVersion;
+        if (m_jsonRpcVersion < minimumRequiredVersion) {
+            qWarning() << "Nymea box doesn't support minimum required version. Required:" << minimumRequiredVersion << "Found:" << m_jsonRpcVersion;
             m_connection->disconnect();
-            emit invalidProtocolVersion(protocolVersion.toString(), minimumRequiredVersion.toString());
+            emit invalidProtocolVersion(m_jsonRpcVersion.toString(), minimumRequiredVersion.toString());
             return;
         }
+
+        emit handshakeReceived();
 
         if (m_initialSetupRequired) {
             emit initialSetupRequiredChanged();

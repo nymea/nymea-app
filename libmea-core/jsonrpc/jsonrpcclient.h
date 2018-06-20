@@ -24,6 +24,7 @@
 #include <QObject>
 #include <QVariantMap>
 #include <QPointer>
+#include <QVersionNumber>
 
 #include "nymeaconnection.h"
 #include "jsonhandler.h"
@@ -39,6 +40,9 @@ class JsonRpcClient : public JsonHandler
     Q_PROPERTY(bool initialSetupRequired READ initialSetupRequired NOTIFY initialSetupRequiredChanged)
     Q_PROPERTY(bool authenticationRequired READ authenticationRequired NOTIFY authenticationRequiredChanged)
     Q_PROPERTY(bool pushButtonAuthAvailable READ pushButtonAuthAvailable NOTIFY pushButtonAuthAvailableChanged)
+    Q_PROPERTY(QString serverVersion READ serverVersion NOTIFY handshakeReceived)
+    Q_PROPERTY(QString jsonRpcVersion READ jsonRpcVersion NOTIFY handshakeReceived)
+    Q_PROPERTY(QString serverUuid READ serverUuid NOTIFY handshakeReceived)
 
 public:
     explicit JsonRpcClient(NymeaConnection *connection, QObject *parent = 0);
@@ -56,13 +60,19 @@ public:
     bool authenticationRequired() const;
     bool pushButtonAuthAvailable() const;
 
+    QString serverVersion() const;
+    QString jsonRpcVersion() const;
+    QString serverUuid() const;
+
     // ui methods
     Q_INVOKABLE int createUser(const QString &username, const QString &password);
     Q_INVOKABLE int authenticate(const QString &username, const QString &password, const QString &deviceName);
     Q_INVOKABLE int requestPushButtonAuth(const QString &deviceName);
 
+    Q_INVOKABLE bool ensureServerVersion(const QString &jsonRpcVersion);
 
 signals:
+    void handshakeReceived();
     void initialSetupRequiredChanged();
     void authenticationRequiredChanged();
     void pushButtonAuthAvailableChanged();
@@ -94,6 +104,8 @@ private:
     bool m_pushButtonAuthAvailable = false;
     int m_pendingPushButtonTransaction = -1;
     QString m_serverUuid;
+    QVersionNumber m_jsonRpcVersion;
+    QString m_serverVersion;
     QByteArray m_token;
     QByteArray m_receiveBuffer;
 

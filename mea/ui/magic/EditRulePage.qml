@@ -521,16 +521,19 @@ Page {
                             iconName: "../images/event.svg"
                             text: qsTr("When one of my things triggers an event")
                             method: "addEventDescriptor"
+                            minimumJsonRpcVersion: "1.0"
                         }
                         ListElement {
                             iconName: "../images/event-interface.svg"
                             text: qsTr("When a thing of a given type triggers an event")
                             method: "addInterfaceEventDescriptor"
+                            minimumJsonRpcVersion: "1.5"
                         }
                         ListElement {
                             iconName: "../images/alarm-clock.svg"
                             text: qsTr("At a particular time or date")
                             method: "addTimeEventItem"
+                            minimumJsonRpcVersion: "1.0"
                         }
                     }
                     delegate: MeaListItemDelegate {
@@ -539,6 +542,7 @@ Page {
                         text: model.text
                         progressive: true
                         iconSize: app.iconSize * 2
+                        visible: Engine.jsonRpcClient.ensureServerVersion(model.minimumJsonRpcVersion)
 
                         onClicked: {
                             root[model.method]()
@@ -567,17 +571,19 @@ Page {
                             iconName: "../images/state.svg"
                             text: qsTr("When one of my things is in a certain state")
                             method: "createStateEvaluator"
-
+                            minimumJsonRpcVersion: "1.0"
                         }
                         ListElement {
                             iconName: "../images/state-interface.svg"
                             text: qsTr("When a thing of a given type enters a state")
                             method: "createInterfaceStateEvaluator"
+                            minimumJsonRpcVersion: "1.5"
                         }
                         ListElement {
                             iconName: "../images/clock-app-symbolic.svg"
                             text: qsTr("During a given time")
                             method: "addCalendarItem"
+                            minimumJsonRpcVersion: "1.0"
                         }
                     }
                     delegate: MeaListItemDelegate {
@@ -586,6 +592,7 @@ Page {
                         text: model.text
                         progressive: true
                         iconSize: app.iconSize * 2
+                        visible: Engine.jsonRpcClient.ensureServerVersion(model.minimumJsonRpcVersion)
 
                         onClicked: {
                             root[model.method]()
@@ -618,24 +625,28 @@ Page {
                             text: qsTr("Execute an action on of my things")
                             method: "addRuleAction"
                             isExitAction: false
+                            minimumJsonRpcVersion: "1.0"
                         }
                         ListElement {
                             iconName: "../images/action-interface.svg"
                             text: qsTr("Execute an action on an entire kind of things")
                             method: "addInterfaceRuleAction"
                             isExitAction: false
+                            minimumJsonRpcVersion: "1.5"
                         }
                         ListElement {
                             iconName: "../images/action.svg"
                             text: qsTr("Execute an action on of my things")
                             method: "addRuleExitAction"
                             isExitAction: true
+                            minimumJsonRpcVersion: "1.0"
                         }
                         ListElement {
                             iconName: "../images/action-interface.svg"
                             text: qsTr("Execute an action on an entire kind of things")
                             method: "addInterfaceRuleExitAction"
                             isExitAction: true
+                            minimumJsonRpcVersion: "1.5"
                         }
                     }
                     delegate: MeaListItemDelegate {
@@ -644,7 +655,7 @@ Page {
                         text: model.text
                         progressive: true
                         iconSize: app.iconSize * 2
-                        visible: ruleActionQuestionPage.exitAction === model.isExitAction
+                        visible: ruleActionQuestionPage.exitAction === model.isExitAction && Engine.jsonRpcClient.ensureServerVersion(model.minimumJsonRpcVersion)
 
                         onClicked: {
                             root[model.method]()
