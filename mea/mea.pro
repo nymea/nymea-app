@@ -65,6 +65,12 @@ ios: {
     QMAKE_SUBSTITUTES += plist
     QMAKE_INFO_PLIST = $$OUT_PWD/Info.plist
     OTHER_FILES += ../packaging/ios/Info.plist.in
+
+    ios_icon_files.files += $$files(../packaging/ios/AppIcon*.png)
+    ios_launch_images.files += $$files(../packaging/ios/LaunchImage*.png) ../packaging/ios/LaunchScreen1.xib
+    QMAKE_BUNDLE_DATA += ios_icon_files ios_launch_images
+
+    message("ls: $${qmake_launch_screen}")
 }
 
 BR=$$BRANDING
