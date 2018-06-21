@@ -337,26 +337,32 @@ Page {
     Component {
         id: connectingPage
         Page {
-            ColumnLayout {
-                anchors.centerIn: parent
-                width: parent.width - app.margins * 2
-                spacing: app.margins
 
+            ColumnLayout {
+                id: columnLayout
+                anchors { left: parent.left; right: parent.right; verticalCenter: parent.verticalCenter; margins: app.margins }
+                spacing: app.margins
+                BusyIndicator {
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    running: parent.visible
+                }
                 Label {
                     text: qsTr("Trying to connect...")
-                    wrapMode: Text.WordWrap
                     font.pixelSize: app.largeFont
                     Layout.fillWidth: true
+                    wrapMode: Text.WordWrap
+                    horizontalAlignment: Text.AlignHCenter
                 }
+            }
 
-                Button {
-                    text: qsTr("Cancel")
-                    Layout.fillWidth: true
-                    onClicked: {
-                        Engine.connection.disconnect()
-                        pageStack.pop(root);
-                        pageStack.push(discoveryPage);
-                    }
+            Button {
+                text: qsTr("Cancel")
+                anchors { left: parent.left; top: columnLayout.bottom; right: parent.right }
+                anchors.margins: app.margins
+                onClicked: {
+                    Engine.connection.disconnect()
+                    pageStack.pop(root);
+                    pageStack.push(discoveryPage);
                 }
             }
         }
