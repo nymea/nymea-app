@@ -33,6 +33,8 @@ contains(ANDROID_TARGET_ARCH,armeabi-v7a) {
 android {
     ANDROID_PACKAGE_SOURCE_DIR = $$PWD/../packaging/android
 
+    QT += androidextras
+
     DISTFILES += \
         $$ANDROID_PACKAGE_SOURCE_DIR/AndroidManifest.xml \
         $$ANDROID_PACKAGE_SOURCE_DIR/gradle/wrapper/gradle-wrapper.jar \

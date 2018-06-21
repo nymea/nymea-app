@@ -25,6 +25,10 @@
 #include <QtQuickControls2>
 #include <QSysInfo>
 
+#ifdef Q_OS_ANDROID
+#include <QtAndroidExtras/QtAndroid>
+#endif
+
 #include "libmea-core.h"
 
 #include "stylecontroller.h"
@@ -78,5 +82,8 @@ int main(int argc, char *argv[])
 
     engine->load(QUrl(QLatin1String("qrc:/ui/Mea.qml")));
 
+#ifdef Q_OS_ANDROID
+    QtAndroid::hideSplashScreen(250);
+#endif
     return application.exec();
 }
