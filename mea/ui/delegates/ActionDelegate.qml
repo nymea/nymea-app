@@ -19,10 +19,11 @@ ItemDelegate {
                 Layout.fillWidth: true
                 text: root.actionType.displayName
                 elide: Text.ElideRight
+                visible: loader.sourceComponent != buttonComponent
             }
             Loader {
                 id: loader
-                Layout.fillWidth: sourceComponent == textFieldComponent
+                Layout.fillWidth: sourceComponent == textFieldComponent || sourceComponent == buttonComponent
                 sourceComponent: {
                     if (root.actionType.paramTypes.count !== 1) {
                         return buttonComponent
@@ -79,15 +80,19 @@ ItemDelegate {
                         if (paramType.minValue !== undefined && paramType.maxValue !== undefined) {
                             return sliderComponent
                         }
-                        break;
+                        return textFieldComponent;
                     case "color":
                         return colorPickerComponent
                     case "string":
                         return paramType.allowedValues.length === 0 ? textFieldComponent :
                                                                       root.actionType.paramTypes.count === 1 ? null : comboBoxComponent
-
+                    case "bool":
+                        if (root.actionType.paramTypes.count > 1) {
+                            return labeledBoolComponent;
+                        }
+                        return null
                     }
-                    console.warn("WARNING", root.actionType.paramTypes.get(index).name, "not implemented")
+                    console.warn("WARNING", paramType.name, "of type", paramType.type, "not implemented")
                     return null;
                 }
 
@@ -127,7 +132,7 @@ ItemDelegate {
             checked: root.actionState === true
             onClicked: {
                 var params = [];
-                var param1 = new Object();
+                var param1 = {};
                 param1["paramTypeId"] = root.actionType.paramTypes.get(0).id;
                 param1["value"] = checked;
                 params.push(param1)
@@ -135,6 +140,25 @@ ItemDelegate {
             }
         }
     }
+
+    Component {
+        id: labeledBoolComponent
+        RowLayout {
+            id: switchRow
+            property var paramType: null
+            property var value
+            Label {
+                text: paramType.displayName
+            }
+            Switch {
+                checked: paramType.defaultValue
+                onClicked: {
+                    switchRow.value = checked;
+                }
+            }
+        }
+    }
+
     Component {
         id: sliderComponent
         RowLayout {
@@ -189,6 +213,7 @@ ItemDelegate {
             TextField {
                 id: textField
                 Layout.fillWidth: true
+                onAccepted: value = text
             }
         }
     }
@@ -277,14 +302,14 @@ ItemDelegate {
             // just to suppress some warnings
             property var paramType: null
             property var value: null
-            text: "Do it"
+            text: root.actionType.displayName
             onClicked: {
                 var params = [];
                 print("fooo", root.actionType.paramTypes.count)
                 for (var i = 0; i < root.actionType.paramTypes.count; i++) {
-                    var param = new Object();
+                    var param = {};
                     param["paramTypeId"] = root.actionType.paramTypes.get(i).id;
-                    print("bla", paramRepeater.itemAt(i), root.actionType.paramTypes.get(i).name)
+                    print("bla", paramRepeater.itemAt(i), paramRepeater.itemAt(i).item, paramRepeater.itemAt(i).item.value)
                     param["value"] = paramRepeater.itemAt(i).item.value;
                     params.push(param)
                 }

@@ -107,30 +107,21 @@ Page {
                     vendorId: d.vendorId ? d.vendorId : ""
                     deviceClasses: Engine.deviceManager.deviceClasses
                 }
-                delegate: ItemDelegate {
+                delegate: MeaListItemDelegate {
                     width: parent.width
-                    height: app.delegateHeight
-                    contentItem: RowLayout {
-                        Label {
-                            Layout.fillWidth: true
-                            text: model.displayName
-                        }
-                        Image {
-                            source: "images/next.svg"
-                            Layout.preferredHeight: parent.height
-                            Layout.preferredWidth: height
-                        }
-                    }
+                    text: model.displayName
+                    iconName: app.interfacesToIcon(deviceClass.interfaces)
+
+                    property var deviceClass: deviceClassesProxy.get(index)
 
                     onClicked: {
-                        var deviceClass = deviceClassesProxy.get(index)
                         d.deviceClass = deviceClass
                         if (deviceClass.createMethods.indexOf("CreateMethodDiscovery") !== -1) {
                             if (deviceClass["discoveryParamTypes"].count > 0) {
                                 internalPageStack.push(discoveryParamsPage)
                             } else {
                                 discovery.discoverDevices(deviceClass.id)
-                                internalPageStack.push(discoveryPage)
+                                internalPageStack.push(discoveryPage, {deviceClass: deviceClass})
                             }
                         } else if (deviceClass.createMethods.indexOf("CreateMethodUser") !== -1) {
                             internalPageStack.push(paramsPage)
@@ -181,7 +172,7 @@ Page {
                                     d.discoveryParams.push(param);
                                 }
                                 discovery.discoverDevices(d.deviceClass.id, d.discoveryParams)
-                                internalPageStack.push(discoveryPage)
+                                internalPageStack.push(discoveryPage, {deviceClass: d.deviceClass})
                             }
                         }
                     }
@@ -212,26 +203,17 @@ Page {
         Page {
             id: discoveryView
 
+            property var deviceClass: null
+
             ListView {
                 anchors.fill: parent
                 model: discovery
-                delegate: ItemDelegate {
+                delegate: MeaListItemDelegate {
                     width: parent.width
                     height: app.delegateHeight
-                    ColumnLayout {
-                        anchors { fill: parent; margins: app.margins }
-                        Label {
-                            Layout.fillWidth: true
-                            Layout.fillHeight: true
-                            text: model.name
-                        }
-                        Label {
-                            Layout.fillWidth: true
-                            Layout.fillHeight: true
-                            text: model.description
-                            font.pixelSize: app.smallFont
-                        }
-                    }
+                    text: model.name
+                    subText: model.description
+                    iconName: app.interfacesToIcon(discoveryView.deviceClass.interfaces)
                     onClicked: {
                         d.deviceDescriptorId = model.id;
                         d.deviceName = model.name;
@@ -295,79 +277,76 @@ Page {
 
         Page {
             id: paramsView
-            ColumnLayout {
+            Flickable {
                 anchors.fill: parent
-                spacing: app.margins
+                contentHeight: paramsColumn.implicitHeight
 
                 ColumnLayout {
-                    Layout.margins: app.margins
-                    Layout.fillWidth: true
+                    id: paramsColumn
+                    width: parent.width
+
                     Label {
-                        text: "Name the thing:"
+                        Layout.leftMargin: app.margins
+                        Layout.rightMargin: app.margins
+                        Layout.topMargin: app.margins
                         Layout.fillWidth: true
+                        text: qsTr("Name the thing:")
                     }
                     TextField {
                         id: nameTextField
                         text: d.deviceName ? d.deviceName : ""
                         Layout.fillWidth: true
+                        Layout.leftMargin: app.margins
+                        Layout.rightMargin: app.margins
                     }
-                }
 
-                ThinDivider {}
+                    ThinDivider {
+                        visible: paramRepeater.count > 0
+                    }
 
-                Flickable {
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    contentHeight: paramsColumn.implicitHeight
-                    clip: true
-
-                    Column {
-                        id: paramsColumn
-                        width: parent.width
-                        Repeater {
-                            id: paramRepeater
-                            model: d.deviceDescriptorId == null ? d.deviceClass.paramTypes : null
-                            delegate: ParamDelegate {
-                                width: parent.width
-                                paramType: d.deviceClass.paramTypes.get(index)
-                            }
+                    Repeater {
+                        id: paramRepeater
+                        model: d.deviceDescriptorId == null ? d.deviceClass.paramTypes : null
+                        delegate: ParamDelegate {
+                            Layout.fillWidth: true
+                            paramType: d.deviceClass.paramTypes.get(index)
                         }
                     }
-                }
 
+                    Button {
+                        Layout.fillWidth: true
+                        Layout.leftMargin: app.margins
+                        Layout.rightMargin: app.margins
 
-                Button {
-                    Layout.fillWidth: true
-                    Layout.margins: app.margins
+                        text: "OK"
+                        onClicked: {
+                            print("setupMethod", d.deviceClass.setupMethod)
+                            switch (d.deviceClass.setupMethod) {
+                            case 0:
+                                if (d.deviceDescriptorId) {
+                                    Engine.deviceManager.addDiscoveredDevice(d.deviceClass.id, d.deviceDescriptorId, nameTextField.text);
+                                } else {
+                                    var params = []
+                                    for (var i = 0; i < paramRepeater.count; i++) {
+                                        var param = {}
+                                        param.paramTypeId = paramRepeater.itemAt(i).paramType.id
+                                        param.value = paramRepeater.itemAt(i).value
+                                        print("adding param", param.paramTypeId, param.value)
+                                        params.push(param)
+                                    }
 
-                    text: "OK"
-                    onClicked: {
-                        print("setupMethod", d.deviceClass.setupMethod)
-                        switch (d.deviceClass.setupMethod) {
-                        case 0:
-                            if (d.deviceDescriptorId) {
-                                Engine.deviceManager.addDiscoveredDevice(d.deviceClass.id, d.deviceDescriptorId, nameTextField.text);
-                            } else {
-                                var params = []
-                                for (var i = 0; i < paramRepeater.count; i++) {
-                                    var param = {}
-                                    param.paramTypeId = paramRepeater.itemAt(i).paramType.id
-                                    param.value = paramRepeater.itemAt(i).value
-                                    print("adding param", param.paramTypeId, param.value)
-                                    params.push(param)
+                                    Engine.deviceManager.addDevice(d.deviceClass.id, nameTextField.text, params);
                                 }
 
-                                Engine.deviceManager.addDevice(d.deviceClass.id, nameTextField.text, params);
+                                break;
+                            case 1:
+                            case 2:
+                            case 3:
+                                Engine.deviceManager.pairDevice(d.deviceClass.id, d.deviceDescriptorId, nameTextField.text);
+                                break;
                             }
 
-                            break;
-                        case 1:
-                        case 2:
-                        case 3:
-                            Engine.deviceManager.pairDevice(d.deviceClass.id, d.deviceDescriptorId, nameTextField.text);
-                            break;
                         }
-
                     }
                 }
             }
