@@ -48,7 +48,7 @@ SwipeDelegate {
         }
 
         ColorIcon {
-            Layout.preferredHeight: app.iconSize
+            Layout.preferredHeight: app.iconSize * .6
             Layout.preferredWidth: height
             name: "../images/next.svg"
             visible: root.progressive

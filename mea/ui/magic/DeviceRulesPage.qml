@@ -33,7 +33,7 @@ Page {
         })
         d.editRulePage.onAccept.connect(function() {
             d.editRulePage.busy = true;
-            Engine.ruleManager.addRule(page.rule);
+            Engine.ruleManager.addRule(d.editRulePage.rule);
         })
         d.editRulePage.onCancel.connect(function() {
             pageStack.pop();
@@ -87,23 +87,14 @@ Page {
             filterDeviceId: root.device.id
         }
 
-        delegate: SwipeDelegate {
+        delegate: MeaListItemDelegate {
             width: parent.width
-            contentItem: RowLayout {
-                spacing: app.margins
-                ColorIcon {
-                    height: app.iconSize
-                    width: height
-                    name: "../images/magic.svg"
-                    color: !model.enabled ? "red" : (model.active ? app.guhAccent : "grey")
-                }
+            iconName: "../images/magic.svg"
+            iconColor: !model.enabled ? "red" : (model.active ? app.guhAccent : "grey")
+            text: model.name
+            canDelete: true
 
-                Label {
-                    Layout.fillWidth: true
-                    text: model.name
-                }
-            }
-
+            onDeleteClicked: Engine.ruleManager.removeRule(model.id)
             onClicked: {
                 d.editRulePage = pageStack.push(Qt.resolvedUrl("EditRulePage.qml"), {rule: rulesFilterModel.get(index).clone() })
                 d.editRulePage.StackView.onRemoved.connect(function() {
@@ -116,19 +107,6 @@ Page {
                 d.editRulePage.onCancel.connect(function() {
                     pageStack.pop();
                 })
-            }
-
-            swipe.right: Item {
-                height: ruleDelegate.height
-                width: height
-                anchors.right: parent.right
-                ColorIcon {
-                    anchors.fill: parent
-                    anchors.margins: app.margins
-                    name: "../images/delete.svg"
-                    color: "red"
-                }
-                SwipeDelegate.onClicked: Engine.ruleManager.removeRule(model.id)
             }
 
         }
@@ -146,6 +124,7 @@ Page {
             horizontalAlignment: Text.AlignHCenter
             text: qsTr("There's no magic involving %1.").arg(root.device.name)
             font.pixelSize: app.largeFont
+            color: app.guhAccent
         }
         Label {
             width: parent.width

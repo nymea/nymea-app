@@ -45,7 +45,7 @@ BluetoothDeviceInfos *BluetoothDiscovery::deviceInfos()
     return m_deviceInfos;
 }
 
-void BluetoothDiscovery::setDiscovering(const bool &discovering)
+void BluetoothDiscovery::setDiscovering(bool discovering)
 {
     m_discovering = discovering;
     emit discoveringChanged();

@@ -47,7 +47,7 @@ private:
 
     bool m_discovering;
 
-    void setDiscovering(const bool &discovering);
+    void setDiscovering(bool discovering);
 
 signals:
     void discoveringChanged();

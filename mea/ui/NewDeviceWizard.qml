@@ -72,20 +72,9 @@ Page {
                 model: VendorsProxy {
                     vendors: Engine.deviceManager.vendors
                 }
-                delegate: ItemDelegate {
+                delegate: MeaListItemDelegate {
                     width: parent.width
-                    height: app.delegateHeight
-                    contentItem: RowLayout {
-                        Label {
-                            Layout.fillWidth: true
-                            text: model.displayName
-                        }
-                        Image {
-                            source: "images/next.svg"
-                            Layout.preferredHeight: parent.height
-                            Layout.preferredWidth: height
-                        }
-                    }
+                    text: model.displayName
 
                     onClicked: {
                         d.vendorId = model.id

@@ -205,5 +205,9 @@
         <file>ui/system/AboutNymeaPage.qml</file>
         <file>ui/images/logs.svg</file>
         <file>ui/images/plugin.svg</file>
+        <file>ui/images/nymea-box-setup.svg</file>
+        <file>ui/images/rpi-setup.svg</file>
+        <file>ui/images/eye.svg</file>
+        <file>ui/images/private-browsing.svg</file>
     </qresource>
 </RCC>

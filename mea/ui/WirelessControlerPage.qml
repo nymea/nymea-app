@@ -2,9 +2,8 @@ import QtQuick 2.4
 import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.2
 import QtQuick.Controls.Material 2.1
-
-import "components"
 import Mea 1.0
+import "components"
 
 Page {
     id: root
@@ -14,30 +13,17 @@ Page {
     property QtObject networkManger
 
     header: GuhHeader {
-        text: qsTr("Wireless network")
+        text: qsTr("%1 box network setup").arg(app.systemName)
         onBackPressed: {
             pageStack.pop()
             pageStack.pop()
         }
-
-        HeaderButton {
-            imageSource: Qt.resolvedUrl("images/refresh.svg")
-            onClicked:  networkManger.manager.loadNetworks()
-        }
-
-        HeaderButton {
-            imageSource: Qt.resolvedUrl("images/settings.svg")
-            onClicked: pageStack.push(settingsPage)
-        }
-
     }
-
-    Component.onCompleted: networkManger.manager.loadNetworks()
 
     Connections {
         target: networkManger.manager
         onErrorOccured: {
-            print("Error occured", errorMessage)
+            print("Error occurred", errorMessage)
             var errorDialog = Qt.createComponent(Qt.resolvedUrl("components/ErrorDialog.qml"));
             var popup = errorDialog.createObject(app, {text: errorMessage})
             popup.open()
@@ -51,14 +37,49 @@ Page {
         }
     }
 
+    Timer {
+        id: loadNetworksTimer
+        interval: networkManger.manager.accessPoints.count === 0 ? 1000 : 5000
+        running: networkManger.manager.networkingEnabled && networkManger.manager.wirelessEnabled
+        repeat: true
+        onTriggered: {
+            networkManger.manager.loadNetworks()
+        }
+    }
+
     ColumnLayout {
         anchors.fill: parent
         visible: networkManger.manager.initialized
 
-        Label {
-            wrapMode: Text.WordWrap
-            Layout.alignment: Qt.AlignHCenter
-            text:{
+        MeaListItemDelegate {
+            Layout.fillWidth: true
+            iconName: "../images/info.svg"
+            text: qsTr("About this %1 box").arg(app.systemName)
+            onClicked: pageStack.push(infoPage)
+        }
+
+        SwitchDelegate {
+            Layout.fillWidth: true
+            text: qsTr("Wired network")
+            checked: networkManger.manager.networkingEnabled
+            onClicked: networkManger.manager.enableNetworking(checked)
+        }
+
+        SwitchDelegate {
+            Layout.fillWidth: true
+            enabled: networkManger.manager.networkingEnabled
+            text: qsTr("Wireless network")
+            checked: networkManger.manager.wirelessEnabled
+            onClicked: {
+                networkManger.manager.enableWireless(checked)
+            }
+        }
+
+        MeaListItemDelegate {
+            Layout.fillWidth: true
+            progressive: false
+            text: qsTr("Networking status")
+            subText: {
                 switch (networkManger.manager.networkStatus) {
                 case WirelessSetupManager.NetworkStatusUnknown:
                     return qsTr("Unknown status.");
@@ -77,137 +98,93 @@ Page {
                 case WirelessSetupManager.NetworkStatusGlobal:
                     return qsTr("Online.");
                 }
+                return "???"
             }
         }
 
-        BusyIndicator {
-            Layout.alignment: Qt.AlignHCenter
-            running: networkManger.manager.working
+        ThinDivider {
+            visible: networkManger.manager.wirelessEnabled
         }
-
-        ThinDivider { }
 
         ListView {
             Layout.fillWidth: true
             Layout.fillHeight: true
+            visible: networkManger.manager.wirelessEnabled
 
             model: networkManger.manager.accessPoints
             clip: true
 
-            delegate: ItemDelegate {
-                width: parent.width
-                height: model.selectedNetwork ? app.delegateHeight * 1.5 : app.delegateHeight
+            BusyIndicator {
+                anchors.centerIn: parent
+                running: networkManger.manager.working
+            }
 
-                Rectangle {
-                    anchors.fill: parent
-                    color: guhAccent
-                    visible: model.selectedNetwork
+            delegate: MeaListItemDelegate {
+                width: parent.width
+                text: model.ssid
+                subText: {
+                    if (!model.selectedNetwork) {
+                        return "";
+                    }
+                    switch (networkManger.manager.wirelessStatus) {
+                    case WirelessSetupManager.WirelessStatusUnknown:
+                        return qsTr("Unknown status.");
+                    case WirelessSetupManager.WirelessStatusUnmanaged:
+                        return qsTr("Network unmanaged.");
+                    case WirelessSetupManager.WirelessStatusUnavailable:
+                        return qsTr("Network unavailable.");
+                    case WirelessSetupManager.WirelessStatusDisconnected:
+                        return qsTr("Disconnected.");
+                    case WirelessSetupManager.WirelessStatusPrepare:
+                        return qsTr("Prepare connection...");
+                    case WirelessSetupManager.WirelessStatusConfig:
+                        return qsTr("Configure network...");
+                    case WirelessSetupManager.WirelessStatusNeedAuth:
+                        return qsTr("Authentication needed");
+                    case WirelessSetupManager.WirelessStatusIpConfig:
+                        return qsTr("Configuration IP...");
+                    case WirelessSetupManager.WirelessStatusIpCheck:
+                        return qsTr("Check IP...");
+                    case WirelessSetupManager.WirelessStatusSecondaries:
+                        return qsTr("Secondaries...");
+                    case WirelessSetupManager.WirelessStatusActivated:
+                        return qsTr("Network connected.");
+                    case WirelessSetupManager.WirelessStatusDeactivating:
+                        return qsTr("Network disconnecting...");
+                    case WirelessSetupManager.WirelessStatusFailed:
+                        return qsTr("Network connection failed.");
+                    }
                 }
 
-                RowLayout {
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.left: parent.left
-                    anchors.right: parent.right
+                iconColor: model.selectedNetwork ? app.guhAccent : "#808080"
+                iconName:  {
+                    if (model.protected) {
+                        if (model.signalStrength <= 25)
+                            return  Qt.resolvedUrl("images/nm-signal-25-secure.svg")
 
-                    Item {
-                        Layout.preferredHeight: app.delegateHeight
-                        Layout.preferredWidth: height
+                        if (model.signalStrength <= 50)
+                            return  Qt.resolvedUrl("images/nm-signal-50-secure.svg")
 
-                        ColorIcon {
-                            id: image
-                            anchors.fill: parent
-                            anchors.margins: app.margins / 2
-                            name:  {
-                                if (model.protected) {
-                                    if (model.signalStrength <= 25)
-                                        return  Qt.resolvedUrl("images/nm-signal-25-secure.svg")
+                        if (model.signalStrength <= 75)
+                            return  Qt.resolvedUrl("images/nm-signal-75-secure.svg")
 
-                                    if (model.signalStrength <= 50)
-                                        return  Qt.resolvedUrl("images/nm-signal-50-secure.svg")
+                        if (model.signalStrength <= 100)
+                            return  Qt.resolvedUrl("images/nm-signal-100-secure.svg")
 
-                                    if (model.signalStrength <= 75)
-                                        return  Qt.resolvedUrl("images/nm-signal-75-secure.svg")
+                    } else {
 
-                                    if (model.signalStrength <= 100)
-                                        return  Qt.resolvedUrl("images/nm-signal-100-secure.svg")
+                        if (model.signalStrength <= 25)
+                            return  Qt.resolvedUrl("images/nm-signal-25.svg")
 
-                                } else {
+                        if (model.signalStrength <= 50)
+                            return  Qt.resolvedUrl("images/nm-signal-50.svg")
 
-                                    if (model.signalStrength <= 25)
-                                        return  Qt.resolvedUrl("images/nm-signal-25.svg")
+                        if (model.signalStrength <= 75)
+                            return  Qt.resolvedUrl("images/nm-signal-75.svg")
 
-                                    if (model.signalStrength <= 50)
-                                        return  Qt.resolvedUrl("images/nm-signal-50.svg")
+                        if (model.signalStrength <= 100)
+                            return  Qt.resolvedUrl("images/nm-signal-100.svg")
 
-                                    if (model.signalStrength <= 75)
-                                        return  Qt.resolvedUrl("images/nm-signal-75.svg")
-
-                                    if (model.signalStrength <= 100)
-                                        return  Qt.resolvedUrl("images/nm-signal-100.svg")
-
-                                }
-                            }
-                        }
-                    }
-
-                    Label {
-                        Layout.alignment: Qt.AlignVCenter
-                        text: model.signalStrength + "%"
-                    }
-
-                    ColumnLayout {
-                        Layout.fillWidth: true
-                        Layout.alignment: Qt.AlignVCenter
-                        Label {
-                            text: model.ssid
-                        }
-
-                        Label {
-                            text: model.macAddress
-                            font.pixelSize: app.smallFont
-                        }
-
-                        Label {
-                            text: {
-                                switch (networkManger.manager.wirelessStatus) {
-                                case WirelessSetupManager.WirelessStatusUnknown:
-                                    return qsTr("Unknown status.");
-                                case WirelessSetupManager.WirelessStatusUnmanaged:
-                                    return qsTr("Network unmanaged.");
-                                case WirelessSetupManager.WirelessStatusUnavailable:
-                                    return qsTr("Network unavailable.");
-                                case WirelessSetupManager.WirelessStatusDisconnected:
-                                    return qsTr("Disconnected.");
-                                case WirelessSetupManager.WirelessStatusPrepare:
-                                    return qsTr("Prepare connection...");
-                                case WirelessSetupManager.WirelessStatusConfig:
-                                    return qsTr("Configure network...");
-                                case WirelessSetupManager.WirelessStatusNeedAuth:
-                                    return qsTr("Authentication needed");
-                                case WirelessSetupManager.WirelessStatusIpConfig:
-                                    return qsTr("Configuration IP...");
-                                case WirelessSetupManager.WirelessStatusIpCheck:
-                                    return qsTr("Check IP...");
-                                case WirelessSetupManager.WirelessStatusSecondaries:
-                                    return qsTr("Secondaries...");
-                                case WirelessSetupManager.WirelessStatusActivated:
-                                    return qsTr("Network connected.");
-                                case WirelessSetupManager.WirelessStatusDeactivating:
-                                    return qsTr("Network disconnecting...");
-                                case WirelessSetupManager.WirelessStatusFailed:
-                                    return qsTr("Network connection failed.");
-                                }
-                            }
-
-                            font.pixelSize: app.smallFont
-                            visible: model.selectedNetwork
-                        }
-                    }
-
-                    Button {
-                        text: qsTr("Disconnect")
-                        visible: model.selectedNetwork && networkManger.manager.wirelessStatus === WirelessSetupManager.WirelessStatusActivated
-                        onClicked: networkManger.manager.disconnectWirelessNetwork()
                     }
                 }
 
@@ -234,40 +211,49 @@ Page {
             }
 
             ColumnLayout {
-                anchors.fill: parent
-                anchors.margins: app.margins
+                anchors { left: parent.left; top: parent.top; right: parent.right }
 
                 Label {
                     wrapMode: Text.WordWrap
-                    font.pixelSize: app.largeFont
                     Layout.fillWidth: true
-                    text: ssid + " (" + macAddress + ")"
+                    Layout.leftMargin: app.margins
+                    Layout.rightMargin: app.margins
+                    Layout.topMargin: app.margins
+                    text: qsTr("Please enter the password for the Wifi network.")
                 }
 
-                Label {
-                    wrapMode: Text.WordWrap
+                MeaListItemDelegate {
                     Layout.fillWidth: true
-                    text: qsTr("Please enter the password for the Wifi network.")
+                    text: ssid
+                    subText: macAddress
+                    progressive: false
                 }
 
                 RowLayout {
                     Layout.fillWidth: true
+                    Layout.leftMargin: app.margins
+                    Layout.rightMargin: app.margins
+                    spacing: app.margins
 
                     TextField {
                         id: passwordTextField
                         Layout.fillWidth: true
                         echoMode: TextInput.Password
                     }
-
-                    Button {
-                        text: qsTr("Show password")
-                        onClicked: {
-                            if (passwordTextField.echoMode === TextInput.Normal) {
-                                text = qsTr("Show password")
-                                passwordTextField.echoMode = TextInput.Password
-                            } else {
-                                text = qsTr("Hide password")
-                                passwordTextField.echoMode = TextInput.Normal
+                    ColorIcon {
+                        Layout.preferredHeight: app.iconSize
+                        Layout.preferredWidth: app.iconSize
+                        name: "../images/eye.svg"
+                        color: passwordTextField.echoMode === TextInput.Normal ? app.guhAccent : keyColor
+                        MouseArea {
+                            anchors.fill: parent
+                            anchors.margins: -app.margins / 2
+                            onClicked: {
+                                if (passwordTextField.echoMode === TextInput.Normal) {
+                                    passwordTextField.echoMode = TextInput.Password
+                                } else {
+                                    passwordTextField.echoMode = TextInput.Normal
+                                }
                             }
                         }
                     }
@@ -275,6 +261,8 @@ Page {
 
                 Button {
                     Layout.fillWidth: true
+                    Layout.leftMargin: app.margins
+                    Layout.rightMargin: app.margins
                     text: qsTr("Connect")
                     onPressed: {
                         networkManger.manager.connectWirelessNetwork(ssid, passwordTextField.text)
@@ -282,130 +270,52 @@ Page {
                         pageStack.pop()
                     }
                 }
-
             }
         }
     }
 
-
     Component {
-        id: settingsPage
+        id: infoPage
 
         Page {
             id: root
             header: GuhHeader {
-                text: qsTr("Network settings")
+                text: qsTr("Box information")
                 onBackPressed: pageStack.pop()
             }
 
             ColumnLayout {
-                anchors.fill: parent
-                anchors.margins: app.margins
+                anchors { left: parent.left; top: parent.top; right: parent.right }
 
-                RowLayout {
-                    anchors.margins: app.margins
+                MeaListItemDelegate {
                     Layout.fillWidth: true
-
-                    Label {
-                        Layout.fillWidth: true
-                        text: qsTr("Networking")
-                    }
-
-                    Switch {
-                        id: networkingSwitch
-                        checked: networkManger.manager.networkingEnabled
-                        onCheckedChanged: networkManger.manager.enableNetworking(checked)
-                    }
+                    progressive: false
+                    text: qsTr("System UUID")
+                    subText: networkManger.manager.modelNumber
                 }
-
-                RowLayout {
-                    anchors.margins: app.margins
+                MeaListItemDelegate {
                     Layout.fillWidth: true
-
-                    Label {
-                        Layout.fillWidth: true
-                        text: qsTr("Wireless networking")
-                    }
-
-                    Switch {
-                        id: wirelessNetworkingSwitch
-                        checked: networkManger.manager.wirelessEnabled
-                        onCheckedChanged: networkManger.manager.enableWireless(checked)
-                    }
+                    progressive: false
+                    text: qsTr("Manufacturer")
+                    subText: networkManger.manager.manufacturer
                 }
-
-                ThinDivider { }
-
-                Label {
+                MeaListItemDelegate {
                     Layout.fillWidth: true
-                    text: qsTr("Bluetooth device information")
+                    progressive: false
+                    text: qsTr("Software revision")
+                    subText: networkManger.manager.softwareRevision
                 }
-
-                ThinDivider { }
-
-                RowLayout {
-                    anchors.margins: app.margins
+                MeaListItemDelegate {
                     Layout.fillWidth: true
-
-                    Label {
-                        Layout.fillWidth: true
-                        text: qsTr("System UUID")
-                    }
-
-                    Label {
-                        text: networkManger.manager.modelNumber
-                    }
+                    progressive: false
+                    text: qsTr("Firmware revision")
+                    subText: networkManger.manager.firmwareRevision
                 }
-
-                RowLayout {
+                MeaListItemDelegate {
                     Layout.fillWidth: true
-
-                    Label {
-                        Layout.fillWidth: true
-                        text: qsTr("Manufacturer")
-                    }
-                    Label {
-                        text: networkManger.manager.manufacturer
-                    }
-                }
-
-                RowLayout {
-                    anchors.margins: app.margins
-                    Layout.fillWidth: true
-
-                    Label {
-                        Layout.fillWidth: true
-                        text: qsTr("Software revision")
-                    }
-                    Label {
-                        text: networkManger.manager.softwareRevision
-                    }
-                }
-
-                RowLayout {
-                    anchors.margins: app.margins
-                    Layout.fillWidth: true
-
-                    Label {
-                        Layout.fillWidth: true
-                        text: qsTr("Firmware revision")
-                    }
-                    Label {
-                        text: networkManger.manager.firmwareRevision
-                    }
-                }
-
-                RowLayout {
-                    anchors.margins: app.margins
-                    Layout.fillWidth: true
-
-                    Label {
-                        Layout.fillWidth: true
-                        text: qsTr("Hardware revision")
-                    }
-                    Label {
-                        text: networkManger.manager.hardwareRevision
-                    }
+                    progressive: false
+                    text: qsTr("Hardware revision")
+                    subText: networkManger.manager.hardwareRevision
                 }
             }
         }

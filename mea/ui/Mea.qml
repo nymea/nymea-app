@@ -10,7 +10,7 @@ ApplicationWindow {
     visible: true
     width: 360
     height: 580
-    visibility: settings.viewMode
+    visibility: ApplicationWindow.Maximized
     font: Qt.application.font
     title: appName
 
@@ -26,7 +26,7 @@ ApplicationWindow {
 
     property var settings: Settings {
         property string lastConnectedHost: ""
-        property int viewMode: ApplicationWindow.Maximized
+        property alias viewMode: app.visibility
         property bool returnToHome: false
         property bool darkTheme: false
         property string graphStyle: "bars"

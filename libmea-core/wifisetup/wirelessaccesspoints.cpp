@@ -45,6 +45,7 @@ void WirelessAccesspoints::setWirelessAccessPoints(QList<WirelessAccessPoint *> 
     m_wirelessAccessPoints = wirelessAccessPoints;
 
     endResetModel();
+    emit countChanged();
 }
 
 int WirelessAccesspoints::rowCount(const QModelIndex &parent) const
@@ -95,6 +96,7 @@ void WirelessAccesspoints::clearModel()
     qDeleteAll(m_wirelessAccessPoints);
     m_wirelessAccessPoints.clear();
     endResetModel();
+    emit countChanged();
 }
 
 void WirelessAccesspoints::setSelectedNetwork(const QString &ssid, const QString &macAdderss)
@@ -117,6 +119,7 @@ void WirelessAccesspoints::setSelectedNetwork(const QString &ssid, const QString
     m_wirelessAccessPoints = wirelessAccessPoints;
 
     endResetModel();
+    emit countChanged();
 }
 
 bool WirelessAccesspoints::signalStrengthLessThan(const WirelessAccessPoint *a, const WirelessAccessPoint *b)

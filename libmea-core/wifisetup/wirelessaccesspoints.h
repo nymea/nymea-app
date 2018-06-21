@@ -31,6 +31,7 @@
 class WirelessAccesspoints : public QAbstractListModel
 {
     Q_OBJECT
+    Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
 public:
     enum BluetoothDeviceInfoRole {
         WirelessAccesspointRoleSsid = Qt::DisplayRole,
@@ -56,6 +57,9 @@ public:
     Q_INVOKABLE void setSelectedNetwork(const QString &ssid, const QString &macAdderss);
 
     static bool signalStrengthLessThan(const WirelessAccessPoint *a, const WirelessAccessPoint *b);
+
+signals:
+    void countChanged();
 
 protected:
     QHash<int, QByteArray> roleNames() const;

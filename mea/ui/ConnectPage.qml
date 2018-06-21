@@ -70,6 +70,15 @@ Page {
                     onTriggered: pageStack.push(Qt.resolvedUrl("BluetoothDiscoveryPage.qml"))
                 }
 
+                IconMenuItem {
+                    iconSource: "../images/private-browsing.svg"
+                    text: qsTr("Demo mode")
+                    onTriggered: {
+                        pageStack.push(connectingPage)
+                        Engine.connection.connect("nymea://83.169.2.242:2222")
+                    }
+                }
+
                 MenuSeparator {}
 
                 IconMenuItem {
@@ -85,7 +94,9 @@ Page {
 
                 ColumnLayout {
                     Layout.fillWidth: true
-                    Layout.margins: app.margins
+                    Layout.leftMargin: app.margins
+                    Layout.rightMargin: app.margins
+                    Layout.topMargin: app.margins
                     spacing: app.margins
 
                     Label {
@@ -105,11 +116,7 @@ Page {
                     }
                 }
 
-                Rectangle {
-                    Layout.fillWidth: true
-                    Layout.preferredHeight: 1
-                    color: Material.accent
-                }
+                ThinDivider {}
 
                 ListView {
                     Layout.fillWidth: true
@@ -210,15 +217,42 @@ Page {
 
                 }
 
-                Rectangle {
+                ThinDivider {}
+
+                Label {
                     Layout.fillWidth: true
-                    Layout.preferredHeight: 1
-                    color: Material.accent
+                    Layout.leftMargin: app.margins
+                    Layout.rightMargin: app.margins
+                    wrapMode: Text.WordWrap
+                    visible: discovery.discoveryModel.count === 0
+                    text: qsTr("Do you have a %1 box but it's not connected to your network yet? Use the wireless setup to connect it!").arg(app.systemName)
+                }
+                Button {
+                    Layout.fillWidth: true
+                    Layout.leftMargin: app.margins
+                    Layout.rightMargin: app.margins
+                    visible: discovery.discoveryModel.count === 0
+                    text: qsTr("Start wireless setup")
+                    onClicked: pageStack.push(Qt.resolvedUrl("BluetoothDiscoveryPage.qml"))
+                }
+                Button {
+                    Layout.fillWidth: true
+                    Layout.leftMargin: app.margins
+                    Layout.rightMargin: app.margins
+                    Layout.bottomMargin: app.margins
+                    visible: discovery.discoveryModel.count === 0
+                    text: qsTr("Demo mode (online)")
+                    onClicked: {
+                        pageStack.push(connectingPage)
+                        Engine.connection.connect("nymea://83.169.2.242:2222")
+                    }
                 }
 
                 RowLayout {
                     Layout.fillWidth: true
-                    Layout.margins: app.margins
+                    Layout.leftMargin: app.margins
+                    Layout.rightMargin: app.margins
+                    Layout.bottomMargin: app.margins
                     visible: root.haveHosts
                     Label {
                         Layout.fillWidth: true

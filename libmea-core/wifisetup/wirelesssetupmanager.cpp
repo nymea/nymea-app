@@ -137,7 +137,6 @@ void WirelessSetupManager::loadNetworks()
 
     m_readingResponse = true;
     m_inputDataStream.clear();
-    m_accessPoints->clearModel();
 
     setStatusText("WifiSetupManager: Loading wifi network list...");
     setWorking(true);
@@ -602,12 +601,18 @@ void WirelessSetupManager::onConnectedChanged()
     if (!connected()) {
         // Clean up
         qDebug() << "WifiSetupManager: Clean up services";
-        m_deviceInformationService->deleteLater();
-        m_netwokService->deleteLater();
-        m_wifiService->deleteLater();
-
-        if (m_systemService)
+        if (m_deviceInformationService) {
+            m_deviceInformationService->deleteLater();
+        }
+        if (m_netwokService) {
+            m_netwokService->deleteLater();
+        }
+        if (m_wifiService) {
+            m_wifiService->deleteLater();
+        }
+        if (m_systemService) {
             m_systemService->deleteLater();
+        }
 
         m_deviceInformationService = nullptr;
         m_netwokService = nullptr;

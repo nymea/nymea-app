@@ -243,7 +243,7 @@ void JsonRpcClient::sendRequest(const QVariantMap &request)
 {
     QVariantMap newRequest = request;
     newRequest.insert("token", m_token);
-    qDebug() << "Sending request" << qUtf8Printable(QJsonDocument::fromVariant(newRequest).toJson());
+//    qDebug() << "Sending request" << qUtf8Printable(QJsonDocument::fromVariant(newRequest).toJson());
     m_connection->sendData(QJsonDocument::fromVariant(newRequest).toJson());
 }
 
@@ -278,7 +278,7 @@ void JsonRpcClient::dataReceived(const QByteArray &data)
  //       qWarning() << "Could not parse json data from mea" << data << error.errorString();
         return;
     }
-    qDebug() << "received response" << m_receiveBuffer.left(splitIndex);
+//    qDebug() << "received response" << m_receiveBuffer.left(splitIndex);
     m_receiveBuffer = m_receiveBuffer.right(m_receiveBuffer.length() - splitIndex - 1);
     if (!m_receiveBuffer.isEmpty()) {
         staticMetaObject.invokeMethod(this, "dataReceived", Qt::QueuedConnection, Q_ARG(QByteArray, QByteArray()));

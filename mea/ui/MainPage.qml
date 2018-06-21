@@ -44,12 +44,7 @@ Page {
             text: qsTr("Configure things")
             onTriggered: pageStack.push(Qt.resolvedUrl("EditDevicesPage.qml"))
         }
-        IconMenuItem {
-            iconSource: "../images/add.svg"
-            text: qsTr("Add a new thing")
-            onTriggered: pageStack.push(Qt.resolvedUrl("NewDeviceWizard.qml"))
-        }
-        MenuSeparator {}
+//        MenuSeparator {}
         IconMenuItem {
             iconSource: "../images/magic.svg"
             text: qsTr("Magic")
@@ -128,8 +123,9 @@ Page {
             }
 
             ColumnLayout {
-                anchors { left: parent.left; right: parent.right; top: parent.top; margins: app.margins }
-                spacing: app.margins
+                anchors { left: parent.left; right: parent.right; margins: app.margins }
+                anchors.verticalCenter: parent.verticalCenter
+                spacing: app.margins * 2
                 visible: Engine.deviceManager.devices.count === 0 && !Engine.deviceManager.fetchingData
                 Label {
                     text: qsTr("Welcome to %1!").arg(app.systemName)
@@ -140,10 +136,27 @@ Page {
                     color: app.guhAccent
                 }
                 Label {
-                    text: qsTr("There are no things set up yet. You can start with adding your things by using the menu on the upper left and selecting \"Add a new thing\".")
+                    text: qsTr("There are no things set up yet. In order for your %1 box to be useful, go ahead and add some things.").arg(app.systemName)
                     Layout.fillWidth: true
+                    Layout.maximumWidth: 400
+                    Layout.alignment: Qt.AlignHCenter
                     wrapMode: Text.WordWrap
                     horizontalAlignment: Text.AlignHCenter
+                }
+                Image {
+                    source: "../guh-logo.svg"
+                    Layout.preferredWidth: app.iconSize * 5
+                    Layout.preferredHeight: width
+                    Layout.alignment: Qt.AlignHCenter
+                    sourceSize.width: app.iconSize * 5
+                    sourceSize.height: app.iconSize * 5
+                }
+                Button {
+                    Layout.fillWidth: true
+                    Layout.maximumWidth: 400
+                    Layout.alignment: Qt.AlignHCenter
+                    text: qsTr("Add a thing")
+                    onClicked: pageStack.push(Qt.resolvedUrl("NewDeviceWizard.qml"))
                 }
             }
         }
