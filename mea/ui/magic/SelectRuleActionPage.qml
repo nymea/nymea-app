@@ -26,38 +26,39 @@ Page {
         id: header
         onBackPressed: root.backPressed();
 
-        property bool interfacesMode: false//root.ruleAction.interfaceName !== ""
+        property bool interfacesMode: root.ruleAction.interfaceName !== ""
         onInterfacesModeChanged: root.buildInterface()
 
         HeaderButton {
             imageSource: header.interfacesMode ? "../images/view-expand.svg" : "../images/view-collapse.svg"
-            visible: root.ruleAction.deviceId || root.ruleAction.interfaceName === ""
+            visible: root.ruleAction.interfaceName === ""
             onClicked: header.interfacesMode = !header.interfacesMode
         }
     }
 
-//    ListModel {
-//        id: actionTemplateModel
-//        ListElement { interfaceName: "light"; text: "Switch light"; identifier: "switchLight"}
-//        ListElement { interfaceName: "dimmablelight"; text: "Dim light"; identifier: "dimLight"}
-//        ListElement { interfaceName: "colorlight"; text: "Set light color"; identifier: "colorLight" }
-//        ListElement { interfaceName: "mediacontroller"; text: "Pause playback"; identifier: "pausePlayback" }
-//        ListElement { interfaceName: "mediacontroller"; text: "Resume playback"; identifier: "resumePlayback" }
-//        ListElement { interfaceName: "extendedvolumecontroller"; text: "Set volume"; identifier: "setVolume" }
-//        ListElement { interfaceName: "extendedvolumecontroller"; text: "Mute"; identifier: "mute" }
-//        ListElement { interfaceName: "extendedvolumecontroller"; text: "Unmute"; identifier: "unmute" }
-//        ListElement { interfaceName: "notifications"; text: "Notify me"; identifier: "notify" }
-//    }
+    ListModel {
+        id: generatedModel
+        ListElement { displayName: ""; actionTypeId: "" }
+    }
 
     function buildInterface() {
+        print("building iface", root.ruleAction, root.ruleAction.interfaceName, header.interfacesMode, root.ruleAction.interfaceName === "")
         if (header.interfacesMode) {
             if (root.device) {
+                generatedModel.clear();
                 for (var i = 0; i < Interfaces.count; i++) {
-                    if (deviceClass.interfaces.indexOf(Interfaces.get(i).interfaceName) >= 0) {
-                        actualModel.append(Interfaces.get(i))
+                    var iface = Interfaces.get(i);
+                    if (root.deviceClass.interfaces.indexOf(iface.name) >= 0) {
+                        for (var j = 0; j < iface.actionTypes.count; j++) {
+                            var ifaceAt = iface.actionTypes.get(j);
+                            var dcAt = root.deviceClass.actionTypes.findByName(ifaceAt.name)
+                            generatedModel.append({displayName: ifaceAt.displayName, actionTypeId: dcAt.id})
+                        }
                     }
                 }
+                listView.model = generatedModel
             } else if (root.ruleAction.interfaceName !== "") {
+                print("showing actions for interface", root.ruleAction.interfaceName)
                 listView.model = Interfaces.findByName(root.ruleAction.interfaceName).actionTypes
             } else {
                 console.warn("You need to set device or interfaceName");
@@ -79,13 +80,17 @@ Page {
             onClicked: {
                 if (header.interfacesMode) {
                     if (root.device) {
-                        print("selected:", model.identifier)
-                        switch (model.identfier) {
-                        case "switchLight":
+                        root.ruleAction.actionTypeId = model.actionTypeId;
+                        var actionType = root.deviceClass.actionTypes.getActionType(model.actionTypeId)
+                        if (actionType.paramTypes.count > 0) {
+                            var paramsPage = pageStack.push(Qt.resolvedUrl("SelectRuleActionParamsPage.qml"), {ruleAction: root.ruleAction, rule: root.rule})
+                            paramsPage.onBackPressed.connect(function() {pageStack.pop()});
+                            paramsPage.onCompleted.connect(function() {
+                                pageStack.pop();
+                                root.done();
+                            })
+                        } else {
                             root.done();
-                            break;
-                        default:
-                            console.warn("FIXME: Unhandled interface action");
                         }
                     } else if (root.ruleAction.interfaceName !== "") {
                         root.ruleAction.interfaceAction = model.name;

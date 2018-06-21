@@ -18,21 +18,11 @@ Page {
         model: Engine.deviceManager.plugins
         clip: true
 
-        delegate: ItemDelegate {
+        delegate: MeaListItemDelegate {
             width: parent.width
-            contentItem: RowLayout {
-                Label {
-                    Layout.fillWidth: true
-                    text: model.name
-                }
-                Image {
-                    source: "../images/next.svg"
-                    Layout.preferredHeight: parent.height
-                    Layout.preferredWidth: height
-                }
-            }
+            iconName: "../images/plugin.svg"
+            text: model.name
             onClicked: pageStack.push(Qt.resolvedUrl("PluginParamsPage.qml"), {plugin: Engine.deviceManager.plugins.get(index)})
         }
     }
-
 }

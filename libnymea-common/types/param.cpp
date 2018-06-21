@@ -29,6 +29,12 @@ Param::Param(const QString &paramTypeId, const QVariant &value, QObject *parent)
 {
 }
 
+Param::Param(QObject *parent):
+    QObject(parent)
+{
+
+}
+
 QString Param::paramTypeId() const
 {
     return m_paramTypeId;

@@ -72,3 +72,29 @@ void ParamDescriptors::setParamDescriptor(const QString &paramTypeId, const QVar
     paramDescriptor->setOperatorType((ParamDescriptor::ValueOperator)operatorType);
     addParamDescriptor(paramDescriptor);
 }
+
+void ParamDescriptors::setParamDescriptorByName(const QString &paramName, const QVariant &value, ParamDescriptors::ValueOperator operatorType)
+{
+    foreach (ParamDescriptor* paramDescriptor, m_list) {
+        if (paramDescriptor->paramName() == paramName) {
+            paramDescriptor->setValue(value);
+            paramDescriptor->setOperatorType((ParamDescriptor::ValueOperator)operatorType);
+            return;
+        }
+    }
+    // Still here? need to add a new one
+    ParamDescriptor* paramDescriptor = createNewParamDescriptor();
+    paramDescriptor->setParamName(paramName);
+    paramDescriptor->setValue(value);
+    paramDescriptor->setOperatorType((ParamDescriptor::ValueOperator)operatorType);
+    addParamDescriptor(paramDescriptor);
+}
+
+void ParamDescriptors::clear()
+{
+    beginResetModel();
+    qDeleteAll(m_list);
+    m_list.clear();
+    endResetModel();
+    emit countChanged();
+}

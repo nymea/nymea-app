@@ -34,17 +34,13 @@ QList<StateType *> StateTypes::stateTypes()
     return m_stateTypes;
 }
 
-int StateTypes::count() const
-{
-    return m_stateTypes.count();
-}
-
 StateType *StateTypes::get(int index) const
 {
+    qDebug() << "returning" << m_stateTypes.at(index);
     return m_stateTypes.at(index);
 }
 
-StateType *StateTypes::getStateType(const QUuid &stateTypeId) const
+StateType *StateTypes::getStateType(const QString &stateTypeId) const
 {
     foreach (StateType *stateType, m_stateTypes) {
         if (stateType->id() == stateTypeId) {
@@ -68,7 +64,7 @@ QVariant StateTypes::data(const QModelIndex &index, int role) const
     StateType *stateType = m_stateTypes.at(index.row());
     switch (role) {
     case RoleId:
-        return stateType->id().toString();
+        return stateType->id();
     case RoleName:
         return stateType->name();
     case RoleDisplayName:
@@ -87,10 +83,11 @@ QVariant StateTypes::data(const QModelIndex &index, int role) const
 
 void StateTypes::addStateType(StateType *stateType)
 {
+    stateType->setParent(this);
     beginInsertRows(QModelIndex(), m_stateTypes.count(), m_stateTypes.count());
-    //qDebug() << "StateTypes: loaded stateType" << stateType->name();
     m_stateTypes.append(stateType);
     endInsertRows();
+    emit countChanged();
 }
 
 StateType *StateTypes::findByName(const QString &name) const
@@ -110,6 +107,7 @@ void StateTypes::clearModel()
     qDeleteAll(m_stateTypes);
     m_stateTypes.clear();
     endResetModel();
+    emit countChanged();
 }
 
 QHash<int, QByteArray> StateTypes::roleNames() const

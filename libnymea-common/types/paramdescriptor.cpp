@@ -1,8 +1,21 @@
 #include "paramdescriptor.h"
 
-ParamDescriptor::ParamDescriptor(const QString &id, const QVariant &value, QObject *parent) : Param(id, value, parent)
+ParamDescriptor::ParamDescriptor(QObject *parent) : Param(parent)
 {
 
+}
+
+QString ParamDescriptor::paramName() const
+{
+    return m_paramName;
+}
+
+void ParamDescriptor::setParamName(const QString &paramName)
+{
+    if (m_paramName != paramName) {
+        m_paramName = paramName;
+        emit paramNameChanged();
+    }
 }
 
 ParamDescriptor::ValueOperator ParamDescriptor::operatorType() const
@@ -20,7 +33,10 @@ void ParamDescriptor::setOperatorType(ParamDescriptor::ValueOperator operatorTyp
 
 ParamDescriptor *ParamDescriptor::clone() const
 {
-    ParamDescriptor *ret = new ParamDescriptor(this->paramTypeId(), this->value());
+    ParamDescriptor *ret = new ParamDescriptor();
+    ret->setParamTypeId(this->paramTypeId());
+    ret->setParamName(this->paramName());
+    ret->setValue(this->value());
     ret->setOperatorType(this->operatorType());
     return ret;
 }

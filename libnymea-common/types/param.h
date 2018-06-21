@@ -35,6 +35,7 @@ class Param : public QObject
 
 public:
     Param(const QString &paramTypeId = QString(), const QVariant &value = QVariant(), QObject *parent = 0);
+    Param(QObject *parent);
 
     QString paramTypeId() const;
     void setParamTypeId(const QString &paramTypeId);
@@ -42,14 +43,13 @@ public:
     QVariant value() const;
     void setValue(const QVariant &value);
 
-private:
-    QString m_paramTypeId;
-    QVariant m_value;
-
 signals:
     void paramTypeIdChanged();
     void valueChanged();
 
+private:
+    QString m_paramTypeId;
+    QVariant m_value;
 };
 
 #endif // PARAM_H

@@ -110,24 +110,11 @@ Page {
             }
         }
         ThinDivider {}
-        ItemDelegate {
+        MeaListItemDelegate {
             Layout.fillWidth: true
-
-            contentItem: RowLayout {
-                Label {
-                    Layout.fillWidth: true
-                    text: qsTr("About %1").arg(app.appName)
-                }
-                Image {
-                    source: "images/next.svg"
-                    Layout.preferredHeight: parent.height
-                    Layout.preferredWidth: height
-                }
-            }
-
-            onClicked: {
-                pageStack.push(Qt.resolvedUrl("AboutPage.qml"))
-            }
+            text: qsTr("About %1").arg(app.appName)
+            iconName: "../images/info.svg"
+            onClicked: pageStack.push(Qt.resolvedUrl("AboutPage.qml"))
         }
     }
 

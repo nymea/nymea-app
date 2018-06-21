@@ -5,21 +5,19 @@
 #include <QUuid>
 #include <QVariant>
 
-class RuleActionParam : public QObject
+#include "param.h"
+
+class RuleActionParam : public Param
 {
     Q_OBJECT
-    Q_PROPERTY(QUuid paramTypeId READ paramTypeId NOTIFY paramTypeIdChanged)
-    Q_PROPERTY(QVariant value READ value NOTIFY valueChanged)
+    Q_PROPERTY(QString paramName READ paramName WRITE setParamName NOTIFY paramNameChanged)
     Q_PROPERTY(QString eventTypeId READ eventTypeId WRITE setEventTypeId NOTIFY eventTypeIdChanged)
     Q_PROPERTY(QString eventParamTypeId READ eventParamTypeId WRITE setEventParamTypeId NOTIFY eventParamTypeIdChanged)
 public:
     explicit RuleActionParam(QObject *parent = nullptr);
 
-    QUuid paramTypeId() const;
-    void setParamTypeId(const QUuid &paramTypeId);
-
-    QVariant value() const;
-    void setValue(const QVariant &value);
+    QString paramName() const;
+    void setParamName(const QString &paramName);
 
     QString eventTypeId() const;
     void setEventTypeId(const QString &eventTypeId);
@@ -29,15 +27,12 @@ public:
 
     RuleActionParam* clone() const;
 signals:
-    void paramTypeIdChanged();
-    void valueChanged();
+    void paramNameChanged();
     void eventTypeIdChanged();
     void eventParamTypeIdChanged();
 
-
 private:
-    QUuid m_paramTypeId;
-    QVariant m_value;
+    QString m_paramName;
     QString m_eventTypeId;
     QString m_eventParamTypeId;
 };

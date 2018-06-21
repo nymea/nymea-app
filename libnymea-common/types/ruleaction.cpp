@@ -34,6 +34,32 @@ void RuleAction::setActionTypeId(const QUuid &actionTypeId)
     }
 }
 
+QString RuleAction::interfaceName() const
+{
+    return m_interfaceName;
+}
+
+void RuleAction::setInterfaceName(const QString &interfaceName)
+{
+    if (m_interfaceName != interfaceName) {
+        m_interfaceName = interfaceName;
+        emit interfaceNameChanged();
+    }
+}
+
+QString RuleAction::interfaceAction() const
+{
+    return m_interfaceAction;
+}
+
+void RuleAction::setInterfaceAction(const QString &interfaceAction)
+{
+    if (m_interfaceAction != interfaceAction) {
+        m_interfaceAction = interfaceAction;
+        emit interfaceActionChanged();
+    }
+}
+
 RuleActionParams *RuleAction::ruleActionParams() const
 {
     return m_ruleActionParams;
@@ -42,8 +68,10 @@ RuleActionParams *RuleAction::ruleActionParams() const
 RuleAction *RuleAction::clone() const
 {
     RuleAction *ret = new RuleAction();
-    ret->setActionTypeId(actionTypeId());
     ret->setDeviceId(deviceId());
+    ret->setActionTypeId(actionTypeId());
+    ret->setInterfaceName(interfaceName());
+    ret->setInterfaceAction(interfaceAction());
     for (int i = 0; i < ruleActionParams()->rowCount(); i++) {
         ret->ruleActionParams()->addRuleActionParam(ruleActionParams()->get(i)->clone());
     }

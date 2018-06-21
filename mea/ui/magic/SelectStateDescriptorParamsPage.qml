@@ -11,13 +11,15 @@ Page {
     property var stateDescriptor: null
 
     readonly property var device: stateDescriptor && stateDescriptor.deviceId ? Engine.deviceManager.devices.getDevice(stateDescriptor.deviceId) : null
-    readonly property var stateType: device ? Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId).stateTypes.getStateType(stateDescriptor.stateTypeId) : null
+    readonly property var iface: stateDescriptor && stateDescriptor.interfaceName ? Interfaces.findByName(stateDescriptor.interfaceName) : null
+    readonly property var stateType: device ? Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId).stateTypes.getStateType(stateDescriptor.stateTypeId)
+                                              : iface ? iface.stateTypes.findByName(stateDescriptor.interfaceState) : null
 
     signal backPressed();
     signal completed();
 
     header: GuhHeader {
-        text: qsTr("params")
+        text: qsTr("Options")
         onBackPressed: root.backPressed();
     }
 

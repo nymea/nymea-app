@@ -1,33 +1,20 @@
 #include "ruleactionparam.h"
 
-RuleActionParam::RuleActionParam(QObject *parent) : QObject(parent)
+RuleActionParam::RuleActionParam(QObject *parent) : Param(parent)
 {
 
 }
 
-QUuid RuleActionParam::paramTypeId() const
+QString RuleActionParam::paramName() const
 {
-    return m_paramTypeId;
+    return m_paramName;
 }
 
-void RuleActionParam::setParamTypeId(const QUuid &paramTypeId)
+void RuleActionParam::setParamName(const QString &paramName)
 {
-    if (m_paramTypeId != paramTypeId) {
-        m_paramTypeId = paramTypeId;
-        emit paramTypeIdChanged();
-    }
-}
-
-QVariant RuleActionParam::value() const
-{
-    return m_value;
-}
-
-void RuleActionParam::setValue(const QVariant &value)
-{
-    if (m_value != value) {
-        m_value = value;
-        emit valueChanged();
+    if (m_paramName != paramName) {
+        m_paramName = paramName;
+        emit paramNameChanged();
     }
 }
 
@@ -61,6 +48,7 @@ RuleActionParam *RuleActionParam::clone() const
 {
     RuleActionParam *ret = new RuleActionParam();
     ret->setParamTypeId(paramTypeId());
+    ret->setParamName(paramName());
     ret->setValue(value());
     return ret;
 }

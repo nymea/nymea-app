@@ -34,20 +34,25 @@ Page {
     }
 
     ListModel {
-        id: eventTemplateModel
-        ListElement { interfaceName: "temperaturesensor"; text: qsTr("When it's freezing..."); event: "freeze"}
-        ListElement { interfaceName: "battery"; text: qsTr("When the device runs out of battery..."); event: "lowBattery"}
-        ListElement { interfaceName: "weather"; text: qsTr("When it starts raining..."); event: "rain" }
+        id: generatedModel
+        ListElement { displayName: ""; eventTypeId: "" }
     }
 
     function buildInterface() {
         if (header.interfacesMode) {
             if (root.device) {
+                generatedModel.clear();
                 for (var i = 0; i < Interfaces.count; i++) {
-                    if (deviceClass.interfaces.indexOf(Interfaces.get(i).name) >= 0) {
-                        actualModel.append(Interfaces.get(i))
+                    var iface = Interfaces.get(i);
+                    if (root.deviceClass.interfaces.indexOf(iface.name) >= 0) {
+                        for (var j = 0; j < iface.eventTypes.count; j++) {
+                            var ifaceEt = iface.eventTypes.get(j);
+                            var dcEt = root.deviceClass.eventTypes.findByName(ifaceEt.name)
+                            generatedModel.append({displayName: ifaceEt.displayName, eventTypeId: dcEt.id})
+                        }
                     }
                 }
+                listView.model = generatedModel
             } else if (root.eventDescriptor.interfaceName !== "") {
                 listView.model = Interfaces.findByName(root.eventDescriptor.interfaceName).eventTypes
             } else {
@@ -70,16 +75,17 @@ Page {
             onClicked: {
                 if (header.interfacesMode) {
                     if (root.device) {
-                        print("selected:", model.event)
-                        switch (model.event) {
-                        case "lowBattery":
-                            var eventType = root.deviceClass.eventTypes.findByName("batteryCritical")
-                            root.eventDescriptor.eventTypeId = eventType.id;
-//                            root.eventDescriptor.paramDescriptors.setParamDescriptor(eventType.paramTypes.get(0).paramTypeId, 0, ParamDescriptors.ValueOperatorLessOrEqual)
+                        root.eventDescriptor.eventTypeId = model.eventTypeId;
+                        var eventType = root.deviceClass.eventTypes.getEventType(model.eventTypeId)
+                        if (eventType.paramTypes.count > 0) {
+                            var paramsPage = pageStack.push(Qt.resolvedUrl("SelectEventDescriptorParamsPage.qml"), {eventDescriptor: root.eventDescriptor})
+                            paramsPage.onBackPressed.connect(function() {pageStack.pop()});
+                            paramsPage.onCompleted.connect(function() {
+                                pageStack.pop();
+                                root.done();
+                            })
+                        } else {
                             root.done();
-                            break;
-                        default:
-                            console.warn("FIXME: Unhandled interface event");
                         }
                     } else if (root.eventDescriptor.interfaceName !== "") {
                         root.eventDescriptor.interfaceEvent = model.name;

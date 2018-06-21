@@ -89,41 +89,25 @@ Page {
 
         }
 
-        ItemDelegate {
+        MeaListItemDelegate {
             Layout.fillWidth: true
-            contentItem: RowLayout {
-                Label {
-                    Layout.fillWidth: true
-                    text: qsTr("Plugins")
-                }
-                Image {
-                    source: "images/next.svg"
-                    Layout.preferredHeight: parent.height
-                    Layout.preferredWidth: height
-                }
-            }
-            onClicked: {
-                pageStack.push(Qt.resolvedUrl("system/PluginsPage.qml"))
-            }
+            iconName: "../images/plugin.svg"
+            text: qsTr("Plugins")
+            onClicked:pageStack.push(Qt.resolvedUrl("system/PluginsPage.qml"))
         }
 
-        ItemDelegate {
+        MeaListItemDelegate {
             Layout.fillWidth: true
-            contentItem: RowLayout {
-                Label {
-                    text: qsTr("Log viewer")
-                    Layout.fillWidth: true
-                }
-                Image {
-                    source: "images/next.svg"
-                    Layout.preferredHeight: parent.height
-                    Layout.preferredWidth: height
-                }
-            }
-
+            iconName: "../images/logs.svg"
+            text: qsTr("Log viewer")
             onClicked: pageStack.push(Qt.resolvedUrl("system/LogViewerPage.qml"))
         }
-
+        MeaListItemDelegate {
+            Layout.fillWidth: true
+            iconName: "../images/info.svg"
+            text: qsTr("About nymea")
+            onClicked: pageStack.push(Qt.resolvedUrl("system/AboutNymeaPage.qml"))
+        }
     }
 
     Component {

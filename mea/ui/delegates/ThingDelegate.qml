@@ -3,30 +3,13 @@ import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.2
 import "../components"
 
-ItemDelegate {
+MeaListItemDelegate {
     id: root
     width: parent.width
+    iconName: app.interfacesToIcon(root.interfaces)
+    text: root.name
+    progressive: true
 
     property var interfaces: []
-    property var name: ""
-
-    contentItem: RowLayout {
-        spacing: app.margins
-        ColorIcon {
-            height: app.iconSize
-            width: height
-            name: app.interfacesToIcon(root.interfaces)
-            color: app.guhAccent
-        }
-
-        Label {
-            Layout.fillWidth: true
-            text: root.name
-        }
-        Image {
-            source: "../images/next.svg"
-            Layout.preferredHeight: parent.height
-            Layout.preferredWidth: height
-        }
-    }
+    property string name: ""
 }

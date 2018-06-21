@@ -4,9 +4,12 @@ import QtQuick.Layouts 1.3
 import Mea 1.0
 import "../components"
 
-SwipeDelegate {
+MeaListItemDelegate {
     id: root
     implicitHeight: app.delegateHeight
+    canDelete: true
+    progressive: false
+
     property var ruleAction: null
 
     property var device: ruleAction.deviceId ? Engine.deviceManager.devices.getDevice(ruleAction.deviceId) : null
@@ -17,50 +20,19 @@ SwipeDelegate {
 
     signal removeRuleAction()
 
-    contentItem: RowLayout {
-        spacing: app.margins
-        ColorIcon {
-            Layout.preferredHeight: app.iconSize
-            Layout.preferredWidth: app.iconSize
-            name: "../images/action.svg"
-            color: app.guhAccent
-        }
+    onDeleteClicked: root.removeRuleAction()
 
-        ColumnLayout {
-            Label {
-                Layout.fillWidth: true
-                elide: Text.ElideRight
-                text: qsTr("%1 - %2").arg(root.device ? root.device.name : root.iface.displayName).arg(root.actionType.displayName)
-            }
-            Label {
-                Layout.fillWidth: true
-                elide: Text.ElideRight
-                font.pixelSize: app.smallFont
-                text: {
-                    var ret = [];
-                    for (var i = 0; i < root.ruleAction.ruleActionParams.count; i++) {
-                        var ruleActionParam = root.ruleAction.ruleActionParams.get(i)
-                        var paramString = qsTr("%1: %2")
-                        .arg(root.actionType.paramTypes.getParamType(ruleActionParam.paramTypeId).displayName)
-                        .arg(ruleActionParam.eventParamTypeId.length > 0 ? qsTr("value from event") : ruleActionParam.value)
-                        ret.push(paramString)
-                    }
-                    return ret.join(', ')
-                }
-
-            }
+    iconName: root.device ? "../images/action.svg" : "../images/action-interface.svg"
+    text: qsTr("%1 - %2").arg(root.device ? root.device.name : root.iface.displayName).arg(root.actionType.displayName)
+    subText: {
+        var ret = [];
+        for (var i = 0; i < root.ruleAction.ruleActionParams.count; i++) {
+            var ruleActionParam = root.ruleAction.ruleActionParams.get(i)
+            var paramString = qsTr("%1: %2")
+            .arg(root.actionType.paramTypes.getParamType(ruleActionParam.paramTypeId).displayName)
+            .arg(ruleActionParam.eventParamTypeId.length > 0 ? qsTr("value from event") : ruleActionParam.value)
+            ret.push(paramString)
         }
-    }
-    swipe.right: MouseArea {
-        height: root.height
-        width: height
-        anchors.right: parent.right
-        ColorIcon {
-            anchors.fill: parent
-            anchors.margins: app.margins
-            name: "../images/delete.svg"
-            color: "red"
-        }
-        onClicked: root.removeRuleAction()
+        return ret.join(', ')
     }
 }

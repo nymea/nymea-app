@@ -19,7 +19,7 @@ Page {
     signal completed();
 
     header: GuhHeader {
-        text: "params"
+        text: "Options"
         onBackPressed: root.backPressed();
     }
 
@@ -60,11 +60,16 @@ Page {
             Layout.fillWidth: true
             Layout.margins: app.margins
             onClicked: {
-                var params = [];
+                root.eventDescriptor.paramDescriptors.clear();
                 for (var i = 0; i < delegateRepeater.count; i++) {
                     var paramDelegate = delegateRepeater.itemAt(i);
                     if (paramDelegate.considerParam) {
-                        root.eventDescriptor.paramDescriptors.setParamDescriptor(paramDelegate.paramType.id, paramDelegate.value, paramDelegate.operatorType)
+                        if (root.device) {
+                            root.eventDescriptor.paramDescriptors.setParamDescriptor(paramDelegate.paramType.id, paramDelegate.value, paramDelegate.operatorType)
+                        } else if (root.iface) {
+                            print("setting param descriptors by name", root.eventType.paramTypes.get(i), root.eventType.paramTypes.get(i).name)
+                            root.eventDescriptor.paramDescriptors.setParamDescriptorByName(root.eventType.paramTypes.get(i).name, paramDelegate.value, paramDelegate.operatorType)
+                        }
                     }
                 }
                 root.completed()

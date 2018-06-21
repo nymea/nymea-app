@@ -1,10 +1,20 @@
 #include "statedescriptor.h"
 
-StateDescriptor::StateDescriptor(const QUuid &deviceId, StateDescriptor::ValueOperator valueOperator, const QUuid &stateTypeId, const QVariant &value, QObject *parent):
+StateDescriptor::StateDescriptor(const QUuid &deviceId, const QUuid &stateTypeId, StateDescriptor::ValueOperator valueOperator, const QVariant &value, QObject *parent):
     QObject(parent),
     m_deviceId(deviceId),
-    m_operator(valueOperator),
     m_stateTypeId(stateTypeId),
+    m_operator(valueOperator),
+    m_value(value)
+{
+
+}
+
+StateDescriptor::StateDescriptor(const QString &interfaceName, const QString &interfaceState, StateDescriptor::ValueOperator valueOperator, const QVariant &value, QObject *parent):
+    QObject(parent),
+    m_interfaceName(interfaceName),
+    m_interfaceState(interfaceState),
+    m_operator(valueOperator),
     m_value(value)
 {
 
@@ -54,6 +64,32 @@ void StateDescriptor::setStateTypeId(const QUuid &stateTypeId)
     }
 }
 
+QString StateDescriptor::interfaceName() const
+{
+    return m_interfaceName;
+}
+
+void StateDescriptor::setInterfaceName(const QString &interfaceName)
+{
+    if (m_interfaceName != interfaceName) {
+        m_interfaceName = interfaceName;
+        emit interfaceNameChanged();
+    }
+}
+
+QString StateDescriptor::interfaceState() const
+{
+    return m_interfaceState;
+}
+
+void StateDescriptor::setInterfaceState(const QString &interfaceState)
+{
+    if (m_interfaceState != interfaceState) {
+        m_interfaceState = interfaceState;
+        emit interfaceStateChanged();
+    }
+}
+
 QVariant StateDescriptor::value() const
 {
     return m_value;
@@ -69,6 +105,8 @@ void StateDescriptor::setValue(const QVariant &value)
 
 StateDescriptor *StateDescriptor::clone() const
 {
-    StateDescriptor *ret = new StateDescriptor(deviceId(), valueOperator(), stateTypeId(), value());
+    StateDescriptor *ret = new StateDescriptor(deviceId(), stateTypeId(), valueOperator(), value());
+    ret->setInterfaceName(interfaceName());
+    ret->setInterfaceState(interfaceState());
     return ret;
 }

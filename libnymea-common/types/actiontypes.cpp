@@ -56,9 +56,6 @@ int ActionTypes::rowCount(const QModelIndex &parent) const
 
 QVariant ActionTypes::data(const QModelIndex &index, int role) const
 {
-    if (index.row() < 0 || index.row() >= m_actionTypes.count())
-        return QVariant();
-
     ActionType *actionType = m_actionTypes.at(index.row());
     switch (role) {
     case RoleId:

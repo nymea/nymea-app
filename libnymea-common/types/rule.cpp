@@ -113,9 +113,9 @@ void Rule::setStateEvaluator(StateEvaluator *stateEvaluator)
     emit stateEvaluatorChanged();
 }
 
-void Rule::createStateEvaluator()
+StateEvaluator* Rule::createStateEvaluator() const
 {
-    setStateEvaluator(new StateEvaluator(this));
+    return new StateEvaluator();
 }
 
 Rule *Rule::clone() const
