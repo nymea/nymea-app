@@ -48,7 +48,7 @@ osxbundle.commands += cd mea && rm -f mea.dmg mea_writable.dmg mea-osx-bundle.dm
 osxbundle.commands += hdiutil eject /Volumes/mea || true &&
 osxbundle.commands += macdeployqt mea.app -qmldir=$$top_srcdir/mea/ui -dmg &&
 osxbundle.commands += hdiutil convert mea.dmg -format UDRW -o mea_writable.dmg &&
-osxbundle.commands += hdiutil attach -readwrite -noverify mea_writable.dmg &&
+osxbundle.commands += hdiutil attach -readwrite -noverify mea_writable.dmg && sleep 2 &&
 osxbundle.commands += mkdir /Volumes/mea/.background/ && cp $$top_srcdir/packaging/osx/installer.tiff /Volumes/mea/.background/ &&
 osxbundle.commands += ln -s /Applications /Volumes/mea/Applications &&
 osxbundle.commands += osascript $$top_srcdir/packaging/osx/patchinstaller.sctp &&
