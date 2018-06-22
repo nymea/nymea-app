@@ -17,7 +17,7 @@ CustomViewBase {
     ValueLogsProxyModel {
         id: logsModel
         deviceId: root.device.id
-        typeId: stateType.id
+        typeIds: [stateType.id]
         average: zoomTabBar.currentItem.avg
         startTime: zoomTabBar.currentItem.startTime
         Component.onCompleted: updateTimer.start();

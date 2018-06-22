@@ -12,7 +12,7 @@ class LogsModel : public QAbstractListModel
     Q_PROPERTY(bool busy READ busy NOTIFY busyChanged)
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
     Q_PROPERTY(QString deviceId READ deviceId WRITE setDeviceId NOTIFY deviceIdChanged)
-    Q_PROPERTY(QString typeId READ typeId WRITE setTypeId NOTIFY typeIdChanged)
+    Q_PROPERTY(QStringList typeIds READ typeIds WRITE setTypeIds NOTIFY typeIdsChanged)
     Q_PROPERTY(QDateTime startTime READ startTime WRITE setStartTime NOTIFY startTimeChanged)
     Q_PROPERTY(QDateTime endTime READ endTime WRITE setEndTime NOTIFY endTimeChanged)
 
@@ -40,8 +40,8 @@ public:
     QString deviceId() const;
     void setDeviceId(const QString &deviceId);
 
-    QString typeId() const;
-    void setTypeId(const QString &typeId);
+    QStringList typeIds() const;
+    void setTypeIds(const QStringList &typeIds);
 
     QDateTime startTime() const;
     void setStartTime(const QDateTime &startTime);
@@ -58,7 +58,7 @@ signals:
     void liveChanged();
     void countChanged();
     void deviceIdChanged();
-    void typeIdChanged();
+    void typeIdsChanged();
     void startTimeChanged();
     void endTimeChanged();
 
@@ -72,7 +72,7 @@ private slots:
 protected:
     QList<LogEntry*> m_list;
     QString m_deviceId;
-    QString m_typeId;
+    QStringList m_typeIds;
     QDateTime m_startTime = QDateTime::currentDateTime().addDays(-1);
     QDateTime m_endTime = QDateTime::currentDateTime();
 

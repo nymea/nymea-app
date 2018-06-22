@@ -78,16 +78,16 @@ void LogsModel::setDeviceId(const QString &deviceId)
     }
 }
 
-QString LogsModel::typeId() const
+QStringList LogsModel::typeIds() const
 {
-    return m_typeId;
+    return m_typeIds;
 }
 
-void LogsModel::setTypeId(const QString &typeId)
+void LogsModel::setTypeIds(const QStringList &typeIds)
 {
-    if (m_typeId != typeId) {
-        m_typeId = typeId;
-        emit typeIdChanged();
+    if (m_typeIds != typeIds) {
+        m_typeIds = typeIds;
+        emit typeIdsChanged();
     }
 }
 
@@ -141,9 +141,11 @@ void LogsModel::update()
         deviceIds.append(m_deviceId);
         params.insert("deviceIds", deviceIds);
     }
-    if (!m_typeId.isEmpty()) {
+    if (!m_typeIds.isEmpty()) {
         QVariantList typeIds;
-        typeIds.append(m_typeId);
+        foreach (const QString &typeId, m_typeIds) {
+            typeIds.append(typeId);
+        }
         params.insert("typeIds", typeIds);
     }
     QVariantList timeFilters;
@@ -196,7 +198,7 @@ void LogsModel::newLogEntryReceived(const QVariantMap &data)
     }
 
     QString typeId = entryMap.value("typeId").toString();
-    if (!m_typeId.isNull() && typeId != m_typeId) {
+    if (!m_typeIds.isEmpty() && !m_typeIds.contains(typeId)) {
         return;
     }
 

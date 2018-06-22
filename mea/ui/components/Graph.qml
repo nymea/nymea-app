@@ -19,7 +19,7 @@ Item {
 
     readonly property var device: root.model ? Engine.deviceManager.devices.getDevice(root.model.deviceId) : null
     readonly property var deviceClass: device ? Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
-    readonly property var stateType: deviceClass ? deviceClass.stateTypes.getStateType(root.model.typeId) : null
+    readonly property var stateType: deviceClass ? deviceClass.stateTypes.getStateType(root.model.typeIds[0]) : null
 
     Label {
         anchors.centerIn: parent
@@ -93,7 +93,7 @@ Item {
         }
 
         onPaint: {
-            print("painting graph")
+//            print("painting graph")
             var ctx = canvas.getContext('2d');
             ctx.save();
 
@@ -164,7 +164,6 @@ Item {
             ctx.strokeStyle = Material.foreground
             ctx.fillStyle = Material.foreground
             ctx.lineWidth = 0;
-            print("blubb", root.stateType.unitString)
             var label = root.stateType ? root.stateType.unitString : ""
             var textSize = ctx.measureText(label)
             ctx.text(label, -textSize.width - app.margins, height + app.margins + app.smallFont)

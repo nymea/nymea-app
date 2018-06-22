@@ -16,7 +16,14 @@ GenericDevicePage {
         logsModel: LogsModel {
             deviceId: root.device.id
             live: true
-            typeId: root.deviceClass.eventTypes.findByName("pressed").id
+            typeIds: {
+                var ret = [];
+                ret.push(root.deviceClass.eventTypes.findByName("pressed").id)
+                if (root.deviceClass.eventTypes.findByName("longPressed")) {
+                    ret.push(root.deviceClass.eventTypes.findByName("longPressed").id)
+                }
+                return ret;
+            }
             Component.onCompleted: update()
         }
 

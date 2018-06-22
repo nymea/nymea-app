@@ -31,7 +31,7 @@ Page {
         deviceId: root.device.id
         live: true
         Component.onCompleted: update()
-        typeId: root.stateType.id
+        typeIds: [root.stateType.id]
     }
 
 //    LogsModelNg {
@@ -151,7 +151,7 @@ Page {
                     model: ValueLogsProxyModel {
                         id: graphModel
                         deviceId: root.device.id
-                        typeId: stateType.id
+                        typeIds: [stateType.id]
                         average: zoomTabBar.currentItem.avg
                         startTime: zoomTabBar.currentItem.startTime
                         Component.onCompleted: updateTimer.start();

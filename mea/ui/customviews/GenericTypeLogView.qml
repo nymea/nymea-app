@@ -43,6 +43,8 @@ Item {
                 id: logEntryDelegate
                 width: parent.width
                 implicitHeight: app.delegateHeight
+                property var device: Engine.deviceManager.devices.getDevice(model.deviceId)
+                property var deviceClass: Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId)
                 contentItem: RowLayout {
                     ColorIcon {
                         Layout.preferredHeight: app.iconSize
@@ -59,7 +61,7 @@ Item {
                         }
                         Label {
                             Layout.fillWidth: true
-                            text: qsTr("Data: %1").arg(model.value.trim())
+                            text: "%1: %2".arg(deviceClass.eventTypes.getEventType(model.typeId).displayName).arg(model.value.trim())
                             elide: Text.ElideRight
                             font.pixelSize: app.smallFont
                         }

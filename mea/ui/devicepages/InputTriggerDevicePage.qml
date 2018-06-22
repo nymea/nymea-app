@@ -16,7 +16,7 @@ GenericDevicePage {
             deviceId: root.device.id
             live: true
             Component.onCompleted: update()
-            typeId: root.deviceClass.eventTypes.findByName("triggered").id;
+            typeIds: [root.deviceClass.eventTypes.findByName("triggered").id];
         }
 
         onAddRuleClicked: {
