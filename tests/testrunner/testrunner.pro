@@ -1,14 +1,14 @@
 TEMPLATE = app
 TARGET = meatestrunner
 
-include(../../mea.pri)
+include(../../nymea-app.pri)
 
 QT += core gui testlib bluetooth websockets
 CONFIG += qmltestcase
 
-INCLUDEPATH += ../../mea/ \
+INCLUDEPATH += ../../nymea-app/ \
     ../../libnymea-common/ \
-    ../../libmea-core/
+    ../../libnymea-app-core/
 
 LIBS += -L$$top_builddir/libmea-core/ -lmea-core \
         -L$$top_builddir/libnymea-common/ -lnymea-common
@@ -20,4 +20,4 @@ win32:Release:LIBS += -L$$top_builddir/libmea-core/release \
 SOURCES += testrunner.cpp
 
 RESOURCES += \
-    $$top_srcdir/mea/resources.qrc
+    $$top_srcdir/nymea-app/resources.qrc

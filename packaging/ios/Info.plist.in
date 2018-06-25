@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleDisplayName</key>
-	<string>mea</string>
+        <string>nymea:app</string>
 	<key>CFBundleExecutable</key>
-	<string>mea</string>
+        <string>nymea-app</string>
 	<key>CFBundleGetInfoString</key>
 	<string>Created by Qt/QMake</string>
         <key>CFBundleIcons</key>
@@ -32,13 +32,13 @@
             </dict>
         </dict>
         <key>CFBundleIdentifier</key>
-        <string>io.guh.mea</string>
+        <string>io.guh.nymeaapp</string>
 	<key>CFBundleName</key>
-	<string>mea</string>
+        <string>nymea-app</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>$$MEA_VERSION</string>
+	<string>$$APP_VERSION</string>
 	<key>CFBundleSignature</key>
 	<string>${QMAKE_PKGINFO_TYPEINFO}</string>
 	<key>CFBundleVersion</key>

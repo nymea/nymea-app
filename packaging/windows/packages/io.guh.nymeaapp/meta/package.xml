@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package>
+    <DisplayName>nymea:app</DisplayName>
+    <Description>Install the nymea:app.</Description>
+    <Version>0.1.0-1</Version>
+    <ReleaseDate>2018-05-16</ReleaseDate>
+    <Licenses>
+        <License name="GNU General Public License Agreement v2" file="license-gpl.txt" />
+    </Licenses>
+    <Default>true</Default>
+    <Script>installscript.qs</Script>
+</Package>

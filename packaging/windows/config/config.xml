@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Installer>
-    <Name>Mea</Name>
+    <Name>nymea:app</Name>
     <Version>1.0.0</Version>
-    <Title>Mea Windows Installer</Title>
+    <Title>nymea:app Windows Installer</Title>
     <Publisher>guh GmbH</Publisher>
-    <StartMenuDir>Mea</StartMenuDir>
-    <TargetDir>@ApplicationsDir@/Mea</TargetDir>
+    <StartMenuDir>nymea</StartMenuDir>
+    <TargetDir>@ApplicationsDir@/nymea-app</TargetDir>
 </Installer>

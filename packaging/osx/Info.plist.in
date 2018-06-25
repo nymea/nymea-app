@@ -2,14 +2,18 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CFBundleName</key>
+	<string>nymea:app</string>
+	<key>CFBundleDisplayName</key>
+	<string>nymea:app</string>
 	<key>CFBundleExecutable</key>
-	<string>mea</string>
+	<string>nymea-app</string>
 	<key>CFBundleGetInfoString</key>
 	<string>Created by Qt/QMake</string>
 	<key>CFBundleIconFile</key>
         <string>icon.icns</string>
 	<key>CFBundleIdentifier</key>
-	<string>io.guh.mea</string>
+	<string>io.guh.nymea-app</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleSignature</key>
