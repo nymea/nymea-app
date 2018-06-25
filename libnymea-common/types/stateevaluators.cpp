@@ -27,6 +27,7 @@ QHash<int, QByteArray> StateEvaluators::roleNames() const
 
 void StateEvaluators::addStateEvaluator(StateEvaluator *stateEvaluator)
 {
+    stateEvaluator->setParent(this);
     beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
     m_list.append(stateEvaluator);
     endInsertRows();

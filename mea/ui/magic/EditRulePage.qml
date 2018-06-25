@@ -185,7 +185,6 @@ Page {
     }
 
     function selectRuleActionData(ruleActions, ruleAction) {
-        print("opening with ruleAction", ruleAction, ruleAction.interfaceName)
         var ruleActionPage = pageStack.push(Qt.resolvedUrl("SelectRuleActionPage.qml"), {text: "Select action", ruleAction: ruleAction, rule: rule });
         ruleActionPage.onBackPressed.connect(function() {
             ruleActionPage.StackView.onRemoved.connect(function() {

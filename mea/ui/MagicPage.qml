@@ -19,10 +19,10 @@ Page {
     }
 
     function addRule() {
-        d.editRulePage = pageStack.push(Qt.resolvedUrl("magic/EditRulePage.qml"), {rule: Engine.ruleManager.createNewRule() });
+        var newRule = Engine.ruleManager.createNewRule();
+        d.editRulePage = pageStack.push(Qt.resolvedUrl("magic/EditRulePage.qml"), {rule: newRule });
         d.editRulePage.StackView.onRemoved.connect(function() {
-            d.editRulePage.rule.destroy()
-            d.editRulePage = null;
+            newRule.destroy();
         })
         d.editRulePage.onAccept.connect(function() {
             d.editRulePage.busy = true;
@@ -76,10 +76,10 @@ Page {
             onDeleteClicked: Engine.ruleManager.removeRule(model.id)
 
             onClicked: {
-                d.editRulePage = pageStack.push(Qt.resolvedUrl("magic/EditRulePage.qml"), {rule: Engine.ruleManager.rules.get(index).clone()})
+                var newRule = Engine.ruleManager.rules.get(index).clone();
+                d.editRulePage = pageStack.push(Qt.resolvedUrl("magic/EditRulePage.qml"), {rule: newRule})
                 d.editRulePage.StackView.onRemoved.connect(function() {
-                    d.editRulePage.rule.destroy();
-                    d.editRulePage = null
+                    newRule.destroy();
                 })
                 d.editRulePage.onAccept.connect(function() {
                     d.editRulePage.busy = true;
