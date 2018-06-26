@@ -1,6 +1,7 @@
 #include <QSettings>
 #include <QQuickStyle>
 #include <QDir>
+#include <QDebug>
 
 #include "stylecontroller.h"
 
@@ -19,7 +20,12 @@ QString StyleController::currentStyle() const
     return BRANDING;
 #endif
     QSettings settings;
-    return settings.value("style", "light").toString();
+    QString currentSetting = settings.value("style", "light").toString();
+    // ensure style is available
+    if (allStyles().contains(currentSetting)) {
+        return currentSetting;
+    }
+    return allStyles().first();
 }
 
 void StyleController::setCurrentStyle(const QString &currentStyle)
@@ -34,5 +40,6 @@ void StyleController::setCurrentStyle(const QString &currentStyle)
 QStringList StyleController::allStyles() const
 {
     QDir dir(":/styles/");
+    qDebug() << "styles:" << dir.entryList();
     return dir.entryList(QDir::Dirs);
 }

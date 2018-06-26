@@ -21,8 +21,13 @@ SOURCES += main.cpp \
     stylecontroller.cpp
 
 
-RESOURCES += \
-    resources.qrc
+RESOURCES += resources.qrc
+equals(STYLES_PATH, "") {
+    RESOURCES += styles.qrc
+} else {
+    message("Style override enabled. Will be using styles from $${STYLES_PATH}")
+    RESOURCES += $${STYLES_PATH}/styles.qrc
+}
 
 contains(ANDROID_TARGET_ARCH,armeabi-v7a) {
     ANDROID_EXTRA_LIBS = \

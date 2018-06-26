@@ -136,11 +136,6 @@
         <file>ui/devicepages/StateLogPage.qml</file>
         <file>ui/customviews/GenericTypeLogView.qml</file>
         <file>qtquickcontrols2.conf</file>
-        <file>styles/dark/ApplicationWindow.qml</file>
-        <file>styles/light/ApplicationWindow.qml</file>
-        <file>styles/light/Page.qml</file>
-        <file>styles/dark/Page.qml</file>
-        <file>styles/maveo/ApplicationWindow.qml</file>
         <file>ui/BluetoothDiscoveryPage.qml</file>
         <file>ui/images/bluetooth.svg</file>
         <file>ui/images/refresh.svg</file>
@@ -208,8 +203,5 @@
         <file>ui/images/rpi-setup.svg</file>
         <file>ui/images/eye.svg</file>
         <file>ui/images/private-browsing.svg</file>
-        <file>styles/dark/logo.svg</file>
-        <file>styles/light/logo.svg</file>
-        <file>styles/maveo/logo.svg</file>
     </qresource>
 </RCC>

@@ -16,16 +16,21 @@ withtests: {
 # Add QT_INSTALL_DIR/bin, QT_IFW_INSTALL_DIR/bin and MINGW_INSTALL_DIR/bin to PATH
 # run "make wininstaller"
 wininstaller.depends = nymea-app
+!equals(STYLES_PATH, ""):!equals(BRANDING, "") {
+    PACKAGE_BASE_DIR = $${STYLES_PATH}\packaging
+} else {
+    PACKAGE_BASE_DIR = $$shell_path($$PWD)\packaging
+}
 equals(BRANDING, "") {
     APP_NAME = nymea-app
     PACKAGE_URN = io.guh.nymeaapp
-    PACKAGE_DIR = $$shell_path($$PWD)\packaging\windows
     PACKAGE_NAME = nymea-app-win-installer
+    PACKAGE_DIR = $${PACKAGE_BASE_DIR}\windows
 } else {
     APP_NAME = $${BRANDING}
     PACKAGE_URN = io.guh.$${APP_NAME}
     PACKAGE_NAME = $${BRANDING}-win-installer
-    PACKAGE_DIR = $$shell_path($$PWD)\packaging\windows_$${APP_NAME}
+    PACKAGE_DIR = $${PACKAGE_BASE_DIR}\windows_$${APP_NAME}
 }
 OLDSTRING="<Version>.*</Version>"
 NEWSTRING="<Version>$${APP_VERSION}</Version>"
@@ -41,7 +46,9 @@ wininstaller.commands += copy $${SSL_LIBS}\ssleay32.dll $${PACKAGE_DIR}\packages
 }
 wininstaller.commands += windeployqt --compiler-runtime --qmldir \"$${top_srcdir}\"\nymea-app\ui $${PACKAGE_DIR}\packages\\$${PACKAGE_URN}\data\ &&
 wininstaller.commands += binarycreator -c $${PACKAGE_DIR}\config\config.xml -p $${PACKAGE_DIR}\packages\ $${PACKAGE_NAME}-$${APP_VERSION}
+win32:message("Windows installer package directory: $${PACKAGE_DIR}")
 QMAKE_EXTRA_TARGETS += wininstaller
+
 
 
 # OS X installer bundle

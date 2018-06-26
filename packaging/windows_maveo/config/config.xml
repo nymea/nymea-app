@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Installer>
-    <Name>Maveo Pro Box Dashboard</Name>
-    <Version>1.0.0</Version>
-    <Title>Maveo Pro Box Dashboard Windows Installer</Title>
-    <Publisher>guh GmbH</Publisher>
-    <StartMenuDir>Maveo</StartMenuDir>
-    <TargetDir>@ApplicationsDir@/Maveo</TargetDir>
-</Installer>

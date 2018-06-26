@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/">
+        <file>styles/light/ApplicationWindow.qml</file>
+        <file>styles/light/Page.qml</file>
+        <file>styles/light/logo.svg</file>
+        <file>styles/dark/ApplicationWindow.qml</file>
+        <file>styles/dark/Page.qml</file>
+        <file>styles/dark/logo.svg</file>
+    </qresource>
+</RCC>
