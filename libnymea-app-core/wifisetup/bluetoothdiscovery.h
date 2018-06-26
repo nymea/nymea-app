@@ -24,6 +24,7 @@
 #define BLUETOOTHDISCOVERY_H
 
 #include <QObject>
+#include <QBluetoothLocalDevice>
 #include <QBluetoothDeviceDiscoveryAgent>
 
 #include "bluetoothdeviceinfos.h"
@@ -31,28 +32,43 @@
 class BluetoothDiscovery : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(bool bluetoothAvailable READ bluetoothAvailable NOTIFY bluetoothAvailableChanged)
+    Q_PROPERTY(bool bluetoothEnabled READ bluetoothEnabled NOTIFY bluetoothEnabledChanged)
     Q_PROPERTY(bool discovering READ discovering NOTIFY discoveringChanged)
     Q_PROPERTY(BluetoothDeviceInfos *deviceInfos READ deviceInfos CONSTANT)
 
 public:
     explicit BluetoothDiscovery(QObject *parent = 0);
 
+    bool bluetoothAvailable() const;
+
+    bool bluetoothEnabled() const;
+    void setBluetoothEnabled(bool enabled);
+
     bool discovering() const;
 
     BluetoothDeviceInfos *deviceInfos();
 
 private:
-    QBluetoothDeviceDiscoveryAgent *m_discoveryAgent;
+    QBluetoothLocalDevice *m_localDevice = nullptr;
+    QBluetoothDeviceDiscoveryAgent *m_discoveryAgent  = nullptr;
     BluetoothDeviceInfos *m_deviceInfos;
 
-    bool m_discovering;
+    bool m_discovering = false;
+    bool m_bluetoothAvailable = false;
+    bool m_bluetoothEnabled = false;
 
+    void setBluetoothAvailable(bool available);
     void setDiscovering(bool discovering);
 
 signals:
-    void discoveringChanged();
+    void bluetoothAvailableChanged(bool bluetoothAvailable);
+    void bluetoothEnabledChanged(bool bluetoothEnabled);
+
+    void discoveringChanged(bool discovering);
 
 private slots:
+    void onBluetoothHostModeChanged(const QBluetoothLocalDevice::HostMode &hostMode);
     void deviceDiscovered(const QBluetoothDeviceInfo &deviceInfo);
     void discoveryFinished();
     void onError(const QBluetoothDeviceDiscoveryAgent::Error &error);
