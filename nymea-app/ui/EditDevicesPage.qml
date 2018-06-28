@@ -17,6 +17,34 @@ Page {
         }
     }
 
+    QtObject {
+        id: d
+        property var deviceToRemove: null
+    }
+
+    Connections {
+        target: Engine.deviceManager
+        onRemoveDeviceReply: {
+            if (!d.deviceToRemove) {
+                return;
+            }
+
+            switch (params.deviceError) {
+            case "DeviceErrorNoError":
+                d.deviceToRemove = null;
+                return;
+            case "DeviceErrorDeviceInRule":
+                var removeMethodComponent = Qt.createComponent(Qt.resolvedUrl("components/RemoveDeviceMethodDialog.qml"))
+                var popup = removeMethodComponent.createObject(root, {device: d.deviceToRemove, rulesList: params["ruleIds"]});
+                popup.open();
+                return;
+            default:
+                var popup = errorDialog.createObject(root, {errorCode: params.deviceError})
+                popup.open();
+            }
+        }
+    }
+
     ListView {
         anchors.fill: parent
         model: Engine.deviceManager.devices
@@ -28,7 +56,8 @@ Page {
                 pageStack.push(Qt.resolvedUrl("devicepages/ConfigureThingPage.qml"), {device: Engine.deviceManager.devices.get(index)})
             }
             onDeleteClicked: {
-                Engine.deviceManager.removeDevice(Engine.deviceManager.devices.get(index).id)
+                d.deviceToRemove = Engine.deviceManager.devices.get(index);
+                Engine.deviceManager.removeDevice(d.deviceToRemove.id)
             }
         }
     }

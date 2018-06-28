@@ -212,5 +212,6 @@
         <file>ui/mainviews/DevicesPageDelegate.qml</file>
         <file>ui/components/AutoSizeMenu.qml</file>
         <file>ui/components/EmptyViewPlaceholder.qml</file>
+        <file>ui/components/RemoveDeviceMethodDialog.qml</file>
     </qresource>
 </RCC>

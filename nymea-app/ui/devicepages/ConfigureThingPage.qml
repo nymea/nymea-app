@@ -47,7 +47,7 @@ Page {
                 pageStack.pop();
                 return;
             case "DeviceErrorDeviceInRule":
-                var popup = removeMethodComponent.createObject(root, {rulesList: params["ruleIds"]});
+                var popup = removeMethodComponent.createObject(root, {device: root.device, rulesList: params["ruleIds"]});
                 popup.open();
                 return;
             default:
@@ -117,67 +117,8 @@ Page {
 
     Component {
         id: removeMethodComponent
-        Dialog {
-            id: removeMethodDialog
-            width: Math.min(parent.width * .8, contentLabel.implicitWidth + app.margins * 2)
-            x: (parent.width - width) / 2
-            y: (parent.height - height) / 2
-            modal: true
+        RemoveDeviceMethodDialog {
 
-            property var rulesList: null
-
-            ColumnLayout {
-                width: parent.width
-                Label {
-                    id: contentLabel
-                    text: qsTr("This thing is currently used in one or more rules:")
-                    Layout.fillWidth: true
-                    wrapMode: Text.WordWrap
-                }
-
-                ThinDivider {}
-                ListView {
-                    Layout.fillWidth: true
-                    Layout.preferredHeight: app.iconSize * Math.min(count, 5)
-                    model: rulesList
-                    interactive: contentHeight > height
-                    delegate: Label {
-                        height: app.iconSize
-                        width: parent.width
-                        elide: Text.ElideRight
-                        text: Engine.ruleManager.rules.getRule(modelData).name
-                        verticalAlignment: Text.AlignVCenter
-                    }
-                }
-                ThinDivider {}
-
-                Button {
-                    text: qsTr("Remove all those rules")
-                    Layout.fillWidth: true
-                    onClicked: {
-                        Engine.deviceManager.removeDevice(root.device.id, DeviceManager.RemovePolicyCascade)
-                        removeMethodDialog.close()
-                        removeMethodDialog.destroy();
-                    }
-                }
-                Button {
-                    text: qsTr("Update rules, removing this thing")
-                    Layout.fillWidth: true
-                    onClicked: {
-                        Engine.deviceManager.removeDevice(root.device.id, DeviceManager.RemovePolicyUpdate)
-                        removeMethodDialog.close()
-                        removeMethodDialog.destroy();
-                    }
-                }
-                Button {
-                    text: qsTr("Don't remove this thing")
-                    Layout.fillWidth: true
-                    onClicked: {
-                        removeMethodDialog.close()
-                        removeMethodDialog.destroy();
-                    }
-                }
-            }
         }
     }
 }
