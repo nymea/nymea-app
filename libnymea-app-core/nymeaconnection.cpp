@@ -4,6 +4,7 @@
 #include <QDebug>
 #include <QSslKey>
 #include <QSettings>
+#include <QMetaEnum>
 
 #include "nymeainterface.h"
 #include "tcpsocketinterface.h"
@@ -133,8 +134,8 @@ void NymeaConnection::onSslErrors(const QList<QSslError> &errors)
 
 void NymeaConnection::onError(QAbstractSocket::SocketError error)
 {
-    qWarning() << "Socket error" << error;
-    emit connectionError();
+    QMetaEnum errorEnum = QMetaEnum::fromType<QAbstractSocket::SocketError>();
+    emit connectionError(errorEnum.valueToKey(error));
 }
 
 void NymeaConnection::onConnected()

@@ -6,6 +6,8 @@ SUBDIRS = libnymea-common libnymea-app-core nymea-app
 libnymea-app-core.depends = libnymea-common
 nymea-app.depends = libnymea-app-core
 
+#QML_IMPORT_PATH=/home/micha/Develop/Qt/5.11.0/gcc_64/qml/
+
 withtests: {
     SUBDIRS += tests
     tests.depends = libnymea-app-core

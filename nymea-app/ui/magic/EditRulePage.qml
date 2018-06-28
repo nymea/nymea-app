@@ -12,10 +12,14 @@ Page {
 
     readonly property bool isEventBased: rule.eventDescriptors.count > 0 || rule.timeDescriptor.timeEventItems.count > 0
     readonly property bool isStateBased: (rule.stateEvaluator !== null || rule.timeDescriptor.calendarItems.count > 0) && !isEventBased
-    readonly property bool actionsVisible: !isEmpty
+    readonly property bool actionsVisible: true
     readonly property bool exitActionsVisible: actionsVisible && isStateBased
+    readonly property bool hasActions: rule.actions.count > 0
     readonly property bool hasExitActions: rule.exitActions.count > 0
-    readonly property bool isEmpty: !isEventBased && !isStateBased
+    readonly property bool isEmpty: !isEventBased && !isStateBased && !hasActions
+
+    property string ruleIcon: Engine.tagsManager.tags.findRuleTag(rule.id, "icon").value
+    property string ruleColor: Engine.tagsManager.tags.findRuleTag(rule.id, "color").value
 
     signal accept();
     signal cancel();
@@ -223,6 +227,7 @@ Page {
                 Layout.leftMargin: app.margins
                 Layout.rightMargin: app.margins
                 Layout.topMargin: app.margins
+                visible: !root.isEmpty
 
                 property bool showDetails: false
 
@@ -268,6 +273,101 @@ Page {
                         }
                     }
                 }
+                RowLayout {
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: ruleSettings.showDetails ? implicitHeight : 0
+                    opacity: ruleSettings.showDetails ? 1 : 0
+                    Behavior on Layout.preferredHeight { NumberAnimation { duration: 200; easing.type: Easing.InOutQuad} }
+                    Behavior on opacity { NumberAnimation {duration: 200; easing.type: Easing.InOutQuad } }
+                    Label {
+                        Layout.fillWidth: true
+                        text: qsTr("This is a scene" + root.ruleColor, root.ruleIcon)
+                    }
+
+                    CheckBox {
+                        checked: root.rule.executable
+                        onClicked: {
+                            root.rule.executable = checked
+                        }
+                    }
+                }
+
+                GridLayout {
+                    id: colorsGrid
+                    Layout.fillWidth: true
+                    columns: (root.width / 10 < app.iconSize + app.margins) ? 5 : 10
+                    columnSpacing: app.margins
+                    rowSpacing: app.margins
+                    Layout.preferredHeight: opacity > 0 ? implicitHeight : 0
+                    opacity: Engine.jsonRpcClient.ensureServerVersion(1.6) && ruleSettings.showDetails && root.rule.executable ? 1 : 0
+                    Behavior on Layout.preferredHeight { NumberAnimation { duration: 200; easing.type: Easing.InOutQuad} }
+                    Behavior on opacity { NumberAnimation {duration: 200; easing.type: Easing.InOutQuad } }
+
+                    Repeater {
+                        model: ["red", "orange", "yellow", "lime", "green", "aqua", "skyblue", "blue", "magenta", "purple"]
+
+                        delegate: Item {
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: app.iconSize + app.margins
+                            Rectangle {
+                                height: parent.height
+                                width: height
+                                color: "transparent"
+                                border.width: 2
+                                border.color: modelData === root.ruleColor ? app.guhAccent : "transparent"
+                                anchors.centerIn: parent
+                            }
+
+                            MouseArea {
+                                anchors.fill: parent
+                                onClicked: {
+                                    root.ruleColor = modelData
+                                }
+                            }
+
+                            ColorIcon {
+                                height: app.iconSize
+                                width: app.iconSize
+                                color: modelData
+                                name: "../images/" + (root.ruleIcon ? root.ruleIcon : "slideshow") + ".svg"
+                                anchors.centerIn: parent
+                            }
+                        }
+                    }
+                    Repeater {
+                        model: ["torch-on", "torch-off", "alarm-clock", "media-preview-start", "network-secure", "notification", "sensors", "shutter-10", "mail-mark-important", "eye"]
+
+                        delegate: Item {
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: app.iconSize + app.margins
+                            Rectangle {
+                                height: parent.height
+                                width: height
+                                color: "transparent"
+                                border.width: 2
+                                border.color: modelData === root.ruleIcon ? app.guhAccent : "transparent"
+                                anchors.centerIn: parent
+                            }
+
+                            MouseArea {
+                                anchors.fill: parent
+                                onClicked: {
+                                    root.ruleIcon = modelData
+                                }
+                            }
+
+                            ColorIcon {
+                                height: app.iconSize
+                                width: app.iconSize
+                                color: root.ruleColor
+                                name: "../images/" + modelData + ".svg"
+                                anchors.centerIn: parent
+                            }
+                        }
+                    }
+
+
+                }
             }
 
             ThinDivider { visible: !root.isStateBased }
@@ -277,7 +377,7 @@ Page {
                 Layout.margins: app.margins
                 font.pixelSize: app.mediumFont
                 wrapMode: Text.WordWrap
-                text: eventsRepeater.count === 0 && timeEventRepeater.count === 0 ?
+                text: eventsRepeater.count === 0 && timeEventRepeater.count === 0 && actionsRepeater.count === 0 ?
                           qsTr("Execute actions when something happens.") :
                           qsTr("When any of these events happen...")
                 visible: !root.isStateBased
@@ -425,15 +525,27 @@ Page {
             ThinDivider { visible: root.actionsVisible }
 
             Label {
-                text: root.isStateBased ?
-                          (root.rule.stateEvaluator === 0 ? qsTr("...come true, execute those actions:") : qsTr("...comes true, execute those actions:")) :
-                          qsTr("...execute those actions:")
+                text: root.isEmpty ? qsTr("Create a scene.") :
+                                     root.isStateBased ?
+                                         (root.rule.stateEvaluator === 0 ? qsTr("...come true, execute those actions:") : qsTr("...comes true, execute those actions:")) :
+                                         qsTr("...execute those actions:")
                 font.pixelSize: app.mediumFont
                 Layout.fillWidth: true
                 Layout.margins: app.margins
                 wrapMode: Text.WordWrap
                 visible: root.actionsVisible
                 font.bold: true
+            }
+
+            Label {
+                Layout.fillWidth: true
+                Layout.leftMargin: app.margins
+                Layout.rightMargin: app.margins
+                wrapMode: Text.WordWrap
+                font.pixelSize: app.smallFont
+                font.italic: true
+                text: qsTr("Just pick some actions which will be executed when the scene is activated. Scenes are like any other magic except they can also be activated manually.")
+                visible: root.isEmpty
             }
 
             Repeater {
@@ -449,8 +561,12 @@ Page {
             Button {
                 Layout.fillWidth: true
                 Layout.margins: app.margins
-                text: actionsRepeater.count == 0 ? qsTr("Add an action...") : qsTr("Add another action...")
+                text: root.isEmpty ? qsTr("Configure...") :
+                                     actionsRepeater.count == 0 ? qsTr("Add an action...") : qsTr("Add another action...")
                 onClicked: {
+                    if (root.isEmpty) {
+                        root.rule.executable = true;
+                    }
                     var page = pageStack.push(ruleActionQuestionPageComponent, {exitAction: false});
                 }
                 visible: root.actionsVisible

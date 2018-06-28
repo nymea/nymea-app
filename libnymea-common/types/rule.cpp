@@ -24,7 +24,7 @@ Rule::Rule(const QUuid &id, QObject *parent) :
     m_exitActions(new RuleActions(this)),
     m_timeDescriptor(new TimeDescriptor(this))
 {
-    qDebug() << "### Creating rule" << this;
+//    qDebug() << "### Creating rule" << this;
 }
 
 Rule::~Rule()
@@ -76,6 +76,19 @@ void Rule::setActive(bool active)
     }
 }
 
+bool Rule::executable() const
+{
+    return m_executable;
+}
+
+void Rule::setExecutable(bool executable)
+{
+    if (m_executable != executable) {
+        m_executable = executable;
+        emit executableChanged();
+    }
+}
+
 EventDescriptors *Rule::eventDescriptors() const
 {
     return m_eventDescriptors;
@@ -123,6 +136,7 @@ Rule *Rule::clone() const
     Rule *ret = new Rule(this->id());
     ret->setName(this->name());
     ret->setEnabled(this->enabled());
+    ret->setExecutable(this->executable());
     for (int i = 0; i < this->eventDescriptors()->rowCount(); i++) {
         ret->eventDescriptors()->addEventDescriptor(this->eventDescriptors()->get(i)->clone());
     }

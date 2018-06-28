@@ -2,7 +2,7 @@ TEMPLATE=app
 TARGET=nymea-app
 include(../config.pri)
 
-QT += qml quick quickcontrols2 svg websockets bluetooth
+QT += network qml quick quickcontrols2 svg websockets bluetooth
 
 INCLUDEPATH += $$top_srcdir/libnymea-common \
                $$top_srcdir/libnymea-app-core

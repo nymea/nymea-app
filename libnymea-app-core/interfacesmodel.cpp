@@ -61,6 +61,20 @@ void InterfacesModel::setShownInterfaces(const QStringList &shownInterfaces)
     }
 }
 
+bool InterfacesModel::showUncategorized() const
+{
+    return m_showUncategorized;
+}
+
+void InterfacesModel::setShowUncategorized(bool showUncategorized)
+{
+    if (m_showUncategorized != showUncategorized) {
+        m_showUncategorized = showUncategorized;
+        emit showUncategorizedChanged();
+        syncInterfaces();
+    }
+}
+
 void InterfacesModel::syncInterfaces()
 {
     if (!m_devices) {
@@ -72,6 +86,7 @@ void InterfacesModel::syncInterfaces()
         DeviceClass *dc = Engine::instance()->deviceManager()->deviceClasses()->getDeviceClass(m_devices->get(i)->deviceClassId());
 //        qDebug() << "device" <<dc->name() << "has interfaces" << dc->interfaces();
 
+        bool isInShownIfaces = false;
         foreach (const QString &interface, dc->interfaces()) {
             if (!m_shownInterfaces.contains(interface)) {
                 continue;
@@ -80,6 +95,10 @@ void InterfacesModel::syncInterfaces()
             if (!interfacesInSource.contains(interface)) {
                 interfacesInSource.append(interface);
             }
+            isInShownIfaces = true;
+        }
+        if (!isInShownIfaces && !interfacesInSource.contains("uncategorized")) {
+            interfacesInSource.append("uncategorized");
         }
     }
     QStringList interfacesToAdd = interfacesInSource;
@@ -112,4 +131,39 @@ void InterfacesModel::rowsChanged(const QModelIndex &index, int first, int last)
     Q_UNUSED(last)
 
     syncInterfaces();
+}
+
+InterfacesSortModel::InterfacesSortModel(QObject *parent):
+    QSortFilterProxyModel(parent)
+{
+}
+
+InterfacesModel *InterfacesSortModel::interfacesModel() const
+{
+    return m_interfacesModel;
+}
+
+void InterfacesSortModel::setInterfacesModel(InterfacesModel *interfacesModel)
+{
+    if (m_interfacesModel != interfacesModel) {
+        m_interfacesModel = interfacesModel;
+        setSourceModel(interfacesModel);
+        setSortRole(Devices::RoleName);
+        sort(0);
+        emit interfacesModelChanged();
+    }
+}
+
+bool InterfacesSortModel::lessThan(const QModelIndex &left, const QModelIndex &right) const
+{
+    QVariant leftName = sourceModel()->data(left, InterfacesModel::RoleName);
+    QVariant rightName = sourceModel()->data(right, InterfacesModel::RoleName);
+
+    if (leftName == "uncategorized") {
+        return false;
+    }
+    if (rightName == "uncategorized") {
+        return true;
+    }
+    return m_interfacesModel->shownInterfaces().indexOf(leftName.toString()) < m_interfacesModel->shownInterfaces().indexOf(rightName.toString());
 }

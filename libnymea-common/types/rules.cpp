@@ -34,6 +34,8 @@ QVariant Rules::data(const QModelIndex &index, int role) const
         return m_list.at(index.row())->enabled();
     case RoleActive:
         return m_list.at(index.row())->active();
+    case RoleExecutable:
+        return m_list.at(index.row())->executable();
     }
     return QVariant();
 }
@@ -45,6 +47,7 @@ QHash<int, QByteArray> Rules::roleNames() const
     roles.insert(RoleId, "id");
     roles.insert(RoleEnabled, "enabled");
     roles.insert(RoleActive, "active");
+    roles.insert(RoleExecutable, "executable");
     return roles;
 }
 
@@ -56,6 +59,7 @@ void Rules::insert(Rule *rule)
     connect(rule, &Rule::enabledChanged, this, &Rules::ruleChanged);
     connect(rule, &Rule::activeChanged, this, &Rules::ruleChanged);
     connect(rule, &Rule::nameChanged, this, &Rules::ruleChanged);
+    connect(rule, &Rule::executableChanged, this, &Rules::ruleChanged);
     endInsertRows();
     emit countChanged();
 }
@@ -103,5 +107,5 @@ void Rules::ruleChanged()
         return;
     }
     QModelIndex modelIndex = index(idx);
-    emit dataChanged(modelIndex, modelIndex, {RoleActive, RoleEnabled, RoleName});
+    emit dataChanged(modelIndex, modelIndex, {RoleActive, RoleEnabled, RoleName, RoleExecutable});
 }

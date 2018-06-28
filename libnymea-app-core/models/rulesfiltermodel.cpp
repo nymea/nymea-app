@@ -11,7 +11,7 @@
 
 RulesFilterModel::RulesFilterModel(QObject *parent) : QSortFilterProxyModel(parent)
 {
-
+    setSortRole(Rules::RoleName);
 }
 
 Rules *RulesFilterModel::rules() const
@@ -27,6 +27,7 @@ void RulesFilterModel::setRules(Rules *rules)
         emit rulesChanged();
         invalidateFilter();
         emit countChanged();
+        sort(0);
     }
 }
 
@@ -45,6 +46,21 @@ void RulesFilterModel::setFilterDeviceId(const QString &filterDeviceId)
     }
 }
 
+bool RulesFilterModel::filterExecutable() const
+{
+    return m_filterExecutable;
+}
+
+void RulesFilterModel::setFilterExecutable(bool filterExecutable)
+{
+    if (m_filterExecutable != filterExecutable) {
+        m_filterExecutable = filterExecutable;
+        emit filterExecutableChanged();
+        invalidateFilter();
+        emit countChanged();
+    }
+}
+
 Rule *RulesFilterModel::get(int index) const
 {
     return m_rules->get(mapToSource(this->index(index, 0)).row());
@@ -53,9 +69,12 @@ Rule *RulesFilterModel::get(int index) const
 bool RulesFilterModel::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
 {
     Q_UNUSED(source_parent)
+    Rule* rule = m_rules->get(source_row);
+    if (m_filterExecutable && !rule->executable()) {
+        return false;
+    }
     bool found = true;
     if (!m_filterDeviceId.isNull()) {
-        Rule* rule = m_rules->get(source_row);
         found = false;
         for (int i = 0; i < rule->eventDescriptors()->rowCount(); i++) {
             EventDescriptor *ed = rule->eventDescriptors()->get(i);

@@ -80,9 +80,16 @@ void RuleManager::editRule(Rule *rule)
 
 }
 
+void RuleManager::executeActions(const QString &ruleId)
+{
+    QVariantMap params;
+    params.insert("ruleId", ruleId);
+    m_jsonClient->sendCommand("Rules.ExecuteActions", params, this, "onExecuteRuleActionsReply");
+}
+
 void RuleManager::handleRulesNotification(const QVariantMap &params)
 {
-//    qDebug() << "rules notification received" << params;
+    qDebug() << "rules notification received" << params;
     if (params.value("notification").toString() == "Rules.RuleAdded") {
         QVariantMap ruleMap = params.value("params").toMap().value("rule").toMap();
         m_rules->insert(parseRule(ruleMap));
@@ -124,11 +131,13 @@ void RuleManager::getRulesReply(const QVariantMap &params)
         QString name = ruleDescriptionVariant.toMap().value("name").toString();
         bool enabled = ruleDescriptionVariant.toMap().value("enabled").toBool();
         bool active = ruleDescriptionVariant.toMap().value("active").toBool();
+        bool executable = ruleDescriptionVariant.toMap().value("executable").toBool();
 
         Rule *rule = new Rule(ruleId, m_rules);
         rule->setName(name);
         rule->setEnabled(enabled);
         rule->setActive(active);
+        rule->setExecutable(executable);
         m_rules->insert(rule);
 
         QVariantMap requestParams;
@@ -156,7 +165,7 @@ void RuleManager::getRuleDetailsReply(const QVariantMap &params)
 void RuleManager::onAddRuleReply(const QVariantMap &params)
 {
     qDebug() << "Add rule reply" << params;
-    emit addRuleReply(params.value("params").toMap().value("ruleError").toString());
+    emit addRuleReply(params.value("params").toMap().value("ruleError").toString(), params.value("params").toMap().value("ruleId").toString());
 }
 
 void RuleManager::removeRuleReply(const QVariantMap &params)
@@ -171,16 +180,23 @@ void RuleManager::onEditRuleReply(const QVariantMap &params)
     emit editRuleReply(params.value("params").toMap().value("ruleError").toString());
 }
 
+void RuleManager::onExecuteRuleActionsReply(const QVariantMap &params)
+{
+    qDebug() << "Execute rule actions reply:" << params;
+}
+
 Rule *RuleManager::parseRule(const QVariantMap &ruleMap)
 {
     QUuid ruleId = ruleMap.value("id").toUuid();
     QString name = ruleMap.value("name").toString();
     bool enabled = ruleMap.value("enabled").toBool();
     bool active = ruleMap.value("active").toBool();
+    bool executable = ruleMap.value("executable").toBool();
     Rule* rule = new Rule(ruleId);
     rule->setName(name);
     rule->setEnabled(enabled);
     rule->setActive(active);
+    rule->setExecutable(executable);
     parseEventDescriptors(ruleMap.value("eventDescriptors").toList(), rule);
     parseRuleActions(ruleMap.value("actions").toList(), rule);
     parseRuleExitActions(ruleMap.value("exitActions").toList(), rule);

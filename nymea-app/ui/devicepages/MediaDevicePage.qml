@@ -5,22 +5,8 @@ import Nymea 1.0
 import "../components"
 import "../customviews"
 
-Page {
+DevicePageBase {
     id: root
-    property var device: null
-    readonly property var deviceClass: Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId)
-
-
-    header: GuhHeader {
-        text: device.name
-        onBackPressed: pageStack.pop()
-
-        HeaderButton {
-            imageSource: "../images/info.svg"
-            onClicked: pageStack.push(Qt.resolvedUrl("GenericDeviceStateDetailsPage.qml"), {device: root.device})
-        }
-    }
-
 
     ColumnLayout {
         id: contentColumn

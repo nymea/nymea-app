@@ -34,7 +34,7 @@ public:
 signals:
     void verifyConnectionCertificate(const QString &url, const QStringList &issuerInfo, const QByteArray &fingerprint);
     void connectedChanged(bool connected);
-    void connectionError();
+    void connectionError(const QString &error);
     void dataAvailable(const QByteArray &data);
 
 private slots:

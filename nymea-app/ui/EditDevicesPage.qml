@@ -33,42 +33,14 @@ Page {
         }
     }
 
-    ColumnLayout {
+    EmptyViewPlaceholder {
         anchors { left: parent.left; right: parent.right; margins: app.margins }
         anchors.verticalCenter: parent.verticalCenter
-        spacing: app.margins * 2
         visible: Engine.deviceManager.devices.count === 0 && !Engine.deviceManager.fetchingData
-        Label {
-            text: qsTr("There are no things set up yet.")
-            font.pixelSize: app.largeFont
-            Layout.fillWidth: true
-            wrapMode: Text.WordWrap
-            horizontalAlignment: Text.AlignHCenter
-            color: app.guhAccent
-        }
-        Label {
-            text: qsTr("In order for your %1 box to be useful, go ahead and add some things.").arg(app.systemName)
-            Layout.fillWidth: true
-            Layout.maximumWidth: 400
-            Layout.alignment: Qt.AlignHCenter
-            wrapMode: Text.WordWrap
-            horizontalAlignment: Text.AlignHCenter
-        }
-        Image {
-            source: "qrc:/styles/%1/logo.svg".arg(styleController.currentStyle)
-            Layout.preferredWidth: app.iconSize * 5
-            Layout.preferredHeight: width
-            Layout.alignment: Qt.AlignHCenter
-            sourceSize.width: app.iconSize * 5
-            sourceSize.height: app.iconSize * 5
-        }
-        Button {
-            Layout.fillWidth: true
-            Layout.maximumWidth: 400
-            Layout.alignment: Qt.AlignHCenter
-            text: qsTr("Add a thing")
-            onClicked: pageStack.push(Qt.resolvedUrl("NewDeviceWizard.qml"))
-        }
+        title: qsTr("There are no things set up yet.")
+        text: qsTr("In order for your %1 box to be useful, go ahead and add some things.").arg(app.systemName)
+        imageSource: "qrc:/styles/%1/logo.svg".arg(styleController.currentStyle)
+        buttonText: qsTr("Add a thing")
+        onButtonClicked: pageStack.push(Qt.resolvedUrl("NewDeviceWizard.qml"))
     }
-
 }

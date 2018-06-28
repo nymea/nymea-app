@@ -12,7 +12,7 @@ include(../config.pri)
 }
 
 QT -= gui
-QT += websockets bluetooth
+QT += network websockets bluetooth
 
 INCLUDEPATH += $$top_srcdir/libnymea-common $$top_srcdir/QtZeroConf
 
@@ -57,7 +57,9 @@ SOURCES += \
     wifisetup/wirelesssetupmanager.cpp \
     wifisetup/networkmanagercontroler.cpp \
     models/logsmodelng.cpp \
-    models/interfacesproxy.cpp
+    models/interfacesproxy.cpp \
+    tagsmanager.cpp \
+    models/tagsproxymodel.cpp
 
 HEADERS += \
     engine.h \
@@ -101,7 +103,9 @@ HEADERS += \
     wifisetup/networkmanagercontroler.h \
     libnymea-app-core.h \
     models/logsmodelng.h \
-    models/interfacesproxy.h
+    models/interfacesproxy.h \
+    tagsmanager.h \
+    models/tagsproxymodel.h
 
 unix {
     target.path = /usr/lib

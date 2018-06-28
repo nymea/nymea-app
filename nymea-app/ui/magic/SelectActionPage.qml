@@ -37,7 +37,7 @@ Page {
     Component.onCompleted: {
         actualModel.clear()
         for (var i = 0; i < actionModel.count; i++) {
-            ifaceFilterModel.filterInterface = actionModel.get(i).interfaceName;
+            ifaceFilterModel.shownInterfaces = [actionModel.get(i).interfaceName];
             if (actionModel.get(i).interfaceName === "" || ifaceFilterModel.count > 0) {
                 actualModel.append(actionModel.get(i))
             }
@@ -253,7 +253,7 @@ Page {
                             model: DevicesProxy {
                                 id: lightsModel
                                 devices: Engine.deviceManager.devices
-                                filterInterface: "light"
+                                shownInterfaces: ["light"]
                             }
                             delegate: CheckDelegate {
                                 width: parent.width
@@ -338,7 +338,7 @@ Page {
                             model: DevicesProxy {
                                 id: notificationsModel
                                 devices: Engine.deviceManager.devices
-                                filterInterface: "notifications"
+                                shownInterfaces: ["notifications"]
                             }
                             delegate: CheckDelegate {
                                 width: parent.width

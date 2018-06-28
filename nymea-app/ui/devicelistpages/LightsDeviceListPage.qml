@@ -5,7 +5,7 @@ import Nymea 1.0
 import "../components"
 
 Page {
-    property alias filterInterface: devicesProxy.filterInterface
+    property alias shownInterfaces: devicesProxy.shownInterfaces
     header: GuhHeader {
         text: qsTr("Lights")
         onBackPressed: pageStack.pop()
@@ -48,6 +48,7 @@ Page {
             }
 
             delegate: ItemDelegate {
+                id: itemDelegate
                 width: parent.width
                 height: childrenRect.height
                 property var device: devicesProxy.get(index);
@@ -67,9 +68,9 @@ Page {
                         ThrottledSlider {
                             id: inlineSlider
                             visible: model.interfaces.indexOf("dimmablelight") >= 0 && parent.width > 350
-                            property var stateType: deviceClass.stateTypes.findByName("brightness");
-                            property var actionType: deviceClass.actionTypes.findByName("brightness");
-                            property var actionState: device.states.getState(stateType.id)
+                            property var stateType: itemDelegate.deviceClass.stateTypes.findByName("brightness");
+                            property var actionType: itemDelegate.deviceClass.actionTypes.findByName("brightness");
+                            property var actionState: itemDelegate.device.states.getState(stateType.id)
                             from: 0; to: 100
                             value: actionState.value
                             onMoved: {
@@ -82,9 +83,9 @@ Page {
                             }
                         }
                         Switch {
-                            property var stateType: deviceClass.stateTypes.findByName("power");
-                            property var actionType: deviceClass.actionTypes.findByName("power");
-                            property var actionState: device.states.getState(stateType.id)
+                            property var stateType: itemDelegate.deviceClass.stateTypes.findByName("power");
+                            property var actionType: itemDelegate.deviceClass.actionTypes.findByName("power");
+                            property var actionState: itemDelegate.device.states.getState(stateType.id)
                             checked: actionState.value === true
                             onClicked: {
                                 var params = [];

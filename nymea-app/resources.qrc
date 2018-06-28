@@ -2,7 +2,7 @@
     <qresource prefix="/">
         <file>ui/Nymea.qml</file>
         <file>ui/ConnectPage.qml</file>
-        <file>ui/DevicesPage.qml</file>
+        <file>ui/mainviews/DevicesPage.qml</file>
         <file>ui/NewDeviceWizard.qml</file>
         <file>ui/SettingsPage.qml</file>
         <file>ui/components/GuhHeader.qml</file>
@@ -203,5 +203,14 @@
         <file>ui/images/rpi-setup.svg</file>
         <file>ui/images/eye.svg</file>
         <file>ui/images/private-browsing.svg</file>
+        <file>ui/images/starred.svg</file>
+        <file>ui/images/non-starred.svg</file>
+        <file>ui/images/slideshow.svg</file>
+        <file>ui/components/MainPageTabButton.qml</file>
+        <file>ui/mainviews/ScenesView.qml</file>
+        <file>ui/mainviews/FavoritesView.qml</file>
+        <file>ui/mainviews/DevicesPageDelegate.qml</file>
+        <file>ui/components/AutoSizeMenu.qml</file>
+        <file>ui/components/EmptyViewPlaceholder.qml</file>
     </qresource>
 </RCC>

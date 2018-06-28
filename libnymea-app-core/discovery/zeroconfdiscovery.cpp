@@ -44,7 +44,7 @@ void ZeroconfDiscovery::serviceEntryAdded(const QZeroConfService &entry)
     if (!entry.name().startsWith("nymea") || entry.ip().isNull()) {
         return;
     }
-    qDebug() << "zeroconf service discovered" << entry << entry.txt() << entry.type();
+//    qDebug() << "zeroconf service discovered" << entry << entry.txt() << entry.type();
 
     QString uuid;
     bool sslEnabled = false;
@@ -65,14 +65,14 @@ void ZeroconfDiscovery::serviceEntryAdded(const QZeroConfService &entry)
             version = txtRecord.second;
         }
     }
-    qDebug() << "avahi service entry added" << serverName << uuid << sslEnabled;
+//    qDebug() << "avahi service entry added" << serverName << uuid << sslEnabled;
 
 
     DiscoveryDevice* device = m_discoveryModel->find(uuid);
     if (!device) {
         device = new DiscoveryDevice(m_discoveryModel);
         device->setUuid(uuid);
-        qDebug() << "Adding new host to model";
+//        qDebug() << "Adding new host to model";
         m_discoveryModel->addDevice(device);
     }
     device->setHostAddress(entry.ip());
@@ -80,7 +80,7 @@ void ZeroconfDiscovery::serviceEntryAdded(const QZeroConfService &entry)
     device->setVersion(version);
     PortConfig *portConfig = device->portConfigs()->find(entry.port());
     if (!portConfig) {
-        qDebug() << "Adding new port config";
+//        qDebug() << "Adding new port config";
         portConfig = new PortConfig(entry.port());
         device->portConfigs()->insert(portConfig);
     }

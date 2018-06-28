@@ -16,13 +16,55 @@ Page {
         onBackPressed: pageStack.pop()
 
         HeaderButton {
-            imageSource: "../images/magic.svg"
-            onClicked: pageStack.push(Qt.resolvedUrl("../magic/DeviceRulesPage.qml"), {device: root.device})
+            imageSource: "../images/navigation-menu.svg"
+            onClicked: thingMenu.open();
+        }
+    }
+
+    TagsProxyModel {
+        id: favoritesProxy
+        filterDeviceId: root.device.id
+        filterTagId: "favorites"
+    }
+
+    AutoSizeMenu {
+        id: thingMenu
+        x: parent.width - width
+
+        Component.onCompleted: {
+            thingMenu.addItem(menuEntryComponent.createObject(thingMenu, {text: qsTr("Magic"), iconSource: "../images/magic.svg", functionName: "openDeviceMagicPage"}))
+
+            thingMenu.addItem(menuEntryComponent.createObject(thingMenu, {text: qsTr("Thing details"), iconSource: "../images/info.svg", functionName: "openDeviceInfoPage"}))
+            if (Engine.jsonRpcClient.ensureServerVersion(1.6)) {
+                thingMenu.addItem(menuEntryComponent.createObject(thingMenu,
+                    {
+                        text: Qt.binding(function() { return favoritesProxy.count === 0 ? qsTr("Mark as favorite") : qsTr("Remove from favorites")}),
+                        iconSource: Qt.binding(function() { return favoritesProxy.count === 0 ? "../images/starred.svg" : "../images/non-starred.svg"}),
+                        functionName: "toggleFavorite"
+                    }))
+            }
+        }
+        function openDeviceMagicPage() {
+            pageStack.push(Qt.resolvedUrl("../magic/DeviceRulesPage.qml"), {device: root.device})
+        }
+        function openDeviceInfoPage() {
+            pageStack.push(Qt.resolvedUrl("GenericDeviceStateDetailsPage.qml"), {device: root.device})
+        }
+        function toggleFavorite() {
+            if (favoritesProxy.count === 0) {
+                Engine.tagsManager.tagDevice(root.device.id, "favorites", 100000)
+            } else {
+                Engine.tagsManager.untagDevice(root.device.id, "favorites")
+            }
         }
 
-        HeaderButton {
-            imageSource: "../images/info.svg"
-            onClicked: pageStack.push(Qt.resolvedUrl("GenericDeviceStateDetailsPage.qml"), {device: root.device})
+        Component {
+            id: menuEntryComponent
+            IconMenuItem {
+                width: parent.width
+                property string functionName: ""
+                onTriggered: thingMenu[functionName]()
+            }
         }
     }
 

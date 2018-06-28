@@ -7,7 +7,8 @@ import "../delegates"
 
 Page {
     id: subPage
-    property alias filterInterface: devicesProxy.filterInterface
+    property alias shownInterfaces: devicesProxy.shownInterfaces
+    property alias hiddenInterfaces: devicesProxy.hiddenInterfaces
 
     Component.onCompleted: {
         if (devicesProxy.count == 1) {
@@ -17,9 +18,12 @@ Page {
 
     header: GuhHeader {
         text: {
-            if (subPage.filterInterface.length > 0) {
+            if (subPage.shownInterfaces.length === 1) {
                 return qsTr("My %1 things").arg(interfaceToString(subPage.filterInterface))
+            } else if (subPage.shownInterfaces.length > 1) {
+                return qsTr("My things")
             }
+
             return qsTr("All my things")
         }
 
@@ -32,24 +36,7 @@ Page {
     function enterPage(index, replace) {
         var device = devicesProxy.get(index);
         var deviceClass = Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
-        var page;
-        if (deviceClass.interfaces.indexOf("media") >= 0) {
-            page = "MediaDevicePage.qml";
-        } else if (deviceClass.interfaces.indexOf("button") >= 0) {
-            page = "ButtonDevicePage.qml";
-        } else if (deviceClass.interfaces.indexOf("weather") >= 0) {
-            page = "WeatherDevicePage.qml";
-        } else if (deviceClass.interfaces.indexOf("sensor") >= 0) {
-            page = "SensorDevicePage.qml";
-        } else if (deviceClass.interfaces.indexOf("inputtrigger") >= 0) {
-            page = "InputTriggerDevicePage.qml";
-        } else if (deviceClass.interfaces.indexOf("shutter") >= 0 ) {
-            page = "ShutterDevicePage.qml";
-        } else if (deviceClass.interfaces.indexOf("garagegate") >= 0 ) {
-            page = "GarageGateDevicePage.qml";
-        } else {
-            page = "GenericDevicePage.qml";
-        }
+        var page = app.interfaceListToDevicePage(deviceClass.interfaces);
         if (replace) {
             pageStack.replace(Qt.resolvedUrl("../devicepages/" + page), {device: devicesProxy.get(index)})
         } else {

@@ -34,8 +34,9 @@ class DevicesProxy : public QSortFilterProxyModel
     Q_OBJECT
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
     Q_PROPERTY(Devices *devices READ devices WRITE setDevices NOTIFY devicesChanged)
-    Q_PROPERTY(DeviceClass::BasicTag filterTag READ filterTag WRITE setFilterTag NOTIFY filterTagChanged)
-    Q_PROPERTY(QString filterInterface READ filterInterface WRITE setFilterInterface NOTIFY filterInterfaceChanged)
+    Q_PROPERTY(QString filterTagId READ filterTagId WRITE setFilterTagId NOTIFY filterTagIdChanged)
+    Q_PROPERTY(QStringList shownInterfaces READ shownInterfaces WRITE setShownInterfaces NOTIFY shownInterfacesChanged)
+    Q_PROPERTY(QStringList hiddenInterfaces READ hiddenInterfaces WRITE setHiddenInterfaces NOTIFY hiddenInterfacesChanged)
 
 public:
     explicit DevicesProxy(QObject *parent = 0);
@@ -43,24 +44,29 @@ public:
     Devices *devices() const;
     void setDevices(Devices *devices);
 
-    DeviceClass::BasicTag filterTag() const;
-    void setFilterTag(DeviceClass::BasicTag filterTag);
+    QString filterTagId() const;
+    void setFilterTagId(const QString &filterTag);
 
-    QString filterInterface() const;
-    void setFilterInterface(const QString &filterInterface);
+    QStringList shownInterfaces() const;
+    void setShownInterfaces(const QStringList &shownInterfaces);
+
+    QStringList hiddenInterfaces() const;
+    void setHiddenInterfaces(const QStringList &hiddenInterfaces);
 
     Q_INVOKABLE Device *get(int index) const;
 
 signals:
     void devicesChanged();
-    void filterTagChanged();
-    void filterInterfaceChanged();
+    void filterTagIdChanged();
+    void shownInterfacesChanged();
+    void hiddenInterfacesChanged();
     void countChanged();
 
 private:
     Devices *m_devices = nullptr;
-    DeviceClass::BasicTag m_filterTag = DeviceClass::BasicTagNone;
-    QString m_filterInterface;
+    QString m_filterTagId;
+    QStringList m_shownInterfaces;
+    QStringList m_hiddenInterfaces;
 
 protected:
     bool lessThan(const QModelIndex &left, const QModelIndex &right) const Q_DECL_OVERRIDE;

@@ -28,6 +28,20 @@ Page {
             popup.open();
         }
         onConnectionError: {
+            var errorMessage;
+            switch (error) {
+            case "ConnectionRefusedError":
+                errorMessage = qsTr("The host has rejected our connection. This probably means that %1 stopped running. Did you unplug your %1 box?").arg(app.systemName);
+                break;
+            case "SslInvalidUserDataError":
+            case "SslHandshakeFailedError":
+                // silently ignore. They'll be handled by the SSL logic
+                return;
+            }
+            var comp = Qt.createComponent(Qt.resolvedUrl("components/ErrorDialog.qml"))
+            var popup = comp.createObject(app, {text: errorMessage})
+            popup.open()
+
             pageStack.pop(root)
             pageStack.push(discoveryPage)
         }

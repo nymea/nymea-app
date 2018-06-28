@@ -31,6 +31,7 @@ ApplicationWindow {
         property bool darkTheme: false
         property string graphStyle: "bars"
         property string style: "light"
+        property int currentMainViewIndex: 0
     }
 
     Component.onCompleted: {
@@ -103,6 +104,12 @@ ApplicationWindow {
         }
     }
 
+    // Workaround flickering on pageStack animations when the white background shines through
+    Rectangle {
+        anchors.fill: parent
+        color: Material.background
+    }
+
     StackView {
         id: pageStack
         objectName: "pageStack"
@@ -138,6 +145,7 @@ ApplicationWindow {
         }
     }
 
+    property var supportedInterfaces: ["light", "weather", "sensor", "media", "garagegate", "shutter", "garagegate", "button", "notifications", "inputtrigger", "outputtrigger", "gateway"]
     function interfaceToString(name) {
         switch(name) {
         case "light":
@@ -168,6 +176,8 @@ ApplicationWindow {
             return qsTr("Blinds");
         case "garagegate":
             return qsTr("Garage gates");
+        case "uncategorized":
+            return qsTr("Uncategorized")
         }
     }
 
@@ -222,6 +232,8 @@ ApplicationWindow {
             return Qt.resolvedUrl("images/shutter-10.svg")
         case "battery":
             return Qt.resolvedUrl("images/battery/battery-050.svg")
+        case "uncategorized":
+            return Qt.resolvedUrl("images/select-none.svg")
         }
         return "";
     }
@@ -234,6 +246,28 @@ ApplicationWindow {
             return "deepskyblue";
         }
         return "grey";
+    }
+
+    function interfaceListToDevicePage(interfaceList) {
+        var page;
+        if (interfaceList.indexOf("media") >= 0) {
+            page = "MediaDevicePage.qml";
+        } else if (interfaceList.indexOf("button") >= 0) {
+            page = "ButtonDevicePage.qml";
+        } else if (interfaceList.indexOf("weather") >= 0) {
+            page = "WeatherDevicePage.qml";
+        } else if (interfaceList.indexOf("sensor") >= 0) {
+            page = "SensorDevicePage.qml";
+        } else if (interfaceList.indexOf("inputtrigger") >= 0) {
+            page = "InputTriggerDevicePage.qml";
+        } else if (interfaceList.indexOf("shutter") >= 0 ) {
+            page = "ShutterDevicePage.qml";
+        } else if (interfaceList.indexOf("garagegate") >= 0 ) {
+            page = "GarageGateDevicePage.qml";
+        } else {
+            page = "GenericDevicePage.qml";
+        }
+        return page;
     }
 
     Component {

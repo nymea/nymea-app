@@ -31,6 +31,7 @@ public:
     Q_INVOKABLE void addRule(Rule *rule);
     Q_INVOKABLE void removeRule(const QUuid &ruleId);
     Q_INVOKABLE void editRule(Rule *rule);
+    Q_INVOKABLE void executeActions(const QString &ruleId);
 
 private slots:
     void handleRulesNotification(const QVariantMap &params);
@@ -39,6 +40,7 @@ private slots:
     void onAddRuleReply(const QVariantMap &params);
     void removeRuleReply(const QVariantMap &params);
     void onEditRuleReply(const QVariantMap &params);
+    void onExecuteRuleActionsReply(const QVariantMap &params);
 
 private:
     Rule *parseRule(const QVariantMap &ruleMap);
@@ -50,7 +52,7 @@ private:
     void parseTimeDescriptor(const QVariantMap &timeDescriptor, Rule *rule);
 
 signals:
-    void addRuleReply(const QString &ruleError);
+    void addRuleReply(const QString &ruleError, const QString &ruleId);
     void editRuleReply(const QString &ruleError);
 
 private:

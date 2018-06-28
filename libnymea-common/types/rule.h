@@ -16,6 +16,7 @@ class Rule : public QObject
     Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
     Q_PROPERTY(bool enabled READ enabled WRITE setEnabled NOTIFY enabledChanged)
     Q_PROPERTY(bool active READ active NOTIFY activeChanged)
+    Q_PROPERTY(bool executable READ executable WRITE setExecutable NOTIFY executableChanged)
     Q_PROPERTY(EventDescriptors* eventDescriptors READ eventDescriptors CONSTANT)
     Q_PROPERTY(StateEvaluator* stateEvaluator READ stateEvaluator WRITE setStateEvaluator NOTIFY stateEvaluatorChanged)
     Q_PROPERTY(RuleActions* actions READ actions CONSTANT)
@@ -36,6 +37,9 @@ public:
     bool active() const;
     void setActive(bool active);
 
+    bool executable() const;
+    void setExecutable(bool executable);
+
     EventDescriptors* eventDescriptors() const;
     StateEvaluator *stateEvaluator() const;
     RuleActions* actions() const;
@@ -52,6 +56,7 @@ signals:
     void nameChanged();
     void enabledChanged();
     void activeChanged();
+    void executableChanged();
     void stateEvaluatorChanged();
 
 private:
@@ -59,6 +64,7 @@ private:
     QString m_name;
     bool m_enabled = true;
     bool m_active = false;
+    bool m_executable = false;
     EventDescriptors *m_eventDescriptors = nullptr;
     StateEvaluator *m_stateEvaluator = nullptr;
     RuleActions *m_actions = nullptr;

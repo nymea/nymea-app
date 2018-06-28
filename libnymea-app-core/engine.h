@@ -30,6 +30,7 @@
 
 class RuleManager;
 class LogManager;
+class TagsManager;
 class BasicConfiguration;
 
 class Engine : public QObject
@@ -38,6 +39,7 @@ class Engine : public QObject
     Q_PROPERTY(NymeaConnection* connection READ connection CONSTANT)
     Q_PROPERTY(DeviceManager* deviceManager READ deviceManager CONSTANT)
     Q_PROPERTY(RuleManager* ruleManager READ ruleManager CONSTANT)
+    Q_PROPERTY(TagsManager* tagsManager READ tagsManager CONSTANT)
     Q_PROPERTY(JsonRpcClient* jsonRpcClient READ jsonRpcClient CONSTANT)
     Q_PROPERTY(BasicConfiguration* basicConfiguration READ basicConfiguration CONSTANT)
     Q_PROPERTY(BluetoothDiscovery* bluetoothDiscovery READ bluetoothDiscovery CONSTANT)
@@ -51,6 +53,7 @@ public:
     NymeaConnection *connection() const;
     DeviceManager *deviceManager() const;
     RuleManager *ruleManager() const;
+    TagsManager *tagsManager() const;
     JsonRpcClient *jsonRpcClient() const;
     LogManager *logManager() const;
     BasicConfiguration *basicConfiguration() const;
@@ -65,11 +68,13 @@ private:
     DeviceManager *m_deviceManager;
     RuleManager *m_ruleManager;
     LogManager *m_logManager;
+    TagsManager *m_tagsManager;
     BasicConfiguration *m_basicConfiguration;
     BluetoothDiscovery *m_bluetoothDiscovery;
 
 private slots:
     void onConnectedChanged();
+    void onDeviceManagerFetchingChanged();
 
 };
 

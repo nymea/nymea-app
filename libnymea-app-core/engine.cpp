@@ -23,6 +23,7 @@
 #include "tcpsocketinterface.h"
 #include "rulemanager.h"
 #include "logmanager.h"
+#include "tagsmanager.h"
 #include "basicconfiguration.h"
 
 Engine* Engine::s_instance = 0;
@@ -43,6 +44,11 @@ DeviceManager *Engine::deviceManager() const
 RuleManager *Engine::ruleManager() const
 {
     return m_ruleManager;
+}
+
+TagsManager *Engine::tagsManager() const
+{
+    return m_tagsManager;
 }
 
 JsonRpcClient *Engine::jsonRpcClient() const
@@ -77,11 +83,14 @@ Engine::Engine(QObject *parent) :
     m_deviceManager(new DeviceManager(m_jsonRpcClient, this)),
     m_ruleManager(new RuleManager(m_jsonRpcClient, this)),
     m_logManager(new LogManager(m_jsonRpcClient, this)),
+    m_tagsManager(new TagsManager(m_jsonRpcClient, this)),
     m_basicConfiguration(new BasicConfiguration(m_jsonRpcClient, this)),
     m_bluetoothDiscovery(new BluetoothDiscovery(this))
 {
     connect(m_jsonRpcClient, &JsonRpcClient::connectedChanged, this, &Engine::onConnectedChanged);
     connect(m_jsonRpcClient, &JsonRpcClient::authenticationRequiredChanged, this, &Engine::onConnectedChanged);
+
+    connect(m_deviceManager, &DeviceManager::fetchingDataChanged, this, &Engine::onDeviceManagerFetchingChanged);
 }
 
 void Engine::onConnectedChanged()
@@ -96,5 +105,12 @@ void Engine::onConnectedChanged()
             m_ruleManager->init();
             m_basicConfiguration->init();
         }
+    }
+}
+
+void Engine::onDeviceManagerFetchingChanged()
+{
+    if (!m_deviceManager->fetchingData()) {
+        m_tagsManager->init();
     }
 }

@@ -1,16 +1,17 @@
 import QtQuick 2.8
-import QtQuick.Controls 2.1
+import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.1
 import QtQuick.Layouts 1.2
 import Nymea 1.0
 import "components"
 import "delegates"
+import "mainviews"
 
 Page {
     id: root
 
     header: GuhHeader {
-        text: qsTr("My things")
+        text: swipeView.currentItem.title
         backButtonVisible: false
         menuButtonVisible: true
         onMenuPressed: mainMenu.open()
@@ -36,72 +37,134 @@ Page {
     //        }
     //    }
 
-    Menu {
+    AutoSizeMenu {
         id: mainMenu
-        width: implicitWidth + app.margins
         IconMenuItem {
             iconSource: "../images/share.svg"
             text: qsTr("Configure things")
+            width: parent.width
             onTriggered: pageStack.push(Qt.resolvedUrl("EditDevicesPage.qml"))
         }
-//        MenuSeparator {}
         IconMenuItem {
             iconSource: "../images/magic.svg"
             text: qsTr("Magic")
+            width: parent.width
             onTriggered: pageStack.push(Qt.resolvedUrl("MagicPage.qml"))
         }
-        MenuSeparator {}
+        MenuSeparator { width: parent.width }
         IconMenuItem {
             iconSource: "../images/settings.svg"
             text: qsTr("System settings")
+            width: parent.width
             onTriggered: pageStack.push(Qt.resolvedUrl("SettingsPage.qml"))
         }
-        MenuSeparator {}
+        MenuSeparator { width: parent.width }
         IconMenuItem {
             iconSource: "../images/stock_application.svg"
             text: qsTr("App settings")
+            width: parent.width
             onTriggered: pageStack.push(Qt.resolvedUrl("AppSettingsPage.qml"))
         }
     }
 
-    InterfacesModel {
-        id: page1Model
-        devices: Engine.deviceManager.devices
-        shownInterfaces: ["light", "weather", "sensor", "media", "garagegate", "shutter", "garagegate"]
-        property var view: null
-        onCountChanged: buildView()
-    }
-    InterfacesModel {
-        id: page2Model
-        devices: Engine.deviceManager.devices
-        shownInterfaces: ["gateway", "button", "notifications", "inputtrigger", "outputtrigger"]
-        property var view: null
-        onCountChanged: buildView()
-    }
+    ColumnLayout {
+        anchors.fill: parent
 
-    Component {
-        id: devicePageComponent
-        DevicesPage {
-            width: swipeView.width
-            height: swipeView.height
-            visible: count > 0
-        }
-    }
+        Item {
+            Layout.fillWidth: true
+            Layout.fillHeight: true
 
-    Component {
-        id: allDevicesComponent
-        ListView {
-            width: swipeView.width
-            height: swipeView.height
-            model: DevicesProxy {
-                id: devicesProxy
-                devices: Engine.deviceManager.devices
-            }
-            delegate: ThingDelegate {
-                interfaces: model.interfaces
-                name: model.name
-                onClicked: {
-                    pageStack.push(Qt.resolvedUrl("devicepages/GenericDevicePage.qml"), {device: devicesProxy.get(index)})
+            SwipeView {
+                id: swipeView
+                clip: true
+                anchors.fill: parent
+                currentIndex: settings.currentMainViewIndex
+                onCurrentIndexChanged: settings.currentMainViewIndex = currentIndex
+                opacity: Engine.deviceManager.fetchingData ? 0 : 1
+                Behavior on opacity { NumberAnimation { duration: 300 } }
+
+                Component.onCompleted:  {
+                    if (Engine.jsonRpcClient.ensureServerVersion(1.6)) {
+                        swipeView.insertItem(0, favoritesViewComponent.createObject(swipeView))
+                    } else if (settings.currentMainViewIndex === 2) {
+                        settings.currentMainViewIndex = 0;
+                    }
+                }
+
+                Component {
+                    id: favoritesViewComponent
+                    FavoritesView {
+                        id: favoritesView
+                        width: swipeView.width
+                        height: swipeView.height
+                        property string title: qsTr("My favorites")
+
+                        EmptyViewPlaceholder {
+                            anchors { left: parent.left; right: parent.right; margins: app.margins }
+                            anchors.verticalCenter: parent.verticalCenter
+                            visible: favoritesView.count === 0 && !Engine.deviceManager.fetchingData
+                            title: qsTr("There are no favorite things yet.")
+                            text: Engine.deviceManager.devices.count === 0 ?
+                                      qsTr("It appears there are no things set up either yet. In order to use favorites you need to add some things first.") :
+                                      qsTr("Favorites allow you to keep track of your most important things when you have lots of them. Watch out for the star when interacting with things and use it to mark them as your favorites.")
+                            imageSource: "images/starred.svg"
+                            buttonVisible: Engine.deviceManager.devices.count === 0
+                            buttonText: qsTr("Add a thing")
+                            onButtonClicked: pageStack.push(Qt.resolvedUrl("NewDeviceWizard.qml"))
+                        }
+
+                    }
+                }
+
+                DevicesPage {
+                    property string title: qsTr("My things");
+                    width: swipeView.width
+                    height: swipeView.height
+                    model: InterfacesSortModel {
+                        interfacesModel: InterfacesModel {
+                            devices: Engine.deviceManager.devices
+                            shownInterfaces: app.supportedInterfaces
+                        }
+                    }
+
+                    EmptyViewPlaceholder {
+                        anchors { left: parent.left; right: parent.right; margins: app.margins }
+                        anchors.verticalCenter: parent.verticalCenter
+                        visible: Engine.deviceManager.devices.count === 0 && !Engine.deviceManager.fetchingData
+                        title: qsTr("Welcome to %1!").arg(app.systemName)
+                        // Have that split in 2 because we need those strings separated in EditDevicesPage too and don't want translators to do them twice
+                        text: qsTr("There are no things set up yet.") + "\n" + qsTr("In order for your %1 box to be useful, go ahead and add some things.").arg(app.systemName)
+                        imageSource: "qrc:/styles/%1/logo.svg".arg(styleController.currentStyle)
+                        buttonText: qsTr("Add a thing")
+                        onButtonClicked: pageStack.push(Qt.resolvedUrl("NewDeviceWizard.qml"))
+                    }
+                }
+
+                ScenesView {
+                    id: scenesView
+                    property string title: qsTr("My scenes");
+                    width: swipeView.width
+                    height: swipeView.height
+
+                    EmptyViewPlaceholder {
+                        anchors { left: parent.left; right: parent.right; margins: app.margins }
+                        anchors.verticalCenter: parent.verticalCenter
+                        visible: scenesView.count === 0 && !Engine.deviceManager.fetchingData
+                        title: qsTr("There are no scenes set up yet")
+                        text: Engine.deviceManager.devices.count === 0 ?
+                                  qsTr("It appears there are no things set up either yet. In order to use scenes you need to add some things first.") :
+                                  qsTr("Scenes provide a useful way to control your things with just one click.")
+                        imageSource: "images/slideshow.svg"
+                        buttonText: Engine.deviceManager.devices.count === 0 ? qsTr("Add a thing") : qsTr("Add a scene")
+                        onButtonClicked: {
+                            if (Engine.deviceManager.devices.count === 0) {
+                                pageStack.push(Qt.resolvedUrl("NewDeviceWizard.qml"))
+                            } else {
+                                var page = pageStack.push(Qt.resolvedUrl("MagicPage.qml"))
+                                page.addRule()
+                            }
+                        }
+                    }
                 }
             }
 
@@ -121,91 +184,36 @@ Page {
                     horizontalAlignment: Text.AlignHCenter
                 }
             }
+        }
 
-            ColumnLayout {
-                anchors { left: parent.left; right: parent.right; margins: app.margins }
-                anchors.verticalCenter: parent.verticalCenter
-                spacing: app.margins * 2
-                visible: Engine.deviceManager.devices.count === 0 && !Engine.deviceManager.fetchingData
-                Label {
-                    text: qsTr("Welcome to %1!").arg(app.systemName)
-                    font.pixelSize: app.largeFont
-                    Layout.fillWidth: true
-                    wrapMode: Text.WordWrap
-                    horizontalAlignment: Text.AlignHCenter
-                    color: app.guhAccent
+        TabBar {
+            id: tabBar
+            Layout.fillWidth: true
+            Material.elevation: 3
+            currentIndex: settings.currentMainViewIndex
+            position: TabBar.Footer
+            Layout.preferredHeight: 70
+            // FIXME: All this can go away when we require Controls 2.3 (Qt 5.10) or greater as TabBar got a major rework there.
+            // Ideally we'd just list the 3 items and set visible to false if the server version isn't good enough but TabBar
+            // has troubles dealing with that. For now, let's manually fill it and use a timer to initialize the currentIndex.
+            Component.onCompleted: {
+                var pi = 0;
+                if (Engine.jsonRpcClient.ensureServerVersion(1.6)) {
+                    tabEntryComponent.createObject(tabBar, {text: qsTr("Favorites"), iconSource: "../images/starred.svg", pageIndex: pi++})
                 }
-                Label {
-                    text: qsTr("There are no things set up yet. In order for your %1 box to be useful, go ahead and add some things.").arg(app.systemName)
-                    Layout.fillWidth: true
-                    Layout.maximumWidth: 400
-                    Layout.alignment: Qt.AlignHCenter
-                    wrapMode: Text.WordWrap
-                    horizontalAlignment: Text.AlignHCenter
-                }
-                Image {
-                    source: "qrc:/styles/%1/logo.svg".arg(styleController.currentStyle)
-                    Layout.preferredWidth: app.iconSize * 5
-                    Layout.preferredHeight: width
-                    Layout.alignment: Qt.AlignHCenter
-                    sourceSize.width: app.iconSize * 5
-                    sourceSize.height: app.iconSize * 5
-                }
-                Button {
-                    Layout.fillWidth: true
-                    Layout.maximumWidth: 400
-                    Layout.alignment: Qt.AlignHCenter
-                    text: qsTr("Add a thing")
-                    onClicked: pageStack.push(Qt.resolvedUrl("NewDeviceWizard.qml"))
+                tabEntryComponent.createObject(tabBar, {text: qsTr("Things"), iconSource: "../images/share.svg", pageIndex: pi++})
+                tabEntryComponent.createObject(tabBar, {text: qsTr("Scenes"), iconSource: "../images/slideshow.svg", pageIndex: pi++})
+                initTimer.start()
+            }
+            Timer { id: initTimer; interval: 1; repeat: false; onTriggered: tabBar.currentIndex = Qt.binding(function() {return settings.currentMainViewIndex;})}
+
+            Component {
+                id: tabEntryComponent
+                MainPageTabButton {
+                    property int pageIndex: 0
+                    onClicked: settings.currentMainViewIndex = pageIndex
                 }
             }
-        }
-    }
-
-    function buildView() {
-        var shownViews = []
-        if (page1Model.count > 0) {
-            shownViews.push(0)
-        }
-        if (page2Model.count > 0) {
-            shownViews.push(1)
-        }
-        shownViews.push(2)
-
-        if (swipeView.count === shownViews.length) {
-            return;
-        }
-
-        while (swipeView.count > 0) {
-            swipeView.removeItem(0)
-        }
-        if (shownViews.indexOf(0) >= 0) {
-            swipeView.addItem(devicePageComponent.createObject(swipeView, {model: page1Model}))
-        }
-        if (shownViews.indexOf(1) >= 0) {
-            swipeView.addItem(devicePageComponent.createObject(swipeView, {model: page2Model}))
-        }
-        swipeView.addItem(allDevicesComponent.createObject(swipeView))
-    }
-
-
-    ColumnLayout {
-        anchors.fill: parent
-
-        SwipeView {
-            id: swipeView
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            currentIndex: pageIndicator.currentIndex
-            clip: true
-        }
-
-        PageIndicator {
-            id: pageIndicator
-            Layout.alignment: Qt.AlignHCenter
-            count: swipeView.count
-            currentIndex: swipeView.currentIndex
-            interactive: true
         }
     }
 }

@@ -14,7 +14,8 @@ public:
         RoleName,
         RoleId,
         RoleEnabled,
-        RoleActive
+        RoleActive,
+        RoleExecutable
     };
     explicit Rules(QObject *parent = nullptr);
 

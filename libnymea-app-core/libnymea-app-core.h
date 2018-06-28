@@ -37,6 +37,9 @@
 #include "models/interfacesproxy.h"
 #include "basicconfiguration.h"
 #include "wifisetup/networkmanagercontroler.h"
+#include "tagsmanager.h"
+#include "models/tagsproxymodel.h"
+#include "types/tag.h"
 
 static QObject* interfacesModel_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
@@ -87,6 +90,7 @@ void registerQmlTypes() {
     qmlRegisterUncreatableType<Devices>(uri, 1, 0, "Devices", "Can't create this in QML. Get it from the DeviceManager.");
     qmlRegisterType<DevicesProxy>(uri, 1, 0, "DevicesProxy");
     qmlRegisterType<InterfacesModel>(uri, 1, 0, "InterfacesModel");
+    qmlRegisterType<InterfacesSortModel>(uri, 1, 0, "InterfacesSortModel");
 
     qmlRegisterUncreatableType<DeviceClass>(uri, 1, 0, "DeviceClass", "Can't create this in QML. Get it from the DeviceClasses.");
     qmlRegisterUncreatableType<DeviceClasses>(uri, 1, 0, "DeviceClasses", "Can't create this in QML. Get it from the DeviceManager.");
@@ -140,6 +144,11 @@ void registerQmlTypes() {
     qmlRegisterType<LogsModelNg>(uri, 1, 0, "LogsModelNg");
     qmlRegisterType<ValueLogsProxyModel>(uri, 1, 0, "ValueLogsProxyModel");
     qmlRegisterUncreatableType<LogEntry>(uri, 1, 0, "LogEntry", "Get them from LogsModel");
+
+    qmlRegisterUncreatableType<TagsManager>(uri, 1, 0, "TagsManager", "Get it from Engine");
+    qmlRegisterUncreatableType<Tags>(uri, 1, 0, "Tags", "Get it from TagsManager");
+    qmlRegisterUncreatableType<Tag>(uri, 1, 0, "Tag", "Get it from Tags");
+    qmlRegisterType<TagsProxyModel>(uri, 1, 0, "TagsProxyModel");
 
     qmlRegisterType<NetworkManagerControler>(uri, 1, 0, "NetworkManagerControler");
     qmlRegisterUncreatableType<BluetoothDiscovery>(uri, 1, 0, "BluetoothDiscovery", "Can't create this in QML. Get it from the Engine instance.");
