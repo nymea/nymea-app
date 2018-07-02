@@ -57,15 +57,13 @@ QMAKE_EXTRA_TARGETS += wininstaller
 # Install XCode and Qt clang64, add qmake directory to PATH
 # run "make osxbundle"
 osxbundle.depends = nymea-app
-osxbundle.commands += cd nymea-app && rm -f nymea-app.dmg nymea-app_writable.dmg nymea-app-osx-bundle.dmg || true &&
+osxbundle.commands += cd nymea-app && rm -f nymea-app.dmg nymea-app_writable.dmg nymea-app-osx-bundle*.dmg || true &&
 osxbundle.commands += hdiutil eject /Volumes/nymea-app || true &&
 osxbundle.commands += macdeployqt nymea-app.app -qmldir=$$top_srcdir/nymea-app/ui -dmg &&
 osxbundle.commands += hdiutil convert nymea-app.dmg -format UDRW -o nymea-app_writable.dmg &&
 osxbundle.commands += hdiutil attach -readwrite -noverify nymea-app_writable.dmg && sleep 2 &&
-osxbundle.commands += mkdir /Volumes/nymea-app/.background/ && cp $$top_srcdir/packaging/osx/installer.tiff /Volumes/nymea-app/.background/ &&
-osxbundle.commands += ln -s /Applications /Volumes/nymea-app/Applications &&
 osxbundle.commands += mv /Volumes/nymea-app/nymea-app.app /Volumes/nymea-app/nymea\:app.app &&
-osxbundle.commands += osascript $$top_srcdir/packaging/osx/patchinstaller.sctp &&
+osxbundle.commands += tar -xpf $$top_srcdir/packaging/osx/template.tar -C /Volumes/nymea-app/ &&
 osxbundle.commands += hdiutil eject /Volumes/nymea-app &&
 osxbundle.commands += hdiutil convert nymea-app_writable.dmg -format UDRO -o ../nymea-app-osx-bundle-$${APP_VERSION}.dmg &&
 osxbundle.commands += rm nymea-app.dmg nymea-app_writable.dmg
