@@ -6,8 +6,10 @@ import QtQuick.Layouts 1.3
 TabButton {
     id: root
     property string iconSource
+    property var alignment: Qt.Vertical
 
-    contentItem: ColumnLayout {
+    contentItem: GridLayout {
+        columns: root.alignment === Qt.Vertical ? 1 : 2
         ColorIcon {
             Layout.preferredWidth: app.iconSize
             Layout.preferredHeight: app.iconSize
@@ -16,7 +18,7 @@ TabButton {
             color: root.checked ? app.guhAccent : keyColor
         }
         Label {
-            Layout.fillWidth: true
+            Layout.fillWidth: root.alignment === Qt.Vertical
             text: root.text
             horizontalAlignment: Text.AlignHCenter
             font.pixelSize: app.smallFont

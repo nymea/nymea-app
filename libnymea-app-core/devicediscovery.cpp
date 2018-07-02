@@ -63,7 +63,7 @@ void DeviceDiscovery::discoverDevicesResponse(const QVariantMap &params)
     m_busy = false;
     emit busyChanged();
 
-    qDebug() << "response received" << params;
+//    qDebug() << "response received" << params;
     QVariantList descriptors = params.value("params").toMap().value("deviceDescriptors").toList();
     foreach (const QVariant &descriptor, descriptors) {
         qDebug() << "descriptor" << descriptor;

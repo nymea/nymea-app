@@ -80,6 +80,8 @@ int main(int argc, char *argv[])
     StyleController styleController;
     engine->rootContext()->setContextProperty("styleController", &styleController);
 
+    engine->rootContext()->setContextProperty("systemProductType", QSysInfo::productType());
+
     application.setWindowIcon(QIcon(QString(":/styles/%1/logo.svg").arg(styleController.currentStyle())));
 
     engine->load(QUrl(QLatin1String("qrc:/ui/Nymea.qml")));

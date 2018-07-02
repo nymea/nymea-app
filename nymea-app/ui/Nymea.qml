@@ -3,6 +3,7 @@ import QtQuick.Controls 2.1
 import QtQuick.Controls.Material 2.1
 import QtQuick.Layouts 1.2
 import Qt.labs.settings 1.0
+import QtQuick.Window 2.3
 import Nymea 1.0
 
 ApplicationWindow {
@@ -10,7 +11,7 @@ ApplicationWindow {
     visible: true
     width: 360
     height: 580
-    visibility: ApplicationWindow.Maximized
+    visibility: ApplicationWindow.AutomaticVisibility
     font: Qt.application.font
     title: appName
 

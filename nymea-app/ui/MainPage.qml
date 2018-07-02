@@ -2,6 +2,7 @@ import QtQuick 2.8
 import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.1
 import QtQuick.Layouts 1.2
+import QtQuick.Window 2.3
 import Nymea 1.0
 import "components"
 import "delegates"
@@ -52,11 +53,13 @@ Page {
         Item {
             Layout.fillWidth: true
             Layout.fillHeight: true
+            clip: true
 
             SwipeView {
                 id: swipeView
-                clip: true
                 anchors.fill: parent
+                anchors.leftMargin: (systemProductType === "ios" && Screen.width === 812) ? 25 : 0
+                anchors.rightMargin: anchors.leftMargin
                 opacity: Engine.deviceManager.fetchingData ? 0 : 1
                 Behavior on opacity { NumberAnimation { duration: 300 } }
 
@@ -100,7 +103,7 @@ Page {
                 }
 
                 DevicesPage {
-                    property string title: qsTr("My things");
+                    property string title: qsTr("My things")
                     width: swipeView.width
                     height: swipeView.height
                     model: InterfacesSortModel {
@@ -175,7 +178,11 @@ Page {
             Material.elevation: 3
             currentIndex: settings.currentMainViewIndex
             position: TabBar.Footer
-            Layout.preferredHeight: 70
+            Layout.preferredHeight: 70 + (app.landscape ?
+                                              ((systemProductType === "ios" && Screen.height === 375) ? -10 : -20) :
+                                              (systemProductType === "ios" && Screen.height === 812) ? 14 : 0)
+
+
             // FIXME: All this can go away when we require Controls 2.3 (Qt 5.10) or greater as TabBar got a major rework there.
             // Ideally we'd just list the 3 items and set visible to false if the server version isn't good enough but TabBar
             // has troubles dealing with that. For now, let's manually fill it and use a timer to initialize the currentIndex.
@@ -195,6 +202,7 @@ Page {
                 MainPageTabButton {
                     property int pageIndex: 0
                     onClicked: settings.currentMainViewIndex = pageIndex
+                    alignment: app.landscape ? Qt.Horizontal : Qt.Vertical
                 }
             }
         }
