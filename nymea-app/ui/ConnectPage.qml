@@ -20,6 +20,12 @@ Page {
         }
     }
 
+    NymeaDiscovery {
+        id: discovery
+        objectName: "discovery"
+        discovering: pageStack.currentItem.objectName === "discoveryPage"
+    }
+
     Connections {
         target: Engine.connection
         onVerifyConnectionCertificate: {
@@ -37,13 +43,31 @@ Page {
             case "SslHandshakeFailedError":
                 // silently ignore. They'll be handled by the SSL logic
                 return;
+            case "HostNotFoundError":
+                errorMessage = qsTr("The %1 box could not be found on this address. Please make sure you entered the address correctly and that the box is powered on.").arg(app.systemName);
+                break;
+            case "NetworkError":
+                errorMessage = qsTr("It seems you're not connected to the network.");
+                break;
+            case "RemoteHostClosedError":
+                errorMessage = qsTr("The %1 box has closed the connection. This probably means it has been turned off or restarted.").arg(app.systemName);
+                break;
+            default:
+                errorMessage = qsTr("Un unknown error happened. We're very sorry for that. (Error code: %1)").arg(error);
             }
+            print("opening ErrorDialog with message:", errorMessage, error)
             var comp = Qt.createComponent(Qt.resolvedUrl("components/ErrorDialog.qml"))
             var popup = comp.createObject(app, {text: errorMessage})
             popup.open()
 
             pageStack.pop(root)
             pageStack.push(discoveryPage)
+        }
+        onConnectedChanged: {
+            if (!connected) {
+                pageStack.pop(root)
+                pageStack.push(discoveryPage)
+            }
         }
     }
 
@@ -89,7 +113,7 @@ Page {
                     text: qsTr("Demo mode")
                     onTriggered: {
                         pageStack.push(connectingPage)
-                        Engine.connection.connect("nymea://83.169.2.242:2222")
+                        Engine.connection.connect("nymea://nymea.nymea.io:2222")
                     }
                 }
 
@@ -258,7 +282,7 @@ Page {
                     text: qsTr("Demo mode (online)")
                     onClicked: {
                         pageStack.push(connectingPage)
-                        Engine.connection.connect("nymea://83.169.2.242:2222")
+                        Engine.connection.connect("nymea://nymea.nymea.io:2222")
                     }
                 }
 
@@ -315,7 +339,6 @@ Page {
                         objectName: "addressTextInput"
                         Layout.fillWidth: true
                         placeholderText: "127.0.0.1"
-                        validator: RegExpValidator { regExp:  /^((?:[0-1]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])\.){0,3}(?:[0-1]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])$/ }
                     }
 
                     Label { text: qsTr("Port:") }

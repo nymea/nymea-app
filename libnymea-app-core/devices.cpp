@@ -37,6 +37,9 @@ QList<Device *> Devices::devices()
 
 Device *Devices::get(int index) const
 {
+    if (index < 0 || index >= m_devices.count()) {
+        return nullptr;
+    }
     return m_devices.at(index);
 }
 

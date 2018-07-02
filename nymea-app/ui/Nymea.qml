@@ -36,7 +36,6 @@ ApplicationWindow {
 
     Component.onCompleted: {
         pageStack.push(Qt.resolvedUrl("ConnectPage.qml"))
-        discovery.discovering = true
     }
 
     Connections {
@@ -70,11 +69,8 @@ ApplicationWindow {
     function init() {
         print("calling init. Auth required:", Engine.jsonRpcClient.authenticationRequired, "initial setup required:", Engine.jsonRpcClient.initialSetupRequired, "jsonrpc connected:", Engine.jsonRpcClient.connected)
         pageStack.clear()
-        discovery.discovering = false;
         if (!Engine.connection.connected) {
             pageStack.push(Qt.resolvedUrl("ConnectPage.qml"))
-            print("starting discovery")
-            discovery.discovering = true;
             return;
         }
 
@@ -99,8 +95,6 @@ ApplicationWindow {
             pageStack.push(Qt.resolvedUrl("MainPage.qml"))
         } else {
             pageStack.push(Qt.resolvedUrl("ConnectPage.qml"))
-            print("starting discovery")
-            discovery.discovering = true;
         }
     }
 
@@ -127,11 +121,6 @@ ApplicationWindow {
                 pageStack.pop();
             }
         }
-    }
-
-    NymeaDiscovery {
-        id: discovery
-        objectName: "discovery"
     }
 
     Connections {

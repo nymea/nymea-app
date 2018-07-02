@@ -1,7 +1,7 @@
 TEMPLATE = app
 TARGET = meatestrunner
 
-include(../../nymea-app.pri)
+include(../../config.pri)
 
 QT += core gui testlib bluetooth websockets
 CONFIG += qmltestcase
