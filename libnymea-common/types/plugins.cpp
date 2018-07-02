@@ -42,6 +42,9 @@ int Plugins::count() const
 
 Plugin *Plugins::get(int index) const
 {
+    if (index < 0 || index >= m_plugins.count()) {
+        return nullptr;
+    }
     return m_plugins.at(index);
 }
 

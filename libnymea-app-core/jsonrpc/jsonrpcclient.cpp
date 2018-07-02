@@ -244,7 +244,7 @@ void JsonRpcClient::sendRequest(const QVariantMap &request)
     QVariantMap newRequest = request;
     newRequest.insert("token", m_token);
 //    qDebug() << "Sending request" << qUtf8Printable(QJsonDocument::fromVariant(newRequest).toJson());
-    m_connection->sendData(QJsonDocument::fromVariant(newRequest).toJson());
+    m_connection->sendData(QJsonDocument::fromVariant(newRequest).toJson(QJsonDocument::Compact) + "\n");
 }
 
 void JsonRpcClient::onInterfaceConnectedChanged(bool connected)
@@ -259,6 +259,7 @@ void JsonRpcClient::onInterfaceConnectedChanged(bool connected)
     } else {
         QVariantMap request;
         request.insert("id", 0);
+        qDebug() << "Connected. Starting JSONRPC Handshake";
         request.insert("method", "JSONRPC.Hello");
         sendRequest(request);
     }
@@ -275,7 +276,7 @@ void JsonRpcClient::dataReceived(const QByteArray &data)
     QJsonParseError error;
     QJsonDocument jsonDoc = QJsonDocument::fromJson(m_receiveBuffer.left(splitIndex), &error);
     if (error.error != QJsonParseError::NoError) {
- //       qWarning() << "Could not parse json data from nymea" << data << error.errorString();
+//        qWarning() << "Could not parse json data from nymea" << m_receiveBuffer.left(splitIndex) << error.errorString();
         return;
     }
 //    qDebug() << "received response" << m_receiveBuffer.left(splitIndex);
@@ -285,7 +286,6 @@ void JsonRpcClient::dataReceived(const QByteArray &data)
     }
 
     QVariantMap dataMap = jsonDoc.toVariant().toMap();
-
 
     // Check if this is the initial handshake
     if (dataMap.value("id").toInt() == 0 && dataMap.contains("params") && !dataMap.contains("notification")) {
