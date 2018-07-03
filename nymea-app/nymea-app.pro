@@ -14,12 +14,14 @@ win32:Release:LIBS += -L$$top_builddir/libnymea-app-core/release \
                       -L$$top_builddir/libnymea-common/release
 linux:!android:LIBS += -lavahi-client -lavahi-common
 PRE_TARGETDEPS += ../libnymea-app-core ../libnymea-common
+
 HEADERS += \
     stylecontroller.h
 
 SOURCES += main.cpp \
     stylecontroller.cpp
 
+OTHER_FILES += $$files(*.qml, true)
 
 RESOURCES += resources.qrc
 equals(STYLES_PATH, "") {
