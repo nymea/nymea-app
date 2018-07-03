@@ -109,6 +109,9 @@ ApplicationWindow {
         objectName: "pageStack"
         anchors.fill: parent
         initialItem: Page {}
+        onDepthChanged: {
+            print("stackview depth changed", pageStack.depth)
+        }
     }
 
     onClosing: {
@@ -242,6 +245,17 @@ ApplicationWindow {
             return "deepskyblue";
         }
         return "grey";
+    }
+
+    function interfaceToDisplayName(name) {
+        switch (name) {
+        case "light":
+            return qsTr("light")
+        case "button":
+            return "button";
+        case "sensor":
+            return qsTr("sensor")
+        }
     }
 
     function interfaceListToDevicePage(interfaceList) {

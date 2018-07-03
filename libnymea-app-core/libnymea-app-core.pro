@@ -61,6 +61,13 @@ SOURCES += \
     models/tagsproxymodel.cpp \
     tagsmanager.cpp \
     wifisetup/wirelessaccesspointsproxy.cpp \
+    models/tagsproxymodel.cpp \
+    ruletemplates/ruletemplate.cpp \
+    ruletemplates/ruletemplates.cpp \
+    ruletemplates/eventdescriptortemplate.cpp \
+    ruletemplates/ruleactiontemplate.cpp \
+    ruletemplates/stateevaluatortemplate.cpp \
+    ruletemplates/statedescriptortemplate.cpp
 
 HEADERS += \
     engine.h \
@@ -107,7 +114,13 @@ HEADERS += \
     models/interfacesproxy.h \
     tagsmanager.h \
     models/tagsproxymodel.h \
-    wifisetup/wirelessaccesspointsproxy.h
+    wifisetup/wirelessaccesspointsproxy.h \
+    ruletemplates/ruletemplate.h \
+    ruletemplates/ruletemplates.h \
+    ruletemplates/eventdescriptortemplate.h \
+    ruletemplates/ruleactiontemplate.h \
+    ruletemplates/stateevaluatortemplate.h \
+    ruletemplates/statedescriptortemplate.h
 
 unix {
     target.path = /usr/lib

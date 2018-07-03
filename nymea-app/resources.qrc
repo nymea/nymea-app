@@ -226,5 +226,6 @@
         <file>ui/images/awning/awning-070.svg</file>
         <file>ui/images/awning/awning-080.svg</file>
         <file>ui/images/awning/awning-090.svg</file>
+        <file>ui/magic/NewThingMagicPage.qml</file>
     </qresource>
 </RCC>
