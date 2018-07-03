@@ -737,7 +737,7 @@ Page {
                     model: ListModel {
                         ListElement {
                             iconName: "../images/action.svg"
-                            text: qsTr("Execute an action on of my things")
+                            text: qsTr("Execute an action on one of my things")
                             method: "addRuleAction"
                             isExitAction: false
                             minimumJsonRpcVersion: "1.0"
@@ -751,7 +751,7 @@ Page {
                         }
                         ListElement {
                             iconName: "../images/action.svg"
-                            text: qsTr("Execute an action on of my things")
+                            text: qsTr("Execute an action on one of my things")
                             method: "addRuleExitAction"
                             isExitAction: true
                             minimumJsonRpcVersion: "1.0"
