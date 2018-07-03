@@ -387,6 +387,8 @@ Page {
 
                 Button {
                     Layout.fillWidth: true
+                    Layout.leftMargin: app.margins
+                    Layout.rightMargin: app.margins
                     text: qsTr("Trigger a wireless scan on the device.")
                     onClicked: networkManger.manager.performWifiScan()
                 }
