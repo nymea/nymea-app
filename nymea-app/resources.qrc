@@ -140,7 +140,6 @@
         <file>ui/images/bluetooth.svg</file>
         <file>ui/images/refresh.svg</file>
         <file>ui/WirelessControlerPage.qml</file>
-        <file>ui/BluetoothLoadingPage.qml</file>
         <file>ui/images/nm-signal-00.svg</file>
         <file>ui/images/nm-signal-00-secure.svg</file>
         <file>ui/images/nm-signal-25.svg</file>

@@ -20,58 +20,41 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef WIRELESSACCESSPOINTS_H
-#define WIRELESSACCESSPOINTS_H
+#ifndef WIRELESSACCESSPOINTSPROXY_H
+#define WIRELESSACCESSPOINTSPROXY_H
 
 #include <QObject>
-#include <QAbstractListModel>
+#include <QSortFilterProxyModel>
 
 class WirelessAccessPoint;
+class WirelessAccessPoints;
 
-class WirelessAccessPoints : public QAbstractListModel
+class WirelessAccessPointsProxy : public QSortFilterProxyModel
 {
     Q_OBJECT
-    Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
-
 public:
-    enum BluetoothDeviceInfoRole {
-        WirelessAccesspointRoleSsid = Qt::DisplayRole,
-        WirelessAccesspointRoleMacAddress,
-        WirelessAccesspointRoleHostAddress,
-        WirelessAccesspointRoleSignalStrength,
-        WirelessAccesspointRoleProtected,
-        WirelessAccesspointRoleSelectedNetwork
-    };
+    explicit WirelessAccessPointsProxy(QObject *parent = nullptr);
 
-    explicit WirelessAccessPoints(QObject *parent = 0);
+    WirelessAccessPoints *accessPoints() const;
+    void setAccessPoints(WirelessAccessPoints *accessPoints);
 
-    QList<WirelessAccessPoint *> wirelessAccessPoints();
-    void setWirelessAccessPoints(QList<WirelessAccessPoint *> wirelessAccessPoints);
+    Q_INVOKABLE WirelessAccessPoint* get(int index) const;
 
-    int rowCount(const QModelIndex & parent = QModelIndex()) const;
-    QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;
-
-    int count() const;
-    Q_INVOKABLE WirelessAccessPoint *getAccessPoint(const QString &ssid) const;
-    Q_INVOKABLE WirelessAccessPoint *get(int index);
-
-    void clearModel();
-
-    void addWirelessAccessPoint(WirelessAccessPoint *accessPoint);
-    void removeWirelessAccessPoint(WirelessAccessPoint *accessPoint);
-
-    Q_INVOKABLE void clearSelectedNetwork();
-
-signals:
-    void countChanged();
+    Q_INVOKABLE void invokeSort();
 
 protected:
-    QHash<int, QByteArray> roleNames() const;
+    bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const override;
+    bool lessThan(const QModelIndex &left, const QModelIndex &right) const override;
 
 private:
-    QList<WirelessAccessPoint *> m_wirelessAccessPoints;
+    WirelessAccessPoints *m_accessPoints = nullptr;
+
+signals:
+    void accessPointsChanged();
+
+public slots:
 
 
 };
 
-#endif // WIRELESSACCESSPOINTS_H
+#endif // WIRELESSACCESSPOINTSPROXY_H

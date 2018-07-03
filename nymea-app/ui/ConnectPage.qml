@@ -117,7 +117,7 @@ Page {
                     }
                 }
 
-                MenuSeparator {}
+                MenuSeparator { }
 
                 IconMenuItem {
                     iconSource: "../images/stock_application.svg"
@@ -154,7 +154,7 @@ Page {
                     }
                 }
 
-                ThinDivider {}
+                ThinDivider { }
 
                 ListView {
                     Layout.fillWidth: true

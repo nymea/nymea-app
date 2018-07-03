@@ -58,8 +58,9 @@ SOURCES += \
     wifisetup/networkmanagercontroler.cpp \
     models/logsmodelng.cpp \
     models/interfacesproxy.cpp \
+    models/tagsproxymodel.cpp \
     tagsmanager.cpp \
-    models/tagsproxymodel.cpp
+    wifisetup/wirelessaccesspointsproxy.cpp \
 
 HEADERS += \
     engine.h \
@@ -105,7 +106,8 @@ HEADERS += \
     models/logsmodelng.h \
     models/interfacesproxy.h \
     tagsmanager.h \
-    models/tagsproxymodel.h
+    models/tagsproxymodel.h \
+    wifisetup/wirelessaccesspointsproxy.h
 
 unix {
     target.path = /usr/lib

@@ -22,6 +22,8 @@
 
 #include "wirelessaccesspoint.h"
 
+#include <QDebug>
+
 WirelessAccessPoint::WirelessAccessPoint(QObject *parent):
     QObject(parent)
 {
@@ -35,7 +37,11 @@ QString WirelessAccessPoint::ssid() const
 
 void WirelessAccessPoint::setSsid(const QString ssid)
 {
+    if (m_ssid == ssid)
+        return;
+
     m_ssid = ssid;
+    emit ssidChanged(m_ssid);
 }
 
 QString WirelessAccessPoint::macAddress() const
@@ -45,7 +51,25 @@ QString WirelessAccessPoint::macAddress() const
 
 void WirelessAccessPoint::setMacAddress(const QString &macAddress)
 {
+    if (m_macAddress == macAddress)
+        return;
+
     m_macAddress = macAddress;
+    emit macAddressChanged(m_macAddress);
+}
+
+QString WirelessAccessPoint::hostAddress() const
+{
+    return m_hostAddress;
+}
+
+void WirelessAccessPoint::setHostAddress(const QString &hostAddress)
+{
+    if (m_hostAddress == hostAddress)
+        return;
+
+    m_hostAddress = hostAddress;
+    emit hostAddressChanged(m_hostAddress);
 }
 
 int WirelessAccessPoint::signalStrength() const
@@ -55,7 +79,11 @@ int WirelessAccessPoint::signalStrength() const
 
 void WirelessAccessPoint::setSignalStrength(const int &signalStrength)
 {
+    if (m_signalStrength == signalStrength)
+        return;
+
     m_signalStrength = signalStrength;
+    emit signalStrengthChanged(m_signalStrength);
 }
 
 bool WirelessAccessPoint::isProtected() const
@@ -65,7 +93,12 @@ bool WirelessAccessPoint::isProtected() const
 
 void WirelessAccessPoint::setProtected(const bool &isProtected)
 {
+    if (m_isProtected == isProtected)
+        return;
+
     m_isProtected = isProtected;
+    emit isProtectedChanged(m_isProtected);
+
 }
 
 bool WirelessAccessPoint::selectedNetwork() const
@@ -75,5 +108,10 @@ bool WirelessAccessPoint::selectedNetwork() const
 
 void WirelessAccessPoint::setSelectedNetwork(bool selected)
 {
+    if (m_selectedNetwork == selected)
+        return;
+
+    qDebug() << "Selected network changed" << m_ssid << selected;
     m_selectedNetwork = selected;
+    emit selectedNetworkChanged(m_selectedNetwork);
 }

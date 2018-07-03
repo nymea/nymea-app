@@ -21,19 +21,21 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #include "wirelessaccesspoints.h"
+#include "wirelessaccesspoint.h"
+
 #include <QDebug>
 
-WirelessAccesspoints::WirelessAccesspoints(QObject *parent) : QAbstractListModel(parent)
+WirelessAccessPoints::WirelessAccessPoints(QObject *parent) : QAbstractListModel(parent)
 {
 
 }
 
-QList<WirelessAccessPoint *> WirelessAccesspoints::wirelessAccessPoints()
+QList<WirelessAccessPoint *> WirelessAccessPoints::wirelessAccessPoints()
 {
     return m_wirelessAccessPoints;
 }
 
-void WirelessAccesspoints::setWirelessAccessPoints(QList<WirelessAccessPoint *> wirelessAccessPoints)
+void WirelessAccessPoints::setWirelessAccessPoints(QList<WirelessAccessPoint *> wirelessAccessPoints)
 {
     beginResetModel();
 
@@ -41,20 +43,19 @@ void WirelessAccesspoints::setWirelessAccessPoints(QList<WirelessAccessPoint *> 
     qDeleteAll(m_wirelessAccessPoints);
     m_wirelessAccessPoints.clear();
 
-    qSort(wirelessAccessPoints.begin(), wirelessAccessPoints.end(), signalStrengthLessThan);
     m_wirelessAccessPoints = wirelessAccessPoints;
-
     endResetModel();
+
     emit countChanged();
 }
 
-int WirelessAccesspoints::rowCount(const QModelIndex &parent) const
+int WirelessAccessPoints::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
     return m_wirelessAccessPoints.count();
 }
 
-QVariant WirelessAccesspoints::data(const QModelIndex &index, int role) const
+QVariant WirelessAccessPoints::data(const QModelIndex &index, int role) const
 {
     if (index.row() < 0 || index.row() >= m_wirelessAccessPoints.count())
         return QVariant();
@@ -64,7 +65,9 @@ QVariant WirelessAccesspoints::data(const QModelIndex &index, int role) const
         return accessPoint->ssid();
     } else if (role == WirelessAccesspointRoleMacAddress) {
         return accessPoint->macAddress();
-    } else if (role == WirelessAccesspointRoleSignalStrength) {
+    } else if (role == WirelessAccesspointRoleHostAddress) {
+        return accessPoint->hostAddress();
+    }  else if (role == WirelessAccesspointRoleSignalStrength) {
         return accessPoint->signalStrength();
     } else if (role == WirelessAccesspointRoleProtected) {
         return accessPoint->isProtected();
@@ -75,22 +78,31 @@ QVariant WirelessAccesspoints::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-int WirelessAccesspoints::count() const
+int WirelessAccessPoints::count() const
 {
     return m_wirelessAccessPoints.count();
 }
 
-WirelessAccessPoint *WirelessAccesspoints::get(const QString &ssid) const
+WirelessAccessPoint *WirelessAccessPoints::getAccessPoint(const QString &ssid) const
 {
     foreach (WirelessAccessPoint *accessPoint, m_wirelessAccessPoints) {
         if (accessPoint->ssid() == ssid)
             return accessPoint;
     }
 
-    return Q_NULLPTR;
+    return nullptr;
 }
 
-void WirelessAccesspoints::clearModel()
+WirelessAccessPoint *WirelessAccessPoints::get(int index)
+{
+    if (index < 0 || index >= m_wirelessAccessPoints.count()) {
+        return nullptr;
+    }
+
+    return m_wirelessAccessPoints.at(index);
+}
+
+void WirelessAccessPoints::clearModel()
 {
     beginResetModel();
     qDeleteAll(m_wirelessAccessPoints);
@@ -99,43 +111,59 @@ void WirelessAccesspoints::clearModel()
     emit countChanged();
 }
 
-void WirelessAccesspoints::setSelectedNetwork(const QString &ssid, const QString &macAdderss)
+void WirelessAccessPoints::addWirelessAccessPoint(WirelessAccessPoint *accessPoint)
 {
-    beginResetModel();
+    accessPoint->setParent(this);
 
-    foreach (WirelessAccessPoint *accessPoint, m_wirelessAccessPoints) {
-        if (accessPoint->ssid() == ssid && accessPoint->macAddress() == macAdderss) {
-            qDebug() << "Set selected network:" << ssid << macAdderss;
-            accessPoint->setSelectedNetwork(true);
-        } else {
-            accessPoint->setSelectedNetwork(false);
-        }
-    }
+    beginInsertRows(QModelIndex(), m_wirelessAccessPoints.count(), m_wirelessAccessPoints.count());
+     qDebug() << "WirelessAccessPoints: access point added" << accessPoint->ssid() << accessPoint->macAddress();
+    m_wirelessAccessPoints.append(accessPoint);
+    endInsertRows();
 
-    // FIXME: find a better way to update network selected and resort the list
-    QList<WirelessAccessPoint *> wirelessAccessPoints = m_wirelessAccessPoints;
+    connect(accessPoint, &WirelessAccessPoint::selectedNetworkChanged, this, [accessPoint, this]() {
+        int idx = m_wirelessAccessPoints.indexOf(accessPoint);
+        if (idx < 0) return;
+        emit dataChanged(index(idx), index(idx), {WirelessAccesspointRoleSelectedNetwork});
+    });
+    connect(accessPoint, &WirelessAccessPoint::signalStrengthChanged, this, [accessPoint, this]() {
+        int idx = m_wirelessAccessPoints.indexOf(accessPoint);
+        if (idx < 0) return;
+        emit dataChanged(index(idx), index(idx), {WirelessAccesspointRoleSignalStrength});
+    });
+    connect(accessPoint, &WirelessAccessPoint::hostAddressChanged, this, [accessPoint, this]() {
+        int idx = m_wirelessAccessPoints.indexOf(accessPoint);
+        if (idx < 0) return;
+        emit dataChanged(index(idx), index(idx), {WirelessAccesspointRoleHostAddress});
+    });
 
-    qSort(wirelessAccessPoints.begin(), wirelessAccessPoints.end(), signalStrengthLessThan);
-    m_wirelessAccessPoints = wirelessAccessPoints;
-
-    endResetModel();
     emit countChanged();
 }
 
-bool WirelessAccesspoints::signalStrengthLessThan(const WirelessAccessPoint *a, const WirelessAccessPoint *b)
+void WirelessAccessPoints::removeWirelessAccessPoint(WirelessAccessPoint *accessPoint)
 {
-    // Keep the selected network on top
-    if (a->selectedNetwork())
-        return true;
+    int index = m_wirelessAccessPoints.indexOf(accessPoint);
+    beginRemoveRows(QModelIndex(), index, index);
+    qDebug() << "WirelessAccessPoints: access point removed" << accessPoint->ssid() << accessPoint->macAddress();
+    m_wirelessAccessPoints.removeAt(index);
+    endRemoveRows();
 
-    return a->signalStrength() > b->signalStrength();
+    emit countChanged();
 }
 
-QHash<int, QByteArray> WirelessAccesspoints::roleNames() const
+void WirelessAccessPoints::clearSelectedNetwork()
+{
+    foreach (WirelessAccessPoint *accessPoint, m_wirelessAccessPoints) {
+        accessPoint->setSelectedNetwork(false);
+        accessPoint->setHostAddress(QString());
+    }
+}
+
+QHash<int, QByteArray> WirelessAccessPoints::roleNames() const
 {
     QHash<int, QByteArray> roles;
     roles[WirelessAccesspointRoleSsid] = "ssid";
     roles[WirelessAccesspointRoleMacAddress] = "macAddress";
+    roles[WirelessAccesspointRoleHostAddress] = "hostAddress";
     roles[WirelessAccesspointRoleSignalStrength] = "signalStrength";
     roles[WirelessAccesspointRoleProtected] = "protected";
     roles[WirelessAccesspointRoleSelectedNetwork] = "selectedNetwork";

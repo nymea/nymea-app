@@ -21,6 +21,9 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #include "wirelesssetupmanager.h"
+#include "wirelessaccesspoint.h"
+#include "wirelessaccesspoints.h"
+#include "wirelessaccesspointsproxy.h"
 
 #include <QJsonDocument>
 
@@ -43,8 +46,10 @@ static QBluetoothUuid systemResponseCharacteristicUuid =  QBluetoothUuid(QUuid("
 
 WirelessSetupManager::WirelessSetupManager(const QBluetoothDeviceInfo &deviceInfo, QObject *parent) :
     BluetoothDevice(deviceInfo, parent),
-    m_accessPoints(new WirelessAccesspoints(this))
+    m_accessPoints(new WirelessAccessPoints(this)),
+    m_accessPointsProxy(new WirelessAccessPointsProxy(this))
 {
+    m_accessPointsProxy->setAccessPoints(m_accessPoints);
 
     connect(this, &WirelessSetupManager::connectedChanged, this, &WirelessSetupManager::onConnectedChanged);
     connect(this, &WirelessSetupManager::serviceDiscoveryFinished, this, &WirelessSetupManager::onServiceDiscoveryFinished);
@@ -110,9 +115,14 @@ bool WirelessSetupManager::wirelessEnabled() const
     return m_wirelessEnabled;
 }
 
-WirelessAccesspoints *WirelessSetupManager::accessPoints()
+WirelessAccessPoints *WirelessSetupManager::accessPoints()
 {
     return m_accessPoints;
+}
+
+WirelessAccessPointsProxy *WirelessSetupManager::accessPointsProxy()
+{
+    return m_accessPointsProxy;
 }
 
 void WirelessSetupManager::reloadData()
@@ -327,6 +337,10 @@ void WirelessSetupManager::checkInitialized()
                 && m_wifiService->state() == QLowEnergyService::ServiceDiscovered;
     }
 
+    if (initialized && m_wirelessEnabled && m_networkingEnabled) {
+        loadNetworks();
+    }
+
     setInitialized(initialized);
 }
 
@@ -418,6 +432,10 @@ void WirelessSetupManager::setNetworkingEnabled(bool networkingEnabled)
     qDebug() << "WifiSetupManager: Networking enabled changed" << networkingEnabled;
     m_networkingEnabled = networkingEnabled;
     emit networkingEnabledChanged();
+
+    if (!m_networkingEnabled)
+        m_accessPoints->clearModel();
+
 }
 
 void WirelessSetupManager::setWirelessEnabled(bool wirelessEnabled)
@@ -428,6 +446,10 @@ void WirelessSetupManager::setWirelessEnabled(bool wirelessEnabled)
     qDebug() << "WifiSetupManager: Wireless enabled changed" << wirelessEnabled;
     m_wirelessEnabled = wirelessEnabled;
     emit wirelessEnabledChanged();
+
+    if (!m_wirelessEnabled)
+        m_accessPoints->clearModel();
+
 }
 
 void WirelessSetupManager::streamData(const QVariantMap &request)
@@ -538,6 +560,22 @@ void WirelessSetupManager::processWifiResponse(const QVariantMap &response)
         }
 
         m_accessPointsVariantList = response.value("p").toList();
+        m_accessPoints->clearModel();
+
+        foreach (const QVariant &accessPointVariant, m_accessPointsVariantList) {
+            QVariantMap accessPointVariantMap = accessPointVariant.toMap();
+            WirelessAccessPoint *accessPoint = new WirelessAccessPoint(this);
+            accessPoint->setSsid(accessPointVariantMap.value("e").toString());
+            accessPoint->setMacAddress(accessPointVariantMap.value("m").toString());
+            accessPoint->setSignalStrength(accessPointVariantMap.value("s").toInt());
+            accessPoint->setProtected(accessPointVariantMap.value("p").toBool());
+            accessPoint->setSelectedNetwork(false);
+            accessPoint->setHostAddress("");
+
+            m_accessPoints->addWirelessAccessPoint(accessPoint);
+        }
+        m_accessPointsProxy->setAccessPoints(m_accessPoints);
+
         loadCurrentConnection();
 
         break;
@@ -556,19 +594,19 @@ void WirelessSetupManager::processWifiResponse(const QVariantMap &response)
         qDebug() << "Current network connection" << response;
         QVariantMap currentConnection = response.value("p").toMap();;
 
-        QList<WirelessAccessPoint *> accessPointsList;
-        foreach (const QVariant &accessPointVariant, m_accessPointsVariantList) {
-            QVariantMap accessPointVariantMap = accessPointVariant.toMap();
-            WirelessAccessPoint *accessPoint = new WirelessAccessPoint(this);
-            accessPoint->setSsid(accessPointVariantMap.value("e").toString());
-            accessPoint->setMacAddress(accessPointVariantMap.value("m").toString());
-            accessPoint->setSignalStrength(accessPointVariantMap.value("s").toInt());
-            accessPoint->setProtected(accessPointVariantMap.value("p").toBool());
-            accessPointsList.append(accessPoint);
+        // Find current network
+        QString macAddress = currentConnection.value("m").toString();
+        foreach (WirelessAccessPoint *accessPoint, m_accessPoints->wirelessAccessPoints()) {
+            if (accessPoint->macAddress() == macAddress) {
+                // Set the current network
+                accessPoint->setSelectedNetwork(true);
+                accessPoint->setHostAddress(currentConnection.value("i").toString());
+            } else {
+                accessPoint->setSelectedNetwork(false);
+                accessPoint->setHostAddress(QString());
+            }
         }
 
-        m_accessPoints->setWirelessAccessPoints(accessPointsList);
-        m_accessPoints->setSelectedNetwork(currentConnection.value("e").toString(), currentConnection.value("m").toString());
         break;
     }
     default:
@@ -720,9 +758,9 @@ void WirelessSetupManager::onServiceDiscoveryFinished()
             qWarning() << "WifiSetupManager: Could not create system service. Looks like this networkmanager has not implemented that.";
             //controller()->disconnectFromDevice();
         } else {
-            connect(m_systemService, &QLowEnergyService::stateChanged, this, &WirelessSetupManager::onWifiServiceStateChanged);
-            connect(m_systemService, &QLowEnergyService::characteristicChanged, this, &WirelessSetupManager::onWifiServiceCharacteristicChanged);
-            connect(m_systemService, &QLowEnergyService::characteristicRead, this, &WirelessSetupManager::onWifiServiceReadFinished);
+            connect(m_systemService, &QLowEnergyService::stateChanged, this, &WirelessSetupManager::onSystemServiceStateChanged);
+            connect(m_systemService, &QLowEnergyService::characteristicChanged, this, &WirelessSetupManager::onSystemServiceCharacteristicChanged);
+            connect(m_systemService, &QLowEnergyService::characteristicRead, this, &WirelessSetupManager::onSystemServiceReadFinished);
 
             if (m_systemService->state() == QLowEnergyService::DiscoveryRequired)
                 m_systemService->discoverDetails();
@@ -782,24 +820,43 @@ void WirelessSetupManager::onNetworkServiceStateChanged(const QLowEnergyService:
     }
 
     QLowEnergyCharacteristic networkCharacteristic = m_netwokService->characteristic(networkStatusCharacteristicUuid);
+    if (!networkCharacteristic.isValid()) {
+        qWarning() << "Invalud networking status characteristic";
+        return;
+    }
+
+    QLowEnergyCharacteristic networkingEnabledCharacteristic = m_netwokService->characteristic(networkingEnabledCharacteristicUuid);
+    if (!networkingEnabledCharacteristic.isValid()) {
+        qWarning() << "Invalud networking enabled characteristic";
+        return;
+    }
+
+    QLowEnergyCharacteristic wirelessEnabledCharacteristic = m_netwokService->characteristic(wirelessEnabledCharacteristicUuid);
+    if (!wirelessEnabledCharacteristic.isValid()) {
+        qWarning() << "Invalud wireless enabled characteristic";
+        return;
+    }
+
 
     // Enable notifications
+    qDebug() << "Enable notifications of network service";
     m_netwokService->writeDescriptor(networkCharacteristic.descriptor(QBluetoothUuid::ClientCharacteristicConfiguration), QByteArray::fromHex("0100"));
+    m_netwokService->writeDescriptor(networkingEnabledCharacteristic.descriptor(QBluetoothUuid::ClientCharacteristicConfiguration), QByteArray::fromHex("0100"));
+    m_netwokService->writeDescriptor(wirelessEnabledCharacteristic.descriptor(QBluetoothUuid::ClientCharacteristicConfiguration), QByteArray::fromHex("0100"));
 
     setStatusText("Connected and ready");
     setWorking(false);
 
     // Done with discovery
-    setNetworkStatus(m_netwokService->characteristic(networkStatusCharacteristicUuid).value().toHex().toUInt(0, 16));
-    setNetworkingEnabled((bool)m_netwokService->characteristic(networkingEnabledCharacteristicUuid).value().toHex().toUInt(0, 16));
-    setWirelessEnabled((bool)m_netwokService->characteristic(wirelessEnabledCharacteristicUuid).value().toHex().toUInt(0, 16));
+    setNetworkStatus(networkCharacteristic.value().toHex().toUInt(0, 16));
+    setNetworkingEnabled((bool)networkingEnabledCharacteristic.value().toHex().toUInt(0, 16));
+    setWirelessEnabled((bool)wirelessEnabledCharacteristic.value().toHex().toUInt(0, 16));
 
     checkInitialized();
 }
 
 void WirelessSetupManager::onNetworkServiceCharacteristicChanged(const QLowEnergyCharacteristic &characteristic, const QByteArray &value)
 {
-
     if (characteristic.uuid() == networkStatusCharacteristicUuid) {
         qDebug() << "Network status changed:" << value;
         setNetworkStatus(value.toHex().toUInt(0, 16));
@@ -831,8 +888,19 @@ void WirelessSetupManager::onNetworkServiceCharacteristicChanged(const QLowEnerg
 
             m_inputDataStream.clear();
             m_readingResponse = false;
+            return;
         }
+    } else if (characteristic.uuid() == networkingEnabledCharacteristicUuid) {
+        qDebug() << "Networking enabled changed" << (bool)value.toHex().toUInt(0, 16);
+        setNetworkingEnabled((bool)value.toHex().toUInt(0, 16));
+        return;
+    } else if (characteristic.uuid() == wirelessEnabledCharacteristicUuid) {
+        qDebug() << "Wireless enabled changed" << (bool)value.toHex().toUInt(0, 16);
+        setWirelessEnabled((bool)value.toHex().toUInt(0, 16));
+        return;
     }
+
+    qWarning() << "Bluetooth: Unhandled service characteristic changed" << characteristic.uuid() << value;
 }
 
 void WirelessSetupManager::onNetworkServiceReadFinished(const QLowEnergyCharacteristic &characteristic, const QByteArray &value)
@@ -860,6 +928,7 @@ void WirelessSetupManager::onWifiServiceStateChanged(const QLowEnergyService::Se
     m_wifiService->writeDescriptor(m_wifiService->characteristic(wifiStatusCharacteristicUuid).descriptor(QBluetoothUuid::ClientCharacteristicConfiguration), QByteArray::fromHex("0100"));
 
     setWirelessStatus(m_wifiService->characteristic(wifiStatusCharacteristicUuid).value().toHex().toUInt(0, 16));
+    m_accessPointsProxy->invokeSort();
 
     checkInitialized();
 }
@@ -896,6 +965,7 @@ void WirelessSetupManager::onWifiServiceCharacteristicChanged(const QLowEnergyCh
             m_inputDataStream.clear();
             m_readingResponse = false;
         }
+        return;
     }
 
     if (characteristic.uuid() == wifiStatusCharacteristicUuid) {
@@ -904,25 +974,7 @@ void WirelessSetupManager::onWifiServiceCharacteristicChanged(const QLowEnergyCh
         return;
     }
 
-    if (characteristic.uuid() == networkStatusCharacteristicUuid) {
-        qDebug() << "Network status changed:" << value.toHex().toUInt(0, 16);
-        setNetworkStatus(value.toHex().toUInt(0, 16));
-        return;
-    }
-
-    if (characteristic.uuid() == networkingEnabledCharacteristicUuid) {
-        qDebug() << "Networking enabled changed" << (bool)value.toHex().toUInt(0, 16);
-        setNetworkingEnabled((bool)value.toHex().toUInt(0, 16));
-        return;
-    }
-
-    if (characteristic.uuid() == wirelessEnabledCharacteristicUuid) {
-        qDebug() << "Wireless enabled changed" << (bool)value.toHex().toUInt(0, 16);
-        setWirelessEnabled((bool)value.toHex().toUInt(0, 16));
-        return;
-    }
-
-    qDebug() << "Bluetooth: Unhandled service characteristic changed" << characteristic.uuid() << value;
+    qWarning() << "Bluetooth: Unhandled service characteristic changed" << characteristic.uuid() << value;
 
 }
 

@@ -27,16 +27,21 @@
 #include <QBluetoothDeviceInfo>
 
 #include "bluetoothdevice.h"
-#include "wirelessaccesspoints.h"
+
+class WirelessAccessPoint;
+class WirelessAccessPoints;
+class WirelessAccessPointsProxy;
 
 class WirelessSetupManager : public BluetoothDevice
 {
     Q_OBJECT
     Q_PROPERTY(bool working READ working NOTIFY workingChanged)
     Q_PROPERTY(bool initializing READ initializing NOTIFY initializingChanged)
+
     Q_PROPERTY(bool initialized READ initialized NOTIFY initializedChanged)
 
-    Q_PROPERTY(WirelessAccesspoints *accessPoints READ accessPoints CONSTANT)
+    Q_PROPERTY(WirelessAccessPoints *accessPoints READ accessPoints CONSTANT)
+    Q_PROPERTY(WirelessAccessPointsProxy *accessPointsProxy READ accessPointsProxy CONSTANT)
 
     Q_PROPERTY(QString modelNumber READ modelNumber NOTIFY modelNumberChanged)
     Q_PROPERTY(QString manufacturer READ manufacturer NOTIFY manufacturerChanged)
@@ -154,7 +159,8 @@ public:
     bool networkingEnabled() const;
     bool wirelessEnabled() const;
 
-    WirelessAccesspoints *accessPoints();
+    WirelessAccessPoints *accessPoints();
+    WirelessAccessPointsProxy *accessPointsProxy();
 
     void reloadData();
 
@@ -174,7 +180,8 @@ private:
     QLowEnergyService *m_wifiService = nullptr;
     QLowEnergyService *m_systemService = nullptr;
 
-    WirelessAccesspoints *m_accessPoints = nullptr;
+    WirelessAccessPoints *m_accessPoints = nullptr;
+    WirelessAccessPointsProxy *m_accessPointsProxy = nullptr;
 
     QString m_modelNumber;
     QString m_manufacturer;
@@ -189,10 +196,10 @@ private:
     bool m_initialized = false;
     bool m_initializing = false;
 
-    NetworkStatus m_networkStatus;
-    WirelessStatus m_wirelessStatus;
+    NetworkStatus m_networkStatus = NetworkStatusUnknown;
+    WirelessStatus m_wirelessStatus = WirelessStatusUnknown;
 
-    bool m_readingResponse;
+    bool m_readingResponse = false;
     QByteArray m_inputDataStream;
 
     QString m_ssid;

@@ -20,58 +20,64 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef WIRELESSACCESSPOINTS_H
-#define WIRELESSACCESSPOINTS_H
+#include "wirelessaccesspointsproxy.h"
 
-#include <QObject>
-#include <QAbstractListModel>
+#include "wirelessaccesspoint.h"
+#include "wirelessaccesspoints.h"
 
-class WirelessAccessPoint;
+#include <QDebug>
 
-class WirelessAccessPoints : public QAbstractListModel
+WirelessAccessPointsProxy::WirelessAccessPointsProxy(QObject *parent) : QSortFilterProxyModel(parent)
 {
-    Q_OBJECT
-    Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
 
-public:
-    enum BluetoothDeviceInfoRole {
-        WirelessAccesspointRoleSsid = Qt::DisplayRole,
-        WirelessAccesspointRoleMacAddress,
-        WirelessAccesspointRoleHostAddress,
-        WirelessAccesspointRoleSignalStrength,
-        WirelessAccesspointRoleProtected,
-        WirelessAccesspointRoleSelectedNetwork
-    };
+}
 
-    explicit WirelessAccessPoints(QObject *parent = 0);
+WirelessAccessPoints *WirelessAccessPointsProxy::accessPoints() const
+{
+    return m_accessPoints;
+}
 
-    QList<WirelessAccessPoint *> wirelessAccessPoints();
-    void setWirelessAccessPoints(QList<WirelessAccessPoint *> wirelessAccessPoints);
+void WirelessAccessPointsProxy::setAccessPoints(WirelessAccessPoints *accessPoints)
+{
+    m_accessPoints = accessPoints;
+    emit accessPointsChanged();
+    setSourceModel(m_accessPoints);
+    sort(0);
+    invalidate();
+}
 
-    int rowCount(const QModelIndex & parent = QModelIndex()) const;
-    QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;
+bool WirelessAccessPointsProxy::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
+{
+    Q_UNUSED(source_parent)
 
-    int count() const;
-    Q_INVOKABLE WirelessAccessPoint *getAccessPoint(const QString &ssid) const;
-    Q_INVOKABLE WirelessAccessPoint *get(int index);
+    // Filter out the current selected network
+//    WirelessAccessPoint *accessPoint = m_accessPoints->get(source_row);
 
-    void clearModel();
+//    // Filter out selected network
+//    if (accessPoint->selectedNetwork())
+//        return false;
 
-    void addWirelessAccessPoint(WirelessAccessPoint *accessPoint);
-    void removeWirelessAccessPoint(WirelessAccessPoint *accessPoint);
+    return true;
+}
 
-    Q_INVOKABLE void clearSelectedNetwork();
+bool WirelessAccessPointsProxy::lessThan(const QModelIndex &left, const QModelIndex &right) const
+{
+    WirelessAccessPoint *leftAccessPoint = m_accessPoints->get(left.row());
+    WirelessAccessPoint *rightAccessPoint = m_accessPoints->get(right.row());
 
-signals:
-    void countChanged();
+    if (leftAccessPoint->selectedNetwork())
+        return true;
 
-protected:
-    QHash<int, QByteArray> roleNames() const;
+    return leftAccessPoint->signalStrength() > rightAccessPoint->signalStrength();
+}
 
-private:
-    QList<WirelessAccessPoint *> m_wirelessAccessPoints;
+WirelessAccessPoint *WirelessAccessPointsProxy::get(int index) const
+{
+    return m_accessPoints->get(mapToSource(this->index(index, 0)).row());
+}
 
-
-};
-
-#endif // WIRELESSACCESSPOINTS_H
+void WirelessAccessPointsProxy::invokeSort()
+{
+    sort(0);
+    invalidate();
+}
