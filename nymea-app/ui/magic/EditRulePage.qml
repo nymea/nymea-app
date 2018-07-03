@@ -13,7 +13,7 @@ Page {
     readonly property bool isEventBased: rule.eventDescriptors.count > 0 || rule.timeDescriptor.timeEventItems.count > 0
     readonly property bool isStateBased: (rule.stateEvaluator !== null || rule.timeDescriptor.calendarItems.count > 0) && !isEventBased
     readonly property bool actionsVisible: true
-    readonly property bool exitActionsVisible: actionsVisible && isStateBased
+    readonly property bool exitActionsVisible: (Engine.jsonRpcClient.ensureServerVersion(1.7) && !isEmpty) || isStateBased
     readonly property bool hasActions: rule.actions.count > 0
     readonly property bool hasExitActions: rule.exitActions.count > 0
     readonly property bool isEmpty: !isEventBased && !isStateBased && !hasActions
@@ -23,6 +23,9 @@ Page {
 
     signal accept();
     signal cancel();
+
+    Component.onCompleted: print("+++ created editrulepage")
+    Component.onDestruction: print("--- destroying editrulepage")
 
     function addEventDescriptor(interfaceMode) {
         if (interfaceMode === undefined) {
@@ -397,9 +400,10 @@ Page {
 
             Repeater {
                 id: eventsRepeater
-                model: root.hasExitActions ? null : root.rule.eventDescriptors
+                model: root.rule.eventDescriptors
                 delegate: EventDescriptorDelegate {
                     Layout.fillWidth: true
+                    implicitWidth: parent.width
                     eventDescriptor: root.rule.eventDescriptors.get(index)
                     onRemoveEventDescriptor: root.rule.eventDescriptors.removeEventDescriptor(index)
                 }
@@ -553,6 +557,7 @@ Page {
                 model: root.actionsVisible ? root.rule.actions : null
                 delegate: RuleActionDelegate {
                     Layout.fillWidth: true
+                    implicitWidth: parent.width
                     ruleAction: root.rule.actions.get(index)
                     onRemoveRuleAction: root.rule.actions.removeRuleAction(index)
                 }
@@ -575,7 +580,8 @@ Page {
             ThinDivider { visible: root.exitActionsVisible }
 
             Label {
-                text: qsTr("...isn't met any more, execute those actions:")
+                text: root.isStateBased ? qsTr("...isn't met any more, execute those actions:") :
+                                          qsTr("If the condition isn't met, execute those actions instead:")
                 Layout.fillWidth: true
                 Layout.margins: app.margins
                 wrapMode: Text.WordWrap
@@ -590,6 +596,7 @@ Page {
                 model: root.exitActionsVisible ? root.rule.exitActions : null
                 delegate: RuleActionDelegate {
                     Layout.fillWidth: true
+                    implicitWidth: parent.width
                     ruleAction: root.rule.exitActions.get(index)
                     onClicked: root.rule.exitActions.removeRuleAction(index)
                 }

@@ -90,3 +90,6 @@ BR=$$BRANDING
 
 target.path = /usr/bin
 INSTALLS += target
+
+DISTFILES += \
+    ui/magic/NewThingMagicPage.qml
