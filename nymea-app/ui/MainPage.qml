@@ -78,17 +78,21 @@ Page {
                 id: swipeView
                 clip: true
                 anchors.fill: parent
-                currentIndex: settings.currentMainViewIndex
-                onCurrentIndexChanged: settings.currentMainViewIndex = currentIndex
                 opacity: Engine.deviceManager.fetchingData ? 0 : 1
                 Behavior on opacity { NumberAnimation { duration: 300 } }
+
+                onCurrentIndexChanged: {
+                    settings.currentMainViewIndex = currentIndex
+                }
 
                 Component.onCompleted:  {
                     if (Engine.jsonRpcClient.ensureServerVersion(1.6)) {
                         swipeView.insertItem(0, favoritesViewComponent.createObject(swipeView))
-                    } else if (settings.currentMainViewIndex === 2) {
-                        settings.currentMainViewIndex = 0;
                     }
+                    if (settings.currentMainViewIndex > swipeView.count) {
+                        settings.currentMainViewIndex = swipeView.count - 1;
+                    }
+                    swipeView.currentIndex = Qt.binding(function() { return settings.currentMainViewIndex; })
                 }
 
                 Component {
