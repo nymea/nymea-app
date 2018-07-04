@@ -1532,23 +1532,23 @@
     </message>
     <message>
         <source>Notifications</source>
-        <translation type="unfinished">Benachrichtigungen</translation>
+        <translation>Benachrichtigungen</translation>
     </message>
     <message>
         <source>Temperature</source>
-        <translation type="unfinished">Temperatur</translation>
+        <translation>Temperatur</translation>
     </message>
     <message>
         <source>Humidity</source>
-        <translation type="unfinished">Feuchtigkeit</translation>
+        <translation>Feuchtigkeit</translation>
     </message>
     <message>
         <source>Incoming Events</source>
-        <translation type="unfinished">Einkommende Ereignisse</translation>
+        <translation>Einkommende Ereignisse</translation>
     </message>
     <message>
         <source>Events</source>
-        <translation type="unfinished">Ereignisse</translation>
+        <translation>Ereignisse</translation>
     </message>
     <message>
         <source>Shutters</source>
@@ -1568,15 +1568,15 @@
     </message>
     <message>
         <source>Connection error</source>
-        <translation type="unfinished">Verbindungsfehler</translation>
+        <translation>Verbindungsfehler</translation>
     </message>
     <message>
         <source>Sorry, the version of the %1 box you are trying to connect to is too old. This app requires at least version %2 but the %1 box only supports %3</source>
-        <translation type="unfinished">Entschuldigung, die Version dieser %1 Box ist zu alt. Diese Anwendung benötigt mindestens Version %2 aber die diese %1 Box unterstützt nur %3</translation>
+        <translation>Entschuldigung, die Version dieser %1 Box ist zu alt. Diese Anwendung benötigt mindestens Version %2 aber die diese %1 Box unterstützt nur %3</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
 </context>
 <context>
@@ -1670,34 +1670,34 @@
     <name>RemoveDeviceMethodDialog</name>
     <message>
         <source>This thing is currently used in one or more rules:</source>
-        <translation type="unfinished">Dieses &quot;Thing&quot; wird momentan von einer oder mehreren Regeln verwendet:</translation>
+        <translation>Dieses &quot;Thing&quot; wird momentan von einer oder mehreren Regeln verwendet:</translation>
     </message>
     <message>
         <source>Remove all those rules</source>
-        <translation type="unfinished">Alle diese Regeln entfernen</translation>
+        <translation>Alle diese Regeln entfernen</translation>
     </message>
     <message>
         <source>Update rules, removing this thing</source>
-        <translation type="unfinished">&quot;Thing&quot; entfernen und Regeln aktualisieren</translation>
+        <translation>&quot;Thing&quot; entfernen und Regeln aktualisieren</translation>
     </message>
     <message>
         <source>Don&apos;t remove this thing</source>
-        <translation type="unfinished">&quot;Thing&quot; nicht entfernen</translation>
+        <translation>&quot;Thing&quot; nicht entfernen</translation>
     </message>
 </context>
 <context>
     <name>RuleActionDelegate</name>
     <message>
         <source>%1 - %2</source>
-        <translation type="unfinished">%1 - %2</translation>
+        <translation>%1 - %2</translation>
     </message>
     <message>
         <source>%1: %2</source>
-        <translation type="unfinished">%1 %2: %2 {1:?}</translation>
+        <translation>%1: %2</translation>
     </message>
     <message>
         <source>value from event</source>
-        <translation type="unfinished">Wert von Ereignis</translation>
+        <translation>Wert von Ereignis</translation>
     </message>
 </context>
 <context>
@@ -2025,15 +2025,15 @@
     </message>
     <message>
         <source>6 h</source>
-        <translation type="unfinished">6 h</translation>
+        <translation>6 h</translation>
     </message>
     <message>
         <source>24 h</source>
-        <translation type="unfinished">24 h</translation>
+        <translation>24 h</translation>
     </message>
     <message>
         <source>7 d</source>
-        <translation type="unfinished">7 T</translation>
+        <translation>7 T</translation>
     </message>
 </context>
 <context>
