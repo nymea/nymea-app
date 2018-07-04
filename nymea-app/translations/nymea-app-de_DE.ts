@@ -839,7 +839,7 @@
     </message>
     <message>
         <source>...come true, execute those actions:</source>
-        <translation>...wahr wird, fürhe diese Aktionen aus:</translation>
+        <translation>...wahr werden, fürhe diese Aktionen aus:</translation>
     </message>
     <message>
         <source>...comes true, execute those actions:</source>
