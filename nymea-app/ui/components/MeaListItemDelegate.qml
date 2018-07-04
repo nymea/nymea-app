@@ -12,6 +12,8 @@ SwipeDelegate {
     property string iconName
     property int iconSize: app.iconSize
     property color iconColor: app.guhAccent
+    property string secondaryIconName
+    property alias secondaryIconColor: secondaryIcon.color
 
     signal deleteClicked()
 
@@ -48,10 +50,12 @@ SwipeDelegate {
         }
 
         ColorIcon {
+            id: secondaryIcon
             Layout.preferredHeight: app.iconSize * .6
             Layout.preferredWidth: height
-            name: "../images/next.svg"
+            name: root.secondaryIconName.length > 0 ? root.secondaryIconName : "../images/next.svg"
             visible: root.progressive
+            color: root.secondaryIconColor
         }
     }
 
