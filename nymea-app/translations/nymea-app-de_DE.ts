@@ -641,43 +641,43 @@
     </message>
     <message>
         <source>To</source>
-        <translation type="unfinished"></translation>
+        <translation>Bis</translation>
     </message>
     <message>
         <source>Repeat</source>
-        <translation type="unfinished"></translation>
+        <translation>Wiederholen</translation>
     </message>
     <message>
         <source>never</source>
-        <translation type="unfinished"></translation>
+        <translation>niemals</translation>
     </message>
     <message>
         <source>hourly</source>
-        <translation type="unfinished"></translation>
+        <translation>stündlich</translation>
     </message>
     <message>
         <source>daily</source>
-        <translation type="unfinished"></translation>
+        <translation>täglich</translation>
     </message>
     <message>
         <source>weekly</source>
-        <translation type="unfinished"></translation>
+        <translation>wöchentlich</translation>
     </message>
     <message>
         <source>monthly</source>
-        <translation type="unfinished"></translation>
+        <translation>monatlich</translation>
     </message>
     <message>
         <source>yearly</source>
-        <translation type="unfinished"></translation>
+        <translation>jährlich</translation>
     </message>
     <message>
         <source>Weekdays</source>
-        <translation type="unfinished"></translation>
+        <translation>Wochentage</translation>
     </message>
     <message>
         <source>Day of month</source>
-        <translation type="unfinished"></translation>
+        <translation>Tag im Monat</translation>
     </message>
     <message>
         <source>OK</source>
@@ -692,15 +692,15 @@
     </message>
     <message>
         <source>There are no things set up yet.</source>
-        <translation type="unfinished"></translation>
+        <translation>Es sind noch keine &quot;Things&quot; eingerichtet.</translation>
     </message>
     <message>
         <source>In order for your %1 box to be useful, go ahead and add some things.</source>
-        <translation type="unfinished"></translation>
+        <translation>Damit Deine %1 Box nützlich ist, füge nun einige &quot;Things&quot; hinzu.</translation>
     </message>
     <message>
         <source>Add a thing</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;Thing&quot; hinzufügen</translation>
     </message>
 </context>
 <context>
@@ -767,65 +767,71 @@
     </message>
     <message>
         <source>Add new magic</source>
-        <translation type="unfinished"></translation>
+        <translation>Magie hinzufügen</translation>
     </message>
     <message>
         <source>Edit %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 bearbeiten</translation>
     </message>
     <message>
         <source>Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Name:</translation>
     </message>
     <message>
         <source>Execute actions when something happens.</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktionen ausführen wenn ein Ereignis eintritt.</translation>
     </message>
     <message>
         <source>When any of these events happen...</source>
-        <translation type="unfinished"></translation>
+        <translation>Wenn eines dieser Ereignisse eintritt...</translation>
     </message>
     <message>
         <source>Examples:
 • When a button is pressed...
 • When the temperature changes...
 • At 7 am...</source>
-        <translation type="unfinished"></translation>
+        <translation>Beispiele:
+• Wenn eine Taste gedrückt wird...
+• Wenn sich die Temperatur ändert...
+• Um 7 Uhr morgens...</translation>
     </message>
     <message>
         <source>Configure...</source>
-        <translation type="unfinished"></translation>
+        <translation>Einrichten...</translation>
     </message>
     <message>
         <source>Add another...</source>
-        <translation type="unfinished"></translation>
+        <translation>Weitere hinzufügen...</translation>
     </message>
     <message>
         <source>Do something while a condition is met.</source>
-        <translation type="unfinished"></translation>
+        <translation>Etwas tun während eine Bedingung erfüllt ist.</translation>
     </message>
     <message>
         <source>...but only if those conditions are met...</source>
-        <translation type="unfinished"></translation>
+        <translation>...aber nur wenn diese Bedingungen erfüllt sind...</translation>
     </message>
     <message>
         <source>When this condition...</source>
-        <translation type="unfinished"></translation>
+        <translation>Wenn diese Bedingung...</translation>
     </message>
     <message>
         <source>Examples:
 • While I&apos;m at home...
 • When the temperature is below 0...
 • Between 9 am and 6 pm...</source>
-        <translation type="unfinished"></translation>
+        <translation>Beispile:
+• Während ich zuhause bin...
+• Wenn die Temperatur unter 0 ist...
+• Zwischen 9 Uhr vormittags und 6 Uhr abends...</translation>
     </message>
     <message>
         <source>When time is in...</source>
-        <translation type="unfinished"></translation>
+        <translation>Wenn die Uhrzeit zwischen...</translation>
     </message>
     <message>
         <source>...during this time...</source>
-        <translation type="unfinished"></translation>
+        <translation>...während dieser zeit...</translation>
     </message>
     <message>
         <source>Create a scene.</source>
