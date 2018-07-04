@@ -2,6 +2,72 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="de_DE">
 <context>
+    <name>AboutNymeaPage</name>
+    <message>
+        <source>About %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Server UUID:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Server version:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Protocol version:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>AboutPage</name>
+    <message>
+        <source>About %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>App version:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Qt version:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>nymea is a registered trademark of guh GmbH.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Licensed under the terms of the GNU general public license, version 2. Please visit the GitHub page for source code and build instructions.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Visit the nymea website</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Visit GitHub page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>View license text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Qt is a registered trademark of The Qt Company Ltd. and its subsidiaries.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Visit the Qt website</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>License text</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>AppSettingsPage</name>
     <message>
         <source>App Settings</source>
@@ -47,12 +113,16 @@
         <source>The application needs to be restarted for style changes to take effect.</source>
         <translation>Die Anwendung muss neu gestartet werden damit Änderung des Stils wirksam wird.</translation>
     </message>
+    <message>
+        <source>About %1</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ApplicationWindow</name>
     <message>
         <source>Maveo Pro Box Dashboard</source>
-        <translation>Maveo Pro Box Dashboard</translation>
+        <translation type="vanished">Maveo Pro Box Dashboard</translation>
     </message>
 </context>
 <context>
@@ -88,16 +158,48 @@
         <source>Bluetooth discovery</source>
         <translation>Bluetooth Suche</translation>
     </message>
+    <message>
+        <source>Searching for %1 boxes via Bluetooth.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Troubles finding your box? Try this!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Help</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Setup help</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>After having installed the nymea community image to your Raspberry Pi, all you need to do is to plug it into a power socket. Note that the Wireless setup will only be available if the Raspberry Pi is not connected to a wired network.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If you have a %1 box, plug it into a power socket and wait for it to be booted. Once the LED pulses slowly, press the button for 3 seconds until the LED changes.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Establish bluetooth connection</source>
+        <translation type="unfinished">Bluetooth Verbindung aufbauen</translation>
+    </message>
+    <message>
+        <source>Initialize services...</source>
+        <translation type="unfinished">Dienste initialisieren...</translation>
+    </message>
 </context>
 <context>
     <name>BluetoothLoadingPage</name>
     <message>
         <source>Establish bluetooth connection</source>
-        <translation>Bluetooth Verbindung aufbauen</translation>
+        <translation type="vanished">Bluetooth Verbindung aufbauen</translation>
     </message>
     <message>
         <source>Initialize services...</source>
-        <translation>Dienste initialisieren...</translation>
+        <translation type="vanished">Dienste initialisieren...</translation>
     </message>
 </context>
 <context>
@@ -105,6 +207,69 @@
     <message>
         <source>This button has been pressed %1 times in the last 24 hours.</source>
         <translation>Diese Taste wurde in den letzten 24 Stunden %1 mal gedrückt.</translation>
+    </message>
+</context>
+<context>
+    <name>CalendarItemDelegate</name>
+    <message>
+        <source>From %1 to %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>repeated %3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>never</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>hourly</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>daily</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Mon</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tue</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Wed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Thu</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Fri</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sat</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sun</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>weekly on %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>monthly on the %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>every year</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -134,7 +299,7 @@
     </message>
     <message>
         <source>Remove device error: %1</source>
-        <translation>Fehler beim Entfernen: %1</translation>
+        <translation type="vanished">Fehler beim Entfernen: %1</translation>
     </message>
     <message>
         <source>Thing parameters</source>
@@ -142,19 +307,19 @@
     </message>
     <message>
         <source>This thing is currently used in one or more rules:</source>
-        <translation>Dieses &quot;Thing&quot; wird momentan von einer oder mehreren Regeln verwendet:</translation>
+        <translation type="vanished">Dieses &quot;Thing&quot; wird momentan von einer oder mehreren Regeln verwendet:</translation>
     </message>
     <message>
         <source>Remove all those rules</source>
-        <translation>Alle diese Regeln entfernen</translation>
+        <translation type="vanished">Alle diese Regeln entfernen</translation>
     </message>
     <message>
         <source>Update rules, removing this thing</source>
-        <translation>&quot;Thing&quot; entfernen und Regeln aktualisieren</translation>
+        <translation type="vanished">&quot;Thing&quot; entfernen und Regeln aktualisieren</translation>
     </message>
     <message>
         <source>Don&apos;t remove this thing</source>
-        <translation>&quot;Thing&quot; nicht entfernen</translation>
+        <translation type="vanished">&quot;Thing&quot; nicht entfernen</translation>
     </message>
 </context>
 <context>
@@ -249,11 +414,11 @@
     </message>
     <message>
         <source>The authenticity of this %1 box cannot be verified.</source>
-        <translation>Die Herkunft dieser %1 Box konnte nicht verifiziert werden.</translation>
+        <translation type="vanished">Die Herkunft dieser %1 Box konnte nicht verifiziert werden.</translation>
     </message>
     <message>
         <source>If this is the first time you connect to this box, this is expected. Once you trust a box, you should never see this message again for that one. If you see this message multiple times for the same box, something suspicious is going on!</source>
-        <translation>Wenn dies die erste Verbindung zu dieser Box ist, ist es normal dass Sie diese Meldung sehen. Sobald Sie einer Box ein mal Vertrauen sollten Sie diese Meldung nicht mehr wieder sehen. Sollten Sie diese Meldung wieder Erwarten öfters sehen, könnte dies auf eine Verdächtige Aktivität in Ihrem Netzwerk hinweisen!</translation>
+        <translation type="vanished">Wenn dies die erste Verbindung zu dieser Box ist, ist es normal dass Sie diese Meldung sehen. Sobald Sie einer Box ein mal Vertrauen sollten Sie diese Meldung nicht mehr wieder sehen. Sollten Sie diese Meldung wieder Erwarten öfters sehen, könnte dies auf eine Verdächtige Aktivität in Ihrem Netzwerk hinweisen!</translation>
     </message>
     <message>
         <source>Fingerprint: </source>
@@ -267,6 +432,78 @@
         <source>App settings</source>
         <translation>App Einstellungen</translation>
     </message>
+    <message>
+        <source>The host has rejected our connection. This probably means that %1 stopped running. Did you unplug your %1 box?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The %1 box could not be found on this address. Please make sure you entered the address correctly and that the box is powered on.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>It seems you&apos;re not connected to the network.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The %1 box has closed the connection. This probably means it has been turned off or restarted.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Un unknown error happened. We&apos;re very sorry for that. (Error code: %1)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Demo mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Do you have a %1 box but it&apos;s not connected to your network yet? Use the wireless setup to connect it!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start wireless setup</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Demo mode (online)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hi there!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The certificate of this %1 box has changed!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>It seems this is the first time you connect to this %1 box.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Did you change the box&apos;s configuration? Verify if this information is correct.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This is the box&apos;s certificate. Once you trust it, an encrypted connection will be established.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Do you want to connect nevertheless?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Box information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Available connections</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Port: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DevicePageBase</name>
@@ -277,6 +514,22 @@
     <message>
         <source>Thing runs out of battery!</source>
         <translation>Die Batterie neigt sich dem Ende zu!</translation>
+    </message>
+    <message>
+        <source>Magic</source>
+        <translation type="unfinished">Magie</translation>
+    </message>
+    <message>
+        <source>Thing details</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Mark as favorite</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove from favorites</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -298,11 +551,137 @@
     <name>DevicesPage</name>
     <message>
         <source>All off</source>
-        <translation>Alle aus</translation>
+        <translation type="vanished">Alle aus</translation>
     </message>
     <message>
         <source>%1 on</source>
-        <translation>%1 an</translation>
+        <translation type="vanished">%1 an</translation>
+    </message>
+</context>
+<context>
+    <name>DevicesPageDelegate</name>
+    <message>
+        <source>All off</source>
+        <translation type="unfinished">Alle aus</translation>
+    </message>
+    <message>
+        <source>%1 on</source>
+        <translation type="unfinished">%1 an</translation>
+    </message>
+    <message>
+        <source>All closed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 open</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 installed</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>EditCalendarItemPage</name>
+    <message>
+        <source>Pick a time frame</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>From</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Jan</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Feb</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Mar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Apr</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>May</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Jun</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Jul</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Aug</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sep</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Oct</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Nov</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dez</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Repeat</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>never</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>hourly</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>daily</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>weekly</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>monthly</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>yearly</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Weekdays</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Day of month</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation type="unfinished">OK</translation>
     </message>
 </context>
 <context>
@@ -311,16 +690,28 @@
         <source>Configure Things</source>
         <translation>&quot;Things&quot; einrichten</translation>
     </message>
+    <message>
+        <source>There are no things set up yet.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>In order for your %1 box to be useful, go ahead and add some things.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add a thing</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>EditRulePage</name>
     <message>
         <source>New rule</source>
-        <translation>Neue Regel</translation>
+        <translation type="vanished">Neue Regel</translation>
     </message>
     <message>
         <source>Rule name</source>
-        <translation>Regel Name</translation>
+        <translation type="vanished">Regel Name</translation>
     </message>
     <message>
         <source>This rule is enabled</source>
@@ -328,39 +719,39 @@
     </message>
     <message>
         <source>Events triggering this rule</source>
-        <translation>Ereignisse welche diese Regel auslösen</translation>
+        <translation type="vanished">Ereignisse welche diese Regel auslösen</translation>
     </message>
     <message>
         <source>%1 - %2</source>
-        <translation>%1 - %2</translation>
+        <translation type="vanished">%1 - %2</translation>
     </message>
     <message>
         <source>Add an event...</source>
-        <translation>Ereignis hinzufügen...</translation>
+        <translation type="vanished">Ereignis hinzufügen...</translation>
     </message>
     <message>
         <source>Add another event...</source>
-        <translation>Weiteres Ereignis hinzufügen...</translation>
+        <translation type="vanished">Weiteres Ereignis hinzufügen...</translation>
     </message>
     <message>
         <source>Conditions to be met</source>
-        <translation>Bedingungen welche erfüllt sein müssen</translation>
+        <translation type="vanished">Bedingungen welche erfüllt sein müssen</translation>
     </message>
     <message>
         <source>Add a condition</source>
-        <translation>Bedingung hinzufügen</translation>
+        <translation type="vanished">Bedingung hinzufügen</translation>
     </message>
     <message>
         <source>Active state enter actions</source>
-        <translation>Aktionen wenn Zustand eintritt</translation>
+        <translation type="vanished">Aktionen wenn Zustand eintritt</translation>
     </message>
     <message>
         <source>Actions to execute</source>
-        <translation>Auszuführende Aktionen</translation>
+        <translation type="vanished">Auszuführende Aktionen</translation>
     </message>
     <message>
         <source>value from event</source>
-        <translation>Wert von Ereignis</translation>
+        <translation type="vanished">Wert von Ereignis</translation>
     </message>
     <message>
         <source>Add an action...</source>
@@ -372,7 +763,137 @@
     </message>
     <message>
         <source>Active state exit actions</source>
-        <translation>Aktionen wenn Zustand verlassen wird</translation>
+        <translation type="vanished">Aktionen wenn Zustand verlassen wird</translation>
+    </message>
+    <message>
+        <source>Add new magic</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Execute actions when something happens.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>When any of these events happen...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Examples:
+• When a button is pressed...
+• When the temperature changes...
+• At 7 am...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Configure...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add another...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Do something while a condition is met.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>...but only if those conditions are met...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>When this condition...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Examples:
+• While I&apos;m at home...
+• When the temperature is below 0...
+• Between 9 am and 6 pm...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>When time is in...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>...during this time...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Create a scene.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>...come true, execute those actions:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>...comes true, execute those actions:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>...execute those actions:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Just pick some actions which will be executed when the scene is activated. Scenes are like any other magic except they can also be activated manually.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>...isn&apos;t met any more, execute those actions:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add event</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>When one of my things triggers an event</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>When a thing of a given type triggers an event</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>At a particular time or date</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add condition...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>When one of my things is in a certain state</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>When a thing of a given type enters a state</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>During a given time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add action...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Execute an action on one of my things</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Execute an action on an entire kind of things</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -383,10 +904,136 @@
     </message>
 </context>
 <context>
+    <name>EditTimeEventItemPage</name>
+    <message>
+        <source>Pick a time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Time</source>
+        <translation type="unfinished">Zeit</translation>
+    </message>
+    <message>
+        <source>Repeat</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>never</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>hourly</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>daily</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>weekly</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>monthly</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>yearly</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Date</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Jan</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Feb</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Mar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Apr</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>May</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Jun</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Jul</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Aug</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sep</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Oct</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Nov</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dez</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Weekdays</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Day of month</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation type="unfinished">OK</translation>
+    </message>
+</context>
+<context>
     <name>ErrorDialog</name>
     <message>
         <source>Error</source>
-        <translation>Fehler</translation>
+        <translation type="vanished">Fehler</translation>
+    </message>
+    <message>
+        <source>Oh snap!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>An unexpected error happened. We&apos;re sorry for that.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error code: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>EventDescriptorDelegate</name>
+    <message>
+        <source>%1 - %2</source>
+        <translation type="unfinished">%1 - %2</translation>
+    </message>
+    <message>
+        <source>anytime</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -399,12 +1046,16 @@
         <source>All my things</source>
         <translation>Alle meine &quot;Things&quot;</translation>
     </message>
+    <message>
+        <source>My things</source>
+        <translation type="unfinished">Meine &quot;Things&quot;</translation>
+    </message>
 </context>
 <context>
     <name>GenericTypeLogView</name>
     <message>
         <source>Data:</source>
-        <translation>Daten:</translation>
+        <translation type="vanished">Daten:</translation>
     </message>
 </context>
 <context>
@@ -419,6 +1070,65 @@
     <message>
         <source>This event has appeared %1 times in the last 24 hours.</source>
         <translation>Dieses Ereignis ist in den letzten 24 Stunden %1 mal eingetreten.</translation>
+    </message>
+</context>
+<context>
+    <name>Interfaces</name>
+    <message>
+        <source>Battery powered devices</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Battery level is critical</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Battery level entered critical state</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Notification services</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Title</source>
+        <translation type="unfinished">Titel</translation>
+    </message>
+    <message>
+        <source>Message body</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Send notification</source>
+        <translation type="unfinished">Benachrichtigung senden</translation>
+    </message>
+    <message>
+        <source>Lights</source>
+        <translation type="unfinished">Lichter</translation>
+    </message>
+    <message>
+        <source>Light is turned on</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A light is turned on or off</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Turn lights on or off</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Temperature sensors</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Temperature</source>
+        <translation type="unfinished">Temperatur</translation>
+    </message>
+    <message>
+        <source>Temperature has changed</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -510,7 +1220,7 @@
     </message>
     <message>
         <source>An error happened creating the user.</source>
-        <translation>Beim Erstellen des Benutzers ist ein Fehler aufgetreten.</translation>
+        <translation type="vanished">Beim Erstellen des Benutzers ist ein Fehler aufgetreten.</translation>
     </message>
     <message>
         <source>In order to use your %1 system, please enter your email address and set a password for your nymea box.</source>
@@ -544,12 +1254,32 @@
         <source>OK</source>
         <translation>OK</translation>
     </message>
+    <message>
+        <source>The email you&apos;ve entered is already userd.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>An error happened with the user storage. Please make sure your %1 box is installed correctly.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>MagicPage</name>
     <message>
         <source>Magic</source>
         <translation>Magie</translation>
+    </message>
+    <message>
+        <source>There is no magic set up yet.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use magic to make your things smart! In a few easy steps you&apos;ll have your things wired up and work for you.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add some magic</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -564,7 +1294,7 @@
     </message>
     <message>
         <source>Add a new thing</source>
-        <translation>Neues &quot;Thing&quot; hinzufügen</translation>
+        <translation type="vanished">Neues &quot;Thing&quot; hinzufügen</translation>
     </message>
     <message>
         <source>Magic</source>
@@ -588,7 +1318,7 @@
     </message>
     <message>
         <source>There are no things set up yet. You can start with adding your things by using the menu on the upper left and selecting &quot;Add a new thing&quot;.</source>
-        <translation>Es sind noch keine &quot;Things&quot; eingerichtet. Legen Sie los indem Sie Ihre &quot;Things&quot; mit dem Menü links oben hinzufügen.</translation>
+        <translation type="vanished">Es sind noch keine &quot;Things&quot; eingerichtet. Legen Sie los indem Sie Ihre &quot;Things&quot; mit dem Menü links oben hinzufügen.</translation>
     </message>
     <message>
         <source>System settings</source>
@@ -598,64 +1328,124 @@
         <source>App settings</source>
         <translation>App-Einstellungen</translation>
     </message>
+    <message>
+        <source>My favorites</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There are no favorite things yet.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>It appears there are no things set up either yet. In order to use favorites you need to add some things first.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Favorites allow you to keep track of your most important things when you have lots of them. Watch out for the star when interacting with things and use it to mark them as your favorites.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add a thing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There are no things set up yet.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>In order for your %1 box to be useful, go ahead and add some things.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>My scenes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There are no scenes set up yet</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>It appears there are no things set up either yet. In order to use scenes you need to add some things first.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Scenes provide a useful way to control your things with just one click.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add a scene</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Favorites</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Things</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Scenes</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Mea</name>
     <message>
         <source>Lighting</source>
-        <translation>Beleuchtung</translation>
+        <translation type="vanished">Beleuchtung</translation>
     </message>
     <message>
         <source>Weather</source>
-        <translation>Wetter</translation>
+        <translation type="vanished">Wetter</translation>
     </message>
     <message>
         <source>Sensors</source>
-        <translation>Sensoren</translation>
+        <translation type="vanished">Sensoren</translation>
     </message>
     <message>
         <source>Media</source>
-        <translation>Medien</translation>
+        <translation type="vanished">Medien</translation>
     </message>
     <message>
         <source>Switches</source>
-        <translation>Schalter</translation>
+        <translation type="vanished">Schalter</translation>
     </message>
     <message>
         <source>Gateways</source>
-        <translation>Gateways</translation>
+        <translation type="vanished">Gateways</translation>
     </message>
     <message>
         <source>Notifications</source>
-        <translation>Benachrichtigungen</translation>
+        <translation type="vanished">Benachrichtigungen</translation>
     </message>
     <message>
         <source>Temperature</source>
-        <translation>Temperatur</translation>
+        <translation type="vanished">Temperatur</translation>
     </message>
     <message>
         <source>Humidity</source>
-        <translation>Feuchtigkeit</translation>
+        <translation type="vanished">Feuchtigkeit</translation>
     </message>
     <message>
         <source>Incoming Events</source>
-        <translation>Einkommende Ereignisse</translation>
+        <translation type="vanished">Einkommende Ereignisse</translation>
     </message>
     <message>
         <source>Events</source>
-        <translation>Ereignisse</translation>
+        <translation type="vanished">Ereignisse</translation>
     </message>
     <message>
         <source>Connection error</source>
-        <translation>Verbindungsfehler</translation>
+        <translation type="vanished">Verbindungsfehler</translation>
     </message>
     <message>
         <source>Sorry, the version of the %1 box you are trying to connect to is too old. This app requires at least version %2 but the %1 box only supports %3</source>
-        <translation>Entschuldigung, die Version dieser %1 Box ist zu alt. Diese Anwendung benötigt mindestens Version %2 aber die diese %1 Box unterstützt nur %3</translation>
+        <translation type="vanished">Entschuldigung, die Version dieser %1 Box ist zu alt. Diese Anwendung benötigt mindestens Version %2 aber die diese %1 Box unterstützt nur %3</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation type="vanished">OK</translation>
     </message>
 </context>
 <context>
@@ -684,6 +1474,10 @@
         <source>Try again!</source>
         <translation>Nochmals versuchen!</translation>
     </message>
+    <message>
+        <source>Name the thing:</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>NotificationsView</name>
@@ -702,6 +1496,81 @@
     <message>
         <source>Send</source>
         <translation>Senden</translation>
+    </message>
+</context>
+<context>
+    <name>Nymea</name>
+    <message>
+        <source>Lighting</source>
+        <translation type="unfinished">Beleuchtung</translation>
+    </message>
+    <message>
+        <source>Weather</source>
+        <translation type="unfinished">Wetter</translation>
+    </message>
+    <message>
+        <source>Sensors</source>
+        <translation type="unfinished">Sensoren</translation>
+    </message>
+    <message>
+        <source>Media</source>
+        <translation type="unfinished">Medien</translation>
+    </message>
+    <message>
+        <source>Switches</source>
+        <translation type="unfinished">Schalter</translation>
+    </message>
+    <message>
+        <source>Gateways</source>
+        <translation type="unfinished">Gateways</translation>
+    </message>
+    <message>
+        <source>Notifications</source>
+        <translation type="unfinished">Benachrichtigungen</translation>
+    </message>
+    <message>
+        <source>Temperature</source>
+        <translation type="unfinished">Temperatur</translation>
+    </message>
+    <message>
+        <source>Humidity</source>
+        <translation type="unfinished">Feuchtigkeit</translation>
+    </message>
+    <message>
+        <source>Incoming Events</source>
+        <translation type="unfinished">Einkommende Ereignisse</translation>
+    </message>
+    <message>
+        <source>Events</source>
+        <translation type="unfinished">Ereignisse</translation>
+    </message>
+    <message>
+        <source>Shutters</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Blinds</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Garage gates</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Uncategorized</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connection error</source>
+        <translation type="unfinished">Verbindungsfehler</translation>
+    </message>
+    <message>
+        <source>Sorry, the version of the %1 box you are trying to connect to is too old. This app requires at least version %2 but the %1 box only supports %3</source>
+        <translation type="unfinished">Entschuldigung, die Version dieser %1 Box ist zu alt. Diese Anwendung benötigt mindestens Version %2 aber die diese %1 Box unterstützt nur %3</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation type="unfinished">OK</translation>
     </message>
 </context>
 <context>
@@ -762,7 +1631,7 @@
     </message>
     <message>
         <source>Error saving params: </source>
-        <translation>Fehler beim Speichern der Parameter: </translation>
+        <translation type="vanished">Fehler beim Speichern der Parameter: </translation>
     </message>
 </context>
 <context>
@@ -789,6 +1658,71 @@
     <message>
         <source>Please press the button on your %1 box to authenticate this device.</source>
         <translation>Bitte drücken Sie die Taste auf Ihrer %1 Box um sich zu authentifizieren.</translation>
+    </message>
+</context>
+<context>
+    <name>RemoveDeviceMethodDialog</name>
+    <message>
+        <source>This thing is currently used in one or more rules:</source>
+        <translation type="unfinished">Dieses &quot;Thing&quot; wird momentan von einer oder mehreren Regeln verwendet:</translation>
+    </message>
+    <message>
+        <source>Remove all those rules</source>
+        <translation type="unfinished">Alle diese Regeln entfernen</translation>
+    </message>
+    <message>
+        <source>Update rules, removing this thing</source>
+        <translation type="unfinished">&quot;Thing&quot; entfernen und Regeln aktualisieren</translation>
+    </message>
+    <message>
+        <source>Don&apos;t remove this thing</source>
+        <translation type="unfinished">&quot;Thing&quot; nicht entfernen</translation>
+    </message>
+</context>
+<context>
+    <name>RuleActionDelegate</name>
+    <message>
+        <source>%1 - %2</source>
+        <translation type="unfinished">%1 - %2</translation>
+    </message>
+    <message>
+        <source>%1: %2</source>
+        <translation type="unfinished">%1 %2: %2 {1:?}</translation>
+    </message>
+    <message>
+        <source>value from event</source>
+        <translation type="unfinished">Wert von Ereignis</translation>
+    </message>
+</context>
+<context>
+    <name>S:</name>
+    <message>
+        <source></source>
+        <comment>example: &quot;only if temperature &gt; 5&quot;</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <source>only if %1 %2 %3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source></source>
+        <comment>example: &quot;and temperature &gt; 5&quot;</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <source>and %1 %2 %3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source></source>
+        <comment>example: &quot;only if temperature &gt; 5&quot;</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <source></source>
+        <comment>example: &quot;and temperature &gt; 5&quot;</comment>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -850,15 +1784,15 @@
     <name>SelectEventDescriptorPage</name>
     <message>
         <source>When it&apos;s freezing...</source>
-        <translation>Wenn es fröstelt...</translation>
+        <translation type="vanished">Wenn es fröstelt...</translation>
     </message>
     <message>
         <source>When the device runs out of battery...</source>
-        <translation>Wenn die Batterie des Gerätes schwach wird...</translation>
+        <translation type="vanished">Wenn die Batterie des Gerätes schwach wird...</translation>
     </message>
     <message>
         <source>When it starts raining...</source>
-        <translation>Wenn es regnet...</translation>
+        <translation type="vanished">Wenn es regnet...</translation>
     </message>
 </context>
 <context>
@@ -887,11 +1821,15 @@
     <name>SelectStateDescriptorParamsPage</name>
     <message>
         <source>params</source>
-        <translation>Parameter</translation>
+        <translation type="vanished">Parameter</translation>
     </message>
     <message>
         <source>OK</source>
         <translation>OK</translation>
+    </message>
+    <message>
+        <source>Options</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -902,11 +1840,15 @@
     </message>
     <message>
         <source>A specific thing</source>
-        <translation>Ein bestimmtes &quot;Thing&quot;</translation>
+        <translation type="vanished">Ein bestimmtes &quot;Thing&quot;</translation>
     </message>
     <message>
         <source>A group of things</source>
-        <translation>Eine Gruppe von &quot;Things&quot;</translation>
+        <translation type="vanished">Eine Gruppe von &quot;Things&quot;</translation>
+    </message>
+    <message>
+        <source>Select a kind of things</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1010,6 +1952,10 @@
         <source>Log viewer</source>
         <translation>Systemprotokoll</translation>
     </message>
+    <message>
+        <source>About nymea</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SimpleStateEvaluatorDelegate</name>
@@ -1023,7 +1969,7 @@
     </message>
     <message>
         <source>%1 %2: %3 %4 %5%6</source>
-        <translation>%1 %2: %3 %4 %5%6</translation>
+        <translation type="vanished">%1 %2: %3 %4 %5%6</translation>
     </message>
 </context>
 <context>
@@ -1040,6 +1986,18 @@
         <source>Add a condition</source>
         <translation>Bedingung hinzufügen</translation>
     </message>
+    <message>
+        <source>Edit condition...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>When one of my things is in a certain state</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>When a thing of a given type enters a state</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>StateLogPage</name>
@@ -1050,6 +2008,26 @@
     <message>
         <source>%1, %2 has changed %3 times in the last 24h</source>
         <translation>%1, %2 änderte sich %3 mal in den letzten 24 Sunden</translation>
+    </message>
+    <message>
+        <source>Log</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Graph</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>6 h</source>
+        <translation type="unfinished">6 h</translation>
+    </message>
+    <message>
+        <source>24 h</source>
+        <translation type="unfinished">24 h</translation>
+    </message>
+    <message>
+        <source>7 d</source>
+        <translation type="unfinished">7 T</translation>
     </message>
 </context>
 <context>
@@ -1069,6 +2047,69 @@
     <message>
         <source>Log viewer</source>
         <translation type="vanished">Logansicht</translation>
+    </message>
+</context>
+<context>
+    <name>TimeEventDelegate</name>
+    <message>
+        <source>At %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>repeated %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>never</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>hourly</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>daily</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Mon</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tue</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Wed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Thu</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Fri</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sat</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sun</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>weekly on %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>monthly on the %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>every year</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1202,11 +2243,11 @@
     </message>
     <message>
         <source>Show password</source>
-        <translation>Passwort anzeigen</translation>
+        <translation type="vanished">Passwort anzeigen</translation>
     </message>
     <message>
         <source>Hide password</source>
-        <translation>Passwort verbergen</translation>
+        <translation type="vanished">Passwort verbergen</translation>
     </message>
     <message>
         <source>Connect</source>
@@ -1214,7 +2255,7 @@
     </message>
     <message>
         <source>Network settings</source>
-        <translation>Netzwerkeinstellungen</translation>
+        <translation type="vanished">Netzwerkeinstellungen</translation>
     </message>
     <message>
         <source>Networking</source>
@@ -1222,11 +2263,11 @@
     </message>
     <message>
         <source>Wireless networking</source>
-        <translation>Funknetzwerk</translation>
+        <translation type="vanished">Funknetzwerk</translation>
     </message>
     <message>
         <source>Bluetooth device information</source>
-        <translation>Bluetooth Geräteinformationen</translation>
+        <translation type="vanished">Bluetooth Geräteinformationen</translation>
     </message>
     <message>
         <source>System UUID</source>
@@ -1247,6 +2288,58 @@
     <message>
         <source>Hardware revision</source>
         <translation>Hardware Revision</translation>
+    </message>
+    <message>
+        <source>%1 box network setup</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Networking status</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Network information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SSID:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Mac Address:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Host Address:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Signal strength:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Protected:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connection status:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Network manager settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>About this %1 box</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Trigger a wireless scan on the device.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Box information</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1278,6 +2371,10 @@
     <message>
         <source>The networking is disabled on the device.</source>
         <translation>Das Netzwerk ist auf diesem Geräg deaktiviert.</translation>
+    </message>
+    <message>
+        <source>Unknown error occured.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
