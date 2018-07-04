@@ -143,7 +143,7 @@ Page {
                     model: discovery.discoveryModel
                     clip: true
 
-                    delegate: SwipeDelegate {
+                    delegate: MeaListItemDelegate {
                         id: discoveryDeviceDelegate
                         width: parent.width
                         height: app.delegateHeight
@@ -172,51 +172,27 @@ Page {
                             return usedConfigIndex
                         }
 
-                        contentItem: RowLayout {
-
-                            ColorIcon {
-                                Layout.fillHeight: true
-                                Layout.preferredWidth: height
-                                name: model.type === DiscoveryDevice.DeviceTypeNetwork ? "../images/network-vpn.svg" : "../images/bluetooth.svg"
-                                color: app.guhAccent
-                            }
-
-                            ColumnLayout {
-                                Layout.fillWidth: true
-                                Label {
-                                    text: model.name
-                                    Layout.fillWidth: true
-                                    elide: Text.ElideRight
-                                }
-                                Label {
-                                    text: model.type === DiscoveryDevice.DeviceTypeNetwork ? model.hostAddress : model.bluetoothAddress
-                                    font.pixelSize: app.smallFont
-                                }
-                            }
-
-                            ColorIcon {
-                                Layout.fillHeight: true
-                                Layout.preferredWidth: height
-                                property bool hasSecurePort: {
-                                    if (model.type === DiscoveryDevice.DeviceTypeNetwork) {
-                                        return discoveryDeviceDelegate.discoveryDevice.portConfigs.get(discoveryDeviceDelegate.defaultPortConfigIndex).sslEnabled
-                                    } else {
-                                        return false
-                                    }
-
-                                }
-                                property bool isTrusted: {
-                                    if (model.type === DiscoveryDevice.DeviceTypeNetwork) {
-                                        Engine.connection.isTrusted(discoveryDeviceDelegate.discoveryDevice.toUrl(discoveryDeviceDelegate.defaultPortConfigIndex))
-                                    } else {
-                                        return false
-                                    }
-                                }
-                                visible: hasSecurePort
-                                name: "../images/network-secure.svg"
-                                color: isTrusted ? app.guhAccent : keyColor
+                        iconName: model.type === DiscoveryDevice.DeviceTypeNetwork ? "../images/network-vpn.svg" : "../images/bluetooth.svg"
+                        text: model.name
+                        subText: model.type === DiscoveryDevice.DeviceTypeNetwork ? model.hostAddress : model.bluetoothAddress
+                        property bool hasSecurePort: {
+                            if (model.type === DiscoveryDevice.DeviceTypeNetwork) {
+                                return discoveryDeviceDelegate.discoveryDevice.portConfigs.get(discoveryDeviceDelegate.defaultPortConfigIndex).sslEnabled
+                            } else {
+                                return false
                             }
                         }
+                        property bool isTrusted: {
+                            if (model.type === DiscoveryDevice.DeviceTypeNetwork) {
+                                Engine.connection.isTrusted(discoveryDeviceDelegate.discoveryDevice.toUrl(discoveryDeviceDelegate.defaultPortConfigIndex))
+                            } else {
+                                return false
+                            }
+                        }
+                        progressive: hasSecurePort
+                        secondaryIconName: "../images/network-secure.svg"
+                        secondaryIconColor: isTrusted ? app.guhAccent : Material.foreground
+                        swipe.enabled: model.type === DiscoveryDevice.DeviceTypeNetwork
 
                         onClicked: {
                             if (model.type === DiscoveryDevice.DeviceTypeNetwork) {

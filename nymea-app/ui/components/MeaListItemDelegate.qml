@@ -12,6 +12,8 @@ SwipeDelegate {
     property string iconName
     property int iconSize: app.iconSize
     property color iconColor: app.guhAccent
+    property string secondaryIconName
+    property alias secondaryIconColor: secondaryIcon.color
 
     property bool batteryCritical: false
     property bool disconnected: false
