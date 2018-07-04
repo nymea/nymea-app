@@ -2,7 +2,7 @@
  *                                                                         *
  *  Copyright (C) 2018 Simon Stuerz <simon.stuerz@guh.io>                  *
  *                                                                         *
- *  This file is part of nymea:app                                               *
+ *  This file is part of nymea:app                                         *
  *                                                                         *
  *  This library is free software; you can redistribute it and/or          *
  *  modify it under the terms of the GNU Lesser General Public             *

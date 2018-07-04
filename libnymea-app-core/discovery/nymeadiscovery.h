@@ -6,6 +6,7 @@
 class DiscoveryModel;
 class UpnpDiscovery;
 class ZeroconfDiscovery;
+class BluetoothServiceDiscovery;
 
 class NymeaDiscovery : public QObject
 {
@@ -30,6 +31,8 @@ private:
 
     UpnpDiscovery *m_upnp = nullptr;
     ZeroconfDiscovery *m_zeroConf = nullptr;
+    BluetoothServiceDiscovery *m_bluetooth = nullptr;
+
 };
 
 #endif // NYMEADISCOVERY_H

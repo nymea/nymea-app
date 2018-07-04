@@ -25,6 +25,7 @@
 #include <QUuid>
 #include <QUrl>
 #include <QHostAddress>
+#include <QBluetoothAddress>
 #include <QObject>
 #include <QAbstractListModel>
 
@@ -94,14 +95,24 @@ private:
 class DiscoveryDevice: public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(DeviceType deviceType READ deviceType CONSTANT)
     Q_PROPERTY(QUuid uuid READ uuid CONSTANT)
     Q_PROPERTY(QString hostAddress READ hostAddressString NOTIFY hostAddressChanged)
+    Q_PROPERTY(QString bluetoothAddress READ bluetoothAddressString NOTIFY bluetoothAddressChanged)
     Q_PROPERTY(QString name READ name NOTIFY nameChanged)
     Q_PROPERTY(QString version READ version NOTIFY versionChanged)
     Q_PROPERTY(PortConfigs* portConfigs READ portConfigs CONSTANT)
 
 public:
-    explicit DiscoveryDevice(QObject *parent = nullptr);
+    enum DeviceType {
+        DeviceTypeNetwork,
+        DeviceTypeBluetooth
+    };
+    Q_ENUM(DeviceType)
+
+    explicit DiscoveryDevice(DeviceType deviceType, QObject *parent = nullptr);
+
+    DeviceType deviceType() const;
 
     QUuid uuid() const;
     void setUuid(const QUuid &uuid);
@@ -109,6 +120,10 @@ public:
     QHostAddress hostAddress() const;
     QString hostAddressString() const;
     void setHostAddress(const QHostAddress &hostAddress);
+
+    QBluetoothAddress bluetoothAddress() const;
+    QString bluetoothAddressString() const;
+    void setBluetoothAddress(const QBluetoothAddress &bluetoothAddress);
 
     QString name() const;
     void setName(const QString &name);
@@ -119,15 +134,19 @@ public:
     PortConfigs *portConfigs() const;
 
     Q_INVOKABLE QString toUrl(int portConfigIndex);
+    Q_INVOKABLE QString toUrl(const QString &hostAddress);
 
 signals:
     void nameChanged();
     void hostAddressChanged();
+    void bluetoothAddressChanged();
     void versionChanged();
 
 private:
+    DeviceType m_deviceType = DeviceTypeNetwork;
     QUuid m_uuid;
     QHostAddress m_hostAddress;
+    QBluetoothAddress m_bluetoothAddress;
     QString m_name;
     QString m_version;
     PortConfigs *m_portConfigs = nullptr;

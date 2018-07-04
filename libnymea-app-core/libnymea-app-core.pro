@@ -61,6 +61,8 @@ SOURCES += \
     models/tagsproxymodel.cpp \
     tagsmanager.cpp \
     wifisetup/wirelessaccesspointsproxy.cpp \
+    bluetoothinterface.cpp \
+    discovery/bluetoothservicediscovery.cpp
 
 HEADERS += \
     engine.h \
@@ -107,7 +109,9 @@ HEADERS += \
     models/interfacesproxy.h \
     tagsmanager.h \
     models/tagsproxymodel.h \
-    wifisetup/wirelessaccesspointsproxy.h
+    wifisetup/wirelessaccesspointsproxy.h \
+    bluetoothinterface.h \
+    discovery/bluetoothservicediscovery.h
 
 unix {
     target.path = /usr/lib

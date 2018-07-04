@@ -22,9 +22,16 @@
 
 #include <QUrl>
 
-DiscoveryDevice::DiscoveryDevice(QObject *parent): QObject(parent)
+DiscoveryDevice::DiscoveryDevice(DeviceType deviceType, QObject *parent):
+    QObject(parent),
+    m_deviceType(deviceType)
 {
     m_portConfigs = new PortConfigs(this);
+}
+
+DiscoveryDevice::DeviceType DiscoveryDevice::deviceType() const
+{
+    return m_deviceType;
 }
 
 QUuid DiscoveryDevice::uuid() const
@@ -53,6 +60,25 @@ void DiscoveryDevice::setHostAddress(const QHostAddress &hostAddress)
         m_hostAddress = hostAddress;
         emit hostAddressChanged();
     }
+}
+
+QBluetoothAddress DiscoveryDevice::bluetoothAddress() const
+{
+    return m_bluetoothAddress;
+}
+
+QString DiscoveryDevice::bluetoothAddressString() const
+{
+    return m_bluetoothAddress.toString();
+}
+
+void DiscoveryDevice::setBluetoothAddress(const QBluetoothAddress &bluetoothAddress)
+{
+    if (m_bluetoothAddress == bluetoothAddress)
+        return;
+
+    m_bluetoothAddress = bluetoothAddress;
+    emit bluetoothAddressChanged();
 }
 
 QString DiscoveryDevice::name() const
@@ -102,6 +128,11 @@ QString DiscoveryDevice::toUrl(int portConfigIndex)
     return ret;
 }
 
+QString DiscoveryDevice::toUrl(const QString &hostAddress)
+{
+    return QString("rfcom://%1").arg(hostAddress);
+}
+
 PortConfigs::PortConfigs(QObject *parent): QAbstractListModel(parent)
 {
 
@@ -147,6 +178,9 @@ void PortConfigs::insert(PortConfig *portConfig)
 
 PortConfig* PortConfigs::get(int index) const
 {
+    if (index < 0 || index >= m_portConfigs.count())
+        return nullptr;
+
     return m_portConfigs.at(index);
 }
 

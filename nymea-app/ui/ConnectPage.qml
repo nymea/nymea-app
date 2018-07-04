@@ -192,6 +192,14 @@ Page {
                         }
 
                         contentItem: RowLayout {
+
+                            ColorIcon {
+                                Layout.fillHeight: true
+                                Layout.preferredWidth: height
+                                name: model.type === DiscoveryDevice.DeviceTypeNetwork ? "../images/network-vpn.svg" : "../images/bluetooth.svg"
+                                color: app.guhAccent
+                            }
+
                             ColumnLayout {
                                 Layout.fillWidth: true
                                 Label {
@@ -200,10 +208,11 @@ Page {
                                     elide: Text.ElideRight
                                 }
                                 Label {
-                                    text: model.hostAddress
+                                    text: model.type === DiscoveryDevice.DeviceTypeNetwork ? model.hostAddress : model.bluetoothAddress
                                     font.pixelSize: app.smallFont
                                 }
                             }
+
                             ColorIcon {
                                 Layout.fillHeight: true
                                 Layout.preferredWidth: height
@@ -212,12 +221,16 @@ Page {
                                 visible: hasSecurePort
                                 name: "../images/network-secure.svg"
                                 color: isTrusted ? app.guhAccent : keyColor
-
                             }
                         }
 
                         onClicked: {
-                            Engine.connection.connect(discoveryDevice.toUrl(defaultPortConfigIndex))
+                            if (model.type === DiscoveryDevice.DeviceTypeNetwork) {
+                                Engine.connection.connect(discoveryDevice.toUrl(defaultPortConfigIndex))
+                            } else if (model.type === DiscoveryDevice.DeviceTypeNetwork) {
+                                Engine.connection.connect(discoveryDevice.toUrl(model.bluetoothAddress))
+                            }
+
                             pageStack.push(connectingPage)
                         }
 
