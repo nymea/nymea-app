@@ -831,15 +831,15 @@
     </message>
     <message>
         <source>...during this time...</source>
-        <translation>...während dieser zeit...</translation>
+        <translation>...während dieser Zeit...</translation>
     </message>
     <message>
         <source>Create a scene.</source>
-        <translation type="unfinished"></translation>
+        <translation>Eine Szene erstellen.</translation>
     </message>
     <message>
         <source>...come true, execute those actions:</source>
-        <translation type="unfinished"></translation>
+        <translation>...wahr wird, fürhe diese Aktionen aus:</translation>
     </message>
     <message>
         <source>...comes true, execute those actions:</source>
