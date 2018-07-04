@@ -1001,11 +1001,11 @@
     </message>
     <message>
         <source>Weekdays</source>
-        <translation type="unfinished"></translation>
+        <translation>Wochentage</translation>
     </message>
     <message>
         <source>Day of month</source>
-        <translation type="unfinished"></translation>
+        <translation>Tag im Monat</translation>
     </message>
     <message>
         <source>OK</source>
@@ -1020,15 +1020,15 @@
     </message>
     <message>
         <source>Oh snap!</source>
-        <translation type="unfinished"></translation>
+        <translation>Oh oh!</translation>
     </message>
     <message>
         <source>An unexpected error happened. We&apos;re sorry for that.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ein unerwarteter Fehler ist passiert. Dies tut uns leid.</translation>
     </message>
     <message>
         <source>Error code: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Fehler-Nummer: %1</translation>
     </message>
 </context>
 <context>
@@ -1039,7 +1039,7 @@
     </message>
     <message>
         <source>anytime</source>
-        <translation type="unfinished"></translation>
+        <translation>immer</translation>
     </message>
 </context>
 <context>
@@ -1082,19 +1082,19 @@
     <name>Interfaces</name>
     <message>
         <source>Battery powered devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Batteriebetriebene Geräte</translation>
     </message>
     <message>
         <source>Battery level is critical</source>
-        <translation type="unfinished"></translation>
+        <translation>Batterieladung ist kritisch</translation>
     </message>
     <message>
         <source>Battery level entered critical state</source>
-        <translation type="unfinished"></translation>
+        <translation>Batterieladung betritt kritischen Bereich</translation>
     </message>
     <message>
         <source>Notification services</source>
-        <translation type="unfinished"></translation>
+        <translation>Benachrichtigungsdienste</translation>
     </message>
     <message>
         <source>Title</source>
@@ -1102,7 +1102,7 @@
     </message>
     <message>
         <source>Message body</source>
-        <translation type="unfinished"></translation>
+        <translation>Nachrichtentext</translation>
     </message>
     <message>
         <source>Send notification</source>
@@ -1110,23 +1110,23 @@
     </message>
     <message>
         <source>Lights</source>
-        <translation type="unfinished">Lichter</translation>
+        <translation>Beleuchtung</translation>
     </message>
     <message>
         <source>Light is turned on</source>
-        <translation type="unfinished"></translation>
+        <translation>Licht ist an</translation>
     </message>
     <message>
         <source>A light is turned on or off</source>
-        <translation type="unfinished"></translation>
+        <translation>Ein Licht wurde an oder aus geschaltet</translation>
     </message>
     <message>
         <source>Turn lights on or off</source>
-        <translation type="unfinished"></translation>
+        <translation>Schalte Licht an oder aus</translation>
     </message>
     <message>
         <source>Temperature sensors</source>
-        <translation type="unfinished"></translation>
+        <translation>Temperatursensoren</translation>
     </message>
     <message>
         <source>Temperature</source>
@@ -1134,7 +1134,7 @@
     </message>
     <message>
         <source>Temperature has changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Termperatur hat sich geändert</translation>
     </message>
 </context>
 <context>
