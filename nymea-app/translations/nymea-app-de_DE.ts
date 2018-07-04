@@ -5,11 +5,11 @@
     <name>AboutNymeaPage</name>
     <message>
         <source>About %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Über %1</translation>
     </message>
     <message>
         <source>Server UUID:</source>
-        <translation type="unfinished"></translation>
+        <translation>Server UUID:</translation>
     </message>
     <message>
         <source>Server version:</source>
