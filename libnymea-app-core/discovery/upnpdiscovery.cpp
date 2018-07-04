@@ -264,7 +264,7 @@ void UpnpDiscovery::networkReplyFinished(QNetworkReply *reply)
 
     DiscoveryDevice* device = m_discoveryModel->find(uuid);
     if (!device) {
-        device = new DiscoveryDevice(m_discoveryModel);
+        device = new DiscoveryDevice(DiscoveryDevice::DeviceTypeNetwork, m_discoveryModel);
         device->setUuid(uuid);
         qDebug() << "Adding new host to model";
         m_discoveryModel->addDevice(device);

@@ -67,7 +67,9 @@ SOURCES += \
     ruletemplates/eventdescriptortemplate.cpp \
     ruletemplates/ruleactiontemplate.cpp \
     ruletemplates/stateevaluatortemplate.cpp \
-    ruletemplates/statedescriptortemplate.cpp
+    ruletemplates/statedescriptortemplate.cpp \
+    bluetoothinterface.cpp \
+    discovery/bluetoothservicediscovery.cpp \
 
 HEADERS += \
     engine.h \
@@ -120,7 +122,9 @@ HEADERS += \
     ruletemplates/eventdescriptortemplate.h \
     ruletemplates/ruleactiontemplate.h \
     ruletemplates/stateevaluatortemplate.h \
-    ruletemplates/statedescriptortemplate.h
+    ruletemplates/statedescriptortemplate.h \
+    bluetoothinterface.h \
+    discovery/bluetoothservicediscovery.h \
 
 unix {
     target.path = /usr/lib
