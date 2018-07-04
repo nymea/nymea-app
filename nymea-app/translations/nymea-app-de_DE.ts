@@ -883,23 +883,23 @@
     </message>
     <message>
         <source>When a thing of a given type enters a state</source>
-        <translation>Wenn ein &quot;Thing&quot; eines bestimmten Typs in einem Zustannt ist</translation>
+        <translation>Wenn ein &quot;Thing&quot; eines bestimmten Typs in einem Zustand ist</translation>
     </message>
     <message>
         <source>During a given time</source>
-        <translation type="unfinished"></translation>
+        <translation>Während einer Zeitspanne</translation>
     </message>
     <message>
         <source>Add action...</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktion hinzufügen...</translation>
     </message>
     <message>
         <source>Execute an action on one of my things</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktion bei einem meiner &quot;Things&quot; ausführen</translation>
     </message>
     <message>
         <source>Execute an action on an entire kind of things</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktionen bei einer ganzen Gruppe von &quot;Things&quot; ausführen</translation>
     </message>
 </context>
 <context>
@@ -913,7 +913,7 @@
     <name>EditTimeEventItemPage</name>
     <message>
         <source>Pick a time</source>
-        <translation type="unfinished"></translation>
+        <translation>Wähle eine Zeit</translation>
     </message>
     <message>
         <source>Time</source>
@@ -921,83 +921,83 @@
     </message>
     <message>
         <source>Repeat</source>
-        <translation type="unfinished"></translation>
+        <translation>Wiederholen</translation>
     </message>
     <message>
         <source>never</source>
-        <translation type="unfinished"></translation>
+        <translation>niemals</translation>
     </message>
     <message>
         <source>hourly</source>
-        <translation type="unfinished"></translation>
+        <translation>stündlich</translation>
     </message>
     <message>
         <source>daily</source>
-        <translation type="unfinished"></translation>
+        <translation>täglich</translation>
     </message>
     <message>
         <source>weekly</source>
-        <translation type="unfinished"></translation>
+        <translation>wöchentlich</translation>
     </message>
     <message>
         <source>monthly</source>
-        <translation type="unfinished"></translation>
+        <translation>monatlich</translation>
     </message>
     <message>
         <source>yearly</source>
-        <translation type="unfinished"></translation>
+        <translation>jährlich</translation>
     </message>
     <message>
         <source>Date</source>
-        <translation type="unfinished"></translation>
+        <translation>Datum</translation>
     </message>
     <message>
         <source>Jan</source>
-        <translation type="unfinished"></translation>
+        <translation>Jan</translation>
     </message>
     <message>
         <source>Feb</source>
-        <translation type="unfinished"></translation>
+        <translation>Feb</translation>
     </message>
     <message>
         <source>Mar</source>
-        <translation type="unfinished"></translation>
+        <translation>Mär</translation>
     </message>
     <message>
         <source>Apr</source>
-        <translation type="unfinished"></translation>
+        <translation>Apr</translation>
     </message>
     <message>
         <source>May</source>
-        <translation type="unfinished"></translation>
+        <translation>Mai</translation>
     </message>
     <message>
         <source>Jun</source>
-        <translation type="unfinished"></translation>
+        <translation>Jun</translation>
     </message>
     <message>
         <source>Jul</source>
-        <translation type="unfinished"></translation>
+        <translation>Jul</translation>
     </message>
     <message>
         <source>Aug</source>
-        <translation type="unfinished"></translation>
+        <translation>Aug</translation>
     </message>
     <message>
         <source>Sep</source>
-        <translation type="unfinished"></translation>
+        <translation>Sep</translation>
     </message>
     <message>
         <source>Oct</source>
-        <translation type="unfinished"></translation>
+        <translation>Okt</translation>
     </message>
     <message>
         <source>Nov</source>
-        <translation type="unfinished"></translation>
+        <translation>Nov</translation>
     </message>
     <message>
         <source>Dez</source>
-        <translation type="unfinished"></translation>
+        <translation>Dez</translation>
     </message>
     <message>
         <source>Weekdays</source>
