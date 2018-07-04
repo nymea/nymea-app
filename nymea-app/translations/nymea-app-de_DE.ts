@@ -13,58 +13,58 @@
     </message>
     <message>
         <source>Server version:</source>
-        <translation type="unfinished"></translation>
+        <translation>Server Version:</translation>
     </message>
     <message>
         <source>Protocol version:</source>
-        <translation type="unfinished"></translation>
+        <translation>Protokoll Version:</translation>
     </message>
 </context>
 <context>
     <name>AboutPage</name>
     <message>
         <source>About %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Über %1</translation>
     </message>
     <message>
         <source>App version:</source>
-        <translation type="unfinished"></translation>
+        <translation>App Version:</translation>
     </message>
     <message>
         <source>Qt version:</source>
-        <translation type="unfinished"></translation>
+        <translation>Qt Version:</translation>
     </message>
     <message>
         <source>nymea is a registered trademark of guh GmbH.</source>
-        <translation type="unfinished"></translation>
+        <translation>nymea ist ein eingetragener Markenname der guh GmbH.</translation>
     </message>
     <message>
         <source>Licensed under the terms of the GNU general public license, version 2. Please visit the GitHub page for source code and build instructions.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lizensiert unter den Bedingungen der GNU General Public License, Version 2. Bitte besuchen Sie die GitHub seite für Quellcode und Installationsanleitungen.</translation>
     </message>
     <message>
         <source>Visit the nymea website</source>
-        <translation type="unfinished"></translation>
+        <translation>Besuchen Sie die nymea Webseite</translation>
     </message>
     <message>
         <source>Visit GitHub page</source>
-        <translation type="unfinished"></translation>
+        <translation>Besuchen Sie die GitHub Seite</translation>
     </message>
     <message>
         <source>View license text</source>
-        <translation type="unfinished"></translation>
+        <translation>Lizenztext</translation>
     </message>
     <message>
         <source>Qt is a registered trademark of The Qt Company Ltd. and its subsidiaries.</source>
-        <translation type="unfinished"></translation>
+        <translation>Qt ist ein eingetragenes Markenzeichen von The Qt Company Ltd.</translation>
     </message>
     <message>
         <source>Visit the Qt website</source>
-        <translation type="unfinished"></translation>
+        <translation>Besuchen Sie die Qt Webseite</translation>
     </message>
     <message>
         <source>License text</source>
-        <translation type="unfinished"></translation>
+        <translation>Lizenztext</translation>
     </message>
 </context>
 <context>
@@ -115,7 +115,7 @@
     </message>
     <message>
         <source>About %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Über %1</translation>
     </message>
 </context>
 <context>
@@ -160,31 +160,31 @@
     </message>
     <message>
         <source>Searching for %1 boxes via Bluetooth.</source>
-        <translation type="unfinished"></translation>
+        <translation>Suche nach %1 Boxen mittels Bluetooth.</translation>
     </message>
     <message>
         <source>Troubles finding your box? Try this!</source>
-        <translation type="unfinished"></translation>
+        <translation>Probleme die Box zu finden? Versuche dies!</translation>
     </message>
     <message>
         <source>Help</source>
-        <translation type="unfinished"></translation>
+        <translation>Hilfe</translation>
     </message>
     <message>
         <source>Setup help</source>
-        <translation type="unfinished"></translation>
+        <translation>Installationshilfe</translation>
     </message>
     <message>
         <source>After having installed the nymea community image to your Raspberry Pi, all you need to do is to plug it into a power socket. Note that the Wireless setup will only be available if the Raspberry Pi is not connected to a wired network.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nachdem das nymea community image auf einem Raspberry Pi installiert wurde, muss der Raspberry Pi nur mehr an das Stromnetz angeschlossen werden. Achtung, das Einrichten über Bluetooth ist nur aktiviert, wenn der Raspberry Pi nicht bereits über ein LAN Kabel an das Netzwerk angeschlossen wurde.</translation>
     </message>
     <message>
         <source>If you have a %1 box, plug it into a power socket and wait for it to be booted. Once the LED pulses slowly, press the button for 3 seconds until the LED changes.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wenn Du eine %1 Box hast, schließe sie am Stromnetz an und warte bis sie gestartet ist. Sobald die Leuchte langsam blinkt, drücke den Knopf für 3 Sekunden bis die Leuchte anders blinkt.</translation>
     </message>
     <message>
         <source>Establish bluetooth connection</source>
-        <translation type="unfinished">Bluetooth Verbindung aufbauen</translation>
+        <translation>Bluetooth Verbindung aufbauen</translation>
     </message>
     <message>
         <source>Initialize services...</source>
@@ -213,63 +213,63 @@
     <name>CalendarItemDelegate</name>
     <message>
         <source>From %1 to %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Von %1 zu %2</translation>
     </message>
     <message>
         <source>repeated %3</source>
-        <translation type="unfinished"></translation>
+        <translation>%3 wiederholt</translation>
     </message>
     <message>
         <source>never</source>
-        <translation type="unfinished"></translation>
+        <translation>niemals</translation>
     </message>
     <message>
         <source>hourly</source>
-        <translation type="unfinished"></translation>
+        <translation>stündlich</translation>
     </message>
     <message>
         <source>daily</source>
-        <translation type="unfinished"></translation>
+        <translation>täglich</translation>
     </message>
     <message>
         <source>Mon</source>
-        <translation type="unfinished"></translation>
+        <translation>Mo</translation>
     </message>
     <message>
         <source>Tue</source>
-        <translation type="unfinished"></translation>
+        <translation>Di</translation>
     </message>
     <message>
         <source>Wed</source>
-        <translation type="unfinished"></translation>
+        <translation>Mi</translation>
     </message>
     <message>
         <source>Thu</source>
-        <translation type="unfinished"></translation>
+        <translation>Do</translation>
     </message>
     <message>
         <source>Fri</source>
-        <translation type="unfinished"></translation>
+        <translation>Fr</translation>
     </message>
     <message>
         <source>Sat</source>
-        <translation type="unfinished"></translation>
+        <translation>Sa</translation>
     </message>
     <message>
         <source>Sun</source>
-        <translation type="unfinished"></translation>
+        <translation>So</translation>
     </message>
     <message>
         <source>weekly on %1</source>
-        <translation type="unfinished"></translation>
+        <translation>wöchentlich am %1</translation>
     </message>
     <message>
         <source>monthly on the %1</source>
-        <translation type="unfinished"></translation>
+        <translation>monatlich am %1</translation>
     </message>
     <message>
         <source>every year</source>
-        <translation type="unfinished"></translation>
+        <translation>jedes Jahr</translation>
     </message>
 </context>
 <context>
@@ -434,75 +434,75 @@
     </message>
     <message>
         <source>The host has rejected our connection. This probably means that %1 stopped running. Did you unplug your %1 box?</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Verbindung wurde abgelehnt. Dies bedeutet wahrscheinlich, dass %1 nicht mehr ausgeführt wird. Hast Du die %1 Box ausgesteckt?</translation>
     </message>
     <message>
         <source>The %1 box could not be found on this address. Please make sure you entered the address correctly and that the box is powered on.</source>
-        <translation type="unfinished"></translation>
+        <translation>Die %1 Box wurde nicht unter dieser Adresse gefunden. Bitte stelle sicher, dass die Adresse richtig eingegeben wurde und die Box eingeschaltet ist.</translation>
     </message>
     <message>
         <source>It seems you&apos;re not connected to the network.</source>
-        <translation type="unfinished"></translation>
+        <translation>Es scheint als sei keine Netzwerkverbingung verfügbar.</translation>
     </message>
     <message>
         <source>The %1 box has closed the connection. This probably means it has been turned off or restarted.</source>
-        <translation type="unfinished"></translation>
+        <translation>Die %1 Box had die Verbindung geschlossen. Dies bedeutet wahrscheinlich, dass sie ausgeschaltet oder neu gestartet wurde.</translation>
     </message>
     <message>
         <source>Un unknown error happened. We&apos;re very sorry for that. (Error code: %1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Ein unverhergesehener Fehler ist passiert. Dies tut uns leid. (Fehler-Nummer: %1)</translation>
     </message>
     <message>
         <source>Demo mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Demo-Modus</translation>
     </message>
     <message>
         <source>Do you have a %1 box but it&apos;s not connected to your network yet? Use the wireless setup to connect it!</source>
-        <translation type="unfinished"></translation>
+        <translation>Hast Du eine %1 Box, welche jedoch noch nicht an Deinem Netzwerk angeschlossen ist? Nutze die Bluetooth-Installation um sie zu verbinden!</translation>
     </message>
     <message>
         <source>Start wireless setup</source>
-        <translation type="unfinished"></translation>
+        <translation>Funk-Einrichtung starten</translation>
     </message>
     <message>
         <source>Demo mode (online)</source>
-        <translation type="unfinished"></translation>
+        <translation>Demo-Modus (Online)</translation>
     </message>
     <message>
         <source>Hi there!</source>
-        <translation type="unfinished"></translation>
+        <translation>Hallo!</translation>
     </message>
     <message>
         <source>The certificate of this %1 box has changed!</source>
-        <translation type="unfinished"></translation>
+        <translation>Das Zertifikat dieser %1 Box wurde verändert!</translation>
     </message>
     <message>
         <source>It seems this is the first time you connect to this %1 box.</source>
-        <translation type="unfinished"></translation>
+        <translation>Es scheint als sei dies die erste Verbindung zu dieser %1 Box.</translation>
     </message>
     <message>
         <source>Did you change the box&apos;s configuration? Verify if this information is correct.</source>
-        <translation type="unfinished"></translation>
+        <translation>Hast Du die Konfiguration der Box verändert? Stelle sicher, dass diese Information noch korrekt ist.</translation>
     </message>
     <message>
         <source>This is the box&apos;s certificate. Once you trust it, an encrypted connection will be established.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dies ist das Zertifikat der Box. Sobald Du es akzeptierst, wird eine verschlüsselte Verbindung aufgebaut.</translation>
     </message>
     <message>
         <source>Do you want to connect nevertheless?</source>
-        <translation type="unfinished"></translation>
+        <translation>Möchtest Du trotzdem verbinden?</translation>
     </message>
     <message>
         <source>Box information</source>
-        <translation type="unfinished"></translation>
+        <translation>Box-Informationen</translation>
     </message>
     <message>
         <source>Available connections</source>
-        <translation type="unfinished"></translation>
+        <translation>Verfügbare Verbindunge</translation>
     </message>
     <message>
         <source>Port: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Port: %1</translation>
     </message>
 </context>
 <context>
@@ -521,15 +521,15 @@
     </message>
     <message>
         <source>Thing details</source>
-        <translation type="unfinished"></translation>
+        <translation>Details</translation>
     </message>
     <message>
         <source>Mark as favorite</source>
-        <translation type="unfinished"></translation>
+        <translation>Als Favorit</translation>
     </message>
     <message>
         <source>Remove from favorites</source>
-        <translation type="unfinished"></translation>
+        <translation>Von Favoriten entfernen</translation>
     </message>
 </context>
 <context>
@@ -570,74 +570,74 @@
     </message>
     <message>
         <source>All closed</source>
-        <translation type="unfinished"></translation>
+        <translation>Alle geschlossen</translation>
     </message>
     <message>
         <source>%1 open</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 geöffnet</translation>
     </message>
     <message>
         <source>%1 installed</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 installiert</translation>
     </message>
 </context>
 <context>
     <name>EditCalendarItemPage</name>
     <message>
         <source>Pick a time frame</source>
-        <translation type="unfinished"></translation>
+        <translation>Wähle eine Zeitspanne</translation>
     </message>
     <message>
         <source>From</source>
-        <translation type="unfinished"></translation>
+        <translation>Von</translation>
     </message>
     <message>
         <source>Jan</source>
-        <translation type="unfinished"></translation>
+        <translation>Jan</translation>
     </message>
     <message>
         <source>Feb</source>
-        <translation type="unfinished"></translation>
+        <translation>Feb</translation>
     </message>
     <message>
         <source>Mar</source>
-        <translation type="unfinished"></translation>
+        <translation>Mär</translation>
     </message>
     <message>
         <source>Apr</source>
-        <translation type="unfinished"></translation>
+        <translation>Apr</translation>
     </message>
     <message>
         <source>May</source>
-        <translation type="unfinished"></translation>
+        <translation>Mai</translation>
     </message>
     <message>
         <source>Jun</source>
-        <translation type="unfinished"></translation>
+        <translation>Jun</translation>
     </message>
     <message>
         <source>Jul</source>
-        <translation type="unfinished"></translation>
+        <translation>Jul</translation>
     </message>
     <message>
         <source>Aug</source>
-        <translation type="unfinished"></translation>
+        <translation>Aug</translation>
     </message>
     <message>
         <source>Sep</source>
-        <translation type="unfinished"></translation>
+        <translation>Sep</translation>
     </message>
     <message>
         <source>Oct</source>
-        <translation type="unfinished"></translation>
+        <translation>Okt</translation>
     </message>
     <message>
         <source>Nov</source>
-        <translation type="unfinished"></translation>
+        <translation>Nov</translation>
     </message>
     <message>
         <source>Dez</source>
-        <translation type="unfinished"></translation>
+        <translation>Dez</translation>
     </message>
     <message>
         <source>To</source>
