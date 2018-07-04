@@ -188,7 +188,7 @@
     </message>
     <message>
         <source>Initialize services...</source>
-        <translation type="unfinished">Dienste initialisieren...</translation>
+        <translation>Dienste initialisieren...</translation>
     </message>
 </context>
 <context>
@@ -517,7 +517,7 @@
     </message>
     <message>
         <source>Magic</source>
-        <translation type="unfinished">Magie</translation>
+        <translation>Magie</translation>
     </message>
     <message>
         <source>Thing details</source>
@@ -562,11 +562,11 @@
     <name>DevicesPageDelegate</name>
     <message>
         <source>All off</source>
-        <translation type="unfinished">Alle aus</translation>
+        <translation>Alle aus</translation>
     </message>
     <message>
         <source>%1 on</source>
-        <translation type="unfinished">%1 an</translation>
+        <translation>%1 an</translation>
     </message>
     <message>
         <source>All closed</source>
@@ -681,7 +681,7 @@
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
 </context>
 <context>
@@ -917,7 +917,7 @@
     </message>
     <message>
         <source>Time</source>
-        <translation type="unfinished">Zeit</translation>
+        <translation>Zeit</translation>
     </message>
     <message>
         <source>Repeat</source>
@@ -1009,7 +1009,7 @@
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
 </context>
 <context>
@@ -1035,7 +1035,7 @@
     <name>EventDescriptorDelegate</name>
     <message>
         <source>%1 - %2</source>
-        <translation type="unfinished">%1 - %2</translation>
+        <translation>%1 - %2</translation>
     </message>
     <message>
         <source>anytime</source>
@@ -1054,7 +1054,7 @@
     </message>
     <message>
         <source>My things</source>
-        <translation type="unfinished">Meine &quot;Things&quot;</translation>
+        <translation>Meine &quot;Things&quot;</translation>
     </message>
 </context>
 <context>
@@ -1098,7 +1098,7 @@
     </message>
     <message>
         <source>Title</source>
-        <translation type="unfinished">Titel</translation>
+        <translation>Titel</translation>
     </message>
     <message>
         <source>Message body</source>
@@ -1106,7 +1106,7 @@
     </message>
     <message>
         <source>Send notification</source>
-        <translation type="unfinished">Benachrichtigung senden</translation>
+        <translation>Benachrichtigung senden</translation>
     </message>
     <message>
         <source>Lights</source>
@@ -1130,11 +1130,11 @@
     </message>
     <message>
         <source>Temperature</source>
-        <translation type="unfinished">Temperatur</translation>
+        <translation>Temperatur</translation>
     </message>
     <message>
         <source>Temperature has changed</source>
-        <translation>Termperatur hat sich geändert</translation>
+        <translation>Temperatur hat sich geändert</translation>
     </message>
 </context>
 <context>
@@ -1262,11 +1262,11 @@
     </message>
     <message>
         <source>The email you&apos;ve entered is already userd.</source>
-        <translation type="unfinished"></translation>
+        <translation>Die eingegebene E-Mail ist bereits vergeben.</translation>
     </message>
     <message>
         <source>An error happened with the user storage. Please make sure your %1 box is installed correctly.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ein Fehler in der Benutzerdatenbank ist aufgetreten. Bitte stelle sicher dass Deine %1 Box korrekt installiert ist.</translation>
     </message>
 </context>
 <context>
@@ -1277,15 +1277,15 @@
     </message>
     <message>
         <source>There is no magic set up yet.</source>
-        <translation type="unfinished"></translation>
+        <translation>Es gibt noch keine Magie.</translation>
     </message>
     <message>
         <source>Use magic to make your things smart! In a few easy steps you&apos;ll have your things wired up and work for you.</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutze Magie um deine &quot;Things&quot; smart zu machen! In ein paar wenigen Schritten werden deine Geräte und Dienste vernetzt sein und dir das Leben erleichtern.</translation>
     </message>
     <message>
         <source>Add some magic</source>
-        <translation type="unfinished"></translation>
+        <translation>Magie hinzufügen</translation>
     </message>
 </context>
 <context>
@@ -1336,63 +1336,63 @@
     </message>
     <message>
         <source>My favorites</source>
-        <translation type="unfinished"></translation>
+        <translation>Meine Favoriten</translation>
     </message>
     <message>
         <source>There are no favorite things yet.</source>
-        <translation type="unfinished"></translation>
+        <translation>Es gibt noch keine Favoriten.</translation>
     </message>
     <message>
         <source>It appears there are no things set up either yet. In order to use favorites you need to add some things first.</source>
-        <translation type="unfinished"></translation>
+        <translation>Es scheint als seien auch noch keine &quot;Things&quot; eingerichtet. Um Favoriten einzurichten musst Du zuerst einige &quot;Things&quot; hinzufügen.</translation>
     </message>
     <message>
         <source>Favorites allow you to keep track of your most important things when you have lots of them. Watch out for the star when interacting with things and use it to mark them as your favorites.</source>
-        <translation type="unfinished"></translation>
+        <translation>Favoriten erlauben es den Überblick über die wichtigsten &quot;Things&quot; zu behalten wenn Du viele davon eingebunden hast. Halte ausschau nach dem Stern wenn Du mit &quot;Things&quot; interagierst umd benutze ihn um diese als Favoriten zu markieren.</translation>
     </message>
     <message>
         <source>Add a thing</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;Thing&quot; hinzufügen</translation>
     </message>
     <message>
         <source>There are no things set up yet.</source>
-        <translation type="unfinished"></translation>
+        <translation>Es sind noch keine &quot;Things&quot; eingerichtet.</translation>
     </message>
     <message>
         <source>In order for your %1 box to be useful, go ahead and add some things.</source>
-        <translation type="unfinished"></translation>
+        <translation>Damit deine %1 Box nützlich ist, füge jetzt einige &quot;Things&quot; hinzu.</translation>
     </message>
     <message>
         <source>My scenes</source>
-        <translation type="unfinished"></translation>
+        <translation>Meine Szenen</translation>
     </message>
     <message>
         <source>There are no scenes set up yet</source>
-        <translation type="unfinished"></translation>
+        <translation>Es sind noch keine Szenen eingerichet</translation>
     </message>
     <message>
         <source>It appears there are no things set up either yet. In order to use scenes you need to add some things first.</source>
-        <translation type="unfinished"></translation>
+        <translation>Es scheint als seien auch noch keine &quot;Things&quot; eingerichtet. Um Szenen zu erstellen musst Du zuerst einige &quot;Things&quot; hinzufügen.</translation>
     </message>
     <message>
         <source>Scenes provide a useful way to control your things with just one click.</source>
-        <translation type="unfinished"></translation>
+        <translation>Szenen bieten einen einfachen Weg um deine &quot;Things&quot; mit nur einem klick zu steuern.</translation>
     </message>
     <message>
         <source>Add a scene</source>
-        <translation type="unfinished"></translation>
+        <translation>Szene hinzufügen</translation>
     </message>
     <message>
         <source>Favorites</source>
-        <translation type="unfinished"></translation>
+        <translation>Favoriten</translation>
     </message>
     <message>
         <source>Things</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;Things&quot;</translation>
     </message>
     <message>
         <source>Scenes</source>
-        <translation type="unfinished"></translation>
+        <translation>Szenen</translation>
     </message>
 </context>
 <context>
@@ -1482,7 +1482,7 @@
     </message>
     <message>
         <source>Name the thing:</source>
-        <translation type="unfinished"></translation>
+        <translation>Name:</translation>
     </message>
 </context>
 <context>
@@ -1508,27 +1508,27 @@
     <name>Nymea</name>
     <message>
         <source>Lighting</source>
-        <translation type="unfinished">Beleuchtung</translation>
+        <translation>Beleuchtung</translation>
     </message>
     <message>
         <source>Weather</source>
-        <translation type="unfinished">Wetter</translation>
+        <translation>Wetter</translation>
     </message>
     <message>
         <source>Sensors</source>
-        <translation type="unfinished">Sensoren</translation>
+        <translation>Sensoren</translation>
     </message>
     <message>
         <source>Media</source>
-        <translation type="unfinished">Medien</translation>
+        <translation>Medien</translation>
     </message>
     <message>
         <source>Switches</source>
-        <translation type="unfinished">Schalter</translation>
+        <translation>Schalter</translation>
     </message>
     <message>
         <source>Gateways</source>
-        <translation type="unfinished">Gateways</translation>
+        <translation>Gateways</translation>
     </message>
     <message>
         <source>Notifications</source>
@@ -1552,19 +1552,19 @@
     </message>
     <message>
         <source>Shutters</source>
-        <translation type="unfinished"></translation>
+        <translation>Rolläden</translation>
     </message>
     <message>
         <source>Blinds</source>
-        <translation type="unfinished"></translation>
+        <translation>Sichtschutz</translation>
     </message>
     <message>
         <source>Garage gates</source>
-        <translation type="unfinished"></translation>
+        <translation>Garagentore</translation>
     </message>
     <message>
         <source>Uncategorized</source>
-        <translation type="unfinished"></translation>
+        <translation>Unkategorisiert</translation>
     </message>
     <message>
         <source>Connection error</source>
@@ -1709,7 +1709,7 @@
     </message>
     <message>
         <source>only if %1 %2 %3</source>
-        <translation type="unfinished"></translation>
+        <translation>nur wenn %1 %2 %3</translation>
     </message>
     <message>
         <source></source>
@@ -1718,7 +1718,7 @@
     </message>
     <message>
         <source>and %1 %2 %3</source>
-        <translation type="unfinished"></translation>
+        <translation>und %1 %2 %3</translation>
     </message>
     <message>
         <source></source>
@@ -1835,7 +1835,7 @@
     </message>
     <message>
         <source>Options</source>
-        <translation type="unfinished"></translation>
+        <translation>Optionen</translation>
     </message>
 </context>
 <context>
@@ -1854,7 +1854,7 @@
     </message>
     <message>
         <source>Select a kind of things</source>
-        <translation type="unfinished"></translation>
+        <translation>Typ von &quot;Things&quot; auswählen</translation>
     </message>
 </context>
 <context>
@@ -1960,7 +1960,7 @@
     </message>
     <message>
         <source>About nymea</source>
-        <translation type="unfinished"></translation>
+        <translation>Über nymea</translation>
     </message>
 </context>
 <context>
@@ -1994,15 +1994,15 @@
     </message>
     <message>
         <source>Edit condition...</source>
-        <translation type="unfinished"></translation>
+        <translation>Bedingung bearbeiten...</translation>
     </message>
     <message>
         <source>When one of my things is in a certain state</source>
-        <translation type="unfinished"></translation>
+        <translation>Wenn eines meiner &quot;Things&quot; in einem bestimmten Zustand ist</translation>
     </message>
     <message>
         <source>When a thing of a given type enters a state</source>
-        <translation type="unfinished"></translation>
+        <translation>Wenn ein &quot;Things&quot; eines Typs einen Zustand betritt</translation>
     </message>
 </context>
 <context>
@@ -2017,11 +2017,11 @@
     </message>
     <message>
         <source>Log</source>
-        <translation type="unfinished"></translation>
+        <translation>Protokoll</translation>
     </message>
     <message>
         <source>Graph</source>
-        <translation type="unfinished"></translation>
+        <translation>Diagramm</translation>
     </message>
     <message>
         <source>6 h</source>
@@ -2059,63 +2059,63 @@
     <name>TimeEventDelegate</name>
     <message>
         <source>At %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Um %1</translation>
     </message>
     <message>
         <source>repeated %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 wiederholt</translation>
     </message>
     <message>
         <source>never</source>
-        <translation type="unfinished"></translation>
+        <translation>niemals</translation>
     </message>
     <message>
         <source>hourly</source>
-        <translation type="unfinished"></translation>
+        <translation>stündlich</translation>
     </message>
     <message>
         <source>daily</source>
-        <translation type="unfinished"></translation>
+        <translation>täglich</translation>
     </message>
     <message>
         <source>Mon</source>
-        <translation type="unfinished"></translation>
+        <translation>Mo</translation>
     </message>
     <message>
         <source>Tue</source>
-        <translation type="unfinished"></translation>
+        <translation>Di</translation>
     </message>
     <message>
         <source>Wed</source>
-        <translation type="unfinished"></translation>
+        <translation>Mi</translation>
     </message>
     <message>
         <source>Thu</source>
-        <translation type="unfinished"></translation>
+        <translation>Do</translation>
     </message>
     <message>
         <source>Fri</source>
-        <translation type="unfinished"></translation>
+        <translation>Fr</translation>
     </message>
     <message>
         <source>Sat</source>
-        <translation type="unfinished"></translation>
+        <translation>Sa</translation>
     </message>
     <message>
         <source>Sun</source>
-        <translation type="unfinished"></translation>
+        <translation>So</translation>
     </message>
     <message>
         <source>weekly on %1</source>
-        <translation type="unfinished"></translation>
+        <translation>wöchentlich am %1</translation>
     </message>
     <message>
         <source>monthly on the %1</source>
-        <translation type="unfinished"></translation>
+        <translation>monatlich am %1</translation>
     </message>
     <message>
         <source>every year</source>
-        <translation type="unfinished"></translation>
+        <translation>jährlich</translation>
     </message>
 </context>
 <context>
@@ -2297,55 +2297,55 @@
     </message>
     <message>
         <source>%1 box network setup</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 Box Netzwerk-Einrichtung</translation>
     </message>
     <message>
         <source>Networking status</source>
-        <translation type="unfinished"></translation>
+        <translation>Netzwerk Status</translation>
     </message>
     <message>
         <source>Network information</source>
-        <translation type="unfinished"></translation>
+        <translation>Netzwerkinformation</translation>
     </message>
     <message>
         <source>SSID:</source>
-        <translation type="unfinished"></translation>
+        <translation>SSID:</translation>
     </message>
     <message>
         <source>Mac Address:</source>
-        <translation type="unfinished"></translation>
+        <translation>MAC Adresse:</translation>
     </message>
     <message>
         <source>Host Address:</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresse:</translation>
     </message>
     <message>
         <source>Signal strength:</source>
-        <translation type="unfinished"></translation>
+        <translation>Singalstärke:</translation>
     </message>
     <message>
         <source>Protected:</source>
-        <translation type="unfinished"></translation>
+        <translation>Geschützt:</translation>
     </message>
     <message>
         <source>Connection status:</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbindungs-Status:</translation>
     </message>
     <message>
         <source>Network manager settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Netzwerk-Manager Einstellungen</translation>
     </message>
     <message>
         <source>About this %1 box</source>
-        <translation type="unfinished"></translation>
+        <translation>Über diese %1 Box</translation>
     </message>
     <message>
         <source>Trigger a wireless scan on the device.</source>
-        <translation type="unfinished"></translation>
+        <translation>WLAN Scan auf dem Gerät ausführen.</translation>
     </message>
     <message>
         <source>Box information</source>
-        <translation type="unfinished"></translation>
+        <translation>Box-Informationen</translation>
     </message>
 </context>
 <context>
@@ -2380,7 +2380,7 @@
     </message>
     <message>
         <source>Unknown error occured.</source>
-        <translation type="unfinished"></translation>
+        <translation>Unbekannter Fehler aufgetreten.</translation>
     </message>
 </context>
 <context>
