@@ -30,7 +30,7 @@ Page {
                 message = qsTr("The email you've entered isn't valid.")
                 break;
             case "UserErrorDuplicateUserId":
-                message = qsTr("The email you've entered is already userd.")
+                message = qsTr("The email you've entered is already used.")
                 break;
             case "UserErrorBadPassword":
                 message = qsTr("The password you've chose is too weak.")
