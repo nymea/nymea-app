@@ -839,51 +839,51 @@
     </message>
     <message>
         <source>...come true, execute those actions:</source>
-        <translation>...wahr werden, fürhe diese Aktionen aus:</translation>
+        <translation>...wahr werden, führe diese Aktionen aus:</translation>
     </message>
     <message>
         <source>...comes true, execute those actions:</source>
-        <translation type="unfinished"></translation>
+        <translation>...wahr wird, führe diese Aktionen aus:</translation>
     </message>
     <message>
         <source>...execute those actions:</source>
-        <translation type="unfinished"></translation>
+        <translation>...führe diese Aktionen aus:</translation>
     </message>
     <message>
         <source>Just pick some actions which will be executed when the scene is activated. Scenes are like any other magic except they can also be activated manually.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wähle Aktionen aus welche ausgeführt werden sobald die Szene aktiviert wird. Szenen sind wie alle andere Magie, mit Ausnahme, dass sie auch manuell aktiviert werden können.</translation>
     </message>
     <message>
         <source>...isn&apos;t met any more, execute those actions:</source>
-        <translation type="unfinished"></translation>
+        <translation>...nicht mehr erfüllt ist, führe diese Aktionen aus:</translation>
     </message>
     <message>
         <source>Add event</source>
-        <translation type="unfinished"></translation>
+        <translation>Ereignis hinzufügen</translation>
     </message>
     <message>
         <source>When one of my things triggers an event</source>
-        <translation type="unfinished"></translation>
+        <translation>Wenn ein Ereignis bei einem meiner &quot;Things&quot; eintritt</translation>
     </message>
     <message>
         <source>When a thing of a given type triggers an event</source>
-        <translation type="unfinished"></translation>
+        <translation>Wenn ein Ereignis bei einem &quot;Thing&quot; eines bestimmten Typs eintritt</translation>
     </message>
     <message>
         <source>At a particular time or date</source>
-        <translation type="unfinished"></translation>
+        <translation>Zu einem bestimmten Zeitpunkt</translation>
     </message>
     <message>
         <source>Add condition...</source>
-        <translation type="unfinished"></translation>
+        <translation>Bedingung hinzufügen...</translation>
     </message>
     <message>
         <source>When one of my things is in a certain state</source>
-        <translation type="unfinished"></translation>
+        <translation>Wenn eines meiner &quot;Things&quot; in einem bestimmten Zustand ist</translation>
     </message>
     <message>
         <source>When a thing of a given type enters a state</source>
-        <translation type="unfinished"></translation>
+        <translation>Wenn ein &quot;Thing&quot; eines bestimmten Typs in einem Zustannt ist</translation>
     </message>
     <message>
         <source>During a given time</source>
