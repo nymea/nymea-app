@@ -6,6 +6,9 @@ BluetoothServiceDiscovery::BluetoothServiceDiscovery(DiscoveryModel *discoveryMo
     QObject(parent),
     m_discoveryModel(discoveryModel)
 {
+
+    m_nymeaServiceUuid = QBluetoothUuid(QUuid("997936b5-d2cd-4c57-b41b-c6048320cd2b"));
+
     m_localDevice = new QBluetoothLocalDevice(this);
     connect(m_localDevice, &QBluetoothLocalDevice::hostModeStateChanged, this, &BluetoothServiceDiscovery::onHostModeChanged);
 
@@ -21,18 +24,25 @@ bool BluetoothServiceDiscovery::discovering() const
 
 bool BluetoothServiceDiscovery::available() const
 {
-    return m_available;
+    return m_localDevice->isValid() && !m_localDevice->hostMode() != QBluetoothLocalDevice::HostPoweredOff;
 }
 
-void BluetoothServiceDiscovery::discover(const QBluetoothUuid &uuid)
+void BluetoothServiceDiscovery::discover()
 {
     m_enabed = true;
+    if (!m_localDevice->isValid() || m_localDevice->hostMode() == QBluetoothLocalDevice::HostPoweredOff) {
+        qWarning() << "BluetoothServiceDiscovery: Not restart discovery, the bluetooth device is not available";
+        return;
+    }
+
+    m_serviceDiscovery->setUuidFilter(m_nymeaServiceUuid);
+
     if (m_discovering)
         return;
 
-    qDebug() << "BluetoothServiceDiscovery: Start scanning services";
+    qDebug() << "BluetoothServiceDiscovery: Start scanning for service" << m_nymeaServiceUuid.toString();
     setDiscovering(true);
-    m_serviceDiscovery->setUuidFilter(uuid);
+    m_serviceDiscovery->setUuidFilter(m_nymeaServiceUuid);
     m_serviceDiscovery->start(QBluetoothServiceDiscoveryAgent::FullDiscovery);
 }
 
@@ -40,7 +50,7 @@ void BluetoothServiceDiscovery::stopDiscovery()
 {
     m_enabed = false;
     setDiscovering(false);
-    m_deviceDiscovery->stop();
+    m_serviceDiscovery->stop();
 }
 
 void BluetoothServiceDiscovery::setDiscovering(const bool &discovering)
@@ -55,6 +65,11 @@ void BluetoothServiceDiscovery::setDiscovering(const bool &discovering)
 void BluetoothServiceDiscovery::onHostModeChanged(const QBluetoothLocalDevice::HostMode &mode)
 {
     qDebug() << "BluetoothServiceDiscovery: Host mode changed" << mode;
+
+    if (mode != QBluetoothLocalDevice::HostPoweredOff && m_enabed) {
+        qDebug() << "Bluetooth available again, continue discovery";
+        m_serviceDiscovery->start(QBluetoothServiceDiscoveryAgent::FullDiscovery);
+    }
 }
 
 void BluetoothServiceDiscovery::onServiceDiscovered(const QBluetoothServiceInfo &serviceInfo)
@@ -76,7 +91,7 @@ void BluetoothServiceDiscovery::onServiceDiscovered(const QBluetoothServiceInfo 
         return;
 
     if (serviceInfo.serviceClassUuids().first() == QBluetoothUuid(QUuid("997936b5-d2cd-4c57-b41b-c6048320cd2b"))) {
-        qDebug() << "Found nymea rfcom service!";
+        qDebug() << "BluetoothServiceDiscovery: Found nymea rfcom service!";
 
         DiscoveryDevice* device = m_discoveryModel->find(serviceInfo.device().address());
         if (!device) {
@@ -100,8 +115,12 @@ void BluetoothServiceDiscovery::onServiceDiscoveryFinished()
 
     // If discover was called, but never stopDiscover, continue discovery
     if (m_enabed) {
-        qDebug() << "BluetoothServiceDiscovery: Restart bluetooth discovery";
-        m_serviceDiscovery->start(QBluetoothServiceDiscoveryAgent::FullDiscovery);
+        if (!m_localDevice->isValid() || m_localDevice->hostMode() == QBluetoothLocalDevice::HostPoweredOff) {
+            qWarning() << "BluetoothServiceDiscovery: Not restart discovery, the bluetooth adapter is not available.";
+            return;
+        }
 
+        qDebug() << "BluetoothServiceDiscovery: Restart service discovery";
+        discover();
     }
 }

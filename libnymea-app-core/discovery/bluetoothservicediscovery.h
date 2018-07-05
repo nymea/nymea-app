@@ -2,6 +2,7 @@
 #define BLUETOOTHSERVICEDISCOVERY_H
 
 #include <QObject>
+#include <QBluetoothUuid>
 #include <QBluetoothLocalDevice>
 #include <QBluetoothServiceDiscoveryAgent>
 
@@ -16,14 +17,14 @@ public:
     bool discovering() const;
     bool available() const;
 
-    Q_INVOKABLE void discover(const QBluetoothUuid &uuid);
+    Q_INVOKABLE void discover();
     Q_INVOKABLE void stopDiscovery();
 
 private:
     DiscoveryModel *m_discoveryModel = nullptr;
     QBluetoothLocalDevice *m_localDevice = nullptr;
-    QBluetoothDeviceDiscoveryAgent *m_deviceDiscovery = nullptr;
     QBluetoothServiceDiscoveryAgent *m_serviceDiscovery = nullptr;
+    QBluetoothUuid m_nymeaServiceUuid;
 
     bool m_enabed = false;
     bool m_discovering = false;

@@ -48,9 +48,9 @@ public:
 
     void addDevice(DiscoveryDevice *device);
 
-    Q_INVOKABLE DiscoveryDevice* get(int index) const;
-    Q_INVOKABLE DiscoveryDevice* find(const QUuid &uuid);
-    Q_INVOKABLE DiscoveryDevice* find(const QBluetoothAddress &bluetoothAddress);
+    Q_INVOKABLE DiscoveryDevice *get(int index) const;
+    Q_INVOKABLE DiscoveryDevice *find(const QUuid &uuid);
+    Q_INVOKABLE DiscoveryDevice *find(const QBluetoothAddress &bluetoothAddress);
 
     void clearModel();
 
@@ -61,7 +61,7 @@ protected:
     QHash<int, QByteArray> roleNames() const;
 
 private:
-    QList<DiscoveryDevice*> m_devices;
+    QList<DiscoveryDevice *> m_devices;
 };
 
 #endif // DISCOVERYMODEL_H

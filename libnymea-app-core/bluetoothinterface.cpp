@@ -24,6 +24,7 @@
 
 #include <QUrl>
 #include <QDebug>
+#include <QUrlQuery>
 
 BluetoothInterface::BluetoothInterface(QObject *parent) :
     NymeaInterface(parent)
@@ -47,9 +48,12 @@ void BluetoothInterface::connect(const QUrl &url)
         return;
     }
 
-    QString macAddress = url.host();
-    qDebug() << "Connecting to bluetooth server" << macAddress;
-    m_socket->connectToService(QBluetoothAddress(macAddress), QBluetoothUuid(QUuid("997936b5-d2cd-4c57-b41b-c6048320cd2b")));
+    QUrlQuery query(url);
+    QString macAddressString = query.queryItemValue("mac");
+    QBluetoothAddress macAddress = QBluetoothAddress(macAddressString);
+
+    qDebug() << "Connecting to bluetooth server" << macAddressString << macAddress.toString();
+    m_socket->connectToService(macAddress, QBluetoothUuid(QUuid("997936b5-d2cd-4c57-b41b-c6048320cd2b")));
 }
 
 void BluetoothInterface::disconnect()
@@ -99,13 +103,6 @@ void BluetoothInterface::onDisconnected()
 
 void BluetoothInterface::onDataReady()
 {
-    QByteArray message;
-    while (m_socket->canReadLine()) {
-        QByteArray dataLine = m_socket->readLine();
-        message.append(dataLine);
-        if (dataLine.endsWith('\n')) {
-            emit dataReady(message);
-            message.clear();
-        }
-    }
+    QByteArray data = m_socket->readAll();
+    emit dataReady(data);
 }

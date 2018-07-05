@@ -3,12 +3,14 @@
 #include <QUrl>
 #include <QDebug>
 #include <QSslKey>
+#include <QUrlQuery>
 #include <QSettings>
 #include <QMetaEnum>
 
 #include "nymeainterface.h"
 #include "tcpsocketinterface.h"
 #include "websocketinterface.h"
+#include "bluetoothinterface.h"
 
 NymeaConnection::NymeaConnection(QObject *parent) : QObject(parent)
 {
@@ -16,6 +18,9 @@ NymeaConnection::NymeaConnection(QObject *parent) : QObject(parent)
     registerInterface(iface);
 
     iface = new WebsocketInterface(this);
+    registerInterface(iface);
+
+    iface = new BluetoothInterface(this);
     registerInterface(iface);
 }
 
@@ -25,6 +30,7 @@ void NymeaConnection::connect(const QString &url)
         qWarning() << "Already connected. Cannot connect multiple times";
         return;
     }
+
     m_currentUrl = QUrl(url);
     m_currentInterface = m_interfaces.value(m_currentUrl.scheme());
     if (!m_currentInterface) {

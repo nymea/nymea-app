@@ -197,8 +197,21 @@ Page {
                             ColorIcon {
                                 Layout.fillHeight: true
                                 Layout.preferredWidth: height
-                                property bool hasSecurePort: discoveryDeviceDelegate.discoveryDevice.portConfigs.get(discoveryDeviceDelegate.defaultPortConfigIndex).sslEnabled
-                                property bool isTrusted: Engine.connection.isTrusted(discoveryDeviceDelegate.discoveryDevice.toUrl(discoveryDeviceDelegate.defaultPortConfigIndex))
+                                property bool hasSecurePort: {
+                                    if (model.type === DiscoveryDevice.DeviceTypeNetwork) {
+                                        return discoveryDeviceDelegate.discoveryDevice.portConfigs.get(discoveryDeviceDelegate.defaultPortConfigIndex).sslEnabled
+                                    } else {
+                                        return false
+                                    }
+
+                                }
+                                property bool isTrusted: {
+                                    if (model.type === DiscoveryDevice.DeviceTypeNetwork) {
+                                        Engine.connection.isTrusted(discoveryDeviceDelegate.discoveryDevice.toUrl(discoveryDeviceDelegate.defaultPortConfigIndex))
+                                    } else {
+                                        return false
+                                    }
+                                }
                                 visible: hasSecurePort
                                 name: "../images/network-secure.svg"
                                 color: isTrusted ? app.guhAccent : keyColor
@@ -208,8 +221,8 @@ Page {
                         onClicked: {
                             if (model.type === DiscoveryDevice.DeviceTypeNetwork) {
                                 Engine.connection.connect(discoveryDevice.toUrl(defaultPortConfigIndex))
-                            } else if (model.type === DiscoveryDevice.DeviceTypeNetwork) {
-                                Engine.connection.connect(discoveryDevice.toUrl(model.bluetoothAddress))
+                            } else if (model.type === DiscoveryDevice.DeviceTypeBluetooth) {
+                                Engine.connection.connect("rfcom://bluetooth.local?mac=" + model.bluetoothAddress)
                             }
 
                             pageStack.push(connectingPage)
@@ -225,9 +238,11 @@ Page {
                                 name: "../images/info.svg"
                             }
                             onClicked: {
-                                swipe.close()
-                                var popup = infoDialog.createObject(app,{discoveryDevice: discovery.discoveryModel.get(index)})
-                                popup.open()
+                                if (model.type === DiscoveryDevice.DeviceTypeNetwork) {
+                                    swipe.close()
+                                    var popup = infoDialog.createObject(app,{discoveryDevice: discovery.discoveryModel.get(index)})
+                                    popup.open()
+                                }
                             }
                         }
                     }
@@ -351,7 +366,7 @@ Page {
             ColumnLayout {
                 id: certLayout
                 anchors.fill: parent
-//                spacing: app.margins
+                //                spacing: app.margins
 
                 RowLayout {
                     Layout.fillWidth: true
