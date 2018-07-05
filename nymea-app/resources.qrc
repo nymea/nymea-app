@@ -236,5 +236,6 @@
         <file>ui/images/sensors/temperature.svg</file>
         <file>ui/components/MainPageTile.qml</file>
         <file>ui/images/configure.svg</file>
+        <file>ui/images/network-wifi-symbolic.svg</file>
     </qresource>
 </RCC>

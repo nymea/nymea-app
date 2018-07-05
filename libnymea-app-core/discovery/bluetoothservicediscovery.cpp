@@ -24,6 +24,9 @@ bool BluetoothServiceDiscovery::discovering() const
 
 bool BluetoothServiceDiscovery::available() const
 {
+    if (!m_localDevice)
+        return false;
+
     return m_localDevice->isValid() && !m_localDevice->hostMode() != QBluetoothLocalDevice::HostPoweredOff;
 }
 
@@ -74,7 +77,7 @@ void BluetoothServiceDiscovery::onHostModeChanged(const QBluetoothLocalDevice::H
 
 void BluetoothServiceDiscovery::onServiceDiscovered(const QBluetoothServiceInfo &serviceInfo)
 {
-    qDebug() << "BluetoothServiceDiscovery: Service [+]" << serviceInfo.device().name() << serviceInfo.serviceName() << serviceInfo.serviceDescription() << serviceInfo.serviceProvider();
+    qDebug() << "BluetoothServiceDiscovery: Service [+]" << serviceInfo.device().name() << serviceInfo.serviceName() << serviceInfo.serviceProvider();
 
     qDebug() << "Discovered service on"
              << serviceInfo.device().name() << serviceInfo.device().address().toString();
@@ -83,6 +86,8 @@ void BluetoothServiceDiscovery::onServiceDiscovered(const QBluetoothServiceInfo 
              << serviceInfo.attribute(QBluetoothServiceInfo::ServiceDescription).toString();
     qDebug() << "\tProvider:"
              << serviceInfo.attribute(QBluetoothServiceInfo::ServiceProvider).toString();
+    qDebug() << "\Documentation:"
+             << serviceInfo.attribute(QBluetoothServiceInfo::DocumentationUrl).toString();
     qDebug() << "\tL2CAP protocol service multiplexer:"
              << serviceInfo.protocolServiceMultiplexer();
     qDebug() << "\tRFCOMM server channel:" << serviceInfo.serverChannel();
@@ -97,7 +102,7 @@ void BluetoothServiceDiscovery::onServiceDiscovered(const QBluetoothServiceInfo 
         if (!device) {
             device = new DiscoveryDevice(DiscoveryDevice::DeviceTypeBluetooth, this);
             qDebug() << "BluetoothServiceDiscovery: Adding new bluetooth host to model";
-            device->setName(serviceInfo.device().name());
+            device->setName(QString("%1 (%2)").arg(serviceInfo.serviceName()).arg(serviceInfo.device().name()));
             device->setBluetoothAddress(serviceInfo.device().address());
             m_discoveryModel->addDevice(device);
         }

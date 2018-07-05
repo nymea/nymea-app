@@ -172,7 +172,7 @@ Page {
                             return usedConfigIndex
                         }
 
-                        iconName: model.type === DiscoveryDevice.DeviceTypeNetwork ? "../images/network-vpn.svg" : "../images/bluetooth.svg"
+                        iconName: model.type === DiscoveryDevice.DeviceTypeNetwork ? "../images/network-wifi-symbolic.svg" : "../images/bluetooth.svg"
                         text: model.name
                         subText: model.type === DiscoveryDevice.DeviceTypeNetwork ? model.hostAddress : model.bluetoothAddress
                         property bool hasSecurePort: {
