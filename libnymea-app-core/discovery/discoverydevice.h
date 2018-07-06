@@ -134,7 +134,6 @@ public:
     PortConfigs *portConfigs() const;
 
     Q_INVOKABLE QString toUrl(int portConfigIndex);
-    Q_INVOKABLE QString toUrl(const QString &hostAddress);
 
 signals:
     void nameChanged();

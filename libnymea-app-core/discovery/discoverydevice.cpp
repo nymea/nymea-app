@@ -128,11 +128,6 @@ QString DiscoveryDevice::toUrl(int portConfigIndex)
     return ret;
 }
 
-QString DiscoveryDevice::toUrl(const QString &hostAddress)
-{
-    return QString("rfcom://%1").arg(hostAddress);
-}
-
 PortConfigs::PortConfigs(QObject *parent): QAbstractListModel(parent)
 {
 

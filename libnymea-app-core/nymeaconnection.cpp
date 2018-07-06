@@ -37,6 +37,7 @@ void NymeaConnection::connect(const QString &url)
         qWarning() << "Cannot connect to urls of scheme" << m_currentUrl.scheme() << "Supported schemes are" << m_interfaces.keys();
         return;
     }
+
     qDebug() << "Should connect to url" << m_currentUrl;
     m_currentInterface->connect(m_currentUrl);
 }
@@ -80,13 +81,19 @@ QString NymeaConnection::hostAddress() const
     return m_currentUrl.host();
 }
 
+QString NymeaConnection::bluetoothAddress() const
+{
+    QUrlQuery query(m_currentUrl);
+    return query.queryItemValue("mac");
+}
+
 void NymeaConnection::sendData(const QByteArray &data)
 {
     if (connected()) {
 //        qDebug() << "sending data:" << data;
         m_currentInterface->sendData(data);
     } else {
-        qWarning() << "Not connected. Cannot send.";
+        qWarning() << "Connection: Not connected. Cannot send.";
     }
 }
 
@@ -150,7 +157,7 @@ void NymeaConnection::onConnected()
         qWarning() << "An inactive interface is emitting signals... ignoring.";
         return;
     }
-    qDebug() << "connected";
+    qDebug() << "NymeaConnection: connected.";
     emit connectedChanged(true);
 }
 
@@ -161,7 +168,7 @@ void NymeaConnection::onDisconnected()
         return;
     }
     m_currentInterface = nullptr;
-    qDebug() << "disconnected";
+    qDebug() << "NymeaConnection: disconnected.";
     emit connectedChanged(false);
 }
 

@@ -38,7 +38,7 @@ QVariant DiscoveryModel::data(const QModelIndex &index, int role) const
 
     DiscoveryDevice *device = m_devices.at(index.row());
     switch (role) {
-    case TypeRole:
+    case DeviceTypeRole:
         return device->deviceType();
     case UuidRole:
         return device->uuid();
@@ -112,7 +112,7 @@ void DiscoveryModel::clearModel()
 QHash<int, QByteArray> DiscoveryModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
-    roles[TypeRole] = "type";
+    roles[DeviceTypeRole] = "deviceType";
     roles[UuidRole] = "uuid";
     roles[NameRole] = "name";
     roles[HostAddressRole] = "hostAddress";

@@ -71,25 +71,24 @@ void BluetoothServiceDiscovery::onHostModeChanged(const QBluetoothLocalDevice::H
 
     if (mode != QBluetoothLocalDevice::HostPoweredOff && m_enabed) {
         qDebug() << "Bluetooth available again, continue discovery";
-        m_serviceDiscovery->start(QBluetoothServiceDiscoveryAgent::FullDiscovery);
+        discover();
+    }
+
+    if (mode == QBluetoothLocalDevice::HostPoweredOff) {
+        qDebug() << "BluetoothServiceDiscovery: Bluetooth adapter disabled. Stop discovering";
+        m_serviceDiscovery->stop();
     }
 }
 
 void BluetoothServiceDiscovery::onServiceDiscovered(const QBluetoothServiceInfo &serviceInfo)
 {
-    qDebug() << "BluetoothServiceDiscovery: Service [+]" << serviceInfo.device().name() << serviceInfo.serviceName() << serviceInfo.serviceProvider();
-
-    qDebug() << "Discovered service on"
-             << serviceInfo.device().name() << serviceInfo.device().address().toString();
+    qDebug() << "BluetoothServiceDiscovery: Discovered service on" << serviceInfo.device().name() << serviceInfo.device().address().toString();
+    qDebug() << "\tDevive name:" << serviceInfo.device().name();
     qDebug() << "\tService name:" << serviceInfo.serviceName();
-    qDebug() << "\tDescription:"
-             << serviceInfo.attribute(QBluetoothServiceInfo::ServiceDescription).toString();
-    qDebug() << "\tProvider:"
-             << serviceInfo.attribute(QBluetoothServiceInfo::ServiceProvider).toString();
-    qDebug() << "\Documentation:"
-             << serviceInfo.attribute(QBluetoothServiceInfo::DocumentationUrl).toString();
-    qDebug() << "\tL2CAP protocol service multiplexer:"
-             << serviceInfo.protocolServiceMultiplexer();
+    qDebug() << "\tDescription:" << serviceInfo.attribute(QBluetoothServiceInfo::ServiceDescription).toString();
+    qDebug() << "\tProvider:" << serviceInfo.attribute(QBluetoothServiceInfo::ServiceProvider).toString();
+    qDebug() << "\tDocumentation:" << serviceInfo.attribute(QBluetoothServiceInfo::DocumentationUrl).toString();
+    qDebug() << "\tL2CAP protocol service multiplexer:" << serviceInfo.protocolServiceMultiplexer();
     qDebug() << "\tRFCOMM server channel:" << serviceInfo.serverChannel();
 
     if (serviceInfo.serviceClassUuids().isEmpty())

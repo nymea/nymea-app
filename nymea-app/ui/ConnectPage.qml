@@ -150,6 +150,11 @@ Page {
                         objectName: "discoveryDelegate" + index
                         property var discoveryDevice: discovery.discoveryModel.get(index)
                         property string defaultPortConfigIndex: {
+
+                            if (model.deviceType !== DiscoveryDevice.DeviceTypeNetwork) {
+                                return -1
+                            }
+
                             var usedConfigIndex = 0;
                             for (var i = 1; i < discoveryDevice.portConfigs.count; i++) {
                                 var oldConfig = discoveryDevice.portConfigs.get(usedConfigIndex);
@@ -172,18 +177,18 @@ Page {
                             return usedConfigIndex
                         }
 
-                        iconName: model.type === DiscoveryDevice.DeviceTypeNetwork ? "../images/network-wifi-symbolic.svg" : "../images/bluetooth.svg"
+                        iconName: model.deviceType === DiscoveryDevice.DeviceTypeNetwork ? "../images/network-wifi-symbolic.svg" : "../images/bluetooth.svg"
                         text: model.name
-                        subText: model.type === DiscoveryDevice.DeviceTypeNetwork ? model.hostAddress : model.bluetoothAddress
+                        subText: model.deviceType === DiscoveryDevice.DeviceTypeNetwork ? discoveryDevice.hostAddress : discoveryDevice.bluetoothAddress
                         property bool hasSecurePort: {
-                            if (model.type === DiscoveryDevice.DeviceTypeNetwork) {
+                            if (discoveryDevice.deviceType === DiscoveryDevice.DeviceTypeNetwork) {
                                 return discoveryDeviceDelegate.discoveryDevice.portConfigs.get(discoveryDeviceDelegate.defaultPortConfigIndex).sslEnabled
                             } else {
                                 return false
                             }
                         }
                         property bool isTrusted: {
-                            if (model.type === DiscoveryDevice.DeviceTypeNetwork) {
+                            if (discoveryDeviceDelegate.discoveryDevice.deviceType === DiscoveryDevice.DeviceTypeNetwork) {
                                 Engine.connection.isTrusted(discoveryDeviceDelegate.discoveryDevice.toUrl(discoveryDeviceDelegate.defaultPortConfigIndex))
                             } else {
                                 return false
@@ -192,13 +197,19 @@ Page {
                         progressive: hasSecurePort
                         secondaryIconName: "../images/network-secure.svg"
                         secondaryIconColor: isTrusted ? app.guhAccent : Material.foreground
-                        swipe.enabled: model.type === DiscoveryDevice.DeviceTypeNetwork
+                        swipe.enabled: discoveryDeviceDelegate.discoveryDevice.deviceType === DiscoveryDevice.DeviceTypeNetwork
 
                         onClicked: {
-                            if (model.type === DiscoveryDevice.DeviceTypeNetwork) {
-                                Engine.connection.connect(discoveryDevice.toUrl(defaultPortConfigIndex))
-                            } else if (model.type === DiscoveryDevice.DeviceTypeBluetooth) {
-                                Engine.connection.connect("rfcom://bluetooth.local?mac=" + model.bluetoothAddress)
+                            switch (discoveryDeviceDelegate.discoveryDevice.deviceType) {
+                            case DiscoveryDevice.DeviceTypeNetwork:
+                                Engine.connection.connect(discoveryDeviceDelegate.discoveryDevice.toUrl(discoveryDeviceDelegate.defaultPortConfigIndex))
+                                break;
+                            case DiscoveryDevice.DeviceTypeBluetooth:
+                                Engine.connection.connect("rfcom://bluetooth.local?mac=" + model.bluetoothAddress + "&name=" + model.name)
+                                break;
+                            default:
+                                console.warn("Could not connect, unknown type")
+                                break;
                             }
 
                             pageStack.push(connectingPage)
@@ -214,7 +225,7 @@ Page {
                                 name: "../images/info.svg"
                             }
                             onClicked: {
-                                if (model.type === DiscoveryDevice.DeviceTypeNetwork) {
+                                if (model.deviceType === DiscoveryDevice.DeviceTypeNetwork) {
                                     swipe.close()
                                     var popup = infoDialog.createObject(app,{discoveryDevice: discovery.discoveryModel.get(index)})
                                     popup.open()

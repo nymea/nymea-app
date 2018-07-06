@@ -32,7 +32,7 @@ class DiscoveryModel : public QAbstractListModel
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
 public:
     enum DeviceRole {
-        TypeRole,
+        DeviceTypeRole,
         UuidRole,
         NameRole,
         HostAddressRole,

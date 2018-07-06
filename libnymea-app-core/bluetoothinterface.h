@@ -49,6 +49,7 @@ private slots:
     void onServiceFound(const QBluetoothServiceInfo &service);
     void onConnected();
     void onDisconnected();
+    void onStateChanged(const QBluetoothSocket::SocketState &state);
     void onDataReady();
 };
 

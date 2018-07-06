@@ -34,6 +34,7 @@ BluetoothInterface::BluetoothInterface(QObject *parent) :
     QObject::connect(m_socket, &QBluetoothSocket::connected, this, &BluetoothInterface::onConnected);
     QObject::connect(m_socket, &QBluetoothSocket::disconnected, this, &BluetoothInterface::onDisconnected);
     QObject::connect(m_socket, &QBluetoothSocket::readyRead, this, &BluetoothInterface::onDataReady);
+    QObject::connect(m_socket, &QBluetoothSocket::stateChanged, this, &BluetoothInterface::onDataReady);
 }
 
 QStringList BluetoothInterface::supportedSchemes() const
@@ -50,9 +51,10 @@ void BluetoothInterface::connect(const QUrl &url)
 
     QUrlQuery query(url);
     QString macAddressString = query.queryItemValue("mac");
+    QString name = query.queryItemValue("name");
     QBluetoothAddress macAddress = QBluetoothAddress(macAddressString);
 
-    qDebug() << "Connecting to bluetooth server" << macAddressString << macAddress.toString();
+    qDebug() << "Connecting to bluetooth server" << name << macAddress.toString();
     m_socket->connectToService(macAddress, QBluetoothUuid(QUuid("997936b5-d2cd-4c57-b41b-c6048320cd2b")));
 }
 
@@ -76,7 +78,8 @@ NymeaInterface::ConnectionState BluetoothInterface::connectionState() const
 
 void BluetoothInterface::sendData(const QByteArray &data)
 {
-    m_socket->write(data + '\n');
+    qDebug() << "BluetoothInterface: send data:" << qUtf8Printable(data);
+    m_socket->write(data);
 }
 
 void BluetoothInterface::onServiceFound(const QBluetoothServiceInfo &service)
@@ -101,8 +104,14 @@ void BluetoothInterface::onDisconnected()
     emit disconnected();
 }
 
+void BluetoothInterface::onStateChanged(const QBluetoothSocket::SocketState &state)
+{
+    qDebug() << "BluetoothInterface" << state;
+}
+
 void BluetoothInterface::onDataReady()
 {
     QByteArray data = m_socket->readAll();
+    qDebug() << "BluetoothInterface: recived data:" << qUtf8Printable(data);
     emit dataReady(data);
 }
