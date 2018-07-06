@@ -10,11 +10,15 @@ import "mainviews"
 Page {
     id: root
 
-    header: GuhHeader {
-        text: swipeView.currentItem.title
-        backButtonVisible: false
-        menuButtonVisible: true
-        onMenuPressed: mainMenu.open()
+    header: FancyHeader {
+        title: swipeView.currentItem.title
+
+        model: ListModel {
+            ListElement { iconSource: "../images/share.svg"; text: qsTr("Configure things"); page: "EditDevicesPage" }
+            ListElement { iconSource: "../images/magic.svg"; text: qsTr("Magic"); page: "MagicPage" }
+            ListElement { iconSource: "../images/settings.svg"; text: qsTr("System settings"); page: "SettingsPage" }
+            ListElement { iconSource: "../images/stock_application.svg"; text: qsTr("App settings"); page: "AppSettingsPage" }
+        }
     }
 
     // FIXME: Currently we don't have any feedback for executeAction
@@ -37,35 +41,6 @@ Page {
     //        }
     //    }
 
-    AutoSizeMenu {
-        id: mainMenu
-        IconMenuItem {
-            iconSource: "../images/share.svg"
-            text: qsTr("Configure things")
-            width: parent.width
-            onTriggered: pageStack.push(Qt.resolvedUrl("EditDevicesPage.qml"))
-        }
-        IconMenuItem {
-            iconSource: "../images/magic.svg"
-            text: qsTr("Magic")
-            width: parent.width
-            onTriggered: pageStack.push(Qt.resolvedUrl("MagicPage.qml"))
-        }
-        MenuSeparator { width: parent.width }
-        IconMenuItem {
-            iconSource: "../images/settings.svg"
-            text: qsTr("System settings")
-            width: parent.width
-            onTriggered: pageStack.push(Qt.resolvedUrl("SettingsPage.qml"))
-        }
-        MenuSeparator { width: parent.width }
-        IconMenuItem {
-            iconSource: "../images/stock_application.svg"
-            text: qsTr("App settings")
-            width: parent.width
-            onTriggered: pageStack.push(Qt.resolvedUrl("AppSettingsPage.qml"))
-        }
-    }
 
     ColumnLayout {
         anchors.fill: parent

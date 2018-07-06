@@ -70,6 +70,8 @@ Item {
                         text: model.name
                         wrapMode: Text.WordWrap
                         horizontalAlignment: Text.AlignHCenter
+                        maximumLineCount: 2
+                        elide: Text.ElideRight
                     }
                 }
             }

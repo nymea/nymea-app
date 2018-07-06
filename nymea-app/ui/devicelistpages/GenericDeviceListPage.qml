@@ -20,10 +20,9 @@ Page {
         text: {
             if (subPage.shownInterfaces.length === 1) {
                 return qsTr("My %1 things").arg(interfaceToString(subPage.filterInterface))
-            } else if (subPage.shownInterfaces.length > 1) {
+            } else if (subPage.shownInterfaces.length > 1 || subPage.hiddenInterfaces.length > 0) {
                 return qsTr("My things")
             }
-
             return qsTr("All my things")
         }
 
