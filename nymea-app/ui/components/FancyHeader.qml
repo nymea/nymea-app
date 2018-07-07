@@ -86,8 +86,8 @@ ToolBar {
                     width: app.iconSize * 3
 
                     onClicked: {
-                        header.menuOpen = false
-                        pageStack.push(Qt.resolvedUrl(model.page + ".qml"))
+                        d.menuOpen = false
+                        pageStack.push(model.page)
                     }
 
                     Rectangle {

@@ -34,6 +34,8 @@ SwipeDelegate {
                 Layout.fillHeight: true
                 text: root.text
                 wrapMode: Text.WordWrap
+                maximumLineCount: 2
+                elide: Text.ElideRight
                 verticalAlignment: Text.AlignVCenter
             }
             Label {

@@ -14,10 +14,10 @@ Page {
         title: swipeView.currentItem.title
 
         model: ListModel {
-            ListElement { iconSource: "../images/share.svg"; text: qsTr("Configure things"); page: "EditDevicesPage" }
-            ListElement { iconSource: "../images/magic.svg"; text: qsTr("Magic"); page: "MagicPage" }
-            ListElement { iconSource: "../images/settings.svg"; text: qsTr("System settings"); page: "SettingsPage" }
-            ListElement { iconSource: "../images/stock_application.svg"; text: qsTr("App settings"); page: "AppSettingsPage" }
+            ListElement { iconSource: "../images/share.svg"; text: qsTr("Configure things"); page: "../EditDevicesPage.qml" }
+            ListElement { iconSource: "../images/magic.svg"; text: qsTr("Magic"); page: "../MagicPage.qml" }
+            ListElement { iconSource: "../images/settings.svg"; text: qsTr("System settings"); page: "../SettingsPage.qml" }
+            ListElement { iconSource: "../images/stock_application.svg"; text: qsTr("App settings"); page: "../AppSettingsPage.qml" }
         }
     }
 
