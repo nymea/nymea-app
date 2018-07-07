@@ -44,6 +44,8 @@ SwipeDelegate {
                 text: root.subText
                 font.pixelSize: app.smallFont
                 wrapMode: Text.WordWrap
+                maximumLineCount: 2
+                elide: Text.ElideRight
                 verticalAlignment: Text.AlignVCenter
                 visible: root.subText.length > 0
             }
