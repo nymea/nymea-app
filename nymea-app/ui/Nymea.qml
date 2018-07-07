@@ -253,11 +253,12 @@ ApplicationWindow {
             page = "ShutterDevicePage.qml";
         } else if (interfaceList.indexOf("garagegate") >= 0 ) {
             page = "GarageGateDevicePage.qml";
-        } else if (interfaceList.indexOf("light")) {
+        } else if (interfaceList.indexOf("light") >= 0) {
             page = "ColorLightDevicePage.qml"
         } else {
             page = "GenericDevicePage.qml";
         }
+        print("Selecting page", page, "for interface list:", interfaceList)
         return page;
     }
 
