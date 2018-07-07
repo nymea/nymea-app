@@ -1,7 +1,9 @@
 #!/bin/sh
 
 BASEDIR=$(dirname "$0")
-MEA_VERSION=`cat $BASEDIR/../version.txt`
-echo "Setting version to $MEA_VERSION"
+MEA_VERSION=`cat $BASEDIR/../version.txt | head -n 1`
+MEA_VERSION_CODE=`cat $BASEDIR/../version.txt | head -n 2 | tail -n 1`
+echo "Setting version to $MEA_VERSION ($MEA_VERSION_CODE)"
 sed -i "s/android:versionName=\"[0-9\.a-zA-Z$_]*\"/android:versionName=\"$MEA_VERSION\"/" AndroidManifest.xml
+sed -i "s/android:versionCode=\"[0-9]*\"/android:versionCode=\"$MEA_VERSION_CODE\"/" AndroidManifest.xml
 ./gradlew.upstream $@
