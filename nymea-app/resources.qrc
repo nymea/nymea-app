@@ -136,7 +136,6 @@
         <file>ui/devicepages/StateLogPage.qml</file>
         <file>ui/customviews/GenericTypeLogView.qml</file>
         <file>qtquickcontrols2.conf</file>
-        <file>ui/BluetoothDiscoveryPage.qml</file>
         <file>ui/images/bluetooth.svg</file>
         <file>ui/images/refresh.svg</file>
         <file>ui/WirelessControlerPage.qml</file>
@@ -213,5 +212,7 @@
         <file>ui/components/EmptyViewPlaceholder.qml</file>
         <file>ui/components/RemoveDeviceMethodDialog.qml</file>
         <file>ui/components/FancyHeader.qml</file>
+        <file>ui/connection/ManualConnectPage.qml</file>
+        <file>ui/connection/BluetoothDiscoveryPage.qml</file>
     </qresource>
 </RCC>

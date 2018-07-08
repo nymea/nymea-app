@@ -76,11 +76,26 @@ Page {
 
         Page {
             objectName: "discoveryPage"
-            header: GuhHeader {
-                text: qsTr("Connect %1").arg(app.systemName)
-                backButtonVisible: false
-                menuButtonVisible: true
-                onMenuPressed: connectionMenu.open()
+            header: FancyHeader {
+                title: qsTr("Connect %1").arg(app.systemName)
+                model: ListModel {
+                    ListElement { iconSource: "../images/network-vpn.svg"; text: qsTr("Manual connection"); page: "connection/ManualConnectPage.qml" }
+                    ListElement { iconSource: "../images/bluetooth.svg"; text: qsTr("Wireless setup"); page: "connection/BluetoothDiscoveryPage.qml" }
+                    ListElement { iconSource: "../images/private-browsing.svg"; text: qsTr("Demo mode"); page: "" }
+                    ListElement { iconSource: "../images/stock_application.svg"; text: qsTr("App settings"); page: "AppSettingsPage.qml" }
+                }
+                onClicked: {
+                    switch (index) {
+                    case 0:
+                    case 1:
+                    case 3:
+                        pageStack.push(model.get(index).page);
+                        break;
+                    case 2:
+                        Engine.connection.connect("nymea://nymea.nymea.io:2222")
+                        break;
+                    }
+                }
             }
 
             Timer {
@@ -90,41 +105,6 @@ Page {
                 running: true
             }
 
-            Menu {
-                id: connectionMenu
-                objectName: "connectionMenu"
-                width: implicitWidth + app.margins
-
-                IconMenuItem {
-                    objectName: "manualConnectMenuItem"
-                    iconSource: "../images/network-vpn.svg"
-                    text: qsTr("Manual connection")
-                    onTriggered: pageStack.push(manualConnectPage)
-                }
-
-                IconMenuItem {
-                    iconSource: "../images/bluetooth.svg"
-                    text: qsTr("Wireless setup")
-                    onTriggered: pageStack.push(Qt.resolvedUrl("BluetoothDiscoveryPage.qml"))
-                }
-
-                IconMenuItem {
-                    iconSource: "../images/private-browsing.svg"
-                    text: qsTr("Demo mode")
-                    onTriggered: {
-                        pageStack.push(connectingPage)
-                        Engine.connection.connect("nymea://nymea.nymea.io:2222")
-                    }
-                }
-
-                MenuSeparator { }
-
-                IconMenuItem {
-                    iconSource: "../images/stock_application.svg"
-                    text: qsTr("App settings")
-                    onTriggered: pageStack.push(Qt.resolvedUrl("AppSettingsPage.qml"))
-                }
-            }
 
             ColumnLayout {
                 anchors.fill: parent
@@ -299,107 +279,6 @@ Page {
                     }
 
                     BusyIndicator { }
-                }
-            }
-        }
-    }
-
-
-    Component {
-        id: manualConnectPage
-
-        Page {
-            objectName: "manualConnectPage"
-            header: GuhHeader {
-                text: qsTr("Manual connection")
-                onBackPressed: pageStack.pop()
-            }
-
-            ColumnLayout {
-                anchors { left: parent.left; top: parent.top; right: parent.right }
-                anchors.margins: app.margins
-                spacing: app.margins
-
-                GridLayout {
-                    columns: 2
-
-                    Label {
-                        text: qsTr("Protocol")
-                    }
-
-                    ComboBox {
-                        id: connectionTypeComboBox
-                        Layout.fillWidth: true
-                        model: [ qsTr("TCP"), qsTr("Websocket") ]
-                    }
-
-                    Label { text: qsTr("Address:") }
-                    TextField {
-                        id: addressTextInput
-                        objectName: "addressTextInput"
-                        Layout.fillWidth: true
-                        placeholderText: "127.0.0.1"
-                    }
-
-                    Label { text: qsTr("Port:") }
-                    TextField {
-                        id: portTextInput
-                        Layout.fillWidth: true
-                        placeholderText: connectionTypeComboBox.currentIndex === 0 ? "2222" : "4444"
-                        validator: IntValidator{bottom: 1; top: 65535;}
-                    }
-
-                    Label {
-                        Layout.fillWidth: true
-                        text: qsTr("Encrypted connection:")
-                    }
-                    CheckBox {
-                        id: secureCheckBox
-                        checked: true
-                    }
-                }
-
-
-                Button {
-                    text: qsTr("Connect")
-                    objectName: "connectButton"
-                    Layout.fillWidth: true
-                    onClicked: {
-                        var rpcUrl
-                        var hostAddress
-                        var port
-
-                        // Set default to placeholder
-                        if (addressTextInput.text === "") {
-                            hostAddress = addressTextInput.placeholderText
-                        } else {
-                            hostAddress = addressTextInput.text
-                        }
-
-                        if (portTextInput.text === "") {
-                            port = portTextInput.placeholderText
-                        } else {
-                            port = portTextInput.text
-                        }
-
-                        if (connectionTypeComboBox.currentIndex == 0) {
-                            if (secureCheckBox.checked) {
-                                rpcUrl = "nymeas://" + hostAddress + ":" + port
-                            } else {
-                                rpcUrl = "nymea://" + hostAddress + ":" + port
-                            }
-                        } else if (connectionTypeComboBox.currentIndex == 1) {
-                            if (secureCheckBox.checked) {
-                                rpcUrl = "wss://" + hostAddress + ":" + port
-                            } else {
-                                rpcUrl = "ws://" + hostAddress + ":" + port
-                            }
-                        }
-
-                        print("Try to connect ", rpcUrl)
-                        Engine.connection.connect(rpcUrl)
-                        pageStack.push(connectingPage)
-                    }
                 }
             }
         }

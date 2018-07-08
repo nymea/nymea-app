@@ -1,7 +1,7 @@
 import QtQuick 2.4
 import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.2
-import "components"
+import "../components"
 import Nymea 1.0
 
 
@@ -12,7 +12,7 @@ Page {
         onBackPressed: pageStack.pop()
 
         HeaderButton {
-            imageSource: Qt.resolvedUrl("images/refresh.svg")
+            imageSource: Qt.resolvedUrl("../images/refresh.svg")
             onClicked: Engine.bluetoothDiscovery.start()
         }
     }
@@ -68,7 +68,7 @@ Page {
 
             delegate: MeaListItemDelegate {
                 width: parent.width
-                iconName: Qt.resolvedUrl("images/bluetooth.svg")
+                iconName: Qt.resolvedUrl("../images/bluetooth.svg")
                 text: model.name
                 subText: model.address
 
@@ -138,7 +138,7 @@ Page {
                         sourceSize.height: 540
                         fillMode: Image.PreserveAspectFit
                         Layout.alignment: Qt.AlignHCenter
-                        source: "images/rpi-setup.svg"
+                        source: "../images/rpi-setup.svg"
                     }
                     ThinDivider {}
                     Label {
@@ -164,7 +164,7 @@ Page {
                         sourceSize.height: width
                         fillMode: Image.PreserveAspectFit
                         Layout.alignment: Qt.AlignHCenter
-                        source: "images/nymea-box-setup.svg"
+                        source: "../images/nymea-box-setup.svg"
                     }
                 }
             }

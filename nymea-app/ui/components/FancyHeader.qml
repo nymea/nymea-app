@@ -10,6 +10,8 @@ ToolBar {
     property string title
     property alias model: menuRepeater.model
 
+    signal clicked(int index);
+
     QtObject {
         id: d
         property bool menuOpen: false
@@ -87,7 +89,7 @@ ToolBar {
 
                     onClicked: {
                         d.menuOpen = false
-                        pageStack.push(model.page)
+                        root.clicked(index)
                     }
 
                     Rectangle {
