@@ -134,7 +134,7 @@ ApplicationWindow {
         }
     }
 
-    property var supportedInterfaces: ["light", "weather", "sensor", "media", "garagegate", "shutter", "garagegate", "button", "notifications", "inputtrigger", "outputtrigger", "gateway"]
+    property var supportedInterfaces: ["light", "weather", "sensor", "media", "garagegate", "awning", "extendedawning", "shutter", "extendedshutter", "blind", "extendedblind", "button", "notifications", "inputtrigger", "outputtrigger", "gateway"]
     function interfaceToString(name) {
         switch(name) {
         case "light":
@@ -160,9 +160,14 @@ ApplicationWindow {
         case "outputtrigger":
             return qsTr("Events");
         case "shutter":
+        case "extendedshutter":
             return qsTr("Shutters");
         case "blind":
+        case "extendedblind":
             return qsTr("Blinds");
+        case "awning":
+        case "extendedawning":
+            return qsTr("Awnings");
         case "garagegate":
             return qsTr("Garage gates");
         case "uncategorized":
@@ -214,11 +219,13 @@ ApplicationWindow {
             return Qt.resolvedUrl("images/attention.svg")
         case "outputtrigger":
             return Qt.resolvedUrl("images/send.svg")
-        case "shutter":
-        case "blind":
+        case "extendedshutter":
+        case "extendedblind":
             return Qt.resolvedUrl("images/sort-listitem.svg")
         case "garagegate":
-            return Qt.resolvedUrl("images/shutter-10.svg")
+            return Qt.resolvedUrl("images/shutter/shutter-100.svg")
+        case "extendedawning":
+            return Qt.resolvedUrl("images/awning/awning-100.svg")
         case "battery":
             return Qt.resolvedUrl("images/battery/battery-050.svg")
         case "uncategorized":
@@ -249,17 +256,24 @@ ApplicationWindow {
             page = "SensorDevicePage.qml";
         } else if (interfaceList.indexOf("inputtrigger") >= 0) {
             page = "InputTriggerDevicePage.qml";
-        } else if (interfaceList.indexOf("shutter") >= 0 ) {
-            page = "ShutterDevicePage.qml";
         } else if (interfaceList.indexOf("garagegate") >= 0 ) {
             page = "GarageGateDevicePage.qml";
         } else if (interfaceList.indexOf("light") >= 0) {
-            page = "ColorLightDevicePage.qml"
+            page = "ColorLightDevicePage.qml";
+        } else if (interfaceList.indexOf("extendedshutter") >= 0 ) {
+            page = "ShutterDevicePage.qml";
+        } else if (interfaceList.indexOf("extendedawning") >= 0) {
+            page = "AwningDevicePage.qml";
         } else {
             page = "GenericDevicePage.qml";
         }
         print("Selecting page", page, "for interface list:", interfaceList)
         return page;
+    }
+
+    function pad(num, size) {
+        var s = "000000000" + num;
+        return s.substr(s.length-size);
     }
 
     Component {
