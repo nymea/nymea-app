@@ -28,9 +28,9 @@ ToolBar {
             Layout.fillHeight: true
             Layout.margins: app.margins
             verticalAlignment: Text.AlignVCenter
-            font.pixelSize: app.largeFont
+            font.pixelSize: app.mediumFont
             elide: Text.ElideRight
-            text: root.title
+            text: root.title.toLowerCase();
         }
 
         HeaderButton {
@@ -53,9 +53,9 @@ ToolBar {
             Layout.fillHeight: true
             Layout.margins: app.margins
             verticalAlignment: Text.AlignVCenter
-            font.pixelSize: app.largeFont
+            font.pixelSize: app.mediumFont
             elide: Text.ElideRight
-            text: qsTr("Menu")
+            text: qsTr("menu")
         }
 
         HeaderButton {
