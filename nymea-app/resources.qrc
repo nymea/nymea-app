@@ -36,8 +36,8 @@
         <file>ui/images/audio-speakers-muted-symbolic.svg</file>
         <file>ui/images/audio-speakers-symbolic.svg</file>
         <file>ui/images/media-playback-pause.svg</file>
-        <file>ui/images/media-playback-start.svg</file>
-        <file>ui/images/media-playback-stop.svg</file>
+        <file alias="media-play">ui/images/media-playback-start.svg</file>
+        <file alias="media-stop">ui/images/media-playback-stop.svg</file>
         <file>ui/images/media-seek-backward.svg</file>
         <file>ui/images/media-seek-forward.svg</file>
         <file>ui/images/media-skip-backward.svg</file>

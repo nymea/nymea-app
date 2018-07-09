@@ -335,7 +335,7 @@ Page {
                         }
                     }
                     Repeater {
-                        model: ["torch-on", "torch-off", "alarm-clock", "media-preview-start", "network-secure", "notification", "sensors", "shutter-10", "mail-mark-important", "eye"]
+                        model: ["light-on", "light-off", "alarm-clock", "media-play", "media-stop", "lock", "unlock", "notification", "sensors", "garage", "home", "warning", "eye"]
 
                         delegate: Item {
                             Layout.fillWidth: true
