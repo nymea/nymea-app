@@ -24,7 +24,8 @@
         <file>ui/devicelistpages/LightsDeviceListPage.qml</file>
         <file>ui/customviews/ExtendedVolumeController.qml</file>
         <file>ui/components/ColorIcon.qml</file>
-        <file>ui/images/torch-on.svg</file>
+        <file>ui/images/light-on.svg</file>
+        <file>ui/images/light-off.svg</file>
         <file>ui/images/media-preview-start.svg</file>
         <file>ui/MagicPage.qml</file>
         <file>ui/images/mediaplayer-app-symbolic.svg</file>
@@ -36,8 +37,8 @@
         <file>ui/images/audio-speakers-muted-symbolic.svg</file>
         <file>ui/images/audio-speakers-symbolic.svg</file>
         <file>ui/images/media-playback-pause.svg</file>
-        <file alias="media-play">ui/images/media-playback-start.svg</file>
-        <file alias="media-stop">ui/images/media-playback-stop.svg</file>
+        <file>ui/images/media-playback-start.svg</file>
+        <file>ui/images/media-playback-stop.svg</file>
         <file>ui/images/media-seek-backward.svg</file>
         <file>ui/images/media-seek-forward.svg</file>
         <file>ui/images/media-skip-backward.svg</file>
@@ -59,7 +60,6 @@
         <file>ui/images/weathericons/wind.svg</file>
         <file>ui/devicepages/WeatherDevicePage.qml</file>
         <file>ui/devicepages/ColorLightDevicePage.qml</file>
-        <file>ui/images/torch-off.svg</file>
         <file>ui/components/ThrottledSlider.qml</file>
         <file>ui/components/ColorPickerCt.qml</file>
         <file>ui/images/navigation-menu.svg</file>
@@ -130,7 +130,7 @@
         <file>ui/PushButtonAuthPage.qml</file>
         <file>ui/images/dialog-error-symbolic.svg</file>
         <file>ui/images/send.svg</file>
-        <file>ui/images/mail-mark-important.svg</file>
+        <file>ui/images/attention.svg</file>
         <file>ui/devicepages/InputTriggerDevicePage.qml</file>
         <file>ui/images/clock-app-symbolic.svg</file>
         <file>ui/devicepages/StateLogPage.qml</file>

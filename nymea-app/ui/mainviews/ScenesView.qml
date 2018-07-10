@@ -63,6 +63,13 @@ Item {
                         Layout.alignment: Qt.AlignHCenter
                         name: scenesDelegate.iconTag ? "../images/" + scenesDelegate.iconTag.value + ".svg" : "../images/slideshow.svg";
                         color: scenesDelegate.colorTag ? scenesDelegate.colorTag.value : app.guhAccent;
+
+                        ColorIcon {
+                            anchors.fill: parent
+                            name: "../images/slideshow.svg"
+                            color: app.guhAccent
+                            visible: parent.status === Image.Error
+                        }
                     }
 
                     Label {

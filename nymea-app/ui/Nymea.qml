@@ -185,7 +185,7 @@ ApplicationWindow {
         case "light":
         case "colorlight":
         case "dimmablelight":
-            return Qt.resolvedUrl("images/torch-on.svg")
+            return Qt.resolvedUrl("images/light-on.svg")
         case "sensor":
         case "temperaturesensor":
         case "humiditysensor":
@@ -211,7 +211,7 @@ ApplicationWindow {
         case "connectable":
             return Qt.resolvedUrl("images/stock_link.svg")
         case "inputtrigger":
-            return Qt.resolvedUrl("images/mail-mark-important.svg")
+            return Qt.resolvedUrl("images/attention.svg")
         case "outputtrigger":
             return Qt.resolvedUrl("images/send.svg")
         case "shutter":

@@ -24,6 +24,7 @@ ItemDelegate {
                     case "bool":
                     case "string":
                     case "qstring":
+                    case "color":
                         return [qsTr("is"), qsTr("is not")];
                     case "int":
                     case "double":
@@ -73,6 +74,7 @@ ItemDelegate {
                         return textFieldComponent;
                     case "string":
                     case "qstring":
+                    case "color":
                         if (paramType.allowedValues.length > 0) {
                             return comboBoxComponent
                         }

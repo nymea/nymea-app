@@ -28,7 +28,7 @@ DevicePageBase {
                 height: width
                 ColorIcon {
                     anchors.fill: parent
-                    name: "../images/torch-off.svg"
+                    name: "../images/light-off.svg"
                     color: powerRow.powerState.value === true ? keyColor : app.guhAccent
                 }
                 onClicked: {
@@ -62,7 +62,7 @@ DevicePageBase {
                 height: width
                 ColorIcon {
                     anchors.fill: parent
-                    name: "../images/torch-on.svg"
+                    name: "../images/light-on.svg"
                     color: powerRow.powerState.value === true ? app.guhAccent : keyColor
                 }
                 onClicked: {

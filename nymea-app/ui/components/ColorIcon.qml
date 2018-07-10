@@ -76,6 +76,8 @@ Item {
 
     property int margins: 0
 
+    property alias status: image.status
+
     Image {
         id: image
 
