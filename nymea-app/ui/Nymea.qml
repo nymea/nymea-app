@@ -219,6 +219,8 @@ ApplicationWindow {
             return Qt.resolvedUrl("images/mail-mark-important.svg")
         case "outputtrigger":
             return Qt.resolvedUrl("images/send.svg")
+        case "shutter":
+        case "blind":
         case "extendedshutter":
         case "extendedblind":
             return Qt.resolvedUrl("images/sort-listitem.svg")
