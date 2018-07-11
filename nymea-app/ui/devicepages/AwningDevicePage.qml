@@ -10,7 +10,7 @@ DevicePageBase {
     id: root
 
     readonly property bool landscape: width > height
-    readonly property bool isExtended: deviceClass.interfaces.indexOf("extendedshutter") >= 0
+    readonly property bool isExtended: deviceClass.interfaces.indexOf("extendedawning") >= 0
     readonly property var percentageState: isExtended ? device.states.getState(deviceClass.stateTypes.findByName("percentage").id) : 0
     readonly property var movingState: isExtended ? device.states.getState(deviceClass.stateTypes.findByName("moving").id) : 0
 
@@ -22,9 +22,10 @@ DevicePageBase {
             id: shutterImage
             Layout.preferredWidth: root.landscape ? Math.min(parent.width - shutterControlsContainer.width, parent.height) - app.margins : parent.width
             Layout.preferredHeight: width
-            name: "../images/shutter/shutter-" + app.pad(Math.round(root.percentageState.value / 10) * 10, 3) + ".svg"
+            name: "../images/awning/awning-" + app.pad(Math.round(root.percentageState.value / 10) * 10, 3) + ".svg"
             visible: isExtended
         }
+
 
         Item {
             id: shutterControlsContainer
@@ -54,8 +55,8 @@ DevicePageBase {
                     }
 
                     onPressedChanged: {
-                        if (pressed) {
-                            return;
+                        if (!pressed) {
+                            return
                         }
 
                         var actionType = root.deviceClass.actionTypes.findByName("percentage");
@@ -71,9 +72,11 @@ DevicePageBase {
                 ShutterControls {
                     id: shutterControls
                     device: root.device
+                    invert: true
                     anchors.horizontalCenter: parent.horizontalCenter
                 }
             }
+
         }
     }
 }

@@ -93,6 +93,7 @@ Page {
                         break;
                     case 2:
                         Engine.connection.connect("nymea://nymea.nymea.io:2222")
+                        pageStack.push(connectingPage)
                         break;
                     }
                 }

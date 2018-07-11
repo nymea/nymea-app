@@ -14,6 +14,8 @@ RowLayout {
     readonly property var deviceClass: device ? Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
     readonly property var openState: device ? device.states.getState(deviceClass.stateTypes.findByName("state").id) : null
 
+    property bool invert: false
+
     Rectangle {
         Layout.preferredWidth: app.iconSize * 2
         Layout.preferredHeight: width
@@ -23,7 +25,7 @@ RowLayout {
         ColorIcon {
             anchors.fill: parent
             anchors.margins: app.margins
-            name: "../images/up.svg"
+            name: root.invert ? "../images/down.svg" : "../images/up.svg"
         }
         MouseArea {
             anchors.fill: parent
@@ -57,7 +59,7 @@ RowLayout {
         ColorIcon {
             anchors.fill: parent
             anchors.margins: app.margins
-            name: "../images/down.svg"
+            name: root.invert ? "../images/up.svg" : "../images/down.svg"
         }
         MouseArea {
             anchors.fill: parent

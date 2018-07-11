@@ -23,9 +23,9 @@ DevicePageBase {
             id: shutterImage
             Layout.preferredWidth: root.landscape ? Math.min(parent.width - shutterControlsContainer.width, parent.height) - app.margins : parent.width
             Layout.preferredHeight: width
-            property int currentImage: root.openState.value === "closed" ? 10 :
-                                    root.openState.value === "open" && root.intermediatePositionState.value === false ? 0 : 5
-            name: "../images/shutter-" + currentImage + ".svg"
+            property string currentImage: root.openState.value === "closed" ? "100" :
+                                    root.openState.value === "open" && root.intermediatePositionState.value === false ? "000" : "050"
+            name: "../images/shutter/shutter-" + currentImage + ".svg"
 
             Item {
                 id: arrows
