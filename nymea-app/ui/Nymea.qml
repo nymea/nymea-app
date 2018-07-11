@@ -137,7 +137,7 @@ ApplicationWindow {
         }
     }
 
-    property var supportedInterfaces: ["light", "weather", "sensor", "media", "garagegate", "awning", "extendedawning", "shutter", "extendedshutter", "blind", "extendedblind", "button", "notifications", "inputtrigger", "outputtrigger", "gateway"]
+    property var supportedInterfaces: ["light", "weather", "sensor", "media", "garagegate", "extendedawning", "extendedshutter", "extendedblind", "button", "notifications", "inputtrigger", "outputtrigger", "gateway"]
     function interfaceToString(name) {
         switch(name) {
         case "light":
