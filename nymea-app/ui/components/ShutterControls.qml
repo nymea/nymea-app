@@ -16,54 +16,44 @@ RowLayout {
 
     property bool invert: false
 
-    Rectangle {
+    ItemDelegate {
         Layout.preferredWidth: app.iconSize * 2
         Layout.preferredHeight: width
-        color: root.openState && root.openState.value === "opening" ? Material.accent : Material.foreground
-        radius: height / 2
 
         ColorIcon {
             anchors.fill: parent
             anchors.margins: app.margins
             name: root.invert ? "../images/down.svg" : "../images/up.svg"
+            color: root.openState && root.openState.value === "opening" ? Material.accent : keyColor
         }
-        MouseArea {
-            anchors.fill: parent
-            onClicked: Engine.deviceManager.executeAction(root.device.id, root.deviceClass.actionTypes.findByName("open").id)
-        }
+        onClicked: Engine.deviceManager.executeAction(root.device.id, root.deviceClass.actionTypes.findByName("open").id)
     }
 
-    Rectangle {
+
+   ItemDelegate {
         Layout.preferredWidth: app.iconSize * 2
         Layout.preferredHeight: width
-        color: Material.foreground
-        radius: height / 2
+//        color: Material.foreground
+//        radius: height / 2
 
         ColorIcon {
             anchors.fill: parent
             anchors.margins: app.margins
-            name: "../images/remove.svg"
+            name: "../images/media-playback-stop.svg"
         }
-        MouseArea {
-            anchors.fill: parent
-            onClicked: Engine.deviceManager.executeAction(root.device.id, root.deviceClass.actionTypes.findByName("stop").id)
-        }
+        onClicked: Engine.deviceManager.executeAction(root.device.id, root.deviceClass.actionTypes.findByName("stop").id)
     }
 
-    Rectangle {
+    ItemDelegate {
         Layout.preferredWidth: app.iconSize * 2
         Layout.preferredHeight: width
-        color: root.openState && root.openState.value === "closing" ? Material.accent : Material.foreground
-        radius: height / 2
 
         ColorIcon {
             anchors.fill: parent
             anchors.margins: app.margins
             name: root.invert ? "../images/up.svg" : "../images/down.svg"
+            color: root.openState && root.openState.value === "closing" ? Material.accent : keyColor
         }
-        MouseArea {
-            anchors.fill: parent
-            onClicked: Engine.deviceManager.executeAction(root.device.id, root.deviceClass.actionTypes.findByName("close").id)
-        }
+        onClicked: Engine.deviceManager.executeAction(root.device.id, root.deviceClass.actionTypes.findByName("close").id)
     }
 }

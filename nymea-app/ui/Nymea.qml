@@ -223,10 +223,11 @@ ApplicationWindow {
         case "outputtrigger":
             return Qt.resolvedUrl("images/send.svg")
         case "shutter":
-        case "blind":
         case "extendedshutter":
+            return Qt.resolvedUrl("images/DeviceIconRollerShutter.svg")
+        case "blind":
         case "extendedblind":
-            return Qt.resolvedUrl("images/sort-listitem.svg")
+            return Qt.resolvedUrl("images/DeviceIconBlind.svg")
         case "garagegate":
             return Qt.resolvedUrl("images/shutter/shutter-100.svg")
         case "extendedawning":
@@ -235,6 +236,10 @@ ApplicationWindow {
             return Qt.resolvedUrl("images/battery/battery-050.svg")
         case "uncategorized":
             return Qt.resolvedUrl("images/select-none.svg")
+        case "simpleclosable":
+            return Qt.resolvedUrl("images/sort-listitem.svg")
+        default:
+            console.warn("InterfaceToIcon: Unhandled interface", name)
         }
         return "";
     }
