@@ -222,6 +222,8 @@ ApplicationWindow {
             return Qt.resolvedUrl("images/attention.svg")
         case "outputtrigger":
             return Qt.resolvedUrl("images/send.svg")
+        case "shutter":
+        case "blind":
         case "extendedshutter":
         case "extendedblind":
             return Qt.resolvedUrl("images/sort-listitem.svg")
