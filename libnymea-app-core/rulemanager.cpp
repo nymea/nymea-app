@@ -154,7 +154,7 @@ void RuleManager::getRuleDetailsReply(const QVariantMap &params)
         qDebug() << "Got rule details for a rule we don't know";
         return;
     }
-    qDebug() << "got rule details for rule" << qUtf8Printable(QJsonDocument::fromVariant(ruleMap).toJson());
+//    qDebug() << "got rule details for rule" << qUtf8Printable(QJsonDocument::fromVariant(ruleMap).toJson());
     parseEventDescriptors(ruleMap.value("eventDescriptors").toList(), rule);
     parseRuleActions(ruleMap.value("actions").toList(), rule);
     parseRuleExitActions(ruleMap.value("exitActions").toList(), rule);

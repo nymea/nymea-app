@@ -83,7 +83,7 @@ public:
     QString unitString() const;
     void setUnitString(const QString &unitString);
 
-    QList<QVariant> allowedValues() const;
+    QVariantList allowedValues() const;
     void setAllowedValues(const QList<QVariant> allowedValues);
 
     bool readOnly() const;
