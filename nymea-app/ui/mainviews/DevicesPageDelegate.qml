@@ -136,10 +136,10 @@ Item {
 
                     var actionName
                     switch (state.value) {
-                    case "PLAYING":
+                    case "Playing":
                         actionName = "pause";
                         break;
-                    case "PAUSED":
+                    case "Paused":
                         actionName = "play";
                         break;
                     }
@@ -214,7 +214,7 @@ Item {
                             var deviceClass = Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
                             var stateType = deviceClass.stateTypes.findByName("playbackStatus");
                             var state = device.states.getState(stateType.id)
-                            return state.value === "PLAYING" ? "../images/media-playback-pause.svg" :
+                            return state.value === "Playing" ? "../images/media-playback-pause.svg" :
                                                                state.value === "PAUSED" ? "../images/media-playback-start.svg" :
                                                                                           ""
                         case "light":
