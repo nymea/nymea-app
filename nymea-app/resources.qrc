@@ -214,5 +214,6 @@
         <file>ui/components/FancyHeader.qml</file>
         <file>ui/connection/ManualConnectPage.qml</file>
         <file>ui/connection/BluetoothDiscoveryPage.qml</file>
+        <file>ui/magic/NewThingMagicPage.qml</file>
     </qresource>
 </RCC>

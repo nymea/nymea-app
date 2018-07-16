@@ -111,7 +111,6 @@ void TagsManager::handleTagsNotification(const QVariantMap &params)
 
 void TagsManager::getTagsReply(const QVariantMap &params)
 {
-    qDebug() << "Have tags" << params;
     foreach (const QVariant &tagVariant, params.value("params").toMap().value("tags").toList()) {
         addTagInternal(tagVariant.toMap());
     }
