@@ -119,7 +119,7 @@ Item {
                     spacing: app.margins
 
                     ColorIcon {
-                        Layout.preferredWidth: app.iconSize * 2
+                        Layout.preferredWidth: app.iconSize * 1.3
                         Layout.preferredHeight: width
                         name: app.interfacesToIcon(delegateRoot.deviceClass.interfaces)
                         color: app.guhAccent
