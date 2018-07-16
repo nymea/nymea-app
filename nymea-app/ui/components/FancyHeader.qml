@@ -113,7 +113,7 @@ ToolBar {
                                 elide: Text.ElideRight
                                 horizontalAlignment: Text.AlignHCenter
                                 verticalAlignment: Text.AlignVCenter
-                                font.pixelSize: app.smallFont - 2
+                                font.pixelSize: app.extraSmallFont
                             }
                         }
                     }

@@ -24,7 +24,7 @@ Item {
             filterExecutable: true
         }
         cellWidth: width / tilesPerRow
-        cellHeight: Math.max(cellWidth, minTileHeight)
+        cellHeight: cellWidth
         delegate: Item {
             id: scenesDelegate
             width: interfacesGridView.cellWidth
@@ -67,7 +67,10 @@ Item {
 
                     Label {
                         Layout.fillWidth: true
-                        text: model.name
+                        text: model.name.toUpperCase()
+                        font.pixelSize: app.extraSmallFont
+                        font.bold: true
+                        font.letterSpacing: 1
                         wrapMode: Text.WordWrap
                         horizontalAlignment: Text.AlignHCenter
                         maximumLineCount: 2

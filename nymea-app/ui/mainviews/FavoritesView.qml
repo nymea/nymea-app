@@ -128,7 +128,10 @@ Item {
 
                     Label {
                         Layout.fillWidth: true
-                        text: delegateRoot.device.name
+                        text: delegateRoot.device.name.toUpperCase()
+                        font.pixelSize: app.extraSmallFont
+                        font.bold: true
+                        font.letterSpacing: 1
                         wrapMode: Text.WordWrap
                         horizontalAlignment: Text.AlignHCenter
                     }

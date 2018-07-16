@@ -18,7 +18,7 @@ Item {
             anchors.verticalCenterOffset: -app.iconSize
             spacing: app.margins
             ColorIcon {
-                height: app.iconSize * 2
+                height: app.iconSize * 1.3
                 width: height
                 color: app.guhAccent
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -27,6 +27,9 @@ Item {
 
             Label {
                 text: interfaceToString(model.name).toUpperCase()
+                font.pixelSize: app.extraSmallFont
+                font.bold: true
+                font.letterSpacing: 1
                 width: parent.width
                 horizontalAlignment: Text.AlignHCenter
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
@@ -69,7 +72,6 @@ Item {
             color: "black"
             opacity: .05
         }
-
         Loader {
             id: inlineControlLoader
             anchors {

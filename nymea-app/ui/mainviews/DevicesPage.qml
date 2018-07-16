@@ -24,7 +24,7 @@ Item {
             devices: Engine.deviceManager.devices
         }
         cellWidth: width / tilesPerRow
-        cellHeight: Math.max(cellWidth, minTileHeight)
+        cellHeight: cellWidth
         delegate: DevicesPageDelegate {
             width: interfacesGridView.cellWidth
             height: interfacesGridView.cellHeight
