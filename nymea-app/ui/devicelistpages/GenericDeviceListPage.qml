@@ -19,7 +19,7 @@ Page {
     header: GuhHeader {
         text: {
             if (subPage.shownInterfaces.length === 1) {
-                return qsTr("My %1 things").arg(app.interfaceToString(subPage.shownInterfaces[0]))
+                return qsTr("My %1").arg(app.interfaceToString(subPage.shownInterfaces[0]))
             } else if (subPage.shownInterfaces.length > 1 || subPage.hiddenInterfaces.length > 0) {
                 return qsTr("My things")
             }
