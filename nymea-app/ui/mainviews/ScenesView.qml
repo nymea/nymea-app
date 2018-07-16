@@ -56,7 +56,7 @@ Item {
                         spacing: app.margins
 
                         ColorIcon {
-                            Layout.preferredHeight: app.iconSize * 2
+                            Layout.preferredHeight: app.iconSize * 1.3
                             Layout.preferredWidth: height
                             Layout.alignment: Qt.AlignHCenter
                             name: scenesDelegate.iconTag ? "../images/" + scenesDelegate.iconTag.value + ".svg" : "../images/slideshow.svg";
