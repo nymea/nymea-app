@@ -97,6 +97,7 @@ Page {
                     deviceClasses: Engine.deviceManager.deviceClasses
                 }
                 delegate: MeaListItemDelegate {
+                    id: deviceClassDelegate
                     width: parent.width
                     text: model.displayName
                     iconName: app.interfacesToIcon(deviceClass.interfaces)
@@ -117,6 +118,27 @@ Page {
                         }
 
                         print("should setup", deviceClass.name, deviceClass.setupMethod, deviceClass.createMethods, deviceClass["discoveryParamTypes"].count)
+                    }
+
+                    swipe.enabled: deviceClass.createMethods.indexOf("CreateMethodUser") !== -1
+                    swipe.right: MouseArea {
+                        height: deviceClassDelegate.height
+                        width: height
+                        anchors.right: parent.right
+                        Rectangle {
+                            anchors.fill: parent
+                            color: "transparent"
+                        }
+
+                        ColorIcon {
+                            anchors.fill: parent
+                            anchors.margins: app.margins
+                            name: "../images/add.svg"
+                        }
+                        onClicked: {
+                            d.deviceClass = deviceClass
+                            internalPageStack.push(paramsPage)
+                        }
                     }
                 }
             }

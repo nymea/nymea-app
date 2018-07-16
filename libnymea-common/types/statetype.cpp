@@ -92,6 +92,16 @@ void StateType::setDefaultValue(const QVariant &defaultValue)
     m_defaultValue = defaultValue;
 }
 
+QVariantList StateType::allowedValues() const
+{
+    return m_allowedValues;
+}
+
+void StateType::setAllowedValues(const QVariantList &allowedValues)
+{
+    m_allowedValues = allowedValues;
+}
+
 Types::Unit StateType::unit() const
 {
     return m_unit;

@@ -38,6 +38,9 @@ Interfaces::Interfaces(QObject *parent) : QAbstractListModel(parent)
     addStateType("temperaturesensor", "temperature", QVariant::Double, false,
                  tr("Temperature"),
                  tr("Temperature has changed"));
+
+    addInterface("simpleclosable", tr("Closable things"));
+    addActionType("simpleclosable", "close", "Close", new ParamTypes());
 }
 
 int Interfaces::rowCount(const QModelIndex &parent) const

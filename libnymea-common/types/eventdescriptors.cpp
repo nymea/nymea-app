@@ -42,7 +42,7 @@ EventDescriptor *EventDescriptors::get(int index) const
 
 EventDescriptor *EventDescriptors::createNewEventDescriptor()
 {
-    return new EventDescriptor();
+    return new EventDescriptor(this);
 }
 
 void EventDescriptors::addEventDescriptor(EventDescriptor *eventDescriptor)

@@ -9,6 +9,9 @@ Page {
 
     property var device: null
 
+    Component.onCompleted: print("+++ created devicerulespage")
+    Component.onDestruction: print("--- destroying devicerulespage")
+
     header: GuhHeader {
         text: qsTr("Magic involving %1").arg(root.device.name)
         onBackPressed: pageStack.pop()
@@ -24,7 +27,14 @@ Page {
     // This Page will take ownership of the rule and delete it eventually.
     function addRule(rule) {
         if (rule === null || rule === undefined) {
-            rule = Engine.ruleManager.createNewRule();
+            d.editRulePage = pageStack.push(Qt.resolvedUrl("NewThingMagicPage.qml"), {device: root.device});
+            d.editRulePage.manualCreation.connect(function() {
+                pageStack.pop();
+                rule = Engine.ruleManager.createNewRule();
+                addRule(rule)
+            })
+            d.editRulePage.done.connect(function() {pageStack.pop(root);});
+            return;
         }
         d.editRulePage = pageStack.push(Qt.resolvedUrl("EditRulePage.qml"), {rule: rule});
         d.editRulePage.StackView.onRemoved.connect(function() {
@@ -95,8 +105,11 @@ Page {
 
             onDeleteClicked: Engine.ruleManager.removeRule(model.id)
             onClicked: {
+                print("clicked")
                 var newRule = rulesFilterModel.get(index).clone();
+                print("rule cloned")
                 d.editRulePage = pageStack.push(Qt.resolvedUrl("EditRulePage.qml"), {rule: newRule })
+                print("page pushed")
                 d.editRulePage.StackView.onRemoved.connect(function() {
                     newRule.destroy();
                 })

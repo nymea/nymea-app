@@ -109,6 +109,9 @@ ApplicationWindow {
         objectName: "pageStack"
         anchors.fill: parent
         initialItem: Page {}
+        onDepthChanged: {
+            print("stackview depth changed", pageStack.depth)
+        }
     }
 
     onClosing: {
@@ -134,7 +137,7 @@ ApplicationWindow {
         }
     }
 
-    property var supportedInterfaces: ["light", "weather", "sensor", "media", "garagegate", "shutter", "garagegate", "button", "notifications", "inputtrigger", "outputtrigger", "gateway"]
+    property var supportedInterfaces: ["light", "weather", "sensor", "media", "garagegate", "extendedawning", "extendedshutter", "extendedblind", "button", "notifications", "inputtrigger", "outputtrigger", "gateway"]
     function interfaceToString(name) {
         switch(name) {
         case "light":
@@ -160,9 +163,14 @@ ApplicationWindow {
         case "outputtrigger":
             return qsTr("Events");
         case "shutter":
+        case "extendedshutter":
             return qsTr("Shutters");
         case "blind":
+        case "extendedblind":
             return qsTr("Blinds");
+        case "awning":
+        case "extendedawning":
+            return qsTr("Awnings");
         case "garagegate":
             return qsTr("Garage gates");
         case "uncategorized":
@@ -215,14 +223,23 @@ ApplicationWindow {
         case "outputtrigger":
             return Qt.resolvedUrl("images/send.svg")
         case "shutter":
+        case "extendedshutter":
+            return Qt.resolvedUrl("images/DeviceIconRollerShutter.svg")
         case "blind":
-            return Qt.resolvedUrl("images/sort-listitem.svg")
+        case "extendedblind":
+            return Qt.resolvedUrl("images/DeviceIconBlind.svg")
         case "garagegate":
-            return Qt.resolvedUrl("images/shutter-10.svg")
+            return Qt.resolvedUrl("images/shutter/shutter-100.svg")
+        case "extendedawning":
+            return Qt.resolvedUrl("images/awning/awning-100.svg")
         case "battery":
             return Qt.resolvedUrl("images/battery/battery-050.svg")
         case "uncategorized":
             return Qt.resolvedUrl("images/select-none.svg")
+        case "simpleclosable":
+            return Qt.resolvedUrl("images/sort-listitem.svg")
+        default:
+            console.warn("InterfaceToIcon: Unhandled interface", name)
         }
         return "";
     }
@@ -237,6 +254,17 @@ ApplicationWindow {
         return "grey";
     }
 
+    function interfaceToDisplayName(name) {
+        switch (name) {
+        case "light":
+            return qsTr("light")
+        case "button":
+            return "button";
+        case "sensor":
+            return qsTr("sensor")
+        }
+    }
+
     function interfaceListToDevicePage(interfaceList) {
         var page;
         if (interfaceList.indexOf("media") >= 0) {
@@ -249,17 +277,24 @@ ApplicationWindow {
             page = "SensorDevicePage.qml";
         } else if (interfaceList.indexOf("inputtrigger") >= 0) {
             page = "InputTriggerDevicePage.qml";
-        } else if (interfaceList.indexOf("shutter") >= 0 ) {
-            page = "ShutterDevicePage.qml";
         } else if (interfaceList.indexOf("garagegate") >= 0 ) {
             page = "GarageGateDevicePage.qml";
         } else if (interfaceList.indexOf("light") >= 0) {
-            page = "ColorLightDevicePage.qml"
+            page = "ColorLightDevicePage.qml";
+        } else if (interfaceList.indexOf("extendedshutter") >= 0 ) {
+            page = "ShutterDevicePage.qml";
+        } else if (interfaceList.indexOf("extendedawning") >= 0) {
+            page = "AwningDevicePage.qml";
         } else {
             page = "GenericDevicePage.qml";
         }
         print("Selecting page", page, "for interface list:", interfaceList)
         return page;
+    }
+
+    function pad(num, size) {
+        var s = "000000000" + num;
+        return s.substr(s.length-size);
     }
 
     Component {

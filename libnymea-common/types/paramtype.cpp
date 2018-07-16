@@ -147,7 +147,7 @@ void ParamType::setUnit(const Types::Unit &unit)
     m_unit = unit;
 }
 
-QList<QVariant> ParamType::allowedValues() const
+QVariantList ParamType::allowedValues() const
 {
     return m_allowedValues;
 }
