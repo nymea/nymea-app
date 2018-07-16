@@ -90,9 +90,15 @@ Item {
                 case "light":
                 case "media":
                 case "garagegate":
-                case "shutter":
                 case "blind":
+                case "extendedblind":
+                case "shutter":
+                case "extendedshutter":
+                case "awning":
+                case "extendedawning":
                     return buttonComponent
+                default:
+                    console.warn("DevicesPageDelegate, inlineControl: Unhandled interface", model.name)
                 }
             }
         }
@@ -138,10 +144,10 @@ Item {
 
                     var actionName
                     switch (state.value) {
-                    case "PLAYING":
+                    case "Playing":
                         actionName = "pause";
                         break;
-                    case "PAUSED":
+                    case "Paused":
                         actionName = "play";
                         break;
                     }
@@ -152,7 +158,12 @@ Item {
                     Engine.deviceManager.executeAction(device.id, actionTypeId)
                 case "garagegate":
                 case "shutter":
+                case "extendedshutter":
                 case "blind":
+                case "extendedblind":
+                case "awning":
+                case "extendedawning":
+                case "simpleclosable":
                     for (var i = 0; i < devicesProxy.count; i++) {
                         var device = devicesProxy.get(i);
                         var deviceClass = Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
@@ -160,6 +171,8 @@ Item {
                         Engine.deviceManager.executeAction(device.id, actionType.id)
                     }
 
+                default:
+                    console.warn("DevicesPageDelegate, inlineButtonControl clicked: Unhandled interface", model.name)
                 }
             }
 
@@ -195,10 +208,15 @@ Item {
                                 }
                             }
                             return count === 0 ? qsTr("All closed") : qsTr("%1 open").arg(count)
+                        case "blind":
+                        case "extendedblind":
+                        case "awning":
+                        case "extendedawning":
                         case "shutter":
+                        case "extendedshutter":
                             return qsTr("%1 installed").arg(devicesProxy.count)
                         }
-                        console.warn("Unhandled interface", model.name)
+                        console.warn("DevicesPageDelegate, inlineButtonControl: Unhandled interface", model.name)
                     }
                     font.pixelSize: app.smallFont
                     elide: Text.ElideRight
@@ -216,15 +234,21 @@ Item {
                             var deviceClass = Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
                             var stateType = deviceClass.stateTypes.findByName("playbackStatus");
                             var state = device.states.getState(stateType.id)
-                            return state.value === "PLAYING" ? "../images/media-playback-pause.svg" :
+                            return state.value === "Playing" ? "../images/media-playback-pause.svg" :
                                                                state.value === "PAUSED" ? "../images/media-playback-start.svg" :
                                                                                           ""
                         case "light":
                             return "../images/system-shutdown.svg"
                         case "garagegate":
-                        case "shutter":
                         case "blind":
+                        case "extendedblind":
+                        case "awning":
+                        case "extendedawning":
+                        case "shutter":
+                        case "extendedshutter":
                             return "../images/down.svg"
+                        default:
+                            console.warn("DevicesPageDelegate, inlineButtonControl image: Unhandled interface", model.name)
                         }
                     }
                 }

@@ -40,6 +40,7 @@ SwipeDelegate {
             Label {
                 Layout.fillWidth: true
                 font.pixelSize: childEvaluatorsRepeater.count > 0 ? app.smallFont : app.mediumFont
+                wrapMode: Text.WordWrap
                 property string operatorString: {
                     if (!root.stateEvaluator) {
                         return "";

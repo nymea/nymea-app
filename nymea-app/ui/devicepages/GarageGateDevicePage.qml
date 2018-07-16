@@ -23,9 +23,9 @@ DevicePageBase {
             id: shutterImage
             Layout.preferredWidth: root.landscape ? Math.min(parent.width - shutterControlsContainer.width, parent.height) - app.margins : parent.width
             Layout.preferredHeight: width
-            property int currentImage: root.openState.value === "closed" ? 10 :
-                                    root.openState.value === "open" && root.intermediatePositionState.value === false ? 0 : 5
-            name: "../images/shutter-" + currentImage + ".svg"
+            property string currentImage: root.openState.value === "closed" ? "100" :
+                                    root.openState.value === "open" && root.intermediatePositionState.value === false ? "000" : "050"
+            name: "../images/shutter/shutter-" + currentImage + ".svg"
 
             Item {
                 id: arrows
@@ -85,29 +85,25 @@ DevicePageBase {
                 device: root.device
                 anchors.centerIn: parent
 
-                Rectangle {
+                ItemDelegate {
                     Layout.preferredWidth: app.iconSize * 2
                     Layout.preferredHeight: width
-                    color: root.lightState && root.lightState.value === true ? Material.accent : Material.foreground
-                    radius: height / 2
                     visible: root.lightStateType !== null
 
                     ColorIcon {
                         anchors.fill: parent
                         anchors.margins: app.margins
-                        name: "../images/torch-" + (root.lightState && root.lightState.value === true ? "on" : "off") + ".svg"
+                        name: "../images/light-" + (root.lightState && root.lightState.value === true ? "on" : "off") + ".svg"
+                        color: root.lightState && root.lightState.value === true ? Material.accent : keyColor
                     }
-                    MouseArea {
-                        anchors.fill: parent
-                        onClicked: {
-                            print("blabla", root.lightState, root.lightState.value, root.lightStateType.name, root.lightState.stateTypeId, root.lightStateType.id)
-                            var params = [];
-                            var param = {};
-                            param["paramTypeId"] = root.lightStateType.id;
-                            param["value"] = !root.lightState.value;
-                            params.push(param)
-                            Engine.deviceManager.executeAction(root.device.id, root.lightStateType.id, params)
-                        }
+                    onClicked: {
+                        print("blabla", root.lightState, root.lightState.value, root.lightStateType.name, root.lightState.stateTypeId, root.lightStateType.id)
+                        var params = [];
+                        var param = {};
+                        param["paramTypeId"] = root.lightStateType.id;
+                        param["value"] = !root.lightState.value;
+                        params.push(param)
+                        Engine.deviceManager.executeAction(root.device.id, root.lightStateType.id, params)
                     }
                 }
             }

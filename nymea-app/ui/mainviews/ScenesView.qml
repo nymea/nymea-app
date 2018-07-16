@@ -44,26 +44,31 @@ Item {
                 anchors.fill: parent
                 anchors.margins: app.margins / 2
                 Material.elevation: 1
-
-                MouseArea {
+                padding: 0
+                ItemDelegate {
                     anchors.fill: parent
                     onClicked: {
                         Engine.ruleManager.executeActions(model.id)
                     }
-                }
+                    contentItem: ColumnLayout {
+                        width: parent.width
+                        anchors.centerIn: parent
+                        spacing: app.margins
 
-                ColumnLayout {
-                    width: parent.width
-                    anchors.centerIn: parent
-                    spacing: app.margins
+                        ColorIcon {
+                            Layout.preferredHeight: app.iconSize * 2
+                            Layout.preferredWidth: height
+                            Layout.alignment: Qt.AlignHCenter
+                            name: scenesDelegate.iconTag ? "../images/" + scenesDelegate.iconTag.value + ".svg" : "../images/slideshow.svg";
+                            color: scenesDelegate.colorTag ? scenesDelegate.colorTag.value : app.guhAccent;
 
-                    ColorIcon {
-                        Layout.preferredHeight: app.iconSize * 2
-                        Layout.preferredWidth: height
-                        Layout.alignment: Qt.AlignHCenter
-                        name: scenesDelegate.iconTag ? "../images/" + scenesDelegate.iconTag.value + ".svg" : "../images/slideshow.svg";
-                        color: scenesDelegate.colorTag ? scenesDelegate.colorTag.value : app.guhAccent;
-                    }
+                            ColorIcon {
+                                anchors.fill: parent
+                                name: "../images/slideshow.svg"
+                                color: app.guhAccent
+                                visible: parent.status === Image.Error
+                            }
+                        }
 
                     Label {
                         Layout.fillWidth: true
@@ -80,5 +85,4 @@ Item {
             }
         }
     }
-
 }

@@ -74,6 +74,10 @@ ParamTypes *ActionType::paramTypes() const
 
 void ActionType::setParamTypes(ParamTypes *paramTypes)
 {
+    if (m_paramTypes && m_paramTypes->parent() == this) {
+        m_paramTypes->deleteLater();
+    }
     m_paramTypes = paramTypes;
+    m_paramTypes->setParent(this);
     emit paramTypesChanged();
 }

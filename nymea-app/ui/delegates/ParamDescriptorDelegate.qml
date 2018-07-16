@@ -24,6 +24,7 @@ ItemDelegate {
                     case "bool":
                     case "string":
                     case "qstring":
+                    case "color":
                         return [qsTr("is"), qsTr("is not")];
                     case "int":
                     case "double":
@@ -61,7 +62,7 @@ ItemDelegate {
                 Layout.fillWidth: true
 
                 sourceComponent: {
-                    print("Datatye is:", paramType.type, paramType.minValue, paramType.maxValue, paramType.allowedValues)
+                    print("Datatye is:", paramType.name, paramType.type, paramType.minValue, paramType.maxValue, paramType.allowedValues)
                     switch (paramType.type.toLowerCase()) {
                     case "bool":
                         return boolComponent;
@@ -73,6 +74,7 @@ ItemDelegate {
                         return textFieldComponent;
                     case "string":
                     case "qstring":
+                    case "color":
                         if (paramType.allowedValues.length > 0) {
                             return comboBoxComponent
                         }

@@ -38,6 +38,7 @@ class StateType : public QObject
     Q_PROPERTY(QString type READ type CONSTANT)
     Q_PROPERTY(int index READ index CONSTANT)
     Q_PROPERTY(QVariant defaultValue READ defaultValue CONSTANT)
+    Q_PROPERTY(QVariantList allowedValues READ allowedValues WRITE setAllowedValues CONSTANT)
     Q_PROPERTY(Types::Unit unit READ unit CONSTANT)
     Q_PROPERTY(QString unitString READ unitString CONSTANT)
 
@@ -63,6 +64,9 @@ public:
     QVariant defaultValue() const;
     void setDefaultValue(const QVariant &defaultValue);
 
+    QVariantList allowedValues() const;
+    void setAllowedValues(const QVariantList &allowedValues);
+
     Types::Unit unit() const;
     void setUnit(const Types::Unit &unit);
 
@@ -76,6 +80,7 @@ private:
     QString m_type;
     int m_index;
     QVariant m_defaultValue;
+    QVariantList m_allowedValues;
     Types::Unit m_unit;
     QString m_unitString;
 

@@ -25,10 +25,10 @@ CustomViewBase {
         controlsModel.append({image: "../images/media-skip-backward.svg", action: "skipBack"})
         controlsModel.append({image: "../images/media-seek-backward.svg", action: "rewind"})
         controlsModel.append({image: "../images/media-playback-stop.svg", action: "stop"})
-        if (playbackState.value === "PAUSED" || playbackState.value === "STOPPED") {
+        if (playbackState.value === "Paused" || playbackState.value === "Stopped") {
             controlsModel.append({image: "../images/media-playback-start.svg", action: "play"})
         }
-        if (playbackState.value === "PLAYING") {
+        if (playbackState.value === "Playing") {
             controlsModel.append({image: "../images/media-playback-pause.svg", action: "pause"})
         }
 

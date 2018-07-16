@@ -24,7 +24,8 @@
         <file>ui/devicelistpages/LightsDeviceListPage.qml</file>
         <file>ui/customviews/ExtendedVolumeController.qml</file>
         <file>ui/components/ColorIcon.qml</file>
-        <file>ui/images/torch-on.svg</file>
+        <file>ui/images/light-on.svg</file>
+        <file>ui/images/light-off.svg</file>
         <file>ui/images/media-preview-start.svg</file>
         <file>ui/MagicPage.qml</file>
         <file>ui/images/mediaplayer-app-symbolic.svg</file>
@@ -59,7 +60,6 @@
         <file>ui/images/weathericons/wind.svg</file>
         <file>ui/devicepages/WeatherDevicePage.qml</file>
         <file>ui/devicepages/ColorLightDevicePage.qml</file>
-        <file>ui/images/torch-off.svg</file>
         <file>ui/components/ThrottledSlider.qml</file>
         <file>ui/components/ColorPickerCt.qml</file>
         <file>ui/images/navigation-menu.svg</file>
@@ -130,13 +130,12 @@
         <file>ui/PushButtonAuthPage.qml</file>
         <file>ui/images/dialog-error-symbolic.svg</file>
         <file>ui/images/send.svg</file>
-        <file>ui/images/mail-mark-important.svg</file>
+        <file>ui/images/attention.svg</file>
         <file>ui/devicepages/InputTriggerDevicePage.qml</file>
         <file>ui/images/clock-app-symbolic.svg</file>
         <file>ui/devicepages/StateLogPage.qml</file>
         <file>ui/customviews/GenericTypeLogView.qml</file>
         <file>qtquickcontrols2.conf</file>
-        <file>ui/BluetoothDiscoveryPage.qml</file>
         <file>ui/images/bluetooth.svg</file>
         <file>ui/images/refresh.svg</file>
         <file>ui/WirelessControlerPage.qml</file>
@@ -161,21 +160,21 @@
         <file>ui/AboutPage.qml</file>
         <file>ui/images/sort-listitem.svg</file>
         <file>ui/devicepages/ShutterDevicePage.qml</file>
-        <file>ui/images/shutter-1.svg</file>
-        <file>ui/images/shutter-2.svg</file>
-        <file>ui/images/shutter-3.svg</file>
-        <file>ui/images/shutter-4.svg</file>
-        <file>ui/images/shutter-5.svg</file>
-        <file>ui/images/shutter-6.svg</file>
-        <file>ui/images/shutter-7.svg</file>
-        <file>ui/images/shutter-8.svg</file>
-        <file>ui/images/shutter-9.svg</file>
-        <file>ui/images/shutter-10.svg</file>
+        <file>ui/images/shutter/shutter-000.svg</file>
+        <file>ui/images/shutter/shutter-010.svg</file>
+        <file>ui/images/shutter/shutter-020.svg</file>
+        <file>ui/images/shutter/shutter-030.svg</file>
+        <file>ui/images/shutter/shutter-040.svg</file>
+        <file>ui/images/shutter/shutter-050.svg</file>
+        <file>ui/images/shutter/shutter-060.svg</file>
+        <file>ui/images/shutter/shutter-070.svg</file>
+        <file>ui/images/shutter/shutter-080.svg</file>
+        <file>ui/images/shutter/shutter-090.svg</file>
+        <file>ui/images/shutter/shutter-100.svg</file>
         <file>ui/images/down.svg</file>
         <file>ui/images/up.svg</file>
         <file>ui/devicepages/GarageGateDevicePage.qml</file>
         <file>ui/images/remove.svg</file>
-        <file>ui/images/shutter-0.svg</file>
         <file>ui/components/ShutterControls.qml</file>
         <file>../LICENSE</file>
         <file>ui/images/Built_with_Qt_RGB_logo.svg</file>
@@ -213,5 +212,22 @@
         <file>ui/components/EmptyViewPlaceholder.qml</file>
         <file>ui/components/RemoveDeviceMethodDialog.qml</file>
         <file>ui/components/FancyHeader.qml</file>
+        <file>ui/connection/ManualConnectPage.qml</file>
+        <file>ui/connection/BluetoothDiscoveryPage.qml</file>
+        <file>ui/images/awning/awning-100.svg</file>
+        <file>ui/devicepages/AwningDevicePage.qml</file>
+        <file>ui/images/awning/awning-000.svg</file>
+        <file>ui/images/awning/awning-010.svg</file>
+        <file>ui/images/awning/awning-020.svg</file>
+        <file>ui/images/awning/awning-030.svg</file>
+        <file>ui/images/awning/awning-040.svg</file>
+        <file>ui/images/awning/awning-050.svg</file>
+        <file>ui/images/awning/awning-060.svg</file>
+        <file>ui/images/awning/awning-070.svg</file>
+        <file>ui/images/awning/awning-080.svg</file>
+        <file>ui/images/awning/awning-090.svg</file>
+        <file>ui/magic/NewThingMagicPage.qml</file>
+        <file>ui/images/DeviceIconBlind.svg</file>
+        <file>ui/images/DeviceIconRollerShutter.svg</file>
     </qresource>
 </RCC>

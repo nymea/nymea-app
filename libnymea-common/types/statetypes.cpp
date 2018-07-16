@@ -103,7 +103,6 @@ StateType *StateTypes::findByName(const QString &name) const
 void StateTypes::clearModel()
 {
     beginResetModel();
-    qDebug() << "StateTypes: delete all stateTypes";
     qDeleteAll(m_stateTypes);
     m_stateTypes.clear();
     endResetModel();

@@ -15,9 +15,12 @@ Page {
     property alias showEvents: interfacesProxy.showEvents
     property alias showActions: interfacesProxy.showActions
     property alias showStates: interfacesProxy.showStates
+    property alias shownInterfaces: devicesProxy.shownInterfaces
 
     header: GuhHeader {
-        text: root.selectInterface ? qsTr("Select a kind of things") : qsTr("Select a thing")
+        text: root.selectInterface ?
+                  qsTr("Select a kind of things") :
+                  root.shownInterfaces.length > 0 ? qsTr("Select a %1").arg(app.interfaceToDisplayName(root.shownInterfaces[0])) : qsTr("Select a thing")
         onBackPressed: root.backPressed()
     }
 
@@ -26,13 +29,18 @@ Page {
         devicesFilter: Engine.deviceManager.devices
     }
 
+    DevicesProxy {
+        id: devicesProxy
+        devices: Engine.deviceManager.devices
+    }
+
     ColumnLayout {
         anchors.fill: parent
 
         ListView {
             Layout.fillWidth: true
             Layout.fillHeight: true
-            model: root.selectInterface ? interfacesProxy : Engine.deviceManager.devices
+            model: root.selectInterface ? interfacesProxy : devicesProxy
             clip: true
             delegate: MeaListItemDelegate {
                 width: parent.width
@@ -42,7 +50,7 @@ Page {
                     if (root.selectInterface) {
                         root.interfaceSelected(interfacesProxy.get(index).name)
                     } else {
-                        root.thingSelected(Engine.deviceManager.devices.get(index))
+                        root.thingSelected(devicesProxy.get(index))
                     }
                 }
             }

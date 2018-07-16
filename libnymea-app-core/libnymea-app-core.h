@@ -43,6 +43,12 @@
 #include "tagsmanager.h"
 #include "models/tagsproxymodel.h"
 #include "types/tag.h"
+#include "ruletemplates/ruletemplates.h"
+#include "ruletemplates/ruletemplate.h"
+#include "ruletemplates/eventdescriptortemplate.h"
+#include "ruletemplates/stateevaluatortemplate.h"
+#include "ruletemplates/statedescriptortemplate.h"
+#include "ruletemplates/ruleactiontemplate.h"
 
 static QObject* interfacesModel_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
@@ -162,6 +168,15 @@ void registerQmlTypes() {
     qmlRegisterUncreatableType<WirelessAccessPoints>(uri, 1, 0, "WirelessAccessPoints", "Can't create this in QML. Get it from the Engine instance.");
     qmlRegisterUncreatableType<WirelessAccessPointsProxy>(uri, 1, 0, "WirelessAccessPoints", "Can't create this in QML. Get it from the Engine instance.");
 
+    qmlRegisterType<RuleTemplates>(uri, 1, 0, "RuleTemplates");
+    qmlRegisterType<RuleTemplatesFilterModel>(uri, 1, 0, "RuleTemplatesFilterModel");
+    qmlRegisterUncreatableType<RuleTemplate>(uri, 1, 0, "RuleTemplate", "Get them from RuleTemplates");
+    qmlRegisterUncreatableType<EventDescriptorTemplates>(uri, 1, 0, "EventDescriptorTemplates", "Get it from RuleTemplate");
+    qmlRegisterUncreatableType<EventDescriptorTemplate>(uri, 1, 0, "EventDescriptorTemplate", "Get it from EventDescriptorTemplates");
+    qmlRegisterUncreatableType<StateEvaluatorTemplate>(uri, 1, 0, "StateEvaluatorTemplate", "Get it from RuleTemplate");
+    qmlRegisterUncreatableType<StateDescriptorTemplate>(uri, 1, 0, "StateDescriptorTemplate", "Get it from StateEvaluatorTemplate");
+    qmlRegisterUncreatableType<RuleActionTemplates>(uri, 1, 0, "RuleActionTemplates", "Get it from RuleTemplate");
+    qmlRegisterUncreatableType<RuleActionTemplate>(uri, 1, 0, "RuleActionTemplate", "Get it from RuleActionTemplates");
 }
 
 #endif // LIBNYMEAAPPCORE_H

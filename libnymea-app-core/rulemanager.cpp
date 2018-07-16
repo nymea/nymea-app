@@ -51,7 +51,7 @@ Rules *RuleManager::rules() const
 
 Rule *RuleManager::createNewRule()
 {
-    return new Rule();
+    return new Rule(QUuid(), this);
 }
 
 void RuleManager::addRule(const QVariantMap params)
@@ -154,7 +154,7 @@ void RuleManager::getRuleDetailsReply(const QVariantMap &params)
         qDebug() << "Got rule details for a rule we don't know";
         return;
     }
-//    qDebug() << "got rule details for rule" << ruleMap;
+//    qDebug() << "got rule details for rule" << qUtf8Printable(QJsonDocument::fromVariant(ruleMap).toJson());
     parseEventDescriptors(ruleMap.value("eventDescriptors").toList(), rule);
     parseRuleActions(ruleMap.value("actions").toList(), rule);
     parseRuleExitActions(ruleMap.value("exitActions").toList(), rule);
@@ -222,6 +222,7 @@ void RuleManager::parseEventDescriptors(const QVariantList &eventDescriptorList,
             paramDescriptor->setOperatorType((ParamDescriptor::ValueOperator)operatorEnum.keyToValue(paramDescriptorVariant.toMap().value("operator").toString().toLocal8Bit()));
             eventDescriptor->paramDescriptors()->addParamDescriptor(paramDescriptor);
         }
+        qDebug() << "Adding eventdescriptor" << eventDescriptor->deviceId() << eventDescriptor->eventTypeId();
         rule->eventDescriptors()->addEventDescriptor(eventDescriptor);
     }
 }
@@ -242,7 +243,6 @@ StateEvaluator *RuleManager::parseStateEvaluator(const QVariantMap &stateEvaluat
     } else {
         sd = new StateDescriptor(sdMap.value("interface").toString(), sdMap.value("interfaceState").toString(), op, sdMap.value("value"), stateEvaluator);
     }
-    qDebug() << "Created StateDescriptor:" << sd->interfaceName() << sd->interfaceState() << sd->deviceId() << sd->stateTypeId();
     stateEvaluator->setStateDescriptor(sd);
 
     foreach (const QVariant &childEvaluatorVariant, stateEvaluatorMap.value("childEvaluators").toList()) {
