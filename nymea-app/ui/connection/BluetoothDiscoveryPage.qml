@@ -18,7 +18,7 @@ Page {
                     Engine.bluetoothDiscovery.start()
                 }
             }
-            enabled: Engine.bluetoothDiscovery.bluetoothAvailable && !Engine.bluetoothDiscovery.discovering
+            enabled: Engine.bluetoothDiscovery.bluetoothAvailable && Engine.bluetoothDiscovery.bluetoothEnabled && !Engine.bluetoothDiscovery.discovering
         }
     }
 
@@ -42,7 +42,16 @@ Page {
 
             Label {
                 Layout.fillWidth: true
-                text: Engine.bluetoothDiscovery.bluetoothAvailable ? qsTr("Searching for %1 boxes via Bluetooth.").arg(app.systemName) : qsTr("Uh oh! Bluetooth is not available. Please make sure Bluetooth is enabled on this device.")
+                text: {
+                    if (Engine.bluetoothDiscovery.bluetoothAvailable && Engine.bluetoothDiscovery.bluetoothEnabled) {
+                        return qsTr("Searching for %1 boxes via Bluetooth LE.").arg(app.systemName)
+                    } if (Engine.bluetoothDiscovery.bluetoothAvailable && !Engine.bluetoothDiscovery.bluetoothEnabled)  {
+                        return qsTr("Uh oh! Bluetooth is not enabled. Please enable the Bluetooth on this device and restart the application.")
+                    } else {
+                        return qsTr("Uh oh! Bluetooth is not available. Please make sure Bluetooth is enabled on this device and restart the application.")
+                    }
+                }
+
                 wrapMode: Text.WordWrap
             }
 

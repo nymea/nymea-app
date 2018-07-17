@@ -47,15 +47,13 @@ BluetoothDiscovery::BluetoothDiscovery(QObject *parent) :
 
     setBluetoothAvailable(true);
 
-    if (localDevice.allDevices().count() > 1) {
-        // FIXME: check the device with the most capabilities and check if low energy is available
-    } else {
-        QBluetoothHostInfo adapterHostInfo = localDevice.allDevices().first();
-        qDebug() << "BluetoothDiscovery: using bluetooth adapter" << adapterHostInfo.name() << adapterHostInfo.address().toString();
-        m_localDevice = new QBluetoothLocalDevice(adapterHostInfo.address(), this);
-        connect(m_localDevice, &QBluetoothLocalDevice::hostModeStateChanged, this, &BluetoothDiscovery::onBluetoothHostModeChanged);
-        onBluetoothHostModeChanged(m_localDevice->hostMode());
-    }
+    // FIXME: check the device with the most capabilities and check if low energy is available
+    QBluetoothHostInfo adapterHostInfo = localDevice.allDevices().first();
+
+    qDebug() << "BluetoothDiscovery: using bluetooth adapter" << adapterHostInfo.name() << adapterHostInfo.address().toString();
+    m_localDevice = new QBluetoothLocalDevice(adapterHostInfo.address(), this);
+    connect(m_localDevice, &QBluetoothLocalDevice::hostModeStateChanged, this, &BluetoothDiscovery::onBluetoothHostModeChanged);
+    onBluetoothHostModeChanged(m_localDevice->hostMode());
 
     m_discoveryAgent = new QBluetoothDeviceDiscoveryAgent(m_localDevice->address(), this);
 #else
@@ -84,6 +82,12 @@ bool BluetoothDiscovery::bluetoothEnabled() const
 
 void BluetoothDiscovery::setBluetoothEnabled(bool enabled)
 {
+    m_bluetoothEnabled = enabled;
+    emit bluetoothEnabledChanged(m_bluetoothEnabled);
+
+    if (!m_localDevice)
+        return;
+
     if (enabled) {
         m_localDevice->powerOn();
     } else {
@@ -125,6 +129,8 @@ void BluetoothDiscovery::onBluetoothHostModeChanged(const QBluetoothLocalDevice:
     switch (hostMode) {
     case QBluetoothLocalDevice::HostPoweredOff:
         setBluetoothEnabled(false);
+        stop();
+        m_deviceInfos->clearModel();
         break;
     default:
         // Note: discovery works in all other modes
@@ -186,6 +192,10 @@ void BluetoothDiscovery::start()
 
     m_deviceInfos->clearModel();
 
+    if (!m_bluetoothEnabled) {
+        return;
+    }
+
     qDebug() << "BluetoothDiscovery: Start discovering.";
     m_discoveryAgent->start();
     setDiscovering(true);
@@ -194,6 +204,9 @@ void BluetoothDiscovery::start()
 void BluetoothDiscovery::stop()
 {
     m_enabled = false;
+
+    if (!m_discoveryAgent)
+        return;
 
     qDebug() << "BluetoothDiscovery: Stop discovering.";
     m_discoveryAgent->stop();
