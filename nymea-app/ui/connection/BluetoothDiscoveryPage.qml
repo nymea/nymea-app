@@ -172,7 +172,7 @@ Page {
         id: connectingPageComponent
 
         Page {
-            id: root
+            id: connectingPage
             header: GuhHeader {
                 text: qsTr("Establish bluetooth connection")
                 onBackPressed: pageStack.pop()
@@ -183,8 +183,8 @@ Page {
 
             NetworkManagerControler {
                 id: networkManger
-                name: root.name
-                address: root.address
+                name: connectingPage.name
+                address: connectingPage.address
 
                 Component.onCompleted: networkManger.connectDevice()
             }
@@ -193,15 +193,15 @@ Page {
                 target: networkManger.manager
                 onInitializedChanged: {
                     if (networkManger.manager.initialized) {
-                        pageStack.push(Qt.resolvedUrl("../WirelessControlerPage.qml"), { name: root.name, address: root.address, networkManger: networkManger } )
+                        pageStack.push(Qt.resolvedUrl("../WirelessControlerPage.qml"), { name: connectingPage.name, address: connectingPage.address, networkManger: networkManger } )
                     } else {
-                        pageStack.pop()
+                        pageStack.pop(root)
                     }
                 }
 
                 onConnectedChanged: {
                     if (!networkManger.manager.connected) {
-                        pageStack.pop()
+                        pageStack.pop(root)
                     }
                 }
             }
