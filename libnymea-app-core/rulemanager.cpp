@@ -246,7 +246,10 @@ StateEvaluator *RuleManager::parseStateEvaluator(const QVariantMap &stateEvaluat
     stateEvaluator->setStateDescriptor(sd);
 
     foreach (const QVariant &childEvaluatorVariant, stateEvaluatorMap.value("childEvaluators").toList()) {
-        stateEvaluator->childEvaluators()->addStateEvaluator(parseStateEvaluator(childEvaluatorVariant.toMap()));
+        StateEvaluator *stateEvaluator = parseStateEvaluator(childEvaluatorVariant.toMap());
+        if (stateEvaluator) {
+            stateEvaluator->childEvaluators()->addStateEvaluator(stateEvaluator);
+        }
     }
     operatorEnum = QMetaEnum::fromType<StateEvaluator::StateOperator>();
     stateEvaluator->setStateOperator((StateEvaluator::StateOperator)operatorEnum.keyToValue(stateEvaluatorMap.value("operator").toByteArray()));
