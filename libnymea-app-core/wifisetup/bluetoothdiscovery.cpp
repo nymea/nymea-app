@@ -30,6 +30,7 @@ BluetoothDiscovery::BluetoothDiscovery(QObject *parent) :
     m_deviceInfos(new BluetoothDeviceInfos(this))
 {
 
+#ifndef Q_OS_IOS
     // Check if bluetooth is available
     QBluetoothLocalDevice localDevice;
     if (!localDevice.isValid()) {
@@ -57,6 +58,11 @@ BluetoothDiscovery::BluetoothDiscovery(QObject *parent) :
     }
 
     m_discoveryAgent = new QBluetoothDeviceDiscoveryAgent(m_localDevice->address(), this);
+#else
+    setBluetoothAvailable(true);
+    m_discoveryAgent = new QBluetoothDeviceDiscoveryAgent(this);
+#endif
+
     connect(m_discoveryAgent, &QBluetoothDeviceDiscoveryAgent::deviceDiscovered, this, &BluetoothDiscovery::deviceDiscovered);
     connect(m_discoveryAgent, &QBluetoothDeviceDiscoveryAgent::finished, this, &BluetoothDiscovery::discoveryFinished);
     connect(m_discoveryAgent, SIGNAL(error(QBluetoothDeviceDiscoveryAgent::Error)), this, SLOT(onError(QBluetoothDeviceDiscoveryAgent::Error)));
@@ -129,7 +135,6 @@ void BluetoothDiscovery::deviceDiscovered(const QBluetoothDeviceInfo &deviceInfo
     bool isLowEnergy = deviceInfo.coreConfigurations() & QBluetoothDeviceInfo::LowEnergyCoreConfiguration;
 
     qDebug() << "BluetoothDiscovery: [+]" << deviceInformation->name() << "(" << deviceInformation->address() << ")" << (isLowEnergy ? "LE" : "");
-
 
     if (!isLowEnergy || deviceInformation->name().isEmpty()) {
         delete deviceInformation;
