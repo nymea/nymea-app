@@ -62,6 +62,7 @@ BluetoothDiscovery::BluetoothDiscovery(QObject *parent) :
     // https://bugreports.qt.io/browse/QTBUG-65547
 
     setBluetoothAvailable(true);
+    setBluetoothEnabled(true);
     m_discoveryAgent = new QBluetoothDeviceDiscoveryAgent(this);
 #endif
 
