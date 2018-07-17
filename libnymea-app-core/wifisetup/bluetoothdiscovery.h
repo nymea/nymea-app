@@ -54,6 +54,7 @@ private:
     QBluetoothDeviceDiscoveryAgent *m_discoveryAgent  = nullptr;
     BluetoothDeviceInfos *m_deviceInfos;
 
+    bool m_enabled = false;
     bool m_discovering = false;
     bool m_bluetoothAvailable = false;
     bool m_bluetoothEnabled = false;

@@ -38,6 +38,12 @@ BluetoothDiscovery::BluetoothDiscovery(QObject *parent) :
         return;
     }
 
+    if (localDevice.allDevices().isEmpty()) {
+        qWarning() << "BluetoothDiscovery: there is no bluetooth device available currently.";
+        setBluetoothAvailable(false);
+        return;
+    }
+
     setBluetoothAvailable(true);
 
     if (localDevice.allDevices().count() > 1) {
@@ -124,7 +130,7 @@ void BluetoothDiscovery::deviceDiscovered(const QBluetoothDeviceInfo &deviceInfo
 
     qDebug() << "BluetoothDiscovery: [+]" << deviceInformation->name() << "(" << deviceInformation->address() << ")" << (isLowEnergy ? "LE" : "");
 
-    //
+
     if (!isLowEnergy || deviceInformation->name().isEmpty()) {
         delete deviceInformation;
         return;
@@ -148,6 +154,8 @@ void BluetoothDiscovery::discoveryFinished()
 {
     qDebug() << "BluetoothDiscovery: Discovery finished";
     setDiscovering(false);
+    if (m_enabled)
+        start();
 }
 
 void BluetoothDiscovery::onError(const QBluetoothDeviceDiscoveryAgent::Error &error)
@@ -158,10 +166,13 @@ void BluetoothDiscovery::onError(const QBluetoothDeviceDiscoveryAgent::Error &er
 
 void BluetoothDiscovery::start()
 {
+    m_enabled = true;
+
+    if (!m_discoveryAgent)
+        return;
+
     if (m_discoveryAgent->isActive())
         m_discoveryAgent->stop();
-
-    m_deviceInfos->clearModel();
 
     qDebug() << "BluetoothDiscovery: Start discovering.";
     m_discoveryAgent->start();
@@ -170,6 +181,8 @@ void BluetoothDiscovery::start()
 
 void BluetoothDiscovery::stop()
 {
+    m_enabled = false;
+
     qDebug() << "BluetoothDiscovery: Stop discovering.";
     m_discoveryAgent->stop();
     setDiscovering(false);

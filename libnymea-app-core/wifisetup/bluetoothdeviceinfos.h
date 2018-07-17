@@ -49,7 +49,7 @@ public:
     Q_INVOKABLE BluetoothDeviceInfo *get(int index) const;
 
     void addBluetoothDeviceInfo(BluetoothDeviceInfo *deviceInfo);
-    void clearModel();
+    Q_INVOKABLE void clearModel();
 
 protected:
     QHash<int, QByteArray> roleNames() const;

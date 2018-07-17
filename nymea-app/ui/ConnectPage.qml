@@ -80,8 +80,7 @@ Page {
                 title: qsTr("Connect %1").arg(app.systemName)
                 model: ListModel {
                     ListElement { iconSource: "../images/network-vpn.svg"; text: qsTr("Manual connection"); page: "connection/ManualConnectPage.qml" }
-                    // Disabled for now as it's too buggy still
-//                    ListElement { iconSource: "../images/bluetooth.svg"; text: qsTr("Wireless setup"); page: "connection/BluetoothDiscoveryPage.qml" }
+                    ListElement { iconSource: "../images/bluetooth.svg"; text: qsTr("Wireless setup"); page: "connection/BluetoothDiscoveryPage.qml"; }
                     ListElement { iconSource: "../images/private-browsing.svg"; text: qsTr("Demo mode"); page: "" }
                     ListElement { iconSource: "../images/stock_application.svg"; text: qsTr("App settings"); page: "AppSettingsPage.qml" }
                 }

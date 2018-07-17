@@ -13,7 +13,13 @@ Page {
 
         HeaderButton {
             imageSource: Qt.resolvedUrl("../images/refresh.svg")
-            onClicked: Engine.bluetoothDiscovery.start()
+            onClicked: {
+                if (Engine.bluetoothDiscovery.bluetoothAvailable) {
+                    Engine.bluetoothDiscovery.deviceInfos.clearModel()
+                    Engine.bluetoothDiscovery.start()
+                }
+            }
+            enabled: Engine.bluetoothDiscovery.bluetoothAvailable && !Engine.bluetoothDiscovery.discovering
         }
     }
 
@@ -37,6 +43,8 @@ Page {
         pageStack.push(connectingPageComponent, { name: name, address: btAddress } )
     }
 
+
+
     ColumnLayout {
         anchors.fill: parent
         spacing: app.margins
@@ -46,9 +54,10 @@ Page {
             Layout.leftMargin: app.margins
             Layout.topMargin: app.margins
             Layout.rightMargin: app.rightMargin
+
             Label {
                 Layout.fillWidth: true
-                text: qsTr("Searching for %1 boxes via Bluetooth.").arg(app.systemName)
+                text: Engine.bluetoothDiscovery.bluetoothAvailable ? qsTr("Searching for %1 boxes via Bluetooth.").arg(app.systemName) : qsTr("Uh oh! Bluetooth is not available. Please make sure Bluetooth is enabled on this device.")
                 wrapMode: Text.WordWrap
             }
 
@@ -88,6 +97,9 @@ Page {
             spacing: app.margins
             Label {
                 Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                maximumLineCount: 2
+                elide: Text.ElideRight
                 text: qsTr("Troubles finding your box? Try this!")
             }
             Button {
