@@ -15,7 +15,6 @@ Page {
             imageSource: Qt.resolvedUrl("../images/refresh.svg")
             onClicked: {
                 if (Engine.bluetoothDiscovery.bluetoothAvailable) {
-                    Engine.bluetoothDiscovery.deviceInfos.clearModel()
                     Engine.bluetoothDiscovery.start()
                 }
             }
@@ -24,26 +23,12 @@ Page {
     }
 
 
-    property bool shouldDiscover: true
-
     Component.onCompleted: Engine.bluetoothDiscovery.start()
-    Connections {
-        target: Engine.bluetoothDiscovery
-        onDiscoveringChanged: {
-            print("BT discovery changed:", Engine.bluetoothDiscovery.discovering, shouldDiscover)
-            if (!Engine.bluetoothDiscovery.discovering && shouldDiscover) {
-                Engine.bluetoothDiscovery.start();
-            }
-        }
-    }
 
     function setupDevice(name, btAddress) {
-        shouldDiscover = false;
         Engine.bluetoothDiscovery.stop()
         pageStack.push(connectingPageComponent, { name: name, address: btAddress } )
     }
-
-
 
     ColumnLayout {
         anchors.fill: parent

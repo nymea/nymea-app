@@ -135,6 +135,9 @@ void BluetoothDiscovery::onBluetoothHostModeChanged(const QBluetoothLocalDevice:
 
 void BluetoothDiscovery::deviceDiscovered(const QBluetoothDeviceInfo &deviceInfo)
 {
+    if (!deviceInfo.isValid())
+        return;
+
     BluetoothDeviceInfo *deviceInformation = new BluetoothDeviceInfo(deviceInfo);
     bool isLowEnergy = deviceInfo.coreConfigurations() & QBluetoothDeviceInfo::LowEnergyCoreConfiguration;
 
@@ -163,8 +166,6 @@ void BluetoothDiscovery::discoveryFinished()
 {
     qDebug() << "BluetoothDiscovery: Discovery finished";
     setDiscovering(false);
-    if (m_enabled)
-        start();
 }
 
 void BluetoothDiscovery::onError(const QBluetoothDeviceDiscoveryAgent::Error &error)
@@ -182,6 +183,8 @@ void BluetoothDiscovery::start()
 
     if (m_discoveryAgent->isActive())
         m_discoveryAgent->stop();
+
+    m_deviceInfos->clearModel();
 
     qDebug() << "BluetoothDiscovery: Start discovering.";
     m_discoveryAgent->start();
