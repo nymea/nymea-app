@@ -196,7 +196,7 @@ Page {
                 target: networkManger.manager
                 onInitializedChanged: {
                     if (networkManger.manager.initialized) {
-                        pageStack.push(Qt.resolvedUrl("WirelessControlerPage.qml"), { name: root.name, address: root.address, networkManger: networkManger } )
+                        pageStack.push(Qt.resolvedUrl("../WirelessControlerPage.qml"), { name: root.name, address: root.address, networkManger: networkManger } )
                     } else {
                         pageStack.pop()
                     }

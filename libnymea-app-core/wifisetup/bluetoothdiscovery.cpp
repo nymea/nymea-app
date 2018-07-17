@@ -119,8 +119,29 @@ void BluetoothDiscovery::onBluetoothHostModeChanged(const QBluetoothLocalDevice:
 
 void BluetoothDiscovery::deviceDiscovered(const QBluetoothDeviceInfo &deviceInfo)
 {
-    qDebug() << "BluetoothDiscovery: [+]" << deviceInfo.name() << "(" << deviceInfo.address().toString() << ")" << (deviceInfo.coreConfigurations() & QBluetoothDeviceInfo::LowEnergyCoreConfiguration ? "LE" : "");
-    m_deviceInfos->addBluetoothDeviceInfo(new BluetoothDeviceInfo(deviceInfo));
+    BluetoothDeviceInfo *deviceInformation = new BluetoothDeviceInfo(deviceInfo);
+    bool isLowEnergy = deviceInfo.coreConfigurations() & QBluetoothDeviceInfo::LowEnergyCoreConfiguration;
+
+    qDebug() << "BluetoothDiscovery: [+]" << deviceInformation->name() << "(" << deviceInformation->address() << ")" << (isLowEnergy ? "LE" : "");
+
+    //
+    if (!isLowEnergy || deviceInformation->name().isEmpty()) {
+        delete deviceInformation;
+        return;
+    }
+
+    // Check if we already have added this device info
+    foreach (BluetoothDeviceInfo *di, m_deviceInfos->deviceInfos()) {
+        if (di->name() == deviceInformation->name() && di->address() == deviceInformation->address()) {
+            qWarning() << "BluetoothDiscover: device" << deviceInformation->name() << "(" << deviceInformation->address() << ") already added";
+            deviceInformation->deleteLater();
+            deviceInformation = nullptr;
+        }
+    }
+
+    if (deviceInformation)
+        m_deviceInfos->addBluetoothDeviceInfo(deviceInformation);
+
 }
 
 void BluetoothDiscovery::discoveryFinished()

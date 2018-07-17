@@ -21,6 +21,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #include "networkmanagercontroler.h"
+#include "engine.h"
 
 NetworkManagerControler::NetworkManagerControler(QObject *parent) : QObject(parent)
 {
@@ -61,7 +62,20 @@ void NetworkManagerControler::connectDevice()
         emit managerChanged();
     }
 
-    m_wirelessSetupManager = new WirelessSetupManager(QBluetoothDeviceInfo(QBluetoothAddress(m_address), m_name, 0), this);
+    // find device info for this address and name
+    BluetoothDeviceInfo *deviceInfo = nullptr;
+    foreach (BluetoothDeviceInfo *deviceInformation, Engine::instance()->bluetoothDiscovery()->deviceInfos()->deviceInfos()) {
+        if (deviceInformation->address() == address() && deviceInformation->name() == name()) {
+            deviceInfo = deviceInformation;
+        }
+    }
+
+    if (!deviceInfo) {
+        qDebug() << "Could not connect to device. There is no device info for" << name() << address();
+        return;
+    }
+
+    m_wirelessSetupManager = new WirelessSetupManager(deviceInfo->getBluetoothDeviceInfo(), this);
     emit managerChanged();
 
     m_wirelessSetupManager->connectDevice();

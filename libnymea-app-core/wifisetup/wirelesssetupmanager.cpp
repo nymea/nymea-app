@@ -710,62 +710,11 @@ void WirelessSetupManager::onServiceDiscoveryFinished()
         connect(m_deviceInformationService, &QLowEnergyService::characteristicChanged, this, &WirelessSetupManager::onDeviceInformationCharacteristicChanged);
         connect(m_deviceInformationService, &QLowEnergyService::characteristicRead, this, &WirelessSetupManager::onDeviceInformationCharacteristicChanged);
 
-        if (m_deviceInformationService->state() == QLowEnergyService::DiscoveryRequired)
+        if (m_deviceInformationService->state() == QLowEnergyService::DiscoveryRequired) {
+            qDebug() << "WifiSetupManager: start discovering device information service...";
             m_deviceInformationService->discoverDetails();
-
-    }
-
-    // Network service
-    if (!m_netwokService) {
-        m_netwokService = controller()->createServiceObject(networkServiceUuid, this);
-        if (!m_netwokService) {
-            qWarning() << "WifiSetupManager: Could not create network service.";
-            controller()->disconnectFromDevice();
-            return;
         }
 
-        connect(m_netwokService, &QLowEnergyService::stateChanged, this, &WirelessSetupManager::onNetworkServiceStateChanged);
-        connect(m_netwokService, &QLowEnergyService::characteristicChanged, this, &WirelessSetupManager::onNetworkServiceCharacteristicChanged);
-        connect(m_netwokService, &QLowEnergyService::characteristicRead, this, &WirelessSetupManager::onNetworkServiceReadFinished);
-
-        if (m_netwokService->state() == QLowEnergyService::DiscoveryRequired)
-            m_netwokService->discoverDetails();
-
-    }
-
-    // Wifi service
-    if (!m_wifiService) {
-        m_wifiService = controller()->createServiceObject(wifiServiceUuid, this);
-        if (!m_wifiService) {
-            qWarning() << "WifiSetupManager: Could not create wifi service.";
-            controller()->disconnectFromDevice();
-            return;
-        }
-
-        connect(m_wifiService, &QLowEnergyService::stateChanged, this, &WirelessSetupManager::onWifiServiceStateChanged);
-        connect(m_wifiService, &QLowEnergyService::characteristicChanged, this, &WirelessSetupManager::onWifiServiceCharacteristicChanged);
-        connect(m_wifiService, &QLowEnergyService::characteristicRead, this, &WirelessSetupManager::onWifiServiceReadFinished);
-
-        if (m_wifiService->state() == QLowEnergyService::DiscoveryRequired)
-            m_wifiService->discoverDetails();
-
-    }
-
-    // System service
-    if (!m_systemService) {
-        m_systemService = controller()->createServiceObject(systemServiceUuid, this);
-        if (!m_systemService) {
-            qWarning() << "WifiSetupManager: Could not create system service. Looks like this networkmanager has not implemented that.";
-            //controller()->disconnectFromDevice();
-        } else {
-            connect(m_systemService, &QLowEnergyService::stateChanged, this, &WirelessSetupManager::onSystemServiceStateChanged);
-            connect(m_systemService, &QLowEnergyService::characteristicChanged, this, &WirelessSetupManager::onSystemServiceCharacteristicChanged);
-            connect(m_systemService, &QLowEnergyService::characteristicRead, this, &WirelessSetupManager::onSystemServiceReadFinished);
-
-            if (m_systemService->state() == QLowEnergyService::DiscoveryRequired)
-                m_systemService->discoverDetails();
-
-        }
     }
 }
 
@@ -790,6 +739,24 @@ void WirelessSetupManager::onDeviceInformationStateChanged(const QLowEnergyServi
     setFirmwareRevision(QString::fromUtf8(m_deviceInformationService->characteristic(QBluetoothUuid::FirmwareRevisionString).value()));
     setHardwareRevision(QString::fromUtf8(m_deviceInformationService->characteristic(QBluetoothUuid::HardwareRevisionString).value()));
 
+    // Network service
+    if (!m_netwokService) {
+        m_netwokService = controller()->createServiceObject(networkServiceUuid, this);
+        if (!m_netwokService) {
+            qWarning() << "WifiSetupManager: Could not create network service.";
+            controller()->disconnectFromDevice();
+            return;
+        }
+
+        connect(m_netwokService, &QLowEnergyService::stateChanged, this, &WirelessSetupManager::onNetworkServiceStateChanged);
+        connect(m_netwokService, &QLowEnergyService::characteristicChanged, this, &WirelessSetupManager::onNetworkServiceCharacteristicChanged);
+        connect(m_netwokService, &QLowEnergyService::characteristicRead, this, &WirelessSetupManager::onNetworkServiceReadFinished);
+
+        if (m_netwokService->state() == QLowEnergyService::DiscoveryRequired) {
+            qDebug() << "WifiSetupManager: start discovering network service...";
+            m_netwokService->discoverDetails();
+        }
+    }
     checkInitialized();
 }
 
@@ -851,6 +818,26 @@ void WirelessSetupManager::onNetworkServiceStateChanged(const QLowEnergyService:
     setNetworkStatus(networkCharacteristic.value().toHex().toUInt(0, 16));
     setNetworkingEnabled((bool)networkingEnabledCharacteristic.value().toHex().toUInt(0, 16));
     setWirelessEnabled((bool)wirelessEnabledCharacteristic.value().toHex().toUInt(0, 16));
+
+    // Wifi service
+    if (!m_wifiService) {
+        m_wifiService = controller()->createServiceObject(wifiServiceUuid, this);
+        if (!m_wifiService) {
+            qWarning() << "WifiSetupManager: Could not create wifi service.";
+            controller()->disconnectFromDevice();
+            return;
+        }
+
+        connect(m_wifiService, &QLowEnergyService::stateChanged, this, &WirelessSetupManager::onWifiServiceStateChanged);
+        connect(m_wifiService, &QLowEnergyService::characteristicChanged, this, &WirelessSetupManager::onWifiServiceCharacteristicChanged);
+        connect(m_wifiService, &QLowEnergyService::characteristicRead, this, &WirelessSetupManager::onWifiServiceReadFinished);
+
+        if (m_wifiService->state() == QLowEnergyService::DiscoveryRequired) {
+            qDebug() << "WifiSetupManager: start discovering wifi service...";
+            m_wifiService->discoverDetails();
+        }
+
+    }
 
     checkInitialized();
 }
@@ -929,6 +916,24 @@ void WirelessSetupManager::onWifiServiceStateChanged(const QLowEnergyService::Se
 
     setWirelessStatus(m_wifiService->characteristic(wifiStatusCharacteristicUuid).value().toHex().toUInt(0, 16));
     m_accessPointsProxy->invokeSort();
+
+    // System service
+    if (!m_systemService) {
+        m_systemService = controller()->createServiceObject(systemServiceUuid, this);
+        if (!m_systemService) {
+            qWarning() << "WifiSetupManager: Could not create system service. Looks like this networkmanager has not implemented that.";
+            //controller()->disconnectFromDevice();
+        } else {
+            connect(m_systemService, &QLowEnergyService::stateChanged, this, &WirelessSetupManager::onSystemServiceStateChanged);
+            connect(m_systemService, &QLowEnergyService::characteristicChanged, this, &WirelessSetupManager::onSystemServiceCharacteristicChanged);
+            connect(m_systemService, &QLowEnergyService::characteristicRead, this, &WirelessSetupManager::onSystemServiceReadFinished);
+
+            if (m_systemService->state() == QLowEnergyService::DiscoveryRequired) {
+                qDebug() << "WifiSetupManager: start discovering system service...";
+                m_systemService->discoverDetails();
+            }
+        }
+    }
 
     checkInitialized();
 }
