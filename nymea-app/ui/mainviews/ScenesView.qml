@@ -70,19 +70,19 @@ Item {
                             }
                         }
 
-                    Label {
-                        Layout.fillWidth: true
-                        text: model.name.toUpperCase()
-                        font.pixelSize: app.extraSmallFont
-                        font.bold: true
-                        font.letterSpacing: 1
-                        wrapMode: Text.WordWrap
-                        horizontalAlignment: Text.AlignHCenter
-                        maximumLineCount: 2
-                        elide: Text.ElideRight
+                        Label {
+                            Layout.fillWidth: true
+                            text: model.name.toUpperCase()
+                            font.pixelSize: app.extraSmallFont
+                            font.bold: true
+                            font.letterSpacing: 1
+                            wrapMode: Text.WordWrap
+                            horizontalAlignment: Text.AlignHCenter
+                            maximumLineCount: 2
+                            elide: Text.ElideRight
+                        }
                     }
                 }
             }
         }
     }
-}
