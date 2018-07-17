@@ -43,13 +43,26 @@ Page {
             Label {
                 Layout.fillWidth: true
                 text: {
-                    if (Engine.bluetoothDiscovery.bluetoothAvailable && Engine.bluetoothDiscovery.bluetoothEnabled) {
-                        return qsTr("Searching for %1 boxes via Bluetooth LE.").arg(app.systemName)
-                    } if (Engine.bluetoothDiscovery.bluetoothAvailable && !Engine.bluetoothDiscovery.bluetoothEnabled)  {
-                        return qsTr("Uh oh! Bluetooth is not enabled. Please enable the Bluetooth on this device and restart the application.")
+
+                    if (Qt.platform.os === "ios") {
+                        if (Engine.bluetoothDiscovery.bluetoothAvailable && Engine.bluetoothDiscovery.bluetoothEnabled) {
+                            return qsTr("Searching for %1 boxes via Bluetooth LE.").arg(app.systemName)
+                        } if (Engine.bluetoothDiscovery.bluetoothAvailable && !Engine.bluetoothDiscovery.bluetoothEnabled)  {
+                            return qsTr("Uh oh! Bluetooth is not enabled. Please enable the Bluetooth on this device and restart the application.")
+                        } else {
+                            return qsTr("Uh oh! Bluetooth is not available. Please make sure Bluetooth is enabled on this device and restart the application.")
+                        }
                     } else {
-                        return qsTr("Uh oh! Bluetooth is not available. Please make sure Bluetooth is enabled on this device and restart the application.")
+                        if (Engine.bluetoothDiscovery.bluetoothAvailable && Engine.bluetoothDiscovery.bluetoothEnabled) {
+                            return qsTr("Searching for %1 boxes via Bluetooth LE.").arg(app.systemName)
+                        } if (Engine.bluetoothDiscovery.bluetoothAvailable && !Engine.bluetoothDiscovery.bluetoothEnabled)  {
+                            return qsTr("Uh oh! Bluetooth is not enabled. Please enable the Bluetooth on this device.")
+                        } else {
+                            return qsTr("Uh oh! Bluetooth is not available. Please make sure Bluetooth is enabled on this device.")
+                        }
                     }
+
+
                 }
 
                 wrapMode: Text.WordWrap
