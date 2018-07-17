@@ -11,7 +11,16 @@ CustomViewBase {
 
     property string interfaceName
 
-    readonly property var stateType: deviceClass.stateTypes.findByName(interfaceName.replace("sensor", ""))
+    readonly property string stateTypeName: {
+        switch (interfaceName) {
+        case "lightsensor":
+            return "lightIntensity";
+        default:
+            return interfaceName.replace("sensor", "");
+        }
+    }
+
+    readonly property var stateType: deviceClass.stateTypes.findByName(stateTypeName)
     readonly property var deviceState: device.states.getState(stateType.id)
 
     ValueLogsProxyModel {

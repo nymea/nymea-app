@@ -197,9 +197,17 @@ ApplicationWindow {
         case "dimmablelight":
             return Qt.resolvedUrl("images/light-on.svg")
         case "sensor":
-        case "temperaturesensor":
-        case "humiditysensor":
             return Qt.resolvedUrl("images/sensors.svg")
+        case "temperaturesensor":
+            return Qt.resolvedUrl("images/sensors/temperature.svg")
+        case "humiditysensor":
+            return Qt.resolvedUrl("images/sensors/humidity.svg")
+        case "moisturesensor":
+            return Qt.resolvedUrl("images/sensors/moisture.svg")
+        case "lightsensor":
+            return Qt.resolvedUrl("images/sensors/light.svg")
+        case "conductivitysensor":
+            return Qt.resolvedUrl("images/sensors/conductivity.svg")
         case "media":
         case "mediacontroller":
             return Qt.resolvedUrl("images/mediaplayer-app-symbolic.svg")
@@ -211,9 +219,9 @@ ApplicationWindow {
         case "weather":
             return Qt.resolvedUrl("images/weather-app-symbolic.svg")
         case "temperaturesensor":
-            return Qt.resolvedUrl("images/temperature.svg")
+            return Qt.resolvedUrl("images/sensors/temperature.svg")
         case "humiditysensor":
-            return Qt.resolvedUrl("images/weathericons/humidity.svg")
+            return Qt.resolvedUrl("images/sensors/humidity.svg")
         case "gateway":
             return Qt.resolvedUrl("images/network-wired-symbolic.svg")
         case "notifications":
@@ -252,6 +260,13 @@ ApplicationWindow {
             return "red";
         case "humiditysensor":
             return "deepskyblue";
+        case "moisturesensor":
+            return "blue";
+        case "lightsensor":
+            return "orange";
+        case "conductivitysensor":
+            return "green"
+
         }
         return "grey";
     }
