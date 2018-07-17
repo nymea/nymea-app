@@ -81,9 +81,6 @@ void BluetoothDevice::disconnectDevice()
 
 void BluetoothDevice::setConnected(const bool &connected)
 {
-    if (m_connected == connected)
-        return;
-
     m_connected = connected;
     emit connectedChanged();
 }

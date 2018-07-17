@@ -59,7 +59,7 @@ BluetoothDiscovery::BluetoothDiscovery(QObject *parent) :
 
     m_discoveryAgent = new QBluetoothDeviceDiscoveryAgent(m_localDevice->address(), this);
 #else
-    // Note: on iOS there is no QBluetoothLocalDevice available, therefore we have ti assume there is one and
+    // Note: on iOS there is no QBluetoothLocalDevice available, therefore we have to assume there is one and
     //       start the discovery agent with the default constructor.
     // https://bugreports.qt.io/browse/QTBUG-65547
 
