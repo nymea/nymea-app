@@ -38,9 +38,9 @@ ToolBar {
             Layout.fillWidth: true
             Layout.fillHeight: true
             verticalAlignment: Text.AlignVCenter
-            font.pixelSize: app.largeFont
+            font.pixelSize: app.mediumFont
             elide: Text.ElideRight
-            text: root.text.toUpperCase()
+            text: root.text.toLowerCase();
         }
     }
 }

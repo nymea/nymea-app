@@ -17,6 +17,7 @@ ApplicationWindow {
 
     property int margins: 14
     property int bigMargins: 20
+    property int extraSmallFont: 10
     property int smallFont: 13
     property int mediumFont: 16
     property int largeFont: 20

@@ -24,7 +24,7 @@ Item {
             filterExecutable: true
         }
         cellWidth: width / tilesPerRow
-        cellHeight: Math.max(cellWidth, minTileHeight)
+        cellHeight: cellWidth
         delegate: Item {
             id: scenesDelegate
             width: interfacesGridView.cellWidth
@@ -56,7 +56,7 @@ Item {
                         spacing: app.margins
 
                         ColorIcon {
-                            Layout.preferredHeight: app.iconSize * 2
+                            Layout.preferredHeight: app.iconSize * 1.3
                             Layout.preferredWidth: height
                             Layout.alignment: Qt.AlignHCenter
                             name: scenesDelegate.iconTag ? "../images/" + scenesDelegate.iconTag.value + ".svg" : "../images/slideshow.svg";
@@ -72,7 +72,10 @@ Item {
 
                         Label {
                             Layout.fillWidth: true
-                            text: model.name
+                            text: model.name.toUpperCase()
+                            font.pixelSize: app.extraSmallFont
+                            font.bold: true
+                            font.letterSpacing: 1
                             wrapMode: Text.WordWrap
                             horizontalAlignment: Text.AlignHCenter
                             maximumLineCount: 2

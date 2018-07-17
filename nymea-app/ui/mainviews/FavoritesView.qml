@@ -119,7 +119,7 @@ Item {
                     spacing: app.margins
 
                     ColorIcon {
-                        Layout.preferredWidth: app.iconSize * 2
+                        Layout.preferredWidth: app.iconSize * 1.3
                         Layout.preferredHeight: width
                         name: app.interfacesToIcon(delegateRoot.deviceClass.interfaces)
                         color: app.guhAccent
@@ -128,7 +128,10 @@ Item {
 
                     Label {
                         Layout.fillWidth: true
-                        text: delegateRoot.device.name
+                        text: delegateRoot.device.name.toUpperCase()
+                        font.pixelSize: app.extraSmallFont
+                        font.bold: true
+                        font.letterSpacing: 1
                         wrapMode: Text.WordWrap
                         horizontalAlignment: Text.AlignHCenter
                     }
