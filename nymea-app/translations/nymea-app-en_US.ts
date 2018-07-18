@@ -152,10 +152,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Searching for %1 boxes via Bluetooth.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Troubles finding your box? Try this!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -181,6 +177,26 @@
     </message>
     <message>
         <source>Initialize services...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Searching for %1 boxes via Bluetooth LE.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Uh oh! Bluetooth is not enabled. Please enable the Bluetooth on this device and restart the application.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Uh oh! Bluetooth is not available. Please make sure Bluetooth is enabled on this device and restart the application.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Uh oh! Bluetooth is not enabled. Please enable the Bluetooth on this device.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Uh oh! Bluetooth is not available. Please make sure Bluetooth is enabled on this device.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -328,34 +344,6 @@
     </message>
     <message>
         <source>Manual connection</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Protocol</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>TCP</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Websocket</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Address:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Port:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Encrypted connection:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Connect</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -786,6 +774,10 @@
         <source>Execute an action on an entire kind of things</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>If the condition isn&apos;t met, execute those actions instead:</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>EditStateEvaluatorPage</name>
@@ -924,17 +916,24 @@
     </message>
 </context>
 <context>
-    <name>GenericDeviceListPage</name>
+    <name>FancyHeader</name>
     <message>
-        <source>My %1 things</source>
+        <source>menu</source>
         <translation type="unfinished"></translation>
     </message>
+</context>
+<context>
+    <name>GenericDeviceListPage</name>
     <message>
         <source>All my things</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>My things</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>My %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1008,6 +1007,10 @@
     </message>
     <message>
         <source>Temperature has changed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Closable things</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1131,11 +1134,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The email you&apos;ve entered is already userd.</source>
+        <source>An error happened with the user storage. Please make sure your %1 box is installed correctly.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>An error happened with the user storage. Please make sure your %1 box is installed correctly.</source>
+        <source>The email you&apos;ve entered is already used.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1250,6 +1253,41 @@
     </message>
 </context>
 <context>
+    <name>ManualConnectPage</name>
+    <message>
+        <source>Manual connection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Protocol</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>TCP</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Websocket</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Address:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Port:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Encrypted connection:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connect</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>NewDeviceWizard</name>
     <message>
         <source>Set up new thing</source>
@@ -1277,6 +1315,17 @@
     </message>
     <message>
         <source>Name the thing:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>NewThingMagicPage</name>
+    <message>
+        <source>New magic</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Create some magic manually</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1371,6 +1420,18 @@
     </message>
     <message>
         <source>OK</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Awnings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>light</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>sensor</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1495,7 +1556,7 @@
     <name>S:</name>
     <message>
         <source></source>
-        <comment>example: &quot;only if temperature &gt; 5&quot;</comment>
+        <comment>example: &quot;and temperature &gt; 5&quot;</comment>
         <translation></translation>
     </message>
     <message>
@@ -1503,23 +1564,8 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source></source>
-        <comment>example: &quot;and temperature &gt; 5&quot;</comment>
-        <translation></translation>
-    </message>
-    <message>
         <source>and %1 %2 %3</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source></source>
-        <comment>example: &quot;only if temperature &gt; 5&quot;</comment>
-        <translation></translation>
-    </message>
-    <message>
-        <source></source>
-        <comment>example: &quot;and temperature &gt; 5&quot;</comment>
-        <translation></translation>
     </message>
 </context>
 <context>
@@ -1618,6 +1664,10 @@
     </message>
     <message>
         <source>Select a kind of things</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select a %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -160,7 +160,7 @@
     </message>
     <message>
         <source>Searching for %1 boxes via Bluetooth.</source>
-        <translation>Suche nach %1 Boxen mittels Bluetooth.</translation>
+        <translation type="vanished">Suche nach %1 Boxen mittels Bluetooth.</translation>
     </message>
     <message>
         <source>Troubles finding your box? Try this!</source>
@@ -189,6 +189,26 @@
     <message>
         <source>Initialize services...</source>
         <translation>Dienste initialisieren...</translation>
+    </message>
+    <message>
+        <source>Searching for %1 boxes via Bluetooth LE.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Uh oh! Bluetooth is not enabled. Please enable the Bluetooth on this device and restart the application.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Uh oh! Bluetooth is not available. Please make sure Bluetooth is enabled on this device and restart the application.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Uh oh! Bluetooth is not enabled. Please enable the Bluetooth on this device.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Uh oh! Bluetooth is not available. Please make sure Bluetooth is enabled on this device.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -374,31 +394,31 @@
     </message>
     <message>
         <source>Protocol</source>
-        <translation>Protokoll</translation>
+        <translation type="vanished">Protokoll</translation>
     </message>
     <message>
         <source>TCP</source>
-        <translation>TCP</translation>
+        <translation type="vanished">TCP</translation>
     </message>
     <message>
         <source>Websocket</source>
-        <translation>Websocket</translation>
+        <translation type="vanished">Websocket</translation>
     </message>
     <message>
         <source>Address:</source>
-        <translation>Adresse:</translation>
+        <translation type="vanished">Adresse:</translation>
     </message>
     <message>
         <source>Port:</source>
-        <translation>Port:</translation>
+        <translation type="vanished">Port:</translation>
     </message>
     <message>
         <source>Encrypted connection:</source>
-        <translation>Verschlüsselte Verbindung:</translation>
+        <translation type="vanished">Verschlüsselte Verbindung:</translation>
     </message>
     <message>
         <source>Connect</source>
-        <translation>Verbinden</translation>
+        <translation type="vanished">Verbinden</translation>
     </message>
     <message>
         <source>Trying to connect...</source>
@@ -901,6 +921,10 @@
         <source>Execute an action on an entire kind of things</source>
         <translation>Aktionen bei einer ganzen Gruppe von &quot;Things&quot; ausführen</translation>
     </message>
+    <message>
+        <source>If the condition isn&apos;t met, execute those actions instead:</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>EditStateEvaluatorPage</name>
@@ -1043,10 +1067,17 @@
     </message>
 </context>
 <context>
+    <name>FancyHeader</name>
+    <message>
+        <source>menu</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>GenericDeviceListPage</name>
     <message>
         <source>My %1 things</source>
-        <translation>Meine %1 &quot;Things&quot;</translation>
+        <translation type="vanished">Meine %1 &quot;Things&quot;</translation>
     </message>
     <message>
         <source>All my things</source>
@@ -1055,6 +1086,10 @@
     <message>
         <source>My things</source>
         <translation>Meine &quot;Things&quot;</translation>
+    </message>
+    <message>
+        <source>My %1</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1135,6 +1170,10 @@
     <message>
         <source>Temperature has changed</source>
         <translation>Temperatur hat sich geändert</translation>
+    </message>
+    <message>
+        <source>Closable things</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1262,11 +1301,15 @@
     </message>
     <message>
         <source>The email you&apos;ve entered is already userd.</source>
-        <translation>Die eingegebene E-Mail ist bereits vergeben.</translation>
+        <translation type="vanished">Die eingegebene E-Mail ist bereits vergeben.</translation>
     </message>
     <message>
         <source>An error happened with the user storage. Please make sure your %1 box is installed correctly.</source>
         <translation>Ein Fehler in der Benutzerdatenbank ist aufgetreten. Bitte stelle sicher dass Deine %1 Box korrekt installiert ist.</translation>
+    </message>
+    <message>
+        <source>The email you&apos;ve entered is already used.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1396,6 +1439,41 @@
     </message>
 </context>
 <context>
+    <name>ManualConnectPage</name>
+    <message>
+        <source>Manual connection</source>
+        <translation type="unfinished">Manuelle Verbindung</translation>
+    </message>
+    <message>
+        <source>Protocol</source>
+        <translation type="unfinished">Protokoll</translation>
+    </message>
+    <message>
+        <source>TCP</source>
+        <translation type="unfinished">TCP</translation>
+    </message>
+    <message>
+        <source>Websocket</source>
+        <translation type="unfinished">Websocket</translation>
+    </message>
+    <message>
+        <source>Address:</source>
+        <translation type="unfinished">Adresse:</translation>
+    </message>
+    <message>
+        <source>Port:</source>
+        <translation type="unfinished">Port:</translation>
+    </message>
+    <message>
+        <source>Encrypted connection:</source>
+        <translation type="unfinished">Verschlüsselte Verbindung:</translation>
+    </message>
+    <message>
+        <source>Connect</source>
+        <translation type="unfinished">Verbinden</translation>
+    </message>
+</context>
+<context>
     <name>Mea</name>
     <message>
         <source>Lighting</source>
@@ -1483,6 +1561,17 @@
     <message>
         <source>Name the thing:</source>
         <translation>Name:</translation>
+    </message>
+</context>
+<context>
+    <name>NewThingMagicPage</name>
+    <message>
+        <source>New magic</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Create some magic manually</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1577,6 +1666,18 @@
     <message>
         <source>OK</source>
         <translation>OK</translation>
+    </message>
+    <message>
+        <source>Awnings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>light</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>sensor</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1704,7 +1805,7 @@
     <name>S:</name>
     <message>
         <source></source>
-        <comment>example: &quot;only if temperature &gt; 5&quot;</comment>
+        <comment>example: &quot;and temperature &gt; 5&quot;</comment>
         <translation></translation>
     </message>
     <message>
@@ -1712,23 +1813,8 @@
         <translation>nur wenn %1 %2 %3</translation>
     </message>
     <message>
-        <source></source>
-        <comment>example: &quot;and temperature &gt; 5&quot;</comment>
-        <translation></translation>
-    </message>
-    <message>
         <source>and %1 %2 %3</source>
         <translation>und %1 %2 %3</translation>
-    </message>
-    <message>
-        <source></source>
-        <comment>example: &quot;only if temperature &gt; 5&quot;</comment>
-        <translation></translation>
-    </message>
-    <message>
-        <source></source>
-        <comment>example: &quot;and temperature &gt; 5&quot;</comment>
-        <translation></translation>
     </message>
 </context>
 <context>
@@ -1855,6 +1941,10 @@
     <message>
         <source>Select a kind of things</source>
         <translation>Typ von &quot;Things&quot; auswählen</translation>
+    </message>
+    <message>
+        <source>Select a %1</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
