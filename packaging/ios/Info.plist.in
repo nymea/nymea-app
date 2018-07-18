@@ -35,5 +35,7 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+        <key>NSBluetoothPeripheralUsageDescription</key>
+        <string>Nymea boxes can be connected to WiFi using a Bluetooth setup. Also, this app can connect to nymea boxes using Bluetooth only, without requiring WiFi at all.</string>
 </dict>
 </plist>
