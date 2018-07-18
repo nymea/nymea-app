@@ -30,19 +30,23 @@ DevicesProxy::DevicesProxy(QObject *parent) :
     connect(Engine::instance()->tagsManager()->tags(), &Tags::countChanged, this, &DevicesProxy::invalidateFilter);
 }
 
-Devices *DevicesProxy::devices() const
+QAbstractItemModel *DevicesProxy::devices() const
 {
     return m_devices;
 }
 
-void DevicesProxy::setDevices(Devices *devices)
+void DevicesProxy::setDevices(QAbstractItemModel *devices)
 {
     if (m_devices != devices) {
         m_devices = devices;
         setSourceModel(devices);
         setSortRole(Devices::RoleName);
         sort(0);
-        connect(devices, &Devices::countChanged, this, &DevicesProxy::countChanged);
+        connect(devices, SIGNAL(countChanged()), this, SIGNAL(countChanged()));
+        connect(devices, &QAbstractItemModel::dataChanged, this, [this]() {
+            invalidateFilter();
+            emit countChanged();
+        });
         emit devicesChanged();
         emit countChanged();
     }
@@ -93,9 +97,52 @@ void DevicesProxy::setHiddenInterfaces(const QStringList &hiddenInterfaces)
     }
 }
 
+bool DevicesProxy::filterBatteryCritical() const
+{
+    return m_filterBatteryCritical;
+}
+
+void DevicesProxy::setFilterBatteryCritical(bool filterBatteryCritical)
+{
+    if (m_filterBatteryCritical != filterBatteryCritical) {
+        m_filterBatteryCritical = filterBatteryCritical;
+        emit filterBatteryCriticalChanged();
+        invalidateFilter();
+        emit countChanged();
+    }
+}
+
+bool DevicesProxy::filterDisconnected() const
+{
+    return m_filterDisconnected;
+}
+
+void DevicesProxy::setFilterDisconnected(bool filterDisconnected)
+{
+    if (m_filterDisconnected != filterDisconnected) {
+        m_filterDisconnected = filterDisconnected;
+        emit filterDisconnectedChanged();
+        invalidateFilter();
+        emit countChanged();
+    }
+}
+
 Device *DevicesProxy::get(int index) const
 {
-    return m_devices->get(mapToSource(this->index(index, 0)).row());
+    return getInternal(mapToSource(this->index(index, 0)).row());
+}
+
+Device *DevicesProxy::getInternal(int source_index) const
+{
+    Devices* d = qobject_cast<Devices*>(m_devices);
+    if (d) {
+        return d->get(source_index);
+    }
+    DevicesProxy *dp = qobject_cast<DevicesProxy*>(m_devices);
+    if (dp) {
+        return dp->get(source_index);
+    }
+    return nullptr;
 }
 
 bool DevicesProxy::lessThan(const QModelIndex &left, const QModelIndex &right) const
@@ -108,17 +155,17 @@ bool DevicesProxy::lessThan(const QModelIndex &left, const QModelIndex &right) c
 
 bool DevicesProxy::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
 {
-    Device *device = m_devices->get(source_row);
+    Device *device = getInternal(source_row);
     if (!m_filterTagId.isEmpty()) {
         if (!Engine::instance()->tagsManager()->tags()->findDeviceTag(device->id().toString(), m_filterTagId)) {
             return false;
         }
     }
+    DeviceClass *deviceClass = Engine::instance()->deviceManager()->deviceClasses()->getDeviceClass(device->deviceClassId());
     if (!m_shownInterfaces.isEmpty()) {
-        QStringList interfaces = Engine::instance()->deviceManager()->deviceClasses()->getDeviceClass(m_devices->get(source_row)->deviceClassId())->interfaces();
         bool foundMatch = false;
         foreach (const QString &filterInterface, m_shownInterfaces) {
-            if (interfaces.contains(filterInterface)) {
+            if (deviceClass->interfaces().contains(filterInterface)) {
                 foundMatch = true;
                 continue;
             }
@@ -129,11 +176,22 @@ bool DevicesProxy::filterAcceptsRow(int source_row, const QModelIndex &source_pa
     }
 
     if (!m_hiddenInterfaces.isEmpty()) {
-        QStringList interfaces = Engine::instance()->deviceManager()->deviceClasses()->getDeviceClass(m_devices->get(source_row)->deviceClassId())->interfaces();
         foreach (const QString &filterInterface, m_hiddenInterfaces) {
-            if (interfaces.contains(filterInterface)) {
+            if (deviceClass->interfaces().contains(filterInterface)) {
                 return false;
             }
+        }
+    }
+
+    if (m_filterBatteryCritical) {
+        if (!deviceClass->interfaces().contains("battery") || device->stateValue(deviceClass->stateTypes()->findByName("batteryCritical")->id()).toBool() == false) {
+            return false;
+        }
+    }
+
+    if (m_filterDisconnected) {
+        if (!deviceClass->interfaces().contains("connectable") || device->stateValue(deviceClass->stateTypes()->findByName("connected")->id()).toBool() == true) {
+            return false;
         }
     }
     return QSortFilterProxyModel::filterAcceptsRow(source_row, source_parent);

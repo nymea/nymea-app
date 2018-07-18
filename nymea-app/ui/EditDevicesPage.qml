@@ -49,8 +49,7 @@ Page {
         anchors.fill: parent
         model: Engine.deviceManager.devices
         delegate: ThingDelegate {
-            interfaces:model.interfaces
-            name: model.name
+            device: Engine.deviceManager.devices.get(index)
             canDelete: true
             onClicked: {
                 pageStack.push(Qt.resolvedUrl("devicepages/ConfigureThingPage.qml"), {device: Engine.deviceManager.devices.get(index)})

@@ -102,6 +102,11 @@ void Devices::addDevice(Device *device)
         if (idx < 0) return;
         emit dataChanged(index(idx), index(idx), {RoleSetupComplete});
     });
+    connect(device->states(), &States::dataChanged, this, [device, this]() {
+        int idx = m_devices.indexOf(device);
+        if (idx < 0) return;
+        emit dataChanged(index(idx), index(idx));
+    });
     emit countChanged();
 }
 
