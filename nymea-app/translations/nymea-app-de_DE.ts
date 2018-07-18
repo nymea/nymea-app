@@ -1458,19 +1458,19 @@
     </message>
     <message>
         <source>Address:</source>
-        <translation type="unfinished">Adresse:</translation>
+        <translation>Adresse:</translation>
     </message>
     <message>
         <source>Port:</source>
-        <translation type="unfinished">Port:</translation>
+        <translation>Port:</translation>
     </message>
     <message>
         <source>Encrypted connection:</source>
-        <translation type="unfinished">Verschlüsselte Verbindung:</translation>
+        <translation>Verschlüsselte Verbindung:</translation>
     </message>
     <message>
         <source>Connect</source>
-        <translation type="unfinished">Verbinden</translation>
+        <translation>Verbinden</translation>
     </message>
 </context>
 <context>
@@ -1567,11 +1567,11 @@
     <name>NewThingMagicPage</name>
     <message>
         <source>New magic</source>
-        <translation type="unfinished"></translation>
+        <translation>Neue Magie</translation>
     </message>
     <message>
         <source>Create some magic manually</source>
-        <translation type="unfinished"></translation>
+        <translation>Magie manuell erstellen</translation>
     </message>
 </context>
 <context>
@@ -1669,15 +1669,15 @@
     </message>
     <message>
         <source>Awnings</source>
-        <translation type="unfinished"></translation>
+        <translation>Markisen</translation>
     </message>
     <message>
         <source>light</source>
-        <translation type="unfinished"></translation>
+        <translation>Beleuchtung</translation>
     </message>
     <message>
         <source>sensor</source>
-        <translation type="unfinished"></translation>
+        <translation>Sensor</translation>
     </message>
 </context>
 <context>
@@ -1944,7 +1944,7 @@
     </message>
     <message>
         <source>Select a %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 auswählen</translation>
     </message>
 </context>
 <context>
