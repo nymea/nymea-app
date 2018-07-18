@@ -66,7 +66,7 @@ macx: {
 ios: {
     message("iOS build")
     QMAKE_TARGET_BUNDLE_PREFIX = io.guh
-    QMAKE_BUNDLE = nymeaapp
+    QMAKE_BUNDLE = nymeaApp
     # Configure generated xcode project to have our bundle id
     xcode_product_bundle_identifier_setting.value = $${QMAKE_TARGET_BUNDLE_PREFIX}.$${QMAKE_BUNDLE}
     plist.input = ../packaging/ios/Info.plist.in

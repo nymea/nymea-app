@@ -32,7 +32,7 @@
             </dict>
         </dict>
         <key>CFBundleIdentifier</key>
-        <string>io.guh.nymeaapp</string>
+        <string>io.guh.nymeaApp</string>
 	<key>CFBundleName</key>
         <string>nymea-app</string>
 	<key>CFBundlePackageType</key>
