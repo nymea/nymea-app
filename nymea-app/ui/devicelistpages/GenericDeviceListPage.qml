@@ -51,8 +51,7 @@ Page {
         }
         delegate: ThingDelegate {
             width: parent.width
-            name: model.name
-            interfaces: Engine.deviceManager.deviceClasses.getDeviceClass(model.deviceClassId).interfaces
+            device: Engine.deviceManager.devices.getDevice(model.id);
             onClicked: {
                 enterPage(index, false)
             }

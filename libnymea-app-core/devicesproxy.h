@@ -33,16 +33,22 @@ class DevicesProxy : public QSortFilterProxyModel
 {
     Q_OBJECT
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
-    Q_PROPERTY(Devices *devices READ devices WRITE setDevices NOTIFY devicesChanged)
+    Q_PROPERTY(QAbstractItemModel *devices READ devices WRITE setDevices NOTIFY devicesChanged)
     Q_PROPERTY(QString filterTagId READ filterTagId WRITE setFilterTagId NOTIFY filterTagIdChanged)
     Q_PROPERTY(QStringList shownInterfaces READ shownInterfaces WRITE setShownInterfaces NOTIFY shownInterfacesChanged)
     Q_PROPERTY(QStringList hiddenInterfaces READ hiddenInterfaces WRITE setHiddenInterfaces NOTIFY hiddenInterfacesChanged)
 
+    // Setting this to true will imply filtering for "battery" interface
+    Q_PROPERTY(bool filterBatteryCritical READ filterBatteryCritical WRITE setFilterBatteryCritical NOTIFY filterBatteryCriticalChanged)
+
+    // Setting this to true will imply filtering for "connectable" interface
+    Q_PROPERTY(bool filterDisconnected READ filterDisconnected WRITE setFilterDisconnected NOTIFY filterDisconnectedChanged)
+
 public:
     explicit DevicesProxy(QObject *parent = 0);
 
-    Devices *devices() const;
-    void setDevices(Devices *devices);
+    QAbstractItemModel *devices() const;
+    void setDevices(QAbstractItemModel *devices);
 
     QString filterTagId() const;
     void setFilterTagId(const QString &filterTag);
@@ -53,6 +59,12 @@ public:
     QStringList hiddenInterfaces() const;
     void setHiddenInterfaces(const QStringList &hiddenInterfaces);
 
+    bool filterBatteryCritical() const;
+    void setFilterBatteryCritical(bool filterBatteryCritical);
+
+    bool filterDisconnected() const;
+    void setFilterDisconnected(bool filterDisconnected);
+
     Q_INVOKABLE Device *get(int index) const;
 
 signals:
@@ -60,13 +72,20 @@ signals:
     void filterTagIdChanged();
     void shownInterfacesChanged();
     void hiddenInterfacesChanged();
+    void filterBatteryCriticalChanged();
+    void filterDisconnectedChanged();
     void countChanged();
 
 private:
-    Devices *m_devices = nullptr;
+    Device *getInternal(int source_index) const;
+
+    QAbstractItemModel *m_devices = nullptr;
     QString m_filterTagId;
     QStringList m_shownInterfaces;
     QStringList m_hiddenInterfaces;
+
+    bool m_filterBatteryCritical = false;
+    bool m_filterDisconnected = false;
 
 protected:
     bool lessThan(const QModelIndex &left, const QModelIndex &right) const Q_DECL_OVERRIDE;

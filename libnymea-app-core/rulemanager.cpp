@@ -222,7 +222,7 @@ void RuleManager::parseEventDescriptors(const QVariantList &eventDescriptorList,
             paramDescriptor->setOperatorType((ParamDescriptor::ValueOperator)operatorEnum.keyToValue(paramDescriptorVariant.toMap().value("operator").toString().toLocal8Bit()));
             eventDescriptor->paramDescriptors()->addParamDescriptor(paramDescriptor);
         }
-        qDebug() << "Adding eventdescriptor" << eventDescriptor->deviceId() << eventDescriptor->eventTypeId();
+//        qDebug() << "Adding eventdescriptor" << eventDescriptor->deviceId() << eventDescriptor->eventTypeId();
         rule->eventDescriptors()->addEventDescriptor(eventDescriptor);
     }
 }

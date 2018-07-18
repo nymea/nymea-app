@@ -145,6 +145,6 @@ void TagsManager::addTagInternal(const QVariantMap &tagMap)
         tag->deleteLater();
         return;
     }
-    qDebug() << "adding tag" << tag->tagId() << tag->value();
+//    qDebug() << "adding tag" << tag->tagId() << tag->value();
     m_tags->addTag(tag);
 }

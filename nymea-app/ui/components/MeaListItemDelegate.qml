@@ -13,6 +13,9 @@ SwipeDelegate {
     property int iconSize: app.iconSize
     property color iconColor: app.guhAccent
 
+    property bool batteryCritical: false
+    property bool disconnected: false
+
     signal deleteClicked()
 
     contentItem: RowLayout {
@@ -49,6 +52,21 @@ SwipeDelegate {
                 verticalAlignment: Text.AlignVCenter
                 visible: root.subText.length > 0
             }
+        }
+
+        ColorIcon {
+            Layout.preferredHeight: app.iconSize * .5
+            Layout.preferredWidth: height
+            name: "../images/battery/battery-010.svg"
+            visible: root.batteryCritical
+        }
+
+        ColorIcon {
+            Layout.preferredHeight: app.iconSize * .5
+            Layout.preferredWidth: height
+            name: "../images/dialog-warning-symbolic.svg"
+            visible: root.disconnected
+            color: "red"
         }
 
         ColorIcon {

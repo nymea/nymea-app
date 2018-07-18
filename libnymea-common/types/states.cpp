@@ -79,6 +79,11 @@ void States::addState(State *state)
     beginInsertRows(QModelIndex(), m_states.count(), m_states.count());
     //qDebug() << "States: loaded state" << state->stateTypeId();
     m_states.append(state);
+    connect(state, &State::valueChanged, this, [state, this]() {
+        int idx = m_states.indexOf(state);
+        if (idx < 0) return;
+        emit dataChanged(index(idx), index(idx), {ValueRole});
+    });
     endInsertRows();
 }
 

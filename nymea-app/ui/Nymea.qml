@@ -160,6 +160,8 @@ ApplicationWindow {
             return qsTr("Temperature");
         case "humiditysensor":
             return qsTr("Humidity");
+        case "pressuresensor":
+            return qsTr("Pressure");
         case "inputtrigger":
             return qsTr("Incoming Events");
         case "outputtrigger":
@@ -208,6 +210,8 @@ ApplicationWindow {
             return Qt.resolvedUrl("images/sensors/light.svg")
         case "conductivitysensor":
             return Qt.resolvedUrl("images/sensors/conductivity.svg")
+        case "pressuresensor":
+            return Qt.resolvedUrl("images/sensors/pressure.svg")
         case "media":
         case "mediacontroller":
             return Qt.resolvedUrl("images/mediaplayer-app-symbolic.svg")
@@ -265,8 +269,9 @@ ApplicationWindow {
         case "lightsensor":
             return "orange";
         case "conductivitysensor":
-            return "green"
-
+            return "green";
+        case "pressuresensor":
+            return "grey";
         }
         return "grey";
     }

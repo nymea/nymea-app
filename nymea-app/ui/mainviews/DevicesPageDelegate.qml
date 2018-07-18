@@ -62,6 +62,35 @@ Item {
         }
     }
 
+    Row {
+        id: quickAlertPane
+        anchors { top: parent.top; right: parent.right; margins: app.margins }
+        DevicesProxy {
+            id: devicesSubProxyConnectables
+            devices: devicesProxy
+            filterDisconnected: true
+        }
+        ColorIcon {
+            height: app.iconSize / 2
+            width: height
+            name: "../images/dialog-warning-symbolic.svg"
+            color: "red"
+            visible: devicesSubProxyConnectables.count > 0
+        }
+        DevicesProxy {
+            id: devicesSubProxyBattery
+            devices: devicesProxy
+            filterBatteryCritical: true
+        }
+        ColorIcon {
+            height: app.iconSize / 2
+            width: height
+            name: "../images/battery/battery-010.svg"
+            visible: devicesSubProxyBattery.count > 0
+        }
+    }
+
+
     Item {
         id: inlineControlPane
         anchors { left: parent.left; bottom: parent.bottom; right: parent.right; margins: app.margins / 2 }

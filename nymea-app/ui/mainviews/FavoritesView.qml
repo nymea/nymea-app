@@ -138,6 +138,26 @@ Item {
                 }
             }
 
+            Row {
+                id: quickAlertPane
+                anchors { top: parent.top; right: parent.right; margins: app.margins }
+                ColorIcon {
+                    height: app.iconSize / 2
+                    width: height
+                    name: "../images/dialog-warning-symbolic.svg"
+                    color: "red"
+                    property var connectedState: delegateRoot.deviceClass.interfaces.indexOf("connectable") >= 0 ? delegateRoot.device.states.getState(delegateRoot.deviceClass.stateTypes.findByName("connected").id) : null
+                    visible: connectedState !== null && connectedState.value === false
+                }
+                ColorIcon {
+                    height: app.iconSize / 2
+                    width: height
+                    name: "../images/battery/battery-010.svg"
+                    property var batteryCriticalState: delegateRoot.deviceClass.interfaces.indexOf("battery") >= 0 ? delegateRoot.device.states.getState(delegateRoot.deviceClass.stateTypes.findByName("batteryCritical").id) : null
+                    visible: batteryCriticalState !== null && batteryCriticalState.value === true
+                }
+            }
+
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
