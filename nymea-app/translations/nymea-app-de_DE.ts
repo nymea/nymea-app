@@ -192,23 +192,23 @@
     </message>
     <message>
         <source>Searching for %1 boxes via Bluetooth LE.</source>
-        <translation type="unfinished"></translation>
+        <translation>Suche nach %1 Boxen via Bluetooth.</translation>
     </message>
     <message>
         <source>Uh oh! Bluetooth is not enabled. Please enable the Bluetooth on this device and restart the application.</source>
-        <translation type="unfinished"></translation>
+        <translation>Oh oh! Bluetooth ist nicht eingeschaltet. Bitte schalte Bluetooth auf diesem Gerät an.</translation>
     </message>
     <message>
         <source>Uh oh! Bluetooth is not available. Please make sure Bluetooth is enabled on this device and restart the application.</source>
-        <translation type="unfinished"></translation>
+        <translation>Oh oh! Bluetooth ist nicht verfügbar. Bitte stelle sicher dass dieses Gerät über Bluetooth verfügt und es eingeschaltet ist.</translation>
     </message>
     <message>
         <source>Uh oh! Bluetooth is not enabled. Please enable the Bluetooth on this device.</source>
-        <translation type="unfinished"></translation>
+        <translation>Oh oh! Bluetooth ist nicht eingeschaltet. Bitte schalte Bluetooth auf diesem Gerät ein.</translation>
     </message>
     <message>
         <source>Uh oh! Bluetooth is not available. Please make sure Bluetooth is enabled on this device.</source>
-        <translation type="unfinished"></translation>
+        <translation>Oh oh! Bluetooth ist nucht verfügbar. Bitte stelle sicher, dass dieses Gerät über Bluetooth verfügt und es eingeschaltet ist.</translation>
     </message>
 </context>
 <context>
@@ -923,7 +923,7 @@
     </message>
     <message>
         <source>If the condition isn&apos;t met, execute those actions instead:</source>
-        <translation type="unfinished"></translation>
+        <translation>Wenn die Bedingung nicht erfüllt ist, führe stattdessen diese Aktionen aus:</translation>
     </message>
 </context>
 <context>
@@ -1070,7 +1070,7 @@
     <name>FancyHeader</name>
     <message>
         <source>menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Menü</translation>
     </message>
 </context>
 <context>
@@ -1089,7 +1089,7 @@
     </message>
     <message>
         <source>My %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Meine %1</translation>
     </message>
 </context>
 <context>
@@ -1173,7 +1173,7 @@
     </message>
     <message>
         <source>Closable things</source>
-        <translation type="unfinished"></translation>
+        <translation>Schließbare &quot;Things&quot;</translation>
     </message>
 </context>
 <context>
@@ -1309,7 +1309,7 @@
     </message>
     <message>
         <source>The email you&apos;ve entered is already used.</source>
-        <translation type="unfinished"></translation>
+        <translation>Die eingegebene E-Mail Adresse ist bereits in Benutzung.</translation>
     </message>
 </context>
 <context>
@@ -1442,19 +1442,19 @@
     <name>ManualConnectPage</name>
     <message>
         <source>Manual connection</source>
-        <translation type="unfinished">Manuelle Verbindung</translation>
+        <translation>Manuelle Verbindung</translation>
     </message>
     <message>
         <source>Protocol</source>
-        <translation type="unfinished">Protokoll</translation>
+        <translation>Protokoll</translation>
     </message>
     <message>
         <source>TCP</source>
-        <translation type="unfinished">TCP</translation>
+        <translation>TCP</translation>
     </message>
     <message>
         <source>Websocket</source>
-        <translation type="unfinished">Websocket</translation>
+        <translation>Websocket</translation>
     </message>
     <message>
         <source>Address:</source>
