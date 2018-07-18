@@ -113,7 +113,12 @@ void RuleManager::handleRulesNotification(const QVariantMap &params)
         m_rules->remove(ruleId);
         m_rules->insert(parseRule(ruleMap));
     } else if (params.value("notification").toString() == "Rules.RuleActiveChanged") {
-        m_rules->getRule(params.value("params").toMap().value("ruleId").toUuid())->setActive(params.value("params").toMap().value("active").toBool());
+        Rule *rule = m_rules->getRule(params.value("params").toMap().value("ruleId").toUuid());
+        if (rule) {
+            qWarning() << "Got a rule active notification for a rule we don't know";
+            return;
+        }
+        rule->setActive(params.value("params").toMap().value("active").toBool());
     } else {
         qWarning() << "Unhandled rule notification" << params;
     }
