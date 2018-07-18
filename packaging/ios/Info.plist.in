@@ -8,31 +8,8 @@
         <string>nymea-app</string>
 	<key>CFBundleGetInfoString</key>
 	<string>Created by Qt/QMake</string>
-        <key>CFBundleIcons</key>
-        <dict>
-            <key>CFBundlePrimaryIcon</key>
-            <dict>
-                <key>CFBundleIconFiles</key>
-                <array>
-                    <string>AppIcon1024x1024.png</string>
-                    <string>AppIcon20x20.png</string>
-                    <string>AppIcon20x20@2x.png</string>
-                    <string>AppIcon20x20@3x.png</string>
-                    <string>AppIcon29x29.png</string>
-                    <string>AppIcon29x29@2x.png</string>
-                    <string>AppIcon29x29@3x.png</string>
-                    <string>AppIcon40x40.png</string>
-                    <string>AppIcon40x40@2x.png</string>
-                    <string>AppIcon40x40@3x.png</string>
-                    <string>AppIcon60x60@2x.png</string>
-                    <string>AppIcon60x60@3x.png</string>
-                    <string>AppIcon76x76.png</string>
-                    <string>AppIcon76x76@2x.png</string>
-                </array>
-            </dict>
-        </dict>
         <key>CFBundleIdentifier</key>
-        <string>io.guh.nymeaapp</string>
+        <string>io.guh.nymeaApp</string>
 	<key>CFBundleName</key>
         <string>nymea-app</string>
 	<key>CFBundlePackageType</key>
@@ -42,7 +19,7 @@
 	<key>CFBundleSignature</key>
 	<string>${QMAKE_PKGINFO_TYPEINFO}</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+        <string>2</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>MinimumOSVersion</key>
@@ -58,5 +35,7 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+        <key>NSBluetoothPeripheralUsageDescription</key>
+        <string>Nymea boxes can be connected to WiFi using a Bluetooth setup. Also, this app can connect to nymea boxes using Bluetooth only, without requiring WiFi at all.</string>
 </dict>
 </plist>

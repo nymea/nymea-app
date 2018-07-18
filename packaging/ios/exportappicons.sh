@@ -7,9 +7,9 @@ function exportImage() {
   if [ ${scaleFactor} -ne 1 ]; then
     finalSize=$((size * scaleFactor))
     echo final size is ${finalSize}
-    inkscape AppIcon.svg -e AppIcon${size}x${size}@${scaleFactor}x.png -C -w $finalSize -h $finalSize
+    inkscape AppIcon.svg -e AppIcons.xcassets/AppIcon.appiconset/AppIcon${size}x${size}@${scaleFactor}x.png -C -w $finalSize -h $finalSize
   else
-    inkscape AppIcon.svg -e AppIcon${size}x${size}.png -C -w ${size} -h ${size}
+    inkscape AppIcon.svg -e AppIcons.xcassets/AppIcon.appiconset/AppIcon${size}x${size}.png -C -w ${size} -h ${size}
   fi
 }
 
@@ -27,6 +27,7 @@ SIZES=(
   "60:3"
   "76:1"
   "76:2"
+  "167:1"
   "1024:1"
 )
 

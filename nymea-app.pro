@@ -1,4 +1,5 @@
 include(config.pri)
+message("APP_VERSION: $${APP_VERSION} ($${APP_REVISION})")
 
 TEMPLATE=subdirs
 

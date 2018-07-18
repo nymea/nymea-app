@@ -69,6 +69,7 @@ ios: {
     QMAKE_BUNDLE = nymeaApp
     # Configure generated xcode project to have our bundle id
     xcode_product_bundle_identifier_setting.value = $${QMAKE_TARGET_BUNDLE_PREFIX}.$${QMAKE_BUNDLE}
+    QMAKE_ASSET_CATALOGS += ../packaging/ios/AppIcons.xcassets
     plist.input = ../packaging/ios/Info.plist.in
     plist.output = $$OUT_PWD/Info.plist
     QMAKE_SUBSTITUTES += plist
