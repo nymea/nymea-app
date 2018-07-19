@@ -10,8 +10,8 @@ MeaListItemDelegate {
     iconName: deviceClass ? app.interfacesToIcon(deviceClass.interfaces) : ""
     text: device.name
     progressive: true
-    batteryCritical: deviceClass && deviceClass.interfaces.indexOf("battery") >= 0 ? device.stateValue(deviceClass.stateTypes.findByName("batteryCritical").id) === true : false
-    disconnected: deviceClass && deviceClass.interfaces.indexOf("connectable") >= 0 ? device.stateValue(deviceClass.stateTypes.findByName("connected").id) === false : false
+    property bool batteryCritical: deviceClass && deviceClass.interfaces.indexOf("battery") >= 0 ? device.stateValue(deviceClass.stateTypes.findByName("batteryCritical").id) === true : false
+    property bool disconnected: deviceClass && deviceClass.interfaces.indexOf("connectable") >= 0 ? device.stateValue(deviceClass.stateTypes.findByName("connected").id) === false : false
 
     property var device: null
 
