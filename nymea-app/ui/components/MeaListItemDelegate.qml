@@ -12,11 +12,10 @@ SwipeDelegate {
     property string iconName
     property int iconSize: app.iconSize
     property color iconColor: app.guhAccent
-    property string secondaryIconName
+    property alias secondaryIconName: secondaryIcon.name
     property alias secondaryIconColor: secondaryIcon.color
-
-    property bool batteryCritical: false
-    property bool disconnected: false
+    property alias tertiaryIconName: tertiaryIcon.name
+    property alias tertiaryIconColor: tertiaryIcon.color
 
     signal deleteClicked()
 
@@ -57,27 +56,25 @@ SwipeDelegate {
         }
 
         ColorIcon {
-            Layout.preferredHeight: app.iconSize * .5
-            Layout.preferredWidth: height
-            name: "../images/battery/battery-010.svg"
-            visible: root.batteryCritical
-        }
-
-        ColorIcon {
-            Layout.preferredHeight: app.iconSize * .5
-            Layout.preferredWidth: height
-            name: "../images/dialog-warning-symbolic.svg"
-            visible: root.disconnected
-            color: "red"
-        }
-
-        ColorIcon {
             id: secondaryIcon
+            Layout.preferredHeight: app.iconSize * .5
+            Layout.preferredWidth: height
+            visible: name.length > 0
+        }
+
+        ColorIcon {
+            id: tertiaryIcon
+            Layout.preferredHeight: app.iconSize * .5
+            Layout.preferredWidth: height
+            visible: name.length > 0
+        }
+
+        ColorIcon {
+            id: progressionIcon
             Layout.preferredHeight: app.iconSize * .6
             Layout.preferredWidth: height
-            name: root.secondaryIconName.length > 0 ? root.secondaryIconName : "../images/next.svg"
+            name: "../images/next.svg"
             visible: root.progressive
-            color: root.secondaryIconColor
         }
     }
 
