@@ -194,7 +194,7 @@ Page {
                                 return false
                             }
                         }
-                        progressive: hasSecurePort
+                        progressive: true
                         secondaryIconName: "../images/network-secure.svg"
                         secondaryIconColor: isTrusted ? app.guhAccent : Material.foreground
                         swipe.enabled: discoveryDeviceDelegate.discoveryDevice.deviceType === DiscoveryDevice.DeviceTypeNetwork
@@ -248,7 +248,6 @@ Page {
                             anchors.horizontalCenter: parent.horizontalCenter
                         }
                     }
-
                 }
 
                 ThinDivider {}

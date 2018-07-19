@@ -6,7 +6,6 @@ BluetoothServiceDiscovery::BluetoothServiceDiscovery(DiscoveryModel *discoveryMo
     QObject(parent),
     m_discoveryModel(discoveryModel)
 {
-
     m_nymeaServiceUuid = QBluetoothUuid(QUuid("997936b5-d2cd-4c57-b41b-c6048320cd2b"));
 
     m_localDevice = new QBluetoothLocalDevice(this);

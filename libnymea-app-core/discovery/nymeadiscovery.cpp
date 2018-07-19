@@ -13,7 +13,10 @@ NymeaDiscovery::NymeaDiscovery(QObject *parent) : QObject(parent)
 
     m_upnp = new UpnpDiscovery(m_discoveryModel, this);
     m_zeroConf = new ZeroconfDiscovery(m_discoveryModel, this);
+
+#ifndef Q_OS_IOS
     m_bluetooth = new BluetoothServiceDiscovery(m_discoveryModel, this);
+#endif
 }
 
 bool NymeaDiscovery::discovering() const
@@ -30,12 +33,16 @@ void NymeaDiscovery::setDiscovering(bool discovering)
     // For zeroconf we'll ignore it as zeroconf doesn't do active discovery but just listens for changes in the net all the time
     if (discovering) {
         m_upnp->discover();
-        // Note: this is the nymea uuid
-        m_bluetooth->discover();
+        if (m_bluetooth) {
+            m_bluetooth->discover();
+        }
     } else {
         m_upnp->stopDiscovery();
-        m_bluetooth->stopDiscovery();
+        if (m_bluetooth) {
+            m_bluetooth->stopDiscovery();
+        }
     }
+
     emit discoveringChanged();
 }
 
