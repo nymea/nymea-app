@@ -32,7 +32,7 @@ ToolBar {
             verticalAlignment: Text.AlignVCenter
             font.pixelSize: app.mediumFont
             elide: Text.ElideRight
-            text: root.title.toLowerCase();
+            text: root.title
         }
 
         HeaderButton {

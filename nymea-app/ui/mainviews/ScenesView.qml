@@ -25,63 +25,25 @@ Item {
         }
         cellWidth: width / tilesPerRow
         cellHeight: cellWidth
-        delegate: Item {
-            id: scenesDelegate
+
+        delegate: MainPageTile {
             width: interfacesGridView.cellWidth
             height: interfacesGridView.cellHeight
+            iconName: iconTag ? "../images/" + iconTag.value + ".svg" : "../images/slideshow.svg";
+            fallbackIconName: "../images/slideshow.svg"
+            iconColor: colorTag ? colorTag.value : app.guhAccent;
+            text: model.name.toUpperCase()
 
             property var colorTag: Engine.tagsManager.tags.findRuleTag(model.id, "color")
             property var iconTag: Engine.tagsManager.tags.findRuleTag(model.id, "icon")
+
+            onClicked: Engine.ruleManager.executeActions(model.id)
+
             Connections {
                 target: Engine.tagsManager.tags
                 onCountChanged: {
                     colorTag = Engine.tagsManager.tags.findRuleTag(model.id, "color")
                     iconTag = Engine.tagsManager.tags.findRuleTag(model.id, "icon")
-                }
-            }
-
-            Pane {
-                anchors.fill: parent
-                anchors.margins: app.margins / 2
-                Material.elevation: 1
-                padding: 0
-                ItemDelegate {
-                    anchors.fill: parent
-                    onClicked: {
-                        Engine.ruleManager.executeActions(model.id)
-                    }
-                    contentItem: ColumnLayout {
-                        width: parent.width
-                        anchors.centerIn: parent
-                        spacing: app.margins
-
-                        ColorIcon {
-                            Layout.preferredHeight: app.iconSize * 1.3
-                            Layout.preferredWidth: height
-                            Layout.alignment: Qt.AlignHCenter
-                            name: scenesDelegate.iconTag ? "../images/" + scenesDelegate.iconTag.value + ".svg" : "../images/slideshow.svg";
-                            color: scenesDelegate.colorTag ? scenesDelegate.colorTag.value : app.guhAccent;
-
-                            ColorIcon {
-                                anchors.fill: parent
-                                name: "../images/slideshow.svg"
-                                color: app.guhAccent
-                                visible: parent.status === Image.Error
-                            }
-                        }
-
-                        Label {
-                            Layout.fillWidth: true
-                            text: model.name.toUpperCase()
-                            font.pixelSize: app.extraSmallFont
-                            font.bold: true
-                            font.letterSpacing: 1
-                            wrapMode: Text.WordWrap
-                            horizontalAlignment: Text.AlignHCenter
-                            maximumLineCount: 2
-                            elide: Text.ElideRight
-                        }
-                    }
                 }
             }
         }
