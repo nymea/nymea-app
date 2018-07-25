@@ -22,16 +22,10 @@
 
 #include <QUrl>
 
-DiscoveryDevice::DiscoveryDevice(DeviceType deviceType, QObject *parent):
-    QObject(parent),
-    m_deviceType(deviceType)
+DiscoveryDevice::DiscoveryDevice(QObject *parent):
+    QObject(parent)
 {
     m_portConfigs = new PortConfigs(this);
-}
-
-DiscoveryDevice::DeviceType DiscoveryDevice::deviceType() const
-{
-    return m_deviceType;
 }
 
 QUuid DiscoveryDevice::uuid() const
@@ -42,43 +36,6 @@ QUuid DiscoveryDevice::uuid() const
 void DiscoveryDevice::setUuid(const QUuid &uuid)
 {
     m_uuid = uuid;
-}
-
-QHostAddress DiscoveryDevice::hostAddress() const
-{
-    return m_hostAddress;
-}
-
-QString DiscoveryDevice::hostAddressString() const
-{
-    return m_hostAddress.toString();
-}
-
-void DiscoveryDevice::setHostAddress(const QHostAddress &hostAddress)
-{
-    if (m_hostAddress != hostAddress) {
-        m_hostAddress = hostAddress;
-        emit hostAddressChanged();
-    }
-}
-
-QBluetoothAddress DiscoveryDevice::bluetoothAddress() const
-{
-    return m_bluetoothAddress;
-}
-
-QString DiscoveryDevice::bluetoothAddressString() const
-{
-    return m_bluetoothAddress.toString();
-}
-
-void DiscoveryDevice::setBluetoothAddress(const QBluetoothAddress &bluetoothAddress)
-{
-    if (m_bluetoothAddress == bluetoothAddress)
-        return;
-
-    m_bluetoothAddress = bluetoothAddress;
-    emit bluetoothAddressChanged();
 }
 
 QString DiscoveryDevice::name() const
@@ -122,7 +79,11 @@ QString DiscoveryDevice::toUrl(int portConfigIndex)
     QString ret = pc->protocol() == PortConfig::ProtocolNymeaRpc ? "nymea" : "ws";
     ret += pc->sslEnabled() ? "s" : "";
     ret += "://";
-    ret += m_hostAddress.toString();
+    if (pc->hostAddress().protocol() == QAbstractSocket::IPv4Protocol) {
+        ret += pc->hostAddress().toString();
+    } else if (pc->hostAddress().protocol() == QAbstractSocket::IPv6Protocol){
+        ret += "[" + pc->hostAddress().toString() + "]";
+    }
     ret += ":";
     ret += QString::number(pc->port());
     return ret;
@@ -142,6 +103,8 @@ int PortConfigs::rowCount(const QModelIndex &parent) const
 QVariant PortConfigs::data(const QModelIndex &index, int role) const
 {
     switch (role) {
+    case RoleAddress:
+        return m_portConfigs.at(index.row())->hostAddressString();
     case RolePort:
         return m_portConfigs.at(index.row())->port();
     case RoleProtocol:
@@ -182,15 +145,17 @@ PortConfig* PortConfigs::get(int index) const
 QHash<int, QByteArray> PortConfigs::roleNames() const
 {
     QHash<int, QByteArray> roles;
+    roles.insert(RoleAddress, "address");
     roles.insert(RolePort, "port");
     roles.insert(RoleProtocol, "protocol");
     roles.insert(RoleSSLEnabled, "sslEnabled");
     return roles;
 }
 
-PortConfig::PortConfig(int port, QObject *parent):
+PortConfig::PortConfig(const QHostAddress &hostAddress, int port, QObject *parent):
     QObject(parent),
-    m_port(port)
+    m_port(port),
+    m_hostAddress(hostAddress)
 {
 
 }
@@ -211,6 +176,20 @@ void PortConfig::setProtocol(PortConfig::Protocol protocol)
         m_protocol = protocol;
         emit protocolChanged();
     }
+}
+
+QHostAddress PortConfig::hostAddress() const
+{
+    return m_hostAddress;
+}
+
+QString PortConfig::hostAddressString() const
+{
+    if (m_hostAddress.protocol() == QAbstractSocket::IPv6Protocol){
+        return "[" + m_hostAddress.toString() + "]";
+    }
+
+    return m_hostAddress.toString();
 }
 
 bool PortConfig::sslEnabled() const

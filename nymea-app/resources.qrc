@@ -1,7 +1,10 @@
 <RCC>
     <qresource prefix="/">
         <file>ui/Nymea.qml</file>
-        <file>ui/ConnectPage.qml</file>
+        <file>ui/connection/ConnectPage.qml</file>
+        <file>ui/connection/ManualConnectPage.qml</file>
+        <file>ui/connection/BluetoothDiscoveryPage.qml</file>
+        <file>ui/connection/ConnectingPage.qml</file>
         <file>ui/mainviews/DevicesPage.qml</file>
         <file>ui/NewDeviceWizard.qml</file>
         <file>ui/SettingsPage.qml</file>
@@ -212,8 +215,6 @@
         <file>ui/components/EmptyViewPlaceholder.qml</file>
         <file>ui/components/RemoveDeviceMethodDialog.qml</file>
         <file>ui/components/FancyHeader.qml</file>
-        <file>ui/connection/ManualConnectPage.qml</file>
-        <file>ui/connection/BluetoothDiscoveryPage.qml</file>
         <file>ui/images/awning/awning-100.svg</file>
         <file>ui/devicepages/AwningDevicePage.qml</file>
         <file>ui/images/awning/awning-000.svg</file>

@@ -19,6 +19,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #include "discoverymodel.h"
+#include "discoverydevice.h"
 
 DiscoveryModel::DiscoveryModel(QObject *parent) :
     QAbstractListModel(parent)
@@ -38,24 +39,12 @@ QVariant DiscoveryModel::data(const QModelIndex &index, int role) const
 
     DiscoveryDevice *device = m_devices.at(index.row());
     switch (role) {
-    case DeviceTypeRole:
-        return device->deviceType();
     case UuidRole:
         return device->uuid();
     case NameRole:
         return device->name();
-    case HostAddressRole:
-        return device->hostAddress().toString();
-    case BluetoothAddressRole:
-        return device->bluetoothAddressString();
-//    case WebSocketUrlRole:
-//        return device.webSocketUrl();
-//    case PortRole:
-//        return device.port();
     case VersionRole:
         return device->version();
-//    case NymeaRpcUrlRole:
-//        return device.nymeaRpcUrl();
     }
     return QVariant();
 }
@@ -90,17 +79,6 @@ DiscoveryDevice *DiscoveryModel::find(const QUuid &uuid)
     return nullptr;
 }
 
-DiscoveryDevice *DiscoveryModel::find(const QBluetoothAddress &bluetoothAddress)
-{
-    foreach (DiscoveryDevice *device, m_devices) {
-        if (device->bluetoothAddress() == bluetoothAddress) {
-            return device;
-        }
-    }
-
-    return nullptr;
-}
-
 void DiscoveryModel::clearModel()
 {
     beginResetModel();
@@ -112,11 +90,8 @@ void DiscoveryModel::clearModel()
 QHash<int, QByteArray> DiscoveryModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
-    roles[DeviceTypeRole] = "deviceType";
     roles[UuidRole] = "uuid";
     roles[NameRole] = "name";
-    roles[HostAddressRole] = "hostAddress";
-    roles[BluetoothAddressRole] = "bluetoothAddress";
     roles[VersionRole] = "version";
     return roles;
 }

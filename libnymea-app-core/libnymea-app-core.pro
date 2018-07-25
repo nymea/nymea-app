@@ -61,7 +61,6 @@ SOURCES += \
     models/tagsproxymodel.cpp \
     tagsmanager.cpp \
     wifisetup/wirelessaccesspointsproxy.cpp \
-    models/tagsproxymodel.cpp \
     ruletemplates/ruletemplate.cpp \
     ruletemplates/ruletemplates.cpp \
     ruletemplates/eventdescriptortemplate.cpp \

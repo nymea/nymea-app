@@ -111,6 +111,8 @@ void Engine::onConnectedChanged()
 void Engine::onDeviceManagerFetchingChanged()
 {
     if (!m_deviceManager->fetchingData()) {
-        m_tagsManager->init();
+        if (m_jsonRpcClient->ensureServerVersion("1.7")) {
+            m_tagsManager->init();
+        }
     }
 }

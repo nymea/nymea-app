@@ -2,6 +2,7 @@
 
 #include <QUuid>
 
+#include "discoverydevice.h"
 
 ZeroconfDiscovery::ZeroconfDiscovery(DiscoveryModel *discoveryModel, QObject *parent) :
     QObject(parent),
@@ -11,13 +12,13 @@ ZeroconfDiscovery::ZeroconfDiscovery(DiscoveryModel *discoveryModel, QObject *pa
     m_zeroconfJsonRPC = new QZeroConf(this);
     connect(m_zeroconfJsonRPC, &QZeroConf::serviceAdded, this, &ZeroconfDiscovery::serviceEntryAdded);
     connect(m_zeroconfJsonRPC, &QZeroConf::serviceUpdated, this, &ZeroconfDiscovery::serviceEntryAdded);
-    m_zeroconfJsonRPC->startBrowser("_jsonrpc._tcp");
+    m_zeroconfJsonRPC->startBrowser("_jsonrpc._tcp", QAbstractSocket::AnyIPProtocol);
     qDebug() << "created service browser for _jsonrpc._tcp:" << m_zeroconfJsonRPC->browserExists();
 
     m_zeroconfWebSocket = new QZeroConf(this);
     connect(m_zeroconfWebSocket, &QZeroConf::serviceAdded, this, &ZeroconfDiscovery::serviceEntryAdded);
     connect(m_zeroconfWebSocket, &QZeroConf::serviceUpdated, this, &ZeroconfDiscovery::serviceEntryAdded);
-    m_zeroconfWebSocket->startBrowser("_ws._tcp");
+    m_zeroconfWebSocket->startBrowser("_ws._tcp", QAbstractSocket::AnyIPProtocol);
     qDebug() << "created service browser for _ws._tcp:" << m_zeroconfWebSocket->browserExists();
 #else
     qDebug() << "Zeroconf support not compiled in. Zeroconf will not be available.";
@@ -41,10 +42,10 @@ bool ZeroconfDiscovery::discovering() const
 #ifdef WITH_ZEROCONF
 void ZeroconfDiscovery::serviceEntryAdded(const QZeroConfService &entry)
 {
-    if (!entry.name().startsWith("nymea") || entry.ip().isNull()) {
+    if (!entry.name().startsWith("nymea") || (entry.ip().isNull() && entry.ipv6().isNull())) {
         return;
     }
-//    qDebug() << "zeroconf service discovered" << entry << entry.txt() << entry.type();
+//    qDebug() << "zeroconf service discovered" << entry << entry.ip() << entry.ipv6() << entry.txt() << entry.type();
 
     QString uuid;
     bool sslEnabled = false;
@@ -70,18 +71,17 @@ void ZeroconfDiscovery::serviceEntryAdded(const QZeroConfService &entry)
 
     DiscoveryDevice* device = m_discoveryModel->find(uuid);
     if (!device) {
-        device = new DiscoveryDevice(DiscoveryDevice::DeviceTypeNetwork, m_discoveryModel);
+        device = new DiscoveryDevice(m_discoveryModel);
         device->setUuid(uuid);
         qDebug() << "ZeroConf: Adding new host to model";
         m_discoveryModel->addDevice(device);
     }
-    device->setHostAddress(entry.ip());
     device->setName(serverName);
     device->setVersion(version);
     PortConfig *portConfig = device->portConfigs()->find(entry.port());
     if (!portConfig) {
         qDebug() << "ZeroConf: Adding new port config";
-        portConfig = new PortConfig(entry.port());
+        portConfig = new PortConfig(!entry.ip().isNull() ? entry.ip() : entry.ipv6(), entry.port());
         device->portConfigs()->insert(portConfig);
     }
     portConfig->setProtocol(entry.type() == "_ws._tcp" ? PortConfig::ProtocolWebSocket : PortConfig::ProtocolNymeaRpc);
