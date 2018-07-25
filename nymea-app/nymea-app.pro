@@ -108,6 +108,10 @@ ios: {
     QMAKE_MAC_XCODE_SETTINGS += IOS_ENTITLEMENTS
 }
 
+ubuntu_files.path += /
+ubuntu_files.files += ../manifest.json ../nymea-app.apparmor ../nymea-app.desktop
+INSTALLS += ubuntu_files
+
 BR=$$BRANDING
 !equals(BR, "") {
     DEFINES += BRANDING=\\\"$${BR}\\\"
@@ -119,10 +123,3 @@ BR=$$BRANDING
 target.path = /usr/bin
 INSTALLS += target
 
-DISTFILES += \
-    ui/components/BusyOverlay.qml \
-    ui/devicepages/NotificationsDevicePage.qml \
-    ruletemplates/buttontemplates.json \
-    ruletemplates/notificationtemplates.json \
-    ui/devicepages/LightDevicePage.qml \
-    ruletemplates/accesscontroltemplates.json
