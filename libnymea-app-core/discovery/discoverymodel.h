@@ -23,8 +23,9 @@
 
 #include <QAbstractListModel>
 #include <QList>
+#include <QBluetoothAddress>
 
-#include "discoverydevice.h"
+class DiscoveryDevice;
 
 class DiscoveryModel : public QAbstractListModel
 {
@@ -35,8 +36,6 @@ public:
         DeviceTypeRole,
         UuidRole,
         NameRole,
-        HostAddressRole,
-        BluetoothAddressRole,
         VersionRole
     };
     Q_ENUM(DeviceRole)
@@ -50,7 +49,6 @@ public:
 
     Q_INVOKABLE DiscoveryDevice *get(int index) const;
     Q_INVOKABLE DiscoveryDevice *find(const QUuid &uuid);
-    Q_INVOKABLE DiscoveryDevice *find(const QBluetoothAddress &bluetoothAddress);
 
     void clearModel();
 

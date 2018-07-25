@@ -3,7 +3,7 @@ import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.2
 import QtQuick.Layouts 1.3
 import Nymea 1.0
-import "components"
+import "../components"
 
 Page {
     id: root
@@ -13,7 +13,12 @@ Page {
     Component.onCompleted: {
         print("completed connectPage. last connected host:", settings.lastConnectedHost)
         if (settings.lastConnectedHost.length > 0) {
-            pageStack.push(connectingPage)
+            var page = pageStack.push(Qt.resolvedUrl("ConnectingPage.qml"))
+            page.cancel.connect(function() {
+                Engine.connection.disconnect();
+                pageStack.pop(root, StackView.Immediate);
+                pageStack.push(discoveyPage)
+            })
             Engine.connection.connect(settings.lastConnectedHost)
         } else {
             pageStack.push(discoveryPage)
@@ -55,17 +60,18 @@ Page {
             default:
                 errorMessage = qsTr("Un unknown error happened. We're very sorry for that. (Error code: %1)").arg(error);
             }
+
+            pageStack.pop(root, StackView.Immediate)
+            pageStack.push(discoveryPage)
+
             print("opening ErrorDialog with message:", errorMessage, error)
-            var comp = Qt.createComponent(Qt.resolvedUrl("components/ErrorDialog.qml"))
+            var comp = Qt.createComponent(Qt.resolvedUrl("../components/ErrorDialog.qml"))
             var popup = comp.createObject(app, {text: errorMessage})
             popup.open()
-
-            pageStack.pop(root)
-            pageStack.push(discoveryPage)
         }
         onConnectedChanged: {
             if (!connected) {
-                pageStack.pop(root)
+                pageStack.pop(root, StackView.Immediate)
                 pageStack.push(discoveryPage)
             }
         }
@@ -79,8 +85,8 @@ Page {
             header: FancyHeader {
                 title: qsTr("Connect %1").arg(app.systemName)
                 model: ListModel {
-                    ListElement { iconSource: "../images/network-vpn.svg"; text: qsTr("Manual connection"); page: "connection/ManualConnectPage.qml" }
-                    ListElement { iconSource: "../images/bluetooth.svg"; text: qsTr("Wireless setup"); page: "connection/BluetoothDiscoveryPage.qml"; }
+                    ListElement { iconSource: "../images/network-vpn.svg"; text: qsTr("Manual connection"); page: "ManualConnectPage.qml" }
+                    ListElement { iconSource: "../images/bluetooth.svg"; text: qsTr("Wireless setup"); page: "BluetoothDiscoveryPage.qml"; }
                     ListElement { iconSource: "../images/private-browsing.svg"; text: qsTr("Demo mode"); page: "" }
                     ListElement { iconSource: "../images/stock_application.svg"; text: qsTr("App settings"); page: "AppSettingsPage.qml" }
                 }
@@ -92,8 +98,11 @@ Page {
                         pageStack.push(model.get(index).page);
                         break;
                     case 2:
+                        var page = pageStack.push(Qt.resolvedUrl("ConnectingPage.qml"))
+                        page.cancel.connect(function() {
+                            Engine.connection.disconnect()
+                        })
                         Engine.connection.connect("nymea://nymea.nymea.io:2222")
-                        pageStack.push(connectingPage)
                         break;
                     }
                 }
@@ -200,19 +209,11 @@ Page {
                         swipe.enabled: discoveryDeviceDelegate.discoveryDevice.deviceType === DiscoveryDevice.DeviceTypeNetwork
 
                         onClicked: {
-                            switch (discoveryDeviceDelegate.discoveryDevice.deviceType) {
-                            case DiscoveryDevice.DeviceTypeNetwork:
-                                Engine.connection.connect(discoveryDeviceDelegate.discoveryDevice.toUrl(discoveryDeviceDelegate.defaultPortConfigIndex))
-                                break;
-                            case DiscoveryDevice.DeviceTypeBluetooth:
-                                Engine.connection.connect("rfcom://bluetooth.local?mac=" + model.bluetoothAddress + "&name=" + model.name)
-                                break;
-                            default:
-                                console.warn("Could not connect, unknown type")
-                                break;
-                            }
-
-                            pageStack.push(connectingPage)
+                            Engine.connection.connect(discoveryDeviceDelegate.discoveryDevice.toUrl(discoveryDeviceDelegate.defaultPortConfigIndex))
+                            var page = pageStack.push(Qt.resolvedUrl("ConnectingPage.qml"))
+                            page.cancel.connect(function() {
+                                Engine.connection.disconnect()
+                            })
                         }
 
                         swipe.right: MouseArea {
@@ -276,7 +277,10 @@ Page {
                     visible: discovery.discoveryModel.count === 0
                     text: qsTr("Demo mode (online)")
                     onClicked: {
-                        pageStack.push(connectingPage)
+                        var page = pageStack.push(Qt.resolvedUrl("ConnectingPage.qml"))
+                        page.cancel.connect(function() {
+                            Engine.connection.disconnect()
+                        })
                         Engine.connection.connect("nymea://nymea.nymea.io:2222")
                     }
                 }
@@ -294,40 +298,6 @@ Page {
                     }
 
                     BusyIndicator { }
-                }
-            }
-        }
-    }
-
-    Component {
-        id: connectingPage
-        Page {
-
-            ColumnLayout {
-                id: columnLayout
-                anchors { left: parent.left; right: parent.right; verticalCenter: parent.verticalCenter; margins: app.margins }
-                spacing: app.margins
-                BusyIndicator {
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    running: parent.visible
-                }
-                Label {
-                    text: qsTr("Connecting to<br>%1").arg(Engine.connection.url)
-                    font.pixelSize: app.largeFont
-                    Layout.fillWidth: true
-                    wrapMode: Text.WordWrap
-                    horizontalAlignment: Text.AlignHCenter
-                }
-            }
-
-            Button {
-                text: qsTr("Cancel")
-                anchors { left: parent.left; top: columnLayout.bottom; right: parent.right }
-                anchors.margins: app.margins
-                onClicked: {
-                    Engine.connection.disconnect()
-                    pageStack.pop(root);
-                    pageStack.push(discoveryPage);
                 }
             }
         }
@@ -511,14 +481,6 @@ Page {
                     Layout.fillWidth: true
                     elide: Text.ElideRight
                 }
-                Label {
-                    text: "IP Address:"
-                }
-                Label {
-                    text: dialog.discoveryDevice.hostAddress
-                    Layout.fillWidth: true
-                    elide: Text.ElideRight
-                }
                 ThinDivider { Layout.columnSpan: 2 }
                 Label {
                     Layout.columnSpan: 2
@@ -542,7 +504,9 @@ Page {
                                     ColumnLayout {
                                         Layout.fillWidth: true
                                         Label {
-                                            text: qsTr("Port: %1").arg(model.port)
+                                            Layout.fillWidth: true
+                                            elide: Text.ElideMiddle
+                                            text: "%1:%2".arg(model.address).arg(model.port)
                                         }
                                         Label {
                                             text: model.protocol === PortConfig.ProtocolNymeaRpc ? "nymea-rpc" : "websocket"

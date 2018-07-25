@@ -163,7 +163,7 @@ void UpnpDiscovery::readData()
 
         if (!m_foundDevices.contains(location) && isNymea) {
             m_foundDevices.append(location);
-            qDebug() << "Getting server data from:" << location;
+//            qDebug() << "Getting server data from:" << location;
             QNetworkReply *reply = m_networkAccessManager->get(QNetworkRequest(location));
             connect(reply, &QNetworkReply::sslErrors, [reply](const QList<QSslError> &errors){
                 reply->ignoreSslErrors(errors);
@@ -205,7 +205,7 @@ void UpnpDiscovery::networkReplyFinished(QNetworkReply *reply)
             // Check for old style websocketURL and nymeaRpcURL
             if (xml.name().toString() == "websocketURL") {
                 QUrl u(xml.readElementText());
-                PortConfig *pc = new PortConfig(u.port());
+                PortConfig *pc = new PortConfig(discoveredAddress, u.port());
                 pc->setProtocol(PortConfig::ProtocolWebSocket);
                 pc->setSslEnabled(u.scheme() == "wss");
                 portConfigList.append(pc);
@@ -214,7 +214,7 @@ void UpnpDiscovery::networkReplyFinished(QNetworkReply *reply)
             if (xml.name().toString() == "nymeaRpcURL") {
                 QUrl u(xml.readElementText());
                 qDebug() << "have url" << u << u.scheme();
-                PortConfig *pc = new PortConfig(u.port());
+                PortConfig *pc = new PortConfig(discoveredAddress, u.port());
                 pc->setProtocol(PortConfig::ProtocolNymeaRpc);
                 pc->setSslEnabled(u.scheme() == "nymeas");
                 portConfigList.append(pc);
@@ -223,7 +223,7 @@ void UpnpDiscovery::networkReplyFinished(QNetworkReply *reply)
             if (xml.name().toString() == "guhRpcURL") {
                 QUrl u(xml.readElementText());
                 qDebug() << "have url" << u << u.scheme();
-                PortConfig *pc = new PortConfig(u.port());
+                PortConfig *pc = new PortConfig(discoveredAddress, u.port());
                 pc->setProtocol(PortConfig::ProtocolNymeaRpc);
                 pc->setSslEnabled(u.scheme() == "guhs");
                 portConfigList.append(pc);
@@ -238,7 +238,7 @@ void UpnpDiscovery::networkReplyFinished(QNetworkReply *reply)
                             xml.readNext();
                             if (xml.name().toString() == "SCPDURL") {
                                 QUrl u(xml.readElementText());
-                                PortConfig *pc = new PortConfig(u.port());
+                                PortConfig *pc = new PortConfig(discoveredAddress, u.port());
                                 pc->setProtocol(u.scheme().startsWith("nymea") ? PortConfig::ProtocolNymeaRpc : PortConfig::ProtocolWebSocket);
                                 pc->setSslEnabled(u.scheme() == "nymeas" || u.scheme() == "wss");
                                 portConfigList.append(pc);
@@ -264,12 +264,11 @@ void UpnpDiscovery::networkReplyFinished(QNetworkReply *reply)
 
     DiscoveryDevice* device = m_discoveryModel->find(uuid);
     if (!device) {
-        device = new DiscoveryDevice(DiscoveryDevice::DeviceTypeNetwork, m_discoveryModel);
+        device = new DiscoveryDevice(m_discoveryModel);
         device->setUuid(uuid);
         qDebug() << "Adding new host to model";
         m_discoveryModel->addDevice(device);
     }
-    device->setHostAddress(discoveredAddress);
     device->setName(name);
     device->setVersion(version);
     foreach (PortConfig *pc, portConfigList) {

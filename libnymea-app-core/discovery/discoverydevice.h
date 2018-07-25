@@ -34,6 +34,7 @@ class PortConfig: public QObject
     Q_OBJECT
     Q_PROPERTY(int port READ port CONSTANT)
     Q_PROPERTY(Protocol protocol READ protocol NOTIFY protocolChanged)
+    Q_PROPERTY(QString hostAddress READ hostAddressString NOTIFY hostAddressChanged)
     Q_PROPERTY(bool sslEnabled READ sslEnabled NOTIFY sslEnabledChanged)
 public:
     enum Protocol {
@@ -41,22 +42,28 @@ public:
         ProtocolWebSocket
     };
     Q_ENUM(Protocol)
-    PortConfig(int port, QObject *parent = nullptr);
+    PortConfig(const QHostAddress &hostAddress, int port, QObject *parent = nullptr);
 
     int port() const;
 
     Protocol protocol() const;
     void setProtocol(Protocol protocol);
 
+    QHostAddress hostAddress() const;
+    QString hostAddressString() const;
+    void setHostAddress(const QString &hostAddress);
+
     bool sslEnabled() const;
     void setSslEnabled(bool sslEnabled);
 
 signals:
     void protocolChanged();
+    void hostAddressChanged();
     void sslEnabledChanged();
 
 private:
     int m_port = -1;
+    QHostAddress m_hostAddress;
     Protocol m_protocol = ProtocolNymeaRpc;
     bool m_sslEnabled = false;
 };
@@ -67,6 +74,7 @@ class PortConfigs: public QAbstractListModel
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
 public:
     enum Roles {
+        RoleAddress,
         RolePort,
         RoleProtocol,
         RoleSSLEnabled
@@ -95,35 +103,16 @@ private:
 class DiscoveryDevice: public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(DeviceType deviceType READ deviceType CONSTANT)
     Q_PROPERTY(QUuid uuid READ uuid CONSTANT)
-    Q_PROPERTY(QString hostAddress READ hostAddressString NOTIFY hostAddressChanged)
-    Q_PROPERTY(QString bluetoothAddress READ bluetoothAddressString NOTIFY bluetoothAddressChanged)
     Q_PROPERTY(QString name READ name NOTIFY nameChanged)
     Q_PROPERTY(QString version READ version NOTIFY versionChanged)
     Q_PROPERTY(PortConfigs* portConfigs READ portConfigs CONSTANT)
 
 public:
-    enum DeviceType {
-        DeviceTypeNetwork,
-        DeviceTypeBluetooth
-    };
-    Q_ENUM(DeviceType)
-
-    explicit DiscoveryDevice(DeviceType deviceType, QObject *parent = nullptr);
-
-    DeviceType deviceType() const;
+    explicit DiscoveryDevice(QObject *parent = nullptr);
 
     QUuid uuid() const;
     void setUuid(const QUuid &uuid);
-
-    QHostAddress hostAddress() const;
-    QString hostAddressString() const;
-    void setHostAddress(const QHostAddress &hostAddress);
-
-    QBluetoothAddress bluetoothAddress() const;
-    QString bluetoothAddressString() const;
-    void setBluetoothAddress(const QBluetoothAddress &bluetoothAddress);
 
     QString name() const;
     void setName(const QString &name);
@@ -137,15 +126,10 @@ public:
 
 signals:
     void nameChanged();
-    void hostAddressChanged();
-    void bluetoothAddressChanged();
     void versionChanged();
 
 private:
-    DeviceType m_deviceType = DeviceTypeNetwork;
     QUuid m_uuid;
-    QHostAddress m_hostAddress;
-    QBluetoothAddress m_bluetoothAddress;
     QString m_name;
     QString m_version;
     PortConfigs *m_portConfigs = nullptr;

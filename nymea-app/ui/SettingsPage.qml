@@ -30,6 +30,7 @@ Page {
 
                 Label {
                     Layout.fillWidth: true
+                    elide: Text.ElideMiddle
                     text: Engine.connection.url
                 }
                 Button {

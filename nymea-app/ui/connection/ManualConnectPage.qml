@@ -5,6 +5,7 @@ import Nymea 1.0
 import "../components"
 
 Page {
+    id: root
     objectName: "manualConnectPage"
     header: GuhHeader {
         text: qsTr("Manual connection")
@@ -96,7 +97,11 @@ Page {
 
                 print("Try to connect ", rpcUrl)
                 Engine.connection.connect(rpcUrl)
-                pageStack.push(connectingPage)
+                var page = pageStack.push(Qt.resolvedUrl("ConnectingPage.qml"))
+                page.cancel.connect(function() {
+                    Engine.connection.disconnect()
+                    pageStack.pop(root)
+                })
             }
         }
     }
