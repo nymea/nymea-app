@@ -109,7 +109,7 @@ ios: {
 }
 
 ubuntu_files.path += /
-ubuntu_files.files += ../manifest.json ../nymea-app.apparmor ../nymea-app.desktop
+ubuntu_files.files += ../manifest.json ../nymea-app.apparmor ../nymea-app.desktop ../packaging/android/appicon.svg
 INSTALLS += ubuntu_files
 
 BR=$$BRANDING
