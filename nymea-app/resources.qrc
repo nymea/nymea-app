@@ -234,5 +234,7 @@
         <file>ui/images/sensors/moisture.svg</file>
         <file>ui/images/sensors/pressure.svg</file>
         <file>ui/images/sensors/temperature.svg</file>
+        <file>ui/components/MainPageTile.qml</file>
+        <file>ui/images/configure.svg</file>
     </qresource>
 </RCC>

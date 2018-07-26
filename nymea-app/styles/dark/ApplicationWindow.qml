@@ -10,4 +10,9 @@ ApplicationWindow {
     Material.theme: Material.Dark
     Material.accent: guhAccent
     Material.primary: Material.background
+
+    function interfaceToColor(name) {
+        return "khaki"
+    }
+
 }

@@ -81,6 +81,7 @@ Page {
                     id: favoritesViewComponent
                     FavoritesView {
                         id: favoritesView
+                        objectName: "favorites"
                         width: swipeView.width
                         height: swipeView.height
                         property string title: qsTr("My favorites")
@@ -201,6 +202,7 @@ Page {
                 id: tabEntryComponent
                 MainPageTabButton {
                     property int pageIndex: 0
+//                    height: tabBar.height
                     onClicked: settings.currentMainViewIndex = pageIndex
                     alignment: app.landscape ? Qt.Horizontal : Qt.Vertical
                 }
