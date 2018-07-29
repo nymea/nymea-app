@@ -50,6 +50,9 @@
 #include "ruletemplates/stateevaluatortemplate.h"
 #include "ruletemplates/statedescriptortemplate.h"
 #include "ruletemplates/ruleactiontemplate.h"
+#include "awsclient.h"
+
+#include <QtQml/qqml.h>
 
 #include <QtQml/qqml.h>
 
@@ -170,6 +173,8 @@ void registerQmlTypes() {
     qmlRegisterUncreatableType<WirelessAccessPoint>(uri, 1, 0, "WirelessAccessPoints", "Can't create this in QML. Get it from the WirelessAccessPoints.");
     qmlRegisterUncreatableType<WirelessAccessPoints>(uri, 1, 0, "WirelessAccessPoints", "Can't create this in QML. Get it from the Engine instance.");
     qmlRegisterUncreatableType<WirelessAccessPointsProxy>(uri, 1, 0, "WirelessAccessPoints", "Can't create this in QML. Get it from the Engine instance.");
+
+    qmlRegisterUncreatableType<AWSClient>(uri, 1, 0, "AWSClient", "Can't create this in QML. Get it from Engine");
 
     qmlRegisterType<RuleTemplates>(uri, 1, 0, "RuleTemplates");
     qmlRegisterType<RuleTemplatesFilterModel>(uri, 1, 0, "RuleTemplatesFilterModel");

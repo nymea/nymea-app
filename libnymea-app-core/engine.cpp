@@ -25,8 +25,9 @@
 #include "logmanager.h"
 #include "tagsmanager.h"
 #include "basicconfiguration.h"
+#include "awsclient.h"
 
-Engine* Engine::s_instance = 0;
+Engine* Engine::s_instance = nullptr;
 
 Engine *Engine::instance()
 {
@@ -71,6 +72,11 @@ BluetoothDiscovery *Engine::bluetoothDiscovery() const
     return m_bluetoothDiscovery;
 }
 
+AWSClient *Engine::awsClient() const
+{
+    return m_aws;
+}
+
 NymeaConnection *Engine::connection() const
 {
     return m_connection;
@@ -85,7 +91,8 @@ Engine::Engine(QObject *parent) :
     m_logManager(new LogManager(m_jsonRpcClient, this)),
     m_tagsManager(new TagsManager(m_jsonRpcClient, this)),
     m_basicConfiguration(new BasicConfiguration(m_jsonRpcClient, this)),
-    m_bluetoothDiscovery(new BluetoothDiscovery(this))
+    m_bluetoothDiscovery(new BluetoothDiscovery(this)),
+    m_aws(new AWSClient(this))
 {
     connect(m_jsonRpcClient, &JsonRpcClient::connectedChanged, this, &Engine::onConnectedChanged);
     connect(m_jsonRpcClient, &JsonRpcClient::authenticationRequiredChanged, this, &Engine::onConnectedChanged);

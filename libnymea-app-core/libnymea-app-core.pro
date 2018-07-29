@@ -14,6 +14,8 @@ include(../config.pri)
 QT -= gui
 QT += network websockets bluetooth
 
+LIBS += -lssl -lcrypto
+
 INCLUDEPATH += $$top_srcdir/libnymea-common $$top_srcdir/QtZeroConf
 
 SOURCES += \
@@ -69,6 +71,8 @@ SOURCES += \
     ruletemplates/statedescriptortemplate.cpp \
     bluetoothinterface.cpp \
     discovery/bluetoothservicediscovery.cpp \
+    awsclient.cpp \
+    connection/srp.c
 
 HEADERS += \
     engine.h \
@@ -124,6 +128,7 @@ HEADERS += \
     ruletemplates/statedescriptortemplate.h \
     bluetoothinterface.h \
     discovery/bluetoothservicediscovery.h \
+    awsclient.h
 
 unix {
     target.path = /usr/lib

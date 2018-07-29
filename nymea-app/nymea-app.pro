@@ -8,6 +8,8 @@ INCLUDEPATH += $$top_srcdir/libnymea-common \
                $$top_srcdir/libnymea-app-core
 LIBS += -L$$top_builddir/libnymea-app-core/ -lnymea-app-core \
         -L$$top_builddir/libnymea-common/ -lnymea-common
+LIBS += -lssl -lcrypto
+
 win32:Debug:LIBS += -L$$top_builddir/libnymea-app-core/debug \
                     -L$$top_builddir/libnymea-common/debug
 win32:Release:LIBS += -L$$top_builddir/libnymea-app-core/release \

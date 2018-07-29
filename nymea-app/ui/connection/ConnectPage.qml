@@ -89,6 +89,7 @@ Page {
                     ListElement { iconSource: "../images/bluetooth.svg"; text: qsTr("Wireless setup"); page: "BluetoothDiscoveryPage.qml"; }
                     ListElement { iconSource: "../images/private-browsing.svg"; text: qsTr("Demo mode"); page: "" }
                     ListElement { iconSource: "../images/stock_application.svg"; text: qsTr("App settings"); page: "AppSettingsPage.qml" }
+                    ListElement { iconSource: "../images/stock_application.svg"; text: qsTr("Cloud login"); page: "AppSettingsPage.qml" }
                 }
                 onClicked: {
                     switch (index) {
@@ -104,6 +105,8 @@ Page {
                         })
                         Engine.connection.connect("nymea://nymea.nymea.io:2222")
                         break;
+                    case 4:
+                        Engine.awsClient.login();
                     }
                 }
             }

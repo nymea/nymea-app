@@ -32,6 +32,7 @@ class RuleManager;
 class LogManager;
 class TagsManager;
 class BasicConfiguration;
+class AWSClient;
 
 class Engine : public QObject
 {
@@ -43,6 +44,7 @@ class Engine : public QObject
     Q_PROPERTY(JsonRpcClient* jsonRpcClient READ jsonRpcClient CONSTANT)
     Q_PROPERTY(BasicConfiguration* basicConfiguration READ basicConfiguration CONSTANT)
     Q_PROPERTY(BluetoothDiscovery* bluetoothDiscovery READ bluetoothDiscovery CONSTANT)
+    Q_PROPERTY(AWSClient* awsClient READ awsClient CONSTANT)
 
 public:
     static Engine *instance();
@@ -58,9 +60,10 @@ public:
     LogManager *logManager() const;
     BasicConfiguration *basicConfiguration() const;
     BluetoothDiscovery *bluetoothDiscovery() const;
+    AWSClient* awsClient() const;
 
 private:
-    explicit Engine(QObject *parent = 0);
+    explicit Engine(QObject *parent = nullptr);
     static Engine *s_instance;
 
     NymeaConnection *m_connection;
@@ -71,6 +74,7 @@ private:
     TagsManager *m_tagsManager;
     BasicConfiguration *m_basicConfiguration;
     BluetoothDiscovery *m_bluetoothDiscovery;
+    AWSClient *m_aws;
 
 private slots:
     void onConnectedChanged();
