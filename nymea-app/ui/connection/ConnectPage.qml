@@ -106,7 +106,7 @@ Page {
                         Engine.connection.connect("nymea://nymea.nymea.io:2222")
                         break;
                     case 4:
-                        Engine.awsClient.login();
+                        Engine.awsClient.login("michael.zanetti@guh.io", "H22*xgemmmmm");
                     }
                 }
             }
