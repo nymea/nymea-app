@@ -107,7 +107,7 @@ void AWSClient::initiateAuthReply()
     params.insert("ChallengeName", challengeName.data());
 
     QVariantMap challengeResponses;
-    challengeResponses.insert("PASSWORD_CLAIM_SIGNATURE", srpB.toHex().data());
+    challengeResponses.insert("PASSWORD_CLAIM_SIGNATURE", QByteArray(bytes_M, len_M).toHex());
     challengeResponses.insert("PASSWORD_CLAIM_SECRET_BLOCK", secretBlock.data());
     challengeResponses.insert("USERNAME", username);
     challengeResponses.insert("TIMESTAMP", QLocale("en").toString(QDateTime::currentDateTime().toUTC(), "ddd MMM d HH:mm:ss UTC yyyy"));
@@ -137,10 +137,64 @@ void AWSClient::respondToAuthChallengeReply()
     qDebug() << "RespondToAuthChallenge reply" << reply->error() << reply->errorString() << qUtf8Printable(data);
 }
 
-void AWSClient::sign(QNetworkRequest &request)
+QByteArray AWSClient::createClaim(const QByteArray &secretBlock, const QByteArray &srpB, const QByteArray &salt)
 {
-    QCryptographicHash::Algorithm algorithm = QCryptographicHash::Sha256;
+//    byte[] authSecretBlock = System.Convert.FromBase64String(secretBlock);
+    QByteArray authSecretBlock = QByteArray::fromBase64(secretBlock);
 
-    QByteArray data = "AWS4-HMAC-SHA256 Credential=";
-    request.setRawHeader("Authorization", data);
+//	BigInteger B = new BigInteger(srp_b, 16);
+//    if (B.Mod(AuthenticationHelper.N).Equals(BigInteger.Zero))
+//	{
+//		throw new Exception("B cannot be zero");
+//	}
+    bool ok;
+    qlonglong b = srpB.toLongLong(&ok, 16);
+    if (!ok) {
+        qWarning() << "Error converting srpB to number";
+        return QByteArray();
+    }
+
+//	BigInteger salt = new BigInteger(saltString, 16);
+    qlonglong saltNumber = salt.toLongLong(&ok, 16);
+    if (!ok) {
+        qWarning() << "Error converting salt to number";
+        return QByteArray();
+    }
+
+    // We need to generate the key to hash the response based on our A and what AWS sent back
+    byte[] key = getPasswordAuthenticationKey(username, password, poolName, TupleAa, B, salt);
+
+    // HMAC our data with key (HKDF(S)) (the shared secret)
+    byte[] hmac;
+    try
+    {
+        HMAC mac = HMAC.Create("HMACSHA256");
+        mac.Key = key;
+
+        //bytes bytes bytes....
+        byte[] poolNameByte = Encoding.UTF8.GetBytes(poolName);
+        byte[] name = Encoding.UTF8.GetBytes(username);
+        //secretBlock here
+        byte[] timeByte = Encoding.UTF8.GetBytes(formattedTimestamp);
+        byte[] content = new byte[poolNameByte.Length + name.Length + authSecretBlock.Length + timeByte.Length];
+
+        Buffer.BlockCopy(poolNameByte, 0, content, 0, poolNameByte.Length);
+        Buffer.BlockCopy(name, 0, content, poolNameByte.Length, name.Length);
+        Buffer.BlockCopy(authSecretBlock, 0, content, poolNameByte.Length + name.Length, authSecretBlock.Length);
+        Buffer.BlockCopy(timeByte, 0, content, poolNameByte.Length + name.Length + authSecretBlock.Length, timeByte.Length);
+
+        hmac = mac.ComputeHash(content);
+    }
+    catch (Exception e)
+    {
+        throw new Exception("Exception in authentication", e);
+    }
+
+    return hmac;
 }
+
+QByteArray AWSClient::getPasswordAuthenticationKey(const QByteArray &username, const QByteArray &password)
+{
+
+}
+

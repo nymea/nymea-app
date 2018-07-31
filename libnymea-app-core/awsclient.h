@@ -20,6 +20,9 @@ private slots:
     void respondToAuthChallengeReply();
 
 private:
+    QByteArray createClaim(const QByteArray &secretBlock, const QByteArray &srpB, const QByteArray &salt);
+    QByteArray getPasswordAuthenticationKey(const QByteArray &username, const QByteArray &password);
+private:
     QNetworkAccessManager *m_nam = nullptr;
     SRPUser *m_srpUser = nullptr;
 
