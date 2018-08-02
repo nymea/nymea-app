@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=nymea:app
-Exec=nymeaapp
+Exec=usr/bin/nymea-app
 Icon=appicon.svg
 Terminal=false
 Type=Application

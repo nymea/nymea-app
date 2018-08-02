@@ -56,6 +56,15 @@ QObject *platformHelperProvider(QQmlEngine *engine, QJSEngine *scriptEngine)
 
 int main(int argc, char *argv[])
 {
+    QByteArray gridUnits = qgetenv("GRID_UNIT_PX");
+    qDebug() << "grid units" << gridUnits;
+    bool ok;
+    int gu = gridUnits.toInt(&ok);
+    if (ok && gu > 0) {
+        qreal scale = 1.0 * qRound(2.0 * gu / 8) / 2;
+        qDebug() << "Setting scale factor to" << scale;
+        qputenv("QT_SCALE_FACTOR", QByteArray::number(scale));
+    }
 
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication application(argc, argv);
