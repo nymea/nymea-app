@@ -1,4 +1,4 @@
-import QtQuick 2.9
+﻿import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 import Nymea 1.0
@@ -41,7 +41,9 @@ Page {
             TextField {
                 id: portTextInput
                 Layout.fillWidth: true
-                placeholderText: connectionTypeComboBox.currentIndex === 0 ? "2222" : "4444"
+                placeholderText: connectionTypeComboBox.currentIndex === 0 ?
+                                     secureCheckBox.checked ? "2223" : "2222"
+                                   : secureCheckBox.checked ? "4445" : "4444"
                 validator: IntValidator{bottom: 1; top: 65535;}
             }
 
