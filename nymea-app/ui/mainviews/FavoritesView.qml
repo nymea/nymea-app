@@ -34,7 +34,7 @@ Item {
             height: gridView.cellHeight
             text: device.name.toUpperCase()
             iconName: app.interfacesToIcon(deviceClass.interfaces)
-            iconColor: app.guhAccent
+            iconColor: app.accentColor
             visible: !fakeDragItem.visible || fakeDragItem.deviceId !== device.id
             batteryCritical: batteryCriticalState && batteryCriticalState.value === true
             disconnected: connectedState && connectedState.value === false
@@ -182,7 +182,7 @@ Item {
                 padding: 0; topPadding: 0; bottomPadding: 0
                 contentItem: ColorIcon {
                     name: "../images/light-off.svg"
-                    color: app.guhAccent
+                    color: app.accentColor
                 }
                 onClicked: {
                     var deviceClass = Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
@@ -225,7 +225,7 @@ Item {
                 padding: 0; topPadding: 0; bottomPadding: 0
                 contentItem: ColorIcon {
                     name: "../images/light-on.svg"
-                    color: app.guhAccent
+                    color: app.accentColor
                 }
                 onClicked: {
                     var deviceClass = Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
@@ -322,13 +322,13 @@ Item {
                     horizontalAlignment: Text.AlignRight
                     text: sensorsRoot.currentStateType.unitString
                     font.pixelSize: app.smallFont
-                    color: app.guhAccent
+                    color: app.accentColor
                 }
                 Label {
                     Layout.fillWidth: true
                     horizontalAlignment: Text.AlignRight
                     text: sensorsRoot.currentState.value// + " " + sensorsRoot.currentStateType.unitString
-                    color: app.guhAccent
+                    color: app.accentColor
                 }
             }
 
@@ -366,7 +366,7 @@ Item {
                 padding: 0; topPadding: 0; bottomPadding: 0
                 contentItem: ColorIcon {
                     name: "../images/up.svg"
-                    color: app.guhAccent
+                    color: app.accentColor
                 }
                 onClicked: {
                     var deviceClass = Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
@@ -400,7 +400,7 @@ Item {
                 padding: 0; topPadding: 0; bottomPadding: 0
                 contentItem: ColorIcon {
                     name: "../images/down.svg"
-                    color: app.guhAccent
+                    color: app.accentColor
                 }
                 onClicked: {
                     var deviceClass = Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);

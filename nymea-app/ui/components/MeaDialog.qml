@@ -25,7 +25,7 @@ Dialog {
                 id: headerColorIcon
                 Layout.preferredHeight: app.iconSize * 2
                 Layout.preferredWidth: height
-                color: app.guhAccent
+                color: app.accentColor
                 visible: name.length > 0
             }
 
@@ -35,7 +35,7 @@ Dialog {
                 Layout.margins: app.margins
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 text: root.title
-                color: app.guhAccent
+                color: app.accentColor
                 font.pixelSize: app.largeFont
             }
         }

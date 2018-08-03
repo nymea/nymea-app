@@ -196,7 +196,7 @@ Page {
                         }
                         progressive: true
                         secondaryIconName: "../images/network-secure.svg"
-                        secondaryIconColor: isTrusted ? app.guhAccent : Material.foreground
+                        secondaryIconColor: isTrusted ? app.accentColor : Material.foreground
                         swipe.enabled: discoveryDeviceDelegate.discoveryDevice.deviceType === DiscoveryDevice.DeviceTypeNetwork
 
                         onClicked: {
@@ -361,7 +361,7 @@ Page {
                         Layout.preferredHeight: app.iconSize * 2
                         Layout.preferredWidth: height
                         name: certDialog.hasOldFingerprint ? "../images/lock-broken.svg" : "../images/info.svg"
-                        color: certDialog.hasOldFingerprint ? "red" : app.guhAccent
+                        color: certDialog.hasOldFingerprint ? "red" : app.accentColor
                     }
 
                     Label {
@@ -369,7 +369,7 @@ Page {
                         Layout.fillWidth: true
                         wrapMode: Text.WordWrap
                         text: certDialog.hasOldFingerprint ? qsTr("Warning") : qsTr("Hi there!")
-                        color: certDialog.hasOldFingerprint ? "red" : app.guhAccent
+                        color: certDialog.hasOldFingerprint ? "red" : app.accentColor
                         font.pixelSize: app.largeFont
                     }
                 }
@@ -468,7 +468,7 @@ Page {
                         Layout.preferredHeight: app.iconSize * 2
                         Layout.preferredWidth: height
                         name: "../images/info.svg"
-                        color: app.guhAccent
+                        color: app.accentColor
                     }
 
                     Label {
@@ -476,7 +476,7 @@ Page {
                         Layout.fillWidth: true
                         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                         text: dialog.title
-                        color: app.guhAccent
+                        color: app.accentColor
                         font.pixelSize: app.largeFont
                     }
                 }
@@ -557,7 +557,7 @@ Page {
                                         visible: model.sslEnabled
                                         name: "../images/network-secure.svg"
                                         property bool isTrusted: Engine.connection.isTrusted(dialog.discoveryDevice.toUrl(index))
-                                        color: isTrusted ? app.guhAccent : keyColor
+                                        color: isTrusted ? app.accentColor : keyColor
                                     }
                                 }
                                 onClicked: {

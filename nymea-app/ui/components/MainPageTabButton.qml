@@ -21,14 +21,14 @@ TabButton {
             Layout.preferredHeight: app.iconSize
             Layout.alignment: Qt.AlignHCenter
             name: root.iconSource
-            color: root.checked ? app.guhAccent : keyColor
+            color: root.checked ? app.accentColor : keyColor
         }
         Label {
             Layout.fillWidth: root.alignment === Qt.Vertical
             text: root.text
             horizontalAlignment: Text.AlignHCenter
             font.pixelSize: app.smallFont
-            color: root.checked ? app.guhAccent : Material.foreground
+            color: root.checked ? app.accentColor : Material.foreground
         }
     }
 }

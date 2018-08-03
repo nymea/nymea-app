@@ -41,6 +41,7 @@ ToolBar {
             font.pixelSize: app.mediumFont
             elide: Text.ElideRight
             text: root.text
+            color: app.headerForegroundColor
         }
     }
 }

@@ -108,7 +108,7 @@ Page {
                                                     : qsTr("The passwords don't match.")
             wrapMode: Text.WordWrap
             Layout.preferredHeight: confirmPasswordTextField.height * 2
-            color: app.guhAccent
+            color: app.accentColor
         }
 
         Button {

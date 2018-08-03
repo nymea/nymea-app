@@ -42,12 +42,12 @@ Page {
             ColorIcon {
                 height: app.iconSize * 2
                 width: height
-                color: app.guhAccent
+                color: app.accentColor
                 name: "../images/info.svg"
             }
 
             Label {
-                color: app.guhAccent
+                color: app.accentColor
                 text: qsTr("Authentication required")
                 wrapMode: Text.WordWrap
                 Layout.fillWidth: true

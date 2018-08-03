@@ -4,5 +4,5 @@ import QtQuick.Layouts 1.2
 Rectangle {
     height: 1
     Layout.fillWidth: true
-    color: app.guhAccent
+    color: app.accentColor
 }

@@ -1,5 +1,5 @@
 import QtQuick 2.8
-import QtQuick.Controls 2.1
+import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.1
 import QtQuick.Layouts 1.2
 import Qt.labs.settings 1.0
@@ -13,7 +13,12 @@ ApplicationWindow {
     height: 580
     visibility: ApplicationWindow.AutomaticVisibility
     font: Qt.application.font
+
+    // Those variables must be present in the Style
     title: appName
+    Material.primary: primaryColor
+    Material.accent: accentColor
+    Material.foreground: foregroundColor
 
     property int margins: 14
     property int bigMargins: 20
@@ -24,9 +29,9 @@ ApplicationWindow {
     property int iconSize: 30
     property int delegateHeight: 60
 
-    property bool landscape: app.width > app.height
+    readonly property bool landscape: app.width > app.height
 
-    property var settings: Settings {
+    readonly property var settings: Settings {
         property string lastConnectedHost: ""
         property alias viewMode: app.visibility
         property bool returnToHome: false
@@ -258,21 +263,25 @@ ApplicationWindow {
         return "";
     }
 
+    property var fallbackColors: {
+        "temperaturesensor": "red",
+        "humiditysensor": "deepskyblue",
+        "moisturesensor":"blue",
+        "lightsensor": "orange",
+        "conductivitysensor": "green",
+        "pressuresensor": "grey"
+    }
+
     function interfaceToColor(name) {
-        switch (name) {
-        case "temperaturesensor":
-            return "red";
-        case "humiditysensor":
-            return "deepskyblue";
-        case "moisturesensor":
-            return "blue";
-        case "lightsensor":
-            return "orange";
-        case "conductivitysensor":
-            return "green";
-        case "pressuresensor":
-            return "grey";
+        // Try to load color map from style
+        if (interfaceColors[name]) {
+            return interfaceColors[name];
         }
+
+        if (fallbackColors[name]) {
+            return fallbackColors[name];
+        }
+
         return "grey";
     }
 

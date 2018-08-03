@@ -149,7 +149,7 @@ Page {
                     return getWirelessStatusString()
                 }
 
-                iconColor: model.selectedNetwork ? app.guhAccent : "#808080"
+                iconColor: model.selectedNetwork ? app.accentColor : "#808080"
                 iconName:  {
                     if (model.protected) {
                         if (model.signalStrength <= 25)
@@ -316,7 +316,7 @@ Page {
                         Layout.preferredHeight: app.iconSize
                         Layout.preferredWidth: app.iconSize
                         name: "../images/eye.svg"
-                        color: passwordTextField.echoMode === TextInput.Normal ? app.guhAccent : keyColor
+                        color: passwordTextField.echoMode === TextInput.Normal ? app.accentColor : keyColor
                         MouseArea {
                             anchors.fill: parent
                             anchors.margins: -app.margins / 2

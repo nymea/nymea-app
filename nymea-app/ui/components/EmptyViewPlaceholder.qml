@@ -21,7 +21,7 @@ ColumnLayout {
         Layout.fillWidth: true
         wrapMode: Text.WordWrap
         horizontalAlignment: Text.AlignHCenter
-        color: app.guhAccent
+        color: app.accentColor
     }
     Label {
         id: textLabel

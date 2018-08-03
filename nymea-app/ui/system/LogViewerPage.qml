@@ -13,7 +13,7 @@ Page {
 
         HeaderButton {
             imageSource: "../images/go-down.svg"
-            color: root.autoScroll ? app.guhAccent : keyColor
+            color: root.autoScroll ? app.accentColor : keyColor
             onClicked: root.autoScroll = !root.autoScroll
         }
     }

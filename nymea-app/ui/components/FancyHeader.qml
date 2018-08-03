@@ -1,6 +1,7 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
+import QtQuick.Controls.Material 2.1
 
 ToolBar {
     id: root
@@ -33,6 +34,7 @@ ToolBar {
             font.pixelSize: app.mediumFont
             elide: Text.ElideRight
             text: root.title
+            color: app.headerForegroundColor
         }
 
         HeaderButton {
@@ -58,6 +60,7 @@ ToolBar {
             font.pixelSize: app.mediumFont
             elide: Text.ElideRight
             text: qsTr("menu")
+            color: app.headerForegroundColor
         }
 
         HeaderButton {
@@ -96,7 +99,7 @@ ToolBar {
                         anchors.fill: parent
                         anchors.margins: app.margins / 2
                         border.width: 1
-                        border.color: app.guhAccent
+                        border.color: app.accentColor
                         color: "transparent"
                         ColumnLayout {
                             anchors.fill: parent
@@ -116,6 +119,7 @@ ToolBar {
                                 horizontalAlignment: Text.AlignHCenter
                                 verticalAlignment: Text.AlignVCenter
                                 font.pixelSize: app.extraSmallFont
+                                color: app.headerForegroundColor
                             }
                         }
                     }

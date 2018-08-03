@@ -50,7 +50,7 @@ Item {
                         Layout.preferredHeight: app.iconSize
                         Layout.preferredWidth: height
                         name: "../images/event.svg"
-                        color: app.guhAccent
+                        color: app.accentColor
                     }
 
                     ColumnLayout {
@@ -80,7 +80,7 @@ Item {
 //                                        for (var k = 0; k < eventDescriptor.paramDescriptors.count; k++) {
 //                                            var paramDescriptor = eventDescriptor.paramDescriptors.get(k);
 //                                            if (paramDescriptor.value === model.value) {
-//                                                return app.guhAccent;
+//                                                return app.accentColor;
 //                                            }
 //                                        }
 //                                    }

@@ -137,7 +137,7 @@ Page {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
                     mode: settings.graphStyle
-                    color: app.guhAccent
+                    color: app.accentColor
 
                     Timer {
                         id: updateTimer

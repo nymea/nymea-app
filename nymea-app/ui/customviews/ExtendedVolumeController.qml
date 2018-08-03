@@ -22,7 +22,7 @@ CustomViewBase {
             ColorIcon {
                 anchors.fill: parent
                 name: "../images/audio-speakers-muted-symbolic.svg"
-                color: parent.isMuted ? app.guhAccent : keyColor
+                color: parent.isMuted ? app.accentColor : keyColor
             }
 
             onClicked: {

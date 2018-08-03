@@ -78,7 +78,7 @@ Page {
             id: ruleDelegate
             width: parent.width
             iconName: "../images/" + (model.executable ? (iconTag ? iconTag.value : "slideshow") : "magic") + ".svg"
-            iconColor: model.executable ? (colorTag ? colorTag.value : app.guhAccent) : !model.enabled ? "red" : (model.active ? app.guhAccent : "grey")
+            iconColor: model.executable ? (colorTag ? colorTag.value : app.accentColor) : !model.enabled ? "red" : (model.active ? app.accentColor : "grey")
             text: model.name
             canDelete: true
 

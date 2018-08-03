@@ -11,7 +11,7 @@ SwipeDelegate {
 
     property string iconName
     property int iconSize: app.iconSize
-    property color iconColor: app.guhAccent
+    property color iconColor: app.accentColor
     property alias secondaryIconName: secondaryIcon.name
     property alias secondaryIconColor: secondaryIcon.color
     property alias tertiaryIconName: tertiaryIcon.name

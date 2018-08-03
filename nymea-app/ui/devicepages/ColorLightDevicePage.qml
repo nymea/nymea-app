@@ -29,7 +29,7 @@ DevicePageBase {
                 ColorIcon {
                     anchors.fill: parent
                     name: "../images/light-off.svg"
-                    color: powerRow.powerState.value === true ? keyColor : app.guhAccent
+                    color: powerRow.powerState.value === true ? keyColor : app.accentColor
                 }
                 onClicked: {
                     var actionType = root.deviceClass.actionTypes.findByName("power");
@@ -63,7 +63,7 @@ DevicePageBase {
                 ColorIcon {
                     anchors.fill: parent
                     name: "../images/light-on.svg"
-                    color: powerRow.powerState.value === true ? app.guhAccent : keyColor
+                    color: powerRow.powerState.value === true ? app.accentColor : keyColor
                 }
                 onClicked: {
                     var actionType = root.deviceClass.actionTypes.findByName("power");

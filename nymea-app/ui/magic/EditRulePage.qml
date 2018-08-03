@@ -317,7 +317,7 @@ Page {
                                 width: height
                                 color: "transparent"
                                 border.width: 2
-                                border.color: modelData === root.ruleColor ? app.guhAccent : "transparent"
+                                border.color: modelData === root.ruleColor ? app.accentColor : "transparent"
                                 anchors.centerIn: parent
                             }
 
@@ -347,7 +347,7 @@ Page {
                                 width: height
                                 color: "transparent"
                                 border.width: 2
-                                border.color: modelData === root.ruleIcon ? app.guhAccent : "transparent"
+                                border.color: modelData === root.ruleIcon ? app.accentColor : "transparent"
                                 anchors.centerIn: parent
                             }
 

@@ -69,7 +69,7 @@ Page {
                 Layout.rightMargin: app.margins
                 Layout.topMargin: app.margins
                 text: qsTr("Thing parameters").toUpperCase()
-                color: app.guhAccent
+                color: app.accentColor
             }
 
             Repeater {

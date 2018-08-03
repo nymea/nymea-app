@@ -9,7 +9,7 @@ MainPageTile {
     id: root
     text: interfaceToString(model.name).toUpperCase()
     iconName: interfaceToIcon(model.name)
-    iconColor: app.guhAccent
+    iconColor: app.accentColor
     disconnected: devicesSubProxyConnectables.count > 0
     batteryCritical: devicesSubProxyBattery.count > 0
 
@@ -131,7 +131,7 @@ MainPageTile {
                     id: icon
                     width: app.iconSize
                     height: width
-                    color: app.guhAccent
+                    color: app.accentColor
 
                     name: {
                         switch (model.name) {
@@ -251,7 +251,7 @@ MainPageTile {
 
             Label {
                 font.pixelSize: app.largeFont
-                color: app.guhAccent
+                color: app.accentColor
                 Layout.fillWidth: true
                 horizontalAlignment: Text.AlignRight
                 text: {
