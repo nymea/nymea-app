@@ -47,15 +47,34 @@ Page {
 
     ListView {
         anchors.fill: parent
-        model: Engine.deviceManager.devices
+        model: DevicesProxy {
+            id: deviceProxy
+            devices: Engine.deviceManager.devices
+            groupByInterface: true
+        }
+        section.property: "baseInterface"
+        section.criteria: ViewSection.FullString
+        section.delegate: ColumnLayout {
+            width: parent.width
+            Label {
+                Layout.fillWidth: true
+                Layout.leftMargin: app.margins
+                Layout.rightMargin: app.margins
+                Layout.topMargin: app.margins
+                text: app.interfaceToString(section)
+                horizontalAlignment: Text.AlignRight
+            }
+            ThinDivider {}
+        }
+
         delegate: ThingDelegate {
-            device: Engine.deviceManager.devices.get(index)
+            device: deviceProxy.get(index)
             canDelete: true
             onClicked: {
-                pageStack.push(Qt.resolvedUrl("devicepages/ConfigureThingPage.qml"), {device: Engine.deviceManager.devices.get(index)})
+                pageStack.push(Qt.resolvedUrl("devicepages/ConfigureThingPage.qml"), {device: deviceProxy.get(index)})
             }
             onDeleteClicked: {
-                d.deviceToRemove = Engine.deviceManager.devices.get(index);
+                d.deviceToRemove = deviceProxy.get(index);
                 Engine.deviceManager.removeDevice(d.deviceToRemove.id)
             }
         }

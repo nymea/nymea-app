@@ -127,6 +127,20 @@ void DevicesProxy::setFilterDisconnected(bool filterDisconnected)
     }
 }
 
+bool DevicesProxy::groupByInterface() const
+{
+    return m_groupByInterface;
+}
+
+void DevicesProxy::setGroupByInterface(bool groupByInterface)
+{
+    if (m_groupByInterface != groupByInterface) {
+        m_groupByInterface = groupByInterface;
+        emit groupByInterfaceChanged();
+        invalidate();
+    }
+}
+
 Device *DevicesProxy::get(int index) const
 {
     return getInternal(mapToSource(this->index(index, 0)).row());
@@ -147,10 +161,17 @@ Device *DevicesProxy::getInternal(int source_index) const
 
 bool DevicesProxy::lessThan(const QModelIndex &left, const QModelIndex &right) const
 {
-    QVariant leftName = sourceModel()->data(left, Devices::RoleName);
-    QVariant rightName = sourceModel()->data(right, Devices::RoleName);
+    if (m_groupByInterface) {
+        QString leftBaseInterface = sourceModel()->data(left, Devices::RoleBaseInterface).toString();
+        QString rightBaseInterface = sourceModel()->data(right, Devices::RoleBaseInterface).toString();
+        if (leftBaseInterface != rightBaseInterface) {
+            return QString::localeAwareCompare(leftBaseInterface, rightBaseInterface) < 0;
+        }
+    }
+    QString leftName = sourceModel()->data(left, Devices::RoleName).toString();
+    QString rightName = sourceModel()->data(right, Devices::RoleName).toString();
 
-    return QString::localeAwareCompare(leftName.toString(), rightName.toString()) < 0;
+    return QString::localeAwareCompare(leftName, rightName) < 0;
 }
 
 bool DevicesProxy::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
