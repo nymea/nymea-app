@@ -312,7 +312,7 @@ Page {
                     running: parent.visible
                 }
                 Label {
-                    text: qsTr("Trying to connect to %1...").arg(Engine.connection.url)
+                    text: qsTr("Connecting to<br>%1").arg(Engine.connection.url)
                     font.pixelSize: app.largeFont
                     Layout.fillWidth: true
                     wrapMode: Text.WordWrap

@@ -130,6 +130,7 @@
         <file>ui/images/dialog-error-symbolic.svg</file>
         <file>ui/images/send.svg</file>
         <file>ui/images/attention.svg</file>
+        <file>ui/images/question.svg</file>
         <file>ui/devicepages/InputTriggerDevicePage.qml</file>
         <file>ui/images/clock-app-symbolic.svg</file>
         <file>ui/devicepages/StateLogPage.qml</file>

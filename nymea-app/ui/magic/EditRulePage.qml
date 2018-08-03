@@ -207,7 +207,18 @@ Page {
 
     header: GuhHeader {
         text: root.rule.name.length === 0 ? qsTr("Add new magic") : qsTr("Edit %1").arg(root.rule.name)
-        onBackPressed: root.cancel()
+        onBackPressed: {
+            var component = Qt.createComponent(Qt.resolvedUrl("../components/MeaDialog.qml"));
+            var popup = component.createObject(root, {headerIcon: "../images/question.svg",
+                                                   title: qsTr("Cancel?"),
+                                                   text: qsTr("Any changes to the rule will be lost."),
+                                                   standardButtons: Dialog.Yes | Dialog.No
+                                               })
+            popup.accepted.connect(function() {
+                root.cancel();
+            })
+            popup.open();
+        }
 
         HeaderButton {
             imageSource: "../images/tick.svg"
