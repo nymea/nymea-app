@@ -119,7 +119,7 @@ void BluetoothServiceDiscovery::onServiceDiscoveryFinished()
     // If discover was called, but never stopDiscover, continue discovery
     if (m_enabed) {
         if (!m_localDevice->isValid() || m_localDevice->hostMode() == QBluetoothLocalDevice::HostPoweredOff) {
-            qWarning() << "BluetoothServiceDiscovery: Not restart discovery, the bluetooth adapter is not available.";
+            qWarning() << "BluetoothServiceDiscovery: Not restarting discovery, the bluetooth adapter is not available.";
             return;
         }
 

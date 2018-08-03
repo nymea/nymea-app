@@ -72,7 +72,7 @@ void ZeroconfDiscovery::serviceEntryAdded(const QZeroConfService &entry)
     if (!device) {
         device = new DiscoveryDevice(DiscoveryDevice::DeviceTypeNetwork, m_discoveryModel);
         device->setUuid(uuid);
-//        qDebug() << "Adding new host to model";
+        qDebug() << "ZeroConf: Adding new host to model";
         m_discoveryModel->addDevice(device);
     }
     device->setHostAddress(entry.ip());
@@ -80,7 +80,7 @@ void ZeroconfDiscovery::serviceEntryAdded(const QZeroConfService &entry)
     device->setVersion(version);
     PortConfig *portConfig = device->portConfigs()->find(entry.port());
     if (!portConfig) {
-//        qDebug() << "Adding new port config";
+        qDebug() << "ZeroConf: Adding new port config";
         portConfig = new PortConfig(entry.port());
         device->portConfigs()->insert(portConfig);
     }
