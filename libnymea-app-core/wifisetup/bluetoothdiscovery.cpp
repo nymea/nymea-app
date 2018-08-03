@@ -157,22 +157,22 @@ void BluetoothDiscovery::deviceDiscovered(const QBluetoothDeviceInfo &deviceInfo
 
     // Check if we already have added this device info
     foreach (BluetoothDeviceInfo *di, m_deviceInfos->deviceInfos()) {
-        if (di->name() == deviceInformation->name() && di->address() == deviceInformation->address()) {
+        if (di->address() == deviceInformation->address()) {
             qWarning() << "BluetoothDiscover: device" << deviceInformation->name() << "(" << deviceInformation->address() << ") already added";
             deviceInformation->deleteLater();
-            deviceInformation = nullptr;
+            return;
         }
     }
 
-    if (deviceInformation)
-        m_deviceInfos->addBluetoothDeviceInfo(deviceInformation);
-
+    m_deviceInfos->addBluetoothDeviceInfo(deviceInformation);
 }
 
 void BluetoothDiscovery::discoveryFinished()
 {
     qDebug() << "BluetoothDiscovery: Discovery finished";
-    setDiscovering(false);
+    if (m_enabled) {
+        m_discoveryAgent->start();
+    }
 }
 
 void BluetoothDiscovery::onError(const QBluetoothDeviceDiscoveryAgent::Error &error)

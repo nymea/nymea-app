@@ -10,24 +10,22 @@ Page {
     header: GuhHeader {
         text: qsTr("Bluetooth discovery")
         onBackPressed: pageStack.pop()
-
-        HeaderButton {
-            imageSource: Qt.resolvedUrl("../images/refresh.svg")
-            onClicked: {
-                if (Engine.bluetoothDiscovery.bluetoothAvailable) {
-                    Engine.bluetoothDiscovery.start()
-                }
-            }
-            enabled: Engine.bluetoothDiscovery.bluetoothAvailable && Engine.bluetoothDiscovery.bluetoothEnabled && !Engine.bluetoothDiscovery.discovering
-        }
     }
-
 
     Component.onCompleted: Engine.bluetoothDiscovery.start()
 
     function setupDevice(name, btAddress) {
         Engine.bluetoothDiscovery.stop()
         pageStack.push(connectingPageComponent, { name: name, address: btAddress } )
+    }
+
+    Connections {
+        target: pageStack
+        onCurrentItemChanged: {
+            if (pageStack.currentItem === root) {
+                Engine.bluetoothDiscovery.start();
+            }
+        }
     }
 
     ColumnLayout {
