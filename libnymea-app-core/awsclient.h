@@ -17,7 +17,7 @@ public:
 
 private slots:
     void initiateAuthReply();
-    void respondToAuthChallengeReply();
+    void getIdReply();
 
 private:
     QByteArray createClaim(const QByteArray &secretBlock, const QByteArray &srpB, const QByteArray &salt);
