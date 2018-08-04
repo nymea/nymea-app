@@ -1,6 +1,9 @@
 #include "bluetoothservicediscovery.h"
 
 #include "discoverymodel.h"
+#include "discoverydevice.h"
+
+#include <QTimer>
 
 BluetoothServiceDiscovery::BluetoothServiceDiscovery(DiscoveryModel *discoveryModel, QObject *parent) :
     QObject(parent),
@@ -45,7 +48,11 @@ void BluetoothServiceDiscovery::discover()
     qDebug() << "BluetoothServiceDiscovery: Start scanning for service" << m_nymeaServiceUuid.toString();
     setDiscovering(true);
     m_serviceDiscovery->setUuidFilter(m_nymeaServiceUuid);
-    m_serviceDiscovery->start(QBluetoothServiceDiscoveryAgent::FullDiscovery);
+
+    // Delay restarting as Bluez might not be ready just yet
+    QTimer::singleShot(500, this, [this]() {
+        m_serviceDiscovery->start(QBluetoothServiceDiscoveryAgent::FullDiscovery);
+    });
 }
 
 void BluetoothServiceDiscovery::stopDiscovery()
@@ -96,14 +103,16 @@ void BluetoothServiceDiscovery::onServiceDiscovered(const QBluetoothServiceInfo 
     if (serviceInfo.serviceClassUuids().first() == QBluetoothUuid(QUuid("997936b5-d2cd-4c57-b41b-c6048320cd2b"))) {
         qDebug() << "BluetoothServiceDiscovery: Found nymea rfcom service!";
 
-        DiscoveryDevice* device = m_discoveryModel->find(serviceInfo.device().address());
-        if (!device) {
-            device = new DiscoveryDevice(DiscoveryDevice::DeviceTypeBluetooth, this);
-            qDebug() << "BluetoothServiceDiscovery: Adding new bluetooth host to model";
-            device->setName(QString("%1 (%2)").arg(serviceInfo.serviceName()).arg(serviceInfo.device().name()));
-            device->setBluetoothAddress(serviceInfo.device().address());
-            m_discoveryModel->addDevice(device);
-        }
+//        DiscoveryDevice* device = m_discoveryModel->find(serviceInfo.device().address());
+//        if (!device) {
+//            device = new DiscoveryDevice(DiscoveryDevice::DeviceTypeBluetooth, this);
+//            qDebug() << "BluetoothServiceDiscovery: Adding new bluetooth host to model";
+//            device->setName(QString("%1 (%2)").arg(serviceInfo.serviceName()).arg(serviceInfo.device().name()));
+////            device->setBluetoothAddress(serviceInfo.device().address());
+//            PortConfig pc;
+
+//            m_discoveryModel->addDevice(device);
+//        }
     }
 }
 

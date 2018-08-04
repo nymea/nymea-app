@@ -42,7 +42,7 @@ ApplicationWindow {
     }
 
     Component.onCompleted: {
-        pageStack.push(Qt.resolvedUrl("ConnectPage.qml"))
+        pageStack.push(Qt.resolvedUrl("connection/ConnectPage.qml"))
     }
 
     Connections {
@@ -77,7 +77,7 @@ ApplicationWindow {
         print("calling init. Auth required:", Engine.jsonRpcClient.authenticationRequired, "initial setup required:", Engine.jsonRpcClient.initialSetupRequired, "jsonrpc connected:", Engine.jsonRpcClient.connected)
         pageStack.clear()
         if (!Engine.connection.connected) {
-            pageStack.push(Qt.resolvedUrl("ConnectPage.qml"))
+            pageStack.push(Qt.resolvedUrl("connection/ConnectPage.qml"))
             return;
         }
 
@@ -101,7 +101,7 @@ ApplicationWindow {
         } else if (Engine.jsonRpcClient.connected) {
             pageStack.push(Qt.resolvedUrl("MainPage.qml"))
         } else {
-            pageStack.push(Qt.resolvedUrl("ConnectPage.qml"))
+            pageStack.push(Qt.resolvedUrl("connection/ConnectPage.qml"))
         }
     }
 

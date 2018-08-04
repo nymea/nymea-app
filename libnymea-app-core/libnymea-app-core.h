@@ -9,6 +9,7 @@
 #include "devicediscovery.h"
 #include "discovery/nymeadiscovery.h"
 #include "discovery/discoverymodel.h"
+#include "discovery/discoverydevice.h"
 #include "interfacesmodel.h"
 #include "rulemanager.h"
 #include "models/rulesfiltermodel.h"
@@ -49,6 +50,8 @@
 #include "ruletemplates/stateevaluatortemplate.h"
 #include "ruletemplates/statedescriptortemplate.h"
 #include "ruletemplates/ruleactiontemplate.h"
+
+#include <QtQml/qqml.h>
 
 static QObject* interfacesModel_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
