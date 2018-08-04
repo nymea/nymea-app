@@ -3,6 +3,8 @@
 #include "discoverymodel.h"
 #include "discoverydevice.h"
 
+#include <QTimer>
+
 BluetoothServiceDiscovery::BluetoothServiceDiscovery(DiscoveryModel *discoveryModel, QObject *parent) :
     QObject(parent),
     m_discoveryModel(discoveryModel)
@@ -46,7 +48,11 @@ void BluetoothServiceDiscovery::discover()
     qDebug() << "BluetoothServiceDiscovery: Start scanning for service" << m_nymeaServiceUuid.toString();
     setDiscovering(true);
     m_serviceDiscovery->setUuidFilter(m_nymeaServiceUuid);
-    m_serviceDiscovery->start(QBluetoothServiceDiscoveryAgent::FullDiscovery);
+
+    // Delay restarting as Bluez might not be ready just yet
+    QTimer::singleShot(500, this, [this]() {
+        m_serviceDiscovery->start(QBluetoothServiceDiscoveryAgent::FullDiscovery);
+    });
 }
 
 void BluetoothServiceDiscovery::stopDiscovery()
