@@ -73,7 +73,6 @@ QMAKE_EXTRA_TARGETS += osxbundle
 
 # Translations support
 TRANSLATIONS += $$files($$absolute_path(nymea-app)/translations/*.ts, true)
+system("lrelease $$TRANSLATIONS")
 lrelease.commands = lrelease $$TRANSLATIONS
-lrelease-qmake_all.commands = lrelease $$TRANSLATIONS
-QMAKE_EXTRA_TARGETS += lrelease lrelease-make_first lrelease-qmake_all lrelease-install_subtargets
-nymea-app.depends += lrelease
+QMAKE_EXTRA_TARGETS += lrelease
