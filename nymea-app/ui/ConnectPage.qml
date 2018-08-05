@@ -266,7 +266,7 @@ Page {
                     Layout.rightMargin: app.margins
                     visible: discovery.discoveryModel.count === 0
                     text: qsTr("Start wireless setup")
-                    onClicked: pageStack.push(Qt.resolvedUrl("BluetoothDiscoveryPage.qml"))
+                    onClicked: pageStack.push(Qt.resolvedUrl("connection/BluetoothDiscoveryPage.qml"))
                 }
                 Button {
                     Layout.fillWidth: true
