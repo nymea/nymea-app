@@ -1,17 +1,17 @@
-#ifndef TCPSOCKETINTERFACE_H
-#define TCPSOCKETINTERFACE_H
+#ifndef TCPSOCKETTRANSPORT_H
+#define TCPSOCKETTRANSPORT_H
 
-#include "nymeainterface.h"
+#include "nymeatransportinterface.h"
 
 #include <QObject>
 #include <QSslSocket>
 #include <QUrl>
 
-class TcpSocketInterface : public NymeaInterface
+class TcpSocketTransport: public NymeaTransportInterface
 {
     Q_OBJECT
 public:
-    explicit TcpSocketInterface(QObject *parent = nullptr);
+    explicit TcpSocketTransport(QObject *parent = nullptr);
 
     QStringList supportedSchemes() const override;
 
@@ -32,4 +32,4 @@ private:
     QUrl m_url;
 };
 
-#endif // TCPSOCKETINTERFACE_H
+#endif // TCPSOCKETTRANSPROT_H

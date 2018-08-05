@@ -7,7 +7,7 @@
 #include <QAbstractSocket>
 #include <QUrl>
 
-class NymeaInterface;
+class NymeaTransportInterface;
 
 class NymeaConnection : public QObject
 {
@@ -19,6 +19,8 @@ class NymeaConnection : public QObject
 
 public:
     explicit NymeaConnection(QObject *parent = nullptr);
+
+    void registerTransport(NymeaTransportInterface *transport);
 
     Q_INVOKABLE void connect(const QString &url);
     Q_INVOKABLE void disconnect();
@@ -46,11 +48,10 @@ private slots:
     void onDisconnected();
 
 private:
-    void registerInterface(NymeaInterface *iface);
 
 private:
-    QHash<QString, NymeaInterface*> m_interfaces;
-    NymeaInterface *m_currentInterface = nullptr;
+    QHash<QString, NymeaTransportInterface*> m_transports;
+    NymeaTransportInterface *m_currentTransport = nullptr;
     QUrl m_currentUrl;
 };
 

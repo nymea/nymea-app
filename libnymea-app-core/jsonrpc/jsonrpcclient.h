@@ -26,7 +26,7 @@
 #include <QPointer>
 #include <QVersionNumber>
 
-#include "nymeaconnection.h"
+#include "connection/nymeaconnection.h"
 #include "jsonhandler.h"
 
 class JsonRpcReply;

@@ -1,27 +1,27 @@
-#include "tcpsocketinterface.h"
+#include "tcpsockettransport.h"
 
 #include <QUrl>
 
-TcpSocketInterface::TcpSocketInterface(QObject *parent) : NymeaInterface(parent)
+TcpSocketTransport::TcpSocketTransport(QObject *parent) : NymeaTransportInterface(parent)
 {
-    QObject::connect(&m_socket, &QSslSocket::connected, this, &TcpSocketInterface::onConnected);
-    QObject::connect(&m_socket, &QSslSocket::disconnected, this, &TcpSocketInterface::disconnected);
-    QObject::connect(&m_socket, &QSslSocket::encrypted, this, &TcpSocketInterface::onEncrypted);
+    QObject::connect(&m_socket, &QSslSocket::connected, this, &TcpSocketTransport::onConnected);
+    QObject::connect(&m_socket, &QSslSocket::disconnected, this, &TcpSocketTransport::disconnected);
+    QObject::connect(&m_socket, &QSslSocket::encrypted, this, &TcpSocketTransport::onEncrypted);
     typedef void (QSslSocket:: *sslErrorsSignal)(const QList<QSslError> &);
-    QObject::connect(&m_socket, static_cast<sslErrorsSignal>(&QSslSocket::sslErrors), this, &TcpSocketInterface::sslErrors);
-    QObject::connect(&m_socket, &QSslSocket::readyRead, this, &TcpSocketInterface::socketReadyRead);
+    QObject::connect(&m_socket, static_cast<sslErrorsSignal>(&QSslSocket::sslErrors), this, &TcpSocketTransport::sslErrors);
+    QObject::connect(&m_socket, &QSslSocket::readyRead, this, &TcpSocketTransport::socketReadyRead);
     typedef void (QSslSocket:: *errorSignal)(QAbstractSocket::SocketError);
-    QObject::connect(&m_socket, static_cast<errorSignal>(&QSslSocket::error), this, &TcpSocketInterface::error);
-    QObject::connect(&m_socket, &QSslSocket::stateChanged, this, &TcpSocketInterface::onSocketStateChanged);
+    QObject::connect(&m_socket, static_cast<errorSignal>(&QSslSocket::error), this, &TcpSocketTransport::error);
+    QObject::connect(&m_socket, &QSslSocket::stateChanged, this, &TcpSocketTransport::onSocketStateChanged);
 
 }
 
-QStringList TcpSocketInterface::supportedSchemes() const
+QStringList TcpSocketTransport::supportedSchemes() const
 {
     return {"nymea", "nymeas"};
 }
 
-void TcpSocketInterface::sendData(const QByteArray &data)
+void TcpSocketTransport::sendData(const QByteArray &data)
 {
     qint64 ret = m_socket.write(data);
     if (ret != data.length()) {
@@ -29,12 +29,12 @@ void TcpSocketInterface::sendData(const QByteArray &data)
     }
 }
 
-void TcpSocketInterface::ignoreSslErrors(const QList<QSslError> &errors)
+void TcpSocketTransport::ignoreSslErrors(const QList<QSslError> &errors)
 {
     m_socket.ignoreSslErrors(errors);
 }
 
-void TcpSocketInterface::onConnected()
+void TcpSocketTransport::onConnected()
 {
     if (m_url.scheme() == "nymea") {
         qDebug() << "TCP socket connected";
@@ -42,13 +42,13 @@ void TcpSocketInterface::onConnected()
     }
 }
 
-void TcpSocketInterface::onEncrypted()
+void TcpSocketTransport::onEncrypted()
 {
     qDebug() << "TCP socket encrypted";
     emit connected();
 }
 
-void TcpSocketInterface::connect(const QUrl &url)
+void TcpSocketTransport::connect(const QUrl &url)
 {
     m_url = url;
     if (url.scheme() == "nymeas") {
@@ -61,20 +61,20 @@ void TcpSocketInterface::connect(const QUrl &url)
     }
 }
 
-NymeaInterface::ConnectionState TcpSocketInterface::connectionState() const
+NymeaTransportInterface::ConnectionState TcpSocketTransport::connectionState() const
 {
     switch (m_socket.state()) {
     case QAbstractSocket::ConnectedState:
-        return NymeaInterface::ConnectionStateConnected;
+        return NymeaTransportInterface::ConnectionStateConnected;
     case QAbstractSocket::ConnectingState:
     case QAbstractSocket::HostLookupState:
-        return NymeaInterface::ConnectionStateConnecting;
+        return NymeaTransportInterface::ConnectionStateConnecting;
     default:
-        return NymeaInterface::ConnectionStateDisconnected;
+        return NymeaTransportInterface::ConnectionStateDisconnected;
     }
 }
 
-void TcpSocketInterface::disconnect()
+void TcpSocketTransport::disconnect()
 {
     qDebug() << "closing socket";
     m_socket.disconnectFromHost();
@@ -85,13 +85,13 @@ void TcpSocketInterface::disconnect()
     m_socket.abort();
 }
 
-void TcpSocketInterface::socketReadyRead()
+void TcpSocketTransport::socketReadyRead()
 {
     QByteArray data = m_socket.readAll();
     emit dataReady(data);
 }
 
-void TcpSocketInterface::onSocketStateChanged(const QAbstractSocket::SocketState &state)
+void TcpSocketTransport::onSocketStateChanged(const QAbstractSocket::SocketState &state)
 {
     qDebug() << "Socket state changed -->" << state;
 }

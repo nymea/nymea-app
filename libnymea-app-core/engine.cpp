@@ -20,12 +20,16 @@
 
 #include "engine.h"
 
-#include "tcpsocketinterface.h"
 #include "rulemanager.h"
 #include "logmanager.h"
 #include "tagsmanager.h"
 #include "basicconfiguration.h"
-#include "awsclient.h"
+#include "connection/awsclient.h"
+
+#include "connection/tcpsockettransport.h"
+#include "connection/websockettransport.h"
+#include "connection/bluetoothtransport.h"
+#include "connection/cloudtransport.h"
 
 Engine* Engine::s_instance = nullptr;
 
@@ -94,6 +98,11 @@ Engine::Engine(QObject *parent) :
     m_bluetoothDiscovery(new BluetoothDiscovery(this)),
     m_aws(new AWSClient(this))
 {
+    m_connection->registerTransport(new TcpSocketTransport(this));
+    m_connection->registerTransport(new WebsocketTransport(this));
+    m_connection->registerTransport(new BluetoothTransport(this));
+    m_connection->registerTransport(new CloudTransport(m_aws, this));
+
     connect(m_jsonRpcClient, &JsonRpcClient::connectedChanged, this, &Engine::onConnectedChanged);
     connect(m_jsonRpcClient, &JsonRpcClient::authenticationRequiredChanged, this, &Engine::onConnectedChanged);
 

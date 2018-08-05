@@ -40,6 +40,6 @@ void StyleController::setCurrentStyle(const QString &currentStyle)
 QStringList StyleController::allStyles() const
 {
     QDir dir(":/styles/");
-    qDebug() << "styles:" << dir.entryList();
+//    qDebug() << "styles:" << dir.entryList();
     return dir.entryList(QDir::Dirs);
 }

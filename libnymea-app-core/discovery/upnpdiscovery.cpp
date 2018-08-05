@@ -51,10 +51,10 @@ UpnpDiscovery::UpnpDiscovery(DiscoveryModel *discoveryModel, QObject *parent) :
                 }
                 if (port == 65535 || socket->state() != QUdpSocket::BoundState) {
                     socket->deleteLater();
-                    qWarning() << "UPnP discovery could not bind to interface" << netAddressEntry.ip();
+                    qWarning() << "UPnP: Discovery could not bind to interface" << netAddressEntry.ip();
                     continue;
                 }
-                qDebug() << "Discovering on" << netAddressEntry.ip() << port;
+                qDebug() << "UPnP: Discovering on" << netAddressEntry.ip() << port;
                 m_sockets.append(socket);
                 connect(socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(error(QAbstractSocket::SocketError)));
                 connect(socket, &QUdpSocket::readyRead, this, &UpnpDiscovery::readData);
@@ -76,11 +76,11 @@ bool UpnpDiscovery::available() const
 void UpnpDiscovery::discover()
 {
     if (!available()) {
-        qWarning() << "Could not discover. UPnP not available.";
+        qWarning() << "UPnP: UPnP not available. Discovery not started.";
         return;
     }
 
-    qDebug() << "start discovering...";
+    qDebug() << "UPNP: Discovery started...";
     m_repeatTimer.start();
     m_foundDevices.clear();
     writeDiscoveryPacket();
@@ -89,7 +89,7 @@ void UpnpDiscovery::discover()
 
 void UpnpDiscovery::stopDiscovery()
 {
-    qDebug() << "stop discovering";
+    qDebug() << "UPNP: Discovery stopped.";
     m_repeatTimer.stop();
     emit discoveringChanged();
 }
@@ -106,7 +106,7 @@ void UpnpDiscovery::writeDiscoveryPacket()
     foreach (QUdpSocket* socket, m_sockets) {
         qint64 ret = socket->writeDatagram(ssdpSearchMessage, QHostAddress("239.255.255.250"), 1900);
         if (ret != ssdpSearchMessage.length()) {
-            qWarning() << "Error sending SSDP query on socket" << socket->localAddress();
+            qWarning() << "UPnP: Error sending SSDP query on socket" << socket->localAddress();
         }
 
     }
@@ -115,7 +115,7 @@ void UpnpDiscovery::writeDiscoveryPacket()
 void UpnpDiscovery::error(QAbstractSocket::SocketError error)
 {
     QUdpSocket* socket = static_cast<QUdpSocket*>(sender());
-    qWarning() << "UPnP socket error:" << error << socket->errorString();
+    qWarning() << "UPnP: Socket error:" << error << socket->errorString();
 }
 
 void UpnpDiscovery::readData()
@@ -180,7 +180,7 @@ void UpnpDiscovery::networkReplyFinished(QNetworkReply *reply)
 
     int status = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
     if (reply->error() != QNetworkReply::NoError || status != 200) {
-        qWarning() << "Error fetching UPnP discovery data:" << status << reply->error() << reply->errorString();
+        qWarning() << "UPnP: Error fetching discovery data:" << status << reply->error() << reply->errorString();
         return;
     }
 
@@ -189,7 +189,7 @@ void UpnpDiscovery::networkReplyFinished(QNetworkReply *reply)
     QString name;
     QString version;
     QUuid uuid;
-    QList<PortConfig*> portConfigList;
+    QList<QUrl> connections;
 
     // parse XML data
     QXmlStreamReader xml(data);
@@ -203,30 +203,11 @@ void UpnpDiscovery::networkReplyFinished(QNetworkReply *reply)
         if (xml.isStartElement()) {
 
             // Check for old style websocketURL and nymeaRpcURL
-            if (xml.name().toString() == "websocketURL") {
+            if (xml.name().toString() == "websocketURL" ||
+                xml.name().toString() == "nymeaRpcURL" ||
+                xml.name().toString() == "guhRpcURL") {
                 QUrl u(xml.readElementText());
-                PortConfig *pc = new PortConfig(discoveredAddress, u.port());
-                pc->setProtocol(PortConfig::ProtocolWebSocket);
-                pc->setSslEnabled(u.scheme() == "wss");
-                portConfigList.append(pc);
-            }
-
-            if (xml.name().toString() == "nymeaRpcURL") {
-                QUrl u(xml.readElementText());
-                qDebug() << "have url" << u << u.scheme();
-                PortConfig *pc = new PortConfig(discoveredAddress, u.port());
-                pc->setProtocol(PortConfig::ProtocolNymeaRpc);
-                pc->setSslEnabled(u.scheme() == "nymeas");
-                portConfigList.append(pc);
-            }
-
-            if (xml.name().toString() == "guhRpcURL") {
-                QUrl u(xml.readElementText());
-                qDebug() << "have url" << u << u.scheme();
-                PortConfig *pc = new PortConfig(discoveredAddress, u.port());
-                pc->setProtocol(PortConfig::ProtocolNymeaRpc);
-                pc->setSslEnabled(u.scheme() == "guhs");
-                portConfigList.append(pc);
+                connections.append(u);
             }
 
             // But also for new style serviceList
@@ -238,10 +219,7 @@ void UpnpDiscovery::networkReplyFinished(QNetworkReply *reply)
                             xml.readNext();
                             if (xml.name().toString() == "SCPDURL") {
                                 QUrl u(xml.readElementText());
-                                PortConfig *pc = new PortConfig(discoveredAddress, u.port());
-                                pc->setProtocol(u.scheme().startsWith("nymea") ? PortConfig::ProtocolNymeaRpc : PortConfig::ProtocolWebSocket);
-                                pc->setSslEnabled(u.scheme() == "nymeas" || u.scheme() == "wss");
-                                portConfigList.append(pc);
+                                connections.append(u);
                             }
                         }
                     }
@@ -260,27 +238,24 @@ void UpnpDiscovery::networkReplyFinished(QNetworkReply *reply)
         }
     }
 
-    qDebug() << "discovered device" << uuid << name << discoveredAddress << version;
+//    qDebug() << "discovered device" << uuid << name << discoveredAddress << version << connections << data;
 
     DiscoveryDevice* device = m_discoveryModel->find(uuid);
     if (!device) {
         device = new DiscoveryDevice(m_discoveryModel);
         device->setUuid(uuid);
-        qDebug() << "Adding new host to model";
+        qDebug() << "UPnP: Adding new host to model";
         m_discoveryModel->addDevice(device);
     }
     device->setName(name);
     device->setVersion(version);
-    foreach (PortConfig *pc, portConfigList) {
-        PortConfig *portConfig = device->portConfigs()->find(pc->port());
-        if (portConfig) {
-            qDebug() << "Updating port config" << portConfig->port() << portConfig->sslEnabled() << portConfig->protocol();
-            portConfig->setProtocol(pc->protocol());
-            portConfig->setSslEnabled(pc->sslEnabled());
-            pc->deleteLater();
-        } else {
-            qDebug() << "adding new port config" << pc->port() << pc->sslEnabled() << pc->protocol();
-            device->portConfigs()->insert(pc);
+    foreach (const QUrl &url, connections) {
+        if (!device->connections()->find(url)) {
+            qDebug() << "UPnP: Adding new connection to host:" << device->name() << url;
+            bool sslEnabled = url.scheme() == "nymeas" || url.scheme() == "wss";
+            QString displayName = QString("%1:%2").arg(url.host()).arg(url.port());
+            Connection *conn = new Connection(url, Connection::BearerTypeWifi, sslEnabled, displayName);
+            device->connections()->addConnection(conn);
         }
     }
 }

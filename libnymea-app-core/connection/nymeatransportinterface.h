@@ -1,6 +1,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                         *
- *  Copyright (C) 2017 Simon Stuerz <simon.stuerz@guh.io>                  *
+ *  Copyright (C) 2017 - 2018 Simon Stuerz <simon.stuerz@guh.io>           *
  *                                                                         *
  *  This file is part of nymea:app.                                        *
  *                                                                         *
@@ -20,11 +20,41 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include "nymeainterface.h"
-#include <QSettings>
+#ifndef NYMEATRANSPORTINTERFACE_H
+#define NYMEATRANSPORTINTERFACE_H
 
-NymeaInterface::NymeaInterface(QObject *parent) :
-    QObject(parent)
+#include <QObject>
+#include <QSslCertificate>
+#include <QHostAddress>
+
+class NymeaTransportInterface : public QObject
 {
+    Q_OBJECT
+public:
+    enum ConnectionState {
+        ConnectionStateDisconnected,
+        ConnectionStateConnecting,
+        ConnectionStateConnected
+    };
+    Q_ENUM(ConnectionState)
 
-}
+    explicit NymeaTransportInterface(QObject *parent = nullptr);
+    virtual ~NymeaTransportInterface() = default;
+
+    virtual QStringList supportedSchemes() const = 0;
+
+    virtual void connect(const QUrl &url) = 0;
+    virtual void disconnect() = 0;
+    virtual ConnectionState connectionState() const = 0;
+    virtual void sendData(const QByteArray &data) = 0;
+    virtual void ignoreSslErrors(const QList<QSslError> &errors) { Q_UNUSED(errors) }
+
+signals:
+    void connected();
+    void disconnected();
+    void error(QAbstractSocket::SocketError error);
+    void sslErrors(const QList<QSslError> &errors);
+    void dataReady(const QByteArray &data);
+};
+
+#endif // NYMEATRANSPORTINTERFACE_H

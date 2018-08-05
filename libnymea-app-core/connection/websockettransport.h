@@ -18,19 +18,19 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef WEBSOCKETINTERFACE_H
-#define WEBSOCKETINTERFACE_H
+#ifndef WEBSOCKETTRANSPORT_H
+#define WEBSOCKETTRANSPORT_H
 
 #include <QObject>
 #include <QWebSocket>
 
-#include "nymeainterface.h"
+#include "nymeatransportinterface.h"
 
-class WebsocketInterface : public NymeaInterface
+class WebsocketTransport: public NymeaTransportInterface
 {
     Q_OBJECT
 public:
-    explicit WebsocketInterface(QObject *parent = 0);
+    explicit WebsocketTransport(QObject *parent = nullptr);
 
     QStringList supportedSchemes() const override;
 
@@ -47,4 +47,4 @@ private slots:
     void onTextMessageReceived(const QString &data);
 };
 
-#endif // WEBSOCKETINTERFACE_H
+#endif // WEBSOCKETTRANSPORT_H

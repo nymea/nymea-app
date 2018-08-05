@@ -10,19 +10,28 @@ include(../config.pri)
     DEFINES += WITH_ZEROCONF
     include(../QtZeroConf/qtzeroconf.pri)
 }
+DEFINES += QT_STATIC
+include(../qmqtt/src/mqtt/mqtt.pri)
+HEADERS += $$PUBLIC_HEADERS $$PRIVATE_HEADERS
 
 QT -= gui
 QT += network websockets bluetooth
 
 LIBS += -lssl -lcrypto
 
-INCLUDEPATH += $$top_srcdir/libnymea-common $$top_srcdir/QtZeroConf
+INCLUDEPATH += $$top_srcdir/libnymea-common \
+    $$top_srcdir/QtZeroConf \
+    $$top_srcdir/qmqtt/src/mqtt/
 
 SOURCES += \
     engine.cpp \
-    nymeainterface.cpp \
+    connection/nymeaconnection.cpp \
+    connection/nymeatransportinterface.cpp \
+    connection/websockettransport.cpp \
+    connection/tcpsockettransport.cpp \
+    connection/bluetoothtransport.cpp \
+    connection/awsclient.cpp \
     devicemanager.cpp \
-    websocketinterface.cpp \
     jsonrpc/jsontypes.cpp \
     jsonrpc/jsonrpcclient.cpp \
     jsonrpc/jsonhandler.cpp \
@@ -36,8 +45,6 @@ SOURCES += \
     devicediscovery.cpp \
     vendorsproxy.cpp \
     pluginsproxy.cpp \
-    tcpsocketinterface.cpp \
-    nymeaconnection.cpp \
     interfacesmodel.cpp \
     discovery/zeroconfdiscovery.cpp \
     discovery/discoverydevice.cpp \
@@ -69,16 +76,18 @@ SOURCES += \
     ruletemplates/ruleactiontemplate.cpp \
     ruletemplates/stateevaluatortemplate.cpp \
     ruletemplates/statedescriptortemplate.cpp \
-    bluetoothinterface.cpp \
     discovery/bluetoothservicediscovery.cpp \
-    awsclient.cpp \
-    connection/srp.c
+    connection/cloudtransport.cpp
 
 HEADERS += \
     engine.h \
-    nymeainterface.h \
+    connection/nymeaconnection.h \
+    connection/nymeatransportinterface.h \
+    connection/websockettransport.h \
+    connection/tcpsockettransport.h \
+    connection/bluetoothtransport.h \
+    connection/awsclient.h \
     devicemanager.h \
-    websocketinterface.h \
     jsonrpc/jsontypes.h \
     jsonrpc/jsonrpcclient.h \
     jsonrpc/jsonhandler.h \
@@ -92,8 +101,6 @@ HEADERS += \
     devicediscovery.h \
     vendorsproxy.h \
     pluginsproxy.h \
-    tcpsocketinterface.h \
-    nymeaconnection.h \
     interfacesmodel.h \
     discovery/zeroconfdiscovery.h \
     discovery/discoverydevice.h \
@@ -126,9 +133,8 @@ HEADERS += \
     ruletemplates/ruleactiontemplate.h \
     ruletemplates/stateevaluatortemplate.h \
     ruletemplates/statedescriptortemplate.h \
-    bluetoothinterface.h \
     discovery/bluetoothservicediscovery.h \
-    awsclient.h
+    connection/cloudtransport.h
 
 unix {
     target.path = /usr/lib

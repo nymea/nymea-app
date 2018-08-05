@@ -49,6 +49,7 @@ void WirelessAccessPointsProxy::setAccessPoints(WirelessAccessPoints *accessPoin
 bool WirelessAccessPointsProxy::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
 {
     Q_UNUSED(source_parent)
+    Q_UNUSED(source_row)
 
     // Filter out the current selected network
 //    WirelessAccessPoint *accessPoint = m_accessPoints->get(source_row);

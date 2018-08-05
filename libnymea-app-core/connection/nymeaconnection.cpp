@@ -7,21 +7,10 @@
 #include <QSettings>
 #include <QMetaEnum>
 
-#include "nymeainterface.h"
-#include "tcpsocketinterface.h"
-#include "websocketinterface.h"
-#include "bluetoothinterface.h"
+#include "nymeatransportinterface.h"
 
 NymeaConnection::NymeaConnection(QObject *parent) : QObject(parent)
 {
-    NymeaInterface *iface = new TcpSocketInterface(this);
-    registerInterface(iface);
-
-    iface = new WebsocketInterface(this);
-    registerInterface(iface);
-
-    iface = new BluetoothInterface(this);
-    registerInterface(iface);
 }
 
 void NymeaConnection::connect(const QString &url)
@@ -32,23 +21,23 @@ void NymeaConnection::connect(const QString &url)
     }
 
     m_currentUrl = QUrl(url);
-    m_currentInterface = m_interfaces.value(m_currentUrl.scheme());
-    if (!m_currentInterface) {
-        qWarning() << "Cannot connect to urls of scheme" << m_currentUrl.scheme() << "Supported schemes are" << m_interfaces.keys();
+    m_currentTransport = m_transports.value(m_currentUrl.scheme());
+    if (!m_currentTransport) {
+        qWarning() << "Cannot connect to urls of scheme" << m_currentUrl.scheme() << "Supported schemes are" << m_transports.keys();
         return;
     }
 
     qDebug() << "Should connect to url" << m_currentUrl;
-    m_currentInterface->connect(m_currentUrl);
+    m_currentTransport->connect(m_currentUrl);
 }
 
 void NymeaConnection::disconnect()
 {
-    if (!m_currentInterface || m_currentInterface->connectionState() == NymeaInterface::ConnectionStateDisconnected) {
+    if (!m_currentTransport || m_currentTransport->connectionState() == NymeaTransportInterface::ConnectionStateDisconnected) {
         qWarning() << "not connected, cannot disconnect";
         return;
     }
-    m_currentInterface->disconnect();
+    m_currentTransport->disconnect();
 }
 
 void NymeaConnection::acceptCertificate(const QString &url, const QByteArray &fingerprint)
@@ -68,7 +57,7 @@ bool NymeaConnection::isTrusted(const QString &url)
 
 bool NymeaConnection::connected()
 {
-    return m_currentInterface && m_currentInterface->connectionState() == NymeaInterface::ConnectionStateConnected;
+    return m_currentTransport && m_currentTransport->connectionState() == NymeaTransportInterface::ConnectionStateConnected;
 }
 
 QString NymeaConnection::url() const
@@ -91,7 +80,7 @@ void NymeaConnection::sendData(const QByteArray &data)
 {
     if (connected()) {
 //        qDebug() << "sending data:" << data;
-        m_currentInterface->sendData(data);
+        m_currentTransport->sendData(data);
     } else {
         qWarning() << "Connection: Not connected. Cannot send.";
     }
@@ -142,7 +131,7 @@ void NymeaConnection::onSslErrors(const QList<QSslError> &errors)
             qDebug() << "SSL Error:" << error.errorString() << error.certificate();
         }
     }
-    m_currentInterface->ignoreSslErrors(ignoredErrors);
+    m_currentTransport->ignoreSslErrors(ignoredErrors);
 }
 
 void NymeaConnection::onError(QAbstractSocket::SocketError error)
@@ -153,8 +142,8 @@ void NymeaConnection::onError(QAbstractSocket::SocketError error)
 
 void NymeaConnection::onConnected()
 {
-    if (m_currentInterface != sender()) {
-        qWarning() << "An inactive interface is emitting signals... ignoring.";
+    if (m_currentTransport != sender()) {
+        qWarning() << "NymeaConnection: An inactive transport is emitting signals... ignoring.";
         return;
     }
     qDebug() << "NymeaConnection: connected.";
@@ -163,26 +152,26 @@ void NymeaConnection::onConnected()
 
 void NymeaConnection::onDisconnected()
 {
-    if (m_currentInterface != sender()) {
-        qWarning() << "An inactive interface is emitting signals... ignoring.";
+    if (m_currentTransport != sender()) {
+        qWarning() << "NymeaConnection: An inactive transport is emitting signals... ignoring.";
         return;
     }
-    m_currentInterface = nullptr;
+    m_currentTransport = nullptr;
     qDebug() << "NymeaConnection: disconnected.";
     emit connectedChanged(false);
 }
 
-void NymeaConnection::registerInterface(NymeaInterface *iface)
+void NymeaConnection::registerTransport(NymeaTransportInterface *transport)
 {
-    QObject::connect(iface, &NymeaInterface::sslErrors, this, &NymeaConnection::onSslErrors);
-    QObject::connect(iface, &NymeaInterface::error, this, &NymeaConnection::onError);
-    QObject::connect(iface, &NymeaInterface::connected, this, &NymeaConnection::onConnected);
-    QObject::connect(iface, &NymeaInterface::disconnected, this, &NymeaConnection::onDisconnected);
+    QObject::connect(transport, &NymeaTransportInterface::sslErrors, this, &NymeaConnection::onSslErrors);
+    QObject::connect(transport, &NymeaTransportInterface::error, this, &NymeaConnection::onError);
+    QObject::connect(transport, &NymeaTransportInterface::connected, this, &NymeaConnection::onConnected);
+    QObject::connect(transport, &NymeaTransportInterface::disconnected, this, &NymeaConnection::onDisconnected);
 
     // signal forwarding
-    QObject::connect(iface, &NymeaInterface::dataReady, this, &NymeaConnection::dataAvailable);
+    QObject::connect(transport, &NymeaTransportInterface::dataReady, this, &NymeaConnection::dataAvailable);
 
-    foreach (const QString &scheme, iface->supportedSchemes()) {
-        m_interfaces[scheme] = iface;
+    foreach (const QString &scheme, transport->supportedSchemes()) {
+        m_transports[scheme] = transport;
     }
 }

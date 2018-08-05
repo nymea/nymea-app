@@ -4,3 +4,6 @@
 [submodule "aws-sdk-qt"]
 	path = aws-sdk-qt
 	url = https://github.com/pcolby/aws-sdk-qt.git
+[submodule "qmqtt"]
+	path = qmqtt
+	url = https://github.com/emqtt/qmqtt.git

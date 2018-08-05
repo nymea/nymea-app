@@ -20,19 +20,19 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef BLUETOOTHINTERFACE_H
-#define BLUETOOTHINTERFACE_H
+#ifndef BLUETOOTHTRANSPORT_H
+#define BLUETOOTHTRANSPORT_H
 
 #include <QObject>
 #include <QBluetoothSocket>
 
-#include "nymeainterface.h"
+#include "nymeatransportinterface.h"
 
-class BluetoothInterface : public NymeaInterface
+class BluetoothTransport: public NymeaTransportInterface
 {
     Q_OBJECT
 public:
-    explicit BluetoothInterface(QObject *parent = nullptr);
+    explicit BluetoothTransport(QObject *parent = nullptr);
 
     QStringList supportedSchemes() const override;
 
@@ -53,4 +53,4 @@ private slots:
     void onDataReady();
 };
 
-#endif // BLUETOOTHINTERFACE_H
+#endif // BLUETOOTHTRANSPROT_H

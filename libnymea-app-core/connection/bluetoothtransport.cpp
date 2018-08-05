@@ -20,29 +20,29 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include "bluetoothinterface.h"
+#include "bluetoothtransport.h"
 
 #include <QUrl>
 #include <QDebug>
 #include <QUrlQuery>
 
-BluetoothInterface::BluetoothInterface(QObject *parent) :
-    NymeaInterface(parent)
+BluetoothTransport::BluetoothTransport(QObject *parent) :
+    NymeaTransportInterface(parent)
 {
     m_socket = new QBluetoothSocket(QBluetoothServiceInfo::RfcommProtocol);
 
-    QObject::connect(m_socket, &QBluetoothSocket::connected, this, &BluetoothInterface::onConnected);
-    QObject::connect(m_socket, &QBluetoothSocket::disconnected, this, &BluetoothInterface::onDisconnected);
-    QObject::connect(m_socket, &QBluetoothSocket::readyRead, this, &BluetoothInterface::onDataReady);
-    QObject::connect(m_socket, &QBluetoothSocket::stateChanged, this, &BluetoothInterface::onDataReady);
+    QObject::connect(m_socket, &QBluetoothSocket::connected, this, &BluetoothTransport::onConnected);
+    QObject::connect(m_socket, &QBluetoothSocket::disconnected, this, &BluetoothTransport::onDisconnected);
+    QObject::connect(m_socket, &QBluetoothSocket::readyRead, this, &BluetoothTransport::onDataReady);
+    QObject::connect(m_socket, &QBluetoothSocket::stateChanged, this, &BluetoothTransport::onDataReady);
 }
 
-QStringList BluetoothInterface::supportedSchemes() const
+QStringList BluetoothTransport::supportedSchemes() const
 {
     return {"rfcom"};
 }
 
-void BluetoothInterface::connect(const QUrl &url)
+void BluetoothTransport::connect(const QUrl &url)
 {
     if (url.scheme() != "rfcom") {
         qWarning() << "BluetoothInterface: Cannot connect. Invalid scheme in url" << url.toString();
@@ -58,31 +58,31 @@ void BluetoothInterface::connect(const QUrl &url)
     m_socket->connectToService(macAddress, QBluetoothUuid(QUuid("997936b5-d2cd-4c57-b41b-c6048320cd2b")));
 }
 
-void BluetoothInterface::disconnect()
+void BluetoothTransport::disconnect()
 {
     m_socket->close();
 }
 
-NymeaInterface::ConnectionState BluetoothInterface::connectionState() const
+NymeaTransportInterface::ConnectionState BluetoothTransport::connectionState() const
 {
     switch (m_socket->state()) {
     case QBluetoothSocket::ConnectedState:
-        return NymeaInterface::ConnectionStateConnected;
+        return NymeaTransportInterface::ConnectionStateConnected;
     case QBluetoothSocket::ConnectingState:
     case QBluetoothSocket::ServiceLookupState:
-        return NymeaInterface::ConnectionStateConnecting;
+        return NymeaTransportInterface::ConnectionStateConnecting;
     default:
-        return NymeaInterface::ConnectionStateDisconnected;
+        return NymeaTransportInterface::ConnectionStateDisconnected;
     }
 }
 
-void BluetoothInterface::sendData(const QByteArray &data)
+void BluetoothTransport::sendData(const QByteArray &data)
 {
     qDebug() << "BluetoothInterface: send data:" << qUtf8Printable(data);
     m_socket->write(data);
 }
 
-void BluetoothInterface::onServiceFound(const QBluetoothServiceInfo &service)
+void BluetoothTransport::onServiceFound(const QBluetoothServiceInfo &service)
 {
     m_service = service;
     if (m_socket->isOpen())
@@ -92,24 +92,24 @@ void BluetoothInterface::onServiceFound(const QBluetoothServiceInfo &service)
     m_socket->connectToService(m_service);
 }
 
-void BluetoothInterface::onConnected()
+void BluetoothTransport::onConnected()
 {
     qDebug() << "BluetoothInterface: connected" << m_socket->peerName() << m_socket->peerAddress();
     emit connected();
 }
 
-void BluetoothInterface::onDisconnected()
+void BluetoothTransport::onDisconnected()
 {
     qDebug() << "BluetoothInterface: disconnected" << m_socket->peerName() << m_socket->peerAddress();
     emit disconnected();
 }
 
-void BluetoothInterface::onStateChanged(const QBluetoothSocket::SocketState &state)
+void BluetoothTransport::onStateChanged(const QBluetoothSocket::SocketState &state)
 {
     qDebug() << "BluetoothInterface" << state;
 }
 
-void BluetoothInterface::onDataReady()
+void BluetoothTransport::onDataReady()
 {
     QByteArray data = m_socket->readAll();
     qDebug() << "BluetoothInterface: recived data:" << qUtf8Printable(data);

@@ -23,9 +23,9 @@
 #include <QUrl>
 
 DiscoveryDevice::DiscoveryDevice(QObject *parent):
-    QObject(parent)
+    QObject(parent),
+    m_connections(new Connections(this))
 {
-    m_portConfigs = new PortConfigs(this);
 }
 
 QUuid DiscoveryDevice::uuid() const
@@ -64,143 +64,101 @@ void DiscoveryDevice::setVersion(const QString &version)
     }
 }
 
-PortConfigs* DiscoveryDevice::portConfigs() const
+Connections* DiscoveryDevice::connections() const
 {
-    return m_portConfigs;
+    return m_connections;
 }
 
-QString DiscoveryDevice::toUrl(int portConfigIndex)
-{
-    PortConfig *pc = m_portConfigs->get(portConfigIndex);
-    if (!pc) {
-        qWarning() << "No portconfig for index" << portConfigIndex;
-        return QString();
-    }
-    QString ret = pc->protocol() == PortConfig::ProtocolNymeaRpc ? "nymea" : "ws";
-    ret += pc->sslEnabled() ? "s" : "";
-    ret += "://";
-    if (pc->hostAddress().protocol() == QAbstractSocket::IPv4Protocol) {
-        ret += pc->hostAddress().toString();
-    } else if (pc->hostAddress().protocol() == QAbstractSocket::IPv6Protocol){
-        ret += "[" + pc->hostAddress().toString() + "]";
-    }
-    ret += ":";
-    ret += QString::number(pc->port());
-    return ret;
-}
-
-PortConfigs::PortConfigs(QObject *parent): QAbstractListModel(parent)
+Connections::Connections(QObject *parent):
+    QAbstractListModel(parent)
 {
 
 }
 
-int PortConfigs::rowCount(const QModelIndex &parent) const
+int Connections::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_portConfigs.count();
+    return m_connections.count();
 }
 
-QVariant PortConfigs::data(const QModelIndex &index, int role) const
+QVariant Connections::data(const QModelIndex &index, int role) const
 {
     switch (role) {
-    case RoleAddress:
-        return m_portConfigs.at(index.row())->hostAddressString();
-    case RolePort:
-        return m_portConfigs.at(index.row())->port();
-    case RoleProtocol:
-        return m_portConfigs.at(index.row())->protocol();
-    case RoleSSLEnabled:
-        return m_portConfigs.at(index.row())->sslEnabled();
+    case RoleUrl:
+        return m_connections.at(index.row())->url();
+    case RoleName:
+        return m_connections.at(index.row())->displayName();
+    case RoleBearerType:
+        return m_connections.at(index.row())->bearerType();
+    case RoleSecure:
+        return m_connections.at(index.row())->secure();
     }
     return QVariant();
 }
 
-PortConfig *PortConfigs::find(int port)
+Connection* Connections::find(const QUrl &url) const
 {
-    foreach (PortConfig* pc, m_portConfigs) {
-        if (pc->port() == port) {
-            return pc;
+    foreach (Connection *conn, m_connections) {
+        if (conn->url() == url) {
+            return conn;
         }
     }
     return nullptr;
 }
 
-void PortConfigs::insert(PortConfig *portConfig)
+void Connections::addConnection(Connection *connection)
 {
-    portConfig->setParent(this);
-    beginInsertRows(QModelIndex(), m_portConfigs.count(), m_portConfigs.count());
-    m_portConfigs.append(portConfig);
+    connection->setParent(this);
+    beginInsertRows(QModelIndex(), m_connections.count(), m_connections.count());
+    m_connections.append(connection);
     endInsertRows();
     emit countChanged();
 }
 
-PortConfig* PortConfigs::get(int index) const
+Connection* Connections::get(int index) const
 {
-    if (index < 0 || index >= m_portConfigs.count())
-        return nullptr;
-
-    return m_portConfigs.at(index);
+    if (index >= 0 && index < m_connections.count()) {
+        return m_connections.at(index);
+    }
+    return nullptr;
 }
 
-QHash<int, QByteArray> PortConfigs::roleNames() const
+QHash<int, QByteArray> Connections::roleNames() const
 {
     QHash<int, QByteArray> roles;
-    roles.insert(RoleAddress, "address");
-    roles.insert(RolePort, "port");
-    roles.insert(RoleProtocol, "protocol");
-    roles.insert(RoleSSLEnabled, "sslEnabled");
+    roles.insert(RoleUrl, "url");
+    roles.insert(RoleBearerType, "bearerType");
+    roles.insert(RoleName, "name");
+    roles.insert(RoleSecure, "secure");
     return roles;
 }
 
-PortConfig::PortConfig(const QHostAddress &hostAddress, int port, QObject *parent):
+Connection::Connection(const QUrl &url, Connection::BearerType bearerType, bool secure, const QString &displayName, QObject *parent):
     QObject(parent),
-    m_port(port),
-    m_hostAddress(hostAddress)
+    m_url(url),
+    m_bearerType(bearerType),
+    m_secure(secure),
+    m_displayName(displayName)
 {
 
 }
 
-int PortConfig::port() const
+QUrl Connection::url() const
 {
-    return m_port;
+    return m_url;
 }
 
-PortConfig::Protocol PortConfig::protocol() const
+Connection::BearerType Connection::bearerType() const
 {
-    return m_protocol;
+    return m_bearerType;
 }
 
-void PortConfig::setProtocol(PortConfig::Protocol protocol)
+bool Connection::secure() const
 {
-    if (m_protocol != protocol) {
-        m_protocol = protocol;
-        emit protocolChanged();
-    }
+    return m_secure;
 }
 
-QHostAddress PortConfig::hostAddress() const
+QString Connection::displayName() const
 {
-    return m_hostAddress;
-}
-
-QString PortConfig::hostAddressString() const
-{
-    if (m_hostAddress.protocol() == QAbstractSocket::IPv6Protocol){
-        return "[" + m_hostAddress.toString() + "]";
-    }
-
-    return m_hostAddress.toString();
-}
-
-bool PortConfig::sslEnabled() const
-{
-    return m_sslEnabled;
-}
-
-void PortConfig::setSslEnabled(bool sslEnabled)
-{
-    if (m_sslEnabled != sslEnabled) {
-        m_sslEnabled = sslEnabled;
-        emit sslEnabledChanged();
-    }
+    return m_displayName;
 }

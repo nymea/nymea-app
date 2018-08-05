@@ -3,7 +3,7 @@
 
 #include <QObject>
 
-#include "awsclient.h"
+#include "connection/awsclient.h"
 
 class DiscoveryModel;
 class UpnpDiscovery;

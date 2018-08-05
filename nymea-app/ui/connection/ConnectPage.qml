@@ -85,9 +85,9 @@ Page {
             header: FancyHeader {
                 title: qsTr("Connect %1").arg(app.systemName)
                 model: ListModel {
-                    ListElement { iconSource: "../images/network-vpn.svg"; text: qsTr("Manual connection"); page: "connection/ManualConnectPage.qml" }
-                    ListElement { iconSource: "../images/bluetooth.svg"; text: qsTr("Wireless setup"); page: "connection/BluetoothDiscoveryPage.qml"; }
-                    ListElement { iconSource: "../images/cloud.svg"; text: qsTr("Cloud login"); page: "connection/CloudLoginPage.qml" }
+                    ListElement { iconSource: "../images/network-vpn.svg"; text: qsTr("Manual connection"); page: "ManualConnectPage.qml" }
+                    ListElement { iconSource: "../images/bluetooth.svg"; text: qsTr("Wireless setup"); page: "BluetoothDiscoveryPage.qml"; }
+                    ListElement { iconSource: "../images/cloud.svg"; text: qsTr("Cloud login"); page: "CloudLoginPage.qml" }
                     ListElement { iconSource: "../images/stock_application.svg"; text: qsTr("App settings"); page: "AppSettingsPage.qml" }
                 }
                 onClicked: {
@@ -145,58 +145,68 @@ Page {
                         height: app.delegateHeight
                         objectName: "discoveryDelegate" + index
                         property var discoveryDevice: discovery.discoveryModel.get(index)
-                        property string defaultPortConfigIndex: {
-
-                            if (model.deviceType !== DiscoveryDevice.DeviceTypeNetwork) {
-                                return -1
-                            }
-
+                        property string defaultConnectionIndex: {
                             var usedConfigIndex = 0;
-                            for (var i = 1; i < discoveryDevice.portConfigs.count; i++) {
-                                var oldConfig = discoveryDevice.portConfigs.get(usedConfigIndex);
-                                var newConfig = discoveryDevice.portConfigs.get(i);
+                            for (var i = 1; i < discoveryDevice.connections.count; i++) {
+                                var oldConfig = discoveryDevice.connections.get(usedConfigIndex);
+                                var newConfig = discoveryDevice.connections.get(i);
 
-                                // prefer secure over insecure
-                                if (!oldConfig.sslEnabled && newConfig.sslEnabled) {
+                                // Preference of bearerType
+                                var bearerPreference = [Connection.BearerTypeEthernet, Connection.BearerTypeWifi, Connection.BearerTypeBluetooth, Connection.BearerTypeCloud]
+                                var oldBearerPriority = bearerPreference.indexOf(oldConfig.bearerType);
+                                var newBearerPriority = bearerPreference.indexOf(newConfig.bearerType);
+                                if (newBearerPriority > oldBearerPriority) {
                                     usedConfigIndex = i;
                                     continue;
                                 }
-                                if (oldConfig.sslEnabled && !newConfig.sslEnabled) {
+                                if (oldBearerPriority > newBearerPriority) {
+                                    continue; // discard new one the one we have is on a better bearer type
+                                }
+
+                                // prefer secure over insecure
+                                if (!oldConfig.secure && newConfig.secure) {
+                                    usedConfigIndex = i;
+                                    continue;
+                                }
+                                if (oldConfig.secure && !newConfig.secure) {
                                     continue; // discard new one as the one we already have is more secure
                                 }
 
-                                // both options are new either secure or insecure, prefer nymearpc over websocket for less overhead
-                                if (oldConfig.protocol === PortConfig.ProtocolWebSocket && newConfig.protocol === PortConfig.ProtocolNymeaRpc) {
+                                // both options are now on the same bearer and either secure or insecure, prefer nymearpc over websocket for less overhead
+                                if (oldConfig.url.toString().startsWith("ws") && newConfig.url.toString().startsWith("nymea")) {
                                     usedConfigIndex = i;
                                 }
                             }
                             return usedConfigIndex
                         }
 
-                        iconName: model.deviceType === DiscoveryDevice.DeviceTypeNetwork ? "../images/network-wifi-symbolic.svg" : "../images/bluetooth.svg"
+                        iconName: {
+                            switch (discoveryDevice.connections.get(defaultConnectionIndex).bearerType) {
+                            case Connection.BearerTypeWifi:
+                                return "../images/network-wifi-symbolic.svg";
+                            case Connection.BearerTypeEthernet:
+                                return "../images/network-wired-symbolic.svg"
+                            case Connection.BearerTypeBluetooth:
+                                return "../images/bluetooth.svg";
+                            case Connection.BearerTypeCloud:
+                                return "../images/cloud.svg"
+                            }
+                            return ""
+                        }
+
                         text: model.name
-                        subText: model.deviceType === DiscoveryDevice.DeviceTypeNetwork ? discoveryDevice.hostAddress : discoveryDevice.bluetoothAddress
-                        property bool hasSecurePort: {
-                            if (discoveryDevice.deviceType === DiscoveryDevice.DeviceTypeNetwork) {
-                                return discoveryDeviceDelegate.discoveryDevice.portConfigs.get(discoveryDeviceDelegate.defaultPortConfigIndex).sslEnabled
-                            } else {
-                                return false
-                            }
-                        }
-                        property bool isTrusted: {
-                            if (discoveryDeviceDelegate.discoveryDevice.deviceType === DiscoveryDevice.DeviceTypeNetwork) {
-                                Engine.connection.isTrusted(discoveryDeviceDelegate.discoveryDevice.toUrl(discoveryDeviceDelegate.defaultPortConfigIndex))
-                            } else {
-                                return false
-                            }
-                        }
-                        progressive: true
-                        secondaryIconName: "../images/network-secure.svg"
+                        subText: discoveryDevice.connections.get(defaultConnectionIndex).url
+                        wrapTexts: false
+                        prominentSubText: false
+                        progressive: false
+                        property bool isSecure: discoveryDevice.connections.get(defaultConnectionIndex).secure
+                        property bool isTrusted: Engine.connection.isTrusted(discoveryDeviceDelegate.discoveryDevice.connections.get(defaultConnectionIndex).url)
+                        secondaryIconName: isSecure ? "../images/network-secure.svg" : ""
                         secondaryIconColor: isTrusted ? app.accentColor : Material.foreground
                         swipe.enabled: discoveryDeviceDelegate.discoveryDevice.deviceType === DiscoveryDevice.DeviceTypeNetwork
 
                         onClicked: {
-                            Engine.connection.connect(discoveryDeviceDelegate.discoveryDevice.toUrl(discoveryDeviceDelegate.defaultPortConfigIndex))
+                            Engine.connection.connect(discoveryDeviceDelegate.discoveryDevice.connections.get(defaultConnectionIndex).url)
                             var page = pageStack.push(Qt.resolvedUrl("ConnectingPage.qml"))
                             page.cancel.connect(function() {
                                 Engine.connection.disconnect()
@@ -484,35 +494,34 @@ Page {
                         id: contentColumn
                         width: parent.width
                         Repeater {
-                            model: dialog.discoveryDevice.portConfigs
-                            ItemDelegate {
+                            model: dialog.discoveryDevice.connections
+                            delegate: MeaListItemDelegate {
                                 Layout.fillWidth: true
-                                contentItem: RowLayout {
-                                    ColumnLayout {
-                                        Layout.fillWidth: true
-                                        Label {
-                                            Layout.fillWidth: true
-                                            elide: Text.ElideMiddle
-                                            text: "%1:%2".arg(model.address).arg(model.port)
-                                        }
-                                        Label {
-                                            text: model.protocol === PortConfig.ProtocolNymeaRpc ? "nymea-rpc" : "websocket"
-                                            Layout.fillWidth: true
-                                            font.pixelSize: app.smallFont
-                                        }
+                                wrapTexts: false
+                                progressive: false
+                                text: model.name
+                                subText: model.url
+                                prominentSubText: false
+                                iconName: {
+                                    switch (model.bearerType) {
+                                    case Connection.BearerTypeWifi:
+                                        return "../images/network-wifi-symbolic.svg";
+                                    case Connection.BearerTypeEthernet:
+                                        return "../images/network-wired-symbolic.svg"
+                                    case Connection.BearerTypeBluetooth:
+                                        return "../images/bluetooth.svg";
+                                    case Connection.BearerTypeCloud:
+                                        return "../images/cloud.svg"
                                     }
-
-                                    ColorIcon {
-                                        Layout.preferredHeight: app.iconSize
-                                        Layout.preferredWidth: height
-                                        visible: model.sslEnabled
-                                        name: "../images/network-secure.svg"
-                                        property bool isTrusted: Engine.connection.isTrusted(dialog.discoveryDevice.toUrl(index))
-                                        color: isTrusted ? app.accentColor : keyColor
-                                    }
+                                    return ""
                                 }
+
+                                secondaryIconName: model.secure ? "../images/network-secure.svg" : ""
+                                secondaryIconColor: isTrusted ? app.accentColor : "gray"
+                                readonly property bool isTrusted: Engine.connection.isTrusted(url)
+
                                 onClicked: {
-                                    Engine.connection.connect(dialog.discoveryDevice.toUrl(index))
+                                    Engine.connection.connect(dialog.discoveryDevice.connections.get(index).url)
                                     dialog.close()
                                 }
                             }

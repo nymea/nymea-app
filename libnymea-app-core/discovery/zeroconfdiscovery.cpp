@@ -13,13 +13,13 @@ ZeroconfDiscovery::ZeroconfDiscovery(DiscoveryModel *discoveryModel, QObject *pa
     connect(m_zeroconfJsonRPC, &QZeroConf::serviceAdded, this, &ZeroconfDiscovery::serviceEntryAdded);
     connect(m_zeroconfJsonRPC, &QZeroConf::serviceUpdated, this, &ZeroconfDiscovery::serviceEntryAdded);
     m_zeroconfJsonRPC->startBrowser("_jsonrpc._tcp", QAbstractSocket::AnyIPProtocol);
-    qDebug() << "created service browser for _jsonrpc._tcp:" << m_zeroconfJsonRPC->browserExists();
+    qDebug() << "ZeroConf: Created service browser for _jsonrpc._tcp:" << m_zeroconfJsonRPC->browserExists();
 
     m_zeroconfWebSocket = new QZeroConf(this);
     connect(m_zeroconfWebSocket, &QZeroConf::serviceAdded, this, &ZeroconfDiscovery::serviceEntryAdded);
     connect(m_zeroconfWebSocket, &QZeroConf::serviceUpdated, this, &ZeroconfDiscovery::serviceEntryAdded);
     m_zeroconfWebSocket->startBrowser("_ws._tcp", QAbstractSocket::AnyIPProtocol);
-    qDebug() << "created service browser for _ws._tcp:" << m_zeroconfWebSocket->browserExists();
+    qDebug() << "TeroConf: Created service browser for _ws._tcp:" << m_zeroconfWebSocket->browserExists();
 #else
     qDebug() << "Zeroconf support not compiled in. Zeroconf will not be available.";
 #endif
@@ -73,18 +73,25 @@ void ZeroconfDiscovery::serviceEntryAdded(const QZeroConfService &entry)
     if (!device) {
         device = new DiscoveryDevice(m_discoveryModel);
         device->setUuid(uuid);
-        qDebug() << "ZeroConf: Adding new host to model";
+        qDebug() << "ZeroConf: Adding new host:" << serverName << uuid;
         m_discoveryModel->addDevice(device);
     }
     device->setName(serverName);
     device->setVersion(version);
-    PortConfig *portConfig = device->portConfigs()->find(entry.port());
-    if (!portConfig) {
-        qDebug() << "ZeroConf: Adding new port config";
-        portConfig = new PortConfig(!entry.ip().isNull() ? entry.ip() : entry.ipv6(), entry.port());
-        device->portConfigs()->insert(portConfig);
+    QUrl url;
+    if (entry.type() == "_jsonrpc._tcp") {
+        url.setScheme(sslEnabled ? "nymeas" : "nymea");
+    } else {
+        url.setScheme(sslEnabled ? "wss" : "ws");
     }
-    portConfig->setProtocol(entry.type() == "_ws._tcp" ? PortConfig::ProtocolWebSocket : PortConfig::ProtocolNymeaRpc);
-    portConfig->setSslEnabled(sslEnabled);
+//    entry
+    url.setHost(!entry.ip().isNull() ? entry.ip().toString() : entry.ipv6().toString());
+    url.setPort(entry.port());
+    if (!device->connections()->find(url)){
+        qDebug() << "Zeroconf: Adding new connection to host:" << device->name() << url.toString();
+        QString displayName = QString("%1:%2").arg(url.host()).arg(url.port());
+        Connection *connection = new Connection(url, Connection::BearerTypeWifi, sslEnabled, displayName);
+        device->connections()->addConnection(connection);
+    }
 }
 #endif

@@ -116,9 +116,9 @@ ApplicationWindow {
         objectName: "pageStack"
         anchors.fill: parent
         initialItem: Page {}
-        onDepthChanged: {
-            print("stackview depth changed", pageStack.depth)
-        }
+//        onDepthChanged: {
+//            print("stackview depth changed", pageStack.depth)
+//        }
     }
 
     onClosing: {

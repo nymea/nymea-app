@@ -3,7 +3,7 @@
 #include "upnpdiscovery.h"
 #include "zeroconfdiscovery.h"
 #include "bluetoothservicediscovery.h"
-#include "awsclient.h"
+#include "connection/awsclient.h"
 
 #include <QUuid>
 #include <QBluetoothUuid>
@@ -59,10 +59,21 @@ DiscoveryModel *NymeaDiscovery::discoveryModel() const
 
 void NymeaDiscovery::cloudDevicesFetched(const QList<AWSDevice> &devices)
 {
+    qDebug() << "Cloud devices fetched";
     foreach (const AWSDevice &d, devices) {
         DiscoveryDevice *device = m_discoveryModel->find(d.id);
         if (!device) {
-
+            device = new DiscoveryDevice();
+            device->setUuid(d.id);
+            device->setName(d.name);
+            m_discoveryModel->addDevice(device);
+        }
+        QUrl url;
+        url.setScheme("cloud");
+        url.setHost(d.id);
+        if (!device->connections()->find(url)) {
+            Connection *conn = new Connection(url, Connection::BearerTypeCloud, true, d.id);
+            device->connections()->addConnection(conn);
         }
     }
 }

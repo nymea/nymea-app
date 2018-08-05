@@ -93,7 +93,7 @@ void AWSClient::initiateAuthReply()
     qDebug() << "AWS login successful";
     emit isLoggedInChanged();
 
-    return; // Why should we call GetId? Ask Luca
+//    return; // Why should we call GetId? Ask Luca
 
     QUrl url("https://cognito-identity.eu-west-1.amazonaws.com/");
 
@@ -131,6 +131,7 @@ void AWSClient::getIdReply()
 
 void AWSClient::fetchDevices()
 {
+    qDebug() << "Fetching cloud devices";
     QUrl url("https://z6368zhf2m.execute-api.eu-west-1.amazonaws.com/dev/devices");
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
@@ -161,4 +162,9 @@ void AWSClient::fetchDevices()
         emit devicesFetched(ret);
     });
 
+}
+
+QByteArray AWSClient::accessToken() const
+{
+    return m_accessToken;
 }

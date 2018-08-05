@@ -29,65 +29,56 @@
 #include <QObject>
 #include <QAbstractListModel>
 
-class PortConfig: public QObject
-{
+class Connection: public QObject {
     Q_OBJECT
-    Q_PROPERTY(int port READ port CONSTANT)
-    Q_PROPERTY(Protocol protocol READ protocol NOTIFY protocolChanged)
-    Q_PROPERTY(QString hostAddress READ hostAddressString NOTIFY hostAddressChanged)
-    Q_PROPERTY(bool sslEnabled READ sslEnabled NOTIFY sslEnabledChanged)
+    Q_PROPERTY(QUrl url READ url CONSTANT)
+    Q_PROPERTY(BearerType bearerType READ bearerType CONSTANT)
+    Q_PROPERTY(bool secure READ secure CONSTANT)
+    Q_PROPERTY(QString displayName READ displayName CONSTANT)
 public:
-    enum Protocol {
-        ProtocolNymeaRpc,
-        ProtocolWebSocket
+    enum BearerType {
+        BearerTypeUnknown,
+        BearerTypeWifi,
+        BearerTypeEthernet,
+        BearerTypeBluetooth,
+        BearerTypeCloud
     };
-    Q_ENUM(Protocol)
-    PortConfig(const QHostAddress &hostAddress, int port, QObject *parent = nullptr);
+    Q_ENUM(BearerType)
 
-    int port() const;
+    Connection(const QUrl &url, BearerType bearerType, bool secure, const QString &displayName, QObject *parent = nullptr);
 
-    Protocol protocol() const;
-    void setProtocol(Protocol protocol);
-
-    QHostAddress hostAddress() const;
-    QString hostAddressString() const;
-    void setHostAddress(const QString &hostAddress);
-
-    bool sslEnabled() const;
-    void setSslEnabled(bool sslEnabled);
-
-signals:
-    void protocolChanged();
-    void hostAddressChanged();
-    void sslEnabledChanged();
+    QUrl url() const;
+    BearerType bearerType() const;
+    bool secure() const;
+    QString displayName() const;
 
 private:
-    int m_port = -1;
-    QHostAddress m_hostAddress;
-    Protocol m_protocol = ProtocolNymeaRpc;
-    bool m_sslEnabled = false;
+    QUrl m_url;
+    BearerType m_bearerType = BearerTypeUnknown;
+    bool m_secure = false;
+    QString m_displayName;
 };
 
-class PortConfigs: public QAbstractListModel
+class Connections: public QAbstractListModel
 {
     Q_OBJECT
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
 public:
     enum Roles {
-        RoleAddress,
-        RolePort,
-        RoleProtocol,
-        RoleSSLEnabled
+        RoleUrl,
+        RoleName,
+        RoleBearerType,
+        RoleSecure
     };
     Q_ENUM(Roles)
-    PortConfigs(QObject* parent = nullptr);
+    Connections(QObject* parent = nullptr);
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const override;
 
-    PortConfig* find(int port);
-    void insert(PortConfig* portConfig);
+    void addConnection(Connection *connection);
 
-    Q_INVOKABLE PortConfig *get(int index) const;
+    Q_INVOKABLE Connection* find(const QUrl &url) const;
+    Q_INVOKABLE Connection* get(int index) const;
 
 signals:
     void countChanged();
@@ -96,7 +87,7 @@ protected:
     QHash<int, QByteArray> roleNames() const override;
 
 private:
-    QList<PortConfig*> m_portConfigs;
+    QList<Connection*> m_connections;
 
 };
 
@@ -106,7 +97,7 @@ class DiscoveryDevice: public QObject
     Q_PROPERTY(QUuid uuid READ uuid CONSTANT)
     Q_PROPERTY(QString name READ name NOTIFY nameChanged)
     Q_PROPERTY(QString version READ version NOTIFY versionChanged)
-    Q_PROPERTY(PortConfigs* portConfigs READ portConfigs CONSTANT)
+    Q_PROPERTY(Connections* connections READ connections CONSTANT)
 
 public:
     explicit DiscoveryDevice(QObject *parent = nullptr);
@@ -120,9 +111,7 @@ public:
     QString version() const;
     void setVersion(const QString &version);
 
-    PortConfigs *portConfigs() const;
-
-    Q_INVOKABLE QString toUrl(int portConfigIndex);
+    Connections *connections() const;
 
 signals:
     void nameChanged();
@@ -132,7 +121,7 @@ private:
     QUuid m_uuid;
     QString m_name;
     QString m_version;
-    PortConfigs *m_portConfigs = nullptr;
+    Connections *m_connections = nullptr;
 };
 
 #endif // DISCOVERYDEVICE_H

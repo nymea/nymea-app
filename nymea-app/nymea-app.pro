@@ -7,7 +7,8 @@ QT += network qml quick quickcontrols2 svg websockets bluetooth
 INCLUDEPATH += $$top_srcdir/libnymea-common \
                $$top_srcdir/libnymea-app-core
 LIBS += -L$$top_builddir/libnymea-app-core/ -lnymea-app-core \
-        -L$$top_builddir/libnymea-common/ -lnymea-common
+        -L$$top_builddir/libnymea-common/ -lnymea-common \
+
 LIBS += -lssl -lcrypto
 
 win32:Debug:LIBS += -L$$top_builddir/libnymea-app-core/debug \
@@ -93,6 +94,3 @@ BR=$$BRANDING
 
 target.path = /usr/bin
 INSTALLS += target
-
-DISTFILES += \
-    ui/magic/NewThingMagicPage.qml

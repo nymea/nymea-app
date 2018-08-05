@@ -19,7 +19,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #include "jsonrpcclient.h"
-#include "nymeaconnection.h"
+#include "connection/nymeaconnection.h"
 #include "types/param.h"
 #include "types/params.h"
 

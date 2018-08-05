@@ -1,6 +1,7 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
+import QtQuick.Controls.Material 2.2
 
 SwipeDelegate {
     id: root
@@ -8,6 +9,9 @@ SwipeDelegate {
     property string subText
     property bool progressive: true
     property bool canDelete: false
+
+    property bool wrapTexts: true
+    property bool prominentSubText: true
 
     property string iconName
     property int iconSize: app.iconSize
@@ -37,8 +41,8 @@ SwipeDelegate {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 text: root.text
-                wrapMode: Text.WordWrap
-                maximumLineCount: 2
+                wrapMode: root.wrapTexts ? Text.WordWrap : Text.NoWrap
+                maximumLineCount: root.wrapTexts ? 2 : 1
                 elide: Text.ElideRight
                 verticalAlignment: Text.AlignVCenter
             }
@@ -46,9 +50,10 @@ SwipeDelegate {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 text: root.subText
-                font.pixelSize: app.smallFont
-                wrapMode: Text.WordWrap
-                maximumLineCount: 2
+                font.pixelSize: root.prominentSubText ? app.smallFont : app.extraSmallFont
+                color: root.prominentSubText ? Material.foreground : Material.color(Material.Grey)
+                wrapMode: root.wrapTexts ? Text.WordWrap : Text.NoWrap
+                maximumLineCount: root.wrapTexts ? 2 : 1
                 elide: Text.ElideRight
                 verticalAlignment: Text.AlignVCenter
                 visible: root.subText.length > 0

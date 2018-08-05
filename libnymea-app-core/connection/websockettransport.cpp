@@ -18,70 +18,69 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include "websocketinterface.h"
-#include "engine.h"
+#include "websockettransport.h"
 
 #include <QCoreApplication>
 #include <QJsonDocument>
 #include <QJsonParseError>
 #include <QSettings>
 
-WebsocketInterface::WebsocketInterface(QObject *parent) :
-    NymeaInterface(parent)
+WebsocketTransport::WebsocketTransport(QObject *parent) :
+    NymeaTransportInterface(parent)
 {
     m_socket = new QWebSocket(QCoreApplication::applicationName(), QWebSocketProtocol::Version13, this);
 
-    QObject::connect(m_socket, &QWebSocket::connected, this, &WebsocketInterface::connected);
-    QObject::connect(m_socket, &QWebSocket::disconnected, this, &WebsocketInterface::disconnected);
+    QObject::connect(m_socket, &QWebSocket::connected, this, &WebsocketTransport::connected);
+    QObject::connect(m_socket, &QWebSocket::disconnected, this, &WebsocketTransport::disconnected);
     typedef void (QWebSocket:: *errorSignal)(QAbstractSocket::SocketError);
-    QObject::connect(m_socket, static_cast<errorSignal>(&QWebSocket::error), this, &WebsocketInterface::error);
-    QObject::connect(m_socket, &QWebSocket::textMessageReceived, this, &WebsocketInterface::onTextMessageReceived);
+    QObject::connect(m_socket, static_cast<errorSignal>(&QWebSocket::error), this, &WebsocketTransport::error);
+    QObject::connect(m_socket, &QWebSocket::textMessageReceived, this, &WebsocketTransport::onTextMessageReceived);
 
     typedef void (QWebSocket:: *sslErrorsSignal)(const QList<QSslError> &);
-    QObject::connect(m_socket, static_cast<sslErrorsSignal>(&QWebSocket::sslErrors),this, &WebsocketInterface::sslErrors);
+    QObject::connect(m_socket, static_cast<sslErrorsSignal>(&QWebSocket::sslErrors),this, &WebsocketTransport::sslErrors);
 }
 
-QStringList WebsocketInterface::supportedSchemes() const
+QStringList WebsocketTransport::supportedSchemes() const
 {
     return {"ws", "wss"};
 }
 
-void WebsocketInterface::connect(const QUrl &url)
+void WebsocketTransport::connect(const QUrl &url)
 {
     m_socket->open(QUrl(url));
 }
 
-NymeaInterface::ConnectionState WebsocketInterface::connectionState() const
+NymeaTransportInterface::ConnectionState WebsocketTransport::connectionState() const
 {
     switch (m_socket->state()) {
     case QAbstractSocket::ConnectedState:
-        return NymeaInterface::ConnectionStateConnected;
+        return NymeaTransportInterface::ConnectionStateConnected;
     case QAbstractSocket::ConnectingState:
     case QAbstractSocket::HostLookupState:
-        return NymeaInterface::ConnectionStateConnecting;
+        return NymeaTransportInterface::ConnectionStateConnecting;
     default:
-        return NymeaInterface::ConnectionStateDisconnected;
+        return NymeaTransportInterface::ConnectionStateDisconnected;
     }
 
 }
 
-void WebsocketInterface::disconnect()
+void WebsocketTransport::disconnect()
 {
     m_socket->close();
     m_socket->abort();
 }
 
-void WebsocketInterface::sendData(const QByteArray &data)
+void WebsocketTransport::sendData(const QByteArray &data)
 {
     m_socket->sendTextMessage(QString::fromUtf8(data));
 }
 
-void WebsocketInterface::ignoreSslErrors(const QList<QSslError> &errors)
+void WebsocketTransport::ignoreSslErrors(const QList<QSslError> &errors)
 {
     m_socket->ignoreSslErrors(errors);
 }
 
-void WebsocketInterface::onTextMessageReceived(const QString &data)
+void WebsocketTransport::onTextMessageReceived(const QString &data)
 {
     emit dataReady(data.toUtf8());
 }

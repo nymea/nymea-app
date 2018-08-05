@@ -24,7 +24,7 @@
 #include <QObject>
 
 #include "devicemanager.h"
-#include "nymeainterface.h"
+#include "connection/nymeatransportinterface.h"
 #include "jsonrpc/jsonrpcclient.h"
 #include "wifisetup/bluetoothdiscovery.h"
 

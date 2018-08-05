@@ -28,6 +28,8 @@ public:
 
     Q_INVOKABLE void fetchDevices();
 
+    QByteArray accessToken() const;
+
 signals:
     void isLoggedInChanged();
 
