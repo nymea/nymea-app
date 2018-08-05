@@ -3,6 +3,8 @@
 
 #include <QObject>
 
+#include "awsclient.h"
+
 class DiscoveryModel;
 class UpnpDiscovery;
 class ZeroconfDiscovery;
@@ -24,6 +26,9 @@ public:
 
 signals:
     void discoveringChanged();
+
+private slots:
+    void cloudDevicesFetched(const QList<AWSDevice> &devices);
 
 private:
     bool m_discovering = false;

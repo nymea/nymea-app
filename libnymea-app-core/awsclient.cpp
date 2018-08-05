@@ -5,32 +5,34 @@
 #include <QNetworkAccessManager>
 #include <QUrlQuery>
 #include <QJsonDocument>
-
-
-extern "C" {
-#include "connection/srp.h"
-}
+#include <QSettings>
 
 static QByteArray clientId = "8rjhfdlf9jf1suok2jcrltd6v";
 
 AWSClient::AWSClient(QObject *parent) : QObject(parent)
 {
     m_nam = new QNetworkAccessManager(this);
+
+    QSettings settings;
+    settings.beginGroup("cloud");
+    m_username = settings.value("username").toString();
+    m_accessToken = settings.value("accessToken").toByteArray();
+    m_idToken = settings.value("idToken").toByteArray();
+}
+
+bool AWSClient::isLoggedIn() const
+{
+    return !m_username.isEmpty() && !m_accessToken.isEmpty() && !m_idToken.isEmpty();
 }
 
 void AWSClient::login(const QString &username, const QString &password)
 {
-    if (m_srpUser != nullptr) {
-        qWarning() << "Already logged in. Cannot log in again";
-        return;
-    }
+    m_username = username;
 
-    m_srpUser = srp_user_new(SRP_SHA256, SRP_NG_2048, username.toLocal8Bit(), (const unsigned char*)password.toLocal8Bit().data(), password.length(), nullptr ,nullptr);
-
-    char *user;
-    unsigned char *bytes_A;
-    int len_A;
-    srp_user_start_authentication(m_srpUser, (const char**)&user, (const unsigned char**)&bytes_A, &len_A);
+    QSettings settings;
+    settings.remove("cloud");
+    settings.beginGroup("cloud");
+    settings.setValue("username", username);
 
     QUrl url("https://cognito-idp.eu-west-1.amazonaws.com/");
 
@@ -56,16 +58,9 @@ void AWSClient::login(const QString &username, const QString &password)
     QJsonDocument jsonDoc = QJsonDocument::fromVariant(params);
 
     QByteArray payload = jsonDoc.toJson(QJsonDocument::Compact);
-
-    qDebug() << "Posting:\nURL:" << request.url().toString();
-    qDebug() << "HEADERS:";
-    foreach (const QByteArray &headerName, request.rawHeaderList()) {
-        qDebug() << headerName << ":" << request.rawHeader(headerName);
-    }
-    qDebug().noquote() << "Payload:" << payload;
-
     QNetworkReply *reply = m_nam->post(request, payload);
     connect(reply, &QNetworkReply::finished, this, &AWSClient::initiateAuthReply);
+    qDebug() << "Logging in to AWS as user:" << username;
 }
 
 void AWSClient::initiateAuthReply()
@@ -73,7 +68,11 @@ void AWSClient::initiateAuthReply()
     QNetworkReply* reply = static_cast<QNetworkReply*>(sender());
     reply->deleteLater();
     QByteArray data = reply->readAll();
-    qDebug() << "InitiateAuth reply" << reply->error() << reply->errorString() << qUtf8Printable(data);
+
+    if (reply->error() != QNetworkReply::NoError) {
+        qWarning() << "Error logging in to aws:" << reply->error() << reply->errorString() << qUtf8Printable(data);
+        return;
+    }
 
     QJsonParseError error;
     QJsonDocument jsonDoc = QJsonDocument::fromJson(data, &error);
@@ -83,11 +82,18 @@ void AWSClient::initiateAuthReply()
     }
 
     QVariantMap authenticationResult = jsonDoc.toVariant().toMap().value("AuthenticationResult").toMap();
-    QByteArray accessToken = authenticationResult.value("AccessToken").toByteArray();
-    QByteArray idToken = authenticationResult.value("IdToken").toByteArray();
 
-    qDebug() << "Have acess token:" << accessToken;
-    qDebug() << "have idToken:" << idToken;
+    m_accessToken = authenticationResult.value("AccessToken").toByteArray();
+    m_idToken = authenticationResult.value("IdToken").toByteArray();
+    QSettings settings;
+    settings.beginGroup("cloud");
+    settings.setValue("accessToken", m_accessToken);
+    settings.setValue("idToken", m_idToken);
+
+    qDebug() << "AWS login successful";
+    emit isLoggedInChanged();
+
+    return; // Why should we call GetId? Ask Luca
 
     QUrl url("https://cognito-identity.eu-west-1.amazonaws.com/");
 
@@ -102,7 +108,7 @@ void AWSClient::initiateAuthReply()
     request.setRawHeader("X-Amz-Target", "AWSCognitoIdentityService.GetId");
 
     QVariantMap logins;
-    logins.insert("cognito-idp.eu-west-1.amazonaws.com/eu-west-1_6eX6YjmXr", idToken);
+    logins.insert("cognito-idp.eu-west-1.amazonaws.com/eu-west-1_6eX6YjmXr", m_idToken);
 
     QVariantMap params;
     params.insert("IdentityPoolId", "eu-west-1:108a174c-5786-40f9-966a-1a0cd33d6801");
@@ -110,14 +116,6 @@ void AWSClient::initiateAuthReply()
 
     jsonDoc = QJsonDocument::fromVariant(params);
     QByteArray payload = jsonDoc.toJson(QJsonDocument::Compact);
-
-
-    qDebug() << "Posting:\nURL:" << request.url().toString();
-    qDebug() << "HEADERS:";
-    foreach (const QByteArray &headerName, request.rawHeaderList()) {
-        qDebug() << headerName << ":" << request.rawHeader(headerName);
-    }
-    qDebug().noquote() << "Payload:" << payload;
 
     reply = m_nam->post(request, payload);
     connect(reply, &QNetworkReply::finished, this, &AWSClient::getIdReply);
@@ -128,8 +126,39 @@ void AWSClient::getIdReply()
     QNetworkReply* reply = static_cast<QNetworkReply*>(sender());
     reply->deleteLater();
     QByteArray data = reply->readAll();
-    qDebug() << "RespondToAuthChallenge reply" << reply->error() << reply->errorString() << qUtf8Printable(data);
+    qDebug() << "GetID reply" << reply->error() << reply->errorString() << qUtf8Printable(data);
+}
 
+void AWSClient::fetchDevices()
+{
+    QUrl url("https://z6368zhf2m.execute-api.eu-west-1.amazonaws.com/dev/devices");
+    QNetworkRequest request(url);
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    request.setRawHeader("x-api-idToken", m_idToken);
 
-//    QM
+    QNetworkReply *reply = m_nam->get(request);
+    connect(reply, &QNetworkReply::finished, this, [this, reply]() {
+        reply->deleteLater();
+        QByteArray data = reply->readAll();
+        if (reply->error() != QNetworkReply::NoError) {
+            qWarning() << "Error fetching cloud devices:" << reply->error() << reply->errorString() << qUtf8Printable(data);
+            return;
+        }
+        QJsonParseError error;
+        QJsonDocument jsonDoc = QJsonDocument::fromJson(data, &error);
+        if (error.error != QJsonParseError::NoError) {
+            qWarning() << "Failed to parse JSON from server" << error.errorString() << qUtf8Printable(data);
+            return;
+        }
+        QList<AWSDevice> ret;
+        foreach (const QVariant &entry, jsonDoc.toVariant().toMap().value("devices").toList()) {
+            AWSDevice d;
+            d.id = entry.toMap().value("deviceId").toString();
+            d.name = entry.toMap().value("name").toString();
+            d.online = entry.toMap().value("online").toBool();
+            ret.append(d);
+        }
+        emit devicesFetched(ret);
+    });
+
 }

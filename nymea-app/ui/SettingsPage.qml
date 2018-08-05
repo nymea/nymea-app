@@ -92,6 +92,13 @@ Page {
 
         MeaListItemDelegate {
             Layout.fillWidth: true
+            iconName: "../images/cloud.svg"
+            text: qsTr("Cloud")
+            onClicked: pageStack.push(Qt.resolvedUrl("system/CloudSettingsPage.qml"))
+        }
+
+        MeaListItemDelegate {
+            Layout.fillWidth: true
             iconName: "../images/plugin.svg"
             text: qsTr("Plugins")
             onClicked:pageStack.push(Qt.resolvedUrl("system/PluginsPage.qml"))
@@ -108,32 +115,6 @@ Page {
             iconName: "../images/info.svg"
             text: qsTr("About nymea")
             onClicked: pageStack.push(Qt.resolvedUrl("system/AboutNymeaPage.qml"))
-        }
-    }
-
-    Component {
-        id: styleChangedDialog
-        Dialog {
-            width: Math.min(parent.width * .8, contentLabel.implicitWidth)
-            x: (parent.width - width) / 2
-            y: (parent.height - height) / 2
-            modal: true
-
-            title: qsTr("Style changed")
-
-            standardButtons: Dialog.Ok
-
-            ColumnLayout {
-                id: content
-                anchors { left: parent.left; top: parent.top; right: parent.right }
-
-                Label {
-                    id: contentLabel
-                    Layout.fillWidth: true
-                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                    text: qsTr("The application needs to be restarted for style changes to take effect.")
-                }
-            }
         }
     }
 }

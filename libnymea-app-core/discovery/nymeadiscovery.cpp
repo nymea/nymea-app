@@ -1,8 +1,9 @@
 #include "nymeadiscovery.h"
-
+#include "engine.h"
 #include "upnpdiscovery.h"
 #include "zeroconfdiscovery.h"
 #include "bluetoothservicediscovery.h"
+#include "awsclient.h"
 
 #include <QUuid>
 #include <QBluetoothUuid>
@@ -17,6 +18,8 @@ NymeaDiscovery::NymeaDiscovery(QObject *parent) : QObject(parent)
 #ifndef Q_OS_IOS
     m_bluetooth = new BluetoothServiceDiscovery(m_discoveryModel, this);
 #endif
+
+    connect(Engine::instance()->awsClient(), &AWSClient::devicesFetched, this, &NymeaDiscovery::cloudDevicesFetched);
 }
 
 bool NymeaDiscovery::discovering() const
@@ -36,6 +39,9 @@ void NymeaDiscovery::setDiscovering(bool discovering)
         if (m_bluetooth) {
             m_bluetooth->discover();
         }
+        if (Engine::instance()->awsClient()->isLoggedIn()) {
+            Engine::instance()->awsClient()->fetchDevices();
+        }
     } else {
         m_upnp->stopDiscovery();
         if (m_bluetooth) {
@@ -49,4 +55,14 @@ void NymeaDiscovery::setDiscovering(bool discovering)
 DiscoveryModel *NymeaDiscovery::discoveryModel() const
 {
     return m_discoveryModel;
+}
+
+void NymeaDiscovery::cloudDevicesFetched(const QList<AWSDevice> &devices)
+{
+    foreach (const AWSDevice &d, devices) {
+        DiscoveryDevice *device = m_discoveryModel->find(d.id);
+        if (!device) {
+
+        }
+    }
 }

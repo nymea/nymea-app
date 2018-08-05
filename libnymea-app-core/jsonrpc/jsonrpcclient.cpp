@@ -77,6 +77,13 @@ void JsonRpcClient::setNotificationsEnabled(bool enabled)
     sendRequest(reply->requestMap());
 }
 
+void JsonRpcClient::getCloudConnectionStatus()
+{
+    JsonRpcReply *reply = createReply("JSONRPC.IsCloudConnected", QVariantMap(), this, "isCloudConnectedReply");
+    m_replies.insert(reply->commandId(), reply);
+    sendRequest(reply->requestMap());
+}
+
 void JsonRpcClient::setNotificationsEnabledResponse(const QVariantMap &params)
 {
     qDebug() << "Notifications enabled:" << params;
@@ -88,8 +95,6 @@ void JsonRpcClient::setNotificationsEnabledResponse(const QVariantMap &params)
 
 void JsonRpcClient::notificationReceived(const QVariantMap &data)
 {
-    qDebug() << "JsonRpcClient: Notification received" << data;
-
     //JsonRpcClient: Notification received QMap(("id", QVariant(double, 2))("notification", QVariant(QString, "JSONRPC.PushButtonAuthFinished"))("params", QVariant(QVariantMap, QMap(("success", QVariant(bool, true))("token", QVariant(QString, "FJPaAJ8FEtrqcC+/s0s/lAcDubz0OyEtwbRsyFIWM9c="))("transactionId", QVariant(double, 2))))))
     if (data.value("notification").toString() == "JSONRPC.PushButtonAuthFinished") {
         qDebug() << "Push button auth finished.";
@@ -111,7 +116,23 @@ void JsonRpcClient::notificationReceived(const QVariantMap &data)
         } else {
             emit pushButtonAuthFailed();
         }
+        return;
     }
+
+    if (data.value("notification").toString() == "JSONRPC.CloudConnectedChanged") {
+        m_cloudConnected = data.value("params").toMap().value("connected").toBool();
+        emit cloudConnectedChanged();
+        return;
+    }
+
+    qDebug() << "JsonRpcClient: Unhandled notification received" << data;
+}
+
+void JsonRpcClient::isCloudConnectedReply(const QVariantMap &data)
+{
+    qDebug() << "Cloud is connected" << data;
+    m_cloudConnected = data.value("params").toMap().value("connected").toBool();
+    emit cloudConnectedChanged();
 }
 
 bool JsonRpcClient::connected() const
@@ -132,6 +153,11 @@ bool JsonRpcClient::authenticationRequired() const
 bool JsonRpcClient::pushButtonAuthAvailable() const
 {
     return m_pushButtonAuthAvailable;
+}
+
+bool JsonRpcClient::cloudConnected() const
+{
+    return m_cloudConnected;
 }
 
 QString JsonRpcClient::serverVersion() const
@@ -267,7 +293,7 @@ void JsonRpcClient::onInterfaceConnectedChanged(bool connected)
 
 void JsonRpcClient::dataReceived(const QByteArray &data)
 {
-    qDebug() << "JsonRpcClient: received data:" << qUtf8Printable(data);
+//    qDebug() << "JsonRpcClient: received data:" << qUtf8Printable(data);
     m_receiveBuffer.append(data);
 
     int splitIndex = m_receiveBuffer.indexOf("}\n{") + 1;
@@ -334,6 +360,7 @@ void JsonRpcClient::dataReceived(const QByteArray &data)
         }
 
         setNotificationsEnabled(true);
+        getCloudConnectionStatus();
     }
 
     // check if this is a reply to a request

@@ -40,6 +40,7 @@ class JsonRpcClient : public JsonHandler
     Q_PROPERTY(bool initialSetupRequired READ initialSetupRequired NOTIFY initialSetupRequiredChanged)
     Q_PROPERTY(bool authenticationRequired READ authenticationRequired NOTIFY authenticationRequiredChanged)
     Q_PROPERTY(bool pushButtonAuthAvailable READ pushButtonAuthAvailable NOTIFY pushButtonAuthAvailableChanged)
+    Q_PROPERTY(bool cloudConnected READ cloudConnected NOTIFY cloudConnectedChanged)
     Q_PROPERTY(QString serverVersion READ serverVersion NOTIFY handshakeReceived)
     Q_PROPERTY(QString jsonRpcVersion READ jsonRpcVersion NOTIFY handshakeReceived)
     Q_PROPERTY(QString serverUuid READ serverUuid NOTIFY handshakeReceived)
@@ -59,6 +60,7 @@ public:
     bool initialSetupRequired() const;
     bool authenticationRequired() const;
     bool pushButtonAuthAvailable() const;
+    bool cloudConnected() const;
 
     QString serverVersion() const;
     QString jsonRpcVersion() const;
@@ -82,6 +84,7 @@ signals:
     void authenticationFailed();
     void pushButtonAuthFailed();
     void createUserFailed(const QString &error);
+    void cloudConnectedChanged();
 
     void responseReceived(const int &commandId, const QVariantMap &response);
 
@@ -102,6 +105,7 @@ private:
     bool m_initialSetupRequired = false;
     bool m_authenticationRequired = false;
     bool m_pushButtonAuthAvailable = false;
+    bool m_cloudConnected = false;
     int m_pendingPushButtonTransaction = -1;
     QString m_serverUuid;
     QVersionNumber m_jsonRpcVersion;
@@ -110,6 +114,7 @@ private:
     QByteArray m_receiveBuffer;
 
     void setNotificationsEnabled(bool enabled);
+    void getCloudConnectionStatus();
 
     // json handler
     Q_INVOKABLE void processAuthenticate(const QVariantMap &data);
@@ -118,6 +123,7 @@ private:
 
     Q_INVOKABLE void setNotificationsEnabledResponse(const QVariantMap &params);
     Q_INVOKABLE void notificationReceived(const QVariantMap &data);
+    Q_INVOKABLE void isCloudConnectedReply(const QVariantMap &data);
 
     void sendRequest(const QVariantMap &request);
 

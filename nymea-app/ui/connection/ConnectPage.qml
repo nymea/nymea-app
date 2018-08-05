@@ -85,29 +85,13 @@ Page {
             header: FancyHeader {
                 title: qsTr("Connect %1").arg(app.systemName)
                 model: ListModel {
-                    ListElement { iconSource: "../images/network-vpn.svg"; text: qsTr("Manual connection"); page: "ManualConnectPage.qml" }
-                    ListElement { iconSource: "../images/bluetooth.svg"; text: qsTr("Wireless setup"); page: "BluetoothDiscoveryPage.qml"; }
-                    ListElement { iconSource: "../images/private-browsing.svg"; text: qsTr("Demo mode"); page: "" }
+                    ListElement { iconSource: "../images/network-vpn.svg"; text: qsTr("Manual connection"); page: "connection/ManualConnectPage.qml" }
+                    ListElement { iconSource: "../images/bluetooth.svg"; text: qsTr("Wireless setup"); page: "connection/BluetoothDiscoveryPage.qml"; }
+                    ListElement { iconSource: "../images/cloud.svg"; text: qsTr("Cloud login"); page: "connection/CloudLoginPage.qml" }
                     ListElement { iconSource: "../images/stock_application.svg"; text: qsTr("App settings"); page: "AppSettingsPage.qml" }
-                    ListElement { iconSource: "../images/stock_application.svg"; text: qsTr("Cloud login"); page: "AppSettingsPage.qml" }
                 }
                 onClicked: {
-                    switch (index) {
-                    case 0:
-                    case 1:
-                    case 3:
-                        pageStack.push(model.get(index).page);
-                        break;
-                    case 2:
-                        var page = pageStack.push(Qt.resolvedUrl("ConnectingPage.qml"))
-                        page.cancel.connect(function() {
-                            Engine.connection.disconnect()
-                        })
-                        Engine.connection.connect("nymea://nymea.nymea.io:2222")
-                        break;
-                    case 4:
-                        Engine.awsClient.login("michael.zanetti@guh.io", "H22*xgemmmmm");
-                    }
+                    pageStack.push(model.get(index).page);
                 }
             }
 
