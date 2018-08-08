@@ -6,7 +6,7 @@
 #include <QtOpenGL/qgl.h>
 #endif
 
-#include "libmea-core.h"
+#include "libnymea-app-core.h"
 
 int main(int argc, char **argv)
 {

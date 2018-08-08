@@ -88,7 +88,7 @@ Page {
                     ListElement { iconSource: "../images/network-vpn.svg"; text: qsTr("Manual connection"); page: "ManualConnectPage.qml" }
                     ListElement { iconSource: "../images/bluetooth.svg"; text: qsTr("Wireless setup"); page: "BluetoothDiscoveryPage.qml"; }
                     ListElement { iconSource: "../images/cloud.svg"; text: qsTr("Cloud login"); page: "CloudLoginPage.qml" }
-                    ListElement { iconSource: "../images/stock_application.svg"; text: qsTr("App settings"); page: "AppSettingsPage.qml" }
+                    ListElement { iconSource: "../images/stock_application.svg"; text: qsTr("App settings"); page: "../AppSettingsPage.qml" }
                 }
                 onClicked: {
                     pageStack.push(model.get(index).page);

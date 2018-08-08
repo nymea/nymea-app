@@ -39,5 +39,16 @@ Page {
                 Engine.awsClient.login(usernameTextField.text, passwordTextField.text);
             }
         }
+
+        Button {
+            Layout.fillWidth: true
+            text: "GetId"
+            onClicked: Engine.awsClient.getId();
+        }
+        Button {
+            Layout.fillWidth: true
+            text: "Post to MQTT"
+            onClicked: Engine.awsClient.postToMQTT();
+        }
     }
 }

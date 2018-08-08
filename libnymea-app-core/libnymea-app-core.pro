@@ -12,7 +12,8 @@ include(../config.pri)
 }
 DEFINES += QT_STATIC
 include(../qmqtt/src/mqtt/mqtt.pri)
-HEADERS += $$PUBLIC_HEADERS $$PRIVATE_HEADERS
+HEADERS += $$PUBLIC_HEADERS $$PRIVATE_HEADERS \
+    connection/sigv4utils.h
 
 QT -= gui
 QT += network websockets bluetooth
@@ -77,7 +78,8 @@ SOURCES += \
     ruletemplates/stateevaluatortemplate.cpp \
     ruletemplates/statedescriptortemplate.cpp \
     discovery/bluetoothservicediscovery.cpp \
-    connection/cloudtransport.cpp
+    connection/cloudtransport.cpp \
+    connection/sigv4utils.cpp
 
 HEADERS += \
     engine.h \

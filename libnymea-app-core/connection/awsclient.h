@@ -3,9 +3,9 @@
 
 #include <QObject>
 #include <QNetworkRequest>
+#include <QDate>
 
 class QNetworkAccessManager;
-struct SRPUser;
 
 class AWSDevice {
 public:
@@ -28,6 +28,9 @@ public:
 
     Q_INVOKABLE void fetchDevices();
 
+    Q_INVOKABLE void postToMQTT();
+    Q_INVOKABLE void getId();
+
     QByteArray accessToken() const;
 
 signals:
@@ -35,9 +38,9 @@ signals:
 
     void devicesFetched(QList<AWSDevice> devices);
 
-private slots:
-    void initiateAuthReply();
-    void getIdReply();
+private:
+    void getCredentialsForIdentity(const QString &identityId);
+    void connectMQTT();
 
 private:
     QNetworkAccessManager *m_nam = nullptr;
@@ -45,6 +48,12 @@ private:
     QString m_username;
     QByteArray m_accessToken;
     QByteArray m_idToken;
+    QByteArray m_refreshToken;
+
+    QByteArray m_accessKeyId;
+    QByteArray m_secretKey;
+    QByteArray m_sessionToken;
+    QDateTime m_expirationDate;
 };
 
 #endif // AWSCLIENT_H

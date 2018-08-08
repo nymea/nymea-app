@@ -10,8 +10,9 @@ INCLUDEPATH += ../../nymea-app/ \
     ../../libnymea-common/ \
     ../../libnymea-app-core/
 
-LIBS += -L$$top_builddir/libmea-core/ -lmea-core \
-        -L$$top_builddir/libnymea-common/ -lnymea-common
+LIBS += -L$$top_builddir/libnymea-app-core/ -lnymea-app-core \
+        -L$$top_builddir/libnymea-common/ -lnymea-common \
+        -lavahi-common -lavahi-client
 win32:Debug:LIBS += -L$$top_builddir/libmea-core/debug \
                     -L$$top_builddir/libnymea-common/debug
 win32:Release:LIBS += -L$$top_builddir/libmea-core/release \

@@ -1,3 +1,3 @@
 TEMPLATE = subdirs
 
-SUBDIRS = testrunner
+SUBDIRS = testrunner unit
