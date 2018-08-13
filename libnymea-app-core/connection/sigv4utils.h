@@ -10,6 +10,10 @@ class SigV4Utils
 public:
     SigV4Utils();
 
+    // Signes a request by adding the "X-AMZ-Date" (if not present) and "X-AMZ-Signature" headers
+    static void signRequest(QNetworkAccessManager::Operation operation, QNetworkRequest &request, const QString &region, const QString &service, const QByteArray &accessKeyId, const QByteArray &secretAccessKey, const QByteArray &sessionToken = QByteArray(), const QByteArray &payload = QByteArray());
+
+
     static QByteArray getCurrentDateTime();
 
 

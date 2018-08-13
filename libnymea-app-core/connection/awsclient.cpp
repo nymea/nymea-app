@@ -253,34 +253,29 @@ void AWSClient::postToMQTT()
 {
     QString host = "a2addxakg5juii.iot.eu-west-1.amazonaws.com";
     QString topic = "850593e9-f2ab-4e89-913a-16f848d48867/eu-west-1:88c8b0f1-3f26-46cb-81f3-ccc37dcb543a/";
-    QString path = "/topics/" + topic.toUtf8().toPercentEncoding().toPercentEncoding().toPercentEncoding() + "?qos=0";
-//    QString path1 = "/topics/" + topic.toUtf8().toPercentEncoding().toPercentEncoding() + "?qos=0";
+
+    // This is somehow broken in AWS...
+    // The Signature needs to be created with having the topic percentage-encoded twice
+    // while the actual request needs to go out with it only being encoded once.
+    // Now one could think this is an issue in how the signature is made, but it can't really
+    // be fixed there as this concerns only the actual topic, not /topics/
+    // so we can't percentage-encode the whole path inside the signature helper...
+    QString path = "/topics/" + topic.toUtf8().toPercentEncoding().toPercentEncoding() + "?qos=0";
+    QString path1 = "/topics/" + topic.toUtf8().toPercentEncoding() + "?qos=0";
 
     QVariantMap params;
     params.insert("message", "Hello box");
     QByteArray payload = QJsonDocument::fromVariant(params).toJson(QJsonDocument::Compact);
 
-    QByteArray dateTime = SigV4Utils::getCurrentDateTime();
-//    dateTime = "20180808T134011Z";
-
 
     QNetworkRequest request("https://" + host + path);
     request.setRawHeader("content-type", "application/json");
     request.setRawHeader("host", host.toUtf8());
-    request.setRawHeader("x-amz-date", dateTime);
-    request.setRawHeader("x-amz-security-token", m_sessionToken);
-//    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-amz-json-1.0");
 
+    SigV4Utils::signRequest(QNetworkAccessManager::PostOperation, request, region, service, m_accessKeyId, m_secretKey, m_sessionToken, payload);
 
-    QByteArray canonicalRequest = SigV4Utils::getCanonicalRequest(QNetworkAccessManager::PostOperation, request, payload);
-    qDebug() << "canonical request:" << qUtf8Printable(canonicalRequest);
-    QByteArray stringToSign = SigV4Utils::getStringToSign(canonicalRequest, dateTime, region, service);
-    qDebug() << "string to sign:" << stringToSign;
-    QByteArray signature = SigV4Utils::getSignature(stringToSign, m_secretKey, dateTime, region, service);
-    qDebug() << "signature:" << signature;
-    QByteArray authorizeHeader = SigV4Utils::getAuthorizationHeader(m_accessKeyId, dateTime, region, service, request, signature);
-
-    request.setRawHeader("Authorization", authorizeHeader);
+    // Workaround MQTT broker url weirdness as described above
+    request.setUrl("https://" + host + path1);
 
     qDebug() << "Posting to MQTT:" << request.url().toString();
     qDebug() << "HEADERS:";

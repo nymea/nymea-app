@@ -12,6 +12,31 @@ SigV4Utils::SigV4Utils()
 
 }
 
+void SigV4Utils::signRequest(QNetworkAccessManager::Operation operation, QNetworkRequest &request, const QString &region, const QString &service, const QByteArray &accessKeyId, const QByteArray &secretAccessKey, const QByteArray &sessionToken, const QByteArray &payload)
+{
+    QByteArray dateTime;
+    if (request.rawHeaderList().contains("X-Amz-Date")) {
+        dateTime = request.rawHeader("X-AMZ-Date");
+    } else {
+        dateTime = SigV4Utils::getCurrentDateTime();
+        request.setRawHeader("X-Amz-Date", dateTime);
+    }
+
+    if (!sessionToken.isEmpty()) {
+        request.setRawHeader("x-amz-security-token", sessionToken);
+    }
+
+    QByteArray canonicalRequest = SigV4Utils::getCanonicalRequest(operation, request, payload);
+//    qDebug() << "canonical request:" << qUtf8Printable(canonicalRequest);
+    QByteArray stringToSign = SigV4Utils::getStringToSign(canonicalRequest, dateTime, region.toUtf8(), service.toUtf8());
+//    qDebug() << "string to sign:" << stringToSign;
+    QByteArray signature = SigV4Utils::getSignature(stringToSign, secretAccessKey, dateTime, region, service);
+//    qDebug() << "signature:" << signature;
+    QByteArray authorizeHeader = SigV4Utils::getAuthorizationHeader(accessKeyId, dateTime, region, service, request, signature);
+
+    request.setRawHeader("Authorization", authorizeHeader);
+}
+
 QByteArray SigV4Utils::getCurrentDateTime()
 {
     return QDateTime::currentDateTime().toUTC().toString("yyyyMMddThhmmssZ").toUtf8();
@@ -70,7 +95,7 @@ QByteArray SigV4Utils::getCanonicalRequest(QNetworkAccessManager::Operation oper
     default:
         Q_ASSERT_X(false, "Network operation not implemented", "SigV4Utils");
     }
-    QByteArray uri = request.url().path().toUtf8();
+    QByteArray uri = request.url().path(QUrl::FullyEncoded).toUtf8();
     QUrlQuery query(request.url());
     QList<QPair<QString, QString> > queryItems = query.queryItems();
     QStringList queryItemStrings;
