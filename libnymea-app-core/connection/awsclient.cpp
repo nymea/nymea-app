@@ -209,10 +209,9 @@ void AWSClient::getCredentialsForIdentity(const QString &identityId)
         settings.setValue("secretKey", m_secretKey);
         settings.setValue("sessionToken", m_sessionToken);
 
-        qDebug() << "Raw GetCredentialsForIdentity reply:" << qUtf8Printable(data);
-        qDebug() << "GetCredentialsForIdentity reply: \nAccess Key ID:" << m_accessKeyId << "\nSecret Key:" << m_secretKey << "\nsessionkey:" << m_sessionToken << "\nExpiration:" << m_expirationDate;
-
-        postToMQTT();
+        qDebug() << "AWS Credentials for Identity received.";
+//        qDebug() << "Raw GetCredentialsForIdentity reply:" << qUtf8Printable(data);
+//        qDebug() << "GetCredentialsForIdentity reply: \nAccess Key ID:" << m_accessKeyId << "\nSecret Key:" << m_secretKey << "\nsessionkey:" << m_sessionToken << "\nExpiration:" << m_expirationDate;
     });
 }
 
