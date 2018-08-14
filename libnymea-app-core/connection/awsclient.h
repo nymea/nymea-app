@@ -12,6 +12,7 @@ public:
     QString id;
     QString name;
     bool online;
+    QByteArray token;
 };
 
 class AWSClient : public QObject
@@ -28,7 +29,7 @@ public:
 
     Q_INVOKABLE void fetchDevices();
 
-    Q_INVOKABLE void postToMQTT();
+    Q_INVOKABLE void postToMQTT(const QString &token);
     Q_INVOKABLE void getId();
 
     QByteArray accessToken() const;

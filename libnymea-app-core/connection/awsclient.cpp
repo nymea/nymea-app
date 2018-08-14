@@ -255,7 +255,7 @@ void AWSClient::connectMQTT()
     mqttClient->connectToHost();
 }
 
-void AWSClient::postToMQTT()
+void AWSClient::postToMQTT(const QString &token)
 {
     QString host = "a2addxakg5juii.iot.eu-west-1.amazonaws.com";
     QString topic = "850593e9-f2ab-4e89-913a-16f848d48867/eu-west-1:88c8b0f1-3f26-46cb-81f3-ccc37dcb543a/proxy";
@@ -270,7 +270,8 @@ void AWSClient::postToMQTT()
     QString path1 = "/topics/" + topic.toUtf8().toPercentEncoding() + "?qos=0";
 
     QVariantMap params;
-    params.insert("message", "Hello box");
+    params.insert("token", token);
+    params.insert("timestamp", QDateTime::currentDateTime().toSecsSinceEpoch());
     QByteArray payload = QJsonDocument::fromVariant(params).toJson(QJsonDocument::Compact);
 
 
@@ -324,6 +325,7 @@ void AWSClient::fetchDevices()
             d.id = entry.toMap().value("deviceId").toString();
             d.name = entry.toMap().value("name").toString();
             d.online = entry.toMap().value("online").toBool();
+            d.token = m_accessToken;
             ret.append(d);
         }
         emit devicesFetched(ret);
