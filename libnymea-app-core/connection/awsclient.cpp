@@ -23,6 +23,7 @@ AWSClient::AWSClient(QObject *parent) : QObject(parent)
     settings.beginGroup("cloud");
     m_username = settings.value("username").toString();
     m_accessToken = settings.value("accessToken").toByteArray();
+    m_accessTokenExpiry = settings.value("accessTokenExpiry").toDateTime();
     m_idToken = settings.value("idToken").toByteArray();
     m_refreshToken = settings.value("refreshToken").toByteArray();
 
@@ -30,6 +31,9 @@ AWSClient::AWSClient(QObject *parent) : QObject(parent)
     m_secretKey = settings.value("secretKey").toByteArray();
     m_sessionToken = settings.value("sessionToken").toByteArray();
 
+//    if (m_accessTokenExpiry < QDateTime::currentDateTime() && !m_refreshToken.isEmpty()) {
+        refreshAccessToken();
+//    }
 }
 
 bool AWSClient::isLoggedIn() const
@@ -90,12 +94,14 @@ void AWSClient::login(const QString &username, const QString &password)
 
         QVariantMap authenticationResult = jsonDoc.toVariant().toMap().value("AuthenticationResult").toMap();
         m_accessToken = authenticationResult.value("AccessToken").toByteArray();
+        m_accessTokenExpiry = QDateTime::currentDateTime().addSecs(authenticationResult.value("ExpiresIn").toInt());
         m_idToken = authenticationResult.value("IdToken").toByteArray();
         m_refreshToken = authenticationResult.value("RefreshToken").toByteArray();
 
         QSettings settings;
         settings.beginGroup("cloud");
         settings.setValue("accessToken", m_accessToken);
+        settings.setValue("accessTokenExpiry", m_accessTokenExpiry);
         settings.setValue("idToken", m_idToken);
         settings.setValue("refreshToken", m_refreshToken);
 
@@ -252,7 +258,7 @@ void AWSClient::connectMQTT()
 void AWSClient::postToMQTT()
 {
     QString host = "a2addxakg5juii.iot.eu-west-1.amazonaws.com";
-    QString topic = "850593e9-f2ab-4e89-913a-16f848d48867/eu-west-1:88c8b0f1-3f26-46cb-81f3-ccc37dcb543a/";
+    QString topic = "850593e9-f2ab-4e89-913a-16f848d48867/eu-west-1:88c8b0f1-3f26-46cb-81f3-ccc37dcb543a/proxy";
 
     // This is somehow broken in AWS...
     // The Signature needs to be created with having the topic percentage-encoded twice
@@ -331,5 +337,70 @@ void AWSClient::fetchDevices()
 QByteArray AWSClient::accessToken() const
 {
     return m_accessToken;
+}
+
+void AWSClient::refreshAccessToken()
+{
+    QUrl url("https://cognito-idp.eu-west-1.amazonaws.com/");
+
+    QUrlQuery query;
+    query.addQueryItem("Action", "InitiateAuth");
+    query.addQueryItem("Version", "2016-04-18");
+    url.setQuery(query);
+
+    QNetworkRequest request(url);
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-amz-json-1.0");
+    request.setRawHeader("Host", "cognito-idp.eu-west-1.amazonaws.com");
+    request.setRawHeader("X-Amz-Target", "AWSCognitoIdentityProviderService.InitiateAuth");
+
+    QVariantMap params;
+    params.insert("AuthFlow", "REFRESH_TOKEN_AUTH");
+//    params.insert("AuthFlow", "USER_PASSWORD_AUTH");
+    params.insert("ClientId", clientId);
+
+    QVariantMap authParams;
+    authParams.insert("REFRESH_TOKEN", m_refreshToken);
+//    authParams.insert("USERNAME", m_username);
+//    authParams.insert("PASSWORD", "H22*xgemmmmm");
+
+    params.insert("AuthParameters", authParams);
+
+    QJsonDocument jsonDoc = QJsonDocument::fromVariant(params);
+    QByteArray payload = jsonDoc.toJson(QJsonDocument::Compact);
+
+    qDebug() << "Refreshing AWS token for user:" << m_username << qUtf8Printable(payload);
+
+    QNetworkReply *reply = m_nam->post(request, payload);
+    connect(reply, &QNetworkReply::finished, this, [this, reply]() {
+        reply->deleteLater();
+        if (reply->error() != QNetworkReply::NoError) {
+            qWarning() << "Error logging in to aws:" << reply->error() << reply->errorString();
+            return;
+        }
+        QByteArray data = reply->readAll();
+        QJsonParseError error;
+        QJsonDocument jsonDoc = QJsonDocument::fromJson(data, &error);
+        if (error.error != QJsonParseError::NoError) {
+            qWarning() << "Failed to parse AWS login response" << error.errorString();
+            return;
+        }
+
+//        QVariantMap authenticationResult = jsonDoc.toVariant().toMap().value("AuthenticationResult").toMap();
+//        m_accessToken = authenticationResult.value("AccessToken").toByteArray();
+//        m_accessTokenExpiry = QDateTime::currentDateTime().addSecs(authenticationResult.value("ExpiresIn").toInt());
+//        m_idToken = authenticationResult.value("IdToken").toByteArray();
+//        m_refreshToken = authenticationResult.value("RefreshToken").toByteArray();
+
+//        QSettings settings;
+//        settings.beginGroup("cloud");
+//        settings.setValue("accessToken", m_accessToken);
+//        settings.setValue("accessTokenExpiry", m_accessTokenExpiry);
+//        settings.setValue("idToken", m_idToken);
+//        settings.setValue("refreshToken", m_refreshToken);
+
+        qDebug() << "AWS login successful" << qUtf8Printable(jsonDoc.toJson(QJsonDocument::Indented));
+        emit isLoggedInChanged();
+
+    });
 }
 

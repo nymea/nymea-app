@@ -39,6 +39,7 @@ signals:
     void devicesFetched(QList<AWSDevice> devices);
 
 private:
+    void refreshAccessToken();
     void getCredentialsForIdentity(const QString &identityId);
     void connectMQTT();
 
@@ -47,6 +48,7 @@ private:
 
     QString m_username;
     QByteArray m_accessToken;
+    QDateTime m_accessTokenExpiry;
     QByteArray m_idToken;
     QByteArray m_refreshToken;
 

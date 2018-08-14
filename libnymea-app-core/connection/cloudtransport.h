@@ -5,10 +5,10 @@
 
 #include <QObject>
 
-namespace QMQTT {
-class Client;
-}
 class AWSClient;
+namespace remoteproxyclient {
+class RemoteProxyConnection;
+}
 
 class CloudTransport : public NymeaTransportInterface
 {
@@ -24,8 +24,8 @@ public:
     void sendData(const QByteArray &data) override;
 
 private:
-    QMQTT::Client *m_mqttClient = nullptr;
     AWSClient *m_awsClient = nullptr;
+    remoteproxyclient::RemoteProxyConnection *m_remoteproxyConnection = nullptr;
 };
 
 #endif // CLOUDTRANSPORT_H

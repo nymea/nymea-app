@@ -18,8 +18,8 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef JSONRPCCLIENT_H
-#define JSONRPCCLIENT_H
+#ifndef NYMEAJSONRPCCLIENT_H
+#define NYMEAJSONRPCCLIENT_H
 
 #include <QObject>
 #include <QVariantMap>
@@ -157,4 +157,4 @@ private:
 };
 
 
-#endif // JSONRPCCLIENT_H
+#endif // NYMEAJSONRPCCLIENT_H

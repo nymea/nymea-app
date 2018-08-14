@@ -1,12 +1,15 @@
 #include "cloudtransport.h"
 
-#include "qmqtt.h"
+#include "awsclient.h"
+#include "remoteproxyconnection.h"
+
+using namespace remoteproxyclient;
 
 CloudTransport::CloudTransport(AWSClient *awsClient, QObject *parent):
     NymeaTransportInterface(parent),
     m_awsClient(awsClient)
 {
-
+    m_remoteproxyConnection = new RemoteProxyConnection(QUuid::createUuid(), "nymea:app", RemoteProxyConnection::ConnectionTypeWebSocket, this);
 }
 
 QStringList CloudTransport::supportedSchemes() const
@@ -17,34 +20,10 @@ QStringList CloudTransport::supportedSchemes() const
 void CloudTransport::connect(const QUrl &url)
 {
     qDebug() << "should connect to" << url;
-    QString date = QDateTime::currentDateTime().toString("yyyyMMddThhmmssZ");
-    QString region = "eu-west-1";
-    QString service = "iotdevicegateway";
-    QString credentialScope = date + '/' + region + '/' + service + '/' + "aws4_request";
-    QString algorithm = "AWS4-HMAC-SHA256";
-    QString canonicalQuerystring = "X-Amz-Algorithm=" + algorithm;
+    m_awsClient->postToMQTT();
 
-//    canonicalQuerystring += "&X-Amz-Credential=" + QByteArray(credentials.accessKeyId + '/' + credentialScope).toPercentageEncoded();
-//    '&X-Amz-Security-Token=' + encodeURIComponent(credentials.sessionToken);
+    m_remoteproxyConnection->connectServer(QHostAddress("127.0.0.1"), 1212);
 
-    QString requestUrl = "wss://a2addxakg5juii.iot.eu-west-1.amazonaws.com/mqtt?" + canonicalQuerystring;
-    m_mqttClient = new QMQTT::Client(requestUrl, 443, QWebSocketProtocol::VersionLatest, true, this);
-
-    QObject::connect(m_mqttClient, &QMQTT::Client::connected, this, [](){
-        qDebug() << "MQTT connected";
-    });
-    QObject::connect(m_mqttClient, &QMQTT::Client::disconnected, this, []() {
-        qDebug() << "MQTT disconnected";
-    });
-    QObject::connect(m_mqttClient, &QMQTT::Client::error, this, [](QMQTT::ClientError error) {
-        qDebug() << "MQTT error" << error << QMQTT::ClientError::SocketHostNotFoundError;
-    });
-
-
-    m_mqttClient->setUsername("michael.zanetti@guh.io");
-    m_mqttClient->setPassword("H22*gemmmmm");
-    m_mqttClient->setClientId("8rjhfdlf9jf1suok2jcrltd6v");
-    m_mqttClient->connectToHost();
 }
 
 void CloudTransport::disconnect()

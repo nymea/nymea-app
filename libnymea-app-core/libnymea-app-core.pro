@@ -12,8 +12,9 @@ include(../config.pri)
 }
 DEFINES += QT_STATIC
 include(../qmqtt/src/mqtt/mqtt.pri)
-HEADERS += $$PUBLIC_HEADERS $$PRIVATE_HEADERS \
-    connection/sigv4utils.h
+HEADERS += $$PUBLIC_HEADERS $$PRIVATE_HEADERS
+
+include(../nymea-remoteproxy/libnymea-remoteproxyclient/libnymea-remoteproxyclient.pri)
 
 QT -= gui
 QT += network websockets bluetooth
@@ -89,6 +90,7 @@ HEADERS += \
     connection/tcpsockettransport.h \
     connection/bluetoothtransport.h \
     connection/awsclient.h \
+    connection/sigv4utils.h \
     devicemanager.h \
     jsonrpc/jsontypes.h \
     jsonrpc/jsonrpcclient.h \
