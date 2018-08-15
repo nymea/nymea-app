@@ -4,6 +4,7 @@
 #include "remoteproxyconnection.h"
 
 #include <QUrlQuery>
+#include <QHostInfo>
 
 using namespace remoteproxyclient;
 
@@ -11,25 +12,32 @@ CloudTransport::CloudTransport(AWSClient *awsClient, QObject *parent):
     NymeaTransportInterface(parent),
     m_awsClient(awsClient)
 {
-    m_remoteproxyConnection = new RemoteProxyConnection(QUuid::createUuid(), "nymea:app", RemoteProxyConnection::ConnectionTypeWebSocket, this);
+    m_remoteproxyConnection = new RemoteProxyConnection(QUuid::createUuid(), "nymea:app", this);
     m_remoteproxyConnection->setInsecureConnection(true);
 
-    QObject::connect(m_remoteproxyConnection, &RemoteProxyConnection::connected, this,[this]() {
-        qDebug() << "Connected to remote proxy";
+    QObject::connect(m_remoteproxyConnection, &RemoteProxyConnection::remoteConnectionEstablished, this,[this]() {
+        qDebug() << "CloudTransport: Remote connection established.";
+        emit connected();
     });
-    QObject::connect(m_remoteproxyConnection, &RemoteProxyConnection::stateChanged, this,[this](RemoteProxyConnection::State state) {
+    QObject::connect(m_remoteproxyConnection, &RemoteProxyConnection::disconnected, this,[this]() {
+        qDebug() << "CloudTransport: Disconnected.";
+        emit disconnected();
+    });
+
+    QObject::connect(m_remoteproxyConnection, &RemoteProxyConnection::stateChanged, this,[](RemoteProxyConnection::State state) {
         qDebug() << "Proxy state changed:" << state;
-        if (state == RemoteProxyConnection::StateRemoteConnected) {
-            emit connected();
-        }
     });
+
     QObject::connect(m_remoteproxyConnection, &RemoteProxyConnection::ready, this,[this]() {
-        qDebug() << "Proxy ready:";
-        m_remoteproxyConnection->authenticate(m_token);
+        qDebug() << "Proxy ready. Authenticating channel.";
+        m_remoteproxyConnection->authenticate(m_awsClient->idToken());
     });
     QObject::connect(m_remoteproxyConnection, &RemoteProxyConnection::dataReady, this, [this](const QByteArray &data) {
-        qDebug() << "Remote connection data received";
         emit dataReady(data);
+    });
+    QObject::connect(m_remoteproxyConnection, &RemoteProxyConnection::errorOccured, this, [this] (RemoteProxyConnection::Error error) {
+        qDebug() << "Remote proxy Error:" << error;
+        emit NymeaTransportInterface::error(QAbstractSocket::ConnectionRefusedError);
     });
 }
 
@@ -44,20 +52,27 @@ bool CloudTransport::connect(const QUrl &url)
         qWarning() << "Not logged in to AWS, cannot connect";
         return false;
     }
+
     qDebug() << "Connecting to" << url;
 
-    QUrlQuery query(url.query());
-    QString m_token = query.queryItemValue("token");
-    m_awsClient->postToMQTT(m_token);
+    bool postResult = m_awsClient->postToMQTT(url.host(), [this](bool success) {
+        if (success) {
+            m_remoteproxyConnection->connectServer(QHostAddress("34.244.242.103"), 443);
+        }
+    });
 
-    m_remoteproxyConnection->connectServer(QHostAddress("127.0.0.1"), 1212);
+    if (!postResult) {
+        qWarning() << "Failed to post to MQTT. Cannot continue";
+        return false;
+    }
 
     return true;
 }
 
 void CloudTransport::disconnect()
 {
-    qDebug() << "should disconnect";
+    qDebug() << "CloudTransport: Disconnecting from server.";
+    m_remoteproxyConnection->disconnectServer();
 }
 
 NymeaTransportInterface::ConnectionState CloudTransport::connectionState() const

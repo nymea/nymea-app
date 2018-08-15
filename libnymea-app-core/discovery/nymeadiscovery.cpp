@@ -72,8 +72,6 @@ void NymeaDiscovery::cloudDevicesFetched(const QList<AWSDevice> &devices)
         QUrl url;
         url.setScheme("cloud");
         url.setHost(d.id);
-        QUrlQuery query;
-        query.addQueryItem("token", d.token);
         if (!device->connections()->find(url)) {
             Connection *conn = new Connection(url, Connection::BearerTypeCloud, true, d.id);
             device->connections()->addConnection(conn);

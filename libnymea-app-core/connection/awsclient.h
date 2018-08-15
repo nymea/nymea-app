@@ -12,27 +12,30 @@ public:
     QString id;
     QString name;
     bool online;
-    QByteArray token;
 };
 
 class AWSClient : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(bool isLoggedIn READ isLoggedIn NOTIFY isLoggedInChanged)
+    Q_PROPERTY(QString username READ username NOTIFY isLoggedInChanged)
 
 public:
     explicit AWSClient(QObject *parent = nullptr);
 
     bool isLoggedIn() const;
+    QString username() const;
 
     Q_INVOKABLE void login(const QString &username, const QString &password);
+    Q_INVOKABLE void logout();
 
     Q_INVOKABLE void fetchDevices();
 
-    Q_INVOKABLE void postToMQTT(const QString &token);
+    Q_INVOKABLE bool postToMQTT(const QString &boxId, std::function<void(bool)> callback);
     Q_INVOKABLE void getId();
 
-    QByteArray accessToken() const;
+    bool tokensExpired() const;
+    QByteArray idToken() const;
 
 signals:
     void isLoggedInChanged();
@@ -44,7 +47,6 @@ private:
     void getCredentialsForIdentity(const QString &identityId);
     void connectMQTT();
 
-    bool tokenExpired() const;
 
 private:
     QNetworkAccessManager *m_nam = nullptr;
@@ -57,6 +59,8 @@ private:
     QByteArray m_idToken;
     QByteArray m_refreshToken;
 
+    QByteArray m_identityId;
+
     QByteArray m_accessKeyId;
     QByteArray m_secretKey;
     QByteArray m_sessionToken;
@@ -65,9 +69,10 @@ private:
     class QueuedCall {
     public:
         QueuedCall(const QString &method): method(method) { }
-        QueuedCall(const QString &method, const QString &arg1): method(method) { args.append(arg1); }
+        QueuedCall(const QString &method, const QString &boxId, std::function<void(bool)> callback): method(method), boxId(boxId), callback(callback) {}
         QString method;
-        QStringList args;
+        QString boxId;
+        std::function<void(bool)> callback;
     };
 
     QList<QueuedCall> m_callQueue;

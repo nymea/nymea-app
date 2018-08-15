@@ -26,8 +26,6 @@ public:
 private:
     AWSClient *m_awsClient = nullptr;
     remoteproxyclient::RemoteProxyConnection *m_remoteproxyConnection = nullptr;
-
-    QString m_token;
 };
 
 #endif // CLOUDTRANSPORT_H

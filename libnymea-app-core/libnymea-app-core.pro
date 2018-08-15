@@ -10,9 +10,6 @@ include(../config.pri)
     DEFINES += WITH_ZEROCONF
     include(../QtZeroConf/qtzeroconf.pri)
 }
-DEFINES += QT_STATIC
-include(../qmqtt/src/mqtt/mqtt.pri)
-HEADERS += $$PUBLIC_HEADERS $$PRIVATE_HEADERS
 
 include(../nymea-remoteproxy/libnymea-remoteproxyclient/libnymea-remoteproxyclient.pri)
 
