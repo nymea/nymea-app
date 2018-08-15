@@ -43,7 +43,7 @@ public:
 
     virtual QStringList supportedSchemes() const = 0;
 
-    virtual void connect(const QUrl &url) = 0;
+    virtual bool connect(const QUrl &url) = 0;
     virtual void disconnect() = 0;
     virtual ConnectionState connectionState() const = 0;
     virtual void sendData(const QByteArray &data) = 0;

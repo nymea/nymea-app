@@ -12,14 +12,13 @@ Page {
 
     Component.onCompleted: {
         print("completed connectPage. last connected host:", settings.lastConnectedHost)
-        if (settings.lastConnectedHost.length > 0) {
+        if (settings.lastConnectedHost.length > 0 && Engine.connection.connect(settings.lastConnectedHost)) {
             var page = pageStack.push(Qt.resolvedUrl("ConnectingPage.qml"))
             page.cancel.connect(function() {
                 Engine.connection.disconnect();
                 pageStack.pop(root, StackView.Immediate);
-                pageStack.push(discoveyPage)
+                pageStack.push(discoveryPage)
             })
-            Engine.connection.connect(settings.lastConnectedHost)
         } else {
             pageStack.push(discoveryPage)
         }

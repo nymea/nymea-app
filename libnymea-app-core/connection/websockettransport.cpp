@@ -45,9 +45,10 @@ QStringList WebsocketTransport::supportedSchemes() const
     return {"ws", "wss"};
 }
 
-void WebsocketTransport::connect(const QUrl &url)
+bool WebsocketTransport::connect(const QUrl &url)
 {
     m_socket->open(QUrl(url));
+    return true;
 }
 
 NymeaTransportInterface::ConnectionState WebsocketTransport::connectionState() const

@@ -42,11 +42,11 @@ QStringList BluetoothTransport::supportedSchemes() const
     return {"rfcom"};
 }
 
-void BluetoothTransport::connect(const QUrl &url)
+bool BluetoothTransport::connect(const QUrl &url)
 {
     if (url.scheme() != "rfcom") {
         qWarning() << "BluetoothInterface: Cannot connect. Invalid scheme in url" << url.toString();
-        return;
+        return false;
     }
 
     QUrlQuery query(url);
@@ -56,6 +56,7 @@ void BluetoothTransport::connect(const QUrl &url)
 
     qDebug() << "Connecting to bluetooth server" << name << macAddress.toString();
     m_socket->connectToService(macAddress, QBluetoothUuid(QUuid("997936b5-d2cd-4c57-b41b-c6048320cd2b")));
+    return true;
 }
 
 void BluetoothTransport::disconnect()

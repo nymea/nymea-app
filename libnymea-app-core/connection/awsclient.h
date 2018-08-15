@@ -44,10 +44,14 @@ private:
     void getCredentialsForIdentity(const QString &identityId);
     void connectMQTT();
 
+    bool tokenExpired() const;
+
 private:
     QNetworkAccessManager *m_nam = nullptr;
 
     QString m_username;
+    QString m_password;
+
     QByteArray m_accessToken;
     QDateTime m_accessTokenExpiry;
     QByteArray m_idToken;
@@ -56,7 +60,17 @@ private:
     QByteArray m_accessKeyId;
     QByteArray m_secretKey;
     QByteArray m_sessionToken;
-    QDateTime m_expirationDate;
+    QDateTime m_sessionTokenExpiry;
+
+    class QueuedCall {
+    public:
+        QueuedCall(const QString &method): method(method) { }
+        QueuedCall(const QString &method, const QString &arg1): method(method) { args.append(arg1); }
+        QString method;
+        QStringList args;
+    };
+
+    QList<QueuedCall> m_callQueue;
 };
 
 #endif // AWSCLIENT_H

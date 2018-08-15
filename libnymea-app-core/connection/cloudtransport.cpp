@@ -38,15 +38,21 @@ QStringList CloudTransport::supportedSchemes() const
     return {"cloud"};
 }
 
-void CloudTransport::connect(const QUrl &url)
+bool CloudTransport::connect(const QUrl &url)
 {
-    qDebug() << "should connect to" << url;
+    if (!m_awsClient->isLoggedIn()) {
+        qWarning() << "Not logged in to AWS, cannot connect";
+        return false;
+    }
+    qDebug() << "Connecting to" << url;
+
     QUrlQuery query(url.query());
     QString m_token = query.queryItemValue("token");
     m_awsClient->postToMQTT(m_token);
 
     m_remoteproxyConnection->connectServer(QHostAddress("127.0.0.1"), 1212);
 
+    return true;
 }
 
 void CloudTransport::disconnect()

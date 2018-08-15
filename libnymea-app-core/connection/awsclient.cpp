@@ -30,25 +30,28 @@ AWSClient::AWSClient(QObject *parent) : QObject(parent)
     m_accessKeyId = settings.value("accessKeyId").toByteArray();
     m_secretKey = settings.value("secretKey").toByteArray();
     m_sessionToken = settings.value("sessionToken").toByteArray();
-
-//    if (m_accessTokenExpiry < QDateTime::currentDateTime() && !m_refreshToken.isEmpty()) {
-        refreshAccessToken();
-//    }
+    m_sessionTokenExpiry = settings.value("sessionTokenExpiry").toDateTime();
 }
 
 bool AWSClient::isLoggedIn() const
 {
-    return !m_username.isEmpty() && !m_accessToken.isEmpty() && !m_idToken.isEmpty();
+    return !m_username.isEmpty() && !m_password.isEmpty();
 }
 
 void AWSClient::login(const QString &username, const QString &password)
 {
     m_username = username;
+    // Ok... Please fogive me for this... AWS APIs are just unbearable... can't be bothered
+    // any more to walk through another chain of calls in order to have the refreshToken working.
+    // Will store the password in the config for now and re-login when the accessToken expires.
+    // See: https://forums.aws.amazon.com/thread.jspa?threadID=287978
+    m_password = password;
 
     QSettings settings;
     settings.remove("cloud");
     settings.beginGroup("cloud");
     settings.setValue("username", username);
+    settings.setValue("password", password);
 
     QUrl url("https://cognito-idp.eu-west-1.amazonaws.com/");
 
@@ -108,6 +111,8 @@ void AWSClient::login(const QString &username, const QString &password)
         qDebug() << "AWS login successful" << qUtf8Printable(jsonDoc.toJson(QJsonDocument::Indented));
         emit isLoggedInChanged();
 
+        qDebug() << "Getting cognito ID";
+        getId();
     });
 }
 
@@ -207,56 +212,53 @@ void AWSClient::getCredentialsForIdentity(const QString &identityId)
         m_accessKeyId = credentialsMap.value("AccessKeyId").toByteArray();
         m_secretKey = credentialsMap.value("SecretKey").toByteArray();
         m_sessionToken = credentialsMap.value("SessionToken").toByteArray();
-        m_expirationDate = QDateTime::fromSecsSinceEpoch(credentialsMap.value("Expiration").toLongLong());
+        m_sessionTokenExpiry = QDateTime::fromSecsSinceEpoch(credentialsMap.value("Expiration").toLongLong());
 
         QSettings settings;
         settings.beginGroup("cloud");
         settings.setValue("accessKeyId", m_accessKeyId);
         settings.setValue("secretKey", m_secretKey);
         settings.setValue("sessionToken", m_sessionToken);
+        settings.setValue("sessionTokenExpiry", m_sessionTokenExpiry);
 
         qDebug() << "AWS Credentials for Identity received.";
-//        qDebug() << "Raw GetCredentialsForIdentity reply:" << qUtf8Printable(data);
-//        qDebug() << "GetCredentialsForIdentity reply: \nAccess Key ID:" << m_accessKeyId << "\nSecret Key:" << m_secretKey << "\nsessionkey:" << m_sessionToken << "\nExpiration:" << m_expirationDate;
+
+        while (!m_callQueue.isEmpty()) {
+            QueuedCall qc = m_callQueue.takeFirst();
+            switch (qc.args.count()) {
+            case 0:
+                QMetaObject::invokeMethod(this, qc.method.toUtf8().data());
+                break;
+            case 1:
+                QMetaObject::invokeMethod(this, qc.method.toUtf8().data(), Q_ARG(QString, qc.args.first()));
+                break;
+            default:
+                Q_ASSERT_X(false, "AWSClient", "Call queue handling does not yet support multiple arguments");
+                break;
+            }
+        }
     });
 }
 
-void AWSClient::connectMQTT()
+bool AWSClient::tokenExpired() const
 {
-
-    QString host = "a2addxakg5juii.iot.eu-west-1.amazonaws.com";
-    QString uri = "/mqtt";
-
-    QNetworkRequest request(QUrl("wss://" + host + uri));
-    request.setRawHeader("Host", host.toUtf8());
-
-    QByteArray dateTime = SigV4Utils::getCurrentDateTime();
-//    QByteArray canonicalQueryString = SigV4Utils::getCanonicalQueryString(request, m_accessKeyId, m_secretKey, m_sessionToken, region, service, QByteArray());
-    QByteArray canonicalQueryString = SigV4Utils::getCanonicalQueryString(request, m_accessKeyId, m_secretKey, QByteArray(), region, service, QByteArray());
-
-    QString signedRequestUrl = "wss://" + host + uri + '?' + canonicalQueryString;
-
-    qDebug() << "Connecting MQTT to" << signedRequestUrl;
-
-    QMQTT::Client *mqttClient = new QMQTT::Client(signedRequestUrl, QString(clientId), QWebSocketProtocol::VersionLatest, false);
-    mqttClient->setClientId(QString(clientId));
-    mqttClient->setPort(443);
-    mqttClient->setVersion(QMQTT::V3_1_1);
-
-    connect(mqttClient, &QMQTT::Client::connected, this, []{
-        qDebug() << "MQTT connected";
-    });
-    connect(mqttClient, &QMQTT::Client::disconnected, this, []{
-        qDebug() << "MQTT disconnected";
-    });
-    connect(mqttClient, &QMQTT::Client::error, this, [](const QMQTT::ClientError error){
-        qDebug() << "MQTT error" << error;
-    });
-    mqttClient->connectToHost();
+    qDebug() << "access token expirty:" << m_accessTokenExpiry.toString() << "session token expiry" << m_sessionTokenExpiry.toString() << "current:" << QDateTime::currentDateTime().toString();
+    qDebug() << "access token expired:" << (m_accessTokenExpiry.addSecs(-10) < QDateTime::currentDateTime());
+    return (m_accessTokenExpiry.addSecs(-10) < QDateTime::currentDateTime()) || (m_sessionTokenExpiry.addSecs(-10) < QDateTime::currentDateTime());
 }
 
 void AWSClient::postToMQTT(const QString &token)
 {
+    if (!isLoggedIn()) {
+        qWarning() << "Cannot post to MQTT. Not logged in to AWS";
+        return;
+    }
+    if (tokenExpired()) {
+        qDebug() << "Cannot post to MQTT. Need to refresh the token first";
+        refreshAccessToken();
+        m_callQueue.append(QueuedCall("postToMQTT", token));
+        return;
+    }
     QString host = "a2addxakg5juii.iot.eu-west-1.amazonaws.com";
     QString topic = "850593e9-f2ab-4e89-913a-16f848d48867/eu-west-1:88c8b0f1-3f26-46cb-81f3-ccc37dcb543a/proxy";
 
@@ -299,6 +301,16 @@ void AWSClient::postToMQTT(const QString &token)
 
 void AWSClient::fetchDevices()
 {
+    if (!isLoggedIn()) {
+        qWarning() << "Not logged in at AWS. Can't fetch paired devices";
+        return;
+    }
+    if (tokenExpired()) {
+        qDebug() << "Need to refresh our tokens";
+        refreshAccessToken();
+        m_callQueue.append(QueuedCall("fetchDevices"));
+        return;
+    }
     qDebug() << "Fetching cloud devices";
     QUrl url("https://z6368zhf2m.execute-api.eu-west-1.amazonaws.com/dev/devices");
     QNetworkRequest request(url);
@@ -343,6 +355,16 @@ QByteArray AWSClient::accessToken() const
 
 void AWSClient::refreshAccessToken()
 {
+    if (!isLoggedIn()) {
+        qDebug() << "Cannot refresh tokens. Not logged in to AWS";
+        return;
+    }
+    login(m_username, m_password);
+    return;
+
+
+    // We should use this to refresh our tokens but it's not working
+    // https://forums.aws.amazon.com/thread.jspa?threadID=287978
     QUrl url("https://cognito-idp.eu-west-1.amazonaws.com/");
 
     QUrlQuery query;
@@ -357,13 +379,10 @@ void AWSClient::refreshAccessToken()
 
     QVariantMap params;
     params.insert("AuthFlow", "REFRESH_TOKEN_AUTH");
-//    params.insert("AuthFlow", "USER_PASSWORD_AUTH");
     params.insert("ClientId", clientId);
 
     QVariantMap authParams;
     authParams.insert("REFRESH_TOKEN", m_refreshToken);
-//    authParams.insert("USERNAME", m_username);
-//    authParams.insert("PASSWORD", "H22*xgemmmmm");
 
     params.insert("AuthParameters", authParams);
 

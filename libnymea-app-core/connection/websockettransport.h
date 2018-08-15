@@ -34,7 +34,7 @@ public:
 
     QStringList supportedSchemes() const override;
 
-    void connect(const QUrl &url) override;
+    bool connect(const QUrl &url) override;
     ConnectionState connectionState() const override;
     void disconnect() override;
     void sendData(const QByteArray &data) override;

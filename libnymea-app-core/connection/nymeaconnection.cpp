@@ -13,22 +13,22 @@ NymeaConnection::NymeaConnection(QObject *parent) : QObject(parent)
 {
 }
 
-void NymeaConnection::connect(const QString &url)
+bool NymeaConnection::connect(const QString &url)
 {
     if (connected()) {
         qWarning() << "Already connected. Cannot connect multiple times";
-        return;
+        return false;
     }
 
     m_currentUrl = QUrl(url);
     m_currentTransport = m_transports.value(m_currentUrl.scheme());
     if (!m_currentTransport) {
         qWarning() << "Cannot connect to urls of scheme" << m_currentUrl.scheme() << "Supported schemes are" << m_transports.keys();
-        return;
+        return false;
     }
 
     qDebug() << "Should connect to url" << m_currentUrl;
-    m_currentTransport->connect(m_currentUrl);
+    return m_currentTransport->connect(m_currentUrl);
 }
 
 void NymeaConnection::disconnect()

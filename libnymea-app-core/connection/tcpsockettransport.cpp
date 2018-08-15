@@ -48,17 +48,19 @@ void TcpSocketTransport::onEncrypted()
     emit connected();
 }
 
-void TcpSocketTransport::connect(const QUrl &url)
+bool TcpSocketTransport::connect(const QUrl &url)
 {
     m_url = url;
     if (url.scheme() == "nymeas") {
         qDebug() << "TCP socket connecting to" << url.host() << url.port();
-        m_socket.connectToHostEncrypted(url.host(), url.port());
+        m_socket.connectToHostEncrypted(url.host(), static_cast<quint16>(url.port()));
+        return true;
     } else if (url.scheme() == "nymea") {
-        m_socket.connectToHost(url.host(), url.port());
-    } else {
-        qWarning() << "TCP socket: Unsupported scheme";
+        m_socket.connectToHost(url.host(), static_cast<quint16>(url.port()));
+        return true;
     }
+    qWarning() << "TCP socket: Unsupported scheme";
+    return false;
 }
 
 NymeaTransportInterface::ConnectionState TcpSocketTransport::connectionState() const

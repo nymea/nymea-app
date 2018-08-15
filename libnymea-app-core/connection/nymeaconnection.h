@@ -22,7 +22,7 @@ public:
 
     void registerTransport(NymeaTransportInterface *transport);
 
-    Q_INVOKABLE void connect(const QString &url);
+    Q_INVOKABLE bool connect(const QString &url);
     Q_INVOKABLE void disconnect();
     Q_INVOKABLE void acceptCertificate(const QString &url, const QByteArray &fingerprint);
     Q_INVOKABLE bool isTrusted(const QString &url);
