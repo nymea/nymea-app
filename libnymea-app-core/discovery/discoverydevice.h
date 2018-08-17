@@ -35,6 +35,7 @@ class Connection: public QObject {
     Q_PROPERTY(BearerType bearerType READ bearerType CONSTANT)
     Q_PROPERTY(bool secure READ secure CONSTANT)
     Q_PROPERTY(QString displayName READ displayName CONSTANT)
+    Q_PROPERTY(bool online READ online NOTIFY onlineChanged)
 public:
     enum BearerType {
         BearerTypeUnknown,
@@ -51,12 +52,18 @@ public:
     BearerType bearerType() const;
     bool secure() const;
     QString displayName() const;
+    bool online() const;
+    void setOnline(bool online);
+
+signals:
+    void onlineChanged();
 
 private:
     QUrl m_url;
     BearerType m_bearerType = BearerTypeUnknown;
     bool m_secure = false;
     QString m_displayName;
+    bool m_online = false;
 };
 
 class Connections: public QAbstractListModel

@@ -81,6 +81,22 @@ AWSClient *Engine::awsClient() const
     return m_aws;
 }
 
+void Engine::deployCertificate()
+{
+    if (!m_jsonRpcClient->connected()) {
+        qWarning() << "JSONRPC not connected. Cannot deploy certificate";
+        return;
+    }
+    if (!m_aws->isLoggedIn()) {
+        qWarning() << "Not logged in at AWS. Cannot deploy certificate";
+        return;
+    }
+    m_aws->fetchCertificate(m_jsonRpcClient->serverUuid(), [this](const QByteArray &rootCA, const QByteArray &certificate, const QByteArray &publicKey, const QByteArray &privateKey, const QString &endpoint){
+        qDebug() << "Certificate received" << certificate << publicKey << privateKey;
+        m_jsonRpcClient->deployCertificate(rootCA, certificate, publicKey, privateKey, endpoint);
+    });
+}
+
 NymeaConnection *Engine::connection() const
 {
     return m_connection;
@@ -107,6 +123,22 @@ Engine::Engine(QObject *parent) :
     connect(m_jsonRpcClient, &JsonRpcClient::authenticationRequiredChanged, this, &Engine::onConnectedChanged);
 
     connect(m_deviceManager, &DeviceManager::fetchingDataChanged, this, &Engine::onDeviceManagerFetchingChanged);
+
+    connect(m_aws, &AWSClient::devicesFetched, this, [this]() {
+        if (m_jsonRpcClient->connected() && m_jsonRpcClient->cloudConnectionState() == JsonRpcClient::CloudConnectionStateConnected) {
+            if (m_aws->awsDevices()->getDevice(m_jsonRpcClient->serverUuid()) == nullptr) {
+                m_jsonRpcClient->setupRemoteAccess(m_aws->idToken(), m_aws->cognitoIdentityId());
+            }
+        }
+    });
+    connect(m_jsonRpcClient, &JsonRpcClient::connectedChanged, this, [this]() {
+        if (m_jsonRpcClient->connected() && m_jsonRpcClient->cloudConnectionState() == JsonRpcClient::CloudConnectionStateConnected) {
+            if (m_aws->awsDevices()->getDevice(m_jsonRpcClient->serverUuid()) == nullptr) {
+                m_jsonRpcClient->setupRemoteAccess(m_aws->idToken(), m_aws->cognitoIdentityId());
+            }
+        }
+    });
+
 }
 
 void Engine::onConnectedChanged()

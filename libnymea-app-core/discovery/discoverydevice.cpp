@@ -162,3 +162,16 @@ QString Connection::displayName() const
 {
     return m_displayName;
 }
+
+bool Connection::online() const
+{
+    return m_online;
+}
+
+void Connection::setOnline(bool online)
+{
+    if (m_online != online) {
+        m_online = online;
+        emit onlineChanged();
+    }
+}

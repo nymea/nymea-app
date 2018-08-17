@@ -86,11 +86,19 @@ Page {
                 model: ListModel {
                     ListElement { iconSource: "../images/network-vpn.svg"; text: qsTr("Manual connection"); page: "ManualConnectPage.qml" }
                     ListElement { iconSource: "../images/bluetooth.svg"; text: qsTr("Wireless setup"); page: "BluetoothDiscoveryPage.qml"; }
-                    ListElement { iconSource: "../images/cloud.svg"; text: qsTr("Cloud login"); page: "CloudLoginPage.qml" }
+                    ListElement { iconSource: "../images/private-browsing.svg"; text: qsTr("Demo mode"); page: "" }
                     ListElement { iconSource: "../images/stock_application.svg"; text: qsTr("App settings"); page: "../AppSettingsPage.qml" }
                 }
                 onClicked: {
-                    pageStack.push(model.get(index).page);
+                    if (index === 2) {
+                        Engine.connection.connect("nymea://nymea.nymea.io:2222")
+                        var page = pageStack.push(Qt.resolvedUrl("ConnectingPage.qml"))
+                        page.cancel.connect(function() {
+                            Engine.connection.disconnect()
+                        })
+                    } else {
+                        pageStack.push(model.get(index).page);
+                    }
                 }
             }
 
@@ -261,23 +269,32 @@ Page {
                     Layout.fillWidth: true
                     Layout.leftMargin: app.margins
                     Layout.rightMargin: app.margins
-                    visible: discovery.discoveryModel.count === 0
+//                    visible: discovery.discoveryModel.count === 0
                     text: qsTr("Start wireless setup")
-                    onClicked: pageStack.push(Qt.resolvedUrl("connection/BluetoothDiscoveryPage.qml"))
+                    onClicked: pageStack.push(Qt.resolvedUrl("BluetoothDiscoveryPage.qml"))
                 }
                 Button {
                     Layout.fillWidth: true
                     Layout.leftMargin: app.margins
                     Layout.rightMargin: app.margins
+                    text: qsTr("Cloud login")
+                    visible: !Engine.awsClient.isLoggedIn
+                    onClicked: pageStack.push(Qt.resolvedUrl("CloudLoginPage.qml"))
+                }
+
+                Button {
+                    Layout.fillWidth: true
+                    Layout.leftMargin: app.margins
+                    Layout.rightMargin: app.margins
                     Layout.bottomMargin: app.margins
-                    visible: discovery.discoveryModel.count === 0
+//                    visible: discovery.discoveryModel.count === 0
                     text: qsTr("Demo mode (online)")
                     onClicked: {
+                        Engine.connection.connect("nymea://nymea.nymea.io:2222")
                         var page = pageStack.push(Qt.resolvedUrl("ConnectingPage.qml"))
                         page.cancel.connect(function() {
                             Engine.connection.disconnect()
                         })
-                        Engine.connection.connect("nymea://nymea.nymea.io:2222")
                     }
                 }
 

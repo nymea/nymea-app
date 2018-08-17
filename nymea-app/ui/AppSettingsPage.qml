@@ -112,6 +112,12 @@ Page {
         ThinDivider {}
         MeaListItemDelegate {
             Layout.fillWidth: true
+            text: qsTr("Cloud login")
+            iconName: "../images/cloud.svg"
+            onClicked: pageStack.push(Qt.resolvedUrl("connection/CloudLoginPage.qml"))
+        }
+        MeaListItemDelegate {
+            Layout.fillWidth: true
             text: qsTr("About %1").arg(app.appName)
             iconName: "../images/info.svg"
             onClicked: pageStack.push(Qt.resolvedUrl("AboutPage.qml"))

@@ -23,6 +23,7 @@ public:
     ConnectionState connectionState() const override;
     void sendData(const QByteArray &data) override;
 
+    void ignoreSslErrors(const QList<QSslError> &errors) override;
 private:
     AWSClient *m_awsClient = nullptr;
     remoteproxyclient::RemoteProxyConnection *m_remoteproxyConnection = nullptr;

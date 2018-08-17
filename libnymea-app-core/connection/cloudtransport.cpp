@@ -13,7 +13,6 @@ CloudTransport::CloudTransport(AWSClient *awsClient, QObject *parent):
     m_awsClient(awsClient)
 {
     m_remoteproxyConnection = new RemoteProxyConnection(QUuid::createUuid(), "nymea:app", this);
-    m_remoteproxyConnection->setInsecureConnection(true);
 
     QObject::connect(m_remoteproxyConnection, &RemoteProxyConnection::remoteConnectionEstablished, this,[this]() {
         qDebug() << "CloudTransport: Remote connection established.";
@@ -37,8 +36,9 @@ CloudTransport::CloudTransport(AWSClient *awsClient, QObject *parent):
     });
     QObject::connect(m_remoteproxyConnection, &RemoteProxyConnection::errorOccured, this, [this] (RemoteProxyConnection::Error error) {
         qDebug() << "Remote proxy Error:" << error;
-        emit NymeaTransportInterface::error(QAbstractSocket::ConnectionRefusedError);
+//        emit NymeaTransportInterface::error(QAbstractSocket::ConnectionRefusedError);
     });
+    QObject::connect(m_remoteproxyConnection, &RemoteProxyConnection::sslErrors, this, &CloudTransport::sslErrors);
 }
 
 QStringList CloudTransport::supportedSchemes() const
@@ -57,7 +57,8 @@ bool CloudTransport::connect(const QUrl &url)
 
     bool postResult = m_awsClient->postToMQTT(url.host(), [this](bool success) {
         if (success) {
-            m_remoteproxyConnection->connectServer(QHostAddress("34.244.242.103"), 443);
+            m_remoteproxyConnection->connectServer(QUrl("wss://dev-remoteproxy.nymea.io"));
+//            m_remoteproxyConnection->connectServer(QUrl("wss://127.0.0.1:1212"));
         }
     });
 
@@ -81,6 +82,7 @@ NymeaTransportInterface::ConnectionState CloudTransport::connectionState() const
     case RemoteProxyConnection::StateRemoteConnected:
         return NymeaTransportInterface::ConnectionStateConnected;
     case RemoteProxyConnection::StateInitializing:
+    case RemoteProxyConnection::StateHostLookup:
     case RemoteProxyConnection::StateConnecting:
     case RemoteProxyConnection::StateConnected:
     case RemoteProxyConnection::StateAuthenticating:
@@ -97,4 +99,10 @@ void CloudTransport::sendData(const QByteArray &data)
 {
     qDebug() << "should send" << data;
     m_remoteproxyConnection->sendData(data);
+}
+
+void CloudTransport::ignoreSslErrors(const QList<QSslError> &errors)
+{
+    qDebug() << "Ignoring SSL errors" << errors;
+    m_remoteproxyConnection->ignoreSslErrors(errors);
 }

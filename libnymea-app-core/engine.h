@@ -62,6 +62,8 @@ public:
     BluetoothDiscovery *bluetoothDiscovery() const;
     AWSClient* awsClient() const;
 
+    Q_INVOKABLE void deployCertificate();
+
 private:
     explicit Engine(QObject *parent = nullptr);
     static Engine *s_instance;

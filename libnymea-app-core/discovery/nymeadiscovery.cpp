@@ -20,7 +20,7 @@ NymeaDiscovery::NymeaDiscovery(QObject *parent) : QObject(parent)
     m_bluetooth = new BluetoothServiceDiscovery(m_discoveryModel, this);
 #endif
 
-    connect(Engine::instance()->awsClient(), &AWSClient::devicesFetched, this, &NymeaDiscovery::cloudDevicesFetched);
+    connect(Engine::instance()->awsClient()->awsDevices(), &AWSDevices::countChanged, this, &NymeaDiscovery::syncCloudDevices);
 }
 
 bool NymeaDiscovery::discovering() const
@@ -41,6 +41,7 @@ void NymeaDiscovery::setDiscovering(bool discovering)
             m_bluetooth->discover();
         }
         if (Engine::instance()->awsClient()->isLoggedIn()) {
+            syncCloudDevices();
             Engine::instance()->awsClient()->fetchDevices();
         }
     } else {
@@ -58,23 +59,26 @@ DiscoveryModel *NymeaDiscovery::discoveryModel() const
     return m_discoveryModel;
 }
 
-void NymeaDiscovery::cloudDevicesFetched(const QList<AWSDevice> &devices)
+void NymeaDiscovery::syncCloudDevices()
 {
     qDebug() << "Cloud devices fetched";
-    foreach (const AWSDevice &d, devices) {
-        DiscoveryDevice *device = m_discoveryModel->find(d.id);
+    for (int i = 0; i < Engine::instance()->awsClient()->awsDevices()->rowCount(); i++) {
+        AWSDevice *d = Engine::instance()->awsClient()->awsDevices()->get(i);
+        DiscoveryDevice *device = m_discoveryModel->find(d->id());
         if (!device) {
             device = new DiscoveryDevice();
-            device->setUuid(d.id);
-            device->setName(d.name);
+            device->setUuid(d->id());
+            device->setName(d->name());
             m_discoveryModel->addDevice(device);
         }
         QUrl url;
         url.setScheme("cloud");
-        url.setHost(d.id);
+        url.setHost(d->id());
         if (!device->connections()->find(url)) {
-            Connection *conn = new Connection(url, Connection::BearerTypeCloud, true, d.id);
+            Connection *conn = new Connection(url, Connection::BearerTypeCloud, true, d->id());
+            conn->setOnline(d->online());
             device->connections()->addConnection(conn);
         }
     }
 }
+

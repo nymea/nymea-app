@@ -243,5 +243,7 @@
         <file>ui/images/cloud.svg</file>
         <file>ui/system/CloudSettingsPage.qml</file>
         <file>ui/connection/CloudLoginPage.qml</file>
+        <file>ui/images/cloud-offline.svg</file>
+        <file>ui/images/cloud-error.svg</file>
     </qresource>
 </RCC>

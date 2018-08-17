@@ -28,7 +28,7 @@ signals:
     void discoveringChanged();
 
 private slots:
-    void cloudDevicesFetched(const QList<AWSDevice> &devices);
+    void syncCloudDevices();
 
 private:
     bool m_discovering = false;

@@ -369,6 +369,5 @@ ApplicationWindow {
 
     KeyboardLoader {
         anchors { left: parent.left; bottom: parent.bottom; right: parent.right }
-
     }
 }

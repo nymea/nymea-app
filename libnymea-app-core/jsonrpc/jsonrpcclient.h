@@ -40,13 +40,21 @@ class JsonRpcClient : public JsonHandler
     Q_PROPERTY(bool initialSetupRequired READ initialSetupRequired NOTIFY initialSetupRequiredChanged)
     Q_PROPERTY(bool authenticationRequired READ authenticationRequired NOTIFY authenticationRequiredChanged)
     Q_PROPERTY(bool pushButtonAuthAvailable READ pushButtonAuthAvailable NOTIFY pushButtonAuthAvailableChanged)
-    Q_PROPERTY(bool cloudConnected READ cloudConnected NOTIFY cloudConnectedChanged)
+    Q_PROPERTY(CloudConnectionState cloudConnectionState READ cloudConnectionState NOTIFY cloudConnectionStateChanged)
     Q_PROPERTY(QString serverVersion READ serverVersion NOTIFY handshakeReceived)
     Q_PROPERTY(QString jsonRpcVersion READ jsonRpcVersion NOTIFY handshakeReceived)
     Q_PROPERTY(QString serverUuid READ serverUuid NOTIFY handshakeReceived)
 
 public:
-    explicit JsonRpcClient(NymeaConnection *connection, QObject *parent = 0);
+    enum CloudConnectionState {
+        CloudConnectionStateDisabled,
+        CloudConnectionStateUnconfigured,
+        CloudConnectionStateConnecting,
+        CloudConnectionStateConnected
+    };
+    Q_ENUM(CloudConnectionState)
+
+    explicit JsonRpcClient(NymeaConnection *connection, QObject *parent = nullptr);
 
     QString nameSpace() const override;
 
@@ -60,7 +68,8 @@ public:
     bool initialSetupRequired() const;
     bool authenticationRequired() const;
     bool pushButtonAuthAvailable() const;
-    bool cloudConnected() const;
+    CloudConnectionState cloudConnectionState() const;
+    void deployCertificate(const QByteArray &rootCA, const QByteArray &certificate, const QByteArray &publicKey, const QByteArray &privateKey, const QString &endpoint);
 
     QString serverVersion() const;
     QString jsonRpcVersion() const;
@@ -70,6 +79,7 @@ public:
     Q_INVOKABLE int createUser(const QString &username, const QString &password);
     Q_INVOKABLE int authenticate(const QString &username, const QString &password, const QString &deviceName);
     Q_INVOKABLE int requestPushButtonAuth(const QString &deviceName);
+    Q_INVOKABLE void setupRemoteAccess(const QString &idToken, const QString &userId);
 
     Q_INVOKABLE bool ensureServerVersion(const QString &jsonRpcVersion);
 
@@ -84,7 +94,7 @@ signals:
     void authenticationFailed();
     void pushButtonAuthFailed();
     void createUserFailed(const QString &error);
-    void cloudConnectedChanged();
+    void cloudConnectionStateChanged();
 
     void responseReceived(const int &commandId, const QVariantMap &response);
 
@@ -105,7 +115,7 @@ private:
     bool m_initialSetupRequired = false;
     bool m_authenticationRequired = false;
     bool m_pushButtonAuthAvailable = false;
-    bool m_cloudConnected = false;
+    CloudConnectionState m_cloudConnectionState = CloudConnectionStateDisabled;
     int m_pendingPushButtonTransaction = -1;
     QString m_serverUuid;
     QVersionNumber m_jsonRpcVersion;
@@ -124,6 +134,8 @@ private:
     Q_INVOKABLE void setNotificationsEnabledResponse(const QVariantMap &params);
     Q_INVOKABLE void notificationReceived(const QVariantMap &data);
     Q_INVOKABLE void isCloudConnectedReply(const QVariantMap &data);
+    Q_INVOKABLE void setupRemoteAccessReply(const QVariantMap &data);
+    Q_INVOKABLE void deployCertificateReply(const QVariantMap &data);
 
     void sendRequest(const QVariantMap &request);
 

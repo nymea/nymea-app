@@ -16,15 +16,43 @@ Page {
         visible: Engine.awsClient.isLoggedIn
         Label {
             Layout.fillWidth: true
-            Layout.margins: app.margins
+            Layout.topMargin: app.margins
+            Layout.leftMargin: app.margins
+            Layout.rightMargin: app.margins
             wrapMode: Text.WordWrap
             text: qsTr("Logged in as %1").arg(Engine.awsClient.username)
         }
+
         Button {
             Layout.fillWidth: true
             Layout.margins: app.margins
             text: qsTr("Log out")
             onClicked: Engine.awsClient.logout();
+        }
+
+        ThinDivider {}
+
+        Label {
+            Layout.fillWidth: true
+            Layout.topMargin: app.margins
+            Layout.leftMargin: app.margins
+            Layout.rightMargin: app.margins
+            wrapMode: Text.WordWrap
+            text: Engine.awsClient.awsDevices.count === 0 ?
+                      qsTr("There are no boxes connected to your cloud yet.") :
+                      qsTr("There (are|is) %1 boxe(s) connected to your cloud", "", Engine.awsClient.awsDevices.count)
+        }
+        Repeater {
+            model: Engine.awsClient.awsDevices
+            delegate: MeaListItemDelegate {
+                Layout.fillWidth: true
+                text: model.name
+                subText: model.uuid
+                progressive: false
+                prominentSubText: false
+                iconName: "../images/cloud.svg"
+                secondaryIconName: model.online ? "../images/cloud.svg" : "../images/cloud-offline.svg"
+            }
         }
     }
 
