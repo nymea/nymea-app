@@ -35,6 +35,7 @@
 
 int main(int argc, char *argv[])
 {
+
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication application(argc, argv);
     application.setApplicationName("nymea-app");
@@ -81,6 +82,8 @@ int main(int argc, char *argv[])
     engine->rootContext()->setContextProperty("styleController", &styleController);
 
     engine->rootContext()->setContextProperty("systemProductType", QSysInfo::productType());
+
+    engine->rootContext()->setContextProperty("useVirtualKeyboard", qgetenv("QT_IM_MODULE") == "qtvirtualkeyboard");
 
     application.setWindowIcon(QIcon(QString(":/styles/%1/logo.svg").arg(styleController.currentStyle())));
 

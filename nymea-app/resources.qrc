@@ -238,5 +238,6 @@
         <file>ui/components/MainPageTile.qml</file>
         <file>ui/images/configure.svg</file>
         <file>ui/images/network-wifi-symbolic.svg</file>
+        <file>ui/KeyboardLoader.qml</file>
     </qresource>
 </RCC>
