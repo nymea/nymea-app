@@ -94,6 +94,7 @@ Page {
             Layout.fillWidth: true
             iconName: "../images/cloud.svg"
             text: qsTr("Cloud")
+            visible: Engine.jsonRpcClient.ensureServerVersion("1.9")
             onClicked: pageStack.push(Qt.resolvedUrl("system/CloudSettingsPage.qml"))
         }
 

@@ -8,7 +8,6 @@
 #include <QSettings>
 #include <QUuid>
 
-#include "qmqtt.h"
 #include "sigv4utils.h"
 
 
