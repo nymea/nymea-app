@@ -18,13 +18,13 @@ Page {
         HeaderButton {
             imageSource: "../images/tick.svg"
             onClicked: {
-                Engine.deviceManager.savePluginConfig(root.plugin.pluginId)
+                engine.deviceManager.savePluginConfig(root.plugin.pluginId)
             }
         }
     }
 
     Connections {
-        target: Engine.deviceManager
+        target: engine.deviceManager
         onSavePluginConfigReply: {
             if (params.params.deviceError === "DeviceErrorNoError") {
                 pageStack.pop();

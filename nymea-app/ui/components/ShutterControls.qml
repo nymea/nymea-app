@@ -11,7 +11,7 @@ RowLayout {
     implicitWidth: childrenRect.width
 
     property var device: null
-    readonly property var deviceClass: device ? Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
+    readonly property var deviceClass: device ? engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
     readonly property var openState: device ? device.states.getState(deviceClass.stateTypes.findByName("state").id) : null
 
     property bool invert: false
@@ -26,7 +26,7 @@ RowLayout {
             name: root.invert ? "../images/down.svg" : "../images/up.svg"
             color: root.openState && root.openState.value === "opening" ? Material.accent : keyColor
         }
-        onClicked: Engine.deviceManager.executeAction(root.device.id, root.deviceClass.actionTypes.findByName("open").id)
+        onClicked: engine.deviceManager.executeAction(root.device.id, root.deviceClass.actionTypes.findByName("open").id)
     }
 
 
@@ -41,7 +41,7 @@ RowLayout {
             anchors.margins: app.margins
             name: "../images/media-playback-stop.svg"
         }
-        onClicked: Engine.deviceManager.executeAction(root.device.id, root.deviceClass.actionTypes.findByName("stop").id)
+        onClicked: engine.deviceManager.executeAction(root.device.id, root.deviceClass.actionTypes.findByName("stop").id)
     }
 
     ItemDelegate {
@@ -54,6 +54,6 @@ RowLayout {
             name: root.invert ? "../images/up.svg" : "../images/down.svg"
             color: root.openState && root.openState.value === "closing" ? Material.accent : keyColor
         }
-        onClicked: Engine.deviceManager.executeAction(root.device.id, root.deviceClass.actionTypes.findByName("close").id)
+        onClicked: engine.deviceManager.executeAction(root.device.id, root.deviceClass.actionTypes.findByName("close").id)
     }
 }

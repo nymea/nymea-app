@@ -10,8 +10,8 @@ Page {
     // a ruleAction object needs to be set and prefilled with either deviceId or interfaceName
     property var stateDescriptor: null
 
-    readonly property var device: stateDescriptor && stateDescriptor.deviceId ? Engine.deviceManager.devices.getDevice(stateDescriptor.deviceId) : null
-    readonly property var deviceClass: device ? Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
+    readonly property var device: stateDescriptor && stateDescriptor.deviceId ? engine.deviceManager.devices.getDevice(stateDescriptor.deviceId) : null
+    readonly property var deviceClass: device ? engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
 
     signal backPressed();
     signal done();

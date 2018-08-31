@@ -10,8 +10,8 @@ Page {
     // an eventDescriptor object needs to be set and prefilled with either deviceId or interfaceName
     property var eventDescriptor: null
 
-    readonly property var device: eventDescriptor && eventDescriptor.deviceId ? Engine.deviceManager.devices.getDevice(eventDescriptor.deviceId) : null
-    readonly property var deviceClass: device ? Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
+    readonly property var device: eventDescriptor && eventDescriptor.deviceId ? engine.deviceManager.devices.getDevice(eventDescriptor.deviceId) : null
+    readonly property var deviceClass: device ? engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
 
     signal backPressed();
     signal done();

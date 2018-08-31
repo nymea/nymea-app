@@ -13,9 +13,9 @@ Page {
     // optionally a rule which will be used to propose event's params as param values
     property var rule: null
 
-    readonly property var device: ruleAction && ruleAction.deviceId ? Engine.deviceManager.devices.getDevice(ruleAction.deviceId) : null
+    readonly property var device: ruleAction && ruleAction.deviceId ? engine.deviceManager.devices.getDevice(ruleAction.deviceId) : null
     readonly property var iface: ruleAction && ruleAction.interfaceName ? Interfaces.findByName(ruleAction.interfaceName) : null
-    readonly property var actionType: device ? Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId).actionTypes.getActionType(ruleAction.actionTypeId)
+    readonly property var actionType: device ? engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId).actionTypes.getActionType(ruleAction.actionTypeId)
                                             : iface ? iface.actionTypes.findByName(ruleAction.interfaceAction) : null
 
     signal backPressed();
@@ -79,8 +79,8 @@ Page {
                         visible: count > 0
                         Component.onCompleted: currentIndex = 0;
                         property var eventDescriptor: root.rule.eventDescriptors.count === 1 ? root.rule.eventDescriptors.get(0) : null
-                        property var device: eventDescriptor ? Engine.deviceManager.devices.getDevice(eventDescriptor.deviceId) : null
-                        property var deviceClass: device ? Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
+                        property var device: eventDescriptor ? engine.deviceManager.devices.getDevice(eventDescriptor.deviceId) : null
+                        property var deviceClass: device ? engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
                         property var eventType: deviceClass ? deviceClass.eventTypes.getEventType(eventDescriptor.eventTypeId) : null
 
                         property var currentParamDescriptor: eventType.paramTypes.get(eventParamsComboBox.currentIndex)

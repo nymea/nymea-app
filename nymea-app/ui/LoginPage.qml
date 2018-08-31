@@ -16,7 +16,7 @@ Page {
 
 
     Connections {
-        target: Engine.jsonRpcClient
+        target: engine.jsonRpcClient
         onAuthenticationFailed: {
             var popup = errorDialog.createObject(root)
             popup.text = qsTr("Sorry, that wasn't right. Try again please.")
@@ -51,7 +51,7 @@ Page {
 
         Label {
             Layout.fillWidth: true
-            text: Engine.jsonRpcClient.initialSetupRequired ?
+            text: engine.jsonRpcClient.initialSetupRequired ?
                       qsTr("In order to use your %1 system, please enter your email address and set a password for your nymea box.").arg(app.systemName)
                     : qsTr("In order to use your %1 system, please log in.").arg(app.systemName)
             wrapMode: Text.WordWrap
@@ -87,7 +87,7 @@ Page {
 
         ColumnLayout {
             Layout.fillWidth: true
-            visible: Engine.jsonRpcClient.initialSetupRequired
+            visible: engine.jsonRpcClient.initialSetupRequired
 
             Label {
                 Layout.fillWidth: true
@@ -102,7 +102,7 @@ Page {
 
         Label {
             Layout.fillWidth: true
-            visible: Engine.jsonRpcClient.initialSetupRequired
+            visible: engine.jsonRpcClient.initialSetupRequired
             opacity: (passwordTextField.text.length > 0 && passwordTextField.text.length < 8) || passwordTextField.text != confirmPasswordTextField.text ? 1 : 0
             text: passwordTextField.text.length < 8 ? qsTr("This password isn't long enought to be secure, add some more characters please.")
                                                     : qsTr("The passwords don't match.")
@@ -115,14 +115,14 @@ Page {
             Layout.fillWidth: true
             text: qsTr("OK")
             enabled: usernameTextField.text.length >= 5 && passwordTextField.text.length >= 8
-                     && (!Engine.jsonRpcClient.initialSetupRequired || confirmPasswordTextField.text == passwordTextField.text)
+                     && (!engine.jsonRpcClient.initialSetupRequired || confirmPasswordTextField.text == passwordTextField.text)
             onClicked: {
-                if (Engine.jsonRpcClient.initialSetupRequired) {
+                if (engine.jsonRpcClient.initialSetupRequired) {
                     print("create user")
-                    Engine.jsonRpcClient.createUser(usernameTextField.text, passwordTextField.text);
+                    engine.jsonRpcClient.createUser(usernameTextField.text, passwordTextField.text);
                 } else {
                     print("authenticate", usernameTextField.text, passwordTextField.text, "nymea-app")
-                    Engine.jsonRpcClient.authenticate(usernameTextField.text, passwordTextField.text, "nymea-app");
+                    engine.jsonRpcClient.authenticate(usernameTextField.text, passwordTextField.text, "nymea-app");
                 }
             }
         }

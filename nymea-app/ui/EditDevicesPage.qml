@@ -23,7 +23,7 @@ Page {
     }
 
     Connections {
-        target: Engine.deviceManager
+        target: engine.deviceManager
         onRemoveDeviceReply: {
             if (!d.deviceToRemove) {
                 return;
@@ -49,7 +49,7 @@ Page {
         anchors.fill: parent
         model: DevicesProxy {
             id: deviceProxy
-            engine: Engine
+            engine: app.engine
             groupByInterface: true
         }
         section.property: "baseInterface"
@@ -75,7 +75,7 @@ Page {
             }
             onDeleteClicked: {
                 d.deviceToRemove = deviceProxy.get(index);
-                Engine.deviceManager.removeDevice(d.deviceToRemove.id)
+                engine.deviceManager.removeDevice(d.deviceToRemove.id)
             }
         }
     }
@@ -83,7 +83,7 @@ Page {
     EmptyViewPlaceholder {
         anchors { left: parent.left; right: parent.right; margins: app.margins }
         anchors.verticalCenter: parent.verticalCenter
-        visible: Engine.deviceManager.devices.count === 0 && !Engine.deviceManager.fetchingData
+        visible: engine.deviceManager.devices.count === 0 && !engine.deviceManager.fetchingData
         title: qsTr("There are no things set up yet.")
         text: qsTr("In order for your %1 box to be useful, go ahead and add some things.").arg(app.systemName)
         imageSource: "qrc:/styles/%1/logo.svg".arg(styleController.currentStyle)

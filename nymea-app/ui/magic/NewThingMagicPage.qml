@@ -8,7 +8,7 @@ Page {
     id: root
 
     property var device: null
-    readonly property var deviceClass: device ? Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
+    readonly property var deviceClass: device ? engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
     property bool busy: false
 
     signal done();
@@ -25,7 +25,7 @@ Page {
             print("RuleFromTemplate: Filling eventDescriptor:", eventDescriptorTemplate.interfaceName, eventDescriptorTemplate.interfaceEvent, eventDescriptorTemplate.selectionId)
             // If we already have a thing selected for this selectionIndex, use that
             if (selectedThings.length > eventDescriptorTemplate.selectionId) {
-                var device = Engine.deviceManager.devices.getDevice(selectedThings[eventDescriptorTemplate.selectionId]);
+                var device = engine.deviceManager.devices.getDevice(selectedThings[eventDescriptorTemplate.selectionId]);
                 createEventDescriptor(rule, ruleTemplate, selectedThings, device, eventDescriptorTemplate)
                 return;
             }
@@ -80,7 +80,7 @@ Page {
 
             // Did we pick a thing for this index before?
             if (selectedThings.length > ruleActionTemplate.selectionId) {
-                var device = Engine.deviceManager.devices.getDevice(selectedThings[ruleActionTemplate.selectionId]);
+                var device = engine.deviceManager.devices.getDevice(selectedThings[ruleActionTemplate.selectionId]);
                 createRuleAction(rule, ruleTemplate, selectedThings, rule.actions, device, ruleActionTemplate)
                 return;
             }
@@ -96,8 +96,6 @@ Page {
             print("Need to select a thing")
             var page = pageStack.push(Qt.resolvedUrl("SelectThingPage.qml"), {shownInterfaces: [ruleActionTemplate.interfaceName]});
             page.thingSelected.connect(function(device) {
-                print("selected device", device.name)
-                print("template is", ruleActionTemplate.interfaceName)
                 selectedThings.push(device.id);
                 createRuleAction(rule, ruleTemplate, selectedThings, rule.actions, device, ruleActionTemplate)
                 return;
@@ -126,7 +124,7 @@ Page {
 
             // Did we pick a thing for this index before?
             if (selectedThings.length > ruleExitActionTemplate.selectionId) {
-                var device = Engine.deviceManager.devices.getDevice(selectedThings[ruleExitActionTemplate.selectionId]);
+                var device = engine.deviceManager.devices.getDevice(selectedThings[ruleExitActionTemplate.selectionId]);
                 createRuleAction(rule, ruleTemplate, selectedThings, rule.exitActions, device, ruleExitActionTemplate);
                 return;
             }
@@ -153,7 +151,7 @@ Page {
         // Now replace %i in title and action params with selectedThings[i].name
         rule.name = ruleTemplate.ruleNameTemplate;
         for (var i = 0; i < selectedThings.length; i++) {
-            var device = Engine.deviceManager.devices.getDevice(selectedThings[i]);
+            var device = engine.deviceManager.devices.getDevice(selectedThings[i]);
             rule.name = rule.name.arg(device.name)
 
             for (var j = 0; j < rule.actions.count; j++) {
@@ -178,7 +176,7 @@ Page {
         }
 
         print("Rule complete!")
-        Engine.ruleManager.addRule(rule);
+        engine.ruleManager.addRule(rule);
         rule.destroy();
         root.done();
     }
@@ -200,8 +198,8 @@ Page {
             // did we pick a thing for this index before?
             if (selectedThings.length > stateEvaluatorTemplate.stateDescriptorTemplate.selectionId) {
                 var deviceId = selectedThings[stateEvaluatorTemplate.stateDescriptorTemplate.selectionId]
-                var device = Engine.deviceManager.devices.getDevice(deviceId)
-                var deviceClass = Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
+                var device = engine.deviceManager.devices.getDevice(deviceId)
+                var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
                 stateEvaluator.stateDescriptor.deviceId = deviceId;
                 stateEvaluator.stateDescriptor.stateTypeId = deviceClass.stateTypes.findByName(stateEvaluatorTemplate.stateDescriptorTemplate.interfaceState).id
                 stateEvaluator.stateDescriptor.valueOperator = stateEvaluatorTemplate.stateDescriptorTemplate.valueOperator;
@@ -222,7 +220,7 @@ Page {
             print("..", stateEvaluatorTemplate.stateDescriptorTemplate.interfaceName)
             var page = pageStack.push(Qt.resolvedUrl("SelectThingPage.qml"), {shownInterfaces: [stateEvaluatorTemplate.stateDescriptorTemplate.interfaceName], allowSelectAny: stateEvaluatorTemplate.stateDescriptorTemplate.selectionMode === StateDescriptorTemplate.SelectionModeAny});
             page.thingSelected.connect(function(device) {
-                var deviceClass = Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
+                var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
                 stateEvaluator.stateDescriptor.deviceId = device.id;
                 stateEvaluator.stateDescriptor.stateTypeId = deviceClass.stateTypes.findByName(stateEvaluatorTemplate.stateDescriptorTemplate.interfaceState).id;
                 stateEvaluator.stateDescriptor.valueOperator = stateEvaluatorTemplate.stateDescriptorTemplate.valueOperator;
@@ -253,7 +251,7 @@ Page {
     function createEventDescriptor(rule, ruleTemplate, selectedThings, device, eventDescriptorTemplate) {
         var eventDescriptor = rule.eventDescriptors.createNewEventDescriptor();
         eventDescriptor.deviceId = device.id;
-        var deviceClass = Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
+        var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
         eventDescriptor.eventTypeId = deviceClass.eventTypes.findByName(eventDescriptorTemplate.interfaceEvent).id
         var needsParams = false;
         for (var j = 0; j < eventDescriptorTemplate.paramDescriptors.count; j++) {
@@ -278,7 +276,7 @@ Page {
 
     function createRuleAction(rule, ruleTemplate, selectedThings, ruleActions, device, ruleActionTemplate) {
         var ruleAction = ruleActions.createNewRuleAction();
-        var deviceClass = Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
+        var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
         ruleAction.deviceId = device.id;
         ruleAction.actionTypeId = deviceClass.actionTypes.findByName(ruleActionTemplate.interfaceAction).id
         for (var j = 0; j < ruleActionTemplate.ruleActionParams.count; j++) {
@@ -312,7 +310,7 @@ Page {
 
                 onClicked: {
                     var ruleTemplate = ruleTemplatesModel.get(index);
-                    var rule = Engine.ruleManager.createNewRule();
+                    var rule = engine.ruleManager.createNewRule();
                     root.fillRuleFromTemplate(rule, ruleTemplate)
                 }
             }

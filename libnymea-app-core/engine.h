@@ -46,7 +46,7 @@ class Engine : public QObject
     Q_PROPERTY(AWSClient* awsClient READ awsClient CONSTANT)
 
 public:
-    static Engine *instance();
+    explicit Engine(QObject *parent = nullptr);
 
     bool connected() const;
     QString connectedHost() const;
@@ -63,9 +63,6 @@ public:
     Q_INVOKABLE void deployCertificate();
 
 private:
-    explicit Engine(QObject *parent = nullptr);
-    static Engine *s_instance;
-
     NymeaConnection *m_connection;
     JsonRpcClient *m_jsonRpcClient;
     DeviceManager *m_deviceManager;

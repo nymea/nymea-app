@@ -31,13 +31,13 @@ Page {
                 Label {
                     Layout.fillWidth: true
                     elide: Text.ElideMiddle
-                    text: Engine.connection.url
+                    text: engine.connection.url
                 }
                 Button {
                     text: qsTr("Disconnect")
                     onClicked: {
                         settings.lastConnectedHost = "";
-                        Engine.connection.disconnect();
+                        engine.connection.disconnect();
                     }
                 }
             }
@@ -56,12 +56,12 @@ Page {
             TextField {
                 id: nameTextField
                 Layout.fillWidth: true
-                text: Engine.basicConfiguration.serverName
+                text: engine.basicConfiguration.serverName
             }
             Button {
                 text: qsTr("OK")
-                visible: nameTextField.displayText !== Engine.basicConfiguration.serverName
-                onClicked: Engine.basicConfiguration.serverName = nameTextField.displayText
+                visible: nameTextField.displayText !== engine.basicConfiguration.serverName
+                onClicked: engine.basicConfiguration.serverName = nameTextField.displayText
             }
         }
 
@@ -79,8 +79,8 @@ Page {
                 }
                 Switch {
                     id: debugServerEnabledSwitch
-                    checked: Engine.basicConfiguration.debugServerEnabled
-                    onClicked: Engine.basicConfiguration.debugServerEnabled = checked
+                    checked: engine.basicConfiguration.debugServerEnabled
+                    onClicked: engine.basicConfiguration.debugServerEnabled = checked
                 }
             }
 
@@ -90,7 +90,7 @@ Page {
                 Layout.margins: app.margins
                 visible: debugServerEnabledSwitch.checked
                 text: qsTr("Open debug interface")
-                onClicked: Qt.openUrlExternally("http://" + Engine.connection.hostAddress + "/debug")
+                onClicked: Qt.openUrlExternally("http://" + engine.connection.hostAddress + "/debug")
             }
 
         }
@@ -99,7 +99,7 @@ Page {
             Layout.fillWidth: true
             iconName: "../images/cloud.svg"
             text: qsTr("Cloud")
-            visible: Engine.jsonRpcClient.ensureServerVersion("1.9")
+            visible: engine.jsonRpcClient.ensureServerVersion("1.9")
             onClicked: pageStack.push(Qt.resolvedUrl("system/CloudSettingsPage.qml"))
         }
 

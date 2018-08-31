@@ -21,7 +21,7 @@ Page {
 
     function enterPage(index, replace) {
         var device = devicesProxy.get(index);
-        var deviceClass = Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
+        var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
         var page = app.interfaceListToDevicePage(deviceClass.interfaces);
         if (replace) {
             pageStack.replace(Qt.resolvedUrl("../devicepages/" + page), {device: devicesProxy.get(index)})
@@ -32,6 +32,6 @@ Page {
 
     DevicesProxy {
         id: devicesProxyInternal
-        engine: Engine
+        engine: app.engine
     }
 }

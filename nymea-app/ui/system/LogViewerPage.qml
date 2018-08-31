@@ -25,7 +25,7 @@ Page {
 
     LogsModel {
         id: logsModel
-        engine: Engine
+        engine: app.engine
         startTime: {
             var date = new Date();
             date.setHours(new Date().getHours() - 2);
@@ -70,8 +70,8 @@ Page {
         delegate: ItemDelegate {
             id: delegate
             width: parent.width
-            property var device: Engine.deviceManager.devices.getDevice(model.deviceId)
-            property var deviceClass: device ? Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
+            property var device: engine.deviceManager.devices.getDevice(model.deviceId)
+            property var deviceClass: device ? engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
             leftPadding: 0
             rightPadding: 0
             topPadding: 0
@@ -119,7 +119,7 @@ Page {
                             text: model.source === LogEntry.LoggingSourceSystem ?
                                       qsTr("%1 Server").arg(app.systemName)
                                     : model.source === LogEntry.LoggingSourceRules ?
-                                          Engine.ruleManager.rules.getRule(model.typeId).name
+                                          engine.ruleManager.rules.getRule(model.typeId).name
                                         : delegate.device.name
                             elide: Text.ElideRight
                         }

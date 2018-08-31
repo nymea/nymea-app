@@ -43,8 +43,12 @@ ApplicationWindow {
         property int cloudEnvironment: 0
     }
 
+    property var engine: Engine {
+
+    }
+
     Binding {
-        target: Engine.awsClient
+        target: engine.awsClient
         property: "config"
         value: settings.cloudEnvironment
     }
@@ -67,18 +71,18 @@ ApplicationWindow {
     }
 
     Connections {
-        target: Engine.awsClient
+        target: engine.awsClient
         onIsLoggedInChanged: {
             setupPushNotifications()
         }
     }
 
     Connections {
-        target: Engine.jsonRpcClient
+        target: engine.jsonRpcClient
         onConnectedChanged: {
-            print("json client connected changed", Engine.jsonRpcClient.connected)
-            if (Engine.jsonRpcClient.connected) {
-                settings.lastConnectedHost = Engine.connection.url
+            print("json client connected changed", engine.jsonRpcClient.connected)
+            if (engine.jsonRpcClient.connected) {
+                settings.lastConnectedHost = engine.connection.url
             }
             init();
         }
@@ -102,31 +106,31 @@ ApplicationWindow {
     }
 
     function init() {
-        print("calling init. Auth required:", Engine.jsonRpcClient.authenticationRequired, "initial setup required:", Engine.jsonRpcClient.initialSetupRequired, "jsonrpc connected:", Engine.jsonRpcClient.connected)
+        print("calling init. Auth required:", engine.jsonRpcClient.authenticationRequired, "initial setup required:", engine.jsonRpcClient.initialSetupRequired, "jsonrpc connected:", engine.jsonRpcClient.connected)
         pageStack.clear()
-        if (!Engine.connection.connected) {
+        if (!engine.connection.connected) {
             pageStack.push(Qt.resolvedUrl("connection/ConnectPage.qml"))
             return;
         }
 
-        if (Engine.jsonRpcClient.authenticationRequired || Engine.jsonRpcClient.initialSetupRequired) {
-            if (Engine.jsonRpcClient.pushButtonAuthAvailable) {
+        if (engine.jsonRpcClient.authenticationRequired || engine.jsonRpcClient.initialSetupRequired) {
+            if (engine.jsonRpcClient.pushButtonAuthAvailable) {
                 print("opening push button auth")
                 var page = pageStack.push(Qt.resolvedUrl("PushButtonAuthPage.qml"))
                 page.backPressed.connect(function() {
                     settings.lastConnectedHost = "";
-                    Engine.connection.disconnect();
+                    engine.connection.disconnect();
                     init();
                 })
             } else {
                 var page = pageStack.push(Qt.resolvedUrl("LoginPage.qml"));
                 page.backPressed.connect(function() {
                     settings.lastConnectedHost = "";
-                    Engine.connection.disconnect()
+                    engine.connection.disconnect()
                     init();
                 })
             }
-        } else if (Engine.jsonRpcClient.connected) {
+        } else if (engine.jsonRpcClient.connected) {
             pageStack.push(Qt.resolvedUrl("MainPage.qml"))
         } else {
             pageStack.push(Qt.resolvedUrl("connection/ConnectPage.qml"))
@@ -138,7 +142,7 @@ ApplicationWindow {
             askForPermissions = true;
         }
 
-        if (!Engine.awsClient.isLoggedIn) {
+        if (!engine.awsClient.isLoggedIn) {
             print("AWS not logged in. Cannot register for push");
             return;
         }
@@ -153,7 +157,7 @@ ApplicationWindow {
                 PlatformHelper.requestPermissions();
             }
         } else {
-            Engine.awsClient.registerPushNotificationEndpoint(PushNotifications.token, PlatformHelper.deviceManufacturer + " " + PlatformHelper.deviceModel, PlatformHelper.deviceSerial + "+io.guh.nymeaapp");
+            engine.awsClient.registerPushNotificationEndpoint(PushNotifications.token, PlatformHelper.deviceManufacturer + " " + PlatformHelper.deviceModel, PlatformHelper.deviceSerial + "+io.guh.nymeaapp");
         }
     }
 
@@ -176,9 +180,9 @@ ApplicationWindow {
     onClosing: {
         if (Qt.platform.os == "android") {
             // If we're connected, allow going back up to MainPage
-            if ((Engine.jsonRpcClient.connected && pageStack.depth > 1)
+            if ((engine.jsonRpcClient.connected && pageStack.depth > 1)
                     // if we're not connected, only allow using the back button in wizards
-                    || (!Engine.jsonRpcClient.connected && pageStack.depth > 3)) {
+                    || (!engine.jsonRpcClient.connected && pageStack.depth > 3)) {
                 close.accepted = false;
                 pageStack.pop();
             }
@@ -187,7 +191,7 @@ ApplicationWindow {
 
     Connections {
         target: Qt.application
-        enabled: Engine.jsonRpcClient.connected && settings.returnToHome
+        enabled: engine.jsonRpcClient.connected && settings.returnToHome
         onStateChanged: {
             print("App active state changed:", state)
             if (state !== Qt.ApplicationActive) {
@@ -419,7 +423,7 @@ ApplicationWindow {
                     Layout.fillWidth: true
                     text: qsTr("OK")
                     onClicked: {
-                        Engine.connection.disconnect();
+                        engine.connection.disconnect();
                         popup.close()
                     }
                 }

@@ -16,7 +16,7 @@ DeviceListPageBase {
             onClicked: {
                 for (var i = 0; i < devicesProxy.count; i++) {
                     var device = devicesProxy.get(i);
-                    var deviceClass = Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
+                    var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
                     var actionType = deviceClass.actionTypes.findByName("power");
 
                     var params = [];
@@ -24,7 +24,7 @@ DeviceListPageBase {
                     param1["paramTypeId"] = actionType.paramTypes.get(0).id;
                     param1["value"] = false;
                     params.push(param1)
-                    Engine.deviceManager.executeAction(device.id, actionType.id, params)
+                    engine.deviceManager.executeAction(device.id, actionType.id, params)
                 }
             }
         }
@@ -42,7 +42,7 @@ DeviceListPageBase {
             property bool inline: width > 500
 
             property var device: devicesProxy.get(index);
-            property var deviceClass: Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
+            property var deviceClass: engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
 
             property var connectedStateType: deviceClass.stateTypes.findByName("connected");
             property var connectedState: device.states.getState(connectedStateType.id)
@@ -110,7 +110,7 @@ DeviceListPageBase {
                                 param1["paramTypeId"] = itemDelegate.brightnessActionType.paramTypes.get(0).id;
                                 param1["value"] = value;
                                 params.push(param1)
-                                Engine.deviceManager.executeAction(itemDelegate.device.id, itemDelegate.brightnessActionType.id, params)
+                                engine.deviceManager.executeAction(itemDelegate.device.id, itemDelegate.brightnessActionType.id, params)
                             }
                         }
                         Switch {
@@ -121,7 +121,7 @@ DeviceListPageBase {
                                 param1["paramTypeId"] = itemDelegate.powerActionType.paramTypes.get(0).id;
                                 param1["value"] = checked;
                                 params.push(param1)
-                                Engine.deviceManager.executeAction(device.id, itemDelegate.powerActionType.id, params)
+                                engine.deviceManager.executeAction(device.id, itemDelegate.powerActionType.id, params)
                             }
                         }
                     }
@@ -143,7 +143,7 @@ DeviceListPageBase {
                                 param1["paramTypeId"] = itemDelegate.brightnessActionType.paramTypes.get(0).id;
                                 param1["value"] = value;
                                 params.push(param1)
-                                Engine.deviceManager.executeAction(itemDelegate.device.id, itemDelegate.brightnessActionType.id, params)
+                                engine.deviceManager.executeAction(itemDelegate.device.id, itemDelegate.brightnessActionType.id, params)
                             }
                         }
                     }

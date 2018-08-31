@@ -114,11 +114,11 @@ DevicePageBase {
                         Connections {
                             target: delegateLoader.item ? delegateLoader.item : null
                             onExecuteAction: {
-                                Engine.deviceManager.executeAction(root.device.id, model.id, params)
+                                engine.deviceManager.executeAction(root.device.id, model.id, params)
                             }
                         }
                         Connections {
-                            target: Engine.jsonRpcClient
+                            target: engine.jsonRpcClient
                             onResponseReceived: {
                                 if (commandId == delegateLoader.commandId) {
                                     print("response:", response["error"])

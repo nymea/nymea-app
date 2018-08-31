@@ -26,7 +26,7 @@ Page {
     RuleTemplatesFilterModel {
         id: ruleTemplatesModel
         ruleTemplates: RuleTemplates {}
-        readonly property var deviceClass: device ? Engine.deviceManager.deviceClasses.getDeviceClass(root.device.deviceClassId) : null
+        readonly property var deviceClass: device ? engine.deviceManager.deviceClasses.getDeviceClass(root.device.deviceClassId) : null
         filterInterfaceNames: deviceClass ? deviceClass.interfaces : []
     }
 
@@ -39,13 +39,13 @@ Page {
                 d.editRulePage = pageStack.push(Qt.resolvedUrl("NewThingMagicPage.qml"), {device: root.device});
                 d.editRulePage.manualCreation.connect(function() {
                     pageStack.pop();
-                    rule = Engine.ruleManager.createNewRule();
+                    rule = engine.ruleManager.createNewRule();
                     addRule(rule)
                 })
                 d.editRulePage.done.connect(function() {pageStack.pop(root);});
                 return;
             }
-            rule = Engine.ruleManager.createNewRule();
+            rule = engine.ruleManager.createNewRule();
         }
         d.editRulePage = pageStack.push(Qt.resolvedUrl("EditRulePage.qml"), {rule: rule, initialDeviceToBeAdded: root.device});
         d.editRulePage.StackView.onRemoved.connect(function() {
@@ -53,7 +53,7 @@ Page {
         })
         d.editRulePage.onAccept.connect(function() {
             d.editRulePage.busy = true;
-            Engine.ruleManager.addRule(d.editRulePage.rule);
+            engine.ruleManager.addRule(d.editRulePage.rule);
         })
         d.editRulePage.onCancel.connect(function() {
             pageStack.pop();
@@ -73,7 +73,7 @@ Page {
     }
 
     Connections {
-        target: Engine.ruleManager
+        target: engine.ruleManager
         onAddRuleReply: {
             d.editRulePage.busy = false;
             if (ruleError == "RuleErrorNoError") {
@@ -103,7 +103,7 @@ Page {
 
         model: RulesFilterModel {
             id: rulesFilterModel
-            rules: Engine.ruleManager.rules
+            rules: engine.ruleManager.rules
             filterDeviceId: root.device.id
         }
 
@@ -114,7 +114,7 @@ Page {
             text: model.name
             canDelete: true
 
-            onDeleteClicked: Engine.ruleManager.removeRule(model.id)
+            onDeleteClicked: engine.ruleManager.removeRule(model.id)
             onClicked: {
                 print("clicked")
                 var newRule = rulesFilterModel.get(index).clone();
@@ -126,7 +126,7 @@ Page {
                 })
                 d.editRulePage.onAccept.connect(function() {
                     d.editRulePage.busy = true
-                    Engine.ruleManager.editRule(d.editRulePage.rule);
+                    engine.ruleManager.editRule(d.editRulePage.rule);
                 })
                 d.editRulePage.onCancel.connect(function() {
                     pageStack.pop();

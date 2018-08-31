@@ -20,7 +20,7 @@ Item {
         readonly property int tilesPerRow: root.width / minTileWidth
 
         model: RulesFilterModel {
-            rules: Engine.ruleManager.rules
+            rules: engine.ruleManager.rules
             filterExecutable: true
         }
         cellWidth: width / tilesPerRow
@@ -34,16 +34,16 @@ Item {
             iconColor: colorTag ? colorTag.value : app.accentColor;
             text: model.name.toUpperCase()
 
-            property var colorTag: Engine.tagsManager.tags.findRuleTag(model.id, "color")
-            property var iconTag: Engine.tagsManager.tags.findRuleTag(model.id, "icon")
+            property var colorTag: engine.tagsManager.tags.findRuleTag(model.id, "color")
+            property var iconTag: engine.tagsManager.tags.findRuleTag(model.id, "icon")
 
-            onClicked: Engine.ruleManager.executeActions(model.id)
+            onClicked: engine.ruleManager.executeActions(model.id)
 
             Connections {
-                target: Engine.tagsManager.tags
+                target: engine.tagsManager.tags
                 onCountChanged: {
-                    colorTag = Engine.tagsManager.tags.findRuleTag(model.id, "color")
-                    iconTag = Engine.tagsManager.tags.findRuleTag(model.id, "icon")
+                    colorTag = engine.tagsManager.tags.findRuleTag(model.id, "color")
+                    iconTag = engine.tagsManager.tags.findRuleTag(model.id, "icon")
                 }
             }
         }

@@ -37,19 +37,19 @@ MainPageTile {
 
     DevicesProxy {
         id: devicesProxy
-        engine: Engine
+        engine: app.engine
         shownInterfaces: [model.name]
     }
 
     DevicesProxy {
         id: devicesSubProxyConnectables
-        engine: Engine
+        engine: app.engine
         parentProxy: devicesProxy
         filterDisconnected: true
     }
     DevicesProxy {
         id: devicesSubProxyBattery
-        engine: Engine
+        engine: app.engine
         parentProxy: devicesProxy
         filterBatteryCritical: true
     }
@@ -99,7 +99,7 @@ MainPageTile {
                         var count = 0;
                         for (var i = 0; i < devicesProxy.count; i++) {
                             var device = devicesProxy.get(i);
-                            var deviceClass = Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
+                            var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
                             var stateType = deviceClass.stateTypes.findByName("power")
                             if (device.states.getState(stateType.id).value === true) {
                                 count++;
@@ -110,7 +110,7 @@ MainPageTile {
                         var count = 0;
                         for (var i = 0; i < devicesProxy.count; i++) {
                             var device = devicesProxy.get(i);
-                            var deviceClass = Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
+                            var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
                             var stateType = deviceClass.stateTypes.findByName("state");
                             if (device.states.getState(stateType.id).value !== "closed") {
                                 count++;
@@ -145,7 +145,7 @@ MainPageTile {
                         switch (model.name) {
                         case "media":
                             var device = devicesProxy.get(0)
-                            var deviceClass = Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
+                            var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
                             var stateType = deviceClass.stateTypes.findByName("playbackStatus");
                             var state = device.states.getState(stateType.id)
                             return state.value === "Playing" ? "../images/media-playback-pause.svg" :
@@ -172,7 +172,7 @@ MainPageTile {
                     case "light":
                         if (devicesProxy.count == 1) {
                             var device = devicesProxy.get(0);
-                            var deviceClass = Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
+                            var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
                             var stateType = deviceClass.stateTypes.findByName("power")
                             var actionType = deviceClass.actionTypes.findByName("power")
                             var params = [];
@@ -180,11 +180,11 @@ MainPageTile {
                             param1["paramTypeId"] = actionType.paramTypes.get(0).id;
                             param1["value"] = !device.states.getState(stateType.id).value;
                             params.push(param1)
-                            Engine.deviceManager.executeAction(device.id, actionType.id, params)
+                            engine.deviceManager.executeAction(device.id, actionType.id, params)
                         } else {
                             for (var i = 0; i < devicesProxy.count; i++) {
                                 var device = devicesProxy.get(i);
-                                var deviceClass = Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
+                                var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
                                 var actionType = deviceClass.actionTypes.findByName("power");
 
                                 var params = [];
@@ -192,13 +192,13 @@ MainPageTile {
                                 param1["paramTypeId"] = actionType.paramTypes.get(0).id;
                                 param1["value"] = false;
                                 params.push(param1)
-                                Engine.deviceManager.executeAction(device.id, actionType.id, params)
+                                engine.deviceManager.executeAction(device.id, actionType.id, params)
                             }
                         }
                         break;
                     case "media":
                         var device = devicesProxy.get(0)
-                        var deviceClass = Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
+                        var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
                         var stateType = deviceClass.stateTypes.findByName("playbackStatus");
                         var state = device.states.getState(stateType.id)
 
@@ -215,7 +215,7 @@ MainPageTile {
 
                         print("executing", device, device.id, actionTypeId, actionName, deviceClass.actionTypes)
 
-                        Engine.deviceManager.executeAction(device.id, actionTypeId)
+                        engine.deviceManager.executeAction(device.id, actionTypeId)
                     case "garagegate":
                     case "shutter":
                     case "extendedshutter":
@@ -226,9 +226,9 @@ MainPageTile {
                     case "simpleclosable":
                         for (var i = 0; i < devicesProxy.count; i++) {
                             var device = devicesProxy.get(i);
-                            var deviceClass = Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
+                            var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
                             var actionType = deviceClass.actionTypes.findByName("close");
-                            Engine.deviceManager.executeAction(device.id, actionType.id)
+                            engine.deviceManager.executeAction(device.id, actionType.id)
                         }
 
                     default:
@@ -247,7 +247,7 @@ MainPageTile {
             spacing: 0
 
             property var device: devicesProxy.get(0)
-            property var deviceClass: device ? Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
+            property var deviceClass: device ? engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
             property var state: deviceClass ? device.states.getState(deviceClass.stateTypes.findByName("temperature").id) : null
 
             Label {

@@ -8,7 +8,7 @@ import "../delegates"
 Page {
     id: root
     property var device: null
-    readonly property var deviceClass: Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId)
+    readonly property var deviceClass: engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId)
 
     header: GuhHeader {
         text: root.device.name
@@ -27,7 +27,7 @@ Page {
         IconMenuItem {
             iconSource: "../images/delete.svg"
             text: qsTr("Delete Thing")
-            onTriggered: Engine.deviceManager.removeDevice(root.device.id)
+            onTriggered: engine.deviceManager.removeDevice(root.device.id)
         }
         IconMenuItem {
             iconSource: "../images/edit.svg"
@@ -40,7 +40,7 @@ Page {
     }
 
     Connections {
-        target: Engine.deviceManager
+        target: engine.deviceManager
         onRemoveDeviceReply: {
             switch (params.deviceError) {
             case "DeviceErrorNoError":
@@ -109,7 +109,7 @@ Page {
             }
 
             onAccepted: {
-                Engine.deviceManager.editDevice(root.device.id, textField.text)
+                engine.deviceManager.editDevice(root.device.id, textField.text)
                 dialog.destroy();
             }
         }

@@ -18,21 +18,21 @@ Page {
         MeaListItemDelegate {
             Layout.fillWidth: true
             text: qsTr("Server UUID:")
-            subText: Engine.jsonRpcClient.serverUuid
+            subText: engine.jsonRpcClient.serverUuid
             progressive: false
         }
 
         MeaListItemDelegate {
             Layout.fillWidth: true
             text: qsTr("Server version:")
-            subText: Engine.jsonRpcClient.serverVersion
+            subText: engine.jsonRpcClient.serverVersion
             progressive: false
         }
 
         MeaListItemDelegate {
             Layout.fillWidth: true
             text: qsTr("Protocol version:")
-            subText: Engine.jsonRpcClient.jsonRpcVersion
+            subText: engine.jsonRpcClient.jsonRpcVersion
             progressive: false
         }
     }

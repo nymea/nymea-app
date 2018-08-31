@@ -103,7 +103,7 @@ DevicePageBase {
                         param["paramTypeId"] = root.lightStateType.id;
                         param["value"] = !root.lightState.value;
                         params.push(param)
-                        Engine.deviceManager.executeAction(root.device.id, root.lightStateType.id, params)
+                        engine.deviceManager.executeAction(root.device.id, root.lightStateType.id, params)
                     }
                 }
             }

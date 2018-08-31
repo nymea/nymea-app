@@ -30,7 +30,7 @@ Item {
 
         RulesFilterModel {
             id: rulesFilterModel
-            rules: Engine.ruleManager.rules
+            rules: engine.ruleManager.rules
             filterDeviceId: root.logsModel.deviceId
         }
 
@@ -52,8 +52,8 @@ Item {
                 id: logEntryDelegate
                 width: parent.width
                 implicitHeight: app.delegateHeight
-                property var device: Engine.deviceManager.devices.getDevice(model.deviceId)
-                property var deviceClass: Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId)
+                property var device: engine.deviceManager.devices.getDevice(model.deviceId)
+                property var deviceClass: engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId)
                 contentItem: RowLayout {
                     ColorIcon {
                         Layout.preferredHeight: app.iconSize

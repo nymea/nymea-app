@@ -8,7 +8,7 @@ Page {
     id: root
 
     property var device
-    readonly property var deviceClass: Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId)
+    readonly property var deviceClass: engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId)
     property bool readOnly: true
 
     header: GuhHeader {
@@ -161,6 +161,6 @@ Page {
         muteParam["paramTypeId"] = stateTypeId;
         muteParam["value"] = value;
         paramList.push(muteParam)
-        Engine.deviceManager.executeAction(root.device.id, stateTypeId, paramList)
+        engine.deviceManager.executeAction(root.device.id, stateTypeId, paramList)
     }
 }

@@ -65,7 +65,7 @@ DevicePageBase {
                         percentageParam["paramTypeId"] = actionType.paramTypes.findByName("percentage").id;
                         percentageParam["value"] = value
                         params.push(percentageParam);
-                        Engine.deviceManager.executeAction(root.device.id, actionType.id, params);
+                        engine.deviceManager.executeAction(root.device.id, actionType.id, params);
                     }
                 }
 

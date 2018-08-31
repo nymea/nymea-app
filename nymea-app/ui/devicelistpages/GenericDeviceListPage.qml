@@ -28,7 +28,7 @@ DeviceListPageBase {
         model: root.devicesProxy
         delegate: ThingDelegate {
             width: parent.width
-            device: Engine.deviceManager.devices.getDevice(model.id);
+            device: engine.deviceManager.devices.getDevice(model.id);
             onClicked: {
                 enterPage(index, false)
             }

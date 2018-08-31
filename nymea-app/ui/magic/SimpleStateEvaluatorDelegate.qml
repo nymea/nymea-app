@@ -12,8 +12,8 @@ SwipeDelegate {
     property var stateEvaluator: null
     property bool showChilds: false
 
-    readonly property var device: stateEvaluator ? Engine.deviceManager.devices.getDevice(stateEvaluator.stateDescriptor.deviceId) : null
-    readonly property var deviceClass: device ? Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
+    readonly property var device: stateEvaluator ? engine.deviceManager.devices.getDevice(stateEvaluator.stateDescriptor.deviceId) : null
+    readonly property var deviceClass: device ? engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
     readonly property var iface: stateEvaluator ? Interfaces.findByName(stateEvaluator.stateDescriptor.interfaceName) : null
     readonly property var stateType: deviceClass ? deviceClass.stateTypes.getStateType(stateEvaluator.stateDescriptor.stateTypeId)
                                                  : iface ? iface.stateTypes.findByName(stateEvaluator.stateDescriptor.interfaceState) : null
@@ -86,8 +86,8 @@ SwipeDelegate {
 
                 property var stateEvaluator: root.stateEvaluator.childEvaluators.get(index)
                 property var stateDescriptor: stateEvaluator.stateDescriptor
-                readonly property var device: Engine.deviceManager.devices.getDevice(stateDescriptor.deviceId)
-                readonly property var deviceClass: device ? Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
+                readonly property var device: engine.deviceManager.devices.getDevice(stateDescriptor.deviceId)
+                readonly property var deviceClass: device ? engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
                 readonly property var iface: Interfaces.findByName(stateEvaluator.stateDescriptor.interfaceName)
                 readonly property var stateType: device ? deviceClass.stateTypes.getStateType(stateDescriptor.stateTypeId)
                                                         : iface ? iface.stateTypes.findByName(stateEvaluator.stateDescriptor.interfaceState)

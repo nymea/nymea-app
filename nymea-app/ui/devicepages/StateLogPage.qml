@@ -28,7 +28,7 @@ Page {
 
     LogsModel {
         id: logsModel
-        engine: Engine
+        engine: app.engine
         deviceId: root.device.id
         live: true
         Component.onCompleted: update()
@@ -78,7 +78,7 @@ Page {
                 logsModel: logsModel
 
                 onAddRuleClicked: {
-                    var rule = Engine.ruleManager.createNewRule();
+                    var rule = engine.ruleManager.createNewRule();
                     var stateEvaluator = rule.createStateEvaluator();
                     stateEvaluator.stateDescriptor.deviceId = device.id;
                     stateEvaluator.stateDescriptor.stateTypeId = root.stateType.id;

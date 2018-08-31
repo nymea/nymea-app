@@ -42,7 +42,7 @@ CustomViewBase {
                 param2.paramTypeId = paramTypeId
                 param2.value = bodyTextArea.text
                 params.push(param2)
-                Engine.deviceManager.executeAction(root.device.id, root.deviceClass.actionTypes.findByName("notify").id, params)
+                engine.deviceManager.executeAction(root.device.id, root.deviceClass.actionTypes.findByName("notify").id, params)
             }
         }
     }

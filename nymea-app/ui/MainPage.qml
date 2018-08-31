@@ -29,7 +29,7 @@ Page {
     // FIXME: Currently we don't have any feedback for executeAction
     // we don't want all the results, e.g. on looped calls like "all off"
     //    Connections {
-    //        target: Engine.deviceManager
+    //        target: engine.deviceManager
     //        onExecuteActionReply: {
     //            var text = params["deviceError"]
     //            switch(text) {
@@ -60,7 +60,7 @@ Page {
                 anchors.fill: parent
                 anchors.leftMargin: (systemProductType === "ios" && Screen.width === 812) ? 25 : 0
                 anchors.rightMargin: anchors.leftMargin
-                opacity: Engine.deviceManager.fetchingData ? 0 : 1
+                opacity: engine.deviceManager.fetchingData ? 0 : 1
                 Behavior on opacity { NumberAnimation { duration: 300 } }
 
                 onCurrentIndexChanged: {
@@ -68,7 +68,7 @@ Page {
                 }
 
                 Component.onCompleted:  {
-                    if (Engine.jsonRpcClient.ensureServerVersion(1.6)) {
+                    if (engine.jsonRpcClient.ensureServerVersion(1.6)) {
                         swipeView.insertItem(0, favoritesViewComponent.createObject(swipeView))
                     }
                     if (settings.currentMainViewIndex > swipeView.count) {
@@ -89,13 +89,13 @@ Page {
                         EmptyViewPlaceholder {
                             anchors { left: parent.left; right: parent.right; margins: app.margins }
                             anchors.verticalCenter: parent.verticalCenter
-                            visible: favoritesView.count === 0 && !Engine.deviceManager.fetchingData
+                            visible: favoritesView.count === 0 && !engine.deviceManager.fetchingData
                             title: qsTr("There are no favorite things yet.")
-                            text: Engine.deviceManager.devices.count === 0 ?
+                            text: engine.deviceManager.devices.count === 0 ?
                                       qsTr("It appears there are no things set up either yet. In order to use favorites you need to add some things first.") :
                                       qsTr("Favorites allow you to keep track of your most important things when you have lots of them. Watch out for the star when interacting with things and use it to mark them as your favorites.")
                             imageSource: "images/starred.svg"
-                            buttonVisible: Engine.deviceManager.devices.count === 0
+                            buttonVisible: engine.deviceManager.devices.count === 0
                             buttonText: qsTr("Add a thing")
                             onButtonClicked: pageStack.push(Qt.resolvedUrl("NewDeviceWizard.qml"))
                         }
@@ -109,7 +109,7 @@ Page {
                     height: swipeView.height
                     model: InterfacesSortModel {
                         interfacesModel: InterfacesModel {
-                            deviceManager: Engine.deviceManager
+                            deviceManager: engine.deviceManager
                             shownInterfaces: app.supportedInterfaces
                         }
                     }
@@ -117,7 +117,7 @@ Page {
                     EmptyViewPlaceholder {
                         anchors { left: parent.left; right: parent.right; margins: app.margins }
                         anchors.verticalCenter: parent.verticalCenter
-                        visible: Engine.deviceManager.devices.count === 0 && !Engine.deviceManager.fetchingData
+                        visible: engine.deviceManager.devices.count === 0 && !engine.deviceManager.fetchingData
                         title: qsTr("Welcome to %1!").arg(app.systemName)
                         // Have that split in 2 because we need those strings separated in EditDevicesPage too and don't want translators to do them twice
                         text: qsTr("There are no things set up yet.") + "\n" + qsTr("In order for your %1 box to be useful, go ahead and add some things.").arg(app.systemName)
@@ -136,15 +136,15 @@ Page {
                     EmptyViewPlaceholder {
                         anchors { left: parent.left; right: parent.right; margins: app.margins }
                         anchors.verticalCenter: parent.verticalCenter
-                        visible: scenesView.count === 0 && !Engine.deviceManager.fetchingData
+                        visible: scenesView.count === 0 && !engine.deviceManager.fetchingData
                         title: qsTr("There are no scenes set up yet")
-                        text: Engine.deviceManager.devices.count === 0 ?
+                        text: engine.deviceManager.devices.count === 0 ?
                                   qsTr("It appears there are no things set up either yet. In order to use scenes you need to add some things first.") :
                                   qsTr("Scenes provide a useful way to control your things with just one click.")
                         imageSource: "images/slideshow.svg"
-                        buttonText: Engine.deviceManager.devices.count === 0 ? qsTr("Add a thing") : qsTr("Add a scene")
+                        buttonText: engine.deviceManager.devices.count === 0 ? qsTr("Add a thing") : qsTr("Add a scene")
                         onButtonClicked: {
-                            if (Engine.deviceManager.devices.count === 0) {
+                            if (engine.deviceManager.devices.count === 0) {
                                 pageStack.push(Qt.resolvedUrl("NewDeviceWizard.qml"))
                             } else {
                                 var page = pageStack.push(Qt.resolvedUrl("MagicPage.qml"))
@@ -158,7 +158,7 @@ Page {
             ColumnLayout {
                 anchors { left: parent.left; right: parent.right; verticalCenter: parent.verticalCenter; margins: app.margins }
                 spacing: app.margins
-                visible: Engine.deviceManager.fetchingData
+                visible: engine.deviceManager.fetchingData
                 BusyIndicator {
                     Layout.alignment: Qt.AlignHCenter
                     running: parent.visible
@@ -189,7 +189,7 @@ Page {
         // has troubles dealing with that. For now, let's manually fill it and use a timer to initialize the currentIndex.
         Component.onCompleted: {
             var pi = 0;
-            if (Engine.jsonRpcClient.ensureServerVersion(1.6)) {
+            if (engine.jsonRpcClient.ensureServerVersion(1.6)) {
                 tabEntryComponent.createObject(tabBar, {text: qsTr("Favorites"), iconSource: "../images/starred.svg", pageIndex: pi++})
             }
             tabEntryComponent.createObject(tabBar, {text: qsTr("Things"), iconSource: "../images/share.svg", pageIndex: pi++})

@@ -49,7 +49,7 @@ DevicePageBase {
                 param["paramTypeId"] = root.powerActionType.paramTypes.get(0).id;
                 param["value"] = !root.powerState.value;
                 params.push(param)
-                Engine.deviceManager.executeAction(root.device.id, root.powerStateType.id, params);
+                engine.deviceManager.executeAction(root.device.id, root.powerStateType.id, params);
             }
         }
 
@@ -69,7 +69,7 @@ DevicePageBase {
                     param["paramTypeId"] = root.brightnessActionType.paramTypes.get(0).id;
                     param["value"] = brightness;
                     params.push(param)
-                    Engine.deviceManager.executeAction(root.device.id, root.brightnessActionType.id, params);
+                    engine.deviceManager.executeAction(root.device.id, root.brightnessActionType.id, params);
                 }
             }
 
@@ -105,7 +105,7 @@ DevicePageBase {
                     param["paramTypeId"] = root.ctActionType.paramTypes.get(0).id;
                     param["value"] = ct;
                     params.push(param)
-                    Engine.deviceManager.executeAction(root.device.id, root.ctActionType.id, params);
+                    engine.deviceManager.executeAction(root.device.id, root.ctActionType.id, params);
                 }
             }
             ColorPicker {
@@ -145,7 +145,7 @@ DevicePageBase {
                         param1["paramTypeId"] = root.colorActionType.paramTypes.get(0).id;
                         param1["value"] = color;
                         params.push(param1)
-                        Engine.deviceManager.executeAction(root.device.id, root.colorActionType.id, params)
+                        engine.deviceManager.executeAction(root.device.id, root.colorActionType.id, params)
                         lastSentTime = currentTime
                     }
                 }

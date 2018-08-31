@@ -15,14 +15,14 @@ Page {
 
     ListView {
         anchors.fill: parent
-        model: Engine.deviceManager.plugins
+        model: engine.deviceManager.plugins
         clip: true
 
         delegate: MeaListItemDelegate {
             width: parent.width
             iconName: "../images/plugin.svg"
             text: model.name
-            onClicked: pageStack.push(Qt.resolvedUrl("PluginParamsPage.qml"), {plugin: Engine.deviceManager.plugins.get(index)})
+            onClicked: pageStack.push(Qt.resolvedUrl("PluginParamsPage.qml"), {plugin: engine.deviceManager.plugins.get(index)})
         }
     }
 }

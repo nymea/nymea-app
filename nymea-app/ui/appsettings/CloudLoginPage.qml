@@ -12,17 +12,17 @@ Page {
     }
 
     Component.onCompleted: {
-        if (Engine.awsClient.isLoggedIn) {
-            Engine.awsClient.fetchDevices();
+        if (engine.awsClient.isLoggedIn) {
+            engine.awsClient.fetchDevices();
         }
     }
 
     Connections {
-        target: Engine.awsClient
+        target: engine.awsClient
         onLoginResult: {
             busyOverlay.shown = false;
             if (error === AWSClient.LoginErrorNoError) {
-                Engine.awsClient.fetchDevices();
+                engine.awsClient.fetchDevices();
             }
         }
         onDeleteAccountResult: {
@@ -39,14 +39,14 @@ Page {
 
     ColumnLayout {
         anchors.fill: parent
-        visible: Engine.awsClient.isLoggedIn
+        visible: engine.awsClient.isLoggedIn
         Label {
             Layout.fillWidth: true
             Layout.topMargin: app.margins
             Layout.leftMargin: app.margins
             Layout.rightMargin: app.margins
             wrapMode: Text.WordWrap
-            text: qsTr("Logged in as %1").arg(Engine.awsClient.username)
+            text: qsTr("Logged in as %1").arg(engine.awsClient.username)
         }
 
         Button {
@@ -66,15 +66,15 @@ Page {
             Layout.leftMargin: app.margins
             Layout.rightMargin: app.margins
             wrapMode: Text.WordWrap
-            text: Engine.awsClient.awsDevices.count === 0 ?
+            text: engine.awsClient.awsDevices.count === 0 ?
                       qsTr("There are no boxes connected to your cloud yet.") :
-                      qsTr("There are %n boxes connected to your cloud", "", Engine.awsClient.awsDevices.count)
+                      qsTr("There are %n boxes connected to your cloud", "", engine.awsClient.awsDevices.count)
         }
         ListView {
             Layout.fillWidth: true
             Layout.fillHeight: true
-            model: Engine.awsClient.awsDevices
             clip: true
+            model: engine.awsClient.awsDevices
             delegate: MeaListItemDelegate {
                 width: parent.width
                 text: model.name
@@ -86,25 +86,25 @@ Page {
                 secondaryIconName: !model.online ? "../images/cloud-error.svg" : ""
 
                 onClicked: {
-                    if (!Engine.connection.connected) {
+                    if (!engine.connection.connected) {
                         var page = pageStack.push(Qt.resolvedUrl("../connection/ConnectingPage.qml"))
                         page.cancel.connect(function() {
-                            Engine.connection.disconnect()
+                            engine.connection.disconnect()
                             pageStack.pop(root, StackView.Immediate);
                             pageStack.push(discoveryPage)
                         })
-                        Engine.connection.connect("cloud://" + model.id)
+                        engine.connection.connect("cloud://" + model.id)
                     }
                 }
 
                 onDeleteClicked: {
-                    Engine.awsClient.unpairDevice(model.id);
+                    engine.awsClient.unpairDevice(model.id);
                 }
             }
 
             BusyIndicator {
                 anchors.centerIn: parent
-                visible: Engine.awsClient.awsDevices.busy
+                visible: engine.awsClient.awsDevices.busy
             }
         }
     }
@@ -132,16 +132,16 @@ Page {
         onAccepted: {
             if (deleteCheckbox.checked) {
                 busyOverlay.shown = true;
-                Engine.awsClient.deleteAccount()
+                engine.awsClient.deleteAccount()
             } else {
-                Engine.awsClient.logout()
+                engine.awsClient.logout()
             }
         }
     }
 
     ColumnLayout {
         anchors { left: parent.left; right: parent.right; top: parent.top }
-        visible: !Engine.awsClient.isLoggedIn
+        visible: !engine.awsClient.isLoggedIn
         Label {
             Layout.fillWidth: true
             Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.topMargin: app.margins
@@ -197,12 +197,12 @@ Page {
             enabled: usernameTextField.acceptableInput
             onClicked:  {
                 busyOverlay.shown = true
-                Engine.awsClient.login(usernameTextField.text, passwordTextField.text);
+                engine.awsClient.login(usernameTextField.text, passwordTextField.text);
             }
         }
 
         Connections {
-            target: Engine.awsClient
+            target: engine.awsClient
             onLoginResult: {
                 errorLabel.visible = (error !== AWSClient.LoginErrorNoError)
             }
@@ -310,14 +310,14 @@ Page {
                         enabled: usernameTextField.acceptableInput && passwordTextField.isValidPassword
                         onClicked: {
                             busyOverlay.shown = true;
-                            Engine.awsClient.signup(usernameTextField.text, passwordTextField.password)
+                            engine.awsClient.signup(usernameTextField.text, passwordTextField.password)
                         }
                     }
                 }
 
 
                 Connections {
-                    target: Engine.awsClient
+                    target: engine.awsClient
                     onSignupResult: {
                         busyOverlay.shown = false;
                         var text;
@@ -371,12 +371,12 @@ Page {
                     text: qsTr("OK")
                     onClicked: {
                         busyOverlay.shown = true;
-                        Engine.awsClient.confirmRegistration(confirmationCodeTextField.text)
+                        engine.awsClient.confirmRegistration(confirmationCodeTextField.text)
                     }
                 }
 
                 Connections {
-                    target: Engine.awsClient
+                    target: engine.awsClient
                     onConfirmationResult: {
                         busyOverlay.shown = false;
                         var text
@@ -418,7 +418,7 @@ Page {
             }
 
             Connections {
-                target: Engine.awsClient
+                target: engine.awsClient
                 onForgotPasswordResult: {
                     busyOverlay.shown = false
                     if (error !== AWSClient.LoginErrorNoError) {
@@ -459,7 +459,7 @@ Page {
                     Layout.fillWidth: true; Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
                     text: qsTr("Reset password")
                     onClicked: {
-                        Engine.awsClient.forgotPassword(emailTextField.text)
+                        engine.awsClient.forgotPassword(emailTextField.text)
                         busyOverlay.shown = true
                     }
                 }
@@ -478,7 +478,7 @@ Page {
             id: confirmResetPasswordPage
 
             Connections {
-                target: Engine.awsClient
+                target: engine.awsClient
                 onConfirmForgotPasswordResult: {
                     busyOverlay.shown = false
                     if (error !== AWSClient.LoginErrorNoError) {
@@ -545,7 +545,7 @@ Page {
                     enabled: passwordTextField.isValidPassword && codeTextField.text.length > 0
                     onClicked: {
                         busyOverlay.shown = true
-                        Engine.awsClient.confirmForgotPassword(confirmResetPasswordPage.email, codeTextField.text, passwordTextField.password)
+                        engine.awsClient.confirmForgotPassword(confirmResetPasswordPage.email, codeTextField.text, passwordTextField.password)
                     }
                 }
                 BusyOverlay {

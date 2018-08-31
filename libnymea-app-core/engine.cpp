@@ -31,14 +31,42 @@
 #include "connection/bluetoothtransport.h"
 #include "connection/cloudtransport.h"
 
-Engine* Engine::s_instance = nullptr;
-
-Engine *Engine::instance()
+Engine::Engine(QObject *parent) :
+    QObject(parent),
+    m_connection(new NymeaConnection(this)),
+    m_jsonRpcClient(new JsonRpcClient(m_connection, this)),
+    m_deviceManager(new DeviceManager(m_jsonRpcClient, this)),
+    m_ruleManager(new RuleManager(m_jsonRpcClient, this)),
+    m_logManager(new LogManager(m_jsonRpcClient, this)),
+    m_tagsManager(new TagsManager(m_jsonRpcClient, this)),
+    m_basicConfiguration(new BasicConfiguration(m_jsonRpcClient, this)),
+    m_aws(new AWSClient(this))
 {
-    if (!s_instance)
-        s_instance = new Engine();
+    m_connection->registerTransport(new TcpSocketTransportFactory());
+    m_connection->registerTransport(new WebsocketTransportFactory());
+    m_connection->registerTransport(new BluetoothTransportFactoy());
+    m_connection->registerTransport(new CloudTransportFactory(m_aws));
 
-    return s_instance;
+    connect(m_jsonRpcClient, &JsonRpcClient::connectedChanged, this, &Engine::onConnectedChanged);
+    connect(m_jsonRpcClient, &JsonRpcClient::authenticationRequiredChanged, this, &Engine::onConnectedChanged);
+
+    connect(m_deviceManager, &DeviceManager::fetchingDataChanged, this, &Engine::onDeviceManagerFetchingChanged);
+
+    connect(m_aws, &AWSClient::devicesFetched, this, [this]() {
+        if (m_jsonRpcClient->connected() && m_jsonRpcClient->cloudConnectionState() == JsonRpcClient::CloudConnectionStateConnected) {
+            if (m_aws->awsDevices()->getDevice(m_jsonRpcClient->serverUuid()) == nullptr) {
+                m_jsonRpcClient->setupRemoteAccess(m_aws->idToken(), m_aws->userId());
+            }
+        }
+    });
+    connect(m_jsonRpcClient, &JsonRpcClient::connectedChanged, this, [this]() {
+        if (m_jsonRpcClient->connected() && m_jsonRpcClient->cloudConnectionState() == JsonRpcClient::CloudConnectionStateConnected) {
+            if (m_aws->awsDevices()->getDevice(m_jsonRpcClient->serverUuid()) == nullptr) {
+                m_jsonRpcClient->setupRemoteAccess(m_aws->idToken(), m_aws->userId());
+            }
+        }
+    });
+
 }
 
 DeviceManager *Engine::deviceManager() const
@@ -95,44 +123,6 @@ void Engine::deployCertificate()
 NymeaConnection *Engine::connection() const
 {
     return m_connection;
-}
-
-Engine::Engine(QObject *parent) :
-    QObject(parent),
-    m_connection(new NymeaConnection(this)),
-    m_jsonRpcClient(new JsonRpcClient(m_connection, this)),
-    m_deviceManager(new DeviceManager(m_jsonRpcClient, this)),
-    m_ruleManager(new RuleManager(m_jsonRpcClient, this)),
-    m_logManager(new LogManager(m_jsonRpcClient, this)),
-    m_tagsManager(new TagsManager(m_jsonRpcClient, this)),
-    m_basicConfiguration(new BasicConfiguration(m_jsonRpcClient, this)),
-    m_aws(new AWSClient(this))
-{
-    m_connection->registerTransport(new TcpSocketTransportFactory());
-    m_connection->registerTransport(new WebsocketTransportFactory());
-    m_connection->registerTransport(new BluetoothTransportFactoy());
-    m_connection->registerTransport(new CloudTransportFactory(m_aws));
-
-    connect(m_jsonRpcClient, &JsonRpcClient::connectedChanged, this, &Engine::onConnectedChanged);
-    connect(m_jsonRpcClient, &JsonRpcClient::authenticationRequiredChanged, this, &Engine::onConnectedChanged);
-
-    connect(m_deviceManager, &DeviceManager::fetchingDataChanged, this, &Engine::onDeviceManagerFetchingChanged);
-
-    connect(m_aws, &AWSClient::devicesFetched, this, [this]() {
-        if (m_jsonRpcClient->connected() && m_jsonRpcClient->cloudConnectionState() == JsonRpcClient::CloudConnectionStateConnected) {
-            if (m_aws->awsDevices()->getDevice(m_jsonRpcClient->serverUuid()) == nullptr) {
-                m_jsonRpcClient->setupRemoteAccess(m_aws->idToken(), m_aws->userId());
-            }
-        }
-    });
-    connect(m_jsonRpcClient, &JsonRpcClient::connectedChanged, this, [this]() {
-        if (m_jsonRpcClient->connected() && m_jsonRpcClient->cloudConnectionState() == JsonRpcClient::CloudConnectionStateConnected) {
-            if (m_aws->awsDevices()->getDevice(m_jsonRpcClient->serverUuid()) == nullptr) {
-                m_jsonRpcClient->setupRemoteAccess(m_aws->idToken(), m_aws->userId());
-            }
-        }
-    });
-
 }
 
 void Engine::onConnectedChanged()

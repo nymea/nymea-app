@@ -31,7 +31,7 @@ CustomViewBase {
                 muteParam["paramTypeId"] = deviceClass.stateTypes.findByName("mute").id
                 muteParam["value"] = !isMuted
                 paramList.push(muteParam)
-                Engine.deviceManager.executeAction(root.device.id, deviceClass.actionTypes.findByName("mute").id, paramList)
+                engine.deviceManager.executeAction(root.device.id, deviceClass.actionTypes.findByName("mute").id, paramList)
             }
         }
 
@@ -46,7 +46,7 @@ CustomViewBase {
                 muteParam["paramTypeId"] = deviceClass.stateTypes.findByName("volume").id
                 muteParam["value"] = value
                 paramList.push(muteParam)
-                Engine.deviceManager.executeAction(root.device.id, deviceClass.actionTypes.findByName("volume").id, paramList)
+                engine.deviceManager.executeAction(root.device.id, deviceClass.actionTypes.findByName("volume").id, paramList)
             }
         }
     }

@@ -10,9 +10,9 @@ Page {
     // Needs to be set and filled in with deviceId and eventTypeId
     property var stateDescriptor: null
 
-    readonly property var device: stateDescriptor && stateDescriptor.deviceId ? Engine.deviceManager.devices.getDevice(stateDescriptor.deviceId) : null
+    readonly property var device: stateDescriptor && stateDescriptor.deviceId ? engine.deviceManager.devices.getDevice(stateDescriptor.deviceId) : null
     readonly property var iface: stateDescriptor && stateDescriptor.interfaceName ? Interfaces.findByName(stateDescriptor.interfaceName) : null
-    readonly property var stateType: device ? Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId).stateTypes.getStateType(stateDescriptor.stateTypeId)
+    readonly property var stateType: device ? engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId).stateTypes.getStateType(stateDescriptor.stateTypeId)
                                               : iface ? iface.stateTypes.findByName(stateDescriptor.interfaceState) : null
 
     signal backPressed();

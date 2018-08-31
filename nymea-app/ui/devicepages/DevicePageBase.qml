@@ -7,7 +7,7 @@ import "../components"
 Page {
     id: root
     property var device: null
-    readonly property var deviceClass: Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId)
+    readonly property var deviceClass: engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId)
 
     default property alias data: contentItem.data
 
@@ -23,7 +23,7 @@ Page {
 
     TagsProxyModel {
         id: favoritesProxy
-        tags: Engine.tagsManager.tags
+        tags: engine.tagsManager.tags
         filterDeviceId: root.device.id
         filterTagId: "favorites"
     }
@@ -36,7 +36,7 @@ Page {
             thingMenu.addItem(menuEntryComponent.createObject(thingMenu, {text: qsTr("Magic"), iconSource: "../images/magic.svg", functionName: "openDeviceMagicPage"}))
 
             thingMenu.addItem(menuEntryComponent.createObject(thingMenu, {text: qsTr("Thing details"), iconSource: "../images/info.svg", functionName: "openDeviceInfoPage"}))
-            if (Engine.jsonRpcClient.ensureServerVersion(1.6)) {
+            if (engine.jsonRpcClient.ensureServerVersion(1.6)) {
                 thingMenu.addItem(menuEntryComponent.createObject(thingMenu,
                     {
                         text: Qt.binding(function() { return favoritesProxy.count === 0 ? qsTr("Mark as favorite") : qsTr("Remove from favorites")}),
@@ -53,9 +53,9 @@ Page {
         }
         function toggleFavorite() {
             if (favoritesProxy.count === 0) {
-                Engine.tagsManager.tagDevice(root.device.id, "favorites", 100000)
+                engine.tagsManager.tagDevice(root.device.id, "favorites", 100000)
             } else {
-                Engine.tagsManager.untagDevice(root.device.id, "favorites")
+                engine.tagsManager.untagDevice(root.device.id, "favorites")
             }
         }
 

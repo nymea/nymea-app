@@ -31,7 +31,7 @@ Page {
 
     DevicesProxy {
         id: ifaceFilterModel
-        engine: Engine
+        engine: app.engine
     }
 
     Component.onCompleted: {
@@ -101,7 +101,7 @@ Page {
                 ListView {
                     Layout.fillHeight: true
                     Layout.fillWidth: true
-                    model: Engine.deviceManager.devices
+                    model: engine.deviceManager.devices
                     delegate: ItemDelegate {
                         width: parent.width
                         Label {
@@ -111,7 +111,7 @@ Page {
                             verticalAlignment: Text.AlignVCenter
                         }
                         onClicked: {
-                            var device = Engine.deviceManager.devices.get(index)
+                            var device = engine.deviceManager.devices.get(index)
                             pageStack.push(selectDeviceActionComponent, {device: device})
                         }
                     }
@@ -125,7 +125,7 @@ Page {
         Page {
             id: page
             property var device
-            readonly property var deviceClass: Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId)
+            readonly property var deviceClass: engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId)
 
             header: GuhHeader {
                 text: qsTr("Select action")
@@ -252,7 +252,7 @@ Page {
 
                             model: DevicesProxy {
                                 id: lightsModel
-                                engine: Engine
+                                engine: app.engine
                                 shownInterfaces: ["light"]
                             }
                             delegate: CheckDelegate {
@@ -273,7 +273,7 @@ Page {
                                 continue;
                             }
                             var device = lightsModel.get(i);
-                            var deviceClass = Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId)
+                            var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId)
 
                             var action = {}
                             action["deviceId"] = device.id
@@ -337,7 +337,7 @@ Page {
 
                             model: DevicesProxy {
                                 id: notificationsModel
-                                engine: Engine
+                                engine: app.engine
                                 shownInterfaces: ["notifications"]
                             }
                             delegate: CheckDelegate {

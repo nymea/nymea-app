@@ -17,11 +17,11 @@ Page {
     }
 
     Component.objectName: {
-        Engine.jsonRpcClient.requestPushButtonAuth("");
+        engine.jsonRpcClient.requestPushButtonAuth("");
     }
 
     Connections {
-        target: Engine.jsonRpcClient
+        target: engine.jsonRpcClient
         onPushButtonAuthFailed: {
             var popup = errorDialog.createObject(root)
             popup.text = qsTr("Sorry, something went wrong during the setup. Try again please.")

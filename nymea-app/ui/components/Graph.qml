@@ -17,8 +17,8 @@ Item {
     }
     onModelChanged: canvas.requestPaint()
 
-    readonly property var device: root.model ? Engine.deviceManager.devices.getDevice(root.model.deviceId) : null
-    readonly property var deviceClass: device ? Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
+    readonly property var device: root.model ? engine.deviceManager.devices.getDevice(root.model.deviceId) : null
+    readonly property var deviceClass: device ? engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
     readonly property var stateType: deviceClass ? deviceClass.stateTypes.getStateType(root.model.typeIds[0]) : null
 
     Label {

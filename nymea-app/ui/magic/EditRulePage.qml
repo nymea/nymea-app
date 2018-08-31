@@ -15,13 +15,13 @@ Page {
     readonly property bool isEventBased: rule.eventDescriptors.count > 0 || rule.timeDescriptor.timeEventItems.count > 0
     readonly property bool isStateBased: (rule.stateEvaluator !== null || rule.timeDescriptor.calendarItems.count > 0) && !isEventBased
     readonly property bool actionsVisible: true
-    readonly property bool exitActionsVisible: (Engine.jsonRpcClient.ensureServerVersion(1.7) && !isEmpty) || isStateBased
+    readonly property bool exitActionsVisible: (engine.jsonRpcClient.ensureServerVersion(1.7) && !isEmpty) || isStateBased
     readonly property bool hasActions: rule.actions.count > 0
     readonly property bool hasExitActions: rule.exitActions.count > 0
     readonly property bool isEmpty: !isEventBased && !isStateBased && !hasActions
 
-    property string ruleIcon: Engine.tagsManager.tags.findRuleTag(rule.id, "icon").value
-    property string ruleColor: Engine.tagsManager.tags.findRuleTag(rule.id, "color").value
+    property string ruleIcon: engine.tagsManager.tags.findRuleTag(rule.id, "icon").value
+    property string ruleColor: engine.tagsManager.tags.findRuleTag(rule.id, "color").value
 
     signal accept();
     signal cancel();
@@ -313,7 +313,7 @@ Page {
                     columnSpacing: app.margins
                     rowSpacing: app.margins
                     Layout.preferredHeight: opacity > 0 ? implicitHeight : 0
-                    opacity: Engine.jsonRpcClient.ensureServerVersion(1.6) && ruleSettings.showDetails && root.rule.executable ? 1 : 0
+                    opacity: engine.jsonRpcClient.ensureServerVersion(1.6) && ruleSettings.showDetails && root.rule.executable ? 1 : 0
                     Behavior on Layout.preferredHeight { NumberAnimation { duration: 200; easing.type: Easing.InOutQuad} }
                     Behavior on opacity { NumberAnimation {duration: 200; easing.type: Easing.InOutQuad } }
 
@@ -691,7 +691,7 @@ Page {
                         text: model.text
                         progressive: true
                         iconSize: app.iconSize * 2
-                        visible: Engine.jsonRpcClient.ensureServerVersion(model.minimumJsonRpcVersion)
+                        visible: engine.jsonRpcClient.ensureServerVersion(model.minimumJsonRpcVersion)
 
                         onClicked: {
                             root[model.method]()
@@ -741,7 +741,7 @@ Page {
                         text: model.text
                         progressive: true
                         iconSize: app.iconSize * 2
-                        visible: Engine.jsonRpcClient.ensureServerVersion(model.minimumJsonRpcVersion)
+                        visible: engine.jsonRpcClient.ensureServerVersion(model.minimumJsonRpcVersion)
 
                         onClicked: {
                             root[model.method]()
@@ -804,7 +804,7 @@ Page {
                         text: model.text
                         progressive: true
                         iconSize: app.iconSize * 2
-                        visible: ruleActionQuestionPage.exitAction === model.isExitAction && Engine.jsonRpcClient.ensureServerVersion(model.minimumJsonRpcVersion)
+                        visible: ruleActionQuestionPage.exitAction === model.isExitAction && engine.jsonRpcClient.ensureServerVersion(model.minimumJsonRpcVersion)
 
                         onClicked: {
                             root[model.method]()

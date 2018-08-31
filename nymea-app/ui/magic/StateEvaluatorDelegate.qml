@@ -8,8 +8,8 @@ ItemDelegate {
 
     id: root
     property var stateEvaluator: null
-    readonly property var device: stateEvaluator ? Engine.deviceManager.devices.getDevice(stateEvaluator.stateDescriptor.deviceId) : null
-    readonly property var deviceClass: device ? Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
+    readonly property var device: stateEvaluator ? engine.deviceManager.devices.getDevice(stateEvaluator.stateDescriptor.deviceId) : null
+    readonly property var deviceClass: device ? engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
     readonly property var stateType: deviceClass ? deviceClass.stateTypes.getStateType(stateEvaluator.stateDescriptor.stateTypeId) : null
 
     property bool canDelete: true

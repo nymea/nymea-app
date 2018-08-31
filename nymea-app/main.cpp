@@ -87,8 +87,6 @@ int main(int argc, char *argv[])
 
     registerQmlTypes();
 
-    Engine::instance();
-
     QQmlApplicationEngine *engine = new QQmlApplicationEngine();
 
     qmlRegisterSingletonType<PlatformHelper>("Nymea", 1, 0, "PlatformHelper", platformHelperProvider);

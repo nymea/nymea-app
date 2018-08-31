@@ -35,7 +35,7 @@ Page {
     }
 
     Connections {
-        target: Engine.deviceManager
+        target: engine.deviceManager
         onPairDeviceReply: {
             switch (params["setupMethod"]) {
             case "SetupMethodPushButton":
@@ -61,7 +61,7 @@ Page {
 
     DeviceDiscovery {
         id: discovery
-        jsonRpcClient: Engine.jsonRpcClient
+        jsonRpcClient: engine.jsonRpcClient
     }
 
     StackView {
@@ -71,7 +71,7 @@ Page {
             ListView {
                 anchors.fill: parent
                 model: VendorsProxy {
-                    vendors: Engine.deviceManager.vendors
+                    vendors: engine.deviceManager.vendors
                 }
                 delegate: MeaListItemDelegate {
                     width: parent.width
@@ -95,7 +95,7 @@ Page {
                 model: DeviceClassesProxy {
                     id: deviceClassesProxy
                     vendorId: d.vendorId ? d.vendorId : ""
-                    deviceClasses: Engine.deviceManager.deviceClasses
+                    deviceClasses: engine.deviceManager.deviceClasses
                 }
                 delegate: MeaListItemDelegate {
                     id: deviceClassDelegate
@@ -336,7 +336,7 @@ Page {
                             switch (d.deviceClass.setupMethod) {
                             case 0:
                                 if (d.deviceDescriptorId) {
-                                    Engine.deviceManager.addDiscoveredDevice(d.deviceClass.id, d.deviceDescriptorId, nameTextField.text);
+                                    engine.deviceManager.addDiscoveredDevice(d.deviceClass.id, d.deviceDescriptorId, nameTextField.text);
                                 } else {
                                     var params = []
                                     for (var i = 0; i < paramRepeater.count; i++) {
@@ -347,14 +347,14 @@ Page {
                                         params.push(param)
                                     }
 
-                                    Engine.deviceManager.addDevice(d.deviceClass.id, nameTextField.text, params);
+                                    engine.deviceManager.addDevice(d.deviceClass.id, nameTextField.text, params);
                                 }
 
                                 break;
                             case 1:
                             case 2:
                             case 3:
-                                Engine.deviceManager.pairDevice(d.deviceClass.id, d.deviceDescriptorId, nameTextField.text);
+                                engine.deviceManager.pairDevice(d.deviceClass.id, d.deviceDescriptorId, nameTextField.text);
                                 break;
                             }
 
@@ -384,7 +384,7 @@ Page {
                     Layout.fillWidth: true
                     text: "OK"
                     onClicked: {
-                        Engine.deviceManager.confirmPairing(d.pairingTransactionId, d.deviceDescriptorId);
+                        engine.deviceManager.confirmPairing(d.pairingTransactionId, d.deviceDescriptorId);
                     }
                 }
             }

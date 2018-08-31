@@ -12,10 +12,10 @@ Page {
 
     Component.onCompleted: {
         print("completed connectPage. last connected host:", settings.lastConnectedHost)
-        if (settings.lastConnectedHost.length > 0 && Engine.connection.connect(settings.lastConnectedHost)) {
+        if (settings.lastConnectedHost.length > 0 && engine.connection.connect(settings.lastConnectedHost)) {
             var page = pageStack.push(Qt.resolvedUrl("ConnectingPage.qml"))
             page.cancel.connect(function() {
-                Engine.connection.disconnect();
+                engine.connection.disconnect();
                 pageStack.pop(root, StackView.Immediate);
                 pageStack.push(discoveryPage)
             })
@@ -27,22 +27,22 @@ Page {
     function connectToHost(url) {
         var page = pageStack.push(Qt.resolvedUrl("ConnectingPage.qml"))
         page.cancel.connect(function() {
-            Engine.connection.disconnect()
+            engine.connection.disconnect()
             pageStack.pop(root, StackView.Immediate);
             pageStack.push(discoveryPage)
         })
-        Engine.connection.connect(url)
+        engine.connection.connect(url)
     }
 
     NymeaDiscovery {
         id: discovery
         objectName: "discovery"
-        awsClient: Engine.awsClient
+        awsClient: engine.awsClient
         discovering: pageStack.currentItem.objectName === "discoveryPage"
     }
 
     Connections {
-        target: Engine.connection
+        target: engine.connection
         onVerifyConnectionCertificate: {
             print("verify cert!")
             var popup = certDialogComponent.createObject(root, {url: url, issuerInfo: issuerInfo, fingerprint: fingerprint, pem: pem});
@@ -215,7 +215,7 @@ Page {
                         prominentSubText: false
                         progressive: false
                         property bool isSecure: discoveryDevice.connections.get(defaultConnectionIndex).secure
-                        property bool isTrusted: Engine.connection.isTrusted(discoveryDeviceDelegate.discoveryDevice.connections.get(defaultConnectionIndex).url)
+                        property bool isTrusted: engine.connection.isTrusted(discoveryDeviceDelegate.discoveryDevice.connections.get(defaultConnectionIndex).url)
                         property bool isOnline: discoveryDevice.connections.get(defaultConnectionIndex).online
                         tertiaryIconName: isSecure ? "../images/network-secure.svg" : ""
                         tertiaryIconColor: isTrusted ? app.accentColor : Material.foreground
@@ -285,7 +285,7 @@ Page {
                     Layout.leftMargin: app.margins
                     Layout.rightMargin: app.margins
                     text: qsTr("Cloud login")
-                    visible: !Engine.awsClient.isLoggedIn
+                    visible: !engine.awsClient.isLoggedIn
                     onClicked: pageStack.push(Qt.resolvedUrl("../appsettings/CloudLoginPage.qml"))
                 }
 
@@ -334,7 +334,7 @@ Page {
             property var issuerInfo
             property var pem
 
-            readonly property bool hasOldFingerprint: Engine.connection.isTrusted(url)
+            readonly property bool hasOldFingerprint: engine.connection.isTrusted(url)
 
             ColumnLayout {
                 id: certLayout
@@ -422,7 +422,7 @@ Page {
             }
 
             onAccepted: {
-                Engine.connection.acceptCertificate(certDialog.url, certDialog.pem)
+                engine.connection.acceptCertificate(certDialog.url, certDialog.pem)
                 root.connectToHost(certDialog.url)
             }
         }
@@ -537,7 +537,7 @@ Page {
 
                                 tertiaryIconName: model.secure ? "../images/network-secure.svg" : ""
                                 tertiaryIconColor: isTrusted ? app.accentColor : "gray"
-                                readonly property bool isTrusted: Engine.connection.isTrusted(url)
+                                readonly property bool isTrusted: engine.connection.isTrusted(url)
                                 secondaryIconName: !model.online ? "../images/cloud-error.svg" : ""
                                 secondaryIconColor: "red"
 

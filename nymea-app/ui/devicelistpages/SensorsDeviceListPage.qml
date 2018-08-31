@@ -24,7 +24,7 @@ DeviceListPageBase {
             property bool inline: width > 500
 
             property var device: devicesProxy.get(index);
-            property var deviceClass: Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
+            property var deviceClass: engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
 
             bottomPadding: index === ListView.view.count - 1 ? topPadding : 0
             contentItem: Pane {

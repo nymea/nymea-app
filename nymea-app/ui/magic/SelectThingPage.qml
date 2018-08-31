@@ -29,12 +29,12 @@ Page {
 
     InterfacesProxy {
         id: interfacesProxy
-        devicesFilter: Engine.deviceManager.devices
+        devicesFilter: engine.deviceManager.devices
     }
 
     DevicesProxy {
         id: devicesProxy
-        engine: Engine
+        engine: app.engine
     }
 
     ColumnLayout {

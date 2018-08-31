@@ -205,7 +205,7 @@ void LogsModel::fetchEarlier(int hours)
     timeFilter.insert("startDate", m_startTime.toSecsSinceEpoch());
     timeFilters.append(timeFilter);
     params.insert("timeFilters", timeFilters);
-    Engine::instance()->jsonRpcClient()->sendCommand("Logging.GetLogEntries", params, this, "fetchEarlierReply");
+    m_engine->jsonRpcClient()->sendCommand("Logging.GetLogEntries", params, this, "fetchEarlierReply");
 }
 
 void LogsModel::logsReply(const QVariantMap &data)

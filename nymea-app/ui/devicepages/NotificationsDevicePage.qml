@@ -63,7 +63,7 @@ DevicePageBase {
                     bodyParam["paramTypeId"] = actionType.paramTypes.findByName("body").id
                     bodyParam["value"] = bodyTextField.text
                     params.push(bodyParam)
-                    Engine.deviceManager.executeAction(root.device.id, actionType.id, params)
+                    engine.deviceManager.executeAction(root.device.id, actionType.id, params)
                 }
                 root.inputVisible = !root.inputVisible
             }

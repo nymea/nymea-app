@@ -96,10 +96,10 @@ Page {
                 }
 
                 print("Try to connect ", rpcUrl)
-                Engine.connection.connect(rpcUrl)
+                engine.connection.connect(rpcUrl)
                 var page = pageStack.push(Qt.resolvedUrl("ConnectingPage.qml"))
                 page.cancel.connect(function() {
-                    Engine.connection.disconnect()
+                    engine.connection.disconnect()
                     pageStack.pop(root)
                 })
             }

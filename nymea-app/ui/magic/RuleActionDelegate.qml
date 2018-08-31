@@ -12,9 +12,9 @@ MeaListItemDelegate {
 
     property var ruleAction: null
 
-    property var device: ruleAction.deviceId ? Engine.deviceManager.devices.getDevice(ruleAction.deviceId) : null
+    property var device: ruleAction.deviceId ? engine.deviceManager.devices.getDevice(ruleAction.deviceId) : null
     property var iface: ruleAction.interfaceName ? Interfaces.findByName(ruleAction.interfaceName) : null
-    property var deviceClass: device ? Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
+    property var deviceClass: device ? engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
     property var actionType: deviceClass ? deviceClass.actionTypes.getActionType(ruleAction.actionTypeId)
                                          : iface ? iface.actionTypes.findByName(ruleAction.interfaceAction) : null
 

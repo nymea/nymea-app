@@ -32,7 +32,7 @@ Dialog {
                 height: app.iconSize
                 width: parent.width
                 elide: Text.ElideRight
-                text: Engine.ruleManager.rules.getRule(modelData).name
+                text: engine.ruleManager.rules.getRule(modelData).name
                 verticalAlignment: Text.AlignVCenter
             }
         }
@@ -42,7 +42,7 @@ Dialog {
             text: qsTr("Remove all those rules")
             Layout.fillWidth: true
             onClicked: {
-                Engine.deviceManager.removeDevice(root.device.id, DeviceManager.RemovePolicyCascade)
+                engine.deviceManager.removeDevice(root.device.id, DeviceManager.RemovePolicyCascade)
                 root.close()
                 root.destroy();
             }
@@ -51,7 +51,7 @@ Dialog {
             text: qsTr("Update rules, removing this thing")
             Layout.fillWidth: true
             onClicked: {
-                Engine.deviceManager.removeDevice(root.device.id, DeviceManager.RemovePolicyUpdate)
+                engine.deviceManager.removeDevice(root.device.id, DeviceManager.RemovePolicyUpdate)
                 root.close()
                 root.destroy();
             }

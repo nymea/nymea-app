@@ -13,7 +13,7 @@ GenericDevicePage {
         text: qsTr("This event has appeared %1 times in the last %2 days.")
 
         logsModel: LogsModel {
-            engine: Engine
+            engine: app.engine
             deviceId: root.device.id
             live: true
             Component.onCompleted: update()
@@ -21,7 +21,7 @@ GenericDevicePage {
         }
 
         onAddRuleClicked: {
-            var rule = Engine.ruleManager.createNewRule();
+            var rule = engine.ruleManager.createNewRule();
             var eventDescriptor = rule.eventDescriptors.createNewEventDescriptor();
             eventDescriptor.deviceId = device.id;
             var eventType = root.deviceClass.eventTypes.findByName("triggered");

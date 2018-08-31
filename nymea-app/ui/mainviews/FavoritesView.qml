@@ -13,7 +13,7 @@ Item {
 
     TagsProxyModel {
         id: tagsProxy
-        tags: Engine.tagsManager.tags
+        tags: engine.tagsManager.tags
         filterTagId: "favorites"
     }
 
@@ -44,8 +44,8 @@ Item {
 
             property string deviceId: model.deviceId
             property string ruleId: model.ruleId
-            readonly property var device: Engine.deviceManager.devices.getDevice(deviceId)
-            readonly property var deviceClass: device ? Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
+            readonly property var device: engine.deviceManager.devices.getDevice(deviceId)
+            readonly property var deviceClass: device ? engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
             readonly property var connectedState: deviceClass.interfaces.indexOf("connectable") >= 0 ? device.states.getState(deviceClass.stateTypes.findByName("connected").id) : null
             readonly property var batteryCriticalState: deviceClass.interfaces.indexOf("battery") >= 0 ? device.states.getState(deviceClass.stateTypes.findByName("batteryCritical").id) : null
 
@@ -161,7 +161,7 @@ Item {
                         }
 
                         var tag = tagsProxy.get(i);
-                        Engine.tagsManager.tagDevice(tag.deviceId, tag.tagId, newIdx);
+                        engine.tagsManager.tagDevice(tag.deviceId, tag.tagId, newIdx);
                     }
                     from = index;
                 }
@@ -186,14 +186,14 @@ Item {
                     color: app.accentColor
                 }
                 onClicked: {
-                    var deviceClass = Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
+                    var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
                     var actionType = deviceClass.actionTypes.findByName("power");
                     var params = [];
                     var powerParam = {}
                     powerParam["paramTypeId"] = actionType.paramTypes.get(0).id;
                     powerParam["value"] = false;
                     params.push(powerParam)
-                    Engine.deviceManager.executeAction(device.id, actionType.id, params);
+                    engine.deviceManager.executeAction(device.id, actionType.id, params);
                 }
             }
 
@@ -207,14 +207,14 @@ Item {
                 to: 100
                 value: brightnessState.value
                 onMoved: {
-                    var deviceClass = Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
+                    var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
                     var actionType = deviceClass.actionTypes.findByName("brightness");
                     var params = [];
                     var powerParam = {}
                     powerParam["paramTypeId"] = actionType.paramTypes.get(0).id;
                     powerParam["value"] = value;
                     params.push(powerParam)
-                    Engine.deviceManager.executeAction(device.id, actionType.id, params);
+                    engine.deviceManager.executeAction(device.id, actionType.id, params);
                 }
             }
 
@@ -229,14 +229,14 @@ Item {
                     color: app.accentColor
                 }
                 onClicked: {
-                    var deviceClass = Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
+                    var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
                     var actionType = deviceClass.actionTypes.findByName("power");
                     var params = [];
                     var powerParam = {}
                     powerParam["paramTypeId"] = actionType.paramTypes.get(0).id;
                     powerParam["value"] = true;
                     params.push(powerParam)
-                    Engine.deviceManager.executeAction(device.id, actionType.id, params);
+                    engine.deviceManager.executeAction(device.id, actionType.id, params);
                 }
             }
         }
@@ -370,9 +370,9 @@ Item {
                     color: app.accentColor
                 }
                 onClicked: {
-                    var deviceClass = Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
+                    var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
                     var actionType = deviceClass.actionTypes.findByName("open");
-                    Engine.deviceManager.executeAction(device.id, actionType.id);
+                    engine.deviceManager.executeAction(device.id, actionType.id);
                 }
             }
 
@@ -404,9 +404,9 @@ Item {
                     color: app.accentColor
                 }
                 onClicked: {
-                    var deviceClass = Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
+                    var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
                     var actionType = deviceClass.actionTypes.findByName("close");
-                    Engine.deviceManager.executeAction(device.id, actionType.id);
+                    engine.deviceManager.executeAction(device.id, actionType.id);
                 }
             }
         }
