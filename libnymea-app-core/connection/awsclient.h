@@ -109,7 +109,7 @@ public:
 
     Q_INVOKABLE void fetchDevices();
 
-    Q_INVOKABLE bool postToMQTT(const QString &boxId, std::function<void(bool)> callback);
+    Q_INVOKABLE bool postToMQTT(const QString &boxId, const QString &timestamp, std::function<void(bool)> callback);
     Q_INVOKABLE void getId();
 
     bool tokensExpired() const;
@@ -165,9 +165,10 @@ private:
     public:
         QueuedCall(const QString &method): method(method) { }
         QueuedCall(const QString &method, const QString &boxId): method(method), boxId(boxId) { }
-        QueuedCall(const QString &method, const QString &boxId, std::function<void(bool)> callback): method(method), boxId(boxId), callback(callback) {}
+        QueuedCall(const QString &method, const QString &boxId, const QString &timestamp, std::function<void(bool)> callback): method(method), boxId(boxId), timestamp(timestamp), callback(callback) {}
         QString method;
         QString boxId;
+        QString timestamp;
         std::function<void(bool)> callback;
     };
 

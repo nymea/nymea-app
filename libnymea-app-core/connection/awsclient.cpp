@@ -690,7 +690,7 @@ void AWSClient::getCredentialsForIdentity(const QString &identityId)
             if (qc.method == "fetchDevices") {
                 fetchDevices();
             } else if (qc.method == "postToMQTT") {
-                postToMQTT(qc.boxId, qc.callback);
+                postToMQTT(qc.boxId, qc.timestamp, qc.callback);
             }
         }
     });
@@ -701,7 +701,7 @@ bool AWSClient::tokensExpired() const
     return (m_accessTokenExpiry.addSecs(-10) < QDateTime::currentDateTime()) || (m_sessionTokenExpiry.addSecs(-10) < QDateTime::currentDateTime());
 }
 
-bool AWSClient::postToMQTT(const QString &boxId, std::function<void(bool)> callback)
+bool AWSClient::postToMQTT(const QString &boxId, const QString &timestamp, std::function<void(bool)> callback)
 {
     if (!isLoggedIn()) {
         qWarning() << "Cannot post to MQTT. Not logged in to AWS";
@@ -710,7 +710,7 @@ bool AWSClient::postToMQTT(const QString &boxId, std::function<void(bool)> callb
     if (tokensExpired()) {
         qDebug() << "Cannot post to MQTT. Need to refresh the tokens first";
         refreshAccessToken();
-        m_callQueue.append(QueuedCall("postToMQTT", boxId, callback));
+        m_callQueue.append(QueuedCall("postToMQTT", boxId, timestamp, callback));
         return true; // So far it looks we're doing ok... let's return true
     }    
     QString topic = QString("%1/%2/proxy").arg(boxId).arg(QString(m_identityId));
@@ -726,7 +726,7 @@ bool AWSClient::postToMQTT(const QString &boxId, std::function<void(bool)> callb
 
     QVariantMap params;
     params.insert("token", m_idToken);
-    params.insert("timestamp", QDateTime::currentDateTime().toSecsSinceEpoch());
+    params.insert("timestamp", timestamp);
     QByteArray payload = QJsonDocument::fromVariant(params).toJson(QJsonDocument::Compact);
 
 

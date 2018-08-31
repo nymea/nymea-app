@@ -27,6 +27,7 @@ public:
 private:
     AWSClient *m_awsClient = nullptr;
     remoteproxyclient::RemoteProxyConnection *m_remoteproxyConnection = nullptr;
+    QDateTime m_timestamp;
 };
 
 #endif // CLOUDTRANSPORT_H
