@@ -6,9 +6,13 @@
 #include "jsonrpc/jsonhandler.h"
 #include "types/logentry.h"
 
+class Engine;
+
 class LogsModel : public QAbstractListModel
 {
     Q_OBJECT
+    Q_PROPERTY(Engine* engine READ engine WRITE setEngine NOTIFY engineChanged)
+
     Q_PROPERTY(bool busy READ busy NOTIFY busyChanged)
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
     Q_PROPERTY(QString deviceId READ deviceId WRITE setDeviceId NOTIFY deviceIdChanged)
@@ -28,6 +32,9 @@ public:
         RoleLoggingEventType
     };
     explicit LogsModel(QObject *parent = nullptr);
+
+    Engine* engine() const;
+    void setEngine(Engine* engine);
 
     bool busy() const;
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
@@ -54,6 +61,7 @@ public:
     Q_INVOKABLE void notificationReceived(const QVariantMap &data);
 
 signals:
+    void engineChanged();
     void busyChanged();
     void liveChanged();
     void countChanged();
@@ -73,6 +81,7 @@ private slots:
     void newLogEntryReceived(const QVariantMap &data);
 
 protected:
+    Engine *m_engine;
     QList<LogEntry*> m_list;
     QString m_deviceId;
     QStringList m_typeIds;

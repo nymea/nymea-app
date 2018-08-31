@@ -7,7 +7,20 @@
 
 LogsModel::LogsModel(QObject *parent) : QAbstractListModel(parent)
 {
-    connect(Engine::instance()->logManager(), &LogManager::logEntryReceived, this, &LogsModel::newLogEntryReceived);
+}
+
+Engine *LogsModel::engine() const
+{
+    return m_engine;
+}
+
+void LogsModel::setEngine(Engine *engine)
+{
+    if (m_engine != engine) {
+        m_engine = engine;
+        connect(engine->logManager(), &LogManager::logEntryReceived, this, &LogsModel::newLogEntryReceived);
+        emit engineChanged();
+    }
 }
 
 bool LogsModel::busy() const
@@ -132,6 +145,10 @@ void LogsModel::notificationReceived(const QVariantMap &data)
 
 void LogsModel::update()
 {
+    if (!m_engine) {
+        qWarning() << "LogsModel: Can't update, no engine set";
+        return;
+    }
     if (m_busy) {
         return;
     }
@@ -157,7 +174,7 @@ void LogsModel::update()
     timeFilter.insert("endDate", m_endTime.toSecsSinceEpoch());
     timeFilters.append(timeFilter);
     params.insert("timeFilters", timeFilters);
-    Engine::instance()->jsonRpcClient()->sendCommand("Logging.GetLogEntries", params, this, "logsReply");
+    m_engine->jsonRpcClient()->sendCommand("Logging.GetLogEntries", params, this, "logsReply");
 }
 
 void LogsModel::fetchEarlier(int hours)

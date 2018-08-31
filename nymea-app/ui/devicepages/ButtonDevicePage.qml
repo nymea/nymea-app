@@ -14,6 +14,7 @@ GenericDevicePage {
         text: qsTr("This button has been pressed %1 times in the last %2 days.")
 
         logsModel: LogsModel {
+            engine: Engine
             deviceId: root.device.id
             live: true
             typeIds: {

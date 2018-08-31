@@ -25,6 +25,7 @@ Page {
 
     LogsModel {
         id: logsModel
+        engine: Engine
         startTime: {
             var date = new Date();
             date.setHours(new Date().getHours() - 2);
