@@ -11,6 +11,19 @@ LogsModelNg::LogsModelNg(QObject *parent) : QAbstractListModel(parent)
 
 }
 
+JsonRpcClient *LogsModelNg::jsonRpcClient() const
+{
+    return m_jsonRpcClient;
+}
+
+void LogsModelNg::setJsonRpcClient(JsonRpcClient *jsonRpcClient)
+{
+    if (m_jsonRpcClient != jsonRpcClient) {
+        m_jsonRpcClient = jsonRpcClient;
+        emit jsonRpcClientChanged();
+    }
+}
+
 int LogsModelNg::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
@@ -122,6 +135,10 @@ void LogsModelNg::setEndTime(const QDateTime &endTime)
 
 void LogsModelNg::update()
 {
+    if (!m_jsonRpcClient) {
+        qWarning() << "Cannot update. JsonRpcClient not set";
+        return;
+    }
     if (m_busy) {
         return;
     }
@@ -206,7 +223,7 @@ void LogsModelNg::update()
     timeFilter.insert("endDate", m_currentFetchEndTime.toSecsSinceEpoch());
     timeFilters.append(timeFilter);
     params.insert("timeFilters", timeFilters);
-    Engine::instance()->jsonRpcClient()->sendCommand("Logging.GetLogEntries", params, this, "logsReply");
+    m_jsonRpcClient->sendCommand("Logging.GetLogEntries", params, this, "logsReply");
 }
 
 void LogsModelNg::logsReply(const QVariantMap &data)

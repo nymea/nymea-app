@@ -46,7 +46,7 @@ class Engine : public QObject
     Q_PROPERTY(AWSClient* awsClient READ awsClient CONSTANT)
 
 public:
-    static Engine *instance();
+//    static Engine *instance();
 
     bool connected() const;
     QString connectedHost() const;

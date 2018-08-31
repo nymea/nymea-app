@@ -6,10 +6,12 @@
 #include <QDateTime>
 
 class LogEntry;
+class JsonRpcClient;
 
 class LogsModelNg : public QAbstractListModel
 {
     Q_OBJECT
+    Q_PROPERTY(JsonRpcClient* jsonRpcClient READ jsonRpcClient WRITE setJsonRpcClient NOTIFY jsonRpcClientChanged)
     Q_PROPERTY(bool busy READ busy NOTIFY busyChanged)
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
     Q_PROPERTY(QString deviceId READ deviceId WRITE setDeviceId NOTIFY deviceIdChanged)
@@ -28,6 +30,9 @@ public:
     };
 
     explicit LogsModelNg(QObject *parent = nullptr);
+
+    JsonRpcClient *jsonRpcClient() const;
+    void setJsonRpcClient(JsonRpcClient* jsonRpcClient);
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role) const override;
@@ -59,10 +64,12 @@ signals:
     void countChanged();
     void startTimeChanged();
     void endTimeChanged();
+    void jsonRpcClientChanged();
 
 private:
     QList<LogEntry*> m_list;
 
+    JsonRpcClient *m_jsonRpcClient = nullptr;
     bool m_busy = false;
     bool m_live = false;
     QString m_deviceId;
