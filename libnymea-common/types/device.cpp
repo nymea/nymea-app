@@ -21,6 +21,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #include "device.h"
+#include "deviceclass.h"
 
 #include <QDebug>
 
@@ -91,6 +92,16 @@ void Device::setStates(States *states)
 {
     m_states = states;
     emit statesChanged();
+}
+
+DeviceClass *Device::deviceClass() const
+{
+    return m_deviceClass;
+}
+
+void Device::setDeviceClass(DeviceClass *deviceClass)
+{
+    m_deviceClass = deviceClass;
 }
 
 bool Device::hasState(const QUuid &stateTypeId)

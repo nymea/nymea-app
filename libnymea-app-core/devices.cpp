@@ -75,54 +75,47 @@ QVariant Devices::data(const QModelIndex &index, int role) const
     case RoleSetupComplete:
         return device->setupComplete();
     case RoleInterfaces: {
-        DeviceClass *dc = Engine::instance()->deviceManager()->deviceClasses()->getDeviceClass(device->deviceClassId());
-        if (!dc) {
-            return QVariant();
-        }
-        return dc->interfaces();
+        return device->deviceClass()->interfaces();
     }
     case RoleBaseInterface: {
-        DeviceClass *dc = Engine::instance()->deviceManager()->deviceClasses()->getDeviceClass(device->deviceClassId());
-        if (!dc) {
-            return QVariant();
-        }
-        if (dc->interfaces().contains("gateway")) {
+        QStringList interfaces = device->deviceClass()->interfaces();
+        if (interfaces.contains("gateway")) {
             return "gateway";
         }
-        if (dc->interfaces().contains("shutter")) {
+        if (interfaces.contains("shutter")) {
             return "shutter";
         }
-        if (dc->interfaces().contains("blind")) {
+        if (interfaces.contains("blind")) {
             return "blind";
         }
-        if (dc->interfaces().contains("garagegate")) {
+        if (interfaces.contains("garagegate")) {
             return "garagegate";
         }
-        if (dc->interfaces().contains("inputtrigger")) {
+        if (interfaces.contains("inputtrigger")) {
             return "inputtrigger";
         }
-        if (dc->interfaces().contains("awning")) {
+        if (interfaces.contains("awning")) {
             return "awning";
         }
-        if (dc->interfaces().contains("outputtrigger")) {
+        if (interfaces.contains("outputtrigger")) {
             return "outputtrigger";
         }
-        if (dc->interfaces().contains("light")) {
+        if (interfaces.contains("light")) {
             return "light";
         }
-        if (dc->interfaces().contains("sensor")) {
+        if (interfaces.contains("sensor")) {
             return "sensor";
         }
-        if (dc->interfaces().contains("weather")) {
+        if (interfaces.contains("weather")) {
             return "weather";
         }
-        if (dc->interfaces().contains("media")) {
+        if (interfaces.contains("media")) {
             return "media";
         }
-        if (dc->interfaces().contains("button")) {
+        if (interfaces.contains("button")) {
             return "button";
         }
-        if (dc->interfaces().contains("notifications")) {
+        if (interfaces.contains("notifications")) {
             return "notifications";
         }
         return "uncategorized";

@@ -30,6 +30,8 @@
 #include "states.h"
 #include "statesproxy.h"
 
+class DeviceClass;
+
 class Device : public QObject
 {
     Q_OBJECT
@@ -39,9 +41,10 @@ class Device : public QObject
     Q_PROPERTY(bool setupComplete READ setupComplete NOTIFY setupCompleteChanged)
     Q_PROPERTY(Params *params READ params NOTIFY paramsChanged)
     Q_PROPERTY(States *states READ states NOTIFY statesChanged)
+    Q_PROPERTY(DeviceClass *deviceClass READ deviceClass CONSTANT)
 
 public:
-    explicit Device(QObject *parent = 0);
+    explicit Device(QObject *parent = nullptr);
 
     QString name() const;
     void setName(const QString &name);
@@ -61,10 +64,17 @@ public:
     States *states() const;
     void setStates(States *states);
 
+    DeviceClass *deviceClass() const;
+
     Q_INVOKABLE bool hasState(const QUuid &stateTypeId);
 
     Q_INVOKABLE QVariant stateValue(const QUuid &stateTypeId);
     void setStateValue(const QUuid &stateTypeId, const QVariant &value);
+
+private:
+    void setDeviceClass(DeviceClass *deviceClass);
+
+    friend class DeviceManager;
 
 private:
     QString m_name;
@@ -73,6 +83,8 @@ private:
     bool m_setupComplete;
     Params *m_params = nullptr;
     States *m_states = nullptr;
+    DeviceClass *m_deviceClass = nullptr;
+
 
 signals:
     void nameChanged();

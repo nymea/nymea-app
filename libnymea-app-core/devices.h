@@ -43,7 +43,7 @@ public:
     };
     Q_ENUM(Roles)
 
-    explicit Devices(QObject *parent = 0);
+    explicit Devices(QObject *parent = nullptr);
 
     QList<Device *> devices();
 
