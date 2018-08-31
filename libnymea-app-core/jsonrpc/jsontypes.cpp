@@ -48,9 +48,9 @@ JsonTypes::JsonTypes(QObject *parent) :
 {
 }
 
-Vendor *JsonTypes::unpackVendor(const QVariantMap &vendorMap, QObject *parent)
+Vendor *JsonTypes::unpackVendor(const QVariantMap &vendorMap)
 {
-    Vendor *v = new Vendor(vendorMap.value("id").toUuid(), vendorMap.value("name").toString(), parent);
+    Vendor *v = new Vendor(vendorMap.value("id").toUuid(), vendorMap.value("name").toString());
     v->setDisplayName(vendorMap.value("displayName").toString());
     return v;
 }

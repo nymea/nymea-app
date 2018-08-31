@@ -26,6 +26,7 @@
 #include "types/vendors.h"
 #include "devices.h"
 #include "deviceclasses.h"
+#include "interfacesmodel.h"
 #include "types/plugins.h"
 #include "jsonrpc/jsonhandler.h"
 #include "jsonrpc/jsonrpcclient.h"
@@ -48,7 +49,7 @@ public:
     };
     Q_ENUM(RemovePolicy)
 
-    explicit DeviceManager(JsonRpcClient *jsonclient, QObject *parent = 0);
+    explicit DeviceManager(JsonRpcClient *jsonclient, QObject *parent = nullptr);
 
     void clear();
     void init();

@@ -78,7 +78,7 @@ DeviceClass *DeviceClasses::getDeviceClass(QUuid deviceClassId) const
             return deviceClass;
         }
     }
-    return 0;
+    return nullptr;
 }
 
 void DeviceClasses::addDeviceClass(DeviceClass *deviceClass)
@@ -87,6 +87,7 @@ void DeviceClasses::addDeviceClass(DeviceClass *deviceClass)
     //qDebug() << "DeviceClasses: loaded deviceClass" << deviceClass->name();
     m_deviceClasses.append(deviceClass);
     endInsertRows();
+    emit countChanged();
 }
 
 void DeviceClasses::clearModel()
@@ -96,6 +97,7 @@ void DeviceClasses::clearModel()
     qDeleteAll(m_deviceClasses);
     m_deviceClasses.clear();
     endResetModel();
+    emit countChanged();
 }
 
 QHash<int, QByteArray> DeviceClasses::roleNames() const

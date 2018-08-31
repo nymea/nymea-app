@@ -21,7 +21,7 @@ Item {
 
         model: InterfacesModel {
             id: interfacesModel
-            devices: Engine.deviceManager.devices
+            deviceManager: Engine.deviceManager
         }
         cellWidth: width / tilesPerRow
         cellHeight: cellWidth

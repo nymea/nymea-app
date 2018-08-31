@@ -2,9 +2,10 @@
 
 #include "engine.h"
 
-
-InterfacesModel::InterfacesModel(QObject *parent) : QAbstractListModel(parent)
+InterfacesModel::InterfacesModel(QObject *parent):
+    QAbstractListModel(parent)
 {
+
 }
 
 int InterfacesModel::rowCount(const QModelIndex &parent) const
@@ -29,20 +30,23 @@ QHash<int, QByteArray> InterfacesModel::roleNames() const
     return roles;
 }
 
-Devices *InterfacesModel::devices() const
+DeviceManager *InterfacesModel::deviceManager() const
 {
-    return m_devices;
+    return m_deviceManager;
 }
 
-void InterfacesModel::setDevices(Devices *devices)
+void InterfacesModel::setDeviceManager(DeviceManager *deviceManager)
 {
-    if (m_devices != devices) {
-        m_devices = devices;
-        emit devicesChanged();
+    if (m_deviceManager != deviceManager) {
+        m_deviceManager = deviceManager;
+        emit deviceManagerChanged();
+        connect(m_deviceManager->devices(), &Devices::countChanged, this, [this]() {
+            syncInterfaces();
+        });
+        connect(m_deviceManager->deviceClasses(), &DeviceClasses::countChanged, this, [this]() {
+            syncInterfaces();
+        });
         syncInterfaces();
-
-        connect(devices, &Devices::rowsInserted, this, &InterfacesModel::rowsChanged);
-        connect(devices, &Devices::rowsRemoved, this, &InterfacesModel::rowsChanged);
     }
 }
 
@@ -77,13 +81,12 @@ void InterfacesModel::setShowUncategorized(bool showUncategorized)
 
 void InterfacesModel::syncInterfaces()
 {
-    if (!m_devices) {
+    if (!m_deviceManager) {
         return;
     }
-
     QStringList interfacesInSource;
-    for (int i = 0; i < m_devices->rowCount(); i++) {
-        DeviceClass *dc = Engine::instance()->deviceManager()->deviceClasses()->getDeviceClass(m_devices->get(i)->deviceClassId());
+    for (int i = 0; i < m_deviceManager->devices()->rowCount(); i++) {
+        DeviceClass *dc = m_deviceManager->deviceClasses()->getDeviceClass(m_deviceManager->devices()->get(i)->deviceClassId());
 //        qDebug() << "device" <<dc->name() << "has interfaces" << dc->interfaces();
 
         bool isInShownIfaces = false;

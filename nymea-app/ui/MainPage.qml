@@ -109,7 +109,7 @@ Page {
                     height: swipeView.height
                     model: InterfacesSortModel {
                         interfacesModel: InterfacesModel {
-                            devices: Engine.deviceManager.devices
+                            deviceManager: Engine.deviceManager
                             shownInterfaces: app.supportedInterfaces
                         }
                     }

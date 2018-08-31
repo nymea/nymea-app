@@ -6,11 +6,13 @@
 
 #include "devices.h"
 
+class DeviceManager;
+
 class InterfacesModel : public QAbstractListModel
 {
     Q_OBJECT
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
-    Q_PROPERTY(Devices* devices READ devices WRITE setDevices NOTIFY devicesChanged)
+    Q_PROPERTY(DeviceManager* deviceManager READ deviceManager WRITE setDeviceManager NOTIFY deviceManagerChanged)
     Q_PROPERTY(QStringList shownInterfaces READ shownInterfaces WRITE setShownInterfaces NOTIFY shownInterfacesChanged)
     Q_PROPERTY(bool showUncategorized READ showUncategorized WRITE setShowUncategorized NOTIFY showUncategorizedChanged)
 
@@ -26,8 +28,8 @@ public:
     QVariant data(const QModelIndex &index, int role) const override;
     QHash<int, QByteArray> roleNames() const override;
 
-    Devices* devices() const;
-    void setDevices(Devices *devices);
+    DeviceManager* deviceManager() const;
+    void setDeviceManager(DeviceManager *deviceManager);
 
     QStringList shownInterfaces() const;
     void setShownInterfaces(const QStringList &shownInterfaces);
@@ -37,7 +39,7 @@ public:
 
 signals:
     void countChanged();
-    void devicesChanged();
+    void deviceManagerChanged();
     void shownInterfacesChanged();
     void showUncategorizedChanged();
 
@@ -46,7 +48,7 @@ private slots:
     void rowsChanged(const QModelIndex &index, int first, int last);
 
 private:
-    Devices *m_devices = nullptr;
+    DeviceManager *m_deviceManager = nullptr;
     QStringList m_interfaces;
 
     QStringList m_shownInterfaces;

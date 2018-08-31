@@ -54,7 +54,7 @@ class JsonTypes : public QObject
 public:
     explicit JsonTypes(QObject *parent = 0);
 
-    static Vendor *unpackVendor(const QVariantMap &vendorMap, QObject *parent);
+    static Vendor *unpackVendor(const QVariantMap &vendorMap);
     static Plugin *unpackPlugin(const QVariantMap &pluginMap, QObject *parent);
     static DeviceClass *unpackDeviceClass(const QVariantMap &deviceClassMap, QObject *parent);
     static void unpackParam(const QVariantMap &paramMap, Param *param);

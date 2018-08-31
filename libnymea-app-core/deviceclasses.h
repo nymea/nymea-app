@@ -30,6 +30,7 @@
 class DeviceClasses : public QAbstractListModel
 {
     Q_OBJECT
+    Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
 public:
     enum Role {
         RoleId,
@@ -53,6 +54,9 @@ public:
     void addDeviceClass(DeviceClass *deviceClass);
 
     void clearModel();
+
+signals:
+    void countChanged();
 
 protected:
     QHash<int, QByteArray> roleNames() const;

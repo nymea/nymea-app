@@ -74,6 +74,7 @@ QVariant Vendors::data(const QModelIndex &index, int role) const
 
 void Vendors::addVendor(Vendor *vendor)
 {
+    vendor->setParent(this);
     beginInsertRows(QModelIndex(), m_vendors.count(), m_vendors.count());
     //qDebug() << "Vendors: loaded vendor" << vendor->name();
     m_vendors.append(vendor);

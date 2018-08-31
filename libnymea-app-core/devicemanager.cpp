@@ -137,7 +137,7 @@ void DeviceManager::getVendorsResponse(const QVariantMap &params)
     if (params.value("params").toMap().keys().contains("vendors")) {
         QVariantList vendorList = params.value("params").toMap().value("vendors").toList();
         foreach (QVariant vendorVariant, vendorList) {
-            Vendor *vendor = JsonTypes::unpackVendor(vendorVariant.toMap(), Engine::instance()->deviceManager()->vendors());
+            Vendor *vendor = JsonTypes::unpackVendor(vendorVariant.toMap());
             m_vendors->addVendor(vendor);
 //            qDebug() << "Added Vendor:" << vendor->name();
         }
