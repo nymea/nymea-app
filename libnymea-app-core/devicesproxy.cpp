@@ -27,27 +27,61 @@
 DevicesProxy::DevicesProxy(QObject *parent) :
     QSortFilterProxyModel(parent)
 {
-    connect(Engine::instance()->tagsManager()->tags(), &Tags::countChanged, this, &DevicesProxy::invalidateFilter);
 }
 
-QAbstractItemModel *DevicesProxy::devices() const
+Engine *DevicesProxy::engine() const
 {
-    return m_devices;
+    return m_engine;
 }
 
-void DevicesProxy::setDevices(QAbstractItemModel *devices)
+void DevicesProxy::setEngine(Engine *engine)
 {
-    if (m_devices != devices) {
-        m_devices = devices;
-        setSourceModel(devices);
+    if (m_engine != engine) {
+        m_engine = engine;
+        connect(m_engine->tagsManager()->tags(), &Tags::countChanged, this, &DevicesProxy::invalidateFilter);
+        emit engineChanged();
+
+        if (!sourceModel()) {
+            setSourceModel(m_engine->deviceManager()->devices());
+
+            setSortRole(Devices::RoleName);
+            sort(0);
+            connect(sourceModel(), SIGNAL(countChanged()), this, SIGNAL(countChanged()));
+            connect(sourceModel(), &QAbstractItemModel::dataChanged, this, [this]() {
+                invalidateFilter();
+                emit countChanged();
+            });
+
+        }
+    }
+}
+
+DevicesProxy *DevicesProxy::parentProxy() const
+{
+    return m_parentProxy;
+}
+
+void DevicesProxy::setParentProxy(DevicesProxy *parentProxy)
+{
+    if (m_parentProxy != parentProxy) {
+        m_parentProxy = parentProxy;
+        setSourceModel(parentProxy);
+
         setSortRole(Devices::RoleName);
         sort(0);
-        connect(devices, SIGNAL(countChanged()), this, SIGNAL(countChanged()));
-        connect(devices, &QAbstractItemModel::dataChanged, this, [this]() {
-            invalidateFilter();
-            emit countChanged();
+        connect(m_parentProxy, SIGNAL(countChanged()), this, SIGNAL(countChanged()));
+        connect(m_parentProxy, &QAbstractItemModel::dataChanged, this, [this]() {
+            if (m_engine) {
+                invalidateFilter();
+                emit countChanged();
+            }
         });
-        emit devicesChanged();
+
+        if (m_engine) {
+            invalidateFilter();
+        }
+
+        emit parentProxyChanged();
         emit countChanged();
     }
 }
@@ -148,11 +182,11 @@ Device *DevicesProxy::get(int index) const
 
 Device *DevicesProxy::getInternal(int source_index) const
 {
-    Devices* d = qobject_cast<Devices*>(m_devices);
+    Devices* d = qobject_cast<Devices*>(sourceModel());
     if (d) {
         return d->get(source_index);
     }
-    DevicesProxy *dp = qobject_cast<DevicesProxy*>(m_devices);
+    DevicesProxy *dp = qobject_cast<DevicesProxy*>(sourceModel());
     if (dp) {
         return dp->get(source_index);
     }
@@ -178,11 +212,11 @@ bool DevicesProxy::filterAcceptsRow(int source_row, const QModelIndex &source_pa
 {
     Device *device = getInternal(source_row);
     if (!m_filterTagId.isEmpty()) {
-        if (!Engine::instance()->tagsManager()->tags()->findDeviceTag(device->id().toString(), m_filterTagId)) {
+        if (!m_engine->tagsManager()->tags()->findDeviceTag(device->id().toString(), m_filterTagId)) {
             return false;
         }
     }
-    DeviceClass *deviceClass = Engine::instance()->deviceManager()->deviceClasses()->getDeviceClass(device->deviceClassId());
+    DeviceClass *deviceClass = m_engine->deviceManager()->deviceClasses()->getDeviceClass(device->deviceClassId());
     if (!m_shownInterfaces.isEmpty()) {
         bool foundMatch = false;
         foreach (const QString &filterInterface, m_shownInterfaces) {

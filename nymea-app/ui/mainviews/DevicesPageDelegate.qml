@@ -37,18 +37,20 @@ MainPageTile {
 
     DevicesProxy {
         id: devicesProxy
-        devices: Engine.deviceManager.devices
+        engine: Engine
         shownInterfaces: [model.name]
     }
 
     DevicesProxy {
         id: devicesSubProxyConnectables
-        devices: devicesProxy
+        engine: Engine
+        parentProxy: devicesProxy
         filterDisconnected: true
     }
     DevicesProxy {
         id: devicesSubProxyBattery
-        devices: devicesProxy
+        engine: Engine
+        parentProxy: devicesProxy
         filterBatteryCritical: true
     }
 

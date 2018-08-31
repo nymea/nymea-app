@@ -29,11 +29,14 @@
 
 #include "devices.h"
 
+class Engine;
+
 class DevicesProxy : public QSortFilterProxyModel
 {
     Q_OBJECT
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
-    Q_PROPERTY(QAbstractItemModel *devices READ devices WRITE setDevices NOTIFY devicesChanged)
+    Q_PROPERTY(Engine* engine READ engine WRITE setEngine NOTIFY engineChanged)
+    Q_PROPERTY(DevicesProxy *parentProxy READ parentProxy WRITE setParentProxy NOTIFY parentProxyChanged)
     Q_PROPERTY(QString filterTagId READ filterTagId WRITE setFilterTagId NOTIFY filterTagIdChanged)
     Q_PROPERTY(QStringList shownInterfaces READ shownInterfaces WRITE setShownInterfaces NOTIFY shownInterfacesChanged)
     Q_PROPERTY(QStringList hiddenInterfaces READ hiddenInterfaces WRITE setHiddenInterfaces NOTIFY hiddenInterfacesChanged)
@@ -47,10 +50,13 @@ class DevicesProxy : public QSortFilterProxyModel
     Q_PROPERTY(bool groupByInterface READ groupByInterface WRITE setGroupByInterface NOTIFY groupByInterfaceChanged)
 
 public:
-    explicit DevicesProxy(QObject *parent = 0);
+    explicit DevicesProxy(QObject *parent = nullptr);
 
-    QAbstractItemModel *devices() const;
-    void setDevices(QAbstractItemModel *devices);
+    Engine *engine() const;
+    void setEngine(Engine *engine);
+
+    DevicesProxy *parentProxy() const;
+    void setParentProxy(DevicesProxy *parentProxy);
 
     QString filterTagId() const;
     void setFilterTagId(const QString &filterTag);
@@ -73,7 +79,8 @@ public:
     Q_INVOKABLE Device *get(int index) const;
 
 signals:
-    void devicesChanged();
+    void engineChanged();
+    void parentProxyChanged();
     void filterTagIdChanged();
     void shownInterfacesChanged();
     void hiddenInterfacesChanged();
@@ -85,7 +92,8 @@ signals:
 private:
     Device *getInternal(int source_index) const;
 
-    QAbstractItemModel *m_devices = nullptr;
+    Engine *m_engine = nullptr;
+    DevicesProxy *m_parentProxy = nullptr;
     QString m_filterTagId;
     QStringList m_shownInterfaces;
     QStringList m_hiddenInterfaces;

@@ -49,7 +49,7 @@ Page {
         anchors.fill: parent
         model: DevicesProxy {
             id: deviceProxy
-            devices: Engine.deviceManager.devices
+            engine: Engine
             groupByInterface: true
         }
         section.property: "baseInterface"
