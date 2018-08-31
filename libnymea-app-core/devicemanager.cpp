@@ -161,7 +161,7 @@ void DeviceManager::getSupportedDevicesResponse(const QVariantMap &params)
     if (params.value("params").toMap().keys().contains("deviceClasses")) {
         QVariantList deviceClassList = params.value("params").toMap().value("deviceClasses").toList();
         foreach (QVariant deviceClassVariant, deviceClassList) {
-            DeviceClass *deviceClass = JsonTypes::unpackDeviceClass(deviceClassVariant.toMap(), Engine::instance()->deviceManager()->deviceClasses());
+            DeviceClass *deviceClass = JsonTypes::unpackDeviceClass(deviceClassVariant.toMap(), deviceClasses());
             m_deviceClasses->addDeviceClass(deviceClass);
         }
     }
@@ -174,7 +174,7 @@ void DeviceManager::getPluginsResponse(const QVariantMap &params)
     if (params.value("params").toMap().keys().contains("plugins")) {
         QVariantList pluginList = params.value("params").toMap().value("plugins").toList();
         foreach (QVariant pluginVariant, pluginList) {
-            Plugin *plugin = JsonTypes::unpackPlugin(pluginVariant.toMap(), Engine::instance()->deviceManager()->plugins());
+            Plugin *plugin = JsonTypes::unpackPlugin(pluginVariant.toMap(), plugins());
             m_plugins->addPlugin(plugin);
         }
     }
@@ -249,7 +249,7 @@ void DeviceManager::getConfiguredDevicesResponse(const QVariantMap &params)
                 }
                 device->setStateValue(stateTypeId, value);
             }
-            Engine::instance()->deviceManager()->devices()->addDevice(device);
+            devices()->addDevice(device);
         }
     }
     m_fetchingData = false;
