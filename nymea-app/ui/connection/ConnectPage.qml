@@ -37,6 +37,7 @@ Page {
     NymeaDiscovery {
         id: discovery
         objectName: "discovery"
+        awsClient: Engine.awsClient
         discovering: pageStack.currentItem.objectName === "discoveryPage"
     }
 

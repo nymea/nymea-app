@@ -18,6 +18,8 @@ class NymeaDiscovery : public QObject
     Q_PROPERTY(bool discovering READ discovering WRITE setDiscovering NOTIFY discoveringChanged)
     Q_PROPERTY(DiscoveryModel *discoveryModel READ discoveryModel CONSTANT)
 
+    Q_PROPERTY(AWSClient* awsClient READ awsClient WRITE setAwsClient NOTIFY awsClientChanged)
+
 public:
     explicit NymeaDiscovery(QObject *parent = nullptr);
 
@@ -26,8 +28,12 @@ public:
 
     DiscoveryModel *discoveryModel() const;
 
+    AWSClient* awsClient() const;
+    void setAwsClient(AWSClient *awsClient);
+
 signals:
     void discoveringChanged();
+    void awsClientChanged();
 
 private slots:
     void syncCloudDevices();
@@ -39,6 +45,7 @@ private:
     UpnpDiscovery *m_upnp = nullptr;
     ZeroconfDiscovery *m_zeroConf = nullptr;
     BluetoothServiceDiscovery *m_bluetooth = nullptr;
+    AWSClient *m_awsClient = nullptr;
 
     QTimer m_cloudPollTimer;
 

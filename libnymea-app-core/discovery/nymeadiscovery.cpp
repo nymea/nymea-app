@@ -1,5 +1,4 @@
 #include "nymeadiscovery.h"
-#include "engine.h"
 #include "upnpdiscovery.h"
 #include "zeroconfdiscovery.h"
 #include "bluetoothservicediscovery.h"
@@ -21,12 +20,11 @@ NymeaDiscovery::NymeaDiscovery(QObject *parent) : QObject(parent)
 #endif
 
     m_cloudPollTimer.setInterval(5000);
-    connect(&m_cloudPollTimer, &QTimer::timeout, this, [](){
-        if (Engine::instance()->awsClient()->isLoggedIn()) {
-            Engine::instance()->awsClient()->fetchDevices();
+    connect(&m_cloudPollTimer, &QTimer::timeout, this, [this](){
+        if (m_awsClient && m_awsClient->isLoggedIn()) {
+            m_awsClient->fetchDevices();
         }
     });
-    connect(Engine::instance()->awsClient(), &AWSClient::devicesFetched, this, &NymeaDiscovery::syncCloudDevices);
 }
 
 bool NymeaDiscovery::discovering() const
@@ -62,9 +60,9 @@ void NymeaDiscovery::setDiscovering(bool discovering)
         // start polling cloud
         m_cloudPollTimer.start();
         // If we're logged in, poll right away
-        if (Engine::instance()->awsClient()->isLoggedIn()) {
+        if (m_awsClient && m_awsClient->isLoggedIn()) {
             syncCloudDevices();
-            Engine::instance()->awsClient()->fetchDevices();
+            m_awsClient->fetchDevices();
         }
     } else {
         if (!m_zeroConf->available()) {
@@ -86,10 +84,28 @@ DiscoveryModel *NymeaDiscovery::discoveryModel() const
     return m_discoveryModel;
 }
 
+AWSClient *NymeaDiscovery::awsClient() const
+{
+    return m_awsClient;
+}
+
+void NymeaDiscovery::setAwsClient(AWSClient *awsClient)
+{
+    if (m_awsClient != awsClient) {
+        m_awsClient = awsClient;
+        emit awsClientChanged();
+    }
+
+    if (m_awsClient) {
+        connect(m_awsClient, &AWSClient::devicesFetched, this, &NymeaDiscovery::syncCloudDevices);
+        syncCloudDevices();
+    }
+}
+
 void NymeaDiscovery::syncCloudDevices()
 {
-    for (int i = 0; i < Engine::instance()->awsClient()->awsDevices()->rowCount(); i++) {
-        AWSDevice *d = Engine::instance()->awsClient()->awsDevices()->get(i);
+    for (int i = 0; i < m_awsClient->awsDevices()->rowCount(); i++) {
+        AWSDevice *d = m_awsClient->awsDevices()->get(i);
         DiscoveryDevice *device = m_discoveryModel->find(d->id());
         if (!device) {
             device = new DiscoveryDevice();
@@ -115,7 +131,7 @@ void NymeaDiscovery::syncCloudDevices()
         DiscoveryDevice *device = m_discoveryModel->get(i);
         for (int j = 0; j < device->connections()->rowCount(); j++) {
             if (device->connections()->get(j)->bearerType() == Connection::BearerTypeCloud) {
-                if (Engine::instance()->awsClient()->awsDevices()->getDevice(device->uuid().toString()) == nullptr) {
+                if (m_awsClient->awsDevices()->getDevice(device->uuid().toString()) == nullptr) {
                     device->connections()->removeConnection(j);
                     break;
                 }
