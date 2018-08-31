@@ -1,12 +1,6 @@
 [submodule "QtZeroConf"]
 	path = QtZeroConf
 	url = https://github.com/jbagg/QtZeroConf.git
-[submodule "aws-sdk-qt"]
-	path = aws-sdk-qt
-	url = https://github.com/pcolby/aws-sdk-qt.git
-[submodule "qmqtt"]
-	path = qmqtt
-	url = https://github.com/emqtt/qmqtt.git
 [submodule "nymea-remoteproxy"]
 	path = nymea-remoteproxy
 	url = git@gitlab.guh.io:cloud/nymea-remoteproxy.git
