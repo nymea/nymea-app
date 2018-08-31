@@ -25,8 +25,9 @@
 
 #include <QDebug>
 
-Device::Device(QObject *parent) :
-    QObject(parent)
+Device::Device(DeviceClass *deviceClass, QObject *parent) :
+    QObject(parent),
+    m_deviceClass(deviceClass)
 {
 }
 
@@ -53,12 +54,7 @@ void Device::setId(const QUuid &id)
 
 QUuid Device::deviceClassId() const
 {
-    return m_deviceClassId;
-}
-
-void Device::setDeviceClassId(const QUuid &deviceClassId)
-{
-    m_deviceClassId = deviceClassId;
+    return m_deviceClass->id();
 }
 
 bool Device::setupComplete()
@@ -97,11 +93,6 @@ void Device::setStates(States *states)
 DeviceClass *Device::deviceClass() const
 {
     return m_deviceClass;
-}
-
-void Device::setDeviceClass(DeviceClass *deviceClass)
-{
-    m_deviceClass = deviceClass;
 }
 
 bool Device::hasState(const QUuid &stateTypeId)

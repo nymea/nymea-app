@@ -101,10 +101,9 @@ void DeviceManager::notificationReceived(const QVariantMap &data)
         }
         dev->setStateValue(data.value("params").toMap().value("stateTypeId").toUuid(), data.value("params").toMap().value("value"));
     } else if (notification == "Devices.DeviceAdded") {
-        Device *dev = new Device();
-        if (!JsonTypes::unpackDevice(data.value("params").toMap().value("device").toMap(), dev)) {
+        Device *dev = JsonTypes::unpackDevice(data.value("params").toMap().value("device").toMap(), m_deviceClasses);
+        if (!dev) {
             qWarning() << "Cannot parse json device:" << data;
-            delete dev;
             return;
         }
         DeviceClass *dc = deviceClasses()->getDeviceClass(dev->deviceClassId());
@@ -113,7 +112,6 @@ void DeviceManager::notificationReceived(const QVariantMap &data)
             delete dev;
             return;
         }
-        dev->setDeviceClass(dc);
         m_devices->addDevice(dev);
     } else if (notification == "Devices.DeviceRemoved") {
         QUuid deviceId = data.value("params").toMap().value("deviceId").toUuid();
@@ -129,7 +127,7 @@ void DeviceManager::notificationReceived(const QVariantMap &data)
             qWarning() << "Received a device changed notification for a device we don't know";
             return;
         }
-        if (!JsonTypes::unpackDevice(data.value("params").toMap().value("device").toMap(), oldDevice)) {
+        if (!JsonTypes::unpackDevice(data.value("params").toMap().value("device").toMap(), m_deviceClasses, oldDevice)) {
             qWarning() << "Error parsing device changed notification";
             return;
         }
@@ -216,25 +214,17 @@ void DeviceManager::getConfiguredDevicesResponse(const QVariantMap &params)
     if (params.value("params").toMap().keys().contains("devices")) {
         QVariantList deviceList = params.value("params").toMap().value("devices").toList();
         foreach (QVariant deviceVariant, deviceList) {
-            Device *device = new Device();
-            if (!JsonTypes::unpackDevice(deviceVariant.toMap(), device)) {
-                qWarning() << "Error parsing device json" << deviceVariant;
+            Device *device = JsonTypes::unpackDevice(deviceVariant.toMap(), m_deviceClasses);
+            if (!device) {
+                qWarning() << "Error unpacking device" << deviceVariant;
                 continue;
             }
-
-//            qDebug() << QJsonDocument::fromVariant(deviceVariant).toJson();
-            DeviceClass *dc = m_deviceClasses->getDeviceClass(device->deviceClassId());
-            if (!dc) {
-                qWarning() << "Can't find a deviceClass for this device" << device->name();
-                continue;
-            }
-            device->setDeviceClass(dc);
 
             // set initial state values
             QVariantList stateVariantList = deviceVariant.toMap().value("states").toList();
             foreach (const QVariant &stateMap, stateVariantList) {
                 QString stateTypeId = stateMap.toMap().value("stateTypeId").toString();
-                StateType *st = dc->stateTypes()->getStateType(stateTypeId);
+                StateType *st = device->deviceClass()->stateTypes()->getStateType(stateTypeId);
                 if (!st) {
                     qWarning() << "Can't find a statetype for this state";
                     continue;
@@ -262,19 +252,11 @@ void DeviceManager::addDeviceResponse(const QVariantMap &params)
         qWarning() << "Failed to add the device:" << params.value("params").toMap().value("deviceError").toString();
     } else if (params.value("params").toMap().keys().contains("device")) {
         QVariantMap deviceVariant = params.value("params").toMap().value("device").toMap();
-        Device *device = new Device();
-        if (!JsonTypes::unpackDevice(deviceVariant, device)) {
+        Device *device = JsonTypes::unpackDevice(deviceVariant, m_deviceClasses);
+        if (!device) {
             qWarning() << "Couldn't parse json in addDeviceResponse";
-            device->deleteLater();
             return;
         }
-        DeviceClass *dc = deviceClasses()->getDeviceClass(device->deviceClassId());
-        if (!dc) {
-            qWarning() << "Uh.. We couldn't find a DeviceClass for the Device we just added. Skipping...";
-            device->deleteLater();
-            return;
-        }
-        device->setDeviceClass(dc);
 
         qDebug() << "Device added" << device->id().toString();
         m_devices->addDevice(device);

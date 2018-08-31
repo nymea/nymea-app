@@ -44,7 +44,7 @@ class Device : public QObject
     Q_PROPERTY(DeviceClass *deviceClass READ deviceClass CONSTANT)
 
 public:
-    explicit Device(QObject *parent = nullptr);
+    explicit Device(DeviceClass *deviceClass, QObject *parent = nullptr);
 
     QString name() const;
     void setName(const QString &name);
@@ -53,7 +53,6 @@ public:
     void setId(const QUuid &id);
 
     QUuid deviceClassId() const;
-    void setDeviceClassId(const QUuid &deviceClassId);
 
     bool setupComplete();
     void setSetupComplete(const bool &setupComplete);
@@ -72,14 +71,8 @@ public:
     void setStateValue(const QUuid &stateTypeId, const QVariant &value);
 
 private:
-    void setDeviceClass(DeviceClass *deviceClass);
-
-    friend class DeviceManager;
-
-private:
     QString m_name;
     QUuid m_id;
-    QUuid m_deviceClassId;
     bool m_setupComplete;
     Params *m_params = nullptr;
     States *m_states = nullptr;

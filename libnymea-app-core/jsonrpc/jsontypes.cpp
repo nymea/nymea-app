@@ -196,11 +196,23 @@ ActionType *JsonTypes::unpackActionType(const QVariantMap &actionTypeMap, QObjec
     return actionType;
 }
 
-bool JsonTypes::unpackDevice(const QVariantMap &deviceMap, Device *device)
+Device* JsonTypes::unpackDevice(const QVariantMap &deviceMap, DeviceClasses *deviceClasses, Device *oldDevice)
 {
+    QUuid deviceClassId = deviceMap.value("deviceClassId").toUuid();
+    DeviceClass *deviceClass = deviceClasses->getDeviceClass(deviceClassId);
+    if (!deviceClass) {
+        qWarning() << "Cannot find a device class for this device";
+        return nullptr;
+    }
+
+    Device *device = nullptr;
+    if (oldDevice) {
+        device = oldDevice;
+    } else {
+        device = new Device(deviceClass);
+    }
     device->setName(deviceMap.value("name").toString());
     device->setId(deviceMap.value("id").toUuid());
-    device->setDeviceClassId(deviceMap.value("deviceClassId").toUuid());
     device->setSetupComplete(deviceMap.value("setupComplete").toBool());
 
     Params *params = device->params();
@@ -218,11 +230,6 @@ bool JsonTypes::unpackDevice(const QVariantMap &deviceMap, Device *device)
     }
     device->setParams(params);
 
-    DeviceClass *deviceClass = Engine::instance()->deviceManager()->deviceClasses()->getDeviceClass(device->deviceClassId());
-    if (!deviceClass) {
-        qWarning() << "Cannot find a device class for this device..." << device->deviceClassId() << "Skipping...";
-        return false;
-    }
     States *states = new States(device);
     foreach (StateType *stateType, deviceClass->stateTypes()->stateTypes()) {
         State *state = new State(device->id(), stateType->id(), stateType->defaultValue(), states);
@@ -230,7 +237,7 @@ bool JsonTypes::unpackDevice(const QVariantMap &deviceMap, Device *device)
     }
     device->setStates(states);
 
-    return true;
+    return device;
 }
 
 QVariantMap JsonTypes::packRule(Rule *rule)
