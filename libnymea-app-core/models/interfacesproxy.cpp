@@ -5,7 +5,6 @@
 #include "types/device.h"
 
 #include "devices.h"
-#include "engine.h"
 
 InterfacesProxy::InterfacesProxy(QObject *parent): QSortFilterProxyModel(parent)
 {
@@ -71,12 +70,11 @@ bool InterfacesProxy::filterAcceptsRow(int source_row, const QModelIndex &source
         bool found = false;
         for (int i = 0; i < m_devicesFilter->rowCount(); i++) {
             Device *d = m_devicesFilter->get(i);
-            DeviceClass *dc = Engine::instance()->deviceManager()->deviceClasses()->getDeviceClass(d->deviceClassId());
-            if (!dc) {
+            if (!d->deviceClass()) {
                 qWarning() << "Cannot find DeviceClass for device:" << d->id() << d->name();
                 return false;
             }
-            if (dc->interfaces().contains(interfaceName)) {
+            if (d->deviceClass()->interfaces().contains(interfaceName)) {
                 found = true;
                 break;
             }

@@ -13,6 +13,7 @@ Item {
 
     TagsProxyModel {
         id: tagsProxy
+        tags: Engine.tagsManager.tags
         filterTagId: "favorites"
     }
 

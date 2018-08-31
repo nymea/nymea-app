@@ -4,10 +4,12 @@
 #include <QSortFilterProxyModel>
 
 class Tag;
+class Tags;
 
 class TagsProxyModel : public QSortFilterProxyModel
 {
     Q_OBJECT
+    Q_PROPERTY(Tags* tags READ tags WRITE setTags NOTIFY tagsChanged)
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
     Q_PROPERTY(QString filterTagId READ filterTagId WRITE setFilterTagId NOTIFY filterTagIdChanged)
     Q_PROPERTY(QString filterDeviceId READ filterDeviceId WRITE setFilterDeviceId NOTIFY filterDeviceIdChanged)
@@ -15,6 +17,9 @@ class TagsProxyModel : public QSortFilterProxyModel
 
 public:
     explicit TagsProxyModel(QObject *parent = nullptr);
+
+    Tags* tags() const;
+    void setTags(Tags* tags);
 
     QString filterTagId() const;
     void setFilterTagId(const QString &filterTagId);
@@ -33,12 +38,14 @@ protected:
     bool lessThan(const QModelIndex &source_left, const QModelIndex &source_right) const override;
 
 signals:
+    void tagsChanged();
     void filterTagIdChanged();
     void filterDeviceIdChanged();
     void filterRuleIdChanged();
     void countChanged();
 
 private:
+    Tags *m_tags = nullptr;
     QString m_filterTagId;
     QString m_filterDeviceId;
     QString m_filterRuleId;

@@ -5,10 +5,23 @@
 
 TagsProxyModel::TagsProxyModel(QObject *parent) : QSortFilterProxyModel(parent)
 {
-    setSourceModel(Engine::instance()->tagsManager()->tags());
-    connect(Engine::instance()->tagsManager()->tags(), &Tags::countChanged, this, &TagsProxyModel::countChanged, Qt::QueuedConnection);
-    setSortRole(Tags::RoleValue);
-    sort(0);
+}
+
+Tags *TagsProxyModel::tags() const
+{
+    return m_tags;
+}
+
+void TagsProxyModel::setTags(Tags *tags)
+{
+    if (m_tags != tags) {
+        m_tags = tags;
+        setSourceModel(tags);
+        connect(tags, &Tags::countChanged, this, &TagsProxyModel::countChanged, Qt::QueuedConnection);
+        setSortRole(Tags::RoleValue);
+        sort(0);
+        emit tagsChanged();
+    }
 }
 
 QString TagsProxyModel::filterTagId() const
@@ -61,13 +74,13 @@ Tag *TagsProxyModel::get(int index) const
     if (index < 0 || index > rowCount()) {
         return nullptr;
     }
-    return Engine::instance()->tagsManager()->tags()->get(mapToSource(this->index(index, 0)).row());
+    return m_tags->get(mapToSource(this->index(index, 0)).row());
 }
 
 Tag *TagsProxyModel::findTag(const QString &tagId) const
 {
     for (int i = 0; i < rowCount(); i++) {
-        Tag *tag = Engine::instance()->tagsManager()->tags()->get(mapToSource(index(i, 0)).row());
+        Tag *tag = m_tags->get(mapToSource(index(i, 0)).row());
         if (tag->tagId() == tagId) {
             return tag;
         }
@@ -78,7 +91,7 @@ Tag *TagsProxyModel::findTag(const QString &tagId) const
 bool TagsProxyModel::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
 {
     Q_UNUSED(source_parent)
-    Tag *tag = Engine::instance()->tagsManager()->tags()->get(source_row);
+    Tag *tag = m_tags->get(source_row);
     if (!m_filterTagId.isEmpty()) {
         if (tag->tagId() != m_filterTagId) {
             return false;
@@ -99,8 +112,8 @@ bool TagsProxyModel::filterAcceptsRow(int source_row, const QModelIndex &source_
 
 bool TagsProxyModel::lessThan(const QModelIndex &source_left, const QModelIndex &source_right) const
 {
-    QString leftValue = Engine::instance()->tagsManager()->tags()->get(source_left.row())->value();
-    QString rightValue = Engine::instance()->tagsManager()->tags()->get(source_right.row())->value();
+    QString leftValue = m_tags->get(source_left.row())->value();
+    QString rightValue = m_tags->get(source_right.row())->value();
     bool okLeft, okRight;;
     qlonglong leftAsNumber = leftValue.toLongLong(&okLeft);
     qlonglong rightAsNumber = rightValue.toLongLong(&okRight);

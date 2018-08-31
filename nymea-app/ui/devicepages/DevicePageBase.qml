@@ -23,6 +23,7 @@ Page {
 
     TagsProxyModel {
         id: favoritesProxy
+        tags: Engine.tagsManager.tags
         filterDeviceId: root.device.id
         filterTagId: "favorites"
     }
