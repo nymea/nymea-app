@@ -38,7 +38,7 @@ public:
         BluetoothDeviceInfoRoleLe
     };
 
-    explicit BluetoothDeviceInfos(QObject *parent = 0);
+    explicit BluetoothDeviceInfos(QObject *parent = nullptr);
 
     QList<BluetoothDeviceInfo *> deviceInfos();
 

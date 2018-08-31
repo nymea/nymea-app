@@ -43,7 +43,6 @@ class Engine : public QObject
     Q_PROPERTY(TagsManager* tagsManager READ tagsManager CONSTANT)
     Q_PROPERTY(JsonRpcClient* jsonRpcClient READ jsonRpcClient CONSTANT)
     Q_PROPERTY(BasicConfiguration* basicConfiguration READ basicConfiguration CONSTANT)
-    Q_PROPERTY(BluetoothDiscovery* bluetoothDiscovery READ bluetoothDiscovery CONSTANT)
     Q_PROPERTY(AWSClient* awsClient READ awsClient CONSTANT)
 
 public:
@@ -59,7 +58,6 @@ public:
     JsonRpcClient *jsonRpcClient() const;
     LogManager *logManager() const;
     BasicConfiguration *basicConfiguration() const;
-    BluetoothDiscovery *bluetoothDiscovery() const;
     AWSClient* awsClient() const;
 
     Q_INVOKABLE void deployCertificate();
@@ -75,7 +73,6 @@ private:
     LogManager *m_logManager;
     TagsManager *m_tagsManager;
     BasicConfiguration *m_basicConfiguration;
-    BluetoothDiscovery *m_bluetoothDiscovery;
     AWSClient *m_aws;
 
 private slots:

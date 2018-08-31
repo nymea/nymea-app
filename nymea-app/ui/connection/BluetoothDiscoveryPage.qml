@@ -12,18 +12,22 @@ Page {
         onBackPressed: pageStack.pop()
     }
 
-    Component.onCompleted: Engine.bluetoothDiscovery.start()
+    Component.onCompleted: bluetoothDiscovery.start()
 
-    function setupDevice(name, btAddress) {
-        Engine.bluetoothDiscovery.stop()
-        pageStack.push(connectingPageComponent, { name: name, address: btAddress } )
+    BluetoothDiscovery {
+        id: bluetoothDiscovery
+    }
+
+    function setupDevice(btDeviceInfo) {
+        bluetoothDiscovery.stop()
+        pageStack.push(connectingPageComponent, { bluetoothDeviceInfo: btDeviceInfo } )
     }
 
     Connections {
         target: pageStack
         onCurrentItemChanged: {
             if (pageStack.currentItem === root) {
-                Engine.bluetoothDiscovery.start();
+                bluetoothDiscovery.start();
             }
         }
     }
@@ -43,17 +47,17 @@ Page {
                 text: {
 
                     if (Qt.platform.os === "ios") {
-                        if (Engine.bluetoothDiscovery.bluetoothAvailable && Engine.bluetoothDiscovery.bluetoothEnabled) {
+                        if (bluetoothDiscovery.bluetoothAvailable && bluetoothDiscovery.bluetoothEnabled) {
                             return qsTr("Searching for %1 boxes via Bluetooth LE.").arg(app.systemName)
-                        } if (Engine.bluetoothDiscovery.bluetoothAvailable && !Engine.bluetoothDiscovery.bluetoothEnabled)  {
+                        } if (bluetoothDiscovery.bluetoothAvailable && !bluetoothDiscovery.bluetoothEnabled)  {
                             return qsTr("Uh oh! Bluetooth is not enabled. Please enable the Bluetooth on this device and restart the application.")
                         } else {
                             return qsTr("Uh oh! Bluetooth is not available. Please make sure Bluetooth is enabled on this device and restart the application.")
                         }
                     } else {
-                        if (Engine.bluetoothDiscovery.bluetoothAvailable && Engine.bluetoothDiscovery.bluetoothEnabled) {
+                        if (bluetoothDiscovery.bluetoothAvailable && bluetoothDiscovery.bluetoothEnabled) {
                             return qsTr("Searching for %1 boxes via Bluetooth LE.").arg(app.systemName)
-                        } if (Engine.bluetoothDiscovery.bluetoothAvailable && !Engine.bluetoothDiscovery.bluetoothEnabled)  {
+                        } if (bluetoothDiscovery.bluetoothAvailable && !bluetoothDiscovery.bluetoothEnabled)  {
                             return qsTr("Uh oh! Bluetooth is not enabled. Please enable the Bluetooth on this device.")
                         } else {
                             return qsTr("Uh oh! Bluetooth is not available. Please make sure Bluetooth is enabled on this device.")
@@ -67,7 +71,7 @@ Page {
             }
 
             BusyIndicator {
-                running: Engine.bluetoothDiscovery.discovering
+                running: bluetoothDiscovery.discovering
             }
         }
 
@@ -77,7 +81,7 @@ Page {
             Layout.fillWidth: true
             Layout.fillHeight: true
 
-            model: Engine.bluetoothDiscovery.deviceInfos
+            model: bluetoothDiscovery.deviceInfos
             clip: true
 
             delegate: MeaListItemDelegate {
@@ -87,7 +91,7 @@ Page {
                 subText: model.address
 
                 onClicked: {
-                    root.setupDevice(model.name, model.address)
+                    root.setupDevice(bluetoothDiscovery.deviceInfos.get(index))
                 }
             }
         }
@@ -198,13 +202,11 @@ Page {
                 onBackPressed: pageStack.pop()
             }
 
-            property string name
-            property string address
+            property var bluetoothDeviceInfo
 
             NetworkManagerControler {
                 id: networkManger
-                name: connectingPage.name
-                address: connectingPage.address
+                bluetoothDeviceInfo: connectingPage.bluetoothDeviceInfo
 
                 Component.onCompleted: networkManger.connectDevice()
             }

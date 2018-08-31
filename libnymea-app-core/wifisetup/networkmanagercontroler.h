@@ -26,38 +26,34 @@
 #include <QObject>
 #include <QBluetoothDeviceInfo>
 
+#include "bluetoothdeviceinfo.h"
 #include "wirelesssetupmanager.h"
 
 class NetworkManagerControler : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
-    Q_PROPERTY(QString address READ address WRITE setAddress NOTIFY addressChanged)
+    Q_PROPERTY(BluetoothDeviceInfo* bluetoothDeviceInfo READ bluetoothDeviceInfo WRITE setBluetoothDeviceInfo)
     Q_PROPERTY(WirelessSetupManager *manager READ manager NOTIFY managerChanged)
 
 public:
     explicit NetworkManagerControler(QObject *parent = nullptr);
 
-    QString name() const;
-    void setName(const QString &name);
-
-    QString address() const;
-    void setAddress(const QString &address);
+    BluetoothDeviceInfo* bluetoothDeviceInfo() const;
+    void setBluetoothDeviceInfo(BluetoothDeviceInfo* bluetoothDeviceInfo);
 
     WirelessSetupManager *manager();
 
     Q_INVOKABLE void connectDevice();
 
 private:
-    QString m_name;
-    QString m_address;
+    BluetoothDeviceInfo* m_bluetoothDeviceInfo = nullptr;
 
     WirelessSetupManager *m_wirelessSetupManager = nullptr;
 
 signals:
     void managerChanged();
     void nameChanged();
-    void addressChanged();
+    void bluetoothDeviceInfoChanged();
 
 };
 

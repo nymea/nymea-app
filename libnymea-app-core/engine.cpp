@@ -71,11 +71,6 @@ BasicConfiguration *Engine::basicConfiguration() const
     return m_basicConfiguration;
 }
 
-BluetoothDiscovery *Engine::bluetoothDiscovery() const
-{
-    return m_bluetoothDiscovery;
-}
-
 AWSClient *Engine::awsClient() const
 {
     return m_aws;
@@ -111,7 +106,6 @@ Engine::Engine(QObject *parent) :
     m_logManager(new LogManager(m_jsonRpcClient, this)),
     m_tagsManager(new TagsManager(m_jsonRpcClient, this)),
     m_basicConfiguration(new BasicConfiguration(m_jsonRpcClient, this)),
-    m_bluetoothDiscovery(new BluetoothDiscovery(this)),
     m_aws(new AWSClient(this))
 {
     m_connection->registerTransport(new TcpSocketTransportFactory());

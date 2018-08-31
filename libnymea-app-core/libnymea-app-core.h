@@ -165,7 +165,7 @@ void registerQmlTypes() {
     qmlRegisterType<TagsProxyModel>(uri, 1, 0, "TagsProxyModel");
 
     qmlRegisterType<NetworkManagerControler>(uri, 1, 0, "NetworkManagerControler");
-    qmlRegisterUncreatableType<BluetoothDiscovery>(uri, 1, 0, "BluetoothDiscovery", "Can't create this in QML. Get it from the Engine instance.");
+    qmlRegisterType<BluetoothDiscovery>(uri, 1, 0, "BluetoothDiscovery");
     qmlRegisterUncreatableType<BluetoothDeviceInfo>(uri, 1, 0, "BluetoothDeviceInfo", "Can't create this in QML. Get it from the DeviceInfos.");
     qmlRegisterUncreatableType<BluetoothDeviceInfos>(uri, 1, 0, "BluetoothDeviceInfos", "Can't create this in QML. Get it from the BluetoothDiscovery.");
     qmlRegisterUncreatableType<WirelessSetupManager>(uri, 1, 0, "WirelessSetupManager", "Can't create this in QML. Get it from the NetworkManagerControler.");

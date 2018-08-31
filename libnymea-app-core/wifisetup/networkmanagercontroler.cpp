@@ -28,25 +28,17 @@ NetworkManagerControler::NetworkManagerControler(QObject *parent) : QObject(pare
 
 }
 
-QString NetworkManagerControler::name() const
+BluetoothDeviceInfo *NetworkManagerControler::bluetoothDeviceInfo() const
 {
-    return m_name;
+    return m_bluetoothDeviceInfo;
 }
 
-void NetworkManagerControler::setName(const QString &name)
+void NetworkManagerControler::setBluetoothDeviceInfo(BluetoothDeviceInfo *bluetoothDeviceInfo)
 {
-    m_name = name;
-    emit nameChanged();
-}
-
-QString NetworkManagerControler::address() const
-{
-    return m_address;
-}
-
-void NetworkManagerControler::setAddress(const QString &address)
-{
-    m_address = address;
+    if (m_bluetoothDeviceInfo != bluetoothDeviceInfo) {
+        m_bluetoothDeviceInfo = bluetoothDeviceInfo;
+        emit bluetoothDeviceInfoChanged();
+    }
 }
 
 WirelessSetupManager *NetworkManagerControler::manager()
@@ -56,26 +48,23 @@ WirelessSetupManager *NetworkManagerControler::manager()
 
 void NetworkManagerControler::connectDevice()
 {
+    if (!m_bluetoothDeviceInfo) {
+        qWarning() << "Can't connect to device. bluetoothDeviceInfo not set.";
+        return;
+    }
+
     if (m_wirelessSetupManager) {
         delete m_wirelessSetupManager;
         m_wirelessSetupManager = nullptr;
         emit managerChanged();
     }
 
-    // find device info for this address and name
-    BluetoothDeviceInfo *deviceInfo = nullptr;
-    foreach (BluetoothDeviceInfo *deviceInformation, Engine::instance()->bluetoothDiscovery()->deviceInfos()->deviceInfos()) {
-        if (deviceInformation->address() == address() && deviceInformation->name() == name()) {
-            deviceInfo = deviceInformation;
-        }
-    }
-
-    if (!deviceInfo) {
-        qDebug() << "Could not connect to device. There is no device info for" << name() << address();
+    if (!m_bluetoothDeviceInfo) {
+        qDebug() << "Could not connect to device. There is no device info for" << m_bluetoothDeviceInfo->name() << m_bluetoothDeviceInfo->address();
         return;
     }
 
-    m_wirelessSetupManager = new WirelessSetupManager(deviceInfo->getBluetoothDeviceInfo(), this);
+    m_wirelessSetupManager = new WirelessSetupManager(m_bluetoothDeviceInfo->getBluetoothDeviceInfo(), this);
     emit managerChanged();
 
     m_wirelessSetupManager->connectDevice();
