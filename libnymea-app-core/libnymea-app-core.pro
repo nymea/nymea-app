@@ -56,7 +56,6 @@ SOURCES += \
     discovery/nymeadiscovery.cpp \
     logmanager.cpp \
     basicconfiguration.cpp \
-    models/eventdescriptorparamsfiltermodel.cpp \
     wifisetup/bluetoothdevice.cpp \
     wifisetup/bluetoothdeviceinfo.cpp \
     wifisetup/bluetoothdeviceinfos.cpp \
@@ -114,7 +113,6 @@ HEADERS += \
     discovery/nymeadiscovery.h \
     logmanager.h \
     basicconfiguration.h \
-    models/eventdescriptorparamsfiltermodel.h \
     wifisetup/bluetoothdevice.h \
     wifisetup/bluetoothdeviceinfo.h \
     wifisetup/bluetoothdeviceinfos.h \

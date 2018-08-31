@@ -34,7 +34,6 @@
 #include "models/logsmodel.h"
 #include "models/logsmodelng.h"
 #include "models/valuelogsproxymodel.h"
-#include "models/eventdescriptorparamsfiltermodel.h"
 #include "models/interfacesproxy.h"
 #include "basicconfiguration.h"
 #include "wifisetup/networkmanagercontroler.h"
@@ -152,7 +151,6 @@ void registerQmlTypes() {
     qmlRegisterUncreatableType<DiscoveryDevice>(uri, 1, 0, "DiscoveryDevice", "Get it from DiscoveryModel");
     qmlRegisterUncreatableType<Connection>(uri, 1, 0, "Connection", "Get it from DiscoveryDevice");
 
-    qmlRegisterType<EventDescriptorParamsFilterModel>(uri, 1, 0, "EventDescriptorParamsFilterModel");
 
     qmlRegisterType<LogsModel>(uri, 1, 0, "LogsModel");
     qmlRegisterType<LogsModelNg>(uri, 1, 0, "LogsModelNg");

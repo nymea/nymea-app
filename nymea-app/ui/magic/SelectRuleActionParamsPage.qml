@@ -51,8 +51,8 @@ Page {
 
                     property alias paramType: paramDelegate.paramType
                     property alias value: paramDelegate.value
-                    property alias eventType: eventDescriptorParamsFilterModel.eventType
-                    property alias eventParamTypeId: eventDescriptorParamsFilterModel.paramTypeId
+                    property alias eventType: eventParamsComboBox.eventType
+                    property alias eventParamTypeId: eventParamsComboBox.currentParamTypeId
 
                     RadioButton {
                         id: staticParamRadioButton
@@ -78,24 +78,24 @@ Page {
                         enabled: eventParamRadioButton.checked
                         visible: count > 0
                         Component.onCompleted: currentIndex = 0;
-                        model: EventDescriptorParamsFilterModel {
-                            id: eventDescriptorParamsFilterModel
-                            eventDescriptor: root.rule.eventDescriptors.count === 1 ? root.rule.eventDescriptors.get(0) : null
-                            property var device: eventDescriptor ? Engine.deviceManager.devices.getDevice(eventDescriptor.deviceId) : null
-                            property var deviceClass: device ? Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
-                            property var eventType: deviceClass ? deviceClass.eventTypes.getEventType(eventDescriptor.eventTypeId) : null
-                            property var paramDescriptor: eventDescriptorParamsFilterModel.eventType.paramTypes.get(eventParamsComboBox.currentIndex)
-                            property var paramTypeId: paramDescriptor.id
-                        }
+                        property var eventDescriptor: root.rule.eventDescriptors.count === 1 ? root.rule.eventDescriptors.get(0) : null
+                        property var device: eventDescriptor ? Engine.deviceManager.devices.getDevice(eventDescriptor.deviceId) : null
+                        property var deviceClass: device ? Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
+                        property var eventType: deviceClass ? deviceClass.eventTypes.getEventType(eventDescriptor.eventTypeId) : null
+
+                        property var currentParamDescriptor: eventType.paramTypes.get(eventParamsComboBox.currentIndex)
+                        property var currentParamTypeId: currentParamDescriptor.id
+
+                        model: eventType.paramTypes
                         delegate: ItemDelegate {
                             width: parent.width
-                            text: eventDescriptorParamsFilterModel.device.name + " - " + eventDescriptorParamsFilterModel.eventType.displayName + " - " + eventDescriptorParamsFilterModel.eventType.paramTypes.getParamType(model.id).displayName
+                            text: eventParamsComboBox.device.name + " - " + eventParamsComboBox.eventType.displayName + " - " + eventParamsComboBox.eventType.paramTypes.getParamType(model.id).displayName
                         }
                         contentItem: Label {
                             id: eventParamsComboBoxContentItem
                             anchors.fill: parent
                             anchors.margins: app.margins
-                            text: eventDescriptorParamsFilterModel.device.name + " - " + eventDescriptorParamsFilterModel.eventType.displayName + " - " + eventDescriptorParamsFilterModel.paramDescriptor.displayName
+                            text: eventParamsComboBox.device.name + " - " + eventParamsComboBox.eventType.displayName + " - " + eventParamsComboBox.currentParamDescriptor.displayName
                             elide: Text.ElideRight
                         }
                     }
