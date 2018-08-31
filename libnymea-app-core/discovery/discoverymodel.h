@@ -46,6 +46,7 @@ public:
     QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;
 
     void addDevice(DiscoveryDevice *device);
+    void removeDevice(DiscoveryDevice *device);
 
     Q_INVOKABLE DiscoveryDevice *get(int index) const;
     Q_INVOKABLE DiscoveryDevice *find(const QUuid &uuid);

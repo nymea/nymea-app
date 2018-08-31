@@ -3,7 +3,7 @@ import QtQuick.Controls 2.1
 import QtQuick.Controls.Material 2.1
 import QtQuick.Layouts 1.1
 import Nymea 1.0
-import "components"
+import "../components"
 
 Page {
     id: root
@@ -27,10 +27,29 @@ Page {
                 spacing: app.margins
 
                 Image {
+                    id: logo
                     Layout.preferredHeight: app.iconSize * 2
                     Layout.preferredWidth: height
                     fillMode: Image.PreserveAspectFit
                     source: "qrc:/styles/%1/logo.svg".arg(styleController.currentStyle)
+
+                    MouseArea {
+                        anchors.fill: parent
+                        property int clickCounter: 0
+                        onClicked: {
+                            clickCounter++;
+                            if (clickCounter >= 10) {
+                                settings.showHiddenOptions = !settings.showHiddenOptions
+                                var dialog = Qt.createComponent(Qt.resolvedUrl("../components/MeaDialog.qml"));
+                                var text = settings.showHiddenOptions
+                                        ? qsTr("Developer options are now enabled. If you have found this by accident, it is most likely not of any use for you. It will just enable some nerdy developer gibberish in the app. Tap the icon another 10 times to disable it again.")
+                                        : qsTr("Developer options are now disabled.")
+                                var popup = dialog.createObject(app, {headerIcon: "../images/dialog-warning-symbolic.svg", title: qsTr("Howdy cowboy!"), text: text})
+                                popup.open();
+                                clickCounter = 0;
+                            }
+                        }
+                    }
                 }
 
                 GridLayout {
@@ -83,60 +102,25 @@ Page {
             ColumnLayout {
                 Layout.fillWidth: true
 
-                ItemDelegate {
+                MeaListItemDelegate {
                     Layout.fillWidth: true
-
-                    contentItem: RowLayout {
-                        Label {
-                            Layout.fillWidth: true
-                            text: qsTr("Visit the nymea website")
-                        }
-                        Image {
-                            source: "images/next.svg"
-                            Layout.preferredHeight: parent.height
-                            Layout.preferredWidth: height
-                        }
-                    }
-
+                    text: qsTr("Visit the nymea website")
                     onClicked: {
                         Qt.openUrlExternally("https://nymea.io")
                     }
                 }
 
-                ItemDelegate {
+                MeaListItemDelegate {
                     Layout.fillWidth: true
-
-                    contentItem: RowLayout {
-                        Label {
-                            Layout.fillWidth: true
-                            text: qsTr("Visit GitHub page")
-                        }
-                        Image {
-                            source: "images/next.svg"
-                            Layout.preferredHeight: parent.height
-                            Layout.preferredWidth: height
-                        }
-                    }
+                    text: qsTr("Visit GitHub page")
                     onClicked: {
                         Qt.openUrlExternally("https://github.com/guh/nymea-app")
                     }
                 }
 
-                ItemDelegate {
+                MeaListItemDelegate {
                     Layout.fillWidth: true
-
-                    contentItem: RowLayout {
-                        Label {
-                            Layout.fillWidth: true
-                            text: qsTr("View license text")
-                        }
-                        Image {
-                            source: "images/next.svg"
-                            Layout.preferredHeight: parent.height
-                            Layout.preferredWidth: height
-                        }
-                    }
-
+                    text: qsTr("View license text")
                     onClicked: {
                         pageStack.push(licenseTextComponent)
                     }
@@ -155,7 +139,7 @@ Page {
                     Layout.preferredHeight: app.iconSize * 2
                     Layout.preferredWidth: height
                     fillMode: Image.PreserveAspectFit
-                    source: "images/Built_with_Qt_RGB_logo_vertical.svg"
+                    source: "qrc:/ui/images/Built_with_Qt_RGB_logo_vertical.svg"
                     sourceSize.width: app.iconSize * 2
                     sourceSize.height: app.iconSize * 2
                 }
@@ -166,21 +150,9 @@ Page {
                     wrapMode: Text.WordWrap
                 }
             }
-            ItemDelegate {
+            MeaListItemDelegate {
                 Layout.fillWidth: true
-
-                contentItem: RowLayout {
-                    Label {
-                        Layout.fillWidth: true
-                        text: qsTr("Visit the Qt website")
-                    }
-                    Image {
-                        source: "images/next.svg"
-                        Layout.preferredHeight: parent.height
-                        Layout.preferredWidth: height
-                    }
-                }
-
+                text: qsTr("Visit the Qt website")
                 onClicked: {
                     Qt.openUrlExternally("https://www.qt.io")
                 }

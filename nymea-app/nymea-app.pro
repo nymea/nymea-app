@@ -92,3 +92,6 @@ BR=$$BRANDING
 
 target.path = /usr/bin
 INSTALLS += target
+
+DISTFILES += \
+    ui/components/BusyOverlay.qml

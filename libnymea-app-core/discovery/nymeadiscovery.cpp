@@ -20,7 +20,13 @@ NymeaDiscovery::NymeaDiscovery(QObject *parent) : QObject(parent)
     m_bluetooth = new BluetoothServiceDiscovery(m_discoveryModel, this);
 #endif
 
-    connect(Engine::instance()->awsClient()->awsDevices(), &AWSDevices::countChanged, this, &NymeaDiscovery::syncCloudDevices);
+    m_cloudPollTimer.setInterval(5000);
+    connect(&m_cloudPollTimer, &QTimer::timeout, this, [](){
+        if (Engine::instance()->awsClient()->isLoggedIn()) {
+            Engine::instance()->awsClient()->fetchDevices();
+        }
+    });
+    connect(Engine::instance()->awsClient(), &AWSClient::devicesFetched, this, &NymeaDiscovery::syncCloudDevices);
 }
 
 bool NymeaDiscovery::discovering() const
@@ -44,11 +50,13 @@ void NymeaDiscovery::setDiscovering(bool discovering)
             syncCloudDevices();
             Engine::instance()->awsClient()->fetchDevices();
         }
+        m_cloudPollTimer.start();
     } else {
         m_upnp->stopDiscovery();
         if (m_bluetooth) {
             m_bluetooth->stopDiscovery();
         }
+        m_cloudPollTimer.stop();
     }
 
     emit discoveringChanged();
@@ -74,11 +82,31 @@ void NymeaDiscovery::syncCloudDevices()
         QUrl url;
         url.setScheme("cloud");
         url.setHost(d->id());
-        if (!device->connections()->find(url)) {
-            Connection *conn = new Connection(url, Connection::BearerTypeCloud, true, d->id());
-            conn->setOnline(d->online());
+        Connection *conn = device->connections()->find(url);
+        if (!conn) {
+            conn = new Connection(url, Connection::BearerTypeCloud, true, d->id());
             device->connections()->addConnection(conn);
         }
+        conn->setOnline(d->online());
+    }
+
+    QList<DiscoveryDevice*> devicesToRemove;
+    for (int i = 0; i < m_discoveryModel->rowCount(); i++) {
+        DiscoveryDevice *device = m_discoveryModel->get(i);
+        for (int j = 0; j < device->connections()->rowCount(); j++) {
+            if (device->connections()->get(j)->bearerType() == Connection::BearerTypeCloud) {
+                if (Engine::instance()->awsClient()->awsDevices()->getDevice(device->uuid().toString()) == nullptr) {
+                    device->connections()->removeConnection(j);
+                    break;
+                }
+            }
+        }
+        if (device->connections()->rowCount() == 0) {
+            devicesToRemove.append(device);
+        }
+    }
+    while (!devicesToRemove.isEmpty()) {
+        m_discoveryModel->removeDevice(devicesToRemove.takeFirst());
     }
 }
 

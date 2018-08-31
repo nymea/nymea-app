@@ -11,21 +11,16 @@ Page {
         onBackPressed: pageStack.pop();
     }
 
-    Connections {
-        target: Engine.basicConfiguration
-        onCloudEnabledChanged: {
-            if (Engine.jsonRpcClient.cloudConnectionState === JsonRpcClient.CloudConnectionStateUnconfigured) {
-                Engine.deployCertificate();
-            }
-        }
-    }
+    Item {
+        id: d
+        property bool deploymentStarted: false
 
-    Connections {
-        target: Engine.jsonRpcClient
-        onCloudConnectionStateChanged: {
-            if (Engine.awsClient.isLoggedIn && Engine.awsClient.awsDevices.getDevice(Engine.jsonRpcClient.serverUuid) === null) {
-                print("Pairing user and box...")
-                Engine.jsonRpcClient.setupRemoteAccess(Engine.awsClient.idToken, Engine.awsClient.userId);
+        Connections {
+            target: Engine.jsonRpcClient
+            onCloudConnectionStateChanged: {
+                if (Engine.jsonRpcClient.cloudConnectionState == JsonRpcClient.CloudConnectionStateConnected) {
+                    d.deploymentStarted = false;
+                }
             }
         }
     }
@@ -51,32 +46,66 @@ Page {
             }
         }
 
+        ThinDivider {}
+
         RowLayout {
             Layout.fillWidth: true
             Layout.leftMargin: app.margins
             Layout.rightMargin: app.margins
-            visible: Engine.basicConfiguration.cloudEnabled
 
-            BusyIndicator {
-                visible: Engine.jsonRpcClient.cloudConnectionState == JsonRpcClient.CloudConnectionStateUnconfigured ||
-                         Engine.jsonRpcClient.cloudConnectionState == JsonRpcClient.CloudConnectionStateConnecting
+            ColorIcon {
+                Layout.preferredHeight: busyIndicator.height
+                Layout.preferredWidth: height
+                name: Engine.jsonRpcClient.cloudConnectionState === JsonRpcClient.CloudConnectionStateConnected
+                      ? "../images/cloud.svg"
+                      : Engine.jsonRpcClient.cloudConnectionState === JsonRpcClient.CloudConnectionStateUnconfigured
+                        ? "../images/cloud-error.svg"
+                        : "../images/cloud-offline.svg"
             }
+
             Label {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: {
                     switch (Engine.jsonRpcClient.cloudConnectionState) {
                     case JsonRpcClient.CloudConnectionStateDisabled:
-                        return ""
+                        return qsTr("This box is not connected to %1:cloud").arg(app.systemName)
                     case JsonRpcClient.CloudConnectionStateUnconfigured:
-                        return qsTr("Configuring the box to connect to nymea:cloud...");
+                        if (d.deploymentStarted) {
+                            return qsTr("Registering box in %1:cloud...").arg(app.systemName)
+                        }
+                        return qsTr("This box is not configured to connect to %1:cloud.").arg(app.systemName);
                     case JsonRpcClient.CloudConnectionStateConnecting:
-                        return qsTr("Connecting the box to nymea:cloud...");
+                        return qsTr("Connecting the box to %1:cloud...").arg(app.systemName);
                     case JsonRpcClient.CloudConnectionStateConnected:
-                        return qsTr("The box is connected to nymea:cloud.");
+                        return qsTr("The box is connected to %1:cloud.").arg(app.systemName);
                     }
                     return Engine.jsonRpcClient.cloudConnectionState
                 }
+            }
+            BusyIndicator {
+                id: busyIndicator
+                visible: (Engine.jsonRpcClient.cloudConnectionState == JsonRpcClient.CloudConnectionStateUnconfigured && d.deploymentStarted) ||
+                         Engine.jsonRpcClient.cloudConnectionState == JsonRpcClient.CloudConnectionStateConnecting
+            }
+        }
+
+        Label {
+            Layout.fillWidth: true
+            Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
+            visible: Engine.jsonRpcClient.cloudConnectionState === JsonRpcClient.CloudConnectionStateUnconfigured && !d.deploymentStarted
+            text: qsTr("This box is not configured to access the %1:cloud. In order for a box to connect to %1:cloud it needs to be registered first.").arg(app.systemName)
+            wrapMode: Text.WordWrap
+        }
+
+        Button {
+            Layout.fillWidth: true
+            Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
+            visible: Engine.jsonRpcClient.cloudConnectionState === JsonRpcClient.CloudConnectionStateUnconfigured && !d.deploymentStarted
+            text: qsTr("Register box")
+            onClicked: {
+                d.deploymentStarted = true
+                Engine.deployCertificate();
             }
         }
 

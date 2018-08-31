@@ -155,12 +155,10 @@
         <file>ui/images/network-vpn.svg</file>
         <file>translations/nymea-app-de_DE.qm</file>
         <file>translations/nymea-app-en_US.qm</file>
-        <file>ui/AppSettingsPage.qml</file>
         <file>ui/images/stock_application.svg</file>
         <file>ui/delegates/ThingDelegate.qml</file>
         <file>ui/images/network-secure.svg</file>
         <file>ui/images/lock-broken.svg</file>
-        <file>ui/AboutPage.qml</file>
         <file>ui/images/sort-listitem.svg</file>
         <file>ui/devicepages/ShutterDevicePage.qml</file>
         <file>ui/images/shutter/shutter-000.svg</file>
@@ -242,8 +240,13 @@
         <file>ui/KeyboardLoader.qml</file>
         <file>ui/images/cloud.svg</file>
         <file>ui/system/CloudSettingsPage.qml</file>
-        <file>ui/connection/CloudLoginPage.qml</file>
         <file>ui/images/cloud-offline.svg</file>
         <file>ui/images/cloud-error.svg</file>
+        <file>ui/components/BusyOverlay.qml</file>
+        <file>ui/components/AWSPasswordTextField.qml</file>
+        <file>ui/appsettings/AboutPage.qml</file>
+        <file>ui/appsettings/AppSettingsPage.qml</file>
+        <file>ui/appsettings/DeveloperOptionsPage.qml</file>
+        <file>ui/appsettings/CloudLoginPage.qml</file>
     </qresource>
 </RCC>

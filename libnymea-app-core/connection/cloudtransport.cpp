@@ -34,7 +34,7 @@ CloudTransport::CloudTransport(AWSClient *awsClient, QObject *parent):
     QObject::connect(m_remoteproxyConnection, &RemoteProxyConnection::dataReady, this, [this](const QByteArray &data) {
         emit dataReady(data);
     });
-    QObject::connect(m_remoteproxyConnection, &RemoteProxyConnection::errorOccured, this, [this] (RemoteProxyConnection::Error error) {
+    QObject::connect(m_remoteproxyConnection, &RemoteProxyConnection::errorOccured, this, [] (QAbstractSocket::SocketError error) {
         qDebug() << "Remote proxy Error:" << error;
 //        emit NymeaTransportInterface::error(QAbstractSocket::ConnectionRefusedError);
     });
@@ -57,7 +57,8 @@ bool CloudTransport::connect(const QUrl &url)
 
     bool postResult = m_awsClient->postToMQTT(url.host(), [this](bool success) {
         if (success) {
-            m_remoteproxyConnection->connectServer(QUrl("wss://dev-remoteproxy.nymea.io"));
+
+            m_remoteproxyConnection->connectServer(QUrl("wss://remoteproxy.nymea.io"));
 //            m_remoteproxyConnection->connectServer(QUrl("wss://127.0.0.1:1212"));
         }
     });
@@ -87,9 +88,10 @@ NymeaTransportInterface::ConnectionState CloudTransport::connectionState() const
     case RemoteProxyConnection::StateConnected:
     case RemoteProxyConnection::StateAuthenticating:
     case RemoteProxyConnection::StateReady:
-    case RemoteProxyConnection::StateWaitTunnel:
+    case RemoteProxyConnection::StateAuthenticated:
         return NymeaTransportInterface::ConnectionStateConnecting;
     case RemoteProxyConnection::StateDisconnected:
+    case RemoteProxyConnection::StateDiconnecting:
         return NymeaTransportInterface::ConnectionStateDisconnected;
     }
     return ConnectionStateDisconnected;

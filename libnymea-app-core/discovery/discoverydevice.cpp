@@ -92,6 +92,8 @@ QVariant Connections::data(const QModelIndex &index, int role) const
         return m_connections.at(index.row())->bearerType();
     case RoleSecure:
         return m_connections.at(index.row())->secure();
+    case RoleOnline:
+        return m_connections.at(index.row())->online();
     }
     return QVariant();
 }
@@ -111,7 +113,39 @@ void Connections::addConnection(Connection *connection)
     connection->setParent(this);
     beginInsertRows(QModelIndex(), m_connections.count(), m_connections.count());
     m_connections.append(connection);
+    connect(connection, &Connection::onlineChanged, this, [this, connection]() {
+        int idx = m_connections.indexOf(connection);
+        if (idx < 0) {
+            return;
+        }
+        emit dataChanged(index(idx), index(idx), {RoleOnline});
+    });
     endInsertRows();
+    emit countChanged();
+}
+
+void Connections::removeConnection(Connection *connection)
+{
+    int idx = m_connections.indexOf(connection);
+    if (idx == -1) {
+        qWarning() << "Cannot remove connections as it's not in this model";
+        return;
+    }
+    beginRemoveRows(QModelIndex(), idx, idx);
+    m_connections.takeAt(idx)->deleteLater();
+    endRemoveRows();
+    emit countChanged();
+}
+
+void Connections::removeConnection(int index)
+{
+    if (index < 0 || index >= m_connections.count()) {
+        qWarning() << "Index out of range. Not removing any connection";
+        return;
+    }
+    beginRemoveRows(QModelIndex(), index, index);
+    m_connections.takeAt(index)->deleteLater();
+    endRemoveRows();
     emit countChanged();
 }
 
@@ -130,6 +164,7 @@ QHash<int, QByteArray> Connections::roleNames() const
     roles.insert(RoleBearerType, "bearerType");
     roles.insert(RoleName, "name");
     roles.insert(RoleSecure, "secure");
+    roles.insert(RoleOnline, "online");
     return roles;
 }
 

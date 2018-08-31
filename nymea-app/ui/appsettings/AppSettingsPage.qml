@@ -3,7 +3,7 @@ import QtQuick.Controls 2.1
 import QtQuick.Controls.Material 2.1
 import QtQuick.Layouts 1.1
 import Nymea 1.0
-import "components"
+import "../components"
 
 Page {
     id: root
@@ -114,13 +114,20 @@ Page {
             Layout.fillWidth: true
             text: qsTr("Cloud login")
             iconName: "../images/cloud.svg"
-            onClicked: pageStack.push(Qt.resolvedUrl("connection/CloudLoginPage.qml"))
+            onClicked: pageStack.push(Qt.resolvedUrl("CloudLoginPage.qml"))
         }
         MeaListItemDelegate {
             Layout.fillWidth: true
             text: qsTr("About %1").arg(app.appName)
             iconName: "../images/info.svg"
             onClicked: pageStack.push(Qt.resolvedUrl("AboutPage.qml"))
+        }
+        MeaListItemDelegate {
+            Layout.fillWidth: true
+            visible: settings.showHiddenOption
+            text: qsTr("Developer options")
+            iconName: "../images/configure.svg"
+            onClicked: pageStack.push(Qt.resolvedUrl("DeveloperOptionsPage.qml"))
         }
     }
 

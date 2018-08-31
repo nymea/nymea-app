@@ -24,6 +24,14 @@ Page {
         }
     }
 
+    function connectToHost(url) {
+        Engine.connection.connect(url)
+        var page = pageStack.push(Qt.resolvedUrl("ConnectingPage.qml"))
+        page.cancel.connect(function() {
+            Engine.connection.disconnect()
+        })
+    }
+
     NymeaDiscovery {
         id: discovery
         objectName: "discovery"
@@ -87,15 +95,11 @@ Page {
                     ListElement { iconSource: "../images/network-vpn.svg"; text: qsTr("Manual connection"); page: "ManualConnectPage.qml" }
                     ListElement { iconSource: "../images/bluetooth.svg"; text: qsTr("Wireless setup"); page: "BluetoothDiscoveryPage.qml"; }
                     ListElement { iconSource: "../images/private-browsing.svg"; text: qsTr("Demo mode"); page: "" }
-                    ListElement { iconSource: "../images/stock_application.svg"; text: qsTr("App settings"); page: "../AppSettingsPage.qml" }
+                    ListElement { iconSource: "../images/stock_application.svg"; text: qsTr("App settings"); page: "../appsettings/AppSettingsPage.qml" }
                 }
                 onClicked: {
                     if (index === 2) {
-                        Engine.connection.connect("nymea://nymea.nymea.io:2222")
-                        var page = pageStack.push(Qt.resolvedUrl("ConnectingPage.qml"))
-                        page.cancel.connect(function() {
-                            Engine.connection.disconnect()
-                        })
+                        root.connectToHost("nymea://nymea.nymea.io:2222")
                     } else {
                         pageStack.push(model.get(index).page);
                     }
@@ -162,11 +166,12 @@ Page {
                                 var bearerPreference = [Connection.BearerTypeEthernet, Connection.BearerTypeWifi, Connection.BearerTypeBluetooth, Connection.BearerTypeCloud]
                                 var oldBearerPriority = bearerPreference.indexOf(oldConfig.bearerType);
                                 var newBearerPriority = bearerPreference.indexOf(newConfig.bearerType);
-                                if (newBearerPriority > oldBearerPriority) {
+                                if (newBearerPriority < oldBearerPriority) {
+                                    print(discoveryDevice.name, "switching to preferred index", i, "of bearer type", newConfig.bearerType, "from", oldConfig.bearerType, "new prio:", newBearerPriority, "old:", oldBearerPriority)
                                     usedConfigIndex = i;
                                     continue;
                                 }
-                                if (oldBearerPriority > newBearerPriority) {
+                                if (oldBearerPriority < newBearerPriority) {
                                     continue; // discard new one the one we have is on a better bearer type
                                 }
 
@@ -208,16 +213,15 @@ Page {
                         progressive: false
                         property bool isSecure: discoveryDevice.connections.get(defaultConnectionIndex).secure
                         property bool isTrusted: Engine.connection.isTrusted(discoveryDeviceDelegate.discoveryDevice.connections.get(defaultConnectionIndex).url)
-                        secondaryIconName: isSecure ? "../images/network-secure.svg" : ""
-                        secondaryIconColor: isTrusted ? app.accentColor : Material.foreground
+                        property bool isOnline: discoveryDevice.connections.get(defaultConnectionIndex).online
+                        tertiaryIconName: isSecure ? "../images/network-secure.svg" : ""
+                        tertiaryIconColor: isTrusted ? app.accentColor : Material.foreground
+                        secondaryIconName: !isOnline ? "../images/cloud-error.svg" : ""
+                        secondaryIconColor: "red"
                         swipe.enabled: discoveryDeviceDelegate.discoveryDevice.deviceType === DiscoveryDevice.DeviceTypeNetwork
 
                         onClicked: {
-                            Engine.connection.connect(discoveryDeviceDelegate.discoveryDevice.connections.get(defaultConnectionIndex).url)
-                            var page = pageStack.push(Qt.resolvedUrl("ConnectingPage.qml"))
-                            page.cancel.connect(function() {
-                                Engine.connection.disconnect()
-                            })
+                            root.connectToHost(discoveryDeviceDelegate.discoveryDevice.connections.get(defaultConnectionIndex).url)
                         }
 
                         swipe.right: MouseArea {
@@ -279,7 +283,7 @@ Page {
                     Layout.rightMargin: app.margins
                     text: qsTr("Cloud login")
                     visible: !Engine.awsClient.isLoggedIn
-                    onClicked: pageStack.push(Qt.resolvedUrl("CloudLoginPage.qml"))
+                    onClicked: pageStack.push(Qt.resolvedUrl("../appsettings/CloudLoginPage.qml"))
                 }
 
                 Button {
@@ -287,14 +291,10 @@ Page {
                     Layout.leftMargin: app.margins
                     Layout.rightMargin: app.margins
                     Layout.bottomMargin: app.margins
-//                    visible: discovery.discoveryModel.count === 0
+                    visible: discovery.discoveryModel.count === 0
                     text: qsTr("Demo mode (online)")
                     onClicked: {
-                        Engine.connection.connect("nymea://nymea.nymea.io:2222")
-                        var page = pageStack.push(Qt.resolvedUrl("ConnectingPage.qml"))
-                        page.cancel.connect(function() {
-                            Engine.connection.disconnect()
-                        })
+                        root.connectToHost("nymea://nymea.nymea.io:2222")
                     }
                 }
 
@@ -420,7 +420,7 @@ Page {
 
             onAccepted: {
                 Engine.connection.acceptCertificate(certDialog.url, certDialog.fingerprint)
-                Engine.connection.connect(certDialog.url)
+                root.connectToHost(certDialog.url)
             }
         }
     }
@@ -532,12 +532,14 @@ Page {
                                     return ""
                                 }
 
-                                secondaryIconName: model.secure ? "../images/network-secure.svg" : ""
-                                secondaryIconColor: isTrusted ? app.accentColor : "gray"
+                                tertiaryIconName: model.secure ? "../images/network-secure.svg" : ""
+                                tertiaryIconColor: isTrusted ? app.accentColor : "gray"
                                 readonly property bool isTrusted: Engine.connection.isTrusted(url)
+                                secondaryIconName: !model.online ? "../images/cloud-error.svg" : ""
+                                secondaryIconColor: "red"
 
                                 onClicked: {
-                                    Engine.connection.connect(dialog.discoveryDevice.connections.get(index).url)
+                                    root.connectToHost(dialog.discoveryDevice.connections.get(index).url)
                                     dialog.close()
                                 }
                             }

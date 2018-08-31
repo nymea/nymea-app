@@ -64,8 +64,24 @@ void DiscoveryModel::addDevice(DiscoveryDevice *device)
     emit countChanged();
 }
 
+void DiscoveryModel::removeDevice(DiscoveryDevice *device)
+{
+    int idx = m_devices.indexOf(device);
+    if (idx == -1) {
+        qWarning() << "Cannot remove DiscoveryDevice" << device << "as its nit in the model";
+        return;
+    }
+    beginRemoveRows(QModelIndex(), idx, idx);
+    m_devices.takeAt(idx);
+    endRemoveRows();
+    emit countChanged();
+}
+
 DiscoveryDevice *DiscoveryModel::get(int index) const
 {
+    if (index < 0 || index >= m_devices.count()) {
+        return nullptr;
+    }
     return m_devices.at(index);
 }
 

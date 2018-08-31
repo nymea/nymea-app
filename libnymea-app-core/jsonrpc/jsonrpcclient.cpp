@@ -236,6 +236,7 @@ int JsonRpcClient::requestPushButtonAuth(const QString &deviceName)
 
 void JsonRpcClient::setupRemoteAccess(const QString &idToken, const QString &userId)
 {
+    qDebug() << "Calling SetupRemoteAccess";
     QVariantMap params;
     params.insert("idToken", idToken);
     params.insert("userId", userId);

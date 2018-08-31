@@ -39,6 +39,14 @@ ApplicationWindow {
         property string graphStyle: "bars"
         property string style: "light"
         property int currentMainViewIndex: 0
+        property bool showHiddenOptions: false
+        property int cloudEnvironment: 0
+    }
+
+    Binding {
+        target: Engine.awsClient
+        property: "config"
+        value: settings.cloudEnvironment
     }
 
     Component.onCompleted: {

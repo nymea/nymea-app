@@ -75,7 +75,8 @@ public:
         RoleUrl,
         RoleName,
         RoleBearerType,
-        RoleSecure
+        RoleSecure,
+        RoleOnline
     };
     Q_ENUM(Roles)
     Connections(QObject* parent = nullptr);
@@ -83,6 +84,8 @@ public:
     QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const override;
 
     void addConnection(Connection *connection);
+    void removeConnection(Connection *connection);
+    void removeConnection(int index);
 
     Q_INVOKABLE Connection* find(const QUrl &url) const;
     Q_INVOKABLE Connection* get(int index) const;

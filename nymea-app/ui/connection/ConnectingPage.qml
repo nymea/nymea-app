@@ -26,6 +26,13 @@ Page {
             wrapMode: Text.WordWrap
             horizontalAlignment: Text.AlignHCenter
         }
+        Label {
+            Layout.fillWidth: true
+            text: Engine.connection.url
+            font.pixelSize: app.smallFont
+            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+            horizontalAlignment: Text.AlignHCenter
+        }
     }
 
     Button {

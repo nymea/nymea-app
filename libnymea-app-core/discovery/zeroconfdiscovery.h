@@ -28,6 +28,7 @@ private:
 
 private slots:
     void serviceEntryAdded(const QZeroConfService &entry);
+    void serviceEntryRemoved(const QZeroConfService &entry);
 #endif
 };
 

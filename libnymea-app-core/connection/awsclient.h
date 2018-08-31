@@ -46,10 +46,24 @@ public:
     Q_INVOKABLE AWSDevice* getDevice(const QString &uuid) const;
     Q_INVOKABLE AWSDevice* get(int index) const;
     void insert(AWSDevice *device);
+    void remove(const QString &uuid);
 signals:
     void countChanged();
 private:
     QList<AWSDevice*> m_list;
+};
+
+class AWSConfiguration {
+public:
+    QByteArray clientId;
+    QString poolId;
+    QString identityPoolId;
+    QString certificateEndpoint;
+    QString certificateApiKey;
+    QString certificateVendorId;
+    QString mqttEndpoint;
+    QString region;
+    QString apiEndpoint;
 };
 
 class AWSClient : public QObject
@@ -57,20 +71,41 @@ class AWSClient : public QObject
     Q_OBJECT
     Q_PROPERTY(bool isLoggedIn READ isLoggedIn NOTIFY isLoggedInChanged)
     Q_PROPERTY(QString username READ username NOTIFY isLoggedInChanged)
+    Q_PROPERTY(bool confirmationPending READ confirmationPending NOTIFY confirmationPendingChanged)
     Q_PROPERTY(QByteArray userId READ userId NOTIFY isLoggedInChanged)
     Q_PROPERTY(QByteArray idToken READ idToken NOTIFY isLoggedInChanged)
     Q_PROPERTY(AWSDevices* awsDevices READ awsDevices CONSTANT)
 
+    Q_PROPERTY(int config READ config WRITE setConfig NOTIFY configChanged)
+
 public:
+    enum LoginError {
+        LoginErrorNoError,
+        LoginErrorInvalidUserOrPass,
+        LoginErrorInvalidCode,
+        LoginErrorUserExists,
+        LoginErrorLimitExceeded,
+        LoginErrorUnknownError
+    };
+    Q_ENUM(LoginError)
+
     explicit AWSClient(QObject *parent = nullptr);
 
     bool isLoggedIn() const;
     QString username() const;
     QByteArray userId() const;
     AWSDevices* awsDevices() const;
+    bool confirmationPending() const;
 
     Q_INVOKABLE void login(const QString &username, const QString &password);
     Q_INVOKABLE void logout();
+    Q_INVOKABLE void signup(const QString &username, const QString &password);
+    Q_INVOKABLE void confirmRegistration(const QString &code);
+    Q_INVOKABLE void forgotPassword(const QString &username);
+    Q_INVOKABLE void confirmForgotPassword(const QString &username, const QString &code, const QString &newPassword);
+    Q_INVOKABLE void deleteAccount();
+
+    Q_INVOKABLE void unpairDevice(const QString &boxId);
 
     Q_INVOKABLE void fetchDevices();
 
@@ -83,9 +118,21 @@ public:
 
     void fetchCertificate(const QString &uuid, std::function<void(const QByteArray &rootCA, const QByteArray &certificate, const QByteArray &publicKey, const QByteArray &privateKey, const QString &endpoint)> callback);
 
+    int config() const;
+    void setConfig(int index);
+
 signals:
+    void loginResult(LoginError error);
+    void signupResult(LoginError error);
+    void confirmationResult(LoginError error);
+    void forgotPasswordResult(LoginError error);
+    void confirmForgotPasswordResult(LoginError error);
+
     void isLoggedInChanged();
+    void confirmationPendingChanged();
     void devicesFetched();
+
+    void configChanged();
 
 private:
     void refreshAccessToken();
@@ -96,8 +143,11 @@ private:
 private:
     QNetworkAccessManager *m_nam = nullptr;
 
+    QString m_userId;
     QString m_username;
     QString m_password;
+
+    bool m_confirmationPending = false;
 
     QByteArray m_accessToken;
     QDateTime m_accessTokenExpiry;
@@ -114,6 +164,7 @@ private:
     class QueuedCall {
     public:
         QueuedCall(const QString &method): method(method) { }
+        QueuedCall(const QString &method, const QString &boxId): method(method), boxId(boxId) { }
         QueuedCall(const QString &method, const QString &boxId, std::function<void(bool)> callback): method(method), boxId(boxId), callback(callback) {}
         QString method;
         QString boxId;
@@ -122,6 +173,8 @@ private:
 
     QList<QueuedCall> m_callQueue;
 
+    QList<AWSConfiguration> m_configs;
+    int m_usedConfigIndex = 0;
     AWSDevices *m_devices;
 };
 
