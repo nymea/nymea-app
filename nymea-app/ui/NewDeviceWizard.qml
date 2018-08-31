@@ -61,6 +61,7 @@ Page {
 
     DeviceDiscovery {
         id: discovery
+        jsonRpcClient: Engine.jsonRpcClient
     }
 
     StackView {

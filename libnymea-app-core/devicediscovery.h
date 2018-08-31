@@ -4,9 +4,12 @@
 #include <QAbstractListModel>
 #include <QUuid>
 
+#include "jsonrpc/jsonrpcclient.h"
+
 class DeviceDiscovery : public QAbstractListModel
 {
     Q_OBJECT
+    Q_PROPERTY(JsonRpcClient* jsonRpcClient READ jsonRpcClient WRITE setJsonRpcClient)
     Q_PROPERTY(bool busy READ busy NOTIFY busyChanged)
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
 public:
@@ -25,6 +28,9 @@ public:
 
     Q_INVOKABLE void discoverDevices(const QUuid &deviceClassId, const QVariantList &discoveryParams = {});
 
+    JsonRpcClient* jsonRpcClient() const;
+    void setJsonRpcClient(JsonRpcClient *jsonRpcClient);
+
     bool busy() const;
 
 private slots:
@@ -33,6 +39,7 @@ private slots:
 signals:
     void busyChanged();
     void countChanged();
+    void jsonRpcClientChanged();
 
 private:
     class DeviceDescriptor {
@@ -43,6 +50,7 @@ private:
         QString m_description;
     };
 
+    JsonRpcClient *m_jsonRpcClient = nullptr;
     bool m_busy = false;
 
     bool contains(const QUuid &deviceDescriptorId) const;

@@ -43,14 +43,36 @@ void DeviceDiscovery::discoverDevices(const QUuid &deviceClassId, const QVariant
     endResetModel();
     emit countChanged();
 
+    if (!m_jsonRpcClient) {
+        qWarning() << "Cannot discover devices. No JsonRpcClient set";
+        return;
+    }
+    if (!m_jsonRpcClient->connected()) {
+        qWarning() << "Cannot discover devices. JsonRpcClient not connected.";
+        return;
+    }
+
     QVariantMap params;
     params.insert("deviceClassId", deviceClassId.toString());
     if (!discoveryParams.isEmpty()) {
         params.insert("discoveryParams", discoveryParams);
     }
-    Engine::instance()->jsonRpcClient()->sendCommand("Devices.GetDiscoveredDevices", params, this, "discoverDevicesResponse");
+    m_jsonRpcClient->sendCommand("Devices.GetDiscoveredDevices", params, this, "discoverDevicesResponse");
     m_busy = true;
     emit busyChanged();
+}
+
+JsonRpcClient *DeviceDiscovery::jsonRpcClient() const
+{
+    return m_jsonRpcClient;
+}
+
+void DeviceDiscovery::setJsonRpcClient(JsonRpcClient *jsonRpcClient)
+{
+    if (m_jsonRpcClient != jsonRpcClient) {
+        m_jsonRpcClient = jsonRpcClient;
+        emit jsonRpcClientChanged();
+    }
 }
 
 bool DeviceDiscovery::busy() const
