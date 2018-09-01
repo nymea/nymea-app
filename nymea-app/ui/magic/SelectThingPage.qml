@@ -34,7 +34,7 @@ Page {
 
     DevicesProxy {
         id: devicesProxy
-        engine: app.engine
+        engine: _engine
     }
 
     ColumnLayout {

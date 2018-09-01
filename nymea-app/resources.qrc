@@ -13,7 +13,6 @@
         <file>ui/images/add.svg</file>
         <file>ui/images/back.svg</file>
         <file>ui/images/close.svg</file>
-        <file>ui/MainPage.qml</file>
         <file>ui/images/info.svg</file>
         <file>ui/components/ColorPicker.qml</file>
         <file>ui/customviews/CustomViewBase.qml</file>
@@ -253,5 +252,7 @@
         <file>ui/devicelistpages/SensorsDeviceListPage.qml</file>
         <file>ui/devicelistpages/WeatherDeviceListPage.qml</file>
         <file>ui/devicelistpages/DeviceListPageBase.qml</file>
+        <file>ui/MainPage.qml</file>
+        <file>ui/RootItem.qml</file>
     </qresource>
 </RCC>

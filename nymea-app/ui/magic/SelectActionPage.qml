@@ -31,7 +31,7 @@ Page {
 
     DevicesProxy {
         id: ifaceFilterModel
-        engine: app.engine
+        engine: _engine
     }
 
     Component.onCompleted: {
@@ -252,7 +252,7 @@ Page {
 
                             model: DevicesProxy {
                                 id: lightsModel
-                                engine: app.engine
+                                engine: _engine
                                 shownInterfaces: ["light"]
                             }
                             delegate: CheckDelegate {
@@ -337,7 +337,7 @@ Page {
 
                             model: DevicesProxy {
                                 id: notificationsModel
-                                engine: app.engine
+                                engine: _engine
                                 shownInterfaces: ["notifications"]
                             }
                             delegate: CheckDelegate {

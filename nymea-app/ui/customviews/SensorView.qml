@@ -25,7 +25,7 @@ CustomViewBase {
 
     ValueLogsProxyModel {
         id: logsModel
-        engine: app.engine
+        engine: _engine
         deviceId: root.device.id
         typeIds: [stateType.id]
         average: zoomTabBar.currentItem.avg

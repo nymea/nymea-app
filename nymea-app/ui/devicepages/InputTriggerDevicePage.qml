@@ -13,7 +13,7 @@ GenericDevicePage {
         text: qsTr("This event has appeared %1 times in the last %2 days.")
 
         logsModel: LogsModel {
-            engine: app.engine
+            engine: _engine
             deviceId: root.device.id
             live: true
             Component.onCompleted: update()

@@ -32,6 +32,6 @@ Page {
 
     DevicesProxy {
         id: devicesProxyInternal
-        engine: app.engine
+        engine: _engine
     }
 }

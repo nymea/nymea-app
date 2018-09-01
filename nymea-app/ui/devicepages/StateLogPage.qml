@@ -28,7 +28,7 @@ Page {
 
     LogsModel {
         id: logsModel
-        engine: app.engine
+        engine: _engine
         deviceId: root.device.id
         live: true
         Component.onCompleted: update()

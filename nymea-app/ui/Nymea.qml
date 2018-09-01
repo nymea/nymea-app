@@ -43,161 +43,13 @@ ApplicationWindow {
         property int cloudEnvironment: 0
     }
 
-    property var engine: Engine {
-
-    }
-
-    Binding {
-        target: engine.awsClient
-        property: "config"
-        value: settings.cloudEnvironment
-    }
-
-    Component.onCompleted: {
-        pageStack.push(Qt.resolvedUrl("connection/ConnectPage.qml"))
-        setupPushNotifications();
-    }
-    Connections {
-        target: PlatformHelper
-        onHasPermissionsChanged: {
-            setupPushNotifications(false)
-        }
-    }
-    Connections {
-        target: PushNotifications
-        onTokenChanged: {
-            setupPushNotifications();
-        }
-    }
-
-    Connections {
-        target: engine.awsClient
-        onIsLoggedInChanged: {
-            setupPushNotifications()
-        }
-    }
-
-    Connections {
-        target: engine.jsonRpcClient
-        onConnectedChanged: {
-            print("json client connected changed", engine.jsonRpcClient.connected)
-            if (engine.jsonRpcClient.connected) {
-                settings.lastConnectedHost = engine.connection.url
-            }
-            init();
-        }
-
-        onAuthenticationRequiredChanged: {
-            print("auth required changed")
-            init();
-        }
-        onInitialSetupRequiredChanged: {
-            print("setup required changed")
-            init();
-        }
-
-        onInvalidProtocolVersion: {
-            var popup = invalidVersionComponent.createObject(app.contentItem);
-            popup.actualVersion = actualVersion;
-            popup.minimumVersion = minimumVersion
-            popup.open()
-            settings.lastConnectedHost = ""
-        }
-    }
-
-    function init() {
-        print("calling init. Auth required:", engine.jsonRpcClient.authenticationRequired, "initial setup required:", engine.jsonRpcClient.initialSetupRequired, "jsonrpc connected:", engine.jsonRpcClient.connected)
-        pageStack.clear()
-        if (!engine.connection.connected) {
-            pageStack.push(Qt.resolvedUrl("connection/ConnectPage.qml"))
-            return;
-        }
-
-        if (engine.jsonRpcClient.authenticationRequired || engine.jsonRpcClient.initialSetupRequired) {
-            if (engine.jsonRpcClient.pushButtonAuthAvailable) {
-                print("opening push button auth")
-                var page = pageStack.push(Qt.resolvedUrl("PushButtonAuthPage.qml"))
-                page.backPressed.connect(function() {
-                    settings.lastConnectedHost = "";
-                    engine.connection.disconnect();
-                    init();
-                })
-            } else {
-                var page = pageStack.push(Qt.resolvedUrl("LoginPage.qml"));
-                page.backPressed.connect(function() {
-                    settings.lastConnectedHost = "";
-                    engine.connection.disconnect()
-                    init();
-                })
-            }
-        } else if (engine.jsonRpcClient.connected) {
-            pageStack.push(Qt.resolvedUrl("MainPage.qml"))
-        } else {
-            pageStack.push(Qt.resolvedUrl("connection/ConnectPage.qml"))
-        }
-    }
-
-    function setupPushNotifications(askForPermissions) {
-        if (askForPermissions === undefined) {
-            askForPermissions = true;
-        }
-
-        if (!engine.awsClient.isLoggedIn) {
-            print("AWS not logged in. Cannot register for push");
-            return;
-        }
-
-        if (PushNotifications.token.length === 0) {
-            print("Don't have a token yet. Cannot register for push");
-            return;
-        }
-
-        if (!PlatformHelper.hasPermissions) {
-            if (askForPermissions) {
-                PlatformHelper.requestPermissions();
-            }
-        } else {
-            engine.awsClient.registerPushNotificationEndpoint(PushNotifications.token, PlatformHelper.deviceManufacturer + " " + PlatformHelper.deviceModel, PlatformHelper.deviceSerial + "+io.guh.nymeaapp");
-        }
-    }
-
-    // Workaround flickering on pageStack animations when the white background shines through
-    Rectangle {
+    RootItem {
+        id: rootItem
         anchors.fill: parent
-        color: Material.background
-    }
-
-    StackView {
-        id: pageStack
-        objectName: "pageStack"
-        anchors.fill: parent
-        initialItem: Page {}
-//        onDepthChanged: {
-//            print("stackview depth changed", pageStack.depth)
-//        }
     }
 
     onClosing: {
-        if (Qt.platform.os == "android") {
-            // If we're connected, allow going back up to MainPage
-            if ((engine.jsonRpcClient.connected && pageStack.depth > 1)
-                    // if we're not connected, only allow using the back button in wizards
-                    || (!engine.jsonRpcClient.connected && pageStack.depth > 3)) {
-                close.accepted = false;
-                pageStack.pop();
-            }
-        }
-    }
-
-    Connections {
-        target: Qt.application
-        enabled: engine.jsonRpcClient.connected && settings.returnToHome
-        onStateChanged: {
-            print("App active state changed:", state)
-            if (state !== Qt.ApplicationActive) {
-                init();
-            }
-        }
+        rootItem.handleCloseEvent(close)
     }
 
     property var supportedInterfaces: ["light", "weather", "sensor", "media", "garagegate", "extendedawning", "extendedshutter", "extendedblind", "button", "notifications", "inputtrigger", "outputtrigger", "gateway"]
@@ -392,44 +244,6 @@ ApplicationWindow {
         return s.substr(s.length-size);
     }
 
-    Component {
-        id: invalidVersionComponent
-        Popup {
-            id: popup
-
-            property string actualVersion: "0.0"
-            property string minimumVersion: "1.0"
-
-            width: app.width * .8
-            height: col.childrenRect.height + app.margins * 2
-            x: (app.width - width) / 2
-            y: (app.height - height) / 2
-            visible: false
-            ColumnLayout {
-                id: col
-                anchors { left: parent.left; right: parent.right }
-                spacing: app.margins
-                Label {
-                    text: qsTr("Connection error")
-                    Layout.fillWidth: true
-                    font.pixelSize: app.largeFont
-                }
-                Label {
-                    text: qsTr("Sorry, the version of the %1 box you are trying to connect to is too old. This app requires at least version %2 but the %1 box only supports %3").arg(app.systemName).arg(popup.minimumVersion).arg(popup.actualVersion)
-                    wrapMode: Text.WordWrap
-                    Layout.fillWidth: true
-                }
-                Button {
-                    Layout.fillWidth: true
-                    text: qsTr("OK")
-                    onClicked: {
-                        engine.connection.disconnect();
-                        popup.close()
-                    }
-                }
-            }
-        }
-    }
 
     KeyboardLoader {
         id: keyboardRect
