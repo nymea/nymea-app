@@ -8,6 +8,7 @@
 #include <QUrl>
 
 class NymeaTransportInterface;
+class NymeaTransportInterfaceFactory;
 
 class NymeaConnection : public QObject
 {
@@ -20,7 +21,7 @@ class NymeaConnection : public QObject
 public:
     explicit NymeaConnection(QObject *parent = nullptr);
 
-    void registerTransport(NymeaTransportInterface *transport);
+    void registerTransport(NymeaTransportInterfaceFactory *transportFactory);
 
     Q_INVOKABLE bool connect(const QString &url);
     Q_INVOKABLE void disconnect();
@@ -50,7 +51,7 @@ private slots:
 private:
 
 private:
-    QHash<QString, NymeaTransportInterface*> m_transports;
+    QHash<QString, NymeaTransportInterfaceFactory*> m_transports;
     NymeaTransportInterface *m_currentTransport = nullptr;
     QUrl m_currentUrl;
 };

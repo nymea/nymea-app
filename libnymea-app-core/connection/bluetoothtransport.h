@@ -28,13 +28,18 @@
 
 #include "nymeatransportinterface.h"
 
+class BluetoothTransportFactoy: public NymeaTransportInterfaceFactory
+{
+public:
+    NymeaTransportInterface* createTransport(QObject *parent = nullptr) const override;
+    QStringList supportedSchemes() const override;
+};
+
 class BluetoothTransport: public NymeaTransportInterface
 {
     Q_OBJECT
 public:
     explicit BluetoothTransport(QObject *parent = nullptr);
-
-    QStringList supportedSchemes() const override;
 
     bool connect(const QUrl &url) override;
     void disconnect() override;

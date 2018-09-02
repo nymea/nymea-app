@@ -27,6 +27,17 @@
 #include <QSslCertificate>
 #include <QHostAddress>
 
+class NymeaTransportInterface;
+
+class NymeaTransportInterfaceFactory
+{
+public:
+    virtual ~NymeaTransportInterfaceFactory() = default;
+    virtual NymeaTransportInterface* createTransport(QObject* parent = nullptr) const = 0;
+
+    virtual QStringList supportedSchemes() const = 0;
+};
+
 class NymeaTransportInterface : public QObject
 {
     Q_OBJECT
@@ -40,8 +51,6 @@ public:
 
     explicit NymeaTransportInterface(QObject *parent = nullptr);
     virtual ~NymeaTransportInterface() = default;
-
-    virtual QStringList supportedSchemes() const = 0;
 
     virtual bool connect(const QUrl &url) = 0;
     virtual void disconnect() = 0;

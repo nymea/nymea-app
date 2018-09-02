@@ -40,11 +40,6 @@ WebsocketTransport::WebsocketTransport(QObject *parent) :
     QObject::connect(m_socket, static_cast<sslErrorsSignal>(&QWebSocket::sslErrors),this, &WebsocketTransport::sslErrors);
 }
 
-QStringList WebsocketTransport::supportedSchemes() const
-{
-    return {"ws", "wss"};
-}
-
 bool WebsocketTransport::connect(const QUrl &url)
 {
     m_socket->open(QUrl(url));
@@ -84,4 +79,14 @@ void WebsocketTransport::ignoreSslErrors(const QList<QSslError> &errors)
 void WebsocketTransport::onTextMessageReceived(const QString &data)
 {
     emit dataReady(data.toUtf8());
+}
+
+NymeaTransportInterface *WebsocketTransportFactory::createTransport(QObject *parent) const
+{
+    return new WebsocketTransport(parent);
+}
+
+QStringList WebsocketTransportFactory::supportedSchemes() const
+{
+    return {"ws", "wss"};
 }

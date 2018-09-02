@@ -7,13 +7,18 @@
 #include <QSslSocket>
 #include <QUrl>
 
+class TcpSocketTransportFactory: public NymeaTransportInterfaceFactory
+{
+public:
+    NymeaTransportInterface* createTransport(QObject *parent = nullptr) const override;
+    QStringList supportedSchemes() const override;
+};
+
 class TcpSocketTransport: public NymeaTransportInterface
 {
     Q_OBJECT
 public:
     explicit TcpSocketTransport(QObject *parent = nullptr);
-
-    QStringList supportedSchemes() const override;
 
     bool connect(const QUrl &url) override;
     ConnectionState connectionState() const override;

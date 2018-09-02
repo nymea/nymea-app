@@ -26,13 +26,18 @@
 
 #include "nymeatransportinterface.h"
 
+class WebsocketTransportFactory: public NymeaTransportInterfaceFactory
+{
+public:
+    NymeaTransportInterface* createTransport(QObject *parent = nullptr) const override;
+    QStringList supportedSchemes() const override;
+};
+
 class WebsocketTransport: public NymeaTransportInterface
 {
     Q_OBJECT
 public:
     explicit WebsocketTransport(QObject *parent = nullptr);
-
-    QStringList supportedSchemes() const override;
 
     bool connect(const QUrl &url) override;
     ConnectionState connectionState() const override;

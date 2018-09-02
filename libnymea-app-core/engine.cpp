@@ -114,10 +114,10 @@ Engine::Engine(QObject *parent) :
     m_bluetoothDiscovery(new BluetoothDiscovery(this)),
     m_aws(new AWSClient(this))
 {
-    m_connection->registerTransport(new TcpSocketTransport(this));
-    m_connection->registerTransport(new WebsocketTransport(this));
-    m_connection->registerTransport(new BluetoothTransport(this));
-    m_connection->registerTransport(new CloudTransport(m_aws, this));
+    m_connection->registerTransport(new TcpSocketTransportFactory());
+    m_connection->registerTransport(new WebsocketTransportFactory());
+    m_connection->registerTransport(new BluetoothTransportFactoy());
+    m_connection->registerTransport(new CloudTransportFactory(m_aws));
 
     connect(m_jsonRpcClient, &JsonRpcClient::connectedChanged, this, &Engine::onConnectedChanged);
     connect(m_jsonRpcClient, &JsonRpcClient::authenticationRequiredChanged, this, &Engine::onConnectedChanged);

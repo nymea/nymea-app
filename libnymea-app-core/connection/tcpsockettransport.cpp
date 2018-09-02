@@ -16,11 +16,6 @@ TcpSocketTransport::TcpSocketTransport(QObject *parent) : NymeaTransportInterfac
 
 }
 
-QStringList TcpSocketTransport::supportedSchemes() const
-{
-    return {"nymea", "nymeas"};
-}
-
 void TcpSocketTransport::sendData(const QByteArray &data)
 {
     qint64 ret = m_socket.write(data);
@@ -96,4 +91,14 @@ void TcpSocketTransport::socketReadyRead()
 void TcpSocketTransport::onSocketStateChanged(const QAbstractSocket::SocketState &state)
 {
     qDebug() << "Socket state changed -->" << state;
+}
+
+NymeaTransportInterface *TcpSocketTransportFactory::createTransport(QObject *parent) const
+{
+    return new TcpSocketTransport(parent);
+}
+
+QStringList TcpSocketTransportFactory::supportedSchemes() const
+{
+    return {"nymea", "nymeas"};
 }

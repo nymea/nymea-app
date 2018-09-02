@@ -41,11 +41,6 @@ CloudTransport::CloudTransport(AWSClient *awsClient, QObject *parent):
     QObject::connect(m_remoteproxyConnection, &RemoteProxyConnection::sslErrors, this, &CloudTransport::sslErrors);
 }
 
-QStringList CloudTransport::supportedSchemes() const
-{
-    return {"cloud"};
-}
-
 bool CloudTransport::connect(const QUrl &url)
 {
     if (!m_awsClient->isLoggedIn()) {
@@ -109,3 +104,20 @@ void CloudTransport::ignoreSslErrors(const QList<QSslError> &errors)
     qDebug() << "Ignoring SSL errors" << errors;
     m_remoteproxyConnection->ignoreSslErrors(errors);
 }
+
+CloudTransportFactory::CloudTransportFactory(AWSClient *awsClient):
+    m_awsClient(awsClient)
+{
+
+}
+
+NymeaTransportInterface *CloudTransportFactory::createTransport(QObject *parent) const
+{
+    return new CloudTransport(m_awsClient, parent);
+}
+
+QStringList CloudTransportFactory::supportedSchemes() const
+{
+    return {"cloud"};
+}
+

@@ -37,11 +37,6 @@ BluetoothTransport::BluetoothTransport(QObject *parent) :
     QObject::connect(m_socket, &QBluetoothSocket::stateChanged, this, &BluetoothTransport::onDataReady);
 }
 
-QStringList BluetoothTransport::supportedSchemes() const
-{
-    return {"rfcom"};
-}
-
 bool BluetoothTransport::connect(const QUrl &url)
 {
     if (url.scheme() != "rfcom") {
@@ -115,4 +110,15 @@ void BluetoothTransport::onDataReady()
     QByteArray data = m_socket->readAll();
     qDebug() << "BluetoothInterface: recived data:" << qUtf8Printable(data);
     emit dataReady(data);
+}
+
+
+NymeaTransportInterface *BluetoothTransportFactoy::createTransport(QObject *parent) const
+{
+    return new BluetoothTransport(parent);
+}
+
+QStringList BluetoothTransportFactoy::supportedSchemes() const
+{
+    return {"rfcom"};
 }

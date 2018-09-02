@@ -21,11 +21,19 @@ bool NymeaConnection::connect(const QString &url)
     }
 
     m_currentUrl = QUrl(url);
-    m_currentTransport = m_transports.value(m_currentUrl.scheme());
-    if (!m_currentTransport) {
+    if (!m_transports.contains(m_currentUrl.scheme())) {
         qWarning() << "Cannot connect to urls of scheme" << m_currentUrl.scheme() << "Supported schemes are" << m_transports.keys();
         return false;
     }
+    m_currentTransport = m_transports.value(m_currentUrl.scheme())->createTransport();
+
+    QObject::connect(m_currentTransport, &NymeaTransportInterface::sslErrors, this, &NymeaConnection::onSslErrors);
+    QObject::connect(m_currentTransport, &NymeaTransportInterface::error, this, &NymeaConnection::onError);
+    QObject::connect(m_currentTransport, &NymeaTransportInterface::connected, this, &NymeaConnection::onConnected);
+    QObject::connect(m_currentTransport, &NymeaTransportInterface::disconnected, this, &NymeaConnection::onDisconnected);
+
+    // signal forwarding
+    QObject::connect(m_currentTransport, &NymeaTransportInterface::dataReady, this, &NymeaConnection::dataAvailable);
 
     qDebug() << "Should connect to url" << m_currentUrl;
     return m_currentTransport->connect(m_currentUrl);
@@ -156,22 +164,15 @@ void NymeaConnection::onDisconnected()
         qWarning() << "NymeaConnection: An inactive transport is emitting signals... ignoring.";
         return;
     }
+    m_currentTransport->deleteLater();
     m_currentTransport = nullptr;
     qDebug() << "NymeaConnection: disconnected.";
     emit connectedChanged(false);
 }
 
-void NymeaConnection::registerTransport(NymeaTransportInterface *transport)
+void NymeaConnection::registerTransport(NymeaTransportInterfaceFactory *transportFactory)
 {
-    QObject::connect(transport, &NymeaTransportInterface::sslErrors, this, &NymeaConnection::onSslErrors);
-    QObject::connect(transport, &NymeaTransportInterface::error, this, &NymeaConnection::onError);
-    QObject::connect(transport, &NymeaTransportInterface::connected, this, &NymeaConnection::onConnected);
-    QObject::connect(transport, &NymeaTransportInterface::disconnected, this, &NymeaConnection::onDisconnected);
-
-    // signal forwarding
-    QObject::connect(transport, &NymeaTransportInterface::dataReady, this, &NymeaConnection::dataAvailable);
-
-    foreach (const QString &scheme, transport->supportedSchemes()) {
-        m_transports[scheme] = transport;
+    foreach (const QString &scheme, transportFactory->supportedSchemes()) {
+        m_transports[scheme] = transportFactory;
     }
 }

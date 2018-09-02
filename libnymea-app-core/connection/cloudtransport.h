@@ -10,13 +10,21 @@ namespace remoteproxyclient {
 class RemoteProxyConnection;
 }
 
+class CloudTransportFactory: public NymeaTransportInterfaceFactory
+{
+public:
+    CloudTransportFactory(AWSClient *awsClient);
+    NymeaTransportInterface* createTransport(QObject *parent = nullptr) const override;
+    QStringList supportedSchemes() const override;
+private:
+    AWSClient *m_awsClient = nullptr;
+};
+
 class CloudTransport : public NymeaTransportInterface
 {
     Q_OBJECT
 public:
     explicit CloudTransport(AWSClient *awsClient, QObject *parent = nullptr);
-
-    QStringList supportedSchemes() const override;
 
     bool connect(const QUrl &url) override;
     void disconnect() override;
