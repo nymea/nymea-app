@@ -30,4 +30,7 @@ ApplicationWindow {
         "conductivitysensor": "green",
         "pressuresensor": "grey"
     }
+
+    property bool showConnectionTabs: false
+
 }

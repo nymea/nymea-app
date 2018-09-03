@@ -660,6 +660,7 @@ void AWSClient::fetchCertificate(const QString &uuid, std::function<void(const Q
     request.setRawHeader("X-api-deviceId", fixedUuid.toUtf8());
     request.setRawHeader("X-api-serialId", "69696969");
     QNetworkReply *reply = m_nam->get(request);
+    qDebug() << "Fetching certificate for vendor:" << m_configs.at(m_usedConfigIndex).certificateVendorId << "device id:" << fixedUuid;
     connect(reply, &QNetworkReply::finished, this, [this, reply, callback]() {
         reply->deleteLater();
         QByteArray data = reply->readAll();

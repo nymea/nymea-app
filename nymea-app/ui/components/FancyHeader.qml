@@ -11,6 +11,8 @@ ToolBar {
     property string title
     property alias model: menuRepeater.model
 
+    property bool showNewTabButton: false
+
     signal clicked(int index);
 
     QtObject {
