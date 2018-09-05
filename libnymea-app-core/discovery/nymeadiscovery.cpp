@@ -40,22 +40,41 @@ void NymeaDiscovery::setDiscovering(bool discovering)
         return;
 
     m_discovering = discovering;
-    // For zeroconf we'll ignore it as zeroconf doesn't do active discovery but just listens for changes in the net all the time
+    // If we have zeroconf skip upnp. ZeroConf will not do an active discovery and if it's available it'll always have good data
+    if (!m_zeroConf->available()) {
+        if (discovering) {
+            m_upnp->discover();
+        } else {
+            m_upnp->stopDiscovery();
+        }
+    }
     if (discovering) {
-        m_upnp->discover();
+        // If there's no Zeroconf, use UPnP instead
+        if (!m_zeroConf->available()) {
+            m_upnp->discover();
+        }
+
+        // Always start Bluetooth discovery if HW is available
         if (m_bluetooth) {
             m_bluetooth->discover();
         }
+
+        // start polling cloud
+        m_cloudPollTimer.start();
+        // If we're logged in, poll right away
         if (Engine::instance()->awsClient()->isLoggedIn()) {
             syncCloudDevices();
             Engine::instance()->awsClient()->fetchDevices();
         }
-        m_cloudPollTimer.start();
     } else {
-        m_upnp->stopDiscovery();
+        if (!m_zeroConf->available()) {
+            m_upnp->stopDiscovery();
+        }
+
         if (m_bluetooth) {
             m_bluetooth->stopDiscovery();
         }
+
         m_cloudPollTimer.stop();
     }
 

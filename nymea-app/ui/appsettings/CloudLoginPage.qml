@@ -154,12 +154,28 @@ Page {
             Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.topMargin: app.margins
             text: qsTr("Password")
         }
-        TextField {
-            id: passwordTextField
+        RowLayout {
             Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
-            Layout.fillWidth: true
-            echoMode: TextInput.Password
+            TextField {
+                id: passwordTextField
+                Layout.fillWidth: true
+                echoMode: hiddenPassword ? TextInput.Password : TextInput.Normal
+                property bool hiddenPassword: true
+            }
+            ColorIcon {
+                Layout.preferredHeight: app.iconSize
+                Layout.preferredWidth: app.iconSize
+                name: "../images/eye.svg"
+                color: passwordTextField.hiddenPassword ? keyColor : app.accentColor
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        passwordTextField.hiddenPassword = !passwordTextField.hiddenPassword
+                    }
+                }
+            }
         }
+
 
         Button {
             Layout.fillWidth: true
@@ -225,81 +241,87 @@ Page {
                 onBackPressed: pageStack.pop()
             }
 
-            ColumnLayout {
-                anchors { left: parent.left; top: parent.top; right: parent.right }
+            Flickable {
+                anchors.fill: parent
+                contentHeight: signupColumn.height
+                interactive: contentHeight > height
 
-                Label {
-                    Layout.fillWidth: true
-                    Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.topMargin: app.margins
-                    wrapMode: Text.WordWrap
-                    text: qsTr("Welcome to %1:cloud.").arg(app.systemName)
-                    color: app.accentColor
-                    font.pixelSize: app.largeFont
-                }
+                ColumnLayout {
+                    id: signupColumn
+                    anchors { left: parent.left; top: parent.top; right: parent.right }
 
-                Label {
-                    Layout.fillWidth: true
-                    Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.topMargin: app.margins
-                    wrapMode: Text.WordWrap
-                    text: qsTr("Please enter your email address and pick a password in order to create a new account.")
-                }
-
-                Label {
-                    Layout.fillWidth: true
-                    Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.topMargin: app.margins
-                    text: "Username (e-mail)"
-                }
-                TextField {
-                    id: usernameTextField
-                    Layout.fillWidth: true
-                    Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
-                    placeholderText: "john.smith@cooldomain.com"
-                    inputMethodHints: Qt.ImhEmailCharactersOnly
-                    validator: RegExpValidator { regExp:/\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/ }
-                }
-                Label {
-                    Layout.fillWidth: true
-                    Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.topMargin: app.margins
-                    text: qsTr("Password")
-                }
-                AWSPasswordTextField {
-                    id: passwordTextField
-                    Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
-                    Layout.fillWidth: true
-                }
-
-                Button {
-                    Layout.fillWidth: true
-                    Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.topMargin: app.margins
-                    text: qsTr("Sign Up")
-                    enabled: usernameTextField.acceptableInput && passwordTextField.isValidPassword
-                    onClicked: {
-                        Engine.awsClient.signup(usernameTextField.text, passwordTextField.password)
+                    Label {
+                        Layout.fillWidth: true
+                        Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.topMargin: app.margins
+                        wrapMode: Text.WordWrap
+                        text: qsTr("Welcome to %1:cloud.").arg(app.systemName)
+                        color: app.accentColor
+                        font.pixelSize: app.largeFont
                     }
-                }
 
-                Connections {
-                    target: Engine.awsClient
-                    onSignupResult: {
-                        switch (error) {
-                        case AWSClient.LoginErrorNoError:
-                            signUpResultLabel.text = ""
-                            pageStack.push(enterCodeComponent)
-                            break;
-                        case AWSClient.LoginErrorInvalidUserOrPass:
-                            signUpResultLabel.text = qsTr("The given username or password are not valid.")
-                            break;
-                        default:
-                            signUpResultLabel.text = qsTr("Uh oh, something went wrong. Please try again.")
+                    Label {
+                        Layout.fillWidth: true
+                        Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.topMargin: app.margins
+                        wrapMode: Text.WordWrap
+                        text: qsTr("Please enter your email address and pick a password in order to create a new account.")
+                    }
+
+                    Label {
+                        Layout.fillWidth: true
+                        Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.topMargin: app.margins
+                        text: "Username (e-mail)"
+                    }
+                    TextField {
+                        id: usernameTextField
+                        Layout.fillWidth: true
+                        Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
+                        placeholderText: "john.smith@cooldomain.com"
+                        inputMethodHints: Qt.ImhEmailCharactersOnly
+                        validator: RegExpValidator { regExp:/\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/ }
+                    }
+                    Label {
+                        Layout.fillWidth: true
+                        Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.topMargin: app.margins
+                        text: qsTr("Password")
+                    }
+                    AWSPasswordTextField {
+                        id: passwordTextField
+                        Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
+                        Layout.fillWidth: true
+                    }
+
+                    Button {
+                        Layout.fillWidth: true
+                        Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.topMargin: app.margins
+                        text: qsTr("Sign Up")
+                        enabled: usernameTextField.acceptableInput && passwordTextField.isValidPassword
+                        onClicked: {
+                            busyOverlay.shown = true;
+                            Engine.awsClient.signup(usernameTextField.text, passwordTextField.password)
                         }
                     }
                 }
 
-                Label {
-                    id: signUpResultLabel
-                    Layout.fillWidth: true
-                    Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.topMargin: app.margins
-                    wrapMode: Text.WordWrap
+
+                Connections {
+                    target: Engine.awsClient
+                    onSignupResult: {
+                        busyOverlay.shown = false;
+                        var text;
+                        switch (error) {
+                        case AWSClient.LoginErrorNoError:
+                            pageStack.push(enterCodeComponent)
+                            return;
+                        case AWSClient.LoginErrorInvalidUserOrPass:
+                            text = qsTr("The given username or password are not valid.")
+                            break;
+                        default:
+                            text = qsTr("Uh oh, something went wrong. Please try again.")
+                        }
+                        var errorDialog = Qt.createComponent(Qt.resolvedUrl("../components/ErrorDialog.qml"));
+                        var popup = errorDialog.createObject(app, {text: text})
+                        popup.open()
+                    }
                 }
             }
         }
@@ -335,6 +357,7 @@ Page {
                     Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.topMargin: app.margins
                     text: qsTr("OK")
                     onClicked: {
+                        busyOverlay.shown = true;
                         Engine.awsClient.confirmRegistration(confirmationCodeTextField.text)
                     }
                 }
@@ -342,29 +365,28 @@ Page {
                 Connections {
                     target: Engine.awsClient
                     onConfirmationResult: {
+                        busyOverlay.shown = false;
+                        var text
                         switch (error) {
                         case AWSClient.LoginErrorNoError:
-                            confirmResultLabel.text = ""
                             pageStack.pop(root)
-                            break;
+                            return;
                         case AWSClient.LoginErrorUserExists:
-                            confirmResultLabel.text = qsTr("The given user already exists. Did you forget the password?")
+                            text = qsTr("The given user already exists. Did you forget the password?")
                             break;
                         case AWSClient.LoginErrorInvalidCode:
-                            confirmResultLabel.text = qsTr("That wasn't the right code. Please try again.")
+                            text = qsTr("That wasn't the right code. Please try again.")
                             break;
                         case AWSClient.LoginErrorUnknownError:
-                            confirmResultLabel.text = qsTr("Uh oh, something went wrong. Please try again.")
+                            text = qsTr("Uh oh, something went wrong. Please try again.")
                             break;
                         }
-                    }
-                }
+                        var errorDialog = Qt.createComponent(Qt.resolvedUrl("../components/ErrorDialog.qml"));
+                        var popup = errorDialog.createObject(app, {text: text})
+                        popup.open()
+                        return;
 
-                Label {
-                    id: confirmResultLabel
-                    Layout.fillWidth: true
-                    Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.topMargin: app.margins
-                    wrapMode: Text.WordWrap
+                    }
                 }
             }
         }

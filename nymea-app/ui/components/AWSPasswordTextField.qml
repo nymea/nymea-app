@@ -16,12 +16,30 @@ ColumnLayout {
     readonly property bool hasSpecialChar: passwordTextField.text.search(/[\*!"$%&/()=?`'+#'¡^°²³¼\[\]|{}\\@]/) >= 0
     readonly property bool confirmationMatches: passwordTextField.text === confirmationPasswordTextField.text
 
-    TextField {
-        id: passwordTextField
-        Layout.fillWidth: true
-        echoMode: TextInput.Password
-        placeholderText: qsTr("Pick a password")
+    property bool hiddenPassword: true
+
+    RowLayout {
+
+        TextField {
+            id: passwordTextField
+            Layout.fillWidth: true
+            echoMode: root.hiddenPassword ? TextInput.Password : TextInput.Normal
+            placeholderText: qsTr("Pick a password")
+        }
+        ColorIcon {
+            Layout.preferredHeight: app.iconSize
+            Layout.preferredWidth: app.iconSize
+            name: "../images/eye.svg"
+            color: root.hiddenPassword ? keyColor : app.accentColor
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    root.hiddenPassword = !root.hiddenPassword
+                }
+            }
+        }
     }
+
 
     Label {
         Layout.fillWidth: true
@@ -38,12 +56,29 @@ ColumnLayout {
         font.pixelSize: app.smallFont
     }
 
-    TextField {
-        id: confirmationPasswordTextField
-        Layout.fillWidth: true
-        echoMode: TextInput.Password
-        placeholderText: qsTr("Confirm password")
+    RowLayout {
+
+        TextField {
+            id: confirmationPasswordTextField
+            Layout.fillWidth: true
+            echoMode: root.hiddenPassword ? TextInput.Password : TextInput.Normal
+            placeholderText: qsTr("Confirm password")
+        }
+
+        ColorIcon {
+            Layout.preferredHeight: app.iconSize
+            Layout.preferredWidth: app.iconSize
+            name: "../images/eye.svg"
+            color: root.hiddenPassword ? keyColor : app.accentColor
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    root.hiddenPassword = !root.hiddenPassword
+                }
+            }
+        }
     }
+
 
     Label {
         Layout.fillWidth: true
