@@ -3,4 +3,4 @@
 	url = https://github.com/jbagg/QtZeroConf.git
 [submodule "nymea-remoteproxy"]
 	path = nymea-remoteproxy
-	url = git@gitlab.guh.io:cloud/nymea-remoteproxy.git
+	url = https://github.com/guh/nymea-remoteproxy.git
