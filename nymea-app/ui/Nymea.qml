@@ -376,6 +376,7 @@ ApplicationWindow {
     }
 
     KeyboardLoader {
+        id: keyboardRect
         anchors { left: parent.left; bottom: parent.bottom; right: parent.right }
     }
 }
