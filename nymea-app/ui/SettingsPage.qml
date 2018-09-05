@@ -8,7 +8,7 @@ import "components"
 Page {
     id: root
     header: GuhHeader {
-        text: qsTr("System settings")
+        text: qsTr("Box settings")
         backButtonVisible: true
         onBackPressed: pageStack.pop()
     }

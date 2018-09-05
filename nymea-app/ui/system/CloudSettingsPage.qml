@@ -18,8 +18,12 @@ Page {
         Connections {
             target: Engine.jsonRpcClient
             onCloudConnectionStateChanged: {
+                print("cloud connection state changed", Engine.jsonRpcClient.cloudConnectionState)
                 if (Engine.jsonRpcClient.cloudConnectionState == JsonRpcClient.CloudConnectionStateConnected) {
                     d.deploymentStarted = false;
+                    if (Engine.awsClient.awsDevices.getDevice(Engine.jsonRpcClient.serverUuid) === null) {
+                        Engine.jsonRpcClient.setupRemoteAccess(Engine.awsClient.idToken, Engine.awsClient.userId)
+                    }
                 }
             }
         }
@@ -36,6 +40,11 @@ Page {
             text: qsTr("You can connect a nymea:box to a nymea:cloud in order to access it from anywhere")
             wrapMode: Text.WordWrap
         }
+
+//        Button {
+//            text: "pair"
+//            onClicked: Engine.jsonRpcClient.setupRemoteAccess(Engine.awsClient.idToken, Engine.awsClient.userId)
+//        }
 
         SwitchDelegate {
             Layout.fillWidth: true

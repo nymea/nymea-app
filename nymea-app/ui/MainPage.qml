@@ -18,7 +18,7 @@ Page {
             ListElement { iconSource: "../images/share.svg"; text: qsTr("Configure things"); page: "EditDevicesPage.qml" }
             ListElement { iconSource: "../images/magic.svg"; text: qsTr("Magic"); page: "MagicPage.qml" }
             ListElement { iconSource: "../images/stock_application.svg"; text: qsTr("App settings"); page: "appsettings/AppSettingsPage.qml" }
-            ListElement { iconSource: "../images/settings.svg"; text: qsTr("System settings"); page: "SettingsPage.qml" }
+            ListElement { iconSource: "../images/settings.svg"; text: qsTr("Box settings"); page: "SettingsPage.qml" }
         }
 
         onClicked: {
@@ -173,39 +173,38 @@ Page {
             }
         }
 
-        TabBar {
-            id: tabBar
-            Layout.fillWidth: true
-            Material.elevation: 3
-            currentIndex: settings.currentMainViewIndex
-            position: TabBar.Footer
-            Layout.preferredHeight: 70 + (app.landscape ?
-                                              ((systemProductType === "ios" && Screen.height === 375) ? -10 : -20) :
-                                              (systemProductType === "ios" && Screen.height === 812) ? 14 : 0)
+    }
+    footer: TabBar {
+        id: tabBar
+        Material.elevation: 3
+        currentIndex: settings.currentMainViewIndex
+        position: TabBar.Footer
+        implicitHeight: 70 + (app.landscape ?
+                                          ((systemProductType === "ios" && Screen.height === 375) ? -10 : -20) :
+                                          (systemProductType === "ios" && Screen.height === 812) ? 14 : 0)
 
 
-            // FIXME: All this can go away when we require Controls 2.3 (Qt 5.10) or greater as TabBar got a major rework there.
-            // Ideally we'd just list the 3 items and set visible to false if the server version isn't good enough but TabBar
-            // has troubles dealing with that. For now, let's manually fill it and use a timer to initialize the currentIndex.
-            Component.onCompleted: {
-                var pi = 0;
-                if (Engine.jsonRpcClient.ensureServerVersion(1.6)) {
-                    tabEntryComponent.createObject(tabBar, {text: qsTr("Favorites"), iconSource: "../images/starred.svg", pageIndex: pi++})
-                }
-                tabEntryComponent.createObject(tabBar, {text: qsTr("Things"), iconSource: "../images/share.svg", pageIndex: pi++})
-                tabEntryComponent.createObject(tabBar, {text: qsTr("Scenes"), iconSource: "../images/slideshow.svg", pageIndex: pi++})
-                initTimer.start()
+        // FIXME: All this can go away when we require Controls 2.3 (Qt 5.10) or greater as TabBar got a major rework there.
+        // Ideally we'd just list the 3 items and set visible to false if the server version isn't good enough but TabBar
+        // has troubles dealing with that. For now, let's manually fill it and use a timer to initialize the currentIndex.
+        Component.onCompleted: {
+            var pi = 0;
+            if (Engine.jsonRpcClient.ensureServerVersion(1.6)) {
+                tabEntryComponent.createObject(tabBar, {text: qsTr("Favorites"), iconSource: "../images/starred.svg", pageIndex: pi++})
             }
-            Timer { id: initTimer; interval: 1; repeat: false; onTriggered: tabBar.currentIndex = Qt.binding(function() {return settings.currentMainViewIndex;})}
+            tabEntryComponent.createObject(tabBar, {text: qsTr("Things"), iconSource: "../images/share.svg", pageIndex: pi++})
+            tabEntryComponent.createObject(tabBar, {text: qsTr("Scenes"), iconSource: "../images/slideshow.svg", pageIndex: pi++})
+            initTimer.start()
+        }
+        Timer { id: initTimer; interval: 1; repeat: false; onTriggered: tabBar.currentIndex = Qt.binding(function() {return settings.currentMainViewIndex;})}
 
-            Component {
-                id: tabEntryComponent
-                MainPageTabButton {
-                    property int pageIndex: 0
+        Component {
+            id: tabEntryComponent
+            MainPageTabButton {
+                property int pageIndex: 0
 //                    height: tabBar.height
-                    onClicked: settings.currentMainViewIndex = pageIndex
-                    alignment: app.landscape ? Qt.Horizontal : Qt.Vertical
-                }
+                onClicked: settings.currentMainViewIndex = pageIndex
+                alignment: app.landscape ? Qt.Horizontal : Qt.Vertical
             }
         }
     }

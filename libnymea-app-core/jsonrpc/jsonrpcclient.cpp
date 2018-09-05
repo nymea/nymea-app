@@ -96,7 +96,7 @@ void JsonRpcClient::setNotificationsEnabledResponse(const QVariantMap &params)
 
 void JsonRpcClient::notificationReceived(const QVariantMap &data)
 {
-    //JsonRpcClient: Notification received QMap(("id", QVariant(double, 2))("notification", QVariant(QString, "JSONRPC.PushButtonAuthFinished"))("params", QVariant(QVariantMap, QMap(("success", QVariant(bool, true))("token", QVariant(QString, "FJPaAJ8FEtrqcC+/s0s/lAcDubz0OyEtwbRsyFIWM9c="))("transactionId", QVariant(double, 2))))))
+    qDebug() << "Notification received:" << data;
     if (data.value("notification").toString() == "JSONRPC.PushButtonAuthFinished") {
         qDebug() << "Push button auth finished.";
         if (data.value("params").toMap().value("transactionId").toInt() != m_pendingPushButtonTransaction) {

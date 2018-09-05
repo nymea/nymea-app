@@ -127,14 +127,14 @@ Engine::Engine(QObject *parent) :
     connect(m_aws, &AWSClient::devicesFetched, this, [this]() {
         if (m_jsonRpcClient->connected() && m_jsonRpcClient->cloudConnectionState() == JsonRpcClient::CloudConnectionStateConnected) {
             if (m_aws->awsDevices()->getDevice(m_jsonRpcClient->serverUuid()) == nullptr) {
-                m_jsonRpcClient->setupRemoteAccess(m_aws->idToken(), m_aws->cognitoIdentityId());
+                m_jsonRpcClient->setupRemoteAccess(m_aws->idToken(), m_aws->userId());
             }
         }
     });
     connect(m_jsonRpcClient, &JsonRpcClient::connectedChanged, this, [this]() {
         if (m_jsonRpcClient->connected() && m_jsonRpcClient->cloudConnectionState() == JsonRpcClient::CloudConnectionStateConnected) {
             if (m_aws->awsDevices()->getDevice(m_jsonRpcClient->serverUuid()) == nullptr) {
-                m_jsonRpcClient->setupRemoteAccess(m_aws->idToken(), m_aws->cognitoIdentityId());
+                m_jsonRpcClient->setupRemoteAccess(m_aws->idToken(), m_aws->userId());
             }
         }
     });

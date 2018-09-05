@@ -124,7 +124,7 @@ Page {
         }
         MeaListItemDelegate {
             Layout.fillWidth: true
-            visible: settings.showHiddenOption
+            visible: settings.showHiddenOptions
             text: qsTr("Developer options")
             iconName: "../images/configure.svg"
             onClicked: pageStack.push(Qt.resolvedUrl("DeveloperOptionsPage.qml"))

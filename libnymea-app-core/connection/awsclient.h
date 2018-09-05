@@ -33,6 +33,7 @@ private:
 class AWSDevices: public QAbstractListModel {
     Q_OBJECT
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
+    Q_PROPERTY(bool busy READ busy NOTIFY busyChanged)
 public:
     enum Roles {
         RoleName,
@@ -43,14 +44,19 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
     QHash<int, QByteArray> roleNames() const override;
+    bool busy() const;
+    void setBusy(bool busy);
     Q_INVOKABLE AWSDevice* getDevice(const QString &uuid) const;
     Q_INVOKABLE AWSDevice* get(int index) const;
     void insert(AWSDevice *device);
     void remove(const QString &uuid);
+    void clear();
 signals:
     void countChanged();
+    void busyChanged();
 private:
     QList<AWSDevice*> m_list;
+    bool m_busy = false;
 };
 
 class AWSConfiguration {
@@ -127,6 +133,7 @@ signals:
     void confirmationResult(LoginError error);
     void forgotPasswordResult(LoginError error);
     void confirmForgotPasswordResult(LoginError error);
+    void deleteAccountResult(LoginError error);
 
     void isLoggedInChanged();
     void confirmationPendingChanged();

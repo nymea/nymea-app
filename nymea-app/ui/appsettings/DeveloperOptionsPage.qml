@@ -25,7 +25,7 @@ Page {
 
             ComboBox {
                 currentIndex: app.settings.cloudEnvironment
-                model: [qsTr("Community"), qsTr("Testing")]
+                model: [qsTr("Community"), qsTr("Testing"), qsTr("Marantec")]
                 onActivated: {
                     app.settings.cloudEnvironment = index;
                 }

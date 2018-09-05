@@ -25,10 +25,20 @@ Page {
                 Engine.awsClient.fetchDevices();
             }
         }
+        onDeleteAccountResult: {
+            busyOverlay.shown = false;
+            if (error !== AWSClient.LoginErrorNoError) {
+                var errorDialog = Qt.createComponent(Qt.resolvedUrl("../components/ErrorDialog.qml"));
+                var text = qsTr("Sorry, an error happened removing the account. Please try again later.");
+                var popup = errorDialog.createObject(app, {text: text})
+                popup.open()
+                return;
+            }
+        }
     }
 
     ColumnLayout {
-        anchors { left: parent.left; top: parent.top; right: parent.right }
+        anchors.fill: parent
         visible: Engine.awsClient.isLoggedIn
         Label {
             Layout.fillWidth: true
@@ -64,6 +74,7 @@ Page {
             Layout.fillWidth: true
             Layout.fillHeight: true
             model: Engine.awsClient.awsDevices
+            clip: true
             delegate: MeaListItemDelegate {
                 width: parent.width
                 text: model.name
@@ -77,6 +88,11 @@ Page {
                     Engine.awsClient.unpairDevice(model.id);
                 }
             }
+
+            BusyIndicator {
+                anchors.centerIn: parent
+                visible: Engine.awsClient.awsDevices.busy
+            }
         }
     }
 
@@ -84,28 +100,29 @@ Page {
         id: logoutDialog
         title: qsTr("Goodbye")
         // Deleting user profile not working in cloud yet
-//        text: qsTr("Sorry to see you go. If you log out you won't be able to connect to %1 boxes remotely any more. However, you can come back any time, we'll keep your user account. If you whish to completely delete your account and all the data associated with it, check the box below before hitting ok.").arg(app.systemName)
-        text: qsTr("Sorry to see you go. If you log out you won't be able to connect to %1 boxes remotely any more. However, you can come back any time.").arg(app.systemName)
+        text: qsTr("Sorry to see you go. If you log out you won't be able to connect to %1 boxes remotely any more. However, you can come back any time, we'll keep your user account. If you whish to completely delete your account and all the data associated with it, check the box below before hitting ok.").arg(app.systemName)
+//        text: qsTr("Sorry to see you go. If you log out you won't be able to connect to %1 boxes remotely any more. However, you can come back any time.").arg(app.systemName)
         headerIcon: "../images/dialog-warning-symbolic.svg"
         standardButtons: Dialog.Cancel | Dialog.Ok
 
-//        RowLayout {
-//            CheckBox {
-//                id: deleteCheckbox
-//            }
-//            Label {
-//                Layout.fillWidth: true
-//                wrapMode: Text.WordWrap
-//                text: qsTr("Delete my account")
-//            }
-//        }
+        RowLayout {
+            CheckBox {
+                id: deleteCheckbox
+            }
+            Label {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("Delete my account")
+            }
+        }
 
         onAccepted: {
-//            if (deleteCheckbox.checked) {
-//                Engine.awsClient.deleteAccount()
-//            } else {
+            if (deleteCheckbox.checked) {
+                busyOverlay.shown = true;
+                Engine.awsClient.deleteAccount()
+            } else {
                 Engine.awsClient.logout()
-//            }
+            }
         }
     }
 

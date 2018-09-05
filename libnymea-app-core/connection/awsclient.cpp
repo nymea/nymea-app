@@ -74,9 +74,23 @@ AWSClient::AWSClient(QObject *parent) : QObject(parent),
     config.apiEndpoint = "testapi-cloud.guh.io";
     m_configs.append(config);
 
+    // Marantec environment
+    config.clientId = "7rf6da8pcqi1qi8tp1evf933h2";
+    config.poolId = "eu-west-1_d4DdcqKJ8";
+    config.identityPoolId = "eu-west-1:d32f6d94-caae-4f08-a193-f9fba8652646";
+    // Generating certificates is not supported for the Marantec environment
+    config.certificateEndpoint = "";
+    config.certificateApiKey = "";
+    config.certificateVendorId = "";
+    config.mqttEndpoint = "a27q7a2x15m8h3.iot.eu-west-1.amazonaws.com";
+    config.region = "eu-west-1";
+    config.apiEndpoint = "api-cloud.guh.io";
+    m_configs.append(config);
+
     QSettings settings;
     settings.beginGroup("cloud");
     m_username = settings.value("username").toString();
+    m_userId = settings.value("userId").toString();
     m_password = settings.value("password").toString();
     m_accessToken = settings.value("accessToken").toByteArray();
     m_accessTokenExpiry = settings.value("accessTokenExpiry").toDateTime();
@@ -94,7 +108,7 @@ AWSClient::AWSClient(QObject *parent) : QObject(parent),
 
 bool AWSClient::isLoggedIn() const
 {
-    return !m_username.isEmpty() && !m_password.isEmpty();
+    return !m_userId.isEmpty() && !m_username.isEmpty() && !m_password.isEmpty();
 }
 
 QString AWSClient::username() const
@@ -181,18 +195,30 @@ void AWSClient::login(const QString &username, const QString &password)
         m_idToken = authenticationResult.value("IdToken").toByteArray();
         m_refreshToken = authenticationResult.value("RefreshToken").toByteArray();
 
+        qDebug() << "AWS ID token" << m_idToken;
+        QList<QByteArray> jwtParts = m_idToken.split('.');
+        if (jwtParts.count() != 3) {
+            qWarning() << "JWT token doesn't have 3 parts";
+            return;
+        }
+//        qDebug() << "decoded header:" << QByteArray::fromBase64(jwtParts.at(0));
+//        qDebug() << "decoded payload:" << QByteArray::fromBase64(jwtParts.at(1));
+        QJsonDocument tokenPayloadJsonDoc = QJsonDocument::fromJson(QByteArray::fromBase64(jwtParts.at(1)));
+        m_userId = tokenPayloadJsonDoc.toVariant().toMap().value("cognito:username").toByteArray();
+
         QSettings settings;
         settings.remove("cloud");
 
         settings.beginGroup("cloud");
         settings.setValue("username", m_username);
+        settings.setValue("userId", m_userId);
         settings.setValue("password", m_password);
         settings.setValue("accessToken", m_accessToken);
         settings.setValue("accessTokenExpiry", m_accessTokenExpiry);
         settings.setValue("idToken", m_idToken);
         settings.setValue("refreshToken", m_refreshToken);
 
-        qDebug() << "AWS login successful";// << qUtf8Printable(jsonDoc.toJson(QJsonDocument::Indented));
+        qDebug() << "AWS login successful. Userid:" << m_userId;// << qUtf8Printable(jsonDoc.toJson(QJsonDocument::Indented));
         emit isLoggedInChanged();
 
         qDebug() << "Getting cognito ID";
@@ -202,8 +228,10 @@ void AWSClient::login(const QString &username, const QString &password)
 
 void AWSClient::logout()
 {
+    m_userId.clear();
     m_username.clear();
     m_password.clear();
+    m_devices->clear();
     QSettings settings;
     settings.remove("cloud");
     emit isLoggedInChanged();
@@ -441,7 +469,7 @@ void AWSClient::deleteAccount()
     }
     qDebug() << "Deleting account";
 
-    QUrl url(QString("https://%1/users/profiles/%2").arg(m_configs.at(m_usedConfigIndex).apiEndpoint).arg(m_username));
+    QUrl url(QString("https://%1/users/profiles/%2").arg(m_configs.at(m_usedConfigIndex).apiEndpoint).arg(m_userId));
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setRawHeader("x-api-idToken", m_idToken);
@@ -458,14 +486,17 @@ void AWSClient::deleteAccount()
         QByteArray data = reply->readAll();
         if (reply->error() != QNetworkReply::NoError) {
             qWarning() << "Error deleting cloud user account:" << reply->error() << reply->errorString() << qUtf8Printable(data);
+            emit deleteAccountResult(LoginErrorUnknownError);
             return;
         }
         QJsonParseError error;
         QJsonDocument jsonDoc = QJsonDocument::fromJson(data, &error);
         if (error.error != QJsonParseError::NoError) {
             qWarning() << "Failed to parse JSON from server" << error.errorString() << qUtf8Printable(data);
+            emit deleteAccountResult(LoginErrorUnknownError);
             return;
         }
+        emit deleteAccountResult(LoginErrorNoError);
         logout();
         qDebug() << "Account deleted" << data;
     });
@@ -489,9 +520,11 @@ void AWSClient::unpairDevice(const QString &boxId)
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setRawHeader("x-api-idToken", m_idToken);
 
+    m_devices->setBusy(true);
     QNetworkReply *reply = m_nam->deleteResource(request);
     connect(reply, &QNetworkReply::finished, this, [this, reply, boxId]() {
         reply->deleteLater();
+        m_devices->setBusy(false);
         QByteArray data = reply->readAll();
         if (reply->error() != QNetworkReply::NoError) {
             qWarning() << "Error unpairing cloud device:" << reply->error() << reply->errorString() << qUtf8Printable(data);
@@ -787,9 +820,11 @@ void AWSClient::fetchDevices()
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setRawHeader("x-api-idToken", m_idToken);
 
+    m_devices->setBusy(true);
     QNetworkReply *reply = m_nam->get(request);
     connect(reply, &QNetworkReply::finished, this, [this, reply]() {
         reply->deleteLater();
+        m_devices->setBusy(false);
         QByteArray data = reply->readAll();
         if (reply->error() != QNetworkReply::NoError) {
             qWarning() << "Error fetching cloud devices:" << reply->error() << reply->errorString() << qUtf8Printable(data);
@@ -931,6 +966,19 @@ QHash<int, QByteArray> AWSDevices::roleNames() const
     return roles;
 }
 
+bool AWSDevices::busy() const
+{
+    return m_busy;
+}
+
+void AWSDevices::setBusy(bool busy)
+{
+    if (m_busy != busy) {
+        m_busy = busy;
+        emit busyChanged();
+    }
+}
+
 AWSDevice *AWSDevices::getDevice(const QString &uuid) const
 {
     for (int i = 0; i < m_list.count(); i++) {
@@ -974,6 +1022,16 @@ void AWSDevices::remove(const QString &uuid)
     beginRemoveRows(QModelIndex(), idx, idx);
     m_list.takeAt(idx)->deleteLater();
     endRemoveRows();
+    emit countChanged();
+}
+
+void AWSDevices::clear()
+{
+    beginResetModel();
+    while (m_list.count() > 0) {
+        m_list.takeFirst()->deleteLater();
+    }
+    endResetModel();
     emit countChanged();
 }
 
