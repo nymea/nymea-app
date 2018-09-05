@@ -13,7 +13,7 @@ ColumnLayout {
     readonly property bool hasLower: passwordTextField.text.search(/[a-z]/) >= 0
     readonly property bool hasUpper: passwordTextField.text.search(/[A-Z/]/) >= 0
     readonly property bool hasNumbers: passwordTextField.text.search(/[0-9]/) >= 0
-    readonly property bool hasSpecialChar: passwordTextField.text.search(/[\*]/) >= 0
+    readonly property bool hasSpecialChar: passwordTextField.text.search(/[\*!"$%&/()=?`'+#'¡^°²³¼\[\]|{}\\@]/) >= 0
     readonly property bool confirmationMatches: passwordTextField.text === confirmationPasswordTextField.text
 
     TextField {
