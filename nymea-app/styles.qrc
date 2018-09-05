@@ -6,5 +6,7 @@
         <file>styles/dark/ApplicationWindow.qml</file>
         <file>styles/dark/Page.qml</file>
         <file>styles/dark/logo.svg</file>
+        <file>styles/dark/Button.qml</file>
+        <file>styles/light/Button.qml</file>
     </qresource>
 </RCC>
