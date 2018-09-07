@@ -53,8 +53,6 @@
 
 #include <QtQml/qqml.h>
 
-#include <QtQml/qqml.h>
-
 static QObject* interfacesModel_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
     Q_UNUSED(engine)

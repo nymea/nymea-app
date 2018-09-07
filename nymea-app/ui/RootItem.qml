@@ -50,6 +50,12 @@ Item {
                     }
                     property alias _engine: engine
 
+                    Binding {
+                        target: engine.awsClient
+                        property: "config"
+                        value: settings.cloudEnvironment
+                    }
+
                     Component.onCompleted: {
                         pageStack.push(Qt.resolvedUrl("connection/ConnectPage.qml"))
                         setupPushNotifications();
