@@ -724,6 +724,8 @@ void AWSClient::getCredentialsForIdentity(const QString &identityId)
                 fetchDevices();
             } else if (qc.method == "postToMQTT") {
                 postToMQTT(qc.boxId, qc.timestamp, qc.callback);
+            } else if (qc.method == "deleteAccount") {
+                deleteAccount();
             }
         }
     });
@@ -836,6 +838,7 @@ void AWSClient::fetchDevices()
             qWarning() << "Failed to parse JSON from server" << error.errorString() << qUtf8Printable(data);
             return;
         }
+        QList<QUuid> actualDevices;
         foreach (const QVariant &entry, jsonDoc.toVariant().toMap().value("devices").toList()) {
             QString deviceId = entry.toMap().value("deviceId").toString();
             QString name = entry.toMap().value("name").toString();
@@ -848,6 +851,18 @@ void AWSClient::fetchDevices()
                 m_devices->insert(d);
             }
             d->setOnline(online);
+            actualDevices.append(d->id());
+        }
+
+        // Clean up the model
+        QStringList devicesToRemove;
+        for (int i = 0; i < m_devices->rowCount(); i++) {
+            if (!actualDevices.contains(m_devices->get(i)->id())) {
+                devicesToRemove.append(m_devices->get(i)->id());
+            }
+        }
+        while (!devicesToRemove.isEmpty()) {
+            m_devices->remove(devicesToRemove.takeFirst());
         }
 
         emit devicesFetched();
