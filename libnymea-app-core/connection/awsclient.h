@@ -103,7 +103,7 @@ public:
     AWSDevices* awsDevices() const;
     bool confirmationPending() const;
 
-    Q_INVOKABLE void login(const QString &username, const QString &password);
+    Q_INVOKABLE void login(const QString &username, const QString &password, int attempt = -1);
     Q_INVOKABLE void logout();
     Q_INVOKABLE void signup(const QString &username, const QString &password);
     Q_INVOKABLE void confirmRegistration(const QString &code);
@@ -153,6 +153,8 @@ private:
     QString m_userId;
     QString m_username;
     QString m_password;
+
+    bool m_loginInProgress = false;
 
     bool m_confirmationPending = false;
 

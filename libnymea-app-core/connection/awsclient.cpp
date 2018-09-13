@@ -131,8 +131,14 @@ bool AWSClient::confirmationPending() const
     return m_confirmationPending;
 }
 
-void AWSClient::login(const QString &username, const QString &password)
+void AWSClient::login(const QString &username, const QString &password, int attempt)
 {
+    if (m_loginInProgress) {
+        qWarning() << "Login already pending...";
+        return;
+    }
+    m_loginInProgress = true;
+
     m_username = username;
     // Due to an issue in AWS apis it's very complex to use the refresh token. Taking a shortcut here for now:
     // Will store the password in the config for now and re-login when the accessToken expires.
@@ -169,10 +175,15 @@ void AWSClient::login(const QString &username, const QString &password)
     qDebug() << "Logging in to AWS as user:" << username;
 
     QNetworkReply *reply = m_nam->post(request, payload);
-    connect(reply, &QNetworkReply::finished, this, [this, reply]() {
+    connect(reply, &QNetworkReply::finished, this, [this, reply, username, password, attempt]() {
         reply->deleteLater();
+        m_loginInProgress = false;
         if (reply->error() != QNetworkReply::NoError) {
             qWarning() << "Error logging in to aws:" << reply->error() << reply->errorString();
+            if (attempt < 3) {
+                login(username, password, attempt+1);
+                return;
+            }
             m_username.clear();
             m_password.clear();
             emit loginResult(LoginErrorUnknownError);
