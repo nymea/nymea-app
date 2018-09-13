@@ -44,9 +44,19 @@ bool ZeroconfDiscovery::discovering() const
 #ifdef WITH_ZEROCONF
 void ZeroconfDiscovery::serviceEntryAdded(const QZeroConfService &entry)
 {
-    if (!entry.name().startsWith("nymea") || (entry.ip().isNull() && entry.ipv6().isNull())) {
+    if (!entry.name().startsWith("nymea")) {
+        // Skip non-nymea services altogether
         return;
     }
+    if (entry.ip().isNull() && entry.ipv6().isNull()) {
+        // Skip entries that don't have an ip address at all for some reason
+        return;
+    }
+    if (entry.ipv6().toString().startsWith("fe80")) {
+        // Skip link-local IPv6 addresses
+        return;
+    }
+
 //    qDebug() << "zeroconf service discovered" << entry << entry.ip() << entry.ipv6() << entry.txt() << entry.type();
 
     QString uuid;
