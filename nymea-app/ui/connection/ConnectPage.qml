@@ -25,11 +25,11 @@ Page {
     }
 
     function connectToHost(url) {
-        Engine.connection.connect(url)
         var page = pageStack.push(Qt.resolvedUrl("ConnectingPage.qml"))
         page.cancel.connect(function() {
             Engine.connection.disconnect()
         })
+        Engine.connection.connect(url)
     }
 
     NymeaDiscovery {
