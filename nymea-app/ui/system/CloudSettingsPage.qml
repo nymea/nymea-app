@@ -111,10 +111,14 @@ Page {
             Layout.fillWidth: true
             Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
             visible: Engine.jsonRpcClient.cloudConnectionState === JsonRpcClient.CloudConnectionStateUnconfigured && !d.deploymentStarted
-            text: qsTr("Register box")
+            text: Engine.awsClient.isLoggedIn ? qsTr("Register box") : qsTr("Log in to cloud")
             onClicked: {
-                d.deploymentStarted = true
-                Engine.deployCertificate();
+                if (Engine.awsClient.isLoggedIn) {
+                    d.deploymentStarted = true
+                    Engine.deployCertificate();
+                } else {
+                    pageStack.push(Qt.resolvedUrl("qrc:/ui/appsettings/CloudLoginPage.qml"))
+                }
             }
         }
 
