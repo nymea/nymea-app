@@ -54,6 +54,8 @@ public:
     void clearModel();
 
 signals:
+    void deviceAdded(DiscoveryDevice* device);
+    void deviceRemoved(DiscoveryDevice* device);
     void countChanged();
 
 protected:

@@ -11,16 +11,27 @@ Page {
     readonly property bool haveHosts: discovery.discoveryModel.count > 0
 
     Component.onCompleted: {
-        print("completed connectPage for tab", connectionTabIndex, "last connected host:", tabSettings.lastConnectedHost)
-        if (tabSettings.lastConnectedHost.length > 0 && engine.connection.connect(tabSettings.lastConnectedHost)) {
-            var page = pageStack.push(Qt.resolvedUrl("ConnectingPage.qml"))
-            page.cancel.connect(function() {
-                engine.connection.disconnect();
-                pageStack.pop(root, StackView.Immediate);
-                pageStack.push(discoveryPage)
-            })
-        } else {
+        print("completed connectPage. last connected host:", settings.lastConnectedHost)
+        if (settings.lastConnectedHost.length > 0) {
+            discovery.resolveServerUuid(settings.lastConnectedHost)
+        }
+
+//        if (settings.lastConnectedHost.length > 0 && Engine.connection.connect(tabSettings.lastConnectedHost)) {
+//            var page = pageStack.push(Qt.resolvedUrl("ConnectingPage.qml"))
+//            page.cancel.connect(function() {
+//                Engine.connection.disconnect();
+//                pageStack.pop(root, StackView.Immediate);
+//                pageStack.push(discoveryPage)
+//            })
+//        } else {
             pageStack.push(discoveryPage)
+//        }
+    }
+
+    Connections {
+        target: discovery
+        onServerUuidResolved: {
+            connectToHost(url);
         }
     }
 
@@ -34,12 +45,12 @@ Page {
         engine.connection.connect(url)
     }
 
-    NymeaDiscovery {
-        id: discovery
-        objectName: "discovery"
-        awsClient: AWSClient
-        discovering: pageStack.currentItem.objectName === "discoveryPage"
-    }
+//    NymeaDiscovery {
+//        id: discovery
+//        objectName: "discovery"
+//        awsClient: AWSClient
+//        discovering: pageStack.currentItem.objectName === "discoveryPage"
+//    }
 
     Connections {
         target: engine.connection

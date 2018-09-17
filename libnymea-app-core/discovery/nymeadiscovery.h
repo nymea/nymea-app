@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QTimer>
+#include <QUuid>
 
 #include "connection/awsclient.h"
 
@@ -31,9 +32,13 @@ public:
     AWSClient* awsClient() const;
     void setAwsClient(AWSClient *awsClient);
 
+    Q_INVOKABLE void resolveServerUuid(const QUuid &uuid);
+
 signals:
     void discoveringChanged();
     void awsClientChanged();
+
+    void serverUuidResolved(const QString &url);
 
 private slots:
     void syncCloudDevices();
@@ -48,6 +53,8 @@ private:
     AWSClient *m_awsClient = nullptr;
 
     QTimer m_cloudPollTimer;
+
+    QUuid m_pendingHostResolution;
 
 };
 

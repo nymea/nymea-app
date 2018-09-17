@@ -121,6 +121,7 @@ void Connections::addConnection(Connection *connection)
         emit dataChanged(index(idx), index(idx), {RoleOnline});
     });
     endInsertRows();
+    emit connectionAdded(connection);
     emit countChanged();
 }
 
@@ -134,6 +135,7 @@ void Connections::removeConnection(Connection *connection)
     beginRemoveRows(QModelIndex(), idx, idx);
     m_connections.takeAt(idx)->deleteLater();
     endRemoveRows();
+    emit connectionRemoved(connection);
     emit countChanged();
 }
 
@@ -155,6 +157,46 @@ Connection* Connections::get(int index) const
         return m_connections.at(index);
     }
     return nullptr;
+}
+
+Connection* Connections::bestMatch() const
+{
+    QList<Connection::BearerType> bearerPreference = {Connection::BearerTypeEthernet, Connection::BearerTypeWifi, Connection::BearerTypeCloud, Connection::BearerTypeBluetooth, Connection::BearerTypeUnknown};
+    Connection *best = nullptr;
+    foreach (Connection *c, m_connections) {
+        if (!best) {
+            best = c;
+            continue;
+        }
+        uint oldBearerPriority = static_cast<uint>(bearerPreference.indexOf(best->bearerType()));
+        uint newBearerPriority = static_cast<uint>(bearerPreference.indexOf(c->bearerType()));
+        if (newBearerPriority < oldBearerPriority) {
+            // New one has better bearer, switch
+            best = c;
+            continue;
+        }
+        if (oldBearerPriority < newBearerPriority) {
+            // Discard new one as the existing is on a better bearer
+            continue;
+        }
+
+        // Same bearer, prefer secure over insecure
+        if (!best->secure() && c->secure()) {
+            // New one is secure, old one not. switch
+            best = c;
+            continue;
+        }
+        if (best->secure() && !c->secure()) {
+            // Old one is secure, new one isn't, skip new one
+            continue;
+        }
+
+        // both options are now on the same bearer and either secure or insecure, prefer nymearpc over websocket for less overhead
+        if (best->url().scheme().startsWith("ws") && c->url().scheme().startsWith("nymea")) {
+            best = c;
+        }
+    }
+    return best;
 }
 
 QHash<int, QByteArray> Connections::roleNames() const

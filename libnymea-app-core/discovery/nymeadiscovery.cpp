@@ -7,10 +7,32 @@
 #include <QUuid>
 #include <QBluetoothUuid>
 #include <QUrlQuery>
+#include <QNetworkConfigurationManager>
+#include <QNetworkSession>
 
 NymeaDiscovery::NymeaDiscovery(QObject *parent) : QObject(parent)
 {
     m_discoveryModel = new DiscoveryModel(this);
+    connect(m_discoveryModel, &DiscoveryModel::deviceAdded, this, [this](DiscoveryDevice *device) {
+        if (device->uuid() != m_pendingHostResolution) {
+            return;
+        }
+        Connection *c = device->connections()->bestMatch();
+        if (!c) {
+            qDebug() << "Host found but there isn't a valid candidate yet?";
+            connect(device->connections(), &Connections::connectionAdded, this, [this, device](Connection *connection) {
+                if (device->uuid() == m_pendingHostResolution) {
+                    qDebug() << "Host" << m_pendingHostResolution << "resolved to" << connection->url().toString();
+                    m_pendingHostResolution = QUuid();
+                    emit serverUuidResolved(connection->url().toString());
+                }
+            });
+            return;
+        }
+        qDebug() << "Host" << m_pendingHostResolution << "appeared! Best match is" << c->url();
+        m_pendingHostResolution = QUuid();
+        emit serverUuidResolved(c->url().toString());
+    });
 
     m_upnp = new UpnpDiscovery(m_discoveryModel, this);
     m_zeroConf = new ZeroconfDiscovery(m_discoveryModel, this);
@@ -25,6 +47,20 @@ NymeaDiscovery::NymeaDiscovery(QObject *parent) : QObject(parent)
             m_awsClient->fetchDevices();
         }
     });
+
+
+    QNetworkConfigurationManager manager;
+    QList<QNetworkConfiguration> configs = manager.allConfigurations(QNetworkConfiguration::Active);
+
+    foreach (const QNetworkConfiguration &config, configs) {
+        if (config.purpose() != QNetworkConfiguration::PublicPurpose) {
+            continue;
+        }
+        if (config.bearerType() != QNetworkConfiguration::BearerWLAN && config.bearerType() != QNetworkConfiguration::BearerEthernet) {
+            continue;
+        }
+        qDebug() << "Have Network configuration:" << config.name() << config.bearerTypeName() << config.purpose() << config.type();
+    }
 }
 
 bool NymeaDiscovery::discovering() const
@@ -100,6 +136,25 @@ void NymeaDiscovery::setAwsClient(AWSClient *awsClient)
         connect(m_awsClient, &AWSClient::devicesFetched, this, &NymeaDiscovery::syncCloudDevices);
         syncCloudDevices();
     }
+}
+
+void NymeaDiscovery::resolveServerUuid(const QUuid &uuid)
+{
+    // Do we already know this host?
+    DiscoveryDevice *dev = m_discoveryModel->find(uuid);
+    if (!dev) {
+        qDebug() << "Host" << uuid << "not known yet...";
+        m_pendingHostResolution = uuid;
+        return;
+    }
+    Connection *c = dev->connections()->bestMatch();
+    if (!c) {
+        qDebug() << "Host" << uuid << "is known but doesn't have a usable connection option yet.";
+        m_pendingHostResolution = uuid;
+        return;
+    }
+    qDebug() << "Host" << uuid << "is known. Best match is" << c->url();
+    emit serverUuidResolved(c->url().toString());
 }
 
 void NymeaDiscovery::syncCloudDevices()

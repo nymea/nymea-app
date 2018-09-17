@@ -90,7 +90,11 @@ public:
     Q_INVOKABLE Connection* find(const QUrl &url) const;
     Q_INVOKABLE Connection* get(int index) const;
 
+    Connection *bestMatch() const;
+
 signals:
+    void connectionAdded(Connection *connection);
+    void connectionRemoved(Connection *connection);
     void countChanged();
 
 protected:

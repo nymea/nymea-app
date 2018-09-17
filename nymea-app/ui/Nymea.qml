@@ -52,6 +52,13 @@ ApplicationWindow {
         anchors.fill: parent
     }
 
+    NymeaDiscovery {
+        id: discovery
+        objectName: "discovery"
+        awsClient: AWSClient
+        discovering: pageStack.currentItem.objectName === "discoveryPage"
+    }
+
     onClosing: {
         rootItem.handleCloseEvent(close)
     }

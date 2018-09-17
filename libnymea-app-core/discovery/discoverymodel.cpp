@@ -61,6 +61,7 @@ void DiscoveryModel::addDevice(DiscoveryDevice *device)
     beginInsertRows(QModelIndex(), m_devices.count(), m_devices.count());
     m_devices.append(device);
     endInsertRows();
+    emit deviceAdded(device);
     emit countChanged();
 }
 
@@ -74,6 +75,7 @@ void DiscoveryModel::removeDevice(DiscoveryDevice *device)
     beginRemoveRows(QModelIndex(), idx, idx);
     m_devices.takeAt(idx);
     endRemoveRows();
+    emit deviceRemoved(device);
     emit countChanged();
 }
 
