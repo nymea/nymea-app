@@ -95,13 +95,13 @@ NymeaTransportInterface::ConnectionState CloudTransport::connectionState() const
 
 void CloudTransport::sendData(const QByteArray &data)
 {
-    qDebug() << "should send" << data;
+//    qDebug() << "Cloud transport: Sending data:" << data;
     m_remoteproxyConnection->sendData(data);
 }
 
 void CloudTransport::ignoreSslErrors(const QList<QSslError> &errors)
 {
-    qDebug() << "Ignoring SSL errors" << errors;
+    qDebug() << "CloudTransport: Ignoring SSL errors" << errors;
     m_remoteproxyConnection->ignoreSslErrors(errors);
 }
 

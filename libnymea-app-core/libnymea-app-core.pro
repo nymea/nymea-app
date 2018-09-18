@@ -13,6 +13,7 @@ include(../config.pri)
 
 include(../nymea-remoteproxy/libnymea-remoteproxyclient/libnymea-remoteproxyclient.pri)
 
+
 QT -= gui
 QT += network websockets bluetooth
 

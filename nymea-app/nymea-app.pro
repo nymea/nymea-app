@@ -2,7 +2,7 @@ TEMPLATE=app
 TARGET=nymea-app
 include(../config.pri)
 
-QT += network qml quick quickcontrols2 svg websockets bluetooth
+QT += network qml quick quickcontrols2 svg websockets bluetooth #cloudmessaging
 
 INCLUDEPATH += $$top_srcdir/libnymea-common \
                $$top_srcdir/libnymea-app-core
@@ -32,26 +32,34 @@ equals(STYLES_PATH, "") {
     RESOURCES += $${STYLES_PATH}/styles.qrc
 }
 
-contains(ANDROID_TARGET_ARCH,armeabi-v7a) {
-    ANDROID_EXTRA_LIBS = \
-        /opt/android-openssl/prebuilt/armeabi-v7a/libcrypto.so \
-        /opt/android-openssl/prebuilt/armeabi-v7a/libssl.so
-}
-
 android {
     ANDROID_PACKAGE_SOURCE_DIR = $$PWD/../packaging/android
 
-    QT += androidextras
+#    QTFIREBASE_CONFIG+=messaging
+#    QTFIREBASE_SDK_PATH=/opt/firebase_cpp_sdk/
+#    include(../QtFirebase/qtfirebase.pri)
+
+    INCLUDEPATH += /opt/firebase_cpp_sdk/include
+
+    QT += androidextras cloudmessagingfirebase
 
     DISTFILES += \
         $$ANDROID_PACKAGE_SOURCE_DIR/AndroidManifest.xml \
+        $$ANDROID_PACKAGE_SOURCE_DIR/google-services.json \
         $$ANDROID_PACKAGE_SOURCE_DIR/gradle/wrapper/gradle-wrapper.jar \
         $$ANDROID_PACKAGE_SOURCE_DIR/gradlew \
         $$ANDROID_PACKAGE_SOURCE_DIR/res/values/libs.xml \
         $$ANDROID_PACKAGE_SOURCE_DIR/build.gradle \
         $$ANDROID_PACKAGE_SOURCE_DIR/gradle/wrapper/gradle-wrapper.properties \
         $$ANDROID_PACKAGE_SOURCE_DIR/gradlew.bat \
+        $$ANDROID_PACKAGE_SOURCE_DIR/src/io/guh/nymeaapp/NymeaAppActivity.java \
+        $$ANDROID_PACKAGE_SOURCE_DIR/src/io/guh/nymeaapp/NymeaAppNotificationService.java \
         $$ANDROID_PACKAGE_SOURCE_DIR/LICENSE
+
+
+    ANDROID_EXTRA_LIBS = \
+        /opt/android-openssl/prebuilt/armeabi-v7a/libcrypto.so \
+        /opt/android-openssl/prebuilt/armeabi-v7a/libssl.so
 }
 
 macx: {

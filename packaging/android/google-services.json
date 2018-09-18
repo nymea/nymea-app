@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "484445295371",
+    "firebase_url": "https://nymea-app.firebaseio.com",
+    "project_id": "nymea-app",
+    "storage_bucket": "nymea-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:484445295371:android:c90f21beb977a174",
+        "android_client_info": {
+          "package_name": "io.guh.nymeaapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "484445295371-3tu9tfct101uf8hrqt782fb4kfidvhmq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvKQXY4-kZw9Y7MTqVDoF2XCvC7fnhKUs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

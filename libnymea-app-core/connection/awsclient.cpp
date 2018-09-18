@@ -605,6 +605,61 @@ void AWSClient::getId()
     });
 }
 
+void AWSClient::registerPushNotificationEndpoint(const QString &registrationId)
+{
+    if (!isLoggedIn()) {
+        qWarning() << "Not logged in at AWS. Can't register push endpoint";
+        return;
+    }
+    if (tokensExpired()) {
+        qDebug() << "Cannot register push endpoint. Need to refresh our tokens";
+        refreshAccessToken();
+        m_callQueue.append(QueuedCall("registerPushNotificationEndpoint", registrationId));
+        return;
+    }
+    qDebug() << "Registering push notification endpoint.";
+
+    QUrl url(QString("https://%1/notifications/endpoints/%2").arg(m_configs.at(m_usedConfigIndex).apiEndpoint).arg(m_userId));
+    QNetworkRequest request(url);
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    request.setRawHeader("x-api-idToken", m_idToken);
+
+    qDebug() << "POST" << url.toString();
+    qDebug() << "HEADERS:";
+    foreach (const QByteArray &hdr, request.rawHeaderList()) {
+        qDebug() << hdr << ":" << request.rawHeader(hdr);
+    }
+
+    QVariantMap payload;
+    payload.insert("registrationId", registrationId);
+    payload.insert("channel", "GCM");
+    payload.insert("mobileDeviceDisplayName", "test device");
+    payload.insert("mobileDeviceUuid", "12345678");
+    QJsonDocument jsonDoc = QJsonDocument::fromVariant(payload);
+
+    QNetworkReply *reply = m_nam->post(request, jsonDoc.toJson(QJsonDocument::Compact));
+    connect(reply, &QNetworkReply::finished, this, [this, reply]() {
+        reply->deleteLater();
+        QByteArray data = reply->readAll();
+        if (reply->error() != QNetworkReply::NoError) {
+            qWarning() << "Error registering push notification endpoint:" << reply->error() << reply->errorString() << qUtf8Printable(data);
+//            emit deleteAccountResult(LoginErrorUnknownError);
+            return;
+        }
+        QJsonParseError error;
+        QJsonDocument jsonDoc = QJsonDocument::fromJson(data, &error);
+        if (error.error != QJsonParseError::NoError) {
+            qWarning() << "Failed to parse JSON from server" << error.errorString() << qUtf8Printable(data);
+//            emit deleteAccountResult(LoginErrorUnknownError);
+            return;
+        }
+//        emit deleteAccountResult(LoginErrorNoError);
+//        logout();
+        qDebug() << "Push notification endpoint registered" << data;
+    });
+
+}
+
 QByteArray AWSClient::idToken() const
 {
     return m_idToken;

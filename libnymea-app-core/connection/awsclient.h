@@ -118,6 +118,8 @@ public:
     Q_INVOKABLE bool postToMQTT(const QString &boxId, const QString &timestamp, std::function<void(bool)> callback);
     Q_INVOKABLE void getId();
 
+    Q_INVOKABLE void registerPushNotificationEndpoint(const QString &registrationId);
+
     bool tokensExpired() const;
     QByteArray idToken() const;
     QString cognitoIdentityId() const;

@@ -4,3 +4,9 @@
 [submodule "nymea-remoteproxy"]
 	path = nymea-remoteproxy
 	url = https://github.com/guh/nymea-remoteproxy.git
+[submodule "qtcloudmessaging"]
+	path = qtcloudmessaging
+	url = https://github.com/qt/qtcloudmessaging.git
+[submodule "QtFirebase"]
+	path = QtFirebase
+	url = https://github.com/Larpon/QtFirebase.git

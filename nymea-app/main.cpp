@@ -26,6 +26,8 @@
 #include <QSysInfo>
 
 #ifdef Q_OS_ANDROID
+#include <QtCloudMessaging>
+#include <QtCloudMessagingFirebase>
 #include <QtAndroidExtras/QtAndroid>
 #endif
 
@@ -69,6 +71,22 @@ int main(int argc, char *argv[])
     Engine::instance();
 
     QQmlApplicationEngine *engine = new QQmlApplicationEngine();
+
+#ifdef Q_OS_ANDROID
+    QCloudMessaging *pushServices = new QCloudMessaging();
+    QCloudMessagingFirebaseProvider *m_firebaseService = new QCloudMessagingFirebaseProvider();
+
+    QVariantMap provider_params;
+    provider_params["SERVER_API_KEY"] = "AIzaSyAvKQXY4-kZw9Y7MTqVDoF2XCvC7fnhKUs";
+
+    pushServices->registerProvider("GoogleFireBase", m_firebaseService, provider_params);
+    pushServices->connectClient("GoogleFireBase", "nymea:app", QVariantMap());
+
+    pushServices->subscribeToChannel("ChatRoom", "GoogleFireBase", "nymea:app");
+
+    engine->rootContext()->setContextProperty("pushServices", pushServices);
+#endif
+
 #ifdef BRANDING
     engine->rootContext()->setContextProperty("appBranding", BRANDING);
 #else

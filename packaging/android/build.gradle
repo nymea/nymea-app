@@ -1,16 +1,25 @@
 buildscript {
     repositories {
         jcenter()
+        google()
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.1.0'
+        classpath 'com.android.tools.build:gradle:3.0.1'
+        classpath 'com.google.gms:google-services:3.2.0'
     }
 }
 
 allprojects {
     repositories {
+        google()
         jcenter()
+        maven {
+            url "https://maven.google.com"
+        }
+        flatDir {
+            dirs "/opt/firebase_cpp_sdk/libs/android"
+        }
     }
 }
 
@@ -18,7 +27,13 @@ apply plugin: 'com.android.application'
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.google.android.gms:play-services-base:15.0.1'
+    compile 'com.google.firebase:firebase-core:16.0.1'
+    compile 'com.google.firebase:firebase-messaging:17.3.0'
+    compile 'com.google.firebase.messaging.cpp:firebase_messaging_cpp@aar'
 }
+
+apply plugin: 'com.google.gms.google-services'
 
 android {
     /*******************************************************

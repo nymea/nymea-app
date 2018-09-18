@@ -160,7 +160,7 @@ Page {
                 spacing: app.margins
                 visible: Engine.deviceManager.fetchingData
                 BusyIndicator {
-                    anchors.horizontalCenter: parent.horizontalCenter
+                    Layout.alignment: Qt.AlignHCenter
                     running: parent.visible
                 }
                 Label {
