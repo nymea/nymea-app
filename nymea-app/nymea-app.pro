@@ -17,10 +17,12 @@ linux:!android:LIBS += -lavahi-client -lavahi-common
 PRE_TARGETDEPS += ../libnymea-app-core ../libnymea-common
 
 HEADERS += \
-    stylecontroller.h
+    stylecontroller.h \
+    pushnotifications.h
 
 SOURCES += main.cpp \
-    stylecontroller.cpp
+    stylecontroller.cpp \
+    pushnotifications.cpp
 
 OTHER_FILES += $$files(*.qml, true)
 
@@ -88,6 +90,16 @@ ios: {
     ios_icon_files.files += $$files(../packaging/ios/AppIcon*.png)
     ios_launch_images.files += $$files(../packaging/ios/LaunchImage*.png) ../packaging/ios/LaunchScreen1.xib
     QMAKE_BUNDLE_DATA += ios_icon_files ios_launch_images
+
+    IOS_DEVELOPMENT_TEAM.name = DEVELOPMENT_TEAM
+    IOS_DEVELOPMENT_TEAM.value = Z45PLKLTHM
+    QMAKE_MAC_XCODE_SETTINGS += IOS_DEVELOPMENT_TEAM
+
+    IOS_ENTITLEMENTS.name = CODE_SIGN_ENTITLEMENTS
+    IOS_ENTITLEMENTS.value = $$files($$PWD/../packaging/ios/pushnotifications.entitlements)
+    QMAKE_MAC_XCODE_SETTINGS += IOS_ENTITLEMENTS
+
+    OBJECTIVE_SOURCES += $$PWD/../packaging/ios/pushnotifications.mm
 }
 
 BR=$$BRANDING

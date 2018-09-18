@@ -34,6 +34,7 @@
 #include "libnymea-app-core.h"
 
 #include "stylecontroller.h"
+#include "pushnotifications.h"
 
 int main(int argc, char *argv[])
 {
@@ -86,6 +87,8 @@ int main(int argc, char *argv[])
 
     engine->rootContext()->setContextProperty("pushServices", pushServices);
 #endif
+
+    qmlRegisterSingletonType<PushNotifications>("Nymea", 1, 0, "PushNotifications", PushNotifications::pushNotificationsProvider);
 
 #ifdef BRANDING
     engine->rootContext()->setContextProperty("appBranding", BRANDING);
