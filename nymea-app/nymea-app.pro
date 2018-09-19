@@ -93,7 +93,8 @@ ios: {
     plist.output = $$OUT_PWD/Info.plist
     QMAKE_SUBSTITUTES += plist
     QMAKE_INFO_PLIST = $$OUT_PWD/Info.plist
-    OTHER_FILES += ../packaging/ios/Info.plist.in
+    OTHER_FILES += ../packaging/ios/Info.plist.in \
+                   ../packaging/ios/pushnotifications.entitlements
 
     ios_icon_files.files += $$files(../packaging/ios/AppIcon*.png)
     ios_launch_images.files += $$files(../packaging/ios/LaunchImage*.png) ../packaging/ios/LaunchScreen1.xib
