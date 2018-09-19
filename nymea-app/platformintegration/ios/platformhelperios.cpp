@@ -19,6 +19,10 @@ bool PlatformHelperIOS::hasPermissions() const
 
 QString PlatformHelperIOS::deviceSerial() const
 {
+    // There is no way on iOS to get to a persistent serial number of the device.
+    // We're not interested tracking users or the actual serials anyways but we want
+    // something that is persistent across app installations. So let's generate a UUID
+    // ourselves and store that in the keychain.
     QString deviceId = const_cast<PlatformHelperIOS*>(this)->readKeyChainEntry("io.guh.nymea-app", "deviceId");
     qDebug() << "read keychain value:" << deviceId;
     if (deviceId.isEmpty()) {
@@ -31,7 +35,6 @@ QString PlatformHelperIOS::deviceSerial() const
 
 QString PlatformHelperIOS::deviceModel() const
 {
-    qDebug() << "SYSINFO:" << QSysInfo::productType() << QSysInfo::prettyProductName() << QSysInfo::productVersion();
     return QSysInfo::prettyProductName();
 }
 

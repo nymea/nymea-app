@@ -1,5 +1,7 @@
 #include "pushnotifications.h"
 
+#include <QDebug>
+
 #if defined(Q_OS_ANDROID)
 #include <QtAndroid>
 #include <QtAndroidExtras>
