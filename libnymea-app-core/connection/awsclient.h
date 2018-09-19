@@ -175,11 +175,13 @@ private:
     class QueuedCall {
     public:
         QueuedCall(const QString &method): method(method) { }
-        QueuedCall(const QString &method, const QString &boxId): method(method), boxId(boxId) { }
-        QueuedCall(const QString &method, const QString &boxId, const QString &timestamp, std::function<void(bool)> callback): method(method), boxId(boxId), timestamp(timestamp), callback(callback) {}
+        QueuedCall(const QString &method, const QString &arg1): method(method), arg1(arg1) { }
+        QueuedCall(const QString &method, const QString &arg1, const QString &arg2, const QString &arg3): method(method), arg1(arg1), arg2(arg2), arg3(arg3) { }
+        QueuedCall(const QString &method, const QString &arg1, const QString &arg2, std::function<void(bool)> callback): method(method), arg1(arg1), arg2(arg2), callback(callback) {}
         QString method;
-        QString boxId;
-        QString timestamp;
+        QString arg1;
+        QString arg2;
+        QString arg3;
         std::function<void(bool)> callback;
     };
 

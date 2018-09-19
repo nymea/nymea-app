@@ -28,6 +28,8 @@
 #ifdef Q_OS_ANDROID
 #include <QtAndroidExtras/QtAndroid>
 #include "platformintegration/android/platformhelperandroid.h"
+#elif defined(Q_OS_IOS)
+#include "platformintegration/ios/platformhelperios.h"
 #else
 #include "platformintegration/generic/platformhelpergeneric.h"
 #endif
@@ -44,6 +46,8 @@ QObject *platformHelperProvider(QQmlEngine *engine, QJSEngine *scriptEngine)
     Q_UNUSED(scriptEngine)
 #ifdef Q_OS_ANDROID
     return new PlatformHelperAndroid();
+#elif defined(Q_OS_IOS)
+    return new PlatformHelperIOS();
 #else
     return new PlatformHelperGeneric();
 #endif

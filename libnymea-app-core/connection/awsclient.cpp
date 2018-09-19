@@ -614,7 +614,7 @@ void AWSClient::registerPushNotificationEndpoint(const QString &registrationId, 
     if (tokensExpired()) {
         qDebug() << "Cannot register push endpoint. Need to refresh our tokens";
         refreshAccessToken();
-        m_callQueue.append(QueuedCall("registerPushNotificationEndpoint", registrationId));
+        m_callQueue.append(QueuedCall("registerPushNotificationEndpoint", registrationId, deviceDisplayName, mobileDeviceId));
         return;
     }
 
@@ -623,11 +623,6 @@ void AWSClient::registerPushNotificationEndpoint(const QString &registrationId, 
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setRawHeader("x-api-idToken", m_idToken);
 
-//    qDebug() << "POST" << url.toString();
-//    qDebug() << "HEADERS:";
-//    foreach (const QByteArray &hdr, request.rawHeaderList()) {
-//        qDebug() << hdr << ":" << request.rawHeader(hdr);
-//    }
 
     QVariantMap payload;
     payload.insert("registrationId", registrationId);
@@ -640,7 +635,13 @@ void AWSClient::registerPushNotificationEndpoint(const QString &registrationId, 
     payload.insert("mobileDeviceUuid", mobileDeviceId);
     QJsonDocument jsonDoc = QJsonDocument::fromVariant(payload);
 
-    qDebug() << "Registering push notification endpoint:" << payload.value("channel").toString();
+    qDebug() << "Registering push notification endpoint:";
+    qDebug() << "POST" << url.toString();
+    qDebug() << "HEADERS:";
+    foreach (const QByteArray &hdr, request.rawHeaderList()) {
+        qDebug() << hdr << ":" << request.rawHeader(hdr);
+    }
+    qDebug() << "Payload:" << qUtf8Printable(jsonDoc.toJson(QJsonDocument::Compact));
 
     QNetworkReply *reply = m_nam->post(request, jsonDoc.toJson(QJsonDocument::Compact));
     connect(reply, &QNetworkReply::finished, this, [reply]() {
@@ -784,9 +785,11 @@ void AWSClient::getCredentialsForIdentity(const QString &identityId)
             if (qc.method == "fetchDevices") {
                 fetchDevices();
             } else if (qc.method == "postToMQTT") {
-                postToMQTT(qc.boxId, qc.timestamp, qc.callback);
+                postToMQTT(qc.arg1, qc.arg2, qc.callback);
             } else if (qc.method == "deleteAccount") {
                 deleteAccount();
+            } else if (qc.method == "registerPushNotificationEndpoint") {
+                registerPushNotificationEndpoint(qc.arg1, qc.arg2, qc.arg3);
             }
         }
     });

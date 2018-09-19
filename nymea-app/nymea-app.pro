@@ -20,13 +20,15 @@ HEADERS += \
     stylecontroller.h \
     pushnotifications.h \
     platformhelper.h \
-    platformintegration/generic/platformhelpergeneric.h
+    platformintegration/generic/platformhelpergeneric.h \
+    platformintegration/ios/platformhelperios.h
 
 SOURCES += main.cpp \
     stylecontroller.cpp \
     pushnotifications.cpp \
     platformhelper.cpp \
-    platformintegration/generic/platformhelpergeneric.cpp
+    platformintegration/generic/platformhelpergeneric.cpp \
+    platformintegration/ios/platformhelperios.cpp
 
 OTHER_FILES += $$files(*.qml, true)
 
@@ -102,7 +104,8 @@ ios: {
     IOS_ENTITLEMENTS.value = $$files($$PWD/../packaging/ios/pushnotifications.entitlements)
     QMAKE_MAC_XCODE_SETTINGS += IOS_ENTITLEMENTS
 
-    OBJECTIVE_SOURCES += $$PWD/../packaging/ios/pushnotifications.mm
+    OBJECTIVE_SOURCES += $$PWD/../packaging/ios/pushnotifications.mm \
+                         $$PWD/../packaging/ios/platformhelperios.mm
 }
 
 BR=$$BRANDING
