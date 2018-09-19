@@ -70,6 +70,7 @@ public:
     QString mqttEndpoint;
     QString region;
     QString apiEndpoint;
+    QString pushNotificationSystem;
 };
 
 class AWSClient : public QObject

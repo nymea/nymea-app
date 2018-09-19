@@ -49,6 +49,14 @@ AWSClient::AWSClient(QObject *parent) : QObject(parent),
 {
     m_nam = new QNetworkAccessManager(this);
 
+#ifdef Q_OS_ANDROID
+    QString pushSystem = "GCM";
+#elif defined Q_OS_IOS
+    QString pushSystem = "APNS";
+#else
+    QString pushSystem = "";
+#endif
+
     AWSConfiguration config;
     // Community environment
     config.clientId = "35duli0b13c7pet5k4bcv8pbu";
@@ -60,6 +68,7 @@ AWSClient::AWSClient(QObject *parent) : QObject(parent),
     config.mqttEndpoint = "a2d0ba9572wepp.iot.eu-west-1.amazonaws.com";
     config.region = "eu-west-1";
     config.apiEndpoint = "api-cloud.guh.io";
+    config.pushNotificationSystem = pushSystem;
     m_configs.append(config);
 
     // Testing environment
@@ -72,6 +81,7 @@ AWSClient::AWSClient(QObject *parent) : QObject(parent),
     config.mqttEndpoint = "a2addxakg5juii.iot.eu-west-1.amazonaws.com";
     config.region = "eu-west-1";
     config.apiEndpoint = "testapi-cloud.guh.io";
+    config.pushNotificationSystem = pushSystem == "APNS" ? pushSystem + "_SANDBOX" : pushSystem;
     m_configs.append(config);
 
     // Marantec environment
@@ -85,6 +95,7 @@ AWSClient::AWSClient(QObject *parent) : QObject(parent),
     config.mqttEndpoint = "a27q7a2x15m8h3.iot.eu-west-1.amazonaws.com";
     config.region = "eu-west-1";
     config.apiEndpoint = "api-cloud.guh.io";
+    config.pushNotificationSystem = pushSystem;
     m_configs.append(config);
 
     QSettings settings;
@@ -626,11 +637,7 @@ void AWSClient::registerPushNotificationEndpoint(const QString &registrationId, 
 
     QVariantMap payload;
     payload.insert("registrationId", registrationId);
-#ifdef Q_OS_ANDROID
-    payload.insert("channel", "GCM");
-#else
-    payload.insert("channel", "APNS");
-#endif
+    payload.insert("channel", m_configs.at(m_usedConfigIndex).pushNotificationSystem);
     payload.insert("mobileDeviceDisplayName", deviceDisplayName);
     payload.insert("mobileDeviceUuid", mobileDeviceId);
     QJsonDocument jsonDoc = QJsonDocument::fromVariant(payload);
