@@ -118,7 +118,7 @@ public:
     Q_INVOKABLE bool postToMQTT(const QString &boxId, const QString &timestamp, std::function<void(bool)> callback);
     Q_INVOKABLE void getId();
 
-    Q_INVOKABLE void registerPushNotificationEndpoint(const QString &registrationId);
+    Q_INVOKABLE void registerPushNotificationEndpoint(const QString &registrationId, const QString &deviceDisplayName, const QString mobileDeviceId);
 
     bool tokensExpired() const;
     QByteArray idToken() const;

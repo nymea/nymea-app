@@ -53,10 +53,19 @@ ApplicationWindow {
 
     Component.onCompleted: {
         pageStack.push(Qt.resolvedUrl("connection/ConnectPage.qml"))
-
-        var clientUuid = pushServices.clientToken("GoogleFireBase", "nymea:app");
-        print("Messaging client uuid:", clientUuid)
-        Engine.awsClient.registerPushNotificationEndpoint(clientUuid);
+        setupPushNotifications();
+    }
+    Connections {
+        target: PlatformHelper
+        onHasPermissionsChanged: {
+            setupPushNotifications(false)
+        }
+    }
+    Connections {
+        target: Engine.awsClient
+        onIsLoggedInChanged: {
+            setupPushNotifications()
+        }
     }
 
     Connections {
@@ -116,6 +125,22 @@ ApplicationWindow {
             pageStack.push(Qt.resolvedUrl("MainPage.qml"))
         } else {
             pageStack.push(Qt.resolvedUrl("connection/ConnectPage.qml"))
+        }
+    }
+
+    function setupPushNotifications(askForPermissions) {
+        if (askForPermissions === undefined) {
+            askForPermissions = true;
+        }
+
+        if (Engine.awsClient.isLoggedIn) {
+            if (!PlatformHelper.hasPermissions) {
+                if (askForPermissions) {
+                    PlatformHelper.requestPermissions();
+                }
+            } else {
+                Engine.awsClient.registerPushNotificationEndpoint(PushNotifications.token, PlatformHelper.deviceManufacturer + " " + PlatformHelper.deviceModel, PlatformHelper.deviceSerial);
+            }
         }
     }
 
@@ -380,58 +405,6 @@ ApplicationWindow {
             }
         }
     }
-
-    Connections {
-       target:pushServices
-       onMessageReceived:{
-            console.log("Message to " + providerId + " service to " + clientId + " client.")
-            console.log("Message: " + message)
-
-            var msg_in_json = JSON.parse(message);
-
-            // Example to respond to embedded system request:
-            if (msg_in_json.command === "REQUESTING_TEMPERATURE")
-                embeddedPublishTemperatureToServer(msg_in_json.serverID, mydevicecommand.getTemperature());
-
-            // Or firebase the message itself is a container of the info.
-            updateGameNotification(message);
-       }
-
-       onServiceStateUpdated: {
-           print("push service state updated", state)
-       }
-
-       // Own Uuid to be used or broadcasted to server.
-       onClientTokenReceived: {
-
-            console.log("MY Uuid:"+rid)
-
-            // Id this is server code:
-            serverUuid = rid;
-
-            // Id this is client code:
-            clientUuid = rid;
-
-       }
-    }
-
-
-//    Messaging {
-//        id: messaging
-
-//        onReadyChanged: {
-//            App.log("Messaging.ready", ready)
-//        }
-//        onTokenChanged: {
-//            App.log("Messaging.token", token)
-//        }
-//        onDataChanged: {
-//            App.log("Messaging.data", JSON.stringify(data))
-//        }
-//        onMessageReceived: {
-//            App.log("onMessageReceived","Messaging.data", JSON.stringify(data))
-//        }
-//    }
 
     KeyboardLoader {
         id: keyboardRect

@@ -16,7 +16,7 @@ Page {
         anchors { left: parent.left; right: parent.right; verticalCenter: parent.verticalCenter; margins: app.margins }
         spacing: app.margins
         BusyIndicator {
-            anchors.horizontalCenter: parent.horizontalCenter
+            Layout.alignment: Qt.AlignHCenter
             running: parent.visible
         }
         Label {

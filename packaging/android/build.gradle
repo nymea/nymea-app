@@ -69,4 +69,17 @@ android {
     lintOptions {
         abortOnError false
     }
+
+    /***************************************************************************
+     * This is a hack to copy the output apk one level up
+     * old versions of gradle have put it to build/apks/android-build-debug.apk
+     * new versions put it to build/apks/debug/android-build-debug.apk
+     * which breaks qtcreator deployment
+     * Remote this when QtCreator is updated to support new gradle
+     **************************************************************************/
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "../" + outputFileName
+        }
+    }
 }

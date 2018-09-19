@@ -26,15 +26,29 @@
 #include <QSysInfo>
 
 #ifdef Q_OS_ANDROID
-#include <QtCloudMessaging>
-#include <QtCloudMessagingFirebase>
 #include <QtAndroidExtras/QtAndroid>
+#include "platformintegration/android/platformhelperandroid.h"
+#else
+#include "platformintegration/generic/platformhelpergeneric.h"
 #endif
 
 #include "libnymea-app-core.h"
 
 #include "stylecontroller.h"
 #include "pushnotifications.h"
+
+
+QObject *platformHelperProvider(QQmlEngine *engine, QJSEngine *scriptEngine)
+{
+    Q_UNUSED(engine)
+    Q_UNUSED(scriptEngine)
+#ifdef Q_OS_ANDROID
+    return new PlatformHelperAndroid();
+#else
+    return new PlatformHelperGeneric();
+#endif
+}
+
 
 int main(int argc, char *argv[])
 {
@@ -73,21 +87,9 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine *engine = new QQmlApplicationEngine();
 
-#ifdef Q_OS_ANDROID
-    QCloudMessaging *pushServices = new QCloudMessaging();
-    QCloudMessagingFirebaseProvider *m_firebaseService = new QCloudMessagingFirebaseProvider();
+    qmlRegisterSingletonType<PlatformHelper>("Nymea", 1, 0, "PlatformHelper", platformHelperProvider);
 
-    QVariantMap provider_params;
-    provider_params["SERVER_API_KEY"] = "AIzaSyAvKQXY4-kZw9Y7MTqVDoF2XCvC7fnhKUs";
-
-    pushServices->registerProvider("GoogleFireBase", m_firebaseService, provider_params);
-    pushServices->connectClient("GoogleFireBase", "nymea:app", QVariantMap());
-
-    pushServices->subscribeToChannel("ChatRoom", "GoogleFireBase", "nymea:app");
-
-    engine->rootContext()->setContextProperty("pushServices", pushServices);
-#endif
-
+    PushNotifications::instance()->connectClient();
     qmlRegisterSingletonType<PushNotifications>("Nymea", 1, 0, "PushNotifications", PushNotifications::pushNotificationsProvider);
 
 #ifdef BRANDING

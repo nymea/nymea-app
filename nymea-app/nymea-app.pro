@@ -2,7 +2,7 @@ TEMPLATE=app
 TARGET=nymea-app
 include(../config.pri)
 
-QT += network qml quick quickcontrols2 svg websockets bluetooth #cloudmessaging
+QT += network qml quick quickcontrols2 svg websockets bluetooth
 
 INCLUDEPATH += $$top_srcdir/libnymea-common \
                $$top_srcdir/libnymea-app-core
@@ -18,11 +18,15 @@ PRE_TARGETDEPS += ../libnymea-app-core ../libnymea-common
 
 HEADERS += \
     stylecontroller.h \
-    pushnotifications.h
+    pushnotifications.h \
+    platformhelper.h \
+    platformintegration/generic/platformhelpergeneric.h
 
 SOURCES += main.cpp \
     stylecontroller.cpp \
-    pushnotifications.cpp
+    pushnotifications.cpp \
+    platformhelper.cpp \
+    platformintegration/generic/platformhelpergeneric.cpp
 
 OTHER_FILES += $$files(*.qml, true)
 
@@ -37,13 +41,12 @@ equals(STYLES_PATH, "") {
 android {
     ANDROID_PACKAGE_SOURCE_DIR = $$PWD/../packaging/android
 
-#    QTFIREBASE_CONFIG+=messaging
-#    QTFIREBASE_SDK_PATH=/opt/firebase_cpp_sdk/
-#    include(../QtFirebase/qtfirebase.pri)
-
     INCLUDEPATH += /opt/firebase_cpp_sdk/include
+    LIBS += -L/opt/firebase_cpp_sdk/libs/android/armeabi-v7a/gnustl/ -lfirebase_messaging -lfirebase_app
 
-    QT += androidextras cloudmessagingfirebase
+    QT += androidextras
+    HEADERS += platformintegration/android/platformhelperandroid.h
+    SOURCES += platformintegration/android/platformhelperandroid.cpp
 
     DISTFILES += \
         $$ANDROID_PACKAGE_SOURCE_DIR/AndroidManifest.xml \
