@@ -62,6 +62,13 @@ ApplicationWindow {
         }
     }
     Connections {
+        target: PushNotifications
+        onTokenChanged: {
+            setupPushNotifications();
+        }
+    }
+
+    Connections {
         target: Engine.awsClient
         onIsLoggedInChanged: {
             setupPushNotifications()
@@ -133,14 +140,22 @@ ApplicationWindow {
             askForPermissions = true;
         }
 
-        if (Engine.awsClient.isLoggedIn) {
-            if (!PlatformHelper.hasPermissions) {
-                if (askForPermissions) {
-                    PlatformHelper.requestPermissions();
-                }
-            } else {
-                Engine.awsClient.registerPushNotificationEndpoint(PushNotifications.token, PlatformHelper.deviceManufacturer + " " + PlatformHelper.deviceModel, PlatformHelper.deviceSerial);
+        if (!Engine.awsClient.isLoggedIn) {
+            print("AWS not logged in. Cannot register for push");
+            return;
+        }
+
+        if (PushNotifications.token.length === 0) {
+            print("Don't have a token yet. Cannot register for push");
+            return;
+        }
+
+        if (!PlatformHelper.hasPermissions) {
+            if (askForPermissions) {
+                PlatformHelper.requestPermissions();
             }
+        } else {
+            Engine.awsClient.registerPushNotificationEndpoint(PushNotifications.token, PlatformHelper.deviceManufacturer + " " + PlatformHelper.deviceModel, PlatformHelper.deviceSerial);
         }
     }
 

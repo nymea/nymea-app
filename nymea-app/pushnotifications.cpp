@@ -64,6 +64,7 @@ QString PushNotifications::token() const
 
 void PushNotifications::setAPNSRegistrationToken(const QString &apnsRegistrationToken)
 {
+    qDebug() << "Received APNS push notification token:" << apnsRegistrationToken;
     m_token = apnsRegistrationToken;
     emit tokenChanged();
 }
