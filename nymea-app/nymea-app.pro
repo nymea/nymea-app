@@ -21,14 +21,12 @@ HEADERS += \
     pushnotifications.h \
     platformhelper.h \
     platformintegration/generic/platformhelpergeneric.h \
-    platformintegration/ios/platformhelperios.h
 
 SOURCES += main.cpp \
     stylecontroller.cpp \
     pushnotifications.cpp \
     platformhelper.cpp \
     platformintegration/generic/platformhelpergeneric.cpp \
-    platformintegration/ios/platformhelperios.cpp
 
 OTHER_FILES += $$files(*.qml, true)
 
@@ -81,6 +79,11 @@ macx: {
 
 ios: {
     message("iOS build")
+    HEADERS += platformintegration/ios/platformhelperios.h
+    SOURCES += platformintegration/ios/platformhelperios.cpp
+    OBJECTIVE_SOURCES += $$PWD/../packaging/ios/pushnotifications.mm \
+                         $$PWD/../packaging/ios/platformhelperios.mm
+
     QMAKE_TARGET_BUNDLE_PREFIX = io.guh
     QMAKE_BUNDLE = nymeaApp
     # Configure generated xcode project to have our bundle id
@@ -103,9 +106,6 @@ ios: {
     IOS_ENTITLEMENTS.name = CODE_SIGN_ENTITLEMENTS
     IOS_ENTITLEMENTS.value = $$files($$PWD/../packaging/ios/pushnotifications.entitlements)
     QMAKE_MAC_XCODE_SETTINGS += IOS_ENTITLEMENTS
-
-    OBJECTIVE_SOURCES += $$PWD/../packaging/ios/pushnotifications.mm \
-                         $$PWD/../packaging/ios/platformhelperios.mm
 }
 
 BR=$$BRANDING
