@@ -1,0 +1,68 @@
+name: nymea-app
+version: developer-build
+summary: Control app for nymea
+description: | 
+  The nymea daemon is a plugin based IoT (Internet of Things) server. 
+  The server works like a translator for devices, things and services 
+  and allows them to interact. With the powerful rule engine you are 
+  able to connect any device available in the system and create individual 
+  scenes and behaviors for your environment.
+
+grade: stable
+base: core18
+confinement: strict
+
+environment:
+  USE_qt5: 1
+
+apps:
+  nymea-app:
+    command: desktop-launch nymea-app
+    desktop: usr/share/applications/nymea-app.desktop
+    environment:
+      QT_IM_MODULE: qtvirtualkeyboard
+      __EGL_VENDOR_LIBRARY_DIRS: $SNAP/etc/glvnd/egl_vendor.d:$SNAP/usr/share/glvnd/egl_vendor.d
+    plugs:
+    - avahi-observe
+    - bluez
+    - network
+    - opengl
+    - x11
+
+#  nymea-app-webgl:
+#    command: env PATH=$PATH:$SNAP/bin qt5-launch nymea-app -platform webgl:port=8080
+#    daemon: simple
+#    restart-condition: always
+
+parts:
+  # Adding the whole guh project containig libguh and plugins
+  nymea-app:
+    plugin: qmake
+    source: .
+    after: [desktop-qt5]
+    project-files: [ nymea-app.pro ]
+#    options: [ CONFIG+=withavahi ]
+    build-packages:
+      - qt5-default
+      - qt5-qmake
+      - qtbase5-dev
+      - libavahi-client-dev
+      - libavahi-common-dev
+      - libqt5svg5-dev
+      - libqt5websockets5-dev
+      - qtconnectivity5-dev
+      - qtdeclarative5-dev
+      - qtquickcontrols2-5-dev
+      - qttools5-dev-tools
+    stage-packages:
+      - libqt5gui5
+      - libgl1-mesa-dri
+      - qml-module-qtquick2
+      - qml-module-qtquick-controls2
+      - qml-module-qtquick-layouts
+      - qml-module-qtquick-window2
+      - qml-module-qt-labs-settings
+      - libavahi-client3
+      - libavahi-common3
+      - qml-module-qt-labs-folderlistmodel
+      - qtvirtualkeyboard-plugin

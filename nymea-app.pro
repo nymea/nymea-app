@@ -70,6 +70,14 @@ osxbundle.commands += hdiutil convert nymea-app_writable.dmg -format UDRO -o ../
 osxbundle.commands += rm nymea-app.dmg nymea-app_writable.dmg
 QMAKE_EXTRA_TARGETS += osxbundle
 
+# Linux desktop (snap package)
+linux:!android: {
+desktopfile.files = packaging/linux/nymea-app.desktop
+desktopfile.path = /usr/share/applications/
+icons.files = packaging/linux/icons
+icons.path = /usr/share/
+INSTALLS += desktopfile icons
+}
 
 # Translations support
 TRANSLATIONS += $$files($$absolute_path(nymea-app)/translations/*.ts, true)
