@@ -41,6 +41,7 @@ parts:
     source: .
     after: [desktop-qt5]
     project-files: [ nymea-app.pro ]
+    prepare: git submodule update --init
 #    options: [ CONFIG+=withavahi ]
     build-packages:
       - qt5-default
