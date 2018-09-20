@@ -5,6 +5,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Build;
 import android.telephony.TelephonyManager;
+import android.provider.Settings.Secure;
+
 //import com.google.firebase.messaging.MessageForwardingService;
 
 
@@ -12,32 +14,18 @@ public class NymeaAppActivity extends org.qtproject.qt5.android.bindings.QtActiv
 {
     public String deviceSerial()
     {
-        TelephonyManager TM = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-
-            // IMEI No.
-            String imeiNo = TM.getDeviceId();
-
-            // IMSI No.
-            String imsiNo = TM.getSubscriberId();
-
-            // SIM Serial No.
-            String simSerialNo  = TM.getSimSerialNumber();
-
-            // Android Unique ID
-//            String androidId = System.getString(this.getContentResolver(),Settings.Secure.ANDROID_ID);
-
-        return imeiNo;
+        return Secure.getString(getApplicationContext().getContentResolver(), Secure.ANDROID_ID);
     }
 
-public static String deviceManufacturer()
-{
-    return Build.MANUFACTURER;
-}
+    public static String deviceManufacturer()
+    {
+        return Build.MANUFACTURER;
+    }
 
-public static String deviceModel()
-{
-    return Build.MODEL;
-}
+    public static String deviceModel()
+    {
+        return Build.MODEL;
+    }
 
 //    // The key in the intent's extras that maps to the incoming message's message ID. Only sent by
 //    // the server, GmsCore sends EXTRA_MESSAGE_ID_KEY below. Server can't send that as it would get

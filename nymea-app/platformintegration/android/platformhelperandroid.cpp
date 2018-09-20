@@ -13,23 +13,17 @@ PlatformHelperAndroid::PlatformHelperAndroid(QObject *parent) : PlatformHelper(p
 
 void PlatformHelperAndroid::requestPermissions()
 {
-    QtAndroid::requestPermissions({"android.permission.READ_PHONE_STATE"}, &PlatformHelperAndroid::permissionRequestFinished);
+    // Not using any fancy permissions in android yet...
 }
 
 bool PlatformHelperAndroid::hasPermissions() const
 {
-    QtAndroid::PermissionResult r = QtAndroid::checkPermission("android.permission.READ_PHONE_STATE");
-    return r == QtAndroid::PermissionResult::Granted;
+    // Not using any fancy permissions in android yet...
+    return true;
 }
 
 QString PlatformHelperAndroid::deviceSerial() const
 {
-    QtAndroid::PermissionResult r = QtAndroid::checkPermission("android.permission.READ_PHONE_STATE");
-    if (r != QtAndroid::PermissionResult::Granted) {
-        qWarning() << "Cannot read device serial. No permissions";
-        return "";
-    }
-
     QAndroidJniObject activity = QAndroidJniObject::callStaticObjectMethod("org/qtproject/qt5/android/QtNative", "activity", "()Landroid/app/Activity;");
     return activity.callObjectMethod<jstring>("deviceSerial").toString();
 }
