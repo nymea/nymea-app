@@ -155,7 +155,7 @@ ApplicationWindow {
                 PlatformHelper.requestPermissions();
             }
         } else {
-            Engine.awsClient.registerPushNotificationEndpoint(PushNotifications.token, PlatformHelper.deviceManufacturer + " " + PlatformHelper.deviceModel, PlatformHelper.deviceSerial);
+            Engine.awsClient.registerPushNotificationEndpoint(PushNotifications.token, PlatformHelper.deviceManufacturer + " " + PlatformHelper.deviceModel, PlatformHelper.deviceSerial + "+io.guh.nymeaapp");
         }
     }
 
