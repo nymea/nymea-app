@@ -42,9 +42,6 @@ parts:
     after: [desktop-qt5]
     project-files: [ nymea-app.pro ]
 #    options: [ CONFIG+=withavahi ]
-    override-build: |
-      git submodule update --init
-      snapcraftctl build
     build-packages:
       - qt5-default
       - qt5-qmake
