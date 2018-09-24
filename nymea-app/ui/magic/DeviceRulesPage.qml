@@ -23,20 +23,31 @@ Page {
         }
     }
 
+    RuleTemplatesFilterModel {
+        id: ruleTemplatesModel
+        ruleTemplates: RuleTemplates {}
+        readonly property var deviceClass: device ? Engine.deviceManager.deviceClasses.getDeviceClass(root.device.deviceClassId) : null
+        filterInterfaceNames: deviceClass ? deviceClass.interfaces : []
+    }
+
     // Rule is optional and might be initialized with anything wanted. A new, empty one will be created if null
     // This Page will take ownership of the rule and delete it eventually.
     function addRule(rule) {
         if (rule === null || rule === undefined) {
-            d.editRulePage = pageStack.push(Qt.resolvedUrl("NewThingMagicPage.qml"), {device: root.device});
-            d.editRulePage.manualCreation.connect(function() {
-                pageStack.pop();
-                rule = Engine.ruleManager.createNewRule();
-                addRule(rule)
-            })
-            d.editRulePage.done.connect(function() {pageStack.pop(root);});
-            return;
+            print("creating new rule. have", ruleTemplatesModel.count, "templates", ruleTemplatesModel.deviceClass.interfaces)
+            if (ruleTemplatesModel.count > 0) {
+                d.editRulePage = pageStack.push(Qt.resolvedUrl("NewThingMagicPage.qml"), {device: root.device});
+                d.editRulePage.manualCreation.connect(function() {
+                    pageStack.pop();
+                    rule = Engine.ruleManager.createNewRule();
+                    addRule(rule)
+                })
+                d.editRulePage.done.connect(function() {pageStack.pop(root);});
+                return;
+            }
+            rule = Engine.ruleManager.createNewRule();
         }
-        d.editRulePage = pageStack.push(Qt.resolvedUrl("EditRulePage.qml"), {rule: rule});
+        d.editRulePage = pageStack.push(Qt.resolvedUrl("EditRulePage.qml"), {rule: rule, initialDeviceToBeAdded: root.device});
         d.editRulePage.StackView.onRemoved.connect(function() {
             rule.destroy();
         })
@@ -48,11 +59,11 @@ Page {
             pageStack.pop();
         })
 
-//        if (rule.eventDescriptors.count === 0) {
-//            var eventDescriptor = rule.eventDescriptors.createNewEventDescriptor();
-//            eventDescriptor.deviceId = device.id;
-//            page.selectEventDescriptorData(eventDescriptor);
-//        }
+        //        if (rule.eventDescriptors.count === 0) {
+        //            var eventDescriptor = rule.eventDescriptors.createNewEventDescriptor();
+        //            eventDescriptor.deviceId = device.id;
+        //            page.selectEventDescriptorData(eventDescriptor);
+        //        }
 
     }
 

@@ -1,0 +1,169 @@
+{
+    "templates": [
+        {
+            "interfaceName": "simplemultibutton",
+            "description": "Switch a light",
+            "ruleNameTemplate": "%0 switches %1",
+            "eventDescriptorTemplates": [
+                {
+                    "interfaceName": "simplemultibutton",
+                    "interfaceEvent": "pressed",
+                    "selectionId": 0,
+                    "params": [
+                        {
+                            "name": "buttonName"
+                        }
+                    ]
+                }
+            ],
+            "stateEvaluatorTemplate": {
+                "stateDescriptorTemplate": {
+                    "interfaceName": "light",
+                    "interfaceState": "power",
+                    "operator": "ValueOperatorEquals",
+                    "value": false,
+                    "selectionId": 1,
+                    "selectionMode": "SelectionModeDevice"
+                }
+            },
+            "ruleActionTemplates": [
+                {
+                    "interfaceName": "light",
+                    "interfaceAction": "power",
+                    "selectionId": 1,
+                    "selectionMode": "SelectionModeDevice",
+                    "params": [
+                        {
+                            "name": "power",
+                            "value": true
+                        }
+                    ]
+                }
+            ],
+            "ruleExitActionTemplates": [
+                {
+                    "interfaceName": "light",
+                    "interfaceAction": "power",
+                    "selectionId": 1,
+                    "selectionMode": "SelectionModeDevice",
+                    "params": [
+                        {
+                            "name": "power",
+                            "value": false
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "interfaceName": "simplebutton",
+            "description": "Switch a light",
+            "ruleNameTemplate": "%0 switches %1",
+            "eventDescriptorTemplates": [
+                {
+                    "interfaceName": "simplebutton",
+                    "interfaceEvent": "pressed",
+                    "selectionId": 0
+                }
+            ],
+            "stateEvaluatorTemplate": {
+                "stateDescriptorTemplate": {
+                    "interfaceName": "light",
+                    "interfaceState": "power",
+                    "operator": "ValueOperatorEquals",
+                    "value": false,
+                    "selectionId": 1,
+                    "selectionMode": "SelectionModeDevice"
+                }
+            },
+            "ruleActionTemplates": [
+                {
+                    "interfaceName": "light",
+                    "interfaceAction": "power",
+                    "selectionId": 1,
+                    "selectionMode": "SelectionModeDevice",
+                    "params": [
+                        {
+                            "name": "power",
+                            "value": true
+                        }
+                    ]
+                }
+            ],
+            "ruleExitActionTemplates": [
+                {
+                    "interfaceName": "light",
+                    "interfaceAction": "power",
+                    "selectionId": 1,
+                    "selectionMode": "SelectionModeDevice",
+                    "params": [
+                        {
+                            "name": "power",
+                            "value": false
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "interfaceName": "simplemultibutton",
+            "description": "Turn off all lights",
+            "ruleNameTemplate": "Turn off everything with %0",
+            "eventDescriptorTemplates": [
+                {
+                    "interfaceName": "simplemultibutton",
+                    "interfaceEvent": "pressed",
+                    "selectionId": 0,
+                    "selectionMode": "SelectionModeDevice",
+                    "params": [
+                        {
+                            "name": "buttonName"
+                        }
+                    ]
+                }
+            ],
+            "ruleActionTemplates": [
+                {
+                    "interfaceName": "light",
+                    "interfaceAction": "power",
+                    "selectionId": 1,
+                    "selectionMode": "SelectionModeInterface",
+                    "params": [
+                        {
+                            "name": "power",
+                            "value": false
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "interfaceName": "simplebutton",
+            "description": "Turn off all lights",
+            "ruleNameTemplate": "Turn off everything with %0",
+            "eventDescriptorTemplates": [
+                {
+                    "interfaceName": "simplebutton",
+                    "interfaceEvent": "pressed",
+                    "selectionId": 0,
+                    "selectionMode": "SelectionModeDevice"
+                }
+            ],
+            "ruleActionTemplates": [
+                {
+                    "interfaceName": "light",
+                    "interfaceAction": "power",
+                    "selectionId": 1,
+                    "selectionMode": "SelectionModeInterface",
+                    "params": [
+                        {
+                            "name": "power",
+                            "value": false
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+

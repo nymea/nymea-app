@@ -5,7 +5,8 @@ EventDescriptorTemplate::EventDescriptorTemplate(const QString &interfaceName, c
     m_interfaceName(interfaceName),
     m_interfaceEvent(interfaceEvent),
     m_selectionId(selectionId),
-    m_selectionMode(selectionMode)
+    m_selectionMode(selectionMode),
+    m_paramDescriptors(new ParamDescriptors(this))
 {
 
 }
@@ -28,4 +29,9 @@ int EventDescriptorTemplate::selectionId() const
 EventDescriptorTemplate::SelectionMode EventDescriptorTemplate::selectionMode() const
 {
     return m_selectionMode;
+}
+
+ParamDescriptors *EventDescriptorTemplate::paramDescriptors() const
+{
+    return m_paramDescriptors;
 }

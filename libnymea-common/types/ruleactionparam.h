@@ -14,6 +14,7 @@ class RuleActionParam : public Param
     Q_PROPERTY(QString eventTypeId READ eventTypeId WRITE setEventTypeId NOTIFY eventTypeIdChanged)
     Q_PROPERTY(QString eventParamTypeId READ eventParamTypeId WRITE setEventParamTypeId NOTIFY eventParamTypeIdChanged)
 public:
+    explicit RuleActionParam(const QString &paramName, const QVariant &value, QObject *parent = nullptr);
     explicit RuleActionParam(QObject *parent = nullptr);
 
     QString paramName() const;

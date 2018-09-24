@@ -30,7 +30,8 @@ SOURCES += main.cpp \
 
 OTHER_FILES += $$files(*.qml, true)
 
-RESOURCES += resources.qrc
+RESOURCES += resources.qrc \
+    ruletemplates.qrc
 equals(STYLES_PATH, "") {
     RESOURCES += styles.qrc
 } else {
@@ -121,4 +122,7 @@ target.path = /usr/bin
 INSTALLS += target
 
 DISTFILES += \
-    ui/components/BusyOverlay.qml
+    ui/components/BusyOverlay.qml \
+    ui/devicepages/NotificationsDevicePage.qml \
+    ruletemplates/buttontemplates.json \
+    ruletemplates/notificationtemplates.json

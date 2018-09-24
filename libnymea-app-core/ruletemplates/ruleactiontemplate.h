@@ -22,7 +22,7 @@ public:
     };
     Q_ENUM(SelectionMode)
 
-    explicit RuleActionTemplate(const QString &interfaceName, const QString &interfaceAction, int selectionId, SelectionMode selectionMode = SelectionModeAny, QObject *parent = nullptr);
+    explicit RuleActionTemplate(const QString &interfaceName, const QString &interfaceAction, int selectionId, SelectionMode selectionMode = SelectionModeAny, RuleActionParams *params = nullptr, QObject *parent = nullptr);
 
     QString interfaceName() const;
     QString interfaceAction() const;

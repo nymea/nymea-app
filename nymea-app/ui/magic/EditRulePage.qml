@@ -8,6 +8,8 @@ Page {
     id: root
 
     property var rule: null
+    property var initialDeviceToBeAdded: null
+
     property bool busy: false
 
     readonly property bool isEventBased: rule.eventDescriptors.count > 0 || rule.timeDescriptor.timeEventItems.count > 0
@@ -128,9 +130,7 @@ Page {
         })
         statePage.done.connect(function() {
             root.rule.setStateEvaluator(stateEvaluator)
-            pageStack.pop();
-            pageStack.pop();
-            pageStack.pop();
+            pageStack.pop(root);
         })
     }
 
@@ -437,7 +437,12 @@ Page {
                 text: eventsRepeater.count == 0 && timeEventRepeater.count === 0 ? qsTr("Configure...") : qsTr("Add another...")
                 visible: !root.isStateBased
                 onClicked: {
-                    if (root.rule.timeDescriptor.calendarItems.count > 0) {
+                    if (root.initialDeviceToBeAdded !== null) {
+                        var eventDescriptor = root.rule.eventDescriptors.createNewEventDescriptor();
+                        eventDescriptor.deviceId = root.initialDeviceToBeAdded.id;
+                        root.initialDeviceToBeAdded = null;
+                        selectEventDescriptorData(eventDescriptor);
+                    } else if (root.rule.timeDescriptor.calendarItems.count > 0) {
                         root.addEventDescriptor()
                     } else {
                         pageStack.push(eventQuestionPageComponent)
@@ -526,7 +531,12 @@ Page {
                           qsTr("Add another...")
                 visible: root.rule.timeDescriptor.timeEventItems.count === 0 || root.rule.stateEvaluator === null
                 onClicked: {
-                    if (root.rule.timeDescriptor.timeEventItems.count > 0) {
+                    if (root.initialDeviceToBeAdded !== null) {
+                        var stateEvaluator = root.rule.createStateEvaluator();
+                        stateEvaluator.stateDescriptor.deviceId = root.initialDeviceToBeAdded.id
+                        root.initialDeviceToBeAdded = null;
+                        selectStateDescriptorData(stateEvaluator)
+                    } else if (root.rule.timeDescriptor.timeEventItems.count > 0) {
                         root.rule.setStateEvaluator(root.rule.createStateEvaluator());
                     } else if (root.rule.stateEvaluator !== null) {
                         root.addCalendarItem();
@@ -578,11 +588,18 @@ Page {
                 Layout.margins: app.margins
                 text: root.isEmpty ? qsTr("Configure...") :
                                      actionsRepeater.count == 0 ? qsTr("Add an action...") : qsTr("Add another action...")
-                onClicked: {
+                onClicked: {                    
                     if (root.isEmpty) {
                         root.rule.executable = true;
                     }
-                    var page = pageStack.push(ruleActionQuestionPageComponent, {exitAction: false});
+                    if (root.initialDeviceToBeAdded !== null) {
+                        var ruleAction = root.rule.actions.createNewRuleAction();
+                        ruleAction.deviceId = root.initialDeviceToBeAdded.id;
+                        root.initialDeviceToBeAdded = null;
+                        selectRuleActionData(root.rule.actions, ruleAction)
+                    } else {
+                        var page = pageStack.push(ruleActionQuestionPageComponent, {exitAction: false});
+                    }
                 }
                 visible: root.actionsVisible
             }
