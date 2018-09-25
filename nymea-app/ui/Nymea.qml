@@ -20,7 +20,7 @@ ApplicationWindow {
     Material.accent: accentColor
     Material.foreground: foregroundColor
 
-    property int margins: 14
+    property int margins: 16
     property int bigMargins: 20
     property int extraSmallFont: 10
     property int smallFont: 13
@@ -41,6 +41,7 @@ ApplicationWindow {
         property int currentMainViewIndex: 0
         property bool showHiddenOptions: false
         property int cloudEnvironment: 0
+        property bool showConnectionTabs: app.hasOwnProperty("industrialSetup") && app.industrialSetup
     }
 
     RootItem {

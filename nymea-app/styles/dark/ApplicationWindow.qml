@@ -33,5 +33,5 @@ ApplicationWindow {
         "pressuresensor": "grey"
     }
 
-    property bool showConnectionTabs: false
+    property bool industrialSetup: true
 }

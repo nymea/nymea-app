@@ -232,11 +232,12 @@ Item {
         }
 
         RowLayout {
-            visible: app.showConnectionTabs
+            visible: settings.showConnectionTabs
 
             TabBar {
                 id: tabbar
                 Layout.fillWidth: true
+                Material.elevation: 2
 
                 Repeater {
                     model: mainRepeater.count

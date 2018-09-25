@@ -31,6 +31,4 @@ ApplicationWindow {
         "pressuresensor": "grey"
     }
 
-    property bool showConnectionTabs: false
-
 }

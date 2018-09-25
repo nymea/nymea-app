@@ -13,15 +13,17 @@ Page {
         onBackPressed: pageStack.pop()
     }
 
-    ColumnLayout {
-        anchors { left: parent.left; right: parent.right; top: parent.top }
+    Flickable {
+        anchors.fill: parent
+        contentHeight: contentColumn.implicitHeight
+        interactive: contentHeight > height
 
         ColumnLayout {
-            Layout.fillWidth: true
-            Layout.margins: app.margins
+            id: contentColumn
+            width: parent.width
 
             RowLayout {
-                Layout.fillWidth: true
+                Layout.fillWidth: true; Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.topMargin: app.margins
                 Label {
                     Layout.fillWidth: true
                     text: qsTr("View mode")
@@ -55,7 +57,7 @@ Page {
             }
 
             RowLayout {
-                Layout.fillWidth: true
+                Layout.fillWidth: true; Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
                 visible: appBranding.length === 0
                 Label {
                     Layout.fillWidth: true
@@ -80,18 +82,7 @@ Page {
             }
 
             RowLayout {
-                Layout.fillWidth: true
-                Label {
-                    Layout.fillWidth: true
-                    text: qsTr("Return to home on idle")
-                }
-                CheckBox {
-                    checked: settings.returnToHome
-                    onClicked: settings.returnToHome = checked
-                }
-            }
-            RowLayout {
-                Layout.fillWidth: true
+                Layout.fillWidth: true; Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
                 Label {
                     Layout.fillWidth: true
                     text: qsTr("Graph style")
@@ -106,30 +97,43 @@ Page {
                     text: qsTr("Lines")
                     onClicked: settings.graphStyle = "bezier"
                 }
-
+            }
+            CheckDelegate {
+                Layout.fillWidth: true
+                text: qsTr("Return to home on idle")
+                checked: settings.returnToHome
+                onClicked: settings.returnToHome = checked
+            }
+            CheckDelegate {
+                Layout.fillWidth: true
+                text: qsTr("Show connection tabs")
+                checked: settings.showConnectionTabs
+                onClicked: settings.showConnectionTabs = checked
+            }
+            ThinDivider {}
+            MeaListItemDelegate {
+                Layout.fillWidth: true
+                text: qsTr("Cloud login")
+                iconName: "../images/cloud.svg"
+                onClicked: pageStack.push(Qt.resolvedUrl("CloudLoginPage.qml"))
+            }
+            MeaListItemDelegate {
+                Layout.fillWidth: true
+                text: qsTr("About %1").arg(app.appName)
+                iconName: "../images/info.svg"
+                onClicked: pageStack.push(Qt.resolvedUrl("AboutPage.qml"))
+            }
+            MeaListItemDelegate {
+                Layout.fillWidth: true
+                Layout.bottomMargin: app.margins
+                visible: settings.showHiddenOptions
+                text: qsTr("Developer options")
+                iconName: "../images/configure.svg"
+                onClicked: pageStack.push(Qt.resolvedUrl("DeveloperOptionsPage.qml"))
             }
         }
-        ThinDivider {}
-        MeaListItemDelegate {
-            Layout.fillWidth: true
-            text: qsTr("Cloud login")
-            iconName: "../images/cloud.svg"
-            onClicked: pageStack.push(Qt.resolvedUrl("CloudLoginPage.qml"))
-        }
-        MeaListItemDelegate {
-            Layout.fillWidth: true
-            text: qsTr("About %1").arg(app.appName)
-            iconName: "../images/info.svg"
-            onClicked: pageStack.push(Qt.resolvedUrl("AboutPage.qml"))
-        }
-        MeaListItemDelegate {
-            Layout.fillWidth: true
-            visible: settings.showHiddenOptions
-            text: qsTr("Developer options")
-            iconName: "../images/configure.svg"
-            onClicked: pageStack.push(Qt.resolvedUrl("DeveloperOptionsPage.qml"))
-        }
     }
+
 
 
     Component {
