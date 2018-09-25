@@ -28,6 +28,8 @@ Page {
         var page = pageStack.push(Qt.resolvedUrl("ConnectingPage.qml"))
         page.cancel.connect(function() {
             Engine.connection.disconnect()
+            pageStack.pop(root, StackView.Immediate);
+            pageStack.push(discoveryPage)
         })
         Engine.connection.connect(url)
     }
