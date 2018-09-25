@@ -127,9 +127,9 @@ QString AWSClient::username() const
     return m_username;
 }
 
-QByteArray AWSClient::userId() const
+QString AWSClient::userId() const
 {
-    return m_identityId;
+    return m_userId;
 }
 
 AWSDevices *AWSClient::awsDevices() const

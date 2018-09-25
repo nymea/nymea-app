@@ -1,5 +1,12 @@
 #include "ruleactionparam.h"
 
+RuleActionParam::RuleActionParam(const QString &paramName, const QVariant &value, QObject *parent):
+    Param(parent),
+    m_paramName(paramName)
+{
+    setValue(value);
+}
+
 RuleActionParam::RuleActionParam(QObject *parent) : Param(parent)
 {
 

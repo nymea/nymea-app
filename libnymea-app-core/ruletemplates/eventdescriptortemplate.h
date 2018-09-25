@@ -2,6 +2,7 @@
 #define EVENTDESCRIPTORTEMPLATE_H
 
 #include <QObject>
+#include "types/paramdescriptors.h"
 
 class EventDescriptorTemplate : public QObject
 {
@@ -10,6 +11,7 @@ class EventDescriptorTemplate : public QObject
     Q_PROPERTY(QString interfaceEvent READ interfaceEvent CONSTANT)
     Q_PROPERTY(int selectionId READ selectionId CONSTANT)
     Q_PROPERTY(SelectionMode selectionMode READ selectionMode CONSTANT)
+    Q_PROPERTY(ParamDescriptors* paramDescriptors READ paramDescriptors CONSTANT)
 public:
     enum SelectionMode {
         SelectionModeAny,
@@ -24,12 +26,14 @@ public:
     QString interfaceEvent() const;
     int selectionId() const;
     SelectionMode selectionMode() const;
+    ParamDescriptors* paramDescriptors() const;
 
 private:
     QString m_interfaceName;
     QString m_interfaceEvent;
     int m_selectionId = 0;
     SelectionMode m_selectionMode = SelectionModeAny;
+    ParamDescriptors *m_paramDescriptors = nullptr;
 };
 
 #include <QAbstractListModel>

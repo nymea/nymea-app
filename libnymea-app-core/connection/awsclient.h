@@ -79,7 +79,7 @@ class AWSClient : public QObject
     Q_PROPERTY(bool isLoggedIn READ isLoggedIn NOTIFY isLoggedInChanged)
     Q_PROPERTY(QString username READ username NOTIFY isLoggedInChanged)
     Q_PROPERTY(bool confirmationPending READ confirmationPending NOTIFY confirmationPendingChanged)
-    Q_PROPERTY(QByteArray userId READ userId NOTIFY isLoggedInChanged)
+    Q_PROPERTY(QString userId READ userId NOTIFY isLoggedInChanged)
     Q_PROPERTY(QByteArray idToken READ idToken NOTIFY isLoggedInChanged)
     Q_PROPERTY(AWSDevices* awsDevices READ awsDevices CONSTANT)
 
@@ -100,7 +100,7 @@ public:
 
     bool isLoggedIn() const;
     QString username() const;
-    QByteArray userId() const;
+    QString userId() const;
     AWSDevices* awsDevices() const;
     bool confirmationPending() const;
 

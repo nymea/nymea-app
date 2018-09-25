@@ -1,0 +1,102 @@
+{
+    "templates": [
+        {
+            "interfaceName": "notifications",
+            "description": "Notify me when a device runs out of battery",
+            "ruleNameTemplate": "Low battery alert for %0",
+            "stateEvaluatorTemplate": {
+                "stateDescriptorTemplate": {
+                    "interfaceName": "battery",
+                    "interfaceState": "batteryCritical",
+                    "operator": "ValueOperatorEquals",
+                    "value": true,
+                    "selectionId": 0
+                }
+            },
+            "ruleActionTemplates": [
+                {
+                    "interfaceName": "notifications",
+                    "interfaceAction": "notify",
+                    "selectionId": 1,
+                    "selectionMode": "SelectionModeDevice",
+                    "params": [
+                        {
+                            "name": "title",
+                            "value": "Low battery alert"
+                        },
+                        {
+                            "name": "body",
+                            "value": "%0 runs out of battery"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "interfaceName": "notifications",
+            "description": "Notify me when a thing gets disconnected",
+            "ruleNameTemplate": "Disconnect alert for %0",
+            "stateEvaluatorTemplate": {
+                "stateDescriptorTemplate": {
+                    "interfaceName": "connectable",
+                    "interfaceState": "connected",
+                    "selectionId": 0,
+                    "selectionMode": "SelectionModeDevice",
+                    "operator": "ValueOperatorEquals",
+                    "value": false
+                }
+            },
+            "ruleActionTemplates": [
+                {
+                    "interfaceName": "notifications",
+                    "interfaceAction": "notify",
+                    "selectionId": 1,
+                    "selectionMode": "SelectionModeDevice",
+                    "params": [
+                        {
+                            "name": "title",
+                            "value": "Disconnect alert"
+                        },
+                        {
+                            "name": "body",
+                            "value": "%0 has disconnected"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "interfaceName": "notifications",
+            "description": "Notify me when a thing connects",
+            "ruleNameTemplate": "Connection notification for %0",
+            "stateEvaluatorTemplate": {
+                "stateDescriptorTemplate": {
+                    "interfaceName": "connectable",
+                    "interfaceState": "connected",
+                    "selectionId": 0,
+                    "selectionMode": "SelectionModeDevice",
+                    "operator": "ValueOperatorEquals",
+                    "value": true
+                }
+            },
+            "ruleActionTemplates": [
+                {
+                    "interfaceName": "notifications",
+                    "interfaceAction": "notify",
+                    "selectionId": 1,
+                    "selectionMode": "SelectionModeDevice",
+                    "params": [
+                        {
+                            "name": "title",
+                            "value": "Thin connected"
+                        },
+                        {
+                            "name": "body",
+                            "value": "%0 has connected"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

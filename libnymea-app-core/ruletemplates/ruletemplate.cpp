@@ -3,14 +3,20 @@
 #include "stateevaluatortemplate.h"
 #include "ruleactiontemplate.h"
 
-RuleTemplate::RuleTemplate(const QString &description, const QString &ruleNameTemplate, QObject *parent):
+RuleTemplate::RuleTemplate(const QString &interfaceName, const QString &description, const QString &ruleNameTemplate, QObject *parent):
     QObject(parent),
+    m_interfaceName(interfaceName),
     m_description(description),
     m_ruleNameTemplate(ruleNameTemplate),
     m_eventDescriptorTemplates(new EventDescriptorTemplates(this)),
     m_ruleActionTemplates(new RuleActionTemplates(this)),
     m_ruleExitActionTemplates(new RuleActionTemplates(this))
 {
+}
+
+QString RuleTemplate::interfaceName() const
+{
+    return m_interfaceName;
 }
 
 QString RuleTemplate::description() const

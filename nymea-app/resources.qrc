@@ -248,5 +248,6 @@
         <file>ui/appsettings/AppSettingsPage.qml</file>
         <file>ui/appsettings/DeveloperOptionsPage.qml</file>
         <file>ui/appsettings/CloudLoginPage.qml</file>
+        <file>ui/devicepages/NotificationsDevicePage.qml</file>
     </qresource>
 </RCC>

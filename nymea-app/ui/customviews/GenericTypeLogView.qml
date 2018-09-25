@@ -13,6 +13,8 @@ Item {
 
     property var logsModel: null
 
+    property alias delegate: listView.delegate
+
     ColumnLayout {
         anchors.fill: parent
 

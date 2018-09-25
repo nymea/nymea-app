@@ -6,8 +6,6 @@ import Qt.labs.settings 1.0
 import QtQuick.Window 2.3
 import Nymea 1.0
 
-//import QtFirebase 1.0
-
 ApplicationWindow {
     id: app
     visible: true
@@ -347,6 +345,12 @@ ApplicationWindow {
             return "button";
         case "sensor":
             return qsTr("sensor")
+        case "battery":
+            return qsTr("battery powered thing")
+        case "connectable":
+            return qsTr("connectable thing")
+        default:
+            console.warn("Unhandled interfaceToDisplayName:", name)
         }
     }
 
@@ -370,6 +374,8 @@ ApplicationWindow {
             page = "ShutterDevicePage.qml";
         } else if (interfaceList.indexOf("extendedawning") >= 0) {
             page = "AwningDevicePage.qml";
+        } else if (interfaceList.indexOf("notifications") >= 0) {
+            page = "NotificationsDevicePage.qml";
         } else {
             page = "GenericDevicePage.qml";
         }

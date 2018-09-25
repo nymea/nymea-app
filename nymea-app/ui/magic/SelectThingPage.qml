@@ -9,13 +9,16 @@ Page {
     id: root
 
     property bool selectInterface: false
-    signal backPressed();
-    signal thingSelected(var device);
-    signal interfaceSelected(string interfaceName);
     property alias showEvents: interfacesProxy.showEvents
     property alias showActions: interfacesProxy.showActions
     property alias showStates: interfacesProxy.showStates
     property alias shownInterfaces: devicesProxy.shownInterfaces
+    property bool allowSelectAny: false
+
+    signal backPressed();
+    signal thingSelected(var device);
+    signal interfaceSelected(string interfaceName);
+    signal anySelected();
 
     header: GuhHeader {
         text: root.selectInterface ?
@@ -36,6 +39,16 @@ Page {
 
     ColumnLayout {
         anchors.fill: parent
+
+        MeaListItemDelegate {
+            Layout.fillWidth: true
+            text: qsTr("Any %1").arg(app.interfaceToDisplayName(root.shownInterfaces[0]))
+            visible: root.allowSelectAny
+            onClicked: {
+                root.anySelected();
+            }
+        }
+        ThinDivider { visible: root.allowSelectAny }
 
         ListView {
             Layout.fillWidth: true

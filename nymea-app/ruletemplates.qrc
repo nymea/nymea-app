@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>ruletemplates/buttontemplates.json</file>
+        <file>ruletemplates/notificationtemplates.json</file>
+    </qresource>
+</RCC>
