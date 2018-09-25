@@ -18,6 +18,7 @@
                     "interfaceName": "notifications",
                     "interfaceAction": "notify",
                     "selectionId": 1,
+                    "selectionMode": "SelectionModeDevice",
                     "params": [
                         {
                             "name": "title",
@@ -40,6 +41,7 @@
                     "interfaceName": "connectable",
                     "interfaceState": "connected",
                     "selectionId": 0,
+                    "selectionMode": "SelectionModeDevice",
                     "operator": "ValueOperatorEquals",
                     "value": false
                 }
@@ -49,6 +51,7 @@
                     "interfaceName": "notifications",
                     "interfaceAction": "notify",
                     "selectionId": 1,
+                    "selectionMode": "SelectionModeDevice",
                     "params": [
                         {
                             "name": "title",
@@ -71,6 +74,7 @@
                     "interfaceName": "connectable",
                     "interfaceState": "connected",
                     "selectionId": 0,
+                    "selectionMode": "SelectionModeDevice",
                     "operator": "ValueOperatorEquals",
                     "value": true
                 }
@@ -80,6 +84,7 @@
                     "interfaceName": "notifications",
                     "interfaceAction": "notify",
                     "selectionId": 1,
+                    "selectionMode": "SelectionModeDevice",
                     "params": [
                         {
                             "name": "title",
