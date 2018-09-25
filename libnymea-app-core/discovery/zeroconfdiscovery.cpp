@@ -52,8 +52,8 @@ void ZeroconfDiscovery::serviceEntryAdded(const QZeroConfService &entry)
         // Skip entries that don't have an ip address at all for some reason
         return;
     }
-    if (entry.ipv6().toString().startsWith("fe80")) {
-        // Skip link-local IPv6 addresses
+    if (entry.ip().isNull() && entry.ipv6().toString().startsWith("fe80")) {
+        // Skip link-local-IPv6-only results
         return;
     }
 
