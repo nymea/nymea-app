@@ -54,9 +54,14 @@ Page {
                 text: qsTr("Server name")
             }
             TextField {
+                id: nameTextField
                 Layout.fillWidth: true
                 text: Engine.basicConfiguration.serverName
-                onAccepted: Engine.basicConfiguration.serverName = text
+            }
+            Button {
+                text: qsTr("OK")
+                visible: nameTextField.displayText !== Engine.basicConfiguration.serverName
+                onClicked: Engine.basicConfiguration.serverName = nameTextField.displayText
             }
         }
 
