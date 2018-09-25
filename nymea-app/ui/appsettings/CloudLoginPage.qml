@@ -83,7 +83,18 @@ Page {
                 prominentSubText: false
                 canDelete: true
                 iconName: "../images/cloud.svg"
-                secondaryIconName: model.online ? "../images/cloud.svg" : "../images/cloud-offline.svg"
+                secondaryIconName: !model.online ? "../images/cloud-error.svg" : ""
+
+                onClicked: {
+                    var page = pageStack.push(Qt.resolvedUrl("../connection/ConnectingPage.qml"))
+                    page.cancel.connect(function() {
+                        Engine.connection.disconnect()
+                        pageStack.pop(root, StackView.Immediate);
+                        pageStack.push(discoveryPage)
+                    })
+                    Engine.connection.connect("cloud://" + model.id)
+                }
+
                 onDeleteClicked: {
                     Engine.awsClient.unpairDevice(model.id);
                 }
