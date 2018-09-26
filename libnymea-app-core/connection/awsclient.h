@@ -96,7 +96,7 @@ public:
     };
     Q_ENUM(LoginError)
 
-    explicit AWSClient(QObject *parent = nullptr);
+    static AWSClient* instance();
 
     bool isLoggedIn() const;
     QString username() const;
@@ -145,6 +145,9 @@ signals:
     void configChanged();
 
 private:
+    explicit AWSClient(QObject *parent = nullptr);
+    static AWSClient* s_instance;
+
     void refreshAccessToken();
     void getCredentialsForIdentity(const QString &identityId);
     void connectMQTT();

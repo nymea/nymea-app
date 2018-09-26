@@ -105,15 +105,14 @@ void CloudTransport::ignoreSslErrors(const QList<QSslError> &errors)
     m_remoteproxyConnection->ignoreSslErrors(errors);
 }
 
-CloudTransportFactory::CloudTransportFactory(AWSClient *awsClient):
-    m_awsClient(awsClient)
+CloudTransportFactory::CloudTransportFactory()
 {
 
 }
 
 NymeaTransportInterface *CloudTransportFactory::createTransport(QObject *parent) const
-{
-    return new CloudTransport(m_awsClient, parent);
+{    
+    return new CloudTransport(AWSClient::instance(), parent);
 }
 
 QStringList CloudTransportFactory::supportedSchemes() const

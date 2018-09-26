@@ -36,7 +36,7 @@ Page {
                 Button {
                     text: qsTr("Disconnect")
                     onClicked: {
-                        settings.lastConnectedHost = "";
+                        tabSettings.lastConnectedHost = "";
                         engine.connection.disconnect();
                     }
                 }

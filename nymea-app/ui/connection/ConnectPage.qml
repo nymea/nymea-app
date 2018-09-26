@@ -11,8 +11,8 @@ Page {
     readonly property bool haveHosts: discovery.discoveryModel.count > 0
 
     Component.onCompleted: {
-        print("completed connectPage. last connected host:", settings.lastConnectedHost)
-        if (settings.lastConnectedHost.length > 0 && engine.connection.connect(settings.lastConnectedHost)) {
+        print("completed connectPage for tab", connectionTabIndex, "last connected host:", tabSettings.lastConnectedHost)
+        if (tabSettings.lastConnectedHost.length > 0 && engine.connection.connect(tabSettings.lastConnectedHost)) {
             var page = pageStack.push(Qt.resolvedUrl("ConnectingPage.qml"))
             page.cancel.connect(function() {
                 engine.connection.disconnect();
@@ -37,7 +37,7 @@ Page {
     NymeaDiscovery {
         id: discovery
         objectName: "discovery"
-        awsClient: engine.awsClient
+        awsClient: AWSClient
         discovering: pageStack.currentItem.objectName === "discoveryPage"
     }
 
@@ -285,7 +285,7 @@ Page {
                     Layout.leftMargin: app.margins
                     Layout.rightMargin: app.margins
                     text: qsTr("Cloud login")
-                    visible: !engine.awsClient.isLoggedIn
+                    visible: !AWSClient.isLoggedIn
                     onClicked: pageStack.push(Qt.resolvedUrl("../appsettings/CloudLoginPage.qml"))
                 }
 

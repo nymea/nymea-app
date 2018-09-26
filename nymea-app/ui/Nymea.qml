@@ -32,7 +32,6 @@ ApplicationWindow {
     readonly property bool landscape: app.width > app.height
 
     readonly property var settings: Settings {
-        property string lastConnectedHost: ""
         property alias viewMode: app.visibility
         property bool returnToHome: false
         property bool darkTheme: false
@@ -42,6 +41,7 @@ ApplicationWindow {
         property bool showHiddenOptions: false
         property int cloudEnvironment: 0
         property bool showConnectionTabs: app.hasOwnProperty("industrialSetup") && app.industrialSetup
+        property int tabCount: 1
     }
 
     RootItem {

@@ -2,6 +2,7 @@ import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.2
 import QtQuick.Layouts 1.3
+import Qt.labs.settings 1.0
 import Nymea 1.0
 import "components"
 
@@ -16,17 +17,26 @@ Item {
 
     ListModel {
         id: tabModel
+
         Component.onCompleted: {
-            append({})
+            for (var i = 0; i < settings.tabCount; i++) {
+                tabModel.append({})
+            }
         }
+
         function addTab() {
-            settings.lastConnectedHost = ""
             tabModel.append({})
+            settings.tabCount++;
+        }
+        function removeTab(index) {
+            remove(index);
+            settings.tabCount--;
         }
     }
 
     ColumnLayout {
         anchors.fill: parent
+        spacing: 0
 
         SwipeView {
             id: swipeView
@@ -45,13 +55,21 @@ Item {
                     objectName: "pageStack"
                     initialItem: Page {}
 
+                    Settings {
+                        id: tabSettings
+                        category: "tabSettings" + index
+                        property string lastConnectedHost
+                    }
+
                     Engine {
                         id: engine
                     }
                     property alias _engine: engine
+                    property int connectionTabIndex: index
+                    onConnectionTabIndexChanged: tabSettings.lastConnectedHost = engine.connection.url
 
                     Binding {
-                        target: engine.awsClient
+                        target: AWSClient
                         property: "config"
                         value: settings.cloudEnvironment
                     }
@@ -74,14 +92,14 @@ Item {
                                 print("opening push button auth")
                                 var page = pageStack.push(Qt.resolvedUrl("PushButtonAuthPage.qml"))
                                 page.backPressed.connect(function() {
-                                    settings.lastConnectedHost = "";
+                                    tabSettings.lastConnectedHost = "";
                                     engine.connection.disconnect();
                                     init();
                                 })
                             } else {
                                 var page = pageStack.push(Qt.resolvedUrl("LoginPage.qml"));
                                 page.backPressed.connect(function() {
-                                    settings.lastConnectedHost = "";
+                                    tabSettings.lastConnectedHost = "";
                                     engine.connection.disconnect()
                                     init();
                                 })
@@ -110,7 +128,7 @@ Item {
                             askForPermissions = true;
                         }
 
-                        if (!engine.awsClient.isLoggedIn) {
+                        if (!AWSClient.isLoggedIn) {
                             print("AWS not logged in. Cannot register for push");
                             return;
                         }
@@ -125,7 +143,7 @@ Item {
                                 PlatformHelper.requestPermissions();
                             }
                         } else {
-                            engine.awsClient.registerPushNotificationEndpoint(PushNotifications.token, PlatformHelper.deviceManufacturer + " " + PlatformHelper.deviceModel, PlatformHelper.deviceSerial + "+io.guh.nymeaapp");
+                            AWSClient.registerPushNotificationEndpoint(PushNotifications.token, PlatformHelper.deviceManufacturer + " " + PlatformHelper.deviceModel, PlatformHelper.deviceSerial + "+io.guh.nymeaapp");
                         }
                     }
 
@@ -134,7 +152,7 @@ Item {
                         onConnectedChanged: {
                             print("json client connected changed", engine.jsonRpcClient.connected)
                             if (engine.jsonRpcClient.connected) {
-                                settings.lastConnectedHost = engine.connection.url
+                                tabSettings.lastConnectedHost = engine.connection.url
                             }
                             init();
                         }
@@ -153,7 +171,7 @@ Item {
                             popup.actualVersion = actualVersion;
                             popup.minimumVersion = minimumVersion
                             popup.open()
-                            settings.lastConnectedHost = ""
+                            tabSettings.lastConnectedHost = ""
                         }
                     }
 
@@ -183,7 +201,7 @@ Item {
                     }
 
                     Connections {
-                        target: engine.awsClient
+                        target: AWSClient
                         onIsLoggedInChanged: {
                             setupPushNotifications()
                         }
@@ -233,6 +251,7 @@ Item {
 
         RowLayout {
             visible: settings.showConnectionTabs
+            spacing: 0
 
             TabBar {
                 id: tabbar
@@ -246,6 +265,7 @@ Item {
                         id: hostTabButton
                         property var engine: mainRepeater.itemAt(index)._engine
                         property string serverName: engine.basicConfiguration.serverName
+                        Material.elevation: index
 
                         contentItem: RowLayout {
                             Label {
@@ -260,7 +280,7 @@ Item {
                                 name: "../images/close.svg"
                                 MouseArea {
                                     anchors.fill: parent
-                                    onClicked: tabModel.remove(index)
+                                    onClicked: tabModel.removeTab(index)
                                 }
                             }
                         }
@@ -272,17 +292,25 @@ Item {
                 }
             }
 
-            TabButton {
+            Pane {
+                Layout.preferredHeight: tabbar.height
                 Layout.preferredWidth: height
-                contentItem: ColorIcon {
-                    height: parent.height
-                    width: parent.width
-                    name: "../images/add.svg"
-                }
-                onClicked: {
-                    tabModel.addTab()
+                Material.elevation: 2
+                padding: 0
+
+                TabButton {
+                    anchors.fill: parent
+                    contentItem: ColorIcon {
+                        height: parent.height
+                        width: parent.width
+                        name: "../images/add.svg"
+                    }
+                    onClicked: {
+                        tabModel.addTab()
+                    }
                 }
             }
+
         }
     }
 }

@@ -10,6 +10,7 @@
 
 #include "sigv4utils.h"
 
+AWSClient* AWSClient::s_instance = nullptr;
 
 // This is Symantec's root CA certificate and most platforms should
 // have this in their certificate storage already, but as we can't
@@ -114,6 +115,14 @@ AWSClient::AWSClient(QObject *parent) : QObject(parent),
     m_secretKey = settings.value("secretKey").toByteArray();
     m_sessionToken = settings.value("sessionToken").toByteArray();
     m_sessionTokenExpiry = settings.value("sessionTokenExpiry").toDateTime();
+}
+
+AWSClient *AWSClient::instance()
+{
+    if (!s_instance) {
+        s_instance = new AWSClient();
+    }
+    return s_instance;
 }
 
 bool AWSClient::isLoggedIn() const

@@ -43,7 +43,7 @@ class Engine : public QObject
     Q_PROPERTY(TagsManager* tagsManager READ tagsManager CONSTANT)
     Q_PROPERTY(JsonRpcClient* jsonRpcClient READ jsonRpcClient CONSTANT)
     Q_PROPERTY(BasicConfiguration* basicConfiguration READ basicConfiguration CONSTANT)
-    Q_PROPERTY(AWSClient* awsClient READ awsClient CONSTANT)
+//    Q_PROPERTY(AWSClient* awsClient READ awsClient CONSTANT)
 
 public:
     explicit Engine(QObject *parent = nullptr);
@@ -58,7 +58,7 @@ public:
     JsonRpcClient *jsonRpcClient() const;
     LogManager *logManager() const;
     BasicConfiguration *basicConfiguration() const;
-    AWSClient* awsClient() const;
+//    AWSClient* awsClient() const;
 
     Q_INVOKABLE void deployCertificate();
 
@@ -70,7 +70,7 @@ private:
     LogManager *m_logManager;
     TagsManager *m_tagsManager;
     BasicConfiguration *m_basicConfiguration;
-    AWSClient *m_aws;
+//    AWSClient *m_aws;
 
 private slots:
     void onConnectedChanged();

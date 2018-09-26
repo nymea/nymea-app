@@ -61,6 +61,14 @@ static QObject* interfacesModel_provider(QQmlEngine *engine, QJSEngine *scriptEn
     return new Interfaces();
 }
 
+static QObject* awsClientProvider(QQmlEngine *engine, QJSEngine *scriptEngine)
+{
+    Q_UNUSED(engine)
+    Q_UNUSED(scriptEngine)
+
+    return AWSClient::instance();
+}
+
 void registerQmlTypes() {
 
     const char uri[] = "Nymea";
@@ -161,7 +169,7 @@ void registerQmlTypes() {
     qmlRegisterUncreatableType<WirelessAccessPoints>(uri, 1, 0, "WirelessAccessPoints", "Can't create this in QML. Get it from the Engine instance.");
     qmlRegisterUncreatableType<WirelessAccessPointsProxy>(uri, 1, 0, "WirelessAccessPoints", "Can't create this in QML. Get it from the Engine instance.");
 
-    qmlRegisterUncreatableType<AWSClient>(uri, 1, 0, "AWSClient", "Can't create this in QML. Get it from Engine");
+    qmlRegisterSingletonType<AWSClient>(uri, 1, 0, "AWSClient", awsClientProvider);
     qmlRegisterUncreatableType<AWSDevice>(uri, 1, 0, "AWSDevice", "Can't create this in QML. Get it from AWSClient");
 
     qmlRegisterType<RuleTemplates>(uri, 1, 0, "RuleTemplates");

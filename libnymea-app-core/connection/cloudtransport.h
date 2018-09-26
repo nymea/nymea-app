@@ -13,11 +13,9 @@ class RemoteProxyConnection;
 class CloudTransportFactory: public NymeaTransportInterfaceFactory
 {
 public:
-    CloudTransportFactory(AWSClient *awsClient);
+    CloudTransportFactory();
     NymeaTransportInterface* createTransport(QObject *parent = nullptr) const override;
     QStringList supportedSchemes() const override;
-private:
-    AWSClient *m_awsClient = nullptr;
 };
 
 class CloudTransport : public NymeaTransportInterface

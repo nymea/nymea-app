@@ -21,8 +21,8 @@ Page {
                 print("cloud connection state changed", engine.jsonRpcClient.cloudConnectionState)
                 if (engine.jsonRpcClient.cloudConnectionState === JsonRpcClient.CloudConnectionStateConnected) {
                     d.deploymentStarted = false;
-                    if (engine.awsClient.awsDevices.getDevice(engine.jsonRpcClient.serverUuid) === null) {
-                        engine.jsonRpcClient.setupRemoteAccess(engine.awsClient.idToken, engine.awsClient.userId)
+                    if (AWSClient.awsDevices.getDevice(engine.jsonRpcClient.serverUuid) === null) {
+                        engine.jsonRpcClient.setupRemoteAccess(AWSClient.idToken, AWSClient.userId)
                     }
                 }
             }
@@ -43,7 +43,7 @@ Page {
 
 //        Button {
 //            text: "pair"
-//            onClicked: engine.jsonRpcClient.setupRemoteAccess(engine.awsClient.idToken, engine.awsClient.userId)
+//            onClicked: engine.jsonRpcClient.setupRemoteAccess(AWSClient.idToken, AWSClient.userId)
 //        }
 
         SwitchDelegate {
@@ -111,9 +111,9 @@ Page {
             Layout.fillWidth: true
             Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
             visible: engine.jsonRpcClient.cloudConnectionState === JsonRpcClient.CloudConnectionStateUnconfigured && !d.deploymentStarted
-            text: engine.awsClient.isLoggedIn ? qsTr("Register box") : qsTr("Log in to cloud")
+            text: AWSClient.isLoggedIn ? qsTr("Register box") : qsTr("Log in to cloud")
             onClicked: {
-                if (engine.awsClient.isLoggedIn) {
+                if (AWSClient.isLoggedIn) {
                     d.deploymentStarted = true
                     engine.deployCertificate();
                 } else {
@@ -121,16 +121,5 @@ Page {
                 }
             }
         }
-
-
-//        Label {
-//            Layout.fillWidth: true
-//            Layout.leftMargin: app.margins
-//            Layout.rightMargin: app.margins
-//            visible: engine.basicConfiguration.cloudEnabled && engine.awsClient.isLoggedIn
-//            text: engine.awsClient.awsDevices.getDevice(engine.jsonRpcClient.serverUuid) !== null ?
-//                      qsTr("This box is connected to a nymea:cloud.") :
-//                      qsTr("Connecting to nymea:cloud...")
-//        }
     }
 }
