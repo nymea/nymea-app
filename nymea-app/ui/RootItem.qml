@@ -27,11 +27,20 @@ Item {
         function addTab() {
             tabModel.append({})
             settings.tabCount++;
+            swipeView.currentIndex = settings.tabCount - 1
+            tabbar.currentIndex = swipeView.currentIndex
         }
         function removeTab(index) {
             remove(index);
             settings.tabCount--;
+            tabbar.currentIndex = swipeView.currentIndex
+            orphanedSettings.lastConnectedHost = ""
         }
+    }
+    Settings {
+        id: orphanedSettings
+        category: "tabSettings" + tabModel.count
+        property string lastConnectedHost
     }
 
     ColumnLayout {
@@ -55,8 +64,7 @@ Item {
                     objectName: "pageStack"
                     initialItem: Page {}
 
-                    Settings {
-                        id: tabSettings
+                    property var tabSettings: Settings {
                         category: "tabSettings" + index
                         property string lastConnectedHost
                     }
