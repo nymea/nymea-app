@@ -45,7 +45,7 @@ void BluetoothServiceDiscovery::discover()
     if (m_discovering)
         return;
 
-    qDebug() << "BluetoothServiceDiscovery: Service scan started for service: " << m_nymeaServiceUuid.toString();
+//    qDebug() << "BluetoothServiceDiscovery: Service scan started for service: " << m_nymeaServiceUuid.toString();
     setDiscovering(true);
     m_serviceDiscovery->setUuidFilter(m_nymeaServiceUuid);
 
@@ -116,7 +116,7 @@ void BluetoothServiceDiscovery::onServiceDiscovered(const QBluetoothServiceInfo 
 
 void BluetoothServiceDiscovery::onServiceDiscoveryFinished()
 {
-    qDebug() << "BluetoothServiceDiscovery: Service discovery finished.";
+//    qDebug() << "BluetoothServiceDiscovery: Service discovery finished.";
     setDiscovering(false);
 
     foreach (const QBluetoothServiceInfo &serviceInfo, m_serviceDiscovery->discoveredServices()) {
@@ -130,7 +130,7 @@ void BluetoothServiceDiscovery::onServiceDiscoveryFinished()
             return;
         }
 
-        qDebug() << "BluetoothServiceDiscovery: Restart service discovery";
+//        qDebug() << "BluetoothServiceDiscovery: Restart service discovery";
         discover();
     }
 }

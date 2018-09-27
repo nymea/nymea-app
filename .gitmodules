@@ -1,6 +1,6 @@
 [submodule "QtZeroConf"]
 	path = QtZeroConf
-	url = https://github.com/jbagg/QtZeroConf.git
+	url = https://github.com/mzanetti/QtZeroConf.git
 [submodule "nymea-remoteproxy"]
 	path = nymea-remoteproxy
 	url = https://github.com/guh/nymea-remoteproxy.git

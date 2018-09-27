@@ -126,7 +126,7 @@ void BluetoothDiscovery::setDiscovering(bool discovering)
 
 void BluetoothDiscovery::onBluetoothHostModeChanged(const QBluetoothLocalDevice::HostMode &hostMode)
 {
-    qDebug() << "BluetoothDiscovery: host mode changed" << hostMode;
+//    qDebug() << "BluetoothDiscovery: host mode changed" << hostMode;
     switch (hostMode) {
     case QBluetoothLocalDevice::HostPoweredOff:
         setBluetoothEnabled(false);
@@ -148,7 +148,7 @@ void BluetoothDiscovery::deviceDiscovered(const QBluetoothDeviceInfo &deviceInfo
     BluetoothDeviceInfo *deviceInformation = new BluetoothDeviceInfo(deviceInfo);
     bool isLowEnergy = deviceInfo.coreConfigurations() & QBluetoothDeviceInfo::LowEnergyCoreConfiguration;
 
-    qDebug() << "BluetoothDiscovery: [+]" << deviceInformation->name() << "(" << deviceInformation->address() << ")" << (isLowEnergy ? "LE" : "");
+//    qDebug() << "BluetoothDiscovery: [+]" << deviceInformation->name() << "(" << deviceInformation->address() << ")" << (isLowEnergy ? "LE" : "");
 
     if (!isLowEnergy || deviceInformation->name().isEmpty()) {
         delete deviceInformation;
@@ -158,7 +158,7 @@ void BluetoothDiscovery::deviceDiscovered(const QBluetoothDeviceInfo &deviceInfo
     // Check if we already have added this device info
     foreach (BluetoothDeviceInfo *di, m_deviceInfos->deviceInfos()) {
         if (di->address() == deviceInformation->address()) {
-            qWarning() << "BluetoothDiscover: device" << deviceInformation->name() << "(" << deviceInformation->address() << ") already added";
+//            qWarning() << "BluetoothDiscover: device" << deviceInformation->name() << "(" << deviceInformation->address() << ") already added";
             deviceInformation->deleteLater();
             return;
         }
@@ -169,7 +169,7 @@ void BluetoothDiscovery::deviceDiscovered(const QBluetoothDeviceInfo &deviceInfo
 
 void BluetoothDiscovery::discoveryFinished()
 {
-    qDebug() << "BluetoothDiscovery: Discovery finished";
+//    qDebug() << "BluetoothDiscovery: Discovery finished";
     if (m_enabled) {
         m_discoveryAgent->start();
     }
@@ -197,7 +197,7 @@ void BluetoothDiscovery::start()
         return;
     }
 
-    qDebug() << "BluetoothDiscovery: Start discovering.";
+//    qDebug() << "BluetoothDiscovery: Start discovering.";
     m_discoveryAgent->start();
     setDiscovering(true);
 }
@@ -209,7 +209,7 @@ void BluetoothDiscovery::stop()
     if (!m_discoveryAgent)
         return;
 
-    qDebug() << "BluetoothDiscovery: Stop discovering.";
+//    qDebug() << "BluetoothDiscovery: Stop discovering.";
     m_discoveryAgent->stop();
     setDiscovering(false);
 }

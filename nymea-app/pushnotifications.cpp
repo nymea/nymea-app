@@ -36,12 +36,8 @@ void PushNotifications::connectClient()
 
     m_client_pointer = this;
 
-    m_firebase_initializer.Initialize(m_firebaseApp,
-                                         nullptr, [](::firebase::App * fapp, void *) {
-        qDebug() << "Trying to initialize Firebase Messaging";
-        return ::firebase::messaging::Initialize(
-                    *fapp,
-                    (::firebase::messaging::Listener *)m_client_pointer);
+    m_firebase_initializer.Initialize(m_firebaseApp, nullptr, [](::firebase::App * fapp, void *) {
+        return ::firebase::messaging::Initialize( *fapp, (::firebase::messaging::Listener *)m_client_pointer);
     });
 
     while (m_firebase_initializer.InitializeLastResult().status() !=

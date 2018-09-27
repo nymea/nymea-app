@@ -15,6 +15,7 @@ class ZeroconfDiscovery : public QObject
 
 public:
     explicit ZeroconfDiscovery(DiscoveryModel *discoveryModel, QObject *parent = nullptr);
+    ~ZeroconfDiscovery();
 
     bool available() const;
     bool discovering() const;

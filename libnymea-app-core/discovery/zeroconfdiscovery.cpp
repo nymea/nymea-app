@@ -9,22 +9,32 @@ ZeroconfDiscovery::ZeroconfDiscovery(DiscoveryModel *discoveryModel, QObject *pa
     m_discoveryModel(discoveryModel)
 {
 #ifdef WITH_ZEROCONF
+    // NOTE: There seem to be too many issues in QtZeroConf and IPv6.
+    // See https://github.com/jbagg/QtZeroConf/issues/22
+    // IPv6 resolving is disabled completely for android in avahicore.cpp for now
+    // Limiting this to IPv4 for now...
+
     m_zeroconfJsonRPC = new QZeroConf(this);
     connect(m_zeroconfJsonRPC, &QZeroConf::serviceAdded, this, &ZeroconfDiscovery::serviceEntryAdded);
     connect(m_zeroconfJsonRPC, &QZeroConf::serviceUpdated, this, &ZeroconfDiscovery::serviceEntryAdded);
     connect(m_zeroconfJsonRPC, &QZeroConf::serviceRemoved, this, &ZeroconfDiscovery::serviceEntryRemoved);
-    m_zeroconfJsonRPC->startBrowser("_jsonrpc._tcp", QAbstractSocket::AnyIPProtocol);
+    m_zeroconfJsonRPC->startBrowser("_jsonrpc._tcp", QAbstractSocket::IPv4Protocol);
     qDebug() << "ZeroConf: Created service browser for _jsonrpc._tcp:" << m_zeroconfJsonRPC->browserExists();
 
     m_zeroconfWebSocket = new QZeroConf(this);
     connect(m_zeroconfWebSocket, &QZeroConf::serviceAdded, this, &ZeroconfDiscovery::serviceEntryAdded);
     connect(m_zeroconfWebSocket, &QZeroConf::serviceUpdated, this, &ZeroconfDiscovery::serviceEntryAdded);
     connect(m_zeroconfWebSocket, &QZeroConf::serviceRemoved, this, &ZeroconfDiscovery::serviceEntryRemoved);
-    m_zeroconfWebSocket->startBrowser("_ws._tcp", QAbstractSocket::AnyIPProtocol);
-    qDebug() << "TeroConf: Created service browser for _ws._tcp:" << m_zeroconfWebSocket->browserExists();
+    m_zeroconfWebSocket->startBrowser("_ws._tcp", QAbstractSocket::IPv4Protocol);
+    qDebug() << "ZeroConf: Created service browser for _ws._tcp:" << m_zeroconfWebSocket->browserExists();
 #else
     qDebug() << "Zeroconf support not compiled in. Zeroconf will not be available.";
 #endif
+}
+
+ZeroconfDiscovery::~ZeroconfDiscovery()
+{
+    qDebug() << "ZeroConf: Shutting down service browsers";
 }
 
 bool ZeroconfDiscovery::available() const
@@ -46,18 +56,21 @@ void ZeroconfDiscovery::serviceEntryAdded(const QZeroConfService &entry)
 {
     if (!entry.name().startsWith("nymea")) {
         // Skip non-nymea services altogether
+        qDebug() << "Skipping Avahi entry:" << entry << entry.ip() << entry.ipv6() << entry.txt() << entry.type();
         return;
     }
     if (entry.ip().isNull() && entry.ipv6().isNull()) {
         // Skip entries that don't have an ip address at all for some reason
+        qDebug() << "Skipping Avahi entry:" << entry << entry.ip() << entry.ipv6() << entry.txt() << entry.type();
         return;
     }
     if (entry.ip().isNull() && entry.ipv6().toString().startsWith("fe80")) {
         // Skip link-local-IPv6-only results
+        qDebug() << "Skipping Avahi entry:" << entry << entry.ip() << entry.ipv6() << entry.txt() << entry.type();
         return;
     }
 
-//    qDebug() << "zeroconf service discovered" << entry << entry.ip() << entry.ipv6() << entry.txt() << entry.type();
+    qDebug() << "zeroconf service discovered" << entry.type() << entry.name() << " IP:" << entry.ip() << "IPv6:" << entry.ipv6() << entry.txt();
 
     QString uuid;
     bool sslEnabled = false;

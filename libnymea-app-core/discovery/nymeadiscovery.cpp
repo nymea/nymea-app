@@ -88,7 +88,6 @@ DiscoveryModel *NymeaDiscovery::discoveryModel() const
 
 void NymeaDiscovery::syncCloudDevices()
 {
-    qDebug() << "Cloud devices fetched";
     for (int i = 0; i < Engine::instance()->awsClient()->awsDevices()->rowCount(); i++) {
         AWSDevice *d = Engine::instance()->awsClient()->awsDevices()->get(i);
         DiscoveryDevice *device = m_discoveryModel->find(d->id());
@@ -96,6 +95,7 @@ void NymeaDiscovery::syncCloudDevices()
             device = new DiscoveryDevice();
             device->setUuid(d->id());
             device->setName(d->name());
+            qDebug() << "CloudDiscovery: Adding new host:" << device->name() << device->uuid().toString();
             m_discoveryModel->addDevice(device);
         }
         QUrl url;
@@ -104,6 +104,7 @@ void NymeaDiscovery::syncCloudDevices()
         Connection *conn = device->connections()->find(url);
         if (!conn) {
             conn = new Connection(url, Connection::BearerTypeCloud, true, d->id());
+            qDebug() << "CloudDiscovery: Adding new connection to host:" << device->name() << conn->url().toString();
             device->connections()->addConnection(conn);
         }
         conn->setOnline(d->online());

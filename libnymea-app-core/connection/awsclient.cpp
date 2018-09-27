@@ -642,13 +642,13 @@ void AWSClient::registerPushNotificationEndpoint(const QString &registrationId, 
     payload.insert("mobileDeviceUuid", mobileDeviceId);
     QJsonDocument jsonDoc = QJsonDocument::fromVariant(payload);
 
-    qDebug() << "Registering push notification endpoint:";
-    qDebug() << "POST" << url.toString();
-    qDebug() << "HEADERS:";
-    foreach (const QByteArray &hdr, request.rawHeaderList()) {
-        qDebug() << hdr << ":" << request.rawHeader(hdr);
-    }
-    qDebug() << "Payload:" << qUtf8Printable(jsonDoc.toJson(QJsonDocument::Compact));
+//    qDebug() << "Registering push notification endpoint:";
+//    qDebug() << "POST" << url.toString();
+//    qDebug() << "HEADERS:";
+//    foreach (const QByteArray &hdr, request.rawHeaderList()) {
+//        qDebug() << hdr << ":" << request.rawHeader(hdr);
+//    }
+//    qDebug() << "Payload:" << qUtf8Printable(jsonDoc.toJson(QJsonDocument::Compact));
 
     QNetworkReply *reply = m_nam->post(request, jsonDoc.toJson(QJsonDocument::Compact));
     connect(reply, &QNetworkReply::finished, this, [reply]() {
@@ -658,7 +658,7 @@ void AWSClient::registerPushNotificationEndpoint(const QString &registrationId, 
             qWarning() << "Error registering push notification endpoint:" << reply->error() << reply->errorString() << qUtf8Printable(data);
             return;
         }
-        qDebug() << "Push notification endpoint registered" << data;
+//        qDebug() << "Push notification endpoint registered" << data;
     });
 
 }
@@ -887,7 +887,7 @@ void AWSClient::fetchDevices()
         m_callQueue.append(QueuedCall("fetchDevices"));
         return;
     }
-    qDebug() << "Fetching cloud devices";
+//    qDebug() << "Fetching cloud devices";
     QUrl url(QString("https://%1/users/devices").arg(m_configs.at(m_usedConfigIndex).apiEndpoint));
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
@@ -914,7 +914,7 @@ void AWSClient::fetchDevices()
             QString deviceId = entry.toMap().value("deviceId").toString();
             QString name = entry.toMap().value("name").toString();
             bool online = entry.toMap().value("online").toBool();
-            qDebug() << "Have cloud device:" << deviceId << name << "online:" << online;
+//            qDebug() << "Have cloud device:" << deviceId << name << "online:" << online;
 
             AWSDevice *d = m_devices->getDevice(deviceId);
             if (!d) {
