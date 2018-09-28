@@ -228,21 +228,6 @@ void AWSClient::login(const QString &username, const QString &password, int atte
         QJsonDocument tokenPayloadJsonDoc = QJsonDocument::fromJson(QByteArray::fromBase64(jwtParts.at(1)));
         m_userId = tokenPayloadJsonDoc.toVariant().toMap().value("cognito:username").toByteArray();
 
-        QSettings settings;
-        settings.remove("cloud");
-
-        settings.beginGroup("cloud");
-        settings.setValue("username", m_username);
-        settings.setValue("userId", m_userId);
-        settings.setValue("password", m_password);
-        settings.setValue("accessToken", m_accessToken);
-        settings.setValue("accessTokenExpiry", m_accessTokenExpiry);
-        settings.setValue("idToken", m_idToken);
-        settings.setValue("refreshToken", m_refreshToken);
-
-        qDebug() << "AWS login successful. Userid:" << m_userId;// << qUtf8Printable(jsonDoc.toJson(QJsonDocument::Indented));
-        emit isLoggedInChanged();
-
         qDebug() << "Getting cognito ID";
         getId();
     });
@@ -486,7 +471,7 @@ void AWSClient::deleteAccount()
     if (tokensExpired()) {
         qDebug() << "Cannot unpair device. Need to refresh our tokens";
         refreshAccessToken();
-        m_callQueue.append(QueuedCall("deleteAccount"));
+        QueuedCall::enqueue(m_callQueue, QueuedCall("deleteAccount"));
         return;
     }
     qDebug() << "Deleting account";
@@ -533,7 +518,7 @@ void AWSClient::unpairDevice(const QString &boxId)
     if (tokensExpired()) {
         qDebug() << "Cannot unpair device. Need to refresh our tokens";
         refreshAccessToken();
-        m_callQueue.append(QueuedCall("unpairDevice", boxId));
+        QueuedCall::enqueue(m_callQueue, QueuedCall("unpairDevice", boxId));
         return;
     }
     qDebug() << "unpairing device";
@@ -624,8 +609,8 @@ void AWSClient::registerPushNotificationEndpoint(const QString &registrationId, 
     }
     if (tokensExpired()) {
         qDebug() << "Cannot register push endpoint. Need to refresh our tokens";
+        QueuedCall::enqueue(m_callQueue, QueuedCall("registerPushNotificationEndpoint", registrationId, deviceDisplayName, mobileDeviceId));
         refreshAccessToken();
-        m_callQueue.append(QueuedCall("registerPushNotificationEndpoint", registrationId, deviceDisplayName, mobileDeviceId));
         return;
     }
 
@@ -642,7 +627,7 @@ void AWSClient::registerPushNotificationEndpoint(const QString &registrationId, 
     payload.insert("mobileDeviceUuid", mobileDeviceId);
     QJsonDocument jsonDoc = QJsonDocument::fromVariant(payload);
 
-//    qDebug() << "Registering push notification endpoint:";
+    qDebug() << "Registering push notification endpoint";
 //    qDebug() << "POST" << url.toString();
 //    qDebug() << "HEADERS:";
 //    foreach (const QByteArray &hdr, request.rawHeaderList()) {
@@ -658,7 +643,7 @@ void AWSClient::registerPushNotificationEndpoint(const QString &registrationId, 
             qWarning() << "Error registering push notification endpoint:" << reply->error() << reply->errorString() << qUtf8Printable(data);
             return;
         }
-//        qDebug() << "Push notification endpoint registered" << data;
+        qDebug() << "Push notification endpoint registered" << data;
     });
 
 }
@@ -776,19 +761,39 @@ void AWSClient::getCredentialsForIdentity(const QString &identityId)
         m_secretKey = credentialsMap.value("SecretKey").toByteArray();
         m_sessionToken = credentialsMap.value("SessionToken").toByteArray();
         m_sessionTokenExpiry = QDateTime::fromSecsSinceEpoch(credentialsMap.value("Expiration").toLongLong());
+        qDebug() << "AWS Credentials for Identity received.";// << data;
+
+        qDebug() << "AWS login successful. Userid:" << m_userId;
+
 
         QSettings settings;
+
+        bool newLogin = !settings.childGroups().contains("cloud");
+
+        settings.remove("cloud");
         settings.beginGroup("cloud");
+        settings.setValue("username", m_username);
+        settings.setValue("userId", m_userId);
+        settings.setValue("password", m_password);
+        settings.setValue("accessToken", m_accessToken);
+        settings.setValue("accessTokenExpiry", m_accessTokenExpiry);
+        settings.setValue("idToken", m_idToken);
+        settings.setValue("refreshToken", m_refreshToken);
         settings.setValue("accessKeyId", m_accessKeyId);
         settings.setValue("secretKey", m_secretKey);
         settings.setValue("sessionToken", m_sessionToken);
         settings.setValue("sessionTokenExpiry", m_sessionTokenExpiry);
 
-        qDebug() << "AWS Credentials for Identity received.";// << data;
         emit loginResult(LoginErrorNoError);
+
+        if (newLogin) {
+//            qDebug() << "new login!";
+            emit isLoggedInChanged();
+        }
 
         while (!m_callQueue.isEmpty()) {
             QueuedCall qc = m_callQueue.takeFirst();
+//            qDebug() << "Calling from queue:" << qc.method;
             if (qc.method == "fetchDevices") {
                 fetchDevices();
             } else if (qc.method == "postToMQTT") {
@@ -797,6 +802,8 @@ void AWSClient::getCredentialsForIdentity(const QString &identityId)
                 deleteAccount();
             } else if (qc.method == "registerPushNotificationEndpoint") {
                 registerPushNotificationEndpoint(qc.arg1, qc.arg2, qc.arg3);
+            } else if (qc.method == "unpairDevice") {
+                unpairDevice(qc.arg1);
             }
         }
     });
@@ -816,7 +823,7 @@ bool AWSClient::postToMQTT(const QString &boxId, const QString &timestamp, std::
     if (tokensExpired()) {
         qDebug() << "Cannot post to MQTT. Need to refresh the tokens first";
         refreshAccessToken();
-        m_callQueue.append(QueuedCall("postToMQTT", boxId, timestamp, callback));
+        QueuedCall::enqueue(m_callQueue, QueuedCall("postToMQTT", boxId, timestamp, callback));
         return true; // So far it looks we're doing ok... let's return true
     }    
     QString topic = QString("%1/%2/proxy").arg(boxId).arg(QString(m_identityId));
@@ -884,7 +891,7 @@ void AWSClient::fetchDevices()
     if (tokensExpired()) {
         qDebug() << "Cannot fetch devices. Need to refresh our tokens";
         refreshAccessToken();
-        m_callQueue.append(QueuedCall("fetchDevices"));
+        QueuedCall::enqueue(m_callQueue, QueuedCall("fetchDevices"));
         return;
     }
 //    qDebug() << "Fetching cloud devices";

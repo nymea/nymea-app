@@ -184,6 +184,19 @@ private:
         QString arg2;
         QString arg3;
         std::function<void(bool)> callback;
+
+        static void enqueue(QList<QueuedCall> &queue, const QueuedCall &call) {
+            foreach (const QueuedCall &existingCall, queue) {
+                if (existingCall.method == call.method &&
+                        existingCall.arg1 == call.arg1 &&
+                        existingCall.arg2 == call.arg2 &&
+                        existingCall.arg3 == call.arg3 &&
+                        &existingCall.callback == &call.callback) {
+                    return; // Already in queue
+                }
+            }
+            queue.append(call);
+        }
     };
 
     QList<QueuedCall> m_callQueue;

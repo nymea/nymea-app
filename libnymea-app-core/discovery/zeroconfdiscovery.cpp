@@ -70,7 +70,7 @@ void ZeroconfDiscovery::serviceEntryAdded(const QZeroConfService &entry)
         return;
     }
 
-    qDebug() << "zeroconf service discovered" << entry.type() << entry.name() << " IP:" << entry.ip() << "IPv6:" << entry.ipv6() << entry.txt();
+//    qDebug() << "zeroconf service discovered" << entry.type() << entry.name() << " IP:" << entry.ip() << "IPv6:" << entry.ipv6() << entry.txt();
 
     QString uuid;
     bool sslEnabled = false;
