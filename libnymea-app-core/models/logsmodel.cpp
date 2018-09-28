@@ -132,6 +132,9 @@ void LogsModel::notificationReceived(const QVariantMap &data)
 
 void LogsModel::update()
 {
+    if (m_busy) {
+        return;
+    }
     m_busy = true;
     emit busyChanged();
 
@@ -157,11 +160,40 @@ void LogsModel::update()
     Engine::instance()->jsonRpcClient()->sendCommand("Logging.GetLogEntries", params, this, "logsReply");
 }
 
+void LogsModel::fetchEarlier(int hours)
+{
+    if (m_busy) {
+        return;
+    }
+    m_busy = true;
+    emit busyChanged();
+
+    QVariantMap params;
+    if (!m_deviceId.isEmpty()) {
+        QVariantList deviceIds;
+        deviceIds.append(m_deviceId);
+        params.insert("deviceIds", deviceIds);
+    }
+    if (!m_typeIds.isEmpty()) {
+        QVariantList typeIds;
+        foreach (const QString &typeId, m_typeIds) {
+            typeIds.append(typeId);
+        }
+        params.insert("typeIds", typeIds);
+    }
+    QVariantList timeFilters;
+    QVariantMap timeFilter;
+    timeFilter.insert("endDate", m_startTime.toSecsSinceEpoch());
+    m_startTime = m_startTime.addSecs(-60*60*hours);
+    timeFilter.insert("startDate", m_startTime.toSecsSinceEpoch());
+    timeFilters.append(timeFilter);
+    params.insert("timeFilters", timeFilters);
+    Engine::instance()->jsonRpcClient()->sendCommand("Logging.GetLogEntries", params, this, "fetchEarlierReply");
+}
+
 void LogsModel::logsReply(const QVariantMap &data)
 {
     qDebug() << "logs reply";// << data;
-    m_busy = false;
-    emit busyChanged();
     beginResetModel();
     qDeleteAll(m_list);
     m_list.clear();
@@ -183,6 +215,38 @@ void LogsModel::logsReply(const QVariantMap &data)
 
     endResetModel();
     emit countChanged();
+
+    m_busy = false;
+    emit busyChanged();
+}
+
+void LogsModel::fetchEarlierReply(const QVariantMap &data)
+{
+    qDebug() << "logs reply";// << data;
+
+    QList<QVariant> logEntries = data.value("params").toMap().value("logEntries").toList();
+    QList<LogEntry*> newEntries;
+    foreach (const QVariant &logEntryVariant, logEntries) {
+        QVariantMap entryMap = logEntryVariant.toMap();
+        QDateTime timeStamp = QDateTime::fromMSecsSinceEpoch(entryMap.value("timestamp").toLongLong());
+        QString deviceId = entryMap.value("deviceId").toString();
+        QString typeId = entryMap.value("typeId").toString();
+        QMetaEnum sourceEnum = QMetaEnum::fromType<LogEntry::LoggingSource>();
+        LogEntry::LoggingSource loggingSource = (LogEntry::LoggingSource)sourceEnum.keyToValue(entryMap.value("source").toByteArray());
+        QMetaEnum loggingEventTypeEnum = QMetaEnum::fromType<LogEntry::LoggingEventType>();
+        LogEntry::LoggingEventType loggingEventType = (LogEntry::LoggingEventType)loggingEventTypeEnum.keyToValue(entryMap.value("eventType").toByteArray());
+        QVariant value = loggingEventType == LogEntry::LoggingEventTypeActiveChange ? entryMap.value("active").toBool() : entryMap.value("value");
+        LogEntry *entry = new LogEntry(timeStamp, value, deviceId, typeId, loggingSource, loggingEventType, this);
+        newEntries.append(entry);
+    }
+    beginInsertRows(QModelIndex(), 0, newEntries.count() - 1);
+    newEntries.append(m_list);
+    m_list = newEntries;
+    endInsertRows();
+    emit countChanged();
+
+    m_busy = false;
+    emit busyChanged();
 }
 
 void LogsModel::newLogEntryReceived(const QVariantMap &data)

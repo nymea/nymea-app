@@ -23,7 +23,7 @@ Item {
             Layout.fillWidth: true
             Layout.margins: app.margins
             wrapMode: Text.WordWrap
-            text: root.text.arg(logsModel.count)
+            text: root.text.arg(logsModel.count).arg((logsModel.endTime.getTime() - logsModel.startTime.getTime())/ 1000 / 60 / 60 /24)
         }
 
         ThinDivider {}
@@ -40,7 +40,14 @@ Item {
             Layout.fillHeight: true
             model: logsModel
             clip: true
-            onCountChanged: positionViewAtEnd()
+//            onCountChanged: positionViewAtEnd()
+
+            onContentYChanged: {
+                if (!logsModel.busy && contentY - originY < 5 * height) {
+                    logsModel.fetchEarlier(24)
+                }
+            }
+
             delegate: SwipeDelegate {
                 id: logEntryDelegate
                 width: parent.width

@@ -14,7 +14,10 @@ Page {
         HeaderButton {
             imageSource: "../images/go-down.svg"
             color: root.autoScroll ? app.accentColor : keyColor
-            onClicked: root.autoScroll = !root.autoScroll
+            onClicked: {
+                listView.positionViewAtEnd();
+                root.autoScroll = !root.autoScroll
+            }
         }
     }
 
@@ -24,7 +27,7 @@ Page {
         id: logsModel
         startTime: {
             var date = new Date();
-            date.setHours(new Date().getHours() - 1);
+            date.setHours(new Date().getHours() - 2);
             return date;
         }
         endTime: new Date()
@@ -49,117 +52,118 @@ Page {
         clip: true
         headerPositioning: ListView.OverlayHeader
 
-        property int column0Width: root.width / 10 * 2
-        property int column1Width: root.width / 10 * 1
-        property int column2Width: root.width / 10 * 3
-        property int column3Width: root.width / 10 * 3
-        property int column4Width: root.width / 10 * 1
-
-        header: Rectangle {
-            width: parent.width
-            height: app.margins * 3
-            color: Material.primary
-            z: 2
-
-            Row {
-                width: parent.width
-                anchors.verticalCenter: parent.verticalCenter
-                Label {
-                    width: listView.column0Width
-                    text: qsTr("Time")
-                }
-                Label {
-                    text: qsTr("Type")
-                    width: listView.column1Width
-                }
-
-                Label {
-                    width: listView.column2Width
-                    text: qsTr("Thing")
-                }
-                Label {
-                    width: listView.column3Width
-                    text: qsTr("Object")
-                }
-                Label {
-                    width: listView.column4Width
-                    text: qsTr("Value")
-                }
-            }
-            ThinDivider {
-                anchors { left: parent.left; bottom: parent.bottom; right: parent.right }
+        onDraggingChanged: {
+            if (dragging) {
+                root.autoScroll = false;
             }
         }
 
-        delegate: Row {
+        ScrollBar.vertical: ScrollBar {}
+
+        onContentYChanged: {
+            if (!logsModel.busy && contentY - originY < 5 * height) {
+                logsModel.fetchEarlier(1)
+            }
+        }
+
+        delegate: ItemDelegate {
             id: delegate
+            width: parent.width
             property var device: Engine.deviceManager.devices.getDevice(model.deviceId)
             property var deviceClass: device ? Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
-            Label {
-                width: listView.column0Width
-                text: width > 130 ? Qt.formatDateTime(model.timestamp,"dd.MM.yy - hh:mm:ss") : Qt.formatDateTime(model.timestamp,"hh:mm:ss")
-                elide: Text.ElideRight
-            }
-            Label {
-                width: listView.column1Width
-                text: {
-                    switch (model.source) {
-                    case LogEntry.LoggingSourceStates:
-                        return "SC";
-                    case LogEntry.LoggingSourceSystem:
-                        return "SYS";
-                    case LogEntry.LoggingSourceActions:
-                        return "AE";
-                    case LogEntry.LoggingSourceEvents:
-                        return "E";
-                    case LogEntry.LoggingSourceRules:
-                        return "R";
+            leftPadding: 0
+            rightPadding: 0
+            topPadding: 0
+            bottomPadding: 0
+            contentItem: RowLayout {
+                id: contentColumn
+                anchors { left: parent.left; right: parent.right; margins: app.margins / 2 }
+                ColorIcon {
+                    Layout.preferredWidth: app.iconSize
+                    Layout.preferredHeight: width
+                    Layout.alignment: Qt.AlignVCenter
+                    color: {
+                        switch (model.source) {
+                        case LogEntry.LoggingSourceStates:
+                        case LogEntry.LoggingSourceSystem:
+                        case LogEntry.LoggingSourceActions:
+                        case LogEntry.LoggingSourceEvents:
+                            return app.accentColor
+                        case LogEntry.LoggingSourceRules:
+                            if (model.loggingEventType === LogEntry.LoggingEventTypeActiveChange) {
+                                return model.value === true ? "green" : keyColor
+                            }
+                            return app.accentColor
+                        }
                     }
-
-//                    switch (model.loggingEventType) {
-//                    case LogEntry.LoggingEventTypeTrigger:
-//                        return "T";
-//                    case LogEntry.LoggingEventTypeExitActionsExecuted:
-//                        return "A";
-//                    case LogEntry.LoggingEventTypeActiveChange:
-//                        return "R";
-//                    case LogEntry.LoggingEventTypeExitActionsExecuted:
-//                        return "EA";
-//                    case LogEntry.LoggingEventTypeEnabledChange:
-//                        return "E";
-//                    }
-                    return "N/A";
-                }
-            }
-
-            Label {
-                width: listView.column2Width
-                text: model.source === LogEntry.LoggingSourceSystem ? qsTr("%1 Server").arg(app.systemName) : delegate.device.name
-                elide: Text.ElideRight
-            }
-            Label {
-                width: listView.column3Width
-                text : {
-                    switch (model.source) {
-                    case LogEntry.LoggingSourceStates:
-                        return delegate.deviceClass.stateTypes.getStateType(model.typeId).displayName;
-                    case LogEntry.LoggingSourceSystem:
-                        return model.loggingEventType === LogEntry.LoggingEventTypeActiveChange ? qsTr("Active changed") : "FIXME"
-                    case LogEntry.LoggingSourceActions:
-                        return delegate.deviceClass.actionTypes.getActionType(model.typeId).displayName;
-                    case LogEntry.LoggingSourceEvents:
-                        return delegate.deviceClass.eventTypes.getEventType(model.typeId).displayName;
-                    case LogEntry.LoggingSourceRules:
-                        return Engine.ruleManager.rules.getRule(model.typeId).name;
+                    name: {
+                        switch (model.source) {
+                        case LogEntry.LoggingSourceStates:
+                            return "../images/state.svg"
+                        case LogEntry.LoggingSourceSystem:
+                            return "../images/system-shutdown.svg"
+                        case LogEntry.LoggingSourceActions:
+                            return "../images/action.svg"
+                        case LogEntry.LoggingSourceEvents:
+                            return "../images/event.svg"
+                        case LogEntry.LoggingSourceRules:
+                            return "../images/magic.svg"
+                        }
                     }
-                    return "N/A";
                 }
-                elide: Text.ElideRight
-            }
-            Label {
-                width: listView.column4Width
-                text: model.value
-                elide: Text.ElideRight
+                ColumnLayout {
+                    RowLayout {
+                        Label {
+                            Layout.fillWidth: true
+                            text: model.source === LogEntry.LoggingSourceSystem ?
+                                      qsTr("%1 Server").arg(app.systemName)
+                                    : model.source === LogEntry.LoggingSourceRules ?
+                                          Engine.ruleManager.rules.getRule(model.typeId).name
+                                        : delegate.device.name
+                            elide: Text.ElideRight
+                        }
+                        Label {
+                            text: Qt.formatDateTime(model.timestamp,"dd.MM.yy - hh:mm:ss")
+                            elide: Text.ElideRight
+                            font.pixelSize: app.smallFont
+                        }
+                    }
+                    Label {
+                        text : {
+                            switch (model.source) {
+                            case LogEntry.LoggingSourceStates:
+                                return "%1 -> %2".arg(delegate.deviceClass.stateTypes.getStateType(model.typeId).displayName).arg(model.value);
+                            case LogEntry.LoggingSourceSystem:
+                                return model.loggingEventType === LogEntry.LoggingEventTypeActiveChange ? qsTr("System started") : "N/A"
+                            case LogEntry.LoggingSourceActions:
+                                return "%1 (%2)".arg(delegate.deviceClass.actionTypes.getActionType(model.typeId).displayName).arg(model.value);
+                            case LogEntry.LoggingSourceEvents:
+                                return "%1 (%2)".arg(delegate.deviceClass.eventTypes.getEventType(model.typeId).displayName).arg(model.value);
+                            case LogEntry.LoggingSourceRules:
+                                switch (model.loggingEventType) {
+                                case LogEntry.LoggingEventTypeTrigger:
+                                    return qsTr("Rule triggered");
+                                case LogEntry.LoggingEventTypeActionsExecuted:
+                                    return qsTr("Actions executed");
+                                case LogEntry.LoggingEventTypeActiveChange:
+                                    return model.value === true ? qsTr("Rule active") : qsTr("Rule inactive")
+                                case LogEntry.LoggingEventTypeExitActionsExecuted:
+                                    return qsTr("Exit actions executed");
+                                case LogEntry.LoggingEventTypeEnabledChange:
+                                    return qsTr("Enabled changed");
+                                default:
+                                    print("Unhandled logging event type", model.loggingEventType)
+                                }
+                                return "N/A"
+                            default:
+                                print("unhandled logging source:", model.source)
+                            }
+                            return "N/A";
+                        }
+                        elide: Text.ElideRight
+                        font.pixelSize: app.smallFont
+                    }
+                }
             }
         }
     }

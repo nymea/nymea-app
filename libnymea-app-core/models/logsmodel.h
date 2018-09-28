@@ -64,9 +64,12 @@ signals:
 
 public slots:
     virtual void update();
+    virtual void fetchEarlier(int hours);
+//    virtual void fetchLater(int hours);
 
 private slots:
     virtual void logsReply(const QVariantMap &data);
+    virtual void fetchEarlierReply(const QVariantMap &data);
     void newLogEntryReceived(const QVariantMap &data);
 
 protected:

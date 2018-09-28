@@ -72,7 +72,7 @@ Page {
                 id: logView
                 width: swipeView.width
                 height: swipeView.height
-                text: qsTr("%1, %2 has changed %3 times in the last 24h").arg(device.name).arg(stateType.displayName)
+                text: qsTr("%1, %2 has changed %3 times in the last %4 days").arg(device.name).arg(stateType.displayName)
 
                 logsModel: logsModel
 

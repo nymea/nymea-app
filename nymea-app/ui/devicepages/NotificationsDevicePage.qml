@@ -74,7 +74,7 @@ DevicePageBase {
         GenericTypeLogView {
             Layout.fillHeight: true
             Layout.fillWidth: true
-            text: qsTr("%1 notifications sent to this device in the last 24 hours.")
+            text: qsTr("%1 notifications sent to this device in the last %2 days.")
 
             logsModel: LogsModel {
                 deviceId: root.device.id

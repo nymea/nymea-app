@@ -11,7 +11,7 @@ GenericDevicePage {
 
     GenericTypeLogView {
         anchors.fill: parent
-        text: qsTr("This button has been pressed %1 times in the last 24 hours.")
+        text: qsTr("This button has been pressed %1 times in the last %2 days.")
 
         logsModel: LogsModel {
             deviceId: root.device.id
