@@ -28,8 +28,6 @@ SOURCES += main.cpp \
     platformhelper.cpp \
     platformintegration/generic/platformhelpergeneric.cpp \
 
-OTHER_FILES += $$files(*.qml, true)
-
 RESOURCES += resources.qrc \
     ruletemplates.qrc
 equals(STYLES_PATH, "") {
@@ -125,4 +123,5 @@ DISTFILES += \
     ui/components/BusyOverlay.qml \
     ui/devicepages/NotificationsDevicePage.qml \
     ruletemplates/buttontemplates.json \
-    ruletemplates/notificationtemplates.json
+    ruletemplates/notificationtemplates.json \
+    ui/devicepages/LightDevicePage.qml

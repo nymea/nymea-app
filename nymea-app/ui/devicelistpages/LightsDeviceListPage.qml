@@ -9,56 +9,89 @@ Page {
     header: GuhHeader {
         text: qsTr("Lights")
         onBackPressed: pageStack.pop()
-    }
-    ColumnLayout {
-        anchors.fill: parent
-        RowLayout {
-            Layout.fillWidth: true
-            Layout.margins: 10
-            Label {
-                text: qsTr("All")
-                Layout.fillWidth: true
-            }
-            Button {
-                text: qsTr("off")
-                onClicked: {
-                    for (var i = 0; i < devicesProxy.count; i++) {
-                        var device = devicesProxy.get(i);
-                        var deviceClass = Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
-                        var actionType = deviceClass.actionTypes.findByName("power");
 
-                        var params = [];
-                        var param1 = {};
-                        param1["paramTypeId"] = actionType.paramTypes.get(0).id;
-                        param1["value"] = false;
-                        params.push(param1)
-                        Engine.deviceManager.executeAction(device.id, actionType.id, params)
-                    }
+        HeaderButton {
+            imageSource: "../images/system-shutdown.svg"
+            onClicked: {
+                for (var i = 0; i < devicesProxy.count; i++) {
+                    var device = devicesProxy.get(i);
+                    var deviceClass = Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
+                    var actionType = deviceClass.actionTypes.findByName("power");
+
+                    var params = [];
+                    var param1 = {};
+                    param1["paramTypeId"] = actionType.paramTypes.get(0).id;
+                    param1["value"] = false;
+                    params.push(param1)
+                    Engine.deviceManager.executeAction(device.id, actionType.id, params)
                 }
             }
         }
+    }
 
-        ListView {
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-            clip: true
-            model: DevicesProxy {
-                id: devicesProxy
-                devices: Engine.deviceManager.devices
-            }
+    ListView {
+        anchors.fill: parent
+        model: DevicesProxy {
+            id: devicesProxy
+            devices: Engine.deviceManager.devices
+        }
 
-            delegate: ItemDelegate {
-                id: itemDelegate
-                width: parent.width
-                height: childrenRect.height
-                property var device: devicesProxy.get(index);
-                property var deviceClass: Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
+        delegate: ItemDelegate {
+            id: itemDelegate
+            width: parent.width
+
+            property bool inline: width > 500
+
+            property var device: devicesProxy.get(index);
+            property var deviceClass: Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
+
+            property var connectedStateType: deviceClass.stateTypes.findByName("connected");
+            property var connectedState: device.states.getState(connectedStateType.id)
+
+            property var powerStateType: deviceClass.stateTypes.findByName("power");
+            property var powerActionType: deviceClass.actionTypes.findByName("power");
+            property var powerState: device.states.getState(powerStateType.id)
+
+            property var brightnessStateType: deviceClass.stateTypes.findByName("brightness");
+            property var brightnessActionType: deviceClass.actionTypes.findByName("brightness");
+            property var brightnessState: brightnessStateType ? device.states.getState(brightnessStateType.id) : null
+
+            property var colorStateType: deviceClass.stateTypes.findByName("color");
+            property var colorState: colorStateType ? device.states.getState(colorStateType.id) : null
+
+            topPadding: 0
+            bottomPadding: 0
+            leftPadding: 0
+            rightPadding: 0
+            contentItem: Rectangle {
+                id: contentItem
+                implicitHeight: itemDelegate.brightnessStateType && !itemDelegate.inline && enabled ? nameRow.implicitHeight + sliderRow.implicitHeight : nameRow.implicitHeight
+                gradient: Gradient {
+                    GradientStop { position: 0.0; color: "transparent" }
+                    GradientStop { position: 1.0; color: Qt.rgba(app.foregroundColor.r, app.foregroundColor.g, app.foregroundColor.b, 0.05) }
+                }
+
+                enabled: itemDelegate.connectedState === null || itemDelegate.connectedState.value === true
 
                 ColumnLayout {
-                    anchors { left: parent.left; right: parent.right; top: parent.top }
+                    anchors { left: parent.left; right: parent.right; margins: app.margins }
+                    spacing: 0
                     RowLayout {
-                        Layout.fillWidth: true
-                        Layout.margins: 10
+                        id: nameRow
+                        z: 2 // make sure the switch in here is on top of the slider, given we cheated a bit and made them overlap
+                        spacing: app.margins
+                        ColorIcon {
+                            Layout.preferredHeight: app.iconSize
+                            Layout.preferredWidth: height
+                            Layout.alignment: Qt.AlignVCenter
+                            color: itemDelegate.connectedState !== null && itemDelegate.connectedState.value === false ?
+                                       "red"
+                                     : itemDelegate.colorStateType ? itemDelegate.colorState.value : "#00000000"
+                            name: itemDelegate.connectedState !== null && itemDelegate.connectedState.value === false ?
+                                      "../images/dialog-warning-symbolic.svg"
+                                    : itemDelegate.powerState.value === true ? "../images/light-on.svg" : "../images/light-off.svg"
+                        }
+
                         Label {
                             Layout.fillWidth: true
                             text: model.name
@@ -67,42 +100,59 @@ Page {
                         }
                         ThrottledSlider {
                             id: inlineSlider
-                            visible: model.interfaces.indexOf("dimmablelight") >= 0 && parent.width > 350
-                            property var stateType: itemDelegate.deviceClass.stateTypes.findByName("brightness");
-                            property var actionType: itemDelegate.deviceClass.actionTypes.findByName("brightness");
-                            property var actionState: itemDelegate.device.states.getState(stateType.id)
+                            visible: contentItem.enabled && itemDelegate.brightnessStateType && itemDelegate.inline
                             from: 0; to: 100
-                            value: actionState.value
+                            value: itemDelegate.brightnessState ?  itemDelegate.brightnessState.value : 0
                             onMoved: {
                                 var params = [];
                                 var param1 = {};
-                                param1["paramTypeId"] = actionType.paramTypes.get(0).id;
+                                param1["paramTypeId"] = itemDelegate.brightnessActionType.paramTypes.get(0).id;
                                 param1["value"] = value;
                                 params.push(param1)
-                                Engine.deviceManager.executeAction(device.id, actionType.id, params)
+                                Engine.deviceManager.executeAction(itemDelegate.device.id, itemDelegate.brightnessActionType.id, params)
                             }
                         }
                         Switch {
-                            property var stateType: itemDelegate.deviceClass.stateTypes.findByName("power");
-                            property var actionType: itemDelegate.deviceClass.actionTypes.findByName("power");
-                            property var actionState: itemDelegate.device.states.getState(stateType.id)
-                            checked: actionState.value === true
+                            checked: itemDelegate.powerState.value === true
                             onClicked: {
                                 var params = [];
                                 var param1 = {};
-                                param1["paramTypeId"] = actionType.paramTypes.get(0).id;
+                                param1["paramTypeId"] = itemDelegate.powerActionType.paramTypes.get(0).id;
                                 param1["value"] = checked;
                                 params.push(param1)
-                                Engine.deviceManager.executeAction(device.id, actionType.id, params)
+                                Engine.deviceManager.executeAction(device.id, itemDelegate.powerActionType.id, params)
                             }
+                        }
+                    }
+                    Item {
+                        id: sliderRow
+                        Layout.fillWidth: true
+                        implicitHeight: outlineSlider.implicitHeight * .6
+                        Layout.preferredHeight: implicitHeight
 
+                        ThrottledSlider {
+                            id: outlineSlider
+                            anchors { left: parent.left; right: parent.right; verticalCenter: parent.verticalCenter }
+                            visible: contentItem.enabled && itemDelegate.brightnessStateType && !inlineSlider.visible
+                            from: 0; to: 100
+                            value: itemDelegate.brightnessState ? itemDelegate.brightnessState.value : 0
+                            onMoved: {
+                                var params = [];
+                                var param1 = {};
+                                param1["paramTypeId"] = itemDelegate.brightnessActionType.paramTypes.get(0).id;
+                                param1["value"] = value;
+                                params.push(param1)
+                                Engine.deviceManager.executeAction(itemDelegate.device.id, itemDelegate.brightnessActionType.id, params)
+                            }
                         }
                     }
                 }
+            }
 
-                onClicked: {
-                    pageStack.push(Qt.resolvedUrl("../devicepages/ColorLightDevicePage.qml"), {device: devicesProxy.get(index)})
-                }
+            onClicked: {
+                var device = devicesProxy.get(index);
+                var deviceClass = Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId)
+                pageStack.push(Qt.resolvedUrl("../devicepages/LightDevicePage.qml"), {device: devicesProxy.get(index)})
             }
         }
     }

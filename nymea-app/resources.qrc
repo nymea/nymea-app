@@ -62,7 +62,6 @@
         <file>ui/images/weathericons/humidity.svg</file>
         <file>ui/images/weathericons/wind.svg</file>
         <file>ui/devicepages/WeatherDevicePage.qml</file>
-        <file>ui/devicepages/ColorLightDevicePage.qml</file>
         <file>ui/components/ThrottledSlider.qml</file>
         <file>ui/components/ColorPickerCt.qml</file>
         <file>ui/images/navigation-menu.svg</file>
@@ -249,5 +248,7 @@
         <file>ui/appsettings/DeveloperOptionsPage.qml</file>
         <file>ui/appsettings/CloudLoginPage.qml</file>
         <file>ui/devicepages/NotificationsDevicePage.qml</file>
+        <file>ui/components/BrightnessSlider.qml</file>
+        <file>ui/devicepages/LightDevicePage.qml</file>
     </qresource>
 </RCC>

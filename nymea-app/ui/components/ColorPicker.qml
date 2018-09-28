@@ -131,6 +131,8 @@ Item {
 
     Rectangle {
         anchors.fill: parent
+        border.color: app.foregroundColor
+        border.width: 1
         gradient: Gradient {
             GradientStop { position: 0.0; color: "transparent" }
             GradientStop { position: 1.0; color: "white" }
