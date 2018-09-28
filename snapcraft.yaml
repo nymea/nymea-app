@@ -56,6 +56,8 @@ parts:
       - qttools5-dev-tools
     stage-packages:
       - libqt5gui5
+      - libqt5websockets5
+      - libqt5bluetooth5
       - libgl1-mesa-dri
       - qml-module-qtquick2
       - qml-module-qtquick-controls2
