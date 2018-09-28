@@ -11,26 +11,46 @@ ItemDelegate {
     property int operatorType: ParamDescriptors.ValueOperatorEquals
 
     contentItem: ColumnLayout {
+        Label {
+            Layout.fillWidth: true
+            text: paramType.displayName
+        }
         RowLayout {
             Layout.fillWidth: true
             spacing: app.margins
-            Label {
-                text: paramType.displayName
-            }
             ComboBox {
+                FontMetrics {
+                    id: fm
+                }
+
                 Layout.fillWidth: true
-                model: {
+                Layout.minimumWidth: {
+                    var minWidth = 0;
+                    for (var i = 0; i < model.length; i++) {
+                        minWidth = Math.max(minWidth, fm.boundingRect(model[i]).width)
+                    }
+                    return minWidth + 60;
+                }
+
+                property bool isNumeric: {
                     switch (paramType.type.toLowerCase()) {
                     case "bool":
                     case "string":
                     case "qstring":
                     case "color":
-                        return [qsTr("is"), qsTr("is not")];
+                        return false;
                     case "int":
                     case "double":
-                        return [qsTr("is"), qsTr("is not"), qsTr("is greater"), qsTr("is smaller"), qsTr("is greater or equal"), qsTr("is smaller or equal")]
+                        return true;
                     }
+                    console.warn("ParamDescriptorDelegate: Unhandled data type:", paramType.type.toLowerCase());
+                    return false;
                 }
+
+                model: isNumeric ?
+                           [qsTr("is"), qsTr("is not"), qsTr("is greater"), qsTr("is smaller"), qsTr("is greater or equal"), qsTr("is smaller or equal")]
+                         : [qsTr("is"), qsTr("is not")];
+
                 onCurrentTextChanged: {
                     switch (currentText) {
                     case qsTr("is"):
@@ -84,6 +104,10 @@ ItemDelegate {
                     return null;
                 }
             }
+
+            Label {
+                text: paramType.unitString
+            }
         }
 
         Loader {
@@ -107,8 +131,8 @@ ItemDelegate {
         Label {
             text: {
                 switch (root.paramType.type.toLowerCase()) {
-                case "int":
-                    return Math.round(root.value)
+                case "double":
+                    return Math.round(root.value * 10) / 10
                 }
                 return root.value
             }
@@ -133,6 +157,13 @@ ItemDelegate {
             Slider {
                 from: paramType.minValue
                 to: paramType.maxValue
+                stepSize: {
+                    switch (root.paramType.type.toLowerCase()) {
+                    case "double":
+                        return 0.1
+                    }
+                    return 1
+                }
                 Layout.fillWidth: true
                 onMoved: {
                     root.value = value;

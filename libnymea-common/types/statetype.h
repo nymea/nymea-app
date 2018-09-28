@@ -38,12 +38,12 @@ class StateType : public QObject
     Q_PROPERTY(QString type READ type CONSTANT)
     Q_PROPERTY(int index READ index CONSTANT)
     Q_PROPERTY(QVariant defaultValue READ defaultValue CONSTANT)
-    Q_PROPERTY(QVariantList allowedValues READ allowedValues WRITE setAllowedValues CONSTANT)
+    Q_PROPERTY(QVariantList allowedValues READ allowedValues CONSTANT)
     Q_PROPERTY(Types::Unit unit READ unit CONSTANT)
     Q_PROPERTY(QString unitString READ unitString CONSTANT)
 
 public:
-    StateType(QObject *parent = 0);
+    StateType(QObject *parent = nullptr);
 
     QString id() const;
     void setId(const QString &id);
