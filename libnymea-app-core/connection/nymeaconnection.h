@@ -14,7 +14,7 @@ class NymeaConnection : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(bool connected READ connected NOTIFY connectedChanged)
-    Q_PROPERTY(QString url READ url NOTIFY connectedChanged)
+    Q_PROPERTY(QString url READ url NOTIFY currentUrlChanged)
     Q_PROPERTY(QString hostAddress READ hostAddress NOTIFY connectedChanged)
     Q_PROPERTY(QString bluetoothAddress READ bluetoothAddress NOTIFY connectedChanged)
 
@@ -25,7 +25,7 @@ public:
 
     Q_INVOKABLE bool connect(const QString &url);
     Q_INVOKABLE void disconnect();
-    Q_INVOKABLE void acceptCertificate(const QString &url, const QByteArray &fingerprint);
+    Q_INVOKABLE void acceptCertificate(const QString &url, const QByteArray &pem);
     Q_INVOKABLE bool isTrusted(const QString &url);
 
     bool connected();
@@ -37,7 +37,8 @@ public:
     void sendData(const QByteArray &data);
 
 signals:
-    void verifyConnectionCertificate(const QString &url, const QStringList &issuerInfo, const QByteArray &fingerprint);
+    void currentUrlChanged();
+    void verifyConnectionCertificate(const QString &url, const QStringList &issuerInfo, const QByteArray &fingerprint, const QByteArray &pem);
     void connectedChanged(bool connected);
     void connectionError(const QString &error);
     void dataAvailable(const QByteArray &data);
@@ -49,6 +50,8 @@ private slots:
     void onDisconnected();
 
 private:
+    bool storePem(const QUrl &host, const QByteArray &pem);
+    bool loadPem(const QUrl &host, QByteArray &pem);
 
 private:
     QHash<QString, NymeaTransportInterfaceFactory*> m_transports;

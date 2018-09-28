@@ -86,13 +86,15 @@ Page {
                 secondaryIconName: !model.online ? "../images/cloud-error.svg" : ""
 
                 onClicked: {
-                    var page = pageStack.push(Qt.resolvedUrl("../connection/ConnectingPage.qml"))
-                    page.cancel.connect(function() {
-                        Engine.connection.disconnect()
-                        pageStack.pop(root, StackView.Immediate);
-                        pageStack.push(discoveryPage)
-                    })
-                    Engine.connection.connect("cloud://" + model.id)
+                    if (!Engine.connection.connected) {
+                        var page = pageStack.push(Qt.resolvedUrl("../connection/ConnectingPage.qml"))
+                        page.cancel.connect(function() {
+                            Engine.connection.disconnect()
+                            pageStack.pop(root, StackView.Immediate);
+                            pageStack.push(discoveryPage)
+                        })
+                        Engine.connection.connect("cloud://" + model.id)
+                    }
                 }
 
                 onDeleteClicked: {

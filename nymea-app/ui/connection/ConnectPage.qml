@@ -44,7 +44,7 @@ Page {
         target: Engine.connection
         onVerifyConnectionCertificate: {
             print("verify cert!")
-            var popup = certDialogComponent.createObject(app, {url: url, issuerInfo: issuerInfo, fingerprint: fingerprint});
+            var popup = certDialogComponent.createObject(root, {url: url, issuerInfo: issuerInfo, fingerprint: fingerprint, pem: pem});
             popup.open();
         }
         onConnectionError: {
@@ -331,6 +331,7 @@ Page {
             property string url
             property var fingerprint
             property var issuerInfo
+            property var pem
 
             readonly property bool hasOldFingerprint: Engine.connection.isTrusted(url)
 
@@ -419,9 +420,8 @@ Page {
                 }
             }
 
-
             onAccepted: {
-                Engine.connection.acceptCertificate(certDialog.url, certDialog.fingerprint)
+                Engine.connection.acceptCertificate(certDialog.url, certDialog.pem)
                 root.connectToHost(certDialog.url)
             }
         }

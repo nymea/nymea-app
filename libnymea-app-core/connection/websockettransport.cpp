@@ -28,7 +28,7 @@
 WebsocketTransport::WebsocketTransport(QObject *parent) :
     NymeaTransportInterface(parent)
 {
-    m_socket = new QWebSocket(QCoreApplication::applicationName(), QWebSocketProtocol::Version13, this);
+    m_socket = new QWebSocket(QCoreApplication::applicationName(), QWebSocketProtocol::VersionLatest, this);
 
     QObject::connect(m_socket, &QWebSocket::connected, this, &WebsocketTransport::connected);
     QObject::connect(m_socket, &QWebSocket::disconnected, this, &WebsocketTransport::disconnected);
@@ -73,7 +73,14 @@ void WebsocketTransport::sendData(const QByteArray &data)
 
 void WebsocketTransport::ignoreSslErrors(const QList<QSslError> &errors)
 {
-    m_socket->ignoreSslErrors(errors);
+    // FIXME: We really should provide the exact errors here, like we do on other transports,
+    // however, for some reason I just fail to connect to any wss:// socket if I specify the
+    // errors. It would only continue if calling it without errors parameter...
+
+//    m_socket->ignoreSslErrors(errors);
+
+    Q_UNUSED(errors)
+    m_socket->ignoreSslErrors();
 }
 
 void WebsocketTransport::onTextMessageReceived(const QString &data)

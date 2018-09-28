@@ -104,10 +104,9 @@ AWSClient::AWSClient(QObject *parent) : QObject(parent),
     m_userId = settings.value("userId").toString();
     m_password = settings.value("password").toString();
     m_accessToken = settings.value("accessToken").toByteArray();
-    m_accessTokenExpiry = settings.value("accessTokenExpiry").toDateTime();
+//    m_accessTokenExpiry = settings.value("accessTokenExpiry").toDateTime();
     m_idToken = settings.value("idToken").toByteArray();
     m_refreshToken = settings.value("refreshToken").toByteArray();
-    m_confirmationPending = settings.value("confirmationPending", false).toBool();
 
     m_identityId = settings.value("identityId").toByteArray();
 
@@ -302,12 +301,6 @@ void AWSClient::signup(const QString &username, const QString &password)
 
         emit signupResult(LoginErrorNoError);
 
-        QSettings settings;
-        settings.beginGroup("cloud");
-        settings.setValue("username", m_username);
-        settings.setValue("password", m_password);
-        settings.setValue("confirmationPending", true);
-
         m_confirmationPending = true;
         emit confirmationPendingChanged();
     });
@@ -364,6 +357,8 @@ void AWSClient::confirmRegistration(const QString &code)
             return;
         }
 
+        m_confirmationPending = false;
+        emit confirmationPendingChanged();
         emit confirmationResult(LoginErrorNoError);
         login(m_username, m_password);
         fetchDevices();
@@ -591,9 +586,6 @@ void AWSClient::getId()
             return;
         }
         m_identityId = jsonDoc.toVariant().toMap().value("IdentityId").toByteArray();
-        QSettings settings;
-        settings.beginGroup("cloud");
-        settings.setValue("identityId", m_identityId);
 
         qDebug() << "Received cognito identity id" << m_identityId;// << qUtf8Printable(data);
         getCredentialsForIdentity(m_identityId);
@@ -767,6 +759,7 @@ void AWSClient::getCredentialsForIdentity(const QString &identityId)
 
 
         QSettings settings;
+        qDebug() << "settings has:" << settings.childGroups();
 
         bool newLogin = !settings.childGroups().contains("cloud");
 
@@ -777,6 +770,7 @@ void AWSClient::getCredentialsForIdentity(const QString &identityId)
         settings.setValue("password", m_password);
         settings.setValue("accessToken", m_accessToken);
         settings.setValue("accessTokenExpiry", m_accessTokenExpiry);
+        settings.setValue("identityId", m_identityId);
         settings.setValue("idToken", m_idToken);
         settings.setValue("refreshToken", m_refreshToken);
         settings.setValue("accessKeyId", m_accessKeyId);
@@ -787,7 +781,7 @@ void AWSClient::getCredentialsForIdentity(const QString &identityId)
         emit loginResult(LoginErrorNoError);
 
         if (newLogin) {
-//            qDebug() << "new login!";
+            qDebug() << "new login!";
             emit isLoggedInChanged();
         }
 
