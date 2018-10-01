@@ -1,11 +1,12 @@
 import QtQuick 2.5
 import QtQuick.Controls 2.1
+import QtQuick.Controls.Material 2.1
 import QtQuick.Layouts 1.1
 import Nymea 1.0
 import "../components"
 
-Page {
-    property alias shownInterfaces: devicesProxy.shownInterfaces
+DeviceListPageBase {
+
     header: GuhHeader {
         text: qsTr("Lights")
         onBackPressed: pageStack.pop()
@@ -31,12 +32,10 @@ Page {
 
     ListView {
         anchors.fill: parent
-        model: DevicesProxy {
-            id: devicesProxy
-            devices: Engine.deviceManager.devices
-        }
+        model: devicesProxy
+        spacing: app.margins
 
-        delegate: ItemDelegate {
+        delegate: Pane {
             id: itemDelegate
             width: parent.width
 
@@ -59,24 +58,26 @@ Page {
             property var colorStateType: deviceClass.stateTypes.findByName("color");
             property var colorState: colorStateType ? device.states.getState(colorStateType.id) : null
 
+            Material.elevation: 1
             topPadding: 0
             bottomPadding: 0
             leftPadding: 0
             rightPadding: 0
-            contentItem: Rectangle {
+            contentItem: ItemDelegate {
                 id: contentItem
-                implicitHeight: itemDelegate.brightnessStateType && !itemDelegate.inline && enabled ? nameRow.implicitHeight + sliderRow.implicitHeight : nameRow.implicitHeight
-                gradient: Gradient {
-                    GradientStop { position: 0.0; color: "transparent" }
-                    GradientStop { position: 1.0; color: Qt.rgba(app.foregroundColor.r, app.foregroundColor.g, app.foregroundColor.b, 0.05) }
-                }
+                implicitHeight: itemDelegate.brightnessStateType && !itemDelegate.inline && nameRow.enabled ? nameRow.implicitHeight + sliderRow.implicitHeight : nameRow.implicitHeight
+                //                gradient: Gradient {
+                //                    GradientStop { position: 0.0; color: "transparent" }
+                //                    GradientStop { position: 1.0; color: Qt.rgba(app.foregroundColor.r, app.foregroundColor.g, app.foregroundColor.b, 0.05) }
+                //                }
 
-                enabled: itemDelegate.connectedState === null || itemDelegate.connectedState.value === true
 
-                ColumnLayout {
-                    anchors { left: parent.left; right: parent.right; margins: app.margins }
+                topPadding: 0
+
+                contentItem: ColumnLayout {
                     spacing: 0
                     RowLayout {
+                        enabled: itemDelegate.connectedState === null || itemDelegate.connectedState.value === true
                         id: nameRow
                         z: 2 // make sure the switch in here is on top of the slider, given we cheated a bit and made them overlap
                         spacing: app.margins
@@ -133,7 +134,7 @@ Page {
                         ThrottledSlider {
                             id: outlineSlider
                             anchors { left: parent.left; right: parent.right; verticalCenter: parent.verticalCenter }
-                            visible: contentItem.enabled && itemDelegate.brightnessStateType && !inlineSlider.visible
+                            visible: nameRow.enabled && itemDelegate.brightnessStateType && !inlineSlider.visible
                             from: 0; to: 100
                             value: itemDelegate.brightnessState ? itemDelegate.brightnessState.value : 0
                             onMoved: {
@@ -147,12 +148,9 @@ Page {
                         }
                     }
                 }
-            }
-
-            onClicked: {
-                var device = devicesProxy.get(index);
-                var deviceClass = Engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId)
-                pageStack.push(Qt.resolvedUrl("../devicepages/LightDevicePage.qml"), {device: devicesProxy.get(index)})
+                onClicked: {
+                    enterPage(index, false)
+                }
             }
         }
     }

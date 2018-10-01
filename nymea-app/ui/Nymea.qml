@@ -369,7 +369,7 @@ ApplicationWindow {
         } else if (interfaceList.indexOf("garagegate") >= 0 ) {
             page = "GarageGateDevicePage.qml";
         } else if (interfaceList.indexOf("light") >= 0) {
-            page = "ColorLightDevicePage.qml";
+            page = "LightDevicePage.qml";
         } else if (interfaceList.indexOf("extendedshutter") >= 0 ) {
             page = "ShutterDevicePage.qml";
         } else if (interfaceList.indexOf("extendedawning") >= 0) {

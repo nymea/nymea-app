@@ -250,5 +250,8 @@
         <file>ui/devicepages/NotificationsDevicePage.qml</file>
         <file>ui/components/BrightnessSlider.qml</file>
         <file>ui/devicepages/LightDevicePage.qml</file>
+        <file>ui/devicelistpages/SensorsDeviceListPage.qml</file>
+        <file>ui/devicelistpages/WeatherDeviceListPage.qml</file>
+        <file>ui/devicelistpages/DeviceListPageBase.qml</file>
     </qresource>
 </RCC>

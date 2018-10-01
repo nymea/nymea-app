@@ -19,6 +19,9 @@ CustomViewBase {
     readonly property var humidityStateType: deviceClass.stateTypes ? deviceClass.stateTypes.findByName("humidity") : null
     readonly property var humidityState: humidityStateType && device.states ? device.states.getState(humidityStateType.id) : null
 
+    readonly property var pressureStateType: deviceClass.stateTypes ? deviceClass.stateTypes.findByName("pressure") : null
+    readonly property var pressureState: pressureStateType && device.states ? device.states.getState(pressureStateType.id) : null
+
     readonly property var windDirectionStateType: deviceClass.stateTypes ? deviceClass.stateTypes.findByName("windDirection") : null
     readonly property var windDirectionState: windDirectionStateType && device.states ? device.states.getState(windDirectionStateType.id) : null
 
@@ -33,12 +36,38 @@ CustomViewBase {
         RowLayout {
             Layout.fillWidth: true
 
-            Label {
-                text: (temperatureState ? Math.round(temperatureState.value * 10) / 10 : "N/A") + " °"
+            Item {
                 Layout.fillWidth: true
                 Layout.preferredWidth: (parent.width - mainImage.width) / 2
-                font.pixelSize: app.largeFont
-                horizontalAlignment: Text.AlignHCenter
+
+                GridLayout {
+                    anchors.centerIn: parent
+                    columns: 2
+                    ColorIcon {
+                        name: "../images/sensors/temperature.svg"
+                        Layout.preferredWidth: app.iconSize
+                        Layout.preferredHeight: width
+                        color: app.interfaceToColor("temperaturesensor")
+                    }
+                    Label {
+                        text: (temperatureState ? Math.round(temperatureState.value * 10) / 10 : "N/A") + " °"
+                        Layout.fillWidth: true
+                        font.pixelSize: app.largeFont
+                        horizontalAlignment: Text.AlignHCenter
+                    }
+                    ColorIcon {
+                        name: "../images/weathericons/humidity.svg"
+                        Layout.preferredWidth: app.iconSize
+                        Layout.preferredHeight: width
+                        color: app.interfaceToColor("humiditysensor")
+                    }
+                    Label {
+                        text: (humidityState ? humidityState.value : "N/A") + " %"
+                        Layout.fillWidth: true
+                        horizontalAlignment: Text.AlignHCenter
+                    }
+                }
+
             }
 
             ColorIcon {
@@ -47,21 +76,23 @@ CustomViewBase {
                 Layout.preferredHeight: app.largeFont * 4
                 name: weatherConditionState ? "../images/weathericons/weather-" + weatherConditionState.value + ".svg" : ""
             }
-            ColumnLayout {
+
+            Item {
                 Layout.fillWidth: true
                 Layout.preferredWidth: (parent.width - mainImage.width) / 2
-                RowLayout {
+                GridLayout {
+                    columns: 2
+                    anchors.centerIn: parent
                     ColorIcon {
-                        name: "../images/weathericons/humidity.svg"
+                        name: "../images/sensors/pressure.svg"
                         width: app.iconSize
                         height: width
+                        color: app.interfaceToColor("pressuresensor")
                     }
 
                     Label {
-                        text: (humidityState ? humidityState.value : "N/A") + " %"
+                        text: (pressureState ? pressureState.value : "N/A") + " %"
                     }
-                }
-                RowLayout {
                     ColorIcon {
                         name: "../images/weathericons/wind.svg"
                         width: app.iconSize

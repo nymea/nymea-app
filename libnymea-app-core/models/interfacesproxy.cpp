@@ -58,8 +58,8 @@ void InterfacesProxy::setShowStates(bool showStates)
 bool InterfacesProxy::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
 {
     Q_UNUSED(source_parent)
-    qDebug() << "filterAcceptsRow";
     QString interfaceName = m_interfaces->get(source_row)->name();
+    qDebug() << "filterAcceptsRow" << interfaceName << m_shownInterfaces;
     if (!m_shownInterfaces.isEmpty()) {
         if (!m_shownInterfaces.contains(interfaceName)) {
             return false;

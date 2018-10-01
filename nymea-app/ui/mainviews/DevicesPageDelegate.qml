@@ -16,6 +16,12 @@ MainPageTile {
     onClicked: {
         var page;
         switch (model.name) {
+        case "sensor":
+            page = "SensorsDeviceListPage.qml"
+            break;
+        case "weather":
+            page = "WeatherDeviceListPage.qml"
+            break;
         case "light":
             page = "LightsDeviceListPage.qml"
             break;

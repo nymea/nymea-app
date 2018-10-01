@@ -32,6 +32,12 @@ DevicePageBase {
                 deviceClass: root.deviceClass
                 interfaceName: "humiditysensor"
             }
+            SensorView {
+                Layout.fillWidth: true
+                device: root.device
+                deviceClass: root.deviceClass
+                interfaceName: "pressuresensor"
+            }
         }
     }
 }
