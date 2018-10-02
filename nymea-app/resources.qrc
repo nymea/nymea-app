@@ -257,5 +257,11 @@
         <file>ui/devicepages/FingerprintReaderDevicePage.qml</file>
         <file>ui/images/account.svg</file>
         <file>ui/images/contact-new.svg</file>
+        <file>ui/components/SegmentedImage.qml</file>
+        <file>ui/components/SegmentRenderer.qml</file>
+        <file>ui/components/SegmentBoundingBoxes.qml</file>
+        <file>ui/components/FingerprintVisual.qml</file>
+        <file>ui/images/fingerprint/fingerprint_boxes.json</file>
+        <file>ui/images/fingerprint/fingerprint_segmented.png</file>
     </qresource>
 </RCC>

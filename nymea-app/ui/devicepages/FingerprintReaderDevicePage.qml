@@ -17,39 +17,9 @@ DevicePageBase {
     ColumnLayout {
         anchors.fill: parent
 
-//        Item {
-//            Layout.fillWidth: true
-//            Layout.preferredHeight: root.inputVisible ? inputColumn.implicitHeight : 0
-//            Behavior on Layout.preferredHeight { NumberAnimation { duration: 130; easing.type: Easing.InOutQuad } }
-
-//            ColumnLayout {
-//                id: inputColumn
-//                anchors { left: parent.left; bottom: parent.bottom; right: parent.right }
-
-//                TextField {
-//                    id: titleTextField
-//                    Layout.fillWidth: true
-//                    Layout.topMargin: app.margins
-//                    Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
-//                    placeholderText: qsTr("Title")
-//                }
-
-//                TextArea {
-//                    id: bodyTextField
-//                    Layout.fillWidth: true
-//                    Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
-//                    placeholderText: qsTr("Text")
-//                    wrapMode: Text.WordWrap
-//                }
-//            }
-//        }
-
-
-
-
         Button {
             Layout.fillWidth: true
-            Layout.margins: app.margins
+            Layout.leftMargin: app.margins; Layout.topMargin: app.margins; Layout.rightMargin: app.margins
             text: qsTr("Manage access")
             onClicked: {
                 pageStack.push(manageUsersComponent)
@@ -69,12 +39,12 @@ DevicePageBase {
                 live: true
                 Component.onCompleted: update()
                 typeIds: [root.accessGrantedEventType.id, root.accessDeniedEventType.id];
-
             }
 
             delegate: MeaListItemDelegate {
                 width: parent.width
-                iconName: "../images/notification.svg"
+                iconName: model.typeId === root.accessGrantedEventType.id ? "../images/tick.svg" : "../images/dialog-error-symbolic.svg"
+                iconColor: model.typeId === root.accessGrantedEventType.id ? "green" : "red"
                 text: model.typeId === root.accessGrantedEventType.id ? qsTr("Access granted for user %1").arg(model.value) : qsTr("Access denied")
                 subText: Qt.formatDateTime(model.timestamp)
                 progressive: false
@@ -134,6 +104,28 @@ DevicePageBase {
                             engine.deviceManager.executeAction(root.device.id, actionType.id, params)
                         }
                     }
+
+                    ColumnLayout {
+                        anchors.centerIn: parent
+                        width: 200
+                        spacing: app.margins * 2
+                        visible: parent.count === 0
+                        Item {
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: width
+                            FingerprintVisual {
+                                id: fingerprintVisual
+                                anchors.centerIn: parent
+                                scale: parent.height / implicitHeight
+                            }
+                        }
+
+                        Button {
+                            text: qsTr("Add a fingerprint")
+                            onClicked: pageStack.push(addUserComponent)
+                            Layout.fillWidth: true
+                        }
+                    }
                 }
             }
         }
@@ -153,8 +145,8 @@ DevicePageBase {
             Connections {
                 target: engine.deviceManager
                 onExecuteActionReply: {
-                    addUserPage.error = params["deviceError"] !== DeviceManager.DeviceErrorNoError
-                    print("Execute action reply:", params);
+                    addUserPage.error = params["deviceError"] !== "DeviceErrorNoError"
+                    print("Execute action reply:", params["deviceError"]);
                     addUserSwipeView.currentIndex++
                 }
             }
@@ -164,6 +156,7 @@ DevicePageBase {
                 SwipeView {
                     id: addUserSwipeView
                     Layout.fillWidth: true
+                    Layout.topMargin: app.margins * 2
                     Layout.preferredHeight: 200
                     Layout.alignment: Qt.AlignTop
                     Item {
@@ -182,6 +175,27 @@ DevicePageBase {
                                 id: userIdTextField
                                 Layout.fillWidth: true
                             }
+                            Label {
+                                Layout.fillWidth: true
+                                text: qsTr("Finger")
+                            }
+                            ComboBox {
+                                id: fingerComboBox
+                                Layout.fillWidth: true
+                                model: ListModel {
+                                    ListElement { modelData: qsTr("Left thumb"); enumValue: "ThumbLeft" }
+                                    ListElement { modelData: qsTr("Left index finger"); enumValue: "IndexFingerLeft" }
+                                    ListElement { modelData: qsTr("Left middle finger"); enumValue: "MiddleFingerLeft" }
+                                    ListElement { modelData: qsTr("Left ring finger"); enumValue: "RingFingerLeft" }
+                                    ListElement { modelData: qsTr("Left pinky finger"); enumValue: "PinkyLeft" }
+                                    ListElement { modelData: qsTr("Right thumb"); enumValue: "ThumbRight" }
+                                    ListElement { modelData: qsTr("Right index finger"); enumValue: "IndexFingerRight" }
+                                    ListElement { modelData: qsTr("Right middle finger"); enumValue: "MiddleFingerRight" }
+                                    ListElement { modelData: qsTr("Right ring finger"); enumValue: "RingFingerRight" }
+                                    ListElement { modelData: qsTr("Right pinky finger"); enumValue: "PinkyRight" }
+                                }
+                            }
+
                             Button {
                                 text: qsTr("Add user")
                                 Layout.fillWidth: true
@@ -192,6 +206,10 @@ DevicePageBase {
                                     titleParam["paramTypeId"] = actionType.paramTypes.findByName("userId").id
                                     titleParam["value"] = userIdTextField.displayText
                                     params.push(titleParam)
+                                    var fingerParam = {}
+                                    fingerParam["paramTypeId"] = actionType.paramTypes.findByName("finger").id
+                                    fingerParam["value"] = fingerComboBox.model.get(fingerComboBox.currentIndex).enumValue
+                                    params.push(fingerParam)
                                     engine.deviceManager.executeAction(root.device.id, actionType.id, params)
                                     addUserSwipeView.currentIndex++
                                 }
@@ -206,9 +224,43 @@ DevicePageBase {
                         ColumnLayout {
                             anchors.fill: parent
                             anchors.margins: app.margins
+                            spacing: app.margins * 2
                             Label {
                                 text: qsTr("Please scan the fingerprint now")
                                 Layout.fillWidth: true
+                                font.pixelSize: app.largeFont
+                                color: app.accentColor
+                                horizontalAlignment: Text.AlignHCenter
+                            }
+
+                            Item {
+                                Layout.preferredWidth: 200
+                                Layout.preferredHeight: 200
+                                Layout.alignment: Qt.AlignCenter
+
+                                FingerprintVisual {
+                                    id: fingerprintVisual
+                                    scale: parent.height / implicitHeight
+
+                                    anchors.centerIn: parent
+                                    Timer {
+                                        interval: 500
+                                        property real position: 0
+                                        running: addUserSwipeView.currentIndex == 1
+                                        repeat: true
+                                        onTriggered: {
+                                            var masks = [];
+                                            masks.push({x: 0, y: 0, width: 1, height: position})
+                                            position += 0.1
+                                            if (position < 1.1) {
+                                                fingerprintVisual.masks = masks
+                                            } else {
+                                                position = 0
+                                                fingerprintVisual.masks = []
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         }
                     }

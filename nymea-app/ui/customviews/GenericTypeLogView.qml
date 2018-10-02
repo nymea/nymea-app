@@ -15,6 +15,8 @@ Item {
 
     property alias delegate: listView.delegate
 
+    property bool autoscroll: true
+
     ColumnLayout {
         anchors.fill: parent
 
@@ -40,7 +42,11 @@ Item {
             Layout.fillHeight: true
             model: logsModel
             clip: true
-//            onCountChanged: positionViewAtEnd()
+            onCountChanged: {
+                if (root.autoscroll) {
+                    positionViewAtEnd()
+                }
+            }
 
             onContentYChanged: {
                 if (!logsModel.busy && contentY - originY < 5 * height) {
