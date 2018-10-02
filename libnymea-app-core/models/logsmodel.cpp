@@ -179,6 +179,9 @@ void LogsModel::update()
 
 void LogsModel::fetchEarlier(int hours)
 {
+    if (!m_engine) {
+        return;
+    }
     if (m_busy) {
         return;
     }

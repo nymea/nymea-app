@@ -53,7 +53,7 @@ ApplicationWindow {
         rootItem.handleCloseEvent(close)
     }
 
-    property var supportedInterfaces: ["light", "weather", "sensor", "media", "garagegate", "extendedawning", "extendedshutter", "extendedblind", "button", "notifications", "inputtrigger", "outputtrigger", "gateway"]
+    property var supportedInterfaces: ["light", "weather", "sensor", "media", "garagegate", "extendedawning", "extendedshutter", "extendedblind", "accesscontrol", "button", "notifications", "inputtrigger", "outputtrigger", "gateway"]
     function interfaceToString(name) {
         switch(name) {
         case "light":
@@ -91,9 +91,14 @@ ApplicationWindow {
             return qsTr("Awnings");
         case "garagegate":
             return qsTr("Garage gates");
+        case "accesscontrol":
+            return qsTr("Access control");
         case "uncategorized":
             return qsTr("Uncategorized")
+        default:
+            console.warn("interfaceToString unhandled interface:", name)
         }
+        return ""
     }
 
     function interfacesToIcon(interfaces) {
@@ -166,6 +171,8 @@ ApplicationWindow {
             return Qt.resolvedUrl("images/select-none.svg")
         case "simpleclosable":
             return Qt.resolvedUrl("images/sort-listitem.svg")
+        case "accesscontrol":
+            return Qt.resolvedUrl("images/network-secure.svg");
         default:
             console.warn("InterfaceToIcon: Unhandled interface", name)
         }
@@ -233,6 +240,8 @@ ApplicationWindow {
             page = "AwningDevicePage.qml";
         } else if (interfaceList.indexOf("notifications") >= 0) {
             page = "NotificationsDevicePage.qml";
+        } else if (interfaceList.indexOf("fingerprintreader") >= 0) {
+            page = "FingerprintReaderDevicePage.qml";
         } else {
             page = "GenericDevicePage.qml";
         }

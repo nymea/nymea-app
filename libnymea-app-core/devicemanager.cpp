@@ -155,7 +155,7 @@ void DeviceManager::getVendorsResponse(const QVariantMap &params)
 
 void DeviceManager::getSupportedDevicesResponse(const QVariantMap &params)
 {
-//    qDebug() << "DeviceClass received:" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson(QJsonDocument::Indented));
+    qDebug() << "DeviceClass received:" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson(QJsonDocument::Indented));
     if (params.value("params").toMap().keys().contains("deviceClasses")) {
         QVariantList deviceClassList = params.value("params").toMap().value("deviceClasses").toList();
         foreach (QVariant deviceClassVariant, deviceClassList) {
@@ -238,6 +238,7 @@ void DeviceManager::getConfiguredDevicesResponse(const QVariantMap &params)
                     value.convert(QVariant::Int);
                 }
                 device->setStateValue(stateTypeId, value);
+                qDebug() << "Set device state value:" << device->stateValue(stateTypeId) << value;
             }
             devices()->addDevice(device);
         }

@@ -79,6 +79,7 @@ DevicePageBase {
             logsModel: LogsModel {
                 deviceId: root.device.id
                 live: true
+                engine: _engine
                 Component.onCompleted: update()
                 typeIds: [root.deviceClass.actionTypes.findByName("notify").id];
 

@@ -118,6 +118,7 @@ Page {
             property var unitString: deviceClass.stateTypes.getStateType(stateTypeId).unitString
             text: unitString === "datetime" ? Qt.formatDateTime(new Date(value * 1000), Qt.DefaultLocaleShortDate) : value + " " + unitString
             horizontalAlignment: Text.AlignHCenter
+            elide: Text.ElideRight
         }
     }
 
