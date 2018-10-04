@@ -105,7 +105,7 @@ AWSClient::AWSClient(QObject *parent) : QObject(parent),
     m_userId = settings.value("userId").toString();
     m_password = settings.value("password").toString();
     m_accessToken = settings.value("accessToken").toByteArray();
-//    m_accessTokenExpiry = settings.value("accessTokenExpiry").toDateTime();
+    m_accessTokenExpiry = settings.value("accessTokenExpiry").toDateTime();
     m_idToken = settings.value("idToken").toByteArray();
     m_refreshToken = settings.value("refreshToken").toByteArray();
 

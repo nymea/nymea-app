@@ -149,6 +149,7 @@ DevicePageBase {
 
             property string user: ""
 
+            property bool done: false
             property bool error: false
 
             Connections {
@@ -156,7 +157,10 @@ DevicePageBase {
                 onExecuteActionReply: {
                     addUserPage.error = params["deviceError"] !== "DeviceErrorNoError"
                     print("Execute action reply:", params["deviceError"]);
-                    addUserSwipeView.currentIndex++
+                    var masks =[]
+                    masks.push({x: 0, y: 0, width: 1, height: 1});
+                    fingerprintVisual.masks = masks
+                    addUserPage.done = true
                 }
             }
 
@@ -165,8 +169,7 @@ DevicePageBase {
                 SwipeView {
                     id: addUserSwipeView
                     Layout.fillWidth: true
-                    Layout.topMargin: app.margins * 2
-                    Layout.preferredHeight: 200
+                    Layout.topMargin: app.margins
                     Layout.alignment: Qt.AlignTop
                     interactive: false
                     Item {
@@ -238,7 +241,9 @@ DevicePageBase {
                             anchors.margins: app.margins
                             spacing: app.margins * 2
                             Label {
-                                text: qsTr("Please scan the fingerprint now")
+                                text: !addUserPage.done ? qsTr("Please scan the fingerprint now")
+                                                        : addUserPage.error ? qsTr("Uh oh")
+                                                                            : qsTr("All done!")
                                 Layout.fillWidth: true
                                 font.pixelSize: app.largeFont
                                 color: app.accentColor
@@ -246,52 +251,17 @@ DevicePageBase {
                             }
 
                             Item {
-                                Layout.preferredWidth: 200
-                                Layout.preferredHeight: 200
+                                Layout.preferredWidth: 100
+                                Layout.preferredHeight: 100
                                 Layout.alignment: Qt.AlignCenter
 
                                 FingerprintVisual {
                                     id: fingerprintVisual
                                     scale: parent.height / implicitHeight
-
                                     anchors.centerIn: parent
-                                    Timer {
-                                        interval: 500
-                                        property real position: 0
-                                        running: addUserSwipeView.currentIndex == 1
-                                        repeat: true
-                                        onTriggered: {
-                                            var masks = [];
-                                            masks.push({x: 0, y: 0, width: 1, height: position})
-                                            position += 0.1
-                                            if (position < 1.1) {
-                                                fingerprintVisual.masks = masks
-                                            } else {
-                                                position = 0
-                                                fingerprintVisual.masks = []
-                                            }
-                                        }
-                                    }
+                                    fillColor: addUserPage.error ? "red" : app.accentColor
                                 }
-                            }
-                        }
-                    }
 
-                    Item {
-                        width: addUserSwipeView.width
-                        height: addUserSwipeView.height
-
-                        ColumnLayout {
-                            anchors.fill: parent
-                            anchors.margins: app.margins
-                            spacing: app.margins * 2
-                            Label {
-                                Layout.fillWidth: true
-                                font.pixelSize: app.largeFont
-                                color: app.accentColor
-                                text: addUserPage.error ? qsTr("Uh oh") :
-                                                          qsTr("All done!")
-                                horizontalAlignment: Text.AlignHCenter
                             }
                             Label {
                                 text: addUserPage.error ? qsTr("Fingerprint could not be read.\nPlease try again.") :
@@ -299,11 +269,13 @@ DevicePageBase {
                                 Layout.fillWidth: true
                                 wrapMode: Text.WordWrap
                                 horizontalAlignment: Text.AlignHCenter
+                                visible: addUserPage.done
                             }
                             Button {
                                 Layout.fillWidth: true
                                 text: qsTr("OK")
                                 onClicked: pageStack.pop()
+                                visible: addUserPage.done
                             }
                         }
                     }

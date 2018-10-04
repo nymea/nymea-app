@@ -23,6 +23,8 @@ Item {
     property alias textureSource: segmentRenderer.source
     property alias boxesSource: segmentBoundingBoxes.source
 
+    property alias fillColor: segmentRenderer.fillColor
+
     implicitWidth: segmentRenderer.implicitWidth
     implicitHeight: segmentRenderer.implicitHeight
 
