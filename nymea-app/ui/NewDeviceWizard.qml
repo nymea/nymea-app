@@ -31,7 +31,6 @@ Page {
         property int pairRequestId: 0
         property var pairingTransactionId: null
         property int addRequestId: 0
-        property bool addResult: false
     }
 
     Connections {
@@ -41,7 +40,11 @@ Page {
             case "SetupMethodPushButton":
                 d.pairingTransactionId = params["pairingTransactionId"];
                 print("response", params["displayMessage"], d.pairingTransactionId)
-                internalPageStack.push(pairingPage, {text: params["displayMessage"]})
+                internalPageStack.push(pairingPageComponent, {text: params["displayMessage"]})
+                break;
+            case "SetupMethodDisplayPin":
+                d.pairingTransactionId = params["pairingTransactionId"];
+                internalPageStack.push(pairingPageComponent, {text: params["displayMessage"], setupMethod: params["setupMethod"]})
                 break;
             default:
                 print("Setup method", params["setupMethod"], "not handled");
@@ -49,13 +52,10 @@ Page {
             }
         }
         onConfirmPairingReply: {
-            print("result", params["deviceError"])
-            d.addResult = (params["deviceError"] === "DeviceErrorNoError")
-            internalPageStack.push(resultsPage)
+            internalPageStack.push(resultsPage, {success: params["deviceError"] === "DeviceErrorNoError", deviceId: params["deviceId"]})
         }
         onAddDeviceReply: {
-            d.addResult = (params["deviceError"] === "DeviceErrorNoError")
-            internalPageStack.push(resultsPage)
+            internalPageStack.push(resultsPage, {success: params["deviceError"] === "DeviceErrorNoError", deviceId: params["deviceId"]})
         }
     }
 
@@ -85,7 +85,6 @@ Page {
             }
         }
     }
-
 
     Component {
         id: deviceClassesPage
@@ -145,6 +144,7 @@ Page {
             }
         }
     }
+
     Component {
         id: discoveryParamsPage
         Page {
@@ -207,7 +207,6 @@ Page {
             }
         }
     }
-
 
     Component {
         id: discoveryPage
@@ -320,6 +319,7 @@ Page {
                         id: paramRepeater
                         model: d.deviceDescriptorId == null ? d.deviceClass.paramTypes : null
                         delegate: ParamDelegate {
+                            Layout.preferredHeight: 60
                             Layout.fillWidth: true
                             paramType: d.deviceClass.paramTypes.get(index)
                         }
@@ -366,25 +366,44 @@ Page {
     }
 
     Component {
-        id: pairingPage
+        id: pairingPageComponent
         Page {
+            id: pairingPage
             property alias text: textLabel.text
+
+            property string setupMethod
 
             ColumnLayout {
                 anchors.centerIn: parent
                 width: parent.width - app.margins * 2
+                spacing: app.margins * 2
+
+                Label {
+                    Layout.fillWidth: true
+                    wrapMode: Text.WordWrap
+                    font.pixelSize: app.largeFont
+                    text: qsTr("Pairing...")
+                    color: app.accentColor
+                    horizontalAlignment: Text.AlignHCenter
+                }
+
                 Label {
                     id: textLabel
                     Layout.fillWidth: true
                     wrapMode: Text.WordWrap
                     horizontalAlignment: Text.AlignHCenter
-                    font.pixelSize: app.largeFont
                 }
+                TextField {
+                    id: pinTextField
+                    Layout.fillWidth: true
+                    visible: pairingPage.setupMethod === "SetupMethodDisplayPin"
+                }
+
                 Button {
                     Layout.fillWidth: true
                     text: "OK"
                     onClicked: {
-                        engine.deviceManager.confirmPairing(d.pairingTransactionId, d.deviceDescriptorId);
+                        engine.deviceManager.confirmPairing(d.pairingTransactionId, pinTextField.displayText);
                     }
                 }
             }
@@ -396,19 +415,34 @@ Page {
 
         Page {
             id: resultsView
-            Column {
-                width: parent.width - 20
+
+            property bool success
+            property string deviceId
+
+            readonly property var device: engine.deviceManager.devices.getDevice(deviceId)
+
+            ColumnLayout {
+                width: parent.width - app.margins * 2
                 anchors.centerIn: parent
-                spacing: 20
+                spacing: app.margins * 2
                 Label {
-                    width: parent.width
+                    Layout.fillWidth: true
                     wrapMode: Text.WordWrap
                     horizontalAlignment: Text.AlignHCenter
-                    text: d.addResult ? "Thing added!" : "Uh oh, something went wrong...";
+                    text: resultsView.success ? qsTr("Thing added!") : qsTr("Uh oh")
+                    font.pixelSize: app.largeFont
+                    color: app.accentColor
                 }
+                Label {
+                    Layout.fillWidth: true
+                    horizontalAlignment: Text.AlignHCenter
+                    wrapMode: Text.WordWrap
+                    text: resultsView.success ? qsTr("All done. You can now start using %1.").arg(resultsView.device.name) : qsTr("Something went wrong setting up this thing...");
+                }
+
                 Button {
-                    width: parent.width
-                    text: "Ok"
+                    Layout.fillWidth: true
+                    text: qsTr("Ok")
                     onClicked: pageStack.pop();
                 }
             }
