@@ -75,8 +75,10 @@ Page {
                         MouseArea {
                             anchors.fill: parent
                             anchors.margins: -app.margins / 2
-                            onClicked: pageStack.push(Qt.resolvedUrl("StateLogPage.qml"),
+                            onClicked: {
+                                pageStack.push(Qt.resolvedUrl("StateLogPage.qml"),
                                                       {device: root.device, stateType: stateType})
+                            }
                         }
                     }
 

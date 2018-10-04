@@ -81,7 +81,7 @@ private slots:
     void newLogEntryReceived(const QVariantMap &data);
 
 protected:
-    Engine *m_engine;
+    Engine *m_engine = nullptr;
     QList<LogEntry*> m_list;
     QString m_deviceId;
     QStringList m_typeIds;

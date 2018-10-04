@@ -31,7 +31,9 @@ Page {
         engine: _engine
         deviceId: root.device.id
         live: true
-        Component.onCompleted: update()
+        Component.onCompleted: {
+            update()
+        }
         typeIds: [root.stateType.id]
     }
 
