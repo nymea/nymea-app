@@ -263,5 +263,6 @@
         <file>ui/components/FingerprintVisual.qml</file>
         <file>ui/images/fingerprint/fingerprint_boxes.json</file>
         <file>ui/images/fingerprint/fingerprint_segmented.png</file>
+        <file>ui/images/fingerprint.svg</file>
     </qresource>
 </RCC>

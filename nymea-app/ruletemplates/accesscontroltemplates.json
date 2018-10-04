@@ -1,0 +1,99 @@
+{
+    "templates": [
+        {
+            "interfaceName": "accesscontrol",
+            "description": "Alert me on denied access attempts",
+            "ruleNameTemplate": "Denied access attempt on %0",
+            "eventDescriptorTemplates": [
+                {
+                    "interfaceName": "accesscontrol",
+                    "interfaceEvent": "accessDenied",
+                    "selectionId": 0
+                }
+            ],
+            "ruleActionTemplates": [
+                {
+                    "interfaceName": "notifications",
+                    "interfaceAction": "notify",
+                    "selectionId": 1,
+                    "params": [
+                        {
+                            "name": "title",
+                            "value": "Denied access attempt!"
+                        },
+                        {
+                            "name": "body",
+                            "value": "Someone tried to enter %0."
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "interfaceName": "accesscontrol",
+            "description": "Notify my about access",
+            "ruleNameTemplate": "Access granted on %0",
+            "eventDescriptorTemplates": [
+                {
+                    "interfaceName": "accesscontrol",
+                    "interfaceEvent": "accessGranted",
+                    "selectionId": 0
+                }
+            ],
+            "ruleActionTemplates": [
+                {
+                    "interfaceName": "notifications",
+                    "interfaceAction": "notify",
+                    "selectionId": 1,
+                    "params": [
+                        {
+                            "name": "title",
+                            "value": "User access"
+                        },
+                        {
+                            "name": "body",
+                            "value": "Someone entered %0."
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "interfaceName": "useraccesscontrol",
+            "description": "Notify my about user access",
+            "ruleNameTemplate": "Access granted to user on %0",
+            "eventDescriptorTemplates": [
+                {
+                    "interfaceName": "useraccesscontrol",
+                    "interfaceEvent": "accessGranted",
+                    "selectionId": 0,
+                    "params": [
+                        {
+                            "name": "userId"
+                        }
+                    ]
+                }
+            ],
+            "ruleActionTemplates": [
+                {
+                    "interfaceName": "notifications",
+                    "interfaceAction": "notify",
+                    "selectionId": 1,
+                    "params": [
+                        {
+                            "name": "title",
+                            "value": "User access"
+                        },
+                        {
+                            "name": "body",
+                            "eventInterface": "useraccesscontrol",
+                            "eventName": "accessGranted",
+                            "eventParamName": "userId"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+

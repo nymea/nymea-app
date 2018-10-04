@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file>ruletemplates/buttontemplates.json</file>
         <file>ruletemplates/notificationtemplates.json</file>
+        <file>ruletemplates/accesscontroltemplates.json</file>
     </qresource>
 </RCC>

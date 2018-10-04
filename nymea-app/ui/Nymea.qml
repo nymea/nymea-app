@@ -171,6 +171,8 @@ ApplicationWindow {
             return Qt.resolvedUrl("images/select-none.svg")
         case "simpleclosable":
             return Qt.resolvedUrl("images/sort-listitem.svg")
+        case "fingerprintreader":
+            return Qt.resolvedUrl("images/fingerprint.svg")
         case "accesscontrol":
             return Qt.resolvedUrl("images/network-secure.svg");
         default:

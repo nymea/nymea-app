@@ -43,15 +43,17 @@ DevicePageBase {
 
             delegate: MeaListItemDelegate {
                 width: parent.width
-                iconName: model.typeId === root.accessGrantedEventType.id ? "../images/tick.svg" : "../images/dialog-error-symbolic.svg"
-                iconColor: model.typeId === root.accessGrantedEventType.id ? "green" : "red"
-                text: model.typeId === root.accessGrantedEventType.id ? qsTr("Access granted for user %1").arg(model.value) : qsTr("Access denied")
+                iconName: accessGranted ? "../images/tick.svg" : "../images/dialog-error-symbolic.svg"
+                iconColor: accessGranted ? "green" : "red"
+                text: accessGranted ? qsTr("Access granted for user %1").arg(model.value) : qsTr("Access denied")
                 subText: Qt.formatDateTime(model.timestamp)
                 progressive: false
 
+                property bool accessGranted: model.typeId === root.accessGrantedEventType.id
+
                 onClicked: {
                     var parts = model.value.trim().split(', ')
-                    var popup = detailsPopup.createObject(root, {timestamp: model.timestamp, notificationTitle: parts[1], notificationBody: parts[0]});
+                    var popup = detailsPopup.createObject(root, {timestamp: model.timestamp, accessGranted: accessGranted, user: parts[0], finger: parts[1]});
                     popup.open();
                 }
             }
@@ -94,6 +96,10 @@ DevicePageBase {
                         progressive: false
                         iconName: "../images/account.svg"
                         canDelete: true
+                        onClicked: {
+                            pageStack.push(addUserComponent, {user: modelData})
+                        }
+
                         onDeleteClicked: {
                             var actionType = root.deviceClass.actionTypes.findByName("removeUser")
                             var params = []
@@ -107,12 +113,13 @@ DevicePageBase {
 
                     ColumnLayout {
                         anchors.centerIn: parent
-                        width: 200
                         spacing: app.margins * 2
                         visible: parent.count === 0
+                        width: parent.width - app.margins * 2
                         Item {
-                            Layout.fillWidth: true
+                            Layout.preferredWidth: 100
                             Layout.preferredHeight: width
+                            Layout.alignment: Qt.AlignHCenter
                             FingerprintVisual {
                                 id: fingerprintVisual
                                 anchors.centerIn: parent
@@ -123,7 +130,7 @@ DevicePageBase {
                         Button {
                             text: qsTr("Add a fingerprint")
                             onClicked: pageStack.push(addUserComponent)
-                            Layout.fillWidth: true
+                            Layout.alignment: Qt.AlignHCenter
                         }
                     }
                 }
@@ -139,6 +146,8 @@ DevicePageBase {
                 text: qsTr("Add a new fingerprint")
                 onBackPressed: pageStack.pop()
             }
+
+            property string user: ""
 
             property bool error: false
 
@@ -159,6 +168,7 @@ DevicePageBase {
                     Layout.topMargin: app.margins * 2
                     Layout.preferredHeight: 200
                     Layout.alignment: Qt.AlignTop
+                    interactive: false
                     Item {
                         width: addUserSwipeView.width
                         height: addUserSwipeView.height
@@ -174,6 +184,8 @@ DevicePageBase {
                             TextField {
                                 id: userIdTextField
                                 Layout.fillWidth: true
+                                placeholderText: addUserPage.user
+                                enabled: addUserPage.user.length === 0
                             }
                             Label {
                                 Layout.fillWidth: true
@@ -305,12 +317,13 @@ DevicePageBase {
         MeaDialog {
             id: detailsDialog
             property string timestamp
-            property string notificationTitle
-            property string notificationBody
-            title: qsTr("Notification details")
+            property bool accessGranted
+            property string user
+            property string finger
+            title: qsTr("Access request details")
             Label {
                 Layout.fillWidth: true
-                text: qsTr("Date sent")
+                text: qsTr("Date/Time")
                 font.bold: true
             }
 
@@ -321,26 +334,30 @@ DevicePageBase {
             Label {
                 Layout.topMargin: app.margins
                 Layout.fillWidth: true
-                text: qsTr("Title")
+                text: detailsDialog.accessGranted ? qsTr("User") : qsTr("Access denied")
                 font.bold: true
             }
 
             Label {
                 Layout.fillWidth: true
-                text: detailsDialog.notificationTitle
+                text: detailsDialog.user
                 wrapMode: Text.WordWrap
+                visible: detailsDialog.accessGranted
             }
+
             Label {
                 Layout.topMargin: app.margins
                 Layout.fillWidth: true
-                text: qsTr("Text")
+                text: qsTr("Fingerprint")
                 font.bold: true
+                visible: detailsDialog.accessGranted
             }
 
             Label {
                 Layout.fillWidth: true
-                text: detailsDialog.notificationBody
+                text: detailsDialog.finger
                 wrapMode: Text.WordWrap
+                visible: detailsDialog.accessGranted
             }
         }
     }

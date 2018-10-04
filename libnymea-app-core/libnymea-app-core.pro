@@ -77,7 +77,8 @@ SOURCES += \
     ruletemplates/statedescriptortemplate.cpp \
     discovery/bluetoothservicediscovery.cpp \
     connection/cloudtransport.cpp \
-    connection/sigv4utils.cpp
+    connection/sigv4utils.cpp \
+    ruletemplates/ruleactionparamtemplate.cpp
 
 HEADERS += \
     engine.h \
@@ -134,7 +135,8 @@ HEADERS += \
     ruletemplates/stateevaluatortemplate.h \
     ruletemplates/statedescriptortemplate.h \
     discovery/bluetoothservicediscovery.h \
-    connection/cloudtransport.h
+    connection/cloudtransport.h \
+    ruletemplates/ruleactionparamtemplate.h
 
 unix {
     target.path = /usr/lib

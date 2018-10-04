@@ -1,9 +1,9 @@
 #ifndef RULEACTIONTEMPLATE_H
 #define RULEACTIONTEMPLATE_H
 
-#include "types/ruleactionparams.h"
-
 #include <QObject>
+
+class RuleActionParamTemplates;
 
 class RuleActionTemplate : public QObject
 {
@@ -12,7 +12,7 @@ class RuleActionTemplate : public QObject
     Q_PROPERTY(QString interfaceAction READ interfaceAction CONSTANT)
     Q_PROPERTY(int selectionId READ selectionId CONSTANT)
     Q_PROPERTY(SelectionMode selectionMode READ selectionMode CONSTANT)
-    Q_PROPERTY(RuleActionParams* ruleActionParams READ ruleActionParams CONSTANT)
+    Q_PROPERTY(RuleActionParamTemplates* ruleActionParamTemplates READ ruleActionParamTemplates CONSTANT)
 
 public:
     enum SelectionMode {
@@ -22,20 +22,20 @@ public:
     };
     Q_ENUM(SelectionMode)
 
-    explicit RuleActionTemplate(const QString &interfaceName, const QString &interfaceAction, int selectionId, SelectionMode selectionMode = SelectionModeAny, RuleActionParams *params = nullptr, QObject *parent = nullptr);
+    explicit RuleActionTemplate(const QString &interfaceName, const QString &interfaceAction, int selectionId, SelectionMode selectionMode = SelectionModeAny, RuleActionParamTemplates *params = nullptr, QObject *parent = nullptr);
 
     QString interfaceName() const;
     QString interfaceAction() const;
     int selectionId() const;
     SelectionMode selectionMode() const;
-    RuleActionParams* ruleActionParams() const;
+    RuleActionParamTemplates* ruleActionParamTemplates() const;
 
 private:
     QString m_interfaceName;
     QString m_interfaceAction;
     int m_selectionId = 0;
     SelectionMode m_selectionMode = SelectionModeAny;
-    RuleActionParams* m_ruleActionParams = nullptr;
+    RuleActionParamTemplates* m_ruleActionParamTemplates = nullptr;
 };
 
 #include <QAbstractListModel>

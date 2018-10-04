@@ -124,4 +124,5 @@ DISTFILES += \
     ui/devicepages/NotificationsDevicePage.qml \
     ruletemplates/buttontemplates.json \
     ruletemplates/notificationtemplates.json \
-    ui/devicepages/LightDevicePage.qml
+    ui/devicepages/LightDevicePage.qml \
+    ruletemplates/accesscontroltemplates.json

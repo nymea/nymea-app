@@ -47,7 +47,7 @@ signals:
     void paramTypeIdChanged();
     void valueChanged();
 
-private:
+protected:
     QString m_paramTypeId;
     QVariant m_value;
 };

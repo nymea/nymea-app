@@ -49,6 +49,7 @@
 #include "ruletemplates/stateevaluatortemplate.h"
 #include "ruletemplates/statedescriptortemplate.h"
 #include "ruletemplates/ruleactiontemplate.h"
+#include "ruletemplates/ruleactionparamtemplate.h"
 #include "connection/awsclient.h"
 
 #include <QtQml/qqml.h>
@@ -181,6 +182,8 @@ void registerQmlTypes() {
     qmlRegisterUncreatableType<StateDescriptorTemplate>(uri, 1, 0, "StateDescriptorTemplate", "Get it from StateEvaluatorTemplate");
     qmlRegisterUncreatableType<RuleActionTemplates>(uri, 1, 0, "RuleActionTemplates", "Get it from RuleTemplate");
     qmlRegisterUncreatableType<RuleActionTemplate>(uri, 1, 0, "RuleActionTemplate", "Get it from RuleActionTemplates");
+    qmlRegisterUncreatableType<RuleActionParamTemplates>(uri, 1, 0, "RuleActionParamTemplates", "Get it from RuleActionTemplate");
+    qmlRegisterUncreatableType<RuleActionParamTemplate>(uri, 1, 0, "RuleActionParamTemplate", "Get it from RuleActionParamTemplates");
 }
 
 #endif // LIBNYMEAAPPCORE_H

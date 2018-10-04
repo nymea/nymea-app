@@ -32,7 +32,7 @@ signals:
     void eventTypeIdChanged();
     void eventParamTypeIdChanged();
 
-private:
+protected:
     QString m_paramName;
     QString m_eventTypeId;
     QString m_eventParamTypeId;

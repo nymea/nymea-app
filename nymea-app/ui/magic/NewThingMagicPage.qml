@@ -279,11 +279,39 @@ Page {
         var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
         ruleAction.deviceId = device.id;
         ruleAction.actionTypeId = deviceClass.actionTypes.findByName(ruleActionTemplate.interfaceAction).id
-        for (var j = 0; j < ruleActionTemplate.ruleActionParams.count; j++) {
-            var ruleActionParam = ruleActionTemplate.ruleActionParams.get(j)
+        for (var j = 0; j < ruleActionTemplate.ruleActionParamTemplates.count; j++) {
+            var ruleActionParamTemplate = ruleActionTemplate.ruleActionParamTemplates.get(j)
             var actionType = deviceClass.actionTypes.getActionType(ruleAction.actionTypeId);
-            var paramType = actionType.paramTypes.findByName(ruleActionParam.paramName);
-            ruleAction.ruleActionParams.setRuleActionParam(paramType.id, ruleActionParam.value)
+            var paramType = actionType.paramTypes.findByName(ruleActionParamTemplate.paramName);
+            if (ruleActionParamTemplate.value !== undefined) {
+                ruleAction.ruleActionParams.setRuleActionParam(paramType.id, ruleActionParamTemplate.value)
+            } else if (ruleActionParamTemplate.eventInterface && ruleActionParamTemplate.eventName && ruleActionParamTemplate.eventParamName) {
+                print("should create rule action param from interface", ruleActionParamTemplate.eventInterface, ruleActionParamTemplate.eventName, ruleActionParamTemplate.eventParamName)
+                // find matching eventDescriptor
+                var eventDescriptorTemplate = null;
+                for (var k = 0; k < ruleTemplate.eventDescriptorTemplates.count; k++) {
+                    var tmp = ruleTemplate.eventDescriptorTemplates.get(k);
+                    print("evaluating eventDescriptor", tmp.interfaceName)
+                    if (tmp.interfaceName === ruleActionParamTemplate.eventInterface && tmp.interfaceEvent === ruleActionParamTemplate.eventName) {
+                        eventDescriptorTemplate = tmp;
+                        break;
+                    }
+                }
+                if (eventDescriptorTemplate === null) {
+                    console.warn("Unable to find an event matching the criteria:", ruleActionParamTemplate.eventInterface, ruleActionParamTemplate.eventName, ruleActionParamTemplate.eventParamName)
+                    break
+                }
+                print("selected device:", selectedThings, eventDescriptorTemplate.selectionId)
+                var eventDevice = engine.deviceManager.devices.getDevice(selectedThings[eventDescriptorTemplate.selectionId])
+                var eventDeviceClass = engine.deviceManager.deviceClasses.getDeviceClass(eventDevice.deviceClassId);
+                var eventType = eventDeviceClass.eventTypes.findByName(ruleActionParamTemplate.eventName);
+                var eventParamType = eventType.paramTypes.findByName(ruleActionParamTemplate.eventParamName);
+
+                ruleAction.ruleActionParams.setRuleActionParamEvent(paramType.id, eventType.id, eventParamType.id)
+            } else {
+                console.warn("Invalid RuleActionParamTemplate. Has neither value nor event spec")
+            }
+
         }
         ruleActions.addRuleAction(ruleAction);
         fillRuleFromTemplate(rule, ruleTemplate, selectedThings);

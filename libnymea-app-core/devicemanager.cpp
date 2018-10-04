@@ -155,7 +155,7 @@ void DeviceManager::getVendorsResponse(const QVariantMap &params)
 
 void DeviceManager::getSupportedDevicesResponse(const QVariantMap &params)
 {
-    qDebug() << "DeviceClass received:" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson(QJsonDocument::Indented));
+//    qDebug() << "DeviceClass received:" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson(QJsonDocument::Indented));
     if (params.value("params").toMap().keys().contains("deviceClasses")) {
         QVariantList deviceClassList = params.value("params").toMap().value("deviceClasses").toList();
         foreach (QVariant deviceClassVariant, deviceClassList) {
@@ -168,7 +168,7 @@ void DeviceManager::getSupportedDevicesResponse(const QVariantMap &params)
 
 void DeviceManager::getPluginsResponse(const QVariantMap &params)
 {
-    qDebug() << "received plugins";
+//    qDebug() << "received plugins";
     if (params.value("params").toMap().keys().contains("plugins")) {
         QVariantList pluginList = params.value("params").toMap().value("plugins").toList();
         foreach (QVariant pluginVariant, pluginList) {

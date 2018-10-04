@@ -4,6 +4,7 @@
 #include "eventdescriptortemplate.h"
 #include "ruleactiontemplate.h"
 #include "stateevaluatortemplate.h"
+#include "ruleactionparamtemplate.h"
 
 #include "types/ruleactionparam.h"
 #include "types/ruleactionparams.h"
@@ -22,7 +23,8 @@ RuleTemplates::RuleTemplates(QObject *parent) : QAbstractListModel(parent)
     StateEvaluatorTemplate* set;
     RuleActionTemplate* rat;
     RuleActionTemplate* reat; // exit
-    RuleActionParams* raps;
+    RuleActionParamTemplate* rapt;
+    RuleActionParamTemplates* rapts;
 
     QDir ruleTemplatesDir(":/ruletemplates");
 
@@ -87,10 +89,21 @@ RuleTemplates::RuleTemplates(QObject *parent) : QAbstractListModel(parent)
             // RuleActionTemplates
             foreach (const QVariant &ruleActionVariant, ruleTemplate.value("ruleActionTemplates").toList()) {
                 QVariantMap ruleActionTemplate = ruleActionVariant.toMap();
-                raps = new RuleActionParams();
+                rapts = new RuleActionParamTemplates();
                 foreach (const QVariant &ruleActionParamVariant, ruleActionTemplate.value("params").toList()) {
                     QVariantMap ruleActionParamTemplate = ruleActionParamVariant.toMap();
-                    raps->addRuleActionParam(new RuleActionParam(ruleActionParamTemplate.value("name").toString(), ruleActionParamTemplate.value("value")));
+                    QString paramName = ruleActionParamTemplate.value("name").toString();
+                    if (ruleActionParamTemplate.contains("value")) {
+                        QVariant paramValue = ruleActionParamTemplate.value("value");
+                        rapts->addRuleActionParamTemplate(new RuleActionParamTemplate(paramName, paramValue));
+                    } else if (ruleActionParamTemplate.contains("eventInterface") && ruleActionParamTemplate.contains("eventName") && ruleActionParamTemplate.contains("eventParamName")) {
+                        QString eventInterface = ruleActionParamTemplate.value("eventInterface").toString();
+                        QString eventName = ruleActionParamTemplate.value("eventName").toString();
+                        QString eventParamName = ruleActionParamTemplate.value("eventParamName").toString();
+                        rapts->addRuleActionParamTemplate(new RuleActionParamTemplate(paramName, eventInterface, eventName, eventParamName));
+                    } else {
+                        qWarning() << "Invalid rule action param name on rule template:" << paramName;
+                    }
                 }
                 QMetaEnum selectionModeEnum = QMetaEnum::fromType<RuleActionTemplate::SelectionMode>();
                 rat = new RuleActionTemplate(
@@ -98,17 +111,28 @@ RuleTemplates::RuleTemplates(QObject *parent) : QAbstractListModel(parent)
                             ruleActionTemplate.value("interfaceAction").toString(),
                             ruleActionTemplate.value("selectionId").toInt(),
                             static_cast<RuleActionTemplate::SelectionMode>(selectionModeEnum.keyToValue(ruleActionTemplate.value("selectionMode", "SelectionModeDevice").toByteArray().data())),
-                            raps);
+                            rapts);
                 t->ruleActionTemplates()->addRuleActionTemplate(rat);
             }
 
             // RuleExitActionTemplates
             foreach (const QVariant &ruleActionVariant, ruleTemplate.value("ruleExitActionTemplates").toList()) {
                 QVariantMap ruleActionTemplate = ruleActionVariant.toMap();
-                raps = new RuleActionParams();
+                rapts = new RuleActionParamTemplates();
                 foreach (const QVariant &ruleActionParamVariant, ruleActionTemplate.value("params").toList()) {
                     QVariantMap ruleActionParamTemplate = ruleActionParamVariant.toMap();
-                    raps->addRuleActionParam(new RuleActionParam(ruleActionParamTemplate.value("name").toString(), ruleActionParamTemplate.value("value")));
+                    QString paramName = ruleActionParamTemplate.value("name").toString();
+                    if (ruleActionParamTemplate.contains("value")) {
+                        QVariant paramValue = ruleActionParamTemplate.value("value");
+                        rapts->addRuleActionParamTemplate(new RuleActionParamTemplate(paramName, paramValue));
+                    } else if (ruleActionParamTemplate.contains("eventInterface") && ruleActionParamTemplate.contains("eventName") && ruleActionParamTemplate.contains("eventParamName")) {
+                        QString eventInterface = ruleActionParamTemplate.value("eventInterface").toString();
+                        QString eventName = ruleActionParamTemplate.value("eventName").toString();
+                        QString eventParamName = ruleActionParamTemplate.value("eventParamName").toString();
+                        rapts->addRuleActionParamTemplate(new RuleActionParamTemplate(paramName, eventInterface, eventName, eventParamName));
+                    } else {
+                        qWarning() << "Invalid rule exit action param name on rule template:" << paramName;
+                    }
                 }
                 QMetaEnum selectionModeEnum = QMetaEnum::fromType<RuleActionTemplate::SelectionMode>();
                 rat = new RuleActionTemplate(
@@ -116,7 +140,7 @@ RuleTemplates::RuleTemplates(QObject *parent) : QAbstractListModel(parent)
                             ruleActionTemplate.value("interfaceAction").toString(),
                             ruleActionTemplate.value("selectionId").toInt(),
                             static_cast<RuleActionTemplate::SelectionMode>(selectionModeEnum.keyToValue(ruleActionTemplate.value("selectionMode", "SelectionModeDevice").toByteArray().data())),
-                            raps);
+                            rapts);
                 t->ruleExitActionTemplates()->addRuleActionTemplate(rat);
             }
 

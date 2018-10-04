@@ -1,15 +1,15 @@
 #include "ruleactiontemplate.h"
+#include "ruleactionparamtemplate.h"
 
-
-RuleActionTemplate::RuleActionTemplate(const QString &interfaceName, const QString &interfaceAction, int selectionId, RuleActionTemplate::SelectionMode selectionMode, RuleActionParams *params, QObject *parent):
+RuleActionTemplate::RuleActionTemplate(const QString &interfaceName, const QString &interfaceAction, int selectionId, RuleActionTemplate::SelectionMode selectionMode, RuleActionParamTemplates *params, QObject *parent):
     QObject(parent),
     m_interfaceName(interfaceName),
     m_interfaceAction(interfaceAction),
     m_selectionId(selectionId),
     m_selectionMode(selectionMode),
-    m_ruleActionParams(params ? params : new RuleActionParams())
+    m_ruleActionParamTemplates(params ? params : new RuleActionParamTemplates())
 {
-    m_ruleActionParams->setParent(this);
+    m_ruleActionParamTemplates->setParent(this);
 }
 
 QString RuleActionTemplate::interfaceName() const
@@ -32,7 +32,7 @@ RuleActionTemplate::SelectionMode RuleActionTemplate::selectionMode() const
     return m_selectionMode;
 }
 
-RuleActionParams *RuleActionTemplate::ruleActionParams() const
+RuleActionParamTemplates *RuleActionTemplate::ruleActionParamTemplates() const
 {
-    return m_ruleActionParams;
+    return m_ruleActionParamTemplates;
 }
