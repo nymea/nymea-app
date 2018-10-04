@@ -187,7 +187,7 @@ DevicePageBase {
                             TextField {
                                 id: userIdTextField
                                 Layout.fillWidth: true
-                                placeholderText: addUserPage.user
+                                text: addUserPage.user
                                 enabled: addUserPage.user.length === 0
                             }
                             Label {
