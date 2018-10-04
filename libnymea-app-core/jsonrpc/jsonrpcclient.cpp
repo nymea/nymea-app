@@ -397,6 +397,22 @@ void JsonRpcClient::dataReceived(const QByteArray &data)
         getCloudConnectionStatus();
     }
 
+    // check if this is a notification
+    if (dataMap.contains("notification")) {
+        QStringList notification = dataMap.value("notification").toString().split(".");
+        QString nameSpace = notification.first();
+        JsonHandler *handler = m_notificationHandlers.value(nameSpace).first;
+
+        if (!handler) {
+//            qWarning() << "JsonRpc: handler not implemented:" << nameSpace;
+            return;
+        }
+
+//        qDebug() << "Incoming notification:" << jsonDoc.toJson();
+        QMetaObject::invokeMethod(handler, m_notificationHandlers.value(nameSpace).second.toLatin1().data(), Q_ARG(QVariantMap, dataMap));
+        return;
+    }
+
     // check if this is a reply to a request
     int commandId = dataMap.value("id").toInt();
     JsonRpcReply *reply = m_replies.take(commandId);
@@ -421,21 +437,6 @@ void JsonRpcClient::dataReceived(const QByteArray &data)
 
         emit responseReceived(reply->commandId(), dataMap.value("params").toMap());
         return;
-    }
-
-    // check if this is a notification
-    if (dataMap.contains("notification")) {
-        QStringList notification = dataMap.value("notification").toString().split(".");
-        QString nameSpace = notification.first();
-        JsonHandler *handler = m_notificationHandlers.value(nameSpace).first;
-
-        if (!handler) {
-//            qWarning() << "JsonRpc: handler not implemented:" << nameSpace;
-            return;
-        }
-
-//        qDebug() << "Incoming notification:" << jsonDoc.toJson();
-        QMetaObject::invokeMethod(handler, m_notificationHandlers.value(nameSpace).second.toLatin1().data(), Q_ARG(QVariantMap, dataMap));
     }
 }
 
