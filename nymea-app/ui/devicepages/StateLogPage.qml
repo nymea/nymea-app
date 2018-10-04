@@ -160,6 +160,7 @@ Page {
                         Component.onCompleted: updateTimer.start();
                         onAverageChanged: updateTimer.start()
                         onStartTimeChanged: updateTimer.start();
+                        engine: _engine
 
                         // Live doesn't work yet with ValueLogsProxyModel
     //                    live: true
