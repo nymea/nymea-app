@@ -268,6 +268,10 @@ Page {
                 rule.eventDescriptors.addEventDescriptor(eventDescriptor);
                 fillRuleFromTemplate(rule, ruleTemplate, selectedThings);
             })
+            page.onBackPressed.connect(function() {
+                eventDescriptor.destroy();
+                pageStack.pop();
+            });
             return;
         }
         rule.eventDescriptors.addEventDescriptor(eventDescriptor);
