@@ -131,6 +131,21 @@ void DevicesProxy::setHiddenInterfaces(const QStringList &hiddenInterfaces)
     }
 }
 
+QString DevicesProxy::nameFilter() const
+{
+    return m_nameFilter;
+}
+
+void DevicesProxy::setNameFilter(const QString &nameFilter)
+{
+    if (m_nameFilter != nameFilter) {
+        m_nameFilter = nameFilter;
+        emit nameFilterChanged();
+        invalidateFilter();
+        countChanged();
+    }
+}
+
 bool DevicesProxy::filterBatteryCritical() const
 {
     return m_filterBatteryCritical;
@@ -246,6 +261,12 @@ bool DevicesProxy::filterAcceptsRow(int source_row, const QModelIndex &source_pa
 
     if (m_filterDisconnected) {
         if (!deviceClass->interfaces().contains("connectable") || device->stateValue(deviceClass->stateTypes()->findByName("connected")->id()).toBool() == true) {
+            return false;
+        }
+    }
+
+    if (!m_nameFilter.isEmpty()) {
+        if (!device->name().toLower().contains(m_nameFilter.toLower().trimmed())) {
             return false;
         }
     }

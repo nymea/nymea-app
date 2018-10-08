@@ -264,5 +264,9 @@
         <file>ui/images/fingerprint/fingerprint_boxes.json</file>
         <file>ui/images/fingerprint/fingerprint_segmented.png</file>
         <file>ui/images/fingerprint.svg</file>
+        <file>ui/components/ListSectionHeader.qml</file>
+        <file>ui/images/find.svg</file>
+        <file>ui/images/erase.svg</file>
+        <file>ui/components/ListFilterInput.qml</file>
     </qresource>
 </RCC>

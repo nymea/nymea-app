@@ -25,6 +25,12 @@ Page {
                   qsTr("Select a kind of things") :
                   root.shownInterfaces.length > 0 ? qsTr("Select a %1").arg(app.interfaceToDisplayName(root.shownInterfaces[0])) : qsTr("Select a thing")
         onBackPressed: root.backPressed()
+
+        HeaderButton {
+            imageSource: "../images/find.svg"
+            color: filterInput.shown ? app.accentColor : keyColor
+            onClicked: filterInput.shown = !filterInput.shown
+        }
     }
 
     InterfacesProxy {
@@ -35,6 +41,8 @@ Page {
     DevicesProxy {
         id: devicesProxy
         engine: _engine
+        groupByInterface: true
+        nameFilter: filterInput.shown ? filterInput.text : ""
     }
 
     ColumnLayout {
@@ -50,11 +58,21 @@ Page {
         }
         ThinDivider { visible: root.allowSelectAny }
 
+        ListFilterInput {
+            id: filterInput
+            Layout.fillWidth: true
+        }
+
         ListView {
             Layout.fillWidth: true
             Layout.fillHeight: true
             model: root.selectInterface ? interfacesProxy : devicesProxy
             clip: true
+            section.property: "baseInterface"
+            section.criteria: ViewSection.FullString
+            section.delegate: ListSectionHeader {
+                text: app.interfaceToString(section)
+            }
             delegate: MeaListItemDelegate {
                 width: parent.width
                 text: root.selectInterface ? model.displayName : model.name
