@@ -268,5 +268,7 @@
         <file>ui/images/find.svg</file>
         <file>ui/images/erase.svg</file>
         <file>ui/components/ListFilterInput.qml</file>
+        <file>ui/system/ConnectionInterfacesPage.qml</file>
+        <file>ui/system/ConnectionInterfaceDelegate.qml</file>
     </qresource>
 </RCC>

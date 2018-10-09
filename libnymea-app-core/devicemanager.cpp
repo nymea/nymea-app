@@ -238,7 +238,7 @@ void DeviceManager::getConfiguredDevicesResponse(const QVariantMap &params)
                     value.convert(QVariant::Int);
                 }
                 device->setStateValue(stateTypeId, value);
-                qDebug() << "Set device state value:" << device->stateValue(stateTypeId) << value;
+//                qDebug() << "Set device state value:" << device->stateValue(stateTypeId) << value;
             }
             devices()->addDevice(device);
         }
