@@ -149,7 +149,7 @@
     </message>
     <message>
         <source>%1 disconnected.</source>
-        <translation>%1 verbunden.</translation>
+        <translation>%1 getrennt.</translation>
     </message>
 </context>
 <context>
@@ -2466,7 +2466,7 @@
     </message>
     <message>
         <source>The networking is disabled on the device.</source>
-        <translation>Das Netzwerk ist auf diesem Geräg deaktiviert.</translation>
+        <translation>Netzwerk ist auf diesem Gerät deaktivert.</translation>
     </message>
     <message>
         <source>Unknown error occured.</source>
