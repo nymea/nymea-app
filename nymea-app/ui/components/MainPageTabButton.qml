@@ -16,6 +16,7 @@ TabButton {
 
     contentItem: GridLayout {
         columns: root.alignment === Qt.Vertical ? 1 : 2
+        rowSpacing: 4
         ColorIcon {
             Layout.preferredWidth: app.iconSize
             Layout.preferredHeight: app.iconSize
