@@ -40,7 +40,7 @@ ApplicationWindow {
         property int currentMainViewIndex: 0
         property bool showHiddenOptions: false
         property int cloudEnvironment: 0
-        property bool showConnectionTabs: app.hasOwnProperty("industrialSetup") && app.industrialSetup
+        property bool showConnectionTabs: false
         property int tabCount: 1
     }
 
