@@ -15,6 +15,10 @@ Item {
         color: Material.background
     }
 
+    function handleCloseEvent(close) {
+        swipeView.currentItem.handleCloseEvent(close)
+    }
+
     ListModel {
         id: tabModel
 
