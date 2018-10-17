@@ -236,9 +236,9 @@ ApplicationWindow {
             page = "GarageGateDevicePage.qml";
         } else if (interfaceList.indexOf("light") >= 0) {
             page = "LightDevicePage.qml";
-        } else if (interfaceList.indexOf("extendedshutter") >= 0 ) {
+        } else if (interfaceList.indexOf("shutter") >= 0  || interfaceList.indexOf("blind") >= 0) {
             page = "ShutterDevicePage.qml";
-        } else if (interfaceList.indexOf("extendedawning") >= 0) {
+        } else if (interfaceList.indexOf("awning") >= 0) {
             page = "AwningDevicePage.qml";
         } else if (interfaceList.indexOf("notifications") >= 0) {
             page = "NotificationsDevicePage.qml";
