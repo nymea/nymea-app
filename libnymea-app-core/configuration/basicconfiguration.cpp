@@ -103,14 +103,14 @@ void BasicConfiguration::setTcpServerConfiguration(ServerConfiguration *configur
     m_client->sendCommand("Configuration.SetTcpServerConfiguration", params);
 }
 
-void BasicConfiguration::deleteTcpServerConfiguration(const QString &id) const
+void BasicConfiguration::deleteTcpServerConfiguration(const QString &id)
 {
     QVariantMap params;
     params.insert("id", id);
     m_client->sendCommand("Configuration.DeleteTcpServerConfiguration", params, this, "deleteTcpConfigReply");
 }
 
-void BasicConfiguration::deleteWebsocketServerConfiguration(const QString &id) const
+void BasicConfiguration::deleteWebsocketServerConfiguration(const QString &id)
 {
     QVariantMap params;
     params.insert("id", id);
@@ -203,6 +203,11 @@ void BasicConfiguration::deleteTcpConfigReply(const QVariantMap &params)
 {
     if (params.value("params").toMap().value("configurationError").toString() == "ConfigurationErrorNoError") {
     }
+}
+
+void BasicConfiguration::deleteWebSocketConfigReply(const QVariantMap &params)
+{
+
 }
 
 void BasicConfiguration::notificationReceived(const QVariantMap &notification)

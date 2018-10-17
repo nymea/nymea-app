@@ -140,26 +140,17 @@ Page {
 
             MeaListItemDelegate {
                 Layout.fillWidth: true
-                iconName: "../images/network-vpn.svg"
-                text: qsTr("Server interfaces")
-                onClicked: pageStack.push(Qt.resolvedUrl("system/ConnectionInterfacesPage.qml"))
-            }
-
-            MeaListItemDelegate {
-                Layout.fillWidth: true
                 iconName: "../images/cloud.svg"
                 text: qsTr("Cloud")
                 visible: engine.jsonRpcClient.ensureServerVersion("1.9")
                 onClicked: pageStack.push(Qt.resolvedUrl("system/CloudSettingsPage.qml"))
             }
-
             MeaListItemDelegate {
                 Layout.fillWidth: true
                 iconName: "../images/plugin.svg"
                 text: qsTr("Plugins")
                 onClicked:pageStack.push(Qt.resolvedUrl("system/PluginsPage.qml"))
             }
-
             MeaListItemDelegate {
                 Layout.fillWidth: true
                 iconName: "../images/logs.svg"
@@ -168,8 +159,14 @@ Page {
             }
             MeaListItemDelegate {
                 Layout.fillWidth: true
+                iconName: "../images/network-vpn.svg"
+                text: qsTr("Server interfaces")
+                onClicked: pageStack.push(Qt.resolvedUrl("system/ConnectionInterfacesPage.qml"))
+            }
+            MeaListItemDelegate {
+                Layout.fillWidth: true
                 iconName: "../images/info.svg"
-                text: qsTr("About nymea")
+                text: qsTr("About %1:core").arg(app.systemName)
                 onClicked: pageStack.push(Qt.resolvedUrl("system/AboutNymeaPage.qml"))
             }
         }

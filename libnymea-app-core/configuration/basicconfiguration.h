@@ -53,8 +53,8 @@ public:
     void setTcpServerConfiguration(ServerConfiguration *configuration) const;
     void setWebsocketServerConfiguration(ServerConfiguration *configuration) const;
 
-    Q_INVOKABLE void deleteTcpServerConfiguration(const QString &id) const;
-    Q_INVOKABLE void deleteWebsocketServerConfiguration(const QString &id) const;
+    Q_INVOKABLE void deleteTcpServerConfiguration(const QString &id);
+    Q_INVOKABLE void deleteWebsocketServerConfiguration(const QString &id);
 
     void init();
 

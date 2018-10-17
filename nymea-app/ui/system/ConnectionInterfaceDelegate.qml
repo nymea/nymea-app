@@ -8,6 +8,7 @@ MeaListItemDelegate {
     text: model.address
     subText: model.port
     iconName: "../images/network-wifi-symbolic.svg"
+    progressive: false
     iconColor: {
         if ((engine.connection.hostAddress === model.address || model.address === "0.0.0.0")
                 && engine.connection.port === model.port) {
@@ -21,5 +22,5 @@ MeaListItemDelegate {
     tertiaryIconName: "../images/network-secure.svg"
     tertiaryIconColor: model.sslEnabled ? app.accentColor : tertiaryIconKeyColor
 
-    canDelete: true
+//    canDelete: true
 }
