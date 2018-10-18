@@ -1,0 +1,15 @@
+{
+    "name": "io.guh.nymeaapp",
+    "description": "nymea:app is a client for nymea - a professional IoT server that allows to link smart devices and services. Functional relations of all available sensing and acting capabilities can be defined by 'Magic'.",
+    "architecture": "armhf",
+    "title": "nymea:app",
+    "hooks": {
+        "nymea-app": {
+            "apparmor": "nymea-app.apparmor",
+            "desktop":  "nymea-app.desktop"
+        }
+    },
+    "version": "1.0.75",
+    "maintainer": "Michael Zanetti <michael.zanetti@nymea.io>",
+    "framework" : "ubuntu-sdk-15.04.5"
+}

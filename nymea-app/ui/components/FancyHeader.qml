@@ -106,6 +106,7 @@ ToolBar {
                         ColumnLayout {
                             anchors.fill: parent
                             anchors.margins: app.margins / 2
+                            spacing: 0
                             ColorIcon {
                                 name: model.iconSource
                                 Layout.preferredHeight: app.iconSize

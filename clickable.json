@@ -1,0 +1,9 @@
+{
+  "template": "qmake",
+  "kill": "nymea-app",
+  "build_args": "CONFIG+=ubuntu",
+  "dependencies": [
+    "libavahi-client-dev",
+    "libavahi-common-dev"
+  ]
+}

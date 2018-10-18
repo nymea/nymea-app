@@ -1,6 +1,5 @@
 include(config.pri)
 message("APP_VERSION: $${APP_VERSION} ($${APP_REVISION})")
-
 TEMPLATE=subdirs
 
 SUBDIRS = libnymea-common libnymea-app-core nymea-app

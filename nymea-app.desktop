@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=nymea:app
+Exec=usr/bin/nymea-app
+Icon=appicon.svg
+Terminal=false
+Type=Application
+X-Ubuntu-Touch=true
