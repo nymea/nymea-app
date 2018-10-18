@@ -8,7 +8,7 @@ MeaListItemDelegate {
     id: root
     width: parent.width
     iconName: deviceClass ? app.interfacesToIcon(deviceClass.interfaces) : ""
-    text: device.name
+    text: device ? device.name : ""
     progressive: true
     secondaryIconName: batteryCritical ? "../images/battery/battery-010.svg" : ""
     tertiaryIconName: disconnected ? "../images/dialog-warning-symbolic.svg" : ""

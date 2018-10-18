@@ -55,7 +55,7 @@ SOURCES += \
     models/valuelogsproxymodel.cpp \
     discovery/nymeadiscovery.cpp \
     logmanager.cpp \
-    basicconfiguration.cpp \
+    configuration/basicconfiguration.cpp \
     wifisetup/bluetoothdevice.cpp \
     wifisetup/bluetoothdeviceinfo.cpp \
     wifisetup/bluetoothdeviceinfos.cpp \
@@ -78,7 +78,9 @@ SOURCES += \
     discovery/bluetoothservicediscovery.cpp \
     connection/cloudtransport.cpp \
     connection/sigv4utils.cpp \
-    ruletemplates/ruleactionparamtemplate.cpp
+    ruletemplates/ruleactionparamtemplate.cpp \
+    configuration/serverconfiguration.cpp \
+    configuration/serverconfigurations.cpp
 
 HEADERS += \
     engine.h \
@@ -113,7 +115,7 @@ HEADERS += \
     models/valuelogsproxymodel.h \
     discovery/nymeadiscovery.h \
     logmanager.h \
-    basicconfiguration.h \
+    configuration/basicconfiguration.h \
     wifisetup/bluetoothdevice.h \
     wifisetup/bluetoothdeviceinfo.h \
     wifisetup/bluetoothdeviceinfos.h \
@@ -136,7 +138,9 @@ HEADERS += \
     ruletemplates/statedescriptortemplate.h \
     discovery/bluetoothservicediscovery.h \
     connection/cloudtransport.h \
-    ruletemplates/ruleactionparamtemplate.h
+    ruletemplates/ruleactionparamtemplate.h \
+    configuration/serverconfiguration.h \
+    configuration/serverconfigurations.h
 
 unix {
     target.path = /usr/lib

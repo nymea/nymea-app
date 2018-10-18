@@ -15,8 +15,9 @@ class NymeaConnection : public QObject
     Q_OBJECT
     Q_PROPERTY(bool connected READ connected NOTIFY connectedChanged)
     Q_PROPERTY(QString url READ url NOTIFY currentUrlChanged)
-    Q_PROPERTY(QString hostAddress READ hostAddress NOTIFY connectedChanged)
-    Q_PROPERTY(QString bluetoothAddress READ bluetoothAddress NOTIFY connectedChanged)
+    Q_PROPERTY(QString hostAddress READ hostAddress NOTIFY currentUrlChanged)
+    Q_PROPERTY(int port READ port NOTIFY currentUrlChanged)
+    Q_PROPERTY(QString bluetoothAddress READ bluetoothAddress NOTIFY currentUrlChanged)
 
 public:
     explicit NymeaConnection(QObject *parent = nullptr);
@@ -32,6 +33,7 @@ public:
 
     QString url() const;
     QString hostAddress() const;
+    int port() const;
     QString bluetoothAddress() const;
 
     void sendData(const QByteArray &data);

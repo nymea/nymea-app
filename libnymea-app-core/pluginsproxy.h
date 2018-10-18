@@ -31,19 +31,28 @@
 class PluginsProxy : public QSortFilterProxyModel
 {
     Q_OBJECT
+    Q_PROPERTY(Plugins* plugins READ plugins WRITE setPlugins NOTIFY pluginsChanged)
+    Q_PROPERTY(bool showOnlyConfigurable READ showOnlyConfigurable WRITE setShowOnlyConfigurable NOTIFY showOnlyConfigurableChanged)
 public:
-    explicit PluginsProxy(QObject *parent = 0);
+    explicit PluginsProxy(QObject *parent = nullptr);
 
     Plugins *plugins();
     void setPlugins(Plugins *plugins);
 
-private:
-    Plugins *m_plugins;
+    bool showOnlyConfigurable() const;
+    void setShowOnlyConfigurable(bool showOnlyConfigurable);
 
+    Q_INVOKABLE Plugin* get(int index) const;
 protected:
-    bool lessThan(const QModelIndex &left, const QModelIndex &right) const Q_DECL_OVERRIDE;
+    bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const override;
 
+signals:
+    void pluginsChanged();
+    void showOnlyConfigurableChanged();
 
+private:
+    Plugins *m_plugins = nullptr;
+    bool m_showOnlyConfigurable = false;
 };
 
 #endif // PLUGINSPROXY_H

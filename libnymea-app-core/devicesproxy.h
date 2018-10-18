@@ -40,6 +40,7 @@ class DevicesProxy : public QSortFilterProxyModel
     Q_PROPERTY(QString filterTagId READ filterTagId WRITE setFilterTagId NOTIFY filterTagIdChanged)
     Q_PROPERTY(QStringList shownInterfaces READ shownInterfaces WRITE setShownInterfaces NOTIFY shownInterfacesChanged)
     Q_PROPERTY(QStringList hiddenInterfaces READ hiddenInterfaces WRITE setHiddenInterfaces NOTIFY hiddenInterfacesChanged)
+    Q_PROPERTY(QString nameFilter READ nameFilter WRITE setNameFilter NOTIFY nameFilterChanged)
 
     // Setting this to true will imply filtering for "battery" interface
     Q_PROPERTY(bool filterBatteryCritical READ filterBatteryCritical WRITE setFilterBatteryCritical NOTIFY filterBatteryCriticalChanged)
@@ -67,6 +68,9 @@ public:
     QStringList hiddenInterfaces() const;
     void setHiddenInterfaces(const QStringList &hiddenInterfaces);
 
+    QString nameFilter() const;
+    void setNameFilter(const QString &nameFilter);
+
     bool filterBatteryCritical() const;
     void setFilterBatteryCritical(bool filterBatteryCritical);
 
@@ -84,6 +88,7 @@ signals:
     void filterTagIdChanged();
     void shownInterfacesChanged();
     void hiddenInterfacesChanged();
+    void nameFilterChanged();
     void filterBatteryCriticalChanged();
     void filterDisconnectedChanged();
     void groupByInterfaceChanged();
@@ -97,6 +102,7 @@ private:
     QString m_filterTagId;
     QStringList m_shownInterfaces;
     QStringList m_hiddenInterfaces;
+    QString m_nameFilter;
 
     bool m_filterBatteryCritical = false;
     bool m_filterDisconnected = false;

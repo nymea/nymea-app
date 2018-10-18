@@ -12,6 +12,13 @@ Page {
         onBackPressed: pageStack.pop()
 
         HeaderButton {
+            imageSource: "../images/find.svg"
+            color: filterInput.shown ? app.accentColor : keyColor
+            onClicked: filterInput.shown = !filterInput.shown
+
+        }
+
+        HeaderButton {
             imageSource: "../images/add.svg"
             onClicked: pageStack.push(Qt.resolvedUrl("NewDeviceWizard.qml"))
         }
@@ -45,40 +52,45 @@ Page {
         }
     }
 
-    ListView {
+    ColumnLayout {
         anchors.fill: parent
-        model: DevicesProxy {
-            id: deviceProxy
-            engine: _engine
-            groupByInterface: true
-        }
-        section.property: "baseInterface"
-        section.criteria: ViewSection.FullString
-        section.delegate: ColumnLayout {
-            width: parent.width
-            Label {
-                Layout.fillWidth: true
-                Layout.leftMargin: app.margins
-                Layout.rightMargin: app.margins
-                Layout.topMargin: app.margins
-                text: app.interfaceToString(section)
-                horizontalAlignment: Text.AlignRight
-            }
-            ThinDivider {}
+
+        ListFilterInput {
+            id: filterInput
+            Layout.fillWidth: true
         }
 
-        delegate: ThingDelegate {
-            device: deviceProxy.get(index)
-            canDelete: true
-            onClicked: {
-                pageStack.push(Qt.resolvedUrl("devicepages/ConfigureThingPage.qml"), {device: deviceProxy.get(index)})
+        ListView {
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            clip: true
+
+            model: DevicesProxy {
+                id: deviceProxy
+                engine: _engine
+                groupByInterface: true
+                nameFilter: filterInput.shown ? filterInput.text : ""
             }
-            onDeleteClicked: {
-                d.deviceToRemove = deviceProxy.get(index);
-                engine.deviceManager.removeDevice(d.deviceToRemove.id)
+            section.property: "baseInterface"
+            section.criteria: ViewSection.FullString
+            section.delegate: ListSectionHeader {
+                text: app.interfaceToString(section)
+            }
+
+            delegate: ThingDelegate {
+                device: deviceProxy.get(index)
+                canDelete: true
+                onClicked: {
+                    pageStack.push(Qt.resolvedUrl("devicepages/ConfigureThingPage.qml"), {device: deviceProxy.get(index)})
+                }
+                onDeleteClicked: {
+                    d.deviceToRemove = deviceProxy.get(index);
+                    engine.deviceManager.removeDevice(d.deviceToRemove.id)
+                }
             }
         }
     }
+
 
     EmptyViewPlaceholder {
         anchors { left: parent.left; right: parent.right; margins: app.margins }

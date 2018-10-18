@@ -99,6 +99,11 @@ QString NymeaConnection::hostAddress() const
     return m_currentUrl.host();
 }
 
+int NymeaConnection::port() const
+{
+    return m_currentUrl.port();
+}
+
 QString NymeaConnection::bluetoothAddress() const
 {
     QUrlQuery query(m_currentUrl);

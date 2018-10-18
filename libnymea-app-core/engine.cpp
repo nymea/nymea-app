@@ -23,7 +23,7 @@
 #include "rulemanager.h"
 #include "logmanager.h"
 #include "tagsmanager.h"
-#include "basicconfiguration.h"
+#include "configuration/basicconfiguration.h"
 #include "connection/awsclient.h"
 
 #include "connection/tcpsockettransport.h"

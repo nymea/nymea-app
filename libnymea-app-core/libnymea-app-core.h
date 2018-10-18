@@ -35,7 +35,7 @@
 #include "models/logsmodelng.h"
 #include "models/valuelogsproxymodel.h"
 #include "models/interfacesproxy.h"
-#include "basicconfiguration.h"
+#include "configuration/basicconfiguration.h"
 #include "wifisetup/networkmanagercontroler.h"
 #include "wifisetup/wirelessaccesspoint.h"
 #include "wifisetup/wirelessaccesspoints.h"
