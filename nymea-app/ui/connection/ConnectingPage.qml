@@ -20,7 +20,7 @@ Page {
             running: parent.visible
         }
         Label {
-            text: qsTr("Trying to connect...")
+            text: qsTr("Connecting...")
             font.pixelSize: app.largeFont
             Layout.fillWidth: true
             wrapMode: Text.WordWrap
