@@ -2,6 +2,13 @@
 <!DOCTYPE TS>
 <TS version="2.1">
 <context>
+    <name>AWSPasswordTextField</name>
+    <message>
+        <source>Pick a password</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>AboutNymeaPage</name>
     <message>
         <source>About %1</source>
@@ -66,6 +73,18 @@
         <source>License text</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Developer options are now enabled. If you have found this by accident, it is most likely not of any use for you. It will just enable some nerdy developer gibberish in the app. Tap the icon another 10 times to disable it again.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Developer options are now disabled.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Howdy cowboy!</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>AppSettingsPage</name>
@@ -115,6 +134,18 @@
     </message>
     <message>
         <source>About %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show connection tabs</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cloud login</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Developer options</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -203,7 +234,7 @@
 <context>
     <name>ButtonDevicePage</name>
     <message>
-        <source>This button has been pressed %1 times in the last 24 hours.</source>
+        <source>This button has been pressed %1 times in the last %2 days.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -267,6 +298,202 @@
     </message>
     <message>
         <source>every year</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>CloudLoginPage</name>
+    <message>
+        <source>Cloud login</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sorry, an error happened removing the account. Please try again later.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Logged in as %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Log out</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There are no boxes connected to your cloud yet.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message numerus="yes">
+        <source>There are %n boxes connected to your cloud</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message>
+        <source>Goodbye</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sorry to see you go. If you log out you won&apos;t be able to connect to %1 boxes remotely any more. However, you can come back any time, we&apos;ll keep your user account. If you whish to completely delete your account and all the data associated with it, check the box below before hitting ok.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete my account</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Log in to %1:cloud in order to connect to %1 boxes from anywhere.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed to log in. Please try again. Do you perhaps have &lt;a href=&quot;#&quot;&gt;forgotten your password?&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Don&apos;t have a user yet?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sign Up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sign up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Welcome to %1:cloud.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please enter your email address and pick a password in order to create a new account.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The given username or password are not valid.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Uh oh, something went wrong. Please try again.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Confirm account</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Thanks for signing up. We will send you an email with a confirmation code. Please enter that code in the field below.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The given user already exists. Did you forget the password?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>That wasn&apos;t the right code. Please try again.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reset password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sorry, this wasn&apos;t right. Did you misspell the email address?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sorry, there were too many attempts. Please try again after some time.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Password forgotten?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No problem. Enter your email address here and we&apos;ll send you a confirmation code to change your password.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sorry, couldn&apos;t reset your password. Did you enter the wrong confirmation code?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Yay!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Your password has been reset.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Check your email!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter the confirmation code you&apos;ve received and a new password for your user %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Confirmation code:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pick a new password:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>CloudSettingsPage</name>
+    <message>
+        <source>Cloud settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You can connect a nymea:box to a nymea:cloud in order to access it from anywhere</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cloud connection enabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This box is not connected to %1:cloud</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Registering box in %1:cloud...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This box is not configured to connect to %1:cloud.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connecting the box to %1:cloud...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The box is connected to %1:cloud.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This box is not configured to access the %1:cloud. In order for a box to connect to %1:cloud it needs to be registered first.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Register box</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Log in to cloud</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -344,14 +571,6 @@
     </message>
     <message>
         <source>Manual connection</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Trying to connect...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -439,7 +658,56 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Port: %1</source>
+        <source>Cloud login</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ConnectingPage</name>
+    <message>
+        <source>Trying to connect...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ConnectionInterfacesPage</name>
+    <message>
+        <source>Connection interfaces</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>TCP Server Interfaces</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>WebSocket Server Interfaces</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>DeveloperOptionsPage</name>
+    <message>
+        <source>Developer options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cloud environment</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Community</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Testing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Marantec</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -778,6 +1046,14 @@
         <source>If the condition isn&apos;t met, execute those actions instead:</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Cancel?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Any changes to the rule will be lost.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>EditStateEvaluatorPage</name>
@@ -923,6 +1199,138 @@
     </message>
 </context>
 <context>
+    <name>FingerprintReaderDevicePage</name>
+    <message>
+        <source>Manage access</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 fingerprints recognized on this device in the last %2 days.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Access granted for user %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Access denied</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Manage users</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There are no fingerprints registered with this lock</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The following users have valid fingerprints for this lock</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add a fingerprint</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add a new fingerprint</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Username</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Finger</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Left thumb</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Left index finger</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Left middle finger</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Left ring finger</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Left pinky finger</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Right thumb</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Right index finger</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Right middle finger</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Right ring finger</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Right pinky finger</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add user</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please scan the fingerprint now</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Uh oh</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All done!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Fingerprint could not be read.
+Please try again.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Fingerprint added!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Access request details</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Date/Time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>User</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Fingerprint</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>GenericDeviceListPage</name>
     <message>
         <source>All my things</source>
@@ -947,7 +1355,7 @@
 <context>
     <name>InputTriggerDevicePage</name>
     <message>
-        <source>This event has appeared %1 times in the last 24 hours.</source>
+        <source>This event has appeared %1 times in the last %2 days.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1039,14 +1447,6 @@
         <source>Lights</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>All</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>off</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>LogViewerPage</name>
@@ -1055,31 +1455,35 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Time</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Type</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Thing</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Object</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Value</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>%1 Server</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Active changed</source>
+        <source>System started</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rule triggered</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Actions executed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rule active</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rule inactive</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Exit actions executed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enabled changed</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1184,10 +1588,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>System settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>App settings</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1249,6 +1649,10 @@
     </message>
     <message>
         <source>Scenes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Box settings</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1317,6 +1721,30 @@
         <source>Name the thing:</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Pairing...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Thing added!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Uh oh</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All done. You can now start using %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Something went wrong setting up this thing...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ok</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>NewThingMagicPage</name>
@@ -1326,6 +1754,41 @@
     </message>
     <message>
         <source>Create some magic manually</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>NotificationsDevicePage</name>
+    <message>
+        <source>Title</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Send a notification</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Send now</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 notifications sent to this device in the last %2 days.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Notification details</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Date sent</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1411,18 +1874,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Connection error</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Sorry, the version of the %1 box you are trying to connect to is too old. This app requires at least version %2 but the %1 box only supports %3</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Awnings</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1432,6 +1883,22 @@
     </message>
     <message>
         <source>sensor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pressure</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Access control</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>battery powered thing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>connectable thing</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1498,6 +1965,10 @@
         <source>Plugins</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>This list shows the list of installed plugins on this %1 box.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>PushButtonAuthPage</name>
@@ -1538,6 +2009,25 @@
     </message>
 </context>
 <context>
+    <name>RootItem</name>
+    <message>
+        <source>Connection error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sorry, the version of the %1 box you are trying to connect to is too old. This app requires at least version %2 but the %1 box only supports %3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New connection</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>RuleActionDelegate</name>
     <message>
         <source>%1 - %2</source>
@@ -1565,6 +2055,22 @@
     </message>
     <message>
         <source>and %1 %2 %3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;font color=&quot;%1&quot;&gt;The password needs to be &lt;/font&gt;&lt;font color=&quot;%2&quot;&gt;least 12 characters long&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt;, contain &lt;/font&gt;&lt;font color=&quot;%3&quot;&gt;lowercase&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt;, &lt;/font&gt;&lt;font color=&quot;%4&quot;&gt;uppercase&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt; letters as well as &lt;/font&gt;&lt;font color=&quot;%5&quot;&gt;numbers&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt; and &lt;/font&gt;&lt;font color=&quot;%6&quot;&gt;special characters&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt;.&lt;/font&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Confirm password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;font color=&quot;%1&quot;&gt;The passwords match.&lt;/font&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;font color=&quot;%1&quot;&gt;The passwords &lt;/font&gt;&lt;font color=&quot;%2&quot;&gt;do not&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt; match.&lt;/font&gt;</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1670,6 +2176,10 @@
         <source>Select a %1</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Any %1</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SensorView</name>
@@ -1687,11 +2197,14 @@
     </message>
 </context>
 <context>
-    <name>SettingsPage</name>
+    <name>SensorsDeviceListPage</name>
     <message>
-        <source>Server name</source>
+        <source>Sensors</source>
         <translation type="unfinished"></translation>
     </message>
+</context>
+<context>
+    <name>SettingsPage</name>
     <message>
         <source>Debug server enabled</source>
         <translation type="unfinished"></translation>
@@ -1702,18 +2215,6 @@
     </message>
     <message>
         <source>Plugins</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Style changed</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The application needs to be restarted for style changes to take effect.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>System settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1729,7 +2230,35 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>About nymea</source>
+        <source>Box settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Language</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Time zone</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cloud</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Server interfaces</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>About %1:core</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1778,10 +2307,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>%1, %2 has changed %3 times in the last 24h</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Log</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1799,6 +2324,10 @@
     </message>
     <message>
         <source>7 d</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1, %2 has changed %3 times in the last %4 days</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1862,6 +2391,13 @@
     </message>
     <message>
         <source>every year</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>WeatherDeviceListPage</name>
+    <message>
+        <source>Weather</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
