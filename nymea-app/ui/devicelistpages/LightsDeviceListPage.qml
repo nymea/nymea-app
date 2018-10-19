@@ -2,6 +2,7 @@ import QtQuick 2.5
 import QtQuick.Controls 2.1
 import QtQuick.Controls.Material 2.1
 import QtQuick.Layouts 1.1
+import QtGraphicalEffects 1.0
 import Nymea 1.0
 import "../components"
 
@@ -81,16 +82,39 @@ DeviceListPageBase {
                         id: nameRow
                         z: 2 // make sure the switch in here is on top of the slider, given we cheated a bit and made them overlap
                         spacing: app.margins
-                        ColorIcon {
+                        Item {
                             Layout.preferredHeight: app.iconSize
                             Layout.preferredWidth: height
                             Layout.alignment: Qt.AlignVCenter
-                            color: itemDelegate.connectedState !== null && itemDelegate.connectedState.value === false ?
-                                       "red"
-                                     : itemDelegate.colorStateType ? itemDelegate.colorState.value : "#00000000"
-                            name: itemDelegate.connectedState !== null && itemDelegate.connectedState.value === false ?
-                                      "../images/dialog-warning-symbolic.svg"
-                                    : itemDelegate.powerState.value === true ? "../images/light-on.svg" : "../images/light-off.svg"
+
+//                            DropShadow {
+//                                anchors.fill: icon
+//                                horizontalOffset: 0
+//                                verticalOffset: 0
+//                                radius: 2.0
+//                                samples: 17
+//                                color: app.foregroundColor
+//                                source: icon
+//                            }
+
+                            Glow {
+                                anchors.fill: icon
+                                radius: 1
+                                samples: 17
+                                color: app.foregroundColor
+                                source: icon
+                            }
+
+                            ColorIcon {
+                                id: icon
+                                anchors.fill: parent
+                                color: itemDelegate.connectedState !== null && itemDelegate.connectedState.value === false ?
+                                           "red"
+                                         : itemDelegate.colorStateType ? itemDelegate.colorState.value : "#00000000"
+                                name: itemDelegate.connectedState !== null && itemDelegate.connectedState.value === false ?
+                                          "../images/dialog-warning-symbolic.svg"
+                                        : itemDelegate.powerState.value === true ? "../images/light-on.svg" : "../images/light-off.svg"
+                            }
                         }
 
                         Label {
