@@ -99,14 +99,8 @@ void RuleManager::handleRulesNotification(const QVariantMap &params)
     } else if (params.value("notification").toString() == "Rules.RuleConfigurationChanged") {
         QVariantMap ruleMap = params.value("params").toMap().value("rule").toMap();
         QUuid ruleId = ruleMap.value("id").toUuid();
-        int idx = -1;
-        for (int i = 0; i < m_rules->rowCount(); i++) {
-            if (m_rules->get(i)->id() == ruleId) {
-                idx = i;
-                break;
-            }
-        }
-        if (idx == -1) {
+        Rule *rule = m_rules->getRule(ruleId);
+        if (!rule) {
             qWarning() << "Got a rule update notification for a rule we don't know" << ruleId;
             return;
         }
@@ -114,7 +108,7 @@ void RuleManager::handleRulesNotification(const QVariantMap &params)
         m_rules->insert(parseRule(ruleMap));
     } else if (params.value("notification").toString() == "Rules.RuleActiveChanged") {
         Rule *rule = m_rules->getRule(params.value("params").toMap().value("ruleId").toUuid());
-        if (rule) {
+        if (!rule) {
             qWarning() << "Got a rule active notification for a rule we don't know";
             return;
         }
