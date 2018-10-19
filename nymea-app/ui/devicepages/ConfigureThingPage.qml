@@ -65,11 +65,39 @@ Page {
 
             Label {
                 Layout.fillWidth: true
+                Layout.margins: app.margins
+                text: qsTr("Thing information")
+                color: app.accentColor
+            }
+            RowLayout {
+                Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
+                Label {
+                    text: qsTr("Vendor:")
+                    Layout.fillWidth: true
+                }
+                Label {
+                    text: engine.deviceManager.vendors.getVendor(root.deviceClass.vendorId).displayName
+                }
+            }
+            RowLayout {
+                Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
+                Label {
+                    text: qsTr("Type")
+                    Layout.fillWidth: true
+                }
+                Label {
+                    text: root.deviceClass.displayName
+                }
+            }
+
+            Label {
+                Layout.fillWidth: true
                 Layout.leftMargin: app.margins
                 Layout.rightMargin: app.margins
                 Layout.topMargin: app.margins
-                text: qsTr("Thing parameters").toUpperCase()
+                text: qsTr("Thing parameters")
                 color: app.accentColor
+                visible: root.deviceClass.paramTypes.count > 0
             }
 
             Repeater {
