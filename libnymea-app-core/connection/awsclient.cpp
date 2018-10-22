@@ -70,7 +70,7 @@ AWSClient::AWSClient(QObject *parent) : QObject(parent),
     config.region = "eu-west-1";
     config.apiEndpoint = "api-cloud.guh.io";
     config.pushNotificationSystem = pushSystem;
-    m_configs.append(config);
+    m_configs.insert("Community", config);
 
     // Testing environment
     config.clientId = "8rjhfdlf9jf1suok2jcrltd6v";
@@ -83,7 +83,7 @@ AWSClient::AWSClient(QObject *parent) : QObject(parent),
     config.region = "eu-west-1";
     config.apiEndpoint = "testapi-cloud.guh.io";
     config.pushNotificationSystem = pushSystem == "APNS" ? pushSystem + "_SANDBOX" : pushSystem;
-    m_configs.append(config);
+    m_configs.insert("Testing", config);
 
     // Marantec environment
     config.clientId = "7rf6da8pcqi1qi8tp1evf933h2";
@@ -97,7 +97,7 @@ AWSClient::AWSClient(QObject *parent) : QObject(parent),
     config.region = "eu-west-1";
     config.apiEndpoint = "api-cloud.guh.io";
     config.pushNotificationSystem = pushSystem;
-    m_configs.append(config);
+    m_configs.insert("Marantec", config);
 
     QSettings settings;
     settings.beginGroup("cloud");
@@ -165,7 +165,7 @@ void AWSClient::login(const QString &username, const QString &password, int atte
     // Ideally we'd use the refresh token and not store the password at all (see: refreshAccessToken())
     m_password = password;
 
-    QString host = QString("cognito-idp.%1.amazonaws.com").arg(m_configs.at(m_usedConfigIndex).region);
+    QString host = QString("cognito-idp.%1.amazonaws.com").arg(m_configs.value(m_usedConfig).region);
     QUrl url(QString("https://%1/").arg(host));
 
     QUrlQuery query;
@@ -180,7 +180,7 @@ void AWSClient::login(const QString &username, const QString &password, int atte
 
     QVariantMap params;
     params.insert("AuthFlow", "USER_PASSWORD_AUTH");
-    params.insert("ClientId", m_configs.at(m_usedConfigIndex).clientId);
+    params.insert("ClientId", m_configs.value(m_usedConfig).clientId);
 
     QVariantMap authParams;
     authParams.insert("USERNAME", username);
@@ -258,7 +258,7 @@ void AWSClient::signup(const QString &username, const QString &password)
     m_username = username;
     m_password = password;
 
-    QString host = QString("cognito-idp.%1.amazonaws.com").arg(m_configs.at(m_usedConfigIndex).region);
+    QString host = QString("cognito-idp.%1.amazonaws.com").arg(m_configs.value(m_usedConfig).region);
     QUrl url(QString("https://%1/").arg(host));
 
     QUrlQuery query;
@@ -272,7 +272,7 @@ void AWSClient::signup(const QString &username, const QString &password)
     request.setRawHeader("X-Amz-Target", "AWSCognitoIdentityProviderService.SignUp");
 
     QVariantMap params;
-    params.insert("ClientId", m_configs.at(m_usedConfigIndex).clientId);
+    params.insert("ClientId", m_configs.value(m_usedConfig).clientId);
     params.insert("Username", m_userId);
     params.insert("Password", password);
 
@@ -317,7 +317,7 @@ void AWSClient::signup(const QString &username, const QString &password)
 
 void AWSClient::confirmRegistration(const QString &code)
 {
-    QString host = QString("cognito-idp.%1.amazonaws.com").arg(m_configs.at(m_usedConfigIndex).region);
+    QString host = QString("cognito-idp.%1.amazonaws.com").arg(m_configs.value(m_usedConfig).region);
     QUrl url(QString("https://%1/").arg(host));
 
     QUrlQuery query;
@@ -331,7 +331,7 @@ void AWSClient::confirmRegistration(const QString &code)
     request.setRawHeader("X-Amz-Target", "AWSCognitoIdentityProviderService.ConfirmSignUp");
 
     QVariantMap params;
-    params.insert("ClientId", m_configs.at(m_usedConfigIndex).clientId);
+    params.insert("ClientId", m_configs.value(m_usedConfig).clientId);
     params.insert("Username", m_userId);
     params.insert("ConfirmationCode", code);
 
@@ -376,7 +376,7 @@ void AWSClient::confirmRegistration(const QString &code)
 
 void AWSClient::forgotPassword(const QString &username)
 {
-    QString host = QString("cognito-idp.%1.amazonaws.com").arg(m_configs.at(m_usedConfigIndex).region);
+    QString host = QString("cognito-idp.%1.amazonaws.com").arg(m_configs.value(m_usedConfig).region);
     QUrl url(QString("https://%1/").arg(host));
 
     QUrlQuery query;
@@ -390,7 +390,7 @@ void AWSClient::forgotPassword(const QString &username)
     request.setRawHeader("X-Amz-Target", "AWSCognitoIdentityProviderService.ForgotPassword");
 
     QVariantMap params;
-    params.insert("ClientId", m_configs.at(m_usedConfigIndex).clientId);
+    params.insert("ClientId", m_configs.value(m_usedConfig).clientId);
     params.insert("Username", username);
 
     QJsonDocument jsonDoc = QJsonDocument::fromVariant(params);
@@ -425,7 +425,7 @@ void AWSClient::forgotPassword(const QString &username)
 
 void AWSClient::confirmForgotPassword(const QString &username, const QString &code, const QString &newPassword)
 {
-    QString host = QString("cognito-idp.%1.amazonaws.com").arg(m_configs.at(m_usedConfigIndex).region);
+    QString host = QString("cognito-idp.%1.amazonaws.com").arg(m_configs.value(m_usedConfig).region);
     QUrl url(QString("https://%1/").arg(host));
 
     QUrlQuery query;
@@ -439,7 +439,7 @@ void AWSClient::confirmForgotPassword(const QString &username, const QString &co
     request.setRawHeader("X-Amz-Target", "AWSCognitoIdentityProviderService.ConfirmForgotPassword");
 
     QVariantMap params;
-    params.insert("ClientId", m_configs.at(m_usedConfigIndex).clientId);
+    params.insert("ClientId", m_configs.value(m_usedConfig).clientId);
     params.insert("ConfirmationCode", code);
     params.insert("Username", username);
     params.insert("Password", newPassword);
@@ -480,7 +480,7 @@ void AWSClient::deleteAccount()
     }
     qDebug() << "Deleting account";
 
-    QUrl url(QString("https://%1/users/profiles/%2").arg(m_configs.at(m_usedConfigIndex).apiEndpoint).arg(m_userId));
+    QUrl url(QString("https://%1/users/profiles/%2").arg(m_configs.value(m_usedConfig).apiEndpoint).arg(m_userId));
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setRawHeader("x-api-idToken", m_idToken);
@@ -526,7 +526,7 @@ void AWSClient::unpairDevice(const QString &boxId)
         return;
     }
     qDebug() << "unpairing device";
-    QUrl url(QString("https://%1/users/devices/%2").arg(m_configs.at(m_usedConfigIndex).apiEndpoint).arg(boxId));
+    QUrl url(QString("https://%1/users/devices/%2").arg(m_configs.value(m_usedConfig).apiEndpoint).arg(boxId));
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setRawHeader("x-api-idToken", m_idToken);
@@ -555,7 +555,7 @@ void AWSClient::unpairDevice(const QString &boxId)
 
 void AWSClient::getId()
 {
-    QString host = QString("cognito-identity.%1.amazonaws.com").arg(m_configs.at(m_usedConfigIndex).region);
+    QString host = QString("cognito-identity.%1.amazonaws.com").arg(m_configs.value(m_usedConfig).region);
     QUrl url(QString("https://%1/").arg(host));
 
     QUrlQuery query;
@@ -569,10 +569,10 @@ void AWSClient::getId()
     request.setRawHeader("X-Amz-Target", "AWSCognitoIdentityService.GetId");
 
     QVariantMap logins;
-    logins.insert(QString("cognito-idp.%1.amazonaws.com/%2").arg(m_configs.at(m_usedConfigIndex).region).arg(m_configs.at(m_usedConfigIndex).poolId).toUtf8(), m_idToken);
+    logins.insert(QString("cognito-idp.%1.amazonaws.com/%2").arg(m_configs.value(m_usedConfig).region).arg(m_configs.value(m_usedConfig).poolId).toUtf8(), m_idToken);
 
     QVariantMap params;
-    params.insert("IdentityPoolId", m_configs.at(m_usedConfigIndex).identityPoolId.toUtf8());
+    params.insert("IdentityPoolId", m_configs.value(m_usedConfig).identityPoolId.toUtf8());
     params.insert("Logins", logins);
 
     QJsonDocument jsonDoc = QJsonDocument::fromVariant(params);
@@ -615,7 +615,7 @@ void AWSClient::registerPushNotificationEndpoint(const QString &registrationId, 
         return;
     }
 
-    QUrl url(QString("https://%1/notifications/endpoints/%2").arg(m_configs.at(m_usedConfigIndex).apiEndpoint).arg(m_userId));
+    QUrl url(QString("https://%1/notifications/endpoints/%2").arg(m_configs.value(m_usedConfig).apiEndpoint).arg(m_userId));
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setRawHeader("x-api-idToken", m_idToken);
@@ -623,7 +623,7 @@ void AWSClient::registerPushNotificationEndpoint(const QString &registrationId, 
 
     QVariantMap payload;
     payload.insert("registrationId", registrationId);
-    payload.insert("channel", m_configs.at(m_usedConfigIndex).pushNotificationSystem);
+    payload.insert("channel", m_configs.value(m_usedConfig).pushNotificationSystem);
     payload.insert("mobileDeviceDisplayName", deviceDisplayName);
     payload.insert("mobileDeviceUuid", mobileDeviceId);
     QJsonDocument jsonDoc = QJsonDocument::fromVariant(payload);
@@ -663,13 +663,13 @@ void AWSClient::fetchCertificate(const QString &uuid, std::function<void(const Q
 {
     QString fixedUuid = uuid;
     fixedUuid.remove(QRegExp("[{}]"));
-    QNetworkRequest request(m_configs.at(m_usedConfigIndex).certificateEndpoint);
-    request.setRawHeader("X-api-key", m_configs.at(m_usedConfigIndex).certificateApiKey.toUtf8());
-    request.setRawHeader("X-api-vendorId", m_configs.at(m_usedConfigIndex).certificateVendorId.toUtf8());
+    QNetworkRequest request(m_configs.value(m_usedConfig).certificateEndpoint);
+    request.setRawHeader("X-api-key", m_configs.value(m_usedConfig).certificateApiKey.toUtf8());
+    request.setRawHeader("X-api-vendorId", m_configs.value(m_usedConfig).certificateVendorId.toUtf8());
     request.setRawHeader("X-api-deviceId", fixedUuid.toUtf8());
     request.setRawHeader("X-api-serialId", "69696969");
     QNetworkReply *reply = m_nam->get(request);
-    qDebug() << "Fetching certificate for vendor:" << m_configs.at(m_usedConfigIndex).certificateVendorId << "device id:" << fixedUuid;
+    qDebug() << "Fetching certificate for vendor:" << m_configs.value(m_usedConfig).certificateVendorId << "device id:" << fixedUuid;
     connect(reply, &QNetworkReply::finished, this, [this, reply, callback]() {
         reply->deleteLater();
         QByteArray data = reply->readAll();
@@ -690,28 +690,37 @@ void AWSClient::fetchCertificate(const QString &uuid, std::function<void(const Q
         qDebug() << "Certificate received" << certificate;
         qDebug() << "Public key" << publicKey;
         qDebug() << "Private key" << privateKey;
-        callback(rootCA, certificate, publicKey, privateKey, m_configs.at(m_usedConfigIndex).mqttEndpoint);
+        callback(rootCA, certificate, publicKey, privateKey, m_configs.value(m_usedConfig).mqttEndpoint);
     });
 
 }
 
-int AWSClient::config() const
+QStringList AWSClient::availableConfigs() const
 {
-    return m_usedConfigIndex;
+    return m_configs.keys();
 }
 
-void AWSClient::setConfig(int index)
+QString AWSClient::config() const
 {
-    if (m_usedConfigIndex != index) {
-        qDebug() << "Setting AWS configuration to" << index;
-        m_usedConfigIndex = index;
+    return m_usedConfig;
+}
+
+void AWSClient::setConfig(const QString &config)
+{
+    if (m_usedConfig != config) {
+        if (!m_configs.contains(config)) {
+            qWarning() << "AWS: Config" << config << "not known. Not switching AWS config";
+            return;
+        }
+        qDebug() << "Setting AWS configuration to" << config;
+        m_usedConfig = config;
         emit configChanged();
     }
 }
 
 void AWSClient::getCredentialsForIdentity(const QString &identityId)
 {
-    QString host = QString("cognito-identity.%1.amazonaws.com").arg(m_configs.at(m_usedConfigIndex).region);
+    QString host = QString("cognito-identity.%1.amazonaws.com").arg(m_configs.value(m_usedConfig).region);
     QUrl url(QString("https://%1/").arg(host));
 
     QUrlQuery query;
@@ -725,7 +734,7 @@ void AWSClient::getCredentialsForIdentity(const QString &identityId)
     request.setRawHeader("X-Amz-Target", "AWSCognitoIdentityService.GetCredentialsForIdentity");
 
     QVariantMap logins;
-    logins.insert(QString("cognito-idp.eu-west-1.amazonaws.com/%1").arg(m_configs.at(m_usedConfigIndex).poolId), m_idToken);
+    logins.insert(QString("cognito-idp.eu-west-1.amazonaws.com/%1").arg(m_configs.value(m_usedConfig).poolId), m_idToken);
 
     QVariantMap params;
     params.insert("IdentityId", identityId);
@@ -847,14 +856,14 @@ bool AWSClient::postToMQTT(const QString &boxId, const QString &timestamp, std::
     QByteArray payload = QJsonDocument::fromVariant(params).toJson(QJsonDocument::Compact);
 
 
-    QNetworkRequest request("https://" + m_configs.at(m_usedConfigIndex).mqttEndpoint + path);
+    QNetworkRequest request("https://" + m_configs.value(m_usedConfig).mqttEndpoint + path);
     request.setRawHeader("content-type", "application/json");
-    request.setRawHeader("host", m_configs.at(m_usedConfigIndex).mqttEndpoint.toUtf8());
+    request.setRawHeader("host", m_configs.value(m_usedConfig).mqttEndpoint.toUtf8());
 
-    SigV4Utils::signRequest(QNetworkAccessManager::PostOperation, request, m_configs.at(m_usedConfigIndex).region, "iotdata", m_accessKeyId, m_secretKey, m_sessionToken, payload);
+    SigV4Utils::signRequest(QNetworkAccessManager::PostOperation, request, m_configs.value(m_usedConfig).region, "iotdata", m_accessKeyId, m_secretKey, m_sessionToken, payload);
 
     // Workaround MQTT broker url weirdness as described above
-    request.setUrl("https://" + m_configs.at(m_usedConfigIndex).mqttEndpoint + path1);
+    request.setUrl("https://" + m_configs.value(m_usedConfig).mqttEndpoint + path1);
 
     qDebug() << "Posting to MQTT:" << request.url().toString();
     qDebug() << "HEADERS:";
@@ -899,7 +908,7 @@ void AWSClient::fetchDevices()
         return;
     }
 //    qDebug() << "Fetching cloud devices";
-    QUrl url(QString("https://%1/users/devices").arg(m_configs.at(m_usedConfigIndex).apiEndpoint));
+    QUrl url(QString("https://%1/users/devices").arg(m_configs.value(m_usedConfig).apiEndpoint));
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setRawHeader("x-api-idToken", m_idToken);
@@ -967,7 +976,7 @@ void AWSClient::refreshAccessToken()
 
 
     // Non-working block... Enable this if Amazon ever fixes their API...
-    QString host = QString("cognito-idp.%1.amazonaws.com").arg(m_configs.at(m_usedConfigIndex).region);
+    QString host = QString("cognito-idp.%1.amazonaws.com").arg(m_configs.value(m_usedConfig).region);
     QUrl url(QString("https://%1/").arg(host));
 
     QUrlQuery query;
@@ -982,7 +991,7 @@ void AWSClient::refreshAccessToken()
 
     QVariantMap params;
     params.insert("AuthFlow", "REFRESH_TOKEN_AUTH");
-    params.insert("ClientId", m_configs.at(m_usedConfigIndex).clientId);
+    params.insert("ClientId", m_configs.value(m_usedConfig).clientId);
 
     QVariantMap authParams;
     authParams.insert("REFRESH_TOKEN", m_refreshToken);

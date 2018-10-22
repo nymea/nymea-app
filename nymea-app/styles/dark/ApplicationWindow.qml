@@ -33,5 +33,6 @@ ApplicationWindow {
         "pressuresensor": "grey"
     }
 
-    property bool industrialSetup: true
+    // Optional: Set this to override the cloud environment
+    //property string cloudEnvironment: "Community"
 }

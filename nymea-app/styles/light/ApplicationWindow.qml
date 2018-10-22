@@ -31,4 +31,6 @@ ApplicationWindow {
         "pressuresensor": "grey"
     }
 
+    // Optional: Set this to override the cloud environment
+    //property string cloudEnvironment: "Community"
 }
