@@ -315,7 +315,7 @@ Item {
                     contentItem: ColorIcon {
                         height: parent.height
                         width: parent.width
-                        name: "../images/add.svg"
+                        name: "../images/tab-new.svg"
                     }
                     onClicked: {
                         tabModel.addTab()

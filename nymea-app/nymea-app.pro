@@ -29,7 +29,8 @@ SOURCES += main.cpp \
     platformintegration/generic/platformhelpergeneric.cpp \
 
 RESOURCES += resources.qrc \
-    ruletemplates.qrc
+    ruletemplates.qrc \
+    images.qrc
 equals(STYLES_PATH, "") {
     RESOURCES += styles.qrc
 } else {
