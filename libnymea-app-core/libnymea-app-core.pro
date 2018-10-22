@@ -63,7 +63,7 @@ SOURCES += \
     wifisetup/wirelessaccesspoint.cpp \
     wifisetup/wirelessaccesspoints.cpp \
     wifisetup/wirelesssetupmanager.cpp \
-    wifisetup/networkmanagercontroler.cpp \
+    wifisetup/networkmanagercontroller.cpp \
     models/logsmodelng.cpp \
     models/interfacesproxy.cpp \
     models/tagsproxymodel.cpp \
@@ -123,7 +123,7 @@ HEADERS += \
     wifisetup/wirelessaccesspoint.h \
     wifisetup/wirelessaccesspoints.h \
     wifisetup/wirelesssetupmanager.h \
-    wifisetup/networkmanagercontroler.h \
+    wifisetup/networkmanagercontroller.h \
     libnymea-app-core.h \
     models/logsmodelng.h \
     models/interfacesproxy.h \

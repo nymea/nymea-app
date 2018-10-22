@@ -20,8 +20,8 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef NETWORKMANAGERCONTROLER_H
-#define NETWORKMANAGERCONTROLER_H
+#ifndef NETWORKMANAGERCONTROLLER_H
+#define NETWORKMANAGERCONTROLLER_H
 
 #include <QObject>
 #include <QBluetoothDeviceInfo>
@@ -29,14 +29,14 @@
 #include "bluetoothdeviceinfo.h"
 #include "wirelesssetupmanager.h"
 
-class NetworkManagerControler : public QObject
+class NetworkManagerController : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(BluetoothDeviceInfo* bluetoothDeviceInfo READ bluetoothDeviceInfo WRITE setBluetoothDeviceInfo)
     Q_PROPERTY(WirelessSetupManager *manager READ manager NOTIFY managerChanged)
 
 public:
-    explicit NetworkManagerControler(QObject *parent = nullptr);
+    explicit NetworkManagerController(QObject *parent = nullptr);
 
     BluetoothDeviceInfo* bluetoothDeviceInfo() const;
     void setBluetoothDeviceInfo(BluetoothDeviceInfo* bluetoothDeviceInfo);
@@ -57,4 +57,4 @@ signals:
 
 };
 
-#endif // NETWORKMANAGERCONTROLER_H
+#endif // NETWORKMANAGERCONTROLLER_H

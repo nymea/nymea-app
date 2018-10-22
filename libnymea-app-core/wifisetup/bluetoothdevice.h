@@ -37,7 +37,7 @@ class BluetoothDevice : public QObject
     Q_PROPERTY(QString statusText READ statusText NOTIFY statusTextChanged)
 
 public:
-    explicit BluetoothDevice(const QBluetoothDeviceInfo &deviceInfo, QObject *parent = 0);
+    explicit BluetoothDevice(const QBluetoothDeviceInfo &deviceInfo, QObject *parent = nullptr);
 
     QString name() const;
     QBluetoothAddress address() const;

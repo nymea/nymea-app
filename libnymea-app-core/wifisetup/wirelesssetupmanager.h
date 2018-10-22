@@ -36,12 +36,10 @@ class WirelessSetupManager : public BluetoothDevice
 {
     Q_OBJECT
     Q_PROPERTY(bool working READ working NOTIFY workingChanged)
-    Q_PROPERTY(bool initializing READ initializing NOTIFY initializingChanged)
-
     Q_PROPERTY(bool initialized READ initialized NOTIFY initializedChanged)
 
     Q_PROPERTY(WirelessAccessPoints *accessPoints READ accessPoints CONSTANT)
-    Q_PROPERTY(WirelessAccessPointsProxy *accessPointsProxy READ accessPointsProxy CONSTANT)
+    Q_PROPERTY(WirelessAccessPoint *currentConnection READ currentConnection NOTIFY currentConnectionChanged)
 
     Q_PROPERTY(QString modelNumber READ modelNumber NOTIFY modelNumberChanged)
     Q_PROPERTY(QString manufacturer READ manufacturer NOTIFY manufacturerChanged)
@@ -150,7 +148,6 @@ public:
     QString hardwareRevision() const;
 
     bool initialized() const;
-    bool initializing() const;
     bool working() const;
 
     NetworkStatus networkStatus() const;
@@ -159,8 +156,8 @@ public:
     bool networkingEnabled() const;
     bool wirelessEnabled() const;
 
-    WirelessAccessPoints *accessPoints();
-    WirelessAccessPointsProxy *accessPointsProxy();
+    WirelessAccessPoints *accessPoints() const;
+    WirelessAccessPoint *currentConnection() const;
 
     void reloadData();
 
@@ -174,6 +171,45 @@ public:
     Q_INVOKABLE void disconnectWirelessNetwork();
     Q_INVOKABLE void pressPushButton();
 
+signals:
+    void modelNumberChanged();
+    void manufacturerChanged();
+    void softwareRevisionChanged();
+    void firmwareRevisionChanged();
+    void hardwareRevisionChanged();
+
+    void initializedChanged();
+    void workingChanged();
+
+    void networkStatusChanged();
+    void wirelessStatusChanged();
+    void networkingEnabledChanged();
+    void wirelessEnabledChanged();
+
+    void currentConnectionChanged();
+
+    void errorOccurred(const QString &errorMessage);
+
+private slots:
+    void onConnectedChanged();
+    void onServiceDiscoveryFinished();
+
+    void onDeviceInformationStateChanged(const QLowEnergyService::ServiceState &state);
+    void onDeviceInformationCharacteristicChanged(const QLowEnergyCharacteristic &characteristic, const QByteArray &value);
+    void onDeviceInformationReadFinished(const QLowEnergyCharacteristic &characteristic, const QByteArray &value);
+
+    void onNetworkServiceStateChanged(const QLowEnergyService::ServiceState &state);
+    void onNetworkServiceCharacteristicChanged(const QLowEnergyCharacteristic &characteristic, const QByteArray &value);
+    void onNetworkServiceReadFinished(const QLowEnergyCharacteristic &characteristic, const QByteArray &value);
+
+    void onWifiServiceStateChanged(const QLowEnergyService::ServiceState &state);
+    void onWifiServiceCharacteristicChanged(const QLowEnergyCharacteristic &characteristic, const QByteArray &value);
+    void onWifiServiceReadFinished(const QLowEnergyCharacteristic &characteristic, const QByteArray &value);
+
+    void onSystemServiceStateChanged(const QLowEnergyService::ServiceState &state);
+    void onSystemServiceCharacteristicChanged(const QLowEnergyCharacteristic &characteristic, const QByteArray &value);
+    void onSystemServiceReadFinished(const QLowEnergyCharacteristic &characteristic, const QByteArray &value);
+
 private:
     QLowEnergyService *m_deviceInformationService = nullptr;
     QLowEnergyService *m_netwokService = nullptr;
@@ -181,7 +217,7 @@ private:
     QLowEnergyService *m_systemService = nullptr;
 
     WirelessAccessPoints *m_accessPoints = nullptr;
-    WirelessAccessPointsProxy *m_accessPointsProxy = nullptr;
+    WirelessAccessPoint *m_currentConnection = nullptr;
 
     QString m_modelNumber;
     QString m_manufacturer;
@@ -194,7 +230,6 @@ private:
 
     bool m_working = false;
     bool m_initialized = false;
-    bool m_initializing = false;
 
     NetworkStatus m_networkStatus = NetworkStatusUnknown;
     WirelessStatus m_wirelessStatus = WirelessStatusUnknown;
@@ -216,10 +251,6 @@ private:
     void setFirmwareRevision(const QString &firmwareRevision);
     void setHardwareRevision(const QString &hardwareRevision);
 
-    void setInitializing(bool initializing);
-    void setInitialized(bool initialized);
-    void setWorking(bool working);
-
     void setNetworkStatus(int networkStatus);
     void setWirelessStatus(int wirelessStatus);
     void setNetworkingEnabled(bool networkingEnabled);
@@ -230,44 +261,6 @@ private:
     void processNetworkResponse(const QVariantMap &response);
     void processWifiResponse(const QVariantMap &response);
     void processSystemResponse(const QVariantMap &response);
-
-signals:
-    void modelNumberChanged();
-    void manufacturerChanged();
-    void softwareRevisionChanged();
-    void firmwareRevisionChanged();
-    void hardwareRevisionChanged();
-
-    void initializingChanged();
-    void initializedChanged();
-    void workingChanged();
-
-    void networkStatusChanged();
-    void wirelessStatusChanged();
-    void networkingEnabledChanged();
-    void wirelessEnabledChanged();
-
-    void errorOccured(const QString &errorMessage);
-
-private slots:
-    void onConnectedChanged();
-    void onServiceDiscoveryFinished();
-
-    void onDeviceInformationStateChanged(const QLowEnergyService::ServiceState &state);
-    void onDeviceInformationCharacteristicChanged(const QLowEnergyCharacteristic &characteristic, const QByteArray &value);
-    void onDeviceInformationReadFinished(const QLowEnergyCharacteristic &characteristic, const QByteArray &value);
-
-    void onNetworkServiceStateChanged(const QLowEnergyService::ServiceState &state);
-    void onNetworkServiceCharacteristicChanged(const QLowEnergyCharacteristic &characteristic, const QByteArray &value);
-    void onNetworkServiceReadFinished(const QLowEnergyCharacteristic &characteristic, const QByteArray &value);
-
-    void onWifiServiceStateChanged(const QLowEnergyService::ServiceState &state);
-    void onWifiServiceCharacteristicChanged(const QLowEnergyCharacteristic &characteristic, const QByteArray &value);
-    void onWifiServiceReadFinished(const QLowEnergyCharacteristic &characteristic, const QByteArray &value);
-
-    void onSystemServiceStateChanged(const QLowEnergyService::ServiceState &state);
-    void onSystemServiceCharacteristicChanged(const QLowEnergyCharacteristic &characteristic, const QByteArray &value);
-    void onSystemServiceReadFinished(const QLowEnergyCharacteristic &characteristic, const QByteArray &value);
 
 };
 

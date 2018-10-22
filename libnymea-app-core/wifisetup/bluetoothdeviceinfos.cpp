@@ -22,6 +22,8 @@
 
 #include "bluetoothdeviceinfos.h"
 
+#include <QDebug>
+
 BluetoothDeviceInfos::BluetoothDeviceInfos(QObject *parent) : QAbstractListModel(parent)
 {
 
@@ -70,9 +72,12 @@ BluetoothDeviceInfo *BluetoothDeviceInfos::get(int index) const
 
 void BluetoothDeviceInfos::addBluetoothDeviceInfo(BluetoothDeviceInfo *deviceInfo)
 {
+    qDebug() << "Adding device" << deviceInfo->name();
+    deviceInfo->setParent(this);
     beginInsertRows(QModelIndex(), m_deviceInfos.count(), m_deviceInfos.count());
     m_deviceInfos.append(deviceInfo);
     endInsertRows();
+    emit countChanged();
 }
 
 void BluetoothDeviceInfos::clearModel()
@@ -81,6 +86,7 @@ void BluetoothDeviceInfos::clearModel()
     qDeleteAll(m_deviceInfos);
     m_deviceInfos.clear();
     endResetModel();
+    emit countChanged();
 }
 
 QHash<int, QByteArray> BluetoothDeviceInfos::roleNames() const

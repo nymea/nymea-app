@@ -31,6 +31,7 @@
 class BluetoothDeviceInfos : public QAbstractListModel
 {
     Q_OBJECT
+    Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
 public:
     enum BluetoothDeviceInfoRole {
         BluetoothDeviceInfoRoleName = Qt::DisplayRole,
@@ -45,11 +46,14 @@ public:
     int rowCount(const QModelIndex & parent = QModelIndex()) const;
     QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;
 
-    Q_INVOKABLE int count() const;
+    int count() const;
     Q_INVOKABLE BluetoothDeviceInfo *get(int index) const;
 
     void addBluetoothDeviceInfo(BluetoothDeviceInfo *deviceInfo);
     Q_INVOKABLE void clearModel();
+
+signals:
+    void countChanged();
 
 protected:
     QHash<int, QByteArray> roleNames() const;

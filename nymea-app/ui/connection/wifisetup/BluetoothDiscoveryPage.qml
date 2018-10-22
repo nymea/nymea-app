@@ -1,80 +1,74 @@
 import QtQuick 2.4
 import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.2
-import "../components"
+import "../../components"
 import Nymea 1.0
-
 
 Page {
     id: root
     header: GuhHeader {
-        text: qsTr("Bluetooth discovery")
+        text: qsTr("Wireless Box setup")
         onBackPressed: pageStack.pop()
     }
 
-    Component.onCompleted: bluetoothDiscovery.start()
+    property var nymeaDiscovery: null
 
     BluetoothDiscovery {
         id: bluetoothDiscovery
+        discoveryEnabled: pageStack.currentItem === root
+    }
+
+    NetworkManagerController {
+        id: networkManager
     }
 
     function setupDevice(btDeviceInfo) {
-        bluetoothDiscovery.stop()
-        pageStack.push(connectingPageComponent, { bluetoothDeviceInfo: btDeviceInfo } )
+        networkManager.bluetoothDeviceInfo = btDeviceInfo
+        networkManager.connectDevice();
+        pageStack.push(connectingPageComponent)
     }
 
     Connections {
-        target: pageStack
-        onCurrentItemChanged: {
-            if (pageStack.currentItem === root) {
-                bluetoothDiscovery.start();
+        target: networkManager.manager
+        onInitializedChanged: {
+            if (networkManager.manager.initialized) {
+                if (networkManager.manager.currentConnection) {
+                    print("***** pushing WirelessSetupPage with networkManager:", networkManager)
+                    pageStack.replace(Qt.resolvedUrl("WirelessSetupPage.qml"), { networkManagerController: networkManager, nymeaDiscovery: root.nymeaDiscovery } )
+                } else {
+                    var page = pageStack.replace(Qt.resolvedUrl("ConnectWiFiPage.qml"), { networkManagerController: networkManager } )
+                    page.connected.connect(function() {
+                        print("connected signal received")
+                        pageStack.replace(page, Qt.resolvedUrl("WirelessSetupPage.qml", {NetworkManagerController: networkManager, nymeaDiscovery: root.nymeaDiscovery}))
+                    })
+                }
+            } else {
+                pageStack.pop(root)
+            }
+        }
+
+        onConnectedChanged: {
+            if (!networkManager.manager.connected) {
+                pageStack.pop(root)
             }
         }
     }
 
     ColumnLayout {
         anchors.fill: parent
-        spacing: app.margins
+        visible: bluetoothDiscovery.bluetoothAvailable && bluetoothDiscovery.bluetoothEnabled
 
         RowLayout {
-            spacing: app.margins
-            Layout.leftMargin: app.margins
-            Layout.topMargin: app.margins
-            Layout.rightMargin: app.rightMargin
-
+            Layout.margins: app.margins
             Label {
                 Layout.fillWidth: true
-                text: {
-
-                    if (Qt.platform.os === "ios") {
-                        if (bluetoothDiscovery.bluetoothAvailable && bluetoothDiscovery.bluetoothEnabled) {
-                            return qsTr("Searching for %1 boxes via Bluetooth LE.").arg(app.systemName)
-                        } if (bluetoothDiscovery.bluetoothAvailable && !bluetoothDiscovery.bluetoothEnabled)  {
-                            return qsTr("Uh oh! Bluetooth is not enabled. Please enable the Bluetooth on this device and restart the application.")
-                        } else {
-                            return qsTr("Uh oh! Bluetooth is not available. Please make sure Bluetooth is enabled on this device and restart the application.")
-                        }
-                    } else {
-                        if (bluetoothDiscovery.bluetoothAvailable && bluetoothDiscovery.bluetoothEnabled) {
-                            return qsTr("Searching for %1 boxes via Bluetooth LE.").arg(app.systemName)
-                        } if (bluetoothDiscovery.bluetoothAvailable && !bluetoothDiscovery.bluetoothEnabled)  {
-                            return qsTr("Uh oh! Bluetooth is not enabled. Please enable the Bluetooth on this device.")
-                        } else {
-                            return qsTr("Uh oh! Bluetooth is not available. Please make sure Bluetooth is enabled on this device.")
-                        }
-                    }
-
-
-                }
-
+                text: qsTr("Searching for %1 boxes.").arg(app.systemName)
                 wrapMode: Text.WordWrap
             }
-
             BusyIndicator {
                 running: bluetoothDiscovery.discovering
             }
         }
-
         ThinDivider {}
 
         ListView {
@@ -86,7 +80,7 @@ Page {
 
             delegate: MeaListItemDelegate {
                 width: parent.width
-                iconName: Qt.resolvedUrl("../images/bluetooth.svg")
+                iconName: Qt.resolvedUrl("../../images/bluetooth.svg")
                 text: model.name
                 subText: model.address
 
@@ -109,7 +103,7 @@ Page {
                 wrapMode: Text.WordWrap
                 maximumLineCount: 2
                 elide: Text.ElideRight
-                text: qsTr("Troubles finding your box? Try this!")
+                text: qsTr("Troubles finding your box?")
             }
             Button {
                 text: qsTr("Help")
@@ -118,12 +112,35 @@ Page {
         }
     }
 
+    ColumnLayout {
+        anchors { left: parent.left; right: parent.right; verticalCenter: parent.verticalCenter; margins: app.margins }
+        visible: !bluetoothDiscovery.bluetoothAvailable || !bluetoothDiscovery.bluetoothEnabled
+        spacing: app.margins * 2
+
+        Label {
+            Layout.fillWidth: true
+            text: qsTr("Uh oh")
+            color: app.accentColor
+            font.pixelSize: app.largeFont
+        }
+
+        Label {
+            Layout.fillWidth: true
+            wrapMode: Text.WordWrap
+
+            text: !bluetoothDiscovery.bluetoothAvailable
+                  ? qsTr("Bluetooth doesn't seem to be available on this device. The wireless network setup requires a working Bluetooth connection.")
+                  : qsTr("Bluetooth seems to be disabled. Please enable Bluetooth on your device in order to use the wireless network setup.")
+        }
+    }
+
+
     Component {
         id: helpPageComponent
         Page {
             id: helpPage
             header: GuhHeader {
-                text: qsTr("Setup help")
+                text: qsTr("Wireless setup help")
                 onBackPressed: pageStack.pop()
             }
 
@@ -159,7 +176,7 @@ Page {
                         sourceSize.height: 540
                         fillMode: Image.PreserveAspectFit
                         Layout.alignment: Qt.AlignHCenter
-                        source: "../images/rpi-setup.svg"
+                        source: "../../images/rpi-setup.svg"
                     }
                     ThinDivider {}
                     Label {
@@ -185,7 +202,7 @@ Page {
                         sourceSize.height: width
                         fillMode: Image.PreserveAspectFit
                         Layout.alignment: Qt.AlignHCenter
-                        source: "../images/nymea-box-setup.svg"
+                        source: "../../images/nymea-box-setup.svg"
                     }
                 }
             }
@@ -198,38 +215,13 @@ Page {
         Page {
             id: connectingPage
             header: GuhHeader {
-                text: qsTr("Establish bluetooth connection")
+                text: qsTr("Connecting...")
                 onBackPressed: pageStack.pop()
             }
 
-            property var bluetoothDeviceInfo
-
-            NetworkManagerControler {
-                id: networkManger
-                bluetoothDeviceInfo: connectingPage.bluetoothDeviceInfo
-
-                Component.onCompleted: networkManger.connectDevice()
-            }
-
-            Connections {
-                target: networkManger.manager
-                onInitializedChanged: {
-                    if (networkManger.manager.initialized) {
-                        pageStack.push(Qt.resolvedUrl("../WirelessControlerPage.qml"), { name: connectingPage.name, address: connectingPage.address, networkManger: networkManger } )
-                    } else {
-                        pageStack.pop(root)
-                    }
-                }
-
-                onConnectedChanged: {
-                    if (!networkManger.manager.connected) {
-                        pageStack.pop(root)
-                    }
-                }
-            }
-
             ColumnLayout {
-                anchors.centerIn: parent
+                anchors { left: parent.left; right: parent.right; verticalCenter: parent.verticalCenter; margins: app.margins }
+                spacing: app.margins
 
                 BusyIndicator {
                     Layout.alignment: Qt.AlignHCenter
@@ -238,14 +230,20 @@ Page {
 
                 Label {
                     id: workingMessage
+                    Layout.fillWidth: true
                     Layout.alignment: Qt.AlignHCenter
-                    text: networkManger.manager.statusText
+                    text: networkManager.manager.statusText
+                    horizontalAlignment: Text.AlignHCenter
+                    wrapMode: Text.WordWrap
                 }
 
                 Label {
                     id: initializingMessage
+                    Layout.fillWidth: true
                     Layout.alignment: Qt.AlignHCenter
-                    text: networkManger.manager.initializing ? qsTr("Initialize services...") : ""
+                    text: networkManager.manager.initializing ? qsTr("Initializing services...") : ""
+                    horizontalAlignment: Text.AlignHCenter
+                    wrapMode: Text.WordWrap
                 }
             }
         }

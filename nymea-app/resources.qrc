@@ -3,18 +3,47 @@
         <file>ui/Nymea.qml</file>
         <file>ui/connection/ConnectPage.qml</file>
         <file>ui/connection/ManualConnectPage.qml</file>
-        <file>ui/connection/BluetoothDiscoveryPage.qml</file>
         <file>ui/connection/ConnectingPage.qml</file>
+        <file>ui/connection/wifisetup/BluetoothDiscoveryPage.qml</file>
+        <file>ui/connection/wifisetup/WirelessSetupPage.qml</file>
+        <file>ui/connection/wifisetup/ConnectWiFiPage.qml</file>
+        <file>ui/connection/wifisetup/NetworkSettingsPage.qml</file>
         <file>ui/mainviews/DevicesPage.qml</file>
         <file>ui/NewDeviceWizard.qml</file>
         <file>ui/SettingsPage.qml</file>
         <file>ui/components/GuhHeader.qml</file>
         <file>ui/components/HeaderButton.qml</file>
+        <file>ui/components/ColorPicker.qml</file>
+        <file>ui/components/ColorIcon.qml</file>
+        <file>ui/components/ThinDivider.qml</file>
+        <file>ui/components/ThrottledSlider.qml</file>
+        <file>ui/components/ColorPickerCt.qml</file>
+        <file>ui/components/IconMenuItem.qml</file>
+        <file>ui/components/Graph.qml</file>
+        <file>ui/components/ErrorDialog.qml</file>
+        <file>ui/components/InterfacesModels.qml</file>
+        <file>ui/components/ShutterControls.qml</file>
+        <file>ui/components/MeaDialog.qml</file>
+        <file>ui/components/MeaListItemDelegate.qml</file>
+        <file>ui/components/MainPageTabButton.qml</file>
+        <file>ui/components/AutoSizeMenu.qml</file>
+        <file>ui/components/EmptyViewPlaceholder.qml</file>
+        <file>ui/components/RemoveDeviceMethodDialog.qml</file>
+        <file>ui/components/FancyHeader.qml</file>
+        <file>ui/components/MainPageTile.qml</file>
+        <file>ui/components/BusyOverlay.qml</file>
+        <file>ui/components/AWSPasswordTextField.qml</file>
+        <file>ui/components/BrightnessSlider.qml</file>
+        <file>ui/components/SegmentedImage.qml</file>
+        <file>ui/components/SegmentRenderer.qml</file>
+        <file>ui/components/SegmentBoundingBoxes.qml</file>
+        <file>ui/components/FingerprintVisual.qml</file>
+        <file>ui/components/ListSectionHeader.qml</file>
+        <file>ui/components/ListFilterInput.qml</file>
         <file>ui/images/add.svg</file>
         <file>ui/images/back.svg</file>
         <file>ui/images/close.svg</file>
         <file>ui/images/info.svg</file>
-        <file>ui/components/ColorPicker.qml</file>
         <file>ui/customviews/CustomViewBase.qml</file>
         <file>ui/customviews/WeatherView.qml</file>
         <file>ui/customviews/MediaControllerView.qml</file>
@@ -25,7 +54,6 @@
         <file>ui/devicelistpages/GenericDeviceListPage.qml</file>
         <file>ui/devicelistpages/LightsDeviceListPage.qml</file>
         <file>ui/customviews/ExtendedVolumeController.qml</file>
-        <file>ui/components/ColorIcon.qml</file>
         <file>ui/images/light-on.svg</file>
         <file>ui/images/light-off.svg</file>
         <file>ui/images/media-preview-start.svg</file>
@@ -45,7 +73,6 @@
         <file>ui/images/media-seek-forward.svg</file>
         <file>ui/images/media-skip-backward.svg</file>
         <file>ui/images/media-skip-forward.svg</file>
-        <file>ui/components/ThinDivider.qml</file>
         <file>ui/images/weather-app-symbolic.svg</file>
         <file>ui/images/weathericons/weather-clear-day.svg</file>
         <file>ui/images/weathericons/weather-clear-night.svg</file>
@@ -61,15 +88,11 @@
         <file>ui/images/weathericons/humidity.svg</file>
         <file>ui/images/weathericons/wind.svg</file>
         <file>ui/devicepages/WeatherDevicePage.qml</file>
-        <file>ui/components/ThrottledSlider.qml</file>
-        <file>ui/components/ColorPickerCt.qml</file>
         <file>ui/images/navigation-menu.svg</file>
-        <file>ui/components/IconMenuItem.qml</file>
         <file>ui/images/settings.svg</file>
         <file>ui/images/stock_link.svg</file>
         <file>ui/images/share.svg</file>
         <file>ui/devicepages/SensorDevicePage.qml</file>
-        <file>ui/components/Graph.qml</file>
         <file>ui/images/sensors.svg</file>
         <file>ui/images/network-wired-symbolic.svg</file>
         <file>ui/images/notification.svg</file>
@@ -109,7 +132,6 @@
         <file>ui/images/go-down.svg</file>
         <file>ui/system/PluginsPage.qml</file>
         <file>ui/system/PluginParamsPage.qml</file>
-        <file>ui/components/ErrorDialog.qml</file>
         <file>ui/fonts/Ubuntu-B.ttf</file>
         <file>ui/fonts/Ubuntu-BI.ttf</file>
         <file>ui/fonts/Ubuntu-C.ttf</file>
@@ -119,7 +141,6 @@
         <file>ui/fonts/Ubuntu-MI.ttf</file>
         <file>ui/fonts/Ubuntu-R.ttf</file>
         <file>ui/fonts/Ubuntu-RI.ttf</file>
-        <file>ui/components/InterfacesModels.qml</file>
         <file>ui/magic/StateEvaluatorDelegate.qml</file>
         <file>ui/magic/EditStateEvaluatorPage.qml</file>
         <file>ui/magic/SimpleStateEvaluatorDelegate.qml</file>
@@ -139,7 +160,6 @@
         <file>qtquickcontrols2.conf</file>
         <file>ui/images/bluetooth.svg</file>
         <file>ui/images/refresh.svg</file>
-        <file>ui/WirelessControlerPage.qml</file>
         <file>ui/images/nm-signal-00.svg</file>
         <file>ui/images/nm-signal-00-secure.svg</file>
         <file>ui/images/nm-signal-25.svg</file>
@@ -174,14 +194,12 @@
         <file>ui/images/up.svg</file>
         <file>ui/devicepages/GarageGateDevicePage.qml</file>
         <file>ui/images/remove.svg</file>
-        <file>ui/components/ShutterControls.qml</file>
         <file>../LICENSE</file>
         <file>ui/images/Built_with_Qt_RGB_logo.svg</file>
         <file>ui/images/Built_with_Qt_RGB_logo_vertical.svg</file>
         <file>ui/magic/TimeEventDelegate.qml</file>
         <file>ui/magic/EditTimeEventItemPage.qml</file>
         <file>ui/magic/EventDescriptorDelegate.qml</file>
-        <file>ui/components/MeaDialog.qml</file>
         <file>ui/magic/RuleActionDelegate.qml</file>
         <file>ui/magic/EditCalendarItemPage.qml</file>
         <file>ui/magic/CalendarItemDelegate.qml</file>
@@ -190,7 +208,6 @@
         <file>ui/images/event.svg</file>
         <file>ui/images/state.svg</file>
         <file>ui/images/event-interface.svg</file>
-        <file>ui/components/MeaListItemDelegate.qml</file>
         <file>ui/images/state-interface.svg</file>
         <file>ui/images/action-interface.svg</file>
         <file>ui/system/AboutNymeaPage.qml</file>
@@ -203,14 +220,9 @@
         <file>ui/images/starred.svg</file>
         <file>ui/images/non-starred.svg</file>
         <file>ui/images/slideshow.svg</file>
-        <file>ui/components/MainPageTabButton.qml</file>
         <file>ui/mainviews/ScenesView.qml</file>
         <file>ui/mainviews/FavoritesView.qml</file>
         <file>ui/mainviews/DevicesPageDelegate.qml</file>
-        <file>ui/components/AutoSizeMenu.qml</file>
-        <file>ui/components/EmptyViewPlaceholder.qml</file>
-        <file>ui/components/RemoveDeviceMethodDialog.qml</file>
-        <file>ui/components/FancyHeader.qml</file>
         <file>ui/images/awning/awning-100.svg</file>
         <file>ui/devicepages/AwningDevicePage.qml</file>
         <file>ui/images/awning/awning-000.svg</file>
@@ -232,7 +244,6 @@
         <file>ui/images/sensors/moisture.svg</file>
         <file>ui/images/sensors/pressure.svg</file>
         <file>ui/images/sensors/temperature.svg</file>
-        <file>ui/components/MainPageTile.qml</file>
         <file>ui/images/configure.svg</file>
         <file>ui/images/network-wifi-symbolic.svg</file>
         <file>ui/KeyboardLoader.qml</file>
@@ -240,14 +251,11 @@
         <file>ui/system/CloudSettingsPage.qml</file>
         <file>ui/images/cloud-offline.svg</file>
         <file>ui/images/cloud-error.svg</file>
-        <file>ui/components/BusyOverlay.qml</file>
-        <file>ui/components/AWSPasswordTextField.qml</file>
         <file>ui/appsettings/AboutPage.qml</file>
         <file>ui/appsettings/AppSettingsPage.qml</file>
         <file>ui/appsettings/DeveloperOptionsPage.qml</file>
         <file>ui/appsettings/CloudLoginPage.qml</file>
         <file>ui/devicepages/NotificationsDevicePage.qml</file>
-        <file>ui/components/BrightnessSlider.qml</file>
         <file>ui/devicepages/LightDevicePage.qml</file>
         <file>ui/devicelistpages/SensorsDeviceListPage.qml</file>
         <file>ui/devicelistpages/WeatherDeviceListPage.qml</file>
@@ -257,18 +265,13 @@
         <file>ui/devicepages/FingerprintReaderDevicePage.qml</file>
         <file>ui/images/account.svg</file>
         <file>ui/images/contact-new.svg</file>
-        <file>ui/components/SegmentedImage.qml</file>
-        <file>ui/components/SegmentRenderer.qml</file>
-        <file>ui/components/SegmentBoundingBoxes.qml</file>
-        <file>ui/components/FingerprintVisual.qml</file>
         <file>ui/images/fingerprint/fingerprint_boxes.json</file>
         <file>ui/images/fingerprint/fingerprint_segmented.png</file>
         <file>ui/images/fingerprint.svg</file>
-        <file>ui/components/ListSectionHeader.qml</file>
         <file>ui/images/find.svg</file>
         <file>ui/images/erase.svg</file>
-        <file>ui/components/ListFilterInput.qml</file>
         <file>ui/system/ConnectionInterfacesPage.qml</file>
         <file>ui/system/ConnectionInterfaceDelegate.qml</file>
+        <file>ui/connection/wifisetup/BoxInfoPage.qml</file>
     </qresource>
 </RCC>
