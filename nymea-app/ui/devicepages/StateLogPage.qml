@@ -37,17 +37,13 @@ Page {
         typeIds: [root.stateType.id]
     }
 
-//    LogsModelNg {
-//        id: logsModelNg
-//        deviceId: root.device.id
-//        typeId: root.stateType.id
-//        startTime: {
-//            var date = new Date();
-//            date.setHours(new Date().getHours() - 24)
-//            return date;
-//        }
-//        endTime: new Date();
-//    }
+    LogsModelNg {
+        id: logsModelNg
+        engine: _engine
+        deviceId: root.device.id
+        typeIds: [root.stateType.id]
+        live: true
+    }
 
     ColumnLayout {
         anchors.fill: parent
@@ -75,9 +71,8 @@ Page {
                 id: logView
                 width: swipeView.width
                 height: swipeView.height
-                text: qsTr("%1, %2 has changed %3 times in the last %4 days").arg(device.name).arg(stateType.displayName)
 
-                logsModel: logsModel
+                logsModel: engine.jsonRpcClient.ensureServerVersion("1.10") ? logsModelNg : logsModel
 
                 onAddRuleClicked: {
                     var rule = engine.ruleManager.createNewRule();

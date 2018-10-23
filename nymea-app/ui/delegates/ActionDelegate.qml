@@ -304,6 +304,7 @@ ItemDelegate {
             property var value: null
             text: root.actionType.displayName
             onClicked: {
+                print("ActionDelegate: Button clicked")
                 var params = [];
                 print("fooo", root.actionType.paramTypes.count)
                 for (var i = 0; i < root.actionType.paramTypes.count; i++) {

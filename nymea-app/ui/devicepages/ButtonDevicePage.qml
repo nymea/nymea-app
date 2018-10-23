@@ -5,15 +5,29 @@ import Nymea 1.0
 import "../components"
 import "../customviews"
 
-GenericDevicePage {
+DevicePageBase {
     id: root
-
 
     GenericTypeLogView {
         anchors.fill: parent
-        text: qsTr("This button has been pressed %1 times in the last %2 days.")
 
-        logsModel: LogsModel {
+        logsModel: engine.jsonRpcClient.ensureServerVersion("1.10") ? logsModelNg : logsModel
+        LogsModelNg {
+            id: logsModelNg
+            engine: _engine
+            deviceId: root.device.id
+            live: true
+            typeIds: {
+                var ret = [];
+                ret.push(root.deviceClass.eventTypes.findByName("pressed").id)
+                if (root.deviceClass.eventTypes.findByName("longPressed")) {
+                    ret.push(root.deviceClass.eventTypes.findByName("longPressed").id)
+                }
+                return ret;
+            }
+        }
+        LogsModel {
+            id: logsModel
             engine: _engine
             deviceId: root.device.id
             live: true

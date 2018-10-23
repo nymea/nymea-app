@@ -5,22 +5,24 @@
 
 #include "engine.h"
 #include "types/logentry.h"
+#include "logmanager.h"
 
 LogsModelNg::LogsModelNg(QObject *parent) : QAbstractListModel(parent)
 {
 
 }
 
-JsonRpcClient *LogsModelNg::jsonRpcClient() const
+Engine *LogsModelNg::engine() const
 {
-    return m_jsonRpcClient;
+    return m_engine;
 }
 
-void LogsModelNg::setJsonRpcClient(JsonRpcClient *jsonRpcClient)
+void LogsModelNg::setEngine(Engine *engine)
 {
-    if (m_jsonRpcClient != jsonRpcClient) {
-        m_jsonRpcClient = jsonRpcClient;
-        emit jsonRpcClientChanged();
+    if (m_engine != engine) {
+        m_engine = engine;
+        connect(engine->logManager(), &LogManager::logEntryReceived, this, &LogsModelNg::newLogEntryReceived);
+        emit engineChanged();
     }
 }
 
@@ -92,16 +94,16 @@ void LogsModelNg::setDeviceId(const QString &deviceId)
     }
 }
 
-QString LogsModelNg::typeId() const
+QStringList LogsModelNg::typeIds() const
 {
-    return m_typeId;
+    return m_typeIds;
 }
 
-void LogsModelNg::setTypeId(const QString &typeId)
+void LogsModelNg::setTypeIds(const QStringList &typeIds)
 {
-    if (m_typeId != typeId) {
-        m_typeId = typeId;
-        emit typeIdChanged();
+    if (m_typeIds != typeIds) {
+        m_typeIds = typeIds;
+        emit typeIdsChanged();
     }
 }
 
@@ -115,7 +117,6 @@ void LogsModelNg::setStartTime(const QDateTime &startTime)
     if (m_startTime != startTime) {
         m_startTime = startTime;
         emit startTimeChanged();
-        update();
     }
 }
 
@@ -129,13 +130,57 @@ void LogsModelNg::setEndTime(const QDateTime &endTime)
     if (m_endTime != endTime) {
         m_endTime = endTime;
         emit endTimeChanged();
-        update();
     }
 }
 
-void LogsModelNg::update()
+void LogsModelNg::logsReply(const QVariantMap &data)
 {
-    if (!m_jsonRpcClient) {
+    qDebug() << "logs reply" << data;
+
+    m_busy = false;
+    emit busyChanged();
+
+    int offset = data.value("params").toMap().value("offset").toInt();
+    int count = data.value("params").toMap().value("count").toInt();
+
+    QList<LogEntry*> newBlock;
+    QList<QVariant> logEntries = data.value("params").toMap().value("logEntries").toList();
+    foreach (const QVariant &logEntryVariant, logEntries) {
+        QVariantMap entryMap = logEntryVariant.toMap();
+        QDateTime timeStamp = QDateTime::fromMSecsSinceEpoch(entryMap.value("timestamp").toLongLong());
+        QString deviceId = entryMap.value("deviceId").toString();
+        QString typeId = entryMap.value("typeId").toString();
+        QMetaEnum sourceEnum = QMetaEnum::fromType<LogEntry::LoggingSource>();
+        LogEntry::LoggingSource loggingSource = static_cast<LogEntry::LoggingSource>(sourceEnum.keyToValue(entryMap.value("source").toByteArray()));
+        QMetaEnum loggingEventTypeEnum = QMetaEnum::fromType<LogEntry::LoggingEventType>();
+        LogEntry::LoggingEventType loggingEventType = static_cast<LogEntry::LoggingEventType>(loggingEventTypeEnum.keyToValue(entryMap.value("eventType").toByteArray()));
+        QVariant value = loggingEventType == LogEntry::LoggingEventTypeActiveChange ? entryMap.value("active").toBool() : entryMap.value("value");
+        LogEntry *entry = new LogEntry(timeStamp, value, deviceId, typeId, loggingSource, loggingEventType, this);
+        newBlock.append(entry);
+    }
+
+    if (count < m_blockSize) {
+        m_canFetchMore = false;
+    }
+
+    if (newBlock.isEmpty()) {
+        return;
+    }
+
+    beginInsertRows(QModelIndex(), offset, offset + newBlock.count() - 1);
+    for (int i = 0; i < newBlock.count(); i++) {
+        m_list.insert(offset + i, newBlock.at(i));
+    }
+    endInsertRows();
+    emit countChanged();
+}
+
+void LogsModelNg::fetchMore(const QModelIndex &parent)
+{
+    Q_UNUSED(parent)
+    qDebug() << "fetchMore called";
+
+    if (!m_engine->jsonRpcClient()) {
         qWarning() << "Cannot update. JsonRpcClient not set";
         return;
     }
@@ -143,65 +188,10 @@ void LogsModelNg::update()
         return;
     }
 
-    if (m_startTime.isNull() || m_endTime.isNull()) {
-        // Need both, startTime and endTime set
+    if ((!m_startTime.isNull() && m_endTime.isNull()) || (m_startTime.isNull() && !m_endTime.isNull())) {
+        // Need neither or both, startTime and endTime set
         return;
     }
-
-    m_currentFetchStartTime = QDateTime();
-    m_currentFetchEndTime = QDateTime();
-    bool haveData = false;
-    for(int i = 0; i < m_fetchedPeriods.length(); i++) {
-        if (m_fetchedPeriods.at(i).first < m_startTime) {
-            if (m_fetchedPeriods.at(i).second == true) {
-                haveData = true;
-                continue;
-            }
-            if (m_fetchedPeriods.at(i).second == false) {
-                haveData = false;
-                continue;
-            }
-        }
-        if (m_fetchedPeriods.at(i).first == m_startTime) {
-            if (m_fetchedPeriods.at(i).second == true) {
-                haveData = true;
-                continue;
-            }
-            if (m_fetchedPeriods.at(i).second == false) {
-                m_currentFetchStartTime = m_startTime;
-                continue;
-            }
-        }
-        if (m_fetchedPeriods.at(i).first > m_startTime) {
-            if (m_fetchedPeriods.at(i).second == true) {
-                if (m_currentFetchStartTime.isNull()) {
-                    m_currentFetchStartTime = m_startTime;
-                }
-                m_currentFetchEndTime = m_fetchedPeriods.at(i).first;
-                break;
-            }
-            if (m_fetchedPeriods.at(i).second == false) {
-                if (m_currentFetchStartTime.isNull()) {
-                    haveData = false;
-                    m_currentFetchStartTime = m_fetchedPeriods.at(i).first;
-                }
-                continue;
-            }
-        }
-    }
-    if (haveData) {
-        qDebug() << "all the data is fetched";
-        m_busy = false;
-        emit busyChanged();
-        return;
-    }
-    if (m_currentFetchStartTime.isNull()) {
-        m_currentFetchStartTime = m_startTime;
-    }
-    if (m_currentFetchEndTime.isNull()) {
-        m_currentFetchEndTime = m_endTime;
-    }
-    qDebug() << "Fetching from" << m_currentFetchStartTime << "to" << m_currentFetchEndTime;
 
     m_busy = true;
     emit busyChanged();
@@ -212,103 +202,65 @@ void LogsModelNg::update()
         deviceIds.append(m_deviceId);
         params.insert("deviceIds", deviceIds);
     }
-    if (!m_typeId.isEmpty()) {
+    if (!m_typeIds.isEmpty()) {
         QVariantList typeIds;
-        typeIds.append(m_typeId);
+        foreach (const QString &typeId, m_typeIds) {
+            typeIds.append(typeId);
+        }
         params.insert("typeIds", typeIds);
     }
-    QVariantList timeFilters;
-    QVariantMap timeFilter;
-    timeFilter.insert("startDate", m_currentFetchStartTime.toSecsSinceEpoch());
-    timeFilter.insert("endDate", m_currentFetchEndTime.toSecsSinceEpoch());
-    timeFilters.append(timeFilter);
-    params.insert("timeFilters", timeFilters);
-    m_jsonRpcClient->sendCommand("Logging.GetLogEntries", params, this, "logsReply");
+    if (!m_startTime.isNull() && !m_endTime.isNull()) {
+        QVariantList timeFilters;
+        QVariantMap timeFilter;
+        timeFilter.insert("startDate", m_currentFetchStartTime.toSecsSinceEpoch());
+        timeFilter.insert("endDate", m_currentFetchEndTime.toSecsSinceEpoch());
+        timeFilters.append(timeFilter);
+        params.insert("timeFilters", timeFilters);
+    }
+
+    params.insert("limit", m_blockSize);
+    params.insert("offset", m_list.count());
+
+    m_engine->jsonRpcClient()->sendCommand("Logging.GetLogEntries", params, this, "logsReply");
+    qDebug() << "GetLogEntries called";
 }
 
-void LogsModelNg::logsReply(const QVariantMap &data)
+bool LogsModelNg::canFetchMore(const QModelIndex &parent) const
 {
-    qDebug() << "logs reply";// << data;
-
-    // First update the fetched periods information
-    int insertIndex = -1;
-    bool noNeedToInsert = false;
-    for (int i = 0; i < m_fetchedPeriods.count(); i++) {
-        if (m_fetchedPeriods.at(i).first < m_currentFetchStartTime) {
-            // skip it
-            insertIndex = i+1;
-            continue;
-        }
-        if (m_fetchedPeriods.at(i).first == m_currentFetchStartTime) {
-            if (m_fetchedPeriods.at(i).second == false) {
-                // Have an end marker where we start inserting. We can drop the existing end marker and just update the end marker
-                if (m_fetchedPeriods.count() > i+1) {
-                    if (m_fetchedPeriods.at(i+1).first < m_currentFetchEndTime) {
-                        qWarning() << "Overlap detected!";
-                    } else if (m_fetchedPeriods.at(i+1).first == m_currentFetchEndTime) {
-                        if (m_fetchedPeriods.at(i+1).second == true) {
-                            m_fetchedPeriods.removeAt(i+1);
-                        }
-                    }
-                }
-                m_fetchedPeriods.removeAt(i);
-                noNeedToInsert = true;
-                break;
-            }
-        }
-        if (m_fetchedPeriods.at(i).first > m_currentFetchStartTime) {
-            break;
-        }
-    }
-
-    if (!noNeedToInsert) {
-        if (insertIndex == -1) {
-            insertIndex = 0;
-        }
-        m_fetchedPeriods.insert(insertIndex, qMakePair<QDateTime,bool>(m_currentFetchStartTime, true));
-        m_fetchedPeriods.insert(insertIndex+1, qMakePair<QDateTime,bool>(m_currentFetchEndTime, false));
-    }
-    qDebug() << "new fetched periods:" << m_fetchedPeriods << "insertIndex:" << insertIndex;
-    m_busy = false;
-    emit busyChanged();
-
-
-    QList<LogEntry*> newBlock;
-    QList<QVariant> logEntries = data.value("params").toMap().value("logEntries").toList();
-    foreach (const QVariant &logEntryVariant, logEntries) {
-        QVariantMap entryMap = logEntryVariant.toMap();
-        QDateTime timeStamp = QDateTime::fromMSecsSinceEpoch(entryMap.value("timestamp").toLongLong());
-        QString deviceId = entryMap.value("deviceId").toString();
-        QString typeId = entryMap.value("typeId").toString();
-        QMetaEnum sourceEnum = QMetaEnum::fromType<LogEntry::LoggingSource>();
-        LogEntry::LoggingSource loggingSource = (LogEntry::LoggingSource)sourceEnum.keyToValue(entryMap.value("source").toByteArray());
-        QMetaEnum loggingEventTypeEnum = QMetaEnum::fromType<LogEntry::LoggingEventType>();
-        LogEntry::LoggingEventType loggingEventType = (LogEntry::LoggingEventType)loggingEventTypeEnum.keyToValue(entryMap.value("eventType").toByteArray());
-        QVariant value = loggingEventType == LogEntry::LoggingEventTypeActiveChange ? entryMap.value("active").toBool() : entryMap.value("value");
-        LogEntry *entry = new LogEntry(timeStamp, value, deviceId, typeId, loggingSource, loggingEventType, this);
-        newBlock.append(entry);
-    }
-
-    // Now let's find where to insert stuff in the model
-    if (!newBlock.isEmpty()) {
-        int indexToInsert = 0;
-        for (int i = 0; i < m_list.count(); i++) {
-            LogEntry *entry = m_list.at(i);
-            if (entry->timestamp() < newBlock.first()->timestamp()) {
-                continue;
-            }
-            indexToInsert = i;
-            break;
-        }
-
-        beginInsertRows(QModelIndex(), indexToInsert, indexToInsert + newBlock.count() - 1);
-        for (int i = 0; i < newBlock.count(); i++) {
-            m_list.insert(indexToInsert + i, newBlock.at(i));
-        }
-        endInsertRows();
-        emit countChanged();
-    }
-
-    update();
+    Q_UNUSED(parent)
+    qDebug() << "canFetchMore" << m_canFetchMore;
+    return m_canFetchMore;
 }
+
+void LogsModelNg::newLogEntryReceived(const QVariantMap &data)
+{
+    if (!m_live) {
+        return;
+    }
+
+    QVariantMap entryMap = data;
+    QString deviceId = entryMap.value("deviceId").toString();
+    if (!m_deviceId.isNull() && deviceId != m_deviceId) {
+        return;
+    }
+
+    QString typeId = entryMap.value("typeId").toString();
+    if (!m_typeIds.isEmpty() && !m_typeIds.contains(typeId)) {
+        return;
+    }
+
+    beginInsertRows(QModelIndex(), 0, 0);
+    QDateTime timeStamp = QDateTime::fromMSecsSinceEpoch(entryMap.value("timestamp").toLongLong());
+    QMetaEnum sourceEnum = QMetaEnum::fromType<LogEntry::LoggingSource>();
+    LogEntry::LoggingSource loggingSource = static_cast<LogEntry::LoggingSource>(sourceEnum.keyToValue(entryMap.value("source").toByteArray()));
+    QMetaEnum loggingEventTypeEnum = QMetaEnum::fromType<LogEntry::LoggingEventType>();
+    LogEntry::LoggingEventType loggingEventType = static_cast<LogEntry::LoggingEventType>(loggingEventTypeEnum.keyToValue(entryMap.value("eventType").toByteArray()));
+    QVariant value = loggingEventType == LogEntry::LoggingEventTypeActiveChange ? entryMap.value("active").toBool() : entryMap.value("value");
+    LogEntry *entry = new LogEntry(timeStamp, value, deviceId, typeId, loggingSource, loggingEventType, this);
+    m_list.prepend(entry);
+    endInsertRows();
+    emit countChanged();
+
+}
+
 

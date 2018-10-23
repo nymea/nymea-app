@@ -26,14 +26,28 @@ DevicePageBase {
             }
         }
 
-//        ThinDivider {}
+        ThinDivider {}
+
+        Label {
+            Layout.fillWidth: true
+            Layout.margins: app.margins
+            text: qsTr("Access log:")
+        }
 
         GenericTypeLogView {
             Layout.fillHeight: true
             Layout.fillWidth: true
-            text: qsTr("%1 fingerprints recognized on this device in the last %2 days.")
 
-            logsModel: LogsModel {
+            logsModel: engine.jsonRpcClient.ensureServerVersion("1.10") ? logsModelNg : logsModel
+            LogsModelNg {
+                id: logsModelNg
+                deviceId: root.device.id
+                engine: _engine
+                live: true
+                typeIds: [root.accessGrantedEventType.id, root.accessDeniedEventType.id];
+            }
+            LogsModel {
+                id: logsModel
                 deviceId: root.device.id
                 engine: _engine
                 live: true

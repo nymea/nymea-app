@@ -5,14 +5,22 @@ import Nymea 1.0
 import "../components"
 import "../customviews"
 
-GenericDevicePage {
+DevicePageBase {
     id: root
 
     GenericTypeLogView {
         anchors.fill: parent
-        text: qsTr("This event has appeared %1 times in the last %2 days.")
 
-        logsModel: LogsModel {
+        logsModel: engine.jsonRpcClient.ensureServerVersion("1.10") ? logsModelNg : logsModel
+        LogsModelNg {
+            id: logsModelNg
+            engine: _engine
+            deviceId: root.device.id
+            live: true
+            typeIds: [root.deviceClass.eventTypes.findByName("triggered").id];
+        }
+        LogsModel {
+            id: logsModel
             engine: _engine
             deviceId: root.device.id
             live: true

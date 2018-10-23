@@ -19,6 +19,7 @@ class LogsModel : public QAbstractListModel
     Q_PROPERTY(QStringList typeIds READ typeIds WRITE setTypeIds NOTIFY typeIdsChanged)
     Q_PROPERTY(QDateTime startTime READ startTime WRITE setStartTime NOTIFY startTimeChanged)
     Q_PROPERTY(QDateTime endTime READ endTime WRITE setEndTime NOTIFY endTimeChanged)
+//    Q_PROPERTY(int paginationCount READ paginationCount WRITE setPaginationCount NOTIFY paginationCountChanged)
 
     Q_PROPERTY(bool live READ live WRITE setLive NOTIFY liveChanged)
 
@@ -56,6 +57,9 @@ public:
     QDateTime endTime() const;
     void setEndTime(const QDateTime &endTime);
 
+//    int paginationCount() const;
+//    void setPaginationCount(int paginationCount);
+
     Q_INVOKABLE LogEntry* get(int index) const;
 
     Q_INVOKABLE void notificationReceived(const QVariantMap &data);
@@ -69,6 +73,7 @@ signals:
     void typeIdsChanged();
     void startTimeChanged();
     void endTimeChanged();
+//    void paginationCountChanged();
 
 public slots:
     virtual void update();
