@@ -213,7 +213,7 @@ void LogsModel::fetchEarlier(int hours)
 
 void LogsModel::logsReply(const QVariantMap &data)
 {
-    qDebug() << "logs reply";// << data;
+//    qDebug() << "logs reply" << data;
     beginResetModel();
     qDeleteAll(m_list);
     m_list.clear();
@@ -242,7 +242,7 @@ void LogsModel::logsReply(const QVariantMap &data)
 
 void LogsModel::fetchEarlierReply(const QVariantMap &data)
 {
-    qDebug() << "logs reply";// << data;
+//    qDebug() << "logs reply" << data;
 
     QList<QVariant> logEntries = data.value("params").toMap().value("logEntries").toList();
     QList<LogEntry*> newEntries;

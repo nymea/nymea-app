@@ -71,18 +71,33 @@ DevicePageBase {
 
         ThinDivider {}
 
+        Label {
+            Layout.fillWidth: true
+            Layout.margins: app.margins
+            wrapMode: Text.WordWrap
+            text: qsTr("Sent notifications:")
+        }
+
+
         GenericTypeLogView {
             Layout.fillHeight: true
             Layout.fillWidth: true
-            text: qsTr("%1 notifications sent to this device in the last %2 days.")
 
-            logsModel: LogsModel {
+            logsModel: engine.jsonRpcClient.ensureServerVersion("1.10") ? logsModelNg : logsModel
+            LogsModelNg {
+                id: logsModelNg
+                deviceId: root.device.id
+                engine: _engine
+                typeIds: [root.deviceClass.actionTypes.findByName("notify").id];
+            }
+
+            LogsModel {
+                id: logsModel
                 deviceId: root.device.id
                 live: true
                 engine: _engine
                 Component.onCompleted: update()
                 typeIds: [root.deviceClass.actionTypes.findByName("notify").id];
-
             }
 
             delegate: MeaListItemDelegate {
