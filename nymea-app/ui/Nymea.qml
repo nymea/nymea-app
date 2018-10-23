@@ -39,7 +39,7 @@ ApplicationWindow {
         property string style: "light"
         property int currentMainViewIndex: 0
         property bool showHiddenOptions: false
-        property int cloudEnvironment: 0
+        property string cloudEnvironment: "community"
         property bool showConnectionTabs: false
         property int tabCount: 1
     }

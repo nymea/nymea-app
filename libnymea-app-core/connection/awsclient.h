@@ -83,7 +83,8 @@ class AWSClient : public QObject
     Q_PROPERTY(QByteArray idToken READ idToken NOTIFY isLoggedInChanged)
     Q_PROPERTY(AWSDevices* awsDevices READ awsDevices CONSTANT)
 
-    Q_PROPERTY(int config READ config WRITE setConfig NOTIFY configChanged)
+    Q_PROPERTY(QStringList availableConfigs READ availableConfigs CONSTANT)
+    Q_PROPERTY(QString config READ config WRITE setConfig NOTIFY configChanged)
 
 public:
     enum LoginError {
@@ -127,8 +128,9 @@ public:
 
     void fetchCertificate(const QString &uuid, std::function<void(const QByteArray &rootCA, const QByteArray &certificate, const QByteArray &publicKey, const QByteArray &privateKey, const QString &endpoint)> callback);
 
-    int config() const;
-    void setConfig(int index);
+    QStringList availableConfigs() const;
+    QString config() const;
+    void setConfig(const QString &config);
 
 signals:
     void loginResult(LoginError error);
@@ -204,8 +206,8 @@ private:
 
     QList<QueuedCall> m_callQueue;
 
-    QList<AWSConfiguration> m_configs;
-    int m_usedConfigIndex = 0;
+    QHash<QString, AWSConfiguration> m_configs;
+    QString m_usedConfig = "community";
     AWSDevices *m_devices;
 };
 

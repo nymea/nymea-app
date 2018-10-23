@@ -24,10 +24,10 @@ Page {
             }
 
             ComboBox {
-                currentIndex: app.settings.cloudEnvironment
-                model: [qsTr("Community"), qsTr("Testing"), qsTr("Marantec")]
+                currentIndex: model.indexOf(app.settings.cloudEnvironment)
+                model: AWSClient.availableConfigs
                 onActivated: {
-                    app.settings.cloudEnvironment = index;
+                    app.settings.cloudEnvironment = model[index];
                 }
             }
         }

@@ -83,7 +83,7 @@ Item {
                     Binding {
                         target: AWSClient
                         property: "config"
-                        value: settings.cloudEnvironment
+                        value: "cloudEnvironment" in app ? app.cloudEnvironment : settings.cloudEnvironment
                     }
 
                     Component.onCompleted: {
