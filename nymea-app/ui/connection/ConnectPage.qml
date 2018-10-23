@@ -96,7 +96,7 @@ Page {
                 title: qsTr("Connect %1").arg(app.systemName)
                 model: ListModel {
                     ListElement { iconSource: "../images/network-vpn.svg"; text: qsTr("Manual connection"); page: "ManualConnectPage.qml" }
-                    ListElement { iconSource: "../images/bluetooth.svg"; text: qsTr("Wireless setup"); page: "BluetoothDiscoveryPage.qml"; }
+                    ListElement { iconSource: "../images/bluetooth.svg"; text: qsTr("Wireless setup"); page: "wifisetup/BluetoothDiscoveryPage.qml"; }
                     ListElement { iconSource: "../images/private-browsing.svg"; text: qsTr("Demo mode"); page: "" }
                     ListElement { iconSource: "../images/stock_application.svg"; text: qsTr("App settings"); page: "../appsettings/AppSettingsPage.qml" }
                 }
@@ -104,7 +104,7 @@ Page {
                     if (index === 2) {
                         root.connectToHost("nymea://nymea.nymea.io:2222")
                     } else {
-                        pageStack.push(model.get(index).page);
+                        pageStack.push(model.get(index).page, {nymeaDiscovery: discovery});
                     }
                 }
             }
@@ -278,7 +278,7 @@ Page {
                     Layout.rightMargin: app.margins
                     visible: discovery.discoveryModel.count === 0
                     text: qsTr("Start wireless setup")
-                    onClicked: pageStack.push(Qt.resolvedUrl("BluetoothDiscoveryPage.qml"))
+                    onClicked: pageStack.push(Qt.resolvedUrl("wifisetup/BluetoothDiscoveryPage.qml"), {nymeaDiscovery: discovery})
                 }
                 Button {
                     Layout.fillWidth: true

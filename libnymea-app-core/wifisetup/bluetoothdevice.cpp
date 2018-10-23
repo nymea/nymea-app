@@ -27,8 +27,8 @@ BluetoothDevice::BluetoothDevice(const QBluetoothDeviceInfo &deviceInfo, QObject
     m_deviceInfo(deviceInfo),
     m_connected(false)
 {
-    m_controller = new QLowEnergyController(deviceInfo, this);
-    m_controller->setRemoteAddressType(QLowEnergyController::PublicAddress);
+    m_controller = QLowEnergyController::createCentral(deviceInfo, this);
+//    m_controller->setRemoteAddressType(QLowEnergyController::PublicAddress);
 
     connect(m_controller, &QLowEnergyController::connected, this, &BluetoothDevice::onConnected);
     connect(m_controller, &QLowEnergyController::disconnected, this, &BluetoothDevice::onDisconnected);
@@ -71,6 +71,11 @@ QString BluetoothDevice::statusText() const
 
 void BluetoothDevice::connectDevice()
 {
+    if (m_controller->state() != QLowEnergyController::UnconnectedState) {
+        qDebug() << "Controller in state:" << m_controller->state() << "Not connecting...";
+        return;
+    }
+    qDebug() << "QLoweEnergyController connecting...";
     m_controller->connectToDevice();
 }
 
@@ -144,6 +149,7 @@ void BluetoothDevice::onDeviceStateChanged(const QLowEnergyController::Controlle
         setStatusText(QString(tr("%1 disconnected.").arg(name())));
         break;
     default:
+        qDebug() << "BluetoothDevice: Unhandled state entered:" << state;
         break;
     }
 }

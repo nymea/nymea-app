@@ -20,20 +20,19 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include "networkmanagercontroler.h"
-#include "engine.h"
+#include "networkmanagercontroller.h"
 
-NetworkManagerControler::NetworkManagerControler(QObject *parent) : QObject(parent)
+NetworkManagerController::NetworkManagerController(QObject *parent) : QObject(parent)
 {
 
 }
 
-BluetoothDeviceInfo *NetworkManagerControler::bluetoothDeviceInfo() const
+BluetoothDeviceInfo *NetworkManagerController::bluetoothDeviceInfo() const
 {
     return m_bluetoothDeviceInfo;
 }
 
-void NetworkManagerControler::setBluetoothDeviceInfo(BluetoothDeviceInfo *bluetoothDeviceInfo)
+void NetworkManagerController::setBluetoothDeviceInfo(BluetoothDeviceInfo *bluetoothDeviceInfo)
 {
     if (m_bluetoothDeviceInfo != bluetoothDeviceInfo) {
         m_bluetoothDeviceInfo = bluetoothDeviceInfo;
@@ -41,12 +40,12 @@ void NetworkManagerControler::setBluetoothDeviceInfo(BluetoothDeviceInfo *blueto
     }
 }
 
-WirelessSetupManager *NetworkManagerControler::manager()
+WirelessSetupManager *NetworkManagerController::manager()
 {
     return m_wirelessSetupManager;
 }
 
-void NetworkManagerControler::connectDevice()
+void NetworkManagerController::connectDevice()
 {
     if (!m_bluetoothDeviceInfo) {
         qWarning() << "Can't connect to device. bluetoothDeviceInfo not set.";

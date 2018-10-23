@@ -34,10 +34,9 @@ class WirelessAccessPoint : public QObject
     Q_PROPERTY(QString hostAddress READ hostAddress NOTIFY hostAddressChanged)
     Q_PROPERTY(int signalStrength READ signalStrength NOTIFY signalStrengthChanged)
     Q_PROPERTY(bool isProtected READ isProtected NOTIFY isProtectedChanged)
-    Q_PROPERTY(bool selectedNetwork READ selectedNetwork WRITE setSelectedNetwork NOTIFY selectedNetworkChanged)
 
 public:
-    WirelessAccessPoint(QObject *parent = 0);
+    WirelessAccessPoint(QObject *parent = nullptr);
 
     QString ssid() const;
     void setSsid(const QString ssid);
@@ -54,16 +53,12 @@ public:
     bool isProtected() const;
     void setProtected(const bool &isProtected);
 
-    bool selectedNetwork() const;
-    void setSelectedNetwork(bool selected);
-
 private:
     QString m_ssid;
     QString m_macAddress;
     QString m_hostAddress;
     int m_signalStrength = 0;
     bool m_isProtected = false;
-    bool m_selectedNetwork = false;
 
 signals:
     void ssidChanged(const QString &ssid);
@@ -71,7 +66,6 @@ signals:
     void hostAddressChanged(const QString &hostAddress);
     void signalStrengthChanged(int signalStrength);
     void isProtectedChanged(bool isProtected);
-    void selectedNetworkChanged(bool selectedNetwork);
 };
 
 #endif // WIRELESSACCESSPOINT_H

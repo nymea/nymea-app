@@ -32,6 +32,8 @@ class WirelessAccessPoints;
 class WirelessAccessPointsProxy : public QSortFilterProxyModel
 {
     Q_OBJECT
+    Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
+    Q_PROPERTY(WirelessAccessPoints* accessPoints READ accessPoints WRITE setAccessPoints)
 public:
     explicit WirelessAccessPointsProxy(QObject *parent = nullptr);
 
@@ -40,20 +42,12 @@ public:
 
     Q_INVOKABLE WirelessAccessPoint* get(int index) const;
 
-    Q_INVOKABLE void invokeSort();
-
-protected:
-    bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const override;
-    bool lessThan(const QModelIndex &left, const QModelIndex &right) const override;
+signals:
+    void countChanged();
+    void accessPointsChanged();
 
 private:
     WirelessAccessPoints *m_accessPoints = nullptr;
-
-signals:
-    void accessPointsChanged();
-
-public slots:
-
 
 };
 

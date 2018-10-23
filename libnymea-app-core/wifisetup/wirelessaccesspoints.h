@@ -39,11 +39,10 @@ public:
         WirelessAccesspointRoleMacAddress,
         WirelessAccesspointRoleHostAddress,
         WirelessAccesspointRoleSignalStrength,
-        WirelessAccesspointRoleProtected,
-        WirelessAccesspointRoleSelectedNetwork
+        WirelessAccesspointRoleProtected
     };
 
-    explicit WirelessAccessPoints(QObject *parent = 0);
+    explicit WirelessAccessPoints(QObject *parent = nullptr);
 
     QList<WirelessAccessPoint *> wirelessAccessPoints();
     void setWirelessAccessPoints(QList<WirelessAccessPoint *> wirelessAccessPoints);
@@ -59,8 +58,6 @@ public:
 
     void addWirelessAccessPoint(WirelessAccessPoint *accessPoint);
     void removeWirelessAccessPoint(WirelessAccessPoint *accessPoint);
-
-    Q_INVOKABLE void clearSelectedNetwork();
 
 signals:
     void countChanged();

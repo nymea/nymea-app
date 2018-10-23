@@ -33,51 +33,52 @@ class BluetoothDiscovery : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(bool bluetoothAvailable READ bluetoothAvailable NOTIFY bluetoothAvailableChanged)
-    Q_PROPERTY(bool bluetoothEnabled READ bluetoothEnabled NOTIFY bluetoothEnabledChanged)
+    Q_PROPERTY(bool bluetoothEnabled READ bluetoothEnabled WRITE setBluetoothEnabled NOTIFY bluetoothEnabledChanged)
+    Q_PROPERTY(bool discoveryEnabled READ discoveryEnabled WRITE setDiscoveryEnabled NOTIFY discoveryEnabledChanged)
     Q_PROPERTY(bool discovering READ discovering NOTIFY discoveringChanged)
     Q_PROPERTY(BluetoothDeviceInfos *deviceInfos READ deviceInfos CONSTANT)
 
 public:
-    explicit BluetoothDiscovery(QObject *parent = 0);
+    explicit BluetoothDiscovery(QObject *parent = nullptr);
 
     bool bluetoothAvailable() const;
-
     bool bluetoothEnabled() const;
-    void setBluetoothEnabled(bool enabled);
+    void setBluetoothEnabled(bool bluetoothEnabled);
+
+    bool discoveryEnabled() const;
+    void setDiscoveryEnabled(bool discoveryEnabled);
 
     bool discovering() const;
 
     BluetoothDeviceInfos *deviceInfos();
+
+signals:
+    void bluetoothAvailableChanged(bool bluetoothAvailable);
+    void bluetoothEnabledChanged(bool bluetoothEnabled);
+    void discoveryEnabledChanged(bool discoveryEnabled);
+    void discoveringChanged();
+
+private slots:
+    void onBluetoothHostModeChanged(const QBluetoothLocalDevice::HostMode &hostMode);
+    void deviceDiscovered(const QBluetoothDeviceInfo &deviceInfo);
+    void discoveryFinished();
+    void discoveryCancelled();
+    void onError(const QBluetoothDeviceDiscoveryAgent::Error &error);
+
+private slots:
+    void start();
+    void stop();
 
 private:
     QBluetoothLocalDevice *m_localDevice = nullptr;
     QBluetoothDeviceDiscoveryAgent *m_discoveryAgent  = nullptr;
     BluetoothDeviceInfos *m_deviceInfos;
 
-    bool m_enabled = false;
-    bool m_discovering = false;
     bool m_bluetoothAvailable = false;
+#ifdef Q_OS_IOS
     bool m_bluetoothEnabled = false;
-
-    void setBluetoothAvailable(bool available);
-    void setDiscovering(bool discovering);
-
-signals:
-    void bluetoothAvailableChanged(bool bluetoothAvailable);
-    void bluetoothEnabledChanged(bool bluetoothEnabled);
-
-    void discoveringChanged(bool discovering);
-
-private slots:
-    void onBluetoothHostModeChanged(const QBluetoothLocalDevice::HostMode &hostMode);
-    void deviceDiscovered(const QBluetoothDeviceInfo &deviceInfo);
-    void discoveryFinished();
-    void onError(const QBluetoothDeviceDiscoveryAgent::Error &error);
-
-public slots:
-    Q_INVOKABLE void start();
-    Q_INVOKABLE void stop();
-
+#endif
+    bool m_discoveryEnabled = false;
 };
 
 #endif // BLUETOOTHDISCOVERY_H

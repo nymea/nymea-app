@@ -71,8 +71,6 @@ QVariant WirelessAccessPoints::data(const QModelIndex &index, int role) const
         return accessPoint->signalStrength();
     } else if (role == WirelessAccesspointRoleProtected) {
         return accessPoint->isProtected();
-    } else if (role == WirelessAccesspointRoleSelectedNetwork) {
-        return accessPoint->selectedNetwork();
     }
 
     return QVariant();
@@ -120,11 +118,6 @@ void WirelessAccessPoints::addWirelessAccessPoint(WirelessAccessPoint *accessPoi
     m_wirelessAccessPoints.append(accessPoint);
     endInsertRows();
 
-    connect(accessPoint, &WirelessAccessPoint::selectedNetworkChanged, this, [accessPoint, this]() {
-        int idx = m_wirelessAccessPoints.indexOf(accessPoint);
-        if (idx < 0) return;
-        emit dataChanged(index(idx), index(idx), {WirelessAccesspointRoleSelectedNetwork});
-    });
     connect(accessPoint, &WirelessAccessPoint::signalStrengthChanged, this, [accessPoint, this]() {
         int idx = m_wirelessAccessPoints.indexOf(accessPoint);
         if (idx < 0) return;
@@ -150,14 +143,6 @@ void WirelessAccessPoints::removeWirelessAccessPoint(WirelessAccessPoint *access
     emit countChanged();
 }
 
-void WirelessAccessPoints::clearSelectedNetwork()
-{
-    foreach (WirelessAccessPoint *accessPoint, m_wirelessAccessPoints) {
-        accessPoint->setSelectedNetwork(false);
-        accessPoint->setHostAddress(QString());
-    }
-}
-
 QHash<int, QByteArray> WirelessAccessPoints::roleNames() const
 {
     QHash<int, QByteArray> roles;
@@ -166,7 +151,6 @@ QHash<int, QByteArray> WirelessAccessPoints::roleNames() const
     roles[WirelessAccesspointRoleHostAddress] = "hostAddress";
     roles[WirelessAccesspointRoleSignalStrength] = "signalStrength";
     roles[WirelessAccesspointRoleProtected] = "protected";
-    roles[WirelessAccesspointRoleSelectedNetwork] = "selectedNetwork";
     return roles;
 }
 
