@@ -15,7 +15,7 @@ include(../nymea-remoteproxy/libnymea-remoteproxyclient/libnymea-remoteproxyclie
 
 
 QT -= gui
-QT += network websockets bluetooth
+QT += network websockets bluetooth charts
 
 LIBS += -lssl -lcrypto
 

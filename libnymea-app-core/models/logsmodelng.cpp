@@ -7,7 +7,8 @@
 #include "types/logentry.h"
 #include "logmanager.h"
 
-LogsModelNg::LogsModelNg(QObject *parent) : QAbstractListModel(parent)
+LogsModelNg::LogsModelNg(QObject *parent) : QAbstractListModel(parent),
+    m_lineSeries(new QtCharts::QLineSeries(this))
 {
 
 }
@@ -133,9 +134,19 @@ void LogsModelNg::setEndTime(const QDateTime &endTime)
     }
 }
 
+QtCharts::QLineSeries *LogsModelNg::lineSeries() const
+{
+    return m_lineSeries;
+}
+
+void LogsModelNg::setLineSeries(QtCharts::QLineSeries *lineSeries)
+{
+    m_lineSeries = lineSeries;
+}
+
 void LogsModelNg::logsReply(const QVariantMap &data)
 {
-    qDebug() << "logs reply" << data;
+//    qDebug() << "logs reply" << data;
 
     m_busy = false;
     emit busyChanged();
@@ -170,6 +181,8 @@ void LogsModelNg::logsReply(const QVariantMap &data)
     beginInsertRows(QModelIndex(), offset, offset + newBlock.count() - 1);
     for (int i = 0; i < newBlock.count(); i++) {
         m_list.insert(offset + i, newBlock.at(i));
+        qDebug() << "Adding line series point:" << i << newBlock.at(i)->timestamp().toSecsSinceEpoch() << newBlock.at(i)->value().toReal();
+        m_lineSeries->insert(offset + i, QPointF(newBlock.at(i)->timestamp().toSecsSinceEpoch(), newBlock.at(i)->value().toReal()));
     }
     endInsertRows();
     emit countChanged();

@@ -1,0 +1,58 @@
+{
+    "templates": [
+        {
+            "interfaceName": "",
+            "description": "",
+            "ruleNameTemplate": "%0 ...",
+            "eventDescriptorTemplates": [ // optional
+                {
+                    "interfaceName": "",
+                    "interfaceEvent": "",
+                    "selectionId": 0,
+                    "params": [ // optional
+                        {
+                            "name": "",
+                            "value": "", //optional
+                        }
+                    ]
+                }
+            ],
+            "stateEvaluatorTemplate": {
+                "stateDescriptorTemplate": {
+                    "interfaceName": "",
+                    "interfaceState": "",
+                    "selectionId": 1,
+                    "operator": "ValueOperatorEquals",
+                    "value": true
+                }
+            },
+            "ruleActionTemplates": [
+                {
+                    "interfaceName": "",
+                    "interfaceAction": "",
+                    "selectionId": 2,
+                    "params": [
+                        {
+                            "name": "",
+                            "value": ""
+                        }
+                    ]
+                }
+            ],
+            "ruleExitActionTemplates": [
+                {
+                    "interfaceName": "",
+                    "interfaceAction": "",
+                    "selectionId": 2,
+                    "params": [
+                        {
+                            "name": "",
+                            "value": ""
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+

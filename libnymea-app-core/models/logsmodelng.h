@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QAbstractListModel>
 #include <QDateTime>
+#include <QLineSeries>
 
 class LogEntry;
 class Engine;
@@ -19,6 +20,8 @@ class LogsModelNg : public QAbstractListModel
     Q_PROPERTY(QStringList typeIds READ typeIds WRITE setTypeIds NOTIFY typeIdsChanged)
     Q_PROPERTY(QDateTime startTime READ startTime WRITE setStartTime NOTIFY startTimeChanged)
     Q_PROPERTY(QDateTime endTime READ endTime WRITE setEndTime NOTIFY endTimeChanged)
+
+    Q_PROPERTY(QtCharts::QLineSeries *lineSeries READ lineSeries WRITE setLineSeries NOTIFY lineSeriesChanged)
 
 public:
     enum Roles {
@@ -56,6 +59,9 @@ public:
     QDateTime endTime() const;
     void setEndTime(const QDateTime &endTime);
 
+    QtCharts::QLineSeries *lineSeries() const;
+    void setLineSeries(QtCharts::QLineSeries *lineSeries);
+
 protected:
     virtual void fetchMore(const QModelIndex &parent = QModelIndex()) override;
     virtual bool canFetchMore(const QModelIndex &parent = QModelIndex()) const override;
@@ -69,6 +75,7 @@ signals:
     void startTimeChanged();
     void endTimeChanged();
     void engineChanged();
+    void lineSeriesChanged();
 
 private slots:
     void newLogEntryReceived(const QVariantMap &data);
@@ -88,6 +95,8 @@ private:
     QDateTime m_currentFetchEndTime;
     int m_blockSize = 100;
     bool m_canFetchMore = true;
+
+    QtCharts::QLineSeries *m_lineSeries = nullptr;
 
     QList<QPair<QDateTime, bool> > m_fetchedPeriods;
 };

@@ -18,7 +18,7 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include <QGuiApplication>
+#include <QApplication>
 #include <QCommandLineParser>
 #include <QtQml/QQmlContext>
 #include <QQmlApplicationEngine>
@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
 {
 
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    QGuiApplication application(argc, argv);
+    QApplication application(argc, argv);
     application.setApplicationName("nymea-app");
     application.setOrganizationName("nymea");
 
@@ -71,7 +71,7 @@ int main(int argc, char *argv[])
     applicationFont.setCapitalization(QFont::MixedCase);
     applicationFont.setPixelSize(16);
     applicationFont.setWeight(QFont::Normal);
-    QGuiApplication::setFont(applicationFont);
+    QApplication::setFont(applicationFont);
 
     QTranslator qtTranslator;    
     qtTranslator.load("qt_" + QLocale::system().name(),

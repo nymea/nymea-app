@@ -4,6 +4,7 @@ import QtQuick.Layouts 1.1
 import Nymea 1.0
 import "../components"
 import "../customviews"
+import QtCharts 2.2
 
 Page {
     id: root
@@ -43,6 +44,7 @@ Page {
         deviceId: root.device.id
         typeIds: [root.stateType.id]
         live: true
+        lineSeries: lineSeries1
     }
 
     ColumnLayout {
@@ -57,6 +59,9 @@ Page {
             }
             TabButton {
                 text: qsTr("Graph")
+            }
+            TabButton {
+                text: qsTr("Graph NG")
             }
         }
 
@@ -163,6 +168,63 @@ Page {
                 }
             }
 
+
+            Item {
+                width: swipeView.width
+                height: swipeView.height
+
+                ChartView {
+                    id: chartView
+                    anchors.fill: parent
+                    ValueAxis {
+                        id: yAxis
+                        min: 0
+                        max: 50
+                    }
+
+                    ValueAxis {
+                        id: xAxis
+                        min: Math.floor(startTime.getTime() / 1000)
+                        max: Math.floor(endTime.getTime() / 1000)
+
+                        property date startTime: {
+                            var date = new Date();
+                            date.setHours(date.getHours() - 6);
+                            return date;
+                        }
+
+                        property date endTime: new Date()
+                        Component.onCompleted: print("creating axis:", startTime, endTime)
+                    }
+
+                    LineSeries {
+                        id: lineSeries1
+                        axisX: xAxis
+                        axisY: yAxis
+                    }
+
+                    MouseArea {
+                            anchors.fill: parent
+                            property int lastX: 0
+                            property int lastY: 0
+                            onPressed: {
+                                lastX = mouse.x
+                                lastY = mouse.y
+                            }
+
+                            onPositionChanged: {
+                                if (lastX !== mouse.x) {
+                                    chartView.scrollRight(lastX - mouse.x)
+                                    lastX = mouse.x
+                                }
+                                if (lastY !== mouse.y) {
+                                    chartView.scrollDown(lastY - mouse.y)
+                                    lastY = mouse.y
+                                }
+                            }
+                        }
+                }
+            }
         }
     }
 }
