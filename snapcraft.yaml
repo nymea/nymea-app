@@ -22,6 +22,8 @@ apps:
     environment:
       QT_IM_MODULE: qtvirtualkeyboard
       __EGL_VENDOR_LIBRARY_DIRS: $SNAP/etc/glvnd/egl_vendor.d:$SNAP/usr/share/glvnd/egl_vendor.d
+      QT_PLUGIN_PATH: ${SNAP}/usr/lib/${SNAPCRAFT_ARCH_TRIPLET}/qt5/plugins
+      QML2_IMPORT_PATH: ${SNAP}/usr/lib/${SNAPCRAFT_ARCH_TRIPLET}/qt5/qml
     plugs:
     - avahi-observe
     - bluez
@@ -35,7 +37,6 @@ apps:
 #    restart-condition: always
 
 parts:
-  # Adding the whole guh project containig libguh and plugins
   nymea-app:
     plugin: qmake
     source: .
