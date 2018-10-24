@@ -140,7 +140,7 @@ void WirelessSetupManager::loadNetworks()
     m_readingResponse = true;
     m_inputDataStream.clear();
 
-    setStatusText("WifiSetupManager: Loading wifi network list...");
+    setStatusText("Loading wifi network list...");
     m_working = true;
     emit workingChanged();
 
@@ -167,7 +167,7 @@ void WirelessSetupManager::loadCurrentConnection()
     m_readingResponse = false;
     m_inputDataStream.clear();
 
-    setStatusText("WifiSetupManager: Loading current connection data");
+    setStatusText("Loading current connection data");
     m_working = true;
     emit workingChanged();
 
@@ -191,7 +191,7 @@ void WirelessSetupManager::performWifiScan()
         return;
     }
 
-    setStatusText("WifiSetupManager: Perform refresh...");
+    setStatusText("Perform refresh...");
     m_working = true;
     emit workingChanged();
 

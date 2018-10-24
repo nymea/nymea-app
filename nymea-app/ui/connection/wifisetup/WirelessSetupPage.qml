@@ -10,6 +10,8 @@ Page {
     property var networkManagerController: null
     property var nymeaDiscovery: null
 
+    signal done()
+
     header: GuhHeader {
         text: qsTr("Wireless network setup")
         onBackPressed: {
@@ -101,6 +103,18 @@ Page {
             elide: Text.ElideRight
         }
 
+        RowLayout {
+            Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
+            visible: !connectButton.visible
+            spacing: app.margins
+            Label {
+                Layout.fillWidth: true
+                text: qsTr("Waiting for the %1 box to appear in your network.").arg(app.systemName)
+                wrapMode: Text.WordWrap
+            }
+            BusyIndicator { }
+        }
+
         Button {
             id: connectButton
             visible: url != ""
@@ -130,8 +144,7 @@ Page {
             Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
             text: qsTr("Close wireless setup")
             onClicked: {
-                pageStack.pop()
-                pageStack.pop()
+                root.done()
             }
         }
     }
