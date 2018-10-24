@@ -9,7 +9,7 @@
             "desktop":  "nymea-app.desktop"
         }
     },
-    "version": "1.0.75",
+    "version": "developer-build",
     "maintainer": "Michael Zanetti <michael.zanetti@nymea.io>",
     "framework" : "ubuntu-sdk-15.04.5"
 }
