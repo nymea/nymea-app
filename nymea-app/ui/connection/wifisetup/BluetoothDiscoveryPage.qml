@@ -22,26 +22,35 @@ Page {
         id: networkManager
     }
 
-    function setupDevice(btDeviceInfo) {
+    function connectDevice(btDeviceInfo) {
         networkManager.bluetoothDeviceInfo = btDeviceInfo
         networkManager.connectDevice();
-        pageStack.push(connectingPageComponent)
+        print("**** connecting")
+        pageStack.push(connectingPageComponent, {deviceName: btDeviceInfo.name})
+    }
+
+    function setupDevice() {
+        pageStack.pop(root, StackView.Immediate)
+        if (networkManager.manager.currentConnection) {
+            print("***** pushing WirelessSetupPage with networkManager:", networkManager)
+            var page = pageStack.push(Qt.resolvedUrl("WirelessSetupPage.qml"), { networkManagerController: networkManager, nymeaDiscovery: root.nymeaDiscovery } )
+            page.done.connect(function() {
+                pageStack.pop(root, StackView.Immediate);
+                pageStack.pop();
+            })
+        } else {
+            var page = pageStack.push(Qt.resolvedUrl("ConnectWiFiPage.qml"), { networkManagerController: networkManager } )
+            page.connected.connect(function() {
+                setupDevice();
+            })
+        }
     }
 
     Connections {
         target: networkManager.manager
         onInitializedChanged: {
             if (networkManager.manager.initialized) {
-                if (networkManager.manager.currentConnection) {
-                    print("***** pushing WirelessSetupPage with networkManager:", networkManager)
-                    pageStack.replace(Qt.resolvedUrl("WirelessSetupPage.qml"), { networkManagerController: networkManager, nymeaDiscovery: root.nymeaDiscovery } )
-                } else {
-                    var page = pageStack.replace(Qt.resolvedUrl("ConnectWiFiPage.qml"), { networkManagerController: networkManager } )
-                    page.connected.connect(function() {
-                        print("connected signal received")
-                        pageStack.replace(page, Qt.resolvedUrl("WirelessSetupPage.qml", {NetworkManagerController: networkManager, nymeaDiscovery: root.nymeaDiscovery}))
-                    })
-                }
+                setupDevice()
             } else {
                 pageStack.pop(root)
             }
@@ -85,7 +94,7 @@ Page {
                 subText: model.address
 
                 onClicked: {
-                    root.setupDevice(bluetoothDiscovery.deviceInfos.get(index))
+                    root.connectDevice(bluetoothDiscovery.deviceInfos.get(index))
                 }
             }
         }
@@ -219,6 +228,8 @@ Page {
                 onBackPressed: pageStack.pop()
             }
 
+            property string deviceName
+
             ColumnLayout {
                 anchors { left: parent.left; right: parent.right; verticalCenter: parent.verticalCenter; margins: app.margins }
                 spacing: app.margins
@@ -227,21 +238,11 @@ Page {
                     Layout.alignment: Qt.AlignHCenter
                     running: true
                 }
-
-                Label {
-                    id: workingMessage
-                    Layout.fillWidth: true
-                    Layout.alignment: Qt.AlignHCenter
-                    text: networkManager.manager.statusText
-                    horizontalAlignment: Text.AlignHCenter
-                    wrapMode: Text.WordWrap
-                }
-
                 Label {
                     id: initializingMessage
                     Layout.fillWidth: true
                     Layout.alignment: Qt.AlignHCenter
-                    text: networkManager.manager.initializing ? qsTr("Initializing services...") : ""
+                    text: qsTr("Connecting to %1").arg(connectingPage.deviceName)
                     horizontalAlignment: Text.AlignHCenter
                     wrapMode: Text.WordWrap
                 }
