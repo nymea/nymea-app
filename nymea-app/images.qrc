@@ -148,5 +148,7 @@
         <file>ui/images/view-collapse.svg</file>
         <file>ui/images/view-expand.svg</file>
         <file>ui/images/weather-app-symbolic.svg</file>
+        <file>ui/images/zoom-out.svg</file>
+        <file>ui/images/zoom-in.svg</file>
     </qresource>
 </RCC>

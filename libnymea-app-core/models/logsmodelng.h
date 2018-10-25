@@ -20,8 +20,11 @@ class LogsModelNg : public QAbstractListModel
     Q_PROPERTY(QStringList typeIds READ typeIds WRITE setTypeIds NOTIFY typeIdsChanged)
     Q_PROPERTY(QDateTime startTime READ startTime WRITE setStartTime NOTIFY startTimeChanged)
     Q_PROPERTY(QDateTime endTime READ endTime WRITE setEndTime NOTIFY endTimeChanged)
+    Q_PROPERTY(QVariant minValue READ minValue NOTIFY minValueChanged)
+    Q_PROPERTY(QVariant maxValue READ maxValue NOTIFY maxValueChanged)
 
-    Q_PROPERTY(QtCharts::QLineSeries *lineSeries READ lineSeries WRITE setLineSeries NOTIFY lineSeriesChanged)
+    Q_PROPERTY(QtCharts::QXYSeries *graphSeries READ graphSeries WRITE setGraphSeries NOTIFY graphSeriesChanged)
+    Q_PROPERTY(QDateTime viewStartTime READ viewStartTime WRITE setViewStartTime NOTIFY viewStartTimeChanged)
 
 public:
     enum Roles {
@@ -59,8 +62,14 @@ public:
     QDateTime endTime() const;
     void setEndTime(const QDateTime &endTime);
 
-    QtCharts::QLineSeries *lineSeries() const;
-    void setLineSeries(QtCharts::QLineSeries *lineSeries);
+    QtCharts::QXYSeries *graphSeries() const;
+    void setGraphSeries(QtCharts::QXYSeries *lineSeries);
+
+    QDateTime viewStartTime() const;
+    void setViewStartTime(const QDateTime &viewStartTime);
+
+    QVariant minValue() const;
+    QVariant maxValue() const;
 
 protected:
     virtual void fetchMore(const QModelIndex &parent = QModelIndex()) override;
@@ -75,7 +84,10 @@ signals:
     void startTimeChanged();
     void endTimeChanged();
     void engineChanged();
-    void lineSeriesChanged();
+    void graphSeriesChanged();
+    void viewStartTimeChanged();
+    void minValueChanged();
+    void maxValueChanged();
 
 private slots:
     void newLogEntryReceived(const QVariantMap &data);
@@ -91,12 +103,13 @@ private:
     QStringList m_typeIds;
     QDateTime m_startTime;
     QDateTime m_endTime;
-    QDateTime m_currentFetchStartTime;
-    QDateTime m_currentFetchEndTime;
     int m_blockSize = 100;
     bool m_canFetchMore = true;
+    QDateTime m_viewStartTime;
+    QVariant m_minValue;
+    QVariant m_maxValue;
 
-    QtCharts::QLineSeries *m_lineSeries = nullptr;
+    QtCharts::QXYSeries *m_graphSeries = nullptr;
 
     QList<QPair<QDateTime, bool> > m_fetchedPeriods;
 };

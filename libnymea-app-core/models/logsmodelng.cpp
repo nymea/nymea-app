@@ -7,8 +7,7 @@
 #include "types/logentry.h"
 #include "logmanager.h"
 
-LogsModelNg::LogsModelNg(QObject *parent) : QAbstractListModel(parent),
-    m_lineSeries(new QtCharts::QLineSeries(this))
+LogsModelNg::LogsModelNg(QObject *parent) : QAbstractListModel(parent)
 {
 
 }
@@ -134,14 +133,44 @@ void LogsModelNg::setEndTime(const QDateTime &endTime)
     }
 }
 
-QtCharts::QLineSeries *LogsModelNg::lineSeries() const
+QtCharts::QXYSeries *LogsModelNg::graphSeries() const
 {
-    return m_lineSeries;
+    return m_graphSeries;
 }
 
-void LogsModelNg::setLineSeries(QtCharts::QLineSeries *lineSeries)
+void LogsModelNg::setGraphSeries(QtCharts::QXYSeries *graphSeries)
 {
-    m_lineSeries = lineSeries;
+    m_graphSeries = graphSeries;
+}
+
+QDateTime LogsModelNg::viewStartTime() const
+{
+    return m_viewStartTime;
+}
+
+void LogsModelNg::setViewStartTime(const QDateTime &viewStartTime)
+{
+    if (m_viewStartTime != viewStartTime) {
+        m_viewStartTime = viewStartTime;
+        emit viewStartTimeChanged();
+        if (m_list.count() == 0 || m_list.last()->timestamp() > m_viewStartTime) {
+            if (canFetchMore()) {
+                fetchMore();
+            }
+        }
+    }
+}
+
+QVariant LogsModelNg::minValue() const
+{
+    qDebug() << "returning min value" << m_minValue;
+    return m_minValue;
+}
+
+QVariant LogsModelNg::maxValue() const
+{
+    qDebug() << "returning max value" << m_maxValue;
+    return m_maxValue;
 }
 
 void LogsModelNg::logsReply(const QVariantMap &data)
@@ -179,13 +208,37 @@ void LogsModelNg::logsReply(const QVariantMap &data)
     }
 
     beginInsertRows(QModelIndex(), offset, offset + newBlock.count() - 1);
+    QVariant newMin = m_minValue;
+    QVariant newMax = m_maxValue;
     for (int i = 0; i < newBlock.count(); i++) {
-        m_list.insert(offset + i, newBlock.at(i));
-        qDebug() << "Adding line series point:" << i << newBlock.at(i)->timestamp().toSecsSinceEpoch() << newBlock.at(i)->value().toReal();
-        m_lineSeries->insert(offset + i, QPointF(newBlock.at(i)->timestamp().toSecsSinceEpoch(), newBlock.at(i)->value().toReal()));
+        LogEntry *entry = newBlock.at(i);
+        m_list.insert(offset + i, entry);
+        qDebug() << "Adding line series point:" << i << entry->timestamp().toSecsSinceEpoch() << entry->value().toReal();
+        if (m_graphSeries) {
+            m_graphSeries->insert(offset + i, QPointF(entry->timestamp().toMSecsSinceEpoch(), entry->value().toReal()));
+        }
+        if (!newMin.isValid() || newMin > entry->value()) {
+            newMin = entry->value().toReal();
+        }
+        if (!newMax.isValid() || newMax < entry->value()) {
+            newMax = entry->value().toReal();
+        }
     }
     endInsertRows();
     emit countChanged();
+    qDebug() << "min" << m_minValue << "max" << m_maxValue << "newMin" << newMin << "newMax" << newMax;
+    if (m_minValue != newMin) {
+        m_minValue = newMin;
+        emit minValueChanged();
+    }
+    if (m_maxValue != newMax) {
+        m_maxValue = newMax;
+        emit maxValueChanged();
+    }
+
+    if (m_list.count() > 0 && m_list.last()->timestamp() > m_viewStartTime && canFetchMore()) {
+        fetchMore();
+    }
 }
 
 void LogsModelNg::fetchMore(const QModelIndex &parent)
@@ -225,8 +278,8 @@ void LogsModelNg::fetchMore(const QModelIndex &parent)
     if (!m_startTime.isNull() && !m_endTime.isNull()) {
         QVariantList timeFilters;
         QVariantMap timeFilter;
-        timeFilter.insert("startDate", m_currentFetchStartTime.toSecsSinceEpoch());
-        timeFilter.insert("endDate", m_currentFetchEndTime.toSecsSinceEpoch());
+        timeFilter.insert("startDate", m_startTime.toSecsSinceEpoch());
+        timeFilter.insert("endDate", m_endTime.toSecsSinceEpoch());
         timeFilters.append(timeFilter);
         params.insert("timeFilters", timeFilters);
     }
@@ -271,6 +324,9 @@ void LogsModelNg::newLogEntryReceived(const QVariantMap &data)
     QVariant value = loggingEventType == LogEntry::LoggingEventTypeActiveChange ? entryMap.value("active").toBool() : entryMap.value("value");
     LogEntry *entry = new LogEntry(timeStamp, value, deviceId, typeId, loggingSource, loggingEventType, this);
     m_list.prepend(entry);
+    if (m_graphSeries) {
+        m_graphSeries->insert(0, QPointF(entry->timestamp().toMSecsSinceEpoch(), entry->value().toReal()));
+    }
     endInsertRows();
     emit countChanged();
 

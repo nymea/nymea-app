@@ -1,5 +1,6 @@
-import QtQuick 2.5
-import QtQuick.Controls 2.1
+import QtQuick 2.9
+import QtQuick.Controls 2.2
+import QtQuick.Controls.Material 2.2
 import QtQuick.Layouts 1.1
 import Nymea 1.0
 import "../components"
@@ -44,7 +45,8 @@ Page {
         deviceId: root.device.id
         typeIds: [root.stateType.id]
         live: true
-        lineSeries: lineSeries1
+        graphSeries: lineSeries1
+        viewStartTime: xAxis.min
     }
 
     ColumnLayout {
@@ -163,7 +165,7 @@ Page {
                         engine: _engine
 
                         // Live doesn't work yet with ValueLogsProxyModel
-    //                    live: true
+                        //                    live: true
                     }
                 }
             }
@@ -173,57 +175,146 @@ Page {
                 width: swipeView.width
                 height: swipeView.height
 
-                ChartView {
-                    id: chartView
+                ColumnLayout {
                     anchors.fill: parent
-                    ValueAxis {
-                        id: yAxis
-                        min: 0
-                        max: 50
+                    RowLayout {
+                        Layout.alignment: Qt.AlignRight
+                        HeaderButton {
+                            imageSource: "../images/zoom-in.svg"
+                            onClicked: {
+                                var diff = xAxis.max.getTime() - xAxis.min.getTime()
+                                var newTime = new Date(xAxis.min.getTime() + (diff / 4))
+                                xAxis.min = newTime;
+                            }
+                        }
+                        HeaderButton {
+                            imageSource: "../images/zoom-out.svg"
+                            onClicked: {
+                                var diff = xAxis.max.getTime() - xAxis.min.getTime()
+                                var newTime = new Date(xAxis.min.getTime() - (diff / 4))
+                                xAxis.min = newTime;
+                            }
+                        }
                     }
 
-                    ValueAxis {
-                        id: xAxis
-                        min: Math.floor(startTime.getTime() / 1000)
-                        max: Math.floor(endTime.getTime() / 1000)
+                    ChartView {
+                        id: chartView
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        margins.top: 0
+                        margins.bottom: 0
+                        margins.left: 0
+                        margins.right: 0
+                        backgroundColor: Material.background
+                        animationDuration: 300
+                        animationOptions: ChartView.SeriesAnimations
 
-                        property date startTime: {
-                            var date = new Date();
-                            date.setHours(date.getHours() - 6);
-                            return date;
+                        ValueAxis {
+                            id: yAxis
+                            min: logsModelNg.minValue
+                            max: logsModelNg.maxValue
+                            labelsFont.pixelSize: app.smallFont
+                            tickCount: chartView.height / 40
                         }
 
-                        property date endTime: new Date()
-                        Component.onCompleted: print("creating axis:", startTime, endTime)
-                    }
+                        DateTimeAxis {
+                            id: xAxis
+                            gridVisible: false
+                            tickCount: chartView.width / 70
+                            labelsFont.pixelSize: app.smallFont
+                            format: {
+                                var timeDiff = (xAxis.max.getTime() - xAxis.min.getTime()) / 1000
+                                if (timeDiff < 60) { // one minute
+                                    return "mm:ss"
+                                }
+                                if (timeDiff < 60 * 60) { // one hour
+                                    return "hh:mm"
+                                }
+                                if (timeDiff < 60 * 60 * 24 * 2) { // two day
+                                    return "hh:mm"
+                                }
+                                if (timeDiff < 60 * 60 * 24 * 7) { // one week
+                                    return "ddd hh:mm"
+                                }
+                                if (timeDiff < 60 * 60 * 24 * 7 * 30) { // one month
+                                    return "dd.MM."
+                                }
+                                return "MMM yy"
+                            }
 
-                    LineSeries {
-                        id: lineSeries1
-                        axisX: xAxis
-                        axisY: yAxis
-                    }
+                            min: {
+                                var date = new Date();
+                                date.setHours(date.getHours() - 6);
+                                return date;
+                            }
+                            max: new Date()
+                        }
 
-                    MouseArea {
+                        AreaSeries {
+                            axisX: xAxis
+                            axisY: yAxis
+                            name: root.stateType.displayName
+                            borderColor: app.accentColor
+                            borderWidth: 4
+                            upperSeries: LineSeries {
+                                id: lineSeries1
+                                width: 4
+                            }
+                            color: Qt.rgba(app.accentColor.r, app.accentColor.g, app.accentColor.b, .3)
+                        }
+
+                        MouseArea {
                             anchors.fill: parent
                             property int lastX: 0
                             property int lastY: 0
+
+                            function scrollRightLimited(dx) {
+                                chartView.animationOptions = ChartView.NoAnimation
+                                var now = new Date()
+                                // if we're already at the limit, don't even start scrolling
+                                if (dx < 0 || xAxis.max < now) {
+                                    chartView.scrollRight(dx)
+                                }
+                                // figure out if we scrolled too far
+                                var overshoot = xAxis.max.getTime() - now.getTime()
+                                print("overshoot is:", overshoot, "oldMax", xAxis.max, "newMax", now, "oldMin", xAxis.min, "newMin", new Date(xAxis.min.getTime() - overshoot))
+                                if (overshoot > 0) {
+                                    var range = xAxis.max - xAxis.min
+                                    xAxis.max = now
+                                    xAxis.min = new Date(xAxis.max.getTime() - range)
+                                }
+                                chartView.animationOptions = ChartView.SeriesAnimations
+                            }
+
+                            function zoomInLimited(dy) {
+                                chartView.animationOptions = ChartView.NoAnimation
+                                var oldMax = xAxis.max;
+                                chartView.scrollRight(dy);
+                                var timeDiff = xAxis.max.getTime() - oldMax.getTime()
+                                xAxis.min = new Date(xAxis.min.getTime() - timeDiff * 2)
+                                chartView.animationOptions = ChartView.SeriesAnimations
+                            }
+
                             onPressed: {
                                 lastX = mouse.x
                                 lastY = mouse.y
                             }
 
+                            onWheel: {
+                                scrollRightLimited(-wheel.pixelDelta.x)
+//                                zoomInLimited(wheel.pixelDelta.y)
+                            }
+
                             onPositionChanged: {
                                 if (lastX !== mouse.x) {
-                                    chartView.scrollRight(lastX - mouse.x)
+                                    scrollRightLimited(lastX - mouseX)
                                     lastX = mouse.x
-                                }
-                                if (lastY !== mouse.y) {
-                                    chartView.scrollDown(lastY - mouse.y)
-                                    lastY = mouse.y
                                 }
                             }
                         }
+                    }
                 }
+
             }
         }
     }
