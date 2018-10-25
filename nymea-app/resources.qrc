@@ -60,6 +60,7 @@
         <file>ui/devicepages/MediaDevicePage.qml</file>
         <file>ui/devicepages/ButtonDevicePage.qml</file>
         <file>ui/devicepages/GenericDeviceStateDetailsPage.qml</file>
+        <file>ui/devicepages/GenericDevicePage.qml</file>
         <file>ui/devicepages/WeatherDevicePage.qml</file>
         <file>ui/devicepages/SensorDevicePage.qml</file>
         <file>ui/devicepages/DevicePageBase.qml</file>
