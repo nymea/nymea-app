@@ -12,9 +12,13 @@ Item {
 
     property var device: null
     property var stateType: null
+    property var valueState: device.states.getState(stateType.id)
     readonly property var deviceClass: engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
     readonly property bool hasConnectable: deviceClass.interfaces.indexOf("connectable") >= 0
     readonly property var connectedStateType: hasConnectable ? deviceClass.stateTypes.findByName("connected") : null
+
+    property color color: app.accentColor
+    property string iconSource: ""
 
     LogsModelNg {
         id: logsModelNg
@@ -40,54 +44,34 @@ Item {
         anchors.fill: parent
         spacing: 0
         RowLayout {
-            Layout.alignment: Qt.AlignHCenter
-            HeaderButton {
-                imageSource: "../images/zoom-out.svg"
-                onClicked: {
-                    var diff = xAxis.max.getTime() - xAxis.min.getTime()
-                    var newTime = new Date(xAxis.min.getTime() - (diff / 4))
-                    xAxis.min = newTime;
-                }
+            Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
+            ColorIcon {
+                Layout.preferredHeight: app.iconSize
+                Layout.preferredWidth: app.iconSize
+                name: root.iconSource
+                visible: root.iconSource.length > 0
+                color: root.color
             }
 
             Label {
-                Layout.preferredWidth: 100
-                horizontalAlignment: Text.AlignHCenter
-                text: {
-                    var timeDiff = (xAxis.max.getTime() - xAxis.min.getTime()) / 1000;
-                    if (timeDiff < 60) {
-                        return qsTr("%1 seconds").arg(Math.round(timeDiff));
-                    }
-                    timeDiff = timeDiff / 60
-                    if (timeDiff < 60) {
-                        return qsTr("%1 minutes").arg(Math.round(timeDiff));
-                    }
-                    timeDiff = timeDiff / 60
-                    if (timeDiff < 48) {
-                        return qsTr("%1 hours").arg(Math.round(timeDiff));
-                    }
-                    timeDiff = timeDiff / 24;
-                    if (timeDiff < 14) {
-                        return qsTr("%1 days").arg(Math.round(timeDiff));
-                    }
-                    timeDiff = timeDiff / 7
-                    if (timeDiff < 5) {
-                        return qsTr("%1 weeks").arg(Math.round(timeDiff));
-                    }
-                    timeDiff * timeDiff * 7 / 30
-                    if (timeDiff < 24) {
-                        return qsTr("%1 months").arg(Math.round(timeDiff));
-                    }
-                    timeDiff = timeDiff * 30 / 356
-                    return qsTr("%1 years").arg(Math.round(timeDiff))
+                Layout.fillWidth: true
+                text: root.valueState.value + " " + root.stateType.unitString
+                font.pixelSize: app.largeFont
+            }
+
+            HeaderButton {
+                imageSource: "../images/zoom-out.svg"
+                onClicked: {
+                    var newTime = new Date(xAxis.min.getTime() - (xAxis.timeDiff / 4))
+                    xAxis.min = newTime;
                 }
             }
 
             HeaderButton {
                 imageSource: "../images/zoom-in.svg"
+                enabled: xAxis.timeDiff > (1000 * 60 * 30)
                 onClicked: {
-                    var diff = xAxis.max.getTime() - xAxis.min.getTime()
-                    var newTime = new Date(xAxis.min.getTime() + (diff / 4))
+                    var newTime = new Date(Math.min(xAxis.min.getTime() + (xAxis.timeDiff / 4), xAxis.max.getTime() - (1000 * 60 * 30)))
                     xAxis.min = newTime;
                 }
             }
@@ -102,6 +86,7 @@ Item {
             margins.left: 0
             margins.right: 0
             backgroundColor: Material.background
+            legend.visible: false
             legend.labelColor: app.foregroundColor
 
             animationDuration: 300
@@ -109,8 +94,8 @@ Item {
 
             ValueAxis {
                 id: yAxis
-                min: logsModelNg.minValue
-                max: logsModelNg.maxValue
+                min: logsModelNg.minValue - logsModelNg.minValue * .01
+                max: logsModelNg.maxValue + logsModelNg.maxValue * .01
                 labelsFont.pixelSize: app.smallFont
                 labelsColor: app.foregroundColor
                 tickCount: chartView.height / 40
@@ -132,30 +117,60 @@ Item {
                 tickCount: chartView.width / 70
                 labelsFont.pixelSize: app.smallFont
                 labelsColor: app.foregroundColor
+                property int timeDiff: xAxis.max.getTime() - xAxis.min.getTime()
+
+                function getTimeSpanString() {
+                    var td = timeDiff / 1000
+                    if (td < 60) {
+                        return qsTr("%1 seconds").arg(Math.round(td));
+                    }
+                    td = td / 60
+                    if (td < 60) {
+                        return qsTr("%1 minutes").arg(Math.round(td));
+                    }
+                    td = td / 60
+                    if (td < 48) {
+                        return qsTr("%1 hours").arg(Math.round(td));
+                    }
+                    td = td / 24;
+                    if (td < 14) {
+                        return qsTr("%1 days").arg(Math.round(td));
+                    }
+                    td = td / 7
+                    if (td < 9) {
+                        return qsTr("%1 weeks").arg(Math.round(td));
+                    }
+                    td = td * 7 / 30
+                    if (td < 24) {
+                        return qsTr("%1 months").arg(Math.round(td));
+                    }
+                    td = td * 30 / 356
+                    return qsTr("%1 years").arg(Math.round(td))
+                }
+
                 titleText: {
                     if (xAxis.min.getYear() === xAxis.max.getYear()
                             && xAxis.min.getMonth() === xAxis.max.getMonth()
                             && xAxis.min.getDate() === xAxis.max.getDate()) {
-                        return Qt.formatDate(xAxis.min)
+                        return Qt.formatDate(xAxis.min) + " (" + getTimeSpanString() + ")"
                     }
-                    return Qt.formatDate(xAxis.min) + " - " + Qt.formatDate(xAxis.max)
+                    return Qt.formatDate(xAxis.min) + " - " + Qt.formatDate(xAxis.max) + " (" + getTimeSpanString() + ")"
                 }
                 titleBrush: app.foregroundColor
                 format: {
-                    var timeDiff = (xAxis.max.getTime() - xAxis.min.getTime()) / 1000
-                    if (timeDiff < 60) { // one minute
+                    if (timeDiff < 1000 * 60) { // one minute
                         return "mm:ss"
                     }
-                    if (timeDiff < 60 * 60) { // one hour
+                    if (timeDiff < 1000 * 60 * 60) { // one hour
                         return "hh:mm"
                     }
-                    if (timeDiff < 60 * 60 * 24 * 2) { // two day
+                    if (timeDiff < 1000 * 60 * 60 * 24 * 2) { // two day
                         return "hh:mm"
                     }
-                    if (timeDiff < 60 * 60 * 24 * 7) { // one week
+                    if (timeDiff < 1000 * 60 * 60 * 24 * 7) { // one week
                         return "ddd hh:mm"
                     }
-                    if (timeDiff < 60 * 60 * 24 * 7 * 30) { // one month
+                    if (timeDiff < 1000 * 60 * 60 * 24 * 7 * 30) { // one month
                         return "dd.MM."
                     }
                     return "MMM yy"
@@ -186,17 +201,62 @@ Item {
             }
 
             AreaSeries {
+                id: mainSeries
                 axisX: xAxis
                 axisY: yAxis
                 name: root.stateType.displayName
-                borderColor: app.accentColor
+                borderColor: root.color
                 borderWidth: 4
                 upperSeries: LineSeries {
                     id: lineSeries1
                 }
-                color: Qt.rgba(app.accentColor.r, app.accentColor.g, app.accentColor.b, .3)
+                color: Qt.rgba(root.color.r, root.color.g, root.color.b, .3)
+                onHovered: {
+                    markClosestPoint(point)
+                }
+
+                function markClosestPoint(point) {
+                    var found = false;
+                    if (lineSeries1.count == 1) {
+                        selectedHighlights.removePoints(0, selectedHighlights.count)
+                        selectedHighlights.append(lineSeries1.at(0).x, lineSeries1.at(1).y)
+                        return;
+                    }
+
+                    var searchIndex = Math.floor(lineSeries1.count / 2)
+                    var previousIndex = 0;
+                    var nextIndex = lineSeries1.count - 1;
+
+                    while (previousIndex + 1 != nextIndex) {
+                        if (point.x < lineSeries1.at(searchIndex).x) {
+                            previousIndex = searchIndex;
+                        } else if (point.x > lineSeries1.at(searchIndex).x) {
+                            nextIndex = searchIndex;
+                        }
+                        searchIndex = previousIndex + Math.floor((nextIndex - previousIndex) / 2);
+                    }
+                    var diffToPrevious = Math.abs(point.x - lineSeries1.at(previousIndex).x)
+                    var diffToNext = Math.abs(point.x - lineSeries1.at(nextIndex).x)
+                    var closestPoint = diffToPrevious < diffToNext ? lineSeries1.at(previousIndex) : lineSeries1.at(nextIndex);
+
+                    selectedHighlights.removePoints(0, selectedHighlights.count)
+                    selectedHighlights.append(closestPoint.x, closestPoint.y)
+                }
             }
 
+            ScatterSeries {
+                id: selectedHighlights
+                color: root.color
+                markerSize: 10
+                borderWidth: 2
+                borderColor: root.color
+                axisX: xAxis
+                axisY: yAxis
+                pointLabelsVisible: true
+                pointLabelsColor: app.foregroundColor
+                pointLabelsFont.pixelSize: app.smallFont
+                pointLabelsFormat: "@yPoint"
+            }
 
             MouseArea {
                 anchors.fill: parent
@@ -225,19 +285,20 @@ Item {
                     chartView.animationOptions = ChartView.NoAnimation
                     var oldMax = xAxis.max;
                     chartView.scrollRight(dy);
-                    var timeDiff = xAxis.max.getTime() - oldMax.getTime()
-                    xAxis.min = new Date(xAxis.min.getTime() - timeDiff * 2)
+                    xAxis.min = new Date(xAxis.min.getTime() - xAxis.timeDiff * 2)
                     chartView.animationOptions = ChartView.SeriesAnimations
                 }
 
                 onPressed: {
                     lastX = mouse.x
                     lastY = mouse.y
+                    var pt = chartView.mapToValue(Qt.point(mouse.x, mouse.y), mainSeries)
+                    mainSeries.markClosestPoint(pt)
                 }
 
                 onWheel: {
                     scrollRightLimited(-wheel.pixelDelta.x)
-//                                zoomInLimited(wheel.pixelDelta.y)
+//                    zoomInLimited(wheel.pixelDelta.y)
                 }
 
                 onPositionChanged: {

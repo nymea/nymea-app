@@ -13,6 +13,7 @@ ToolButton {
             id: image
             anchors.fill: parent
             anchors.margins: app.margins / 2
+            opacity: enabled ? 1 : .5
         }
     }
 }

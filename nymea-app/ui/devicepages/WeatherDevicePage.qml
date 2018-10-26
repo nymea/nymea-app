@@ -8,36 +8,16 @@ import "../customviews"
 DevicePageBase {
     id: root
 
-    Flickable {
+    Loader {
         anchors.fill: parent
-        clip: true
-        contentHeight: content.implicitHeight
-        ColumnLayout {
-            id: content
-            width: parent.width
-            WeatherView {
-                Layout.fillWidth: true
-                device: root.device
-                deviceClass: root.deviceClass
+        Component.onCompleted: {
+            var src
+            if (engine.jsonRpcClient.ensureServerVersion("1.10")) {
+                src = "WeatherDevicePagePost110.qml"
+            } else {
+                src = "WeatherDevicePagePre110.qml"
             }
-            SensorView {
-                Layout.fillWidth: true
-                device: root.device
-                deviceClass: root.deviceClass
-                interfaceName: "temperaturesensor"
-            }
-            SensorView {
-                Layout.fillWidth: true
-                device: root.device
-                deviceClass: root.deviceClass
-                interfaceName: "humiditysensor"
-            }
-            SensorView {
-                Layout.fillWidth: true
-                device: root.device
-                deviceClass: root.deviceClass
-                interfaceName: "pressuresensor"
-            }
+            setSource(Qt.resolvedUrl(src), {device: root.device, deviceClass: root.deviceClass})
         }
     }
 }

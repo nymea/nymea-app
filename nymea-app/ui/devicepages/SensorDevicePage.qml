@@ -8,24 +8,16 @@ import "../customviews"
 DevicePageBase {
     id: root
 
-    ListView {
-        anchors { fill: parent }
-        model: ListModel {
-            Component.onCompleted: {
-                var supportedInterfaces = ["temperaturesensor", "humiditysensor", "pressuresensor", "moisturesensor", "lightsensor", "conductivitysensor"]
-                for (var i = 0; i < supportedInterfaces.length; i++) {
-                    print("checking", root.deviceClass.name, root.deviceClass.interfaces)
-                    if (root.deviceClass.interfaces.indexOf(supportedInterfaces[i]) >= 0) {
-                        append({name: supportedInterfaces[i]});
-                    }
-                }
+    Loader {
+        anchors.fill: parent
+        Component.onCompleted: {
+            var src
+            if (engine.jsonRpcClient.ensureServerVersion("1.10")) {
+                src = "SensorDevicePagePost110.qml"
+            } else {
+                src = "SensorDevicePagePre110.qml"
             }
-        }
-        delegate: SensorView {
-            width: parent.width
-            interfaceName: modelData
-            device: root.device
-            deviceClass: root.deviceClass
+            setSource(Qt.resolvedUrl(src), {device: root.device, deviceClass: root.deviceClass})
         }
     }
 }
