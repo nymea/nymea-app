@@ -213,9 +213,39 @@ void LogsModelNg::logsReply(const QVariantMap &data)
     for (int i = 0; i < newBlock.count(); i++) {
         LogEntry *entry = newBlock.at(i);
         m_list.insert(offset + i, entry);
-        qDebug() << "Adding line series point:" << i << entry->timestamp().toSecsSinceEpoch() << entry->value().toReal();
+
         if (m_graphSeries) {
-            m_graphSeries->insert(offset + i, QPointF(entry->timestamp().toMSecsSinceEpoch(), entry->value().toReal()));
+            Device *dev = m_engine->deviceManager()->devices()->getDevice(entry->deviceId());
+            if (dev && dev->deviceClass()->stateTypes()->getStateType(entry->typeId())->type() == "Bool") {
+                // We don't want bools painting triangles, add a toggle point to keep lines straight
+                if (i > 0) {
+                    LogEntry *newerEntry = newBlock.at(i - 1);
+                    if (newerEntry->value().toBool() != entry->value().toBool()) {
+                        qDebug() << "Adding bool line series point:" << (newerEntry->timestamp().addSecs(-1)) << newerEntry->timestamp().addSecs(-1).toMSecsSinceEpoch() << (entry->value().toBool() ? 1 : 0) << "(correction)";
+                        m_graphSeries->append(QPointF(newerEntry->timestamp().addSecs(-1).toMSecsSinceEpoch(), entry->value().toBool() ? 1 : 0));
+                    }
+                }
+                if (m_graphSeries->count() == 0) {
+                    qDebug() << "Adding bool line series point:" << QDateTime::currentDateTime() << QDateTime::currentDateTime().toMSecsSinceEpoch() - 1 << (entry->value().toBool() ? 1 : 0) << "(beginning)";
+                    m_graphSeries->append(QPointF(QDateTime::currentDateTime().toMSecsSinceEpoch(), 1));// entry->value().toBool() ? 1 : 0));
+                    m_graphSeries->append(QPointF(QDateTime::currentDateTime().toMSecsSinceEpoch(), entry->value().toBool() ? 1 : 0));
+                }
+                qDebug() << "Adding bool line series point:" << entry->timestamp() << entry->timestamp().toMSecsSinceEpoch() << (entry->value().toBool() ? 1 : 0);
+                m_graphSeries->append(QPointF(entry->timestamp().toMSecsSinceEpoch(), entry->value().toBool() ? 1 : 0));
+            } else {
+//                if (i > 0) {
+//                    LogEntry *newerEntry = newBlock.at(i - 1);
+//                    if (newerEntry->value() != entry->value()) {
+//                        qDebug() << "Adding line series point:" << (offset + i) << newerEntry->timestamp().toMSecsSinceEpoch() - 1 << (entry->value().toReal()) << "(correction)";
+//                        m_graphSeries->append(QPointF(newerEntry->timestamp().toMSecsSinceEpoch() - 1, entry->value().toReal()));
+//                    }
+//                }
+                if (m_graphSeries->count() == 0) {
+                    m_graphSeries->insert(0, QPointF(QDateTime::currentDateTime().toMSecsSinceEpoch(), entry->value().toReal()));
+                }
+                qDebug() << "Adding line series point:" << (offset + i) << entry->timestamp().toMSecsSinceEpoch() << (entry->value().toReal());
+                m_graphSeries->append(QPointF(entry->timestamp().toMSecsSinceEpoch(), entry->value().toReal()));
+            }
         }
         if (!newMin.isValid() || newMin > entry->value()) {
             newMin = entry->value().toReal();
@@ -236,7 +266,7 @@ void LogsModelNg::logsReply(const QVariantMap &data)
         emit maxValueChanged();
     }
 
-    if (m_list.count() > 0 && m_list.last()->timestamp() > m_viewStartTime && canFetchMore()) {
+    if (m_viewStartTime.isValid() && m_list.count() > 0 && m_list.last()->timestamp() > m_viewStartTime && canFetchMore()) {
         fetchMore();
     }
 }
@@ -246,8 +276,8 @@ void LogsModelNg::fetchMore(const QModelIndex &parent)
     Q_UNUSED(parent)
     qDebug() << "fetchMore called";
 
-    if (!m_engine->jsonRpcClient()) {
-        qWarning() << "Cannot update. JsonRpcClient not set";
+    if (!m_engine) {
+        qWarning() << "Cannot update. Engine not set";
         return;
     }
     if (m_busy) {
@@ -294,8 +324,8 @@ void LogsModelNg::fetchMore(const QModelIndex &parent)
 bool LogsModelNg::canFetchMore(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    qDebug() << "canFetchMore" << m_canFetchMore;
-    return m_canFetchMore;
+    qDebug() << "canFetchMore" << (m_engine && m_canFetchMore);
+    return m_engine && m_canFetchMore;
 }
 
 void LogsModelNg::newLogEntryReceived(const QVariantMap &data)

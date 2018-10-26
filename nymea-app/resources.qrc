@@ -127,5 +127,7 @@
         <file>translations/nymea-app-de_DE.qm</file>
         <file>translations/nymea-app-en_US.qm</file>
         <file>../LICENSE</file>
+        <file>ui/customviews/GenericTypeGraphPre110.qml</file>
+        <file>ui/customviews/GenericTypeGraph.qml</file>
     </qresource>
 </RCC>
