@@ -62,16 +62,16 @@ Item {
             HeaderButton {
                 imageSource: "../images/zoom-out.svg"
                 onClicked: {
-                    var newTime = new Date(xAxis.min.getTime() - (xAxis.timeDiff / 4))
+                    var newTime = new Date(xAxis.min.getTime() - (xAxis.timeDiff * 1000 / 4))
                     xAxis.min = newTime;
                 }
             }
 
             HeaderButton {
                 imageSource: "../images/zoom-in.svg"
-                enabled: xAxis.timeDiff > (1000 * 60 * 30)
+                enabled: xAxis.timeDiff > (60 * 30)
                 onClicked: {
-                    var newTime = new Date(Math.min(xAxis.min.getTime() + (xAxis.timeDiff / 4), xAxis.max.getTime() - (1000 * 60 * 30)))
+                    var newTime = new Date(Math.min(xAxis.min.getTime() + (xAxis.timeDiff * 1000 / 4), xAxis.max.getTime() - (1000 * 60 * 30)))
                     xAxis.min = newTime;
                 }
             }
@@ -94,8 +94,8 @@ Item {
 
             ValueAxis {
                 id: yAxis
-                min: logsModelNg.minValue - logsModelNg.minValue * .01
-                max: logsModelNg.maxValue + logsModelNg.maxValue * .01
+                min: logsModelNg.minValue - logsModelNg.minValue * .05
+                max: logsModelNg.maxValue + logsModelNg.maxValue * .05
                 labelsFont.pixelSize: app.smallFont
                 labelsColor: app.foregroundColor
                 tickCount: chartView.height / 40
@@ -117,10 +117,11 @@ Item {
                 tickCount: chartView.width / 70
                 labelsFont.pixelSize: app.smallFont
                 labelsColor: app.foregroundColor
-                property int timeDiff: xAxis.max.getTime() - xAxis.min.getTime()
+                property int timeDiff: (xAxis.max.getTime() - xAxis.min.getTime()) / 1000
+                onTimeDiffChanged: print("timeDiff is:", timeDiff)
 
                 function getTimeSpanString() {
-                    var td = timeDiff / 1000
+                    var td = timeDiff
                     if (td < 60) {
                         return qsTr("%1 seconds").arg(Math.round(td));
                     }
@@ -158,19 +159,19 @@ Item {
                 }
                 titleBrush: app.foregroundColor
                 format: {
-                    if (timeDiff < 1000 * 60) { // one minute
+                    if (timeDiff < 60) { // one minute
                         return "mm:ss"
                     }
-                    if (timeDiff < 1000 * 60 * 60) { // one hour
+                    if (timeDiff < 60 * 60) { // one hour
                         return "hh:mm"
                     }
-                    if (timeDiff < 1000 * 60 * 60 * 24 * 2) { // two day
+                    if (timeDiff < 60 * 60 * 24 * 2) { // two day
                         return "hh:mm"
                     }
-                    if (timeDiff < 1000 * 60 * 60 * 24 * 7) { // one week
+                    if (timeDiff < 60 * 60 * 24 * 7) { // one week
                         return "ddd hh:mm"
                     }
-                    if (timeDiff < 1000 * 60 * 60 * 24 * 7 * 30) { // one month
+                    if (timeDiff < 60 * 60 * 24 * 7 * 30) { // one month
                         return "dd.MM."
                     }
                     return "MMM yy"
@@ -198,6 +199,7 @@ Item {
                     id: connectedLineSeries
                 }
                 color: "#55ff0000"
+                borderWidth: 0
             }
 
             AreaSeries {
@@ -256,7 +258,14 @@ Item {
                 pointLabelsColor: app.foregroundColor
                 pointLabelsFont.pixelSize: app.smallFont
                 pointLabelsFormat: "@yPoint"
+                pointLabelsClipping: false
             }
+
+            BusyIndicator {
+                anchors.centerIn: parent
+                visible: logsModelNg.busy
+            }
+
 
             MouseArea {
                 anchors.fill: parent
@@ -285,13 +294,15 @@ Item {
                     chartView.animationOptions = ChartView.NoAnimation
                     var oldMax = xAxis.max;
                     chartView.scrollRight(dy);
-                    xAxis.min = new Date(xAxis.min.getTime() - xAxis.timeDiff * 2)
+                    xAxis.min = new Date(xAxis.min.getTime() - xAxis.timeDiff * 1000 * 2)
                     chartView.animationOptions = ChartView.SeriesAnimations
                 }
 
                 onPressed: {
                     lastX = mouse.x
                     lastY = mouse.y
+                }
+                onClicked: {
                     var pt = chartView.mapToValue(Qt.point(mouse.x, mouse.y), mainSeries)
                     mainSeries.markClosestPoint(pt)
                 }

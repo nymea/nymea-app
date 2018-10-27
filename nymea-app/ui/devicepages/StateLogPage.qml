@@ -17,6 +17,8 @@ Page {
         case "Int":
         case "Double":
             return true;
+        case "Bool":
+            return engine.jsonRpcClient.ensureServerVersion("1.10")
         }
         print("not showing graph for", root.stateType.type)
         return false;

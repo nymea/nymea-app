@@ -226,12 +226,20 @@ void LogsModelNg::logsReply(const QVariantMap &data)
                     }
                 }
                 if (m_graphSeries->count() == 0) {
+                    // If it's the first one, make sure we add an ending point at 1
                     qDebug() << "Adding bool line series point:" << QDateTime::currentDateTime() << QDateTime::currentDateTime().toMSecsSinceEpoch() - 1 << (entry->value().toBool() ? 1 : 0) << "(beginning)";
-                    m_graphSeries->append(QPointF(QDateTime::currentDateTime().toMSecsSinceEpoch(), 1));// entry->value().toBool() ? 1 : 0));
+                    m_graphSeries->append(QPointF(QDateTime::currentDateTime().toMSecsSinceEpoch(), 1));
                     m_graphSeries->append(QPointF(QDateTime::currentDateTime().toMSecsSinceEpoch(), entry->value().toBool() ? 1 : 0));
+                } else if (i == 0) {
+                    // Adding a new batch...  remove the last appended 1 from the previous batch
+                    m_graphSeries->remove(m_graphSeries->count() - 1);
                 }
                 qDebug() << "Adding bool line series point:" << entry->timestamp() << entry->timestamp().toMSecsSinceEpoch() << (entry->value().toBool() ? 1 : 0);
                 m_graphSeries->append(QPointF(entry->timestamp().toMSecsSinceEpoch(), entry->value().toBool() ? 1 : 0));
+                if (i == newBlock.count() - 1) {
+                    // End the batch at 1 again
+                    m_graphSeries->append(QPointF(entry->timestamp().addSecs(-1).toMSecsSinceEpoch(), 1));
+                }
             } else {
 //                if (i > 0) {
 //                    LogEntry *newerEntry = newBlock.at(i - 1);
