@@ -9,10 +9,11 @@ import QtCharts 2.2
 
 Item {
     id: root
+    implicitHeight: width * .6
 
     property var device: null
     property var stateType: null
-    property var valueState: device.states.getState(stateType.id)
+    readonly property var valueState: device.states.getState(stateType.id)
     readonly property var deviceClass: engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
     readonly property bool hasConnectable: deviceClass.interfaces.indexOf("connectable") >= 0
     readonly property var connectedStateType: hasConnectable ? deviceClass.stateTypes.findByName("connected") : null
@@ -94,8 +95,8 @@ Item {
 
             ValueAxis {
                 id: yAxis
-                min: logsModelNg.minValue - logsModelNg.minValue * .05
-                max: logsModelNg.maxValue + logsModelNg.maxValue * .05
+                max: logsModelNg.maxValue + Math.abs(logsModelNg.maxValue * .05)
+                min: logsModelNg.minValue - Math.abs(logsModelNg.minValue * .05)
                 labelsFont.pixelSize: app.smallFont
                 labelsColor: app.foregroundColor
                 tickCount: chartView.height / 40
@@ -179,10 +180,14 @@ Item {
 
                 min: {
                     var date = new Date();
-                    date.setHours(date.getHours() - 6);
+                    date.setTime(date.getTime() - (1000 * 60 * 60 * 6) + 2000);
                     return date;
                 }
-                max: new Date()
+                max: {
+                    var date = new Date();
+                    date.setTime(date.getTime() + 2000)
+                    return date;
+                }
             }
 
             AreaSeries {
@@ -209,8 +214,38 @@ Item {
                 name: root.stateType.displayName
                 borderColor: root.color
                 borderWidth: 4
+                lowerSeries: LineSeries {
+                    id: lineSeries0
+                    XYPoint { x: xAxis.max.getTime(); y: 0 }
+                    XYPoint { x: xAxis.min.getTime(); y: 0 }
+                }
+
                 upperSeries: LineSeries {
                     id: lineSeries1
+                    onPointAdded: {
+                        var newPoint = lineSeries1.at(index)
+
+                        if (newPoint.x > lineSeries0.at(0).x) {
+                            lineSeries0.replace(0, newPoint.x, 0)
+                        }
+                        if (newPoint.x < lineSeries0.at(1).x) {
+                            lineSeries0.replace(1, newPoint.x, 0)
+                        }
+
+                        if (newPoint.x <= xAxis.max.getTime() || logsModelNg.busy) {
+                            return;
+                        }
+
+                        var diffMaxToNew = newPoint.x - xAxis.max.getTime();
+                        print("diffToNew is", diffMaxToNew)
+                        if (diffMaxToNew < 1000 * 60 * 5) {
+                            chartView.animationOptions = ChartView.NoAnimation
+                            var newMin = xAxis.min.getTime()  + diffMaxToNew;
+                            xAxis.max = new Date(newPoint.x);
+                            xAxis.min = new Date(newMin)
+                            chartView.animationOptions = ChartView.SeriesAnimations
+                        }
+                    }
                 }
                 color: Qt.rgba(root.color.r, root.color.g, root.color.b, .3)
                 onHovered: {
@@ -268,9 +303,13 @@ Item {
 
 
             MouseArea {
-                anchors.fill: parent
+                x: chartView.plotArea.x
+                y: chartView.plotArea.y
+                width: chartView.plotArea.width
+                height: chartView.plotArea.height
                 property int lastX: 0
                 property int lastY: 0
+                preventStealing: false
 
                 function scrollRightLimited(dx) {
                     chartView.animationOptions = ChartView.NoAnimation
@@ -303,7 +342,7 @@ Item {
                     lastY = mouse.y
                 }
                 onClicked: {
-                    var pt = chartView.mapToValue(Qt.point(mouse.x, mouse.y), mainSeries)
+                    var pt = chartView.mapToValue(Qt.point(mouse.x + chartView.plotArea.x, mouse.y + chartView.plotArea.y), mainSeries)
                     mainSeries.markClosestPoint(pt)
                 }
 

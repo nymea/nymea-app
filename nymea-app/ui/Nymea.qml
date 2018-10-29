@@ -53,7 +53,7 @@ ApplicationWindow {
         rootItem.handleCloseEvent(close)
     }
 
-    property var supportedInterfaces: ["light", "weather", "sensor", "media", "garagegate", "awning", "shutter", "blind", "accesscontrol", "button", "notifications", "inputtrigger", "outputtrigger", "gateway"]
+    property var supportedInterfaces: ["light", "weather", "sensor", "media", "garagegate", "awning", "shutter", "blind", "smartmeter", "accesscontrol", "button", "notifications", "inputtrigger", "outputtrigger", "gateway"]
     function interfaceToString(name) {
         switch(name) {
         case "light":
@@ -93,6 +93,8 @@ ApplicationWindow {
             return qsTr("Garage gates");
         case "accesscontrol":
             return qsTr("Access control");
+        case "smartmeter":
+            return qsTr("Smart meter");
         case "uncategorized":
             return qsTr("Uncategorized")
         default:
@@ -149,8 +151,6 @@ ApplicationWindow {
             return Qt.resolvedUrl("images/network-wired-symbolic.svg")
         case "notifications":
             return Qt.resolvedUrl("images/notification.svg")
-        case "connectable":
-            return Qt.resolvedUrl("images/stock_link.svg")
         case "inputtrigger":
             return Qt.resolvedUrl("images/attention.svg")
         case "outputtrigger":
@@ -175,6 +175,14 @@ ApplicationWindow {
             return Qt.resolvedUrl("images/fingerprint.svg")
         case "accesscontrol":
             return Qt.resolvedUrl("images/network-secure.svg");
+        case "smartmeter":
+        case "smartmeterconsumer":
+        case "smartmeterproducer":
+        case "extendedsmartmeterconsumer":
+        case "extendedsmartmeterproducer":
+            return Qt.resolvedUrl("images/smartmeter.svg")
+        case "connectable":
+            return Qt.resolvedUrl("images/stock_link.svg")
         default:
             console.warn("InterfaceToIcon: Unhandled interface", name)
         }
@@ -187,7 +195,11 @@ ApplicationWindow {
         "moisturesensor":"blue",
         "lightsensor": "orange",
         "conductivitysensor": "green",
-        "pressuresensor": "grey"
+        "pressuresensor": "grey",
+        "smartmeterproducer": "lightgreen",
+        "smartmeterconsumer": "orange",
+        "extendedsmartmeterproducer": "blue",
+        "extendedsmartmeterconsumer": "blue"
     }
 
     function interfaceToColor(name) {
@@ -244,6 +256,8 @@ ApplicationWindow {
             page = "NotificationsDevicePage.qml";
         } else if (interfaceList.indexOf("fingerprintreader") >= 0) {
             page = "FingerprintReaderDevicePage.qml";
+        } else if (interfaceList.indexOf("smartmeter") >= 0) {
+            page = "SmartMeterDevicePage.qml"
         } else {
             page = "GenericDevicePage.qml";
         }

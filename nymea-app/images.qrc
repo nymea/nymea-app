@@ -150,5 +150,6 @@
         <file>ui/images/weather-app-symbolic.svg</file>
         <file>ui/images/zoom-out.svg</file>
         <file>ui/images/zoom-in.svg</file>
+        <file>ui/images/smartmeter.svg</file>
     </qresource>
 </RCC>

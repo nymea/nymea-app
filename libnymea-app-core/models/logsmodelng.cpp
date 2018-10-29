@@ -163,13 +163,13 @@ void LogsModelNg::setViewStartTime(const QDateTime &viewStartTime)
 
 QVariant LogsModelNg::minValue() const
 {
-    qDebug() << "returning min value" << m_minValue;
+//    qDebug() << "returning min value" << m_minValue;
     return m_minValue;
 }
 
 QVariant LogsModelNg::maxValue() const
 {
-    qDebug() << "returning max value" << m_maxValue;
+//    qDebug() << "returning max value" << m_maxValue;
     return m_maxValue;
 }
 
@@ -177,8 +177,6 @@ void LogsModelNg::logsReply(const QVariantMap &data)
 {
 //    qDebug() << "logs reply" << data;
 
-    m_busy = false;
-    emit busyChanged();
 
     int offset = data.value("params").toMap().value("offset").toInt();
     int count = data.value("params").toMap().value("count").toInt();
@@ -221,20 +219,20 @@ void LogsModelNg::logsReply(const QVariantMap &data)
                 if (i > 0) {
                     LogEntry *newerEntry = newBlock.at(i - 1);
                     if (newerEntry->value().toBool() != entry->value().toBool()) {
-                        qDebug() << "Adding bool line series point:" << (newerEntry->timestamp().addSecs(-1)) << newerEntry->timestamp().addSecs(-1).toMSecsSinceEpoch() << (entry->value().toBool() ? 1 : 0) << "(correction)";
+//                        qDebug() << "Adding bool line series point:" << (newerEntry->timestamp().addSecs(-1)) << newerEntry->timestamp().addSecs(-1).toMSecsSinceEpoch() << (entry->value().toBool() ? 1 : 0) << "(correction)";
                         m_graphSeries->append(QPointF(newerEntry->timestamp().addSecs(-1).toMSecsSinceEpoch(), entry->value().toBool() ? 1 : 0));
                     }
                 }
                 if (m_graphSeries->count() == 0) {
                     // If it's the first one, make sure we add an ending point at 1
-                    qDebug() << "Adding bool line series point:" << QDateTime::currentDateTime() << QDateTime::currentDateTime().toMSecsSinceEpoch() - 1 << (entry->value().toBool() ? 1 : 0) << "(beginning)";
+//                    qDebug() << "Adding bool line series point:" << QDateTime::currentDateTime() << QDateTime::currentDateTime().toMSecsSinceEpoch() - 1 << (entry->value().toBool() ? 1 : 0) << "(beginning)";
                     m_graphSeries->append(QPointF(QDateTime::currentDateTime().toMSecsSinceEpoch(), 1));
                     m_graphSeries->append(QPointF(QDateTime::currentDateTime().toMSecsSinceEpoch(), entry->value().toBool() ? 1 : 0));
                 } else if (i == 0) {
                     // Adding a new batch...  remove the last appended 1 from the previous batch
                     m_graphSeries->remove(m_graphSeries->count() - 1);
                 }
-                qDebug() << "Adding bool line series point:" << entry->timestamp() << entry->timestamp().toMSecsSinceEpoch() << (entry->value().toBool() ? 1 : 0);
+//                qDebug() << "Adding bool line series point:" << entry->timestamp() << entry->timestamp().toMSecsSinceEpoch() << (entry->value().toBool() ? 1 : 0);
                 m_graphSeries->append(QPointF(entry->timestamp().toMSecsSinceEpoch(), entry->value().toBool() ? 1 : 0));
                 if (i == newBlock.count() - 1) {
                     // End the batch at 1 again
@@ -248,8 +246,10 @@ void LogsModelNg::logsReply(const QVariantMap &data)
 //                        m_graphSeries->append(QPointF(newerEntry->timestamp().toMSecsSinceEpoch() - 1, entry->value().toReal()));
 //                    }
 //                }
+
                 if (m_graphSeries->count() == 0) {
-                    m_graphSeries->insert(0, QPointF(QDateTime::currentDateTime().toMSecsSinceEpoch(), entry->value().toReal()));
+                    qDebug() << "Adding 1st line series point:" << (offset + i) << QDateTime::currentDateTime().toMSecsSinceEpoch() << entry->value().toReal();
+                    m_graphSeries->append(QPointF(QDateTime::currentDateTime().toMSecsSinceEpoch(), entry->value().toReal()));
                 }
                 qDebug() << "Adding line series point:" << (offset + i) << entry->timestamp().toMSecsSinceEpoch() << (entry->value().toReal());
                 m_graphSeries->append(QPointF(entry->timestamp().toMSecsSinceEpoch(), entry->value().toReal()));
@@ -264,7 +264,7 @@ void LogsModelNg::logsReply(const QVariantMap &data)
     }
     endInsertRows();
     emit countChanged();
-    qDebug() << "min" << m_minValue << "max" << m_maxValue << "newMin" << newMin << "newMax" << newMax;
+//    qDebug() << "min" << m_minValue << "max" << m_maxValue << "newMin" << newMin << "newMax" << newMax;
     if (m_minValue != newMin) {
         m_minValue = newMin;
         emit minValueChanged();
@@ -274,6 +274,9 @@ void LogsModelNg::logsReply(const QVariantMap &data)
         emit maxValueChanged();
     }
 
+    m_busy = false;
+    emit busyChanged();
+
     if (m_viewStartTime.isValid() && m_list.count() > 0 && m_list.last()->timestamp() > m_viewStartTime && canFetchMore()) {
         fetchMore();
     }
@@ -282,7 +285,7 @@ void LogsModelNg::logsReply(const QVariantMap &data)
 void LogsModelNg::fetchMore(const QModelIndex &parent)
 {
     Q_UNUSED(parent)
-    qDebug() << "fetchMore called";
+//    qDebug() << "fetchMore called";
 
     if (!m_engine) {
         qWarning() << "Cannot update. Engine not set";
@@ -326,13 +329,13 @@ void LogsModelNg::fetchMore(const QModelIndex &parent)
     params.insert("offset", m_list.count());
 
     m_engine->jsonRpcClient()->sendCommand("Logging.GetLogEntries", params, this, "logsReply");
-    qDebug() << "GetLogEntries called";
+//    qDebug() << "GetLogEntries called";
 }
 
 bool LogsModelNg::canFetchMore(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    qDebug() << "canFetchMore" << (m_engine && m_canFetchMore);
+//    qDebug() << "canFetchMore" << (m_engine && m_canFetchMore);
     return m_engine && m_canFetchMore;
 }
 
@@ -364,6 +367,15 @@ void LogsModelNg::newLogEntryReceived(const QVariantMap &data)
     m_list.prepend(entry);
     if (m_graphSeries) {
         m_graphSeries->insert(0, QPointF(entry->timestamp().toMSecsSinceEpoch(), entry->value().toReal()));
+        if (m_minValue > entry->value().toReal()) {
+            m_minValue = entry->value().toReal();
+            emit minValueChanged();
+        }
+        if (m_maxValue < entry->value().toReal()) {
+            m_maxValue = entry->value().toReal();
+            emit maxValueChanged();
+        }
+
     }
     endInsertRows();
     emit countChanged();

@@ -18,10 +18,21 @@ ListView {
             }
         }
     }
-    delegate: SensorChart {
+    delegate: GenericTypeGraph {
         width: parent.width
-        interfaceName: modelData
         device: root.device
-        deviceClass: root.deviceClass
+        stateType: root.deviceClass.stateTypes.findByName(stateTypeName)
+        color: app.interfaceToColor(modelData)
+        iconSource: app.interfaceToIcon(modelData)
+
+        implicitHeight: width * .6
+        property string stateTypeName: {
+            switch (modelData) {
+            case "lightsensor":
+                return "lightIntensity";
+            default:
+                return modelData.replace("sensor", "");
+            }
+        }
     }
 }

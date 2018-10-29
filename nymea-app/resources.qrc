@@ -57,6 +57,7 @@
         <file>ui/customviews/MediaControllerView.qml</file>
         <file>ui/customviews/SensorView.qml</file>
         <file>ui/customviews/NotificationsView.qml</file>
+        <file>ui/customviews/ExtendedVolumeController.qml</file>
         <file>ui/devicepages/MediaDevicePage.qml</file>
         <file>ui/devicepages/ButtonDevicePage.qml</file>
         <file>ui/devicepages/GenericDeviceStateDetailsPage.qml</file>
@@ -133,6 +134,6 @@
         <file>../LICENSE</file>
         <file>ui/customviews/GenericTypeGraphPre110.qml</file>
         <file>ui/customviews/GenericTypeGraph.qml</file>
-        <file>ui/customviews/SensorChart.qml</file>
+        <file>ui/devicepages/SmartMeterDevicePage.qml</file>
     </qresource>
 </RCC>
