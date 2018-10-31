@@ -202,6 +202,8 @@ void LogsModelNg::logsReply(const QVariantMap &data)
     }
 
     if (newBlock.isEmpty()) {
+        m_busy = false;
+        emit busyChanged();
         return;
     }
 
@@ -248,10 +250,10 @@ void LogsModelNg::logsReply(const QVariantMap &data)
 //                }
 
                 if (m_graphSeries->count() == 0) {
-                    qDebug() << "Adding 1st line series point:" << (offset + i) << QDateTime::currentDateTime().toMSecsSinceEpoch() << entry->value().toReal();
+//                    qDebug() << "Adding 1st line series point:" << (offset + i) << QDateTime::currentDateTime().toMSecsSinceEpoch() << entry->value().toReal();
                     m_graphSeries->append(QPointF(QDateTime::currentDateTime().toMSecsSinceEpoch(), entry->value().toReal()));
                 }
-                qDebug() << "Adding line series point:" << (offset + i) << entry->timestamp().toMSecsSinceEpoch() << (entry->value().toReal());
+//                qDebug() << "Adding line series point:" << (offset + i) << entry->timestamp().toMSecsSinceEpoch() << (entry->value().toReal());
                 m_graphSeries->append(QPointF(entry->timestamp().toMSecsSinceEpoch(), entry->value().toReal()));
             }
         }

@@ -25,6 +25,9 @@ MainPageTile {
         case "light":
             page = "LightsDeviceListPage.qml"
             break;
+        case "smartmeter":
+            page ="SmartMeterDeviceListPage.qml";
+            break;
         default:
             page = "GenericDeviceListPage.qml"
         }
@@ -65,6 +68,10 @@ MainPageTile {
             switch (model.name) {
             case "sensor":
             case "weather":
+            case "smartmeterconsumer":
+            case "smartmeterproducer":
+            case "extendedsmartmeterconsumer":
+            case "extendedsmartmeterproducer":
                 return labelComponent;
 
             case "light":

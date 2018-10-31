@@ -135,5 +135,6 @@
         <file>ui/customviews/GenericTypeGraphPre110.qml</file>
         <file>ui/customviews/GenericTypeGraph.qml</file>
         <file>ui/devicepages/SmartMeterDevicePage.qml</file>
+        <file>ui/devicelistpages/SmartMeterDeviceListPage.qml</file>
     </qresource>
 </RCC>

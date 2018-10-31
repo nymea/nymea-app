@@ -81,23 +81,6 @@ Page {
                 }
             }
 
-            RowLayout {
-                Layout.fillWidth: true; Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
-                Label {
-                    Layout.fillWidth: true
-                    text: qsTr("Graph style")
-                }
-                RadioButton {
-                    checked: settings.graphStyle === "bars"
-                    text: qsTr("Bars")
-                    onClicked: settings.graphStyle = "bars"
-                }
-                RadioButton {
-                    checked: settings.graphStyle === "bezier"
-                    text: qsTr("Lines")
-                    onClicked: settings.graphStyle = "bezier"
-                }
-            }
             CheckDelegate {
                 Layout.fillWidth: true
                 text: qsTr("Return to home on idle")
