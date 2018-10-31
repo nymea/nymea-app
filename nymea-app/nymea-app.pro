@@ -124,3 +124,6 @@ BR=$$BRANDING
 target.path = /usr/bin
 INSTALLS += target
 
+DISTFILES += \
+    ruletemplates/smartmetertemplates.json
+

@@ -74,14 +74,26 @@ DeviceListPageBase {
                             Layout.margins: app.margins
                             Repeater {
                                 model: ListModel {
-                                    ListElement { interfaceName: "smartmeterproducer"; stateName: "totalEnergyProduced" }
-                                    ListElement { interfaceName: "smartmeterconsumer"; stateName: "totalEnergyConsumed" }
-                                    ListElement { interfaceName: "extendedsmartmeterproducer"; stateName: "currentPower" }
+                                    Component.onCompleted: {
+                                        if (itemDelegate.deviceClass.interfaces.indexOf("smartmeterproducer") >= 0) {
+                                            append( {interfaceName: "smartmeterproducer", stateName: "totalEnergyProduced" })
+                                        }
+                                        if (itemDelegate.deviceClass.interfaces.indexOf("smartmeterconsumer") >= 0) {
+                                            append( {interfaceName: "smartmeterconsumer", stateName: "totalEnergyConsumed" })
+                                        }
+                                        var added = false;
+                                        if (itemDelegate.deviceClass.interfaces.indexOf("extendedsmartmeterproducer") >= 0) {
+                                            append({interfaceName: "extendedsmartmeterconsumer", stateName: "currentPower"});
+                                            added = true;
+                                        }
+                                        if (!added && itemDelegate.deviceClass.interfaces.indexOf("extendedsmartmeterconsumer") >= 0) {
+                                            append({interfaceName: "extendedsmartmeterconsumer", stateName: "currentPower"});
+                                        }
+                                    }
                                 }
 
                                 delegate: RowLayout {
                                     id: sensorValueDelegate
-                                    visible: itemDelegate.deviceClass.interfaces.indexOf(model.interfaceName) >= 0
                                     Layout.preferredWidth: contentItem.width / dataGrid.columns
 
                                     property var stateType: itemDelegate.deviceClass.stateTypes.findByName(model.stateName)
@@ -98,7 +110,7 @@ DeviceListPageBase {
                                     Label {
                                         Layout.fillWidth: true
                                         text: sensorValueDelegate.stateValue
-                                              ? "%1 %2".arg(sensorValueDelegate.stateValue.value).arg(sensorValueDelegate.stateType.unitString)
+                                              ? "%1 %2".arg(1.0 * Math.round(sensorValueDelegate.stateValue.value * 100000) / 100000).arg(sensorValueDelegate.stateType.unitString)
                                               : ""
                                         elide: Text.ElideRight
                                         verticalAlignment: Text.AlignVCenter
@@ -106,8 +118,7 @@ DeviceListPageBase {
                                     }
                                 }
                             }
-                    }
-
+                        }
                     }
                     onClicked: {
                         enterPage(index, false)

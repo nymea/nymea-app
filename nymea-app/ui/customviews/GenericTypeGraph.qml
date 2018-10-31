@@ -13,6 +13,7 @@ Item {
 
     property var device: null
     property var stateType: null
+    property int roundTo: 2
     readonly property var valueState: device.states.getState(stateType.id)
     readonly property var deviceClass: engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
     readonly property bool hasConnectable: deviceClass.interfaces.indexOf("connectable") >= 0
@@ -56,7 +57,7 @@ Item {
 
             Label {
                 Layout.fillWidth: true
-                text: root.valueState.value + " " + root.stateType.unitString
+                text: 1.0 * Math.round(root.valueState.value * Math.pow(10, root.roundTo)) / Math.pow(10, root.roundTo) + " " + root.stateType.unitString
                 font.pixelSize: app.largeFont
             }
 

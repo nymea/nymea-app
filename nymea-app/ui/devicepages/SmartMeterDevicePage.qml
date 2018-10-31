@@ -38,6 +38,7 @@ DevicePageBase {
                 stateType: root.deviceClass.stateTypes.findByName(model.stateTypeName)
                 color: app.interfaceToColor(model.interface)
                 iconSource: app.interfaceToIcon(model.interface)
+                roundTo: 5
             }
         }
     }

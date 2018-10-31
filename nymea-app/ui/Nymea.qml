@@ -53,7 +53,7 @@ ApplicationWindow {
         rootItem.handleCloseEvent(close)
     }
 
-    property var supportedInterfaces: ["light", "weather", "sensor", "media", "garagegate", "awning", "shutter", "blind", "smartmeter", "accesscontrol", "button", "notifications", "inputtrigger", "outputtrigger", "gateway"]
+    property var supportedInterfaces: ["light", "weather", "sensor", "media", "garagegate", "awning", "shutter", "blind", "heating", "smartmeter", "evcharger", "accesscontrol", "button", "notifications", "inputtrigger", "outputtrigger", "gateway"]
     function interfaceToString(name) {
         switch(name) {
         case "light":
@@ -94,7 +94,15 @@ ApplicationWindow {
         case "accesscontrol":
             return qsTr("Access control");
         case "smartmeter":
-            return qsTr("Smart meter");
+        case "smartmeterproducer":
+        case "smartmeterconsumer":
+        case "extendedsmartmeterproducer":
+        case "extendedsmartmeterconsumer":
+            return qsTr("Smart meters");
+        case "heating":
+            return qsTr("Heatings");
+        case "evcharger":
+            return qsTr("EV-chargers");
         case "uncategorized":
             return qsTr("Uncategorized")
         default:
@@ -181,6 +189,12 @@ ApplicationWindow {
         case "extendedsmartmeterconsumer":
         case "extendedsmartmeterproducer":
             return Qt.resolvedUrl("images/smartmeter.svg")
+        case "heating":
+        case "extendedheating":
+            return Qt.resolvedUrl("images/radiator.svg")
+        case "evcharger":
+        case "extendedevcharger":
+            return Qt.resolvedUrl("images/ev-charger.svg")
         case "connectable":
             return Qt.resolvedUrl("images/stock_link.svg")
         default:
