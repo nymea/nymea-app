@@ -98,6 +98,7 @@ MainPageTile {
             Label {
                 id: label
                 Layout.fillWidth: true
+                visible: text != ""
                 text: {
                     switch (model.name) {
                     case "media":
@@ -130,121 +131,234 @@ MainPageTile {
                     case "extendedawning":
                     case "shutter":
                     case "extendedshutter":
-                        return qsTr("%1 installed").arg(devicesProxy.count)
+                        return ""
+                        //                        return qsTr("%1 installed").arg(devicesProxy.count)
                     }
                     console.warn("DevicesPageDelegate, inlineButtonControl: Unhandled interface", model.name)
                 }
                 font.pixelSize: app.smallFont
                 elide: Text.ElideRight
             }
-            ItemDelegate {
-                Layout.preferredHeight: app.iconSize
-                Layout.preferredWidth: height
-                Layout.alignment: Qt.AlignRight
+            RowLayout {
+//                Layout.alignment: Qt.AlignRight
+                Layout.fillWidth: true
+                spacing: (parent.width - app.iconSize * 3) / 2
 
-                ColorIcon {
-                    id: icon
-                    width: app.iconSize
-                    height: width
-                    color: app.accentColor
+                ItemDelegate {
+                    Layout.preferredHeight: app.iconSize
+                    Layout.preferredWidth: height
 
-                    name: {
+                    ColorIcon {
+                        id: leftIcon
+                        width: app.iconSize
+                        height: width
+                        color: app.accentColor
+
+                        name: {
+                            switch (model.name) {
+                            case "media":
+                            case "light":
+                                return ""
+                            case "garagegate":
+                            case "blind":
+                            case "extendedblind":
+                            case "awning":
+                            case "extendedawning":
+                            case "shutter":
+                            case "extendedshutter":
+                                return "../images/up.svg"
+                            default:
+                                console.warn("DevicesPageDelegate, inlineButtonControl image: Unhandled interface", model.name)
+                            }
+                        }
+                    }
+
+                    onClicked: {
                         switch (model.name) {
+                        case "light":
+                        case "media":
+                            break;
+                        case "garagegate":
+                        case "shutter":
+                        case "extendedshutter":
+                        case "blind":
+                        case "extendedblind":
+                        case "awning":
+                        case "extendedawning":
+                        case "simpleclosable":
+                            for (var i = 0; i < devicesProxy.count; i++) {
+                                var device = devicesProxy.get(i);
+                                var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
+                                var actionType = deviceClass.actionTypes.findByName("open");
+                                engine.deviceManager.executeAction(device.id, actionType.id)
+                            }
+
+                        default:
+                            console.warn("DevicesPageDelegate, inlineButtonControl clicked: Unhandled interface", model.name)
+                        }
+                    }
+                }
+
+                ItemDelegate {
+                    Layout.preferredHeight: app.iconSize
+                    Layout.preferredWidth: height
+                    ColorIcon {
+                        id: centerIcon
+                        width: app.iconSize
+                        height: width
+                        color: app.accentColor
+
+                        name: {
+                            switch (model.name) {
+                            case "media":
+                            case "light":
+                                return ""
+                            case "garagegate":
+                            case "blind":
+                            case "extendedblind":
+                            case "awning":
+                            case "extendedawning":
+                            case "shutter":
+                            case "extendedshutter":
+                                return "../images/media-playback-stop.svg"
+                            default:
+                                console.warn("DevicesPageDelegate, inlineButtonControl image: Unhandled interface", model.name)
+                            }
+                        }
+                    }
+
+                    onClicked: {
+                        switch (model.name) {
+                        case "light":
+                        case "media":
+                            break;
+                        case "garagegate":
+                        case "shutter":
+                        case "extendedshutter":
+                        case "blind":
+                        case "extendedblind":
+                        case "awning":
+                        case "extendedawning":
+                        case "simpleclosable":
+                            for (var i = 0; i < devicesProxy.count; i++) {
+                                var device = devicesProxy.get(i);
+                                var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
+                                var actionType = deviceClass.actionTypes.findByName("stop");
+                                engine.deviceManager.executeAction(device.id, actionType.id)
+                            }
+
+                        default:
+                            console.warn("DevicesPageDelegate, inlineButtonControl clicked: Unhandled interface", model.name)
+                        }
+                    }
+                }
+
+                ItemDelegate {
+                    Layout.preferredHeight: app.iconSize
+                    Layout.preferredWidth: height
+
+                    ColorIcon {
+                        id: icon
+                        width: app.iconSize
+                        height: width
+                        color: app.accentColor
+
+                        name: {
+                            switch (model.name) {
+                            case "media":
+                                var device = devicesProxy.get(0)
+                                var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
+                                var stateType = deviceClass.stateTypes.findByName("playbackStatus");
+                                var state = device.states.getState(stateType.id)
+                                return state.value === "Playing" ? "../images/media-playback-pause.svg" :
+                                                                   state.value === "PAUSED" ? "../images/media-playback-start.svg" :
+                                                                                              ""
+                            case "light":
+                                return "../images/system-shutdown.svg"
+                            case "garagegate":
+                            case "blind":
+                            case "extendedblind":
+                            case "awning":
+                            case "extendedawning":
+                            case "shutter":
+                            case "extendedshutter":
+                                return "../images/down.svg"
+                            default:
+                                console.warn("DevicesPageDelegate, inlineButtonControl image: Unhandled interface", model.name)
+                            }
+                        }
+                    }
+
+                    onClicked: {
+                        switch (model.name) {
+                        case "light":
+                            if (devicesProxy.count == 1) {
+                                var device = devicesProxy.get(0);
+                                var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
+                                var stateType = deviceClass.stateTypes.findByName("power")
+                                var actionType = deviceClass.actionTypes.findByName("power")
+                                var params = [];
+                                var param1 = {};
+                                param1["paramTypeId"] = actionType.paramTypes.get(0).id;
+                                param1["value"] = !device.states.getState(stateType.id).value;
+                                params.push(param1)
+                                engine.deviceManager.executeAction(device.id, actionType.id, params)
+                            } else {
+                                for (var i = 0; i < devicesProxy.count; i++) {
+                                    var device = devicesProxy.get(i);
+                                    var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
+                                    var actionType = deviceClass.actionTypes.findByName("power");
+
+                                    var params = [];
+                                    var param1 = {};
+                                    param1["paramTypeId"] = actionType.paramTypes.get(0).id;
+                                    param1["value"] = false;
+                                    params.push(param1)
+                                    engine.deviceManager.executeAction(device.id, actionType.id, params)
+                                }
+                            }
+                            break;
                         case "media":
                             var device = devicesProxy.get(0)
                             var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
                             var stateType = deviceClass.stateTypes.findByName("playbackStatus");
                             var state = device.states.getState(stateType.id)
-                            return state.value === "Playing" ? "../images/media-playback-pause.svg" :
-                                                               state.value === "PAUSED" ? "../images/media-playback-start.svg" :
-                                                                                          ""
-                        case "light":
-                            return "../images/system-shutdown.svg"
+
+                            var actionName
+                            switch (state.value) {
+                            case "Playing":
+                                actionName = "pause";
+                                break;
+                            case "Paused":
+                                actionName = "play";
+                                break;
+                            }
+                            var actionTypeId = deviceClass.actionTypes.findByName(actionName).id;
+
+                            print("executing", device, device.id, actionTypeId, actionName, deviceClass.actionTypes)
+
+                            engine.deviceManager.executeAction(device.id, actionTypeId)
                         case "garagegate":
+                        case "shutter":
+                        case "extendedshutter":
                         case "blind":
                         case "extendedblind":
                         case "awning":
                         case "extendedawning":
-                        case "shutter":
-                        case "extendedshutter":
-                            return "../images/down.svg"
-                        default:
-                            console.warn("DevicesPageDelegate, inlineButtonControl image: Unhandled interface", model.name)
-                        }
-                    }
-                }
-
-                onClicked: {
-                    switch (model.name) {
-                    case "light":
-                        if (devicesProxy.count == 1) {
-                            var device = devicesProxy.get(0);
-                            var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
-                            var stateType = deviceClass.stateTypes.findByName("power")
-                            var actionType = deviceClass.actionTypes.findByName("power")
-                            var params = [];
-                            var param1 = {};
-                            param1["paramTypeId"] = actionType.paramTypes.get(0).id;
-                            param1["value"] = !device.states.getState(stateType.id).value;
-                            params.push(param1)
-                            engine.deviceManager.executeAction(device.id, actionType.id, params)
-                        } else {
+                        case "simpleclosable":
                             for (var i = 0; i < devicesProxy.count; i++) {
                                 var device = devicesProxy.get(i);
                                 var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
-                                var actionType = deviceClass.actionTypes.findByName("power");
-
-                                var params = [];
-                                var param1 = {};
-                                param1["paramTypeId"] = actionType.paramTypes.get(0).id;
-                                param1["value"] = false;
-                                params.push(param1)
-                                engine.deviceManager.executeAction(device.id, actionType.id, params)
+                                var actionType = deviceClass.actionTypes.findByName("close");
+                                engine.deviceManager.executeAction(device.id, actionType.id)
                             }
+
+                        default:
+                            console.warn("DevicesPageDelegate, inlineButtonControl clicked: Unhandled interface", model.name)
                         }
-                        break;
-                    case "media":
-                        var device = devicesProxy.get(0)
-                        var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
-                        var stateType = deviceClass.stateTypes.findByName("playbackStatus");
-                        var state = device.states.getState(stateType.id)
-
-                        var actionName
-                        switch (state.value) {
-                        case "Playing":
-                            actionName = "pause";
-                            break;
-                        case "Paused":
-                            actionName = "play";
-                            break;
-                        }
-                        var actionTypeId = deviceClass.actionTypes.findByName(actionName).id;
-
-                        print("executing", device, device.id, actionTypeId, actionName, deviceClass.actionTypes)
-
-                        engine.deviceManager.executeAction(device.id, actionTypeId)
-                    case "garagegate":
-                    case "shutter":
-                    case "extendedshutter":
-                    case "blind":
-                    case "extendedblind":
-                    case "awning":
-                    case "extendedawning":
-                    case "simpleclosable":
-                        for (var i = 0; i < devicesProxy.count; i++) {
-                            var device = devicesProxy.get(i);
-                            var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
-                            var actionType = deviceClass.actionTypes.findByName("close");
-                            engine.deviceManager.executeAction(device.id, actionType.id)
-                        }
-
-                    default:
-                        console.warn("DevicesPageDelegate, inlineButtonControl clicked: Unhandled interface", model.name)
                     }
                 }
-
             }
-
         }
     }
 
