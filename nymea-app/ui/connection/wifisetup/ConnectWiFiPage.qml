@@ -7,7 +7,7 @@ import Nymea 1.0
 Page {
     id: root
 
-    property var networkManagerController: null
+    property NetworkManagerController networkManagerController: null
 
     signal connected();
 
@@ -27,6 +27,13 @@ Page {
             imageSource: "../images/settings.svg"
             onClicked: {
                 pageStack.push(Qt.resolvedUrl("NetworkSettingsPage.qml"), {networkManagerController: root.networkManagerController})
+            }
+        }
+
+        HeaderButton {
+            imageSource: "../images/refresh.svg"
+            onClicked: {
+                networkManagerController.manager.loadNetworks()
             }
         }
     }
@@ -83,8 +90,9 @@ Page {
 
                 onClicked: {
                     print("Connect to ", model.ssid, " --> ", model.macAddress)
-                    if (model.selectedNetwork) {
-                        pageStack.push(networkInformationPage, { ssid: model.ssid, macAddress: model.macAddress })
+                    if (networkManagerController.manager.currentConnection && networkManagerController.manager.currentConnection.macAddress === model.macAddress) {
+                        // FIXME: show connection status page again
+                        //pageStack.push(Qt.resolvedUrl("WirelessConnectionStatusPage.qml"), { networkManagerController: networkManager, nymeaDiscovery: root.nymeaDiscovery } )
                     } else {
                         pageStack.push(authenticationPageComponent, { ssid: model.ssid, macAddress: model.macAddress })
                     }
@@ -183,7 +191,6 @@ Page {
         Page {
             id: connectingWifiWaitPage
             property string ssid
-
 
             ColumnLayout {
                 anchors { left: parent.left; right: parent.right; verticalCenter: parent.verticalCenter; margins: app.margins }

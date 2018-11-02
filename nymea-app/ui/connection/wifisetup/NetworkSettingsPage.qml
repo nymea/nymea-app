@@ -11,7 +11,7 @@ Page {
         onBackPressed: pageStack.pop()
     }
 
-    property var networkManagerController: null
+    property NetworkManagerController networkManagerController: null
 
     ColumnLayout {
         anchors { left: parent.left; top: parent.top; right: parent.right }
@@ -39,6 +39,15 @@ Page {
             Layout.rightMargin: app.margins
             text: qsTr("Trigger a wireless scan on the device.")
             onClicked: networkManagerController.manager.performWifiScan()
+        }
+
+        Button {
+            Layout.fillWidth: true
+            Layout.leftMargin: app.margins
+            Layout.rightMargin: app.margins
+            visible: networkManagerController.manager.accessPointModeAvailable
+            text: qsTr("Create an access point.")
+            onClicked: pageStack.push(Qt.resolvedUrl("CreateAccessPointPage.qml"), {networkManagerController: root.networkManagerController})
         }
     }
 }
