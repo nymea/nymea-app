@@ -36,6 +36,7 @@ Page {
     Connections {
         target: engine.deviceManager
         onPairDeviceReply: {
+            busyOverlay.shown = false
             switch (params["setupMethod"]) {
             case "SetupMethodPushButton":
                 d.pairingTransactionId = params["pairingTransactionId"];
@@ -52,9 +53,11 @@ Page {
             }
         }
         onConfirmPairingReply: {
+            busyOverlay.shown = false
             internalPageStack.push(resultsPage, {success: params["deviceError"] === "DeviceErrorNoError", deviceId: params["deviceId"]})
         }
         onAddDeviceReply: {
+            busyOverlay.shown = false;
             internalPageStack.push(resultsPage, {success: params["deviceError"] === "DeviceErrorNoError", deviceId: params["deviceId"]})
         }
     }
@@ -358,6 +361,8 @@ Page {
                                 break;
                             }
 
+                            busyOverlay.shown = true;
+
                         }
                     }
                 }
@@ -447,5 +452,9 @@ Page {
                 }
             }
         }
+    }
+
+    BusyOverlay {
+        id: busyOverlay
     }
 }

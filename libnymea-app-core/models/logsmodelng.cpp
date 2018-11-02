@@ -5,22 +5,24 @@
 
 #include "engine.h"
 #include "types/logentry.h"
+#include "logmanager.h"
 
 LogsModelNg::LogsModelNg(QObject *parent) : QAbstractListModel(parent)
 {
 
 }
 
-JsonRpcClient *LogsModelNg::jsonRpcClient() const
+Engine *LogsModelNg::engine() const
 {
-    return m_jsonRpcClient;
+    return m_engine;
 }
 
-void LogsModelNg::setJsonRpcClient(JsonRpcClient *jsonRpcClient)
+void LogsModelNg::setEngine(Engine *engine)
 {
-    if (m_jsonRpcClient != jsonRpcClient) {
-        m_jsonRpcClient = jsonRpcClient;
-        emit jsonRpcClientChanged();
+    if (m_engine != engine) {
+        m_engine = engine;
+        connect(engine->logManager(), &LogManager::logEntryReceived, this, &LogsModelNg::newLogEntryReceived);
+        emit engineChanged();
     }
 }
 
@@ -92,16 +94,16 @@ void LogsModelNg::setDeviceId(const QString &deviceId)
     }
 }
 
-QString LogsModelNg::typeId() const
+QStringList LogsModelNg::typeIds() const
 {
-    return m_typeId;
+    return m_typeIds;
 }
 
-void LogsModelNg::setTypeId(const QString &typeId)
+void LogsModelNg::setTypeIds(const QStringList &typeIds)
 {
-    if (m_typeId != typeId) {
-        m_typeId = typeId;
-        emit typeIdChanged();
+    if (m_typeIds != typeIds) {
+        m_typeIds = typeIds;
+        emit typeIdsChanged();
     }
 }
 
@@ -115,7 +117,6 @@ void LogsModelNg::setStartTime(const QDateTime &startTime)
     if (m_startTime != startTime) {
         m_startTime = startTime;
         emit startTimeChanged();
-        update();
     }
 }
 
@@ -129,79 +130,177 @@ void LogsModelNg::setEndTime(const QDateTime &endTime)
     if (m_endTime != endTime) {
         m_endTime = endTime;
         emit endTimeChanged();
-        update();
     }
 }
 
-void LogsModelNg::update()
+QtCharts::QXYSeries *LogsModelNg::graphSeries() const
 {
-    if (!m_jsonRpcClient) {
-        qWarning() << "Cannot update. JsonRpcClient not set";
+    return m_graphSeries;
+}
+
+void LogsModelNg::setGraphSeries(QtCharts::QXYSeries *graphSeries)
+{
+    m_graphSeries = graphSeries;
+}
+
+QDateTime LogsModelNg::viewStartTime() const
+{
+    return m_viewStartTime;
+}
+
+void LogsModelNg::setViewStartTime(const QDateTime &viewStartTime)
+{
+    if (m_viewStartTime != viewStartTime) {
+        m_viewStartTime = viewStartTime;
+        emit viewStartTimeChanged();
+        if (m_list.count() == 0 || m_list.last()->timestamp() > m_viewStartTime) {
+            if (canFetchMore()) {
+                fetchMore();
+            }
+        }
+    }
+}
+
+QVariant LogsModelNg::minValue() const
+{
+//    qDebug() << "returning min value" << m_minValue;
+    return m_minValue;
+}
+
+QVariant LogsModelNg::maxValue() const
+{
+//    qDebug() << "returning max value" << m_maxValue;
+    return m_maxValue;
+}
+
+void LogsModelNg::logsReply(const QVariantMap &data)
+{
+//    qDebug() << "logs reply" << data;
+
+
+    int offset = data.value("params").toMap().value("offset").toInt();
+    int count = data.value("params").toMap().value("count").toInt();
+
+    QList<LogEntry*> newBlock;
+    QList<QVariant> logEntries = data.value("params").toMap().value("logEntries").toList();
+    foreach (const QVariant &logEntryVariant, logEntries) {
+        QVariantMap entryMap = logEntryVariant.toMap();
+        QDateTime timeStamp = QDateTime::fromMSecsSinceEpoch(entryMap.value("timestamp").toLongLong());
+        QString deviceId = entryMap.value("deviceId").toString();
+        QString typeId = entryMap.value("typeId").toString();
+        QMetaEnum sourceEnum = QMetaEnum::fromType<LogEntry::LoggingSource>();
+        LogEntry::LoggingSource loggingSource = static_cast<LogEntry::LoggingSource>(sourceEnum.keyToValue(entryMap.value("source").toByteArray()));
+        QMetaEnum loggingEventTypeEnum = QMetaEnum::fromType<LogEntry::LoggingEventType>();
+        LogEntry::LoggingEventType loggingEventType = static_cast<LogEntry::LoggingEventType>(loggingEventTypeEnum.keyToValue(entryMap.value("eventType").toByteArray()));
+        QVariant value = loggingEventType == LogEntry::LoggingEventTypeActiveChange ? entryMap.value("active").toBool() : entryMap.value("value");
+        LogEntry *entry = new LogEntry(timeStamp, value, deviceId, typeId, loggingSource, loggingEventType, this);
+        newBlock.append(entry);
+    }
+
+    if (count < m_blockSize) {
+        m_canFetchMore = false;
+    }
+
+    if (newBlock.isEmpty()) {
+        m_busy = false;
+        emit busyChanged();
+        return;
+    }
+
+    beginInsertRows(QModelIndex(), offset, offset + newBlock.count() - 1);
+    QVariant newMin = m_minValue;
+    QVariant newMax = m_maxValue;
+    for (int i = 0; i < newBlock.count(); i++) {
+        LogEntry *entry = newBlock.at(i);
+        m_list.insert(offset + i, entry);
+
+        if (m_graphSeries) {
+            Device *dev = m_engine->deviceManager()->devices()->getDevice(entry->deviceId());
+            if (dev && dev->deviceClass()->stateTypes()->getStateType(entry->typeId())->type() == "Bool") {
+                // We don't want bools painting triangles, add a toggle point to keep lines straight
+                if (i > 0) {
+                    LogEntry *newerEntry = newBlock.at(i - 1);
+                    if (newerEntry->value().toBool() != entry->value().toBool()) {
+//                        qDebug() << "Adding bool line series point:" << (newerEntry->timestamp().addSecs(-1)) << newerEntry->timestamp().addSecs(-1).toMSecsSinceEpoch() << (entry->value().toBool() ? 1 : 0) << "(correction)";
+                        m_graphSeries->append(QPointF(newerEntry->timestamp().addSecs(-1).toMSecsSinceEpoch(), entry->value().toBool() ? 1 : 0));
+                    }
+                }
+                if (m_graphSeries->count() == 0) {
+                    // If it's the first one, make sure we add an ending point at 1
+//                    qDebug() << "Adding bool line series point:" << QDateTime::currentDateTime() << QDateTime::currentDateTime().toMSecsSinceEpoch() - 1 << (entry->value().toBool() ? 1 : 0) << "(beginning)";
+                    m_graphSeries->append(QPointF(QDateTime::currentDateTime().toMSecsSinceEpoch(), 1));
+                    m_graphSeries->append(QPointF(QDateTime::currentDateTime().toMSecsSinceEpoch(), entry->value().toBool() ? 1 : 0));
+                } else if (i == 0) {
+                    // Adding a new batch...  remove the last appended 1 from the previous batch
+                    m_graphSeries->remove(m_graphSeries->count() - 1);
+                }
+//                qDebug() << "Adding bool line series point:" << entry->timestamp() << entry->timestamp().toMSecsSinceEpoch() << (entry->value().toBool() ? 1 : 0);
+                m_graphSeries->append(QPointF(entry->timestamp().toMSecsSinceEpoch(), entry->value().toBool() ? 1 : 0));
+                if (i == newBlock.count() - 1) {
+                    // End the batch at 1 again
+                    m_graphSeries->append(QPointF(entry->timestamp().addSecs(-1).toMSecsSinceEpoch(), 1));
+                }
+            } else {
+//                if (i > 0) {
+//                    LogEntry *newerEntry = newBlock.at(i - 1);
+//                    if (newerEntry->value() != entry->value()) {
+//                        qDebug() << "Adding line series point:" << (offset + i) << newerEntry->timestamp().toMSecsSinceEpoch() - 1 << (entry->value().toReal()) << "(correction)";
+//                        m_graphSeries->append(QPointF(newerEntry->timestamp().toMSecsSinceEpoch() - 1, entry->value().toReal()));
+//                    }
+//                }
+
+                if (m_graphSeries->count() == 0) {
+//                    qDebug() << "Adding 1st line series point:" << (offset + i) << QDateTime::currentDateTime().toMSecsSinceEpoch() << entry->value().toReal();
+                    m_graphSeries->append(QPointF(QDateTime::currentDateTime().toMSecsSinceEpoch(), entry->value().toReal()));
+                }
+//                qDebug() << "Adding line series point:" << (offset + i) << entry->timestamp().toMSecsSinceEpoch() << (entry->value().toReal());
+                m_graphSeries->append(QPointF(entry->timestamp().toMSecsSinceEpoch(), entry->value().toReal()));
+            }
+        }
+        if (!newMin.isValid() || newMin > entry->value()) {
+            newMin = entry->value().toReal();
+        }
+        if (!newMax.isValid() || newMax < entry->value()) {
+            newMax = entry->value().toReal();
+        }
+    }
+    endInsertRows();
+    emit countChanged();
+//    qDebug() << "min" << m_minValue << "max" << m_maxValue << "newMin" << newMin << "newMax" << newMax;
+    if (m_minValue != newMin) {
+        m_minValue = newMin;
+        emit minValueChanged();
+    }
+    if (m_maxValue != newMax) {
+        m_maxValue = newMax;
+        emit maxValueChanged();
+    }
+
+    m_busy = false;
+    emit busyChanged();
+
+    if (m_viewStartTime.isValid() && m_list.count() > 0 && m_list.last()->timestamp() > m_viewStartTime && canFetchMore()) {
+        fetchMore();
+    }
+}
+
+void LogsModelNg::fetchMore(const QModelIndex &parent)
+{
+    Q_UNUSED(parent)
+//    qDebug() << "fetchMore called";
+
+    if (!m_engine) {
+        qWarning() << "Cannot update. Engine not set";
         return;
     }
     if (m_busy) {
         return;
     }
 
-    if (m_startTime.isNull() || m_endTime.isNull()) {
-        // Need both, startTime and endTime set
+    if ((!m_startTime.isNull() && m_endTime.isNull()) || (m_startTime.isNull() && !m_endTime.isNull())) {
+        // Need neither or both, startTime and endTime set
         return;
     }
-
-    m_currentFetchStartTime = QDateTime();
-    m_currentFetchEndTime = QDateTime();
-    bool haveData = false;
-    for(int i = 0; i < m_fetchedPeriods.length(); i++) {
-        if (m_fetchedPeriods.at(i).first < m_startTime) {
-            if (m_fetchedPeriods.at(i).second == true) {
-                haveData = true;
-                continue;
-            }
-            if (m_fetchedPeriods.at(i).second == false) {
-                haveData = false;
-                continue;
-            }
-        }
-        if (m_fetchedPeriods.at(i).first == m_startTime) {
-            if (m_fetchedPeriods.at(i).second == true) {
-                haveData = true;
-                continue;
-            }
-            if (m_fetchedPeriods.at(i).second == false) {
-                m_currentFetchStartTime = m_startTime;
-                continue;
-            }
-        }
-        if (m_fetchedPeriods.at(i).first > m_startTime) {
-            if (m_fetchedPeriods.at(i).second == true) {
-                if (m_currentFetchStartTime.isNull()) {
-                    m_currentFetchStartTime = m_startTime;
-                }
-                m_currentFetchEndTime = m_fetchedPeriods.at(i).first;
-                break;
-            }
-            if (m_fetchedPeriods.at(i).second == false) {
-                if (m_currentFetchStartTime.isNull()) {
-                    haveData = false;
-                    m_currentFetchStartTime = m_fetchedPeriods.at(i).first;
-                }
-                continue;
-            }
-        }
-    }
-    if (haveData) {
-        qDebug() << "all the data is fetched";
-        m_busy = false;
-        emit busyChanged();
-        return;
-    }
-    if (m_currentFetchStartTime.isNull()) {
-        m_currentFetchStartTime = m_startTime;
-    }
-    if (m_currentFetchEndTime.isNull()) {
-        m_currentFetchEndTime = m_endTime;
-    }
-    qDebug() << "Fetching from" << m_currentFetchStartTime << "to" << m_currentFetchEndTime;
 
     m_busy = true;
     emit busyChanged();
@@ -212,103 +311,77 @@ void LogsModelNg::update()
         deviceIds.append(m_deviceId);
         params.insert("deviceIds", deviceIds);
     }
-    if (!m_typeId.isEmpty()) {
+    if (!m_typeIds.isEmpty()) {
         QVariantList typeIds;
-        typeIds.append(m_typeId);
+        foreach (const QString &typeId, m_typeIds) {
+            typeIds.append(typeId);
+        }
         params.insert("typeIds", typeIds);
     }
-    QVariantList timeFilters;
-    QVariantMap timeFilter;
-    timeFilter.insert("startDate", m_currentFetchStartTime.toSecsSinceEpoch());
-    timeFilter.insert("endDate", m_currentFetchEndTime.toSecsSinceEpoch());
-    timeFilters.append(timeFilter);
-    params.insert("timeFilters", timeFilters);
-    m_jsonRpcClient->sendCommand("Logging.GetLogEntries", params, this, "logsReply");
+    if (!m_startTime.isNull() && !m_endTime.isNull()) {
+        QVariantList timeFilters;
+        QVariantMap timeFilter;
+        timeFilter.insert("startDate", m_startTime.toSecsSinceEpoch());
+        timeFilter.insert("endDate", m_endTime.toSecsSinceEpoch());
+        timeFilters.append(timeFilter);
+        params.insert("timeFilters", timeFilters);
+    }
+
+    params.insert("limit", m_blockSize);
+    params.insert("offset", m_list.count());
+
+    m_engine->jsonRpcClient()->sendCommand("Logging.GetLogEntries", params, this, "logsReply");
+//    qDebug() << "GetLogEntries called";
 }
 
-void LogsModelNg::logsReply(const QVariantMap &data)
+bool LogsModelNg::canFetchMore(const QModelIndex &parent) const
 {
-    qDebug() << "logs reply";// << data;
-
-    // First update the fetched periods information
-    int insertIndex = -1;
-    bool noNeedToInsert = false;
-    for (int i = 0; i < m_fetchedPeriods.count(); i++) {
-        if (m_fetchedPeriods.at(i).first < m_currentFetchStartTime) {
-            // skip it
-            insertIndex = i+1;
-            continue;
-        }
-        if (m_fetchedPeriods.at(i).first == m_currentFetchStartTime) {
-            if (m_fetchedPeriods.at(i).second == false) {
-                // Have an end marker where we start inserting. We can drop the existing end marker and just update the end marker
-                if (m_fetchedPeriods.count() > i+1) {
-                    if (m_fetchedPeriods.at(i+1).first < m_currentFetchEndTime) {
-                        qWarning() << "Overlap detected!";
-                    } else if (m_fetchedPeriods.at(i+1).first == m_currentFetchEndTime) {
-                        if (m_fetchedPeriods.at(i+1).second == true) {
-                            m_fetchedPeriods.removeAt(i+1);
-                        }
-                    }
-                }
-                m_fetchedPeriods.removeAt(i);
-                noNeedToInsert = true;
-                break;
-            }
-        }
-        if (m_fetchedPeriods.at(i).first > m_currentFetchStartTime) {
-            break;
-        }
-    }
-
-    if (!noNeedToInsert) {
-        if (insertIndex == -1) {
-            insertIndex = 0;
-        }
-        m_fetchedPeriods.insert(insertIndex, qMakePair<QDateTime,bool>(m_currentFetchStartTime, true));
-        m_fetchedPeriods.insert(insertIndex+1, qMakePair<QDateTime,bool>(m_currentFetchEndTime, false));
-    }
-    qDebug() << "new fetched periods:" << m_fetchedPeriods << "insertIndex:" << insertIndex;
-    m_busy = false;
-    emit busyChanged();
-
-
-    QList<LogEntry*> newBlock;
-    QList<QVariant> logEntries = data.value("params").toMap().value("logEntries").toList();
-    foreach (const QVariant &logEntryVariant, logEntries) {
-        QVariantMap entryMap = logEntryVariant.toMap();
-        QDateTime timeStamp = QDateTime::fromMSecsSinceEpoch(entryMap.value("timestamp").toLongLong());
-        QString deviceId = entryMap.value("deviceId").toString();
-        QString typeId = entryMap.value("typeId").toString();
-        QMetaEnum sourceEnum = QMetaEnum::fromType<LogEntry::LoggingSource>();
-        LogEntry::LoggingSource loggingSource = (LogEntry::LoggingSource)sourceEnum.keyToValue(entryMap.value("source").toByteArray());
-        QMetaEnum loggingEventTypeEnum = QMetaEnum::fromType<LogEntry::LoggingEventType>();
-        LogEntry::LoggingEventType loggingEventType = (LogEntry::LoggingEventType)loggingEventTypeEnum.keyToValue(entryMap.value("eventType").toByteArray());
-        QVariant value = loggingEventType == LogEntry::LoggingEventTypeActiveChange ? entryMap.value("active").toBool() : entryMap.value("value");
-        LogEntry *entry = new LogEntry(timeStamp, value, deviceId, typeId, loggingSource, loggingEventType, this);
-        newBlock.append(entry);
-    }
-
-    // Now let's find where to insert stuff in the model
-    if (!newBlock.isEmpty()) {
-        int indexToInsert = 0;
-        for (int i = 0; i < m_list.count(); i++) {
-            LogEntry *entry = m_list.at(i);
-            if (entry->timestamp() < newBlock.first()->timestamp()) {
-                continue;
-            }
-            indexToInsert = i;
-            break;
-        }
-
-        beginInsertRows(QModelIndex(), indexToInsert, indexToInsert + newBlock.count() - 1);
-        for (int i = 0; i < newBlock.count(); i++) {
-            m_list.insert(indexToInsert + i, newBlock.at(i));
-        }
-        endInsertRows();
-        emit countChanged();
-    }
-
-    update();
+    Q_UNUSED(parent)
+//    qDebug() << "canFetchMore" << (m_engine && m_canFetchMore);
+    return m_engine && m_canFetchMore;
 }
+
+void LogsModelNg::newLogEntryReceived(const QVariantMap &data)
+{
+    if (!m_live) {
+        return;
+    }
+
+    QVariantMap entryMap = data;
+    QString deviceId = entryMap.value("deviceId").toString();
+    if (!m_deviceId.isNull() && deviceId != m_deviceId) {
+        return;
+    }
+
+    QString typeId = entryMap.value("typeId").toString();
+    if (!m_typeIds.isEmpty() && !m_typeIds.contains(typeId)) {
+        return;
+    }
+
+    beginInsertRows(QModelIndex(), 0, 0);
+    QDateTime timeStamp = QDateTime::fromMSecsSinceEpoch(entryMap.value("timestamp").toLongLong());
+    QMetaEnum sourceEnum = QMetaEnum::fromType<LogEntry::LoggingSource>();
+    LogEntry::LoggingSource loggingSource = static_cast<LogEntry::LoggingSource>(sourceEnum.keyToValue(entryMap.value("source").toByteArray()));
+    QMetaEnum loggingEventTypeEnum = QMetaEnum::fromType<LogEntry::LoggingEventType>();
+    LogEntry::LoggingEventType loggingEventType = static_cast<LogEntry::LoggingEventType>(loggingEventTypeEnum.keyToValue(entryMap.value("eventType").toByteArray()));
+    QVariant value = loggingEventType == LogEntry::LoggingEventTypeActiveChange ? entryMap.value("active").toBool() : entryMap.value("value");
+    LogEntry *entry = new LogEntry(timeStamp, value, deviceId, typeId, loggingSource, loggingEventType, this);
+    m_list.prepend(entry);
+    if (m_graphSeries) {
+        m_graphSeries->insert(0, QPointF(entry->timestamp().toMSecsSinceEpoch(), entry->value().toReal()));
+        if (m_minValue > entry->value().toReal()) {
+            m_minValue = entry->value().toReal();
+            emit minValueChanged();
+        }
+        if (m_maxValue < entry->value().toReal()) {
+            m_maxValue = entry->value().toReal();
+            emit maxValueChanged();
+        }
+
+    }
+    endInsertRows();
+    emit countChanged();
+
+}
+
 

@@ -118,6 +118,15 @@ QVariant Devices::data(const QModelIndex &index, int role) const
         if (interfaces.contains("notifications")) {
             return "notifications";
         }
+        if (interfaces.contains("smartmeter")) {
+            return "smartmeter";
+        }
+        if (interfaces.contains("heating")) {
+            return "heating";
+        }
+        if (interfaces.contains("evcharger")) {
+            return "evcharger";
+        }
         return "uncategorized";
     }
 

@@ -1,5 +1,6 @@
-import QtQuick 2.5
-import QtQuick.Controls 2.1
+import QtQuick 2.9
+import QtQuick.Controls 2.2
+import QtQuick.Controls.Material 2.2
 import QtQuick.Layouts 1.1
 import Nymea 1.0
 import "../components"
@@ -16,13 +17,15 @@ Page {
         case "Int":
         case "Double":
             return true;
+        case "Bool":
+            return engine.jsonRpcClient.ensureServerVersion("1.10")
         }
         print("not showing graph for", root.stateType.type)
         return false;
     }
 
     header: GuhHeader {
-        text: qsTr("History")
+        text: qsTr("History for %1").arg(root.stateType.displayName)
         onBackPressed: pageStack.pop()
     }
 
@@ -37,17 +40,13 @@ Page {
         typeIds: [root.stateType.id]
     }
 
-//    LogsModelNg {
-//        id: logsModelNg
-//        deviceId: root.device.id
-//        typeId: root.stateType.id
-//        startTime: {
-//            var date = new Date();
-//            date.setHours(new Date().getHours() - 24)
-//            return date;
-//        }
-//        endTime: new Date();
-//    }
+    LogsModelNg {
+        id: logsModelNg
+        engine: _engine
+        deviceId: root.device.id
+        typeIds: [root.stateType.id]
+        live: true
+    }
 
     ColumnLayout {
         anchors.fill: parent
@@ -75,9 +74,8 @@ Page {
                 id: logView
                 width: swipeView.width
                 height: swipeView.height
-                text: qsTr("%1, %2 has changed %3 times in the last %4 days").arg(device.name).arg(stateType.displayName)
 
-                logsModel: logsModel
+                logsModel: engine.jsonRpcClient.ensureServerVersion("1.10") ? logsModelNg : logsModel
 
                 onAddRuleClicked: {
                     var rule = engine.ruleManager.createNewRule();
@@ -94,80 +92,20 @@ Page {
                 }
             }
 
-            ColumnLayout {
+            Loader {
+                id: graphLoader
                 width: swipeView.width
                 height: swipeView.height
-                TabBar {
-                    id: zoomTabBar
-                    Layout.fillWidth: true
-                    TabButton {
-                        text: qsTr("6 h")
-                        property int avg: ValueLogsProxyModel.AverageQuarterHour
-                        property date startTime: {
-                            var date = new Date();
-                            date.setHours(new Date().getHours() - 6)
-                            date.setMinutes(0)
-                            date.setSeconds(0)
-                            return date;
-                        }
+                Component.onCompleted: {
+                    var source;
+                    if (engine.jsonRpcClient.ensureServerVersion("1.10")) {
+                        source = Qt.resolvedUrl("../customviews/GenericTypeGraph.qml");
+                    } else {
+                        source = Qt.resolvedUrl("../customviews/GenericTypeGraphPre110.qml");
                     }
-                    TabButton {
-                        text: qsTr("24 h")
-                        property int avg: ValueLogsProxyModel.AverageHourly
-                        property date startTime: {
-                            var date = new Date();
-                            date.setHours(new Date().getHours() - 24);
-                            date.setMinutes(0)
-                            date.setSeconds(0)
-                            return date;
-                        }
-                    }
-                    TabButton {
-                        text: qsTr("7 d")
-                        property int avg: ValueLogsProxyModel.AverageDayTime
-                        property date startTime: {
-                            var date = new Date();
-                            date.setDate(new Date().getDate() - 7);
-                            date.setHours(0)
-                            date.setMinutes(0)
-                            date.setSeconds(0)
-                            return date;
-                        }
-                    }
-                }
-
-                Graph {
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    mode: settings.graphStyle
-                    color: app.accentColor
-
-                    Timer {
-                        id: updateTimer
-                        interval: 10
-                        repeat: false
-                        onTriggered: {
-                            graphModel.update()
-                        }
-                    }
-
-                    model: ValueLogsProxyModel {
-                        id: graphModel
-                        deviceId: root.device.id
-                        typeIds: [stateType.id]
-                        average: zoomTabBar.currentItem.avg
-                        startTime: zoomTabBar.currentItem.startTime
-                        Component.onCompleted: updateTimer.start();
-                        onAverageChanged: updateTimer.start()
-                        onStartTimeChanged: updateTimer.start();
-                        engine: _engine
-
-                        // Live doesn't work yet with ValueLogsProxyModel
-    //                    live: true
-                    }
+                    setSource(source, {device: root.device, stateType: root.stateType})
                 }
             }
-
         }
     }
 }

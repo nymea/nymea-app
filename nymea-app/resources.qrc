@@ -57,12 +57,17 @@
         <file>ui/customviews/MediaControllerView.qml</file>
         <file>ui/customviews/SensorView.qml</file>
         <file>ui/customviews/NotificationsView.qml</file>
+        <file>ui/customviews/ExtendedVolumeController.qml</file>
         <file>ui/devicepages/MediaDevicePage.qml</file>
         <file>ui/devicepages/ButtonDevicePage.qml</file>
         <file>ui/devicepages/GenericDeviceStateDetailsPage.qml</file>
         <file>ui/devicepages/GenericDevicePage.qml</file>
+        <file>ui/devicepages/WeatherDevicePagePre110.qml</file>
+        <file>ui/devicepages/WeatherDevicePagePost110.qml</file>
         <file>ui/devicepages/WeatherDevicePage.qml</file>
         <file>ui/devicepages/SensorDevicePage.qml</file>
+        <file>ui/devicepages/SensorDevicePagePre110.qml</file>
+        <file>ui/devicepages/SensorDevicePagePost110.qml</file>
         <file>ui/devicepages/DevicePageBase.qml</file>
         <file>ui/devicepages/ConfigureThingPage.qml</file>
         <file>ui/devicepages/InputTriggerDevicePage.qml</file>
@@ -127,5 +132,9 @@
         <file>translations/nymea-app-de_DE.qm</file>
         <file>translations/nymea-app-en_US.qm</file>
         <file>../LICENSE</file>
+        <file>ui/customviews/GenericTypeGraphPre110.qml</file>
+        <file>ui/customviews/GenericTypeGraph.qml</file>
+        <file>ui/devicepages/SmartMeterDevicePage.qml</file>
+        <file>ui/devicelistpages/SmartMeterDeviceListPage.qml</file>
     </qresource>
 </RCC>

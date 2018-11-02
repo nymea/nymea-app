@@ -49,6 +49,7 @@ parts:
       - qtbase5-dev
       - libavahi-client-dev
       - libavahi-common-dev
+      - libqt5charts5-dev
       - libqt5svg5-dev
       - libqt5websockets5-dev
       - qtconnectivity5-dev
@@ -60,6 +61,7 @@ parts:
       - libqt5websockets5
       - libqt5bluetooth5
       - libgl1-mesa-dri
+      - qml-module-qtcharts
       - qml-module-qtquick2
       - qml-module-qtquick-controls2
       - qml-module-qtquick-layouts

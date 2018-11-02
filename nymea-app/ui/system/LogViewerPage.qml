@@ -33,12 +33,17 @@ Page {
         }
         endTime: new Date()
         live: true
-        Component.onCompleted: update()
         onCountChanged: {
             if (root.autoScroll) {
                 listView.positionViewAtEnd()
             }
         }
+    }
+
+    LogsModelNg {
+        id: logsModelNg
+        engine: _engine
+        live: true
     }
 
     BusyIndicator {
@@ -48,10 +53,12 @@ Page {
 
     ListView {
         id: listView
-        model: logsModel
+        model: engine.jsonRpcClient.ensureServerVersion("1.10") ? logsModelNg : logsModel
         anchors.fill: parent
         clip: true
         headerPositioning: ListView.OverlayHeader
+
+        Component.onCompleted: model.update()
 
         onDraggingChanged: {
             if (dragging) {
@@ -62,8 +69,10 @@ Page {
         ScrollBar.vertical: ScrollBar {}
 
         onContentYChanged: {
-            if (!logsModel.busy && contentY - originY < 5 * height) {
-                logsModel.fetchEarlier(1)
+            if (!engine.jsonRpcClient.ensureServerVersion("1.10")) {
+                if (!logsModel.busy && contentY - originY < 5 * height) {
+                    logsModel.fetchEarlier(1)
+                }
             }
         }
 
