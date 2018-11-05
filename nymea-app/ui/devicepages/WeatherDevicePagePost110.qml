@@ -21,23 +21,26 @@ Flickable {
             device: root.device
             deviceClass: root.deviceClass
         }
-        SensorChart {
+        GenericTypeGraph {
             Layout.fillWidth: true
             device: root.device
-            deviceClass: root.deviceClass
-            interfaceName: "temperaturesensor"
+            stateType: root.deviceClass.stateTypes.findByName("temperature")
+            iconSource: app.interfaceToIcon("temperaturesensor")
+            color: app.interfaceToColor("temperaturesensor")
         }
-        SensorChart {
+        GenericTypeGraph {
             Layout.fillWidth: true
             device: root.device
-            deviceClass: root.deviceClass
-            interfaceName: "humiditysensor"
+            stateType: root.deviceClass.stateTypes.findByName("humidity")
+            iconSource: app.interfaceToIcon("humiditysensor")
+            color: app.interfaceToColor("humiditysensor")
         }
-        SensorChart {
+        GenericTypeGraph {
             Layout.fillWidth: true
             device: root.device
-            deviceClass: root.deviceClass
-            interfaceName: "pressuresensor"
+            stateType: root.deviceClass.stateTypes.findByName("pressure")
+            iconSource: app.interfaceToIcon("pressuresensor")
+            color: app.interfaceToColor("pressuresensor")
         }
     }
 }
