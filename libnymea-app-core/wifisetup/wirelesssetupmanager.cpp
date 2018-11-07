@@ -369,10 +369,6 @@ void WirelessSetupManager::checkInitialized()
                 && m_netwokService->state() == QLowEnergyService::ServiceDiscovered
                 && m_wifiService->state() == QLowEnergyService::ServiceDiscovered;
     }
-
-    if (initialized && m_wirelessEnabled && m_networkingEnabled) {
-        loadNetworks();
-    }
 }
 
 void WirelessSetupManager::setModelNumber(const QString &modelNumber)
@@ -615,21 +611,31 @@ void WirelessSetupManager::processWifiResponse(const QVariantMap &response)
         qDebug() << "Current network connection" << response;
         QVariantMap currentConnection = response.value("p").toMap();;
 
-        // Find current network
-        m_currentConnection = nullptr;
+        WirelessAccessPoint *oldCurrent = m_currentConnection;
+        if (m_currentConnection) {
+            m_currentConnection->deleteLater();
+            m_currentConnection = nullptr;
+        }
+
         QString macAddress = currentConnection.value("m").toString();
-        foreach (WirelessAccessPoint *accessPoint, m_accessPoints->wirelessAccessPoints()) {
-            if (accessPoint->macAddress() == macAddress) {
-                // Set the current network
-                m_currentConnection = accessPoint;
-                accessPoint->setHostAddress(currentConnection.value("i").toString());
-            }
+        if (!macAddress.isEmpty()) {
+            // Looks like we are connected to a network which doesn't show up in the wifi scan. perhaps we opened up our own ap or connected to a hidden network. Let's add it now
+            m_currentConnection = new WirelessAccessPoint(this);
+            m_currentConnection->setSsid(currentConnection.value("e").toString());
+            m_currentConnection->setMacAddress(macAddress);
+            m_currentConnection->setHostAddress(currentConnection.value("i").toString());
+            m_currentConnection->setSignalStrength(currentConnection.value("s").toInt());
+            m_currentConnection->setProtected(currentConnection.value("p").toBool());
         }
         qDebug() << "Current connection is:" << m_currentConnection;
-        emit currentConnectionChanged();
+        if (oldCurrent != m_currentConnection) {
+            emit currentConnectionChanged();
+        }
 
-        m_initialized = true;
-        emit initializedChanged();
+        if (!m_initialized) {
+            m_initialized = true;
+            emit initializedChanged();
+        }
 
         break;
     }

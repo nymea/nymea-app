@@ -40,9 +40,9 @@ Page {
             })
         } else {
             var page = pageStack.push(Qt.resolvedUrl("ConnectWiFiPage.qml"), { networkManagerController: networkManager } )
-//            page.connected.connect(function() {
-//                setupDevice();
-//            })
+            page.connected.connect(function() {
+                setupDevice();
+            })
         }
     }
 

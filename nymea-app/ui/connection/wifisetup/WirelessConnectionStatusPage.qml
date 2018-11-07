@@ -50,6 +50,10 @@ Page {
 
         onCurrentConnectionChanged: {
             updateConnectButton();
+
+            if (!root.networkManagerController.manager.currentConnection) {
+                networkManagerController.manager.loadNetworks()
+            }
         }
     }
 
@@ -87,6 +91,7 @@ Page {
             Layout.preferredHeight: app.iconSize * 2
             Layout.preferredWidth: height
             Layout.alignment: Qt.AlignCenter
+            Layout.topMargin: app.margins
             name: root.accessPointMode ? "../images/wireless-router.svg" : "../images/tick.svg"
             color: app.accentColor
         }
@@ -104,21 +109,10 @@ Page {
         Label {
             Layout.fillWidth: true
             Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
-            visible: root.accessPointMode
-            wrapMode: Text.WordWrap
-            text: root.networkManagerController.manager.currentConnection
+            visible: root.networkManagerController.manager.currentConnection
+            text: root.accessPointMode
                   ? qsTr("Access point name: %1").arg(root.networkManagerController.manager.currentConnection.ssid)
-                  : ""
-        }
-
-        Label {
-            Layout.fillWidth: true
-            Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
-            wrapMode: Text.WordWrap
-            visible: !root.accessPointMode
-            text: root.networkManagerController.manager.currentConnection
-                  ? qsTr("Your %1 box is connected to %2").arg(app.systemName).arg(root.networkManagerController.manager.currentConnection.ssid)
-                  : ""
+                  : qsTr("Your %1 box is connected to %2").arg(app.systemName).arg(root.networkManagerController.manager.currentConnection.ssid)
         }
 
         Label {
@@ -134,7 +128,7 @@ Page {
             spacing: app.margins
             Label {
                 Layout.fillWidth: true
-                text: qsTr("Waiting for the %1 box to appear in your network.").arg(app.systemName)
+                text: qsTr("Waiting for %1:core to appear in your network.").arg(app.systemName)
                 wrapMode: Text.WordWrap
             }
             BusyIndicator { }
@@ -147,12 +141,10 @@ Page {
             text: root.accessPointMode ? qsTr("Shut down access point") : qsTr("Disconnect from this network")
             onClicked: {
                 networkManagerController.manager.disconnectWirelessNetwork()
-//                var page = pageStack.push(Qt.resolvedUrl("ConnectWiFiPage.qml"), {networkManagerController: root.networkManagerController})
-//                page.connected.connect(function() {
-//                    pageStack.pop(root)
-//                })
-                pageStack.pop()
-                networkManagerController.manager.loadNetworks()
+                var page = pageStack.push(Qt.resolvedUrl("ConnectWiFiPage.qml"), {networkManagerController: root.networkManagerController})
+                page.connected.connect(function() {
+                    pageStack.pop(root)
+                })
             }
         }
 
@@ -161,7 +153,7 @@ Page {
             visible: url != "" && !root.accessPointMode
             Layout.fillWidth: true
             Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
-            text: qsTr("Connect to box")
+            text: qsTr("Connect to %1").arg(app.systemName)
             property string url
             onClicked: {
                 engine.connection.connect(url)

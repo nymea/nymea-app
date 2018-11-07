@@ -29,13 +29,6 @@ Page {
                 pageStack.push(Qt.resolvedUrl("NetworkSettingsPage.qml"), {networkManagerController: root.networkManagerController})
             }
         }
-
-        HeaderButton {
-            imageSource: "../images/refresh.svg"
-            onClicked: {
-                networkManagerController.manager.loadNetworks()
-            }
-        }
     }
 
     ColumnLayout {
@@ -91,12 +84,24 @@ Page {
                 onClicked: {
                     print("Connect to ", model.ssid, " --> ", model.macAddress)
                     if (networkManagerController.manager.currentConnection && networkManagerController.manager.currentConnection.macAddress === model.macAddress) {
-                        // FIXME: show connection status page again
-                        //pageStack.push(Qt.resolvedUrl("WirelessConnectionStatusPage.qml"), { networkManagerController: networkManager, nymeaDiscovery: root.nymeaDiscovery } )
+                        pageStack.push(networkInformationPage, { ssid: model.ssid, macAddress: model.macAddress })
                     } else {
                         pageStack.push(authenticationPageComponent, { ssid: model.ssid, macAddress: model.macAddress })
                     }
                 }
+            }
+        }
+
+        Button {
+            Layout.fillWidth: true
+            Layout.bottomMargin: app.margins; Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
+            visible: networkManagerController.manager.accessPointModeAvailable
+            text: qsTr("Open access point")
+            onClicked: {
+                var page = pageStack.push(Qt.resolvedUrl("CreateAccessPointPage.qml"), {networkManagerController: root.networkManagerController})
+                page.apReady.connect(function() {
+                    root.connected();
+                })
             }
         }
     }

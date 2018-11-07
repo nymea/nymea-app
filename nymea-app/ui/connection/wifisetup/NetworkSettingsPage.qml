@@ -41,13 +41,5 @@ Page {
             onClicked: networkManagerController.manager.performWifiScan()
         }
 
-        Button {
-            Layout.fillWidth: true
-            Layout.leftMargin: app.margins
-            Layout.rightMargin: app.margins
-            visible: networkManagerController.manager.accessPointModeAvailable
-            text: qsTr("Create an access point.")
-            onClicked: pageStack.push(Qt.resolvedUrl("CreateAccessPointPage.qml"), {networkManagerController: root.networkManagerController})
-        }
     }
 }

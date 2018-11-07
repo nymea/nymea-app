@@ -13,12 +13,24 @@ Page {
 
     property NetworkManagerController networkManagerController: null
 
+    signal apReady();
+
+    Connections {
+        target: root.networkManagerController.manager
+        onCurrentConnectionChanged: {
+            if (root.networkManagerController.manager.currentConnection) {
+                print("**** AP ready!")
+                root.apReady();
+            }
+        }
+    }
+
     ColumnLayout {
         anchors { left: parent.left; top: parent.top; right: parent.right; }
 
         Label {
             Layout.fillWidth: true
-            Layout.margins: app.margins
+            Layout.topMargin: app.margins; Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
             text: qsTr("Enter the SSID of access point")
             wrapMode: Text.WordWrap
         }
@@ -26,12 +38,14 @@ Page {
         TextField {
             id: ssidTextField
             Layout.fillWidth: true
-            Layout.margins: app.margins
+            Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
+            maximumLength: 32
+            onAccepted: passwordTextField.focus = true
         }
 
         Label {
             Layout.fillWidth: true
-            Layout.margins: app.margins
+            Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
             text: qsTr("Enter the password for the access point")
             wrapMode: Text.WordWrap
         }
@@ -41,8 +55,10 @@ Page {
             TextField {
                 id: passwordTextField
                 Layout.fillWidth: true
+                maximumLength: 64
                 property bool showPassword: false
                 echoMode: showPassword ? TextInput.Normal : TextInput.Password
+                onAccepted: okButton.clicked()
             }
 
             ColorIcon {
@@ -58,10 +74,11 @@ Page {
         }
 
         Button {
+            id: okButton
             Layout.fillWidth: true
-            Layout.margins: app.margins
+            Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
             text: qsTr("OK")
-            enabled: passwordTextField.displayText.length >= 8 && ssidTextField.text != ""
+            enabled: passwordTextField.displayText.length >= 8 && ssidTextField.displayText != ""
             onClicked: {
                 networkManagerController.manager.startAccessPoint(ssidTextField.text, passwordTextField.text)
                 pageStack.push(createAccessPointWaitPageComponent, {ssid: ssidTextField.text })
