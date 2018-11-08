@@ -217,9 +217,13 @@ void BasicConfiguration::notificationReceived(const QVariantMap &notification)
         QVariantMap params = notification.value("params").toMap().value("basicConfiguration").toMap();
         qDebug() << "notif" << params;
         m_debugServerEnabled = params.value("debugServerEnabled").toBool();
-        emit debugServerEnabled();
+        emit debugServerEnabledChanged();
         m_serverName = params.value("serverName").toString();
         emit serverNameChanged();
+        m_language = params.value("language").toString();
+        emit languageChanged();
+        m_timezone = params.value("timeZone").toString();
+        emit timezoneChanged();
         return;
     }
     if (notif == "Configuration.CloudConfigurationChanged") {
