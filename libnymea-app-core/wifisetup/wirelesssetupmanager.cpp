@@ -371,7 +371,7 @@ void WirelessSetupManager::checkInitialized()
     }
 
     if (initialized)
-        loadCurrentConnection();
+        loadNetworks();
 }
 
 void WirelessSetupManager::setModelNumber(const QString &modelNumber)
@@ -629,7 +629,7 @@ void WirelessSetupManager::processWifiResponse(const QVariantMap &response)
             m_currentConnection->setSignalStrength(currentConnection.value("s").toInt());
             m_currentConnection->setProtected(currentConnection.value("p").toBool());
         }
-        qDebug() << "Current connection is:" << m_currentConnection;
+        qDebug() << "Current connection is:" << m_currentConnection << (m_currentConnection ? m_currentConnection->hostAddress() : "");
         if (oldCurrent != m_currentConnection) {
             emit currentConnectionChanged();
         }
