@@ -369,6 +369,9 @@ void WirelessSetupManager::checkInitialized()
                 && m_netwokService->state() == QLowEnergyService::ServiceDiscovered
                 && m_wifiService->state() == QLowEnergyService::ServiceDiscovered;
     }
+
+    if (initialized)
+        loadCurrentConnection();
 }
 
 void WirelessSetupManager::setModelNumber(const QString &modelNumber)
@@ -505,7 +508,6 @@ void WirelessSetupManager::processNetworkResponse(const QVariantMap &response)
 
     if (responseCode != NetworkServiceResponseSuccess) {
         qWarning() << "WifiSetupManager: Got error for command" << command << responseCode;
-
 
         switch (responseCode) {
         case NetworkServiceResponseIvalidValue:

@@ -23,10 +23,19 @@ Page {
                 pageStack.push(Qt.resolvedUrl("BoxInfoPage.qml"), {networkManagerController: root.networkManagerController})
             }
         }
+
         HeaderButton {
             imageSource: "../images/settings.svg"
             onClicked: {
                 pageStack.push(Qt.resolvedUrl("NetworkSettingsPage.qml"), {networkManagerController: root.networkManagerController})
+            }
+        }
+
+        HeaderButton {
+            imageSource: "../images/refresh.svg"
+            onClicked: {
+                networkManagerController.manager.loadNetworks()
+                //pageStack.push(Qt.resolvedUrl("NetworkSettingsPage.qml"), {networkManagerController: root.networkManagerController})
             }
         }
     }
