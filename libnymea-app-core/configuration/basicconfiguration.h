@@ -15,7 +15,7 @@ class BasicConfiguration : public JsonHandler
     Q_PROPERTY(QString language READ language WRITE setLanguage NOTIFY languageChanged)
     Q_PROPERTY(QString timezone READ timezone WRITE setTimezone NOTIFY timezoneChanged)
 
-    Q_PROPERTY(bool cloudEnabled READ cloudEnabled NOTIFY cloudEnabledChanged)
+    Q_PROPERTY(bool cloudEnabled READ cloudEnabled WRITE setCloudEnabled NOTIFY cloudEnabledChanged)
 
     Q_PROPERTY(QStringList availableLanguages READ availableLanguages NOTIFY availableLanguagesChanged)
     Q_PROPERTY(QStringList timezones READ timezones NOTIFY timezonesChanged)
