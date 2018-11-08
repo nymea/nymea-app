@@ -18,7 +18,7 @@
         <file>ui/connection/ManualConnectPage.qml</file>
         <file>ui/connection/ConnectingPage.qml</file>
         <file>ui/connection/wifisetup/BluetoothDiscoveryPage.qml</file>
-        <file>ui/connection/wifisetup/WirelessSetupPage.qml</file>
+        <file>ui/connection/wifisetup/WirelessConnectionStatusPage.qml</file>
         <file>ui/connection/wifisetup/ConnectWiFiPage.qml</file>
         <file>ui/connection/wifisetup/NetworkSettingsPage.qml</file>
         <file>ui/connection/wifisetup/BoxInfoPage.qml</file>
@@ -136,5 +136,6 @@
         <file>ui/customviews/GenericTypeGraph.qml</file>
         <file>ui/devicepages/SmartMeterDevicePage.qml</file>
         <file>ui/devicelistpages/SmartMeterDeviceListPage.qml</file>
+        <file>ui/connection/wifisetup/CreateAccessPointPage.qml</file>
     </qresource>
 </RCC>

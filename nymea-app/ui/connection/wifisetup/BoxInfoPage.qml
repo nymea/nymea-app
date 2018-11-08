@@ -11,7 +11,7 @@ Page {
         onBackPressed: pageStack.pop()
     }
 
-    property var networkManagerController: null
+    property NetworkManagerController networkManagerController: null
 
     ColumnLayout {
         anchors { left: parent.left; top: parent.top; right: parent.right }

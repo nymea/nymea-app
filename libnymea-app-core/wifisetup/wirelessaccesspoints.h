@@ -50,7 +50,6 @@ public:
     int rowCount(const QModelIndex & parent = QModelIndex()) const;
     QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;
 
-    int count() const;
     Q_INVOKABLE WirelessAccessPoint *getAccessPoint(const QString &ssid) const;
     Q_INVOKABLE WirelessAccessPoint *get(int index);
 

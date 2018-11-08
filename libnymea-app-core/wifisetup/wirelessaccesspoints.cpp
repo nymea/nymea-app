@@ -76,11 +76,6 @@ QVariant WirelessAccessPoints::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-int WirelessAccessPoints::count() const
-{
-    return m_wirelessAccessPoints.count();
-}
-
 WirelessAccessPoint *WirelessAccessPoints::getAccessPoint(const QString &ssid) const
 {
     foreach (WirelessAccessPoint *accessPoint, m_wirelessAccessPoints) {

@@ -7,7 +7,7 @@ import Nymea 1.0
 Page {
     id: root
 
-    property var networkManagerController: null
+    property NetworkManagerController networkManagerController: null
 
     signal connected();
 
@@ -23,10 +23,19 @@ Page {
                 pageStack.push(Qt.resolvedUrl("BoxInfoPage.qml"), {networkManagerController: root.networkManagerController})
             }
         }
+
         HeaderButton {
             imageSource: "../images/settings.svg"
             onClicked: {
                 pageStack.push(Qt.resolvedUrl("NetworkSettingsPage.qml"), {networkManagerController: root.networkManagerController})
+            }
+        }
+
+        HeaderButton {
+            imageSource: "../images/refresh.svg"
+            onClicked: {
+                networkManagerController.manager.loadNetworks()
+                //pageStack.push(Qt.resolvedUrl("NetworkSettingsPage.qml"), {networkManagerController: root.networkManagerController})
             }
         }
     }
@@ -83,12 +92,25 @@ Page {
 
                 onClicked: {
                     print("Connect to ", model.ssid, " --> ", model.macAddress)
-                    if (model.selectedNetwork) {
+                    if (networkManagerController.manager.currentConnection && networkManagerController.manager.currentConnection.macAddress === model.macAddress) {
                         pageStack.push(networkInformationPage, { ssid: model.ssid, macAddress: model.macAddress })
                     } else {
                         pageStack.push(authenticationPageComponent, { ssid: model.ssid, macAddress: model.macAddress })
                     }
                 }
+            }
+        }
+
+        Button {
+            Layout.fillWidth: true
+            Layout.bottomMargin: app.margins; Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
+            visible: networkManagerController.manager.accessPointModeAvailable
+            text: qsTr("Open access point")
+            onClicked: {
+                var page = pageStack.push(Qt.resolvedUrl("CreateAccessPointPage.qml"), {networkManagerController: root.networkManagerController})
+                page.apReady.connect(function() {
+                    root.connected();
+                })
             }
         }
     }
@@ -183,7 +205,6 @@ Page {
         Page {
             id: connectingWifiWaitPage
             property string ssid
-
 
             ColumnLayout {
                 anchors { left: parent.left; right: parent.right; verticalCenter: parent.verticalCenter; margins: app.margins }

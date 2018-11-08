@@ -37,6 +37,7 @@ class WirelessSetupManager : public BluetoothDevice
     Q_OBJECT
     Q_PROPERTY(bool working READ working NOTIFY workingChanged)
     Q_PROPERTY(bool initialized READ initialized NOTIFY initializedChanged)
+    Q_PROPERTY(bool accessPointModeAvailable READ accessPointModeAvailable NOTIFY accessPointModeAvailableChanged)
 
     Q_PROPERTY(WirelessAccessPoints *accessPoints READ accessPoints CONSTANT)
     Q_PROPERTY(WirelessAccessPoint *currentConnection READ currentConnection NOTIFY currentConnectionChanged)
@@ -49,6 +50,7 @@ class WirelessSetupManager : public BluetoothDevice
 
     Q_PROPERTY(NetworkStatus networkStatus READ networkStatus NOTIFY networkStatusChanged)
     Q_PROPERTY(WirelessStatus wirelessStatus READ wirelessStatus NOTIFY wirelessStatusChanged)
+    Q_PROPERTY(WirelessDeviceMode wirelessDeviceMode READ wirelessDeviceMode NOTIFY wirelessDeviceModeChanged)
     Q_PROPERTY(bool networkingEnabled READ networkingEnabled NOTIFY networkingEnabledChanged)
     Q_PROPERTY(bool wirelessEnabled READ wirelessEnabled NOTIFY wirelessEnabledChanged)
 
@@ -61,7 +63,8 @@ public:
         WirelessServiceCommandConnectHidden         = 0x02,
         WirelessServiceCommandDisconnect            = 0x03,
         WirelessServiceCommandScan                  = 0x04,
-        WirelessServiceCommandGetCurrentConnection  = 0x05
+        WirelessServiceCommandGetCurrentConnection  = 0x05,
+        WirelessServiceCommandStartAccessPoint      = 0x06
     };
     Q_ENUM(WirelessServiceCommand)
 
@@ -76,6 +79,14 @@ public:
         WirelessServiceResponseUnknownError                = 0x07
     };
     Q_ENUM(WirelessServiceResponse)
+
+    enum WirelessDeviceMode {
+        WirelessDeviceModeUnknown           = 0x00,
+        WirelessDeviceModeAdhoc             = 0x01,
+        WirelessDeviceModeInfrastructure    = 0x02,
+        WirelessDeviceModeAccessPoint       = 0x03
+    };
+    Q_ENUM(WirelessDeviceMode)
 
     enum NetworkServiceCommand {
         NetworkServiceCommandInvalid = -1,
@@ -150,8 +161,12 @@ public:
     bool initialized() const;
     bool working() const;
 
+    // Note: for compatibility
+    bool accessPointModeAvailable() const;
+
     NetworkStatus networkStatus() const;
     WirelessSetupManager::WirelessStatus wirelessStatus() const;
+    WirelessDeviceMode wirelessDeviceMode() const;
 
     bool networkingEnabled() const;
     bool wirelessEnabled() const;
@@ -168,8 +183,64 @@ public:
     Q_INVOKABLE void enableNetworking(bool enable);
     Q_INVOKABLE void enableWireless(bool enable);
     Q_INVOKABLE void connectWirelessNetwork(const QString &ssid, const QString &password = QString());
+    Q_INVOKABLE void startAccessPoint(const QString &ssid, const QString &password);
     Q_INVOKABLE void disconnectWirelessNetwork();
     Q_INVOKABLE void pressPushButton();
+
+private:
+    QLowEnergyService *m_deviceInformationService = nullptr;
+    QLowEnergyService *m_netwokService = nullptr;
+    QLowEnergyService *m_wifiService = nullptr;
+    QLowEnergyService *m_systemService = nullptr;
+
+    WirelessAccessPoints *m_accessPoints = nullptr;
+    WirelessAccessPoint *m_currentConnection = nullptr;
+
+    QString m_modelNumber;
+    QString m_manufacturer;
+    QString m_softwareRevision;
+    QString m_firmwareRevision;
+    QString m_hardwareRevision;
+
+    bool m_networkingEnabled = false;
+    bool m_wirelessEnabled = false;
+
+    bool m_working = false;
+    bool m_initialized = false;
+    bool m_accessPointModeAvailable = false;
+
+    NetworkStatus m_networkStatus = NetworkStatusUnknown;
+    WirelessStatus m_wirelessStatus = WirelessStatusUnknown;
+    WirelessDeviceMode m_wirelessDeviceMode = WirelessDeviceModeUnknown;
+
+    bool m_readingResponse = false;
+    QByteArray m_inputDataStream;
+
+    QString m_ssid;
+    QString m_password;
+
+    QVariantList m_accessPointsVariantList;
+
+    void checkInitialized();
+
+    // Private set methods for read only properties
+    void setModelNumber(const QString &modelNumber);
+    void setManufacturer(const QString &manufacturer);
+    void setSoftwareRevision(const QString &softwareRevision);
+    void setFirmwareRevision(const QString &firmwareRevision);
+    void setHardwareRevision(const QString &hardwareRevision);
+
+    void setNetworkStatus(int networkStatus);
+    void setWirelessStatus(int wirelessStatus);
+    void setWirelessDeviceMode(int wirelessDeviceMode);
+    void setNetworkingEnabled(bool networkingEnabled);
+    void setWirelessEnabled(bool wirelessEnabled);
+
+    // Data methods
+    void streamData(const QVariantMap &request);
+    void processNetworkResponse(const QVariantMap &response);
+    void processWifiResponse(const QVariantMap &response);
+    void processSystemResponse(const QVariantMap &response);
 
 signals:
     void modelNumberChanged();
@@ -180,9 +251,11 @@ signals:
 
     void initializedChanged();
     void workingChanged();
+    void accessPointModeAvailableChanged();
 
     void networkStatusChanged();
     void wirelessStatusChanged();
+    void wirelessDeviceModeChanged();
     void networkingEnabledChanged();
     void wirelessEnabledChanged();
 
@@ -209,58 +282,6 @@ private slots:
     void onSystemServiceStateChanged(const QLowEnergyService::ServiceState &state);
     void onSystemServiceCharacteristicChanged(const QLowEnergyCharacteristic &characteristic, const QByteArray &value);
     void onSystemServiceReadFinished(const QLowEnergyCharacteristic &characteristic, const QByteArray &value);
-
-private:
-    QLowEnergyService *m_deviceInformationService = nullptr;
-    QLowEnergyService *m_netwokService = nullptr;
-    QLowEnergyService *m_wifiService = nullptr;
-    QLowEnergyService *m_systemService = nullptr;
-
-    WirelessAccessPoints *m_accessPoints = nullptr;
-    WirelessAccessPoint *m_currentConnection = nullptr;
-
-    QString m_modelNumber;
-    QString m_manufacturer;
-    QString m_softwareRevision;
-    QString m_firmwareRevision;
-    QString m_hardwareRevision;
-
-    bool m_networkingEnabled = false;
-    bool m_wirelessEnabled = false;
-
-    bool m_working = false;
-    bool m_initialized = false;
-
-    NetworkStatus m_networkStatus = NetworkStatusUnknown;
-    WirelessStatus m_wirelessStatus = WirelessStatusUnknown;
-
-    bool m_readingResponse = false;
-    QByteArray m_inputDataStream;
-
-    QString m_ssid;
-    QString m_password;
-
-    QVariantList m_accessPointsVariantList;
-
-    void checkInitialized();
-
-    // Private set methods for read only properties
-    void setModelNumber(const QString &modelNumber);
-    void setManufacturer(const QString &manufacturer);
-    void setSoftwareRevision(const QString &softwareRevision);
-    void setFirmwareRevision(const QString &firmwareRevision);
-    void setHardwareRevision(const QString &hardwareRevision);
-
-    void setNetworkStatus(int networkStatus);
-    void setWirelessStatus(int wirelessStatus);
-    void setNetworkingEnabled(bool networkingEnabled);
-    void setWirelessEnabled(bool wirelessEnabled);
-
-    // Data methods
-    void streamData(const QVariantMap &request);
-    void processNetworkResponse(const QVariantMap &response);
-    void processWifiResponse(const QVariantMap &response);
-    void processSystemResponse(const QVariantMap &response);
 
 };
 

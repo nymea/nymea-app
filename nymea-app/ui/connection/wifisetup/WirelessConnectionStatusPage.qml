@@ -7,8 +7,10 @@ import Nymea 1.0
 Page {
     id: root
 
-    property var networkManagerController: null
-    property var nymeaDiscovery: null
+    property NetworkManagerController networkManagerController: null
+    property NymeaDiscovery nymeaDiscovery: null
+
+    property bool accessPointMode: root.networkManagerController.manager.wirelessDeviceMode == WirelessSetupManager.WirelessDeviceModeAccessPoint
 
     signal done()
 
@@ -48,6 +50,10 @@ Page {
 
         onCurrentConnectionChanged: {
             updateConnectButton();
+
+            if (!root.networkManagerController.manager.currentConnection) {
+                networkManagerController.manager.loadNetworks()
+            }
         }
     }
 
@@ -57,7 +63,7 @@ Page {
     }
 
     function updateConnectButton() {
-        if (!root.networkManagerController.manager.currentConnection) {
+        if (!root.networkManagerController.manager.currentConnection || root.accessPointMode) {
             connectButton.url = "";
             return;
         }
@@ -77,6 +83,7 @@ Page {
         connectButton.url = "";
     }
 
+
     ColumnLayout {
         anchors { left: parent.left; top: parent.top; right: parent.right }
         spacing: app.margins
@@ -84,43 +91,69 @@ Page {
             Layout.preferredHeight: app.iconSize * 2
             Layout.preferredWidth: height
             Layout.alignment: Qt.AlignCenter
-            name: "../images/tick.svg"
+            Layout.topMargin: app.margins
+            name: root.accessPointMode ? "../images/wireless-router.svg" : "../images/tick.svg"
             color: app.accentColor
         }
+
         Label {
             Layout.fillWidth: true
             Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
+            visible: root.accessPointMode
             wrapMode: Text.WordWrap
             text: root.networkManagerController.manager.currentConnection
-                  ? qsTr("Your %1 box is connected to %2").arg(app.systemName).arg(root.networkManagerController.manager.currentConnection.ssid)
+                  ? qsTr("The %1 box is in access point mode").arg(app.systemName)
                   : ""
         }
 
         Label {
             Layout.fillWidth: true
             Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
-            text: qsTr("IP address: %1").arg(root.networkManagerController.manager.currentConnection.hostAddress)
+            visible: root.networkManagerController.manager.currentConnection
+            text: root.accessPointMode
+                  ? qsTr("Access point name: %1").arg(root.networkManagerController.manager.currentConnection.ssid)
+                  : qsTr("Your %1 box is connected to %2").arg(app.systemName).arg(root.networkManagerController.manager.currentConnection.ssid)
+        }
+
+        Label {
+            Layout.fillWidth: true
+            Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
+            text: root.networkManagerController.manager.currentConnection ? qsTr("IP address: %1").arg(root.networkManagerController.manager.currentConnection.hostAddress) : ""
             elide: Text.ElideRight
         }
 
         RowLayout {
             Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
-            visible: !connectButton.visible
+            visible: !connectButton.visible && !root.accessPointMode
             spacing: app.margins
             Label {
                 Layout.fillWidth: true
-                text: qsTr("Waiting for the %1 box to appear in your network.").arg(app.systemName)
+                text: qsTr("Waiting for %1:core to appear in your network.").arg(app.systemName)
                 wrapMode: Text.WordWrap
             }
             BusyIndicator { }
         }
 
         Button {
-            id: connectButton
-            visible: url != ""
+            id: disconnectButton
             Layout.fillWidth: true
             Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
-            text: qsTr("Connect to box")
+            text: root.accessPointMode ? qsTr("Shut down access point") : qsTr("Disconnect from this network")
+            onClicked: {
+                networkManagerController.manager.disconnectWirelessNetwork()
+                var page = pageStack.push(Qt.resolvedUrl("ConnectWiFiPage.qml"), {networkManagerController: root.networkManagerController})
+                page.connected.connect(function() {
+                    pageStack.pop(root)
+                })
+            }
+        }
+
+        Button {
+            id: connectButton
+            visible: url != "" && !root.accessPointMode
+            Layout.fillWidth: true
+            Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
+            text: qsTr("Connect to %1").arg(app.systemName)
             property string url
             onClicked: {
                 engine.connection.connect(url)
@@ -130,6 +163,7 @@ Page {
         Button {
             Layout.fillWidth: true
             Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
+            visible: !root.accessPointMode
             text: qsTr("Change network")
             onClicked: {
                 var page = pageStack.push(Qt.resolvedUrl("ConnectWiFiPage.qml"), {networkManagerController: root.networkManagerController})

@@ -32,8 +32,8 @@ Page {
     function setupDevice() {
         pageStack.pop(root, StackView.Immediate)
         if (networkManager.manager.currentConnection) {
-            print("***** pushing WirelessSetupPage with networkManager:", networkManager)
-            var page = pageStack.push(Qt.resolvedUrl("WirelessSetupPage.qml"), { networkManagerController: networkManager, nymeaDiscovery: root.nymeaDiscovery } )
+            print("***** pushing WirelessConnectionStatusPage with networkManager:", networkManager)
+            var page = pageStack.push(Qt.resolvedUrl("WirelessConnectionStatusPage.qml"), { networkManagerController: networkManager, nymeaDiscovery: root.nymeaDiscovery } )
             page.done.connect(function() {
                 pageStack.pop(root, StackView.Immediate);
                 pageStack.pop();
@@ -238,6 +238,7 @@ Page {
                     Layout.alignment: Qt.AlignHCenter
                     running: true
                 }
+
                 Label {
                     id: initializingMessage
                     Layout.fillWidth: true
