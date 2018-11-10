@@ -40,7 +40,7 @@ public:
         RoleDisplayName
     };
 
-    EventTypes(QObject *parent = 0);
+    EventTypes(QObject *parent = nullptr);
 
     QList<EventType *> eventTypes();
 

@@ -46,7 +46,7 @@ DeviceListPageBase {
             property var deviceClass: engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
 
             property var connectedStateType: deviceClass.stateTypes.findByName("connected");
-            property var connectedState: device.states.getState(connectedStateType.id)
+            property var connectedState: connectedStateType ? device.states.getState(connectedStateType.id) : null
 
             property var powerStateType: deviceClass.stateTypes.findByName("power");
             property var powerActionType: deviceClass.actionTypes.findByName("power");
@@ -66,7 +66,7 @@ DeviceListPageBase {
             rightPadding: 0
             contentItem: ItemDelegate {
                 id: contentItem
-                implicitHeight: itemDelegate.brightnessStateType && !itemDelegate.inline && nameRow.enabled ? nameRow.implicitHeight + sliderRow.implicitHeight : nameRow.implicitHeight
+                implicitHeight: nameRow.implicitHeight
                 //                gradient: Gradient {
                 //                    GradientStop { position: 0.0; color: "transparent" }
                 //                    GradientStop { position: 1.0; color: Qt.rgba(app.foregroundColor.r, app.foregroundColor.g, app.foregroundColor.b, 0.05) }
@@ -74,6 +74,14 @@ DeviceListPageBase {
 
 
                 topPadding: 0
+
+                Rectangle {
+                    anchors { left: parent.left; top: parent.top; bottom: parent.bottom }
+                    width: app.margins / 2
+                    color: itemDelegate.connectedState !== null && itemDelegate.connectedState.value === false ?
+                               "red"
+                             : itemDelegate.colorStateType ? itemDelegate.colorState.value : "#00000000"
+                }
 
                 contentItem: ColumnLayout {
                     spacing: 0
@@ -101,16 +109,18 @@ DeviceListPageBase {
                                 anchors.fill: icon
                                 radius: 1
                                 samples: 17
-                                color: app.foregroundColor
+                                color: app.backgroundColor
                                 source: icon
                             }
 
                             ColorIcon {
                                 id: icon
                                 anchors.fill: parent
-                                color: itemDelegate.connectedState !== null && itemDelegate.connectedState.value === false ?
-                                           "red"
-                                         : itemDelegate.colorStateType ? itemDelegate.colorState.value : "#00000000"
+                                color: app.accentColor
+//                                anchors.margins: app.margins / 4
+//                                color: itemDelegate.connectedState !== null && itemDelegate.connectedState.value === false ?
+//                                           "red"
+//                                         : itemDelegate.colorStateType ? itemDelegate.colorState.value : "#00000000"
                                 name: itemDelegate.connectedState !== null && itemDelegate.connectedState.value === false ?
                                           "../images/dialog-warning-symbolic.svg"
                                         : itemDelegate.powerState.value === true ? "../images/light-on.svg" : "../images/light-off.svg"
@@ -146,28 +156,6 @@ DeviceListPageBase {
                                 param1["value"] = checked;
                                 params.push(param1)
                                 engine.deviceManager.executeAction(device.id, itemDelegate.powerActionType.id, params)
-                            }
-                        }
-                    }
-                    Item {
-                        id: sliderRow
-                        Layout.fillWidth: true
-                        implicitHeight: outlineSlider.implicitHeight * .6
-                        Layout.preferredHeight: implicitHeight
-
-                        ThrottledSlider {
-                            id: outlineSlider
-                            anchors { left: parent.left; right: parent.right; verticalCenter: parent.verticalCenter }
-                            visible: nameRow.enabled && itemDelegate.brightnessStateType && !inlineSlider.visible
-                            from: 0; to: 100
-                            value: itemDelegate.brightnessState ? itemDelegate.brightnessState.value : 0
-                            onMoved: {
-                                var params = [];
-                                var param1 = {};
-                                param1["paramTypeId"] = itemDelegate.brightnessActionType.paramTypes.get(0).id;
-                                param1["value"] = value;
-                                params.push(param1)
-                                engine.deviceManager.executeAction(itemDelegate.device.id, itemDelegate.brightnessActionType.id, params)
                             }
                         }
                     }

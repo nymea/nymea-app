@@ -31,11 +31,11 @@ class Vendor : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString name READ name CONSTANT)
-    Q_PROPERTY(QString displayName READ displayName)
+    Q_PROPERTY(QString displayName READ displayName CONSTANT)
     Q_PROPERTY(QUuid id READ id CONSTANT)
 
 public:
-    Vendor(const QUuid &id = QUuid(), const QString &name = QString(), QObject *parent = 0);
+    Vendor(const QUuid &id = QUuid(), const QString &name = QString(), QObject *parent = nullptr);
 
     QUuid id() const;
     void setId(const QUuid &id);

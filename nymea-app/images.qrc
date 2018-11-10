@@ -153,5 +153,9 @@
         <file>ui/images/smartmeter.svg</file>
         <file>ui/images/radiator.svg</file>
         <file>ui/images/ev-charger.svg</file>
+        <file>ui/images/lighting/activate.svg</file>
+        <file>ui/images/lighting/concentrate.svg</file>
+        <file>ui/images/lighting/reading.svg</file>
+        <file>ui/images/lighting/relax.svg</file>
     </qresource>
 </RCC>

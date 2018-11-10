@@ -71,6 +71,8 @@ public:
     QVariant minValue() const;
     QVariant maxValue() const;
 
+    Q_INVOKABLE LogEntry *get(int index) const;
+
 protected:
     virtual void fetchMore(const QModelIndex &parent = QModelIndex()) override;
     virtual bool canFetchMore(const QModelIndex &parent = QModelIndex()) const override;

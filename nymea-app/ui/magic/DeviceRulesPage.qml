@@ -46,8 +46,11 @@ Page {
                 return;
             }
             rule = engine.ruleManager.createNewRule();
+            d.editRulePage = pageStack.push(Qt.resolvedUrl("EditRulePage.qml"), {rule: rule, initialDeviceToBeAdded: root.device});
+        } else {
+            d.editRulePage = pageStack.push(Qt.resolvedUrl("EditRulePage.qml"), {rule: rule});
         }
-        d.editRulePage = pageStack.push(Qt.resolvedUrl("EditRulePage.qml"), {rule: rule, initialDeviceToBeAdded: root.device});
+
         d.editRulePage.StackView.onRemoved.connect(function() {
             rule.destroy();
         })

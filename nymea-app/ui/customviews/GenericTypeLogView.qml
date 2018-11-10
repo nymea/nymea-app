@@ -7,7 +7,7 @@ import "../components"
 Item {
     id: root
 
-    signal addRuleClicked(var value)
+    signal addRuleClicked(int index)
 
     property var logsModel: null
 
@@ -66,7 +66,7 @@ Item {
                     anchors.margins: app.margins
                     name: "../images/magic.svg"
                 }
-                onClicked: root.addRuleClicked(model.value)
+                onClicked: root.addRuleClicked(index)
             }
             onClicked: {
                 if (swipe.complete) {
