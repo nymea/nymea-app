@@ -122,3 +122,22 @@ void StateType::setUnitString(const QString &unitString)
     m_unitString = unitString;
 }
 
+QVariant StateType::minValue() const
+{
+    return m_minValue;
+}
+
+void StateType::setMinValue(const QVariant &minValue)
+{
+    m_minValue = minValue;
+}
+
+QVariant StateType::maxValue() const
+{
+    return m_maxValue;
+}
+
+void StateType::setMaxValue(const QVariant &maxValue)
+{
+    m_maxValue = maxValue;
+}

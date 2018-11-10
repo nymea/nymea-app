@@ -73,10 +73,10 @@ DevicePageBase {
 
                 Repeater {
                     model: ListModel {
-                        ListElement { name: "activate"; ct: "153"; bri: 100 }
-                        ListElement { name: "concentrate"; ct: "233"; bri: 100 }
-                        ListElement { name: "reading"; ct: "350"; bri: 100 }
-                        ListElement { name: "relax"; ct: "480" ; bri: 55}
+                        ListElement { name: "activate"; ct: "0"; bri: 100 }
+                        ListElement { name: "concentrate"; ct: "23"; bri: 100 }
+                        ListElement { name: "reading"; ct: "57"; bri: 100 }
+                        ListElement { name: "relax"; ct: "95" ; bri: 55}
                     }
                     delegate: Pane {
                         Layout.fillWidth: true
@@ -89,10 +89,14 @@ DevicePageBase {
                             ItemDelegate {
                                 anchors.fill: parent
                                 onClicked: {
+                                    // Translate from % to absolute value in min/max
+                                    // % : 100 = abs : (max - min)
+                                    print("min,max", root.ctStateType, root.ctStateType.minValue, root.ctStateType.maxValue)
+                                    var absoluteCtValue = (model.ct * (root.ctStateType.maxValue - root.ctStateType.minValue) / 100) + root.ctStateType.minValue
                                     var params = [];
                                     var param1 = {};
                                     param1["paramTypeId"] = root.ctActionType.paramTypes.get(0).id;
-                                    param1["value"] = model.ct;
+                                    param1["value"] = absoluteCtValue;
                                     params.push(param1)
                                     engine.deviceManager.executeAction(root.device.id, root.ctActionType.id, params)
                                     params = [];
@@ -143,8 +147,8 @@ DevicePageBase {
                     anchors.fill: parent
                     ct: root.ctState ? root.ctState.value : 0
                     visible: root.ctStateType
-                    minCt: root.ctActionType ? root.ctActionType.paramTypes.findByName("colorTemperature").minValue : 0
-                    maxCt: root.ctActionType ? root.ctActionType.paramTypes.findByName("colorTemperature").maxValue : 0
+                    minCt: root.ctActionType ? root.ctStateType.minValue : 0
+                    maxCt: root.ctActionType ? root.ctStateType.maxValue : 0
 
 
                     touchDelegate: Rectangle {

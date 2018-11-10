@@ -38,7 +38,7 @@ class ActionType : public QObject
     Q_PROPERTY(ParamTypes *paramTypes READ paramTypes NOTIFY paramTypesChanged)
 
 public:
-    explicit ActionType(QObject *parent = 0);
+    explicit ActionType(QObject *parent = nullptr);
 
     QString id() const;
     void setId(const QString &id);
