@@ -27,103 +27,117 @@ DevicePageBase {
 
     GridLayout {
         anchors.fill: parent
+        anchors.margins: app.margins
         columns: app.landscape ? 2 : 1
+        rowSpacing: app.margins
+        columnSpacing: app.margins
+        Layout.alignment: Qt.AlignCenter
 
-        AbstractButton {
+        Item {
             Layout.preferredWidth: Math.max(app.iconSize * 4, parent.width / 5)
             Layout.preferredHeight: width
-            Layout.leftMargin: app.margins
-            Layout.rightMargin: app.landscape ? 0 : app.margins
             Layout.topMargin: app.margins
             Layout.bottomMargin: app.landscape ? app.margins : 0
             Layout.alignment: Qt.AlignCenter
+            Layout.rowSpan: app.landscape ? 4 : 1
+            Layout.fillHeight: true
 
-            Rectangle {
-                anchors.fill: parent
-                color: "white"
-                border.color: root.powerState.value === true ? app.accentColor : bulbIcon.keyColor
-                border.width: 4
-                radius: width / 2
-            }
+            AbstractButton {
+                height: Math.min(parent.height, parent.width)
+                width: height
+                anchors.centerIn: parent
+                Rectangle {
+                    anchors.fill: parent
+                    color: "white"
+                    border.color: root.powerState.value === true ? app.accentColor : bulbIcon.keyColor
+                    border.width: 4
+                    radius: width / 2
+                }
 
-            ColorIcon {
-                id: bulbIcon
-                anchors.fill: parent
-                anchors.margins: app.margins * 1.5
-                name: root.powerState.value === true ? "../images/light-on.svg" : "../images/light-off.svg"
-                color: root.powerState.value === true ? app.accentColor : keyColor
-            }
-            onClicked: {
-                var params = []
-                var param = {}
-                param["paramTypeId"] = root.powerActionType.paramTypes.get(0).id;
-                param["value"] = !root.powerState.value;
-                params.push(param)
-                engine.deviceManager.executeAction(root.device.id, root.powerStateType.id, params);
+                ColorIcon {
+                    id: bulbIcon
+                    anchors.fill: parent
+                    anchors.margins: app.margins * 1.5
+                    name: root.powerState.value === true ? "../images/light-on.svg" : "../images/light-off.svg"
+                    color: root.powerState.value === true ? app.accentColor : keyColor
+                }
+                onClicked: {
+                    var params = []
+                    var param = {}
+                    param["paramTypeId"] = root.powerActionType.paramTypes.get(0).id;
+                    param["value"] = !root.powerState.value;
+                    params.push(param)
+                    engine.deviceManager.executeAction(root.device.id, root.powerStateType.id, params);
+                }
             }
         }
 
-        ColumnLayout {
-            Layout.fillWidth: true
-            visible: root.brightnessStateType
 
-            RowLayout {
-                Layout.margins: app.margins
-                spacing: app.margins
+        RowLayout {
+            Layout.fillHeight: true
+            spacing: app.margins
+            Layout.alignment: Qt.AlignHCenter
+            visible: root.ctStateType !== null
 
-                Repeater {
-                    model: ListModel {
-                        ListElement { name: "activate"; ct: "0"; bri: 100 }
-                        ListElement { name: "concentrate"; ct: "23"; bri: 100 }
-                        ListElement { name: "reading"; ct: "57"; bri: 100 }
-                        ListElement { name: "relax"; ct: "95" ; bri: 55}
-                    }
-                    delegate: Pane {
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: width
-                        Material.elevation: 1
-                        padding: 0
-                        Image {
-                            source: "../images/lighting/" + model.name + ".svg"
+            Repeater {
+                model: ListModel {
+                    ListElement { name: "activate"; ct: "0"; bri: 100 }
+                    ListElement { name: "concentrate"; ct: "23"; bri: 100 }
+                    ListElement { name: "reading"; ct: "57"; bri: 100 }
+                    ListElement { name: "relax"; ct: "95" ; bri: 55}
+                }
+                delegate: Pane {
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: Math.max(20, width)
+                    Material.elevation: 1
+                    //                        Layout.maximumWidth: app.iconSize * 2
+                    padding: 0
+                    Image {
+                        source: "../images/lighting/" + model.name + ".svg"
+                        anchors.fill: parent
+                        ItemDelegate {
                             anchors.fill: parent
-                            ItemDelegate {
-                                anchors.fill: parent
-                                onClicked: {
-                                    // Translate from % to absolute value in min/max
-                                    // % : 100 = abs : (max - min)
-                                    print("min,max", root.ctStateType, root.ctStateType.minValue, root.ctStateType.maxValue)
-                                    var absoluteCtValue = (model.ct * (root.ctStateType.maxValue - root.ctStateType.minValue) / 100) + root.ctStateType.minValue
-                                    var params = [];
-                                    var param1 = {};
-                                    param1["paramTypeId"] = root.ctActionType.paramTypes.get(0).id;
-                                    param1["value"] = absoluteCtValue;
-                                    params.push(param1)
-                                    engine.deviceManager.executeAction(root.device.id, root.ctActionType.id, params)
-                                    params = [];
-                                    param1 = {};
-                                    param1["paramTypeId"] = root.brightnessActionType.paramTypes.get(0).id;
-                                    param1["value"] = model.bri;
-                                    params.push(param1)
-                                    engine.deviceManager.executeAction(root.device.id, root.brightnessActionType.id, params)
-                                }
+                            onClicked: {
+                                // Translate from % to absolute value in min/max
+                                // % : 100 = abs : (max - min)
+                                print("min,max", root.ctStateType, root.ctStateType.minValue, root.ctStateType.maxValue)
+                                var absoluteCtValue = (model.ct * (root.ctStateType.maxValue - root.ctStateType.minValue) / 100) + root.ctStateType.minValue
+                                var params = [];
+                                var param1 = {};
+                                param1["paramTypeId"] = root.ctActionType.paramTypes.get(0).id;
+                                param1["value"] = absoluteCtValue;
+                                params.push(param1)
+                                engine.deviceManager.executeAction(root.device.id, root.ctActionType.id, params)
+                                params = [];
+                                param1 = {};
+                                param1["paramTypeId"] = root.brightnessActionType.paramTypes.get(0).id;
+                                param1["value"] = model.bri;
+                                params.push(param1)
+                                engine.deviceManager.executeAction(root.device.id, root.brightnessActionType.id, params)
                             }
                         }
-
                     }
                 }
             }
+        }
+
+        Rectangle {
+            color: "blue"
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            Layout.minimumHeight: 20
+            Layout.preferredHeight: 20
+            visible: root.brightnessStateType
 
             Pane {
-                Layout.fillWidth: true
-                Layout.margins: app.margins
-                Layout.preferredHeight: 20
+                anchors { left: parent.left; right: parent.right; verticalCenter: parent.verticalCenter }
+                height: parent.height
                 Material.elevation: 1
                 padding: 0
 
                 BrightnessSlider {
                     anchors.fill: parent
                     brightness: root.brightnessState ? root.brightnessState.value : 0
-                    visible: root.brightnessStateType
                     onMoved: {
                         var params = []
                         var param = {}
@@ -134,11 +148,20 @@ DevicePageBase {
                     }
                 }
             }
+        }
+
+
+        Rectangle {
+            color: "red"
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            Layout.minimumHeight: 20
+            Layout.preferredHeight: 20
+            visible: root.ctStateType
 
             Pane {
-                Layout.fillWidth: true
-                Layout.margins: app.margins
-                Layout.preferredHeight: 20
+                anchors { left: parent.left; right: parent.right; verticalCenter: parent.verticalCenter }
+                height: parent.height
                 Material.elevation: 1
                 padding: 0
 
@@ -146,7 +169,6 @@ DevicePageBase {
                     id: pickerCt
                     anchors.fill: parent
                     ct: root.ctState ? root.ctState.value : 0
-                    visible: root.ctStateType
                     minCt: root.ctActionType ? root.ctStateType.minValue : 0
                     maxCt: root.ctActionType ? root.ctStateType.maxValue : 0
 
@@ -176,18 +198,25 @@ DevicePageBase {
                     }
                 }
             }
+        }
+
+        Rectangle {
+            color: "green"
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            Layout.minimumHeight: 80
+            Layout.preferredHeight: 80
+            visible: root.colorStateType
 
             Pane {
-                Layout.fillWidth: true
-                Layout.margins: app.margins
-                Layout.preferredHeight: 80
+                anchors { left: parent.left; right: parent.right; verticalCenter: parent.verticalCenter }
+                height: parent.height
                 Material.elevation: 1
                 padding: 0
 
                 ColorPicker {
                     id: colorPicker
                     anchors.fill: parent
-                    visible: root.colorStateType
 
                     color: root.colorState ? root.colorState.value : "white"
                     touchDelegate: Rectangle {
@@ -225,7 +254,7 @@ DevicePageBase {
                     }
                 }
             }
-
         }
+
     }
 }
