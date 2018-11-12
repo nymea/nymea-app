@@ -173,6 +173,14 @@ QVariant LogsModelNg::maxValue() const
     return m_maxValue;
 }
 
+LogEntry *LogsModelNg::get(int index) const
+{
+    if (index >= 0 && index < m_list.count()) {
+        return m_list.at(index);
+    }
+    return nullptr;
+}
+
 void LogsModelNg::logsReply(const QVariantMap &data)
 {
 //    qDebug() << "logs reply" << data;

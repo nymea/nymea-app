@@ -159,6 +159,8 @@ StateType *JsonTypes::unpackStateType(const QVariantMap &stateTypeMap, QObject *
     stateType->setDefaultValue(stateTypeMap.value("defaultValue"));
     stateType->setAllowedValues(stateTypeMap.value("possibleValues").toList());
     stateType->setType(stateTypeMap.value("type").toString());
+    stateType->setMinValue(stateTypeMap.value("minValue"));
+    stateType->setMaxValue(stateTypeMap.value("maxValue"));
 
     QPair<Types::Unit, QString> unit = stringToUnit(stateTypeMap.value("unit").toString());
     stateType->setUnit(unit.first);

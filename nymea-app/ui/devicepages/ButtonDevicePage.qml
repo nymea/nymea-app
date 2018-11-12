@@ -10,6 +10,7 @@ DevicePageBase {
 
     GenericTypeLogView {
         anchors.fill: parent
+        id: logView
 
         logsModel: engine.jsonRpcClient.ensureServerVersion("1.10") ? logsModelNg : logsModel
         LogsModelNg {
@@ -43,10 +44,12 @@ DevicePageBase {
         }
 
         onAddRuleClicked: {
+            var value = logView.logsModel.get(index).value
+            var typeId = logView.logsModel.get(index).typeId
             var rule = engine.ruleManager.createNewRule();
             var eventDescriptor = rule.eventDescriptors.createNewEventDescriptor();
             eventDescriptor.deviceId = device.id;
-            var eventType = root.deviceClass.eventTypes.findByName("pressed");
+            var eventType = root.deviceClass.eventTypes.getEventType(typeId);
             eventDescriptor.eventTypeId = eventType.id;
             rule.name = root.device.name + " - " + eventType.displayName;
             if (eventType.paramTypes.count === 1) {

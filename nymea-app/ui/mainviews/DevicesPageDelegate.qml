@@ -271,7 +271,7 @@ MainPageTile {
                                 var stateType = deviceClass.stateTypes.findByName("playbackStatus");
                                 var state = device.states.getState(stateType.id)
                                 return state.value === "Playing" ? "../images/media-playback-pause.svg" :
-                                                                   state.value === "PAUSED" ? "../images/media-playback-start.svg" :
+                                                                   state.value === "Paused" ? "../images/media-playback-start.svg" :
                                                                                               ""
                             case "light":
                                 return "../images/system-shutdown.svg"

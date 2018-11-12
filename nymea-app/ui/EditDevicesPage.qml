@@ -81,10 +81,11 @@ Page {
                 device: deviceProxy.get(index)
                 canDelete: true
                 onClicked: {
-                    pageStack.push(Qt.resolvedUrl("devicepages/ConfigureThingPage.qml"), {device: deviceProxy.get(index)})
+                    print("clicked:", model.id)
+                    pageStack.push(Qt.resolvedUrl("devicepages/ConfigureThingPage.qml"), {device: device})
                 }
                 onDeleteClicked: {
-                    d.deviceToRemove = deviceProxy.get(index);
+                    d.deviceToRemove = device;
                     engine.deviceManager.removeDevice(d.deviceToRemove.id)
                 }
             }

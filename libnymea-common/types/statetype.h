@@ -41,6 +41,8 @@ class StateType : public QObject
     Q_PROPERTY(QVariantList allowedValues READ allowedValues CONSTANT)
     Q_PROPERTY(Types::Unit unit READ unit CONSTANT)
     Q_PROPERTY(QString unitString READ unitString CONSTANT)
+    Q_PROPERTY(QVariant minValue READ minValue CONSTANT)
+    Q_PROPERTY(QVariant maxValue READ maxValue CONSTANT)
 
 public:
     StateType(QObject *parent = nullptr);
@@ -73,6 +75,12 @@ public:
     QString unitString() const;
     void setUnitString(const QString &unitString);
 
+    QVariant minValue() const;
+    void setMinValue(const QVariant &minValue);
+
+    QVariant maxValue() const;
+    void setMaxValue(const QVariant &maxValue);
+
 private:
     QString m_id;
     QString m_name;
@@ -83,7 +91,8 @@ private:
     QVariantList m_allowedValues;
     Types::Unit m_unit;
     QString m_unitString;
-
+    QVariant m_minValue;
+    QVariant m_maxValue;
 };
 
 #endif // STATETYPE_H

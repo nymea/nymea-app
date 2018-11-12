@@ -78,10 +78,12 @@ Page {
                 logsModel: engine.jsonRpcClient.ensureServerVersion("1.10") ? logsModelNg : logsModel
 
                 onAddRuleClicked: {
+                    var value = logView.logsModel.get(index).value
+                    var typeId = logView.logsModel.get(index).typeId
                     var rule = engine.ruleManager.createNewRule();
                     var stateEvaluator = rule.createStateEvaluator();
                     stateEvaluator.stateDescriptor.deviceId = device.id;
-                    stateEvaluator.stateDescriptor.stateTypeId = root.stateType.id;
+                    stateEvaluator.stateDescriptor.stateTypeId = typeId;
                     stateEvaluator.stateDescriptor.value = value;
                     stateEvaluator.stateDescriptor.valueOperator = StateDescriptor.ValueOperatorEquals;
                     rule.setStateEvaluator(stateEvaluator);
