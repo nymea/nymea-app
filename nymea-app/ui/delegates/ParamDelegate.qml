@@ -89,6 +89,12 @@ ItemDelegate {
         id: boolComponent
         Switch {
             checked: root.param.value === true
+            Component.onCompleted: {
+                if (root.param.value === undefined) {
+                    root.param.value = checked;
+                }
+            }
+
             onClicked: {
                 root.param.value = checked;
             }
