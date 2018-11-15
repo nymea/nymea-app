@@ -104,9 +104,10 @@ void ZeroconfDiscovery::serviceEntryAdded(const QZeroConfService &entry)
     device->setName(serverName);
     device->setVersion(version);
     QUrl url;
-    if (entry.type() == "_jsonrpc._tcp") {
+    // NOTE: On linux this is "_jsonrpc._tcp" while on apple systems this is "_jsonrpc._tcp."
+    if (entry.type().startsWith("_jsonrpc._tcp")) {
         url.setScheme(sslEnabled ? "nymeas" : "nymea");
-    } else {
+    } else if (entry.type().startsWith("_ws._tcp")) {
         url.setScheme(sslEnabled ? "wss" : "ws");
     }
     url.setHost(!entry.ip().isNull() ? entry.ip().toString() : entry.ipv6().toString());
