@@ -49,9 +49,9 @@ Page {
         SwitchDelegate {
             Layout.fillWidth: true
             text: qsTr("Cloud connection enabled")
-            checked: engine.basicConfiguration.cloudEnabled
+            checked: engine.nymeaConfiguration.cloudEnabled
             onToggled: {
-                engine.basicConfiguration.cloudEnabled = checked;
+                engine.nymeaConfiguration.cloudEnabled = checked;
             }
         }
 

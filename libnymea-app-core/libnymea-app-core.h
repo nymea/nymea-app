@@ -35,7 +35,10 @@
 #include "models/logsmodelng.h"
 #include "models/valuelogsproxymodel.h"
 #include "models/interfacesproxy.h"
-#include "configuration/basicconfiguration.h"
+#include "configuration/nymeaconfiguration.h"
+#include "configuration/serverconfiguration.h"
+#include "configuration/serverconfigurations.h"
+#include "configuration/mqttbrokerconfiguration.h"
 #include "wifisetup/networkmanagercontroller.h"
 #include "wifisetup/wirelessaccesspoint.h"
 #include "wifisetup/wirelessaccesspoints.h"
@@ -143,13 +146,15 @@ void registerQmlTypes() {
     qmlRegisterUncreatableType<Plugins>(uri, 1, 0, "Plugins", "Can't create this in QML. Get it from the DeviceManager.");
     qmlRegisterType<PluginsProxy>(uri, 1, 0, "PluginsProxy");
 
-    qmlRegisterUncreatableType<BasicConfiguration>(uri, 1, 0, "BasicConfiguration", "Uncreatable");
+    qmlRegisterUncreatableType<NymeaConfiguration>(uri, 1, 0, "NymeaConfiguration", "Get it from Engine");
+    qmlRegisterUncreatableType<ServerConfiguration>(uri, 1, 0, "ServerConfiguration", "Get it from NymeaConfiguration");
+    qmlRegisterUncreatableType<ServerConfigurations>(uri, 1, 0, "ServerConfigurations", "Get it from NymeaConfiguration");
+    qmlRegisterUncreatableType<MqttBrokerConfiguration>(uri, 1, 0, "MqttBrokerConfiguration", "Get it from NymeaConfiguration");
 
     qmlRegisterType<NymeaDiscovery>(uri, 1, 0, "NymeaDiscovery");
     qmlRegisterUncreatableType<DiscoveryModel>(uri, 1, 0, "DiscoveryModel", "Get it from NymeaDiscovery");
     qmlRegisterUncreatableType<DiscoveryDevice>(uri, 1, 0, "DiscoveryDevice", "Get it from DiscoveryModel");
     qmlRegisterUncreatableType<Connection>(uri, 1, 0, "Connection", "Get it from DiscoveryDevice");
-
 
     qmlRegisterType<LogsModel>(uri, 1, 0, "LogsModel");
     qmlRegisterType<LogsModelNg>(uri, 1, 0, "LogsModelNg");

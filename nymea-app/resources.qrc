@@ -136,5 +136,7 @@
         <file>ui/customviews/GenericTypeGraph.qml</file>
         <file>ui/devicepages/SmartMeterDevicePage.qml</file>
         <file>ui/devicelistpages/SmartMeterDeviceListPage.qml</file>
+        <file>ui/system/MqttBrokerSettingsPage.qml</file>
+        <file>ui/system/ServerConfigurationDialog.qml</file>
     </qresource>
 </RCC>

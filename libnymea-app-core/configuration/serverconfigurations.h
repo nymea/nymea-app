@@ -28,8 +28,11 @@ public:
     QHash<int, QByteArray> roleNames() const override;
 
     void addConfiguration(ServerConfiguration *configuration);
+    void removeConfiguration(const QString &id);
 
     void clear();
+
+    Q_INVOKABLE ServerConfiguration* get(int index) const;
 
 signals:
     void countChanged();

@@ -276,7 +276,7 @@ Item {
                     delegate: TabButton {
                         id: hostTabButton
                         property var engine: mainRepeater.itemAt(index)._engine
-                        property string serverName: engine.basicConfiguration.serverName
+                        property string serverName: engine.nymeaConfiguration.serverName
                         Material.elevation: index
 
                         contentItem: RowLayout {

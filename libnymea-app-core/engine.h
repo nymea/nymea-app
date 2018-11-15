@@ -31,7 +31,7 @@
 class RuleManager;
 class LogManager;
 class TagsManager;
-class BasicConfiguration;
+class NymeaConfiguration;
 class AWSClient;
 
 class Engine : public QObject
@@ -42,8 +42,7 @@ class Engine : public QObject
     Q_PROPERTY(RuleManager* ruleManager READ ruleManager CONSTANT)
     Q_PROPERTY(TagsManager* tagsManager READ tagsManager CONSTANT)
     Q_PROPERTY(JsonRpcClient* jsonRpcClient READ jsonRpcClient CONSTANT)
-    Q_PROPERTY(BasicConfiguration* basicConfiguration READ basicConfiguration CONSTANT)
-//    Q_PROPERTY(AWSClient* awsClient READ awsClient CONSTANT)
+    Q_PROPERTY(NymeaConfiguration* nymeaConfiguration READ nymeaConfiguration CONSTANT)
 
 public:
     explicit Engine(QObject *parent = nullptr);
@@ -57,8 +56,7 @@ public:
     TagsManager *tagsManager() const;
     JsonRpcClient *jsonRpcClient() const;
     LogManager *logManager() const;
-    BasicConfiguration *basicConfiguration() const;
-//    AWSClient* awsClient() const;
+    NymeaConfiguration *nymeaConfiguration() const;
 
     Q_INVOKABLE void deployCertificate();
 
@@ -69,8 +67,7 @@ private:
     RuleManager *m_ruleManager;
     LogManager *m_logManager;
     TagsManager *m_tagsManager;
-    BasicConfiguration *m_basicConfiguration;
-//    AWSClient *m_aws;
+    NymeaConfiguration *m_nymeaConfiguration;
 
 private slots:
     void onConnectedChanged();

@@ -21,9 +21,25 @@ QString ServerConfiguration::address() const
     return m_hostAddress.toString();
 }
 
+void ServerConfiguration::setAddress(const QString &address)
+{
+    if (m_hostAddress != QHostAddress(address)) {
+        m_hostAddress = QHostAddress(address);
+        emit addressChanged();
+    }
+}
+
 int ServerConfiguration::port() const
 {
     return m_port;
+}
+
+void ServerConfiguration::setPort(int port)
+{
+    if (m_port != port) {
+        m_port = port;
+        emit portChanged();
+    }
 }
 
 bool ServerConfiguration::authenticationEnabled() const
@@ -31,7 +47,29 @@ bool ServerConfiguration::authenticationEnabled() const
     return m_authEnabled;
 }
 
+void ServerConfiguration::setAuthenticationEnabled(bool authenticationEnabled)
+{
+    if (m_authEnabled != authenticationEnabled) {
+        m_authEnabled = authenticationEnabled;
+        emit authenticationEnabledChanged();
+    }
+}
+
 bool ServerConfiguration::sslEnabled() const
 {
     return m_sslEnabled;
+}
+
+void ServerConfiguration::setSslEnabled(bool sslEnabled)
+{
+    if (m_sslEnabled != sslEnabled) {
+        m_sslEnabled = sslEnabled;
+        emit sslEnabledChanged();
+    }
+}
+
+ServerConfiguration *ServerConfiguration::clone() const
+{
+    ServerConfiguration *ret = new ServerConfiguration(m_id, m_hostAddress, m_port, m_authEnabled, m_sslEnabled);
+    return ret;
 }

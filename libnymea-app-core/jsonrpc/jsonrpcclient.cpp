@@ -356,7 +356,6 @@ void JsonRpcClient::dataReceived(const QByteArray &data)
         m_pushButtonAuthAvailable = dataMap.value("pushButtonAuthAvailable").toBool();
         emit pushButtonAuthAvailableChanged();
 
-        qDebug() << "Handshake received" << "initRequired:" << m_initialSetupRequired << "authRequired:" << m_authenticationRequired << "pushButtonAvailable:" << m_pushButtonAuthAvailable;;
         m_serverUuid = dataMap.value("uuid").toString();
         m_serverVersion = dataMap.value("version").toString();
 
@@ -365,6 +364,8 @@ void JsonRpcClient::dataReceived(const QByteArray &data)
             protoVersionString.prepend("0.");
         }
         m_jsonRpcVersion = QVersionNumber::fromString(protoVersionString);
+
+        qDebug() << "Handshake reply:" << "Protocol version:" << protoVersionString << "InitRequired:" << m_initialSetupRequired << "AuthRequired:" << m_authenticationRequired << "PushButtonAvailable:" << m_pushButtonAuthAvailable;;
 
         QVersionNumber minimumRequiredVersion = QVersionNumber(1, 0);
         if (m_jsonRpcVersion < minimumRequiredVersion) {

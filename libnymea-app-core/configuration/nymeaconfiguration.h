@@ -1,60 +1,73 @@
-#ifndef BASICCONFIGURATION_H
-#define BASICCONFIGURATION_H
+#ifndef NYMEACONFIGURATION_H
+#define NYMEACONFIGURATION_H
 
 #include <QObject>
+
 #include "jsonrpc/jsonhandler.h"
-#include "serverconfigurations.h"
 
 class JsonRpcClient;
+class ServerConfiguration;
+class ServerConfigurations;
+class MqttBrokerConfiguration;
 
-class BasicConfiguration : public JsonHandler
+class NymeaConfiguration : public JsonHandler
 {
     Q_OBJECT
-    Q_PROPERTY(bool debugServerEnabled READ debugServerEnabled WRITE setDebugServerEnabled NOTIFY debugServerEnabledChanged)
+
     Q_PROPERTY(QString serverName READ serverName WRITE setServerName NOTIFY serverNameChanged)
+
     Q_PROPERTY(QString language READ language WRITE setLanguage NOTIFY languageChanged)
-    Q_PROPERTY(QString timezone READ timezone WRITE setTimezone NOTIFY timezoneChanged)
-
-    Q_PROPERTY(bool cloudEnabled READ cloudEnabled WRITE setCloudEnabled NOTIFY cloudEnabledChanged)
-
     Q_PROPERTY(QStringList availableLanguages READ availableLanguages NOTIFY availableLanguagesChanged)
+
+    Q_PROPERTY(QString timezone READ timezone WRITE setTimezone NOTIFY timezoneChanged)
     Q_PROPERTY(QStringList timezones READ timezones NOTIFY timezonesChanged)
 
+    Q_PROPERTY(bool cloudEnabled READ cloudEnabled WRITE setCloudEnabled NOTIFY cloudEnabledChanged)
+    Q_PROPERTY(bool debugServerEnabled READ debugServerEnabled WRITE setDebugServerEnabled NOTIFY debugServerEnabledChanged)
+
     Q_PROPERTY(ServerConfigurations* tcpServerConfigurations READ tcpServerConfigurations CONSTANT)
-    Q_PROPERTY(ServerConfigurations* websocketServerConfigurations READ websocketServerConfigurations CONSTANT)
+    Q_PROPERTY(ServerConfigurations* webSocketServerConfigurations READ webSocketServerConfigurations CONSTANT)
+    Q_PROPERTY(ServerConfigurations* mqttServerConfigurations READ mqttServerConfigurations CONSTANT)
+
+    Q_PROPERTY(MqttBrokerConfiguration* mqttBrokerConfiguration READ mqttBrokerConfiguration CONSTANT)
 
 public:
-    explicit BasicConfiguration(JsonRpcClient* client, QObject *parent = nullptr);
+    explicit NymeaConfiguration(JsonRpcClient* client, QObject *parent = nullptr);
 
     QString nameSpace() const override;
-
-    bool debugServerEnabled() const;
-    void setDebugServerEnabled(bool debugServerEnabled);
 
     QString serverName() const;
     void setServerName(const QString &serverName);
 
-    bool cloudEnabled() const;
-    void setCloudEnabled(bool cloudEnabled);
-
     QString language() const;
     void setLanguage(const QString &language);
-
     QStringList availableLanguages() const;
 
     QString timezone() const;
     void setTimezone(const QString &timezone);
-
     QStringList timezones() const;
 
-    ServerConfigurations *tcpServerConfigurations() const;
-    ServerConfigurations *websocketServerConfigurations() const;
+    bool debugServerEnabled() const;
+    void setDebugServerEnabled(bool debugServerEnabled);
 
-    void setTcpServerConfiguration(ServerConfiguration *configuration) const;
-    void setWebsocketServerConfiguration(ServerConfiguration *configuration) const;
+    bool cloudEnabled() const;
+    void setCloudEnabled(bool cloudEnabled);
+
+    ServerConfigurations *tcpServerConfigurations() const;
+    ServerConfigurations *webSocketServerConfigurations() const;
+    ServerConfigurations *mqttServerConfigurations() const;
+
+    MqttBrokerConfiguration *mqttBrokerConfiguration() const;
+
+    Q_INVOKABLE ServerConfiguration* createServerConfiguration(const QString &address = "0.0.0.0", int port = 0, bool authEnabled = false, bool sslEnabled = false);
+
+    Q_INVOKABLE void setTcpServerConfiguration(ServerConfiguration *configuration);
+    Q_INVOKABLE void setWebSocketServerConfiguration(ServerConfiguration *configuration);
+    Q_INVOKABLE void setMqttServerConfiguration(ServerConfiguration *configuration);
 
     Q_INVOKABLE void deleteTcpServerConfiguration(const QString &id);
-    Q_INVOKABLE void deleteWebsocketServerConfiguration(const QString &id);
+    Q_INVOKABLE void deleteWebSocketServerConfiguration(const QString &id);
+    Q_INVOKABLE void deleteMqttServerConfiguration(const QString &id);
 
     void init();
 
@@ -67,8 +80,12 @@ private:
     Q_INVOKABLE void getAvailableLanguagesResponse(const QVariantMap &params);
     Q_INVOKABLE void getTimezonesResponse(const QVariantMap &params);
     Q_INVOKABLE void setTimezoneResponse(const QVariantMap &params);
+    Q_INVOKABLE void setTcpConfigReply(const QVariantMap &params);
     Q_INVOKABLE void deleteTcpConfigReply(const QVariantMap &params);
+    Q_INVOKABLE void setWebSocketConfigReply(const QVariantMap &params);
     Q_INVOKABLE void deleteWebSocketConfigReply(const QVariantMap &params);
+    Q_INVOKABLE void setMqttConfigReply(const QVariantMap &params);
+    Q_INVOKABLE void deleteMqttConfigReply(const QVariantMap &params);
 
     Q_INVOKABLE void notificationReceived(const QVariantMap &notification);
 
@@ -83,6 +100,7 @@ signals:
 
 private:
     JsonRpcClient* m_client = nullptr;
+
     bool m_debugServerEnabled = false;
     QString m_serverName;
     QString m_language;
@@ -92,7 +110,10 @@ private:
     bool m_cloudEnabled = false;
 
     ServerConfigurations *m_tcpServerConfigurations = nullptr;
-    ServerConfigurations *m_websocketServerConfigurations = nullptr;
+    ServerConfigurations *m_webSocketServerConfigurations = nullptr;
+    ServerConfigurations *m_mqttServerConfigurations = nullptr;
+
+    MqttBrokerConfiguration *m_mqttBrokerConfiguration = nullptr;
 };
 
-#endif // BASICCONFIGURATION_H
+#endif // NYMEACONFIGURATION_H
