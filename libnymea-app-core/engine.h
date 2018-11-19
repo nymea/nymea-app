@@ -32,7 +32,6 @@ class RuleManager;
 class LogManager;
 class TagsManager;
 class NymeaConfiguration;
-class AWSClient;
 
 class Engine : public QObject
 {

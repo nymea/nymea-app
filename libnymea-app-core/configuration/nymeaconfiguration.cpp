@@ -2,7 +2,8 @@
 
 #include "serverconfiguration.h"
 #include "serverconfigurations.h"
-#include "mqttbrokerconfiguration.h"
+#include "mqttpolicy.h"
+#include "mqttpolicies.h"
 
 #include "jsonrpc/jsonrpcclient.h"
 
@@ -14,7 +15,7 @@ NymeaConfiguration::NymeaConfiguration(JsonRpcClient *client, QObject *parent):
     m_tcpServerConfigurations(new ServerConfigurations(this)),
     m_webSocketServerConfigurations(new ServerConfigurations(this)),
     m_mqttServerConfigurations(new ServerConfigurations(this)),
-    m_mqttBrokerConfiguration(new MqttBrokerConfiguration(this))
+    m_mqttPolicies(new MqttPolicies(this))
 {
     client->registerNotificationHandler(this, "notificationReceived");
 }
@@ -32,6 +33,8 @@ void NymeaConfiguration::init()
     m_client->sendCommand("Configuration.GetConfigurations", this, "getConfigurationsResponse");
     m_client->sendCommand("Configuration.GetAvailableLanguages", this, "getAvailableLanguagesResponse");
     m_client->sendCommand("Configuration.GetTimeZones", this, "getTimezonesResponse");
+    m_client->sendCommand("Configuration.GetMqttServerConfigurations", this, "getMqttServerConfigsReply");
+    m_client->sendCommand("Configuration.GetMqttPolicies", this, "getMqttPoliciesReply");
 }
 
 QString NymeaConfiguration::serverName() const
@@ -119,14 +122,19 @@ ServerConfigurations *NymeaConfiguration::mqttServerConfigurations() const
     return m_mqttServerConfigurations;
 }
 
-MqttBrokerConfiguration *NymeaConfiguration::mqttBrokerConfiguration() const
+MqttPolicies *NymeaConfiguration::mqttPolicies() const
 {
-    return m_mqttBrokerConfiguration;
+    return m_mqttPolicies;
 }
 
 ServerConfiguration *NymeaConfiguration::createServerConfiguration(const QString &address, int port, bool authEnabled, bool sslEnabled)
 {
     return new ServerConfiguration(QUuid::createUuid().toString(), QHostAddress(address), port, authEnabled, sslEnabled);
+}
+
+MqttPolicy *NymeaConfiguration::createMqttPolicy() const
+{
+    return new MqttPolicy();
 }
 
 void NymeaConfiguration::setTcpServerConfiguration(ServerConfiguration *configuration)
@@ -189,6 +197,26 @@ void NymeaConfiguration::deleteMqttServerConfiguration(const QString &id)
     m_client->sendCommand("Configuration.DeleteMqttServerConfiguration", params, this, "deleteMqttConfigReply");
 }
 
+void NymeaConfiguration::updateMqttPolicy(MqttPolicy *policy)
+{
+    QVariantMap params;
+    QVariantMap policyMap;
+    policyMap.insert("clientId", policy->clientId());
+    policyMap.insert("username", policy->username());
+    policyMap.insert("password", policy->password());
+    policyMap.insert("allowedPublishTopicFilters", policy->allowedPublishTopicFilters());
+    policyMap.insert("allowedSubscribeTopicFilters", policy->allowedSubscribeTopicFilters());
+    params.insert("policy", policyMap);
+    m_client->sendCommand("Configuration.SetMqttPolicy", params, this, "setMqttPolicyReply");
+}
+
+void NymeaConfiguration::deleteMqttPolicy(const QString &clientId)
+{
+    QVariantMap params;
+    params.insert("clientId", clientId);
+    m_client->sendCommand("Configuration.RemoveMqttPolicy", params);
+}
+
 void NymeaConfiguration::getConfigurationsResponse(const QVariantMap &params)
 {
     qDebug() << "have config reply" << params;
@@ -217,14 +245,6 @@ void NymeaConfiguration::getConfigurationsResponse(const QVariantMap &params)
         QVariantMap websocketConfigMap = websocketServerVariant.toMap();
         ServerConfiguration *config = new ServerConfiguration(websocketConfigMap.value("id").toString(), QHostAddress(websocketConfigMap.value("address").toString()), websocketConfigMap.value("port").toInt(), websocketConfigMap.value("authenticationEnabled").toBool(), websocketConfigMap.value("sslEnabled").toBool());
         m_webSocketServerConfigurations->addConfiguration(config);
-    }
-
-    if (m_client->ensureServerVersion("1.11")) {
-        foreach (const QVariant &mqttServerVariant, params.value("params").toMap().value("mqttServerConfigurations").toList()) {
-            QVariantMap mqttConfigMap = mqttServerVariant.toMap();
-            ServerConfiguration *config = new ServerConfiguration(mqttConfigMap.value("id").toString(), QHostAddress(mqttConfigMap.value("address").toString()), mqttConfigMap.value("port").toInt(), mqttConfigMap.value("authenticationEnabled").toBool(), mqttConfigMap.value("sslEnabled").toBool());
-            m_mqttServerConfigurations->addConfiguration(config);
-        }
     }
 }
 
@@ -286,6 +306,16 @@ void NymeaConfiguration::deleteWebSocketConfigReply(const QVariantMap &params)
 
 }
 
+void NymeaConfiguration::getMqttServerConfigsReply(const QVariantMap &params)
+{
+    m_mqttServerConfigurations->clear();
+    foreach (const QVariant &mqttServerVariant, params.value("params").toMap().value("mqttServerConfigurations").toList()) {
+        QVariantMap mqttConfigMap = mqttServerVariant.toMap();
+        ServerConfiguration *config = new ServerConfiguration(mqttConfigMap.value("id").toString(), QHostAddress(mqttConfigMap.value("address").toString()), mqttConfigMap.value("port").toInt(), mqttConfigMap.value("authenticationEnabled").toBool(), mqttConfigMap.value("sslEnabled").toBool());
+        m_mqttServerConfigurations->addConfiguration(config);
+    }
+}
+
 void NymeaConfiguration::setMqttConfigReply(const QVariantMap &params)
 {
     qDebug() << "Set mqtt config reply" << params;
@@ -294,6 +324,27 @@ void NymeaConfiguration::setMqttConfigReply(const QVariantMap &params)
 void NymeaConfiguration::deleteMqttConfigReply(const QVariantMap &params)
 {
     qDebug() << "Delete Mqtt Broker config reply:" << params;
+}
+
+void NymeaConfiguration::getMqttPoliciesReply(const QVariantMap &params)
+{
+    qDebug() << "Mqtt polices:" << params;
+    m_mqttPolicies->clear();
+    foreach (const QVariant &policyVariant, params.value("params").toMap().value("mqttPolicies").toList()) {
+        QVariantMap policyMap = policyVariant.toMap();
+        MqttPolicy *policy = new MqttPolicy(
+                    policyMap.value("clientId").toString(),
+                    policyMap.value("username").toString(),
+                    policyMap.value("password").toString(),
+                    policyMap.value("allowedPublishTopicFilters").toStringList(),
+                    policyMap.value("allowedSubscribeTopicFilters").toStringList());
+        m_mqttPolicies->addPolicy(policy);
+    }
+}
+
+void NymeaConfiguration::setMqttPolicyReply(const QVariantMap &params)
+{
+    qDebug() << "Set MQTT policy reply" << params;
 }
 
 void NymeaConfiguration::notificationReceived(const QVariantMap &notification)
@@ -366,6 +417,25 @@ void NymeaConfiguration::notificationReceived(const QVariantMap &notification)
     }
     if (notif == "Configuration.MqttServerConfigurationRemoved") {
         m_mqttServerConfigurations->removeConfiguration(notification.value("params").toMap().value("id").toString());
+        return;
+    }
+    if (notif == "Configuration.MqttPolicyChanged") {
+        MqttPolicy *policy = nullptr;
+        QVariantMap policyMap = notification.value("params").toMap();
+        for (int i = 0; i < m_mqttPolicies->rowCount(); i++) {
+            if (m_mqttPolicies->get(i)->clientId() == policyMap.value("clientId").toString()) {
+                policy = m_mqttPolicies->get(i);
+                break;
+            }
+        }
+        if (!policy) {
+            policy = new MqttPolicy(policyMap.value("clientId").toString());
+            m_mqttPolicies->addPolicy(policy);
+        }
+        policy->setUsername(policyMap.value("username").toString());
+        policy->setPassword(policyMap.value("password").toString());
+        policy->setAllowedPublishTopicFilters(policyMap.value("allowedPublishTopicFilters").toStringList());
+        policy->setAllowedSubscribeTopicFilters(policyMap.value("allowedSubscribeTopicFilters").toStringList());
         return;
     }
 

@@ -11,17 +11,57 @@ Page {
         onBackPressed: pageStack.pop();
     }
 
-    Flickable {
-        anchors.fill: parent
-        contentHeight: connectionsColumn.implicitHeight
-        interactive: contentHeight > height
+//    Flickable {
+//        anchors.fill: parent
+//        contentHeight: connectionsColumn.implicitHeight
+//        interactive: contentHeight > height
 
         ColumnLayout {
             id: connectionsColumn
-            anchors { left: parent.left; top: parent.top; right: parent.right }
+//            anchors { left: parent.left; top: parent.top; right: parent.right }
+            anchors.fill: parent
+//            layoutDirection: Qt.
             Label {
                 Layout.fillWidth: true
-                text: qsTr("Server password protection")
+                Layout.margins: app.margins
+                text: qsTr("MQTT permissions")
+                wrapMode: Text.WordWrap
+                color: app.accentColor
+            }
+
+            ListView {
+                Layout.fillWidth: true
+                Layout.preferredHeight: contentHeight
+                model: engine.nymeaConfiguration.mqttPolicies
+                delegate: MeaListItemDelegate {
+                    width: parent.width
+                    iconName: "../images/account.svg"
+                    text: qsTr("Client ID: %1").arg(model.clientId)
+                    subText: qsTr("Username: %1").arg(model.username)
+                    progressive: false
+                    canDelete: true
+                    onDeleteClicked: {
+                        engine.nymeaConfiguration.deleteMqttPolicy(model.clientId)
+                    }
+                }
+            }
+
+            Button {
+                Layout.fillWidth: true
+                Layout.margins: app.margins
+                text: qsTr("Add")
+                onClicked: {
+                    var component = Qt.createComponent(Qt.resolvedUrl("MqttPolicyDialog.qml"));
+                    var popup = component.createObject(root, { policy: engine.nymeaConfiguration.createMqttPolicy() });
+                    popup.accepted.connect(function() {
+                        engine.nymeaConfiguration.updateMqttPolicy(popup.policy)
+                        popup.policy.destroy();
+                    })
+                    popup.rejected.connect(function() {
+                        popup.policy.destroy();
+                    })
+                    popup.open()
+                }
             }
 
             Label {
@@ -34,10 +74,13 @@ Page {
                 color: app.accentColor
             }
 
-            Repeater {
+            ListView {
+                Layout.fillWidth: true
+                Layout.minimumHeight: 0
+                Layout.preferredHeight: contentHeight
                 model: engine.nymeaConfiguration.mqttServerConfigurations
                 delegate: ConnectionInterfaceDelegate {
-                    Layout.fillWidth: true
+                    width: parent.width
                     canDelete: true
                     onClicked: {
                         var component = Qt.createComponent(Qt.resolvedUrl("ServerConfigurationDialog.qml"));
@@ -76,6 +119,11 @@ Page {
                     popup.open()
                 }
             }
+            Item {
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                Layout.minimumHeight: 0
+            }
         }
-    }
+//    }
 }

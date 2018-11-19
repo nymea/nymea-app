@@ -80,8 +80,10 @@ SOURCES += \
     ruletemplates/ruleactionparamtemplate.cpp \
     configuration/serverconfiguration.cpp \
     configuration/serverconfigurations.cpp \
-    configuration/mqttbrokerconfiguration.cpp \
-    configuration/nymeaconfiguration.cpp
+    configuration/nymeaconfiguration.cpp \
+    models/mqttpolicies.cpp \
+    configuration/mqttpolicy.cpp \
+    configuration/mqttpolicies.cpp
 
 HEADERS += \
     engine.h \
@@ -141,8 +143,9 @@ HEADERS += \
     ruletemplates/ruleactionparamtemplate.h \
     configuration/serverconfiguration.h \
     configuration/serverconfigurations.h \
-    configuration/mqttbrokerconfiguration.h \
-    configuration/nymeaconfiguration.h
+    configuration/nymeaconfiguration.h \
+    configuration/mqttpolicy.h \
+    configuration/mqttpolicies.h
 
 unix {
     target.path = /usr/lib

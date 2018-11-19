@@ -38,7 +38,8 @@
 #include "configuration/nymeaconfiguration.h"
 #include "configuration/serverconfiguration.h"
 #include "configuration/serverconfigurations.h"
-#include "configuration/mqttbrokerconfiguration.h"
+#include "configuration/mqttpolicy.h"
+#include "configuration/mqttpolicies.h"
 #include "wifisetup/networkmanagercontroller.h"
 #include "wifisetup/wirelessaccesspoint.h"
 #include "wifisetup/wirelessaccesspoints.h"
@@ -149,7 +150,8 @@ void registerQmlTypes() {
     qmlRegisterUncreatableType<NymeaConfiguration>(uri, 1, 0, "NymeaConfiguration", "Get it from Engine");
     qmlRegisterUncreatableType<ServerConfiguration>(uri, 1, 0, "ServerConfiguration", "Get it from NymeaConfiguration");
     qmlRegisterUncreatableType<ServerConfigurations>(uri, 1, 0, "ServerConfigurations", "Get it from NymeaConfiguration");
-    qmlRegisterUncreatableType<MqttBrokerConfiguration>(uri, 1, 0, "MqttBrokerConfiguration", "Get it from NymeaConfiguration");
+    qmlRegisterUncreatableType<MqttPolicy>(uri, 1, 0, "MqttPolicy", "Get it from NymeaConfiguration");
+    qmlRegisterUncreatableType<MqttPolicies>(uri, 1, 0, "MqttPolicies", "Get it from NymeaConfiguration");
 
     qmlRegisterType<NymeaDiscovery>(uri, 1, 0, "NymeaDiscovery");
     qmlRegisterUncreatableType<DiscoveryModel>(uri, 1, 0, "DiscoveryModel", "Get it from NymeaDiscovery");

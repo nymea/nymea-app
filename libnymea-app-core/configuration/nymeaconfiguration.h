@@ -8,7 +8,8 @@
 class JsonRpcClient;
 class ServerConfiguration;
 class ServerConfigurations;
-class MqttBrokerConfiguration;
+class MqttPolicy;
+class MqttPolicies;
 
 class NymeaConfiguration : public JsonHandler
 {
@@ -29,7 +30,7 @@ class NymeaConfiguration : public JsonHandler
     Q_PROPERTY(ServerConfigurations* webSocketServerConfigurations READ webSocketServerConfigurations CONSTANT)
     Q_PROPERTY(ServerConfigurations* mqttServerConfigurations READ mqttServerConfigurations CONSTANT)
 
-    Q_PROPERTY(MqttBrokerConfiguration* mqttBrokerConfiguration READ mqttBrokerConfiguration CONSTANT)
+    Q_PROPERTY(MqttPolicies* mqttPolicies READ mqttPolicies CONSTANT)
 
 public:
     explicit NymeaConfiguration(JsonRpcClient* client, QObject *parent = nullptr);
@@ -56,10 +57,10 @@ public:
     ServerConfigurations *tcpServerConfigurations() const;
     ServerConfigurations *webSocketServerConfigurations() const;
     ServerConfigurations *mqttServerConfigurations() const;
-
-    MqttBrokerConfiguration *mqttBrokerConfiguration() const;
+    MqttPolicies *mqttPolicies() const;
 
     Q_INVOKABLE ServerConfiguration* createServerConfiguration(const QString &address = "0.0.0.0", int port = 0, bool authEnabled = false, bool sslEnabled = false);
+    Q_INVOKABLE MqttPolicy* createMqttPolicy() const;
 
     Q_INVOKABLE void setTcpServerConfiguration(ServerConfiguration *configuration);
     Q_INVOKABLE void setWebSocketServerConfiguration(ServerConfiguration *configuration);
@@ -69,6 +70,8 @@ public:
     Q_INVOKABLE void deleteWebSocketServerConfiguration(const QString &id);
     Q_INVOKABLE void deleteMqttServerConfiguration(const QString &id);
 
+    Q_INVOKABLE void updateMqttPolicy(MqttPolicy* policy);
+    Q_INVOKABLE void deleteMqttPolicy(const QString &clientId);
     void init();
 
 private:
@@ -84,8 +87,11 @@ private:
     Q_INVOKABLE void deleteTcpConfigReply(const QVariantMap &params);
     Q_INVOKABLE void setWebSocketConfigReply(const QVariantMap &params);
     Q_INVOKABLE void deleteWebSocketConfigReply(const QVariantMap &params);
+    Q_INVOKABLE void getMqttServerConfigsReply(const QVariantMap &params);
     Q_INVOKABLE void setMqttConfigReply(const QVariantMap &params);
     Q_INVOKABLE void deleteMqttConfigReply(const QVariantMap &params);
+    Q_INVOKABLE void getMqttPoliciesReply(const QVariantMap &params);
+    Q_INVOKABLE void setMqttPolicyReply(const QVariantMap &params);
 
     Q_INVOKABLE void notificationReceived(const QVariantMap &notification);
 
@@ -112,8 +118,8 @@ private:
     ServerConfigurations *m_tcpServerConfigurations = nullptr;
     ServerConfigurations *m_webSocketServerConfigurations = nullptr;
     ServerConfigurations *m_mqttServerConfigurations = nullptr;
+    MqttPolicies *m_mqttPolicies = nullptr;
 
-    MqttBrokerConfiguration *m_mqttBrokerConfiguration = nullptr;
 };
 
 #endif // NYMEACONFIGURATION_H
