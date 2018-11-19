@@ -5,7 +5,7 @@
     <name>AWSPasswordTextField</name>
     <message>
         <source>Pick a password</source>
-        <translation type="unfinished"></translation>
+        <translation>Wähle ein Passwort</translation>
     </message>
 </context>
 <context>
