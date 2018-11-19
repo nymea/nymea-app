@@ -261,7 +261,7 @@
     </message>
     <message>
         <source>This button has been pressed %1 times in the last %2 days.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dieser Knopf wurde in den letzten %2 Tagen %1 mal betätigt.</translation>
     </message>
 </context>
 <context>
