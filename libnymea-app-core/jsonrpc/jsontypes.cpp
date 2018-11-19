@@ -232,10 +232,18 @@ Device* JsonTypes::unpackDevice(const QVariantMap &deviceMap, DeviceClasses *dev
     }
     device->setParams(params);
 
-    States *states = new States(device);
-    foreach (StateType *stateType, deviceClass->stateTypes()->stateTypes()) {
-        State *state = new State(device->id(), stateType->id(), stateType->defaultValue(), states);
-        states->addState(state);
+    States *states = device->states();
+    if (!states) {
+        states = new States(device);
+    }
+    foreach (const QVariant &stateVariant, deviceMap.value("states").toList()) {
+        State *state = states->getState(stateVariant.toMap().value("stateTypeId").toUuid());
+        if (!state) {
+            state = new State(device->id(), stateVariant.toMap().value("stateTypeId").toUuid(), stateVariant.toMap().value("value"), states);
+            states->addState(state);
+        } else {
+            state->setValue(stateVariant.toMap().value("value"));
+        }
     }
     device->setStates(states);
 

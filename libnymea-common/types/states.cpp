@@ -76,6 +76,7 @@ QVariant States::data(const QModelIndex &index, int role) const
 
 void States::addState(State *state)
 {
+    state->setParent(this);
     beginInsertRows(QModelIndex(), m_states.count(), m_states.count());
     //qDebug() << "States: loaded state" << state->stateTypeId();
     m_states.append(state);

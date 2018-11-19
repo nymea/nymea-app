@@ -75,8 +75,13 @@ Params *Device::params() const
 
 void Device::setParams(Params *params)
 {
-    m_params = params;
-    emit paramsChanged();
+    if (m_params != params) {
+        if (m_params) {
+            m_params->deleteLater();
+        }
+        m_params = params;
+        emit paramsChanged();
+    }
 }
 
 States *Device::states() const
@@ -86,8 +91,13 @@ States *Device::states() const
 
 void Device::setStates(States *states)
 {
-    m_states = states;
-    emit statesChanged();
+    if (m_states != states) {
+        if (m_states) {
+            m_states->deleteLater();
+        }
+        m_states = states;
+        emit statesChanged();
+    }
 }
 
 DeviceClass *Device::deviceClass() const
