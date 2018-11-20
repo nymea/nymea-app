@@ -159,5 +159,7 @@
         <file>ui/images/lighting/relax.svg</file>
         <file>ui/images/messaging-app-symbolic.svg</file>
         <file>ui/images/mqtt.svg</file>
+        <file>ui/images/sensors/co2.svg</file>
+        <file>ui/images/sensors/noise.svg</file>
     </qresource>
 </RCC>

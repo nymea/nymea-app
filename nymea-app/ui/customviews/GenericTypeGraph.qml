@@ -36,7 +36,7 @@ Item {
         id: connectedLogsModel
         engine: root.hasConnectable ? _engine : null // don't even try to poll if we don't have a connectable interface
         deviceId: root.device.id
-        typeIds: [root.connectedStateType.id]
+        typeIds: root.hasConnectable ? [root.connectedStateType.id] : []
         live: true
         graphSeries: connectedLineSeries
         viewStartTime: xAxis.min

@@ -76,6 +76,10 @@ ApplicationWindow {
             return qsTr("Humidity");
         case "pressuresensor":
             return qsTr("Pressure");
+        case "noisesensor":
+            return qsTr("Noise level");
+        case "co2sensor":
+            return qsTr("CO2 level")
         case "inputtrigger":
             return qsTr("Incoming Events");
         case "outputtrigger":
@@ -141,6 +145,10 @@ ApplicationWindow {
             return Qt.resolvedUrl("images/sensors/conductivity.svg")
         case "pressuresensor":
             return Qt.resolvedUrl("images/sensors/pressure.svg")
+        case "noisesensor":
+            return Qt.resolvedUrl("images/sensors/noise.svg");
+        case "co2sensor":
+            return Qt.resolvedUrl("images/sensors/co2.svg")
         case "media":
         case "mediacontroller":
             return Qt.resolvedUrl("images/mediaplayer-app-symbolic.svg")
@@ -151,10 +159,6 @@ ApplicationWindow {
             return Qt.resolvedUrl("images/system-shutdown.svg")
         case "weather":
             return Qt.resolvedUrl("images/weather-app-symbolic.svg")
-        case "temperaturesensor":
-            return Qt.resolvedUrl("images/sensors/temperature.svg")
-        case "humiditysensor":
-            return Qt.resolvedUrl("images/sensors/humidity.svg")
         case "gateway":
             return Qt.resolvedUrl("images/network-wired-symbolic.svg")
         case "notifications":
@@ -210,6 +214,8 @@ ApplicationWindow {
         "lightsensor": "orange",
         "conductivitysensor": "green",
         "pressuresensor": "grey",
+        "noisesensor": "darkviolet",
+        "co2sensor": "turquoise",
         "smartmeterproducer": "lightgreen",
         "smartmeterconsumer": "orange",
         "extendedsmartmeterproducer": "blue",

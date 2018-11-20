@@ -279,6 +279,12 @@ Item {
                 if (deviceClass.interfaces.indexOf("conductivitysensor") >= 0) {
                     tmp.push({iface: "conductivitysensor", state: "conductivity"});
                 }
+                if (deviceClass.interfaces.indexOf("noisesensor") >= 0) {
+                    tmp.push({iface: "noisesensor", state: "noise"});
+                }
+                if (deviceClass.interfaces.indexOf("co2sensor") >= 0) {
+                    tmp.push({iface: "co2sensor", state: "co2"});
+                }
                 if (deviceClass.interfaces.indexOf("weather") >= 0) {
                     tmp.push({iface: "temperaturesensor", state: "temperature"});
                     tmp.push({iface: "humiditysensor", state: "humidity"});
