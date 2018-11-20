@@ -71,6 +71,27 @@ void MqttPolicies::addPolicy(MqttPolicy *policy)
     emit countChanged();
 }
 
+void MqttPolicies::removePolicy(MqttPolicy *policy)
+{
+    int idx = m_list.indexOf(policy);
+    if (idx < 0) {
+        return;
+    }
+    beginRemoveRows(QModelIndex(), idx, idx);
+    m_list.takeAt(idx)->deleteLater();
+    endRemoveRows();
+}
+
+MqttPolicy *MqttPolicies::getPolicy(const QString &clientId) const
+{
+    foreach (MqttPolicy* policy, m_list) {
+        if (policy->clientId() == clientId) {
+            return policy;
+        }
+    }
+    return nullptr;
+}
+
 MqttPolicy *MqttPolicies::get(int index) const
 {
     if (index < 0 || index >= m_list.count()){

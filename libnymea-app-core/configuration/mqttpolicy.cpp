@@ -5,8 +5,8 @@ MqttPolicy::MqttPolicy(const QString &clientId, const QString &username, const Q
     m_clientId(clientId),
     m_username(username),
     m_password(password),
-    m_allowedSubscribeTopicFilters(allowedSubscribeTopicFilters),
-    m_allowedPublishTopicFilters(allowedPublishTopicFilters)
+    m_allowedPublishTopicFilters(allowedPublishTopicFilters),
+    m_allowedSubscribeTopicFilters(allowedSubscribeTopicFilters)
 {
 
 }
@@ -74,4 +74,9 @@ void MqttPolicy::setAllowedSubscribeTopicFilters(const QStringList &allowedSubsc
         m_allowedSubscribeTopicFilters = allowedSubscribeTopicFilters;
         emit allowedSubscribeTopicFiltersChanged();
     }
+}
+
+MqttPolicy *MqttPolicy::clone()
+{
+    return new MqttPolicy(m_clientId, m_username, m_password, m_allowedPublishTopicFilters, m_allowedSubscribeTopicFilters, this);
 }

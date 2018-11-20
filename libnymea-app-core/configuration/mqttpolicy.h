@@ -35,6 +35,7 @@ public:
     QStringList allowedSubscribeTopicFilters() const;
     void setAllowedSubscribeTopicFilters(const QStringList &allowedSubscribeTopicFilters);
 
+    Q_INVOKABLE MqttPolicy* clone();
 signals:
     void clientIdChanged();
     void usernameChanged();

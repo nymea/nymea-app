@@ -23,49 +23,6 @@ Page {
 //            layoutDirection: Qt.
             Label {
                 Layout.fillWidth: true
-                Layout.margins: app.margins
-                text: qsTr("MQTT permissions")
-                wrapMode: Text.WordWrap
-                color: app.accentColor
-            }
-
-            ListView {
-                Layout.fillWidth: true
-                Layout.preferredHeight: contentHeight
-                model: engine.nymeaConfiguration.mqttPolicies
-                delegate: MeaListItemDelegate {
-                    width: parent.width
-                    iconName: "../images/account.svg"
-                    text: qsTr("Client ID: %1").arg(model.clientId)
-                    subText: qsTr("Username: %1").arg(model.username)
-                    progressive: false
-                    canDelete: true
-                    onDeleteClicked: {
-                        engine.nymeaConfiguration.deleteMqttPolicy(model.clientId)
-                    }
-                }
-            }
-
-            Button {
-                Layout.fillWidth: true
-                Layout.margins: app.margins
-                text: qsTr("Add")
-                onClicked: {
-                    var component = Qt.createComponent(Qt.resolvedUrl("MqttPolicyDialog.qml"));
-                    var popup = component.createObject(root, { policy: engine.nymeaConfiguration.createMqttPolicy() });
-                    popup.accepted.connect(function() {
-                        engine.nymeaConfiguration.updateMqttPolicy(popup.policy)
-                        popup.policy.destroy();
-                    })
-                    popup.rejected.connect(function() {
-                        popup.policy.destroy();
-                    })
-                    popup.open()
-                }
-            }
-
-            Label {
-                Layout.fillWidth: true
                 Layout.leftMargin: app.margins
                 Layout.rightMargin: app.margins
                 Layout.topMargin: app.margins
@@ -77,8 +34,11 @@ Page {
             ListView {
                 Layout.fillWidth: true
                 Layout.minimumHeight: 0
-                Layout.preferredHeight: contentHeight
+                Layout.preferredHeight: Math.min(contentHeight, 120)
                 model: engine.nymeaConfiguration.mqttServerConfigurations
+                clip: true
+                ScrollBar.vertical: ScrollBar {}
+
                 delegate: ConnectionInterfaceDelegate {
                     width: parent.width
                     canDelete: true
@@ -96,14 +56,13 @@ Page {
                     }
 
                     onDeleteClicked: {
-                        print("should delete")
                         engine.nymeaConfiguration.deleteMqttServerConfiguration(model.id)
                     }
                 }
             }
             Button {
                 Layout.fillWidth: true
-                Layout.margins: app.margins
+                Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
                 text: qsTr("Add")
                 onClicked: {
                     var config = engine.nymeaConfiguration.createServerConfiguration("0.0.0.0", 1883 + engine.nymeaConfiguration.mqttServerConfigurations.count, false, false);
@@ -117,6 +76,61 @@ Page {
                         popup.serverConfiguration.destroy();
                     })
                     popup.open()
+                }
+            }
+            Label {
+                Layout.fillWidth: true
+                Layout.leftMargin: app.margins; Layout.topMargin: app.margins; Layout.rightMargin: app.margins
+                text: qsTr("MQTT permissions")
+                wrapMode: Text.WordWrap
+                color: app.accentColor
+            }
+
+            ListView {
+                Layout.fillWidth: true
+                Layout.preferredHeight: Math.min(contentHeight, parent.height * .4)
+                model: engine.nymeaConfiguration.mqttPolicies
+                clip: true
+                ScrollBar.vertical: ScrollBar {}
+                delegate: MeaListItemDelegate {
+                    width: parent.width
+                    iconName: "../images/account.svg"
+                    text: qsTr("Client ID: %1").arg(model.clientId)
+                    subText: qsTr("Username: %1").arg(model.username)
+                    progressive: false
+                    canDelete: true
+                    onClicked: {
+                        var page = pageStack.push(Qt.resolvedUrl("MqttPolicyPage.qml"), { policy: engine.nymeaConfiguration.mqttPolicies.get(index).clone() });
+                        page.accepted.connect(function() {
+                            if (page.policy.clientId !== model.clientId) {
+                                engine.nymeaConfiguration.deleteMqttPolicy(model.clientId);
+                            }
+                            engine.nymeaConfiguration.updateMqttPolicy(page.policy)
+                            page.policy.destroy();
+                        })
+                        page.rejected.connect(function() {
+                            page.policy.destroy();
+                        })
+                    }
+                    onDeleteClicked: {
+                        engine.nymeaConfiguration.deleteMqttPolicy(model.clientId)
+                    }
+                }
+            }
+
+            Button {
+                Layout.fillWidth: true
+                Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
+                text: qsTr("Add")
+                onClicked: {
+                    var page = pageStack.push(Qt.resolvedUrl("MqttPolicyPage.qml"), { policy: engine.nymeaConfiguration.createMqttPolicy() });
+                    page.accepted.connect(function() {
+                        engine.nymeaConfiguration.updateMqttPolicy(page.policy)
+                        page.policy.destroy();
+                    })
+                    page.rejected.connect(function() {
+                        page.policy.destroy();
+                    })
                 }
             }
             Item {

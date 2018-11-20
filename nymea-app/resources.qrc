@@ -138,6 +138,6 @@
         <file>ui/devicelistpages/SmartMeterDeviceListPage.qml</file>
         <file>ui/system/MqttBrokerSettingsPage.qml</file>
         <file>ui/system/ServerConfigurationDialog.qml</file>
-        <file>ui/system/MqttPolicyDialog.qml</file>
+        <file>ui/system/MqttPolicyPage.qml</file>
     </qresource>
 </RCC>

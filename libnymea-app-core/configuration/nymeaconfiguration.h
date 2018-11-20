@@ -92,6 +92,7 @@ private:
     Q_INVOKABLE void deleteMqttConfigReply(const QVariantMap &params);
     Q_INVOKABLE void getMqttPoliciesReply(const QVariantMap &params);
     Q_INVOKABLE void setMqttPolicyReply(const QVariantMap &params);
+    Q_INVOKABLE void deleteMqttPolicyReply(const QVariantMap &params);
 
     Q_INVOKABLE void notificationReceived(const QVariantMap &notification);
 

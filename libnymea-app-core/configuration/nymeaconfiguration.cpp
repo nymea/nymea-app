@@ -134,7 +134,7 @@ ServerConfiguration *NymeaConfiguration::createServerConfiguration(const QString
 
 MqttPolicy *NymeaConfiguration::createMqttPolicy() const
 {
-    return new MqttPolicy();
+    return new MqttPolicy(QString(), QString(), QString(), {"#"}, {"#"});
 }
 
 void NymeaConfiguration::setTcpServerConfiguration(ServerConfiguration *configuration)
@@ -214,7 +214,7 @@ void NymeaConfiguration::deleteMqttPolicy(const QString &clientId)
 {
     QVariantMap params;
     params.insert("clientId", clientId);
-    m_client->sendCommand("Configuration.RemoveMqttPolicy", params);
+    m_client->sendCommand("Configuration.DeleteMqttPolicy", params, this, "deleteMqttPolicyReply");
 }
 
 void NymeaConfiguration::getConfigurationsResponse(const QVariantMap &params)
@@ -347,6 +347,11 @@ void NymeaConfiguration::setMqttPolicyReply(const QVariantMap &params)
     qDebug() << "Set MQTT policy reply" << params;
 }
 
+void NymeaConfiguration::deleteMqttPolicyReply(const QVariantMap &params)
+{
+    qDebug() << "Delete MQTT policy reply" << params;
+}
+
 void NymeaConfiguration::notificationReceived(const QVariantMap &notification)
 {
     QString notif = notification.value("notification").toString();
@@ -421,7 +426,7 @@ void NymeaConfiguration::notificationReceived(const QVariantMap &notification)
     }
     if (notif == "Configuration.MqttPolicyChanged") {
         MqttPolicy *policy = nullptr;
-        QVariantMap policyMap = notification.value("params").toMap();
+        QVariantMap policyMap = notification.value("params").toMap().value("policy").toMap();
         for (int i = 0; i < m_mqttPolicies->rowCount(); i++) {
             if (m_mqttPolicies->get(i)->clientId() == policyMap.value("clientId").toString()) {
                 policy = m_mqttPolicies->get(i);
@@ -436,7 +441,16 @@ void NymeaConfiguration::notificationReceived(const QVariantMap &notification)
         policy->setPassword(policyMap.value("password").toString());
         policy->setAllowedPublishTopicFilters(policyMap.value("allowedPublishTopicFilters").toStringList());
         policy->setAllowedSubscribeTopicFilters(policyMap.value("allowedSubscribeTopicFilters").toStringList());
+        qDebug() << "MQTT policy added" << policy->clientId() << policy->username() << policy->password();
         return;
+    }
+    if (notif == "Configuration.MqttPolicyRemoved") {
+        MqttPolicy* policy = m_mqttPolicies->getPolicy(notification.value("params").toMap().value("clientId").toString());
+        if (!policy) {
+            qWarning() << "Reveived a policy removed notification for apolicy we don't know";
+            return;
+        }
+        m_mqttPolicies->removePolicy(policy);
     }
 
     qDebug() << "Unhandled Configuration notification" << notif << notification;
