@@ -17,7 +17,10 @@ ItemDelegate {
     }
     property bool writable: true
 
+    topPadding: 0
+    bottomPadding: 0
     contentItem: ColumnLayout {
+        id: contentItemColumn
         RowLayout {
             Label {
                 Layout.fillWidth: true
@@ -167,7 +170,7 @@ ItemDelegate {
         ColorPicker {
             id: colorPicker
             implicitHeight: 200
-//            color: root.param.value
+            //            color: root.param.value
 
             Binding {
                 target: colorPicker

@@ -77,11 +77,26 @@ Page {
                 text: qsTr("Password:")
                 Layout.fillWidth: true
             }
-            TextField {
-                Layout.fillWidth: true
-                text: root.policy ? root.policy.password : ""
-                onEditingFinished: root.policy.password = text
-                placeholderText: qsTr("Optional")
+            RowLayout {
+                TextField {
+                    id: passwordTextField
+                    Layout.fillWidth: true
+                    text: root.policy ? root.policy.password : ""
+                    onEditingFinished: root.policy.password = text
+                    placeholderText: qsTr("Optional")
+                    echoMode: hiddenPassword ? TextInput.Password : TextInput.Normal
+                    property bool hiddenPassword: true
+                }
+                ColorIcon {
+                    Layout.preferredHeight: app.iconSize
+                    Layout.preferredWidth: height
+                    name: "../images/eye.svg"
+                    color: passwordTextField.hiddenPassword ? keyColor : app.accentColor
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: passwordTextField.hiddenPassword = !passwordTextField.hiddenPassword
+                    }
+                }
             }
         }
 

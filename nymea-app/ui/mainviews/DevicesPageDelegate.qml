@@ -389,7 +389,7 @@ MainPageTile {
                         //                                switch (model.name) {
                         //                                case "sensor":
                         //                                }
-                        return  parent.state.value + "°C";
+                        return (Math.round(parent.state.value * 100) / 100) + " °C";
                     }
                 }
             }
