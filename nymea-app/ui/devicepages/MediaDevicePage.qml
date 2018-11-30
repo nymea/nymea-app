@@ -2,6 +2,7 @@ import QtQuick 2.5
 import QtQuick.Controls 2.1
 import QtQuick.Controls.Material 2.1
 import QtQuick.Layouts 1.1
+import QtGraphicalEffects 1.0
 import Nymea 1.0
 import "../components"
 import "../customviews"
@@ -93,44 +94,55 @@ DevicePageBase {
                 Layout.fillWidth: true
                 Item { Layout.fillWidth: true }
 
-                ItemDelegate {
+                ProgressButton {
                     Layout.preferredHeight: app.iconSize
                     Layout.preferredWidth: height
-                    leftPadding: 0; topPadding: 0; rightPadding: 0; bottomPadding: 0
-                    contentItem: ColorIcon {
-                        name: "../images/media-skip-backward.svg"
-                    }
+                    imageSource: "../images/media-skip-backward.svg"
+                    longpressImageSource: "../images/media-seek-backward.svg"
+                    repeat: true
+
                     onClicked: {
                         root.executeAction("skipBack")
+                    }
+                    onLongpressed: {
+                        root.executeAction("fastRewind")
                     }
                 }
 
                 Item { Layout.fillWidth: true }
-                ItemDelegate {
+
+                ProgressButton {
                     Layout.preferredHeight: app.iconSize * 2
                     Layout.preferredWidth: height
-                    leftPadding: 0; topPadding: 0; rightPadding: 0; bottomPadding: 0
-                    contentItem: ColorIcon {
-                        name: root.playbackState.value === "Playing" ? "../images/media-playback-pause.svg" : "../images/media-playback-start.svg"
-                    }
+                    imageSource: root.playbackState.value === "Playing" ? "../images/media-playback-pause.svg" : "../images/media-playback-start.svg"
+                    longpressImageSource: "../images/media-playback-stop.svg"
+                    longpressEnabled: root.playbackState.value !== "Stopped"
+
                     onClicked: {
-                        if (root,playbackState.value === "Playing") {
+                        if (root.playbackState.value === "Playing") {
                             root.executeAction("pause")
                         } else {
                             root.executeAction("play")
                         }
                     }
+
+                    onLongpressed: {
+                        root.executeAction("stop")
+                    }
                 }
+
                 Item { Layout.fillWidth: true }
-                ItemDelegate {
+                ProgressButton {
                     Layout.preferredHeight: app.iconSize
                     Layout.preferredWidth: height
-                    leftPadding: 0; topPadding: 0; rightPadding: 0; bottomPadding: 0
-                    contentItem: ColorIcon {
-                        name: "../images/media-skip-forward.svg"
-                    }
+                    imageSource: "../images/media-skip-forward.svg"
+                    longpressImageSource: "../images/media-seek-forward.svg"
+                    repeat: true
                     onClicked: {
                         root.executeAction("skipNext")
+                    }
+                    onLongpressed: {
+                        root.executeAction("fastForward")
                     }
                 }
                 Item { Layout.fillWidth: true }
