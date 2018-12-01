@@ -573,6 +573,8 @@ QPair<Types::Unit, QString> JsonTypes::stringToUnit(const QString &unitString)
         return QPair<Types::Unit, QString>(Types::UnitKiloWattHour, "kWh");
     } else if (unitString == "UnitPercentage") {
         return QPair<Types::Unit, QString>(Types::UnitPercentage, "%");
+    } else if (unitString == "UnitPartsPerMillion") {
+        return QPair<Types::Unit, QString>(Types::UnitPartsPerMillion, "ppm");
     } else if (unitString == "UnitEuro") {
         return QPair<Types::Unit, QString>(Types::UnitEuro, "€");
     } else if (unitString == "UnitDollar") {

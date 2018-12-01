@@ -80,6 +80,8 @@ DeviceListPageBase {
                                     ListElement { interfaceName: "pressuresensor"; stateName: "pressure" }
                                     ListElement { interfaceName: "lightsensor"; stateName: "lightIntensity" }
                                     ListElement { interfaceName: "conductivitysensor"; stateName: "conductivity" }
+                                    ListElement { interfaceName: "noisesensor"; stateName: "noise" }
+                                    ListElement { interfaceName: "co2sensor"; stateName: "co2" }
                                 }
 
                                 delegate: RowLayout {

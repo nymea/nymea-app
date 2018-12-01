@@ -216,7 +216,7 @@ void DeviceManager::getConfiguredDevicesResponse(const QVariantMap &params)
         foreach (QVariant deviceVariant, deviceList) {
             Device *device = JsonTypes::unpackDevice(deviceVariant.toMap(), m_deviceClasses);
             if (!device) {
-                qWarning() << "Error unpacking device" << deviceVariant;
+                qWarning() << "Error unpacking device" << deviceVariant.toMap().value("name").toString();
                 continue;
             }
 
@@ -238,7 +238,7 @@ void DeviceManager::getConfiguredDevicesResponse(const QVariantMap &params)
                     value.convert(QVariant::Int);
                 }
                 device->setStateValue(stateTypeId, value);
-//                qDebug() << "Set device state value:" << device->stateValue(stateTypeId) << value;
+                qDebug() << "Set device state value:" << device->stateValue(stateTypeId) << value;
             }
             devices()->addDevice(device);
         }

@@ -30,7 +30,13 @@ ApplicationWindow {
         "moisturesensor":"blue",
         "lightsensor": "orange",
         "conductivitysensor": "green",
-        "pressuresensor": "grey"
+        "pressuresensor": "grey",
+        "noisesensor": "darkviolet",
+        "co2sensor": "turquoise",
+        "smartmeterproducer": "lightgreen",
+        "smartmeterconsumer": "orange",
+        "extendedsmartmeterproducer": "blue",
+        "extendedsmartmeterconsumer": "blue"
     }
 
     // Optional: Set this to override the cloud environment

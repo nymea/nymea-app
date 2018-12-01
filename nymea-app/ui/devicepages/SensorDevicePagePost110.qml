@@ -9,7 +9,7 @@ ListView {
     anchors { fill: parent }
     model: ListModel {
         Component.onCompleted: {
-            var supportedInterfaces = ["temperaturesensor", "humiditysensor", "pressuresensor", "moisturesensor", "lightsensor", "conductivitysensor"]
+            var supportedInterfaces = ["temperaturesensor", "humiditysensor", "pressuresensor", "moisturesensor", "lightsensor", "conductivitysensor", "noisesensor", "co2sensor"]
             for (var i = 0; i < supportedInterfaces.length; i++) {
                 print("checking", root.deviceClass.name, root.deviceClass.interfaces)
                 if (root.deviceClass.interfaces.indexOf(supportedInterfaces[i]) >= 0) {

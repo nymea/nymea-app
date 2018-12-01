@@ -82,11 +82,12 @@ public:
         UnitKiloWatt,
         UnitKiloWattHour,
         UnitPercentage,
+        UnitPartsPerMillion,
         UnitEuro,
         UnitDollar
     };
 
-    Types(QObject *parent = 0);
+    Types(QObject *parent = nullptr);
 
 };
 #endif // TYPES_H

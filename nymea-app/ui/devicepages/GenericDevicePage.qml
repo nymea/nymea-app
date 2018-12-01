@@ -46,6 +46,12 @@ DevicePageBase {
                             break;
                         case "temperaturesensor":
                         case "humiditysensor":
+                        case  "moisturesensor":
+                        case "lightsensor":
+                        case "conductivitysensor":
+                        case "pressuresensor":
+                        case "noisesensor":
+                        case "co2sensor":
                             src = "SensorView.qml"
                             options.interfaceName = modelData;
                             break;
@@ -61,7 +67,7 @@ DevicePageBase {
                             // Ignore interfaces without any states/actions
                             break;
                         default:
-                            print("unhandled interface", modelData)
+                            print("WARNING: Unhandled interface", modelData)
                             interfaceViewsRepeater.unhandledInterface = true
                         }
 
