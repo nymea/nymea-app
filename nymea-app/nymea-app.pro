@@ -30,7 +30,8 @@ SOURCES += main.cpp \
 
 RESOURCES += resources.qrc \
     ruletemplates.qrc \
-    images.qrc
+    images.qrc \
+    translations.qrc
 equals(STYLES_PATH, "") {
     RESOURCES += styles.qrc
 } else {

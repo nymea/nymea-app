@@ -78,10 +78,14 @@ int main(int argc, char *argv[])
             QLibraryInfo::location(QLibraryInfo::TranslationsPath));
     application.installTranslator(&qtTranslator);
 
-    QTranslator meaTranslator;
-    qDebug() << "Loading translation file:" << ":/translations/nymea-app-" + QLocale::system().name();
-    meaTranslator.load(":/translations/nymea-app-" + QLocale::system().name());
-    application.installTranslator(&meaTranslator);
+    QTranslator appTranslator;
+    bool translationResult = appTranslator.load(QLocale(), "nymea-app", "-", ":/translations/", ".qm");
+    if (translationResult) {
+        qDebug() << "Loaded translation for locale" << QLocale();
+    } else {
+        qWarning() << "Failed to load translations for locale" << QLocale();
+    }
+    application.installTranslator(&appTranslator);
 
     qDebug() << "Running on" << QSysInfo::machineHostName() << QSysInfo::prettyProductName() << QSysInfo::productType() << QSysInfo::productVersion();
 
