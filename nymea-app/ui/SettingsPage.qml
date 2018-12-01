@@ -62,12 +62,12 @@ Page {
                 TextField {
                     id: nameTextField
                     Layout.fillWidth: true
-                    text: engine.basicConfiguration.serverName
+                    text: engine.nymeaConfiguration.serverName
                 }
                 Button {
                     text: qsTr("OK")
-                    visible: nameTextField.displayText !== engine.basicConfiguration.serverName
-                    onClicked: engine.basicConfiguration.serverName = nameTextField.displayText
+                    visible: nameTextField.displayText !== engine.nymeaConfiguration.serverName
+                    onClicked: engine.nymeaConfiguration.serverName = nameTextField.displayText
                 }
             }
 
@@ -81,10 +81,10 @@ Page {
                     text: qsTr("Language")
                 }
                 ComboBox {
-                    model: engine.basicConfiguration.availableLanguages
-                    currentIndex: model.indexOf(engine.basicConfiguration.language)
+                    model: engine.nymeaConfiguration.availableLanguages
+                    currentIndex: model.indexOf(engine.nymeaConfiguration.language)
                     onActivated: {
-                        engine.basicConfiguration.language = currentText;
+                        engine.nymeaConfiguration.language = currentText;
                     }
                 }
             }
@@ -100,10 +100,10 @@ Page {
                 }
                 ComboBox {
                     Layout.minimumWidth: 200
-                    model: engine.basicConfiguration.timezones
-                    currentIndex: model.indexOf(engine.basicConfiguration.timezone)
+                    model: engine.nymeaConfiguration.timezones
+                    currentIndex: model.indexOf(engine.nymeaConfiguration.timezone)
                     onActivated: {
-                        engine.basicConfiguration.timezone = currentText;
+                        engine.nymeaConfiguration.timezone = currentText;
                     }
                 }
             }
@@ -122,8 +122,8 @@ Page {
                     }
                     Switch {
                         id: debugServerEnabledSwitch
-                        checked: engine.basicConfiguration.debugServerEnabled
-                        onClicked: engine.basicConfiguration.debugServerEnabled = checked
+                        checked: engine.nymeaConfiguration.debugServerEnabled
+                        onClicked: engine.nymeaConfiguration.debugServerEnabled = checked
                     }
                 }
 
@@ -140,6 +140,12 @@ Page {
 
             MeaListItemDelegate {
                 Layout.fillWidth: true
+                iconName: "../images/logs.svg"
+                text: qsTr("Log viewer")
+                onClicked: pageStack.push(Qt.resolvedUrl("system/LogViewerPage.qml"))
+            }
+            MeaListItemDelegate {
+                Layout.fillWidth: true
                 iconName: "../images/cloud.svg"
                 text: qsTr("Cloud")
                 visible: engine.jsonRpcClient.ensureServerVersion("1.9")
@@ -147,21 +153,22 @@ Page {
             }
             MeaListItemDelegate {
                 Layout.fillWidth: true
-                iconName: "../images/plugin.svg"
-                text: qsTr("Plugins")
-                onClicked:pageStack.push(Qt.resolvedUrl("system/PluginsPage.qml"))
-            }
-            MeaListItemDelegate {
-                Layout.fillWidth: true
-                iconName: "../images/logs.svg"
-                text: qsTr("Log viewer")
-                onClicked: pageStack.push(Qt.resolvedUrl("system/LogViewerPage.qml"))
-            }
-            MeaListItemDelegate {
-                Layout.fillWidth: true
                 iconName: "../images/network-vpn.svg"
                 text: qsTr("Server interfaces")
                 onClicked: pageStack.push(Qt.resolvedUrl("system/ConnectionInterfacesPage.qml"))
+            }
+            MeaListItemDelegate {
+                Layout.fillWidth: true
+                iconName: "../images/mqtt.svg"
+                text: qsTr("MQTT broker")
+                visible: engine.jsonRpcClient.ensureServerVersion("1.11")
+                onClicked: pageStack.push(Qt.resolvedUrl("system/MqttBrokerSettingsPage.qml"))
+            }
+            MeaListItemDelegate {
+                Layout.fillWidth: true
+                iconName: "../images/plugin.svg"
+                text: qsTr("Plugins")
+                onClicked:pageStack.push(Qt.resolvedUrl("system/PluginsPage.qml"))
             }
             MeaListItemDelegate {
                 Layout.fillWidth: true

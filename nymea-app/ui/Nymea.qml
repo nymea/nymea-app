@@ -158,7 +158,7 @@ ApplicationWindow {
         case "gateway":
             return Qt.resolvedUrl("images/network-wired-symbolic.svg")
         case "notifications":
-            return Qt.resolvedUrl("images/notification.svg")
+            return Qt.resolvedUrl("images/messaging-app-symbolic.svg")
         case "inputtrigger":
             return Qt.resolvedUrl("images/attention.svg")
         case "outputtrigger":

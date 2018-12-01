@@ -157,5 +157,7 @@
         <file>ui/images/lighting/concentrate.svg</file>
         <file>ui/images/lighting/reading.svg</file>
         <file>ui/images/lighting/relax.svg</file>
+        <file>ui/images/messaging-app-symbolic.svg</file>
+        <file>ui/images/mqtt.svg</file>
     </qresource>
 </RCC>

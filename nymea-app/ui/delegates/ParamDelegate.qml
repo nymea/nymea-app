@@ -8,7 +8,7 @@ import "../components"
 ItemDelegate {
     id: root
 
-    property var paramType: null
+    property ParamType paramType: null
     property alias value: d.value
     property var param: Param {
         id: d
@@ -17,7 +17,10 @@ ItemDelegate {
     }
     property bool writable: true
 
+    topPadding: 0
+    bottomPadding: 0
     contentItem: ColumnLayout {
+        id: contentItemColumn
         RowLayout {
             Label {
                 Layout.fillWidth: true
@@ -36,10 +39,7 @@ ItemDelegate {
                     case "bool":
                         return boolComponent;
                     case "int":
-                        if (root.paramType.minimumValue !== undefined && root.paramType.maximumValue !== undefined) {
-                            return sliderComponent;
-                        }
-                        return textFieldComponent;
+                        return spinnerComponent;
                     case "string":
                     case "qstring":
                         if (root.paramType.allowedValues.length > 0) {
@@ -58,12 +58,12 @@ ItemDelegate {
             Layout.fillWidth: true
             sourceComponent: {
                 switch (root.paramType.type.toLowerCase()) {
-                case "int":
-                case "double":
-                    if (root.paramType.minValue !== undefined && root.paramType.maxValue !== undefined) {
-                        return sliderComponent
-                    }
-                    break;
+//                case "int":
+//                case "double":
+//                    if (root.paramType.minValue !== undefined && root.paramType.maxValue !== undefined) {
+//                        return sliderComponent
+//                    }
+//                    break;
                 case "color":
                     return colorPickerComponent
                 }
@@ -141,6 +141,20 @@ ItemDelegate {
     }
 
     Component {
+        id: spinnerComponent
+        SpinBox {
+            value: root.param.value
+            from: root.paramType.minValue
+            to: root.paramType.maxValue
+            editable: true
+            onValueModified: root.param.value = value
+            textFromValue: function(value) {
+                return value
+            }
+        }
+    }
+
+    Component {
         id: textFieldComponent
         TextField {
             text: root.param.value
@@ -167,7 +181,7 @@ ItemDelegate {
         ColorPicker {
             id: colorPicker
             implicitHeight: 200
-//            color: root.param.value
+            //            color: root.param.value
 
             Binding {
                 target: colorPicker

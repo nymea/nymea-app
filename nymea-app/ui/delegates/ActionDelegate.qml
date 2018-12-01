@@ -8,10 +8,12 @@ import "../components"
 ItemDelegate {
     id: root
 
-    property var actionType: null
+    property ActionType actionType: null
     property var actionState: null
 
     signal executeAction(var params)
+
+    readonly property bool multiParam: actionType.paramTypes.count > 1
 
     contentItem: ColumnLayout {
         RowLayout {
@@ -25,7 +27,7 @@ ItemDelegate {
                 id: loader
                 Layout.fillWidth: sourceComponent == textFieldComponent || sourceComponent == buttonComponent
                 sourceComponent: {
-                    if (root.actionType.paramTypes.count !== 1) {
+                    if (root.multiParam || root.actionType.paramTypes.count === 0) {
                         return buttonComponent
                     }
 
@@ -68,16 +70,21 @@ ItemDelegate {
         }
         Repeater {
             id: paramRepeater
+
             model: root.actionType.paramTypes
             delegate: Loader {
                 id: bottomLoader
                 property var paramType: root.actionType.paramTypes.get(index)
+
                 Layout.fillWidth: true
                 sourceComponent: {
                     switch (paramType.type.toLowerCase()) {
                     case "int":
                     case "double":
                         if (paramType.minValue !== undefined && paramType.maxValue !== undefined) {
+                            if (root.multiParam) {
+                                return labelledSpinnerComponent;
+                            }
                             return sliderComponent
                         }
                         return textFieldComponent;
@@ -87,7 +94,7 @@ ItemDelegate {
                         return paramType.allowedValues.length === 0 ? textFieldComponent :
                                                                       root.actionType.paramTypes.count === 1 ? null : comboBoxComponent
                     case "bool":
-                        if (root.actionType.paramTypes.count > 1) {
+                        if (root.multiParam) {
                             return labeledBoolComponent;
                         }
                         return null
@@ -104,9 +111,9 @@ ItemDelegate {
                 }
                 Binding {
                     target: bottomLoader.item
-                    when: bottomLoader.item && root.actionState
+                    when: bottomLoader.item
                     property: "value"
-                    value: root.actionState
+                    value: (root.actionState && index == 0) ? root.actionState : root.actionType.paramTypes.get(index).defaultValue
                 }
             }
         }
@@ -147,8 +154,10 @@ ItemDelegate {
             id: switchRow
             property var paramType: null
             property var value
+
             Label {
                 text: paramType.displayName
+                Layout.fillWidth: true
             }
             Switch {
                 checked: paramType.defaultValue
@@ -196,7 +205,28 @@ ItemDelegate {
                 text: sliderRow.paramType.maxValue
             }
         }
+    }
 
+    Component {
+        id: labelledSpinnerComponent
+        RowLayout {
+            id: sliderRow
+            property var paramType: null
+            property var value: null
+            Label {
+                text: sliderRow.paramType.displayName
+                Layout.fillWidth: true
+            }
+            SpinBox {
+                from: sliderRow.paramType.minValue
+                to: sliderRow.paramType.maxValue
+                value: sliderRow.value
+                editable: true
+                onValueModified: {
+                    sliderRow.value = value
+                }
+            }
+        }
     }
 
     Component {

@@ -88,6 +88,7 @@ DevicePageBase {
                 id: logsModelNg
                 deviceId: root.device.id
                 engine: _engine
+                live: true
                 typeIds: [root.deviceClass.actionTypes.findByName("notify").id];
             }
 
@@ -102,7 +103,7 @@ DevicePageBase {
 
             delegate: MeaListItemDelegate {
                 width: parent.width
-                iconName: "../images/notification.svg"
+                iconName: app.interfaceToIcon("notifications")
                 text: model.value.trim()
                 subText: Qt.formatDateTime(model.timestamp)
                 progressive: false

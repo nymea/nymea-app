@@ -27,18 +27,52 @@ Page {
                 Layout.topMargin: app.margins
                 text: qsTr("TCP Server Interfaces")
                 wrapMode: Text.WordWrap
+                color: app.accentColor
             }
 
             Repeater {
-                model: engine.basicConfiguration.tcpServerConfigurations
+                model: engine.nymeaConfiguration.tcpServerConfigurations
                 delegate: ConnectionInterfaceDelegate {
                     Layout.fillWidth: true
+                    canDelete: true
+                    onClicked: {
+                        var component = Qt.createComponent(Qt.resolvedUrl("ServerConfigurationDialog.qml"));
+                        var popup = component.createObject(root, { serverConfiguration: engine.nymeaConfiguration.tcpServerConfigurations.get(index).clone() });
+                        popup.accepted.connect(function() {
+                            engine.nymeaConfiguration.setTcpServerConfiguration(popup.serverConfiguration)
+                            popup.serverConfiguration.destroy();
+                        })
+                        popup.rejected.connect(function() {
+                            popup.serverConfiguration.destroy();
+                        })
+                        popup.open()
+                    }
                     onDeleteClicked: {
                         print("should delete")
-                        engine.basicConfiguration.deleteTcpServerConfiguration(model.id)
+                        engine.nymeaConfiguration.deleteTcpServerConfiguration(model.id)
                     }
                 }
             }
+            Button {
+                Layout.fillWidth: true
+                Layout.margins: app.margins
+                text: qsTr("Add")
+                onClicked: {
+                    var config = engine.nymeaConfiguration.createServerConfiguration("0.0.0.0", 2222 + engine.nymeaConfiguration.tcpServerConfigurations.count, false, false);
+                    var component = Qt.createComponent(Qt.resolvedUrl("ServerConfigurationDialog.qml"));
+                    var popup = component.createObject(root, { serverConfiguration: config });
+                    popup.accepted.connect(function() {
+                        engine.nymeaConfiguration.setTcpServerConfiguration(popup.serverConfiguration)
+                        popup.serverConfiguration.destroy();
+                    })
+                    popup.rejected.connect(function() {
+                        popup.serverConfiguration.destroy();
+                    })
+                    popup.open()
+                }
+            }
+
+            ThinDivider {}
             Label {
                 Layout.fillWidth: true
                 Layout.leftMargin: app.margins
@@ -46,16 +80,49 @@ Page {
                 Layout.topMargin: app.margins
                 text: qsTr("WebSocket Server Interfaces")
                 wrapMode: Text.WordWrap
+                color: app.accentColor
             }
 
             Repeater {
-                model: engine.basicConfiguration.websocketServerConfigurations
+                model: engine.nymeaConfiguration.webSocketServerConfigurations
                 delegate: ConnectionInterfaceDelegate {
                     Layout.fillWidth: true
+                    canDelete: true
+                    onClicked: {
+                        var component = Qt.createComponent(Qt.resolvedUrl("ServerConfigurationDialog.qml"));
+                        var popup = component.createObject(root, { serverConfiguration: engine.nymeaConfiguration.webSocketServerConfigurations.get(index).clone() });
+                        popup.accepted.connect(function() {
+                            print("configuring:", popup.serverConfiguration.port)
+                            engine.nymeaConfiguration.setWebSocketServerConfiguration(popup.serverConfiguration)
+                            popup.serverConfiguration.destroy();
+                        })
+                        popup.rejected.connect(function() {
+                            popup.serverConfiguration.destroy();
+                        })
+                        popup.open()
+                    }
                     onDeleteClicked: {
                         print("should delete", model.id)
-                        engine.basicConfiguration.deleteWebsocketServerConfiguration(model.id)
+                        engine.nymeaConfiguration.deleteWebSocketServerConfiguration(model.id)
                     }
+                }
+            }
+            Button {
+                Layout.fillWidth: true
+                Layout.margins: app.margins
+                text: qsTr("Add")
+                onClicked: {
+                    var config = engine.nymeaConfiguration.createServerConfiguration("0.0.0.0", 4444 + engine.nymeaConfiguration.webSocketServerConfigurations.count, false, false);
+                    var component = Qt.createComponent(Qt.resolvedUrl("ServerConfigurationDialog.qml"));
+                    var popup = component.createObject(root, { serverConfiguration: config });
+                    popup.accepted.connect(function() {
+                        engine.nymeaConfiguration.setWebSocketServerConfiguration(popup.serverConfiguration)
+                        popup.serverConfiguration.destroy();
+                    })
+                    popup.rejected.connect(function() {
+                        popup.serverConfiguration.destroy();
+                    })
+                    popup.open()
                 }
             }
         }

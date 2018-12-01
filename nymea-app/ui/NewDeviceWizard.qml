@@ -322,7 +322,7 @@ Page {
                         id: paramRepeater
                         model: d.deviceDescriptorId == null ? d.deviceClass.paramTypes : null
                         delegate: ParamDelegate {
-                            Layout.preferredHeight: 60
+//                            Layout.preferredHeight: 60
                             Layout.fillWidth: true
                             paramType: d.deviceClass.paramTypes.get(index)
                         }

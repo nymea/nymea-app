@@ -5,6 +5,7 @@ import QtQuick.Controls.Material 2.2
 
 SwipeDelegate {
     id: root
+    implicitWidth: 200
 
     property string subText
     property bool progressive: true

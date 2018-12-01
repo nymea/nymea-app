@@ -9,6 +9,7 @@ DevicePageBase {
     id: root
 
     GenericTypeLogView {
+        id: logView
         anchors.fill: parent
 
         logsModel: engine.jsonRpcClient.ensureServerVersion("1.10") ? logsModelNg : logsModel
@@ -27,6 +28,22 @@ DevicePageBase {
             Component.onCompleted: update()
             typeIds: [root.deviceClass.eventTypes.findByName("triggered").id];
         }
+
+//        delegate: MeaListItemDelegate {
+//            width: parent.width
+//            iconName: app.interfaceToIcon("inputtrigger")
+//            text: model.value.trim()
+//            subText: Qt.formatDateTime(model.timestamp)
+//            progressive: false
+
+//            onClicked: {
+//                print("a", model.value.trim())
+//                var parts = model.value.trim().split(', ')
+//                print("b", parts)
+//                var popup = detailsPopup.createObject(root, {timestamp: model.timestamp, notificationTitle: parts[1], notificationBody: parts[0]});
+//                popup.open();
+//            }
+//        }
 
         onAddRuleClicked: {
             var value = logView.logsModel.get(index).value

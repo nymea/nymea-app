@@ -23,7 +23,7 @@
 #include "rulemanager.h"
 #include "logmanager.h"
 #include "tagsmanager.h"
-#include "configuration/basicconfiguration.h"
+#include "configuration/nymeaconfiguration.h"
 #include "connection/awsclient.h"
 
 #include "connection/tcpsockettransport.h"
@@ -39,7 +39,7 @@ Engine::Engine(QObject *parent) :
     m_ruleManager(new RuleManager(m_jsonRpcClient, this)),
     m_logManager(new LogManager(m_jsonRpcClient, this)),
     m_tagsManager(new TagsManager(m_jsonRpcClient, this)),
-    m_basicConfiguration(new BasicConfiguration(m_jsonRpcClient, this))
+    m_nymeaConfiguration(new NymeaConfiguration(m_jsonRpcClient, this))
 {
     m_connection->registerTransport(new TcpSocketTransportFactory());
     m_connection->registerTransport(new WebsocketTransportFactory());
@@ -92,15 +92,10 @@ LogManager *Engine::logManager() const
     return m_logManager;
 }
 
-BasicConfiguration *Engine::basicConfiguration() const
+NymeaConfiguration *Engine::nymeaConfiguration() const
 {
-    return m_basicConfiguration;
+    return m_nymeaConfiguration;
 }
-
-//AWSClient *Engine::awsClient() const
-//{
-//    return m_aws;
-//}
 
 void Engine::deployCertificate()
 {
@@ -133,7 +128,7 @@ void Engine::onConnectedChanged()
         if (!m_jsonRpcClient->initialSetupRequired() && !m_jsonRpcClient->authenticationRequired()) {
             m_deviceManager->init();
             m_ruleManager->init();
-            m_basicConfiguration->init();
+            m_nymeaConfiguration->init();
         }
     }
 }
