@@ -239,7 +239,7 @@ void DeviceManager::getConfiguredDevicesResponse(const QVariantMap &params)
                     value.convert(QVariant::Int);
                 }
                 device->setStateValue(stateTypeId, value);
-                qDebug() << "Set device state value:" << device->stateValue(stateTypeId) << value;
+//                qDebug() << "Set device state value:" << device->stateValue(stateTypeId) << value;
             }
             devices()->addDevice(device);
         }
@@ -297,7 +297,7 @@ void DeviceManager::editDeviceResponse(const QVariantMap &params)
 void DeviceManager::executeActionResponse(const QVariantMap &params)
 {
     qDebug() << "Execute Action response" << params;
-    emit executeActionReply(params.value("params").toMap());
+    emit executeActionReply(params);
 }
 
 void DeviceManager::savePluginConfig(const QUuid &pluginId)
@@ -366,7 +366,7 @@ void DeviceManager::editDevice(const QUuid &deviceId, const QString &name)
     m_jsonClient->sendCommand("Devices.EditDevice", params, this, "editDeviceResponse");
 }
 
-void DeviceManager::executeAction(const QUuid &deviceId, const QUuid &actionTypeId, const QVariantList &params)
+int DeviceManager::executeAction(const QUuid &deviceId, const QUuid &actionTypeId, const QVariantList &params)
 {
     qDebug() << "JsonRpc: execute action " << deviceId.toString() << actionTypeId.toString() << params;
     QVariantMap p;
@@ -377,5 +377,5 @@ void DeviceManager::executeAction(const QUuid &deviceId, const QUuid &actionType
     }
 
     qDebug() << "Params:" << p;
-    m_jsonClient->sendCommand("Actions.ExecuteAction", p, this, "executeActionResponse");
+    return m_jsonClient->sendCommand("Actions.ExecuteAction", p, this, "executeActionResponse");
 }

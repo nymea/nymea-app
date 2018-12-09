@@ -60,8 +60,8 @@ public:
 
     void registerNotificationHandler(JsonHandler *handler, const QString &method);
 
-    void sendCommand(const QString &method, const QVariantMap &params, QObject *caller = nullptr, const QString &callbackMethod = QString());
-    void sendCommand(const QString &method, QObject *caller = nullptr, const QString &callbackMethod = QString());
+    int sendCommand(const QString &method, const QVariantMap &params, QObject *caller = nullptr, const QString &callbackMethod = QString());
+    int sendCommand(const QString &method, QObject *caller = nullptr, const QString &callbackMethod = QString());
 
     void setConnection(NymeaConnection *connection);
     bool connected() const;

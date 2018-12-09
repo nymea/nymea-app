@@ -143,13 +143,19 @@ ItemDelegate {
     Component {
         id: spinnerComponent
         SpinBox {
-            value: root.param.value
-            from: root.paramType.minValue
-            to: root.paramType.maxValue
+            value: root.param.value ? root.param.value : 0
+            from: root.paramType.minValue ? root.paramType.minValue : -999999999
+            to: root.paramType.maxValue ? root.paramType.maxValue : 999999999
             editable: true
+            width: 150
             onValueModified: root.param.value = value
             textFromValue: function(value) {
                 return value
+            }
+            Component.onCompleted: {
+                if (root.value === undefined) {
+                    root.value = value
+                }
             }
         }
     }
@@ -172,6 +178,11 @@ ItemDelegate {
             onActivated: {
                 root.param.value = root.paramType.allowedValues[index]
                 print("setting value to", root.param.value)
+            }
+            Component.onCompleted: {
+                if (root.value === undefined) {
+                    root.value = model[0]
+                }
             }
         }
     }

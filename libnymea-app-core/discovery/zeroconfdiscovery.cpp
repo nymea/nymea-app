@@ -91,7 +91,7 @@ void ZeroconfDiscovery::serviceEntryAdded(const QZeroConfService &entry)
             version = txtRecord.second;
         }
     }
-//    qDebug() << "avahi service entry added" << serverName << uuid << sslEnabled;
+    qDebug() << "avahi service entry added" << serverName << uuid << sslEnabled;
 
 
     DiscoveryDevice* device = m_discoveryModel->find(uuid);

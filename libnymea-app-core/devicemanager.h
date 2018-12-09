@@ -69,7 +69,7 @@ public:
     Q_INVOKABLE void confirmPairing(const QUuid &pairingTransactionId, const QString &secret = QString());
     Q_INVOKABLE void removeDevice(const QUuid &deviceId, RemovePolicy policy = RemovePolicyNone);
     Q_INVOKABLE void editDevice(const QUuid &deviceId, const QString &name);
-    Q_INVOKABLE void executeAction(const QUuid &deviceId, const QUuid &actionTypeId, const QVariantList &params = QVariantList());
+    Q_INVOKABLE int executeAction(const QUuid &deviceId, const QUuid &actionTypeId, const QVariantList &params = QVariantList());
 
 private:
     Q_INVOKABLE void notificationReceived(const QVariantMap &data);
@@ -98,6 +98,7 @@ signals:
     void editDeviceReply(const QVariantMap &params);
     void executeActionReply(const QVariantMap &params);
     void fetchingDataChanged();
+    void notificationReceived(const QString &deviceId, const QString &eventTypeId, const QVariantList &params);
 
 private:
     Vendors *m_vendors;

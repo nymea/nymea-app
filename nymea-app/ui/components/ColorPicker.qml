@@ -4,12 +4,27 @@ Item {
     id: root
 
     property color color: actionState
-    property Component touchDelegate: null
     property bool pressed: mouseArea.pressed
     property bool hovered: mouseArea.containsMouse
 
-    property variant lights
     property bool active: true
+
+    property Component touchDelegate: Rectangle {
+        height: 15
+        width: height
+        radius: height / 2
+        color: app.accentColor
+
+
+        Rectangle {
+            color: root.hovered || root.pressed ? "#11000000" : "transparent"
+            anchors.centerIn: parent
+            height: 30
+            width: height
+            radius: width / 2
+            Behavior on color { ColorAnimation { duration: 200 } }
+        }
+    }
 
     function calculateXy(color) {
         if (!color.hasOwnProperty("r")) {
@@ -189,7 +204,7 @@ Item {
         x: item ? Math.max(0, Math.min(point.x - width * .5, parent.width - item.width)) : 0
         y: item ? Math.max(0, Math.min(point.y - height * .5, parent.height - item.height)) : 0
         sourceComponent: root.touchDelegate
-        visible: mouseArea.draggedItem != touchDelegateLoader && root.active
+        visible: mouseArea.draggedItem !== touchDelegateLoader && root.active
         //        Behavior on x {
         //            enabled: !mouseArea.pressed
         //            NumberAnimation {}
@@ -199,6 +214,6 @@ Item {
     Loader {
         id: dndItem
         sourceComponent: root.touchDelegate
-        visible: mouseArea.draggedItem != undefined && root.active
+        visible: mouseArea.draggedItem !== undefined && root.active
     }
 }

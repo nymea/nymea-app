@@ -83,7 +83,8 @@ SOURCES += \
     configuration/nymeaconfiguration.cpp \
     models/mqttpolicies.cpp \
     configuration/mqttpolicy.cpp \
-    configuration/mqttpolicies.cpp
+    configuration/mqttpolicies.cpp \
+    models/devicemodel.cpp
 
 HEADERS += \
     engine.h \
@@ -145,7 +146,8 @@ HEADERS += \
     configuration/serverconfigurations.h \
     configuration/nymeaconfiguration.h \
     configuration/mqttpolicy.h \
-    configuration/mqttpolicies.h
+    configuration/mqttpolicies.h \
+    models/devicemodel.h
 
 unix {
     target.path = /usr/lib

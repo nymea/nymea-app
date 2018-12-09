@@ -11,8 +11,8 @@ Item {
     id: root
     implicitHeight: width * .6
 
-    property var device: null
-    property var stateType: null
+    property Device device: null
+    property StateType stateType: null
     property int roundTo: 2
     readonly property var valueState: device.states.getState(stateType.id)
     readonly property var deviceClass: engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
@@ -55,11 +55,19 @@ Item {
                 color: root.color
             }
 
+            Led {
+                visible: root.stateType.type.toLowerCase() === "bool"
+                on: root.valueState.value === true
+            }
+
             Label {
                 Layout.fillWidth: true
-                text: 1.0 * Math.round(root.valueState.value * Math.pow(10, root.roundTo)) / Math.pow(10, root.roundTo) + " " + root.stateType.unitString
+                text: root.stateType.type.toLowerCase() === "bool"
+                      ? root.stateType.displayName
+                      : 1.0 * Math.round(root.valueState.value * Math.pow(10, root.roundTo)) / Math.pow(10, root.roundTo) + " " + root.stateType.unitString
                 font.pixelSize: app.largeFont
             }
+
 
             HeaderButton {
                 imageSource: "../images/zoom-out.svg"
@@ -96,11 +104,19 @@ Item {
 
             ValueAxis {
                 id: yAxis
-                max: logsModelNg.maxValue + Math.abs(logsModelNg.maxValue * .05)
-                min: logsModelNg.minValue - Math.abs(logsModelNg.minValue * .05)
+                max: Math.ceil(logsModelNg.maxValue + Math.abs(logsModelNg.maxValue * .05))
+                min: Math.floor(logsModelNg.minValue - Math.abs(logsModelNg.minValue * .05))
                 labelsFont.pixelSize: app.smallFont
+                labelFormat: {
+                    switch (root.stateType.type.toLowerCase()) {
+                    case "bool":
+                        return "x";
+                    default:
+                        return "%d";
+                    }
+                }
                 labelsColor: app.foregroundColor
-                tickCount: chartView.height / 40
+                tickCount: root.stateType.type.toLowerCase() === "bool" ? 2 : chartView.height / 40
                 color: Qt.rgba(app.foregroundColor.r, app.foregroundColor.g, app.foregroundColor.b, .2)
                 gridLineColor: color
             }

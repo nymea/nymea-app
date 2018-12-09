@@ -123,7 +123,7 @@ Page {
                         print("should setup", deviceClass.name, deviceClass.setupMethod, deviceClass.createMethods, deviceClass["discoveryParamTypes"].count)
                     }
 
-                    swipe.enabled: true// deviceClass.createMethods.indexOf("CreateMethodUser") !== -1
+                    swipe.enabled: deviceClass.createMethods.indexOf("CreateMethodUser") !== -1
                     swipe.right: MouseArea {
                         height: deviceClassDelegate.height
                         width: height
