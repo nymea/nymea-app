@@ -74,9 +74,10 @@ Item {
                     }
 
                     Engine {
-                        id: engine
+                        id: engineObject
                     }
-                    property alias _engine: engine
+                    readonly property Engine engine: engineObject
+                    readonly property Engine _engine: engineObject // In case a child cannot use "engine"
                     property int connectionTabIndex: index
                     onConnectionTabIndexChanged: tabSettings.lastConnectedHost = engine.connection.url
 

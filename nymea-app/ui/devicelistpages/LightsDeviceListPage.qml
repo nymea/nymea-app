@@ -78,9 +78,7 @@ DeviceListPageBase {
                 Rectangle {
                     anchors { left: parent.left; top: parent.top; bottom: parent.bottom }
                     width: app.margins / 2
-                    color: itemDelegate.connectedState !== null && itemDelegate.connectedState.value === false ?
-                               "red"
-                             : itemDelegate.colorStateType ? itemDelegate.colorState.value : "#00000000"
+                    color: itemDelegate.colorStateType ? itemDelegate.colorState.value : "#00000000"
                 }
 
                 contentItem: ColumnLayout {
@@ -105,22 +103,12 @@ DeviceListPageBase {
 //                                source: icon
 //                            }
 
-                            Glow {
-                                anchors.fill: icon
-                                radius: 1
-                                samples: 17
-                                color: app.backgroundColor
-                                source: icon
-                            }
-
                             ColorIcon {
                                 id: icon
                                 anchors.fill: parent
-                                color: app.accentColor
-//                                anchors.margins: app.margins / 4
-//                                color: itemDelegate.connectedState !== null && itemDelegate.connectedState.value === false ?
-//                                           "red"
-//                                         : itemDelegate.colorStateType ? itemDelegate.colorState.value : "#00000000"
+                                color: itemDelegate.connectedState !== null && itemDelegate.connectedState.value === false
+                                       ? "red"
+                                       : app.accentColor
                                 name: itemDelegate.connectedState !== null && itemDelegate.connectedState.value === false ?
                                           "../images/dialog-warning-symbolic.svg"
                                         : itemDelegate.powerState.value === true ? "../images/light-on.svg" : "../images/light-off.svg"

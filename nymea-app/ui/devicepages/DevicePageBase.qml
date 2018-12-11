@@ -6,8 +6,11 @@ import "../components"
 
 Page {
     id: root
-    property var device: null
-    readonly property var deviceClass: engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId)
+    property Device device: null
+    readonly property DeviceClass deviceClass: engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId)
+
+    property bool showLogsButton: true
+    property bool showDetailsButton: true
 
     default property alias data: contentItem.data
 
@@ -35,7 +38,13 @@ Page {
         Component.onCompleted: {
             thingMenu.addItem(menuEntryComponent.createObject(thingMenu, {text: qsTr("Magic"), iconSource: "../images/magic.svg", functionName: "openDeviceMagicPage"}))
 
-            thingMenu.addItem(menuEntryComponent.createObject(thingMenu, {text: qsTr("Thing details"), iconSource: "../images/info.svg", functionName: "openDeviceInfoPage"}))
+            if (root.showDetailsButton) {
+                thingMenu.addItem(menuEntryComponent.createObject(thingMenu, {text: qsTr("Thing details"), iconSource: "../images/configure.svg", functionName: "openGenericDevicePage"}))
+            }
+            if (root.showLogsButton) {
+                thingMenu.addItem(menuEntryComponent.createObject(thingMenu, {text: qsTr("Thing logs"), iconSource: "../images/logs.svg", functionName: "openDeviceLogPage"}))
+            }
+
             if (engine.jsonRpcClient.ensureServerVersion(1.6)) {
                 thingMenu.addItem(menuEntryComponent.createObject(thingMenu,
                     {
@@ -48,8 +57,8 @@ Page {
         function openDeviceMagicPage() {
             pageStack.push(Qt.resolvedUrl("../magic/DeviceRulesPage.qml"), {device: root.device})
         }
-        function openDeviceInfoPage() {
-            pageStack.push(Qt.resolvedUrl("GenericDeviceStateDetailsPage.qml"), {device: root.device})
+        function openGenericDevicePage() {
+            pageStack.push(Qt.resolvedUrl("GenericDevicePage.qml"), {device: root.device})
         }
         function toggleFavorite() {
             if (favoritesProxy.count === 0) {
@@ -57,6 +66,9 @@ Page {
             } else {
                 engine.tagsManager.untagDevice(root.device.id, "favorites")
             }
+        }
+        function openDeviceLogPage() {
+            pageStack.push(Qt.resolvedUrl("DeviceLogPage.qml"), {device: root.device });
         }
 
         Component {

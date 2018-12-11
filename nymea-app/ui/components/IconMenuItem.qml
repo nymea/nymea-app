@@ -5,13 +5,14 @@ import QtQuick.Layouts 1.3
 MenuItem {
     id: root
     property alias iconSource: icon.name
+    implicitWidth: 200
 
     contentItem: RowLayout {
         spacing: app.margins
         ColorIcon {
             id: icon
-            height: parent.height
-            width: height
+            Layout.preferredHeight: app.iconSize
+            Layout.preferredWidth: height
         }
         Label {
             id: label

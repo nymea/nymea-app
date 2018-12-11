@@ -60,7 +60,6 @@
         <file>ui/customviews/ExtendedVolumeController.qml</file>
         <file>ui/devicepages/MediaDevicePage.qml</file>
         <file>ui/devicepages/ButtonDevicePage.qml</file>
-        <file>ui/devicepages/GenericDeviceStateDetailsPage.qml</file>
         <file>ui/devicepages/GenericDevicePage.qml</file>
         <file>ui/devicepages/WeatherDevicePagePre110.qml</file>
         <file>ui/devicepages/WeatherDevicePagePost110.qml</file>
@@ -137,5 +136,7 @@
         <file>ui/system/MqttBrokerSettingsPage.qml</file>
         <file>ui/system/ServerConfigurationDialog.qml</file>
         <file>ui/system/MqttPolicyPage.qml</file>
+        <file>ui/devicepages/DeviceLogPage.qml</file>
+        <file>ui/components/Led.qml</file>
     </qresource>
 </RCC>

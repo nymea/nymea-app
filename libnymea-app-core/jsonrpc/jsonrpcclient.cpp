@@ -56,15 +56,15 @@ void JsonRpcClient::registerNotificationHandler(JsonHandler *handler, const QStr
     m_notificationHandlers.insert(handler->nameSpace(), qMakePair<JsonHandler*, QString>(handler, method));
 }
 
-void JsonRpcClient::sendCommand(const QString &method, const QVariantMap &params, QObject *caller, const QString &callbackMethod)
+int JsonRpcClient::sendCommand(const QString &method, const QVariantMap &params, QObject *caller, const QString &callbackMethod)
 {
     JsonRpcReply *reply = createReply(method, params, caller, callbackMethod);
     m_replies.insert(reply->commandId(), reply);
     sendRequest(reply->requestMap());
-
+    return reply->commandId();
 }
 
-void JsonRpcClient::sendCommand(const QString &method, QObject *caller, const QString &callbackMethod)
+int JsonRpcClient::sendCommand(const QString &method, QObject *caller, const QString &callbackMethod)
 {
     return sendCommand(method, QVariantMap(), caller, callbackMethod);
 }

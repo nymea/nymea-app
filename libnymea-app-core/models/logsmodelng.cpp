@@ -104,6 +104,11 @@ void LogsModelNg::setTypeIds(const QStringList &typeIds)
     if (m_typeIds != typeIds) {
         m_typeIds = typeIds;
         emit typeIdsChanged();
+        beginResetModel();
+        qDeleteAll(m_list);
+        m_list.clear();
+        endResetModel();
+        fetchMore();
     }
 }
 

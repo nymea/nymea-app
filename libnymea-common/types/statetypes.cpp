@@ -36,7 +36,9 @@ QList<StateType *> StateTypes::stateTypes()
 
 StateType *StateTypes::get(int index) const
 {
-    qDebug() << "returning" << m_stateTypes.at(index);
+    if (index < 0 || index >= m_stateTypes.count()) {
+        return nullptr;
+    }
     return m_stateTypes.at(index);
 }
 

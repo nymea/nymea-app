@@ -8,7 +8,7 @@ import "../components"
 ItemDelegate {
     id: root
 
-    property ActionType actionType: null
+    property var actionType: null
     property var actionState: null
 
     signal executeAction(var params)
@@ -292,23 +292,6 @@ ItemDelegate {
                     param1["value"] = color;
                     params.push(param1)
                     root.executeAction(params)
-                }
-            }
-
-            touchDelegate: Rectangle {
-                height: 15
-                width: height
-                radius: height / 2
-                color: Material.accent
-
-
-                Rectangle {
-                    color: colorPicker.hovered || colorPicker.pressed ? "#11000000" : "transparent"
-                    anchors.centerIn: parent
-                    height: 30
-                    width: height
-                    radius: width / 2
-                    Behavior on color { ColorAnimation { duration: 200 } }
                 }
             }
         }

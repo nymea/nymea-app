@@ -35,7 +35,7 @@ class State : public QObject
     Q_PROPERTY(QVariant value READ value NOTIFY valueChanged)
 
 public:
-    explicit State(const QUuid &deviceId, const QUuid &stateTypeId, const QVariant &value, QObject *parent = 0);
+    explicit State(const QUuid &deviceId, const QUuid &stateTypeId, const QVariant &value, QObject *parent = nullptr);
 
     QUuid deviceId() const;
     QUuid stateTypeId() const;

@@ -55,6 +55,7 @@
 #include "ruletemplates/ruleactiontemplate.h"
 #include "ruletemplates/ruleactionparamtemplate.h"
 #include "connection/awsclient.h"
+#include "models/devicemodel.h"
 
 #include <QtQml/qqml.h>
 
@@ -113,6 +114,8 @@ void registerQmlTypes() {
     qmlRegisterUncreatableType<DeviceClasses>(uri, 1, 0, "DeviceClasses", "Can't create this in QML. Get it from the DeviceManager.");
     qmlRegisterType<DeviceClassesProxy>(uri, 1, 0, "DeviceClassesProxy");
     qmlRegisterType<DeviceDiscovery>(uri, 1, 0, "DeviceDiscovery");
+
+    qmlRegisterType<DeviceModel>(uri, 1, 0, "DeviceModel");
 
     qmlRegisterUncreatableType<RuleManager>(uri, 1, 0, "RuleManager", "Get it from the Engine");
     qmlRegisterUncreatableType<Rules>(uri, 1, 0, "Rules", "Get it from RuleManager");
