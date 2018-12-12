@@ -53,9 +53,10 @@ bool CloudTransport::connect(const QUrl &url)
     m_timestamp = QDateTime::currentDateTime();
     bool postResult = m_awsClient->postToMQTT(url.host(), QString::number(m_timestamp.toMSecsSinceEpoch()), [this](bool success) {
         if (success) {
-
             m_remoteproxyConnection->connectServer(QUrl("wss://remoteproxy.nymea.io"));
-//            m_remoteproxyConnection->connectServer(QUrl("wss://127.0.0.1:1212"));
+        } else {
+            qDebug() << "Posting to MQTT failed";
+            emit error(QAbstractSocket::HostNotFoundError);
         }
     });
 
