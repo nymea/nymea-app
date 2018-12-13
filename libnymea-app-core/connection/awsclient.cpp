@@ -66,7 +66,7 @@ AWSClient::AWSClient(QObject *parent) : QObject(parent),
     config.certificateEndpoint = "https://communityservice-cloud.nymea.io/certificatews/certificate";
     config.certificateApiKey = "aIRQv4yDdF6ASq12X1CPp7b6MpkdODfI3AOjOnkE";
     config.certificateVendorId = "d399290a-0599-4895-b4c3-34d2bdb579f4";
-    config.mqttEndpoint = "a2d0ba9572wepp.iot.eu-west-1.amazonaws.com";
+    config.mqttEndpoint = "a2d0ba9572wepp-ats.iot.eu-west-1.amazonaws.com";
     config.region = "eu-west-1";
     config.apiEndpoint = "api-cloud.guh.io";
     config.pushNotificationSystem = pushSystem;
@@ -79,7 +79,7 @@ AWSClient::AWSClient(QObject *parent) : QObject(parent),
     config.certificateEndpoint = "https://testcommunityservice-cloud.nymea.io/certificatews/certificate";
     config.certificateApiKey = "VhmAUy75eZ9jXaUEjgWZh9PpSIykPGBK7AZFPimh";
     config.certificateVendorId = "testVendor001";
-    config.mqttEndpoint = "a2addxakg5juii.iot.eu-west-1.amazonaws.com";
+    config.mqttEndpoint = "a2addxakg5juii-ats.iot.eu-west-1.amazonaws.com";
     config.region = "eu-west-1";
     config.apiEndpoint = "testapi-cloud.guh.io";
     config.pushNotificationSystem = pushSystem == "APNS" ? pushSystem + "_SANDBOX" : pushSystem;
@@ -93,7 +93,7 @@ AWSClient::AWSClient(QObject *parent) : QObject(parent),
     config.certificateEndpoint = "";
     config.certificateApiKey = "";
     config.certificateVendorId = "";
-    config.mqttEndpoint = "a27q7a2x15m8h3.iot.eu-west-1.amazonaws.com";
+    config.mqttEndpoint = "a27q7a2x15m8h3-ats.iot.eu-west-1.amazonaws.com";
     config.region = "eu-west-1";
     config.apiEndpoint = "api-cloud.guh.io";
     config.pushNotificationSystem = pushSystem;
@@ -876,6 +876,11 @@ bool AWSClient::postToMQTT(const QString &boxId, const QString &timestamp, std::
         reply->deleteLater();
         QByteArray data = reply->readAll();
         qDebug() << "post reply" << data;
+        if (reply->error() != QNetworkReply::NoError) {
+            qWarning() << "Network reply error" << reply->error() << reply->errorString();
+            callback(false);
+            return;
+        }
         QJsonParseError error;
         QJsonDocument jsonDoc = QJsonDocument::fromJson(data, &error);
         if (error.error != QJsonParseError::NoError) {
