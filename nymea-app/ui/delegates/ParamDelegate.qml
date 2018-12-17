@@ -10,7 +10,7 @@ ItemDelegate {
 
     property ParamType paramType: null
     property alias value: d.value
-    property var param: Param {
+    property Param param: Param {
         id: d
         paramTypeId: paramType.id
         value: paramType.defaultValue
@@ -163,9 +163,18 @@ ItemDelegate {
     Component {
         id: textFieldComponent
         TextField {
-            text: root.param.value
+            text: root.param.value !== undefined
+                  ? root.param.value
+                  : root.paramType.defaultValue
+                    ? root.paramType.defaultValue
+                    : ""
             onEditingFinished: {
                 root.param.value = text
+            }
+            Component.onCompleted: {
+                if (root.param.value === undefined) {
+                    root.param.value = text;
+                }
             }
         }
     }
