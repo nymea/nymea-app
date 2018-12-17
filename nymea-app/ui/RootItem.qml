@@ -71,6 +71,7 @@ Item {
                     property var tabSettings: Settings {
                         category: "tabSettings" + index
                         property string lastConnectedHost
+                        property int currentMainViewIndex: 0
                     }
 
                     Engine {

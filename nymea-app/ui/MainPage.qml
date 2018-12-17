@@ -63,18 +63,18 @@ Page {
                 opacity: engine.deviceManager.fetchingData ? 0 : 1
                 Behavior on opacity { NumberAnimation { duration: 300 } }
 
-                onCurrentIndexChanged: {
-                    settings.currentMainViewIndex = currentIndex
-                }
-
                 Component.onCompleted:  {
+                    print("MainPage Tab index: Component.completed: settings:", tabSettings.currentMainViewIndex)
                     if (engine.jsonRpcClient.ensureServerVersion(1.6)) {
                         swipeView.insertItem(0, favoritesViewComponent.createObject(swipeView))
                     }
-                    if (settings.currentMainViewIndex > swipeView.count) {
-                        settings.currentMainViewIndex = swipeView.count - 1;
+                    if (tabSettings.currentMainViewIndex > swipeView.count) {
+                        print("MainPage Tab index: setting config to", swipeView.count - 1, "(", tabSettings.currentMainViewIndex, swipeView.count, ")")
+                        tabSettings.currentMainViewIndex = swipeView.count - 1;
                     }
-                    swipeView.currentIndex = Qt.binding(function() { return settings.currentMainViewIndex; })
+                    print("MainPage Tab index: setting tab to", tabSettings.currentMainViewIndex)
+                    swipeView.currentIndex = Qt.binding(function() { return tabSettings.currentMainViewIndex; })
+                    tabSettings.currentMainViewChanged = Qt.binding(function() { return swipeView.currentIndex; });
                 }
 
                 Component {
@@ -177,7 +177,7 @@ Page {
     footer: TabBar {
         id: tabBar
         Material.elevation: 3
-        currentIndex: settings.currentMainViewIndex
+//        currentIndex: tabSettings.currentMainViewIndex
         position: TabBar.Footer
         implicitHeight: 70 + (app.landscape ?
                                           ((systemProductType === "ios" && Screen.height === 375) ? -10 : -20) :
@@ -196,14 +196,22 @@ Page {
             tabEntryComponent.createObject(tabBar, {text: qsTr("Scenes"), iconSource: "../images/slideshow.svg", pageIndex: pi++})
             initTimer.start()
         }
-        Timer { id: initTimer; interval: 1; repeat: false; onTriggered: tabBar.currentIndex = Qt.binding(function() {return settings.currentMainViewIndex;})}
+        Timer {
+            id: initTimer
+            interval: 1
+            repeat: false
+            onTriggered: {
+                print("MainPage Tab index: restoring tab index to:", tabSettings.currentMainViewIndex)
+                tabBar.currentIndex = Qt.binding(function() {return tabSettings.currentMainViewIndex;})
+            }
+        }
 
         Component {
             id: tabEntryComponent
             MainPageTabButton {
                 property int pageIndex: 0
 //                    height: tabBar.height
-                onClicked: settings.currentMainViewIndex = pageIndex
+                onClicked: tabSettings.currentMainViewIndex = pageIndex
                 alignment: app.landscape ? Qt.Horizontal : Qt.Vertical
             }
         }
