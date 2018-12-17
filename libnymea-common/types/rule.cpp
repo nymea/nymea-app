@@ -29,7 +29,6 @@ Rule::Rule(const QUuid &id, QObject *parent) :
 
 Rule::~Rule()
 {
-    qDebug() << "### Destroying rule" << this;
 }
 
 QUuid Rule::id() const
@@ -156,4 +155,92 @@ Rule *Rule::clone() const
         ret->exitActions()->addRuleAction(this->exitActions()->get(i)->clone());
     }
     return ret;
+}
+
+QDebug operator <<(QDebug &dbg, Rule *rule)
+{
+    dbg << rule->name() << " (Enabled:" << rule->enabled() << "Active:" << rule->active() << ")" << endl;
+    if (rule->eventDescriptors()->rowCount() > 0) {
+        dbg << "Event descriptors:" << endl;
+    }
+    for (int i = 0; i < rule->eventDescriptors()->rowCount(); i++) {
+        EventDescriptor *ed = rule->eventDescriptors()->get(i);
+        dbg << " " << i << ":";
+        if (!ed->deviceId().isNull() && !ed->eventTypeId().isNull()) {
+            dbg << "Device ID:" << ed->deviceId() << "Event Type ID:" << ed->eventTypeId() << endl;;
+        } else {
+            dbg << "Interface Name:" << ed->interfaceName() << "Event Name:" << ed->interfaceEvent() << endl;;
+        }
+    }
+    dbg << "State Evaluator:" << endl;
+    printStateEvaluator(dbg, rule->stateEvaluator());
+
+    if (rule->actions()->rowCount() > 0) {
+        dbg << "Actions:" << endl;
+    }
+    for (int i = 0; i < rule->actions()->rowCount(); i++) {
+        RuleAction *ra = rule->actions()->get(i);
+        dbg << " " << i << ":";
+        if (!ra->deviceId().isNull() && !ra->actionTypeId().isNull()) {
+            dbg << "Device ID:" << ra->deviceId() << "Action Type ID:" << ra->actionTypeId() << endl;;
+        } else {
+            dbg << "Interface Name:" << ra->interfaceName() << "Action Name:" << ra->interfaceAction() << endl;;
+        }
+    }
+
+    if (rule->exitActions()->rowCount() > 0) {
+        dbg << "Exit Actions:" << endl;
+    }
+    for (int i = 0; i < rule->exitActions()->rowCount(); i++) {
+        RuleAction *ra = rule->exitActions()->get(i);
+        dbg << " " << i << ":";
+        if (!ra->deviceId().isNull() && !ra->actionTypeId().isNull()) {
+            dbg << "Device ID:" << ra->deviceId() << "Action Type ID:" << ra->actionTypeId() << endl;;
+        } else {
+            dbg << "Interface Name:" << ra->interfaceName() << "Action Name:" << ra->interfaceAction() << endl;;
+        }
+    }
+    return dbg;
+}
+
+QDebug printStateEvaluator(QDebug &dbg, StateEvaluator *stateEvaluator, int indentLevel)
+{
+    if (stateEvaluator->stateDescriptor()) {
+        for (int i = 0; i < indentLevel; i++) { dbg << " "; }
+        dbg << "State Descriptor:";
+        if (!stateEvaluator->stateDescriptor()->deviceId().isNull() && !stateEvaluator->stateDescriptor()->stateTypeId().isNull()) {
+            dbg << "Device ID:" << stateEvaluator->stateDescriptor()->deviceId().toString() << stateEvaluator->stateDescriptor()->stateTypeId().toString();
+        } else {
+            dbg << "Interface name:" << stateEvaluator->stateDescriptor()->interfaceName() << stateEvaluator->stateDescriptor()->interfaceState();
+        }
+        switch (stateEvaluator->stateDescriptor()->valueOperator()) {
+        case StateDescriptor::ValueOperatorLess:
+            dbg << "<";
+            break;
+        case StateDescriptor::ValueOperatorEquals:
+            dbg << "=";
+            break;
+        case StateDescriptor::ValueOperatorGreater:
+            dbg << ">";
+            break;
+        case StateDescriptor::ValueOperatorNotEquals:
+            dbg << "!=";
+            break;
+        case StateDescriptor::ValueOperatorLessOrEqual:
+            dbg << "<=";
+            break;
+        case StateDescriptor::ValueOperatorGreaterOrEqual:
+            dbg << ">=";
+            break;
+        }
+        dbg << stateEvaluator->stateDescriptor()->value() << endl;
+    }
+    if (stateEvaluator->childEvaluators()->rowCount() > 0) {
+        for (int i = 0; i < indentLevel; i++) { dbg << " "; }
+        dbg << (stateEvaluator->stateOperator() == StateEvaluator::StateOperatorAnd ? "AND" : "OR") << endl;
+    }
+    for (int i = 0; i < stateEvaluator->childEvaluators()->rowCount(); i++) {
+        printStateEvaluator(dbg, stateEvaluator->childEvaluators()->get(i), indentLevel+1);
+    }
+    return dbg;
 }

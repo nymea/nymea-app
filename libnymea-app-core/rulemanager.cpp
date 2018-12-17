@@ -75,7 +75,7 @@ void RuleManager::removeRule(const QUuid &ruleId)
 void RuleManager::editRule(Rule *rule)
 {
     QVariantMap params = JsonTypes::packRule(rule);
-    qWarning() << "Packed rule:" << params;
+    qWarning() << "Packed rule:" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson(QJsonDocument::Indented));
     m_jsonClient->sendCommand("Rules.EditRule", params, this, "onEditRuleReply");
 
 }
@@ -89,10 +89,12 @@ void RuleManager::executeActions(const QString &ruleId)
 
 void RuleManager::handleRulesNotification(const QVariantMap &params)
 {
-    qDebug() << "rules notification received" << params;
+    qDebug() << "Rules notification received:" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson(QJsonDocument::Indented));
     if (params.value("notification").toString() == "Rules.RuleAdded") {
         QVariantMap ruleMap = params.value("params").toMap().value("rule").toMap();
-        m_rules->insert(parseRule(ruleMap));
+        Rule *rule = parseRule(ruleMap);
+        qDebug() << "Rule added:" << rule;
+        m_rules->insert(rule);
     } else if (params.value("notification").toString() == "Rules.RuleRemoved") {
         QUuid ruleId = params.value("params").toMap().value("ruleId").toUuid();
         m_rules->remove(ruleId);
@@ -105,7 +107,9 @@ void RuleManager::handleRulesNotification(const QVariantMap &params)
             return;
         }
         m_rules->remove(ruleId);
-        m_rules->insert(parseRule(ruleMap));
+        Rule *newRule = parseRule(ruleMap);
+        m_rules->insert(newRule);
+        qDebug() << "Rule changed:" << newRule;
     } else if (params.value("notification").toString() == "Rules.RuleActiveChanged") {
         Rule *rule = m_rules->getRule(params.value("params").toMap().value("ruleId").toUuid());
         if (!rule) {
@@ -163,7 +167,7 @@ void RuleManager::getRuleDetailsReply(const QVariantMap &params)
 
 void RuleManager::onAddRuleReply(const QVariantMap &params)
 {
-    qDebug() << "Add rule reply" << params;
+    qDebug() << "Add rule reply:" << params.value("params").toMap().value("ruleError").toString();
     emit addRuleReply(params.value("params").toMap().value("ruleError").toString(), params.value("params").toMap().value("ruleId").toString());
 }
 
@@ -175,7 +179,7 @@ void RuleManager::removeRuleReply(const QVariantMap &params)
 
 void RuleManager::onEditRuleReply(const QVariantMap &params)
 {
-    qDebug() << "Edit rule reply:" << params; //params.value("params").toMap().value("ruleError").toString();
+    qDebug() << "Edit rule reply:" << params.value("params").toMap().value("ruleError").toString();
     emit editRuleReply(params.value("params").toMap().value("ruleError").toString());
 }
 
@@ -228,6 +232,7 @@ void RuleManager::parseEventDescriptors(const QVariantList &eventDescriptorList,
 
 StateEvaluator *RuleManager::parseStateEvaluator(const QVariantMap &stateEvaluatorMap)
 {
+    qDebug() << "Parsing state evaluator. Child count:" << stateEvaluatorMap.value("childEvaluators").toList().count();
     if (!stateEvaluatorMap.contains("stateDescriptor")) {
         return nullptr;
     }
@@ -245,9 +250,9 @@ StateEvaluator *RuleManager::parseStateEvaluator(const QVariantMap &stateEvaluat
     stateEvaluator->setStateDescriptor(sd);
 
     foreach (const QVariant &childEvaluatorVariant, stateEvaluatorMap.value("childEvaluators").toList()) {
-        StateEvaluator *stateEvaluator = parseStateEvaluator(childEvaluatorVariant.toMap());
-        if (stateEvaluator) {
-            stateEvaluator->childEvaluators()->addStateEvaluator(stateEvaluator);
+        StateEvaluator *childEvaluator = parseStateEvaluator(childEvaluatorVariant.toMap());
+        if (childEvaluator) {
+            stateEvaluator->childEvaluators()->addStateEvaluator(childEvaluator);
         }
     }
     operatorEnum = QMetaEnum::fromType<StateEvaluator::StateOperator>();

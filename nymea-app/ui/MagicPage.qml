@@ -43,7 +43,7 @@ Page {
         onAddRuleReply: {
             d.editRulePage.busy = false;
             if (ruleError == "RuleErrorNoError") {
-                print("should tag rule now:", d.editRulePage.rule.id, d.editRulePage.ruleIcon, d.editRulePage.ruleColor)
+//                print("should tag rule now:", d.editRulePage.rule.id, d.editRulePage.ruleIcon, d.editRulePage.ruleColor)
                 engine.tagsManager.tagRule(ruleId, "color", d.editRulePage.ruleColor)
                 engine.tagsManager.tagRule(ruleId, "icon", d.editRulePage.ruleIcon)
                 pageStack.pop();
@@ -56,7 +56,7 @@ Page {
         onEditRuleReply: {
             d.editRulePage.busy = false;
             if (ruleError == "RuleErrorNoError") {
-                print("should tag rule now:", d.editRulePage.ruleIcon, d.editRulePage.ruleColor)
+//                print("should tag rule now:", d.editRulePage.ruleIcon, d.editRulePage.ruleColor)
                 engine.tagsManager.tagRule(d.editRulePage.rule.id, "color", d.editRulePage.ruleColor)
                 engine.tagsManager.tagRule(d.editRulePage.rule.id, "icon", d.editRulePage.ruleIcon)
                 pageStack.pop();

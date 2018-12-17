@@ -72,4 +72,7 @@ private:
     TimeDescriptor *m_timeDescriptor = nullptr;
 };
 
+QDebug operator<<(QDebug &dbg, Rule *rule);
+QDebug printStateEvaluator(QDebug &dbg, StateEvaluator *stateEvaluator, int indentLevel = 1);
+
 #endif // RULE_H
