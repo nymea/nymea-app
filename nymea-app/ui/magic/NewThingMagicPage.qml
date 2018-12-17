@@ -69,8 +69,8 @@ Page {
                 var ruleAction = rule.actions.createNewRuleAction();
                 ruleAction.interfaceName = ruleActionTemplate.interfaceName;
                 ruleAction.interfaceAction = ruleActionTemplate.interfaceAction;
-                for (var j = 0; j < ruleActionTemplate.ruleActionParams.count; j++) {
-                    var ruleActionParam = ruleActionTemplate.ruleActionParams.get(j)
+                for (var j = 0; j < ruleActionTemplate.ruleActionParamTemplates.count; j++) {
+                    var ruleActionParam = ruleActionTemplate.ruleActionParamTemplates.get(j)
                     ruleAction.ruleActionParams.setRuleActionParamByName(ruleActionParam.paramName, ruleActionParam.value)
                 }
                 rule.actions.addRuleAction(ruleAction);
@@ -113,8 +113,8 @@ Page {
                 var ruleExitAction = rule.exitActions.createNewRuleAction();
                 ruleExitAction.interfaceName = ruleExitActionTemplate.interfaceName;
                 ruleExitAction.interfaceAction = ruleExitActionTemplate.interfaceAction;
-                for (var j = 0; j < ruleExitActionTemplate.ruleActionParams.count; j++) {
-                    var ruleActionParam = ruleExitActionTemplate.ruleActionParams.get(j)
+                for (var j = 0; j < ruleExitActionTemplate.ruleActionParamTemplates.count; j++) {
+                    var ruleActionParam = ruleExitActionTemplate.ruleActionParamTemplates.get(j)
                     ruleExitAction.ruleActionParams.setRuleActionParam(ruleActionParam.paramName, ruleActionParam.value)
                 }
                 rule.exitActions.addRuleAction(ruleAction);
