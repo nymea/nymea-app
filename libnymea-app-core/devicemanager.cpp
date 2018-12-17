@@ -22,6 +22,8 @@
 #include "engine.h"
 #include "jsonrpc/jsontypes.h"
 #include <QMetaEnum>
+#include <QSettings>
+#include <QStandardPaths>
 
 DeviceManager::DeviceManager(JsonRpcClient* jsonclient, QObject *parent) :
     JsonHandler(parent),
@@ -137,8 +139,48 @@ void DeviceManager::notificationReceived(const QVariantMap &data)
     }
 }
 
+void DeviceManager::getPluginsResponse(const QVariantMap &params)
+{
+//    qDebug() << "received plugins";
+    QString cachePath = QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/cache-" + m_jsonClient->serverUuid();
+    QSettings cache(cachePath, QSettings::IniFormat);
+    QString cachedServerVersion = cache.value("serverVersion").toString();
+    QStringList cachedPluginList = cache.value("pluginList").toStringList();
+    QStringList fetchedPluginList;
+
+    if (params.value("params").toMap().keys().contains("plugins")) {
+        QVariantList pluginList = params.value("params").toMap().value("plugins").toList();
+        foreach (QVariant pluginVariant, pluginList) {
+            Plugin *plugin = JsonTypes::unpackPlugin(pluginVariant.toMap(), plugins());
+            m_plugins->addPlugin(plugin);
+            fetchedPluginList.append(plugin->pluginId().toString());
+        }
+    }
+    qSort(fetchedPluginList);
+    if (cachedPluginList != fetchedPluginList || cachedServerVersion != m_jsonClient->serverVersion()) {
+        qDebug() << "Plugin list changed. Invalidating cache";
+        cache.clear();
+    } else {
+        qDebug() << "Plugin list on server did not change.";
+    }
+    cache.setValue("serverVersion", m_jsonClient->serverVersion());
+    cache.setValue("pluginList", fetchedPluginList);
+
+    if (cache.contains("vendors")) {
+        qDebug() << "Loading vendors from cache";
+        getVendorsResponse(cache.value("vendors").toMap());
+    } else {
+        qDebug() << "Loading vendors from server";
+        m_jsonClient->sendCommand("Devices.GetSupportedVendors", this, "getVendorsResponse");
+    }
+}
+
 void DeviceManager::getVendorsResponse(const QVariantMap &params)
 {
+    QString cachePath = QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/cache-" + m_jsonClient->serverUuid();
+    QSettings cache(cachePath, QSettings::IniFormat);
+    cache.setValue("vendors", params);
+
 //    qDebug() << "Got GetSupportedVendors response" << params;
     if (params.value("params").toMap().keys().contains("vendors")) {
         QVariantList vendorList = params.value("params").toMap().value("vendors").toList();
@@ -151,11 +193,22 @@ void DeviceManager::getVendorsResponse(const QVariantMap &params)
 
     qDebug() << "start getting deviceClass at" << QDateTime::currentDateTime();
 
-    m_jsonClient->sendCommand("Devices.GetSupportedDevices", this, "getSupportedDevicesResponse");
+    if (cache.contains("supportedDevices")) {
+        qDebug() << "Loading supported devices from cache";
+        getSupportedDevicesResponse(cache.value("supportedDevices").toMap());
+    } else {
+        qDebug() << "Loading supported devices from server";
+        m_jsonClient->sendCommand("Devices.GetSupportedDevices", this, "getSupportedDevicesResponse");
+    }
 }
 
 void DeviceManager::getSupportedDevicesResponse(const QVariantMap &params)
 {
+    QString cachePath = QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/cache-" + m_jsonClient->serverUuid();
+    QSettings cache(cachePath, QSettings::IniFormat);
+
+    cache.setValue("supportedDevices", params);
+
 //    qDebug() << "DeviceClass received:" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson(QJsonDocument::Indented));
     if (params.value("params").toMap().keys().contains("deviceClasses")) {
         QVariantList deviceClassList = params.value("params").toMap().value("deviceClasses").toList();
@@ -165,26 +218,6 @@ void DeviceManager::getSupportedDevicesResponse(const QVariantMap &params)
         }
     }
     m_jsonClient->sendCommand("Devices.GetConfiguredDevices", this, "getConfiguredDevicesResponse");
-}
-
-void DeviceManager::getPluginsResponse(const QVariantMap &params)
-{
-//    qDebug() << "received plugins";
-    if (params.value("params").toMap().keys().contains("plugins")) {
-        QVariantList pluginList = params.value("params").toMap().value("plugins").toList();
-        foreach (QVariant pluginVariant, pluginList) {
-            Plugin *plugin = JsonTypes::unpackPlugin(pluginVariant.toMap(), plugins());
-            m_plugins->addPlugin(plugin);
-        }
-    }
-    m_jsonClient->sendCommand("Devices.GetSupportedVendors", this, "getVendorsResponse");
-
-    if (m_plugins->count() > 0) {
-        m_currentGetConfigIndex = 0;
-        QVariantMap configRequestParams;
-        configRequestParams.insert("pluginId", m_plugins->get(m_currentGetConfigIndex)->pluginId());
-        m_jsonClient->sendCommand("Devices.GetPluginConfiguration", configRequestParams, this, "getPluginConfigResponse");
-    }
 }
 
 void DeviceManager::getPluginConfigResponse(const QVariantMap &params)
@@ -246,6 +279,14 @@ void DeviceManager::getConfiguredDevicesResponse(const QVariantMap &params)
     }
     m_fetchingData = false;
     emit fetchingDataChanged();
+
+    if (m_plugins->count() > 0) {
+        m_currentGetConfigIndex = 0;
+        QVariantMap configRequestParams;
+        configRequestParams.insert("pluginId", m_plugins->get(m_currentGetConfigIndex)->pluginId());
+        m_jsonClient->sendCommand("Devices.GetPluginConfiguration", configRequestParams, this, "getPluginConfigResponse");
+    }
+
 }
 
 void DeviceManager::addDeviceResponse(const QVariantMap &params)
