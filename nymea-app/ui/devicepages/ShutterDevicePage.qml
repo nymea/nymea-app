@@ -10,7 +10,7 @@ DevicePageBase {
     id: root
 
     readonly property bool landscape: width > height
-    readonly property bool isExtended: deviceClass.interfaces.indexOf("extendedshutter") >= 0
+    readonly property bool isExtended: deviceClass.interfaces.indexOf("extendedclosable") >= 0
     readonly property var percentageState: isExtended ? device.states.getState(deviceClass.stateTypes.findByName("percentage").id) : 0
     readonly property var movingState: isExtended ? device.states.getState(deviceClass.stateTypes.findByName("moving").id) : 0
 

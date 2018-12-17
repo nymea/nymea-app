@@ -138,5 +138,6 @@
         <file>ui/system/MqttPolicyPage.qml</file>
         <file>ui/devicepages/DeviceLogPage.qml</file>
         <file>ui/components/Led.qml</file>
+        <file>ui/devicelistpages/ClosablesDeviceListPage.qml</file>
     </qresource>
 </RCC>
