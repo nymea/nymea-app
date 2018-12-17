@@ -625,7 +625,7 @@ Page {
                     Layout.fillWidth: true
                     implicitWidth: parent.width
                     ruleAction: root.rule.exitActions.get(index)
-                    onClicked: root.rule.exitActions.removeRuleAction(index)
+                    onRemoveRuleAction: root.rule.exitActions.removeRuleAction(index)
                 }
             }
 
