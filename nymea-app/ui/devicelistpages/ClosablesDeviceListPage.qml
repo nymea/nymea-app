@@ -9,6 +9,10 @@ import "../components"
 DeviceListPageBase {
     id: root
 
+    property string iconBasename
+
+    property bool invertControls: false
+
     header: GuhHeader {
         id: header
         onBackPressed: pageStack.pop()
@@ -82,8 +86,8 @@ DeviceListPageBase {
                                        ? app.accentColor
                                        : keyColor
                                 name: itemDelegate.percentageStateType
-                                      ? "../images/shutter/shutter-" + app.pad(Math.round(itemDelegate.percentageState.value / 10) * 10, 3) + ".svg"
-                                      : "../images/shutter/shutter-050.svg"
+                                      ? root.iconBasename + "-" + app.pad(Math.round(itemDelegate.percentageState.value / 10) * 10, 3) + ".svg"
+                                      : root.iconBasename + "-050.svg"
                             }
                         }
 
@@ -101,6 +105,7 @@ DeviceListPageBase {
                                 id: shutterControls
                                 height: parent.height
                                 device: itemDelegate.device
+                                invert: root.invertControls
                             }
                         }
                     }

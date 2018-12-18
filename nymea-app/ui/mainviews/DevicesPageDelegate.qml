@@ -28,14 +28,20 @@ MainPageTile {
         case "smartmeter":
             page ="SmartMeterDeviceListPage.qml";
             break;
-        case "awning":
-        case "blind":
-        case "shutter":
         case "garagegate":
+            page = "GarageDeviceListPage.qml";
+            break;
+        case "awning":
         case "extendedAwning":
+            page = "AwningDeviceListPage.qml";
+            break;
+        case "blind":
         case "extendedBlind":
+            page = "ShutterDeviceListPage.qml";
+            break;
+        case "shutter":
         case "extendedShutter":
-            page = "ClosablesDeviceListPage.qml";
+            page = "ShutterDeviceListPage.qml";
             break;
         default:
             page = "GenericDeviceListPage.qml"
