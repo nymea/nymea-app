@@ -51,6 +51,8 @@
         <file>ui/components/FingerprintVisual.qml</file>
         <file>ui/components/ListSectionHeader.qml</file>
         <file>ui/components/ListFilterInput.qml</file>
+        <file>ui/components/Led.qml</file>
+        <file>ui/components/ProgressButton.qml</file>
         <file>ui/customviews/GenericTypeLogView.qml</file>
         <file>ui/customviews/CustomViewBase.qml</file>
         <file>ui/customviews/WeatherView.qml</file>
@@ -77,6 +79,7 @@
         <file>ui/devicepages/NotificationsDevicePage.qml</file>
         <file>ui/devicepages/LightDevicePage.qml</file>
         <file>ui/devicepages/FingerprintReaderDevicePage.qml</file>
+        <file>ui/devicepages/DeviceLogPage.qml</file>
         <file>ui/devicelistpages/GenericDeviceListPage.qml</file>
         <file>ui/devicelistpages/ClosablesDeviceListPage.qml</file>
         <file>ui/devicelistpages/GarageDeviceListPage.qml</file>
@@ -141,7 +144,5 @@
         <file>ui/system/MqttBrokerSettingsPage.qml</file>
         <file>ui/system/ServerConfigurationDialog.qml</file>
         <file>ui/system/MqttPolicyPage.qml</file>
-        <file>ui/devicepages/DeviceLogPage.qml</file>
-        <file>ui/components/Led.qml</file>
     </qresource>
 </RCC>
