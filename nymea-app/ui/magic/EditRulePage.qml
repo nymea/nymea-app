@@ -79,7 +79,7 @@ Page {
         })
         page.onDone.connect(function() {
             root.rule.timeDescriptor.timeEventItems.addTimeEventItem(timeEventItem);
-            pageStack.pop();
+            pageStack.pop(root);
         })
     }
 
@@ -94,7 +94,7 @@ Page {
         })
         page.onDone.connect(function() {
             root.rule.timeDescriptor.calendarItems.addCalendarItem(calendarItem);
-            pageStack.pop();
+            pageStack.pop(root);
         })
     }
 
