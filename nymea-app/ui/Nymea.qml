@@ -175,6 +175,7 @@ ApplicationWindow {
             return Qt.resolvedUrl("images/DeviceIconBlind.svg")
         case "garagegate":
             return Qt.resolvedUrl("images/shutter/shutter-100.svg")
+        case "awning":
         case "extendedawning":
             return Qt.resolvedUrl("images/awning/awning-100.svg")
         case "battery":
