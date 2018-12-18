@@ -363,7 +363,9 @@ Page {
                         endTime.setHours(toHourBox.currentIndex);
                         endTime.setMinutes(toMinuteBox.currentIndex);
                         root.calendarItem.duration = (endTime.getTime() - time.getTime()) / 60000;
-                        print("duration is", endTime.getTime() - time.getTime(), time, endTime, toMinuteBox.currentIndex)
+                        if (endTime.getTime() < time.getTime()) {
+                            root.calendarItem.duration += (60 * 24)
+                        }
                     }
 
                     switch (repeatingBox.currentIndex) {
