@@ -37,7 +37,6 @@ ApplicationWindow {
         property bool darkTheme: false
         property string graphStyle: "bars"
         property string style: "light"
-        property int currentMainViewIndex: 0
         property bool showHiddenOptions: false
         property string cloudEnvironment: "community"
         property bool showConnectionTabs: false
