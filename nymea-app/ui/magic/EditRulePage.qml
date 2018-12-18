@@ -461,6 +461,7 @@ Page {
                 font.pixelSize: app.mediumFont
                 Layout.fillWidth: true
                 Layout.margins: app.margins
+                wrapMode: Text.WordWrap
                 font.bold: true
                 visible: {
                     if (root.isEventBased) {
