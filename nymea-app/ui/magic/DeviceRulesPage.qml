@@ -80,7 +80,7 @@ Page {
         onAddRuleReply: {
             d.editRulePage.busy = false;
             if (ruleError == "RuleErrorNoError") {
-                pageStack.pop();
+                pageStack.pop(root);
             } else {
                 var errorDialog = Qt.createComponent(Qt.resolvedUrl("../components/ErrorDialog.qml"));
                 var popup = errorDialog.createObject(root, {errorCode: ruleError })
@@ -91,7 +91,7 @@ Page {
         onEditRuleReply: {
             d.editRulePage.busy = false;
             if (ruleError == "RuleErrorNoError") {
-                pageStack.pop();
+                pageStack.pop(root);
             } else {
                 var errorDialog = Qt.createComponent(Qt.resolvedUrl("../components/ErrorDialog.qml"));
                 var popup = errorDialog.createObject(root, {errorCode: ruleError })
