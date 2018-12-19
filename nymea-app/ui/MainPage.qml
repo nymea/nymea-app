@@ -74,7 +74,7 @@ Page {
                     }
                     print("MainPage Tab index: setting tab to", tabSettings.currentMainViewIndex)
                     swipeView.currentIndex = Qt.binding(function() { return tabSettings.currentMainViewIndex; })
-                    tabSettings.currentMainViewChanged = Qt.binding(function() { return swipeView.currentIndex; });
+                    tabSettings.currentMainViewIndex = Qt.binding(function() { return swipeView.currentIndex; });
                 }
 
                 Component {
