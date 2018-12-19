@@ -57,5 +57,7 @@ RuleActionParam *RuleActionParam::clone() const
     ret->setParamTypeId(paramTypeId());
     ret->setParamName(paramName());
     ret->setValue(value());
+    ret->setEventTypeId(eventTypeId());
+    ret->setEventParamTypeId(eventParamTypeId());
     return ret;
 }

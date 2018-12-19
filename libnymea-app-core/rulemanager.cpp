@@ -154,15 +154,16 @@ void RuleManager::getRuleDetailsReply(const QVariantMap &params)
     QVariantMap ruleMap = params.value("params").toMap().value("rule").toMap();
     Rule* rule = m_rules->getRule(ruleMap.value("id").toUuid());
     if (!rule) {
-        qDebug() << "Got rule details for a rule we don't know";
+        qWarning() << "Got rule details for a rule we don't know";
         return;
     }
-//    qDebug() << "got rule details for rule" << qUtf8Printable(QJsonDocument::fromVariant(ruleMap).toJson());
     parseEventDescriptors(ruleMap.value("eventDescriptors").toList(), rule);
     parseRuleActions(ruleMap.value("actions").toList(), rule);
     parseRuleExitActions(ruleMap.value("exitActions").toList(), rule);
     parseTimeDescriptor(ruleMap.value("timeDescriptor").toMap(), rule);
     rule->setStateEvaluator(parseStateEvaluator(ruleMap.value("stateEvaluator").toMap()));
+    qDebug() << "** Rule details received:" << rule;
+//    qDebug() << "Rule JSON:" << qUtf8Printable(QJsonDocument::fromVariant(ruleMap).toJson());
 }
 
 void RuleManager::onAddRuleReply(const QVariantMap &params)
@@ -179,7 +180,12 @@ void RuleManager::removeRuleReply(const QVariantMap &params)
 
 void RuleManager::onEditRuleReply(const QVariantMap &params)
 {
-    qDebug() << "Edit rule reply:" << params.value("params").toMap().value("ruleError").toString();
+    if (params.value("status").toString() == "error") {
+        qDebug() << "Bad request editing rule:" << params.value("error").toString();
+    }
+    if (params.value("params").toMap().value("ruleError").toString() != "RuleErrorNoError") {
+        qDebug() << "Bad rule:" << params.value("params").toMap().value("ruleError").toString();
+    }
     emit editRuleReply(params.value("params").toMap().value("ruleError").toString());
 }
 
@@ -232,7 +238,7 @@ void RuleManager::parseEventDescriptors(const QVariantList &eventDescriptorList,
 
 StateEvaluator *RuleManager::parseStateEvaluator(const QVariantMap &stateEvaluatorMap)
 {
-    qDebug() << "Parsing state evaluator. Child count:" << stateEvaluatorMap.value("childEvaluators").toList().count();
+//    qDebug() << "Parsing state evaluator. Child count:" << stateEvaluatorMap.value("childEvaluators").toList().count();
     if (!stateEvaluatorMap.contains("stateDescriptor")) {
         return nullptr;
     }

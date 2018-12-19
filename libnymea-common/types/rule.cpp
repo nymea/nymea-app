@@ -12,6 +12,8 @@
 #include "timeeventitem.h"
 #include "calendaritems.h"
 #include "calendaritem.h"
+#include "ruleactionparams.h"
+#include "ruleactionparam.h"
 
 #include <QDebug>
 
@@ -167,13 +169,40 @@ QDebug operator <<(QDebug &dbg, Rule *rule)
         EventDescriptor *ed = rule->eventDescriptors()->get(i);
         dbg << " " << i << ":";
         if (!ed->deviceId().isNull() && !ed->eventTypeId().isNull()) {
-            dbg << "Device ID:" << ed->deviceId() << "Event Type ID:" << ed->eventTypeId() << endl;;
+            dbg << "Device ID:" << ed->deviceId() << "Event Type ID:" << ed->eventTypeId() << endl;
         } else {
-            dbg << "Interface Name:" << ed->interfaceName() << "Event Name:" << ed->interfaceEvent() << endl;;
+            dbg << "Interface Name:" << ed->interfaceName() << "Event Name:" << ed->interfaceEvent() << endl;
+        }
+        for (int j = 0; j < ed->paramDescriptors()->rowCount(); j++) {
+            ParamDescriptor *epd = ed->paramDescriptors()->get(j);
+            QString operatorString;
+            switch (epd->operatorType()) {
+            case ParamDescriptor::ValueOperatorLess:
+                operatorString = "<";
+                break;
+            case ParamDescriptor::ValueOperatorEquals:
+                operatorString = "=";
+                break;
+            case ParamDescriptor::ValueOperatorGreater:
+                operatorString = ">";
+                break;
+            case ParamDescriptor::ValueOperatorNotEquals:
+                operatorString = "!=";
+                break;
+            case ParamDescriptor::ValueOperatorLessOrEqual:
+                operatorString = "<=";
+                break;
+            case ParamDescriptor::ValueOperatorGreaterOrEqual:
+                operatorString = ">=";
+                break;
+            }
+            dbg << "    Param" << j << ": ID:" << epd->paramTypeId() << operatorString << " Value:" << epd->value() << endl;
         }
     }
-    dbg << "State Evaluator:" << endl;
-    printStateEvaluator(dbg, rule->stateEvaluator());
+    if (rule->stateEvaluator()) {
+        dbg << "State Evaluator:" << endl;
+        printStateEvaluator(dbg, rule->stateEvaluator());
+    }
 
     if (rule->actions()->rowCount() > 0) {
         dbg << "Actions:" << endl;
@@ -182,9 +211,17 @@ QDebug operator <<(QDebug &dbg, Rule *rule)
         RuleAction *ra = rule->actions()->get(i);
         dbg << " " << i << ":";
         if (!ra->deviceId().isNull() && !ra->actionTypeId().isNull()) {
-            dbg << "Device ID:" << ra->deviceId() << "Action Type ID:" << ra->actionTypeId() << endl;;
+            dbg << "Device ID:" << ra->deviceId() << "Action Type ID:" << ra->actionTypeId() << endl;
         } else {
-            dbg << "Interface Name:" << ra->interfaceName() << "Action Name:" << ra->interfaceAction() << endl;;
+            dbg << "Interface Name:" << ra->interfaceName() << "Action Name:" << ra->interfaceAction() << endl;
+        }
+        for (int j = 0; j < ra->ruleActionParams()->rowCount(); j++) {
+            RuleActionParam *rap = ra->ruleActionParams()->get(j);
+            if (rap->eventTypeId().isNull()) {
+                dbg << "    Param" << j << ": ID:" << rap->paramTypeId() << " Value:" << rap->value() << endl;
+            } else {
+                dbg << "    Param" << j << ": ID:" << rap->paramTypeId() << " Source Event Type ID:" << rap->eventTypeId() << "Source Event Param ID:" << rap->eventParamTypeId() << endl;
+            }
         }
     }
 
@@ -199,6 +236,14 @@ QDebug operator <<(QDebug &dbg, Rule *rule)
         } else {
             dbg << "Interface Name:" << ra->interfaceName() << "Action Name:" << ra->interfaceAction() << endl;;
         }
+        for (int j = 0; j < ra->ruleActionParams()->rowCount(); j++) {
+            RuleActionParam *rap = ra->ruleActionParams()->get(j);
+            if (rap->eventTypeId().isNull()) {
+                dbg << "    Param" << j << ": ID:" << rap->paramTypeId() << " Value:" << rap->value() << endl;
+            } else {
+                dbg << "    Param" << j << ": ID:" << rap->paramTypeId() << " Source Event Type ID:" << rap->eventTypeId() << "Source Event Param ID:" << rap->eventParamTypeId() << endl;
+            }
+        }
     }
     return dbg;
 }
@@ -209,9 +254,9 @@ QDebug printStateEvaluator(QDebug &dbg, StateEvaluator *stateEvaluator, int inde
         for (int i = 0; i < indentLevel; i++) { dbg << " "; }
         dbg << "State Descriptor:";
         if (!stateEvaluator->stateDescriptor()->deviceId().isNull() && !stateEvaluator->stateDescriptor()->stateTypeId().isNull()) {
-            dbg << "Device ID:" << stateEvaluator->stateDescriptor()->deviceId().toString() << stateEvaluator->stateDescriptor()->stateTypeId().toString();
+            dbg << "Device ID:" << stateEvaluator->stateDescriptor()->deviceId().toString() << "State Type ID:" << stateEvaluator->stateDescriptor()->stateTypeId().toString();
         } else {
-            dbg << "Interface name:" << stateEvaluator->stateDescriptor()->interfaceName() << stateEvaluator->stateDescriptor()->interfaceState();
+            dbg << "Interface name:" << stateEvaluator->stateDescriptor()->interfaceName() << "State Name:" << stateEvaluator->stateDescriptor()->interfaceState();
         }
         switch (stateEvaluator->stateDescriptor()->valueOperator()) {
         case StateDescriptor::ValueOperatorLess:
