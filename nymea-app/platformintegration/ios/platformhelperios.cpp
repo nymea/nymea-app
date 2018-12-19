@@ -17,6 +17,11 @@ bool PlatformHelperIOS::hasPermissions() const
     return true;
 }
 
+QString PlatformHelperIOS::machineHostname() const
+{
+    return QSysInfo::machineHostName();
+}
+
 QString PlatformHelperIOS::deviceSerial() const
 {
     // There is no way on iOS to get to a persistent serial number of the device.

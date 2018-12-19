@@ -14,6 +14,7 @@ public:
     Q_INVOKABLE void requestPermissions() override;
 
     bool hasPermissions() const override;
+    QString machineHostname() const override;
     QString deviceSerial() const override;
     QString deviceModel() const override;
     QString deviceManufacturer() const override;
