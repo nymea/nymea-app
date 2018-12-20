@@ -10,7 +10,7 @@ MeaListItemDelegate {
     canDelete: true
     progressive: false
 
-    property var ruleAction: null
+    property RuleAction ruleAction: null
 
     property var device: ruleAction.deviceId ? engine.deviceManager.devices.getDevice(ruleAction.deviceId) : null
     property var iface: ruleAction.interfaceName ? Interfaces.findByName(ruleAction.interfaceName) : null
@@ -28,6 +28,7 @@ MeaListItemDelegate {
         var ret = [];
         for (var i = 0; i < root.ruleAction.ruleActionParams.count; i++) {
             var ruleActionParam = root.ruleAction.ruleActionParams.get(i)
+            print("populating subtext:", ruleActionParam.eventTypeId, ruleActionParam.eventParamTypeId)
             var paramString = qsTr("%1: %2")
             .arg(root.actionType.paramTypes.getParamType(ruleActionParam.paramTypeId).displayName)
             .arg(ruleActionParam.eventParamTypeId.length > 0 ? qsTr("value from event") : ruleActionParam.value)
