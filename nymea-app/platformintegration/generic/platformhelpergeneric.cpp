@@ -15,6 +15,11 @@ bool PlatformHelperGeneric::hasPermissions() const
     return true;
 }
 
+QString PlatformHelperGeneric::machineHostname() const
+{
+    return QSysInfo::machineHostName();
+}
+
 QString PlatformHelperGeneric::deviceSerial() const
 {
 #if QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)

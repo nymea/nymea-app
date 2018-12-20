@@ -10,6 +10,7 @@ class PlatformHelper : public QObject
     Q_PROPERTY(QString deviceSerial READ deviceSerial CONSTANT)
     Q_PROPERTY(QString deviceModel READ deviceModel CONSTANT)
     Q_PROPERTY(QString deviceManufacturer READ deviceManufacturer CONSTANT)
+    Q_PROPERTY(QString machineHostname READ machineHostname CONSTANT)
 
 public:
     explicit PlatformHelper(QObject *parent = nullptr);
@@ -18,6 +19,7 @@ public:
     Q_INVOKABLE virtual void requestPermissions() = 0;
 
     virtual bool hasPermissions() const = 0;
+    virtual QString machineHostname() const = 0;
     virtual QString deviceSerial() const = 0;
     virtual QString deviceModel() const = 0;
     virtual QString deviceManufacturer() const = 0;

@@ -22,6 +22,12 @@ bool PlatformHelperAndroid::hasPermissions() const
     return true;
 }
 
+QString PlatformHelperAndroid::machineHostname() const
+{
+    // QSysInfo::machineHostname always gives "localhost" on android... best we can do here is:
+    return deviceManufacturer() +  " " + deviceModel();
+}
+
 QString PlatformHelperAndroid::deviceSerial() const
 {
     QAndroidJniObject activity = QAndroidJniObject::callStaticObjectMethod("org/qtproject/qt5/android/QtNative", "activity", "()Landroid/app/Activity;");

@@ -157,7 +157,7 @@ Item {
                                 PlatformHelper.requestPermissions();
                             }
                         } else {
-                            AWSClient.registerPushNotificationEndpoint(PushNotifications.token, PlatformHelper.deviceManufacturer + " " + PlatformHelper.deviceModel, PlatformHelper.deviceSerial + "+io.guh.nymeaapp");
+                            AWSClient.registerPushNotificationEndpoint(PushNotifications.token, PlatformHelper.machineHostname, PlatformHelper.deviceSerial + "+io.guh.nymeaapp");
                         }
                     }
 
