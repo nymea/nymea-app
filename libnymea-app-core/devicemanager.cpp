@@ -242,6 +242,7 @@ void DeviceManager::getConfiguredDevicesResponse(const QVariantMap &params)
 //                qDebug() << "Set device state value:" << device->stateValue(stateTypeId) << value;
             }
             devices()->addDevice(device);
+            qDebug() << "*** Added device:" << endl << device;
         }
     }
     m_fetchingData = false;

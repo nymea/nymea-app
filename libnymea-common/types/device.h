@@ -87,4 +87,6 @@ signals:
 
 };
 
+QDebug operator<<(QDebug &dbg, Device* device);
+
 #endif // DEVICE_H

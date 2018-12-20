@@ -134,3 +134,19 @@ void Device::setStateValue(const QUuid &stateTypeId, const QVariant &value)
         }
     }
 }
+
+QDebug operator<<(QDebug &dbg, Device *device)
+{
+    dbg.nospace() << "Device: " << device->name() << " (" << device->id().toString() << ") Class:" << device->deviceClass()->name() << " (" << device->deviceClassId().toString() << ")" << endl;
+    for (int i = 0; i < device->params()->rowCount(); i++) {
+        Param *p = device->params()->get(i);
+        ParamType *pt = device->deviceClass()->paramTypes()->getParamType(p->paramTypeId());
+        dbg << "  Param " << i << ": " << pt->id().toString() << ": " << pt->name() << " = " << p->value() << endl;
+    }
+    for (int i = 0; i < device->deviceClass()->stateTypes()->rowCount(); i++) {
+        StateType *st = device->deviceClass()->stateTypes()->get(i);
+        State *s = device->states()->getState(st->id());
+        dbg << "  State " << i << ": " << st->id() << ": " << st->name() << " = " << s->value() << endl;
+    }
+    return dbg;
+}
