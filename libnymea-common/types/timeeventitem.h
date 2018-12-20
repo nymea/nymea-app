@@ -26,6 +26,7 @@ public:
     RepeatingOption* repeatingOption() const;
 
     TimeEventItem* clone() const;
+    bool operator==(TimeEventItem *other) const;
 
 signals:
     void dateTimeChanged();

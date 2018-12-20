@@ -27,6 +27,7 @@ public:
     void setEventParamTypeId(const QString &eventParamTypeId);
 
     RuleActionParam* clone() const;
+    bool operator==(RuleActionParam *other) const;
 signals:
     void paramNameChanged();
     void eventTypeIdChanged();

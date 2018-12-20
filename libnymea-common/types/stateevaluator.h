@@ -34,6 +34,7 @@ public:
     Q_INVOKABLE StateEvaluator* addChildEvaluator();
 
     StateEvaluator* clone() const;
+    bool operator==(StateEvaluator *other) const;
 
 signals:
     void stateOperatorChanged();

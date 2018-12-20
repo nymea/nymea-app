@@ -26,6 +26,8 @@ public:
     // StateEvaluator will be deleted
     Q_INVOKABLE void remove(int index);
 
+    bool operator==(StateEvaluators *other) const;
+
 signals:
     void countChanged();
 

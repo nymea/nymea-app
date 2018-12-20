@@ -3,6 +3,8 @@
 #include "ruleactionparam.h"
 #include "ruleactionparams.h"
 
+#include <QDebug>
+
 RuleAction::RuleAction(QObject *parent) : QObject(parent)
 {
     m_ruleActionParams = new RuleActionParams(this);
@@ -76,4 +78,16 @@ RuleAction *RuleAction::clone() const
         ret->ruleActionParams()->addRuleActionParam(ruleActionParams()->get(i)->clone());
     }
     return ret;
+}
+
+#define COMPARE(a, b) if (a != b) { qDebug() << a << "!=" << b; return false; }
+#define COMPARE_PTR(a, b) if (!a->operator==(b)) { qDebug() << a << "!=" << b; return false; }
+bool RuleAction::operator==(RuleAction *other) const
+{
+    COMPARE(m_deviceId, other->deviceId());
+    COMPARE(m_actionTypeId, other->actionTypeId());
+    COMPARE(m_interfaceName, other->interfaceName());
+    COMPARE(m_interfaceAction, other->interfaceAction());
+    COMPARE_PTR(m_ruleActionParams, other->ruleActionParams());
+    return true;
 }

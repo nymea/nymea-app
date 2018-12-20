@@ -2,6 +2,8 @@
 #include "stateevaluators.h"
 #include "statedescriptor.h"
 
+#include <QDebug>
+
 StateEvaluator::StateEvaluator(QObject *parent) : QObject(parent)
 {
     m_childEvaluators = new StateEvaluators(this);
@@ -74,4 +76,14 @@ StateEvaluator *StateEvaluator::clone() const
         ret->m_childEvaluators->addStateEvaluator(this->m_childEvaluators->get(i)->clone());
     }
     return ret;
+}
+
+#define COMPARE(a, b) if (a != b) { qDebug() << a << "!=" << b; return false; }
+#define COMPARE_PTR(a, b) if (!a->operator==(b)) { qDebug() << a << "!=" << b; return false; }
+bool StateEvaluator::operator==(StateEvaluator *other) const
+{
+    COMPARE(m_operator, other->stateOperator());
+    COMPARE_PTR(m_stateDescriptor, other->stateDescriptor());
+    COMPARE_PTR(m_childEvaluators, other->childEvaluators());
+    return true;
 }

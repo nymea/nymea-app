@@ -49,6 +49,7 @@ public:
     void setValue(const QVariant &value);
 
     StateDescriptor* clone() const;
+    bool operator==(StateDescriptor *other) const;
 
 signals:
     void deviceIdChanged();

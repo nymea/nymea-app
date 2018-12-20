@@ -26,6 +26,8 @@ public:
     Q_INVOKABLE void addEventDescriptor(EventDescriptor *eventDescriptor);
     Q_INVOKABLE void removeEventDescriptor(int index);
 
+    bool operator==(EventDescriptors* other) const;
+
 signals:
     void countChanged();
 

@@ -42,6 +42,8 @@ public:
     Q_INVOKABLE void setParamDescriptorByName(const QString &paramName, const QVariant &value, ValueOperator operatorType);
     Q_INVOKABLE void clear();
 
+    bool operator==(ParamDescriptors *other) const;
+
 signals:
     void countChanged();
 

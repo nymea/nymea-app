@@ -33,6 +33,7 @@ public:
     RuleActionParams* ruleActionParams() const;
 
     RuleAction *clone() const;
+    bool operator==(RuleAction *other) const;
 
 signals:
     void deviceIdChanged();

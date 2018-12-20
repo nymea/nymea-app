@@ -18,6 +18,8 @@ public:
 
     TimeEventItems* timeEventItems() const;
     CalendarItems* calendarItems() const;
+
+    bool operator==(TimeDescriptor* other) const;
 signals:
 
 public slots:

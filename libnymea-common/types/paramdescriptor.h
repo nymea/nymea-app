@@ -28,6 +28,7 @@ public:
     void setOperatorType(ValueOperator operatorType);
 
     ParamDescriptor* clone() const;
+    bool operator==(ParamDescriptor *other) const;
 
 signals:
     void paramNameChanged();

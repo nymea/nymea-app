@@ -1,5 +1,7 @@
 #include "statedescriptor.h"
 
+#include <QDebug>
+
 StateDescriptor::StateDescriptor(const QUuid &deviceId, const QUuid &stateTypeId, StateDescriptor::ValueOperator valueOperator, const QVariant &value, QObject *parent):
     QObject(parent),
     m_deviceId(deviceId),
@@ -109,4 +111,17 @@ StateDescriptor *StateDescriptor::clone() const
     ret->setInterfaceName(interfaceName());
     ret->setInterfaceState(interfaceState());
     return ret;
+}
+
+#define COMPARE(a, b) if (a != b) { qDebug() << a << "!=" << b; return false; }
+#define COMPARE_PTR(a, b) if (!a->operator==(b)) { qDebug() << a << "!=" << b; return false; }
+bool StateDescriptor::operator==(StateDescriptor *other) const
+{
+    COMPARE(m_deviceId, other->deviceId());
+    COMPARE(m_stateTypeId, other->stateTypeId());
+    COMPARE(m_interfaceName, other->interfaceName());
+    COMPARE(m_interfaceState, other->interfaceState());
+    COMPARE(m_operator, other->valueOperator());
+    COMPARE(m_value, other->value());
+    return true;
 }

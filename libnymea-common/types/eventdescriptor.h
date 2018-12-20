@@ -35,6 +35,7 @@ public:
     ParamDescriptors* paramDescriptors() const;
 
     EventDescriptor* clone() const;
+    bool operator==(EventDescriptor* other) const;
 
 signals:
     void deviceIdChanged();

@@ -159,6 +159,28 @@ Rule *Rule::clone() const
     return ret;
 }
 
+bool Rule::compare(Rule *other) const
+{
+    qDebug() << "comparing rule" << this << "to" << other;
+    return this->operator==(other);
+}
+
+#define COMPARE(a, b) if (a != b) { qDebug() << a << "!=" << b; return false; }
+#define COMPARE_PTR(a, b) if (!a && !b) return true; if (!a || !b) return false; if (!a->operator==(b)) { qDebug() << a << "!=" << b; return false; }
+bool Rule::operator==(Rule *other) const
+{
+    COMPARE(m_id, other->id());
+    COMPARE(m_name, other->name());
+    COMPARE(m_enabled, other->enabled());
+    COMPARE(m_executable, other->executable());
+    COMPARE_PTR(m_eventDescriptors, other->eventDescriptors());
+    COMPARE_PTR(m_stateEvaluator, other->stateEvaluator());
+    COMPARE_PTR(m_actions, other->actions());
+    COMPARE_PTR(m_exitActions, other->exitActions());
+    COMPARE_PTR(m_timeDescriptor, other->timeDescriptor());
+    return true;
+}
+
 QDebug operator <<(QDebug &dbg, Rule *rule)
 {
     dbg << rule->name() << " (Enabled:" << rule->enabled() << "Active:" << rule->active() << ")" << endl;
