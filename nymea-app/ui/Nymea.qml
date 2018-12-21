@@ -148,6 +148,10 @@ ApplicationWindow {
             return Qt.resolvedUrl("images/sensors/noise.svg");
         case "co2sensor":
             return Qt.resolvedUrl("images/sensors/co2.svg")
+        case "daylightsensor":
+            return Qt.resolvedUrl("images/sensors/light.svg")
+        case "presencesensor":
+            return Qt.resolvedUrl("images/sensors/presence.svg")
         case "media":
         case "mediacontroller":
             return Qt.resolvedUrl("images/mediaplayer-app-symbolic.svg")
@@ -216,6 +220,8 @@ ApplicationWindow {
         "pressuresensor": "grey",
         "noisesensor": "darkviolet",
         "co2sensor": "turquoise",
+        "daylightsensor": "gold",
+        "presencesensor": "darkblue",
         "smartmeterproducer": "lightgreen",
         "smartmeterconsumer": "orange",
         "extendedsmartmeterproducer": "blue",

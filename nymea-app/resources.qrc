@@ -144,5 +144,6 @@
         <file>ui/system/MqttBrokerSettingsPage.qml</file>
         <file>ui/system/ServerConfigurationDialog.qml</file>
         <file>ui/system/MqttPolicyPage.qml</file>
+        <file>ui/devicepages/BoolSensorDevicePage.qml</file>
     </qresource>
 </RCC>

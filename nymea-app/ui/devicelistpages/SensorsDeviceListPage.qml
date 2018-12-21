@@ -82,6 +82,8 @@ DeviceListPageBase {
                                     ListElement { interfaceName: "conductivitysensor"; stateName: "conductivity" }
                                     ListElement { interfaceName: "noisesensor"; stateName: "noise" }
                                     ListElement { interfaceName: "co2sensor"; stateName: "co2" }
+                                    ListElement { interfaceName: "daylightsensor"; stateName: "daylight" }
+                                    ListElement { interfaceName: "presencesensor"; stateName: "isPresent" }
                                 }
 
                                 delegate: RowLayout {
@@ -89,8 +91,8 @@ DeviceListPageBase {
                                     visible: itemDelegate.deviceClass.interfaces.indexOf(model.interfaceName) >= 0
                                     Layout.preferredWidth: contentItem.width / dataGrid.columns
 
-                                    property var stateType: itemDelegate.deviceClass.stateTypes.findByName(model.stateName)
-                                    property var stateValue: stateType ? itemDelegate.device.states.getState(stateType.id) : null
+                                    property StateType stateType: itemDelegate.deviceClass.stateTypes.findByName(model.stateName)
+                                    property State stateValue: stateType ? itemDelegate.device.states.getState(stateType.id) : null
 
                                     ColorIcon {
                                         Layout.preferredHeight: app.iconSize * .8
@@ -102,17 +104,22 @@ DeviceListPageBase {
 
                                     Label {
                                         Layout.fillWidth: true
-                                        text: sensorValueDelegate.stateValue
-                                              ? "%1 %2".arg(Math.round(sensorValueDelegate.stateValue.value * 100) / 100).arg(sensorValueDelegate.stateType.unitString)
-                                              : ""
+                                        text: sensorValueDelegate.stateType && sensorValueDelegate.stateType.type.toLowerCase() === "bool"
+                                              ? sensorValueDelegate.stateType.displayName
+                                              : sensorValueDelegate.stateValue
+                                                ? "%1 %2".arg(Math.round(sensorValueDelegate.stateValue.value * 100) / 100).arg(sensorValueDelegate.stateType.unitString)
+                                                : ""
                                         elide: Text.ElideRight
                                         verticalAlignment: Text.AlignVCenter
                                         font.pixelSize: app.smallFont
                                     }
+                                    Led {
+                                        visible: sensorValueDelegate.stateType && sensorValueDelegate.stateType.type.toLowerCase() == "bool"
+                                        on: visible && sensorValueDelegate.stateValue.value === true
+                                    }
                                 }
                             }
-                    }
-
+                        }
                     }
                     onClicked: {
                         enterPage(index, false)
