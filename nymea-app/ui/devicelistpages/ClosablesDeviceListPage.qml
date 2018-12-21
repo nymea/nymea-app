@@ -19,7 +19,29 @@ DeviceListPageBase {
         text: root.title
 
         HeaderButton {
-            imageSource: "../images/system-shutdown.svg"
+            imageSource: root.invertControls ? "../images/down.svg" : "../images/up.svg"
+            onClicked: {
+                for (var i = 0; i < devicesProxy.count; i++) {
+                    var device = devicesProxy.get(i);
+                    var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
+                    var actionType = deviceClass.actionTypes.findByName("open");
+                    engine.deviceManager.executeAction(device.id, actionType.id)
+                }
+            }
+        }
+        HeaderButton {
+            imageSource: "../images/media-playback-stop.svg"
+            onClicked: {
+                for (var i = 0; i < devicesProxy.count; i++) {
+                    var device = devicesProxy.get(i);
+                    var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
+                    var actionType = deviceClass.actionTypes.findByName("stop");
+                    engine.deviceManager.executeAction(device.id, actionType.id)
+                }
+            }
+        }
+        HeaderButton {
+            imageSource: root.invertControls ? "../images/up.svg" : "../images/down.svg"
             onClicked: {
                 for (var i = 0; i < devicesProxy.count; i++) {
                     var device = devicesProxy.get(i);
