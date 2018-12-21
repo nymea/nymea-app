@@ -31,6 +31,8 @@ public:
     Q_INVOKABLE void setRuleActionParamEvent(const QString &paramTypeId, const QString &eventTypeId, const QString &eventParamTypeId);
     Q_INVOKABLE RuleActionParam* get(int index) const;
 
+    bool operator==(RuleActionParams *other) const;
+
 signals:
     void countChanged();
 

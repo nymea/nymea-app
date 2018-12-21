@@ -7,8 +7,8 @@ import Nymea 1.0
 Page {
     id: root
 
-    property var rule: null
-    property var initialDeviceToBeAdded: null
+    property Rule rule: null
+    property Device initialDeviceToBeAdded: null
 
     property bool busy: false
 
@@ -27,7 +27,23 @@ Page {
     signal cancel();
 
     Component.onCompleted: print("+++ created editrulepage")
-    Component.onDestruction: print("--- destroying editrulepage")
+    Component.onDestruction: {
+        print("--- destroying editrulepage")
+        d.backupRule.destroy();
+    }
+
+    onRuleChanged: d.createRuleBackup();
+    QtObject {
+        id: d
+        property Rule backupRule: null
+
+        function createRuleBackup() {
+            if (backupRule !== null) {
+                backupRule.destroy();
+            }
+            backupRule = root.rule.clone();
+        }
+    }
 
     function addEventDescriptor(interfaceMode) {
         if (interfaceMode === undefined) {
@@ -208,6 +224,12 @@ Page {
     header: GuhHeader {
         text: root.rule.name.length === 0 ? qsTr("Add new magic") : qsTr("Edit %1").arg(root.rule.name)
         onBackPressed: {
+            if (root.rule.compare(d.backupRule)) {
+                print("Rule has not been changed. Exiting EditRulePage");
+                root.cancel();
+                return;
+            }
+            print("Rule has changed. Asking for cancellation dialog")
             var component = Qt.createComponent(Qt.resolvedUrl("../components/MeaDialog.qml"));
             var popup = component.createObject(root, {headerIcon: "../images/question.svg",
                                                    title: qsTr("Cancel?"),
@@ -349,7 +371,7 @@ Page {
                         }
                     }
                     Repeater {
-                        model: ["light-on", "light-off", "alarm-clock", "media-play", "network-secure", "notification", "sensors", "shutter-10", "attention", "eye"]
+                        model: ["light-on", "light-off", "alarm-clock", "media-playback-start", "network-secure", "notification", "sensors", "shutter/shutter-050", "attention", "eye"]
                         delegate: Item {
                             Layout.fillWidth: true
                             Layout.preferredHeight: app.iconSize + app.margins

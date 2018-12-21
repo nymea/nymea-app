@@ -53,3 +53,16 @@ TimeEventItem *TimeEventItems::createNewTimeEventItem() const
 {
     return new TimeEventItem();
 }
+
+bool TimeEventItems::operator==(TimeEventItems *other) const
+{
+    if (rowCount() != other->rowCount()) {
+        return false;
+    }
+    for (int i = 0; i < rowCount(); i++) {
+        if (!get(i)->operator==(other->get(i))) {
+            return false;
+        }
+    }
+    return true;
+}

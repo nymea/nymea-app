@@ -29,6 +29,7 @@ public:
     RepeatingOption* repeatingOption() const;
 
     CalendarItem* clone() const;
+    bool operator==(CalendarItem* other) const;
 
 signals:
     void durationChanged();

@@ -21,6 +21,7 @@ public:
     Q_INVOKABLE TimeEventItem* get(int index) const;
     Q_INVOKABLE TimeEventItem* createNewTimeEventItem() const;
 
+    bool operator==(TimeEventItems *other) const;
 
 signals:
     void countChanged();

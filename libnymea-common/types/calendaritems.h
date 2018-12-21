@@ -21,6 +21,8 @@ public:
     Q_INVOKABLE CalendarItem* createNewCalendarItem() const;
     Q_INVOKABLE CalendarItem* get(int index) const;
 
+    bool operator==(CalendarItems *other) const;
+
 signals:
     void countChanged();
 

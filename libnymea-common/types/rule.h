@@ -52,6 +52,9 @@ public:
 
     Q_INVOKABLE Rule *clone() const;
 
+    Q_INVOKABLE bool compare(Rule* other) const;
+    bool operator==(Rule *other) const;
+
 signals:
     void nameChanged();
     void enabledChanged();

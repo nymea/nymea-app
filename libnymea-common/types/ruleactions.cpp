@@ -48,3 +48,16 @@ RuleAction *RuleActions::createNewRuleAction() const
 {
     return new RuleAction();
 }
+
+bool RuleActions::operator==(RuleActions *other) const
+{
+    if (rowCount() != other->rowCount()) {
+        return false;
+    }
+    for (int i = 0; i < rowCount(); i++) {
+        if (!get(i)->operator==(other->get(i))) {
+            return false;
+        }
+    }
+    return true;
+}

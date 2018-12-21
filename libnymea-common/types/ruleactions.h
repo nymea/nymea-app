@@ -21,6 +21,7 @@ public:
     Q_INVOKABLE RuleAction* get(int index) const;
     Q_INVOKABLE RuleAction* createNewRuleAction() const;
 
+    bool operator==(RuleActions *other) const;
 signals:
     void countChanged();
 

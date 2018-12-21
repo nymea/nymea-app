@@ -98,3 +98,16 @@ RuleActionParam *RuleActionParams::get(int index) const
 {
     return m_list.at(index);
 }
+
+bool RuleActionParams::operator==(RuleActionParams *other) const
+{
+    if (rowCount() != other->rowCount()) {
+        return false;
+    }
+    for (int i = 0; i < rowCount(); i++) {
+        if (!get(i)->operator==(other->get(i))) {
+            return false;
+        }
+    }
+    return true;
+}

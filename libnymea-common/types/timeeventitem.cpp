@@ -2,6 +2,8 @@
 
 #include "repeatingoption.h"
 
+#include <QDebug>
+
 TimeEventItem::TimeEventItem(QObject *parent):
     QObject(parent),
     m_repeatingOption(new RepeatingOption(this))
@@ -46,4 +48,14 @@ TimeEventItem *TimeEventItem::clone() const
     ret->m_time = this->m_time;
     ret->m_repeatingOption = this->m_repeatingOption;
     return ret;
+}
+
+#define COMPARE(a, b) if (a != b) { qDebug() << a << "!=" << b; return false; }
+#define COMPARE_PTR(a, b) if (!a->operator==(b)) { qDebug() << a << "!=" << b; return false; }
+bool TimeEventItem::operator==(TimeEventItem *other) const
+{
+    COMPARE(m_time, other->time());
+    COMPARE(m_dateTime, other->dateTime());
+    COMPARE(m_repeatingOption, other->repeatingOption());
+    return true;
 }

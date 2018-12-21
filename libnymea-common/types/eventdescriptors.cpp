@@ -1,6 +1,8 @@
 #include "eventdescriptors.h"
 #include "eventdescriptor.h"
 
+#include <QDebug>
+
 EventDescriptors::EventDescriptors(QObject *parent) :
     QAbstractListModel(parent)
 {
@@ -60,4 +62,19 @@ void EventDescriptors::removeEventDescriptor(int index)
     m_list.takeAt(index)->deleteLater();
     endRemoveRows();
     emit countChanged();
+}
+
+bool EventDescriptors::operator==(EventDescriptors *other) const
+{
+    qDebug() << "EventDescriptors comparison";
+    if (rowCount() != other->rowCount()) {
+        qDebug() << "EventDescriptors count not matching";
+        return false;
+    }
+    for (int i = 0; i < rowCount(); i++) {
+        if (!get(i)->operator==(other->get(i))) {
+            return false;
+        }
+    }
+    return true;
 }

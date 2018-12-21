@@ -1,5 +1,7 @@
 #include "paramdescriptor.h"
 
+#include <QDebug>
+
 ParamDescriptor::ParamDescriptor(QObject *parent) : Param(parent)
 {
 
@@ -39,4 +41,15 @@ ParamDescriptor *ParamDescriptor::clone() const
     ret->setValue(this->value());
     ret->setOperatorType(this->operatorType());
     return ret;
+}
+
+#define COMPARE(a, b) if (a != b) { qDebug() << a << "!=" << b; return false; }
+#define COMPARE_PTR(a, b) if (!a->operator==(b)) { qDebug() << a << "!=" << b; return false; }
+bool ParamDescriptor::operator==(ParamDescriptor *other) const
+{
+    COMPARE(m_paramTypeId, other->paramTypeId());
+    COMPARE(m_paramName, other->paramName());
+    COMPARE(m_value, other->value());
+    COMPARE(m_operator, other->operatorType());
+    return true;
 }

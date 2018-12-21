@@ -98,3 +98,16 @@ void ParamDescriptors::clear()
     endResetModel();
     emit countChanged();
 }
+
+bool ParamDescriptors::operator==(ParamDescriptors *other) const
+{
+    if (rowCount() != other->rowCount()) {
+        return false;
+    }
+    for (int i = 0; i < rowCount(); i++) {
+        if (!get(i)->operator==(other->get(i))) {
+            return false;
+        }
+    }
+    return true;
+}

@@ -1,5 +1,7 @@
 #include "ruleactionparam.h"
 
+#include <QDebug>
+
 RuleActionParam::RuleActionParam(const QString &paramName, const QVariant &value, QObject *parent):
     Param(parent),
     m_paramName(paramName)
@@ -60,4 +62,16 @@ RuleActionParam *RuleActionParam::clone() const
     ret->setEventTypeId(eventTypeId());
     ret->setEventParamTypeId(eventParamTypeId());
     return ret;
+}
+
+#define COMPARE(a, b) if (a != b) { qDebug() << a << "!=" << b; return false; }
+#define COMPARE_PTR(a, b) if (!a->operator==(b)) { qDebug() << a << "!=" << b; return false; }
+bool RuleActionParam::operator==(RuleActionParam *other) const
+{
+    COMPARE(m_paramTypeId, other->paramTypeId());
+    COMPARE(m_paramName, other->paramName());
+    COMPARE(m_eventTypeId, other->eventTypeId());
+    COMPARE(m_eventParamTypeId, other->eventParamTypeId());
+    COMPARE(m_value, other->value());
+    return true;
 }

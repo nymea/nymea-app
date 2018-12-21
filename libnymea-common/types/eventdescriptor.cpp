@@ -1,4 +1,5 @@
 #include "eventdescriptor.h"
+#include <QDebug>
 
 EventDescriptor::EventDescriptor(QObject *parent) : QObject(parent)
 {
@@ -73,4 +74,16 @@ EventDescriptor *EventDescriptor::clone() const
         ret->paramDescriptors()->addParamDescriptor(this->paramDescriptors()->get(i)->clone());
     }
     return ret;
+}
+
+#define COMPARE(a, b) if (a != b) { qDebug() << a << "!=" << b; return false; }
+#define COMPARE_PTR(a, b) if (!a->operator==(b)) { qDebug() << a << "!=" << b; return false; }
+bool EventDescriptor::operator==(EventDescriptor *other) const
+{
+    COMPARE(m_deviceId, other->deviceId());
+    COMPARE(m_eventTypeId, other->eventTypeId());
+    COMPARE(m_interfaceName, other->interfaceName());
+    COMPARE(m_interfaceEvent, other->interfaceEvent());
+    COMPARE_PTR(m_paramDescriptors, other->paramDescriptors());
+    return true;
 }

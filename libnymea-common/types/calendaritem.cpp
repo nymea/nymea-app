@@ -1,6 +1,7 @@
 #include "calendaritem.h"
 
 #include "repeatingoption.h"
+#include <QDebug>
 
 CalendarItem::CalendarItem(QObject *parent) : QObject(parent)
 {
@@ -59,4 +60,15 @@ CalendarItem *CalendarItem::clone() const
     ret->m_repeatingOption = this->m_repeatingOption;
     ret->m_startTime = this->m_startTime;
     return ret;
+}
+
+#define COMPARE(a, b) if (a != b) { qDebug() << a << "!=" << b; return false; }
+#define COMPARE_PTR(a, b) if (!a->operator==(b)) { qDebug() << a << "!=" << b; return false; }
+bool CalendarItem::operator ==(CalendarItem *other) const
+{
+    COMPARE(m_dateTime, other->dateTime());
+    COMPARE(m_startTime, other->startTime());
+    COMPARE(m_duration, other->duration());
+    COMPARE(m_repeatingOption, other->repeatingOption());
+    return true;
 }
