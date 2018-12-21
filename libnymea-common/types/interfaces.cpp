@@ -34,13 +34,82 @@ Interfaces::Interfaces(QObject *parent) : QAbstractListModel(parent)
                  tr("A light is turned on or off"),
                  tr("Turn lights on or off"));
 
+    addInterface("dimmablelight", tr("Dimmable lights"));
+    addStateType("dimmablelight", "brightness", QVariant::Int, true,
+                 tr("Light's brightness is"),
+                 tr("A light's brightness has changed"),
+                 tr("Set lights brightness"));
+
     addInterface("temperaturesensor", tr("Temperature sensors"));
     addStateType("temperaturesensor", "temperature", QVariant::Double, false,
                  tr("Temperature"),
                  tr("Temperature has changed"));
 
     addInterface("simpleclosable", tr("Closable things"));
-    addActionType("simpleclosable", "close", "Close", new ParamTypes());
+    addActionType("simpleclosable", "close", tr("Close"), new ParamTypes());
+
+    addInterface("presencesensor", tr("Presence sensors"));
+    addStateType("presencesensor", "isPresent", QVariant::Bool, false,
+                 tr("Is present"),
+                 tr("Presence changed"));
+
+    addInterface("blind", tr("Blinds"));
+    addActionType("blind", "close", tr("Close"), new ParamTypes());
+    addActionType("blind", "open", tr("Open"), new ParamTypes());
+
+    addInterface("awning", tr("Awnings"));
+    addActionType("awning", "close", tr("Close"), new ParamTypes());
+    addActionType("awning", "open", tr("Open"), new ParamTypes());
+
+    addInterface("shutter", tr("Shutters"));
+    addActionType("shutter", "close", tr("Close"), new ParamTypes());
+    addActionType("shutter", "open", tr("Open"), new ParamTypes());
+
+    addInterface("garagegate", tr("Garage gates"));
+    addActionType("garagegate", "close", tr("Close"), new ParamTypes());
+    addActionType("garagegate", "open", tr("Open"), new ParamTypes());
+
+    addInterface("co2sensor", tr("Air sensors"));
+    addStateType("co2sensor", "co2", QVariant::Double, false,
+                 tr("Air quality"),
+                 tr("Air quality changed"));
+
+    addInterface("humiditysensor", tr("Humidity sensors"));
+    addStateType("humiditysensor", "humidity", QVariant::Double, false,
+                 tr("Humidity"),
+                 tr("Humidity changed"));
+
+    addInterface("daylightsensor", tr("Daylight sensors"));
+    addStateType("daylightsensor", "daylight", QVariant::Bool, false,
+                 tr("Daylight"),
+                 tr("Daylight changed"));
+
+    addInterface("evcharger", tr("EV charger"));
+    addStateType("evcharger", "power", QVariant::Bool, true,
+                 tr("Charging"),
+                 tr("Charging changed"),
+                 tr("Enable charging"));
+
+    addInterface("volumecontroller", tr("Speakers"));
+    addActionType("volumecontroller", "increaseVolume", tr("Increase volume"), new ParamTypes());
+    addActionType("volumecontroller", "decreaseVolume", tr("Decrease volume"), new ParamTypes());
+
+    addInterface("gateway", tr("Gateways"));
+    addStateType("gateway", "connected", QVariant::Bool, false,
+                 tr("Connected"),
+                 tr("Connected changed"));
+
+    addInterface("heating", tr("Heatings"));
+    addStateType("heating", "power", QVariant::Bool, true,
+                 tr("Heating enabled"),
+                 tr("Heating enabled changed"),
+                 tr("Enable heating"));
+
+    addInterface("mediaplayer", tr("Media players"));
+    addStateType("mediaplayer", "playbackStatus", QVariant::String, true,
+                 tr("Playback status"),
+                 tr("Playback status changed"),
+                 tr("Set playback status"));
 }
 
 int Interfaces::rowCount(const QModelIndex &parent) const
