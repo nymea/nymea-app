@@ -52,7 +52,7 @@ ApplicationWindow {
         rootItem.handleCloseEvent(close)
     }
 
-    property var supportedInterfaces: ["light", "weather", "sensor", "media", "garagegate", "awning", "shutter", "blind", "heating", "smartmeter", "evcharger", "accesscontrol", "button", "notifications", "inputtrigger", "outputtrigger", "gateway"]
+    property var supportedInterfaces: ["light", "weather", "sensor", "media", "garagegate", "awning", "shutter", "blind", "heating", "smartmeter", "evcharger", "accesscontrol", "button", "powersocket", "notifications", "inputtrigger", "outputtrigger", "gateway"]
     function interfaceToString(name) {
         switch(name) {
         case "light":
@@ -106,6 +106,8 @@ ApplicationWindow {
             return qsTr("Heatings");
         case "evcharger":
             return qsTr("EV-chargers");
+        case "powersocket":
+            return qsTr("Power sockets")
         case "uncategorized":
             return qsTr("Uncategorized")
         default:
@@ -155,6 +157,8 @@ ApplicationWindow {
         case "media":
         case "mediacontroller":
             return Qt.resolvedUrl("images/mediaplayer-app-symbolic.svg")
+        case "powersocket":
+            return Qt.resolvedUrl("images/powersocket.svg")
         case "button":
         case "longpressbutton":
         case "simplemultibutton":
@@ -284,6 +288,8 @@ ApplicationWindow {
             page = "FingerprintReaderDevicePage.qml";
         } else if (interfaceList.indexOf("smartmeter") >= 0) {
             page = "SmartMeterDevicePage.qml"
+        } else if (interfaceList.indexOf("powersocket") >= 0) {
+            page = "PowersocketDevicePage.qml";
         } else {
             page = "GenericDevicePage.qml";
         }

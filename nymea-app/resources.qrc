@@ -145,5 +145,6 @@
         <file>ui/system/ServerConfigurationDialog.qml</file>
         <file>ui/system/MqttPolicyPage.qml</file>
         <file>ui/devicepages/BoolSensorDevicePage.qml</file>
+        <file>ui/devicepages/PowersocketDevicePage.qml</file>
     </qresource>
 </RCC>
