@@ -87,7 +87,7 @@ ListView {
                     font.bold: true
                 }
                 Label {
-                    text: Qt.formatDateTime(new Date(parent.lastSeenState.value))
+                    text: parent.lastSeenState ? Qt.formatDateTime(new Date(parent.lastSeenState.value * 1000)) : ""
                 }
             }
             RowLayout {
@@ -101,7 +101,7 @@ ListView {
                     font.bold: true
                 }
                 Label {
-                    text: parent.sunriseStateType ? Qt.formatDateTime(new Date(parent.sunriseState.value)) : ""
+                    text: parent.sunriseStateType ? Qt.formatDateTime(new Date(parent.sunriseState.value * 1000)) : ""
                 }
             }
             RowLayout {
@@ -115,7 +115,7 @@ ListView {
                     font.bold: true
                 }
                 Label {
-                    text: parent.sunsetStateType ? Qt.formatDateTime(new Date(parent.sunsetState.value)) : ""
+                    text: parent.sunsetStateType ? Qt.formatDateTime(new Date(parent.sunsetState.value * 1000)) : ""
                 }
             }
             Item {
