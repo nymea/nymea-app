@@ -138,10 +138,14 @@ void Device::setStateValue(const QUuid &stateTypeId, const QVariant &value)
 QDebug operator<<(QDebug &dbg, Device *device)
 {
     dbg.nospace() << "Device: " << device->name() << " (" << device->id().toString() << ") Class:" << device->deviceClass()->name() << " (" << device->deviceClassId().toString() << ")" << endl;
-    for (int i = 0; i < device->params()->rowCount(); i++) {
-        Param *p = device->params()->get(i);
-        ParamType *pt = device->deviceClass()->paramTypes()->getParamType(p->paramTypeId());
-        dbg << "  Param " << i << ": " << pt->id().toString() << ": " << pt->name() << " = " << p->value() << endl;
+    for (int i = 0; i < device->deviceClass()->paramTypes()->rowCount(); i++) {
+        ParamType *pt = device->deviceClass()->paramTypes()->get(i);
+        Param *p = device->params()->getParam(pt->id().toString());
+        if (p) {
+            dbg << "  Param " << i << ": " << pt->id().toString() << ": " << pt->name() << " = " << p->value() << endl;
+        } else {
+            dbg << "  Param " << i << ": " << pt->id().toString() << ": " << pt->name() << " = " << "*** Unknown value ***" << endl;
+        }
     }
     for (int i = 0; i < device->deviceClass()->stateTypes()->rowCount(); i++) {
         StateType *st = device->deviceClass()->stateTypes()->get(i);
