@@ -241,6 +241,7 @@ void DeviceManager::getConfiguredDevicesResponse(const QVariantMap &params)
                 device->setStateValue(stateTypeId, value);
 //                qDebug() << "Set device state value:" << device->stateValue(stateTypeId) << value;
             }
+            qDebug() << "Confgured Device JSON:" << qUtf8Printable(QJsonDocument::fromVariant(deviceVariant).toJson(QJsonDocument::Indented));
             devices()->addDevice(device);
             qDebug() << "*** Added device:" << endl << device;
         }
@@ -318,13 +319,14 @@ void DeviceManager::savePluginConfig(const QUuid &pluginId)
     m_jsonClient->sendCommand("Devices.SetPluginConfiguration", params, this, "setPluginConfigResponse");
 }
 
-void DeviceManager::addDiscoveredDevice(const QUuid &deviceClassId, const QUuid &deviceDescriptorId, const QString &name)
+void DeviceManager::addDiscoveredDevice(const QUuid &deviceClassId, const QUuid &deviceDescriptorId, const QString &name, const QVariantList &deviceParams)
 {
     qDebug() << "JsonRpc: add discovered device " << deviceClassId.toString();
     QVariantMap params;
     params.insert("deviceClassId", deviceClassId.toString());
     params.insert("name", name);
     params.insert("deviceDescriptorId", deviceDescriptorId.toString());
+    params.insert("deviceParams", deviceParams);
     m_jsonClient->sendCommand("Devices.AddConfiguredDevice", params, this, "addDeviceResponse");
 }
 

@@ -24,10 +24,10 @@ Page {
     QtObject {
         id: d
         property var vendorId: null
-        property var deviceClass: null
-        property var deviceDescriptorId: null
+        property DeviceClass deviceClass: null
+        property DeviceDescriptor deviceDescriptor: null
         property var discoveryParams: []
-        property var deviceName: null
+        property string deviceName: null
         property int pairRequestId: 0
         property var pairingTransactionId: null
         property int addRequestId: 0
@@ -64,7 +64,7 @@ Page {
 
     DeviceDiscovery {
         id: discovery
-        jsonRpcClient: engine.jsonRpcClient
+        engine: _engine
     }
 
     StackView {
@@ -229,7 +229,7 @@ Page {
                     subText: model.description
                     iconName: app.interfacesToIcon(discoveryView.deviceClass.interfaces)
                     onClicked: {
-                        d.deviceDescriptorId = model.id;
+                        d.deviceDescriptor = discovery.get(index);
                         d.deviceName = model.name;
                         internalPageStack.push(paramsPage)
                     }
@@ -320,11 +320,14 @@ Page {
 
                     Repeater {
                         id: paramRepeater
-                        model: d.deviceDescriptorId == null ? d.deviceClass.paramTypes : null
+                        model: engine.jsonRpcClient.ensureServerVersion("1.12") || d.deviceDescriptor == null ?  d.deviceClass.paramTypes : null
                         delegate: ParamDelegate {
 //                            Layout.preferredHeight: 60
                             Layout.fillWidth: true
                             paramType: d.deviceClass.paramTypes.get(index)
+                            value: d.deviceDescriptor && d.deviceDescriptor.params.getParam(paramType.id) ?
+                                       d.deviceDescriptor.params.getParam(paramType.id).value :
+                                       d.deviceClass.paramTypes.get(index).defaultValue
                         }
                     }
 
@@ -336,19 +339,21 @@ Page {
                         text: "OK"
                         onClicked: {
                             print("setupMethod", d.deviceClass.setupMethod)
+
+                            var params = []
+                            for (var i = 0; i < paramRepeater.count; i++) {
+                                var param = {}
+                                param.paramTypeId = paramRepeater.itemAt(i).paramType.id
+                                param.value = paramRepeater.itemAt(i).value
+                                print("adding param", param.paramTypeId, param.value)
+                                params.push(param)
+                            }
+
                             switch (d.deviceClass.setupMethod) {
                             case 0:
-                                if (d.deviceDescriptorId) {
-                                    engine.deviceManager.addDiscoveredDevice(d.deviceClass.id, d.deviceDescriptorId, nameTextField.text);
+                                if (d.deviceDescriptor) {
+                                    engine.deviceManager.addDiscoveredDevice(d.deviceClass.id, d.deviceDescriptor.id, nameTextField.text, params);
                                 } else {
-                                    var params = []
-                                    for (var i = 0; i < paramRepeater.count; i++) {
-                                        var param = {}
-                                        param.paramTypeId = paramRepeater.itemAt(i).paramType.id
-                                        param.value = paramRepeater.itemAt(i).value
-                                        print("adding param", param.paramTypeId, param.value)
-                                        params.push(param)
-                                    }
 
                                     engine.deviceManager.addDevice(d.deviceClass.id, nameTextField.text, params);
                                 }
@@ -357,7 +362,7 @@ Page {
                             case 1:
                             case 2:
                             case 3:
-                                engine.deviceManager.pairDevice(d.deviceClass.id, d.deviceDescriptorId, nameTextField.text);
+                                engine.deviceManager.pairDevice(d.deviceClass.id, d.deviceDescriptor.id, nameTextField.text);
                                 break;
                             }
 

@@ -17,11 +17,11 @@ QVariant DeviceDiscovery::data(const QModelIndex &index, int role) const
 {
     switch (role) {
     case RoleId:
-        return m_foundDevices.at(index.row()).m_id;
+        return m_foundDevices.at(index.row())->id();
     case RoleName:
-        return m_foundDevices.at(index.row()).m_name;
+        return m_foundDevices.at(index.row())->name();
     case RoleDescription:
-        return m_foundDevices.at(index.row()).m_description;
+        return m_foundDevices.at(index.row())->description();
     }
 
     return QVariant();
@@ -38,17 +38,21 @@ QHash<int, QByteArray> DeviceDiscovery::roleNames() const
 
 void DeviceDiscovery::discoverDevices(const QUuid &deviceClassId, const QVariantList &discoveryParams)
 {
+    if (m_busy) {
+        qWarning() << "Busy... not restarting discovery";
+        return;
+    }
     beginResetModel();
     m_foundDevices.clear();
     endResetModel();
     emit countChanged();
 
-    if (!m_jsonRpcClient) {
-        qWarning() << "Cannot discover devices. No JsonRpcClient set";
+    if (!m_engine) {
+        qWarning() << "Cannot discover devices. No Engine set";
         return;
     }
-    if (!m_jsonRpcClient->connected()) {
-        qWarning() << "Cannot discover devices. JsonRpcClient not connected.";
+    if (!m_engine->jsonRpcClient()->connected()) {
+        qWarning() << "Cannot discover devices. Not connected.";
         return;
     }
 
@@ -57,21 +61,29 @@ void DeviceDiscovery::discoverDevices(const QUuid &deviceClassId, const QVariant
     if (!discoveryParams.isEmpty()) {
         params.insert("discoveryParams", discoveryParams);
     }
-    m_jsonRpcClient->sendCommand("Devices.GetDiscoveredDevices", params, this, "discoverDevicesResponse");
+    m_engine->jsonRpcClient()->sendCommand("Devices.GetDiscoveredDevices", params, this, "discoverDevicesResponse");
     m_busy = true;
     emit busyChanged();
 }
 
-JsonRpcClient *DeviceDiscovery::jsonRpcClient() const
+DeviceDescriptor *DeviceDiscovery::get(int index) const
 {
-    return m_jsonRpcClient;
+    if (index < 0 || index >= m_foundDevices.count()) {
+        return nullptr;
+    }
+    return m_foundDevices.at(index);
 }
 
-void DeviceDiscovery::setJsonRpcClient(JsonRpcClient *jsonRpcClient)
+Engine *DeviceDiscovery::engine() const
 {
-    if (m_jsonRpcClient != jsonRpcClient) {
-        m_jsonRpcClient = jsonRpcClient;
-        emit jsonRpcClientChanged();
+    return m_engine;
+}
+
+void DeviceDiscovery::setEngine(Engine *engine)
+{
+    if (m_engine != engine) {
+        m_engine = engine;
+        emit engineChanged();
     }
 }
 
@@ -87,13 +99,19 @@ void DeviceDiscovery::discoverDevicesResponse(const QVariantMap &params)
 
 //    qDebug() << "response received" << params;
     QVariantList descriptors = params.value("params").toMap().value("deviceDescriptors").toList();
-    foreach (const QVariant &descriptor, descriptors) {
-        qDebug() << "descriptor" << descriptor;
-        if (!contains(descriptor.toMap().value("id").toUuid())) {
+    foreach (const QVariant &descriptorVariant, descriptors) {
+        qDebug() << "Found device. Descriptor:" << descriptorVariant;
+        if (!contains(descriptorVariant.toMap().value("id").toUuid())) {
             beginInsertRows(QModelIndex(), m_foundDevices.count(), m_foundDevices.count());
-            m_foundDevices.append(DeviceDescriptor(descriptor.toMap().value("id").toUuid(),
-                                                   descriptor.toMap().value("title").toString(),
-                                                   descriptor.toMap().value("description").toString()));
+            DeviceDescriptor *descriptor = new DeviceDescriptor(descriptorVariant.toMap().value("id").toUuid(),
+                                                   descriptorVariant.toMap().value("title").toString(),
+                                                   descriptorVariant.toMap().value("description").toString());
+            foreach (const QVariant &paramVariant, descriptorVariant.toMap().value("deviceParams").toList()) {
+                qDebug() << "Adding param:" << paramVariant.toMap().value("paramTypeId").toString() << paramVariant.toMap().value("value");
+                Param* p = new Param(paramVariant.toMap().value("paramTypeId").toString(), paramVariant.toMap().value("value"));
+                descriptor->params()->addParam(p);
+            }
+            m_foundDevices.append(descriptor);
             endInsertRows();
             emit countChanged();
         }
@@ -102,10 +120,40 @@ void DeviceDiscovery::discoverDevicesResponse(const QVariantMap &params)
 
 bool DeviceDiscovery::contains(const QUuid &deviceDescriptorId) const
 {
-    foreach (const DeviceDescriptor &descriptor, m_foundDevices) {
-        if (descriptor.m_id == deviceDescriptorId) {
+    foreach (DeviceDescriptor *descriptor, m_foundDevices) {
+        if (descriptor->id() == deviceDescriptorId) {
             return true;
         }
     }
     return false;
+}
+
+DeviceDescriptor::DeviceDescriptor(const QUuid &id, const QString &name, const QString &description, QObject *parent):
+    QObject(parent),
+    m_id(id),
+    m_name(name),
+    m_description(description),
+    m_params(new Params(this))
+{
+
+}
+
+QUuid DeviceDescriptor::id() const
+{
+    return m_id;
+}
+
+QString DeviceDescriptor::name() const
+{
+    return m_name;
+}
+
+QString DeviceDescriptor::description() const
+{
+    return m_description;
+}
+
+Params* DeviceDescriptor::params() const
+{
+    return m_params;
 }

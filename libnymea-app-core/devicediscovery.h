@@ -4,12 +4,33 @@
 #include <QAbstractListModel>
 #include <QUuid>
 
-#include "jsonrpc/jsonrpcclient.h"
+#include "engine.h"
+
+class DeviceDescriptor: public QObject {
+    Q_OBJECT
+    Q_PROPERTY(QUuid id READ id CONSTANT)
+    Q_PROPERTY(QString name READ name CONSTANT)
+    Q_PROPERTY(QString description READ description CONSTANT)
+    Q_PROPERTY(Params* params READ params CONSTANT)
+public:
+    DeviceDescriptor(const QUuid &id, const QString &name, const QString &description, QObject *parent = nullptr);
+
+    QUuid id() const;
+    QString name() const;
+    QString description() const;
+    Params* params() const;
+
+private:
+    QUuid m_id;
+    QString m_name;
+    QString m_description;
+    Params *m_params = nullptr;
+};
 
 class DeviceDiscovery : public QAbstractListModel
 {
     Q_OBJECT
-    Q_PROPERTY(JsonRpcClient* jsonRpcClient READ jsonRpcClient WRITE setJsonRpcClient)
+    Q_PROPERTY(Engine* engine READ engine WRITE setEngine)
     Q_PROPERTY(bool busy READ busy NOTIFY busyChanged)
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
 public:
@@ -28,8 +49,10 @@ public:
 
     Q_INVOKABLE void discoverDevices(const QUuid &deviceClassId, const QVariantList &discoveryParams = {});
 
-    JsonRpcClient* jsonRpcClient() const;
-    void setJsonRpcClient(JsonRpcClient *jsonRpcClient);
+    Q_INVOKABLE DeviceDescriptor* get(int index) const;
+
+    Engine* engine() const;
+    void setEngine(Engine *jsonRpcClient);
 
     bool busy() const;
 
@@ -39,22 +62,14 @@ private slots:
 signals:
     void busyChanged();
     void countChanged();
-    void jsonRpcClientChanged();
+    void engineChanged();
 
 private:
-    class DeviceDescriptor {
-    public:
-        DeviceDescriptor(const QUuid &id, const QString &name, const QString &description): m_id(id), m_name(name), m_description(description) {}
-        QUuid m_id;
-        QString m_name;
-        QString m_description;
-    };
-
-    JsonRpcClient *m_jsonRpcClient = nullptr;
+    Engine *m_engine = nullptr;
     bool m_busy = false;
 
     bool contains(const QUuid &deviceDescriptorId) const;
-    QList<DeviceDescriptor> m_foundDevices;
+    QList<DeviceDescriptor*> m_foundDevices;
 };
 
 #endif // DEVICEDISCOVERY_H
