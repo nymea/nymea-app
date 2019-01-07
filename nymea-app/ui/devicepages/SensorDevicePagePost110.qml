@@ -13,7 +13,6 @@ ListView {
         Component.onCompleted: {
             var supportedInterfaces = ["temperaturesensor", "humiditysensor", "pressuresensor", "moisturesensor", "lightsensor", "conductivitysensor", "noisesensor", "co2sensor", "presencesensor", "daylightsensor"]
             for (var i = 0; i < supportedInterfaces.length; i++) {
-                print("checking", root.deviceClass.name, root.deviceClass.interfaces)
                 if (root.deviceClass.interfaces.indexOf(supportedInterfaces[i]) >= 0) {
                     append({name: supportedInterfaces[i]});
                 }

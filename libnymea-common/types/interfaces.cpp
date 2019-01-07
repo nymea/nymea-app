@@ -27,6 +27,11 @@ Interfaces::Interfaces(QObject *parent) : QAbstractListModel(parent)
     addParamType(pts, "body", tr("Message body"), QVariant::String);
     addActionType("notifications", "notify", tr("Send notification"), pts);
 
+    addInterface("power", tr("Powered things"));
+    addStateType("power", "power", QVariant::Bool, true,
+                 tr("Thing is turned on"),
+                 tr("A thing is turned on or off"),
+                 tr("Turn things on or off"));
 
     addInterface("light", tr("Lights"));
     addStateType("light", "power", QVariant::Bool, true,

@@ -253,6 +253,8 @@ ApplicationWindow {
             return qsTr("battery powered thing")
         case "connectable":
             return qsTr("connectable thing")
+        case "power":
+            return qsTr("switchable thing")
         default:
             console.warn("Unhandled interfaceToDisplayName:", name)
         }

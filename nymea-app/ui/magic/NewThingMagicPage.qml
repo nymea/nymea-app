@@ -257,7 +257,8 @@ Page {
         for (var j = 0; j < eventDescriptorTemplate.paramDescriptors.count; j++) {
             var paramDescriptorTemplate = eventDescriptorTemplate.paramDescriptors.get(j);
             if (paramDescriptorTemplate.value !== undefined) {
-                eventDescriptor.paramDescriptors.addParamDescriptor(paramDescriptorTemplate.paramName, paramDescriptorTemplate.value);
+                print("Adding operator:", paramDescriptorTemplate.operatorType)
+                eventDescriptor.paramDescriptors.setParamDescriptorByName(paramDescriptorTemplate.paramName, paramDescriptorTemplate.value, paramDescriptorTemplate.operatorType);
             } else {
                 needsParams = true;
             }

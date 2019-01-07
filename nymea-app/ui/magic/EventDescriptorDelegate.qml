@@ -10,11 +10,11 @@ MeaListItemDelegate {
     canDelete: true
     progressive: false
 
-    property var eventDescriptor: null
-    readonly property var device: eventDescriptor ? engine.deviceManager.devices.getDevice(eventDescriptor.deviceId) : null
-    readonly property var deviceClass: device ? engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
-    readonly property var iface: eventDescriptor.interfaceName ? Interfaces.findByName(eventDescriptor.interfaceName) : null
-    readonly property var eventType: deviceClass ? deviceClass.eventTypes.getEventType(eventDescriptor.eventTypeId)
+    property EventDescriptor eventDescriptor: null
+    readonly property Device device: eventDescriptor ? engine.deviceManager.devices.getDevice(eventDescriptor.deviceId) : null
+    readonly property DeviceClass deviceClass: device ? engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
+    readonly property Interface iface: eventDescriptor.interfaceName ? Interfaces.findByName(eventDescriptor.interfaceName) : null
+    readonly property EventType eventType: deviceClass ? deviceClass.eventTypes.getEventType(eventDescriptor.eventTypeId)
                                                  : iface ? iface.eventTypes.findByName(eventDescriptor.interfaceEvent) : null
 
     signal removeEventDescriptor()
@@ -51,16 +51,20 @@ MeaListItemDelegate {
                 operatorString = " ? ";
             }
 
+            var paramType = paramDescriptor.paramTypeId
+                    ? root.eventType.paramTypes.getParamType(paramDescriptor.paramTypeId)
+                    : root.eventType.paramTypes.findByName(paramDescriptor.paramName)
+
             if (i === 0) {
                 // TRANSLATORS: example: "only if temperature > 5"
                 ret = qsTr("only if %1 %2 %3")
-                .arg(root.eventType.paramTypes.getParamType(paramDescriptor.paramTypeId).displayName)
+                .arg(paramType.displayName)
                 .arg(operatorString)
                 .arg(paramDescriptor.value)
             } else {
                 // TRANSLATORS: example: "and temperature > 5"
                 ret += " " + qsTr("and %1 %2 %3")
-                .arg(root.eventType.paramTypes.getParamType(paramDescriptor.paramTypeId).displayName)
+                .arg(paramType.displayName)
                 .arg(operatorString)
                 .arg(model.value)
             }

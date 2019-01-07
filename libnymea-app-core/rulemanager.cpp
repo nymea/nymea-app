@@ -168,7 +168,7 @@ void RuleManager::getRuleDetailsReply(const QVariantMap &params)
 
 void RuleManager::onAddRuleReply(const QVariantMap &params)
 {
-    qDebug() << "Add rule reply:" << params.value("params").toMap().value("ruleError").toString();
+    qDebug() << "Add rule reply:" << params;//.value("params").toMap().value("ruleError").toString();
     emit addRuleReply(params.value("params").toMap().value("ruleError").toString(), params.value("params").toMap().value("ruleId").toString());
 }
 

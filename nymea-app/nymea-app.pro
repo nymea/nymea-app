@@ -126,5 +126,7 @@ target.path = /usr/bin
 INSTALLS += target
 
 DISTFILES += \
-    ruletemplates/smartmetertemplates.json
+    ruletemplates/smartmetertemplates.json \
+    ruletemplates/presencesensortemplates.json \
+    ruletemplates/daylightsensor.json
 
