@@ -67,7 +67,8 @@ ListView {
             Item {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-                Layout.rowSpan: 3
+                Layout.minimumWidth: app.iconSize * 5
+                Layout.rowSpan: app.landscape ? 5 : 1
                 ColorIcon {
                     anchors.centerIn: parent
                     height: app.iconSize * 4
@@ -75,6 +76,10 @@ ListView {
                     name: app.interfaceToIcon(boolView.interfaceName)
                     color: device.states.getState(boolView.stateType.id).value === true ? app.interfaceToColor(boolView.interfaceName) : keyColor
                 }
+            }
+            Item {
+                Layout.fillHeight: true
+                Layout.fillWidth: true
             }
             RowLayout {
                 Layout.fillWidth: false
