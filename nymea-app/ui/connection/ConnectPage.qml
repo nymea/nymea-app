@@ -59,16 +59,19 @@ Page {
                 // silently ignore. They'll be handled by the SSL logic
                 return;
             case "HostNotFoundError":
-                errorMessage = qsTr("The %1 box could not be found on this address. Please make sure you entered the address correctly and that the box is powered on.").arg(app.systemName);
+                errorMessage = qsTr("%1:core could not be found on this address. Please make sure you entered the address correctly and that the box is powered on.").arg(app.systemName);
                 break;
             case "NetworkError":
                 errorMessage = qsTr("It seems you're not connected to the network.");
                 break;
             case "RemoteHostClosedError":
-                errorMessage = qsTr("The %1 box has closed the connection. This probably means it has been turned off or restarted.").arg(app.systemName);
+                errorMessage = qsTr("%1:core has closed the connection. This probably means it has been turned off or restarted.").arg(app.systemName);
+                break;
+            case "SocketTimeoutError":
+                errorMessage = qsTr("%1:core did not respond. Please make sure your network connection works properly").arg(app.systemName);
                 break;
             default:
-                errorMessage = qsTr("Un unknown error happened. We're very sorry for that. (Error code: %1)").arg(error);
+                errorMessage = qsTr("An unknown error happened. We're very sorry for that. (Error code: %1)").arg(error);
             }
 
             pageStack.pop(root, StackView.Immediate)
