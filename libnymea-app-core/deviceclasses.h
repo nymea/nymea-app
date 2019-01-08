@@ -1,6 +1,7 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                         *
  *  Copyright (C) 2017 Simon Stuerz <simon.stuerz@guh.io>                  *
+ *  Copyright (C) 2019 Michael Zanetti <michael.zanetti@nymea.io>          *
  *                                                                         *
  *  This file is part of nymea:app                                         *
  *                                                                         *
@@ -37,10 +38,12 @@ public:
         RoleName,
         RoleDisplayName,
         RolePluginId,
-        RoleVendorId
+        RoleVendorId,
+        RoleInterfaces,
+        RoleBaseInterface
     };
 
-    explicit DeviceClasses(QObject *parent = 0);
+    explicit DeviceClasses(QObject *parent = nullptr);
 
     QList<DeviceClass *> deviceClasses();
 

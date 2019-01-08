@@ -60,7 +60,7 @@ Page {
             Layout.fillWidth: true
         }
 
-        ListView {
+        GroupedListView {
             Layout.fillWidth: true
             Layout.fillHeight: true
             clip: true
@@ -70,11 +70,6 @@ Page {
                 engine: _engine
                 groupByInterface: true
                 nameFilter: filterInput.shown ? filterInput.text : ""
-            }
-            section.property: "baseInterface"
-            section.criteria: ViewSection.FullString
-            section.delegate: ListSectionHeader {
-                text: app.interfaceToString(section)
             }
 
             delegate: ThingDelegate {

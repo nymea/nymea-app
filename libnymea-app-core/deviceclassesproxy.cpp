@@ -27,7 +27,9 @@
 DeviceClassesProxy::DeviceClassesProxy(QObject *parent) :
     QSortFilterProxyModel(parent)
 {
+    setSortRole(DeviceClasses::RoleDisplayName);
 }
+
 
 QUuid DeviceClassesProxy::vendorId() const
 {
@@ -55,6 +57,35 @@ void DeviceClassesProxy::setDeviceClasses(DeviceClasses *deviceClasses)
     m_deviceClasses = deviceClasses;
     setSourceModel(deviceClasses);
     emit deviceClassesChanged();
+    sort(0);
+}
+
+QString DeviceClassesProxy::filterInterface() const
+{
+    return m_filterInterface;
+}
+
+void DeviceClassesProxy::setFilterInterface(const QString &filterInterface)
+{
+    if (m_filterInterface != filterInterface) {
+        m_filterInterface = filterInterface;
+        emit filterInterfaceChanged();
+        invalidateFilter();
+    }
+}
+
+bool DeviceClassesProxy::groupByInterface() const
+{
+    return m_groupByInterface;
+}
+
+void DeviceClassesProxy::setGroupByInterface(bool groupByInterface)
+{
+    if (m_groupByInterface != groupByInterface) {
+        m_groupByInterface = groupByInterface;
+        emit groupByInterfaceChanged();
+        invalidate();
+    }
 }
 
 DeviceClass *DeviceClassesProxy::get(int index) const
@@ -80,16 +111,27 @@ bool DeviceClassesProxy::filterAcceptsRow(int sourceRow, const QModelIndex &sour
     if (deviceClass->createMethods().count() == 1 && deviceClass->createMethods().contains("CreateMethodAuto"))
         return false;
 
-    if (!m_vendorId.isNull() && deviceClass->vendorId() == m_vendorId)
-        return true;
+    if (!m_vendorId.isNull() && deviceClass->vendorId() != m_vendorId)
+        return false;
 
-    return false;
+    if (!m_filterInterface.isEmpty() && !deviceClass->interfaces().contains(m_filterInterface)) {
+        return false;
+    }
+
+    return true;
 }
 
 bool DeviceClassesProxy::lessThan(const QModelIndex &left, const QModelIndex &right) const
 {
-    QVariant leftName = sourceModel()->data(left);
-    QVariant rightName = sourceModel()->data(right);
+    if (m_groupByInterface) {
+        QString leftBaseInterface = sourceModel()->data(left, DeviceClasses::RoleBaseInterface).toString();
+        QString rightBaseInterface = sourceModel()->data(right, DeviceClasses::RoleBaseInterface).toString();
+        if (leftBaseInterface != rightBaseInterface) {
+            return QString::localeAwareCompare(leftBaseInterface, rightBaseInterface) < 0;
+        }
+    }
+    QString leftName = sourceModel()->data(left, DeviceClasses::RoleDisplayName).toString();
+    QString rightName = sourceModel()->data(right, DeviceClasses::RoleDisplayName).toString();
 
-    return QString::localeAwareCompare(leftName.toString(), rightName.toString()) < 0;
+    return QString::localeAwareCompare(leftName, rightName) < 0;
 }

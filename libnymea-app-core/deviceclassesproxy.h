@@ -36,8 +36,12 @@ class DeviceClassesProxy : public QSortFilterProxyModel
     Q_PROPERTY(QUuid vendorId READ vendorId WRITE setVendorId NOTIFY vendorIdChanged)
     Q_PROPERTY(DeviceClasses *deviceClasses READ deviceClasses WRITE setDeviceClasses NOTIFY deviceClassesChanged)
 
+    Q_PROPERTY(QString filterInterface READ filterInterface WRITE setFilterInterface NOTIFY filterInterfaceChanged)
+
+    Q_PROPERTY(bool groupByInterface READ groupByInterface WRITE setGroupByInterface NOTIFY groupByInterfaceChanged)
+
 public:
-    explicit DeviceClassesProxy(QObject *parent = 0);
+    explicit DeviceClassesProxy(QObject *parent = nullptr);
 
     QUuid vendorId() const;
     void setVendorId(const QUuid &vendorId);
@@ -45,9 +49,21 @@ public:
     DeviceClasses *deviceClasses();
     void setDeviceClasses(DeviceClasses *deviceClasses);
 
+    QString filterInterface() const;
+    void setFilterInterface(const QString &filterInterface);
+
+    bool groupByInterface() const;
+    void setGroupByInterface(bool groupByInterface);
+
     Q_INVOKABLE DeviceClass *get(int index) const;
 
     Q_INVOKABLE void resetFilter();
+
+signals:
+    void vendorIdChanged();
+    void deviceClassesChanged();
+    void filterInterfaceChanged();
+    void groupByInterfaceChanged();
 
 protected:
     bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const Q_DECL_OVERRIDE;
@@ -56,11 +72,8 @@ protected:
 private:
     QUuid m_vendorId;
     DeviceClasses *m_deviceClasses;
-
-signals:
-    void vendorIdChanged();
-    void deviceClassesChanged();
-
+    QString m_filterInterface;
+    bool m_groupByInterface = false;
 };
 
 #endif // DEVICECLASSFILERMODEL_H
