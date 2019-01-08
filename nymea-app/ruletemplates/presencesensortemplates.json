@@ -1,0 +1,175 @@
+{
+    "templates": [
+        {
+            "interfaceName": "presencesensor",
+            "description": "Turn on something while this device is present...",
+            "ruleNameTemplate": "Turn on %1 while %0 is present",
+            "stateEvaluatorTemplate": {
+                "stateDescriptorTemplate": {
+                    "interfaceName": "presencesensor",
+                    "interfaceState": "isPresent",
+                    "selectionId": 0,
+                    "operator": "ValueOperatorEquals",
+                    "value": true
+                }
+            },
+            "ruleActionTemplates": [
+                {
+                    "interfaceName": "power",
+                    "interfaceAction": "power",
+                    "selectionId": 1,
+                    "params": [
+                        {
+                            "name": "power",
+                            "value": "true"
+                        }
+                    ]
+                }
+            ],
+            "ruleExitActionTemplates": [
+                {
+                    "interfaceName": "power",
+                    "interfaceAction": "power",
+                    "selectionId": 1,
+                    "params": [
+                        {
+                            "name": "power",
+                            "value": "false"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "interfaceName": "presencesensor",
+            "description": "Turn off something when this device leaves...",
+            "ruleNameTemplate": "Turn off %1 when %0 leaves",
+            "eventDescriptorTemplates": [
+                {
+                    "interfaceName": "presencesensor",
+                    "interfaceEvent": "isPresent",
+                    "selectionId": 0,
+                    "params": [
+                        {
+                            "name": "isPresent",
+                            "value": false,
+                            "operator": "ValueOperatorEquals"
+                        }
+                    ]
+                }
+            ],
+            "ruleActionTemplates": [
+                {
+                    "interfaceName": "power",
+                    "interfaceAction": "power",
+                    "selectionId": 1,
+                    "params": [
+                        {
+                            "name": "power",
+                            "value": "false"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "interfaceName": "presencesensor",
+            "description": "Turn off everything when this device leaves...",
+            "ruleNameTemplate": "Turn off everything when %0 leaves",
+            "eventDescriptorTemplates": [
+                {
+                    "interfaceName": "presencesensor",
+                    "interfaceEvent": "isPresent",
+                    "selectionId": 0,
+                    "params": [
+                        {
+                            "name": "isPresent",
+                            "value": false,
+                            "operator": "ValueOperatorEquals"
+                        }
+                    ]
+                }
+            ],
+            "ruleActionTemplates": [
+                {
+                    "interfaceName": "power",
+                    "interfaceAction": "power",
+                    "selectionId": 1,
+                    "selectionMode": "SelectionModeInterface",
+                    "params": [
+                        {
+                            "name": "power",
+                            "value": "false"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "interfaceName": "presencesensor",
+            "description": "Turn off all lights when this device leaves...",
+            "ruleNameTemplate": "Turn off all lights when %0 leaves",
+            "eventDescriptorTemplates": [
+                {
+                    "interfaceName": "presencesensor",
+                    "interfaceEvent": "isPresent",
+                    "selectionId": 0,
+                    "params": [
+                        {
+                            "name": "isPresent",
+                            "value": false,
+                            "operator": "ValueOperatorEquals"
+                        }
+                    ]
+                }
+            ],
+            "ruleActionTemplates": [
+                {
+                    "interfaceName": "light",
+                    "interfaceAction": "power",
+                    "selectionId": 1,
+                    "selectionMode": "SelectionModeInterface",
+                    "params": [
+                        {
+                            "name": "power",
+                            "value": "false"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "interfaceName": "presencesensor",
+            "description": "Turn on something when this device arrives...",
+            "ruleNameTemplate": "Turn on %1 when %0 arrives",
+            "eventDescriptorTemplates": [
+                {
+                    "interfaceName": "presencesensor",
+                    "interfaceEvent": "isPresent",
+                    "selectionId": 0,
+                    "params": [
+                        {
+                            "name": "isPresent",
+                            "value": true,
+                            "operator": "ValueOperatorEquals"
+                        }
+                    ]
+                }
+            ],
+            "ruleActionTemplates": [
+                {
+                    "interfaceName": "power",
+                    "interfaceAction": "power",
+                    "selectionId": 1,
+                    "params": [
+                        {
+                            "name": "power",
+                            "value": "true"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+

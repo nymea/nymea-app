@@ -257,6 +257,12 @@ ApplicationWindow {
             return qsTr("battery powered thing")
         case "connectable":
             return qsTr("connectable thing")
+        case "power":
+            return qsTr("switchable thing")
+        case "daylightsensor":
+            return qsTr("daylight sensor")
+        case "presencesensor":
+            return qsTr("presence sensor")
         default:
             console.warn("Unhandled interfaceToDisplayName:", name)
         }

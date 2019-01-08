@@ -62,6 +62,12 @@ RuleTemplates::RuleTemplates(QObject *parent) : QAbstractListModel(parent)
                     evpt->setParamName(eventDescriptorParamTemplate.value("name").toString());
                     if (eventDescriptorParamTemplate.contains("value")) {
                         evpt->setValue(eventDescriptorParamTemplate.value("value"));
+                        if (!eventDescriptorParamTemplate.contains("operator")) {
+                            qWarning() << "BROKEN Template: Operator missing for event descriptor template" << qUtf8Printable(QJsonDocument::fromVariant(eventDescriptorParamTemplate).toJson(QJsonDocument::Indented));
+                        } else {
+                            QMetaEnum operatorEnum = QMetaEnum::fromType<ParamDescriptor::ValueOperator>();
+                            evpt->setOperatorType(static_cast<ParamDescriptor::ValueOperator>(operatorEnum.keyToValue(eventDescriptorParamTemplate.value("operator").toByteArray().data())));
+                        }
                     }
                     evt->paramDescriptors()->addParamDescriptor(evpt);
                 }
@@ -144,9 +150,9 @@ RuleTemplates::RuleTemplates(QObject *parent) : QAbstractListModel(parent)
                 t->ruleExitActionTemplates()->addRuleActionTemplate(rat);
             }
 
-            qDebug() << "Added rule template:" << t->ruleActionTemplates()->rowCount();
             m_list.append(t);
         }
+//        qDebug() << "Loaded" << m_list.count() << "rule templates";
     }
 }
 
@@ -187,7 +193,7 @@ bool RuleTemplatesFilterModel::filterAcceptsRow(int source_row, const QModelInde
         return false;
     }
     RuleTemplate *t = m_ruleTemplates->get(source_row);
-    qDebug() << "Checking interface" << t->description() << t->interfaceName() << "for usage with:" << m_filterInterfaceNames;
+//    qDebug() << "Checking interface" << t->description() << t->interfaceName() << "for usage with:" << m_filterInterfaceNames;
     if (!m_filterInterfaceNames.isEmpty()) {
         if (!m_filterInterfaceNames.contains(t->interfaceName())) {
             return false;

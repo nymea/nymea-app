@@ -48,6 +48,11 @@ Page {
     ColumnLayout {
         anchors.fill: parent
 
+        ListFilterInput {
+            id: filterInput
+            Layout.fillWidth: true
+        }
+
         MeaListItemDelegate {
             Layout.fillWidth: true
             text: qsTr("Any %1").arg(app.interfaceToDisplayName(root.shownInterfaces[0]))
@@ -58,10 +63,6 @@ Page {
         }
         ThinDivider { visible: root.allowSelectAny }
 
-        ListFilterInput {
-            id: filterInput
-            Layout.fillWidth: true
-        }
 
         ListView {
             Layout.fillWidth: true

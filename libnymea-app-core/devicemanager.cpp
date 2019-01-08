@@ -241,7 +241,7 @@ void DeviceManager::getConfiguredDevicesResponse(const QVariantMap &params)
                 device->setStateValue(stateTypeId, value);
 //                qDebug() << "Set device state value:" << device->stateValue(stateTypeId) << value;
             }
-            qDebug() << "Confgured Device JSON:" << qUtf8Printable(QJsonDocument::fromVariant(deviceVariant).toJson(QJsonDocument::Indented));
+//            qDebug() << "Configured Device JSON:" << qUtf8Printable(QJsonDocument::fromVariant(deviceVariant).toJson(QJsonDocument::Indented));
             devices()->addDevice(device);
             qDebug() << "*** Added device:" << endl << device;
         }
