@@ -52,7 +52,7 @@ ApplicationWindow {
         rootItem.handleCloseEvent(close)
     }
 
-    property var supportedInterfaces: ["light", "weather", "sensor", "media", "garagegate", "awning", "shutter", "blind", "heating", "smartmeter", "evcharger", "accesscontrol", "button", "powersocket", "notifications", "inputtrigger", "outputtrigger", "gateway"]
+    property var supportedInterfaces: ["light", "weather", "media", "garagegate", "awning", "shutter", "blind", "heating", "powersocket", "sensor", "smartmeter", "evcharger", "accesscontrol", "button", "notifications", "inputtrigger", "outputtrigger", "gateway"]
     function interfaceToString(name) {
         switch(name) {
         case "light":

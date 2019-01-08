@@ -43,6 +43,9 @@ MainPageTile {
         case "extendedShutter":
             page = "ShutterDeviceListPage.qml";
             break;
+        case "powersocket":
+            page = "PowerSocketsDeviceListPage.qml";
+            break;
         default:
             page = "GenericDeviceListPage.qml"
         }
