@@ -128,5 +128,6 @@ INSTALLS += target
 DISTFILES += \
     ruletemplates/smartmetertemplates.json \
     ruletemplates/presencesensortemplates.json \
-    ruletemplates/daylightsensor.json
+    ruletemplates/daylightsensor.json \
+    ruletemplates/lighttemplates.json
 
