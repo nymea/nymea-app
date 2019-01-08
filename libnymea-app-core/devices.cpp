@@ -127,6 +127,9 @@ QVariant Devices::data(const QModelIndex &index, int role) const
         if (interfaces.contains("evcharger")) {
             return "evcharger";
         }
+        if (interfaces.contains("powersocket")) {
+            return "powersocket";
+        }
         return "uncategorized";
     }
 

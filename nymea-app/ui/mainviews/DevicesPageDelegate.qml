@@ -43,6 +43,9 @@ MainPageTile {
         case "extendedShutter":
             page = "ShutterDeviceListPage.qml";
             break;
+        case "powersocket":
+            page = "PowerSocketsDeviceListPage.qml";
+            break;
         default:
             page = "GenericDeviceListPage.qml"
         }
@@ -98,6 +101,7 @@ MainPageTile {
             case "extendedshutter":
             case "awning":
             case "extendedawning":
+            case "powersocket":
                 return buttonComponent
             default:
                 console.warn("DevicesPageDelegate, inlineControl: Unhandled interface", model.name)
@@ -119,6 +123,7 @@ MainPageTile {
                     case "media":
                         return devicesProxy.get(0).name;
                     case "light":
+                    case "powersocket":
                         var count = 0;
                         for (var i = 0; i < devicesProxy.count; i++) {
                             var device = devicesProxy.get(i);
@@ -289,6 +294,7 @@ MainPageTile {
                                                                    state.value === "Paused" ? "../images/media-playback-start.svg" :
                                                                                               ""
                             case "light":
+                            case "powersocket":
                                 return "../images/system-shutdown.svg"
                             case "garagegate":
                             case "blind":
@@ -307,6 +313,7 @@ MainPageTile {
                     onClicked: {
                         switch (model.name) {
                         case "light":
+                        case "powersocket":
                             if (devicesProxy.count == 1) {
                                 var device = devicesProxy.get(0);
                                 var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
