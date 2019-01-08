@@ -315,7 +315,6 @@ Page {
                     }
                 }
 
-
                 Connections {
                     target: AWSClient
                     onSignupResult: {
@@ -336,6 +335,10 @@ Page {
                         popup.open()
                     }
                 }
+            }
+
+            BusyOverlay {
+                id: busyOverlay
             }
         }
     }
