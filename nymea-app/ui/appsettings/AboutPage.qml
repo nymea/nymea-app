@@ -80,7 +80,7 @@ Page {
                 Layout.rightMargin: app.margins
                 wrapMode: Text.WordWrap
                 font.bold: true
-                text: "Copyright (C) 2018 guh GmbH"
+                text: "Copyright (C) 2019 guh GmbH"
             }
 
             Label {
@@ -178,6 +178,7 @@ Page {
                     wrapMode: Text.WordWrap
                     font.pixelSize: app.smallFont
                     anchors { left: parent.left; right: parent.right; margins: app.margins }
+                    readOnly: true
                     Component.onCompleted: {
                         var xhr = new XMLHttpRequest;
                         xhr.open("GET", "../../LICENSE");
