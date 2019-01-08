@@ -104,8 +104,17 @@ Item {
 
             ValueAxis {
                 id: yAxis
-                max: Math.ceil(logsModelNg.maxValue + Math.abs(logsModelNg.maxValue * .05))
+                max: {
+                    switch (root.stateType.type.toLowerCase()) {
+                    case "bool":
+                        return 1;
+                    default:
+                        Math.ceil(logsModelNg.maxValue + Math.abs(logsModelNg.maxValue * .05))
+                    }
+                }
                 min: Math.floor(logsModelNg.minValue - Math.abs(logsModelNg.minValue * .05))
+                onMinChanged: print("min set to", min)
+                onMaxChanged: print("max set to", min)
                 labelsFont.pixelSize: app.smallFont
                 labelFormat: {
                     switch (root.stateType.type.toLowerCase()) {
@@ -241,6 +250,7 @@ Item {
                     id: lineSeries1
                     onPointAdded: {
                         var newPoint = lineSeries1.at(index)
+                        print("pointadded", newPoint.x, newPoint.y)
 
                         if (newPoint.x > lineSeries0.at(0).x) {
                             lineSeries0.replace(0, newPoint.x, 0)
@@ -254,7 +264,6 @@ Item {
                         }
 
                         var diffMaxToNew = newPoint.x - xAxis.max.getTime();
-                        print("diffToNew is", diffMaxToNew)
                         if (diffMaxToNew < 1000 * 60 * 5) {
                             chartView.animationOptions = ChartView.NoAnimation
                             var newMin = xAxis.min.getTime()  + diffMaxToNew;
@@ -262,6 +271,7 @@ Item {
                             xAxis.min = new Date(newMin)
                             chartView.animationOptions = ChartView.SeriesAnimations
                         }
+
                     }
                 }
                 color: Qt.rgba(root.color.r, root.color.g, root.color.b, .3)
