@@ -33,6 +33,8 @@ ApplicationWindow {
 
     readonly property var settings: Settings {
         property alias viewMode: app.visibility
+        property alias windowWidth: app.width
+        property alias windowHeight: app.height
         property bool returnToHome: false
         property bool darkTheme: false
         property string graphStyle: "bars"
