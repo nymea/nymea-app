@@ -8,6 +8,11 @@ Rectangle {
 
     property bool shown: false
 
+    // Event eater
+    MouseArea {
+        anchors.fill: parent
+    }
+
     BusyIndicator {
         anchors.centerIn: parent
     }
