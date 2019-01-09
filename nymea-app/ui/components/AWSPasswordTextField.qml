@@ -46,7 +46,7 @@ ColumnLayout {
         wrapMode: Text.WordWrap
 
         // TRANSLATORS: %1 will be replaced with the normal text color, %2 the color for the length check
-        text: qsTr("<font color=\"%1\">The password needs to be </font><font color=\"%2\">least 12 characters long</font><font color=\"%1\">, contain </font><font color=\"%3\">lowercase</font><font color=\"%1\">, </font><font color=\"%4\">uppercase</font><font color=\"%1\"> letters as well as </font><font color=\"%5\">numbers</font><font color=\"%1\"> and </font><font color=\"%6\">special characters</font><font color=\"%1\">.</font>")
+        text: qsTr("<font color=\"%1\">The password needs to be </font><font color=\"%2\">at least 12 characters long</font><font color=\"%1\">, contain </font><font color=\"%3\">lowercase</font><font color=\"%1\">, </font><font color=\"%4\">uppercase</font><font color=\"%1\"> letters as well as </font><font color=\"%5\">numbers</font><font color=\"%1\"> and </font><font color=\"%6\">special characters</font><font color=\"%1\">.</font>")
         .arg(app.accentColor)
         .arg(!root.isLongEnough ? "red" : app.accentColor)
         .arg(!root.hasLower ? "red" : app.accentColor)
