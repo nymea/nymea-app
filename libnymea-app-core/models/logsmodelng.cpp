@@ -253,6 +253,15 @@ void LogsModelNg::logsReply(const QVariantMap &data)
                     // End the batch at 1 again
                     m_graphSeries->append(QPointF(entry->timestamp().addSecs(-1).toMSecsSinceEpoch(), 1));
                 }
+
+                // Adjust min/max
+                if (!newMin.isValid() || newMin > entry->value()) {
+                    newMin = 0;
+                }
+                if (!newMax.isValid() || newMax < entry->value()) {
+                    newMax = 1;
+                }
+
             } else {
 //                if (i > 0) {
 //                    LogEntry *newerEntry = newBlock.at(i - 1);
@@ -268,18 +277,21 @@ void LogsModelNg::logsReply(const QVariantMap &data)
                 }
 //                qDebug() << "Adding line series point:" << (offset + i) << entry->timestamp().toMSecsSinceEpoch() << (entry->value().toReal());
                 m_graphSeries->append(QPointF(entry->timestamp().toMSecsSinceEpoch(), entry->value().toReal()));
+
+                // Adjust min/max
+                if (!newMin.isValid() || newMin > entry->value()) {
+                    newMin = entry->value().toReal();
+                }
+                if (!newMax.isValid() || newMax < entry->value()) {
+                    newMax = entry->value().toReal();
+                }
             }
-        }
-        if (!newMin.isValid() || newMin > entry->value()) {
-            newMin = entry->value().toReal();
-        }
-        if (!newMax.isValid() || newMax < entry->value()) {
-            newMax = entry->value().toReal();
         }
     }
     endInsertRows();
     emit countChanged();
-//    qDebug() << "min" << m_minValue << "max" << m_maxValue << "newMin" << newMin << "newMax" << newMax;
+
+    qDebug() << "min" << m_minValue << "max" << m_maxValue << "newMin" << newMin << "newMax" << newMax;
     if (m_minValue != newMin) {
         m_minValue = newMin;
         emit minValueChanged();
