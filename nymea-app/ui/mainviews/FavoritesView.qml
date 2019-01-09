@@ -175,34 +175,18 @@ Item {
             property var device: null
             property var deviceClass: null
 
-            ItemDelegate {
-                Layout.preferredWidth: app.iconSize
-                Layout.preferredHeight: app.iconSize
-                Layout.leftMargin: app.margins / 2
-                Layout.alignment: Qt.AlignVCenter
-                padding: 0; topPadding: 0; bottomPadding: 0
-                contentItem: ColorIcon {
-                    name: "../images/light-off.svg"
-                    color: app.accentColor
-                }
-                onClicked: {
-                    var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
-                    var actionType = deviceClass.actionTypes.findByName("power");
-                    var params = [];
-                    var powerParam = {}
-                    powerParam["paramTypeId"] = actionType.paramTypes.get(0).id;
-                    powerParam["value"] = false;
-                    params.push(powerParam)
-                    engine.deviceManager.executeAction(device.id, actionType.id, params);
-                }
-            }
+            readonly property var powerStateType: deviceClass.stateTypes.findByName("power");
+            readonly property var powerState: device.states.getState(powerStateType.id)
+
+            readonly property var brightnessStateType: deviceClass.stateTypes.findByName("brightness");
+            readonly property var brightnessState: device.states.getState(brightnessStateType.id)
 
             ThrottledSlider {
                 Layout.fillWidth: true
+                Layout.leftMargin: app.margins / 2
                 Layout.alignment: Qt.AlignVCenter
-                visible: deviceClass.interfaces.indexOf("dimmablelight") >= 0
-                readonly property var brightnessStateType: deviceClass.stateTypes.findByName("brightness");
-                readonly property var brightnessState: device.states.getState(brightnessStateType.id)
+                opacity: deviceClass.interfaces.indexOf("dimmablelight") >= 0 ? 1 : 0
+                enabled: opacity > 0
                 from: 0
                 to: 100
                 value: brightnessState.value
@@ -224,8 +208,9 @@ Item {
                 Layout.rightMargin: app.margins / 2
                 Layout.alignment: Qt.AlignVCenter
                 padding: 0; topPadding: 0; bottomPadding: 0
+
                 contentItem: ColorIcon {
-                    name: "../images/light-on.svg"
+                    name: powerState.value === true ? "../images/light-on.svg" : "../images/light-off.svg"
                     color: app.accentColor
                 }
                 onClicked: {
@@ -234,7 +219,7 @@ Item {
                     var params = [];
                     var powerParam = {}
                     powerParam["paramTypeId"] = actionType.paramTypes.get(0).id;
-                    powerParam["value"] = true;
+                    powerParam["value"] = !powerState.value;
                     params.push(powerParam)
                     engine.deviceManager.executeAction(device.id, actionType.id, params);
                 }

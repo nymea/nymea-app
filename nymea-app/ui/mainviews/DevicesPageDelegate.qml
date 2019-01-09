@@ -86,11 +86,13 @@ MainPageTile {
             switch (model.name) {
             case "sensor":
             case "weather":
+            case "smartmeter":
             case "smartmeterconsumer":
             case "smartmeterproducer":
             case "extendedsmartmeterconsumer":
             case "extendedsmartmeterproducer":
-                return labelComponent;
+                return sensorComponent;
+//                return labelComponent;
 
             case "light":
             case "media":
@@ -391,7 +393,6 @@ MainPageTile {
 
             property var device: devicesProxy.get(0)
             property var deviceClass: device ? engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
-            property var state: deviceClass ? device.states.getState(deviceClass.stateTypes.findByName("temperature").id) : null
 
             Label {
                 text: parent.device.name
@@ -399,22 +400,114 @@ MainPageTile {
                 Layout.fillWidth: true
                 elide: Text.ElideRight
             }
+        }
+    }
 
-            Label {
-                font.pixelSize: app.largeFont
-                color: app.accentColor
-                Layout.fillWidth: true
-                horizontalAlignment: Text.AlignRight
-                text: {
-                    if (devicesProxy.count > 0) {
-                        var stateName;
-                        //                                switch (model.name) {
-                        //                                case "sensor":
-                        //                                }
-                        return (Math.round(parent.state.value * 100) / 100) + " °C";
+    Component {
+        id: sensorComponent
+        MouseArea {
+            id: sensorsRoot
+            property int currentDevice: 0
+
+            property Device device: devicesProxy.get(currentDevice)
+            property DeviceClass deviceClass: device ? engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
+
+            property var shownSensors: findSensors(deviceClass)
+            property int currentSensor: 0
+
+            ListModel {
+                id: supportedSensors
+                ListElement { ifaceName: "temperaturesensor"; stateName: "temperature" }
+                ListElement { ifaceName: "weather"; stateName: "temperature" }
+                ListElement { ifaceName: "humiditysensor"; stateName: "humidity" }
+                ListElement { ifaceName: "moisturesensor"; stateName: "moisture" }
+                ListElement { ifaceName: "pressuresensor"; stateName: "pressure" }
+                ListElement { ifaceName: "daylightsensor"; stateName: "daylight" }
+                ListElement { ifaceName: "presencesensor"; stateName: "isPresent" }
+                ListElement { ifaceName: "lightsensor"; stateName: "lightIntensity" }
+                ListElement { ifaceName: "co2sensor"; stateName: "co2" }
+                ListElement { ifaceName: "conductivity"; stateName: "conductivity" }
+                ListElement { ifaceName: "noisesensor"; stateName: "noise" }
+                ListElement { ifaceName: "smartmeterconsumer"; stateName: "totalEnergyConsumed" }
+                ListElement { ifaceName: "smartmeterproducer"; stateName: "totalEnergyProduced" }
+            }
+            function findSensors(deviceClass) {
+                var ret = []
+                for (var i = 0; i < supportedSensors.count; i++) {
+                    if (deviceClass.interfaces.indexOf(supportedSensors.get(i).ifaceName) >= 0) {
+                        ret.push({ifaceName: supportedSensors.get(i).ifaceName, stateName: supportedSensors.get(i).stateName})
+                    }
+                }
+                return ret;
+            }
+
+            property StateType shownStateType: deviceClass.stateTypes.findByName(shownSensors[currentSensor].stateName)
+
+            function nextSensor() {
+                var newSensorIndex = sensorsRoot.currentSensor + 1;
+                if (newSensorIndex > sensorsRoot.shownSensors.length - 1) {
+                    var newDeviceIndex = (sensorsRoot.currentDevice + 1) % devicesProxy.count;
+                    newSensorIndex = 0;
+                    sensorsRoot.currentDevice = newDeviceIndex;
+                }
+                sensorsRoot.currentSensor = newSensorIndex;
+            }
+
+            onClicked: {
+                nextSensorAnimation.start()
+                timer.restart()
+            }
+
+            SequentialAnimation {
+                id: nextSensorAnimation
+                NumberAnimation { target: sensorsRoot; property: "opacity"; from: 1; to: 0; duration: 500 }
+                ScriptAction { script: { nextSensor(); } }
+                NumberAnimation { target: sensorsRoot; property: "opacity"; from: 0; to: 1; duration: 500 }
+            }
+            Timer {
+                id: timer
+                interval: 10000
+                repeat: true
+                running: sensorsRoot.shownSensors.length > 1 || devicesProxy.count > 1
+                onTriggered: nextSensorAnimation.start()
+            }
+
+            RowLayout {
+                anchors.fill: parent
+
+                ColorIcon {
+                    Layout.preferredHeight: app.iconSize
+                    Layout.preferredWidth: app.iconSize
+                    name: app.interfaceToIcon(sensorsRoot.shownSensors[sensorsRoot.currentSensor].ifaceName)
+                    color: app.interfaceToColor(sensorsRoot.shownSensors[sensorsRoot.currentSensor].ifaceName)
+                }
+
+                ColumnLayout {
+                    Label {
+                        text: sensorsRoot.device.name
+                        font.pixelSize: app.smallFont
+                        Layout.fillWidth: true
+                        elide: Text.ElideRight
+                    }
+
+                    Label {
+                        text: sensorsRoot.shownStateType
+                              ? sensorsRoot.device.states.getState(shownStateType.id).value + " " + sensorsRoot.shownStateType.unitString
+                              : ""
+    //                    font.pixelSize: app.smallFont
+                        Layout.fillWidth: true
+                        visible: sensorsRoot.shownStateType.type.toLowerCase() !== "bool"
+                        elide: Text.ElideRight
+                    }
+                    Led {
+                        Layout.preferredHeight: app.iconSize * .5
+                        Layout.preferredWidth: height
+                        on: sensorsRoot.device.stateValue(sensorsRoot.shownStateType.id) === true
+                        visible: sensorsRoot.shownStateType.type.toLowerCase() === "bool"
                     }
                 }
             }
         }
+
     }
 }
