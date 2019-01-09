@@ -14,6 +14,8 @@ class InterfacesModel : public QAbstractListModel
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
     Q_PROPERTY(DeviceManager* deviceManager READ deviceManager WRITE setDeviceManager NOTIFY deviceManagerChanged)
     Q_PROPERTY(QStringList shownInterfaces READ shownInterfaces WRITE setShownInterfaces NOTIFY shownInterfacesChanged)
+
+    Q_PROPERTY(bool onlyConfiguredDevices READ onlyConfiguredDevices WRITE setOnlyConfiguredDevices NOTIFY onlyConfiguredDevicesChanged)
     Q_PROPERTY(bool showUncategorized READ showUncategorized WRITE setShowUncategorized NOTIFY showUncategorizedChanged)
 
 public:
@@ -34,13 +36,19 @@ public:
     QStringList shownInterfaces() const;
     void setShownInterfaces(const QStringList &shownInterfaces);
 
+    bool onlyConfiguredDevices() const;
+    void setOnlyConfiguredDevices(bool onlyConfigured);
+
     bool showUncategorized() const;
     void setShowUncategorized(bool showUncategorized);
+
+    Q_INVOKABLE QString get(int index) const;
 
 signals:
     void countChanged();
     void deviceManagerChanged();
     void shownInterfacesChanged();
+    bool onlyConfiguredDevicesChanged();
     void showUncategorizedChanged();
 
 private slots:
@@ -52,6 +60,7 @@ private:
     QStringList m_interfaces;
 
     QStringList m_shownInterfaces;
+    bool m_onlyConfiguredDevices = true;
     bool m_showUncategorized = false;
 };
 

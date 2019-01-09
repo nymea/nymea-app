@@ -1,6 +1,7 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                         *
  *  Copyright (C) 2017 Simon Stuerz <simon.stuerz@guh.io>                  *
+ *  Copyright (C) 2019 Michael Zanetti <michael.zanetti@nymea.io>          *
  *                                                                         *
  *  This file is part of nymea:app                                         *
  *                                                                         *
@@ -57,6 +58,10 @@ QVariant DeviceClasses::data(const QModelIndex &index, int role) const
         return deviceClass->pluginId().toString();
     case RoleVendorId:
         return deviceClass->vendorId().toString();
+    case RoleInterfaces:
+        return deviceClass->interfaces();
+    case RoleBaseInterface:
+        return deviceClass->baseInterface();
     }
     return QVariant();
 }
@@ -68,6 +73,9 @@ int DeviceClasses::count() const
 
 DeviceClass *DeviceClasses::get(int index) const
 {
+    if (index < 0 || index >= m_deviceClasses.count()) {
+        return nullptr;
+    }
     return m_deviceClasses.at(index);
 }
 
@@ -108,5 +116,7 @@ QHash<int, QByteArray> DeviceClasses::roleNames() const
     roles[RoleDisplayName] = "displayName";
     roles[RolePluginId] = "pluginId";
     roles[RoleVendorId] = "vendorId";
+    roles[RoleInterfaces] = "interfaces";
+    roles[RoleBaseInterface] = "baseInterface";
     return roles;
 }

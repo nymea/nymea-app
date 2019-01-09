@@ -1,6 +1,7 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                         *
  *  Copyright (C) 2017 Simon Stuerz <simon.stuerz@guh.io>                  *
+ *  Copyright (C) 2019 Michael Zanetti <michael.zanetti@nymea.io>          *
  *                                                                         *
  *  This file is part of nymea:app                                         *
  *                                                                         *
@@ -127,6 +128,63 @@ QStringList DeviceClass::interfaces() const
 void DeviceClass::setInterfaces(const QStringList &interfaces)
 {
     m_interfaces = interfaces;
+}
+
+QString DeviceClass::baseInterface() const
+{
+    if (m_interfaces.contains("gateway")) {
+        return "gateway";
+    }
+    if (m_interfaces.contains("shutter")) {
+        return "shutter";
+    }
+    if (m_interfaces.contains("blind")) {
+        return "blind";
+    }
+    if (m_interfaces.contains("garagegate")) {
+        return "garagegate";
+    }
+    if (m_interfaces.contains("inputtrigger")) {
+        return "inputtrigger";
+    }
+    if (m_interfaces.contains("awning")) {
+        return "awning";
+    }
+    if (m_interfaces.contains("outputtrigger")) {
+        return "outputtrigger";
+    }
+    if (m_interfaces.contains("light")) {
+        return "light";
+    }
+    if (m_interfaces.contains("sensor")) {
+        return "sensor";
+    }
+    if (m_interfaces.contains("weather")) {
+        return "weather";
+    }
+    if (m_interfaces.contains("media")) {
+        return "media";
+    }
+    if (m_interfaces.contains("button")) {
+        return "button";
+    }
+    if (m_interfaces.contains("notifications")) {
+        return "notifications";
+    }
+    if (m_interfaces.contains("smartmeter")) {
+        return "smartmeter";
+    }
+    if (m_interfaces.contains("heating")) {
+        return "heating";
+    }
+    if (m_interfaces.contains("evcharger")) {
+        return "evcharger";
+    }
+    if (m_interfaces.contains("powersocket")) {
+        return "powersocket";
+    }
+    return "uncategorized";
+
 }
 
 ParamTypes *DeviceClass::paramTypes() const

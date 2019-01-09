@@ -74,68 +74,12 @@ QVariant Devices::data(const QModelIndex &index, int role) const
         return device->deviceClassId().toString();
     case RoleSetupComplete:
         return device->setupComplete();
-    case RoleInterfaces: {
+    case RoleInterfaces:
         return device->deviceClass()->interfaces();
-    }
-    case RoleBaseInterface: {
-        QStringList interfaces = device->deviceClass()->interfaces();
-        if (interfaces.contains("gateway")) {
-            return "gateway";
-        }
-        if (interfaces.contains("shutter")) {
-            return "shutter";
-        }
-        if (interfaces.contains("blind")) {
-            return "blind";
-        }
-        if (interfaces.contains("garagegate")) {
-            return "garagegate";
-        }
-        if (interfaces.contains("inputtrigger")) {
-            return "inputtrigger";
-        }
-        if (interfaces.contains("awning")) {
-            return "awning";
-        }
-        if (interfaces.contains("outputtrigger")) {
-            return "outputtrigger";
-        }
-        if (interfaces.contains("light")) {
-            return "light";
-        }
-        if (interfaces.contains("sensor")) {
-            return "sensor";
-        }
-        if (interfaces.contains("weather")) {
-            return "weather";
-        }
-        if (interfaces.contains("media")) {
-            return "media";
-        }
-        if (interfaces.contains("button")) {
-            return "button";
-        }
-        if (interfaces.contains("notifications")) {
-            return "notifications";
-        }
-        if (interfaces.contains("smartmeter")) {
-            return "smartmeter";
-        }
-        if (interfaces.contains("heating")) {
-            return "heating";
-        }
-        if (interfaces.contains("evcharger")) {
-            return "evcharger";
-        }
-        if (interfaces.contains("powersocket")) {
-            return "powersocket";
-        }
-        return "uncategorized";
-    }
-
+    case RoleBaseInterface:
+        return device->deviceClass()->baseInterface();
     }
     return QVariant();
-
 }
 
 void Devices::addDevice(Device *device)

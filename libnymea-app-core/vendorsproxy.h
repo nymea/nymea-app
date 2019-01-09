@@ -34,7 +34,7 @@ class VendorsProxy : public QSortFilterProxyModel
     Q_PROPERTY(Vendors *vendors READ vendors WRITE setVendors NOTIFY vendorsChanged)
 
 public:
-    explicit VendorsProxy(QObject *parent = 0);
+    explicit VendorsProxy(QObject *parent = nullptr);
 
     Vendors *vendors();
     void setVendors(Vendors *vendors);

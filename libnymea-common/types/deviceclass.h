@@ -1,6 +1,7 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                         *
  *  Copyright (C) 2017 Simon Stuerz <simon.stuerz@guh.io>                  *
+ *  Copyright (C) 2019 Michael Zanetti <michael.zanetti@nymea.io>          *
  *                                                                         *
  *  This file is part of nymea:app                                         *
  *                                                                         *
@@ -45,6 +46,7 @@ class DeviceClass : public QObject
     Q_PROPERTY(SetupMethod setupMethod READ setupMethod CONSTANT)
     Q_PROPERTY(QStringList basicTags READ basicTagNames CONSTANT)
     Q_PROPERTY(QStringList interfaces READ interfaces CONSTANT)
+    Q_PROPERTY(QString baseInterface READ baseInterface CONSTANT)
     Q_PROPERTY(ParamTypes *paramTypes READ paramTypes NOTIFY paramTypesChanged)
     Q_PROPERTY(ParamTypes *discoveryParamTypes READ discoveryParamTypes NOTIFY discoveryParamTypesChanged)
     Q_PROPERTY(StateTypes *stateTypes READ stateTypes NOTIFY stateTypesChanged)
@@ -115,6 +117,8 @@ public:
 
     QStringList interfaces() const;
     void setInterfaces(const QStringList &interfaces);
+
+    QString baseInterface() const;
 
     ParamTypes *paramTypes() const;
     void setParamTypes(ParamTypes *paramTypes);

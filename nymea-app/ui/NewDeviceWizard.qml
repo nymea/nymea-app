@@ -1,6 +1,7 @@
 import QtQuick 2.5
 import QtQuick.Layouts 1.1
 import QtQuick.Controls 2.1
+import QtQuick.Controls.Material 2.1
 import Nymea 1.0
 import "components"
 import "delegates"
@@ -27,7 +28,7 @@ Page {
         property DeviceClass deviceClass: null
         property DeviceDescriptor deviceDescriptor: null
         property var discoveryParams: []
-        property string deviceName: null
+        property string deviceName: ""
         property int pairRequestId: 0
         property var pairingTransactionId: null
         property int addRequestId: 0
@@ -70,7 +71,12 @@ Page {
     StackView {
         id: internalPageStack
         anchors.fill: parent
-        initialItem: Page {
+        Component.onCompleted: push(deviceClassesPage)
+    }
+
+    Component {
+        id: vendorsPage
+        Page {
             ListView {
                 anchors.fill: parent
                 model: VendorsProxy {
@@ -92,18 +98,98 @@ Page {
     Component {
         id: deviceClassesPage
         Page {
-            ListView {
-                anchors.fill: parent
+            Pane {
+                id: filterPane
+                anchors { left: parent.left; top: parent.top; right: parent.right }
+                Behavior on height { NumberAnimation { duration: 120; easing.type: Easing.InOutQuad } }
+
+                height: implicitHeight + app.margins * 2
+                Material.elevation: 1
+                z: 1
+
+                leftPadding: 0; rightPadding: 0; topPadding: 0; bottomPadding: 0
+                contentItem: Rectangle {
+                    color: app.primaryColor
+                    clip: true
+                    GridLayout {
+                        anchors.fill: parent
+                        anchors.margins: app.margins
+                        columnSpacing: app.margins
+                        columns: 2
+                        Label {
+                            text: qsTr("Vendor")
+                        }
+
+                        ComboBox {
+                            id: vendorFilterComboBox
+                            Layout.fillWidth: true
+                            textRole: "displayName"
+                            model: ListModel {
+                                id: vendorsFilterModel
+                                ListElement { displayName: qsTr("All"); vendorId: "" }
+
+                                Component.onCompleted: {
+                                    for (var i = 0; i < engine.deviceManager.vendors.count; i++) {
+                                        var vendor = engine.deviceManager.vendors.get(i);
+                                        append({displayName: vendor.displayName, vendorId: vendor.id})
+                                    }
+                                }
+                            }
+                        }
+                        Label {
+                            text: qsTr("Type")
+                        }
+
+                        ComboBox {
+                            id: typeFilterComboBox
+                            Layout.fillWidth: true
+                            textRole: "displayName"
+                            InterfacesModel {
+                                id: interfacesModel
+                                deviceManager: engine.deviceManager
+                                shownInterfaces: app.supportedInterfaces
+                                onlyConfiguredDevices: false
+                                showUncategorized: false
+                            }
+                            model: ListModel {
+                                id: typeFilterModel
+                                ListElement { interfaceName: ""; displayName: qsTr("All") }
+
+                                Component.onCompleted: {
+                                    for (var i = 0; i < interfacesModel.count; i++) {
+                                        append({interfaceName: interfacesModel.get(i), displayName: app.interfaceToString(interfacesModel.get(i))});
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            GroupedListView {
+                anchors {
+                    left: parent.left
+                    top: filterPane.bottom
+                    right: parent.right
+                    bottom: parent.bottom
+                }
+
                 model: DeviceClassesProxy {
                     id: deviceClassesProxy
-                    vendorId: d.vendorId ? d.vendorId : ""
+                    vendorId: vendorsFilterModel.get(vendorFilterComboBox.currentIndex).vendorId
                     deviceClasses: engine.deviceManager.deviceClasses
+                    filterInterface: typeFilterModel.get(typeFilterComboBox.currentIndex).interfaceName
+                    groupByInterface: true
                 }
+
                 delegate: MeaListItemDelegate {
                     id: deviceClassDelegate
                     width: parent.width
                     text: model.displayName
+                    subText: engine.deviceManager.vendors.getVendor(model.vendorId).displayName
                     iconName: app.interfacesToIcon(deviceClass.interfaces)
+                    prominentSubText: false
+                    wrapTexts: false
 
                     property var deviceClass: deviceClassesProxy.get(index)
 
@@ -219,22 +305,45 @@ Page {
 
             property var deviceClass: null
 
-            ListView {
+            ColumnLayout {
                 anchors.fill: parent
-                model: discovery
-                delegate: MeaListItemDelegate {
-                    width: parent.width
-                    height: app.delegateHeight
-                    text: model.name
-                    subText: model.description
-                    iconName: app.interfacesToIcon(discoveryView.deviceClass.interfaces)
-                    onClicked: {
-                        d.deviceDescriptor = discovery.get(index);
-                        d.deviceName = model.name;
-                        internalPageStack.push(paramsPage)
+
+                ListView {
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    model: discovery
+                    delegate: MeaListItemDelegate {
+                        width: parent.width
+                        height: app.delegateHeight
+                        text: model.name
+                        subText: model.description
+                        iconName: app.interfacesToIcon(discoveryView.deviceClass.interfaces)
+                        onClicked: {
+                            d.deviceDescriptor = discovery.get(index);
+                            d.deviceName = model.name;
+                            internalPageStack.push(paramsPage)
+                        }
                     }
                 }
+                Button {
+                    id: retryButton
+                    Layout.fillWidth: true
+                    Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
+                    text: qsTr("Search again")
+                    onClicked: discovery.discoverDevices(d.deviceClass.id, d.discoveryParams)
+                    visible: !discovery.busy && discovery.count > 0
+                }
+
+                Button {
+                    id: manualAddButton
+                    Layout.fillWidth: true
+                    Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.bottomMargin: app.margins
+                    visible: d.deviceClass.createMethods.indexOf("CreateMethodUser") >= 0
+                    text: qsTr("Add thing manually")
+                    onClicked: internalPageStack.push(paramsPage)
+                }
             }
+
 
             ColumnLayout {
                 anchors.centerIn: parent
@@ -249,7 +358,6 @@ Page {
                 }
                 BusyIndicator {
                     running: visible
-                    onRunningChanged: print("********* running changed", running)
                     anchors.horizontalCenter: parent.horizontalCenter
                 }
             }

@@ -64,16 +64,11 @@ Page {
         ThinDivider { visible: root.allowSelectAny }
 
 
-        ListView {
+        GroupedListView {
             Layout.fillWidth: true
             Layout.fillHeight: true
             model: root.selectInterface ? interfacesProxy : devicesProxy
             clip: true
-            section.property: "baseInterface"
-            section.criteria: ViewSection.FullString
-            section.delegate: ListSectionHeader {
-                text: app.interfaceToString(section)
-            }
             delegate: MeaListItemDelegate {
                 width: parent.width
                 text: root.selectInterface ? model.displayName : model.name

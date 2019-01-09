@@ -29,24 +29,14 @@ Vendors::Vendors(QObject *parent) :
 {
 }
 
-QList<Vendor *> Vendors::vendors()
-{
-    return m_vendors;
-}
-
-int Vendors::count() const
-{
-    return m_vendors.count();
-}
-
-Vendor *Vendors::getVendor(const QUuid &vendorId) const
+Vendor *Vendors::getVendor(const QString &vendorId) const
 {
     foreach (Vendor *vendor, m_vendors) {
         if (vendor->id() == vendorId) {
             return vendor;
         }
     }
-    return 0;
+    return nullptr;
 }
 
 int Vendors::rowCount(const QModelIndex &parent) const
@@ -67,7 +57,7 @@ QVariant Vendors::data(const QModelIndex &index, int role) const
     case RoleDisplayName:
         return vendor->displayName();
     case RoleId:
-        return vendor->id().toString();
+        return vendor->id();
     }
     return QVariant();
 }
@@ -79,15 +69,24 @@ void Vendors::addVendor(Vendor *vendor)
     //qDebug() << "Vendors: loaded vendor" << vendor->name();
     m_vendors.append(vendor);
     endInsertRows();
+    emit countChanged();
 }
 
 void Vendors::clearModel()
 {
     beginResetModel();
-    qDebug() << "Vendors: delete all vendors";
     qDeleteAll(m_vendors);
     m_vendors.clear();
     endResetModel();
+    emit countChanged();
+}
+
+Vendor *Vendors::get(int index) const
+{
+    if (index < 0 || index >= m_vendors.count()) {
+        return nullptr;
+    }
+    return m_vendors.at(index);
 }
 
 QHash<int, QByteArray> Vendors::roleNames() const

@@ -30,6 +30,8 @@
 class Vendors : public QAbstractListModel
 {
     Q_OBJECT
+    Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
+
 public:
     enum Role {
         RoleId,
@@ -37,19 +39,19 @@ public:
         RoleDisplayName
     };
 
-    explicit Vendors(QObject *parent = 0);
-
-    QList<Vendor *> vendors();
-
-    Q_INVOKABLE int count() const;
-    Q_INVOKABLE Vendor *getVendor(const QUuid &vendorId) const;
+    explicit Vendors(QObject *parent = nullptr);
 
     int rowCount(const QModelIndex & parent = QModelIndex()) const;
     QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;
 
     void addVendor(Vendor *vendor);
-
     void clearModel();
+
+    Q_INVOKABLE Vendor* get(int index) const;
+    Q_INVOKABLE Vendor *getVendor(const QString &vendorId) const;
+
+signals:
+    void countChanged();
 
 protected:
     QHash<int, QByteArray> roleNames() const;

@@ -22,19 +22,19 @@
 
 #include "vendor.h"
 
-Vendor::Vendor(const QUuid &id, const QString &name, QObject *parent) :
+Vendor::Vendor(const QString &id, const QString &name, QObject *parent) :
     QObject(parent),
     m_id(id),
     m_name(name)
 {
 }
 
-QUuid Vendor::id() const
+QString Vendor::id() const
 {
     return m_id;
 }
 
-void Vendor::setId(const QUuid &id)
+void Vendor::setId(const QString &id)
 {
     m_id = id;
 }
