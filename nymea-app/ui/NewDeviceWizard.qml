@@ -144,20 +144,22 @@ Page {
                             id: typeFilterComboBox
                             Layout.fillWidth: true
                             textRole: "displayName"
-                            InterfacesModel {
-                                id: interfacesModel
-                                deviceManager: engine.deviceManager
-                                shownInterfaces: app.supportedInterfaces
-                                onlyConfiguredDevices: false
-                                showUncategorized: false
+                            InterfacesSortModel {
+                                id: interfacesSortModel
+                                interfacesModel: InterfacesModel {
+                                    deviceManager: engine.deviceManager
+                                    shownInterfaces: app.supportedInterfaces
+                                    onlyConfiguredDevices: false
+                                    showUncategorized: false
+                                }
                             }
                             model: ListModel {
                                 id: typeFilterModel
                                 ListElement { interfaceName: ""; displayName: qsTr("All") }
 
                                 Component.onCompleted: {
-                                    for (var i = 0; i < interfacesModel.count; i++) {
-                                        append({interfaceName: interfacesModel.get(i), displayName: app.interfaceToString(interfacesModel.get(i))});
+                                    for (var i = 0; i < interfacesSortModel.count; i++) {
+                                        append({interfaceName: interfacesSortModel.get(i), displayName: app.interfaceToString(interfacesSortModel.get(i))});
                                     }
                                 }
                             }

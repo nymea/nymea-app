@@ -19,10 +19,6 @@ Item {
         readonly property int minTileHeight: 240
         readonly property int tilesPerRow: root.width / minTileWidth
 
-        model: InterfacesModel {
-            id: interfacesModel
-            deviceManager: engine.deviceManager
-        }
         cellWidth: width / tilesPerRow
         cellHeight: cellWidth
         delegate: DevicesPageDelegate {

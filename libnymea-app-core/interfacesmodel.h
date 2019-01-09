@@ -67,6 +67,7 @@ private:
 class InterfacesSortModel: public QSortFilterProxyModel
 {
     Q_OBJECT
+    Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
     Q_PROPERTY(InterfacesModel* interfacesModel READ interfacesModel WRITE setInterfacesModel NOTIFY interfacesModelChanged)
 
 public:
@@ -77,7 +78,10 @@ public:
 
     bool lessThan(const QModelIndex &left, const QModelIndex &right) const Q_DECL_OVERRIDE;
 
+    Q_INVOKABLE QString get(int index) const;
+
 signals:
+    void countChanged();
     void interfacesModelChanged();
 
 private:
