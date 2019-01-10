@@ -111,6 +111,7 @@ Page {
                         interfacesModel: InterfacesModel {
                             deviceManager: engine.deviceManager
                             shownInterfaces: app.supportedInterfaces
+                            showUncategorized: true
                         }
                     }
 

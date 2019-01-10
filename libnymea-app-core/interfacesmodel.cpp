@@ -106,34 +106,35 @@ void InterfacesModel::syncInterfaces()
     if (!m_deviceManager) {
         return;
     }
-    QStringList baseList;
+    QList<DeviceClass*> deviceClasses;
     if (m_onlyConfiguredDevices) {
         for (int i = 0; i < m_deviceManager->devices()->rowCount(); i++) {
-            DeviceClass *dc = m_deviceManager->deviceClasses()->getDeviceClass(m_deviceManager->devices()->get(i)->deviceClassId());
-            baseList << dc->interfaces();
+            deviceClasses << m_deviceManager->deviceClasses()->getDeviceClass(m_deviceManager->devices()->get(i)->deviceClassId());
         }
     } else {
         for (int i = 0; i < m_deviceManager->deviceClasses()->rowCount(); i++) {
-            DeviceClass *dc = m_deviceManager->deviceClasses()->get(i);
-            baseList << dc->interfaces();
+            deviceClasses << m_deviceManager->deviceClasses()->get(i);
         }
     }
-    baseList.removeDuplicates();
 
     QStringList interfacesInSource;
-    bool isInShownIfaces = false;
-    foreach (const QString &interface, baseList) {
-        if (!m_shownInterfaces.contains(interface)) {
-            continue;
-        }
+    foreach (DeviceClass *dc, deviceClasses) {
+//        qDebug() << "device" <<dc->name() << "has interfaces" << dc->interfaces();
 
-        if (!interfacesInSource.contains(interface)) {
-            interfacesInSource.append(interface);
+        bool isInShownIfaces = false;
+        foreach (const QString &interface, dc->interfaces()) {
+            if (!m_shownInterfaces.isEmpty() && !m_shownInterfaces.contains(interface)) {
+                continue;
+            }
+
+            if (!interfacesInSource.contains(interface)) {
+                interfacesInSource.append(interface);
+            }
+            isInShownIfaces = true;
         }
-        isInShownIfaces = true;
-    }
-    if (!isInShownIfaces && !interfacesInSource.contains("uncategorized")) {
-        interfacesInSource.append("uncategorized");
+        if (m_showUncategorized && !isInShownIfaces && !interfacesInSource.contains("uncategorized")) {
+            interfacesInSource.append("uncategorized");
+        }
     }
     QStringList interfacesToAdd = interfacesInSource;
     QStringList interfacesToRemove;
@@ -182,6 +183,7 @@ void InterfacesSortModel::setInterfacesModel(InterfacesModel *interfacesModel)
     if (m_interfacesModel != interfacesModel) {
         m_interfacesModel = interfacesModel;
         setSourceModel(interfacesModel);
+        connect(interfacesModel, &InterfacesModel::countChanged, this, &InterfacesSortModel::countChanged);
         setSortRole(Devices::RoleName);
         sort(0);
         emit interfacesModelChanged();
@@ -200,4 +202,9 @@ bool InterfacesSortModel::lessThan(const QModelIndex &left, const QModelIndex &r
         return true;
     }
     return m_interfacesModel->shownInterfaces().indexOf(leftName.toString()) < m_interfacesModel->shownInterfaces().indexOf(rightName.toString());
+}
+
+QString InterfacesSortModel::get(int index) const
+{
+    return m_interfacesModel->get(mapToSource(this->index(index, 0)).row());
 }
