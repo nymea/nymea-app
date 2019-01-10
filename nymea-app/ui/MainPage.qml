@@ -26,6 +26,26 @@ Page {
         }
     }
 
+    property int currentViewIndex: 0
+
+    property bool swipeViewReady: false
+    property bool tabsReady: false
+
+    readonly property bool viewReady: swipeViewReady && tabsReady
+    onViewReadyChanged: {
+        if (tabSettings.currentMainViewIndex > swipeView.count) {
+            tabSettings.currentMainViewIndex = swipeView.count - 1;
+        }
+
+        // Load current index from settings
+        currentViewIndex = tabSettings.currentMainViewIndex;
+        // and set up a binding to sync changes back to the settings
+        tabSettings.currentMainViewIndex = Qt.binding(function() { return root.currentViewIndex; });
+
+        // Tabbar gets a little confused if it's bound to it before the init happened, do it now
+        tabBar.currentIndex = Qt.binding(function() { return root.currentViewIndex; });
+    }
+
     // FIXME: Currently we don't have any feedback for executeAction
     // we don't want all the results, e.g. on looped calls like "all off"
     //    Connections {
@@ -48,7 +68,9 @@ Page {
 
 
     ColumnLayout {
+        id: mainColumn
         anchors.fill: parent
+
 
         Item {
             Layout.fillWidth: true
@@ -60,21 +82,25 @@ Page {
                 anchors.fill: parent
                 anchors.leftMargin: (systemProductType === "ios" && Screen.width === 812) ? 25 : 0
                 anchors.rightMargin: anchors.leftMargin
-                opacity: engine.deviceManager.fetchingData ? 0 : 1
-                Behavior on opacity { NumberAnimation { duration: 300 } }
+                currentIndex: root.currentViewIndex
 
                 Component.onCompleted:  {
-                    print("MainPage Tab index: Component.completed: settings:", tabSettings.currentMainViewIndex)
                     if (engine.jsonRpcClient.ensureServerVersion(1.6)) {
                         swipeView.insertItem(0, favoritesViewComponent.createObject(swipeView))
                     }
-                    if (tabSettings.currentMainViewIndex > swipeView.count) {
-                        print("MainPage Tab index: setting config to", swipeView.count - 1, "(", tabSettings.currentMainViewIndex, swipeView.count, ")")
-                        tabSettings.currentMainViewIndex = swipeView.count - 1;
+                    root.swipeViewReady = true;
+                }
+                onCurrentIndexChanged: {
+                    root.currentViewIndex = currentIndex
+                }
+
+                opacity: 0
+                Behavior on opacity { NumberAnimation { duration: 300 } }
+                Connections {
+                    target: engine.deviceManager
+                    onFetchingDataChanged: {
+                        swipeView.opacity = engine.deviceManager.fetchingData ? 0 : 1
                     }
-                    print("MainPage Tab index: setting tab to", tabSettings.currentMainViewIndex)
-                    swipeView.currentIndex = Qt.binding(function() { return tabSettings.currentMainViewIndex; })
-                    tabSettings.currentMainViewIndex = Qt.binding(function() { return swipeView.currentIndex; });
                 }
 
                 Component {
@@ -178,7 +204,6 @@ Page {
     footer: TabBar {
         id: tabBar
         Material.elevation: 3
-//        currentIndex: tabSettings.currentMainViewIndex
         position: TabBar.Footer
         implicitHeight: 70 + (app.landscape ?
                                           ((systemProductType === "ios" && Screen.height === 375) ? -10 : -20) :
@@ -195,15 +220,15 @@ Page {
             }
             tabEntryComponent.createObject(tabBar, {text: qsTr("Things"), iconSource: "../images/share.svg", pageIndex: pi++})
             tabEntryComponent.createObject(tabBar, {text: qsTr("Scenes"), iconSource: "../images/slideshow.svg", pageIndex: pi++})
-            initTimer.start()
+            root.tabsReady = true
         }
-        Timer {
-            id: initTimer
-            interval: 1
-            repeat: false
-            onTriggered: {
-                print("MainPage Tab index: restoring tab index to:", tabSettings.currentMainViewIndex)
-                tabBar.currentIndex = Qt.binding(function() {return tabSettings.currentMainViewIndex;})
+
+        opacity: 0
+        Behavior on opacity { NumberAnimation { duration: 300 } }
+        Connections {
+            target: engine.deviceManager
+            onFetchingDataChanged: {
+                tabBar.opacity = engine.deviceManager.fetchingData ? 0 : 1
             }
         }
 
@@ -212,7 +237,7 @@ Page {
             MainPageTabButton {
                 property int pageIndex: 0
 //                    height: tabBar.height
-                onClicked: tabSettings.currentMainViewIndex = pageIndex
+                onClicked: root.currentViewIndex = pageIndex
                 alignment: app.landscape ? Qt.Horizontal : Qt.Vertical
             }
         }

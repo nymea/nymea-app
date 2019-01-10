@@ -243,7 +243,7 @@ void DeviceManager::getConfiguredDevicesResponse(const QVariantMap &params)
             }
 //            qDebug() << "Configured Device JSON:" << qUtf8Printable(QJsonDocument::fromVariant(deviceVariant).toJson(QJsonDocument::Indented));
             devices()->addDevice(device);
-            qDebug() << "*** Added device:" << endl << device;
+//            qDebug() << "*** Added device:" << endl << device;
         }
     }
     m_fetchingData = false;
