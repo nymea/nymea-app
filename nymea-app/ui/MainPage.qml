@@ -15,7 +15,7 @@ Page {
         title: swipeView.currentItem.title
 
         model: ListModel {
-            ListElement { iconSource: "../images/share.svg"; text: qsTr("Configure things"); page: "EditDevicesPage.qml" }
+            ListElement { iconSource: "../images/share.svg"; text: qsTr("Configure things"); page: "thingconfiguration/EditThingsPage.qml" }
             ListElement { iconSource: "../images/magic.svg"; text: qsTr("Magic"); page: "MagicPage.qml" }
             ListElement { iconSource: "../images/stock_application.svg"; text: qsTr("App settings"); page: "appsettings/AppSettingsPage.qml" }
             ListElement { iconSource: "../images/settings.svg"; text: qsTr("Box settings"); page: "SettingsPage.qml" }

@@ -69,6 +69,8 @@ public:
     Q_INVOKABLE void confirmPairing(const QUuid &pairingTransactionId, const QString &secret = QString());
     Q_INVOKABLE void removeDevice(const QUuid &deviceId, RemovePolicy policy = RemovePolicyNone);
     Q_INVOKABLE void editDevice(const QUuid &deviceId, const QString &name);
+    Q_INVOKABLE void reconfigureDevice(const QUuid &deviceId, const QVariantList &deviceParams);
+    Q_INVOKABLE void reconfigureDiscoveredDevice(const QUuid &deviceId, const QUuid &deviceDescriptorId);
     Q_INVOKABLE int executeAction(const QUuid &deviceId, const QUuid &actionTypeId, const QVariantList &params = QVariantList());
 
 private:
@@ -85,6 +87,7 @@ private:
     Q_INVOKABLE void setPluginConfigResponse(const QVariantMap &params);
     Q_INVOKABLE void editDeviceResponse(const QVariantMap &params);
     Q_INVOKABLE void executeActionResponse(const QVariantMap &params);
+    Q_INVOKABLE void reconfigureDeviceResponse(const QVariantMap &params);
 
 public slots:
     void savePluginConfig(const QUuid &pluginId);
@@ -96,6 +99,7 @@ signals:
     void removeDeviceReply(const QVariantMap &params);
     void savePluginConfigReply(const QVariantMap &params);
     void editDeviceReply(const QVariantMap &params);
+    void reconfigureDeviceReply(const QVariantMap &params);
     void executeActionReply(const QVariantMap &params);
     void fetchingDataChanged();
     void notificationReceived(const QString &deviceId, const QString &eventTypeId, const QVariantList &params);

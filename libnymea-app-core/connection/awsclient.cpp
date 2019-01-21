@@ -628,7 +628,7 @@ void AWSClient::registerPushNotificationEndpoint(const QString &registrationId, 
     payload.insert("mobileDeviceUuid", mobileDeviceId);
     QJsonDocument jsonDoc = QJsonDocument::fromVariant(payload);
 
-    qDebug() << "Registering push notification endpoint";
+    qDebug() << "Registering push notification endpoint" << mobileDeviceId;
 //    qDebug() << "POST" << url.toString();
 //    qDebug() << "HEADERS:";
 //    foreach (const QByteArray &hdr, request.rawHeaderList()) {

@@ -1,8 +1,8 @@
 import QtQuick 2.4
 import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.2
-import "components"
-import "delegates"
+import "../components"
+import "../delegates"
 import Nymea 1.0
 
 Page {
@@ -20,7 +20,7 @@ Page {
 
         HeaderButton {
             imageSource: "../images/add.svg"
-            onClicked: pageStack.push(Qt.resolvedUrl("NewDeviceWizard.qml"))
+            onClicked: pageStack.push(Qt.resolvedUrl("NewThingPage.qml"))
         }
     }
 
@@ -77,7 +77,7 @@ Page {
                 canDelete: true
                 onClicked: {
                     print("clicked:", model.id)
-                    pageStack.push(Qt.resolvedUrl("devicepages/ConfigureThingPage.qml"), {device: device})
+                    pageStack.push(Qt.resolvedUrl("ConfigureThingPage.qml"), {device: device})
                 }
                 onDeleteClicked: {
                     d.deviceToRemove = device;
@@ -96,6 +96,6 @@ Page {
         text: qsTr("In order for your %1 box to be useful, go ahead and add some things.").arg(app.systemName)
         imageSource: "qrc:/styles/%1/logo.svg".arg(styleController.currentStyle)
         buttonText: qsTr("Add a thing")
-        onButtonClicked: pageStack.push(Qt.resolvedUrl("NewDeviceWizard.qml"))
+        onButtonClicked: pageStack.push(Qt.resolvedUrl("NewThingPage.qml"))
     }
 }

@@ -78,6 +78,8 @@ int main(int argc, char *argv[])
             QLibraryInfo::location(QLibraryInfo::TranslationsPath));
     application.installTranslator(&qtTranslator);
 
+    qDebug() << "Locale info:" << QLocale() << QLocale().name() << QLocale().language() << QLocale().system();
+
     QTranslator appTranslator;
     bool translationResult = appTranslator.load(QLocale(), "nymea-app", "-", ":/translations/", ".qm");
     if (translationResult) {

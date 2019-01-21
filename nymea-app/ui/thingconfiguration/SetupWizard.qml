@@ -3,17 +3,27 @@ import QtQuick.Layouts 1.1
 import QtQuick.Controls 2.1
 import QtQuick.Controls.Material 2.1
 import Nymea 1.0
-import "components"
-import "delegates"
+import "../components"
+import "../delegates"
 
 Page {
     id: root
 
+    property DeviceClass deviceClass: device ? device.deviceClass : null
+
+    // Optional: If set, it will be reconfigred, otherwise a new one will be created
+    property Device device: null
+
+    signal done();
+
     header: GuhHeader {
-        text: qsTr("Set up new thing")
-        backButtonVisible: internalPageStack.depth > 1
+        text: qsTr("Set up thing")
         onBackPressed: {
-            internalPageStack.pop();
+            if (internalPageStack.depth > 1) {
+                internalPageStack.pop();
+            } else {
+                pageStack.pop();
+            }
         }
 
         HeaderButton {
@@ -25,13 +35,25 @@ Page {
     QtObject {
         id: d
         property var vendorId: null
-        property DeviceClass deviceClass: null
         property DeviceDescriptor deviceDescriptor: null
         property var discoveryParams: []
         property string deviceName: ""
         property int pairRequestId: 0
         property var pairingTransactionId: null
         property int addRequestId: 0
+    }
+
+    Component.onCompleted: {
+        if (root.deviceClass.createMethods.indexOf("CreateMethodDiscovery") !== -1) {
+            if (deviceClass["discoveryParamTypes"].count > 0) {
+                internalPageStack.push(discoveryParamsPage)
+            } else {
+                discovery.discoverDevices(deviceClass.id)
+                internalPageStack.push(discoveryPage, {deviceClass: deviceClass})
+            }
+        } else if (deviceClass.createMethods.indexOf("CreateMethodUser") !== -1) {
+            internalPageStack.push(paramsPage)
+        }
     }
 
     Connections {
@@ -61,6 +83,10 @@ Page {
             busyOverlay.shown = false;
             internalPageStack.push(resultsPage, {success: params["deviceError"] === "DeviceErrorNoError", deviceId: params["deviceId"]})
         }
+        onReconfigureDeviceReply: {
+            busyOverlay.shown = false;
+            internalPageStack.push(resultsPage, {success: params["deviceError"] === "DeviceErrorNoError", deviceId: params["deviceId"]})
+        }
     }
 
     DeviceDiscovery {
@@ -71,169 +97,6 @@ Page {
     StackView {
         id: internalPageStack
         anchors.fill: parent
-        Component.onCompleted: push(deviceClassesPage)
-    }
-
-    Component {
-        id: vendorsPage
-        Page {
-            ListView {
-                anchors.fill: parent
-                model: VendorsProxy {
-                    vendors: engine.deviceManager.vendors
-                }
-                delegate: MeaListItemDelegate {
-                    width: parent.width
-                    text: model.displayName
-
-                    onClicked: {
-                        d.vendorId = model.id
-                        internalPageStack.push(deviceClassesPage)
-                    }
-                }
-            }
-        }
-    }
-
-    Component {
-        id: deviceClassesPage
-        Page {
-            Pane {
-                id: filterPane
-                anchors { left: parent.left; top: parent.top; right: parent.right }
-                Behavior on height { NumberAnimation { duration: 120; easing.type: Easing.InOutQuad } }
-
-                height: implicitHeight + app.margins * 2
-                Material.elevation: 1
-                z: 1
-
-                leftPadding: 0; rightPadding: 0; topPadding: 0; bottomPadding: 0
-                contentItem: Rectangle {
-                    color: app.primaryColor
-                    clip: true
-                    GridLayout {
-                        anchors.fill: parent
-                        anchors.margins: app.margins
-                        columnSpacing: app.margins
-                        columns: 2
-                        Label {
-                            text: qsTr("Vendor")
-                        }
-
-                        ComboBox {
-                            id: vendorFilterComboBox
-                            Layout.fillWidth: true
-                            textRole: "displayName"
-                            model: ListModel {
-                                id: vendorsFilterModel
-                                ListElement { displayName: qsTr("All"); vendorId: "" }
-
-                                Component.onCompleted: {
-                                    for (var i = 0; i < engine.deviceManager.vendors.count; i++) {
-                                        var vendor = engine.deviceManager.vendors.get(i);
-                                        append({displayName: vendor.displayName, vendorId: vendor.id})
-                                    }
-                                }
-                            }
-                        }
-                        Label {
-                            text: qsTr("Type")
-                        }
-
-                        ComboBox {
-                            id: typeFilterComboBox
-                            Layout.fillWidth: true
-                            textRole: "displayName"
-                            InterfacesSortModel {
-                                id: interfacesSortModel
-                                interfacesModel: InterfacesModel {
-                                    deviceManager: engine.deviceManager
-                                    shownInterfaces: app.supportedInterfaces
-                                    onlyConfiguredDevices: false
-                                    showUncategorized: false
-                                }
-                            }
-                            model: ListModel {
-                                id: typeFilterModel
-                                ListElement { interfaceName: ""; displayName: qsTr("All") }
-
-                                Component.onCompleted: {
-                                    for (var i = 0; i < interfacesSortModel.count; i++) {
-                                        append({interfaceName: interfacesSortModel.get(i), displayName: app.interfaceToString(interfacesSortModel.get(i))});
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            GroupedListView {
-                anchors {
-                    left: parent.left
-                    top: filterPane.bottom
-                    right: parent.right
-                    bottom: parent.bottom
-                }
-
-                model: DeviceClassesProxy {
-                    id: deviceClassesProxy
-                    vendorId: vendorsFilterModel.get(vendorFilterComboBox.currentIndex).vendorId
-                    deviceClasses: engine.deviceManager.deviceClasses
-                    filterInterface: typeFilterModel.get(typeFilterComboBox.currentIndex).interfaceName
-                    groupByInterface: true
-                }
-
-                delegate: MeaListItemDelegate {
-                    id: deviceClassDelegate
-                    width: parent.width
-                    text: model.displayName
-                    subText: engine.deviceManager.vendors.getVendor(model.vendorId).displayName
-                    iconName: app.interfacesToIcon(deviceClass.interfaces)
-                    prominentSubText: false
-                    wrapTexts: false
-
-                    property var deviceClass: deviceClassesProxy.get(index)
-
-                    onClicked: {
-                        d.deviceClass = deviceClass
-                        if (deviceClass.createMethods.indexOf("CreateMethodDiscovery") !== -1) {
-                            if (deviceClass["discoveryParamTypes"].count > 0) {
-                                internalPageStack.push(discoveryParamsPage)
-                            } else {
-                                discovery.discoverDevices(deviceClass.id)
-                                internalPageStack.push(discoveryPage, {deviceClass: deviceClass})
-                            }
-                        } else if (deviceClass.createMethods.indexOf("CreateMethodUser") !== -1) {
-                            internalPageStack.push(paramsPage)
-                        }
-
-                        print("should setup", deviceClass.name, deviceClass.setupMethod, deviceClass.createMethods, deviceClass["discoveryParamTypes"].count)
-                    }
-
-                    swipe.enabled: deviceClass.createMethods.indexOf("CreateMethodUser") !== -1
-                    swipe.right: MouseArea {
-                        height: deviceClassDelegate.height
-                        width: height
-                        anchors.right: parent.right
-                        Rectangle {
-                            anchors.fill: parent
-                            color: "transparent"
-                        }
-
-                        ColorIcon {
-                            anchors.fill: parent
-                            anchors.margins: app.margins
-                            name: "../images/add.svg"
-                        }
-                        onClicked: {
-                            d.deviceClass = deviceClass
-                            internalPageStack.push(paramsPage)
-                        }
-                    }
-                }
-            }
-        }
     }
 
     Component {
@@ -254,7 +117,7 @@ Page {
 
                         Repeater {
                             id: paramRepeater
-                            model: d.deviceClass ? d.deviceClass["discoveryParamTypes"] : null
+                            model: root.deviceClass ? root.deviceClass["discoveryParamTypes"] : null
                             Loader {
                                 Layout.fillWidth: true
                                 sourceComponent: searchStringEntryComponent
@@ -266,7 +129,7 @@ Page {
                             Layout.fillWidth: true
                             text: "Next"
                             onClicked: {
-                                var paramTypes = d.deviceClass["discoveryParamTypes"];
+                                var paramTypes = root.deviceClass["discoveryParamTypes"];
                                 d.discoveryParams = [];
                                 for (var i = 0; i < paramTypes.count; i++) {
                                     var param = {};
@@ -274,8 +137,8 @@ Page {
                                     param["value"] = paramRepeater.itemAt(i).value
                                     d.discoveryParams.push(param);
                                 }
-                                discovery.discoverDevices(d.deviceClass.id, d.discoveryParams)
-                                internalPageStack.push(discoveryPage, {deviceClass: d.deviceClass})
+                                discovery.discoverDevices(root.deviceClass.id, d.discoveryParams)
+                                internalPageStack.push(discoveryPage, {deviceClass: root.deviceClass})
                             }
                         }
                     }
@@ -323,6 +186,15 @@ Page {
                         onClicked: {
                             d.deviceDescriptor = discovery.get(index);
                             d.deviceName = model.name;
+
+                            // Overriding params for reconfiguring discovered devices not supported by core yet
+                            // So if we are reconfiguring and discovering, go straight to end
+                            if (root.device && d.deviceDescriptor) {
+                                busyOverlay.shown = true;
+                                engine.deviceManager.reconfigureDiscoveredDevice(root.device.id, d.deviceDescriptor.id);
+                                return;
+                            }
+
                             internalPageStack.push(paramsPage)
                         }
                     }
@@ -332,7 +204,7 @@ Page {
                     Layout.fillWidth: true
                     Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
                     text: qsTr("Search again")
-                    onClicked: discovery.discoverDevices(d.deviceClass.id, d.discoveryParams)
+                    onClicked: discovery.discoverDevices(root.deviceClass.id, d.discoveryParams)
                     visible: !discovery.busy && discovery.count > 0
                 }
 
@@ -340,7 +212,7 @@ Page {
                     id: manualAddButton
                     Layout.fillWidth: true
                     Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.bottomMargin: app.margins
-                    visible: d.deviceClass.createMethods.indexOf("CreateMethodUser") >= 0
+                    visible: root.deviceClass.createMethods.indexOf("CreateMethodUser") >= 0
                     text: qsTr("Add thing manually")
                     onClicked: internalPageStack.push(paramsPage)
                 }
@@ -389,7 +261,7 @@ Page {
                     text: qsTr("Try again!")
                     Layout.fillWidth: true
                     onClicked: {
-                        discovery.discoverDevices(d.deviceClass.id, d.discoveryParams)
+                        discovery.discoverDevices(root.deviceClass.id, d.discoveryParams)
                     }
                 }
             }
@@ -409,35 +281,38 @@ Page {
                     id: paramsColumn
                     width: parent.width
 
-                    Label {
-                        Layout.leftMargin: app.margins
-                        Layout.rightMargin: app.margins
-                        Layout.topMargin: app.margins
-                        Layout.fillWidth: true
-                        text: qsTr("Name the thing:")
-                    }
-                    TextField {
-                        id: nameTextField
-                        text: d.deviceName ? d.deviceName : ""
-                        Layout.fillWidth: true
-                        Layout.leftMargin: app.margins
-                        Layout.rightMargin: app.margins
-                    }
+                    ColumnLayout {
+                        visible: root.device === null
+                        Label {
+                            Layout.leftMargin: app.margins
+                            Layout.rightMargin: app.margins
+                            Layout.topMargin: app.margins
+                            Layout.fillWidth: true
+                            text: qsTr("Name the thing:")
+                        }
+                        TextField {
+                            id: nameTextField
+                            text: d.deviceName ? d.deviceName : ""
+                            Layout.fillWidth: true
+                            Layout.leftMargin: app.margins
+                            Layout.rightMargin: app.margins
+                        }
 
-                    ThinDivider {
-                        visible: paramRepeater.count > 0
+                        ThinDivider {
+                            visible: paramRepeater.count > 0
+                        }
                     }
 
                     Repeater {
                         id: paramRepeater
-                        model: engine.jsonRpcClient.ensureServerVersion("1.12") || d.deviceDescriptor == null ?  d.deviceClass.paramTypes : null
+                        model: engine.jsonRpcClient.ensureServerVersion("1.12") || d.deviceDescriptor == null ?  root.deviceClass.paramTypes : null
                         delegate: ParamDelegate {
 //                            Layout.preferredHeight: 60
                             Layout.fillWidth: true
-                            paramType: d.deviceClass.paramTypes.get(index)
+                            paramType: root.deviceClass.paramTypes.get(index)
                             value: d.deviceDescriptor && d.deviceDescriptor.params.getParam(paramType.id) ?
                                        d.deviceDescriptor.params.getParam(paramType.id).value :
-                                       d.deviceClass.paramTypes.get(index).defaultValue
+                                       root.deviceClass.paramTypes.get(index).defaultValue
                         }
                     }
 
@@ -448,7 +323,7 @@ Page {
 
                         text: "OK"
                         onClicked: {
-                            print("setupMethod", d.deviceClass.setupMethod)
+                            print("setupMethod", root.deviceClass.setupMethod)
 
                             var params = []
                             for (var i = 0; i < paramRepeater.count; i++) {
@@ -459,20 +334,26 @@ Page {
                                 params.push(param)
                             }
 
-                            switch (d.deviceClass.setupMethod) {
+                            switch (root.deviceClass.setupMethod) {
                             case 0:
-                                if (d.deviceDescriptor) {
-                                    engine.deviceManager.addDiscoveredDevice(d.deviceClass.id, d.deviceDescriptor.id, nameTextField.text, params);
+                                if (root.device !== null) {
+                                    if (d.deviceDescriptor) {
+                                        engine.deviceManager.reconfigureDiscoveredDevice(root.device.id, d.deviceDescriptor.id);
+                                    } else {
+                                        engine.deviceManager.reconfigureDevice(root.device.id, params);
+                                    }
                                 } else {
-
-                                    engine.deviceManager.addDevice(d.deviceClass.id, nameTextField.text, params);
+                                    if (d.deviceDescriptor) {
+                                        engine.deviceManager.addDiscoveredDevice(root.deviceClass.id, d.deviceDescriptor.id, nameTextField.text, params);
+                                    } else {
+                                        engine.deviceManager.addDevice(root.deviceClass.id, nameTextField.text, params);
+                                    }
                                 }
-
                                 break;
                             case 1:
                             case 2:
                             case 3:
-                                engine.deviceManager.pairDevice(d.deviceClass.id, d.deviceDescriptor.id, nameTextField.text);
+                                engine.deviceManager.pairDevice(root.deviceClass.id, d.deviceDescriptor.id, nameTextField.text);
                                 break;
                             }
 
@@ -539,7 +420,7 @@ Page {
             property bool success
             property string deviceId
 
-            readonly property var device: engine.deviceManager.devices.getDevice(deviceId)
+            readonly property var device: root.device ? root.device : engine.deviceManager.devices.getDevice(deviceId)
 
             ColumnLayout {
                 width: parent.width - app.margins * 2
@@ -549,7 +430,7 @@ Page {
                     Layout.fillWidth: true
                     wrapMode: Text.WordWrap
                     horizontalAlignment: Text.AlignHCenter
-                    text: resultsView.success ? qsTr("Thing added!") : qsTr("Uh oh")
+                    text: resultsView.success ? root.device ? qsTr("Thing reconfigured!") : qsTr("Thing added!") : qsTr("Uh oh")
                     font.pixelSize: app.largeFont
                     color: app.accentColor
                 }
@@ -563,7 +444,9 @@ Page {
                 Button {
                     Layout.fillWidth: true
                     text: qsTr("Ok")
-                    onClicked: pageStack.pop();
+                    onClicked: {
+                        root.done();
+                    }
                 }
             }
         }
