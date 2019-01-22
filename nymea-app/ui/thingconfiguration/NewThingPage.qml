@@ -42,13 +42,18 @@ Page {
                     id: vendorFilterComboBox
                     Layout.fillWidth: true
                     textRole: "displayName"
+                    VendorsProxy {
+                        id: vendorsProxy
+                        vendors: engine.deviceManager.vendors
+                    }
                     model: ListModel {
                         id: vendorsFilterModel
                         ListElement { displayName: qsTr("All"); vendorId: "" }
 
+
                         Component.onCompleted: {
-                            for (var i = 0; i < engine.deviceManager.vendors.count; i++) {
-                                var vendor = engine.deviceManager.vendors.get(i);
+                            for (var i = 0; i < vendorsProxy.count; i++) {
+                                var vendor = vendorsProxy.get(i);
                                 append({displayName: vendor.displayName, vendorId: vendor.id})
                             }
                         }

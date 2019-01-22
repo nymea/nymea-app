@@ -28,7 +28,7 @@ Page {
 
         HeaderButton {
             imageSource: "../images/close.svg"
-            onClicked: pageStack.pop();
+            onClicked: root.done();
         }
     }
 
@@ -72,7 +72,6 @@ Page {
                 break;
             default:
                 print("Setup method", params["setupMethod"], "not handled");
-
             }
         }
         onConfirmPairingReply: {
@@ -176,7 +175,13 @@ Page {
                 ListView {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
-                    model: discovery
+                    model: DeviceDiscoveryProxy {
+                        id: discoveryProxy
+                        deviceDiscovery: discovery
+                        showAlreadyAdded: root.device !== null
+                        showNew: root.device === null
+                        filterDeviceId: root.device !== null ? root.device.id : null
+                    }
                     delegate: MeaListItemDelegate {
                         width: parent.width
                         height: app.delegateHeight
@@ -184,14 +189,26 @@ Page {
                         subText: model.description
                         iconName: app.interfacesToIcon(discoveryView.deviceClass.interfaces)
                         onClicked: {
-                            d.deviceDescriptor = discovery.get(index);
+                            d.deviceDescriptor = discoveryProxy.get(index);
                             d.deviceName = model.name;
 
                             // Overriding params for reconfiguring discovered devices not supported by core yet
                             // So if we are reconfiguring and discovering, go straight to end
+
                             if (root.device && d.deviceDescriptor) {
                                 busyOverlay.shown = true;
-                                engine.deviceManager.reconfigureDiscoveredDevice(root.device.id, d.deviceDescriptor.id);
+
+                                switch (root.deviceClass.setupMethod) {
+                                case 0:
+                                    engine.deviceManager.reconfigureDiscoveredDevice(root.device.id, d.deviceDescriptor.id);
+                                    break;
+                                case 1:
+                                case 2:
+                                case 3:
+                                    engine.deviceManager.pairDevice(root.deviceClass.id, d.deviceDescriptor.id, root.device.name);
+                                    break;
+                                }
+
                                 return;
                             }
 
@@ -205,7 +222,7 @@ Page {
                     Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
                     text: qsTr("Search again")
                     onClicked: discovery.discoverDevices(root.deviceClass.id, d.discoveryParams)
-                    visible: !discovery.busy && discovery.count > 0
+                    visible: !discovery.busy && discoveryProxy.count > 0
                 }
 
                 Button {
@@ -239,7 +256,7 @@ Page {
             ColumnLayout {
                 anchors.centerIn: parent
                 width: parent.width - app.margins * 2
-                visible: !discovery.busy && discovery.count == 0
+                visible: !discovery.busy && discoveryProxy.count === 0
                 spacing: app.margins * 2
                 Label {
                     text: qsTr("Too bad...")

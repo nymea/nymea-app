@@ -26,7 +26,7 @@
 
 VendorsProxy::VendorsProxy(QObject *parent) : QSortFilterProxyModel(parent)
 {
-
+    setSortRole(Vendors::RoleDisplayName);
 }
 
 Vendors *VendorsProxy::vendors()
@@ -40,8 +40,14 @@ void VendorsProxy::setVendors(Vendors *vendors)
         m_vendors = vendors;
         setSourceModel(vendors);
         emit vendorsChanged();
+        connect(m_vendors, &Vendors::countChanged, this, &VendorsProxy::countChanged);
         sort(0);
     }
+}
+
+Vendor *VendorsProxy::get(int index) const
+{
+    return m_vendors->get(mapToSource(this->index(index, 0)).row());
 }
 
 bool VendorsProxy::lessThan(const QModelIndex &left, const QModelIndex &right) const

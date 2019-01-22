@@ -32,6 +32,7 @@ class VendorsProxy : public QSortFilterProxyModel
 {
     Q_OBJECT
     Q_PROPERTY(Vendors *vendors READ vendors WRITE setVendors NOTIFY vendorsChanged)
+    Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
 
 public:
     explicit VendorsProxy(QObject *parent = nullptr);
@@ -39,8 +40,11 @@ public:
     Vendors *vendors();
     void setVendors(Vendors *vendors);
 
+    Q_INVOKABLE Vendor* get(int index) const;
+
 signals:
     void vendorsChanged();
+    void countChanged();
 
 private:
     Vendors *m_vendors;

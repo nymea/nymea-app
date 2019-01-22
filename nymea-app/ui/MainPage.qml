@@ -97,7 +97,7 @@ Page {
                             imageSource: "images/starred.svg"
                             buttonVisible: engine.deviceManager.devices.count === 0
                             buttonText: qsTr("Add a thing")
-                            onButtonClicked: pageStack.push(Qt.resolvedUrl("NewDeviceWizard.qml"))
+                            onButtonClicked: pageStack.push(Qt.resolvedUrl("thingconfiguration/NewThingPage.qml"))
                         }
 
                     }
@@ -124,7 +124,7 @@ Page {
                         text: qsTr("There are no things set up yet.") + "\n" + qsTr("In order for your %1 box to be useful, go ahead and add some things.").arg(app.systemName)
                         imageSource: "qrc:/styles/%1/logo.svg".arg(styleController.currentStyle)
                         buttonText: qsTr("Add a thing")
-                        onButtonClicked: pageStack.push(Qt.resolvedUrl("NewDeviceWizard.qml"))
+                        onButtonClicked: pageStack.push(Qt.resolvedUrl("thingconfiguration/NewThingPage.qml"))
                     }
                 }
 
@@ -146,7 +146,7 @@ Page {
                         buttonText: engine.deviceManager.devices.count === 0 ? qsTr("Add a thing") : qsTr("Add a scene")
                         onButtonClicked: {
                             if (engine.deviceManager.devices.count === 0) {
-                                pageStack.push(Qt.resolvedUrl("NewDeviceWizard.qml"))
+                                pageStack.push(Qt.resolvedUrl("thingconfiguration/NewThingPage.qml"))
                             } else {
                                 var page = pageStack.push(Qt.resolvedUrl("MagicPage.qml"))
                                 page.addRule()
