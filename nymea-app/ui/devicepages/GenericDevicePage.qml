@@ -113,11 +113,13 @@ DevicePageBase {
 
             Label {
                 Layout.fillWidth: true
+                Layout.minimumWidth: parent.width / 2
                 text: stateDelegate.stateType.displayName
                 elide: Text.ElideRight
             }
             Loader {
                 id: stateDelegateLoader
+                Layout.fillWidth: true
                 sourceComponent: {
                     switch (stateType.type.toLowerCase()) {
                     case "string":
@@ -144,7 +146,8 @@ DevicePageBase {
                         }
 
                         if (stateDelegate.writable) {
-                            return spinBoxComponent;
+                            return sliderComponent;
+//                            return spinBoxComponent;
                         }
                         return numberLabelComponent;
                     case "color":
@@ -155,6 +158,11 @@ DevicePageBase {
 
                     print("GenericDevicePage: unhandled entry", stateDelegate.stateType.displayName)
                 }
+            }
+
+            Label {
+                visible: stateDelegateLoader.sourceComponent === sliderComponent
+                text: stateDelegate.deviceState.value
             }
 
             Label {
@@ -412,11 +420,20 @@ DevicePageBase {
         SpinBox {
             width: 150
             signal changed(var value)
-            stepSize: (to - from) / 10
+            stepSize: (to - from) / 20
             editable: true
             onValueModified: {
                 changed(value)
             }
+        }
+    }
+
+    Component {
+        id: sliderComponent
+        ThrottledSlider {
+            signal changed(var value)
+            stepSize: 1
+            onMoved: changed(value)
         }
     }
 
