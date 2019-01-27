@@ -44,6 +44,24 @@ QString PlatformHelperAndroid::deviceManufacturer() const
     return QAndroidJniObject::callStaticObjectMethod<jstring>("io/guh/nymeaapp/NymeaAppActivity","deviceManufacturer").toString();
 }
 
+void PlatformHelperAndroid::vibrate(PlatformHelper::HapticsFeedback feedbackType)
+{
+    int duration;
+    switch (feedbackType) {
+    case HapticsFeedbackSelection:
+        duration = 15;
+        break;
+    case HapticsFeedbackImpact:
+        duration = 25;
+        break;
+    case HapticsFeedbackNotification:
+        duration = 500;
+        break;
+    }
+
+    QtAndroid::androidActivity().callMethod<void>("vibrate","(I)V", duration);
+}
+
 void PlatformHelperAndroid::permissionRequestFinished(const QtAndroid::PermissionResultMap &result)
 {
     foreach (const QString &key, result.keys()) {

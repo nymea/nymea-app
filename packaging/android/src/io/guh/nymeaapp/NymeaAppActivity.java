@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Build;
 import android.telephony.TelephonyManager;
 import android.provider.Settings.Secure;
+import android.os.Vibrator;
 
 //import com.google.firebase.messaging.MessageForwardingService;
 
@@ -25,6 +26,12 @@ public class NymeaAppActivity extends org.qtproject.qt5.android.bindings.QtActiv
     public static String deviceModel()
     {
         return Build.MODEL;
+    }
+
+    public void vibrate(int duration)
+    {
+        Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        v.vibrate(duration);
     }
 
 //    // The key in the intent's extras that maps to the incoming message's message ID. Only sent by

@@ -112,7 +112,13 @@ ItemDelegate {
                 from: root.paramType.minValue
                 to: root.paramType.maxValue
                 value: root.param.value
-                stepSize: 1 / (10 * decimals)
+                stepSize: {
+                    var ret = 1
+                    for (var i = 0; i < decimals; i++) {
+                        ret /= 10;
+                    }
+                    return ret;
+                }
                 property int decimals: root.paramType.type.toLocaleLowerCase() === "int" ? 0 : 1
 
                 onMoved: {

@@ -84,6 +84,8 @@ DeviceListPageBase {
                                     ListElement { interfaceName: "co2sensor"; stateName: "co2" }
                                     ListElement { interfaceName: "daylightsensor"; stateName: "daylight" }
                                     ListElement { interfaceName: "presencesensor"; stateName: "isPresent" }
+                                    ListElement { interfaceName: "heating"; stateName: "power" }
+                                    ListElement { interfaceName: "thermostat"; stateName: "targetTemperature" }
                                 }
 
                                 delegate: RowLayout {
@@ -114,8 +116,13 @@ DeviceListPageBase {
                                         font.pixelSize: app.smallFont
                                     }
                                     Led {
+                                        id: led
                                         visible: sensorValueDelegate.stateType && sensorValueDelegate.stateType.type.toLowerCase() == "bool"
                                         on: visible && sensorValueDelegate.stateValue.value === true
+                                    }
+                                    Item {
+                                        Layout.preferredWidth: led.width
+                                        visible: led.visible
                                     }
                                 }
                             }

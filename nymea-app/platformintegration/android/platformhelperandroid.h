@@ -19,6 +19,8 @@ public:
     QString deviceModel() const override;
     QString deviceManufacturer() const override;
 
+    Q_INVOKABLE void vibrate(HapticsFeedback feedbackType) override;
+
 private:
     static void permissionRequestFinished(const QtAndroid::PermissionResultMap &);
 

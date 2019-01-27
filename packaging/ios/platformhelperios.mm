@@ -1,9 +1,11 @@
 
 #import <Foundation/Foundation.h>
 #import <Security/Security.h>
+#import <UIKit/UIKit.h>
 
 #include <QtDebug>
 #include "platformintegration/ios/platformhelperios.h"
+
 
 QString PlatformHelperIOS::readKeyChainEntry(const QString &service, const QString &key)
 {
@@ -64,4 +66,36 @@ void PlatformHelperIOS::writeKeyChainEntry(const QString &service, const QString
     } else {
         qWarning() << "Error storing value in keycahin" << status;
     }
+}
+
+
+void PlatformHelperIOS::generateSelectionFeedback()
+{
+    UISelectionFeedbackGenerator *generator = [[UISelectionFeedbackGenerator alloc] init];
+    [generator prepare];
+    [generator selectionChanged];
+    generator = nil;
+}
+
+void PlatformHelperIOS::generateImpactFeedback()
+{
+    // UIImpactFeedbackStyleLight
+    // UIImpactFeedbackStyleMedium
+    // UIImpactFeedbackStyleHeavy
+    UIImpactFeedbackGenerator *generator = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleLight];
+    [generator prepare];
+    [generator impactOccurred];
+    generator = nil;
+}
+
+void PlatformHelperIOS::generateNotificationFeedback()
+{
+//    UINotificationFeedbackTypeSuccess
+//    UINotificationFeedbackTypeWarning
+//    UINotificationFeedbackTypeError
+
+    UINotificationFeedbackGenerator *generator = [[UINotificationFeedbackGenerator alloc] init];
+    [generator prepare];
+    [generator notificationOccurred:UINotificationFeedbackTypeSuccess];
+    generator = nil;
 }

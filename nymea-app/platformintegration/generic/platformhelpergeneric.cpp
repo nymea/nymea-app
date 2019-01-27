@@ -38,3 +38,8 @@ QString PlatformHelperGeneric::deviceManufacturer() const
 {
     return QSysInfo::productType();
 }
+
+void PlatformHelperGeneric::vibrate(PlatformHelper::HapticsFeedback feedbyckType)
+{
+    Q_UNUSED(feedbyckType)
+}

@@ -54,7 +54,7 @@ ApplicationWindow {
         rootItem.handleCloseEvent(close)
     }
 
-    property var supportedInterfaces: ["light", "weather", "media", "garagegate", "awning", "shutter", "blind", "heating", "powersocket", "sensor", "smartmeter", "evcharger", "accesscontrol", "button", "notifications", "inputtrigger", "outputtrigger", "gateway"]
+    property var supportedInterfaces: ["light", "weather", "media", "garagegate", "awning", "shutter", "blind", "powersocket", "heating", "sensor", "smartmeter", "evcharger", "accesscontrol", "button", "notifications", "inputtrigger", "outputtrigger", "gateway"]
     function interfaceToString(name) {
         switch(name) {
         case "light":
@@ -206,6 +206,8 @@ ApplicationWindow {
         case "heating":
         case "extendedheating":
             return Qt.resolvedUrl("images/radiator.svg")
+        case "thermostat":
+            return Qt.resolvedUrl("images/dial.svg")
         case "evcharger":
         case "extendedevcharger":
             return Qt.resolvedUrl("images/ev-charger.svg")
@@ -231,7 +233,9 @@ ApplicationWindow {
         "smartmeterproducer": "lightgreen",
         "smartmeterconsumer": "orange",
         "extendedsmartmeterproducer": "blue",
-        "extendedsmartmeterconsumer": "blue"
+        "extendedsmartmeterconsumer": "blue",
+        "heating" : "gainsboro",
+        "thermostat": "dodgerblue"
     }
 
     function interfaceToColor(name) {
@@ -278,6 +282,8 @@ ApplicationWindow {
             page = "ButtonDevicePage.qml";
         } else if (interfaceList.indexOf("weather") >= 0) {
             page = "WeatherDevicePage.qml";
+        } else if (interfaceList.indexOf("heating") >= 0 || interfaceList.indexOf("thermostat") >= 0) {
+            page = "HeatingDevicePage.qml";
         } else if (interfaceList.indexOf("sensor") >= 0) {
             page = "SensorDevicePage.qml";
         } else if (interfaceList.indexOf("inputtrigger") >= 0) {

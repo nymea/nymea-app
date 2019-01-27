@@ -298,7 +298,7 @@ void DeviceManager::editDeviceResponse(const QVariantMap &params)
 
 void DeviceManager::executeActionResponse(const QVariantMap &params)
 {
-    qDebug() << "Execute Action response" << params;
+//    qDebug() << "Execute Action response" << params;
     emit executeActionReply(params);
 }
 
@@ -371,7 +371,7 @@ void DeviceManager::editDevice(const QUuid &deviceId, const QString &name)
 
 int DeviceManager::executeAction(const QUuid &deviceId, const QUuid &actionTypeId, const QVariantList &params)
 {
-    qDebug() << "JsonRpc: execute action " << deviceId.toString() << actionTypeId.toString() << params;
+//    qDebug() << "JsonRpc: execute action " << deviceId.toString() << actionTypeId.toString() << params;
     QVariantMap p;
     p.insert("deviceId", deviceId.toString());
     p.insert("actionTypeId", actionTypeId.toString());
@@ -379,6 +379,5 @@ int DeviceManager::executeAction(const QUuid &deviceId, const QUuid &actionTypeI
         p.insert("params", params);
     }
 
-    qDebug() << "Params:" << p;
     return m_jsonClient->sendCommand("Actions.ExecuteAction", p, this, "executeActionResponse");
 }

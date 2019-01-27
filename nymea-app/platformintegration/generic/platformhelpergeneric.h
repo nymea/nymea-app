@@ -18,6 +18,7 @@ public:
     virtual QString deviceModel() const override;
     virtual QString deviceManufacturer() const override;
 
+    Q_INVOKABLE virtual void vibrate(HapticsFeedback feedbyckType) override;
 signals:
 
 public slots:
