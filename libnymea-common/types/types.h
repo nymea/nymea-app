@@ -83,6 +83,7 @@ public:
         UnitKiloWattHour,
         UnitPercentage,
         UnitPartsPerMillion,
+        UnitMicroSiemensPerCentimeter,
         UnitEuro,
         UnitDollar
     };
