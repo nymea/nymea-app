@@ -162,7 +162,7 @@ void RuleManager::getRuleDetailsReply(const QVariantMap &params)
     parseRuleExitActions(ruleMap.value("exitActions").toList(), rule);
     parseTimeDescriptor(ruleMap.value("timeDescriptor").toMap(), rule);
     rule->setStateEvaluator(parseStateEvaluator(ruleMap.value("stateEvaluator").toMap()));
-    qDebug() << "** Rule details received:" << rule;
+//    qDebug() << "** Rule details received:" << rule;
 //    qDebug() << "Rule JSON:" << qUtf8Printable(QJsonDocument::fromVariant(ruleMap).toJson());
 }
 
