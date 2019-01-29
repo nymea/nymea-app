@@ -13,6 +13,8 @@ public:
 
     Q_INVOKABLE void requestPermissions() override;
 
+    Q_INVOKABLE void hideSplashScreen() override;
+
     bool hasPermissions() const override;
     QString machineHostname() const override;
     QString deviceSerial() const override;

@@ -38,7 +38,6 @@ ApplicationWindow {
         property alias windowWidth: app.width
         property alias windowHeight: app.height
         property bool returnToHome: false
-        property bool darkTheme: false
         property string graphStyle: "bars"
         property string style: "light"
         property bool showHiddenOptions: false
@@ -56,7 +55,7 @@ ApplicationWindow {
         id: discovery
         objectName: "discovery"
         awsClient: AWSClient
-        discovering: pageStack.currentItem.objectName === "discoveryPage"
+//        discovering: pageStack.currentItem.objectName === "discoveryPage"
     }
 
     onClosing: {

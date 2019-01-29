@@ -38,7 +38,7 @@ signals:
     void discoveringChanged();
     void awsClientChanged();
 
-    void serverUuidResolved(const QString &url);
+    void serverUuidResolved(const QUuid &uuid, const QString &url);
 
 private slots:
     void syncCloudDevices();
@@ -54,7 +54,7 @@ private:
 
     QTimer m_cloudPollTimer;
 
-    QUuid m_pendingHostResolution;
+    QList<QUuid> m_pendingHostResolutions;
 
 };
 

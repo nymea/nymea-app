@@ -119,8 +119,5 @@ int main(int argc, char *argv[])
 
     engine->load(QUrl(QLatin1String("qrc:/ui/Nymea.qml")));
 
-#ifdef Q_OS_ANDROID
-    QtAndroid::hideSplashScreen(250);
-#endif
     return application.exec();
 }

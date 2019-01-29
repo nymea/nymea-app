@@ -25,6 +25,8 @@ public:
 
     Q_INVOKABLE virtual void requestPermissions() = 0;
 
+    Q_INVOKABLE virtual void hideSplashScreen() = 0;
+
     virtual bool hasPermissions() const = 0;
     virtual QString machineHostname() const = 0;
     virtual QString deviceSerial() const = 0;

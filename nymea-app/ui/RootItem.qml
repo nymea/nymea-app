@@ -35,6 +35,14 @@ Item {
             tabbar.currentIndex = swipeView.currentIndex
         }
         function removeTab(index) {
+            if (swipeView.currentIndex === index) {
+                if (swipeView.currentIndex > 0) {
+                    swipeView.currentIndex--;
+                } else {
+                    swipeView.currentIndex++;
+                }
+            }
+
             remove(index);
             settings.tabCount--;
             tabbar.currentIndex = swipeView.currentIndex
@@ -89,7 +97,7 @@ Item {
                     }
 
                     Component.onCompleted: {
-                        pageStack.push(Qt.resolvedUrl("connection/ConnectPage.qml"))
+                        pageStack.push(Qt.resolvedUrl("connection/ConnectPage.qml"), StackView.Immediate)
                         setupPushNotifications();
                     }
 
@@ -98,6 +106,7 @@ Item {
                         pageStack.clear()
                         if (!engine.connection.connected) {
                             pageStack.push(Qt.resolvedUrl("connection/ConnectPage.qml"))
+                            PlatformHelper.hideSplashScreen();
                             return;
                         }
 
@@ -118,11 +127,10 @@ Item {
                                     init();
                                 })
                             }
-                        } else if (engine.jsonRpcClient.connected) {
-                            pageStack.push(Qt.resolvedUrl("MainPage.qml"))
                         } else {
-                            pageStack.push(Qt.resolvedUrl("connection/ConnectPage.qml"))
+                            pageStack.push(Qt.resolvedUrl("MainPage.qml"))
                         }
+                        PlatformHelper.hideSplashScreen();
                     }
 
                     function handleCloseEvent(close) {
@@ -135,7 +143,7 @@ Item {
                                 pageStack.pop();
                             }
                         }
-                    }                    
+                    }
 
                     function setupPushNotifications(askForPermissions) {
                         if (askForPermissions === undefined) {
@@ -166,7 +174,7 @@ Item {
                         onConnectedChanged: {
                             print("json client connected changed", engine.jsonRpcClient.connected)
                             if (engine.jsonRpcClient.connected) {
-                                tabSettings.lastConnectedHost = engine.connection.url
+                                tabSettings.lastConnectedHost = engine.jsonRpcClient.serverUuid
                             }
                             init();
                         }
@@ -271,15 +279,23 @@ Item {
                 id: tabbar
                 Layout.fillWidth: true
                 Material.elevation: 2
+                position: TabBar.Footer
 
                 Repeater {
-                    model: mainRepeater.count
+                    model: tabModel.count
 
                     delegate: TabButton {
                         id: hostTabButton
                         property var engine: mainRepeater.itemAt(index)._engine
                         property string serverName: engine.nymeaConfiguration.serverName
                         Material.elevation: index
+                        width: Math.max(150, tabbar.width / tabbar.count)
+
+                        Rectangle {
+                            anchors.fill: parent
+                            color: Material.foreground
+                            opacity: 0.06
+                        }
 
                         contentItem: RowLayout {
                             Label {
@@ -324,7 +340,6 @@ Item {
                     }
                 }
             }
-
         }
     }
 }

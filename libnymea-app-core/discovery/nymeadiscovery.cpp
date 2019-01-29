@@ -14,24 +14,24 @@ NymeaDiscovery::NymeaDiscovery(QObject *parent) : QObject(parent)
 {
     m_discoveryModel = new DiscoveryModel(this);
     connect(m_discoveryModel, &DiscoveryModel::deviceAdded, this, [this](DiscoveryDevice *device) {
-        if (device->uuid() != m_pendingHostResolution) {
+        if (!m_pendingHostResolutions.contains(device->uuid())) {
             return;
         }
         Connection *c = device->connections()->bestMatch();
         if (!c) {
             qDebug() << "Host found but there isn't a valid candidate yet?";
             connect(device->connections(), &Connections::connectionAdded, this, [this, device](Connection *connection) {
-                if (device->uuid() == m_pendingHostResolution) {
-                    qDebug() << "Host" << m_pendingHostResolution << "resolved to" << connection->url().toString();
-                    m_pendingHostResolution = QUuid();
-                    emit serverUuidResolved(connection->url().toString());
+                if (m_pendingHostResolutions.contains(device->uuid())) {
+                    qDebug() << "Host" << device->uuid() << "resolved to" << connection->url().toString();
+                    m_pendingHostResolutions.removeAll(device->uuid());
+                    emit serverUuidResolved(device->uuid(), connection->url().toString());
                 }
             });
             return;
         }
-        qDebug() << "Host" << m_pendingHostResolution << "appeared! Best match is" << c->url();
-        m_pendingHostResolution = QUuid();
-        emit serverUuidResolved(c->url().toString());
+        qDebug() << "Host" << device->uuid() << "appeared! Best match is" << c->url();
+        m_pendingHostResolutions.removeAll(device->uuid());
+        emit serverUuidResolved(device->uuid(), c->url().toString());
     });
 
     m_upnp = new UpnpDiscovery(m_discoveryModel, this);
@@ -133,6 +133,7 @@ void NymeaDiscovery::setAwsClient(AWSClient *awsClient)
     }
 
     if (m_awsClient) {
+        m_awsClient->fetchDevices();
         connect(m_awsClient, &AWSClient::devicesFetched, this, &NymeaDiscovery::syncCloudDevices);
         syncCloudDevices();
     }
@@ -144,17 +145,17 @@ void NymeaDiscovery::resolveServerUuid(const QUuid &uuid)
     DiscoveryDevice *dev = m_discoveryModel->find(uuid);
     if (!dev) {
         qDebug() << "Host" << uuid << "not known yet...";
-        m_pendingHostResolution = uuid;
+        m_pendingHostResolutions.append(uuid);
         return;
     }
     Connection *c = dev->connections()->bestMatch();
     if (!c) {
         qDebug() << "Host" << uuid << "is known but doesn't have a usable connection option yet.";
-        m_pendingHostResolution = uuid;
+        m_pendingHostResolutions.append(uuid);
         return;
     }
     qDebug() << "Host" << uuid << "is known. Best match is" << c->url();
-    emit serverUuidResolved(c->url().toString());
+    emit serverUuidResolved(uuid, c->url().toString());
 }
 
 void NymeaDiscovery::syncCloudDevices()

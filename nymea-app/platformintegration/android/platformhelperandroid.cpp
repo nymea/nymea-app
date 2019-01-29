@@ -16,6 +16,16 @@ void PlatformHelperAndroid::requestPermissions()
     // Not using any fancy permissions in android yet...
 }
 
+void PlatformHelperAndroid::hideSplashScreen()
+{
+    // Android's splash will flicker when fading out twice
+    static bool alreadyHiding = false;
+    if (!alreadyHiding) {
+        QtAndroid::hideSplashScreen(250);
+        alreadyHiding = true;
+    }
+}
+
 bool PlatformHelperAndroid::hasPermissions() const
 {
     // Not using any fancy permissions in android yet...

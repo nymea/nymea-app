@@ -11,9 +11,11 @@ Page {
     readonly property bool haveHosts: discovery.discoveryModel.count > 0
 
     Component.onCompleted: {
-        print("completed connectPage. last connected host:", settings.lastConnectedHost)
-        if (settings.lastConnectedHost.length > 0) {
-            discovery.resolveServerUuid(settings.lastConnectedHost)
+        print("completed connectPage. last connected host:", tabSettings.lastConnectedHost)
+        if (tabSettings.lastConnectedHost.length > 0) {
+            discovery.resolveServerUuid(tabSettings.lastConnectedHost)
+        } else {
+            PlatformHelper.hideSplashScreen();
         }
 
 //        if (settings.lastConnectedHost.length > 0 && Engine.connection.connect(tabSettings.lastConnectedHost)) {
@@ -24,19 +26,23 @@ Page {
 //                pageStack.push(discoveryPage)
 //            })
 //        } else {
-            pageStack.push(discoveryPage)
+            pageStack.push(discoveryPage, StackView.Immediate)
 //        }
     }
 
     Connections {
         target: discovery
         onServerUuidResolved: {
-            connectToHost(url);
+            print("** resolved", uuid, tabSettings.lastConnectedHost)
+            if (uuid == tabSettings.lastConnectedHost) {
+                print("yesss")
+                connectToHost(url, true);
+            }
         }
     }
 
-    function connectToHost(url) {
-        var page = pageStack.push(Qt.resolvedUrl("ConnectingPage.qml"))
+    function connectToHost(url, noAnimations) {
+        var page = pageStack.push(Qt.resolvedUrl("ConnectingPage.qml"), noAnimations ? StackView.Immediate : StackView.PushTransition)
         page.cancel.connect(function() {
             engine.connection.disconnect()
             pageStack.pop(root, StackView.Immediate);
@@ -124,10 +130,21 @@ Page {
             }
 
             Timer {
-                id: startupTimer
-                interval: 5000
+                id: splashHideTimeout
+                interval: 3000
                 repeat: false
                 running: true
+                onTriggered: {
+                    PlatformHelper.hideSplashScreen()
+                    startupTimer.start()
+                }
+            }
+
+            Timer {
+                id: startupTimer
+                interval: 10000
+                repeat: false
+                running: false
             }
 
 
