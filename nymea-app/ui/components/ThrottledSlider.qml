@@ -10,6 +10,9 @@ Item {
     property alias from: slider.from
     property alias to: slider.to
     property alias stepSize: slider.stepSize
+
+    readonly property real rawValue: slider.value
+
     signal moved(real value);
 
     Slider {

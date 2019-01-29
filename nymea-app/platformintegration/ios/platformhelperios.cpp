@@ -47,3 +47,19 @@ QString PlatformHelperIOS::deviceManufacturer() const
 {
     return QString("iPhone");
 }
+
+void PlatformHelperIOS::vibrate(PlatformHelper::HapticsFeedback feedbackType)
+{
+    switch (feedbackType) {
+    case HapticsFeedbackSelection:
+        generateSelectionFeedback();
+        break;
+    case HapticsFeedbackImpact:
+        generateImpactFeedback();
+        break;
+    case HapticsFeedbackNotification:
+        generateNotificationFeedback();
+        break;
+    }
+}
+

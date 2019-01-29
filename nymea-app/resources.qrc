@@ -147,5 +147,19 @@
         <file>ui/devicepages/PowersocketDevicePage.qml</file>
         <file>ui/devicelistpages/PowerSocketsDeviceListPage.qml</file>
         <file>ui/components/GroupedListView.qml</file>
+        <file>ui/devicepages/HeatingDevicePage.qml</file>
+        <file>ui/delegates/statedelegates/LedDelegate.qml</file>
+        <file>ui/delegates/statedelegates/LabelDelegate.qml</file>
+        <file>ui/delegates/statedelegates/NumberLabelDelegate.qml</file>
+        <file>ui/delegates/statedelegates/TextFieldDelegate.qml</file>
+        <file>ui/delegates/statedelegates/ListDelegate.qml</file>
+        <file>ui/delegates/statedelegates/CheckboxDelegate.qml</file>
+        <file>ui/delegates/statedelegates/SwitchDelegate.qml</file>
+        <file>ui/delegates/statedelegates/SpinBoxDelegate.qml</file>
+        <file>ui/delegates/statedelegates/ComboBoxDelegate.qml</file>
+        <file>ui/delegates/statedelegates/ColorDelegate.qml</file>
+        <file>ui/delegates/statedelegates/DateTimeDelegate.qml</file>
+        <file>ui/components/Dial.qml</file>
+        <file>ui/delegates/statedelegates/SliderDelegate.qml</file>
     </qresource>
 </RCC>

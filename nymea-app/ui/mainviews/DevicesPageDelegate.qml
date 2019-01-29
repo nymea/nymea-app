@@ -16,6 +16,7 @@ MainPageTile {
     onClicked: {
         var page;
         switch (model.name) {
+        case "heating":
         case "sensor":
             page = "SensorsDeviceListPage.qml"
             break;
@@ -91,6 +92,7 @@ MainPageTile {
             case "smartmeterproducer":
             case "extendedsmartmeterconsumer":
             case "extendedsmartmeterproducer":
+            case "heating":
                 return sensorComponent;
 //                return labelComponent;
 
@@ -430,6 +432,7 @@ MainPageTile {
                 ListElement { ifaceName: "noisesensor"; stateName: "noise" }
                 ListElement { ifaceName: "smartmeterconsumer"; stateName: "totalEnergyConsumed" }
                 ListElement { ifaceName: "smartmeterproducer"; stateName: "totalEnergyProduced" }
+                ListElement { ifaceName: "thermostat"; stateName: "targetTemperature" }
             }
             function findSensors(deviceClass) {
                 var ret = []

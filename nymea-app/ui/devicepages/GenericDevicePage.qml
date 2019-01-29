@@ -113,89 +113,129 @@ DevicePageBase {
 
             Label {
                 Layout.fillWidth: true
+                Layout.minimumWidth: parent.width / 2
                 text: stateDelegate.stateType.displayName
                 elide: Text.ElideRight
             }
             Loader {
                 id: stateDelegateLoader
-                sourceComponent: {
-                    switch (stateType.type.toLowerCase()) {
-                    case "string":
-                        if (stateDelegate.writable) {
-                            if (stateDelegate.stateType.allowedValues !== undefined) {
-                                return comboBoxComponent
-                            }
-                            return textFieldComponent;
-                        } else {
-                            return labelComponent;
-                        }
-                    case "stringlist":
-                        return listComponent;
-                    case "bool":
-                        if (stateDelegate.writable) {
-                            return switchComponent;
-                        } else {
-                            return ledComponent;
-                        }
-                    case "int":
-                    case "double":
-                        if (stateDelegate.stateType.unit === Types.UnitUnixTime) {
-                            return dateTimeComponent;
-                        }
-
-                        if (stateDelegate.writable) {
-                            return spinBoxComponent;
-                        }
-                        return numberLabelComponent;
-                    case "color":
-                        return colorComponent;
-                    default:
-                        print("Unhandled state type", stateType.displayName, stateType.type)
-                    }
-
-                    print("GenericDevicePage: unhandled entry", stateDelegate.stateType.displayName)
-                }
+                Layout.fillWidth: true
             }
-
             Label {
                 visible: stateDelegate.stateType.unit !== Types.UnitUnixTime && stateDelegate.stateType.unitString.length > 0
                 text: stateDelegate.stateType.unitString
             }
 
+            Component.onCompleted: updateLoader()
+            onStateTypeChanged: updateLoader();
+
+            function updateLoader() {
+                if (stateDelegate.stateType == null) {
+                    return;
+                }
+
+                var isWritable =  root.deviceClass.actionTypes.getActionType(stateType.id) !== null;
+
+                var sourceComp;
+                switch (stateDelegate.stateType.type.toLowerCase()) {
+                case "string":
+                    if (isWritable) {
+                        if (stateDelegate.stateType.allowedValues !== undefined) {
+                            sourceComp = "ComboBoxDelegate.qml"
+                        } else {
+                            sourceComp = "TextFieldDelegate.qml";
+                        }
+                    } else {
+                        sourceComp = "LabelDelegate.qml";
+                    }
+                    break;
+                case "stringlist":
+                    sourceComp = "ListDelegate.qml";
+                    break;
+                case "bool":
+                    if (isWritable) {
+                        sourceComp = "SwitchDelegate.qml";
+                    } else {
+                        sourceComp = "LedDelegate.qml";
+                    }
+                    break;
+                case "int":
+                case "double":
+                    if (stateDelegate.stateType.unit === Types.UnitUnixTime) {
+                        sourceComp = "DateTimeDelegate.qml";
+                    } else if (isWritable) {
+                        sourceComp = "SliderDelegate.qml";
+//                        sourceComp = "SpinBoxDelegate.qml";
+                    } else {
+                        sourceComp = "NumberLabelDelegate.qml";
+                    }
+                    break;
+                case "color":
+                    sourceComp = "ColorDelegate.qml";
+                    break;
+                }
+                if (!sourceComp) {
+                    sourceComp = "LabelDelegate.qml";
+                    print("GenericDevicePage: unhandled entry", stateDelegate.stateType.displayName)
+                }
+
+                stateDelegateLoader.setSource("../delegates/statedelegates/" + sourceComp,
+                                              {
+//                                                  value: root.device.states.getState(stateType.id).value,
+                                                  possibleValues: stateDelegate.stateType.allowedValues,
+                                                  from: stateDelegate.stateType.minValue,
+                                                  to: stateDelegate.stateType.maxValue,
+                                                  stateType: stateDelegate.stateType
+                                              })
+            }
+
+            property int pendingActionId: -1
+            property real valueCache: 0
+            property bool valueCacheDirty: false
+
+            function enqueueSetValue(value) {
+                if (pendingActionId == -1) {
+                    executeAction(value);
+                    return;
+                } else {
+                    valueCache = value
+                    valueCacheDirty = true;
+                }
+            }
+
+            function executeAction(value) {
+                var params = []
+                var param1 = {}
+                param1["paramTypeId"] = stateDelegate.stateType.id
+                param1["value"] = value;
+                params.push(param1)
+                var actionId = root.executeAction(stateDelegate.stateType.id, params);
+                stateDelegate.pendingActionId = actionId
+            }
+
             Binding {
                 target: stateDelegateLoader.item
                 property: "value"
-                value: root.device.states.getState(stateDelegate.stateType.id).value
+                value: stateDelegate.deviceState.value
+                when: !stateDelegate.valueCacheDirty && stateDelegate.pendingActionId === -1
             }
-            Binding {
-                target: stateDelegateLoader.item && stateDelegateLoader.item.hasOwnProperty("possibleValues") ? stateDelegateLoader.item : null
-                property: "possibleValues"
-                value: stateDelegate.stateType.allowedValues
-            }
-            Binding {
-                target: stateDelegateLoader.item && stateDelegateLoader.item.hasOwnProperty("from") ? stateDelegateLoader.item : null
-                property: "from"
-                value: stateDelegate.stateType.minValue !== undefined ? stateDelegate.stateType.minValue : -999999999999
-            }
-            Binding {
-                target: stateDelegateLoader.item && stateDelegateLoader.item.hasOwnProperty("to") ? stateDelegateLoader.item : null
-                property: "to"
-                value: stateDelegate.stateType.maxValue !== undefined ? stateDelegate.stateType.maxValue : 999999999999
-            }
-            Binding {
-                target: stateDelegateLoader.item && stateDelegateLoader.item.hasOwnProperty("actionTypeId") ? stateDelegateLoader.item : null
-                property: "actionTypeId"
-                value: stateDelegate.stateType.id
-            }
+
             Connections {
                 target: stateDelegateLoader.item && stateDelegateLoader.item.hasOwnProperty("changed") ? stateDelegateLoader.item : null
                 onChanged: {
-                    var params = []
-                    var param1 = {}
-                    param1["paramTypeId"] = stateDelegate.stateType.id
-                    param1["value"] = value;
-                    params.push(param1)
-                    root.executeAction(stateDelegate.stateType.id, params);
+                    stateDelegate.enqueueSetValue(value)
+                }
+            }
+            Connections {
+                target: engine.deviceManager
+                onExecuteActionReply: {
+                    if (stateDelegate.pendingActionId === params.id) {
+                        stateDelegate.pendingActionId = -1
+                        if (stateDelegate.valueCacheDirty) {
+                            stateDelegate.executeAction(stateDelegate.valueCache)
+                            stateDelegate.valueCacheDirty = false;
+                        }
+                    }
                 }
             }
         }
@@ -215,7 +255,6 @@ DevicePageBase {
                 target: engine.deviceManager
                 onExecuteActionReply: {
                     if (params["id"] === actionDelegate.pendingActionId) {
-                        print("blubb!")
                         pendingTimer.start();
                         actionDelegate.lastSuccess = params["params"]["deviceError"] === "DeviceErrorNoError"
                         actionDelegate.pendingActionId = -1
@@ -345,156 +384,6 @@ DevicePageBase {
                     flashlightAnimation.start()
                 }
             }
-        }
-    }
-
-    Component {
-        id: ledComponent
-        Led {
-            property bool value
-            on: value === true
-        }
-    }
-
-    Component {
-        id: labelComponent
-        Label {
-            property var value
-            text: value
-        }
-    }
-    Component {
-        id: numberLabelComponent
-        Label {
-            property var value
-            text: Math.round(value * 100) / 100
-        }
-    }
-    Component {
-        id: textFieldComponent
-        TextField {
-            property var value
-            text: value
-        }
-    }
-
-    Component {
-        id: listComponent
-        Label {
-            property var value
-            text: value.join(", ")
-        }
-    }
-
-    Component {
-        id: checkBoxComponent
-        CheckBox {
-            property var value
-            checked: value === true
-            enabled: false
-        }
-    }
-
-    Component {
-        id: switchComponent
-        Switch {
-            property var value
-            signal changed(var value)
-            checked: value === true
-            onClicked: {
-                changed(checked)
-            }
-        }
-    }
-
-    Component {
-        id: spinBoxComponent
-        SpinBox {
-            width: 150
-            signal changed(var value)
-            stepSize: (to - from) / 10
-            editable: true
-            onValueModified: {
-                changed(value)
-            }
-        }
-    }
-
-    Component {
-        id: comboBoxComponent
-        ComboBox {
-            property var value
-            property var possibleValues
-
-            signal changed(var value)
-            model: possibleValues
-            onActivated: changed(model[index])
-        }
-    }
-
-    Component {
-        id: colorComponent
-        Item {
-            id: colorComponentItem
-            implicitWidth: app.iconSize * 2
-            implicitHeight: app.iconSize
-            property var value
-            signal changed(var value)
-
-            Pane {
-                anchors.fill: parent
-                topPadding: 0
-                bottomPadding: 0
-                leftPadding: 0
-                rightPadding: 0
-                Material.elevation: 1
-                contentItem: Rectangle {
-                    color: colorComponentItem.value
-
-                    MouseArea {
-                        anchors.fill: parent
-                        onClicked: {
-                            var pos = colorComponentItem.mapToItem(root, 0, colorComponentItem.height)
-                            print("opening", colorComponentItem.value)
-                            var colorPicker = colorPickerComponent.createObject(root, {preferredY: pos.y, colorValue: colorComponentItem.value })
-                            colorPicker.open()
-                        }
-                    }
-                }
-            }
-
-            Component {
-                id: colorPickerComponent
-                Dialog {
-                    id: colorPickerDialog
-                    modal: true
-                    x: (parent.width - width) / 2
-                    y: Math.min(preferredY, parent.height - height)
-                    width: parent.width - app.margins * 2
-                    height: 200
-                    padding: app.margins
-                    property var colorValue
-                    property int preferredY: 0
-                    contentItem: ColorPicker {
-                        color: colorPickerDialog.colorValue
-                        property var lastSentTime: new Date()
-                        onColorChanged: {
-                            var currentTime = new Date();
-                            if (pressed && currentTime - lastSentTime > 200) {
-                                colorComponentItem.changed(color);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    Component {
-        id: dateTimeComponent
-        Label {
-            property var value
-            text: Qt.formatDateTime(new Date(value * 1000), Qt.DefaultLocaleShortDate)
         }
     }
 }

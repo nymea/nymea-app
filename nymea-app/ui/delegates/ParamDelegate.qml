@@ -31,6 +31,7 @@ ItemDelegate {
                 id: loader
                 Layout.fillWidth: sourceComponent === textFieldComponent
                 sourceComponent: {
+                    print("loading paramdelegate:", root.writable, root.paramType.type)
                     if (!root.writable) {
                         return stringComponent;
                     }
@@ -39,7 +40,8 @@ ItemDelegate {
                     case "bool":
                         return boolComponent;
                     case "int":
-                        return spinnerComponent;
+                    case "double":
+                        return sliderComponent;
                     case "string":
                     case "qstring":
                         if (root.paramType.allowedValues.length > 0) {
@@ -104,9 +106,6 @@ ItemDelegate {
         id: sliderComponent
         RowLayout {
             spacing: app.margins
-            Label {
-                text: root.paramType.minValue
-            }
             Slider {
                 id: slider
                 Layout.fillWidth: true
@@ -114,12 +113,13 @@ ItemDelegate {
                 to: root.paramType.maxValue
                 value: root.param.value
                 stepSize: {
-                    switch (root.paramType.type.toLowerCase()) {
-                    case "int":
-                        return 1;
+                    var ret = 1
+                    for (var i = 0; i < decimals; i++) {
+                        ret /= 10;
                     }
-                    return 0.01;
+                    return ret;
                 }
+                property int decimals: root.paramType.type.toLocaleLowerCase() === "int" ? 0 : 1
 
                 onMoved: {
                     var newValue
@@ -134,7 +134,7 @@ ItemDelegate {
                 }
             }
             Label {
-                text: root.paramType.maxValue
+                text: root.param.value.toFixed(slider.decimals) + root.paramType.unitString
             }
         }
 

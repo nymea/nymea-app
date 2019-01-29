@@ -13,6 +13,13 @@ class PlatformHelper : public QObject
     Q_PROPERTY(QString machineHostname READ machineHostname CONSTANT)
 
 public:
+    enum HapticsFeedback {
+        HapticsFeedbackSelection,
+        HapticsFeedbackImpact,
+        HapticsFeedbackNotification
+    };
+    Q_ENUM(HapticsFeedback)
+
     explicit PlatformHelper(QObject *parent = nullptr);
     virtual ~PlatformHelper() = default;
 
@@ -23,6 +30,8 @@ public:
     virtual QString deviceSerial() const = 0;
     virtual QString deviceModel() const = 0;
     virtual QString deviceManufacturer() const = 0;
+
+    Q_INVOKABLE virtual void vibrate(HapticsFeedback feedbackType) = 0;
 
 signals:
     void permissionsRequestFinished();

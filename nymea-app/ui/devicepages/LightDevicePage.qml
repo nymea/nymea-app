@@ -33,44 +33,58 @@ DevicePageBase {
         columnSpacing: app.margins
         Layout.alignment: Qt.AlignCenter
 
-        Item {
-            Layout.preferredWidth: Math.max(app.iconSize * 4, parent.width / 5)
+        Dial {
+            Layout.minimumWidth: app.landscape ? parent.width / 3 :app.iconSize * 4
             Layout.preferredHeight: width
+            Layout.fillWidth: true
             Layout.topMargin: app.margins
             Layout.bottomMargin: app.landscape ? app.margins : 0
             Layout.alignment: Qt.AlignCenter
-            Layout.rowSpan: app.landscape ? 4 : 1
+            Layout.rowSpan: app.landscape ? 3 : 1
             Layout.fillHeight: true
-
-            AbstractButton {
-                height: Math.min(parent.height, parent.width)
-                width: height
-                anchors.centerIn: parent
-                Rectangle {
-                    anchors.fill: parent
-                    color: "white"
-                    border.color: root.powerState.value === true ? app.accentColor : bulbIcon.keyColor
-                    border.width: 4
-                    radius: width / 2
-                }
-
-                ColorIcon {
-                    id: bulbIcon
-                    anchors.fill: parent
-                    anchors.margins: app.margins * 1.5
-                    name: root.powerState.value === true ? "../images/light-on.svg" : "../images/light-off.svg"
-                    color: root.powerState.value === true ? app.accentColor : keyColor
-                }
-                onClicked: {
-                    var params = []
-                    var param = {}
-                    param["paramTypeId"] = root.powerActionType.paramTypes.get(0).id;
-                    param["value"] = !root.powerState.value;
-                    params.push(param)
-                    engine.deviceManager.executeAction(root.device.id, root.powerStateType.id, params);
-                }
-            }
+            device: root.device
+            stateType: root.brightnessStateType
+            showValueLabel: false
         }
+
+//        Item {
+//            Layout.preferredWidth: Math.max(app.iconSize * 4, parent.width / 5)
+//            Layout.preferredHeight: width
+//            Layout.topMargin: app.margins
+//            Layout.bottomMargin: app.landscape ? app.margins : 0
+//            Layout.alignment: Qt.AlignCenter
+//            Layout.rowSpan: app.landscape ? 4 : 1
+//            Layout.fillHeight: true
+
+//            AbstractButton {
+//                height: Math.min(parent.height, parent.width)
+//                width: height
+//                anchors.centerIn: parent
+//                Rectangle {
+//                    anchors.fill: parent
+//                    color: "white"
+//                    border.color: root.powerState.value === true ? app.accentColor : bulbIcon.keyColor
+//                    border.width: 4
+//                    radius: width / 2
+//                }
+
+//                ColorIcon {
+//                    id: bulbIcon
+//                    anchors.fill: parent
+//                    anchors.margins: app.margins * 1.5
+//                    name: root.powerState.value === true ? "../images/light-on.svg" : "../images/light-off.svg"
+//                    color: root.powerState.value === true ? app.accentColor : keyColor
+//                }
+//                onClicked: {
+//                    var params = []
+//                    var param = {}
+//                    param["paramTypeId"] = root.powerActionType.paramTypes.get(0).id;
+//                    param["value"] = !root.powerState.value;
+//                    params.push(param)
+//                    engine.deviceManager.executeAction(root.device.id, root.powerStateType.id, params);
+//                }
+//            }
+//        }
 
 
         RowLayout {
@@ -121,34 +135,34 @@ DevicePageBase {
             }
         }
 
-        Rectangle {
-            color: "blue"
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            Layout.minimumHeight: 20
-            Layout.preferredHeight: 20
-            visible: root.brightnessStateType
+//        Rectangle {
+//            color: "blue"
+//            Layout.fillWidth: true
+//            Layout.fillHeight: true
+//            Layout.minimumHeight: 20
+//            Layout.preferredHeight: 20
+//            visible: root.brightnessStateType
 
-            Pane {
-                anchors { left: parent.left; right: parent.right; verticalCenter: parent.verticalCenter }
-                height: parent.height
-                Material.elevation: 1
-                padding: 0
+//            Pane {
+//                anchors { left: parent.left; right: parent.right; verticalCenter: parent.verticalCenter }
+//                height: parent.height
+//                Material.elevation: 1
+//                padding: 0
 
-                BrightnessSlider {
-                    anchors.fill: parent
-                    brightness: root.brightnessState ? root.brightnessState.value : 0
-                    onMoved: {
-                        var params = []
-                        var param = {}
-                        param["paramTypeId"] = root.brightnessActionType.paramTypes.get(0).id;
-                        param["value"] = brightness;
-                        params.push(param)
-                        engine.deviceManager.executeAction(root.device.id, root.brightnessActionType.id, params);
-                    }
-                }
-            }
-        }
+//                BrightnessSlider {
+//                    anchors.fill: parent
+//                    brightness: root.brightnessState ? root.brightnessState.value : 0
+//                    onMoved: {
+//                        var params = []
+//                        var param = {}
+//                        param["paramTypeId"] = root.brightnessActionType.paramTypes.get(0).id;
+//                        param["value"] = brightness;
+//                        params.push(param)
+//                        engine.deviceManager.executeAction(root.device.id, root.brightnessActionType.id, params);
+//                    }
+//                }
+//            }
+//        }
 
 
         Rectangle {

@@ -169,5 +169,6 @@
         <file>ui/images/stock_video.svg</file>
         <file>ui/images/sensors/presence.svg</file>
         <file>ui/images/powersocket.svg</file>
+        <file>ui/images/dial.svg</file>
     </qresource>
 </RCC>

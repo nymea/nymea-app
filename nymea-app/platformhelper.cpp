@@ -5,3 +5,4 @@ PlatformHelper::PlatformHelper(QObject *parent) : QObject(parent)
 {
 
 }
+
