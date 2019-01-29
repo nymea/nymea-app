@@ -44,10 +44,10 @@ Item {
 
             property string deviceId: model.deviceId
             property string ruleId: model.ruleId
-            readonly property var device: engine.deviceManager.devices.getDevice(deviceId)
-            readonly property var deviceClass: device ? engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
-            readonly property var connectedState: deviceClass.interfaces.indexOf("connectable") >= 0 ? device.states.getState(deviceClass.stateTypes.findByName("connected").id) : null
-            readonly property var batteryCriticalState: deviceClass.interfaces.indexOf("battery") >= 0 ? device.states.getState(deviceClass.stateTypes.findByName("batteryCritical").id) : null
+            readonly property Device device: engine.deviceManager.devices.getDevice(deviceId)
+            readonly property DeviceClass deviceClass: device ? engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
+            readonly property State connectedState: deviceClass.interfaces.indexOf("connectable") >= 0 ? device.states.getState(deviceClass.stateTypes.findByName("connected").id) : null
+            readonly property State batteryCriticalState: deviceClass.interfaces.indexOf("battery") >= 0 ? device.states.getState(deviceClass.stateTypes.findByName("batteryCritical").id) : null
 
             onClicked: pageStack.push(Qt.resolvedUrl("../devicepages/" + app.interfaceListToDevicePage(deviceClass.interfaces)), {device: device})
 
@@ -60,14 +60,20 @@ Item {
                     if (delegateRoot.deviceClass.interfaces.indexOf("closable") >= 0) {
                         return closableComponent;
                     }
-                    if (delegateRoot.deviceClass.interfaces.indexOf("light") >= 0) {
+                    if (delegateRoot.deviceClass.interfaces.indexOf("power") >= 0) {
                         return lightsComponent;
-                    }
+                    }                    
                     if (delegateRoot.deviceClass.interfaces.indexOf("sensor") >= 0) {
                         return sensorsComponent;
                     }
                     if (delegateRoot.deviceClass.interfaces.indexOf("weather") >= 0) {
                         return sensorsComponent;
+                    }
+                    if (delegateRoot.deviceClass.interfaces.indexOf("smartmeter") >= 0) {
+                        return sensorsComponent;
+                    }
+                    if (delegateRoot.deviceClass.interfaces.indexOf("mediacontroller") >= 0) {
+                        return mediaComponent;
                     }
                 }
                 Binding { target: loader.item ? loader.item : null; property: "deviceClass"; value: delegateRoot.deviceClass }
@@ -210,8 +216,10 @@ Item {
                 padding: 0; topPadding: 0; bottomPadding: 0
 
                 contentItem: ColorIcon {
-                    name: powerState.value === true ? "../images/light-on.svg" : "../images/light-off.svg"
-                    color: app.accentColor
+                    name: deviceClass.interfaces.indexOf("light") >= 0
+                          ? (powerState.value === true ? "../images/light-on.svg" : "../images/light-off.svg")
+                          : app.interfacesToIcon(deviceClass.interfaces)
+                    color: powerState.value === true ? app.accentColor : keyColor
                 }
                 onClicked: {
                     var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
@@ -270,6 +278,19 @@ Item {
                 if (deviceClass.interfaces.indexOf("co2sensor") >= 0) {
                     tmp.push({iface: "co2sensor", state: "co2"});
                 }
+                if (deviceClass.interfaces.indexOf("smartmeterconsumer") >= 0) {
+                    tmp.push({iface: "smartmeterconsumer", state: "totalEnergyConsumed"});
+                }
+                if (deviceClass.interfaces.indexOf("smartmeterproducer") >= 0) {
+                    tmp.push({iface: "smartmeterproducer", state: "totalEnergyProduced"});
+                }
+                if (deviceClass.interfaces.indexOf("daylightsensor") >= 0) {
+                    tmp.push({iface: "daylightsensor", state: "daylight"});
+                }
+                if (deviceClass.interfaces.indexOf("presencesensor") >= 0) {
+                    tmp.push({iface: "presencesensor", state: "isPresent"});
+                }
+
                 if (deviceClass.interfaces.indexOf("weather") >= 0) {
                     tmp.push({iface: "temperaturesensor", state: "temperature"});
                     tmp.push({iface: "humiditysensor", state: "humidity"});
@@ -297,6 +318,7 @@ Item {
                 }
             }
 
+            Item { Layout.fillHeight: true; Layout.fillWidth: true }
             ColorIcon {
                 Layout.preferredWidth: app.iconSize
                 Layout.preferredHeight: width
@@ -305,24 +327,31 @@ Item {
                 name: app.interfaceToIcon(sensorsRoot.shownInterfaces[sensorsRoot.currentStateIndex].iface)
             }
 
+            Item { Layout.fillHeight: true; Layout.fillWidth: true }
             ColumnLayout {
                 Layout.fillWidth: true
                 spacing: 0
+                visible: sensorsRoot.currentStateType.type.toLowerCase() !== "bool"
 
                 Label {
                     Layout.fillWidth: true
                     horizontalAlignment: Text.AlignRight
                     text: sensorsRoot.currentStateType.unitString
                     font.pixelSize: app.smallFont
-                    color: app.accentColor
                 }
                 Label {
                     Layout.fillWidth: true
                     horizontalAlignment: Text.AlignRight
                     text: sensorsRoot.currentState.value// + " " + sensorsRoot.currentStateType.unitString
-                    color: app.accentColor
+                    elide: Text.ElideRight
                 }
             }
+            Led {
+                on: sensorsRoot.currentState.value === true
+                visible: sensorsRoot.currentStateType.type.toLowerCase() === "bool"
+            }
+
+            Item { Layout.fillHeight: true; Layout.fillWidth: true }
 
             ItemDelegate {
                 Layout.preferredWidth: app.iconSize
@@ -340,7 +369,6 @@ Item {
                     sensorsRoot.currentStateIndex = newIndex;
                 }
             }
-
         }
     }
 
@@ -400,6 +428,76 @@ Item {
                     engine.deviceManager.executeAction(device.id, actionType.id);
                 }
             }
+        }
+    }
+
+    Component {
+        id: mediaComponent
+        RowLayout {
+            id: mediaRoot
+
+            property Device device: null
+            property DeviceClass deviceClass: null
+
+            readonly property State playbackState: device.states.getState(deviceClass.stateTypes.findByName("playbackStatus").id)
+
+            function executeAction(actionName, params) {
+                var actionTypeId = deviceClass.actionTypes.findByName(actionName).id;
+                engine.deviceManager.executeAction(device.id, actionTypeId, params)
+            }
+            Item { Layout.fillWidth: true }
+
+            ProgressButton {
+                Layout.preferredHeight: app.iconSize * .9
+                Layout.preferredWidth: height
+                imageSource: "../images/media-skip-backward.svg"
+                longpressImageSource: "../images/media-seek-backward.svg"
+                repeat: true
+
+                onClicked: {
+                    mediaRoot.executeAction("skipBack")
+                }
+                onLongpressed: {
+                    mediaRoot.executeAction("fastRewind")
+                }
+            }
+            Item { Layout.fillWidth: true }
+
+            ProgressButton {
+                Layout.preferredHeight: app.iconSize * 1.3
+                Layout.preferredWidth: height
+                imageSource: mediaRoot.playbackState.value === "Playing" ? "../images/media-playback-pause.svg" : "../images/media-playback-start.svg"
+                longpressImageSource: "../images/media-playback-stop.svg"
+                longpressEnabled: mediaRoot.playbackState.value !== "Stopped"
+
+                onClicked: {
+                    if (mediaRoot.playbackState.value === "Playing") {
+                        mediaRoot.executeAction("pause")
+                    } else {
+                        mediaRoot.executeAction("play")
+                    }
+                }
+
+                onLongpressed: {
+                    mediaRoot.executeAction("stop")
+                }
+            }
+
+            Item { Layout.fillWidth: true }
+            ProgressButton {
+                Layout.preferredHeight: app.iconSize * .9
+                Layout.preferredWidth: height
+                imageSource: "../images/media-skip-forward.svg"
+                longpressImageSource: "../images/media-seek-forward.svg"
+                repeat: true
+                onClicked: {
+                    mediaRoot.executeAction("skipNext")
+                }
+                onLongpressed: {
+                    mediaRoot.executeAction("fastForward")
+                }
+            }
+            Item { Layout.fillWidth: true }
         }
     }
 }
