@@ -7,8 +7,8 @@ import "../delegates"
 
 Page {
     id: root
-    property var device: null
-    readonly property var deviceClass: engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId)
+    property Device device: null
+    readonly property DeviceClass deviceClass: device ? device.deviceClass : null
 
     header: GuhHeader {
         text: root.device.name
@@ -35,6 +35,15 @@ Page {
             onTriggered: {
                 var popup = renameDialog.createObject(root);
                 popup.open();
+            }
+        }
+        IconMenuItem {
+            iconSource: "../images/configure.svg"
+            text: qsTr("Reconfigure Thing")
+            visible: root.device.deviceClass.paramTypes.count > 0
+            onTriggered: {
+                var configPage = pageStack.push(Qt.resolvedUrl("SetupWizard.qml"), {device: root.device})
+                configPage.done.connect(function() {pageStack.pop(root)})
             }
         }
     }
@@ -149,4 +158,5 @@ Page {
 
         }
     }
+
 }

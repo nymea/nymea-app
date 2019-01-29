@@ -9,19 +9,22 @@
 class DeviceDescriptor: public QObject {
     Q_OBJECT
     Q_PROPERTY(QUuid id READ id CONSTANT)
+    Q_PROPERTY(QUuid deviceId READ deviceId CONSTANT)
     Q_PROPERTY(QString name READ name CONSTANT)
     Q_PROPERTY(QString description READ description CONSTANT)
     Q_PROPERTY(Params* params READ params CONSTANT)
 public:
-    DeviceDescriptor(const QUuid &id, const QString &name, const QString &description, QObject *parent = nullptr);
+    DeviceDescriptor(const QUuid &id, const QUuid &deviceId, const QString &name, const QString &description, QObject *parent = nullptr);
 
     QUuid id() const;
+    QUuid deviceId() const;
     QString name() const;
     QString description() const;
     Params* params() const;
 
 private:
     QUuid m_id;
+    QUuid m_deviceId;
     QString m_name;
     QString m_description;
     Params *m_params = nullptr;
@@ -36,6 +39,7 @@ class DeviceDiscovery : public QAbstractListModel
 public:
     enum Roles {
         RoleId,
+        RoleDeviceId,
         RoleName,
         RoleDescription
     };
@@ -70,6 +74,49 @@ private:
 
     bool contains(const QUuid &deviceDescriptorId) const;
     QList<DeviceDescriptor*> m_foundDevices;
+};
+
+class DeviceDiscoveryProxy: public QSortFilterProxyModel
+{
+    Q_OBJECT
+    Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
+    Q_PROPERTY(DeviceDiscovery* deviceDiscovery READ deviceDiscovery WRITE setDeviceDiscovery NOTIFY deviceDiscoveryChanged)
+    Q_PROPERTY(bool showAlreadyAdded READ showAlreadyAdded WRITE setShowAlreadyAdded NOTIFY showAlreadyAddedChanged)
+    Q_PROPERTY(bool showNew READ showNew WRITE setShowNew NOTIFY showNewChanged)
+    Q_PROPERTY(QUuid filterDeviceId READ filterDeviceId WRITE setFilterDeviceId NOTIFY filterDeviceIdChanged)
+
+public:
+    DeviceDiscoveryProxy(QObject *parent = nullptr);
+
+    DeviceDiscovery* deviceDiscovery() const;
+    void setDeviceDiscovery(DeviceDiscovery* deviceDiscovery);
+
+    bool showAlreadyAdded() const;
+    void setShowAlreadyAdded(bool showAlreadyAdded);
+
+    bool showNew() const;
+    void setShowNew(bool showNew);
+
+    QUuid filterDeviceId() const;
+    void setFilterDeviceId(const QUuid &filterDeviceId);
+
+    Q_INVOKABLE DeviceDescriptor* get(int index) const;
+
+signals:
+    void countChanged();
+    void deviceDiscoveryChanged();
+    void showAlreadyAddedChanged();
+    void showNewChanged();
+    void filterDeviceIdChanged();
+
+protected:
+    bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override;
+
+private:
+    DeviceDiscovery* m_deviceDiscovery = nullptr;
+    bool m_showAlreadyAdded = false;
+    bool m_showNew = true;
+    QUuid m_filterDeviceId;
 };
 
 #endif // DEVICEDISCOVERY_H

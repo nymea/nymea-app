@@ -1,7 +1,8 @@
 import QtQuick 2.9
-import QtQuick.Controls 2.1
+import QtQuick.Controls 2.2
 
 ListView {
+    id: root
 
     ScrollBar.vertical: ScrollBar {}
 
@@ -12,4 +13,5 @@ ListView {
         text: app.interfaceToString(section)
     }
 
+    SwipeDelegateGroup {}
 }

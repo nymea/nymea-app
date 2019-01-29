@@ -302,6 +302,12 @@ void DeviceManager::executeActionResponse(const QVariantMap &params)
     emit executeActionReply(params);
 }
 
+void DeviceManager::reconfigureDeviceResponse(const QVariantMap &params)
+{
+    qDebug() << "Reconfigure device response" << params;
+    emit reconfigureDeviceReply(params.value("params").toMap());
+}
+
 void DeviceManager::savePluginConfig(const QUuid &pluginId)
 {
     Plugin *p = m_plugins->getPlugin(pluginId);
@@ -367,6 +373,22 @@ void DeviceManager::editDevice(const QUuid &deviceId, const QString &name)
     params.insert("deviceId", deviceId.toString());
     params.insert("name", name);
     m_jsonClient->sendCommand("Devices.EditDevice", params, this, "editDeviceResponse");
+}
+
+void DeviceManager::reconfigureDevice(const QUuid &deviceId, const QVariantList &deviceParams)
+{
+    QVariantMap params;
+    params.insert("deviceId", deviceId.toString());
+    params.insert("deviceParams", deviceParams);
+    m_jsonClient->sendCommand("Devices.ReconfigureDevice", params, this, "reconfigureDeviceResponse");
+}
+
+void DeviceManager::reconfigureDiscoveredDevice(const QUuid &deviceId, const QUuid &deviceDescriptorId)
+{
+    QVariantMap params;
+    params.insert("deviceId", deviceId.toString());
+    params.insert("deviceDescriptorId", deviceDescriptorId);
+    m_jsonClient->sendCommand("Devices.ReconfigureDevice", params, this, "reconfigureDeviceResponse");
 }
 
 int DeviceManager::executeAction(const QUuid &deviceId, const QUuid &actionTypeId, const QVariantList &params)
