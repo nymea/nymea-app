@@ -11,6 +11,8 @@ ApplicationWindow {
     visible: true
     width: 360
     height: 580
+    minimumWidth: 360
+    minimumHeight: 480
     visibility: ApplicationWindow.AutomaticVisibility
     font: Qt.application.font
 
