@@ -101,6 +101,7 @@ ColumnLayout {
         Layout.fillWidth: true
         Layout.fillHeight: true
 
+
         Item {
             id: innerDial
 
@@ -109,16 +110,6 @@ ColumnLayout {
             anchors.centerIn: parent
             rotation: dial.startAngle
 
-            Rectangle {
-                height: parent.height * .8
-                width: height
-                anchors.centerIn: parent
-                radius: height / 2
-                border.color: app.foregroundColor
-                opacity: .3
-                border.width: width * .025
-                color: "transparent"
-            }
 
             Rectangle {
                 anchors.fill: rotationButton
@@ -143,14 +134,18 @@ ColumnLayout {
                 Item {
                     id: handle
                     anchors.horizontalCenter: parent.horizontalCenter
-                    height: parent.height * .3
+                    height: parent.height * .35
                     width: height
 
+//                    Rectangle { anchors.fill: parent; color: "red"; opacity: .3}
+
                     Rectangle {
-                        height: parent.height * .6
+                        height: parent.height * .5
                         width: innerDial.width * 0.02
                         radius: width / 2
-                        anchors.centerIn: parent
+                        anchors.top: parent.top
+                        anchors.topMargin: height * .25
+                        anchors.horizontalCenter: parent.horizontalCenter
                         color: d.poweredColor
                         Behavior on color { ColorAnimation { duration: 200 } }
                     }
@@ -179,6 +174,18 @@ ColumnLayout {
             }
         }
 
+        Rectangle {
+            id: buttonBorder
+            height: innerDial.height * .8
+            width: height
+            anchors.centerIn: parent
+            radius: height / 2
+            border.color: app.foregroundColor
+            opacity: .3
+            border.width: width * .025
+            color: "transparent"
+        }
+
         Label {
             anchors { left: innerDial.left; bottom: innerDial.bottom; bottomMargin: innerDial.height * .1 }
             text: "MIN"
@@ -205,11 +212,15 @@ ColumnLayout {
 
         MouseArea {
             id: rotateMouseArea
-            anchors.fill: innerDial
+            anchors.fill: buttonBorder
             onPressedChanged: PlatformHelper.vibrate(PlatformHelper.HapticsFeedbackImpact)
+
+//            Rectangle { anchors.fill: parent; color: "blue"; opacity: .3}
 
             property bool grabbed: false
             onPressed: {
+                startX = mouseX
+                startY = mouseY
                 var mappedToHandle = mapToItem(handle, mouseX, mouseY);
                 if (mappedToHandle.x >= 0
                         && mappedToHandle.x < handle.width
@@ -239,7 +250,13 @@ ColumnLayout {
             readonly property int decimals: dial.stateType.type.toLowerCase() === "int" ? 0 : 1
             property var currentValue: dial.deviceState.value.toFixed(decimals)
             property date lastVibration: new Date()
+            property int startX
+            property int startY
             onPositionChanged: {
+                if (Math.abs(mouseX - startX) > 10 || Math.abs(mouseY - startY) > 10) {
+                    dragging = true;
+                }
+
                 if (!grabbed) {
                     return;
                 }
@@ -257,10 +274,6 @@ ColumnLayout {
                 newValue = newValue.toFixed(decimals)
 
                 if (newValue != currentValue) {
-                    if (!dragging) {
-                        dragging = true;
-                    }
-
                     currentValue = newValue;
                     if (newValue <= dial.stateType.minValue || newValue >= dial.stateType.maxValue) {
                         PlatformHelper.vibrate(PlatformHelper.HapticsFeedbackImpact)
@@ -291,6 +304,4 @@ ColumnLayout {
             }
         }
     }
-
-
 }
