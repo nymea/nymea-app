@@ -12,6 +12,7 @@ DevicePageBase {
     showDetailsButton: false
 
     function executeAction(actionTypeId, params) {
+        print("executing", actionTypeId)
         return engine.deviceManager.executeAction(root.device.id, actionTypeId, params)
     }
 
@@ -140,7 +141,7 @@ DevicePageBase {
                 switch (stateDelegate.stateType.type.toLowerCase()) {
                 case "string":
                     if (isWritable) {
-                        if (stateDelegate.stateType.allowedValues !== undefined) {
+                        if (stateDelegate.stateType.allowedValues.length > 0) {
                             sourceComp = "ComboBoxDelegate.qml"
                         } else {
                             sourceComp = "TextFieldDelegate.qml";
@@ -160,12 +161,16 @@ DevicePageBase {
                     }
                     break;
                 case "int":
+                case "uint":
                 case "double":
                     if (stateDelegate.stateType.unit === Types.UnitUnixTime) {
                         sourceComp = "DateTimeDelegate.qml";
                     } else if (isWritable) {
-                        sourceComp = "SliderDelegate.qml";
-//                        sourceComp = "SpinBoxDelegate.qml";
+                        if (stateDelegate.stateType.minValue !== undefined && stateDelegate.stateType.maxValue !== undefined) {
+                            sourceComp = "SliderDelegate.qml";
+                        } else {
+                            sourceComp = "SpinBoxDelegate.qml";
+                        }
                     } else {
                         sourceComp = "NumberLabelDelegate.qml";
                     }
@@ -179,12 +184,21 @@ DevicePageBase {
                     print("GenericDevicePage: unhandled entry", stateDelegate.stateType.displayName)
                 }
 
+                var minValue = stateDelegate.stateType.minValue
+                        ? stateDelegate.stateType.minValue
+                        : stateDelegate.stateType.type.toLowerCase() === "uint"
+                          ? 0
+                          : -2000000000; // As per QML spec
+                var maxValue = stateDelegate.stateType.maxValue
+                        ? stateDelegate.stateType.maxValue
+                        : 2000000000;
                 stateDelegateLoader.setSource("../delegates/statedelegates/" + sourceComp,
                                               {
 //                                                  value: root.device.states.getState(stateType.id).value,
                                                   possibleValues: stateDelegate.stateType.allowedValues,
-                                                  from: stateDelegate.stateType.minValue,
-                                                  to: stateDelegate.stateType.maxValue,
+                                                  from: minValue,
+                                                  to: maxValue,
+                                                  writable: isWritable,
                                                   stateType: stateDelegate.stateType
                                               })
             }
