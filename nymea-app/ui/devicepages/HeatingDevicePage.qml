@@ -40,7 +40,7 @@ DevicePageBase {
         }
 
         Rectangle {
-            Layout.fillWidth: true
+            Layout.preferredWidth: app.landscape ? parent.width / 2 : parent.width
             Layout.preferredHeight: 50
             visible: root.boostStateType
             border.color: boostMouseArea.pressed || root.boostStateType && root.boostState.value === true ? app.accentColor : app.foregroundColor
