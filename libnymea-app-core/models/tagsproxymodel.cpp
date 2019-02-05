@@ -21,6 +21,7 @@ void TagsProxyModel::setTags(Tags *tags)
         setSortRole(Tags::RoleValue);
         sort(0);
         emit tagsChanged();
+        emit countChanged();
     }
 }
 
