@@ -8,4 +8,9 @@ import "../../components"
 TextField {
     property var value
     text: value
+
+    signal changed(string value)
+    onEditingFinished: {
+        changed(text)
+    }
 }

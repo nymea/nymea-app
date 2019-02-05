@@ -8,7 +8,7 @@ import "../../components"
 SpinBox {
     width: 150
     signal changed(var value)
-    stepSize: (to - from) / 10
+    stepSize: Math.min(10, (to - from) / 10)
     editable: true
     onValueModified: {
         changed(value)
