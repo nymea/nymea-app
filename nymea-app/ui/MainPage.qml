@@ -94,15 +94,6 @@ Page {
                     root.currentViewIndex = currentIndex
                 }
 
-                opacity: 0
-                Behavior on opacity { NumberAnimation { duration: 300 } }
-                Connections {
-                    target: engine.deviceManager
-                    onFetchingDataChanged: {
-                        swipeView.opacity = engine.deviceManager.fetchingData ? 0 : 1
-                    }
-                }
-
                 Component {
                     id: favoritesViewComponent
                     FavoritesView {
@@ -221,15 +212,6 @@ Page {
             tabEntryComponent.createObject(tabBar, {text: qsTr("Things"), iconSource: "../images/share.svg", pageIndex: pi++})
             tabEntryComponent.createObject(tabBar, {text: qsTr("Scenes"), iconSource: "../images/slideshow.svg", pageIndex: pi++})
             root.tabsReady = true
-        }
-
-        opacity: 0
-        Behavior on opacity { NumberAnimation { duration: 300 } }
-        Connections {
-            target: engine.deviceManager
-            onFetchingDataChanged: {
-                tabBar.opacity = engine.deviceManager.fetchingData ? 0 : 1
-            }
         }
 
         Component {
