@@ -194,6 +194,7 @@ MainPageTile {
                             default:
                                 console.warn("DevicesPageDelegate, inlineButtonControl image: Unhandled interface", model.name)
                             }
+                            return ""
                         }
                     }
 
@@ -216,7 +217,7 @@ MainPageTile {
                                 var actionType = deviceClass.actionTypes.findByName("open");
                                 engine.deviceManager.executeAction(device.id, actionType.id)
                             }
-
+                            break;
                         default:
                             console.warn("DevicesPageDelegate, inlineButtonControl clicked: Unhandled interface", model.name)
                         }
@@ -248,6 +249,7 @@ MainPageTile {
                             default:
                                 console.warn("DevicesPageDelegate, inlineButtonControl image: Unhandled interface", model.name)
                             }
+                            return "";
                         }
                     }
 
@@ -433,6 +435,8 @@ MainPageTile {
                 ListElement { ifaceName: "smartmeterconsumer"; stateName: "totalEnergyConsumed" }
                 ListElement { ifaceName: "smartmeterproducer"; stateName: "totalEnergyProduced" }
                 ListElement { ifaceName: "thermostat"; stateName: "targetTemperature" }
+                ListElement { ifaceName: "heating"; stateName: "power" }
+                ListElement { ifaceName: "extendedHeating"; stateName: "percentage" }
             }
             function findSensors(deviceClass) {
                 var ret = []
@@ -444,7 +448,9 @@ MainPageTile {
                 return ret;
             }
 
-            property StateType shownStateType: deviceClass.stateTypes.findByName(shownSensors[currentSensor].stateName)
+            property StateType shownStateType: shownSensors.length > currentSensor && currentSensor >= 0
+                                               ? deviceClass.stateTypes.findByName(shownSensors[currentSensor].stateName)
+                                               : null
 
             function nextSensor() {
                 var newSensorIndex = sensorsRoot.currentSensor + 1;
@@ -481,8 +487,8 @@ MainPageTile {
                 ColorIcon {
                     Layout.preferredHeight: app.iconSize
                     Layout.preferredWidth: app.iconSize
-                    name: app.interfaceToIcon(sensorsRoot.shownSensors[sensorsRoot.currentSensor].ifaceName)
-                    color: app.interfaceToColor(sensorsRoot.shownSensors[sensorsRoot.currentSensor].ifaceName)
+                    name: sensorsRoot.currentSensor >= 0 && sensorsRoot.shownSensors.length > sensorsRoot.currentSensor ? app.interfaceToIcon(sensorsRoot.shownSensors[sensorsRoot.currentSensor].ifaceName) : ""
+                    color: sensorsRoot.currentSensor >= 0 && sensorsRoot.shownSensors.length > sensorsRoot.currentSensor ? app.interfaceToColor(sensorsRoot.shownSensors[sensorsRoot.currentSensor].ifaceName) : keyColor
                 }
 
                 ColumnLayout {
@@ -499,14 +505,14 @@ MainPageTile {
                               : ""
     //                    font.pixelSize: app.smallFont
                         Layout.fillWidth: true
-                        visible: sensorsRoot.shownStateType.type.toLowerCase() !== "bool"
+                        visible: sensorsRoot.shownStateType && sensorsRoot.shownStateType.type.toLowerCase() !== "bool"
                         elide: Text.ElideRight
                     }
                     Led {
                         Layout.preferredHeight: app.iconSize * .5
                         Layout.preferredWidth: height
-                        on: sensorsRoot.device.stateValue(sensorsRoot.shownStateType.id) === true
-                        visible: sensorsRoot.shownStateType.type.toLowerCase() === "bool"
+                        on: sensorsRoot.shownStateType && sensorsRoot.device.stateValue(sensorsRoot.shownStateType.id) === true
+                        visible: sensorsRoot.shownStateType && sensorsRoot.shownStateType.type.toLowerCase() === "bool"
                     }
                 }
             }
