@@ -25,9 +25,9 @@
 #include <QXmlStreamReader>
 #include <QNetworkInterface>
 
-UpnpDiscovery::UpnpDiscovery(DiscoveryModel *discoveryModel, QObject *parent) :
+UpnpDiscovery::UpnpDiscovery(NymeaHosts *nymeaHosts, QObject *parent) :
     QObject(parent),
-    m_discoveryModel(discoveryModel)
+    m_nymeaHosts(nymeaHosts)
 {
     m_networkAccessManager = new QNetworkAccessManager(this);
     connect(m_networkAccessManager, &QNetworkAccessManager::finished, this, &UpnpDiscovery::networkReplyFinished);
@@ -240,12 +240,12 @@ void UpnpDiscovery::networkReplyFinished(QNetworkReply *reply)
 
 //    qDebug() << "discovered device" << uuid << name << discoveredAddress << version << connections << data;
 
-    DiscoveryDevice* device = m_discoveryModel->find(uuid);
+    NymeaHost* device = m_nymeaHosts->find(uuid);
     if (!device) {
-        device = new DiscoveryDevice(m_discoveryModel);
+        device = new NymeaHost(m_nymeaHosts);
         device->setUuid(uuid);
         qDebug() << "UPnP: Adding new host to model";
-        m_discoveryModel->addDevice(device);
+        m_nymeaHosts->addHost(device);
     }
     device->setName(name);
     device->setVersion(version);

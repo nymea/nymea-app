@@ -52,7 +52,7 @@ Page {
     }
 
     Connections {
-        target: root.nymeaDiscovery.discoveryModel
+        target: root.nymeadiscovery.nymeaHosts
         onCountChanged: updateConnectButton();
     }
 
@@ -63,14 +63,14 @@ Page {
         }
 
         // FIXME: We should rather look for the UUID here, but nymea-networkmanager doesn't support getting us the nymea uuid (yet)
-        for (var i = 0; i < root.nymeaDiscovery.discoveryModel.count; i++) {
-            for (var j = 0; j < root.nymeaDiscovery.discoveryModel.get(i).connections.count; j++) {
-                if (root.nymeaDiscovery.discoveryModel.get(i).connections.get(j).url.toString().indexOf(root.networkManagerController.manager.currentConnection.hostAddress) >= 0) {
-                    connectButton.url = root.nymeaDiscovery.discoveryModel.get(i).connections.get(j).url
+        for (var i = 0; i < root.nymeadiscovery.nymeaHosts.count; i++) {
+            for (var j = 0; j < root.nymeadiscovery.nymeaHosts.get(i).connections.count; j++) {
+                if (root.nymeadiscovery.nymeaHosts.get(i).connections.get(j).url.toString().indexOf(root.networkManagerController.manager.currentConnection.hostAddress) >= 0) {
+                    connectButton.url = root.nymeadiscovery.nymeaHosts.get(i).connections.get(j).url
                     return;
                 }
             }
-            root.nymeaDiscovery.discoveryModel.get(i).connections.countChanged.connect(function() {
+            root.nymeadiscovery.nymeaHosts.get(i).connections.countChanged.connect(function() {
                 updateConnectButton();
             })
         }

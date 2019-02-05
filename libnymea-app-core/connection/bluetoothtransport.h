@@ -24,6 +24,7 @@
 #define BLUETOOTHTRANSPORT_H
 
 #include <QObject>
+#include <QUrl>
 #include <QBluetoothSocket>
 
 #include "nymeatransportinterface.h"
@@ -42,11 +43,13 @@ public:
     explicit BluetoothTransport(QObject *parent = nullptr);
 
     bool connect(const QUrl &url) override;
+    QUrl url() const override;
     void disconnect() override;
     ConnectionState connectionState() const override;
     void sendData(const QByteArray &data) override;
 
 private:
+    QUrl m_url;
     QBluetoothSocket *m_socket = nullptr;
     QBluetoothServiceInfo m_service;
 

@@ -2,14 +2,14 @@
 #define LIBNYMEAAPPCORE_H
 
 #include "engine.h"
+#include "connection/nymeahosts.h"
+#include "connection/nymeahost.h"
+#include "connection/discovery/nymeadiscovery.h"
 #include "vendorsproxy.h"
 #include "deviceclassesproxy.h"
 #include "devicesproxy.h"
 #include "pluginsproxy.h"
 #include "devicediscovery.h"
-#include "discovery/nymeadiscovery.h"
-#include "discovery/discoverymodel.h"
-#include "discovery/discoverydevice.h"
 #include "interfacesmodel.h"
 #include "rulemanager.h"
 #include "models/rulesfiltermodel.h"
@@ -159,9 +159,10 @@ void registerQmlTypes() {
     qmlRegisterUncreatableType<MqttPolicies>(uri, 1, 0, "MqttPolicies", "Get it from NymeaConfiguration");
 
     qmlRegisterType<NymeaDiscovery>(uri, 1, 0, "NymeaDiscovery");
-    qmlRegisterUncreatableType<DiscoveryModel>(uri, 1, 0, "DiscoveryModel", "Get it from NymeaDiscovery");
-    qmlRegisterUncreatableType<DiscoveryDevice>(uri, 1, 0, "DiscoveryDevice", "Get it from DiscoveryModel");
-    qmlRegisterUncreatableType<Connection>(uri, 1, 0, "Connection", "Get it from DiscoveryDevice");
+    qmlRegisterUncreatableType<NymeaHosts>(uri, 1, 0, "NymeaHosts", "Get it from NymeaDiscovery");
+    qmlRegisterType<NymeaHostsFilterModel>(uri, 1, 0, "NymeaHostsFilterModel");
+    qmlRegisterUncreatableType<NymeaHost>(uri, 1, 0, "NymeaHost", "Get it from NymeaHosts");
+    qmlRegisterUncreatableType<Connection>(uri, 1, 0, "Connection", "Get it from NymeaHost");
 
     qmlRegisterType<LogsModel>(uri, 1, 0, "LogsModel");
     qmlRegisterType<LogsModelNg>(uri, 1, 0, "LogsModelNg");

@@ -18,37 +18,52 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef NYMEAHOST_H
-#define NYMEAHOST_H
+#ifndef UPNPDISCOVERY_H
+#define UPNPDISCOVERY_H
 
-#include <QUuid>
-#include <QObject>
+#include <QUdpSocket>
 #include <QHostAddress>
+#include <QNetworkReply>
+#include <QNetworkAccessManager>
+#include <QTimer>
 
-class NymeaHost : public QObject
+#include "../nymeahost.h"
+#include "../nymeahosts.h"
+
+class UpnpDiscovery : public QObject
 {
     Q_OBJECT
 public:
-    explicit NymeaHost(QObject *parent = 0);
+    explicit UpnpDiscovery(NymeaHosts *nymeaHosts, QObject *parent = nullptr);
 
-    QString name() const;
-    void setName(const QString &name);
+    bool discovering() const;
 
-    QString webSocketUrl() const;
-    void setWebSocketUrl(const QString &webSocketUrl);
+    bool available() const;
 
-    QString hostAddress() const;
-    void setHostAddress(const QString &hostAddress);
-
-    QUuid uuid() const;
-    void setUuid(const QUuid &uuid);
+    Q_INVOKABLE void discover();
+    Q_INVOKABLE void stopDiscovery();
 
 private:
-    QString m_name;
-    QString m_webSocketUrl;
-    QString m_hostAddress;
-    QUuid m_uuid;
+    QList<QUdpSocket*> m_sockets;
+    QNetworkAccessManager *m_networkAccessManager;
 
+    QTimer m_repeatTimer;
+
+    NymeaHosts *m_nymeaHosts;
+
+    QHash<QNetworkReply *, QHostAddress> m_runningReplies;
+    QList<QUrl> m_foundDevices;
+
+signals:
+    void discoveringChanged();
+    void availableChanged();
+    void nymeaHostsChanged();
+
+private slots:
+    void writeDiscoveryPacket();
+    void error(QAbstractSocket::SocketError error);
+    void readData();
+    void networkReplyFinished(QNetworkReply *reply);
 };
 
-#endif // NYMEAHOST_H
+#endif // UPNPDISCOVERY_H

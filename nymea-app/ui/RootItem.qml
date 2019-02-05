@@ -5,6 +5,7 @@ import QtQuick.Layouts 1.3
 import Qt.labs.settings 1.0
 import Nymea 1.0
 import "components"
+import "connection"
 
 Item {
     id: root
@@ -74,7 +75,7 @@ Item {
                     height: swipeView.height
                     width: swipeView.width
                     objectName: "pageStack"
-                    initialItem: Page {}
+                    initialItem: ConnectPage {}
 
                     property var tabSettings: Settings {
                         category: "tabSettings" + index
@@ -88,7 +89,7 @@ Item {
                     readonly property Engine engine: engineObject
                     readonly property Engine _engine: engineObject // In case a child cannot use "engine"
                     property int connectionTabIndex: index
-                    onConnectionTabIndexChanged: tabSettings.lastConnectedHost = engine.connection.url
+//                    onConnectionTabIndexChanged: tabSettings.lastConnectedHost = engine.connection.url
 
                     Binding {
                         target: AWSClient
@@ -97,20 +98,26 @@ Item {
                     }
 
                     Component.onCompleted: {
-                        pageStack.push(Qt.resolvedUrl("connection/ConnectPage.qml"), StackView.Immediate)
-                        setupPushNotifications();
+//                        pageStack.push(Qt.resolvedUrl("connection/ConnectPage.qml"), StackView.Immediate)
+//                        setupPushNotifications();
                     }
 
                     function init() {
-                        print("calling init. Auth required:", engine.jsonRpcClient.authenticationRequired, "initial setup required:", engine.jsonRpcClient.initialSetupRequired, "jsonrpc connected:", engine.jsonRpcClient.connected)
+                        print("calling init. Auth required:", engine.jsonRpcClient.authenticationRequired, "initial setup required:", engine.jsonRpcClient.initialSetupRequired, "jsonrpc connected:", engine.jsonRpcClient.connected, "Current host:", engine.connection.currentHost)
                         pageStack.clear()
-                        if (!engine.connection.connected) {
+                        if (!engine.connection.currentHost) {
                             pageStack.push(Qt.resolvedUrl("connection/ConnectPage.qml"))
+                            PlatformHelper.hideSplashScreen();
+                            return;
+                        }
+                        if (engine.jsonRpcClient.connected) {
+                            pageStack.push(Qt.resolvedUrl("MainPage.qml"))
                             PlatformHelper.hideSplashScreen();
                             return;
                         }
 
                         if (engine.jsonRpcClient.authenticationRequired || engine.jsonRpcClient.initialSetupRequired) {
+                            PlatformHelper.hideSplashScreen();
                             if (engine.jsonRpcClient.pushButtonAuthAvailable) {
                                 print("opening push button auth")
                                 var page = pageStack.push(Qt.resolvedUrl("PushButtonAuthPage.qml"))
@@ -127,10 +134,8 @@ Item {
                                     init();
                                 })
                             }
-                        } else {
-                            pageStack.push(Qt.resolvedUrl("MainPage.qml"))
                         }
-                        PlatformHelper.hideSplashScreen();
+                        pageStack.push(Qt.resolvedUrl("connection/ConnectingPage.qml"))
                     }
 
                     function handleCloseEvent(close) {
@@ -170,10 +175,18 @@ Item {
                     }
 
                     Connections {
+                        target: engine.connection
+                        onCurrentHostChanged: {
+                            init();
+                        }
+                    }
+
+                    Connections {
                         target: engine.jsonRpcClient
                         onConnectedChanged: {
                             print("json client connected changed", engine.jsonRpcClient.connected)
                             if (engine.jsonRpcClient.connected) {
+                                discovery.cacheHost(engine.connection.currentHost)
                                 tabSettings.lastConnectedHost = engine.jsonRpcClient.serverUuid
                             }
                             init();

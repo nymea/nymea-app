@@ -18,32 +18,41 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include "discoverydevice.h"
+#include "nymeahost.h"
 
 #include <QUrl>
 
-DiscoveryDevice::DiscoveryDevice(QObject *parent):
+NymeaHost::NymeaHost(QObject *parent):
     QObject(parent),
     m_connections(new Connections(this))
 {
+    connect(m_connections, &Connections::dataChanged, this, [this](const QModelIndex &, const QModelIndex &, const QVector<int>){
+        emit connectionChanged();
+    });
+    connect(m_connections, &Connections::connectionAdded, this, [this](Connection*){
+        emit connectionChanged();
+    });
+    connect(m_connections, &Connections::connectionRemoved, this, [this](Connection*){
+        emit connectionChanged();
+    });
 }
 
-QUuid DiscoveryDevice::uuid() const
+QUuid NymeaHost::uuid() const
 {
     return m_uuid;
 }
 
-void DiscoveryDevice::setUuid(const QUuid &uuid)
+void NymeaHost::setUuid(const QUuid &uuid)
 {
     m_uuid = uuid;
 }
 
-QString DiscoveryDevice::name() const
+QString NymeaHost::name() const
 {
     return m_name;
 }
 
-void DiscoveryDevice::setName(const QString &name)
+void NymeaHost::setName(const QString &name)
 {
     if (m_name != name) {
         m_name = name;
@@ -51,12 +60,12 @@ void DiscoveryDevice::setName(const QString &name)
     }
 }
 
-QString DiscoveryDevice::version() const
+QString NymeaHost::version() const
 {
     return m_version;
 }
 
-void DiscoveryDevice::setVersion(const QString &version)
+void NymeaHost::setVersion(const QString &version)
 {
     if (m_version != version) {
         m_version = version;
@@ -64,7 +73,7 @@ void DiscoveryDevice::setVersion(const QString &version)
     }
 }
 
-Connections* DiscoveryDevice::connections() const
+Connections* NymeaHost::connections() const
 {
     return m_connections;
 }
@@ -159,40 +168,21 @@ Connection* Connections::get(int index) const
     return nullptr;
 }
 
-Connection* Connections::bestMatch() const
+Connection *Connections::bestMatch(Connection::BearerTypes bearerTypes) const
 {
-    QList<Connection::BearerType> bearerPreference = {Connection::BearerTypeEthernet, Connection::BearerTypeWifi, Connection::BearerTypeCloud, Connection::BearerTypeBluetooth, Connection::BearerTypeUnknown};
+    QList<Connection::BearerType> bearerPreference = {Connection::BearerTypeEthernet, Connection::BearerTypeWifi, Connection::BearerTypeCloud, Connection::BearerTypeBluetooth, Connection::BearerTypeNone};
     Connection *best = nullptr;
+//    qDebug() << "Bestmatch" << m_connections.count();
     foreach (Connection *c, m_connections) {
+//        qDebug() << "have connection:" << bearerTypes << c->url() << bearerTypes.testFlag(c->bearerType());
+        if (!bearerTypes.testFlag(c->bearerType())) {
+            continue;
+        }
         if (!best) {
             best = c;
             continue;
         }
-        uint oldBearerPriority = static_cast<uint>(bearerPreference.indexOf(best->bearerType()));
-        uint newBearerPriority = static_cast<uint>(bearerPreference.indexOf(c->bearerType()));
-        if (newBearerPriority < oldBearerPriority) {
-            // New one has better bearer, switch
-            best = c;
-            continue;
-        }
-        if (oldBearerPriority < newBearerPriority) {
-            // Discard new one as the existing is on a better bearer
-            continue;
-        }
-
-        // Same bearer, prefer secure over insecure
-        if (!best->secure() && c->secure()) {
-            // New one is secure, old one not. switch
-            best = c;
-            continue;
-        }
-        if (best->secure() && !c->secure()) {
-            // Old one is secure, new one isn't, skip new one
-            continue;
-        }
-
-        // both options are now on the same bearer and either secure or insecure, prefer nymearpc over websocket for less overhead
-        if (best->url().scheme().startsWith("ws") && c->url().scheme().startsWith("nymea")) {
+        if (c->priority() > best->priority()) {
             best = c;
         }
     }
@@ -251,4 +241,32 @@ void Connection::setOnline(bool online)
         m_online = online;
         emit onlineChanged();
     }
+}
+
+int Connection::priority() const
+{
+    int prio = 0;
+    switch(m_bearerType) {
+    case BearerTypeEthernet:
+        prio += 400;
+        break;
+    case BearerTypeWifi:
+        prio += 300;
+        break;
+    case BearerTypeBluetooth:
+        prio += 200;
+        break;
+    case BearerTypeCloud:
+        prio += 100;
+        break;
+    default:
+        prio += 0;
+    }
+    if (m_secure) {
+        prio += 10;
+    }
+//    if (m_url.scheme().startsWith("nymea")) {
+//        prio += 5;
+//    }
+    return prio;
 }

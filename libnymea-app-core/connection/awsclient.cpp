@@ -866,25 +866,25 @@ bool AWSClient::postToMQTT(const QString &boxId, const QString &timestamp, std::
     request.setUrl("https://" + m_configs.value(m_usedConfig).mqttEndpoint + path1);
 
     qDebug() << "Posting to MQTT:" << request.url().toString();
-    qDebug() << "HEADERS:";
-    foreach (const QByteArray &headerName, request.rawHeaderList()) {
-        qDebug() << headerName << ":" << request.rawHeader(headerName);
-    }
-    qDebug() << "Payload:" << payload;
+//    qDebug() << "HEADERS:";
+//    foreach (const QByteArray &headerName, request.rawHeaderList()) {
+//        qDebug() << headerName << ":" << request.rawHeader(headerName);
+//    }
+//    qDebug() << "Payload:" << payload;
     QNetworkReply *reply = m_nam->post(request, payload);
     connect(reply, &QNetworkReply::finished, this, [reply, callback]() {
         reply->deleteLater();
         QByteArray data = reply->readAll();
-        qDebug() << "post reply" << data;
+//        qDebug() << "MQTT post reply" << data;
         if (reply->error() != QNetworkReply::NoError) {
-            qWarning() << "Network reply error" << reply->error() << reply->errorString();
+            qWarning() << "MQTT Network reply error" << reply->error() << reply->errorString();
             callback(false);
             return;
         }
         QJsonParseError error;
         QJsonDocument jsonDoc = QJsonDocument::fromJson(data, &error);
         if (error.error != QJsonParseError::NoError) {
-            qWarning() << "Failed to parse reply" << error.error << error.errorString() << data;
+            qWarning() << "Failed to parse MQTT reply" << error.error << error.errorString() << data;
             callback(false);
             return;
         }

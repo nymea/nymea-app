@@ -18,51 +18,91 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef DISCOVERYMODEL_H
-#define DISCOVERYMODEL_H
+#ifndef NYMEAHOSTS_H
+#define NYMEAHOSTS_H
 
 #include <QAbstractListModel>
 #include <QList>
 #include <QBluetoothAddress>
+#include <QSortFilterProxyModel>
 
-class DiscoveryDevice;
+class NymeaHost;
+class NymeaDiscovery;
+class NymeaConnection;
 
-class DiscoveryModel : public QAbstractListModel
+class NymeaHosts : public QAbstractListModel
 {
     Q_OBJECT
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
 public:
-    enum DeviceRole {
-        DeviceTypeRole,
+    enum HostRole {
         UuidRole,
         NameRole,
         VersionRole
     };
-    Q_ENUM(DeviceRole)
+    Q_ENUM(HostRole)
 
-    explicit DiscoveryModel(QObject *parent = nullptr);
+    explicit NymeaHosts(QObject *parent = nullptr);
 
     int rowCount(const QModelIndex & parent = QModelIndex()) const;
     QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;
 
-    void addDevice(DiscoveryDevice *device);
-    void removeDevice(DiscoveryDevice *device);
+    void addHost(NymeaHost *host);
+    void removeHost(NymeaHost *host);
 
-    Q_INVOKABLE DiscoveryDevice *get(int index) const;
-    Q_INVOKABLE DiscoveryDevice *find(const QUuid &uuid);
+    Q_INVOKABLE NymeaHost *get(int index) const;
+    Q_INVOKABLE NymeaHost *find(const QUuid &uuid);
 
     void clearModel();
 
 signals:
-    void deviceAdded(DiscoveryDevice* device);
-    void deviceRemoved(DiscoveryDevice* device);
+    void hostAdded(NymeaHost* host);
+    void hostRemoved(NymeaHost* host);
     void countChanged();
+    void hostChanged();
 
 protected:
     QHash<int, QByteArray> roleNames() const;
 
 private:
-    QList<DiscoveryDevice *> m_devices;
+    QList<NymeaHost*> m_hosts;
 };
 
-#endif // DISCOVERYMODEL_H
+class NymeaHostsFilterModel: public QSortFilterProxyModel
+{
+    Q_OBJECT
+    Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
+    Q_PROPERTY(NymeaDiscovery* discovery READ discovery WRITE setDiscovery NOTIFY discoveryChanged)
+    Q_PROPERTY(NymeaConnection* nymeaConnection READ nymeaConnection WRITE setNymeaConnection NOTIFY nymeaConnectionChanged)
+    Q_PROPERTY(bool showUnreachableBearers READ showUnreachableBearers WRITE setShowUnreachableBearers NOTIFY showUnreachableBearersChanged)
+
+public:
+    NymeaHostsFilterModel(QObject *parent = nullptr);
+
+    NymeaDiscovery* discovery() const;
+    void setDiscovery(NymeaDiscovery *discovery);
+
+    NymeaConnection* nymeaConnection() const;
+    void setNymeaConnection(NymeaConnection* nymeaConnection);
+
+    bool showUnreachableBearers() const;
+    void setShowUnreachableBearers(bool showUnreachableBearers);
+
+signals:
+    void countChanged();
+    void discoveryChanged();
+    void nymeaConnectionChanged();
+    void showUnreachableBearersChanged();
+
+protected:
+    bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override;
+
+private:
+    NymeaDiscovery *m_nymeaDiscovery = nullptr;
+    NymeaConnection *m_nymeaConnection = nullptr;
+
+    bool m_showUneachableBearers = false;
+
+};
+
+#endif // NYMEAHOSTS_H

@@ -49,6 +49,7 @@ bool CloudTransport::connect(const QUrl &url)
     }
 
     qDebug() << "Connecting to" << url;
+    m_url = url;
 
     m_timestamp = QDateTime::currentDateTime();
     bool postResult = m_awsClient->postToMQTT(url.host(), QString::number(m_timestamp.toMSecsSinceEpoch()), [this](bool success) {
@@ -66,6 +67,11 @@ bool CloudTransport::connect(const QUrl &url)
     }
 
     return true;
+}
+
+QUrl CloudTransport::url() const
+{
+    return m_url;
 }
 
 void CloudTransport::disconnect()

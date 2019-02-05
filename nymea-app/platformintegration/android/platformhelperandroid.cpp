@@ -59,10 +59,10 @@ void PlatformHelperAndroid::vibrate(PlatformHelper::HapticsFeedback feedbackType
     int duration;
     switch (feedbackType) {
     case HapticsFeedbackSelection:
-        duration = 15;
+        duration = 20;
         break;
     case HapticsFeedbackImpact:
-        duration = 25;
+        duration = 30;
         break;
     case HapticsFeedbackNotification:
         duration = 500;

@@ -57,6 +57,7 @@ ApplicationWindow {
         awsClient: AWSClient
 //        discovering: pageStack.currentItem.objectName === "discoveryPage"
     }
+    property alias _discovery: discovery
 
     onClosing: {
         rootItem.handleCloseEvent(close)

@@ -8,12 +8,18 @@ import "../components"
 Page {
     id: root
 
-    readonly property bool haveHosts: discovery.discoveryModel.count > 0
+    readonly property bool haveHosts: hostsProxy.count > 0
 
     Component.onCompleted: {
-        print("completed connectPage. last connected host:", tabSettings.lastConnectedHost)
+        print("Ready to connect")
         if (tabSettings.lastConnectedHost.length > 0) {
-            discovery.resolveServerUuid(tabSettings.lastConnectedHost)
+            print("Last connected host was", tabSettings.lastConnectedHost)
+            var cachedHost = discovery.nymeaHosts.find(tabSettings.lastConnectedHost);
+            if (cachedHost) {
+                engine.connection.currentHost = cachedHost
+            } else {
+                print("Warning: There is a last connected host but UUID is unknown to discovery...")
+            }
         } else {
             PlatformHelper.hideSplashScreen();
         }
@@ -30,16 +36,6 @@ Page {
 //        }
     }
 
-    Connections {
-        target: discovery
-        onServerUuidResolved: {
-            print("** resolved", uuid, tabSettings.lastConnectedHost)
-            if (uuid == tabSettings.lastConnectedHost) {
-                print("yesss")
-                connectToHost(url, true);
-            }
-        }
-    }
 
     function connectToHost(url, noAnimations) {
         var page = pageStack.push(Qt.resolvedUrl("ConnectingPage.qml"), noAnimations ? StackView.Immediate : StackView.PushTransition)
@@ -51,12 +47,23 @@ Page {
         engine.connection.connect(url)
     }
 
-//    NymeaDiscovery {
-//        id: discovery
-//        objectName: "discovery"
-//        awsClient: AWSClient
-//        discovering: pageStack.currentItem.objectName === "discoveryPage"
-//    }
+    function connectToHost2(host, noAnimations) {
+        var page = pageStack.push(Qt.resolvedUrl("ConnectingPage.qml"), noAnimations ? StackView.Immediate : StackView.PushTransition)
+        page.cancel.connect(function() {
+            engine.connection.disconnect()
+            pageStack.pop(root, StackView.Immediate);
+            pageStack.push(discoveryPage)
+        })
+        print("Connecting to host", host)
+        engine.connection.connect(host)
+    }
+
+    NymeaHostsFilterModel {
+        id: hostsProxy
+        discovery: _discovery
+        showUnreachableBearers: false
+        nymeaConnection: engine.connection
+    }
 
     Connections {
         target: engine.connection
@@ -169,7 +176,7 @@ Page {
                     Label {
                         Layout.fillWidth: true
                         text: root.haveHosts ?
-                                  qsTr("There are %1 %2 boxes in your network! Which one would you like to use?").arg(discovery.discoveryModel.count).arg(app.systemName)
+                                  qsTr("There are %1 %2 boxes in your network! Which one would you like to use?").arg(discovery.nymeaHosts.count).arg(app.systemName)
                                 : startupTimer.running ? qsTr("We haven't found any %1 boxes in your network yet.").arg(app.systemName)
                                                        : qsTr("There doesn't seem to be a %1 box installed in your network. Please make sure your %1 box is correctly set up and connected.").arg(app.systemName)
                         wrapMode: Text.WordWrap
@@ -181,27 +188,27 @@ Page {
                 ListView {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
-                    model: discovery.discoveryModel
+                    model: hostsProxy
                     clip: true
 
                     delegate: MeaListItemDelegate {
-                        id: discoveryDeviceDelegate
+                        id: nymeaHostDelegate
                         width: parent.width
                         height: app.delegateHeight
                         objectName: "discoveryDelegate" + index
-                        property var discoveryDevice: discovery.discoveryModel.get(index)
+                        property var nymeaHost: discovery.nymeaHosts.get(index)
                         property string defaultConnectionIndex: {
                             var usedConfigIndex = 0;
-                            for (var i = 1; i < discoveryDevice.connections.count; i++) {
-                                var oldConfig = discoveryDevice.connections.get(usedConfigIndex);
-                                var newConfig = discoveryDevice.connections.get(i);
+                            for (var i = 1; i < nymeaHost.connections.count; i++) {
+                                var oldConfig = nymeaHost.connections.get(usedConfigIndex);
+                                var newConfig = nymeaHost.connections.get(i);
 
                                 // Preference of bearerType
                                 var bearerPreference = [Connection.BearerTypeEthernet, Connection.BearerTypeWifi, Connection.BearerTypeBluetooth, Connection.BearerTypeCloud]
                                 var oldBearerPriority = bearerPreference.indexOf(oldConfig.bearerType);
                                 var newBearerPriority = bearerPreference.indexOf(newConfig.bearerType);
                                 if (newBearerPriority < oldBearerPriority) {
-                                    print(discoveryDevice.name, "switching to preferred index", i, "of bearer type", newConfig.bearerType, "from", oldConfig.bearerType, "new prio:", newBearerPriority, "old:", oldBearerPriority)
+                                    print(nymeaHost.name, "switching to preferred index", i, "of bearer type", newConfig.bearerType, "from", oldConfig.bearerType, "new prio:", newBearerPriority, "old:", oldBearerPriority)
                                     usedConfigIndex = i;
                                     continue;
                                 }
@@ -227,7 +234,7 @@ Page {
                         }
 
                         iconName: {
-                            switch (discoveryDevice.connections.get(defaultConnectionIndex).bearerType) {
+                            switch (nymeaHost.connections.get(defaultConnectionIndex).bearerType) {
                             case Connection.BearerTypeWifi:
                                 return "../images/network-wifi-symbolic.svg";
                             case Connection.BearerTypeEthernet:
@@ -241,21 +248,21 @@ Page {
                         }
 
                         text: model.name
-                        subText: discoveryDevice.connections.get(defaultConnectionIndex).url
+                        subText: nymeaHost.connections.get(defaultConnectionIndex).url
                         wrapTexts: false
                         prominentSubText: false
                         progressive: false
-                        property bool isSecure: discoveryDevice.connections.get(defaultConnectionIndex).secure
-                        property bool isTrusted: engine.connection.isTrusted(discoveryDeviceDelegate.discoveryDevice.connections.get(defaultConnectionIndex).url)
-                        property bool isOnline: discoveryDevice.connections.get(defaultConnectionIndex).online
+                        property bool isSecure: nymeaHost.connections.get(defaultConnectionIndex).secure
+                        property bool isTrusted: engine.connection.isTrusted(nymeaHostDelegate.nymeaHost.connections.get(defaultConnectionIndex).url)
+                        property bool isOnline: nymeaHost.connections.get(defaultConnectionIndex).online
                         tertiaryIconName: isSecure ? "../images/network-secure.svg" : ""
                         tertiaryIconColor: isTrusted ? app.accentColor : Material.foreground
                         secondaryIconName: !isOnline ? "../images/cloud-error.svg" : ""
                         secondaryIconColor: "red"
-                        swipe.enabled: discoveryDeviceDelegate.discoveryDevice.deviceType === DiscoveryDevice.DeviceTypeNetwork
+                        swipe.enabled: nymeaHostDelegate.nymeaHost.deviceType === NymeaHost.DeviceTypeNetwork
 
                         onClicked: {
-                            root.connectToHost(discoveryDeviceDelegate.discoveryDevice.connections.get(defaultConnectionIndex).url)
+                            root.connectToHost2(nymeaHostDelegate.nymeaHost)
                         }
 
                         swipe.right: MouseArea {
@@ -268,9 +275,9 @@ Page {
                                 name: "../images/info.svg"
                             }
                             onClicked: {
-                                if (model.deviceType === DiscoveryDevice.DeviceTypeNetwork) {
+                                if (model.deviceType === NymeaHost.DeviceTypeNetwork) {
                                     swipe.close()
-                                    var popup = infoDialog.createObject(app,{discoveryDevice: discovery.discoveryModel.get(index)})
+                                    var popup = infoDialog.createObject(app,{nymeaHost: discovery.nymeaHosts.get(index)})
                                     popup.open()
                                 }
                             }
@@ -300,14 +307,14 @@ Page {
                     Layout.leftMargin: app.margins
                     Layout.rightMargin: app.margins
                     wrapMode: Text.WordWrap
-                    visible: discovery.discoveryModel.count === 0
+                    visible: discovery.nymeaHosts.count === 0
                     text: qsTr("Do you have a %1 box but it's not connected to your network yet? Use the wireless setup to connect it!").arg(app.systemName)
                 }
                 Button {
                     Layout.fillWidth: true
                     Layout.leftMargin: app.margins
                     Layout.rightMargin: app.margins
-                    visible: discovery.discoveryModel.count === 0
+                    visible: discovery.nymeaHosts.count === 0
                     text: qsTr("Start wireless setup")
                     onClicked: pageStack.push(Qt.resolvedUrl("wifisetup/BluetoothDiscoveryPage.qml"), {nymeaDiscovery: discovery})
                 }
@@ -325,7 +332,7 @@ Page {
                     Layout.leftMargin: app.margins
                     Layout.rightMargin: app.margins
                     Layout.bottomMargin: app.margins
-                    visible: discovery.discoveryModel.count === 0
+                    visible: discovery.nymeaHosts.count === 0
                     text: qsTr("Demo mode (online)")
                     onClicked: {
                         root.connectToHost("nymea://nymea.nymea.io:2222")
@@ -472,7 +479,7 @@ Page {
 
             standardButtons: Dialog.Ok
 
-            property var discoveryDevice: null
+            property var nymeaHost: null
 
             header: Item {
                 implicitHeight: headerRow.height + app.margins * 2
@@ -508,7 +515,7 @@ Page {
                     text: "Name:"
                 }
                 Label {
-                    text: dialog.discoveryDevice.name
+                    text: dialog.nymeaHost.name
                     Layout.fillWidth: true
                     elide: Text.ElideRight
                 }
@@ -516,7 +523,7 @@ Page {
                     text: "UUID:"
                 }
                 Label {
-                    text: dialog.discoveryDevice.uuid
+                    text: dialog.nymeaHost.uuid
                     Layout.fillWidth: true
                     elide: Text.ElideRight
                 }
@@ -524,7 +531,7 @@ Page {
                     text: "Version:"
                 }
                 Label {
-                    text: dialog.discoveryDevice.version
+                    text: dialog.nymeaHost.version
                     Layout.fillWidth: true
                     elide: Text.ElideRight
                 }
@@ -544,7 +551,7 @@ Page {
                         id: contentColumn
                         width: parent.width
                         Repeater {
-                            model: dialog.discoveryDevice.connections
+                            model: dialog.nymeaHost.connections
                             delegate: MeaListItemDelegate {
                                 Layout.fillWidth: true
                                 wrapTexts: false
@@ -573,7 +580,7 @@ Page {
                                 secondaryIconColor: "red"
 
                                 onClicked: {
-                                    root.connectToHost(dialog.discoveryDevice.connections.get(index).url)
+                                    root.connectToHost2(dialog.nymeaHost.connections.get(index))
                                     dialog.close()
                                 }
                             }

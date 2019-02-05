@@ -5,7 +5,6 @@
 TcpSocketTransport::TcpSocketTransport(QObject *parent) : NymeaTransportInterface(parent)
 {
     QObject::connect(&m_socket, &QSslSocket::connected, this, &TcpSocketTransport::onConnected);
-    QObject::connect(&m_socket, &QSslSocket::disconnected, this, &TcpSocketTransport::disconnected);
     QObject::connect(&m_socket, &QSslSocket::encrypted, this, &TcpSocketTransport::onEncrypted);
     typedef void (QSslSocket:: *sslErrorsSignal)(const QList<QSslError> &);
     QObject::connect(&m_socket, static_cast<sslErrorsSignal>(&QSslSocket::sslErrors), this, &TcpSocketTransport::sslErrors);
@@ -58,6 +57,11 @@ bool TcpSocketTransport::connect(const QUrl &url)
     return false;
 }
 
+QUrl TcpSocketTransport::url() const
+{
+    return m_url;
+}
+
 NymeaTransportInterface::ConnectionState TcpSocketTransport::connectionState() const
 {
     switch (m_socket.state()) {
@@ -91,6 +95,9 @@ void TcpSocketTransport::socketReadyRead()
 void TcpSocketTransport::onSocketStateChanged(const QAbstractSocket::SocketState &state)
 {
     qDebug() << "Socket state changed -->" << state;
+    if (state == QAbstractSocket::UnconnectedState) {
+        emit disconnected();
+    }
 }
 
 NymeaTransportInterface *TcpSocketTransportFactory::createTransport(QObject *parent) const

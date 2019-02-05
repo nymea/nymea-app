@@ -57,6 +57,12 @@ QObject *platformHelperProvider(QQmlEngine *engine, QJSEngine *scriptEngine)
 int main(int argc, char *argv[])
 {
 
+    QLoggingCategory::setFilterRules("RemoteProxyClientJsonRpcTraffic.debug=false\n"
+                                     "RemoteProxyClientJsonRpc.debug=false\n"
+                                     "RemoteProxyClientWebSocket.debug=false\n"
+                                     "RemoteProxyClientConnection.debug=false\n"
+                                     "RemoteProxyClientConnectionTraffic.debug=false\n"
+                                     );
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication application(argc, argv);
     application.setApplicationName("nymea-app");

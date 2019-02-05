@@ -1,13 +1,13 @@
 #include "bluetoothservicediscovery.h"
 
-#include "discoverymodel.h"
-#include "discoverydevice.h"
+#include "../nymeahosts.h"
+#include "../nymeahost.h"
 
 #include <QTimer>
 
-BluetoothServiceDiscovery::BluetoothServiceDiscovery(DiscoveryModel *discoveryModel, QObject *parent) :
+BluetoothServiceDiscovery::BluetoothServiceDiscovery(NymeaHosts *nymeaHosts, QObject *parent) :
     QObject(parent),
-    m_discoveryModel(discoveryModel)
+    m_nymeaHosts(nymeaHosts)
 {
     m_nymeaServiceUuid = QBluetoothUuid(QUuid("997936b5-d2cd-4c57-b41b-c6048320cd2b"));
 
@@ -29,7 +29,7 @@ bool BluetoothServiceDiscovery::available() const
     if (!m_localDevice)
         return false;
 
-    return m_localDevice->isValid() && !m_localDevice->hostMode() != QBluetoothLocalDevice::HostPoweredOff;
+    return m_localDevice->isValid() && m_localDevice->hostMode() != QBluetoothLocalDevice::HostPoweredOff;
 }
 
 void BluetoothServiceDiscovery::discover()
@@ -101,15 +101,15 @@ void BluetoothServiceDiscovery::onServiceDiscovered(const QBluetoothServiceInfo 
     if (serviceInfo.serviceClassUuids().first() == QBluetoothUuid(QUuid("997936b5-d2cd-4c57-b41b-c6048320cd2b"))) {
         qDebug() << "BluetoothServiceDiscovery: Found nymea rfcom service!";
 
-//        DiscoveryDevice* device = m_discoveryModel->find(serviceInfo.device().address());
-//        if (!device) {
-//            device = new DiscoveryDevice(DiscoveryDevice::DeviceTypeBluetooth, this);
+//        NymeaHost* host = m_nymeaHosts->find(serviceInfo.device().address());
+//        if (!host) {
+//            host = new DiscoveryDevice(DiscoveryDevice::DeviceTypeBluetooth, this);
 //            qDebug() << "BluetoothServiceDiscovery: Adding new bluetooth host to model";
-//            device->setName(QString("%1 (%2)").arg(serviceInfo.serviceName()).arg(serviceInfo.device().name()));
+//            host->setName(QString("%1 (%2)").arg(serviceInfo.serviceName()).arg(serviceInfo.device().name()));
 ////            device->setBluetoothAddress(serviceInfo.device().address());
 //            PortConfig pc;
 
-//            m_discoveryModel->addDevice(device);
+//            m_nymeaHosts->addHost(device);
 //        }
     }
 }

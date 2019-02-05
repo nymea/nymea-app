@@ -5,7 +5,7 @@
 #include "qzeroconf.h"
 #endif
 
-#include "discoverymodel.h"
+#include "../nymeahosts.h"
 
 #include <QObject>
 
@@ -14,14 +14,14 @@ class ZeroconfDiscovery : public QObject
     Q_OBJECT
 
 public:
-    explicit ZeroconfDiscovery(DiscoveryModel *discoveryModel, QObject *parent = nullptr);
+    explicit ZeroconfDiscovery(NymeaHosts *nymeaHosts, QObject *parent = nullptr);
     ~ZeroconfDiscovery();
 
     bool available() const;
     bool discovering() const;
 
 private:
-    DiscoveryModel *m_discoveryModel;
+    NymeaHosts *m_nymeaHosts;
 
 #ifdef WITH_ZEROCONF
     QZeroConf *m_zeroconfJsonRPC = nullptr;

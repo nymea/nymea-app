@@ -28,7 +28,7 @@ Page {
         }
         Label {
             Layout.fillWidth: true
-            text: engine.connection.url
+            text: engine.connection.currentHost.uuid
             font.pixelSize: app.smallFont
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             horizontalAlignment: Text.AlignHCenter
