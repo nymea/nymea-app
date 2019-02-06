@@ -170,12 +170,10 @@ Connection* Connections::get(int index) const
 
 Connection *Connections::bestMatch(Connection::BearerTypes bearerTypes) const
 {
-    QList<Connection::BearerType> bearerPreference = {Connection::BearerTypeEthernet, Connection::BearerTypeWifi, Connection::BearerTypeCloud, Connection::BearerTypeBluetooth, Connection::BearerTypeNone};
     Connection *best = nullptr;
-//    qDebug() << "Bestmatch" << m_connections.count();
     foreach (Connection *c, m_connections) {
 //        qDebug() << "have connection:" << bearerTypes << c->url() << bearerTypes.testFlag(c->bearerType());
-        if (!bearerTypes.testFlag(c->bearerType())) {
+        if ((bearerTypes & c->bearerType()) == Connection::BearerTypeNone) {
             continue;
         }
         if (!best) {

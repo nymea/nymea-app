@@ -60,7 +60,8 @@ Page {
                 }
                 onClicked: {
                     if (index === 2) {
-                        root.connectToHost("nymea://nymea.nymea.io:2222")
+                        var host = discovery.nymeaHosts.createHost("Demo server", "nymea://nymea.nymea.io:2222")
+                        engine.connection.connect(host)
                     } else {
                         pageStack.push(model.get(index).page, {nymeaDiscovery: discovery});
                     }
@@ -266,7 +267,8 @@ Page {
                     visible: discovery.nymeaHosts.count === 0
                     text: qsTr("Demo mode (online)")
                     onClicked: {
-                        root.connectToHost("nymea://nymea.nymea.io:2222")
+                        var host = nymeaHosts.createHost("Demo server", "nymea://nymea.nymea.io:2222")
+                        engine.connection.connect(host)
                     }
                 }
 

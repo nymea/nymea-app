@@ -22,6 +22,7 @@
 #include "connection/discovery/nymeadiscovery.h"
 #include "nymeahost.h"
 #include "connection/nymeaconnection.h"
+#include <QUuid>
 
 NymeaHosts::NymeaHosts(QObject *parent) :
     QAbstractListModel(parent)
@@ -81,6 +82,17 @@ void NymeaHosts::removeHost(NymeaHost *host)
     endRemoveRows();
     emit hostRemoved(host);
     emit countChanged();
+}
+
+NymeaHost *NymeaHosts::createHost(const QString &name, const QUrl &url)
+{
+    NymeaHost *host = new NymeaHost(this);
+    host->setUuid(QUuid::createUuid());
+    host->setName(name);
+    Connection *connection = new Connection(url, Connection::BearerTypeAll, false, url.toString(), host);
+    host->connections()->addConnection(connection);
+    addHost(host);
+    return host;
 }
 
 NymeaHost *NymeaHosts::get(int index) const

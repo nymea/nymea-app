@@ -428,6 +428,8 @@ void NymeaConnection::connectInternal(NymeaHost *host)
         if (lanConnection) {
             qDebug() << "Best candidate LAN connection:" << lanConnection->url();
             connectInternal(lanConnection);
+        } else {
+            qDebug() << "No available LAN connection to" << host->name();
         }
     }
 
@@ -436,6 +438,8 @@ void NymeaConnection::connectInternal(NymeaHost *host)
         if (wanConnection) {
             qDebug() << "Best candidate WAN connection:" << wanConnection->url();
             connectInternal(wanConnection);
+        } else {
+            qDebug() << "No available WAN connection to" << host->name();
         }
     }
 }

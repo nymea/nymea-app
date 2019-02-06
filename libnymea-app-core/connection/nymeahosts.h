@@ -49,6 +49,7 @@ public:
 
     void addHost(NymeaHost *host);
     void removeHost(NymeaHost *host);
+    Q_INVOKABLE NymeaHost* createHost(const QString &name, const QUrl &url);
 
     Q_INVOKABLE NymeaHost *get(int index) const;
     Q_INVOKABLE NymeaHost *find(const QUuid &uuid);
