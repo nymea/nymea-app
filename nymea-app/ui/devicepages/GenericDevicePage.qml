@@ -184,14 +184,16 @@ DevicePageBase {
                     print("GenericDevicePage: unhandled entry", stateDelegate.stateType.displayName)
                 }
 
-                var minValue = stateDelegate.stateType.minValue
+                var minValue = stateDelegate.stateType.minValue !== undefined
                         ? stateDelegate.stateType.minValue
                         : stateDelegate.stateType.type.toLowerCase() === "uint"
                           ? 0
                           : -2000000000; // As per QML spec
-                var maxValue = stateDelegate.stateType.maxValue
+                var maxValue = stateDelegate.stateType.maxValue !== undefined
                         ? stateDelegate.stateType.maxValue
                         : 2000000000;
+                print(stateDelegate.stateType.minValue)
+                print("pushing delegate for", stateDelegate.stateType.name, "from:", minValue, "to:", maxValue)
                 stateDelegateLoader.setSource("../delegates/statedelegates/" + sourceComp,
                                               {
 //                                                  value: root.device.states.getState(stateType.id).value,
