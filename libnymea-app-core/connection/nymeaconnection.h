@@ -21,8 +21,24 @@ class NymeaConnection : public QObject
     Q_PROPERTY(NymeaHost* currentHost READ currentHost WRITE setCurrentHost NOTIFY currentHostChanged)
     Q_PROPERTY(Connection* currentConnection  READ currentConnection NOTIFY currentConnectionChanged)
     Q_PROPERTY(Connection::BearerTypes availableBearerTypes READ availableBearerTypes NOTIFY availableBearerTypesChanged)
+    Q_PROPERTY(ConnectionStatus connectionStatus READ connectionStatus NOTIFY connectionStatusChanged)
 
 public:
+    enum ConnectionStatus {
+        ConnectionStatusUnconnected,
+        ConnectionStatusConnecting,
+        ConnectionStatusNoBearerAvailable,
+        ConnectionStatusBearerFailed,
+        ConnectionStatusHostNotFound,
+        ConnectionStatusConnectionRefused,
+        ConnectionStatusRemoteHostClosed,
+        ConnectionStatusTimeout,
+        ConnectionStatusSslError,
+        ConnectionStatusSslUntrusted,
+        ConnectionStatusUnknownError,
+        ConnectionStatusConnected
+    };
+    Q_ENUM(ConnectionStatus)
     explicit NymeaConnection(QObject *parent = nullptr);
 
     void registerTransport(NymeaTransportInterfaceFactory *transportFactory);
@@ -35,11 +51,13 @@ public:
     Connection::BearerTypes availableBearerTypes() const;
 
     bool connected();
+    ConnectionStatus connectionStatus() const;
 
     NymeaHost* currentHost() const;
     void setCurrentHost(NymeaHost *host);
 
     Connection* currentConnection() const;
+
 
     void sendData(const QByteArray &data);
 
@@ -48,8 +66,8 @@ signals:
     void verifyConnectionCertificate(const QString &url, const QStringList &issuerInfo, const QByteArray &fingerprint, const QByteArray &pem);
     void currentHostChanged();
     void connectedChanged(bool connected);
+    void connectionStatusChanged();
     void currentConnectionChanged();
-    void connectionError(const QString &error);
     void dataAvailable(const QByteArray &data);
 
 private slots:
@@ -69,6 +87,7 @@ private:
     Connection::BearerType qBearerTypeToNymeaBearerType(QNetworkConfiguration::BearerType type) const;
 
 private:
+    ConnectionStatus m_connectionStatus = ConnectionStatusUnconnected;
     QNetworkConfigurationManager *m_networkConfigManager = nullptr;
     Connection::BearerTypes m_availableBearerTypes = Connection::BearerTypeNone;
 

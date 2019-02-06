@@ -75,7 +75,7 @@ Item {
                     height: swipeView.height
                     width: swipeView.width
                     objectName: "pageStack"
-                    initialItem: ConnectPage {}
+                    initialItem: Page {}
 
                     property var tabSettings: Settings {
                         category: "tabSettings" + index
@@ -98,20 +98,27 @@ Item {
                     }
 
                     Component.onCompleted: {
-//                        pageStack.push(Qt.resolvedUrl("connection/ConnectPage.qml"), StackView.Immediate)
-//                        setupPushNotifications();
+                        if (tabSettings.lastConnectedHost.length > 0) {
+                            print("Last connected host was", tabSettings.lastConnectedHost)
+                            var cachedHost = discovery.nymeaHosts.find(tabSettings.lastConnectedHost);
+                            if (cachedHost) {
+                                engine.connection.currentHost = cachedHost
+                            } else {
+                                print("Warning: There is a last connected host but UUID is unknown to discovery...")
+                            }
+                        } else {
+                            PlatformHelper.hideSplashScreen();
+                            pageStack.push(Qt.resolvedUrl("connection/ConnectPage.qml"), StackView.Immediate)
+                        }
                     }
+
 
                     function init() {
                         print("calling init. Auth required:", engine.jsonRpcClient.authenticationRequired, "initial setup required:", engine.jsonRpcClient.initialSetupRequired, "jsonrpc connected:", engine.jsonRpcClient.connected, "Current host:", engine.connection.currentHost)
                         pageStack.clear()
                         if (!engine.connection.currentHost) {
+                            print("pushing ConnectPage")
                             pageStack.push(Qt.resolvedUrl("connection/ConnectPage.qml"))
-                            PlatformHelper.hideSplashScreen();
-                            return;
-                        }
-                        if (engine.jsonRpcClient.connected) {
-                            pageStack.push(Qt.resolvedUrl("MainPage.qml"))
                             PlatformHelper.hideSplashScreen();
                             return;
                         }
@@ -126,6 +133,7 @@ Item {
                                     engine.connection.disconnect();
                                     init();
                                 })
+                                return;
                             } else {
                                 var page = pageStack.push(Qt.resolvedUrl("LoginPage.qml"));
                                 page.backPressed.connect(function() {
@@ -133,9 +141,22 @@ Item {
                                     engine.connection.disconnect()
                                     init();
                                 })
+                                return;
                             }
                         }
-                        pageStack.push(Qt.resolvedUrl("connection/ConnectingPage.qml"))
+
+                        if (engine.jsonRpcClient.connected) {
+                            pageStack.push(Qt.resolvedUrl("MainPage.qml"))
+                            PlatformHelper.hideSplashScreen();
+                            return;
+                        }
+
+                        print("pushing ConnectingPage")
+                        PlatformHelper.hideSplashScreen();
+                        var page = pageStack.push(Qt.resolvedUrl("connection/ConnectingPage.qml"));
+                        page.cancel.connect(function(){
+                            engine.connection.disconnect();
+                        })
                     }
 
                     function handleCloseEvent(close) {
@@ -179,7 +200,14 @@ Item {
                         onCurrentHostChanged: {
                             init();
                         }
+                        onVerifyConnectionCertificate: {
+                            print("verify cert!")
+                            var certDialogComponent = Qt.createComponent(Qt.resolvedUrl("connection/CertificateDialog.qml"));
+                            var popup = certDialogComponent.createObject(root, {url: url, issuerInfo: issuerInfo, fingerprint: fingerprint, pem: pem});
+                            popup.open();
+                        }
                     }
+
 
                     Connections {
                         target: engine.jsonRpcClient

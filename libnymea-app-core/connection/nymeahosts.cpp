@@ -158,7 +158,7 @@ void NymeaHostsFilterModel::setNymeaConnection(NymeaConnection *nymeaConnection)
         emit nymeaConnectionChanged();
 
         connect(m_nymeaConnection, &NymeaConnection::availableBearerTypesChanged, this, [this](){
-            qDebug() << "Bearer Types Changed!";
+//            qDebug() << "Bearer Types Changed!";
             invalidateFilter();
             emit countChanged();
         });

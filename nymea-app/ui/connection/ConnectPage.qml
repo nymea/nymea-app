@@ -12,28 +12,8 @@ Page {
 
     Component.onCompleted: {
         print("Ready to connect")
-        if (tabSettings.lastConnectedHost.length > 0) {
-            print("Last connected host was", tabSettings.lastConnectedHost)
-            var cachedHost = discovery.nymeaHosts.find(tabSettings.lastConnectedHost);
-            if (cachedHost) {
-                engine.connection.currentHost = cachedHost
-            } else {
-                print("Warning: There is a last connected host but UUID is unknown to discovery...")
-            }
-        } else {
-            PlatformHelper.hideSplashScreen();
-        }
 
-//        if (settings.lastConnectedHost.length > 0 && Engine.connection.connect(tabSettings.lastConnectedHost)) {
-//            var page = pageStack.push(Qt.resolvedUrl("ConnectingPage.qml"))
-//            page.cancel.connect(function() {
-//                Engine.connection.disconnect();
-//                pageStack.pop(root, StackView.Immediate);
-//                pageStack.push(discoveryPage)
-//            })
-//        } else {
-            pageStack.push(discoveryPage, StackView.Immediate)
-//        }
+        pageStack.push(discoveryPage, StackView.Immediate)
     }
 
 
@@ -63,55 +43,6 @@ Page {
         discovery: _discovery
         showUnreachableBearers: false
         nymeaConnection: engine.connection
-    }
-
-    Connections {
-        target: engine.connection
-        onVerifyConnectionCertificate: {
-            print("verify cert!")
-            var popup = certDialogComponent.createObject(root, {url: url, issuerInfo: issuerInfo, fingerprint: fingerprint, pem: pem});
-            popup.open();
-        }
-        onConnectionError: {
-            var errorMessage;
-            switch (error) {
-            case "ConnectionRefusedError":
-                errorMessage = qsTr("The host has rejected our connection. This probably means that %1 stopped running. Did you unplug your %1 box?").arg(app.systemName);
-                break;
-            case "SslInvalidUserDataError":
-            case "SslHandshakeFailedError":
-                // silently ignore. They'll be handled by the SSL logic
-                return;
-            case "HostNotFoundError":
-                errorMessage = qsTr("%1:core could not be found on this address. Please make sure you entered the address correctly and that the box is powered on.").arg(app.systemName);
-                break;
-            case "NetworkError":
-                errorMessage = qsTr("It seems you're not connected to the network.");
-                break;
-            case "RemoteHostClosedError":
-                errorMessage = qsTr("%1:core has closed the connection. This probably means it has been turned off or restarted.").arg(app.systemName);
-                break;
-            case "SocketTimeoutError":
-                errorMessage = qsTr("%1:core did not respond. Please make sure your network connection works properly").arg(app.systemName);
-                break;
-            default:
-                errorMessage = qsTr("An unknown error happened. We're very sorry for that. (Error code: %1)").arg(error);
-            }
-
-            pageStack.pop(root, StackView.Immediate)
-            pageStack.push(discoveryPage)
-
-            print("opening ErrorDialog with message:", errorMessage, error)
-            var comp = Qt.createComponent(Qt.resolvedUrl("../components/ErrorDialog.qml"))
-            var popup = comp.createObject(app, {text: errorMessage})
-            popup.open()
-        }
-        onConnectedChanged: {
-            if (!connected) {
-                pageStack.pop(root, StackView.Immediate)
-                pageStack.push(discoveryPage)
-            }
-        }
     }
 
     Component {
@@ -356,116 +287,6 @@ Page {
             }
         }
     }
-
-    Component {
-        id: certDialogComponent
-
-        Dialog {
-            id: certDialog
-            width: Math.min(parent.width * .9, 400)
-            x: (parent.width - width) / 2
-            y: (parent.height - height) / 2
-            standardButtons: Dialog.Yes | Dialog.No
-
-            property string url
-            property var fingerprint
-            property var issuerInfo
-            property var pem
-
-            readonly property bool hasOldFingerprint: engine.connection.isTrusted(url)
-
-            ColumnLayout {
-                id: certLayout
-                anchors.fill: parent
-                //                spacing: app.margins
-
-                RowLayout {
-                    Layout.fillWidth: true
-                    spacing: app.margins
-                    ColorIcon {
-                        Layout.preferredHeight: app.iconSize * 2
-                        Layout.preferredWidth: height
-                        name: certDialog.hasOldFingerprint ? "../images/lock-broken.svg" : "../images/info.svg"
-                        color: certDialog.hasOldFingerprint ? "red" : app.accentColor
-                    }
-
-                    Label {
-                        id: titleLabel
-                        Layout.fillWidth: true
-                        wrapMode: Text.WordWrap
-                        text: certDialog.hasOldFingerprint ? qsTr("Warning") : qsTr("Hi there!")
-                        color: certDialog.hasOldFingerprint ? "red" : app.accentColor
-                        font.pixelSize: app.largeFont
-                    }
-                }
-
-                Label {
-                    Layout.fillWidth: true
-                    wrapMode: Text.WordWrap
-                    text: certDialog.hasOldFingerprint ? qsTr("The certificate of this %1 box has changed!").arg(app.systemName) : qsTr("It seems this is the first time you connect to this %1 box.").arg(app.systemName)
-                }
-
-                Label {
-                    Layout.fillWidth: true
-                    wrapMode: Text.WordWrap
-                    text: certDialog.hasOldFingerprint ? qsTr("Did you change the box's configuration? Verify if this information is correct.") : qsTr("This is the box's certificate. Once you trust it, an encrypted connection will be established.")
-                }
-
-                ThinDivider {}
-                Item {
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    implicitHeight: certGridLayout.implicitHeight
-                    Flickable {
-                        anchors.fill: parent
-                        contentHeight: certGridLayout.implicitHeight
-                        clip: true
-
-                        ScrollBar.vertical: ScrollBar {
-                            policy: contentHeight > height ? ScrollBar.AlwaysOn : ScrollBar.AsNeeded
-                        }
-
-                        GridLayout {
-                            id: certGridLayout
-                            columns: 2
-                            width: parent.width
-
-                            Repeater {
-                                model: certDialog.issuerInfo
-
-                                Label {
-                                    Layout.fillWidth: true
-                                    wrapMode: Text.WordWrap
-                                    text: modelData
-                                }
-                            }
-                            Label {
-                                Layout.fillWidth: true
-                                Layout.columnSpan: 2
-                                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                                text: qsTr("Fingerprint: ") + certDialog.fingerprint
-                            }
-                        }
-                    }
-                }
-
-                ThinDivider {}
-
-                Label {
-                    Layout.fillWidth: true
-                    wrapMode: Text.WordWrap
-                    text: certDialog.hasOldFingerprint ? qsTr("Do you want to connect nevertheless?") : qsTr("Do you want to trust this device?")
-                    font.bold: true
-                }
-            }
-
-            onAccepted: {
-                engine.connection.acceptCertificate(certDialog.url, certDialog.pem)
-                root.connectToHost(certDialog.url)
-            }
-        }
-    }
-
 
     Component {
         id: infoDialog

@@ -7,6 +7,7 @@
 #include <QJsonDocument>
 #include <QSettings>
 #include <QUuid>
+#include <QTimer>
 
 #include "sigv4utils.h"
 
@@ -872,6 +873,11 @@ bool AWSClient::postToMQTT(const QString &boxId, const QString &timestamp, std::
 //    }
 //    qDebug() << "Payload:" << payload;
     QNetworkReply *reply = m_nam->post(request, payload);
+    QTimer::singleShot(5000, reply, [reply, callback](){
+        reply->deleteLater();
+        qWarning() << "Timeout posting to MQTT";
+        callback(false);
+    });
     connect(reply, &QNetworkReply::finished, this, [reply, callback]() {
         reply->deleteLater();
         QByteArray data = reply->readAll();

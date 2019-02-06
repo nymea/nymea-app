@@ -10,6 +10,7 @@
 #include <QStandardPaths>
 #include <QFile>
 #include <QDir>
+#include <QTimer>
 
 #include "nymeatransportinterface.h"
 
@@ -32,6 +33,9 @@ NymeaConnection::NymeaConnection(QObject *parent) : QObject(parent)
 void NymeaConnection::acceptCertificate(const QString &url, const QByteArray &pem)
 {
     storePem(url, pem);
+    if (m_currentHost) {
+        connectInternal(m_currentHost);
+    }
 }
 
 bool NymeaConnection::isTrusted(const QString &url)
@@ -62,6 +66,11 @@ bool NymeaConnection::connected()
     return m_currentHost && m_currentTransport && m_currentTransport->connectionState() == NymeaTransportInterface::ConnectionStateConnected;
 }
 
+NymeaConnection::ConnectionStatus NymeaConnection::connectionStatus() const
+{
+    return m_connectionStatus;
+}
+
 NymeaHost *NymeaConnection::currentHost() const
 {
     return m_currentHost;
@@ -90,6 +99,9 @@ void NymeaConnection::setCurrentHost(NymeaHost *host)
 
     m_currentHost = host;
     emit currentHostChanged();
+
+    m_connectionStatus = ConnectionStatusConnecting;
+    emit connectionStatusChanged();
 
     if (m_currentHost) {
         connectInternal(m_currentHost);
@@ -175,6 +187,8 @@ void NymeaConnection::onSslErrors(const QList<QSslError> &errors)
 //                info << tr("Name Qualifier:")<< error.certificate().issuerInfo(QSslCertificate::DistinguishedNameQualifier);
 //                info << tr("Email:")<< error.certificate().issuerInfo(QSslCertificate::EmailAddress);
 
+                m_connectionStatus = ConnectionStatusSslUntrusted;
+                emit connectionStatusChanged();
                 emit verifyConnectionCertificate(transport->url().toString(), info, certificateFingerprint, error.certificate().toPem());
             }
         } else {
@@ -196,22 +210,58 @@ void NymeaConnection::onError(QAbstractSocket::SocketError error)
 
     NymeaTransportInterface* transport = qobject_cast<NymeaTransportInterface*>(sender());
 
+    ConnectionStatus errorStatus = ConnectionStatusUnknownError;
+    switch (error) {
+    case QAbstractSocket::ConnectionRefusedError:
+        errorStatus = ConnectionStatusConnectionRefused;
+        break;
+    case QAbstractSocket::HostNotFoundError:
+        errorStatus = ConnectionStatusHostNotFound;
+        break;
+    case QAbstractSocket::NetworkError:
+        errorStatus = ConnectionStatusBearerFailed;
+        break;
+    case QAbstractSocket::RemoteHostClosedError:
+        errorStatus = ConnectionStatusRemoteHostClosed;
+        break;
+    case QAbstractSocket::SocketTimeoutError:
+        errorStatus = ConnectionStatusTimeout;
+        break;
+    case QAbstractSocket::SslInternalError:
+    case QAbstractSocket::SslInvalidUserDataError:
+        errorStatus = ConnectionStatusSslError;
+        break;
+    case QAbstractSocket::SslHandshakeFailedError:
+        errorStatus = ConnectionStatusSslUntrusted;
+        break;
+    default:
+        errorStatus = ConnectionStatusUnknownError;
+    }
+
     if (transport == m_currentTransport) {
         qDebug() << "Current transport failed:" << error;
         // The current transport failed, forward the error
-        emit connectionError(errorString);
+        m_connectionStatus = errorStatus;
+        emit connectionStatusChanged();
         return;
     }
 
     if (!m_currentTransport) {
         // We're trying to connect and one of the transports failed...
-        qDebug() << "A transport error happened for" << transport->url() << error;
+        qDebug() << "A transport error happened for" << transport->url() << error << "(Still trying on" << m_transportCandidates.count() << "connections)";
         if (m_transportCandidates.contains(transport)) {
             m_transportCandidates.remove(transport);
             transport->deleteLater();
         }
         if (m_transportCandidates.isEmpty()) {
-            emit connectionError(errorString);
+            m_connectionStatus = errorStatus;
+            emit connectionStatusChanged();
+
+            if (m_connectionStatus != ConnectionStatusSslUntrusted) {
+                QTimer::singleShot(1000, m_currentHost, [this](){
+                    connectInternal(m_currentHost);
+                });
+            }
         }
     }
 }
@@ -263,7 +313,10 @@ void NymeaConnection::onDisconnected()
     qDebug() << "NymeaConnection: disconnected.";
     emit connectedChanged(false);
 
-    connectInternal(m_currentHost);
+    // Try to reconnect, only if we're not waiting for SSL certs to be trusted.
+    if (m_connectionStatus != ConnectionStatusSslUntrusted) {
+        connectInternal(m_currentHost);
+    }
 }
 
 void NymeaConnection::updateActiveBearers()
@@ -277,18 +330,20 @@ void NymeaConnection::updateActiveBearers()
     }
 //    qDebug() << "Available bearers:" << availableBearerTypes;
     if (m_availableBearerTypes != availableBearerTypes) {
-        qDebug() << "Available Bearer Types changed:" << availableBearerTypes;
 
+        qDebug() << "Available Bearer Types changed:" << availableBearerTypes;
         m_availableBearerTypes = availableBearerTypes;
         emit availableBearerTypesChanged();
     }
 
     if (!m_currentHost) {
         // No host set... Nothing to do...
+        qDebug() << "No current host... Nothing to do...";
         return;
     }
     if (!m_currentTransport) {
         // There's a host but no connection. Try connecting now...
+        qDebug() << "There's a host but no connection. Trying to connect now...";
         connectInternal(m_currentHost);
     }
 
@@ -338,6 +393,7 @@ bool NymeaConnection::storePem(const QUrl &host, const QByteArray &pem)
 bool NymeaConnection::loadPem(const QUrl &host, QByteArray &pem)
 {
     QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/sslcerts/");
+    qDebug() << "Loading certificates from:" << dir.absoluteFilePath(host.host() + ".pem");
     QFile certFile(dir.absoluteFilePath(host.host() + ".pem"));
     if (!certFile.open(QFile::ReadOnly)) {
         return false;
@@ -361,6 +417,12 @@ void NymeaConnection::connect(NymeaHost *nymeaHost)
 
 void NymeaConnection::connectInternal(NymeaHost *host)
 {
+    if (m_availableBearerTypes == Connection::BearerTypeNone) {
+        qDebug() << "No available bearer. Not connecting... (" << m_availableBearerTypes << ")";
+        m_connectionStatus = ConnectionStatusNoBearerAvailable;
+        emit connectionStatusChanged();
+        return;
+    }
     if (m_availableBearerTypes.testFlag(Connection::BearerTypeWifi) || m_availableBearerTypes.testFlag(Connection::BearerTypeEthernet)) {
         Connection* lanConnection = host->connections()->bestMatch(Connection::BearerTypeWifi | Connection::BearerTypeEthernet);
         if (lanConnection) {

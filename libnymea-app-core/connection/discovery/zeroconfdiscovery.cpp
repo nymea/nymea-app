@@ -180,12 +180,13 @@ void ZeroconfDiscovery::serviceEntryRemoved(const QZeroConfService &entry)
     }
 
     // Ok, now we need to remove it
-    host->connections()->removeConnection(connection);
+//    host->connections()->removeConnection(connection);
+    connection->setOnline(false);
 
     // And if there aren't any connections left, remove the entire device
-    if (host->connections()->rowCount() == 0) {
-        qDebug() << "Zeroconf: Removing connection from host:" << host->name() << url.toString();
-        m_nymeaHosts->removeHost(host);
-    }
+//    if (host->connections()->rowCount() == 0) {
+//        qDebug() << "Zeroconf: Removing connection from host:" << host->name() << url.toString();
+//        m_nymeaHosts->removeHost(host);
+//    }
 }
 #endif
