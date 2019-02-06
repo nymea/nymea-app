@@ -53,7 +53,7 @@ Page {
                     errorMessage = qsTr("%1:core could not be found on this address. Please make sure you entered the address correctly and that the box is powered on.").arg(app.systemName);
                     break;
                 case NymeaConnection.ConnectionStatusConnectionRefused:
-                    errorMessage = qsTr("The host has rejected our connection. This probably means that %1 stopped running. Did you unplug your %1 box?").arg(app.systemName);
+                    errorMessage = qsTr("The host has rejected our connection. This probably means that %1 is not running on this host. Perhaps it's restarting?").arg(app.systemName);
                     break;
                 case NymeaConnection.ConnectionStatusRemoteHostClosed:
                     errorMessage = qsTr("%1:core has closed the connection. This probably means it has been turned off or restarted.").arg(app.systemName);
@@ -70,7 +70,7 @@ Page {
                     break;
                 case NymeaConnection.ConnectionStatusUnknownError:
                 default:
-                    errorMessage = qsTr("An unknown error happened. We're very sorry for that. (Error code: %1)").arg(engine.connection.connectionStatus);
+                    errorMessage = qsTr("An unknown error happened. We're very sorry for that.").arg(engine.connection.connectionStatus);
                 }
                 return errorMessage;
             }

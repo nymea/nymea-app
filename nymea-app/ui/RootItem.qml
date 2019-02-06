@@ -102,14 +102,13 @@ Item {
                             print("Last connected host was", tabSettings.lastConnectedHost)
                             var cachedHost = discovery.nymeaHosts.find(tabSettings.lastConnectedHost);
                             if (cachedHost) {
-                                engine.connection.currentHost = cachedHost
-                            } else {
-                                print("Warning: There is a last connected host but UUID is unknown to discovery...")
+                                engine.connection.connect(cachedHost)
+                                return;
                             }
-                        } else {
-                            PlatformHelper.hideSplashScreen();
-                            pageStack.push(Qt.resolvedUrl("connection/ConnectPage.qml"), StackView.Immediate)
+                            print("Warning: There is a last connected host but UUID is unknown to discovery...")
                         }
+                        PlatformHelper.hideSplashScreen();
+                        pageStack.push(Qt.resolvedUrl("connection/ConnectPage.qml"), StackView.Immediate)
                     }
 
 

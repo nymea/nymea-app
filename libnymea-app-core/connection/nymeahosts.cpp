@@ -84,12 +84,11 @@ void NymeaHosts::removeHost(NymeaHost *host)
     emit countChanged();
 }
 
-NymeaHost *NymeaHosts::createHost(const QString &name, const QUrl &url)
+NymeaHost *NymeaHosts::createHost(const QString &name, const QUrl &url, Connection::BearerType bearerType)
 {
     NymeaHost *host = new NymeaHost(this);
-    host->setUuid(QUuid::createUuid());
     host->setName(name);
-    Connection *connection = new Connection(url, Connection::BearerTypeAll, false, url.toString(), host);
+    Connection *connection = new Connection(url, bearerType, false, url.toString(), host);
     host->connections()->addConnection(connection);
     addHost(host);
     return host;
@@ -193,6 +192,11 @@ void NymeaHostsFilterModel::setShowUnreachableBearers(bool showUnreachableBearer
         invalidateFilter();
         emit countChanged();
     }
+}
+
+NymeaHost *NymeaHostsFilterModel::get(int index) const
+{
+    return m_nymeaDiscovery->nymeaHosts()->get(mapToSource(this->index(index, 0)).row());
 }
 
 bool NymeaHostsFilterModel::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const

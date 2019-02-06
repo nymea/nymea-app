@@ -185,7 +185,7 @@ Item {
             readonly property var powerState: device.states.getState(powerStateType.id)
 
             readonly property var brightnessStateType: deviceClass.stateTypes.findByName("brightness");
-            readonly property var brightnessState: device.states.getState(brightnessStateType.id)
+            readonly property var brightnessState: brightnessStateType ? device.states.getState(brightnessStateType.id) : null
 
             ThrottledSlider {
                 Layout.fillWidth: true
@@ -195,7 +195,7 @@ Item {
                 enabled: opacity > 0
                 from: 0
                 to: 100
-                value: brightnessState.value
+                value: brightnessState ? brightnessState.value : 0
                 onMoved: {
                     var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
                     var actionType = deviceClass.actionTypes.findByName("brightness");

@@ -393,7 +393,7 @@ bool NymeaConnection::storePem(const QUrl &host, const QByteArray &pem)
 bool NymeaConnection::loadPem(const QUrl &host, QByteArray &pem)
 {
     QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/sslcerts/");
-    qDebug() << "Loading certificates from:" << dir.absoluteFilePath(host.host() + ".pem");
+//    qDebug() << "Loading certificates from:" << dir.absoluteFilePath(host.host() + ".pem");
     QFile certFile(dir.absoluteFilePath(host.host() + ".pem"));
     if (!certFile.open(QFile::ReadOnly)) {
         return false;

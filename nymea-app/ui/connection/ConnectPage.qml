@@ -60,7 +60,7 @@ Page {
                 }
                 onClicked: {
                     if (index === 2) {
-                        var host = discovery.nymeaHosts.createHost("Demo server", "nymea://nymea.nymea.io:2222")
+                        var host = discovery.nymeaHosts.createHost("Demo server", "nymea://nymea.nymea.io:2222", Connection.BearerTypeCloud)
                         engine.connection.connect(host)
                     } else {
                         pageStack.push(model.get(index).page, {nymeaDiscovery: discovery});
@@ -128,7 +128,7 @@ Page {
                         width: parent.width
                         height: app.delegateHeight
                         objectName: "discoveryDelegate" + index
-                        property var nymeaHost: discovery.nymeaHosts.get(index)
+                        property var nymeaHost: hostsProxy.get(index)
                         property string defaultConnectionIndex: {
                             var usedConfigIndex = 0;
                             for (var i = 1; i < nymeaHost.connections.count; i++) {
@@ -209,7 +209,9 @@ Page {
                             onClicked: {
                                 if (model.deviceType === NymeaHost.DeviceTypeNetwork) {
                                     swipe.close()
-                                    var popup = infoDialog.createObject(app,{nymeaHost: discovery.nymeaHosts.get(index)})
+                                    var nymeaHost = hostsProxy.get(index);
+                                    print("Getting info for", nymeaHost.name)
+                                    var popup = infoDialog.createObject(app,{nymeaHost: nymeaHost})
                                     popup.open()
                                 }
                             }
@@ -267,7 +269,7 @@ Page {
                     visible: discovery.nymeaHosts.count === 0
                     text: qsTr("Demo mode (online)")
                     onClicked: {
-                        var host = nymeaHosts.createHost("Demo server", "nymea://nymea.nymea.io:2222")
+                        var host = nymeaHosts.createHost("Demo server", "nymea://nymea.nymea.io:2222", Connection.BearerTypeCloud)
                         engine.connection.connect(host)
                     }
                 }

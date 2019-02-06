@@ -226,10 +226,10 @@ void AWSClient::login(const QString &username, const QString &password, int atte
         m_idToken = authenticationResult.value("IdToken").toByteArray();
         m_refreshToken = authenticationResult.value("RefreshToken").toByteArray();
 
-        qDebug() << "AWS ID token" << m_idToken;
+//        qDebug() << "AWS ID token" << m_idToken;
         QList<QByteArray> jwtParts = m_idToken.split('.');
         if (jwtParts.count() != 3) {
-            qWarning() << "JWT token doesn't have 3 parts";
+            qWarning() << "Error: JWT token doesn't have 3 parts. Cannot retrieve AWS Cognito ID.";
             return;
         }
 //        qDebug() << "decoded header:" << QByteArray::fromBase64(jwtParts.at(0));
@@ -237,7 +237,7 @@ void AWSClient::login(const QString &username, const QString &password, int atte
         QJsonDocument tokenPayloadJsonDoc = QJsonDocument::fromJson(QByteArray::fromBase64(jwtParts.at(1)));
         m_userId = tokenPayloadJsonDoc.toVariant().toMap().value("cognito:username").toByteArray();
 
-        qDebug() << "Getting cognito ID";
+//        qDebug() << "Getting cognito ID";
         getId();
     });
 }
@@ -597,7 +597,7 @@ void AWSClient::getId()
         }
         m_identityId = jsonDoc.toVariant().toMap().value("IdentityId").toByteArray();
 
-        qDebug() << "Received cognito identity id" << m_identityId;// << qUtf8Printable(data);
+//        qDebug() << "Received cognito identity id" << m_identityId;// << qUtf8Printable(data);
         getCredentialsForIdentity(m_identityId);
 
     });

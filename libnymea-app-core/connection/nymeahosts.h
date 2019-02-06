@@ -25,8 +25,8 @@
 #include <QList>
 #include <QBluetoothAddress>
 #include <QSortFilterProxyModel>
+#include "nymeahost.h"
 
-class NymeaHost;
 class NymeaDiscovery;
 class NymeaConnection;
 
@@ -49,7 +49,7 @@ public:
 
     void addHost(NymeaHost *host);
     void removeHost(NymeaHost *host);
-    Q_INVOKABLE NymeaHost* createHost(const QString &name, const QUrl &url);
+    Q_INVOKABLE NymeaHost* createHost(const QString &name, const QUrl &url, Connection::BearerType bearerType);
 
     Q_INVOKABLE NymeaHost *get(int index) const;
     Q_INVOKABLE NymeaHost *find(const QUuid &uuid);
@@ -88,6 +88,8 @@ public:
 
     bool showUnreachableBearers() const;
     void setShowUnreachableBearers(bool showUnreachableBearers);
+
+    Q_INVOKABLE NymeaHost* get(int index) const;
 
 signals:
     void countChanged();
