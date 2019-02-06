@@ -12,6 +12,11 @@ void PlatformHelperIOS::requestPermissions()
     emit permissionsRequestFinished();
 }
 
+void PlatformHelperIOS::hideSplashScreen()
+{
+    // Nothing to be done
+}
+
 bool PlatformHelperIOS::hasPermissions() const
 {
     return true;
