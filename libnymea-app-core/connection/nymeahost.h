@@ -45,6 +45,7 @@ public:
         BearerTypeEthernet = 0x02,
         BearerTypeBluetooth = 0x04,
         BearerTypeCloud = 0x08,
+        BearerTypeUnknown = 0xFF,
         BearerTypeAll = 0xFF
     };
     Q_ENUM(BearerType)

@@ -325,7 +325,11 @@ void NymeaConnection::updateActiveBearers()
     QList<QNetworkConfiguration> configs = m_networkConfigManager->allConfigurations(QNetworkConfiguration::Active);
 //    qDebug() << "Network configuations:" << configs.count();
     foreach (const QNetworkConfiguration &config, configs) {
-//        qDebug() << "Candidate network config:" << config.name() << config.bearerTypeFamily() << config.bearerTypeName();
+        qDebug() << "Candidate network config:" << config.name() << config.bearerTypeFamily() << config.bearerTypeName();
+
+        // NOTE: iOS doesn't correctly report bearer types. It'll be Unknown all the time
+//        availableBearerTypes.setFlag(Connection::BearerTypeUnknown);
+
         availableBearerTypes.setFlag(qBearerTypeToNymeaBearerType(config.bearerType()));
     }
 //    qDebug() << "Available bearers:" << availableBearerTypes;
@@ -368,8 +372,8 @@ Connection::BearerType NymeaConnection::qBearerTypeToNymeaBearerType(QNetworkCon
         return Connection::BearerTypeCloud;
     case QNetworkConfiguration::BearerBluetooth:
         return Connection::BearerTypeBluetooth;
-    default:
-        qWarning() << "Unhandled Bearer Type Family:" << type;
+    case QNetworkConfiguration::BearerUnknown:
+        return Connection::BearerTypeUnknown;
     }
     return Connection::BearerTypeNone;
 }
