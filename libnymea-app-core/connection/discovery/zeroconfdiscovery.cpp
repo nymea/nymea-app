@@ -122,12 +122,16 @@ void ZeroconfDiscovery::serviceEntryAdded(const QZeroConfService &entry)
     }
     url.setHost(!entry.ip().isNull() ? entry.ip().toString() : entry.ipv6().toString());
     url.setPort(entry.port());
-    if (!host->connections()->find(url)){
+    Connection *connection = host->connections()->find(url);
+    if (!connection) {
         qDebug() << "Zeroconf: Adding new connection to host:" << host->name() << url.toString();
         QString displayName = QString("%1:%2").arg(url.host()).arg(url.port());
-        Connection *connection = new Connection(url, Connection::BearerTypeWifi, sslEnabled, displayName);
+        connection = new Connection(url, Connection::BearerTypeWifi, sslEnabled, displayName);
         connection->setOnline(true);
         host->connections()->addConnection(connection);
+    } else {
+        qDebug() << "Zeroconf: Setting connection online:" << host->name() << url.toString();
+        connection->setOnline(true);
     }
 }
 
@@ -179,14 +183,7 @@ void ZeroconfDiscovery::serviceEntryRemoved(const QZeroConfService &entry)
         return;
     }
 
-    // Ok, now we need to remove it
-//    host->connections()->removeConnection(connection);
+    qDebug() << "Zeroconf: Setting connection offline:" << host->name() << url.toString();
     connection->setOnline(false);
-
-    // And if there aren't any connections left, remove the entire device
-//    if (host->connections()->rowCount() == 0) {
-//        qDebug() << "Zeroconf: Removing connection from host:" << host->name() << url.toString();
-//        m_nymeaHosts->removeHost(host);
-//    }
 }
 #endif

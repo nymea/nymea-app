@@ -238,12 +238,17 @@ void Connection::setOnline(bool online)
     if (m_online != online) {
         m_online = online;
         emit onlineChanged();
+        emit priorityChanged();
     }
 }
 
 int Connection::priority() const
 {
     int prio = 0;
+    if (m_online) {
+        prio += 1000;
+    }
+
     switch(m_bearerType) {
     case BearerTypeEthernet:
         prio += 400;
@@ -263,8 +268,8 @@ int Connection::priority() const
     if (m_secure) {
         prio += 10;
     }
-//    if (m_url.scheme().startsWith("nymea")) {
-//        prio += 5;
-//    }
+    if (m_url.scheme().startsWith("nymea")) {
+        prio += 1;
+    }
     return prio;
 }

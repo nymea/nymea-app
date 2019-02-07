@@ -43,7 +43,7 @@ public:
 
     void registerTransport(NymeaTransportInterfaceFactory *transportFactory);
 
-    Q_INVOKABLE void connect(NymeaHost* nymeaHost);
+    Q_INVOKABLE void connect(NymeaHost* nymeaHost, Connection *connection = nullptr);
     Q_INVOKABLE void disconnect();
     Q_INVOKABLE void acceptCertificate(const QString &url, const QByteArray &pem);
     Q_INVOKABLE bool isTrusted(const QString &url);
@@ -95,6 +95,7 @@ private:
     QHash<NymeaTransportInterface*, Connection*> m_transportCandidates;
     NymeaTransportInterface *m_currentTransport = nullptr;
     NymeaHost *m_currentHost = nullptr;
+    Connection *m_preferredConnection = nullptr;
 };
 
 #endif // NYMEACONNECTION_H

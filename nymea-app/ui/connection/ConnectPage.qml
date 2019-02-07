@@ -130,39 +130,16 @@ Page {
                         objectName: "discoveryDelegate" + index
                         property var nymeaHost: hostsProxy.get(index)
                         property string defaultConnectionIndex: {
-                            var usedConfigIndex = 0;
-                            for (var i = 1; i < nymeaHost.connections.count; i++) {
-                                var oldConfig = nymeaHost.connections.get(usedConfigIndex);
-                                var newConfig = nymeaHost.connections.get(i);
-
-                                // Preference of bearerType
-                                var bearerPreference = [Connection.BearerTypeEthernet, Connection.BearerTypeWifi, Connection.BearerTypeBluetooth, Connection.BearerTypeCloud]
-                                var oldBearerPriority = bearerPreference.indexOf(oldConfig.bearerType);
-                                var newBearerPriority = bearerPreference.indexOf(newConfig.bearerType);
-                                if (newBearerPriority < oldBearerPriority) {
-                                    print(nymeaHost.name, "switching to preferred index", i, "of bearer type", newConfig.bearerType, "from", oldConfig.bearerType, "new prio:", newBearerPriority, "old:", oldBearerPriority)
-                                    usedConfigIndex = i;
-                                    continue;
-                                }
-                                if (oldBearerPriority < newBearerPriority) {
-                                    continue; // discard new one the one we have is on a better bearer type
-                                }
-
-                                // prefer secure over insecure
-                                if (!oldConfig.secure && newConfig.secure) {
-                                    usedConfigIndex = i;
-                                    continue;
-                                }
-                                if (oldConfig.secure && !newConfig.secure) {
-                                    continue; // discard new one as the one we already have is more secure
-                                }
-
-                                // both options are now on the same bearer and either secure or insecure, prefer nymearpc over websocket for less overhead
-                                if (oldConfig.url.toString().startsWith("ws") && newConfig.url.toString().startsWith("nymea")) {
-                                    usedConfigIndex = i;
+                            var bestIndex = -1
+                            var bestPriority = 0;
+                            for (var i = 0; i < nymeaHost.connections.count; i++) {
+                                var connection = nymeaHost.connections.get(i);
+                                if (bestIndex === -1 || connection.priority > bestPriority) {
+                                    bestIndex = i;
+                                    bestPriority = connection.priority;
                                 }
                             }
-                            return usedConfigIndex
+                            return bestIndex;
                         }
 
                         iconName: {
@@ -405,8 +382,8 @@ Page {
                                 secondaryIconColor: "red"
 
                                 onClicked: {
-                                    root.connectToHost2(dialog.nymeaHost.connections.get(index))
                                     dialog.close()
+                                    engine.connection.connect(dialog.nymeaHost, dialog.nymeaHost.connections.get(index))
                                 }
                             }
                         }

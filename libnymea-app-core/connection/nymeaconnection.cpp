@@ -278,18 +278,27 @@ void NymeaConnection::onConnected()
 
     if (m_currentTransport != newTransport) {
         qDebug() << "Alternative connection established:" << newTransport->url();
-        Connection *existingConnection = m_transportCandidates.value(m_currentTransport);
-        Connection *alternativeConnection = m_transportCandidates.value(newTransport);
-        if (alternativeConnection->priority() > existingConnection->priority()) {
-            qDebug() << "New connection has higher priority! Roaming from" << existingConnection->url() << existingConnection->priority() << "to" << alternativeConnection->url() << alternativeConnection->priority();
+
+        // In theory, we could roam from one connection to another.
+        // However, in practice it turns out there are too many issues for this to be reliable
+        // So lets just tear down any alternative connection that comes up again.
+
+        m_transportCandidates.remove(newTransport);
+        newTransport->deleteLater();
+
+
+//        Connection *existingConnection = m_transportCandidates.value(m_currentTransport);
+//        Connection *alternativeConnection = m_transportCandidates.value(newTransport);
+//        if (alternativeConnection->priority() > existingConnection->priority()) {
+//            qDebug() << "New connection has higher priority! Roaming from" << existingConnection->url() << existingConnection->priority() << "to" << alternativeConnection->url() << alternativeConnection->priority();
 //            m_transportCandidates.remove(m_currentTransport);
 //            m_currentTransport->deleteLater();
-            m_currentTransport = newTransport;
-        } else {
-            qDebug() << "Connection" << alternativeConnection->url() << alternativeConnection->priority() << "has lower priority than existing" << existingConnection->url() << existingConnection->priority();
-            m_transportCandidates.remove(newTransport);
-            newTransport->deleteLater();
-        }
+//            m_currentTransport = newTransport;
+//        } else {
+//            qDebug() << "Connection" << alternativeConnection->url() << alternativeConnection->priority() << "has lower priority than existing" << existingConnection->url() << existingConnection->priority();
+//            m_transportCandidates.remove(newTransport);
+//            newTransport->deleteLater();
+//        }
         return;
     }
 }
@@ -308,10 +317,21 @@ void NymeaConnection::onDisconnected()
     m_transportCandidates.remove(m_currentTransport);
     m_currentTransport->deleteLater();
     m_currentTransport = nullptr;
+
+    foreach (NymeaTransportInterface *candidate, m_transportCandidates.keys()) {
+        if (candidate->connectionState() == NymeaTransportInterface::ConnectionStateConnected) {
+            qDebug() << "Alternative connection is still up. Roaming to:" << candidate->url();
+            m_currentTransport = candidate;
+            break;
+        }
+    }
+
     emit currentConnectionChanged();
 
-    qDebug() << "NymeaConnection: disconnected.";
-    emit connectedChanged(false);
+    if (!m_currentTransport) {
+        qDebug() << "NymeaConnection: disconnected.";
+        emit connectedChanged(false);
+    }
 
     // Try to reconnect, only if we're not waiting for SSL certs to be trusted.
     if (m_connectionStatus != ConnectionStatusSslUntrusted) {
@@ -345,6 +365,16 @@ void NymeaConnection::updateActiveBearers()
         qDebug() << "No current host... Nothing to do...";
         return;
     }
+
+    // In theory we could try to connect via any different/new bearers now. However, in practice
+    // I have observed the following issues:
+    // - When roaming from WiFi to mobile data, we've already lost WiFi at this point
+    //   (Unless aggressive WiFi to mobile handover is enabled on the phone)
+    // - When roaming from mobile to Wifi, for some reason, any new connection attempts
+    //   fail as long as the mobile data isn't shut down by the OS.
+    // Those issues prevent roaming from working properly, so let's just not do anything at
+    // this point if there already is a connected channel, try reconnecting otherwise.
+
     if (!m_currentTransport) {
         // There's a host but no connection. Try connecting now...
         qDebug() << "There's a host but no connection. Trying to connect now...";
@@ -414,8 +444,22 @@ void NymeaConnection::registerTransport(NymeaTransportInterfaceFactory *transpor
     }
 }
 
-void NymeaConnection::connect(NymeaHost *nymeaHost)
+void NymeaConnection::connect(NymeaHost *nymeaHost, Connection *connection)
 {
+    if (!nymeaHost) {
+        return;
+    }
+
+    m_preferredConnection = nullptr;
+    if (connection) {
+        if (nymeaHost->connections()->find(connection->url())) {
+            qDebug() << "Setting preferred connection to" << connection->url();
+            m_preferredConnection = connection;
+        } else {
+            qWarning() << "Connection" << connection << "is not a candidate for" << nymeaHost->name() << "Not setting preferred connection.";
+        }
+    }
+
     setCurrentHost(nymeaHost);
 }
 
@@ -427,6 +471,13 @@ void NymeaConnection::connectInternal(NymeaHost *host)
         emit connectionStatusChanged();
         return;
     }
+
+    if (m_preferredConnection) {
+        qDebug() << "Preferred connection is set. Using" << m_preferredConnection->url();
+        connectInternal(m_preferredConnection);
+        return;
+    }
+
     if (m_availableBearerTypes.testFlag(Connection::BearerTypeWifi) || m_availableBearerTypes.testFlag(Connection::BearerTypeEthernet)) {
         Connection* lanConnection = host->connections()->bestMatch(Connection::BearerTypeWifi | Connection::BearerTypeEthernet);
         if (lanConnection) {

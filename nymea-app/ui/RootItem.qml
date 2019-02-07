@@ -111,6 +111,7 @@ Item {
                         pageStack.push(Qt.resolvedUrl("connection/ConnectPage.qml"), StackView.Immediate)
                     }
 
+                    Timer { running: true; repeat: false; interval: 3000; onTriggered: PlatformHelper.hideSplashScreen(); }
 
                     function init() {
                         print("calling init. Auth required:", engine.jsonRpcClient.authenticationRequired, "initial setup required:", engine.jsonRpcClient.initialSetupRequired, "jsonrpc connected:", engine.jsonRpcClient.connected, "Current host:", engine.connection.currentHost)
@@ -151,7 +152,6 @@ Item {
                         }
 
                         print("pushing ConnectingPage")
-                        PlatformHelper.hideSplashScreen();
                         var page = pageStack.push(Qt.resolvedUrl("connection/ConnectingPage.qml"));
                         page.cancel.connect(function(){
                             engine.connection.disconnect();

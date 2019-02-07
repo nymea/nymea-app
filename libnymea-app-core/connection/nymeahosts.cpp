@@ -206,7 +206,7 @@ bool NymeaHostsFilterModel::filterAcceptsRow(int sourceRow, const QModelIndex &s
     if (m_nymeaConnection && !m_showUneachableBearers) {
         bool hasReachableConnection = false;
         for (int i = 0; i < host->connections()->rowCount(); i++) {
-            qDebug() << "checking host for available bearer" << host->name() << host->connections()->get(i)->url() << "available bearer types:" << m_nymeaConnection->availableBearerTypes() << "hosts bearer types" << host->connections()->get(i)->bearerType();
+//            qDebug() << "checking host for available bearer" << host->name() << host->connections()->get(i)->url() << "available bearer types:" << m_nymeaConnection->availableBearerTypes() << "hosts bearer types" << host->connections()->get(i)->bearerType();
             if (m_nymeaConnection->availableBearerTypes().testFlag(host->connections()->get(i)->bearerType())) {
                 hasReachableConnection = true;
                 break;
