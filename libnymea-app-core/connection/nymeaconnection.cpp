@@ -248,11 +248,11 @@ void NymeaConnection::onError(QAbstractSocket::SocketError error)
 
     if (!m_currentTransport) {
         // We're trying to connect and one of the transports failed...
-        qDebug() << "A transport error happened for" << transport->url() << error << "(Still trying on" << m_transportCandidates.count() << "connections)";
         if (m_transportCandidates.contains(transport)) {
             m_transportCandidates.remove(transport);
             transport->deleteLater();
         }
+        qDebug() << "A transport error happened for" << transport->url() << error << "(Still trying on" << m_transportCandidates.count() << "connections)";
         if (m_transportCandidates.isEmpty()) {
             m_connectionStatus = errorStatus;
             emit connectionStatusChanged();
@@ -283,6 +283,7 @@ void NymeaConnection::onConnected()
         // However, in practice it turns out there are too many issues for this to be reliable
         // So lets just tear down any alternative connection that comes up again.
 
+        qDebug() << "Dropping alternative connection again...";
         m_transportCandidates.remove(newTransport);
         newTransport->deleteLater();
 
@@ -312,6 +313,16 @@ void NymeaConnection::onDisconnected()
             m_transportCandidates.remove(t);
         }
         t->deleteLater();
+
+        if (!m_currentTransport && m_transportCandidates.isEmpty()) {
+            qDebug() << "Last connection dropped. Trying to reconnect..";
+            QTimer::singleShot(1000, this, [this](){
+                if (m_currentHost) {
+                    connectInternal(m_currentHost);
+                }
+            });
+        }
+
         return;
     }
     m_transportCandidates.remove(m_currentTransport);
