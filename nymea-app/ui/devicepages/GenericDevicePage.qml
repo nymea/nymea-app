@@ -21,6 +21,8 @@ DevicePageBase {
         anchors.fill: parent
         clip: true
 
+        SwipeDelegateGroup {}
+
         section.property: "type"
         section.delegate: ListSectionHeader {
             text: {
@@ -82,7 +84,7 @@ DevicePageBase {
                 }
             }
 
-            onClicked: pageStack.push(Qt.resolvedUrl("DeviceLogPage.qml"), {device: root.device, filterTypeIds: [model.id]})
+            onClicked: swipe.close()
 
             swipe.right: RowLayout {
                 height: delegate.height
@@ -96,6 +98,7 @@ DevicePageBase {
                         name: "../images/logs.svg"
                     }
                     onClicked: {
+                        swipe.close();
                         pageStack.push(Qt.resolvedUrl("DeviceLogPage.qml"), {device: root.device, filterTypeIds: [model.id]})
                     }
                 }
