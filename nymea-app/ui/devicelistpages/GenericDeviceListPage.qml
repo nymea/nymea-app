@@ -26,6 +26,7 @@ DeviceListPageBase {
     ListView {
         anchors.fill: parent
         model: root.devicesProxy
+
         delegate: ThingDelegate {
             width: parent.width
             device: engine.deviceManager.devices.getDevice(model.id);
