@@ -363,6 +363,7 @@ void JsonRpcClient::dataReceived(const QByteArray &data)
         if (!protoVersionString.contains('.')) {
             protoVersionString.prepend("0.");
         }
+
         m_jsonRpcVersion = QVersionNumber::fromString(protoVersionString);
 
         qDebug() << "Handshake reply:" << "Protocol version:" << protoVersionString << "InitRequired:" << m_initialSetupRequired << "AuthRequired:" << m_authenticationRequired << "PushButtonAvailable:" << m_pushButtonAuthAvailable;;
@@ -376,6 +377,11 @@ void JsonRpcClient::dataReceived(const QByteArray &data)
         }
 
         emit handshakeReceived();
+
+        if (m_connection->currentHost()->uuid().isNull()) {
+            qDebug() << "Updating Server UUID in connection:" << m_connection->currentHost()->uuid().toString() << "->" << m_serverUuid;
+            m_connection->currentHost()->setUuid(m_serverUuid);
+        }
 
         if (m_initialSetupRequired) {
             emit initialSetupRequiredChanged();

@@ -21,6 +21,7 @@ public:
     explicit TcpSocketTransport(QObject *parent = nullptr);
 
     bool connect(const QUrl &url) override;
+    QUrl url() const override;
     ConnectionState connectionState() const override;
     void disconnect() override;
     void sendData(const QByteArray &data) override;

@@ -86,14 +86,10 @@ Page {
                 secondaryIconName: !model.online ? "../images/cloud-error.svg" : ""
 
                 onClicked: {
+                    print("clicked, connected:", engine.connection.connected, model.id)
                     if (!engine.connection.connected) {
-                        var page = pageStack.push(Qt.resolvedUrl("../connection/ConnectingPage.qml"))
-                        page.cancel.connect(function() {
-                            engine.connection.disconnect()
-                            pageStack.pop(root, StackView.Immediate);
-                            pageStack.push(discoveryPage)
-                        })
-                        engine.connection.connect("cloud://" + model.id)
+                        var host = discovery.nymeaHosts.find(model.id)
+                        engine.connection.connect(host);
                     }
                 }
 

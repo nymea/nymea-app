@@ -42,8 +42,14 @@ WebsocketTransport::WebsocketTransport(QObject *parent) :
 
 bool WebsocketTransport::connect(const QUrl &url)
 {
+    m_url = url;
     m_socket->open(QUrl(url));
     return true;
+}
+
+QUrl WebsocketTransport::url() const
+{
+    return m_url;
 }
 
 NymeaTransportInterface::ConnectionState WebsocketTransport::connectionState() const

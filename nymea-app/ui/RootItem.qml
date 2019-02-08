@@ -5,6 +5,7 @@ import QtQuick.Layouts 1.3
 import Qt.labs.settings 1.0
 import Nymea 1.0
 import "components"
+import "connection"
 
 Item {
     id: root
@@ -35,6 +36,14 @@ Item {
             tabbar.currentIndex = swipeView.currentIndex
         }
         function removeTab(index) {
+            if (swipeView.currentIndex === index) {
+                if (swipeView.currentIndex > 0) {
+                    swipeView.currentIndex--;
+                } else {
+                    swipeView.currentIndex++;
+                }
+            }
+
             remove(index);
             settings.tabCount--;
             tabbar.currentIndex = swipeView.currentIndex
@@ -80,7 +89,7 @@ Item {
                     readonly property Engine engine: engineObject
                     readonly property Engine _engine: engineObject // In case a child cannot use "engine"
                     property int connectionTabIndex: index
-                    onConnectionTabIndexChanged: tabSettings.lastConnectedHost = engine.connection.url
+//                    onConnectionTabIndexChanged: tabSettings.lastConnectedHost = engine.connection.url
 
                     Binding {
                         target: AWSClient
@@ -89,19 +98,33 @@ Item {
                     }
 
                     Component.onCompleted: {
-                        pageStack.push(Qt.resolvedUrl("connection/ConnectPage.qml"))
-                        setupPushNotifications();
+                        if (tabSettings.lastConnectedHost.length > 0) {
+                            print("Last connected host was", tabSettings.lastConnectedHost)
+                            var cachedHost = discovery.nymeaHosts.find(tabSettings.lastConnectedHost);
+                            if (cachedHost) {
+                                engine.connection.connect(cachedHost)
+                                return;
+                            }
+                            print("Warning: There is a last connected host but UUID is unknown to discovery...")
+                        }
+                        PlatformHelper.hideSplashScreen();
+                        pageStack.push(Qt.resolvedUrl("connection/ConnectPage.qml"), StackView.Immediate)
                     }
 
+                    Timer { running: true; repeat: false; interval: 3000; onTriggered: PlatformHelper.hideSplashScreen(); }
+
                     function init() {
-                        print("calling init. Auth required:", engine.jsonRpcClient.authenticationRequired, "initial setup required:", engine.jsonRpcClient.initialSetupRequired, "jsonrpc connected:", engine.jsonRpcClient.connected)
+                        print("calling init. Auth required:", engine.jsonRpcClient.authenticationRequired, "initial setup required:", engine.jsonRpcClient.initialSetupRequired, "jsonrpc connected:", engine.jsonRpcClient.connected, "Current host:", engine.connection.currentHost)
                         pageStack.clear()
-                        if (!engine.connection.connected) {
+                        if (!engine.connection.currentHost) {
+                            print("pushing ConnectPage")
                             pageStack.push(Qt.resolvedUrl("connection/ConnectPage.qml"))
+                            PlatformHelper.hideSplashScreen();
                             return;
                         }
 
                         if (engine.jsonRpcClient.authenticationRequired || engine.jsonRpcClient.initialSetupRequired) {
+                            PlatformHelper.hideSplashScreen();
                             if (engine.jsonRpcClient.pushButtonAuthAvailable) {
                                 print("opening push button auth")
                                 var page = pageStack.push(Qt.resolvedUrl("PushButtonAuthPage.qml"))
@@ -110,6 +133,7 @@ Item {
                                     engine.connection.disconnect();
                                     init();
                                 })
+                                return;
                             } else {
                                 var page = pageStack.push(Qt.resolvedUrl("LoginPage.qml"));
                                 page.backPressed.connect(function() {
@@ -117,12 +141,21 @@ Item {
                                     engine.connection.disconnect()
                                     init();
                                 })
+                                return;
                             }
-                        } else if (engine.jsonRpcClient.connected) {
-                            pageStack.push(Qt.resolvedUrl("MainPage.qml"))
-                        } else {
-                            pageStack.push(Qt.resolvedUrl("connection/ConnectPage.qml"))
                         }
+
+                        if (engine.jsonRpcClient.connected) {
+                            pageStack.push(Qt.resolvedUrl("MainPage.qml"))
+                            PlatformHelper.hideSplashScreen();
+                            return;
+                        }
+
+                        print("pushing ConnectingPage")
+                        var page = pageStack.push(Qt.resolvedUrl("connection/ConnectingPage.qml"));
+                        page.cancel.connect(function(){
+                            engine.connection.disconnect();
+                        })
                     }
 
                     function handleCloseEvent(close) {
@@ -135,7 +168,7 @@ Item {
                                 pageStack.pop();
                             }
                         }
-                    }                    
+                    }
 
                     function setupPushNotifications(askForPermissions) {
                         if (askForPermissions === undefined) {
@@ -162,11 +195,26 @@ Item {
                     }
 
                     Connections {
+                        target: engine.connection
+                        onCurrentHostChanged: {
+                            init();
+                        }
+                        onVerifyConnectionCertificate: {
+                            print("verify cert!")
+                            var certDialogComponent = Qt.createComponent(Qt.resolvedUrl("connection/CertificateDialog.qml"));
+                            var popup = certDialogComponent.createObject(root, {url: url, issuerInfo: issuerInfo, fingerprint: fingerprint, pem: pem});
+                            popup.open();
+                        }
+                    }
+
+
+                    Connections {
                         target: engine.jsonRpcClient
                         onConnectedChanged: {
                             print("json client connected changed", engine.jsonRpcClient.connected)
                             if (engine.jsonRpcClient.connected) {
-                                tabSettings.lastConnectedHost = engine.connection.url
+                                discovery.cacheHost(engine.connection.currentHost)
+                                tabSettings.lastConnectedHost = engine.jsonRpcClient.serverUuid
                             }
                             init();
                         }
@@ -271,15 +319,23 @@ Item {
                 id: tabbar
                 Layout.fillWidth: true
                 Material.elevation: 2
+                position: TabBar.Footer
 
                 Repeater {
-                    model: mainRepeater.count
+                    model: tabModel.count
 
                     delegate: TabButton {
                         id: hostTabButton
                         property var engine: mainRepeater.itemAt(index)._engine
                         property string serverName: engine.nymeaConfiguration.serverName
                         Material.elevation: index
+                        width: Math.max(150, tabbar.width / tabbar.count)
+
+                        Rectangle {
+                            anchors.fill: parent
+                            color: Material.foreground
+                            opacity: 0.06
+                        }
 
                         contentItem: RowLayout {
                             Label {
@@ -324,7 +380,6 @@ Item {
                     }
                 }
             }
-
         }
     }
 }

@@ -163,5 +163,6 @@
         <file>ui/thingconfiguration/SetupWizard.qml</file>
         <file>ui/thingconfiguration/EditThingsPage.qml</file>
         <file>ui/thingconfiguration/ConfigureThingPage.qml</file>
+        <file>ui/connection/CertificateDialog.qml</file>
     </qresource>
 </RCC>

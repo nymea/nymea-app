@@ -38,7 +38,6 @@ ApplicationWindow {
         property alias windowWidth: app.width
         property alias windowHeight: app.height
         property bool returnToHome: false
-        property bool darkTheme: false
         property string graphStyle: "bars"
         property string style: "light"
         property bool showHiddenOptions: false
@@ -51,6 +50,14 @@ ApplicationWindow {
         id: rootItem
         anchors.fill: parent
     }
+
+    NymeaDiscovery {
+        id: discovery
+        objectName: "discovery"
+        awsClient: AWSClient
+//        discovering: pageStack.currentItem.objectName === "discoveryPage"
+    }
+    property alias _discovery: discovery
 
     onClosing: {
         rootItem.handleCloseEvent(close)

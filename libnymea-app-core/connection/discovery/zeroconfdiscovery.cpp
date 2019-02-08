@@ -2,11 +2,11 @@
 
 #include <QUuid>
 
-#include "discoverydevice.h"
+#include "../nymeahost.h"
 
-ZeroconfDiscovery::ZeroconfDiscovery(DiscoveryModel *discoveryModel, QObject *parent) :
+ZeroconfDiscovery::ZeroconfDiscovery(NymeaHosts *nymeaHosts, QObject *parent) :
     QObject(parent),
-    m_discoveryModel(discoveryModel)
+    m_nymeaHosts(nymeaHosts)
 {
 #ifdef WITH_ZEROCONF
     // NOTE: There seem to be too many issues in QtZeroConf and IPv6.
@@ -70,6 +70,16 @@ void ZeroconfDiscovery::serviceEntryAdded(const QZeroConfService &entry)
         return;
     }
 
+    // Workaround a bug in deeper layers (I believe it's avahi, but could be QtZeroConf too):
+    // Sometimes the ip() field contains an IPv6 address. In that case the entry is likely garbage as
+    // it does not mean the host necessarily exports the services on IPv6.
+    bool isIPv4;
+    entry.ip().toIPv4Address(&isIPv4);
+    if (!isIPv4) {
+        qDebug() << "Skipping invalid Avahi entry: IPv4:" << entry.ip();
+        return;
+    }
+
 //    qDebug() << "zeroconf service discovered" << entry.type() << entry.name() << " IP:" << entry.ip() << "IPv6:" << entry.ipv6() << entry.txt();
 
     QString uuid;
@@ -91,18 +101,18 @@ void ZeroconfDiscovery::serviceEntryAdded(const QZeroConfService &entry)
             version = txtRecord.second;
         }
     }
-    qDebug() << "avahi service entry added" << serverName << uuid << sslEnabled;
+//    qDebug() << "avahi service entry added" << serverName << uuid << sslEnabled;
 
 
-    DiscoveryDevice* device = m_discoveryModel->find(uuid);
-    if (!device) {
-        device = new DiscoveryDevice(m_discoveryModel);
-        device->setUuid(uuid);
+    NymeaHost* host = m_nymeaHosts->find(uuid);
+    if (!host) {
+        host = new NymeaHost(m_nymeaHosts);
+        host->setUuid(uuid);
         qDebug() << "ZeroConf: Adding new host:" << serverName << uuid;
-        m_discoveryModel->addDevice(device);
+        m_nymeaHosts->addHost(host);
     }
-    device->setName(serverName);
-    device->setVersion(version);
+    host->setName(serverName);
+    host->setVersion(version);
     QUrl url;
     // NOTE: On linux this is "_jsonrpc._tcp" while on apple systems this is "_jsonrpc._tcp."
     if (entry.type().startsWith("_jsonrpc._tcp")) {
@@ -112,12 +122,16 @@ void ZeroconfDiscovery::serviceEntryAdded(const QZeroConfService &entry)
     }
     url.setHost(!entry.ip().isNull() ? entry.ip().toString() : entry.ipv6().toString());
     url.setPort(entry.port());
-    if (!device->connections()->find(url)){
-        qDebug() << "Zeroconf: Adding new connection to host:" << device->name() << url.toString();
+    Connection *connection = host->connections()->find(url);
+    if (!connection) {
+        qDebug() << "Zeroconf: Adding new connection to host:" << host->name() << url.toString();
         QString displayName = QString("%1:%2").arg(url.host()).arg(url.port());
-        Connection *connection = new Connection(url, Connection::BearerTypeWifi, sslEnabled, displayName);
+        connection = new Connection(url, Connection::BearerTypeWifi, sslEnabled, displayName);
         connection->setOnline(true);
-        device->connections()->addConnection(connection);
+        host->connections()->addConnection(connection);
+    } else {
+        qDebug() << "Zeroconf: Setting connection online:" << host->name() << url.toString();
+        connection->setOnline(true);
     }
 }
 
@@ -149,8 +163,8 @@ void ZeroconfDiscovery::serviceEntryRemoved(const QZeroConfService &entry)
 
 //    qDebug() << "Zeroconf: Service entry removed" << entry.name();
 
-    DiscoveryDevice* device = m_discoveryModel->find(uuid);
-    if (!device) {
+    NymeaHost* host = m_nymeaHosts->find(uuid);
+    if (!host) {
         // Nothing to do...
         return;
     }
@@ -163,19 +177,13 @@ void ZeroconfDiscovery::serviceEntryRemoved(const QZeroConfService &entry)
     }
     url.setHost(!entry.ip().isNull() ? entry.ip().toString() : entry.ipv6().toString());
     url.setPort(entry.port());
-    Connection *connection = device->connections()->find(url);
+    Connection *connection = host->connections()->find(url);
     if (!connection){
         // Connection url not found...
         return;
     }
 
-    // Ok, now we need to remove it
-    device->connections()->removeConnection(connection);
-
-    // And if there aren't any connections left, remove the entire device
-    if (device->connections()->rowCount() == 0) {
-        qDebug() << "Zeroconf: Removing connection from host:" << device->name() << url.toString();
-        m_discoveryModel->removeDevice(device);
-    }
+    qDebug() << "Zeroconf: Setting connection offline:" << host->name() << url.toString();
+    connection->setOnline(false);
 }
 #endif

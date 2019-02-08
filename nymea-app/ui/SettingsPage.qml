@@ -37,7 +37,7 @@ Page {
                     Label {
                         Layout.fillWidth: true
                         elide: Text.ElideMiddle
-                        text: engine.connection.url
+                        text: engine.connection.currentConnection.url
                     }
                     Button {
                         text: qsTr("Disconnect")

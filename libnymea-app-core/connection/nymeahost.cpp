@@ -18,32 +18,41 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include "discoverydevice.h"
+#include "nymeahost.h"
 
 #include <QUrl>
 
-DiscoveryDevice::DiscoveryDevice(QObject *parent):
+NymeaHost::NymeaHost(QObject *parent):
     QObject(parent),
     m_connections(new Connections(this))
 {
+    connect(m_connections, &Connections::dataChanged, this, [this](const QModelIndex &, const QModelIndex &, const QVector<int>){
+        emit connectionChanged();
+    });
+    connect(m_connections, &Connections::connectionAdded, this, [this](Connection*){
+        emit connectionChanged();
+    });
+    connect(m_connections, &Connections::connectionRemoved, this, [this](Connection*){
+        emit connectionChanged();
+    });
 }
 
-QUuid DiscoveryDevice::uuid() const
+QUuid NymeaHost::uuid() const
 {
     return m_uuid;
 }
 
-void DiscoveryDevice::setUuid(const QUuid &uuid)
+void NymeaHost::setUuid(const QUuid &uuid)
 {
     m_uuid = uuid;
 }
 
-QString DiscoveryDevice::name() const
+QString NymeaHost::name() const
 {
     return m_name;
 }
 
-void DiscoveryDevice::setName(const QString &name)
+void NymeaHost::setName(const QString &name)
 {
     if (m_name != name) {
         m_name = name;
@@ -51,12 +60,12 @@ void DiscoveryDevice::setName(const QString &name)
     }
 }
 
-QString DiscoveryDevice::version() const
+QString NymeaHost::version() const
 {
     return m_version;
 }
 
-void DiscoveryDevice::setVersion(const QString &version)
+void NymeaHost::setVersion(const QString &version)
 {
     if (m_version != version) {
         m_version = version;
@@ -64,7 +73,7 @@ void DiscoveryDevice::setVersion(const QString &version)
     }
 }
 
-Connections* DiscoveryDevice::connections() const
+Connections* NymeaHost::connections() const
 {
     return m_connections;
 }
@@ -121,6 +130,7 @@ void Connections::addConnection(Connection *connection)
         emit dataChanged(index(idx), index(idx), {RoleOnline});
     });
     endInsertRows();
+    emit connectionAdded(connection);
     emit countChanged();
 }
 
@@ -134,6 +144,7 @@ void Connections::removeConnection(Connection *connection)
     beginRemoveRows(QModelIndex(), idx, idx);
     m_connections.takeAt(idx)->deleteLater();
     endRemoveRows();
+    emit connectionRemoved(connection);
     emit countChanged();
 }
 
@@ -155,6 +166,25 @@ Connection* Connections::get(int index) const
         return m_connections.at(index);
     }
     return nullptr;
+}
+
+Connection *Connections::bestMatch(Connection::BearerTypes bearerTypes) const
+{
+    Connection *best = nullptr;
+    foreach (Connection *c, m_connections) {
+//        qDebug() << "have connection:" << bearerTypes << c->url() << bearerTypes.testFlag(c->bearerType());
+        if ((bearerTypes & c->bearerType()) == Connection::BearerTypeNone) {
+            continue;
+        }
+        if (!best) {
+            best = c;
+            continue;
+        }
+        if (c->priority() > best->priority()) {
+            best = c;
+        }
+    }
+    return best;
 }
 
 QHash<int, QByteArray> Connections::roleNames() const
@@ -208,5 +238,38 @@ void Connection::setOnline(bool online)
     if (m_online != online) {
         m_online = online;
         emit onlineChanged();
+        emit priorityChanged();
     }
+}
+
+int Connection::priority() const
+{
+    int prio = 0;
+    if (m_online) {
+        prio += 1000;
+    }
+
+    switch(m_bearerType) {
+    case BearerTypeEthernet:
+        prio += 400;
+        break;
+    case BearerTypeWifi:
+        prio += 300;
+        break;
+    case BearerTypeBluetooth:
+        prio += 200;
+        break;
+    case BearerTypeCloud:
+        prio += 100;
+        break;
+    default:
+        prio += 0;
+    }
+    if (m_secure) {
+        prio += 10;
+    }
+    if (m_url.scheme().startsWith("nymea")) {
+        prio += 1;
+    }
+    return prio;
 }

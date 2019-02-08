@@ -10,6 +10,11 @@ void PlatformHelperGeneric::requestPermissions()
     emit permissionsRequestFinished();
 }
 
+void PlatformHelperGeneric::hideSplashScreen()
+{
+
+}
+
 bool PlatformHelperGeneric::hasPermissions() const
 {
     return true;

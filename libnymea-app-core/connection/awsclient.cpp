@@ -7,6 +7,7 @@
 #include <QJsonDocument>
 #include <QSettings>
 #include <QUuid>
+#include <QTimer>
 
 #include "sigv4utils.h"
 
@@ -225,10 +226,10 @@ void AWSClient::login(const QString &username, const QString &password, int atte
         m_idToken = authenticationResult.value("IdToken").toByteArray();
         m_refreshToken = authenticationResult.value("RefreshToken").toByteArray();
 
-        qDebug() << "AWS ID token" << m_idToken;
+//        qDebug() << "AWS ID token" << m_idToken;
         QList<QByteArray> jwtParts = m_idToken.split('.');
         if (jwtParts.count() != 3) {
-            qWarning() << "JWT token doesn't have 3 parts";
+            qWarning() << "Error: JWT token doesn't have 3 parts. Cannot retrieve AWS Cognito ID.";
             return;
         }
 //        qDebug() << "decoded header:" << QByteArray::fromBase64(jwtParts.at(0));
@@ -236,7 +237,7 @@ void AWSClient::login(const QString &username, const QString &password, int atte
         QJsonDocument tokenPayloadJsonDoc = QJsonDocument::fromJson(QByteArray::fromBase64(jwtParts.at(1)));
         m_userId = tokenPayloadJsonDoc.toVariant().toMap().value("cognito:username").toByteArray();
 
-        qDebug() << "Getting cognito ID";
+//        qDebug() << "Getting cognito ID";
         getId();
     });
 }
@@ -596,7 +597,7 @@ void AWSClient::getId()
         }
         m_identityId = jsonDoc.toVariant().toMap().value("IdentityId").toByteArray();
 
-        qDebug() << "Received cognito identity id" << m_identityId;// << qUtf8Printable(data);
+//        qDebug() << "Received cognito identity id" << m_identityId;// << qUtf8Printable(data);
         getCredentialsForIdentity(m_identityId);
 
     });
@@ -866,25 +867,30 @@ bool AWSClient::postToMQTT(const QString &boxId, const QString &timestamp, std::
     request.setUrl("https://" + m_configs.value(m_usedConfig).mqttEndpoint + path1);
 
     qDebug() << "Posting to MQTT:" << request.url().toString();
-    qDebug() << "HEADERS:";
-    foreach (const QByteArray &headerName, request.rawHeaderList()) {
-        qDebug() << headerName << ":" << request.rawHeader(headerName);
-    }
-    qDebug() << "Payload:" << payload;
+//    qDebug() << "HEADERS:";
+//    foreach (const QByteArray &headerName, request.rawHeaderList()) {
+//        qDebug() << headerName << ":" << request.rawHeader(headerName);
+//    }
+//    qDebug() << "Payload:" << payload;
     QNetworkReply *reply = m_nam->post(request, payload);
+    QTimer::singleShot(5000, reply, [reply, callback](){
+        reply->deleteLater();
+        qWarning() << "Timeout posting to MQTT";
+        callback(false);
+    });
     connect(reply, &QNetworkReply::finished, this, [reply, callback]() {
         reply->deleteLater();
         QByteArray data = reply->readAll();
-        qDebug() << "post reply" << data;
+//        qDebug() << "MQTT post reply" << data;
         if (reply->error() != QNetworkReply::NoError) {
-            qWarning() << "Network reply error" << reply->error() << reply->errorString();
+            qWarning() << "MQTT Network reply error" << reply->error() << reply->errorString();
             callback(false);
             return;
         }
         QJsonParseError error;
         QJsonDocument jsonDoc = QJsonDocument::fromJson(data, &error);
         if (error.error != QJsonParseError::NoError) {
-            qWarning() << "Failed to parse reply" << error.error << error.errorString() << data;
+            qWarning() << "Failed to parse MQTT reply" << error.error << error.errorString() << data;
             callback(false);
             return;
         }

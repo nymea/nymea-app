@@ -25,19 +25,22 @@ INCLUDEPATH += $$top_srcdir/libnymea-common \
 
 SOURCES += \
     engine.cpp \
+    connection/nymeahost.cpp \
+    connection/nymeahosts.cpp  \
     connection/nymeaconnection.cpp \
     connection/nymeatransportinterface.cpp \
     connection/websockettransport.cpp \
     connection/tcpsockettransport.cpp \
     connection/bluetoothtransport.cpp \
     connection/awsclient.cpp \
+    connection/discovery/nymeadiscovery.cpp \
+    connection/discovery/upnpdiscovery.cpp \
+    connection/discovery/zeroconfdiscovery.cpp \
+    connection/discovery/bluetoothservicediscovery.cpp \
     devicemanager.cpp \
     jsonrpc/jsontypes.cpp \
     jsonrpc/jsonrpcclient.cpp \
     jsonrpc/jsonhandler.cpp \
-    discovery/nymeahost.cpp \
-    discovery/nymeahosts.cpp  \
-    discovery/upnpdiscovery.cpp \
     devices.cpp \
     devicesproxy.cpp \
     deviceclasses.cpp \
@@ -46,14 +49,10 @@ SOURCES += \
     vendorsproxy.cpp \
     pluginsproxy.cpp \
     interfacesmodel.cpp \
-    discovery/zeroconfdiscovery.cpp \
-    discovery/discoverydevice.cpp \
-    discovery/discoverymodel.cpp \
     rulemanager.cpp \
     models/rulesfiltermodel.cpp \
     models/logsmodel.cpp \
     models/valuelogsproxymodel.cpp \
-    discovery/nymeadiscovery.cpp \
     logmanager.cpp \
     wifisetup/bluetoothdevice.cpp \
     wifisetup/bluetoothdeviceinfo.cpp \
@@ -74,7 +73,6 @@ SOURCES += \
     ruletemplates/ruleactiontemplate.cpp \
     ruletemplates/stateevaluatortemplate.cpp \
     ruletemplates/statedescriptortemplate.cpp \
-    discovery/bluetoothservicediscovery.cpp \
     connection/cloudtransport.cpp \
     connection/sigv4utils.cpp \
     ruletemplates/ruleactionparamtemplate.cpp \
@@ -88,6 +86,8 @@ SOURCES += \
 
 HEADERS += \
     engine.h \
+    connection/nymeahost.h \
+    connection/nymeahosts.h \
     connection/nymeaconnection.h \
     connection/nymeatransportinterface.h \
     connection/websockettransport.h \
@@ -95,13 +95,14 @@ HEADERS += \
     connection/bluetoothtransport.h \
     connection/awsclient.h \
     connection/sigv4utils.h \
+    connection/discovery/nymeadiscovery.h \
+    connection/discovery/upnpdiscovery.h \
+    connection/discovery/zeroconfdiscovery.h \
+    connection/discovery/bluetoothservicediscovery.h \
     devicemanager.h \
     jsonrpc/jsontypes.h \
     jsonrpc/jsonrpcclient.h \
     jsonrpc/jsonhandler.h \
-    discovery/nymeahost.h \
-    discovery/nymeahosts.h \
-    discovery/upnpdiscovery.h \
     devices.h \
     devicesproxy.h \
     deviceclasses.h \
@@ -110,14 +111,10 @@ HEADERS += \
     vendorsproxy.h \
     pluginsproxy.h \
     interfacesmodel.h \
-    discovery/zeroconfdiscovery.h \
-    discovery/discoverydevice.h \
-    discovery/discoverymodel.h \
     rulemanager.h \
     models/rulesfiltermodel.h \
     models/logsmodel.h \
     models/valuelogsproxymodel.h \
-    discovery/nymeadiscovery.h \
     logmanager.h \
     wifisetup/bluetoothdevice.h \
     wifisetup/bluetoothdeviceinfo.h \
@@ -139,7 +136,6 @@ HEADERS += \
     ruletemplates/ruleactiontemplate.h \
     ruletemplates/stateevaluatortemplate.h \
     ruletemplates/statedescriptortemplate.h \
-    discovery/bluetoothservicediscovery.h \
     connection/cloudtransport.h \
     ruletemplates/ruleactionparamtemplate.h \
     configuration/serverconfiguration.h \

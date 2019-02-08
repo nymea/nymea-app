@@ -8,24 +8,17 @@ import "../components"
 Page {
     id: root
 
-    readonly property bool haveHosts: discovery.discoveryModel.count > 0
+    readonly property bool haveHosts: hostsProxy.count > 0
 
     Component.onCompleted: {
-        print("completed connectPage for tab", connectionTabIndex, "last connected host:", tabSettings.lastConnectedHost)
-        if (tabSettings.lastConnectedHost.length > 0 && engine.connection.connect(tabSettings.lastConnectedHost)) {
-            var page = pageStack.push(Qt.resolvedUrl("ConnectingPage.qml"))
-            page.cancel.connect(function() {
-                engine.connection.disconnect();
-                pageStack.pop(root, StackView.Immediate);
-                pageStack.push(discoveryPage)
-            })
-        } else {
-            pageStack.push(discoveryPage)
-        }
+        print("Ready to connect")
+
+        pageStack.push(discoveryPage, StackView.Immediate)
     }
 
-    function connectToHost(url) {
-        var page = pageStack.push(Qt.resolvedUrl("ConnectingPage.qml"))
+
+    function connectToHost(url, noAnimations) {
+        var page = pageStack.push(Qt.resolvedUrl("ConnectingPage.qml"), noAnimations ? StackView.Immediate : StackView.PushTransition)
         page.cancel.connect(function() {
             engine.connection.disconnect()
             pageStack.pop(root, StackView.Immediate);
@@ -34,60 +27,22 @@ Page {
         engine.connection.connect(url)
     }
 
-    NymeaDiscovery {
-        id: discovery
-        objectName: "discovery"
-        awsClient: AWSClient
-        discovering: pageStack.currentItem.objectName === "discoveryPage"
+    function connectToHost2(host, noAnimations) {
+        var page = pageStack.push(Qt.resolvedUrl("ConnectingPage.qml"), noAnimations ? StackView.Immediate : StackView.PushTransition)
+        page.cancel.connect(function() {
+            engine.connection.disconnect()
+            pageStack.pop(root, StackView.Immediate);
+            pageStack.push(discoveryPage)
+        })
+        print("Connecting to host", host)
+        engine.connection.connect(host)
     }
 
-    Connections {
-        target: engine.connection
-        onVerifyConnectionCertificate: {
-            print("verify cert!")
-            var popup = certDialogComponent.createObject(root, {url: url, issuerInfo: issuerInfo, fingerprint: fingerprint, pem: pem});
-            popup.open();
-        }
-        onConnectionError: {
-            var errorMessage;
-            switch (error) {
-            case "ConnectionRefusedError":
-                errorMessage = qsTr("The host has rejected our connection. This probably means that %1 stopped running. Did you unplug your %1 box?").arg(app.systemName);
-                break;
-            case "SslInvalidUserDataError":
-            case "SslHandshakeFailedError":
-                // silently ignore. They'll be handled by the SSL logic
-                return;
-            case "HostNotFoundError":
-                errorMessage = qsTr("%1:core could not be found on this address. Please make sure you entered the address correctly and that the box is powered on.").arg(app.systemName);
-                break;
-            case "NetworkError":
-                errorMessage = qsTr("It seems you're not connected to the network.");
-                break;
-            case "RemoteHostClosedError":
-                errorMessage = qsTr("%1:core has closed the connection. This probably means it has been turned off or restarted.").arg(app.systemName);
-                break;
-            case "SocketTimeoutError":
-                errorMessage = qsTr("%1:core did not respond. Please make sure your network connection works properly").arg(app.systemName);
-                break;
-            default:
-                errorMessage = qsTr("An unknown error happened. We're very sorry for that. (Error code: %1)").arg(error);
-            }
-
-            pageStack.pop(root, StackView.Immediate)
-            pageStack.push(discoveryPage)
-
-            print("opening ErrorDialog with message:", errorMessage, error)
-            var comp = Qt.createComponent(Qt.resolvedUrl("../components/ErrorDialog.qml"))
-            var popup = comp.createObject(app, {text: errorMessage})
-            popup.open()
-        }
-        onConnectedChanged: {
-            if (!connected) {
-                pageStack.pop(root, StackView.Immediate)
-                pageStack.push(discoveryPage)
-            }
-        }
+    NymeaHostsFilterModel {
+        id: hostsProxy
+        discovery: _discovery
+        showUnreachableBearers: false
+        nymeaConnection: engine.connection
     }
 
     Component {
@@ -105,7 +60,8 @@ Page {
                 }
                 onClicked: {
                     if (index === 2) {
-                        root.connectToHost("nymea://nymea.nymea.io:2222")
+                        var host = discovery.nymeaHosts.createHost("Demo server", "nymea://nymea.nymea.io:2222", Connection.BearerTypeCloud)
+                        engine.connection.connect(host)
                     } else {
                         pageStack.push(model.get(index).page, {nymeaDiscovery: discovery});
                     }
@@ -113,10 +69,21 @@ Page {
             }
 
             Timer {
-                id: startupTimer
-                interval: 5000
+                id: splashHideTimeout
+                interval: 3000
                 repeat: false
                 running: true
+                onTriggered: {
+                    PlatformHelper.hideSplashScreen()
+                    startupTimer.start()
+                }
+            }
+
+            Timer {
+                id: startupTimer
+                interval: 10000
+                repeat: false
+                running: false
             }
 
 
@@ -141,7 +108,7 @@ Page {
                     Label {
                         Layout.fillWidth: true
                         text: root.haveHosts ?
-                                  qsTr("There are %1 %2 boxes in your network! Which one would you like to use?").arg(discovery.discoveryModel.count).arg(app.systemName)
+                                  qsTr("There are %1 %2 boxes in your network! Which one would you like to use?").arg(discovery.nymeaHosts.count).arg(app.systemName)
                                 : startupTimer.running ? qsTr("We haven't found any %1 boxes in your network yet.").arg(app.systemName)
                                                        : qsTr("There doesn't seem to be a %1 box installed in your network. Please make sure your %1 box is correctly set up and connected.").arg(app.systemName)
                         wrapMode: Text.WordWrap
@@ -153,53 +120,30 @@ Page {
                 ListView {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
-                    model: discovery.discoveryModel
+                    model: hostsProxy
                     clip: true
 
                     delegate: MeaListItemDelegate {
-                        id: discoveryDeviceDelegate
+                        id: nymeaHostDelegate
                         width: parent.width
                         height: app.delegateHeight
                         objectName: "discoveryDelegate" + index
-                        property var discoveryDevice: discovery.discoveryModel.get(index)
+                        property var nymeaHost: hostsProxy.get(index)
                         property string defaultConnectionIndex: {
-                            var usedConfigIndex = 0;
-                            for (var i = 1; i < discoveryDevice.connections.count; i++) {
-                                var oldConfig = discoveryDevice.connections.get(usedConfigIndex);
-                                var newConfig = discoveryDevice.connections.get(i);
-
-                                // Preference of bearerType
-                                var bearerPreference = [Connection.BearerTypeEthernet, Connection.BearerTypeWifi, Connection.BearerTypeBluetooth, Connection.BearerTypeCloud]
-                                var oldBearerPriority = bearerPreference.indexOf(oldConfig.bearerType);
-                                var newBearerPriority = bearerPreference.indexOf(newConfig.bearerType);
-                                if (newBearerPriority < oldBearerPriority) {
-                                    print(discoveryDevice.name, "switching to preferred index", i, "of bearer type", newConfig.bearerType, "from", oldConfig.bearerType, "new prio:", newBearerPriority, "old:", oldBearerPriority)
-                                    usedConfigIndex = i;
-                                    continue;
-                                }
-                                if (oldBearerPriority < newBearerPriority) {
-                                    continue; // discard new one the one we have is on a better bearer type
-                                }
-
-                                // prefer secure over insecure
-                                if (!oldConfig.secure && newConfig.secure) {
-                                    usedConfigIndex = i;
-                                    continue;
-                                }
-                                if (oldConfig.secure && !newConfig.secure) {
-                                    continue; // discard new one as the one we already have is more secure
-                                }
-
-                                // both options are now on the same bearer and either secure or insecure, prefer nymearpc over websocket for less overhead
-                                if (oldConfig.url.toString().startsWith("ws") && newConfig.url.toString().startsWith("nymea")) {
-                                    usedConfigIndex = i;
+                            var bestIndex = -1
+                            var bestPriority = 0;
+                            for (var i = 0; i < nymeaHost.connections.count; i++) {
+                                var connection = nymeaHost.connections.get(i);
+                                if (bestIndex === -1 || connection.priority > bestPriority) {
+                                    bestIndex = i;
+                                    bestPriority = connection.priority;
                                 }
                             }
-                            return usedConfigIndex
+                            return bestIndex;
                         }
 
                         iconName: {
-                            switch (discoveryDevice.connections.get(defaultConnectionIndex).bearerType) {
+                            switch (nymeaHost.connections.get(defaultConnectionIndex).bearerType) {
                             case Connection.BearerTypeWifi:
                                 return "../images/network-wifi-symbolic.svg";
                             case Connection.BearerTypeEthernet:
@@ -213,21 +157,21 @@ Page {
                         }
 
                         text: model.name
-                        subText: discoveryDevice.connections.get(defaultConnectionIndex).url
+                        subText: nymeaHost.connections.get(defaultConnectionIndex).url
                         wrapTexts: false
                         prominentSubText: false
                         progressive: false
-                        property bool isSecure: discoveryDevice.connections.get(defaultConnectionIndex).secure
-                        property bool isTrusted: engine.connection.isTrusted(discoveryDeviceDelegate.discoveryDevice.connections.get(defaultConnectionIndex).url)
-                        property bool isOnline: discoveryDevice.connections.get(defaultConnectionIndex).online
+                        property bool isSecure: nymeaHost.connections.get(defaultConnectionIndex).secure
+                        property bool isTrusted: engine.connection.isTrusted(nymeaHostDelegate.nymeaHost.connections.get(defaultConnectionIndex).url)
+                        property bool isOnline: nymeaHost.connections.get(defaultConnectionIndex).online
                         tertiaryIconName: isSecure ? "../images/network-secure.svg" : ""
                         tertiaryIconColor: isTrusted ? app.accentColor : Material.foreground
                         secondaryIconName: !isOnline ? "../images/cloud-error.svg" : ""
                         secondaryIconColor: "red"
-                        swipe.enabled: discoveryDeviceDelegate.discoveryDevice.deviceType === DiscoveryDevice.DeviceTypeNetwork
+                        swipe.enabled: nymeaHostDelegate.nymeaHost.deviceType === NymeaHost.DeviceTypeNetwork
 
                         onClicked: {
-                            root.connectToHost(discoveryDeviceDelegate.discoveryDevice.connections.get(defaultConnectionIndex).url)
+                            root.connectToHost2(nymeaHostDelegate.nymeaHost)
                         }
 
                         swipe.right: MouseArea {
@@ -240,9 +184,11 @@ Page {
                                 name: "../images/info.svg"
                             }
                             onClicked: {
-                                if (model.deviceType === DiscoveryDevice.DeviceTypeNetwork) {
+                                if (model.deviceType === NymeaHost.DeviceTypeNetwork) {
                                     swipe.close()
-                                    var popup = infoDialog.createObject(app,{discoveryDevice: discovery.discoveryModel.get(index)})
+                                    var nymeaHost = hostsProxy.get(index);
+                                    print("Getting info for", nymeaHost.name)
+                                    var popup = infoDialog.createObject(app,{nymeaHost: nymeaHost})
                                     popup.open()
                                 }
                             }
@@ -272,14 +218,14 @@ Page {
                     Layout.leftMargin: app.margins
                     Layout.rightMargin: app.margins
                     wrapMode: Text.WordWrap
-                    visible: discovery.discoveryModel.count === 0
+                    visible: discovery.nymeaHosts.count === 0
                     text: qsTr("Do you have a %1 box but it's not connected to your network yet? Use the wireless setup to connect it!").arg(app.systemName)
                 }
                 Button {
                     Layout.fillWidth: true
                     Layout.leftMargin: app.margins
                     Layout.rightMargin: app.margins
-                    visible: discovery.discoveryModel.count === 0
+                    visible: discovery.nymeaHosts.count === 0
                     text: qsTr("Start wireless setup")
                     onClicked: pageStack.push(Qt.resolvedUrl("wifisetup/BluetoothDiscoveryPage.qml"), {nymeaDiscovery: discovery})
                 }
@@ -297,10 +243,11 @@ Page {
                     Layout.leftMargin: app.margins
                     Layout.rightMargin: app.margins
                     Layout.bottomMargin: app.margins
-                    visible: discovery.discoveryModel.count === 0
+                    visible: discovery.nymeaHosts.count === 0
                     text: qsTr("Demo mode (online)")
                     onClicked: {
-                        root.connectToHost("nymea://nymea.nymea.io:2222")
+                        var host = nymeaHosts.createHost("Demo server", "nymea://nymea.nymea.io:2222", Connection.BearerTypeCloud)
+                        engine.connection.connect(host)
                     }
                 }
 
@@ -323,116 +270,6 @@ Page {
     }
 
     Component {
-        id: certDialogComponent
-
-        Dialog {
-            id: certDialog
-            width: Math.min(parent.width * .9, 400)
-            x: (parent.width - width) / 2
-            y: (parent.height - height) / 2
-            standardButtons: Dialog.Yes | Dialog.No
-
-            property string url
-            property var fingerprint
-            property var issuerInfo
-            property var pem
-
-            readonly property bool hasOldFingerprint: engine.connection.isTrusted(url)
-
-            ColumnLayout {
-                id: certLayout
-                anchors.fill: parent
-                //                spacing: app.margins
-
-                RowLayout {
-                    Layout.fillWidth: true
-                    spacing: app.margins
-                    ColorIcon {
-                        Layout.preferredHeight: app.iconSize * 2
-                        Layout.preferredWidth: height
-                        name: certDialog.hasOldFingerprint ? "../images/lock-broken.svg" : "../images/info.svg"
-                        color: certDialog.hasOldFingerprint ? "red" : app.accentColor
-                    }
-
-                    Label {
-                        id: titleLabel
-                        Layout.fillWidth: true
-                        wrapMode: Text.WordWrap
-                        text: certDialog.hasOldFingerprint ? qsTr("Warning") : qsTr("Hi there!")
-                        color: certDialog.hasOldFingerprint ? "red" : app.accentColor
-                        font.pixelSize: app.largeFont
-                    }
-                }
-
-                Label {
-                    Layout.fillWidth: true
-                    wrapMode: Text.WordWrap
-                    text: certDialog.hasOldFingerprint ? qsTr("The certificate of this %1 box has changed!").arg(app.systemName) : qsTr("It seems this is the first time you connect to this %1 box.").arg(app.systemName)
-                }
-
-                Label {
-                    Layout.fillWidth: true
-                    wrapMode: Text.WordWrap
-                    text: certDialog.hasOldFingerprint ? qsTr("Did you change the box's configuration? Verify if this information is correct.") : qsTr("This is the box's certificate. Once you trust it, an encrypted connection will be established.")
-                }
-
-                ThinDivider {}
-                Item {
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    implicitHeight: certGridLayout.implicitHeight
-                    Flickable {
-                        anchors.fill: parent
-                        contentHeight: certGridLayout.implicitHeight
-                        clip: true
-
-                        ScrollBar.vertical: ScrollBar {
-                            policy: contentHeight > height ? ScrollBar.AlwaysOn : ScrollBar.AsNeeded
-                        }
-
-                        GridLayout {
-                            id: certGridLayout
-                            columns: 2
-                            width: parent.width
-
-                            Repeater {
-                                model: certDialog.issuerInfo
-
-                                Label {
-                                    Layout.fillWidth: true
-                                    wrapMode: Text.WordWrap
-                                    text: modelData
-                                }
-                            }
-                            Label {
-                                Layout.fillWidth: true
-                                Layout.columnSpan: 2
-                                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                                text: qsTr("Fingerprint: ") + certDialog.fingerprint
-                            }
-                        }
-                    }
-                }
-
-                ThinDivider {}
-
-                Label {
-                    Layout.fillWidth: true
-                    wrapMode: Text.WordWrap
-                    text: certDialog.hasOldFingerprint ? qsTr("Do you want to connect nevertheless?") : qsTr("Do you want to trust this device?")
-                    font.bold: true
-                }
-            }
-
-            onAccepted: {
-                engine.connection.acceptCertificate(certDialog.url, certDialog.pem)
-                root.connectToHost(certDialog.url)
-            }
-        }
-    }
-
-
-    Component {
         id: infoDialog
         Dialog {
             id: dialog
@@ -444,7 +281,7 @@ Page {
 
             standardButtons: Dialog.Ok
 
-            property var discoveryDevice: null
+            property var nymeaHost: null
 
             header: Item {
                 implicitHeight: headerRow.height + app.margins * 2
@@ -480,7 +317,7 @@ Page {
                     text: "Name:"
                 }
                 Label {
-                    text: dialog.discoveryDevice.name
+                    text: dialog.nymeaHost.name
                     Layout.fillWidth: true
                     elide: Text.ElideRight
                 }
@@ -488,7 +325,7 @@ Page {
                     text: "UUID:"
                 }
                 Label {
-                    text: dialog.discoveryDevice.uuid
+                    text: dialog.nymeaHost.uuid
                     Layout.fillWidth: true
                     elide: Text.ElideRight
                 }
@@ -496,7 +333,7 @@ Page {
                     text: "Version:"
                 }
                 Label {
-                    text: dialog.discoveryDevice.version
+                    text: dialog.nymeaHost.version
                     Layout.fillWidth: true
                     elide: Text.ElideRight
                 }
@@ -516,7 +353,7 @@ Page {
                         id: contentColumn
                         width: parent.width
                         Repeater {
-                            model: dialog.discoveryDevice.connections
+                            model: dialog.nymeaHost.connections
                             delegate: MeaListItemDelegate {
                                 Layout.fillWidth: true
                                 wrapTexts: false
@@ -545,8 +382,8 @@ Page {
                                 secondaryIconColor: "red"
 
                                 onClicked: {
-                                    root.connectToHost(dialog.discoveryDevice.connections.get(index).url)
                                     dialog.close()
+                                    engine.connection.connect(dialog.nymeaHost, dialog.nymeaHost.connections.get(index))
                                 }
                             }
                         }

@@ -18,8 +18,8 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef DISCOVERYDEVICE_H
-#define DISCOVERYDEVICE_H
+#ifndef NYMEAHOST_H
+#define NYMEAHOST_H
 
 #include <QObject>
 #include <QUuid>
@@ -36,15 +36,20 @@ class Connection: public QObject {
     Q_PROPERTY(bool secure READ secure CONSTANT)
     Q_PROPERTY(QString displayName READ displayName CONSTANT)
     Q_PROPERTY(bool online READ online NOTIFY onlineChanged)
+    Q_PROPERTY(int priority READ priority NOTIFY priorityChanged)
+
 public:
     enum BearerType {
-        BearerTypeUnknown,
-        BearerTypeWifi,
-        BearerTypeEthernet,
-        BearerTypeBluetooth,
-        BearerTypeCloud
+        BearerTypeNone = 0x00,
+        BearerTypeWifi = 0x01,
+        BearerTypeEthernet = 0x02,
+        BearerTypeBluetooth = 0x04,
+        BearerTypeCloud = 0x08,
+        BearerTypeUnknown = 0xFF,
+        BearerTypeAll = 0xFF
     };
     Q_ENUM(BearerType)
+    Q_DECLARE_FLAGS(BearerTypes, BearerType)
 
     Connection(const QUrl &url, BearerType bearerType, bool secure, const QString &displayName, QObject *parent = nullptr);
 
@@ -54,13 +59,15 @@ public:
     QString displayName() const;
     bool online() const;
     void setOnline(bool online);
+    int priority() const;
 
 signals:
     void onlineChanged();
+    void priorityChanged();
 
 private:
     QUrl m_url;
-    BearerType m_bearerType = BearerTypeUnknown;
+    BearerType m_bearerType = BearerTypeNone;
     bool m_secure = false;
     QString m_displayName;
     bool m_online = false;
@@ -89,19 +96,22 @@ public:
 
     Q_INVOKABLE Connection* find(const QUrl &url) const;
     Q_INVOKABLE Connection* get(int index) const;
+    Q_INVOKABLE Connection* bestMatch(Connection::BearerTypes bearerTypes = Connection::BearerTypeAll) const;
 
 signals:
     void countChanged();
+    void connectionAdded(Connection *connection);
+    void connectionRemoved(Connection *connection);
 
 protected:
     QHash<int, QByteArray> roleNames() const override;
 
 private:
     QList<Connection*> m_connections;
-
 };
+Q_DECLARE_OPERATORS_FOR_FLAGS(Connection::BearerTypes)
 
-class DiscoveryDevice: public QObject
+class NymeaHost: public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QUuid uuid READ uuid CONSTANT)
@@ -110,7 +120,7 @@ class DiscoveryDevice: public QObject
     Q_PROPERTY(Connections* connections READ connections CONSTANT)
 
 public:
-    explicit DiscoveryDevice(QObject *parent = nullptr);
+    explicit NymeaHost(QObject *parent = nullptr);
 
     QUuid uuid() const;
     void setUuid(const QUuid &uuid);
@@ -126,6 +136,7 @@ public:
 signals:
     void nameChanged();
     void versionChanged();
+    void connectionChanged();
 
 private:
     QUuid m_uuid;
@@ -134,4 +145,4 @@ private:
     Connections *m_connections = nullptr;
 };
 
-#endif // DISCOVERYDEVICE_H
+#endif // NYMEAHOST_H

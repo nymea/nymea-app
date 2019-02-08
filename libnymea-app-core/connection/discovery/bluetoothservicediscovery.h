@@ -6,13 +6,13 @@
 #include <QBluetoothLocalDevice>
 #include <QBluetoothServiceDiscoveryAgent>
 
-class DiscoveryModel;
+class NymeaHosts;
 
 class BluetoothServiceDiscovery : public QObject
 {
     Q_OBJECT
 public:
-    explicit BluetoothServiceDiscovery(DiscoveryModel *discoveryModel, QObject *parent = nullptr);
+    explicit BluetoothServiceDiscovery(NymeaHosts *nymeaHosts, QObject *parent = nullptr);
 
     bool discovering() const;
     bool available() const;
@@ -21,7 +21,7 @@ public:
     Q_INVOKABLE void stopDiscovery();
 
 private:
-    DiscoveryModel *m_discoveryModel = nullptr;
+    NymeaHosts *m_nymeaHosts = nullptr;
     QBluetoothLocalDevice *m_localDevice = nullptr;
     QBluetoothServiceDiscoveryAgent *m_serviceDiscovery = nullptr;
     QBluetoothUuid m_nymeaServiceUuid;

@@ -96,12 +96,8 @@ Page {
                 }
 
                 print("Try to connect ", rpcUrl)
-                engine.connection.connect(rpcUrl)
-                var page = pageStack.push(Qt.resolvedUrl("ConnectingPage.qml"))
-                page.cancel.connect(function() {
-                    engine.connection.disconnect()
-                    pageStack.pop(root)
-                })
+                var host = discovery.nymeaHosts.createHost("Manual connection", rpcUrl, Connection.BearerTypeCloud);
+                engine.connection.connect(host)
             }
         }
     }

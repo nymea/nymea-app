@@ -18,49 +18,52 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef DISCOVERYMODEL_H
-#define DISCOVERYMODEL_H
+#ifndef UPNPDISCOVERY_H
+#define UPNPDISCOVERY_H
 
-#include <QAbstractListModel>
-#include <QList>
-#include <QBluetoothAddress>
+#include <QUdpSocket>
+#include <QHostAddress>
+#include <QNetworkReply>
+#include <QNetworkAccessManager>
+#include <QTimer>
 
-class DiscoveryDevice;
+#include "../nymeahost.h"
+#include "../nymeahosts.h"
 
-class DiscoveryModel : public QAbstractListModel
+class UpnpDiscovery : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
 public:
-    enum DeviceRole {
-        DeviceTypeRole,
-        UuidRole,
-        NameRole,
-        VersionRole
-    };
-    Q_ENUM(DeviceRole)
+    explicit UpnpDiscovery(NymeaHosts *nymeaHosts, QObject *parent = nullptr);
 
-    explicit DiscoveryModel(QObject *parent = nullptr);
+    bool discovering() const;
 
-    int rowCount(const QModelIndex & parent = QModelIndex()) const;
-    QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;
+    bool available() const;
 
-    void addDevice(DiscoveryDevice *device);
-    void removeDevice(DiscoveryDevice *device);
-
-    Q_INVOKABLE DiscoveryDevice *get(int index) const;
-    Q_INVOKABLE DiscoveryDevice *find(const QUuid &uuid);
-
-    void clearModel();
-
-signals:
-    void countChanged();
-
-protected:
-    QHash<int, QByteArray> roleNames() const;
+    Q_INVOKABLE void discover();
+    Q_INVOKABLE void stopDiscovery();
 
 private:
-    QList<DiscoveryDevice *> m_devices;
+    QList<QUdpSocket*> m_sockets;
+    QNetworkAccessManager *m_networkAccessManager;
+
+    QTimer m_repeatTimer;
+
+    NymeaHosts *m_nymeaHosts;
+
+    QHash<QNetworkReply *, QHostAddress> m_runningReplies;
+    QList<QUrl> m_foundDevices;
+
+signals:
+    void discoveringChanged();
+    void availableChanged();
+    void nymeaHostsChanged();
+
+private slots:
+    void writeDiscoveryPacket();
+    void error(QAbstractSocket::SocketError error);
+    void readData();
+    void networkReplyFinished(QNetworkReply *reply);
 };
 
-#endif // DISCOVERYMODEL_H
+#endif // UPNPDISCOVERY_H

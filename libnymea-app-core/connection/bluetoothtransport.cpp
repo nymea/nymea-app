@@ -43,6 +43,7 @@ bool BluetoothTransport::connect(const QUrl &url)
         qWarning() << "BluetoothInterface: Cannot connect. Invalid scheme in url" << url.toString();
         return false;
     }
+    m_url = url;
 
     QUrlQuery query(url);
     QString macAddressString = query.queryItemValue("mac");
@@ -52,6 +53,11 @@ bool BluetoothTransport::connect(const QUrl &url)
     qDebug() << "Connecting to bluetooth server" << name << macAddress.toString();
     m_socket->connectToService(macAddress, QBluetoothUuid(QUuid("997936b5-d2cd-4c57-b41b-c6048320cd2b")));
     return true;
+}
+
+QUrl BluetoothTransport::url() const
+{
+    return m_url;
 }
 
 void BluetoothTransport::disconnect()
