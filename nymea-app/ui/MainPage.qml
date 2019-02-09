@@ -39,6 +39,12 @@ Page {
 
         // Load current index from settings
         currentViewIndex = tabSettings.currentMainViewIndex;
+
+        // If setting is not initialized yet, init to "Things" page (might be 0 or 1, depending whether we have tags support)
+        if (currentViewIndex === -1) {
+            currentViewIndex = engine.jsonRpcClient.ensureServerVersion(1.6) ? 1 : 0
+        }
+
         // and set up a binding to sync changes back to the settings
         tabSettings.currentMainViewIndex = Qt.binding(function() { return root.currentViewIndex; });
 

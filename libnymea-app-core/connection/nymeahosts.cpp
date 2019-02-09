@@ -207,9 +207,17 @@ bool NymeaHostsFilterModel::filterAcceptsRow(int sourceRow, const QModelIndex &s
         bool hasReachableConnection = false;
         for (int i = 0; i < host->connections()->rowCount(); i++) {
 //            qDebug() << "checking host for available bearer" << host->name() << host->connections()->get(i)->url() << "available bearer types:" << m_nymeaConnection->availableBearerTypes() << "hosts bearer types" << host->connections()->get(i)->bearerType();
+            // Either enable a connection when the Bearer type is directly available
             if (m_nymeaConnection->availableBearerTypes().testFlag(host->connections()->get(i)->bearerType())) {
                 hasReachableConnection = true;
                 break;
+            }
+            // or enable it if it is Cloud and we have access to LAN or WIFI
+            if (host->connections()->get(i)->bearerType() == Connection::BearerTypeCloud) {
+                if (m_nymeaConnection->availableBearerTypes().testFlag(Connection::BearerTypeWifi) || m_nymeaConnection->availableBearerTypes().testFlag(Connection::BearerTypeEthernet)) {
+                    hasReachableConnection = true;
+                    break;
+                }
             }
         }
         if (!hasReachableConnection) {

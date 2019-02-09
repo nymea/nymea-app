@@ -499,14 +499,12 @@ void NymeaConnection::connectInternal(NymeaHost *host)
         }
     }
 
-    if (m_availableBearerTypes.testFlag(Connection::BearerTypeCloud)) {
-        Connection* wanConnection = host->connections()->bestMatch(Connection::BearerTypeCloud);
-        if (wanConnection) {
-            qDebug() << "Best candidate WAN connection:" << wanConnection->url();
-            connectInternal(wanConnection);
-        } else {
-            qDebug() << "No available WAN connection to" << host->name();
-        }
+    Connection* wanConnection = host->connections()->bestMatch(Connection::BearerTypeCloud);
+    if (wanConnection) {
+        qDebug() << "Best candidate WAN connection:" << wanConnection->url();
+        connectInternal(wanConnection);
+    } else {
+        qDebug() << "No available WAN connection to" << host->name();
     }
 }
 
