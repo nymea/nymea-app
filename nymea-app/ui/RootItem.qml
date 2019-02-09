@@ -80,7 +80,7 @@ Item {
                     property var tabSettings: Settings {
                         category: "tabSettings" + index
                         property string lastConnectedHost
-                        property int currentMainViewIndex: 0
+                        property int currentMainViewIndex: -1
                     }
 
                     Engine {
@@ -95,6 +95,13 @@ Item {
                         target: AWSClient
                         property: "config"
                         value: "cloudEnvironment" in app ? app.cloudEnvironment : settings.cloudEnvironment
+                    }
+
+                    Binding {
+                        target: discovey
+                        property: "discovering"
+                        when: engine.connection.currentHost === null
+                        value: true
                     }
 
                     Component.onCompleted: {
