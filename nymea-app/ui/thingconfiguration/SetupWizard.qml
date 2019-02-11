@@ -175,6 +175,7 @@ Page {
                 ListView {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
+                    clip: true
                     model: DeviceDiscoveryProxy {
                         id: discoveryProxy
                         deviceDiscovery: discovery
@@ -222,7 +223,7 @@ Page {
                     Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
                     text: qsTr("Search again")
                     onClicked: discovery.discoverDevices(root.deviceClass.id, d.discoveryParams)
-                    visible: !discovery.busy && discoveryProxy.count > 0
+                    visible: !discovery.busy
                 }
 
                 Button {
@@ -273,13 +274,6 @@ Page {
                     Layout.fillWidth: true
                     text: qsTr("Make sure your things are set up and connected, try searching again or go back and pick a different kind of thing.")
                     wrapMode: Text.WordWrap
-                }
-                Button {
-                    text: qsTr("Try again!")
-                    Layout.fillWidth: true
-                    onClicked: {
-                        discovery.discoverDevices(root.deviceClass.id, d.discoveryParams)
-                    }
                 }
             }
         }

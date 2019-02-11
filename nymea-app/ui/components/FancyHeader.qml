@@ -61,7 +61,7 @@ ToolBar {
             verticalAlignment: Text.AlignVCenter
             font.pixelSize: app.mediumFont
             elide: Text.ElideRight
-            text: qsTr("menu")
+            text: qsTr("Menu")
             color: app.headerForegroundColor
         }
 
