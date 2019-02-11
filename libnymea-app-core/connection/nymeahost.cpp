@@ -37,6 +37,11 @@ NymeaHost::NymeaHost(QObject *parent):
     });
 }
 
+NymeaHost::~NymeaHost()
+{
+    qDebug() << "Deleting host:" << this << m_name;
+}
+
 QUuid NymeaHost::uuid() const
 {
     return m_uuid;
@@ -82,6 +87,11 @@ Connections::Connections(QObject *parent):
     QAbstractListModel(parent)
 {
 
+}
+
+Connections::~Connections()
+{
+    qDebug() << "Deleting connections" << this;
 }
 
 int Connections::rowCount(const QModelIndex &parent) const
@@ -172,7 +182,7 @@ Connection *Connections::bestMatch(Connection::BearerTypes bearerTypes) const
 {
     Connection *best = nullptr;
     foreach (Connection *c, m_connections) {
-//        qDebug() << "have connection:" << bearerTypes << c->url() << bearerTypes.testFlag(c->bearerType());
+        qDebug() << "have connection:" << bearerTypes << c->url() << c->bearerType() << bearerTypes.testFlag(c->bearerType());
         if ((bearerTypes & c->bearerType()) == Connection::BearerTypeNone) {
             continue;
         }
@@ -206,6 +216,11 @@ Connection::Connection(const QUrl &url, Connection::BearerType bearerType, bool 
     m_displayName(displayName)
 {
 
+}
+
+Connection::~Connection()
+{
+    qDebug() << "Deleting Connection" << this << parent() << parent()->parent();
 }
 
 QUrl Connection::url() const
@@ -250,16 +265,16 @@ int Connection::priority() const
     }
 
     switch(m_bearerType) {
-    case BearerTypeEthernet:
+    case BearerTypeLan:
         prio += 400;
         break;
-    case BearerTypeWifi:
+    case BearerTypeWan:
         prio += 300;
         break;
-    case BearerTypeBluetooth:
+    case BearerTypeCloud:
         prio += 200;
         break;
-    case BearerTypeCloud:
+    case BearerTypeBluetooth:
         prio += 100;
         break;
     default:

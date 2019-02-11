@@ -254,7 +254,7 @@ void UpnpDiscovery::networkReplyFinished(QNetworkReply *reply)
             qDebug() << "UPnP: Adding new connection to host:" << device->name() << url;
             bool sslEnabled = url.scheme() == "nymeas" || url.scheme() == "wss";
             QString displayName = QString("%1:%2").arg(url.host()).arg(url.port());
-            Connection *conn = new Connection(url, Connection::BearerTypeWifi, sslEnabled, displayName);
+            Connection *conn = new Connection(url, Connection::BearerTypeLan, sslEnabled, displayName);
             conn->setOnline(true);
             device->connections()->addConnection(conn);
         }

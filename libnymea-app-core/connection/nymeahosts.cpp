@@ -84,11 +84,27 @@ void NymeaHosts::removeHost(NymeaHost *host)
     emit countChanged();
 }
 
+NymeaHost *NymeaHosts::createCloudHost(const QString &name, const QUrl &url)
+{
+    return createHost(name, url, Connection::BearerTypeCloud);
+}
+
+NymeaHost *NymeaHosts::createLanHost(const QString &name, const QUrl &url)
+{
+    return createHost(name, url, Connection::BearerTypeLan);
+}
+
+NymeaHost *NymeaHosts::createWanHost(const QString &name, const QUrl &url)
+{
+    return createHost(name, url, Connection::BearerTypeWan);
+}
+
 NymeaHost *NymeaHosts::createHost(const QString &name, const QUrl &url, Connection::BearerType bearerType)
 {
     NymeaHost *host = new NymeaHost(this);
     host->setName(name);
     Connection *connection = new Connection(url, bearerType, false, url.toString(), host);
+    connection->setOnline(true);
     host->connections()->addConnection(connection);
     addHost(host);
     return host;
@@ -208,16 +224,25 @@ bool NymeaHostsFilterModel::filterAcceptsRow(int sourceRow, const QModelIndex &s
         for (int i = 0; i < host->connections()->rowCount(); i++) {
 //            qDebug() << "checking host for available bearer" << host->name() << host->connections()->get(i)->url() << "available bearer types:" << m_nymeaConnection->availableBearerTypes() << "hosts bearer types" << host->connections()->get(i)->bearerType();
             // Either enable a connection when the Bearer type is directly available
-            if (m_nymeaConnection->availableBearerTypes().testFlag(host->connections()->get(i)->bearerType())) {
+            switch (host->connections()->get(i)->bearerType()) {
+            case Connection::BearerTypeLan:
+                hasReachableConnection |= m_nymeaConnection->availableBearerTypes().testFlag(NymeaConnection::BearerTypeEthernet);
+                hasReachableConnection |= m_nymeaConnection->availableBearerTypes().testFlag(NymeaConnection::BearerTypeWiFi);
+                break;
+            case Connection::BearerTypeWan:
+            case Connection::BearerTypeCloud:
+                hasReachableConnection |= m_nymeaConnection->availableBearerTypes().testFlag(NymeaConnection::BearerTypeEthernet);
+                hasReachableConnection |= m_nymeaConnection->availableBearerTypes().testFlag(NymeaConnection::BearerTypeWiFi);
+                hasReachableConnection |= m_nymeaConnection->availableBearerTypes().testFlag(NymeaConnection::BearerTypeMobileData);
+                break;
+            case Connection::BearerTypeBluetooth:
+                hasReachableConnection |= m_nymeaConnection->availableBearerTypes().testFlag(NymeaConnection::BearerTypeBluetooth);
+                break;
+            case Connection::BearerTypeUnknown:
                 hasReachableConnection = true;
                 break;
-            }
-            // or enable it if it is Cloud and we have access to LAN or WIFI
-            if (host->connections()->get(i)->bearerType() == Connection::BearerTypeCloud) {
-                if (m_nymeaConnection->availableBearerTypes().testFlag(Connection::BearerTypeWifi) || m_nymeaConnection->availableBearerTypes().testFlag(Connection::BearerTypeEthernet)) {
-                    hasReachableConnection = true;
-                    break;
-                }
+            case Connection::BearerTypeNone:
+                break;
             }
         }
         if (!hasReachableConnection) {

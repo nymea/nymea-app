@@ -149,8 +149,6 @@ void DeviceManager::getVendorsResponse(const QVariantMap &params)
         }
     }
 
-    qDebug() << "start getting deviceClass at" << QDateTime::currentDateTime();
-
     m_jsonClient->sendCommand("Devices.GetSupportedDevices", this, "getSupportedDevicesResponse");
 }
 

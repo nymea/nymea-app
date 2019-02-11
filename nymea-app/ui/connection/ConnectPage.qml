@@ -60,7 +60,7 @@ Page {
                 }
                 onClicked: {
                     if (index === 2) {
-                        var host = discovery.nymeaHosts.createHost("Demo server", "nymea://nymea.nymea.io:2222", Connection.BearerTypeCloud)
+                        var host = discovery.nymeaHosts.createWanHost("Demo server", "nymea://nymea.nymea.io:2222")
                         engine.connection.connect(host)
                     } else {
                         pageStack.push(model.get(index).page, {nymeaDiscovery: discovery});
@@ -144,10 +144,12 @@ Page {
 
                         iconName: {
                             switch (nymeaHost.connections.get(defaultConnectionIndex).bearerType) {
-                            case Connection.BearerTypeWifi:
+                            case Connection.BearerTypeLan:
+                            case Connection.BearerTypeWan:
+                                if (engine.connection.availableBearerTypes & NymeaConnection.BearerTypeEthernet != NymeaConnection.BearerTypeNone) {
+                                    return "../images/network-wired-symbolic.svg"
+                                }
                                 return "../images/network-wifi-symbolic.svg";
-                            case Connection.BearerTypeEthernet:
-                                return "../images/network-wired-symbolic.svg"
                             case Connection.BearerTypeBluetooth:
                                 return "../images/bluetooth.svg";
                             case Connection.BearerTypeCloud:
@@ -163,7 +165,7 @@ Page {
                         progressive: false
                         property bool isSecure: nymeaHost.connections.get(defaultConnectionIndex).secure
                         property bool isTrusted: engine.connection.isTrusted(nymeaHostDelegate.nymeaHost.connections.get(defaultConnectionIndex).url)
-                        property bool isOnline: nymeaHost.connections.get(defaultConnectionIndex).online
+                        property bool isOnline: nymeaHost.connections.get(defaultConnectionIndex).bearerType !== Connection.BearerTypeWan ? nymeaHost.connections.get(defaultConnectionIndex).online : true
                         tertiaryIconName: isSecure ? "../images/network-secure.svg" : ""
                         tertiaryIconColor: isTrusted ? app.accentColor : Material.foreground
                         secondaryIconName: !isOnline ? "../images/cloud-error.svg" : ""
@@ -246,7 +248,7 @@ Page {
                     visible: discovery.nymeaHosts.count === 0
                     text: qsTr("Demo mode (online)")
                     onClicked: {
-                        var host = nymeaHosts.createHost("Demo server", "nymea://nymea.nymea.io:2222", Connection.BearerTypeCloud)
+                        var host = nymeaHosts.createWanHost("Demo server", "nymea://nymea.nymea.io:2222")
                         engine.connection.connect(host)
                     }
                 }
@@ -363,10 +365,12 @@ Page {
                                 prominentSubText: false
                                 iconName: {
                                     switch (model.bearerType) {
-                                    case Connection.BearerTypeWifi:
+                                    case Connection.BearerTypeLan:
+                                    case Connection.BearerTypeWan:
+                                        if (engine.connection.availableBearerTypes & NymeaConnection.BearerTypeEthernet != NymeaConnection.BearerTypeNone) {
+                                            return "../images/network-wired-symbolic.svg"
+                                        }
                                         return "../images/network-wifi-symbolic.svg";
-                                    case Connection.BearerTypeEthernet:
-                                        return "../images/network-wired-symbolic.svg"
                                     case Connection.BearerTypeBluetooth:
                                         return "../images/bluetooth.svg";
                                     case Connection.BearerTypeCloud:
