@@ -24,6 +24,7 @@ ItemDelegate {
         RowLayout {
             Label {
                 Layout.fillWidth: true
+                Layout.minimumWidth: parent.width / 2
                 text: root.paramType.displayName
                 elide: Text.ElideRight
             }
@@ -39,9 +40,14 @@ ItemDelegate {
                     switch (root.paramType.type.toLowerCase()) {
                     case "bool":
                         return boolComponent;
+                    case "uint":
                     case "int":
                     case "double":
-                        return sliderComponent;
+                        if (root.paramType.minValue && root.paramType.maxValue) {
+                            return sliderComponent;
+                        } else {
+                            return spinnerComponent;
+                        }
                     case "string":
                     case "qstring":
                         if (root.paramType.allowedValues.length > 0) {
@@ -144,8 +150,14 @@ ItemDelegate {
         id: spinnerComponent
         SpinBox {
             value: root.param.value ? root.param.value : 0
-            from: root.paramType.minValue ? root.paramType.minValue : -999999999
-            to: root.paramType.maxValue ? root.paramType.maxValue : 999999999
+            from: root.paramType.minValue
+                  ? root.paramType.minValue
+                  : root.paramType.type.toLowerCase() === "uint"
+                    ? 0
+                    : -2000000000
+            to: root.paramType.maxValue
+                ? root.paramType.maxValue
+                : 2000000000
             editable: true
             width: 150
             onValueModified: root.param.value = value
