@@ -31,5 +31,52 @@ Page {
                 }
             }
         }
+
+        CheckDelegate {
+            text: qsTr("Enable app logging")
+            enabled: AppLogController.canWriteLogs
+            checked: AppLogController.enabled
+            onCheckedChanged: AppLogController.enabled = checked;
+            Layout.fillWidth: true
+        }
+
+        MeaListItemDelegate {
+            Layout.fillWidth: true
+            text: qsTr("View log")
+            onClicked: pageStack.push(appLogComponent)
+            enabled: AppLogController.enabled
+        }
+    }
+
+    Component {
+        id: appLogComponent
+        Page {
+            header: GuhHeader {
+                text: qsTr("App log")
+                backButtonVisible: true
+                onBackPressed: pageStack.pop()
+            }
+
+            ScrollView {
+                anchors.fill: parent
+
+                TextArea {
+                    id: logArea
+                    wrapMode: Text.WordWrap
+                    readOnly: true
+                    font.pixelSize: app.smallFont
+
+                    Component.onCompleted: {
+                        text = AppLogController.content
+                    }
+                    Connections {
+                        target: AppLogController
+                        onContentAdded: {
+                            logArea.append(newContent)
+                        }
+                    }
+                }
+            }
+        }
     }
 }

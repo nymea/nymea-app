@@ -38,6 +38,7 @@
 
 #include "stylecontroller.h"
 #include "pushnotifications.h"
+#include "applogcontroller.h"
 
 
 QObject *platformHelperProvider(QQmlEngine *engine, QJSEngine *scriptEngine)
@@ -67,6 +68,9 @@ int main(int argc, char *argv[])
     QApplication application(argc, argv);
     application.setApplicationName("nymea-app");
     application.setOrganizationName("nymea");
+
+    // Initialize app log controller as early as possible, but after setting app name etc
+    AppLogController::instance();
 
     foreach (const QFileInfo &fi, QDir(":/ui/fonts/").entryInfoList()) {
         QFontDatabase::addApplicationFont(fi.absoluteFilePath());
@@ -105,6 +109,8 @@ int main(int argc, char *argv[])
 
     PushNotifications::instance()->connectClient();
     qmlRegisterSingletonType<PushNotifications>("Nymea", 1, 0, "PushNotifications", PushNotifications::pushNotificationsProvider);
+
+    qmlRegisterSingletonType<AppLogController>("Nymea", 1, 0, "AppLogController", AppLogController::appLogControllerProvider);
 
 #ifdef BRANDING
     engine->rootContext()->setContextProperty("appBranding", BRANDING);
