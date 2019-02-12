@@ -96,7 +96,7 @@ Page {
                 }
 
                 print("Try to connect ", rpcUrl)
-                var host = discovery.nymeaHosts.createHost("Manual connection", rpcUrl, Connection.BearerTypeCloud);
+                var host = discovery.nymeaHosts.createLanHost("Manual connection", rpcUrl);
                 engine.connection.connect(host)
             }
         }

@@ -235,7 +235,7 @@ void NymeaConfiguration::getConfigurationsResponse(const QVariantMap &params)
 
     tcpServerConfigurations()->clear();
     foreach (const QVariant &tcpServerVariant, params.value("params").toMap().value("tcpServerConfigurations").toList()) {
-        qDebug() << "tcp server config:" << tcpServerVariant;
+//        qDebug() << "tcp server config:" << tcpServerVariant;
         QVariantMap tcpConfigMap = tcpServerVariant.toMap();
         ServerConfiguration *config = new ServerConfiguration(tcpConfigMap.value("id").toString(), QHostAddress(tcpConfigMap.value("address").toString()), tcpConfigMap.value("port").toInt(), tcpConfigMap.value("authenticationEnabled").toBool(), tcpConfigMap.value("sslEnabled").toBool());
         m_tcpServerConfigurations->addConfiguration(config);

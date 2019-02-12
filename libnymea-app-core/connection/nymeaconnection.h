@@ -20,10 +20,22 @@ class NymeaConnection : public QObject
     Q_PROPERTY(bool connected READ connected NOTIFY connectedChanged)
     Q_PROPERTY(NymeaHost* currentHost READ currentHost WRITE setCurrentHost NOTIFY currentHostChanged)
     Q_PROPERTY(Connection* currentConnection  READ currentConnection NOTIFY currentConnectionChanged)
-    Q_PROPERTY(Connection::BearerTypes availableBearerTypes READ availableBearerTypes NOTIFY availableBearerTypesChanged)
+    Q_PROPERTY(NymeaConnection::BearerTypes availableBearerTypes READ availableBearerTypes NOTIFY availableBearerTypesChanged)
     Q_PROPERTY(ConnectionStatus connectionStatus READ connectionStatus NOTIFY connectionStatusChanged)
 
 public:
+    enum BearerType {
+        BearerTypeNone = 0x0,
+        BearerTypeEthernet = 0x1,
+        BearerTypeWiFi = 0x2,
+        BearerTypeMobileData = 0x4,
+        BearerTypeBluetooth = 0x8,
+        BearerTypeAll = 0xF
+    };
+    Q_ENUM(BearerType)
+    Q_DECLARE_FLAGS(BearerTypes, BearerType)
+    Q_FLAG(BearerTypes)
+
     enum ConnectionStatus {
         ConnectionStatusUnconnected,
         ConnectionStatusConnecting,
@@ -48,7 +60,7 @@ public:
     Q_INVOKABLE void acceptCertificate(const QString &url, const QByteArray &pem);
     Q_INVOKABLE bool isTrusted(const QString &url);
 
-    Connection::BearerTypes availableBearerTypes() const;
+    NymeaConnection::BearerTypes availableBearerTypes() const;
 
     bool connected();
     ConnectionStatus connectionStatus() const;
@@ -84,12 +96,12 @@ private:
     void connectInternal(NymeaHost *host);
     bool connectInternal(Connection *connection);
 
-    Connection::BearerType qBearerTypeToNymeaBearerType(QNetworkConfiguration::BearerType type) const;
+    NymeaConnection::BearerType qBearerTypeToNymeaBearerType(QNetworkConfiguration::BearerType type) const;
 
 private:
     ConnectionStatus m_connectionStatus = ConnectionStatusUnconnected;
     QNetworkConfigurationManager *m_networkConfigManager = nullptr;
-    Connection::BearerTypes m_availableBearerTypes = Connection::BearerTypeNone;
+    NymeaConnection::BearerTypes m_availableBearerTypes = BearerTypeNone;
 
     QHash<QString, NymeaTransportInterfaceFactory*> m_transportFactories;
     QHash<NymeaTransportInterface*, Connection*> m_transportCandidates;

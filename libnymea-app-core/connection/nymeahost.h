@@ -41,10 +41,10 @@ class Connection: public QObject {
 public:
     enum BearerType {
         BearerTypeNone = 0x00,
-        BearerTypeWifi = 0x01,
-        BearerTypeEthernet = 0x02,
-        BearerTypeBluetooth = 0x04,
-        BearerTypeCloud = 0x08,
+        BearerTypeLan = 0x01,
+        BearerTypeWan = 0x02,
+        BearerTypeCloud = 0x04,
+        BearerTypeBluetooth = 0x08,
         BearerTypeUnknown = 0xFF,
         BearerTypeAll = 0xFF
     };
@@ -52,6 +52,7 @@ public:
     Q_DECLARE_FLAGS(BearerTypes, BearerType)
 
     Connection(const QUrl &url, BearerType bearerType, bool secure, const QString &displayName, QObject *parent = nullptr);
+    ~Connection();
 
     QUrl url() const;
     BearerType bearerType() const;
@@ -87,6 +88,7 @@ public:
     };
     Q_ENUM(Roles)
     Connections(QObject* parent = nullptr);
+    ~Connections() override;
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const override;
 
@@ -121,6 +123,7 @@ class NymeaHost: public QObject
 
 public:
     explicit NymeaHost(QObject *parent = nullptr);
+    ~NymeaHost();
 
     QUuid uuid() const;
     void setUuid(const QUuid &uuid);

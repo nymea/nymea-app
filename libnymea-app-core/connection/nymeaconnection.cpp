@@ -19,10 +19,12 @@ NymeaConnection::NymeaConnection(QObject *parent) : QObject(parent)
     m_networkConfigManager = new QNetworkConfigurationManager(this);
 
     QObject::connect(m_networkConfigManager, &QNetworkConfigurationManager::configurationAdded, this, [this](const QNetworkConfiguration &config){
+        Q_UNUSED(config)
 //        qDebug() << "Network configuration added:" << config.name() << config.bearerTypeName() << config.purpose();
         updateActiveBearers();
     });
     QObject::connect(m_networkConfigManager, &QNetworkConfigurationManager::configurationRemoved, this, [this](const QNetworkConfiguration &config){
+        Q_UNUSED(config)
 //        qDebug() << "Network configuration removed:" << config.name() << config.bearerTypeName() << config.purpose();
         updateActiveBearers();
     });
@@ -56,7 +58,7 @@ bool NymeaConnection::isTrusted(const QString &url)
     return false;
 }
 
-Connection::BearerTypes NymeaConnection::availableBearerTypes() const
+NymeaConnection::BearerTypes NymeaConnection::availableBearerTypes() const
 {
     return m_availableBearerTypes;
 }
@@ -97,19 +99,28 @@ void NymeaConnection::setCurrentHost(NymeaHost *host)
         m_currentHost = nullptr;
     }
 
+
     m_currentHost = host;
     emit currentHostChanged();
+
+    if (!m_currentHost) {
+        qDebug() << "No current host.";
+        return;
+    }
+
+    qDebug() << "Nymea host is" << m_currentHost->name() << m_currentHost->uuid();
 
     m_connectionStatus = ConnectionStatusConnecting;
     emit connectionStatusChanged();
 
-    if (m_currentHost) {
-        connectInternal(m_currentHost);
-    }
+    connectInternal(m_currentHost);
 }
 
 Connection *NymeaConnection::currentConnection() const
 {
+    qDebug() << "Current connection:" << m_currentHost << m_currentTransport << m_transportCandidates.count();
+    qDebug() << m_transportCandidates.keys();
+    qDebug() << m_transportCandidates.value(m_currentTransport);
     if (!m_currentHost || !m_currentTransport) {
         return nullptr;
     }
@@ -258,8 +269,10 @@ void NymeaConnection::onError(QAbstractSocket::SocketError error)
             emit connectionStatusChanged();
 
             if (m_connectionStatus != ConnectionStatusSslUntrusted) {
-                QTimer::singleShot(1000, m_currentHost, [this](){
-                    connectInternal(m_currentHost);
+                QTimer::singleShot(1000, this, [this](){
+                    if (m_currentHost) {
+                        connectInternal(m_currentHost);
+                    }
                 });
             }
         }
@@ -344,6 +357,10 @@ void NymeaConnection::onDisconnected()
         emit connectedChanged(false);
     }
 
+    if (!m_currentTransport) {
+        return;
+    }
+
     // Try to reconnect, only if we're not waiting for SSL certs to be trusted.
     if (m_connectionStatus != ConnectionStatusSslUntrusted) {
         connectInternal(m_currentHost);
@@ -352,16 +369,18 @@ void NymeaConnection::onDisconnected()
 
 void NymeaConnection::updateActiveBearers()
 {
-    Connection::BearerTypes availableBearerTypes;
+    NymeaConnection::BearerTypes availableBearerTypes;
     QList<QNetworkConfiguration> configs = m_networkConfigManager->allConfigurations(QNetworkConfiguration::Active);
 //    qDebug() << "Network configuations:" << configs.count();
     foreach (const QNetworkConfiguration &config, configs) {
         qDebug() << "Candidate network config:" << config.name() << config.bearerTypeFamily() << config.bearerTypeName();
 
-        // NOTE: iOS doesn't correctly report bearer types. It'll be Unknown all the time
-//        availableBearerTypes.setFlag(Connection::BearerTypeUnknown);
-
+        // NOTE: iOS doesn't correctly report bearer types. It'll be Unknown all the time. Let's hardcode it to WiFi for that...
+#if defined(Q_OS_IOS)
+        availableBearerTypes.setFlag(NymeaConnection::BearerTypeWiFi);
+#else
         availableBearerTypes.setFlag(qBearerTypeToNymeaBearerType(config.bearerType()));
+#endif
     }
 //    qDebug() << "Available bearers:" << availableBearerTypes;
     if (m_availableBearerTypes != availableBearerTypes) {
@@ -392,31 +411,6 @@ void NymeaConnection::updateActiveBearers()
         connectInternal(m_currentHost);
     }
 
-}
-
-Connection::BearerType NymeaConnection::qBearerTypeToNymeaBearerType(QNetworkConfiguration::BearerType type) const
-{
-    switch (type) {
-    case QNetworkConfiguration::BearerWLAN:
-        return Connection::BearerTypeWifi;
-    case QNetworkConfiguration::BearerEthernet:
-        return Connection::BearerTypeEthernet;
-    case QNetworkConfiguration::Bearer2G:
-    case QNetworkConfiguration::BearerCDMA2000:
-    case QNetworkConfiguration::BearerWCDMA:
-    case QNetworkConfiguration::BearerHSPA:
-    case QNetworkConfiguration::BearerWiMAX:
-    case QNetworkConfiguration::BearerEVDO:
-    case QNetworkConfiguration::BearerLTE:
-    case QNetworkConfiguration::Bearer3G:
-    case QNetworkConfiguration::Bearer4G:
-        return Connection::BearerTypeCloud;
-    case QNetworkConfiguration::BearerBluetooth:
-        return Connection::BearerTypeBluetooth;
-    case QNetworkConfiguration::BearerUnknown:
-        return Connection::BearerTypeUnknown;
-    }
-    return Connection::BearerTypeNone;
 }
 
 
@@ -476,8 +470,9 @@ void NymeaConnection::connect(NymeaHost *nymeaHost, Connection *connection)
 
 void NymeaConnection::connectInternal(NymeaHost *host)
 {
-    if (m_availableBearerTypes == Connection::BearerTypeNone) {
-        qDebug() << "No available bearer. Not connecting... (" << m_availableBearerTypes << ")";
+    qDebug() << "Connecting. Available bearer types:" << m_availableBearerTypes;
+    if (m_availableBearerTypes == NymeaConnection::BearerTypeNone) {
+        qDebug() << "No available bearer. Not connecting...";
         m_connectionStatus = ConnectionStatusNoBearerAvailable;
         emit connectionStatusChanged();
         return;
@@ -489,23 +484,39 @@ void NymeaConnection::connectInternal(NymeaHost *host)
         return;
     }
 
-    if (m_availableBearerTypes.testFlag(Connection::BearerTypeWifi) || m_availableBearerTypes.testFlag(Connection::BearerTypeEthernet)) {
-        Connection* lanConnection = host->connections()->bestMatch(Connection::BearerTypeWifi | Connection::BearerTypeEthernet);
+    if (m_availableBearerTypes.testFlag(NymeaConnection::BearerTypeWiFi)
+            || m_availableBearerTypes.testFlag(NymeaConnection::BearerTypeEthernet)) {
+        Connection* lanConnection = host->connections()->bestMatch(Connection::BearerTypeLan | Connection::BearerTypeWan);
         if (lanConnection) {
-            qDebug() << "Best candidate LAN connection:" << lanConnection->url();
+            qDebug() << "Best candidate LAN/WAN connection:" << lanConnection->url();
             connectInternal(lanConnection);
         } else {
-            qDebug() << "No available LAN connection to" << host->name();
+            qDebug() << "No available LAN/WAN connection to" << host->name();
+        }
+    } else if (m_availableBearerTypes.testFlag(NymeaConnection::BearerTypeMobileData)) {
+        Connection* wanConnection = host->connections()->bestMatch(Connection::BearerTypeWan);
+        if (wanConnection) {
+            qDebug() << "Best candidate WAN connection:" << wanConnection->url();
+            connectInternal(wanConnection);
+        } else {
+            qDebug() << "No available WAN connection to" << host->name();
         }
     }
 
-    Connection* wanConnection = host->connections()->bestMatch(Connection::BearerTypeCloud);
-    if (wanConnection) {
-        qDebug() << "Best candidate WAN connection:" << wanConnection->url();
-        connectInternal(wanConnection);
+    Connection* cloudConnection = host->connections()->bestMatch(Connection::BearerTypeCloud);
+    if (cloudConnection) {
+        qDebug() << "Best candidate Cloud connection:" << cloudConnection->url();
+        connectInternal(cloudConnection);
     } else {
-        qDebug() << "No available WAN connection to" << host->name();
+        qDebug() << "No available Cloud connection to" << host->name();
     }
+
+    if (m_transportCandidates.isEmpty()) {
+        m_connectionStatus = ConnectionStatusNoBearerAvailable;
+    } else {
+        m_connectionStatus = ConnectionStatusConnecting;
+    }
+    emit connectionStatusChanged();
 }
 
 bool NymeaConnection::connectInternal(Connection *connection)
@@ -539,8 +550,34 @@ bool NymeaConnection::connectInternal(Connection *connection)
     }
 
     m_transportCandidates.insert(newTransport, connection);
-    qDebug() << "Connecting to:" << connection->url();
+    qDebug() << "Connecting to:" << connection->url() << newTransport << m_transportCandidates.value(newTransport);
     return newTransport->connect(connection->url());
+}
+
+NymeaConnection::BearerType NymeaConnection::qBearerTypeToNymeaBearerType(QNetworkConfiguration::BearerType type) const
+{
+    switch (type) {
+    case QNetworkConfiguration::BearerUnknown:
+        return BearerTypeAll;
+    case QNetworkConfiguration::BearerEthernet:
+        return BearerTypeEthernet;
+    case QNetworkConfiguration::BearerWLAN:
+        return BearerTypeWiFi;
+    case QNetworkConfiguration::Bearer2G:
+    case QNetworkConfiguration::BearerCDMA2000:
+    case QNetworkConfiguration::BearerWCDMA:
+    case QNetworkConfiguration::BearerHSPA:
+    case QNetworkConfiguration::BearerWiMAX:
+    case QNetworkConfiguration::BearerEVDO:
+    case QNetworkConfiguration::BearerLTE:
+    case QNetworkConfiguration::Bearer3G:
+    case QNetworkConfiguration::Bearer4G:
+        return BearerTypeMobileData;
+    case QNetworkConfiguration::BearerBluetooth:
+    // Note: Do not confuse this with the Bluetooth transport... For Qt, this means IP over BT, not RFCOMM as we do it.
+        return BearerTypeNone;
+    }
+    return BearerTypeAll;
 }
 
 void NymeaConnection::disconnect()

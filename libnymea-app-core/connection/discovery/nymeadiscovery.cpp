@@ -124,9 +124,13 @@ void NymeaDiscovery::cacheHost(NymeaHost *host)
     if (remoteConnection) {
         connections.append(remoteConnection);
     }
-    Connection *lanConnection = host->connections()->bestMatch(Connection::BearerTypeWifi | Connection::BearerTypeEthernet);
+    Connection *lanConnection = host->connections()->bestMatch(Connection::BearerTypeLan);
     if (lanConnection) {
         connections.append(lanConnection);
+    }
+    Connection *wanConnection = host->connections()->bestMatch(Connection::BearerTypeWan);
+    if (wanConnection) {
+        connections.append(wanConnection);
     }
     Connection *btConnection = host->connections()->bestMatch(Connection::BearerTypeBluetooth);
     if (btConnection) {

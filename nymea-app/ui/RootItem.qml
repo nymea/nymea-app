@@ -98,7 +98,7 @@ Item {
                     }
 
                     Binding {
-                        target: discovey
+                        target: _discovey
                         property: "discovering"
                         when: engine.connection.currentHost === null
                         value: true
