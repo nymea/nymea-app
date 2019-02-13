@@ -2,6 +2,7 @@
 #define PLATFORMHELPER_H
 
 #include <QObject>
+#include <QQuickWindow>
 
 class PlatformHelper : public QObject
 {
@@ -35,6 +36,7 @@ public:
 
     Q_INVOKABLE virtual void vibrate(HapticsFeedback feedbackType) = 0;
 
+    Q_INVOKABLE QVariantMap getSafeAreaMargins(QQuickWindow *window);
 signals:
     void permissionsRequestFinished();
 };
