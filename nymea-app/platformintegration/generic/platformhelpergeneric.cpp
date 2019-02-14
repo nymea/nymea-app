@@ -25,6 +25,11 @@ QString PlatformHelperGeneric::machineHostname() const
     return QSysInfo::machineHostName();
 }
 
+QString PlatformHelperGeneric::device() const
+{
+    return QSysInfo::prettyProductName();
+}
+
 QString PlatformHelperGeneric::deviceSerial() const
 {
 #if QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)

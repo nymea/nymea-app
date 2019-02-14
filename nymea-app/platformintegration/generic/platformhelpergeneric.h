@@ -16,6 +16,7 @@ public:
 
     virtual bool hasPermissions() const override;
     virtual QString machineHostname() const override;
+    virtual QString device() const override;
     virtual QString deviceSerial() const override;
     virtual QString deviceModel() const override;
     virtual QString deviceManufacturer() const override;

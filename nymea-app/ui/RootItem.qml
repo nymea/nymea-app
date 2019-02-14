@@ -105,6 +105,8 @@ Item {
                     }
 
                     Component.onCompleted: {
+                        setupPushNotifications();
+
                         if (tabSettings.lastConnectedHost.length > 0) {
                             print("Last connected host was", tabSettings.lastConnectedHost)
                             var cachedHost = discovery.nymeaHosts.find(tabSettings.lastConnectedHost);
@@ -181,6 +183,7 @@ Item {
                         if (askForPermissions === undefined) {
                             askForPermissions = true;
                         }
+                        print("********************************", PlatformHelper.device, PlatformHelper.deviceManufacturer, PlatformHelper.deviceModel)
 
                         if (!AWSClient.isLoggedIn) {
                             print("AWS not logged in. Cannot register for push");
@@ -197,7 +200,7 @@ Item {
                                 PlatformHelper.requestPermissions();
                             }
                         } else {
-                            AWSClient.registerPushNotificationEndpoint(PushNotifications.token, PlatformHelper.machineHostname, PlatformHelper.deviceSerial + "+io.guh.nymeaapp");
+                            AWSClient.registerPushNotificationEndpoint(PushNotifications.token, PlatformHelper.machineHostname, PlatformHelper.deviceSerial + "+io.guh.nymeaapp", PlatformHelper.deviceManufacturer, PlatformHelper.deviceModel);
                         }
                     }
 
@@ -265,6 +268,7 @@ Item {
                     Connections {
                         target: PushNotifications
                         onTokenChanged: {
+                            print("Push token changed", PlatformHelper.deviceManufacturer, PlatformHelper.deviceModel)
                             setupPushNotifications();
                         }
                     }

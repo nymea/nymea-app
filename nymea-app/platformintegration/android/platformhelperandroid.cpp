@@ -44,6 +44,11 @@ QString PlatformHelperAndroid::deviceSerial() const
     return activity.callObjectMethod<jstring>("deviceSerial").toString();
 }
 
+QString PlatformHelperAndroid::device() const
+{
+    return QAndroidJniObject::callStaticObjectMethod<jstring>("io/guh/nymeaapp/NymeaAppActivity","device").toString();
+}
+
 QString PlatformHelperAndroid::deviceModel() const
 {
     return QAndroidJniObject::callStaticObjectMethod<jstring>("io/guh/nymeaapp/NymeaAppActivity","deviceModel").toString();

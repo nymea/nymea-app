@@ -18,6 +18,7 @@ public:
     bool hasPermissions() const override;
     QString machineHostname() const override;
     QString deviceSerial() const override;
+    QString device() const override;
     QString deviceModel() const override;
     QString deviceManufacturer() const override;
 

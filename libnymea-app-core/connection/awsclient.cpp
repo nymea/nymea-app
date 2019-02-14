@@ -603,7 +603,7 @@ void AWSClient::getId()
     });
 }
 
-void AWSClient::registerPushNotificationEndpoint(const QString &registrationId, const QString &deviceDisplayName, const QString mobileDeviceId)
+void AWSClient::registerPushNotificationEndpoint(const QString &registrationId, const QString &deviceDisplayName, const QString mobileDeviceId, const QString &mobileDeviceManufacturer, const QString &mobileDeviceModel)
 {
     if (!isLoggedIn()) {
         qWarning() << "Not logged in at AWS. Can't register push endpoint";
@@ -611,7 +611,7 @@ void AWSClient::registerPushNotificationEndpoint(const QString &registrationId, 
     }
     if (tokensExpired()) {
         qDebug() << "Cannot register push endpoint. Need to refresh our tokens";
-        QueuedCall::enqueue(m_callQueue, QueuedCall("registerPushNotificationEndpoint", registrationId, deviceDisplayName, mobileDeviceId));
+        QueuedCall::enqueue(m_callQueue, QueuedCall("registerPushNotificationEndpoint", registrationId, deviceDisplayName, mobileDeviceId, mobileDeviceManufacturer, mobileDeviceModel));
         refreshAccessToken();
         return;
     }
@@ -627,6 +627,14 @@ void AWSClient::registerPushNotificationEndpoint(const QString &registrationId, 
     payload.insert("channel", m_configs.value(m_usedConfig).pushNotificationSystem);
     payload.insert("mobileDeviceDisplayName", deviceDisplayName);
     payload.insert("mobileDeviceUuid", mobileDeviceId);
+    payload.insert("mobileDeviceManufacturer", mobileDeviceManufacturer);
+    payload.insert("mobileDeviceModel", mobileDeviceModel);
+    payload.insert("appVersion", APP_VERSION);
+    payload.insert("marketResearchAllowed", false);
+    payload.insert("locale", QLocale().name());
+    payload.insert("platform", QSysInfo::productType());
+    payload.insert("platformVersion", QSysInfo::productVersion());
+
     QJsonDocument jsonDoc = QJsonDocument::fromVariant(payload);
 
     qDebug() << "Registering push notification endpoint" << mobileDeviceId;
@@ -815,7 +823,7 @@ void AWSClient::getCredentialsForIdentity(const QString &identityId)
             } else if (qc.method == "deleteAccount") {
                 deleteAccount();
             } else if (qc.method == "registerPushNotificationEndpoint") {
-                registerPushNotificationEndpoint(qc.arg1, qc.arg2, qc.arg3);
+                registerPushNotificationEndpoint(qc.arg1, qc.arg2, qc.arg3, qc.arg4, qc.arg5);
             } else if (qc.method == "unpairDevice") {
                 unpairDevice(qc.arg1);
             }
