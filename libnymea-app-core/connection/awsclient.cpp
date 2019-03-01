@@ -632,6 +632,7 @@ void AWSClient::registerPushNotificationEndpoint(const QString &registrationId, 
     payload.insert("appVersion", APP_VERSION);
     payload.insert("marketResearchAllowed", false);
     payload.insert("locale", QLocale().name());
+    payload.insert("country", QLocale::countryToString(QLocale().country()));
     payload.insert("platform", QSysInfo::productType());
     payload.insert("platformVersion", QSysInfo::productVersion());
 
@@ -643,7 +644,7 @@ void AWSClient::registerPushNotificationEndpoint(const QString &registrationId, 
 //    foreach (const QByteArray &hdr, request.rawHeaderList()) {
 //        qDebug() << hdr << ":" << request.rawHeader(hdr);
 //    }
-//    qDebug() << "Payload:" << qUtf8Printable(jsonDoc.toJson(QJsonDocument::Compact));
+    qDebug() << "Payload:" << qUtf8Printable(jsonDoc.toJson(QJsonDocument::Compact));
 
     QNetworkReply *reply = m_nam->post(request, jsonDoc.toJson(QJsonDocument::Compact));
     connect(reply, &QNetworkReply::finished, this, [reply]() {
