@@ -344,6 +344,7 @@ void NymeaConnection::onDisconnected()
             });
         }
 
+        qDebug() << "Current transport:" << m_currentTransport << "Remaining connections:" << m_transportCandidates.count() << "Current host:" << m_currentHost;
         return;
     }
     m_transportCandidates.remove(m_currentTransport);
@@ -365,7 +366,7 @@ void NymeaConnection::onDisconnected()
         emit connectedChanged(false);
     }
 
-    if (!m_currentTransport) {
+    if (!m_currentHost) {
         return;
     }
 
