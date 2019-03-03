@@ -183,7 +183,6 @@ Item {
                         if (askForPermissions === undefined) {
                             askForPermissions = true;
                         }
-                        print("********************************", PlatformHelper.device, PlatformHelper.deviceManufacturer, PlatformHelper.deviceModel)
 
                         if (!AWSClient.isLoggedIn) {
                             print("AWS not logged in. Cannot register for push");
@@ -268,7 +267,6 @@ Item {
                     Connections {
                         target: PushNotifications
                         onTokenChanged: {
-                            print("Push token changed", PlatformHelper.deviceManufacturer, PlatformHelper.deviceModel)
                             setupPushNotifications();
                         }
                     }

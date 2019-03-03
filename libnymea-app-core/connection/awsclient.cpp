@@ -638,13 +638,13 @@ void AWSClient::registerPushNotificationEndpoint(const QString &registrationId, 
 
     QJsonDocument jsonDoc = QJsonDocument::fromVariant(payload);
 
-    qDebug() << "Registering push notification endpoint" << mobileDeviceId;
+    qDebug() << "Registering push notification endpoint";
 //    qDebug() << "POST" << url.toString();
 //    qDebug() << "HEADERS:";
 //    foreach (const QByteArray &hdr, request.rawHeaderList()) {
 //        qDebug() << hdr << ":" << request.rawHeader(hdr);
 //    }
-    qDebug() << "Payload:" << qUtf8Printable(jsonDoc.toJson(QJsonDocument::Compact));
+//    qDebug() << "Payload:" << qUtf8Printable(jsonDoc.toJson(QJsonDocument::Compact));
 
     QNetworkReply *reply = m_nam->post(request, jsonDoc.toJson(QJsonDocument::Compact));
     connect(reply, &QNetworkReply::finished, this, [reply]() {
