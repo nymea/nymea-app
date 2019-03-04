@@ -98,10 +98,9 @@ Item {
                     }
 
                     Binding {
-                        target: _discovey
+                        target: _discovery
                         property: "discovering"
-                        when: engine.connection.currentHost === null
-                        value: true
+                        value: engine.connection.currentHost === null
                     }
 
                     Component.onCompleted: {

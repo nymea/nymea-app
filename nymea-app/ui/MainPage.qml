@@ -94,10 +94,21 @@ Page {
                     if (engine.jsonRpcClient.ensureServerVersion(1.6)) {
                         swipeView.insertItem(0, favoritesViewComponent.createObject(swipeView))
                     }
+                    swipeView.insertItem(0, experienceViewComponent.createObject(swipeView))
                     root.swipeViewReady = true;
                 }
                 onCurrentIndexChanged: {
                     root.currentViewIndex = currentIndex
+                }
+
+                Component {
+                    id: experienceViewComponent
+                    Loader {
+                        width: swipeView.width
+                        height: swipeView.height
+                        source: "experiences/garagegates/Main.qml"
+                        clip: true
+                    }
                 }
 
                 Component {
@@ -212,6 +223,7 @@ Page {
         // has troubles dealing with that. For now, let's manually fill it and use a timer to initialize the currentIndex.
         Component.onCompleted: {
             var pi = 0;
+            tabEntryComponent.createObject(tabBar, {text: qsTr("UX"), iconSource: "../images/starred.svg", pageIndex: pi++})
             if (engine.jsonRpcClient.ensureServerVersion(1.6)) {
                 tabEntryComponent.createObject(tabBar, {text: qsTr("Favorites"), iconSource: "../images/starred.svg", pageIndex: pi++})
             }

@@ -164,5 +164,6 @@
         <file>ui/thingconfiguration/EditThingsPage.qml</file>
         <file>ui/thingconfiguration/ConfigureThingPage.qml</file>
         <file>ui/connection/CertificateDialog.qml</file>
+        <file>ui/experiences/garagegates/Main.qml</file>
     </qresource>
 </RCC>
