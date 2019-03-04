@@ -105,6 +105,8 @@ Item {
                     }
 
                     Component.onCompleted: {
+                        setupPushNotifications();
+
                         if (tabSettings.lastConnectedHost.length > 0) {
                             print("Last connected host was", tabSettings.lastConnectedHost)
                             var cachedHost = discovery.nymeaHosts.find(tabSettings.lastConnectedHost);
@@ -197,7 +199,7 @@ Item {
                                 PlatformHelper.requestPermissions();
                             }
                         } else {
-                            AWSClient.registerPushNotificationEndpoint(PushNotifications.token, PlatformHelper.machineHostname, PlatformHelper.deviceSerial + "+io.guh.nymeaapp");
+                            AWSClient.registerPushNotificationEndpoint(PushNotifications.token, PlatformHelper.machineHostname, PlatformHelper.deviceSerial + "+io.guh.nymeaapp", PlatformHelper.deviceManufacturer, PlatformHelper.deviceModel);
                         }
                     }
 

@@ -120,7 +120,8 @@ public:
     Q_INVOKABLE bool postToMQTT(const QString &boxId, const QString &timestamp, std::function<void(bool)> callback);
     Q_INVOKABLE void getId();
 
-    Q_INVOKABLE void registerPushNotificationEndpoint(const QString &registrationId, const QString &deviceDisplayName, const QString mobileDeviceId);
+    Q_INVOKABLE void registerPushNotificationEndpoint(const QString &registrationId, const QString &deviceDisplayName, const QString mobileDeviceId, const QString &mobileDeviceManufacturer, const QString &mobileDeviceModel);
+
 
     bool tokensExpired() const;
     QByteArray idToken() const;
@@ -182,12 +183,14 @@ private:
     public:
         QueuedCall(const QString &method): method(method) { }
         QueuedCall(const QString &method, const QString &arg1): method(method), arg1(arg1) { }
-        QueuedCall(const QString &method, const QString &arg1, const QString &arg2, const QString &arg3): method(method), arg1(arg1), arg2(arg2), arg3(arg3) { }
+        QueuedCall(const QString &method, const QString &arg1, const QString &arg2, const QString &arg3, const QString &arg4, const QString &arg5): method(method), arg1(arg1), arg2(arg2), arg3(arg3), arg4(arg4), arg5(arg5) { }
         QueuedCall(const QString &method, const QString &arg1, const QString &arg2, std::function<void(bool)> callback): method(method), arg1(arg1), arg2(arg2), callback(callback) {}
         QString method;
         QString arg1;
         QString arg2;
         QString arg3;
+        QString arg4;
+        QString arg5;
         std::function<void(bool)> callback;
 
         static void enqueue(QList<QueuedCall> &queue, const QueuedCall &call) {

@@ -28,6 +28,11 @@ public class NymeaAppActivity extends org.qtproject.qt5.android.bindings.QtActiv
         return Build.MODEL;
     }
 
+    public static String device()
+    {
+        return Build.DEVICE;
+    }
+
     public void vibrate(int duration)
     {
         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);

@@ -8,6 +8,7 @@ class PlatformHelper : public QObject
     Q_OBJECT
     Q_PROPERTY(bool hasPermissions READ hasPermissions NOTIFY permissionsRequestFinished)
     Q_PROPERTY(QString deviceSerial READ deviceSerial CONSTANT)
+    Q_PROPERTY(QString device READ device CONSTANT)
     Q_PROPERTY(QString deviceModel READ deviceModel CONSTANT)
     Q_PROPERTY(QString deviceManufacturer READ deviceManufacturer CONSTANT)
     Q_PROPERTY(QString machineHostname READ machineHostname CONSTANT)
@@ -29,6 +30,7 @@ public:
 
     virtual bool hasPermissions() const = 0;
     virtual QString machineHostname() const = 0;
+    virtual QString device() const = 0;
     virtual QString deviceSerial() const = 0;
     virtual QString deviceModel() const = 0;
     virtual QString deviceManufacturer() const = 0;
