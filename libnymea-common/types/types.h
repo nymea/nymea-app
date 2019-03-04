@@ -73,6 +73,7 @@ public:
         UnitGram,
         UnitKiloGram,
         UnitDezibel,
+        UnitBpm,
         UnitKiloByte,
         UnitMegaByte,
         UnitGigaByte,
@@ -81,11 +82,22 @@ public:
         UnitWatt,
         UnitKiloWatt,
         UnitKiloWattHour,
+        UnitEuroPerMegaWattHour,
+        UnitEuroCentPerKiloWattHour,
         UnitPercentage,
         UnitPartsPerMillion,
-        UnitMicroSiemensPerCentimeter,
         UnitEuro,
-        UnitDollar
+        UnitDollar,
+        UnitHerz,
+        UnitAmpere,
+        UnitMilliAmpere,
+        UnitVolt,
+        UnitMilliVolt,
+        UnitVoltAmpere,
+        UnitVoltAmpereReactive,
+        UnitAmpereHour,
+        UnitMicroSiemensPerCentimeter,
+        UnitDuration
     };
 
     Types(QObject *parent = nullptr);

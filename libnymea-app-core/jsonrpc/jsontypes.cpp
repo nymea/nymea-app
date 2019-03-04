@@ -563,6 +563,8 @@ QPair<Types::Unit, QString> JsonTypes::stringToUnit(const QString &unitString)
         return QPair<Types::Unit, QString>(Types::UnitKiloGram, "kg");
     } else if (unitString == "UnitDezibel") {
         return QPair<Types::Unit, QString>(Types::UnitDezibel, "db");
+    } else if (unitString == "UnitBpm") {
+        return QPair<Types::Unit, QString>(Types::UnitBpm, "bpm");
     } else if (unitString == "UnitKiloByte") {
         return QPair<Types::Unit, QString>(Types::UnitKiloByte, "kB");
     } else if (unitString == "UnitMegaByte") {
@@ -579,17 +581,40 @@ QPair<Types::Unit, QString> JsonTypes::stringToUnit(const QString &unitString)
         return QPair<Types::Unit, QString>(Types::UnitKiloWatt, "kW");
     } else if (unitString == "UnitKiloWattHour") {
         return QPair<Types::Unit, QString>(Types::UnitKiloWattHour, "kWh");
+    } else if (unitString == "UnitEuroPerMegaWattHour") {
+        return QPair<Types::Unit, QString>(Types::UnitEuroPerMegaWattHour, "€/MWh");
+    } else if (unitString == "UnitEuroCentPerKiloWattHour") {
+        return QPair<Types::Unit, QString>(Types::UnitEuroCentPerKiloWattHour, "ct/kWh");
     } else if (unitString == "UnitPercentage") {
         return QPair<Types::Unit, QString>(Types::UnitPercentage, "%");
     } else if (unitString == "UnitPartsPerMillion") {
         return QPair<Types::Unit, QString>(Types::UnitPartsPerMillion, "ppm");
-    } else if (unitString == "UnitMicroSiemensPerCentimeter") {
-        return QPair<Types::Unit, QString>(Types::UnitMicroSiemensPerCentimeter, "µS/cm");
     } else if (unitString == "UnitEuro") {
         return QPair<Types::Unit, QString>(Types::UnitEuro, "€");
     } else if (unitString == "UnitDollar") {
         return QPair<Types::Unit, QString>(Types::UnitDollar, "$");
+    } else if (unitString == "UnitHerz") {
+        return QPair<Types::Unit, QString>(Types::UnitHerz, "Hz");
+    } else if (unitString == "UnitAmpere") {
+        return QPair<Types::Unit, QString>(Types::UnitAmpere, "A");
+    } else if (unitString == "UnitMilliAmpere") {
+        return QPair<Types::Unit, QString>(Types::UnitMilliAmpere, "mA");
+    } else if (unitString == "UnitVolt") {
+        return QPair<Types::Unit, QString>(Types::UnitVolt, "V");
+    } else if (unitString == "UnitMilliVolt") {
+        return QPair<Types::Unit, QString>(Types::UnitMilliVolt, "mV");
+    } else if (unitString == "UnitVoltAmpere") {
+        return QPair<Types::Unit, QString>(Types::UnitVoltAmpere, "VA");
+    } else if (unitString == "UnitVoltAmpereReactive") {
+        return QPair<Types::Unit, QString>(Types::UnitVoltAmpereReactive, "VAR");
+    } else if (unitString == "UnitAmpereHour") {
+        return QPair<Types::Unit, QString>(Types::UnitAmpereHour, "Ah");
+    } else if (unitString == "UnitMicroSiemensPerCentimeter") {
+        return QPair<Types::Unit, QString>(Types::UnitMicroSiemensPerCentimeter, "µS/cm");
+    } else if (unitString == "UnitDuration") {
+        return QPair<Types::Unit, QString>(Types::UnitDuration, "s");
     }
+
     return QPair<Types::Unit, QString>(Types::UnitNone, "");
 }
 
