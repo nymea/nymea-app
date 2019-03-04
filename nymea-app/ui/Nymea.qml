@@ -16,6 +16,7 @@ ApplicationWindow {
     visibility: ApplicationWindow.AutomaticVisibility
     font: Qt.application.font
 
+
     // Those variables must be present in the Style
     title: appName
     Material.primary: primaryColor
@@ -49,6 +50,7 @@ ApplicationWindow {
     RootItem {
         id: rootItem
         anchors.fill: parent
+        anchors.topMargin: PlatformHelper.getSafeAreaMargins(app)
     }
 
     NymeaDiscovery {

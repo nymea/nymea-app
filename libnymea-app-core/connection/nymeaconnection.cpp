@@ -11,6 +11,7 @@
 #include <QFile>
 #include <QDir>
 #include <QTimer>
+#include <QGuiApplication>
 
 #include "nymeatransportinterface.h"
 
@@ -26,6 +27,12 @@ NymeaConnection::NymeaConnection(QObject *parent) : QObject(parent)
     QObject::connect(m_networkConfigManager, &QNetworkConfigurationManager::configurationRemoved, this, [this](const QNetworkConfiguration &config){
         Q_UNUSED(config)
 //        qDebug() << "Network configuration removed:" << config.name() << config.bearerTypeName() << config.purpose();
+        updateActiveBearers();
+    });
+
+    QGuiApplication *app = static_cast<QGuiApplication*>(QGuiApplication::instance());
+    QObject::connect(app, &QGuiApplication::applicationStateChanged, this, [this](Qt::ApplicationState state) {
+        qDebug() << "Application state changed to:" << state;
         updateActiveBearers();
     });
 
@@ -130,7 +137,7 @@ Connection *NymeaConnection::currentConnection() const
 void NymeaConnection::sendData(const QByteArray &data)
 {
     if (connected()) {
-//        qDebug() << "sending data:" << data;
+        qDebug() << "sending data:" << data;
         m_currentTransport->sendData(data);
     } else {
         qWarning() << "Connection: Not connected. Cannot send.";
@@ -328,14 +335,16 @@ void NymeaConnection::onDisconnected()
         t->deleteLater();
 
         if (!m_currentTransport && m_transportCandidates.isEmpty()) {
-            qDebug() << "Last connection dropped. Trying to reconnect..";
+            qDebug() << "Last connection dropped.";
             QTimer::singleShot(1000, this, [this](){
                 if (m_currentHost) {
+                    qDebug() << "Trying to reconnect..";
                     connectInternal(m_currentHost);
                 }
             });
         }
 
+        qDebug() << "Current transport:" << m_currentTransport << "Remaining connections:" << m_transportCandidates.count() << "Current host:" << m_currentHost;
         return;
     }
     m_transportCandidates.remove(m_currentTransport);
@@ -357,7 +366,7 @@ void NymeaConnection::onDisconnected()
         emit connectedChanged(false);
     }
 
-    if (!m_currentTransport) {
+    if (!m_currentHost) {
         return;
     }
 
