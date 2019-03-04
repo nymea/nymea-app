@@ -41,7 +41,7 @@ Page {
                 d.deviceToRemove = null;
                 return;
             case "DeviceErrorDeviceInRule":
-                var removeMethodComponent = Qt.createComponent(Qt.resolvedUrl("components/RemoveDeviceMethodDialog.qml"))
+                var removeMethodComponent = Qt.createComponent(Qt.resolvedUrl("../components/RemoveDeviceMethodDialog.qml"))
                 var popup = removeMethodComponent.createObject(root, {device: d.deviceToRemove, rulesList: params["ruleIds"]});
                 popup.open();
                 return;
