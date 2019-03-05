@@ -43,3 +43,25 @@ QStringList StyleController::allStyles() const
 //    qDebug() << "styles:" << dir.entryList();
     return dir.entryList(QDir::Dirs);
 }
+
+QString StyleController::currentExperience() const
+{
+    QSettings settings;
+    return settings.value("experience", "Default").toString();
+}
+
+void StyleController::setCurrentExperience(const QString &currentExperience)
+{
+    QSettings settings;
+    if (settings.value("experience").toString() != currentExperience) {
+        settings.setValue("experience", currentExperience);
+        emit currentExperienceChanged();
+    }
+}
+
+QStringList StyleController::allExperiences() const
+{
+    QDir dir(":/ui/experiences");
+    qDebug() << "experiences:" << dir.entryList();
+    return QStringList() << "Default" << dir.entryList();
+}

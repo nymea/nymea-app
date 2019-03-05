@@ -6,7 +6,7 @@ import Nymea 1.0
 
 RowLayout {
     id: root
-    spacing: (parent.width - app.iconSize*2*children.length) / children.length
+    spacing: (parent.width - app.iconSize*2*children.length) / (children.length - 1)
 //    implicitWidth: app.iconSize * 2 * children.length + spacing * (children.length - 1)
     implicitWidth: childrenRect.width
 

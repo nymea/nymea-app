@@ -5,11 +5,23 @@ import "qrc:/ui/components"
 import Nymea 1.0
 
 Item {
+    id: root
+    readonly property string title: qsTr("Garage gates")
+    readonly property string icon: Qt.resolvedUrl("qrc:/ui/images/shutter/shutter-050.svg")
 
     DevicesProxy {
         id: garagesFilterModel
         engine: _engine
         shownInterfaces: ["garagegate"]
+    }
+
+    EmptyViewPlaceholder {
+        anchors.centerIn: parent
+        width: parent.width - app.margins * 2
+        text: qsTr("There are no garage gates set up yet.")
+        imageSource: "qrc:/ui/images/shutter/shutter-050.svg"
+        buttonText: qsTr("Set up now")
+        visible: garagesFilterModel.count === 0
     }
 
     SwipeView {
@@ -32,35 +44,54 @@ Item {
                 readonly property StateType intermediatePositionStateType: device.deviceClass.stateTypes.findByName("intermediatePosition")
                 readonly property State intermediatePositionState: intermediatePositionStateType ? device.states.getState(intermediatePositionStateType.id) : null
 
-                ColumnLayout {
+                GridLayout {
+                    id: layout
                     anchors.fill: parent
                     anchors.margins: app.margins
+                    columns: app.landscape ? 2 : 1
 
                     Label {
+                        id: label
                         text: garageGateView.device.name
                         font.pixelSize: app.largeFont
-                        Layout.fillWidth: true
+                        Layout.preferredWidth: layout.width
+                        Layout.columnSpan: parent.columns
                         horizontalAlignment: Text.AlignHCenter
                     }
 
-                    ColorIcon {
-                        name: "qrc:/ui/images/shutter/shutter-" + currentImage + ".svg"
+                    Item {
+                        Layout.fillHeight: true
                         Layout.fillWidth: true
-                        Layout.preferredHeight: width
+                        Layout.minimumWidth: app.landscape ? layout.width / 2 : layout.width
 
-                        property string currentImage: garageGateView.openState.value === "closed" ? "100" :
-                                                garageGateView.openState.value === "open" && garageGateView.intermediatePositionState.value === false ? "000" : "050"
-
+                        ColorIcon {
+                            height: Math.min(parent.height, parent.width)
+                            width: height
+                            anchors.centerIn: parent
+                            name: "qrc:/ui/images/shutter/shutter-" + currentImage + ".svg"
+                            property string currentImage: garageGateView.openState.value === "closed" ? "100" :
+                                                    garageGateView.openState.value === "open" && garageGateView.intermediatePositionState.value === false ? "000" : "050"
+                        }
                     }
 
-                    ShutterControls {
-                        id: controls
+                    Item {
                         Layout.fillWidth: true
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        device: garageGateView.device
+                        Layout.preferredHeight: controls.implicitHeight
+                        Layout.minimumWidth: app.landscape ? layout.width / 2 : layout.width
+
+                        ShutterControls {
+                            id: controls
+                            device: garageGateView.device
+                        }
                     }
                 }
             }
         }
+    }
+
+    PageIndicator {
+        anchors { bottom: parent.bottom; horizontalCenter: parent.horizontalCenter }
+        count: garagesFilterModel.count
+        currentIndex: swipeView.currentIndex
     }
 }
