@@ -57,7 +57,7 @@ Item {
 
             Led {
                 visible: root.stateType.type.toLowerCase() === "bool"
-                on: root.valueState.value === true
+                state: root.valueState.value === true ? "on" : "off"
             }
 
             Label {

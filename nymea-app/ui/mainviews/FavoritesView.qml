@@ -347,7 +347,7 @@ Item {
                 }
             }
             Led {
-                on: sensorsRoot.currentState.value === true
+                state: sensorsRoot.currentState.value === true ? "on" : "off"
                 visible: sensorsRoot.currentStateType.type.toLowerCase() === "bool"
             }
 

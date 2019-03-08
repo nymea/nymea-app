@@ -16,7 +16,9 @@ Item {
 
     readonly property State temperatureState: duwWpDevice ? duwWpDevice.states.getState(duwWpDevice.deviceClass.stateTypes.findByName("temperature").id) : null
     readonly property State targetTemperatureState: duwWpDevice ? duwWpDevice.states.getState(duwWpDevice.deviceClass.stateTypes.findByName("targetTemperature").id) : null
+    readonly property State co2LevelState: duwLuDevice ? duwLuDevice.states.getState(duwLuDevice.deviceClass.stateTypes.findByName("co2").id) : null
     readonly property State ventilationModeState: duwLuDevice ? duwLuDevice.states.getState(duwLuDevice.deviceClass.stateTypes.findByName("ventilationMode").id) : null
+    readonly property State ventilationLevelState: duwLuDevice ? duwLuDevice.states.getState(duwLuDevice.deviceClass.stateTypes.findByName("activeVentilationLevel").id) : null
 
     function ventilationModeToSliderValue(ventilationMode) {
         switch (ventilationMode) {
@@ -135,149 +137,177 @@ Item {
             anchors.fill: parent
             anchors.margins: app.margins
 
-            RowLayout {
-                spacing: app.margins
-                ColorIcon {
-                    Layout.preferredHeight: app.iconSize
-                    Layout.preferredWidth: app.iconSize
-                    name: "qrc:/ui/images/weathericons/wind.svg"
-                    color: app.accentColor
-                }
-                Led {
-                }
-            }
+            ColumnLayout {
 
-            Label {
-                text: qsTr("Current temperature")
-                font.pixelSize: app.smallFont
-            }
-
-            RowLayout {
-                ColorIcon {
-                    Layout.preferredHeight: app.iconSize
-                    Layout.preferredWidth: app.iconSize
-                    name: "qrc:/ui/images/sensors/temperature.svg"
-                    color: app.accentColor
+                RowLayout {
+                    spacing: app.margins
+                    ColorIcon {
+                        Layout.preferredHeight: app.iconSize
+                        Layout.preferredWidth: app.iconSize
+                        name: "qrc:/ui/images/weathericons/wind.svg"
+                        color: app.accentColor
+                    }
+                    Led {
+                        state: {
+                            if (!root.co2LevelState) {
+                                return "off"
+                            }
+                            if (root.co2LevelState.value < 900) {
+                                return "green"
+                            }
+                            if (root.co2LevelState.value < 2000) {
+                                return "orange"
+                            }
+                            return "red"
+                        }
+                    }
                 }
+
                 Label {
-                    text: root.temperatureState ? root.temperatureState.value.toFixed(1) + "°C" : "N/A"
-                    Layout.fillWidth: true
-                    font.pixelSize: app.largeFont * 2
-                }
-            }
-
-            Item {
-                Layout.preferredHeight: app.margins * 2
-                Layout.fillWidth: true
-            }
-
-            Label {
-                text: qsTr("Temperature, °C")
-                font.pixelSize: app.largeFont
-            }
-            Label {
-                text: (d.pendingCallId !== -1 || d.setTempPending) ? d.queuedTargetTemp.toFixed(1) :
-                    root.targetTemperatureState ? root.targetTemperatureState.value.toFixed(1) : "N/A"
-                font.pixelSize: app.largeFont * 4
-            }
-
-            Item {
-                Layout.preferredHeight: app.margins * 2
-                Layout.fillWidth: true
-            }
-            ColorIcon {
-                Layout.preferredHeight: app.iconSize * 1.5
-                Layout.preferredWidth: height
-                Layout.leftMargin: width
-                color: app.accentColor
-                name: "qrc:/ui/images/share.svg"
-            }
-            Label {
-                text: qsTr("Automate this thing")
-                color: app.accentColor
-                font.pixelSize: app.smallFont
-            }
-
-            Item {
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-            }
-
-            RowLayout {
-                Layout.leftMargin: parent.width * .05
-                Layout.rightMargin: parent.width * .2
-                spacing: app.margins
-                ColorIcon {
-                    Layout.preferredHeight: app.iconSize
-                    Layout.preferredWidth: app.iconSize
-                    color: app.accentColor
-                    name: "qrc:/ui/images/ventilation.svg"
+                    text: qsTr("Current temperature")
+                    font.pixelSize: app.smallFont
                 }
 
                 RowLayout {
-                    Layout.fillWidth: true
-                    Layout.maximumHeight: app.iconSize
-                    spacing: 0
+                    ColorIcon {
+                        Layout.preferredHeight: app.iconSize
+                        Layout.preferredWidth: app.iconSize
+                        name: "qrc:/ui/images/sensors/temperature.svg"
+                        color: app.accentColor
+                    }
+                    Label {
+                        text: root.temperatureState ? root.temperatureState.value.toFixed(1) + "°C" : "N/A"
+                        Layout.fillWidth: true
+                        font.pixelSize: app.largeFont * 2
+                    }
+                }
+            }
 
-                    Repeater {
-                        model: ListModel {
-                            ListElement { text: qsTr("Auto") }
-                            ListElement { text: qsTr("Party") }
-                            ListElement { text: qsTr("Manual") }
-                        }
+            ColumnLayout {
 
-                        Rectangle {
-                            Layout.fillWidth: true
-                            Layout.fillHeight: true
-                            border.width: 1
-                            border.color: app.accentColor
-                            color: root.ventilationModeState && root.ventilationModeToUiMode(root.ventilationModeState.value) === index ? app.accentColor : "transparent"
-                            Label {
-                                anchors.centerIn: parent
-                                text: model.text
-                                font.pixelSize: app.smallFont
+                Label {
+                    text: qsTr("Temperature, °C")
+                    font.pixelSize: app.largeFont
+                }
+                Label {
+                    text: (d.pendingCallId !== -1 || d.setTempPending) ? d.queuedTargetTemp.toFixed(1) :
+                        root.targetTemperatureState ? root.targetTemperatureState.value.toFixed(1) : "N/A"
+                    font.pixelSize: app.largeFont * 4
+                }
+            }
+
+
+            ColumnLayout {
+                Layout.fillWidth: false
+                ColorIcon {
+                    Layout.preferredHeight: app.iconSize * 1.5
+                    Layout.preferredWidth: height
+                    Layout.alignment: Qt.AlignHCenter
+                    color: app.accentColor
+                    name: "qrc:/ui/images/share.svg"
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: pageStack.push("qrc:/ui/magic/DeviceRulesPage.qml", {device: root.duwWpDevice})
+                    }
+                }
+                Label {
+                    text: qsTr("Automate this thing")
+                    color: app.accentColor
+                    font.pixelSize: app.smallFont
+                }
+            }
+
+            ColumnLayout {
+
+                RowLayout {
+                    Layout.leftMargin: parent.width * .05
+                    Layout.rightMargin: parent.width * .2
+                    spacing: app.margins
+                    ColorIcon {
+                        Layout.preferredHeight: app.iconSize
+                        Layout.preferredWidth: app.iconSize
+                        color: app.accentColor
+                        name: "qrc:/ui/images/ventilation.svg"
+                        PropertyAnimation on rotation {
+                            running: root.ventilationLevelState !== null
+                            duration: root.ventilationLevelState !== null && root.ventilationLevelState.value > 0
+                                      ? 2000 / root.ventilationLevelState.value
+                                      : 0
+                            from: 360
+                            to: 0
+                            loops: Animation.Infinite
+                            onDurationChanged: {
+                                running = false;
+                                running = true;
                             }
-                            MouseArea {
-                                anchors.fill: parent
-                                onClicked: {
-                                    root.setVentilationMode(index, ventilationSlider.value)
+                        }
+                    }
+
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Layout.maximumHeight: app.iconSize
+                        spacing: 0
+
+                        Repeater {
+                            model: ListModel {
+                                ListElement { text: qsTr("Auto") }
+                                ListElement { text: qsTr("Party") }
+                                ListElement { text: qsTr("Manual") }
+                            }
+
+                            Rectangle {
+                                Layout.fillWidth: true
+                                Layout.fillHeight: true
+                                border.width: 1
+                                border.color: app.accentColor
+                                color: root.ventilationModeState && root.ventilationModeToUiMode(root.ventilationModeState.value) === index ? app.accentColor : "transparent"
+                                Label {
+                                    anchors.centerIn: parent
+                                    text: model.text
+                                    font.pixelSize: app.smallFont
+                                }
+                                MouseArea {
+                                    anchors.fill: parent
+                                    onClicked: {
+                                        root.setVentilationMode(index, ventilationSlider.value)
+                                    }
                                 }
                             }
                         }
                     }
                 }
+
+                Slider {
+                    id: ventilationSlider
+                    Layout.fillWidth: true
+                    Layout.leftMargin: parent.width * .05
+                    Layout.rightMargin: parent.width * .05
+                    from: 0
+                    to: 3
+                    stepSize: 1
+                    live: false
+                    snapMode: Slider.SnapAlways
+                    enabled: root.ventilationModeState && root.ventilationModeToUiMode(root.ventilationModeState.value) === 2
+                    opacity: enabled ? 1 : .2
+                    value: root.ventilationModeState ? root.ventilationModeToSliderValue(root.ventilationModeState.value) : 0
+                    onMoved: root.setVentilationMode(2, valueAt(visualPosition))
+                }
             }
 
-            Slider {
-                id: ventilationSlider
-                Layout.fillWidth: true
-                Layout.leftMargin: parent.width * .05
-                Layout.rightMargin: parent.width * .05
-                from: 0
-                to: 4
-                stepSize: 1
-                live: false
-                snapMode: Slider.SnapAlways
-                enabled: root.ventilationModeState && root.ventilationModeToUiMode(root.ventilationModeState.value) === 2
-                opacity: enabled ? 1 : .2
-                value: root.ventilationModeState ? root.ventilationModeToSliderValue(root.ventilationModeState.value) : 0
-                onMoved: root.setVentilationMode(2, ventilationSlider.value)
 
-            }
+//            ProgressButton {
+//                imageSource: "qrc:/ui/images/system-shutdown.svg"
+//                Layout.preferredHeight: app.iconSize * 1.5
+//                Layout.preferredWidth: height
+//                Layout.alignment: Qt.AlignHCenter
+//            }
 
-            ProgressButton {
-                imageSource: "qrc:/ui/images/system-shutdown.svg"
-                Layout.preferredHeight: app.iconSize * 1.5
-                Layout.preferredWidth: height
-                Layout.alignment: Qt.AlignHCenter
-            }
-
-            Label {
-                text: qsTr("Hold to turn off")
-                font.pixelSize: app.smallFont
-                Layout.fillWidth: true
-                horizontalAlignment: Text.AlignHCenter
-            }
+//            Label {
+//                text: qsTr("Hold to turn off")
+//                font.pixelSize: app.smallFont
+//                Layout.fillWidth: true
+//                horizontalAlignment: Text.AlignHCenter
+//            }
         }
 
         Item {

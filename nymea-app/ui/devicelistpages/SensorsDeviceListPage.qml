@@ -118,7 +118,7 @@ DeviceListPageBase {
                                     Led {
                                         id: led
                                         visible: sensorValueDelegate.stateType && sensorValueDelegate.stateType.type.toLowerCase() == "bool"
-                                        on: visible && sensorValueDelegate.stateValue.value === true
+                                        state: visible && sensorValueDelegate.stateValue.value === true ? "on" : "off"
                                     }
                                     Item {
                                         Layout.preferredWidth: led.width
