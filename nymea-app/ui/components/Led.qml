@@ -17,11 +17,11 @@ Item {
             switch (root.state) {
             case "on":
             case "green":
-                return "#91dd77";
+                return "#73c0b3";
             case "off":
                 return "lightgray";
             case "orange":
-                return "#dddd77";
+                return "#fedf6f";
             case "red":
                 return "#dd7777"
             }

@@ -139,6 +139,11 @@ Item {
 
             ColumnLayout {
 
+                Label {
+                    text: qsTr("Current air quality")
+                    font.pixelSize: app.smallFont
+                }
+
                 RowLayout {
                     spacing: app.margins
                     ColorIcon {
