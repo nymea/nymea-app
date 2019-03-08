@@ -137,7 +137,7 @@ Connection *NymeaConnection::currentConnection() const
 void NymeaConnection::sendData(const QByteArray &data)
 {
     if (connected()) {
-        qDebug() << "sending data:" << data;
+//        qDebug() << "sending data:" << data;
         m_currentTransport->sendData(data);
     } else {
         qWarning() << "Connection: Not connected. Cannot send.";

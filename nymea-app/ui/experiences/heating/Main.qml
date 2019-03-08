@@ -72,8 +72,8 @@ Item {
 
     function setTargetTemp(targetTemp) {
         // We don't want to spam with set value calls so we're going to queue them up and only send one at a time
+        d.queuedTargetTemp = targetTemp;
         if (d.pendingCallId != -1) {
-            d.queuedTargetTemp = targetTemp;
             d.setTempPending = true;
             return;
         }
@@ -123,6 +123,7 @@ Item {
         width: parent.width - app.margins * 2
         text: qsTr("There is no drexel und weiss heating system set up yet.")
         imageSource: "qrc:/ui/images/radiator.svg"
+        buttonVisible: false
         buttonText: qsTr("Set up now")
         visible: duwWpFilterModel.count === 0 && !engine.deviceManager.fetchingData
     }
@@ -238,8 +239,8 @@ Item {
                             duration: root.ventilationLevelState !== null && root.ventilationLevelState.value > 0
                                       ? 2000 / root.ventilationLevelState.value
                                       : 0
-                            from: 360
-                            to: 0
+                            from: 0
+                            to: 360
                             loops: Animation.Infinite
                             onDurationChanged: {
                                 running = false;
@@ -373,15 +374,19 @@ Item {
 
             MouseArea {
                 anchors.fill: parent
+                preventStealing: true
 
                 property real startAnglePress
                 property real startAngleDial
                 property real startTemp
 
+                property real lastValue
+
                 onPressed: {
                     startAnglePress = calculateAngle(mouseX, mouseY)
                     startAngleDial = innerRadius.rotation
                     startTemp = root.targetTemperatureState.value
+                    lastValue = startTemp
 
                     print("angle:", calculateAngle(mouseX, mouseY))
                 }
@@ -395,7 +400,13 @@ Item {
 
                     innerRadius.rotation = startAngleDial + angleDiff
 
-                    print("new degree value", newTemp)
+                    if (lastValue.toFixed(1) === newTemp.toFixed(1)) {
+                        return;
+                    }
+                    lastValue = newTemp
+
+                    print("degree value changed", newTemp, lastValue)
+                    PlatformHelper.vibrate(PlatformHelper.HapticsFeedbackSelection)
                     root.setTargetTemp(newTemp);
                 }
 
