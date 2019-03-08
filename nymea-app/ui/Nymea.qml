@@ -50,7 +50,6 @@ ApplicationWindow {
     RootItem {
         id: rootItem
         anchors.fill: parent
-        anchors.topMargin: PlatformHelper.getSafeAreaMargins(app)
     }
 
     NymeaDiscovery {

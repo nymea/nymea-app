@@ -101,6 +101,20 @@ void DevicesProxy::setFilterTagId(const QString &filterTag)
     }
 }
 
+QString DevicesProxy::filterDeviceClassId() const
+{
+    return m_filterDeviceClassId;
+}
+
+void DevicesProxy::setFilterDeviceClassId(const QString &filterDeviceClassId)
+{
+    if (m_filterDeviceClassId != filterDeviceClassId) {
+        m_filterDeviceClassId = filterDeviceClassId;
+        emit filterDeviceClassIdChanged();
+        invalidateFilter();
+    }
+}
+
 QStringList DevicesProxy::shownInterfaces() const
 {
     return m_shownInterfaces;
@@ -228,6 +242,11 @@ bool DevicesProxy::filterAcceptsRow(int source_row, const QModelIndex &source_pa
     Device *device = getInternal(source_row);
     if (!m_filterTagId.isEmpty()) {
         if (!m_engine->tagsManager()->tags()->findDeviceTag(device->id().toString(), m_filterTagId)) {
+            return false;
+        }
+    }
+    if (!m_filterDeviceClassId.isEmpty()) {
+        if (device->deviceClassId() != m_filterDeviceClassId) {
             return false;
         }
     }

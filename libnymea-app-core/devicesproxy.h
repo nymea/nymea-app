@@ -38,6 +38,7 @@ class DevicesProxy : public QSortFilterProxyModel
     Q_PROPERTY(Engine* engine READ engine WRITE setEngine NOTIFY engineChanged)
     Q_PROPERTY(DevicesProxy *parentProxy READ parentProxy WRITE setParentProxy NOTIFY parentProxyChanged)
     Q_PROPERTY(QString filterTagId READ filterTagId WRITE setFilterTagId NOTIFY filterTagIdChanged)
+    Q_PROPERTY(QString filterDeviceClassId READ filterDeviceClassId WRITE setFilterDeviceClassId NOTIFY filterDeviceClassIdChanged)
     Q_PROPERTY(QStringList shownInterfaces READ shownInterfaces WRITE setShownInterfaces NOTIFY shownInterfacesChanged)
     Q_PROPERTY(QStringList hiddenInterfaces READ hiddenInterfaces WRITE setHiddenInterfaces NOTIFY hiddenInterfacesChanged)
     Q_PROPERTY(QString nameFilter READ nameFilter WRITE setNameFilter NOTIFY nameFilterChanged)
@@ -61,6 +62,9 @@ public:
 
     QString filterTagId() const;
     void setFilterTagId(const QString &filterTag);
+
+    QString filterDeviceClassId() const;
+    void setFilterDeviceClassId(const QString &filterDeviceClassId);
 
     QStringList shownInterfaces() const;
     void setShownInterfaces(const QStringList &shownInterfaces);
@@ -86,6 +90,7 @@ signals:
     void engineChanged();
     void parentProxyChanged();
     void filterTagIdChanged();
+    void filterDeviceClassIdChanged();
     void shownInterfacesChanged();
     void hiddenInterfacesChanged();
     void nameFilterChanged();
@@ -100,6 +105,7 @@ private:
     Engine *m_engine = nullptr;
     DevicesProxy *m_parentProxy = nullptr;
     QString m_filterTagId;
+    QString m_filterDeviceClassId;
     QStringList m_shownInterfaces;
     QStringList m_hiddenInterfaces;
     QString m_nameFilter;

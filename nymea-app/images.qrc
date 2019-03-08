@@ -170,5 +170,6 @@
         <file>ui/images/sensors/presence.svg</file>
         <file>ui/images/powersocket.svg</file>
         <file>ui/images/dial.svg</file>
+        <file>ui/images/ventilation.svg</file>
     </qresource>
 </RCC>

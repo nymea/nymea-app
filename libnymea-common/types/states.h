@@ -37,7 +37,7 @@ public:
         StateTypeIdRole
     };
 
-    explicit States(QObject *parent = 0);
+    explicit States(QObject *parent = nullptr);
 
     QList<State *> states();
 

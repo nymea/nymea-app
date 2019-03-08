@@ -23,6 +23,9 @@ DevicePageBase {
     readonly property StateType boostStateType: device.deviceClass.stateTypes.findByName("boost")
     readonly property State boostState: boostStateType ? device.states.getState(boostStateType.id) : null
 
+    Component.onCompleted: {
+        print("d:", root.device, root.targetTemperatureStateType, root.percentageStateType)
+    }
 
     GridLayout {
         anchors.fill: parent
@@ -33,10 +36,11 @@ DevicePageBase {
             id: dial
             Layout.fillWidth: true
             Layout.fillHeight: true
-            visible: root.targetTemperatureStateType || root.percentageStateType
+//            visible: root.targetTemperatureStateType || root.percentageStateType
 
             device: root.device
             stateType: root.targetTemperatureStateType ? root.targetTemperatureStateType : root.percentageStateType
+
         }
 
         Rectangle {
