@@ -164,5 +164,13 @@
         <file>ui/thingconfiguration/EditThingsPage.qml</file>
         <file>ui/thingconfiguration/ConfigureThingPage.qml</file>
         <file>ui/connection/CertificateDialog.qml</file>
+        <file>ui/experiences/garagegates/Main.qml</file>
+        <file>ui/experiences/heating/Main.qml</file>
+        <file>ui/fonts/Oswald-Bold.ttf</file>
+        <file>ui/fonts/Oswald-ExtraLight.ttf</file>
+        <file>ui/fonts/Oswald-Light.ttf</file>
+        <file>ui/fonts/Oswald-Medium.ttf</file>
+        <file>ui/fonts/Oswald-Regular.ttf</file>
+        <file>ui/fonts/Oswald-SemiBold.ttf</file>
     </qresource>
 </RCC>

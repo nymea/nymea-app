@@ -46,6 +46,23 @@ Page {
             onClicked: pageStack.push(appLogComponent)
             enabled: AppLogController.enabled
         }
+
+        RowLayout {
+            Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
+
+            Label {
+                Layout.fillWidth: true
+                text: qsTr("Experience mode")
+            }
+
+            ComboBox {
+                currentIndex: model.indexOf(styleController.currentExperience)
+                model: styleController.allExperiences
+                onActivated: {
+                    styleController.currentExperience = model[index]
+                }
+            }
+        }
     }
 
     Component {

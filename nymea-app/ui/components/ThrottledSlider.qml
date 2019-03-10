@@ -10,6 +10,7 @@ Item {
     property alias from: slider.from
     property alias to: slider.to
     property alias stepSize: slider.stepSize
+    property alias snapMode: slider.snapMode
 
     readonly property real rawValue: slider.value
 

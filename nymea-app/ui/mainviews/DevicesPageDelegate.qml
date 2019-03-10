@@ -511,7 +511,7 @@ MainPageTile {
                     Led {
                         Layout.preferredHeight: app.iconSize * .5
                         Layout.preferredWidth: height
-                        on: sensorsRoot.shownStateType && sensorsRoot.device.stateValue(sensorsRoot.shownStateType.id) === true
+                        state: sensorsRoot.shownStateType && sensorsRoot.device.stateValue(sensorsRoot.shownStateType.id) === true ? "on" : "off"
                         visible: sensorsRoot.shownStateType && sensorsRoot.shownStateType.type.toLowerCase() === "bool"
                     }
                 }

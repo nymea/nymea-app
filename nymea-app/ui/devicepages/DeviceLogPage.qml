@@ -268,7 +268,7 @@ Page {
             property var value
             Led {
                 implicitHeight: app.smallFont
-                on: boolLed.value === "true"
+                state: boolLed.value === "true" ? "on" : "off"
             }
         }
     }

@@ -31,6 +31,34 @@ Page {
     property bool swipeViewReady: false
     property bool tabsReady: false
 
+    // FIXME: All this can go away when we require Controls 2.3 (Qt 5.10) or greater as TabBar got a major rework there.
+    // Ideally we'd just list the 3 items and set visible to false if the server version isn't good enough but TabBar
+    // has troubles dealing with that. For now, let's manually fill it and use a timer to initialize the currentIndex.
+    Component.onCompleted: {
+        // Fill SwipeView (The 2 static views things and scenes will already be there).
+        if (engine.jsonRpcClient.ensureServerVersion(1.6)) {
+            swipeView.insertItem(0, favoritesViewComponent.createObject(swipeView))
+        }
+        var experienceView = null;
+        if (styleController.currentExperience != "Default") {
+            experienceView = experienceViewComponent.createObject(swipeView, {source: "experiences/" + styleController.currentExperience + "/Main.qml" });
+            swipeView.insertItem(0, experienceView)
+        }
+        root.swipeViewReady = true;
+
+
+        var pi = 0;
+        if (experienceView) {
+            tabEntryComponent.createObject(tabBar, {text: experienceView.title, iconSource: experienceView.icon, pageIndex: pi++})
+        }
+        if (engine.jsonRpcClient.ensureServerVersion(1.6)) {
+            tabEntryComponent.createObject(tabBar, {text: qsTr("Favorites"), iconSource: "../images/starred.svg", pageIndex: pi++})
+        }
+        tabEntryComponent.createObject(tabBar, {text: qsTr("Things"), iconSource: "../images/share.svg", pageIndex: pi++})
+        tabEntryComponent.createObject(tabBar, {text: qsTr("Scenes"), iconSource: "../images/slideshow.svg", pageIndex: pi++})
+        root.tabsReady = true
+    }
+
     readonly property bool viewReady: swipeViewReady && tabsReady
     onViewReadyChanged: {
         if (tabSettings.currentMainViewIndex > swipeView.count) {
@@ -90,14 +118,19 @@ Page {
                 anchors.rightMargin: anchors.leftMargin
                 currentIndex: root.currentViewIndex
 
-                Component.onCompleted:  {
-                    if (engine.jsonRpcClient.ensureServerVersion(1.6)) {
-                        swipeView.insertItem(0, favoritesViewComponent.createObject(swipeView))
-                    }
-                    root.swipeViewReady = true;
-                }
                 onCurrentIndexChanged: {
                     root.currentViewIndex = currentIndex
+                }
+
+                Component {
+                    id: experienceViewComponent
+                    Loader {
+                        width: swipeView.width
+                        height: swipeView.height
+                        clip: true
+                        readonly property string title: item ? item.title : ""
+                        readonly property string icon: item ? item.icon : ""
+                    }
                 }
 
                 Component {
@@ -205,20 +238,6 @@ Page {
         implicitHeight: 70 + (app.landscape ?
                                           ((systemProductType === "ios" && Screen.height === 375) ? -10 : -20) :
                                           (systemProductType === "ios" && Screen.height === 812) ? 14 : 0)
-
-
-        // FIXME: All this can go away when we require Controls 2.3 (Qt 5.10) or greater as TabBar got a major rework there.
-        // Ideally we'd just list the 3 items and set visible to false if the server version isn't good enough but TabBar
-        // has troubles dealing with that. For now, let's manually fill it and use a timer to initialize the currentIndex.
-        Component.onCompleted: {
-            var pi = 0;
-            if (engine.jsonRpcClient.ensureServerVersion(1.6)) {
-                tabEntryComponent.createObject(tabBar, {text: qsTr("Favorites"), iconSource: "../images/starred.svg", pageIndex: pi++})
-            }
-            tabEntryComponent.createObject(tabBar, {text: qsTr("Things"), iconSource: "../images/share.svg", pageIndex: pi++})
-            tabEntryComponent.createObject(tabBar, {text: qsTr("Scenes"), iconSource: "../images/slideshow.svg", pageIndex: pi++})
-            root.tabsReady = true
-        }
 
         Component {
             id: tabEntryComponent

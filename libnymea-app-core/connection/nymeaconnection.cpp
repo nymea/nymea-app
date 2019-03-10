@@ -137,7 +137,7 @@ Connection *NymeaConnection::currentConnection() const
 void NymeaConnection::sendData(const QByteArray &data)
 {
     if (connected()) {
-        qDebug() << "sending data:" << data;
+//        qDebug() << "sending data:" << data;
         m_currentTransport->sendData(data);
     } else {
         qWarning() << "Connection: Not connected. Cannot send.";
@@ -382,7 +382,7 @@ void NymeaConnection::updateActiveBearers()
     QList<QNetworkConfiguration> configs = m_networkConfigManager->allConfigurations(QNetworkConfiguration::Active);
 //    qDebug() << "Network configuations:" << configs.count();
     foreach (const QNetworkConfiguration &config, configs) {
-        qDebug() << "Candidate network config:" << config.name() << config.bearerTypeFamily() << config.bearerTypeName();
+//        qDebug() << "Candidate network config:" << config.name() << config.bearerTypeFamily() << config.bearerTypeName();
 
         // NOTE: iOS doesn't correctly report bearer types. It'll be Unknown all the time. Let's hardcode it to WiFi for that...
 #if defined(Q_OS_IOS)

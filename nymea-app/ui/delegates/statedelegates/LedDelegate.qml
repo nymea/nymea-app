@@ -7,5 +7,5 @@ import "../../components"
 
 Led {
     property bool value
-    on: value === true
+    state: value === true ? "on" : "off"
 }

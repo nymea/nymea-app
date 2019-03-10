@@ -24,8 +24,8 @@ ColumnLayout {
     }
 
     readonly property State deviceState: device && stateType ? device.states.getState(stateType.id) : null
-    readonly property double from: dial.stateType.minValue
-    readonly property double to: dial.stateType.maxValue
+    readonly property double from: dial.stateType ? dial.stateType.minValue : 0
+    readonly property double to: dial.stateType ? dial.stateType.maxValue : 100
     readonly property double anglePerStep: maxAngle / dial.steps
     readonly property double startAngle: -(dial.steps * dial.anglePerStep) / 2
 
@@ -90,7 +90,7 @@ ColumnLayout {
     Label {
         id: topLabel
         Layout.fillWidth: true
-        text: rotateMouseArea.currentValue + dial.stateType.unitString
+        text: rotateMouseArea.currentValue + (dial.stateType ? dial.stateType.unitString : "")
         font.pixelSize: app.largeFont * 1.5
         horizontalAlignment: Text.AlignHCenter
         visible: dial.showValueLabel && dial.stateType !== null
@@ -101,7 +101,6 @@ ColumnLayout {
         Layout.fillWidth: true
         Layout.fillHeight: true
 
-
         Item {
             id: innerDial
 
@@ -109,7 +108,6 @@ ColumnLayout {
             width: height
             anchors.centerIn: parent
             rotation: dial.startAngle
-
 
             Rectangle {
                 anchors.fill: rotationButton
@@ -167,7 +165,7 @@ ColumnLayout {
                         width: parent.width
                         height: width
                         radius: width / 2
-                        color: dial.angleToValue(parent.rotation) <= dial.deviceState.value ? d.poweredColor : d.offColor
+                        color: dial.deviceState && dial.angleToValue(parent.rotation) <= dial.deviceState.value ? d.poweredColor : d.offColor
                         Behavior on color { ColorAnimation { duration: 200 } }
                     }
                 }
@@ -247,8 +245,8 @@ ColumnLayout {
                 dragging = false;
             }
 
-            readonly property int decimals: dial.stateType.type.toLowerCase() === "int" ? 0 : 1
-            property var currentValue: dial.deviceState.value.toFixed(decimals)
+            readonly property int decimals: dial.stateType && dial.stateType.type.toLowerCase() === "int" ? 0 : 1
+            property var currentValue: dial.deviceState ? dial.deviceState.value.toFixed(decimals) : 0
             property date lastVibration: new Date()
             property int startX
             property int startY
