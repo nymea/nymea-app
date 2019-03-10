@@ -77,7 +77,7 @@ int main(int argc, char *argv[])
     }
 
     QFont applicationFont;
-    applicationFont.setFamily("Ubuntu");
+//    applicationFont.setFamily("Oswald");
     applicationFont.setCapitalization(QFont::MixedCase);
     applicationFont.setPixelSize(16);
     applicationFont.setWeight(QFont::Normal);

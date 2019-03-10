@@ -8,7 +8,7 @@ import QtGraphicalEffects 1.0
 
 Item {
     id: root
-    readonly property string title: qsTr("Heating")
+    readonly property string title: qsTr("Celsi°s")
     readonly property string icon: Qt.resolvedUrl("qrc:/ui/images/radiator.svg")
 
     readonly property Device duwWpDevice: duwWpFilterModel.count > 0 ? duwWpFilterModel.get(0) : null
@@ -158,10 +158,10 @@ Item {
                             if (!root.co2LevelState) {
                                 return "off"
                             }
-                            if (root.co2LevelState.value < 900) {
+                            if (root.co2LevelState.value < 600) {
                                 return "green"
                             }
-                            if (root.co2LevelState.value < 2000) {
+                            if (root.co2LevelState.value < 1200) {
                                 return "orange"
                             }
                             return "red"
@@ -184,7 +184,7 @@ Item {
                     Label {
                         text: root.temperatureState ? root.temperatureState.value.toFixed(1) + "°C" : "N/A"
                         Layout.fillWidth: true
-                        font.pixelSize: app.largeFont * 2
+                        font.pixelSize: app.largeFont * 1.5
                     }
                 }
             }
@@ -198,19 +198,20 @@ Item {
                 Label {
                     text: (d.pendingCallId !== -1 || d.setTempPending) ? d.queuedTargetTemp.toFixed(1) :
                         root.targetTemperatureState ? root.targetTemperatureState.value.toFixed(1) : "N/A"
-                    font.pixelSize: app.largeFont * 4
+                    font.pixelSize: app.largeFont * 3
                 }
             }
 
 
             ColumnLayout {
                 Layout.fillWidth: false
+                Layout.bottomMargin: app.margins
                 ColorIcon {
-                    Layout.preferredHeight: app.iconSize * 1.5
+                    Layout.preferredHeight: app.iconSize //* 1.5
                     Layout.preferredWidth: height
                     Layout.alignment: Qt.AlignHCenter
                     color: app.accentColor
-                    name: "qrc:/ui/images/share.svg"
+                    name: "qrc:/ui/images/magic.svg"
                     MouseArea {
                         anchors.fill: parent
                         onClicked: pageStack.push("qrc:/ui/magic/DeviceRulesPage.qml", {device: root.duwWpDevice})

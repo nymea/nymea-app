@@ -16,6 +16,7 @@ Item {
         color: {
             switch (root.state) {
             case "on":
+                return app.accentColor
             case "green":
                 return "#73c0b3";
             case "off":

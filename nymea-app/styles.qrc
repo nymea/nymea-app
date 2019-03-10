@@ -3,10 +3,14 @@
         <file>styles/light/ApplicationWindow.qml</file>
         <file>styles/light/Page.qml</file>
         <file>styles/light/logo.svg</file>
+        <file>styles/light/Button.qml</file>
         <file>styles/dark/ApplicationWindow.qml</file>
         <file>styles/dark/Page.qml</file>
         <file>styles/dark/logo.svg</file>
         <file>styles/dark/Button.qml</file>
-        <file>styles/light/Button.qml</file>
+        <file>styles/noir/ApplicationWindow.qml</file>
+        <file>styles/noir/Page.qml</file>
+        <file>styles/noir/logo.svg</file>
+        <file>styles/noir/Button.qml</file>
     </qresource>
 </RCC>
