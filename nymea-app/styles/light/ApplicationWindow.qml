@@ -3,6 +3,12 @@ import QtQuick.Templates 2.2
 import QtQuick.Controls.Material 2.2
 
 ApplicationWindow {
+
+    font.pixelSize: 16
+    font.weight: Font.Normal
+    font.capitalization: Font.MixedCase
+    font.family: "Ubuntu"
+
     // The system (box) name.
     property string systemName: "nymea"
 
