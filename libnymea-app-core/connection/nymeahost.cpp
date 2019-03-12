@@ -182,7 +182,7 @@ Connection *Connections::bestMatch(Connection::BearerTypes bearerTypes) const
 {
     Connection *best = nullptr;
     foreach (Connection *c, m_connections) {
-        qDebug() << "have connection:" << bearerTypes << c->url() << c->bearerType() << bearerTypes.testFlag(c->bearerType());
+//        qDebug() << "have connection:" << bearerTypes << c->url() << c->bearerType() << bearerTypes.testFlag(c->bearerType());
         if ((bearerTypes & c->bearerType()) == Connection::BearerTypeNone) {
             continue;
         }

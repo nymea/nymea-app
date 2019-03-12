@@ -171,5 +171,6 @@
         <file>ui/images/powersocket.svg</file>
         <file>ui/images/dial.svg</file>
         <file>ui/images/ventilation.svg</file>
+        <file>ui/images/edit-copy.svg</file>
     </qresource>
 </RCC>

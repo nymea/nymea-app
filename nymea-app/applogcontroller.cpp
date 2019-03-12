@@ -3,6 +3,8 @@
 #include <QStandardPaths>
 #include <QDebug>
 #include <QSettings>
+#include <QClipboard>
+#include <QGuiApplication>
 
 QtMessageHandler AppLogController::s_oldLogMessageHandler = nullptr;
 
@@ -23,14 +25,21 @@ AppLogController *AppLogController::instance()
     return thiz;
 }
 
-AppLogController::AppLogController(QObject *parent) : QObject(parent)
+AppLogController::AppLogController(QObject *parent) : QAbstractListModel(parent)
 {
 
     QString fileName = QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/nymea-app.log";
     m_logFile.setFileName(fileName);
     qDebug() << "App log file:" << fileName;
 
-    if (!m_logFile.open(QFile::ReadWrite)) {
+    if (QFile::exists(fileName)) {
+        if (QFile::exists(fileName + ".old")) {
+            QFile::remove(fileName + ".old");
+        }
+        QFile::rename(fileName, fileName + ".old");
+    }
+
+    if (!m_logFile.open(QFile::ReadWrite | QFile::Truncate)) {
         qDebug() << "Cannot open logfile for writing";
         return;
     }
@@ -74,26 +83,62 @@ void AppLogController::setEnabled(bool enabled)
 
 }
 
-QByteArray AppLogController::content()
+int AppLogController::rowCount(const QModelIndex &parent) const
 {
-    return m_buffer;
+    Q_UNUSED(parent)
+    return m_buffer.count();
+}
+
+QVariant AppLogController::data(const QModelIndex &index, int role) const
+{
+    switch (role) {
+    case RoleText:
+        return m_buffer.at(index.row());
+    case RoleType:
+        return m_types.at(index.row());
+    }
+    return QVariant();
+}
+
+QHash<int, QByteArray> AppLogController::roleNames() const
+{
+    QHash<int, QByteArray> roles;
+    roles.insert(RoleText, "text");
+    roles.insert(RoleType, "type");
+    return roles;
+}
+
+void AppLogController::toClipboard()
+{
+    m_logFile.seek(0);
+    QByteArray completeLog = m_logFile.readAll();
+    QGuiApplication::clipboard()->setText(completeLog);
 }
 
 void AppLogController::logMessageHandler(QtMsgType type, const QMessageLogContext &context, const QString &message)
 {
     s_oldLogMessageHandler(type, context, message);
+    instance()->append(message, type == QtWarningMsg ? TypeWarning : TypeInfo);
+}
 
+void AppLogController::append(const QString &message, AppLogController::Type type)
+{
     QString finalMessage = message + "\n";
-    instance()->m_logFile.write(finalMessage.toUtf8());
-    instance()->m_logFile.flush();
-    instance()->m_buffer.append(finalMessage);
+    m_logFile.write(finalMessage.toUtf8());
+    m_logFile.flush();
 
-    int maxBuffer = 1024 * 1024;
-    if (instance()->m_buffer.size() > maxBuffer) {
-        instance()->m_buffer.remove(0, instance()->m_buffer.size() - maxBuffer);
+    beginInsertRows(QModelIndex(), m_buffer.count(), m_buffer.count());
+    m_buffer.append(message);
+    m_types.append(type);
+    endInsertRows();
+
+    int maxEntries = 1024;
+    if (m_buffer.size() > maxEntries) {
+        beginRemoveRows(QModelIndex(), 0, 0);
+        m_buffer.removeFirst();
+        m_types.removeFirst();
+        endRemoveRows();
     }
-    emit instance()->contentChanged();
-    emit instance()->contentAdded(finalMessage.toUtf8());
 }
 
 void AppLogController::activate()
