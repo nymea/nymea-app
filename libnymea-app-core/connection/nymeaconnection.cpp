@@ -393,10 +393,11 @@ void NymeaConnection::updateActiveBearers()
     }
 //    qDebug() << "Available bearers:" << availableBearerTypes;
     if (m_availableBearerTypes != availableBearerTypes) {
-
         qDebug() << "Available Bearer Types changed:" << availableBearerTypes;
         m_availableBearerTypes = availableBearerTypes;
         emit availableBearerTypesChanged();
+    } else {
+        qDebug() << "Available Bearer Types:" << availableBearerTypes;
     }
 
     if (!m_currentHost) {
@@ -419,7 +420,6 @@ void NymeaConnection::updateActiveBearers()
         qDebug() << "There's a host but no connection. Trying to connect now...";
         connectInternal(m_currentHost);
     }
-
 }
 
 

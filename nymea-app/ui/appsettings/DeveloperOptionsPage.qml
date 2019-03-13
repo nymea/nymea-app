@@ -72,26 +72,25 @@ Page {
                 text: qsTr("App log")
                 backButtonVisible: true
                 onBackPressed: pageStack.pop()
+                HeaderButton {
+                    imageSource: "../images/edit-copy.svg"
+                    onClicked: AppLogController.toClipboard()
+                }
             }
 
-            ScrollView {
+            ListView {
                 anchors.fill: parent
 
-                TextArea {
-                    id: logArea
-                    wrapMode: Text.WordWrap
-                    readOnly: true
-                    font.pixelSize: app.smallFont
+                ScrollBar.vertical: ScrollBar {}
 
-                    Component.onCompleted: {
-                        text = AppLogController.content
-                    }
-                    Connections {
-                        target: AppLogController
-                        onContentAdded: {
-                            logArea.append(newContent)
-                        }
-                    }
+                model: AppLogController
+                delegate: Text {
+                    width: parent.width
+                    maximumLineCount: 2
+                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                    text: model.text
+                    color: model.type === AppLogController.TypeWarning ? "red" : app.foregroundColor
+                    font.pixelSize: app.smallFont
                 }
             }
         }
