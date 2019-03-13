@@ -79,6 +79,7 @@ class NymeaHostsFilterModel: public QSortFilterProxyModel
     Q_PROPERTY(NymeaDiscovery* discovery READ discovery WRITE setDiscovery NOTIFY discoveryChanged)
     Q_PROPERTY(NymeaConnection* nymeaConnection READ nymeaConnection WRITE setNymeaConnection NOTIFY nymeaConnectionChanged)
     Q_PROPERTY(bool showUnreachableBearers READ showUnreachableBearers WRITE setShowUnreachableBearers NOTIFY showUnreachableBearersChanged)
+    Q_PROPERTY(bool showUnreachableHosts READ showUnreachableHosts WRITE setShowUnreachableHosts NOTIFY showUnreachableHostsChanged)
 
 public:
     NymeaHostsFilterModel(QObject *parent = nullptr);
@@ -92,6 +93,9 @@ public:
     bool showUnreachableBearers() const;
     void setShowUnreachableBearers(bool showUnreachableBearers);
 
+    bool showUnreachableHosts() const;
+    void setShowUnreachableHosts(bool showUnreachableHosts);
+
     Q_INVOKABLE NymeaHost* get(int index) const;
 
 signals:
@@ -99,6 +103,7 @@ signals:
     void discoveryChanged();
     void nymeaConnectionChanged();
     void showUnreachableBearersChanged();
+    void showUnreachableHostsChanged();
 
 protected:
     bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override;
@@ -108,6 +113,7 @@ private:
     NymeaConnection *m_nymeaConnection = nullptr;
 
     bool m_showUneachableBearers = false;
+    bool m_showUneachableHosts = false;
 
 };
 
