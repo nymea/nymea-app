@@ -14,8 +14,6 @@ ApplicationWindow {
     minimumWidth: 360
     minimumHeight: 480
     visibility: ApplicationWindow.AutomaticVisibility
-//    font: Qt.application.font
-
 
     // Those variables must be present in the Style
     title: appName

@@ -76,13 +76,6 @@ int main(int argc, char *argv[])
         QFontDatabase::addApplicationFont(fi.absoluteFilePath());
     }
 
-    QFont applicationFont;
-//    applicationFont.setFamily("Oswald");
-    applicationFont.setCapitalization(QFont::MixedCase);
-    applicationFont.setPixelSize(16);
-    applicationFont.setWeight(QFont::Normal);
-    QApplication::setFont(applicationFont);
-
     QTranslator qtTranslator;    
     qtTranslator.load("qt_" + QLocale::system().name(),
             QLibraryInfo::location(QLibraryInfo::TranslationsPath));

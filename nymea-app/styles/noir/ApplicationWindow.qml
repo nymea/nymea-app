@@ -9,6 +9,9 @@ ApplicationWindow {
     // Main background color
     Material.background: "#50514f"
 
+    font.pixelSize: 16
+    font.weight: Font.Normal
+    font.capitalization: Font.MixedCase
     font.family: "Oswald"
 
     // The header background color
