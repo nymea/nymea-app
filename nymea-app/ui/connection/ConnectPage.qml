@@ -43,6 +43,7 @@ Page {
         discovery: _discovery
         showUnreachableBearers: false
         nymeaConnection: engine.connection
+        showUnreachableHosts: false
     }
 
     Component {

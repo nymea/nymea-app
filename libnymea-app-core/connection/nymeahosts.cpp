@@ -210,6 +210,21 @@ void NymeaHostsFilterModel::setShowUnreachableBearers(bool showUnreachableBearer
     }
 }
 
+bool NymeaHostsFilterModel::showUnreachableHosts() const
+{
+    return m_showUneachableHosts;
+}
+
+void NymeaHostsFilterModel::setShowUnreachableHosts(bool showUnreachableHosts)
+{
+    if (m_showUneachableHosts != showUnreachableHosts) {
+        m_showUneachableHosts = showUnreachableHosts;
+        emit showUnreachableHostsChanged();
+        invalidateFilter();
+        emit countChanged();
+    }
+}
+
 NymeaHost *NymeaHostsFilterModel::get(int index) const
 {
     return m_nymeaDiscovery->nymeaHosts()->get(mapToSource(this->index(index, 0)).row());
@@ -246,6 +261,18 @@ bool NymeaHostsFilterModel::filterAcceptsRow(int sourceRow, const QModelIndex &s
             }
         }
         if (!hasReachableConnection) {
+            return false;
+        }
+    }
+    if (!m_showUneachableHosts) {
+        bool isOnline = false;
+        for (int i = 0; i < host->connections()->rowCount(); i++) {
+            if (host->connections()->get(i)->online()) {
+                isOnline = true;
+                break;
+            }
+        }
+        if (!isOnline) {
             return false;
         }
     }
