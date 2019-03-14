@@ -337,7 +337,7 @@ void NymeaConnection::onDisconnected()
         if (!m_currentTransport && m_transportCandidates.isEmpty()) {
             qDebug() << "Last connection dropped.";
             QTimer::singleShot(1000, this, [this](){
-                if (m_currentHost) {
+                if (m_currentHost && m_connectionStatus != ConnectionStatusSslUntrusted) {
                     qDebug() << "Trying to reconnect..";
                     connectInternal(m_currentHost);
                 }
