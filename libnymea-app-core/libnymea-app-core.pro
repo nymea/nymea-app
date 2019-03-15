@@ -79,7 +79,6 @@ SOURCES += \
     configuration/serverconfiguration.cpp \
     configuration/serverconfigurations.cpp \
     configuration/nymeaconfiguration.cpp \
-    models/mqttpolicies.cpp \
     configuration/mqttpolicy.cpp \
     configuration/mqttpolicies.cpp \
     models/devicemodel.cpp
