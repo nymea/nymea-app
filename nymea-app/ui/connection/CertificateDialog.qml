@@ -107,4 +107,7 @@ Dialog {
     onAccepted: {
         engine.connection.acceptCertificate(certDialog.url, certDialog.pem)
     }
+    onRejected: {
+        engine.connection.disconnect();
+    }
 }
