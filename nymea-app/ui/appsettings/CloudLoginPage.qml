@@ -37,70 +37,76 @@ Page {
         }
     }
 
-    ColumnLayout {
+    Flickable {
         anchors.fill: parent
+        interactive: contentHeight > height
+        contentHeight: childrenRect.height
         visible: AWSClient.isLoggedIn
-        Label {
-            Layout.fillWidth: true
-            Layout.topMargin: app.margins
-            Layout.leftMargin: app.margins
-            Layout.rightMargin: app.margins
-            wrapMode: Text.WordWrap
-            text: qsTr("Logged in as %1").arg(AWSClient.username)
-        }
 
-        Button {
-            Layout.fillWidth: true
-            Layout.margins: app.margins
-            text: qsTr("Log out")
-            onClicked: {
-                logoutDialog.open()
+        ColumnLayout {
+            width: parent.width
+            Label {
+                Layout.fillWidth: true
+                Layout.topMargin: app.margins
+                Layout.leftMargin: app.margins
+                Layout.rightMargin: app.margins
+                wrapMode: Text.WordWrap
+                text: qsTr("Logged in as %1").arg(AWSClient.username)
             }
-        }
 
-        ThinDivider {}
-
-        Label {
-            Layout.fillWidth: true
-            Layout.topMargin: app.margins
-            Layout.leftMargin: app.margins
-            Layout.rightMargin: app.margins
-            wrapMode: Text.WordWrap
-            text: AWSClient.awsDevices.count === 0 ?
-                      qsTr("There are no boxes connected to your cloud yet.") :
-                      qsTr("There are %n boxes connected to your cloud", "", AWSClient.awsDevices.count)
-        }
-        ListView {
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            clip: true
-            model: AWSClient.awsDevices
-            delegate: MeaListItemDelegate {
-                width: parent.width
-                text: model.name
-                subText: model.id
-                progressive: false
-                prominentSubText: false
-                canDelete: true
-                iconName: "../images/cloud.svg"
-                secondaryIconName: !model.online ? "../images/cloud-error.svg" : ""
-
+            Button {
+                Layout.fillWidth: true
+                Layout.margins: app.margins
+                text: qsTr("Log out")
                 onClicked: {
-                    print("clicked, connected:", engine.connection.connected, model.id)
-                    if (!engine.connection.connected) {
-                        var host = discovery.nymeaHosts.find(model.id)
-                        engine.connection.connect(host);
+                    logoutDialog.open()
+                }
+            }
+
+            ThinDivider {}
+
+            Label {
+                Layout.fillWidth: true
+                Layout.topMargin: app.margins
+                Layout.leftMargin: app.margins
+                Layout.rightMargin: app.margins
+                wrapMode: Text.WordWrap
+                text: AWSClient.awsDevices.count === 0 ?
+                          qsTr("There are no boxes connected to your cloud yet.") :
+                          qsTr("There are %n boxes connected to your cloud", "", AWSClient.awsDevices.count)
+            }
+            ListView {
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                clip: true
+                model: AWSClient.awsDevices
+                delegate: MeaListItemDelegate {
+                    width: parent.width
+                    text: model.name
+                    subText: model.id
+                    progressive: false
+                    prominentSubText: false
+                    canDelete: true
+                    iconName: "../images/cloud.svg"
+                    secondaryIconName: !model.online ? "../images/cloud-error.svg" : ""
+
+                    onClicked: {
+                        print("clicked, connected:", engine.connection.connected, model.id)
+                        if (!engine.connection.connected) {
+                            var host = discovery.nymeaHosts.find(model.id)
+                            engine.connection.connect(host);
+                        }
+                    }
+
+                    onDeleteClicked: {
+                        AWSClient.unpairDevice(model.id);
                     }
                 }
 
-                onDeleteClicked: {
-                    AWSClient.unpairDevice(model.id);
+                BusyIndicator {
+                    anchors.centerIn: parent
+                    visible: AWSClient.awsDevices.busy
                 }
-            }
-
-            BusyIndicator {
-                anchors.centerIn: parent
-                visible: AWSClient.awsDevices.busy
             }
         }
     }
@@ -108,9 +114,7 @@ Page {
     MeaDialog {
         id: logoutDialog
         title: qsTr("Goodbye")
-        // Deleting user profile not working in cloud yet
-        text: qsTr("Sorry to see you go. If you log out you won't be able to connect to %1 boxes remotely any more. However, you can come back any time, we'll keep your user account. If you whish to completely delete your account and all the data associated with it, check the box below before hitting ok.").arg(app.systemName)
-//        text: qsTr("Sorry to see you go. If you log out you won't be able to connect to %1 boxes remotely any more. However, you can come back any time.").arg(app.systemName)
+        text: qsTr("Sorry to see you go. If you log out you won't be able to connect to %1 boxes remotely any more. However, you can come back any time, we'll keep your user account. If you whish to completely delete your account and all the data associated with it, check the box below before hitting ok. If you decide to delete your account, all your personal information will be removed from %1:cloud and cannot be restored.").arg(app.systemName)
         headerIcon: "../images/dialog-warning-symbolic.svg"
         standardButtons: Dialog.Cancel | Dialog.Ok
 
@@ -135,107 +139,125 @@ Page {
         }
     }
 
-    ColumnLayout {
-        anchors { left: parent.left; right: parent.right; top: parent.top }
+    Flickable {
+        anchors.fill: parent
+        interactive: contentHeight > height
+        contentHeight: loginColumn.height
         visible: !AWSClient.isLoggedIn
-        Label {
-            Layout.fillWidth: true
-            Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.topMargin: app.margins
-            wrapMode: Text.WordWrap
-            text: qsTr("Log in to %1:cloud in order to connect to %1 boxes from anywhere.").arg(app.systemName)
-        }
 
-        Label {
-            Layout.fillWidth: true
-            Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.topMargin: app.margins
-            text: "Username (e-mail)"
-        }
-        TextField {
-            id: usernameTextField
-            Layout.fillWidth: true
-            Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
-            placeholderText: "john.smith@cooldomain.com"
-            inputMethodHints: Qt.ImhEmailCharactersOnly
-            validator: RegExpValidator { regExp:/\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/ }
-        }
-        Label {
-            Layout.fillWidth: true
-            Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.topMargin: app.margins
-            text: qsTr("Password")
-        }
-        RowLayout {
-            Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
-            TextField {
-                id: passwordTextField
+        ColumnLayout {
+            id: loginColumn
+            anchors { left: parent.left; right: parent.right; top: parent.top }
+            Label {
                 Layout.fillWidth: true
-                echoMode: hiddenPassword ? TextInput.Password : TextInput.Normal
-                property bool hiddenPassword: true
+                Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.topMargin: app.margins
+                wrapMode: Text.WordWrap
+                text: qsTr("Log in to %1:cloud in order to connect to %1 boxes from anywhere.").arg(app.systemName)
             }
-            ColorIcon {
-                Layout.preferredHeight: app.iconSize
-                Layout.preferredWidth: app.iconSize
-                name: "../images/eye.svg"
-                color: passwordTextField.hiddenPassword ? keyColor : app.accentColor
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: {
-                        passwordTextField.hiddenPassword = !passwordTextField.hiddenPassword
+            Label {
+                Layout.fillWidth: true
+                Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.topMargin: app.margins
+                wrapMode: Text.WordWrap
+                font.pixelSize: app.smallFont
+                text: qsTr("See our <a href=\"%1\">privacy policy</a> to find out what information is processed.").arg(app.privacyPolicyUrl)
+                onLinkActivated: {
+                    Qt.openUrlExternally(link)
+                }
+            }
+
+            Label {
+                Layout.fillWidth: true
+                Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.topMargin: app.margins
+                text: "Username (e-mail)"
+            }
+            TextField {
+                id: usernameTextField
+                Layout.fillWidth: true
+                Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
+                placeholderText: "john.smith@cooldomain.com"
+                inputMethodHints: Qt.ImhEmailCharactersOnly
+                validator: RegExpValidator { regExp:/\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/ }
+            }
+            Label {
+                Layout.fillWidth: true
+                Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.topMargin: app.margins
+                text: qsTr("Password")
+            }
+            RowLayout {
+                Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
+                TextField {
+                    id: passwordTextField
+                    Layout.fillWidth: true
+                    echoMode: hiddenPassword ? TextInput.Password : TextInput.Normal
+                    property bool hiddenPassword: true
+                }
+                ColorIcon {
+                    Layout.preferredHeight: app.iconSize
+                    Layout.preferredWidth: app.iconSize
+                    name: "../images/eye.svg"
+                    color: passwordTextField.hiddenPassword ? keyColor : app.accentColor
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: {
+                            passwordTextField.hiddenPassword = !passwordTextField.hiddenPassword
+                        }
                     }
                 }
             }
-        }
 
 
-        Button {
-            Layout.fillWidth: true
-            Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.topMargin: app.margins
-            text: qsTr("OK")
-            enabled: usernameTextField.acceptableInput
-            onClicked:  {
-                busyOverlay.shown = true
-                AWSClient.login(usernameTextField.text, passwordTextField.text);
+            Button {
+                Layout.fillWidth: true
+                Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.topMargin: app.margins
+                text: qsTr("OK")
+                enabled: usernameTextField.acceptableInput
+                onClicked:  {
+                    busyOverlay.shown = true
+                    AWSClient.login(usernameTextField.text, passwordTextField.text);
+                }
             }
-        }
 
-        Connections {
-            target: AWSClient
-            onLoginResult: {
-                errorLabel.visible = (error !== AWSClient.LoginErrorNoError)
+            Connections {
+                target: AWSClient
+                onLoginResult: {
+                    errorLabel.visible = (error !== AWSClient.LoginErrorNoError)
+                }
             }
-        }
 
-        Label {
-            id: errorLabel
-            Layout.fillWidth: true
-            Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.bottomMargin: app.margins
-            wrapMode: Text.WordWrap
-            text: qsTr("Failed to log in. Please try again. Do you perhaps have <a href=\"#\">forgotten your password?</a>")
-            font.pixelSize: app.smallFont
-            color: "red"
-            visible: false
-            onLinkActivated: {
-                pageStack.push(resetPasswordComponent, {email: usernameTextField.text})
+            Label {
+                id: errorLabel
+                Layout.fillWidth: true
+                Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.bottomMargin: app.margins
+                wrapMode: Text.WordWrap
+                text: qsTr("Failed to log in. Please try again. Do you perhaps have <a href=\"#\">forgotten your password?</a>")
+                font.pixelSize: app.smallFont
+                color: "red"
+                visible: false
+                onLinkActivated: {
+                    pageStack.push(resetPasswordComponent, {email: usernameTextField.text})
+                }
             }
-        }
 
-        ThinDivider {}
+            ThinDivider {}
 
-        Label {
-            Layout.fillWidth: true
-            Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.topMargin: app.margins
-            wrapMode: Text.WordWrap
-            text: qsTr("Don't have a user yet?")
-        }
+            Label {
+                Layout.fillWidth: true
+                Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.topMargin: app.margins
+                wrapMode: Text.WordWrap
+                text: qsTr("Don't have a user yet?")
+            }
 
-        Button {
-            Layout.fillWidth: true
-            Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.topMargin: app.margins
-            text: qsTr("Sign Up")
-            onClicked: {
-                pageStack.push(signupPageComponent)
+            Button {
+                Layout.fillWidth: true
+                Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.topMargin: app.margins
+                text: qsTr("Sign Up")
+                onClicked: {
+                    pageStack.push(signupPageComponent)
+                }
             }
         }
     }
+
 
     BusyOverlay {
         id: busyOverlay
@@ -272,7 +294,21 @@ Page {
                         Layout.fillWidth: true
                         Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.topMargin: app.margins
                         wrapMode: Text.WordWrap
-                        text: qsTr("Please enter your email address and pick a password in order to create a new account.")
+                        text: qsTr("Please enter your email address and pick a password in order to create a new account.");
+                        onLinkActivated: {
+                            print("clicked", link)
+                            Qt.openUrlExternally(link)
+                        }
+                    }
+                    Label {
+                        Layout.fillWidth: true
+                        Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.topMargin: app.margins
+                        wrapMode: Text.WordWrap
+                        font.pixelSize: app.smallFont
+                        text: qsTr("See our <a href=\"%1\">privacy policy</a> to find out what information is processed. By signing up to %2:cloud you accept those terms and conditions.").arg(app.privacyPolicyUrl).arg(app.systemName)
+                        onLinkActivated: {
+                            Qt.openUrlExternally(link)
+                        }
                     }
 
                     Label {

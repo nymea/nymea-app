@@ -125,6 +125,13 @@ Page {
                         pageStack.push(licenseTextComponent)
                     }
                 }
+                MeaListItemDelegate {
+                    Layout.fillWidth: true
+                    text: qsTr("Privacy policy")
+                    onClicked: {
+                        Qt.openUrlExternally(app.privacyPolicyUrl)
+                    }
+                }
             }
 
 

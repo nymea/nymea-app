@@ -45,6 +45,8 @@ ApplicationWindow {
         property int tabCount: 1
     }
 
+    property string privacyPolicyUrl: "https://nymea.io/privacy-statement/en/nymea_privacy.html"
+
     RootItem {
         id: rootItem
         anchors.fill: parent
