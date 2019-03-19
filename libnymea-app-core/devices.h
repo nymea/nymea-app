@@ -58,8 +58,6 @@ public:
 
     void clearModel();
 
-    DeviceClass::BasicTags basicTags() const;
-
 protected:
     QHash<int, QByteArray> roleNames() const;
 

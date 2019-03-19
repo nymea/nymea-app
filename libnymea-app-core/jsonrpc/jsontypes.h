@@ -77,7 +77,6 @@ public:
 
 private:
     static DeviceClass::SetupMethod stringToSetupMethod(const QString &setupMethodString);
-    static QList<DeviceClass::BasicTag> stringListToBasicTags(const QStringList &basicTagsStringList);
     static QPair<Types::Unit, QString> stringToUnit(const QString &unitString);
     static Types::InputType stringToInputType(const QString &inputTypeString);
 
