@@ -82,7 +82,6 @@ DeviceClass *JsonTypes::unpackDeviceClass(const QVariantMap &deviceClassMap, QOb
     }
     deviceClass->setCreateMethods(createMethods);
     deviceClass->setSetupMethod(stringToSetupMethod(deviceClassMap.value("setupMethod").toString()));
-    deviceClass->setBasicTags(stringListToBasicTags(deviceClassMap.value("basicTags").toStringList()));
     deviceClass->setInterfaces(deviceClassMap.value("interfaces").toStringList());
 
     // ParamTypes
@@ -461,50 +460,6 @@ DeviceClass::SetupMethod JsonTypes::stringToSetupMethod(const QString &setupMeth
         return DeviceClass::SetupMethodPushButton;
     }
     return DeviceClass::SetupMethodJustAdd;
-}
-
-QList<DeviceClass::BasicTag> JsonTypes::stringListToBasicTags(const QStringList &basicTagsStringList)
-{
-    QList<DeviceClass::BasicTag> ret;
-    if (basicTagsStringList.contains("BasicTagService"))
-        ret << DeviceClass::BasicTagService;
-    if (basicTagsStringList.contains("BasicTagDevice"))
-        ret << DeviceClass::BasicTagDevice;
-    if (basicTagsStringList.contains("BasicTagSensor"))
-        ret << DeviceClass::BasicTagSensor;
-    if (basicTagsStringList.contains("BasicTagActuator"))
-        ret << DeviceClass::BasicTagActuator;
-    if (basicTagsStringList.contains("BasicTagLighting"))
-        ret << DeviceClass::BasicTagLighting;
-    if (basicTagsStringList.contains("BasicTagEnergy"))
-        ret << DeviceClass::BasicTagEnergy;
-    if (basicTagsStringList.contains("BasicTagMultimedia"))
-        ret << DeviceClass::BasicTagMultimedia;
-    if (basicTagsStringList.contains("BasicTagWeather"))
-        ret << DeviceClass::BasicTagWeather;
-    if (basicTagsStringList.contains("BasicTagGateway"))
-        ret << DeviceClass::BasicTagGateway;
-    if (basicTagsStringList.contains("BasicTagHeating"))
-        ret << DeviceClass::BasicTagHeating;
-    if (basicTagsStringList.contains("BasicTagCooling"))
-        ret << DeviceClass::BasicTagCooling;
-    if (basicTagsStringList.contains("BasicTagNotification"))
-        ret << DeviceClass::BasicTagNotification;
-    if (basicTagsStringList.contains("BasicTagSecurity"))
-        ret << DeviceClass::BasicTagSecurity;
-    if (basicTagsStringList.contains("BasicTagTime"))
-        ret << DeviceClass::BasicTagTime;
-    if (basicTagsStringList.contains("BasicTagShading"))
-        ret << DeviceClass::BasicTagShading;
-    if (basicTagsStringList.contains("BasicTagAppliance"))
-        ret << DeviceClass::BasicTagAppliance;
-    if (basicTagsStringList.contains("BasicTagCamera"))
-        ret << DeviceClass::BasicTagCamera;
-    if (basicTagsStringList.contains("BasicTagLock"))
-        ret << DeviceClass::BasicTagLock;
-
-    return ret;
-
 }
 
 QPair<Types::Unit, QString> JsonTypes::stringToUnit(const QString &unitString)
