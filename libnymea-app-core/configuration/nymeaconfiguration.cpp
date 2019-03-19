@@ -251,6 +251,8 @@ void NymeaConfiguration::getConfigurationsResponse(const QVariantMap &params)
 void NymeaConfiguration::getAvailableLanguagesResponse(const QVariantMap &params)
 {
     qDebug() << "available languages" << params;
+    m_availableLanguages = params.value("params").toMap().value("languages").toStringList();
+    emit availableLanguagesChanged();
 }
 
 void NymeaConfiguration::getTimezonesResponse(const QVariantMap &params)

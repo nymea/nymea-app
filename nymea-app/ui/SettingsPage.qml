@@ -76,13 +76,33 @@ Page {
                 Layout.leftMargin: app.margins
                 Layout.rightMargin: app.margins
                 spacing: app.margins
+                visible: !engine.jsonRpcClient.ensureServerVersion("1.14")
+
                 Label {
                     Layout.fillWidth: true
                     text: qsTr("Language")
                 }
                 ComboBox {
+                    id: languageBox
+                    Layout.fillWidth: true
                     model: engine.nymeaConfiguration.availableLanguages
                     currentIndex: model.indexOf(engine.nymeaConfiguration.language)
+                    contentItem: Label {
+                        leftPadding: app.margins / 2
+                        text: Qt.locale(languageBox.displayText).nativeLanguageName + " (" + Qt.locale(languageBox.displayText).nativeCountryName + ")"
+                        elide: Text.ElideRight
+                        verticalAlignment: Text.AlignVCenter
+                    }
+
+                    delegate: ItemDelegate {
+                        width: languageBox.width
+                        contentItem: Label {
+                            text: Qt.locale(modelData).nativeLanguageName + " (" + Qt.locale(modelData).nativeCountryName + ")"
+                            elide: Text.ElideRight
+                            verticalAlignment: Text.AlignVCenter
+                        }
+                        highlighted: languageBox.highlightedIndex === index
+                    }
                     onActivated: {
                         engine.nymeaConfiguration.language = currentText;
                     }

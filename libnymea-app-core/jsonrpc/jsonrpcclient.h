@@ -102,6 +102,8 @@ private slots:
     void onInterfaceConnectedChanged(bool connected);
     void dataReceived(const QByteArray &data);
 
+    void helloReply(const QVariantMap &params);
+
 private:
     int m_id;
     // < namespace, <Handler, method> >
