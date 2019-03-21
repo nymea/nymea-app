@@ -14,6 +14,12 @@ ApplicationWindow {
     font.capitalization: Font.MixedCase
     font.family: "Oswald"
 
+    // The system (box) name.
+    property string systemName: "nymea"
+
+    // The app name
+    property string appName: "nymea:app"
+
     // The header background color
     property color primaryColor: Qt.darker("#50514f", 1.1)
 
