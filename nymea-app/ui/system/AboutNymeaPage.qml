@@ -8,32 +8,48 @@ Page {
 
     id: root
     header: GuhHeader {
-        text: qsTr("About %1").arg(app.systemName)
+        text: qsTr("About %1:core").arg(app.systemName)
         onBackPressed: pageStack.pop()
     }
 
-    ColumnLayout {
-        anchors { left: parent.left; top: parent.top; right: parent.right }
+    Flickable {
+        anchors.fill: parent
+        contentHeight: imprint.implicitHeight
 
-        MeaListItemDelegate {
-            Layout.fillWidth: true
-            text: qsTr("Server UUID:")
-            subText: engine.jsonRpcClient.serverUuid
-            progressive: false
-        }
+        Imprint {
+            id: imprint
+            width: parent.width
+            title: qsTr("%1:core").arg(app.systemName)
+            githubLink: "https://github.com/guh/nymea"
 
-        MeaListItemDelegate {
-            Layout.fillWidth: true
-            text: qsTr("Server version:")
-            subText: engine.jsonRpcClient.serverVersion
-            progressive: false
-        }
-
-        MeaListItemDelegate {
-            Layout.fillWidth: true
-            text: qsTr("Protocol version:")
-            subText: engine.jsonRpcClient.jsonRpcVersion
-            progressive: false
+            MeaListItemDelegate {
+                Layout.fillWidth: true
+                text: qsTr("Connection:")
+                subText: engine.connection.currentConnection.url
+                progressive: false
+                prominentSubText: false
+            }
+            MeaListItemDelegate {
+                Layout.fillWidth: true
+                text: qsTr("Server UUID:")
+                subText: engine.jsonRpcClient.serverUuid
+                progressive: false
+                prominentSubText: false
+            }
+            MeaListItemDelegate {
+                Layout.fillWidth: true
+                text: qsTr("Server version:")
+                subText: engine.jsonRpcClient.serverVersion
+                progressive: false
+                prominentSubText: false
+            }
+            MeaListItemDelegate {
+                Layout.fillWidth: true
+                text: qsTr("JSON-RPC version:")
+                subText: engine.jsonRpcClient.jsonRpcVersion
+                progressive: false
+                prominentSubText: false
+            }
         }
     }
 }

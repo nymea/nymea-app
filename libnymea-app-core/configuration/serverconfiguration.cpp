@@ -73,3 +73,23 @@ ServerConfiguration *ServerConfiguration::clone() const
     ServerConfiguration *ret = new ServerConfiguration(m_id, m_hostAddress, m_port, m_authEnabled, m_sslEnabled);
     return ret;
 }
+
+QString WebServerConfiguration::publicFolder() const
+{
+    return m_publicFolder;
+}
+
+void WebServerConfiguration::setPublicFolder(const QString &publicFolder)
+{
+    if (m_publicFolder != publicFolder) {
+        m_publicFolder = publicFolder;
+        emit publicFolderChanged();
+    }
+}
+
+ServerConfiguration *WebServerConfiguration::clone() const
+{
+    WebServerConfiguration *ret = new WebServerConfiguration(id(), QHostAddress(address()), port(), authenticationEnabled(), sslEnabled());
+    ret->setPublicFolder(m_publicFolder);
+    return ret;
+}

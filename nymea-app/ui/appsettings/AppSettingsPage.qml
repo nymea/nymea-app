@@ -15,131 +15,72 @@ Page {
 
     Flickable {
         anchors.fill: parent
-        contentHeight: contentColumn.implicitHeight
-        interactive: contentHeight > height
+        contentHeight: layout.implicitHeight
 
-        ColumnLayout {
-            id: contentColumn
-            width: parent.width
+        GridLayout {
+            id: layout
+            property bool isGrid: columns > 1
+            anchors { left: parent.left; top: parent.top; right: parent.right; margins: isGrid ? app.margins : 0 }
+            columns: Math.max(1, Math.floor(parent.width / 300))
+            rowSpacing: isGrid ? app.margins : 0
+            columnSpacing: isGrid ? app.margins : 0
 
-            RowLayout {
-                Layout.fillWidth: true; Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.topMargin: app.margins
-                Label {
-                    Layout.fillWidth: true
-                    text: qsTr("View mode")
-                }
-                ComboBox {
-                    model: [qsTr("Windowed"), qsTr("Maximized"), qsTr("Fullscreen")]
-                    currentIndex: {
-                        switch (settings.viewMode) {
-                        case ApplicationWindow.Windowed:
-                            return 0;
-                        case ApplicationWindow.Maximized:
-                            return 1;
-                        case ApplicationWindow.FullScreen:
-                            return 2;
-                        }
-                    }
-
-                    onCurrentIndexChanged: {
-                        switch (currentIndex) {
-                        case 0:
-                            settings.viewMode = ApplicationWindow.Windowed;
-                            break;
-                        case 1:
-                            settings.viewMode = ApplicationWindow.Maximized;
-                            break;
-                        case 2:
-                            settings.viewMode = ApplicationWindow.FullScreen;
-                        }
-                    }
+            Pane {
+                Layout.fillWidth: true
+                Material.elevation: layout.isGrid ? 1 : 0
+                padding: 0
+                MeaListItemDelegate {
+                    width: parent.width
+                    text: qsTr("Look & feel")
+                    subText: qsTr("Customize the app's look and behavior")
+                    iconName: "../images/preferences-look-and-feel.svg"
+                    prominentSubText: false
+                    wrapTexts: false
+                    onClicked: pageStack.push(Qt.resolvedUrl("LookAndFeelSettingsPage.qml"))
                 }
             }
 
-            RowLayout {
-                Layout.fillWidth: true; Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
-                visible: appBranding.length === 0
-                Label {
-                    Layout.fillWidth: true
-                    text: "Style"
-                }
-                ComboBox {
-                    model: styleController.allStyles
-                    currentIndex: styleController.allStyles.indexOf(styleController.currentStyle)
-
-                    onActivated: {
-                        styleController.currentStyle = model[index]
-                    }
-                }
-
-                Connections {
-                    target: styleController
-                    onCurrentStyleChanged: {
-                        var popup = styleChangedDialog.createObject(root)
-                        popup.open()
-                    }
+            Pane {
+                Layout.fillWidth: true
+                Material.elevation: layout.isGrid ? 1 : 0
+                padding: 0
+                MeaListItemDelegate {
+                    width: parent.width
+                    text: qsTr("Cloud login")
+                    subText: qsTr("Log into %1:cloud and manage connected boxes").arg(app.systemName)
+                    iconName: "../images/cloud.svg"
+                    prominentSubText: false
+                    wrapTexts: false
+                    onClicked: pageStack.push(Qt.resolvedUrl("CloudLoginPage.qml"))
                 }
             }
-
-            CheckDelegate {
+            Pane {
                 Layout.fillWidth: true
-                text: qsTr("Return to home on idle")
-                checked: settings.returnToHome
-                onClicked: settings.returnToHome = checked
+                Material.elevation: layout.isGrid ? 1 : 0
+                padding: 0
+                MeaListItemDelegate {
+                    width: parent.width
+                    visible: settings.showHiddenOptions
+                    text: qsTr("Developer options")
+                    subText: qsTr("Yeehaaa!")
+                    iconName: "../images/sdk.svg"
+                    prominentSubText: false
+                    wrapTexts: false
+                    onClicked: pageStack.push(Qt.resolvedUrl("DeveloperOptionsPage.qml"))
+                }
             }
-            CheckDelegate {
+            Pane {
                 Layout.fillWidth: true
-                text: qsTr("Show connection tabs")
-                checked: settings.showConnectionTabs
-                onClicked: settings.showConnectionTabs = checked
-            }
-            ThinDivider {}
-            MeaListItemDelegate {
-                Layout.fillWidth: true
-                text: qsTr("Cloud login")
-                iconName: "../images/cloud.svg"
-                onClicked: pageStack.push(Qt.resolvedUrl("CloudLoginPage.qml"))
-            }
-            MeaListItemDelegate {
-                Layout.fillWidth: true
-                text: qsTr("About %1").arg(app.appName)
-                iconName: "../images/info.svg"
-                onClicked: pageStack.push(Qt.resolvedUrl("AboutPage.qml"))
-            }
-            MeaListItemDelegate {
-                Layout.fillWidth: true
-                Layout.bottomMargin: app.margins
-                visible: settings.showHiddenOptions
-                text: qsTr("Developer options")
-                iconName: "../images/configure.svg"
-                onClicked: pageStack.push(Qt.resolvedUrl("DeveloperOptionsPage.qml"))
-            }
-        }
-    }
-
-
-
-    Component {
-        id: styleChangedDialog
-        Dialog {
-            width: Math.min(parent.width * .8, contentLabel.implicitWidth)
-            x: (parent.width - width) / 2
-            y: (parent.height - height) / 2
-            modal: true
-
-            title: qsTr("Style changed")
-
-            standardButtons: Dialog.Ok
-
-            ColumnLayout {
-                id: content
-                anchors { left: parent.left; top: parent.top; right: parent.right }
-
-                Label {
-                    id: contentLabel
-                    Layout.fillWidth: true
-                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                    text: qsTr("The application needs to be restarted for style changes to take effect.")
+                Material.elevation: layout.isGrid ? 1 : 0
+                padding: 0
+                MeaListItemDelegate {
+                    width: parent.width
+                    text: qsTr("About %1").arg(app.appName)
+                    subText: qsTr("Find app versions and licence information")
+                    iconName: "../images/info.svg"
+                    prominentSubText: false
+                    wrapTexts: false
+                    onClicked: pageStack.push(Qt.resolvedUrl("AboutPage.qml"))
                 }
             }
         }

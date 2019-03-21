@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QAbstractListModel>
 
-class ServerConfiguration;
+#include "serverconfiguration.h"
 
 class ServerConfigurations : public QAbstractListModel
 {
@@ -22,6 +22,7 @@ public:
     Q_ENUM(Roles)
 
     explicit ServerConfigurations(QObject *parent = nullptr);
+    virtual ~ServerConfigurations() override = default;
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role) const override;
@@ -32,13 +33,25 @@ public:
 
     void clear();
 
-    Q_INVOKABLE ServerConfiguration* get(int index) const;
+    Q_INVOKABLE virtual ServerConfiguration* get(int index) const;
 
 signals:
     void countChanged();
 
-private:
+protected:
     QList<ServerConfiguration*> m_list;
+};
+
+
+class WebServerConfigurations: public ServerConfigurations
+{
+    Q_OBJECT
+public:
+    WebServerConfigurations(QObject *parent = nullptr): ServerConfigurations(parent) {}
+
+    Q_INVOKABLE WebServerConfiguration* getWebServerConfiguration(int index) const {
+        return dynamic_cast<WebServerConfiguration*>(m_list.at(index));
+    }
 };
 
 #endif // SERVERCONFIGURATIONS_H

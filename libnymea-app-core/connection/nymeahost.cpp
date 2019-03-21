@@ -228,6 +228,11 @@ QUrl Connection::url() const
     return m_url;
 }
 
+QString Connection::hostAddress() const
+{
+    return m_url.host();
+}
+
 Connection::BearerType Connection::bearerType() const
 {
     return m_bearerType;

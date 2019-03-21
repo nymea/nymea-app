@@ -30,6 +30,7 @@
 #include <QSettings>
 #include <QVersionNumber>
 #include <QMetaEnum>
+#include <QLocale>
 
 JsonRpcClient::JsonRpcClient(NymeaConnection *connection, QObject *parent) :
     JsonHandler(parent),
@@ -321,7 +322,11 @@ void JsonRpcClient::onInterfaceConnectedChanged(bool connected)
         request.insert("id", 0);
         qDebug() << "Connected. Starting JSONRPC Handshake";
         request.insert("method", "JSONRPC.Hello");
-        sendRequest(request);
+        QVariantMap params;
+        params.insert("locale", QLocale().name());
+        request.insert("params", params);
+//        sendRequest(request);
+        sendCommand("JSONRPC.Hello", params, this, "helloReply");
     }
 }
 
@@ -348,9 +353,57 @@ void JsonRpcClient::dataReceived(const QByteArray &data)
 
     QVariantMap dataMap = jsonDoc.toVariant().toMap();
 
-    // Check if this is the initial handshake
-    if (dataMap.value("id").toInt() == 0 && dataMap.contains("params") && !dataMap.contains("notification")) {
-        dataMap = dataMap.value("params").toMap();
+    // check if this is a notification
+    if (dataMap.contains("notification")) {
+        QStringList notification = dataMap.value("notification").toString().split(".");
+        QString nameSpace = notification.first();
+        JsonHandler *handler = m_notificationHandlers.value(nameSpace).first;
+
+        if (!handler) {
+//            qWarning() << "JsonRpc: handler not implemented:" << nameSpace;
+            return;
+        }
+
+//        qDebug() << "Incoming notification:" << jsonDoc.toJson();
+        QMetaObject::invokeMethod(handler, m_notificationHandlers.value(nameSpace).second.toLatin1().data(), Q_ARG(QVariantMap, dataMap));
+        return;
+    }
+
+    // check if this is a reply to a request
+    int commandId = dataMap.value("id").toInt();
+    JsonRpcReply *reply = m_replies.take(commandId);
+    if (reply) {
+        reply->deleteLater();
+//        qDebug() << QString("JsonRpc: got response for %1.%2: %3").arg(reply->nameSpace(), reply->method(), QString::fromUtf8(jsonDoc.toJson(QJsonDocument::Indented))) << reply->callback() << reply->callback();
+
+        if (dataMap.value("status").toString() == "unauthorized") {
+            qWarning() << "Something's off with the token";
+            m_authenticationRequired = true;
+            m_token.clear();
+            QSettings settings;
+            settings.beginGroup("jsonTokens");
+            settings.setValue(m_serverUuid, m_token);
+            settings.endGroup();
+            emit authenticationRequiredChanged();
+        }
+
+        if (!reply->caller().isNull() && !reply->callback().isEmpty()) {
+            QMetaObject::invokeMethod(reply->caller(), reply->callback().toLatin1().data(), Q_ARG(QVariantMap, dataMap));
+        }
+
+        emit responseReceived(reply->commandId(), dataMap.value("params").toMap());
+        return;
+    }
+}
+
+void JsonRpcClient::helloReply(const QVariantMap &params)
+{
+    if (params.value("status").toString() == "error") {
+        qWarning() << "Hello call failed. Trying again without locale";
+        m_id = 0;
+        sendCommand("JSONRPC.Hello", QVariantMap(), this, "helloReply");
+    } else {
+        QVariantMap dataMap = params.value("params").toMap();
         m_initialSetupRequired = dataMap.value("initialSetupRequired").toBool();
         m_authenticationRequired = dataMap.value("authenticationRequired").toBool();
         m_pushButtonAuthAvailable = dataMap.value("pushButtonAuthAvailable").toBool();
@@ -402,48 +455,7 @@ void JsonRpcClient::dataReceived(const QByteArray &data)
 
         setNotificationsEnabled(true);
         getCloudConnectionStatus();
-    }
 
-    // check if this is a notification
-    if (dataMap.contains("notification")) {
-        QStringList notification = dataMap.value("notification").toString().split(".");
-        QString nameSpace = notification.first();
-        JsonHandler *handler = m_notificationHandlers.value(nameSpace).first;
-
-        if (!handler) {
-//            qWarning() << "JsonRpc: handler not implemented:" << nameSpace;
-            return;
-        }
-
-//        qDebug() << "Incoming notification:" << jsonDoc.toJson();
-        QMetaObject::invokeMethod(handler, m_notificationHandlers.value(nameSpace).second.toLatin1().data(), Q_ARG(QVariantMap, dataMap));
-        return;
-    }
-
-    // check if this is a reply to a request
-    int commandId = dataMap.value("id").toInt();
-    JsonRpcReply *reply = m_replies.take(commandId);
-    if (reply) {
-        reply->deleteLater();
-//        qDebug() << QString("JsonRpc: got response for %1.%2: %3").arg(reply->nameSpace(), reply->method(), QString::fromUtf8(jsonDoc.toJson(QJsonDocument::Indented))) << reply->callback() << reply->callback();
-
-        if (dataMap.value("status").toString() == "unauthorized") {
-            qWarning() << "Something's off with the token";
-            m_authenticationRequired = true;
-            m_token.clear();
-            QSettings settings;
-            settings.beginGroup("jsonTokens");
-            settings.setValue(m_serverUuid, m_token);
-            settings.endGroup();
-            emit authenticationRequiredChanged();
-        }
-
-        if (!reply->caller().isNull() && !reply->callback().isEmpty()) {
-            QMetaObject::invokeMethod(reply->caller(), reply->callback().toLatin1().data(), Q_ARG(QVariantMap, dataMap));
-        }
-
-        emit responseReceived(reply->commandId(), dataMap.value("params").toMap());
-        return;
     }
 }
 

@@ -31,7 +31,7 @@ public:
     bool sslEnabled() const;
     void setSslEnabled(bool sslEnabled);
 
-    Q_INVOKABLE ServerConfiguration* clone() const;
+    Q_INVOKABLE virtual ServerConfiguration* clone() const;
 
 signals:
     void addressChanged();
@@ -45,6 +45,26 @@ private:
     int m_port;
     bool m_authEnabled;
     bool m_sslEnabled;
+};
+
+class WebServerConfiguration: public ServerConfiguration
+{
+    Q_OBJECT
+    Q_PROPERTY(QString publicFolder READ publicFolder NOTIFY publicFolderChanged)
+public:
+    explicit WebServerConfiguration(const QString &id, const QHostAddress &address = QHostAddress(), int port = 0, bool authEnabled = false, bool sslEnabled = false, QObject *parent = nullptr)
+        : ServerConfiguration(id, address, port, authEnabled, sslEnabled, parent) {}
+
+    QString publicFolder() const;
+    void setPublicFolder(const QString &publicFolder);
+
+    Q_INVOKABLE ServerConfiguration* clone() const override;
+
+signals:
+    void publicFolderChanged();
+
+private:
+    QString m_publicFolder;
 };
 
 #endif // SERVERCONFIGURATION_H
