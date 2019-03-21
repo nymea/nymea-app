@@ -179,7 +179,7 @@ ApplicationWindow {
         case "weather":
             return Qt.resolvedUrl("images/weather-app-symbolic.svg")
         case "gateway":
-            return Qt.resolvedUrl("images/network-wired-symbolic.svg")
+            return Qt.resolvedUrl("images/network-wired.svg")
         case "notifications":
             return Qt.resolvedUrl("images/messaging-app-symbolic.svg")
         case "inputtrigger":

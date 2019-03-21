@@ -107,8 +107,8 @@
         <file>ui/images/navigation-menu.svg</file>
         <file>ui/images/network-secure.svg</file>
         <file>ui/images/network-vpn.svg</file>
-        <file>ui/images/network-wifi-symbolic.svg</file>
-        <file>ui/images/network-wired-symbolic.svg</file>
+        <file>ui/images/network-wifi.svg</file>
+        <file>ui/images/network-wired.svg</file>
         <file>ui/images/next.svg</file>
         <file>ui/images/nm-signal-00-secure.svg</file>
         <file>ui/images/nm-signal-00.svg</file>
@@ -172,5 +172,10 @@
         <file>ui/images/dial.svg</file>
         <file>ui/images/ventilation.svg</file>
         <file>ui/images/edit-copy.svg</file>
+        <file>ui/images/stock_website.svg</file>
+        <file>ui/images/sdk.svg</file>
+        <file>ui/images/network-wifi-offline.svg</file>
+        <file>ui/images/network-wired-offline.svg</file>
+        <file>ui/images/preferences-look-and-feel.svg</file>
     </qresource>
 </RCC>

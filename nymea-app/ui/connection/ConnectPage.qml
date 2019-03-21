@@ -148,9 +148,9 @@ Page {
                             case Connection.BearerTypeLan:
                             case Connection.BearerTypeWan:
                                 if (engine.connection.availableBearerTypes & NymeaConnection.BearerTypeEthernet != NymeaConnection.BearerTypeNone) {
-                                    return "../images/network-wired-symbolic.svg"
+                                    return "../images/network-wired.svg"
                                 }
-                                return "../images/network-wifi-symbolic.svg";
+                                return "../images/network-wifi.svg";
                             case Connection.BearerTypeBluetooth:
                                 return "../images/bluetooth.svg";
                             case Connection.BearerTypeCloud:
@@ -369,9 +369,9 @@ Page {
                                     case Connection.BearerTypeLan:
                                     case Connection.BearerTypeWan:
                                         if (engine.connection.availableBearerTypes & NymeaConnection.BearerTypeEthernet != NymeaConnection.BearerTypeNone) {
-                                            return "../images/network-wired-symbolic.svg"
+                                            return "../images/network-wired.svg"
                                         }
-                                        return "../images/network-wifi-symbolic.svg";
+                                        return "../images/network-wifi.svg";
                                     case Connection.BearerTypeBluetooth:
                                         return "../images/bluetooth.svg";
                                     case Connection.BearerTypeCloud:

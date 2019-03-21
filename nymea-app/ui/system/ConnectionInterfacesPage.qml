@@ -25,7 +25,7 @@ Page {
                 Layout.leftMargin: app.margins
                 Layout.rightMargin: app.margins
                 Layout.topMargin: app.margins
-                text: qsTr("TCP Server Interfaces")
+                text: qsTr("TCP server interfaces")
                 wrapMode: Text.WordWrap
                 color: app.accentColor
             }
@@ -78,7 +78,7 @@ Page {
                 Layout.leftMargin: app.margins
                 Layout.rightMargin: app.margins
                 Layout.topMargin: app.margins
-                text: qsTr("WebSocket Server Interfaces")
+                text: qsTr("WebSocket server interfaces")
                 wrapMode: Text.WordWrap
                 color: app.accentColor
             }

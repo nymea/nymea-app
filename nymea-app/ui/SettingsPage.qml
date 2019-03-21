@@ -11,190 +11,186 @@ Page {
         text: qsTr("Box settings")
         backButtonVisible: true
         onBackPressed: pageStack.pop()
+
+        HeaderButton {
+            imageSource: {
+                switch (engine.connection.currentConnection.bearerType) {
+                case Connection.BearerTypeLan:
+                case Connection.BearerTypeWan:
+                    if (engine.connection.availableBearerTypes & NymeaConnection.BearerTypeEthernet != NymeaConnection.BearerTypeNone) {
+                        return "../images/network-wired-offline.svg"
+                    }
+                    return "../images/network-wifi-offline.svg";
+                case Connection.BearerTypeBluetooth:
+                    return "../images/network-wifi-offline.svg";
+                case Connection.BearerTypeCloud:
+                    return "../images/cloud-offline.svg"
+                }
+                return ""
+            }
+            onClicked: {
+                tabSettings.lastConnectedHost = "";
+                engine.connection.disconnect();
+            }
+        }
     }
 
     Flickable {
         anchors.fill: parent
-        contentHeight: settingsColumn.implicitHeight
-        interactive: contentHeight > height
+        contentHeight: layout.implicitHeight
 
-        ColumnLayout {
-            id: settingsColumn
-            anchors { left: parent.left; right: parent.right; top: parent.top }
+        GridLayout {
+            id: layout
+            property bool isGrid: columns > 1
+            anchors { left: parent.left; top: parent.top; right: parent.right; margins: isGrid ? app.margins : 0 }
+            columns: Math.max(1, Math.floor(parent.width / 300))
+            rowSpacing: isGrid ? app.margins : 0
+            columnSpacing: isGrid ? app.margins : 0
 
-            ColumnLayout {
+            Pane {
                 Layout.fillWidth: true
-                Layout.margins: app.margins
-
-                Label {
-                    Layout.fillWidth: true
-                    text: qsTr("Connected to:")
-                    color: Material.accent
-                }
-                RowLayout {
-                    Layout.fillWidth: true
-
-                    Label {
-                        Layout.fillWidth: true
-                        elide: Text.ElideMiddle
-                        text: engine.connection.currentConnection.url
-                    }
-                    Button {
-                        text: qsTr("Disconnect")
-                        onClicked: {
-                            tabSettings.lastConnectedHost = "";
-                            engine.connection.disconnect();
-                        }
-                    }
+                Material.elevation: layout.isGrid ? 1 : 0
+                padding: 0
+                MeaListItemDelegate {
+                    width: parent.width
+                    iconName: "../images/configure.svg"
+                    text: qsTr("General")
+                    subText: qsTr("Change system name and time zone")
+                    prominentSubText: false
+                    wrapTexts: false
+                    onClicked: pageStack.push(Qt.resolvedUrl("system/GeneralSettingsPage.qml"))
                 }
             }
 
-            ThinDivider {}
-
-            RowLayout {
+            Pane {
                 Layout.fillWidth: true
-                Layout.leftMargin: app.margins
-                Layout.rightMargin: app.margins
-                spacing: app.margins
-                Label {
-                    text: qsTr("Name")
-                }
-                TextField {
-                    id: nameTextField
-                    Layout.fillWidth: true
-                    text: engine.nymeaConfiguration.serverName
-                }
-                Button {
-                    text: qsTr("OK")
-                    visible: nameTextField.displayText !== engine.nymeaConfiguration.serverName
-                    onClicked: engine.nymeaConfiguration.serverName = nameTextField.displayText
+                Material.elevation: layout.isGrid ? 1 : 0
+
+                padding: 0
+                MeaListItemDelegate {
+                    width: parent.width
+                    iconName: "../images/logs.svg"
+                    text: qsTr("Log viewer")
+                    subText: qsTr("View system log")
+                    prominentSubText: false
+                    wrapTexts: false
+                    onClicked: pageStack.push(Qt.resolvedUrl("system/LogViewerPage.qml"))
                 }
             }
 
-            RowLayout {
+            Pane {
                 Layout.fillWidth: true
-                Layout.leftMargin: app.margins
-                Layout.rightMargin: app.margins
-                spacing: app.margins
-                visible: !engine.jsonRpcClient.ensureServerVersion("1.14")
+                Material.elevation: layout.isGrid ? 1 : 0
 
-                Label {
-                    Layout.fillWidth: true
-                    text: qsTr("Language")
-                }
-                ComboBox {
-                    id: languageBox
-                    Layout.fillWidth: true
-                    model: engine.nymeaConfiguration.availableLanguages
-                    currentIndex: model.indexOf(engine.nymeaConfiguration.language)
-                    contentItem: Label {
-                        leftPadding: app.margins / 2
-                        text: Qt.locale(languageBox.displayText).nativeLanguageName + " (" + Qt.locale(languageBox.displayText).nativeCountryName + ")"
-                        elide: Text.ElideRight
-                        verticalAlignment: Text.AlignVCenter
-                    }
-
-                    delegate: ItemDelegate {
-                        width: languageBox.width
-                        contentItem: Label {
-                            text: Qt.locale(modelData).nativeLanguageName + " (" + Qt.locale(modelData).nativeCountryName + ")"
-                            elide: Text.ElideRight
-                            verticalAlignment: Text.AlignVCenter
-                        }
-                        highlighted: languageBox.highlightedIndex === index
-                    }
-                    onActivated: {
-                        engine.nymeaConfiguration.language = currentText;
-                    }
+                padding: 0
+                MeaListItemDelegate {
+                    width: parent.width
+                    iconName: "../images/cloud.svg"
+                    text: qsTr("Cloud")
+                    subText: qsTr("Connect this box to %1:cloud").arg(app.systemName)
+                    prominentSubText: false
+                    wrapTexts: false
+                    visible: engine.jsonRpcClient.ensureServerVersion("1.9")
+                    onClicked: pageStack.push(Qt.resolvedUrl("system/CloudSettingsPage.qml"))
                 }
             }
 
-            RowLayout {
+            Pane {
                 Layout.fillWidth: true
-                Layout.leftMargin: app.margins
-                Layout.rightMargin: app.margins
-                spacing: app.margins
-                Label {
-                    Layout.fillWidth: true
-                    text: qsTr("Time zone")
-                }
-                ComboBox {
-                    Layout.minimumWidth: 200
-                    model: engine.nymeaConfiguration.timezones
-                    currentIndex: model.indexOf(engine.nymeaConfiguration.timezone)
-                    onActivated: {
-                        engine.nymeaConfiguration.timezone = currentText;
-                    }
+                Material.elevation: layout.isGrid ? 1 : 0
+
+                padding: 0
+                MeaListItemDelegate {
+                    width: parent.width
+                    iconName: "../images/network-vpn.svg"
+                    text: qsTr("API interfaces")
+                    prominentSubText: false
+                    wrapTexts: false
+                    subText: qsTr("Configure how clients interact with this box")
+                    onClicked: pageStack.push(Qt.resolvedUrl("system/ConnectionInterfacesPage.qml"))
                 }
             }
 
-            ColumnLayout {
+            Pane {
                 Layout.fillWidth: true
+                Material.elevation: layout.isGrid ? 1 : 0
 
-                RowLayout {
-                    Layout.fillWidth: true
-                    Layout.leftMargin: app.margins
-                    Layout.rightMargin: app.margins
-                    spacing: app.margins
-                    Label {
-                        text: qsTr("Debug server enabled")
-                        Layout.fillWidth: true
-                    }
-                    Switch {
-                        id: debugServerEnabledSwitch
-                        checked: engine.nymeaConfiguration.debugServerEnabled
-                        onClicked: engine.nymeaConfiguration.debugServerEnabled = checked
-                    }
+                padding: 0
+                MeaListItemDelegate {
+                    width: parent.width
+                    iconName: "../images/mqtt.svg"
+                    text: qsTr("MQTT broker")
+                    subText: qsTr("Configure the MQTT broker")
+                    prominentSubText: false
+                    wrapTexts: false
+                    visible: engine.jsonRpcClient.ensureServerVersion("1.11")
+                    onClicked: pageStack.push(Qt.resolvedUrl("system/MqttBrokerSettingsPage.qml"))
                 }
+            }
 
-                Button {
-                    id: debugServerButton
-                    Layout.fillWidth: true
-                    Layout.margins: app.margins
-                    visible: debugServerEnabledSwitch.checked
-                    text: qsTr("Open debug interface")
-                    onClicked: Qt.openUrlExternally("http://" + engine.connection.hostAddress + "/debug")
+            Pane {
+                Layout.fillWidth: true
+                Material.elevation: layout.isGrid ? 1 : 0
+
+                padding: 0
+                MeaListItemDelegate {
+                    width: parent.width
+                    iconName: "../images/stock_website.svg"
+                    text: qsTr("Web server")
+                    subText: qsTr("Configure the web server")
+                    prominentSubText: false
+                    wrapTexts: false
+                    onClicked: pageStack.push(Qt.resolvedUrl("system/WebServerSettingsPage.qml"))
                 }
 
             }
 
-            MeaListItemDelegate {
+            Pane {
                 Layout.fillWidth: true
-                iconName: "../images/logs.svg"
-                text: qsTr("Log viewer")
-                onClicked: pageStack.push(Qt.resolvedUrl("system/LogViewerPage.qml"))
+                Material.elevation: layout.isGrid ? 1 : 0
+
+                padding: 0
+                MeaListItemDelegate {
+                    width: parent.width
+                    iconName: "../images/plugin.svg"
+                    text: qsTr("Plugins")
+                    subText: qsTr("List and cofigure installed plugins")
+                    prominentSubText: false
+                    wrapTexts: false
+                    onClicked:pageStack.push(Qt.resolvedUrl("system/PluginsPage.qml"))
+                }
             }
-            MeaListItemDelegate {
+
+            Pane {
                 Layout.fillWidth: true
-                iconName: "../images/cloud.svg"
-                text: qsTr("Cloud")
-                visible: engine.jsonRpcClient.ensureServerVersion("1.9")
-                onClicked: pageStack.push(Qt.resolvedUrl("system/CloudSettingsPage.qml"))
+                Material.elevation: layout.isGrid ? 1 : 0
+
+                padding: 0
+                MeaListItemDelegate {
+                    width: parent.width
+                    iconName: "../images/sdk.svg"
+                    text: qsTr("Developer tools")
+                    subText: qsTr("Access tools for debugging and error reporting")
+                    prominentSubText: false
+                    wrapTexts: false
+                    onClicked: pageStack.push(Qt.resolvedUrl("system/DeveloperTools.qml"))
+                }
             }
-            MeaListItemDelegate {
+
+            Pane {
                 Layout.fillWidth: true
-                iconName: "../images/network-vpn.svg"
-                text: qsTr("Server interfaces")
-                onClicked: pageStack.push(Qt.resolvedUrl("system/ConnectionInterfacesPage.qml"))
-            }
-            MeaListItemDelegate {
-                Layout.fillWidth: true
-                iconName: "../images/mqtt.svg"
-                text: qsTr("MQTT broker")
-                visible: engine.jsonRpcClient.ensureServerVersion("1.11")
-                onClicked: pageStack.push(Qt.resolvedUrl("system/MqttBrokerSettingsPage.qml"))
-            }
-            MeaListItemDelegate {
-                Layout.fillWidth: true
-                iconName: "../images/plugin.svg"
-                text: qsTr("Plugins")
-                onClicked:pageStack.push(Qt.resolvedUrl("system/PluginsPage.qml"))
-            }
-            MeaListItemDelegate {
-                Layout.fillWidth: true
-                iconName: "../images/info.svg"
-                text: qsTr("About %1:core").arg(app.systemName)
-                onClicked: pageStack.push(Qt.resolvedUrl("system/AboutNymeaPage.qml"))
+                Material.elevation: layout.isGrid ? 1 : 0
+
+                padding: 0
+                MeaListItemDelegate {
+                    width: parent.width
+                    iconName: "../images/info.svg"
+                    text: qsTr("About %1:core").arg(app.systemName)
+                    subText: qsTr("Find server UUID and versions")
+                    prominentSubText: false
+                    wrapTexts: false
+                    onClicked: pageStack.push(Qt.resolvedUrl("system/AboutNymeaPage.qml"))
+                }
             }
         }
     }

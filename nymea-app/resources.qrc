@@ -172,5 +172,11 @@
         <file>ui/fonts/Oswald-Medium.ttf</file>
         <file>ui/fonts/Oswald-Regular.ttf</file>
         <file>ui/fonts/Oswald-SemiBold.ttf</file>
+        <file>ui/system/WebServerSettingsPage.qml</file>
+        <file>ui/system/WebServerConfigurationDialog.qml</file>
+        <file>ui/system/DeveloperTools.qml</file>
+        <file>ui/system/GeneralSettingsPage.qml</file>
+        <file>ui/components/Imprint.qml</file>
+        <file>ui/appsettings/LookAndFeelSettingsPage.qml</file>
     </qresource>
 </RCC>

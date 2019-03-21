@@ -68,6 +68,11 @@ Page {
 
         ScrollBar.vertical: ScrollBar {}
 
+        BusyIndicator {
+            anchors.centerIn: parent
+            visible: listView.model.busy
+        }
+
         onContentYChanged: {
             if (!engine.jsonRpcClient.ensureServerVersion("1.10")) {
                 if (!logsModel.busy && contentY - originY < 5 * height) {

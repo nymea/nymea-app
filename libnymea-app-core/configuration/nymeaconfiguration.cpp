@@ -14,6 +14,7 @@ NymeaConfiguration::NymeaConfiguration(JsonRpcClient *client, QObject *parent):
     m_client(client),
     m_tcpServerConfigurations(new ServerConfigurations(this)),
     m_webSocketServerConfigurations(new ServerConfigurations(this)),
+    m_webServerConfigurations(new WebServerConfigurations(this)),
     m_mqttServerConfigurations(new ServerConfigurations(this)),
     m_mqttPolicies(new MqttPolicies(this))
 {
@@ -117,6 +118,11 @@ ServerConfigurations *NymeaConfiguration::webSocketServerConfigurations() const
     return m_webSocketServerConfigurations;
 }
 
+WebServerConfigurations *NymeaConfiguration::webServerConfigurations() const
+{
+    return m_webServerConfigurations;
+}
+
 ServerConfigurations *NymeaConfiguration::mqttServerConfigurations() const
 {
     return m_mqttServerConfigurations;
@@ -130,6 +136,13 @@ MqttPolicies *NymeaConfiguration::mqttPolicies() const
 ServerConfiguration *NymeaConfiguration::createServerConfiguration(const QString &address, int port, bool authEnabled, bool sslEnabled)
 {
     return new ServerConfiguration(QUuid::createUuid().toString(), QHostAddress(address), port, authEnabled, sslEnabled);
+}
+
+WebServerConfiguration *NymeaConfiguration::createWebServerConfiguration(const QString &address, int port, bool authEnabled, bool sslEnabled, const QString &publicFolder)
+{
+    auto ret = new WebServerConfiguration(QUuid::createUuid().toString(), QHostAddress(address), port, authEnabled, sslEnabled);
+    ret->setPublicFolder(publicFolder);
+    return ret;
 }
 
 MqttPolicy *NymeaConfiguration::createMqttPolicy() const
@@ -163,6 +176,20 @@ void NymeaConfiguration::setWebSocketServerConfiguration(ServerConfiguration *co
     m_client->sendCommand("Configuration.SetWebSocketServerConfiguration", params, this, "setWebSocketConfigReply");
 }
 
+void NymeaConfiguration::setWebServerConfiguration(WebServerConfiguration *configuration)
+{
+    QVariantMap params;
+    QVariantMap configurationMap;
+    configurationMap.insert("id", configuration->id());
+    configurationMap.insert("address", configuration->address());
+    configurationMap.insert("port", configuration->port());
+    configurationMap.insert("authenticationEnabled", configuration->authenticationEnabled());
+    configurationMap.insert("sslEnabled", configuration->sslEnabled());
+    configurationMap.insert("publicFolder", configuration->publicFolder());
+    params.insert("configuration", configurationMap);
+    m_client->sendCommand("Configuration.SetWebServerConfiguration", params, this, "setWebConfigReply");
+}
+
 void NymeaConfiguration::setMqttServerConfiguration(ServerConfiguration *configuration)
 {
     QVariantMap params;
@@ -188,6 +215,13 @@ void NymeaConfiguration::deleteWebSocketServerConfiguration(const QString &id)
     QVariantMap params;
     params.insert("id", id);
     m_client->sendCommand("Configuration.DeleteWebSocketServerConfiguration", params, this, "deleteWebSocketConfigReply");
+}
+
+void NymeaConfiguration::deleteWebServerConfiguration(const QString &id)
+{
+    QVariantMap params;
+    params.insert("id", id);
+    m_client->sendCommand("Configuration.DeleteWebServerConfiguration", params, this, "deleteWebConfigReply");
 }
 
 void NymeaConfiguration::deleteMqttServerConfiguration(const QString &id)
@@ -246,6 +280,15 @@ void NymeaConfiguration::getConfigurationsResponse(const QVariantMap &params)
         ServerConfiguration *config = new ServerConfiguration(websocketConfigMap.value("id").toString(), QHostAddress(websocketConfigMap.value("address").toString()), websocketConfigMap.value("port").toInt(), websocketConfigMap.value("authenticationEnabled").toBool(), websocketConfigMap.value("sslEnabled").toBool());
         m_webSocketServerConfigurations->addConfiguration(config);
     }
+
+    webServerConfigurations()->clear();
+    foreach (const QVariant &webServerVariant, params.value("params").toMap().value("webServerConfigurations").toList()) {
+        QVariantMap webServerConfigMap = webServerVariant.toMap();
+        qDebug() << "**********+ web config" << webServerConfigMap;
+        WebServerConfiguration* config = new WebServerConfiguration(webServerConfigMap.value("id").toString(), QHostAddress(webServerConfigMap.value("address").toString()), webServerConfigMap.value("port").toInt(), webServerConfigMap.value("authenticationEnabled").toBool(), webServerConfigMap.value("sslEnabled").toBool());
+        config->setPublicFolder(webServerConfigMap.value("publicFolder").toString());
+        m_webServerConfigurations->addConfiguration(config);
+    }
 }
 
 void NymeaConfiguration::getAvailableLanguagesResponse(const QVariantMap &params)
@@ -289,7 +332,7 @@ void NymeaConfiguration::setDebugServerEnabledResponse(const QVariantMap &params
 
 void NymeaConfiguration::setTcpConfigReply(const QVariantMap &params)
 {
-
+    qDebug() << "Set TCP server config reply" << params;
 }
 
 void NymeaConfiguration::deleteTcpConfigReply(const QVariantMap &params)
@@ -300,12 +343,22 @@ void NymeaConfiguration::deleteTcpConfigReply(const QVariantMap &params)
 
 void NymeaConfiguration::setWebSocketConfigReply(const QVariantMap &params)
 {
-    qDebug() << "set weboscket config reply" << params;
+    qDebug() << "set websocket config reply" << params;
+}
+
+void NymeaConfiguration::setWebConfigReply(const QVariantMap &params)
+{
+    qDebug() << "set web server config reply" << params;
+}
+
+void NymeaConfiguration::deleteWebConfigReply(const QVariantMap &params)
+{
+    qDebug() << "Delete web server config reply" << params;
 }
 
 void NymeaConfiguration::deleteWebSocketConfigReply(const QVariantMap &params)
 {
-
+    qDebug() << "Delete web socket server config reply" << params;
 }
 
 void NymeaConfiguration::getMqttServerConfigsReply(const QVariantMap &params)
@@ -379,6 +432,8 @@ void NymeaConfiguration::notificationReceived(const QVariantMap &notification)
     }
     if (notif.endsWith("ServerConfigurationChanged")) {
         ServerConfigurations *configModel = nullptr;
+        ServerConfiguration *serverConfig = nullptr;
+
         QVariantMap params;
         if (notif == "Configuration.TcpServerConfigurationChanged") {
             configModel = m_tcpServerConfigurations;
@@ -388,6 +443,10 @@ void NymeaConfiguration::notificationReceived(const QVariantMap &notification)
             configModel = m_webSocketServerConfigurations;
             params = notification.value("params").toMap().value("webSocketServerConfiguration").toMap();
         }
+        if (notif == "Configuration.WebServerConfigurationChanged") {
+            configModel = m_webServerConfigurations;
+            params = notification.value("params").toMap().value("webServerConfiguration").toMap();
+        }
         if (notif == "Configuration.MqttServerConfigurationChanged") {
             configModel = m_mqttServerConfigurations;
             params = notification.value("params").toMap().value("mqttServerConfiguration").toMap();
@@ -396,7 +455,6 @@ void NymeaConfiguration::notificationReceived(const QVariantMap &notification)
             return;
         }
 
-        ServerConfiguration *serverConfig = nullptr;
         for (int i = 0; i < configModel->rowCount(); i++) {
             ServerConfiguration* config = configModel->get(i);
             if (config->id() == params.value("id").toString()) {
@@ -405,13 +463,21 @@ void NymeaConfiguration::notificationReceived(const QVariantMap &notification)
         }
 
         if (!serverConfig) {
-            serverConfig = new ServerConfiguration(params.value("id").toString());
+            if (notif == "Configuration.WebServerConfigurationChanged") {
+                serverConfig = new WebServerConfiguration(params.value("id").toString());
+            } else {
+                serverConfig = new ServerConfiguration(params.value("id").toString());
+            }
             configModel->addConfiguration(serverConfig);
         }
         serverConfig->setAddress(params.value("address").toString());
         serverConfig->setPort(params.value("port").toInt());
         serverConfig->setAuthenticationEnabled(params.value("authenticationEnabled").toBool());
         serverConfig->setSslEnabled(params.value("sslEnabled").toBool());
+        if (notif == "Configuration.WebServerConfigurationChanged") {
+            qobject_cast<WebServerConfiguration*>(serverConfig)->setPublicFolder(params.value("publicFolder").toString());
+        }
+
         return;
     }
     if (notif == "Configuration.TcpServerConfigurationRemoved") {
@@ -420,6 +486,10 @@ void NymeaConfiguration::notificationReceived(const QVariantMap &notification)
     }
     if (notif == "Configuration.WebSocketServerConfigurationRemoved") {
         m_webSocketServerConfigurations->removeConfiguration(notification.value("params").toMap().value("id").toString());
+        return;
+    }
+    if (notif == "Configuration.WebServerConfigurationRemoved") {
+        m_webServerConfigurations->removeConfiguration(notification.value("params").toMap().value("id").toString());
         return;
     }
     if (notif == "Configuration.MqttServerConfigurationRemoved") {

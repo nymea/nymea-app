@@ -8,6 +8,8 @@
 class JsonRpcClient;
 class ServerConfiguration;
 class ServerConfigurations;
+class WebServerConfiguration;
+class WebServerConfigurations;
 class MqttPolicy;
 class MqttPolicies;
 
@@ -28,6 +30,7 @@ class NymeaConfiguration : public JsonHandler
 
     Q_PROPERTY(ServerConfigurations* tcpServerConfigurations READ tcpServerConfigurations CONSTANT)
     Q_PROPERTY(ServerConfigurations* webSocketServerConfigurations READ webSocketServerConfigurations CONSTANT)
+    Q_PROPERTY(WebServerConfigurations* webServerConfigurations READ webServerConfigurations CONSTANT)
     Q_PROPERTY(ServerConfigurations* mqttServerConfigurations READ mqttServerConfigurations CONSTANT)
 
     Q_PROPERTY(MqttPolicies* mqttPolicies READ mqttPolicies CONSTANT)
@@ -56,18 +59,22 @@ public:
 
     ServerConfigurations *tcpServerConfigurations() const;
     ServerConfigurations *webSocketServerConfigurations() const;
+    WebServerConfigurations *webServerConfigurations() const;
     ServerConfigurations *mqttServerConfigurations() const;
     MqttPolicies *mqttPolicies() const;
 
     Q_INVOKABLE ServerConfiguration* createServerConfiguration(const QString &address = "0.0.0.0", int port = 0, bool authEnabled = false, bool sslEnabled = false);
+    Q_INVOKABLE WebServerConfiguration* createWebServerConfiguration(const QString &address = "0.0.0.0", int port = 0, bool authEnabled = false, bool sslEnabled = false, const QString &publicFolder = QString());
     Q_INVOKABLE MqttPolicy* createMqttPolicy() const;
 
     Q_INVOKABLE void setTcpServerConfiguration(ServerConfiguration *configuration);
     Q_INVOKABLE void setWebSocketServerConfiguration(ServerConfiguration *configuration);
+    Q_INVOKABLE void setWebServerConfiguration(WebServerConfiguration *configuration);
     Q_INVOKABLE void setMqttServerConfiguration(ServerConfiguration *configuration);
 
     Q_INVOKABLE void deleteTcpServerConfiguration(const QString &id);
     Q_INVOKABLE void deleteWebSocketServerConfiguration(const QString &id);
+    Q_INVOKABLE void deleteWebServerConfiguration(const QString &id);
     Q_INVOKABLE void deleteMqttServerConfiguration(const QString &id);
 
     Q_INVOKABLE void updateMqttPolicy(MqttPolicy* policy);
@@ -87,6 +94,8 @@ private:
     Q_INVOKABLE void deleteTcpConfigReply(const QVariantMap &params);
     Q_INVOKABLE void setWebSocketConfigReply(const QVariantMap &params);
     Q_INVOKABLE void deleteWebSocketConfigReply(const QVariantMap &params);
+    Q_INVOKABLE void setWebConfigReply(const QVariantMap &params);
+    Q_INVOKABLE void deleteWebConfigReply(const QVariantMap &params);
     Q_INVOKABLE void getMqttServerConfigsReply(const QVariantMap &params);
     Q_INVOKABLE void setMqttConfigReply(const QVariantMap &params);
     Q_INVOKABLE void deleteMqttConfigReply(const QVariantMap &params);
@@ -118,6 +127,7 @@ private:
 
     ServerConfigurations *m_tcpServerConfigurations = nullptr;
     ServerConfigurations *m_webSocketServerConfigurations = nullptr;
+    WebServerConfigurations* m_webServerConfigurations = nullptr;
     ServerConfigurations *m_mqttServerConfigurations = nullptr;
     MqttPolicies *m_mqttPolicies = nullptr;
 
