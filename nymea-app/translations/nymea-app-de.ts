@@ -1400,15 +1400,15 @@
     </message>
     <message>
         <source>Add a new fingerprint</source>
-        <translation>Einen neuen Fingerabdruck hinzufügen</translation>
+        <translation>Neuen Fingerabdruck hinzufügen</translation>
     </message>
     <message>
         <source>Username</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzername</translation>
     </message>
     <message>
         <source>Finger</source>
-        <translation type="unfinished"></translation>
+        <translation>Finger</translation>
     </message>
     <message>
         <source>Left thumb</source>
