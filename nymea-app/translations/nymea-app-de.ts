@@ -3779,34 +3779,34 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Thing reconfigured!</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;Thing&quot; neu eingerichtet!</translation>
     </message>
     <message>
         <source>Thing added!</source>
-        <translation type="unfinished">&quot;Thing&quot; hinzugefügt!</translation>
+        <translation>&quot;Thing&quot; hinzugefügt!</translation>
     </message>
     <message>
         <source>Uh oh</source>
-        <translation type="unfinished">Oh oh</translation>
+        <translation>Oh oh</translation>
     </message>
     <message>
         <source>All done. You can now start using %1.</source>
-        <translation type="unfinished">Alles erledigt. Du kannst %1 jetzt benutzen.</translation>
+        <translation>Alles erledigt. Du kannst %1 jetzt benutzen.</translation>
     </message>
     <message>
         <source>Something went wrong setting up this thing...</source>
-        <translation type="unfinished">Bei der Einrichtung ist etwas schiefgelaufen...</translation>
+        <translation>Bei der Einrichtung ist etwas schiefgelaufen...</translation>
     </message>
     <message>
         <source>Ok</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
 </context>
 <context>
     <name>ShutterDeviceListPage</name>
     <message>
         <source>Shutters</source>
-        <translation type="unfinished">Rolläden</translation>
+        <translation>Rolläden</translation>
     </message>
 </context>
 <context>
@@ -3828,7 +3828,7 @@ Bitte versuche es erneut.</translation>
     <name>SmartMeterDeviceListPage</name>
     <message>
         <source>Smart meters</source>
-        <translation type="unfinished"></translation>
+        <translation>Intelligente Stromzähler</translation>
     </message>
 </context>
 <context>
@@ -3894,7 +3894,7 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>History for %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Protokoll für %1</translation>
     </message>
 </context>
 <context>
@@ -4025,19 +4025,19 @@ Bitte versuche es erneut.</translation>
     <name>WebServerConfigurationDialog</name>
     <message>
         <source>Server configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Server einrichten</translation>
     </message>
     <message>
         <source>Interface</source>
-        <translation type="unfinished"></translation>
+        <translation>Schnittstelle</translation>
     </message>
     <message>
         <source>Any</source>
-        <translation type="unfinished"></translation>
+        <translation>Jede</translation>
     </message>
     <message>
         <source>Localhost</source>
-        <translation type="unfinished"></translation>
+        <translation>Localhost</translation>
     </message>
     <message>
         <source>Custom</source>
