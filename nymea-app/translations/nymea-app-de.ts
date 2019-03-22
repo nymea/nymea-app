@@ -801,7 +801,7 @@
     </message>
     <message>
         <source>Testing</source>
-        <translation type="unfinished"></translation>
+        <translation>Testing</translation>
     </message>
     <message>
         <source>Marantec</source>
