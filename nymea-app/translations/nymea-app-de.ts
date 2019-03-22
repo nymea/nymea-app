@@ -138,15 +138,15 @@
     </message>
     <message>
         <source>Show connection tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbindungs-Reiter anzeigen</translation>
     </message>
     <message>
         <source>Cloud login</source>
-        <translation type="unfinished"></translation>
+        <translation>Cloud Login</translation>
     </message>
     <message>
         <source>Developer options</source>
-        <translation type="unfinished"></translation>
+        <translation>Entwicklereinstellungen</translation>
     </message>
 </context>
 <context>
@@ -331,31 +331,29 @@
     <name>CloudLoginPage</name>
     <message>
         <source>Cloud login</source>
-        <translation type="unfinished"></translation>
+        <translation>Cloud Login</translation>
     </message>
     <message>
         <source>Sorry, an error happened removing the account. Please try again later.</source>
-        <translation type="unfinished"></translation>
+        <translation>Entschuldigung, beim Löschen des Kontos ist ein Fehler aufgetreten. Bitte versuche es später noch einmal.</translation>
     </message>
     <message>
         <source>Logged in as %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Als %1 eingeloggt</translation>
     </message>
     <message>
         <source>Log out</source>
-        <translation type="unfinished"></translation>
+        <translation>Ausloggen</translation>
     </message>
     <message>
         <source>There are no boxes connected to your cloud yet.</source>
-        <translation type="unfinished"></translation>
+        <translation>Es sind noch keine Boxen mit Deiner Cloud verbunden.</translation>
     </message>
     <message numerus="yes">
         <source>There are %n boxes connected to your cloud</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>Es sind %1 Boxen mit Deiner Cloud verbunden</numerusform>
+        <numerusform></numerusform>
+        </translation></message>
     <message>
         <source>Goodbye</source>
         <translation type="unfinished"></translation>
