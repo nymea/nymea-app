@@ -2536,15 +2536,15 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>There are no garage gates set up yet.</source>
-        <translation>Es sind noch keine Garagentore eingerichtet</translation>
+        <translation>Es sind noch keine Garagentore eingerichtet.</translation>
     </message>
     <message>
         <source>Set up now</source>
-        <translation type="unfinished"></translation>
+        <translation>Jetzt einrichten</translation>
     </message>
     <message>
         <source>Celsi°s</source>
-        <translation type="unfinished"></translation>
+        <translation>Celsi°s</translation>
     </message>
     <message>
         <source>There is no drexel und weiss heating system set up yet.</source>
