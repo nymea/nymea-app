@@ -182,7 +182,7 @@
     </message>
     <message>
         <source>Find app versions and licence information</source>
-        <translation type="unfinished"></translation>
+        <translation>Finde App Versionen und Lizenzinformationen</translation>
     </message>
 </context>
 <context>
@@ -196,14 +196,14 @@
     <name>AwningDeviceListPage</name>
     <message>
         <source>Awnings</source>
-        <translation type="unfinished">Markisen</translation>
+        <translation>Markisen</translation>
     </message>
 </context>
 <context>
     <name>BlindDeviceListPage</name>
     <message>
         <source>Blinds</source>
-        <translation type="unfinished">Sichtschutz</translation>
+        <translation>Sichtschutz</translation>
     </message>
 </context>
 <context>
@@ -293,39 +293,39 @@
     </message>
     <message>
         <source>Wireless Box setup</source>
-        <translation type="unfinished"></translation>
+        <translation>Schnurloses Box-Setup</translation>
     </message>
     <message>
         <source>Searching for %1 boxes.</source>
-        <translation type="unfinished"></translation>
+        <translation>Suche nach %1 Boxen.</translation>
     </message>
     <message>
         <source>Troubles finding your box?</source>
-        <translation type="unfinished"></translation>
+        <translation>Probleme Die Box zu finden?</translation>
     </message>
     <message>
         <source>Uh oh</source>
-        <translation type="unfinished">Oh oh</translation>
+        <translation>Oh oh</translation>
     </message>
     <message>
         <source>Bluetooth doesn&apos;t seem to be available on this device. The wireless network setup requires a working Bluetooth connection.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bluetooth scheint auf diese Gerät nicht verfügbar zu sein. Das schnurlose Setup benötigt aber eine Bluetooth-Verbindung.</translation>
     </message>
     <message>
         <source>Bluetooth seems to be disabled. Please enable Bluetooth on your device in order to use the wireless network setup.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bluetooth scheint deaktivert zu sein. Bitte schalte Bluetooth auf deinem Gerät ein um das schnurlose Setup zu benutzen.</translation>
     </message>
     <message>
         <source>Wireless setup help</source>
-        <translation type="unfinished"></translation>
+        <translation>Hilfe zum schnurlosen Setup</translation>
     </message>
     <message>
         <source>Connecting...</source>
-        <translation type="unfinished">Verbinden...</translation>
+        <translation>Verbinden...</translation>
     </message>
     <message>
         <source>Connecting to %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbinde zu %1</translation>
     </message>
 </context>
 <context>
@@ -343,23 +343,23 @@
     <name>BoxInfoPage</name>
     <message>
         <source>Box information</source>
-        <translation type="unfinished">Box-Informationen</translation>
+        <translation>Box-Informationen</translation>
     </message>
     <message>
         <source>System UUID</source>
-        <translation type="unfinished">Sytem UUID</translation>
+        <translation>Sytem UUID</translation>
     </message>
     <message>
         <source>Manufacturer</source>
-        <translation type="unfinished">Hersteller</translation>
+        <translation>Hersteller</translation>
     </message>
     <message>
         <source>Software revision</source>
-        <translation type="unfinished">Software Revision</translation>
+        <translation>Software Revision</translation>
     </message>
     <message>
         <source>Firmware revision</source>
-        <translation type="unfinished">Firmare Revision</translation>
+        <translation>Firmare Revision</translation>
     </message>
     <message>
         <source>Hardware revision</source>
