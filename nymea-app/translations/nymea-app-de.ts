@@ -2506,7 +2506,7 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>The application needs to be restarted for style changes to take effect.</source>
-        <translation>Die Anwendung muss neu gestartet werden damit Stil-Änderungen wirksam werden</translation>
+        <translation>Die Anwendung muss neu gestartet werden damit Stil-Änderungen wirksam werden.</translation>
     </message>
 </context>
 <context>
@@ -2532,11 +2532,11 @@ Bitte versuche es erneut.</translation>
     <name>Main</name>
     <message>
         <source>Garage gates</source>
-        <translation type="unfinished">Garagentore</translation>
+        <translation>Garagentore</translation>
     </message>
     <message>
         <source>There are no garage gates set up yet.</source>
-        <translation type="unfinished"></translation>
+        <translation>Es sind noch keine Garagentore eingerichtet</translation>
     </message>
     <message>
         <source>Set up now</source>
