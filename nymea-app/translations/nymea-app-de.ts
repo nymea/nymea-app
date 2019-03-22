@@ -1859,37 +1859,37 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Access log:</source>
-        <translation>Zugriffs-Protokoll</translation>
+        <translation>Zugriffs-Protokoll:</translation>
     </message>
 </context>
 <context>
     <name>GarageDeviceListPage</name>
     <message>
         <source>Garage gates</source>
-        <translation type="unfinished">Garagentore</translation>
+        <translation>Garagentore</translation>
     </message>
 </context>
 <context>
     <name>GeneralSettingsPage</name>
     <message>
         <source>Box settings</source>
-        <translation type="unfinished">Box Einstellungen</translation>
+        <translation>Box Einstellungen</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished">Name</translation>
+        <translation>Name</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Language</source>
-        <translation type="unfinished">Sprache</translation>
+        <translation>Sprache</translation>
     </message>
     <message>
         <source>Time zone</source>
-        <translation type="unfinished">Zeitzone</translation>
+        <translation>Zeitzone</translation>
     </message>
 </context>
 <context>
@@ -1915,58 +1915,58 @@ Bitte versuche es erneut.</translation>
     <name>GenericDevicePage</name>
     <message>
         <source>States</source>
-        <translation type="unfinished"></translation>
+        <translation>Zustände</translation>
     </message>
     <message>
         <source>Actions</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktionen</translation>
     </message>
     <message>
         <source>Events</source>
-        <translation type="unfinished">Ereignisse</translation>
+        <translation>Ereignisse</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Abbrechen</translation>
+        <translation>Abbrechen</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
 </context>
 <context>
     <name>GenericTypeGraph</name>
     <message>
         <source>%1 seconds</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 Sekunden</translation>
     </message>
     <message>
         <source>%1 minutes</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 Minuten</translation>
     </message>
     <message>
         <source>%1 hours</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 Stunden</translation>
     </message>
     <message>
         <source>%1 days</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 Tage</translation>
     </message>
     <message>
         <source>%1 weeks</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 Wochen</translation>
     </message>
     <message>
         <source>%1 months</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 Monate</translation>
     </message>
     <message>
         <source>%1 years</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 Jahre</translation>
     </message>
     <message>
         <source>Not connected</source>
-        <translation type="unfinished"></translation>
+        <translation>Nicht verbunden</translation>
     </message>
 </context>
 <context>
@@ -1977,11 +1977,11 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>24 h</source>
-        <translation type="unfinished">24 h</translation>
+        <translation>24 h</translation>
     </message>
     <message>
         <source>7 d</source>
-        <translation type="unfinished">7 T</translation>
+        <translation>7 T</translation>
     </message>
 </context>
 <context>
@@ -2002,7 +2002,7 @@ Bitte versuche es erneut.</translation>
     <name>HeatingDevicePage</name>
     <message>
         <source>Boost</source>
-        <translation type="unfinished"></translation>
+        <translation>Boost</translation>
     </message>
 </context>
 <context>
