@@ -2009,15 +2009,15 @@ Bitte versuche es erneut.</translation>
     <name>Imprint</name>
     <message>
         <source>Developer options are now enabled. If you have found this by accident, it is most likely not of any use for you. It will just enable some nerdy developer gibberish in the app. Tap the icon another 10 times to disable it again.</source>
-        <translation type="unfinished">Entwicklereinstellungen sind jetzt aktiviert. Falls Du diese Einstellung aus Zufall gefunden hast, wirst Du wahrscheinlich keinen Nutzen davon haben. Sie aktiviert nur ein wenig unverständliches Entwickler-Zeug. Berühre das Icon weitere 10 mal um die Entwicklereinstellungen wieder zu deaktivieren.</translation>
+        <translation>Entwicklereinstellungen sind jetzt aktiviert. Falls Du diese Einstellung aus Zufall gefunden hast, wirst Du wahrscheinlich keinen Nutzen davon haben. Sie aktiviert nur ein wenig unverständliches Entwickler-Zeug. Berühre das Icon weitere 10 mal um die Entwicklereinstellungen wieder zu deaktivieren.</translation>
     </message>
     <message>
         <source>Developer options are now disabled.</source>
-        <translation type="unfinished">Entwicklereinstellungen sind jetzt deaktiviert.</translation>
+        <translation>Entwicklereinstellungen sind jetzt deaktiviert.</translation>
     </message>
     <message>
         <source>Howdy cowboy!</source>
-        <translation type="unfinished">Howdy cowboy!</translation>
+        <translation>Howdy cowboy!</translation>
     </message>
     <message>
         <source>nymea is a registered trademark of guh GmbH.</source>
