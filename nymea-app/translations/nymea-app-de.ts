@@ -3002,7 +3002,7 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Sent notifications:</source>
-        <translation>Gesendete Benachrichtigungen</translation>
+        <translation>Gesendete Benachrichtigungen:</translation>
     </message>
 </context>
 <context>
@@ -3128,39 +3128,39 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Noise level</source>
-        <translation type="unfinished"></translation>
+        <translation>Lärmpegel</translation>
     </message>
     <message>
         <source>CO2 level</source>
-        <translation type="unfinished"></translation>
+        <translation>CO2-Pegel</translation>
     </message>
     <message>
         <source>Smart meters</source>
-        <translation type="unfinished"></translation>
+        <translation>Intelligente Stromzähler</translation>
     </message>
     <message>
         <source>Heatings</source>
-        <translation type="unfinished"></translation>
+        <translation>Heizungen</translation>
     </message>
     <message>
         <source>EV-chargers</source>
-        <translation type="unfinished"></translation>
+        <translation>EV-Ladestationen</translation>
     </message>
     <message>
         <source>Power sockets</source>
-        <translation type="unfinished"></translation>
+        <translation>Steckdosen</translation>
     </message>
     <message>
         <source>switchable thing</source>
-        <translation type="unfinished"></translation>
+        <translation>einschalbare Geräte</translation>
     </message>
     <message>
         <source>daylight sensor</source>
-        <translation type="unfinished"></translation>
+        <translation>Tageslichtsensor</translation>
     </message>
     <message>
         <source>presence sensor</source>
-        <translation type="unfinished"></translation>
+        <translation>Anwesenheitssensor</translation>
     </message>
 </context>
 <context>
@@ -3239,7 +3239,7 @@ Bitte versuche es erneut.</translation>
     <name>PowerSocketsDeviceListPage</name>
     <message>
         <source>My %1</source>
-        <translation type="unfinished">Meine %1</translation>
+        <translation>Meine %1</translation>
     </message>
 </context>
 <context>
@@ -3347,7 +3347,7 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>&lt;font color=&quot;%1&quot;&gt;The password needs to be &lt;/font&gt;&lt;font color=&quot;%2&quot;&gt;at least 12 characters long&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt;, contain &lt;/font&gt;&lt;font color=&quot;%3&quot;&gt;lowercase&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt;, &lt;/font&gt;&lt;font color=&quot;%4&quot;&gt;uppercase&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt; letters as well as &lt;/font&gt;&lt;font color=&quot;%5&quot;&gt;numbers&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt; and &lt;/font&gt;&lt;font color=&quot;%6&quot;&gt;special characters&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt;.&lt;/font&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;font color=&quot;%1&quot;&gt;Das Passwort muss &lt;/font&gt;&lt;font color=&quot;%2&quot;&gt;mindestens 12 Zeichen lang&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt; sein, &lt;/font&gt;&lt;font color=&quot;%3&quot;&gt;Kleinbuchstaben&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt; und &lt;/font&gt;&lt;font color=&quot;%4&quot;&gt;Großbuchstaben&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt;, sowie &lt;/font&gt;&lt;font color=&quot;%5&quot;&gt;Nummern&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt; und &lt;/font&gt;&lt;font color=&quot;%6&quot;&gt;Sonderzeichen&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt; beinhalten.&lt;/font&gt;</translation>
     </message>
 </context>
 <context>
@@ -3488,15 +3488,15 @@ Bitte versuche es erneut.</translation>
     <name>SensorDevicePagePost110</name>
     <message>
         <source>Last seen:</source>
-        <translation type="unfinished"></translation>
+        <translation>Zuletzt gesehen:</translation>
     </message>
     <message>
         <source>Sunrise:</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonnenaufgang:</translation>
     </message>
     <message>
         <source>Sunset:</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonnenuntergang:</translation>
     </message>
 </context>
 <context>
@@ -3525,19 +3525,19 @@ Bitte versuche es erneut.</translation>
     <name>ServerConfigurationDialog</name>
     <message>
         <source>Server configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Servereinstellungen</translation>
     </message>
     <message>
         <source>Interface</source>
-        <translation type="unfinished"></translation>
+        <translation>Schnittstelle</translation>
     </message>
     <message>
         <source>Any</source>
-        <translation type="unfinished"></translation>
+        <translation>Jede</translation>
     </message>
     <message>
         <source>Localhost</source>
-        <translation type="unfinished"></translation>
+        <translation>Localhost</translation>
     </message>
     <message>
         <source>Custom</source>
