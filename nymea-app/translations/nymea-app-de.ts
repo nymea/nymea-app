@@ -36,11 +36,11 @@
     </message>
     <message>
         <source>Connection:</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbindung:</translation>
     </message>
     <message>
         <source>JSON-RPC version:</source>
-        <translation type="unfinished"></translation>
+        <translation>JSON-RPC Version:</translation>
     </message>
 </context>
 <context>
@@ -166,19 +166,19 @@
     </message>
     <message>
         <source>Look &amp; feel</source>
-        <translation type="unfinished"></translation>
+        <translation>Aussehen &amp; Verhalten</translation>
     </message>
     <message>
         <source>Customize the app&apos;s look and behavior</source>
-        <translation type="unfinished"></translation>
+        <translation>Passe das Aussehen und Verhalten der App an</translation>
     </message>
     <message>
         <source>Log into %1:cloud and manage connected boxes</source>
-        <translation type="unfinished"></translation>
+        <translation>Logge Dich in %1:cloud ein und Verwalte deine verbunden Boxen</translation>
     </message>
     <message>
         <source>Yeehaaa!</source>
-        <translation type="unfinished"></translation>
+        <translation>Yeehaaa!</translation>
     </message>
     <message>
         <source>Find app versions and licence information</source>
