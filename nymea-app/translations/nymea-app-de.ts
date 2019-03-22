@@ -3684,98 +3684,98 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>General</source>
-        <translation>Generell</translation>
+        <translation>Allgemein</translation>
     </message>
     <message>
         <source>Change system name and time zone</source>
-        <translation type="unfinished"></translation>
+        <translation>Ändere Systemname und Zeitzone</translation>
     </message>
     <message>
         <source>View system log</source>
-        <translation type="unfinished"></translation>
+        <translation>Systemprotokoll anzeigen</translation>
     </message>
     <message>
         <source>Connect this box to %1:cloud</source>
-        <translation type="unfinished"></translation>
+        <translation>Diese Box mit %1:cloud verbinden</translation>
     </message>
     <message>
         <source>API interfaces</source>
-        <translation type="unfinished"></translation>
+        <translation>API Schnittstellen</translation>
     </message>
     <message>
         <source>Configure how clients interact with this box</source>
-        <translation type="unfinished"></translation>
+        <translation>Konfiguriere wie Apps mit dieser Box interagieren</translation>
     </message>
     <message>
         <source>MQTT broker</source>
-        <translation type="unfinished"></translation>
+        <translation>MQTT Broker</translation>
     </message>
     <message>
         <source>Configure the MQTT broker</source>
-        <translation type="unfinished"></translation>
+        <translation>Konfiguriere den MQTT Broker</translation>
     </message>
     <message>
         <source>Web server</source>
-        <translation type="unfinished"></translation>
+        <translation>Web Server</translation>
     </message>
     <message>
         <source>Configure the web server</source>
-        <translation type="unfinished"></translation>
+        <translation>Konfiguriere den Web Server</translation>
     </message>
     <message>
         <source>List and cofigure installed plugins</source>
-        <translation type="unfinished"></translation>
+        <translation>Installierte Plugins auflisten und einrichten</translation>
     </message>
     <message>
         <source>Developer tools</source>
-        <translation type="unfinished"></translation>
+        <translation>Entwicklerwerkzeuge</translation>
     </message>
     <message>
         <source>Access tools for debugging and error reporting</source>
-        <translation type="unfinished"></translation>
+        <translation>Greife auf Werkzeuge und Fehleranalyse-Werkzeuge zu</translation>
     </message>
     <message>
         <source>Find server UUID and versions</source>
-        <translation type="unfinished"></translation>
+        <translation>Finde Server UUID und Versionen</translation>
     </message>
 </context>
 <context>
     <name>SetupWizard</name>
     <message>
         <source>Set up thing</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;Thing&quot; einrichten</translation>
     </message>
     <message>
         <source>Search again</source>
-        <translation type="unfinished"></translation>
+        <translation>Erneut suchen</translation>
     </message>
     <message>
         <source>Add thing manually</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;Thing&quot; manuell hinzufügen</translation>
     </message>
     <message>
         <source>Searching for things...</source>
-        <translation type="unfinished">Suche nach &quot;Things&quot;...</translation>
+        <translation>Suche nach &quot;Things&quot;...</translation>
     </message>
     <message>
         <source>Too bad...</source>
-        <translation type="unfinished">Schade...</translation>
+        <translation>Schade...</translation>
     </message>
     <message>
         <source>No things of this kind could be found...</source>
-        <translation type="unfinished">Keine &quot;Things&quot; von diesem Typ gefunden...</translation>
+        <translation>Keine &quot;Things&quot; von diesem Typ gefunden...</translation>
     </message>
     <message>
         <source>Make sure your things are set up and connected, try searching again or go back and pick a different kind of thing.</source>
-        <translation type="unfinished">Stellen Sie sicher, dass Ihr &quot;Thing&quot; eingerichtet und verbunden ist, versuchen Sie dann erneut zu suchen oder wählen Sie einen anderen Typ von &quot;Things&quot;.</translation>
+        <translation>Stellen Sie sicher, dass Ihr &quot;Thing&quot; eingerichtet und verbunden ist, versuchen Sie dann erneut zu suchen oder wählen Sie einen anderen Typ von &quot;Things&quot;.</translation>
     </message>
     <message>
         <source>Name the thing:</source>
-        <translation type="unfinished">Name:</translation>
+        <translation>Name:</translation>
     </message>
     <message>
         <source>Pairing...</source>
-        <translation type="unfinished">Pairing...</translation>
+        <translation>Pairing...</translation>
     </message>
     <message>
         <source>Thing reconfigured!</source>
