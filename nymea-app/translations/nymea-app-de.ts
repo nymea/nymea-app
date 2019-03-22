@@ -1004,38 +1004,38 @@
     </message>
     <message>
         <source>%1:core did not respond. Please make sure your network connection works properly</source>
-        <translation>%1:core antwortet nicht. Bitte stelle sicher, dass dein Netzwerk funktionstüchtig ist.</translation>
+        <translation>%1:core antwortet nicht. Bitte stelle sicher, dass dein Netzwerk funktionstüchtig ist</translation>
     </message>
     <message>
         <source>An unrecovareable SSL Error happened. Please make sure certificates are installed correctly.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ein unbekannter SSL Fehler ist aufgetreten. Bitte stelle sicher, dass die Zertifikate korrekt installiert sind.</translation>
     </message>
     <message>
         <source>The SSL Certificate is not trusted.</source>
-        <translation type="unfinished"></translation>
+        <translation>Das SSL Zertifikat ist nicht vertrauenswürdig.</translation>
     </message>
     <message>
         <source>An unknown error happened. We&apos;re very sorry for that.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ein unbekannter Fehler ist aufgetreten. Das tut uns leid.</translation>
     </message>
 </context>
 <context>
     <name>ConnectionInterfaceDelegate</name>
     <message>
         <source>Interface: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Schnittstelle: %1</translation>
     </message>
     <message>
         <source>Any</source>
-        <translation type="unfinished"></translation>
+        <translation>Jede</translation>
     </message>
     <message>
         <source>localhost</source>
-        <translation type="unfinished"></translation>
+        <translation>Localhost</translation>
     </message>
     <message>
         <source>Port: %1</source>
-        <translation type="unfinished">Port: %1</translation>
+        <translation>Port: %1</translation>
     </message>
 </context>
 <context>
@@ -1054,15 +1054,15 @@
     </message>
     <message>
         <source>TCP server interfaces</source>
-        <translation type="unfinished"></translation>
+        <translation>TCP Server Schnittstellen</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation type="unfinished"></translation>
+        <translation>Hinzufügen</translation>
     </message>
     <message>
         <source>WebSocket server interfaces</source>
-        <translation type="unfinished"></translation>
+        <translation>WebSocket server Schnittstellen</translation>
     </message>
 </context>
 <context>
@@ -1089,57 +1089,57 @@
     </message>
     <message>
         <source>Enable app logging</source>
-        <translation type="unfinished"></translation>
+        <translation>App Logs aktivieren</translation>
     </message>
     <message>
         <source>View log</source>
-        <translation type="unfinished"></translation>
+        <translation>Log anzeigen</translation>
     </message>
     <message>
         <source>Experience mode</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;Experience&quot; Modus</translation>
     </message>
     <message>
         <source>App log</source>
-        <translation type="unfinished"></translation>
+        <translation>App Logs</translation>
     </message>
 </context>
 <context>
     <name>DeveloperTools</name>
     <message>
         <source>Developer tools</source>
-        <translation type="unfinished"></translation>
+        <translation>Entwicklerwerkzeuge</translation>
     </message>
     <message>
         <source>Debug server enabled</source>
-        <translation type="unfinished">Testmodus aktiviert</translation>
+        <translation>Testmodus aktiviert</translation>
     </message>
     <message>
         <source>In order to access the debug interface, please enable the web server.</source>
-        <translation type="unfinished"></translation>
+        <translation>Um die Debug-Schnittstelle anzuzeigen, aktiviere bitte den Web Server.</translation>
     </message>
     <message>
         <source>The web server cannot be reached on %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Der Web Server kann nicht unter %1 erreicht werden.</translation>
     </message>
     <message>
         <source>Please enable the web server to be accessed on this address.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bitte aktiviere den WebServer für diese Adresse.</translation>
     </message>
     <message>
         <source>Open debug interface</source>
-        <translation type="unfinished">Testschnittstelle öffnen</translation>
+        <translation>Testschnittstelle öffnen</translation>
     </message>
 </context>
 <context>
     <name>DeviceLogPage</name>
     <message>
         <source>History for %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Protokoll für %1</translation>
     </message>
     <message>
         <source>Filter by</source>
-        <translation type="unfinished"></translation>
+        <translation>Filtern nach</translation>
     </message>
 </context>
 <context>
@@ -1170,7 +1170,7 @@
     </message>
     <message>
         <source>Thing logs</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;Thing&quot; Protokoll</translation>
     </message>
 </context>
 <context>
@@ -1566,19 +1566,19 @@
     <name>EditThingsPage</name>
     <message>
         <source>Configure Things</source>
-        <translation type="unfinished">&quot;Things&quot; einrichten</translation>
+        <translation>&quot;Things&quot; einrichten</translation>
     </message>
     <message>
         <source>There are no things set up yet.</source>
-        <translation type="unfinished">Es sind noch keine &quot;Things&quot; eingerichtet.</translation>
+        <translation>Es sind noch keine &quot;Things&quot; eingerichtet.</translation>
     </message>
     <message>
         <source>In order for your %1 box to be useful, go ahead and add some things.</source>
-        <translation type="unfinished"></translation>
+        <translation>Damit Deine %1 Box sinnvoll eingesetzt werden kann, füge einige &quot;Things&quot; hinzu.</translation>
     </message>
     <message>
         <source>Add a thing</source>
-        <translation type="unfinished">&quot;Thing&quot; hinzufügen</translation>
+        <translation>&quot;Thing&quot; hinzufügen</translation>
     </message>
 </context>
 <context>
@@ -1722,7 +1722,7 @@
     </message>
     <message>
         <source>Menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Menü</translation>
     </message>
 </context>
 <context>
@@ -1859,7 +1859,7 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Access log:</source>
-        <translation type="unfinished"></translation>
+        <translation>Zugriffs-Protokoll</translation>
     </message>
 </context>
 <context>
