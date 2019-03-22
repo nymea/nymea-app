@@ -2815,31 +2815,31 @@ Bitte versuche es erneut.</translation>
     <name>MqttPolicyPage</name>
     <message>
         <source>Mqtt permission</source>
-        <translation>MQTT Berechtigungen</translation>
+        <translation>MQTT Berechtigung</translation>
     </message>
     <message>
         <source>Client ID:</source>
-        <translation type="unfinished"></translation>
+        <translation>Client ID:</translation>
     </message>
     <message>
         <source>E.g. Sensor_1</source>
-        <translation type="unfinished"></translation>
+        <translation>Z.B. Sensor_1</translation>
     </message>
     <message>
         <source>%1 is already used</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 ist bereits benutzt</translation>
     </message>
     <message>
         <source>Can&apos;t be blank</source>
-        <translation type="unfinished"></translation>
+        <translation>Darf nicht leer sein</translation>
     </message>
     <message>
         <source>Username:</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzername:</translation>
     </message>
     <message>
         <source>Optional</source>
-        <translation type="unfinished"></translation>
+        <translation>Optional</translation>
     </message>
     <message>
         <source>Password:</source>
