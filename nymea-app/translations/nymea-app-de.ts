@@ -1412,51 +1412,51 @@
     </message>
     <message>
         <source>Left thumb</source>
-        <translation type="unfinished"></translation>
+        <translation>Linker Daumen</translation>
     </message>
     <message>
         <source>Left index finger</source>
-        <translation type="unfinished"></translation>
+        <translation>Linker Zeigerfinger</translation>
     </message>
     <message>
         <source>Left middle finger</source>
-        <translation type="unfinished"></translation>
+        <translation>Linker Mittelfinger</translation>
     </message>
     <message>
         <source>Left ring finger</source>
-        <translation type="unfinished"></translation>
+        <translation>Linker Ringfinger</translation>
     </message>
     <message>
         <source>Left pinky finger</source>
-        <translation type="unfinished"></translation>
+        <translation>Linker kleiner Finger</translation>
     </message>
     <message>
         <source>Right thumb</source>
-        <translation type="unfinished"></translation>
+        <translation>Rchter Daumen</translation>
     </message>
     <message>
         <source>Right index finger</source>
-        <translation type="unfinished"></translation>
+        <translation>Rechter Zeigefinger</translation>
     </message>
     <message>
         <source>Right middle finger</source>
-        <translation type="unfinished"></translation>
+        <translation>Rechter Mittelfinger</translation>
     </message>
     <message>
         <source>Right ring finger</source>
-        <translation type="unfinished"></translation>
+        <translation>Rechter Ringfinger</translation>
     </message>
     <message>
         <source>Right pinky finger</source>
-        <translation type="unfinished"></translation>
+        <translation>Rechter kleiner Finger</translation>
     </message>
     <message>
         <source>Add user</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzer hinzufügen</translation>
     </message>
     <message>
         <source>Please scan the fingerprint now</source>
-        <translation type="unfinished"></translation>
+        <translation>Bitte scanne den Fingerabdruck jetzt</translation>
     </message>
     <message>
         <source>Uh oh</source>
@@ -1464,16 +1464,17 @@
     </message>
     <message>
         <source>All done!</source>
-        <translation type="unfinished"></translation>
+        <translation>Alles erledigt!</translation>
     </message>
     <message>
         <source>Fingerprint could not be read.
 Please try again.</source>
-        <translation type="unfinished"></translation>
+        <translation>Fingerabdruck konnte nicht gelesen werden.
+Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Fingerprint added!</source>
-        <translation type="unfinished"></translation>
+        <translation>Fingerabdruck hinzugefügt!</translation>
     </message>
     <message>
         <source>OK</source>
@@ -1481,19 +1482,19 @@ Please try again.</source>
     </message>
     <message>
         <source>Access request details</source>
-        <translation type="unfinished"></translation>
+        <translation>Details über Zugriffanfrage</translation>
     </message>
     <message>
         <source>Date/Time</source>
-        <translation type="unfinished"></translation>
+        <translation>Datum/Uhrzeit</translation>
     </message>
     <message>
         <source>User</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzer</translation>
     </message>
     <message>
         <source>Fingerprint</source>
-        <translation type="unfinished"></translation>
+        <translation>Fingerabdruck</translation>
     </message>
 </context>
 <context>
@@ -1537,7 +1538,7 @@ Please try again.</source>
     </message>
     <message>
         <source>This event has appeared %1 times in the last %2 days.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dieses Ereignis ist in den letzten %2 Tage %1 mal aufgetreten.</translation>
     </message>
 </context>
 <context>
@@ -1673,31 +1674,31 @@ Please try again.</source>
     </message>
     <message>
         <source>System started</source>
-        <translation type="unfinished"></translation>
+        <translation>System gestartet</translation>
     </message>
     <message>
         <source>Rule triggered</source>
-        <translation type="unfinished"></translation>
+        <translation>Regel ausgelöst</translation>
     </message>
     <message>
         <source>Actions executed</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktion ausgeführt</translation>
     </message>
     <message>
         <source>Rule active</source>
-        <translation type="unfinished"></translation>
+        <translation>Regel aktiv</translation>
     </message>
     <message>
         <source>Rule inactive</source>
-        <translation type="unfinished"></translation>
+        <translation>Regel inaktiv</translation>
     </message>
     <message>
         <source>Exit actions executed</source>
-        <translation type="unfinished"></translation>
+        <translation>Verlassen-Aktionen ausgeführt</translation>
     </message>
     <message>
         <source>Enabled changed</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;An&quot; geändert</translation>
     </message>
 </context>
 <context>
@@ -1894,7 +1895,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Box settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Box Einstellungen</translation>
     </message>
 </context>
 <context>
@@ -2023,7 +2024,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Pairing...</source>
-        <translation type="unfinished"></translation>
+        <translation>Pairing...</translation>
     </message>
     <message>
         <source>Thing added!</source>
