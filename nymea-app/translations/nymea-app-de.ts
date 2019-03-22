@@ -751,7 +751,7 @@
     </message>
     <message>
         <source>Type</source>
-        <translation type="unfinished">Typ</translation>
+        <translation>Typ</translation>
     </message>
 </context>
 <context>
@@ -1973,7 +1973,7 @@ Bitte versuche es erneut.</translation>
     <name>GenericTypeGraphPre110</name>
     <message>
         <source>6 h</source>
-        <translation type="unfinished">6 h</translation>
+        <translation>6 h</translation>
     </message>
     <message>
         <source>24 h</source>
@@ -4041,42 +4041,42 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Custom</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzerdefiniert</translation>
     </message>
     <message>
         <source>Address:</source>
-        <translation type="unfinished">Adresse:</translation>
+        <translation>Adresse:</translation>
     </message>
     <message>
         <source>Port:</source>
-        <translation type="unfinished">Port:</translation>
+        <translation>Port:</translation>
     </message>
     <message>
         <source>SSL enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>SSL aktiviert</translation>
     </message>
     <message>
         <source>Login required</source>
-        <translation type="unfinished"></translation>
+        <translation>Login benötigt</translation>
     </message>
     <message>
         <source>Public folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Öffentlicher Ordner</translation>
     </message>
 </context>
 <context>
     <name>WebServerSettingsPage</name>
     <message>
         <source>Web server</source>
-        <translation type="unfinished"></translation>
+        <translation>Web Server</translation>
     </message>
     <message>
         <source>Web server interfaces</source>
-        <translation type="unfinished"></translation>
+        <translation>Web Server Schnittstellen</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation type="unfinished"></translation>
+        <translation>Hinzufügen</translation>
     </message>
 </context>
 <context>
@@ -4313,31 +4313,31 @@ Bitte versuche es erneut.</translation>
     <name>WirelessSetupPage</name>
     <message>
         <source>Wireless network setup</source>
-        <translation type="unfinished"></translation>
+        <translation>Schnurlose Netzwerk-Einrichtung</translation>
     </message>
     <message>
         <source>Your %1 box is connected to %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Deine %1 Box ist mit %2 verbunden</translation>
     </message>
     <message>
         <source>IP address: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>IP Adresse: %1</translation>
     </message>
     <message>
         <source>Waiting for the %1 box to appear in your network.</source>
-        <translation type="unfinished"></translation>
+        <translation>Warte bis die %1 Box in Deinem Netzwerk auftaucht.</translation>
     </message>
     <message>
         <source>Connect to box</source>
-        <translation type="unfinished"></translation>
+        <translation>Zu Box verbinden</translation>
     </message>
     <message>
         <source>Change network</source>
-        <translation type="unfinished"></translation>
+        <translation>Ändere Netzwerk</translation>
     </message>
     <message>
         <source>Close wireless setup</source>
-        <translation type="unfinished"></translation>
+        <translation>Schnurlose Einrichtung beenden</translation>
     </message>
 </context>
 <context>
