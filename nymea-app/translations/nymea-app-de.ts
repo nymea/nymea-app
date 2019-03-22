@@ -460,30 +460,30 @@
     </message>
     <message>
         <source>Check your email!</source>
-        <translation>Prüfe deine E-Mails!</translation>
+        <translation>Prüfe Deine E-Mails!</translation>
     </message>
     <message>
         <source>Enter the confirmation code you&apos;ve received and a new password for your user %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Gib den Bestätigungs-Code und ein neues Passwort für %1 ein.</translation>
     </message>
     <message>
         <source>Confirmation code:</source>
-        <translation type="unfinished"></translation>
+        <translation>Bestätigungs-Code:</translation>
     </message>
     <message>
         <source>Pick a new password:</source>
-        <translation type="unfinished"></translation>
+        <translation>Wähle ein neues Passwort:</translation>
     </message>
 </context>
 <context>
     <name>CloudSettingsPage</name>
     <message>
         <source>Cloud settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Cloud Einstellungen</translation>
     </message>
     <message>
         <source>You can connect a nymea:box to a nymea:cloud in order to access it from anywhere</source>
-        <translation type="unfinished"></translation>
+        <translation>Du kannst eine nymea:box mit nymea:cloud verbinden um von überall aus auf sie zuzugreifen.</translation>
     </message>
     <message>
         <source>Cloud connection enabled</source>
