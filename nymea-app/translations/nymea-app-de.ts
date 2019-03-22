@@ -28,11 +28,11 @@
     </message>
     <message>
         <source>About %1:core</source>
-        <translation type="unfinished">Über %1:core</translation>
+        <translation>Über %1:core</translation>
     </message>
     <message>
         <source>%1:core</source>
-        <translation type="unfinished"></translation>
+        <translation>%1:core</translation>
     </message>
     <message>
         <source>Connection:</source>
