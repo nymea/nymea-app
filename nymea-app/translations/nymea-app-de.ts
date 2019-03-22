@@ -2548,35 +2548,35 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>There is no drexel und weiss heating system set up yet.</source>
-        <translation type="unfinished"></translation>
+        <translation>Es ist noch kein drexel und weiss Heizungssystem eingerichtet.</translation>
     </message>
     <message>
         <source>Current air quality</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktuelle Luftqualität</translation>
     </message>
     <message>
         <source>Current temperature</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktuelle Temperatur</translation>
     </message>
     <message>
         <source>Temperature, °C</source>
-        <translation type="unfinished"></translation>
+        <translation>Temperatur, °C</translation>
     </message>
     <message>
         <source>Automate this thing</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatisieren</translation>
     </message>
     <message>
         <source>Auto</source>
-        <translation type="unfinished"></translation>
+        <translation>Auto</translation>
     </message>
     <message>
         <source>Party</source>
-        <translation type="unfinished"></translation>
+        <translation>Party</translation>
     </message>
     <message>
         <source>Manual</source>
-        <translation type="unfinished"></translation>
+        <translation>Manuell</translation>
     </message>
 </context>
 <context>
@@ -2788,34 +2788,34 @@ Bitte versuche es erneut.</translation>
     <name>MqttBrokerSettingsPage</name>
     <message>
         <source>MQTT broker</source>
-        <translation type="unfinished"></translation>
+        <translation>MQTT Broker</translation>
     </message>
     <message>
         <source>MQTT Server Interfaces</source>
-        <translation type="unfinished"></translation>
+        <translation>MQTT Server Schnittstellen</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation type="unfinished"></translation>
+        <translation>Hinzufügen</translation>
     </message>
     <message>
         <source>MQTT permissions</source>
-        <translation type="unfinished"></translation>
+        <translation>MQTT Berechtigungen</translation>
     </message>
     <message>
         <source>Client ID: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Client ID: %1</translation>
     </message>
     <message>
         <source>Username: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzername: %1</translation>
     </message>
 </context>
 <context>
     <name>MqttPolicyPage</name>
     <message>
         <source>Mqtt permission</source>
-        <translation type="unfinished"></translation>
+        <translation>MQTT Berechtigungen</translation>
     </message>
     <message>
         <source>Client ID:</source>
