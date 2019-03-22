@@ -3541,23 +3541,23 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Custom</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzerdefiniert</translation>
     </message>
     <message>
         <source>Address:</source>
-        <translation type="unfinished">Adresse:</translation>
+        <translation>Adresse:</translation>
     </message>
     <message>
         <source>Port:</source>
-        <translation type="unfinished">Port:</translation>
+        <translation>Port:</translation>
     </message>
     <message>
         <source>SSL enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>SSL aktiviert</translation>
     </message>
     <message>
         <source>Login required</source>
-        <translation type="unfinished"></translation>
+        <translation>Login benötigt</translation>
     </message>
 </context>
 <context>
@@ -3684,7 +3684,7 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>General</source>
-        <translation type="unfinished"></translation>
+        <translation>Generell</translation>
     </message>
     <message>
         <source>Change system name and time zone</source>
