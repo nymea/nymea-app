@@ -11,9 +11,11 @@ ToolBar {
     property string title
     property alias model: menuRepeater.model
 
-    property bool showNewTabButton: false
+    property alias leftButtonVisible: leftButton.visible
+    property alias leftButtonImageSource: leftButton.imageSource
 
     signal clicked(int index);
+    signal leftButtonClicked();
 
     QtObject {
         id: d
@@ -26,6 +28,13 @@ ToolBar {
         width: parent.width
         opacity: d.menuOpen ? 0 : 1
         Behavior on opacity { NumberAnimation { easing.type: Easing.InOutQuad; duration: 200 } }
+
+        HeaderButton {
+            id: leftButton
+            imageSource: "../images/navigation-menu.svg"
+            visible: false
+            onClicked: root.leftButtonClicked()
+        }
 
         Label {
             id: label

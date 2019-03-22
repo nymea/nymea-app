@@ -13,6 +13,27 @@ Page {
 
     header: FancyHeader {
         title: swipeView.currentItem.title
+        leftButtonVisible: true
+        leftButtonImageSource: {
+            switch (engine.connection.currentConnection.bearerType) {
+            case Connection.BearerTypeLan:
+            case Connection.BearerTypeWan:
+                if (engine.connection.availableBearerTypes & NymeaConnection.BearerTypeEthernet != NymeaConnection.BearerTypeNone) {
+                    return "../images/network-wired.svg"
+                }
+                return "../images/network-wifi.svg";
+            case Connection.BearerTypeBluetooth:
+                return "../images/network-wifi.svg";
+            case Connection.BearerTypeCloud:
+                return "../images/cloud.svg"
+            }
+            return ""
+        }
+        onLeftButtonClicked: {
+            var dialog = connectionDialogComponent.createObject(root, {headerIcon: leftButtonImageSource})
+            dialog.open();
+        }
+
 
         model: ListModel {
             ListElement { iconSource: "../images/share.svg"; text: qsTr("Configure things"); page: "thingconfiguration/EditThingsPage.qml" }
@@ -246,6 +267,76 @@ Page {
 //                    height: tabBar.height
                 onClicked: root.currentViewIndex = pageIndex
                 alignment: app.landscape ? Qt.Horizontal : Qt.Vertical
+            }
+        }
+    }
+
+    Component {
+        id: connectionDialogComponent
+        MeaDialog {
+            id: connectionDialog
+            title: engine.connection.currentHost.name
+            standardButtons: Dialog.NoButton
+
+            Label {
+                Layout.fillWidth: true
+                text: qsTr("Connected to")
+                font.pixelSize: app.smallFont
+                elide: Text.ElideRight
+                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                horizontalAlignment: Text.AlignHCenter
+            }
+            Label {
+                Layout.fillWidth: true
+                text: engine.connection.currentHost.name
+                elide: Text.ElideRight
+                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                horizontalAlignment: Text.AlignHCenter
+            }
+            Label {
+                Layout.fillWidth: true
+                text: engine.connection.currentHost.uuid
+                font.pixelSize: app.smallFont
+                elide: Text.ElideRight
+                color: Material.color(Material.Grey)
+                horizontalAlignment: Text.AlignHCenter
+            }
+            Label {
+                Layout.fillWidth: true
+                text: engine.connection.currentConnection.url
+                font.pixelSize: app.smallFont
+                elide: Text.ElideRight
+                color: Material.color(Material.Grey)
+                horizontalAlignment: Text.AlignHCenter
+            }
+
+            Item {
+                Layout.fillWidth: true
+                Layout.preferredHeight: app.margins
+            }
+
+            RowLayout {
+                Layout.fillWidth: true
+                Button {
+                    id: cancelButton
+                    text: qsTr("OK")
+                    Layout.preferredWidth: Math.max(cancelButton.implicitWidth, disconnectButton.implicitWidth)
+                    onClicked: connectionDialog.close()
+                }
+
+                Item {
+                    Layout.fillWidth: true
+                }
+
+                Button {
+                    id: disconnectButton
+                    text: qsTr("Disconnect")
+                    Layout.preferredWidth: Math.max(cancelButton.implicitWidth, disconnectButton.implicitWidth)
+                    onClicked: {
+                        tabSettings.lastConnectedHost = "";
+                        engine.connection.disconnect();
+                    }
+                }
             }
         }
     }

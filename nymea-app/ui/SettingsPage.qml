@@ -11,28 +11,6 @@ Page {
         text: qsTr("Box settings")
         backButtonVisible: true
         onBackPressed: pageStack.pop()
-
-        HeaderButton {
-            imageSource: {
-                switch (engine.connection.currentConnection.bearerType) {
-                case Connection.BearerTypeLan:
-                case Connection.BearerTypeWan:
-                    if (engine.connection.availableBearerTypes & NymeaConnection.BearerTypeEthernet != NymeaConnection.BearerTypeNone) {
-                        return "../images/network-wired-offline.svg"
-                    }
-                    return "../images/network-wifi-offline.svg";
-                case Connection.BearerTypeBluetooth:
-                    return "../images/network-wifi-offline.svg";
-                case Connection.BearerTypeCloud:
-                    return "../images/cloud-offline.svg"
-                }
-                return ""
-            }
-            onClicked: {
-                tabSettings.lastConnectedHost = "";
-                engine.connection.disconnect();
-            }
-        }
     }
 
     Flickable {

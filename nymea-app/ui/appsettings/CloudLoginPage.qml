@@ -338,7 +338,7 @@ Page {
                     Button {
                         Layout.fillWidth: true
                         Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.topMargin: app.margins
-                        text: qsTr("Sign Up")
+                        text: qsTr("Sign up")
                         enabled: usernameTextField.acceptableInput && passwordTextField.isValidPassword
                         onClicked: {
                             busyOverlay.shown = true;
