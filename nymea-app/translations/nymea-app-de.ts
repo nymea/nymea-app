@@ -1210,11 +1210,11 @@
     </message>
     <message>
         <source>Cancel?</source>
-        <translation type="unfinished"></translation>
+        <translation>Abbrechen?</translation>
     </message>
     <message>
         <source>Any changes to the rule will be lost.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sämtliche Änderungen werden verworfen.</translation>
     </message>
 </context>
 <context>
@@ -1368,39 +1368,39 @@
     <name>FingerprintReaderDevicePage</name>
     <message>
         <source>Manage access</source>
-        <translation type="unfinished"></translation>
+        <translation>Zugriff Einrichten</translation>
     </message>
     <message>
         <source>%1 fingerprints recognized on this device in the last %2 days.</source>
-        <translation type="unfinished"></translation>
+        <translation>Auf diesem Gerät wurden in den letzten %2 Tagen %1 Fingerabdrücke erkannt.</translation>
     </message>
     <message>
         <source>Access granted for user %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Zugriff erlaubt für Benutzer %1</translation>
     </message>
     <message>
         <source>Access denied</source>
-        <translation type="unfinished"></translation>
+        <translation>Zugriff verweigert</translation>
     </message>
     <message>
         <source>Manage users</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzer verwalten</translation>
     </message>
     <message>
         <source>There are no fingerprints registered with this lock</source>
-        <translation type="unfinished"></translation>
+        <translation>Es sind keine Fingerabdrücke für dieses Schloss registriert</translation>
     </message>
     <message>
         <source>The following users have valid fingerprints for this lock</source>
-        <translation type="unfinished"></translation>
+        <translation>Folgende Benutzer haben gültige Fingerabdrücke für dieses Schloss</translation>
     </message>
     <message>
         <source>Add a fingerprint</source>
-        <translation type="unfinished"></translation>
+        <translation>Fingerabdruck hinzufügen</translation>
     </message>
     <message>
         <source>Add a new fingerprint</source>
-        <translation type="unfinished"></translation>
+        <translation>Einen neuen Fingerabdruck hinzufügen</translation>
     </message>
     <message>
         <source>Username</source>
