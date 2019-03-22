@@ -805,7 +805,7 @@
     </message>
     <message>
         <source>Marantec</source>
-        <translation type="unfinished"></translation>
+        <translation>Marantec</translation>
     </message>
 </context>
 <context>
@@ -2663,11 +2663,11 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Server interfaces</source>
-        <translation type="unfinished"></translation>
+        <translation>Server-Schnittstellen</translation>
     </message>
     <message>
         <source>About %1:core</source>
-        <translation type="unfinished"></translation>
+        <translation>Über %1:core</translation>
     </message>
 </context>
 <context>
@@ -2744,7 +2744,7 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>%1, %2 has changed %3 times in the last %4 days</source>
-        <translation type="unfinished"></translation>
+        <translation>%1, %2 änderte sich %3 mal in den letzten %4 Tagen</translation>
     </message>
 </context>
 <context>
@@ -2833,7 +2833,7 @@ Bitte versuche es erneut.</translation>
     <name>WeatherDeviceListPage</name>
     <message>
         <source>Weather</source>
-        <translation type="unfinished">Wetter</translation>
+        <translation>Wetter</translation>
     </message>
 </context>
 <context>
