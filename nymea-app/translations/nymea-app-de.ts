@@ -1460,7 +1460,7 @@
     </message>
     <message>
         <source>Uh oh</source>
-        <translation type="unfinished">Oh oh</translation>
+        <translation>Oh oh</translation>
     </message>
     <message>
         <source>All done!</source>
@@ -1478,7 +1478,7 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Access request details</source>
@@ -2078,7 +2078,7 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Abbrechen</translation>
+        <translation>Abbrechen</translation>
     </message>
     <message>
         <source>%1 notifications sent to this device in the last %2 days.</source>
