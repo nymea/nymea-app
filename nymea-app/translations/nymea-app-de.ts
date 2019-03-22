@@ -2021,39 +2021,39 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>nymea is a registered trademark of guh GmbH.</source>
-        <translation type="unfinished">nymea ist ein eingetragener Markenname der guh GmbH.</translation>
+        <translation>nymea ist ein eingetragener Markenname der guh GmbH.</translation>
     </message>
     <message>
         <source>Licensed under the terms of the GNU general public license, version 2. Please visit the GitHub page for source code and build instructions.</source>
-        <translation type="unfinished">Lizensiert unter den Bedingungen der GNU General Public License, Version 2. Bitte besuchen Sie die GitHub seite für Quellcode und Installationsanleitungen.</translation>
+        <translation>Lizensiert unter den Bedingungen der GNU General Public License, Version 2. Bitte besuchen Sie die GitHub seite für Quellcode und Installationsanleitungen.</translation>
     </message>
     <message>
         <source>Visit the nymea website</source>
-        <translation type="unfinished">Besuchen Sie die nymea Webseite</translation>
+        <translation>Besuchen Sie die nymea Webseite</translation>
     </message>
     <message>
         <source>Visit GitHub page</source>
-        <translation type="unfinished">Besuchen Sie die GitHub Seite</translation>
+        <translation>Besuchen Sie die GitHub Seite</translation>
     </message>
     <message>
         <source>View privacy policy</source>
-        <translation type="unfinished"></translation>
+        <translation>Datenschutzerklärung anzeigen</translation>
     </message>
     <message>
         <source>View license text</source>
-        <translation type="unfinished">Lizenztext</translation>
+        <translation>Lizenztext</translation>
     </message>
     <message>
         <source>Qt is a registered trademark of The Qt Company Ltd. and its subsidiaries.</source>
-        <translation type="unfinished">Qt ist ein eingetragenes Markenzeichen von The Qt Company Ltd.</translation>
+        <translation>Qt ist ein eingetragenes Markenzeichen von The Qt Company Ltd.</translation>
     </message>
     <message>
         <source>Visit the Qt website</source>
-        <translation type="unfinished">Besuchen Sie die Qt Webseite</translation>
+        <translation>Besuchen Sie die Qt Webseite</translation>
     </message>
     <message>
         <source>License text</source>
-        <translation type="unfinished">Lizenztext</translation>
+        <translation>Lizenztext</translation>
     </message>
 </context>
 <context>
@@ -2131,139 +2131,139 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Powered things</source>
-        <translation type="unfinished"></translation>
+        <translation>Einschageschaltete &quot;Things&quot;</translation>
     </message>
     <message>
         <source>Thing is turned on</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;Thing&quot; ist eingeschaltet</translation>
     </message>
     <message>
         <source>A thing is turned on or off</source>
-        <translation type="unfinished"></translation>
+        <translation>Ein Gerät wurde ein oder ausgeschaltet</translation>
     </message>
     <message>
         <source>Turn things on or off</source>
-        <translation type="unfinished"></translation>
+        <translation>Gerät ein- oder ausschalten</translation>
     </message>
     <message>
         <source>Dimmable lights</source>
-        <translation type="unfinished"></translation>
+        <translation>Dimmbare Geräte</translation>
     </message>
     <message>
         <source>Light&apos;s brightness is</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Helligkeit des Lichts ist</translation>
     </message>
     <message>
         <source>A light&apos;s brightness has changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Helligkeit eines Lichts wurde geändert</translation>
     </message>
     <message>
         <source>Set lights brightness</source>
-        <translation type="unfinished"></translation>
+        <translation>Setze Helligkeit</translation>
     </message>
     <message>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Schließen</translation>
     </message>
     <message>
         <source>Presence sensors</source>
-        <translation type="unfinished"></translation>
+        <translation>Anwesenheitssensoren</translation>
     </message>
     <message>
         <source>Is present</source>
-        <translation type="unfinished"></translation>
+        <translation>Ist anwesend</translation>
     </message>
     <message>
         <source>Presence changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Anwesenheit geändert</translation>
     </message>
     <message>
         <source>Blinds</source>
-        <translation type="unfinished">Sichtschutz</translation>
+        <translation>Sichtschutz</translation>
     </message>
     <message>
         <source>Open</source>
-        <translation type="unfinished"></translation>
+        <translation>Geöffnet</translation>
     </message>
     <message>
         <source>Awnings</source>
-        <translation type="unfinished">Markisen</translation>
+        <translation>Markisen</translation>
     </message>
     <message>
         <source>Shutters</source>
-        <translation type="unfinished">Rolläden</translation>
+        <translation>Rolläden</translation>
     </message>
     <message>
         <source>Garage gates</source>
-        <translation type="unfinished">Garagentore</translation>
+        <translation>Garagentore</translation>
     </message>
     <message>
         <source>Air sensors</source>
-        <translation type="unfinished"></translation>
+        <translation>Luftsensoren</translation>
     </message>
     <message>
         <source>Air quality</source>
-        <translation type="unfinished"></translation>
+        <translation>Luftqualität</translation>
     </message>
     <message>
         <source>Air quality changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Luftqualität geändert</translation>
     </message>
     <message>
         <source>Humidity sensors</source>
-        <translation type="unfinished"></translation>
+        <translation>Feuchtigkeitsensoren</translation>
     </message>
     <message>
         <source>Humidity</source>
-        <translation type="unfinished">Feuchtigkeit</translation>
+        <translation>Feuchtigkeit</translation>
     </message>
     <message>
         <source>Humidity changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Feuchtigkeit geändert</translation>
     </message>
     <message>
         <source>Daylight sensors</source>
-        <translation type="unfinished"></translation>
+        <translation>Tageslichtsensoren</translation>
     </message>
     <message>
         <source>Daylight</source>
-        <translation type="unfinished"></translation>
+        <translation>Tageslicht</translation>
     </message>
     <message>
         <source>Daylight changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Tageslicht geändert</translation>
     </message>
     <message>
         <source>EV charger</source>
-        <translation type="unfinished"></translation>
+        <translation>EV Ladegerät</translation>
     </message>
     <message>
         <source>Charging</source>
-        <translation type="unfinished"></translation>
+        <translation>Ladend</translation>
     </message>
     <message>
         <source>Charging changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Ladend geändert</translation>
     </message>
     <message>
         <source>Enable charging</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktiviere Laden</translation>
     </message>
     <message>
         <source>Speakers</source>
-        <translation type="unfinished"></translation>
+        <translation>Lautsprecher</translation>
     </message>
     <message>
         <source>Increase volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Lautstärke erhöhen</translation>
     </message>
     <message>
         <source>Decrease volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Laustärke verringern</translation>
     </message>
     <message>
         <source>Gateways</source>
-        <translation type="unfinished">Gateways</translation>
+        <translation>Gateways</translation>
     </message>
     <message>
         <source>Connected</source>
