@@ -2267,43 +2267,43 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Connected</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbunden</translation>
     </message>
     <message>
         <source>Connected changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbunden geändert</translation>
     </message>
     <message>
         <source>Heatings</source>
-        <translation type="unfinished"></translation>
+        <translation>Heizungen</translation>
     </message>
     <message>
         <source>Heating enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Heizung an</translation>
     </message>
     <message>
         <source>Heating enabled changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Heizung an geändert</translation>
     </message>
     <message>
         <source>Enable heating</source>
-        <translation type="unfinished"></translation>
+        <translation>Heizung einschalten</translation>
     </message>
     <message>
         <source>Media players</source>
-        <translation type="unfinished"></translation>
+        <translation>Medienabspielgeräte</translation>
     </message>
     <message>
         <source>Playback status</source>
-        <translation type="unfinished"></translation>
+        <translation>Wiedergabestatus</translation>
     </message>
     <message>
         <source>Playback status changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Wiedergabestatus geändert</translation>
     </message>
     <message>
         <source>Set playback status</source>
-        <translation type="unfinished"></translation>
+        <translation>Setze Wiedergabestatus</translation>
     </message>
 </context>
 <context>
@@ -2474,39 +2474,39 @@ Bitte versuche es erneut.</translation>
     <name>LookAndFeelSettingsPage</name>
     <message>
         <source>Look and feel</source>
-        <translation type="unfinished"></translation>
+        <translation>Aussehen und Verhalten</translation>
     </message>
     <message>
         <source>View mode</source>
-        <translation type="unfinished">Ansicht</translation>
+        <translation>Ansicht</translation>
     </message>
     <message>
         <source>Windowed</source>
-        <translation type="unfinished">Fenster</translation>
+        <translation>Fenster</translation>
     </message>
     <message>
         <source>Maximized</source>
-        <translation type="unfinished">Maximiert</translation>
+        <translation>Maximiert</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished">Vollbild</translation>
+        <translation>Vollbild</translation>
     </message>
     <message>
         <source>Return to home on idle</source>
-        <translation type="unfinished"></translation>
+        <translation>Bei Leerlauf zurück zum Startbildschirm</translation>
     </message>
     <message>
         <source>Show connection tabs</source>
-        <translation type="unfinished">Verbindungs-Reiter anzeigen</translation>
+        <translation>Verbindungs-Reiter anzeigen</translation>
     </message>
     <message>
         <source>Style changed</source>
-        <translation type="unfinished">Stil geändert</translation>
+        <translation>Stil geändert</translation>
     </message>
     <message>
         <source>The application needs to be restarted for style changes to take effect.</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Anwendung muss neu gestartet werden damit Stil-Änderungen wirksam werden</translation>
     </message>
 </context>
 <context>
