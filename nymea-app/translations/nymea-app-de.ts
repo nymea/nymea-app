@@ -351,116 +351,116 @@
     </message>
     <message numerus="yes">
         <source>There are %n boxes connected to your cloud</source>
-        <translation><numerusform>Es sind %1 Boxen mit Deiner Cloud verbunden</numerusform>
-        <numerusform></numerusform>
+        <translation><numerusform>Es ist %1 Box mit Deiner Cloud verbunden</numerusform>
+        <numerusform>Es sind %1 Boxen mit Deiner Cloud verbunden</numerusform>
         </translation></message>
     <message>
         <source>Goodbye</source>
-        <translation type="unfinished"></translation>
+        <translation>Auf Wiedersehen</translation>
     </message>
     <message>
         <source>Sorry to see you go. If you log out you won&apos;t be able to connect to %1 boxes remotely any more. However, you can come back any time, we&apos;ll keep your user account. If you whish to completely delete your account and all the data associated with it, check the box below before hitting ok.</source>
-        <translation type="unfinished"></translation>
+        <translation>Schade, dass Du gehst. Wenn Du dich aus Deinem Konto ausloggst wirst Du die Fernverbindung für %1 Boxen nicht mehr benutzen können. Du kannst Dich aber jederzeit wieder einloggen, wir bewahren dein Konto für Dich auf. Wenn Du das Konto und sämtliche zugehörige Daten löschen möchtest, setze ein Häkchen unten im Kästchen bevor Du fortfährst.</translation>
     </message>
     <message>
         <source>Delete my account</source>
-        <translation type="unfinished"></translation>
+        <translation>Mein Konto löschen</translation>
     </message>
     <message>
         <source>Log in to %1:cloud in order to connect to %1 boxes from anywhere.</source>
-        <translation type="unfinished"></translation>
+        <translation>Logge Dich bei %1:cloud ein um von Überall aus auf %1 Boxen Zugreifen zu können.</translation>
     </message>
     <message>
         <source>Password</source>
-        <translation type="unfinished"></translation>
+        <translation>Passwort</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Failed to log in. Please try again. Do you perhaps have &lt;a href=&quot;#&quot;&gt;forgotten your password?&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Login fehlgeschlagen. Bitte versuche es erneut. Hast Du vielleicht Dein &lt;a href=&quot;#&quot;&gt;Passwort vergessen?&lt;/a&gt;</translation>
     </message>
     <message>
         <source>Don&apos;t have a user yet?</source>
-        <translation type="unfinished"></translation>
+        <translation>Du hast noch keinen Benutzer?</translation>
     </message>
     <message>
         <source>Sign Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Anmelden</translation>
     </message>
     <message>
         <source>Sign up</source>
-        <translation type="unfinished"></translation>
+        <translation>Anmelden</translation>
     </message>
     <message>
         <source>Welcome to %1:cloud.</source>
-        <translation type="unfinished"></translation>
+        <translation>Willkommen bei %1:cloud.</translation>
     </message>
     <message>
         <source>Please enter your email address and pick a password in order to create a new account.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bitte gib Deine E-Mail Adresse ein und wähle ein Passwort um ein Konto zu erstellen.</translation>
     </message>
     <message>
         <source>The given username or password are not valid.</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzername oder Passwort ungültig.</translation>
     </message>
     <message>
         <source>Uh oh, something went wrong. Please try again.</source>
-        <translation type="unfinished"></translation>
+        <translation>Oh oh, etwas ist schief gelaufen. Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Confirm account</source>
-        <translation type="unfinished"></translation>
+        <translation>Konto bestätigen</translation>
     </message>
     <message>
         <source>Thanks for signing up. We will send you an email with a confirmation code. Please enter that code in the field below.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vielen Dank fürs Anmelden. Wir senden Dir nun eine E-Mail mit einem Bestätigungs-Code. Bitte gib diesen Code in das Feld unten ein.</translation>
     </message>
     <message>
         <source>The given user already exists. Did you forget the password?</source>
-        <translation type="unfinished"></translation>
+        <translation>Der Benutzer existiert bereits. Hast Du dein Passwort vergessen?</translation>
     </message>
     <message>
         <source>That wasn&apos;t the right code. Please try again.</source>
-        <translation type="unfinished"></translation>
+        <translation>Das war nicht der richtige Code. Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Reset password</source>
-        <translation type="unfinished"></translation>
+        <translation>Passwort zurücksetzen</translation>
     </message>
     <message>
         <source>Sorry, this wasn&apos;t right. Did you misspell the email address?</source>
-        <translation type="unfinished"></translation>
+        <translation>Entschuldigung, das war nicht richtig. Hast du vielleicht deine E-Mail Adresse falsch eingegeben?</translation>
     </message>
     <message>
         <source>Sorry, there were too many attempts. Please try again after some time.</source>
-        <translation type="unfinished"></translation>
+        <translation>Entschuldigung, zu viele Fehlversuche. Bitte versuche es später wieder.</translation>
     </message>
     <message>
         <source>Password forgotten?</source>
-        <translation type="unfinished"></translation>
+        <translation>Passwort vergessen?</translation>
     </message>
     <message>
         <source>No problem. Enter your email address here and we&apos;ll send you a confirmation code to change your password.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kein Problem. Gib Deine E-Mail Adresse hier ein und wir senden Dir einen Bestätigungs-Code um das Passwort zu ändern.</translation>
     </message>
     <message>
         <source>Sorry, couldn&apos;t reset your password. Did you enter the wrong confirmation code?</source>
-        <translation type="unfinished"></translation>
+        <translation>Entschuldigung, wir konnten Dein Passwort nicht zurücksetzen. Hast du den falschen Bestätigungs-Code eingegeben?</translation>
     </message>
     <message>
         <source>Yay!</source>
-        <translation type="unfinished"></translation>
+        <translation>Juhu!</translation>
     </message>
     <message>
         <source>Your password has been reset.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dein Passwort wurde zurückgesetzt.</translation>
     </message>
     <message>
         <source>Check your email!</source>
-        <translation type="unfinished"></translation>
+        <translation>Prüfe deine E-Mails!</translation>
     </message>
     <message>
         <source>Enter the confirmation code you&apos;ve received and a new password for your user %1.</source>
