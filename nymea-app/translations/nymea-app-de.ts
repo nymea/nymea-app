@@ -483,43 +483,43 @@
     </message>
     <message>
         <source>You can connect a nymea:box to a nymea:cloud in order to access it from anywhere</source>
-        <translation>Du kannst eine nymea:box mit nymea:cloud verbinden um von überall aus auf sie zuzugreifen.</translation>
+        <translation>Du kannst eine nymea:box mit nymea:cloud verbinden um von überall aus auf sie zuzugreifen</translation>
     </message>
     <message>
         <source>Cloud connection enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Cloud Verbindung aktiviert</translation>
     </message>
     <message>
         <source>This box is not connected to %1:cloud</source>
-        <translation type="unfinished"></translation>
+        <translation>Diese Box ist nicht mit %1:cloud verbunden</translation>
     </message>
     <message>
         <source>Registering box in %1:cloud...</source>
-        <translation type="unfinished"></translation>
+        <translation>Registriere die Box in %1:cloud...</translation>
     </message>
     <message>
         <source>This box is not configured to connect to %1:cloud.</source>
-        <translation type="unfinished"></translation>
+        <translation>Diese Box ist nicht für %1:cloud konfiguriert.</translation>
     </message>
     <message>
         <source>Connecting the box to %1:cloud...</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbinde die Box zu %1:cloud...</translation>
     </message>
     <message>
         <source>The box is connected to %1:cloud.</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Box ist mit %1:cloud verbunden.</translation>
     </message>
     <message>
         <source>This box is not configured to access the %1:cloud. In order for a box to connect to %1:cloud it needs to be registered first.</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Box ist nicht konfiguriert um auf %1:cloud zuzugreifen. Um die Box mit %1:cloud zu verbinden muss sie zuerst registriert werden.</translation>
     </message>
     <message>
         <source>Register box</source>
-        <translation type="unfinished"></translation>
+        <translation>Box registrieren</translation>
     </message>
     <message>
         <source>Log in to cloud</source>
-        <translation type="unfinished"></translation>
+        <translation>Bei Cloud einloggen</translation>
     </message>
 </context>
 <context>
@@ -756,48 +756,48 @@
     </message>
     <message>
         <source>Cloud login</source>
-        <translation type="unfinished"></translation>
+        <translation>Cloud Login</translation>
     </message>
 </context>
 <context>
     <name>ConnectingPage</name>
     <message>
         <source>Trying to connect...</source>
-        <translation type="unfinished">Versuche zu verbinden...</translation>
+        <translation>Versuche zu verbinden...</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Abbrechen</translation>
+        <translation>Abbrechen</translation>
     </message>
 </context>
 <context>
     <name>ConnectionInterfacesPage</name>
     <message>
         <source>Connection interfaces</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbindungs-Schnittstellen</translation>
     </message>
     <message>
         <source>TCP Server Interfaces</source>
-        <translation type="unfinished"></translation>
+        <translation>TCP Server Schnittstellen</translation>
     </message>
     <message>
         <source>WebSocket Server Interfaces</source>
-        <translation type="unfinished"></translation>
+        <translation>WebSocket Server Schnittstellen</translation>
     </message>
 </context>
 <context>
     <name>DeveloperOptionsPage</name>
     <message>
         <source>Developer options</source>
-        <translation type="unfinished"></translation>
+        <translation>Entwicklereinstullungen</translation>
     </message>
     <message>
         <source>Cloud environment</source>
-        <translation type="unfinished"></translation>
+        <translation>Cloud Umgebung</translation>
     </message>
     <message>
         <source>Community</source>
-        <translation type="unfinished"></translation>
+        <translation>Community</translation>
     </message>
     <message>
         <source>Testing</source>
