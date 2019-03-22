@@ -2028,23 +2028,23 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Thing added!</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;Thing&quot; hinzugefügt!</translation>
     </message>
     <message>
         <source>Uh oh</source>
-        <translation type="unfinished">Oh oh</translation>
+        <translation>Oh oh</translation>
     </message>
     <message>
         <source>All done. You can now start using %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Alles erledigt. Du kannst %1 jetzt benutzen.</translation>
     </message>
     <message>
         <source>Something went wrong setting up this thing...</source>
-        <translation type="unfinished"></translation>
+        <translation>Bei der Einrichtung ist etwas schiefgelaufen...</translation>
     </message>
     <message>
         <source>Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
 </context>
 <context>
@@ -2062,19 +2062,19 @@ Bitte versuche es erneut.</translation>
     <name>NotificationsDevicePage</name>
     <message>
         <source>Title</source>
-        <translation type="unfinished">Titel</translation>
+        <translation>Titel</translation>
     </message>
     <message>
         <source>Text</source>
-        <translation type="unfinished">Text</translation>
+        <translation>Text</translation>
     </message>
     <message>
         <source>Send a notification</source>
-        <translation type="unfinished"></translation>
+        <translation>Benachrichtigung senden</translation>
     </message>
     <message>
         <source>Send now</source>
-        <translation type="unfinished"></translation>
+        <translation>Jetzt senden</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -2082,15 +2082,15 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>%1 notifications sent to this device in the last %2 days.</source>
-        <translation type="unfinished"></translation>
+        <translation>In den letzten %2 Tagen wurden %1 Benachrichtigungen gesendet.</translation>
     </message>
     <message>
         <source>Notification details</source>
-        <translation type="unfinished"></translation>
+        <translation>Benachrichtigungs-Details</translation>
     </message>
     <message>
         <source>Date sent</source>
-        <translation type="unfinished"></translation>
+        <translation>Sende-Datum</translation>
     </message>
 </context>
 <context>
@@ -2200,19 +2200,19 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Pressure</source>
-        <translation type="unfinished"></translation>
+        <translation>Druck</translation>
     </message>
     <message>
         <source>Access control</source>
-        <translation type="unfinished"></translation>
+        <translation>Zugriffskontrolle</translation>
     </message>
     <message>
         <source>battery powered thing</source>
-        <translation type="unfinished"></translation>
+        <translation>batteriebetriebenes Gerät</translation>
     </message>
     <message>
         <source>connectable thing</source>
-        <translation type="unfinished"></translation>
+        <translation>verbindbares Gerät</translation>
     </message>
 </context>
 <context>
@@ -2284,7 +2284,7 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>This list shows the list of installed plugins on this %1 box.</source>
-        <translation type="unfinished"></translation>
+        <translation>Diese Liste zeigt die Liste der installierten Plugins auf dieser %1 Box.</translation>
     </message>
 </context>
 <context>
@@ -2329,19 +2329,19 @@ Bitte versuche es erneut.</translation>
     <name>RootItem</name>
     <message>
         <source>Connection error</source>
-        <translation type="unfinished">Verbindungsfehler</translation>
+        <translation>Verbindungsfehler</translation>
     </message>
     <message>
         <source>Sorry, the version of the %1 box you are trying to connect to is too old. This app requires at least version %2 but the %1 box only supports %3</source>
-        <translation type="unfinished">Entschuldigung, die Version dieser %1 Box ist zu alt. Diese Anwendung benötigt mindestens Version %2 aber die diese %1 Box unterstützt nur %3</translation>
+        <translation>Entschuldigung, die Version dieser %1 Box ist zu alt. Diese Anwendung benötigt mindestens Version %2 aber die diese %1 Box unterstützt nur %3</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>New connection</source>
-        <translation type="unfinished"></translation>
+        <translation>Neue Verbindung</translation>
     </message>
 </context>
 <context>
@@ -2376,19 +2376,19 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>&lt;font color=&quot;%1&quot;&gt;The password needs to be &lt;/font&gt;&lt;font color=&quot;%2&quot;&gt;least 12 characters long&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt;, contain &lt;/font&gt;&lt;font color=&quot;%3&quot;&gt;lowercase&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt;, &lt;/font&gt;&lt;font color=&quot;%4&quot;&gt;uppercase&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt; letters as well as &lt;/font&gt;&lt;font color=&quot;%5&quot;&gt;numbers&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt; and &lt;/font&gt;&lt;font color=&quot;%6&quot;&gt;special characters&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt;.&lt;/font&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;font color=&quot;%1&quot;&gt;Das Passwort muss &lt;/font&gt;&lt;font color=&quot;%2&quot;&gt;mindestens 12 Zeichen lang&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt; sein, &lt;/font&gt;&lt;font color=&quot;%3&quot;&gt;Klein-&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt; und &lt;/font&gt;&lt;font color=&quot;%4&quot;&gt;Großbuchstaben&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt;, sowie &lt;/font&gt;&lt;font color=&quot;%5&quot;&gt;Zahlen&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt; und &lt;/font&gt;&lt;font color=&quot;%6&quot;&gt;Sonderzeichen&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt; beinhalten.&lt;/font&gt;</translation>
     </message>
     <message>
         <source>Confirm password</source>
-        <translation type="unfinished"></translation>
+        <translation>Passwort bestätigen</translation>
     </message>
     <message>
         <source>&lt;font color=&quot;%1&quot;&gt;The passwords match.&lt;/font&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;font color=&quot;%1&quot;&gt;Die Passwörter stimmen überein.&lt;/font&gt;</translation>
     </message>
     <message>
         <source>&lt;font color=&quot;%1&quot;&gt;The passwords &lt;/font&gt;&lt;font color=&quot;%2&quot;&gt;do not&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt; match.&lt;/font&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;font color=&quot;%1&quot;&gt;Die Passwörter stimmen &lt;/font&gt;&lt;font color=&quot;%2&quot;&gt;nicht&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt; überein.&lt;/font&gt;</translation>
     </message>
 </context>
 <context>
@@ -2522,7 +2522,7 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Any %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Jede(s) %1</translation>
     </message>
 </context>
 <context>
@@ -2544,7 +2544,7 @@ Bitte versuche es erneut.</translation>
     <name>SensorsDeviceListPage</name>
     <message>
         <source>Sensors</source>
-        <translation type="unfinished">Sensoren</translation>
+        <translation>Sensoren</translation>
     </message>
 </context>
 <context>
@@ -2639,27 +2639,27 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Box settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Box Einstellungen</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Name</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>Sprache</translation>
     </message>
     <message>
         <source>Time zone</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeitzone</translation>
     </message>
     <message>
         <source>Cloud</source>
-        <translation type="unfinished"></translation>
+        <translation>Cloud</translation>
     </message>
     <message>
         <source>Server interfaces</source>
