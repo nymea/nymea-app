@@ -992,19 +992,19 @@
     </message>
     <message>
         <source>%1:core could not be found on this address. Please make sure you entered the address correctly and that the box is powered on.</source>
-        <translation>%1:core konnte nicht unter dieser Adresse gefunden werden. Bitte stelle sicher, dass Du die Adresse korrekt eingegeben hast und die Box eingeschlatet ist.</translation>
+        <translation>%1:core konnte nicht unter dieser Adresse gefunden werden. Bitte stelle sicher, dass Du die Adresse korrekt eingegeben hast und die Box eingeschaltet ist.</translation>
     </message>
     <message>
         <source>The host has rejected our connection. This probably means that %1 is not running on this host. Perhaps it&apos;s restarting?</source>
-        <translation type="unfinished"></translation>
+        <translation>Der Zielrechner hat unsere Verbindung abgelehnt. Das bedeutet wahrscheinlich, dass %1 nicht auf diese System läuft. Startet es vielleicht gerade neu?</translation>
     </message>
     <message>
         <source>%1:core has closed the connection. This probably means it has been turned off or restarted.</source>
-        <translation type="unfinished"></translation>
+        <translation>%1:core hat die Verbindung getrennt. Dies bedeutet wahrscheinlich, dass die Box heruntergefahren oder neu gestartet wurde.</translation>
     </message>
     <message>
         <source>%1:core did not respond. Please make sure your network connection works properly</source>
-        <translation type="unfinished"></translation>
+        <translation>%1:core antwortet nicht. Bitte stelle sicher, dass dein Netzwerk funktionstüchtig ist.</translation>
     </message>
     <message>
         <source>An unrecovareable SSL Error happened. Please make sure certificates are installed correctly.</source>
