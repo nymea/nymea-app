@@ -359,11 +359,11 @@
     </message>
     <message>
         <source>Firmware revision</source>
-        <translation>Firmare Revision</translation>
+        <translation>Firmware Revision</translation>
     </message>
     <message>
         <source>Hardware revision</source>
-        <translation type="unfinished">Hardware Revision</translation>
+        <translation>Hardware Revision</translation>
     </message>
 </context>
 <context>
@@ -444,39 +444,39 @@
     <name>CertificateDialog</name>
     <message>
         <source>Warning</source>
-        <translation type="unfinished">Warnung</translation>
+        <translation>Warnung</translation>
     </message>
     <message>
         <source>Hi there!</source>
-        <translation type="unfinished">Hallo!</translation>
+        <translation>Hallo!</translation>
     </message>
     <message>
         <source>The certificate of this %1 box has changed!</source>
-        <translation type="unfinished">Das Zertifikat dieser %1 Box wurde verändert!</translation>
+        <translation>Das Zertifikat dieser %1 Box wurde verändert!</translation>
     </message>
     <message>
         <source>It seems this is the first time you connect to this %1 box.</source>
-        <translation type="unfinished">Es scheint als sei dies die erste Verbindung zu dieser %1 Box.</translation>
+        <translation>Es scheint als sei dies die erste Verbindung zu dieser %1 Box.</translation>
     </message>
     <message>
         <source>Did you change the box&apos;s configuration? Verify if this information is correct.</source>
-        <translation type="unfinished">Hast Du die Konfiguration der Box verändert? Stelle sicher, dass diese Information noch korrekt ist.</translation>
+        <translation>Hast Du die Konfiguration der Box verändert? Stelle sicher, dass diese Information noch korrekt ist.</translation>
     </message>
     <message>
         <source>This is the box&apos;s certificate. Once you trust it, an encrypted connection will be established.</source>
-        <translation type="unfinished">Dies ist das Zertifikat der Box. Sobald Du es akzeptierst, wird eine verschlüsselte Verbindung aufgebaut.</translation>
+        <translation>Dies ist das Zertifikat der Box. Sobald Du es akzeptierst, wird eine verschlüsselte Verbindung aufgebaut.</translation>
     </message>
     <message>
         <source>Fingerprint: </source>
-        <translation type="unfinished">Fingerabdruck: </translation>
+        <translation>Fingerabdruck: </translation>
     </message>
     <message>
         <source>Do you want to connect nevertheless?</source>
-        <translation type="unfinished">Möchtest Du trotzdem verbinden?</translation>
+        <translation>Möchtest Du trotzdem verbinden?</translation>
     </message>
     <message>
         <source>Do you want to trust this device?</source>
-        <translation type="unfinished">Möchten Sie diesem Gerät vertrauen?</translation>
+        <translation>Möchten Sie diesem Gerät vertrauen?</translation>
     </message>
 </context>
 <context>
@@ -630,15 +630,15 @@
     </message>
     <message>
         <source>Sorry to see you go. If you log out you won&apos;t be able to connect to %1 boxes remotely any more. However, you can come back any time, we&apos;ll keep your user account. If you whish to completely delete your account and all the data associated with it, check the box below before hitting ok. If you decide to delete your account, all your personal information will be removed from %1:cloud and cannot be restored.</source>
-        <translation type="unfinished"></translation>
+        <translation>Schade, dass Du gehst. Wenn Du dich ausloggst wirst du keine Fernverbindung zu %1 Boxen mehr aufbauen können. Du kannst jedoch jederzeit zurück kommen, wir bewahren dein Konto für dich auf. Wenn Du Dein Konto und alle damit verbundenen Daten löschen möchtest, setze ein Häkchen im Kästchen unten bevor Du fortfährst. Alle Deine persönlichen Daten werden dann unwiederruflich aus %1:cloud gelöscht.</translation>
     </message>
     <message>
         <source>See our &lt;a href=&quot;%1&quot;&gt;privacy policy&lt;/a&gt; to find out what information is processed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bitte lese unsere &lt;a href=&quot;%1&quot;&gt;Datenschutzerklärung&lt;/a&gt; um herauszufinden welche Informationen gespeichert werden.</translation>
     </message>
     <message>
         <source>See our &lt;a href=&quot;%1&quot;&gt;privacy policy&lt;/a&gt; to find out what information is processed. By signing up to %2:cloud you accept those terms and conditions.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bitte lese unsere &lt;a href=&quot;%1&quot;&gt;Datenschutzerklärung&lt;/a&gt; um herauszufinden welche Informationen verarbeitet werden. Wenn du dich bei %2:cloud registrierst, erklärst Du Dich damit einverstanden.</translation>
     </message>
 </context>
 <context>
@@ -739,15 +739,15 @@
     </message>
     <message>
         <source>Reconfigure Thing</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;Thing&quot; neu einrichten</translation>
     </message>
     <message>
         <source>Thing information</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;Thing&quot; Informationen</translation>
     </message>
     <message>
         <source>Vendor:</source>
-        <translation type="unfinished"></translation>
+        <translation>Hersteller:</translation>
     </message>
     <message>
         <source>Type</source>
@@ -945,27 +945,27 @@
     <name>ConnectWiFiPage</name>
     <message>
         <source>Select wireless network</source>
-        <translation type="unfinished"></translation>
+        <translation>WLAN-Netzwerk auswählen</translation>
     </message>
     <message>
         <source>Authenticate</source>
-        <translation type="unfinished"></translation>
+        <translation>Authentifizierung</translation>
     </message>
     <message>
         <source>Enter the password for %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Gib das Passwort für %1 ein</translation>
     </message>
     <message>
         <source>Sorry, the password is wrong. Please try again.</source>
-        <translation type="unfinished"></translation>
+        <translation>Entschuldigung, das Passwort ist falsch. Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Connecting the %1 box to %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbinde die %1 Box zu %2</translation>
     </message>
 </context>
 <context>
@@ -980,19 +980,19 @@
     </message>
     <message>
         <source>Connecting...</source>
-        <translation type="unfinished">Verbinden...</translation>
+        <translation>Verbinden...</translation>
     </message>
     <message>
         <source>The network connection failed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Netzwerkverbindung ist fehlgeschlagen.</translation>
     </message>
     <message>
         <source>It seems you&apos;re not connected to the network.</source>
-        <translation type="unfinished">Es scheint als sei keine Netzwerkverbingung verfügbar.</translation>
+        <translation>Es scheint als sei keine Netzwerkverbingung verfügbar.</translation>
     </message>
     <message>
         <source>%1:core could not be found on this address. Please make sure you entered the address correctly and that the box is powered on.</source>
-        <translation type="unfinished"></translation>
+        <translation>%1:core konnte nicht unter dieser Adresse gefunden werden. Bitte stelle sicher, dass Du die Adresse korrekt eingegeben hast und die Box eingeschlatet ist.</translation>
     </message>
     <message>
         <source>The host has rejected our connection. This probably means that %1 is not running on this host. Perhaps it&apos;s restarting?</source>
