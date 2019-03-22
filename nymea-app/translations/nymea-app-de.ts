@@ -2843,42 +2843,42 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Password:</source>
-        <translation type="unfinished">Passwort:</translation>
+        <translation>Passwort:</translation>
     </message>
     <message>
         <source>Allowed publish topics</source>
-        <translation type="unfinished"></translation>
+        <translation>Erlaubte Publish-Topics</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation type="unfinished"></translation>
+        <translation>Hinzufügen</translation>
     </message>
     <message>
         <source>Allowed subscribe filters</source>
-        <translation type="unfinished"></translation>
+        <translation>Erlaubte Subscribe-Filter</translation>
     </message>
 </context>
 <context>
     <name>NetworkSettingsPage</name>
     <message>
         <source>Network settings</source>
-        <translation type="unfinished">Netzwerkeinstellungen</translation>
+        <translation>Netzwerkeinstellungen</translation>
     </message>
     <message>
         <source>Networking</source>
-        <translation type="unfinished">Netzwerk</translation>
+        <translation>Netzwerk</translation>
     </message>
     <message>
         <source>Wireless network</source>
-        <translation type="unfinished">Funknetzwerk</translation>
+        <translation>Funknetzwerk</translation>
     </message>
     <message>
         <source>Trigger a wireless scan on the device.</source>
-        <translation type="unfinished">WLAN Scan auf dem Gerät ausführen.</translation>
+        <translation>WLAN Scan auf dem Gerät ausführen.</translation>
     </message>
 </context>
 <context>
@@ -2951,19 +2951,19 @@ Bitte versuche es erneut.</translation>
     <name>NewThingPage</name>
     <message>
         <source>Set up new thing</source>
-        <translation type="unfinished">Neues &quot;Thing&quot; hinzufügen</translation>
+        <translation>Neues &quot;Thing&quot; hinzufügen</translation>
     </message>
     <message>
         <source>Vendor</source>
-        <translation type="unfinished"></translation>
+        <translation>Hersteller</translation>
     </message>
     <message>
         <source>All</source>
-        <translation type="unfinished">Alle</translation>
+        <translation>Alle</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation type="unfinished">Typ</translation>
+        <translation>Typ</translation>
     </message>
 </context>
 <context>
@@ -3002,7 +3002,7 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Sent notifications:</source>
-        <translation type="unfinished"></translation>
+        <translation>Gesendete Benachrichtigungen</translation>
     </message>
 </context>
 <context>
