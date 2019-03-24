@@ -25,8 +25,16 @@ T.Button {
 
     contentItem: Text {
         text: control.text
-        font: control.font
-        color: app.primaryColor
+        font.bold: control.font.bold
+        font.capitalization: Font.AllUppercase
+        font.family: control.font.family
+        font.hintingPreference: control.font.hintingPreference
+        font.italic: control.font.italic
+        font.letterSpacing: control.font.letterSpacing
+        font.overline: control.font.overline
+        font.pixelSize: app.smallFont
+        font.weight: Font.Bold
+        color: app.foregroundColor
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
