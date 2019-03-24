@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1">
+<TS version="2.1" language="en_US">
 <context>
     <name>AWSPasswordTextField</name>
     <message>
@@ -334,8 +334,9 @@
     </message>
     <message numerus="yes">
         <source>There are %n boxes connected to your cloud</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
+        <translation type="obsolete">
+            <numerusform>There is %n box connected to your cloud.</numerusform>
+            <numerusform>There are %n boxes connected to your cloud.</numerusform>
         </translation>
     </message>
     <message>
@@ -465,6 +466,13 @@
     <message>
         <source>See our &lt;a href=&quot;%1&quot;&gt;privacy policy&lt;/a&gt; to find out what information is processed. By signing up to %2:cloud you accept those terms and conditions.</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message numerus="yes">
+        <source>There are %n boxes connected to your cloud.</source>
+        <translation>
+            <numerusform>There is %n box connected to your cloud.</numerusform>
+            <numerusform>There are %n boxes connected to your cloud.</numerusform>
+        </translation>
     </message>
 </context>
 <context>

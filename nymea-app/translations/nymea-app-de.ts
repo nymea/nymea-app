@@ -503,9 +503,9 @@
     </message>
     <message numerus="yes">
         <source>There are %n boxes connected to your cloud</source>
-        <translation>
-            <numerusform>Es ist %1 Box mit Deiner Cloud verbunden</numerusform>
-            <numerusform>Es sind %1 Boxen mit Deiner Cloud verbunden</numerusform>
+        <translation type="vanished">
+            <numerusform>Es ist %n Box mit Deiner Cloud verbunden</numerusform>
+            <numerusform>Es sind %n Boxen mit Deiner Cloud verbunden</numerusform>
         </translation>
     </message>
     <message>
@@ -639,6 +639,13 @@
     <message>
         <source>See our &lt;a href=&quot;%1&quot;&gt;privacy policy&lt;/a&gt; to find out what information is processed. By signing up to %2:cloud you accept those terms and conditions.</source>
         <translation>Bitte lese unsere &lt;a href=&quot;%1&quot;&gt;Datenschutzerklärung&lt;/a&gt; um herauszufinden welche Informationen verarbeitet werden. Wenn du dich bei %2:cloud registrierst, erklärst Du Dich damit einverstanden.</translation>
+    </message>
+    <message numerus="yes">
+        <source>There are %n boxes connected to your cloud.</source>
+        <translation>
+            <numerusform>Es ist %n Box mit Deiner Cloud verbunden.</numerusform>
+            <numerusform>Es sind %n Boxen mit Deiner Cloud verbunden.</numerusform>
+        </translation>
     </message>
 </context>
 <context>

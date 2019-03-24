@@ -37,76 +37,71 @@ Page {
         }
     }
 
-    Flickable {
+    ColumnLayout {
         anchors.fill: parent
-        interactive: contentHeight > height
-        contentHeight: childrenRect.height
         visible: AWSClient.isLoggedIn
 
-        ColumnLayout {
-            width: parent.width
-            Label {
-                Layout.fillWidth: true
-                Layout.topMargin: app.margins
-                Layout.leftMargin: app.margins
-                Layout.rightMargin: app.margins
-                wrapMode: Text.WordWrap
-                text: qsTr("Logged in as %1").arg(AWSClient.username)
-            }
+        Label {
+            Layout.fillWidth: true
+            Layout.topMargin: app.margins
+            Layout.leftMargin: app.margins
+            Layout.rightMargin: app.margins
+            wrapMode: Text.WordWrap
+            text: qsTr("Logged in as %1").arg(AWSClient.username)
+        }
 
-            Button {
-                Layout.fillWidth: true
-                Layout.margins: app.margins
-                text: qsTr("Log out")
+        Button {
+            Layout.fillWidth: true
+            Layout.margins: app.margins
+            text: qsTr("Log out")
+            onClicked: {
+                logoutDialog.open()
+            }
+        }
+
+        ThinDivider {}
+
+        Label {
+            Layout.fillWidth: true
+            Layout.topMargin: app.margins
+            Layout.leftMargin: app.margins
+            Layout.rightMargin: app.margins
+            wrapMode: Text.WordWrap
+            text: AWSClient.awsDevices.count === 0 ?
+                      qsTr("There are no boxes connected to your cloud yet.") :
+                      qsTr("There are %n boxes connected to your cloud.", "", AWSClient.awsDevices.count)
+        }
+        ListView {
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            clip: true
+            model: AWSClient.awsDevices
+            delegate: MeaListItemDelegate {
+                width: parent.width
+                text: model.name
+                subText: model.id
+                progressive: false
+                prominentSubText: false
+                canDelete: true
+                iconName: "../images/cloud.svg"
+                secondaryIconName: !model.online ? "../images/cloud-error.svg" : ""
+
                 onClicked: {
-                    logoutDialog.open()
-                }
-            }
-
-            ThinDivider {}
-
-            Label {
-                Layout.fillWidth: true
-                Layout.topMargin: app.margins
-                Layout.leftMargin: app.margins
-                Layout.rightMargin: app.margins
-                wrapMode: Text.WordWrap
-                text: AWSClient.awsDevices.count === 0 ?
-                          qsTr("There are no boxes connected to your cloud yet.") :
-                          qsTr("There are %n boxes connected to your cloud", "", AWSClient.awsDevices.count)
-            }
-            ListView {
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                clip: true
-                model: AWSClient.awsDevices
-                delegate: MeaListItemDelegate {
-                    width: parent.width
-                    text: model.name
-                    subText: model.id
-                    progressive: false
-                    prominentSubText: false
-                    canDelete: true
-                    iconName: "../images/cloud.svg"
-                    secondaryIconName: !model.online ? "../images/cloud-error.svg" : ""
-
-                    onClicked: {
-                        print("clicked, connected:", engine.connection.connected, model.id)
-                        if (!engine.connection.connected) {
-                            var host = discovery.nymeaHosts.find(model.id)
-                            engine.connection.connect(host);
-                        }
-                    }
-
-                    onDeleteClicked: {
-                        AWSClient.unpairDevice(model.id);
+                    print("clicked, connected:", engine.connection.connected, model.id)
+                    if (!engine.connection.connected) {
+                        var host = discovery.nymeaHosts.find(model.id)
+                        engine.connection.connect(host);
                     }
                 }
 
-                BusyIndicator {
-                    anchors.centerIn: parent
-                    visible: AWSClient.awsDevices.busy
+                onDeleteClicked: {
+                    AWSClient.unpairDevice(model.id);
                 }
+            }
+
+            BusyIndicator {
+                anchors.centerIn: parent
+                visible: AWSClient.awsDevices.busy
             }
         }
     }
