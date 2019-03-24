@@ -22,7 +22,7 @@ Page {
     signal completed();
 
     header: GuhHeader {
-        text: "params"
+        text: actionType.displayName
         onBackPressed: root.backPressed();
     }
 
@@ -46,6 +46,9 @@ Page {
                         if (eventParamRadioButton.checked) {
                             return "event"
                         }
+                        if (stateValueRadioButton.checked) {
+                            return "state"
+                        }
                         return ""
                     }
 
@@ -53,54 +56,115 @@ Page {
                     property alias value: paramDelegate.value
                     property alias eventType: eventParamsComboBox.eventType
                     property alias eventParamTypeId: eventParamsComboBox.currentParamTypeId
+                    property alias stateDeviceId: statePickerDelegate.deviceId
+                    property alias stateTypeId: statePickerDelegate.stateTypeId
 
-                    RadioButton {
-                        id: staticParamRadioButton
-                        text: qsTr("Use static value as parameter")
-                        checked: true
-                    }
-                    ParamDelegate {
-                        id: paramDelegate
-                        Layout.fillWidth: true
-                        paramType: root.actionType.paramTypes.get(index)
-                        enabled: staticParamRadioButton.checked
-                    }
-
-                    RadioButton {
-                        id: eventParamRadioButton
-                        text: qsTr("Use event parameter")
-                        visible: eventParamsComboBox.count > 0
-                    }
-                    ComboBox {
-                        id: eventParamsComboBox
+                    GroupBox {
                         Layout.fillWidth: true
                         Layout.margins: app.margins
-                        enabled: eventParamRadioButton.checked
-                        visible: count > 0
-                        Component.onCompleted: currentIndex = 0;
-                        property var eventDescriptor: root.rule.eventDescriptors.count === 1 ? root.rule.eventDescriptors.get(0) : null
-                        property var device: eventDescriptor ? engine.deviceManager.devices.getDevice(eventDescriptor.deviceId) : null
-                        property var deviceClass: device ? engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
-                        property var eventType: deviceClass ? deviceClass.eventTypes.getEventType(eventDescriptor.eventTypeId) : null
-
-                        property var currentParamDescriptor: eventType.paramTypes.get(eventParamsComboBox.currentIndex)
-                        property var currentParamTypeId: currentParamDescriptor.id
-
-                        model: eventType.paramTypes
-                        delegate: ItemDelegate {
-                            width: parent.width
-                            text: eventParamsComboBox.device.name + " - " + eventParamsComboBox.eventType.displayName + " - " + eventParamsComboBox.eventType.paramTypes.getParamType(model.id).displayName
-                        }
-                        contentItem: Label {
-                            id: eventParamsComboBoxContentItem
+                        title: paramType.displayName
+                        ColumnLayout {
                             anchors.fill: parent
-                            anchors.margins: app.margins
-                            text: eventParamsComboBox.device.name + " - " + eventParamsComboBox.eventType.displayName + " - " + eventParamsComboBox.currentParamDescriptor.displayName
-                            elide: Text.ElideRight
+                            RadioButton {
+                                id: staticParamRadioButton
+                                text: qsTr("Use static value as parameter")
+                                checked: true
+                                font.pixelSize: app.smallFont
+                            }
+                            RadioButton {
+                                id: eventParamRadioButton
+                                text: qsTr("Use event parameter")
+                                visible: eventParamsComboBox.count > 0
+                                font.pixelSize: app.smallFont
+                            }
+                            RadioButton {
+                                id: stateValueRadioButton
+                                text: qsTr("Use a thing's state value")
+                                font.pixelSize: app.smallFont
+                            }
+
+                            ThinDivider {}
+
+                            ParamDelegate {
+                                id: paramDelegate
+                                Layout.fillWidth: true
+                                paramType: root.actionType.paramTypes.get(index)
+                                enabled: staticParamRadioButton.checked
+                                nameVisible: false
+                                visible: staticParamRadioButton.checked
+                                placeholderText: qsTr("Insert value here")
+                            }
+
+                            ComboBox {
+                                id: eventParamsComboBox
+                                Layout.fillWidth: true
+                                visible: eventParamRadioButton.checked && count > 0
+                                Component.onCompleted: currentIndex = 0;
+                                property var eventDescriptor: root.rule.eventDescriptors.count === 1 ? root.rule.eventDescriptors.get(0) : null
+                                property var device: eventDescriptor ? engine.deviceManager.devices.getDevice(eventDescriptor.deviceId) : null
+                                property var deviceClass: device ? engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
+                                property var eventType: deviceClass ? deviceClass.eventTypes.getEventType(eventDescriptor.eventTypeId) : null
+
+                                property var currentParamDescriptor: eventType.paramTypes.get(eventParamsComboBox.currentIndex)
+                                property var currentParamTypeId: currentParamDescriptor.id
+
+                                model: eventType.paramTypes
+                                delegate: ItemDelegate {
+                                    width: parent.width
+                                    text: eventParamsComboBox.device.name + " - " + eventParamsComboBox.eventType.displayName + " - " + eventParamsComboBox.eventType.paramTypes.getParamType(model.id).displayName
+                                }
+                                contentItem: Label {
+                                    id: eventParamsComboBoxContentItem
+                                    anchors.fill: parent
+                                    anchors.margins: app.margins
+                                    text: eventParamsComboBox.device.name + " - " + eventParamsComboBox.eventType.displayName + " - " + eventParamsComboBox.currentParamDescriptor.displayName
+                                    elide: Text.ElideRight
+                                }
+                            }
+
+                            MeaListItemDelegate {
+                                id: statePickerDelegate
+                                Layout.fillWidth: true
+                                text: deviceId === null || stateTypeId === null
+                                      ? qsTr("Select a state")
+                                      : dev.name + " - " + dev.deviceClass.stateTypes.getStateType(stateTypeId).displayName
+                                visible: stateValueRadioButton.checked
+
+                                property var deviceId: null
+                                property var stateTypeId: null
+
+                                readonly property Device dev: engine.deviceManager.devices.getDevice(deviceId)
+
+                                onClicked: {
+                                    var page = pageStack.push(Qt.resolvedUrl("SelectThingPage.qml"), {showStates: true, showEvents: false, showActions: false });
+                                    page.thingSelected.connect(function(device) {
+                                        print("Thing selected", device.name);
+                                        statePickerDelegate.deviceId = device.id
+                                        var selectStatePage = pageStack.replace(Qt.resolvedUrl("SelectStatePage.qml"), {device: device})
+                                        selectStatePage.stateSelected.connect(function(stateTypeId) {
+                                            print("State selected", stateTypeId)
+                                            pageStack.pop();
+                                            statePickerDelegate.stateTypeId = stateTypeId;
+                                        })
+                                    })
+                                }
+                            }
                         }
                     }
 
-                    ThinDivider {}
+//                    Label {
+//                        id: paramNameLabel
+//                        Layout.fillWidth: true
+//                        Layout.leftMargin: app.margins
+//                        Layout.rightMargin: app.margins
+//                        Layout.topMargin: app.margins
+//                        elide: Text.ElideRight
+//                        text: paramType.displayName
+//                        font.pixelSize: app.largeFont
+//                    }
+
+
+//                    ThinDivider {}
                 }
             }
             Item {
@@ -124,6 +188,9 @@ Page {
                         } else if (paramDelegate.type === "event") {
                             print("adding event based rule action param", paramDelegate.paramType.id, paramDelegate.eventType.id, paramDelegate.eventParamTypeId)
                             root.ruleAction.ruleActionParams.setRuleActionParamEvent(paramDelegate.paramType.id, paramDelegate.eventType.id, paramDelegate.eventParamTypeId)
+                        } else if (paramDelegate.type === "state") {
+                            print("adding state value based rule action param", paramDelegate.paramType.id, paramDelegate.stateDeviceId, paramDelegate.stateTypeId)
+                            root.ruleAction.ruleActionParams.setRuleActionParamState(paramDelegate.paramType.id, paramDelegate.stateDeviceId, paramDelegate.stateTypeId)
                         }
                     }
                     root.completed()

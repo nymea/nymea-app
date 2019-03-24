@@ -29,6 +29,8 @@ public:
     Q_INVOKABLE void setRuleActionParam(const QString &paramTypeId, const QVariant &value);
     Q_INVOKABLE void setRuleActionParamByName(const QString &paramName, const QVariant &value);
     Q_INVOKABLE void setRuleActionParamEvent(const QString &paramTypeId, const QString &eventTypeId, const QString &eventParamTypeId);
+    Q_INVOKABLE void setRuleActionParamState(const QString &paramTypeId, const QString &stateDeviceId, const QString &stateTypeId);
+
     Q_INVOKABLE RuleActionParam* get(int index) const;
 
     bool operator==(RuleActionParams *other) const;

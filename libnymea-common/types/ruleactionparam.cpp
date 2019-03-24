@@ -53,6 +53,32 @@ void RuleActionParam::setEventParamTypeId(const QString &eventParamTypeId)
     }
 }
 
+QString RuleActionParam::stateDeviceId() const
+{
+    return m_stateDeviceId;
+}
+
+void RuleActionParam::setStateDeviceId(const QString &stateDeviceId)
+{
+    if (m_stateDeviceId != stateDeviceId) {
+        m_stateDeviceId = stateDeviceId;
+        emit stateDeviceIdChanged();
+    }
+}
+
+QString RuleActionParam::stateTypeId() const
+{
+    return m_stateTypeId;
+}
+
+void RuleActionParam::setStateTypeId(const QString &stateTypeId)
+{
+    if (m_stateTypeId != stateTypeId) {
+        m_stateTypeId = stateTypeId;
+        emit stateTypeIdChanged();
+    }
+}
+
 RuleActionParam *RuleActionParam::clone() const
 {
     RuleActionParam *ret = new RuleActionParam();
@@ -61,6 +87,8 @@ RuleActionParam *RuleActionParam::clone() const
     ret->setValue(value());
     ret->setEventTypeId(eventTypeId());
     ret->setEventParamTypeId(eventParamTypeId());
+    ret->setStateDeviceId(stateDeviceId());
+    ret->setStateTypeId(stateTypeId());
     return ret;
 }
 
@@ -72,6 +100,8 @@ bool RuleActionParam::operator==(RuleActionParam *other) const
     COMPARE(m_paramName, other->paramName());
     COMPARE(m_eventTypeId, other->eventTypeId());
     COMPARE(m_eventParamTypeId, other->eventParamTypeId());
+    COMPARE(m_stateDeviceId, other->stateDeviceId());
+    COMPARE(m_stateTypeId, other->stateTypeId());
     COMPARE(m_value, other->value());
     return true;
 }

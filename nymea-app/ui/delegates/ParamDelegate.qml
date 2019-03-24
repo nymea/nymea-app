@@ -16,6 +16,8 @@ ItemDelegate {
         value: paramType.defaultValue
     }
     property bool writable: true
+    property alias nameVisible: nameLabel.visible
+    property string placeholderText: ""
 
     topPadding: 0
     bottomPadding: 0
@@ -23,6 +25,7 @@ ItemDelegate {
         id: contentItemColumn
         RowLayout {
             Label {
+                id: nameLabel
                 Layout.fillWidth: true
                 Layout.minimumWidth: parent.width / 2
                 text: root.paramType.displayName
@@ -90,7 +93,6 @@ ItemDelegate {
                 }
                 return root.param.value;
             }
-
         }
     }
     Component {
@@ -188,6 +190,7 @@ ItemDelegate {
                     root.param.value = text;
                 }
             }
+            placeholderText: root.placeholderText
         }
     }
 

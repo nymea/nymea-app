@@ -38,27 +38,32 @@ Dialog {
         }
         ThinDivider {}
 
-        Button {
-            text: qsTr("Remove all those rules")
+        MeaListItemDelegate {
             Layout.fillWidth: true
+            text: qsTr("Remove all those rules")
+            progressive: false
             onClicked: {
                 engine.deviceManager.removeDevice(root.device.id, DeviceManager.RemovePolicyCascade)
                 root.close()
                 root.destroy();
             }
         }
-        Button {
+
+        MeaListItemDelegate {
             text: qsTr("Update rules, removing this thing")
             Layout.fillWidth: true
+            progressive: false
             onClicked: {
                 engine.deviceManager.removeDevice(root.device.id, DeviceManager.RemovePolicyUpdate)
                 root.close()
                 root.destroy();
             }
         }
-        Button {
+
+        MeaListItemDelegate {
             text: qsTr("Don't remove this thing")
             Layout.fillWidth: true
+            progressive: false
             onClicked: {
                 root.close()
                 root.destroy();

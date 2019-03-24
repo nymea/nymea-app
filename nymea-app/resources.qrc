@@ -179,5 +179,6 @@
         <file>ui/components/Imprint.qml</file>
         <file>ui/appsettings/LookAndFeelSettingsPage.qml</file>
         <file>ui/appsettings/AppLogPage.qml</file>
+        <file>ui/magic/SelectStatePage.qml</file>
     </qresource>
 </RCC>
