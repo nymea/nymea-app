@@ -43,7 +43,7 @@ Page {
         MeaListItemDelegate {
             Layout.fillWidth: true
             text: qsTr("View log")
-            onClicked: pageStack.push(appLogComponent)
+            onClicked: pageStack.push(Qt.resolvedUrl("../appsettings/AppLogPage.qml"))
             enabled: AppLogController.enabled
         }
 
@@ -60,37 +60,6 @@ Page {
                 model: styleController.allExperiences
                 onActivated: {
                     styleController.currentExperience = model[index]
-                }
-            }
-        }
-    }
-
-    Component {
-        id: appLogComponent
-        Page {
-            header: GuhHeader {
-                text: qsTr("App log")
-                backButtonVisible: true
-                onBackPressed: pageStack.pop()
-                HeaderButton {
-                    imageSource: "../images/edit-copy.svg"
-                    onClicked: AppLogController.toClipboard()
-                }
-            }
-
-            ListView {
-                anchors.fill: parent
-
-                ScrollBar.vertical: ScrollBar {}
-
-                model: AppLogController
-                delegate: Text {
-                    width: parent.width
-                    maximumLineCount: 2
-                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                    text: model.text
-                    color: model.type === AppLogController.TypeWarning ? "red" : app.foregroundColor
-                    font.pixelSize: app.smallFont
                 }
             }
         }

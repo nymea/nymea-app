@@ -11,6 +11,20 @@ Page {
 
     signal cancel()
 
+    ColorIcon {
+        anchors { top: parent.top; right: parent.right; margins: app.margins }
+        height: app.iconSize
+        width: height
+        name: "../images/logs.svg"
+        visible: settings.showHiddenOptions
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                onClicked: pageStack.push(Qt.resolvedUrl("../appsettings/AppLogPage.qml"))
+            }
+        }
+    }
+
     ColumnLayout {
         id: columnLayout
         anchors { left: parent.left; right: parent.right; verticalCenter: parent.verticalCenter; margins: app.margins }
@@ -28,7 +42,7 @@ Page {
         }
         Label {
             Layout.fillWidth: true
-            text: engine.connection.currentHost.uuid
+            text: engine.connection.currentHost.name.length > 0 ? engine.connection.currentHost.name : engine.connection.currentHost.uuid
             font.pixelSize: app.smallFont
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             horizontalAlignment: Text.AlignHCenter
