@@ -47,6 +47,10 @@ ApplicationWindow {
 
     property string privacyPolicyUrl: "https://nymea.io/privacy-statement/en/nymea_privacy.html"
 
+    Component.onCompleted: {
+        styleController.setSystemFont(app.font)
+    }
+
     RootItem {
         id: rootItem
         anchors.fill: parent
