@@ -2,6 +2,7 @@
 #include <QQuickStyle>
 #include <QDir>
 #include <QDebug>
+#include <QApplication>
 
 #include "stylecontroller.h"
 
@@ -64,4 +65,9 @@ QStringList StyleController::allExperiences() const
     QDir dir(":/ui/experiences");
     qDebug() << "experiences:" << dir.entryList();
     return QStringList() << "Default" << dir.entryList();
+}
+
+void StyleController::setSystemFont(const QFont &font)
+{
+    QApplication::setFont(font);
 }
