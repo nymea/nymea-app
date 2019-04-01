@@ -249,7 +249,7 @@ Page {
                     visible: discovery.nymeaHosts.count === 0
                     text: qsTr("Demo mode (online)")
                     onClicked: {
-                        var host = nymeaHosts.createWanHost("Demo server", "nymea://nymea.nymea.io:2222")
+                        var host = discovery.nymeaHosts.createWanHost("Demo server", "nymea://nymea.nymea.io:2222")
                         engine.connection.connect(host)
                     }
                 }
