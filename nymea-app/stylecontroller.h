@@ -25,6 +25,8 @@ public:
 
     QStringList allExperiences() const;
 
+    Q_INVOKABLE void setSystemFont(const QFont &font);
+
 signals:
     void currentStyleChanged();
     void currentExperienceChanged();
