@@ -28,10 +28,22 @@ MeaListItemDelegate {
         var ret = [];
         for (var i = 0; i < root.ruleAction.ruleActionParams.count; i++) {
             var ruleActionParam = root.ruleAction.ruleActionParams.get(i)
-            print("populating subtext:", ruleActionParam.eventTypeId, ruleActionParam.eventParamTypeId)
-            var paramString = qsTr("%1: %2")
-            .arg(root.actionType.paramTypes.getParamType(ruleActionParam.paramTypeId).displayName)
-            .arg(ruleActionParam.eventParamTypeId.length > 0 ? qsTr("value from event") : ruleActionParam.value)
+            print("populating subtext:", ruleActionParam.eventTypeId, ruleActionParam.eventParamTypeId, ruleActionParam.stateDeviceId, ruleActionParam.stateTypeId, ruleActionParam.isValueBased, ruleActionParam.isEventParamBased, ruleActionParam.isStateValueBased)
+
+
+            var paramString = qsTr("%1: %2").arg(root.actionType.paramTypes.getParamType(ruleActionParam.paramTypeId).displayName)
+            if (ruleActionParam.isValueBased) {
+                paramString = paramString.arg(ruleActionParam.value)
+            } else if (ruleActionParam.isEventParamBased) {
+                paramString = paramString.arg(qsTr("value from event"))
+            } else if (ruleActionParam.isStateValueBased) {
+                var stateDevice = engine.deviceManager.devices.getDevice(ruleActionParam.stateDeviceId)
+                var stateType = stateDevice.deviceClass.stateTypes.getStateType(ruleActionParam.stateTypeId)
+                print("have state value based param:", stateDevice.name)
+                paramString = paramString.arg(stateDevice.name + "." + stateType.displayName)
+
+            }
+
             ret.push(paramString)
         }
         return ret.join(', ')

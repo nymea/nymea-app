@@ -318,14 +318,8 @@ void JsonRpcClient::onInterfaceConnectedChanged(bool connected)
             emit connectedChanged(false);
         }
     } else {
-        QVariantMap request;
-        request.insert("id", 0);
-        qDebug() << "Connected. Starting JSONRPC Handshake";
-        request.insert("method", "JSONRPC.Hello");
         QVariantMap params;
         params.insert("locale", QLocale().name());
-        request.insert("params", params);
-//        sendRequest(request);
         sendCommand("JSONRPC.Hello", params, this, "helloReply");
     }
 }

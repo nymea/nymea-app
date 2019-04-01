@@ -147,6 +147,9 @@ Page {
                                             statePickerDelegate.stateTypeId = stateTypeId;
                                         })
                                     })
+                                    page.backPressed.connect(function() {
+                                        pageStack.pop();
+                                    })
                                 }
                             }
                         }

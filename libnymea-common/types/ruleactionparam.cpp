@@ -7,6 +7,8 @@ RuleActionParam::RuleActionParam(const QString &paramName, const QVariant &value
     m_paramName(paramName)
 {
     setValue(value);
+
+    connect(this, &Param::valueChanged, this, &RuleActionParam::isValueBasedChanged);
 }
 
 RuleActionParam::RuleActionParam(QObject *parent) : Param(parent)
@@ -37,6 +39,7 @@ void RuleActionParam::setEventTypeId(const QString &eventTypeId)
     if (m_eventTypeId != eventTypeId) {
         m_eventTypeId = eventTypeId;
         emit eventTypeIdChanged();
+        emit isEventParamBasedChanged();
     }
 }
 
@@ -50,6 +53,7 @@ void RuleActionParam::setEventParamTypeId(const QString &eventParamTypeId)
     if (m_eventParamTypeId != eventParamTypeId) {
         m_eventParamTypeId = eventParamTypeId;
         emit eventParamTypeIdChanged();
+        emit isEventParamBasedChanged();
     }
 }
 
@@ -63,6 +67,7 @@ void RuleActionParam::setStateDeviceId(const QString &stateDeviceId)
     if (m_stateDeviceId != stateDeviceId) {
         m_stateDeviceId = stateDeviceId;
         emit stateDeviceIdChanged();
+        emit isStateValueBasedChanged();
     }
 }
 
@@ -76,7 +81,23 @@ void RuleActionParam::setStateTypeId(const QString &stateTypeId)
     if (m_stateTypeId != stateTypeId) {
         m_stateTypeId = stateTypeId;
         emit stateTypeIdChanged();
+        emit isStateValueBasedChanged();
     }
+}
+
+bool RuleActionParam::isValueBased() const
+{
+    return !m_value.isNull();
+}
+
+bool RuleActionParam::isEventParamBased() const
+{
+    return !m_eventTypeId.isNull() && !m_eventParamTypeId.isNull();
+}
+
+bool RuleActionParam::isStateValueBased() const
+{
+    return !m_stateDeviceId.isNull() && !m_stateTypeId.isNull();
 }
 
 RuleActionParam *RuleActionParam::clone() const

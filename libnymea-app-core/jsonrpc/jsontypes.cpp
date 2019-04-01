@@ -304,11 +304,14 @@ QVariantList JsonTypes::packRuleActions(RuleActions *ruleActions)
                 } else {
                     ruleActionParam.insert("paramName", rap->paramName());
                 }
-                if (!rap->eventTypeId().isEmpty() && !rap->eventParamTypeId().isEmpty()) {
+                if (rap->isValueBased()) {
+                    ruleActionParam.insert("value", rap->value());
+                } else if (rap->isEventParamBased()) {
                     ruleActionParam.insert("eventTypeId", rap->eventTypeId());
                     ruleActionParam.insert("eventParamTypeId", rap->eventParamTypeId());
                 } else {
-                    ruleActionParam.insert("value", rap->value());
+                    ruleActionParam.insert("stateDeviceId", rap->stateDeviceId());
+                    ruleActionParam.insert("stateTypeId", rap->stateTypeId());
                 }
                 ruleActionParams.append(ruleActionParam);
             }
