@@ -59,6 +59,7 @@ Page {
             Pane {
                 Layout.fillWidth: true
                 Material.elevation: layout.isGrid ? 1 : 0
+                visible: engine.jsonRpcClient.ensureServerVersion("1.9")
 
                 padding: 0
                 MeaListItemDelegate {
@@ -68,7 +69,6 @@ Page {
                     subText: qsTr("Connect this box to %1:cloud").arg(app.systemName)
                     prominentSubText: false
                     wrapTexts: false
-                    visible: engine.jsonRpcClient.ensureServerVersion("1.9")
                     onClicked: pageStack.push(Qt.resolvedUrl("system/CloudSettingsPage.qml"))
                 }
             }
@@ -92,6 +92,7 @@ Page {
             Pane {
                 Layout.fillWidth: true
                 Material.elevation: layout.isGrid ? 1 : 0
+                visible: engine.jsonRpcClient.ensureServerVersion("1.11")
 
                 padding: 0
                 MeaListItemDelegate {
@@ -101,7 +102,6 @@ Page {
                     subText: qsTr("Configure the MQTT broker")
                     prominentSubText: false
                     wrapTexts: false
-                    visible: engine.jsonRpcClient.ensureServerVersion("1.11")
                     onClicked: pageStack.push(Qt.resolvedUrl("system/MqttBrokerSettingsPage.qml"))
                 }
             }
