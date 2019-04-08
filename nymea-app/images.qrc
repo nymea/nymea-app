@@ -180,5 +180,6 @@
         <file>ui/images/sensors/closable.svg</file>
         <file>ui/images/lock-closed.svg</file>
         <file>ui/images/lock-open.svg</file>
+        <file>ui/images/system-update.svg</file>
     </qresource>
 </RCC>

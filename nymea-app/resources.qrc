@@ -180,5 +180,6 @@
         <file>ui/appsettings/LookAndFeelSettingsPage.qml</file>
         <file>ui/appsettings/AppLogPage.qml</file>
         <file>ui/magic/SelectStatePage.qml</file>
+        <file>ui/system/SystemUpdatePage.qml</file>
     </qresource>
 </RCC>

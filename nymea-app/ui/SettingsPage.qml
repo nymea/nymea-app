@@ -162,6 +162,22 @@ Page {
                 padding: 0
                 MeaListItemDelegate {
                     width: parent.width
+                    iconName: "../images/system-update.svg"
+                    text: qsTr("System update")
+                    subText: qsTr("Update your %1:core system").arg(app.systemName)
+                    prominentSubText: false
+                    wrapTexts: false
+                    onClicked: pageStack.push(Qt.resolvedUrl("system/SystemUpdatePage.qml"))
+                }
+            }
+
+            Pane {
+                Layout.fillWidth: true
+                Material.elevation: layout.isGrid ? 1 : 0
+
+                padding: 0
+                MeaListItemDelegate {
+                    width: parent.width
                     iconName: "../images/info.svg"
                     text: qsTr("About %1:core").arg(app.systemName)
                     subText: qsTr("Find server UUID and versions")

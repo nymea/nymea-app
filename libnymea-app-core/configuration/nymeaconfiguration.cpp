@@ -284,7 +284,6 @@ void NymeaConfiguration::getConfigurationsResponse(const QVariantMap &params)
     webServerConfigurations()->clear();
     foreach (const QVariant &webServerVariant, params.value("params").toMap().value("webServerConfigurations").toList()) {
         QVariantMap webServerConfigMap = webServerVariant.toMap();
-        qDebug() << "**********+ web config" << webServerConfigMap;
         WebServerConfiguration* config = new WebServerConfiguration(webServerConfigMap.value("id").toString(), QHostAddress(webServerConfigMap.value("address").toString()), webServerConfigMap.value("port").toInt(), webServerConfigMap.value("authenticationEnabled").toBool(), webServerConfigMap.value("sslEnabled").toBool());
         config->setPublicFolder(webServerConfigMap.value("publicFolder").toString());
         m_webServerConfigurations->addConfiguration(config);
@@ -293,7 +292,7 @@ void NymeaConfiguration::getConfigurationsResponse(const QVariantMap &params)
 
 void NymeaConfiguration::getAvailableLanguagesResponse(const QVariantMap &params)
 {
-    qDebug() << "available languages" << params;
+//    qDebug() << "available languages" << params;
     m_availableLanguages = params.value("params").toMap().value("languages").toStringList();
     emit availableLanguagesChanged();
 }

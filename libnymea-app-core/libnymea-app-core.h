@@ -56,6 +56,7 @@
 #include "ruletemplates/ruleactionparamtemplate.h"
 #include "connection/awsclient.h"
 #include "models/devicemodel.h"
+#include "system/systemcontroller.h"
 
 #include <QtQml/qqml.h>
 
@@ -199,6 +200,8 @@ void registerQmlTypes() {
     qmlRegisterUncreatableType<RuleActionTemplate>(uri, 1, 0, "RuleActionTemplate", "Get it from RuleActionTemplates");
     qmlRegisterUncreatableType<RuleActionParamTemplates>(uri, 1, 0, "RuleActionParamTemplates", "Get it from RuleActionTemplate");
     qmlRegisterUncreatableType<RuleActionParamTemplate>(uri, 1, 0, "RuleActionParamTemplate", "Get it from RuleActionParamTemplates");
+
+    qmlRegisterUncreatableType<SystemController>(uri, 1, 0, "SystemController", "Get it from Engine");
 }
 
 #endif // LIBNYMEAAPPCORE_H

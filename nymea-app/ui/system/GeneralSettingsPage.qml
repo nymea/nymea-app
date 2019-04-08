@@ -93,5 +93,22 @@ Page {
                 }
             }
         }
+
+        Button {
+            Layout.fillWidth: true
+            text: qsTr("Reboot %1:core").arg(app.systemName)
+            visible: engine.systemController.powerManagementAvailable
+            onClicked: {
+                engine.systemController.reboot()
+            }
+        }
+        Button {
+            Layout.fillWidth: true
+            text: qsTr("Shutdown %1:core").arg(app.systemName)
+            visible: engine.systemController.powerManagementAvailable
+            onClicked: {
+                engine.systemController.shutdown()
+            }
+        }
     }
 }
