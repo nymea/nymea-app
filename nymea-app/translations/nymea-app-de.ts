@@ -1010,7 +1010,7 @@
     </message>
     <message>
         <source>The host has rejected our connection. This probably means that %1 is not running on this host. Perhaps it&apos;s restarting?</source>
-        <translation>Der Zielrechner hat unsere Verbindung abgelehnt. Das bedeutet wahrscheinlich, dass %1 nicht auf diese System läuft. Startet es vielleicht gerade neu?</translation>
+        <translation>Der Zielrechner hat unsere Verbindung abgelehnt. Das bedeutet wahrscheinlich, dass %1 nicht auf diesem System läuft. Startet es vielleicht gerade neu?</translation>
     </message>
     <message>
         <source>%1:core has closed the connection. This probably means it has been turned off or restarted.</source>
