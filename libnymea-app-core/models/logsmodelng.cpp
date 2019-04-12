@@ -230,28 +230,27 @@ void LogsModelNg::logsReply(const QVariantMap &data)
         if (m_graphSeries) {
             Device *dev = m_engine->deviceManager()->devices()->getDevice(entry->deviceId());
             if (dev && dev->deviceClass()->stateTypes()->getStateType(entry->typeId())->type() == "Bool") {
+
                 // We don't want bools painting triangles, add a toggle point to keep lines straight
                 if (i > 0) {
                     LogEntry *newerEntry = newBlock.at(i - 1);
                     if (newerEntry->value().toBool() != entry->value().toBool()) {
-//                        qDebug() << "Adding bool line series point:" << (newerEntry->timestamp().addSecs(-1)) << newerEntry->timestamp().addSecs(-1).toMSecsSinceEpoch() << (entry->value().toBool() ? 1 : 0) << "(correction)";
-                        m_graphSeries->append(QPointF(newerEntry->timestamp().addSecs(-1).toMSecsSinceEpoch(), entry->value().toBool() ? 1 : 0));
+                        m_graphSeries->append(QPointF(newerEntry->timestamp().addMSecs(-1).toMSecsSinceEpoch(), entry->value().toBool() ? 1 : 0));
                     }
                 }
+
                 if (m_graphSeries->count() == 0) {
                     // If it's the first one, make sure we add an ending point at 1
-//                    qDebug() << "Adding bool line series point:" << QDateTime::currentDateTime() << QDateTime::currentDateTime().toMSecsSinceEpoch() - 1 << (entry->value().toBool() ? 1 : 0) << "(beginning)";
-                    m_graphSeries->append(QPointF(QDateTime::currentDateTime().toMSecsSinceEpoch(), 1));
-                    m_graphSeries->append(QPointF(QDateTime::currentDateTime().toMSecsSinceEpoch(), entry->value().toBool() ? 1 : 0));
+                    m_graphSeries->append(QPointF(QDateTime::currentDateTime().addDays(1).toMSecsSinceEpoch(), 1));
+                    m_graphSeries->append(QPointF(QDateTime::currentDateTime().addDays(1).toMSecsSinceEpoch(), entry->value().toBool() ? 1 : 0));
                 } else if (i == 0) {
                     // Adding a new batch...  remove the last appended 1 from the previous batch
                     m_graphSeries->remove(m_graphSeries->count() - 1);
                 }
-//                qDebug() << "Adding bool line series point:" << entry->timestamp() << entry->timestamp().toMSecsSinceEpoch() << (entry->value().toBool() ? 1 : 0);
                 m_graphSeries->append(QPointF(entry->timestamp().toMSecsSinceEpoch(), entry->value().toBool() ? 1 : 0));
                 if (i == newBlock.count() - 1) {
                     // End the batch at 1 again
-                    m_graphSeries->append(QPointF(entry->timestamp().addSecs(-1).toMSecsSinceEpoch(), 1));
+                    m_graphSeries->append(QPointF(entry->timestamp().addSecs(60).toMSecsSinceEpoch(), 1));
                 }
 
                 // Adjust min/max
@@ -263,19 +262,13 @@ void LogsModelNg::logsReply(const QVariantMap &data)
                 }
 
             } else {
-//                if (i > 0) {
-//                    LogEntry *newerEntry = newBlock.at(i - 1);
-//                    if (newerEntry->value() != entry->value()) {
-//                        qDebug() << "Adding line series point:" << (offset + i) << newerEntry->timestamp().toMSecsSinceEpoch() - 1 << (entry->value().toReal()) << "(correction)";
-//                        m_graphSeries->append(QPointF(newerEntry->timestamp().toMSecsSinceEpoch() - 1, entry->value().toReal()));
-//                    }
-//                }
 
+                // Add a pint in the future to extend the graph (so it can scroll with time and the graph wouldn't end at the last known value)
                 if (m_graphSeries->count() == 0) {
-//                    qDebug() << "Adding 1st line series point:" << (offset + i) << QDateTime::currentDateTime().toMSecsSinceEpoch() << entry->value().toReal();
-                    m_graphSeries->append(QPointF(QDateTime::currentDateTime().toMSecsSinceEpoch(), entry->value().toReal()));
+                    m_graphSeries->append(QPointF(QDateTime::currentDateTime().addDays(1).toMSecsSinceEpoch(), entry->value().toReal()));
                 }
-//                qDebug() << "Adding line series point:" << (offset + i) << entry->timestamp().toMSecsSinceEpoch() << (entry->value().toReal());
+
+                // Add the actual value
                 m_graphSeries->append(QPointF(entry->timestamp().toMSecsSinceEpoch(), entry->value().toReal()));
 
                 // Adjust min/max
@@ -393,7 +386,42 @@ void LogsModelNg::newLogEntryReceived(const QVariantMap &data)
     LogEntry *entry = new LogEntry(timeStamp, value, deviceId, typeId, loggingSource, loggingEventType, this);
     m_list.prepend(entry);
     if (m_graphSeries) {
-        m_graphSeries->insert(0, QPointF(entry->timestamp().toMSecsSinceEpoch(), entry->value().toReal()));
+
+
+        Device *dev = m_engine->deviceManager()->devices()->getDevice(entry->deviceId());
+
+        if (dev && dev->deviceClass()->stateTypes()->getStateType(entry->typeId())->type() == "Bool") {
+            // First, remove the 2 rightmost (newest on the timeline) values. They're the ones in the future we added to extend the graph and making it end at 1
+            if (m_graphSeries->count() > 1) {
+                m_graphSeries->removePoints(0, 2);
+            }
+
+            // Prevent triangles, add a point right before the new one which reflects the old value
+            qreal previousValue = m_graphSeries->points().at(0).y();
+            m_graphSeries->insert(0, QPointF(entry->timestamp().addMSecs(-1).toMSecsSinceEpoch(), previousValue));
+
+            // Add the actual value
+            m_graphSeries->insert(0, QPointF(entry->timestamp().toMSecsSinceEpoch(), entry->value().toBool() ? 1 : 0));
+
+            // And add the 2 "future" points again
+            m_graphSeries->insert(0, QPointF(entry->timestamp().addDays(1).toMSecsSinceEpoch(), entry->value().toBool() ? 1 : 0));
+            m_graphSeries->insert(0, QPointF(entry->timestamp().addDays(1).toMSecsSinceEpoch(), 1));
+
+        } else {
+
+            // First, remove the rightmost (newest on the timeline) value. It's the one in the future we added to extend the graph
+            if (m_graphSeries->count() > 1) {
+                m_graphSeries->removePoints(0, 1);
+            }
+
+            // Add the actual value
+            m_graphSeries->insert(0, QPointF(entry->timestamp().toMSecsSinceEpoch(), entry->value().toReal()));
+
+            // And add the "future" point again
+            m_graphSeries->insert(0, QPointF(entry->timestamp().addDays(1).toMSecsSinceEpoch(), entry->value().toReal()));
+        }
+
+
         if (m_minValue > entry->value().toReal()) {
             m_minValue = entry->value().toReal();
             emit minValueChanged();
@@ -402,7 +430,6 @@ void LogsModelNg::newLogEntryReceived(const QVariantMap &data)
             m_maxValue = entry->value().toReal();
             emit maxValueChanged();
         }
-
     }
     endInsertRows();
     emit countChanged();
