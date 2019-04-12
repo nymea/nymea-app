@@ -330,13 +330,16 @@ Item {
 
 
             MouseArea {
+                id: scrollMouseArea
                 x: chartView.plotArea.x
                 y: chartView.plotArea.y
                 width: chartView.plotArea.width
                 height: chartView.plotArea.height
                 property int lastX: 0
-                property int lastY: 0
+                property int startX: 0
                 preventStealing: false
+
+                property bool autoScroll: true
 
                 function scrollRightLimited(dx) {
                     chartView.animationOptions = ChartView.NoAnimation
@@ -353,6 +356,9 @@ Item {
                         xAxis.max = now
                         xAxis.min = new Date(xAxis.max.getTime() - range)
                     }
+                    // If the user scrolled closer than 5 pixels to the right edge, enable autoscroll
+                    autoScroll = overshoot > -5;
+
                     chartView.animationOptions = ChartView.SeriesAnimations
                 }
 
@@ -366,7 +372,7 @@ Item {
 
                 onPressed: {
                     lastX = mouse.x
-                    lastY = mouse.y
+                    startX = mouse.x
                 }
                 onClicked: {
                     var pt = chartView.mapToValue(Qt.point(mouse.x + chartView.plotArea.x, mouse.y + chartView.plotArea.y), mainSeries)
@@ -382,6 +388,23 @@ Item {
                     if (lastX !== mouse.x) {
                         scrollRightLimited(lastX - mouseX)
                         lastX = mouse.x
+                    }
+
+                    if (Math.abs(startX - mouse.x) > 10) {
+                        preventStealing = true;
+                    }
+                }
+
+                onReleased: preventStealing = false;
+
+
+                Timer {
+                    running: scrollMouseArea.autoScroll
+                    interval: 1000
+                    repeat: true
+                    onTriggered: {
+                        print("autoscrolling chart")
+                        scrollMouseArea.scrollRightLimited(10)
                     }
                 }
             }
