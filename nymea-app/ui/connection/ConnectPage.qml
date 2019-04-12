@@ -109,7 +109,7 @@ Page {
                     Label {
                         Layout.fillWidth: true
                         text: root.haveHosts ?
-                                  qsTr("There are %1 %2 boxes in your network! Which one would you like to use?").arg(discovery.nymeaHosts.count).arg(app.systemName)
+                                  qsTr("There are %1 %2 boxes in your network! Which one would you like to use?").arg(hostsProxy.count).arg(app.systemName)
                                 : startupTimer.running ? qsTr("We haven't found any %1 boxes in your network yet.").arg(app.systemName)
                                                        : qsTr("There doesn't seem to be a %1 box installed in your network. Please make sure your %1 box is correctly set up and connected.").arg(app.systemName)
                         wrapMode: Text.WordWrap
