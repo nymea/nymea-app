@@ -83,7 +83,7 @@ AWSClient::AWSClient(QObject *parent) : QObject(parent),
     config.mqttEndpoint = "a2addxakg5juii-ats.iot.eu-west-1.amazonaws.com";
     config.region = "eu-west-1";
     config.apiEndpoint = "testapi-cloud.guh.io";
-    config.pushNotificationSystem = pushSystem == "APNS" ? pushSystem + "_SANDBOX" : pushSystem;
+    config.pushNotificationSystem = pushSystem;
     m_configs.insert("Testing", config);
 
     // Marantec environment
