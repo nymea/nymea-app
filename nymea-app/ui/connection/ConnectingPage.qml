@@ -16,7 +16,7 @@ Page {
         height: app.iconSize
         width: height
         name: "../images/logs.svg"
-        visible: settings.showHiddenOptions
+        visible: settings.showHiddenOptions && AppLogController.enabled
         MouseArea {
             anchors.fill: parent
             onClicked: {

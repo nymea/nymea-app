@@ -57,10 +57,10 @@ Page {
             Pane {
                 Layout.fillWidth: true
                 Material.elevation: layout.isGrid ? 1 : 0
+                visible: settings.showHiddenOptions
                 padding: 0
                 MeaListItemDelegate {
                     width: parent.width
-                    visible: settings.showHiddenOptions
                     text: qsTr("Developer options")
                     subText: qsTr("Yeehaaa!")
                     iconName: "../images/sdk.svg"
