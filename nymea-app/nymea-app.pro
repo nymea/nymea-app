@@ -122,10 +122,6 @@ ios: {
     QMAKE_MAC_XCODE_SETTINGS += IOS_ENTITLEMENTS
 }
 
-ubuntu_files.path += /
-ubuntu_files.files += ../manifest.json ../nymea-app.apparmor ../nymea-app.desktop ../packaging/android/appicon.svg
-INSTALLS += ubuntu_files
-
 BR=$$BRANDING
 !equals(BR, "") {
     DEFINES += BRANDING=\\\"$${BR}\\\"

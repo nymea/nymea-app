@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=nymea:app
 Comment=A client application for nymea
-Icon=${SNAP}/usr/share/icons/hicolor/256x256/apps/nymea-app.png
+Icon=/usr/share/icons/hicolor/256x256/apps/nymea-app.png
 Terminal=false
 Type=Application
 Exec=nymea-app

@@ -143,8 +143,3 @@ HEADERS += \
     configuration/mqttpolicy.h \
     configuration/mqttpolicies.h \
     models/devicemodel.h
-
-unix {
-    target.path = /usr/lib
-    INSTALLS += target
-}
