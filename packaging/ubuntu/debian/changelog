@@ -1,3 +1,12 @@
+nymea-app (1.0.114) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add a kiosk mode command line option
+  * Fix the kiosk systemd service
+  * State based ruleactionparams
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 16 Apr 2019 01:33:12 +0200
+
 nymea-app (1.0.113) bionic; urgency=medium
 
   [ Michael Zanetti ]
