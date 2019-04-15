@@ -13,7 +13,7 @@ ApplicationWindow {
     height: 580
     minimumWidth: 360
     minimumHeight: 480
-    visibility: ApplicationWindow.AutomaticVisibility
+    visibility: kioskMode ? ApplicationWindow.FullScreen : settings.viewMode
 
     // Those variables must be present in the Style
     title: appName
@@ -33,7 +33,7 @@ ApplicationWindow {
     readonly property bool landscape: app.width > app.height
 
     readonly property var settings: Settings {
-        property alias viewMode: app.visibility
+        property int viewMode: ApplicationWindow.AutomaticVisibility
         property alias windowWidth: app.width
         property alias windowHeight: app.height
         property bool returnToHome: false

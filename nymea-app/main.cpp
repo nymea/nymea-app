@@ -24,6 +24,8 @@
 #include <QQmlApplicationEngine>
 #include <QtQuickControls2>
 #include <QSysInfo>
+#include <QCommandLineParser>
+#include <QCommandLineOption>
 
 #ifdef Q_OS_ANDROID
 #include <QtAndroidExtras/QtAndroid>
@@ -68,6 +70,12 @@ int main(int argc, char *argv[])
     QApplication application(argc, argv);
     application.setApplicationName("nymea-app");
     application.setOrganizationName("nymea");
+
+    QCommandLineParser parser;
+    parser.addHelpOption();
+    QCommandLineOption kioskOption = QCommandLineOption({"k", "kiosk"}, "Start the application in kiosk mode.");
+    parser.addOption(kioskOption);
+    parser.process(application);
 
     // Initialize app log controller as early as possible, but after setting app name etc
     AppLogController::instance();
@@ -115,6 +123,8 @@ int main(int argc, char *argv[])
 
     StyleController styleController;
     engine->rootContext()->setContextProperty("styleController", &styleController);
+
+    engine->rootContext()->setContextProperty("kioskMode", parser.isSet(kioskOption));
 
     engine->rootContext()->setContextProperty("systemProductType", QSysInfo::productType());
 
