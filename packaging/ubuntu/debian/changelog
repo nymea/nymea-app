@@ -1,3 +1,10 @@
+nymea-app (1.0.113) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add Ubuntu packaging
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 15 Apr 2019 22:32:16 +0200
+
 nymea-app (1.0.112) bionic; urgency=medium
 
   * Initial release.
