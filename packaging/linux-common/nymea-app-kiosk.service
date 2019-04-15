@@ -7,7 +7,7 @@ Wants=network-online.target
 [Service]
 User = nymea
 Group = nymea
-ExecStart = /usr/bin/xinit /usr/bin/dbus-launch --exit-with-session /usr/bin/nymea-app --fullscreen -- :0 -nolisten tcp vt7
+ExecStart = /usr/bin/xinit /usr/bin/nymea-app --kiosk -- :0 -nolisten tcp vt7
 StandardOutput=journal
 StandardError=journal
 Restart=on-failure
