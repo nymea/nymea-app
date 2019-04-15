@@ -297,6 +297,8 @@ RuleAction *RuleManager::parseRuleAction(const QVariantMap &ruleAction)
         param->setValue(ruleActionParamVariant.toMap().value("value"));
         param->setEventTypeId(ruleActionParamVariant.toMap().value("eventTypeId").toString());
         param->setEventParamTypeId(ruleActionParamVariant.toMap().value("eventParamTypeId").toString());
+        param->setStateDeviceId(ruleActionParamVariant.toMap().value("stateDeviceId").toString());
+        param->setStateTypeId(ruleActionParamVariant.toMap().value("stateTypeId").toString());
         ret->ruleActionParams()->addRuleActionParam(param);
     }
     return ret;

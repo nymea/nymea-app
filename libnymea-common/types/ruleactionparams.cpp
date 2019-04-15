@@ -94,6 +94,22 @@ void RuleActionParams::setRuleActionParamEvent(const QString &paramTypeId, const
     addRuleActionParam(rap);
 }
 
+void RuleActionParams::setRuleActionParamState(const QString &paramTypeId, const QString &stateDeviceId, const QString &stateTypeId)
+{
+    foreach (RuleActionParam *rap, m_list) {
+        if (rap->paramTypeId() == paramTypeId) {
+            rap->setStateDeviceId(stateDeviceId);
+            rap->setStateTypeId(stateTypeId);
+            return;
+        }
+    }
+    RuleActionParam *rap = new RuleActionParam(this);
+    rap->setParamTypeId(paramTypeId);
+    rap->setStateDeviceId(stateDeviceId);
+    rap->setStateTypeId(stateTypeId);
+    addRuleActionParam(rap);
+}
+
 RuleActionParam *RuleActionParams::get(int index) const
 {
     return m_list.at(index);

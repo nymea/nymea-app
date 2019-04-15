@@ -372,7 +372,11 @@ void NymeaConnection::onDisconnected()
 
     // Try to reconnect, only if we're not waiting for SSL certs to be trusted.
     if (m_connectionStatus != ConnectionStatusSslUntrusted) {
-        connectInternal(m_currentHost);
+        QTimer::singleShot(1000, this, [this](){
+            if (m_currentHost) {
+                connectInternal(m_currentHost);
+            }
+        });
     }
 }
 
