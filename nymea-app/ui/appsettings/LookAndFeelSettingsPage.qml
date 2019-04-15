@@ -19,6 +19,7 @@ Page {
 
         RowLayout {
             Layout.fillWidth: true; Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.topMargin: app.margins
+            visible: !kioskMode
             Label {
                 Layout.fillWidth: true
                 text: qsTr("View mode")
