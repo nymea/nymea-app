@@ -30,7 +30,6 @@ MeaListItemDelegate {
             var ruleActionParam = root.ruleAction.ruleActionParams.get(i)
             print("populating subtext:", ruleActionParam.eventTypeId, ruleActionParam.eventParamTypeId, ruleActionParam.stateDeviceId, ruleActionParam.stateTypeId, ruleActionParam.isValueBased, ruleActionParam.isEventParamBased, ruleActionParam.isStateValueBased)
 
-
             var paramString = qsTr("%1: %2").arg(root.actionType.paramTypes.getParamType(ruleActionParam.paramTypeId).displayName)
             if (ruleActionParam.isValueBased) {
                 paramString = paramString.arg(ruleActionParam.value)
@@ -40,8 +39,7 @@ MeaListItemDelegate {
                 var stateDevice = engine.deviceManager.devices.getDevice(ruleActionParam.stateDeviceId)
                 var stateType = stateDevice.deviceClass.stateTypes.getStateType(ruleActionParam.stateTypeId)
                 print("have state value based param:", stateDevice.name)
-                paramString = paramString.arg(stateDevice.name + "." + stateType.displayName)
-
+                paramString = paramString.arg("{" + stateDevice.name + " - " + stateType.displayName + "}")
             }
 
             ret.push(paramString)

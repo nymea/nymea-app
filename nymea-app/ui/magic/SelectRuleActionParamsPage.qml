@@ -70,6 +70,7 @@ Page {
                                 text: qsTr("Use static value as parameter")
                                 checked: true
                                 font.pixelSize: app.smallFont
+                                visible: eventParamRadioButton.visible || stateValueRadioButton.visible
                             }
                             RadioButton {
                                 id: eventParamRadioButton
@@ -81,9 +82,12 @@ Page {
                                 id: stateValueRadioButton
                                 text: qsTr("Use a thing's state value")
                                 font.pixelSize: app.smallFont
+                                visible: engine.jsonRpcClient.ensureServerVersion("2.0")
                             }
 
-                            ThinDivider {}
+                            ThinDivider {
+                                visible: staticParamRadioButton.visible
+                            }
 
                             ParamDelegate {
                                 id: paramDelegate
