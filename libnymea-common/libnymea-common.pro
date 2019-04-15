@@ -7,9 +7,6 @@ CONFIG += staticlib
 QT -= gui
 QT += network
 
-target.path = /usr/lib/$$system('dpkg-architecture -q DEB_HOST_MULTIARCH')
-INSTALLS += target
-
 HEADERS += \
     types/types.h \
     types/vendor.h \
@@ -100,11 +97,3 @@ SOURCES += \
     types/repeatingoption.cpp \
     types/tag.cpp \
     types/tags.cpp
-
-# install header file with relative subdirectory
-for(header, HEADERS) {
-    path = /usr/include/nymea-common/$${dirname(header)}
-    eval(headers_$${path}.files += $${header})
-    eval(headers_$${path}.path = $${path})
-    eval(INSTALLS *= headers_$${path})
-}

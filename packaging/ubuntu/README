@@ -1,0 +1,3 @@
+To build a ubuntu package (dpkg), link the debian folder to the
+top level of the repository and run dpkg-buildpackage or your
+favorite wrapper on it.
