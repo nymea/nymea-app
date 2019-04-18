@@ -944,7 +944,7 @@
     </message>
     <message>
         <source>Available connections</source>
-        <translation>Verfügbare Verbindunge</translation>
+        <translation>Verfügbare Verbindungen</translation>
     </message>
     <message>
         <source>Port: %1</source>
