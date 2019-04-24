@@ -1,3 +1,10 @@
+nymea-app (1.0.115) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Prefer http over https for the debug interface to ease up things
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 24 Apr 2019 12:54:25 +0200
+
 nymea-app (1.0.114) bionic; urgency=medium
 
   [ Michael Zanetti ]
