@@ -17,9 +17,13 @@ Page {
             var tmp = engine.nymeaConfiguration.webServerConfigurations.get(i)
             print("checking config:", tmp.id, tmp.address, tmp.port, tmp.sslEnabled)
             if (tmp.address === engine.connection.currentConnection.hostAddress || tmp.address === "0.0.0.0") {
-                if (config === null || (!config.sslEnabled && tmp.sslEnabled)) {
-                    config = tmp;
 
+                // This one prefers https over http...
+//                if (config === null || (!config.sslEnabled && tmp.sslEnabled)) {
+
+                // ...but for now, prefer http because some things won't work with self signed certs etc...
+                if (config === null || (config.sslEnabled && !tmp.sslEnabled)) {
+                    config = tmp;
                 }
                 continue;
             }
