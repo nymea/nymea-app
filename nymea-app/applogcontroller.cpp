@@ -30,7 +30,6 @@ AppLogController::AppLogController(QObject *parent) : QAbstractListModel(parent)
 
     QString fileName = QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/nymea-app.log";
     m_logFile.setFileName(fileName);
-    qDebug() << "App log file:" << fileName;
 
     if (QFile::exists(fileName)) {
         if (QFile::exists(fileName + ".old")) {
@@ -44,7 +43,6 @@ AppLogController::AppLogController(QObject *parent) : QAbstractListModel(parent)
         return;
     }
 
-    qDebug() << "Logging is" << (enabled() ? "enabled" : "disabled");
     if (enabled()) {
         activate();
     }
@@ -143,7 +141,8 @@ void AppLogController::append(const QString &message, AppLogController::Type typ
 
 void AppLogController::activate()
 {
-    qDebug() << "Activating log file writing";
+    qDebug() << "Activating log file writing to" << m_logFile.fileName();
+
     s_oldLogMessageHandler = qInstallMessageHandler(&logMessageHandler);
 }
 

@@ -89,6 +89,7 @@ int main(int argc, char *argv[])
             QLibraryInfo::location(QLibraryInfo::TranslationsPath));
     application.installTranslator(&qtTranslator);
 
+    qDebug() << "nymea:app" << APP_VERSION << "running on" << QSysInfo::machineHostName() << QSysInfo::prettyProductName() << QSysInfo::productType() << QSysInfo::productVersion();
     qDebug() << "Locale info:" << QLocale() << QLocale().name() << QLocale().language() << QLocale().system();
 
     QTranslator appTranslator;
@@ -99,8 +100,6 @@ int main(int argc, char *argv[])
         qWarning() << "Failed to load translations for locale" << QLocale();
     }
     application.installTranslator(&appTranslator);
-
-    qDebug() << "Running on" << QSysInfo::machineHostName() << QSysInfo::prettyProductName() << QSysInfo::productType() << QSysInfo::productVersion();
 
     registerQmlTypes();
 
