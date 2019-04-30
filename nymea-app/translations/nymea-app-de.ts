@@ -106,7 +106,7 @@
     <name>AppLogPage</name>
     <message>
         <source>App log</source>
-        <translation type="unfinished">App Logs</translation>
+        <translation>App Logs</translation>
     </message>
 </context>
 <context>
@@ -1083,7 +1083,7 @@
     <name>DeveloperOptionsPage</name>
     <message>
         <source>Developer options</source>
-        <translation>Entwicklereinstullungen</translation>
+        <translation>Entwicklereinstellungen</translation>
     </message>
     <message>
         <source>Cloud environment</source>
@@ -2705,15 +2705,15 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Connected to</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbunden mit</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Disconnect</source>
-        <translation type="unfinished">Trennen</translation>
+        <translation>Trennen</translation>
     </message>
 </context>
 <context>
