@@ -47,6 +47,7 @@
 
 NymeaConnection::NymeaConnection(QObject *parent) : QObject(parent)
 {
+#ifndef QT_NO_BEARERMANAGEMENT
     m_networkConfigManager = new QNetworkConfigurationManager(this);
 
     QObject::connect(m_networkConfigManager, &QNetworkConfigurationManager::configurationAdded, this, [this](const QNetworkConfiguration &config){
@@ -59,6 +60,7 @@ NymeaConnection::NymeaConnection(QObject *parent) : QObject(parent)
 //        qDebug() << "Network configuration removed:" << config.name() << config.bearerTypeName() << config.purpose();
         updateActiveBearers();
     });
+#endif
 
     QGuiApplication *app = static_cast<QGuiApplication*>(QGuiApplication::instance());
     QObject::connect(app, &QGuiApplication::applicationStateChanged, this, [this](Qt::ApplicationState state) {
@@ -153,6 +155,7 @@ void NymeaConnection::onSslErrors(const QList<QSslError> &errors)
     NymeaTransportInterface *transport = qobject_cast<NymeaTransportInterface*>(sender());
 
     qDebug() << "SSL errors for url:" << transport->url();
+#ifndef QT_NO_SSL
     QList<QSslError> ignoredErrors;
     foreach (const QSslError &error, errors) {
         qDebug() << error.errorString();
@@ -172,6 +175,7 @@ void NymeaConnection::onSslErrors(const QList<QSslError> &errors)
         // unless we've handled all the errors or the websocket will ignore unhandled errors too...
         transport->ignoreSslErrors(ignoredErrors);
     }
+#endif
 }
 
 void NymeaConnection::onError(QAbstractSocket::SocketError error)
@@ -339,17 +343,18 @@ void NymeaConnection::onDisconnected()
 void NymeaConnection::updateActiveBearers()
 {
     NymeaConnection::BearerTypes availableBearerTypes;
+#ifndef QT_NO_BEARERMANAGEMENT
     QList<QNetworkConfiguration> configs = m_networkConfigManager->allConfigurations(QNetworkConfiguration::Active);
 //    qDebug() << "Network configuations:" << configs.count();
     foreach (const QNetworkConfiguration &config, configs) {
 //        qDebug() << "Active network config:" << config.name() << config.bearerTypeFamily() << config.bearerTypeName();
 
         // NOTE: iOS doesn't correctly report bearer types. It'll be Unknown all the time. Let's hardcode it to WiFi for that...
-#if defined(Q_OS_IOS)
+  #if defined(Q_OS_IOS)
         availableBearerTypes.setFlag(NymeaConnection::BearerTypeWiFi);
-#else
+  #else
         availableBearerTypes.setFlag(qBearerTypeToNymeaBearerType(config.bearerType()));
-#endif
+  #endif
     }
     if (availableBearerTypes == NymeaConnection::BearerTypeNone) {
         // This is just debug info... On some platform bearer management seems a bit broken, so let's get some infos right away...
@@ -362,6 +367,10 @@ void NymeaConnection::updateActiveBearers()
         qWarning() << "Updating network manager";
         m_networkConfigManager->updateConfigurations();
     }
+
+#else
+    availableBearerTypes.setFlag(NymeaConnection::BearerTypeWiFi);
+#endif
 
     if (m_availableBearerTypes != availableBearerTypes) {
 //        qDebug() << "Available Bearer Types changed:" << availableBearerTypes;

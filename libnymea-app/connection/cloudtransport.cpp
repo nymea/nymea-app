@@ -69,7 +69,9 @@ CloudTransport::CloudTransport(AWSClient *awsClient, QObject *parent):
         qDebug() << "Remote proxy Error:" << error;
 //        emit NymeaTransportInterface::error(QAbstractSocket::ConnectionRefusedError);
     });
+#ifndef QT_NO_SSL
     QObject::connect(m_remoteproxyConnection, &RemoteProxyConnection::sslErrors, this, &CloudTransport::sslErrors);
+#endif
 }
 
 bool CloudTransport::connect(const QUrl &url)
@@ -138,11 +140,13 @@ void CloudTransport::sendData(const QByteArray &data)
     m_remoteproxyConnection->sendData(data);
 }
 
+#ifndef QT_NO_SSL
 void CloudTransport::ignoreSslErrors(const QList<QSslError> &errors)
 {
     qDebug() << "CloudTransport: Ignoring SSL errors" << errors;
     m_remoteproxyConnection->ignoreSslErrors(errors);
 }
+#endif
 
 CloudTransportFactory::CloudTransportFactory()
 {

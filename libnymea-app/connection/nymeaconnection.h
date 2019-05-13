@@ -130,7 +130,9 @@ private:
 
 private:
     ConnectionStatus m_connectionStatus = ConnectionStatusUnconnected;
+#ifndef QT_NO_BEARERMANAGEMENT
     QNetworkConfigurationManager *m_networkConfigManager = nullptr;
+#endif
     NymeaConnection::BearerTypes m_availableBearerTypes = BearerTypeNone;
 
     QHash<QString, NymeaTransportInterfaceFactory*> m_transportFactories;

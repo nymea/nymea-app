@@ -152,6 +152,12 @@ ubports: {
     SOURCES += platformintegration/ubports/pushclient.cpp
 }
 
+wasm: {
+# Seems QMAKE_WASM_TOTAL_MEMORY doesn't work yet but it should be the correct things according to docs
+#QMAKE_WASM_TOTAL_MEMORY = 20000000
+QMAKE_LFLAGS += -s TOTAL_MEMORY=33554432
+}
+
 BR=$$BRANDING
 !equals(BR, "") {
     DEFINES += BRANDING=\\\"$${BR}\\\"

@@ -46,8 +46,10 @@ WebsocketTransport::WebsocketTransport(QObject *parent) :
     QObject::connect(m_socket, static_cast<errorSignal>(&QWebSocket::error), this, &WebsocketTransport::error);
     QObject::connect(m_socket, &QWebSocket::textMessageReceived, this, &WebsocketTransport::onTextMessageReceived);
 
+#ifndef QT_NO_SSL
     typedef void (QWebSocket:: *sslErrorsSignal)(const QList<QSslError> &);
     QObject::connect(m_socket, static_cast<sslErrorsSignal>(&QWebSocket::sslErrors),this, &WebsocketTransport::sslErrors);
+#endif
 }
 
 bool WebsocketTransport::connect(const QUrl &url)
@@ -96,7 +98,9 @@ void WebsocketTransport::ignoreSslErrors(const QList<QSslError> &errors)
 //    m_socket->ignoreSslErrors(errors);
 
     Q_UNUSED(errors)
+#ifndef QT_NO_SSL
     m_socket->ignoreSslErrors();
+#endif
 }
 
 bool WebsocketTransport::isEncrypted() const

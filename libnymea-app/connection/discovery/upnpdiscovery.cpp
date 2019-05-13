@@ -45,6 +45,7 @@ UpnpDiscovery::UpnpDiscovery(NymeaHosts *nymeaHosts, QObject *parent) :
     m_repeatTimer.setInterval(500);
     connect(&m_repeatTimer, &QTimer::timeout, this, &UpnpDiscovery::writeDiscoveryPacket);
 
+#ifndef QT_NO_NETWORKINTERFACE
     foreach (const QNetworkInterface &iface, QNetworkInterface::allInterfaces()) {
         if (!iface.flags().testFlag(QNetworkInterface::CanMulticast)) {
             continue;
@@ -71,6 +72,9 @@ UpnpDiscovery::UpnpDiscovery(NymeaHosts *nymeaHosts, QObject *parent) :
             }
         }
     }
+#else
+    qDebug() << "QNetworkInterface not available in this build. UPnP not available.";
+#endif
 }
 
 bool UpnpDiscovery::discovering() const
@@ -175,9 +179,11 @@ void UpnpDiscovery::readData()
             m_foundDevices.append(location);
 //            qDebug() << "Getting server data from:" << location;
             QNetworkReply *reply = m_networkAccessManager->get(QNetworkRequest(location));
+#ifndef QT_NO_SSL
             connect(reply, &QNetworkReply::sslErrors, [reply](const QList<QSslError> &errors){
                 reply->ignoreSslErrors(errors);
             });
+#endif
             m_runningReplies.insert(reply, hostAddress);
         }
     }
