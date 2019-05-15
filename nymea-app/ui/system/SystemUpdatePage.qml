@@ -52,7 +52,15 @@ Page {
             text: qsTr("Update system")
             visible: engine.systemController.updateAvailable
             onClicked: {
-                engine.systemController.startUpdate()
+                var dialog = Qt.createComponent(Qt.resolvedUrl("../components/MeaDialog.qml"));
+                var text = settings.showHiddenOptions
+                        ? qsTr("Developer options are now enabled. If you have found this by accident, it is most likely not of any use for you. It will just enable some nerdy developer gibberish in the app. Tap the icon another 10 times to disable it again.")
+                        : qsTr("Developer options are now disabled.")
+                var popup = dialog.createObject(app, {headerIcon: "../images/dialog-warning-symbolic.svg", title: qsTr("Howdy cowboy!"), text: text})
+                popup.open();
+                popup.accepted.connect(function() {
+                    engine.systemController.startUpdate()
+                })
             }
         }
 
@@ -75,7 +83,23 @@ Page {
                 model: engine.systemController.availableChannels
                 currentIndex: model.indexOf(engine.systemController.currentChannel)
                 onActivated: {
-                    engine.systemController.selectChannel(model[index])
+                    var dialog = Qt.createComponent(Qt.resolvedUrl("../components/MeaDialog.qml"));
+                    var text = qsTr("Changing the update channel allows to install unreleased software. This can potentially harm your system and lead to problems. Please only use this if you are sure you want this and consider reporting the issues you find when testing unreleased channels. Thank you.")
+                    var popup = dialog.createObject(app,
+                                                    {
+                                                        headerIcon: "../images/dialog-warning-symbolic.svg",
+                                                        title: qsTr("Switch update channel"),
+                                                        text: text,
+                                                        standardButtons: Dialog.Ok | Dialog.Cancel
+                                                    });
+                    popup.open();
+                    popup.accepted.connect(function() {
+                        engine.systemController.selectChannel(model[index])
+                    })
+                    popup.rejected.connect(function() {
+                        currentIndex = model.indexOf(engine.systemController.currentChannel)
+                    })
+
                 }
             }
         }
@@ -84,4 +108,5 @@ Page {
     BusyOverlay {
         visible: engine.systemController.updateInProgress
     }
+
 }

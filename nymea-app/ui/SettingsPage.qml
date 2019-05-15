@@ -158,6 +158,7 @@ Page {
             Pane {
                 Layout.fillWidth: true
                 Material.elevation: layout.isGrid ? 1 : 0
+                visible: engine.jsonRpcClient.ensureServerVersion("2.1")
 
                 padding: 0
                 MeaListItemDelegate {
