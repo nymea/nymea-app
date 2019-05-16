@@ -170,6 +170,8 @@ ApplicationWindow {
             return Qt.resolvedUrl("images/sensors/light.svg")
         case "presencesensor":
             return Qt.resolvedUrl("images/sensors/presence.svg")
+        case "closablesensor":
+            return Qt.resolvedUrl("images/sensors/closable.svg")
         case "media":
         case "mediacontroller":
             return Qt.resolvedUrl("images/mediaplayer-app-symbolic.svg")
@@ -210,7 +212,7 @@ ApplicationWindow {
         case "fingerprintreader":
             return Qt.resolvedUrl("images/fingerprint.svg")
         case "accesscontrol":
-            return Qt.resolvedUrl("images/network-secure.svg");
+            return Qt.resolvedUrl("images/lock-closed.svg");
         case "smartmeter":
         case "smartmeterconsumer":
         case "smartmeterproducer":
@@ -244,6 +246,7 @@ ApplicationWindow {
         "co2sensor": "turquoise",
         "daylightsensor": "gold",
         "presencesensor": "darkblue",
+        "closablesensor": "green",
         "smartmeterproducer": "lightgreen",
         "smartmeterconsumer": "orange",
         "extendedsmartmeterproducer": "blue",

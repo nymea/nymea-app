@@ -428,6 +428,7 @@ MainPageTile {
                 ListElement { ifaceName: "pressuresensor"; stateName: "pressure" }
                 ListElement { ifaceName: "daylightsensor"; stateName: "daylight" }
                 ListElement { ifaceName: "presencesensor"; stateName: "isPresent" }
+                ListElement { ifaceName: "closablesensor"; stateName: "closed" }
                 ListElement { ifaceName: "lightsensor"; stateName: "lightIntensity" }
                 ListElement { ifaceName: "co2sensor"; stateName: "co2" }
                 ListElement { ifaceName: "conductivity"; stateName: "conductivity" }
@@ -511,7 +512,7 @@ MainPageTile {
                     Led {
                         Layout.preferredHeight: app.iconSize * .5
                         Layout.preferredWidth: height
-                        state: sensorsRoot.shownStateType && sensorsRoot.device.stateValue(sensorsRoot.shownStateType.id) === true ? "on" : "off"
+                        state: sensorsRoot.shownStateType && sensorsRoot.device.states.getState(sensorsRoot.shownStateType.id).value === true ? "on" : "off"
                         visible: sensorsRoot.shownStateType && sensorsRoot.shownStateType.type.toLowerCase() === "bool"
                     }
                 }
