@@ -1,14 +1,23 @@
 #include "systemcontroller.h"
 
+#include "types/package.h"
+#include "types/repository.h"
+#include "types/packages.h"
+#include "types/repositories.h"
+
 SystemController::SystemController(JsonRpcClient *jsonRpcClient, QObject *parent):
     JsonHandler(parent),
     m_jsonRpcClient(jsonRpcClient)
 {
     m_jsonRpcClient->registerNotificationHandler(this, "notificationReceived");
+    m_packages = new Packages(this);
+    m_repositories = new Repositories(this);
 }
 
 void SystemController::init()
 {
+    m_packages->clear();
+    m_repositories->clear();
     if (m_jsonRpcClient->ensureServerVersion("2.0")) {
         m_jsonRpcClient->sendCommand("System.GetCapabilities", this, "getCapabilitiesResponse");
     } else {
@@ -31,48 +40,6 @@ bool SystemController::updateManagementAvailable() const
     return m_updateManagementAvailable;
 }
 
-bool SystemController::updateAvailable() const
-{
-    return m_updateAvailable;
-}
-
-QString SystemController::currentVersion() const
-{
-    return m_currentVersion;
-}
-
-QString SystemController::candidateVersion() const
-{
-    return m_candidateVersion;
-}
-
-QStringList SystemController::availableChannels() const
-{
-    return m_availableChannels;
-}
-
-QString SystemController::currentChannel() const
-{
-    return m_currentChannel;
-}
-
-bool SystemController::updateInProgress() const
-{
-    return m_updareInProgress;
-}
-
-void SystemController::startUpdate()
-{
-    m_jsonRpcClient->sendCommand("System.StartUpdate");
-}
-
-void SystemController::selectChannel(const QString &channel)
-{
-    QVariantMap params;
-    params.insert("channel", channel);
-    m_jsonRpcClient->sendCommand("System.SelectChannel", params, this, "selectChannelResponse");
-}
-
 void SystemController::reboot()
 {
     m_jsonRpcClient->sendCommand("System.Reboot");
@@ -81,6 +48,47 @@ void SystemController::reboot()
 void SystemController::shutdown()
 {
     m_jsonRpcClient->sendCommand("System.Shutdown");
+}
+
+bool SystemController::updateRunning() const
+{
+    return m_updateRunning;
+}
+
+Packages *SystemController::packages() const
+{
+    return m_packages;
+}
+
+void SystemController::updatePackages(const QString packageId)
+{
+    QVariantMap params;
+    if (!packageId.isEmpty()) {
+        params.insert("packageIds", QStringList() << packageId);
+    }
+    m_jsonRpcClient->sendCommand("System.UpdatePackages", params);
+}
+
+void SystemController::removePackages(const QString packageId)
+{
+    QVariantMap params;
+    if (!packageId.isEmpty()) {
+        params.insert("packageIds", QStringList() << packageId);
+    }
+    m_jsonRpcClient->sendCommand("System.RemovePackages", params, this, "removePackageResponse");
+}
+
+Repositories *SystemController::repositories() const
+{
+    return m_repositories;
+}
+
+void SystemController::enableRepository(const QString &id, bool enabled)
+{
+    QVariantMap params;
+    params.insert("repositoryId", id);
+    params.insert("enabled", enabled);
+    m_jsonRpcClient->sendCommand("System.EnableRepository", params);
 }
 
 void SystemController::getCapabilitiesResponse(const QVariantMap &data)
@@ -94,36 +102,104 @@ void SystemController::getCapabilitiesResponse(const QVariantMap &data)
 
     if (m_updateManagementAvailable) {
         m_jsonRpcClient->sendCommand("System.GetUpdateStatus", this, "getUpdateStatusResponse");
+        m_jsonRpcClient->sendCommand("System.GetPackages", this, "getPackagesResponse");
+        m_jsonRpcClient->sendCommand("System.GetRepositories", this, "getRepositoriesResponse");
     }
 }
 
 void SystemController::getUpdateStatusResponse(const QVariantMap &data)
 {
-    qDebug() << "Update status:" << data;
-    m_currentVersion = data.value("params").toMap().value("currentVersion").toString();
-    m_candidateVersion = data.value("params").toMap().value("candidateVersion").toString();
-    m_availableChannels = data.value("params").toMap().value("availableChannels").toStringList();
-    m_currentChannel = data.value("params").toMap().value("currentChannel").toString();
-    m_updareInProgress = data.value("params").toMap().value("updateInProgress").toBool();
-    m_updateAvailable = data.value("params").toMap().value("updateAvailable").toBool();
-    emit updateStatusChanged();
+    m_updateRunning = data.value("params").toMap().value("updateRunning").toBool();
+    emit updateRunningChanged();
 }
 
-void SystemController::selectChannelResponse(const QVariantMap &data)
+void SystemController::getPackagesResponse(const QVariantMap &data)
 {
-    qDebug() << "Select channel response" << data;
+    foreach (const QVariant &packageVariant, data.value("params").toMap().value("packages").toList()) {
+        QString id = packageVariant.toMap().value("id").toString();
+        QString displayName = packageVariant.toMap().value("displayName").toString();
+        Package *p = new Package(id, displayName);
+        p->setInstalledVersion(packageVariant.toMap().value("installedVersion").toString());
+        p->setCandidateVersion(packageVariant.toMap().value("candidateVersion").toString());
+        p->setChangelog(packageVariant.toMap().value("changelog").toString());
+        p->setUpdateAvailable(packageVariant.toMap().value("updateAvailable").toBool());
+        p->setRollbackAvailable(packageVariant.toMap().value("rollbackAvailable").toBool());
+        p->setCanRemove(packageVariant.toMap().value("canRemove").toBool());
+        m_packages->addPackage(p);
+    }
+}
+
+void SystemController::getRepositoriesResponse(const QVariantMap &data)
+{
+    qDebug() << "******** Repos" << data;
+    foreach (const QVariant &repoVariant, data.value("params").toMap().value("repositories").toList()) {
+        QString id = repoVariant.toMap().value("id").toString();
+        QString displayName = repoVariant.toMap().value("displayName").toString();
+        Repository *repo = new Repository(id, displayName);
+        repo->setEnabled(repoVariant.toMap().value("enabled").toBool());
+        m_repositories->addRepository(repo);
+    }
+}
+
+void SystemController::removePackageResponse(const QVariantMap &params)
+{
+    qDebug() << "Remove result" << params;
 }
 
 void SystemController::notificationReceived(const QVariantMap &data)
 {
-    if (data.value("notification").toString() == "System.UpdateStatusChanged") {
-        qDebug() << "Update status changed:" << data;
-        m_currentVersion = data.value("params").toMap().value("currentVersion").toString();
-        m_candidateVersion = data.value("params").toMap().value("candidateVersion").toString();
-        m_availableChannels = data.value("params").toMap().value("availableChannels").toStringList();
-        m_currentChannel = data.value("params").toMap().value("currentChannel").toString();
-        m_updareInProgress = data.value("params").toMap().value("updateInProgress").toBool();
-        m_updateAvailable = data.value("params").toMap().value("updateAvailable").toBool();
-        emit updateStatusChanged();
+    qDebug() << "System Notification" << data.value("notification");
+    QString notification = data.value("notification").toString();
+    if (notification == "System.UpdateStatusChanged") {
+        m_updateRunning = data.value("params").toMap().value("updateRunning").toBool();
+        emit updateRunningChanged();
+    } else if (notification == "System.PackageAdded") {
+        QVariantMap packageMap = data.value("params").toMap().value("package").toMap();
+        QString id = packageMap.value("id").toString();
+        QString displayName = packageMap.value("displayName").toString();
+        Package *p = new Package(id, displayName);
+        p->setInstalledVersion(packageMap.value("installedVersion").toString());
+        p->setCandidateVersion(packageMap.value("candidateVersion").toString());
+        p->setChangelog(packageMap.value("changelog").toString());
+        p->setUpdateAvailable(packageMap.value("updateAvailable").toBool());
+        p->setRollbackAvailable(packageMap.value("rollbackAvailable").toBool());
+        p->setCanRemove(packageMap.value("canRemove").toBool());
+        m_packages->addPackage(p);
+    } else if (notification == "System.PackageChanged") {
+        QVariantMap packageMap = data.value("params").toMap().value("package").toMap();
+        QString id = packageMap.value("id").toString();
+        Package *p = m_packages->getPackage(id);
+        if (!p) {
+            qWarning() << "Received a package update notification for a package we don't know";
+            return;
+        }
+        p->setInstalledVersion(packageMap.value("installedVersion").toString());
+        p->setCandidateVersion(packageMap.value("candidateVersion").toString());
+        p->setChangelog(packageMap.value("changelog").toString());
+        p->setUpdateAvailable(packageMap.value("updateAvailable").toBool());
+        p->setRollbackAvailable(packageMap.value("rollbackAvailable").toBool());
+        p->setCanRemove(packageMap.value("canRemove").toBool());
+    } else if (notification == "System.PackageRemoved") {
+        QString packageId = data.value("params").toMap().value("packageId").toString();
+        m_packages->removePackage(packageId);
+    } else if (notification == "System.RepositoryAdded") {
+        QVariantMap repoMap = data.value("params").toMap().value("repository").toMap();
+        QString id = repoMap.value("id").toString();
+        QString displayName = repoMap.value("displayName").toString();
+        Repository *repo = new Repository(id, displayName);
+        repo->setEnabled(repoMap.value("enabled").toBool());
+        m_repositories->addRepository(repo);
+    } else if (notification == "System.RepositoryChanged") {
+        QVariantMap repoMap = data.value("params").toMap().value("repository").toMap();
+        QString id = repoMap.value("id").toString();
+        Repository *repo = m_repositories->getRepository(id);
+        if (!repo) {
+            qWarning() << "Received a repository update notification for a repository we don't know";
+            return;
+        }
+        repo->setEnabled(repoMap.value("enabled").toBool());
+    } else if (notification == "System.RepositoryRemoved") {
+        QString repositoryId = data.value("params").toMap().value("repositoryId").toString();
+        m_repositories->removeRepository(repositoryId);
     }
 }

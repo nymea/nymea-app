@@ -5,6 +5,9 @@
 
 #include "jsonrpc/jsonrpcclient.h"
 
+class Repositories;
+class Packages;
+
 class SystemController : public JsonHandler
 {
     Q_OBJECT
@@ -12,14 +15,9 @@ class SystemController : public JsonHandler
     // Whether the update mechanism is available in the connected core
     Q_PROPERTY(bool updateManagementAvailable READ updateManagementAvailable NOTIFY updateManagementAvailableChanged)
 
-    // Whether there is an update available
-    Q_PROPERTY(bool updateAvailable READ updateAvailable NOTIFY updateStatusChanged)
-    Q_PROPERTY(QString currentVersion READ currentVersion NOTIFY updateStatusChanged)
-    Q_PROPERTY(QString candidateVersion READ candidateVersion NOTIFY updateStatusChanged)
-    Q_PROPERTY(QStringList availableChannels READ availableChannels NOTIFY updateStatusChanged)
-    Q_PROPERTY(QString currentChannel READ currentChannel NOTIFY updateStatusChanged)
-
-    Q_PROPERTY(bool updateInProgress READ updateInProgress NOTIFY updateStatusChanged)
+    Q_PROPERTY(bool updateRunning READ updateRunning NOTIFY updateRunningChanged)
+    Q_PROPERTY(Packages* packages READ packages CONSTANT)
+    Q_PROPERTY(Repositories* repositories READ repositories CONSTANT)
 
 public:
     explicit SystemController(JsonRpcClient *jsonRpcClient, QObject *parent = nullptr);
@@ -28,45 +26,44 @@ public:
     QString nameSpace() const override;
 
     bool powerManagementAvailable() const;
+    bool updateManagementAvailable() const;
+
     Q_INVOKABLE void reboot();
     Q_INVOKABLE void shutdown();
 
-    bool updateManagementAvailable() const;
-    bool updateAvailable() const;
-    QString currentVersion() const;
-    QString candidateVersion() const;
-    QStringList availableChannels() const;
-    QString currentChannel() const;
+    bool updateRunning() const;
 
-    bool updateInProgress() const;
+    Packages* packages() const;
+    Q_INVOKABLE void updatePackages(const QString packageId = QString());
+    Q_INVOKABLE void removePackages(const QString packageId = QString());
 
-    Q_INVOKABLE void startUpdate();
-    Q_INVOKABLE void selectChannel(const QString &channel);
+    Repositories* repositories() const;
+    Q_INVOKABLE void enableRepository(const QString &id, bool enabled);
+
 
 signals:
     void powerManagementAvailableChanged();
     void updateManagementAvailableChanged();
-    void updateStatusChanged();
+    void updateRunningChanged();
 
 private slots:
     void getCapabilitiesResponse(const QVariantMap &data);
     void getUpdateStatusResponse(const QVariantMap &data);
-    void selectChannelResponse(const QVariantMap &data);
+    void getPackagesResponse(const QVariantMap &data);
+    void getRepositoriesResponse(const QVariantMap &data);
+    void removePackageResponse(const QVariantMap &params);
 
     void notificationReceived(const QVariantMap &data);
+
 private:
     JsonRpcClient *m_jsonRpcClient = nullptr;
 
     bool m_powerManagementAvailable = false;
     bool m_updateManagementAvailable = false;
 
-    bool m_updateAvailable = false;
-    QString m_currentVersion;
-    QString m_candidateVersion;
-    QStringList m_availableChannels;
-    QString m_currentChannel;
-
-    bool m_updareInProgress = false;
+    bool m_updateRunning = false;
+    Packages *m_packages = nullptr;
+    Repositories *m_repositories = nullptr;
 };
 
 #endif // SYSTEMCONTROLLER_H

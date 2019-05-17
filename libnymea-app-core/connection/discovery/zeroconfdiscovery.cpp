@@ -108,7 +108,7 @@ void ZeroconfDiscovery::serviceEntryAdded(const QZeroConfService &entry)
     if (!host) {
         host = new NymeaHost(m_nymeaHosts);
         host->setUuid(uuid);
-        qDebug() << "ZeroConf: Adding new host:" << serverName << uuid;
+//        qDebug() << "ZeroConf: Adding new host:" << serverName << uuid;
         m_nymeaHosts->addHost(host);
     }
     host->setName(serverName);
@@ -124,13 +124,13 @@ void ZeroconfDiscovery::serviceEntryAdded(const QZeroConfService &entry)
     url.setPort(entry.port());
     Connection *connection = host->connections()->find(url);
     if (!connection) {
-        qDebug() << "Zeroconf: Adding new connection to host:" << host->name() << url.toString();
+//        qDebug() << "Zeroconf: Adding new connection to host:" << host->name() << url.toString();
         QString displayName = QString("%1:%2").arg(url.host()).arg(url.port());
         connection = new Connection(url, Connection::BearerTypeLan, sslEnabled, displayName);
         connection->setOnline(true);
         host->connections()->addConnection(connection);
     } else {
-        qDebug() << "Zeroconf: Setting connection online:" << host->name() << url.toString();
+//        qDebug() << "Zeroconf: Setting connection online:" << host->name() << url.toString();
         connection->setOnline(true);
     }
 }
@@ -183,7 +183,7 @@ void ZeroconfDiscovery::serviceEntryRemoved(const QZeroConfService &entry)
         return;
     }
 
-    qDebug() << "Zeroconf: Setting connection offline:" << host->name() << url.toString();
+//    qDebug() << "Zeroconf: Setting connection offline:" << host->name() << url.toString();
     connection->setOnline(false);
 }
 #endif

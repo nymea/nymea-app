@@ -8,6 +8,10 @@ QT -= gui
 QT += network
 
 HEADERS += \
+    types/package.h \
+    types/packages.h \
+    types/repositories.h \
+    types/repository.h \
     types/types.h \
     types/vendor.h \
     types/vendors.h \
@@ -54,6 +58,10 @@ HEADERS += \
     types/tags.h
 
 SOURCES += \
+    types/package.cpp \
+    types/packages.cpp \
+    types/repositories.cpp \
+    types/repository.cpp \
     types/vendor.cpp \
     types/vendors.cpp \
     types/deviceclass.cpp \

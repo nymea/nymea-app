@@ -57,6 +57,11 @@
 #include "connection/awsclient.h"
 #include "models/devicemodel.h"
 #include "system/systemcontroller.h"
+#include "types/package.h"
+#include "types/packages.h"
+#include "types/repository.h"
+#include "types/repositories.h"
+#include "models/packagesfiltermodel.h"
 
 #include <QtQml/qqml.h>
 
@@ -202,6 +207,11 @@ void registerQmlTypes() {
     qmlRegisterUncreatableType<RuleActionParamTemplate>(uri, 1, 0, "RuleActionParamTemplate", "Get it from RuleActionParamTemplates");
 
     qmlRegisterUncreatableType<SystemController>(uri, 1, 0, "SystemController", "Get it from Engine");
+    qmlRegisterUncreatableType<Packages>(uri, 1, 0, "Packages", "Get it from SystemController");
+    qmlRegisterUncreatableType<Package>(uri, 1, 0, "Package", "Get it from Packages");
+    qmlRegisterUncreatableType<Repositories>(uri, 1, 0, "Repositories", "Get it from SystemController");
+    qmlRegisterUncreatableType<Repository>(uri, 1, 0, "Repository", "Get it from Repositories");
+    qmlRegisterType<PackagesFilterModel>(uri, 1, 0, "PackagesFilterModel");
 }
 
 #endif // LIBNYMEAAPPCORE_H
