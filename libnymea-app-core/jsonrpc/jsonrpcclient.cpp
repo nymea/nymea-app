@@ -311,6 +311,7 @@ void JsonRpcClient::sendRequest(const QVariantMap &request)
 void JsonRpcClient::onInterfaceConnectedChanged(bool connected)
 {
     if (!connected) {
+        qDebug() << "JsonRpcClient: Transport disconnected.";
         m_initialSetupRequired = false;
         m_authenticationRequired = false;
         if (m_connected) {
@@ -318,6 +319,7 @@ void JsonRpcClient::onInterfaceConnectedChanged(bool connected)
             emit connectedChanged(false);
         }
     } else {
+        qDebug() << "JsonRpcClient: Transport connected. Starting handshake.";
         QVariantMap params;
         params.insert("locale", QLocale().name());
         sendCommand("JSONRPC.Hello", params, this, "helloReply");
