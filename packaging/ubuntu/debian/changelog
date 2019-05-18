@@ -1,3 +1,13 @@
+nymea-app (1.0.116) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * System controller
+  * Add support for the closablesensor interface
+  * Fix labels overflowing for long state values
+  * Add some better debug prints
+
+ -- Jenkins <jenkins@nymea.io>  Sat, 18 May 2019 02:38:42 +0200
+
 nymea-app (1.0.115) bionic; urgency=medium
 
   [ Michael Zanetti ]
