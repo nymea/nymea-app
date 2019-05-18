@@ -9,4 +9,5 @@ Label {
     property var value
     text: value
     horizontalAlignment: Text.AlignRight
+    elide: Text.ElideRight
 }
