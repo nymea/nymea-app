@@ -46,6 +46,7 @@ SOURCES += \
     deviceclasses.cpp \
     deviceclassesproxy.cpp \
     devicediscovery.cpp \
+    models/packagesfiltermodel.cpp \
     vendorsproxy.cpp \
     pluginsproxy.cpp \
     interfacesmodel.cpp \
@@ -81,7 +82,8 @@ SOURCES += \
     configuration/nymeaconfiguration.cpp \
     configuration/mqttpolicy.cpp \
     configuration/mqttpolicies.cpp \
-    models/devicemodel.cpp
+    models/devicemodel.cpp \
+    system/systemcontroller.cpp
 
 HEADERS += \
     engine.h \
@@ -107,6 +109,7 @@ HEADERS += \
     deviceclasses.h \
     deviceclassesproxy.h \
     devicediscovery.h \
+    models/packagesfiltermodel.h \
     vendorsproxy.h \
     pluginsproxy.h \
     interfacesmodel.h \
@@ -142,4 +145,10 @@ HEADERS += \
     configuration/nymeaconfiguration.h \
     configuration/mqttpolicy.h \
     configuration/mqttpolicies.h \
-    models/devicemodel.h
+    models/devicemodel.h \
+    system/systemcontroller.h
+
+unix {
+    target.path = /usr/lib
+    INSTALLS += target
+}

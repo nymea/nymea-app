@@ -11,7 +11,7 @@ ListView {
     interactive: contentHeight > height
     model: ListModel {
         Component.onCompleted: {
-            var supportedInterfaces = ["temperaturesensor", "humiditysensor", "pressuresensor", "moisturesensor", "lightsensor", "conductivitysensor", "noisesensor", "co2sensor", "presencesensor", "daylightsensor"]
+            var supportedInterfaces = ["temperaturesensor", "humiditysensor", "pressuresensor", "moisturesensor", "lightsensor", "conductivitysensor", "noisesensor", "co2sensor", "presencesensor", "daylightsensor", "closablesensor"]
             for (var i = 0; i < supportedInterfaces.length; i++) {
                 if (root.deviceClass.interfaces.indexOf(supportedInterfaces[i]) >= 0) {
                     append({name: supportedInterfaces[i]});
@@ -38,7 +38,8 @@ ListView {
             "noisesensor": "noise",
             "co2sensor": "co2",
             "presencesensor": "isPresent",
-            "daylightsensor": "daylight"
+            "daylightsensor": "daylight",
+            "closablesensor": "closed"
         }
     }
 
@@ -72,8 +73,22 @@ ListView {
                     anchors.centerIn: parent
                     height: app.iconSize * 4
                     width: height
-                    name: app.interfaceToIcon(boolView.interfaceName)
-                    color: device.states.getState(boolView.stateType.id).value === true ? app.interfaceToColor(boolView.interfaceName) : keyColor
+                    name: {
+                        switch (boolView.interfaceName) {
+                        case "closablesensor":
+                            return device.states.getState(boolView.stateType.id).value === true ? Qt.resolvedUrl("../images/lock-closed.svg") : Qt.resolvedUrl("../images/lock-open.svg")
+                        default:
+                            return app.interfaceToIcon(boolView.interfaceName)
+                        }
+                    }
+                    color: {
+                        switch (boolView.interfaceName) {
+                        case "closablesensor":
+                            return device.states.getState(boolView.stateType.id).value === true ? "green" : "red"
+                        default:
+                            device.states.getState(boolView.stateType.id).value === true ? app.interfaceToColor(boolView.interfaceName) : keyColor
+                        }
+                    }
                 }
             }
             Item {

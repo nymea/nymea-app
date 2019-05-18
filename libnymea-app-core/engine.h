@@ -32,6 +32,7 @@ class RuleManager;
 class LogManager;
 class TagsManager;
 class NymeaConfiguration;
+class SystemController;
 
 class Engine : public QObject
 {
@@ -42,6 +43,7 @@ class Engine : public QObject
     Q_PROPERTY(TagsManager* tagsManager READ tagsManager CONSTANT)
     Q_PROPERTY(JsonRpcClient* jsonRpcClient READ jsonRpcClient CONSTANT)
     Q_PROPERTY(NymeaConfiguration* nymeaConfiguration READ nymeaConfiguration CONSTANT)
+    Q_PROPERTY(SystemController* systemController READ systemController CONSTANT)
 
 public:
     explicit Engine(QObject *parent = nullptr);
@@ -56,6 +58,7 @@ public:
     JsonRpcClient *jsonRpcClient() const;
     LogManager *logManager() const;
     NymeaConfiguration *nymeaConfiguration() const;
+    SystemController *systemController() const;
 
     Q_INVOKABLE void deployCertificate();
 
@@ -67,6 +70,7 @@ private:
     LogManager *m_logManager;
     TagsManager *m_tagsManager;
     NymeaConfiguration *m_nymeaConfiguration;
+    SystemController *m_systemController;
 
 private slots:
     void onConnectedChanged();

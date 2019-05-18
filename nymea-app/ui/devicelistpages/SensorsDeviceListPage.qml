@@ -84,6 +84,7 @@ DeviceListPageBase {
                                     ListElement { interfaceName: "co2sensor"; stateName: "co2" }
                                     ListElement { interfaceName: "daylightsensor"; stateName: "daylight" }
                                     ListElement { interfaceName: "presencesensor"; stateName: "isPresent" }
+                                    ListElement { interfaceName: "closablesensor"; stateName: "closed" }
                                     ListElement { interfaceName: "heating"; stateName: "power" }
                                     ListElement { interfaceName: "thermostat"; stateName: "targetTemperature" }
                                 }
@@ -100,24 +101,45 @@ DeviceListPageBase {
                                         Layout.preferredHeight: app.iconSize * .8
                                         Layout.preferredWidth: height
                                         Layout.alignment: Qt.AlignVCenter
-                                        color: app.interfaceToColor(model.interfaceName)
-                                        name: app.interfaceToIcon(model.interfaceName)
+                                        color: {
+                                            switch (model.interfaceName) {
+                                            case "closablesensor":
+                                                return sensorValueDelegate.stateValue.value === true ? "green" : "red";
+                                            default:
+                                                return app.interfaceToColor(model.interfaceName)
+                                            }
+                                        }
+                                        name: {
+                                            switch (model.interfaceName) {
+                                            case "closablesensor":
+                                                return sensorValueDelegate.stateValue.value === true ? Qt.resolvedUrl("../images/lock-closed.svg") : Qt.resolvedUrl("../images/lock-open.svg");
+                                            default:
+                                                return app.interfaceToIcon(model.interfaceName)
+                                            }
+                                        }
                                     }
 
                                     Label {
                                         Layout.fillWidth: true
-                                        text: sensorValueDelegate.stateType && sensorValueDelegate.stateType.type.toLowerCase() === "bool"
-                                              ? sensorValueDelegate.stateType.displayName
-                                              : sensorValueDelegate.stateValue
-                                                ? "%1 %2".arg(Math.round(sensorValueDelegate.stateValue.value * 100) / 100).arg(sensorValueDelegate.stateType.unitString)
-                                                : ""
+                                        text: {
+                                            switch (model.interfaceName) {
+                                            case "closablesensor":
+                                                return sensorValueDelegate.stateValue.value === true ? qsTr("is closed") : qsTr("is open");
+                                            default:
+                                                return sensorValueDelegate.stateType && sensorValueDelegate.stateType.type.toLowerCase() === "bool"
+                                                  ? sensorValueDelegate.stateType.displayName
+                                                  : sensorValueDelegate.stateValue
+                                                    ? "%1 %2".arg(Math.round(sensorValueDelegate.stateValue.value * 100) / 100).arg(sensorValueDelegate.stateType.unitString)
+                                                    : ""
+                                            }
+                                        }
                                         elide: Text.ElideRight
                                         verticalAlignment: Text.AlignVCenter
                                         font.pixelSize: app.smallFont
                                     }
                                     Led {
                                         id: led
-                                        visible: sensorValueDelegate.stateType && sensorValueDelegate.stateType.type.toLowerCase() == "bool"
+                                        visible: ["presencesensor", "daylightsensor"].indexOf(model.interfaceName) >= 0
                                         state: visible && sensorValueDelegate.stateValue.value === true ? "on" : "off"
                                     }
                                     Item {

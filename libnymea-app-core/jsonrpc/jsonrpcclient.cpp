@@ -133,7 +133,7 @@ void JsonRpcClient::notificationReceived(const QVariantMap &data)
 
 void JsonRpcClient::isCloudConnectedReply(const QVariantMap &data)
 {
-    qDebug() << "Cloud is connected" << data;
+//    qDebug() << "Cloud is connected" << data;
     QMetaEnum connectionStateEnum = QMetaEnum::fromType<CloudConnectionState>();
     m_cloudConnectionState = static_cast<CloudConnectionState>(connectionStateEnum.keyToValue(data.value("params").toMap().value("connectionState").toByteArray().data()));
     emit cloudConnectionStateChanged();

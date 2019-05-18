@@ -158,6 +158,23 @@ Page {
             Pane {
                 Layout.fillWidth: true
                 Material.elevation: layout.isGrid ? 1 : 0
+                visible: engine.jsonRpcClient.ensureServerVersion("2.1")
+
+                padding: 0
+                MeaListItemDelegate {
+                    width: parent.width
+                    iconName: "../images/system-update.svg"
+                    text: qsTr("System update")
+                    subText: qsTr("Update your %1:core system").arg(app.systemName)
+                    prominentSubText: false
+                    wrapTexts: false
+                    onClicked: pageStack.push(Qt.resolvedUrl("system/SystemUpdatePage.qml"))
+                }
+            }
+
+            Pane {
+                Layout.fillWidth: true
+                Material.elevation: layout.isGrid ? 1 : 0
 
                 padding: 0
                 MeaListItemDelegate {
