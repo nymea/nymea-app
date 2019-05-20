@@ -46,6 +46,7 @@ Package *PackagesFilterModel::get(int index) const
 
 bool PackagesFilterModel::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
 {
+    Q_UNUSED(source_parent)
     if (m_updatesOnly) {
         if (!m_packages->get(source_row)->updateAvailable()) {
             return false;

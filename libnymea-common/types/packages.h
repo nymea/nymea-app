@@ -13,6 +13,7 @@ public:
     enum Roles {
         RoleId,
         RoleDisplayName,
+        RoleSummary,
         RoleInstalledVersion,
         RoleCandidateVersion,
         RoleChangelog,

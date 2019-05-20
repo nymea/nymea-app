@@ -50,9 +50,19 @@ void SystemController::shutdown()
     m_jsonRpcClient->sendCommand("System.Shutdown");
 }
 
+bool SystemController::updateManagementBusy() const
+{
+    return m_updateManagementBusy;
+}
+
 bool SystemController::updateRunning() const
 {
     return m_updateRunning;
+}
+
+void SystemController::checkForUpdates()
+{
+    m_jsonRpcClient->sendCommand("System.CheckForUpdates");
 }
 
 Packages *SystemController::packages() const
@@ -109,6 +119,7 @@ void SystemController::getCapabilitiesResponse(const QVariantMap &data)
 
 void SystemController::getUpdateStatusResponse(const QVariantMap &data)
 {
+    m_updateManagementBusy = data.value("params").toMap().value("busy").toBool();
     m_updateRunning = data.value("params").toMap().value("updateRunning").toBool();
     emit updateRunningChanged();
 }
@@ -119,6 +130,7 @@ void SystemController::getPackagesResponse(const QVariantMap &data)
         QString id = packageVariant.toMap().value("id").toString();
         QString displayName = packageVariant.toMap().value("displayName").toString();
         Package *p = new Package(id, displayName);
+        p->setSummary(packageVariant.toMap().value("summary").toString());
         p->setInstalledVersion(packageVariant.toMap().value("installedVersion").toString());
         p->setCandidateVersion(packageVariant.toMap().value("candidateVersion").toString());
         p->setChangelog(packageVariant.toMap().value("changelog").toString());
@@ -148,16 +160,23 @@ void SystemController::removePackageResponse(const QVariantMap &params)
 
 void SystemController::notificationReceived(const QVariantMap &data)
 {
-    qDebug() << "System Notification" << data.value("notification");
     QString notification = data.value("notification").toString();
     if (notification == "System.UpdateStatusChanged") {
-        m_updateRunning = data.value("params").toMap().value("updateRunning").toBool();
-        emit updateRunningChanged();
+        qDebug() << "System.UpdateStatusChanged:" << data.value("params").toMap();
+        if (m_updateManagementBusy != data.value("params").toMap().value("busy").toBool()) {
+            m_updateManagementBusy = data.value("params").toMap().value("busy").toBool();
+            emit updateManagementBusyChanged();
+        }
+        if (m_updateRunning != data.value("params").toMap().value("updateRunning").toBool()) {
+            m_updateRunning = data.value("params").toMap().value("updateRunning").toBool();
+            emit updateRunningChanged();
+        }
     } else if (notification == "System.PackageAdded") {
         QVariantMap packageMap = data.value("params").toMap().value("package").toMap();
         QString id = packageMap.value("id").toString();
         QString displayName = packageMap.value("displayName").toString();
         Package *p = new Package(id, displayName);
+        p->setSummary(packageMap.value("summary").toString());
         p->setInstalledVersion(packageMap.value("installedVersion").toString());
         p->setCandidateVersion(packageMap.value("candidateVersion").toString());
         p->setChangelog(packageMap.value("changelog").toString());
@@ -173,6 +192,7 @@ void SystemController::notificationReceived(const QVariantMap &data)
             qWarning() << "Received a package update notification for a package we don't know";
             return;
         }
+        p->setSummary(packageMap.value("summary").toString());
         p->setInstalledVersion(packageMap.value("installedVersion").toString());
         p->setCandidateVersion(packageMap.value("candidateVersion").toString());
         p->setChangelog(packageMap.value("changelog").toString());
@@ -201,5 +221,7 @@ void SystemController::notificationReceived(const QVariantMap &data)
     } else if (notification == "System.RepositoryRemoved") {
         QString repositoryId = data.value("params").toMap().value("repositoryId").toString();
         m_repositories->removeRepository(repositoryId);
+    } else {
+        qWarning() << "Unhandled System Notification" << data.value("notification");
     }
 }

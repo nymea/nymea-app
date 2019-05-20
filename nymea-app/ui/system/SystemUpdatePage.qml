@@ -11,6 +11,14 @@ Page {
         text: qsTr("System update")
         backButtonVisible: true
         onBackPressed: pageStack.pop()
+
+        HeaderButton {
+            text: qsTr("Settings")
+            imageSource: "../images/settings.svg"
+            onClicked: {
+                pageStack.push(repositoryListComponent)
+            }
+        }
     }
 
     PackagesFilterModel {
@@ -23,73 +31,127 @@ Page {
         id: contentColumn
         anchors.fill: parent
 
-        MeaListItemDelegate {
+        Item {
+            Layout.fillHeight: true
             Layout.fillWidth: true
-            text: qsTr("Configure updates")
-            onClicked: {
-                pageStack.push(repositoryListComponent)
+            visible: updatesModel.count === 0
+
+            ColumnLayout {
+                width: parent.width
+                anchors.centerIn: parent
+                spacing: app.margins * 2
+
+                ColorIcon {
+                    Layout.preferredHeight: app.iconSize * 4
+                    Layout.preferredWidth: height
+                    Layout.alignment: Qt.AlignHCenter
+                    name: "../images/system-update.svg"
+                    color: app.accentColor
+                    RotationAnimation on rotation {
+                        from: 0; to: 360
+                        duration: 2000
+                        running: engine.systemController.updateManagementBusy
+                        loops: Animation.Infinite
+                    }
+                }
+
+                Label {
+                    Layout.fillWidth: true
+                    Layout.margins: app.margins
+                    horizontalAlignment: Text.AlignHCenter
+                    wrapMode: Text.WordWrap
+                    text: engine.systemController.updateManagementBusy ? qsTr("Checking for updates...") : qsTr("Your system is up to date.")
+                }
+
+                Button {
+                    Layout.alignment: Qt.AlignHCenter
+                    text: qsTr("Check for updates")
+                    enabled: !engine.systemController.updateManagementBusy
+                    onClicked: {
+                        engine.systemController.checkForUpdates()
+                    }
+                }
             }
         }
 
-        MeaListItemDelegate {
+        ColumnLayout {
+            Layout.fillHeight: true
             Layout.fillWidth: true
-            text: qsTr("Show all packages")
-            onClicked: {
-                pageStack.push(packageListComponent, {packages: engine.systemController.packages})
+            visible: updatesModel.count > 0
+
+            RowLayout {
+                Layout.margins: app.margins
+
+                ColorIcon {
+                    Layout.preferredHeight: app.iconSize * 2
+                    Layout.preferredWidth: height
+                    name: "../images/system-update.svg"
+                    color: app.accentColor
+                }
+
+                Label {
+                    Layout.fillWidth: true
+                    text: qsTr("%n update(s) available", "", updatesModel.count)
+                }
+            }
+
+            ThinDivider {}
+
+            ListView {
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                visible: count > 0
+                model: updatesModel
+                clip: true
+                delegate: MeaListItemDelegate {
+                    width: parent.width
+                    text: model.displayName
+                    subText: model.candidateVersion
+                    prominentSubText: false
+                    iconName: model.updateAvailable
+                              ? Qt.resolvedUrl("../images/system-update.svg")
+                                : Qt.resolvedUrl("../images/view-" + (model.installedVersion.length > 0 ? "expand" : "collapse") + ".svg")
+                    iconColor: model.updateAvailable
+                               ? "green"
+                                 : model.installedVersion.length > 0 ? "blue" : iconKeyColor
+                    onClicked: {
+                        pageStack.push(packageDetailsComponent, {pkg: updatesModel.get(index)})
+                    }
+                }
+            }
+
+            ThinDivider {}
+
+            Button {
+                Layout.fillWidth: true
+                Layout.margins: app.margins
+                text: qsTr("Update all")
+                visible: updatesModel.count > 0
+                onClicked: {
+                    var dialog = Qt.createComponent(Qt.resolvedUrl("../components/MeaDialog.qml"));
+                    var text = qsTr("This will start a system update. Note that the update might take several minutes and your %1:core might not be functioning properly during this time and restart during the process.\nDo you want to proceed?").arg(app.systemName)
+                    var popup = dialog.createObject(app,
+                                                    {
+                                                        headerIcon: "../images/system-update.svg",
+                                                        title: qsTr("System update"),
+                                                        text: text,
+                                                        standardButtons: Dialog.Ok | Dialog.Cancel
+                                                    });
+                    popup.open();
+                    popup.accepted.connect(function() {
+                        engine.systemController.updatePackages()
+                    })
+                }
             }
         }
 
         ThinDivider {}
 
-        Label {
+        MeaListItemDelegate {
             Layout.fillWidth: true
-            Layout.margins: app.margins
-            elide: Text.ElideRight
-            text: updatesModel.count === 0 ? qsTr("Your system is up to date.") : qsTr("There are %1 updates available.").arg(updatesModel.count)
-        }
-
-        Button {
-            Layout.fillWidth: true
-            Layout.margins: app.margins
-            text: qsTr("Update all")
-            visible: updatesModel.count > 0
+            text: qsTr("Install or remove software")
             onClicked: {
-                var dialog = Qt.createComponent(Qt.resolvedUrl("../components/MeaDialog.qml"));
-                var text = qsTr("This will start a system update. Note that the update might take several minutes and your %1:core might not be functioning properly during this time and restart during the process.\nDo you want to proceed?").arg(app.systemName)
-                var popup = dialog.createObject(app,
-                                                {
-                                                    headerIcon: "../images/system-update.svg",
-                                                    title: qsTr("System update"),
-                                                    text: text,
-                                                    standardButtons: Dialog.Ok | Dialog.Cancel
-                                                });
-                popup.open();
-                popup.accepted.connect(function() {
-                    engine.systemController.updatePackages()
-                })
-
-            }
-        }
-
-        ListView {
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            model: updatesModel
-            clip: true
-            delegate: MeaListItemDelegate {
-                width: parent.width
-                text: model.displayName
-                subText: model.candidateVersion
-                prominentSubText: false
-                iconName: model.updateAvailable
-                          ? Qt.resolvedUrl("../images/system-update.svg")
-                            : Qt.resolvedUrl("../images/view-" + (model.installedVersion.length > 0 ? "expand" : "collapse") + ".svg")
-                iconColor: model.updateAvailable
-                           ? "green"
-                             : model.installedVersion.length > 0 ? "blue" : iconKeyColor
-                onClicked: {
-                    pageStack.push(packageDetailsComponent, {pkg: updatesModel.get(index)})
-                }
+                pageStack.push(packageListComponent, {packages: engine.systemController.packages})
             }
         }
     }
@@ -134,7 +196,6 @@ Page {
                 }
             }
             UpdateRunningOverlay {
-                visible: engine.systemController.updateRunning
             }
         }
     }
@@ -174,7 +235,6 @@ Page {
                 }
             }
             UpdateRunningOverlay {
-                visible: engine.systemController.updateRunning
             }
         }
     }
@@ -187,17 +247,42 @@ Page {
             property Package pkg: null
 
             header: GuhHeader {
-                text: pkg.displayName
+                text: qsTr("Package inforation")
                 onBackPressed: pageStack.pop()
             }
 
             GridLayout {
                 anchors { left: parent.left; top: parent.top; right: parent.right }
                 columns: app.landscape ? 2 : 1
+                RowLayout {
+                    Layout.margins: app.margins
+                    spacing: app.margins
+                    ColorIcon {
+                        Layout.preferredHeight: app.iconSize * 2
+                        Layout.preferredWidth: app.iconSize * 2
+                        name: "../images/plugin.svg"
+                        color: app.accentColor
+                    }
+                    Label {
+                        Layout.fillWidth: true
+                        text: pkg.displayName
+                        font.pixelSize: app.largeFont
+                        elide: Text.ElideRight
+                    }
+                }
+
+                Label {
+                    Layout.fillWidth: true
+                    Layout.leftMargin: app.margins
+                    Layout.rightMargin: app.margins
+                    text: packageDetailsPage.pkg.summary
+                    wrapMode: Text.WordWrap
+                }
+
                 MeaListItemDelegate {
                     Layout.fillWidth: true
                     text: qsTr("Installed version:")
-                    subText: packageDetailsPage.pkg.installedVersion
+                    subText: packageDetailsPage.pkg.installedVersion.length > 0 ? packageDetailsPage.pkg.installedVersion : qsTr("Not installed")
                     progressive: false
                 }
 
@@ -215,7 +300,9 @@ Page {
                     text: packageDetailsPage.pkg.updateAvailable ? qsTr("Update") : qsTr("Install")
                     onClicked: {
                         var dialog = Qt.createComponent(Qt.resolvedUrl("../components/MeaDialog.qml"));
-                        var text = qsTr("This will start a system update. Note that the update might take several minutes and your %1:core might not be functioning properly during this time and restart during the process.\nDo you want to proceed?").arg(app.systemName)
+                        var text = qsTr("This will start a system update. Note that the update might take several minutes and your %1:core might not be functioning properly or restart during this time.").arg(app.systemName)
+                                + "\n\n"
+                                + qsTr("\nDo you want to proceed?")
                         var popup = dialog.createObject(app,
                                                         {
                                                             headerIcon: "../images/system-update.svg",
@@ -254,13 +341,11 @@ Page {
 
             }
             UpdateRunningOverlay {
-                visible: engine.systemController.updateRunning
             }
         }
     }
 
 
     UpdateRunningOverlay {
-        visible: engine.systemController.updateRunning
     }
 }

@@ -18,6 +18,19 @@ QString Package::displayName() const
     return m_displayName;
 }
 
+QString Package::summary() const
+{
+    return m_summary;
+}
+
+void Package::setSummary(const QString &summary)
+{
+    if(m_summary != summary) {
+        m_summary = summary;
+        emit summaryChanged();
+    }
+}
+
 QString Package::installedVersion() const
 {
     return m_installedVersion;
