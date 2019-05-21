@@ -81,18 +81,60 @@ Page {
 
             RowLayout {
                 Layout.margins: app.margins
+                spacing: app.margins
 
                 ColorIcon {
                     Layout.preferredHeight: app.iconSize * 2
                     Layout.preferredWidth: height
                     name: "../images/system-update.svg"
                     color: app.accentColor
+                    RotationAnimation on rotation {
+                        from: 0; to: 360
+                        duration: 2000
+                        running: engine.systemController.updateManagementBusy
+                        loops: Animation.Infinite
+                    }
                 }
 
-                Label {
-                    Layout.fillWidth: true
-                    text: qsTr("%n update(s) available", "", updatesModel.count)
+                ColumnLayout {
+                    Label {
+                        Layout.fillWidth: true
+                        text: engine.systemController.updateManagementBusy ? qsTr("Checking for updates...") : qsTr("%n update(s) available", "", updatesModel.count)
+                    }
+                    GridLayout {
+                        columns: width > 250 ? 2 : 1
+                        Button {
+                            Layout.fillWidth: true
+                            text: qsTr("Check again")
+                            enabled: !engine.systemController.updateManagementBusy
+                            onClicked: {
+                                engine.systemController.checkForUpdates()
+                            }
+                        }
+                        Button {
+                            Layout.fillWidth: true
+                            text: qsTr("Update all")
+                            visible: updatesModel.count > 0
+                            enabled: !engine.systemController.updateManagementBusy
+                            onClicked: {
+                                var dialog = Qt.createComponent(Qt.resolvedUrl("../components/MeaDialog.qml"));
+                                var text = qsTr("This will start a system update. Note that the update might take several minutes and your %1:core might not be functioning properly during this time and restart during the process.\nDo you want to proceed?").arg(app.systemName)
+                                var popup = dialog.createObject(app,
+                                                                {
+                                                                    headerIcon: "../images/system-update.svg",
+                                                                    title: qsTr("System update"),
+                                                                    text: text,
+                                                                    standardButtons: Dialog.Ok | Dialog.Cancel
+                                                                });
+                                popup.open();
+                                popup.accepted.connect(function() {
+                                    engine.systemController.updatePackages()
+                                })
+                            }
+                        }
+                    }
                 }
+
             }
 
             ThinDivider {}
@@ -117,30 +159,6 @@ Page {
                     onClicked: {
                         pageStack.push(packageDetailsComponent, {pkg: updatesModel.get(index)})
                     }
-                }
-            }
-
-            ThinDivider {}
-
-            Button {
-                Layout.fillWidth: true
-                Layout.margins: app.margins
-                text: qsTr("Update all")
-                visible: updatesModel.count > 0
-                onClicked: {
-                    var dialog = Qt.createComponent(Qt.resolvedUrl("../components/MeaDialog.qml"));
-                    var text = qsTr("This will start a system update. Note that the update might take several minutes and your %1:core might not be functioning properly during this time and restart during the process.\nDo you want to proceed?").arg(app.systemName)
-                    var popup = dialog.createObject(app,
-                                                    {
-                                                        headerIcon: "../images/system-update.svg",
-                                                        title: qsTr("System update"),
-                                                        text: text,
-                                                        standardButtons: Dialog.Ok | Dialog.Cancel
-                                                    });
-                    popup.open();
-                    popup.accepted.connect(function() {
-                        engine.systemController.updatePackages()
-                    })
                 }
             }
         }
