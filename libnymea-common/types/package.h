@@ -8,6 +8,7 @@ class Package : public QObject
     Q_OBJECT
     Q_PROPERTY(QString id READ id CONSTANT)
     Q_PROPERTY(QString displayName READ displayName CONSTANT)
+    Q_PROPERTY(QString summary READ summary NOTIFY summaryChanged)
     Q_PROPERTY(QString installedVersion READ installedVersion NOTIFY installedVersionChanged)
     Q_PROPERTY(QString candidateVersion READ candidateVersion NOTIFY candidateVersionChanged)
     Q_PROPERTY(QString changelog READ changelog NOTIFY changelogChanged)
@@ -20,6 +21,9 @@ public:
 
     QString id() const;
     QString displayName() const;
+
+    QString summary() const;
+    void setSummary(const QString &summary);
 
     QString installedVersion() const;
     void setInstalledVersion(const QString &installedVersion);
@@ -40,6 +44,7 @@ public:
     void setCanRemove(bool canRemove);
 
 signals:
+    void summaryChanged();
     void installedVersionChanged();
     void candidateVersionChanged();
     void changelogChanged();
@@ -50,6 +55,7 @@ signals:
 private:
     QString m_id;
     QString m_displayName;
+    QString m_summary;
     QString m_installedVersion;
     QString m_candidateVersion;
     QString m_changelog;

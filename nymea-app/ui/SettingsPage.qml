@@ -15,7 +15,7 @@ Page {
 
     Flickable {
         anchors.fill: parent
-        contentHeight: layout.implicitHeight
+        contentHeight: layout.implicitHeight + (layout.isGrid ? app.margins * 2 : 0)
 
         GridLayout {
             id: layout
@@ -158,7 +158,7 @@ Page {
             Pane {
                 Layout.fillWidth: true
                 Material.elevation: layout.isGrid ? 1 : 0
-                visible: engine.jsonRpcClient.ensureServerVersion("2.1")
+                visible: engine.jsonRpcClient.ensureServerVersion("2.1") && engine.systemController.updateManagementAvailable
 
                 padding: 0
                 MeaListItemDelegate {

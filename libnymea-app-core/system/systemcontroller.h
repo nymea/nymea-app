@@ -15,6 +15,7 @@ class SystemController : public JsonHandler
     // Whether the update mechanism is available in the connected core
     Q_PROPERTY(bool updateManagementAvailable READ updateManagementAvailable NOTIFY updateManagementAvailableChanged)
 
+    Q_PROPERTY(bool updateManagementBusy READ updateManagementBusy NOTIFY updateManagementBusyChanged)
     Q_PROPERTY(bool updateRunning READ updateRunning NOTIFY updateRunningChanged)
     Q_PROPERTY(Packages* packages READ packages CONSTANT)
     Q_PROPERTY(Repositories* repositories READ repositories CONSTANT)
@@ -31,8 +32,10 @@ public:
     Q_INVOKABLE void reboot();
     Q_INVOKABLE void shutdown();
 
+    bool updateManagementBusy() const;
     bool updateRunning() const;
 
+    Q_INVOKABLE void checkForUpdates();
     Packages* packages() const;
     Q_INVOKABLE void updatePackages(const QString packageId = QString());
     Q_INVOKABLE void removePackages(const QString packageId = QString());
@@ -44,6 +47,7 @@ public:
 signals:
     void powerManagementAvailableChanged();
     void updateManagementAvailableChanged();
+    void updateManagementBusyChanged();
     void updateRunningChanged();
 
 private slots:
@@ -61,6 +65,7 @@ private:
     bool m_powerManagementAvailable = false;
     bool m_updateManagementAvailable = false;
 
+    bool m_updateManagementBusy = false;
     bool m_updateRunning = false;
     Packages *m_packages = nullptr;
     Repositories *m_repositories = nullptr;

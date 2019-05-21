@@ -96,18 +96,44 @@ Page {
 
         Button {
             Layout.fillWidth: true
+            Layout.margins: app.margins
             text: qsTr("Reboot %1:core").arg(app.systemName)
             visible: engine.systemController.powerManagementAvailable
             onClicked: {
-                engine.systemController.reboot()
+                var dialog = Qt.createComponent(Qt.resolvedUrl("../components/MeaDialog.qml"));
+                var text = qsTr("Are you sure you want to reboot your %1:core sytem now?").arg(app.systemName)
+                var popup = dialog.createObject(app,
+                                                {
+                                                    headerIcon: "../images/dialog-warning-symbolic.svg",
+                                                    title: qsTr("Reboot %1:core").arg(app.systemName),
+                                                    text: text,
+                                                    standardButtons: Dialog.Ok | Dialog.Cancel
+                                                });
+                popup.open();
+                popup.accepted.connect(function() {
+                    engine.systemController.reboot()
+                })
             }
         }
         Button {
             Layout.fillWidth: true
+            Layout.margins: app.margins
             text: qsTr("Shutdown %1:core").arg(app.systemName)
             visible: engine.systemController.powerManagementAvailable
             onClicked: {
-                engine.systemController.shutdown()
+                var dialog = Qt.createComponent(Qt.resolvedUrl("../components/MeaDialog.qml"));
+                var text = qsTr("Are you sure you want to shut down your %1:core sytem now?").arg(app.systemName)
+                var popup = dialog.createObject(app,
+                                                {
+                                                    headerIcon: "../images/dialog-warning-symbolic.svg",
+                                                    title: qsTr("Shot down %1:core").arg(app.systemName),
+                                                    text: text,
+                                                    standardButtons: Dialog.Ok | Dialog.Cancel
+                                                });
+                popup.open();
+                popup.accepted.connect(function() {
+                    engine.systemController.shutdown()
+                })
             }
         }
     }

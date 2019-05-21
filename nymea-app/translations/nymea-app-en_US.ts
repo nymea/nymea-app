@@ -1475,6 +1475,14 @@ Please try again.</source>
         <source>Time zone</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Reboot %1:core</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shutdown %1:core</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>GenericDeviceListPage</name>
@@ -2184,6 +2192,17 @@ Please try again.</source>
         <source>Disconnect</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>System update in progress...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n system update(s) available</source>
+        <translation type="unfinished">
+            <numerusform>%n system update available</numerusform>
+            <numerusform>%n system updates available</numerusform>
+        </translation>
+    </message>
 </context>
 <context>
     <name>ManualConnectPage</name>
@@ -2783,6 +2802,18 @@ Please try again.</source>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Use a thing&apos;s state value</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Insert value here</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select a state</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SelectStateDescriptorParamsPage</name>
@@ -2792,6 +2823,13 @@ Please try again.</source>
     </message>
     <message>
         <source>OK</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SelectStatePage</name>
+    <message>
+        <source>Select state</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2848,6 +2886,14 @@ Please try again.</source>
     <name>SensorsDeviceListPage</name>
     <message>
         <source>Sensors</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>is closed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>is open</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2966,6 +3012,14 @@ Please try again.</source>
     </message>
     <message>
         <source>Find server UUID and versions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>System update</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Update your %1:core system</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3100,6 +3154,84 @@ Please try again.</source>
     </message>
 </context>
 <context>
+    <name>SystemUpdatePage</name>
+    <message>
+        <source>System update</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Configure updates</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show all packages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Your system is up to date.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There are %1 updates available.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Update all</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This will start a system update. Note that the update might take several minutes and your %1:core might not be functioning properly during this time and restart during the process.
+Do you want to proceed?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Configure update sources</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enabling additional software sources allows to install unreleased %1:core packages.
+This can potentially break your system and lead to problems.
+Please only use this if you are sure you want this and consider reporting the issues you find when testing unreleased channels.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable package source</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All packages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Installed version:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Candidate version:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Update</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Install</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start update</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove package</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>TimeEventDelegate</name>
     <message>
         <source>At %1</source>
@@ -3159,6 +3291,14 @@ Please try again.</source>
     </message>
     <message>
         <source>every year</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>UpdateRunningOverlay</name>
+    <message>
+        <source>An update operation is currently running.
+Please wait for it to complete.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -19,6 +19,8 @@ QVariant Packages::data(const QModelIndex &index, int role) const
         return m_list.at(index.row())->id();
     case RoleDisplayName:
         return m_list.at(index.row())->displayName();
+    case RoleSummary:
+        return m_list.at(index.row())->summary();
     case RoleInstalledVersion:
         return m_list.at(index.row())->installedVersion();
     case RoleCandidateVersion:
@@ -38,6 +40,7 @@ QHash<int, QByteArray> Packages::roleNames() const
     QHash<int, QByteArray> roles;
     roles.insert(RoleId, "id");
     roles.insert(RoleDisplayName, "displayName");
+    roles.insert(RoleSummary, "summary");
     roles.insert(RoleInstalledVersion, "installedVersion");
     roles.insert(RoleCandidateVersion, "candidateVersion");
     roles.insert(RoleChangelog, "changelog");
@@ -51,6 +54,10 @@ void Packages::addPackage(Package *package)
     package->setParent(this);
     beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
     m_list.append(package);
+    connect(package, &Package::summaryChanged, this, [this, package](){
+        emit dataChanged(index(m_list.indexOf(package)), index(m_list.indexOf(package)), {RoleSummary});
+        emit countChanged();
+    });
     connect(package, &Package::installedVersionChanged, this, [this, package](){
         emit dataChanged(index(m_list.indexOf(package)), index(m_list.indexOf(package)), {RoleInstalledVersion});
         emit countChanged();
