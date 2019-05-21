@@ -1,11 +1,12 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
+import QtQuick.Controls.Material 2.2
 import QtQuick.Layouts 1.2
 import Nymea 1.0
 
 Rectangle {
     anchors.fill: parent
-    color: "#99000000"
+    color: Material.background
     visible: engine.systemController.updateRunning
 
     // Event eater
@@ -38,24 +39,21 @@ Rectangle {
             horizontalAlignment: Text.AlignHCenter
             wrapMode: Text.WordWrap
             font.pixelSize: app.largeFont
-            color: "white"
         }
         Label {
             Layout.fillWidth: true
             Layout.margins: app.margins * 2
-            text: qsTr("Please wait.")
+            text: qsTr("Please wait")
             horizontalAlignment: Text.AlignHCenter
             wrapMode: Text.WordWrap
-            color: "white"
         }
         Label {
             Layout.fillWidth: true
             Layout.margins: app.margins * 2
-            text: qsTr("The system may restart in order to complete the updates. %1:app will reconnect automatically after the update.").arg(app.systemName)
+            text: qsTr("The system may restart in order to complete the update. %1:app will reconnect automatically after the update.").arg(app.systemName)
             horizontalAlignment: Text.AlignHCenter
             wrapMode: Text.WordWrap
             font.pixelSize: app.smallFont
-            color: "white"
         }
     }
 }
