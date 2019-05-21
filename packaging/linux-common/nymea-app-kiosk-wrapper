@@ -1,2 +1,2 @@
 #!/bin/sh
-nymea-app --kiosk
+/usr/bin/nymea-app --kiosk
