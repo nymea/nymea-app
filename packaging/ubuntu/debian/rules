@@ -11,8 +11,11 @@ export DH_VERBOSE=1
 #	sed 's,/@DEB_HOST_MULTIARCH@,$(DEB_HOST_MULTIARCH:%=/%),g' $< > $@
 
 
-#override_dh_install: $(PREPROCESS_FILES:.in=)
-#	dh_install
+#override_dh_install:
+#	dh_install --fail-missing
+
+override_dh_missing:
+	dh_missing --fail-missing
 
 #override_dh_auto_test:
 #	LD_LIBRARY_PATH=`pwd`/libnymea-mqtt/ dh_auto_test

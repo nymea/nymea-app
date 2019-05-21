@@ -1,1 +1,3 @@
-packaging/linux-common/nymea-app-kiosk.service /lib/systemd/system/
+usr/bin/nymea-app
+usr/share/applications/nymea-app.desktop
+usr/share/icons/*

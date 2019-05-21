@@ -19,7 +19,7 @@ Build-Depends: debhelper (>= 9.0.0),
 
 Package: nymea-app
 Architecture: any
-Section: tools
+Section: x11
 Multi-Arch: same
 Depends: ${shlibs:Depends},
          ${misc:Depends},
@@ -44,3 +44,11 @@ Description: An open source IoT server - daemon
  .
  This package will install nymea:app.
 
+Package: nymea-app-kiosk
+Architecture: any
+Section: shells
+Multi-Arch: same
+Depends: nymea-app,
+         openbox,
+Description: Run nymea:app in kiosk mode
+ This package will install nymea:app in kiosk mode on your machine.

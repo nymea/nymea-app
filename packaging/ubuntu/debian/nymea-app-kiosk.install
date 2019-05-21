@@ -1,0 +1,3 @@
+packaging/linux-common/nymea-app-kiosk.desktop /usr/share/xsessions/
+packaging/linux-common/lightdm/40-nymea-app-kiosk.conf /usr/share/lightdm/lightdm.conf.d/
+packaging/linux-common/nymea-app-kiosk-wrapper /usr/bin/
