@@ -1,0 +1,5 @@
+[Desktop Entry]
+Type=XSession
+Exec=/usr/bin/openbox --startup /usr/bin/nymea-app-kiosk-wrapper
+DesktopNames=nymea:app
+

@@ -3,23 +3,8 @@
 
 export DH_VERBOSE=1
 
-#DEB_HOST_MULTIARCH ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
-
-#PREPROCESS_FILES := $(wildcard debian/*.in)
-
-#$(PREPROCESS_FILES:.in=): %: %.in
-#	sed 's,/@DEB_HOST_MULTIARCH@,$(DEB_HOST_MULTIARCH:%=/%),g' $< > $@
-
-
-#override_dh_install: $(PREPROCESS_FILES:.in=)
-#	dh_install
-
-#override_dh_auto_test:
-#	LD_LIBRARY_PATH=`pwd`/libnymea-mqtt/ dh_auto_test
-
-#override_dh_auto_clean:
-#	dh_auto_clean
-#	rm -rf $(PREPROCESS_FILES:.in=)
+override_dh_missing:
+	dh_missing --fail-missing
 
 %:
 	dh $@ --buildsystem=qmake --parallel
