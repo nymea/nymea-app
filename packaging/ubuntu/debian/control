@@ -50,5 +50,9 @@ Section: shells
 Multi-Arch: same
 Depends: nymea-app,
          openbox,
+         lightdm,
+         qtvirtualkeyboard-plugin,
+         qtdeclarative5-folderlistmodel-plugin,
+Provides: lightdm-greeter
 Description: Run nymea:app in kiosk mode
  This package will install nymea:app in kiosk mode on your machine.

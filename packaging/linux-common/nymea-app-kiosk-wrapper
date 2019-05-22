@@ -1,2 +1,3 @@
 #!/bin/sh
+export QT_IM_MODULE=qtvirtualkeyboard
 /usr/bin/nymea-app --kiosk
