@@ -177,8 +177,12 @@ void NymeaConnection::onSslErrors(const QList<QSslError> &errors)
                 certificateFingerprint.append(digest.mid(i,1).toHex().toUpper());
             }
 
+            // Ignore self signed certs for connections to localhost
+            if (QHostAddress(transport->url().host()) == QHostAddress::LocalHost || QHostAddress(transport->url().host()) == QHostAddress::LocalHostIPv6) {
+                ignoredErrors.append(error);
+
             // Check old style fingerprint storage
-            if (storedFingerPrint == certificateFingerprint) {
+            } else if (storedFingerPrint == certificateFingerprint) {
                 qDebug() << "This fingerprint is known to us.";
                 ignoredErrors.append(error);
 
