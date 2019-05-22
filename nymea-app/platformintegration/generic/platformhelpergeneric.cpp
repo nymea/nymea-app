@@ -2,7 +2,7 @@
 
 PlatformHelperGeneric::PlatformHelperGeneric(QObject *parent) : PlatformHelper(parent)
 {
-
+    m_piHelper = new RaspberryPiHelper(this);
 }
 
 void PlatformHelperGeneric::requestPermissions()
@@ -47,6 +47,24 @@ QString PlatformHelperGeneric::deviceModel() const
 QString PlatformHelperGeneric::deviceManufacturer() const
 {
     return QSysInfo::productType();
+}
+
+bool PlatformHelperGeneric::canControlScreen() const
+{
+    return m_piHelper->active();
+}
+
+int PlatformHelperGeneric::screenTimeout() const
+{
+    return m_piHelper->screenTimeout();
+}
+
+void PlatformHelperGeneric::setScreenTimeout(int timeout)
+{
+    if (m_piHelper->screenTimeout() != timeout) {
+        m_piHelper->setScreenTimeout(timeout);
+        emit screenTimeoutChanged();
+    }
 }
 
 void PlatformHelperGeneric::vibrate(PlatformHelper::HapticsFeedback feedbyckType)

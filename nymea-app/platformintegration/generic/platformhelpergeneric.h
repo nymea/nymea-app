@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include "platformhelper.h"
+#include "raspberrypihelper.h"
 
 class PlatformHelperGeneric : public PlatformHelper
 {
@@ -21,10 +22,14 @@ public:
     virtual QString deviceModel() const override;
     virtual QString deviceManufacturer() const override;
 
-    Q_INVOKABLE virtual void vibrate(HapticsFeedback feedbyckType) override;
-signals:
+    virtual bool canControlScreen() const override;
+    virtual int screenTimeout() const override;
+    virtual void setScreenTimeout(int timeout) override;
 
-public slots:
+    Q_INVOKABLE virtual void vibrate(HapticsFeedback feedbyckType) override;
+
+private:
+    RaspberryPiHelper *m_piHelper = nullptr;
 };
 
 #endif // PLATFORMHELPERGENERIC_H

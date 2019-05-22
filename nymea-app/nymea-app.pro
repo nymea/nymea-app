@@ -17,6 +17,7 @@ linux:!android:LIBS += -lavahi-client -lavahi-common
 PRE_TARGETDEPS += ../libnymea-app-core ../libnymea-common
 
 HEADERS += \
+    platformintegration/generic/raspberrypihelper.h \
     stylecontroller.h \
     pushnotifications.h \
     platformhelper.h \
@@ -24,6 +25,7 @@ HEADERS += \
     applogcontroller.h
 
 SOURCES += main.cpp \
+    platformintegration/generic/raspberrypihelper.cpp \
     stylecontroller.cpp \
     pushnotifications.cpp \
     platformhelper.cpp \
