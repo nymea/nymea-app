@@ -168,7 +168,6 @@ Page {
                     ColorIcon {
                         height: app.iconSize / 2
                         width: height
-                        visible: infoPane.connectedState !== null && infoPane.connectedState.value === false
                         color: "white"
                         name: "../images/system-update.svg"
                         RotationAnimation on rotation { from: 0; to: 360; duration: 2000; loops: Animation.Infinite; running: engine.systemController.updateRunning }

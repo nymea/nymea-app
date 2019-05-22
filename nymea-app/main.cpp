@@ -75,6 +75,8 @@ int main(int argc, char *argv[])
     parser.addHelpOption();
     QCommandLineOption kioskOption = QCommandLineOption({"k", "kiosk"}, "Start the application in kiosk mode.");
     parser.addOption(kioskOption);
+    QCommandLineOption connectOption = QCommandLineOption({"c", "connect"}, "Connect to nymea:core without discovery.", "host");
+    parser.addOption(connectOption);
     parser.process(application);
 
     // Initialize app log controller as early as possible, but after setting app name etc
@@ -124,6 +126,7 @@ int main(int argc, char *argv[])
     engine->rootContext()->setContextProperty("styleController", &styleController);
 
     engine->rootContext()->setContextProperty("kioskMode", parser.isSet(kioskOption));
+    engine->rootContext()->setContextProperty("autoConnectHost", parser.value(connectOption));
 
     engine->rootContext()->setContextProperty("systemProductType", QSysInfo::productType());
 

@@ -89,6 +89,35 @@ Page {
             checked: settings.showConnectionTabs
             onClicked: settings.showConnectionTabs = checked
         }
+        CheckDelegate {
+            id: screenOffCheck
+            Layout.fillWidth: true
+            text: qsTr("Turn screen off when idle")
+            visible: PlatformHelper.canControlScreen
+            checked: PlatformHelper.screenTimeout > 0
+            onClicked: PlatformHelper.screenTimeout = (checked ? 15000 : 0)
+        }
+        ItemDelegate {
+            Layout.fillWidth: true
+            Layout.preferredHeight: screenOffCheck.height
+            visible: PlatformHelper.screenTimeout > 0
+            topPadding: 0
+            contentItem: RowLayout {
+                Label {
+                    Layout.fillWidth: true
+                    text: qsTr("Screen off timeout")
+                }
+                SpinBox {
+                    value: PlatformHelper.screenTimeout / 1000
+                    onValueModified: {
+                        PlatformHelper.screenTimeout = value * 1000
+                    }
+                }
+                Label {
+                    text: qsTr("seconds")
+                }
+            }
+        }
     }
 
     Component {

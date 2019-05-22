@@ -271,6 +271,7 @@ void JsonRpcClient::processCreateUser(const QVariantMap &data)
 {
     qDebug() << "create user response:" << data;
     if (data.value("status").toString() == "success" && data.value("params").toMap().value("error").toString() == "UserErrorNoError") {
+        emit createUserSucceeded();
         m_initialSetupRequired = false;
         emit initialSetupRequiredChanged();
     } else {

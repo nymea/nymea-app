@@ -12,7 +12,6 @@ Page {
 
     Component.onCompleted: {
         print("Ready to connect")
-
         pageStack.push(discoveryPage, StackView.Immediate)
     }
 

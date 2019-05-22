@@ -54,6 +54,7 @@ ApplicationWindow {
     RootItem {
         id: rootItem
         anchors.fill: parent
+        anchors.bottomMargin: keyboardRect.height
     }
 
     NymeaDiscovery {

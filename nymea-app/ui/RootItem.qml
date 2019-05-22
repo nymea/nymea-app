@@ -105,8 +105,10 @@ Item {
 
                     Component.onCompleted: {
                         setupPushNotifications();
-
-                        if (tabSettings.lastConnectedHost.length > 0) {
+                        if (autoConnectHost.length > 0) {
+                            var host = discovery.nymeaHosts.createLanHost("Manual connection", autoConnectHost);
+                            engine.connection.connect(host)
+                        } else if (tabSettings.lastConnectedHost.length > 0) {
                             print("Last connected host was", tabSettings.lastConnectedHost)
                             var cachedHost = discovery.nymeaHosts.find(tabSettings.lastConnectedHost);
                             if (cachedHost) {
@@ -143,7 +145,17 @@ Item {
                                 })
                                 return;
                             } else {
-                                var page = pageStack.push(Qt.resolvedUrl("LoginPage.qml"));
+                                if (engine.jsonRpcClient.initialSetupRequired) {
+                                    var page = pageStack.push(Qt.resolvedUrl("connection/SetupWizard.qml"));
+                                    page.backPressed.connect(function() {
+                                        tabSettings.lastConnectedHost = "";
+                                        engine.connection.disconnect()
+                                        init();
+                                    })
+                                    return;
+                                }
+
+                                var page = pageStack.push(Qt.resolvedUrl("connection/LoginPage.qml"));
                                 page.backPressed.connect(function() {
                                     tabSettings.lastConnectedHost = "";
                                     engine.connection.disconnect()
