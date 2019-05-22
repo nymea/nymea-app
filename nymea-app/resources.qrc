@@ -2,7 +2,7 @@
     <qresource prefix="/">
         <file>ui/Nymea.qml</file>
         <file>ui/SettingsPage.qml</file>
-        <file>ui/LoginPage.qml</file>
+        <file>ui/connection/LoginPage.qml</file>
         <file>ui/MagicPage.qml</file>
         <file>ui/PushButtonAuthPage.qml</file>
         <file>ui/KeyboardLoader.qml</file>
@@ -182,5 +182,6 @@
         <file>ui/magic/SelectStatePage.qml</file>
         <file>ui/system/SystemUpdatePage.qml</file>
         <file>ui/components/UpdateRunningOverlay.qml</file>
+        <file>ui/connection/SetupWizard.qml</file>
     </qresource>
 </RCC>

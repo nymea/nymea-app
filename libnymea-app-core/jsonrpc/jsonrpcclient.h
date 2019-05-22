@@ -93,6 +93,7 @@ signals:
     void invalidProtocolVersion(const QString &actualVersion, const QString &minimumVersion);
     void authenticationFailed();
     void pushButtonAuthFailed();
+    void createUserSucceeded();
     void createUserFailed(const QString &error);
     void cloudConnectionStateChanged();
 

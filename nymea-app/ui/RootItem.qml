@@ -145,7 +145,17 @@ Item {
                                 })
                                 return;
                             } else {
-                                var page = pageStack.push(Qt.resolvedUrl("LoginPage.qml"));
+                                if (engine.jsonRpcClient.initialSetupRequired) {
+                                    var page = pageStack.push(Qt.resolvedUrl("connection/SetupWizard.qml"));
+                                    page.backPressed.connect(function() {
+                                        tabSettings.lastConnectedHost = "";
+                                        engine.connection.disconnect()
+                                        init();
+                                    })
+                                    return;
+                                }
+
+                                var page = pageStack.push(Qt.resolvedUrl("connection/LoginPage.qml"));
                                 page.backPressed.connect(function() {
                                     tabSettings.lastConnectedHost = "";
                                     engine.connection.disconnect()

@@ -33,31 +33,30 @@ Page {
     ColumnLayout {
         anchors { left: parent.left; right: parent.right; verticalCenter: parent.verticalCenter }
         anchors.margins: app.margins
-        spacing: app.margins
+        spacing: app.margins * 2
 
-        RowLayout {
+        Label {
             Layout.fillWidth: true
-            spacing: app.margins
+            horizontalAlignment: Text.AlignHCenter
+            color: app.accentColor
+            text: qsTr("Authentication required")
+            wrapMode: Text.WordWrap
+            font.pixelSize: app.largeFont
+        }
 
-            ColorIcon {
-                height: app.iconSize * 2
-                width: height
-                color: app.accentColor
-                name: "../images/info.svg"
-            }
-
-            Label {
-                color: app.accentColor
-                text: qsTr("Authentication required")
-                wrapMode: Text.WordWrap
-                Layout.fillWidth: true
-                font.pixelSize: app.largeFont
-            }
+        Image {
+            Layout.preferredWidth: app.iconSize * 6
+            Layout.preferredHeight: width
+            source: "images/nymea-box-setup.svg"
+            Layout.alignment: Qt.AlignHCenter
+            sourceSize.width: width
+            sourceSize.height: height
         }
 
 
         Label {
             Layout.fillWidth: true
+            horizontalAlignment: Text.AlignHCenter
             text: qsTr("Please press the button on your %1 box to authenticate this device.").arg(app.systemName)
             wrapMode: Text.WordWrap
         }
