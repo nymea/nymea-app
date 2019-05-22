@@ -1,3 +1,10 @@
+nymea-app (1.0.119) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Improve Kiosk experience
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 22 May 2019 15:56:09 +0200
+
 nymea-app (1.0.118) bionic; urgency=medium
 
   [ Michael Zanetti ]
