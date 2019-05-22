@@ -105,8 +105,10 @@ Item {
 
                     Component.onCompleted: {
                         setupPushNotifications();
-
-                        if (tabSettings.lastConnectedHost.length > 0) {
+                        if (autoConnectHost.length > 0) {
+                            var host = discovery.nymeaHosts.createLanHost("Manual connection", autoConnectHost);
+                            engine.connection.connect(host)
+                        } else if (tabSettings.lastConnectedHost.length > 0) {
                             print("Last connected host was", tabSettings.lastConnectedHost)
                             var cachedHost = discovery.nymeaHosts.find(tabSettings.lastConnectedHost);
                             if (cachedHost) {
