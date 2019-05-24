@@ -1,3 +1,10 @@
+nymea-app (1.0.120) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Implement network management
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 24 May 2019 03:24:57 +0200
+
 nymea-app (1.0.119) bionic; urgency=medium
 
   [ Michael Zanetti ]
