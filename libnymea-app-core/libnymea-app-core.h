@@ -41,9 +41,9 @@
 #include "configuration/mqttpolicy.h"
 #include "configuration/mqttpolicies.h"
 #include "wifisetup/networkmanagercontroller.h"
-#include "wifisetup/wirelessaccesspoint.h"
-#include "wifisetup/wirelessaccesspoints.h"
-#include "wifisetup/wirelessaccesspointsproxy.h"
+#include "types/wirelessaccesspoint.h"
+#include "types/wirelessaccesspoints.h"
+#include "models/wirelessaccesspointsproxy.h"
 #include "tagsmanager.h"
 #include "models/tagsproxymodel.h"
 #include "types/tag.h"
@@ -62,6 +62,9 @@
 #include "types/repository.h"
 #include "types/repositories.h"
 #include "models/packagesfiltermodel.h"
+#include "configuration/networkmanager.h"
+#include "types/networkdevices.h"
+#include "types/networkdevice.h"
 
 #include <QtQml/qqml.h>
 
@@ -212,6 +215,14 @@ void registerQmlTypes() {
     qmlRegisterUncreatableType<Repositories>(uri, 1, 0, "Repositories", "Get it from SystemController");
     qmlRegisterUncreatableType<Repository>(uri, 1, 0, "Repository", "Get it from Repositories");
     qmlRegisterType<PackagesFilterModel>(uri, 1, 0, "PackagesFilterModel");
+
+    qmlRegisterUncreatableType<NetworkManager>(uri, 1, 0, "NetworkManager", "Get it from Engine");
+    qmlRegisterUncreatableType<NetworkDevices>(uri, 1, 0, "NetworkDevices", "Get it from NetworkManager");
+    qmlRegisterUncreatableType<WiredNetworkDevices>(uri, 1, 0, "WiredNetworkDevices", "Get it from NetworkManager");
+    qmlRegisterUncreatableType<WirelessNetworkDevices>(uri, 1, 0, "WirelessNetworkDevices", "Get it from NetworkManager");
+    qmlRegisterUncreatableType<NetworkDevice>(uri, 1, 0, "NetworkDevice", "Get it from NetworkDevices");
+    qmlRegisterUncreatableType<WiredNetworkDevice>(uri, 1, 0, "WiredNetworkDevice", "Get it from NetworkDevices");
+    qmlRegisterUncreatableType<WirelessNetworkDevice>(uri, 1, 0, "WirelessNetworkDevice", "Get it from NetworkDevices");
 }
 
 #endif // LIBNYMEAAPPCORE_H

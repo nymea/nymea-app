@@ -25,9 +25,12 @@ SwipeDelegate {
     property alias tertiaryIconColor: tertiaryIcon.color
     property alias tertiaryIconKeyColor: tertiaryIcon.keyColor
 
+    property alias additionalItem: additionalItemContainer.children
+
     signal deleteClicked()
 
     contentItem: RowLayout {
+        id: innerLayout
         spacing: app.margins
         ColorIcon {
             id: icon
@@ -84,6 +87,13 @@ SwipeDelegate {
             Layout.preferredWidth: height
             name: "../images/next.svg"
             visible: root.progressive
+        }
+
+        Item {
+            id: additionalItemContainer
+            Layout.fillHeight: true
+            Layout.preferredWidth: childrenRect.width
+            visible: children.length > 0
         }
     }
 

@@ -21,9 +21,9 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #include "wirelesssetupmanager.h"
-#include "wirelessaccesspoint.h"
-#include "wirelessaccesspoints.h"
-#include "wirelessaccesspointsproxy.h"
+#include "types/wirelessaccesspoint.h"
+#include "types/wirelessaccesspoints.h"
+#include "models/wirelessaccesspointsproxy.h"
 
 #include <QJsonDocument>
 

@@ -22,8 +22,8 @@
 
 #include "wirelessaccesspointsproxy.h"
 
-#include "wirelessaccesspoint.h"
-#include "wirelessaccesspoints.h"
+#include "types/wirelessaccesspoint.h"
+#include "types/wirelessaccesspoints.h"
 
 #include <QDebug>
 

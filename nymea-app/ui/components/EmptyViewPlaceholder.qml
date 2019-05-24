@@ -4,7 +4,7 @@ import QtQuick.Layouts 1.3
 
 ColumnLayout {
     id: root
-    spacing: app.margins * 2
+    spacing: app.margins
 
     property alias title: titleLabel.text
     property alias text: textLabel.text

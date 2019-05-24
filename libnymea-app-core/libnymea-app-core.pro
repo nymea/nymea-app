@@ -24,6 +24,7 @@ INCLUDEPATH += $$top_srcdir/libnymea-common \
     $$top_srcdir/qmqtt/src/mqtt/
 
 SOURCES += \
+    configuration/networkmanager.cpp \
     engine.cpp \
     connection/nymeahost.cpp \
     connection/nymeahosts.cpp  \
@@ -59,15 +60,13 @@ SOURCES += \
     wifisetup/bluetoothdeviceinfo.cpp \
     wifisetup/bluetoothdeviceinfos.cpp \
     wifisetup/bluetoothdiscovery.cpp \
-    wifisetup/wirelessaccesspoint.cpp \
-    wifisetup/wirelessaccesspoints.cpp \
     wifisetup/wirelesssetupmanager.cpp \
     wifisetup/networkmanagercontroller.cpp \
     models/logsmodelng.cpp \
     models/interfacesproxy.cpp \
     models/tagsproxymodel.cpp \
     tagsmanager.cpp \
-    wifisetup/wirelessaccesspointsproxy.cpp \
+    models/wirelessaccesspointsproxy.cpp \
     ruletemplates/ruletemplate.cpp \
     ruletemplates/ruletemplates.cpp \
     ruletemplates/eventdescriptortemplate.cpp \
@@ -86,6 +85,7 @@ SOURCES += \
     system/systemcontroller.cpp
 
 HEADERS += \
+    configuration/networkmanager.h \
     engine.h \
     connection/nymeahost.h \
     connection/nymeahosts.h \
@@ -122,8 +122,6 @@ HEADERS += \
     wifisetup/bluetoothdeviceinfo.h \
     wifisetup/bluetoothdeviceinfos.h \
     wifisetup/bluetoothdiscovery.h \
-    wifisetup/wirelessaccesspoint.h \
-    wifisetup/wirelessaccesspoints.h \
     wifisetup/wirelesssetupmanager.h \
     wifisetup/networkmanagercontroller.h \
     libnymea-app-core.h \
@@ -131,7 +129,7 @@ HEADERS += \
     models/interfacesproxy.h \
     tagsmanager.h \
     models/tagsproxymodel.h \
-    wifisetup/wirelessaccesspointsproxy.h \
+    models/wirelessaccesspointsproxy.h \
     ruletemplates/ruletemplate.h \
     ruletemplates/ruletemplates.h \
     ruletemplates/eventdescriptortemplate.h \
