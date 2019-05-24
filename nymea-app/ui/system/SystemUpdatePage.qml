@@ -265,7 +265,7 @@ Page {
             property Package pkg: null
 
             header: GuhHeader {
-                text: qsTr("Package inforation")
+                text: qsTr("Package information")
                 onBackPressed: pageStack.pop()
             }
 

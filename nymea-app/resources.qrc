@@ -183,5 +183,6 @@
         <file>ui/system/SystemUpdatePage.qml</file>
         <file>ui/components/UpdateRunningOverlay.qml</file>
         <file>ui/connection/SetupWizard.qml</file>
+        <file>ui/system/NetworkSettingsPage.qml</file>
     </qresource>
 </RCC>

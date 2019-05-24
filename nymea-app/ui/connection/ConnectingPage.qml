@@ -49,6 +49,7 @@ Page {
         }
         Label {
             Layout.fillWidth: true
+            Layout.preferredHeight: 150
             text: {
                 var errorMessage;
                 switch (engine.connection.connectionStatus) {
@@ -96,7 +97,7 @@ Page {
 
     Button {
         text: qsTr("Cancel")
-        anchors { left: parent.left; top: columnLayout.bottom; right: parent.right }
+        anchors { left: parent.left; bottom: parent.bottom; right: parent.right }
         anchors.margins: app.margins
         onClicked: root.cancel()
     }

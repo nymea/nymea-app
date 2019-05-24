@@ -47,12 +47,12 @@ Page {
                 padding: 0
                 MeaListItemDelegate {
                     width: parent.width
-                    iconName: "../images/logs.svg"
-                    text: qsTr("Log viewer")
-                    subText: qsTr("View system log")
+                    iconName: "../images/network-wifi.svg"
+                    text: qsTr("Networking")
+                    subText: qsTr("Configure the box's network connection")
                     prominentSubText: false
                     wrapTexts: false
-                    onClicked: pageStack.push(Qt.resolvedUrl("system/LogViewerPage.qml"))
+                    onClicked: pageStack.push(Qt.resolvedUrl("system/NetworkSettingsPage.qml"))
                 }
             }
 
@@ -169,6 +169,22 @@ Page {
                     prominentSubText: false
                     wrapTexts: false
                     onClicked: pageStack.push(Qt.resolvedUrl("system/SystemUpdatePage.qml"))
+                }
+            }
+
+            Pane {
+                Layout.fillWidth: true
+                Material.elevation: layout.isGrid ? 1 : 0
+
+                padding: 0
+                MeaListItemDelegate {
+                    width: parent.width
+                    iconName: "../images/logs.svg"
+                    text: qsTr("Log viewer")
+                    subText: qsTr("View system log")
+                    prominentSubText: false
+                    wrapTexts: false
+                    onClicked: pageStack.push(Qt.resolvedUrl("system/LogViewerPage.qml"))
                 }
             }
 

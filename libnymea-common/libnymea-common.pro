@@ -8,6 +8,8 @@ QT -= gui
 QT += network
 
 HEADERS += \
+    types/networkdevice.h \
+    types/networkdevices.h \
     types/package.h \
     types/packages.h \
     types/repositories.h \
@@ -55,9 +57,13 @@ HEADERS += \
     types/calendaritems.h \
     types/repeatingoption.h \
     types/tag.h \
-    types/tags.h
+    types/tags.h \
+    types/wirelessaccesspoint.h \
+    types/wirelessaccesspoints.h \
 
 SOURCES += \
+    types/networkdevice.cpp \
+    types/networkdevices.cpp \
     types/package.cpp \
     types/packages.cpp \
     types/repositories.cpp \
@@ -104,4 +110,6 @@ SOURCES += \
     types/calendaritems.cpp \
     types/repeatingoption.cpp \
     types/tag.cpp \
-    types/tags.cpp
+    types/tags.cpp \
+    types/wirelessaccesspoint.cpp \
+    types/wirelessaccesspoints.cpp \

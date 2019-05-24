@@ -26,6 +26,7 @@
 #include "configuration/nymeaconfiguration.h"
 #include "connection/awsclient.h"
 #include "system/systemcontroller.h"
+#include "configuration/networkmanager.h"
 
 #include "connection/tcpsockettransport.h"
 #include "connection/websockettransport.h"
@@ -41,7 +42,8 @@ Engine::Engine(QObject *parent) :
     m_logManager(new LogManager(m_jsonRpcClient, this)),
     m_tagsManager(new TagsManager(m_jsonRpcClient, this)),
     m_nymeaConfiguration(new NymeaConfiguration(m_jsonRpcClient, this)),
-    m_systemController(new SystemController(m_jsonRpcClient, this))
+    m_systemController(new SystemController(m_jsonRpcClient, this)),
+    m_networkManager(new NetworkManager(m_jsonRpcClient, this))
 {
     m_connection->registerTransport(new TcpSocketTransportFactory());
     m_connection->registerTransport(new WebsocketTransportFactory());
@@ -104,6 +106,11 @@ SystemController *Engine::systemController() const
     return m_systemController;
 }
 
+NetworkManager *Engine::networkManager() const
+{
+    return m_networkManager;
+}
+
 void Engine::deployCertificate()
 {
     if (!m_jsonRpcClient->connected()) {
@@ -137,6 +144,7 @@ void Engine::onConnectedChanged()
             m_ruleManager->init();
             m_nymeaConfiguration->init();
             m_systemController->init();
+            m_networkManager->init();
         }
     }
 }
