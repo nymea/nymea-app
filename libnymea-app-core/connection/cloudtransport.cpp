@@ -5,6 +5,7 @@
 
 #include <QUrlQuery>
 #include <QHostInfo>
+#include <QPointer>
 
 using namespace remoteproxyclient;
 
@@ -52,7 +53,7 @@ bool CloudTransport::connect(const QUrl &url)
     m_url = url;
 
     m_timestamp = QDateTime::currentDateTime();
-    bool postResult = m_awsClient->postToMQTT(url.host(), QString::number(m_timestamp.toMSecsSinceEpoch()), [this](bool success) {
+    bool postResult = m_awsClient->postToMQTT(url.host(), QString::number(m_timestamp.toMSecsSinceEpoch()), QPointer<QObject>(this), [this](bool success) {
         if (success) {
             qDebug() << "MQTT Post done. Connecting to remote proxy";
             m_remoteproxyConnection->connectServer(QUrl("wss://remoteproxy.nymea.io"));
