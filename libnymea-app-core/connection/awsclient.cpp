@@ -8,6 +8,7 @@
 #include <QSettings>
 #include <QUuid>
 #include <QTimer>
+#include <QPointer>
 
 #include "sigv4utils.h"
 
@@ -820,7 +821,7 @@ void AWSClient::getCredentialsForIdentity(const QString &identityId)
             if (qc.method == "fetchDevices") {
                 fetchDevices();
             } else if (qc.method == "postToMQTT") {
-                postToMQTT(qc.arg1, qc.arg2, qc.callback);
+                postToMQTT(qc.arg1, qc.arg2, qc.sender, qc.callback);
             } else if (qc.method == "deleteAccount") {
                 deleteAccount();
             } else if (qc.method == "registerPushNotificationEndpoint") {
@@ -837,7 +838,7 @@ bool AWSClient::tokensExpired() const
     return (m_accessTokenExpiry.addSecs(-10) < QDateTime::currentDateTime()) || (m_sessionTokenExpiry.addSecs(-10) < QDateTime::currentDateTime());
 }
 
-bool AWSClient::postToMQTT(const QString &boxId, const QString &timestamp, std::function<void(bool)> callback)
+bool AWSClient::postToMQTT(const QString &boxId, const QString &timestamp, QObject* sender, std::function<void (bool)> callback)
 {
     if (!isLoggedIn()) {
         qWarning() << "Cannot post to MQTT. Not logged in to AWS";
@@ -846,10 +847,12 @@ bool AWSClient::postToMQTT(const QString &boxId, const QString &timestamp, std::
     if (tokensExpired()) {
         qDebug() << "Cannot post to MQTT. Need to refresh the tokens first";
         refreshAccessToken();
-        QueuedCall::enqueue(m_callQueue, QueuedCall("postToMQTT", boxId, timestamp, callback));
+        QueuedCall::enqueue(m_callQueue, QueuedCall("postToMQTT", boxId, timestamp, sender, callback));
         return true; // So far it looks we're doing ok... let's return true
     }    
     QString topic = QString("%1/%2/proxy").arg(boxId).arg(QString(m_identityId));
+
+    QPointer<QObject> senderWatcher = QPointer<QObject>(sender);
 
     // This is somehow broken in AWS...
     // The Signature needs to be created with having the topic percentage-encoded twice
@@ -882,15 +885,21 @@ bool AWSClient::postToMQTT(const QString &boxId, const QString &timestamp, std::
 //    }
 //    qDebug() << "Payload:" << payload;
     QNetworkReply *reply = m_nam->post(request, payload);
-    QTimer::singleShot(5000, reply, [reply, callback](){
+    QTimer::singleShot(5000, reply, [reply, senderWatcher, callback](){
         reply->deleteLater();
         qWarning() << "Timeout posting to MQTT";
-        callback(false);
+        if (senderWatcher) {
+            callback(false);
+        }
     });
-    connect(reply, &QNetworkReply::finished, this, [reply, callback]() {
+    connect(reply, &QNetworkReply::finished, this, [reply, senderWatcher, callback]() {
         reply->deleteLater();
         QByteArray data = reply->readAll();
 //        qDebug() << "MQTT post reply" << data;
+        if (senderWatcher.isNull()) {
+            qDebug() << "Request object disappeared. Discarding MQTT reply...";
+            return;
+        }
         if (reply->error() != QNetworkReply::NoError) {
             qWarning() << "MQTT Network reply error" << reply->error() << reply->errorString();
             callback(false);
@@ -909,7 +918,6 @@ bool AWSClient::postToMQTT(const QString &boxId, const QString &timestamp, std::
             return;
         }
         callback(true);
-
     });
 
     return true;
