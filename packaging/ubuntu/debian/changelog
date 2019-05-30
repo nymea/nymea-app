@@ -1,3 +1,12 @@
+nymea-app (1.0.121) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix a crash when a delayed reply would call a callback for an object
+    …
+  * Add missing dependency to qtcharts
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 30 May 2019 15:30:00 +0200
+
 nymea-app (1.0.120) bionic; urgency=medium
 
   [ Michael Zanetti ]
