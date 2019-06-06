@@ -27,7 +27,7 @@ void NetworkManager::init()
 {
     m_jsonClient->sendCommand("NetworkManager.GetNetworkStatus", QVariantMap(), this, "getStatusReply");
     m_jsonClient->sendCommand("NetworkManager.GetNetworkDevices", QVariantMap(), this, "getDevicesReply");
-    m_jsonClient->sendCommand("NetworkManager.GetWirelessAccessPoints", QVariantMap(), this, "getAccessPointsReply");
+//    m_jsonClient->sendCommand("NetworkManager.GetWirelessAccessPoints", QVariantMap(), this, "getAccessPointsReply");
 }
 
 NetworkManager::NetworkManagerState NetworkManager::state() const
@@ -95,7 +95,7 @@ void NetworkManager::disconnectInterface(const QString &interface)
 
 void NetworkManager::getStatusReply(const QVariantMap &params)
 {
-    qDebug() << "NetworkManager reply" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson(QJsonDocument::Indented));
+//    qDebug() << "NetworkManager reply" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson(QJsonDocument::Indented));
 
     QVariantMap statusMap = params.value("params").toMap().value("status").toMap();
 
@@ -120,7 +120,7 @@ void NetworkManager::getStatusReply(const QVariantMap &params)
 
 void NetworkManager::getDevicesReply(const QVariantMap &params)
 {
-    qDebug() << "Dwvices reply" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson(QJsonDocument::Indented));
+//    qDebug() << "Devices reply" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson(QJsonDocument::Indented));
 
     foreach (const QVariant &deviceVariant, params.value("params").toMap().value("wiredNetworkDevices").toList()) {
         QVariantMap deviceMap = deviceVariant.toMap();

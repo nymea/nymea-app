@@ -91,6 +91,13 @@ DeviceClass *JsonTypes::unpackDeviceClass(const QVariantMap &deviceClassMap, QOb
     }
     deviceClass->setParamTypes(paramTypes);
 
+    // SettingsTypes
+    ParamTypes *settingsTypes = new ParamTypes(deviceClass);
+    foreach (QVariant settingsType, deviceClassMap.value("settingsTypes").toList()) {
+        settingsTypes->addParamType(JsonTypes::unpackParamType(settingsType.toMap(), settingsTypes));
+    }
+    deviceClass->setSettingsTypes(settingsTypes);
+
     // discovery ParamTypes
     ParamTypes *discoveryParamTypes = new ParamTypes(deviceClass);
     foreach (QVariant paramType, deviceClassMap.value("discoveryParamTypes").toList()) {
@@ -219,7 +226,6 @@ Device* JsonTypes::unpackDevice(const QVariantMap &deviceMap, DeviceClasses *dev
     Params *params = device->params();
     if (!params) {
         params = new Params(device);
-        device->setParams(params);
     }
     foreach (QVariant param, deviceMap.value("params").toList()) {
         Param *p = params->getParam(param.toMap().value("paramTypeId").toString());
@@ -230,6 +236,20 @@ Device* JsonTypes::unpackDevice(const QVariantMap &deviceMap, DeviceClasses *dev
         JsonTypes::unpackParam(param.toMap(), p);
     }
     device->setParams(params);
+
+    Params *settings = device->settings();
+    if (!settings) {
+        settings = new Params(device);
+    }
+    foreach (QVariant setting, deviceMap.value("settings").toList()) {
+        Param *p = settings->getParam(setting.toMap().value("paramTypeId").toString());
+        if (!p) {
+            p = new Param();
+            settings->addParam(p);
+        }
+        JsonTypes::unpackParam(setting.toMap(), p);
+    }
+    device->setSettings(settings);
 
     States *states = device->states();
     if (!states) {

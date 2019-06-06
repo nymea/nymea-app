@@ -41,6 +41,9 @@ int Params::count() const
 
 Param *Params::get(int index) const
 {
+    if (index < 0 || index >= m_params.count()) {
+        return nullptr;
+    }
     return m_params.at(index);
 }
 
@@ -51,7 +54,7 @@ Param *Params::getParam(QString paramTypeId) const
             return param;
         }
     }
-    return 0;
+    return nullptr;
 }
 
 int Params::paramCount() const

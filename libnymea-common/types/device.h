@@ -40,6 +40,7 @@ class Device : public QObject
     Q_PROPERTY(QString name READ name NOTIFY nameChanged)
     Q_PROPERTY(bool setupComplete READ setupComplete NOTIFY setupCompleteChanged)
     Q_PROPERTY(Params *params READ params NOTIFY paramsChanged)
+    Q_PROPERTY(Params *settings READ settings NOTIFY settingsChanged)
     Q_PROPERTY(States *states READ states NOTIFY statesChanged)
     Q_PROPERTY(DeviceClass *deviceClass READ deviceClass CONSTANT)
 
@@ -60,6 +61,9 @@ public:
     Params *params() const;
     void setParams(Params *params);
 
+    Params *settings() const;
+    void setSettings(Params *settings);
+
     States *states() const;
     void setStates(States *states);
 
@@ -75,6 +79,7 @@ private:
     QUuid m_id;
     bool m_setupComplete;
     Params *m_params = nullptr;
+    Params *m_settings = nullptr;
     States *m_states = nullptr;
     DeviceClass *m_deviceClass = nullptr;
 
@@ -83,6 +88,7 @@ signals:
     void nameChanged();
     void setupCompleteChanged();
     void paramsChanged();
+    void settingsChanged();
     void statesChanged();
 
 };

@@ -174,8 +174,25 @@ ParamTypes *DeviceClass::paramTypes() const
 
 void DeviceClass::setParamTypes(ParamTypes *paramTypes)
 {
+    if (m_paramTypes) {
+        m_paramTypes->deleteLater();
+    }
     m_paramTypes = paramTypes;
     emit paramTypesChanged();
+}
+
+ParamTypes *DeviceClass::settingsTypes() const
+{
+    return m_settingsTypes;
+}
+
+void DeviceClass::setSettingsTypes(ParamTypes *settingsTypes)
+{
+    if (m_settingsTypes) {
+        m_settingsTypes->deleteLater();
+    }
+    m_settingsTypes = settingsTypes;
+    emit settingsTypesChanged();
 }
 
 ParamTypes *DeviceClass::discoveryParamTypes() const
@@ -185,6 +202,9 @@ ParamTypes *DeviceClass::discoveryParamTypes() const
 
 void DeviceClass::setDiscoveryParamTypes(ParamTypes *paramTypes)
 {
+    if (m_discoveryParamTypes) {
+        m_discoveryParamTypes->deleteLater();
+    }
     m_discoveryParamTypes = paramTypes;
     emit discoveryParamTypesChanged();
 }
@@ -196,6 +216,9 @@ StateTypes *DeviceClass::stateTypes() const
 
 void DeviceClass::setStateTypes(StateTypes *stateTypes)
 {
+    if (m_stateTypes) {
+        m_stateTypes->deleteLater();
+    }
     m_stateTypes = stateTypes;
     emit stateTypesChanged();
 }
@@ -207,6 +230,9 @@ EventTypes *DeviceClass::eventTypes() const
 
 void DeviceClass::setEventTypes(EventTypes *eventTypes)
 {
+    if (m_eventTypes) {
+        m_eventTypes->deleteLater();
+    }
     m_eventTypes = eventTypes;
     emit eventTypesChanged();
 }
@@ -218,6 +244,9 @@ ActionTypes *DeviceClass::actionTypes() const
 
 void DeviceClass::setActionTypes(ActionTypes *actionTypes)
 {
+    if (m_actionTypes) {
+        m_actionTypes->deleteLater();
+    }
     m_actionTypes = actionTypes;
     emit actionTypesChanged();
 }

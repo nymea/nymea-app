@@ -47,6 +47,7 @@ class DeviceClass : public QObject
     Q_PROPERTY(QStringList interfaces READ interfaces CONSTANT)
     Q_PROPERTY(QString baseInterface READ baseInterface CONSTANT)
     Q_PROPERTY(ParamTypes *paramTypes READ paramTypes NOTIFY paramTypesChanged)
+    Q_PROPERTY(ParamTypes *settingsTypes READ settingsTypes NOTIFY settingsTypesChanged)
     Q_PROPERTY(ParamTypes *discoveryParamTypes READ discoveryParamTypes NOTIFY discoveryParamTypesChanged)
     Q_PROPERTY(StateTypes *stateTypes READ stateTypes NOTIFY stateTypesChanged)
     Q_PROPERTY(EventTypes *eventTypes READ eventTypes NOTIFY eventTypesChanged)
@@ -93,6 +94,9 @@ public:
     ParamTypes *paramTypes() const;
     void setParamTypes(ParamTypes *paramTypes);
 
+    ParamTypes *settingsTypes() const;
+    void setSettingsTypes(ParamTypes *settingsTypes);
+
     ParamTypes *discoveryParamTypes() const;
     void setDiscoveryParamTypes(ParamTypes *paramTypes);
 
@@ -117,14 +121,16 @@ private:
     SetupMethod m_setupMethod;
     QStringList m_interfaces;
 
-    ParamTypes *m_paramTypes;
-    ParamTypes *m_discoveryParamTypes;
-    StateTypes *m_stateTypes;
-    EventTypes *m_eventTypes;
-    ActionTypes *m_actionTypes;
+    ParamTypes *m_paramTypes = nullptr;
+    ParamTypes *m_settingsTypes = nullptr;
+    ParamTypes *m_discoveryParamTypes = nullptr;
+    StateTypes *m_stateTypes = nullptr;
+    EventTypes *m_eventTypes = nullptr;
+    ActionTypes *m_actionTypes = nullptr;
 
 signals:
     void paramTypesChanged();
+    void settingsTypesChanged();
     void discoveryParamTypesChanged();
     void stateTypesChanged();
     void eventTypesChanged();
