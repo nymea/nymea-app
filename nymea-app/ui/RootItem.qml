@@ -70,12 +70,9 @@ Item {
                 id: mainRepeater
                 model: tabModel
 
-                delegate: StackView {
-                    id: pageStack
+                delegate: Item {
                     height: swipeView.height
                     width: swipeView.width
-                    objectName: "pageStack"
-                    initialItem: Page {}
 
                     property var tabSettings: Settings {
                         category: "tabSettings" + index
@@ -101,6 +98,13 @@ Item {
                         target: _discovery
                         property: "discovering"
                         value: engine.connection.currentHost === null
+                    }
+
+                    StackView {
+                        id: pageStack
+                        objectName: "pageStack"
+                        anchors.fill: parent
+                        initialItem: Page {}
                     }
 
                     Component.onCompleted: {
