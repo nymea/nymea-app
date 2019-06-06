@@ -1,3 +1,10 @@
+nymea-app (1.0.122) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix the crash when opening and closing tabs
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 06 Jun 2019 03:20:59 +0200
+
 nymea-app (1.0.121) bionic; urgency=medium
 
   [ Michael Zanetti ]
