@@ -33,7 +33,7 @@ ItemDelegate {
             }
             Loader {
                 id: loader
-                Layout.fillWidth: sourceComponent === textFieldComponent
+                Layout.fillWidth: true// sourceComponent === textFieldComponent || sourceComponent === stringComponent
                 sourceComponent: {
                     print("loading paramdelegate:", root.writable, root.paramType.type)
                     if (!root.writable) {
@@ -93,6 +93,8 @@ ItemDelegate {
                 }
                 return root.param.value;
             }
+            horizontalAlignment: Text.AlignRight
+            elide: Text.ElideRight
         }
     }
     Component {
@@ -150,26 +152,34 @@ ItemDelegate {
 
     Component {
         id: spinnerComponent
-        SpinBox {
-            value: root.param.value ? root.param.value : 0
-            from: root.paramType.minValue
-                  ? root.paramType.minValue
-                  : root.paramType.type.toLowerCase() === "uint"
-                    ? 0
-                    : -2000000000
-            to: root.paramType.maxValue
-                ? root.paramType.maxValue
-                : 2000000000
-            editable: true
-            width: 150
-            onValueModified: root.param.value = value
-            textFromValue: function(value) {
-                return value
-            }
-            Component.onCompleted: {
-                if (root.value === undefined) {
-                    root.value = value
+        RowLayout {
+            spacing: app.margins
+
+            SpinBox {
+                value: root.param.value ? root.param.value : 0
+                from: root.paramType.minValue
+                      ? root.paramType.minValue
+                      : root.paramType.type.toLowerCase() === "uint"
+                        ? 0
+                        : -2000000000
+                to: root.paramType.maxValue
+                    ? root.paramType.maxValue
+                    : 2000000000
+                editable: true
+                width: 150
+                onValueModified: root.param.value = value
+                textFromValue: function(value) {
+                    return value
                 }
+                Component.onCompleted: {
+                    if (root.value === undefined) {
+                        root.value = value
+                    }
+                }
+            }
+            Label {
+                text: root.paramType.unitString
+                visible: text.length > 0
             }
         }
     }

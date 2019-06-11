@@ -68,8 +68,10 @@ Page {
 
     Flickable {
         anchors.fill: parent
+        contentHeight: contentColumn.implicitHeight
 
         ColumnLayout {
+            id: contentColumn
             width: parent.width
 
             Label {
@@ -156,7 +158,8 @@ Page {
                 Layout.leftMargin: app.margins
                 Layout.rightMargin: app.margins
                 text: qsTr("Apply")
-                visible: settingsRepeater.dirty
+                enabled: settingsRepeater.dirty
+                visible: settingsRepeater.count > 0
 
                 onClicked: {
                     var params = []
