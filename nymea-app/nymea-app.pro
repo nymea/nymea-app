@@ -54,10 +54,8 @@ android {
         FIREBASE_STL_VARIANT = gnustl
     }
 
-    message("Using FIREBASE_STL_VARIANT ($$FIREBASE_STL_VARIANT)")
-
     INCLUDEPATH += /opt/firebase_cpp_sdk/include
-    LIBS += -L/opt/firebase_cpp_sdk/libs/android/armeabi-v7a/$$FIREBASE_STL_VARIANT/ -lfirebase_messaging -lfirebase_app
+    LIBS += -L/opt/firebase_cpp_sdk/libs/android/$$ANDROID_TARGET_ARCH/$$FIREBASE_STL_VARIANT/ -lfirebase_messaging -lfirebase_app
 
     QT += androidextras
     HEADERS += platformintegration/android/platformhelperandroid.h
