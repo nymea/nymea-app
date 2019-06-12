@@ -1,3 +1,12 @@
+nymea-app (1.0.123) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Make it build with arm64
+  * Add missing dependency to qml-module-qtgraphicaleffects
+  * Add support for device settings
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 12 Jun 2019 12:30:36 +0200
+
 nymea-app (1.0.122) bionic; urgency=medium
 
   [ Michael Zanetti ]
