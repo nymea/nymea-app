@@ -40,7 +40,7 @@ ApplicationWindow {
         property string graphStyle: "bars"
         property string style: "light"
         property bool showHiddenOptions: false
-        property string cloudEnvironment: "community"
+        property string cloudEnvironment: "Community"
         property bool showConnectionTabs: false
         property int tabCount: 1
     }
