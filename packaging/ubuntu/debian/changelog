@@ -1,3 +1,10 @@
+nymea-app (1.0.126) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Use KDAB's openssl builds
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 13 Jun 2019 01:42:27 +0200
+
 nymea-app (1.0.125) bionic; urgency=medium
 
   [ Michael Zanetti ]
