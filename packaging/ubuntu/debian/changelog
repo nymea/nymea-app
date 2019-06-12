@@ -1,3 +1,10 @@
+nymea-app (1.0.125) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Update firebase dependency
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 12 Jun 2019 17:08:35 +0200
+
 nymea-app (1.0.124) bionic; urgency=medium
 
   [ Michael Zanetti ]
