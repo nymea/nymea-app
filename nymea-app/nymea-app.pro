@@ -75,9 +75,11 @@ android {
         $$ANDROID_PACKAGE_SOURCE_DIR/LICENSE
 
 
+    # Build this in /opt/ to build android SSL libs (known to work with android-ndk-r18b)
+    # https://github.com/akontsevich/openssl-android-build
     ANDROID_EXTRA_LIBS = \
-        /opt/android-openssl/prebuilt/armeabi-v7a/libcrypto.so \
-        /opt/android-openssl/prebuilt/armeabi-v7a/libssl.so
+        /opt/openssl-android-build/libs/android/$$ANDROID_TARGET_ARCH/libcrypto.so \
+        /opt/openssl-android-build/libs/android/$$ANDROID_TARGET_ARCH/libssl.so \
 }
 
 macx: {
