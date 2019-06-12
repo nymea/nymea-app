@@ -54,6 +54,8 @@ android {
         FIREBASE_STL_VARIANT = gnustl
     }
 
+    include(../android_openssl/openssl.pri)
+
     INCLUDEPATH += /opt/firebase_cpp_sdk/include
     LIBS += -L/opt/firebase_cpp_sdk/libs/android/$$ANDROID_TARGET_ARCH/$$FIREBASE_STL_VARIANT/ -lfirebase_messaging -lfirebase_app
 
@@ -74,12 +76,6 @@ android {
         $$ANDROID_PACKAGE_SOURCE_DIR/src/io/guh/nymeaapp/NymeaAppNotificationService.java \
         $$ANDROID_PACKAGE_SOURCE_DIR/LICENSE
 
-
-    # Build this in /opt/ to build android SSL libs (known to work with android-ndk-r18b)
-    # https://github.com/akontsevich/openssl-android-build
-    ANDROID_EXTRA_LIBS = \
-        /opt/openssl-android-build/libs/android/$$ANDROID_TARGET_ARCH/libcrypto.so \
-        /opt/openssl-android-build/libs/android/$$ANDROID_TARGET_ARCH/libssl.so \
 }
 
 macx: {
