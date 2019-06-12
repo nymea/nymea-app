@@ -93,7 +93,7 @@ void DeviceManager::notificationReceived(const QVariantMap &data)
 {
     QString notification = data.value("notification").toString();
     if (notification == "Devices.StateChanged") {
-//        qDebug() << "Device state changed" << data.value("params");
+        qDebug() << "Device state changed" << data.value("params");
         Device *dev = m_devices->getDevice(data.value("params").toMap().value("deviceId").toUuid());
         if (!dev) {
             qWarning() << "Device state change notification received for an unknown device";
@@ -132,6 +132,22 @@ void DeviceManager::notificationReceived(const QVariantMap &data)
             return;
         }
         qDebug() << "*** device unpacked" << oldDevice->stateValue("98e4476f-e745-4a7f-b795-19269cb70c40");
+    } else if (notification == "Devices.DeviceSettingChanged") {
+        QUuid deviceId = data.value("params").toMap().value("deviceId").toUuid();
+        QString paramTypeId = data.value("params").toMap().value("paramTypeId").toString();
+        QVariant value = data.value("params").toMap().value("value");
+        qDebug() << "Device settings changed notification for device" << deviceId << data.value("params").toMap().value("settings").toList();
+        Device *dev = m_devices->getDevice(deviceId);
+        if (!dev) {
+            qWarning() << "Device settings changed notification for a device we don't know" << deviceId.toString();
+            return;
+        }
+        Param *p = dev->settings()->getParam(paramTypeId);
+        if (!p) {
+            qWarning() << "Device" << dev->name() << dev->id().toString() << "does not have a setting of id" << paramTypeId;
+            return;
+        }
+        p->setValue(value);
     } else {
         qWarning() << "DeviceManager unhandled device notification received" << notification;
     }
@@ -239,9 +255,9 @@ void DeviceManager::getConfiguredDevicesResponse(const QVariantMap &params)
                 device->setStateValue(stateTypeId, value);
 //                qDebug() << "Set device state value:" << device->stateValue(stateTypeId) << value;
             }
-//            qDebug() << "Configured Device JSON:" << qUtf8Printable(QJsonDocument::fromVariant(deviceVariant).toJson(QJsonDocument::Indented));
+            qDebug() << "Configured Device JSON:" << qUtf8Printable(QJsonDocument::fromVariant(deviceVariant).toJson(QJsonDocument::Indented));
             devices()->addDevice(device);
-//            qDebug() << "*** Added device:" << endl << device;
+            qDebug() << "*** Added device:" << endl << device;
         }
     }
     m_fetchingData = false;
@@ -371,6 +387,14 @@ void DeviceManager::editDevice(const QUuid &deviceId, const QString &name)
     params.insert("deviceId", deviceId.toString());
     params.insert("name", name);
     m_jsonClient->sendCommand("Devices.EditDevice", params, this, "editDeviceResponse");
+}
+
+void DeviceManager::setDeviceSettings(const QUuid &deviceId, const QVariantList &settings)
+{
+    QVariantMap params;
+    params.insert("deviceId", deviceId);
+    params.insert("settings", settings);
+    m_jsonClient->sendCommand("Devices.SetDeviceSettings", params);
 }
 
 void DeviceManager::reconfigureDevice(const QUuid &deviceId, const QVariantList &deviceParams)

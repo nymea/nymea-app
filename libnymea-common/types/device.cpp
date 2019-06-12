@@ -79,8 +79,26 @@ void Device::setParams(Params *params)
         if (m_params) {
             m_params->deleteLater();
         }
+        params->setParent(this);
         m_params = params;
         emit paramsChanged();
+    }
+}
+
+Params *Device::settings() const
+{
+    return m_settings;
+}
+
+void Device::setSettings(Params *settings)
+{
+    if (m_settings != settings) {
+        if (m_settings) {
+            m_settings->deleteLater();
+        }
+        settings->setParent(this);
+        m_settings = settings;
+        emit settingsChanged();
     }
 }
 
@@ -95,6 +113,7 @@ void Device::setStates(States *states)
         if (m_states) {
             m_states->deleteLater();
         }
+        states->setParent(this);
         m_states = states;
         emit statesChanged();
     }
@@ -145,6 +164,15 @@ QDebug operator<<(QDebug &dbg, Device *device)
             dbg << "  Param " << i << ": " << pt->id().toString() << ": " << pt->name() << " = " << p->value() << endl;
         } else {
             dbg << "  Param " << i << ": " << pt->id().toString() << ": " << pt->name() << " = " << "*** Unknown value ***" << endl;
+        }
+    }
+    for (int i = 0; i < device->deviceClass()->settingsTypes()->rowCount(); i++) {
+        ParamType *pt = device->deviceClass()->settingsTypes()->get(i);
+        Param *p = device->settings()->getParam(pt->id().toString());
+        if (p) {
+            dbg << "  Setting " << i << ": " << pt->id().toString() << ": " << pt->name() << " = " << p->value() << endl;
+        } else {
+            dbg << "  Setting " << i << ": " << pt->id().toString() << ": " << pt->name() << " = " << "*** Unknown value ***" << endl;
         }
     }
     for (int i = 0; i < device->deviceClass()->stateTypes()->rowCount(); i++) {

@@ -68,8 +68,10 @@ Page {
 
     Flickable {
         anchors.fill: parent
+        contentHeight: contentColumn.implicitHeight
 
         ColumnLayout {
+            id: contentColumn
             width: parent.width
 
             Label {
@@ -116,6 +118,62 @@ Page {
                     paramType: root.deviceClass.paramTypes.getParamType(model.id)
                     param: root.device.params.get(index)
                     writable: false
+                }
+            }
+
+            Label {
+                Layout.fillWidth: true
+                Layout.leftMargin: app.margins
+                Layout.rightMargin: app.margins
+                Layout.topMargin: app.margins
+                text: qsTr("Thing settings")
+                color: app.accentColor
+                visible: root.deviceClass.settingsTypes.count > 0
+            }
+
+            Repeater {
+                id: settingsRepeater
+                model: root.device.settings
+                delegate: ParamDelegate {
+                    Layout.fillWidth: true
+                    paramType: root.deviceClass.settingsTypes.getParamType(model.id)
+                    value: root.device.settings.get(index).value
+                    writable: true
+                    property bool dirty: root.device.settings.get(index).value !== value
+                    onDirtyChanged: settingsRepeater.checkDirty()
+                }
+                function checkDirty() {
+                    for (var i = 0; i < settingsRepeater.count; i++) {
+                        if (settingsRepeater.itemAt(i).dirty) {
+                            dirty = true;
+                            return;
+                        }
+                    }
+                    dirty = false;
+                }
+                property bool dirty: false
+            }
+            Button {
+                Layout.fillWidth: true
+                Layout.leftMargin: app.margins
+                Layout.rightMargin: app.margins
+                text: qsTr("Apply")
+                enabled: settingsRepeater.dirty
+                visible: settingsRepeater.count > 0
+
+                onClicked: {
+                    var params = []
+                    for (var i = 0; i < settingsRepeater.count; i++) {
+                        if (!settingsRepeater.itemAt(i).dirty) {
+                            continue;
+                        }
+                        var setting = {}
+                        setting["paramTypeId"] = settingsRepeater.itemAt(i).param.paramTypeId
+                        setting["value"] = settingsRepeater.itemAt(i).param.value
+                        params.push(setting)
+                    }
+
+                    engine.deviceManager.setDeviceSettings(root.device.id, params);
                 }
             }
 

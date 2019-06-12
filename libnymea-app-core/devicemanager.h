@@ -69,6 +69,7 @@ public:
     Q_INVOKABLE void confirmPairing(const QUuid &pairingTransactionId, const QString &secret = QString());
     Q_INVOKABLE void removeDevice(const QUuid &deviceId, RemovePolicy policy = RemovePolicyNone);
     Q_INVOKABLE void editDevice(const QUuid &deviceId, const QString &name);
+    Q_INVOKABLE void setDeviceSettings(const QUuid &deviceId, const QVariantList &settings);
     Q_INVOKABLE void reconfigureDevice(const QUuid &deviceId, const QVariantList &deviceParams);
     Q_INVOKABLE void reconfigureDiscoveredDevice(const QUuid &deviceId, const QUuid &deviceDescriptorId);
     Q_INVOKABLE int executeAction(const QUuid &deviceId, const QUuid &actionTypeId, const QVariantList &params = QVariantList());

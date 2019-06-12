@@ -19,13 +19,13 @@ Item {
                 if (d.delegateCache.indexOf(thisItem) < 0) {
                     d.delegateCache.push(thisItem);
 
-                    print("cache is now", d.delegateCache.length)
+//                    print("cache is now", d.delegateCache.length)
 
                     thisItem.Component.destruction.connect(function() {
-                        print("item destroyed", thisItem)
+//                        print("item destroyed", thisItem)
                         var idx = d.delegateCache.indexOf(thisItem)
                         d.delegateCache.splice(idx, 1)
-                        print("cache is now", d.delegateCache.length)
+//                        print("cache is now", d.delegateCache.length)
                     })
 
                     thisItem.swipe.opened.connect(function() {
