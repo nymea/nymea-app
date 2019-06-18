@@ -23,6 +23,7 @@ Page {
         buttonText: qsTr("Next")
         onButtonClicked: {
             var page = pageStack.push(Qt.resolvedUrl("LoginPage.qml"));
+            page.backPressed.connect(function() {pageStack.pop();})
         }
     }
 }
