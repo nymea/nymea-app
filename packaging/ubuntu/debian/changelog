@@ -1,3 +1,15 @@
+nymea-app (1.0.127) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Also handle loopback connections in bearer management
+  * Drop include path for qmqtt, not needed any more
+  * Fix app logging not working when the cache dir does not exist.
+  * Fix a crash when a graphview is updated with the very first value
+  * Fix the back button in the login page
+  * Update box name for cloud devices
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 19 Jun 2019 01:10:16 +0200
+
 nymea-app (1.0.126) bionic; urgency=medium
 
   [ Michael Zanetti ]
