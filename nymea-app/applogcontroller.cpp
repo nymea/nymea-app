@@ -5,6 +5,7 @@
 #include <QSettings>
 #include <QClipboard>
 #include <QGuiApplication>
+#include <QDir>
 
 QtMessageHandler AppLogController::s_oldLogMessageHandler = nullptr;
 
@@ -28,7 +29,8 @@ AppLogController *AppLogController::instance()
 AppLogController::AppLogController(QObject *parent) : QAbstractListModel(parent)
 {
 
-    QString fileName = QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/nymea-app.log";
+    QString path = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
+    QString fileName = path + "/nymea-app.log";
     m_logFile.setFileName(fileName);
 
     if (QFile::exists(fileName)) {
@@ -37,11 +39,19 @@ AppLogController::AppLogController(QObject *parent) : QAbstractListModel(parent)
         }
         QFile::rename(fileName, fileName + ".old");
     }
+    QDir dir(path);
+    if (!dir.exists()) {
+        if (!dir.mkpath(path)) {
+            qWarning() << "Cannot create cache location. Logging will not work.";
+            return;
+        }
+    }
 
     if (!m_logFile.open(QFile::ReadWrite | QFile::Truncate)) {
-        qDebug() << "Cannot open logfile for writing";
+        qWarning() << "Cannot open logfile for writing.";
         return;
     }
+    qDebug() << "App log opened at" << fileName;
 
     if (enabled()) {
         activate();
