@@ -396,9 +396,11 @@ void LogsModelNg::newLogEntryReceived(const QVariantMap &data)
                 m_graphSeries->removePoints(0, 2);
             }
 
-            // Prevent triangles, add a point right before the new one which reflects the old value
-            qreal previousValue = m_graphSeries->points().at(0).y();
-            m_graphSeries->insert(0, QPointF(entry->timestamp().addMSecs(-1).toMSecsSinceEpoch(), previousValue));
+            // Prevent triangles, add a point right before the new one which reflects the old value (if there is one)
+            if (m_graphSeries->points().count() > 0) {
+                qreal previousValue = m_graphSeries->points().at(0).y();
+                m_graphSeries->insert(0, QPointF(entry->timestamp().addMSecs(-1).toMSecsSinceEpoch(), previousValue));
+            }
 
             // Add the actual value
             m_graphSeries->insert(0, QPointF(entry->timestamp().toMSecsSinceEpoch(), entry->value().toBool() ? 1 : 0));
