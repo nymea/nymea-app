@@ -20,8 +20,7 @@ QT += network websockets bluetooth charts
 LIBS += -lssl -lcrypto
 
 INCLUDEPATH += $$top_srcdir/libnymea-common \
-    $$top_srcdir/QtZeroConf \
-    $$top_srcdir/qmqtt/src/mqtt/
+    $$top_srcdir/QtZeroConf
 
 SOURCES += \
     configuration/networkmanager.cpp \
