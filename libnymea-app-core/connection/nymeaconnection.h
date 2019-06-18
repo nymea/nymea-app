@@ -98,6 +98,8 @@ private:
 
     NymeaConnection::BearerType qBearerTypeToNymeaBearerType(QNetworkConfiguration::BearerType type) const;
 
+    bool isConnectionBearerAvailable(Connection::BearerType connectionBearerType) const;
+
 private:
     ConnectionStatus m_connectionStatus = ConnectionStatusUnconnected;
     QNetworkConfigurationManager *m_networkConfigManager = nullptr;

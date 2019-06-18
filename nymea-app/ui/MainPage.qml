@@ -26,6 +26,8 @@ Page {
                 return "../images/network-wifi.svg";
             case Connection.BearerTypeCloud:
                 return "../images/cloud.svg"
+            case Connection.BearerTypeLoopback:
+                return "qrc:/styles/%1/logo.svg".arg(styleController.currentStyle)
             }
             return ""
         }

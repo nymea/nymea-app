@@ -91,6 +91,9 @@ NymeaHost *NymeaHosts::createCloudHost(const QString &name, const QUrl &url)
 
 NymeaHost *NymeaHosts::createLanHost(const QString &name, const QUrl &url)
 {
+    if (QHostAddress(url.host()).isLoopback()) {
+        return createHost(name, url, Connection::BearerTypeLoopback);
+    }
     return createHost(name, url, Connection::BearerTypeLan);
 }
 
