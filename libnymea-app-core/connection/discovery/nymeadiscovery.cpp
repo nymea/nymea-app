@@ -160,10 +160,10 @@ void NymeaDiscovery::syncCloudDevices()
         if (!host) {
             host = new NymeaHost();
             host->setUuid(d->id());
-            host->setName(d->name());
             qDebug() << "CloudDiscovery: Adding new host:" << host->name() << host->uuid().toString();
             m_nymeaHosts->addHost(host);
         }
+        host->setName(d->name());
         QUrl url;
         url.setScheme("cloud");
         url.setHost(d->id());
