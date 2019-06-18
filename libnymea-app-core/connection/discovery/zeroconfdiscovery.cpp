@@ -126,7 +126,8 @@ void ZeroconfDiscovery::serviceEntryAdded(const QZeroConfService &entry)
     if (!connection) {
 //        qDebug() << "Zeroconf: Adding new connection to host:" << host->name() << url.toString();
         QString displayName = QString("%1:%2").arg(url.host()).arg(url.port());
-        connection = new Connection(url, Connection::BearerTypeLan, sslEnabled, displayName);
+        Connection::BearerType bearerType = QHostAddress(url.host()).isLoopback() ? Connection::BearerTypeLoopback : Connection::BearerTypeLan;
+        connection = new Connection(url, bearerType, sslEnabled, displayName);
         connection->setOnline(true);
         host->connections()->addConnection(connection);
     } else {

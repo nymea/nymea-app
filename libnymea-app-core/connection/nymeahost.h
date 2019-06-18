@@ -46,6 +46,7 @@ public:
         BearerTypeWan = 0x02,
         BearerTypeCloud = 0x04,
         BearerTypeBluetooth = 0x08,
+        BearerTypeLoopback = 0x10,
         BearerTypeUnknown = 0xFF,
         BearerTypeAll = 0xFF
     };

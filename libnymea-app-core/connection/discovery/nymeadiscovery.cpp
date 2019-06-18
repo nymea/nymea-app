@@ -124,6 +124,10 @@ void NymeaDiscovery::cacheHost(NymeaHost *host)
     if (remoteConnection) {
         connections.append(remoteConnection);
     }
+    Connection *loopbackConnection = host->connections()->bestMatch(Connection::BearerTypeLoopback);
+    if (loopbackConnection) {
+        connections.append(loopbackConnection);
+    }
     Connection *lanConnection = host->connections()->bestMatch(Connection::BearerTypeLan);
     if (lanConnection) {
         connections.append(lanConnection);

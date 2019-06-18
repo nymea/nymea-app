@@ -387,10 +387,10 @@ void NymeaConnection::onDisconnected()
 void NymeaConnection::updateActiveBearers()
 {
     NymeaConnection::BearerTypes availableBearerTypes;
-    QList<QNetworkConfiguration> configs = m_networkConfigManager->allConfigurations(QNetworkConfiguration::Active);
-//    qDebug() << "Network configuations:" << configs.count();
+    QList<QNetworkConfiguration> configs = m_networkConfigManager->allConfigurations();
+    qDebug() << "Network configuations:" << configs.count();
     foreach (const QNetworkConfiguration &config, configs) {
-//        qDebug() << "Candidate network config:" << config.name() << config.bearerTypeFamily() << config.bearerTypeName();
+        qDebug() << "Candidate network config:" << config.name() << config.bearerTypeFamily() << config.bearerTypeName();
 
         // NOTE: iOS doesn't correctly report bearer types. It'll be Unknown all the time. Let's hardcode it to WiFi for that...
 #if defined(Q_OS_IOS)
@@ -399,7 +399,6 @@ void NymeaConnection::updateActiveBearers()
         availableBearerTypes.setFlag(qBearerTypeToNymeaBearerType(config.bearerType()));
 #endif
     }
-//    qDebug() << "Available bearers:" << availableBearerTypes;
     if (m_availableBearerTypes != availableBearerTypes) {
         qDebug() << "Available Bearer Types changed:" << availableBearerTypes;
         m_availableBearerTypes = availableBearerTypes;
@@ -487,21 +486,21 @@ void NymeaConnection::connect(NymeaHost *nymeaHost, Connection *connection)
 
 void NymeaConnection::connectInternal(NymeaHost *host)
 {
-    qDebug() << "Connecting. Available bearer types:" << m_availableBearerTypes;
-    if (m_availableBearerTypes == NymeaConnection::BearerTypeNone) {
-        qDebug() << "No available bearer. Not connecting...";
-        m_connectionStatus = ConnectionStatusNoBearerAvailable;
-        emit connectionStatusChanged();
-        return;
-    }
-
     if (m_preferredConnection) {
-        qDebug() << "Preferred connection is set. Using" << m_preferredConnection->url();
-        connectInternal(m_preferredConnection);
-        return;
+        if (isConnectionBearerAvailable(m_preferredConnection->bearerType())) {
+            qDebug() << "Preferred connection is set. Using" << m_preferredConnection->url();
+            connectInternal(m_preferredConnection);
+            return;
+        }
+        qDebug() << "Preferred connection set but no bearer available for it.";
     }
 
-    if (m_availableBearerTypes.testFlag(NymeaConnection::BearerTypeWiFi)
+    Connection *loopbackConnection = host->connections()->bestMatch(Connection::BearerTypeLoopback);
+    if (loopbackConnection) {
+        qDebug() << "Best candidate Loopback connection:" << loopbackConnection->url();
+        connectInternal(loopbackConnection);
+
+    } else if (m_availableBearerTypes.testFlag(NymeaConnection::BearerTypeWiFi)
             || m_availableBearerTypes.testFlag(NymeaConnection::BearerTypeEthernet)) {
         Connection* lanConnection = host->connections()->bestMatch(Connection::BearerTypeLan | Connection::BearerTypeWan);
         if (lanConnection) {
@@ -510,6 +509,7 @@ void NymeaConnection::connectInternal(NymeaHost *host)
         } else {
             qDebug() << "No available LAN/WAN connection to" << host->name();
         }
+
     } else if (m_availableBearerTypes.testFlag(NymeaConnection::BearerTypeMobileData)) {
         Connection* wanConnection = host->connections()->bestMatch(Connection::BearerTypeWan);
         if (wanConnection) {
@@ -595,6 +595,27 @@ NymeaConnection::BearerType NymeaConnection::qBearerTypeToNymeaBearerType(QNetwo
         return BearerTypeNone;
     }
     return BearerTypeAll;
+}
+
+bool NymeaConnection::isConnectionBearerAvailable(Connection::BearerType connectionBearerType) const
+{
+    switch (connectionBearerType) {
+    case Connection::BearerTypeLan:
+        return m_availableBearerTypes.testFlag(BearerTypeEthernet)
+                || m_availableBearerTypes.testFlag(BearerTypeWiFi);
+    case Connection::BearerTypeWan:
+    case Connection::BearerTypeCloud:
+        return m_availableBearerTypes.testFlag(BearerTypeEthernet)
+                || m_availableBearerTypes.testFlag(BearerTypeWiFi)
+                || m_availableBearerTypes.testFlag(BearerTypeMobileData);
+    case Connection::BearerTypeBluetooth:
+        return m_availableBearerTypes.testFlag(BearerTypeBluetooth);
+    case Connection::BearerTypeUnknown:
+        return true;
+    case Connection::BearerTypeNone:
+        return false;
+    }
+    return false;
 }
 
 void NymeaConnection::disconnect()
