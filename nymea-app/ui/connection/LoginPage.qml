@@ -23,7 +23,7 @@ Page {
             popup.open();
         }
         onCreateUserSucceeded: {
-            engine.jsonRpcClient.authenticate(usernameTextField.text, passwordTextField.text, "nymea-app");
+            engine.jsonRpcClient.authenticate(usernameTextField.text, passwordTextField.password, "nymea-app");
         }
 
         onCreateUserFailed: {
@@ -82,11 +82,13 @@ Page {
             GridLayout {
                 Layout.fillWidth: true
                 Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
-                columns: app.width > 400 ? 2 : 1
+                columns: app.width > 500 ? 2 : 1
+                columnSpacing: app.margins
 
                 Label {
                     text: qsTr("Your e-mail address:")
                     Layout.fillWidth: true
+                    Layout.minimumWidth: implicitWidth
                 }
                 TextField {
                     id: usernameTextField
@@ -98,50 +100,26 @@ Page {
                     Layout.fillWidth: true
                     text: qsTr("Password:")
                 }
-                TextField {
+                PasswordTextField {
                     id: passwordTextField
                     Layout.fillWidth: true
-                    echoMode: TextInput.Password
+                    minPasswordLength: 8
+                    signup: engine.jsonRpcClient.initialSetupRequired
                 }
-
-                Label {
-                    visible: engine.jsonRpcClient.initialSetupRequired
-                    Layout.fillWidth: true
-                    text: qsTr("Confirm password:")
-                }
-                TextField {
-                    id: confirmPasswordTextField
-                    visible: engine.jsonRpcClient.initialSetupRequired
-                    Layout.fillWidth: true
-                    echoMode: TextInput.Password
-                }
-            }
-
-            Label {
-                Layout.fillWidth: true
-                Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
-                visible: engine.jsonRpcClient.initialSetupRequired
-                opacity: (passwordTextField.text.length > 0 && passwordTextField.text.length < 8) || passwordTextField.text != confirmPasswordTextField.text ? 1 : 0
-                text: passwordTextField.text.length < 8 ? qsTr("This password isn't long enought to be secure, add some more characters please.")
-                                                        : qsTr("The passwords don't match.")
-                wrapMode: Text.WordWrap
-                color: app.accentColor
-                font.pixelSize: app.smallFont
             }
 
             Button {
                 Layout.fillWidth: true
                 Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.bottomMargin: app.margins
                 text: qsTr("OK")
-                enabled: usernameTextField.text.length >= 5 && passwordTextField.text.length >= 8
-                         && (!engine.jsonRpcClient.initialSetupRequired || confirmPasswordTextField.text == passwordTextField.text)
+                enabled: passwordTextField.isValidPassword
                 onClicked: {
                     if (engine.jsonRpcClient.initialSetupRequired) {
                         print("create user")
-                        engine.jsonRpcClient.createUser(usernameTextField.text, passwordTextField.text);
+                        engine.jsonRpcClient.createUser(usernameTextField.text, passwordTextField.password);
                     } else {
                         print("authenticate", usernameTextField.text, passwordTextField.text, "nymea-app")
-                        engine.jsonRpcClient.authenticate(usernameTextField.text, passwordTextField.text, "nymea-app");
+                        engine.jsonRpcClient.authenticate(usernameTextField.text, passwordTextField.password, "nymea-app");
                     }
                 }
             }
