@@ -1,3 +1,11 @@
+nymea-app (1.0.128) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Respawn the app in kiosk mode when it exits (e.g. on updates)
+  * Improve login page
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 20 Jun 2019 22:47:49 +0200
+
 nymea-app (1.0.127) bionic; urgency=medium
 
   [ Michael Zanetti ]
