@@ -324,7 +324,7 @@ Page {
                         Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.topMargin: app.margins
                         text: qsTr("Password")
                     }
-                    AWSPasswordTextField {
+                    PasswordTextField {
                         id: passwordTextField
                         Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
                         Layout.fillWidth: true
@@ -564,7 +564,7 @@ Page {
                     text: qsTr("Pick a new password:")
                 }
 
-                AWSPasswordTextField {
+                PasswordTextField {
                     id: passwordTextField
                     Layout.fillWidth: true; Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
                 }

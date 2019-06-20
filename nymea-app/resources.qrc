@@ -41,7 +41,7 @@
         <file>ui/components/MainPageTile.qml</file>
         <file>ui/components/BusyOverlay.qml</file>
         <file>ui/components/SwipeDelegateGroup.qml</file>
-        <file>ui/components/AWSPasswordTextField.qml</file>
+        <file>ui/components/PasswordTextField.qml</file>
         <file>ui/components/BrightnessSlider.qml</file>
         <file>ui/components/SegmentedImage.qml</file>
         <file>ui/components/SegmentRenderer.qml</file>

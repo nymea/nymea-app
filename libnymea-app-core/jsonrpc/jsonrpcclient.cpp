@@ -218,6 +218,7 @@ int JsonRpcClient::authenticate(const QString &username, const QString &password
     params.insert("username", username);
     params.insert("password", password);
     params.insert("deviceName", deviceName);
+    qDebug() << "Authenticating:" << username << password << deviceName;
     JsonRpcReply* reply = createReply("JSONRPC.Authenticate", params, this, "processAuthenticate");
     m_replies.insert(reply->commandId(), reply);
     m_connection->sendData(QJsonDocument::fromVariant(reply->requestMap()).toJson());
@@ -262,7 +263,7 @@ void JsonRpcClient::processAuthenticate(const QVariantMap &data)
 
         setNotificationsEnabled(true);
     } else {
-        qWarning() << "Authentication failed";
+        qWarning() << "Authentication failed" << data;
         emit authenticationFailed();
     }
 }
