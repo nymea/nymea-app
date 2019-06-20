@@ -387,10 +387,10 @@ void NymeaConnection::onDisconnected()
 void NymeaConnection::updateActiveBearers()
 {
     NymeaConnection::BearerTypes availableBearerTypes;
-    QList<QNetworkConfiguration> configs = m_networkConfigManager->allConfigurations();
+    QList<QNetworkConfiguration> configs = m_networkConfigManager->allConfigurations(QNetworkConfiguration::Active);
     qDebug() << "Network configuations:" << configs.count();
     foreach (const QNetworkConfiguration &config, configs) {
-        qDebug() << "Candidate network config:" << config.name() << config.bearerTypeFamily() << config.bearerTypeName();
+        qDebug() << "Active network config:" << config.name() << config.bearerTypeFamily() << config.bearerTypeName();
 
         // NOTE: iOS doesn't correctly report bearer types. It'll be Unknown all the time. Let's hardcode it to WiFi for that...
 #if defined(Q_OS_IOS)
@@ -399,6 +399,15 @@ void NymeaConnection::updateActiveBearers()
         availableBearerTypes.setFlag(qBearerTypeToNymeaBearerType(config.bearerType()));
 #endif
     }
+    if (availableBearerTypes == NymeaConnection::BearerTypeNone) {
+        // This is just debug info... On some platform bearer management seems a bit broken, so let's get some infos right away...
+        qDebug() << "No active bearer available. Inactive bearers are:";
+        QList<QNetworkConfiguration> configs = m_networkConfigManager->allConfigurations();
+        foreach (const QNetworkConfiguration &config, configs) {
+            qDebug() << "Inactive network config:" << config.name() << config.bearerTypeFamily() << config.bearerTypeName();
+        }
+    }
+
     if (m_availableBearerTypes != availableBearerTypes) {
         qDebug() << "Available Bearer Types changed:" << availableBearerTypes;
         m_availableBearerTypes = availableBearerTypes;
