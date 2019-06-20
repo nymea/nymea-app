@@ -1,3 +1,10 @@
+nymea-app (1.0.129) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Only include active bearers
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 21 Jun 2019 00:38:56 +0200
+
 nymea-app (1.0.128) bionic; urgency=medium
 
   [ Michael Zanetti ]
