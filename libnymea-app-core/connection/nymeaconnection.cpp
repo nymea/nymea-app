@@ -32,7 +32,7 @@ NymeaConnection::NymeaConnection(QObject *parent) : QObject(parent)
 
     QGuiApplication *app = static_cast<QGuiApplication*>(QGuiApplication::instance());
     QObject::connect(app, &QGuiApplication::applicationStateChanged, this, [this](Qt::ApplicationState state) {
-        qDebug() << "Application state changed to:" << state;
+//        qDebug() << "Application state changed to:" << state;
         updateActiveBearers();
     });
 
@@ -388,9 +388,9 @@ void NymeaConnection::updateActiveBearers()
 {
     NymeaConnection::BearerTypes availableBearerTypes;
     QList<QNetworkConfiguration> configs = m_networkConfigManager->allConfigurations(QNetworkConfiguration::Active);
-    qDebug() << "Network configuations:" << configs.count();
+//    qDebug() << "Network configuations:" << configs.count();
     foreach (const QNetworkConfiguration &config, configs) {
-        qDebug() << "Active network config:" << config.name() << config.bearerTypeFamily() << config.bearerTypeName();
+//        qDebug() << "Active network config:" << config.name() << config.bearerTypeFamily() << config.bearerTypeName();
 
         // NOTE: iOS doesn't correctly report bearer types. It'll be Unknown all the time. Let's hardcode it to WiFi for that...
 #if defined(Q_OS_IOS)
