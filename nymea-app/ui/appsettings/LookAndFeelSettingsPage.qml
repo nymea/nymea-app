@@ -89,6 +89,7 @@ Page {
             checked: settings.showConnectionTabs
             onClicked: settings.showConnectionTabs = checked
         }
+
         CheckDelegate {
             id: screenOffCheck
             Layout.fillWidth: true
@@ -97,6 +98,7 @@ Page {
             checked: PlatformHelper.screenTimeout > 0
             onClicked: PlatformHelper.screenTimeout = (checked ? 15000 : 0)
         }
+
         ItemDelegate {
             Layout.fillWidth: true
             Layout.preferredHeight: screenOffCheck.height
@@ -115,6 +117,26 @@ Page {
                 }
                 Label {
                     text: qsTr("seconds")
+                }
+            }
+        }
+
+        ItemDelegate {
+            Layout.fillWidth: true
+            visible: PlatformHelper.canControlScreen
+            topPadding: 0
+            contentItem: RowLayout {
+                Label {
+                    Layout.fillWidth: true
+                    text: qsTr("Screen brightness")
+                }
+                Slider {
+                    Layout.fillWidth: true
+                    value: PlatformHelper.screenBrightness
+                    onMoved: PlatformHelper.screenBrightness = value
+                    from: 0
+                    to: 100
+                    stepSize: 1
                 }
             }
         }

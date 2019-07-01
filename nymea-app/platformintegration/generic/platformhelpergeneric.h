@@ -25,6 +25,8 @@ public:
     virtual bool canControlScreen() const override;
     virtual int screenTimeout() const override;
     virtual void setScreenTimeout(int timeout) override;
+    virtual int screenBrightness() const override;
+    virtual void setScreenBrightness(int percent) override;
 
     Q_INVOKABLE virtual void vibrate(HapticsFeedback feedbyckType) override;
 

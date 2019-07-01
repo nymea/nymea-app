@@ -67,6 +67,19 @@ void PlatformHelperGeneric::setScreenTimeout(int timeout)
     }
 }
 
+int PlatformHelperGeneric::screenBrightness() const
+{
+    return m_piHelper->screenBrightness();
+}
+
+void PlatformHelperGeneric::setScreenBrightness(int percent)
+{
+    if (m_piHelper->screenBrightness() != percent) {
+        m_piHelper->setScreenBrightness(percent);
+        emit screenTimeoutChanged();
+    }
+}
+
 void PlatformHelperGeneric::vibrate(PlatformHelper::HapticsFeedback feedbyckType)
 {
     Q_UNUSED(feedbyckType)

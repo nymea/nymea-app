@@ -14,6 +14,7 @@ class PlatformHelper : public QObject
     Q_PROPERTY(QString machineHostname READ machineHostname CONSTANT)
     Q_PROPERTY(bool canControlScreen READ canControlScreen CONSTANT)
     Q_PROPERTY(int screenTimeout READ screenTimeout WRITE setScreenTimeout NOTIFY screenTimeoutChanged)
+    Q_PROPERTY(int screenBrightness READ screenBrightness WRITE setScreenBrightness NOTIFY screenBrightnessChanged)
 
 public:
     enum HapticsFeedback {
@@ -40,12 +41,16 @@ public:
     virtual bool canControlScreen() const;
     virtual int screenTimeout() const;
     virtual void setScreenTimeout(int screenTimeout);
+    virtual int screenBrightness() const;
+    virtual void setScreenBrightness(int percent);
+
 
     Q_INVOKABLE virtual void vibrate(HapticsFeedback feedbackType) = 0;
 
 signals:
     void permissionsRequestFinished();
     void screenTimeoutChanged();
+    void screenBrightnessChanged();
 };
 
 #endif // PLATFORMHELPER_H
