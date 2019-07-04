@@ -6,7 +6,7 @@ import Nymea 1.0
 
 Page {
     id: root
-    header: GuhHeader {
+    header: NymeaHeader {
         text: qsTr("Wireless Box setup")
         onBackPressed: pageStack.pop()
     }
@@ -87,7 +87,7 @@ Page {
             model: bluetoothDiscovery.deviceInfos
             clip: true
 
-            delegate: MeaListItemDelegate {
+            delegate: NymeaListItemDelegate {
                 width: parent.width
                 iconName: Qt.resolvedUrl("../../images/bluetooth.svg")
                 text: model.name
@@ -148,7 +148,7 @@ Page {
         id: helpPageComponent
         Page {
             id: helpPage
-            header: GuhHeader {
+            header: NymeaHeader {
                 text: qsTr("Wireless setup help")
                 onBackPressed: pageStack.pop()
             }
@@ -223,7 +223,7 @@ Page {
 
         Page {
             id: connectingPage
-            header: GuhHeader {
+            header: NymeaHeader {
                 text: qsTr("Connecting...")
                 onBackPressed: pageStack.pop()
             }

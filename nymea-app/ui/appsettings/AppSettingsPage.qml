@@ -7,7 +7,7 @@ import "../components"
 
 Page {
     id: root
-    header: GuhHeader {
+    header: NymeaHeader {
         text: qsTr("App Settings")
         backButtonVisible: true
         onBackPressed: pageStack.pop()
@@ -29,7 +29,7 @@ Page {
                 Layout.fillWidth: true
                 Material.elevation: layout.isGrid ? 1 : 0
                 padding: 0
-                MeaListItemDelegate {
+                NymeaListItemDelegate {
                     width: parent.width
                     text: qsTr("Look & feel")
                     subText: qsTr("Customize the app's look and behavior")
@@ -44,7 +44,7 @@ Page {
                 Layout.fillWidth: true
                 Material.elevation: layout.isGrid ? 1 : 0
                 padding: 0
-                MeaListItemDelegate {
+                NymeaListItemDelegate {
                     width: parent.width
                     text: qsTr("Cloud login")
                     subText: qsTr("Log into %1:cloud and manage connected boxes").arg(app.systemName)
@@ -59,7 +59,7 @@ Page {
                 Material.elevation: layout.isGrid ? 1 : 0
                 visible: settings.showHiddenOptions
                 padding: 0
-                MeaListItemDelegate {
+                NymeaListItemDelegate {
                     width: parent.width
                     text: qsTr("Developer options")
                     subText: qsTr("Yeehaaa!")
@@ -73,7 +73,7 @@ Page {
                 Layout.fillWidth: true
                 Material.elevation: layout.isGrid ? 1 : 0
                 padding: 0
-                MeaListItemDelegate {
+                NymeaListItemDelegate {
                     width: parent.width
                     text: qsTr("About %1").arg(app.appName)
                     subText: qsTr("Find app versions and licence information")

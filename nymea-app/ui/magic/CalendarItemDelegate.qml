@@ -4,7 +4,7 @@ import QtQuick.Layouts 1.3
 import Nymea 1.0
 import "../components"
 
-MeaListItemDelegate {
+NymeaListItemDelegate {
     id: root
     implicitHeight: app.delegateHeight
     progressive: false

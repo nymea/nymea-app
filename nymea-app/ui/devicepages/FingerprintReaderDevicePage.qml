@@ -55,7 +55,7 @@ DevicePageBase {
                 typeIds: [root.accessGrantedEventType.id, root.accessDeniedEventType.id];
             }
 
-            delegate: MeaListItemDelegate {
+            delegate: NymeaListItemDelegate {
                 width: parent.width
                 iconName: accessGranted ? "../images/tick.svg" : "../images/dialog-error-symbolic.svg"
                 iconColor: accessGranted ? "green" : "red"
@@ -77,7 +77,7 @@ DevicePageBase {
     Component {
         id: manageUsersComponent
         Page {
-            header: GuhHeader {
+            header: NymeaHeader {
                 text: qsTr("Manage users")
                 onBackPressed: pageStack.pop()
 
@@ -104,7 +104,7 @@ DevicePageBase {
                     clip: true
                     model: root.usersState.value
 
-                    delegate: MeaListItemDelegate {
+                    delegate: NymeaListItemDelegate {
                         text: modelData
                         width: parent.width
                         progressive: false
@@ -156,7 +156,7 @@ DevicePageBase {
         id: addUserComponent
         Page {
             id: addUserPage
-            header: GuhHeader {
+            header: NymeaHeader {
                 text: qsTr("Add a new fingerprint")
                 onBackPressed: pageStack.pop()
             }

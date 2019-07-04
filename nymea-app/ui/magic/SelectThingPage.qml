@@ -20,7 +20,7 @@ Page {
     signal interfaceSelected(string interfaceName);
     signal anySelected();
 
-    header: GuhHeader {
+    header: NymeaHeader {
         text: root.selectInterface ?
                   qsTr("Select a kind of things") :
                   root.shownInterfaces.length > 0 ? qsTr("Select a %1").arg(app.interfaceToDisplayName(root.shownInterfaces[0])) : qsTr("Select a thing")
@@ -53,7 +53,7 @@ Page {
             Layout.fillWidth: true
         }
 
-        MeaListItemDelegate {
+        NymeaListItemDelegate {
             Layout.fillWidth: true
             text: qsTr("Any %1").arg(app.interfaceToDisplayName(root.shownInterfaces[0]))
             visible: root.allowSelectAny
@@ -69,7 +69,7 @@ Page {
             Layout.fillHeight: true
             model: root.selectInterface ? interfacesProxy : devicesProxy
             clip: true
-            delegate: MeaListItemDelegate {
+            delegate: NymeaListItemDelegate {
                 width: parent.width
                 text: root.selectInterface ? model.displayName : model.name
                 iconName: root.selectInterface ? app.interfaceToIcon(model.name) : app.interfacesToIcon(model.interfaces)

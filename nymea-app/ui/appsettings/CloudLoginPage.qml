@@ -6,7 +6,7 @@ import "../components"
 
 Page {
     id: root
-    header: GuhHeader {
+    header: NymeaHeader {
         text: qsTr("Cloud login")
         onBackPressed: pageStack.pop()
     }
@@ -76,7 +76,7 @@ Page {
             Layout.fillHeight: true
             clip: true
             model: AWSClient.awsDevices
-            delegate: MeaListItemDelegate {
+            delegate: NymeaListItemDelegate {
                 width: parent.width
                 text: model.name
                 subText: model.id
@@ -262,7 +262,7 @@ Page {
         id: signupPageComponent
         Page {
             id: signupPage
-            header: GuhHeader {
+            header: NymeaHeader {
                 text: qsTr("Sign up")
                 onBackPressed: pageStack.pop()
             }
@@ -373,7 +373,7 @@ Page {
     Component {
         id: enterCodeComponent
         Page {
-            header: GuhHeader {
+            header: NymeaHeader {
                 text: qsTr("Confirm account")
                 onBackPressed: pageStack.pop()
             }
@@ -442,7 +442,7 @@ Page {
 
             property alias email: emailTextField.text
 
-            header: GuhHeader {
+            header: NymeaHeader {
                 text: qsTr("Reset password")
                 onBackPressed: pageStack.pop()
             }
@@ -528,7 +528,7 @@ Page {
             }
 
             property string email
-            header: GuhHeader {
+            header: NymeaHeader {
                 text: qsTr("Reset password")
                 onBackPressed: pageStack.pop()
             }

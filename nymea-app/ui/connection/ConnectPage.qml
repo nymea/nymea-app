@@ -123,7 +123,7 @@ Page {
                     model: hostsProxy
                     clip: true
 
-                    delegate: MeaListItemDelegate {
+                    delegate: NymeaListItemDelegate {
                         id: nymeaHostDelegate
                         width: parent.width
                         height: app.delegateHeight
@@ -356,7 +356,7 @@ Page {
                         width: parent.width
                         Repeater {
                             model: dialog.nymeaHost.connections
-                            delegate: MeaListItemDelegate {
+                            delegate: NymeaListItemDelegate {
                                 Layout.fillWidth: true
                                 wrapTexts: false
                                 progressive: false

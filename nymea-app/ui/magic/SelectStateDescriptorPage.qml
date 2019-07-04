@@ -19,7 +19,7 @@ Page {
     onStateDescriptorChanged: buildInterface()
     Component.onCompleted: buildInterface()
 
-    header: GuhHeader {
+    header: NymeaHeader {
         id: header
         onBackPressed: root.backPressed();
 

@@ -7,7 +7,7 @@ import "components"
 
 Page {
     id: root
-    header: GuhHeader {
+    header: NymeaHeader {
         text: qsTr("Box settings")
         backButtonVisible: true
         onBackPressed: pageStack.pop()
@@ -29,7 +29,7 @@ Page {
                 Layout.fillWidth: true
                 Material.elevation: layout.isGrid ? 1 : 0
                 padding: 0
-                MeaListItemDelegate {
+                NymeaListItemDelegate {
                     width: parent.width
                     iconName: "../images/configure.svg"
                     text: qsTr("General")
@@ -45,7 +45,7 @@ Page {
                 Material.elevation: layout.isGrid ? 1 : 0
 
                 padding: 0
-                MeaListItemDelegate {
+                NymeaListItemDelegate {
                     width: parent.width
                     iconName: "../images/network-wifi.svg"
                     text: qsTr("Networking")
@@ -62,7 +62,7 @@ Page {
                 visible: engine.jsonRpcClient.ensureServerVersion("1.9")
 
                 padding: 0
-                MeaListItemDelegate {
+                NymeaListItemDelegate {
                     width: parent.width
                     iconName: "../images/cloud.svg"
                     text: qsTr("Cloud")
@@ -78,7 +78,7 @@ Page {
                 Material.elevation: layout.isGrid ? 1 : 0
 
                 padding: 0
-                MeaListItemDelegate {
+                NymeaListItemDelegate {
                     width: parent.width
                     iconName: "../images/network-vpn.svg"
                     text: qsTr("API interfaces")
@@ -95,7 +95,7 @@ Page {
                 visible: engine.jsonRpcClient.ensureServerVersion("1.11")
 
                 padding: 0
-                MeaListItemDelegate {
+                NymeaListItemDelegate {
                     width: parent.width
                     iconName: "../images/mqtt.svg"
                     text: qsTr("MQTT broker")
@@ -111,7 +111,7 @@ Page {
                 Material.elevation: layout.isGrid ? 1 : 0
 
                 padding: 0
-                MeaListItemDelegate {
+                NymeaListItemDelegate {
                     width: parent.width
                     iconName: "../images/stock_website.svg"
                     text: qsTr("Web server")
@@ -128,7 +128,7 @@ Page {
                 Material.elevation: layout.isGrid ? 1 : 0
 
                 padding: 0
-                MeaListItemDelegate {
+                NymeaListItemDelegate {
                     width: parent.width
                     iconName: "../images/plugin.svg"
                     text: qsTr("Plugins")
@@ -144,7 +144,7 @@ Page {
                 Material.elevation: layout.isGrid ? 1 : 0
 
                 padding: 0
-                MeaListItemDelegate {
+                NymeaListItemDelegate {
                     width: parent.width
                     iconName: "../images/sdk.svg"
                     text: qsTr("Developer tools")
@@ -161,7 +161,7 @@ Page {
                 visible: engine.jsonRpcClient.ensureServerVersion("2.1") && engine.systemController.updateManagementAvailable
 
                 padding: 0
-                MeaListItemDelegate {
+                NymeaListItemDelegate {
                     width: parent.width
                     iconName: "../images/system-update.svg"
                     text: qsTr("System update")
@@ -177,7 +177,7 @@ Page {
                 Material.elevation: layout.isGrid ? 1 : 0
 
                 padding: 0
-                MeaListItemDelegate {
+                NymeaListItemDelegate {
                     width: parent.width
                     iconName: "../images/logs.svg"
                     text: qsTr("Log viewer")
@@ -193,7 +193,7 @@ Page {
                 Material.elevation: layout.isGrid ? 1 : 0
 
                 padding: 0
-                MeaListItemDelegate {
+                NymeaListItemDelegate {
                     width: parent.width
                     iconName: "../images/info.svg"
                     text: qsTr("About %1:core").arg(app.systemName)

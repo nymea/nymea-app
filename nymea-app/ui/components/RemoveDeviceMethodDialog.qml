@@ -38,7 +38,7 @@ Dialog {
         }
         ThinDivider {}
 
-        MeaListItemDelegate {
+        NymeaListItemDelegate {
             Layout.fillWidth: true
             text: qsTr("Remove all those rules")
             progressive: false
@@ -49,7 +49,7 @@ Dialog {
             }
         }
 
-        MeaListItemDelegate {
+        NymeaListItemDelegate {
             text: qsTr("Update rules, removing this thing")
             Layout.fillWidth: true
             progressive: false
@@ -60,7 +60,7 @@ Dialog {
             }
         }
 
-        MeaListItemDelegate {
+        NymeaListItemDelegate {
             text: qsTr("Don't remove this thing")
             Layout.fillWidth: true
             progressive: false

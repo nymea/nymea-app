@@ -8,7 +8,7 @@ import "../delegates"
 DeviceListPageBase {
     id: root
 
-    header: GuhHeader {
+    header: NymeaHeader {
         text: {
             if (root.shownInterfaces.length === 1) {
                 return qsTr("My %1").arg(app.interfaceToString(root.shownInterfaces[0]))

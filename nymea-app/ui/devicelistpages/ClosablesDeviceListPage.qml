@@ -13,7 +13,7 @@ DeviceListPageBase {
 
     property bool invertControls: false
 
-    header: GuhHeader {
+    header: NymeaHeader {
         id: header
         onBackPressed: pageStack.pop()
         text: root.title

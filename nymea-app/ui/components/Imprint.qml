@@ -92,7 +92,7 @@ Item {
         ColumnLayout {
             Layout.fillWidth: true
 
-            MeaListItemDelegate {
+            NymeaListItemDelegate {
                 Layout.fillWidth: true
                 iconName: "../images/stock_website.svg"
                 text: qsTr("Visit the nymea website")
@@ -104,7 +104,7 @@ Item {
                 }
             }
 
-            MeaListItemDelegate {
+            NymeaListItemDelegate {
                 Layout.fillWidth: true
                 iconName: "../images/stock_website.svg"
                 text: qsTr("Visit GitHub page")
@@ -116,7 +116,7 @@ Item {
                 }
             }
 
-            MeaListItemDelegate {
+            NymeaListItemDelegate {
                 Layout.fillWidth: true
                 text: qsTr("View privacy policy")
                 iconName: "../images/stock_website.svg"
@@ -128,7 +128,7 @@ Item {
                 }
             }
 
-            MeaListItemDelegate {
+            NymeaListItemDelegate {
                 Layout.fillWidth: true
                 text: qsTr("View license text")
                 iconName: "../images/logs.svg"
@@ -164,7 +164,7 @@ Item {
                 wrapMode: Text.WordWrap
             }
         }
-        MeaListItemDelegate {
+        NymeaListItemDelegate {
             Layout.fillWidth: true
             iconName: "../images/stock_website.svg"
             text: qsTr("Visit the Qt website")
@@ -181,7 +181,7 @@ Item {
     Component {
         id: licenseTextComponent
         Page {
-            header: GuhHeader {
+            header: NymeaHeader {
                 text: qsTr("License text")
                 onBackPressed: pageStack.pop()
             }

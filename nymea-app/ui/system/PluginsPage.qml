@@ -7,7 +7,7 @@ import Nymea 1.0
 
 Page {
     id: root
-    header: GuhHeader {
+    header: NymeaHeader {
         text: qsTr("Plugins")
         backButtonVisible: true
         onBackPressed: pageStack.pop()
@@ -42,7 +42,7 @@ Page {
             }
             clip: true
 
-            delegate: MeaListItemDelegate {
+            delegate: NymeaListItemDelegate {
                 property var plugin: pluginsProxy.get(index)
                 width: parent.width
                 iconName: "../images/plugin.svg"

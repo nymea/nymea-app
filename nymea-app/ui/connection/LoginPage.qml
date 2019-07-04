@@ -8,7 +8,7 @@ Page {
     id: root
     signal backPressed();
 
-    header: GuhHeader {
+    header: NymeaHeader {
         text: qsTr("Welcome to %1!").arg(app.systemName)
         backButtonVisible: true
         onBackPressed: root.backPressed()

@@ -6,7 +6,7 @@ import "../components"
 
 Page {
     id: root
-    header: GuhHeader {
+    header: NymeaHeader {
         text: qsTr("MQTT broker")
         onBackPressed: pageStack.pop();
     }
@@ -92,7 +92,7 @@ Page {
                 model: engine.nymeaConfiguration.mqttPolicies
                 clip: true
                 ScrollBar.vertical: ScrollBar {}
-                delegate: MeaListItemDelegate {
+                delegate: NymeaListItemDelegate {
                     width: parent.width
                     iconName: "../images/account.svg"
                     text: qsTr("Client ID: %1").arg(model.clientId)

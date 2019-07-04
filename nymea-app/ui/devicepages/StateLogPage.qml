@@ -24,7 +24,7 @@ Page {
         return false;
     }
 
-    header: GuhHeader {
+    header: NymeaHeader {
         text: qsTr("History for %1").arg(root.stateType.displayName)
         onBackPressed: pageStack.pop()
     }

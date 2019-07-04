@@ -15,7 +15,7 @@ Page {
     property var actions: []
     signal complete();
 
-    header: GuhHeader {
+    header: NymeaHeader {
         text: "Select action"
         onBackPressed: pageStack.pop()
     }
@@ -90,7 +90,7 @@ Page {
     Component {
         id: selectDeviceComponent
         Page {
-            header: GuhHeader {
+            header: NymeaHeader {
                 text: qsTr("Select device")
                 onBackPressed: pageStack.pop()
             }
@@ -127,7 +127,7 @@ Page {
             property var device
             readonly property var deviceClass: engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId)
 
-            header: GuhHeader {
+            header: NymeaHeader {
                 text: qsTr("Select action")
                 onBackPressed: pageStack.pop()
             }
@@ -174,7 +174,7 @@ Page {
             id: page
             property var device
             property var actionType
-            header: GuhHeader {
+            header: NymeaHeader {
                 text: qsTr("params")
                 onBackPressed: pageStack.pop()
             }
@@ -222,7 +222,7 @@ Page {
     Component {
         id: switchLightsCompoent
         Page {
-            header: GuhHeader {
+            header: NymeaHeader {
                 text: qsTr("Switch lights")
                 onBackPressed: pageStack.pop()
             }
@@ -301,7 +301,7 @@ Page {
     Component {
         id: notificationActionComponent
         Page {
-            header: GuhHeader {
+            header: NymeaHeader {
                 text: qsTr("Send notification")
                 onBackPressed: pageStack.pop()
             }

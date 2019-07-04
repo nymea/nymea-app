@@ -7,7 +7,7 @@ import "../components"
 
 Page {
     id: root
-    header: GuhHeader {
+    header: NymeaHeader {
         text: qsTr("About %1").arg(app.appName)
         backButtonVisible: true
         onBackPressed: pageStack.pop()
@@ -23,14 +23,14 @@ Page {
             title: app.appName
             githubLink: "https://github.com/guh/nymea-app"
 
-            MeaListItemDelegate {
+            NymeaListItemDelegate {
                 Layout.fillWidth: true
                 text: qsTr("App version:")
                 subText: appVersion
                 progressive: false
                 prominentSubText: false
             }
-            MeaListItemDelegate {
+            NymeaListItemDelegate {
                 Layout.fillWidth: true
                 text: qsTr("Qt version:")
                 subText: qtVersion

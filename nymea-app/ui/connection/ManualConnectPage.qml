@@ -7,7 +7,7 @@ import "../components"
 Page {
     id: root
     objectName: "manualConnectPage"
-    header: GuhHeader {
+    header: NymeaHeader {
         text: qsTr("Manual connection")
         onBackPressed: pageStack.pop()
     }

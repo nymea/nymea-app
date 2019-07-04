@@ -12,7 +12,7 @@ Page {
 
     signal done()
 
-    header: GuhHeader {
+    header: NymeaHeader {
         text: qsTr("Wireless network setup")
         onBackPressed: {
             pageStack.pop();

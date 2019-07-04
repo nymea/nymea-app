@@ -6,7 +6,7 @@ import Nymea 1.0
 
 Page {
     id: root
-    header: GuhHeader {
+    header: NymeaHeader {
         text: qsTr("Network settings")
         onBackPressed: pageStack.pop()
     }

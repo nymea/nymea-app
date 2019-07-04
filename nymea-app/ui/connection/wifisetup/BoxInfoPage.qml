@@ -6,7 +6,7 @@ import Nymea 1.0
 
 Page {
     id: root
-    header: GuhHeader {
+    header: NymeaHeader {
         text: qsTr("Box information")
         onBackPressed: pageStack.pop()
     }
@@ -16,31 +16,31 @@ Page {
     ColumnLayout {
         anchors { left: parent.left; top: parent.top; right: parent.right }
 
-        MeaListItemDelegate {
+        NymeaListItemDelegate {
             Layout.fillWidth: true
             progressive: false
             text: qsTr("System UUID")
             subText: networkManagerController.manager.modelNumber
         }
-        MeaListItemDelegate {
+        NymeaListItemDelegate {
             Layout.fillWidth: true
             progressive: false
             text: qsTr("Manufacturer")
             subText: networkManagerController.manager.manufacturer
         }
-        MeaListItemDelegate {
+        NymeaListItemDelegate {
             Layout.fillWidth: true
             progressive: false
             text: qsTr("Software revision")
             subText: networkManagerController.manager.softwareRevision
         }
-        MeaListItemDelegate {
+        NymeaListItemDelegate {
             Layout.fillWidth: true
             progressive: false
             text: qsTr("Firmware revision")
             subText: networkManagerController.manager.firmwareRevision
         }
-        MeaListItemDelegate {
+        NymeaListItemDelegate {
             Layout.fillWidth: true
             progressive: false
             text: qsTr("Hardware revision")

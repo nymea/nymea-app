@@ -8,7 +8,7 @@ import "../components"
 DeviceListPageBase {
     id: root
 
-    header: GuhHeader {
+    header: NymeaHeader {
         text: qsTr("Sensors")
         onBackPressed: pageStack.pop()
     }

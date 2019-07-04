@@ -14,7 +14,7 @@ Page {
 
     default property alias data: contentItem.data
 
-    header: GuhHeader {
+    header: NymeaHeader {
         text: device.name
         onBackPressed: pageStack.pop()
 

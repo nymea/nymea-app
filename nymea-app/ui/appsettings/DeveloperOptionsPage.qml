@@ -6,7 +6,7 @@ import "../components"
 
 Page {
     id: root
-    header: GuhHeader {
+    header: NymeaHeader {
         text: qsTr("Developer options")
         backButtonVisible: true
         onBackPressed: pageStack.pop()
@@ -40,7 +40,7 @@ Page {
             Layout.fillWidth: true
         }
 
-        MeaListItemDelegate {
+        NymeaListItemDelegate {
             Layout.fillWidth: true
             text: qsTr("View log")
             onClicked: pageStack.push(Qt.resolvedUrl("../appsettings/AppLogPage.qml"))
