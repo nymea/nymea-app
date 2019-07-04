@@ -8,7 +8,7 @@ import "components"
 Page {
     id: root
     header: NymeaHeader {
-        text: qsTr("Box settings")
+        text: qsTr("System settings")
         backButtonVisible: true
         onBackPressed: pageStack.pop()
     }
@@ -49,7 +49,7 @@ Page {
                     width: parent.width
                     iconName: "../images/network-wifi.svg"
                     text: qsTr("Networking")
-                    subText: qsTr("Configure the box's network connection")
+                    subText: qsTr("Configure the system's network connection")
                     prominentSubText: false
                     wrapTexts: false
                     onClicked: pageStack.push(Qt.resolvedUrl("system/NetworkSettingsPage.qml"))
@@ -66,7 +66,7 @@ Page {
                     width: parent.width
                     iconName: "../images/cloud.svg"
                     text: qsTr("Cloud")
-                    subText: qsTr("Connect this box to %1:cloud").arg(app.systemName)
+                    subText: qsTr("Connect this %1:core to %1:cloud").arg(app.systemName)
                     prominentSubText: false
                     wrapTexts: false
                     onClicked: pageStack.push(Qt.resolvedUrl("system/CloudSettingsPage.qml"))
@@ -84,7 +84,7 @@ Page {
                     text: qsTr("API interfaces")
                     prominentSubText: false
                     wrapTexts: false
-                    subText: qsTr("Configure how clients interact with this box")
+                    subText: qsTr("Configure how clients interact with this system")
                     onClicked: pageStack.push(Qt.resolvedUrl("system/ConnectionInterfacesPage.qml"))
                 }
             }

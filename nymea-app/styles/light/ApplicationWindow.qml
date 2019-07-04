@@ -9,7 +9,7 @@ ApplicationWindow {
     font.capitalization: Font.MixedCase
     font.family: "Ubuntu"
 
-    // The system (box) name.
+    // The core system name.
     property string systemName: "nymea"
 
     // The app name

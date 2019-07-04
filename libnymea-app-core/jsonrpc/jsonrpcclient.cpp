@@ -421,7 +421,7 @@ void JsonRpcClient::helloReply(const QVariantMap &params)
 
         QVersionNumber minimumRequiredVersion = QVersionNumber(1, 0);
         if (m_jsonRpcVersion < minimumRequiredVersion) {
-            qWarning() << "Nymea box doesn't support minimum required version. Required:" << minimumRequiredVersion << "Found:" << m_jsonRpcVersion;
+            qWarning() << "Nymea core doesn't support minimum required version. Required:" << minimumRequiredVersion << "Found:" << m_jsonRpcVersion;
             m_connection->disconnect();
             emit invalidProtocolVersion(m_jsonRpcVersion.toString(), minimumRequiredVersion.toString());
             return;

@@ -47,13 +47,13 @@ Dialog {
         Label {
             Layout.fillWidth: true
             wrapMode: Text.WordWrap
-            text: certDialog.hasOldFingerprint ? qsTr("The certificate of this %1 box has changed!").arg(app.systemName) : qsTr("It seems this is the first time you connect to this %1 box.").arg(app.systemName)
+            text: certDialog.hasOldFingerprint ? qsTr("The certificate of this %1:core has changed!").arg(app.systemName) : qsTr("It seems this is the first time you connect to this %1:core.").arg(app.systemName)
         }
 
         Label {
             Layout.fillWidth: true
             wrapMode: Text.WordWrap
-            text: certDialog.hasOldFingerprint ? qsTr("Did you change the box's configuration? Verify if this information is correct.") : qsTr("This is the box's certificate. Once you trust it, an encrypted connection will be established.")
+            text: certDialog.hasOldFingerprint ? qsTr("Did you change the system's configuration? Verify if this information is correct.") : qsTr("This is the certificate for this %1:core. Once you trust it, an encrypted connection will be established.").arg(app.systemName)
         }
 
         ThinDivider {}

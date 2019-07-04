@@ -41,7 +41,7 @@ Page {
             ListElement { iconSource: "../images/share.svg"; text: qsTr("Configure things"); page: "thingconfiguration/EditThingsPage.qml" }
             ListElement { iconSource: "../images/magic.svg"; text: qsTr("Magic"); page: "MagicPage.qml" }
             ListElement { iconSource: "../images/stock_application.svg"; text: qsTr("App settings"); page: "appsettings/AppSettingsPage.qml" }
-            ListElement { iconSource: "../images/settings.svg"; text: qsTr("Box settings"); page: "SettingsPage.qml" }
+            ListElement { iconSource: "../images/settings.svg"; text: qsTr("System settings"); page: "SettingsPage.qml" }
         }
 
         onClicked: {
@@ -250,7 +250,7 @@ Page {
                         visible: engine.deviceManager.devices.count === 0 && !engine.deviceManager.fetchingData
                         title: qsTr("Welcome to %1!").arg(app.systemName)
                         // Have that split in 2 because we need those strings separated in EditDevicesPage too and don't want translators to do them twice
-                        text: qsTr("There are no things set up yet.") + "\n" + qsTr("In order for your %1 box to be useful, go ahead and add some things.").arg(app.systemName)
+                        text: qsTr("There are no things set up yet.") + "\n" + qsTr("In order for your %1 system to be useful, go ahead and add some things.").arg(app.systemName)
                         imageSource: "qrc:/styles/%1/logo.svg".arg(styleController.currentStyle)
                         buttonText: qsTr("Add a thing")
                         onButtonClicked: pageStack.push(Qt.resolvedUrl("thingconfiguration/NewThingPage.qml"))

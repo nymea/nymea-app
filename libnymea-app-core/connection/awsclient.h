@@ -114,11 +114,11 @@ public:
     Q_INVOKABLE void confirmForgotPassword(const QString &username, const QString &code, const QString &newPassword);
     Q_INVOKABLE void deleteAccount();
 
-    Q_INVOKABLE void unpairDevice(const QString &boxId);
+    Q_INVOKABLE void unpairDevice(const QString &coreId);
 
     Q_INVOKABLE void fetchDevices();
 
-    Q_INVOKABLE bool postToMQTT(const QString &boxId, const QString &timestamp, QObject* sender, std::function<void(bool)> callback);
+    Q_INVOKABLE bool postToMQTT(const QString &coreId, const QString &timestamp, QObject* sender, std::function<void(bool)> callback);
     Q_INVOKABLE void getId();
 
     Q_INVOKABLE void registerPushNotificationEndpoint(const QString &registrationId, const QString &deviceDisplayName, const QString mobileDeviceId, const QString &mobileDeviceManufacturer, const QString &mobileDeviceModel);

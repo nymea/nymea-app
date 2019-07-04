@@ -515,7 +515,7 @@ void AWSClient::deleteAccount()
     });
 }
 
-void AWSClient::unpairDevice(const QString &boxId)
+void AWSClient::unpairDevice(const QString &coreId)
 {
     if (!isLoggedIn()) {
         qWarning() << "Not logged in at AWS. Can't unpair device";
@@ -524,18 +524,18 @@ void AWSClient::unpairDevice(const QString &boxId)
     if (tokensExpired()) {
         qDebug() << "Cannot unpair device. Need to refresh our tokens";
         refreshAccessToken();
-        QueuedCall::enqueue(m_callQueue, QueuedCall("unpairDevice", boxId));
+        QueuedCall::enqueue(m_callQueue, QueuedCall("unpairDevice", coreId));
         return;
     }
     qDebug() << "unpairing device";
-    QUrl url(QString("https://%1/users/devices/%2").arg(m_configs.value(m_usedConfig).apiEndpoint).arg(boxId));
+    QUrl url(QString("https://%1/users/devices/%2").arg(m_configs.value(m_usedConfig).apiEndpoint).arg(coreId));
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setRawHeader("x-api-idToken", m_idToken);
 
     m_devices->setBusy(true);
     QNetworkReply *reply = m_nam->deleteResource(request);
-    connect(reply, &QNetworkReply::finished, this, [this, reply, boxId]() {
+    connect(reply, &QNetworkReply::finished, this, [this, reply, coreId]() {
         reply->deleteLater();
         m_devices->setBusy(false);
         QByteArray data = reply->readAll();
@@ -550,7 +550,7 @@ void AWSClient::unpairDevice(const QString &boxId)
             return;
         }
         qDebug() << "Device unpaired" << data;
-        m_devices->remove(boxId);
+        m_devices->remove(coreId);
 
     });
 }
@@ -838,7 +838,7 @@ bool AWSClient::tokensExpired() const
     return (m_accessTokenExpiry.addSecs(-10) < QDateTime::currentDateTime()) || (m_sessionTokenExpiry.addSecs(-10) < QDateTime::currentDateTime());
 }
 
-bool AWSClient::postToMQTT(const QString &boxId, const QString &timestamp, QObject* sender, std::function<void (bool)> callback)
+bool AWSClient::postToMQTT(const QString &coreId, const QString &timestamp, QObject* sender, std::function<void (bool)> callback)
 {
     if (!isLoggedIn()) {
         qWarning() << "Cannot post to MQTT. Not logged in to AWS";
@@ -847,10 +847,10 @@ bool AWSClient::postToMQTT(const QString &boxId, const QString &timestamp, QObje
     if (tokensExpired()) {
         qDebug() << "Cannot post to MQTT. Need to refresh the tokens first";
         refreshAccessToken();
-        QueuedCall::enqueue(m_callQueue, QueuedCall("postToMQTT", boxId, timestamp, sender, callback));
+        QueuedCall::enqueue(m_callQueue, QueuedCall("postToMQTT", coreId, timestamp, sender, callback));
         return true; // So far it looks we're doing ok... let's return true
     }    
-    QString topic = QString("%1/%2/proxy").arg(boxId).arg(QString(m_identityId));
+    QString topic = QString("%1/%2/proxy").arg(coreId).arg(QString(m_identityId));
 
     QPointer<QObject> senderWatcher = QPointer<QObject>(sender);
 

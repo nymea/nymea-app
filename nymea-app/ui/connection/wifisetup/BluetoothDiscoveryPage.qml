@@ -71,7 +71,7 @@ Page {
             Layout.margins: app.margins
             Label {
                 Layout.fillWidth: true
-                text: qsTr("Searching for %1 boxes.").arg(app.systemName)
+                text: qsTr("Searching for %1:core systems.").arg(app.systemName)
                 wrapMode: Text.WordWrap
             }
             BusyIndicator {
@@ -112,7 +112,7 @@ Page {
                 wrapMode: Text.WordWrap
                 maximumLineCount: 2
                 elide: Text.ElideRight
-                text: qsTr("Troubles finding your box?")
+                text: qsTr("Troubles finding your %1:core?").arg(app.systemName)
             }
             Button {
                 text: qsTr("Help")
@@ -194,7 +194,7 @@ Page {
                         Layout.rightMargin: app.margins
                         wrapMode: Text.WordWrap
                         font.bold: true
-                        text: "%1 box".arg(systemName)
+                        text: qsTr("%1 box").arg(systemName)
                     }
                     Label {
                         Layout.fillWidth: true
