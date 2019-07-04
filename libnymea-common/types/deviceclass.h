@@ -46,6 +46,7 @@ class DeviceClass : public QObject
     Q_PROPERTY(SetupMethod setupMethod READ setupMethod CONSTANT)
     Q_PROPERTY(QStringList interfaces READ interfaces CONSTANT)
     Q_PROPERTY(QString baseInterface READ baseInterface CONSTANT)
+    Q_PROPERTY(bool browsable READ browsable CONSTANT)
     Q_PROPERTY(ParamTypes *paramTypes READ paramTypes NOTIFY paramTypesChanged)
     Q_PROPERTY(ParamTypes *settingsTypes READ settingsTypes NOTIFY settingsTypesChanged)
     Q_PROPERTY(ParamTypes *discoveryParamTypes READ discoveryParamTypes NOTIFY discoveryParamTypesChanged)
@@ -91,6 +92,9 @@ public:
 
     QString baseInterface() const;
 
+    bool browsable() const;
+    void setBrowsable(bool browsable);
+
     ParamTypes *paramTypes() const;
     void setParamTypes(ParamTypes *paramTypes);
 
@@ -120,6 +124,7 @@ private:
     QStringList m_createMethods;
     SetupMethod m_setupMethod;
     QStringList m_interfaces;
+    bool m_browsable = false;
 
     ParamTypes *m_paramTypes = nullptr;
     ParamTypes *m_settingsTypes = nullptr;

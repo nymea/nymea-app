@@ -8,6 +8,8 @@ QT -= gui
 QT += network
 
 HEADERS += \
+    types/browseritem.h \
+    types/browseritems.h \
     types/networkdevice.h \
     types/networkdevices.h \
     types/package.h \
@@ -62,6 +64,8 @@ HEADERS += \
     types/wirelessaccesspoints.h \
 
 SOURCES += \
+    types/browseritem.cpp \
+    types/browseritems.cpp \
     types/networkdevice.cpp \
     types/networkdevices.cpp \
     types/package.cpp \

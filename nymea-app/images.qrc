@@ -181,5 +181,6 @@
         <file>ui/images/lock-closed.svg</file>
         <file>ui/images/lock-open.svg</file>
         <file>ui/images/system-update.svg</file>
+        <file>ui/images/folder-symbolic.svg</file>
     </qresource>
 </RCC>

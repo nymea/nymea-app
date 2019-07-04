@@ -167,6 +167,16 @@ QString DeviceClass::baseInterface() const
 
 }
 
+bool DeviceClass::browsable() const
+{
+    return m_browsable;
+}
+
+void DeviceClass::setBrowsable(bool browsable)
+{
+    m_browsable = browsable;
+}
+
 ParamTypes *DeviceClass::paramTypes() const
 {
     return m_paramTypes;

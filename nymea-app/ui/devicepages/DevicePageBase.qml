@@ -19,6 +19,14 @@ Page {
         onBackPressed: pageStack.pop()
 
         HeaderButton {
+            imageSource: "../images/folder-symbolic.svg"
+            visible: root.deviceClass.browsable
+            onClicked: {
+                pageStack.push(Qt.resolvedUrl("DeviceBrowserPage.qml"), {device: root.device})
+            }
+        }
+
+        HeaderButton {
             imageSource: "../images/navigation-menu.svg"
             onClicked: thingMenu.open();
         }

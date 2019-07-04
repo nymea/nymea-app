@@ -75,6 +75,7 @@ DeviceClass *JsonTypes::unpackDeviceClass(const QVariantMap &deviceClassMap, QOb
     deviceClass->setDisplayName(deviceClassMap.value("displayName").toString());
     deviceClass->setId(deviceClassMap.value("id").toUuid());
     deviceClass->setVendorId(deviceClassMap.value("vendorId").toUuid());
+    deviceClass->setBrowsable(deviceClassMap.value("browsable").toBool());
     QVariantList createMethodsList = deviceClassMap.value("createMethods").toList();
     QStringList createMethods;
     foreach (QVariant method, createMethodsList) {

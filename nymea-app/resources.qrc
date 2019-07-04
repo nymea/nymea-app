@@ -184,5 +184,6 @@
         <file>ui/components/UpdateRunningOverlay.qml</file>
         <file>ui/connection/SetupWizard.qml</file>
         <file>ui/system/NetworkSettingsPage.qml</file>
+        <file>ui/devicepages/DeviceBrowserPage.qml</file>
     </qresource>
 </RCC>
