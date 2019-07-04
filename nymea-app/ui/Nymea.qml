@@ -81,6 +81,7 @@ ApplicationWindow {
         case "media":
             return qsTr("Media")
         case "button":
+        case "powerswitch":
             return qsTr("Switches")
         case "gateway":
             return qsTr("Gateways")
@@ -182,6 +183,7 @@ ApplicationWindow {
         case "longpressbutton":
         case "simplemultibutton":
         case "longpressmultibutton":
+        case "powerswitch":
             return Qt.resolvedUrl("images/system-shutdown.svg")
         case "weather":
             return Qt.resolvedUrl("images/weather-app-symbolic.svg")
@@ -297,6 +299,8 @@ ApplicationWindow {
         if (interfaceList.indexOf("media") >= 0) {
             page = "MediaDevicePage.qml";
         } else if (interfaceList.indexOf("button") >= 0) {
+            page = "ButtonDevicePage.qml";
+        } else if (interfaceList.indexOf("powerswitch") >= 0) {
             page = "ButtonDevicePage.qml";
         } else if (interfaceList.indexOf("weather") >= 0) {
             page = "WeatherDevicePage.qml";
