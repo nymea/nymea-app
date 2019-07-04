@@ -10,7 +10,7 @@ Page {
     property Device device: null
     readonly property DeviceClass deviceClass: device ? device.deviceClass : null
 
-    header: GuhHeader {
+    header: NymeaHeader {
         text: root.device.name
         onBackPressed: pageStack.pop()
 

@@ -9,7 +9,7 @@ import "../customviews"
 DeviceListPageBase {
     id: root
 
-    header: GuhHeader {
+    header: NymeaHeader {
         text: qsTr("Weather")
         onBackPressed: pageStack.pop()
     }

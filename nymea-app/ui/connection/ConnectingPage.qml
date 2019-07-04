@@ -65,7 +65,7 @@ Page {
                     errorMessage = qsTr("It seems you're not connected to the network.");
                     break;
                 case NymeaConnection.ConnectionStatusHostNotFound:
-                    errorMessage = qsTr("%1:core could not be found on this address. Please make sure you entered the address correctly and that the box is powered on.").arg(app.systemName);
+                    errorMessage = qsTr("%1:core could not be found on this address. Please make sure you entered the address correctly and that the system is powered on.").arg(app.systemName);
                     break;
                 case NymeaConnection.ConnectionStatusConnectionRefused:
                     errorMessage = qsTr("The host has rejected our connection. This probably means that %1 is not running on this host. Perhaps it's restarting?").arg(app.systemName);

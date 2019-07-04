@@ -7,7 +7,7 @@ import Nymea 1.0
 
 Page {
     id: root
-    header: GuhHeader {
+    header: NymeaHeader {
         text: qsTr("System update")
         backButtonVisible: true
         onBackPressed: pageStack.pop()
@@ -145,7 +145,7 @@ Page {
                 visible: count > 0
                 model: updatesModel
                 clip: true
-                delegate: MeaListItemDelegate {
+                delegate: NymeaListItemDelegate {
                     width: parent.width
                     text: model.displayName
                     subText: model.candidateVersion
@@ -165,7 +165,7 @@ Page {
 
         ThinDivider {}
 
-        MeaListItemDelegate {
+        NymeaListItemDelegate {
             Layout.fillWidth: true
             text: qsTr("Install or remove software")
             onClicked: {
@@ -178,7 +178,7 @@ Page {
         id: repositoryListComponent
         Page {
             id: repositoryListPage
-            header: GuhHeader {
+            header: NymeaHeader {
                 text: qsTr("Configure update sources")
                 onBackPressed: pageStack.pop()
             }
@@ -225,7 +225,7 @@ Page {
 
             property var packages: null
 
-            header: GuhHeader {
+            header: NymeaHeader {
                 text: qsTr("All packages")
                 onBackPressed: pageStack.pop()
             }
@@ -236,7 +236,7 @@ Page {
                     id: filterModel
                     packages: packageListPage.packages
                 }
-                delegate: MeaListItemDelegate {
+                delegate: NymeaListItemDelegate {
                     width: parent.width
                     text: model.displayName
                     subText: model.candidateVersion
@@ -264,7 +264,7 @@ Page {
 
             property Package pkg: null
 
-            header: GuhHeader {
+            header: NymeaHeader {
                 text: qsTr("Package information")
                 onBackPressed: pageStack.pop()
             }
@@ -297,14 +297,14 @@ Page {
                     wrapMode: Text.WordWrap
                 }
 
-                MeaListItemDelegate {
+                NymeaListItemDelegate {
                     Layout.fillWidth: true
                     text: qsTr("Installed version:")
                     subText: packageDetailsPage.pkg.installedVersion.length > 0 ? packageDetailsPage.pkg.installedVersion : qsTr("Not installed")
                     progressive: false
                 }
 
-                MeaListItemDelegate {
+                NymeaListItemDelegate {
                     Layout.fillWidth: true
                     text: qsTr("Candidate version:")
                     subText: packageDetailsPage.pkg.candidateVersion

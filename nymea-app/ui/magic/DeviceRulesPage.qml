@@ -12,7 +12,7 @@ Page {
     Component.onCompleted: print("+++ created devicerulespage")
     Component.onDestruction: print("--- destroying devicerulespage")
 
-    header: GuhHeader {
+    header: NymeaHeader {
         text: qsTr("Magic involving %1").arg(root.device.name)
         onBackPressed: pageStack.pop()
 
@@ -110,7 +110,7 @@ Page {
             filterDeviceId: root.device.id
         }
 
-        delegate: MeaListItemDelegate {
+        delegate: NymeaListItemDelegate {
             width: parent.width
             iconName: "../images/magic.svg"
             iconColor: !model.enabled ? "red" : (model.active ? app.accentColor : "grey")

@@ -7,8 +7,8 @@ import "components"
 
 Page {
     id: root
-    header: GuhHeader {
-        text: qsTr("Box settings")
+    header: NymeaHeader {
+        text: qsTr("System settings")
         backButtonVisible: true
         onBackPressed: pageStack.pop()
     }
@@ -29,7 +29,7 @@ Page {
                 Layout.fillWidth: true
                 Material.elevation: layout.isGrid ? 1 : 0
                 padding: 0
-                MeaListItemDelegate {
+                NymeaListItemDelegate {
                     width: parent.width
                     iconName: "../images/configure.svg"
                     text: qsTr("General")
@@ -45,11 +45,11 @@ Page {
                 Material.elevation: layout.isGrid ? 1 : 0
 
                 padding: 0
-                MeaListItemDelegate {
+                NymeaListItemDelegate {
                     width: parent.width
                     iconName: "../images/network-wifi.svg"
                     text: qsTr("Networking")
-                    subText: qsTr("Configure the box's network connection")
+                    subText: qsTr("Configure the system's network connection")
                     prominentSubText: false
                     wrapTexts: false
                     onClicked: pageStack.push(Qt.resolvedUrl("system/NetworkSettingsPage.qml"))
@@ -62,11 +62,11 @@ Page {
                 visible: engine.jsonRpcClient.ensureServerVersion("1.9")
 
                 padding: 0
-                MeaListItemDelegate {
+                NymeaListItemDelegate {
                     width: parent.width
                     iconName: "../images/cloud.svg"
                     text: qsTr("Cloud")
-                    subText: qsTr("Connect this box to %1:cloud").arg(app.systemName)
+                    subText: qsTr("Connect this %1:core to %1:cloud").arg(app.systemName)
                     prominentSubText: false
                     wrapTexts: false
                     onClicked: pageStack.push(Qt.resolvedUrl("system/CloudSettingsPage.qml"))
@@ -78,13 +78,13 @@ Page {
                 Material.elevation: layout.isGrid ? 1 : 0
 
                 padding: 0
-                MeaListItemDelegate {
+                NymeaListItemDelegate {
                     width: parent.width
                     iconName: "../images/network-vpn.svg"
                     text: qsTr("API interfaces")
                     prominentSubText: false
                     wrapTexts: false
-                    subText: qsTr("Configure how clients interact with this box")
+                    subText: qsTr("Configure how clients interact with this system")
                     onClicked: pageStack.push(Qt.resolvedUrl("system/ConnectionInterfacesPage.qml"))
                 }
             }
@@ -95,7 +95,7 @@ Page {
                 visible: engine.jsonRpcClient.ensureServerVersion("1.11")
 
                 padding: 0
-                MeaListItemDelegate {
+                NymeaListItemDelegate {
                     width: parent.width
                     iconName: "../images/mqtt.svg"
                     text: qsTr("MQTT broker")
@@ -111,7 +111,7 @@ Page {
                 Material.elevation: layout.isGrid ? 1 : 0
 
                 padding: 0
-                MeaListItemDelegate {
+                NymeaListItemDelegate {
                     width: parent.width
                     iconName: "../images/stock_website.svg"
                     text: qsTr("Web server")
@@ -128,7 +128,7 @@ Page {
                 Material.elevation: layout.isGrid ? 1 : 0
 
                 padding: 0
-                MeaListItemDelegate {
+                NymeaListItemDelegate {
                     width: parent.width
                     iconName: "../images/plugin.svg"
                     text: qsTr("Plugins")
@@ -144,7 +144,7 @@ Page {
                 Material.elevation: layout.isGrid ? 1 : 0
 
                 padding: 0
-                MeaListItemDelegate {
+                NymeaListItemDelegate {
                     width: parent.width
                     iconName: "../images/sdk.svg"
                     text: qsTr("Developer tools")
@@ -161,7 +161,7 @@ Page {
                 visible: engine.jsonRpcClient.ensureServerVersion("2.1") && engine.systemController.updateManagementAvailable
 
                 padding: 0
-                MeaListItemDelegate {
+                NymeaListItemDelegate {
                     width: parent.width
                     iconName: "../images/system-update.svg"
                     text: qsTr("System update")
@@ -177,7 +177,7 @@ Page {
                 Material.elevation: layout.isGrid ? 1 : 0
 
                 padding: 0
-                MeaListItemDelegate {
+                NymeaListItemDelegate {
                     width: parent.width
                     iconName: "../images/logs.svg"
                     text: qsTr("Log viewer")
@@ -193,7 +193,7 @@ Page {
                 Material.elevation: layout.isGrid ? 1 : 0
 
                 padding: 0
-                MeaListItemDelegate {
+                NymeaListItemDelegate {
                     width: parent.width
                     iconName: "../images/info.svg"
                     text: qsTr("About %1:core").arg(app.systemName)

@@ -18,7 +18,7 @@ Page {
     signal backPressed();
     signal completed();
 
-    header: GuhHeader {
+    header: NymeaHeader {
         text: qsTr("Options")
         onBackPressed: root.backPressed();
     }

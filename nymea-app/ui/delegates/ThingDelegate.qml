@@ -4,7 +4,7 @@ import QtQuick.Layouts 1.2
 import "../components"
 import Nymea 1.0
 
-MeaListItemDelegate {
+NymeaListItemDelegate {
     id: root
     width: parent.width
     iconName: deviceClass ? app.interfacesToIcon(deviceClass.interfaces) : ""

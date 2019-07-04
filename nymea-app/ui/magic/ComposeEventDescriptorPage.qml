@@ -8,7 +8,7 @@ Page {
     id: root
     property var device: null
 
-    header: GuhHeader {
+    header: NymeaHeader {
         text: qsTr("Select event")
     }
 

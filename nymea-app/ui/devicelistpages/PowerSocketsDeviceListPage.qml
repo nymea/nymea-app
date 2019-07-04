@@ -9,7 +9,7 @@ import QtQuick.Controls.Material 2.1
 DeviceListPageBase {
     id: root
 
-    header: GuhHeader {
+    header: NymeaHeader {
         text: qsTr("My %1").arg(app.interfaceToString("powersocket"))
 
         onBackPressed: {

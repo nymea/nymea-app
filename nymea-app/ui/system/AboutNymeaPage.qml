@@ -7,7 +7,7 @@ import "../components"
 Page {
 
     id: root
-    header: GuhHeader {
+    header: NymeaHeader {
         text: qsTr("About %1:core").arg(app.systemName)
         onBackPressed: pageStack.pop()
     }
@@ -22,28 +22,28 @@ Page {
             title: qsTr("%1:core").arg(app.systemName)
             githubLink: "https://github.com/guh/nymea"
 
-            MeaListItemDelegate {
+            NymeaListItemDelegate {
                 Layout.fillWidth: true
                 text: qsTr("Connection:")
                 subText: engine.connection.currentConnection.url
                 progressive: false
                 prominentSubText: false
             }
-            MeaListItemDelegate {
+            NymeaListItemDelegate {
                 Layout.fillWidth: true
                 text: qsTr("Server UUID:")
                 subText: engine.jsonRpcClient.serverUuid
                 progressive: false
                 prominentSubText: false
             }
-            MeaListItemDelegate {
+            NymeaListItemDelegate {
                 Layout.fillWidth: true
                 text: qsTr("Server version:")
                 subText: engine.jsonRpcClient.serverVersion
                 progressive: false
                 prominentSubText: false
             }
-            MeaListItemDelegate {
+            NymeaListItemDelegate {
                 Layout.fillWidth: true
                 text: qsTr("JSON-RPC version:")
                 subText: engine.jsonRpcClient.jsonRpcVersion

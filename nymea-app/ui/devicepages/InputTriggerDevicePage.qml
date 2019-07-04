@@ -29,7 +29,7 @@ DevicePageBase {
             typeIds: [root.deviceClass.eventTypes.findByName("triggered").id];
         }
 
-//        delegate: MeaListItemDelegate {
+//        delegate: NymeaListItemDelegate {
 //            width: parent.width
 //            iconName: app.interfaceToIcon("inputtrigger")
 //            text: model.value.trim()

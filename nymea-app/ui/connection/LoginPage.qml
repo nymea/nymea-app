@@ -8,7 +8,7 @@ Page {
     id: root
     signal backPressed();
 
-    header: GuhHeader {
+    header: NymeaHeader {
         text: qsTr("Welcome to %1!").arg(app.systemName)
         backButtonVisible: true
         onBackPressed: root.backPressed()
@@ -40,7 +40,7 @@ Page {
                 message = qsTr("The password you've chose is too weak.")
                 break;
             case "UserErrorBackendError":
-                message = qsTr("An error happened with the user storage. Please make sure your %1 box is installed correctly.")
+                message = qsTr("An error happened with the user storage. Please make sure your %1:core system is installed correctly.").arg(app.systemName)
                 break;
             }
             var popup = errorDialog.createObject(root, {text: message});
@@ -72,7 +72,7 @@ Page {
                 Label {
                     Layout.fillWidth: true
                     text: engine.jsonRpcClient.initialSetupRequired ?
-                              qsTr("In order to use your %1 system, please enter your email address and set a password for your %1 box.").arg(app.systemName)
+                              qsTr("In order to use your %1 system, please enter your email address and set a password for it.").arg(app.systemName)
                             : qsTr("In order to use your %1 system, please log in.").arg(app.systemName)
                     wrapMode: Text.WordWrap
                 }

@@ -7,7 +7,7 @@ import "../components"
 
 Page {
     id: root
-    header: GuhHeader {
+    header: NymeaHeader {
         text: qsTr("Network settings")
         onBackPressed: {
             pageStack.pop();
@@ -50,7 +50,7 @@ Page {
     ColumnLayout {
         anchors.fill: parent
 
-        MeaListItemDelegate {
+        NymeaListItemDelegate {
             Layout.fillWidth: true
             text: qsTr("Current connection state")
             prominentSubText: false
@@ -97,7 +97,7 @@ Page {
             }
         }
 
-        MeaListItemDelegate {
+        NymeaListItemDelegate {
             Layout.fillWidth: true
             text: qsTr("Networking enabled")
             subText: qsTr("Enable or disable networking altogether")
@@ -133,7 +133,7 @@ Page {
         }
         ThinDivider {}
 
-        MeaListItemDelegate {
+        NymeaListItemDelegate {
             Layout.fillWidth: true
             text: qsTr("Wired network")
             subText: qsTr("Shows the current ethernet status")
@@ -143,7 +143,7 @@ Page {
 
         Repeater {
             model: networkManager.wiredNetworkDevices
-            MeaListItemDelegate {
+            NymeaListItemDelegate {
                 Layout.fillWidth: true
                 iconName: model.pluggedIn ? "../images/network-wired.svg" : "../images/network-wired-offline.svg"
                 text: model.interface + " (" + model.macAddress + ")"
@@ -159,7 +159,7 @@ Page {
 
         ThinDivider {}
 
-        MeaListItemDelegate {
+        NymeaListItemDelegate {
             Layout.fillWidth: true
             text: qsTr("Wireless network")
             subText: qsTr("Enable or disable WiFi")
@@ -196,7 +196,7 @@ Page {
 
         Repeater {
             model: networkManager.wirelessNetworkDevices
-            MeaListItemDelegate {
+            NymeaListItemDelegate {
                 Layout.fillWidth: true
                 iconName: {
                     switch (model.state) {
@@ -247,7 +247,7 @@ Page {
         id: wirelessAccessPointsPageComponent
         Page {
             id: wirelessAccessPointsPage
-            header: GuhHeader {
+            header: NymeaHeader {
                 text: qsTr("WiFi networks")
                 onBackPressed: {
                     pageStack.pop();
@@ -266,7 +266,7 @@ Page {
                 anchors.fill: parent
                 model: apProxy
                 ScrollBar.vertical: ScrollBar {}
-                delegate: MeaListItemDelegate {
+                delegate: NymeaListItemDelegate {
                     width: parent.width
                     text: model.ssid
                     subText: model.macAddress
@@ -306,7 +306,7 @@ Page {
         Page {
             id: authPage
 
-            header: GuhHeader {
+            header: NymeaHeader {
                 text: qsTr("Authenticate")
                 onBackPressed: pageStack.pop()
             }
@@ -361,7 +361,7 @@ Page {
         id: currentApPageComponent
         Page {
             id: currentApPage
-            header: GuhHeader {
+            header: NymeaHeader {
                 text: qsTr("Current connection")
                 onBackPressed: pageStack.pop();
             }
@@ -372,19 +372,19 @@ Page {
                 anchors { left: parent.left; top: parent.top; right: parent.right }
                 columns: 1
 
-                MeaListItemDelegate {
+                NymeaListItemDelegate {
                     Layout.fillWidth: true
                     text: qsTr("SSID")
                     subText: currentApPage.wirelessNetworkDevice.currentAccessPoint.ssid
                     progressive: false
                 }
-                MeaListItemDelegate {
+                NymeaListItemDelegate {
                     Layout.fillWidth: true
                     text: qsTr("MAC Address")
                     subText: currentApPage.wirelessNetworkDevice.currentAccessPoint.macAddress
                     progressive: false
                 }
-                MeaListItemDelegate {
+                NymeaListItemDelegate {
                     Layout.fillWidth: true
                     text: qsTr("Signal strength")
                     subText: currentApPage.wirelessNetworkDevice.currentAccessPoint.signalStrength

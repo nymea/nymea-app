@@ -7,7 +7,7 @@ import "../components"
 
 Page {
     id: root
-    header: GuhHeader {
+    header: NymeaHeader {
         text: qsTr("Mqtt permission")
         onBackPressed: {
             root.rejected();
@@ -113,7 +113,7 @@ Page {
             model: root.policy.allowedPublishTopicFilters
             ScrollBar.vertical: ScrollBar {}
             clip: true
-            delegate: MeaListItemDelegate {
+            delegate: NymeaListItemDelegate {
                 width: parent.width
                 text: modelData
                 canDelete: true
@@ -163,7 +163,7 @@ Page {
             model: root.policy.allowedSubscribeTopicFilters
             ScrollBar.vertical: ScrollBar {}
             clip: true
-            delegate: MeaListItemDelegate {
+            delegate: NymeaListItemDelegate {
                 width: parent.width
                 text: modelData
                 canDelete: true

@@ -12,7 +12,7 @@ Page {
     property Device device: null
     property var filterTypeIds: []
 
-    header: GuhHeader {
+    header: NymeaHeader {
         text: qsTr("History for %1").arg(root.device.name)
         onBackPressed: pageStack.pop()
 

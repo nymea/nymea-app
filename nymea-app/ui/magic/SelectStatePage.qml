@@ -7,7 +7,7 @@ import Nymea 1.0
 
 Page {
     id: root
-    header: GuhHeader {
+    header: NymeaHeader {
         text: qsTr("Select state")
         onBackPressed: pageStack.pop()
     }
@@ -21,7 +21,7 @@ Page {
 
         model: device.deviceClass.stateTypes
 
-        delegate: MeaListItemDelegate {
+        delegate: NymeaListItemDelegate {
             width: parent.width
             iconName: "../images/state.svg"
             text: model.displayName

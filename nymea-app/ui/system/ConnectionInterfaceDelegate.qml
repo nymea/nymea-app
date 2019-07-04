@@ -4,7 +4,7 @@ import QtQuick.Layouts 1.3
 import Nymea 1.0
 import "../components"
 
-MeaListItemDelegate {
+NymeaListItemDelegate {
     text: qsTr("Interface: %1").arg(model.address === "0.0.0.0" ? qsTr("Any") : model.address === "127.0.0.1" ? qsTr("localhost") : model.address)
     subText: qsTr("Port: %1").arg(model.port)
     iconName: "../images/network-vpn.svg"

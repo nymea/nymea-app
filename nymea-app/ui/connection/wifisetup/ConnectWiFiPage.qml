@@ -11,7 +11,7 @@ Page {
 
     signal connected();
 
-    header: GuhHeader {
+    header: NymeaHeader {
         text: qsTr("Select wireless network")
         onBackPressed: {
             pageStack.pop();
@@ -43,7 +43,7 @@ Page {
             }
             clip: true
 
-            delegate: MeaListItemDelegate {
+            delegate: NymeaListItemDelegate {
                 width: parent.width
                 text: model.ssid
                 enabled: !networkManagerController.manager.working
@@ -97,7 +97,7 @@ Page {
         id: authenticationPageComponent
         Page {
             id: authenticationPage
-            header: GuhHeader {
+            header: NymeaHeader {
                 text: qsTr("Authenticate")
                 onBackPressed: pageStack.pop()
             }
@@ -196,7 +196,7 @@ Page {
                     Layout.fillWidth: true
                     wrapMode: Text.WordWrap
                     horizontalAlignment: Text.AlignHCenter
-                    text: qsTr("Connecting the %1 box to %2").arg(app.systemName).arg(connectingWifiWaitPage.ssid)
+                    text: qsTr("Connecting the %1:core to %2").arg(app.systemName).arg(connectingWifiWaitPage.ssid)
                 }
             }
         }

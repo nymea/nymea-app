@@ -14,7 +14,7 @@ ApplicationWindow {
     font.capitalization: Font.MixedCase
     font.family: "Oswald"
 
-    // The system (box) name.
+    // The core system name.
     property string systemName: "nymea"
 
     // The app name

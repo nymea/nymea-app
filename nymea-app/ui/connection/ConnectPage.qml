@@ -108,9 +108,9 @@ Page {
                     Label {
                         Layout.fillWidth: true
                         text: root.haveHosts ?
-                                  qsTr("There are %1 %2 boxes in your network! Which one would you like to use?").arg(hostsProxy.count).arg(app.systemName)
-                                : startupTimer.running ? qsTr("We haven't found any %1 boxes in your network yet.").arg(app.systemName)
-                                                       : qsTr("There doesn't seem to be a %1 box installed in your network. Please make sure your %1 box is correctly set up and connected.").arg(app.systemName)
+                                  qsTr("There are %1 %2:cores in your network! Which one would you like to use?").arg(hostsProxy.count).arg(app.systemName)
+                                : startupTimer.running ? qsTr("We haven't found a %1:core in your network yet.").arg(app.systemName)
+                                                       : qsTr("There doesn't seem to be a %1:core installed in your network. Please make sure your %1:core system is correctly set up and connected.").arg(app.systemName)
                         wrapMode: Text.WordWrap
                     }
                 }
@@ -123,7 +123,7 @@ Page {
                     model: hostsProxy
                     clip: true
 
-                    delegate: MeaListItemDelegate {
+                    delegate: NymeaListItemDelegate {
                         id: nymeaHostDelegate
                         width: parent.width
                         height: app.delegateHeight
@@ -203,7 +203,7 @@ Page {
                         visible: !root.haveHosts
 
                         Label {
-                            text: qsTr("Searching for %1 boxes...").arg(app.systemName)
+                            text: qsTr("Searching for %1:core systems...").arg(app.systemName)
                         }
 
                         BusyIndicator {
@@ -221,7 +221,7 @@ Page {
                     Layout.rightMargin: app.margins
                     wrapMode: Text.WordWrap
                     visible: discovery.nymeaHosts.count === 0
-                    text: qsTr("Do you have a %1 box but it's not connected to your network yet? Use the wireless setup to connect it!").arg(app.systemName)
+                    text: qsTr("Do you have a %1:core but it's not connected to your network yet? Use the wireless setup to connect it!").arg(app.systemName)
                 }
                 Button {
                     Layout.fillWidth: true
@@ -356,7 +356,7 @@ Page {
                         width: parent.width
                         Repeater {
                             model: dialog.nymeaHost.connections
-                            delegate: MeaListItemDelegate {
+                            delegate: NymeaListItemDelegate {
                                 Layout.fillWidth: true
                                 wrapTexts: false
                                 progressive: false

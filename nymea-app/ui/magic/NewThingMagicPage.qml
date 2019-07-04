@@ -351,7 +351,7 @@ Page {
         }
     }
 
-    header: GuhHeader {
+    header: NymeaHeader {
         text: qsTr("New magic")
         onBackPressed: root.done()
     }
@@ -366,7 +366,7 @@ Page {
                 ruleTemplates: RuleTemplates {}
                 filterInterfaceNames: root.deviceClass ? root.deviceClass.interfaces : []
             }
-            delegate: MeaListItemDelegate {
+            delegate: NymeaListItemDelegate {
                 width: parent.width
                 text: model.description
 

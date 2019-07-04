@@ -7,7 +7,7 @@ import "../components"
 
 Page {
     id: root
-    header: GuhHeader {
+    header: NymeaHeader {
         text: qsTr("Box settings")
         backButtonVisible: true
         onBackPressed: pageStack.pop()

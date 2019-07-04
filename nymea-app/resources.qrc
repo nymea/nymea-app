@@ -20,7 +20,7 @@
         <file>ui/connection/wifisetup/ConnectWiFiPage.qml</file>
         <file>ui/connection/wifisetup/NetworkSettingsPage.qml</file>
         <file>ui/connection/wifisetup/BoxInfoPage.qml</file>
-        <file>ui/components/GuhHeader.qml</file>
+        <file>ui/components/NymeaHeader.qml</file>
         <file>ui/components/HeaderButton.qml</file>
         <file>ui/components/ColorPicker.qml</file>
         <file>ui/components/ColorIcon.qml</file>
@@ -32,7 +32,7 @@
         <file>ui/components/ErrorDialog.qml</file>
         <file>ui/components/ShutterControls.qml</file>
         <file>ui/components/MeaDialog.qml</file>
-        <file>ui/components/MeaListItemDelegate.qml</file>
+        <file>ui/components/NymeaListItemDelegate.qml</file>
         <file>ui/components/MainPageTabButton.qml</file>
         <file>ui/components/AutoSizeMenu.qml</file>
         <file>ui/components/EmptyViewPlaceholder.qml</file>

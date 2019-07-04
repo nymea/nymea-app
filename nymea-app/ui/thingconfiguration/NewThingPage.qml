@@ -9,7 +9,7 @@ import "../delegates"
 Page {
     id: root
 
-    header: GuhHeader {
+    header: NymeaHeader {
         text: qsTr("Set up new thing")
         onBackPressed: {
             pageStack.pop();
@@ -107,7 +107,7 @@ Page {
             groupByInterface: true
         }
 
-        delegate: MeaListItemDelegate {
+        delegate: NymeaListItemDelegate {
             id: deviceClassDelegate
             width: parent.width
             text: model.displayName

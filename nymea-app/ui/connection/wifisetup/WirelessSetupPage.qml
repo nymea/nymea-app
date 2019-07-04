@@ -12,7 +12,7 @@ Page {
 
     signal done()
 
-    header: GuhHeader {
+    header: NymeaHeader {
         text: qsTr("Wireless network setup")
         onBackPressed: {
             pageStack.pop();
@@ -92,7 +92,7 @@ Page {
             Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
             wrapMode: Text.WordWrap
             text: root.networkManagerController.manager.currentConnection
-                  ? qsTr("Your %1 box is connected to %2").arg(app.systemName).arg(root.networkManagerController.manager.currentConnection.ssid)
+                  ? qsTr("Your %1:core is connected to %2").arg(app.systemName).arg(root.networkManagerController.manager.currentConnection.ssid)
                   : ""
         }
 
@@ -109,7 +109,7 @@ Page {
             spacing: app.margins
             Label {
                 Layout.fillWidth: true
-                text: qsTr("Waiting for the %1 box to appear in your network.").arg(app.systemName)
+                text: qsTr("Waiting for the %1:core to appear in your network.").arg(app.systemName)
                 wrapMode: Text.WordWrap
             }
             BusyIndicator { }
@@ -120,7 +120,7 @@ Page {
             visible: url != ""
             Layout.fillWidth: true
             Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
-            text: qsTr("Connect to box")
+            text: qsTr("Connect to %1:core").arg(app.systemName)
             property string url
             onClicked: {
                 engine.connection.connect(url)

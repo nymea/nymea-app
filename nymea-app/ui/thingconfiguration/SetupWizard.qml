@@ -16,7 +16,7 @@ Page {
 
     signal done();
 
-    header: GuhHeader {
+    header: NymeaHeader {
         text: qsTr("Set up thing")
         onBackPressed: {
             if (internalPageStack.depth > 1) {
@@ -183,7 +183,7 @@ Page {
                         showNew: root.device === null
                         filterDeviceId: root.device !== null ? root.device.id : null
                     }
-                    delegate: MeaListItemDelegate {
+                    delegate: NymeaListItemDelegate {
                         width: parent.width
                         height: app.delegateHeight
                         text: model.name

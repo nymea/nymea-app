@@ -221,7 +221,7 @@ Page {
         })
     }
 
-    header: GuhHeader {
+    header: NymeaHeader {
         text: root.rule.name.length === 0 ? qsTr("Add new magic") : qsTr("Edit %1").arg(root.rule.name)
         onBackPressed: {
             if (root.rule.compare(d.backupRule)) {
@@ -679,7 +679,7 @@ Page {
     Component {
         id: eventQuestionPageComponent
         Page {
-            header: GuhHeader {
+            header: NymeaHeader {
                 text: qsTr("Add event")
                 onBackPressed: pageStack.pop()
             }
@@ -708,7 +708,7 @@ Page {
                             minimumJsonRpcVersion: "1.0"
                         }
                     }
-                    delegate: MeaListItemDelegate {
+                    delegate: NymeaListItemDelegate {
                         Layout.fillWidth: true
                         iconName: model.iconName
                         text: model.text
@@ -728,7 +728,7 @@ Page {
     Component {
         id: stateQuestionPageComponent
         Page {
-            header: GuhHeader {
+            header: NymeaHeader {
                 text: qsTr("Add condition...")
 
                 onBackPressed: pageStack.pop()
@@ -758,7 +758,7 @@ Page {
                             minimumJsonRpcVersion: "1.0"
                         }
                     }
-                    delegate: MeaListItemDelegate {
+                    delegate: NymeaListItemDelegate {
                         Layout.fillWidth: true
                         iconName: model.iconName
                         text: model.text
@@ -781,7 +781,7 @@ Page {
             id: ruleActionQuestionPage
             property bool exitAction: false
 
-            header: GuhHeader {
+            header: NymeaHeader {
                 text: qsTr("Add action...")
 
                 onBackPressed: pageStack.pop()
@@ -821,7 +821,7 @@ Page {
                             minimumJsonRpcVersion: "1.5"
                         }
                     }
-                    delegate: MeaListItemDelegate {
+                    delegate: NymeaListItemDelegate {
                         Layout.fillWidth: true
                         iconName: model.iconName
                         text: model.text

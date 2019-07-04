@@ -21,7 +21,7 @@ Page {
     signal backPressed();
     signal completed();
 
-    header: GuhHeader {
+    header: NymeaHeader {
         text: actionType.displayName
         onBackPressed: root.backPressed();
     }
@@ -126,7 +126,7 @@ Page {
                                 }
                             }
 
-                            MeaListItemDelegate {
+                            NymeaListItemDelegate {
                                 id: statePickerDelegate
                                 Layout.fillWidth: true
                                 text: deviceId === null || stateTypeId === null

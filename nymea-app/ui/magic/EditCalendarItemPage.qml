@@ -18,7 +18,7 @@ Page {
     readonly property bool isWeekDayBased: repeatingBox.currentIndex === 3
     readonly property bool isMonthDayBased: repeatingBox.currentIndex === 4
 
-    header: GuhHeader {
+    header: NymeaHeader {
         text: qsTr("Pick a time frame")
         onBackPressed: root.backPressed();
     }

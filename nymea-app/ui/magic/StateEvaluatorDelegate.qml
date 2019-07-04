@@ -100,7 +100,7 @@ ItemDelegate {
     Component {
         id: stateQuestionPageComponent
         Page {
-            header: GuhHeader {
+            header: NymeaHeader {
                 text: qsTr("Edit condition...")
 
                 onBackPressed: pageStack.pop()
@@ -123,7 +123,7 @@ ItemDelegate {
                             method: "editInterfaceStateDescriptor"
                         }
                     }
-                    delegate: MeaListItemDelegate {
+                    delegate: NymeaListItemDelegate {
                         Layout.fillWidth: true
                         iconName: model.iconName
                         text: model.text

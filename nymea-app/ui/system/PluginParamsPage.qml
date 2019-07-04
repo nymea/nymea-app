@@ -10,7 +10,7 @@ Page {
     id: root
     property var plugin: null
 
-    header: GuhHeader {
+    header: NymeaHeader {
         text: qsTr("%1 settings").arg(plugin.name)
         backButtonVisible: true
         onBackPressed: pageStack.pop()

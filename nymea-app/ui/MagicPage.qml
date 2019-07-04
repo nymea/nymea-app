@@ -6,7 +6,7 @@ import Nymea 1.0
 
 Page {
     id: root
-    header: GuhHeader {
+    header: NymeaHeader {
         text: qsTr("Magic")
         onBackPressed: pageStack.pop()
 
@@ -74,7 +74,7 @@ Page {
             id: rulesProxy
             rules: engine.ruleManager.rules
         }
-        delegate: MeaListItemDelegate {
+        delegate: NymeaListItemDelegate {
             id: ruleDelegate
             width: parent.width
             iconName: "../images/" + (model.executable ? (iconTag ? iconTag.value : "slideshow") : "magic") + ".svg"

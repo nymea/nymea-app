@@ -6,7 +6,7 @@ import "../components"
 
 Page {
     id: root
-    header: GuhHeader {
+    header: NymeaHeader {
         text: qsTr("Web server")
         onBackPressed: pageStack.pop();
     }

@@ -5,7 +5,7 @@ import Nymea 1.0
 import "../components"
 
 Page {
-    header: GuhHeader {
+    header: NymeaHeader {
         text: qsTr("App log")
         backButtonVisible: true
         onBackPressed: pageStack.pop()
