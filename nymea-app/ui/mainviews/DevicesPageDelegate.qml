@@ -320,30 +320,26 @@ MainPageTile {
                         switch (model.name) {
                         case "light":
                         case "powersocket":
-                            if (devicesProxy.count == 1) {
-                                var device = devicesProxy.get(0);
+                            var allOff = true;
+                            for (var i = 0; i < devicesProxy.count; i++) {
+                                var device = devicesProxy.get(i);
+                                if (device.states.getState(device.deviceClass.stateTypes.findByName("power").id).value === true) {
+                                    allOff = false;
+                                    break;
+                                }
+                            }
+
+                            for (var i = 0; i < devicesProxy.count; i++) {
+                                var device = devicesProxy.get(i);
                                 var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
-                                var stateType = deviceClass.stateTypes.findByName("power")
-                                var actionType = deviceClass.actionTypes.findByName("power")
+                                var actionType = deviceClass.actionTypes.findByName("power");
+
                                 var params = [];
                                 var param1 = {};
                                 param1["paramTypeId"] = actionType.paramTypes.get(0).id;
-                                param1["value"] = !device.states.getState(stateType.id).value;
+                                param1["value"] = allOff ? true : false;
                                 params.push(param1)
                                 engine.deviceManager.executeAction(device.id, actionType.id, params)
-                            } else {
-                                for (var i = 0; i < devicesProxy.count; i++) {
-                                    var device = devicesProxy.get(i);
-                                    var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
-                                    var actionType = deviceClass.actionTypes.findByName("power");
-
-                                    var params = [];
-                                    var param1 = {};
-                                    param1["paramTypeId"] = actionType.paramTypes.get(0).id;
-                                    param1["value"] = false;
-                                    params.push(param1)
-                                    engine.deviceManager.executeAction(device.id, actionType.id, params)
-                                }
                             }
                             break;
                         case "media":

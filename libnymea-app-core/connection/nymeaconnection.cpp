@@ -32,7 +32,7 @@ NymeaConnection::NymeaConnection(QObject *parent) : QObject(parent)
 
     QGuiApplication *app = static_cast<QGuiApplication*>(QGuiApplication::instance());
     QObject::connect(app, &QGuiApplication::applicationStateChanged, this, [this](Qt::ApplicationState state) {
-        qDebug() << "Application state changed to:" << state;
+//        qDebug() << "Application state changed to:" << state;
         updateActiveBearers();
     });
 

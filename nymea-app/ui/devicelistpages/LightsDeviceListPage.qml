@@ -15,6 +15,15 @@ DeviceListPageBase {
         HeaderButton {
             imageSource: "../images/system-shutdown.svg"
             onClicked: {
+                var allOff = true;
+                for (var i = 0; i < devicesProxy.count; i++) {
+                    var device = devicesProxy.get(i);
+                    if (device.states.getState(device.deviceClass.stateTypes.findByName("power").id).value === true) {
+                        allOff = false;
+                        break;
+                    }
+                }
+
                 for (var i = 0; i < devicesProxy.count; i++) {
                     var device = devicesProxy.get(i);
                     var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
@@ -23,7 +32,7 @@ DeviceListPageBase {
                     var params = [];
                     var param1 = {};
                     param1["paramTypeId"] = actionType.paramTypes.get(0).id;
-                    param1["value"] = false;
+                    param1["value"] = allOff ? true : false;
                     params.push(param1)
                     engine.deviceManager.executeAction(device.id, actionType.id, params)
                 }
