@@ -145,7 +145,7 @@ QString DeviceClass::baseInterface() const
     if (m_interfaces.contains("media")) {
         return "media";
     }
-    if (m_interfaces.contains("button")) {
+    if (m_interfaces.contains("button") || m_interfaces.contains("powerswitch")) {
         return "button";
     }
     if (m_interfaces.contains("notifications")) {
