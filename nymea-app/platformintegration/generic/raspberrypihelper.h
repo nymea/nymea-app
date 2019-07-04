@@ -15,6 +15,9 @@ public:
     int screenTimeout() const;
     void setScreenTimeout(int timeout);
 
+    int screenBrightness() const;
+    void setScreenBrightness(int percent);
+
     bool eventFilter(QObject *watched, QEvent *event) override;
 
 private slots:
@@ -23,7 +26,10 @@ private slots:
 
 private:
     QTimer m_screenOffTimer;
-    QFile m_sysFsFile;
+    QFile m_powerFile;
+    QFile m_brightnessFile;
+
+    int m_currentBrightness = 255;
 };
 
 #endif // RASPBERRYPIHELPER_H

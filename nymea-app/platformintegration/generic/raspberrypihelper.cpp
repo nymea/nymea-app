@@ -7,14 +7,22 @@
 
 RaspberryPiHelper::RaspberryPiHelper(QObject *parent) : QObject(parent)
 {
-    m_sysFsFile.setFileName("/sys/class/backlight/rpi_backlight/bl_power");
-    bool available = m_sysFsFile.open(QFile::ReadWrite | QFile::Text);
+    m_powerFile.setFileName("/sys/class/backlight/rpi_backlight/bl_power");
+    bool available = m_powerFile.open(QFile::ReadWrite | QFile::Text);
 
     if (!available) {
         return;
     }
 
     qDebug() << "Raspberry Pi detected. Enabling backlight control";
+
+    m_brightnessFile.setFileName("/sys/class/backlight/rpi_backlight/brightness");
+    if (!m_brightnessFile.open(QFile::ReadWrite | QFile::Text)) {
+        qWarning() << "Failed to open brightness file";
+    }
+    QByteArray currentBrightness = m_brightnessFile.readLine();
+    m_currentBrightness = currentBrightness.trimmed().toInt() * 100 / 255;
+    qDebug() << "Current brightness is:" << currentBrightness << m_currentBrightness;
 
     screenOn();
 
@@ -33,7 +41,7 @@ RaspberryPiHelper::RaspberryPiHelper(QObject *parent) : QObject(parent)
 
 bool RaspberryPiHelper::active() const
 {
-    return m_sysFsFile.isOpen();
+    return m_powerFile.isOpen();
 }
 
 int RaspberryPiHelper::screenTimeout() const
@@ -51,6 +59,18 @@ void RaspberryPiHelper::setScreenTimeout(int timeout)
     } else {
         m_screenOffTimer.stop();
     }
+}
+
+int RaspberryPiHelper::screenBrightness() const
+{
+    return m_currentBrightness;
+}
+
+void RaspberryPiHelper::setScreenBrightness(int percent)
+{
+    m_currentBrightness = percent;
+    m_brightnessFile.write(QString("%1\n").arg(percent * 255 / 100).toUtf8());
+    m_brightnessFile.flush();
 }
 
 bool RaspberryPiHelper::eventFilter(QObject *watched, QEvent *event)
@@ -88,8 +108,8 @@ bool RaspberryPiHelper::eventFilter(QObject *watched, QEvent *event)
 void RaspberryPiHelper::screenOn()
 {
     qDebug() << "Turning screen on";
-    int ret = m_sysFsFile.write("0\n");
-    m_sysFsFile.flush();
+    int ret = m_powerFile.write("0\n");
+    m_powerFile.flush();
     if (ret < 0) {
         qWarning() << "Failed to power on screen";
     }
@@ -98,8 +118,8 @@ void RaspberryPiHelper::screenOn()
 void RaspberryPiHelper::screenOff()
 {
     qDebug() << "Turning screen off";
-    int ret = m_sysFsFile.write("1\n");
-    m_sysFsFile.flush();
+    int ret = m_powerFile.write("1\n");
+    m_powerFile.flush();
     if (ret < 0) {
         qWarning() << "Failed to power off screen";
     }
