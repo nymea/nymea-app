@@ -1,3 +1,14 @@
+nymea-app (1.0.130) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Rename some old components
+  * Support the upcoming powerswitch interface
+  * Add support for setting the screen brightness on Raspberry Pis
+  * Don't allow X to blank the screen
+  * Allow the "All lights off" button to also turn all lights on
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 05 Jul 2019 01:25:36 +0200
+
 nymea-app (1.0.129) bionic; urgency=medium
 
   [ Michael Zanetti ]
