@@ -1,3 +1,10 @@
+nymea-app (1.0.131) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Update to latest upstream QtZeroConf
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 05 Jul 2019 18:17:12 +0200
+
 nymea-app (1.0.130) bionic; urgency=medium
 
   [ Michael Zanetti ]
