@@ -16,8 +16,8 @@ Item {
         color: Material.background
     }
 
-    function handleCloseEvent(close) {
-        swipeView.currentItem.handleCloseEvent(close)
+    function handleAndroidBackButton() {
+        return swipeView.currentItem.handleAndroidBackButton()
     }
 
     ListModel {
@@ -182,16 +182,15 @@ Item {
                         })
                     }
 
-                    function handleCloseEvent(close) {
-                        if (Qt.platform.os == "android") {
-                            // If we're connected, allow going back up to MainPage
-                            if ((engine.jsonRpcClient.connected && pageStack.depth > 1)
-                                    // if we're not connected, only allow using the back button in wizards
-                                    || (!engine.jsonRpcClient.connected && pageStack.depth > 3)) {
-                                close.accepted = false;
-                                pageStack.pop();
-                            }
+                    function handleAndroidBackButton() {
+                        // If we're connected, allow going back up to MainPage
+                        if ((engine.jsonRpcClient.connected && pageStack.depth > 1)
+                                // if we're not connected, only allow using the back button in wizards
+                                || (!engine.jsonRpcClient.connected && pageStack.depth > 3)) {
+                            pageStack.pop();
+                            return true;
                         }
+                        return false;
                     }
 
                     function setupPushNotifications(askForPermissions) {
