@@ -464,9 +464,12 @@ void DeviceManager::browseDeviceResponse(const QVariantMap &params)
         BrowserItem *item = new BrowserItem(itemMap.value("id").toString(), this);
         item->setDisplayName(itemMap.value("displayName").toString());
         item->setDescription(itemMap.value("description").toString());
+        item->setIcon(itemMap.value("icon").toString());
         item->setThumbnail(itemMap.value("thumbnail").toString());
         item->setExecutable(itemMap.value("executable").toBool());
         item->setBrowsable(itemMap.value("browsable").toBool());
+
+        item->setMediaIcon(itemMap.value("mediaIcon").toString());
         itemModel->addBrowserItem(item);
     }
 

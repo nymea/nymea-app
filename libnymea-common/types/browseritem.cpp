@@ -32,6 +32,16 @@ void BrowserItem::setDescription(const QString &description)
     m_description = description;
 }
 
+QString BrowserItem::icon() const
+{
+    return m_icon;
+}
+
+void BrowserItem::setIcon(const QString &icon)
+{
+    m_icon = icon;
+}
+
 QString BrowserItem::thumbnail() const
 {
     return m_thumbnail;
@@ -60,4 +70,14 @@ bool BrowserItem::browsable() const
 void BrowserItem::setBrowsable(bool browsable)
 {
     m_browsable = browsable;
+}
+
+QString BrowserItem::mediaIcon() const
+{
+    return m_mediaIcon;
+}
+
+void BrowserItem::setMediaIcon(const QString &mediaIcon)
+{
+    m_mediaIcon = mediaIcon;
 }

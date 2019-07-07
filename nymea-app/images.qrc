@@ -182,5 +182,31 @@
         <file>ui/images/lock-open.svg</file>
         <file>ui/images/system-update.svg</file>
         <file>ui/images/folder-symbolic.svg</file>
+        <file>ui/images/browser/BrowserIconFile.svg</file>
+        <file>ui/images/browser/BrowserIconFolder.svg</file>
+        <file>ui/images/browser/MediaBrowserIconSpotify.svg</file>
+        <file>ui/images/browser/MediaBrowserIconAirable.svg</file>
+        <file>ui/images/browser/MediaBrowserIconAmazon.svg</file>
+        <file>ui/images/browser/MediaBrowserIconAux.svg</file>
+        <file>ui/images/browser/MediaBrowserIconLibrary.svg</file>
+        <file>ui/images/browser/MediaBrowserIconMusicLibrary.svg</file>
+        <file>ui/images/browser/MediaBrowserIconNetwork.svg</file>
+        <file>ui/images/browser/MediaBrowserIconPictureLibrary.svg</file>
+        <file>ui/images/browser/MediaBrowserIconPlaylist.svg</file>
+        <file>ui/images/browser/MediaBrowserIconRecentlyPlayed.svg</file>
+        <file>ui/images/browser/MediaBrowserIconSiriusXM.svg</file>
+        <file>ui/images/browser/MediaBrowserIconTidal.svg</file>
+        <file>ui/images/browser/MediaBrowserIconTuneIn.svg</file>
+        <file>ui/images/browser/MediaBrowserIconUSB.svg</file>
+        <file>ui/images/browser/MediaBrowserIconVideoLibrary.svg</file>
+        <file>ui/images/browser/MediaBrowserIconVTuner.svg</file>
+        <file>ui/images/browser/MediaBrowserIconDisk.svg</file>
+        <file>ui/images/browser/BrowserIconFavorites.svg</file>
+        <file>ui/images/browser/BrowserIconMusic.svg</file>
+        <file>ui/images/browser/BrowserIconPicture.svg</file>
+        <file>ui/images/browser/BrowserIconVideo.svg</file>
+        <file>ui/images/browser/BrowserIconApplication.svg</file>
+        <file>ui/images/browser/BrowserIconDocument.svg</file>
+        <file>ui/images/browser/BrowserIconPackage.svg</file>
     </qresource>
 </RCC>

@@ -6,7 +6,7 @@ import "../components"
 
 Page {
     id: root
-    header: GuhHeader {
+    header: NymeaHeader {
         text: qsTr("Browse %1").arg(root.device.name)
         onBackPressed: pageStack.pop()
     }
@@ -26,14 +26,17 @@ Page {
         id: listView
         anchors.fill: parent
         model: d.model
+        ScrollBar.vertical: ScrollBar {}
 
-        delegate: MeaListItemDelegate {
+        delegate: NymeaListItemDelegate {
             width: parent.width
             text: model.displayName
             progressive: model.browsable
             subText: model.description
             prominentSubText: false
             iconName: model.thumbnail
+            fallbackIcon: "../images/browser/" + model.icon + ".svg"
+            enabled: model.browsable || model.executable
 
             onClicked: {
                 print("clicked:", model.id)

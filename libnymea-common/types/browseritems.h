@@ -15,9 +15,12 @@ public:
         RoleId,
         RoleDisplayName,
         RoleDescription,
+        RoleIcon,
         RoleThumbnail,
         RoleBrowsable,
-        RoleExecutable
+        RoleExecutable,
+
+        RoleMediaIcon,
     };
     Q_ENUM(Roles)
 

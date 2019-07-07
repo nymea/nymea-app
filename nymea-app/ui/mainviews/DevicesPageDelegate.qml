@@ -13,6 +13,14 @@ MainPageTile {
     disconnected: devicesSubProxyConnectables.count > 0
     batteryCritical: devicesSubProxyBattery.count > 0
 
+    backgroundImage: currentDevice.deviceClass.interfaces.indexOf("mediametadataprovider") >= 0 ?
+                         currentDevice.states.getState(currentDevice.deviceClass.stateTypes.findByName("artwork").id).value : ""
+
+    property int currentDeviceIndex: 0
+    readonly property Device currentDevice: devicesProxy.get(currentDeviceIndex)
+//    readonly property State currentBackgroundState: currentDevice.state
+
+
     onClicked: {
         var page;
         switch (model.name) {

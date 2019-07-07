@@ -9,6 +9,7 @@ Item {
     property alias iconName: colorIcon.name
     property alias fallbackIconName: fallbackIcon.name
     property alias iconColor: colorIcon.color
+    property alias backgroundImage: background.source
     property string text
     property bool disconnected: false
     property bool batteryCritical: false
@@ -24,6 +25,19 @@ Item {
         Material.elevation: 1
         padding: 0
 
+        Image {
+            id: background
+            anchors.fill: parent
+            anchors.margins: 1
+            z: -1
+//            opacity: .5
+//            Rectangle {
+//                anchors.fill: parent
+//                color: Material.background
+//                opacity: .5
+//            }
+        }
+
         contentItem: ItemDelegate {
             padding: 0; topPadding: 0; bottomPadding: 0
             onClicked: root.clicked()
@@ -35,6 +49,7 @@ Item {
                     Layout.fillHeight: true
                     Layout.margins: app.margins
                     Item {
+                        visible: background.status !== Image.Ready
                         Layout.fillWidth: true
                         Layout.fillHeight: true
 
@@ -55,6 +70,7 @@ Item {
                     Item {
                         Layout.fillWidth: true
                         Layout.fillHeight: true
+                        visible: background.status !== Image.Ready
 
                         Label {
                             id: label
@@ -76,6 +92,11 @@ Item {
                     Layout.fillWidth: true
                     Layout.preferredHeight: app.iconSize + app.margins * 2
                     visible: root.contentItem.length > 1
+
+                    Rectangle {
+                        anchors.fill: parent
+                        color: Material.background
+                    }
 
                     Rectangle {
                         anchors.fill: parent

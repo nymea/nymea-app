@@ -33,12 +33,17 @@ QVariant BrowserItems::data(const QModelIndex &index, int role) const
         return m_list.at(index.row())->displayName();
     case RoleDescription:
         return m_list.at(index.row())->description();
+    case RoleIcon:
+        return m_list.at(index.row())->icon();
     case RoleThumbnail:
         return m_list.at(index.row())->thumbnail();
     case RoleExecutable:
         return m_list.at(index.row())->executable();
     case RoleBrowsable:
         return m_list.at(index.row())->browsable();
+
+    case RoleMediaIcon:
+        return m_list.at(index.row())->mediaIcon();
     }
     return QVariant();
 }
@@ -49,9 +54,12 @@ QHash<int, QByteArray> BrowserItems::roleNames() const
     roles.insert(RoleId, "id");
     roles.insert(RoleDisplayName, "displayName");
     roles.insert(RoleDescription, "description");
+    roles.insert(RoleIcon, "icon");
     roles.insert(RoleThumbnail, "thumbnail");
     roles.insert(RoleExecutable, "executable");
     roles.insert(RoleBrowsable, "browsable");
+
+    roles.insert(RoleMediaIcon, "mediaIcon");
     return roles;
 }
 

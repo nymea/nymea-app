@@ -15,6 +15,7 @@ SwipeDelegate {
     property bool prominentSubText: true
 
     property string iconName
+    property string fallbackIcon
     property int iconSize: app.iconSize
     property color iconColor: app.accentColor
     property alias iconKeyColor: icon.keyColor
@@ -32,14 +33,27 @@ SwipeDelegate {
     contentItem: RowLayout {
         id: innerLayout
         spacing: app.margins
-        ColorIcon {
-            id: icon
+        Item {
             Layout.preferredHeight: root.iconSize
             Layout.preferredWidth: height
-            name: root.iconName
-            color: root.iconColor
-            visible: root.iconName
+            visible: root.iconName || root.fallbackIcon
+
+            ColorIcon {
+                id: icon
+                anchors.fill: parent
+                name: root.iconName
+                color: root.iconColor
+                visible: root.iconName
+            }
+
+            ColorIcon {
+                anchors.fill: parent
+                name: root.fallbackIcon
+                color: root.iconColor
+                visible: root.fallbackIcon && (!root.iconName || icon.status === Image.Error)
+            }
         }
+
         ColumnLayout {
             Layout.fillWidth: true
             Layout.fillHeight: true
