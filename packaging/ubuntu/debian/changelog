@@ -1,3 +1,11 @@
+nymea-app (1.0.132) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Improve back button handling
+  * Update to newer Android API
+
+ -- Jenkins <jenkins@nymea.io>  Sun, 07 Jul 2019 21:06:27 +0200
+
 nymea-app (1.0.131) bionic; urgency=medium
 
   [ Michael Zanetti ]
