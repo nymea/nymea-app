@@ -65,10 +65,6 @@ ApplicationWindow {
     }
     property alias _discovery: discovery
 
-    onClosing: {
-        rootItem.handleCloseEvent(close)
-    }
-
     property var supportedInterfaces: ["light", "weather", "media", "garagegate", "awning", "shutter", "blind", "powersocket", "heating", "sensor", "smartmeter", "evcharger", "accesscontrol", "button", "notifications", "inputtrigger", "outputtrigger", "gateway"]
     function interfaceToString(name) {
         switch(name) {
@@ -336,6 +332,32 @@ ApplicationWindow {
     function pad(num, size) {
         var s = "000000000" + num;
         return s.substr(s.length-size);
+    }
+
+    // Handle the Android close event that happens when the back button is pressed
+    // It's hard to handle the key press, because we might not have focus all the time
+    // So let's handle the window's onClosing signal instad.
+    // The problem is, we cannot distinguish between the back button being pressed
+    // or the bottom swipe gesture is being used to switch apps. Let's try to figure that out
+    // by checking if the app becomes inactive right after the event. If not, it's probably a back
+    // button press and we close ourselves.
+    onClosing: {
+        if (Qt.platform.os == "android") {
+            var handled = rootItem.handleAndroidBackButton();
+            if (!handled) {
+                closeTimer.start()
+            }
+            close.accepted = false;
+        }
+    }
+    Timer {
+        id: closeTimer
+        interval: 300
+        onTriggered: Qt.quit();
+    }
+    Connections {
+        target: Qt.application
+        onStateChanged: closeTimer.stop()
     }
 
 
