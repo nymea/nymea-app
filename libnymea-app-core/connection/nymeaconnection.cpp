@@ -406,6 +406,15 @@ void NymeaConnection::updateActiveBearers()
         foreach (const QNetworkConfiguration &config, configs) {
             qDebug() << "Inactive network config:" << config.name() << config.bearerTypeFamily() << config.bearerTypeName();
         }
+
+        // Retrying with a new config manager:
+        QNetworkConfigurationManager *newMan = new QNetworkConfigurationManager(this);
+        qDebug() << "Trying with new config manager:";
+        configs = newMan->allConfigurations();
+        foreach (const QNetworkConfiguration &config, configs) {
+            qDebug() << "Config:" << config.name() << config.bearerTypeFamily() << config.bearerTypeName() << config.state();
+        }
+        newMan->deleteLater();
     }
 
     if (m_availableBearerTypes != availableBearerTypes) {
