@@ -30,6 +30,8 @@ Item {
             anchors.fill: parent
             anchors.margins: 1
             z: -1
+            fillMode: Image.PreserveAspectCrop
+//            horizontalAlignment: Image.AlignTop
 //            opacity: .5
 //            Rectangle {
 //                anchors.fill: parent

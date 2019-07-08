@@ -185,5 +185,8 @@
         <file>ui/connection/SetupWizard.qml</file>
         <file>ui/system/NetworkSettingsPage.qml</file>
         <file>ui/devicepages/DeviceBrowserPage.qml</file>
+        <file>ui/devicelistpages/MediaDeviceListPage.qml</file>
+        <file>ui/components/MediaControls.qml</file>
+        <file>ui/components/MediaArtworkImage.qml</file>
     </qresource>
 </RCC>

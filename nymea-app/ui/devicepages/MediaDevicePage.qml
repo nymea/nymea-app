@@ -41,6 +41,7 @@ DevicePageBase {
     SwipeView {
         id: swipeView
         anchors.fill: parent
+        interactive: root.deviceClass.browsable
 
         Item {
             GridLayout {
@@ -51,32 +52,10 @@ DevicePageBase {
                 columnSpacing: app.margins
                 rowSpacing: app.margins
 
-                Pane {
-                    Layout.fillWidth: true
+                MediaArtworkImage {
                     Layout.fillHeight: true
-                    Layout.minimumWidth: parent.width / 2
-                    Material.elevation: 2
-                    padding: 0
-
-                    contentItem: Rectangle {
-                        color: app.foregroundColor
-
-                        Image {
-                            id: artworkImage
-                            anchors.fill: parent
-                            fillMode: Image.PreserveAspectFit
-                            source: root.stateValue("artwork")
-                        }
-
-                        ColorIcon {
-                            id: fallback
-                            anchors.fill: parent
-                            anchors.margins: app.margins * 2
-                            name: root.stateValue("playerType") === "video" ? "../images/stock_video.svg" : "../images/stock_music.svg"
-                            visible: artworkImage.status !== Image.Ready || artworkImage.source === ""
-                            color: app.primaryColor
-                        }
-                    }
+                    Layout.preferredWidth: parent.width / parent.columns
+                    device: root.device
                 }
 
                 ColumnLayout {
@@ -110,62 +89,9 @@ DevicePageBase {
                         text: root.stateValue("collection")
                     }
 
-                    RowLayout {
-                        Layout.fillWidth: true
-                        Item { Layout.fillWidth: true }
-
-                        ProgressButton {
-                            Layout.preferredHeight: app.iconSize
-                            Layout.preferredWidth: height
-                            imageSource: "../images/media-skip-backward.svg"
-                            longpressImageSource: "../images/media-seek-backward.svg"
-                            repeat: true
-
-                            onClicked: {
-                                root.executeAction("skipBack")
-                            }
-                            onLongpressed: {
-                                root.executeAction("fastRewind")
-                            }
-                        }
-
-                        Item { Layout.fillWidth: true }
-
-                        ProgressButton {
-                            Layout.preferredHeight: app.iconSize * 2
-                            Layout.preferredWidth: height
-                            imageSource: root.playbackState.value === "Playing" ? "../images/media-playback-pause.svg" : "../images/media-playback-start.svg"
-                            longpressImageSource: "../images/media-playback-stop.svg"
-                            longpressEnabled: root.playbackState.value !== "Stopped"
-
-                            onClicked: {
-                                if (root.playbackState.value === "Playing") {
-                                    root.executeAction("pause")
-                                } else {
-                                    root.executeAction("play")
-                                }
-                            }
-
-                            onLongpressed: {
-                                root.executeAction("stop")
-                            }
-                        }
-
-                        Item { Layout.fillWidth: true }
-                        ProgressButton {
-                            Layout.preferredHeight: app.iconSize
-                            Layout.preferredWidth: height
-                            imageSource: "../images/media-skip-forward.svg"
-                            longpressImageSource: "../images/media-seek-forward.svg"
-                            repeat: true
-                            onClicked: {
-                                root.executeAction("skipNext")
-                            }
-                            onLongpressed: {
-                                root.executeAction("fastForward")
-                            }
-                        }
-                        Item { Layout.fillWidth: true }
+                    MediaControls {
+                        device: root.device
+                        iconSize: app.iconSize * 2
                     }
                 }
             }
@@ -279,6 +205,7 @@ DevicePageBase {
             Item {
                 Layout.fillWidth: true
                 Layout.preferredHeight: 2
+                visible: root.deviceClass.browsable
                 Rectangle {
                     height: parent.height
                     width: parent.width / 2
