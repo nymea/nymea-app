@@ -127,6 +127,13 @@ DeviceClass *JsonTypes::unpackDeviceClass(const QVariantMap &deviceClassMap, QOb
     }
     deviceClass->setActionTypes(actionTypes);
 
+    // BrowserItemActionTypes
+    ActionTypes *browserItemActionTypes = new ActionTypes(deviceClass);
+    foreach (QVariant actionType, deviceClassMap.value("browserItemActionTypes").toList()) {
+        browserItemActionTypes->addActionType(JsonTypes::unpackActionType(actionType.toMap(), actionTypes));
+    }
+    deviceClass->setBrowserItemActionTypes(browserItemActionTypes);
+
     return deviceClass;
 }
 

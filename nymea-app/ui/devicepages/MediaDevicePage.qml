@@ -24,6 +24,12 @@ DevicePageBase {
         }
     }
 
+    Component.onCompleted: {
+        if (root.deviceClass.browsable && playbackState.value === "Stopped") {
+            swipeView.currentIndex = 1;
+        }
+    }
+
     function stateValue(name) {
         var stateType = root.deviceClass.stateTypes.findByName(name);
         if (!stateType) return null
@@ -36,7 +42,35 @@ DevicePageBase {
         engine.deviceManager.executeAction(device.id, actionTypeId, params)
     }
 
+    function executeBrowserItem(itemId) {
+        d.pendingItemId = itemId
+        d.pendingBrowserItemId = engine.deviceManager.executeBrowserItem(device.id, itemId);
+    }
+
     readonly property State playbackState: device.states.getState(deviceClass.stateTypes.findByName("playbackStatus").id)
+
+    QtObject {
+        id: d
+        property int pendingBrowserItemId: -1
+        property string pendingItemId: ""
+    }
+
+    Connections {
+        target: engine.deviceManager
+        onExecuteBrowserItemReply: {
+            print("Execute reply:", params, params.id, params["id"], d.pendingBrowserItemId)
+            if (params.id === d.pendingBrowserItemId) {
+                d.pendingBrowserItemId = -1;
+                d.pendingItemId = ""
+                print("yep finished")
+                if (params.params.deviceError === "DeviceErrorNoError") {
+                    swipeView.currentIndex = 0;
+                } else {
+                    header.showInfo(qsTr("Error: %").arg(params.params.deviceError), true)
+                }
+            }
+        }
+    }
 
     SwipeView {
         id: swipeView
@@ -133,7 +167,7 @@ DevicePageBase {
                             onClicked: {
                                 print("clicked:", model.id)
                                 if (model.executable) {
-                                    engine.deviceManager.executeBrowserItem(root.device.id, model.id)
+                                    root.executeBrowserItem(model.id)
                                 } else if (model.browsable) {
                                     internalPageStack.push(internalBrowserPage, {device: root.device, nodeId: model.id})
                                 }

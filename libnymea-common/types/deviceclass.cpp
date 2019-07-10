@@ -261,6 +261,20 @@ void DeviceClass::setActionTypes(ActionTypes *actionTypes)
     emit actionTypesChanged();
 }
 
+ActionTypes *DeviceClass::browserItemActionTypes() const
+{
+    return m_browserItemActionTypes;
+}
+
+void DeviceClass::setBrowserItemActionTypes(ActionTypes *browserActionTypes)
+{
+    if (m_browserItemActionTypes) {
+        m_browserItemActionTypes->deleteLater();
+    }
+    m_browserItemActionTypes = browserActionTypes;
+    emit browserItemActionTypesChanged();
+}
+
 bool DeviceClass::hasActionType(const QString &actionTypeId)
 {
     foreach (ActionType *actionType, m_actionTypes->actionTypes()) {

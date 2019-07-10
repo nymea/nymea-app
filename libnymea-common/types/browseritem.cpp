@@ -19,7 +19,10 @@ QString BrowserItem::displayName() const
 
 void BrowserItem::setDisplayName(const QString &displayName)
 {
-    m_displayName = displayName;
+    if (m_displayName != displayName) {
+        m_displayName = displayName;
+        emit displayNameChanged();
+    }
 }
 
 QString BrowserItem::description() const
@@ -29,7 +32,10 @@ QString BrowserItem::description() const
 
 void BrowserItem::setDescription(const QString &description)
 {
-    m_description = description;
+    if (m_description != description) {
+        m_description = description;
+        emit descriptionChanged();
+    }
 }
 
 QString BrowserItem::icon() const
@@ -39,7 +45,10 @@ QString BrowserItem::icon() const
 
 void BrowserItem::setIcon(const QString &icon)
 {
-    m_icon = icon;
+    if (m_icon != icon) {
+        m_icon = icon;
+        emit iconChanged();
+    }
 }
 
 QString BrowserItem::thumbnail() const
@@ -49,7 +58,10 @@ QString BrowserItem::thumbnail() const
 
 void BrowserItem::setThumbnail(const QString &thumbnail)
 {
-    m_thumbnail = thumbnail;
+    if (m_thumbnail != thumbnail) {
+        m_thumbnail = thumbnail;
+        emit thumbnailChanged();
+    }
 }
 
 bool BrowserItem::executable() const
@@ -59,7 +71,10 @@ bool BrowserItem::executable() const
 
 void BrowserItem::setExecutable(bool executable)
 {
-    m_executable = executable;
+    if (m_executable != executable) {
+        m_executable = executable;
+        emit executableChanged();
+    }
 }
 
 bool BrowserItem::browsable() const
@@ -69,7 +84,36 @@ bool BrowserItem::browsable() const
 
 void BrowserItem::setBrowsable(bool browsable)
 {
-    m_browsable = browsable;
+    if (m_browsable != browsable) {
+        m_browsable = browsable;
+        emit browsableChanged();
+    }
+}
+
+bool BrowserItem::disabled() const
+{
+    return m_disabled;
+}
+
+void BrowserItem::setDisabled(bool disabled)
+{
+    if (m_disabled != disabled) {
+        m_disabled = disabled;
+        emit disabledChanged();
+    }
+}
+
+QStringList BrowserItem::actionTypeIds() const
+{
+    return m_actionTypeIds;
+}
+
+void BrowserItem::setActionTypeIds(const QStringList &actionTypeIds)
+{
+    if (m_actionTypeIds != actionTypeIds) {
+        m_actionTypeIds = actionTypeIds;
+        emit actionTypeIdsChanged();
+    }
 }
 
 QString BrowserItem::mediaIcon() const
@@ -79,5 +123,8 @@ QString BrowserItem::mediaIcon() const
 
 void BrowserItem::setMediaIcon(const QString &mediaIcon)
 {
-    m_mediaIcon = mediaIcon;
+    if (m_mediaIcon != mediaIcon) {
+        m_mediaIcon = mediaIcon;
+        emit mediaIconChanged();
+    }
 }

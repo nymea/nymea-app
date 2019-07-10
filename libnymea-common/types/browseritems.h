@@ -2,6 +2,7 @@
 #define BROWSERITEMS_H
 
 #include <QAbstractListModel>
+#include <QUuid>
 
 class BrowserItem;
 
@@ -19,13 +20,18 @@ public:
         RoleThumbnail,
         RoleBrowsable,
         RoleExecutable,
+        RoleDisabled,
+        RoleActionTypeIds,
 
         RoleMediaIcon,
     };
     Q_ENUM(Roles)
 
-    explicit BrowserItems(QObject *parent = nullptr);
+    explicit BrowserItems(const QUuid &deviceId, const QString &itemId, QObject *parent = nullptr);
     virtual ~BrowserItems() override;
+
+    QUuid deviceId() const;
+    QString itemId() const;
 
     bool busy() const;
 
@@ -34,10 +40,14 @@ public:
     virtual QHash<int, QByteArray> roleNames() const override;
 
     virtual void addBrowserItem(BrowserItem *browserItem);
+
+    void removeItem(BrowserItem *browserItem);
+
+    QList<BrowserItem*> list() const;
     void setBusy(bool busy);
 
-//    Q_INVOKABLE virtual BrowserItem* get(int index) const;
-//    Q_INVOKABLE virtual BrowserItem* getBrowserItem(const QString &itemId);
+    Q_INVOKABLE virtual BrowserItem* get(int index) const;
+    Q_INVOKABLE virtual BrowserItem* getBrowserItem(const QString &itemId);
 
 //    void clear();
 
@@ -48,6 +58,9 @@ signals:
 protected:
     bool m_busy = false;
     QList<BrowserItem*> m_list;
+
+    QUuid m_deviceId;
+    QString m_itemId;
 };
 
 #endif // BROWSERITEMS_H

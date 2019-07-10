@@ -8,14 +8,16 @@ class BrowserItem : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QUuid id READ id CONSTANT)
-    Q_PROPERTY(QString displayName READ displayName CONSTANT)
-    Q_PROPERTY(QString description READ description CONSTANT)
-    Q_PROPERTY(QString icon READ icon CONSTANT)
-    Q_PROPERTY(QString thumbnail READ thumbnail CONSTANT)
-    Q_PROPERTY(bool executable READ executable CONSTANT)
-    Q_PROPERTY(bool browsable READ browsable CONSTANT)
+    Q_PROPERTY(QString displayName READ displayName NOTIFY displayNameChanged)
+    Q_PROPERTY(QString description READ description NOTIFY descriptionChanged)
+    Q_PROPERTY(QString icon READ icon NOTIFY iconChanged)
+    Q_PROPERTY(QString thumbnail READ thumbnail NOTIFY thumbnailChanged)
+    Q_PROPERTY(bool executable READ executable NOTIFY executableChanged)
+    Q_PROPERTY(bool browsable READ browsable NOTIFY browsableChanged)
+    Q_PROPERTY(bool disabled READ disabled NOTIFY disabledChanged)
+    Q_PROPERTY(QStringList actionTypeIds READ actionTypeIds NOTIFY actionTypeIdsChanged)
 
-    Q_PROPERTY(QString mediaIcon READ mediaIcon CONSTANT)
+    Q_PROPERTY(QString mediaIcon READ mediaIcon NOTIFY mediaIconChanged)
 
 public:
     explicit BrowserItem(const QString &id, QObject *parent = nullptr);
@@ -40,8 +42,26 @@ public:
     bool browsable() const;
     void setBrowsable(bool browsable);
 
+    bool disabled() const;
+    void setDisabled(bool disabled);
+
+    QStringList actionTypeIds() const;
+    void setActionTypeIds(const QStringList &actionTypeIds);
+
     QString mediaIcon() const;
     void setMediaIcon(const QString &mediaIcon);
+
+signals:
+    void displayNameChanged();
+    void descriptionChanged();
+    void iconChanged();
+    void thumbnailChanged();
+    void executableChanged();
+    void browsableChanged();
+    void disabledChanged();
+    void actionTypeIdsChanged();
+
+    void mediaIconChanged();
 
 private:
     QString m_id;
@@ -51,6 +71,8 @@ private:
     QString m_thumbnail;
     bool m_executable = false;
     bool m_browsable = false;
+    bool m_disabled = false;
+    QStringList m_actionTypeIds;
 
     QString m_mediaIcon;
 };

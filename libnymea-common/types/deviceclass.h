@@ -53,6 +53,7 @@ class DeviceClass : public QObject
     Q_PROPERTY(StateTypes *stateTypes READ stateTypes NOTIFY stateTypesChanged)
     Q_PROPERTY(EventTypes *eventTypes READ eventTypes NOTIFY eventTypesChanged)
     Q_PROPERTY(ActionTypes *actionTypes READ actionTypes NOTIFY actionTypesChanged)
+    Q_PROPERTY(ActionTypes *browserItemActionTypes READ browserItemActionTypes NOTIFY browserItemActionTypesChanged)
 
 public:
 
@@ -113,7 +114,19 @@ public:
     ActionTypes *actionTypes() const;
     void setActionTypes(ActionTypes *actionTypes);
 
+    ActionTypes *browserItemActionTypes() const;
+    void setBrowserItemActionTypes(ActionTypes *browserActionTypes);
+
     Q_INVOKABLE bool hasActionType(const QString &actionTypeId);
+
+signals:
+    void paramTypesChanged();
+    void settingsTypesChanged();
+    void discoveryParamTypesChanged();
+    void stateTypesChanged();
+    void eventTypesChanged();
+    void actionTypesChanged();
+    void browserItemActionTypesChanged();
 
 private:
     QUuid m_id;
@@ -132,13 +145,6 @@ private:
     StateTypes *m_stateTypes = nullptr;
     EventTypes *m_eventTypes = nullptr;
     ActionTypes *m_actionTypes = nullptr;
-
-signals:
-    void paramTypesChanged();
-    void settingsTypesChanged();
-    void discoveryParamTypesChanged();
-    void stateTypesChanged();
-    void eventTypesChanged();
-    void actionTypesChanged();
+    ActionTypes *m_browserItemActionTypes = nullptr;
 };
 #endif // DEVICECLASS_H

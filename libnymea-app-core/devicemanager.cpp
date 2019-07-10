@@ -314,7 +314,7 @@ void DeviceManager::editDeviceResponse(const QVariantMap &params)
 
 void DeviceManager::executeActionResponse(const QVariantMap &params)
 {
-//    qDebug() << "Execute Action response" << params;
+    qDebug() << "Execute Action response" << params;
     emit executeActionReply(params);
 }
 
@@ -428,20 +428,33 @@ int DeviceManager::executeAction(const QUuid &deviceId, const QUuid &actionTypeI
     return m_jsonClient->sendCommand("Actions.ExecuteAction", p, this, "executeActionResponse");
 }
 
-BrowserItems *DeviceManager::browseDevice(const QUuid &deviceId, const QString &nodeId)
+BrowserItems *DeviceManager::browseDevice(const QUuid &deviceId, const QString &itemId)
 {
     QVariantMap params;
     params.insert("deviceId", deviceId.toString());
-    params.insert("nodeId", nodeId);
+    params.insert("itemId", itemId);
     int id = m_jsonClient->sendCommand("Devices.BrowseDevice", params, this, "browseDeviceResponse");
 
     // Intentionally not parented. The caller takes ownership and needs to destroy when not needed any more.
-    BrowserItems *itemModel = new BrowserItems();
+    BrowserItems *itemModel = new BrowserItems(deviceId, itemId);
     itemModel->setBusy(true);
     QPointer<BrowserItems> itemModelPtr(itemModel);
     m_browsingRequests.insert(id, itemModelPtr);
 
     return itemModel;
+}
+
+void DeviceManager::refreshBrowserItems(BrowserItems *browserItems)
+{
+    QVariantMap params;
+    params.insert("deviceId", browserItems->deviceId().toString());
+    params.insert("itemId", browserItems->itemId());
+    int id = m_jsonClient->sendCommand("Devices.BrowseDevice", params, this, "browseDeviceResponse");
+
+    // Intentionally not parented. The caller takes ownership and needs to destroy when not needed any more.
+    browserItems->setBusy(true);
+    QPointer<BrowserItems> itemModelPtr(browserItems);
+    m_browsingRequests.insert(id, browserItems);
 }
 
 void DeviceManager::browseDeviceResponse(const QVariantMap &params)
@@ -459,33 +472,68 @@ void DeviceManager::browseDeviceResponse(const QVariantMap &params)
         return;
     }
 
+    QList<BrowserItem*> itemsToRemove = itemModel->list();
+
+
     foreach (const QVariant &itemVariant, params.value("params").toMap().value("items").toList()) {
         QVariantMap itemMap = itemVariant.toMap();
-        BrowserItem *item = new BrowserItem(itemMap.value("id").toString(), this);
+        QString itemId = itemMap.value("id").toString();
+        BrowserItem *item = itemModel->getBrowserItem(itemId);
+        if (!item) {
+            item = new BrowserItem(itemId, this);
+            itemModel->addBrowserItem(item);
+        }
         item->setDisplayName(itemMap.value("displayName").toString());
         item->setDescription(itemMap.value("description").toString());
         item->setIcon(itemMap.value("icon").toString());
         item->setThumbnail(itemMap.value("thumbnail").toString());
         item->setExecutable(itemMap.value("executable").toBool());
         item->setBrowsable(itemMap.value("browsable").toBool());
+        item->setDisabled(itemMap.value("disabled").toBool());
+        item->setActionTypeIds(itemMap.value("actionTypeIds").toStringList());
 
         item->setMediaIcon(itemMap.value("mediaIcon").toString());
-        itemModel->addBrowserItem(item);
+
+        if (itemsToRemove.contains(item)) {
+            itemsToRemove.removeAll(item);
+        }
+    }
+
+    while (!itemsToRemove.isEmpty()) {
+        BrowserItem *item = itemsToRemove.takeFirst();
+        itemModel->removeItem(item);
     }
 
     itemModel->setBusy(false);
 }
 
-void DeviceManager::executeBrowserItem(const QUuid &deviceId, const QString &nodeId)
+int DeviceManager::executeBrowserItem(const QUuid &deviceId, const QString &itemId)
 {
     QVariantMap params;
     params.insert("deviceId", deviceId);
-    params.insert("nodeId", nodeId);
-    m_jsonClient->sendCommand("Devices.ExecuteBrowserItem", params, this, "executeBrowserItemResponse");
+    params.insert("itemId", itemId);
+    return m_jsonClient->sendCommand("Actions.ExecuteBrowserItem", params, this, "executeBrowserItemResponse");
 }
 
 void DeviceManager::executeBrowserItemResponse(const QVariantMap &params)
 {
     qDebug() << "Execute Browser Item finished" << params;
+    emit executeBrowserItemReply(params);
+}
+
+int DeviceManager::executeBrowserItemAction(const QUuid &deviceId, const QString &itemId, const QUuid &actionTypeId, const QVariantMap &params)
+{
+    QVariantMap data;
+    data.insert("deviceId", deviceId);
+    data.insert("itemId", itemId);
+    data.insert("actionTypeId", actionTypeId);
+    data.insert("params", params);
+    return m_jsonClient->sendCommand("Actions.ExecuteBrowserItemAction", data, this, "executeBrowserItemActionResponse");
+}
+
+void DeviceManager::executeBrowserItemActionResponse(const QVariantMap &params)
+{
+    qDebug() << "Execute Browser Item Action finished" << params;
+    emit executeBrowserItemActionReply(params);
 }
 

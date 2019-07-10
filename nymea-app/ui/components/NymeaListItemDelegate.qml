@@ -28,6 +28,8 @@ SwipeDelegate {
 
     property alias additionalItem: additionalItemContainer.children
 
+    property alias busy: busyIndicator.running
+
     signal deleteClicked()
 
     contentItem: RowLayout {
@@ -51,6 +53,13 @@ SwipeDelegate {
                 name: root.fallbackIcon
                 color: root.iconColor
                 visible: root.fallbackIcon && (!root.iconName || icon.status === Image.Error)
+            }
+
+            BusyIndicator {
+                id: busyIndicator
+                anchors.centerIn: parent
+                visible: running
+                running: false
             }
         }
 

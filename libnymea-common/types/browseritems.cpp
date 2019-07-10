@@ -3,7 +3,10 @@
 
 #include <QDebug>
 
-BrowserItems::BrowserItems(QObject *parent): QAbstractListModel(parent)
+BrowserItems::BrowserItems(const QUuid &deviceId, const QString &itemId, QObject *parent):
+    QAbstractListModel (parent),
+    m_deviceId(deviceId),
+    m_itemId(itemId)
 {
 
 }
@@ -11,6 +14,16 @@ BrowserItems::BrowserItems(QObject *parent): QAbstractListModel(parent)
 BrowserItems::~BrowserItems()
 {
     qDebug() << "Deleting BrowserItems";
+}
+
+QUuid BrowserItems::deviceId() const
+{
+    return m_deviceId;
+}
+
+QString BrowserItems::itemId() const
+{
+    return m_itemId;
 }
 
 bool BrowserItems::busy() const
@@ -41,6 +54,10 @@ QVariant BrowserItems::data(const QModelIndex &index, int role) const
         return m_list.at(index.row())->executable();
     case RoleBrowsable:
         return m_list.at(index.row())->browsable();
+    case RoleActionTypeIds:
+        return m_list.at(index.row())->actionTypeIds();
+    case RoleDisabled:
+        return m_list.at(index.row())->disabled();
 
     case RoleMediaIcon:
         return m_list.at(index.row())->mediaIcon();
@@ -58,6 +75,8 @@ QHash<int, QByteArray> BrowserItems::roleNames() const
     roles.insert(RoleThumbnail, "thumbnail");
     roles.insert(RoleExecutable, "executable");
     roles.insert(RoleBrowsable, "browsable");
+    roles.insert(RoleDisabled, "disabled");
+    roles.insert(RoleActionTypeIds, "actionTypeIds");
 
     roles.insert(RoleMediaIcon, "mediaIcon");
     return roles;
@@ -72,10 +91,44 @@ void BrowserItems::addBrowserItem(BrowserItem *browserItem)
     emit countChanged();
 }
 
+void BrowserItems::removeItem(BrowserItem *browserItem)
+{
+    int idx = m_list.indexOf(browserItem);
+    if (idx < 0) {
+        return;
+    }
+    beginRemoveRows(QModelIndex(), idx, idx);
+    m_list.takeAt(idx)->deleteLater();
+    endRemoveRows();
+}
+
+QList<BrowserItem *> BrowserItems::list() const
+{
+    return m_list;
+}
+
 void BrowserItems::setBusy(bool busy)
 {
     if (m_busy != busy) {
         m_busy = busy;
         emit busyChanged();
     }
+}
+
+BrowserItem *BrowserItems::get(int index) const
+{
+    if (index < 0 || index >= m_list.count()) {
+        return nullptr;
+    }
+    return m_list.at(index);
+}
+
+BrowserItem *BrowserItems::getBrowserItem(const QString &itemId)
+{
+    foreach (BrowserItem *item, m_list) {
+        if (item->id() == itemId) {
+            return item;
+        }
+    }
+    return nullptr;
 }

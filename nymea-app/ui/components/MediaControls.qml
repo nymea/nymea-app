@@ -26,6 +26,8 @@ RowLayout {
         imageSource: "../images/media-skip-backward.svg"
         longpressImageSource: "../images/media-seek-backward.svg"
         enabled: root.playbackState.value !== "Stopped"
+        opacity: enabled ? 1 : .5
+
         repeat: true
         onClicked: {
             root.executeAction("skipBack")
@@ -61,6 +63,7 @@ RowLayout {
         imageSource: "../images/media-skip-forward.svg"
         longpressImageSource: "../images/media-seek-forward.svg"
         enabled: root.playbackState.value !== "Stopped"
+        opacity: enabled ? 1 : .5
         repeat: true
         onClicked: {
             root.executeAction("skipNext")

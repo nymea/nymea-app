@@ -74,8 +74,10 @@ public:
     Q_INVOKABLE void reconfigureDevice(const QUuid &deviceId, const QVariantList &deviceParams);
     Q_INVOKABLE void reconfigureDiscoveredDevice(const QUuid &deviceId, const QUuid &deviceDescriptorId);
     Q_INVOKABLE int executeAction(const QUuid &deviceId, const QUuid &actionTypeId, const QVariantList &params = QVariantList());
-    Q_INVOKABLE BrowserItems* browseDevice(const QUuid &deviceId, const QString &nodeId = QString());
-    Q_INVOKABLE void executeBrowserItem(const QUuid &deviceId, const QString &nodeId);
+    Q_INVOKABLE BrowserItems* browseDevice(const QUuid &deviceId, const QString &itemId = QString());
+    Q_INVOKABLE void refreshBrowserItems(BrowserItems *browserItems);
+    Q_INVOKABLE int executeBrowserItem(const QUuid &deviceId, const QString &itemId);
+    Q_INVOKABLE int executeBrowserItemAction(const QUuid &deviceId, const QString &itemId, const QUuid &actionTypeId, const QVariantMap &params = QVariantMap());
 
 private:
     Q_INVOKABLE void notificationReceived(const QVariantMap &data);
@@ -94,6 +96,7 @@ private:
     Q_INVOKABLE void reconfigureDeviceResponse(const QVariantMap &params);
     Q_INVOKABLE void browseDeviceResponse(const QVariantMap &params);
     Q_INVOKABLE void executeBrowserItemResponse(const QVariantMap &params);
+    Q_INVOKABLE void executeBrowserItemActionResponse(const QVariantMap &params);
 
 public slots:
     void savePluginConfig(const QUuid &pluginId);
@@ -107,6 +110,8 @@ signals:
     void editDeviceReply(const QVariantMap &params);
     void reconfigureDeviceReply(const QVariantMap &params);
     void executeActionReply(const QVariantMap &params);
+    void executeBrowserItemReply(const QVariantMap &params);
+    void executeBrowserItemActionReply(const QVariantMap &params);
     void fetchingDataChanged();
     void notificationReceived(const QString &deviceId, const QString &eventTypeId, const QVariantList &params);
 
