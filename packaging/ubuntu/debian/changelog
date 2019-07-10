@@ -1,3 +1,11 @@
+nymea-app (1.0.133) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix an issue where the app might not reconnect to the core.
+  * Improve back button handling
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 10 Jul 2019 19:52:27 +0200
+
 nymea-app (1.0.132) bionic; urgency=medium
 
   [ Michael Zanetti ]
