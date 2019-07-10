@@ -322,6 +322,8 @@ void JsonRpcClient::onInterfaceConnectedChanged(bool connected)
         }
     } else {
         qDebug() << "JsonRpcClient: Transport connected. Starting handshake.";
+        // Clear anything that might be left in the buffer from a previous connection.
+        m_receiveBuffer.clear();
         QVariantMap params;
         params.insert("locale", QLocale().name());
         sendCommand("JSONRPC.Hello", params, this, "helloReply");
