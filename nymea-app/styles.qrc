@@ -12,5 +12,9 @@
         <file>styles/noir/Page.qml</file>
         <file>styles/noir/logo.svg</file>
         <file>styles/noir/Button.qml</file>
+        <file>styles/lime/ApplicationWindow.qml</file>
+        <file>styles/lime/Page.qml</file>
+        <file>styles/lime/logo.svg</file>
+        <file>styles/lime/Button.qml</file>
     </qresource>
 </RCC>
