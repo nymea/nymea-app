@@ -77,7 +77,7 @@ public:
     Q_INVOKABLE BrowserItems* browseDevice(const QUuid &deviceId, const QString &itemId = QString());
     Q_INVOKABLE void refreshBrowserItems(BrowserItems *browserItems);
     Q_INVOKABLE int executeBrowserItem(const QUuid &deviceId, const QString &itemId);
-    Q_INVOKABLE int executeBrowserItemAction(const QUuid &deviceId, const QString &itemId, const QUuid &actionTypeId, const QVariantMap &params = QVariantMap());
+    Q_INVOKABLE int executeBrowserItemAction(const QUuid &deviceId, const QString &itemId, const QUuid &actionTypeId, const QVariantList &params = QVariantList());
 
 private:
     Q_INVOKABLE void notificationReceived(const QVariantMap &data);

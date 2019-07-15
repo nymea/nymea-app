@@ -82,9 +82,12 @@ Page {
 
             onPressAndHold: {
                 print("show actions:", model.actionTypeIds)
-                var popup = actionDialogComponent.createObject(this, {title: model.displayName, itemId: model.id, actionTypeIds: model.actionTypeIds});
+                var actionDialogComponent = Qt.createComponent(Qt.resolvedUrl("../components/BrowserContextMenu.qml"));
+                var popup = actionDialogComponent.createObject(this, {device: root.device, title: model.displayName, itemId: model.id, actionTypeIds: model.actionTypeIds});
+                popup.activated.connect(function(actionTypeId, params) {
+                    root.executeBrowserItemAction(model.id, actionTypeId, params)
+                })
                 popup.open()
-//                root.device.deviceClass.browserItemActionTypes.getActionType()
             }
         }
 
@@ -95,32 +98,4 @@ Page {
         }
     }
 
-    Component {
-        id: actionDialogComponent
-        MeaDialog {
-            id: actionDialog
-
-            property string itemId
-            property alias actionTypeIds: actionListView.model
-
-            ListView {
-                id: actionListView
-                Layout.fillWidth: true
-                implicitHeight: count * 50
-                interactive: contentHeight > height
-                clip: true
-                delegate: NymeaListItemDelegate {
-                    width: parent.width
-                    text: actionType.displayName
-                    progressive: false
-                    property ActionType actionType: root.device.deviceClass.browserItemActionTypes.getActionType(modelData)
-                    onClicked: {
-                        var params = []
-                        root.executeBrowserItemAction(actionDialog.itemId, actionType.id, params)
-                        actionDialog.close()
-                    }
-                }
-            }
-        }
-    }
 }

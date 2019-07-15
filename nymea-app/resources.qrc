@@ -188,5 +188,6 @@
         <file>ui/devicelistpages/MediaDeviceListPage.qml</file>
         <file>ui/components/MediaControls.qml</file>
         <file>ui/components/MediaArtworkImage.qml</file>
+        <file>ui/components/BrowserContextMenu.qml</file>
     </qresource>
 </RCC>

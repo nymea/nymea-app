@@ -46,6 +46,11 @@ DevicePageBase {
         d.pendingItemId = itemId
         d.pendingBrowserItemId = engine.deviceManager.executeBrowserItem(device.id, itemId);
     }
+    function executeBrowserItemAction(itemId, actionTypeId, params) {
+        print("params2:", JSON.stringify(params))
+        d.pendingItemId = itemId
+        d.pendingBrowserItemId = engine.deviceManager.executeBrowserItemAction(device.id, itemId, actionTypeId, params);
+    }
 
     readonly property State playbackState: device.states.getState(deviceClass.stateTypes.findByName("playbackStatus").id)
 
@@ -57,17 +62,19 @@ DevicePageBase {
 
     Connections {
         target: engine.deviceManager
-        onExecuteBrowserItemReply: {
-            print("Execute reply:", params, params.id, params["id"], d.pendingBrowserItemId)
-            if (params.id === d.pendingBrowserItemId) {
-                d.pendingBrowserItemId = -1;
-                d.pendingItemId = ""
-                print("yep finished")
-                if (params.params.deviceError === "DeviceErrorNoError") {
-                    swipeView.currentIndex = 0;
-                } else {
-                    header.showInfo(qsTr("Error: %").arg(params.params.deviceError), true)
-                }
+        onExecuteBrowserItemReply: executionFinished(params)
+        onExecuteBrowserItemActionReply: executionFinished(params)
+    }
+    function executionFinished(params) {
+        print("Execute reply:", params, params.id, params["id"], d.pendingBrowserItemId)
+        if (params.id === d.pendingBrowserItemId) {
+            d.pendingBrowserItemId = -1;
+            d.pendingItemId = ""
+            print("yep finished")
+            if (params.params.deviceError === "DeviceErrorNoError") {
+                swipeView.currentIndex = 0;
+            } else {
+                header.showInfo(qsTr("Error: %1").arg(params.params.deviceError), true)
             }
         }
     }
@@ -163,6 +170,8 @@ DevicePageBase {
                             iconName: model.thumbnail
                             fallbackIcon: "../images/browser/" + (model.mediaIcon && model.mediaIcon !== "MediaBrowserIconNone" ? model.mediaIcon : model.icon) + ".svg"
                             enabled: model.browsable || model.executable
+                            busy: d.pendingItemId === model.id
+                            secondaryIconName: model.actionTypeIds.length > 0 ? "../images/navigation-menu.svg" : ""
 
                             onClicked: {
                                 print("clicked:", model.id)
@@ -171,6 +180,16 @@ DevicePageBase {
                                 } else if (model.browsable) {
                                     internalPageStack.push(internalBrowserPage, {device: root.device, nodeId: model.id})
                                 }
+                            }
+                            onPressAndHold: {
+                                print("show actions:", model.actionTypeIds)
+                                var actionDialogComponent = Qt.createComponent(Qt.resolvedUrl("../components/BrowserContextMenu.qml"));
+                                var popup = actionDialogComponent.createObject(root, {device: root.device, title: model.displayName, itemId: model.id, actionTypeIds: model.actionTypeIds});
+                                popup.activated.connect(function(actionTypeId, params) {
+                                    print("params:", JSON.stringify(params))
+                                    root.executeBrowserItemAction(model.id, actionTypeId, params)
+                                })
+                                popup.open()
                             }
                         }
 
