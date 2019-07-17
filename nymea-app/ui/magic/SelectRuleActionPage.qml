@@ -100,6 +100,8 @@ Page {
                 if (header.interfacesMode) {
                     if (root.device) {
                         root.ruleAction.actionTypeId = model.actionTypeId;
+                        root.ruleAction.browserItemId = "";
+                        root.ruleAction.interfaceAction = "";
                         var actionType = root.deviceClass.actionTypes.getActionType(model.actionTypeId)
                         if (actionType.paramTypes.count > 0) {
                             var paramsPage = pageStack.push(Qt.resolvedUrl("SelectRuleActionParamsPage.qml"), {ruleAction: root.ruleAction, rule: root.rule})
@@ -113,6 +115,8 @@ Page {
                         }
                     } else if (root.ruleAction.interfaceName !== "") {
                         root.ruleAction.interfaceAction = model.name;
+                        root.ruleAction.browserItemId = "";
+                        root.ruleAction.actionTypeId = "";
                         if (listView.model.get(index).paramTypes.count > 0) {
                             var paramsPage = pageStack.push(Qt.resolvedUrl("SelectRuleActionParamsPage.qml"), {ruleAction: root.ruleAction, rule: root.rule})
                             paramsPage.onBackPressed.connect(function() {pageStack.pop()});
@@ -132,13 +136,17 @@ Page {
                             var page = pageStack.push(Qt.resolvedUrl("SelectBrowserItemActionPage.qml"), {device: root.device});
                             page.selected.connect(function(itemId) {
                                 root.ruleAction.browserItemId = itemId;
+                                root.ruleAction.actionTypeId = "";
+                                root.ruleAction.interfaceAction = "";
                                 pageStack.pop();
                                 root.done();
                             })
                         } else {
-                            var actionType = root.deviceClass.actionTypes.getActionType(model.actiontypeId);
+                            var actionType = root.deviceClass.actionTypes.getActionType(model.actionTypeId);
                             console.log("ActionType", actionType.id, "selected. Has", actionType.paramTypes.count, "params");
                             root.ruleAction.actionTypeId = actionType.id;
+                            root.ruleAction.browserItemId = "";
+                            root.ruleAction.interfaceAction = "";
                             if (actionType.paramTypes.count > 0) {
                                 var paramsPage = pageStack.push(Qt.resolvedUrl("SelectRuleActionParamsPage.qml"), {ruleAction: root.ruleAction, rule: root.rule})
                                 paramsPage.onBackPressed.connect(function() { pageStack.pop(); });

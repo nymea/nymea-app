@@ -12,19 +12,22 @@ NymeaListItemDelegate {
 
     property RuleAction ruleAction: null
 
-    property var device: ruleAction.deviceId ? engine.deviceManager.devices.getDevice(ruleAction.deviceId) : null
-    property var iface: ruleAction.interfaceName ? Interfaces.findByName(ruleAction.interfaceName) : null
-    property var deviceClass: device ? engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
-    property var actionType: deviceClass ? deviceClass.actionTypes.getActionType(ruleAction.actionTypeId)
+    readonly property Device device: ruleAction.deviceId ? engine.deviceManager.devices.getDevice(ruleAction.deviceId) : null
+    readonly property Interface iface: ruleAction.interfaceName ? Interfaces.findByName(ruleAction.interfaceName) : null
+    readonly property DeviceClass deviceClass: device ? engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
+    readonly property ActionType actionType: deviceClass ? deviceClass.actionTypes.getActionType(ruleAction.actionTypeId)
                                          : iface ? iface.actionTypes.findByName(ruleAction.interfaceAction) : null
-    property var browserItemId: ruleAction.browserItemId
+    readonly property string browserItemId: ruleAction.browserItemId
+    readonly property BrowserItem browserItem: device && browserItemId.length > 0 ? engine.deviceManager.browserItem(device.id, browserItemId) : null
 
     signal removeRuleAction()
 
     onDeleteClicked: root.removeRuleAction()
 
     iconName: root.device ? (root.browserItemId ? "../images/browser/BrowserIconFolder.svg" : "../images/action.svg") : "../images/action-interface.svg"
-    text: qsTr("%1 - %2").arg(root.device ? root.device.name : root.iface.displayName).arg(root.actionType ? root.actionType.displayName : qsTr("Launch an item"))
+    text: qsTr("%1 - %2")
+        .arg(root.device ? root.device.name : root.iface.displayName)
+        .arg(root.actionType ? root.actionType.displayName : (root.browserItem.displayName.length > 0 ? root.browserItem.displayName : qsTr("Unknown item")))
     subText: {
         var ret = [];
         for (var i = 0; i < root.ruleAction.ruleActionParams.count; i++) {

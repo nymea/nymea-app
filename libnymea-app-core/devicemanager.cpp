@@ -457,6 +457,21 @@ void DeviceManager::refreshBrowserItems(BrowserItems *browserItems)
     m_browsingRequests.insert(id, browserItems);
 }
 
+BrowserItem *DeviceManager::browserItem(const QUuid &deviceId, const QString &itemId)
+{
+    QVariantMap params;
+    params.insert("deviceId", deviceId.toString());
+    params.insert("itemId", itemId);
+    int id = m_jsonClient->sendCommand("Devices.GetBrowserItem", params, this, "browserItemResponse");
+
+    // Intentionally not parented. The caller takes ownership and needs to destroy when not needed any more.
+    BrowserItem *item = new BrowserItem(itemId);
+    QPointer<BrowserItem> itemPtr(item);
+    m_browserDetailsRequests.insert(id, itemPtr);
+
+    return item;
+}
+
 void DeviceManager::browseDeviceResponse(const QVariantMap &params)
 {
     qDebug() << "Browsing response:" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson(QJsonDocument::Indented));
@@ -473,7 +488,6 @@ void DeviceManager::browseDeviceResponse(const QVariantMap &params)
     }
 
     QList<BrowserItem*> itemsToRemove = itemModel->list();
-
 
     foreach (const QVariant &itemVariant, params.value("params").toMap().value("items").toList()) {
         QVariantMap itemMap = itemVariant.toMap();
@@ -505,6 +519,34 @@ void DeviceManager::browseDeviceResponse(const QVariantMap &params)
     }
 
     itemModel->setBusy(false);
+}
+
+void DeviceManager::browserItemResponse(const QVariantMap &params)
+{
+    qDebug() << "Browser item details response:" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson(QJsonDocument::Indented));
+    int id = params.value("id").toInt();
+    if (!m_browserDetailsRequests.contains(id)) {
+        qWarning() << "Received a browser item details reply for an id we don't know.";
+        return;
+    }
+
+    QPointer<BrowserItem> item = m_browserDetailsRequests.take(id);
+    if (!item) {
+        qDebug() << "BrowserItem seems to have disappeared. Discarding browser item details result.";
+        return;
+    }
+
+    QVariantMap itemMap = params.value("params").toMap().value("item").toMap();
+    item->setDisplayName(itemMap.value("displayName").toString());
+    item->setDescription(itemMap.value("description").toString());
+    item->setIcon(itemMap.value("icon").toString());
+    item->setThumbnail(itemMap.value("thumbnail").toString());
+    item->setExecutable(itemMap.value("executable").toBool());
+    item->setBrowsable(itemMap.value("browsable").toBool());
+    item->setDisabled(itemMap.value("disabled").toBool());
+    item->setActionTypeIds(itemMap.value("actionTypeIds").toStringList());
+
+    item->setMediaIcon(itemMap.value("mediaIcon").toString());
 }
 
 int DeviceManager::executeBrowserItem(const QUuid &deviceId, const QString &itemId)

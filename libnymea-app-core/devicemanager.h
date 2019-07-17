@@ -30,6 +30,8 @@
 #include "types/plugins.h"
 #include "jsonrpc/jsonhandler.h"
 #include "jsonrpc/jsonrpcclient.h"
+
+class BrowserItem;
 class BrowserItems;
 
 class DeviceManager : public JsonHandler
@@ -76,6 +78,7 @@ public:
     Q_INVOKABLE int executeAction(const QUuid &deviceId, const QUuid &actionTypeId, const QVariantList &params = QVariantList());
     Q_INVOKABLE BrowserItems* browseDevice(const QUuid &deviceId, const QString &itemId = QString());
     Q_INVOKABLE void refreshBrowserItems(BrowserItems *browserItems);
+    Q_INVOKABLE BrowserItem* browserItem(const QUuid &deviceId, const QString &itemId);
     Q_INVOKABLE int executeBrowserItem(const QUuid &deviceId, const QString &itemId);
     Q_INVOKABLE int executeBrowserItemAction(const QUuid &deviceId, const QString &itemId, const QUuid &actionTypeId, const QVariantList &params = QVariantList());
 
@@ -95,6 +98,7 @@ private:
     Q_INVOKABLE void executeActionResponse(const QVariantMap &params);
     Q_INVOKABLE void reconfigureDeviceResponse(const QVariantMap &params);
     Q_INVOKABLE void browseDeviceResponse(const QVariantMap &params);
+    Q_INVOKABLE void browserItemResponse(const QVariantMap &params);
     Q_INVOKABLE void executeBrowserItemResponse(const QVariantMap &params);
     Q_INVOKABLE void executeBrowserItemActionResponse(const QVariantMap &params);
 
@@ -128,6 +132,7 @@ private:
     JsonRpcClient *m_jsonClient = nullptr;
 
     QHash<int, QPointer<BrowserItems> > m_browsingRequests;
+    QHash<int, QPointer<BrowserItem> > m_browserDetailsRequests;
 
 };
 
