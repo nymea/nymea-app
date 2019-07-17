@@ -189,5 +189,7 @@
         <file>ui/components/MediaControls.qml</file>
         <file>ui/components/MediaArtworkImage.qml</file>
         <file>ui/components/BrowserContextMenu.qml</file>
+        <file>ui/magic/SelectBrowserItemActionPage.qml</file>
+        <file>ui/delegates/BrowserItemDelegate.qml</file>
     </qresource>
 </RCC>

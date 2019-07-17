@@ -286,6 +286,9 @@ RuleAction *RuleManager::parseRuleAction(const QVariantMap &ruleAction)
     if (ruleAction.contains("deviceId") && ruleAction.contains("actionTypeId")) {
         ret->setDeviceId(ruleAction.value("deviceId").toUuid());
         ret->setActionTypeId(ruleAction.value("actionTypeId").toUuid());
+    } else if (ruleAction.contains("deviceId") && ruleAction.contains("browserItemId")) {
+        ret->setDeviceId(ruleAction.value("deviceId").toUuid());
+        ret->setBrowserItemId(ruleAction.value("browserItemId").toString());
     } else {
         ret->setInterfaceName(ruleAction.value("interface").toString());
         ret->setInterfaceAction(ruleAction.value("interfaceAction").toString());

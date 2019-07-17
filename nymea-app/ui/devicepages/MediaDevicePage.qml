@@ -6,6 +6,7 @@ import QtGraphicalEffects 1.0
 import Nymea 1.0
 import "../components"
 import "../customviews"
+import "../delegates"
 
 DevicePageBase {
     id: root
@@ -161,17 +162,10 @@ DevicePageBase {
                             browserItems = engine.deviceManager.browseDevice(root.device.id, nodeId);
                         }
 
-                        delegate: NymeaListItemDelegate {
-                            width: parent.width
-                            text: model.displayName
-                            progressive: model.browsable
-                            subText: model.description
-                            prominentSubText: false
-                            iconName: model.thumbnail
+                        delegate: BrowserItemDelegate {
                             fallbackIcon: "../images/browser/" + (model.mediaIcon && model.mediaIcon !== "MediaBrowserIconNone" ? model.mediaIcon : model.icon) + ".svg"
-                            enabled: model.browsable || model.executable
                             busy: d.pendingItemId === model.id
-                            secondaryIconName: model.actionTypeIds.length > 0 ? "../images/navigation-menu.svg" : ""
+                            device: root.device
 
                             onClicked: {
                                 print("clicked:", model.id)
@@ -181,15 +175,9 @@ DevicePageBase {
                                     internalPageStack.push(internalBrowserPage, {device: root.device, nodeId: model.id})
                                 }
                             }
-                            onPressAndHold: {
-                                print("show actions:", model.actionTypeIds)
-                                var actionDialogComponent = Qt.createComponent(Qt.resolvedUrl("../components/BrowserContextMenu.qml"));
-                                var popup = actionDialogComponent.createObject(root, {device: root.device, title: model.displayName, itemId: model.id, actionTypeIds: model.actionTypeIds});
-                                popup.activated.connect(function(actionTypeId, params) {
-                                    print("params:", JSON.stringify(params))
-                                    root.executeBrowserItemAction(model.id, actionTypeId, params)
-                                })
-                                popup.open()
+
+                            onContextMenuActionTriggered: {
+                                root.executeBrowserItemAction(model.id, actionTypeId, params)
                             }
                         }
 

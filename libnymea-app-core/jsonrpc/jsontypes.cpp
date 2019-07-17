@@ -318,6 +318,9 @@ QVariantList JsonTypes::packRuleActions(RuleActions *ruleActions)
         if (!ra->actionTypeId().isNull() && !ra->deviceId().isNull()) {
             ruleAction.insert("deviceId", ra->deviceId());
             ruleAction.insert("actionTypeId", ra->actionTypeId());
+        } else if (!ra->deviceId().isNull() && !ra->browserItemId().isEmpty()) {
+            ruleAction.insert("deviceId", ra->deviceId());
+            ruleAction.insert("browserItemId", ra->browserItemId());
         } else {
             ruleAction.insert("interface", ra->interfaceName());
             ruleAction.insert("interfaceAction", ra->interfaceAction());

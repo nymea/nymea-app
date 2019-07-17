@@ -13,6 +13,7 @@ class RuleAction : public QObject
     Q_PROPERTY(QUuid actionTypeId READ actionTypeId WRITE setActionTypeId NOTIFY actionTypeIdChanged)
     Q_PROPERTY(QString interfaceName READ interfaceName WRITE setInterfaceName NOTIFY interfaceNameChanged)
     Q_PROPERTY(QString interfaceAction READ interfaceAction WRITE setInterfaceAction NOTIFY interfaceActionChanged)
+    Q_PROPERTY(QString browserItemId READ browserItemId WRITE setBrowserItemId NOTIFY browserItemIdChanged)
     Q_PROPERTY(RuleActionParams* ruleActionParams READ ruleActionParams CONSTANT)
 
 public:
@@ -30,6 +31,9 @@ public:
     QString interfaceAction() const;
     void setInterfaceAction(const QString &interfaceAction);
 
+    QString browserItemId() const;
+    void setBrowserItemId(const QString &browserItemId);
+
     RuleActionParams* ruleActionParams() const;
 
     RuleAction *clone() const;
@@ -40,12 +44,14 @@ signals:
     void actionTypeIdChanged();
     void interfaceNameChanged();
     void interfaceActionChanged();
+    bool browserItemIdChanged();
 
 private:
     QUuid m_deviceId;
     QUuid m_actionTypeId;
     QString m_interfaceName;
     QString m_interfaceAction;
+    QString m_browserItemId;
     RuleActionParams *m_ruleActionParams;
 };
 

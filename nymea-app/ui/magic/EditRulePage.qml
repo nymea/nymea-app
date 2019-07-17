@@ -317,7 +317,7 @@ Page {
                     Behavior on opacity { NumberAnimation {duration: 200; easing.type: Easing.InOutQuad } }
                     Label {
                         Layout.fillWidth: true
-                        text: qsTr("This is a scene" + root.ruleColor, root.ruleIcon)
+                        text: qsTr("This is a scene")
                     }
 
                     CheckBox {

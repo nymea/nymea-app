@@ -3,6 +3,7 @@ import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.1
 import Nymea 1.0
 import "../components"
+import "../delegates"
 
 Page {
     id: root
@@ -59,16 +60,10 @@ Page {
         model: d.model
         ScrollBar.vertical: ScrollBar {}
 
-        delegate: NymeaListItemDelegate {
-            width: parent.width
-            text: model.displayName
-            progressive: model.browsable
-            subText: model.description
-            prominentSubText: false
-            iconName: model.thumbnail
-            fallbackIcon: "../images/browser/" + model.icon + ".svg"
-            enabled: !model.disabled
+        delegate: BrowserItemDelegate {
+            id: delegate
             busy: d.pendingItemId === model.id
+            device: root.device
 
             onClicked: {
                 print("clicked:", model.id)
@@ -79,15 +74,8 @@ Page {
                 }
             }
 
-
-            onPressAndHold: {
-                print("show actions:", model.actionTypeIds)
-                var actionDialogComponent = Qt.createComponent(Qt.resolvedUrl("../components/BrowserContextMenu.qml"));
-                var popup = actionDialogComponent.createObject(this, {device: root.device, title: model.displayName, itemId: model.id, actionTypeIds: model.actionTypeIds});
-                popup.activated.connect(function(actionTypeId, params) {
-                    root.executeBrowserItemAction(model.id, actionTypeId, params)
-                })
-                popup.open()
+            onContextMenuActionTriggered: {
+                root.executeBrowserItemAction(model.id, actionTypeId, params)
             }
         }
 

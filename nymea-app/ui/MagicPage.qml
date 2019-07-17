@@ -77,8 +77,8 @@ Page {
         delegate: NymeaListItemDelegate {
             id: ruleDelegate
             width: parent.width
-            iconName: "../images/" + (model.executable ? (iconTag ? iconTag.value : "slideshow") : "magic") + ".svg"
-            iconColor: model.executable ? (colorTag ? colorTag.value : app.accentColor) : !model.enabled ? "red" : (model.active ? app.accentColor : "grey")
+            iconName: "../images/" + (model.executable ? (iconTag.value.length > 0 ? iconTag.value : "slideshow") : "magic") + ".svg"
+            iconColor: model.executable ? (colorTag.value.length > 0 ? colorTag.value : app.accentColor) : !model.enabled ? "red" : (model.active ? app.accentColor : "grey")
             text: model.name
             canDelete: true
 

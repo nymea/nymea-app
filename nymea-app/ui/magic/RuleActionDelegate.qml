@@ -17,13 +17,14 @@ NymeaListItemDelegate {
     property var deviceClass: device ? engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
     property var actionType: deviceClass ? deviceClass.actionTypes.getActionType(ruleAction.actionTypeId)
                                          : iface ? iface.actionTypes.findByName(ruleAction.interfaceAction) : null
+    property var browserItemId: ruleAction.browserItemId
 
     signal removeRuleAction()
 
     onDeleteClicked: root.removeRuleAction()
 
-    iconName: root.device ? "../images/action.svg" : "../images/action-interface.svg"
-    text: qsTr("%1 - %2").arg(root.device ? root.device.name : root.iface.displayName).arg(root.actionType.displayName)
+    iconName: root.device ? (root.browserItemId ? "../images/browser/BrowserIconFolder.svg" : "../images/action.svg") : "../images/action-interface.svg"
+    text: qsTr("%1 - %2").arg(root.device ? root.device.name : root.iface.displayName).arg(root.actionType ? root.actionType.displayName : qsTr("Launch an item"))
     subText: {
         var ret = [];
         for (var i = 0; i < root.ruleAction.ruleActionParams.count; i++) {

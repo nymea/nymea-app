@@ -22,15 +22,18 @@ SwipeDelegate {
     property alias secondaryIconName: secondaryIcon.name
     property alias secondaryIconColor: secondaryIcon.color
     property alias secondaryIconKeyColor: secondaryIcon.keyColor
+    property alias secondaryIconClickable: secondaryIconMouseArea.enabled
     property alias tertiaryIconName: tertiaryIcon.name
     property alias tertiaryIconColor: tertiaryIcon.color
     property alias tertiaryIconKeyColor: tertiaryIcon.keyColor
+    property alias tertiaryIconClickable: tertiaryIconMouseArea.enabled
 
     property alias additionalItem: additionalItemContainer.children
 
     property alias busy: busyIndicator.running
 
     signal deleteClicked()
+    signal secondaryIconClicked()
 
     contentItem: RowLayout {
         id: innerLayout
@@ -95,6 +98,13 @@ SwipeDelegate {
             Layout.preferredHeight: app.iconSize * .5
             Layout.preferredWidth: height
             visible: name.length > 0
+            MouseArea {
+                id: secondaryIconMouseArea
+                enabled: false
+                anchors.fill: parent
+                anchors.margins: -app.margins
+                onClicked: root.secondaryIconClicked();
+            }
         }
 
         ColorIcon {
@@ -102,6 +112,13 @@ SwipeDelegate {
             Layout.preferredHeight: app.iconSize * .5
             Layout.preferredWidth: height
             visible: name.length > 0
+            MouseArea {
+                id: tertiaryIconMouseArea
+                enabled: false
+                anchors.fill: parent
+                anchors.margins: -app.margins
+                onClicked: root.tertiaryIconClicked();
+            }
         }
 
         ColorIcon {
