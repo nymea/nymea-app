@@ -75,6 +75,7 @@ DeviceClass *JsonTypes::unpackDeviceClass(const QVariantMap &deviceClassMap, QOb
     deviceClass->setDisplayName(deviceClassMap.value("displayName").toString());
     deviceClass->setId(deviceClassMap.value("id").toUuid());
     deviceClass->setVendorId(deviceClassMap.value("vendorId").toUuid());
+    deviceClass->setBrowsable(deviceClassMap.value("browsable").toBool());
     QVariantList createMethodsList = deviceClassMap.value("createMethods").toList();
     QStringList createMethods;
     foreach (QVariant method, createMethodsList) {
@@ -125,6 +126,13 @@ DeviceClass *JsonTypes::unpackDeviceClass(const QVariantMap &deviceClassMap, QOb
         actionTypes->addActionType(JsonTypes::unpackActionType(actionType.toMap(), actionTypes));
     }
     deviceClass->setActionTypes(actionTypes);
+
+    // BrowserItemActionTypes
+    ActionTypes *browserItemActionTypes = new ActionTypes(deviceClass);
+    foreach (QVariant actionType, deviceClassMap.value("browserItemActionTypes").toList()) {
+        browserItemActionTypes->addActionType(JsonTypes::unpackActionType(actionType.toMap(), actionTypes));
+    }
+    deviceClass->setBrowserItemActionTypes(browserItemActionTypes);
 
     return deviceClass;
 }
@@ -310,6 +318,9 @@ QVariantList JsonTypes::packRuleActions(RuleActions *ruleActions)
         if (!ra->actionTypeId().isNull() && !ra->deviceId().isNull()) {
             ruleAction.insert("deviceId", ra->deviceId());
             ruleAction.insert("actionTypeId", ra->actionTypeId());
+        } else if (!ra->deviceId().isNull() && !ra->browserItemId().isEmpty()) {
+            ruleAction.insert("deviceId", ra->deviceId());
+            ruleAction.insert("browserItemId", ra->browserItemId());
         } else {
             ruleAction.insert("interface", ra->interfaceName());
             ruleAction.insert("interfaceAction", ra->interfaceAction());

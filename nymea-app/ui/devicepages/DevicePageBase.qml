@@ -11,12 +11,29 @@ Page {
 
     property bool showLogsButton: true
     property bool showDetailsButton: true
+    property bool showBrowserButton: true
+    property bool popStackOnBackButton: true
 
     default property alias data: contentItem.data
 
+    signal backPressed()
+
     header: NymeaHeader {
         text: device.name
-        onBackPressed: pageStack.pop()
+        onBackPressed: {
+            root.backPressed();
+            if (root.popStackOnBackButton) {
+                pageStack.pop()
+            }
+        }
+
+        HeaderButton {
+            imageSource: "../images/folder-symbolic.svg"
+            visible: root.deviceClass.browsable && root.showBrowserButton
+            onClicked: {
+                pageStack.push(Qt.resolvedUrl("DeviceBrowserPage.qml"), {device: root.device})
+            }
+        }
 
         HeaderButton {
             imageSource: "../images/navigation-menu.svg"

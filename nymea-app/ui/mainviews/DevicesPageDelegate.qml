@@ -13,6 +13,8 @@ MainPageTile {
     disconnected: devicesSubProxyConnectables.count > 0
     batteryCritical: devicesSubProxyBattery.count > 0
 
+    backgroundImage: inlineControlLoader.item && inlineControlLoader.item.hasOwnProperty("backgroundImage") ? inlineControlLoader.item.backgroundImage : ""
+
     onClicked: {
         var page;
         switch (model.name) {
@@ -47,6 +49,9 @@ MainPageTile {
         case "powersocket":
             page = "PowerSocketsDeviceListPage.qml";
             break;
+        case "media":
+            page = "MediaDeviceListPage.qml";
+            break;
         default:
             page = "GenericDeviceListPage.qml"
         }
@@ -76,6 +81,9 @@ MainPageTile {
         filterBatteryCritical: true
     }
 
+    property int currentDeviceIndex: 0
+    readonly property Device currentDevice: devicesProxy.get(currentDeviceIndex)
+
     contentItem: Loader {
         id: inlineControlLoader
         anchors {
@@ -97,7 +105,6 @@ MainPageTile {
 //                return labelComponent;
 
             case "light":
-            case "media":
             case "garagegate":
             case "blind":
             case "extendedblind":
@@ -107,8 +114,62 @@ MainPageTile {
             case "extendedawning":
             case "powersocket":
                 return buttonComponent
+            case "media":
+                return mediaControlComponent
             default:
                 console.warn("DevicesPageDelegate, inlineControl: Unhandled interface", model.name)
+            }
+        }
+    }
+
+    Component {
+        id: mediaControlComponent
+        RowLayout {
+            id: inlineMediaControl
+
+            property string backgroundImage: artworkState ? artworkState.value : ""
+
+            property int currentDeviceIndex: 0
+            readonly property Device currentDevice: devicesProxy.get(currentDeviceIndex)
+            readonly property StateType playbackStateType: currentDevice.deviceClass.stateTypes.findByName("playbackStatus")
+            readonly property State playbackState: currentDevice.states.getState(playbackStateType.id)
+            readonly property StateType artworkStateType: currentDevice.deviceClass.stateTypes.findByName("artwork")
+            readonly property State artworkState: artworkStateType ? currentDevice.states.getState(artworkStateType.id) : null
+
+            Component.onCompleted: {
+                for (var i = 0; i < devicesProxy.count; i++) {
+                    var d = devicesProxy.get(i);
+                    var st = d.deviceClass.stateTypes.findByName("playbackStatus")
+                    var s = d.states.getState(st.id)
+                    s.valueChanged.connect(function() {updateTile()})
+                }
+                updateTile();
+            }
+
+            function updateTile() {
+                var playingIndex = -1;
+                var pausedIndex = -1;
+                for (var i = 0; i < devicesProxy.count; i++) {
+                    var d = devicesProxy.get(i);
+                    var st = d.deviceClass.stateTypes.findByName("playbackStatus");
+                    if (!st) continue;
+                    var s = d.states.getState(st.id);
+                    if (playingIndex === -1 && s.value === "Playing") {
+                        playingIndex = i;
+                    } else if (pausedIndex === -1 && s.value === "Paused") {
+                        pausedIndex = -i;
+                    }
+                }
+                if (playingIndex !== -1) {
+                    currentDeviceIndex = playingIndex;
+                } else if (pausedIndex !== -1) {
+                    currentDeviceIndex = pausedIndex;
+                }
+            }
+
+            MediaControls {
+                iconSize: app.iconSize * 1.2
+                device: inlineMediaControl.currentDevice
             }
         }
     }

@@ -62,6 +62,19 @@ void RuleAction::setInterfaceAction(const QString &interfaceAction)
     }
 }
 
+QString RuleAction::browserItemId() const
+{
+    return m_browserItemId;
+}
+
+void RuleAction::setBrowserItemId(const QString &browserItemId)
+{
+    if (m_browserItemId != browserItemId) {
+        m_browserItemId = browserItemId;
+        emit browserItemIdChanged();
+    }
+}
+
 RuleActionParams *RuleAction::ruleActionParams() const
 {
     return m_ruleActionParams;
@@ -72,6 +85,7 @@ RuleAction *RuleAction::clone() const
     RuleAction *ret = new RuleAction();
     ret->setDeviceId(deviceId());
     ret->setActionTypeId(actionTypeId());
+    ret->setBrowserItemId(browserItemId());
     ret->setInterfaceName(interfaceName());
     ret->setInterfaceAction(interfaceAction());
     for (int i = 0; i < ruleActionParams()->rowCount(); i++) {
@@ -88,6 +102,7 @@ bool RuleAction::operator==(RuleAction *other) const
     COMPARE(m_actionTypeId, other->actionTypeId());
     COMPARE(m_interfaceName, other->interfaceName());
     COMPARE(m_interfaceAction, other->interfaceAction());
+    COMPARE(m_browserItemId, other->browserItemId());
     COMPARE_PTR(m_ruleActionParams, other->ruleActionParams());
     return true;
 }

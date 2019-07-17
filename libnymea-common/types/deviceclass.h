@@ -46,12 +46,14 @@ class DeviceClass : public QObject
     Q_PROPERTY(SetupMethod setupMethod READ setupMethod CONSTANT)
     Q_PROPERTY(QStringList interfaces READ interfaces CONSTANT)
     Q_PROPERTY(QString baseInterface READ baseInterface CONSTANT)
+    Q_PROPERTY(bool browsable READ browsable CONSTANT)
     Q_PROPERTY(ParamTypes *paramTypes READ paramTypes NOTIFY paramTypesChanged)
     Q_PROPERTY(ParamTypes *settingsTypes READ settingsTypes NOTIFY settingsTypesChanged)
     Q_PROPERTY(ParamTypes *discoveryParamTypes READ discoveryParamTypes NOTIFY discoveryParamTypesChanged)
     Q_PROPERTY(StateTypes *stateTypes READ stateTypes NOTIFY stateTypesChanged)
     Q_PROPERTY(EventTypes *eventTypes READ eventTypes NOTIFY eventTypesChanged)
     Q_PROPERTY(ActionTypes *actionTypes READ actionTypes NOTIFY actionTypesChanged)
+    Q_PROPERTY(ActionTypes *browserItemActionTypes READ browserItemActionTypes NOTIFY browserItemActionTypesChanged)
 
 public:
 
@@ -91,6 +93,9 @@ public:
 
     QString baseInterface() const;
 
+    bool browsable() const;
+    void setBrowsable(bool browsable);
+
     ParamTypes *paramTypes() const;
     void setParamTypes(ParamTypes *paramTypes);
 
@@ -109,7 +114,19 @@ public:
     ActionTypes *actionTypes() const;
     void setActionTypes(ActionTypes *actionTypes);
 
+    ActionTypes *browserItemActionTypes() const;
+    void setBrowserItemActionTypes(ActionTypes *browserActionTypes);
+
     Q_INVOKABLE bool hasActionType(const QString &actionTypeId);
+
+signals:
+    void paramTypesChanged();
+    void settingsTypesChanged();
+    void discoveryParamTypesChanged();
+    void stateTypesChanged();
+    void eventTypesChanged();
+    void actionTypesChanged();
+    void browserItemActionTypesChanged();
 
 private:
     QUuid m_id;
@@ -120,6 +137,7 @@ private:
     QStringList m_createMethods;
     SetupMethod m_setupMethod;
     QStringList m_interfaces;
+    bool m_browsable = false;
 
     ParamTypes *m_paramTypes = nullptr;
     ParamTypes *m_settingsTypes = nullptr;
@@ -127,13 +145,6 @@ private:
     StateTypes *m_stateTypes = nullptr;
     EventTypes *m_eventTypes = nullptr;
     ActionTypes *m_actionTypes = nullptr;
-
-signals:
-    void paramTypesChanged();
-    void settingsTypesChanged();
-    void discoveryParamTypesChanged();
-    void stateTypesChanged();
-    void eventTypesChanged();
-    void actionTypesChanged();
+    ActionTypes *m_browserItemActionTypes = nullptr;
 };
 #endif // DEVICECLASS_H

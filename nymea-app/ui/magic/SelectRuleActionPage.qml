@@ -8,13 +8,13 @@ Page {
     property alias text: header.text
 
     // a ruleAction object needs to be set and prefilled with either deviceId or interfaceName
-    property var ruleAction: null
+    property RuleAction ruleAction: null
 
     // optionally, a rule which will be used when determining params for the actions
-    property var rule: null
+    property Rule rule: null
 
-    readonly property var device: ruleAction && ruleAction.deviceId ? engine.deviceManager.devices.getDevice(ruleAction.deviceId) : null
-    readonly property var deviceClass: device ? engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
+    readonly property Device device: ruleAction && ruleAction.deviceId ? engine.deviceManager.devices.getDevice(ruleAction.deviceId) : null
+    readonly property DeviceClass deviceClass: device ? engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
 
     signal backPressed();
     signal done();
@@ -65,7 +65,20 @@ Page {
             }
         } else {
             if (root.device) {
-                listView.model = deviceClass.actionTypes
+                generatedModel.clear();
+                for (var i = 0; i < deviceClass.actionTypes.count; i++) {
+                    var actionType = deviceClass.actionTypes.get(i);
+                    generatedModel.append({displayName: actionType.displayName, actionTypeId: actionType.id})
+                }
+
+                // Append an item for browse mode
+                if (root.deviceClass.browsable) {
+                    generatedModel.append({displayName: qsTr("Open an item on this thing..."), actionTypeId: "browse"})
+                }
+
+                listView.model = generatedModel;
+
+//                listView.model = deviceClass.actionTypes
             }
         }
     }
@@ -73,14 +86,22 @@ Page {
     ListView {
         id: listView
         anchors.fill: parent
+        ScrollBar.vertical: ScrollBar {}
 
-        delegate: ItemDelegate {
+        delegate: NymeaListItemDelegate {
+            id: delegate
             text: model.displayName
             width: parent.width
+            iconName: model.actionTypeId === "browse" ? "../images/browser/BrowserIconFolder.svg" : "../images/action.svg"
+            property ActionType actionType: root.deviceClass.actionTypes.getActionType(model.actionTypeId)
+            progressive: model.actionTypeId === "browse" || actionType.paramTypes.count > 0
+
             onClicked: {
                 if (header.interfacesMode) {
                     if (root.device) {
                         root.ruleAction.actionTypeId = model.actionTypeId;
+                        root.ruleAction.browserItemId = "";
+                        root.ruleAction.interfaceAction = "";
                         var actionType = root.deviceClass.actionTypes.getActionType(model.actionTypeId)
                         if (actionType.paramTypes.count > 0) {
                             var paramsPage = pageStack.push(Qt.resolvedUrl("SelectRuleActionParamsPage.qml"), {ruleAction: root.ruleAction, rule: root.rule})
@@ -94,6 +115,8 @@ Page {
                         }
                     } else if (root.ruleAction.interfaceName !== "") {
                         root.ruleAction.interfaceAction = model.name;
+                        root.ruleAction.browserItemId = "";
+                        root.ruleAction.actionTypeId = "";
                         if (listView.model.get(index).paramTypes.count > 0) {
                             var paramsPage = pageStack.push(Qt.resolvedUrl("SelectRuleActionParamsPage.qml"), {ruleAction: root.ruleAction, rule: root.rule})
                             paramsPage.onBackPressed.connect(function() {pageStack.pop()});
@@ -109,18 +132,31 @@ Page {
                     }
                 } else {
                     if (root.device) {
-                        var actionType = root.deviceClass.actionTypes.getActionType(model.id);
-                        console.log("ActionType", actionType.id, "selected. Has", actionType.paramTypes.count, "params");
-                        root.ruleAction.actionTypeId = actionType.id;
-                        if (actionType.paramTypes.count > 0) {
-                            var paramsPage = pageStack.push(Qt.resolvedUrl("SelectRuleActionParamsPage.qml"), {ruleAction: root.ruleAction, rule: root.rule})
-                            paramsPage.onBackPressed.connect(function() { pageStack.pop(); });
-                            paramsPage.onCompleted.connect(function() {
+                        if (model.actionTypeId === "browse") {
+                            var page = pageStack.push(Qt.resolvedUrl("SelectBrowserItemActionPage.qml"), {device: root.device});
+                            page.selected.connect(function(itemId) {
+                                root.ruleAction.browserItemId = itemId;
+                                root.ruleAction.actionTypeId = "";
+                                root.ruleAction.interfaceAction = "";
                                 pageStack.pop();
                                 root.done();
                             })
                         } else {
-                            root.done();
+                            var actionType = root.deviceClass.actionTypes.getActionType(model.actionTypeId);
+                            console.log("ActionType", actionType.id, "selected. Has", actionType.paramTypes.count, "params");
+                            root.ruleAction.actionTypeId = actionType.id;
+                            root.ruleAction.browserItemId = "";
+                            root.ruleAction.interfaceAction = "";
+                            if (actionType.paramTypes.count > 0) {
+                                var paramsPage = pageStack.push(Qt.resolvedUrl("SelectRuleActionParamsPage.qml"), {ruleAction: root.ruleAction, rule: root.rule})
+                                paramsPage.onBackPressed.connect(function() { pageStack.pop(); });
+                                paramsPage.onCompleted.connect(function() {
+                                    pageStack.pop();
+                                    root.done();
+                                })
+                            } else {
+                                root.done();
+                            }
                         }
                     }
                 }

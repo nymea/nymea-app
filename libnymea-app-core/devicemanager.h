@@ -31,6 +31,9 @@
 #include "jsonrpc/jsonhandler.h"
 #include "jsonrpc/jsonrpcclient.h"
 
+class BrowserItem;
+class BrowserItems;
+
 class DeviceManager : public JsonHandler
 {
     Q_OBJECT
@@ -73,6 +76,11 @@ public:
     Q_INVOKABLE void reconfigureDevice(const QUuid &deviceId, const QVariantList &deviceParams);
     Q_INVOKABLE void reconfigureDiscoveredDevice(const QUuid &deviceId, const QUuid &deviceDescriptorId);
     Q_INVOKABLE int executeAction(const QUuid &deviceId, const QUuid &actionTypeId, const QVariantList &params = QVariantList());
+    Q_INVOKABLE BrowserItems* browseDevice(const QUuid &deviceId, const QString &itemId = QString());
+    Q_INVOKABLE void refreshBrowserItems(BrowserItems *browserItems);
+    Q_INVOKABLE BrowserItem* browserItem(const QUuid &deviceId, const QString &itemId);
+    Q_INVOKABLE int executeBrowserItem(const QUuid &deviceId, const QString &itemId);
+    Q_INVOKABLE int executeBrowserItemAction(const QUuid &deviceId, const QString &itemId, const QUuid &actionTypeId, const QVariantList &params = QVariantList());
 
 private:
     Q_INVOKABLE void notificationReceived(const QVariantMap &data);
@@ -89,6 +97,10 @@ private:
     Q_INVOKABLE void editDeviceResponse(const QVariantMap &params);
     Q_INVOKABLE void executeActionResponse(const QVariantMap &params);
     Q_INVOKABLE void reconfigureDeviceResponse(const QVariantMap &params);
+    Q_INVOKABLE void browseDeviceResponse(const QVariantMap &params);
+    Q_INVOKABLE void browserItemResponse(const QVariantMap &params);
+    Q_INVOKABLE void executeBrowserItemResponse(const QVariantMap &params);
+    Q_INVOKABLE void executeBrowserItemActionResponse(const QVariantMap &params);
 
 public slots:
     void savePluginConfig(const QUuid &pluginId);
@@ -102,6 +114,8 @@ signals:
     void editDeviceReply(const QVariantMap &params);
     void reconfigureDeviceReply(const QVariantMap &params);
     void executeActionReply(const QVariantMap &params);
+    void executeBrowserItemReply(const QVariantMap &params);
+    void executeBrowserItemActionReply(const QVariantMap &params);
     void fetchingDataChanged();
     void notificationReceived(const QString &deviceId, const QString &eventTypeId, const QVariantList &params);
 
@@ -116,6 +130,9 @@ private:
     int m_currentGetConfigIndex = 0;
 
     JsonRpcClient *m_jsonClient = nullptr;
+
+    QHash<int, QPointer<BrowserItems> > m_browsingRequests;
+    QHash<int, QPointer<BrowserItem> > m_browserDetailsRequests;
 
 };
 

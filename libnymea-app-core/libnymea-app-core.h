@@ -31,6 +31,8 @@
 #include "types/statedescriptor.h"
 #include "types/stateevaluator.h"
 #include "types/stateevaluators.h"
+#include "types/browseritems.h"
+#include "types/browseritem.h"
 #include "models/logsmodel.h"
 #include "models/logsmodelng.h"
 #include "models/valuelogsproxymodel.h"
@@ -108,6 +110,9 @@ void registerQmlTypes() {
 
     qmlRegisterUncreatableType<State>(uri, 1, 0, "State", "Can't create this in QML. Get it from the States.");
     qmlRegisterUncreatableType<States>(uri, 1, 0, "States", "Can't create this in QML. Get it from the Device.");
+
+    qmlRegisterUncreatableType<BrowserItems>(uri, 1, 0, "BrowserItems", "Can't create this in QML. Get it from DeviceManager.");
+    qmlRegisterUncreatableType<BrowserItem>(uri, 1, 0, "BrowserItem", "Can't create this in QML. Get it from BroweserItems.");
 
     qmlRegisterUncreatableType<Vendor>(uri, 1, 0, "Vendor", "Can't create this in QML. Get it from the Vendors.");
     qmlRegisterUncreatableType<Vendors>(uri, 1, 0, "Vendors", "Can't create this in QML. Get it from the DeviceManager.");

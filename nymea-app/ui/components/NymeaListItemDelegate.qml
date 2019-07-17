@@ -15,31 +15,57 @@ SwipeDelegate {
     property bool prominentSubText: true
 
     property string iconName
+    property string fallbackIcon
     property int iconSize: app.iconSize
     property color iconColor: app.accentColor
     property alias iconKeyColor: icon.keyColor
     property alias secondaryIconName: secondaryIcon.name
     property alias secondaryIconColor: secondaryIcon.color
     property alias secondaryIconKeyColor: secondaryIcon.keyColor
+    property alias secondaryIconClickable: secondaryIconMouseArea.enabled
     property alias tertiaryIconName: tertiaryIcon.name
     property alias tertiaryIconColor: tertiaryIcon.color
     property alias tertiaryIconKeyColor: tertiaryIcon.keyColor
+    property alias tertiaryIconClickable: tertiaryIconMouseArea.enabled
 
     property alias additionalItem: additionalItemContainer.children
 
+    property alias busy: busyIndicator.running
+
     signal deleteClicked()
+    signal secondaryIconClicked()
 
     contentItem: RowLayout {
         id: innerLayout
         spacing: app.margins
-        ColorIcon {
-            id: icon
+        Item {
             Layout.preferredHeight: root.iconSize
             Layout.preferredWidth: height
-            name: root.iconName
-            color: root.iconColor
-            visible: root.iconName
+            visible: root.iconName || root.fallbackIcon
+
+            ColorIcon {
+                id: icon
+                anchors.fill: parent
+                name: root.iconName
+                color: root.iconColor
+                visible: root.iconName
+            }
+
+            ColorIcon {
+                anchors.fill: parent
+                name: root.fallbackIcon
+                color: root.iconColor
+                visible: root.fallbackIcon && (!root.iconName || icon.status === Image.Error)
+            }
+
+            BusyIndicator {
+                id: busyIndicator
+                anchors.centerIn: parent
+                visible: running
+                running: false
+            }
         }
+
         ColumnLayout {
             Layout.fillWidth: true
             Layout.fillHeight: true
@@ -72,6 +98,13 @@ SwipeDelegate {
             Layout.preferredHeight: app.iconSize * .5
             Layout.preferredWidth: height
             visible: name.length > 0
+            MouseArea {
+                id: secondaryIconMouseArea
+                enabled: false
+                anchors.fill: parent
+                anchors.margins: -app.margins
+                onClicked: root.secondaryIconClicked();
+            }
         }
 
         ColorIcon {
@@ -79,6 +112,13 @@ SwipeDelegate {
             Layout.preferredHeight: app.iconSize * .5
             Layout.preferredWidth: height
             visible: name.length > 0
+            MouseArea {
+                id: tertiaryIconMouseArea
+                enabled: false
+                anchors.fill: parent
+                anchors.margins: -app.margins
+                onClicked: root.tertiaryIconClicked();
+            }
         }
 
         ColorIcon {

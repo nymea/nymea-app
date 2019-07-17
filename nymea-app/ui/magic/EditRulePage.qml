@@ -317,7 +317,7 @@ Page {
                     Behavior on opacity { NumberAnimation {duration: 200; easing.type: Easing.InOutQuad } }
                     Label {
                         Layout.fillWidth: true
-                        text: qsTr("This is a scene" + root.ruleColor, root.ruleIcon)
+                        text: qsTr("This is a scene")
                     }
 
                     CheckBox {
@@ -603,6 +603,15 @@ Page {
                     implicitWidth: parent.width
                     ruleAction: root.rule.actions.get(index)
                     onRemoveRuleAction: root.rule.actions.removeRuleAction(index)
+                    onClicked: {
+                        var ruleActionPage = pageStack.push(Qt.resolvedUrl("SelectRuleActionPage.qml"), {text: "Select action", ruleAction: ruleAction, rule: root.rule });
+                        ruleActionPage.onBackPressed.connect(function() {
+                            pageStack.pop();
+                        })
+                        ruleActionPage.onDone.connect(function() {
+                            pageStack.pop(root);
+                        })
+                    }
                 }
             }
 

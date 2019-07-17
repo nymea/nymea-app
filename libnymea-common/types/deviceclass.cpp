@@ -167,6 +167,16 @@ QString DeviceClass::baseInterface() const
 
 }
 
+bool DeviceClass::browsable() const
+{
+    return m_browsable;
+}
+
+void DeviceClass::setBrowsable(bool browsable)
+{
+    m_browsable = browsable;
+}
+
 ParamTypes *DeviceClass::paramTypes() const
 {
     return m_paramTypes;
@@ -249,6 +259,20 @@ void DeviceClass::setActionTypes(ActionTypes *actionTypes)
     }
     m_actionTypes = actionTypes;
     emit actionTypesChanged();
+}
+
+ActionTypes *DeviceClass::browserItemActionTypes() const
+{
+    return m_browserItemActionTypes;
+}
+
+void DeviceClass::setBrowserItemActionTypes(ActionTypes *browserActionTypes)
+{
+    if (m_browserItemActionTypes) {
+        m_browserItemActionTypes->deleteLater();
+    }
+    m_browserItemActionTypes = browserActionTypes;
+    emit browserItemActionTypesChanged();
 }
 
 bool DeviceClass::hasActionType(const QString &actionTypeId)
