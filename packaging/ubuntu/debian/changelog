@@ -1,3 +1,11 @@
+nymea-app (1.0.134) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add a lime theme
+  * Improve back button handling
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 17 Jul 2019 12:23:30 +0200
+
 nymea-app (1.0.133) bionic; urgency=medium
 
   [ Michael Zanetti ]
