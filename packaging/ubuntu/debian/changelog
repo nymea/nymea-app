@@ -1,3 +1,11 @@
+nymea-app (1.0.135) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add support for browsing things
+  * Improve back button handling
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 18 Jul 2019 01:18:15 +0200
+
 nymea-app (1.0.134) bionic; urgency=medium
 
   [ Michael Zanetti ]
