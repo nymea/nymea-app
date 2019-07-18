@@ -10,7 +10,7 @@ Page {
     property Device device: null
     property string itemId: ""
 
-    signal selected(string itemId)
+    signal selected(string selectedItemId)
 
     header: NymeaHeader {
         onBackPressed: pageStack.pop()
@@ -34,12 +34,13 @@ Page {
             onClicked: {
                 if (model.browsable) {
                     var page = pageStack.push(Qt.resolvedUrl("SelectBrowserItemActionPage.qml"), {device: root.device, itemId: model.id});
-                    page.selected.connect(function() {
+                    page.selected.connect(function(selectedItemId) {
                         pageStack.pop();
-                        root.selected(model.id);
+                        root.selected(selectedItemId);
                     })
                 } else if (model.executable) {
                     pageStack.pop();
+                    print("selected:", model.id)
                     root.selected(model.id);
                 }
             }

@@ -134,8 +134,9 @@ Page {
                     if (root.device) {
                         if (model.actionTypeId === "browse") {
                             var page = pageStack.push(Qt.resolvedUrl("SelectBrowserItemActionPage.qml"), {device: root.device});
-                            page.selected.connect(function(itemId) {
-                                root.ruleAction.browserItemId = itemId;
+                            page.selected.connect(function(selectedItemId) {
+                                print("selected is", selectedItemId)
+                                root.ruleAction.browserItemId = selectedItemId;
                                 root.ruleAction.actionTypeId = "";
                                 root.ruleAction.interfaceAction = "";
                                 pageStack.pop();
