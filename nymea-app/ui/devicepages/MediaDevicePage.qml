@@ -14,15 +14,7 @@ DevicePageBase {
     showBrowserButton: false
 
     onBackPressed: {
-        if (swipeView.currentIndex > 0) {
-            if (internalPageStack.depth > 1) {
-                internalPageStack.pop();
-            } else {
-                swipeView.currentIndex = 0;
-            }
-        } else {
-            pageStack.pop();
-        }
+        swipeView.currentItem.backPressed()
     }
 
     Component.onCompleted: {
@@ -83,9 +75,22 @@ DevicePageBase {
     SwipeView {
         id: swipeView
         anchors.fill: parent
-        interactive: root.deviceClass.browsable
+
+        Component.onCompleted:  {
+            if (root.deviceClass.browsable) {
+                browserComponent.createObject(swipeView)
+            }
+
+            if (root.deviceClass.interfaces.indexOf("navigationpad") >= 0) {
+                navigationComponent.createObject(swipeView)
+            }
+        }
 
         Item {
+            function backPressed() {
+                pageStack.pop();
+            }
+
             GridLayout {
                 id: contentColumn
                 anchors.fill: parent
@@ -139,7 +144,20 @@ DevicePageBase {
             }
         }
 
+    }
+
+    Component {
+        id: browserComponent
+
         Item {
+
+            function backPressed() {
+                if (internalPageStack.depth > 1) {
+                    internalPageStack.pop();
+                } else {
+                    swipeView.currentIndex--
+                }
+            }
 
             StackView {
                 id: internalPageStack
@@ -150,7 +168,6 @@ DevicePageBase {
                     id: internalBrowserPage
                     ListView {
                         id: listView
-                        anchors.fill: parent
                         model: browserItems
                         ScrollBar.vertical: ScrollBar {}
 
@@ -163,7 +180,7 @@ DevicePageBase {
                         }
 
                         delegate: BrowserItemDelegate {
-                            fallbackIcon: "../images/browser/" + (model.mediaIcon && model.mediaIcon !== "MediaBrowserIconNone" ? model.mediaIcon : model.icon) + ".svg"
+                            iconName: "../images/browser/" + (model.mediaIcon && model.mediaIcon !== "MediaBrowserIconNone" ? model.mediaIcon : model.icon) + ".svg"
                             busy: d.pendingItemId === model.id
                             device: root.device
 
@@ -188,9 +205,33 @@ DevicePageBase {
                         }
                     }
                 }
+            }
+        }
+    }
 
+    Component {
+        id: navigationComponent
+        Item {
+            function backPressed() {
+                swipeView.currentIndex--;
             }
 
+
+            ColumnLayout {
+                anchors.fill: parent
+                anchors.margins: app.margins
+
+                NavigationPad {
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    device: root.device
+                }
+
+                MediaControls {
+                    Layout.fillWidth: true
+                    device: root.device
+                }
+            }
 
         }
     }
@@ -246,10 +287,10 @@ DevicePageBase {
             Item {
                 Layout.fillWidth: true
                 Layout.preferredHeight: 2
-                visible: root.deviceClass.browsable
+                visible: swipeView.count > 1
                 Rectangle {
                     height: parent.height
-                    width: parent.width / 2
+                    width: parent.width / swipeView.count
                     color: app.accentColor
                     x: swipeView.currentIndex * width
                     Behavior on x { NumberAnimation { duration: 150 } }
@@ -259,14 +300,14 @@ DevicePageBase {
             RowLayout {
                 Item {
                     Layout.fillHeight: true
-                    Layout.preferredWidth: root.deviceClass.browsable && swipeView.currentIndex > 0 ? parent.width / 4 : 0
+                    Layout.preferredWidth: swipeView.count > 1 && swipeView.currentIndex > 0 ? parent.width / 4 : 0
                     Behavior on Layout.preferredWidth { NumberAnimation {} }
                     HeaderButton {
                         anchors.centerIn: parent
                         imageSource: "../images/back.svg"
-                        opacity:  root.deviceClass.browsable && swipeView.currentIndex == 1 ? 1 : 0
+                        opacity:  swipeView.count > 1 && swipeView.currentIndex > 0 ? 1 : 0
                         Behavior on opacity { NumberAnimation {} }
-                        onClicked: swipeView.currentIndex = 0
+                        onClicked: swipeView.currentIndex--
                     }
                 }
                 Item {
@@ -329,13 +370,13 @@ DevicePageBase {
                 }
                 Item {
                     Layout.fillHeight: true
-                    Layout.preferredWidth: root.deviceClass.browsable && swipeView.currentIndex == 0 ? parent.width / 4 : 0
+                    Layout.preferredWidth: swipeView.count > 1 && swipeView.currentIndex < swipeView.count - 1 ? parent.width / 4 : 0
                     Behavior on Layout.preferredWidth { NumberAnimation {} }
                     HeaderButton {
                         anchors.centerIn: parent
                         imageSource: "../images/next.svg"
-                        onClicked: swipeView.currentIndex = 1
-                        opacity:  root.deviceClass.browsable && swipeView.currentIndex == 0 ? 1 : 0
+                        onClicked: swipeView.currentIndex++
+                        opacity:  swipeView.count > 1 && swipeView.currentIndex < swipeView.count - 1 ? 1 : 0
                         Behavior on opacity { NumberAnimation {} }
                     }
                 }

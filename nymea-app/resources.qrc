@@ -191,5 +191,7 @@
         <file>ui/components/BrowserContextMenu.qml</file>
         <file>ui/magic/SelectBrowserItemActionPage.qml</file>
         <file>ui/delegates/BrowserItemDelegate.qml</file>
+        <file>ui/components/NavigationPad.qml</file>
+        <file>ui/components/KeypadButton.qml</file>
     </qresource>
 </RCC>

@@ -208,5 +208,6 @@
         <file>ui/images/browser/BrowserIconApplication.svg</file>
         <file>ui/images/browser/BrowserIconDocument.svg</file>
         <file>ui/images/browser/BrowserIconPackage.svg</file>
+        <file>ui/images/home.svg</file>
     </qresource>
 </RCC>

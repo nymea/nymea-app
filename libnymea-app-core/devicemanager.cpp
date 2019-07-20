@@ -474,7 +474,7 @@ BrowserItem *DeviceManager::browserItem(const QUuid &deviceId, const QString &it
 
 void DeviceManager::browseDeviceResponse(const QVariantMap &params)
 {
-    qDebug() << "Browsing response:" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson(QJsonDocument::Indented));
+//    qDebug() << "Browsing response:" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson(QJsonDocument::Indented));
     int id = params.value("id").toInt();
     if (!m_browsingRequests.contains(id)) {
         qWarning() << "Received a browsing reply for an id we don't know.";
