@@ -10,7 +10,7 @@ ApplicationWindow {
     font.capitalization: Font.MixedCase
     font.family: "Ubuntu"
 
-    Material.background: "black"
+    Material.background: "#151515"
 
     // The core system name.
     property string systemName: "nymea"

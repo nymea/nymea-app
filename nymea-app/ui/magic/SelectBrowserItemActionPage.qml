@@ -26,6 +26,12 @@ Page {
         anchors.fill: parent
         ScrollBar.vertical: ScrollBar {}
 
+        BusyIndicator {
+            anchors.centerIn: parent
+            running: listView.model.busy
+            visible: running
+        }
+
         delegate: BrowserItemDelegate {
             width: parent.width
             device: root.device

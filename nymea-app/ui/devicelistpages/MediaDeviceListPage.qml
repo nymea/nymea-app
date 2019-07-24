@@ -43,7 +43,7 @@ DeviceListPageBase {
                     readonly property StateType playerTypeStateType: deviceClass.stateTypes.findByName("playerType")
                     readonly property State playerTypeState: playerTypeStateType ? device.states.getState(playerTypeStateType.id) : null
 
-                    bottomPadding: index === ListView.view.count - 1 ? topPadding : 0
+                    bottomPadding: index === root.devicesProxy.count - 1 ? topPadding : 0
                     contentItem: Pane {
                         id: contentItem
                         Material.elevation: 2
@@ -96,7 +96,7 @@ DeviceListPageBase {
                                                       qsTr("No playback")
                                                     : itemDelegate.device.states.getState(itemDelegate.deviceClass.stateTypes.findByName("title").id).value
                                             horizontalAlignment: Text.AlignHCenter
-        //                                    font.pixelSize: app.largeFont
+                                            //                                    font.pixelSize: app.largeFont
                                             elide: Text.ElideRight
                                         }
                                         Label {
@@ -193,10 +193,8 @@ DeviceListPageBase {
                             }
                         }
                     }
+                }
             }
-    }
-
-
         }
     }
 }

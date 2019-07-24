@@ -25,7 +25,7 @@ T.Button {
 
     contentItem: Text {
         text: control.text
-        color: app.backgroundColor
+        color: control.Material.backgroundColor
         font.bold: control.font.bold
         font.capitalization: Font.AllUppercase
         font.family: control.font.family

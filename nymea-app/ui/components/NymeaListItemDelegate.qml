@@ -15,7 +15,7 @@ SwipeDelegate {
     property bool prominentSubText: true
 
     property string iconName
-    property string fallbackIcon
+    property string thumbnail
     property int iconSize: app.iconSize
     property color iconColor: app.accentColor
     property alias iconKeyColor: icon.keyColor
@@ -41,21 +41,24 @@ SwipeDelegate {
         Item {
             Layout.preferredHeight: root.iconSize
             Layout.preferredWidth: height
-            visible: root.iconName || root.fallbackIcon
+            visible: root.iconName.length > 0 || root.thumbnail.length > 0
 
             ColorIcon {
                 id: icon
                 anchors.fill: parent
                 name: root.iconName
                 color: root.iconColor
-                visible: root.iconName
+                visible: root.iconName && thumbnailImage.status !== Image.Ready
             }
 
-            ColorIcon {
+            Image {
+                id: thumbnailImage
                 anchors.fill: parent
-                name: root.fallbackIcon
-                color: root.iconColor
-                visible: root.fallbackIcon && (!root.iconName || icon.status === Image.Error)
+                source: root.thumbnail
+                visible: root.thumbnail.length > 0
+                fillMode: Image.PreserveAspectFit
+                horizontalAlignment: Image.AlignHCenter
+                verticalAlignment: Image.AlignVCenter
             }
 
             BusyIndicator {
