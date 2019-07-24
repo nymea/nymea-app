@@ -1,3 +1,10 @@
+nymea-app (1.0.137) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add support for the keypad interface in media devices
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 24 Jul 2019 09:56:57 +0200
+
 nymea-app (1.0.136) bionic; urgency=medium
 
   [ Michael Zanetti ]
