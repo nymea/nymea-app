@@ -28,7 +28,7 @@ Page {
             Layout.fillWidth: true
             Layout.margins: app.margins
             wrapMode: Text.WordWrap
-            text: qsTr("This list shows the list of installed plugins on this %1 box.").arg(app.systemName)
+            text: qsTr("This list shows the list of installed plugins on this %1 system.").arg(app.systemName)
         }
 
         ThinDivider {}

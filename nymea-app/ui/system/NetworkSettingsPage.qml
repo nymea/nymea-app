@@ -108,9 +108,9 @@ Page {
                 onClicked: {
                     if (!checked) {
                         var dialog = Qt.createComponent(Qt.resolvedUrl("../components/MeaDialog.qml"));
-                        var text = qsTr("Disabling networking will disconnect all connected clients. Be aware that you will not be able to interact remotely with this %1 box any more. Do not proceed unless you know what your are doing.").arg(app.systemName)
+                        var text = qsTr("Disabling networking will disconnect all connected clients. Be aware that you will not be able to interact remotely with this %1 system any more. Do not proceed unless you know what your are doing.").arg(app.systemName)
                                 + "\n\n"
-                                + qsTr("\nDo you want to proceed?")
+                                + qsTr("Do you want to proceed?")
                         var popup = dialog.createObject(app,
                                                         {
                                                             headerIcon: "../images/dialog-warning-symbolic.svg",
@@ -170,9 +170,9 @@ Page {
                 onClicked: {
                     if (!checked) {
                         var dialog = Qt.createComponent(Qt.resolvedUrl("../components/MeaDialog.qml"));
-                        var text = qsTr("Disabling WiFi will disconnect all clients connected via WiFi. Be aware that you will not be able to interact remotely with this %1 box any more unless a LAN cable is connected.").arg(app.systemName)
+                        var text = qsTr("Disabling WiFi will disconnect all clients connected via WiFi. Be aware that you will not be able to interact remotely with this %1 system any more unless a LAN cable is connected.").arg(app.systemName)
                                 + "\n\n"
-                                + qsTr("\nDo you want to proceed?")
+                                + qsTr("Do you want to proceed?")
                         var popup = dialog.createObject(app,
                                                         {
                                                             headerIcon: "../images/dialog-warning-symbolic.svg",

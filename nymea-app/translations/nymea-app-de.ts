@@ -703,9 +703,11 @@
     </message>
     <message numerus="yes">
         <source>There are %n %1:core systems connected to your cloud.</source>
-        <translation><numerusform>Es ist %n %1:core System mit Deiner cloud verbunden.</numerusform>
-        <numerusform>Es sind %n %1:ore Systeme mit Deiner cloud verbunden.</numerusform>
-        </translation></message>
+        <translation>
+            <numerusform>Es ist %n %1:core System mit Deiner cloud verbunden.</numerusform>
+            <numerusform>Es sind %n %1:ore Systeme mit Deiner cloud verbunden.</numerusform>
+        </translation>
+    </message>
     <message>
         <source>Sorry to see you go. If you log out you won&apos;t be able to connect to %1:core systems remotely any more. However, you can come back any time, we&apos;ll keep your user account. If you whish to completely delete your account and all the data associated with it, check the box below before hitting ok. If you decide to delete your account, all your personal information will be removed from %1:cloud and cannot be restored.</source>
         <translation>Schade, dass Du gehst. Wenn Du Dich abmeldest wird es nicht mehr möglich seine über das Internet zu %1:core Systemen zu verbinden. Du kannst jedoch jederzeit zurück kommen, wir bewahren Dein Konto für Dich auf. Wenn du das Konto und sämgliche dazu gehörigen Daten ganz löschen möchtest, aktiviere bitte das Häkchen weiter unten bevor Du fortfährst. Wenn Du das Konto löschst werden alle Deine personenbezogenen Daten von %1:cloud entfernt und das Konto kann nicht wiederhergestellt werden.</translation>
@@ -1699,11 +1701,15 @@
     </message>
     <message>
         <source>In order for your %1 box to be useful, go ahead and add some things.</source>
-        <translation>Damit Deine %1 Box sinnvoll eingesetzt werden kann, füge einige &quot;Things&quot; hinzu.</translation>
+        <translation type="vanished">Damit Deine %1 Box sinnvoll eingesetzt werden kann, füge einige &quot;Things&quot; hinzu.</translation>
     </message>
     <message>
         <source>Add a thing</source>
         <translation>&quot;Thing&quot; hinzufügen</translation>
+    </message>
+    <message>
+        <source>In order for your %1 system to be useful, go ahead and add some things.</source>
+        <translation>Damit Dein %1 System sich nützlich machen kann, füge einige &quot;Things&quot; hinzu.</translation>
     </message>
 </context>
 <context>
@@ -2034,6 +2040,10 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Shot down %1:core</source>
+        <translation type="vanished">%1:core ausschalten</translation>
+    </message>
+    <message>
+        <source>Shut down %1:core</source>
         <translation>%1:core ausschalten</translation>
     </message>
 </context>
@@ -3184,12 +3194,12 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Disabling networking will disconnect all connected clients. Be aware that you will not be able to interact remotely with this %1 box any more. Do not proceed unless you know what your are doing.</source>
-        <translation>Das Deaktivieren der Netzwerk-Funktionalität wird alle verbunden Netzwerk-Geräte trennen. Bitte beachte, dass es nicht mehr möglich sein wird von einem anderen Gerät aus mit diesem %1 System zu interagieren. Es wird nicht empfohlen fortzufahren, wenn Dir nicht genau bewusst ist was dies bedeutet.</translation>
+        <translation type="vanished">Das Deaktivieren der Netzwerk-Funktionalität wird alle verbunden Netzwerk-Geräte trennen. Bitte beachte, dass es nicht mehr möglich sein wird von einem anderen Gerät aus mit diesem %1 System zu interagieren. Es wird nicht empfohlen fortzufahren, wenn Dir nicht genau bewusst ist was dies bedeutet.</translation>
     </message>
     <message>
         <source>
 Do you want to proceed?</source>
-        <translation>
+        <translation type="vanished">
 Möchtest Du fortfahren?</translation>
     </message>
     <message>
@@ -3218,7 +3228,7 @@ Möchtest Du fortfahren?</translation>
     </message>
     <message>
         <source>Disabling WiFi will disconnect all clients connected via WiFi. Be aware that you will not be able to interact remotely with this %1 box any more unless a LAN cable is connected.</source>
-        <translation>Das deaktiveren von WLAN wird alle Geräte trennen welche über WLAN angeschlossen sind. Bitte beachte, dass es danch nicht mehr möglich sein wird von anderen Geräten aus mit diesem %1 System zu interagieren insofern kein Netzwerk-Kabel angeschlossen ist.</translation>
+        <translation type="vanished">Das deaktiveren von WLAN wird alle Geräte trennen welche über WLAN angeschlossen sind. Bitte beachte, dass es danch nicht mehr möglich sein wird von anderen Geräten aus mit diesem %1 System zu interagieren insofern kein Netzwerk-Kabel angeschlossen ist.</translation>
     </message>
     <message>
         <source>Disable WiFi?</source>
@@ -3259,6 +3269,18 @@ Möchtest Du fortfahren?</translation>
     <message>
         <source>Disconnect</source>
         <translation>Trennen</translation>
+    </message>
+    <message>
+        <source>Disabling networking will disconnect all connected clients. Be aware that you will not be able to interact remotely with this %1 system any more. Do not proceed unless you know what your are doing.</source>
+        <translation>Das Deaktivieren der Netzwerk-Funktionalität wird alle verbunden Geräte trennen. Bitte beachte, dass es nicht mehr möglich sein wird über das Netzwerk mit diesem %1 System zu interagieren. Es wird nicht empfohlen fortzufahren insofern dies nicht ausdrücklich gewünscht ist.</translation>
+    </message>
+    <message>
+        <source>Do you want to proceed?</source>
+        <translation>Möchtest Du fortfahren?</translation>
+    </message>
+    <message>
+        <source>Disabling WiFi will disconnect all clients connected via WiFi. Be aware that you will not be able to interact remotely with this %1 system any more unless a LAN cable is connected.</source>
+        <translation>Das Deaktivieren der WLAN-Verbindung wird alle über WLAN verbundenen Geräte trennen. Bitte beachte, dass es nicht mehr möglich sein wird mit diesem %1 System zu interagieren insofern kein Netzwerk-Kabel angeschlossen ist.</translation>
     </message>
 </context>
 <context>
@@ -3619,7 +3641,11 @@ Möchtest Du fortfahren?</translation>
     </message>
     <message>
         <source>This list shows the list of installed plugins on this %1 box.</source>
-        <translation>Diese Liste zeigt die Liste der installierten Plugins auf dieser %1 Box.</translation>
+        <translation type="vanished">Diese Liste zeigt die Liste der installierten Plugins auf dieser %1 Box.</translation>
+    </message>
+    <message>
+        <source>This list shows the list of installed plugins on this %1 system.</source>
+        <translation>Zeigt eine Liste der installierten Plugins auf diesem %1 System.</translation>
     </message>
 </context>
 <context>
@@ -4490,9 +4516,11 @@ Bitte benutze diese Option nur wenn du sicher bist, dass du das Risiko eingehen 
     </message>
     <message numerus="yes">
         <source>%n update(s) available</source>
-        <translation><numerusform>%n Aktualisierung verfügbar</numerusform>
-        <numerusform>%n Aktualisierungen verfügbar</numerusform>
-        </translation></message>
+        <translation>
+            <numerusform>%n Aktualisierung verfügbar</numerusform>
+            <numerusform>%n Aktualisierungen verfügbar</numerusform>
+        </translation>
+    </message>
     <message>
         <source>Check again</source>
         <translation>Nochmals überprüfen</translation>

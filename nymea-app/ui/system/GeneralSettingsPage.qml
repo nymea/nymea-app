@@ -126,7 +126,7 @@ Page {
                 var popup = dialog.createObject(app,
                                                 {
                                                     headerIcon: "../images/dialog-warning-symbolic.svg",
-                                                    title: qsTr("Shot down %1:core").arg(app.systemName),
+                                                    title: qsTr("Shut down %1:core").arg(app.systemName),
                                                     text: text,
                                                     standardButtons: Dialog.Ok | Dialog.Cancel
                                                 });
