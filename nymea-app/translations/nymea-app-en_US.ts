@@ -483,9 +483,9 @@
     </message>
     <message numerus="yes">
         <source>There are %n %1:core systems connected to your cloud.</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>There is %n %1:core system connected to your cloud.</numerusform>
+            <numerusform>There are %n %1:core systems connected to your cloud.</numerusform>
         </translation>
     </message>
     <message>
@@ -1208,11 +1208,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>In order for your %1 box to be useful, go ahead and add some things.</source>
+        <source>Add a thing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Add a thing</source>
+        <source>In order for your %1 system to be useful, go ahead and add some things.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1530,7 +1530,7 @@ Please try again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Shot down %1:core</source>
+        <source>Shut down %1:core</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2496,15 +2496,6 @@ Please try again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Disabling networking will disconnect all connected clients. Be aware that you will not be able to interact remotely with this %1 box any more. Do not proceed unless you know what your are doing.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>
-Do you want to proceed?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Disable networking?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2526,10 +2517,6 @@ Do you want to proceed?</source>
     </message>
     <message>
         <source>Enable or disable WiFi</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Disabling WiFi will disconnect all clients connected via WiFi. Be aware that you will not be able to interact remotely with this %1 box any more unless a LAN cable is connected.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2570,6 +2557,18 @@ Do you want to proceed?</source>
     </message>
     <message>
         <source>Disconnect</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disabling networking will disconnect all connected clients. Be aware that you will not be able to interact remotely with this %1 system any more. Do not proceed unless you know what your are doing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Do you want to proceed?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disabling WiFi will disconnect all clients connected via WiFi. Be aware that you will not be able to interact remotely with this %1 system any more unless a LAN cable is connected.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2855,7 +2854,7 @@ Do you want to proceed?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>This list shows the list of installed plugins on this %1 box.</source>
+        <source>This list shows the list of installed plugins on this %1 system.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3519,8 +3518,8 @@ Please only use this if you are sure you want this and consider reporting the is
     <message numerus="yes">
         <source>%n update(s) available</source>
         <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+            <numerusform>%n update available</numerusform>
+            <numerusform>%n updates available</numerusform>
         </translation>
     </message>
     <message>
