@@ -1040,7 +1040,7 @@
     </message>
     <message>
         <source>Do you have a %1:core but it&apos;s not connected to your network yet? Use the wireless setup to connect it!</source>
-        <translation>Hast Du bereits ein %1:core aber es ist noch nicht mit Deinem Netzwerk verbunden? Benutze das Kabellose Setup um eine WLAN-Verbindung herzustellen.</translation>
+        <translation>Hast Du bereits ein %1:core aber es ist noch nicht mit Deinem Netzwerk verbunden? Benutze das Kabellose Setup um eine WLAN-Verbindung herzustellen!</translation>
     </message>
 </context>
 <context>
@@ -1071,7 +1071,7 @@
     </message>
     <message>
         <source>Connecting the %1:core to %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbinde %1:core mit %2</translation>
     </message>
 </context>
 <context>
@@ -1126,7 +1126,7 @@
     </message>
     <message>
         <source>%1:core could not be found on this address. Please make sure you entered the address correctly and that the system is powered on.</source>
-        <translation type="unfinished"></translation>
+        <translation>%1:core konnte unter dieser Addresse nicht erreicht werden. Bitte stelle sicher, dass Du die Adresse richtig eingegeben hast und das System eingeschaltet ist.</translation>
     </message>
 </context>
 <context>
@@ -1245,11 +1245,11 @@
     <name>DeviceBrowserPage</name>
     <message>
         <source>Browse %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 durchsuchen</translation>
     </message>
     <message>
         <source>Error: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Fehler: %1</translation>
     </message>
 </context>
 <context>
@@ -1677,7 +1677,7 @@
     </message>
     <message>
         <source>This is a scene</source>
-        <translation type="unfinished"></translation>
+        <translation>Dies ist eine Szene</translation>
     </message>
 </context>
 <context>
@@ -2026,15 +2026,15 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Are you sure you want to reboot your %1:core sytem now?</source>
-        <translation type="unfinished"></translation>
+        <translation>Bist Du sicher, dass du dein %1:core System jetzt neu starten möchtest?</translation>
     </message>
     <message>
         <source>Are you sure you want to shut down your %1:core sytem now?</source>
-        <translation type="unfinished"></translation>
+        <translation>Bist Du sicher, dass Du Dein %1:core system jetzt ausschalten möchtest?</translation>
     </message>
     <message>
         <source>Shot down %1:core</source>
-        <translation type="unfinished"></translation>
+        <translation>%1:core ausschalten</translation>
     </message>
 </context>
 <context>
@@ -2616,11 +2616,11 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>An error happened with the user storage. Please make sure your %1:core system is installed correctly.</source>
-        <translation type="unfinished"></translation>
+        <translation>Beim Speichern der Einstellungen ist ein Fehler aufgetreten. Bitte stelle sicher, dass Du Dein %1:core System korrekt installiert hast.</translation>
     </message>
     <message>
         <source>In order to use your %1 system, please enter your email address and set a password for it.</source>
-        <translation type="unfinished"></translation>
+        <translation>Um dein %1 System zu nutzen, gib bitte Deine E-Mail Adresse ein und wähle ein Passwort dafür.</translation>
     </message>
 </context>
 <context>
@@ -2663,19 +2663,19 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Turn screen off when idle</source>
-        <translation type="unfinished"></translation>
+        <translation>Bildschirm im Leerlauf ausschalten</translation>
     </message>
     <message>
         <source>Screen off timeout</source>
-        <translation type="unfinished"></translation>
+        <translation>Leerlaufzeit bis der Bildschirm ausgeschaltet wird</translation>
     </message>
     <message>
         <source>seconds</source>
-        <translation type="unfinished"></translation>
+        <translation>Sekunden</translation>
     </message>
     <message>
         <source>Screen brightness</source>
-        <translation type="unfinished"></translation>
+        <translation>Bildschirmhelligkeit</translation>
     </message>
 </context>
 <context>
@@ -2883,7 +2883,7 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>In order for your %1 system to be useful, go ahead and add some things.</source>
-        <translation type="unfinished"></translation>
+        <translation>Damit dein %1 System sich nützlich machen kann, füge einige &quot;Things&quot; hinzu.</translation>
     </message>
 </context>
 <context>
@@ -2984,18 +2984,18 @@ Bitte versuche es erneut.</translation>
     <name>MediaDeviceListPage</name>
     <message>
         <source>Media</source>
-        <translation type="unfinished">Medien</translation>
+        <translation>Medien</translation>
     </message>
     <message>
         <source>No playback</source>
-        <translation type="unfinished"></translation>
+        <translation>Keine Wiedergabe</translation>
     </message>
 </context>
 <context>
     <name>MediaDevicePage</name>
     <message>
         <source>Error: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Fehler: %1</translation>
     </message>
 </context>
 <context>
@@ -3096,112 +3096,113 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Unknown</source>
-        <translation type="unfinished"></translation>
+        <translation>Unbekannt</translation>
     </message>
     <message>
         <source>Unmanaged</source>
-        <translation type="unfinished"></translation>
+        <translation>Nicht verwaltet</translation>
     </message>
     <message>
         <source>Unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>Nicht verfügbar</translation>
     </message>
     <message>
         <source>Disconnected</source>
-        <translation type="unfinished"></translation>
+        <translation>Getrennt</translation>
     </message>
     <message>
         <source>Deactivating</source>
-        <translation type="unfinished"></translation>
+        <translation>Wird deaktiviert</translation>
     </message>
     <message>
         <source>Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Fehlgeschlagen</translation>
     </message>
     <message>
         <source>Preparing</source>
-        <translation type="unfinished"></translation>
+        <translation>Wird vorbereitet</translation>
     </message>
     <message>
         <source>Configuring</source>
-        <translation type="unfinished"></translation>
+        <translation>Wird eingerichtet</translation>
     </message>
     <message>
         <source>Waiting for password</source>
-        <translation type="unfinished"></translation>
+        <translation>Warte auf Passwort</translation>
     </message>
     <message>
         <source>Setting IP configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>IP Konfiguration wird gesetzt</translation>
     </message>
     <message>
         <source>Checking IP configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>IP Konfiguration wird überprüft</translation>
     </message>
     <message>
         <source>Secondaries</source>
-        <translation type="unfinished"></translation>
+        <translation>Zweitrangig</translation>
     </message>
     <message>
         <source>Connected</source>
-        <translation type="unfinished">Verbunden</translation>
+        <translation>Verbunden</translation>
     </message>
     <message>
         <source>Current connection state</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktueller Verbindungs-Zustand</translation>
     </message>
     <message>
         <source>Asleep</source>
-        <translation type="unfinished"></translation>
+        <translation>Schlafend</translation>
     </message>
     <message>
         <source>Disconnecting</source>
-        <translation type="unfinished"></translation>
+        <translation>Wird getrennt</translation>
     </message>
     <message>
         <source>Connecting</source>
-        <translation type="unfinished"></translation>
+        <translation>Wird verbunden</translation>
     </message>
     <message>
         <source>Locally connected</source>
-        <translation type="unfinished"></translation>
+        <translation>Lokal verbunden</translation>
     </message>
     <message>
         <source>Site connected</source>
-        <translation type="unfinished"></translation>
+        <translation>Im Intra-Net verbunden</translation>
     </message>
     <message>
         <source>Globally connected</source>
-        <translation type="unfinished"></translation>
+        <translation>Global verbunden</translation>
     </message>
     <message>
         <source>Networking enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Netzwerk aktiviert</translation>
     </message>
     <message>
         <source>Enable or disable networking altogether</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktiviere oder deaktiviere die gesamte Netzwerk-Funktionalität</translation>
     </message>
     <message>
         <source>Disabling networking will disconnect all connected clients. Be aware that you will not be able to interact remotely with this %1 box any more. Do not proceed unless you know what your are doing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Das Deaktivieren der Netzwerk-Funktionalität wird alle verbunden Netzwerk-Geräte trennen. Bitte beachte, dass es nicht mehr möglich sein wird von einem anderen Gerät aus mit diesem %1 System zu interagieren. Es wird nicht empfohlen fortzufahren, wenn Dir nicht genau bewusst ist was dies bedeutet.</translation>
     </message>
     <message>
         <source>
 Do you want to proceed?</source>
-        <translation type="unfinished"></translation>
+        <translation>
+Möchtest Du fortfahren?</translation>
     </message>
     <message>
         <source>Disable networking?</source>
-        <translation type="unfinished"></translation>
+        <translation>Netwerk deativieren?</translation>
     </message>
     <message>
         <source>Wired network</source>
-        <translation type="unfinished"></translation>
+        <translation>Kabelgebundenes Netzwerk</translation>
     </message>
     <message>
         <source>Shows the current ethernet status</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeigt den aktuellen Zustand des Kabel-Netzwerks an</translation>
     </message>
     <message>
         <source>Plugged in</source>
