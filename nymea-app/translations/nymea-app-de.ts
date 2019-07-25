@@ -3206,59 +3206,59 @@ Möchtest Du fortfahren?</translation>
     </message>
     <message>
         <source>Plugged in</source>
-        <translation type="unfinished"></translation>
+        <translation>Eingesteckt</translation>
     </message>
     <message>
         <source>Unplugged</source>
-        <translation type="unfinished"></translation>
+        <translation>Ausgesteckt</translation>
     </message>
     <message>
         <source>Enable or disable WiFi</source>
-        <translation type="unfinished"></translation>
+        <translation>WLAN ein-/ausschalten</translation>
     </message>
     <message>
         <source>Disabling WiFi will disconnect all clients connected via WiFi. Be aware that you will not be able to interact remotely with this %1 box any more unless a LAN cable is connected.</source>
-        <translation type="unfinished"></translation>
+        <translation>Das deaktiveren von WLAN wird alle Geräte trennen welche über WLAN angeschlossen sind. Bitte beachte, dass es danch nicht mehr möglich sein wird von anderen Geräten aus mit diesem %1 System zu interagieren insofern kein Netzwerk-Kabel angeschlossen ist.</translation>
     </message>
     <message>
         <source>Disable WiFi?</source>
-        <translation type="unfinished"></translation>
+        <translation>WLAN ausschalten?</translation>
     </message>
     <message>
         <source>WiFi networks</source>
-        <translation type="unfinished"></translation>
+        <translation>WLAN Netzwerke</translation>
     </message>
     <message>
         <source>Authenticate</source>
-        <translation type="unfinished">Authentifizierung</translation>
+        <translation>Authentifizierung</translation>
     </message>
     <message>
         <source>Enter the password for %1</source>
-        <translation type="unfinished">Gib das Passwort für %1 ein</translation>
+        <translation>Gib das Passwort für %1 ein</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Current connection</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktuelle Verbindung</translation>
     </message>
     <message>
         <source>SSID</source>
-        <translation type="unfinished"></translation>
+        <translation>SSID</translation>
     </message>
     <message>
         <source>MAC Address</source>
-        <translation type="unfinished"></translation>
+        <translation>MAC Adresse</translation>
     </message>
     <message>
         <source>Signal strength</source>
-        <translation type="unfinished"></translation>
+        <translation>Signalstärke</translation>
     </message>
     <message>
         <source>Disconnect</source>
-        <translation type="unfinished">Trennen</translation>
+        <translation>Trennen</translation>
     </message>
 </context>
 <context>
@@ -3597,7 +3597,7 @@ Möchtest Du fortfahren?</translation>
     <name>PasswordTextField</name>
     <message>
         <source>Pick a password</source>
-        <translation type="unfinished">Wähle ein Passwort</translation>
+        <translation>Wähle ein Passwort</translation>
     </message>
 </context>
 <context>
@@ -3687,7 +3687,7 @@ Möchtest Du fortfahren?</translation>
     </message>
     <message>
         <source>Sorry, the version of the %1:core you are trying to connect to is too old. This app requires at least version %2 but this %1:core only supports %3</source>
-        <translation type="unfinished"></translation>
+        <translation>Entschuldigung, die Version dieses %1:core Systems ist zu alt. Diese App benötigt mindestens Version %2 aber dieser %1:core unterstützt lediglich %3</translation>
     </message>
 </context>
 <context>
@@ -3706,7 +3706,7 @@ Möchtest Du fortfahren?</translation>
     </message>
     <message>
         <source>Unknown item</source>
-        <translation type="unfinished"></translation>
+        <translation>Unbekanntes Element</translation>
     </message>
 </context>
 <context>
@@ -3746,7 +3746,7 @@ Möchtest Du fortfahren?</translation>
     </message>
     <message>
         <source>&lt;font color=&quot;%1&quot;&gt;The password needs to be &lt;/font&gt;&lt;font color=&quot;%2&quot;&gt;at least %3 characters long&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt;, contain &lt;/font&gt;&lt;font color=&quot;%4&quot;&gt;lowercase&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt;, &lt;/font&gt;&lt;font color=&quot;%5&quot;&gt;uppercase&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt; letters as well as &lt;/font&gt;&lt;font color=&quot;%6&quot;&gt;numbers&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt; and &lt;/font&gt;&lt;font color=&quot;%7&quot;&gt;special characters&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt;.&lt;/font&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;font color=&quot;%1&quot;&gt;Das Passwort muss &lt;/font&gt;&lt;font color=&quot;%2&quot;&gt;mindestens %3 Zeichen lang&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt; sein, &lt;/font&gt;&lt;font color=&quot;%4&quot;&gt;Kleinbuchstaben&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt;, &lt;/font&gt;&lt;font color=&quot;%5&quot;&gt;Großbuchstaben&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt; sowie &lt;/font&gt;&lt;font color=&quot;%6&quot;&gt;Zahlen&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt; und &lt;/font&gt;&lt;font color=&quot;%7&quot;&gt;Sonderzeichen&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt; beinhalten.&lt;/font&gt;</translation>
     </message>
 </context>
 <context>
@@ -3808,7 +3808,7 @@ Möchtest Du fortfahren?</translation>
     <name>SelectBrowserItemActionPage</name>
     <message>
         <source>Select item</source>
-        <translation type="unfinished"></translation>
+        <translation>Element auswählen</translation>
     </message>
 </context>
 <context>
@@ -3837,7 +3837,7 @@ Möchtest Du fortfahren?</translation>
     <name>SelectRuleActionPage</name>
     <message>
         <source>Open an item on this thing...</source>
-        <translation type="unfinished"></translation>
+        <translation>Öffne ein Element auf diesem &quot;Thing&quot;...</translation>
     </message>
 </context>
 <context>
@@ -4188,19 +4188,19 @@ Möchtest Du fortfahren?</translation>
     </message>
     <message>
         <source>Networking</source>
-        <translation type="unfinished">Netzwerk</translation>
+        <translation>Netzwerk</translation>
     </message>
     <message>
         <source>Configure the system&apos;s network connection</source>
-        <translation type="unfinished"></translation>
+        <translation>Richte das Netzwerk dieses Systems ein</translation>
     </message>
     <message>
         <source>Connect this %1:core to %1:cloud</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbinde diesen %1:core mit %1:cloud</translation>
     </message>
     <message>
         <source>Configure how clients interact with this system</source>
-        <translation type="unfinished"></translation>
+        <translation>Richte ein, wie andere Geräte mit diesem System kommunizieren</translation>
     </message>
 </context>
 <context>
@@ -4267,19 +4267,19 @@ Möchtest Du fortfahren?</translation>
     </message>
     <message>
         <source>First setup</source>
-        <translation type="unfinished"></translation>
+        <translation>Erstes Einrichten</translation>
     </message>
     <message>
         <source>Welcome to %1!</source>
-        <translation type="unfinished"></translation>
+        <translation>Willkommen bei %1!</translation>
     </message>
     <message>
         <source>This %1 system has not been set up yet. This wizard will guide you through a few simple steps to set it up.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dieses %1 System wurde noch nicht eingerichtet. Dieser Assistent wird Dich durch ein paar einfache Schritte leiten um es einzurichten.</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation type="unfinished"></translation>
+        <translation>Weiter</translation>
     </message>
 </context>
 <context>
@@ -4478,47 +4478,46 @@ Bitte benutze diese Option nur wenn du sicher bist, dass du das Risiko eingehen 
     </message>
     <message>
         <source>Settings</source>
-        <translation type="unfinished">Einstellungen</translation>
+        <translation>Einstellungen</translation>
     </message>
     <message>
         <source>Checking for updates...</source>
-        <translation type="unfinished"></translation>
+        <translation>Überprüfe auf Aktualisierungen...</translation>
     </message>
     <message>
         <source>Check for updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Überprüfe auf Aktualisierungen</translation>
     </message>
     <message numerus="yes">
         <source>%n update(s) available</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%n Aktualisierung verfügbar</numerusform>
+        <numerusform>%n Aktualisierungen verfügbar</numerusform>
+        </translation></message>
     <message>
         <source>Check again</source>
-        <translation type="unfinished"></translation>
+        <translation>Nochmals überprüfen</translation>
     </message>
     <message>
         <source>Install or remove software</source>
-        <translation type="unfinished"></translation>
+        <translation>Software hinzufügen oder entfernen</translation>
     </message>
     <message>
         <source>Package information</source>
-        <translation type="unfinished"></translation>
+        <translation>Paket-Informationen</translation>
     </message>
     <message>
         <source>Not installed</source>
-        <translation type="unfinished"></translation>
+        <translation>Nicht installiert</translation>
     </message>
     <message>
         <source>This will start a system update. Note that the update might take several minutes and your %1:core might not be functioning properly or restart during this time.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dies wird eine System-Aktualisierung starten. Bitte beachte, dass die Aktualisierung mehrere Minuten in Anspruch nehmen kann und Dein %1:core während dieser Zeit möglicherweise nicht ohne Einschränkungen funktioniert.</translation>
     </message>
     <message>
         <source>
 Do you want to proceed?</source>
-        <translation type="unfinished"></translation>
+        <translation>
+Möchtest Du fortfahren?</translation>
     </message>
 </context>
 <context>
@@ -4594,15 +4593,15 @@ Bitte warte bis diese abgeschlossen ist.</translation>
     </message>
     <message>
         <source>System update in progress...</source>
-        <translation type="unfinished">System wird aktualisiert...</translation>
+        <translation>System wird aktualisiert...</translation>
     </message>
     <message>
         <source>Please wait</source>
-        <translation type="unfinished"></translation>
+        <translation>Bitte warten</translation>
     </message>
     <message>
         <source>The system may restart in order to complete the update. %1:app will reconnect automatically after the update.</source>
-        <translation type="unfinished"></translation>
+        <translation>Das System wird möglicherweise neu starten um die Aktualisierung abzuschließen. %1:app wird automatisch neu verbinden sobald die Aktualisierung abeschlossen ist.</translation>
     </message>
 </context>
 <context>
@@ -4967,15 +4966,15 @@ Bitte warte bis diese abgeschlossen ist.</translation>
     </message>
     <message>
         <source>Your %1:core is connected to %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Dein %1:core ist mit %2 verbunden</translation>
     </message>
     <message>
         <source>Waiting for the %1:core to appear in your network.</source>
-        <translation type="unfinished"></translation>
+        <translation>Warte bis %1:core in Deinem Netzwerk auftaucht.</translation>
     </message>
     <message>
         <source>Connect to %1:core</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbinde zu %1:core</translation>
     </message>
 </context>
 <context>
