@@ -1907,11 +1907,11 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Reboot %1:core</source>
-        <translation type="unfinished"></translation>
+        <translation>%1:core neu starten</translation>
     </message>
     <message>
         <source>Shutdown %1:core</source>
-        <translation type="unfinished"></translation>
+        <translation>%1:core ausschalten</translation>
     </message>
 </context>
 <context>
@@ -2725,11 +2725,11 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>System update in progress...</source>
-        <translation type="unfinished"></translation>
+        <translation>System wird aktualisiert...</translation>
     </message>
     <message numerus="yes">
         <source>%n system update(s) available</source>
-        <translation type="unfinished">
+        <translation>
             <numerusform>%n System-Update verfügbar</numerusform>
             <numerusform>%n System-Updates verfügbar</numerusform>
         </translation>
@@ -3488,15 +3488,15 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Use a thing&apos;s state value</source>
-        <translation type="unfinished"></translation>
+        <translation>Zustandswert eines anderen &quot;Things&quot; verwenden</translation>
     </message>
     <message>
         <source>Insert value here</source>
-        <translation type="unfinished"></translation>
+        <translation>Wert hier eingeben</translation>
     </message>
     <message>
         <source>Select a state</source>
-        <translation type="unfinished"></translation>
+        <translation>Zustand auswählen</translation>
     </message>
 </context>
 <context>
@@ -3518,7 +3518,7 @@ Bitte versuche es erneut.</translation>
     <name>SelectStatePage</name>
     <message>
         <source>Select state</source>
-        <translation type="unfinished"></translation>
+        <translation>Zustand auswählen</translation>
     </message>
 </context>
 <context>
@@ -3586,11 +3586,11 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>is closed</source>
-        <translation type="unfinished"></translation>
+        <translation>ist geschlossen</translation>
     </message>
     <message>
         <source>is open</source>
-        <translation type="unfinished"></translation>
+        <translation>ist geöffnet</translation>
     </message>
 </context>
 <context>
@@ -3812,11 +3812,11 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>System update</source>
-        <translation type="unfinished"></translation>
+        <translation>System-Aktualisierung</translation>
     </message>
     <message>
         <source>Update your %1:core system</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktualisiere dein %1:core system</translation>
     </message>
 </context>
 <context>
@@ -4000,78 +4000,81 @@ Bitte versuche es erneut.</translation>
     <name>SystemUpdatePage</name>
     <message>
         <source>System update</source>
-        <translation type="unfinished"></translation>
+        <translation>System-Aktualisierung</translation>
     </message>
     <message>
         <source>Configure updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktualisierungen einrichten</translation>
     </message>
     <message>
         <source>Show all packages</source>
-        <translation type="unfinished"></translation>
+        <translation>Alle Pakete anzeigen</translation>
     </message>
     <message>
         <source>Your system is up to date.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dein System ist aktuell.</translation>
     </message>
     <message>
         <source>There are %1 updates available.</source>
-        <translation type="unfinished"></translation>
+        <translation>Es sind %1 updates verfügbar.</translation>
     </message>
     <message>
         <source>Update all</source>
-        <translation type="unfinished"></translation>
+        <translation>Alle aktualisieren</translation>
     </message>
     <message>
         <source>This will start a system update. Note that the update might take several minutes and your %1:core might not be functioning properly during this time and restart during the process.
 Do you want to proceed?</source>
-        <translation type="unfinished"></translation>
+        <translation>Diese Aktion wird eine System-Aktualisierung starten. Bitte beachte, dass die Aktualisierung mehrere Minuten in Anspruch nehmen kann und dein %1:core während dieser Zeit möglicherweise nicht ordungsgemäß funktioniert.
+Möchtest du fortfahren?</translation>
     </message>
     <message>
         <source>Configure update sources</source>
-        <translation type="unfinished"></translation>
+        <translation>Quellen für die Aktualisierung einrichten</translation>
     </message>
     <message>
         <source>Enabling additional software sources allows to install unreleased %1:core packages.
 This can potentially break your system and lead to problems.
 Please only use this if you are sure you want this and consider reporting the issues you find when testing unreleased channels.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zusätzliche Software-Quellen erlauben es unveröffentlichte Testversionen von %1:core Paketen zu installieren.
+Dies könnte möglicherweise die Funktionalität deines Systems beeinträchtigen und zu Problemen führen.
+Bitte benutze diese Option nur wenn du sicher bist, dass du das Risiko eingehen möchtest. Sollten beim benutzen von Testversionen Probleme auftreten, möchten wir dich bitten diese an uns zu berichten.</translation>
     </message>
     <message>
         <source>Enable package source</source>
-        <translation type="unfinished"></translation>
+        <translation>Paket-Quelle aktivieren</translation>
     </message>
     <message>
         <source>All packages</source>
-        <translation type="unfinished"></translation>
+        <translation>Alle Pakete</translation>
     </message>
     <message>
         <source>Installed version:</source>
-        <translation type="unfinished"></translation>
+        <translation>Installierte Version:</translation>
     </message>
     <message>
         <source>Candidate version:</source>
-        <translation type="unfinished"></translation>
+        <translation>Kandidat-Version:</translation>
     </message>
     <message>
         <source>Update</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktualisierung</translation>
     </message>
     <message>
         <source>Install</source>
-        <translation type="unfinished"></translation>
+        <translation>Installieren</translation>
     </message>
     <message>
         <source>Start update</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktualisierung starten</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>Entfernen</translation>
     </message>
     <message>
         <source>Remove package</source>
-        <translation type="unfinished"></translation>
+        <translation>Paket entfernen</translation>
     </message>
 </context>
 <context>
@@ -4142,7 +4145,8 @@ Please only use this if you are sure you want this and consider reporting the is
     <message>
         <source>An update operation is currently running.
 Please wait for it to complete.</source>
-        <translation type="unfinished"></translation>
+        <translation>Eine Aktualisierung wird gerade durchgeführt.
+Bitte warte bis diese abgeschlossen ist.</translation>
     </message>
 </context>
 <context>
