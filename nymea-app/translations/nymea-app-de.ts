@@ -193,7 +193,7 @@
     </message>
     <message>
         <source>Log into %1:cloud and manage connected %1:core systems</source>
-        <translation type="unfinished"></translation>
+        <translation>Melde dich bei %1:cloud an und verwalte deine verbundenen %1:core Systeme.</translation>
     </message>
 </context>
 <context>
