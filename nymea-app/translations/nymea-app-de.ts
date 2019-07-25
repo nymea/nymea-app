@@ -5,7 +5,7 @@
     <name>AWSPasswordTextField</name>
     <message>
         <source>Pick a password</source>
-        <translation>Wähle ein Passwort</translation>
+        <translation type="vanished">Wähle ein Passwort</translation>
     </message>
 </context>
 <context>
@@ -181,7 +181,7 @@
     </message>
     <message>
         <source>Log into %1:cloud and manage connected boxes</source>
-        <translation>Logge Dich in %1:cloud ein und Verwalte deine verbunden Boxen</translation>
+        <translation type="vanished">Logge Dich in %1:cloud ein und Verwalte deine verbunden Boxen</translation>
     </message>
     <message>
         <source>Yeehaaa!</source>
@@ -190,6 +190,10 @@
     <message>
         <source>Find app versions and licence information</source>
         <translation>Finde App Versionen und Lizenzinformationen</translation>
+    </message>
+    <message>
+        <source>Log into %1:cloud and manage connected %1:core systems</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -304,11 +308,11 @@
     </message>
     <message>
         <source>Searching for %1 boxes.</source>
-        <translation>Suche nach %1 Boxen.</translation>
+        <translation type="vanished">Suche nach %1 Boxen.</translation>
     </message>
     <message>
         <source>Troubles finding your box?</source>
-        <translation>Probleme Die Box zu finden?</translation>
+        <translation type="vanished">Probleme Die Box zu finden?</translation>
     </message>
     <message>
         <source>Uh oh</source>
@@ -333,6 +337,18 @@
     <message>
         <source>Connecting to %1</source>
         <translation>Verbinde zu %1</translation>
+    </message>
+    <message>
+        <source>Searching for %1:core systems.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Troubles finding your %1:core?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 box</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -371,6 +387,17 @@
     <message>
         <source>Hardware revision</source>
         <translation>Hardware Revision</translation>
+    </message>
+</context>
+<context>
+    <name>BrowserContextMenu</name>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">Abbrechen</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation type="unfinished">OK</translation>
     </message>
 </context>
 <context>
@@ -459,19 +486,19 @@
     </message>
     <message>
         <source>The certificate of this %1 box has changed!</source>
-        <translation>Das Zertifikat dieser %1 Box wurde verändert!</translation>
+        <translation type="vanished">Das Zertifikat dieser %1 Box wurde verändert!</translation>
     </message>
     <message>
         <source>It seems this is the first time you connect to this %1 box.</source>
-        <translation>Es scheint als sei dies die erste Verbindung zu dieser %1 Box.</translation>
+        <translation type="vanished">Es scheint als sei dies die erste Verbindung zu dieser %1 Box.</translation>
     </message>
     <message>
         <source>Did you change the box&apos;s configuration? Verify if this information is correct.</source>
-        <translation>Hast Du die Konfiguration der Box verändert? Stelle sicher, dass diese Information noch korrekt ist.</translation>
+        <translation type="vanished">Hast Du die Konfiguration der Box verändert? Stelle sicher, dass diese Information noch korrekt ist.</translation>
     </message>
     <message>
         <source>This is the box&apos;s certificate. Once you trust it, an encrypted connection will be established.</source>
-        <translation>Dies ist das Zertifikat der Box. Sobald Du es akzeptierst, wird eine verschlüsselte Verbindung aufgebaut.</translation>
+        <translation type="vanished">Dies ist das Zertifikat der Box. Sobald Du es akzeptierst, wird eine verschlüsselte Verbindung aufgebaut.</translation>
     </message>
     <message>
         <source>Fingerprint: </source>
@@ -484,6 +511,22 @@
     <message>
         <source>Do you want to trust this device?</source>
         <translation>Möchten Sie diesem Gerät vertrauen?</translation>
+    </message>
+    <message>
+        <source>The certificate of this %1:core has changed!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>It seems this is the first time you connect to this %1:core.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Did you change the system&apos;s configuration? Verify if this information is correct.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This is the certificate for this %1:core. Once you trust it, an encrypted connection will be established.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -506,7 +549,7 @@
     </message>
     <message>
         <source>There are no boxes connected to your cloud yet.</source>
-        <translation>Es sind noch keine Boxen mit Deiner Cloud verbunden.</translation>
+        <translation type="vanished">Es sind noch keine Boxen mit Deiner Cloud verbunden.</translation>
     </message>
     <message numerus="yes">
         <source>There are %n boxes connected to your cloud</source>
@@ -529,7 +572,7 @@
     </message>
     <message>
         <source>Log in to %1:cloud in order to connect to %1 boxes from anywhere.</source>
-        <translation>Logge Dich bei %1:cloud ein um von Überall aus auf %1 Boxen Zugreifen zu können.</translation>
+        <translation type="vanished">Logge Dich bei %1:cloud ein um von Überall aus auf %1 Boxen Zugreifen zu können.</translation>
     </message>
     <message>
         <source>Password</source>
@@ -637,7 +680,7 @@
     </message>
     <message>
         <source>Sorry to see you go. If you log out you won&apos;t be able to connect to %1 boxes remotely any more. However, you can come back any time, we&apos;ll keep your user account. If you whish to completely delete your account and all the data associated with it, check the box below before hitting ok. If you decide to delete your account, all your personal information will be removed from %1:cloud and cannot be restored.</source>
-        <translation>Schade, dass Du gehst. Wenn Du dich ausloggst wirst du keine Fernverbindung zu %1 Boxen mehr aufbauen können. Du kannst jedoch jederzeit zurück kommen, wir bewahren dein Konto für dich auf. Wenn Du Dein Konto und alle damit verbundenen Daten löschen möchtest, setze ein Häkchen im Kästchen unten bevor Du fortfährst. Alle Deine persönlichen Daten werden dann unwiederruflich aus %1:cloud gelöscht.</translation>
+        <translation type="vanished">Schade, dass Du gehst. Wenn Du dich ausloggst wirst du keine Fernverbindung zu %1 Boxen mehr aufbauen können. Du kannst jedoch jederzeit zurück kommen, wir bewahren dein Konto für dich auf. Wenn Du Dein Konto und alle damit verbundenen Daten löschen möchtest, setze ein Häkchen im Kästchen unten bevor Du fortfährst. Alle Deine persönlichen Daten werden dann unwiederruflich aus %1:cloud gelöscht.</translation>
     </message>
     <message>
         <source>See our &lt;a href=&quot;%1&quot;&gt;privacy policy&lt;/a&gt; to find out what information is processed.</source>
@@ -649,10 +692,29 @@
     </message>
     <message numerus="yes">
         <source>There are %n boxes connected to your cloud.</source>
-        <translation>
+        <translation type="vanished">
             <numerusform>Es ist %n Box mit Deiner Cloud verbunden.</numerusform>
             <numerusform>Es sind %n Boxen mit Deiner Cloud verbunden.</numerusform>
         </translation>
+    </message>
+    <message>
+        <source>There are no %1:core systems connected to your cloud yet.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message numerus="yes">
+        <source>There are %n %1:core systems connected to your cloud.</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message>
+        <source>Sorry to see you go. If you log out you won&apos;t be able to connect to %1:core systems remotely any more. However, you can come back any time, we&apos;ll keep your user account. If you whish to completely delete your account and all the data associated with it, check the box below before hitting ok. If you decide to delete your account, all your personal information will be removed from %1:cloud and cannot be restored.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Log in to %1:cloud in order to connect to %1:core systems from anywhere.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -767,6 +829,14 @@
         <source>Type</source>
         <translation>Typ</translation>
     </message>
+    <message>
+        <source>Thing settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Apply</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ConnectPage</name>
@@ -796,19 +866,19 @@
     </message>
     <message>
         <source>There are %1 %2 boxes in your network! Which one would you like to use?</source>
-        <translation>Es befinden sich %1 %2 Boxen in Ihrem Netzwerk! Welche möchten Sie benutzen?</translation>
+        <translation type="vanished">Es befinden sich %1 %2 Boxen in Ihrem Netzwerk! Welche möchten Sie benutzen?</translation>
     </message>
     <message>
         <source>We haven&apos;t found any %1 boxes in your network yet.</source>
-        <translation>Wir haben noch keine %1 Boxen in Ihrem Netzwerk gefunden.</translation>
+        <translation type="vanished">Wir haben noch keine %1 Boxen in Ihrem Netzwerk gefunden.</translation>
     </message>
     <message>
         <source>There doesn&apos;t seem to be a %1 box installed in your network. Please make sure your %1 box is correctly set up and connected.</source>
-        <translation>Es scheint keine %1 Box in Ihrem Netzwerk installiert zu sein. Bitte stellen Sie sicher, dass Ihre %1 Box korrekt installiert und verbunden ist.</translation>
+        <translation type="vanished">Es scheint keine %1 Box in Ihrem Netzwerk installiert zu sein. Bitte stellen Sie sicher, dass Ihre %1 Box korrekt installiert und verbunden ist.</translation>
     </message>
     <message>
         <source>Searching for %1 boxes...</source>
-        <translation>Suche nach %1 Boxen...</translation>
+        <translation type="vanished">Suche nach %1 Boxen...</translation>
     </message>
     <message>
         <source>Not the ones you&apos;re looking for? We&apos;re looking for more!</source>
@@ -904,7 +974,7 @@
     </message>
     <message>
         <source>Do you have a %1 box but it&apos;s not connected to your network yet? Use the wireless setup to connect it!</source>
-        <translation>Hast Du eine %1 Box, welche jedoch noch nicht an Deinem Netzwerk angeschlossen ist? Nutze die Bluetooth-Installation um sie zu verbinden!</translation>
+        <translation type="vanished">Hast Du eine %1 Box, welche jedoch noch nicht an Deinem Netzwerk angeschlossen ist? Nutze die Bluetooth-Installation um sie zu verbinden!</translation>
     </message>
     <message>
         <source>Start wireless setup</source>
@@ -954,6 +1024,26 @@
         <source>Cloud login</source>
         <translation>Cloud Login</translation>
     </message>
+    <message>
+        <source>There are %1 %2:cores in your network! Which one would you like to use?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>We haven&apos;t found a %1:core in your network yet.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There doesn&apos;t seem to be a %1:core installed in your network. Please make sure your %1:core system is correctly set up and connected.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Searching for %1:core systems...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Do you have a %1:core but it&apos;s not connected to your network yet? Use the wireless setup to connect it!</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ConnectWiFiPage</name>
@@ -979,7 +1069,11 @@
     </message>
     <message>
         <source>Connecting the %1 box to %2</source>
-        <translation>Verbinde die %1 Box zu %2</translation>
+        <translation type="vanished">Verbinde die %1 Box zu %2</translation>
+    </message>
+    <message>
+        <source>Connecting the %1:core to %2</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1006,7 +1100,7 @@
     </message>
     <message>
         <source>%1:core could not be found on this address. Please make sure you entered the address correctly and that the box is powered on.</source>
-        <translation>%1:core konnte nicht unter dieser Adresse gefunden werden. Bitte stelle sicher, dass Du die Adresse korrekt eingegeben hast und die Box eingeschaltet ist.</translation>
+        <translation type="vanished">%1:core konnte nicht unter dieser Adresse gefunden werden. Bitte stelle sicher, dass Du die Adresse korrekt eingegeben hast und die Box eingeschaltet ist.</translation>
     </message>
     <message>
         <source>The host has rejected our connection. This probably means that %1 is not running on this host. Perhaps it&apos;s restarting?</source>
@@ -1031,6 +1125,10 @@
     <message>
         <source>An unknown error happened. We&apos;re very sorry for that.</source>
         <translation>Ein unbekannter Fehler ist aufgetreten. Das tut uns leid.</translation>
+    </message>
+    <message>
+        <source>%1:core could not be found on this address. Please make sure you entered the address correctly and that the system is powered on.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1143,6 +1241,17 @@
     <message>
         <source>Open debug interface</source>
         <translation>Testschnittstelle öffnen</translation>
+    </message>
+</context>
+<context>
+    <name>DeviceBrowserPage</name>
+    <message>
+        <source>Browse %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error: %1</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1568,6 +1677,10 @@
         <source>Any changes to the rule will be lost.</source>
         <translation>Sämtliche Änderungen werden verworfen.</translation>
     </message>
+    <message>
+        <source>This is a scene</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>EditStateEvaluatorPage</name>
@@ -1912,6 +2025,18 @@ Bitte versuche es erneut.</translation>
     <message>
         <source>Shutdown %1:core</source>
         <translation>%1:core ausschalten</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to reboot your %1:core sytem now?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to shut down your %1:core sytem now?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shot down %1:core</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2449,7 +2574,7 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>In order to use your %1 system, please enter your email address and set a password for your nymea box.</source>
-        <translation>Um Ihr %1 system zu nutzen, geben Sie bitte eine E-Mail Adresse ein und setzen Sie ein Passwort für Ihre nymea Box.</translation>
+        <translation type="vanished">Um Ihr %1 system zu nutzen, geben Sie bitte eine E-Mail Adresse ein und setzen Sie ein Passwort für Ihre nymea Box.</translation>
     </message>
     <message>
         <source>In order to use your %1 system, please log in.</source>
@@ -2465,15 +2590,15 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Confirm password:</source>
-        <translation>Passwort bestätigen:</translation>
+        <translation type="vanished">Passwort bestätigen:</translation>
     </message>
     <message>
         <source>This password isn&apos;t long enought to be secure, add some more characters please.</source>
-        <translation>Dieses Passwort ist nicht lange genug um sicher zu sein, fügen Sie weitere Zeichen hinzu.</translation>
+        <translation type="vanished">Dieses Passwort ist nicht lange genug um sicher zu sein, fügen Sie weitere Zeichen hinzu.</translation>
     </message>
     <message>
         <source>The passwords don&apos;t match.</source>
-        <translation>Die Passwörter stimmen nicht überein.</translation>
+        <translation type="vanished">Die Passwörter stimmen nicht überein.</translation>
     </message>
     <message>
         <source>OK</source>
@@ -2485,11 +2610,19 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>An error happened with the user storage. Please make sure your %1 box is installed correctly.</source>
-        <translation>Ein Fehler in der Benutzerdatenbank ist aufgetreten. Bitte stelle sicher dass Deine %1 Box korrekt installiert ist.</translation>
+        <translation type="vanished">Ein Fehler in der Benutzerdatenbank ist aufgetreten. Bitte stelle sicher dass Deine %1 Box korrekt installiert ist.</translation>
     </message>
     <message>
         <source>The email you&apos;ve entered is already used.</source>
         <translation>Die eingegebene E-Mail Adresse ist bereits in Benutzung.</translation>
+    </message>
+    <message>
+        <source>An error happened with the user storage. Please make sure your %1:core system is installed correctly.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>In order to use your %1 system, please enter your email address and set a password for it.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2529,6 +2662,22 @@ Bitte versuche es erneut.</translation>
     <message>
         <source>The application needs to be restarted for style changes to take effect.</source>
         <translation>Die Anwendung muss neu gestartet werden damit Stil-Änderungen wirksam werden.</translation>
+    </message>
+    <message>
+        <source>Turn screen off when idle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Screen off timeout</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>seconds</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Screen brightness</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2641,7 +2790,7 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>System settings</source>
-        <translation type="vanished">Systemeinstellungen</translation>
+        <translation>Systemeinstellungen</translation>
     </message>
     <message>
         <source>App settings</source>
@@ -2673,7 +2822,7 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>In order for your %1 box to be useful, go ahead and add some things.</source>
-        <translation>Damit deine %1 Box nützlich ist, füge jetzt einige &quot;Things&quot; hinzu.</translation>
+        <translation type="vanished">Damit deine %1 Box nützlich ist, füge jetzt einige &quot;Things&quot; hinzu.</translation>
     </message>
     <message>
         <source>My scenes</source>
@@ -2709,7 +2858,7 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Box settings</source>
-        <translation>Box Einstellungen</translation>
+        <translation type="vanished">Box Einstellungen</translation>
     </message>
     <message>
         <source>Connected to</source>
@@ -2733,6 +2882,10 @@ Bitte versuche es erneut.</translation>
             <numerusform>%n System-Update verfügbar</numerusform>
             <numerusform>%n System-Updates verfügbar</numerusform>
         </translation>
+    </message>
+    <message>
+        <source>In order for your %1 system to be useful, go ahead and add some things.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2830,6 +2983,24 @@ Bitte versuche es erneut.</translation>
     </message>
 </context>
 <context>
+    <name>MediaDeviceListPage</name>
+    <message>
+        <source>Media</source>
+        <translation type="unfinished">Medien</translation>
+    </message>
+    <message>
+        <source>No playback</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>MediaDevicePage</name>
+    <message>
+        <source>Error: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>MqttBrokerSettingsPage</name>
     <message>
         <source>MQTT broker</source>
@@ -2924,6 +3095,171 @@ Bitte versuche es erneut.</translation>
     <message>
         <source>Trigger a wireless scan on the device.</source>
         <translation>WLAN Scan auf dem Gerät ausführen.</translation>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unmanaged</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unavailable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disconnected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Deactivating</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Preparing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Configuring</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Waiting for password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Setting IP configuration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Checking IP configuration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Secondaries</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connected</source>
+        <translation type="unfinished">Verbunden</translation>
+    </message>
+    <message>
+        <source>Current connection state</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Asleep</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disconnecting</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connecting</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Locally connected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Site connected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Globally connected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Networking enabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable or disable networking altogether</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disabling networking will disconnect all connected clients. Be aware that you will not be able to interact remotely with this %1 box any more. Do not proceed unless you know what your are doing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>
+Do you want to proceed?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disable networking?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Wired network</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shows the current ethernet status</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Plugged in</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unplugged</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable or disable WiFi</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disabling WiFi will disconnect all clients connected via WiFi. Be aware that you will not be able to interact remotely with this %1 box any more unless a LAN cable is connected.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disable WiFi?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>WiFi networks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Authenticate</source>
+        <translation type="unfinished">Authentifizierung</translation>
+    </message>
+    <message>
+        <source>Enter the password for %1</source>
+        <translation type="unfinished">Gib das Passwort für %1 ein</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation type="unfinished">OK</translation>
+    </message>
+    <message>
+        <source>Current connection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SSID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>MAC Address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Signal strength</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disconnect</source>
+        <translation type="unfinished">Trennen</translation>
     </message>
 </context>
 <context>
@@ -3259,6 +3595,13 @@ Bitte versuche es erneut.</translation>
     </message>
 </context>
 <context>
+    <name>PasswordTextField</name>
+    <message>
+        <source>Pick a password</source>
+        <translation type="unfinished">Wähle ein Passwort</translation>
+    </message>
+</context>
+<context>
     <name>PluginParamsPage</name>
     <message>
         <source>%1 settings</source>
@@ -3333,7 +3676,7 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Sorry, the version of the %1 box you are trying to connect to is too old. This app requires at least version %2 but the %1 box only supports %3</source>
-        <translation>Entschuldigung, die Version dieser %1 Box ist zu alt. Diese Anwendung benötigt mindestens Version %2 aber die diese %1 Box unterstützt nur %3</translation>
+        <translation type="vanished">Entschuldigung, die Version dieser %1 Box ist zu alt. Diese Anwendung benötigt mindestens Version %2 aber die diese %1 Box unterstützt nur %3</translation>
     </message>
     <message>
         <source>OK</source>
@@ -3342,6 +3685,10 @@ Bitte versuche es erneut.</translation>
     <message>
         <source>New connection</source>
         <translation>Neue Verbindung</translation>
+    </message>
+    <message>
+        <source>Sorry, the version of the %1:core you are trying to connect to is too old. This app requires at least version %2 but this %1:core only supports %3</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3357,6 +3704,10 @@ Bitte versuche es erneut.</translation>
     <message>
         <source>value from event</source>
         <translation>Wert von Ereignis</translation>
+    </message>
+    <message>
+        <source>Unknown item</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3392,7 +3743,11 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>&lt;font color=&quot;%1&quot;&gt;The password needs to be &lt;/font&gt;&lt;font color=&quot;%2&quot;&gt;at least 12 characters long&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt;, contain &lt;/font&gt;&lt;font color=&quot;%3&quot;&gt;lowercase&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt;, &lt;/font&gt;&lt;font color=&quot;%4&quot;&gt;uppercase&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt; letters as well as &lt;/font&gt;&lt;font color=&quot;%5&quot;&gt;numbers&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt; and &lt;/font&gt;&lt;font color=&quot;%6&quot;&gt;special characters&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt;.&lt;/font&gt;</source>
-        <translation>&lt;font color=&quot;%1&quot;&gt;Das Passwort muss &lt;/font&gt;&lt;font color=&quot;%2&quot;&gt;mindestens 12 Zeichen lang&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt; sein, &lt;/font&gt;&lt;font color=&quot;%3&quot;&gt;Kleinbuchstaben&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt; und &lt;/font&gt;&lt;font color=&quot;%4&quot;&gt;Großbuchstaben&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt;, sowie &lt;/font&gt;&lt;font color=&quot;%5&quot;&gt;Nummern&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt; und &lt;/font&gt;&lt;font color=&quot;%6&quot;&gt;Sonderzeichen&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt; beinhalten.&lt;/font&gt;</translation>
+        <translation type="vanished">&lt;font color=&quot;%1&quot;&gt;Das Passwort muss &lt;/font&gt;&lt;font color=&quot;%2&quot;&gt;mindestens 12 Zeichen lang&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt; sein, &lt;/font&gt;&lt;font color=&quot;%3&quot;&gt;Kleinbuchstaben&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt; und &lt;/font&gt;&lt;font color=&quot;%4&quot;&gt;Großbuchstaben&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt;, sowie &lt;/font&gt;&lt;font color=&quot;%5&quot;&gt;Nummern&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt; und &lt;/font&gt;&lt;font color=&quot;%6&quot;&gt;Sonderzeichen&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt; beinhalten.&lt;/font&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;font color=&quot;%1&quot;&gt;The password needs to be &lt;/font&gt;&lt;font color=&quot;%2&quot;&gt;at least %3 characters long&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt;, contain &lt;/font&gt;&lt;font color=&quot;%4&quot;&gt;lowercase&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt;, &lt;/font&gt;&lt;font color=&quot;%5&quot;&gt;uppercase&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt; letters as well as &lt;/font&gt;&lt;font color=&quot;%6&quot;&gt;numbers&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt; and &lt;/font&gt;&lt;font color=&quot;%7&quot;&gt;special characters&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt;.&lt;/font&gt;</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3451,6 +3806,13 @@ Bitte versuche es erneut.</translation>
     </message>
 </context>
 <context>
+    <name>SelectBrowserItemActionPage</name>
+    <message>
+        <source>Select item</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>SelectEventDescriptorPage</name>
     <message>
         <source>When it&apos;s freezing...</source>
@@ -3470,6 +3832,13 @@ Bitte versuche es erneut.</translation>
     <message>
         <source>Only consider event if</source>
         <translation>Ereignis nur berücksichtigen wenn</translation>
+    </message>
+</context>
+<context>
+    <name>SelectRuleActionPage</name>
+    <message>
+        <source>Open an item on this thing...</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3704,7 +4073,7 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>System settings</source>
-        <translation type="vanished">Systemeinstellungen</translation>
+        <translation>Systemeinstellungen</translation>
     </message>
     <message>
         <source>Connected to:</source>
@@ -3724,7 +4093,7 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Box settings</source>
-        <translation>Box Einstellungen</translation>
+        <translation type="vanished">Box Einstellungen</translation>
     </message>
     <message>
         <source>Name</source>
@@ -3768,7 +4137,7 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Connect this box to %1:cloud</source>
-        <translation>Diese Box mit %1:cloud verbinden</translation>
+        <translation type="vanished">Diese Box mit %1:cloud verbinden</translation>
     </message>
     <message>
         <source>API interfaces</source>
@@ -3776,7 +4145,7 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Configure how clients interact with this box</source>
-        <translation>Konfiguriere wie Apps mit dieser Box interagieren</translation>
+        <translation type="vanished">Konfiguriere wie Apps mit dieser Box interagieren</translation>
     </message>
     <message>
         <source>MQTT broker</source>
@@ -3817,6 +4186,22 @@ Bitte versuche es erneut.</translation>
     <message>
         <source>Update your %1:core system</source>
         <translation>Aktualisiere dein %1:core system</translation>
+    </message>
+    <message>
+        <source>Networking</source>
+        <translation type="unfinished">Netzwerk</translation>
+    </message>
+    <message>
+        <source>Configure the system&apos;s network connection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connect this %1:core to %1:cloud</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Configure how clients interact with this system</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3880,6 +4265,22 @@ Bitte versuche es erneut.</translation>
     <message>
         <source>Ok</source>
         <translation>OK</translation>
+    </message>
+    <message>
+        <source>First setup</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Welcome to %1!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This %1 system has not been set up yet. This wizard will guide you through a few simple steps to set it up.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4004,11 +4405,11 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Configure updates</source>
-        <translation>Aktualisierungen einrichten</translation>
+        <translation type="vanished">Aktualisierungen einrichten</translation>
     </message>
     <message>
         <source>Show all packages</source>
-        <translation>Alle Pakete anzeigen</translation>
+        <translation type="vanished">Alle Pakete anzeigen</translation>
     </message>
     <message>
         <source>Your system is up to date.</source>
@@ -4016,7 +4417,7 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>There are %1 updates available.</source>
-        <translation>Es sind %1 updates verfügbar.</translation>
+        <translation type="vanished">Es sind %1 updates verfügbar.</translation>
     </message>
     <message>
         <source>Update all</source>
@@ -4075,6 +4476,50 @@ Bitte benutze diese Option nur wenn du sicher bist, dass du das Risiko eingehen 
     <message>
         <source>Remove package</source>
         <translation>Paket entfernen</translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation type="unfinished">Einstellungen</translation>
+    </message>
+    <message>
+        <source>Checking for updates...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Check for updates</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n update(s) available</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message>
+        <source>Check again</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Install or remove software</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Package information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Not installed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This will start a system update. Note that the update might take several minutes and your %1:core might not be functioning properly or restart during this time.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>
+Do you want to proceed?</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4145,8 +4590,20 @@ Bitte benutze diese Option nur wenn du sicher bist, dass du das Risiko eingehen 
     <message>
         <source>An update operation is currently running.
 Please wait for it to complete.</source>
-        <translation>Eine Aktualisierung wird gerade durchgeführt.
+        <translation type="vanished">Eine Aktualisierung wird gerade durchgeführt.
 Bitte warte bis diese abgeschlossen ist.</translation>
+    </message>
+    <message>
+        <source>System update in progress...</source>
+        <translation type="unfinished">System wird aktualisiert...</translation>
+    </message>
+    <message>
+        <source>Please wait</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The system may restart in order to complete the update. %1:app will reconnect automatically after the update.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4487,7 +4944,7 @@ Bitte warte bis diese abgeschlossen ist.</translation>
     </message>
     <message>
         <source>Your %1 box is connected to %2</source>
-        <translation>Deine %1 Box ist mit %2 verbunden</translation>
+        <translation type="vanished">Deine %1 Box ist mit %2 verbunden</translation>
     </message>
     <message>
         <source>IP address: %1</source>
@@ -4495,11 +4952,11 @@ Bitte warte bis diese abgeschlossen ist.</translation>
     </message>
     <message>
         <source>Waiting for the %1 box to appear in your network.</source>
-        <translation>Warte bis die %1 Box in Deinem Netzwerk auftaucht.</translation>
+        <translation type="vanished">Warte bis die %1 Box in Deinem Netzwerk auftaucht.</translation>
     </message>
     <message>
         <source>Connect to box</source>
-        <translation>Zu Box verbinden</translation>
+        <translation type="vanished">Zu Box verbinden</translation>
     </message>
     <message>
         <source>Change network</source>
@@ -4508,6 +4965,18 @@ Bitte warte bis diese abgeschlossen ist.</translation>
     <message>
         <source>Close wireless setup</source>
         <translation>Schnurlose Einrichtung beenden</translation>
+    </message>
+    <message>
+        <source>Your %1:core is connected to %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Waiting for the %1:core to appear in your network.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connect to %1:core</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
