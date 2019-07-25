@@ -193,7 +193,7 @@
     </message>
     <message>
         <source>Log into %1:cloud and manage connected %1:core systems</source>
-        <translation>Melde dich bei %1:cloud an und verwalte deine verbundenen %1:core Systeme.</translation>
+        <translation>Melde dich bei %1:cloud an und verwalte deine verbundenen %1:core Systeme</translation>
     </message>
 </context>
 <context>
@@ -340,15 +340,15 @@
     </message>
     <message>
         <source>Searching for %1:core systems.</source>
-        <translation type="unfinished"></translation>
+        <translation>Suche %1:core Systemen.</translation>
     </message>
     <message>
         <source>Troubles finding your %1:core?</source>
-        <translation type="unfinished"></translation>
+        <translation>Probleme dein %1:core zu finden?</translation>
     </message>
     <message>
         <source>%1 box</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 Box</translation>
     </message>
 </context>
 <context>
@@ -393,11 +393,11 @@
     <name>BrowserContextMenu</name>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Abbrechen</translation>
+        <translation>Abbrechen</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
 </context>
 <context>
@@ -514,19 +514,19 @@
     </message>
     <message>
         <source>The certificate of this %1:core has changed!</source>
-        <translation type="unfinished"></translation>
+        <translation>Das Zertifikat dieses %1:cores hat sich geändert!</translation>
     </message>
     <message>
         <source>It seems this is the first time you connect to this %1:core.</source>
-        <translation type="unfinished"></translation>
+        <translation>Es scheint als würdest Du dich zum ersten Mal zu diesem %1:core verbinden.</translation>
     </message>
     <message>
         <source>Did you change the system&apos;s configuration? Verify if this information is correct.</source>
-        <translation type="unfinished"></translation>
+        <translation>Hast Du die Konfiguration des Systems verändert? Bitte überprüfe ob diese Information korrekt ist.</translation>
     </message>
     <message>
         <source>This is the certificate for this %1:core. Once you trust it, an encrypted connection will be established.</source>
-        <translation type="unfinished"></translation>
+        <translation>Die ist das Zertifikat dieses %1:cores. Sobald Du ihm vertraust wird eine verschlüsselte Verbindung aufgebaut.</translation>
     </message>
 </context>
 <context>
@@ -699,22 +699,20 @@
     </message>
     <message>
         <source>There are no %1:core systems connected to your cloud yet.</source>
-        <translation type="unfinished"></translation>
+        <translation>Es sind noch keine %1:core Systeme mit Deiner cloud verbunden.</translation>
     </message>
     <message numerus="yes">
         <source>There are %n %1:core systems connected to your cloud.</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>Es ist %n %1:core System mit Deiner cloud verbunden.</numerusform>
+        <numerusform>Es sind %n %1:ore Systeme mit Deiner cloud verbunden.</numerusform>
+        </translation></message>
     <message>
         <source>Sorry to see you go. If you log out you won&apos;t be able to connect to %1:core systems remotely any more. However, you can come back any time, we&apos;ll keep your user account. If you whish to completely delete your account and all the data associated with it, check the box below before hitting ok. If you decide to delete your account, all your personal information will be removed from %1:cloud and cannot be restored.</source>
-        <translation type="unfinished"></translation>
+        <translation>Schade, dass Du gehst. Wenn Du Dich abmeldest wird es nicht mehr möglich seine über das Internet zu %1:core Systemen zu verbinden. Du kannst jedoch jederzeit zurück kommen, wir bewahren Dein Konto für Dich auf. Wenn du das Konto und sämgliche dazu gehörigen Daten ganz löschen möchtest, aktiviere bitte das Häkchen weiter unten bevor Du fortfährst. Wenn Du das Konto löschst werden alle Deine personenbezogenen Daten von %1:cloud entfernt und das Konto kann nicht wiederhergestellt werden.</translation>
     </message>
     <message>
         <source>Log in to %1:cloud in order to connect to %1:core systems from anywhere.</source>
-        <translation type="unfinished"></translation>
+        <translation>Melde Dich bei %1:cloud an um von überall aus auf Deine %1:core Systeme zugreifen zu können.</translation>
     </message>
 </context>
 <context>
@@ -831,11 +829,11 @@
     </message>
     <message>
         <source>Thing settings</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;Thing&quot; einstellungen</translation>
     </message>
     <message>
         <source>Apply</source>
-        <translation type="unfinished"></translation>
+        <translation>Anwenden</translation>
     </message>
 </context>
 <context>
@@ -1026,23 +1024,23 @@
     </message>
     <message>
         <source>There are %1 %2:cores in your network! Which one would you like to use?</source>
-        <translation type="unfinished"></translation>
+        <translation>Es befinden sich %1 %2:core Systeme in deinem Netzwerk! Welches möchtest Du benutzen?</translation>
     </message>
     <message>
         <source>We haven&apos;t found a %1:core in your network yet.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wir haben noch keinen %1:core in Deinem Netzwerk gefunden.</translation>
     </message>
     <message>
         <source>There doesn&apos;t seem to be a %1:core installed in your network. Please make sure your %1:core system is correctly set up and connected.</source>
-        <translation type="unfinished"></translation>
+        <translation>Es scheint als sei kein %1:core in Deinem Netzwerk installiert. Bitte stelle sicher, dass dein %1:core System korrekt angeschlossen und verbunden ist.</translation>
     </message>
     <message>
         <source>Searching for %1:core systems...</source>
-        <translation type="unfinished"></translation>
+        <translation>Suche nach %1:core Systemen...</translation>
     </message>
     <message>
         <source>Do you have a %1:core but it&apos;s not connected to your network yet? Use the wireless setup to connect it!</source>
-        <translation type="unfinished"></translation>
+        <translation>Hast Du bereits ein %1:core aber es ist noch nicht mit Deinem Netzwerk verbunden? Benutze das Kabellose Setup um eine WLAN-Verbindung herzustellen.</translation>
     </message>
 </context>
 <context>
