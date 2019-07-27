@@ -215,6 +215,17 @@ Page {
             Connections {
                 target: AWSClient
                 onLoginResult: {
+                    switch (error) {
+                    case AWSClient.LoginErrorInvalidUserOrPass:
+                        errorLabel.text = qsTr("Failed to log in. Please try again. Do you perhaps have <a href=\"#\">forgotten your password?</a>")
+                        break;
+                    case AWSClient.LoginErrorNetworkError:
+                        errorLabel.text = qsTr("Failed to connect to the login server. Please mase sure your network connection is working.")
+                        break;
+                    default:
+                        errorLabel.text = qsTr("An unexpected error happened. Please report this isse. Error code:", error)
+                        break;
+                    }
                     errorLabel.visible = (error !== AWSClient.LoginErrorNoError)
                 }
             }
@@ -224,7 +235,6 @@ Page {
                 Layout.fillWidth: true
                 Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.bottomMargin: app.margins
                 wrapMode: Text.WordWrap
-                text: qsTr("Failed to log in. Please try again. Do you perhaps have <a href=\"#\">forgotten your password?</a>")
                 font.pixelSize: app.smallFont
                 color: "red"
                 visible: false
