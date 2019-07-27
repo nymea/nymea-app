@@ -3,6 +3,8 @@ import QtQuick.Layouts 1.1
 import QtQuick.Controls 2.1
 import QtQuick.Controls.Material 2.1
 import Nymea 1.0
+import QtWebView 1.1
+
 import "../components"
 import "../delegates"
 
@@ -60,18 +62,29 @@ Page {
         target: engine.deviceManager
         onPairDeviceReply: {
             busyOverlay.shown = false
+            if (params["deviceError"] !== "DeviceErrorNoError") {
+                busyOverlay.shown = false;
+                internalPageStack.push(resultsPage, {success: false})
+                return;
+
+            }
+
+            d.pairingTransactionId = params["pairingTransactionId"];
+
             switch (params["setupMethod"]) {
             case "SetupMethodPushButton":
-                d.pairingTransactionId = params["pairingTransactionId"];
                 print("response", params["displayMessage"], d.pairingTransactionId)
                 internalPageStack.push(pairingPageComponent, {text: params["displayMessage"]})
                 break;
             case "SetupMethodDisplayPin":
-                d.pairingTransactionId = params["pairingTransactionId"];
                 internalPageStack.push(pairingPageComponent, {text: params["displayMessage"], setupMethod: params["setupMethod"]})
                 break;
+            case "SetupMethodOAuth":
+                print("OAuth URL:", params["oAuthUrl"]);
+                internalPageStack.push(oAuthPageComponent, {oAuthUrl: params["oAuthUrl"]})
+                break;
             default:
-                print("Setup method", params["setupMethod"], "not handled");
+                print("Setup method reply not handled:", JSON.stringify(params));
             }
         }
         onConfirmPairingReply: {
@@ -364,7 +377,23 @@ Page {
                             case 1:
                             case 2:
                             case 3:
-                                engine.deviceManager.pairDevice(root.deviceClass.id, d.deviceDescriptor.id, nameTextField.text);
+                            case 4:
+                                if (root.device) {
+//                                    if (d.deviceDescriptor) {
+//                                        engine.deviceManager.pairDevice(root.deviceClass.id, d.deviceDescriptor.id, nameTextField.text);
+//                                    } else {
+//                                        engine.deviceManager.pairDevice(root.deviceClass.id, nameTextField.text, params);
+//                                    }
+                                    console.warn("Unhandle setupMethod!")
+                                    return;
+                                } else {
+                                    if (d.deviceDescriptor) {
+                                        engine.deviceManager.pairDevice(root.deviceClass.id, d.deviceDescriptor.id, nameTextField.text);
+                                    } else {
+                                        engine.deviceManager.pairDevice(root.deviceClass.id, nameTextField.text, params);
+                                    }
+                                }
+
                                 break;
                             }
 
@@ -416,6 +445,27 @@ Page {
                     text: "OK"
                     onClicked: {
                         engine.deviceManager.confirmPairing(d.pairingTransactionId, pinTextField.displayText);
+                    }
+                }
+            }
+        }
+    }
+
+    Component {
+        id: oAuthPageComponent
+        Page {
+            id: oAuthPage
+            property alias oAuthUrl: oAuthWebView.url
+
+            WebView {
+                id: oAuthWebView
+                anchors.fill: parent
+
+                onUrlChanged: {
+                    print("OAUTH URL changed", url)
+                    if (url.toString().indexOf("https://127.0.0.1") == 0) {
+                        print("Redirect URL detected!");
+                        engine.deviceManager.confirmPairing(d.pairingTransactionId, url)
                     }
                 }
             }

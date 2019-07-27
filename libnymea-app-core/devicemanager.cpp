@@ -297,6 +297,7 @@ void DeviceManager::pairDeviceResponse(const QVariantMap &params)
 
 void DeviceManager::confirmPairingResponse(const QVariantMap &params)
 {
+    qDebug() << "ConfirmPairingResponse" << params;
     emit confirmPairingReply(params.value("params").toMap());
 }
 
@@ -359,6 +360,16 @@ void DeviceManager::pairDevice(const QUuid &deviceClassId, const QUuid &deviceDe
     params.insert("name", name);
     params.insert("deviceClassId", deviceClassId.toString());
     params.insert("deviceDescriptorId", deviceDescriptorId.toString());
+    m_jsonClient->sendCommand("Devices.PairDevice", params, this, "pairDeviceResponse");
+}
+
+void DeviceManager::pairDevice(const QUuid &deviceClassId, const QString &name, const QVariantList &deviceParams)
+{
+    qDebug() << "JsonRpc: pair device " << deviceClassId.toString();
+    QVariantMap params;
+    params.insert("name", name);
+    params.insert("deviceClassId", deviceClassId.toString());
+    params.insert("deviceParams", deviceParams);
     m_jsonClient->sendCommand("Devices.PairDevice", params, this, "pairDeviceResponse");
 }
 
