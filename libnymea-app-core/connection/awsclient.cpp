@@ -152,7 +152,7 @@ bool AWSClient::confirmationPending() const
     return m_confirmationPending;
 }
 
-void AWSClient::login(const QString &username, const QString &password, int attempt)
+void AWSClient::login(const QString &username, const QString &password)
 {
     if (m_loginInProgress) {
         qWarning() << "Login already pending...";
@@ -196,17 +196,23 @@ void AWSClient::login(const QString &username, const QString &password, int atte
     qDebug() << "Logging in to AWS as user:" << username;
 
     QNetworkReply *reply = m_nam->post(request, payload);
-    connect(reply, &QNetworkReply::finished, this, [this, reply, username, password, attempt]() {
+    connect(reply, &QNetworkReply::finished, this, [this, reply, username, password]() {
         reply->deleteLater();
         m_loginInProgress = false;
         if (reply->error() != QNetworkReply::NoError) {
-            qWarning() << "Error logging in to aws:" << reply->error() << reply->errorString();
-            if (attempt < 3) {
-                login(username, password, attempt+1);
+            if (reply->error() == QNetworkReply::HostNotFoundError) {
+                qDebug() << "Error logging in to aws due to network connection.";
+                emit loginResult(LoginErrorNetworkError);
                 return;
             }
-            m_username.clear();
-            m_password.clear();
+            if (reply->error() == QNetworkReply::ProtocolInvalidOperationError) {
+                qWarning() << "Looks like a wrong password.";
+                m_username.clear();
+                m_password.clear();
+                emit loginResult(LoginErrorInvalidUserOrPass);
+                return;
+            }
+            qWarning() << "Error logging in to aws. Error:" << reply->error() << reply->errorString();
             emit loginResult(LoginErrorUnknownError);
             return;
         }
