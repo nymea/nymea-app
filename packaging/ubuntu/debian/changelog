@@ -1,3 +1,10 @@
+nymea-app (1.0.139) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix AWS credentials getting lost
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 30 Jul 2019 10:44:46 +0200
+
 nymea-app (1.0.138) bionic; urgency=medium
 
   [ Michael Zanetti ]
