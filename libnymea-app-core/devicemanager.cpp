@@ -373,12 +373,13 @@ void DeviceManager::pairDevice(const QUuid &deviceClassId, const QString &name, 
     m_jsonClient->sendCommand("Devices.PairDevice", params, this, "pairDeviceResponse");
 }
 
-void DeviceManager::confirmPairing(const QUuid &pairingTransactionId, const QString &secret)
+void DeviceManager::confirmPairing(const QUuid &pairingTransactionId, const QString &secret, const QString &username)
 {
     qDebug() << "JsonRpc: confirm pairing" << pairingTransactionId.toString();
     QVariantMap params;
     params.insert("pairingTransactionId", pairingTransactionId.toString());
     params.insert("secret", secret);
+    params.insert("username", username);
     m_jsonClient->sendCommand("Devices.ConfirmPairing", params, this, "confirmPairingResponse");
 }
 

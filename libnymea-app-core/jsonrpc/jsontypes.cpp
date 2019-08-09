@@ -494,6 +494,8 @@ DeviceClass::SetupMethod JsonTypes::stringToSetupMethod(const QString &setupMeth
         return DeviceClass::SetupMethodPushButton;
     } else if (setupMethodString == "SetupMethodOAuth") {
         return DeviceClass::SetupMethodOAuth;
+    } else if (setupMethodString == "SetupMethodUserAndPassword") {
+        return DeviceClass::SetupMethodUserAndPassword;
     }
     return DeviceClass::SetupMethodJustAdd;
 }

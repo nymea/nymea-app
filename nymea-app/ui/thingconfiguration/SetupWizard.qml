@@ -73,14 +73,11 @@ Page {
 
             switch (params["setupMethod"]) {
             case "SetupMethodPushButton":
-                print("response", params["displayMessage"], d.pairingTransactionId)
-                internalPageStack.push(pairingPageComponent, {text: params["displayMessage"]})
-                break;
             case "SetupMethodDisplayPin":
+            case "SetupMethodUserAndPassword":
                 internalPageStack.push(pairingPageComponent, {text: params["displayMessage"], setupMethod: params["setupMethod"]})
                 break;
             case "SetupMethodOAuth":
-                print("OAuth URL:", params["oAuthUrl"]);
                 internalPageStack.push(oAuthPageComponent, {oAuthUrl: params["oAuthUrl"]})
                 break;
             default:
@@ -378,13 +375,14 @@ Page {
                             case 2:
                             case 3:
                             case 4:
+                            case 5:
                                 if (root.device) {
 //                                    if (d.deviceDescriptor) {
 //                                        engine.deviceManager.pairDevice(root.deviceClass.id, d.deviceDescriptor.id, nameTextField.text);
 //                                    } else {
 //                                        engine.deviceManager.pairDevice(root.deviceClass.id, nameTextField.text, params);
 //                                    }
-                                    console.warn("Unhandle setupMethod!")
+                                    console.warn("Unhandled setupMethod!")
                                     return;
                                 } else {
                                     if (d.deviceDescriptor) {
@@ -434,17 +432,25 @@ Page {
                     wrapMode: Text.WordWrap
                     horizontalAlignment: Text.AlignHCenter
                 }
+
+                TextField {
+                    id: usernameTextField
+                    Layout.fillWidth: true
+                    visible: pairingPage.setupMethod === "SetupMethodUserAndPassword"
+                }
+
                 TextField {
                     id: pinTextField
                     Layout.fillWidth: true
-                    visible: pairingPage.setupMethod === "SetupMethodDisplayPin"
+                    visible: pairingPage.setupMethod === "SetupMethodDisplayPin" || pairingPage.setupMethod === "SetupMethodUserAndPassword"
                 }
+
 
                 Button {
                     Layout.fillWidth: true
                     text: "OK"
                     onClicked: {
-                        engine.deviceManager.confirmPairing(d.pairingTransactionId, pinTextField.displayText);
+                        engine.deviceManager.confirmPairing(d.pairingTransactionId, pinTextField.displayText, usernameTextField.displayText);
                     }
                 }
             }

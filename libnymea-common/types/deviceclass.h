@@ -63,6 +63,7 @@ public:
         SetupMethodEnterPin,
         SetupMethodPushButton,
         SetupMethodOAuth,
+        SetupMethodUserAndPassword,
     };
     Q_ENUM(SetupMethod)
 
