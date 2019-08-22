@@ -13,7 +13,7 @@
     </message>
     <message>
         <source>Connection:</source>
-        <translation></translation>
+        <translation>연결:</translation>
     </message>
     <message>
         <source>Server UUID:</source>
@@ -62,7 +62,7 @@
     </message>
     <message>
         <source>Customize the app&apos;s look and behavior</source>
-        <translation></translation>
+        <translation>앱의 모양과 동작 사용자 정의</translation>
     </message>
     <message>
         <source>Cloud login</source>
@@ -70,7 +70,7 @@
     </message>
     <message>
         <source>Developer options</source>
-        <translation></translation>
+        <translation>개발자 옵션</translation>
     </message>
     <message>
         <source>Yeehaaa!</source>
@@ -82,11 +82,11 @@
     </message>
     <message>
         <source>Find app versions and licence information</source>
-        <translation></translation>
+        <translation>앱 버전 및 라이센스 정보 찾기</translation>
     </message>
     <message>
         <source>Log into %1:cloud and manage connected %1:core systems</source>
-        <translation></translation>
+        <translation>% 1 : cloud에 로그인하고 연결된 % 1 : core 시스템을 관리하십시오</translation>
     </message>
 </context>
 <context>
@@ -107,7 +107,7 @@
     <name>BluetoothDevice</name>
     <message>
         <source>Connecting to %1...</source>
-        <translation>%1 에 연결 중.....</translation>
+        <translation>%1 에 연결 중...</translation>
     </message>
     <message>
         <source>Connected to %1</source>
@@ -146,11 +146,11 @@
     </message>
     <message>
         <source>Bluetooth doesn&apos;t seem to be available on this device. The wireless network setup requires a working Bluetooth connection.</source>
-        <translation></translation>
+        <translation>이 장치에서는 블루투스를 사용할 수 없는 것 같습니다. 무선 네트워크 설정은 작동하는 블루투스 연결을 필요로 합니다.</translation>
     </message>
     <message>
         <source>Bluetooth seems to be disabled. Please enable Bluetooth on your device in order to use the wireless network setup.</source>
-        <translation></translation>
+        <translation>블루투스가 비활성화된 것 같습니다. 무선 네트워크 설정을 사용하려면 장치에서 Bluetooth를 활성화하십시오.</translation>
     </message>
     <message>
         <source>Wireless setup help</source>
@@ -158,11 +158,11 @@
     </message>
     <message>
         <source>After having installed the nymea community image to your Raspberry Pi, all you need to do is to plug it into a power socket. Note that the Wireless setup will only be available if the Raspberry Pi is not connected to a wired network.</source>
-        <translation></translation>
+        <translation>Nymea 커뮤니티 이미지를 Raspberry Pi에 설치한 후 전원 소켓에 연결하기만 하면 됩니다. Raspberry Pi가 유선 네트워크에 연결되어 있지 않은 경우에만 무선 설정을 사용할 수 있습니다.</translation>
     </message>
     <message>
         <source>If you have a %1 box, plug it into a power socket and wait for it to be booted. Once the LED pulses slowly, press the button for 3 seconds until the LED changes.</source>
-        <translation></translation>
+        <translation>%1 상자(블루투스 장치)가 있으면 전원 소켓에 연결하고 부팅될 때까지 기다립니다. LED가 느리게 펄스되면 LED가 바뀔 때까지 버튼을 3초간 누릅니다.</translation>
     </message>
     <message>
         <source>Connecting...</source>
@@ -174,11 +174,11 @@
     </message>
     <message>
         <source>Searching for %1:core systems.</source>
-        <translation></translation>
+        <translation>%1: 코어 시스템을 검색하는 중입니다.</translation>
     </message>
     <message>
         <source>Troubles finding your %1:core?</source>
-        <translation></translation>
+        <translation>%1:코어를 찾는 데 문제가 있습니까?</translation>
     </message>
     <message>
         <source>%1 box</source>
@@ -189,7 +189,7 @@
     <name>BoxInfoPage</name>
     <message>
         <source>Box information</source>
-        <translation></translation>
+        <translation>상자(장치) 정보</translation>
     </message>
     <message>
         <source>System UUID</source>
@@ -197,19 +197,19 @@
     </message>
     <message>
         <source>Manufacturer</source>
-        <translation></translation>
+        <translation>제조자</translation>
     </message>
     <message>
         <source>Software revision</source>
-        <translation></translation>
+        <translation>소프트웨어 수정 버전</translation>
     </message>
     <message>
         <source>Firmware revision</source>
-        <translation></translation>
+        <translation>펌웨어 버전</translation>
     </message>
     <message>
         <source>Hardware revision</source>
-        <translation></translation>
+        <translation>하드웨어 수정 버전</translation>
     </message>
 </context>
 <context>
@@ -227,63 +227,63 @@
     <name>CalendarItemDelegate</name>
     <message>
         <source>From %1 to %2</source>
-        <translation></translation>
+        <translation>%1 ~ %2(%1에서 %2까지)</translation>
     </message>
     <message>
         <source>repeated %3</source>
-        <translation></translation>
+        <translation>%3을(를) 반복합니다</translation>
     </message>
     <message>
         <source>never</source>
-        <translation></translation>
+        <translation>절대</translation>
     </message>
     <message>
         <source>hourly</source>
-        <translation></translation>
+        <translation>1시간마다</translation>
     </message>
     <message>
         <source>daily</source>
-        <translation></translation>
+        <translation>매일</translation>
     </message>
     <message>
         <source>Mon</source>
-        <translation></translation>
+        <translation>월요일</translation>
     </message>
     <message>
         <source>Tue</source>
-        <translation></translation>
+        <translation>화요일</translation>
     </message>
     <message>
         <source>Wed</source>
-        <translation></translation>
+        <translation>수요일</translation>
     </message>
     <message>
         <source>Thu</source>
-        <translation></translation>
+        <translation>목요일</translation>
     </message>
     <message>
         <source>Fri</source>
-        <translation></translation>
+        <translation>금요일</translation>
     </message>
     <message>
         <source>Sat</source>
-        <translation></translation>
+        <translation>토요일</translation>
     </message>
     <message>
         <source>Sun</source>
-        <translation></translation>
+        <translation>일요일</translation>
     </message>
     <message>
         <source>weekly on %1</source>
-        <translation></translation>
+        <translation>매주 %1에</translation>
     </message>
     <message>
         <source>monthly on the %1</source>
-        <translation></translation>
+        <translation>매월 %1에</translation>
     </message>
     <message>
         <source>every year</source>
-        <translation></translation>
+        <translation>매년마다</translation>
     </message>
 </context>
 <context>
@@ -294,35 +294,35 @@
     </message>
     <message>
         <source>Hi there!</source>
-        <translation></translation>
+        <translation>여러분 안녕하세요!</translation>
     </message>
     <message>
         <source>Fingerprint: </source>
-        <translation></translation>
+        <translation>지문: </translation>
     </message>
     <message>
         <source>Do you want to connect nevertheless?</source>
-        <translation></translation>
+        <translation>그럼에도 불구하고 연결하시겠습니까?</translation>
     </message>
     <message>
         <source>Do you want to trust this device?</source>
-        <translation></translation>
+        <translation>이 장치를 신뢰하시겠습니까?</translation>
     </message>
     <message>
         <source>The certificate of this %1:core has changed!</source>
-        <translation></translation>
+        <translation>이 %1:코어의 인증서가 변경되었습니다!</translation>
     </message>
     <message>
         <source>It seems this is the first time you connect to this %1:core.</source>
-        <translation></translation>
+        <translation>이 %1:core에 처음 연결하는 것 같습니다.</translation>
     </message>
     <message>
         <source>Did you change the system&apos;s configuration? Verify if this information is correct.</source>
-        <translation></translation>
+        <translation>시스템의 구성을 변경했습니까? 이 정보가 올바른지 확인합니다.</translation>
     </message>
     <message>
         <source>This is the certificate for this %1:core. Once you trust it, an encrypted connection will be established.</source>
-        <translation></translation>
+        <translation>이 %1:core에 대한 인증서입니다. 신뢰하면 암호화된연결이 설정됩니다.</translation>
     </message>
 </context>
 <context>
@@ -336,7 +336,7 @@
     </message>
     <message numerus="yes">
         <source>There are %n boxes connected to your cloud.</source>
-        <translation><numerusform></numerusform>
+        <translation><numerusform>%n 상자(장치)가 클라우드에 연결되어 있습니다.</numerusform>
         </translation></message>
     <message>
         <source>Cloud login</source>
@@ -344,11 +344,11 @@
     </message>
     <message>
         <source>Sorry, an error happened removing the account. Please try again later.</source>
-        <translation></translation>
+        <translation>죄송합니다. 계정을 제거하는 동안 오류가 발생했습니다. 나중에 다시 시도해 주세요.</translation>
     </message>
     <message>
         <source>Logged in as %1</source>
-        <translation></translation>
+        <translation>%1로 로그인되었습니다</translation>
     </message>
     <message>
         <source>Log out</source>
