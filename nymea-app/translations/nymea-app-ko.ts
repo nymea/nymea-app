@@ -348,11 +348,11 @@
     </message>
     <message>
         <source>Logged in as %1</source>
-        <translation>%1로 로그인되었습니다</translation>
+        <translation>%1로 로그인 되었습니다</translation>
     </message>
     <message>
         <source>Log out</source>
-        <translation></translation>
+        <translation>로그아웃</translation>
     </message>
     <message>
         <source>Goodbye</source>
@@ -360,11 +360,11 @@
     </message>
     <message>
         <source>Delete my account</source>
-        <translation></translation>
+        <translation>내 계정을 삭제합니다</translation>
     </message>
     <message>
         <source>See our &lt;a href=&quot;%1&quot;&gt;privacy policy&lt;/a&gt; to find out what information is processed.</source>
-        <translation></translation>
+        <translation>어떤 정보가 처리되고 있는지 알아보려면 당사의 &lt; a href=&quot;%1&quot;&gt;개인정보 정책 &lt;/a&gt;를 참조하시기 바랍니다.</translation>
     </message>
     <message>
         <source>Password</source>
@@ -376,7 +376,7 @@
     </message>
     <message>
         <source>Failed to log in. Please try again. Do you perhaps have &lt;a href=&quot;#&quot;&gt;forgotten your password?&lt;/a&gt;</source>
-        <translation></translation>
+        <translation>로그인하지 못했습니다. 다시 시도해보세요. &lt;a href=&quot;#&quot;&gt; 혹시 암호를 잊어버린 적이 있습니까?&lt;/a&gt;</translation>
     </message>
     <message>
         <source>Don&apos;t have a user yet?</source>
