@@ -5,7 +5,7 @@
     <name>AboutNymeaPage</name>
     <message>
         <source>About %1:core</source>
-        <translation></translation>
+        <translation>%1:코어 대하여</translation>
     </message>
     <message>
         <source>%1:core</source>
@@ -54,7 +54,7 @@
     <name>AppSettingsPage</name>
     <message>
         <source>App Settings</source>
-        <translation></translation>
+        <translation>앱 설정</translation>
     </message>
     <message>
         <source>Look &amp; feel</source>
@@ -93,14 +93,14 @@
     <name>AwningDeviceListPage</name>
     <message>
         <source>Awnings</source>
-        <translation></translation>
+        <translation>차양막</translation>
     </message>
 </context>
 <context>
     <name>BlindDeviceListPage</name>
     <message>
         <source>Blinds</source>
-        <translation></translation>
+        <translation>블라인드</translation>
     </message>
 </context>
 <context>
@@ -134,11 +134,11 @@
     <name>BluetoothDiscoveryPage</name>
     <message>
         <source>Wireless Box setup</source>
-        <translation></translation>
+        <translation>무선장치 설정</translation>
     </message>
     <message>
         <source>Help</source>
-        <translation></translation>
+        <translation>도움</translation>
     </message>
     <message>
         <source>Uh oh</source>
@@ -154,7 +154,7 @@
     </message>
     <message>
         <source>Wireless setup help</source>
-        <translation></translation>
+        <translation>무선장치 설정 도움</translation>
     </message>
     <message>
         <source>After having installed the nymea community image to your Raspberry Pi, all you need to do is to plug it into a power socket. Note that the Wireless setup will only be available if the Raspberry Pi is not connected to a wired network.</source>
@@ -166,11 +166,11 @@
     </message>
     <message>
         <source>Connecting...</source>
-        <translation></translation>
+        <translation>연결중...</translation>
     </message>
     <message>
         <source>Connecting to %1</source>
-        <translation></translation>
+        <translation>%1에 연결 중</translation>
     </message>
     <message>
         <source>Searching for %1:core systems.</source>
@@ -182,7 +182,7 @@
     </message>
     <message>
         <source>%1 box</source>
-        <translation></translation>
+        <translation>%1 상자(장치)</translation>
     </message>
 </context>
 <context>
@@ -193,7 +193,7 @@
     </message>
     <message>
         <source>System UUID</source>
-        <translation></translation>
+        <translation>시스템 UUID</translation>
     </message>
     <message>
         <source>Manufacturer</source>
@@ -205,7 +205,7 @@
     </message>
     <message>
         <source>Firmware revision</source>
-        <translation>펌웨어 버전</translation>
+        <translation>펌웨어 수정버전</translation>
     </message>
     <message>
         <source>Hardware revision</source>
@@ -216,7 +216,7 @@
     <name>BrowserContextMenu</name>
     <message>
         <source>Cancel</source>
-        <translation></translation>
+        <translation>취소</translation>
     </message>
     <message>
         <source>OK</source>
@@ -290,7 +290,7 @@
     <name>CertificateDialog</name>
     <message>
         <source>Warning</source>
-        <translation></translation>
+        <translation>경고</translation>
     </message>
     <message>
         <source>Hi there!</source>
@@ -322,7 +322,7 @@
     </message>
     <message>
         <source>This is the certificate for this %1:core. Once you trust it, an encrypted connection will be established.</source>
-        <translation>이 %1:core에 대한 인증서입니다. 신뢰하면 암호화된연결이 설정됩니다.</translation>
+        <translation>이 %1:core에 대한 인증서입니다. 신뢰하면 암호화된 연결이 설정됩니다.</translation>
     </message>
 </context>
 <context>
@@ -376,79 +376,79 @@
     </message>
     <message>
         <source>Failed to log in. Please try again. Do you perhaps have &lt;a href=&quot;#&quot;&gt;forgotten your password?&lt;/a&gt;</source>
-        <translation>로그인하지 못했습니다. 다시 시도해보세요. &lt;a href=&quot;#&quot;&gt; 혹시 암호를 잊어버린 적이 있습니까?&lt;/a&gt;</translation>
+        <translation>로그인하지 못했습니다. 다시 시도해보세요. &lt;a href=&quot;#&quot;&gt; 혹시 암호를 잊었습니까?&lt;/a&gt;</translation>
     </message>
     <message>
         <source>Don&apos;t have a user yet?</source>
-        <translation></translation>
+        <translation>아직 사용자 계정이 없습니까?</translation>
     </message>
     <message>
         <source>Sign Up</source>
-        <translation></translation>
+        <translation>가입하세요</translation>
     </message>
     <message>
         <source>Sign up</source>
-        <translation></translation>
+        <translation>가입하세요</translation>
     </message>
     <message>
         <source>Welcome to %1:cloud.</source>
-        <translation></translation>
+        <translation>%1: 클라우드에 오신 것을 환영합니다.</translation>
     </message>
     <message>
         <source>Please enter your email address and pick a password in order to create a new account.</source>
-        <translation></translation>
+        <translation>새 계정을 만들려면 이메일 주소를 입력하고 암호를 입력하세요.</translation>
     </message>
     <message>
         <source>See our &lt;a href=&quot;%1&quot;&gt;privacy policy&lt;/a&gt; to find out what information is processed. By signing up to %2:cloud you accept those terms and conditions.</source>
-        <translation></translation>
+        <translation>어떤 정보가 처리되고 있는지 알아보려면 당사의 &lt; a href=&quot;%1&quot;&gt;개인정보 정책 &lt;/a&gt;를 참조하시기 바랍니다. %2:클라우드에 가입하면 이러한 약관에 동의합니다.</translation>
     </message>
     <message>
         <source>The given username or password are not valid.</source>
-        <translation></translation>
+        <translation>지정한 사용자 이름 또는 암호가 올바르지 않습니다.</translation>
     </message>
     <message>
         <source>Uh oh, something went wrong. Please try again.</source>
-        <translation></translation>
+        <translation>어, 뭔가 잘못됐어요. 다시 시도해보세요.</translation>
     </message>
     <message>
         <source>Confirm account</source>
-        <translation></translation>
+        <translation>계정을 확인합니다.</translation>
     </message>
     <message>
         <source>Thanks for signing up. We will send you an email with a confirmation code. Please enter that code in the field below.</source>
-        <translation></translation>
+        <translation>가입해 주셔서 감사합니다. 확인 코드가 포함된 이메일을 보내드리겠습니다. 아래 입력란에 해당 코드를 입력하세요.</translation>
     </message>
     <message>
         <source>The given user already exists. Did you forget the password?</source>
-        <translation></translation>
+        <translation>지정한 사용자가 이미 있습니다. 비밀번호를 잊어버렸나요?</translation>
     </message>
     <message>
         <source>That wasn&apos;t the right code. Please try again.</source>
-        <translation></translation>
+        <translation>그건 올바른 코드가 아닙니다. 다시 시도해보세요.</translation>
     </message>
     <message>
         <source>Reset password</source>
-        <translation></translation>
+        <translation>암호를 재설정합니다</translation>
     </message>
     <message>
         <source>Sorry, this wasn&apos;t right. Did you misspell the email address?</source>
-        <translation></translation>
+        <translation>미안해요, 정확하지 않았어요. 이메일 주소의 철자를 잘못 입력했습니까?</translation>
     </message>
     <message>
         <source>Sorry, there were too many attempts. Please try again after some time.</source>
-        <translation></translation>
+        <translation>미안해요, 너무 많은 시도가 있었어요. 잠시 후에 다시 시도하세요.</translation>
     </message>
     <message>
         <source>Password forgotten?</source>
-        <translation></translation>
+        <translation>암호를 잊었습니까?</translation>
     </message>
     <message>
         <source>No problem. Enter your email address here and we&apos;ll send you a confirmation code to change your password.</source>
-        <translation></translation>
+        <translation>문제 없어요. 여기에 이메일 주소를 입력하시면 비밀번호를 변경할 수 있는 확인 코드를 보내드리겠습니다.</translation>
     </message>
     <message>
         <source>Sorry, couldn&apos;t reset your password. Did you enter the wrong confirmation code?</source>
-        <translation></translation>
+        <translation>죄송합니다, 비밀번호를 재설정하지 못하셨습니다. 잘못된 확인 코드를 입력하셨습니까?</translation>
     </message>
     <message>
         <source>Yay!</source>
@@ -456,163 +456,163 @@
     </message>
     <message>
         <source>Your password has been reset.</source>
-        <translation></translation>
+        <translation>암호가 재설정됨.</translation>
     </message>
     <message>
         <source>Check your email!</source>
-        <translation></translation>
+        <translation>이메일을 확인해 주세요!</translation>
     </message>
     <message>
         <source>Enter the confirmation code you&apos;ve received and a new password for your user %1.</source>
-        <translation></translation>
+        <translation>받은 확인 코드와 사용자 %1에 대한 새 암호를 입력하십시오.</translation>
     </message>
     <message>
         <source>Confirmation code:</source>
-        <translation></translation>
+        <translation>확인 코드:</translation>
     </message>
     <message>
         <source>Pick a new password:</source>
-        <translation></translation>
+        <translation>새 암호 설정:</translation>
     </message>
     <message>
         <source>There are no %1:core systems connected to your cloud yet.</source>
-        <translation></translation>
+        <translation>아직 클라우드에 연결된 %1: 코어 시스템이 없습니다.</translation>
     </message>
     <message numerus="yes">
         <source>There are %n %1:core systems connected to your cloud.</source>
-        <translation><numerusform></numerusform>
+        <translation><numerusform>%n %1:코어 시스템이 클라우드에 연결되어 있습니다.</numerusform>
         </translation></message>
     <message>
         <source>Sorry to see you go. If you log out you won&apos;t be able to connect to %1:core systems remotely any more. However, you can come back any time, we&apos;ll keep your user account. If you whish to completely delete your account and all the data associated with it, check the box below before hitting ok. If you decide to delete your account, all your personal information will be removed from %1:cloud and cannot be restored.</source>
-        <translation></translation>
+        <translation>아쉽군요.  로그아웃하면 더 이상 원격으로 %1:코어 시스템에 연결할 수 없습니다. 하지만 언제든지 돌아올 수 있어요, 사용자 계정은 안전하게 보관 됩니다. 계정 및 관련된 모든 데이터를 완전히 삭제하려면 확인을 누르기 전에 아래의 확인란을 선택하십시오. 계정을 삭제하기로 결정하면 모든 개인 정보가 %1:클라우드에서 제거되므로 복원할 수 없습니다.</translation>
     </message>
     <message>
         <source>Log in to %1:cloud in order to connect to %1:core systems from anywhere.</source>
-        <translation></translation>
+        <translation>어디에서나 %1:core 시스템에 연결하려면 %1:cloud에 로그인하십시오.</translation>
     </message>
 </context>
 <context>
     <name>CloudSettingsPage</name>
     <message>
         <source>Cloud settings</source>
-        <translation></translation>
+        <translation>클라우드 설정</translation>
     </message>
     <message>
         <source>You can connect a nymea:box to a nymea:cloud in order to access it from anywhere</source>
-        <translation></translation>
+        <translation>nymea:box를 nymea:cloud에 연결하여 어디에서나 액세스할 수 있습니다.</translation>
     </message>
     <message>
         <source>Cloud connection enabled</source>
-        <translation></translation>
+        <translation>클라우드에 연결 사용 가능하게 되었습니다</translation>
     </message>
     <message>
         <source>This box is not connected to %1:cloud</source>
-        <translation></translation>
+        <translation>이 상자(장치)가 %1: 클라우드에 연결되지 않았습니다</translation>
     </message>
     <message>
         <source>Registering box in %1:cloud...</source>
-        <translation></translation>
+        <translation>%1:클라우드에 등록 중...</translation>
     </message>
     <message>
         <source>This box is not configured to connect to %1:cloud.</source>
-        <translation></translation>
+        <translation>이 상자(장치)는 %1:클라우드에 연결하도록 구성되지 않았습니다.</translation>
     </message>
     <message>
         <source>Connecting the box to %1:cloud...</source>
-        <translation></translation>
+        <translation>%1:클라우드에 상자(장치)를 연결하는 중...</translation>
     </message>
     <message>
         <source>The box is connected to %1:cloud.</source>
-        <translation></translation>
+        <translation>이 상자(장치)는 %1:클라우드에 연결되어 있습니다.</translation>
     </message>
     <message>
         <source>This box is not configured to access the %1:cloud. In order for a box to connect to %1:cloud it needs to be registered first.</source>
-        <translation></translation>
+        <translation>이 상자(장치)는 %1:클라우드에 액세스 하도록 구성되지 않았습니다. 상자(장치)가 %1:클라우드에 연결되려면 먼저 등록해야 합니다.</translation>
     </message>
     <message>
         <source>Register box</source>
-        <translation></translation>
+        <translation>등록상자(장치)</translation>
     </message>
     <message>
         <source>Log in to cloud</source>
-        <translation></translation>
+        <translation>클라우드에 로그인</translation>
     </message>
 </context>
 <context>
     <name>ComposeEventDescriptorPage</name>
     <message>
         <source>Select event</source>
-        <translation></translation>
+        <translation>이벤트 선택</translation>
     </message>
     <message>
         <source>A specific thing</source>
-        <translation></translation>
+        <translation>상세 내용</translation>
     </message>
     <message>
         <source>A group of things</source>
-        <translation></translation>
+        <translation>사물 그룹</translation>
     </message>
 </context>
 <context>
     <name>ConfigureThingPage</name>
     <message>
         <source>Delete Thing</source>
-        <translation></translation>
+        <translation>삭제하기</translation>
     </message>
     <message>
         <source>Rename Thing</source>
-        <translation></translation>
+        <translation>이름 바꾸기</translation>
     </message>
     <message>
         <source>Reconfigure Thing</source>
-        <translation></translation>
+        <translation>재설정</translation>
     </message>
     <message>
         <source>Thing information</source>
-        <translation></translation>
+        <translation>사물 정보</translation>
     </message>
     <message>
         <source>Vendor:</source>
-        <translation></translation>
+        <translation>공급업체:</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation></translation>
+        <translation>유형</translation>
     </message>
     <message>
         <source>Thing parameters</source>
-        <translation></translation>
+        <translation>사물 매개변수</translation>
     </message>
     <message>
         <source>Thing settings</source>
-        <translation></translation>
+        <translation>사물 설정</translation>
     </message>
     <message>
         <source>Apply</source>
-        <translation></translation>
+        <translation>적용</translation>
     </message>
 </context>
 <context>
     <name>ConnectPage</name>
     <message>
         <source>Connect %1</source>
-        <translation></translation>
+        <translation>%1 연결</translation>
     </message>
     <message>
         <source>Manual connection</source>
-        <translation></translation>
+        <translation>수동 연결</translation>
     </message>
     <message>
         <source>Wireless setup</source>
-        <translation></translation>
+        <translation>무선 설정</translation>
     </message>
     <message>
         <source>Demo mode</source>
-        <translation></translation>
+        <translation>시범 구성(데모 모드)</translation>
     </message>
     <message>
         <source>App settings</source>
-        <translation></translation>
+        <translation>앱 설정</translation>
     </message>
     <message>
         <source>Oh, look!</source>
@@ -620,7 +620,7 @@
     </message>
     <message>
         <source>Just a moment...</source>
-        <translation></translation>
+        <translation>잠시만요...</translation>
     </message>
     <message>
         <source>Uh oh</source>
@@ -628,66 +628,66 @@
     </message>
     <message>
         <source>Start wireless setup</source>
-        <translation></translation>
+        <translation>무선 설정 시작</translation>
     </message>
     <message>
         <source>Cloud login</source>
-        <translation></translation>
+        <translation>클라우드 로그인</translation>
     </message>
     <message>
         <source>Demo mode (online)</source>
-        <translation></translation>
+        <translation>데모 모드(온라인)</translation>
     </message>
     <message>
         <source>Not the ones you&apos;re looking for? We&apos;re looking for more!</source>
-        <translation></translation>
+        <translation>당신이 찾고 있는 게 아니에요? 더 찾고 있어요!</translation>
     </message>
     <message>
         <source>Box information</source>
-        <translation></translation>
+        <translation>상자(장치) 정보</translation>
     </message>
     <message>
         <source>Available connections</source>
-        <translation></translation>
+        <translation>사용 가능한 연결</translation>
     </message>
     <message>
         <source>There are %1 %2:cores in your network! Which one would you like to use?</source>
-        <translation></translation>
+        <translation>네트워크에 %1 %2:코어가 있음! 어떤 것을 사용하시겠습니까?</translation>
     </message>
     <message>
         <source>We haven&apos;t found a %1:core in your network yet.</source>
-        <translation></translation>
+        <translation>아직 네트워크에서 %1:코어를 찾지 못했습니다.</translation>
     </message>
     <message>
         <source>There doesn&apos;t seem to be a %1:core installed in your network. Please make sure your %1:core system is correctly set up and connected.</source>
-        <translation></translation>
+        <translation>네트워크에 %1:코어가 설치되어 있지 않은 것 같습니다. %1:코어 시스템이 올바르게 설정 및 연결 되었는지 확인하십시오.</translation>
     </message>
     <message>
         <source>Searching for %1:core systems...</source>
-        <translation></translation>
+        <translation>%1: 코어 시스템을 검색하는 중...</translation>
     </message>
     <message>
         <source>Do you have a %1:core but it&apos;s not connected to your network yet? Use the wireless setup to connect it!</source>
-        <translation></translation>
+        <translation>%1:코어가 있지만 아직 네트워크에 연결되어 있지 않으십니까? 무선 설정을 사용하여 연결하십시오!</translation>
     </message>
 </context>
 <context>
     <name>ConnectWiFiPage</name>
     <message>
         <source>Select wireless network</source>
-        <translation></translation>
+        <translation>무선 네트워크 선택</translation>
     </message>
     <message>
         <source>Authenticate</source>
-        <translation></translation>
+        <translation>인증</translation>
     </message>
     <message>
         <source>Enter the password for %1</source>
-        <translation></translation>
+        <translation>%1의 암호를 입력하십시오</translation>
     </message>
     <message>
         <source>Sorry, the password is wrong. Please try again.</source>
-        <translation></translation>
+        <translation>미안하지만, 암호가 틀렸어요. 다시 시도해보십시오.</translation>
     </message>
     <message>
         <source>OK</source>
@@ -695,65 +695,65 @@
     </message>
     <message>
         <source>Connecting the %1:core to %2</source>
-        <translation></translation>
+        <translation>%1:코어를 %2에 연결</translation>
     </message>
 </context>
 <context>
     <name>ConnectingPage</name>
     <message>
         <source>Connecting...</source>
-        <translation></translation>
+        <translation>연결중...</translation>
     </message>
     <message>
         <source>The network connection failed.</source>
-        <translation></translation>
+        <translation>네트워크 연결 실패.</translation>
     </message>
     <message>
         <source>It seems you&apos;re not connected to the network.</source>
-        <translation></translation>
+        <translation>네트워크에 연결되어 있지 않은 것 같습니다.</translation>
     </message>
     <message>
         <source>The host has rejected our connection. This probably means that %1 is not running on this host. Perhaps it&apos;s restarting?</source>
-        <translation></translation>
+        <translation>호스트가 연결을 거부했습니다. 이것은 아마도 %1이 이 호스트에서 실행되고 있지 않음을 의미합니다. 시스템을 다시 시작 하시겠습니까?</translation>
     </message>
     <message>
         <source>%1:core has closed the connection. This probably means it has been turned off or restarted.</source>
-        <translation></translation>
+        <translation>%1:코어가 연결을 닫았습니다. 이것은 아마도 그것이 꺼졌거나 다시 시작되었다는 것을 의미합니다.</translation>
     </message>
     <message>
         <source>%1:core did not respond. Please make sure your network connection works properly</source>
-        <translation></translation>
+        <translation>%1:코어가 응답하지 않습니다. 네트워크가 연결 되고 제대로 작동하는지 확인하십시오.</translation>
     </message>
     <message>
         <source>An unrecovareable SSL Error happened. Please make sure certificates are installed correctly.</source>
-        <translation></translation>
+        <translation>복구할 수 없는 SSL 오류가 발생함. 인증서가 올바르게 설치되었는지 확인하십시오.</translation>
     </message>
     <message>
         <source>The SSL Certificate is not trusted.</source>
-        <translation></translation>
+        <translation>SSL 인증서를 신뢰할 수 없음.</translation>
     </message>
     <message>
         <source>An unknown error happened. We&apos;re very sorry for that.</source>
-        <translation></translation>
+        <translation>알 수 없는 오류가 발생했습니다. 우리는 그것에 대해 매우 유감이군요.</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation></translation>
+        <translation>취소</translation>
     </message>
     <message>
         <source>%1:core could not be found on this address. Please make sure you entered the address correctly and that the system is powered on.</source>
-        <translation></translation>
+        <translation>%1:코어를 이 주소에서 찾을 수 없음. 주소를 올바르게 입력하고 시스템 전원이 켜져 있는지 확인하십시오.</translation>
     </message>
 </context>
 <context>
     <name>ConnectionInterfaceDelegate</name>
     <message>
         <source>Interface: %1</source>
-        <translation></translation>
+        <translation>인터페이스: %1</translation>
     </message>
     <message>
         <source>Any</source>
-        <translation></translation>
+        <translation>어디서나</translation>
     </message>
     <message>
         <source>localhost</source>
@@ -768,7 +768,7 @@
     <name>ConnectionInterfacesPage</name>
     <message>
         <source>Connection interfaces</source>
-        <translation></translation>
+        <translation>연결 인터페이스</translation>
     </message>
     <message>
         <source>TCP server interfaces</source>
@@ -776,7 +776,7 @@
     </message>
     <message>
         <source>Add</source>
-        <translation></translation>
+        <translation>추가</translation>
     </message>
     <message>
         <source>WebSocket server interfaces</source>
@@ -787,30 +787,30 @@
     <name>DeveloperOptionsPage</name>
     <message>
         <source>Developer options</source>
-        <translation></translation>
+        <translation>개발자 옵션</translation>
     </message>
     <message>
         <source>Cloud environment</source>
-        <translation></translation>
+        <translation>클라우드 환경</translation>
     </message>
     <message>
         <source>Enable app logging</source>
-        <translation></translation>
+        <translation>앱 로깅 사용</translation>
     </message>
     <message>
         <source>View log</source>
-        <translation></translation>
+        <translation>로그 보기</translation>
     </message>
     <message>
         <source>Experience mode</source>
-        <translation></translation>
+        <translation>경험 모드</translation>
     </message>
 </context>
 <context>
     <name>DeveloperTools</name>
     <message>
         <source>Developer tools</source>
-        <translation></translation>
+        <translation>개발자 툴</translation>
     </message>
     <message>
         <source>Debug server enabled</source>
@@ -3773,11 +3773,11 @@ Do you want to proceed?</source>
     </message>
     <message>
         <source>Waiting for the %1:core to appear in your network.</source>
-        <translation></translation>
+        <translation>%1:코어가 네트워크에 나타날 때까지 대기 중.</translation>
     </message>
     <message>
         <source>Connect to %1:core</source>
-        <translation></translation>
+        <translation>%1:코어에 연결</translation>
     </message>
 </context>
 </TS>
