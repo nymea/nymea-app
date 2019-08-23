@@ -86,7 +86,7 @@ Page {
         }
         onConfirmPairingReply: {
             busyOverlay.shown = false
-            internalPageStack.push(resultsPage, {success: params["deviceError"] === "DeviceErrorNoError", deviceId: params["deviceId"]})
+            internalPageStack.push(resultsPage, {success: params["deviceError"] === "DeviceErrorNoError", deviceId: params["deviceId"], message: params["displayMessage"]})
         }
         onAddDeviceReply: {
             busyOverlay.shown = false;
@@ -443,6 +443,7 @@ Page {
                     id: pinTextField
                     Layout.fillWidth: true
                     visible: pairingPage.setupMethod === "SetupMethodDisplayPin" || pairingPage.setupMethod === "SetupMethodUserAndPassword"
+                    echoMode: TextField.Password
                 }
 
 
@@ -450,7 +451,8 @@ Page {
                     Layout.fillWidth: true
                     text: "OK"
                     onClicked: {
-                        engine.deviceManager.confirmPairing(d.pairingTransactionId, pinTextField.displayText, usernameTextField.displayText);
+                        engine.deviceManager.confirmPairing(d.pairingTransactionId, pinTextField.text, usernameTextField.displayText);
+                        busyOverlay.shown = true;
                     }
                 }
             }
@@ -486,6 +488,7 @@ Page {
 
             property bool success
             property string deviceId
+            property string message
 
             readonly property var device: root.device ? root.device : engine.deviceManager.devices.getDevice(deviceId)
 
@@ -506,6 +509,13 @@ Page {
                     horizontalAlignment: Text.AlignHCenter
                     wrapMode: Text.WordWrap
                     text: resultsView.success ? qsTr("All done. You can now start using %1.").arg(resultsView.device.name) : qsTr("Something went wrong setting up this thing...");
+                }
+
+                Label {
+                    Layout.fillWidth: true
+                    horizontalAlignment: Text.AlignHCenter
+                    wrapMode: Text.WordWrap
+                    text: resultsView.message
                 }
 
                 Button {
