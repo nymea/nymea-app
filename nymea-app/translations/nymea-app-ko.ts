@@ -368,11 +368,11 @@
     </message>
     <message>
         <source>Password</source>
-        <translation></translation>
+        <translation>암호</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation></translation>
+        <translation>확인</translation>
     </message>
     <message>
         <source>Failed to log in. Please try again. Do you perhaps have &lt;a href=&quot;#&quot;&gt;forgotten your password?&lt;/a&gt;</source>
@@ -550,7 +550,7 @@
     </message>
     <message>
         <source>A group of things</source>
-        <translation>사물 그룹</translation>
+        <translation>사물(장치) 그룹</translation>
     </message>
 </context>
 <context>
@@ -569,7 +569,7 @@
     </message>
     <message>
         <source>Thing information</source>
-        <translation>사물 정보</translation>
+        <translation>사물(장치) 정보</translation>
     </message>
     <message>
         <source>Vendor:</source>
@@ -581,11 +581,11 @@
     </message>
     <message>
         <source>Thing parameters</source>
-        <translation>사물 매개변수</translation>
+        <translation>사물(장치) 매개변수</translation>
     </message>
     <message>
         <source>Thing settings</source>
-        <translation>사물 설정</translation>
+        <translation>사물(장치) 설정</translation>
     </message>
     <message>
         <source>Apply</source>
@@ -691,7 +691,7 @@
     </message>
     <message>
         <source>OK</source>
-        <translation></translation>
+        <translation>확인</translation>
     </message>
     <message>
         <source>Connecting the %1:core to %2</source>
@@ -1103,11 +1103,11 @@
     </message>
     <message>
         <source>...during this time...</source>
-        <translation>...이번에는...</translation>
+        <translation>...이 시간에는...</translation>
     </message>
     <message>
         <source>Create a scene.</source>
-        <translation>연출(기획).</translation>
+        <translation>시나리오 만들기.</translation>
     </message>
     <message>
         <source>...come true, execute those actions:</source>
@@ -1123,7 +1123,7 @@
     </message>
     <message>
         <source>Just pick some actions which will be executed when the scene is activated. Scenes are like any other magic except they can also be activated manually.</source>
-        <translation>씬(scene)이 활성화될 때 실행할 몇 가지 작업을 선택하십시오. 장면들은 수동으로 작동할 수 있다는 것을 제외하고는 다른 어떤 마법과도 같습니다.</translation>
+        <translation>특정 상황이 활성화될 때 실행할 몇 가지 작업을 선택하십시오.  상황들은 수동으로 작동할 수 있다는 것을 제외하고는 다른 어떤 마법과도 같습니다.</translation>
     </message>
     <message>
         <source>Add an action...</source>
@@ -1147,11 +1147,11 @@
     </message>
     <message>
         <source>When one of my things triggers an event</source>
-        <translation>내 사물(장치)중 하나가 사건을 일으킬 때</translation>
+        <translation>내 사물(장치)중 하나가 이벤트가 발생 했을 때</translation>
     </message>
     <message>
         <source>When a thing of a given type triggers an event</source>
-        <translation>지정된 유형의 물체가 이벤트를 발생 할 때</translation>
+        <translation>지정된 유형의 사물(장치)가 이벤트를 발생 할 때</translation>
     </message>
     <message>
         <source>At a particular time or date</source>
@@ -1167,7 +1167,7 @@
     </message>
     <message>
         <source>When a thing of a given type enters a state</source>
-        <translation>주어진 유형의 물체(장치)가 상태에 들어갈 때</translation>
+        <translation>주어진 유형의 사물(장치)가 특정 상태에 들어갈 때</translation>
     </message>
     <message>
         <source>During a given time</source>
@@ -1175,144 +1175,144 @@
     </message>
     <message>
         <source>Add action...</source>
-        <translation></translation>
+        <translation>작업 추가...</translation>
     </message>
     <message>
         <source>Execute an action on one of my things</source>
-        <translation></translation>
+        <translation>내 물건(장치) 중 하나에 대한 작업 실행</translation>
     </message>
     <message>
         <source>Execute an action on an entire kind of things</source>
-        <translation></translation>
+        <translation>모든 종류의 일에 대해 실행</translation>
     </message>
     <message>
         <source>This is a scene</source>
-        <translation></translation>
+        <translation>이것은 한 장면(연출)입니다.</translation>
     </message>
 </context>
 <context>
     <name>EditStateEvaluatorPage</name>
     <message>
         <source>Conditions</source>
-        <translation></translation>
+        <translation>조건들</translation>
     </message>
 </context>
 <context>
     <name>EditThingsPage</name>
     <message>
         <source>Configure Things</source>
-        <translation></translation>
+        <translation>사물 구성</translation>
     </message>
     <message>
         <source>There are no things set up yet.</source>
-        <translation></translation>
+        <translation>아직 설정된 것이 없습니다.</translation>
     </message>
     <message>
         <source>Add a thing</source>
-        <translation></translation>
+        <translation>사물(장치) 추가</translation>
     </message>
     <message>
         <source>In order for your %1 system to be useful, go ahead and add some things.</source>
-        <translation></translation>
+        <translation>%1 시스템이 유용하려면 먼저 몇 가지를 추가하십시오.</translation>
     </message>
 </context>
 <context>
     <name>EditTimeEventItemPage</name>
     <message>
         <source>Pick a time</source>
-        <translation></translation>
+        <translation>시간선택</translation>
     </message>
     <message>
         <source>Time</source>
-        <translation></translation>
+        <translation>시간</translation>
     </message>
     <message>
         <source>Repeat</source>
-        <translation></translation>
+        <translation>반복</translation>
     </message>
     <message>
         <source>never</source>
-        <translation></translation>
+        <translation>절대</translation>
     </message>
     <message>
         <source>hourly</source>
-        <translation></translation>
+        <translation>1시간마다</translation>
     </message>
     <message>
         <source>daily</source>
-        <translation></translation>
+        <translation>매일</translation>
     </message>
     <message>
         <source>weekly</source>
-        <translation></translation>
+        <translation>매주</translation>
     </message>
     <message>
         <source>monthly</source>
-        <translation></translation>
+        <translation>매월</translation>
     </message>
     <message>
         <source>yearly</source>
-        <translation></translation>
+        <translation>매년</translation>
     </message>
     <message>
         <source>Date</source>
-        <translation></translation>
+        <translation>날짜</translation>
     </message>
     <message>
         <source>Jan</source>
-        <translation></translation>
+        <translation>1월</translation>
     </message>
     <message>
         <source>Feb</source>
-        <translation></translation>
+        <translation>2월</translation>
     </message>
     <message>
         <source>Mar</source>
-        <translation></translation>
+        <translation>3월</translation>
     </message>
     <message>
         <source>Apr</source>
-        <translation></translation>
+        <translation>4월</translation>
     </message>
     <message>
         <source>May</source>
-        <translation></translation>
+        <translation>5월</translation>
     </message>
     <message>
         <source>Jun</source>
-        <translation></translation>
+        <translation>6월</translation>
     </message>
     <message>
         <source>Jul</source>
-        <translation></translation>
+        <translation>7월</translation>
     </message>
     <message>
         <source>Aug</source>
-        <translation></translation>
+        <translation>8월</translation>
     </message>
     <message>
         <source>Sep</source>
-        <translation></translation>
+        <translation>9월</translation>
     </message>
     <message>
         <source>Oct</source>
-        <translation></translation>
+        <translation>10월</translation>
     </message>
     <message>
         <source>Nov</source>
-        <translation></translation>
+        <translation>11월</translation>
     </message>
     <message>
         <source>Dez</source>
-        <translation></translation>
+        <translation>12월</translation>
     </message>
     <message>
         <source>Weekdays</source>
-        <translation></translation>
+        <translation>평일</translation>
     </message>
     <message>
         <source>Day of month</source>
-        <translation></translation>
+        <translation>월일</translation>
     </message>
     <message>
         <source>OK</source>
@@ -1323,11 +1323,11 @@
     <name>ErrorDialog</name>
     <message>
         <source>Oh snap!</source>
-        <translation></translation>
+        <translation>오, 깜짝이야!</translation>
     </message>
     <message>
         <source>An unexpected error happened. We&apos;re sorry for that.</source>
-        <translation></translation>
+        <translation>알 수 없는 오류가 발생했습니다. 우리는 그것에 대해 매우 유감이군요.</translation>
     </message>
     <message>
         <source>Error code: %1</source>
@@ -1342,49 +1342,49 @@
     </message>
     <message>
         <source>anytime</source>
-        <translation></translation>
+        <translation>아무때나</translation>
     </message>
 </context>
 <context>
     <name>FancyHeader</name>
     <message>
         <source>Menu</source>
-        <translation></translation>
+        <translation>메뉴</translation>
     </message>
 </context>
 <context>
     <name>FingerprintReaderDevicePage</name>
     <message>
         <source>Manage access</source>
-        <translation></translation>
+        <translation>액세스 관리</translation>
     </message>
     <message>
         <source>Access log:</source>
-        <translation></translation>
+        <translation>접근 기록:</translation>
     </message>
     <message>
         <source>Access granted for user %1</source>
-        <translation></translation>
+        <translation>%1 사용자에게 액세스가 부여됨</translation>
     </message>
     <message>
         <source>Access denied</source>
-        <translation></translation>
+        <translation>액세스 거부</translation>
     </message>
     <message>
         <source>Manage users</source>
-        <translation></translation>
+        <translation>사용자 관리</translation>
     </message>
     <message>
         <source>There are no fingerprints registered with this lock</source>
-        <translation></translation>
+        <translation>이 자물쇠에 등록된 지문이 없다(인증시스템)</translation>
     </message>
     <message>
         <source>The following users have valid fingerprints for this lock</source>
-        <translation></translation>
+        <translation>다음 사용자는 이 잠금 장치에 대해 유효한 지문을 가지고 있습니다.</translation>
     </message>
     <message>
         <source>Add a fingerprint</source>
-        <translation></translation>
+        <translation>지문추가</translation>
     </message>
     <message>
         <source>Add a new fingerprint</source>
@@ -3775,7 +3775,7 @@ Do you want to proceed?</source>
     </message>
     <message>
         <source>Your %1:core is connected to %2</source>
-        <translation></translation>
+        <translation>%1:코어가 %2에 연결됨</translation>
     </message>
     <message>
         <source>Waiting for the %1:core to appear in your network.</source>
