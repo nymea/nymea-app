@@ -1103,7 +1103,7 @@
     </message>
     <message>
         <source>...during this time...</source>
-        <translation>...이 시간 동안에는...</translation>
+        <translation>...이번에는...</translation>
     </message>
     <message>
         <source>Create a scene.</source>
