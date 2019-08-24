@@ -810,34 +810,34 @@
     <name>DeveloperTools</name>
     <message>
         <source>Developer tools</source>
-        <translation>개발자 툴</translation>
+        <translation>개발자 도구</translation>
     </message>
     <message>
         <source>Debug server enabled</source>
-        <translation></translation>
+        <translation>서버 디버그 사용</translation>
     </message>
     <message>
         <source>In order to access the debug interface, please enable the web server.</source>
-        <translation></translation>
+        <translation>디버그 인터페이스에 액세스 하려면 웹 서버를 활성화하십시오.</translation>
     </message>
     <message>
         <source>The web server cannot be reached on %1.</source>
-        <translation></translation>
+        <translation>%1에서 웹 서버에 연결할 수 없습니다.</translation>
     </message>
     <message>
         <source>Please enable the web server to be accessed on this address.</source>
-        <translation></translation>
+        <translation>이 주소에서 웹 서버에 액세스할 수 있도록 설정하십시오.</translation>
     </message>
     <message>
         <source>Open debug interface</source>
-        <translation></translation>
+        <translation>디버그 인터페이스 열기</translation>
     </message>
 </context>
 <context>
     <name>DeviceBrowserPage</name>
     <message>
         <source>Browse %1</source>
-        <translation></translation>
+        <translation>%1 찾아보기</translation>
     </message>
     <message>
         <source>Error: %1</source>
@@ -848,175 +848,175 @@
     <name>DeviceLogPage</name>
     <message>
         <source>History for %1</source>
-        <translation></translation>
+        <translation>%1에 대한 기록</translation>
     </message>
     <message>
         <source>Filter by</source>
-        <translation></translation>
+        <translation>필터 기준</translation>
     </message>
 </context>
 <context>
     <name>DevicePageBase</name>
     <message>
         <source>Magic</source>
-        <translation></translation>
+        <translation>마술</translation>
     </message>
     <message>
         <source>Thing details</source>
-        <translation></translation>
+        <translation>세부 정보</translation>
     </message>
     <message>
         <source>Thing logs</source>
-        <translation></translation>
+        <translation>사물 기록</translation>
     </message>
     <message>
         <source>Mark as favorite</source>
-        <translation></translation>
+        <translation>즐겨찾기로 표시</translation>
     </message>
     <message>
         <source>Remove from favorites</source>
-        <translation></translation>
+        <translation>즐겨찾기에서 제거</translation>
     </message>
     <message>
         <source>Thing is not connected!</source>
-        <translation></translation>
+        <translation>연결되지 않았어요!</translation>
     </message>
     <message>
         <source>Thing runs out of battery!</source>
-        <translation></translation>
+        <translation>배터리가 다 됐네요!</translation>
     </message>
 </context>
 <context>
     <name>DeviceRulesPage</name>
     <message>
         <source>Magic involving %1</source>
-        <translation></translation>
+        <translation>%1 관련 마법</translation>
     </message>
     <message>
         <source>There&apos;s no magic involving %1.</source>
-        <translation></translation>
+        <translation>%1과 관련된 마법은 없습니다.</translation>
     </message>
     <message>
         <source>Add some using the wizard stick!</source>
-        <translation></translation>
+        <translation>마법사 스틱을 사용하여 추가!</translation>
     </message>
 </context>
 <context>
     <name>DevicesPageDelegate</name>
     <message>
         <source>All off</source>
-        <translation></translation>
+        <translation>전부 끄기</translation>
     </message>
     <message>
         <source>%1 on</source>
-        <translation></translation>
+        <translation>%1 켜짐</translation>
     </message>
     <message>
         <source>All closed</source>
-        <translation></translation>
+        <translation>모두 닫힘</translation>
     </message>
     <message>
         <source>%1 open</source>
-        <translation></translation>
+        <translation>%1 열림</translation>
     </message>
 </context>
 <context>
     <name>EditCalendarItemPage</name>
     <message>
         <source>Pick a time frame</source>
-        <translation></translation>
+        <translation>시간 프레임 선택</translation>
     </message>
     <message>
         <source>From</source>
-        <translation></translation>
+        <translation>부터</translation>
     </message>
     <message>
         <source>Jan</source>
-        <translation></translation>
+        <translation>1월</translation>
     </message>
     <message>
         <source>Feb</source>
-        <translation></translation>
+        <translation>2월</translation>
     </message>
     <message>
         <source>Mar</source>
-        <translation></translation>
+        <translation>3월</translation>
     </message>
     <message>
         <source>Apr</source>
-        <translation></translation>
+        <translation>4월</translation>
     </message>
     <message>
         <source>May</source>
-        <translation></translation>
+        <translation>5월</translation>
     </message>
     <message>
         <source>Jun</source>
-        <translation></translation>
+        <translation>6월</translation>
     </message>
     <message>
         <source>Jul</source>
-        <translation></translation>
+        <translation>7월</translation>
     </message>
     <message>
         <source>Aug</source>
-        <translation></translation>
+        <translation>8월</translation>
     </message>
     <message>
         <source>Sep</source>
-        <translation></translation>
+        <translation>9월</translation>
     </message>
     <message>
         <source>Oct</source>
-        <translation></translation>
+        <translation>10월</translation>
     </message>
     <message>
         <source>Nov</source>
-        <translation></translation>
+        <translation>11월</translation>
     </message>
     <message>
         <source>Dez</source>
-        <translation></translation>
+        <translation>12월</translation>
     </message>
     <message>
         <source>To</source>
-        <translation></translation>
+        <translation>까지</translation>
     </message>
     <message>
         <source>Repeat</source>
-        <translation></translation>
+        <translation>반복</translation>
     </message>
     <message>
         <source>never</source>
-        <translation></translation>
+        <translation>절대</translation>
     </message>
     <message>
         <source>hourly</source>
-        <translation></translation>
+        <translation>1시간마다</translation>
     </message>
     <message>
         <source>daily</source>
-        <translation></translation>
+        <translation>매일</translation>
     </message>
     <message>
         <source>weekly</source>
-        <translation></translation>
+        <translation>매주</translation>
     </message>
     <message>
         <source>monthly</source>
-        <translation></translation>
+        <translation>매월</translation>
     </message>
     <message>
         <source>yearly</source>
-        <translation></translation>
+        <translation>매년</translation>
     </message>
     <message>
         <source>Weekdays</source>
-        <translation></translation>
+        <translation>평일</translation>
     </message>
     <message>
         <source>Day of month</source>
-        <translation></translation>
+        <translation>월일</translation>
     </message>
     <message>
         <source>OK</source>
@@ -1027,42 +1027,45 @@
     <name>EditRulePage</name>
     <message>
         <source>Add new magic</source>
-        <translation></translation>
+        <translation>새로운 마술 추가</translation>
     </message>
     <message>
         <source>Edit %1</source>
-        <translation></translation>
+        <translation>%1 편집</translation>
     </message>
     <message>
         <source>Cancel?</source>
-        <translation></translation>
+        <translation>취소?</translation>
     </message>
     <message>
         <source>Any changes to the rule will be lost.</source>
-        <translation></translation>
+        <translation>변경된 설정이 없어질 것입니다.</translation>
     </message>
     <message>
         <source>Name:</source>
-        <translation></translation>
+        <translation>이름:</translation>
     </message>
     <message>
         <source>This rule is enabled</source>
-        <translation></translation>
+        <translation>이 설정이 사용되어집니다</translation>
     </message>
     <message>
         <source>Execute actions when something happens.</source>
-        <translation></translation>
+        <translation>어떤 일이 있을 때 조치를 실행합니다.</translation>
     </message>
     <message>
         <source>When any of these events happen...</source>
-        <translation></translation>
+        <translation>이 사건들 중 어떤 것이라도 발생할 때...</translation>
     </message>
     <message>
         <source>Examples:
 • When a button is pressed...
 • When the temperature changes...
 • At 7 am...</source>
-        <translation></translation>
+        <translation>예:
+• 버튼을 누를 때...
+• 온도가 바뀌면...
+• 오전 7시...</translation>
     </message>
     <message>
         <source>Configure...</source>
@@ -1070,102 +1073,105 @@
     </message>
     <message>
         <source>Add another...</source>
-        <translation></translation>
+        <translation>다른 항목 추가...</translation>
     </message>
     <message>
         <source>Do something while a condition is met.</source>
-        <translation></translation>
+        <translation>조건이 충족되는 동안 무언가를 계속해라.</translation>
     </message>
     <message>
         <source>...but only if those conditions are met...</source>
-        <translation></translation>
+        <translation>...하지만 그런 조건들이 충족되어야만...</translation>
     </message>
     <message>
         <source>When this condition...</source>
-        <translation></translation>
+        <translation>이 상태가 되면...</translation>
     </message>
     <message>
         <source>Examples:
 • While I&apos;m at home...
 • When the temperature is below 0...
 • Between 9 am and 6 pm...</source>
-        <translation></translation>
+        <translation>예:
+• 집에 있는 동안...
+• 온도가 0도 이하일 때...
+• 오전 9시에서 오후 6시 사이...</translation>
     </message>
     <message>
         <source>When time is in...</source>
-        <translation></translation>
+        <translation>때가 되면...</translation>
     </message>
     <message>
         <source>...during this time...</source>
-        <translation></translation>
+        <translation>...이 시간 동안에는...</translation>
     </message>
     <message>
         <source>Create a scene.</source>
-        <translation></translation>
+        <translation>연출(기획).</translation>
     </message>
     <message>
         <source>...come true, execute those actions:</source>
-        <translation></translation>
+        <translation>...실현하고, 다음 작업을 실행하십시오.</translation>
     </message>
     <message>
         <source>...comes true, execute those actions:</source>
-        <translation></translation>
+        <translation>...참이 되고, 다음 작업을 실행하십시오.</translation>
     </message>
     <message>
         <source>...execute those actions:</source>
-        <translation></translation>
+        <translation>...다음 작업을 실행하십시오.</translation>
     </message>
     <message>
         <source>Just pick some actions which will be executed when the scene is activated. Scenes are like any other magic except they can also be activated manually.</source>
-        <translation></translation>
+        <translation>씬(scene)이 활성화될 때 실행할 몇 가지 작업을 선택하십시오. 장면들은 수동으로 작동할 수 있다는 것을 제외하고는 다른 어떤 마법과도 같습니다.</translation>
     </message>
     <message>
         <source>Add an action...</source>
-        <translation></translation>
+        <translation>작업 추가...</translation>
     </message>
     <message>
         <source>Add another action...</source>
-        <translation></translation>
+        <translation>다른 작업 추가...</translation>
     </message>
     <message>
         <source>...isn&apos;t met any more, execute those actions:</source>
-        <translation></translation>
+        <translation>...더 이상 충족되지 않음, 다음 작업을 실행하십시오.</translation>
     </message>
     <message>
         <source>If the condition isn&apos;t met, execute those actions instead:</source>
-        <translation></translation>
+        <translation>조건이 충족되지 않으면 대신 다음 작업을 실행하십시오.</translation>
     </message>
     <message>
         <source>Add event</source>
-        <translation></translation>
+        <translation>이벤트 추가</translation>
     </message>
     <message>
         <source>When one of my things triggers an event</source>
-        <translation></translation>
+        <translation>내 사물(장치)중 하나가 사건을 일으킬 때</translation>
     </message>
     <message>
         <source>When a thing of a given type triggers an event</source>
-        <translation></translation>
+        <translation>지정된 유형의 물체가 이벤트를 발생 할 때</translation>
     </message>
     <message>
         <source>At a particular time or date</source>
-        <translation></translation>
+        <translation>특정 시간 또는 날짜에</translation>
     </message>
     <message>
         <source>Add condition...</source>
-        <translation></translation>
+        <translation>조건 추가...</translation>
     </message>
     <message>
         <source>When one of my things is in a certain state</source>
-        <translation></translation>
+        <translation>내 사물(장치) 중 하나가 어떤 상태에 있을 때</translation>
     </message>
     <message>
         <source>When a thing of a given type enters a state</source>
-        <translation></translation>
+        <translation>주어진 유형의 물체(장치)가 상태에 들어갈 때</translation>
     </message>
     <message>
         <source>During a given time</source>
-        <translation></translation>
+        <translation>주어진 시간 동안</translation>
     </message>
     <message>
         <source>Add action...</source>
