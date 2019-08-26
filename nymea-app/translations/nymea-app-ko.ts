@@ -1179,15 +1179,15 @@
     </message>
     <message>
         <source>Execute an action on one of my things</source>
-        <translation>내 물건(장치) 중 하나에 대한 작업 실행</translation>
+        <translation>내 사물(장치) 중 하나에 대한 작업 실행</translation>
     </message>
     <message>
         <source>Execute an action on an entire kind of things</source>
-        <translation>모든 종류의 일에 대해 실행</translation>
+        <translation>모든 종류의 사물(장치)에 대해 실행</translation>
     </message>
     <message>
         <source>This is a scene</source>
-        <translation>이것은 한 장면(연출)입니다.</translation>
+        <translation>이것은 특정 상황(연출)입니다.</translation>
     </message>
 </context>
 <context>
@@ -1220,7 +1220,7 @@
     <name>EditTimeEventItemPage</name>
     <message>
         <source>Pick a time</source>
-        <translation>시간선택</translation>
+        <translation>시간 선택</translation>
     </message>
     <message>
         <source>Time</source>
@@ -1232,7 +1232,7 @@
     </message>
     <message>
         <source>never</source>
-        <translation>절대</translation>
+        <translation>절대안함</translation>
     </message>
     <message>
         <source>hourly</source>
@@ -1388,63 +1388,63 @@
     </message>
     <message>
         <source>Add a new fingerprint</source>
-        <translation></translation>
+        <translation>새 지문 추가</translation>
     </message>
     <message>
         <source>Username</source>
-        <translation></translation>
+        <translation>사용자명</translation>
     </message>
     <message>
         <source>Finger</source>
-        <translation></translation>
+        <translation>손가락</translation>
     </message>
     <message>
         <source>Left thumb</source>
-        <translation></translation>
+        <translation>왼손 엄지</translation>
     </message>
     <message>
         <source>Left index finger</source>
-        <translation></translation>
+        <translation>왼쪽 집게손가락</translation>
     </message>
     <message>
         <source>Left middle finger</source>
-        <translation></translation>
+        <translation>왼쪽 가운데 손가락</translation>
     </message>
     <message>
         <source>Left ring finger</source>
-        <translation></translation>
+        <translation>왼손 약지</translation>
     </message>
     <message>
         <source>Left pinky finger</source>
-        <translation></translation>
+        <translation>왼쪽 새끼손가락</translation>
     </message>
     <message>
         <source>Right thumb</source>
-        <translation></translation>
+        <translation>오른쪽 엄지</translation>
     </message>
     <message>
         <source>Right index finger</source>
-        <translation></translation>
+        <translation>오른쪽 집게손가락</translation>
     </message>
     <message>
         <source>Right middle finger</source>
-        <translation></translation>
+        <translation>오른쪽 가운데 손가락</translation>
     </message>
     <message>
         <source>Right ring finger</source>
-        <translation></translation>
+        <translation>오른쪽 약지</translation>
     </message>
     <message>
         <source>Right pinky finger</source>
-        <translation></translation>
+        <translation>오른쪽 새끼손가락</translation>
     </message>
     <message>
         <source>Add user</source>
-        <translation></translation>
+        <translation>사용자 추가</translation>
     </message>
     <message>
         <source>Please scan the fingerprint now</source>
-        <translation></translation>
+        <translation>지금 지문을 스캔하십시오.</translation>
     </message>
     <message>
         <source>Uh oh</source>
@@ -1452,16 +1452,17 @@
     </message>
     <message>
         <source>All done!</source>
-        <translation></translation>
+        <translation>모두 완료되었습니다!</translation>
     </message>
     <message>
         <source>Fingerprint could not be read.
 Please try again.</source>
-        <translation></translation>
+        <translation>지문을 읽을 수 없었습니다.
+다시 시도해보십시오.</translation>
     </message>
     <message>
         <source>Fingerprint added!</source>
-        <translation></translation>
+        <translation>지문이 추가 되었습니다!</translation>
     </message>
     <message>
         <source>OK</source>
@@ -1469,37 +1470,37 @@ Please try again.</source>
     </message>
     <message>
         <source>Access request details</source>
-        <translation></translation>
+        <translation>액세스 요청 세부 정보</translation>
     </message>
     <message>
         <source>Date/Time</source>
-        <translation></translation>
+        <translation>날짜/시간</translation>
     </message>
     <message>
         <source>User</source>
-        <translation></translation>
+        <translation>사용자</translation>
     </message>
     <message>
         <source>Fingerprint</source>
-        <translation></translation>
+        <translation>지문</translation>
     </message>
 </context>
 <context>
     <name>GarageDeviceListPage</name>
     <message>
         <source>Garage gates</source>
-        <translation></translation>
+        <translation>차고 문</translation>
     </message>
 </context>
 <context>
     <name>GeneralSettingsPage</name>
     <message>
         <source>Box settings</source>
-        <translation></translation>
+        <translation>상자(장치) 설정</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation></translation>
+        <translation>이름</translation>
     </message>
     <message>
         <source>OK</source>
@@ -1507,31 +1508,31 @@ Please try again.</source>
     </message>
     <message>
         <source>Language</source>
-        <translation></translation>
+        <translation>언어</translation>
     </message>
     <message>
         <source>Time zone</source>
-        <translation></translation>
+        <translation>시간대</translation>
     </message>
     <message>
         <source>Reboot %1:core</source>
-        <translation></translation>
+        <translation>재부팅 %1:코어</translation>
     </message>
     <message>
         <source>Shutdown %1:core</source>
-        <translation></translation>
+        <translation>종료 %1:코어</translation>
     </message>
     <message>
         <source>Are you sure you want to reboot your %1:core sytem now?</source>
-        <translation></translation>
+        <translation>지금 %1:core systemtem을 재부팅하시겠습니까?</translation>
     </message>
     <message>
         <source>Are you sure you want to shut down your %1:core sytem now?</source>
-        <translation></translation>
+        <translation>지금 %1:core systemtem을 종료하시겠습니까?</translation>
     </message>
     <message>
         <source>Shut down %1:core</source>
-        <translation></translation>
+        <translation>%1:코어 종료</translation>
     </message>
 </context>
 <context>
@@ -1546,22 +1547,22 @@ Please try again.</source>
     </message>
     <message>
         <source>All my things</source>
-        <translation></translation>
+        <translation>모든 사물(장치)</translation>
     </message>
 </context>
 <context>
     <name>GenericDevicePage</name>
     <message>
         <source>States</source>
-        <translation></translation>
+        <translation>상태</translation>
     </message>
     <message>
         <source>Actions</source>
-        <translation></translation>
+        <translation>작동(조치)</translation>
     </message>
     <message>
         <source>Events</source>
-        <translation></translation>
+        <translation>이벤트</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -1576,35 +1577,35 @@ Please try again.</source>
     <name>GenericTypeGraph</name>
     <message>
         <source>%1 seconds</source>
-        <translation></translation>
+        <translation>%1 초</translation>
     </message>
     <message>
         <source>%1 minutes</source>
-        <translation></translation>
+        <translation>%1 분</translation>
     </message>
     <message>
         <source>%1 hours</source>
-        <translation></translation>
+        <translation>%1 시간</translation>
     </message>
     <message>
         <source>%1 days</source>
-        <translation></translation>
+        <translation>%1 일</translation>
     </message>
     <message>
         <source>%1 weeks</source>
-        <translation></translation>
+        <translation>%1 주</translation>
     </message>
     <message>
         <source>%1 months</source>
-        <translation></translation>
+        <translation>%1 달</translation>
     </message>
     <message>
         <source>%1 years</source>
-        <translation></translation>
+        <translation>%1 년</translation>
     </message>
     <message>
         <source>Not connected</source>
-        <translation></translation>
+        <translation>연결되지 않았습니다.</translation>
     </message>
 </context>
 <context>
@@ -1626,80 +1627,80 @@ Please try again.</source>
     <name>Graph</name>
     <message>
         <source>Sorry, there isn&apos;t enough data to display a graph here yet!</source>
-        <translation></translation>
+        <translation>죄송하지만,  그래프를 표시할 충분한 데이터가 없습니다!</translation>
     </message>
 </context>
 <context>
     <name>HeatingDevicePage</name>
     <message>
         <source>Boost</source>
-        <translation></translation>
+        <translation>증가</translation>
     </message>
 </context>
 <context>
     <name>Imprint</name>
     <message>
         <source>Developer options are now enabled. If you have found this by accident, it is most likely not of any use for you. It will just enable some nerdy developer gibberish in the app. Tap the icon another 10 times to disable it again.</source>
-        <translation></translation>
+        <translation>이제 개발자 옵션이 활성화됨. 만약 당신이 우연히 이것을 발견했다면, 그것은 당신에게 아무 소용이 없을 것입니다. 그것은  좀 괴짜 개발자가 앱에서 횡설수설 하는 것을 가능하게 할 것입니다. 아이콘을 다시 10회 눌러 사용하지 않도록 설정하십시오.</translation>
     </message>
     <message>
         <source>Developer options are now disabled.</source>
-        <translation></translation>
+        <translation>개발자 옵션이 비활성화 되었습니다.</translation>
     </message>
     <message>
         <source>Howdy cowboy!</source>
-        <translation></translation>
+        <translation>카우보이!</translation>
     </message>
     <message>
         <source>nymea is a registered trademark of guh GmbH.</source>
-        <translation></translation>
+        <translation>nymea는 guh GmbH의 등록 상표입니다.</translation>
     </message>
     <message>
         <source>Licensed under the terms of the GNU general public license, version 2. Please visit the GitHub page for source code and build instructions.</source>
-        <translation></translation>
+        <translation>GNU 일반 공개 라이센스 버전 2의 조건에 따라 라이센스가 부여됨. 소스 코드 및 빌드 지침은 GitHub 페이지를 참조하십시오.</translation>
     </message>
     <message>
         <source>Visit the nymea website</source>
-        <translation></translation>
+        <translation>nymea 웹 사이트 방문</translation>
     </message>
     <message>
         <source>Visit GitHub page</source>
-        <translation></translation>
+        <translation>GitHub 페이지 방문</translation>
     </message>
     <message>
         <source>View privacy policy</source>
-        <translation></translation>
+        <translation>개인 정보 보호 정책 보기</translation>
     </message>
     <message>
         <source>View license text</source>
-        <translation></translation>
+        <translation>라이센스 보기</translation>
     </message>
     <message>
         <source>Qt is a registered trademark of The Qt Company Ltd. and its subsidiaries.</source>
-        <translation></translation>
+        <translation>Qt는 Qt사 및 자회사의 등록 상표입니다.</translation>
     </message>
     <message>
         <source>Visit the Qt website</source>
-        <translation></translation>
+        <translation>Qt 웹 사이트 방문</translation>
     </message>
     <message>
         <source>License text</source>
-        <translation></translation>
+        <translation>라이센스</translation>
     </message>
 </context>
 <context>
     <name>Interfaces</name>
     <message>
         <source>Battery powered devices</source>
-        <translation></translation>
+        <translation>배터리 구동 장치</translation>
     </message>
     <message>
         <source>Battery level is critical</source>
-        <translation></translation>
+        <translation>배터리 용량을 체크하세요</translation>
     </message>
     <message>
         <source>Battery level entered critical state</source>
-        <translation></translation>
+        <translation>배터리 잔량이 위험 상태로 전환됨</translation>
     </message>
     <message>
         <source>Notification services</source>
