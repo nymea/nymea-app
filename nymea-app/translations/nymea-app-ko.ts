@@ -1696,7 +1696,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Battery level is critical</source>
-        <translation>배터리 용량을 체크하세요</translation>
+        <translation>배터리 잔양을 체크하세요</translation>
     </message>
     <message>
         <source>Battery level entered critical state</source>
@@ -1704,35 +1704,35 @@ Please try again.</source>
     </message>
     <message>
         <source>Notification services</source>
-        <translation></translation>
+        <translation>알림 서비스</translation>
     </message>
     <message>
         <source>Title</source>
-        <translation></translation>
+        <translation>제목</translation>
     </message>
     <message>
         <source>Message body</source>
-        <translation></translation>
+        <translation>메시지 본문</translation>
     </message>
     <message>
         <source>Send notification</source>
-        <translation></translation>
+        <translation>보내기</translation>
     </message>
     <message>
         <source>Lights</source>
-        <translation></translation>
+        <translation>전등</translation>
     </message>
     <message>
         <source>Light is turned on</source>
-        <translation></translation>
+        <translation>불이 켜져 있음</translation>
     </message>
     <message>
         <source>A light is turned on or off</source>
-        <translation></translation>
+        <translation>불이 켜지거나 꺼집니다</translation>
     </message>
     <message>
         <source>Turn lights on or off</source>
-        <translation></translation>
+        <translation>조명 켜기 또는 끄기</translation>
     </message>
     <message>
         <source>Temperature sensors</source>
