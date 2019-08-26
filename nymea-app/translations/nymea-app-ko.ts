@@ -2024,7 +2024,7 @@ Please try again.</source>
     <name>LookAndFeelSettingsPage</name>
     <message>
         <source>Look and feel</source>
-        <translation>모양 선택</translation>
+        <translation>스타일(모양) 선택</translation>
     </message>
     <message>
         <source>View mode</source>
