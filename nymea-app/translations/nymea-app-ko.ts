@@ -2064,45 +2064,45 @@ Please try again.</source>
     </message>
     <message>
         <source>Screen off timeout</source>
-        <translation></translation>
+        <translation>화면 끄기 시간 초과</translation>
     </message>
     <message>
         <source>seconds</source>
-        <translation></translation>
+        <translation>초</translation>
     </message>
     <message>
         <source>Screen brightness</source>
-        <translation></translation>
+        <translation>화면 밝기</translation>
     </message>
 </context>
 <context>
     <name>MagicPage</name>
     <message>
         <source>Magic</source>
-        <translation></translation>
+        <translation>마술</translation>
     </message>
     <message>
         <source>There is no magic set up yet.</source>
-        <translation></translation>
+        <translation>아직 설정된 것이 없습니다.</translation>
     </message>
     <message>
         <source>Use magic to make your things smart! In a few easy steps you&apos;ll have your things wired up and work for you.</source>
-        <translation></translation>
+        <translation>당신의 물건(장치)들이 스마트하게 마법을 사용해보세요! 몇 가지 쉬운 단계로 물건(장치)을 연결하고 작동 하게 될 것입니다.</translation>
     </message>
     <message>
         <source>Add some magic</source>
-        <translation></translation>
+        <translation>마법 추가.</translation>
     </message>
 </context>
 <context>
     <name>Main</name>
     <message>
         <source>Garage gates</source>
-        <translation></translation>
+        <translation>차고 문</translation>
     </message>
     <message>
         <source>There are no garage gates set up yet.</source>
-        <translation></translation>
+        <translation>아직 차고 문이 설치되어 있지 않네요..</translation>
     </message>
     <message>
         <source>Set up now</source>
