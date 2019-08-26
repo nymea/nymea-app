@@ -2102,11 +2102,11 @@ Please try again.</source>
     </message>
     <message>
         <source>There are no garage gates set up yet.</source>
-        <translation>아직 차고 문이 설치되어 있지 않네요..</translation>
+        <translation>아직 차고 문이 설치되어 있지 않네요.</translation>
     </message>
     <message>
         <source>Set up now</source>
-        <translation></translation>
+        <translation>지금 설정</translation>
     </message>
     <message>
         <source>Celsi°s</source>
@@ -2114,27 +2114,27 @@ Please try again.</source>
     </message>
     <message>
         <source>There is no drexel und weiss heating system set up yet.</source>
-        <translation></translation>
+        <translation>아직 Greenxel und weiss 난방 시스템은 설치 되지않은 것 같습니다.</translation>
     </message>
     <message>
         <source>Current air quality</source>
-        <translation></translation>
+        <translation>현재 대기질</translation>
     </message>
     <message>
         <source>Current temperature</source>
-        <translation></translation>
+        <translation>현재 온도</translation>
     </message>
     <message>
         <source>Temperature, °C</source>
-        <translation></translation>
+        <translation>온도, °C</translation>
     </message>
     <message>
         <source>Automate this thing</source>
-        <translation></translation>
+        <translation>자동화</translation>
     </message>
     <message>
         <source>Auto</source>
-        <translation></translation>
+        <translation>자동</translation>
     </message>
     <message>
         <source>Party</source>
@@ -2142,129 +2142,129 @@ Please try again.</source>
     </message>
     <message>
         <source>Manual</source>
-        <translation></translation>
+        <translation>수동</translation>
     </message>
 </context>
 <context>
     <name>MainPage</name>
     <message>
         <source>Configure things</source>
-        <translation></translation>
+        <translation>사물(장치) 구성</translation>
     </message>
     <message>
         <source>Magic</source>
-        <translation></translation>
+        <translation>마법사</translation>
     </message>
     <message>
         <source>App settings</source>
-        <translation></translation>
+        <translation>앱 설정</translation>
     </message>
     <message>
         <source>Favorites</source>
-        <translation></translation>
+        <translation>즐겨찾기</translation>
     </message>
     <message>
         <source>Things</source>
-        <translation></translation>
+        <translation>사물(장치)</translation>
     </message>
     <message>
         <source>Scenes</source>
-        <translation></translation>
+        <translation>시나리오</translation>
     </message>
     <message>
         <source>My favorites</source>
-        <translation></translation>
+        <translation>내 즐겨찾기</translation>
     </message>
     <message>
         <source>There are no favorite things yet.</source>
-        <translation></translation>
+        <translation>아직 즐겨찾기가 없습니다.</translation>
     </message>
     <message>
         <source>It appears there are no things set up either yet. In order to use favorites you need to add some things first.</source>
-        <translation></translation>
+        <translation>아직 설정된 것이 없는 것 같습니다. 즐겨찾기를 사용하려면 먼저 몇 가지를 추가해야 합니다.</translation>
     </message>
     <message>
         <source>Favorites allow you to keep track of your most important things when you have lots of them. Watch out for the star when interacting with things and use it to mark them as your favorites.</source>
-        <translation></translation>
+        <translation>즐겨찾기는 당신이 많은 것을 가질 때 가장 중요한 것들을 추적할 수 있게 해줍니다. 사물(장치)과 상호작용할 때 별을 주의하여 즐겨찾기로 표시하십시오.</translation>
     </message>
     <message>
         <source>Add a thing</source>
-        <translation></translation>
+        <translation>사물(장치) 추가</translation>
     </message>
     <message>
         <source>My things</source>
-        <translation></translation>
+        <translation>내 사물(장치)</translation>
     </message>
     <message>
         <source>Welcome to %1!</source>
-        <translation></translation>
+        <translation>%1에 오신 것을 환영합니다!</translation>
     </message>
     <message>
         <source>There are no things set up yet.</source>
-        <translation></translation>
+        <translation>아직 설정된 것이 없습니다.</translation>
     </message>
     <message>
         <source>My scenes</source>
-        <translation></translation>
+        <translation>내 시나리오</translation>
     </message>
     <message>
         <source>There are no scenes set up yet</source>
-        <translation></translation>
+        <translation>아직 설정된  시나리오(연출)가 없습니다.</translation>
     </message>
     <message>
         <source>It appears there are no things set up either yet. In order to use scenes you need to add some things first.</source>
-        <translation></translation>
+        <translation>아직 설정된 것이 없는 것 같습니다. 시나리오를 사용하려면 먼저 몇 가지를 추가해야 합니다.</translation>
     </message>
     <message>
         <source>Scenes provide a useful way to control your things with just one click.</source>
-        <translation></translation>
+        <translation>시나리오는 단 한 번의 클릭으로 여러분의 사물(장치)들을 조절할 수 있는 유용한 방법을 제공합니다.</translation>
     </message>
     <message>
         <source>Add a scene</source>
-        <translation></translation>
+        <translation>시나리오 추가</translation>
     </message>
     <message>
         <source>Loading data...</source>
-        <translation></translation>
+        <translation>데이터를 불러 오는 중...</translation>
     </message>
     <message>
         <source>Connected to</source>
-        <translation></translation>
+        <translation>연결됨</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation></translation>
+        <translation>확인</translation>
     </message>
     <message>
         <source>Disconnect</source>
-        <translation></translation>
+        <translation>연결 끊음</translation>
     </message>
     <message>
         <source>System update in progress...</source>
-        <translation></translation>
+        <translation>시스템 업데이트 진행 중...</translation>
     </message>
     <message numerus="yes">
         <source>%n system update(s) available</source>
-        <translation><numerusform></numerusform>
+        <translation><numerusform>%n 시스템 업데이트 사용 가능</numerusform>
         </translation></message>
     <message>
         <source>System settings</source>
-        <translation></translation>
+        <translation>시스템 설정</translation>
     </message>
     <message>
         <source>In order for your %1 system to be useful, go ahead and add some things.</source>
-        <translation></translation>
+        <translation>%1 시스템이 유용하려면 먼저 몇 가지를 추가하십시오.</translation>
     </message>
 </context>
 <context>
     <name>ManualConnectPage</name>
     <message>
         <source>Manual connection</source>
-        <translation></translation>
+        <translation>수동 연결</translation>
     </message>
     <message>
         <source>Protocol</source>
-        <translation></translation>
+        <translation>프로토콜(통신규약)</translation>
     </message>
     <message>
         <source>TCP</source>
