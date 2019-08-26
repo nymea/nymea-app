@@ -1724,11 +1724,11 @@ Please try again.</source>
     </message>
     <message>
         <source>Light is turned on</source>
-        <translation>불이 켜져 있음</translation>
+        <translation>조명이 켜져 있음</translation>
     </message>
     <message>
         <source>A light is turned on or off</source>
-        <translation>불이 켜지거나 꺼집니다</translation>
+        <translation>조명이 켜지거나 꺼집니다</translation>
     </message>
     <message>
         <source>Turn lights on or off</source>
@@ -1736,51 +1736,51 @@ Please try again.</source>
     </message>
     <message>
         <source>Temperature sensors</source>
-        <translation></translation>
+        <translation>온도 센서</translation>
     </message>
     <message>
         <source>Temperature</source>
-        <translation></translation>
+        <translation>온도</translation>
     </message>
     <message>
         <source>Temperature has changed</source>
-        <translation></translation>
+        <translation>온도가 바뀌었습니다</translation>
     </message>
     <message>
         <source>Closable things</source>
-        <translation></translation>
+        <translation>근거리 사물(장치)</translation>
     </message>
     <message>
         <source>Powered things</source>
-        <translation></translation>
+        <translation>동력 사물(장치)</translation>
     </message>
     <message>
         <source>Thing is turned on</source>
-        <translation></translation>
+        <translation>사물(장치)이 켜져 있음</translation>
     </message>
     <message>
         <source>A thing is turned on or off</source>
-        <translation></translation>
+        <translation>사물(장치)이 켜지거나 꺼집니다</translation>
     </message>
     <message>
         <source>Turn things on or off</source>
-        <translation></translation>
+        <translation>사물(장치) 켜기 또는 끄기</translation>
     </message>
     <message>
         <source>Dimmable lights</source>
-        <translation></translation>
+        <translation>감광등(조명조절)</translation>
     </message>
     <message>
         <source>Light&apos;s brightness is</source>
-        <translation></translation>
+        <translation>조명의 밝기는</translation>
     </message>
     <message>
         <source>A light&apos;s brightness has changed</source>
-        <translation></translation>
+        <translation>조명의 밝기가 바뀌었습니다</translation>
     </message>
     <message>
         <source>Set lights brightness</source>
-        <translation></translation>
+        <translation>조명 밝기 설정</translation>
     </message>
     <message>
         <source>Close</source>
@@ -1788,275 +1788,275 @@ Please try again.</source>
     </message>
     <message>
         <source>Presence sensors</source>
-        <translation></translation>
+        <translation>감지 센서</translation>
     </message>
     <message>
         <source>Is present</source>
-        <translation></translation>
+        <translation>감지됩니다</translation>
     </message>
     <message>
         <source>Presence changed</source>
-        <translation></translation>
+        <translation>감지가 변경 되었습니다</translation>
     </message>
     <message>
         <source>Blinds</source>
-        <translation></translation>
+        <translation>블라인드(가림막)</translation>
     </message>
     <message>
         <source>Open</source>
-        <translation></translation>
+        <translation>열기</translation>
     </message>
     <message>
         <source>Awnings</source>
-        <translation></translation>
+        <translation>차양막</translation>
     </message>
     <message>
         <source>Shutters</source>
-        <translation></translation>
+        <translation>셔터(철문)</translation>
     </message>
     <message>
         <source>Garage gates</source>
-        <translation></translation>
+        <translation>차고 문</translation>
     </message>
     <message>
         <source>Air sensors</source>
-        <translation></translation>
+        <translation>기체 센서</translation>
     </message>
     <message>
         <source>Air quality</source>
-        <translation></translation>
+        <translation>공기질</translation>
     </message>
     <message>
         <source>Air quality changed</source>
-        <translation></translation>
+        <translation>공기질 변화</translation>
     </message>
     <message>
         <source>Humidity sensors</source>
-        <translation></translation>
+        <translation>습도 센서</translation>
     </message>
     <message>
         <source>Humidity</source>
-        <translation></translation>
+        <translation>습도</translation>
     </message>
     <message>
         <source>Humidity changed</source>
-        <translation></translation>
+        <translation>습도 변화</translation>
     </message>
     <message>
         <source>Daylight sensors</source>
-        <translation></translation>
+        <translation>일광 센서</translation>
     </message>
     <message>
         <source>Daylight</source>
-        <translation></translation>
+        <translation>일광(햇빛)</translation>
     </message>
     <message>
         <source>Daylight changed</source>
-        <translation></translation>
+        <translation>일광 변화</translation>
     </message>
     <message>
         <source>EV charger</source>
-        <translation></translation>
+        <translation>EV 충전기</translation>
     </message>
     <message>
         <source>Charging</source>
-        <translation></translation>
+        <translation>충전중</translation>
     </message>
     <message>
         <source>Charging changed</source>
-        <translation></translation>
+        <translation>충전 변경</translation>
     </message>
     <message>
         <source>Enable charging</source>
-        <translation></translation>
+        <translation>충전 활성화</translation>
     </message>
     <message>
         <source>Speakers</source>
-        <translation></translation>
+        <translation>스피커</translation>
     </message>
     <message>
         <source>Increase volume</source>
-        <translation></translation>
+        <translation>볼륨 증가</translation>
     </message>
     <message>
         <source>Decrease volume</source>
-        <translation></translation>
+        <translation>볼륨 감소</translation>
     </message>
     <message>
         <source>Gateways</source>
-        <translation></translation>
+        <translation>통로</translation>
     </message>
     <message>
         <source>Connected</source>
-        <translation></translation>
+        <translation>연결됨</translation>
     </message>
     <message>
         <source>Connected changed</source>
-        <translation></translation>
+        <translation>연결 변경됨</translation>
     </message>
     <message>
         <source>Heatings</source>
-        <translation></translation>
+        <translation>열기구</translation>
     </message>
     <message>
         <source>Heating enabled</source>
-        <translation></translation>
+        <translation>난방 활성화</translation>
     </message>
     <message>
         <source>Heating enabled changed</source>
-        <translation></translation>
+        <translation>난방 활성화 변경</translation>
     </message>
     <message>
         <source>Enable heating</source>
-        <translation></translation>
+        <translation>난방 활성화</translation>
     </message>
     <message>
         <source>Media players</source>
-        <translation></translation>
+        <translation>미디어 플레이어</translation>
     </message>
     <message>
         <source>Playback status</source>
-        <translation></translation>
+        <translation>재생 상태</translation>
     </message>
     <message>
         <source>Playback status changed</source>
-        <translation></translation>
+        <translation>재생 상태가 변경됨</translation>
     </message>
     <message>
         <source>Set playback status</source>
-        <translation></translation>
+        <translation>재생 상태 설정</translation>
     </message>
 </context>
 <context>
     <name>LightsDeviceListPage</name>
     <message>
         <source>Lights</source>
-        <translation></translation>
+        <translation>전등(조명등)</translation>
     </message>
 </context>
 <context>
     <name>LogViewerPage</name>
     <message>
         <source>Log viewer</source>
-        <translation></translation>
+        <translation>기록 보기</translation>
     </message>
     <message>
         <source>%1 Server</source>
-        <translation></translation>
+        <translation>%1 서버</translation>
     </message>
     <message>
         <source>System started</source>
-        <translation></translation>
+        <translation>시스템 시작</translation>
     </message>
     <message>
         <source>Rule triggered</source>
-        <translation></translation>
+        <translation>규칙 작동됨</translation>
     </message>
     <message>
         <source>Actions executed</source>
-        <translation></translation>
+        <translation>실행된 동작</translation>
     </message>
     <message>
         <source>Rule active</source>
-        <translation></translation>
+        <translation>규칙 활성</translation>
     </message>
     <message>
         <source>Rule inactive</source>
-        <translation></translation>
+        <translation>규칙 사용 안 함</translation>
     </message>
     <message>
         <source>Exit actions executed</source>
-        <translation></translation>
+        <translation>실행된 작업 종료</translation>
     </message>
     <message>
         <source>Enabled changed</source>
-        <translation></translation>
+        <translation>사용 가능 변경됨</translation>
     </message>
 </context>
 <context>
     <name>LoginPage</name>
     <message>
         <source>Welcome to %1!</source>
-        <translation></translation>
+        <translation>%1에 오신 것을 환영합니다!</translation>
     </message>
     <message>
         <source>Sorry, that wasn&apos;t right. Try again please.</source>
-        <translation></translation>
+        <translation>미안하지만, 그건 맞지 않아요. 다시 시도하십시오.</translation>
     </message>
     <message>
         <source>The email you&apos;ve entered isn&apos;t valid.</source>
-        <translation></translation>
+        <translation>입력한 이메일이 유효하지 않습니다.</translation>
     </message>
     <message>
         <source>The email you&apos;ve entered is already used.</source>
-        <translation></translation>
+        <translation>입력한 이메일은 이미 사용되고 있습니다.</translation>
     </message>
     <message>
         <source>The password you&apos;ve chose is too weak.</source>
-        <translation></translation>
+        <translation>네가 선택한 암호가 너무 약합니다.</translation>
     </message>
     <message>
         <source>In order to use your %1 system, please log in.</source>
-        <translation></translation>
+        <translation>%1 시스템을 사용하려면 로그인하십시오.</translation>
     </message>
     <message>
         <source>Your e-mail address:</source>
-        <translation></translation>
+        <translation>이메일 주소:</translation>
     </message>
     <message>
         <source>Password:</source>
-        <translation></translation>
+        <translation>비밀번호:</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation></translation>
+        <translation>확인</translation>
     </message>
     <message>
         <source>An error happened with the user storage. Please make sure your %1:core system is installed correctly.</source>
-        <translation></translation>
+        <translation>사용자 저장소에 오류가 발생함. %1:코어 시스템이 올바르게 설치되었는지 확인하십시오.</translation>
     </message>
     <message>
         <source>In order to use your %1 system, please enter your email address and set a password for it.</source>
-        <translation></translation>
+        <translation>%1 시스템을 사용하려면 이메일 주소를 입력하고 암호를 설정하십시오.</translation>
     </message>
 </context>
 <context>
     <name>LookAndFeelSettingsPage</name>
     <message>
         <source>Look and feel</source>
-        <translation></translation>
+        <translation>모양 선택</translation>
     </message>
     <message>
         <source>View mode</source>
-        <translation></translation>
+        <translation>보기 모드</translation>
     </message>
     <message>
         <source>Windowed</source>
-        <translation></translation>
+        <translation>창모양</translation>
     </message>
     <message>
         <source>Maximized</source>
-        <translation></translation>
+        <translation>최대화</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation></translation>
+        <translation>전체 화면</translation>
     </message>
     <message>
         <source>Return to home on idle</source>
-        <translation></translation>
+        <translation type="unfinished">유휴 상태로 집에 돌아가기</translation>
     </message>
     <message>
         <source>Show connection tabs</source>
-        <translation></translation>
+        <translation>연결 탭 표시</translation>
     </message>
     <message>
         <source>Style changed</source>
-        <translation></translation>
+        <translation>스타일 변경됨</translation>
     </message>
     <message>
         <source>The application needs to be restarted for style changes to take effect.</source>
-        <translation></translation>
+        <translation>스타일 변경을 적용하려면 애플리케이션을 다시 시작해야 합니다.</translation>
     </message>
     <message>
         <source>Turn screen off when idle</source>
