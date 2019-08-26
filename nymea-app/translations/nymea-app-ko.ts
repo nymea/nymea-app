@@ -2024,7 +2024,7 @@ Please try again.</source>
     <name>LookAndFeelSettingsPage</name>
     <message>
         <source>Look and feel</source>
-        <translation>스타일(모양) 선택</translation>
+        <translation>스타일(모양)</translation>
     </message>
     <message>
         <source>View mode</source>
@@ -2044,7 +2044,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Return to home on idle</source>
-        <translation type="unfinished">유휴 상태로 집에 돌아가기</translation>
+        <translation>유휴 상태에서 홈으로 돌아가기</translation>
     </message>
     <message>
         <source>Show connection tabs</source>
@@ -2060,7 +2060,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Turn screen off when idle</source>
-        <translation></translation>
+        <translation>유휴 상태일 때 화면 끄기</translation>
     </message>
     <message>
         <source>Screen off timeout</source>
