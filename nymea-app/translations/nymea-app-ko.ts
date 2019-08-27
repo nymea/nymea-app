@@ -2340,198 +2340,198 @@ Please try again.</source>
     <name>MqttPolicyPage</name>
     <message>
         <source>Mqtt permission</source>
-        <translation></translation>
+        <translation>MQTT 권한</translation>
     </message>
     <message>
         <source>Client ID:</source>
-        <translation></translation>
+        <translation>클라이언트 ID:</translation>
     </message>
     <message>
         <source>E.g. Sensor_1</source>
-        <translation></translation>
+        <translation>예: sensor_1</translation>
     </message>
     <message>
         <source>%1 is already used</source>
-        <translation></translation>
+        <translation>%1이(가) 이미 사용됨</translation>
     </message>
     <message>
         <source>Can&apos;t be blank</source>
-        <translation></translation>
+        <translation>공백일 수 없음</translation>
     </message>
     <message>
         <source>Username:</source>
-        <translation></translation>
+        <translation>사용자명:</translation>
     </message>
     <message>
         <source>Optional</source>
-        <translation></translation>
+        <translation>선택가능</translation>
     </message>
     <message>
         <source>Password:</source>
-        <translation></translation>
+        <translation>비밀번호:</translation>
     </message>
     <message>
         <source>Allowed publish topics</source>
-        <translation></translation>
+        <translation>허용된 게시 항목</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation></translation>
+        <translation>확인</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation></translation>
+        <translation>추가</translation>
     </message>
     <message>
         <source>Allowed subscribe filters</source>
-        <translation></translation>
+        <translation>허용된 구독 필터</translation>
     </message>
 </context>
 <context>
     <name>NetworkSettingsPage</name>
     <message>
         <source>Network settings</source>
-        <translation></translation>
+        <translation>네트워크 설정</translation>
     </message>
     <message>
         <source>Networking</source>
-        <translation></translation>
+        <translation>네트워킹</translation>
     </message>
     <message>
         <source>Wireless network</source>
-        <translation></translation>
+        <translation>무선 네트워크</translation>
     </message>
     <message>
         <source>Trigger a wireless scan on the device.</source>
-        <translation></translation>
+        <translation>장치에서 무선 검색을 실행 하십시오.</translation>
     </message>
     <message>
         <source>Unknown</source>
-        <translation></translation>
+        <translation>알 수 없는</translation>
     </message>
     <message>
         <source>Unmanaged</source>
-        <translation></translation>
+        <translation>관리되지 않음</translation>
     </message>
     <message>
         <source>Unavailable</source>
-        <translation></translation>
+        <translation>사용할 수 없음</translation>
     </message>
     <message>
         <source>Disconnected</source>
-        <translation></translation>
+        <translation>연결 끊김</translation>
     </message>
     <message>
         <source>Deactivating</source>
-        <translation></translation>
+        <translation>비활성화</translation>
     </message>
     <message>
         <source>Failed</source>
-        <translation></translation>
+        <translation>실패</translation>
     </message>
     <message>
         <source>Preparing</source>
-        <translation></translation>
+        <translation>준비중</translation>
     </message>
     <message>
         <source>Configuring</source>
-        <translation></translation>
+        <translation>구성</translation>
     </message>
     <message>
         <source>Waiting for password</source>
-        <translation></translation>
+        <translation>비밀번호  대기 중</translation>
     </message>
     <message>
         <source>Setting IP configuration</source>
-        <translation></translation>
+        <translation>IP 구성 설정</translation>
     </message>
     <message>
         <source>Checking IP configuration</source>
-        <translation></translation>
+        <translation>IP 구성 확인 중</translation>
     </message>
     <message>
         <source>Secondaries</source>
-        <translation></translation>
+        <translation>이차적인</translation>
     </message>
     <message>
         <source>Connected</source>
-        <translation></translation>
+        <translation>연결된</translation>
     </message>
     <message>
         <source>Current connection state</source>
-        <translation></translation>
+        <translation>현재 연결 상태</translation>
     </message>
     <message>
         <source>Asleep</source>
-        <translation></translation>
+        <translation>자고 있다</translation>
     </message>
     <message>
         <source>Disconnecting</source>
-        <translation></translation>
+        <translation>연결 끊기</translation>
     </message>
     <message>
         <source>Connecting</source>
-        <translation></translation>
+        <translation>연결하기</translation>
     </message>
     <message>
         <source>Locally connected</source>
-        <translation></translation>
+        <translation>로컬로 연결됨</translation>
     </message>
     <message>
         <source>Site connected</source>
-        <translation></translation>
+        <translation>사이트 연결됨</translation>
     </message>
     <message>
         <source>Globally connected</source>
-        <translation></translation>
+        <translation>글로벌 연결</translation>
     </message>
     <message>
         <source>Networking enabled</source>
-        <translation></translation>
+        <translation>네트워킹 사용</translation>
     </message>
     <message>
         <source>Enable or disable networking altogether</source>
-        <translation></translation>
+        <translation>네트워킹을 모두 사용 또는 사용 안 함</translation>
     </message>
     <message>
         <source>Disable networking?</source>
-        <translation></translation>
+        <translation>네트워킹을 사용하지 않도록 설정하시겠습니까?</translation>
     </message>
     <message>
         <source>Wired network</source>
-        <translation></translation>
+        <translation>유선 네트워크</translation>
     </message>
     <message>
         <source>Shows the current ethernet status</source>
-        <translation></translation>
+        <translation>현재 이더넷 상태 표시</translation>
     </message>
     <message>
         <source>Plugged in</source>
-        <translation></translation>
+        <translation>연결됨</translation>
     </message>
     <message>
         <source>Unplugged</source>
-        <translation></translation>
+        <translation>연결 해제</translation>
     </message>
     <message>
         <source>Enable or disable WiFi</source>
-        <translation></translation>
+        <translation>WiFi 사용 또는 사용 안 함</translation>
     </message>
     <message>
         <source>Disable WiFi?</source>
-        <translation></translation>
+        <translation>WiFi를 비활성화 하시겠습니까?</translation>
     </message>
     <message>
         <source>WiFi networks</source>
-        <translation></translation>
+        <translation>WiFi 네트워크</translation>
     </message>
     <message>
         <source>Authenticate</source>
-        <translation></translation>
+        <translation>인증</translation>
     </message>
     <message>
         <source>Enter the password for %1</source>
-        <translation></translation>
+        <translation>%1의 암호를 입력하십시오.</translation>
     </message>
     <message>
         <source>OK</source>
