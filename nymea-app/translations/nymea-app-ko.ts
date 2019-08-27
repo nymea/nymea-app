@@ -2260,7 +2260,7 @@ Please try again.</source>
     <name>ManualConnectPage</name>
     <message>
         <source>Manual connection</source>
-        <translation>수동 연결</translation>
+        <translation>Manual connection</translation>
     </message>
     <message>
         <source>Protocol</source>
