@@ -2260,7 +2260,7 @@ Please try again.</source>
     <name>ManualConnectPage</name>
     <message>
         <source>Manual connection</source>
-        <translation>Manual connection</translation>
+        <translation>수동 연결</translation>
     </message>
     <message>
         <source>Protocol</source>
@@ -2276,64 +2276,64 @@ Please try again.</source>
     </message>
     <message>
         <source>Address:</source>
-        <translation></translation>
+        <translation>서버주소:</translation>
     </message>
     <message>
         <source>Port:</source>
-        <translation></translation>
+        <translation>포트:</translation>
     </message>
     <message>
         <source>Encrypted connection:</source>
-        <translation></translation>
+        <translation>보안 연결:</translation>
     </message>
     <message>
         <source>Connect</source>
-        <translation></translation>
+        <translation>접속하기</translation>
     </message>
 </context>
 <context>
     <name>MediaDeviceListPage</name>
     <message>
         <source>Media</source>
-        <translation></translation>
+        <translation>미디어</translation>
     </message>
     <message>
         <source>No playback</source>
-        <translation></translation>
+        <translation>재생 안 함</translation>
     </message>
 </context>
 <context>
     <name>MediaDevicePage</name>
     <message>
         <source>Error: %1</source>
-        <translation></translation>
+        <translation>오류: %1</translation>
     </message>
 </context>
 <context>
     <name>MqttBrokerSettingsPage</name>
     <message>
         <source>MQTT broker</source>
-        <translation></translation>
+        <translation>MQTT 브로커</translation>
     </message>
     <message>
         <source>MQTT Server Interfaces</source>
-        <translation></translation>
+        <translation>MQTT 서버 인터페이스</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation></translation>
+        <translation>추가</translation>
     </message>
     <message>
         <source>MQTT permissions</source>
-        <translation></translation>
+        <translation>MQTT 권한</translation>
     </message>
     <message>
         <source>Client ID: %1</source>
-        <translation></translation>
+        <translation>클라이언트 ID: %1</translation>
     </message>
     <message>
         <source>Username: %1</source>
-        <translation></translation>
+        <translation>사용자명: %1</translation>
     </message>
 </context>
 <context>
