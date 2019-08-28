@@ -2808,11 +2808,11 @@ Please try again.</source>
     <name>ParamDescriptorDelegate</name>
     <message>
         <source>is</source>
-        <translation>입니다</translation>
+        <translation>이다</translation>
     </message>
     <message>
         <source>is not</source>
-        <translation>아닙니다</translation>
+        <translation>아니다</translation>
     </message>
     <message>
         <source>is greater</source>
@@ -2824,100 +2824,100 @@ Please try again.</source>
     </message>
     <message>
         <source>is greater or equal</source>
-        <translation></translation>
+        <translation>크거나 같음</translation>
     </message>
     <message>
         <source>is smaller or equal</source>
-        <translation></translation>
+        <translation>작거나 같음</translation>
     </message>
 </context>
 <context>
     <name>PasswordTextField</name>
     <message>
         <source>Pick a password</source>
-        <translation></translation>
+        <translation>암호 선택</translation>
     </message>
 </context>
 <context>
     <name>PluginParamsPage</name>
     <message>
         <source>%1 settings</source>
-        <translation></translation>
+        <translation>%1 설정</translation>
     </message>
 </context>
 <context>
     <name>PluginsPage</name>
     <message>
         <source>Plugins</source>
-        <translation></translation>
+        <translation>플러그인</translation>
     </message>
     <message>
         <source>This list shows the list of installed plugins on this %1 system.</source>
-        <translation></translation>
+        <translation>이 목록은 이 %1 시스템에 설치된 플러그인 목록을 보여줍니다.</translation>
     </message>
 </context>
 <context>
     <name>PowerSocketsDeviceListPage</name>
     <message>
         <source>My %1</source>
-        <translation></translation>
+        <translation>소켓 %1</translation>
     </message>
 </context>
 <context>
     <name>PushButtonAuthPage</name>
     <message>
         <source>Welcome to %1!</source>
-        <translation></translation>
+        <translation>%1에 오신 것을 환영한다!</translation>
     </message>
     <message>
         <source>Sorry, something went wrong during the setup. Try again please.</source>
-        <translation></translation>
+        <translation>미안하지만, 설치 중에 뭔가 잘못됐어요. 다시 시도하십시오.</translation>
     </message>
     <message>
         <source>Authentication required</source>
-        <translation></translation>
+        <translation>인증 필요</translation>
     </message>
     <message>
         <source>Please press the button on your %1 box to authenticate this device.</source>
-        <translation></translation>
+        <translation>%1 상자(장치)의 버튼을 눌러 이 장치를 인증하십시오.</translation>
     </message>
 </context>
 <context>
     <name>RemoveDeviceMethodDialog</name>
     <message>
         <source>This thing is currently used in one or more rules:</source>
-        <translation></translation>
+        <translation>이것은 현재 하나 이상의 규칙에서 사용되고 있습니다.</translation>
     </message>
     <message>
         <source>Remove all those rules</source>
-        <translation></translation>
+        <translation>모든 규칙 제거</translation>
     </message>
     <message>
         <source>Update rules, removing this thing</source>
-        <translation></translation>
+        <translation>이 사물(장치)를 제거하고 규칙 업데이트</translation>
     </message>
     <message>
         <source>Don&apos;t remove this thing</source>
-        <translation></translation>
+        <translation>이 사물(장치)을 제거하지 마십시오.</translation>
     </message>
 </context>
 <context>
     <name>RootItem</name>
     <message>
         <source>Connection error</source>
-        <translation></translation>
+        <translation>연결 오류</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation></translation>
+        <translation>확인</translation>
     </message>
     <message>
         <source>New connection</source>
-        <translation></translation>
+        <translation>새 연결</translation>
     </message>
     <message>
         <source>Sorry, the version of the %1:core you are trying to connect to is too old. This app requires at least version %2 but this %1:core only supports %3</source>
-        <translation></translation>
+        <translation>죄송합니다, 연결하려는 %1:코어의 버전이 너무 오래됨. 이 앱은 %2 버전 이상이 필요하지만 이 %1: 코어는 %3만 지원합니다</translation>
     </message>
 </context>
 <context>
@@ -2932,11 +2932,11 @@ Please try again.</source>
     </message>
     <message>
         <source>value from event</source>
-        <translation></translation>
+        <translation>이벤트 값</translation>
     </message>
     <message>
         <source>Unknown item</source>
-        <translation></translation>
+        <translation>알 수 없는 항목</translation>
     </message>
 </context>
 <context>
@@ -2948,182 +2948,182 @@ Please try again.</source>
     </message>
     <message>
         <source>Confirm password</source>
-        <translation></translation>
+        <translation>비밀번호 확인</translation>
     </message>
     <message>
         <source>&lt;font color=&quot;%1&quot;&gt;The passwords match.&lt;/font&gt;</source>
-        <translation></translation>
+        <translation>&lt;font color=&quot;%1&quot; &gt;암호가 일치 합니다.&lt;/font&gt;</translation>
     </message>
     <message>
         <source>&lt;font color=&quot;%1&quot;&gt;The passwords &lt;/font&gt;&lt;font color=&quot;%2&quot;&gt;do not&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt; match.&lt;/font&gt;</source>
-        <translation></translation>
+        <translation>&lt;font color=&quot;%1&quot;&gt;비밀번호가 &lt;/font&gt;&lt;font color=&quot;%2&quot;&gt;틀립니다.&lt;/font&gt;</translation>
     </message>
     <message>
         <source>only if %1 %2 %3</source>
-        <translation></translation>
+        <translation>%1 %2 %3인 경우에만 해당</translation>
     </message>
     <message>
         <source>and %1 %2 %3</source>
-        <translation></translation>
+        <translation>%1 %2 %3</translation>
     </message>
     <message>
         <source>&lt;font color=&quot;%1&quot;&gt;The password needs to be &lt;/font&gt;&lt;font color=&quot;%2&quot;&gt;at least %3 characters long&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt;, contain &lt;/font&gt;&lt;font color=&quot;%4&quot;&gt;lowercase&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt;, &lt;/font&gt;&lt;font color=&quot;%5&quot;&gt;uppercase&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt; letters as well as &lt;/font&gt;&lt;font color=&quot;%6&quot;&gt;numbers&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt; and &lt;/font&gt;&lt;font color=&quot;%7&quot;&gt;special characters&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt;.&lt;/font&gt;</source>
-        <translation></translation>
+        <translation>&lt;font color = &quot;% 1&quot;&gt; 비밀번호는 &lt;/ font&gt; &lt;font color = &quot;% 2&quot;&gt; 최소 % 3 자 이상이어야 합니다 &lt;/ font&gt; &lt;font color = &quot;% 1&quot;&gt; 포함 &lt;/ font&gt; &lt;font color = &quot;% 4&quot;&gt; 소문자 &lt;/ font&gt; &lt;font color = &quot;% 1&quot;&gt;, &lt;/ font&gt; &lt;font color = &quot;% 5&quot;&gt; 대문자 &lt;/ font&gt; &lt;font color = &quot;% 1 &quot;&gt; 문자 및 &lt;/ font&gt; &lt;font color =&quot;% 6 &quot;&gt; 숫자 &lt;/ font&gt; &lt;font color =&quot;% 1 &quot;&gt; 및 &lt;/ font&gt; &lt;font color =&quot;% 7 &quot;&gt; 특수 문자 &lt;/ font&gt; &lt;font color = &quot;% 1&quot;&gt;. &lt;/ font&gt;</translation>
     </message>
 </context>
 <context>
     <name>SelectActionPage</name>
     <message>
         <source>Switch lights...</source>
-        <translation></translation>
+        <translation>조명 스위치...</translation>
     </message>
     <message>
         <source>Control media playback...</source>
-        <translation></translation>
+        <translation>미디어 재생 제어...</translation>
     </message>
     <message>
         <source>Mute media playback...</source>
-        <translation></translation>
+        <translation>미디어 재생 음소거...</translation>
     </message>
     <message>
         <source>Notify me...</source>
-        <translation></translation>
+        <translation>알림...</translation>
     </message>
     <message>
         <source>Manually configure an action...</source>
-        <translation></translation>
+        <translation>수동으로 작업 구성...</translation>
     </message>
     <message>
         <source>Select device</source>
-        <translation></translation>
+        <translation>장치 선택</translation>
     </message>
     <message>
         <source>Select action</source>
-        <translation></translation>
+        <translation>작업 선택</translation>
     </message>
     <message>
         <source>params</source>
-        <translation></translation>
+        <translation>매개 변수</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation></translation>
+        <translation>확인</translation>
     </message>
     <message>
         <source>Switch lights</source>
-        <translation></translation>
+        <translation>조명 스위치</translation>
     </message>
     <message>
         <source>Set selected lights power to</source>
-        <translation></translation>
+        <translation>선택한 조명 전원을 다음으로 설정</translation>
     </message>
     <message>
         <source>Send notification</source>
-        <translation></translation>
+        <translation>알림 보내기</translation>
     </message>
     <message>
         <source>Notification text</source>
-        <translation></translation>
+        <translation>알림 내용</translation>
     </message>
 </context>
 <context>
     <name>SelectBrowserItemActionPage</name>
     <message>
         <source>Select item</source>
-        <translation></translation>
+        <translation>항목 선택</translation>
     </message>
 </context>
 <context>
     <name>SelectEventDescriptorParamsPage</name>
     <message>
         <source>Only consider event if</source>
-        <translation></translation>
+        <translation>다음 경우에만 이벤트 고려</translation>
     </message>
 </context>
 <context>
     <name>SelectRuleActionPage</name>
     <message>
         <source>Open an item on this thing...</source>
-        <translation></translation>
+        <translation>이 사물(장치)에 대한 항목을 여십시오...</translation>
     </message>
 </context>
 <context>
     <name>SelectRuleActionParamsPage</name>
     <message>
         <source>Use static value as parameter</source>
-        <translation></translation>
+        <translation>정적(고정) 값을 매개 변수로 사용</translation>
     </message>
     <message>
         <source>Use event parameter</source>
-        <translation></translation>
+        <translation>이벤트 매개 변수 사용</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation></translation>
+        <translation>확인</translation>
     </message>
     <message>
         <source>Use a thing&apos;s state value</source>
-        <translation></translation>
+        <translation>사물(장치)의 상태 값 사용</translation>
     </message>
     <message>
         <source>Insert value here</source>
-        <translation></translation>
+        <translation>여기에 값 삽입</translation>
     </message>
     <message>
         <source>Select a state</source>
-        <translation></translation>
+        <translation>상태 선택</translation>
     </message>
 </context>
 <context>
     <name>SelectStateDescriptorParamsPage</name>
     <message>
         <source>Options</source>
-        <translation></translation>
+        <translation>선택(옵션)</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation></translation>
+        <translation>확인</translation>
     </message>
 </context>
 <context>
     <name>SelectStatePage</name>
     <message>
         <source>Select state</source>
-        <translation></translation>
+        <translation>상태 선택</translation>
     </message>
 </context>
 <context>
     <name>SelectThingPage</name>
     <message>
         <source>Select a kind of things</source>
-        <translation></translation>
+        <translation>종류 선택</translation>
     </message>
     <message>
         <source>Select a %1</source>
-        <translation></translation>
+        <translation>%1 선택</translation>
     </message>
     <message>
         <source>Select a thing</source>
-        <translation></translation>
+        <translation>사물(장치) 선택</translation>
     </message>
     <message>
         <source>Any %1</source>
-        <translation></translation>
+        <translation>아무나 %1</translation>
     </message>
 </context>
 <context>
     <name>SensorDevicePagePost110</name>
     <message>
         <source>Last seen:</source>
-        <translation></translation>
+        <translation>마지막으로 본:</translation>
     </message>
     <message>
         <source>Sunrise:</source>
-        <translation></translation>
+        <translation>일출:</translation>
     </message>
     <message>
         <source>Sunset:</source>
-        <translation></translation>
+        <translation>일몰:</translation>
     </message>
 </context>
 <context>
@@ -3145,30 +3145,30 @@ Please try again.</source>
     <name>SensorsDeviceListPage</name>
     <message>
         <source>Sensors</source>
-        <translation></translation>
+        <translation>센서</translation>
     </message>
     <message>
         <source>is closed</source>
-        <translation></translation>
+        <translation>닫힘</translation>
     </message>
     <message>
         <source>is open</source>
-        <translation></translation>
+        <translation>열림</translation>
     </message>
 </context>
 <context>
     <name>ServerConfigurationDialog</name>
     <message>
         <source>Server configuration</source>
-        <translation></translation>
+        <translation>서버 구성</translation>
     </message>
     <message>
         <source>Interface</source>
-        <translation></translation>
+        <translation>인터페이스</translation>
     </message>
     <message>
         <source>Any</source>
-        <translation></translation>
+        <translation>아무나</translation>
     </message>
     <message>
         <source>Localhost</source>
@@ -3176,50 +3176,50 @@ Please try again.</source>
     </message>
     <message>
         <source>Custom</source>
-        <translation></translation>
+        <translation>사용자 설정</translation>
     </message>
     <message>
         <source>Address:</source>
-        <translation></translation>
+        <translation>주소:</translation>
     </message>
     <message>
         <source>Port:</source>
-        <translation></translation>
+        <translation>포트:</translation>
     </message>
     <message>
         <source>SSL enabled</source>
-        <translation></translation>
+        <translation>SSL 가능</translation>
     </message>
     <message>
         <source>Login required</source>
-        <translation></translation>
+        <translation>로그인 필요</translation>
     </message>
 </context>
 <context>
     <name>SettingsPage</name>
     <message>
         <source>General</source>
-        <translation></translation>
+        <translation>일반적인</translation>
     </message>
     <message>
         <source>Change system name and time zone</source>
-        <translation></translation>
+        <translation>시스템 이름 및 시간대 변경</translation>
     </message>
     <message>
         <source>Log viewer</source>
-        <translation></translation>
+        <translation>로그 뷰어</translation>
     </message>
     <message>
         <source>View system log</source>
-        <translation></translation>
+        <translation>시스템 로그 보기</translation>
     </message>
     <message>
         <source>Cloud</source>
-        <translation></translation>
+        <translation>클라우드</translation>
     </message>
     <message>
         <source>API interfaces</source>
-        <translation></translation>
+        <translation>API 인터페이스</translation>
     </message>
     <message>
         <source>MQTT broker</source>
