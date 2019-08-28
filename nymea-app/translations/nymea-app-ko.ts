@@ -3548,7 +3548,7 @@ Do you want to proceed?</source>
     <name>TimeEventDelegate</name>
     <message>
         <source>At %1</source>
-        <translation>%1에서</translation>
+        <translation>%1에</translation>
     </message>
     <message>
         <source>repeated %1</source>
@@ -3556,51 +3556,51 @@ Do you want to proceed?</source>
     </message>
     <message>
         <source>never</source>
-        <translation></translation>
+        <translation>안함</translation>
     </message>
     <message>
         <source>hourly</source>
-        <translation></translation>
+        <translation>매시간</translation>
     </message>
     <message>
         <source>daily</source>
-        <translation></translation>
+        <translation>매일</translation>
     </message>
     <message>
         <source>Mon</source>
-        <translation></translation>
+        <translation>월요일</translation>
     </message>
     <message>
         <source>Tue</source>
-        <translation></translation>
+        <translation>화요일</translation>
     </message>
     <message>
         <source>Wed</source>
-        <translation></translation>
+        <translation>수요일</translation>
     </message>
     <message>
         <source>Thu</source>
-        <translation></translation>
+        <translation>목요일</translation>
     </message>
     <message>
         <source>Fri</source>
-        <translation></translation>
+        <translation>금요일</translation>
     </message>
     <message>
         <source>Sat</source>
-        <translation></translation>
+        <translation>토요일</translation>
     </message>
     <message>
         <source>Sun</source>
-        <translation></translation>
+        <translation>일요일</translation>
     </message>
     <message>
         <source>weekly on %1</source>
-        <translation></translation>
+        <translation>%1 주간</translation>
     </message>
     <message>
         <source>monthly on the %1</source>
-        <translation></translation>
+        <translation>매월 % 1에</translation>
     </message>
     <message>
         <source>every year</source>
