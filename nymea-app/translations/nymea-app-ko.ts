@@ -3330,7 +3330,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Thing reconfigured!</source>
-        <translation>다시 구성됨!</translation>
+        <translation>사물(장치)이 다시 구성 되었습니다!</translation>
     </message>
     <message>
         <source>Thing added!</source>
@@ -3342,45 +3342,45 @@ Please try again.</source>
     </message>
     <message>
         <source>All done. You can now start using %1.</source>
-        <translation></translation>
+        <translation>모두 마침. 이제 %1을(를) 사용할 수 있습니다.</translation>
     </message>
     <message>
         <source>Something went wrong setting up this thing...</source>
-        <translation></translation>
+        <translation>뭔가 잘못 셋팅 된 것 같습니다.</translation>
     </message>
     <message>
         <source>Ok</source>
-        <translation></translation>
+        <translation>확인</translation>
     </message>
     <message>
         <source>First setup</source>
-        <translation></translation>
+        <translation>첫 번째 설정</translation>
     </message>
     <message>
         <source>Welcome to %1!</source>
-        <translation></translation>
+        <translation>%1에 오신 것을 환영합니다!</translation>
     </message>
     <message>
         <source>This %1 system has not been set up yet. This wizard will guide you through a few simple steps to set it up.</source>
-        <translation></translation>
+        <translation>이 %1 시스템은 아직 설정되지 않았습니다.  마법사는 몇 가지 간단한 단계를 안내합니다.</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation></translation>
+        <translation>다음</translation>
     </message>
 </context>
 <context>
     <name>ShutterDeviceListPage</name>
     <message>
         <source>Shutters</source>
-        <translation></translation>
+        <translation>셔터</translation>
     </message>
 </context>
 <context>
     <name>SimpleStateEvaluatorDelegate</name>
     <message>
         <source>Press to edit condition</source>
-        <translation></translation>
+        <translation>조건을 편집하려면 누르십시오.</translation>
     </message>
     <message>
         <source>%1: %2 %3 %4</source>
@@ -3391,34 +3391,34 @@ Please try again.</source>
     <name>SmartMeterDeviceListPage</name>
     <message>
         <source>Smart meters</source>
-        <translation></translation>
+        <translation>스마트 미터(측정기)</translation>
     </message>
 </context>
 <context>
     <name>StateEvaluatorDelegate</name>
     <message>
         <source>and all of those</source>
-        <translation></translation>
+        <translation>또한 그것을 포함하여</translation>
     </message>
     <message>
         <source>or any of those</source>
-        <translation></translation>
+        <translation>아니면 그 중 어느 것</translation>
     </message>
     <message>
         <source>Add a condition</source>
-        <translation></translation>
+        <translation>조건 추가</translation>
     </message>
     <message>
         <source>Edit condition...</source>
-        <translation></translation>
+        <translation>조건 편집...</translation>
     </message>
     <message>
         <source>When one of my things is in a certain state</source>
-        <translation></translation>
+        <translation>내 사물(장치) 중 하나가 어떤 상태에 있을 때</translation>
     </message>
     <message>
         <source>When a thing of a given type enters a state</source>
-        <translation></translation>
+        <translation>주어진 유형의 사물(장치)가 상태에 들어갈 때</translation>
     </message>
 </context>
 <context>
