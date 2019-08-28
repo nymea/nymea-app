@@ -3684,11 +3684,11 @@ Do you want to proceed?</source>
     </message>
     <message>
         <source>Custom</source>
-        <translation>사용자 설정</translation>
+        <translation>일반구성</translation>
     </message>
     <message>
         <source>Address:</source>
-        <translation></translation>
+        <translation>주소:</translation>
     </message>
     <message>
         <source>Port:</source>
