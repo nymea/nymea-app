@@ -3425,133 +3425,134 @@ Please try again.</source>
     <name>StateLogPage</name>
     <message>
         <source>History for %1</source>
-        <translation></translation>
+        <translation>%1에 대한 기록</translation>
     </message>
     <message>
         <source>Log</source>
-        <translation></translation>
+        <translation>기록</translation>
     </message>
     <message>
         <source>Graph</source>
-        <translation></translation>
+        <translation>그래프</translation>
     </message>
 </context>
 <context>
     <name>SystemUpdatePage</name>
     <message>
         <source>System update</source>
-        <translation></translation>
+        <translation>시스템 업데이트</translation>
     </message>
     <message>
         <source>Your system is up to date.</source>
-        <translation></translation>
+        <translation>시스템이 최신 상태입니다.</translation>
     </message>
     <message>
         <source>Update all</source>
-        <translation></translation>
+        <translation>모두 업데이트</translation>
     </message>
     <message>
         <source>This will start a system update. Note that the update might take several minutes and your %1:core might not be functioning properly during this time and restart during the process.
 Do you want to proceed?</source>
-        <translation></translation>
+        <translation>시스템 업데이트가 시작됩니다. 업데이트에는 몇 분이 걸릴 수 있으며이 시간 동안 % 1 : core가 제대로 작동하지 않고 프로세스 중에 다시 시작될 수 있습니다. 진행 하시겠습니까?</translation>
     </message>
     <message>
         <source>Configure update sources</source>
-        <translation></translation>
+        <translation>업데이트 소스 구성</translation>
     </message>
     <message>
         <source>Enabling additional software sources allows to install unreleased %1:core packages.
 This can potentially break your system and lead to problems.
 Please only use this if you are sure you want this and consider reporting the issues you find when testing unreleased channels.</source>
-        <translation></translation>
+        <translation>추가 소프트웨어 소스를 사용하면 릴리스 되지 않은 % 1 : core 패키지를 설치할 수 있습니다. 잠재적으로 시스템이 손상되어 문제가 발생할 수 있습니다. 원하는 경우에만 사용하고 출시되지 않은 채널을 테스트 할 때 발견 된 문제를  알려 주세요.</translation>
     </message>
     <message>
         <source>Enable package source</source>
-        <translation></translation>
+        <translation>패키지 원본 사용</translation>
     </message>
     <message>
         <source>All packages</source>
-        <translation></translation>
+        <translation>모든 패키지</translation>
     </message>
     <message>
         <source>Installed version:</source>
-        <translation></translation>
+        <translation>설치된 버전:</translation>
     </message>
     <message>
         <source>Candidate version:</source>
-        <translation></translation>
+        <translation>후보 버전:</translation>
     </message>
     <message>
         <source>Update</source>
-        <translation></translation>
+        <translation>업데이트</translation>
     </message>
     <message>
         <source>Install</source>
-        <translation></translation>
+        <translation>설치</translation>
     </message>
     <message>
         <source>Start update</source>
-        <translation></translation>
+        <translation>업데이트 시작</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation></translation>
+        <translation>제거</translation>
     </message>
     <message>
         <source>Remove package</source>
-        <translation></translation>
+        <translation>패키지 제거</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation></translation>
+        <translation>설정</translation>
     </message>
     <message>
         <source>Checking for updates...</source>
-        <translation></translation>
+        <translation>업데이트를 확인하는 중...</translation>
     </message>
     <message>
         <source>Check for updates</source>
-        <translation></translation>
+        <translation>업데이트 확인</translation>
     </message>
     <message numerus="yes">
         <source>%n update(s) available</source>
-        <translation><numerusform></numerusform>
+        <translation><numerusform>%n 업데이트 사용 가능</numerusform>
         </translation></message>
     <message>
         <source>Check again</source>
-        <translation></translation>
+        <translation>다시 확인</translation>
     </message>
     <message>
         <source>Install or remove software</source>
-        <translation></translation>
+        <translation>소프트웨어 설치 또는 제거</translation>
     </message>
     <message>
         <source>Package information</source>
-        <translation></translation>
+        <translation>패키지 정보</translation>
     </message>
     <message>
         <source>Not installed</source>
-        <translation></translation>
+        <translation>설치되지 않음</translation>
     </message>
     <message>
         <source>This will start a system update. Note that the update might take several minutes and your %1:core might not be functioning properly or restart during this time.</source>
-        <translation></translation>
+        <translation>시스템 업데이트가 시작됩니다. 업데이트하는 데 몇 분이 걸릴 수 있으며 이 시간 동안 % 1 : core가 제대로 작동하지 않거나 다시 시작될 수 있습니다.</translation>
     </message>
     <message>
         <source>
 Do you want to proceed?</source>
-        <translation></translation>
+        <translation>
+진행 하시겠습니까?</translation>
     </message>
 </context>
 <context>
     <name>TimeEventDelegate</name>
     <message>
         <source>At %1</source>
-        <translation></translation>
+        <translation>%1에서</translation>
     </message>
     <message>
         <source>repeated %1</source>
-        <translation></translation>
+        <translation>%1 반복</translation>
     </message>
     <message>
         <source>never</source>
