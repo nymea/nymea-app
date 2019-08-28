@@ -2730,39 +2730,39 @@ Please try again.</source>
     </message>
     <message>
         <source>Access control</source>
-        <translation>출입통제</translation>
+        <translation>출입통제(방범)</translation>
     </message>
     <message>
         <source>Smart meters</source>
-        <translation></translation>
+        <translation>스마트 미터</translation>
     </message>
     <message>
         <source>Heatings</source>
-        <translation></translation>
+        <translation>난방기(온열기)</translation>
     </message>
     <message>
         <source>EV-chargers</source>
-        <translation></translation>
+        <translation>EV 충전기</translation>
     </message>
     <message>
         <source>Power sockets</source>
-        <translation></translation>
+        <translation>전원 소켓</translation>
     </message>
     <message>
         <source>Uncategorized</source>
-        <translation></translation>
+        <translation>다른 분류</translation>
     </message>
     <message>
         <source>light</source>
-        <translation></translation>
+        <translation>빛</translation>
     </message>
     <message>
         <source>sensor</source>
-        <translation></translation>
+        <translation>센서</translation>
     </message>
     <message>
         <source>battery powered thing</source>
-        <translation></translation>
+        <translation>배터리로 움직이는 것</translation>
     </message>
     <message>
         <source>connectable thing</source>
