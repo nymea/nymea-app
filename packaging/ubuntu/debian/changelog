@@ -1,3 +1,10 @@
+nymea-app (1.0.140) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add support for OAuth during thing setup
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 28 Aug 2019 12:18:25 +0200
+
 nymea-app (1.0.139) bionic; urgency=medium
 
   [ Michael Zanetti ]
