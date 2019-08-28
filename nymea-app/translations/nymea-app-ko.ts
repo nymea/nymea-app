@@ -3684,7 +3684,7 @@ Do you want to proceed?</source>
     </message>
     <message>
         <source>Custom</source>
-        <translation>일반구성</translation>
+        <translation>사용자 구성</translation>
     </message>
     <message>
         <source>Address:</source>
@@ -3692,34 +3692,34 @@ Do you want to proceed?</source>
     </message>
     <message>
         <source>Port:</source>
-        <translation></translation>
+        <translation>포트:</translation>
     </message>
     <message>
         <source>SSL enabled</source>
-        <translation></translation>
+        <translation>SSL 가능</translation>
     </message>
     <message>
         <source>Login required</source>
-        <translation></translation>
+        <translation>로그인 필요</translation>
     </message>
     <message>
         <source>Public folder</source>
-        <translation></translation>
+        <translation>공용 폴더</translation>
     </message>
 </context>
 <context>
     <name>WebServerSettingsPage</name>
     <message>
         <source>Web server</source>
-        <translation></translation>
+        <translation>Web 서버</translation>
     </message>
     <message>
         <source>Web server interfaces</source>
-        <translation></translation>
+        <translation>Web 서버 인터페이스</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation></translation>
+        <translation>추가</translation>
     </message>
 </context>
 <context>
@@ -3761,19 +3761,19 @@ Do you want to proceed?</source>
     <name>WirelessSetupPage</name>
     <message>
         <source>Wireless network setup</source>
-        <translation></translation>
+        <translation>무선 네트워크 설정</translation>
     </message>
     <message>
         <source>IP address: %1</source>
-        <translation></translation>
+        <translation>IP 주소 : % 1</translation>
     </message>
     <message>
         <source>Change network</source>
-        <translation></translation>
+        <translation>네트워크 변경</translation>
     </message>
     <message>
         <source>Close wireless setup</source>
-        <translation></translation>
+        <translation>무선 설정 닫기</translation>
     </message>
     <message>
         <source>Your %1:core is connected to %2</source>
