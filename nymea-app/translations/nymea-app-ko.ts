@@ -2535,11 +2535,11 @@ Please try again.</source>
     </message>
     <message>
         <source>OK</source>
-        <translation></translation>
+        <translation>확인</translation>
     </message>
     <message>
         <source>Current connection</source>
-        <translation></translation>
+        <translation>현재 연결</translation>
     </message>
     <message>
         <source>SSID</source>
@@ -2547,190 +2547,190 @@ Please try again.</source>
     </message>
     <message>
         <source>MAC Address</source>
-        <translation></translation>
+        <translation>MAC 주소</translation>
     </message>
     <message>
         <source>Signal strength</source>
-        <translation></translation>
+        <translation>신호 강도</translation>
     </message>
     <message>
         <source>Disconnect</source>
-        <translation></translation>
+        <translation>연결 끊기</translation>
     </message>
     <message>
         <source>Disabling networking will disconnect all connected clients. Be aware that you will not be able to interact remotely with this %1 system any more. Do not proceed unless you know what your are doing.</source>
-        <translation></translation>
+        <translation>네트워킹을 사용하지 않도록 설정하면 연결된 모든 클라이언트의 연결이 끊어집니다. 이 %1 시스템과 더 이상 원격으로 상호 작용할 수 없다는 점에 유의하십시오. 당신이 무엇을 하고 있는지 모른다면 진행하지 마십시오.</translation>
     </message>
     <message>
         <source>Do you want to proceed?</source>
-        <translation></translation>
+        <translation>계속하시겠습니까?</translation>
     </message>
     <message>
         <source>Disabling WiFi will disconnect all clients connected via WiFi. Be aware that you will not be able to interact remotely with this %1 system any more unless a LAN cable is connected.</source>
-        <translation></translation>
+        <translation>WiFi를 비활성화하면 WiFi를 통해 연결된 모든 클라이언트의 연결이 끊어집니다. LAN 케이블이 연결되어 있지 않으면 이 %1 시스템과 더 이상 원격으로 상호 작용할 수 없다는 점에 유의하십시오.</translation>
     </message>
 </context>
 <context>
     <name>NewThingMagicPage</name>
     <message>
         <source>New magic</source>
-        <translation></translation>
+        <translation>신 마법</translation>
     </message>
     <message>
         <source>Create some magic manually</source>
-        <translation></translation>
+        <translation>수동으로 마법 만들기</translation>
     </message>
 </context>
 <context>
     <name>NewThingPage</name>
     <message>
         <source>Set up new thing</source>
-        <translation></translation>
+        <translation>설정 만들기</translation>
     </message>
     <message>
         <source>Vendor</source>
-        <translation></translation>
+        <translation>공급 업체</translation>
     </message>
     <message>
         <source>All</source>
-        <translation></translation>
+        <translation>모두</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation></translation>
+        <translation>유형</translation>
     </message>
 </context>
 <context>
     <name>NotificationsDevicePage</name>
     <message>
         <source>Title</source>
-        <translation></translation>
+        <translation>제목</translation>
     </message>
     <message>
         <source>Text</source>
-        <translation></translation>
+        <translation>내용</translation>
     </message>
     <message>
         <source>Send a notification</source>
-        <translation></translation>
+        <translation>알림 보내기</translation>
     </message>
     <message>
         <source>Send now</source>
-        <translation></translation>
+        <translation>보내기</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation></translation>
+        <translation>취소</translation>
     </message>
     <message>
         <source>Sent notifications:</source>
-        <translation></translation>
+        <translation>보낸 문자:</translation>
     </message>
     <message>
         <source>Notification details</source>
-        <translation></translation>
+        <translation>알림 내역</translation>
     </message>
     <message>
         <source>Date sent</source>
-        <translation></translation>
+        <translation>보낸 날짜</translation>
     </message>
 </context>
 <context>
     <name>NotificationsView</name>
     <message>
         <source>Send a notification now:</source>
-        <translation></translation>
+        <translation>지금 알림 보내기:</translation>
     </message>
     <message>
         <source>Title</source>
-        <translation></translation>
+        <translation>제목</translation>
     </message>
     <message>
         <source>Text</source>
-        <translation></translation>
+        <translation>내용</translation>
     </message>
     <message>
         <source>Send</source>
-        <translation></translation>
+        <translation>보내기</translation>
     </message>
 </context>
 <context>
     <name>Nymea</name>
     <message>
         <source>Lighting</source>
-        <translation></translation>
+        <translation>전등(조명)</translation>
     </message>
     <message>
         <source>Weather</source>
-        <translation></translation>
+        <translation>날씨</translation>
     </message>
     <message>
         <source>Sensors</source>
-        <translation></translation>
+        <translation>센서</translation>
     </message>
     <message>
         <source>Media</source>
-        <translation></translation>
+        <translation>미디어</translation>
     </message>
     <message>
         <source>Switches</source>
-        <translation></translation>
+        <translation>스위치</translation>
     </message>
     <message>
         <source>Gateways</source>
-        <translation></translation>
+        <translation>문</translation>
     </message>
     <message>
         <source>Notifications</source>
-        <translation></translation>
+        <translation>알림</translation>
     </message>
     <message>
         <source>Temperature</source>
-        <translation></translation>
+        <translation>온도</translation>
     </message>
     <message>
         <source>Humidity</source>
-        <translation></translation>
+        <translation>습도</translation>
     </message>
     <message>
         <source>Pressure</source>
-        <translation></translation>
+        <translation>압력</translation>
     </message>
     <message>
         <source>Noise level</source>
-        <translation></translation>
+        <translation>소음 측정</translation>
     </message>
     <message>
         <source>CO2 level</source>
-        <translation></translation>
+        <translation>CO2 측정</translation>
     </message>
     <message>
         <source>Incoming Events</source>
-        <translation></translation>
+        <translation>수신되는 이벤트</translation>
     </message>
     <message>
         <source>Events</source>
-        <translation></translation>
+        <translation>이벤트</translation>
     </message>
     <message>
         <source>Shutters</source>
-        <translation></translation>
+        <translation>셔터</translation>
     </message>
     <message>
         <source>Blinds</source>
-        <translation></translation>
+        <translation>블라인드</translation>
     </message>
     <message>
         <source>Awnings</source>
-        <translation></translation>
+        <translation>차양막</translation>
     </message>
     <message>
         <source>Garage gates</source>
-        <translation></translation>
+        <translation>차고 문</translation>
     </message>
     <message>
         <source>Access control</source>
-        <translation></translation>
+        <translation>출입통제</translation>
     </message>
     <message>
         <source>Smart meters</source>
