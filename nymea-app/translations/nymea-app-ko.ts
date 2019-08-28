@@ -3596,7 +3596,7 @@ Do you want to proceed?</source>
     </message>
     <message>
         <source>weekly on %1</source>
-        <translation>%1 주간</translation>
+        <translation>매주 % 1에</translation>
     </message>
     <message>
         <source>monthly on the %1</source>
@@ -3604,87 +3604,87 @@ Do you want to proceed?</source>
     </message>
     <message>
         <source>every year</source>
-        <translation></translation>
+        <translation>매년</translation>
     </message>
 </context>
 <context>
     <name>UpdateRunningOverlay</name>
     <message>
         <source>System update in progress...</source>
-        <translation></translation>
+        <translation>시스템 업데이트 진행 중...</translation>
     </message>
     <message>
         <source>Please wait</source>
-        <translation></translation>
+        <translation>기다려 주세요</translation>
     </message>
     <message>
         <source>The system may restart in order to complete the update. %1:app will reconnect automatically after the update.</source>
-        <translation></translation>
+        <translation>업데이트를 완료하기 위해 시스템이 다시 시작될 수 있습니다. % 1 : 업데이트 후 앱이 자동으로 다시 연결됩니다.</translation>
     </message>
 </context>
 <context>
     <name>WeatherDeviceListPage</name>
     <message>
         <source>Weather</source>
-        <translation></translation>
+        <translation>날씨</translation>
     </message>
 </context>
 <context>
     <name>WeatherView</name>
     <message>
         <source>N</source>
-        <translation></translation>
+        <translation>북</translation>
     </message>
     <message>
         <source>NE</source>
-        <translation></translation>
+        <translation>북동</translation>
     </message>
     <message>
         <source>E</source>
-        <translation></translation>
+        <translation>동</translation>
     </message>
     <message>
         <source>SE</source>
-        <translation></translation>
+        <translation>남동</translation>
     </message>
     <message>
         <source>S</source>
-        <translation></translation>
+        <translation>남</translation>
     </message>
     <message>
         <source>SW</source>
-        <translation></translation>
+        <translation>남서</translation>
     </message>
     <message>
         <source>W</source>
-        <translation></translation>
+        <translation>서</translation>
     </message>
     <message>
         <source>NW</source>
-        <translation></translation>
+        <translation>북서</translation>
     </message>
 </context>
 <context>
     <name>WebServerConfigurationDialog</name>
     <message>
         <source>Server configuration</source>
-        <translation></translation>
+        <translation>서버 구성</translation>
     </message>
     <message>
         <source>Interface</source>
-        <translation></translation>
+        <translation>인터페이스</translation>
     </message>
     <message>
         <source>Any</source>
-        <translation></translation>
+        <translation>어디서나</translation>
     </message>
     <message>
         <source>Localhost</source>
-        <translation></translation>
+        <translation>로컬 호스트</translation>
     </message>
     <message>
         <source>Custom</source>
-        <translation></translation>
+        <translation>사용자 설정</translation>
     </message>
     <message>
         <source>Address:</source>
