@@ -3219,7 +3219,7 @@ Please try again.</source>
     </message>
     <message>
         <source>API interfaces</source>
-        <translation>API 인터페이스</translation>
+        <translation>API interfaces</translation>
     </message>
     <message>
         <source>MQTT broker</source>
