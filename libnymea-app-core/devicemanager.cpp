@@ -379,7 +379,9 @@ void DeviceManager::confirmPairing(const QUuid &pairingTransactionId, const QStr
     QVariantMap params;
     params.insert("pairingTransactionId", pairingTransactionId.toString());
     params.insert("secret", secret);
-    params.insert("username", username);
+    if (!username.isEmpty()) {
+        params.insert("username", username);
+    }
     m_jsonClient->sendCommand("Devices.ConfirmPairing", params, this, "confirmPairingResponse");
 }
 
