@@ -3,6 +3,8 @@ import QtQuick.Layouts 1.1
 import QtQuick.Controls 2.1
 import QtQuick.Controls.Material 2.1
 import Nymea 1.0
+import QtWebView 1.1
+
 import "../components"
 import "../delegates"
 
@@ -60,23 +62,31 @@ Page {
         target: engine.deviceManager
         onPairDeviceReply: {
             busyOverlay.shown = false
+            if (params["deviceError"] !== "DeviceErrorNoError") {
+                busyOverlay.shown = false;
+                internalPageStack.push(resultsPage, {success: false})
+                return;
+
+            }
+
+            d.pairingTransactionId = params["pairingTransactionId"];
+
             switch (params["setupMethod"]) {
             case "SetupMethodPushButton":
-                d.pairingTransactionId = params["pairingTransactionId"];
-                print("response", params["displayMessage"], d.pairingTransactionId)
-                internalPageStack.push(pairingPageComponent, {text: params["displayMessage"]})
-                break;
             case "SetupMethodDisplayPin":
-                d.pairingTransactionId = params["pairingTransactionId"];
+            case "SetupMethodUserAndPassword":
                 internalPageStack.push(pairingPageComponent, {text: params["displayMessage"], setupMethod: params["setupMethod"]})
                 break;
+            case "SetupMethodOAuth":
+                internalPageStack.push(oAuthPageComponent, {oAuthUrl: params["oAuthUrl"]})
+                break;
             default:
-                print("Setup method", params["setupMethod"], "not handled");
+                print("Setup method reply not handled:", JSON.stringify(params));
             }
         }
         onConfirmPairingReply: {
             busyOverlay.shown = false
-            internalPageStack.push(resultsPage, {success: params["deviceError"] === "DeviceErrorNoError", deviceId: params["deviceId"]})
+            internalPageStack.push(resultsPage, {success: params["deviceError"] === "DeviceErrorNoError", deviceId: params["deviceId"], message: params["displayMessage"]})
         }
         onAddDeviceReply: {
             busyOverlay.shown = false;
@@ -364,7 +374,24 @@ Page {
                             case 1:
                             case 2:
                             case 3:
-                                engine.deviceManager.pairDevice(root.deviceClass.id, d.deviceDescriptor.id, nameTextField.text);
+                            case 4:
+                            case 5:
+                                if (root.device) {
+//                                    if (d.deviceDescriptor) {
+//                                        engine.deviceManager.pairDevice(root.deviceClass.id, d.deviceDescriptor.id, nameTextField.text);
+//                                    } else {
+//                                        engine.deviceManager.pairDevice(root.deviceClass.id, nameTextField.text, params);
+//                                    }
+                                    console.warn("Unhandled setupMethod!")
+                                    return;
+                                } else {
+                                    if (d.deviceDescriptor) {
+                                        engine.deviceManager.pairDevice(root.deviceClass.id, d.deviceDescriptor.id, nameTextField.text);
+                                    } else {
+                                        engine.deviceManager.pairDevice(root.deviceClass.id, nameTextField.text, params);
+                                    }
+                                }
+
                                 break;
                             }
 
@@ -405,17 +432,48 @@ Page {
                     wrapMode: Text.WordWrap
                     horizontalAlignment: Text.AlignHCenter
                 }
+
+                TextField {
+                    id: usernameTextField
+                    Layout.fillWidth: true
+                    visible: pairingPage.setupMethod === "SetupMethodUserAndPassword"
+                }
+
                 TextField {
                     id: pinTextField
                     Layout.fillWidth: true
-                    visible: pairingPage.setupMethod === "SetupMethodDisplayPin"
+                    visible: pairingPage.setupMethod === "SetupMethodDisplayPin" || pairingPage.setupMethod === "SetupMethodUserAndPassword"
+                    echoMode: TextField.Password
                 }
+
 
                 Button {
                     Layout.fillWidth: true
                     text: "OK"
                     onClicked: {
-                        engine.deviceManager.confirmPairing(d.pairingTransactionId, pinTextField.displayText);
+                        engine.deviceManager.confirmPairing(d.pairingTransactionId, pinTextField.text, usernameTextField.displayText);
+                        busyOverlay.shown = true;
+                    }
+                }
+            }
+        }
+    }
+
+    Component {
+        id: oAuthPageComponent
+        Page {
+            id: oAuthPage
+            property alias oAuthUrl: oAuthWebView.url
+
+            WebView {
+                id: oAuthWebView
+                anchors.fill: parent
+
+                onUrlChanged: {
+                    print("OAUTH URL changed", url)
+                    if (url.toString().indexOf("https://127.0.0.1") == 0) {
+                        print("Redirect URL detected!");
+                        engine.deviceManager.confirmPairing(d.pairingTransactionId, url)
                     }
                 }
             }
@@ -430,6 +488,7 @@ Page {
 
             property bool success
             property string deviceId
+            property string message
 
             readonly property var device: root.device ? root.device : engine.deviceManager.devices.getDevice(deviceId)
 
@@ -450,6 +509,13 @@ Page {
                     horizontalAlignment: Text.AlignHCenter
                     wrapMode: Text.WordWrap
                     text: resultsView.success ? qsTr("All done. You can now start using %1.").arg(resultsView.device.name) : qsTr("Something went wrong setting up this thing...");
+                }
+
+                Label {
+                    Layout.fillWidth: true
+                    horizontalAlignment: Text.AlignHCenter
+                    wrapMode: Text.WordWrap
+                    text: resultsView.message
                 }
 
                 Button {

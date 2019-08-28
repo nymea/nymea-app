@@ -61,7 +61,9 @@ public:
         SetupMethodJustAdd,
         SetupMethodDisplayPin,
         SetupMethodEnterPin,
-        SetupMethodPushButton
+        SetupMethodPushButton,
+        SetupMethodOAuth,
+        SetupMethodUserAndPassword,
     };
     Q_ENUM(SetupMethod)
 

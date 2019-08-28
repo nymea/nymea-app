@@ -297,6 +297,7 @@ void DeviceManager::pairDeviceResponse(const QVariantMap &params)
 
 void DeviceManager::confirmPairingResponse(const QVariantMap &params)
 {
+    qDebug() << "ConfirmPairingResponse" << params;
     emit confirmPairingReply(params.value("params").toMap());
 }
 
@@ -362,12 +363,25 @@ void DeviceManager::pairDevice(const QUuid &deviceClassId, const QUuid &deviceDe
     m_jsonClient->sendCommand("Devices.PairDevice", params, this, "pairDeviceResponse");
 }
 
-void DeviceManager::confirmPairing(const QUuid &pairingTransactionId, const QString &secret)
+void DeviceManager::pairDevice(const QUuid &deviceClassId, const QString &name, const QVariantList &deviceParams)
+{
+    qDebug() << "JsonRpc: pair device " << deviceClassId.toString();
+    QVariantMap params;
+    params.insert("name", name);
+    params.insert("deviceClassId", deviceClassId.toString());
+    params.insert("deviceParams", deviceParams);
+    m_jsonClient->sendCommand("Devices.PairDevice", params, this, "pairDeviceResponse");
+}
+
+void DeviceManager::confirmPairing(const QUuid &pairingTransactionId, const QString &secret, const QString &username)
 {
     qDebug() << "JsonRpc: confirm pairing" << pairingTransactionId.toString();
     QVariantMap params;
     params.insert("pairingTransactionId", pairingTransactionId.toString());
     params.insert("secret", secret);
+    if (!username.isEmpty()) {
+        params.insert("username", username);
+    }
     m_jsonClient->sendCommand("Devices.ConfirmPairing", params, this, "confirmPairingResponse");
 }
 
