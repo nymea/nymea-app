@@ -3219,122 +3219,122 @@ Please try again.</source>
     </message>
     <message>
         <source>API interfaces</source>
-        <translation>API interfaces</translation>
+        <translation>API 인터페이스</translation>
     </message>
     <message>
         <source>MQTT broker</source>
-        <translation></translation>
+        <translation>MQTT 브로커</translation>
     </message>
     <message>
         <source>Configure the MQTT broker</source>
-        <translation></translation>
+        <translation>MQTT 브로커 구성</translation>
     </message>
     <message>
         <source>Web server</source>
-        <translation></translation>
+        <translation>Web 서버</translation>
     </message>
     <message>
         <source>Configure the web server</source>
-        <translation></translation>
+        <translation>웹 서버 구성</translation>
     </message>
     <message>
         <source>Plugins</source>
-        <translation></translation>
+        <translation>플러그인</translation>
     </message>
     <message>
         <source>List and cofigure installed plugins</source>
-        <translation></translation>
+        <translation>설치된 플러그인 목록 및 구성</translation>
     </message>
     <message>
         <source>Developer tools</source>
-        <translation></translation>
+        <translation>개발자 도구</translation>
     </message>
     <message>
         <source>Access tools for debugging and error reporting</source>
-        <translation></translation>
+        <translation>디버깅 및 오류 보고를 위한 액세스 도구</translation>
     </message>
     <message>
         <source>About %1:core</source>
-        <translation></translation>
+        <translation>%1:코어에 대하여</translation>
     </message>
     <message>
         <source>Find server UUID and versions</source>
-        <translation></translation>
+        <translation>서버 UUID 및 버전 찾기</translation>
     </message>
     <message>
         <source>System update</source>
-        <translation></translation>
+        <translation>시스템 업데이트</translation>
     </message>
     <message>
         <source>Update your %1:core system</source>
-        <translation></translation>
+        <translation>%1: 코어 시스템 업데이트</translation>
     </message>
     <message>
         <source>System settings</source>
-        <translation></translation>
+        <translation>시스템 설정</translation>
     </message>
     <message>
         <source>Networking</source>
-        <translation></translation>
+        <translation>네트워킹</translation>
     </message>
     <message>
         <source>Configure the system&apos;s network connection</source>
-        <translation></translation>
+        <translation>시스템의 네트워크 연결 구성</translation>
     </message>
     <message>
         <source>Connect this %1:core to %1:cloud</source>
-        <translation></translation>
+        <translation>이 %1:코어를 %1:클라우드에 연결하십시오</translation>
     </message>
     <message>
         <source>Configure how clients interact with this system</source>
-        <translation></translation>
+        <translation>클라이언트가 이 시스템과 상호 작용하는 방식 구성</translation>
     </message>
 </context>
 <context>
     <name>SetupWizard</name>
     <message>
         <source>Set up thing</source>
-        <translation></translation>
+        <translation>사물(장치) 설정</translation>
     </message>
     <message>
         <source>Search again</source>
-        <translation></translation>
+        <translation>재검색</translation>
     </message>
     <message>
         <source>Add thing manually</source>
-        <translation></translation>
+        <translation>수동으로 추가</translation>
     </message>
     <message>
         <source>Searching for things...</source>
-        <translation></translation>
+        <translation>사물(장치)을 찾는 중...</translation>
     </message>
     <message>
         <source>Too bad...</source>
-        <translation></translation>
+        <translation>찾지 못했군요...</translation>
     </message>
     <message>
         <source>No things of this kind could be found...</source>
-        <translation></translation>
+        <translation>이런 종류의 사물(장치)은 찾을 수 없었습니다...</translation>
     </message>
     <message>
         <source>Make sure your things are set up and connected, try searching again or go back and pick a different kind of thing.</source>
-        <translation></translation>
+        <translation>당신의 사물(장치)들이 설정되고 연결되어 있는지 확인하고, 다시 검색해 보거나 다른 종류의 장치를 고려해 보세요.</translation>
     </message>
     <message>
         <source>Name the thing:</source>
-        <translation></translation>
+        <translation>사물(장치)명:</translation>
     </message>
     <message>
         <source>Pairing...</source>
-        <translation></translation>
+        <translation>편성(페어링) 중...</translation>
     </message>
     <message>
         <source>Thing reconfigured!</source>
-        <translation></translation>
+        <translation>다시 구성됨!</translation>
     </message>
     <message>
         <source>Thing added!</source>
-        <translation></translation>
+        <translation>사물(장치) 추가됨!</translation>
     </message>
     <message>
         <source>Uh oh</source>
