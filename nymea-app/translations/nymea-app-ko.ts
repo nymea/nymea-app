@@ -2762,65 +2762,65 @@ Please try again.</source>
     </message>
     <message>
         <source>battery powered thing</source>
-        <translation>배터리로 움직이는 것</translation>
+        <translation>배터리로 작동하는 것</translation>
     </message>
     <message>
         <source>connectable thing</source>
-        <translation></translation>
+        <translation>연결 가능한 것</translation>
     </message>
     <message>
         <source>switchable thing</source>
-        <translation></translation>
+        <translation>스위치 있는 것</translation>
     </message>
     <message>
         <source>daylight sensor</source>
-        <translation></translation>
+        <translation>일광 센서</translation>
     </message>
     <message>
         <source>presence sensor</source>
-        <translation></translation>
+        <translation>움직임 감지 센서</translation>
     </message>
 </context>
 <context>
     <name>NymeaConnection</name>
     <message>
         <source>Common Name:</source>
-        <translation></translation>
+        <translation>공용 이름:</translation>
     </message>
     <message>
         <source>Oragnisation:</source>
-        <translation></translation>
+        <translation>조직:</translation>
     </message>
     <message>
         <source>Locality:</source>
-        <translation></translation>
+        <translation>지역:</translation>
     </message>
     <message>
         <source>Oragnisational Unit:</source>
-        <translation></translation>
+        <translation>단체:</translation>
     </message>
     <message>
         <source>Country:</source>
-        <translation></translation>
+        <translation>국가:</translation>
     </message>
 </context>
 <context>
     <name>ParamDescriptorDelegate</name>
     <message>
         <source>is</source>
-        <translation></translation>
+        <translation>입니다</translation>
     </message>
     <message>
         <source>is not</source>
-        <translation></translation>
+        <translation>아닙니다</translation>
     </message>
     <message>
         <source>is greater</source>
-        <translation></translation>
+        <translation>더 크다</translation>
     </message>
     <message>
         <source>is smaller</source>
-        <translation></translation>
+        <translation>더 작다</translation>
     </message>
     <message>
         <source>is greater or equal</source>
