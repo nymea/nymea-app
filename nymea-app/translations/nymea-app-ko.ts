@@ -9,7 +9,7 @@
     </message>
     <message>
         <source>%1:core</source>
-        <translation></translation>
+        <translation>%1:코어</translation>
     </message>
     <message>
         <source>Connection:</source>
@@ -17,7 +17,7 @@
     </message>
     <message>
         <source>Server UUID:</source>
-        <translation></translation>
+        <translation>서버 UUID:</translation>
     </message>
     <message>
         <source>Server version:</source>
@@ -25,18 +25,18 @@
     </message>
     <message>
         <source>JSON-RPC version:</source>
-        <translation></translation>
+        <translation>JSON-RPC 버전:</translation>
     </message>
 </context>
 <context>
     <name>AboutPage</name>
     <message>
         <source>About %1</source>
-        <translation></translation>
+        <translation>%1 대하여</translation>
     </message>
     <message>
         <source>App version:</source>
-        <translation></translation>
+        <translation>App 버전:</translation>
     </message>
     <message>
         <source>Qt version:</source>
@@ -47,7 +47,7 @@
     <name>AppLogPage</name>
     <message>
         <source>App log</source>
-        <translation></translation>
+        <translation>App 로그</translation>
     </message>
 </context>
 <context>
@@ -58,7 +58,7 @@
     </message>
     <message>
         <source>Look &amp; feel</source>
-        <translation></translation>
+        <translation>테마</translation>
     </message>
     <message>
         <source>Customize the app&apos;s look and behavior</source>
@@ -66,7 +66,7 @@
     </message>
     <message>
         <source>Cloud login</source>
-        <translation></translation>
+        <translation>클라우드 로그인</translation>
     </message>
     <message>
         <source>Developer options</source>
@@ -74,11 +74,11 @@
     </message>
     <message>
         <source>Yeehaaa!</source>
-        <translation></translation>
+        <translation>와우!</translation>
     </message>
     <message>
         <source>About %1</source>
-        <translation></translation>
+        <translation>%1 대하여</translation>
     </message>
     <message>
         <source>Find app versions and licence information</source>
@@ -340,7 +340,7 @@
         </translation></message>
     <message>
         <source>Cloud login</source>
-        <translation></translation>
+        <translation>클라우드 로그인</translation>
     </message>
     <message>
         <source>Sorry, an error happened removing the account. Please try again later.</source>
@@ -356,7 +356,7 @@
     </message>
     <message>
         <source>Goodbye</source>
-        <translation></translation>
+        <translation>굿바이</translation>
     </message>
     <message>
         <source>Delete my account</source>
@@ -364,7 +364,7 @@
     </message>
     <message>
         <source>See our &lt;a href=&quot;%1&quot;&gt;privacy policy&lt;/a&gt; to find out what information is processed.</source>
-        <translation>어떤 정보가 처리되고 있는지 알아보려면 당사의 &lt; a href=&quot;%1&quot;&gt;개인정보 정책 &lt;/a&gt;를 참조하시기 바랍니다.</translation>
+        <translation>어떤 정보가 처리되고 있는지 알아보려면 당사의 &lt;a href=&quot;%1&quot;&gt;개인정보 정책 &lt;/a&gt;을 참조하시기 바랍니다.</translation>
     </message>
     <message>
         <source>Password</source>
@@ -400,7 +400,7 @@
     </message>
     <message>
         <source>See our &lt;a href=&quot;%1&quot;&gt;privacy policy&lt;/a&gt; to find out what information is processed. By signing up to %2:cloud you accept those terms and conditions.</source>
-        <translation>어떤 정보가 처리되고 있는지 알아보려면 당사의 &lt; a href=&quot;%1&quot;&gt;개인정보 정책 &lt;/a&gt;를 참조하시기 바랍니다. %2:클라우드에 가입하면 이러한 약관에 동의합니다.</translation>
+        <translation>어떤 정보가 처리되고 있는지 알아 보려면 당사의  &lt;a href=&quot;%1&quot;&gt;개인정보 정책 &lt;/a&gt;을 참조하시기 바랍니다. %2:클라우드에 가입하면 이러한 약관에 동의 합니다.</translation>
     </message>
     <message>
         <source>The given username or password are not valid.</source>
@@ -412,7 +412,7 @@
     </message>
     <message>
         <source>Confirm account</source>
-        <translation>계정을 확인합니다.</translation>
+        <translation>계정 확인</translation>
     </message>
     <message>
         <source>Thanks for signing up. We will send you an email with a confirmation code. Please enter that code in the field below.</source>
@@ -452,7 +452,7 @@
     </message>
     <message>
         <source>Yay!</source>
-        <translation></translation>
+        <translation>앗싸!</translation>
     </message>
     <message>
         <source>Your password has been reset.</source>
@@ -499,7 +499,7 @@
     </message>
     <message>
         <source>You can connect a nymea:box to a nymea:cloud in order to access it from anywhere</source>
-        <translation>nymea:box를 nymea:cloud에 연결하여 어디에서나 액세스할 수 있습니다.</translation>
+        <translation>nymea:box를 nymea:cloud에 연결하여 어디에서나 액세스할 수 있습니다</translation>
     </message>
     <message>
         <source>Cloud connection enabled</source>
@@ -616,7 +616,7 @@
     </message>
     <message>
         <source>Oh, look!</source>
-        <translation></translation>
+        <translation>오, 좋아요!</translation>
     </message>
     <message>
         <source>Just a moment...</source>
@@ -722,7 +722,7 @@
     </message>
     <message>
         <source>%1:core did not respond. Please make sure your network connection works properly</source>
-        <translation>%1:코어가 응답하지 않습니다. 네트워크가 연결 되고 제대로 작동하는지 확인하십시오.</translation>
+        <translation>%1:코어가 응답하지 않습니다. 네트워크가 연결 되고 제대로 작동하는지 확인하십시오</translation>
     </message>
     <message>
         <source>An unrecovareable SSL Error happened. Please make sure certificates are installed correctly.</source>
@@ -757,7 +757,7 @@
     </message>
     <message>
         <source>localhost</source>
-        <translation></translation>
+        <translation>로컬호스트</translation>
     </message>
     <message>
         <source>Port: %1</source>
@@ -772,7 +772,7 @@
     </message>
     <message>
         <source>TCP server interfaces</source>
-        <translation></translation>
+        <translation>TCP 서버 인터페이스</translation>
     </message>
     <message>
         <source>Add</source>
@@ -780,7 +780,7 @@
     </message>
     <message>
         <source>WebSocket server interfaces</source>
-        <translation></translation>
+        <translation>WebSocket 서버 인터페이스</translation>
     </message>
 </context>
 <context>
@@ -1069,7 +1069,7 @@
     </message>
     <message>
         <source>Configure...</source>
-        <translation></translation>
+        <translation>구성...</translation>
     </message>
     <message>
         <source>Add another...</source>
@@ -1111,15 +1111,15 @@
     </message>
     <message>
         <source>...come true, execute those actions:</source>
-        <translation>...실현하고, 다음 작업을 실행하십시오.</translation>
+        <translation>...실현하고, 다음 작업을 실행하십시오:</translation>
     </message>
     <message>
         <source>...comes true, execute those actions:</source>
-        <translation>...참이 되고, 다음 작업을 실행하십시오.</translation>
+        <translation>...참이 되고, 다음 작업을 실행하십시오:</translation>
     </message>
     <message>
         <source>...execute those actions:</source>
-        <translation>...다음 작업을 실행하십시오.</translation>
+        <translation>...다음 작업을 실행하십시오:</translation>
     </message>
     <message>
         <source>Just pick some actions which will be executed when the scene is activated. Scenes are like any other magic except they can also be activated manually.</source>
@@ -1135,11 +1135,11 @@
     </message>
     <message>
         <source>...isn&apos;t met any more, execute those actions:</source>
-        <translation>...더 이상 충족되지 않음, 다음 작업을 실행하십시오.</translation>
+        <translation>...더 이상 충족되지 않음, 다음 작업을 실행하십시오:</translation>
     </message>
     <message>
         <source>If the condition isn&apos;t met, execute those actions instead:</source>
-        <translation>조건이 충족되지 않으면 대신 다음 작업을 실행하십시오.</translation>
+        <translation>조건이 충족되지 않으면 대신 다음 작업을 실행하십시오:</translation>
     </message>
     <message>
         <source>Add event</source>
@@ -1187,7 +1187,7 @@
     </message>
     <message>
         <source>This is a scene</source>
-        <translation>이것은 특정 상황(연출)입니다.</translation>
+        <translation>시나리오</translation>
     </message>
 </context>
 <context>
@@ -1380,7 +1380,7 @@
     </message>
     <message>
         <source>The following users have valid fingerprints for this lock</source>
-        <translation>다음 사용자는 이 잠금 장치에 대해 유효한 지문을 가지고 있습니다.</translation>
+        <translation>다음 사용자는 이 잠금 장치에 대해 유효한 지문을 가지고 있습니다</translation>
     </message>
     <message>
         <source>Add a fingerprint</source>
@@ -1444,7 +1444,7 @@
     </message>
     <message>
         <source>Please scan the fingerprint now</source>
-        <translation>지금 지문을 스캔하십시오.</translation>
+        <translation>지금 지문을 스캔하십시오</translation>
     </message>
     <message>
         <source>Uh oh</source>
@@ -1543,7 +1543,7 @@ Please try again.</source>
     </message>
     <message>
         <source>My things</source>
-        <translation></translation>
+        <translation>사물(장치)들</translation>
     </message>
     <message>
         <source>All my things</source>
@@ -1566,7 +1566,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Cancel</source>
-        <translation></translation>
+        <translation>취소</translation>
     </message>
     <message>
         <source>OK</source>
@@ -1605,7 +1605,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Not connected</source>
-        <translation>연결되지 않았습니다.</translation>
+        <translation>연결되지 않았습니다</translation>
     </message>
 </context>
 <context>
@@ -1784,7 +1784,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Close</source>
-        <translation></translation>
+        <translation>닫기</translation>
     </message>
     <message>
         <source>Presence sensors</source>
@@ -2091,7 +2091,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Add some magic</source>
-        <translation>마법 추가.</translation>
+        <translation>마법 추가</translation>
     </message>
 </context>
 <context>
@@ -2110,7 +2110,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Celsi°s</source>
-        <translation></translation>
+        <translation>셀시 온도</translation>
     </message>
     <message>
         <source>There is no drexel und weiss heating system set up yet.</source>
@@ -2209,7 +2209,7 @@ Please try again.</source>
     </message>
     <message>
         <source>There are no scenes set up yet</source>
-        <translation>아직 설정된  시나리오(연출)가 없습니다.</translation>
+        <translation>아직 설정된  시나리오(연출)가 없습니다</translation>
     </message>
     <message>
         <source>It appears there are no things set up either yet. In order to use scenes you need to add some things first.</source>
@@ -2272,7 +2272,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Websocket</source>
-        <translation></translation>
+        <translation>웹소켓</translation>
     </message>
     <message>
         <source>Address:</source>
@@ -2531,7 +2531,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Enter the password for %1</source>
-        <translation>%1의 암호를 입력하십시오.</translation>
+        <translation>%1의 암호를 입력하십시오</translation>
     </message>
     <message>
         <source>OK</source>
@@ -2886,7 +2886,7 @@ Please try again.</source>
     <name>RemoveDeviceMethodDialog</name>
     <message>
         <source>This thing is currently used in one or more rules:</source>
-        <translation>이것은 현재 하나 이상의 규칙에서 사용되고 있습니다.</translation>
+        <translation>이것은 현재 하나 이상의 규칙에서 사용되고 있습니다:</translation>
     </message>
     <message>
         <source>Remove all those rules</source>
@@ -2898,7 +2898,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Don&apos;t remove this thing</source>
-        <translation>이 사물(장치)을 제거하지 마십시오.</translation>
+        <translation>이 사물(장치)을 제거하지 마십시오</translation>
     </message>
 </context>
 <context>
@@ -2956,7 +2956,7 @@ Please try again.</source>
     </message>
     <message>
         <source>&lt;font color=&quot;%1&quot;&gt;The passwords &lt;/font&gt;&lt;font color=&quot;%2&quot;&gt;do not&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt; match.&lt;/font&gt;</source>
-        <translation>&lt;font color=&quot;%1&quot;&gt;비밀번호가 &lt;/font&gt;&lt;font color=&quot;%2&quot;&gt;틀립니다.&lt;/font&gt;</translation>
+        <translation>&lt;font color=&quot;%1&quot;&gt;비밀번호가 &lt;/font&gt;&lt;font color=&quot;%2&quot;&gt;&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt;틀립니다.&lt;/font&gt;</translation>
     </message>
     <message>
         <source>only if %1 %2 %3</source>
@@ -2968,7 +2968,7 @@ Please try again.</source>
     </message>
     <message>
         <source>&lt;font color=&quot;%1&quot;&gt;The password needs to be &lt;/font&gt;&lt;font color=&quot;%2&quot;&gt;at least %3 characters long&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt;, contain &lt;/font&gt;&lt;font color=&quot;%4&quot;&gt;lowercase&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt;, &lt;/font&gt;&lt;font color=&quot;%5&quot;&gt;uppercase&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt; letters as well as &lt;/font&gt;&lt;font color=&quot;%6&quot;&gt;numbers&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt; and &lt;/font&gt;&lt;font color=&quot;%7&quot;&gt;special characters&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt;.&lt;/font&gt;</source>
-        <translation>&lt;font color = &quot;% 1&quot;&gt; 비밀번호는 &lt;/ font&gt; &lt;font color = &quot;% 2&quot;&gt; 최소 % 3 자 이상이어야 합니다 &lt;/ font&gt; &lt;font color = &quot;% 1&quot;&gt; 포함 &lt;/ font&gt; &lt;font color = &quot;% 4&quot;&gt; 소문자 &lt;/ font&gt; &lt;font color = &quot;% 1&quot;&gt;, &lt;/ font&gt; &lt;font color = &quot;% 5&quot;&gt; 대문자 &lt;/ font&gt; &lt;font color = &quot;% 1 &quot;&gt; 문자 및 &lt;/ font&gt; &lt;font color =&quot;% 6 &quot;&gt; 숫자 &lt;/ font&gt; &lt;font color =&quot;% 1 &quot;&gt; 및 &lt;/ font&gt; &lt;font color =&quot;% 7 &quot;&gt; 특수 문자 &lt;/ font&gt; &lt;font color = &quot;% 1&quot;&gt;. &lt;/ font&gt;</translation>
+        <translation>&lt;font color=&quot;%1&quot;&gt;비밀번호는 &lt;/font&gt; &lt;font color=&quot;%1&quot;&gt;소문자 &lt;/font&gt;&lt;font color = &quot;% 1&quot;&gt;, &lt;/ font&gt; &lt;font color = &quot;% 5&quot;&gt; 대문자 &lt;/ font&gt; &lt;font color = &quot;% 1 &quot;&gt; 문자 및 &lt;/ font&gt; &lt;font color =&quot;% 6 &quot;&gt; 숫자 &lt;/ font&gt; &lt;font color =&quot;% 1 &quot;&gt; 및 &lt;/ font&gt; &lt;font color =&quot;% 7 &quot;&gt; 특수 문자 &lt;/ font&gt; &lt;font color = &quot;% 1&quot;&gt; 포함 &lt;/ font&gt; &lt;font color=&quot;%2&quot;&gt;최소 % 3 자 이상이어야 합니다&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt;. &lt;/ font&gt;</translation>
     </message>
 </context>
 <context>
@@ -3172,7 +3172,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Localhost</source>
-        <translation></translation>
+        <translation>로컬 호스트</translation>
     </message>
     <message>
         <source>Custom</source>
@@ -3380,7 +3380,7 @@ Please try again.</source>
     <name>SimpleStateEvaluatorDelegate</name>
     <message>
         <source>Press to edit condition</source>
-        <translation>조건을 편집하려면 누르십시오.</translation>
+        <translation>조건을 편집하려면 누르십시오</translation>
     </message>
     <message>
         <source>%1: %2 %3 %4</source>
