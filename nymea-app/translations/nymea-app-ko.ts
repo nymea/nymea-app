@@ -5,7 +5,7 @@
     <name>AboutNymeaPage</name>
     <message>
         <source>About %1:core</source>
-        <translation>%1:코어 대하여</translation>
+        <translation>%1:코어에 대하여</translation>
     </message>
     <message>
         <source>%1:core</source>
@@ -21,7 +21,7 @@
     </message>
     <message>
         <source>Server version:</source>
-        <translation></translation>
+        <translation>Server 버전:</translation>
     </message>
     <message>
         <source>JSON-RPC version:</source>
@@ -40,7 +40,7 @@
     </message>
     <message>
         <source>Qt version:</source>
-        <translation></translation>
+        <translation>Qt 버전:</translation>
     </message>
 </context>
 <context>
@@ -54,7 +54,7 @@
     <name>AppSettingsPage</name>
     <message>
         <source>App Settings</source>
-        <translation>앱 설정</translation>
+        <translation>App 설정</translation>
     </message>
     <message>
         <source>Look &amp; feel</source>
@@ -78,7 +78,7 @@
     </message>
     <message>
         <source>About %1</source>
-        <translation>%1 대하여</translation>
+        <translation>%1에 대하여</translation>
     </message>
     <message>
         <source>Find app versions and licence information</source>
@@ -616,7 +616,7 @@
     </message>
     <message>
         <source>Oh, look!</source>
-        <translation>오, 좋아요!</translation>
+        <translation>오, 보세요!</translation>
     </message>
     <message>
         <source>Just a moment...</source>
@@ -2968,7 +2968,7 @@ Please try again.</source>
     </message>
     <message>
         <source>&lt;font color=&quot;%1&quot;&gt;The password needs to be &lt;/font&gt;&lt;font color=&quot;%2&quot;&gt;at least %3 characters long&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt;, contain &lt;/font&gt;&lt;font color=&quot;%4&quot;&gt;lowercase&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt;, &lt;/font&gt;&lt;font color=&quot;%5&quot;&gt;uppercase&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt; letters as well as &lt;/font&gt;&lt;font color=&quot;%6&quot;&gt;numbers&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt; and &lt;/font&gt;&lt;font color=&quot;%7&quot;&gt;special characters&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt;.&lt;/font&gt;</source>
-        <translation>&lt;font color=&quot;%1&quot;&gt;비밀번호는 &lt;/font&gt; &lt;font color=&quot;%1&quot;&gt;소문자 &lt;/font&gt;&lt;font color = &quot;% 1&quot;&gt;, &lt;/ font&gt; &lt;font color = &quot;% 5&quot;&gt; 대문자 &lt;/ font&gt; &lt;font color = &quot;% 1 &quot;&gt; 문자 및 &lt;/ font&gt; &lt;font color =&quot;% 6 &quot;&gt; 숫자 &lt;/ font&gt; &lt;font color =&quot;% 1 &quot;&gt; 및 &lt;/ font&gt; &lt;font color =&quot;% 7 &quot;&gt; 특수 문자 &lt;/ font&gt; &lt;font color = &quot;% 1&quot;&gt; 포함 &lt;/ font&gt; &lt;font color=&quot;%2&quot;&gt;최소 % 3 자 이상이어야 합니다&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt;. &lt;/ font&gt;</translation>
+        <translation>&lt;font color=&quot;%1&quot;&gt;비밀번호는 &lt;/font&gt;&lt;font color=&quot;%4&quot;&gt;소문자 &lt;/font&gt;&lt;font color = &quot;% 1&quot;&gt;, &lt;/ font&gt; &lt;font color = &quot;% 5&quot;&gt; 대문자 &lt;/ font&gt; &lt;font color = &quot;% 1 &quot;&gt; 문자 및 &lt;/ font&gt; &lt;font color =&quot;% 6 &quot;&gt; 숫자 &lt;/ font&gt; &lt;font color =&quot;% 1 &quot;&gt; 및 &lt;/ font&gt; &lt;font color =&quot;% 7 &quot;&gt; 특수 문자 &lt;/ font&gt; &lt;font color=&quot;%1&quot;&gt;포함 &lt;/font&gt;&lt;font color=&quot;%1&quot;&gt;,&lt;/font&gt;  &lt;font color=&quot;%2&quot;&gt;최소 % 3 자 이상이어야 합니다&lt;font color=&quot;%1&quot;&gt;. &lt;/ font&gt;</translation>
     </message>
 </context>
 <context>
