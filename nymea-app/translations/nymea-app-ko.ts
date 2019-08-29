@@ -32,7 +32,7 @@
     <name>AboutPage</name>
     <message>
         <source>About %1</source>
-        <translation>%1 대하여</translation>
+        <translation>%1에 대하여</translation>
     </message>
     <message>
         <source>App version:</source>
@@ -2968,7 +2968,7 @@ Please try again.</source>
     </message>
     <message>
         <source>&lt;font color=&quot;%1&quot;&gt;The password needs to be &lt;/font&gt;&lt;font color=&quot;%2&quot;&gt;at least %3 characters long&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt;, contain &lt;/font&gt;&lt;font color=&quot;%4&quot;&gt;lowercase&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt;, &lt;/font&gt;&lt;font color=&quot;%5&quot;&gt;uppercase&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt; letters as well as &lt;/font&gt;&lt;font color=&quot;%6&quot;&gt;numbers&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt; and &lt;/font&gt;&lt;font color=&quot;%7&quot;&gt;special characters&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt;.&lt;/font&gt;</source>
-        <translation>&lt;font color=&quot;%1&quot;&gt;비밀번호는 &lt;/font&gt;&lt;font color=&quot;%4&quot;&gt;소문자 &lt;/font&gt;&lt;font color = &quot;% 1&quot;&gt;, &lt;/ font&gt; &lt;font color = &quot;% 5&quot;&gt; 대문자 &lt;/ font&gt; &lt;font color = &quot;% 1 &quot;&gt; 문자 및 &lt;/ font&gt; &lt;font color =&quot;% 6 &quot;&gt; 숫자 &lt;/ font&gt; &lt;font color =&quot;% 1 &quot;&gt; 및 &lt;/ font&gt; &lt;font color =&quot;% 7 &quot;&gt; 특수 문자 &lt;/ font&gt; &lt;font color=&quot;%1&quot;&gt;포함 &lt;/font&gt;&lt;font color=&quot;%1&quot;&gt;,&lt;/font&gt;  &lt;font color=&quot;%2&quot;&gt;최소 % 3 자 이상이어야 합니다&lt;font color=&quot;%1&quot;&gt;. &lt;/ font&gt;</translation>
+        <translation>&lt;font color=&quot;%1&quot;&gt;비밀번호는 &lt;/font&gt;&lt;font color=&quot;%4&quot;&gt;소문자 &lt;/font&gt;&lt;font color = &quot;% 1&quot;&gt;, &lt;/ font&gt; &lt;font color = &quot;% 5&quot;&gt; 대문자 &lt;/ font&gt; &lt;font color=&quot;%1&quot;&gt;, &lt;/font&gt;&lt;font color = &quot;% 1 &quot;&gt; 문자 및 &lt;/ font&gt; &lt;font color =&quot;% 6 &quot;&gt; 숫자 &lt;/ font&gt;&lt;font color=&quot;%1&quot;&gt;, &lt;/font&gt; &lt;font color =&quot;% 7 &quot;&gt; 특수 문자 &lt;/ font&gt;  &lt;font color=&quot;%1&quot;&gt;포함 &lt;/font&gt;&lt;font color=&quot;%1&quot;&gt;,&lt;/font&gt;  &lt;font color=&quot;%2&quot;&gt;최소 % 3 자 이상이어야 합니다&lt;font color=&quot;%1&quot;&gt;. &lt;/ font&gt;</translation>
     </message>
 </context>
 <context>
