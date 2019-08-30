@@ -147,6 +147,7 @@ ApplicationWindow {
         case "light":
         case "colorlight":
         case "dimmablelight":
+        case "colortemperaturelight":
             return Qt.resolvedUrl("images/light-on.svg")
         case "sensor":
             return Qt.resolvedUrl("images/sensors.svg")
@@ -232,6 +233,8 @@ ApplicationWindow {
             return Qt.resolvedUrl("images/notification.svg")
         case "connectable":
             return Qt.resolvedUrl("images/stock_link.svg")
+        case "power":
+            return Qt.resolvedUrl("images/system-shutdown.svg")
         default:
             console.warn("InterfaceToIcon: Unhandled interface", name)
         }
@@ -293,6 +296,17 @@ ApplicationWindow {
             return qsTr("doorbell")
         case "alert":
             return qsTr("alert")
+        case "simplemultibutton":
+        case "simplebutton":
+            return qsTr("button")
+        case "accesscotrol":
+            return qsTr("access control")
+        case "smartmeter":
+        case "smartmeterproducer":
+        case "smartmeterconsumer":
+        case "extendedsmartmeterproducer":
+        case "extendedsmartmeterconsumer":
+            return qsTr("smart meter");
         default:
             console.warn("Unhandled interfaceToDisplayName:", name)
         }

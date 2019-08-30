@@ -251,6 +251,7 @@ bool DevicesProxy::filterAcceptsRow(int source_row, const QModelIndex &source_pa
         }
     }
     DeviceClass *deviceClass = m_engine->deviceManager()->deviceClasses()->getDeviceClass(device->deviceClassId());
+//    qDebug() << "Checking device" << deviceClass->name() << deviceClass->interfaces();
     if (!m_shownInterfaces.isEmpty()) {
         bool foundMatch = false;
         foreach (const QString &filterInterface, m_shownInterfaces) {

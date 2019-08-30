@@ -2,8 +2,8 @@
     "templates": [
         {
             "interfaceName": "presencesensor",
-            "description": "Turn on something while this device is present...",
-            "ruleNameTemplate": "Turn on %1 while %0 is present",
+            "description": "Turn on something while being present.",
+            "ruleNameTemplate": "Turn on %1 while %0 reports presence",
             "stateEvaluatorTemplate": {
                 "stateDescriptorTemplate": {
                     "interfaceName": "presencesensor",
@@ -42,8 +42,8 @@
         },
         {
             "interfaceName": "presencesensor",
-            "description": "Turn off something when this device leaves...",
-            "ruleNameTemplate": "Turn off %1 when %0 leaves",
+            "description": "Turn off something when leaving.",
+            "ruleNameTemplate": "Turn off %1 when %0 reports leaving",
             "eventDescriptorTemplates": [
                 {
                     "interfaceName": "presencesensor",
@@ -74,8 +74,8 @@
         },
         {
             "interfaceName": "presencesensor",
-            "description": "Turn off everything when this device leaves...",
-            "ruleNameTemplate": "Turn off everything when %0 leaves",
+            "description": "Turn off everything when leaving.",
+            "ruleNameTemplate": "Turn off everything when %0 reports leaving",
             "eventDescriptorTemplates": [
                 {
                     "interfaceName": "presencesensor",
@@ -107,8 +107,8 @@
         },
         {
             "interfaceName": "presencesensor",
-            "description": "Turn off all lights when this device leaves...",
-            "ruleNameTemplate": "Turn off all lights when %0 leaves",
+            "description": "Turn off all lights when leaving.",
+            "ruleNameTemplate": "Turn off all lights when %0 reports leaving",
             "eventDescriptorTemplates": [
                 {
                     "interfaceName": "presencesensor",
@@ -140,8 +140,8 @@
         },
         {
             "interfaceName": "presencesensor",
-            "description": "Turn on something when this device arrives...",
-            "ruleNameTemplate": "Turn on %1 when %0 arrives",
+            "description": "Turn on something when arriving.",
+            "ruleNameTemplate": "Turn on %1 when %0 reports arriving",
             "eventDescriptorTemplates": [
                 {
                     "interfaceName": "presencesensor",

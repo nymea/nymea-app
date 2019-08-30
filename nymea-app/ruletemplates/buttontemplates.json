@@ -1,31 +1,15 @@
 {
     "templates": [
         {
-            "interfaceName": "simplemultibutton",
-            "description": "Switch a light",
-            "ruleNameTemplate": "%0 switches %1",
+            "description": "Turn on a light",
+            "ruleNameTemplate": "%0 turns on %1",
             "eventDescriptorTemplates": [
                 {
-                    "interfaceName": "simplemultibutton",
+                    "interfaceName": "button",
                     "interfaceEvent": "pressed",
-                    "selectionId": 0,
-                    "params": [
-                        {
-                            "name": "buttonName"
-                        }
-                    ]
+                    "selectionId": 0
                 }
             ],
-            "stateEvaluatorTemplate": {
-                "stateDescriptorTemplate": {
-                    "interfaceName": "light",
-                    "interfaceState": "power",
-                    "operator": "ValueOperatorEquals",
-                    "value": false,
-                    "selectionId": 1,
-                    "selectionMode": "SelectionModeDevice"
-                }
-            },
             "ruleActionTemplates": [
                 {
                     "interfaceName": "light",
@@ -39,8 +23,19 @@
                         }
                     ]
                 }
+            ]
+        },
+        {
+            "description": "Turn off a light",
+            "ruleNameTemplate": "%0 turns off %1",
+            "eventDescriptorTemplates": [
+                {
+                    "interfaceName": "button",
+                    "interfaceEvent": "pressed",
+                    "selectionId": 0
+                }
             ],
-            "ruleExitActionTemplates": [
+            "ruleActionTemplates": [
                 {
                     "interfaceName": "light",
                     "interfaceAction": "power",
@@ -56,12 +51,11 @@
             ]
         },
         {
-            "interfaceName": "simplebutton",
             "description": "Switch a light",
             "ruleNameTemplate": "%0 switches %1",
             "eventDescriptorTemplates": [
                 {
-                    "interfaceName": "simplebutton",
+                    "interfaceName": "button",
                     "interfaceEvent": "pressed",
                     "selectionId": 0
                 }
@@ -106,44 +100,12 @@
             ]
         },
         {
-            "interfaceName": "simplemultibutton",
+            "interfaceName": "button",
             "description": "Turn off all lights",
             "ruleNameTemplate": "Turn off everything with %0",
             "eventDescriptorTemplates": [
                 {
-                    "interfaceName": "simplemultibutton",
-                    "interfaceEvent": "pressed",
-                    "selectionId": 0,
-                    "selectionMode": "SelectionModeDevice",
-                    "params": [
-                        {
-                            "name": "buttonName"
-                        }
-                    ]
-                }
-            ],
-            "ruleActionTemplates": [
-                {
-                    "interfaceName": "light",
-                    "interfaceAction": "power",
-                    "selectionId": 1,
-                    "selectionMode": "SelectionModeInterface",
-                    "params": [
-                        {
-                            "name": "power",
-                            "value": false
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "interfaceName": "simplebutton",
-            "description": "Turn off all lights",
-            "ruleNameTemplate": "Turn off everything with %0",
-            "eventDescriptorTemplates": [
-                {
-                    "interfaceName": "simplebutton",
+                    "interfaceName": "button",
                     "interfaceEvent": "pressed",
                     "selectionId": 0,
                     "selectionMode": "SelectionModeDevice"

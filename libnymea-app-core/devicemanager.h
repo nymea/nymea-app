@@ -156,7 +156,6 @@ signals:
 
 private:
     Q_INVOKABLE void notificationReceived(const QVariantMap &data) {
-        qDebug() << "event rece" << data;
         emit eventReceived(data.value("params").toMap().value("event").toMap());
     }
 

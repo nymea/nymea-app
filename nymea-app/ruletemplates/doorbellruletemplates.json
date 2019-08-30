@@ -1,7 +1,6 @@
 {
     "templates": [
         {
-            "interfaceName": "doorbell",
             "description": "Alert on doorbell ring",
             "ruleNameTemplate": "Alert %1 when someone is at %0",
             "eventDescriptorTemplates": [

@@ -8,6 +8,7 @@
 
 #include "types/ruleactionparam.h"
 #include "types/ruleactionparams.h"
+#include "devicesproxy.h"
 
 #include <QDebug>
 #include <QDir>
@@ -167,6 +168,8 @@ QVariant RuleTemplates::data(const QModelIndex &index, int role) const
     switch (role) {
     case RoleDescription:
         return m_list.at(index.row())->description();
+    case RoleInterfaces:
+        return m_list.at(index.row())->interfaces();
     }
     return QVariant();
 }
@@ -175,6 +178,7 @@ QHash<int, QByteArray> RuleTemplates::roleNames() const
 {
     QHash<int, QByteArray> roles;
     roles.insert(RoleDescription, "description");
+    roles.insert(RoleInterfaces, "interfaces");
     return roles;
 }
 
@@ -193,40 +197,38 @@ bool RuleTemplatesFilterModel::filterAcceptsRow(int source_row, const QModelInde
         return false;
     }
     RuleTemplate *t = m_ruleTemplates->get(source_row);
-//    qDebug() << "Checking interface" << t->description() << t->interfaceName() << "for usage with:" << m_filterInterfaceNames;
+//    qDebug() << "Checking interface" << t->description() << t->interfaces() << "for usage with:" << m_filterInterfaceNames;
+
+
+    // Make sure we have a device to be used with any of the template's interfaces
+    if (m_filterDevicesProxy) {
+        foreach (const QString &toBeFound, t->interfaces()) {
+            bool found = false;
+            for (int i = 0; i < m_filterDevicesProxy->rowCount(); i++) {
+//                qDebug() << "Checking device:" << m_filterDevicesProxy->get(i)->deviceClass()->interfaces();
+                if (m_filterDevicesProxy->get(i)->deviceClass()->interfaces().contains(toBeFound)) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                qDebug() << "Filtering out" << t->description() << "because required devices are not provided in filter proxy";
+                return false;
+            }
+        }
+    }
+
     if (!m_filterInterfaceNames.isEmpty()) {
-        if (!m_filterInterfaceNames.contains(t->interfaceName())) {
+        bool found = false;
+        foreach (const QString toBeFound, m_filterInterfaceNames) {
+            if (t->interfaces().contains(toBeFound)) {
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
             return false;
         }
-//        bool found = false;
-//        for (int i = 0; i < t->eventDescriptorTemplates()->rowCount(); i++) {
-//            if (m_filterInterfaceNames.contains(t->eventDescriptorTemplates()->get(i)->interfaceName())) {
-//                found = true;
-//                break;
-//            }
-//        }
-//        if (!found && t->stateEvaluatorTemplate() && stateEvaluatorTemplateContainsInterface(t->stateEvaluatorTemplate(), m_filterInterfaceNames)) {
-//            found = true;
-//        }
-//        if (!found) {
-//            for (int i = 0; i < t->ruleActionTemplates()->rowCount(); i++) {
-//                if (m_filterInterfaceNames.contains(t->ruleActionTemplates()->get(i)->interfaceName())) {
-//                    found = true;
-//                    break;
-//                }
-//            }
-//        }
-//        if (!found) {
-//            for (int i = 0; i < t->ruleExitActionTemplates()->rowCount(); i++) {
-//                if (m_filterInterfaceNames.contains(t->ruleExitActionTemplates()->get(i)->interfaceName())) {
-//                    found = true;
-//                    break;
-//                }
-//            }
-//        }
-//        if (!found) {
-//            return false;
-//        }
     }
     return true;
 }

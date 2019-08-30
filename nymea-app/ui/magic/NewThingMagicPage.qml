@@ -7,8 +7,8 @@ import "../components"
 Page {
     id: root
 
-    property var device: null
-    readonly property var deviceClass: device ? engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
+    property Device device: null
+    readonly property DeviceClass deviceClass: device ? device.deviceClass : null
     property bool busy: false
 
     signal done();
@@ -27,7 +27,7 @@ Page {
         property var selectedInterfaces: ({})
 
         function fillRuleFromTemplate(rule, ruleTemplate) {
-            print("Filling rule")
+            print("***** Filling rule")
 
             // Fill in all EventDescriptors
             for (var i = rule.eventDescriptors.count; i < ruleTemplate.eventDescriptorTemplates.count; i++) {
@@ -36,17 +36,20 @@ Page {
                 // If we already have a thing selected for this selectionIndex, use that
                 if (eventDescriptorTemplate.selectionId in selectedThings) {
                     var device = engine.deviceManager.devices.getDevice(selectedThings[eventDescriptorTemplate.selectionId]);
+                    print("Already have a device for selectionId", eventDescriptorTemplate.selectionId, ":", device.name)
                     createEventDescriptor(rule, ruleTemplate, device, eventDescriptorTemplate)
                     return;
                 }
                 // Ok, we didn't pick a thing for this selectionId before. Did we already use the one we opened this page from?
-                if (!deviceIsUsed(root.device.id) && root.deviceClass.interfaces.indexOf(eventDescriptorTemplate.interfaceName) >= 0 && eventDescriptorTemplate.interfaceName === ruleTemplate.interfaceName) {
+                if (root.device && !deviceIsUsed(root.device.id) && root.deviceClass.interfaces.indexOf(eventDescriptorTemplate.interfaceName) >= 0) {
+                    print("Root device is matching and not used. Using for selectionId", eventDescriptorTemplate.selectionId, ":", root.device.name)
                     selectedThings[eventDescriptorTemplate.selectionId] = root.device.id;
                     createEventDescriptor(rule, ruleTemplate, root.device, eventDescriptorTemplate)
                     return;
                 }
 
                 // We need to pick a thing
+                print("We need to pick a new device for selectionId", eventDescriptorTemplate.selectionId)
                 var page = pageStack.push(Qt.resolvedUrl("SelectThingPage.qml"), {shownInterfaces: [eventDescriptorTemplate.interfaceName]});
                 page.thingSelected.connect(function(device) {
                     selectedThings[eventDescriptorTemplate.selectionId] = device.id;
@@ -59,6 +62,7 @@ Page {
 
             // Fill in StateEvaluator
             if (ruleTemplate.stateEvaluatorTemplate !== null) {
+                print("RuleFromTemplate: Filling stateEvaluator")
                 if (rule.stateEvaluator === null) {
                     var stateEvaluator = rule.createStateEvaluator();
                     rule.setStateEvaluator(stateEvaluator);
@@ -73,6 +77,7 @@ Page {
 
             for (var i = rule.actions.count; i < ruleTemplate.ruleActionTemplates.count; i++) {
                 var ruleActionTemplate = ruleTemplate.ruleActionTemplates.get(i);
+                print("RuleFromTemplate: Filling ruleAction:", ruleActionTemplate.interfaceName, ruleActionTemplate.interfaceAction, ruleActionTemplate.selectionId)
 
                 if (ruleActionTemplate.selectionMode === RuleActionTemplate.SelectionModeInterface) {
                     // TODO: Implement blacklist for interface based actions
@@ -92,19 +97,21 @@ Page {
                 // Did we pick a thing for this index before?
                 if (ruleActionTemplate.selectionId in selectedThings) {
                     var device = engine.deviceManager.devices.getDevice(selectedThings[ruleActionTemplate.selectionId]);
+                    print("Already have a device for selectionId", ruleActionTemplate.selectionId, ":", device.name)
                     createRuleAction(rule, ruleTemplate, rule.actions, device, ruleActionTemplate)
                     return;
                 }
 
                 // Did we already use the thing we opened this page from?
-                if (!deviceIsUsed(root.device.id) && root.deviceClass.interfaces.indexOf(ruleActionTemplate.interfaceName) >= 0 && ruleActionTemplate.interfaceName === ruleTemplate.interfaceName) {
+                if (root.device && !deviceIsUsed(root.device.id) && root.deviceClass.interfaces.indexOf(ruleActionTemplate.interfaceName) >= 0) {
+                    print("Root device is matching and not used. Using for selectionId", ruleActionTemplate.selectionId, ":", root.device.name)
                     selectedThings[ruleActionTemplate.selectionId] = root.device.id;
                     createRuleAction(rule, ruleTemplate, rule.actions, root.device, ruleActionTemplate)
                     return;
                 }
 
                 // Ok, we need to pick a thing
-                print("Need to select a thing")
+//              print("Need to select a thing.")
                 var page = pageStack.push(Qt.resolvedUrl("SelectThingPage.qml"), {shownInterfaces: [ruleActionTemplate.interfaceName]});
                 page.thingSelected.connect(function(device) {
                     selectedThings[ruleActionTemplate.selectionId] = device.id;
@@ -142,7 +149,7 @@ Page {
                 }
 
                 // Did we already use the thing we opened this page from?
-                if (!deviceIsUsed(root.device.id) && root.deviceClass.interfaces.indexOf(ruleExitActionTemplate.interfaceName) >= 0 && ruleExitActionTemplate.interfaceName === ruleTemplate.interfaceName) {
+                if (root.device && !deviceIsUsed(root.device.id) && root.deviceClass.interfaces.indexOf(ruleExitActionTemplate.interfaceName) >= 0) {
                     selectedThings[ruleExitActionTemplate.selectionId] = root.device.id;
                     createRuleAction(rule, ruleTemplate, rule.exitActions, root.device, ruleExitActionTemplate);
                     return;
@@ -194,6 +201,7 @@ Page {
             print("Rule complete!")
             engine.ruleManager.addRule(rule);
             rule.destroy();
+            print("emitting done")
             root.done();
         }
 
@@ -224,7 +232,7 @@ Page {
                     fillRuleFromTemplate(rule, ruleTemplate);
                     return true;
                 }
-                if (!deviceIsUsed(root.device.id) && root.deviceClass.interfaces.indexOf(stateEvaluatorTemplate.stateDescriptorTemplate.interfaceName) >= 0 && stateEvaluatorTemplate.stateDescriptorTemplate.interfaceName === ruleTemplate.interfaceName) {
+                if (root.device && !deviceIsUsed(root.device.id) && root.deviceClass.interfaces.indexOf(stateEvaluatorTemplate.stateDescriptorTemplate.interfaceName) >= 0) {
                     stateEvaluator.stateDescriptor.deviceId = root.device.id;
                     stateEvaluator.stateDescriptor.stateTypeId = root.deviceClass.stateTypes.findByName(stateEvaluatorTemplate.stateDescriptorTemplate.interfaceState).id
                     stateEvaluator.stateDescriptor.valueOperator = stateEvaluatorTemplate.stateDescriptorTemplate.valueOperator;
@@ -272,15 +280,20 @@ Page {
             var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
             eventDescriptor.eventTypeId = deviceClass.eventTypes.findByName(eventDescriptorTemplate.interfaceEvent).id
             var needsParams = false;
-            for (var j = 0; j < eventDescriptorTemplate.paramDescriptors.count; j++) {
-                var paramDescriptorTemplate = eventDescriptorTemplate.paramDescriptors.get(j);
-                if (paramDescriptorTemplate.value !== undefined) {
-                    print("Adding operator:", paramDescriptorTemplate.operatorType)
+
+            var eventType = deviceClass.eventTypes.getEventType(eventDescriptor.eventTypeId);
+            for (var j = 0; j < eventType.paramTypes.count; j++) {
+                var paramType = eventType.paramTypes.get(j);
+                var paramDescriptorTemplate = eventDescriptorTemplate.paramDescriptors.getParamDescriptorByName(paramType.name)
+                // has the template a value for this? If so, set it, otherwise flag as needsParams
+                print("template:", paramType.id, eventDescriptorTemplate.paramDescriptors.count)
+                if (paramDescriptorTemplate && paramDescriptorTemplate.value !== undefined) {
                     eventDescriptor.paramDescriptors.setParamDescriptorByName(paramDescriptorTemplate.paramName, paramDescriptorTemplate.value, paramDescriptorTemplate.operatorType);
                 } else {
                     needsParams = true;
                 }
             }
+
             if (needsParams) {
                 var page = pageStack.push(Qt.resolvedUrl("SelectEventDescriptorParamsPage.qml"), { eventDescriptor: eventDescriptor })
                 page.completed.connect(function() {
@@ -373,7 +386,7 @@ Page {
     }
 
     header: NymeaHeader {
-        text: qsTr("New magic")
+        text: root.device ? qsTr("New magic for %1").arg(root.device.name) : qsTr("New magic")
         onBackPressed: root.done()
     }
 
@@ -382,14 +395,20 @@ Page {
         ListView {
             Layout.fillWidth: true
             Layout.fillHeight: true
+            clip: true
             model: RuleTemplatesFilterModel {
                 id: ruleTemplatesModel
                 ruleTemplates: RuleTemplates {}
-                filterInterfaceNames: root.deviceClass ? root.deviceClass.interfaces : []
+                filterByDevices: DevicesProxy {
+                    engine: _engine
+                }
+
+                filterInterfaceNames: root.device ? root.device.deviceClass.interfaces : []
             }
             delegate: NymeaListItemDelegate {
                 width: parent.width
                 text: model.description
+                iconName: app.interfacesToIcon(model.interfaces)
 
                 onClicked: {
                     var ruleTemplate = ruleTemplatesModel.get(index);

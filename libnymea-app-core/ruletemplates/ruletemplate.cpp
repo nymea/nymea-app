@@ -14,11 +14,6 @@ RuleTemplate::RuleTemplate(const QString &interfaceName, const QString &descript
 {
 }
 
-QString RuleTemplate::interfaceName() const
-{
-    return m_interfaceName;
-}
-
 QString RuleTemplate::description() const
 {
     return m_description;
@@ -27,6 +22,18 @@ QString RuleTemplate::description() const
 QString RuleTemplate::ruleNameTemplate() const
 {
     return m_ruleNameTemplate;
+}
+
+QStringList RuleTemplate::interfaces() const
+{
+    QStringList ret;
+    ret.append(m_eventDescriptorTemplates->interfaces());
+    if (m_stateEvaluatorTemplate) {
+        ret.append(m_stateEvaluatorTemplate->interfaces());
+    }
+    ret.append(m_ruleActionTemplates->interfaces());
+    ret.append(m_ruleExitActionTemplates->interfaces());
+    return ret;
 }
 
 EventDescriptorTemplates *RuleTemplate::eventDescriptorTemplates() const

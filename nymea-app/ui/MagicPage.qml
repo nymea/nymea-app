@@ -18,7 +18,32 @@ Page {
         }
     }
 
+    RuleTemplatesFilterModel {
+        id: ruleTemplatesModel
+        ruleTemplates: RuleTemplates {}
+        readonly property var deviceClass: device ? engine.deviceManager.deviceClasses.getDeviceClass(root.device.deviceClassId) : null
+        filterByDevices: DevicesProxy { engine: _engine }
+        filterInterfaceNames: deviceClass ? deviceClass.interfaces : []
+    }
+
     function addRule() {
+        if (ruleTemplatesModel.count > 0) {
+            d.editRulePage = pageStack.push(Qt.resolvedUrl("magic/NewThingMagicPage.qml"))
+            d.editRulePage.done.connect(function() {
+                print("add rule done")
+                pageStack.pop(root);
+            })
+
+            d.editRulePage.manualCreation.connect(function() {
+                pageStack.pop(root);
+                manualAddRule();
+            })
+        } else {
+            manualAddRule();
+        }
+    }
+
+    function manualAddRule() {
         var newRule = engine.ruleManager.createNewRule();
         d.editRulePage = pageStack.push(Qt.resolvedUrl("magic/EditRulePage.qml"), {rule: newRule });
         d.editRulePage.StackView.onRemoved.connect(function() {
@@ -41,20 +66,19 @@ Page {
     Connections {
         target: engine.ruleManager
         onAddRuleReply: {
-            d.editRulePage.busy = false;
             if (ruleError == "RuleErrorNoError") {
 //                print("should tag rule now:", d.editRulePage.rule.id, d.editRulePage.ruleIcon, d.editRulePage.ruleColor)
-                engine.tagsManager.tagRule(ruleId, "color", d.editRulePage.ruleColor)
-                engine.tagsManager.tagRule(ruleId, "icon", d.editRulePage.ruleIcon)
-                pageStack.pop();
+//                engine.tagsManager.tagRule(ruleId, "color", d.editRulePage.ruleColor)
+//                engine.tagsManager.tagRule(ruleId, "icon", d.editRulePage.ruleIcon)
+                pageStack.pop(root);
             } else {
                 var popup = errorDialog.createObject(app, {errorCode: ruleError })
                 popup.open();
             }
+            d.editRulePage.busy = false;
         }
 
         onEditRuleReply: {
-            d.editRulePage.busy = false;
             if (ruleError == "RuleErrorNoError") {
 //                print("should tag rule now:", d.editRulePage.ruleIcon, d.editRulePage.ruleColor)
                 engine.tagsManager.tagRule(d.editRulePage.rule.id, "color", d.editRulePage.ruleColor)
@@ -64,6 +88,7 @@ Page {
                 var popup = errorDialog.createObject(app, {errorCode: ruleError })
                 popup.open();
             }
+            d.editRulePage.busy = false;
         }
     }
 

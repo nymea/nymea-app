@@ -13,6 +13,7 @@ class StateEvaluatorTemplate : public QObject
     Q_PROPERTY(StateDescriptorTemplate* stateDescriptorTemplate READ stateDescriptorTemplate CONSTANT)
     Q_PROPERTY(StateOperator stateOperator READ stateOperator CONSTANT)
     Q_PROPERTY(StateEvaluatorTemplates* childEvaluatorTemplates READ childEvaluatorTemplates CONSTANT)
+    Q_PROPERTY(QStringList interfaces READ interfaces CONSTANT)
 
 public:
     enum StateOperator {
@@ -26,6 +27,7 @@ public:
     StateDescriptorTemplate* stateDescriptorTemplate() const;
     StateOperator stateOperator() const;
     StateEvaluatorTemplates* childEvaluatorTemplates() const;
+    QStringList interfaces() const;
 
 private:
     StateDescriptorTemplate* m_stateDescriptorTemplate = nullptr;

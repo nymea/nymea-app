@@ -1,6 +1,8 @@
 #include "paramdescriptors.h"
 #include "paramdescriptor.h"
 
+#include <QDebug>
+
 ParamDescriptors::ParamDescriptors(QObject *parent) : QAbstractListModel(parent)
 {
 
@@ -97,6 +99,30 @@ void ParamDescriptors::clear()
     m_list.clear();
     endResetModel();
     emit countChanged();
+}
+
+ParamDescriptor *ParamDescriptors::getParamDescriptor(const QString &paramTypeId) const
+{
+    qDebug() << "getParamDescriptor" << paramTypeId;
+    for (int i = 0; i < m_list.count(); i++) {
+        qDebug() << "have param descriptor:" << m_list.at(i)->paramTypeId();
+        if (m_list.at(i)->paramTypeId() == paramTypeId) {
+            return m_list.at(i);
+        }
+    }
+    return nullptr;
+}
+
+ParamDescriptor *ParamDescriptors::getParamDescriptorByName(const QString &paramName) const
+{
+    qDebug() << "getParamDescriptorByName" << paramName;
+    for (int i = 0; i < m_list.count(); i++) {
+        qDebug() << "have param descriptor:" << m_list.at(i)->paramName();
+        if (m_list.at(i)->paramName() == paramName) {
+            return m_list.at(i);
+        }
+    }
+    return nullptr;
 }
 
 bool ParamDescriptors::operator==(ParamDescriptors *other) const

@@ -194,5 +194,6 @@
         <file>ui/components/NavigationPad.qml</file>
         <file>ui/components/KeypadButton.qml</file>
         <file>ui/devicepages/DoorbellDevicePage.qml</file>
+        <file>ui/magic/NewMagicPage.qml</file>
     </qresource>
 </RCC>

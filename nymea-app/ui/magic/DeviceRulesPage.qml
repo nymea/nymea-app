@@ -27,6 +27,7 @@ Page {
         id: ruleTemplatesModel
         ruleTemplates: RuleTemplates {}
         readonly property var deviceClass: device ? engine.deviceManager.deviceClasses.getDeviceClass(root.device.deviceClassId) : null
+        filterByDevices: DevicesProxy { engine: _engine }
         filterInterfaceNames: deviceClass ? deviceClass.interfaces : []
     }
 

@@ -45,7 +45,7 @@ DeviceManager::DeviceManager(JsonRpcClient* jsonclient, QObject *parent) :
             qWarning() << "received an event from a device we don't know..." << deviceId << event;
             return;
         }
-        qDebug() << "Event received" << deviceId.toString() << eventTypeId.toString();
+//        qDebug() << "Event received" << deviceId.toString() << eventTypeId.toString();
         dev->eventTriggered(eventTypeId.toString(), event.value("params").toMap());
         emit eventTriggered(deviceId.toString(), eventTypeId.toString(), event.value("params").toMap());
 

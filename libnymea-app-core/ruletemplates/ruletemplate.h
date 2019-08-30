@@ -10,9 +10,9 @@ class StateEvaluatorTemplate;
 class RuleTemplate : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QString interfaceName READ interfaceName CONSTANT)
     Q_PROPERTY(QString description READ description CONSTANT)
     Q_PROPERTY(QString ruleNameTemplate READ ruleNameTemplate CONSTANT)
+    Q_PROPERTY(QStringList interfaces READ interfaces CONSTANT)
     Q_PROPERTY(EventDescriptorTemplates* eventDescriptorTemplates READ eventDescriptorTemplates CONSTANT)
     Q_PROPERTY(StateEvaluatorTemplate* stateEvaluatorTemplate READ stateEvaluatorTemplate CONSTANT)
     Q_PROPERTY(RuleActionTemplates* ruleActionTemplates READ ruleActionTemplates CONSTANT)
@@ -21,9 +21,9 @@ class RuleTemplate : public QObject
 public:
     explicit RuleTemplate(const QString &interfaceName, const QString &description, const QString &ruleNameTemplate, QObject *parent = nullptr);
 
-    QString interfaceName() const;
     QString description() const;
     QString ruleNameTemplate() const;
+    QStringList interfaces() const;
 
     EventDescriptorTemplates* eventDescriptorTemplates() const;
     StateEvaluatorTemplate* stateEvaluatorTemplate() const;

@@ -15,7 +15,7 @@
             },
             "ruleActionTemplates": [
                 {
-                    "interfaceName": "power",
+                    "interfaceName": "light",
                     "interfaceAction": "power",
                     "selectionId": 1,
                     "params": [
@@ -28,7 +28,7 @@
             ],
             "ruleExitActionTemplates": [
                 {
-                    "interfaceName": "power",
+                    "interfaceName": "light",
                     "interfaceAction": "power",
                     "selectionId": 1,
                     "params": [
@@ -43,7 +43,7 @@
         {
             "interfaceName": "daylightsensor",
             "description": "Turn on a light when it gets dark outside.",
-            "ruleNameTemplate": "Turn on %1 it gets dark outside (%0).",
+            "ruleNameTemplate": "Turn on %1 when it gets dark outside (%0).",
             "eventDescriptorTemplates": [
                 {
                     "interfaceName": "daylightsensor",

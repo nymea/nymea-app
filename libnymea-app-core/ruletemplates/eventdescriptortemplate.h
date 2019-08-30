@@ -42,9 +42,11 @@ class EventDescriptorTemplates: public QAbstractListModel
 {
     Q_OBJECT
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
+    Q_PROPERTY(QStringList interfaces READ interfaces CONSTANT)
 public:
     EventDescriptorTemplates(QObject *parent = nullptr): QAbstractListModel(parent) {}
 
+    QStringList interfaces() const;
     int rowCount(const QModelIndex &parent = QModelIndex()) const override { Q_UNUSED(parent); return m_list.count(); }
     QVariant data(const QModelIndex &index, int role) const override { Q_UNUSED(index); Q_UNUSED(role); return QVariant(); }
 
@@ -62,6 +64,8 @@ public:
         }
         return m_list.at(index);
     }
+
+
 
 signals:
     void countChanged();
