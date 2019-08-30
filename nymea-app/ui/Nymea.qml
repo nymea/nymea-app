@@ -65,7 +65,7 @@ ApplicationWindow {
     }
     property alias _discovery: discovery
 
-    property var supportedInterfaces: ["light", "weather", "media", "garagegate", "awning", "shutter", "blind", "powersocket", "heating", "sensor", "smartmeter", "evcharger", "accesscontrol", "button", "notifications", "inputtrigger", "outputtrigger", "gateway"]
+    property var supportedInterfaces: ["light", "weather", "media", "garagegate", "awning", "shutter", "blind", "powersocket", "heating", "doorbell", "sensor", "smartmeter", "evcharger", "accesscontrol", "button", "notifications", "inputtrigger", "outputtrigger", "gateway"]
     function interfaceToString(name) {
         switch(name) {
         case "light":
@@ -122,6 +122,8 @@ ApplicationWindow {
             return qsTr("EV-chargers");
         case "powersocket":
             return qsTr("Power sockets")
+        case "doorbell":
+            return qsTr("Doorbells");
         case "uncategorized":
             return qsTr("Uncategorized")
         default:
@@ -226,6 +228,8 @@ ApplicationWindow {
         case "evcharger":
         case "extendedevcharger":
             return Qt.resolvedUrl("images/ev-charger.svg")
+        case "doorbell":
+            return Qt.resolvedUrl("images/notification.svg")
         case "connectable":
             return Qt.resolvedUrl("images/stock_link.svg")
         default:
@@ -285,6 +289,10 @@ ApplicationWindow {
             return qsTr("daylight sensor")
         case "presencesensor":
             return qsTr("presence sensor")
+        case "doorbell":
+            return qsTr("doorbell")
+        case "alert":
+            return qsTr("alert")
         default:
             console.warn("Unhandled interfaceToDisplayName:", name)
         }
@@ -322,6 +330,8 @@ ApplicationWindow {
             page = "SmartMeterDevicePage.qml"
         } else if (interfaceList.indexOf("powersocket") >= 0) {
             page = "PowersocketDevicePage.qml";
+        } else if (interfaceList.indexOf("doorbell") >= 0) {
+            page = "DoorbellDevicePage.qml";
         } else {
             page = "GenericDevicePage.qml";
         }

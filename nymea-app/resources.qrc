@@ -193,5 +193,6 @@
         <file>ui/delegates/BrowserItemDelegate.qml</file>
         <file>ui/components/NavigationPad.qml</file>
         <file>ui/components/KeypadButton.qml</file>
+        <file>ui/devicepages/DoorbellDevicePage.qml</file>
     </qresource>
 </RCC>

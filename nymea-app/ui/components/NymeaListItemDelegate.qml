@@ -13,6 +13,7 @@ SwipeDelegate {
 
     property bool wrapTexts: true
     property bool prominentSubText: true
+    property int textAlignment: Text.AlignLeft
 
     property string iconName
     property string thumbnail
@@ -81,6 +82,7 @@ SwipeDelegate {
                 maximumLineCount: root.wrapTexts ? 2 : 1
                 elide: Text.ElideRight
                 verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: root.textAlignment
             }
             Label {
                 Layout.fillWidth: true

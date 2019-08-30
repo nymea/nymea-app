@@ -91,7 +91,6 @@ Item {
 
                 Label {
                     text: infoPane.text
-                    visible: infoPane.alertState
                     font.pixelSize: app.smallFont
                     color: "white"
                 }

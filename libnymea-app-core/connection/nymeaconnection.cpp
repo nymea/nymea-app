@@ -412,11 +412,11 @@ void NymeaConnection::updateActiveBearers()
     }
 
     if (m_availableBearerTypes != availableBearerTypes) {
-        qDebug() << "Available Bearer Types changed:" << availableBearerTypes;
+//        qDebug() << "Available Bearer Types changed:" << availableBearerTypes;
         m_availableBearerTypes = availableBearerTypes;
         emit availableBearerTypesChanged();
     } else {
-        qDebug() << "Available Bearer Types:" << availableBearerTypes;
+//        qDebug() << "Available Bearer Types:" << availableBearerTypes;
     }
 
     if (!m_currentHost) {

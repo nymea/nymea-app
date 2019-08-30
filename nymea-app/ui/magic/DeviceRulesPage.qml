@@ -78,7 +78,6 @@ Page {
     Connections {
         target: engine.ruleManager
         onAddRuleReply: {
-            d.editRulePage.busy = false;
             if (ruleError == "RuleErrorNoError") {
                 pageStack.pop(root);
             } else {
@@ -86,10 +85,10 @@ Page {
                 var popup = errorDialog.createObject(root, {errorCode: ruleError })
                 popup.open();
             }
+            d.editRulePage.busy = false;
         }
 
         onEditRuleReply: {
-            d.editRulePage.busy = false;
             if (ruleError == "RuleErrorNoError") {
                 pageStack.pop(root);
             } else {
@@ -97,6 +96,7 @@ Page {
                 var popup = errorDialog.createObject(root, {errorCode: ruleError })
                 popup.open();
             }
+            d.editRulePage.busy = false;
         }
     }
 

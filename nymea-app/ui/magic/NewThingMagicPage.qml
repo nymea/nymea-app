@@ -300,12 +300,15 @@ Page {
         function createRuleAction(rule, ruleTemplate, ruleActions, device, ruleActionTemplate) {
             var ruleAction = ruleActions.createNewRuleAction();
             var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
+
+            ruleAction.actionTypeId = deviceClass.actionTypes.findByName(ruleActionTemplate.interfaceAction).id
             ruleAction.deviceId = device.id;
             print("Creating action", ruleActionTemplate.interfaceAction, "on device class", deviceClass.displayName)
-            ruleAction.actionTypeId = deviceClass.actionTypes.findByName(ruleActionTemplate.interfaceAction).id
+
+            var actionType = deviceClass.actionTypes.getActionType(ruleAction.actionTypeId);
+
             for (var j = 0; j < ruleActionTemplate.ruleActionParamTemplates.count; j++) {
                 var ruleActionParamTemplate = ruleActionTemplate.ruleActionParamTemplates.get(j)
-                var actionType = deviceClass.actionTypes.getActionType(ruleAction.actionTypeId);
                 var paramType = actionType.paramTypes.findByName(ruleActionParamTemplate.paramName);
                 if (ruleActionParamTemplate.value !== undefined) {
                     ruleAction.ruleActionParams.setRuleActionParam(paramType.id, ruleActionParamTemplate.value)
@@ -335,8 +338,26 @@ Page {
                 } else {
                     console.warn("Invalid RuleActionParamTemplate. Has neither value nor event spec")
                 }
-
             }
+            // Check if the action has more paramTypes than there are defined in the ruleActionTemplate
+            for (var i = 0; i < actionType.paramTypes.count; i++) {
+                var paramType = actionType.paramTypes.get(i);
+                if (!ruleAction.ruleActionParams.hasRuleActionParam(paramType.id)) {
+                    print("Missing param!", paramType.name)
+                    var paramsPage = pageStack.push(Qt.resolvedUrl("SelectRuleActionParamsPage.qml"), {ruleAction: ruleAction, rule: rule})
+                    paramsPage.onBackPressed.connect(function() {
+                        ruleAction.destroy()
+                        pageStack.pop();
+                    });
+                    paramsPage.onCompleted.connect(function() {
+                        pageStack.pop();
+                        ruleActions.addRuleAction(ruleAction);
+                        fillRuleFromTemplate(rule, ruleTemplate);
+                    })
+                    return;
+                }
+            }
+
             ruleActions.addRuleAction(ruleAction);
             fillRuleFromTemplate(rule, ruleTemplate);
         }

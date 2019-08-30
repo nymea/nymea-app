@@ -115,6 +115,16 @@ RuleActionParam *RuleActionParams::get(int index) const
     return m_list.at(index);
 }
 
+bool RuleActionParams::hasRuleActionParam(const QString &paramTypeId) const
+{
+    for (int i = 0; i < m_list.count(); i++) {
+        if (m_list.at(i)->paramTypeId() == paramTypeId) {
+            return true;
+        }
+    }
+    return false;
+}
+
 bool RuleActionParams::operator==(RuleActionParams *other) const
 {
     if (rowCount() != other->rowCount()) {

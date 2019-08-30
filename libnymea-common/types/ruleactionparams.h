@@ -33,6 +33,8 @@ public:
 
     Q_INVOKABLE RuleActionParam* get(int index) const;
 
+    Q_INVOKABLE bool hasRuleActionParam(const QString &paramTypeId) const;
+
     bool operator==(RuleActionParams *other) const;
 
 signals:
