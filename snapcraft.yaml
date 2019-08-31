@@ -52,6 +52,7 @@ parts:
       - libqt5charts5-dev
       - libqt5svg5-dev
       - libqt5websockets5-dev
+      - libqt5webview5-dev
       - qtconnectivity5-dev
       - qtdeclarative5-dev
       - qtquickcontrols2-5-dev
