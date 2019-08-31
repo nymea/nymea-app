@@ -49,12 +49,6 @@ signals:
 private:
     Vendors *m_vendors;
 
-protected:
-    bool lessThan(const QModelIndex &left, const QModelIndex &right) const Q_DECL_OVERRIDE;
-
-
-
-public slots:
 };
 
 #endif // VENDORSPROXY_H

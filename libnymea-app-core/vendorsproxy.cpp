@@ -27,6 +27,7 @@
 VendorsProxy::VendorsProxy(QObject *parent) : QSortFilterProxyModel(parent)
 {
     setSortRole(Vendors::RoleDisplayName);
+    setSortCaseSensitivity(Qt::CaseInsensitive);
 }
 
 Vendors *VendorsProxy::vendors()
@@ -50,11 +51,4 @@ Vendor *VendorsProxy::get(int index) const
     return m_vendors->get(mapToSource(this->index(index, 0)).row());
 }
 
-bool VendorsProxy::lessThan(const QModelIndex &left, const QModelIndex &right) const
-{
-    QVariant leftName = sourceModel()->data(left);
-    QVariant rightName = sourceModel()->data(right);
-
-    return QString::localeAwareCompare(leftName.toString(), rightName.toString()) < 0;
-}
 
