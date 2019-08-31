@@ -1,3 +1,15 @@
+nymea-app (1.0.141) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Call methods necessary to init QtWebView on some platforms
+  * Add missing icon for the loopback bearer type
+  * Fix sorting of vendors list in add thing dialog
+  * Fix ThingDelegate not updating connection status
+  * Improve rule creation
+  * Smoothen the volume slider
+
+ -- Jenkins <jenkins@nymea.io>  Sun, 01 Sep 2019 01:51:47 +0200
+
 nymea-app (1.0.140) bionic; urgency=medium
 
   [ Michael Zanetti ]
