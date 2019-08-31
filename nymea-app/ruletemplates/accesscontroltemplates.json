@@ -1,7 +1,6 @@
 {
     "templates": [
         {
-            "interfaceName": "accesscontrol",
             "description": "Alert me on denied access attempts",
             "ruleNameTemplate": "Denied access attempt on %0",
             "eventDescriptorTemplates": [
@@ -30,7 +29,6 @@
             ]
         },
         {
-            "interfaceName": "accesscontrol",
             "description": "Notify my about access",
             "ruleNameTemplate": "Access granted on %0",
             "eventDescriptorTemplates": [
@@ -59,7 +57,6 @@
             ]
         },
         {
-            "interfaceName": "useraccesscontrol",
             "description": "Notify my about user access",
             "ruleNameTemplate": "Access granted to user on %0",
             "eventDescriptorTemplates": [

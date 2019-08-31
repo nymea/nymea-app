@@ -1,8 +1,7 @@
 {
     "templates": [
         {
-            "interfaceName": "daylightsensor",
-            "description": "Turn on a light while it's dark outside.",
+            "description": "Turn on a light while it's dark outside",
             "ruleNameTemplate": "Turn on %1 while it's dark outside",
             "stateEvaluatorTemplate": {
                 "stateDescriptorTemplate": {
@@ -41,9 +40,8 @@
             ]
         },
         {
-            "interfaceName": "daylightsensor",
-            "description": "Turn on a light when it gets dark outside.",
-            "ruleNameTemplate": "Turn on %1 when it gets dark outside (%0).",
+            "description": "Turn on a light when it gets dark outside",
+            "ruleNameTemplate": "Turn on %1 when it gets dark outside (%0)",
             "eventDescriptorTemplates": [
                 {
                     "interfaceName": "daylightsensor",
@@ -73,9 +71,8 @@
             ]
         },
         {
-            "interfaceName": "daylightsensor",
-            "description": "Turn on all lights when it gets dark outside.",
-            "ruleNameTemplate": "Turn on all lights when it gets dark outside.",
+            "description": "Turn on all lights when it gets dark outside",
+            "ruleNameTemplate": "Turn on all lights when it gets dark outside",
             "eventDescriptorTemplates": [
                 {
                     "interfaceName": "daylightsensor",

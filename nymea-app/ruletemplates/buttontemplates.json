@@ -100,7 +100,6 @@
             ]
         },
         {
-            "interfaceName": "button",
             "description": "Turn off all lights",
             "ruleNameTemplate": "Turn off everything with %0",
             "eventDescriptorTemplates": [

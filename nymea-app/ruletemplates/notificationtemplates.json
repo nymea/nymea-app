@@ -1,7 +1,7 @@
 {
     "templates": [
         {
-            "description": "Notify me when a device runs out of battery.",
+            "description": "Notify me when a device runs out of battery",
             "ruleNameTemplate": "Low battery alert for %0",
             "stateEvaluatorTemplate": {
                 "stateDescriptorTemplate": {
@@ -32,7 +32,7 @@
             ]
         },
         {
-            "description": "Notify me when something runs dry.",
+            "description": "Notify me when something runs dry",
             "ruleNameTemplate": "Notify %1 when %0 runs dry",
             "stateEvaluatorTemplate": {
                 "stateDescriptorTemplate": {
@@ -63,7 +63,7 @@
             ]
         },
         {
-            "description": "Notify me when a thing gets disconnected.",
+            "description": "Notify me when a thing gets disconnected",
             "ruleNameTemplate": "Disconnect alert for %0",
             "stateEvaluatorTemplate": {
                 "stateDescriptorTemplate": {
@@ -95,8 +95,7 @@
             ]
         },
         {
-            "interfaceName": "notifications",
-            "description": "Notify me when a thing connects.",
+            "description": "Notify me when a thing connects",
             "ruleNameTemplate": "Connection notification for %0",
             "stateEvaluatorTemplate": {
                 "stateDescriptorTemplate": {
