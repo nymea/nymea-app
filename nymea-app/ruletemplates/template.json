@@ -1,7 +1,6 @@
 {
     "templates": [
         {
-            "interfaceName": "",
             "description": "",
             "ruleNameTemplate": "%0 ...",
             "eventDescriptorTemplates": [ // optional

@@ -6,6 +6,8 @@
         <file>ruletemplates/smartmetertemplates.json</file>
         <file>ruletemplates/presencesensortemplates.json</file>
         <file>ruletemplates/daylightsensor.json</file>
-        <file>ruletemplates/lighttemplates.json</file>
+        <file>ruletemplates/thermostattemplates.json</file>
+        <file>ruletemplates/mediatemplates.json</file>
+        <file>ruletemplates/doorbellruletemplates.json</file>
     </qresource>
 </RCC>

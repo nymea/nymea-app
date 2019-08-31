@@ -1,0 +1,38 @@
+{
+    "templates": [
+        {
+            "description": "Set temperature while I'm home",
+            "ruleNameTemplate": "Set temperature while I'm home",
+            "stateEvaluatorTemplate": {
+                "stateDescriptorTemplate": {
+                    "interfaceName": "presencesensor",
+                    "interfaceState": "isPresent",
+                    "selectionId": 0,
+                    "operator": "ValueOperatorEquals",
+                    "value": true
+                }
+            },
+            "ruleActionTemplates": [
+                {
+                    "interfaceName": "thermostat",
+                    "interfaceAction": "targetTemperature",
+                    "selectionId": 1
+                }
+            ],
+            "ruleExitActionTemplates": [
+                {
+                    "interfaceName": "thermostat",
+                    "interfaceAction": "targetTemperature",
+                    "selectionId": 1,
+                    "params": [
+                        {
+                            "name": "targetTemperature",
+                            "value": "16"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+

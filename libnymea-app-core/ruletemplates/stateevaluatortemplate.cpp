@@ -23,3 +23,19 @@ StateEvaluatorTemplates *StateEvaluatorTemplate::childEvaluatorTemplates() const
 {
     return m_childEvaluatorTemplates;
 }
+
+QStringList StateEvaluatorTemplate::interfaces() const
+{
+    QStringList ret;
+
+    if (m_stateDescriptorTemplate) {
+        ret.append(stateDescriptorTemplate()->interfaceName());
+    }
+
+    for (int i = 0; i < m_childEvaluatorTemplates->rowCount(); i++) {
+        ret.append(m_childEvaluatorTemplates->get(i)->interfaces());
+    }
+
+    ret.removeDuplicates();
+    return ret;
+}

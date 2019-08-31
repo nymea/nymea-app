@@ -27,6 +27,7 @@ Page {
         id: ruleTemplatesModel
         ruleTemplates: RuleTemplates {}
         readonly property var deviceClass: device ? engine.deviceManager.deviceClasses.getDeviceClass(root.device.deviceClassId) : null
+        filterByDevices: DevicesProxy { engine: _engine }
         filterInterfaceNames: deviceClass ? deviceClass.interfaces : []
     }
 
@@ -78,7 +79,6 @@ Page {
     Connections {
         target: engine.ruleManager
         onAddRuleReply: {
-            d.editRulePage.busy = false;
             if (ruleError == "RuleErrorNoError") {
                 pageStack.pop(root);
             } else {
@@ -86,10 +86,10 @@ Page {
                 var popup = errorDialog.createObject(root, {errorCode: ruleError })
                 popup.open();
             }
+            d.editRulePage.busy = false;
         }
 
         onEditRuleReply: {
-            d.editRulePage.busy = false;
             if (ruleError == "RuleErrorNoError") {
                 pageStack.pop(root);
             } else {
@@ -97,6 +97,7 @@ Page {
                 var popup = errorDialog.createObject(root, {errorCode: ruleError })
                 popup.open();
             }
+            d.editRulePage.busy = false;
         }
     }
 

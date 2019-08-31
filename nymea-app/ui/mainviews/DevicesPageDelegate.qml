@@ -58,6 +58,7 @@ MainPageTile {
         if (model.name === "uncategorized") {
             pageStack.push(Qt.resolvedUrl("../devicelistpages/" + page), {hiddenInterfaces: app.supportedInterfaces})
         } else {
+            print("<entering for shown interfaces:", model.name)
             pageStack.push(Qt.resolvedUrl("../devicelistpages/" + page), {shownInterfaces: [model.name]})
         }
     }

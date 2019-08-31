@@ -1,0 +1,23 @@
+{
+    "templates": [
+        {
+            "description": "Alert on doorbell ring",
+            "ruleNameTemplate": "Alert %1 when someone is at %0",
+            "eventDescriptorTemplates": [
+                {
+                    "interfaceName": "doorbell",
+                    "interfaceEvent": "doorbellPressed",
+                    "selectionId": 0
+                }
+            ],
+            "ruleActionTemplates": [
+                {
+                    "interfaceName": "alert",
+                    "interfaceAction": "alert",
+                    "selectionId": 1
+                }
+            ]
+        }
+    ]
+}
+

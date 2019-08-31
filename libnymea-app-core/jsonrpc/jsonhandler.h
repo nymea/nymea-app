@@ -28,7 +28,7 @@ class JsonHandler : public QObject
 {
     Q_OBJECT
 public:
-    JsonHandler(QObject *parent = 0);
+    JsonHandler(QObject *parent = nullptr);
     virtual QString nameSpace() const = 0;
 };
 

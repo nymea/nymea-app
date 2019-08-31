@@ -1,8 +1,7 @@
 {
     "templates": [
         {
-            "interfaceName": "extendedsmartmeterproducer",
-            "description": "Charge my car while producing energy.",
+            "description": "Charge my car while producing energy",
             "ruleNameTemplate": "Smart car charging",
             "stateEvaluatorTemplate": {
                 "stateDescriptorTemplate": {
@@ -41,8 +40,7 @@
             ]
         },
         {
-            "interfaceName": "extendedsmartmeterproducer",
-            "description": "Turn on heating while producing energy.",
+            "description": "Turn on heating while producing energy",
             "ruleNameTemplate": "Smart heating",
             "stateEvaluatorTemplate": {
                 "stateDescriptorTemplate": {

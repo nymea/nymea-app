@@ -1,7 +1,6 @@
 {
     "templates": [
         {
-            "interfaceName": "notifications",
             "description": "Notify me when a device runs out of battery",
             "ruleNameTemplate": "Low battery alert for %0",
             "stateEvaluatorTemplate": {
@@ -33,7 +32,37 @@
             ]
         },
         {
-            "interfaceName": "notifications",
+            "description": "Notify me when something runs dry",
+            "ruleNameTemplate": "Notify %1 when %0 runs dry",
+            "stateEvaluatorTemplate": {
+                "stateDescriptorTemplate": {
+                    "interfaceName": "moisturesensor",
+                    "interfaceState": "moisture",
+                    "operator": "ValueOperatorLess",
+                    "selectionId": 0,
+                    "value": 20
+                }
+            },
+            "ruleActionTemplates": [
+                {
+                    "interfaceName": "notifications",
+                    "interfaceAction": "notify",
+                    "selectionId": 1,
+                    "selectionMode": "SelectionModeDevice",
+                    "params": [
+                        {
+                            "name": "title",
+                            "value": "Water alert"
+                        },
+                        {
+                            "name": "body",
+                            "value": "%0 runs dry"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
             "description": "Notify me when a thing gets disconnected",
             "ruleNameTemplate": "Disconnect alert for %0",
             "stateEvaluatorTemplate": {
@@ -66,7 +95,6 @@
             ]
         },
         {
-            "interfaceName": "notifications",
             "description": "Notify me when a thing connects",
             "ruleNameTemplate": "Connection notification for %0",
             "stateEvaluatorTemplate": {
@@ -88,7 +116,7 @@
                     "params": [
                         {
                             "name": "title",
-                            "value": "Thin connected"
+                            "value": "Thing connected"
                         },
                         {
                             "name": "body",

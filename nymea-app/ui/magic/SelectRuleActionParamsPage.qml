@@ -187,7 +187,9 @@ Page {
                     for (var i = 0; i < delegateRepeater.count; i++) {
                         var paramDelegate = delegateRepeater.itemAt(i);
                         if (paramDelegate.type === "static") {
+                            print("Setting static value", paramDelegate.value)
                             if (root.device) {
+                                print("setting", paramDelegate.paramType.id)
                                 root.ruleAction.ruleActionParams.setRuleActionParam(paramDelegate.paramType.id, paramDelegate.value)
                             } else if (root.iface) {
                                 root.ruleAction.ruleActionParams.setRuleActionParamByName(root.actionType.paramTypes.get(i).name, paramDelegate.value)

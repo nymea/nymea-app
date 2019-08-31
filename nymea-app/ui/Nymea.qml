@@ -65,7 +65,7 @@ ApplicationWindow {
     }
     property alias _discovery: discovery
 
-    property var supportedInterfaces: ["light", "weather", "media", "garagegate", "awning", "shutter", "blind", "powersocket", "heating", "sensor", "smartmeter", "evcharger", "accesscontrol", "button", "notifications", "inputtrigger", "outputtrigger", "gateway"]
+    property var supportedInterfaces: ["light", "weather", "media", "garagegate", "awning", "shutter", "blind", "powersocket", "heating", "doorbell", "sensor", "smartmeter", "evcharger", "accesscontrol", "button", "notifications", "inputtrigger", "outputtrigger", "gateway"]
     function interfaceToString(name) {
         switch(name) {
         case "light":
@@ -122,6 +122,8 @@ ApplicationWindow {
             return qsTr("EV-chargers");
         case "powersocket":
             return qsTr("Power sockets")
+        case "doorbell":
+            return qsTr("Doorbells");
         case "uncategorized":
             return qsTr("Uncategorized")
         default:
@@ -145,6 +147,7 @@ ApplicationWindow {
         case "light":
         case "colorlight":
         case "dimmablelight":
+        case "colortemperaturelight":
             return Qt.resolvedUrl("images/light-on.svg")
         case "sensor":
             return Qt.resolvedUrl("images/sensors.svg")
@@ -172,6 +175,7 @@ ApplicationWindow {
             return Qt.resolvedUrl("images/sensors/closable.svg")
         case "media":
         case "mediacontroller":
+        case "mediaplayer":
             return Qt.resolvedUrl("images/mediaplayer-app-symbolic.svg")
         case "powersocket":
             return Qt.resolvedUrl("images/powersocket.svg")
@@ -226,8 +230,12 @@ ApplicationWindow {
         case "evcharger":
         case "extendedevcharger":
             return Qt.resolvedUrl("images/ev-charger.svg")
+        case "doorbell":
+            return Qt.resolvedUrl("images/notification.svg")
         case "connectable":
             return Qt.resolvedUrl("images/stock_link.svg")
+        case "power":
+            return Qt.resolvedUrl("images/system-shutdown.svg")
         default:
             console.warn("InterfaceToIcon: Unhandled interface", name)
         }
@@ -270,6 +278,9 @@ ApplicationWindow {
     function interfaceToDisplayName(name) {
         switch (name) {
         case "light":
+        case "dimmablelight":
+        case "colorlight":
+        case "colortemperaturelight":
             return qsTr("light")
         case "button":
             return "button";
@@ -285,6 +296,24 @@ ApplicationWindow {
             return qsTr("daylight sensor")
         case "presencesensor":
             return qsTr("presence sensor")
+        case "doorbell":
+            return qsTr("doorbell")
+        case "alert":
+            return qsTr("alert")
+        case "simplemultibutton":
+        case "simplebutton":
+            return qsTr("button")
+        case "accesscotrol":
+            return qsTr("access control")
+        case "smartmeter":
+        case "smartmeterproducer":
+        case "smartmeterconsumer":
+        case "extendedsmartmeterproducer":
+        case "extendedsmartmeterconsumer":
+            return qsTr("smart meter");
+        case "media":
+        case "mediaplayer":
+            return qsTr("media player")
         default:
             console.warn("Unhandled interfaceToDisplayName:", name)
         }
@@ -322,6 +351,8 @@ ApplicationWindow {
             page = "SmartMeterDevicePage.qml"
         } else if (interfaceList.indexOf("powersocket") >= 0) {
             page = "PowersocketDevicePage.qml";
+        } else if (interfaceList.indexOf("doorbell") >= 0) {
+            page = "DoorbellDevicePage.qml";
         } else {
             page = "GenericDevicePage.qml";
         }

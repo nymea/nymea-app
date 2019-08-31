@@ -43,6 +43,9 @@ Page {
         engine: _engine
         groupByInterface: true
         nameFilter: filterInput.shown ? filterInput.text : ""
+        Component.onCompleted: {
+            print("showing devices for interfaces", devicesProxy.shownInterfaces)
+        }
     }
 
     ColumnLayout {

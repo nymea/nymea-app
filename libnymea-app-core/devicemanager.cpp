@@ -34,6 +34,22 @@ DeviceManager::DeviceManager(JsonRpcClient* jsonclient, QObject *parent) :
     m_jsonClient(jsonclient)
 {
     m_jsonClient->registerNotificationHandler(this, "notificationReceived");
+    EventHandler *eventHandler = new EventHandler(this);
+    m_jsonClient->registerNotificationHandler(eventHandler, "notificationReceived");
+    connect(eventHandler, &EventHandler::eventReceived, this, [this](const QVariantMap event) {
+        QUuid deviceId = event.value("deviceId").toUuid();
+        QUuid eventTypeId = event.value("eventTypeId").toUuid();
+
+        Device *dev = m_devices->getDevice(deviceId);
+        if (!dev) {
+            qWarning() << "received an event from a device we don't know..." << deviceId << event;
+            return;
+        }
+//        qDebug() << "Event received" << deviceId.toString() << eventTypeId.toString();
+        dev->eventTriggered(eventTypeId.toString(), event.value("params").toMap());
+        emit eventTriggered(deviceId.toString(), eventTypeId.toString(), event.value("params").toMap());
+
+    });
 }
 
 void DeviceManager::clear()

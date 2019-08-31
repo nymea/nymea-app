@@ -42,7 +42,7 @@
 #include "stylecontroller.h"
 #include "pushnotifications.h"
 #include "applogcontroller.h"
-
+#include "ruletemplates/messages.h"
 
 QObject *platformHelperProvider(QQmlEngine *engine, QJSEngine *scriptEngine)
 {

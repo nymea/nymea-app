@@ -120,6 +120,8 @@ signals:
     void fetchingDataChanged();
     void notificationReceived(const QString &deviceId, const QString &eventTypeId, const QVariantList &params);
 
+    void eventTriggered(const QString &deviceId, const QString &eventTypeId, const QVariantMap params);
+
 private:
     Vendors *m_vendors;
     Plugins *m_plugins;
@@ -134,6 +136,28 @@ private:
 
     QHash<int, QPointer<BrowserItems> > m_browsingRequests;
     QHash<int, QPointer<BrowserItem> > m_browserDetailsRequests;
+
+
+
+};
+
+// TODO: Kinda shitty that Device Events are not sent from the Devices namespace...
+class EventHandler: public JsonHandler {
+    Q_OBJECT
+
+public:
+    EventHandler(QObject *parent = nullptr): JsonHandler(parent) {}
+    QString nameSpace() const override {
+        return "Events";
+    }
+
+signals:
+    void eventReceived(const QVariantMap &event);
+
+private:
+    Q_INVOKABLE void notificationReceived(const QVariantMap &data) {
+        emit eventReceived(data.value("params").toMap().value("event").toMap());
+    }
 
 };
 

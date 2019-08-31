@@ -8,11 +8,13 @@
 
 #include "types/ruleactionparam.h"
 #include "types/ruleactionparams.h"
+#include "devicesproxy.h"
 
 #include <QDebug>
 #include <QDir>
 #include <QJsonDocument>
 #include <QMetaEnum>
+#include <QCoreApplication>
 
 RuleTemplates::RuleTemplates(QObject *parent) : QAbstractListModel(parent)
 {
@@ -20,10 +22,7 @@ RuleTemplates::RuleTemplates(QObject *parent) : QAbstractListModel(parent)
     RuleTemplate* t;
     EventDescriptorTemplate* evt;
     ParamDescriptor* evpt;
-    StateEvaluatorTemplate* set;
     RuleActionTemplate* rat;
-    RuleActionTemplate* reat; // exit
-    RuleActionParamTemplate* rapt;
     RuleActionParamTemplates* rapts;
 
     QDir ruleTemplatesDir(":/ruletemplates");
@@ -46,7 +45,13 @@ RuleTemplates::RuleTemplates(QObject *parent) : QAbstractListModel(parent)
             QVariantMap ruleTemplate = ruleTemplateVariant.toMap();
 
             // RuleTemplate base
-            t = new RuleTemplate(ruleTemplate.value("interfaceName").toString(), ruleTemplate.value("description").toString(), ruleTemplate.value("ruleNameTemplate").toString(), this);
+            QString descriptionContext = QString("description for %0").arg(QFileInfo(templateFile).baseName());
+            QString nameTemplateContext = QString("ruleNameTemplate for %0").arg(QFileInfo(templateFile).baseName());
+            t = new RuleTemplate(ruleTemplate.value("interfaceName").toString(),
+                                 qApp->translate(descriptionContext.toUtf8(), ruleTemplate.value("description").toByteArray()),
+                                 qApp->translate(nameTemplateContext.toUtf8(), ruleTemplate.value("ruleNameTemplate").toByteArray()),
+                                 this);
+            qDebug() << "Loading rule template" << ruleTemplate.value("description").toString() << tr(ruleTemplate.value("description").toByteArray());
 
             // EventDescriptorTemplate
             foreach (const QVariant &eventDescriptorVariant, ruleTemplate.value("eventDescriptorTemplates").toList()) {
@@ -76,20 +81,7 @@ RuleTemplates::RuleTemplates(QObject *parent) : QAbstractListModel(parent)
 
             // StateEvaluatorTemplate
             if (ruleTemplate.contains("stateEvaluatorTemplate")) {
-                QVariantMap stateEvaluatorTemplate = ruleTemplate.value("stateEvaluatorTemplate").toMap();
-                QVariantMap stateDescriptorTemplate = stateEvaluatorTemplate.value("stateDescriptorTemplate").toMap();
-                QMetaEnum selectionModeEnum = QMetaEnum::fromType<StateDescriptorTemplate::SelectionMode>();
-                QMetaEnum operatorEnum = QMetaEnum::fromType<StateDescriptorTemplate::ValueOperator>();
-                set = new StateEvaluatorTemplate(
-                            new StateDescriptorTemplate(
-                                stateDescriptorTemplate.value("interfaceName").toString(),
-                                stateDescriptorTemplate.value("interfaceState").toString(),
-                                stateDescriptorTemplate.value("selectionId").toInt(),
-                                static_cast<StateDescriptorTemplate::SelectionMode>(selectionModeEnum.keyToValue(stateDescriptorTemplate.value("selectionMode", "SelectionModeAny").toByteArray().data())),
-                                static_cast<StateDescriptorTemplate::ValueOperator>(operatorEnum.keyToValue(stateDescriptorTemplate.value("operator").toByteArray().data())),
-                                stateDescriptorTemplate.value("value")));
-                t->setStateEvaluatorTemplate(set);
-                // TODO: Child evaluators not supported yet
+                t->setStateEvaluatorTemplate(loadStateEvaluatorTemplate(ruleTemplate.value("stateEvaluatorTemplate").toMap()));
             }
 
             // RuleActionTemplates
@@ -167,6 +159,8 @@ QVariant RuleTemplates::data(const QModelIndex &index, int role) const
     switch (role) {
     case RoleDescription:
         return m_list.at(index.row())->description();
+    case RoleInterfaces:
+        return m_list.at(index.row())->interfaces();
     }
     return QVariant();
 }
@@ -175,6 +169,7 @@ QHash<int, QByteArray> RuleTemplates::roleNames() const
 {
     QHash<int, QByteArray> roles;
     roles.insert(RoleDescription, "description");
+    roles.insert(RoleInterfaces, "interfaces");
     return roles;
 }
 
@@ -186,6 +181,35 @@ RuleTemplate *RuleTemplates::get(int index) const
     return m_list.at(index);
 }
 
+StateEvaluatorTemplate *RuleTemplates::loadStateEvaluatorTemplate(const QVariantMap &stateEvaluatorTemplate) const
+{
+    QVariantMap stateDescriptorTemplate = stateEvaluatorTemplate.value("stateDescriptorTemplate").toMap();
+    QMetaEnum selectionModeEnum = QMetaEnum::fromType<StateDescriptorTemplate::SelectionMode>();
+    QMetaEnum stateOperatorEnum = QMetaEnum::fromType<StateEvaluatorTemplate::StateOperator>();
+    QMetaEnum valueOperatorEnum = QMetaEnum::fromType<StateDescriptorTemplate::ValueOperator>();
+    StateEvaluatorTemplate::StateOperator stateOperator = StateEvaluatorTemplate::StateOperatorAnd;
+    if (stateEvaluatorTemplate.contains("stateOperatorTemplate")) {
+        stateOperator = static_cast<StateEvaluatorTemplate::StateOperator>(stateOperatorEnum.keyToValue(stateEvaluatorTemplate.value("stateOperatorTemplate").toByteArray().data()));
+    }
+
+    StateEvaluatorTemplate *set = new StateEvaluatorTemplate(
+                new StateDescriptorTemplate(
+                    stateDescriptorTemplate.value("interfaceName").toString(),
+                    stateDescriptorTemplate.value("interfaceState").toString(),
+                    stateDescriptorTemplate.value("selectionId").toInt(),
+                    static_cast<StateDescriptorTemplate::SelectionMode>(selectionModeEnum.keyToValue(stateDescriptorTemplate.value("selectionMode", "SelectionModeAny").toByteArray().data())),
+                    static_cast<StateDescriptorTemplate::ValueOperator>(valueOperatorEnum.keyToValue(stateDescriptorTemplate.value("operator").toByteArray().data())),
+                    stateDescriptorTemplate.value("value")),
+                stateOperator
+                );
+    foreach (const QVariant &childVariant, stateEvaluatorTemplate.value("childEvaluatorTemplates").toList()) {
+        QVariantMap childMap = childVariant.toMap();
+        set->childEvaluatorTemplates()->addStateEvaluatorTemplate(loadStateEvaluatorTemplate(childMap.value("stateEvaluatorTemplate").toMap()));
+    }
+
+    return set;
+}
+
 bool RuleTemplatesFilterModel::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
 {
     Q_UNUSED(source_parent)
@@ -193,40 +217,38 @@ bool RuleTemplatesFilterModel::filterAcceptsRow(int source_row, const QModelInde
         return false;
     }
     RuleTemplate *t = m_ruleTemplates->get(source_row);
-//    qDebug() << "Checking interface" << t->description() << t->interfaceName() << "for usage with:" << m_filterInterfaceNames;
+//    qDebug() << "Checking interface" << t->description() << t->interfaces() << "for usage with:" << m_filterInterfaceNames;
+
+
+    // Make sure we have a device to be used with any of the template's interfaces
+    if (m_filterDevicesProxy) {
+        foreach (const QString &toBeFound, t->interfaces()) {
+            bool found = false;
+            for (int i = 0; i < m_filterDevicesProxy->rowCount(); i++) {
+//                qDebug() << "Checking device:" << m_filterDevicesProxy->get(i)->deviceClass()->interfaces();
+                if (m_filterDevicesProxy->get(i)->deviceClass()->interfaces().contains(toBeFound)) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                qDebug() << "Filtering out" << t->description() << "because required no device in the provided filter proxy  implements" << toBeFound;
+                return false;
+            }
+        }
+    }
+
     if (!m_filterInterfaceNames.isEmpty()) {
-        if (!m_filterInterfaceNames.contains(t->interfaceName())) {
+        bool found = false;
+        foreach (const QString toBeFound, m_filterInterfaceNames) {
+            if (t->interfaces().contains(toBeFound)) {
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
             return false;
         }
-//        bool found = false;
-//        for (int i = 0; i < t->eventDescriptorTemplates()->rowCount(); i++) {
-//            if (m_filterInterfaceNames.contains(t->eventDescriptorTemplates()->get(i)->interfaceName())) {
-//                found = true;
-//                break;
-//            }
-//        }
-//        if (!found && t->stateEvaluatorTemplate() && stateEvaluatorTemplateContainsInterface(t->stateEvaluatorTemplate(), m_filterInterfaceNames)) {
-//            found = true;
-//        }
-//        if (!found) {
-//            for (int i = 0; i < t->ruleActionTemplates()->rowCount(); i++) {
-//                if (m_filterInterfaceNames.contains(t->ruleActionTemplates()->get(i)->interfaceName())) {
-//                    found = true;
-//                    break;
-//                }
-//            }
-//        }
-//        if (!found) {
-//            for (int i = 0; i < t->ruleExitActionTemplates()->rowCount(); i++) {
-//                if (m_filterInterfaceNames.contains(t->ruleExitActionTemplates()->get(i)->interfaceName())) {
-//                    found = true;
-//                    break;
-//                }
-//            }
-//        }
-//        if (!found) {
-//            return false;
-//        }
     }
     return true;
 }

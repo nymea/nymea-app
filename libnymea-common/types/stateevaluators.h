@@ -17,7 +17,7 @@ public:
     QVariant data(const QModelIndex &index, int role) const override;
     QHash<int, QByteArray> roleNames() const override;
 
-    void addStateEvaluator(StateEvaluator* stateEvaluator);
+    Q_INVOKABLE void addStateEvaluator(StateEvaluator* stateEvaluator);
     Q_INVOKABLE StateEvaluator* get(int index) const;
 
     // Caller takes ownership, is responsible for deleting

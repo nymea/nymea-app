@@ -69,7 +69,7 @@ void ZeroconfDiscovery::serviceEntryAdded(const QZeroConfService &entry)
         return;
     }
 
-    qDebug() << "zeroconf service discovered" << entry->type() << entry->name() << " IP:" << entry->ip().toString() << entry->txt();
+//    qDebug() << "zeroconf service discovered" << entry->type() << entry->name() << " IP:" << entry->ip().toString() << entry->txt();
 
     QString uuid;
     bool sslEnabled = false;
@@ -97,7 +97,7 @@ void ZeroconfDiscovery::serviceEntryAdded(const QZeroConfService &entry)
     if (!host) {
         host = new NymeaHost(m_nymeaHosts);
         host->setUuid(uuid);
-        qDebug() << "ZeroConf: Adding new host:" << serverName << uuid;
+//        qDebug() << "ZeroConf: Adding new host:" << serverName << uuid;
         m_nymeaHosts->addHost(host);
     }
     host->setName(serverName);
@@ -113,14 +113,14 @@ void ZeroconfDiscovery::serviceEntryAdded(const QZeroConfService &entry)
     url.setPort(entry->port());
     Connection *connection = host->connections()->find(url);
     if (!connection) {
-        qDebug() << "Zeroconf: Adding new connection to host:" << host->name() << url.toString();
+//        qDebug() << "Zeroconf: Adding new connection to host:" << host->name() << url.toString();
         QString displayName = QString("%1:%2").arg(url.host()).arg(url.port());
         Connection::BearerType bearerType = QHostAddress(url.host()).isLoopback() ? Connection::BearerTypeLoopback : Connection::BearerTypeLan;
         connection = new Connection(url, bearerType, sslEnabled, displayName);
         connection->setOnline(true);
         host->connections()->addConnection(connection);
     } else {
-        qDebug() << "Zeroconf: Setting connection online:" << host->name() << url.toString();
+//        qDebug() << "Zeroconf: Setting connection online:" << host->name() << url.toString();
         connection->setOnline(true);
     }
 }

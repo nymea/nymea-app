@@ -496,6 +496,14 @@
         <source>Log in to %1:cloud in order to connect to %1:core systems from anywhere.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Failed to connect to the login server. Please mase sure your network connection is working.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>An unexpected error happened. Please report this isse. Error code:</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>CloudSettingsPage</name>
@@ -923,6 +931,13 @@
     </message>
     <message>
         <source>%1 open</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>DoorbellDevicePage</name>
+    <message>
+        <source>History</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2573,6 +2588,13 @@ Please try again.</source>
     </message>
 </context>
 <context>
+    <name>NewMagicPage</name>
+    <message>
+        <source>New magic</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>NewThingMagicPage</name>
     <message>
         <source>New magic</source>
@@ -2580,6 +2602,10 @@ Please try again.</source>
     </message>
     <message>
         <source>Create some magic manually</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New magic for %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2780,6 +2806,34 @@ Please try again.</source>
     </message>
     <message>
         <source>presence sensor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Doorbells</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>doorbell</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>alert</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>button</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>access control</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>smart meter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>media player</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3789,6 +3843,259 @@ Do you want to proceed?</source>
     </message>
     <message>
         <source>Connect to %1:core</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>description for accesscontroltemplates</name>
+    <message>
+        <source>Alert me on denied access attempts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Notify my about access</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Notify my about user access</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>description for buttontemplates</name>
+    <message>
+        <source>Turn on a light</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Turn off a light</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Switch a light</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Turn off all lights</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>description for daylightsensor</name>
+    <message>
+        <source>Turn on a light while it&apos;s dark outside</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Turn on a light when it gets dark outside</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Turn on all lights when it gets dark outside</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>description for doorbellruletemplates</name>
+    <message>
+        <source>Alert on doorbell ring</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>description for mediatemplates</name>
+    <message>
+        <source>Dim light while watching TV</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>description for notificationtemplates</name>
+    <message>
+        <source>Notify me when a device runs out of battery</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Notify me when something runs dry</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Notify me when a thing gets disconnected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Notify me when a thing connects</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>description for presencesensortemplates</name>
+    <message>
+        <source>Turn on something while being present</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Turn off something when leaving</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Turn off everything when leaving</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Turn off all lights when leaving</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Turn on something when arriving</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>description for smartmetertemplates</name>
+    <message>
+        <source>Charge my car while producing energy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Turn on heating while producing energy</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>description for thermostattemplates</name>
+    <message>
+        <source>Set temperature while I&apos;m home</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ruleNameTemplate for accesscontroltemplates</name>
+    <message>
+        <source>Denied access attempt on %0</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Access granted on %0</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Access granted to user on %0</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ruleNameTemplate for buttontemplates</name>
+    <message>
+        <source>%0 turns on %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%0 turns off %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%0 switches %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Turn off everything with %0</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ruleNameTemplate for daylightsensor</name>
+    <message>
+        <source>Turn on %1 while it&apos;s dark outside</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Turn on %1 when it gets dark outside (%0)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Turn on all lights when it gets dark outside</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ruleNameTemplate for doorbellruletemplates</name>
+    <message>
+        <source>Alert %1 when someone is at %0</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ruleNameTemplate for mediatemplates</name>
+    <message>
+        <source>%0 dims %1 for movie time</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ruleNameTemplate for notificationtemplates</name>
+    <message>
+        <source>Low battery alert for %0</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Notify %1 when %0 runs dry</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disconnect alert for %0</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connection notification for %0</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ruleNameTemplate for presencesensortemplates</name>
+    <message>
+        <source>Turn on %1 while %0 reports presence</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Turn off %1 when %0 reports leaving</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Turn off everything when %0 reports leaving</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Turn off all lights when %0 reports leaving</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Turn on %1 when %0 reports arriving</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ruleNameTemplate for smartmetertemplates</name>
+    <message>
+        <source>Smart car charging</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Smart heating</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ruleNameTemplate for template</name>
+    <message>
+        <source>%0 ...</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ruleNameTemplate for thermostattemplates</name>
+    <message>
+        <source>Set temperature while I&apos;m home</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

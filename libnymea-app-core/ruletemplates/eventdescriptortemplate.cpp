@@ -35,3 +35,13 @@ ParamDescriptors *EventDescriptorTemplate::paramDescriptors() const
 {
     return m_paramDescriptors;
 }
+
+QStringList EventDescriptorTemplates::interfaces() const
+{
+    QStringList ret;
+    for (int i = 0; i < m_list.count(); i++) {
+        ret.append(m_list.at(i)->interfaceName());
+    }
+    ret.removeDuplicates();
+    return ret;
+}

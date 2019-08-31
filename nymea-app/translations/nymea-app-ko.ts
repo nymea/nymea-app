@@ -331,13 +331,14 @@
         <source>There are %n boxes connected to your cloud</source>
         <translation type="obsolete">
             <numerusform>There is %n box connected to your cloud.</numerusform>
-            <numerusform>There are %n boxes connected to your cloud.</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <source>There are %n boxes connected to your cloud.</source>
-        <translation><numerusform>%n 상자(장치)가 클라우드에 연결되어 있습니다.</numerusform>
-        </translation></message>
+        <translation type="vanished">
+            <numerusform>%n 상자(장치)가 클라우드에 연결되어 있습니다.</numerusform>
+        </translation>
+    </message>
     <message>
         <source>Cloud login</source>
         <translation>클라우드 로그인</translation>
@@ -480,8 +481,10 @@
     </message>
     <message numerus="yes">
         <source>There are %n %1:core systems connected to your cloud.</source>
-        <translation><numerusform>%n %1:코어 시스템이 클라우드에 연결되어 있습니다.</numerusform>
-        </translation></message>
+        <translation>
+            <numerusform>%n %1:코어 시스템이 클라우드에 연결되어 있습니다.</numerusform>
+        </translation>
+    </message>
     <message>
         <source>Sorry to see you go. If you log out you won&apos;t be able to connect to %1:core systems remotely any more. However, you can come back any time, we&apos;ll keep your user account. If you whish to completely delete your account and all the data associated with it, check the box below before hitting ok. If you decide to delete your account, all your personal information will be removed from %1:cloud and cannot be restored.</source>
         <translation>아쉽군요.  로그아웃하면 더 이상 원격으로 %1:코어 시스템에 연결할 수 없습니다. 하지만 언제든지 돌아올 수 있어요, 사용자 계정은 안전하게 보관 됩니다. 계정 및 관련된 모든 데이터를 완전히 삭제하려면 확인을 누르기 전에 아래의 확인란을 선택하십시오. 계정을 삭제하기로 결정하면 모든 개인 정보가 %1:클라우드에서 제거되므로 복원할 수 없습니다.</translation>
@@ -489,6 +492,14 @@
     <message>
         <source>Log in to %1:cloud in order to connect to %1:core systems from anywhere.</source>
         <translation>어디에서나 %1:core 시스템에 연결하려면 %1:cloud에 로그인하십시오.</translation>
+    </message>
+    <message>
+        <source>Failed to connect to the login server. Please mase sure your network connection is working.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>An unexpected error happened. Please report this isse. Error code:</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -918,6 +929,13 @@
     <message>
         <source>%1 open</source>
         <translation>%1 열림</translation>
+    </message>
+</context>
+<context>
+    <name>DoorbellDevicePage</name>
+    <message>
+        <source>History</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2245,8 +2263,10 @@ Please try again.</source>
     </message>
     <message numerus="yes">
         <source>%n system update(s) available</source>
-        <translation><numerusform>%n 시스템 업데이트 사용 가능</numerusform>
-        </translation></message>
+        <translation>
+            <numerusform>%n 시스템 업데이트 사용 가능</numerusform>
+        </translation>
+    </message>
     <message>
         <source>System settings</source>
         <translation>시스템 설정</translation>
@@ -2571,6 +2591,13 @@ Please try again.</source>
     </message>
 </context>
 <context>
+    <name>NewMagicPage</name>
+    <message>
+        <source>New magic</source>
+        <translation type="unfinished">신 마법</translation>
+    </message>
+</context>
+<context>
     <name>NewThingMagicPage</name>
     <message>
         <source>New magic</source>
@@ -2579,6 +2606,10 @@ Please try again.</source>
     <message>
         <source>Create some magic manually</source>
         <translation>수동으로 마법 만들기</translation>
+    </message>
+    <message>
+        <source>New magic for %1</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2779,6 +2810,34 @@ Please try again.</source>
     <message>
         <source>presence sensor</source>
         <translation>움직임 감지 센서</translation>
+    </message>
+    <message>
+        <source>Doorbells</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>doorbell</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>alert</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>button</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>access control</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>smart meter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>media player</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3515,8 +3574,10 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message numerus="yes">
         <source>%n update(s) available</source>
-        <translation><numerusform>%n 업데이트 사용 가능</numerusform>
-        </translation></message>
+        <translation>
+            <numerusform>%n 업데이트 사용 가능</numerusform>
+        </translation>
+    </message>
     <message>
         <source>Check again</source>
         <translation>다시 확인</translation>
@@ -3786,6 +3847,259 @@ Do you want to proceed?</source>
     <message>
         <source>Connect to %1:core</source>
         <translation>%1:코어에 연결</translation>
+    </message>
+</context>
+<context>
+    <name>description for accesscontroltemplates</name>
+    <message>
+        <source>Alert me on denied access attempts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Notify my about access</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Notify my about user access</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>description for buttontemplates</name>
+    <message>
+        <source>Turn on a light</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Turn off a light</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Switch a light</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Turn off all lights</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>description for daylightsensor</name>
+    <message>
+        <source>Turn on a light while it&apos;s dark outside</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Turn on a light when it gets dark outside</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Turn on all lights when it gets dark outside</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>description for doorbellruletemplates</name>
+    <message>
+        <source>Alert on doorbell ring</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>description for mediatemplates</name>
+    <message>
+        <source>Dim light while watching TV</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>description for notificationtemplates</name>
+    <message>
+        <source>Notify me when a device runs out of battery</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Notify me when something runs dry</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Notify me when a thing gets disconnected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Notify me when a thing connects</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>description for presencesensortemplates</name>
+    <message>
+        <source>Turn on something while being present</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Turn off something when leaving</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Turn off everything when leaving</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Turn off all lights when leaving</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Turn on something when arriving</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>description for smartmetertemplates</name>
+    <message>
+        <source>Charge my car while producing energy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Turn on heating while producing energy</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>description for thermostattemplates</name>
+    <message>
+        <source>Set temperature while I&apos;m home</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ruleNameTemplate for accesscontroltemplates</name>
+    <message>
+        <source>Denied access attempt on %0</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Access granted on %0</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Access granted to user on %0</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ruleNameTemplate for buttontemplates</name>
+    <message>
+        <source>%0 turns on %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%0 turns off %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%0 switches %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Turn off everything with %0</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ruleNameTemplate for daylightsensor</name>
+    <message>
+        <source>Turn on %1 while it&apos;s dark outside</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Turn on %1 when it gets dark outside (%0)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Turn on all lights when it gets dark outside</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ruleNameTemplate for doorbellruletemplates</name>
+    <message>
+        <source>Alert %1 when someone is at %0</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ruleNameTemplate for mediatemplates</name>
+    <message>
+        <source>%0 dims %1 for movie time</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ruleNameTemplate for notificationtemplates</name>
+    <message>
+        <source>Low battery alert for %0</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Notify %1 when %0 runs dry</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disconnect alert for %0</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connection notification for %0</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ruleNameTemplate for presencesensortemplates</name>
+    <message>
+        <source>Turn on %1 while %0 reports presence</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Turn off %1 when %0 reports leaving</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Turn off everything when %0 reports leaving</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Turn off all lights when %0 reports leaving</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Turn on %1 when %0 reports arriving</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ruleNameTemplate for smartmetertemplates</name>
+    <message>
+        <source>Smart car charging</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Smart heating</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ruleNameTemplate for template</name>
+    <message>
+        <source>%0 ...</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ruleNameTemplate for thermostattemplates</name>
+    <message>
+        <source>Set temperature while I&apos;m home</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>
