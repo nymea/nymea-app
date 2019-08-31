@@ -45,18 +45,53 @@ DevicePageBase {
         d.pendingBrowserItemId = engine.deviceManager.executeBrowserItemAction(device.id, itemId, actionTypeId, params);
     }
 
+    function adjustVolume(volume) {
+        d.pendingVolumeValue = volume;
+
+        if (d.pendingVolumeId !== -1) {
+            // busy
+            return;
+        }
+
+        var params = []
+        var volParam = {}
+        volParam["paramTypeId"] = root.deviceClass.actionTypes.findByName("volume").id
+        volParam["value"] = volume;
+        params.push(volParam)
+        var actionTypeId =  deviceClass.actionTypes.findByName("volume").id;
+        d.pendingVolumeId = engine.deviceManager.executeAction(device.id, actionTypeId, params);
+        print("exec", d.pendingVolumeId)
+        return;
+    }
+
     readonly property State playbackState: device.states.getState(deviceClass.stateTypes.findByName("playbackStatus").id)
+    readonly property State volumeState: device.states.getState(deviceClass.stateTypes.findByName("volume").id)
 
     QtObject {
         id: d
         property int pendingBrowserItemId: -1
         property string pendingItemId: ""
+
+        property int pendingVolumeId: -1
+        property int pendingVolumeValue: -1
     }
 
     Connections {
         target: engine.deviceManager
         onExecuteBrowserItemReply: executionFinished(params)
         onExecuteBrowserItemActionReply: executionFinished(params)
+        onExecuteActionReply: {
+            print("actionfinished", params["id"])
+            if (params["id"] === d.pendingVolumeId) {
+                d.pendingVolumeId = -1
+                print("volume action finished")
+                if (d.pendingVolumeValue !== volumeState.value) {
+                    root.adjustVolume(d.pendingVolumeValue);
+                } else {
+                    d.pendingVolumeValue = -1;
+                }
+            }
+        }
     }
     function executionFinished(params) {
         print("Execute reply:", params, params.id, params["id"], d.pendingBrowserItemId)
@@ -253,15 +288,8 @@ DevicePageBase {
                     orientation: Qt.Vertical
                     from: 0
                     to: 100
-                    value: root.stateValue("volume")
-                    onMoved: {
-                        var params = []
-                        var volParam = {}
-                        volParam["paramTypeId"] = root.deviceClass.actionTypes.findByName("volume").id
-                        volParam["value"] = value;
-                        params.push(volParam)
-                        root.executeAction("volume", params);
-                    }
+                    value: d.pendingVolumeValue != -1 ? d.pendingVolumeValue : root.stateValue("volume")
+                    onMoved: root.adjustVolume(value)
                 }
                 HeaderButton {
                     imageSource: "../images/audio-speakers-muted-symbolic.svg"
