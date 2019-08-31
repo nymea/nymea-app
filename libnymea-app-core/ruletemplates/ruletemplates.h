@@ -29,6 +29,9 @@ signals:
     void countChanged();
 
 private:
+    StateEvaluatorTemplate* loadStateEvaluatorTemplate(const QVariantMap &stateEvaluatorTemplate) const;
+
+private:
     QList<RuleTemplate*> m_list;
 
 };
@@ -65,6 +68,8 @@ signals:
     void filterInterfaceNamesChanged();
     void filterByDevicesChanged();
     void countChanged();
+
+
 private:
     RuleTemplates* m_ruleTemplates = nullptr;
     QStringList m_filterInterfaceNames;

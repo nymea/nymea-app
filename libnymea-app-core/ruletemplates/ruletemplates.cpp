@@ -21,10 +21,7 @@ RuleTemplates::RuleTemplates(QObject *parent) : QAbstractListModel(parent)
     RuleTemplate* t;
     EventDescriptorTemplate* evt;
     ParamDescriptor* evpt;
-    StateEvaluatorTemplate* set;
     RuleActionTemplate* rat;
-    RuleActionTemplate* reat; // exit
-    RuleActionParamTemplate* rapt;
     RuleActionParamTemplates* rapts;
 
     QDir ruleTemplatesDir(":/ruletemplates");
@@ -77,20 +74,7 @@ RuleTemplates::RuleTemplates(QObject *parent) : QAbstractListModel(parent)
 
             // StateEvaluatorTemplate
             if (ruleTemplate.contains("stateEvaluatorTemplate")) {
-                QVariantMap stateEvaluatorTemplate = ruleTemplate.value("stateEvaluatorTemplate").toMap();
-                QVariantMap stateDescriptorTemplate = stateEvaluatorTemplate.value("stateDescriptorTemplate").toMap();
-                QMetaEnum selectionModeEnum = QMetaEnum::fromType<StateDescriptorTemplate::SelectionMode>();
-                QMetaEnum operatorEnum = QMetaEnum::fromType<StateDescriptorTemplate::ValueOperator>();
-                set = new StateEvaluatorTemplate(
-                            new StateDescriptorTemplate(
-                                stateDescriptorTemplate.value("interfaceName").toString(),
-                                stateDescriptorTemplate.value("interfaceState").toString(),
-                                stateDescriptorTemplate.value("selectionId").toInt(),
-                                static_cast<StateDescriptorTemplate::SelectionMode>(selectionModeEnum.keyToValue(stateDescriptorTemplate.value("selectionMode", "SelectionModeAny").toByteArray().data())),
-                                static_cast<StateDescriptorTemplate::ValueOperator>(operatorEnum.keyToValue(stateDescriptorTemplate.value("operator").toByteArray().data())),
-                                stateDescriptorTemplate.value("value")));
-                t->setStateEvaluatorTemplate(set);
-                // TODO: Child evaluators not supported yet
+                t->setStateEvaluatorTemplate(loadStateEvaluatorTemplate(ruleTemplate.value("stateEvaluatorTemplate").toMap()));
             }
 
             // RuleActionTemplates
@@ -190,6 +174,35 @@ RuleTemplate *RuleTemplates::get(int index) const
     return m_list.at(index);
 }
 
+StateEvaluatorTemplate *RuleTemplates::loadStateEvaluatorTemplate(const QVariantMap &stateEvaluatorTemplate) const
+{
+    QVariantMap stateDescriptorTemplate = stateEvaluatorTemplate.value("stateDescriptorTemplate").toMap();
+    QMetaEnum selectionModeEnum = QMetaEnum::fromType<StateDescriptorTemplate::SelectionMode>();
+    QMetaEnum stateOperatorEnum = QMetaEnum::fromType<StateEvaluatorTemplate::StateOperator>();
+    QMetaEnum valueOperatorEnum = QMetaEnum::fromType<StateDescriptorTemplate::ValueOperator>();
+    StateEvaluatorTemplate::StateOperator stateOperator = StateEvaluatorTemplate::StateOperatorAnd;
+    if (stateEvaluatorTemplate.contains("stateOperatorTemplate")) {
+        stateOperator = static_cast<StateEvaluatorTemplate::StateOperator>(stateOperatorEnum.keyToValue(stateEvaluatorTemplate.value("stateOperatorTemplate").toByteArray().data()));
+    }
+
+    StateEvaluatorTemplate *set = new StateEvaluatorTemplate(
+                new StateDescriptorTemplate(
+                    stateDescriptorTemplate.value("interfaceName").toString(),
+                    stateDescriptorTemplate.value("interfaceState").toString(),
+                    stateDescriptorTemplate.value("selectionId").toInt(),
+                    static_cast<StateDescriptorTemplate::SelectionMode>(selectionModeEnum.keyToValue(stateDescriptorTemplate.value("selectionMode", "SelectionModeAny").toByteArray().data())),
+                    static_cast<StateDescriptorTemplate::ValueOperator>(valueOperatorEnum.keyToValue(stateDescriptorTemplate.value("operator").toByteArray().data())),
+                    stateDescriptorTemplate.value("value")),
+                stateOperator
+                );
+    foreach (const QVariant &childVariant, stateEvaluatorTemplate.value("childEvaluatorTemplates").toList()) {
+        QVariantMap childMap = childVariant.toMap();
+        set->childEvaluatorTemplates()->addStateEvaluatorTemplate(loadStateEvaluatorTemplate(childMap.value("stateEvaluatorTemplate").toMap()));
+    }
+
+    return set;
+}
+
 bool RuleTemplatesFilterModel::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
 {
     Q_UNUSED(source_parent)
@@ -212,7 +225,7 @@ bool RuleTemplatesFilterModel::filterAcceptsRow(int source_row, const QModelInde
                 }
             }
             if (!found) {
-                qDebug() << "Filtering out" << t->description() << "because required devices are not provided in filter proxy";
+                qDebug() << "Filtering out" << t->description() << "because required no device in the provided filter proxy  implements" << toBeFound;
                 return false;
             }
         }

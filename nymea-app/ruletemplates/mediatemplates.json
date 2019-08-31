@@ -1,0 +1,69 @@
+{
+    "templates": [
+        {
+            "description": "Dim light while watching TV",
+            "ruleNameTemplate": "%0 dims %1 for movie time",
+            "stateEvaluatorTemplate": {
+                "stateDescriptorTemplate": {
+                    "interfaceName": "mediaplayer",
+                    "interfaceState": "playbackStatus",
+                    "selectionId": 0,
+                    "operator": "ValueOperatorEquals",
+                    "value": "Playing"
+                },
+                "stateOperatorTemplate": "StateOperatorAnd",
+                "childEvaluatorTemplates": [
+                    {
+                        "stateEvaluatorTemplate": {
+                            "stateDescriptorTemplate": {
+                                "interfaceName": "mediaplayer",
+                                "interfaceState": "playerType",
+                                "selectionId": 0,
+                                "operator": "ValueOperatorEquals",
+                                "value": "video"
+                            }
+                        }
+                    }
+                ]
+            },
+            "ruleActionTemplates": [
+                {
+                    "interfaceName": "dimmablelight",
+                    "interfaceAction": "power",
+                    "selectionId": 1,
+                    "params": [
+                        {
+                            "name": "power",
+                            "value": false
+                        }
+                    ]
+                }
+            ],
+            "ruleExitActionTemplates": [
+                {
+                    "interfaceName": "dimmablelight",
+                    "interfaceAction": "power",
+                    "selectionId": 1,
+                    "params": [
+                        {
+                            "name": "power",
+                            "value": true
+                        }
+                    ]
+                },
+                {
+                    "interfaceName": "dimmablelight",
+                    "interfaceAction": "brightness",
+                    "selectionId": 1,
+                    "params": [
+                        {
+                            "name": "brightness",
+                            "value": "50"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+

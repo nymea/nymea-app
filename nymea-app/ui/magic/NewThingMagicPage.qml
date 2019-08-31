@@ -265,10 +265,14 @@ Page {
                 return true;
             }
             stateEvaluator.stateOperator = stateEvaluatorTemplate.stateOperator;
+            print("Added stateOperator", stateEvaluator.stateOperator)
             if (stateEvaluatorTemplate.childEvaluatorTemplates.count > stateEvaluator.childEvaluators.count) {
+                print("Adding more child evaluators. Have:", stateEvaluator.childEvaluators.count, "need:", stateEvaluatorTemplate.childEvaluatorTemplates.count)
+                print("getting", stateEvaluator.childEvaluators.count)
+                print("getting", stateEvaluatorTemplate.childEvaluatorTemplates.get(stateEvaluator.childEvaluators.count))
                 var childEvaluator = rule.createStateEvaluator();
-                var more = fillStateEvaluatorFromTemplate(rule, ruleTemplate, childEvaluator, stateEvaluatorTemplate.childEvaluatorTemplates.get(stateEvaluator.childEvaluators.count))
                 stateEvaluator.childEvaluators.addStateEvaluator(childEvaluator);
+                var more = fillStateEvaluatorFromTemplate(rule, ruleTemplate, childEvaluator, stateEvaluatorTemplate.childEvaluatorTemplates.get(stateEvaluator.childEvaluators.count-1))
                 return more;
             }
             return false;

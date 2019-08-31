@@ -277,6 +277,9 @@ ApplicationWindow {
     function interfaceToDisplayName(name) {
         switch (name) {
         case "light":
+        case "dimmablelight":
+        case "colorlight":
+        case "colortemperaturelight":
             return qsTr("light")
         case "button":
             return "button";
