@@ -716,6 +716,14 @@
         <source>Log in to %1:cloud in order to connect to %1:core systems from anywhere.</source>
         <translation>Melde Dich bei %1:cloud an um von überall aus auf Deine %1:core Systeme zugreifen zu können.</translation>
     </message>
+    <message>
+        <source>Failed to connect to the login server. Please mase sure your network connection is working.</source>
+        <translation>Fehler beim verbinden zum Login-Server. Bitte stelle sicher, dass Deine Netzwerkverbindung funktioniert.</translation>
+    </message>
+    <message>
+        <source>An unexpected error happened. Please report this isse. Error code:</source>
+        <translation>Ein Unerwartetet Fehler ist aufgetreten. Bitte benachrichtige uns darüber. Fehler code:</translation>
+    </message>
 </context>
 <context>
     <name>CloudSettingsPage</name>
@@ -1343,6 +1351,13 @@
     <message>
         <source>%1 installed</source>
         <translation type="vanished">%1 installiert</translation>
+    </message>
+</context>
+<context>
+    <name>DoorbellDevicePage</name>
+    <message>
+        <source>History</source>
+        <translation>Verlauf</translation>
     </message>
 </context>
 <context>
@@ -3339,6 +3354,13 @@ Möchtest Du fortfahren?</translation>
     </message>
 </context>
 <context>
+    <name>NewMagicPage</name>
+    <message>
+        <source>New magic</source>
+        <translation>Neue Magie</translation>
+    </message>
+</context>
+<context>
     <name>NewThingMagicPage</name>
     <message>
         <source>New magic</source>
@@ -3347,6 +3369,10 @@ Möchtest Du fortfahren?</translation>
     <message>
         <source>Create some magic manually</source>
         <translation>Magie manuell erstellen</translation>
+    </message>
+    <message>
+        <source>New magic for %1</source>
+        <translation>Neue Magie für %1</translation>
     </message>
 </context>
 <context>
@@ -3563,6 +3589,34 @@ Möchtest Du fortfahren?</translation>
     <message>
         <source>presence sensor</source>
         <translation>Anwesenheitssensor</translation>
+    </message>
+    <message>
+        <source>Doorbells</source>
+        <translation>Türklingeln</translation>
+    </message>
+    <message>
+        <source>doorbell</source>
+        <translation>Türklingel</translation>
+    </message>
+    <message>
+        <source>alert</source>
+        <translation>Alarm</translation>
+    </message>
+    <message>
+        <source>button</source>
+        <translation>Taster</translation>
+    </message>
+    <message>
+        <source>access control</source>
+        <translation>Zugangskontrolle</translation>
+    </message>
+    <message>
+        <source>smart meter</source>
+        <translation>Smart Meter</translation>
+    </message>
+    <message>
+        <source>media player</source>
+        <translation>Medienabspielgerät</translation>
     </message>
 </context>
 <context>
@@ -5006,6 +5060,129 @@ Bitte warte bis diese abgeschlossen ist.</translation>
     </message>
 </context>
 <context>
+    <name>description for accesscontroltemplates</name>
+    <message>
+        <source>Alert me on denied access attempts</source>
+        <translation>Benachritige mich bei Fehlgeschlagenen Zutrittsversuchen</translation>
+    </message>
+    <message>
+        <source>Notify my about access</source>
+        <translation>Benachrichtige me über Zugänge</translation>
+    </message>
+    <message>
+        <source>Notify my about user access</source>
+        <translation>Benachrichtige mich über Benutzerzugang</translation>
+    </message>
+</context>
+<context>
+    <name>description for buttontemplates</name>
+    <message>
+        <source>Turn on a light</source>
+        <translation>Ein Licht einschalten</translation>
+    </message>
+    <message>
+        <source>Turn off a light</source>
+        <translation>Ein Licht ausschalten</translation>
+    </message>
+    <message>
+        <source>Switch a light</source>
+        <translation>Ein Licht schalten</translation>
+    </message>
+    <message>
+        <source>Turn off all lights</source>
+        <translation>Alle Lichter ausschalten</translation>
+    </message>
+</context>
+<context>
+    <name>description for daylightsensor</name>
+    <message>
+        <source>Turn on a light while it&apos;s dark outside</source>
+        <translation>Ein Licht einschalten während es dunkel ist</translation>
+    </message>
+    <message>
+        <source>Turn on a light when it gets dark outside</source>
+        <translation>Ein Licht einschalten wenn es dunkel wird</translation>
+    </message>
+    <message>
+        <source>Turn on all lights when it gets dark outside</source>
+        <translation>Alle Lichter einschlalten wenn es dunkel wird</translation>
+    </message>
+</context>
+<context>
+    <name>description for doorbellruletemplates</name>
+    <message>
+        <source>Alert on doorbell ring</source>
+        <translation>Signal bei Türklingelbetätigung</translation>
+    </message>
+</context>
+<context>
+    <name>description for mediatemplates</name>
+    <message>
+        <source>Dim light while watching TV</source>
+        <translation>Licht dimmen während TV-Wiedergabe</translation>
+    </message>
+</context>
+<context>
+    <name>description for notificationtemplates</name>
+    <message>
+        <source>Notify me when a device runs out of battery</source>
+        <translation>Benachrichtige mich wenn sich die Batterie eines Gerätes zu Ende neight</translation>
+    </message>
+    <message>
+        <source>Notify me when something runs dry</source>
+        <translation>Benachrichte mich wenn etwas austrocknet</translation>
+    </message>
+    <message>
+        <source>Notify me when a thing gets disconnected</source>
+        <translation>Benachrichtuge mich wenn ein Gerät die Verbindung verliert</translation>
+    </message>
+    <message>
+        <source>Notify me when a thing connects</source>
+        <translation>Benachrichtige mich wenn sich ein Gerät verbindet</translation>
+    </message>
+</context>
+<context>
+    <name>description for presencesensortemplates</name>
+    <message>
+        <source>Turn on something while being present</source>
+        <translation>Etwas einschalten während Anwesenheit</translation>
+    </message>
+    <message>
+        <source>Turn off something when leaving</source>
+        <translation>Etwas ausschalten beim Verlassen</translation>
+    </message>
+    <message>
+        <source>Turn off everything when leaving</source>
+        <translation>Alles ausschalten beim Verlassen</translation>
+    </message>
+    <message>
+        <source>Turn off all lights when leaving</source>
+        <translation>Alle Lichter beim Verlassen ausschalten</translation>
+    </message>
+    <message>
+        <source>Turn on something when arriving</source>
+        <translation>Etwas einschalten bei Ankunft</translation>
+    </message>
+</context>
+<context>
+    <name>description for smartmetertemplates</name>
+    <message>
+        <source>Charge my car while producing energy</source>
+        <translation>Fahrzeug laden während Strom erzeugt wird</translation>
+    </message>
+    <message>
+        <source>Turn on heating while producing energy</source>
+        <translation>Heizung einschalten während Strom erzeugt wird</translation>
+    </message>
+</context>
+<context>
+    <name>description for thermostattemplates</name>
+    <message>
+        <source>Set temperature while I&apos;m home</source>
+        <translation>Temperatur einstellen während ich zuhause bin</translation>
+    </message>
+</context>
+<context>
     <name>main</name>
     <message>
         <source>Lighting</source>
@@ -5062,6 +5239,136 @@ Bitte warte bis diese abgeschlossen ist.</translation>
     <message>
         <source>OK</source>
         <translation type="vanished">OK</translation>
+    </message>
+</context>
+<context>
+    <name>ruleNameTemplate for accesscontroltemplates</name>
+    <message>
+        <source>Denied access attempt on %0</source>
+        <translation>Verweigerter Zutrittsversuch bei %0</translation>
+    </message>
+    <message>
+        <source>Access granted on %0</source>
+        <translation>Zugang erteikt bei %0</translation>
+    </message>
+    <message>
+        <source>Access granted to user on %0</source>
+        <translation>Zuggang für Benutzer bei %0 erlaubt</translation>
+    </message>
+</context>
+<context>
+    <name>ruleNameTemplate for buttontemplates</name>
+    <message>
+        <source>%0 turns on %1</source>
+        <translation>0% schaltet %1 ein</translation>
+    </message>
+    <message>
+        <source>%0 turns off %1</source>
+        <translation>%0 schaltet %1 aus</translation>
+    </message>
+    <message>
+        <source>%0 switches %1</source>
+        <translation>%0 schaltet %1</translation>
+    </message>
+    <message>
+        <source>Turn off everything with %0</source>
+        <translation>Alles ausschalten mit %0</translation>
+    </message>
+</context>
+<context>
+    <name>ruleNameTemplate for daylightsensor</name>
+    <message>
+        <source>Turn on %1 while it&apos;s dark outside</source>
+        <translation>%1 einschalten während es drausen dunkel ist</translation>
+    </message>
+    <message>
+        <source>Turn on %1 when it gets dark outside (%0)</source>
+        <translation>Schalte %1 ein wenn es drausen dunkel wird (%0)</translation>
+    </message>
+    <message>
+        <source>Turn on all lights when it gets dark outside</source>
+        <translation>Alle Lichter einschalten wenn es drausen dunkel wird</translation>
+    </message>
+</context>
+<context>
+    <name>ruleNameTemplate for doorbellruletemplates</name>
+    <message>
+        <source>Alert %1 when someone is at %0</source>
+        <translation>Signal bei %1 wenn jemand bei %0 ist</translation>
+    </message>
+</context>
+<context>
+    <name>ruleNameTemplate for mediatemplates</name>
+    <message>
+        <source>%0 dims %1 for movie time</source>
+        <translation>%0 dimmt %1 für Fernsehzeit</translation>
+    </message>
+</context>
+<context>
+    <name>ruleNameTemplate for notificationtemplates</name>
+    <message>
+        <source>Low battery alert for %0</source>
+        <translation>Batterieladung kritisch bei %0</translation>
+    </message>
+    <message>
+        <source>Notify %1 when %0 runs dry</source>
+        <translation>Benachrichtige %1 wenn %0 austrocknet</translation>
+    </message>
+    <message>
+        <source>Disconnect alert for %0</source>
+        <translation>%0 wurde getrennt</translation>
+    </message>
+    <message>
+        <source>Connection notification for %0</source>
+        <translation>%0 wurde verbunden</translation>
+    </message>
+</context>
+<context>
+    <name>ruleNameTemplate for presencesensortemplates</name>
+    <message>
+        <source>Turn on %1 while %0 reports presence</source>
+        <translation>%1 einschalten während %0 Anwesenheit registriert</translation>
+    </message>
+    <message>
+        <source>Turn off %1 when %0 reports leaving</source>
+        <translation>%1 ausschalten wenn %0 verlassen wird</translation>
+    </message>
+    <message>
+        <source>Turn off everything when %0 reports leaving</source>
+        <translation>Alles ausschalten wenn %0 verlassen wird</translation>
+    </message>
+    <message>
+        <source>Turn off all lights when %0 reports leaving</source>
+        <translation>Alle Lichter ausschalten wenn %0 verlassen wird</translation>
+    </message>
+    <message>
+        <source>Turn on %1 when %0 reports arriving</source>
+        <translation>%1 einschalten %0 Ankunft registiert</translation>
+    </message>
+</context>
+<context>
+    <name>ruleNameTemplate for smartmetertemplates</name>
+    <message>
+        <source>Smart car charging</source>
+        <translation>Intelligentes Fahrzeugladen</translation>
+    </message>
+    <message>
+        <source>Smart heating</source>
+        <translation>Intelligente Heizung</translation>
+    </message>
+</context>
+<context>
+    <name>ruleNameTemplate for template</name>
+    <message>
+        <source>%0 ...</source>
+        <translation></translation>
+    </message>
+</context>
+<context>
+    <name>ruleNameTemplate for thermostattemplates</name>
+    <message>
+        <source>Set temperature while I&apos;m home</source>
+        <translation>Setze Temperatur während ich zuhause bin</translation>
     </message>
 </context>
 </TS>

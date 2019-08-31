@@ -22,7 +22,8 @@ HEADERS += \
     pushnotifications.h \
     platformhelper.h \
     platformintegration/generic/platformhelpergeneric.h \
-    applogcontroller.h
+    applogcontroller.h \
+    ruletemplates/messages.h
 
 SOURCES += main.cpp \
     platformintegration/generic/raspberrypihelper.cpp \
@@ -130,11 +131,3 @@ BR=$$BRANDING
 
 target.path = /usr/bin
 INSTALLS += target
-
-DISTFILES += \
-    ruletemplates/doorbellruletemplates.json \
-    ruletemplates/smartmetertemplates.json \
-    ruletemplates/presencesensortemplates.json \
-    ruletemplates/daylightsensor.json \
-    ruletemplates/lighttemplates.json
-

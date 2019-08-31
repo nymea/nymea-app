@@ -14,6 +14,7 @@
 #include <QDir>
 #include <QJsonDocument>
 #include <QMetaEnum>
+#include <QCoreApplication>
 
 RuleTemplates::RuleTemplates(QObject *parent) : QAbstractListModel(parent)
 {
@@ -44,7 +45,13 @@ RuleTemplates::RuleTemplates(QObject *parent) : QAbstractListModel(parent)
             QVariantMap ruleTemplate = ruleTemplateVariant.toMap();
 
             // RuleTemplate base
-            t = new RuleTemplate(ruleTemplate.value("interfaceName").toString(), ruleTemplate.value("description").toString(), ruleTemplate.value("ruleNameTemplate").toString(), this);
+            QString descriptionContext = QString("description for %0").arg(QFileInfo(templateFile).baseName());
+            QString nameTemplateContext = QString("ruleNameTemplate for %0").arg(QFileInfo(templateFile).baseName());
+            t = new RuleTemplate(ruleTemplate.value("interfaceName").toString(),
+                                 qApp->translate(descriptionContext.toUtf8(), ruleTemplate.value("description").toByteArray()),
+                                 qApp->translate(nameTemplateContext.toUtf8(), ruleTemplate.value("ruleNameTemplate").toByteArray()),
+                                 this);
+            qDebug() << "Loading rule template" << ruleTemplate.value("description").toString() << tr(ruleTemplate.value("description").toByteArray());
 
             // EventDescriptorTemplate
             foreach (const QVariant &eventDescriptorVariant, ruleTemplate.value("eventDescriptorTemplates").toList()) {

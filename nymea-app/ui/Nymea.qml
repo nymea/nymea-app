@@ -175,6 +175,7 @@ ApplicationWindow {
             return Qt.resolvedUrl("images/sensors/closable.svg")
         case "media":
         case "mediacontroller":
+        case "mediaplayer":
             return Qt.resolvedUrl("images/mediaplayer-app-symbolic.svg")
         case "powersocket":
             return Qt.resolvedUrl("images/powersocket.svg")
@@ -310,6 +311,9 @@ ApplicationWindow {
         case "extendedsmartmeterproducer":
         case "extendedsmartmeterconsumer":
             return qsTr("smart meter");
+        case "media":
+        case "mediaplayer":
+            return qsTr("media player")
         default:
             console.warn("Unhandled interfaceToDisplayName:", name)
         }
