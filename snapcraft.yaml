@@ -59,7 +59,7 @@ parts:
       - qtquickcontrols2-5-dev
       - qttools5-dev-tools
     prepare: |
-      execstack --clear-execstack usr/lib/x86_64-linux-gnu/libQt5WebEngineCore.so.5
+      find . -name libQtWebEngineCore.so.5 -exec execstack --clear-execstack \{} \;
     stage-packages:
       - libqt5gui5
       - libqt5websockets5
