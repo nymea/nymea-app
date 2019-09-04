@@ -35,6 +35,7 @@ Depends: ${shlibs:Depends},
          qml-module-qtquick-layouts,
          qml-module-qtquick-window2,
          qml-module-qtquick2,
+         qml-module-qtwebview,
          xinit,
 Suggests: nymea, 
           network-manager
