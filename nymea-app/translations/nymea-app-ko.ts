@@ -495,11 +495,11 @@
     </message>
     <message>
         <source>Failed to connect to the login server. Please mase sure your network connection is working.</source>
-        <translation type="unfinished"></translation>
+        <translation>로그인 서버에 연결하지 못했습니다. 네트워크 연결이 작동하는지 확인하십시오.</translation>
     </message>
     <message>
         <source>An unexpected error happened. Please report this isse. Error code:</source>
-        <translation type="unfinished"></translation>
+        <translation>예기치 않은 오류가 발생했습니다. 이 문제를 신고하십시오. 에러 코드:</translation>
     </message>
 </context>
 <context>
@@ -935,7 +935,7 @@
     <name>DoorbellDevicePage</name>
     <message>
         <source>History</source>
-        <translation type="unfinished"></translation>
+        <translation>기록</translation>
     </message>
 </context>
 <context>
@@ -2594,7 +2594,7 @@ Please try again.</source>
     <name>NewMagicPage</name>
     <message>
         <source>New magic</source>
-        <translation type="unfinished">신 마법</translation>
+        <translation>신 마법</translation>
     </message>
 </context>
 <context>
