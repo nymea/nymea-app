@@ -3868,15 +3868,15 @@ Do you want to proceed?</source>
     <name>description for buttontemplates</name>
     <message>
         <source>Turn on a light</source>
-        <translation>불을 켜십시오</translation>
+        <translation>불 켜기</translation>
     </message>
     <message>
         <source>Turn off a light</source>
-        <translation>불 끄기</translation>
+        <translation>전등 끄기</translation>
     </message>
     <message>
         <source>Switch a light</source>
-        <translation type="unfinished"></translation>
+        <translation>전등 스위치</translation>
     </message>
     <message>
         <source>Turn off all lights</source>
