@@ -3958,7 +3958,7 @@ Do you want to proceed?</source>
     <name>description for smartmetertemplates</name>
     <message>
         <source>Charge my car while producing energy</source>
-        <translation>에너지를 생산시 자동차 충전</translation>
+        <translation>에너지 생산시 자동차 충전</translation>
     </message>
     <message>
         <source>Turn on heating while producing energy</source>
@@ -3969,22 +3969,22 @@ Do you want to proceed?</source>
     <name>description for thermostattemplates</name>
     <message>
         <source>Set temperature while I&apos;m home</source>
-        <translation type="unfinished"></translation>
+        <translation>집 온도 설정</translation>
     </message>
 </context>
 <context>
     <name>ruleNameTemplate for accesscontroltemplates</name>
     <message>
         <source>Denied access attempt on %0</source>
-        <translation type="unfinished"></translation>
+        <translation>% 0에 대한 액세스 시도 거부</translation>
     </message>
     <message>
         <source>Access granted on %0</source>
-        <translation type="unfinished"></translation>
+        <translation>% 0에 액세스 권한이 부여됨</translation>
     </message>
     <message>
         <source>Access granted to user on %0</source>
-        <translation type="unfinished"></translation>
+        <translation>% 0의 사용자에게 액세스 권한이 부여되었습니다.</translation>
     </message>
 </context>
 <context>
