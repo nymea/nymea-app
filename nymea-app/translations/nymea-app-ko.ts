@@ -3887,7 +3887,7 @@ Do you want to proceed?</source>
     <name>description for daylightsensor</name>
     <message>
         <source>Turn on a light while it&apos;s dark outside</source>
-        <translation>외부가 어두울 때 전등 켜기</translation>
+        <translation>외부가 어두울 질 때 전등 켜기</translation>
     </message>
     <message>
         <source>Turn on a light when it gets dark outside</source>
@@ -3895,70 +3895,70 @@ Do you want to proceed?</source>
     </message>
     <message>
         <source>Turn on all lights when it gets dark outside</source>
-        <translation type="unfinished"></translation>
+        <translation>외부가 어두워지면 모든 전등 켜기</translation>
     </message>
 </context>
 <context>
     <name>description for doorbellruletemplates</name>
     <message>
         <source>Alert on doorbell ring</source>
-        <translation type="unfinished"></translation>
+        <translation>초인종  경보</translation>
     </message>
 </context>
 <context>
     <name>description for mediatemplates</name>
     <message>
         <source>Dim light while watching TV</source>
-        <translation type="unfinished"></translation>
+        <translation>TV 조명</translation>
     </message>
 </context>
 <context>
     <name>description for notificationtemplates</name>
     <message>
         <source>Notify me when a device runs out of battery</source>
-        <translation type="unfinished"></translation>
+        <translation>기기의 배터리가 소진되면 알림</translation>
     </message>
     <message>
         <source>Notify me when something runs dry</source>
-        <translation type="unfinished"></translation>
+        <translation>마르면 알림</translation>
     </message>
     <message>
         <source>Notify me when a thing gets disconnected</source>
-        <translation type="unfinished"></translation>
+        <translation>연결이 끊어지면 알림</translation>
     </message>
     <message>
         <source>Notify me when a thing connects</source>
-        <translation type="unfinished"></translation>
+        <translation>사물(장치)이 연결되면 알림</translation>
     </message>
 </context>
 <context>
     <name>description for presencesensortemplates</name>
     <message>
         <source>Turn on something while being present</source>
-        <translation type="unfinished"></translation>
+        <translation>사물(장치)이 존재하면 켜기</translation>
     </message>
     <message>
         <source>Turn off something when leaving</source>
-        <translation type="unfinished"></translation>
+        <translation>나갈 때 사물(장치) 끄기</translation>
     </message>
     <message>
         <source>Turn off everything when leaving</source>
-        <translation type="unfinished"></translation>
+        <translation>나갈 때 모두 끄기</translation>
     </message>
     <message>
         <source>Turn off all lights when leaving</source>
-        <translation type="unfinished"></translation>
+        <translation>나갈 때 모든 전등 끄기</translation>
     </message>
     <message>
         <source>Turn on something when arriving</source>
-        <translation type="unfinished"></translation>
+        <translation>도착하면 켜기</translation>
     </message>
 </context>
 <context>
     <name>description for smartmetertemplates</name>
     <message>
         <source>Charge my car while producing energy</source>
-        <translation type="unfinished"></translation>
+        <translation>에너지를 생산하면서 내 차를 충전</translation>
     </message>
     <message>
         <source>Turn on heating while producing energy</source>
