@@ -3868,7 +3868,7 @@ Do you want to proceed?</source>
     <name>description for buttontemplates</name>
     <message>
         <source>Turn on a light</source>
-        <translation>불 켜기</translation>
+        <translation>전등 켜기</translation>
     </message>
     <message>
         <source>Turn off a light</source>
@@ -3880,18 +3880,18 @@ Do you want to proceed?</source>
     </message>
     <message>
         <source>Turn off all lights</source>
-        <translation type="unfinished"></translation>
+        <translation>모든 전등 끄기</translation>
     </message>
 </context>
 <context>
     <name>description for daylightsensor</name>
     <message>
         <source>Turn on a light while it&apos;s dark outside</source>
-        <translation type="unfinished"></translation>
+        <translation>어두울 때 전등 켜기</translation>
     </message>
     <message>
         <source>Turn on a light when it gets dark outside</source>
-        <translation type="unfinished"></translation>
+        <translation>외부가 어두워지면 전등 켜기</translation>
     </message>
     <message>
         <source>Turn on all lights when it gets dark outside</source>
