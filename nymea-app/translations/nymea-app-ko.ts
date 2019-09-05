@@ -2594,7 +2594,7 @@ Please try again.</source>
     <name>NewMagicPage</name>
     <message>
         <source>New magic</source>
-        <translation>매직 만들기</translation>
+        <translation>마법 만들기</translation>
     </message>
 </context>
 <context>
@@ -2813,31 +2813,31 @@ Please try again.</source>
     </message>
     <message>
         <source>Doorbells</source>
-        <translation type="unfinished"></translation>
+        <translation>초인종</translation>
     </message>
     <message>
         <source>doorbell</source>
-        <translation type="unfinished"></translation>
+        <translation>초인종</translation>
     </message>
     <message>
         <source>alert</source>
-        <translation type="unfinished"></translation>
+        <translation>경보</translation>
     </message>
     <message>
         <source>button</source>
-        <translation type="unfinished"></translation>
+        <translation>버튼</translation>
     </message>
     <message>
         <source>access control</source>
-        <translation type="unfinished"></translation>
+        <translation>액세스 제어</translation>
     </message>
     <message>
         <source>smart meter</source>
-        <translation type="unfinished"></translation>
+        <translation>스마트 미터</translation>
     </message>
     <message>
         <source>media player</source>
-        <translation type="unfinished"></translation>
+        <translation>미디어 플레이어</translation>
     </message>
 </context>
 <context>
@@ -3853,26 +3853,26 @@ Do you want to proceed?</source>
     <name>description for accesscontroltemplates</name>
     <message>
         <source>Alert me on denied access attempts</source>
-        <translation type="unfinished"></translation>
+        <translation>액세스 시도 거부 알림</translation>
     </message>
     <message>
         <source>Notify my about access</source>
-        <translation type="unfinished"></translation>
+        <translation>액세스 알림</translation>
     </message>
     <message>
         <source>Notify my about user access</source>
-        <translation type="unfinished"></translation>
+        <translation>사용자 액세스 알림</translation>
     </message>
 </context>
 <context>
     <name>description for buttontemplates</name>
     <message>
         <source>Turn on a light</source>
-        <translation type="unfinished"></translation>
+        <translation>불을 켜십시오</translation>
     </message>
     <message>
         <source>Turn off a light</source>
-        <translation type="unfinished"></translation>
+        <translation>불 끄기</translation>
     </message>
     <message>
         <source>Switch a light</source>
