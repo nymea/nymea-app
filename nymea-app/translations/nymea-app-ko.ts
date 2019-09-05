@@ -3984,89 +3984,89 @@ Do you want to proceed?</source>
     </message>
     <message>
         <source>Access granted to user on %0</source>
-        <translation>% 0의 사용자에게 액세스 권한이 부여되었습니다.</translation>
+        <translation>% 0의 사용자에게 액세스 권한이 부여되었습니다</translation>
     </message>
 </context>
 <context>
     <name>ruleNameTemplate for buttontemplates</name>
     <message>
         <source>%0 turns on %1</source>
-        <translation type="unfinished"></translation>
+        <translation>% 0은 %를 켭니다</translation>
     </message>
     <message>
         <source>%0 turns off %1</source>
-        <translation type="unfinished"></translation>
+        <translation>% 0은 % 1을 끕니다</translation>
     </message>
     <message>
         <source>%0 switches %1</source>
-        <translation type="unfinished"></translation>
+        <translation>% 0 스위치 % 1</translation>
     </message>
     <message>
         <source>Turn off everything with %0</source>
-        <translation type="unfinished"></translation>
+        <translation>% 0으로 모든 것을 끄십시오</translation>
     </message>
 </context>
 <context>
     <name>ruleNameTemplate for daylightsensor</name>
     <message>
         <source>Turn on %1 while it&apos;s dark outside</source>
-        <translation type="unfinished"></translation>
+        <translation>어두운 질 때 %1을 켭니다</translation>
     </message>
     <message>
         <source>Turn on %1 when it gets dark outside (%0)</source>
-        <translation type="unfinished"></translation>
+        <translation>어두워지면 % 1을 켜십시오 (% 0)</translation>
     </message>
     <message>
         <source>Turn on all lights when it gets dark outside</source>
-        <translation type="unfinished"></translation>
+        <translation>어두워지면 모든 조명을 켭니다</translation>
     </message>
 </context>
 <context>
     <name>ruleNameTemplate for doorbellruletemplates</name>
     <message>
         <source>Alert %1 when someone is at %0</source>
-        <translation type="unfinished"></translation>
+        <translation>누군가 % 0에 있을 때 경보 % 1</translation>
     </message>
 </context>
 <context>
     <name>ruleNameTemplate for mediatemplates</name>
     <message>
         <source>%0 dims %1 for movie time</source>
-        <translation type="unfinished"></translation>
+        <translation>영화 시간 %0이 %1 흐리게 표시</translation>
     </message>
 </context>
 <context>
     <name>ruleNameTemplate for notificationtemplates</name>
     <message>
         <source>Low battery alert for %0</source>
-        <translation type="unfinished"></translation>
+        <translation>% 0에 대한 배터리 부족 경보</translation>
     </message>
     <message>
         <source>Notify %1 when %0 runs dry</source>
-        <translation type="unfinished"></translation>
+        <translation>% 0이 마르면 % 1에 알림</translation>
     </message>
     <message>
         <source>Disconnect alert for %0</source>
-        <translation type="unfinished"></translation>
+        <translation>% 0에 대한 연결 해제 경보</translation>
     </message>
     <message>
         <source>Connection notification for %0</source>
-        <translation type="unfinished"></translation>
+        <translation>% 0에 대한 연결 알림</translation>
     </message>
 </context>
 <context>
     <name>ruleNameTemplate for presencesensortemplates</name>
     <message>
         <source>Turn on %1 while %0 reports presence</source>
-        <translation type="unfinished"></translation>
+        <translation>%0이 존재를 보고하는 동안 %1을 켜십시오</translation>
     </message>
     <message>
         <source>Turn off %1 when %0 reports leaving</source>
-        <translation type="unfinished"></translation>
+        <translation>% 0 보고서가 떠날 때 % 1을 끕니다</translation>
     </message>
     <message>
         <source>Turn off everything when %0 reports leaving</source>
-        <translation type="unfinished"></translation>
+        <translation>%0 보고서가 없으면 모든 것을 끄십시오</translation>
     </message>
     <message>
         <source>Turn off all lights when %0 reports leaving</source>
