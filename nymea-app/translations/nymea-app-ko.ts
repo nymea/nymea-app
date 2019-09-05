@@ -3958,11 +3958,11 @@ Do you want to proceed?</source>
     <name>description for smartmetertemplates</name>
     <message>
         <source>Charge my car while producing energy</source>
-        <translation>에너지를 생산하면서 내 차를 충전</translation>
+        <translation>에너지를 생산시 자동차 충전</translation>
     </message>
     <message>
         <source>Turn on heating while producing energy</source>
-        <translation type="unfinished"></translation>
+        <translation>에너지 생산시 난방 켜기</translation>
     </message>
 </context>
 <context>
