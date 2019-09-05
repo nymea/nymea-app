@@ -4058,11 +4058,11 @@ Do you want to proceed?</source>
     <name>ruleNameTemplate for presencesensortemplates</name>
     <message>
         <source>Turn on %1 while %0 reports presence</source>
-        <translation>%0이 존재를 보고하는 동안 %1을 켜십시오</translation>
+        <translation>%0이 보고서가 있으면 %1을 켜십시오</translation>
     </message>
     <message>
         <source>Turn off %1 when %0 reports leaving</source>
-        <translation>% 0 보고서가 떠날 때 % 1을 끕니다</translation>
+        <translation>%0 보고서가 없으면 %1을 끕니다</translation>
     </message>
     <message>
         <source>Turn off everything when %0 reports leaving</source>
@@ -4070,36 +4070,36 @@ Do you want to proceed?</source>
     </message>
     <message>
         <source>Turn off all lights when %0 reports leaving</source>
-        <translation type="unfinished"></translation>
+        <translation>%0 보고서가 없으면 모든  전등 끄기</translation>
     </message>
     <message>
         <source>Turn on %1 when %0 reports arriving</source>
-        <translation type="unfinished"></translation>
+        <translation>%0 개의 보고서가 도착하면 %1을 켭니다</translation>
     </message>
 </context>
 <context>
     <name>ruleNameTemplate for smartmetertemplates</name>
     <message>
         <source>Smart car charging</source>
-        <translation type="unfinished"></translation>
+        <translation>스마트 카 충전</translation>
     </message>
     <message>
         <source>Smart heating</source>
-        <translation type="unfinished"></translation>
+        <translation>스마트 난방</translation>
     </message>
 </context>
 <context>
     <name>ruleNameTemplate for template</name>
     <message>
         <source>%0 ...</source>
-        <translation type="unfinished"></translation>
+        <translation>%0 ...</translation>
     </message>
 </context>
 <context>
     <name>ruleNameTemplate for thermostattemplates</name>
     <message>
         <source>Set temperature while I&apos;m home</source>
-        <translation type="unfinished"></translation>
+        <translation>집에있는 동안 온도 설정</translation>
     </message>
 </context>
 </TS>
