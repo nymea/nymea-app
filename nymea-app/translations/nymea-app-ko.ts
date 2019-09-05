@@ -4099,7 +4099,7 @@ Do you want to proceed?</source>
     <name>ruleNameTemplate for thermostattemplates</name>
     <message>
         <source>Set temperature while I&apos;m home</source>
-        <translation>집에있는 동안 온도 설정</translation>
+        <translation>집 온도 설정</translation>
     </message>
 </context>
 </TS>
