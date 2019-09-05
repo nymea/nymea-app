@@ -2594,7 +2594,7 @@ Please try again.</source>
     <name>NewMagicPage</name>
     <message>
         <source>New magic</source>
-        <translation>신 마법</translation>
+        <translation>매직 만들기</translation>
     </message>
 </context>
 <context>
@@ -2609,7 +2609,7 @@ Please try again.</source>
     </message>
     <message>
         <source>New magic for %1</source>
-        <translation type="unfinished"></translation>
+        <translation>% 1의 새로운 마법</translation>
     </message>
 </context>
 <context>
