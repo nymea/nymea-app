@@ -3887,7 +3887,7 @@ Do you want to proceed?</source>
     <name>description for daylightsensor</name>
     <message>
         <source>Turn on a light while it&apos;s dark outside</source>
-        <translation>어두울 때 전등 켜기</translation>
+        <translation>외부가 어두울 때 전등 켜기</translation>
     </message>
     <message>
         <source>Turn on a light when it gets dark outside</source>
