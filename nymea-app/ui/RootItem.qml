@@ -14,6 +14,11 @@ Item {
     Rectangle {
         anchors.fill: parent
         color: Material.background
+
+        Component.onCompleted: {
+            PlatformHelper.topPanelColor = app.primaryColor
+            PlatformHelper.bottomPanelColor = color
+        }
     }
 
     function handleAndroidBackButton() {

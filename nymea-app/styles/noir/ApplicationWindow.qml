@@ -21,7 +21,7 @@ ApplicationWindow {
     property string appName: "nymea:app"
 
     // The header background color
-    property color primaryColor: Qt.darker("#50514f", 1.1)
+    property color primaryColor: "#494948"
 
 
     // Header font color

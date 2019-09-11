@@ -187,8 +187,6 @@ Page {
             SwipeView {
                 id: swipeView
                 anchors.fill: parent
-                anchors.leftMargin: (systemProductType === "ios" && Screen.width === 812) ? 25 : 0
-                anchors.rightMargin: anchors.leftMargin
                 currentIndex: root.currentViewIndex
 
                 onCurrentIndexChanged: {
@@ -308,9 +306,7 @@ Page {
         id: tabBar
         Material.elevation: 3
         position: TabBar.Footer
-        implicitHeight: 70 + (app.landscape ?
-                                          ((systemProductType === "ios" && Screen.height === 375) ? -10 : -20) :
-                                          (systemProductType === "ios" && Screen.height === 812) ? 14 : 0)
+        implicitHeight: 70 + (app.landscape ? -20 : 0)
 
         Component {
             id: tabEntryComponent
