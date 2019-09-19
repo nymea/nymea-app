@@ -1,3 +1,12 @@
+nymea-app (1.0.142) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add a a fallback "en" translation
+  * Handle the iPhone notch better
+  * Strip QtWebengine's execstack in snap package
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 19 Sep 2019 17:50:20 +0200
+
 nymea-app (1.0.141) bionic; urgency=medium
 
   [ Michael Zanetti ]
