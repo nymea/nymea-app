@@ -1,3 +1,11 @@
+nymea-app (1.0.143) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Also color the panel on android, fix iOS landscape mode
+  * Some fixes in the add device results page
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 20 Sep 2019 01:21:28 +0200
+
 nymea-app (1.0.142) bionic; urgency=medium
 
   [ Michael Zanetti ]
