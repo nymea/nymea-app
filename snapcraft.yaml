@@ -44,6 +44,7 @@ parts:
     project-files: [ nymea-app.pro ]
 #    options: [ CONFIG+=withavahi ]
     build-packages:
+      - execstack
       - qt5-default
       - qt5-qmake
       - qtbase5-dev
@@ -57,6 +58,8 @@ parts:
       - qtdeclarative5-dev
       - qtquickcontrols2-5-dev
       - qttools5-dev-tools
+    prepare: |
+      find . -name libQtWebEngineCore.so.5 -exec execstack --clear-execstack \{} \;
     stage-packages:
       - libqt5gui5
       - libqt5websockets5
