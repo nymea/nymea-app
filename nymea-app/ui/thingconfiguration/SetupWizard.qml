@@ -64,7 +64,7 @@ Page {
             busyOverlay.shown = false
             if (params["deviceError"] !== "DeviceErrorNoError") {
                 busyOverlay.shown = false;
-                internalPageStack.push(resultsPage, {success: false})
+                internalPageStack.push(resultsPage, {deviceError: params["deviceError"], message: params["displayMessage"]});
                 return;
 
             }
@@ -86,15 +86,16 @@ Page {
         }
         onConfirmPairingReply: {
             busyOverlay.shown = false
-            internalPageStack.push(resultsPage, {success: params["deviceError"] === "DeviceErrorNoError", deviceId: params["deviceId"], message: params["displayMessage"]})
+            internalPageStack.push(resultsPage, {deviceError: params["deviceError"], deviceId: params["deviceId"], message: params["displayMessage"]})
         }
         onAddDeviceReply: {
+            print("Device added:", JSON.stringify(params))
             busyOverlay.shown = false;
-            internalPageStack.push(resultsPage, {success: params["deviceError"] === "DeviceErrorNoError", deviceId: params["deviceId"]})
+            internalPageStack.push(resultsPage, {deviceError: params["deviceError"], deviceId: params["deviceId"], message: params["displayMessage"]})
         }
         onReconfigureDeviceReply: {
             busyOverlay.shown = false;
-            internalPageStack.push(resultsPage, {success: params["deviceError"] === "DeviceErrorNoError", deviceId: params["deviceId"]})
+            internalPageStack.push(resultsPage, {deviceError: params["deviceError"], deviceId: params["deviceId"], message: params["displayMessage"]})
         }
     }
 
@@ -486,9 +487,11 @@ Page {
         Page {
             id: resultsView
 
-            property bool success
             property string deviceId
+            property string deviceError
             property string message
+
+            readonly property bool success: deviceError === "DeviceErrorNoError"
 
             readonly property var device: root.device ? root.device : engine.deviceManager.devices.getDevice(deviceId)
 
