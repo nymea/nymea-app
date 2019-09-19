@@ -2,6 +2,7 @@
 #include <QDebug>
 #include <QUuid>
 
+
 PlatformHelperIOS::PlatformHelperIOS(QObject *parent) : PlatformHelper(parent)
 {
 
@@ -71,5 +72,17 @@ void PlatformHelperIOS::vibrate(PlatformHelper::HapticsFeedback feedbackType)
         generateNotificationFeedback();
         break;
     }
+}
+
+void PlatformHelperIOS::setTopPanelColor(const QColor &color)
+{
+    PlatformHelper::setTopPanelColor(color);
+    setTopPanelColorInternal(color);
+}
+
+void PlatformHelperIOS::setBottomPanelColor(const QColor &color)
+{
+    PlatformHelper::setBottomPanelColor(color);
+    setBottomPanelColorInternal(color);
 }
 

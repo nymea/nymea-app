@@ -24,10 +24,16 @@ public:
 
     Q_INVOKABLE virtual void vibrate(HapticsFeedback feedbackType) override;
 
+    void setTopPanelColor(const QColor &color) override;
+    void setBottomPanelColor(const QColor &color) override;
+
 private:
     // defined in platformhelperios.mm
     QString readKeyChainEntry(const QString &service, const QString &key);
     void writeKeyChainEntry(const QString &service, const QString &key, const QString &value);
+
+    void setTopPanelColorInternal(const QColor &color);
+    void setBottomPanelColorInternal(const QColor &color);
 
     void generateSelectionFeedback();
     void generateImpactFeedback();

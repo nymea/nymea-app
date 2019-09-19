@@ -2,6 +2,7 @@
 #define PLATFORMHELPER_H
 
 #include <QObject>
+#include <QColor>
 
 class PlatformHelper : public QObject
 {
@@ -15,6 +16,8 @@ class PlatformHelper : public QObject
     Q_PROPERTY(bool canControlScreen READ canControlScreen CONSTANT)
     Q_PROPERTY(int screenTimeout READ screenTimeout WRITE setScreenTimeout NOTIFY screenTimeoutChanged)
     Q_PROPERTY(int screenBrightness READ screenBrightness WRITE setScreenBrightness NOTIFY screenBrightnessChanged)
+    Q_PROPERTY(QColor topPanelColor READ topPanelColor WRITE setTopPanelColor NOTIFY topPanelColorChanged)
+    Q_PROPERTY(QColor bottomPanelColor READ bottomPanelColor WRITE setBottomPanelColor NOTIFY bottomPanelColorChanged)
 
 public:
     enum HapticsFeedback {
@@ -44,6 +47,11 @@ public:
     virtual int screenBrightness() const;
     virtual void setScreenBrightness(int percent);
 
+    virtual QColor topPanelColor() const;
+    virtual void setTopPanelColor(const QColor &color);
+    virtual QColor bottomPanelColor() const;
+    virtual void setBottomPanelColor(const QColor &color);
+
 
     Q_INVOKABLE virtual void vibrate(HapticsFeedback feedbackType) = 0;
 
@@ -51,6 +59,12 @@ signals:
     void permissionsRequestFinished();
     void screenTimeoutChanged();
     void screenBrightnessChanged();
+    void topPanelColorChanged();
+    void bottomPanelColorChanged();
+
+private:
+    QColor m_topPanelColor = QColor("black");
+    QColor m_bottomPanelColor = QColor("black");
 };
 
 #endif // PLATFORMHELPER_H

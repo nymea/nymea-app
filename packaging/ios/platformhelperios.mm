@@ -99,3 +99,23 @@ void PlatformHelperIOS::generateNotificationFeedback()
     [generator notificationOccurred:UINotificationFeedbackTypeSuccess];
     generator = nil;
 }
+
+void PlatformHelperIOS::setTopPanelColorInternal(const QColor &color)
+{
+    UIView *statusBar = (UIView *)[[UIApplication sharedApplication] valueForKey:@"statusBar"];
+    statusBar.backgroundColor = [UIColor colorWithRed:color.redF() green:color.greenF() blue:color.blueF() alpha:color.alphaF()];
+
+    if (((color.red() * 299 + color.green() * 587 + color.blue() * 114) / 1000) > 123) {
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
+    } else {
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
+    }
+}
+
+void PlatformHelperIOS::setBottomPanelColorInternal(const QColor &color)
+{
+    //Bottom
+    UIApplication *app = [UIApplication sharedApplication];
+    app.windows.firstObject.backgroundColor = [UIColor colorWithRed:color.redF() green:color.greenF() blue:color.blueF() alpha:color.alphaF()];
+}
+
