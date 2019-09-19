@@ -14,6 +14,7 @@ ApplicationWindow {
     minimumWidth: 360
     minimumHeight: 480
     visibility: kioskMode ? ApplicationWindow.FullScreen : settings.viewMode
+    color: Material.background
 
     // Those variables must be present in the Style
     title: appName
@@ -49,6 +50,8 @@ ApplicationWindow {
 
     Component.onCompleted: {
         styleController.setSystemFont(app.font)
+        PlatformHelper.topPanelColor = app.primaryColor
+        PlatformHelper.bottomPanelColor = Material.background
     }
 
     RootItem {

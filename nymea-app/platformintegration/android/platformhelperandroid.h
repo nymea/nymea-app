@@ -9,6 +9,8 @@ class PlatformHelperAndroid : public PlatformHelper
 {
     Q_OBJECT
 public:
+    enum Theme { Light, Dark };
+
     explicit PlatformHelperAndroid(QObject *parent = nullptr);
 
     Q_INVOKABLE void requestPermissions() override;
@@ -23,6 +25,10 @@ public:
     QString deviceManufacturer() const override;
 
     Q_INVOKABLE void vibrate(HapticsFeedback feedbackType) override;
+
+    void setTopPanelColor(const QColor &color) override;
+    void setTopPanelTheme(Theme theme);
+    void setBottomPanelColor(const QColor &color) override;
 
 private:
     static void permissionRequestFinished(const QtAndroid::PermissionResultMap &);

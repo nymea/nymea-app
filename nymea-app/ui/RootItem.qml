@@ -10,17 +10,6 @@ import "connection"
 Item {
     id: root
 
-    // Workaround flickering on pageStack animations when the white background shines through
-    Rectangle {
-        anchors.fill: parent
-        color: Material.background
-
-        Component.onCompleted: {
-            PlatformHelper.topPanelColor = app.primaryColor
-            PlatformHelper.bottomPanelColor = color
-        }
-    }
-
     function handleAndroidBackButton() {
         return swipeView.currentItem.handleAndroidBackButton()
     }

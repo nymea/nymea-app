@@ -1,10 +1,16 @@
 #include "platformhelperios.h"
 #include <QDebug>
 #include <QUuid>
-
+#include <QScreen>
+#include <QApplication>
 
 PlatformHelperIOS::PlatformHelperIOS(QObject *parent) : PlatformHelper(parent)
 {
+    QScreen *screen = qApp->primaryScreen();
+    screen->setOrientationUpdateMask(Qt::PortraitOrientation | Qt::LandscapeOrientation | Qt::InvertedPortraitOrientation | Qt::InvertedLandscapeOrientation);
+    QObject::connect(screen, &QScreen::orientationChanged, qApp, [this](Qt::ScreenOrientation) {
+        setBottomPanelColor(bottomPanelColor());
+    });
 
 }
 
@@ -83,6 +89,13 @@ void PlatformHelperIOS::setTopPanelColor(const QColor &color)
 void PlatformHelperIOS::setBottomPanelColor(const QColor &color)
 {
     PlatformHelper::setBottomPanelColor(color);
-    setBottomPanelColorInternal(color);
+
+    // In landscape, ignore settings and keep it to black. On notched devices it'll look crap otherwise
+    if (qApp->primaryScreen()->orientation() == Qt::LandscapeOrientation || qApp->primaryScreen()->orientation() == Qt::InvertedLandscapeOrientation) {
+        setBottomPanelColorInternal(QColor("black"));
+    } else {
+        setBottomPanelColorInternal(color);
+    }
+
 }
 
