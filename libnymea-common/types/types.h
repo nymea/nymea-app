@@ -88,7 +88,7 @@ public:
         UnitPartsPerMillion,
         UnitEuro,
         UnitDollar,
-        UnitHerz,
+        UnitHertz,
         UnitAmpere,
         UnitMilliAmpere,
         UnitVolt,
