@@ -791,11 +791,11 @@
     <name>ConfigureThingPage</name>
     <message>
         <source>Delete Thing</source>
-        <translation>&quot;Thing&quot; löschen</translation>
+        <translation type="vanished">&quot;Thing&quot; löschen</translation>
     </message>
     <message>
         <source>Rename Thing</source>
-        <translation>&quot;Thing&quot; umbenennen</translation>
+        <translation type="vanished">&quot;Thing&quot; umbenennen</translation>
     </message>
     <message>
         <source>Remove device error: %1</source>
@@ -803,7 +803,7 @@
     </message>
     <message>
         <source>Thing parameters</source>
-        <translation>&quot;Thing&quot; Parameter</translation>
+        <translation type="vanished">&quot;Thing&quot; Parameter</translation>
     </message>
     <message>
         <source>This thing is currently used in one or more rules:</source>
@@ -823,11 +823,11 @@
     </message>
     <message>
         <source>Reconfigure Thing</source>
-        <translation>&quot;Thing&quot; neu einrichten</translation>
+        <translation type="vanished">&quot;Thing&quot; neu einrichten</translation>
     </message>
     <message>
         <source>Thing information</source>
-        <translation>&quot;Thing&quot; Informationen</translation>
+        <translation type="vanished">&quot;Thing&quot; Informationen</translation>
     </message>
     <message>
         <source>Vendor:</source>
@@ -839,11 +839,35 @@
     </message>
     <message>
         <source>Thing settings</source>
-        <translation>&quot;Thing&quot; einstellungen</translation>
+        <translation type="vanished">&quot;Thing&quot; einstellungen</translation>
     </message>
     <message>
         <source>Apply</source>
         <translation>Anwenden</translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation>Umbenennen</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Löschen</translation>
+    </message>
+    <message>
+        <source>Reconfigure</source>
+        <translation>Neu einrichten</translation>
+    </message>
+    <message>
+        <source>Information</source>
+        <translation>Informationen</translation>
+    </message>
+    <message>
+        <source>Parameters</source>
+        <translation>Parameter</translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation>Einstellungen</translation>
     </message>
 </context>
 <context>
@@ -1289,7 +1313,7 @@
     </message>
     <message>
         <source>Thing details</source>
-        <translation>Details</translation>
+        <translation type="vanished">Details</translation>
     </message>
     <message>
         <source>Mark as favorite</source>
@@ -1301,7 +1325,19 @@
     </message>
     <message>
         <source>Thing logs</source>
-        <translation>&quot;Thing&quot; Protokoll</translation>
+        <translation type="vanished">&quot;Thing&quot; Protokoll</translation>
+    </message>
+    <message>
+        <source>Details</source>
+        <translation>Details</translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation>Einstellungen</translation>
+    </message>
+    <message>
+        <source>Logs</source>
+        <translation>Protokoll</translation>
     </message>
 </context>
 <context>

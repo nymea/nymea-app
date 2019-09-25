@@ -24,26 +24,36 @@ Page {
         id: deviceMenu
         width: implicitWidth + app.margins
         x: parent.width - width
-        IconMenuItem {
-            iconSource: "../images/delete.svg"
-            text: qsTr("Delete Thing")
-            onTriggered: engine.deviceManager.removeDevice(root.device.id)
-        }
-        IconMenuItem {
-            iconSource: "../images/edit.svg"
-            text: qsTr("Rename Thing")
-            onTriggered: {
-                var popup = renameDialog.createObject(root);
-                popup.open();
+
+        Component.onCompleted: {
+            deviceMenu.addItem(menuEntryComponent.createObject(deviceMenu, {text: qsTr("Rename"), iconSource: "../images/edit.svg", functionName: "renameThing"}))
+            if (!root.device.isChild) {
+                deviceMenu.addItem(menuEntryComponent.createObject(deviceMenu, {text: qsTr("Delete"), iconSource: "../images/delete.svg", functionName: "deleteThing"}))
+            }
+            if (!root.device.isChild) {
+                deviceMenu.addItem(menuEntryComponent.createObject(deviceMenu, {text: qsTr("Reconfigure"), iconSource: "../images/configure.svg", functionName: "reconfigureThing"}))
             }
         }
-        IconMenuItem {
-            iconSource: "../images/configure.svg"
-            text: qsTr("Reconfigure Thing")
-            visible: root.device.deviceClass.paramTypes.count > 0
-            onTriggered: {
-                var configPage = pageStack.push(Qt.resolvedUrl("SetupWizard.qml"), {device: root.device})
-                configPage.done.connect(function() {pageStack.pop(root)})
+
+        function renameThing() {
+            var popup = renameDialog.createObject(root);
+            popup.open();
+        }
+
+        function deleteThing() {
+            engine.deviceManager.removeDevice(root.device.id)
+        }
+
+        function reconfigureThing() {
+            var configPage = pageStack.push(Qt.resolvedUrl("SetupWizard.qml"), {device: root.device})
+            configPage.done.connect(function() {pageStack.pop(root)})
+        }
+
+        Component {
+            id: menuEntryComponent
+            IconMenuItem {
+                property string functionName: ""
+                onTriggered: deviceMenu[functionName]()
             }
         }
     }
@@ -77,7 +87,7 @@ Page {
             Label {
                 Layout.fillWidth: true
                 Layout.margins: app.margins
-                text: qsTr("Thing information")
+                text: qsTr("Information")
                 color: app.accentColor
             }
             RowLayout {
@@ -106,7 +116,7 @@ Page {
                 Layout.leftMargin: app.margins
                 Layout.rightMargin: app.margins
                 Layout.topMargin: app.margins
-                text: qsTr("Thing parameters")
+                text: qsTr("Parameters")
                 color: app.accentColor
                 visible: root.deviceClass.paramTypes.count > 0
             }
@@ -126,7 +136,7 @@ Page {
                 Layout.leftMargin: app.margins
                 Layout.rightMargin: app.margins
                 Layout.topMargin: app.margins
-                text: qsTr("Thing settings")
+                text: qsTr("Settings")
                 color: app.accentColor
                 visible: root.deviceClass.settingsTypes.count > 0
             }

@@ -568,19 +568,19 @@
     <name>ConfigureThingPage</name>
     <message>
         <source>Delete Thing</source>
-        <translation>삭제하기</translation>
+        <translation type="vanished">삭제하기</translation>
     </message>
     <message>
         <source>Rename Thing</source>
-        <translation>이름 바꾸기</translation>
+        <translation type="vanished">이름 바꾸기</translation>
     </message>
     <message>
         <source>Reconfigure Thing</source>
-        <translation>재설정</translation>
+        <translation type="vanished">재설정</translation>
     </message>
     <message>
         <source>Thing information</source>
-        <translation>사물(장치) 정보</translation>
+        <translation type="vanished">사물(장치) 정보</translation>
     </message>
     <message>
         <source>Vendor:</source>
@@ -592,15 +592,39 @@
     </message>
     <message>
         <source>Thing parameters</source>
-        <translation>사물(장치) 매개변수</translation>
+        <translation type="vanished">사물(장치) 매개변수</translation>
     </message>
     <message>
         <source>Thing settings</source>
-        <translation>사물(장치) 설정</translation>
+        <translation type="vanished">사물(장치) 설정</translation>
     </message>
     <message>
         <source>Apply</source>
         <translation>적용</translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reconfigure</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Parameters</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation type="unfinished">설정</translation>
     </message>
 </context>
 <context>
@@ -874,11 +898,11 @@
     </message>
     <message>
         <source>Thing details</source>
-        <translation>세부 정보</translation>
+        <translation type="vanished">세부 정보</translation>
     </message>
     <message>
         <source>Thing logs</source>
-        <translation>사물 기록</translation>
+        <translation type="vanished">사물 기록</translation>
     </message>
     <message>
         <source>Mark as favorite</source>
@@ -895,6 +919,18 @@
     <message>
         <source>Thing runs out of battery!</source>
         <translation>배터리가 다 됐네요!</translation>
+    </message>
+    <message>
+        <source>Details</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation type="unfinished">설정</translation>
+    </message>
+    <message>
+        <source>Logs</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

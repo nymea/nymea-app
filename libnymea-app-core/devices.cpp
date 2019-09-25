@@ -72,6 +72,8 @@ QVariant Devices::data(const QModelIndex &index, int role) const
         return device->id().toString();
     case RoleDeviceClass:
         return device->deviceClassId().toString();
+    case RoleParentDeviceId:
+        return device->parentDeviceId().toString();
     case RoleSetupComplete:
         return device->setupComplete();
     case RoleInterfaces:
@@ -133,6 +135,7 @@ QHash<int, QByteArray> Devices::roleNames() const
     roles[RoleName] = "name";
     roles[RoleId] = "id";
     roles[RoleDeviceClass] = "deviceClassId";
+    roles[RoleParentDeviceId] = "parentDeviceId";
     roles[RoleSetupComplete] = "setupComplete";
     roles[RoleInterfaces] = "interfaces";
     roles[RoleBaseInterface] = "baseInterface";

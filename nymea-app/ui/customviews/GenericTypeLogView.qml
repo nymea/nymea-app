@@ -53,7 +53,7 @@ Item {
                     }
                     Label {
                         Layout.fillWidth: true
-                        text: "%1: %2".arg(deviceClass.eventTypes.getEventType(model.typeId).displayName).arg(model.value.trim())
+                        text: deviceClass.eventTypes.getEventType(model.typeId).displayName + (model.value.length > 0 ? (": " + model.value.trim()) : "")
                         elide: Text.ElideRight
                         font.pixelSize: app.smallFont
                     }
