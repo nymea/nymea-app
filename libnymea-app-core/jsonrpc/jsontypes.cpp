@@ -587,8 +587,10 @@ QPair<Types::Unit, QString> JsonTypes::stringToUnit(const QString &unitString)
         return QPair<Types::Unit, QString>(Types::UnitEuro, "€");
     } else if (unitString == "UnitDollar") {
         return QPair<Types::Unit, QString>(Types::UnitDollar, "$");
-    } else if (unitString == "UnitHerz") {
-        return QPair<Types::Unit, QString>(Types::UnitHerz, "Hz");
+    } else if (unitString == "UnitHerz") { // legacy
+        return QPair<Types::Unit, QString>(Types::UnitHertz, "Hz");
+    } else if (unitString == "UnitHertz") {
+        return QPair<Types::Unit, QString>(Types::UnitHertz, "Hz");
     } else if (unitString == "UnitAmpere") {
         return QPair<Types::Unit, QString>(Types::UnitAmpere, "A");
     } else if (unitString == "UnitMilliAmpere") {
