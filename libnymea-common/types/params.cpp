@@ -89,6 +89,7 @@ void Params::addParam(Param *param)
     //qDebug() << "Params: loaded param" << param->name();
     m_params.append(param);
     endInsertRows();
+    emit countChanged();
 }
 
 void Params::clearModel()
@@ -96,6 +97,7 @@ void Params::clearModel()
     beginResetModel();
     m_params.clear();
     endResetModel();
+    emit countChanged();
 }
 
 QHash<int, QByteArray> Params::roleNames() const

@@ -30,13 +30,14 @@
 class Params : public QAbstractListModel
 {
     Q_OBJECT
+    Q_PROPERTY(int count READ count NOTIFY countChanged)
 public:
     enum RoleId {
         RoleId,
         RoleValue
     };
 
-    explicit Params(QObject *parent = 0);
+    explicit Params(QObject *parent = nullptr);
 
     QList<Param *> params();
 
@@ -52,6 +53,9 @@ public:
     Q_INVOKABLE void addParam(Param *param);
 
     void clearModel();
+
+signals:
+    void countChanged();
 
 protected:
     QHash<int, QByteArray> roleNames() const;

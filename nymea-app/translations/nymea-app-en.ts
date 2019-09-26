@@ -570,22 +570,6 @@
 <context>
     <name>ConfigureThingPage</name>
     <message>
-        <source>Delete Thing</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Rename Thing</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Reconfigure Thing</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Thing information</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Vendor:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -594,15 +578,31 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Thing parameters</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Thing settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Apply</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reconfigure</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Parameters</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -876,14 +876,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Thing details</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Thing logs</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Mark as favorite</source>
         <translation type="unfinished"></translation>
     </message>
@@ -897,6 +889,18 @@
     </message>
     <message>
         <source>Thing runs out of battery!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Details</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Logs</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

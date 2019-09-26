@@ -36,6 +36,7 @@ public:
     enum Roles {
         RoleName,
         RoleId,
+        RoleParentDeviceId,
         RoleDeviceClass,
         RoleSetupComplete,
         RoleInterfaces,

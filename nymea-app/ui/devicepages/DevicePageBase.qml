@@ -56,10 +56,11 @@ Page {
             thingMenu.addItem(menuEntryComponent.createObject(thingMenu, {text: qsTr("Magic"), iconSource: "../images/magic.svg", functionName: "openDeviceMagicPage"}))
 
             if (root.showDetailsButton) {
-                thingMenu.addItem(menuEntryComponent.createObject(thingMenu, {text: qsTr("Thing details"), iconSource: "../images/configure.svg", functionName: "openGenericDevicePage"}))
+                thingMenu.addItem(menuEntryComponent.createObject(thingMenu, {text: qsTr("Details"), iconSource: "../images/info.svg", functionName: "openGenericDevicePage"}))
             }
+            thingMenu.addItem(menuEntryComponent.createObject(thingMenu, {text: qsTr("Settings"), iconSource: "../images/configure.svg", functionName: "openThingSettingsPage"}))
             if (root.showLogsButton) {
-                thingMenu.addItem(menuEntryComponent.createObject(thingMenu, {text: qsTr("Thing logs"), iconSource: "../images/logs.svg", functionName: "openDeviceLogPage"}))
+                thingMenu.addItem(menuEntryComponent.createObject(thingMenu, {text: qsTr("Logs"), iconSource: "../images/logs.svg", functionName: "openDeviceLogPage"}))
             }
 
             if (engine.jsonRpcClient.ensureServerVersion(1.6)) {
@@ -84,6 +85,10 @@ Page {
                 engine.tagsManager.untagDevice(root.device.id, "favorites")
             }
         }
+        function openThingSettingsPage() {
+            pageStack.push(Qt.resolvedUrl("../thingconfiguration/ConfigureThingPage.qml"), {device: root.device})
+        }
+
         function openDeviceLogPage() {
             pageStack.push(Qt.resolvedUrl("DeviceLogPage.qml"), {device: root.device });
         }

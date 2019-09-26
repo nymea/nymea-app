@@ -221,11 +221,12 @@ Device* JsonTypes::unpackDevice(const QVariantMap &deviceMap, DeviceClasses *dev
         return nullptr;
     }
 
+    QUuid parentDeviceId = deviceMap.value("parentId").toUuid();
     Device *device = nullptr;
     if (oldDevice) {
         device = oldDevice;
     } else {
-        device = new Device(deviceClass);
+        device = new Device(deviceClass, parentDeviceId);
     }
     device->setName(deviceMap.value("name").toString());
     device->setId(deviceMap.value("id").toUuid());

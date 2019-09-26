@@ -37,6 +37,8 @@ class Device : public QObject
     Q_OBJECT
     Q_PROPERTY(QUuid id READ id CONSTANT)
     Q_PROPERTY(QUuid deviceClassId READ deviceClassId CONSTANT)
+    Q_PROPERTY(QUuid parentDeviceId READ parentDeviceId CONSTANT)
+    Q_PROPERTY(bool isChild READ isChild CONSTANT)
     Q_PROPERTY(QString name READ name NOTIFY nameChanged)
     Q_PROPERTY(bool setupComplete READ setupComplete NOTIFY setupCompleteChanged)
     Q_PROPERTY(Params *params READ params NOTIFY paramsChanged)
@@ -45,7 +47,7 @@ class Device : public QObject
     Q_PROPERTY(DeviceClass *deviceClass READ deviceClass CONSTANT)
 
 public:
-    explicit Device(DeviceClass *deviceClass, QObject *parent = nullptr);
+    explicit Device(DeviceClass *deviceClass, const QUuid &parentDeviceId = QUuid(), QObject *parent = nullptr);
 
     QString name() const;
     void setName(const QString &name);
@@ -54,6 +56,8 @@ public:
     void setId(const QUuid &id);
 
     QUuid deviceClassId() const;
+    QUuid parentDeviceId() const;
+    bool isChild() const;
 
     bool setupComplete();
     void setSetupComplete(const bool &setupComplete);
@@ -77,6 +81,7 @@ public:
 private:
     QString m_name;
     QUuid m_id;
+    QUuid m_parentDeviceId;
     bool m_setupComplete;
     Params *m_params = nullptr;
     Params *m_settings = nullptr;
