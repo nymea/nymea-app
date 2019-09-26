@@ -1,3 +1,11 @@
+nymea-app (1.0.144) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Allow thing settings to be opened directly from the things page
+  * Herz has been fixed to Hertz in the core
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 27 Sep 2019 00:08:44 +0200
+
 nymea-app (1.0.143) bionic; urgency=medium
 
   [ Michael Zanetti ]
