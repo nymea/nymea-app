@@ -3,14 +3,18 @@
 #include <QUuid>
 #include <QScreen>
 #include <QApplication>
+#include <QtWebView>
 
 PlatformHelperIOS::PlatformHelperIOS(QObject *parent) : PlatformHelper(parent)
 {
+    QtWebView::initialize();
+
     QScreen *screen = qApp->primaryScreen();
     screen->setOrientationUpdateMask(Qt::PortraitOrientation | Qt::LandscapeOrientation | Qt::InvertedPortraitOrientation | Qt::InvertedLandscapeOrientation);
     QObject::connect(screen, &QScreen::orientationChanged, qApp, [this](Qt::ScreenOrientation) {
         setBottomPanelColor(bottomPanelColor());
     });
+
 
 }
 

@@ -2,7 +2,7 @@ TEMPLATE=app
 TARGET=nymea-app
 include(../config.pri)
 
-QT += network qml quick quickcontrols2 svg websockets bluetooth charts gui-private webview
+QT += network qml quick quickcontrols2 svg websockets bluetooth charts gui-private
 
 INCLUDEPATH += $$top_srcdir/libnymea-common \
                $$top_srcdir/libnymea-app-core
@@ -44,6 +44,10 @@ equals(STYLES_PATH, "") {
     RESOURCES += $${STYLES_PATH}/styles.qrc
 }
 
+win32 {
+    QT += webview
+}
+
 android {
     ANDROID_PACKAGE_SOURCE_DIR = $$PWD/../packaging/android
 
@@ -60,7 +64,7 @@ android {
     INCLUDEPATH += /opt/firebase_cpp_sdk/include
     LIBS += -L/opt/firebase_cpp_sdk/libs/android/$$ANDROID_TARGET_ARCH/$$FIREBASE_STL_VARIANT/ -lfirebase_messaging -lfirebase_app
 
-    QT += androidextras
+    QT += androidextras webview
     HEADERS += platformintegration/android/platformhelperandroid.h
     SOURCES += platformintegration/android/platformhelperandroid.cpp
 
@@ -80,6 +84,7 @@ android {
 }
 
 macx: {
+    QT += webview
     PRODUCT_NAME=$$TARGET
     plist.input = ../packaging/osx/Info.plist.in
     plist.output = $$OUT_PWD/Info.plist
@@ -91,6 +96,7 @@ macx: {
 
 ios: {
     message("iOS build")
+    QT += webview
     HEADERS += platformintegration/ios/platformhelperios.h
     SOURCES += platformintegration/ios/platformhelperios.cpp
     OBJECTIVE_SOURCES += $$PWD/../packaging/ios/pushnotifications.mm \
