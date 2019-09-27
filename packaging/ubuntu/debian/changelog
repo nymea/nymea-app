@@ -1,3 +1,11 @@
+nymea-app (1.0.146) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix session startup scripts to work on buster
+  * Make the webview optional
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 27 Sep 2019 19:22:09 +0200
+
 nymea-app (1.0.145) bionic; urgency=medium
 
   [ Michael Zanetti ]
