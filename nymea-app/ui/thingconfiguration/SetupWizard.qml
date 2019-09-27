@@ -3,7 +3,6 @@ import QtQuick.Layouts 1.1
 import QtQuick.Controls 2.1
 import QtQuick.Controls.Material 2.1
 import Nymea 1.0
-import QtWebView 1.1
 
 import "../components"
 import "../delegates"
@@ -464,19 +463,56 @@ Page {
         id: oAuthPageComponent
         Page {
             id: oAuthPage
-            property alias oAuthUrl: oAuthWebView.url
+            property string oAuthUrl
 
-            WebView {
-                id: oAuthWebView
+            ColumnLayout {
+                anchors.centerIn: parent
+                width: parent.width - app.margins * 2
+                spacing: app.margins * 2
+
+                Label {
+                    Layout.fillWidth: true
+                    text: qsTr("OAuth is not supported on this platform. Please use this app on a different device to set up this thing.")
+                    wrapMode: Text.WordWrap
+                    horizontalAlignment: Text.AlignHCenter
+                }
+
+                Label {
+                    Layout.fillWidth: true
+                    text: qsTr("In order to use OAuth on this platform, make sure qml-module-qtwebview is installed.")
+                    wrapMode: Text.WordWrap
+                    font.pixelSize: app.smallFont
+                    horizontalAlignment: Text.AlignHCenter
+                }
+            }
+
+            Item {
+                id: webViewContainer
                 anchors.fill: parent
 
-                onUrlChanged: {
-                    print("OAUTH URL changed", url)
-                    if (url.toString().indexOf("https://127.0.0.1") == 0) {
-                        print("Redirect URL detected!");
-                        engine.deviceManager.confirmPairing(d.pairingTransactionId, url)
-                    }
+                Component.onCompleted: {
+                    // This might fail if qml-module-qtwebview isn't around
+                    Qt.createQmlObject(webViewString, webViewContainer);
                 }
+
+                property string webViewString:
+                    '
+                    import QtQuick 2.8;
+                    import QtWebView 1.1;
+                    WebView {
+                        id: oAuthWebView
+                        anchors.fill: parent
+                        url: oAuthPage.oAuthUrl
+
+                        onUrlChanged: {
+                            print("OAUTH URL changed", url)
+                            if (url.toString().indexOf("https://127.0.0.1") == 0) {
+                                print("Redirect URL detected!");
+                                engine.deviceManager.confirmPairing(d.pairingTransactionId, url)
+                            }
+                        }
+                    }
+                    '
             }
         }
     }

@@ -26,7 +26,6 @@
 #include <QSysInfo>
 #include <QCommandLineParser>
 #include <QCommandLineOption>
-#include <QtWebView>
 
 #ifdef Q_OS_ANDROID
 #include <QtAndroidExtras/QtAndroid>
@@ -71,7 +70,6 @@ int main(int argc, char *argv[])
     QApplication application(argc, argv);
     application.setApplicationName("nymea-app");
     application.setOrganizationName("nymea");
-    QtWebView::initialize();
 
     QCommandLineParser parser;
     parser.addHelpOption();

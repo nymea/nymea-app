@@ -16,7 +16,6 @@ Build-Depends: debhelper (>= 9.0.0),
                qtconnectivity5-dev,
                qtdeclarative5-dev,
                qtquickcontrols2-5-dev,
-               libqt5webview5-dev,
 
 Package: nymea-app
 Architecture: any
@@ -28,6 +27,7 @@ Depends: ${shlibs:Depends},
          libqt5gui5,
          libqt5websockets5,
          libqt5bluetooth5,
+         qml-module-qt-labs-folderlistmodel,
          qml-module-qt-labs-settings,
          qml-module-qtcharts,
          qml-module-qtgraphicaleffects,
@@ -35,8 +35,7 @@ Depends: ${shlibs:Depends},
          qml-module-qtquick-layouts,
          qml-module-qtquick-window2,
          qml-module-qtquick2,
-         qml-module-qtwebview,
-         xinit,
+Recommends: qml-module-qtwebview,
 Suggests: nymea, 
           network-manager
 Description: An open source IoT server - daemon
@@ -56,7 +55,7 @@ Depends: nymea-app,
          openbox,
          lightdm,
          qtvirtualkeyboard-plugin,
-         qtdeclarative5-folderlistmodel-plugin,
+         xinit,
 Provides: lightdm-greeter
 Description: Run nymea:app in kiosk mode
  This package will install nymea:app in kiosk mode on your machine.
