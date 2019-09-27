@@ -1,3 +1,10 @@
+nymea-app (1.0.145) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Include NSBluetoothAlwaysUsageDescription in Info.plist
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 27 Sep 2019 12:43:51 +0200
+
 nymea-app (1.0.144) bionic; urgency=medium
 
   [ Michael Zanetti ]
