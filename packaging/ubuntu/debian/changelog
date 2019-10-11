@@ -1,3 +1,14 @@
+nymea-app (1.0.147) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Improve adding/removing repositories a bit
+  * Add more icons for media services
+
+  [ Simon Stürz ]
+  * Fix fingerprint reader view
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 11 Oct 2019 11:13:23 +0200
+
 nymea-app (1.0.146) bionic; urgency=medium
 
   [ Michael Zanetti ]
