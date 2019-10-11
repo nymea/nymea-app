@@ -41,7 +41,7 @@ public:
     Q_INVOKABLE void removePackages(const QString packageId = QString());
 
     Repositories* repositories() const;
-    Q_INVOKABLE void enableRepository(const QString &id, bool enabled);
+    Q_INVOKABLE int enableRepository(const QString &id, bool enabled);
 
 
 signals:
@@ -49,6 +49,7 @@ signals:
     void updateManagementAvailableChanged();
     void updateManagementBusyChanged();
     void updateRunningChanged();
+    void enableRepositoryFinished(int id, bool success);
 
 private slots:
     void getCapabilitiesResponse(const QVariantMap &data);
@@ -56,6 +57,7 @@ private slots:
     void getPackagesResponse(const QVariantMap &data);
     void getRepositoriesResponse(const QVariantMap &data);
     void removePackageResponse(const QVariantMap &params);
+    void enableRepositoryResponse(const QVariantMap &params);
 
     void notificationReceived(const QVariantMap &data);
 
