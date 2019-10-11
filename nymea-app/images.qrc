@@ -209,5 +209,8 @@
         <file>ui/images/browser/BrowserIconDocument.svg</file>
         <file>ui/images/browser/BrowserIconPackage.svg</file>
         <file>ui/images/home.svg</file>
+        <file>ui/images/browser/MediaBrowserIconNapster.svg</file>
+        <file>ui/images/browser/MediaBrowserIconSoundCloud.svg</file>
+        <file>ui/images/browser/MediaBrowserIconDeezer.svg</file>
     </qresource>
 </RCC>
