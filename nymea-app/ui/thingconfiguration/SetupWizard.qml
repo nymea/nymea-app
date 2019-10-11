@@ -215,6 +215,7 @@ Page {
                                     break;
                                 case 1:
                                 case 2:
+
                                 case 3:
                                     engine.deviceManager.pairDevice(root.deviceClass.id, d.deviceDescriptor.id, root.device.name);
                                     break;
@@ -313,7 +314,7 @@ Page {
                         }
                         TextField {
                             id: nameTextField
-                            text: d.deviceName ? d.deviceName : ""
+                            text: d.deviceName ? d.deviceName : root.deviceClass.displayName
                             Layout.fillWidth: true
                             Layout.leftMargin: app.margins
                             Layout.rightMargin: app.margins

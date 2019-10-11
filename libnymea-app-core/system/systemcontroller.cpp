@@ -93,12 +93,12 @@ Repositories *SystemController::repositories() const
     return m_repositories;
 }
 
-void SystemController::enableRepository(const QString &id, bool enabled)
+int SystemController::enableRepository(const QString &id, bool enabled)
 {
     QVariantMap params;
     params.insert("repositoryId", id);
     params.insert("enabled", enabled);
-    m_jsonRpcClient->sendCommand("System.EnableRepository", params);
+    return m_jsonRpcClient->sendCommand("System.EnableRepository", params, this, "enableRepositoryResponse");
 }
 
 void SystemController::getCapabilitiesResponse(const QVariantMap &data)
@@ -156,6 +156,12 @@ void SystemController::getRepositoriesResponse(const QVariantMap &data)
 void SystemController::removePackageResponse(const QVariantMap &params)
 {
     qDebug() << "Remove result" << params;
+}
+
+void SystemController::enableRepositoryResponse(const QVariantMap &params)
+{
+    qDebug() << "Enable repo response" << params;
+    emit enableRepositoryFinished(params.value("id").toInt(), params.value("params").toMap().value("success").toBool());
 }
 
 void SystemController::notificationReceived(const QVariantMap &data)

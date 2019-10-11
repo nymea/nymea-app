@@ -21,6 +21,16 @@ Page {
         }
     }
 
+    Connections {
+        target: engine.systemController
+        onEnableRepositoryFinished: {
+            if (!success) {
+                var popup = errorDialogComponent.createObject(app, {errorCode: qsTr("Failure adding repository.") })
+                popup.open();
+            }
+        }
+    }
+
     PackagesFilterModel {
         id: updatesModel
         packages: engine.systemController.packages
@@ -365,5 +375,13 @@ Page {
 
 
     UpdateRunningOverlay {
+    }
+
+    Component {
+        id: errorDialogComponent
+
+        ErrorDialog {
+            id: errorDialog
+        }
     }
 }
