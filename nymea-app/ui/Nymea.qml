@@ -68,7 +68,7 @@ ApplicationWindow {
     }
     property alias _discovery: discovery
 
-    property var supportedInterfaces: ["light", "weather", "media", "garagegate", "awning", "shutter", "blind", "powersocket", "heating", "doorbell", "sensor", "smartmeter", "evcharger", "accesscontrol", "button", "notifications", "inputtrigger", "outputtrigger", "gateway"]
+    property var supportedInterfaces: ["light", "weather", "media", "garagegate", "awning", "shutter", "blind", "powersocket", "heating", "doorbell", "sensor", "smartmeter", "evcharger", "fingerprintreader", "button", "notifications", "inputtrigger", "outputtrigger", "gateway"]
     function interfaceToString(name) {
         switch(name) {
         case "light":
@@ -113,6 +113,8 @@ ApplicationWindow {
             return qsTr("Garage gates");
         case "accesscontrol":
             return qsTr("Access control");
+        case "fingerprintreader":
+            return qsTr("Fingerprint reader");
         case "smartmeter":
         case "smartmeterproducer":
         case "smartmeterconsumer":
