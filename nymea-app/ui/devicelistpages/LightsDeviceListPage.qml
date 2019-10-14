@@ -51,22 +51,22 @@ DeviceListPageBase {
 
             property bool inline: width > 500
 
-            property var device: devicesProxy.get(index);
-            property var deviceClass: engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
+            property Device device: devicesProxy.getDevice(model.id)
+            property DeviceClass deviceClass: device.deviceClass
 
-            property var connectedStateType: deviceClass.stateTypes.findByName("connected");
-            property var connectedState: connectedStateType ? device.states.getState(connectedStateType.id) : null
+            property StateType connectedStateType: deviceClass.stateTypes.findByName("connected");
+            property State connectedState: connectedStateType ? device.states.getState(connectedStateType.id) : null
 
-            property var powerStateType: deviceClass.stateTypes.findByName("power");
-            property var powerActionType: deviceClass.actionTypes.findByName("power");
-            property var powerState: device.states.getState(powerStateType.id)
+            property StateType powerStateType: deviceClass.stateTypes.findByName("power");
+            property ActionType powerActionType: deviceClass.actionTypes.findByName("power");
+            property State powerState: device.states.getState(powerStateType.id)
 
-            property var brightnessStateType: deviceClass.stateTypes.findByName("brightness");
-            property var brightnessActionType: deviceClass.actionTypes.findByName("brightness");
-            property var brightnessState: brightnessStateType ? device.states.getState(brightnessStateType.id) : null
+            property StateType brightnessStateType: deviceClass.stateTypes.findByName("brightness");
+            property ActionType brightnessActionType: deviceClass.actionTypes.findByName("brightness");
+            property State brightnessState: brightnessStateType ? device.states.getState(brightnessStateType.id) : null
 
-            property var colorStateType: deviceClass.stateTypes.findByName("color");
-            property var colorState: colorStateType ? device.states.getState(colorStateType.id) : null
+            property StateType colorStateType: deviceClass.stateTypes.findByName("color");
+            property State colorState: colorStateType ? device.states.getState(colorStateType.id) : null
 
             Material.elevation: 1
             topPadding: 0
