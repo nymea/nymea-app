@@ -50,11 +50,20 @@ QString JsonRpcClient::nameSpace() const
 
 void JsonRpcClient::registerNotificationHandler(JsonHandler *handler, const QString &method)
 {
-    if (m_notificationHandlers.contains(handler->nameSpace())) {
-        qWarning() << "Already have a notification handler for" << handler->nameSpace();
+    if (m_notificationHandlerMethods.contains(handler)) {
+        qWarning() << "Notification handler" << handler << " already registered";
         return;
     }
-    m_notificationHandlers.insert(handler->nameSpace(), qMakePair<JsonHandler*, QString>(handler, method));
+    m_notificationHandlers.insert(handler->nameSpace(), handler);
+    m_notificationHandlerMethods.insert(handler, method);
+    setNotificationsEnabled();
+}
+
+void JsonRpcClient::unregisterNotificationHandler(JsonHandler *handler)
+{
+    m_notificationHandlers.remove(handler->nameSpace(), handler);
+    m_notificationHandlerMethods.remove(handler);
+    setNotificationsEnabled();
 }
 
 int JsonRpcClient::sendCommand(const QString &method, const QVariantMap &params, QObject *caller, const QString &callbackMethod)
@@ -70,15 +79,6 @@ int JsonRpcClient::sendCommand(const QString &method, QObject *caller, const QSt
     return sendCommand(method, QVariantMap(), caller, callbackMethod);
 }
 
-void JsonRpcClient::setNotificationsEnabled(bool enabled)
-{
-    QVariantMap params;
-    params.insert("enabled", enabled);
-    JsonRpcReply *reply = createReply("JSONRPC.SetNotificationStatus", params, this, "setNotificationsEnabledResponse");
-    m_replies.insert(reply->commandId(), reply);
-    sendRequest(reply->requestMap());
-}
-
 void JsonRpcClient::getCloudConnectionStatus()
 {
     JsonRpcReply *reply = createReply("JSONRPC.IsCloudConnected", QVariantMap(), this, "isCloudConnectedReply");
@@ -90,9 +90,10 @@ void JsonRpcClient::setNotificationsEnabledResponse(const QVariantMap &params)
 {
     qDebug() << "Notifications enabled:" << params;
 
-    m_connected = true;
-    emit connectedChanged(true);
-
+    if (!m_connected) {
+        m_connected = true;
+        emit connectedChanged(true);
+    }
 }
 
 void JsonRpcClient::notificationReceived(const QVariantMap &data)
@@ -114,7 +115,7 @@ void JsonRpcClient::notificationReceived(const QVariantMap &data)
             settings.endGroup();
             emit authenticationRequiredChanged();
 
-            setNotificationsEnabled(true);
+            setNotificationsEnabled();
         } else {
             emit pushButtonAuthFailed();
         }
@@ -261,7 +262,7 @@ void JsonRpcClient::processAuthenticate(const QVariantMap &data)
         settings.endGroup();
         emit authenticationRequiredChanged();
 
-        setNotificationsEnabled(true);
+        setNotificationsEnabled();
     } else {
         qWarning() << "Authentication failed" << data;
         emit authenticationFailed();
@@ -300,6 +301,25 @@ JsonRpcReply *JsonRpcClient::createReply(const QString &method, const QVariantMa
     }
     m_id++;
     return new JsonRpcReply(m_id, callParts.first(), callParts.last(), params, caller, callback);
+}
+
+void JsonRpcClient::setNotificationsEnabled()
+{
+    QStringList namespaces;
+    foreach (const QString &nameSpace, m_notificationHandlers.keys()) {
+        namespaces.append(nameSpace);
+    }
+
+    QVariantMap params;
+
+    if (ensureServerVersion("3.1")) {
+        params.insert("namespaces", namespaces);
+    } else {
+        params.insert("enabled", namespaces.count() > 0);
+    }
+    JsonRpcReply *reply = createReply("JSONRPC.SetNotificationStatus", params, this, "setNotificationsEnabledResponse");
+    m_replies.insert(reply->commandId(), reply);
+    sendRequest(reply->requestMap());
 }
 
 void JsonRpcClient::sendRequest(const QVariantMap &request)
@@ -358,15 +378,9 @@ void JsonRpcClient::dataReceived(const QByteArray &data)
 //        qDebug() << "Incoming notification:" << jsonDoc.toJson();
         QStringList notification = dataMap.value("notification").toString().split(".");
         QString nameSpace = notification.first();
-        JsonHandler *handler = m_notificationHandlers.value(nameSpace).first;
-
-        if (!handler) {
-//            qWarning() << "JsonRpc: handler not implemented:" << nameSpace;
-            return;
+        foreach (JsonHandler *handler, m_notificationHandlers.values(nameSpace)) {
+            QMetaObject::invokeMethod(handler, m_notificationHandlerMethods.value(handler).toLatin1().data(), Q_ARG(QVariantMap, dataMap));
         }
-
-//        qDebug() << "Incoming notification:" << jsonDoc.toJson();
-        QMetaObject::invokeMethod(handler, m_notificationHandlers.value(nameSpace).second.toLatin1().data(), Q_ARG(QVariantMap, dataMap));
         return;
     }
 
@@ -454,7 +468,7 @@ void JsonRpcClient::helloReply(const QVariantMap &params)
             }
         }
 
-        setNotificationsEnabled(true);
+        setNotificationsEnabled();
         getCloudConnectionStatus();
 
     }

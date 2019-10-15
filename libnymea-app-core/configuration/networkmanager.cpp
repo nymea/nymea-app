@@ -4,18 +4,45 @@
 #include "types/wirelessaccesspoint.h"
 #include "types/wirelessaccesspoints.h"
 
+#include "engine.h"
 #include "jsonrpc/jsonrpcclient.h"
 
 #include <QMetaEnum>
 #include <QJsonDocument>
 
-NetworkManager::NetworkManager(JsonRpcClient *jsonClient, QObject *parent):
+NetworkManager::NetworkManager(QObject *parent):
     JsonHandler(parent),
-    m_jsonClient(jsonClient),
     m_wiredNetworkDevices(new WiredNetworkDevices(this)),
     m_wirelessNetworkDevices(new WirelessNetworkDevices(this))
 {
-    m_jsonClient->registerNotificationHandler(this, "notificationReceived");
+}
+
+NetworkManager::~NetworkManager()
+{
+    if (m_engine) {
+        m_engine->jsonRpcClient()->unregisterNotificationHandler(this);
+    }
+}
+
+void NetworkManager::setEngine(Engine *engine)
+{
+    if (m_engine && m_engine != engine) {
+        // clean up
+        m_engine->jsonRpcClient()->unregisterNotificationHandler(this);
+    }
+
+    m_engine = engine;
+    emit engineChanged();
+
+    m_engine->jsonRpcClient()->registerNotificationHandler(this, "notificationReceived");
+    init();
+
+    connect(m_engine->jsonRpcClient(), &JsonRpcClient::connectedChanged, this, &NetworkManager::init);
+}
+
+Engine *NetworkManager::engine() const
+{
+    return m_engine;
 }
 
 QString NetworkManager::nameSpace() const
@@ -28,9 +55,13 @@ void NetworkManager::init()
     m_wiredNetworkDevices->clear();
     m_wirelessNetworkDevices->clear();
 
-    m_jsonClient->sendCommand("NetworkManager.GetNetworkStatus", QVariantMap(), this, "getStatusReply");
-    m_jsonClient->sendCommand("NetworkManager.GetNetworkDevices", QVariantMap(), this, "getDevicesReply");
-//    m_jsonClient->sendCommand("NetworkManager.GetWirelessAccessPoints", QVariantMap(), this, "getAccessPointsReply");
+    if (!m_engine->jsonRpcClient()->connected()) {
+        // Not ready yet...
+        return;
+    }
+
+    m_engine->jsonRpcClient()->sendCommand("NetworkManager.GetNetworkStatus", QVariantMap(), this, "getStatusReply");
+    m_engine->jsonRpcClient()->sendCommand("NetworkManager.GetNetworkDevices", QVariantMap(), this, "getDevicesReply");
 }
 
 NetworkManager::NetworkManagerState NetworkManager::state() const
@@ -62,21 +93,21 @@ void NetworkManager::enableNetworking(bool enable)
 {
     QVariantMap params;
     params.insert("enable", enable);
-    m_jsonClient->sendCommand("NetworkManager.EnableNetworking", params, this, "enableNetworkingReply");
+    m_engine->jsonRpcClient()->sendCommand("NetworkManager.EnableNetworking", params, this, "enableNetworkingReply");
 }
 
 void NetworkManager::enableWirelessNetworking(bool enable)
 {
     QVariantMap params;
     params.insert("enable", enable);
-    m_jsonClient->sendCommand("NetworkManager.EnableWirelessNetworking", params, this, "enableNetworkingReply");
+    m_engine->jsonRpcClient()->sendCommand("NetworkManager.EnableWirelessNetworking", params, this, "enableNetworkingReply");
 }
 
 void NetworkManager::refreshWifis(const QString &interface)
 {
     QVariantMap params;
     params.insert("interface", interface);
-    int requestId = m_jsonClient->sendCommand("NetworkManager.GetWirelessAccessPoints", params, this, "getAccessPointsReply");
+    int requestId = m_engine->jsonRpcClient()->sendCommand("NetworkManager.GetWirelessAccessPoints", params, this, "getAccessPointsReply");
     m_apRequests.insert(requestId, interface);
 }
 
@@ -86,14 +117,14 @@ void NetworkManager::connectToWiFi(const QString &interface, const QString &ssid
     params.insert("interface", interface);
     params.insert("ssid", ssid);
     params.insert("password", passphrase);
-    m_jsonClient->sendCommand("NetworkManager.ConnectWifiNetwork", params, this, "connectToWiFiReply");
+    m_engine->jsonRpcClient()->sendCommand("NetworkManager.ConnectWifiNetwork", params, this, "connectToWiFiReply");
 }
 
 void NetworkManager::disconnectInterface(const QString &interface)
 {
     QVariantMap params;
     params.insert("interface", interface);
-    m_jsonClient->sendCommand("NetworkManager.DisconnectInterface", params, this, "disconnectReply");
+    m_engine->jsonRpcClient()->sendCommand("NetworkManager.DisconnectInterface", params, this, "disconnectReply");
 }
 
 void NetworkManager::getStatusReply(const QVariantMap &params)

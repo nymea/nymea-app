@@ -59,6 +59,7 @@ public:
     QString nameSpace() const override;
 
     void registerNotificationHandler(JsonHandler *handler, const QString &method);
+    void unregisterNotificationHandler(JsonHandler *handler);
 
     int sendCommand(const QString &method, const QVariantMap &params, QObject *caller = nullptr, const QString &callbackMethod = QString());
     int sendCommand(const QString &method, QObject *caller = nullptr, const QString &callbackMethod = QString());
@@ -107,8 +108,9 @@ private slots:
 
 private:
     int m_id;
-    // < namespace, <Handler, method> >
-    QHash<QString, QPair<JsonHandler*, QString> > m_notificationHandlers;
+    // < namespace, method> >
+    QHash<JsonHandler*, QString> m_notificationHandlerMethods;
+    QMultiHash<QString, JsonHandler*> m_notificationHandlers;
     QHash<int, JsonRpcReply *> m_replies;
     NymeaConnection *m_connection = nullptr;
 
@@ -126,7 +128,7 @@ private:
     QByteArray m_token;
     QByteArray m_receiveBuffer;
 
-    void setNotificationsEnabled(bool enabled);
+    void setNotificationsEnabled();
     void getCloudConnectionStatus();
 
     // json handler

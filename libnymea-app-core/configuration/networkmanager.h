@@ -6,7 +6,7 @@
 
 #include "jsonrpc/jsonhandler.h"
 
-class JsonRpcClient;
+class Engine;
 class NetworkDevices;
 class WiredNetworkDevices;
 class WirelessNetworkDevices;
@@ -14,6 +14,8 @@ class WirelessNetworkDevices;
 class NetworkManager : public JsonHandler
 {
     Q_OBJECT
+    Q_PROPERTY(Engine *engine READ engine WRITE setEngine NOTIFY engineChanged)
+
     Q_PROPERTY(NetworkManagerState state READ state NOTIFY stateChanged)
     Q_PROPERTY(bool networkingEnabled READ networkingEnabled NOTIFY networkingEnabledChanged)
     Q_PROPERTY(bool wirelessNetworkingEnabled READ wirelessNetworkingEnabled NOTIFY wirelessNetworkingEnabledChanged)
@@ -34,11 +36,13 @@ public:
     };
     Q_ENUM(NetworkManagerState)
 
-    explicit NetworkManager(JsonRpcClient *jsonClient, QObject *parent = nullptr);
+    explicit NetworkManager(QObject *parent = nullptr);
+    ~NetworkManager();
+
+    void setEngine(Engine *engine);
+    Engine *engine() const;
 
     QString nameSpace() const override;
-
-    void init();
 
     NetworkManagerState state() const;
     bool networkingEnabled() const;
@@ -56,6 +60,8 @@ public:
     Q_INVOKABLE void disconnectInterface(const QString &interface);
 
 private slots:
+    void init();
+
     void getStatusReply(const QVariantMap &params);
     void getDevicesReply(const QVariantMap &params);
     void getAccessPointsReply(const QVariantMap &params);
@@ -66,12 +72,13 @@ private slots:
     void notificationReceived(const QVariantMap &params);
 
 signals:
+    void engineChanged();
     void stateChanged();
     void networkingEnabledChanged();
     void wirelessNetworkingEnabledChanged();
 
 private:
-    JsonRpcClient *m_jsonClient = nullptr;
+    Engine *m_engine = nullptr;
 
     NetworkManagerState m_state = NetworkManagerStateUnknown;
     bool m_networkingEnabled = false;

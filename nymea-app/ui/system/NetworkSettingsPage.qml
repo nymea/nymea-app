@@ -14,7 +14,10 @@ Page {
         }
     }
 
-    readonly property NetworkManager networkManager: engine.networkManager
+    NetworkManager {
+        id: networkManager
+        engine: _engine
+    }
 
     function networkStateToString(networkState) {
         switch (networkState) {
