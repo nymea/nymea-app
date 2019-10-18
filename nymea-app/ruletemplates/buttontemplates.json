@@ -1,7 +1,7 @@
 {
     "templates": [
         {
-            "description": "Turn on a light",
+            "description": "Turn on lights",
             "ruleNameTemplate": "%0 turns on %1",
             "eventDescriptorTemplates": [
                 {
@@ -15,7 +15,7 @@
                     "interfaceName": "light",
                     "interfaceAction": "power",
                     "selectionId": 1,
-                    "selectionMode": "SelectionModeDevice",
+                    "selectionMode": "SelectionModeDevices",
                     "params": [
                         {
                             "name": "power",
@@ -26,7 +26,7 @@
             ]
         },
         {
-            "description": "Turn off a light",
+            "description": "Turn off lights",
             "ruleNameTemplate": "%0 turns off %1",
             "eventDescriptorTemplates": [
                 {
@@ -40,7 +40,7 @@
                     "interfaceName": "light",
                     "interfaceAction": "power",
                     "selectionId": 1,
-                    "selectionMode": "SelectionModeDevice",
+                    "selectionMode": "SelectionModeDevices",
                     "params": [
                         {
                             "name": "power",

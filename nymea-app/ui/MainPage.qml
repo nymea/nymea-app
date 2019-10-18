@@ -275,8 +275,8 @@ Page {
                             if (engine.deviceManager.devices.count === 0) {
                                 pageStack.push(Qt.resolvedUrl("thingconfiguration/NewThingPage.qml"))
                             } else {
-                                var page = pageStack.push(Qt.resolvedUrl("MagicPage.qml"))
-                                page.addRule()
+                                var page = pageStack.push(Qt.resolvedUrl("magic/NewScenePage.qml"))
+//                                page.addRule()
                             }
                         }
                     }
