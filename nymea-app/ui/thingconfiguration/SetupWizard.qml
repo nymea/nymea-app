@@ -18,7 +18,7 @@ Page {
     signal done();
 
     header: NymeaHeader {
-        text: qsTr("Set up thing")
+        text: root.device ? qsTr("Reconfigure %1").arg(root.device.name) : qsTr("Set up %1").arg(root.deviceClass.displayName)
         onBackPressed: {
             if (internalPageStack.depth > 1) {
                 internalPageStack.pop();
@@ -45,15 +45,54 @@ Page {
     }
 
     Component.onCompleted: {
+        print("Starting setup wizard")
         if (root.deviceClass.createMethods.indexOf("CreateMethodDiscovery") !== -1) {
+            print("CreateMethodDiscovery")
             if (deviceClass["discoveryParamTypes"].count > 0) {
+                print("Discovery params:", deviceClass.discoveryParamTypes.count)
                 internalPageStack.push(discoveryParamsPage)
             } else {
+                print("Starting discovery...")
                 discovery.discoverDevices(deviceClass.id)
                 internalPageStack.push(discoveryPage, {deviceClass: deviceClass})
             }
-        } else if (deviceClass.createMethods.indexOf("CreateMethodUser") !== -1) {
-            internalPageStack.push(paramsPage)
+        } else if (root.deviceClass.createMethods.indexOf("CreateMethodUser") !== -1) {
+            print("CreateMethodUser")
+            // Setting up a new device
+            if (!root.device) {
+                print("New device. Opening params page")
+                internalPageStack.push(paramsPage)
+
+            // Reconfigure
+            } else if (root.device) {
+                print("Existing device")
+                // There are params. Open params page in any case
+                if (root.deviceClass.paramTypes.count > 0) {
+                    print("Params:", root.deviceClass.paramTypes.count)
+                    internalPageStack.push(paramsPage)
+
+                // No params... go straight to reconfigure/repair
+                } else {
+                    print("no params")
+                    switch (root.deviceClass.setupMethod) {
+                    case 0:
+                        print("reconfiguring...")
+                        // This totally does not make sense... Maybe we should hide the reconfigure button if there are no params?
+                        engine.deviceManager.reconfigureDevice(root.device.id, [])
+                        busyOverlay.shown = true;
+                        break;
+                    case 1:
+                    case 2:
+                    case 3:
+                    case 4:
+                        print("re-pairing", root.device.id)
+                        engine.deviceManager.rePairDevice(root.device.id, []);
+                        break;
+                    default:
+                        console.warn("Unahndled setup method!")
+                    }
+                }
+            }
         }
     }
 
@@ -181,6 +220,7 @@ Page {
 
             ColumnLayout {
                 anchors.fill: parent
+                anchors.bottomMargin: app.margins
 
                 ListView {
                     Layout.fillWidth: true
@@ -202,28 +242,6 @@ Page {
                         onClicked: {
                             d.deviceDescriptor = discoveryProxy.get(index);
                             d.deviceName = model.name;
-
-                            // Overriding params for reconfiguring discovered devices not supported by core yet
-                            // So if we are reconfiguring and discovering, go straight to end
-
-                            if (root.device && d.deviceDescriptor) {
-                                busyOverlay.shown = true;
-
-                                switch (root.deviceClass.setupMethod) {
-                                case 0:
-                                    engine.deviceManager.reconfigureDiscoveredDevice(root.device.id, d.deviceDescriptor.id);
-                                    break;
-                                case 1:
-                                case 2:
-
-                                case 3:
-                                    engine.deviceManager.pairDevice(root.deviceClass.id, d.deviceDescriptor.id, root.device.name);
-                                    break;
-                                }
-
-                                return;
-                            }
-
                             internalPageStack.push(paramsPage)
                         }
                     }
@@ -240,7 +258,7 @@ Page {
                 Button {
                     id: manualAddButton
                     Layout.fillWidth: true
-                    Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.bottomMargin: app.margins
+                    Layout.leftMargin: app.margins; Layout.rightMargin: app.margins;
                     visible: root.deviceClass.createMethods.indexOf("CreateMethodUser") >= 0
                     text: qsTr("Add thing manually")
                     onClicked: internalPageStack.push(paramsPage)
@@ -304,7 +322,7 @@ Page {
                     width: parent.width
 
                     ColumnLayout {
-                        visible: root.device === null
+//                        visible: root.device === null
                         Label {
                             Layout.leftMargin: app.margins
                             Layout.rightMargin: app.margins
@@ -378,18 +396,17 @@ Page {
                             case 4:
                             case 5:
                                 if (root.device) {
-//                                    if (d.deviceDescriptor) {
-//                                        engine.deviceManager.pairDevice(root.deviceClass.id, d.deviceDescriptor.id, nameTextField.text);
-//                                    } else {
-//                                        engine.deviceManager.pairDevice(root.deviceClass.id, nameTextField.text, params);
-//                                    }
-                                    console.warn("Unhandled setupMethod!")
+                                    if (d.deviceDescriptor) {
+                                        engine.deviceManager.pairDiscoveredDevice(root.deviceClass.id, d.deviceDescriptor.id, params, nameTextField.text);
+                                    } else {
+                                        engine.deviceManager.rePairDevice(root.device.id, params, nameTextField.text);
+                                    }
                                     return;
                                 } else {
                                     if (d.deviceDescriptor) {
-                                        engine.deviceManager.pairDevice(root.deviceClass.id, d.deviceDescriptor.id, nameTextField.text);
+                                        engine.deviceManager.pairDevice(d.deviceDescriptor.id, params, nameTextField.text);
                                     } else {
-                                        engine.deviceManager.pairDevice(root.deviceClass.id, nameTextField.text, params);
+                                        engine.deviceManager.pairDevice(root.deviceClass.id, params, nameTextField.text);
                                     }
                                 }
 
