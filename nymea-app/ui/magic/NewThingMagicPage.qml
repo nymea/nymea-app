@@ -196,7 +196,8 @@ Page {
             rule.name = ruleTemplate.ruleNameTemplate;
             for (var selectionId in selectedThingNames) {
                 print("Replacing", selectionId, "with", selectedThingNames[selectionId], selectedInterfaces[selectionId])
-                rule.name = rule.name.replace("%" + selectionId, selectedThingNames[selectionId])
+                var thingName = selectedThingNames[selectionId];
+                rule.name = rule.name.replace("%" + selectionId, thingName)
 
                 for (var j = 0; j < rule.actions.count; j++) {
                     var action = rule.actions.get(j);
@@ -204,7 +205,7 @@ Page {
                         var actionParam = action.ruleActionParams.get(k);
                         print("replacing args", typeof actionParam.value)
                         if (typeof actionParam.value === "string") {
-                            actionParam.value = actionParam.value.replace("%" + selectionId, device.name);
+                            actionParam.value = actionParam.value.replace("%" + selectionId, thingName);
                         }
                     }
                 }
@@ -213,7 +214,7 @@ Page {
                     for(var k = 0; k < action.ruleActionParams.count; k++) {
                         var actionParam = action.ruleActionParams.get(k);
                         if (typeof actionParam.value === "string") {
-                            actionParam.value = actionParam.value.replace("%" + selectionId, device.name);
+                            actionParam.value = actionParam.value.replace("%" + selectionId, thingName);
                         }
                     }
                 }

@@ -24,8 +24,8 @@ Page {
 
     header: NymeaHeader {
         text: root.selectInterface ?
-                  qsTr("Select a kind of things") :
-                  root.shownInterfaces.length > 0 ? qsTr("Select a %1").arg(app.interfaceToDisplayName(root.shownInterfaces[0])) : qsTr("Select a thing")
+                  qsTr("Select kind of things") :
+                  root.shownInterfaces.length > 0 ? qsTr("Select %1").arg(app.interfaceToDisplayName(root.shownInterfaces[0])) : qsTr("Select thing")
         onBackPressed: root.backPressed()
 
         HeaderButton {

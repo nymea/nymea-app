@@ -39,6 +39,7 @@
                     "interfaceName": "moisturesensor",
                     "interfaceState": "moisture",
                     "operator": "ValueOperatorLess",
+                    "selectionMode": "SelectionModeDevice",
                     "selectionId": 0,
                     "value": 20
                 }

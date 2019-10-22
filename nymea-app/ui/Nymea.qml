@@ -286,39 +286,57 @@ ApplicationWindow {
         case "dimmablelight":
         case "colorlight":
         case "colortemperaturelight":
+            //: Select ...
             return qsTr("light")
-        case "button":
-            return "button";
         case "sensor":
+            //: Select ...
             return qsTr("sensor")
         case "battery":
+            //: Select ...
             return qsTr("battery powered thing")
         case "connectable":
+            //: Select ...
             return qsTr("connectable thing")
         case "power":
+            //: Select ...
             return qsTr("switchable thing")
         case "daylightsensor":
+            //: Select ...
             return qsTr("daylight sensor")
         case "presencesensor":
+            //: Select ...
             return qsTr("presence sensor")
         case "doorbell":
+            //: Select ...
             return qsTr("doorbell")
         case "alert":
+            //: Select ...
             return qsTr("alert")
         case "simplemultibutton":
         case "simplebutton":
+        case "button":
+            //: Select ...
             return qsTr("button")
         case "accesscotrol":
+            //: Select ...
             return qsTr("access control")
         case "smartmeter":
         case "smartmeterproducer":
         case "smartmeterconsumer":
         case "extendedsmartmeterproducer":
         case "extendedsmartmeterconsumer":
+            //: Select ...
             return qsTr("smart meter");
         case "media":
         case "mediaplayer":
-            return qsTr("media player")
+            //: Select ...
+            return qsTr("media player");
+        case "moisturesensor":
+            //: Select ...
+            return qsTr("moisture sensor");
+        case "notifications":
+            //: Select ...
+            return qsTr("thing to notify")
         default:
             console.warn("Unhandled interfaceToDisplayName:", name)
         }
