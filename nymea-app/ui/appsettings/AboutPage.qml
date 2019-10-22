@@ -21,7 +21,7 @@ Page {
             id: imprint
             width: parent.width
             title: app.appName
-            githubLink: "https://github.com/guh/nymea-app"
+            githubLink: "https://github.com/nymea/nymea-app"
 
             NymeaListItemDelegate {
                 Layout.fillWidth: true

@@ -70,7 +70,7 @@ AWSClient::AWSClient(QObject *parent) : QObject(parent),
     config.certificateVendorId = "d399290a-0599-4895-b4c3-34d2bdb579f4";
     config.mqttEndpoint = "a2d0ba9572wepp-ats.iot.eu-west-1.amazonaws.com";
     config.region = "eu-west-1";
-    config.apiEndpoint = "api-cloud.guh.io";
+    config.apiEndpoint = "api-cloud.nymea.io";
     config.pushNotificationSystem = pushSystem;
     m_configs.insert("Community", config);
 
@@ -83,7 +83,7 @@ AWSClient::AWSClient(QObject *parent) : QObject(parent),
     config.certificateVendorId = "testVendor001";
     config.mqttEndpoint = "a2addxakg5juii-ats.iot.eu-west-1.amazonaws.com";
     config.region = "eu-west-1";
-    config.apiEndpoint = "testapi-cloud.guh.io";
+    config.apiEndpoint = "testapi-cloud.nymea.io";
     config.pushNotificationSystem = pushSystem;
     m_configs.insert("Testing", config);
 
@@ -97,7 +97,7 @@ AWSClient::AWSClient(QObject *parent) : QObject(parent),
     config.certificateVendorId = "";
     config.mqttEndpoint = "a27q7a2x15m8h3-ats.iot.eu-west-1.amazonaws.com";
     config.region = "eu-west-1";
-    config.apiEndpoint = "api-cloud.guh.io";
+    config.apiEndpoint = "api-cloud.nymea.io";
     config.pushNotificationSystem = pushSystem;
     m_configs.insert("Marantec", config);
 

@@ -69,7 +69,7 @@ Item {
             Layout.rightMargin: app.margins
             wrapMode: Text.WordWrap
             font.bold: true
-            text: "Copyright (C) 2019 guh GmbH"
+            text: "Copyright (C) 2019 nymea GmbH"
         }
 
         Label {
@@ -77,7 +77,7 @@ Item {
             Layout.leftMargin: app.margins
             Layout.rightMargin: app.margins
             wrapMode: Text.WordWrap
-            text: qsTr("nymea is a registered trademark of guh GmbH.")
+            text: qsTr("nymea is a registered trademark of nymea GmbH.")
         }
 
         Label {
