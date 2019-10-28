@@ -1,3 +1,10 @@
+nymea-app (1.0.149) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix spacing of shutter controls
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 28 Oct 2019 17:20:58 +0100
+
 nymea-app (1.0.148) bionic; urgency=medium
 
   [ Michael Zanetti ]
