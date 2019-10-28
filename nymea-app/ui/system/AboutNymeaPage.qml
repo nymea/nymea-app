@@ -20,7 +20,7 @@ Page {
             id: imprint
             width: parent.width
             title: qsTr("%1:core").arg(app.systemName)
-            githubLink: "https://github.com/guh/nymea"
+            githubLink: "https://github.com/nymea/nymea"
 
             NymeaListItemDelegate {
                 Layout.fillWidth: true
