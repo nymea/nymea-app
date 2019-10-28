@@ -227,6 +227,12 @@ void SystemController::notificationReceived(const QVariantMap &data)
     } else if (notification == "System.RepositoryRemoved") {
         QString repositoryId = data.value("params").toMap().value("repositoryId").toString();
         m_repositories->removeRepository(repositoryId);
+    } else if (notification == "System.CapabilitiesChanged") {
+        m_powerManagementAvailable = data.value("params").toMap().value("powerManagement").toBool();
+        m_updateManagementAvailable = data.value("params").toMap().value("updateManagement").toBool();
+        qWarning() << "System capabilites changed: power management:" << m_powerManagementAvailable << "update management:" << m_updateManagementAvailable;
+        emit powerManagementAvailableChanged();
+        emit updateManagementAvailableChanged();
     } else {
         qWarning() << "Unhandled System Notification" << data.value("notification");
     }
