@@ -25,6 +25,9 @@ QString NetworkManager::nameSpace() const
 
 void NetworkManager::init()
 {
+    m_wiredNetworkDevices->clear();
+    m_wirelessNetworkDevices->clear();
+
     m_jsonClient->sendCommand("NetworkManager.GetNetworkStatus", QVariantMap(), this, "getStatusReply");
     m_jsonClient->sendCommand("NetworkManager.GetNetworkDevices", QVariantMap(), this, "getDevicesReply");
 //    m_jsonClient->sendCommand("NetworkManager.GetWirelessAccessPoints", QVariantMap(), this, "getAccessPointsReply");
