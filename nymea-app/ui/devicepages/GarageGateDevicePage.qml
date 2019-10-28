@@ -84,6 +84,7 @@ DevicePageBase {
                 id: shutterControls
                 device: root.device
                 anchors.centerIn: parent
+                spacing: (parent.width - app.iconSize*2*children.length) / (children.length - 1)
 
                 ItemDelegate {
                     Layout.preferredWidth: app.iconSize * 2

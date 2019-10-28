@@ -74,6 +74,7 @@ DevicePageBase {
                     device: root.device
                     invert: true
                     anchors.horizontalCenter: parent.horizontalCenter
+                    spacing: (parent.width - app.iconSize*2*children.length) / (children.length - 1)
                 }
             }
 

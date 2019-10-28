@@ -72,6 +72,7 @@ DevicePageBase {
                     id: shutterControls
                     device: root.device
                     anchors.horizontalCenter: parent.horizontalCenter
+                    spacing: (parent.width - app.iconSize*2*children.length) / (children.length - 1)
                 }
             }
         }

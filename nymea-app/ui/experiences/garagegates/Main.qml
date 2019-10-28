@@ -82,6 +82,7 @@ Item {
                         ShutterControls {
                             id: controls
                             device: garageGateView.device
+                            spacing: (parent.width - app.iconSize*2*children.length) / (children.length - 1)
                         }
                     }
                 }
