@@ -355,6 +355,7 @@ void JsonRpcClient::dataReceived(const QByteArray &data)
 
     // check if this is a notification
     if (dataMap.contains("notification")) {
+//        qDebug() << "Incoming notification:" << jsonDoc.toJson();
         QStringList notification = dataMap.value("notification").toString().split(".");
         QString nameSpace = notification.first();
         JsonHandler *handler = m_notificationHandlers.value(nameSpace).first;

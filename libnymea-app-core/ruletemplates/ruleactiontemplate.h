@@ -18,6 +18,7 @@ public:
     enum SelectionMode {
         SelectionModeAny,
         SelectionModeDevice,
+        SelectionModeDevices,
         SelectionModeInterface
     };
     Q_ENUM(SelectionMode)

@@ -14,16 +14,18 @@ Page {
     property alias showStates: interfacesProxy.showStates
     property alias shownInterfaces: devicesProxy.shownInterfaces
     property bool allowSelectAny: false
+    property bool multipleSelection: false
 
     signal backPressed();
     signal thingSelected(var device);
+    signal thingsSelected(var devices);
     signal interfaceSelected(string interfaceName);
     signal anySelected();
 
     header: NymeaHeader {
         text: root.selectInterface ?
-                  qsTr("Select a kind of things") :
-                  root.shownInterfaces.length > 0 ? qsTr("Select a %1").arg(app.interfaceToDisplayName(root.shownInterfaces[0])) : qsTr("Select a thing")
+                  qsTr("Select kind of things") :
+                  root.shownInterfaces.length > 0 ? qsTr("Select %1").arg(app.interfaceToDisplayName(root.shownInterfaces[0])) : qsTr("Select thing")
         onBackPressed: root.backPressed()
 
         HeaderButton {
@@ -66,12 +68,24 @@ Page {
         }
         ThinDivider { visible: root.allowSelectAny }
 
-
         GroupedListView {
+            id: listView
             Layout.fillWidth: true
             Layout.fillHeight: true
             model: root.selectInterface ? interfacesProxy : devicesProxy
             clip: true
+            property var checkBoxCache: ({})
+            function toggleCheckBoxCache(deviceId) {
+                var newCache = listView.checkBoxCache;
+                if (!newCache.hasOwnProperty(deviceId) || !newCache[deviceId]) {
+                    newCache[deviceId] = true
+                } else {
+                    newCache[deviceId] = false
+                }
+                listView.checkBoxCache = newCache;
+                print("new checked state;", newCache[deviceId])
+            }
+
             delegate: NymeaListItemDelegate {
                 width: parent.width
                 text: root.selectInterface ? model.displayName : model.name
@@ -79,10 +93,39 @@ Page {
                 onClicked: {
                     if (root.selectInterface) {
                         root.interfaceSelected(interfacesProxy.get(index).name)
-                    } else {
+                    } else if (!root.multipleSelection) {
                         root.thingSelected(devicesProxy.get(index))
+                    } else {
+                        listView.toggleCheckBoxCache(model.id)
                     }
                 }
+                progressive: !root.multipleSelection
+
+                additionalItem: root.multipleSelection ? entryCheckBox : null
+                CheckBox {
+                    id: entryCheckBox
+                    height: parent.height
+                    visible: root.multipleSelection
+                    checked: listView.checkBoxCache.hasOwnProperty(model.id) && listView.checkBoxCache[model.id]
+                    onClicked: listView.toggleCheckBoxCache(model.id)
+                }
+            }
+        }
+
+        Button {
+            Layout.fillWidth: true
+            Layout.margins: app.margins
+            text: qsTr("OK")
+            visible: root.multipleSelection
+            onClicked: {
+                var devices = []
+                for (var i = 0; i < devicesProxy.count; i++) {
+                    var device = devicesProxy.get(i);
+                    if (listView.checkBoxCache.hasOwnProperty(device.id) && listView.checkBoxCache[device.id]) {
+                        devices.push(device)
+                    }
+                }
+                root.thingsSelected(devices)
             }
         }
     }

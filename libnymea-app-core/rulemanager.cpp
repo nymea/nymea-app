@@ -62,6 +62,7 @@ void RuleManager::addRule(const QVariantMap params)
 void RuleManager::addRule(Rule *rule)
 {
     QVariantMap params = JsonTypes::packRule(rule);
+    qDebug() << "packed rule:" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson(QJsonDocument::Indented));
     m_jsonClient->sendCommand("Rules.AddRule", params, this, "onAddRuleReply");
 }
 

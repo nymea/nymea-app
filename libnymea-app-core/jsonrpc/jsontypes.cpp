@@ -449,7 +449,7 @@ QVariantMap JsonTypes::packTimeEventItem(TimeEventItem *timeEventItem)
         ret.insert("time", timeEventItem->time().toString("hh:mm"));
     }
     if (!timeEventItem->dateTime().isNull()) {
-        ret.insert("dateTime", timeEventItem->dateTime().toSecsSinceEpoch());
+        ret.insert("datetime", timeEventItem->dateTime().toSecsSinceEpoch());
     }
     ret.insert("repeating", packRepeatingOption(timeEventItem->repeatingOption()));
     return ret;
