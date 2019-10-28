@@ -26,8 +26,8 @@ DeviceListPageBase {
             id: itemDelegate
             width: parent.width
 
-            property var device: devicesProxy.get(index);
-            property var deviceClass: engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
+            property Device device: devicesProxy.getDevice(model.id)
+            property DeviceClass deviceClass: device.deviceClass
 
             property var connectedStateType: deviceClass.stateTypes.findByName("connected");
             property var connectedState: connectedStateType ? device.states.getState(connectedStateType.id) : null

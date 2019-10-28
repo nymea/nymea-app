@@ -85,6 +85,7 @@ public:
    void setGroupByInterface(bool groupByInterface);
 
     Q_INVOKABLE Device *get(int index) const;
+    Q_INVOKABLE Device *getDevice(const QUuid &deviceId) const;
 
 signals:
     void engineChanged();

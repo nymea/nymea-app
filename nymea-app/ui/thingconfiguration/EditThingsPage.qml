@@ -73,7 +73,7 @@ Page {
             }
 
             delegate: ThingDelegate {
-                device: deviceProxy.get(index)
+                device: deviceProxy.getDevice(model.id)
                 canDelete: true
                 onClicked: {
                     print("clicked:", model.id)

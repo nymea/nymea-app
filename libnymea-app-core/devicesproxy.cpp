@@ -209,6 +209,19 @@ Device *DevicesProxy::get(int index) const
     return getInternal(mapToSource(this->index(index, 0)).row());
 }
 
+Device *DevicesProxy::getDevice(const QUuid &deviceId) const
+{
+    Devices *d = qobject_cast<Devices*>(sourceModel());
+    if (d) {
+        return d->getDevice(deviceId);
+    }
+    DevicesProxy *dp = qobject_cast<DevicesProxy*>(sourceModel());
+    if (dp) {
+        return dp->getDevice(deviceId);
+    }
+    return nullptr;
+}
+
 Device *DevicesProxy::getInternal(int source_index) const
 {
     Devices* d = qobject_cast<Devices*>(sourceModel());

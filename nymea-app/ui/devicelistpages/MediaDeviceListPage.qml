@@ -34,7 +34,7 @@ DeviceListPageBase {
 
                     property bool inline: width > 500
 
-                    property Device device: devicesProxy.get(index);
+                    property Device device: devicesProxy.getDevice(model.id)
                     property DeviceClass deviceClass: device.deviceClass
 
                     readonly property StateType playbackStateType: deviceClass.stateTypes.findByName("playbackStatus")
