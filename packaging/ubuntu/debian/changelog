@@ -1,3 +1,14 @@
+nymea-app (1.0.148) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * guh GmbH is now nymea GmbH
+  * More ruletemplates
+  * Fix initialization of networking page
+  * Fix device lists getting messed up when devices are reordered
+  * Update the app properly when the core system capabilities change
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 28 Oct 2019 12:23:25 +0100
+
 nymea-app (1.0.147) bionic; urgency=medium
 
   [ Michael Zanetti ]
