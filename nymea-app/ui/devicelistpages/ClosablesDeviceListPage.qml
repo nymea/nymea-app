@@ -123,7 +123,6 @@ DeviceListPageBase {
                         Item {
                             Layout.preferredWidth: shutterControls.implicitWidth
                             Layout.preferredHeight: app.iconSize * 2
-                            Rectangle { anchors.fill: parent; color: "green"; opacity: .3 }
                             ShutterControls {
                                 id: shutterControls
                                 height: parent.height

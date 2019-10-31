@@ -50,7 +50,7 @@ private:
 class WebServerConfiguration: public ServerConfiguration
 {
     Q_OBJECT
-    Q_PROPERTY(QString publicFolder READ publicFolder NOTIFY publicFolderChanged)
+    Q_PROPERTY(QString publicFolder READ publicFolder WRITE setPublicFolder NOTIFY publicFolderChanged)
 public:
     explicit WebServerConfiguration(const QString &id, const QHostAddress &address = QHostAddress(), int port = 0, bool authEnabled = false, bool sslEnabled = false, QObject *parent = nullptr)
         : ServerConfiguration(id, address, port, authEnabled, sslEnabled, parent) {}
