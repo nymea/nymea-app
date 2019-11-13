@@ -32,9 +32,10 @@
     NSString *token = [self hexadecimalStringFromData:deviceToken];
 #else
     // [deviceToken description] is like "<124686a5 556a72ca d808f572 00c323b9 3eff9285 92445590 3225757d b83967be>"
-    NSString *token = [[[[deviceToken description] stringByReplacingOccurrencesOfString:@"<"withString:@""]
-                        stringByReplacingOccurrencesOfString:@">" withString:@""]
-                       stringByReplacingOccurrencesOfString: @" " withString: @""];
+    NSString *token = [[[[deviceToken description]
+            stringByReplacingOccurrencesOfString:@"<" withString:@""]
+            stringByReplacingOccurrencesOfString:@">" withString:@""]
+            stringByReplacingOccurrencesOfString:@" " withString:@""];
 #endif
     PushNotifications::instance()->setAPNSRegistrationToken(QString::fromNSString(token));
 }
