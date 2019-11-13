@@ -1,3 +1,11 @@
+nymea-app (1.0.150) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix push notifications for iOS 13
+  * Fix webserver public folder configuration
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 13 Nov 2019 13:31:04 +0100
+
 nymea-app (1.0.149) bionic; urgency=medium
 
   [ Michael Zanetti ]
