@@ -26,22 +26,14 @@
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     NSLog(@"Did Register for Remote Notifications with Device Token (%@)", deviceToken);
-    NSString *token = [self stringFromDeviceToken:deviceToken];
-    PushNotifications::instance()->setAPNSRegistrationToken(QString::fromNSString(token));
+    const unsigned *tokenBytes = (const unsigned*)[deviceToken bytes];
+    NSString *tokenStr = [NSString stringWithFormat:@"%08x%08x%08x%08x%08x%08x%08x%08x",
+                          ntohl(tokenBytes[0]), ntohl(tokenBytes[1]), ntohl(tokenBytes[2]),
+                          ntohl(tokenBytes[3]), ntohl(tokenBytes[4]), ntohl(tokenBytes[5]),
+                          ntohl(tokenBytes[6]), ntohl(tokenBytes[7])];
+    PushNotifications::instance()->setAPNSRegistrationToken(QString::fromNSString(tokenStr));
 }
 
-+ (NSString *)stringFromDeviceToken:(NSData *)deviceToken {
-    NSUInteger length = deviceToken.length;
-    if (length == 0) {
-        return nil;
-    }
-    const unsigned char *buffer = (const unsigned char*)deviceToken.bytes;
-    NSMutableString *hexString  = [NSMutableString stringWithCapacity:(length * 2)];
-    for (int i = 0; i < length; ++i) {
-        [hexString appendFormat:@"%02x", buffer[i]];
-    }
-    return [hexString copy];
-}
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
     NSLog(@"Did Fail to Register for Remote Notifications");
     NSLog(@"%@, %@", error, error.localizedDescription);
