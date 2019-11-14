@@ -4,7 +4,7 @@ nymea-app (1.0.150) bionic; urgency=medium
   * Fix push notifications for iOS 13
   * Fix webserver public folder configuration
 
- -- Jenkins <jenkins@nymea.io>  Wed, 13 Nov 2019 13:31:04 +0100
+ -- Jenkins <jenkins@nymea.io>  Thu, 14 Nov 2019 01:01:17 +0100
 
 nymea-app (1.0.149) bionic; urgency=medium
 
