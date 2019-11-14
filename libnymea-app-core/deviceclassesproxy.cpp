@@ -74,6 +74,20 @@ void DeviceClassesProxy::setFilterInterface(const QString &filterInterface)
     }
 }
 
+QString DeviceClassesProxy::filterDisplayName() const
+{
+    return m_filterDisplayName;
+}
+
+void DeviceClassesProxy::setFilterDisplayName(const QString &filter)
+{
+    if (m_filterDisplayName != filter) {
+        m_filterDisplayName = filter;
+        emit filterDisplayNameChanged();
+        invalidateFilter();
+    }
+}
+
 bool DeviceClassesProxy::groupByInterface() const
 {
     return m_groupByInterface;
@@ -115,6 +129,10 @@ bool DeviceClassesProxy::filterAcceptsRow(int sourceRow, const QModelIndex &sour
         return false;
 
     if (!m_filterInterface.isEmpty() && !deviceClass->interfaces().contains(m_filterInterface)) {
+        return false;
+    }
+
+    if (!m_filterDisplayName.isEmpty() && !deviceClass->displayName().toLower().contains(m_filterDisplayName.toLower())) {
         return false;
     }
 

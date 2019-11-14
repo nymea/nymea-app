@@ -37,6 +37,7 @@ class DeviceClassesProxy : public QSortFilterProxyModel
     Q_PROPERTY(DeviceClasses *deviceClasses READ deviceClasses WRITE setDeviceClasses NOTIFY deviceClassesChanged)
 
     Q_PROPERTY(QString filterInterface READ filterInterface WRITE setFilterInterface NOTIFY filterInterfaceChanged)
+    Q_PROPERTY(QString filterDisplayName READ filterDisplayName WRITE setFilterDisplayName NOTIFY filterDisplayNameChanged)
 
     Q_PROPERTY(bool groupByInterface READ groupByInterface WRITE setGroupByInterface NOTIFY groupByInterfaceChanged)
 
@@ -52,6 +53,9 @@ public:
     QString filterInterface() const;
     void setFilterInterface(const QString &filterInterface);
 
+    QString filterDisplayName() const;
+    void setFilterDisplayName(const QString &filter);
+
     bool groupByInterface() const;
     void setGroupByInterface(bool groupByInterface);
 
@@ -63,6 +67,7 @@ signals:
     void vendorIdChanged();
     void deviceClassesChanged();
     void filterInterfaceChanged();
+    void filterDisplayNameChanged();
     void groupByInterfaceChanged();
 
 protected:
@@ -73,6 +78,7 @@ private:
     QUuid m_vendorId;
     DeviceClasses *m_deviceClasses;
     QString m_filterInterface;
+    QString m_filterDisplayName;
     bool m_groupByInterface = false;
 };
 

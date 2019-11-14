@@ -33,7 +33,7 @@ Page {
                 anchors.fill: parent
                 anchors.margins: app.margins
                 columnSpacing: app.margins
-                columns: 2
+                columns: Math.max(1, Math.floor(width / 250)) * 2
                 Label {
                     text: qsTr("Vendor")
                 }
@@ -87,6 +87,22 @@ Page {
                         }
                     }
                 }
+
+                Item {
+                    Layout.preferredHeight: app.iconSize
+                    Layout.minimumWidth: app.iconSize
+
+                    ColorIcon {
+                        height: parent.height
+                        width: height
+                        name: "../images/find.svg"
+                    }
+                }
+
+                TextField {
+                    id: displayNameFilterField
+                    Layout.fillWidth: true
+                }
             }
         }
     }
@@ -104,6 +120,7 @@ Page {
             vendorId: vendorsFilterModel.get(vendorFilterComboBox.currentIndex).vendorId
             deviceClasses: engine.deviceManager.deviceClasses
             filterInterface: typeFilterModel.get(typeFilterComboBox.currentIndex).interfaceName
+            filterDisplayName: displayNameFilterField.displayText
             groupByInterface: true
         }
 
