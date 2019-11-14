@@ -1,3 +1,10 @@
+nymea-app (1.0.155) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Try using the UserNotification framework
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 14 Nov 2019 17:29:32 +0100
+
 nymea-app (1.0.154) bionic; urgency=medium
 
   [ Michael Zanetti ]
