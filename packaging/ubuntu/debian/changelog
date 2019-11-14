@@ -1,3 +1,11 @@
+nymea-app (1.0.152) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add a filter input field when adding new things
+  * Another attempt to fix push notifications
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 14 Nov 2019 11:00:09 +0100
+
 nymea-app (1.0.150) bionic; urgency=medium
 
   [ Michael Zanetti ]
