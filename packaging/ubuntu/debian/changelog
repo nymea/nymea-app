@@ -1,3 +1,10 @@
+nymea-app (1.0.154) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Revert iOS push notifications changes...
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 14 Nov 2019 14:54:46 +0100
+
 nymea-app (1.0.153) bionic; urgency=medium
 
   [ Michael Zanetti ]
