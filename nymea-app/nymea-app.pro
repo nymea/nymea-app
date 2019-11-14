@@ -102,6 +102,8 @@ ios: {
     OBJECTIVE_SOURCES += $$PWD/../packaging/ios/pushnotifications.mm \
                          $$PWD/../packaging/ios/platformhelperios.mm
 
+    LIBS += -framework "UserNotifications"
+
     QMAKE_TARGET_BUNDLE_PREFIX = io.guh
     QMAKE_BUNDLE = nymeaApp
     # Configure generated xcode project to have our bundle id
