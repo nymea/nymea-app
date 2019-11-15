@@ -4888,7 +4888,7 @@ Bitte warte bis diese abgeschlossen ist.</translation>
     </message>
     <message>
         <source>The system may restart in order to complete the update. %1:app will reconnect automatically after the update.</source>
-        <translation>Das System wird möglicherweise neu starten um die Aktualisierung abzuschließen. %1:app wird automatisch neu verbinden sobald die Aktualisierung abeschlossen ist.</translation>
+        <translation>Das System wird möglicherweise neu starten um die Aktualisierung abzuschließen. %1:app wird automatisch neu verbinden sobald die Aktualisierung abgeschlossen ist.</translation>
     </message>
 </context>
 <context>
