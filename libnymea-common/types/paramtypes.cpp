@@ -43,11 +43,11 @@ ParamType *ParamTypes::get(int index) const
 ParamType *ParamTypes::getParamType(const QString &id) const
 {
     foreach (ParamType *paramType, m_paramTypes) {
-        if (paramType->id() == id) {
+        if (paramType->id() == QUuid(id)) {
             return paramType;
         }
     }
-    return 0;
+    return nullptr;
 }
 
 ParamType *ParamTypes::findByName(const QString &name) const
@@ -57,7 +57,7 @@ ParamType *ParamTypes::findByName(const QString &name) const
             return paramType;
         }
     }
-    return 0;
+    return nullptr;
 }
 
 int ParamTypes::rowCount(const QModelIndex &parent) const
