@@ -1,3 +1,10 @@
+nymea-app (1.0.156) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Don't compare QUUid with QStrings in an unsafe way
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 18 Nov 2019 21:50:04 +0100
+
 nymea-app (1.0.155) bionic; urgency=medium
 
   [ Michael Zanetti ]
