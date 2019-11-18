@@ -23,6 +23,7 @@
 #include "params.h"
 
 #include <QDebug>
+#include <QUuid>
 
 Params::Params(QObject *parent) :
     QAbstractListModel(parent)
@@ -50,7 +51,7 @@ Param *Params::get(int index) const
 Param *Params::getParam(QString paramTypeId) const
 {
     foreach (Param *param, m_params) {
-        if (param->paramTypeId() == paramTypeId) {
+        if (QUuid(param->paramTypeId()) == QUuid(paramTypeId)) {
             return param;
         }
     }
