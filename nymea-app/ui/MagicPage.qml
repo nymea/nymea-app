@@ -11,6 +11,13 @@ Page {
         onBackPressed: pageStack.pop()
 
         HeaderButton {
+            imageSource: Qt.resolvedUrl("images/magic.svg")
+            onClicked: {
+                pageStack.push("magic/ScriptEditor.qml")
+            }
+        }
+
+        HeaderButton {
             imageSource: Qt.resolvedUrl("images/add.svg")
             onClicked: {
                 addRule()

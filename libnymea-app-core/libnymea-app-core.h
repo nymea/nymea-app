@@ -68,6 +68,7 @@
 #include "configuration/networkmanager.h"
 #include "types/networkdevices.h"
 #include "types/networkdevice.h"
+#include "scriptsyntaxhighlighter.h"
 
 #include <QtQml/qqml.h>
 
@@ -230,6 +231,9 @@ void registerQmlTypes() {
     qmlRegisterUncreatableType<NetworkDevice>(uri, 1, 0, "NetworkDevice", "Get it from NetworkDevices");
     qmlRegisterUncreatableType<WiredNetworkDevice>(uri, 1, 0, "WiredNetworkDevice", "Get it from NetworkDevices");
     qmlRegisterUncreatableType<WirelessNetworkDevice>(uri, 1, 0, "WirelessNetworkDevice", "Get it from NetworkDevices");
+
+    qmlRegisterType<ScriptSyntaxHighlighter>(uri, 1, 0, "ScriptSyntaxHighlighter");
+    qmlRegisterUncreatableType<CompletionProxyModel>(uri, 1, 0, "CompletionProxyModel", "Get it from ScriptSyntaxHighlighter");
 }
 
 #endif // LIBNYMEAAPPCORE_H

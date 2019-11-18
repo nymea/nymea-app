@@ -203,5 +203,6 @@
         <file>ui/delegates/ThingTile.qml</file>
         <file>ui/components/TimePicker.qml</file>
         <file>ui/components/DatePicker.qml</file>
+        <file>ui/magic/ScriptEditor.qml</file>
     </qresource>
 </RCC>
