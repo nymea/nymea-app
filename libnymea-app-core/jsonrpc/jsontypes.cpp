@@ -504,7 +504,7 @@ DeviceClass::SetupMethod JsonTypes::stringToSetupMethod(const QString &setupMeth
 QPair<Types::Unit, QString> JsonTypes::stringToUnit(const QString &unitString)
 {
     if (unitString == "UnitNone") {
-        return QPair<Types::Unit, QString>(Types::UnitNone, "-");
+        return QPair<Types::Unit, QString>(Types::UnitNone, "");
     } else if (unitString == "UnitSeconds") {
         return QPair<Types::Unit, QString>(Types::UnitSeconds, "s");
     } else if (unitString == "UnitMinutes") {
