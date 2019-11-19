@@ -13,7 +13,7 @@ Page {
         HeaderButton {
             imageSource: Qt.resolvedUrl("images/magic.svg")
             onClicked: {
-                pageStack.push("magic/ScriptEditor.qml")
+                pageStack.push("magic/ScriptsPage.qml")
             }
         }
 

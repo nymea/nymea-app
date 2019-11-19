@@ -21,6 +21,7 @@
 #include "engine.h"
 
 #include "rulemanager.h"
+#include "scriptmanager.h"
 #include "logmanager.h"
 #include "tagsmanager.h"
 #include "configuration/nymeaconfiguration.h"
@@ -39,6 +40,7 @@ Engine::Engine(QObject *parent) :
     m_jsonRpcClient(new JsonRpcClient(m_connection, this)),
     m_deviceManager(new DeviceManager(m_jsonRpcClient, this)),
     m_ruleManager(new RuleManager(m_jsonRpcClient, this)),
+    m_scriptManager(new ScriptManager(m_jsonRpcClient, this)),
     m_logManager(new LogManager(m_jsonRpcClient, this)),
     m_tagsManager(new TagsManager(m_jsonRpcClient, this)),
     m_nymeaConfiguration(new NymeaConfiguration(m_jsonRpcClient, this)),
@@ -78,6 +80,11 @@ DeviceManager *Engine::deviceManager() const
 RuleManager *Engine::ruleManager() const
 {
     return m_ruleManager;
+}
+
+ScriptManager *Engine::scriptManager() const
+{
+    return m_scriptManager;
 }
 
 TagsManager *Engine::tagsManager() const
@@ -144,6 +151,7 @@ void Engine::onDeviceManagerFetchingChanged()
 {
     if (!m_deviceManager->fetchingData()) {
         m_ruleManager->init();
+        m_scriptManager->init();
         m_nymeaConfiguration->init();
         m_systemController->init();
         if (m_jsonRpcClient->ensureServerVersion("1.7")) {

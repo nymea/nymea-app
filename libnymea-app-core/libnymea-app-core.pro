@@ -48,6 +48,7 @@ SOURCES += \
     devicediscovery.cpp \
     models/packagesfiltermodel.cpp \
     models/taglistmodel.cpp \
+    scriptmanager.cpp \
     scriptsyntaxhighlighter.cpp \
     vendorsproxy.cpp \
     pluginsproxy.cpp \
@@ -112,6 +113,7 @@ HEADERS += \
     devicediscovery.h \
     models/packagesfiltermodel.h \
     models/taglistmodel.h \
+    scriptmanager.h \
     scriptsyntaxhighlighter.h \
     vendorsproxy.h \
     pluginsproxy.h \

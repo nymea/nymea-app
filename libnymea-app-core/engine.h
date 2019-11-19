@@ -29,6 +29,7 @@
 #include "wifisetup/bluetoothdiscovery.h"
 
 class RuleManager;
+class ScriptManager;
 class LogManager;
 class TagsManager;
 class NymeaConfiguration;
@@ -41,6 +42,7 @@ class Engine : public QObject
     Q_PROPERTY(NymeaConnection* connection READ connection CONSTANT)
     Q_PROPERTY(DeviceManager* deviceManager READ deviceManager CONSTANT)
     Q_PROPERTY(RuleManager* ruleManager READ ruleManager CONSTANT)
+    Q_PROPERTY(ScriptManager* scriptManager READ scriptManager CONSTANT)
     Q_PROPERTY(TagsManager* tagsManager READ tagsManager CONSTANT)
     Q_PROPERTY(JsonRpcClient* jsonRpcClient READ jsonRpcClient CONSTANT)
     Q_PROPERTY(NymeaConfiguration* nymeaConfiguration READ nymeaConfiguration CONSTANT)
@@ -55,6 +57,7 @@ public:
     NymeaConnection *connection() const;
     DeviceManager *deviceManager() const;
     RuleManager *ruleManager() const;
+    ScriptManager *scriptManager() const;
     TagsManager *tagsManager() const;
     JsonRpcClient *jsonRpcClient() const;
     LogManager *logManager() const;
@@ -68,6 +71,7 @@ private:
     JsonRpcClient *m_jsonRpcClient;
     DeviceManager *m_deviceManager;
     RuleManager *m_ruleManager;
+    ScriptManager *m_scriptManager;
     LogManager *m_logManager;
     TagsManager *m_tagsManager;
     NymeaConfiguration *m_nymeaConfiguration;

@@ -69,6 +69,9 @@
 #include "types/networkdevices.h"
 #include "types/networkdevice.h"
 #include "scriptsyntaxhighlighter.h"
+#include "scriptmanager.h"
+#include "types/script.h"
+#include "types/scripts.h"
 
 #include <QtQml/qqml.h>
 
@@ -232,6 +235,9 @@ void registerQmlTypes() {
     qmlRegisterUncreatableType<WiredNetworkDevice>(uri, 1, 0, "WiredNetworkDevice", "Get it from NetworkDevices");
     qmlRegisterUncreatableType<WirelessNetworkDevice>(uri, 1, 0, "WirelessNetworkDevice", "Get it from NetworkDevices");
 
+    qmlRegisterUncreatableType<ScriptManager>(uri, 1, 0, "ScriptManager", "Get it from Engine");
+    qmlRegisterUncreatableType<Scripts>(uri, 1, 0, "Scripts", "Getit from ScriptManager");
+    qmlRegisterUncreatableType<Script>(uri, 1, 0, "Script", "Getit from Scripts");
     qmlRegisterType<ScriptSyntaxHighlighter>(uri, 1, 0, "ScriptSyntaxHighlighter");
     qmlRegisterUncreatableType<CompletionProxyModel>(uri, 1, 0, "CompletionProxyModel", "Get it from ScriptSyntaxHighlighter");
 }
