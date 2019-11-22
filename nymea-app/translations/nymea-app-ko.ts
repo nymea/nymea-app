@@ -1707,7 +1707,7 @@ Please try again.</source>
     </message>
     <message>
         <source>nymea is a registered trademark of guh GmbH.</source>
-        <translation>nymea는 guh GmbH의 등록 상표입니다.</translation>
+        <translation type="vanished">nymea는 guh GmbH의 등록 상표입니다.</translation>
     </message>
     <message>
         <source>Licensed under the terms of the GNU general public license, version 2. Please visit the GitHub page for source code and build instructions.</source>
@@ -1740,6 +1740,10 @@ Please try again.</source>
     <message>
         <source>License text</source>
         <translation>라이센스</translation>
+    </message>
+    <message>
+        <source>nymea is a registered trademark of nymea GmbH.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2634,6 +2638,13 @@ Please try again.</source>
     </message>
 </context>
 <context>
+    <name>NewScenePage</name>
+    <message>
+        <source>New scene</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>NewThingMagicPage</name>
     <message>
         <source>New magic</source>
@@ -2821,30 +2832,37 @@ Please try again.</source>
     </message>
     <message>
         <source>light</source>
+        <extracomment>Select ...</extracomment>
         <translation>빛</translation>
     </message>
     <message>
         <source>sensor</source>
+        <extracomment>Select ...</extracomment>
         <translation>센서</translation>
     </message>
     <message>
         <source>battery powered thing</source>
+        <extracomment>Select ...</extracomment>
         <translation>배터리로 작동하는 것</translation>
     </message>
     <message>
         <source>connectable thing</source>
+        <extracomment>Select ...</extracomment>
         <translation>연결 가능한 것</translation>
     </message>
     <message>
         <source>switchable thing</source>
+        <extracomment>Select ...</extracomment>
         <translation>스위치 있는 것</translation>
     </message>
     <message>
         <source>daylight sensor</source>
+        <extracomment>Select ...</extracomment>
         <translation>일광 센서</translation>
     </message>
     <message>
         <source>presence sensor</source>
+        <extracomment>Select ...</extracomment>
         <translation>움직임 감지 센서</translation>
     </message>
     <message>
@@ -2853,27 +2871,47 @@ Please try again.</source>
     </message>
     <message>
         <source>doorbell</source>
+        <extracomment>Select ...</extracomment>
         <translation>초인종</translation>
     </message>
     <message>
         <source>alert</source>
+        <extracomment>Select ...</extracomment>
         <translation>경보</translation>
     </message>
     <message>
         <source>button</source>
+        <extracomment>Select ...</extracomment>
         <translation>버튼</translation>
     </message>
     <message>
         <source>access control</source>
+        <extracomment>Select ...</extracomment>
         <translation>액세스 제어</translation>
     </message>
     <message>
         <source>smart meter</source>
+        <extracomment>Select ...</extracomment>
         <translation>스마트 미터</translation>
     </message>
     <message>
         <source>media player</source>
+        <extracomment>Select ...</extracomment>
         <translation>미디어 플레이어</translation>
+    </message>
+    <message>
+        <source>Fingerprint reader</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>moisture sensor</source>
+        <extracomment>Select ...</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>thing to notify</source>
+        <extracomment>Select ...</extracomment>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2931,6 +2969,30 @@ Please try again.</source>
     <message>
         <source>Pick a password</source>
         <translation>암호 선택</translation>
+    </message>
+    <message>
+        <source>Minimum %1 characters</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Lowercase letters</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Uppercase letters</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Numbers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Special characters</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Confirm password</source>
+        <translation type="unfinished">비밀번호 확인</translation>
     </message>
 </context>
 <context>
@@ -3043,15 +3105,15 @@ Please try again.</source>
     </message>
     <message>
         <source>Confirm password</source>
-        <translation>비밀번호 확인</translation>
+        <translation type="vanished">비밀번호 확인</translation>
     </message>
     <message>
         <source>&lt;font color=&quot;%1&quot;&gt;The passwords match.&lt;/font&gt;</source>
-        <translation>&lt;font color=&quot;%1&quot; &gt;암호가 일치 합니다.&lt;/font&gt;</translation>
+        <translation type="vanished">&lt;font color=&quot;%1&quot; &gt;암호가 일치 합니다.&lt;/font&gt;</translation>
     </message>
     <message>
         <source>&lt;font color=&quot;%1&quot;&gt;The passwords &lt;/font&gt;&lt;font color=&quot;%2&quot;&gt;do not&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt; match.&lt;/font&gt;</source>
-        <translation>&lt;font color=&quot;%1&quot;&gt;비밀번호가 &lt;/font&gt;&lt;font color=&quot;%2&quot;&gt;&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt;틀립니다.&lt;/font&gt;</translation>
+        <translation type="vanished">&lt;font color=&quot;%1&quot;&gt;비밀번호가 &lt;/font&gt;&lt;font color=&quot;%2&quot;&gt;&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt;틀립니다.&lt;/font&gt;</translation>
     </message>
     <message>
         <source>only if %1 %2 %3</source>
@@ -3063,7 +3125,7 @@ Please try again.</source>
     </message>
     <message>
         <source>&lt;font color=&quot;%1&quot;&gt;The password needs to be &lt;/font&gt;&lt;font color=&quot;%2&quot;&gt;at least %3 characters long&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt;, contain &lt;/font&gt;&lt;font color=&quot;%4&quot;&gt;lowercase&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt;, &lt;/font&gt;&lt;font color=&quot;%5&quot;&gt;uppercase&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt; letters as well as &lt;/font&gt;&lt;font color=&quot;%6&quot;&gt;numbers&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt; and &lt;/font&gt;&lt;font color=&quot;%7&quot;&gt;special characters&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt;.&lt;/font&gt;</source>
-        <translation>&lt;font color=&quot;%1&quot;&gt;비밀번호는 &lt;/font&gt;&lt;font color=&quot;%4&quot;&gt;소문자 &lt;/font&gt;&lt;font color = &quot;% 1&quot;&gt;, &lt;/ font&gt; &lt;font color = &quot;% 5&quot;&gt; 대문자 &lt;/ font&gt; &lt;font color=&quot;%1&quot;&gt;, &lt;/font&gt;&lt;font color = &quot;% 1 &quot;&gt; 문자 및  &lt;/ font&gt; &lt;font color =&quot;% 6 &quot;&gt; 숫자 &lt;/ font&gt;&lt;font color=&quot;%1&quot;&gt;, &lt;/font&gt; &lt;font color =&quot;% 7 &quot;&gt; 특수 문자 &lt;/ font&gt;  &lt;font color=&quot;%1&quot;&gt;포함 &lt;/font&gt;&lt;font color=&quot;%1&quot;&gt;,&lt;/font&gt;  &lt;font color=&quot;%2&quot;&gt;최소 % 3 자 이상이어야 합니다&lt;font color=&quot;%1&quot;&gt;. &lt;/ font&gt;</translation>
+        <translation type="vanished">&lt;font color=&quot;%1&quot;&gt;비밀번호는 &lt;/font&gt;&lt;font color=&quot;%4&quot;&gt;소문자 &lt;/font&gt;&lt;font color = &quot;% 1&quot;&gt;, &lt;/ font&gt; &lt;font color = &quot;% 5&quot;&gt; 대문자 &lt;/ font&gt; &lt;font color=&quot;%1&quot;&gt;, &lt;/font&gt;&lt;font color = &quot;% 1 &quot;&gt; 문자 및  &lt;/ font&gt; &lt;font color =&quot;% 6 &quot;&gt; 숫자 &lt;/ font&gt;&lt;font color=&quot;%1&quot;&gt;, &lt;/font&gt; &lt;font color =&quot;% 7 &quot;&gt; 특수 문자 &lt;/ font&gt;  &lt;font color=&quot;%1&quot;&gt;포함 &lt;/font&gt;&lt;font color=&quot;%1&quot;&gt;,&lt;/font&gt;  &lt;font color=&quot;%2&quot;&gt;최소 % 3 자 이상이어야 합니다&lt;font color=&quot;%1&quot;&gt;. &lt;/ font&gt;</translation>
     </message>
 </context>
 <context>
@@ -3191,19 +3253,35 @@ Please try again.</source>
     <name>SelectThingPage</name>
     <message>
         <source>Select a kind of things</source>
-        <translation>종류 선택</translation>
+        <translation type="vanished">종류 선택</translation>
     </message>
     <message>
         <source>Select a %1</source>
-        <translation>%1 선택</translation>
+        <translation type="vanished">%1 선택</translation>
     </message>
     <message>
         <source>Select a thing</source>
-        <translation>사물(장치) 선택</translation>
+        <translation type="vanished">사물(장치) 선택</translation>
     </message>
     <message>
         <source>Any %1</source>
         <translation>아무나 %1</translation>
+    </message>
+    <message>
+        <source>Select kind of things</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select thing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation type="unfinished">확인</translation>
     </message>
 </context>
 <context>
@@ -3463,6 +3541,14 @@ Please try again.</source>
         <source>Next</source>
         <translation>다음</translation>
     </message>
+    <message>
+        <source>OAuth is not supported on this platform. Please use this app on a different device to set up this thing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>In order to use OAuth on this platform, make sure qml-module-qtwebview is installed.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ShutterDeviceListPage</name>
@@ -3639,6 +3725,10 @@ Please only use this if you are sure you want this and consider reporting the is
 Do you want to proceed?</source>
         <translation>
 진행 하시겠습니까?</translation>
+    </message>
+    <message>
+        <source>Failure adding repository.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

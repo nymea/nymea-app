@@ -1670,10 +1670,6 @@ Please try again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>nymea is a registered trademark of guh GmbH.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Licensed under the terms of the GNU general public license, version 2. Please visit the GitHub page for source code and build instructions.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1703,6 +1699,10 @@ Please try again.</source>
     </message>
     <message>
         <source>License text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>nymea is a registered trademark of nymea GmbH.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2599,6 +2599,13 @@ Please try again.</source>
     </message>
 </context>
 <context>
+    <name>NewScenePage</name>
+    <message>
+        <source>New scene</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>NewThingMagicPage</name>
     <message>
         <source>New magic</source>
@@ -2786,30 +2793,37 @@ Please try again.</source>
     </message>
     <message>
         <source>light</source>
+        <extracomment>Select ...</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>sensor</source>
+        <extracomment>Select ...</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>battery powered thing</source>
+        <extracomment>Select ...</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>connectable thing</source>
+        <extracomment>Select ...</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>switchable thing</source>
+        <extracomment>Select ...</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>daylight sensor</source>
+        <extracomment>Select ...</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>presence sensor</source>
+        <extracomment>Select ...</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2818,26 +2832,46 @@ Please try again.</source>
     </message>
     <message>
         <source>doorbell</source>
+        <extracomment>Select ...</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>alert</source>
+        <extracomment>Select ...</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>button</source>
+        <extracomment>Select ...</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>access control</source>
+        <extracomment>Select ...</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>smart meter</source>
+        <extracomment>Select ...</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>media player</source>
+        <extracomment>Select ...</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Fingerprint reader</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>moisture sensor</source>
+        <extracomment>Select ...</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>thing to notify</source>
+        <extracomment>Select ...</extracomment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2895,6 +2929,30 @@ Please try again.</source>
     <name>PasswordTextField</name>
     <message>
         <source>Pick a password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Minimum %1 characters</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Lowercase letters</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Uppercase letters</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Numbers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Special characters</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Confirm password</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3007,27 +3065,11 @@ Please try again.</source>
         <translation></translation>
     </message>
     <message>
-        <source>Confirm password</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;font color=&quot;%1&quot;&gt;The passwords match.&lt;/font&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;font color=&quot;%1&quot;&gt;The passwords &lt;/font&gt;&lt;font color=&quot;%2&quot;&gt;do not&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt; match.&lt;/font&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>only if %1 %2 %3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>and %1 %2 %3</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;font color=&quot;%1&quot;&gt;The password needs to be &lt;/font&gt;&lt;font color=&quot;%2&quot;&gt;at least %3 characters long&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt;, contain &lt;/font&gt;&lt;font color=&quot;%4&quot;&gt;lowercase&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt;, &lt;/font&gt;&lt;font color=&quot;%5&quot;&gt;uppercase&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt; letters as well as &lt;/font&gt;&lt;font color=&quot;%6&quot;&gt;numbers&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt; and &lt;/font&gt;&lt;font color=&quot;%7&quot;&gt;special characters&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt;.&lt;/font&gt;</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3155,19 +3197,23 @@ Please try again.</source>
 <context>
     <name>SelectThingPage</name>
     <message>
-        <source>Select a kind of things</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Select a %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Select a thing</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Any %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select kind of things</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select thing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3428,6 +3474,14 @@ Please try again.</source>
         <source>Next</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>OAuth is not supported on this platform. Please use this app on a different device to set up this thing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>In order to use OAuth on this platform, make sure qml-module-qtwebview is installed.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ShutterDeviceListPage</name>
@@ -3603,6 +3657,10 @@ Please only use this if you are sure you want this and consider reporting the is
     <message>
         <source>
 Do you want to proceed?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failure adding repository.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
