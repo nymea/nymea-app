@@ -275,8 +275,19 @@ Page {
                             if (engine.deviceManager.devices.count === 0) {
                                 pageStack.push(Qt.resolvedUrl("thingconfiguration/NewThingPage.qml"))
                             } else {
-                                var page = pageStack.push(Qt.resolvedUrl("magic/NewScenePage.qml"))
-//                                page.addRule()
+                                var newRule = engine.ruleManager.createNewRule();
+                                var editRulePage = pageStack.push(Qt.resolvedUrl("magic/EditRulePage.qml"), {rule: newRule });
+                                editRulePage.startAddAction();
+                                editRulePage.StackView.onRemoved.connect(function() {
+                                    newRule.destroy();
+                                })
+                                editRulePage.onAccept.connect(function() {
+                                    editRulePage.busy = true;
+                                    engine.ruleManager.addRule(d.editRulePage.rule);
+                                })
+                                editRulePage.onCancel.connect(function() {
+                                    pageStack.pop();
+                                })
                             }
                         }
                     }

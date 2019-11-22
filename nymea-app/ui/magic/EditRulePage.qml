@@ -221,6 +221,20 @@ Page {
         })
     }
 
+    function startAddAction() {
+        if (root.isEmpty) {
+            root.rule.executable = true;
+        }
+        if (root.initialDeviceToBeAdded !== null) {
+            var ruleAction = root.rule.actions.createNewRuleAction();
+            ruleAction.deviceId = root.initialDeviceToBeAdded.id;
+            root.initialDeviceToBeAdded = null;
+            selectRuleActionData(root.rule.actions, ruleAction)
+        } else {
+            var page = pageStack.push(ruleActionQuestionPageComponent, {exitAction: false});
+        }
+    }
+
     header: NymeaHeader {
         text: root.rule.name.length === 0 ? qsTr("Add new magic") : qsTr("Edit %1").arg(root.rule.name)
         onBackPressed: {
@@ -620,18 +634,8 @@ Page {
                 Layout.margins: app.margins
                 text: root.isEmpty ? qsTr("Configure...") :
                                      actionsRepeater.count == 0 ? qsTr("Add an action...") : qsTr("Add another action...")
-                onClicked: {                    
-                    if (root.isEmpty) {
-                        root.rule.executable = true;
-                    }
-                    if (root.initialDeviceToBeAdded !== null) {
-                        var ruleAction = root.rule.actions.createNewRuleAction();
-                        ruleAction.deviceId = root.initialDeviceToBeAdded.id;
-                        root.initialDeviceToBeAdded = null;
-                        selectRuleActionData(root.rule.actions, ruleAction)
-                    } else {
-                        var page = pageStack.push(ruleActionQuestionPageComponent, {exitAction: false});
-                    }
+                onClicked: {
+                    root.startAddAction();
                 }
                 visible: root.actionsVisible
             }
