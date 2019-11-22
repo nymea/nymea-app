@@ -104,6 +104,10 @@ Page {
                     id: passwordTextField
                     Layout.fillWidth: true
                     minPasswordLength: 8
+                    requireLowerCaseLetter: true
+                    requireUpperCaseLetter: true
+                    requireNumber: true
+                    requireSpecialChar: false
                     signup: engine.jsonRpcClient.initialSetupRequired
                 }
             }
@@ -112,7 +116,7 @@ Page {
                 Layout.fillWidth: true
                 Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.bottomMargin: app.margins
                 text: qsTr("OK")
-                enabled: passwordTextField.isValidPassword
+                enabled: passwordTextField.isValid
                 onClicked: {
                     if (engine.jsonRpcClient.initialSetupRequired) {
                         print("create user")
