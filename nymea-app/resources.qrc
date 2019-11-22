@@ -205,5 +205,8 @@
         <file>ui/components/DatePicker.qml</file>
         <file>ui/magic/ScriptEditor.qml</file>
         <file>ui/magic/ScriptsPage.qml</file>
+        <file>ui/magic/scripting/LineNumbers.qml</file>
+        <file>ui/magic/scripting/CompletionBox.qml</file>
+        <file>ui/magic/scripting/EditorPane.qml</file>
     </qresource>
 </RCC>

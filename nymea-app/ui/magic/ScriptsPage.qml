@@ -39,6 +39,10 @@ Page {
             text: model.name
             subText: model.id
             canDelete: true
+            onClicked: {
+                pageStack.push("ScriptEditor.qml", {scriptId: model.id});
+            }
+
             onDeleteClicked: {
                 print("removing script", model.id)
                 d.pendingAction = engine.scriptManager.removeScript(model.id);

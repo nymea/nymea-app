@@ -24,6 +24,10 @@ public:
 
     void clear();
     void addScript(Script *script);
+
+    Q_INVOKABLE Script *get(int index) const;
+    Q_INVOKABLE Script *getScript(const QUuid &scriptId);
+
 signals:
     void countChanged();
 

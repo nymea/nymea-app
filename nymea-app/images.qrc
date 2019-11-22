@@ -213,5 +213,6 @@
         <file>ui/images/browser/MediaBrowserIconSoundCloud.svg</file>
         <file>ui/images/browser/MediaBrowserIconDeezer.svg</file>
         <file>ui/images/view-grid-symbolic.svg</file>
+        <file>ui/images/script.svg</file>
     </qresource>
 </RCC>

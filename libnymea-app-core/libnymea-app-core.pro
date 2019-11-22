@@ -48,6 +48,8 @@ SOURCES += \
     devicediscovery.cpp \
     models/packagesfiltermodel.cpp \
     models/taglistmodel.cpp \
+    scripting/codecompletion.cpp \
+    scripting/completionmodel.cpp \
     scriptmanager.cpp \
     scriptsyntaxhighlighter.cpp \
     vendorsproxy.cpp \
@@ -113,6 +115,8 @@ HEADERS += \
     devicediscovery.h \
     models/packagesfiltermodel.h \
     models/taglistmodel.h \
+    scripting/codecompletion.h \
+    scripting/completionmodel.h \
     scriptmanager.h \
     scriptsyntaxhighlighter.h \
     vendorsproxy.h \

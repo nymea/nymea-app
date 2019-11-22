@@ -50,3 +50,21 @@ void Scripts::addScript(Script *script)
     endInsertRows();
     emit countChanged();
 }
+
+Script* Scripts::get(int index) const
+{
+    if (index < 0 || index >= m_list.count()) {
+        return nullptr;
+    }
+    return m_list.at(index);
+}
+
+Script *Scripts::getScript(const QUuid &scriptId)
+{
+    foreach (Script *script, m_list) {
+        if (script->id() == scriptId) {
+            return script;
+        }
+    }
+    return nullptr;
+}

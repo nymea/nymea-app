@@ -11,7 +11,7 @@ Page {
         onBackPressed: pageStack.pop()
 
         HeaderButton {
-            imageSource: Qt.resolvedUrl("images/magic.svg")
+            imageSource: Qt.resolvedUrl("images/script.svg")
             onClicked: {
                 pageStack.push("magic/ScriptsPage.qml")
             }

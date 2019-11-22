@@ -70,6 +70,8 @@
 #include "types/networkdevice.h"
 #include "scriptsyntaxhighlighter.h"
 #include "scriptmanager.h"
+#include "scripting/codecompletion.h"
+#include "scripting/completionmodel.h"
 #include "types/script.h"
 #include "types/scripts.h"
 
@@ -239,7 +241,8 @@ void registerQmlTypes() {
     qmlRegisterUncreatableType<Scripts>(uri, 1, 0, "Scripts", "Getit from ScriptManager");
     qmlRegisterUncreatableType<Script>(uri, 1, 0, "Script", "Getit from Scripts");
     qmlRegisterType<ScriptSyntaxHighlighter>(uri, 1, 0, "ScriptSyntaxHighlighter");
-    qmlRegisterUncreatableType<CompletionProxyModel>(uri, 1, 0, "CompletionProxyModel", "Get it from ScriptSyntaxHighlighter");
+    qmlRegisterType<CodeCompletion>(uri, 1, 0, "CodeCompletion");
+    qmlRegisterUncreatableType<CompletionProxyModel>(uri, 1, 0, "CompletionModel", "Get it from ScriptSyntaxHighlighter");
 }
 
 #endif // LIBNYMEAAPPCORE_H
