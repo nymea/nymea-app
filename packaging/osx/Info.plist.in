@@ -18,6 +18,8 @@
         <string>$$APP_VERSION</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
+        <key>LSApplicationCategoryType</key>
+        <string>public.app-category.utilities</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>LSMinimumSystemVersion</key>
