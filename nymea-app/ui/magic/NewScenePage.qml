@@ -18,6 +18,7 @@ Page {
     ListView {
         anchors.fill: parent
         model: RuleTemplatesFilterModel {
+
             ruleTemplates: RuleTemplates {}
             filterByDevices: DevicesProxy {
                 engine: _engine
