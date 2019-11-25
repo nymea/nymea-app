@@ -66,6 +66,7 @@ osxbundle.commands += mv /Volumes/nymea-app/nymea-app.app /Volumes/nymea-app/nym
 osxbundle.commands += tar -xpf $$top_srcdir/packaging/osx/template.tar -C /Volumes/nymea-app/ &&
 osxbundle.commands += hdiutil eject /Volumes/nymea-app &&
 osxbundle.commands += hdiutil convert nymea-app_writable.dmg -format UDRO -o ../nymea-app-osx-bundle-$${APP_VERSION}.dmg &&
+osxbundle.commands += productbuild --component nymea-app.app /Applications ../nymea-app-$${APP_VERSION}.pkg &&
 osxbundle.commands += rm nymea-app.dmg nymea-app_writable.dmg
 QMAKE_EXTRA_TARGETS += osxbundle
 
