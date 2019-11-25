@@ -24,6 +24,7 @@ public:
 
     void clear();
     void addScript(Script *script);
+    void removeScript(const QUuid &id);
 
     Q_INVOKABLE Script *get(int index) const;
     Q_INVOKABLE Script *getScript(const QUuid &scriptId);

@@ -1,6 +1,5 @@
 #include "codecompletion.h"
 
-#include "completionmodel.h"
 #include "engine.h"
 
 #include <QDebug>
@@ -11,13 +10,26 @@
 CodeCompletion::CodeCompletion(QObject *parent):
     QObject(parent)
 {
-    registerType<QQuickItem>("Item");
-    m_classes.insert("DeviceAction", {"id", "deviceId", "actionTypeId", "actionName"});
-    m_classes.insert("DeviceState", {"id", "deviceId", "stateTypeId", "stateName", "value", "onValueChanged"});
-    m_classes.insert("DeviceEvent", {"id", "deviceId", "eventTypeId", "eventName", "onTriggered"});
-    m_classes.insert("Timer", {"id", "interval", "running", "repeat", "onTriggered"});
+    m_classes.insert("Item", ClassInfo("Item", {"id"}));
+    m_classes.insert("DeviceAction", ClassInfo("DeviceAction", {"id", "deviceId", "actionTypeId", "actionName"}, {"execute"}));
+    m_classes.insert("DeviceState", ClassInfo("DeviceState", {"id", "deviceId", "stateTypeId", "stateName", "value"}, {}, {"onValueChanged"}));
+    m_classes.insert("DeviceEvent", ClassInfo("DeviceEvent", {"id", "deviceId", "eventTypeId", "eventName"}, {}, {"onTriggered"}));
+    m_classes.insert("Timer", ClassInfo("Timer", {"id", "interval", "running", "repeat"}, {"start", "stop"}, {"onTriggered"}));
+
+    m_attachedClasses.insert("Component", ClassInfo("Component", {}, {}, {"onCompleted", "onDestruction", "onDestroyed"}));
 
     m_genericSyntax.insert("property", "property ");
+    m_genericSyntax.insert("function", "function ");
+
+    m_genericJsSyntax.insert("for", "for");
+    m_genericJsSyntax.insert("var", "var");
+    m_genericJsSyntax.insert("while", "while ");
+    m_genericJsSyntax.insert("do", "do ");
+    m_genericJsSyntax.insert("if", "if ");
+    m_genericJsSyntax.insert("else", "else ");
+
+    m_jsClasses.insert("console", ClassInfo("console", {}, {"log", "warn"}));
+    m_jsClasses.insert("JSON", ClassInfo("JSON", {}, {"stringify", "parse", "hasOwnProperty", "isPrototypeOf", "toString", "valueOf", "toLocaleString", "propertyIsEnumerable"}));
 
     m_model = new CompletionModel(this);
     m_proxy = new CompletionProxyModel(m_model, this);
@@ -51,7 +63,6 @@ void CodeCompletion::setDocument(QQuickTextDocument *document)
         emit cursorPositionChanged();
 
         connect(m_document->textDocument(), &QTextDocument::cursorPositionChanged, this, [this](const QTextCursor &cursor){
-            qDebug() << "text cursor changed" << cursor.position();
             m_cursor = cursor;
             update();
         });
@@ -65,7 +76,6 @@ int CodeCompletion::cursorPosition() const
 
 void CodeCompletion::setCursorPosition(int position)
 {
-    qDebug() << "setCursorPos" << position << m_cursor.position();
     // This is a bit tricky: As our cursor works on the same textDocument as the view,
     // our cursor will already have the position set to the new one by the time we
     // receive the update from the View when the document is changed.
@@ -104,7 +114,9 @@ void CodeCompletion::update()
     }
     lastUpdatePos = m_cursor.position();
 
-    QString blockText = m_cursor.block().text();
+    QTextCursor tmp = m_cursor;
+    tmp.movePosition(QTextCursor::StartOfBlock, QTextCursor::KeepAnchor);
+    QString blockText = tmp.selectedText();
 
     QList<CompletionModel::Entry> entries;
 
@@ -112,8 +124,7 @@ void CodeCompletion::update()
     if (deviceIdExp.exactMatch(blockText)) {
         for (int i = 0; i < m_engine->deviceManager()->devices()->rowCount(); i++) {
             Device *dev = m_engine->deviceManager()->devices()->get(i);
-            entries.append(CompletionModel::Entry(dev->id().toString(), dev->name(), true, true));
-
+            entries.append(CompletionModel::Entry(dev->id().toString() + "\" // " + dev->name(), dev->name(), "thing", dev->deviceClass()->interfaces().join(",")));
         }
         blockText.remove(QRegExp(".*deviceId: \""));
         m_model->update(entries);
@@ -137,7 +148,7 @@ void CodeCompletion::update()
 
         for (int i = 0; i < device->deviceClass()->stateTypes()->rowCount(); i++) {
             StateType *stateType = device->deviceClass()->stateTypes()->get(i);
-            entries.append(CompletionModel::Entry(stateType->id(), stateType->name(), true, true));
+            entries.append(CompletionModel::Entry(stateType->id() + "\" // " + stateType->name(), stateType->name(), "stateType"));
         }
         blockText.remove(QRegExp(".*stateTypeId: \""));
         m_model->update(entries);
@@ -161,7 +172,7 @@ void CodeCompletion::update()
 
         for (int i = 0; i < device->deviceClass()->stateTypes()->rowCount(); i++) {
             StateType *stateType = device->deviceClass()->stateTypes()->get(i);
-            entries.append(CompletionModel::Entry(stateType->name(), stateType->name(), true, false));
+            entries.append(CompletionModel::Entry(stateType->name() + "\"", stateType->name(), "stateType"));
         }
         blockText.remove(QRegExp(".*stateName: \""));
         m_model->update(entries);
@@ -185,7 +196,7 @@ void CodeCompletion::update()
 
         for (int i = 0; i < device->deviceClass()->actionTypes()->rowCount(); i++) {
             ActionType *actionType = device->deviceClass()->actionTypes()->get(i);
-            entries.append(CompletionModel::Entry(actionType->id(), actionType->name(), true, true));
+            entries.append(CompletionModel::Entry(actionType->id() + "\" // " + actionType->name(), actionType->name(), "actionType"));
         }
         blockText.remove(QRegExp(".*actionTypeId: \""));
         m_model->update(entries);
@@ -209,7 +220,7 @@ void CodeCompletion::update()
 
         for (int i = 0; i < device->deviceClass()->actionTypes()->rowCount(); i++) {
             ActionType *actionType = device->deviceClass()->actionTypes()->get(i);
-            entries.append(CompletionModel::Entry(actionType->name(), actionType->name(), true, false));
+            entries.append(CompletionModel::Entry(actionType->name() + "\"", actionType->name(), "actionType"));
         }
         blockText.remove(QRegExp(".*actionName: \""));
         m_model->update(entries);
@@ -232,7 +243,7 @@ void CodeCompletion::update()
 
         for (int i = 0; i < device->deviceClass()->eventTypes()->rowCount(); i++) {
             EventType *eventType = device->deviceClass()->eventTypes()->get(i);
-            entries.append(CompletionModel::Entry(eventType->id(), eventType->name(), true, true));
+            entries.append(CompletionModel::Entry(eventType->id() + "\" // " + eventType->name(), eventType->name(), "eventType"));
         }
         blockText.remove(QRegExp(".*eventTypeId: \""));
         m_model->update(entries);
@@ -255,7 +266,7 @@ void CodeCompletion::update()
 
         for (int i = 0; i < device->deviceClass()->eventTypes()->rowCount(); i++) {
             EventType *eventType = device->deviceClass()->eventTypes()->get(i);
-            entries.append(CompletionModel::Entry(eventType->name(), eventType->name(), true, false));
+            entries.append(CompletionModel::Entry(eventType->name() + "\"", eventType->name(), "eventType"));
         }
         blockText.remove(QRegExp(".*eventName: \""));
         m_model->update(entries);
@@ -265,7 +276,7 @@ void CodeCompletion::update()
 
     QRegExp importExp("imp(o|or)?");
     if (importExp.exactMatch(blockText)) {
-        entries.append(CompletionModel::Entry("import ", "import"));
+        entries.append(CompletionModel::Entry("import ", "import", "keyword", ""));
         m_model->update(entries);
         m_proxy->setFilter(blockText);
         return;
@@ -281,7 +292,7 @@ void CodeCompletion::update()
         return;
     }
 
-    QRegExp rValueExp(" *[a-zA-Z0-0]+:[ a-zA-Z0-0]*");
+    QRegExp rValueExp(" *[\\.a-zA-Z0-0]+:[ a-zA-Z0-0]*");
     if (rValueExp.exactMatch(blockText)) {
         QTextCursor tmp = m_cursor;
         tmp.movePosition(QTextCursor::StartOfWord, QTextCursor::KeepAnchor);
@@ -297,55 +308,121 @@ void CodeCompletion::update()
         }
 
         qDebug() << "rValue" << previousWord << word;
-        // Find all ids in the doc
-        tmp = QTextCursor(m_document->textDocument());
-        while (!tmp.atEnd()) {
-            tmp.movePosition(QTextCursor::StartOfWord, QTextCursor::MoveAnchor);
-            tmp.movePosition(QTextCursor::EndOfWord, QTextCursor::KeepAnchor);
-            QString word = tmp.selectedText();
-            if (word == "id") {
-                tmp.movePosition(QTextCursor::NextWord, QTextCursor::MoveAnchor);
-                tmp.movePosition(QTextCursor::EndOfWord, QTextCursor::KeepAnchor);
-                QString idName = tmp.selectedText();
-                entries.append(CompletionModel::Entry(idName, idName));
-            }
-            tmp.movePosition(QTextCursor::NextWord);
+        entries.append(getIds());
+        foreach (const QString &s, m_jsClasses.keys()) {
+            entries.append(CompletionModel::Entry(s, s, "type"));
         }
+        foreach (const QString &s, m_attachedClasses.keys()) {
+            entries.append(CompletionModel::Entry(s, s, "type"));
+        }
+
         m_model->update(entries);
         m_proxy->setFilter(word);
         return;
     }
 
+    QRegExp dotExp(".*[a-zA-Z0-9]+\\.[a-zA-Z0-9]*");
+    if (dotExp.exactMatch(blockText)) {
+        QString id = blockText;
+        id.remove(QRegExp(".* ")).remove(QRegExp("\\.[a-zA-Z0-9]*"));
+        QString type = getIdTypes().value(id);
+        qDebug() << "dot expression:" << id << type;
+        // Classes
+        foreach (const QString &property, m_classes.value(type).properties) {
+            entries.append(CompletionModel::Entry(property, property, "property"));
+        }
+        foreach (const QString &method, m_classes.value(type).methods) {
+            entries.append(CompletionModel::Entry(method + "(", method, "method", "", ")"));
+        }
+        // Attached classes/properties
+        foreach (const QString &property, m_attachedClasses.value(id).properties) {
+            entries.append(CompletionModel::Entry(property, property, "property"));
+        }
+        foreach (const QString &method, m_attachedClasses.value(id).methods) {
+            entries.append(CompletionModel::Entry(method + "(", method, "method", "", ")"));
+        }
+        foreach (const QString &event, m_attachedClasses.value(id).events) {
+            entries.append(CompletionModel::Entry(event + ": ", event, "event"));
+        }
+        // JS global objects
+        foreach (const QString &property, m_jsClasses.value(id).properties) {
+            entries.append(CompletionModel::Entry(property, property, "property"));
+        }
+        foreach (const QString &method, m_jsClasses.value(id).methods) {
+            entries.append(CompletionModel::Entry(method + "(", method, "method", "", ")"));
+        }
+        m_model->update(entries);
+        m_proxy->setFilter(blockText.remove(QRegExp(".*\\.")));
+        return;
+    }
+
+    // Are we in a JS block?
+    int pos = m_cursor.position();
+    BlockInfo jsBlock = getBlockInfo(pos);
+    bool isImperative = jsBlock.name.endsWith(":") || jsBlock.name.endsWith("()");
+    bool atStart = false;
+    while (!isImperative && jsBlock.valid && !atStart) {
+        qDebug() << "is imperative block?" << isImperative << jsBlock.name << "blockText" << blockText;
+        BlockInfo tmp = getBlockInfo(jsBlock.start - 1);
+        if (tmp.valid) {
+            jsBlock = tmp;
+            isImperative = jsBlock.name.endsWith(":") || jsBlock.name.endsWith("()");
+        } else {
+            atStart = true;
+        }
+    }
+    if (isImperative) {
+        // Starting a new expression?
+        QRegExp newExpressionExp("(.*; [a-zA-Z0-9]*| *[a-zA-Z0-9]*)");
+        if (newExpressionExp.exactMatch(blockText)) {
+            // Add generic qml syntax
+            foreach (const QString &s, m_genericJsSyntax.keys()) {
+                entries.append(CompletionModel::Entry(m_genericJsSyntax.value(s), s, "keyword", ""));
+            }
+            // Add js global objects
+            foreach (const QString &s, m_jsClasses.keys()) {
+                entries.append(CompletionModel::Entry(s, s, "type"));
+            }
+
+            entries.append(getIds());
+        }
+
+        m_model->update(entries);
+        m_proxy->setFilter(blockText.remove(QRegExp(".* ")));
+        return;
+    }
+
     QRegExp lValueStartExp(" *[a-zA-Z0-9]*");
     if (lValueStartExp.exactMatch(blockText)) {
-        qDebug() << "matching";
-        QTextCursor blockStartCursor = m_document->textDocument()->find("{", m_cursor, QTextDocument::FindBackward);
-        QTextCursor blockEndCursor = m_document->textDocument()->find("}", m_cursor, QTextDocument::FindBackward);
-        while (!blockEndCursor.isNull() && blockEndCursor.position() > blockStartCursor.position()) {
-            blockStartCursor = m_document->textDocument()->find("{", blockStartCursor, QTextDocument::FindBackward);
-            blockEndCursor = m_document->textDocument()->find("}", blockEndCursor, QTextDocument::FindBackward);
-        }
-        QString className = blockStartCursor.block().text();
-        className.remove(QRegExp(" *\\{"));
-        while (className.contains(" ")) {
-            className.remove(QRegExp(".* "));
-        }
+        BlockInfo blockInfo = getBlockInfo(m_cursor.position());
 
         // If we're inside a class, add properties
-        if (!className.isEmpty()) {
-            foreach (const QString &s, m_classes.value(className)) {
-                entries.append(CompletionModel::Entry(s + ": ", s));
+        qDebug() << "Block name" << blockInfo.name;
+
+        if (!blockInfo.name.isEmpty()) {
+            foreach (const QString &s, m_classes.value(blockInfo.name).properties) {
+                if (!blockInfo.properties.contains(s)) {
+                    entries.append(CompletionModel::Entry(s + ": ", s, "property"));
+                }
+            }
+            foreach (const QString &s, m_classes.value(blockInfo.name).events) {
+                if (!blockInfo.properties.contains(s)) {
+                    entries.append(CompletionModel::Entry(s + ": ", s, "event"));
+                }
             }
         }
-
         // Always append class names
         foreach (const QString &s, m_classes.keys()) {
-            entries.append(CompletionModel::Entry(s + " {", s));
+            entries.append(CompletionModel::Entry(s + " {", s, "type", "", "}"));
+        }
+        // Always append attached class names
+        foreach (const QString &s, m_attachedClasses.keys()) {
+            entries.append(CompletionModel::Entry(s, s, "type"));
         }
 
-        // Add generic  syntax
+        // Add generic qml syntax
         foreach (const QString &s, m_genericSyntax.keys()) {
-            entries.append(CompletionModel::Entry(m_genericSyntax.value(s), s));
+            entries.append(CompletionModel::Entry(m_genericSyntax.value(s), s, "keyword", ""));
         }
 
         m_model->update(entries);
@@ -355,11 +432,12 @@ void CodeCompletion::update()
         return;
     }
 
+
     m_model->update({});
     m_proxy->setFilter(QString());
 }
 
-CodeCompletion::BlockInfo CodeCompletion::getBlockInfo(int position)
+CodeCompletion::BlockInfo CodeCompletion::getBlockInfo(int position) const
 {
     BlockInfo info;
 
@@ -374,6 +452,10 @@ CodeCompletion::BlockInfo CodeCompletion::getBlockInfo(int position)
         return info;
     }
 
+    info.start = blockStart.position();
+    info.end = m_document->textDocument()->find("}", position).position();
+    info.valid = true;
+
     qDebug() << "Block strats at" << blockStart.position();
 
     info.name = blockStart.block().text();
@@ -382,13 +464,25 @@ CodeCompletion::BlockInfo CodeCompletion::getBlockInfo(int position)
         info.name.remove(QRegExp(".* "));
     }
 
-    qDebug() << "Block name:" << info.name;
-
-    while (blockStart.position() < position) {
-        qDebug() << "current pos:" << blockStart.position() << blockStart.block().text();
-        QTextCursor tmp = m_document->textDocument()->find("\n", blockStart);
+    int childBlocks = 0;
+    while (!blockStart.isNull() && blockStart.position() < position) {
+        QTextCursor tmp = m_document->textDocument()->find(QRegExp("[{}\n]"), blockStart);
+        if (tmp.selectedText() == "{") {
+            blockStart = tmp;
+            childBlocks++;
+            continue;
+        }
+        if (tmp.selectedText() == "}") {
+            blockStart = tmp;
+            childBlocks--;
+            continue;
+        }
+        // \n
+        if (childBlocks > 0) { // Skip all stuff in child blocks
+            blockStart = tmp;
+            continue;
+        }
         foreach (const QString &statement, blockStart.block().text().split(";")) {
-            qDebug() << "statement:" << statement;
             QStringList parts = statement.split(":");
             if (parts.length() != 2) {
                 continue;
@@ -398,10 +492,86 @@ CodeCompletion::BlockInfo CodeCompletion::getBlockInfo(int position)
             qDebug() << "inserting:" << propName << "->" << propValue;
             info.properties.insert(propName, propValue);
         }
-        blockStart.movePosition(QTextCursor::NextBlock);
+        blockStart = tmp;
     }
 
     return info;
+}
+
+QList<CompletionModel::Entry> CodeCompletion::getIds() const
+{
+    // Find all ids in the doc
+    QList<CompletionModel::Entry> entries;
+    QTextCursor tmp = QTextCursor(m_document->textDocument());
+    while (!tmp.atEnd()) {
+        tmp.movePosition(QTextCursor::StartOfWord, QTextCursor::MoveAnchor);
+        tmp.movePosition(QTextCursor::EndOfWord, QTextCursor::KeepAnchor);
+        QString word = tmp.selectedText();
+        if (word == "id") {
+            tmp.movePosition(QTextCursor::NextWord, QTextCursor::MoveAnchor);
+            tmp.movePosition(QTextCursor::EndOfWord, QTextCursor::KeepAnchor);
+            QString idName = tmp.selectedText();
+            entries.append(CompletionModel::Entry(idName, idName, "id", ""));
+        }
+        tmp.movePosition(QTextCursor::NextWord);
+    }
+    return entries;
+}
+
+QHash<QString, QString> CodeCompletion::getIdTypes() const
+{
+    QHash<QString, QString> ret;
+    QTextCursor tmp = QTextCursor(m_document->textDocument());
+    while (!tmp.atEnd()) {
+        tmp.movePosition(QTextCursor::StartOfWord, QTextCursor::MoveAnchor);
+        tmp.movePosition(QTextCursor::EndOfWord, QTextCursor::KeepAnchor);
+        QString word = tmp.selectedText();
+        if (word == "id") {
+            tmp.movePosition(QTextCursor::NextWord, QTextCursor::MoveAnchor);
+            tmp.movePosition(QTextCursor::EndOfWord, QTextCursor::KeepAnchor);
+            QString idName = tmp.selectedText();
+            BlockInfo info = getBlockInfo(tmp.position());
+            if (!info.name.isEmpty()) {
+                ret.insert(idName, info.name);
+            }
+        }
+        tmp.movePosition(QTextCursor::NextWord);
+    }
+    return ret;
+}
+
+int CodeCompletion::openingBlocksBefore(int position) const
+{
+    int opening = 0;
+    int closing = 0;
+    QTextCursor tmp = m_cursor;
+    tmp.setPosition(position);
+    do {
+        tmp = m_document->textDocument()->find(QRegExp("[{}]"), tmp, QTextDocument::FindBackward);
+        if (tmp.selectedText() == "{")
+            opening++;
+        if (tmp.selectedText() == "}")
+            closing++;
+    } while (!tmp.isNull());
+
+    return opening - closing;
+}
+
+int CodeCompletion::closingBlocksAfter(int position) const
+{
+    int opening = 0;
+    int closing = 0;
+    QTextCursor tmp = m_cursor;
+    tmp.setPosition(position);
+    do {
+        tmp = m_document->textDocument()->find(QRegExp("[{}]"), tmp);
+        if (tmp.selectedText() == "{")
+            opening++;
+        if (tmp.selectedText() == "}")
+            closing++;
+    } while (!tmp.isNull());
+
+    return closing - opening;
 }
 
 void CodeCompletion::complete(int index)
@@ -411,27 +581,26 @@ void CodeCompletion::complete(int index)
         return;
     }
     CompletionModel::Entry entry = m_proxy->get(index);
-    QString textToInsert = entry.text;
 
-    if (entry.addTrailingQuote) {
-        textToInsert.append("\"");
-    }
-    if (entry.addComment) {
-        textToInsert.append(" // " + entry.displayText);
-    }
-//    textToInsert.append("\n");
     m_cursor.select(QTextCursor::WordUnderCursor);
     m_cursor.removeSelectedText();
-    m_cursor.insertText(textToInsert);
-    if (textToInsert.endsWith("{")) {
-        insertAfterCursor("}");
-    }
+    qDebug() << "inserting:" << entry.text;
+    m_cursor.insertText(entry.text);
+
+    qDebug() << "inserting after cursor:" << entry.trailingText;
+    insertAfterCursor(entry.trailingText);
 }
 
 void CodeCompletion::newLine()
 {
     qDebug() << "Newline" << m_cursor.position();
     QString line = m_cursor.block().text();
+
+    if (line.endsWith("{") && openingBlocksBefore(m_cursor.position()) > closingBlocksAfter(m_cursor.position())) {
+        m_cursor.insertText("}");
+        m_cursor.movePosition(QTextCursor::PreviousCharacter);
+    }
+
     QString trimmedLine = line;
     trimmedLine.remove(QRegExp("^[ ]+"));
     int indent = line.length() - trimmedLine.length();
@@ -511,23 +680,43 @@ void CodeCompletion::closeBlock()
     }
 }
 
+void CodeCompletion::insertBeforeCursor(const QString &text)
+{
+    m_cursor.insertText(text);
+}
+
 void CodeCompletion::insertAfterCursor(const QString &text)
 {
     m_cursor.insertText(text);
-    m_cursor.movePosition(QTextCursor::PreviousCharacter);
+    m_cursor.movePosition(QTextCursor::PreviousCharacter, QTextCursor::MoveAnchor, text.length());
     emit cursorPositionChanged();
 }
 
-template<typename T>
-void CodeCompletion::registerType(const QString &qmlName)
+void CodeCompletion::moveCursor(CodeCompletion::MoveOperation moveOperation, int count)
 {
-    QMetaObject metaObject = T::staticMetaObject;
-    QStringList properties;
-    for (int i = 0; i < metaObject.propertyCount(); i++) {
-        qDebug() << "Adding prop" << metaObject.property(i).name() << metaObject.property(i).type();
-        if (metaObject.property(i).isWritable()) {
-            properties.append(metaObject.property(i).name());
-        }
+    switch (moveOperation) {
+    case MoveOperationPreviousLine:
+        m_cursor.movePosition(QTextCursor::PreviousBlock, QTextCursor::MoveAnchor, count);
+        emit cursorPositionChanged();
+        return;
+    case MoveOperationNextLine:
+        m_cursor.movePosition(QTextCursor::NextBlock, QTextCursor::MoveAnchor, count);
+        emit cursorPositionChanged();
+        return;
+    case MoveOperationPreviousWord: {
+        // We're not using the cursors next/previos word because we want camelCase word fragments
+        QTextCursor tmp = m_document->textDocument()->find(QRegExp("[A-Z\\.:\"'\\(\\)\\[\\]^ ]"), m_cursor.position() - 1, QTextDocument::FindBackward);
+        qWarning() << "found at" << tmp.position() << "starting at" << m_cursor.position();
+        m_cursor.setPosition(tmp.position());
+        emit cursorPositionChanged();
+        return;
     }
-    m_classes.insert(qmlName, properties);
+    case MoveOperationNextWord: {
+        // We're not using the cursors next/previos word because we want camelCase word fragments
+        QTextCursor tmp = m_document->textDocument()->find(QRegExp("[A-Z\\.:\"'\\(\\)\\[\\]$ ]"), m_cursor.position() + 1);
+        m_cursor.setPosition(tmp.position() - 1);
+        emit cursorPositionChanged();
+        return;
+    }
+    }
 }

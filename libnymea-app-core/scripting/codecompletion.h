@@ -6,9 +6,9 @@
 #include <QTextCursor>
 #include <QHash>
 
+#include "completionmodel.h"
+
 class Engine;
-class CompletionModel;
-class CompletionProxyModel;
 
 class CodeCompletion: public QObject
 {
@@ -20,6 +20,14 @@ class CodeCompletion: public QObject
     Q_PROPERTY(QString currentWord READ currentWord NOTIFY currentWordChanged)
 
 public:
+    enum MoveOperation {
+        MoveOperationPreviousLine,
+        MoveOperationNextLine,
+        MoveOperationPreviousWord,
+        MoveOperationNextWord,
+    };
+    Q_ENUM(MoveOperation)
+
     CodeCompletion(QObject *parent = nullptr);
 
     Engine* engine() const;
@@ -43,7 +51,10 @@ public slots:
     void indent(int from, int to);
     void unindent(int from, int to);
     void closeBlock();
+    void insertBeforeCursor(const QString &text);
     void insertAfterCursor(const QString &text);
+
+    void moveCursor(MoveOperation moveOperation, int count = 1);
 
 signals:
     void engineChanged();
@@ -52,14 +63,31 @@ signals:
     void currentWordChanged();
 
 private:
-    struct BlockInfo {
+    class BlockInfo {
+    public:
+        bool valid = false;
         QString name;
         QHash<QString, QString> properties;
+        int start = -1;
+        int end = -1;
     };
 
-    BlockInfo getBlockInfo(int postition);
+    class ClassInfo {
+    public:
+        ClassInfo(const QString &name = QString(), const QStringList &properties = QStringList(), const QStringList &methods = QStringList(), const QStringList &events = QStringList()):
+            name(name), properties(properties), methods(methods), events(events) {}
+        QString name;
+        QStringList properties;
+        QStringList methods;
+        QStringList events;
+    };
 
-    template<typename T> void registerType(const QString &qmlName);
+    BlockInfo getBlockInfo(int postition) const;
+    QList<CompletionModel::Entry> getIds() const;
+    QHash<QString, QString> getIdTypes() const;
+
+    int openingBlocksBefore(int position) const;
+    int closingBlocksAfter(int position) const;
 
 private:
     Engine *m_engine = nullptr;
@@ -69,8 +97,11 @@ private:
 
     QTextCursor m_cursor;
 
-    QHash<QString, QStringList> m_classes;
+    QHash<QString, ClassInfo> m_classes;
+    QHash<QString, ClassInfo> m_attachedClasses;
+    QHash<QString, ClassInfo> m_jsClasses;
     QHash<QString, QString> m_genericSyntax;
+    QHash<QString, QString> m_genericJsSyntax;
 
 };
 

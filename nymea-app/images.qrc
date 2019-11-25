@@ -214,5 +214,6 @@
         <file>ui/images/browser/MediaBrowserIconDeezer.svg</file>
         <file>ui/images/view-grid-symbolic.svg</file>
         <file>ui/images/script.svg</file>
+        <file>ui/images/save.svg</file>
     </qresource>
 </RCC>

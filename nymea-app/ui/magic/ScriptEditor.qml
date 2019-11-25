@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.4
 import QtQuick.Controls 2.2
 import Nymea 1.0
 import QtQuick.Layouts 1.2
@@ -12,16 +12,15 @@ Page {
     property alias scriptId: d.scriptId
 
     Component.onCompleted: {
-        if (scriptId !== undefined) {
+        if (scriptId !== undefined) {;
             d.callId = engine.scriptManager.fetchScript(scriptId);
         } else {
             scriptEdit.text = "import QtQuick 2.0\nimport nymea 1.0\n\nItem {\n    \n}\n"
-            d.callId = engine.scriptManager.addScript(scriptEdit.text);
         }
     }
 
     header: NymeaHeader {
-        text: qsTr("Script editor")
+
         onBackPressed: {
             if (scriptEdit.text == d.oldContent) {
                 pageStack.pop()
@@ -37,17 +36,34 @@ Page {
                 pageStack.pop();
             });
             popup.open();
+        }
 
+        TextField {
+            id: nameTextField
+            Layout.fillWidth: true
+            text: d.script ? d.script.name : ""
+            placeholderText: qsTr("Script name")
         }
 
         HeaderButton {
-            imageSource: "../images/media-playback-start.svg"
+            imageSource: "../images/save.svg"
+            enabled: d.script.name !== nameTextField.text || d.oldContent !== scriptEdit.text
+            color: enabled ? app.accentColor : keyColor
+            hoverEnabled: true
+            ToolTip.text: qsTr("Deploy script")
+            ToolTip.visible: hovered
             onClicked: {
                 if (!d.scriptId) {
-                    d.callId = engine.scriptManager.addScript(scriptEdit.text)
+                    d.callId = engine.scriptManager.addScript(nameTextField.text, scriptEdit.text);
                 } else {
-                    print("editing script", d.scriptId, scriptEdit.text)
-                    d.callId = engine.scriptManager.editScript(d.scriptId, scriptEdit.text)
+                    print("editing script", d.scriptId)
+                    if (d.script.name != nameTextField.text) {
+                        engine.scriptManager.renameScript(d.scriptId, nameTextField.text)
+                    }
+                    if (d.oldContent != scriptEdit.text) {
+                        d.callId = engine.scriptManager.editScript(d.scriptId, scriptEdit.text)
+                        print("called edit", d.callId)
+                    }
                 }
             }
         }
@@ -55,32 +71,50 @@ Page {
 
     QtObject {
         id: d
-        property int callId
+        property int callId: -1
         property var scriptId
         property string oldContent
+
+        property Script script: engine.scriptManager.scripts.getScript(d.scriptId)
+    }
+
+    FontMetrics {
+        id: fontMetrics
+        font: scriptEdit.font
     }
 
     Connections {
         target: engine.scriptManager
-        onScriptAdded: {
+        onAddScriptReply: {
             if (id == d.callId) {
+                d.callId = -1;
                 if (scriptError == "ScriptErrorNoError") {
                     d.scriptId = scriptId;
                 }
                 errorModel.update(errors);
             }
         }
-        onScriptEdited: {
+        onEditScriptReply: {
+            print("edit reply", id, d.callId)
             if (id == d.callId) {
+                d.oldContent = scriptEdit.text;
+                d.callId = -1;
                 errorModel.update(errors)
             }
         }
-        onScriptFetched: {
+        onFetchScriptReply: {
             if (id == d.callId && scriptError == "ScriptErrorNoError") {
+                d.callId = -1;
                 scriptEdit.text = content;
                 d.oldContent = content;
             }
         }
+        onRenameScriptReply: {
+            if (id == d.callId) {
+                d.callId = -1;
+            }
+        }
+
         onScriptMessage: {
             if (scriptId !== d.scriptId) {
                 return;
@@ -91,6 +125,7 @@ Page {
 
     // TODO: Make this a SplitView when we can use Qt 5.13
     ColumnLayout {
+        id: content
         anchors.fill: parent
 
         Flickable {
@@ -98,6 +133,7 @@ Page {
             Layout.fillHeight: true
             Layout.fillWidth: true
             clip: true
+            interactive: !completionBox.visible
             boundsBehavior: Flickable.StopAtBounds
 
             ScrollBar.vertical: ScrollBar { policy: ScrollBar.AlwaysOn }
@@ -140,6 +176,21 @@ Page {
                                 completionBox.show();
                                 return;
                             }
+                            break;
+                        case Qt.Key_PageUp:
+                            var oldSelectionStart = scriptEdit.selectionStart;
+                            completion.moveCursor(CodeCompletion.MoveOperationPreviousLine, scriptFlickable.height / (fontMetrics.lineSpacing + 2));
+                            if (event.modifiers & Qt.ShiftModifier) {
+                                scriptEdit.select(oldSelectionStart, scriptEdit.cursorPosition)
+                            }
+                            return;
+                        case Qt.Key_PageDown:
+                            var oldSelectionStart = scriptEdit.selectionStart;
+                            completion.moveCursor(CodeCompletion.MoveOperationNextLine, scriptFlickable.height / (fontMetrics.lineSpacing + 2));
+                            if (event.modifiers & Qt.ShiftModifier) {
+                                scriptEdit.select(oldSelectionStart, scriptEdit.cursorPosition)
+                            }
+                            return;
                         }
                     }
 
@@ -161,7 +212,11 @@ Page {
                         completion.unindent(selectionStart, selectionEnd);
                         event.accepted = true;
                         return;
-
+                    case Qt.Key_Period:
+                        completion.insertBeforeCursor(".");
+                        completionBox.show();
+                        event.accepted = true;
+                        return;
                     }
 
                     // Things to do only when we're autocompleting
@@ -186,15 +241,6 @@ Page {
                             event.accepted = true;
                             break;
                         }
-                    }
-                }
-
-                CompletionBox {
-                    id: completionBox
-                    model: completion.model
-                    textArea: scriptEdit
-                    onComplete: {
-                        completion.complete(index)
                     }
                 }
             }
@@ -284,10 +330,29 @@ Page {
                     }
                 }
             }
-
         }
     }
 
+    CompletionBox {
+        id: completionBox
+        property var editorPosition: scriptFlickable.mapToItem(root, 0, 0)
+        property int scrollOffsetX: scriptFlickable.contentX + scriptFlickable.originX
+        property int scrollOffsetY: scriptFlickable.contentY + scriptFlickable.originY
+        property int cursorXOnPage: scriptEdit.cursorRectangle.x + editorPosition.x - scrollOffsetX
+        property int cursorYOnPage: scriptEdit.cursorRectangle.y + editorPosition.y - scrollOffsetY
+        property int cursorHeight: scriptEdit.cursorRectangle.height
+        x: cursorXOnPage - Math.max(0, cursorXOnPage + width - root.width)
+        y: cursorYOnPage + cursorHeight + height < content.height ?
+               cursorYOnPage + cursorHeight
+             : cursorYOnPage - height
+
+        model: completion.model
+        textArea: scriptEdit
+        font: scriptEdit.font
+        onComplete: {
+            completion.complete(index)
+        }
+    }
 
     ScriptSyntaxHighlighter {
         id: syntax
@@ -302,4 +367,9 @@ Page {
         cursorPosition: scriptEdit.cursorPosition
         onCursorPositionChanged: scriptEdit.cursorPosition = cursorPosition
     }
+
+    BusyOverlay {
+        shown: d.callId != -1
+    }
+
 }

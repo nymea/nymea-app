@@ -28,12 +28,20 @@ Scripts *ScriptManager::scripts() const
     return m_scripts;
 }
 
-int ScriptManager::addScript(const QString &content)
+int ScriptManager::addScript(const QString &name, const QString &content)
 {
     QVariantMap params;
-    params.insert("name", "Test");
+    params.insert("name", name);
     params.insert("content", content);
     return m_client->sendCommand("Scripts.AddScript", params, this, "onScriptAdded");
+}
+
+int ScriptManager::renameScript(const QUuid &id, const QString &name)
+{
+    QVariantMap params;
+    params.insert("id", id);
+    params.insert("name", name);
+    return m_client->sendCommand("Scripts.EditScript", params, this, "onScriptRenamed");
 }
 
 int ScriptManager::editScript(const QUuid &id, const QString &content)
@@ -41,7 +49,6 @@ int ScriptManager::editScript(const QUuid &id, const QString &content)
     QVariantMap params;
     params.insert("id", id);
     params.insert("content", content);
-    qDebug() << "Calling EditScript" << content;
     return m_client->sendCommand("Scripts.EditScript", params, this, "onScriptEdited");
 }
 
@@ -61,29 +68,24 @@ int ScriptManager::fetchScript(const QUuid &id)
 
 void ScriptManager::onScriptsFetched(const QVariantMap &params)
 {
-    qDebug() << "scripts fetched" << params;
     foreach (const QVariant &variant, params.value("params").toMap().value("scripts").toList()) {
-        qDebug() << "script" << variant.toMap().value("id").toUuid();
         QUuid id = variant.toMap().value("id").toUuid();
         Script *script = new Script(id);
         script->setName(variant.toMap().value("name").toString());
         m_scripts->addScript(script);
-        qDebug() << "Script added";
     }
 }
 
 void ScriptManager::onScriptFetched(const QVariantMap &params)
 {
-    qDebug() << "Script fetched" << params;
-    emit scriptFetched(params.value("id").toInt(),
+    emit fetchScriptReply(params.value("id").toInt(),
                        params.value("params").toMap().value("scriptError").toString(),
                        params.value("params").toMap().value("content").toString());
 }
 
 void ScriptManager::onScriptAdded(const QVariantMap &params)
 {
-    qDebug() << "Script added" << params;
-    emit scriptAdded(params.value("id").toInt(),
+    emit addScriptReply(params.value("id").toInt(),
                      params.value("params").toMap().value("scriptError").toString(),
                      params.value("params").toMap().value("script").toMap().value("id").toUuid(),
                      params.value("params").toMap().value("errors").toStringList());
@@ -92,25 +94,50 @@ void ScriptManager::onScriptAdded(const QVariantMap &params)
 
 void ScriptManager::onScriptEdited(const QVariantMap &params)
 {
-    qDebug() << "Script edited" << params;
-//    emit scriptAdded(params.value("id").toInt(), params.value("script").toMap().value("id").toUuid());
-    emit scriptEdited(params.value("id").toInt(),
+    emit editScriptReply(params.value("id").toInt(),
                       params.value("params").toMap().value("scriptError").toString(),
                       params.value("params").toMap().value("errors").toStringList());
 
 }
 
+void ScriptManager::onScriptRenamed(const QVariantMap &params)
+{
+    emit renameScriptReply(params.value("id").toInt(), params.value("params").toMap().value("scriptError").toString());
+}
+
 void ScriptManager::onScriptRemoved(const QVariantMap &params)
 {
-    emit scriptRemoved(params.value("id").toInt(), params.value("params").toMap().value("scriptError").toString());
+    emit removeScriptReply(params.value("id").toInt(), params.value("params").toMap().value("scriptError").toString());
 }
 
 void ScriptManager::onNotificationReceived(const QVariantMap &params)
 {
-    qDebug() << "noticication" << params;
+    qDebug() << "noticication" << params.value("notification").toString();
     if (params.value("notification").toString() == "Scripts.ScriptLogMessage") {
         emit scriptMessage(params.value("params").toMap().value("scriptId").toUuid(),
                            params.value("params").toMap().value("type").toString(),
                            params.value("params").toMap().value("message").toString());
+    }
+
+    else if (params.value("notification").toString() == "Scripts.ScriptAdded") {
+        QVariantMap scriptMap = params.value("params").toMap().value("script").toMap();
+        Script *script = new Script(scriptMap.value("id").toUuid());
+        script->setName(scriptMap.value("name").toString());
+        m_scripts->addScript(script);
+    }
+
+    else if (params.value("notification").toString() == "Scripts.ScriptRemoved") {
+        QUuid id = params.value("params").toMap().value("scriptId").toUuid();
+        m_scripts->removeScript(id);
+    }
+
+    else if (params.value("notification").toString() == "Scripts.ScriptChanged") {
+        QUuid id = params.value("params").toMap().value("scriptId").toUuid();
+        QString name = params.value("params").toMap().value("name").toString();
+        m_scripts->getScript(id)->setName(name);
+    }
+
+    else {
+        qWarning() << "Unhandled notification" << params.value("notification").toString();
     }
 }

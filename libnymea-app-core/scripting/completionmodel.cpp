@@ -18,6 +18,8 @@ QHash<int, QByteArray> CompletionModel::roleNames() const
     QHash<int, QByteArray> roles;
     roles.insert(Qt::UserRole, "text");
     roles.insert(Qt::DisplayRole, "displayText");
+    roles.insert(Qt::DecorationRole, "decoration");
+    roles.insert(Qt::DecorationPropertyRole, "decorationProperty");
     return roles;
 }
 
@@ -28,6 +30,10 @@ QVariant CompletionModel::data(const QModelIndex &index, int role) const
         return m_list.at(index.row()).text;
     case Qt::DisplayRole:
         return m_list.at(index.row()).displayText;
+    case Qt::DecorationRole:
+        return m_list.at(index.row()).decoration;
+    case Qt::DecorationPropertyRole:
+        return m_list.at(index.row()).decorationProperty;
     }
     return QVariant();
 }
@@ -72,7 +78,6 @@ QString CompletionProxyModel::filter() const
 void CompletionProxyModel::setFilter(const QString &filter)
 {
     if (m_filter != filter) {
-        qDebug() << "Setting filter" << filter;
         m_filter = filter;
         emit filterChanged();
         invalidateFilter();
@@ -89,4 +94,21 @@ bool CompletionProxyModel::filterAcceptsRow(int source_row, const QModelIndex &)
         }
     }
     return true;
+}
+
+bool CompletionProxyModel::lessThan(const QModelIndex &source_left, const QModelIndex &source_right) const
+{
+    CompletionModel::Entry left = m_model->get(source_left.row());
+    CompletionModel::Entry right = m_model->get(source_right.row());
+
+    static QStringList ordering = {"property", "method", "event", "type", "keyword" };
+
+    int leftOrder = ordering.indexOf(left.decoration);
+    int rightOrder = ordering.indexOf(right.decoration);
+
+    if (leftOrder != rightOrder) {
+        return leftOrder < rightOrder;
+    }
+
+    return left.displayText < right.displayText;
 }

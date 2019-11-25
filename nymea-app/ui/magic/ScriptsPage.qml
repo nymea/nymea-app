@@ -24,7 +24,7 @@ Page {
 
     Connections {
         target: engine.scriptManager
-        onScriptRemoved: {
+        onRemovScriptReply: {
             if (id == d.pendingAction) {
                 d.pendingAction = -1;
             }
@@ -37,7 +37,7 @@ Page {
         delegate: NymeaListItemDelegate {
             width: parent.width
             text: model.name
-            subText: model.id
+            iconName: "../images/script.svg"
             canDelete: true
             onClicked: {
                 pageStack.push("ScriptEditor.qml", {scriptId: model.id});

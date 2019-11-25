@@ -11,13 +11,14 @@ class CompletionModel: public QAbstractListModel
 public:
     class Entry {
     public:
-        Entry(const QString &text, const QString &displayText, bool addTrailingQuote = false, bool addComment = false)
-            : text(text), displayText(displayText), addTrailingQuote(addTrailingQuote), addComment(addComment) {}
+        Entry(const QString &text, const QString &displayText, const QString &decoration, const QString &decorationProperty = QString(), const QString &trailingText = QString())
+            : text(text), displayText(displayText), decoration(decoration), decorationProperty(decorationProperty), trailingText(trailingText) {}
         Entry(const QString &text): text(text), displayText(text) {}
         QString text;
         QString displayText;
-        bool addTrailingQuote = false;
-        bool addComment = false;
+        QString decoration;
+        QString decorationProperty;
+        QString trailingText;
     };
 
     CompletionModel(QObject *parent = nullptr);
@@ -51,6 +52,8 @@ public:
 
 protected:
     bool filterAcceptsRow(int source_row, const QModelIndex &/*source_parent*/) const override;
+
+    bool lessThan(const QModelIndex &source_left, const QModelIndex &source_right) const override;
 
 signals:
     void countChanged();
