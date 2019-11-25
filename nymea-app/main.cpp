@@ -60,6 +60,10 @@ QObject *platformHelperProvider(QQmlEngine *engine, QJSEngine *scriptEngine)
 int main(int argc, char *argv[])
 {
 
+#ifdef Q_OS_OSX
+    qputenv("QT_WEBVIEW_PLUGIN", "native");
+#endif
+
     QLoggingCategory::setFilterRules("RemoteProxyClientJsonRpcTraffic.debug=false\n"
                                      "RemoteProxyClientJsonRpc.debug=false\n"
                                      "RemoteProxyClientWebSocket.debug=false\n"
