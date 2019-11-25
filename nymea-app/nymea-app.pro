@@ -94,7 +94,9 @@ macx: {
     plist.output = $$OUT_PWD/Info.plist
     QMAKE_SUBSTITUTES += plist
     QMAKE_INFO_PLIST = $$OUT_PWD/Info.plist
-    OTHER_FILES += ../packaging/osx/Info.plist.in
+    OTHER_FILES += ../packaging/osx/Info.plist.in \
+                   ../packaging/osx/nymea-app.entitlements
+
     ICON = ../packaging/osx/icon.icns
 }
 
