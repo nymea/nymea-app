@@ -86,6 +86,10 @@ android {
 macx: {
     QT += webview
     PRODUCT_NAME=$$TARGET
+
+    QMAKE_TARGET_BUNDLE_PREFIX = io.nymea
+    QMAKE_BUNDLE = nymeaApp.mac
+
     plist.input = ../packaging/osx/Info.plist.in
     plist.output = $$OUT_PWD/Info.plist
     QMAKE_SUBSTITUTES += plist
