@@ -440,11 +440,11 @@ Page {
                     visible: pairingPage.setupMethod === "SetupMethodUserAndPassword"
                 }
 
-                TextField {
+                PasswordTextField {
                     id: pinTextField
                     Layout.fillWidth: true
                     visible: pairingPage.setupMethod === "SetupMethodDisplayPin" || pairingPage.setupMethod === "SetupMethodUserAndPassword"
-                    echoMode: TextField.Password
+                    signup: false
                 }
 
 

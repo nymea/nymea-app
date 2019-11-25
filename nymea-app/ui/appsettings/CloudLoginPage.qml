@@ -180,23 +180,10 @@ Page {
             }
             RowLayout {
                 Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
-                TextField {
+                PasswordTextField {
                     id: passwordTextField
                     Layout.fillWidth: true
-                    echoMode: hiddenPassword ? TextInput.Password : TextInput.Normal
-                    property bool hiddenPassword: true
-                }
-                ColorIcon {
-                    Layout.preferredHeight: app.iconSize
-                    Layout.preferredWidth: app.iconSize
-                    name: "../images/eye.svg"
-                    color: passwordTextField.hiddenPassword ? keyColor : app.accentColor
-                    MouseArea {
-                        anchors.fill: parent
-                        onClicked: {
-                            passwordTextField.hiddenPassword = !passwordTextField.hiddenPassword
-                        }
-                    }
+                    signup: false
                 }
             }
 
@@ -208,7 +195,7 @@ Page {
                 enabled: usernameTextField.acceptableInput
                 onClicked:  {
                     busyOverlay.shown = true
-                    AWSClient.login(usernameTextField.text, passwordTextField.text);
+                    AWSClient.login(usernameTextField.text, passwordTextField.password);
                 }
             }
 
@@ -338,13 +325,18 @@ Page {
                         id: passwordTextField
                         Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
                         Layout.fillWidth: true
+                        minPasswordLength: 8
+                        requireLowerCaseLetter: true
+                        requireUpperCaseLetter: true
+                        requireNumber: true
+                        requireSpecialChar: false
                     }
 
                     Button {
                         Layout.fillWidth: true
                         Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.topMargin: app.margins
                         text: qsTr("Sign up")
-                        enabled: usernameTextField.acceptableInput && passwordTextField.isValidPassword
+                        enabled: usernameTextField.acceptableInput && passwordTextField.isValid
                         onClicked: {
                             busyOverlay.shown = true;
                             AWSClient.signup(usernameTextField.text, passwordTextField.password)
@@ -576,13 +568,18 @@ Page {
 
                 PasswordTextField {
                     id: passwordTextField
+                    minPasswordLength: 8
+                    requireLowerCaseLetter: true
+                    requireUpperCaseLetter: true
+                    requireNumber: true
+                    requireSpecialChar: false
                     Layout.fillWidth: true; Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
                 }
 
                 Button {
                     Layout.fillWidth: true; Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
                     text: qsTr("Reset password")
-                    enabled: passwordTextField.isValidPassword && codeTextField.text.length > 0
+                    enabled: passwordTextField.isValid && codeTextField.text.length > 0
                     onClicked: {
                         busyOverlay.shown = true
                         AWSClient.confirmForgotPassword(confirmResetPasswordPage.email, codeTextField.text, passwordTextField.password)
