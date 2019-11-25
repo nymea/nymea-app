@@ -67,7 +67,7 @@ osxbundle.commands += tar -xpf $$top_srcdir/packaging/osx/template.tar -C /Volum
 osxbundle.commands += hdiutil eject /Volumes/nymea-app &&
 osxbundle.commands += hdiutil convert nymea-app_writable.dmg -format UDRO -o ../nymea-app-osx-bundle-$${APP_VERSION}.dmg &&
 osxbundle.commands += rm nymea-app.dmg nymea-app_writable.dmg &&
-osxbundle.comments += rm -r nymea-app.app/Contents/Frameworks/QtWebEngineCore.framework &&
+osxbundle.commands += rm -r nymea-app.app/Contents/Frameworks/QtWebEngineCore.framework &&
 osxbundle.commands += productbuild --component nymea-app.app /Applications ../nymea-app-$${APP_VERSION}.pkg
 QMAKE_EXTRA_TARGETS += osxbundle
 
