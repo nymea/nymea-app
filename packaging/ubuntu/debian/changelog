@@ -1,3 +1,11 @@
+nymea-app (1.0.158) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Update password entry fields
+  * Fix the create a scene button
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 25 Nov 2019 13:31:16 +0100
+
 nymea-app (1.0.157) bionic; urgency=medium
 
   [ Michael Zanetti ]
