@@ -98,6 +98,10 @@ macx: {
                    ../packaging/osx/nymea-app.entitlements
 
     ICON = ../packaging/osx/icon.icns
+
+    OSX_ENTITLEMENTS.name = CODE_SIGN_ENTITLEMENTS
+    OSX_ENTITLEMENTS.value = $$files($$PWD/../packaging/ios/nymea-app.entitlements)
+    QMAKE_MAC_XCODE_SETTINGS += OSX_ENTITLEMENTS
 }
 
 ios: {
