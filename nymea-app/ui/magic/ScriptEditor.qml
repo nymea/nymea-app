@@ -47,7 +47,7 @@ Page {
 
         HeaderButton {
             imageSource: "../images/save.svg"
-            enabled: d.script.name !== nameTextField.text || d.oldContent !== scriptEdit.text
+            enabled: d.script && d.script.name !== nameTextField.text || d.oldContent !== scriptEdit.text
             color: enabled ? app.accentColor : keyColor
             hoverEnabled: true
             ToolTip.text: qsTr("Deploy script")
@@ -90,6 +90,7 @@ Page {
                 d.callId = -1;
                 if (scriptError == "ScriptErrorNoError") {
                     d.scriptId = scriptId;
+                    d.oldContent = scriptEdit.text;
                 }
                 errorModel.update(errors);
             }
@@ -97,8 +98,10 @@ Page {
         onEditScriptReply: {
             print("edit reply", id, d.callId)
             if (id == d.callId) {
-                d.oldContent = scriptEdit.text;
                 d.callId = -1;
+                if (scriptError == "ScriptErrorNoError") {
+                    d.oldContent = scriptEdit.text;
+                }
                 errorModel.update(errors)
             }
         }
@@ -141,6 +144,7 @@ Page {
 
             LineNumbers {
                 id: lineNumbers
+                textArea: scriptEdit
             }
 
             TextArea.flickable: TextArea {
@@ -217,6 +221,20 @@ Page {
                         completionBox.show();
                         event.accepted = true;
                         return;
+                    case Qt.Key_Plus:
+                        if (event.modifiers & Qt.ControlModifier) {
+                            scriptEdit.font.pixelSize++;
+                            event.accepted = true;
+                            return;
+                        }
+                        break;
+                    case Qt.Key_Minus:
+                        if (event.modifiers & Qt.ControlModifier) {
+                            scriptEdit.font.pixelSize--;
+                            event.accepted = true;
+                            return;
+                        }
+
                     }
 
                     // Things to do only when we're autocompleting
@@ -289,8 +307,7 @@ Page {
                     delegate: Label {
                         width: parent.width
                         text: model.line + ":" + model.column + ": " + model.message
-                        font.pixelSize: app.extraSmallFont
-                        font.family: "Monospace"
+                        font: scriptEdit.font
                     }
                 }
             }
@@ -324,8 +341,7 @@ Page {
                     delegate: Label {
                         width: parent.width
                         text: model.message
-                        font.pixelSize: app.extraSmallFont
-                        font.family: "Monospace"
+                        font: scriptEdit.font
                         color: model.type === "ScriptMessageTypeWarning" ? "red" : app.foregroundColor
                     }
                 }

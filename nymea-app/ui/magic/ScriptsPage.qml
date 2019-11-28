@@ -24,7 +24,7 @@ Page {
 
     Connections {
         target: engine.scriptManager
-        onRemovScriptReply: {
+        onRemoveScriptReply: {
             if (id == d.pendingAction) {
                 d.pendingAction = -1;
             }
@@ -46,6 +46,17 @@ Page {
             onDeleteClicked: {
                 print("removing script", model.id)
                 d.pendingAction = engine.scriptManager.removeScript(model.id);
+            }
+        }
+
+        EmptyViewPlaceholder {
+            anchors.centerIn: parent
+            title: qsTr("No scripts are installed yet.")
+            text: qsTr("Press \"Add script\" to get started.")
+            imageSource: "../images/script.svg"
+            buttonText: qsTr("Add script")
+            onButtonClicked: {
+                pageStack.push("ScriptEditor.qml");
             }
         }
     }

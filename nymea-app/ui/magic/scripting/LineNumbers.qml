@@ -1,13 +1,21 @@
-import QtQuick 2.2
+import QtQuick 2.4
 import QtQuick.Controls 2.2
 
 Rectangle {
-    id: lineNumbers
+    id: root
+
+    property TextArea textArea: null
+
+    FontMetrics {
+        id: fontMetrics
+        font: textArea.font
+    }
+
     width: {
-        var ret = 10;
+        var ret = fontMetrics.maximumCharacterWidth * 2;
         var tmp = scriptEdit.lineCount
         while (tmp >= 10) {
-            ret += 10;
+            ret += fontMetrics.maximumCharacterWidth;
             tmp /= 10;
         }
         return ret;
@@ -25,11 +33,11 @@ Rectangle {
         anchors.fill: parent
         anchors.topMargin: 8
         Repeater {
-            model: scriptEdit.lineCount
+            model: root.textArea.lineCount
             delegate: Rectangle {
                 id: lineNumberDelegate
                 width: parent.width
-                height: scriptEdit.contentHeight / scriptEdit.lineCount
+                height: root.textArea.contentHeight / root.textArea.lineCount
                 color: hasError ? "#FF0000" : "transparent"
                 readonly property bool hasError: errorModel.errorLines.indexOf(index + 1) >= 0
                 Label {
@@ -38,8 +46,8 @@ Rectangle {
                     anchors.right: parent.right
                     anchors.rightMargin: 3
                     text: index + 1
-                    font.pixelSize: scriptEdit.font.pixelSize
-                    font.family: scriptEdit.font.family
+                    font.pixelSize: root.textArea.font.pixelSize
+                    font.family: root.textArea.font.family
                     font.weight: Font.Light
                     color: lineNumberDelegate.hasError ? "#FFFFFF" : "#808080"
                 }

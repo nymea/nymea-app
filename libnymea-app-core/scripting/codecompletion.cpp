@@ -15,6 +15,11 @@ CodeCompletion::CodeCompletion(QObject *parent):
     m_classes.insert("DeviceState", ClassInfo("DeviceState", {"id", "deviceId", "stateTypeId", "stateName", "value"}, {}, {"onValueChanged"}));
     m_classes.insert("DeviceEvent", ClassInfo("DeviceEvent", {"id", "deviceId", "eventTypeId", "eventName"}, {}, {"onTriggered"}));
     m_classes.insert("Timer", ClassInfo("Timer", {"id", "interval", "running", "repeat"}, {"start", "stop"}, {"onTriggered"}));
+    m_classes.insert("PropertyAnimation", ClassInfo("PropertyAnimation", {"id", "target", "targets", "property", "properties", "value", "from", "to", "easing", "exclude", "duration", "alwaysRunToEnd", "loops", "paused", "running"}, {"start", "stop", "pause", "resume", "complete"}, {"onStarted", "onStopped", "onFinished", "onRunningChanged"}));
+    m_classes.insert("ColorAnimation", ClassInfo("ColorAnimation", {"id", "target", "targets", "property", "properties", "value", "from", "to", "easing", "exclude", "duration", "alwaysRunToEnd", "loops", "paused", "running"}, {"start", "stop", "pause", "resume", "complete"}, {"onStarted", "onStopped", "onFinished", "onRunningChanged"}));
+    m_classes.insert("SequentialAnimation", ClassInfo("SequentialAnimation", {"id", "alwaysRunToEnd", "loops", "paused", "running"}, {"start", "stop", "pause", "resume", "complete"}, {"onStarted", "onStopped", "onFinished", "onRunningChanged"}));
+    m_classes.insert("ParallelAnimation", ClassInfo("ParallelAnimation", {"id", "alwaysRunToEnd", "loops", "paused", "running"}, {"start", "stop", "pause", "resume", "complete"}, {"onStarted", "onStopped", "onFinished", "onRunningChanged"}));
+    m_classes.insert("PauseAnimation", ClassInfo("PauseAnimation", {"id", "duration", "alwaysRunToEnd", "loops", "paused", "running"}, {"start", "stop", "pause", "resume", "complete"}, {"onStarted", "onStopped", "onFinished", "onRunningChanged"}));
 
     m_attachedClasses.insert("Component", ClassInfo("Component", {}, {}, {"onCompleted", "onDestruction", "onDestroyed"}));
 
@@ -27,6 +32,7 @@ CodeCompletion::CodeCompletion(QObject *parent):
     m_genericJsSyntax.insert("do", "do ");
     m_genericJsSyntax.insert("if", "if ");
     m_genericJsSyntax.insert("else", "else ");
+    m_genericJsSyntax.insert("print", "print");
 
     m_jsClasses.insert("console", ClassInfo("console", {}, {"log", "warn"}));
     m_jsClasses.insert("JSON", ClassInfo("JSON", {}, {"stringify", "parse", "hasOwnProperty", "isPrototypeOf", "toString", "valueOf", "toLocaleString", "propertyIsEnumerable"}));
@@ -157,8 +163,10 @@ void CodeCompletion::update()
     }
 
     QRegExp stateNameExp(".*stateName: \"[a-zA-Z0-9-]*");
+    qDebug() << "block text" << blockText << stateNameExp.exactMatch(blockText);
     if (stateNameExp.exactMatch(blockText)) {
         BlockInfo info = getBlockInfo(m_cursor.position());
+        qDebug() << "stateName block info" << info.name << info.properties;
         if (!info.properties.contains("deviceId")) {
             return;
         }
@@ -456,7 +464,6 @@ CodeCompletion::BlockInfo CodeCompletion::getBlockInfo(int position) const
     info.end = m_document->textDocument()->find("}", position).position();
     info.valid = true;
 
-    qDebug() << "Block strats at" << blockStart.position();
 
     info.name = blockStart.block().text();
     info.name.remove(QRegExp(" *\\{"));
@@ -464,25 +471,27 @@ CodeCompletion::BlockInfo CodeCompletion::getBlockInfo(int position) const
         info.name.remove(QRegExp(".* "));
     }
 
+    qDebug() << "Block starts at" << blockStart.position() << "contents:" << blockStart.block().text();
     int childBlocks = 0;
     while (!blockStart.isNull() && blockStart.position() < position) {
-        QTextCursor tmp = m_document->textDocument()->find(QRegExp("[{}\n]"), blockStart);
-        if (tmp.selectedText() == "{") {
-            blockStart = tmp;
+        QString line = blockStart.block().text();
+        if (line.endsWith("{")) {
+            blockStart.movePosition(QTextCursor::NextBlock);
             childBlocks++;
             continue;
         }
-        if (tmp.selectedText() == "}") {
-            blockStart = tmp;
+        if (line.trimmed().startsWith("}")) {
+            blockStart.movePosition(QTextCursor::NextBlock);
             childBlocks--;
             continue;
         }
         // \n
-        if (childBlocks > 0) { // Skip all stuff in child blocks
-            blockStart = tmp;
+        if (childBlocks > 1) { // Skip all stuff in child blocks
+            blockStart.movePosition(QTextCursor::NextBlock);
             continue;
         }
         foreach (const QString &statement, blockStart.block().text().split(";")) {
+            qDebug() << "Have statement" << statement;
             QStringList parts = statement.split(":");
             if (parts.length() != 2) {
                 continue;
@@ -492,7 +501,7 @@ CodeCompletion::BlockInfo CodeCompletion::getBlockInfo(int position) const
             qDebug() << "inserting:" << propName << "->" << propValue;
             info.properties.insert(propName, propValue);
         }
-        blockStart = tmp;
+        blockStart.movePosition(QTextCursor::NextBlock);
     }
 
     return info;

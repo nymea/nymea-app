@@ -124,11 +124,16 @@ void ScriptManager::onNotificationReceived(const QVariantMap &params)
         Script *script = new Script(scriptMap.value("id").toUuid());
         script->setName(scriptMap.value("name").toString());
         m_scripts->addScript(script);
+        emit addScriptReply(params.value("id").toInt(),
+                            params.value("params").toMap().value("scriptError").toString(),
+                            params.value("params").toMap().value("scriptId").toUuid(),
+                            params.value("params").toMap().value("errors").toStringList());
     }
 
     else if (params.value("notification").toString() == "Scripts.ScriptRemoved") {
-        QUuid id = params.value("params").toMap().value("scriptId").toUuid();
+        QUuid id = params.value("params").toMap().value("id").toUuid();
         m_scripts->removeScript(id);
+        emit removeScriptReply(params.value("id").toInt(), params.value("params").toMap().value("scriptError").toString());
     }
 
     else if (params.value("notification").toString() == "Scripts.ScriptChanged") {
