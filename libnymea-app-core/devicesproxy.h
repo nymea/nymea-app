@@ -38,7 +38,9 @@ class DevicesProxy : public QSortFilterProxyModel
     Q_PROPERTY(Engine* engine READ engine WRITE setEngine NOTIFY engineChanged)
     Q_PROPERTY(DevicesProxy *parentProxy READ parentProxy WRITE setParentProxy NOTIFY parentProxyChanged)
     Q_PROPERTY(QString filterTagId READ filterTagId WRITE setFilterTagId NOTIFY filterTagIdChanged)
+    Q_PROPERTY(QString filterTagValue READ filterTagValue WRITE setFilterTagValue NOTIFY filterTagValueChanged)
     Q_PROPERTY(QString filterDeviceClassId READ filterDeviceClassId WRITE setFilterDeviceClassId NOTIFY filterDeviceClassIdChanged)
+    Q_PROPERTY(QString filterDeviceId READ filterDeviceId WRITE setFilterDeviceId NOTIFY filterDeviceIdChanged)
     Q_PROPERTY(QStringList shownInterfaces READ shownInterfaces WRITE setShownInterfaces NOTIFY shownInterfacesChanged)
     Q_PROPERTY(QStringList hiddenInterfaces READ hiddenInterfaces WRITE setHiddenInterfaces NOTIFY hiddenInterfacesChanged)
     Q_PROPERTY(QString nameFilter READ nameFilter WRITE setNameFilter NOTIFY nameFilterChanged)
@@ -63,8 +65,14 @@ public:
     QString filterTagId() const;
     void setFilterTagId(const QString &filterTag);
 
+    QString filterTagValue() const;
+    void setFilterTagValue(const QString &tagValue);
+
     QString filterDeviceClassId() const;
     void setFilterDeviceClassId(const QString &filterDeviceClassId);
+
+    QString filterDeviceId() const;
+    void setFilterDeviceId(const QString &filterDeviceId);
 
     QStringList shownInterfaces() const;
     void setShownInterfaces(const QStringList &shownInterfaces);
@@ -91,7 +99,9 @@ signals:
     void engineChanged();
     void parentProxyChanged();
     void filterTagIdChanged();
+    void filterTagValueChanged();
     void filterDeviceClassIdChanged();
+    void filterDeviceIdChanged();
     void shownInterfacesChanged();
     void hiddenInterfacesChanged();
     void nameFilterChanged();
@@ -106,7 +116,9 @@ private:
     Engine *m_engine = nullptr;
     DevicesProxy *m_parentProxy = nullptr;
     QString m_filterTagId;
+    QString m_filterTagValue;
     QString m_filterDeviceClassId;
+    QString m_filterDeviceId;
     QStringList m_shownInterfaces;
     QStringList m_hiddenInterfaces;
     QString m_nameFilter;

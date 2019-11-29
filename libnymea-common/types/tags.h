@@ -25,11 +25,12 @@ public:
     QHash<int, QByteArray> roleNames() const override;
 
     void addTag(Tag *tag);
+    void addTags(QList<Tag*> tags);
     void removeTag(Tag *tag);
 
     Tag* get(int index) const;
 
-    Q_INVOKABLE Tag* findDeviceTag(const QString &deviceId, const QString &tagId) const;
+    Q_INVOKABLE Tag* findDeviceTag(const QUuid &deviceId, const QString &tagId) const;
     Q_INVOKABLE Tag* findRuleTag(const QString &ruleId, const QString &tagId) const;
 
     void clear();

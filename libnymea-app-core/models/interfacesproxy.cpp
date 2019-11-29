@@ -5,6 +5,7 @@
 #include "types/device.h"
 
 #include "devices.h"
+#include "devicesproxy.h"
 
 InterfacesProxy::InterfacesProxy(QObject *parent): QSortFilterProxyModel(parent)
 {
@@ -23,6 +24,7 @@ void InterfacesProxy::setShowEvents(bool showEvents)
         m_showEvents = showEvents;
         emit showEventsChanged();
         invalidateFilter();
+        void countChanged();
     }
 }
 
@@ -37,6 +39,7 @@ void InterfacesProxy::setShowActions(bool showActions)
         m_showActions = showActions;
         emit showActionsChanged();
         invalidateFilter();
+        void countChanged();
     }
 }
 
@@ -51,6 +54,7 @@ void InterfacesProxy::setShowStates(bool showStates)
         m_showStates = showStates;
         emit showStatesChanged();
         invalidateFilter();
+        void countChanged();
     }
 }
 
@@ -58,7 +62,6 @@ bool InterfacesProxy::filterAcceptsRow(int source_row, const QModelIndex &source
 {
     Q_UNUSED(source_parent)
     QString interfaceName = m_interfaces->get(source_row)->name();
-    qDebug() << "filterAcceptsRow" << interfaceName << m_shownInterfaces;
     if (!m_shownInterfaces.isEmpty()) {
         if (!m_shownInterfaces.contains(interfaceName)) {
             return false;
@@ -70,6 +73,24 @@ bool InterfacesProxy::filterAcceptsRow(int source_row, const QModelIndex &source
         bool found = false;
         for (int i = 0; i < m_devicesFilter->rowCount(); i++) {
             Device *d = m_devicesFilter->get(i);
+            if (!d->deviceClass()) {
+                qWarning() << "Cannot find DeviceClass for device:" << d->id() << d->name();
+                return false;
+            }
+            if (d->deviceClass()->interfaces().contains(interfaceName)) {
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            return false;
+        }
+    }
+    if (m_devicesProxyFilter != nullptr) {
+        // TODO: This could be improved *a lot* by caching interfaces in the devices model...
+        bool found = false;
+        for (int i = 0; i < m_devicesProxyFilter->rowCount(); i++) {
+            Device *d = m_devicesProxyFilter->get(i);
             if (!d->deviceClass()) {
                 qWarning() << "Cannot find DeviceClass for device:" << d->id() << d->name();
                 return false;

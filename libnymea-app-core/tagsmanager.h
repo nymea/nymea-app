@@ -9,13 +9,15 @@
 class TagsManager : public JsonHandler
 {
     Q_OBJECT
-    Q_PROPERTY(Tags* tags READ tags NOTIFY tagsChanged)
+    Q_PROPERTY(Tags* tags READ tags CONSTANT)
+    Q_PROPERTY(bool busy READ busy NOTIFY busyChanged)
 
 public:
     explicit TagsManager(JsonRpcClient *jsonClient, QObject *parent = nullptr);
     QString nameSpace() const override;
 
     void init();
+    bool busy() const;
 
     Tags* tags() const;
 
@@ -25,7 +27,7 @@ public:
     Q_INVOKABLE void untagRule(const QString &ruleId, const QString &tagId);
 
 signals:
-    void tagsChanged();
+    void busyChanged();
 
 private slots:
     void handleTagsNotification(const QVariantMap &params);
@@ -34,11 +36,12 @@ private slots:
     void removeTagReply(const QVariantMap &params);
 
 private:
-    void addTagInternal(const QVariantMap &tagMap);
+    Tag *unpackTag(const QVariantMap &tagMap);
 
     JsonRpcClient *m_jsonClient = nullptr;
 
     Tags *m_tags = nullptr;
+    bool m_busy = false;
 };
 
 #endif // TAGSMANAGER_H

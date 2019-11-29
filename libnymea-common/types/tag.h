@@ -2,23 +2,24 @@
 #define TAG_H
 
 #include <QObject>
+#include <QUuid>
 
 class Tag : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QString deviceId READ deviceId CONSTANT)
-    Q_PROPERTY(QString ruleId READ ruleId CONSTANT)
+    Q_PROPERTY(QUuid deviceId READ deviceId CONSTANT)
+    Q_PROPERTY(QUuid ruleId READ ruleId CONSTANT)
     Q_PROPERTY(QString tagId READ tagId CONSTANT)
     Q_PROPERTY(QString value READ value NOTIFY valueChanged)
 
 public:
     explicit Tag(const QString &tagId, const QString &value, QObject *parent = nullptr);
 
-    QString deviceId() const;
-    void setDeviceId(const QString &deviceId);
+    QUuid deviceId() const;
+    void setDeviceId(const QUuid &deviceId);
 
-    QString ruleId() const;
-    void setRuleId(const QString &ruleId);
+    QUuid ruleId() const;
+    void setRuleId(const QUuid &ruleId);
 
     QString tagId() const;
 
@@ -29,8 +30,8 @@ signals:
     void valueChanged();
 
 private:
-    QString m_deviceId;
-    QString m_ruleId;
+    QUuid m_deviceId;
+    QUuid m_ruleId;
     QString m_tagId;
     QString m_value;
 };

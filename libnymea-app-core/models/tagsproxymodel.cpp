@@ -94,17 +94,18 @@ bool TagsProxyModel::filterAcceptsRow(int source_row, const QModelIndex &source_
     Q_UNUSED(source_parent)
     Tag *tag = m_tags->get(source_row);
     if (!m_filterTagId.isEmpty()) {
-        if (tag->tagId() != m_filterTagId) {
+        QRegExp exp(m_filterTagId);
+        if (!exp.exactMatch(tag->tagId())) {
             return false;
         }
     }
     if (!m_filterDeviceId.isEmpty()) {
-        if (tag->deviceId() != m_filterDeviceId) {
+        if (QUuid(tag->deviceId()) != QUuid(m_filterDeviceId)) {
             return false;
         }
     }
     if (!m_filterRuleId.isEmpty()) {
-        if (tag->ruleId() != m_filterRuleId) {
+        if (QUuid(tag->ruleId()) != QUuid(m_filterRuleId)) {
             return false;
         }
     }
@@ -115,7 +116,7 @@ bool TagsProxyModel::lessThan(const QModelIndex &source_left, const QModelIndex 
 {
     QString leftValue = m_tags->get(source_left.row())->value();
     QString rightValue = m_tags->get(source_right.row())->value();
-    bool okLeft, okRight;;
+    bool okLeft, okRight;
     qlonglong leftAsNumber = leftValue.toLongLong(&okLeft);
     qlonglong rightAsNumber = rightValue.toLongLong(&okRight);
     if (okLeft && okRight) {

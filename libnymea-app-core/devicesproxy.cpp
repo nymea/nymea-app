@@ -23,6 +23,7 @@
 #include "devicesproxy.h"
 #include "engine.h"
 #include "tagsmanager.h"
+#include "types/tag.h"
 
 DevicesProxy::DevicesProxy(QObject *parent) :
     QSortFilterProxyModel(parent)
@@ -93,9 +94,24 @@ QString DevicesProxy::filterTagId() const
 
 void DevicesProxy::setFilterTagId(const QString &filterTag)
 {
-    if (m_filterTagId != filterTagId()) {
+    if (m_filterTagId != filterTag) {
         m_filterTagId = filterTag;
         emit filterTagIdChanged();
+        invalidateFilter();
+        emit countChanged();
+    }
+}
+
+QString DevicesProxy::filterTagValue() const
+{
+    return m_filterTagValue;
+}
+
+void DevicesProxy::setFilterTagValue(const QString &tagValue)
+{
+    if (m_filterTagValue != tagValue) {
+        m_filterTagValue = tagValue;
+        emit filterTagValueChanged();
         invalidateFilter();
         emit countChanged();
     }
@@ -112,6 +128,22 @@ void DevicesProxy::setFilterDeviceClassId(const QString &filterDeviceClassId)
         m_filterDeviceClassId = filterDeviceClassId;
         emit filterDeviceClassIdChanged();
         invalidateFilter();
+        emit countChanged();
+    }
+}
+
+QString DevicesProxy::filterDeviceId() const
+{
+    return m_filterDeviceId;
+}
+
+void DevicesProxy::setFilterDeviceId(const QString &filterDeviceId)
+{
+    if (m_filterDeviceId != filterDeviceId) {
+        m_filterDeviceId = filterDeviceId;
+        emit filterDeviceIdChanged();
+        invalidateFilter();
+        emit countChanged();
     }
 }
 
@@ -156,7 +188,7 @@ void DevicesProxy::setNameFilter(const QString &nameFilter)
         m_nameFilter = nameFilter;
         emit nameFilterChanged();
         invalidateFilter();
-        countChanged();
+        emit countChanged();
     }
 }
 
@@ -201,6 +233,7 @@ void DevicesProxy::setGroupByInterface(bool groupByInterface)
         m_groupByInterface = groupByInterface;
         emit groupByInterfaceChanged();
         invalidate();
+        emit countChanged();
     }
 }
 
@@ -254,12 +287,21 @@ bool DevicesProxy::filterAcceptsRow(int source_row, const QModelIndex &source_pa
 {
     Device *device = getInternal(source_row);
     if (!m_filterTagId.isEmpty()) {
-        if (!m_engine->tagsManager()->tags()->findDeviceTag(device->id().toString(), m_filterTagId)) {
+        Tag *tag = m_engine->tagsManager()->tags()->findDeviceTag(device->id().toString(), m_filterTagId);
+        if (!tag) {
+            return false;
+        }
+        if (!m_filterTagValue.isEmpty() && tag->value() != m_filterTagValue) {
             return false;
         }
     }
     if (!m_filterDeviceClassId.isEmpty()) {
-        if (device->deviceClassId() != m_filterDeviceClassId) {
+        if (device->deviceClassId() != QUuid(m_filterDeviceClassId)) {
+            return false;
+        }
+    }
+    if (!m_filterDeviceId.isEmpty()) {
+        if (device->id() != QUuid(m_filterDeviceId)) {
             return false;
         }
     }

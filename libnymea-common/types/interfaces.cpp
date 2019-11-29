@@ -89,6 +89,11 @@ Interfaces::Interfaces(QObject *parent) : QAbstractListModel(parent)
                  tr("Daylight"),
                  tr("Daylight changed"));
 
+    addInterface("lightsensor", tr("Light intensity sensors"));
+    addStateType("lightsensor", "lightIntensity", QVariant::Bool, false,
+                 tr("Light intensity"),
+                 tr("Light intensity changed"));
+
     addInterface("evcharger", tr("EV charger"));
     addStateType("evcharger", "power", QVariant::Bool, true,
                  tr("Charging"),

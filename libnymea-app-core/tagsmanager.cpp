@@ -17,8 +17,15 @@ QString TagsManager::nameSpace() const
 
 void TagsManager::init()
 {
+    m_busy = true;
+    emit busyChanged();
     m_tags->clear();
     m_jsonClient->sendCommand("Tags.GetTags", this, "getTagsReply");
+}
+
+bool TagsManager::busy() const
+{
+    return m_busy;
 }
 
 Tags *TagsManager::tags() const
@@ -83,13 +90,16 @@ void TagsManager::handleTagsNotification(const QVariantMap &params)
 
     QString notification = params.value("notification").toString();
     if (notification == "Tags.TagAdded") {
-        addTagInternal(tagMap);
+        Tag *tag = unpackTag(tagMap);
+        if (tag) {
+            m_tags->addTag(tag);
+        }
 
     } else if (notification == "Tags.TagRemoved") {
         for (int i = 0; i < m_tags->rowCount(); i++) {
             Tag* tag = m_tags->get(i);
-            if (tagMap.value("deviceId").toString() == tag->deviceId() &&
-                    tagMap.value("ruleId").toString() == tag->ruleId() &&
+            if (tagMap.value("deviceId").toUuid() == tag->deviceId() &&
+                    tagMap.value("ruleId").toUuid() == tag->ruleId() &&
                     tagMap.value("tagId").toString() == tag->tagId()) {
                 m_tags->removeTag(tag);
                 return;
@@ -99,8 +109,8 @@ void TagsManager::handleTagsNotification(const QVariantMap &params)
         qDebug() << "tag value changed";
         for (int i = 0; i < m_tags->rowCount(); i++) {
             Tag* tag = m_tags->get(i);
-            if (tagMap.value("deviceId").toString() == tag->deviceId() &&
-                    tagMap.value("ruleId").toString() == tag->ruleId() &&
+            if (tagMap.value("deviceId").toUuid() == tag->deviceId() &&
+                    tagMap.value("ruleId").toUuid() == tag->ruleId() &&
                     tagMap.value("tagId").toString() == tag->tagId()) {
                 qDebug() << "Found tag";
                 tag->setValue(tagMap.value("value").toString());
@@ -111,10 +121,18 @@ void TagsManager::handleTagsNotification(const QVariantMap &params)
 
 void TagsManager::getTagsReply(const QVariantMap &params)
 {
+    QList<Tag*> tags;
     foreach (const QVariant &tagVariant, params.value("params").toMap().value("tags").toList()) {
-        addTagInternal(tagVariant.toMap());
+        qDebug() << "aDDING TAG";
+        Tag *tag = unpackTag(tagVariant.toMap());
+        if (tag) {
+            tags.append(tag);
+        }
     }
-    emit tagsChanged();
+    m_tags->addTags(tags);
+
+    m_busy = false;
+    emit busyChanged();
 }
 
 void TagsManager::addTagReply(const QVariantMap &params)
@@ -127,7 +145,7 @@ void TagsManager::removeTagReply(const QVariantMap &params)
     qDebug() << "RemoveTag reply" << params;
 }
 
-void TagsManager::addTagInternal(const QVariantMap &tagMap)
+Tag* TagsManager::unpackTag(const QVariantMap &tagMap)
 {
     QString deviceId = tagMap.value("deviceId").toString();
     QString ruleId = tagMap.value("ruleId").toString();
@@ -143,8 +161,8 @@ void TagsManager::addTagInternal(const QVariantMap &tagMap)
     } else {
         qWarning() << "Invalid tag. Neither deviceId nor ruleId are set. Skipping...";
         tag->deleteLater();
-        return;
+        return nullptr;
     }
 //    qDebug() << "adding tag" << tag->tagId() << tag->value();
-    m_tags->addTag(tag);
+    return tag;
 }

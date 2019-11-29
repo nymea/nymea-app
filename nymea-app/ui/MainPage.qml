@@ -79,6 +79,10 @@ Page {
         }
         tabEntryComponent.createObject(tabBar, {text: qsTr("Things"), iconSource: "../images/share.svg", pageIndex: pi++})
         tabEntryComponent.createObject(tabBar, {text: qsTr("Scenes"), iconSource: "../images/slideshow.svg", pageIndex: pi++})
+        if (engine.jsonRpcClient.ensureServerVersion(1.6)) {
+            tabEntryComponent.createObject(tabBar, {text: qsTr("Groups"), iconSource: "../images/view-grid-symbolic.svg", pageIndex: pi++})
+        }
+
         root.tabsReady = true
     }
 
@@ -291,6 +295,13 @@ Page {
                             }
                         }
                     }
+                }
+
+                GroupsView {
+                    id: groupsView
+                    property string title: qsTr("My groups" + count);
+                    width: swipeView.width
+                    height: swipeView.height
                 }
             }
 

@@ -10,22 +10,22 @@ Tag::Tag(const QString &tagId, const QString &value, QObject *parent):
 
 }
 
-QString Tag::deviceId() const
+QUuid Tag::deviceId() const
 {
     return m_deviceId;
 }
 
-void Tag::setDeviceId(const QString &deviceId)
+void Tag::setDeviceId(const QUuid &deviceId)
 {
     m_deviceId = deviceId;
 }
 
-QString Tag::ruleId() const
+QUuid Tag::ruleId() const
 {
     return m_ruleId;
 }
 
-void Tag::setRuleId(const QString &ruleId)
+void Tag::setRuleId(const QUuid &ruleId)
 {
     m_ruleId = ruleId;
 }

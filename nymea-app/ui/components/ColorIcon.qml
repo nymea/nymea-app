@@ -86,7 +86,7 @@ Item {
         Component.onCompleted: ready = true
 
         anchors.fill: parent
-        anchors.margins: parent.margins
+        anchors.margins: parent ? parent.margins : 0
         source: ready && width > 0 && height > 0 && icon.name ? icon.name : ""
         sourceSize {
             width: width
@@ -100,7 +100,7 @@ Item {
         id: colorizedImage
 
         anchors.fill: parent
-        anchors.margins: parent.margins
+        anchors.margins: parent ? parent.margins : 0
         visible: active && image.status == Image.Ready
 
         // Whether or not a color has been set.

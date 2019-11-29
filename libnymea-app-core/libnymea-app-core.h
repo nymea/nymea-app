@@ -48,6 +48,7 @@
 #include "models/wirelessaccesspointsproxy.h"
 #include "tagsmanager.h"
 #include "models/tagsproxymodel.h"
+#include "models/taglistmodel.h"
 #include "types/tag.h"
 #include "ruletemplates/ruletemplates.h"
 #include "ruletemplates/ruletemplate.h"
@@ -189,6 +190,7 @@ void registerQmlTypes() {
     qmlRegisterUncreatableType<Tags>(uri, 1, 0, "Tags", "Get it from TagsManager");
     qmlRegisterUncreatableType<Tag>(uri, 1, 0, "Tag", "Get it from Tags");
     qmlRegisterType<TagsProxyModel>(uri, 1, 0, "TagsProxyModel");
+    qmlRegisterType<TagListModel>(uri, 1, 0, "TagListModel");
 
     qmlRegisterType<NetworkManagerController>(uri, 1, 0, "NetworkManagerController");
     qmlRegisterType<BluetoothDiscovery>(uri, 1, 0, "BluetoothDiscovery");
