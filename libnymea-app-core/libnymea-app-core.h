@@ -223,7 +223,7 @@ void registerQmlTypes() {
     qmlRegisterUncreatableType<Repository>(uri, 1, 0, "Repository", "Get it from Repositories");
     qmlRegisterType<PackagesFilterModel>(uri, 1, 0, "PackagesFilterModel");
 
-    qmlRegisterUncreatableType<NetworkManager>(uri, 1, 0, "NetworkManager", "Get it from Engine");
+    qmlRegisterType<NetworkManager>(uri, 1, 0, "NetworkManager");
     qmlRegisterUncreatableType<NetworkDevices>(uri, 1, 0, "NetworkDevices", "Get it from NetworkManager");
     qmlRegisterUncreatableType<WiredNetworkDevices>(uri, 1, 0, "WiredNetworkDevices", "Get it from NetworkManager");
     qmlRegisterUncreatableType<WirelessNetworkDevices>(uri, 1, 0, "WirelessNetworkDevices", "Get it from NetworkManager");

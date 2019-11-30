@@ -145,7 +145,6 @@ Item {
                 labelsFont.pixelSize: app.smallFont
                 labelsColor: app.foregroundColor
                 property int timeDiff: (xAxis.max.getTime() - xAxis.min.getTime()) / 1000
-                onTimeDiffChanged: print("timeDiff is:", timeDiff)
 
                 function getTimeSpanString() {
                     var td = timeDiff
@@ -403,7 +402,6 @@ Item {
                     interval: 1000
                     repeat: true
                     onTriggered: {
-                        print("autoscrolling chart")
                         scrollMouseArea.scrollRightLimited(10)
                     }
                 }
