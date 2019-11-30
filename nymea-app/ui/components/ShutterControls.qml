@@ -14,6 +14,8 @@ RowLayout {
 
     property bool invert: false
 
+    signal activated(string button);
+
     ItemDelegate {
         Layout.preferredWidth: app.iconSize * 2
         Layout.preferredHeight: width
@@ -24,7 +26,10 @@ RowLayout {
             name: root.invert ? "../images/down.svg" : "../images/up.svg"
             color: root.openState && root.openState.value === "opening" ? Material.accent : keyColor
         }
-        onClicked: engine.deviceManager.executeAction(root.device.id, root.deviceClass.actionTypes.findByName("open").id)
+        onClicked: {
+            engine.deviceManager.executeAction(root.device.id, root.deviceClass.actionTypes.findByName("open").id)
+            root.activated("open")
+        }
     }
 
 
@@ -39,7 +44,10 @@ RowLayout {
             anchors.margins: app.margins
             name: "../images/media-playback-stop.svg"
         }
-        onClicked: engine.deviceManager.executeAction(root.device.id, root.deviceClass.actionTypes.findByName("stop").id)
+        onClicked: {
+            engine.deviceManager.executeAction(root.device.id, root.deviceClass.actionTypes.findByName("stop").id)
+            root.activated("stop")
+        }
     }
 
     ItemDelegate {
@@ -52,6 +60,9 @@ RowLayout {
             name: root.invert ? "../images/up.svg" : "../images/down.svg"
             color: root.openState && root.openState.value === "closing" ? Material.accent : keyColor
         }
-        onClicked: engine.deviceManager.executeAction(root.device.id, root.deviceClass.actionTypes.findByName("close").id)
+        onClicked: {
+            engine.deviceManager.executeAction(root.device.id, root.deviceClass.actionTypes.findByName("close").id)
+            root.activated("close")
+        }
     }
 }
