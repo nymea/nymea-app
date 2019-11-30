@@ -93,7 +93,6 @@ Page {
             }
         }
         function addToGroup() {
-//            engine.tagsManager.tagDevice(root.device.id, "group", "My group 1")
             var dialog = addToGroupDialog.createObject(root)
             dialog.open();
         }
@@ -122,6 +121,9 @@ Page {
                 headerIcon: "../images/view-grid-symbolic.svg"
 
                 RowLayout {
+                    Layout.leftMargin: app.margins
+                    Layout.rightMargin: app.margins
+                    spacing: app.margins
                     TextField {
                         id: newGroupdTextField
                         Layout.fillWidth: true
@@ -141,6 +143,8 @@ Page {
                 ListView {
                     Layout.fillWidth: true
                     height: 200
+                    clip: true
+                    ScrollIndicator.vertical: ScrollIndicator {}
 
                     model: TagListModel {
                         id: groupTags

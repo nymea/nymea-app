@@ -17,6 +17,7 @@ public:
     QString nameSpace() const override;
 
     void init();
+    void clear();
     bool busy() const;
 
     Tags* tags() const;

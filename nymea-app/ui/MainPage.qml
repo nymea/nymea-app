@@ -299,7 +299,7 @@ Page {
 
                 GroupsView {
                     id: groupsView
-                    property string title: qsTr("My groups" + count);
+                    property string title: qsTr("My groups");
                     width: swipeView.width
                     height: swipeView.height
                 }

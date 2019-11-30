@@ -23,6 +23,11 @@ void TagsManager::init()
     m_jsonClient->sendCommand("Tags.GetTags", this, "getTagsReply");
 }
 
+void TagsManager::clear()
+{
+    m_tags->clear();
+}
+
 bool TagsManager::busy() const
 {
     return m_busy;
@@ -123,7 +128,6 @@ void TagsManager::getTagsReply(const QVariantMap &params)
 {
     QList<Tag*> tags;
     foreach (const QVariant &tagVariant, params.value("params").toMap().value("tags").toList()) {
-        qDebug() << "aDDING TAG";
         Tag *tag = unpackTag(tagVariant.toMap());
         if (tag) {
             tags.append(tag);

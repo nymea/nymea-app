@@ -5,8 +5,10 @@ import Nymea 1.0
 import QtQuick.Controls.Material 2.2
 import "../components"
 
-Item {
+MouseArea {
     id: root
+    preventStealing: true
+    onWheel: wheel.accepted = true
 
     readonly property int count: groupsGridView.count
 
@@ -14,6 +16,7 @@ Item {
         id: groupsGridView
         anchors.fill: parent
         anchors.margins: app.margins / 2
+
 
         readonly property int minTileWidth: 180
         readonly property int minTileHeight: 180
@@ -48,7 +51,7 @@ Item {
 
                 InterfacesProxy {
                     id: controlsInGroup
-                    shownInterfaces: ["light", "simpleclosable"]
+                    shownInterfaces: ["light", "simpleclosable", "mediacontroller"]
                     devicesProxyFilter: devicesInGroup
                     showStates: true
                     showActions: true
@@ -61,7 +64,10 @@ Item {
                 }
 
                 contentItem: ItemDelegate {
-                    padding: 0
+                    leftPadding: 0
+                    topPadding: 0
+                    rightPadding: 0
+                    bottomPadding: 0
 
                     onClicked: {
                         pageStack.push(Qt.resolvedUrl("../grouping/GroupPage.qml"), {groupTag: model.tagId})
@@ -74,6 +80,7 @@ Item {
                             color: Qt.rgba(app.foregroundColor.r, app.foregroundColor.g, app.foregroundColor.b, .05)
                             Label {
                                 anchors.fill: parent
+                                verticalAlignment: Text.AlignVCenter
                                 anchors { leftMargin: app.margins; rightMargin: app.margins }
                                 text: model.tagId.substring(6)
                                 elide: Text.ElideRight
@@ -82,22 +89,35 @@ Item {
                         Item {
                             Layout.fillHeight: true
                             Layout.fillWidth: true
+
+                            ColorIcon {
+                                anchors.centerIn: parent
+                                height: app.iconSize * 2
+                                width: height
+                                visible: controlsInGroup.count == 0
+                                color: app.accentColor
+                                name: "../images/view-grid-symbolic.svg"
+                            }
+
                             ColumnLayout {
                                 anchors.fill: parent
 
                                 Repeater {
-                                    model: controlsInGroup
+                                    model: Math.min(controlsInGroup.count, parent.height / 50)
                                     delegate: Loader {
                                         id: controlLoader
                                         Layout.fillWidth: true
                                         Layout.leftMargin: app.margins / 2
                                         Layout.rightMargin: app.margins / 2
+                                        property string interfaceName: controlsInGroup.get(index).name
                                         sourceComponent: {
-                                            switch (model.name) {
+                                            switch (interfaceName) {
                                             case "simpleclosable":
                                                 return closableDelegate
                                             case "light":
                                                 return lightDelegate
+                                            case "mediacontroller":
+                                                return mediaControllerDelegate
                                             }
                                         }
                                         Binding {
@@ -111,74 +131,77 @@ Item {
                                     Layout.fillHeight: true
                                     Layout.fillWidth: true
                                 }
+                            }
 
-                                Rectangle {
-                                    Layout.fillWidth: true
-                                    Layout.preferredHeight: app.iconSize * 1.2
-                                    Layout.alignment: Qt.AlignRight
-                                    color: Qt.rgba(app.foregroundColor.r, app.foregroundColor.g, app.foregroundColor.b, 0.05)
+                        }
+                        Rectangle {
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: app.iconSize * 1.2
+                            color: Qt.rgba(app.foregroundColor.r, app.foregroundColor.g, app.foregroundColor.b, 0.05)
 
-                                    RowLayout {
-                                        anchors.fill: parent
+                            RowLayout {
+                                anchors.fill: parent
 
-                                        Repeater {
-                                            model: sensorsInGroup
-                                            delegate: Row {
-                                                ColorIcon {
-                                                    height: app.iconSize * .8
-                                                    width: height
-                                                    name: app.interfaceToIcon(model.name)
-                                                    color: app.interfaceToColor(model.name)
+                                Repeater {
+                                    model: sensorsInGroup
+                                    delegate: Row {
+                                        height: parent.height
+
+                                        ColorIcon {
+                                            height: app.iconSize * .8
+                                            width: height
+                                            name: app.interfaceToIcon(model.name)
+                                            color: app.interfaceToColor(model.name)
+                                        }
+                                        DevicesProxy {
+                                            id: innerProxy
+                                            engine: _engine
+                                            parentProxy: devicesInGroup
+                                            shownInterfaces: [model.name]
+                                        }
+
+                                        Led {
+                                            visible: ["presencesensor"].indexOf(model.name) >= 0
+                                            state: {
+                                                var stateName = null
+                                                switch (model.name) {
+                                                case "presencesensor":
+                                                    stateName = "isPresent"
+                                                    break;
                                                 }
-                                                DevicesProxy {
-                                                    id: innerProxy
-                                                    engine: _engine
-                                                    parentProxy: devicesInGroup
-                                                    shownInterfaces: [model.name]
+                                                if (!stateName) {
+                                                    return "off";
+                                                }
+                                                var ret = false;
+                                                for (var i = 0; i < innerProxy.count; i++) {
+                                                    ret |= innerProxy.get(i).states.getState(innerProxy.get(i).deviceClass.stateTypes.findByName(stateName).id).value
+                                                }
+                                                return ret ? "on" : "off";
+                                            }
+                                        }
+
+                                        Label {
+                                            height: parent.height
+                                            verticalAlignment: Text.AlignVCenter
+                                            text: {
+                                                var stateName = null;
+                                                switch (model.name) {
+                                                case "temperaturesensor":
+                                                    stateName = "temperature";
+                                                    break;
+                                                case "lightsensor":
+                                                    stateName = "lightIntensity"
+                                                    break;
+                                                }
+                                                if (!stateName) {
+                                                    return "";
                                                 }
 
-                                                Led {
-                                                    visible: ["presencesensor"].indexOf(model.name) >= 0
-                                                    state: {
-                                                        var stateName = null
-                                                        switch (model.name) {
-                                                        case "presencesensor":
-                                                            stateName = "isPresent"
-                                                            break;
-                                                        }
-                                                        if (!stateName) {
-                                                            return "off";
-                                                        }
-                                                        var ret = false;
-                                                        for (var i = 0; i < innerProxy.count; i++) {
-                                                            ret |= innerProxy.get(i).states.getState(innerProxy.get(i).deviceClass.stateTypes.findByName(stateName).id).value
-                                                        }
-                                                        return ret ? "on" : "off";
-                                                    }
+                                                var ret = 0
+                                                for (var i = 0; i < innerProxy.count; i++) {
+                                                    ret += innerProxy.get(i).states.getState(innerProxy.get(i).deviceClass.stateTypes.findByName(stateName).id).value
                                                 }
-
-                                                Label {
-                                                    text: {
-                                                        var stateName = null;
-                                                        switch (model.name) {
-                                                        case "temperaturesensor":
-                                                            stateName = "temperature";
-                                                            break;
-                                                        case "lightsensor":
-                                                            stateName = "lightIntensity"
-                                                            break;
-                                                        }
-                                                        if (!stateName) {
-                                                            return "";
-                                                        }
-
-                                                        var ret = 0
-                                                        for (var i = 0; i < innerProxy.count; i++) {
-                                                            ret += innerProxy.get(i).states.getState(innerProxy.get(i).deviceClass.stateTypes.findByName(stateName).id).value
-                                                        }
-                                                        return (ret / innerProxy.count).toFixed(1)
-                                                    }
-                                                }
+                                                return (ret / innerProxy.count).toFixed(1)
                                             }
                                         }
                                     }
@@ -349,6 +372,21 @@ Item {
                     }
                 }
             }
+        }
+    }
+
+    Component {
+        id: mediaControllerDelegate
+        MediaControls {
+            property var devices: null
+            DevicesProxy {
+                id: mediaControllers
+                engine: _engine
+                parentProxy: devices
+                shownInterfaces: ["mediacontroller"]
+            }
+
+            device: mediaControllers.parentProxy ? mediaControllers.get(0) : null
         }
     }
 }

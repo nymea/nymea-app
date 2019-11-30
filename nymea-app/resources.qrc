@@ -199,5 +199,6 @@
         <file>ui/magic/NewScenePage.qml</file>
         <file>ui/mainviews/GroupsView.qml</file>
         <file>ui/grouping/GroupPage.qml</file>
+        <file>ui/delegates/ThingTile.qml</file>
     </qresource>
 </RCC>

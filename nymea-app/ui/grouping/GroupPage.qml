@@ -4,6 +4,7 @@ import QtQuick.Controls.Material 2.1
 import QtQuick.Layouts 1.1
 import Nymea 1.0
 import "../components"
+import "../delegates"
 
 Page {
     id: root
@@ -27,11 +28,28 @@ Page {
         showStates: true
     }
 
-    ListView {
+    GridView {
+        id: gridView
         anchors.fill: parent
+        anchors.margins: app.margins / 2
+
         model: devicesInGroup
-        delegate: Label {
-            text: model.name
+
+        readonly property int minTileWidth: 180
+        readonly property int minTileHeight: 240
+        readonly property int tilesPerRow: root.width / minTileWidth
+
+        cellWidth: gridView.width / tilesPerRow
+        cellHeight: cellWidth
+
+        delegate: ThingTile {
+            width: gridView.cellWidth
+            height: gridView.cellHeight
+
+            device: devicesInGroup.get(index)
+
+            onClicked: pageStack.push(Qt.resolvedUrl("../devicepages/" + app.interfaceListToDevicePage(deviceClass.interfaces)), {device: device})
+
         }
     }
 
