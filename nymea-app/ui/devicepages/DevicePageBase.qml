@@ -70,6 +70,13 @@ Page {
                         iconSource: Qt.binding(function() { return favoritesProxy.count === 0 ? "../images/starred.svg" : "../images/non-starred.svg"}),
                         functionName: "toggleFavorite"
                     }))
+
+                thingMenu.addItem(menuEntryComponent.createObject(thingMenu,
+                    {
+                        text: qsTr("Grouping"),
+                        iconSource: "../images/view-grid-symbolic.svg",
+                        functionName: "addToGroup"
+                    }))
             }
         }
         function openDeviceMagicPage() {
@@ -85,6 +92,11 @@ Page {
                 engine.tagsManager.untagDevice(root.device.id, "favorites")
             }
         }
+        function addToGroup() {
+            var dialog = addToGroupDialog.createObject(root)
+            dialog.open();
+        }
+
         function openThingSettingsPage() {
             pageStack.push(Qt.resolvedUrl("../thingconfiguration/ConfigureThingPage.qml"), {device: root.device})
         }
@@ -100,6 +112,70 @@ Page {
                 property string functionName: ""
                 onTriggered: thingMenu[functionName]()
             }
+        }
+
+        Component {
+            id: addToGroupDialog
+            MeaDialog {
+                title: qsTr("Groups for %1").arg(root.device.name)
+                headerIcon: "../images/view-grid-symbolic.svg"
+
+                RowLayout {
+                    Layout.leftMargin: app.margins
+                    Layout.rightMargin: app.margins
+                    spacing: app.margins
+                    TextField {
+                        id: newGroupdTextField
+                        Layout.fillWidth: true
+                        placeholderText: qsTr("New group")
+                    }
+                    Button {
+                        text: qsTr("OK")
+                        enabled: newGroupdTextField.displayText.length > 0 && !groupTags.containsId("group-" + newGroupdTextField.displayText)
+                        onClicked: {
+                            engine.tagsManager.tagDevice(root.device.id, "group-" + newGroupdTextField.text, 1000)
+                            newGroupdTextField.text = ""
+                        }
+                    }
+                }
+
+
+                ListView {
+                    Layout.fillWidth: true
+                    height: 200
+                    clip: true
+                    ScrollIndicator.vertical: ScrollIndicator {}
+
+                    model: TagListModel {
+                        id: groupTags
+                        tagsProxy: TagsProxyModel {
+                            tags: engine.tagsManager.tags
+                            filterTagId: "group-.*"
+                        }
+                    }
+
+                    delegate: CheckDelegate {
+                        width: parent.width
+                        text: model.tagId.substring(6)
+                        checked: innerProxy.count > 0
+                        onClicked: {
+                            if (innerProxy.count == 0) {
+                                engine.tagsManager.tagDevice(root.device.id, model.tagId, 1000)
+                            } else {
+                                engine.tagsManager.untagDevice(root.device.id, model.tagId, model.value)
+                            }
+                        }
+
+                        DevicesProxy {
+                            id: innerProxy
+                            engine: _engine
+                            filterTagId: model.tagId
+                            filterDeviceId: root.device.id
+                        }
+                    }
+                }
+            }
+
         }
     }
 

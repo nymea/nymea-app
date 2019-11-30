@@ -1339,6 +1339,22 @@
         <source>Logs</source>
         <translation>Protokoll</translation>
     </message>
+    <message>
+        <source>Grouping</source>
+        <translation>Gruppen</translation>
+    </message>
+    <message>
+        <source>New group</source>
+        <translation>Neue Gruppe</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <source>Groups for %1</source>
+        <translation>Gruppen für %1</translation>
+    </message>
 </context>
 <context>
     <name>DeviceRulesPage</name>
@@ -2205,6 +2221,13 @@ Bitte versuche es erneut.</translation>
     </message>
 </context>
 <context>
+    <name>GroupsView</name>
+    <message>
+        <source>Lighting</source>
+        <translation>Beleuchtung</translation>
+    </message>
+</context>
+<context>
     <name>HeatingDevicePage</name>
     <message>
         <source>Boost</source>
@@ -2514,6 +2537,42 @@ Bitte versuche es erneut.</translation>
     <message>
         <source>Set playback status</source>
         <translation>Setze Wiedergabestatus</translation>
+    </message>
+    <message>
+        <source>Light intensity sensors</source>
+        <translation>Lichtstärkesensoren</translation>
+    </message>
+    <message>
+        <source>Light intensity</source>
+        <translation>Lichtstärke</translation>
+    </message>
+    <message>
+        <source>Light intensity changed</source>
+        <translation>Lichtstärke geändert</translation>
+    </message>
+    <message>
+        <source>Media controllers</source>
+        <translation>Mediensteuerungen</translation>
+    </message>
+    <message>
+        <source>Start playback</source>
+        <translation>Wiedergabe starten</translation>
+    </message>
+    <message>
+        <source>Stop playback</source>
+        <translation>Wiedergabe stoppen</translation>
+    </message>
+    <message>
+        <source>Pause playback</source>
+        <translation>Wiedergabe pausieren</translation>
+    </message>
+    <message>
+        <source>Skip back</source>
+        <translation>Zurück springen</translation>
+    </message>
+    <message>
+        <source>Skip next</source>
+        <translation>Weiter springen</translation>
     </message>
 </context>
 <context>
@@ -2893,7 +2952,7 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>There are no scenes set up yet</source>
-        <translation>Es sind noch keine Szenen eingerichet</translation>
+        <translation type="vanished">Es sind noch keine Szenen eingerichet</translation>
     </message>
     <message>
         <source>It appears there are no things set up either yet. In order to use scenes you need to add some things first.</source>
@@ -2949,6 +3008,26 @@ Bitte versuche es erneut.</translation>
     <message>
         <source>In order for your %1 system to be useful, go ahead and add some things.</source>
         <translation>Damit dein %1 System sich nützlich machen kann, füge einige &quot;Things&quot; hinzu.</translation>
+    </message>
+    <message>
+        <source>Groups</source>
+        <translation>Gruppen</translation>
+    </message>
+    <message>
+        <source>There are no scenes set up yet.</source>
+        <translation>Es sind noch keine Szenen eingerichtet.</translation>
+    </message>
+    <message>
+        <source>My groups</source>
+        <translation>Meine Gruppen</translation>
+    </message>
+    <message>
+        <source>There are no groups set up yet.</source>
+        <translation>Es sind noch keine Gruppen eingerichtet.</translation>
+    </message>
+    <message>
+        <source>Grouping things can be useful to control multiple devices at once, for example an entire room. Watch out for the group symbol when interacting with things and use it to add them to groups.</source>
+        <translation>&quot;Things&quot; in Gruppen zu verwalten ist hilfreich um mehrere Geräte gleichzeitig zu schalten, z.B. einen ganzen Raum. Halte Ausschau nach dem Gruppensymbol wenn du mit &quot;Things&quot; interagierst und benutze es um sie Gruppen hinzuzufügen.</translation>
     </message>
 </context>
 <context>

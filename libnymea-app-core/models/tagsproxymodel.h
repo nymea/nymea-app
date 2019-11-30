@@ -42,6 +42,7 @@ signals:
     void filterTagIdChanged();
     void filterDeviceIdChanged();
     void filterRuleIdChanged();
+    void groupSameTagsChanged();
     void countChanged();
 
 private:

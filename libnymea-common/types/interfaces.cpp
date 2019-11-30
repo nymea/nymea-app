@@ -89,6 +89,11 @@ Interfaces::Interfaces(QObject *parent) : QAbstractListModel(parent)
                  tr("Daylight"),
                  tr("Daylight changed"));
 
+    addInterface("lightsensor", tr("Light intensity sensors"));
+    addStateType("lightsensor", "lightIntensity", QVariant::Bool, false,
+                 tr("Light intensity"),
+                 tr("Light intensity changed"));
+
     addInterface("evcharger", tr("EV charger"));
     addStateType("evcharger", "power", QVariant::Bool, true,
                  tr("Charging"),
@@ -115,6 +120,13 @@ Interfaces::Interfaces(QObject *parent) : QAbstractListModel(parent)
                  tr("Playback status"),
                  tr("Playback status changed"),
                  tr("Set playback status"));
+
+    addInterface("mediacontroller", tr("Media controllers"));
+    addActionType("mediacontroller", "play", tr("Start playback"), new ParamTypes());
+    addActionType("mediacontroller", "stop", tr("Stop playback"), new ParamTypes());
+    addActionType("mediacontroller", "pause", tr("Pause playback"), new ParamTypes());
+    addActionType("mediacontroller", "skipBack", tr("Skip back"), new ParamTypes());
+    addActionType("mediacontroller", "skipNext", tr("Skip next"), new ParamTypes());
 }
 
 int Interfaces::rowCount(const QModelIndex &parent) const
@@ -144,6 +156,9 @@ QHash<int, QByteArray> Interfaces::roleNames() const
 
 Interface *Interfaces::get(int index) const
 {
+    if (index < 0 || index >= m_list.count()) {
+        return nullptr;
+    }
     return m_list.at(index);
 }
 

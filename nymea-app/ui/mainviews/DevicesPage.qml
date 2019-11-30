@@ -5,10 +5,14 @@ import QtQuick.Layouts 1.2
 import Nymea 1.0
 import "../components"
 
-Item {
+MouseArea {
     id: root
     property alias count: interfacesGridView.count
     property alias model: interfacesGridView.model
+
+    // Prevent scroll events to swipe left/right in case they fall through the grid
+    preventStealing: true
+    onWheel: wheel.accepted = true
 
     GridView {
         id: interfacesGridView

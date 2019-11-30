@@ -212,5 +212,6 @@
         <file>ui/images/browser/MediaBrowserIconNapster.svg</file>
         <file>ui/images/browser/MediaBrowserIconSoundCloud.svg</file>
         <file>ui/images/browser/MediaBrowserIconDeezer.svg</file>
+        <file>ui/images/view-grid-symbolic.svg</file>
     </qresource>
 </RCC>

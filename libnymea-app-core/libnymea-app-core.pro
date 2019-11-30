@@ -47,6 +47,7 @@ SOURCES += \
     deviceclassesproxy.cpp \
     devicediscovery.cpp \
     models/packagesfiltermodel.cpp \
+    models/taglistmodel.cpp \
     vendorsproxy.cpp \
     pluginsproxy.cpp \
     interfacesmodel.cpp \
@@ -109,6 +110,7 @@ HEADERS += \
     deviceclassesproxy.h \
     devicediscovery.h \
     models/packagesfiltermodel.h \
+    models/taglistmodel.h \
     vendorsproxy.h \
     pluginsproxy.h \
     interfacesmodel.h \

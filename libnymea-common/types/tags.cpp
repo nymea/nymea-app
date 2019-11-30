@@ -46,6 +46,19 @@ void Tags::addTag(Tag *tag)
     beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
     m_list.append(tag);
     endInsertRows();
+    qDebug() << "tags count changed";
+    emit countChanged();
+}
+
+void Tags::addTags(QList<Tag *> tags)
+{
+    beginInsertRows(QModelIndex(), m_list.count(), m_list.count() + tags.count() - 1);
+    foreach (Tag *tag, tags) {
+        tag->setParent(this);
+        connect(tag, &Tag::valueChanged, this, &Tags::tagValueChanged);
+    }
+    m_list.append(tags);
+    endInsertRows();
     emit countChanged();
 }
 
@@ -68,7 +81,7 @@ Tag *Tags::get(int index) const
     return m_list.at(index);
 }
 
-Tag *Tags::findDeviceTag(const QString &deviceId, const QString &tagId) const
+Tag *Tags::findDeviceTag(const QUuid &deviceId, const QString &tagId) const
 {
     foreach (Tag *tag, m_list) {
         if (tag->deviceId() == deviceId && tag->tagId() == tagId) {
