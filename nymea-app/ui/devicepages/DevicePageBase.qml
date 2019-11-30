@@ -117,7 +117,7 @@ Page {
         Component {
             id: addToGroupDialog
             MeaDialog {
-                title: qsTr("Configure groups")
+                title: qsTr("Groups for %1").arg(root.device.name)
                 headerIcon: "../images/view-grid-symbolic.svg"
 
                 RowLayout {

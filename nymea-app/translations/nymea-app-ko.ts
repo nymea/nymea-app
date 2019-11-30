@@ -932,6 +932,22 @@
         <source>Logs</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Grouping</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New group</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation type="unfinished">확인</translation>
+    </message>
+    <message>
+        <source>Groups for %1</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DeviceRulesPage</name>
@@ -1685,6 +1701,13 @@ Please try again.</source>
     </message>
 </context>
 <context>
+    <name>GroupsView</name>
+    <message>
+        <source>Lighting</source>
+        <translation type="unfinished">전등(조명)</translation>
+    </message>
+</context>
+<context>
     <name>HeatingDevicePage</name>
     <message>
         <source>Boost</source>
@@ -1984,6 +2007,42 @@ Please try again.</source>
         <source>Set playback status</source>
         <translation>재생 상태 설정</translation>
     </message>
+    <message>
+        <source>Light intensity sensors</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Light intensity</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Light intensity changed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Media controllers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start playback</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Stop playback</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pause playback</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Skip back</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Skip next</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LightsDeviceListPage</name>
@@ -2267,7 +2326,7 @@ Please try again.</source>
     </message>
     <message>
         <source>There are no scenes set up yet</source>
-        <translation>아직 설정된  시나리오(연출)가 없습니다</translation>
+        <translation type="vanished">아직 설정된  시나리오(연출)가 없습니다</translation>
     </message>
     <message>
         <source>It appears there are no things set up either yet. In order to use scenes you need to add some things first.</source>
@@ -2314,6 +2373,26 @@ Please try again.</source>
     <message>
         <source>In order for your %1 system to be useful, go ahead and add some things.</source>
         <translation>%1 시스템이 유용하려면 먼저 몇 가지를 추가하십시오.</translation>
+    </message>
+    <message>
+        <source>Groups</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There are no scenes set up yet.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>My groups</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There are no groups set up yet.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Grouping things can be useful to control multiple devices at once, for example an entire room. Watch out for the group symbol when interacting with things and use it to add them to groups.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
