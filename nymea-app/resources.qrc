@@ -187,6 +187,7 @@
         <file>ui/devicepages/DeviceBrowserPage.qml</file>
         <file>ui/devicelistpages/MediaDeviceListPage.qml</file>
         <file>ui/components/MediaControls.qml</file>
+        <file>ui/components/ClosableArrowAnimation.qml</file>
         <file>ui/components/MediaArtworkImage.qml</file>
         <file>ui/components/BrowserContextMenu.qml</file>
         <file>ui/magic/SelectBrowserItemActionPage.qml</file>

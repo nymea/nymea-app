@@ -22,8 +22,26 @@ DevicePageBase {
             id: shutterImage
             Layout.preferredWidth: root.landscape ? Math.min(parent.width - shutterControlsContainer.width, parent.height) - app.margins : parent.width
             Layout.preferredHeight: width
-            name: "../images/shutter/shutter-" + app.pad(Math.round(root.percentageState.value / 10) * 10, 3) + ".svg"
-            visible: isExtended
+            name: "../images/shutter/shutter-" + app.pad(isExtended ? Math.round(root.percentageState.value / 10) * 10 : 50, 3) + ".svg"
+
+            ClosableArrowAnimation {
+                id: arrowAnimation
+                anchors.centerIn: parent
+
+                onStateChanged: {
+                    if (state != "") {
+                        animationTimer.start();
+                    }
+                }
+
+                Timer {
+                    id: animationTimer
+                    running: false
+                    interval: 5000
+                    repeat: false
+                    onTriggered: parent.state = ""
+                }
+            }
         }
 
         Item {
@@ -73,6 +91,15 @@ DevicePageBase {
                     device: root.device
                     anchors.horizontalCenter: parent.horizontalCenter
                     spacing: (parent.width - app.iconSize*2*children.length) / (children.length - 1)
+                    onActivated: {
+                        if (button == "open") {
+                            arrowAnimation.state = "opening"
+                        } else if (button == "close") {
+                            arrowAnimation.state = "closing"
+                        } else {
+                            arrowAnimation.state = ""
+                        }
+                    }
                 }
             }
         }
