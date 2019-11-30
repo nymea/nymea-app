@@ -1,3 +1,13 @@
+nymea-app (1.0.159) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Grouping
+  * Improve closable views a bit
+  * Complete support for reconfiguring devices
+  * Make use of new notifications subscription mechanism
+
+ -- Jenkins <jenkins@nymea.io>  Sat, 30 Nov 2019 18:22:10 +0100
+
 nymea-app (1.0.158) bionic; urgency=medium
 
   [ Michael Zanetti ]
