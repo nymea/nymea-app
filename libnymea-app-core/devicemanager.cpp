@@ -308,6 +308,7 @@ void DeviceManager::removeDeviceResponse(const QVariantMap &params)
 
 void DeviceManager::pairDeviceResponse(const QVariantMap &params)
 {
+    qDebug() << "Pair device response:" << params;
     emit pairDeviceReply(params.value("params").toMap());
 }
 
@@ -369,23 +370,40 @@ void DeviceManager::addDiscoveredDevice(const QUuid &deviceClassId, const QUuid 
     m_jsonClient->sendCommand("Devices.AddConfiguredDevice", params, this, "addDeviceResponse");
 }
 
-void DeviceManager::pairDevice(const QUuid &deviceClassId, const QUuid &deviceDescriptorId, const QString &name)
+void DeviceManager::pairDiscoveredDevice(const QUuid &deviceClassId, const QUuid &deviceDescriptorId, const QVariantList &deviceParams, const QString &name)
 {
-    qDebug() << "JsonRpc: pair device " << deviceClassId.toString();
+    qDebug() << "JsonRpc: pair discovered device " << deviceDescriptorId.toString();
     QVariantMap params;
-    params.insert("name", name);
-    params.insert("deviceClassId", deviceClassId.toString());
     params.insert("deviceDescriptorId", deviceDescriptorId.toString());
+    params.insert("deviceParams", deviceParams);
+    params.insert("name", name);
+
+    if (!m_jsonClient->ensureServerVersion("3.2")) {
+        params.insert("deviceClassId", deviceClassId);
+    }
+
     m_jsonClient->sendCommand("Devices.PairDevice", params, this, "pairDeviceResponse");
 }
 
-void DeviceManager::pairDevice(const QUuid &deviceClassId, const QString &name, const QVariantList &deviceParams)
+void DeviceManager::pairDevice(const QUuid &deviceClassId, const QVariantList &deviceParams, const QString &name)
 {
     qDebug() << "JsonRpc: pair device " << deviceClassId.toString();
     QVariantMap params;
-    params.insert("name", name);
     params.insert("deviceClassId", deviceClassId.toString());
     params.insert("deviceParams", deviceParams);
+    params.insert("name", name);
+    m_jsonClient->sendCommand("Devices.PairDevice", params, this, "pairDeviceResponse");
+}
+
+void DeviceManager::rePairDevice(const QUuid &deviceId, const QVariantList &deviceParams, const QString &name)
+{
+    qDebug() << "JsonRpc: pair device (reconfigure)" << deviceId;
+    QVariantMap params;
+    params.insert("deviceId", deviceId.toString());
+    params.insert("deviceParams", deviceParams);
+    if (!name.isEmpty()) {
+        params.insert("name", name);
+    }
     m_jsonClient->sendCommand("Devices.PairDevice", params, this, "pairDeviceResponse");
 }
 

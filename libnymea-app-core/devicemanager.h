@@ -67,9 +67,12 @@ public:
     bool fetchingData() const;
 
     Q_INVOKABLE void addDevice(const QUuid &deviceClassId, const QString &name, const QVariantList &deviceParams);
+    // param deviceClassId is deprecated and should be removed when minimum JSONRPC version is 3.1
     Q_INVOKABLE void addDiscoveredDevice(const QUuid &deviceClassId, const QUuid &deviceDescriptorId, const QString &name, const QVariantList &deviceParams);
-    Q_INVOKABLE void pairDevice(const QUuid &deviceClassId, const QUuid &deviceDescriptorId, const QString &name);
-    Q_INVOKABLE void pairDevice(const QUuid &deviceClassId, const QString &name, const QVariantList &deviceParams);
+    Q_INVOKABLE void pairDevice(const QUuid &deviceClassId, const QVariantList &deviceParams, const QString &name);
+    // param deviceClassId is deprecated and should be removed when minimum JSONRPC version is 3.1
+    Q_INVOKABLE void pairDiscoveredDevice(const QUuid &deviceClassId, const QUuid &deviceDescriptorId, const QVariantList &deviceParams, const QString &name);
+    Q_INVOKABLE void rePairDevice(const QUuid &deviceId, const QVariantList &deviceParams, const QString &name = QString());
     Q_INVOKABLE void confirmPairing(const QUuid &pairingTransactionId, const QString &secret = QString(), const QString &username = QString());
     Q_INVOKABLE void removeDevice(const QUuid &deviceId, RemovePolicy policy = RemovePolicyNone);
     Q_INVOKABLE void editDevice(const QUuid &deviceId, const QString &name);
