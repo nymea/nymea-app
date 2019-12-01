@@ -1,3 +1,10 @@
+nymea-app (1.0.160) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Work around QtVirtualKeyboard layering issues
+
+ -- Jenkins <jenkins@nymea.io>  Sun, 01 Dec 2019 12:56:31 +0100
+
 nymea-app (1.0.159) bionic; urgency=medium
 
   [ Michael Zanetti ]
