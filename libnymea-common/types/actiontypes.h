@@ -39,12 +39,12 @@ public:
         RoleDisplayName
     };
 
-    ActionTypes(QObject *parent = 0);
+    ActionTypes(QObject *parent = nullptr);
 
     QList<ActionType *> actionTypes();
 
     Q_INVOKABLE ActionType *get(int index) const;
-    Q_INVOKABLE ActionType *getActionType(const QString &actionTypeId) const;
+    Q_INVOKABLE ActionType *getActionType(const QUuid &actionTypeId) const;
 
     int rowCount(const QModelIndex & parent = QModelIndex()) const;
     QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;

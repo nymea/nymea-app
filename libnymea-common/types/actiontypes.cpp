@@ -38,7 +38,7 @@ ActionType *ActionTypes::get(int index) const
     return m_actionTypes.at(index);
 }
 
-ActionType *ActionTypes::getActionType(const QString &actionTypeId) const
+ActionType *ActionTypes::getActionType(const QUuid &actionTypeId) const
 {
     foreach (ActionType *actionType, m_actionTypes) {
         if (actionType->id() == actionTypeId) {

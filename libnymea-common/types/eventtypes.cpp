@@ -39,7 +39,7 @@ EventType *EventTypes::get(int index) const
     return m_eventTypes.at(index);
 }
 
-EventType *EventTypes::getEventType(const QString &eventTypeId) const
+EventType *EventTypes::getEventType(const QUuid &eventTypeId) const
 {
     foreach (EventType *eventType, m_eventTypes) {
         if (eventType->id() == eventTypeId) {

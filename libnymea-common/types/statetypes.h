@@ -49,7 +49,7 @@ public:
     QList<StateType *> stateTypes();
 
     Q_INVOKABLE StateType *get(int index) const;
-    Q_INVOKABLE StateType *getStateType(const QString &stateTypeId) const;
+    Q_INVOKABLE StateType *getStateType(const QUuid &stateTypeId) const;
 
     int rowCount(const QModelIndex & parent = QModelIndex()) const;
     QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;
