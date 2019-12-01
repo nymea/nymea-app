@@ -415,7 +415,7 @@ ApplicationWindow {
     }
 
 
-    // NOTE: If using a Dialog, make sure closePolicy does not contain Dialo.CloseOnPressOutside
+    // NOTE: If using a Dialog, make sure closePolicy does not contain Dialog.CloseOnPressOutside
     // or the virtual keyboard will close when pressing it...
 
     // https://bugreports.qt.io/browse/QTBUG-56918
