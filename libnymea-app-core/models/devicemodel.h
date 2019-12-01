@@ -71,7 +71,7 @@ private:
     bool m_showActions = true;
     bool m_showEvents = true;
 
-    QList<QString> m_list;
+    QList<QUuid> m_list;
 };
 
 #endif // DEVICEMODEL_H

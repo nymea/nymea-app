@@ -42,7 +42,7 @@ StateType *StateTypes::get(int index) const
     return m_stateTypes.at(index);
 }
 
-StateType *StateTypes::getStateType(const QString &stateTypeId) const
+StateType *StateTypes::getStateType(const QUuid &stateTypeId) const
 {
     foreach (StateType *stateType, m_stateTypes) {
         if (stateType->id() == stateTypeId) {

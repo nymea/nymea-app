@@ -6,6 +6,8 @@ import "../delegates"
 
 MeaDialog {
     id: root
+    x: (parent.width - width) / 2
+    y: (parent.height - height / 2)
 
     property Device device
     property string itemId
@@ -18,7 +20,7 @@ MeaDialog {
     StackView {
         id: stackView
         Layout.fillWidth: true
-        Layout.minimumHeight: actionListView.implicitHeight
+        Layout.preferredHeight: actionListView.implicitHeight
 
         property var actionTypeId
 
@@ -64,9 +66,11 @@ MeaDialog {
     }
 
     RowLayout {
+        id: buttonRow
         Layout.fillWidth: true
 
         Button {
+            id: cancelButton
             text: qsTr("Cancel")
             onClicked: root.reject()
         }

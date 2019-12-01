@@ -45,7 +45,7 @@ public:
     QList<EventType *> eventTypes();
 
     Q_INVOKABLE EventType *get(int index) const;
-    Q_INVOKABLE EventType *getEventType(const QString &eventTypeId) const;
+    Q_INVOKABLE EventType *getEventType(const QUuid &eventTypeId) const;
 
     int rowCount(const QModelIndex & parent = QModelIndex()) const;
     QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;

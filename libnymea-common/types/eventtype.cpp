@@ -27,12 +27,12 @@ EventType::EventType(QObject *parent) :
 {
 }
 
-QString EventType::id() const
+QUuid EventType::id() const
 {
     return m_id;
 }
 
-void EventType::setId(const QString &id)
+void EventType::setId(const QUuid &id)
 {
     m_id = id;
 }
