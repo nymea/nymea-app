@@ -1,3 +1,11 @@
+nymea-app (1.0.162) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Hide group placeholder while loading
+  * Fix browserItemActionTypes
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 02 Dec 2019 00:19:54 +0100
+
 nymea-app (1.0.161) bionic; urgency=medium
 
   [ Michael Zanetti ]
