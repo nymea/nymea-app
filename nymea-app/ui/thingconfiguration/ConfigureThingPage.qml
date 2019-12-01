@@ -206,6 +206,9 @@ Page {
             y: app.margins
 
             standardButtons: Dialog.Ok | Dialog.Cancel
+            // NOTE: If CloseOnPressOutside is active (default) it will break the QtVirtualKeyboard
+            // https://bugreports.qt.io/browse/QTBUG-56918
+            closePolicy: Popup.CloseOnEscape
 
             TextField {
                 id: textField

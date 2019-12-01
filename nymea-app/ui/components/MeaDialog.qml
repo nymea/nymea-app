@@ -14,6 +14,13 @@ Dialog {
 
     standardButtons: Dialog.Ok
 
+    MouseArea {
+        parent: app.overlay
+        anchors.fill: parent
+        z: -1
+        onPressed: mouse.accepted = true
+    }
+
     header: Item {
         implicitHeight: headerRow.height + app.margins * 2
         implicitWidth: parent.width
