@@ -55,7 +55,7 @@ Page {
             Layout.margins: app.margins
             text: qsTr("Log out")
             onClicked: {
-                logoutDialog.open()
+                logoutDialogComponent.createObject(root).open()
             }
         }
 
@@ -106,33 +106,37 @@ Page {
         }
     }
 
-    MeaDialog {
-        id: logoutDialog
-        title: qsTr("Goodbye")
-        text: qsTr("Sorry to see you go. If you log out you won't be able to connect to %1:core systems remotely any more. However, you can come back any time, we'll keep your user account. If you whish to completely delete your account and all the data associated with it, check the box below before hitting ok. If you decide to delete your account, all your personal information will be removed from %1:cloud and cannot be restored.").arg(app.systemName)
-        headerIcon: "../images/dialog-warning-symbolic.svg"
-        standardButtons: Dialog.Cancel | Dialog.Ok
+    Component {
+        id : logoutDialogComponent
+        MeaDialog {
+            id: logoutDialog
+            title: qsTr("Goodbye")
+            text: qsTr("Sorry to see you go. If you log out you won't be able to connect to %1:core systems remotely any more. However, you can come back any time, we'll keep your user account. If you whish to completely delete your account and all the data associated with it, check the box below before hitting ok. If you decide to delete your account, all your personal information will be removed from %1:cloud and cannot be restored.").arg(app.systemName)
+            headerIcon: "../images/dialog-warning-symbolic.svg"
+            standardButtons: Dialog.Cancel | Dialog.Ok
 
-        RowLayout {
-            CheckBox {
-                id: deleteCheckbox
+            RowLayout {
+                CheckBox {
+                    id: deleteCheckbox
+                }
+                Label {
+                    Layout.fillWidth: true
+                    wrapMode: Text.WordWrap
+                    text: qsTr("Delete my account")
+                }
             }
-            Label {
-                Layout.fillWidth: true
-                wrapMode: Text.WordWrap
-                text: qsTr("Delete my account")
-            }
-        }
 
-        onAccepted: {
-            if (deleteCheckbox.checked) {
-                busyOverlay.shown = true;
-                AWSClient.deleteAccount()
-            } else {
-                AWSClient.logout()
+            onAccepted: {
+                if (deleteCheckbox.checked) {
+                    busyOverlay.shown = true;
+                    AWSClient.deleteAccount()
+                } else {
+                    AWSClient.logout()
+                }
             }
         }
     }
+
 
     Flickable {
         anchors.fill: parent
@@ -210,7 +214,7 @@ Page {
                         errorLabel.text = qsTr("Failed to connect to the login server. Please mase sure your network connection is working.")
                         break;
                     default:
-                        errorLabel.text = qsTr("An unexpected error happened. Please report this isse. Error code:", error)
+                        errorLabel.text = qsTr("An unexpected error happened. Please report this isse. Error code:").arg(error)
                         break;
                     }
                     errorLabel.visible = (error !== AWSClient.LoginErrorNoError)

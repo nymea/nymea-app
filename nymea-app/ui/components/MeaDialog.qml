@@ -14,6 +14,8 @@ Dialog {
 
     standardButtons: Dialog.Ok
 
+    onClosed: root.destroy()
+
     MouseArea {
         parent: app.overlay
         anchors.fill: parent
