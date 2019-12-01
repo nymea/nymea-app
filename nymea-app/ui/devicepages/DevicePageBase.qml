@@ -119,6 +119,9 @@ Page {
             MeaDialog {
                 title: qsTr("Groups for %1").arg(root.device.name)
                 headerIcon: "../images/view-grid-symbolic.svg"
+                // NOTE: If CloseOnPressOutside is active (default) it will break the QtVirtualKeyboard
+                // https://bugreports.qt.io/browse/QTBUG-56918
+                closePolicy: Popup.CloseOnEscape
 
                 RowLayout {
                     Layout.leftMargin: app.margins

@@ -415,8 +415,14 @@ ApplicationWindow {
     }
 
 
+    // NOTE: If using a Dialog, make sure closePolicy does not contain Dialo.CloseOnPressOutside
+    // or the virtual keyboard will close when pressing it...
+
+    // https://bugreports.qt.io/browse/QTBUG-56918
     KeyboardLoader {
         id: keyboardRect
+        parent: app.overlay
+        z: 1
         anchors { left: parent.left; bottom: parent.bottom; right: parent.right }
     }
 }
