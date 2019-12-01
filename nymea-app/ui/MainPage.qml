@@ -306,7 +306,7 @@ Page {
                     EmptyViewPlaceholder {
                         anchors { left: parent.left; right: parent.right; margins: app.margins }
                         anchors.verticalCenter: parent.verticalCenter
-                        visible: groupsView.count == 0
+                        visible: groupsView.count == 0 && !engine.deviceManager.fetchingData && !engine.tagsManager.busy
                         title: qsTr("There are no groups set up yet.")
                         text: qsTr("Grouping things can be useful to control multiple devices at once, for example an entire room. Watch out for the group symbol when interacting with things and use it to add them to groups.")
                         imageSource: "images/view-grid-symbolic.svg"

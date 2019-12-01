@@ -136,9 +136,6 @@ void Engine::onConnectedChanged()
         qDebug() << "Engine: inital setup required:" << m_jsonRpcClient->initialSetupRequired() << "auth required:" << m_jsonRpcClient->authenticationRequired();
         if (!m_jsonRpcClient->initialSetupRequired() && !m_jsonRpcClient->authenticationRequired()) {
             m_deviceManager->init();
-            m_ruleManager->init();
-            m_nymeaConfiguration->init();
-            m_systemController->init();
         }
     }
 }
@@ -146,6 +143,9 @@ void Engine::onConnectedChanged()
 void Engine::onDeviceManagerFetchingChanged()
 {
     if (!m_deviceManager->fetchingData()) {
+        m_ruleManager->init();
+        m_nymeaConfiguration->init();
+        m_systemController->init();
         if (m_jsonRpcClient->ensureServerVersion("1.7")) {
             m_tagsManager->init();
         }
