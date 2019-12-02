@@ -135,6 +135,7 @@ void CodeCompletion::update()
         blockText.remove(QRegExp(".*deviceId: \""));
         m_model->update(entries);
         m_proxy->setFilter(blockText);
+        emit hint();
         return;
     }
 
@@ -159,6 +160,7 @@ void CodeCompletion::update()
         blockText.remove(QRegExp(".*stateTypeId: \""));
         m_model->update(entries);
         m_proxy->setFilter(blockText);
+        emit hint();
         return;
     }
 
@@ -185,6 +187,7 @@ void CodeCompletion::update()
         blockText.remove(QRegExp(".*stateName: \""));
         m_model->update(entries);
         m_proxy->setFilter(blockText);
+        emit hint();
         return;
     }
 
@@ -209,6 +212,7 @@ void CodeCompletion::update()
         blockText.remove(QRegExp(".*actionTypeId: \""));
         m_model->update(entries);
         m_proxy->setFilter(blockText);
+        emit hint();
         return;
     }
 
@@ -233,6 +237,7 @@ void CodeCompletion::update()
         blockText.remove(QRegExp(".*actionName: \""));
         m_model->update(entries);
         m_proxy->setFilter(blockText);
+        emit hint();
         return;
     }
 
@@ -256,6 +261,7 @@ void CodeCompletion::update()
         blockText.remove(QRegExp(".*eventTypeId: \""));
         m_model->update(entries);
         m_proxy->setFilter(blockText);
+        emit hint();
         return;
     }
 
@@ -279,6 +285,7 @@ void CodeCompletion::update()
         blockText.remove(QRegExp(".*eventName: \""));
         m_model->update(entries);
         m_proxy->setFilter(blockText);
+        emit hint();
         return;
     }
 

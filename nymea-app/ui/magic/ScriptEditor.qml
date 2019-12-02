@@ -406,6 +406,7 @@ Page {
         document: scriptEdit.textDocument
         cursorPosition: scriptEdit.cursorPosition
         onCursorPositionChanged: scriptEdit.cursorPosition = cursorPosition
+        onHint: completionBox.show()
     }
 
     BusyOverlay {

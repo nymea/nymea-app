@@ -61,6 +61,7 @@ signals:
     void documentChanged();
     void cursorPositionChanged();
     void currentWordChanged();
+    void hint();
 
 private:
     class BlockInfo {
