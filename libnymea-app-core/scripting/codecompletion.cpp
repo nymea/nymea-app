@@ -126,7 +126,7 @@ void CodeCompletion::update()
 
     QList<CompletionModel::Entry> entries;
 
-    QRegExp deviceIdExp(".*deviceId: \"[a-zA-Z0-9-]*");
+    QRegExp deviceIdExp(".*deviceId: \"[a-zA-Z0-9- ]*");
     if (deviceIdExp.exactMatch(blockText)) {
         for (int i = 0; i < m_engine->deviceManager()->devices()->rowCount(); i++) {
             Device *dev = m_engine->deviceManager()->devices()->get(i);

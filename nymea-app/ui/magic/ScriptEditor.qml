@@ -188,6 +188,10 @@ Page {
                     }
                 }
 
+                function controlPressed(event) {
+                    return event.modifiers & Qt.ControlModifier || event.modifiers & Qt.MetaModifier
+                }
+
                 Keys.onPressed: {
                     print("key", event.key, "Completion box visible:", completionBox.visible)
                     // Things to happen only when we're not autocompleting
@@ -199,7 +203,7 @@ Page {
                             event.accepted = true;
                             return;
                         case Qt.Key_Space:
-                            if (!completionBox.visible && (event.modifiers & Qt.ControlModifier)) {
+                            if (!completionBox.visible && controlPressed(event)) {
                                 completion.update();
                                 completionBox.show();
                                 return;
@@ -246,14 +250,14 @@ Page {
                         event.accepted = true;
                         return;
                     case Qt.Key_Plus:
-                        if (event.modifiers & Qt.ControlModifier) {
+                        if (controlPressed(event)) {
                             scriptEdit.font.pixelSize++;
                             event.accepted = true;
                             return;
                         }
                         break;
                     case Qt.Key_Minus:
-                        if (event.modifiers & Qt.ControlModifier) {
+                        if (controlPressed(event)) {
                             scriptEdit.font.pixelSize--;
                             event.accepted = true;
                             return;
