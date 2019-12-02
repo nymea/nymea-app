@@ -12,6 +12,7 @@ Page {
 
         HeaderButton {
             imageSource: Qt.resolvedUrl("images/script.svg")
+            visible: engine.jsonRpcClient.ensureServerVersion("4.1")
             onClicked: {
                 pageStack.push("magic/ScriptsPage.qml")
             }

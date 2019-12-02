@@ -64,6 +64,7 @@ void Scripts::removeScript(const QUuid &id)
             beginRemoveRows(QModelIndex(), i, i);
             m_list.takeAt(i)->deleteLater();
             endRemoveRows();
+            emit countChanged();
             return;
         }
     }

@@ -3,6 +3,7 @@ import QtQuick.Controls 2.2
 import Nymea 1.0
 import QtQuick.Layouts 1.2
 import QtQuick.Controls.Material 2.1
+import Qt.labs.settings 1.0
 import "../components"
 import "scripting"
 
@@ -17,6 +18,23 @@ Page {
         } else {
             scriptEdit.text = "import QtQuick 2.0\nimport nymea 1.0\n\nItem {\n    \n}\n"
         }
+
+        if ((Qt.platform.os == "android" || Qt.platform.os == "ios") && !popupCache.shown) {
+            var component = Qt.createComponent(Qt.resolvedUrl("../components/MeaDialog.qml"));
+            var infoPopup = component.createObject(root,
+                                               {
+                                                   title: qsTr("Did you know..."),
+                                                   headerIcon: "../images/info.svg",
+                                                   text: qsTr("nymea:app is available for all kinds of devices. In order to edit scripts we recommend to use nymea:app on your personal computer or connect a keyboard to your tablet.")
+                                               })
+            infoPopup.open();
+            popupCache.shown = true
+        }
+    }
+
+    Settings {
+        id: popupCache
+        property bool shown: false
     }
 
     header: NymeaHeader {
@@ -91,7 +109,10 @@ Page {
                 if (scriptError == "ScriptErrorNoError") {
                     d.scriptId = scriptId;
                     d.oldContent = scriptEdit.text;
+                } else if (scriptError == "ScriptErrorInvalidScript") {
+                    content.ToolTip.show(qsTr("The script has not been deployed because it contains errors."))
                 }
+
                 errorModel.update(errors);
             }
         }
@@ -101,6 +122,8 @@ Page {
                 d.callId = -1;
                 if (scriptError == "ScriptErrorNoError") {
                     d.oldContent = scriptEdit.text;
+                } else if (scriptError == "ScriptErrorInvalidScript") {
+                    content.ToolTip.show(qsTr("The script has not been deployed because it contains errors."))
                 }
                 errorModel.update(errors)
             }
@@ -152,6 +175,7 @@ Page {
                 leftPadding: lineNumbers.width + 2
                 rightPadding: 20
                 bottomPadding: 28
+                inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhNoAutoUppercase
 
                 font.family: "Monospace"
                 font.pixelSize: app.extraSmallFont
@@ -387,5 +411,4 @@ Page {
     BusyOverlay {
         shown: d.callId != -1
     }
-
 }

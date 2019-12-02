@@ -13,16 +13,15 @@ Rectangle {
 
     width: {
         var ret = fontMetrics.maximumCharacterWidth * 2;
-        var tmp = scriptEdit.lineCount
+        var tmp = textArea.lineCount
         while (tmp >= 10) {
             ret += fontMetrics.maximumCharacterWidth;
             tmp /= 10;
         }
         return ret;
     }
-    height: scriptEdit.height - 10
+    height: root.textArea.height - 10
     color: (app.backgroundColor.r * 0.2126 + app.backgroundColor.g * 0.7152 + app.backgroundColor.b * 0.0722) * 255 < 128 ? "#202020" : "#e0e0e0"
-    anchors { left: parent.left; leftMargin: scriptFlickable.contentX }
     Component.onCompleted: {
         print("..", app.backgroundColor.r)
         print("*** background", (app.backgroundColor.r * 0.2126 + app.backgroundColor.g * 0.7152 + app.backgroundColor.b * 0.0722) * 255 < 128 )

@@ -147,7 +147,7 @@ Rectangle {
                 }
 
                 Label {
-                    anchors.verticalCenter: parent.verticalCenter
+                    Layout.alignment: Qt.AlignVCenter
                     Layout.fillWidth: true
                     text: model.displayText
                     color: app.foregroundColor

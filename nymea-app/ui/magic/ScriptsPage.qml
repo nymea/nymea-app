@@ -55,6 +55,7 @@ Page {
             text: qsTr("Press \"Add script\" to get started.")
             imageSource: "../images/script.svg"
             buttonText: qsTr("Add script")
+            visible: engine.scriptManager.scripts.count === 0
             onButtonClicked: {
                 pageStack.push("ScriptEditor.qml");
             }
