@@ -154,7 +154,7 @@ void CodeCompletion::update()
 
         for (int i = 0; i < device->deviceClass()->stateTypes()->rowCount(); i++) {
             StateType *stateType = device->deviceClass()->stateTypes()->get(i);
-            entries.append(CompletionModel::Entry(stateType->id() + "\" // " + stateType->name(), stateType->name(), "stateType"));
+            entries.append(CompletionModel::Entry(stateType->id().toString() + "\" // " + stateType->name(), stateType->name(), "stateType"));
         }
         blockText.remove(QRegExp(".*stateTypeId: \""));
         m_model->update(entries);
@@ -204,7 +204,7 @@ void CodeCompletion::update()
 
         for (int i = 0; i < device->deviceClass()->actionTypes()->rowCount(); i++) {
             ActionType *actionType = device->deviceClass()->actionTypes()->get(i);
-            entries.append(CompletionModel::Entry(actionType->id() + "\" // " + actionType->name(), actionType->name(), "actionType"));
+            entries.append(CompletionModel::Entry(actionType->id().toString() + "\" // " + actionType->name(), actionType->name(), "actionType"));
         }
         blockText.remove(QRegExp(".*actionTypeId: \""));
         m_model->update(entries);
@@ -251,7 +251,7 @@ void CodeCompletion::update()
 
         for (int i = 0; i < device->deviceClass()->eventTypes()->rowCount(); i++) {
             EventType *eventType = device->deviceClass()->eventTypes()->get(i);
-            entries.append(CompletionModel::Entry(eventType->id() + "\" // " + eventType->name(), eventType->name(), "eventType"));
+            entries.append(CompletionModel::Entry(eventType->id().toString() + "\" // " + eventType->name(), eventType->name(), "eventType"));
         }
         blockText.remove(QRegExp(".*eventTypeId: \""));
         m_model->update(entries);
