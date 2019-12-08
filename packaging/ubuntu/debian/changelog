@@ -3,7 +3,7 @@ nymea-app (1.0.163) bionic; urgency=medium
   [ Michael Zanetti ]
   * Fix generating action type for rule creation
 
- -- Jenkins <jenkins@nymea.io>  Sun, 08 Dec 2019 18:26:01 +0100
+ -- Jenkins <jenkins@nymea.io>  Sun, 08 Dec 2019 19:40:41 +0100
 
 nymea-app (1.0.162) bionic; urgency=medium
 
