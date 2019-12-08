@@ -38,7 +38,7 @@ Page {
 
     ListModel {
         id: generatedModel
-        ListElement { displayName: ""; actionTypeId: "" }
+        dynamicRoles: true
     }
 
     function buildInterface() {
