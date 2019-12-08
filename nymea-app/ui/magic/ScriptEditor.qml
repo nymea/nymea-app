@@ -145,7 +145,8 @@ Page {
             if (scriptId !== d.scriptId) {
                 return;
             }
-            messagesModel.append({type: type, message: message})
+            var str = "<font color=\"%1\">".arg(type == "ScriptMessageTypeWarning" ? app.accentColor : app.foregroundColor) + message + "</font>"
+            consoleOutput.append(str)
         }
     }
 
@@ -346,32 +347,12 @@ Page {
                 property string title: qsTr("Console")
                 signal raise()
 
-                ListView {
-                    id: messagesListView
-                    model: ListModel {
-                        id: messagesModel
-                        onCountChanged: {
-                            if (count > 0) {
-                                consolePane.raise();
-                            }
-                        }
-                    }
-                    property bool autoScroll: true
-                    onCountChanged: {
-                        if (autoScroll) {
-                            messagesListView.positionViewAtEnd()
-                        }
-                    }
-                    onMovementEnded: {
-                        autoScroll = messagesListView.atYEnd;
-                    }
-
-                    delegate: Label {
-                        width: parent.width
-                        text: model.message
-                        font: scriptEdit.font
-                        color: model.type === "ScriptMessageTypeWarning" ? "red" : app.foregroundColor
-                    }
+                TextArea {
+                    id: consoleOutput
+                    onTextChanged: consolePane.raise();
+                    selectByMouse: true
+                    font: scriptEdit.font
+                    textFormat: Qt.RichText
                 }
             }
         }

@@ -478,18 +478,21 @@ CodeCompletion::BlockInfo CodeCompletion::getBlockInfo(int position) const
         info.name.remove(QRegExp(".* "));
     }
 
-    qDebug() << "Block starts at" << blockStart.position() << "contents:" << blockStart.block().text();
     int childBlocks = 0;
     while (!blockStart.isNull() && blockStart.position() < position) {
         QString line = blockStart.block().text();
         if (line.endsWith("{")) {
-            blockStart.movePosition(QTextCursor::NextBlock);
             childBlocks++;
+            if (!blockStart.movePosition(QTextCursor::NextBlock)) {
+                break;
+            }
             continue;
         }
         if (line.trimmed().startsWith("}")) {
-            blockStart.movePosition(QTextCursor::NextBlock);
             childBlocks--;
+            if (!blockStart.movePosition(QTextCursor::NextBlock)) {
+                break;
+            }
             continue;
         }
         // \n
@@ -508,7 +511,9 @@ CodeCompletion::BlockInfo CodeCompletion::getBlockInfo(int position) const
             qDebug() << "inserting:" << propName << "->" << propValue;
             info.properties.insert(propName, propValue);
         }
-        blockStart.movePosition(QTextCursor::NextBlock);
+        if (!blockStart.movePosition(QTextCursor::NextBlock)) {
+            break;
+        }
     }
 
     return info;
