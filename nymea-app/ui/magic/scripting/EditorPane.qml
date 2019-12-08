@@ -70,9 +70,23 @@ Item {
             }
 
             ColorIcon {
+                name: "../images/edit-clear.svg"
+                enabled: contentContainer.data[panelTabs.currentIndex].clearEnabled
+                color: enabled ? app.accentColor : keyColor
+                Layout.preferredHeight: app.iconSize  / 2
+                Layout.preferredWidth: height
+                MouseArea {
+                    anchors.fill: parent
+                    anchors.margins: -5
+                    onClicked: contentContainer.data[panelTabs.currentIndex].clear()
+                }
+            }
+
+            ColorIcon {
                 name: pane.shown ? "../images/down.svg" : "../images/up.svg"
                 Layout.preferredHeight: app.iconSize  / 2
                 Layout.preferredWidth: height
+                color: app.accentColor
                 MouseArea {
                     anchors.fill: parent
                     anchors.margins: -5

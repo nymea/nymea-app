@@ -301,7 +301,11 @@ Page {
                 id: errorsPane
                 anchors { fill: parent; margins: app.margins / 2 }
                 property string title: qsTr("Errors")
+                property bool clearEnabled: errorModel.count > 0
                 signal raise()
+                function clear() {
+                    errorModel.clear();
+                }
 
                 ListView {
                     id: errorListView
@@ -345,11 +349,20 @@ Page {
                 id: consolePane
                 anchors {fill: parent; margins: app.margins/ 2 }
                 property string title: qsTr("Console")
+                property bool clearEnabled: false
                 signal raise()
+                function clear() {
+                    consoleOutput.text = "";
+                    clearEnabled = false;
+                }
 
                 TextArea {
                     id: consoleOutput
-                    onTextChanged: consolePane.raise();
+                    onTextChanged: {
+                        consolePane.raise();
+                        print("text:", text)
+                        consolePane.clearEnabled = true
+                    }
                     selectByMouse: true
                     font: scriptEdit.font
                     textFormat: Qt.RichText
