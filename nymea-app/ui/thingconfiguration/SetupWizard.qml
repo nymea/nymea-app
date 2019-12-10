@@ -469,7 +469,7 @@ Page {
                     Layout.fillWidth: true
                     text: "OK"
                     onClicked: {
-                        engine.deviceManager.confirmPairing(d.pairingTransactionId, pinTextField.text, usernameTextField.displayText);
+                        engine.deviceManager.confirmPairing(d.pairingTransactionId, pinTextField.password, usernameTextField.displayText);
                         busyOverlay.shown = true;
                     }
                 }
