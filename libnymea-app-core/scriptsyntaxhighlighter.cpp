@@ -142,9 +142,9 @@ void ScriptSyntaxHighlighterPrivate::update(bool dark)
     // String literals
     format.setForeground(dark ? QColor("#e64ad7") : Qt::darkGreen);
     rule.format = format;
-    rule.pattern = QRegExp("\".*\"");
+    rule.pattern = QRegExp("\".[^\"]*\"");
     highlightingRules.append(rule);
-    rule.pattern = QRegExp("'.*'");
+    rule.pattern = QRegExp("'.[^']*'");
     highlightingRules.append(rule);
 
     // comments

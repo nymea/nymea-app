@@ -317,8 +317,11 @@ Page {
                             var newErrorLines = []
                             errors.forEach( function(error) {
                                 var parts = error.split(":")
-                                append({line: parseInt(parts[0]), column: parseInt(parts[1]), message: parts[2].trim()})
-                                newErrorLines.push(parseInt(parts[0]));
+                                var line = parseInt(parts.shift());
+                                var col = parseInt(parts.shift());
+                                var message = parts.join(":").trim();
+                                append({line: line, column: col, message: message})
+                                newErrorLines.push(line);
                             })
                             errorLines = newErrorLines;
                             if (errorModel.count > 0) {

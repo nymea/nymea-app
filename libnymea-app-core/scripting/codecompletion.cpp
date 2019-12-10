@@ -15,6 +15,7 @@ CodeCompletion::CodeCompletion(QObject *parent):
     m_classes.insert("DeviceState", ClassInfo("DeviceState", {"id", "deviceId", "stateTypeId", "stateName", "value"}, {}, {"onValueChanged"}));
     m_classes.insert("DeviceEvent", ClassInfo("DeviceEvent", {"id", "deviceId", "eventTypeId", "eventName"}, {}, {"onTriggered"}));
     m_classes.insert("Timer", ClassInfo("Timer", {"id", "interval", "running", "repeat"}, {"start", "stop"}, {"onTriggered"}));
+    m_classes.insert("Alarm", ClassInfo("Alarm", {"id", "time", "endTime", "weekDays", "active"}, {}, {"onTriggered", "onActiveChanged"}));
     m_classes.insert("PropertyAnimation", ClassInfo("PropertyAnimation", {"id", "target", "targets", "property", "properties", "value", "from", "to", "easing", "exclude", "duration", "alwaysRunToEnd", "loops", "paused", "running"}, {"start", "stop", "pause", "resume", "complete"}, {"onStarted", "onStopped", "onFinished", "onRunningChanged"}));
     m_classes.insert("ColorAnimation", ClassInfo("ColorAnimation", {"id", "target", "targets", "property", "properties", "value", "from", "to", "easing", "exclude", "duration", "alwaysRunToEnd", "loops", "paused", "running"}, {"start", "stop", "pause", "resume", "complete"}, {"onStarted", "onStopped", "onFinished", "onRunningChanged"}));
     m_classes.insert("SequentialAnimation", ClassInfo("SequentialAnimation", {"id", "alwaysRunToEnd", "loops", "paused", "running"}, {"start", "stop", "pause", "resume", "complete"}, {"onStarted", "onStopped", "onFinished", "onRunningChanged"}));
@@ -22,6 +23,7 @@ CodeCompletion::CodeCompletion(QObject *parent):
     m_classes.insert("PauseAnimation", ClassInfo("PauseAnimation", {"id", "duration", "alwaysRunToEnd", "loops", "paused", "running"}, {"start", "stop", "pause", "resume", "complete"}, {"onStarted", "onStopped", "onFinished", "onRunningChanged"}));
 
     m_attachedClasses.insert("Component", ClassInfo("Component", {}, {}, {"onCompleted", "onDestruction", "onDestroyed"}));
+    m_attachedClasses.insert("Alarm", ClassInfo("Alarm", {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday", "AllDays"}, {}, {}));
 
     m_genericSyntax.insert("property", "property ");
     m_genericSyntax.insert("function", "function ");
@@ -307,7 +309,7 @@ void CodeCompletion::update()
         return;
     }
 
-    QRegExp rValueExp(" *[\\.a-zA-Z0-0]+:[ a-zA-Z0-0]*");
+    QRegExp rValueExp(" *[\\.a-zA-Z0-0]+[^id]:[ a-zA-Z0-0]*");
     if (rValueExp.exactMatch(blockText)) {
         QTextCursor tmp = m_cursor;
         tmp.movePosition(QTextCursor::StartOfWord, QTextCursor::KeepAnchor);
@@ -387,6 +389,7 @@ void CodeCompletion::update()
         }
     }
     if (isImperative) {
+        qDebug() << "Is imperative!";
         // Starting a new expression?
         QRegExp newExpressionExp("(.*; [a-zA-Z0-9]*| *[a-zA-Z0-9]*)");
         if (newExpressionExp.exactMatch(blockText)) {
@@ -471,12 +474,14 @@ CodeCompletion::BlockInfo CodeCompletion::getBlockInfo(int position) const
     info.end = m_document->textDocument()->find("}", position).position();
     info.valid = true;
 
-
+    qDebug() << "block name" << blockStart.block().text();
     info.name = blockStart.block().text();
-    info.name.remove(QRegExp(" *\\{"));
+    info.name.remove(QRegExp(" *\\{ *"));
+    qDebug() << "stripped klammer" << info.name;
     while (info.name.contains(" ")) {
         info.name.remove(QRegExp(".* "));
     }
+    qDebug() << "final name" << info.name;
 
     int childBlocks = 0;
     while (!blockStart.isNull() && blockStart.position() < position) {
@@ -501,14 +506,14 @@ CodeCompletion::BlockInfo CodeCompletion::getBlockInfo(int position) const
             continue;
         }
         foreach (const QString &statement, blockStart.block().text().split(";")) {
-            qDebug() << "Have statement" << statement;
+//            qDebug() << "Have statement" << statement;
             QStringList parts = statement.split(":");
             if (parts.length() != 2) {
                 continue;
             }
             QString propName = parts.first().trimmed();
             QString propValue = parts.last().split("//").first().trimmed().remove("\"");
-            qDebug() << "inserting:" << propName << "->" << propValue;
+//            qDebug() << "inserting:" << propName << "->" << propValue;
             info.properties.insert(propName, propValue);
         }
         if (!blockStart.movePosition(QTextCursor::NextBlock)) {
