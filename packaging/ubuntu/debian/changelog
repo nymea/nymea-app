@@ -1,3 +1,11 @@
+nymea-app (1.0.165) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix new thing page after uuid changes
+  * Fix login field for things setup with a login
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 10 Dec 2019 23:21:30 +0100
+
 nymea-app (1.0.163) bionic; urgency=medium
 
   [ Michael Zanetti ]
