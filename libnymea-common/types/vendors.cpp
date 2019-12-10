@@ -29,16 +29,6 @@ Vendors::Vendors(QObject *parent) :
 {
 }
 
-Vendor *Vendors::getVendor(const QString &vendorId) const
-{
-    foreach (Vendor *vendor, m_vendors) {
-        if (vendor->id() == vendorId) {
-            return vendor;
-        }
-    }
-    return nullptr;
-}
-
 int Vendors::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
@@ -87,6 +77,16 @@ Vendor *Vendors::get(int index) const
         return nullptr;
     }
     return m_vendors.at(index);
+}
+
+Vendor *Vendors::getVendor(const QUuid &vendorId) const
+{
+    foreach (Vendor *vendor, m_vendors) {
+        if (vendor->id() == vendorId) {
+            return vendor;
+        }
+    }
+    return nullptr;
 }
 
 QHash<int, QByteArray> Vendors::roleNames() const

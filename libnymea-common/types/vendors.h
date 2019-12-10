@@ -48,7 +48,7 @@ public:
     void clearModel();
 
     Q_INVOKABLE Vendor* get(int index) const;
-    Q_INVOKABLE Vendor *getVendor(const QString &vendorId) const;
+    Q_INVOKABLE Vendor *getVendor(const QUuid &vendorId) const;
 
 signals:
     void countChanged();

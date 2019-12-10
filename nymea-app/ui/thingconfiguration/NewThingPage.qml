@@ -42,20 +42,22 @@ Page {
                     id: vendorFilterComboBox
                     Layout.fillWidth: true
                     textRole: "displayName"
+                    currentIndex: -1
                     VendorsProxy {
                         id: vendorsProxy
                         vendors: engine.deviceManager.vendors
                     }
                     model: ListModel {
                         id: vendorsFilterModel
-                        ListElement { displayName: qsTr("All"); vendorId: "" }
-
+                        dynamicRoles: true
 
                         Component.onCompleted: {
+                            append({displayName: qsTr("All"), vendorId: ""})
                             for (var i = 0; i < vendorsProxy.count; i++) {
                                 var vendor = vendorsProxy.get(i);
                                 append({displayName: vendor.displayName, vendorId: vendor.id})
                             }
+                            vendorFilterComboBox.currentIndex = 0
                         }
                     }
                 }
@@ -117,7 +119,7 @@ Page {
 
         model: DeviceClassesProxy {
             id: deviceClassesProxy
-            vendorId: vendorsFilterModel.get(vendorFilterComboBox.currentIndex).vendorId
+            vendorId: vendorFilterComboBox.currentIndex >= 0 ? vendorsFilterModel.get(vendorFilterComboBox.currentIndex).vendorId : ""
             deviceClasses: engine.deviceManager.deviceClasses
             filterInterface: typeFilterModel.get(typeFilterComboBox.currentIndex).interfaceName
             filterDisplayName: displayNameFilterField.displayText
