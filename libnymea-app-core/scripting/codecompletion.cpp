@@ -21,9 +21,13 @@ CodeCompletion::CodeCompletion(QObject *parent):
     m_classes.insert("SequentialAnimation", ClassInfo("SequentialAnimation", {"id", "alwaysRunToEnd", "loops", "paused", "running"}, {"start", "stop", "pause", "resume", "complete"}, {"onStarted", "onStopped", "onFinished", "onRunningChanged"}));
     m_classes.insert("ParallelAnimation", ClassInfo("ParallelAnimation", {"id", "alwaysRunToEnd", "loops", "paused", "running"}, {"start", "stop", "pause", "resume", "complete"}, {"onStarted", "onStopped", "onFinished", "onRunningChanged"}));
     m_classes.insert("PauseAnimation", ClassInfo("PauseAnimation", {"id", "duration", "alwaysRunToEnd", "loops", "paused", "running"}, {"start", "stop", "pause", "resume", "complete"}, {"onStarted", "onStopped", "onFinished", "onRunningChanged"}));
+    m_classes.insert("ListModel", ClassInfo("ListModel", {}, {"clear", "append"}, {}));
+    m_classes.insert("ListElement", ClassInfo("ListElement", {}, {}, {}));
+    m_classes.insert("Repeater", ClassInfo("Repeater", {"model", "delegate", "count"}, {"itemAt"}, {"onCountChanged"}));
 
     m_attachedClasses.insert("Component", ClassInfo("Component", {}, {}, {"onCompleted", "onDestruction", "onDestroyed"}));
     m_attachedClasses.insert("Alarm", ClassInfo("Alarm", {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday", "AllDays"}, {}, {}));
+    m_attachedClasses.insert("Animation", ClassInfo("Animation", {"Infinite"}, {}, {}));
 
     m_genericSyntax.insert("property", "property ");
     m_genericSyntax.insert("function", "function ");
