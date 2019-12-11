@@ -75,10 +75,11 @@ QString CompletionProxyModel::filter() const
     return m_filter;
 }
 
-void CompletionProxyModel::setFilter(const QString &filter)
+void CompletionProxyModel::setFilter(const QString &filter, bool caseSensitive)
 {
-    if (m_filter != filter) {
+    if (m_filter != filter || m_filterCaseSensitive != caseSensitive) {
         m_filter = filter;
+        m_filterCaseSensitive = caseSensitive;
         emit filterChanged();
         invalidateFilter();
         emit countChanged();
@@ -89,8 +90,14 @@ bool CompletionProxyModel::filterAcceptsRow(int source_row, const QModelIndex &)
 {
     if (!m_filter.isEmpty()) {
         CompletionModel::Entry entry = m_model->get(source_row);
-        if (!entry.displayText.startsWith(m_filter) && !entry.text.startsWith(m_filter)) {
-            return false;
+        if (m_filterCaseSensitive) {
+            if (!entry.displayText.startsWith(m_filter) && !entry.text.startsWith(m_filter)) {
+                return false;
+            }
+        } else {
+            if (!entry.displayText.toLower().startsWith(m_filter.toLower()) && !entry.text.toLower().startsWith(m_filter.toLower())) {
+                return false;
+            }
         }
     }
     return true;

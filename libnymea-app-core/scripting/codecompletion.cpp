@@ -140,7 +140,7 @@ void CodeCompletion::update()
         }
         blockText.remove(QRegExp(".*deviceId: \""));
         m_model->update(entries);
-        m_proxy->setFilter(blockText);
+        m_proxy->setFilter(blockText, false);
         emit hint();
         return;
     }

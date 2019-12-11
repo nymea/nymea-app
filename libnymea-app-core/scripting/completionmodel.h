@@ -48,7 +48,7 @@ public:
     CompletionModel::Entry get(int index);
 
     QString filter() const;
-    void setFilter(const QString &filter);
+    void setFilter(const QString &filter, bool caseSensitive = true);
 
 protected:
     bool filterAcceptsRow(int source_row, const QModelIndex &/*source_parent*/) const override;
@@ -62,6 +62,7 @@ signals:
 private:
     CompletionModel *m_model = nullptr;
     QString m_filter;
+    bool m_filterCaseSensitive = true;
 
 };
 
