@@ -393,13 +393,10 @@ DevicePageBase {
                     ColorAnimation { to: "lightgray"; duration: 500 }
                 }
             }
-            LogsModelNg {
-                engine: _engine
-                live: true
-                deviceId: root.device.id
-                typeIds: eventComponentItem.eventType.id
-                onCountChanged: {
-                    flashlightAnimation.start()
+            Connections {
+                target: root.device
+                onEventTriggered: {
+                    flashlightAnimation.start();
                 }
             }
         }
