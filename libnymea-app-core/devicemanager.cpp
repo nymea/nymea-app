@@ -34,22 +34,6 @@ DeviceManager::DeviceManager(JsonRpcClient* jsonclient, QObject *parent) :
     m_jsonClient(jsonclient)
 {
     m_jsonClient->registerNotificationHandler(this, "notificationReceived");
-    EventHandler *eventHandler = new EventHandler(this);
-    m_jsonClient->registerNotificationHandler(eventHandler, "notificationReceived");
-    connect(eventHandler, &EventHandler::eventReceived, this, [this](const QVariantMap event) {
-        QUuid deviceId = event.value("deviceId").toUuid();
-        QUuid eventTypeId = event.value("eventTypeId").toUuid();
-
-        Device *dev = m_devices->getDevice(deviceId);
-        if (!dev) {
-            qWarning() << "received an event from a device we don't know..." << deviceId << event;
-            return;
-        }
-//        qDebug() << "Event received" << deviceId.toString() << eventTypeId.toString();
-        dev->eventTriggered(eventTypeId.toString(), event.value("params").toMap());
-        emit eventTriggered(deviceId.toString(), eventTypeId.toString(), event.value("params").toMap());
-
-    });
 }
 
 void DeviceManager::clear()
@@ -62,6 +46,35 @@ void DeviceManager::clear()
 
 void DeviceManager::init()
 {
+    // For old nymea setups we need to register to Events.Notifications.
+    // Deprecated since JSONRPC 4.0/nymea 0.17
+    if (!m_jsonClient->ensureServerVersion("4.0")) {
+        if (!m_eventHandler) {
+            m_eventHandler = new EventHandler(this);
+            m_jsonClient->registerNotificationHandler(m_eventHandler, "notificationReceived");
+            connect(m_eventHandler, &EventHandler::eventReceived, this, [this](const QVariantMap event) {
+                QUuid deviceId = event.value("deviceId").toUuid();
+                QUuid eventTypeId = event.value("eventTypeId").toUuid();
+
+                Device *dev = m_devices->getDevice(deviceId);
+                if (!dev) {
+                    qWarning() << "received an event from a device we don't know..." << deviceId << event;
+                    return;
+                }
+//                qDebug() << "Event received" << deviceId.toString() << eventTypeId.toString();
+                dev->eventTriggered(eventTypeId.toString(), event.value("params").toMap());
+                emit eventTriggered(deviceId.toString(), eventTypeId.toString(), event.value("params").toMap());
+            });
+        }
+    } else {
+        if (m_eventHandler) {
+            m_jsonClient->unregisterNotificationHandler(m_eventHandler);
+            m_eventHandler->deleteLater();
+            m_eventHandler = nullptr;
+        }
+    }
+
+
     m_fetchingData = true;
     emit fetchingDataChanged();
     m_jsonClient->sendCommand("Devices.GetPlugins", this, "getPluginsResponse");
@@ -166,6 +179,18 @@ void DeviceManager::notificationReceived(const QVariantMap &data)
             return;
         }
         p->setValue(value);
+    } else if (notification == "Devices.EventTriggered") {
+        QVariantMap event = data.value("params").toMap().value("event").toMap();
+        QUuid deviceId = event.value("deviceId").toUuid();
+        QUuid eventTypeId = event.value("eventTypeId").toUuid();
+
+        Device *dev = m_devices->getDevice(deviceId);
+        if (!dev) {
+            qWarning() << "received an event from a device we don't know..." << deviceId << qUtf8Printable(QJsonDocument::fromVariant(data).toJson());
+            return;
+        }
+//        qDebug() << "Event received" << deviceId.toString() << eventTypeId.toString();
+        dev->eventTriggered(eventTypeId.toString(), event.value("params").toMap());
     } else {
         qWarning() << "DeviceManager unhandled device notification received" << notification;
     }
@@ -472,8 +497,9 @@ int DeviceManager::executeAction(const QUuid &deviceId, const QUuid &actionTypeI
     if (!params.isEmpty()) {
         p.insert("params", params);
     }
+    QString method = m_jsonClient->ensureServerVersion("4.0") ? "Devices.ExecuteAction" : "Actions.ExecuteAction";
 
-    return m_jsonClient->sendCommand("Actions.ExecuteAction", p, this, "executeActionResponse");
+    return m_jsonClient->sendCommand(method, p, this, "executeActionResponse");
 }
 
 BrowserItems *DeviceManager::browseDevice(const QUuid &deviceId, const QString &itemId)

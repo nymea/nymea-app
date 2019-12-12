@@ -33,6 +33,7 @@
 
 class BrowserItem;
 class BrowserItems;
+class EventHandler;
 
 class DeviceManager : public JsonHandler
 {
@@ -141,10 +142,12 @@ private:
     QHash<int, QPointer<BrowserItem> > m_browserDetailsRequests;
 
 
+    // Deprecated stuff for nymea < 0.17 (JSONRPC < 4.0)
+    EventHandler *m_eventHandler = nullptr;
 
 };
 
-// TODO: Kinda shitty that Device Events are not sent from the Devices namespace...
+// TODO: This is deprecated in nymea now (JSONRPC 4.0/nymea 0.17). Keeping it for a bit for backwards compatibility
 class EventHandler: public JsonHandler {
     Q_OBJECT
 
