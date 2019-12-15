@@ -201,5 +201,7 @@
         <file>ui/mainviews/GroupsView.qml</file>
         <file>ui/grouping/GroupPage.qml</file>
         <file>ui/delegates/ThingTile.qml</file>
+        <file>ui/components/TimePicker.qml</file>
+        <file>ui/components/DatePicker.qml</file>
     </qresource>
 </RCC>

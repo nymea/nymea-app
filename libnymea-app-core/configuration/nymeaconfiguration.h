@@ -19,12 +19,6 @@ class NymeaConfiguration : public JsonHandler
 
     Q_PROPERTY(QString serverName READ serverName WRITE setServerName NOTIFY serverNameChanged)
 
-    Q_PROPERTY(QString language READ language WRITE setLanguage NOTIFY languageChanged)
-    Q_PROPERTY(QStringList availableLanguages READ availableLanguages NOTIFY availableLanguagesChanged)
-
-    Q_PROPERTY(QString timezone READ timezone WRITE setTimezone NOTIFY timezoneChanged)
-    Q_PROPERTY(QStringList timezones READ timezones NOTIFY timezonesChanged)
-
     Q_PROPERTY(bool cloudEnabled READ cloudEnabled WRITE setCloudEnabled NOTIFY cloudEnabledChanged)
     Q_PROPERTY(bool debugServerEnabled READ debugServerEnabled WRITE setDebugServerEnabled NOTIFY debugServerEnabledChanged)
 
@@ -87,9 +81,6 @@ private:
     Q_INVOKABLE void setDebugServerEnabledResponse(const QVariantMap &params);
     Q_INVOKABLE void setServerNameResponse(const QVariantMap &params);
     Q_INVOKABLE void setCloudEnabledResponse(const QVariantMap &params);
-    Q_INVOKABLE void getAvailableLanguagesResponse(const QVariantMap &params);
-    Q_INVOKABLE void getTimezonesResponse(const QVariantMap &params);
-    Q_INVOKABLE void setTimezoneResponse(const QVariantMap &params);
     Q_INVOKABLE void setTcpConfigReply(const QVariantMap &params);
     Q_INVOKABLE void deleteTcpConfigReply(const QVariantMap &params);
     Q_INVOKABLE void setWebSocketConfigReply(const QVariantMap &params);
@@ -108,10 +99,6 @@ private:
 signals:
     void debugServerEnabledChanged();
     void serverNameChanged();
-    void languageChanged();
-    void availableLanguagesChanged();
-    void timezoneChanged();
-    void timezonesChanged();
     void cloudEnabledChanged();
 
 private:
@@ -119,10 +106,6 @@ private:
 
     bool m_debugServerEnabled = false;
     QString m_serverName;
-    QString m_language;
-    QStringList m_availableLanguages;
-    QString m_timezone;
-    QStringList m_timezones;
     bool m_cloudEnabled = false;
 
     ServerConfigurations *m_tcpServerConfigurations = nullptr;

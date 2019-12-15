@@ -5,6 +5,8 @@
 #include "types/packages.h"
 #include "types/repositories.h"
 
+#include <QTimeZone>
+
 SystemController::SystemController(JsonRpcClient *jsonRpcClient, QObject *parent):
     JsonHandler(parent),
     m_jsonRpcClient(jsonRpcClient)
@@ -12,6 +14,8 @@ SystemController::SystemController(JsonRpcClient *jsonRpcClient, QObject *parent
     m_jsonRpcClient->registerNotificationHandler(this, "notificationReceived");
     m_packages = new Packages(this);
     m_repositories = new Repositories(this);
+
+    startTimer(1000, Qt::VeryCoarseTimer);
 }
 
 void SystemController::init()
@@ -22,6 +26,8 @@ void SystemController::init()
         m_jsonRpcClient->sendCommand("System.GetCapabilities", this, "getCapabilitiesResponse");
     } else {
         m_powerManagementAvailable = false;
+        m_updateManagementAvailable = false;
+        m_timeManagementAvailable = false;
     }
 }
 
@@ -101,6 +107,63 @@ int SystemController::enableRepository(const QString &id, bool enabled)
     return m_jsonRpcClient->sendCommand("System.EnableRepository", params, this, "enableRepositoryResponse");
 }
 
+bool SystemController::timeManagementAvailable() const
+{
+    return m_timeManagementAvailable;
+}
+
+QDateTime SystemController::serverTime() const
+{
+    return m_serverTime;
+}
+
+void SystemController::setServerTime(const QDateTime &serverTime)
+{
+    QVariantMap params;
+    params.insert("automaticTime", false);
+    params.insert("time", serverTime.toSecsSinceEpoch());
+    params.insert("timeZone", serverTime.timeZone().id());
+    m_jsonRpcClient->sendCommand("System.SetTime", params, this, "setTimeResponse");
+}
+
+QStringList SystemController::timeZones() const
+{
+    QStringList ret;
+    foreach (const QByteArray &tzId, QTimeZone::availableTimeZoneIds()) {
+        ret << tzId;
+    }
+    return ret;
+}
+
+QString SystemController::serverTimeZone() const
+{
+    return m_serverTime.timeZone().id();
+}
+
+void SystemController::setServerTimeZone(const QString &serverTimeZone)
+{
+    QVariantMap params;
+    params.insert("timeZone", serverTimeZone);
+    m_jsonRpcClient->sendCommand("System.SetTime", params, this, "setTimeResponse");
+}
+
+bool SystemController::automaticTimeAvailable() const
+{
+    return m_automaticTimeAvailable;
+}
+
+bool SystemController::automaticTime() const
+{
+    return m_automaticTime;
+}
+
+void SystemController::setAutomaticTime(bool automaticTime)
+{
+    QVariantMap params;
+    params.insert("automaticTime", automaticTime);
+    m_jsonRpcClient->sendCommand("System.SetTime", params, this, "setTimeResponse");
+}
+
 void SystemController::getCapabilitiesResponse(const QVariantMap &data)
 {
     qDebug() << "capabilities received" << data;
@@ -110,11 +173,18 @@ void SystemController::getCapabilitiesResponse(const QVariantMap &data)
     m_updateManagementAvailable = data.value("params").toMap().value("updateManagement").toBool();
     emit updateManagementAvailableChanged();
 
+    m_timeManagementAvailable = data.value("params").toMap().value("timeManagement").toBool();
+    emit timeManagementAvailableChanged();
+
     if (m_updateManagementAvailable) {
         m_jsonRpcClient->sendCommand("System.GetUpdateStatus", this, "getUpdateStatusResponse");
         m_jsonRpcClient->sendCommand("System.GetPackages", this, "getPackagesResponse");
         m_jsonRpcClient->sendCommand("System.GetRepositories", this, "getRepositoriesResponse");
     }
+
+//    if (m_jsonRpcClient->ensureServerVersion("4.1")) {
+        m_jsonRpcClient->sendCommand("System.GetTime", this, "getServerTimeResponse");
+//    }
 }
 
 void SystemController::getUpdateStatusResponse(const QVariantMap &data)
@@ -162,6 +232,24 @@ void SystemController::enableRepositoryResponse(const QVariantMap &params)
 {
     qDebug() << "Enable repo response" << params;
     emit enableRepositoryFinished(params.value("id").toInt(), params.value("params").toMap().value("success").toBool());
+}
+
+void SystemController::getServerTimeResponse(const QVariantMap &params)
+{
+    qDebug() << "Server time" << params;
+    m_serverTime = QDateTime::fromSecsSinceEpoch(params.value("params").toMap().value("time").toUInt());
+    m_serverTime.setTimeZone(QTimeZone(params.value("params").toMap().value("timeZone").toString().toUtf8()));
+    emit serverTimeChanged();
+    emit serverTimeZoneChanged();
+    m_automaticTimeAvailable = params.value("params").toMap().value("automaticTimeAvailable").toBool();
+    emit automaticTimeAvailableChanged();
+    m_automaticTime = params.value("params").toMap().value("automaticTime").toBool();
+    emit automaticTimeChanged();
+}
+
+void SystemController::setTimeResponse(const QVariantMap &params)
+{
+    qDebug() << "set time response" << params;
 }
 
 void SystemController::notificationReceived(const QVariantMap &data)
@@ -233,7 +321,24 @@ void SystemController::notificationReceived(const QVariantMap &data)
         qWarning() << "System capabilites changed: power management:" << m_powerManagementAvailable << "update management:" << m_updateManagementAvailable;
         emit powerManagementAvailableChanged();
         emit updateManagementAvailableChanged();
+    } else if (notification == "System.TimeConfigurationChanged") {
+        qDebug() << "System time configuration changed";
+        m_serverTime = QDateTime::fromSecsSinceEpoch(data.value("params").toMap().value("time").toUInt());
+        m_serverTime.setTimeZone(QTimeZone(data.value("params").toMap().value("timeZone").toByteArray()));
+        emit serverTimeChanged();
+        emit serverTimeZoneChanged();
+        m_automaticTimeAvailable = data.value("params").toMap().value("automaticTimeAvailable").toBool();
+        emit automaticTimeAvailableChanged();
+        m_automaticTime = data.value("params").toMap().value("automaticTime").toBool();
+        emit automaticTimeChanged();
     } else {
         qWarning() << "Unhandled System Notification" << data.value("notification");
     }
+}
+
+void SystemController::timerEvent(QTimerEvent *event)
+{
+    Q_UNUSED(event)
+    m_serverTime = m_serverTime.addSecs(1);
+    emit serverTimeChanged();
 }

@@ -32,8 +32,6 @@ void NymeaConfiguration::init()
     m_webSocketServerConfigurations->clear();
     m_mqttServerConfigurations->clear();
     m_client->sendCommand("Configuration.GetConfigurations", this, "getConfigurationsResponse");
-    m_client->sendCommand("Configuration.GetAvailableLanguages", this, "getAvailableLanguagesResponse");
-    m_client->sendCommand("Configuration.GetTimeZones", this, "getTimezonesResponse");
     m_client->sendCommand("Configuration.GetMqttServerConfigurations", this, "getMqttServerConfigsReply");
     m_client->sendCommand("Configuration.GetMqttPolicies", this, "getMqttPoliciesReply");
 }
@@ -50,38 +48,11 @@ void NymeaConfiguration::setServerName(const QString &serverName)
     m_client->sendCommand("Configuration.SetServerName", params, this, "setServerNameResponse");
 }
 
-QString NymeaConfiguration::language() const
-{
-    return m_language;
-}
-
-void NymeaConfiguration::setLanguage(const QString &language)
-{
-    QVariantMap params;
-    params.insert("language", language);
-    m_client->sendCommand("Configuration.SetLanguage", params);
-}
-
-QStringList NymeaConfiguration::availableLanguages() const
-{
-    return m_availableLanguages;
-}
-
-QString NymeaConfiguration::timezone() const
-{
-    return m_timezone;
-}
-
 void NymeaConfiguration::setTimezone(const QString &timezone)
 {
     QVariantMap params;
     params.insert("timeZone", timezone);
-    m_client->sendCommand("Configuration.SetTimeZone", params, this, "setTimezoneResponse");
-}
-
-QStringList NymeaConfiguration::timezones() const
-{
-    return m_timezones;
+    m_client->sendCommand("System.SetTimeZone", params, this, "setTimezoneResponse");
 }
 
 bool NymeaConfiguration::debugServerEnabled() const
@@ -259,10 +230,6 @@ void NymeaConfiguration::getConfigurationsResponse(const QVariantMap &params)
     emit debugServerEnabledChanged();
     m_serverName = basicConfig.value("serverName").toString();
     emit serverNameChanged();
-    m_language = basicConfig.value("language").toString();
-    emit languageChanged();
-    m_timezone = basicConfig.value("timeZone").toString();
-    emit timezoneChanged();
     QVariantMap cloudConfig = params.value("params").toMap().value("cloud").toMap();
     m_cloudEnabled = cloudConfig.value("enabled").toBool();
     emit cloudEnabledChanged();
@@ -288,25 +255,6 @@ void NymeaConfiguration::getConfigurationsResponse(const QVariantMap &params)
         config->setPublicFolder(webServerConfigMap.value("publicFolder").toString());
         m_webServerConfigurations->addConfiguration(config);
     }
-}
-
-void NymeaConfiguration::getAvailableLanguagesResponse(const QVariantMap &params)
-{
-//    qDebug() << "available languages" << params;
-    m_availableLanguages = params.value("params").toMap().value("languages").toStringList();
-    emit availableLanguagesChanged();
-}
-
-void NymeaConfiguration::getTimezonesResponse(const QVariantMap &params)
-{
-//    qDebug() << "Get timezones response" << params;
-    m_timezones = params.value("params").toMap().value("timeZones").toStringList();
-    emit timezonesChanged();
-}
-
-void NymeaConfiguration::setTimezoneResponse(const QVariantMap &params)
-{
-    qDebug() << "Set timezones response" << params;
 }
 
 void NymeaConfiguration::setServerNameResponse(const QVariantMap &params)
@@ -416,10 +364,6 @@ void NymeaConfiguration::notificationReceived(const QVariantMap &notification)
         emit debugServerEnabledChanged();
         m_serverName = params.value("serverName").toString();
         emit serverNameChanged();
-        m_language = params.value("language").toString();
-        emit languageChanged();
-        m_timezone = params.value("timeZone").toString();
-        emit timezoneChanged();
         return;
     }
     if (notif == "Configuration.CloudConfigurationChanged") {
