@@ -7,7 +7,7 @@ import Nymea 1.0
 NymeaListItemDelegate {
     id: root
     width: parent.width
-    iconName: device.deviceClass ? app.interfacesToIcon(device.deviceClass.interfaces) : ""
+    iconName: device && device.deviceClass ? app.interfacesToIcon(device.deviceClass.interfaces) : ""
     text: device ? device.name : ""
     progressive: true
     secondaryIconName: batteryCritical ? "../images/battery/battery-010.svg" : ""

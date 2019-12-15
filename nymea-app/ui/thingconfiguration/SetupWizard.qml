@@ -231,7 +231,7 @@ Page {
                         deviceDiscovery: discovery
                         showAlreadyAdded: root.device !== null
                         showNew: root.device === null
-                        filterDeviceId: root.device !== null ? root.device.id : null
+                        filterDeviceId: root.device ? root.device.id : ""
                     }
                     delegate: NymeaListItemDelegate {
                         width: parent.width
@@ -376,7 +376,7 @@ Page {
 
                             switch (root.deviceClass.setupMethod) {
                             case 0:
-                                if (root.device !== null) {
+                                if (root.device) {
                                     if (d.deviceDescriptor) {
                                         engine.deviceManager.reconfigureDiscoveredDevice(root.device.id, d.deviceDescriptor.id);
                                     } else {
@@ -404,7 +404,7 @@ Page {
                                     return;
                                 } else {
                                     if (d.deviceDescriptor) {
-                                        engine.deviceManager.pairDevice(d.deviceDescriptor.id, params, nameTextField.text);
+                                        engine.deviceManager.pairDiscoveredDevice(root.deviceClass.id, d.deviceDescriptor.id, params, nameTextField.text);
                                     } else {
                                         engine.deviceManager.pairDevice(root.deviceClass.id, params, nameTextField.text);
                                     }
