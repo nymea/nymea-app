@@ -96,9 +96,9 @@ ColumnLayout {
 
         property date firstOfMonth: new Date(root.date.getFullYear(), root.date.getMonth(), 1)
         property int offset: ((firstOfMonth.getDay() - 1) % 7 + 7) % 7
-        property bool isLeapYear: false
-        property int daysInMonth: isLeapYear ? monthModel.get(root.date.getMonth()).leapDays : monthModel.get(root.date.getMonth()).days
-        property int daysInPreviousMonth: isLeapYear ? monthModel.get((root.date.getMonth() + 11) % 12).leapDays : monthModel.get((root.date.getMonth() + 11) % 12).days
+        property bool isLeapYear: firstOfMonth.getFullYear() % 4 == 0 && firstOfMonth.getFullYear() % 100 != 0
+        property int daysInMonth: isLeapYear ? monthModel.get(root.date.getMonth()).leapYearDays : monthModel.get(root.date.getMonth()).days
+        property int daysInPreviousMonth: isLeapYear ? monthModel.get((root.date.getMonth() + 11) % 12).leapYearDays : monthModel.get((root.date.getMonth() + 11) % 12).days
 
         Repeater {
             model: 6 * 7

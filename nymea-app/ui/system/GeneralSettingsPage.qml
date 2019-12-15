@@ -38,7 +38,7 @@ Page {
 
         RowLayout {
             Layout.fillWidth: true
-            visible: engine.systemController.automaticTimeAvailable
+            visible: engine.jsonRpcClient.ensureServerVersion("4.1") && engine.systemController.automaticTimeAvailable
             Label {
                 text: qsTr("Set date and time automatically")
                 Layout.fillWidth: true
