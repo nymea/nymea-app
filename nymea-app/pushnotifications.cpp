@@ -6,13 +6,21 @@
 #include <QtAndroid>
 #include <QtAndroidExtras>
 #include <QAndroidJniObject>
-#endif
-
 static PushNotifications *m_client_pointer;
+#endif
 
 PushNotifications::PushNotifications(QObject *parent) : QObject(parent)
 {
     connectClient();
+
+#ifdef UBPORTS
+    m_pushClient = new PushClient(this);
+    m_pushClient->setAppId("io.guh.nymeaapp_nymea-app");
+    connect(m_pushClient, &PushClient::tokenChanged, this, [this](const QString &token) {
+        m_token = token;
+        emit tokenChanged();
+    });
+#endif
 }
 
 QObject *PushNotifications::pushNotificationsProvider(QQmlEngine *engine, QJSEngine *scriptEngine)

@@ -1,0 +1,19 @@
+#!/usr/bin/python3
+
+import os
+import sys
+import json
+
+f1, f2 = sys.argv[1:3]
+
+payloadJson = json.load(open(f1))
+
+dir_path = os.path.dirname(os.path.realpath(__file__))
+payloadJson["notification"]["card"]["icon"] = dir_path + "/appicon.svg"
+
+payloadJson["notification"]["card"]["actions"] = ["appid://io.guh.nymeaapp/nymea-app/current-user-version"]
+#payloadJson["notification"]["emblem-counter"] = {"count": 1, "visible": True }
+
+print(payloadJson)
+open(f2, "w").write(json.dumps(payloadJson) + "\n")
+
