@@ -13,7 +13,7 @@
             "push-helper": "push.json"
         }
     },
-    "version": "0",
+    "version": "1.0.100",
     "maintainer": "Michael Zanetti <michael.zanetti@nymea.io>",
     "framework" : "ubuntu-sdk-16.04"
 }
