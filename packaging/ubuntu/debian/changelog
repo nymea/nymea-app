@@ -1,3 +1,10 @@
+nymea-app (1.0.168) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Improve UBPorts support
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 16 Dec 2019 16:58:14 +0100
+
 nymea-app (1.0.167) bionic; urgency=medium
 
   [ Michael Zanetti ]
