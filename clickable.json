@@ -1,9 +1,13 @@
 {
   "template": "qmake",
   "kill": "nymea-app",
-  "build_args": "CONFIG+=ubuntu",
-  "dependencies": [
+  "build_args": "CONFIG+=ubports",
+  "dependencies_target": [
     "libavahi-client-dev",
-    "libavahi-common-dev"
+    "libavahi-common-dev",
+    "libqt5charts5-dev",
+    "qml-module-qtcharts",
+    "libconnectivity-qt1-dev",
+    "libunity-api-dev"
   ]
 }

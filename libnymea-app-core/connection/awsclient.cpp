@@ -56,6 +56,8 @@ AWSClient::AWSClient(QObject *parent) : QObject(parent),
     QString pushSystem = "GCM";
 #elif defined Q_OS_IOS
     QString pushSystem = "APNS";
+#elif UBPORTS
+    QString pushSystem = "UBPORTS";
 #else
     QString pushSystem = "";
 #endif
@@ -645,7 +647,7 @@ void AWSClient::registerPushNotificationEndpoint(const QString &registrationId, 
 
     QJsonDocument jsonDoc = QJsonDocument::fromVariant(payload);
 
-    qDebug() << "Registering push notification endpoint";
+    qDebug() << "Registering push notification endpoint" << qUtf8Printable(QJsonDocument::fromVariant(payload).toJson());
 //    qDebug() << "POST" << url.toString();
 //    qDebug() << "HEADERS:";
 //    foreach (const QByteArray &hdr, request.rawHeaderList()) {

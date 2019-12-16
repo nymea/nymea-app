@@ -129,6 +129,17 @@ ios: {
     QMAKE_MAC_XCODE_SETTINGS += IOS_ENTITLEMENTS
 }
 
+ubports: {
+    DEFINES += UBPORTS
+
+    CONFIG += link_pkgconfig
+    PKGCONFIG += connectivity-qt1
+
+    HEADERS += platformintegration/ubports/pushclient.h
+
+    SOURCES += platformintegration/ubports/pushclient.cpp
+}
+
 BR=$$BRANDING
 !equals(BR, "") {
     DEFINES += BRANDING=\\\"$${BR}\\\"

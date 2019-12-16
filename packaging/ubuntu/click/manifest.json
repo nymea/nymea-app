@@ -7,9 +7,13 @@
         "nymea-app": {
             "apparmor": "nymea-app.apparmor",
             "desktop":  "nymea-app.desktop"
+        },
+        "push": {
+            "apparmor": "push-apparmor.json",
+            "push-helper": "push.json"
         }
     },
-    "version": "developer-build",
+    "version": "1.0.100",
     "maintainer": "Michael Zanetti <michael.zanetti@nymea.io>",
-    "framework" : "ubuntu-sdk-15.04.5"
+    "framework" : "ubuntu-sdk-16.04"
 }

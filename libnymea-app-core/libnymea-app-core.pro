@@ -146,3 +146,8 @@ HEADERS += \
     configuration/mqttpolicies.h \
     models/devicemodel.h \
     system/systemcontroller.h
+
+
+ubports: {
+    DEFINES += UBPORTS
+}

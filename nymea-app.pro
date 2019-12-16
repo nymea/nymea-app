@@ -85,9 +85,17 @@ desktopfile.path = /usr/share/applications/
 INSTALLS += desktopfile
 }
 
-click: {
-ubuntu_files.path += /
-ubuntu_files.files += manifest.json nymea-app.apparmor nymea-app.desktop packaging/android/appicon.svg
+ubports: {
+ubuntu_files.path = /
+ubuntu_files.files += \
+    packaging/ubuntu/click/manifest.json \
+    packaging/ubuntu/click/nymea-app.apparmor \
+    packaging/ubuntu/click/nymea-app.desktop \
+    packaging/ubuntu/click/appicon.svg \
+    packaging/ubuntu/click/push.json \
+    packaging/ubuntu/click/push-apparmor.json \
+    packaging/ubuntu/click/pushexec
+
 INSTALLS += ubuntu_files
 }
 

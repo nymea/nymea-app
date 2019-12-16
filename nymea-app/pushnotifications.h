@@ -8,6 +8,11 @@
 #include "firebase/app.h"
 #include "firebase/messaging.h"
 #include "firebase/util.h"
+
+#elif UBPORTS
+
+#include "platformintegration/ubports/pushclient.h"
+
 #endif
 
 #ifdef Q_OS_ANDROID
@@ -44,6 +49,11 @@ protected:
 private:
     ::firebase::App *m_firebaseApp = nullptr;
     ::firebase::ModuleInitializer  m_firebase_initializer;
+
+#elif UBPORTS
+
+    PushClient *m_pushClient = nullptr;
+
 #endif
 
 private:
