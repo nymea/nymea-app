@@ -127,6 +127,20 @@ Page {
     //        }
     //    }
 
+    Connections {
+        target: engine.ruleManager
+        onAddRuleReply: {
+            d.editRulePage.busy = false
+            if (d.editRulePage) {
+                pageStack.pop();
+                d.editRulePage = null
+            }
+        }
+    }
+    QtObject {
+        id: d
+        property var editRulePage: null
+    }
 
     ColumnLayout {
         id: mainColumn
@@ -280,16 +294,16 @@ Page {
                                 pageStack.push(Qt.resolvedUrl("thingconfiguration/NewThingPage.qml"))
                             } else {
                                 var newRule = engine.ruleManager.createNewRule();
-                                var editRulePage = pageStack.push(Qt.resolvedUrl("magic/EditRulePage.qml"), {rule: newRule });
-                                editRulePage.startAddAction();
-                                editRulePage.StackView.onRemoved.connect(function() {
+                                d.editRulePage = pageStack.push(Qt.resolvedUrl("magic/EditRulePage.qml"), {rule: newRule });
+                                d.editRulePage.startAddAction();
+                                d.editRulePage.StackView.onRemoved.connect(function() {
                                     newRule.destroy();
                                 })
-                                editRulePage.onAccept.connect(function() {
-                                    editRulePage.busy = true;
+                                d.editRulePage.onAccept.connect(function() {
+                                    d.editRulePage.busy = true;
                                     engine.ruleManager.addRule(d.editRulePage.rule);
                                 })
-                                editRulePage.onCancel.connect(function() {
+                                d.editRulePage.onCancel.connect(function() {
                                     pageStack.pop();
                                 })
                             }
