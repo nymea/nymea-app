@@ -68,7 +68,7 @@ ApplicationWindow {
     }
     property alias _discovery: discovery
 
-    property var supportedInterfaces: ["light", "weather", "media", "garagegate", "awning", "shutter", "blind", "powersocket", "heating", "doorbell", "sensor", "smartmeter", "evcharger", "fingerprintreader", "button", "notifications", "inputtrigger", "outputtrigger", "gateway"]
+    property var supportedInterfaces: ["light", "weather", "media", "garagegate", "awning", "shutter", "blind", "powersocket", "heating", "doorbell", "sensor", "smartmeter", "evcharger", "fingerprintreader", "button", "notifications", "inputtrigger", "outputtrigger", "gateway", "account"]
     function interfaceToString(name) {
         switch(name) {
         case "light":
@@ -129,6 +129,8 @@ ApplicationWindow {
             return qsTr("Power sockets")
         case "doorbell":
             return qsTr("Doorbells");
+        case "account":
+            return qsTr("Accounts");
         case "uncategorized":
             return qsTr("Uncategorized")
         default:
@@ -241,6 +243,8 @@ ApplicationWindow {
             return Qt.resolvedUrl("images/stock_link.svg")
         case "power":
             return Qt.resolvedUrl("images/system-shutdown.svg")
+        case "account":
+            return Qt.resolvedUrl("images/account.svg")
         default:
             console.warn("InterfaceToIcon: Unhandled interface", name)
         }
