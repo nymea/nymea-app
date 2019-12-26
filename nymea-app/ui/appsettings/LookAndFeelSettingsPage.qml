@@ -19,13 +19,13 @@ Page {
 
         RowLayout {
             Layout.fillWidth: true; Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.topMargin: app.margins
-            visible: !kioskMode
+            visible: !kioskMode && Qt.platform.os !== "ios"
             Label {
                 Layout.fillWidth: true
                 text: qsTr("View mode")
             }
             ComboBox {
-                model: [qsTr("Windowed"), qsTr("Maximized"), qsTr("Fullscreen")]
+                model: [qsTr("Windowed"), qsTr("Maximized"), qsTr("Fullscreen"), qsTr("Automatic")]
                 currentIndex: {
                     switch (settings.viewMode) {
                     case ApplicationWindow.Windowed:
@@ -34,6 +34,8 @@ Page {
                         return 1;
                     case ApplicationWindow.FullScreen:
                         return 2;
+                    case ApplicationWindow.AutomaticVisibility:
+                        return 3;
                     }
                 }
 
@@ -47,6 +49,10 @@ Page {
                         break;
                     case 2:
                         settings.viewMode = ApplicationWindow.FullScreen;
+                        break;
+                    case 3:
+                        settings.viewMode = ApplicationWindow.AutomaticVisibility;
+                        break;
                     }
                 }
             }
