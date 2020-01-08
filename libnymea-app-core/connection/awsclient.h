@@ -119,7 +119,7 @@ public:
 
     Q_INVOKABLE void fetchDevices();
 
-    Q_INVOKABLE bool postToMQTT(const QString &coreId, const QString &timestamp, QObject* sender, std::function<void(bool)> callback);
+    Q_INVOKABLE bool postToMQTT(const QString &coreId, const QString &nonce, QObject* sender, std::function<void(bool)> callback);
     Q_INVOKABLE void getId();
 
     Q_INVOKABLE void registerPushNotificationEndpoint(const QString &registrationId, const QString &deviceDisplayName, const QString mobileDeviceId, const QString &mobileDeviceManufacturer, const QString &mobileDeviceModel);
