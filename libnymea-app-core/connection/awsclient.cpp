@@ -970,7 +970,7 @@ void AWSClient::fetchDevices()
             QString deviceId = entry.toMap().value("deviceId").toString();
             QString name = entry.toMap().value("name").toString();
             bool online = entry.toMap().value("online").toBool();
-//            qDebug() << "Have cloud device:" << deviceId << name << "online:" << online;
+            qDebug() << "Have cloud device:" << deviceId << name << "online:" << online;
 
             AWSDevice *d = m_devices->getDevice(deviceId);
             if (!d) {
@@ -978,6 +978,7 @@ void AWSClient::fetchDevices()
                 m_devices->insert(d);
             }
             d->setOnline(online);
+            d->setName(name);
             actualDevices.append(d->id());
         }
 
@@ -1144,6 +1145,21 @@ void AWSDevices::insert(AWSDevice *device)
     device->setParent(this);
     beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
     m_list.append(device);
+
+    connect(device, &AWSDevice::onlineChanged, this, [this, device](){
+        int idx = m_list.indexOf(device);
+        if (idx >= 0) {
+            emit dataChanged(index(idx), index(idx), {RoleOnline});
+        }
+    });
+
+    connect(device, &AWSDevice::nameChanged, this, [this, device](){
+        int idx = m_list.indexOf(device);
+        if (idx >= 0) {
+            emit dataChanged(index(idx), index(idx), {RoleName});
+        }
+    });
+
     endInsertRows();
     emit countChanged();
 }
@@ -1194,6 +1210,14 @@ QString AWSDevice::id() const
 QString AWSDevice::name() const
 {
     return m_name;
+}
+
+void AWSDevice::setName(const QString &name)
+{
+    if (m_name != name) {
+        m_name = name;
+        emit nameChanged();
+    }
 }
 
 bool AWSDevice::online() const
