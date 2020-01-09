@@ -275,6 +275,9 @@ void NymeaConnection::onError(QAbstractSocket::SocketError error)
             transport->deleteLater();
         }
         qDebug() << "A transport error happened for" << transport->url() << error << "(Still trying on" << m_transportCandidates.count() << "connections)";
+        foreach (Connection *c, m_transportCandidates) {
+            qDebug() << "Connection candidate:" << c->url();
+        }
         if (m_transportCandidates.isEmpty()) {
             m_connectionStatus = errorStatus;
             emit connectionStatusChanged();

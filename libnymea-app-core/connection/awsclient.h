@@ -12,18 +12,20 @@ class QNetworkAccessManager;
 class AWSDevice: public QObject {
     Q_OBJECT
     Q_PROPERTY(QString id READ id CONSTANT)
-    Q_PROPERTY(QString name READ name CONSTANT)
+    Q_PROPERTY(QString name READ name NOTIFY nameChanged)
     Q_PROPERTY(bool online READ online NOTIFY onlineChanged)
 
 public:
     AWSDevice(const QString &id, const QString &name, bool online = false, QObject *parent = nullptr);
     QString id() const;
     QString name() const;
+    void setName(const QString &name);
     bool online() const;
     void setOnline(bool online);
 
 signals:
     void onlineChanged();
+    void nameChanged();
 
 private:
     QString m_id;

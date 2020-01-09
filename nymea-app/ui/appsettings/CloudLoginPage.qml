@@ -214,7 +214,7 @@ Page {
                         errorLabel.text = qsTr("Failed to connect to the login server. Please mase sure your network connection is working.")
                         break;
                     default:
-                        errorLabel.text = qsTr("An unexpected error happened. Please report this isse. Error code:").arg(error)
+                        errorLabel.text = qsTr("An unexpected error happened. Please report this isse. Error code: %1").arg(error)
                         break;
                     }
                     errorLabel.visible = (error !== AWSClient.LoginErrorNoError)
