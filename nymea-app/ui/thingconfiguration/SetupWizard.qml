@@ -292,16 +292,21 @@ Page {
                     text: qsTr("Too bad...")
                     font.pixelSize: app.largeFont
                     Layout.fillWidth: true
+                    horizontalAlignment: Text.AlignHCenter
                 }
                 Label {
                     text: qsTr("No things of this kind could be found...")
                     Layout.fillWidth: true
                     wrapMode: Text.WordWrap
+                    horizontalAlignment: Text.AlignHCenter
                 }
 
                 Label {
                     Layout.fillWidth: true
-                    text: qsTr("Make sure your things are set up and connected, try searching again or go back and pick a different kind of thing.")
+                    horizontalAlignment: Text.AlignHCenter
+                    text: discovery.displayMessage.length === 0 ?
+                              qsTr("Make sure your things are set up and connected, try searching again or go back and pick a different kind of thing.")
+                            : discovery.displayMessage
                     wrapMode: Text.WordWrap
                 }
             }
