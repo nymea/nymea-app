@@ -107,7 +107,6 @@ void NymeaDiscovery::setAwsClient(AWSClient *awsClient)
     }
 
     if (m_awsClient) {
-        m_awsClient->fetchDevices();
         connect(m_awsClient, &AWSClient::devicesFetched, this, &NymeaDiscovery::syncCloudDevices);
     }
 }

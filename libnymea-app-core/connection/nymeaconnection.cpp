@@ -136,8 +136,8 @@ Connection *NymeaConnection::currentConnection() const
 
 void NymeaConnection::sendData(const QByteArray &data)
 {
+//    qDebug() << "sending data:" << data;
     if (connected()) {
-//        qDebug() << "sending data:" << data;
         m_currentTransport->sendData(data);
     } else {
         qWarning() << "Connection: Not connected. Cannot send.";
@@ -629,6 +629,8 @@ bool NymeaConnection::isConnectionBearerAvailable(Connection::BearerType connect
         return true;
     case Connection::BearerTypeNone:
         return false;
+    case Connection::BearerTypeLoopback:
+        return true;
     }
     return false;
 }

@@ -215,7 +215,7 @@ private:
     QList<QueuedCall> m_callQueue;
 
     QHash<QString, AWSConfiguration> m_configs;
-    QString m_usedConfig = "Community";
+    QString m_usedConfig = "";
     AWSDevices *m_devices;
 };
 
