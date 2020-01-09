@@ -36,7 +36,7 @@ private:
     QUrl m_url;
     AWSClient *m_awsClient = nullptr;
     remoteproxyclient::RemoteProxyConnection *m_remoteproxyConnection = nullptr;
-    QDateTime m_timestamp;
+    QString m_nonce;
 };
 
 #endif // CLOUDTRANSPORT_H

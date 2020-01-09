@@ -30,7 +30,7 @@ CloudTransport::CloudTransport(AWSClient *awsClient, QObject *parent):
 
     QObject::connect(m_remoteproxyConnection, &RemoteProxyConnection::ready, this,[this]() {
         qDebug() << "Proxy ready. Authenticating channel.";
-        m_remoteproxyConnection->authenticate(m_awsClient->idToken(), QString::number(m_timestamp.toMSecsSinceEpoch()));
+        m_remoteproxyConnection->authenticate(m_awsClient->idToken(), m_nonce);
     });
     QObject::connect(m_remoteproxyConnection, &RemoteProxyConnection::dataReady, this, [this](const QByteArray &data) {
         emit dataReady(data);
@@ -52,8 +52,8 @@ bool CloudTransport::connect(const QUrl &url)
     qDebug() << "Connecting to" << url;
     m_url = url;
 
-    m_timestamp = QDateTime::currentDateTime();
-    bool postResult = m_awsClient->postToMQTT(url.host(), QString::number(m_timestamp.toMSecsSinceEpoch()), QPointer<QObject>(this), [this](bool success) {
+    m_nonce = QUuid::createUuid().toString();
+    bool postResult = m_awsClient->postToMQTT(url.host(), m_nonce, QPointer<QObject>(this), [this](bool success) {
         if (success) {
             qDebug() << "MQTT Post done. Connecting to remote proxy";
             m_remoteproxyConnection->connectServer(QUrl("wss://remoteproxy.nymea.io"));

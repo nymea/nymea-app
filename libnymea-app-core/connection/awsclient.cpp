@@ -846,7 +846,7 @@ bool AWSClient::tokensExpired() const
     return (m_accessTokenExpiry.addSecs(-10) < QDateTime::currentDateTime()) || (m_sessionTokenExpiry.addSecs(-10) < QDateTime::currentDateTime());
 }
 
-bool AWSClient::postToMQTT(const QString &coreId, const QString &timestamp, QObject* sender, std::function<void (bool)> callback)
+bool AWSClient::postToMQTT(const QString &coreId, const QString &nonce, QObject* sender, std::function<void (bool)> callback)
 {
     if (!isLoggedIn()) {
         qWarning() << "Cannot post to MQTT. Not logged in to AWS";
@@ -855,7 +855,7 @@ bool AWSClient::postToMQTT(const QString &coreId, const QString &timestamp, QObj
     if (tokensExpired()) {
         qDebug() << "Cannot post to MQTT. Need to refresh the tokens first";
         refreshAccessToken();
-        QueuedCall::enqueue(m_callQueue, QueuedCall("postToMQTT", coreId, timestamp, sender, callback));
+        QueuedCall::enqueue(m_callQueue, QueuedCall("postToMQTT", coreId, nonce, sender, callback));
         return true; // So far it looks we're doing ok... let's return true
     }    
     QString topic = QString("%1/%2/proxy").arg(coreId).arg(QString(m_identityId));
@@ -873,7 +873,9 @@ bool AWSClient::postToMQTT(const QString &coreId, const QString &timestamp, QObj
 
     QVariantMap params;
     params.insert("token", m_idToken);
-    params.insert("timestamp", timestamp);
+    params.insert("nonce", nonce);
+    // FIXME: Old (nymea < 0.18) protocol spec had "timestamp" instead of "nonce", keeping it for backwards compatibility for a bit
+    params.insert("timestamp", nonce);
     QByteArray payload = QJsonDocument::fromVariant(params).toJson(QJsonDocument::Compact);
 
 
