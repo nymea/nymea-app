@@ -68,8 +68,12 @@ int main(int argc, char *argv[])
                                      );
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication application(argc, argv);
+#ifdef UBPORTS
+    application.setApplicationName("io.guh.nymeaapp");
+#else
     application.setApplicationName("nymea-app");
     application.setOrganizationName("nymea");
+#endif
 
     QCommandLineParser parser;
     parser.addHelpOption();
