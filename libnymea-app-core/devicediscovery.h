@@ -36,6 +36,7 @@ class DeviceDiscovery : public QAbstractListModel
     Q_PROPERTY(Engine* engine READ engine WRITE setEngine)
     Q_PROPERTY(bool busy READ busy NOTIFY busyChanged)
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
+    Q_PROPERTY(QString displayMessage READ displayMessage NOTIFY busyChanged)
 public:
     enum Roles {
         RoleId,
@@ -59,6 +60,7 @@ public:
     void setEngine(Engine *jsonRpcClient);
 
     bool busy() const;
+    QString displayMessage() const;
 
 private slots:
     void discoverDevicesResponse(const QVariantMap &params);
@@ -71,6 +73,7 @@ signals:
 private:
     Engine *m_engine = nullptr;
     bool m_busy = false;
+    QString m_displayMessage;
 
     bool contains(const QUuid &deviceDescriptorId) const;
     QList<DeviceDescriptor*> m_foundDevices;

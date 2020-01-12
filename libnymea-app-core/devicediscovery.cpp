@@ -66,6 +66,7 @@ void DeviceDiscovery::discoverDevices(const QUuid &deviceClassId, const QVariant
     }
     m_engine->jsonRpcClient()->sendCommand("Devices.GetDiscoveredDevices", params, this, "discoverDevicesResponse");
     m_busy = true;
+    m_displayMessage.clear();
     emit busyChanged();
 }
 
@@ -95,11 +96,13 @@ bool DeviceDiscovery::busy() const
     return m_busy;
 }
 
+QString DeviceDiscovery::displayMessage() const
+{
+    return m_displayMessage;
+}
+
 void DeviceDiscovery::discoverDevicesResponse(const QVariantMap &params)
 {
-    m_busy = false;
-    emit busyChanged();
-
 //    qDebug() << "response received" << params;
     QVariantList descriptors = params.value("params").toMap().value("deviceDescriptors").toList();
     foreach (const QVariant &descriptorVariant, descriptors) {
@@ -120,6 +123,10 @@ void DeviceDiscovery::discoverDevicesResponse(const QVariantMap &params)
             emit countChanged();
         }
     }
+
+    m_displayMessage = params.value("params").toMap().value("displayMessage").toString();
+    m_busy = false;
+    emit busyChanged();
 }
 
 bool DeviceDiscovery::contains(const QUuid &deviceDescriptorId) const
