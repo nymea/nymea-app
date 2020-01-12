@@ -1,3 +1,12 @@
+nymea-app (1.0.171) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Make it build in sbuild
+  * Fix AWS testing environment at app startup
+  * Use The displayMessage in discovery results
+
+ -- Jenkins <jenkins@nymea.io>  Sun, 12 Jan 2020 22:12:28 +0100
+
 nymea-app (1.0.170) bionic; urgency=medium
 
   [ Michael Zanetti ]
