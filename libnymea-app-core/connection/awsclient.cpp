@@ -156,6 +156,10 @@ bool AWSClient::confirmationPending() const
 
 void AWSClient::login(const QString &username, const QString &password)
 {
+    if (m_usedConfig.isEmpty()) {
+        qDebug() << "AWS config not set. Not logging in.";
+        return;
+    }
     if (m_loginInProgress) {
         qWarning() << "Login already pending...";
         return;
@@ -195,7 +199,7 @@ void AWSClient::login(const QString &username, const QString &password)
     QJsonDocument jsonDoc = QJsonDocument::fromVariant(params);
     QByteArray payload = jsonDoc.toJson(QJsonDocument::Compact);
 
-    qDebug() << "Logging in to AWS as user:" << username;
+    qDebug() << "Logging in to AWS as user:" << username << "with config" << m_usedConfig;
 
     QNetworkReply *reply = m_nam->post(request, payload);
     connect(reply, &QNetworkReply::finished, this, [this, reply, username, password]() {

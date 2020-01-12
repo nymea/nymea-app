@@ -310,6 +310,10 @@ void JsonRpcClient::setNotificationsEnabled()
         namespaces.append(nameSpace);
     }
 
+    if (!m_connection->connected()) {
+        return;
+    }
+
     QVariantMap params;
 
     if (ensureServerVersion("3.1")) {
