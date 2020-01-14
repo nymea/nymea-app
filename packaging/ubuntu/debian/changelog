@@ -1,3 +1,10 @@
+nymea-app (1.0.172) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix AWS config casing
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 14 Jan 2020 17:05:45 +0100
+
 nymea-app (1.0.171) bionic; urgency=medium
 
   [ Michael Zanetti ]
