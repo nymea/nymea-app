@@ -730,13 +730,20 @@ QString AWSClient::config() const
 
 void AWSClient::setConfig(const QString &config)
 {
-    if (m_usedConfig != config) {
-        if (!m_configs.contains(config)) {
-            qWarning() << "AWS: Config" << config << "not known. Not switching AWS config";
+    // We had a bug in some version where the UI would set "community" instead of "Community".
+    // Let's correct that here in case the user still has the wrong value in its config.
+    QString fixedConfig = config;
+    if (fixedConfig.length() > 0) {
+        fixedConfig = fixedConfig.at(0).toUpper() + fixedConfig.right(fixedConfig.length() - 1);
+    }
+
+    if (m_usedConfig != fixedConfig) {
+        if (!m_configs.contains(fixedConfig)) {
+            qWarning() << "AWS: Config" << fixedConfig << "not known. Not switching AWS config";
             return;
         }
-        qDebug() << "Setting AWS configuration to" << config;
-        m_usedConfig = config;
+        qDebug() << "Setting AWS configuration to" << fixedConfig;
+        m_usedConfig = fixedConfig;
         emit configChanged();
     }
 }
