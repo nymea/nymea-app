@@ -10,22 +10,27 @@ Rectangle {
         id: fontMetrics
         font: textArea.font
     }
-
-    width: {
-        var ret = fontMetrics.maximumCharacterWidth * 2;
-        var tmp = textArea.lineCount
-        while (tmp >= 10) {
-            ret += fontMetrics.maximumCharacterWidth;
-            tmp /= 10;
+    TextMetrics {
+        id: textMetrics
+        font: textArea.font
+        text: {
+            var digits = 1;
+            var tmp = textArea.lineCount;
+            while (tmp >= 10) {
+                digits++;
+                tmp /= 10;
+            }
+            var str = ""
+            for (var i = 0; i < digits; i++) {
+                str += "0"
+            }
+            return str;
         }
-        return ret;
     }
+
+    width: textMetrics.advanceWidth + app.margins / 2
     height: root.textArea.height - 10
     color: (app.backgroundColor.r * 0.2126 + app.backgroundColor.g * 0.7152 + app.backgroundColor.b * 0.0722) * 255 < 128 ? "#202020" : "#e0e0e0"
-    Component.onCompleted: {
-        print("..", app.backgroundColor.r)
-        print("*** background", (app.backgroundColor.r * 0.2126 + app.backgroundColor.g * 0.7152 + app.backgroundColor.b * 0.0722) * 255 < 128 )
-    }
 
     Column {
         id: lineNumbersColumn

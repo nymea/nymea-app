@@ -64,6 +64,14 @@ Page {
         }
 
         HeaderButton {
+            imageSource: "../images/question.svg"
+            text: qsTr("Help")
+            onClicked: {
+                Qt.openUrlExternally("https://nymea.io/en/wiki/nymea/master/configuration/scripting")
+            }
+        }
+
+        HeaderButton {
             imageSource: "../images/save.svg"
             enabled: d.script && d.script.name !== nameTextField.text || d.oldContent !== scriptEdit.text
             color: enabled ? app.accentColor : keyColor
