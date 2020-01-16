@@ -1,3 +1,11 @@
+nymea-app (1.0.173) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Implement new system time api
+  * Add a script editor for nymea scripts
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 16 Jan 2020 11:43:35 +0100
+
 nymea-app (1.0.172) bionic; urgency=medium
 
   [ Michael Zanetti ]
