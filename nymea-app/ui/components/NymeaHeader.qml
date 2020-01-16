@@ -58,6 +58,7 @@ Item {
                 font.pixelSize: app.mediumFont
                 elide: Text.ElideRight
                 text: root.text
+                visible: text.length > 0
                 color: app.headerForegroundColor
             }
         }

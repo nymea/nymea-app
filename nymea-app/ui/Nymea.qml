@@ -30,6 +30,7 @@ ApplicationWindow {
     property int largeFont: 20
     property int iconSize: 30
     property int delegateHeight: 60
+    property color backgroundColor: Material.background
 
     readonly property bool landscape: app.width > app.height
 

@@ -11,6 +11,14 @@ Page {
         onBackPressed: pageStack.pop()
 
         HeaderButton {
+            imageSource: Qt.resolvedUrl("images/script.svg")
+            visible: engine.jsonRpcClient.ensureServerVersion("4.1")
+            onClicked: {
+                pageStack.push("magic/ScriptsPage.qml")
+            }
+        }
+
+        HeaderButton {
             imageSource: Qt.resolvedUrl("images/add.svg")
             onClicked: {
                 addRule()
@@ -21,7 +29,7 @@ Page {
     RuleTemplatesFilterModel {
         id: ruleTemplatesModel
         ruleTemplates: RuleTemplates {}
-        readonly property var deviceClass: device ? engine.deviceManager.deviceClasses.getDeviceClass(root.device.deviceClassId) : null
+        readonly property var deviceClass: root.device ? engine.deviceManager.deviceClasses.getDeviceClass(root.device.deviceClassId) : null
         filterByDevices: DevicesProxy { engine: _engine }
         filterInterfaceNames: deviceClass ? deviceClass.interfaces : []
     }

@@ -68,6 +68,12 @@
 #include "configuration/networkmanager.h"
 #include "types/networkdevices.h"
 #include "types/networkdevice.h"
+#include "scriptsyntaxhighlighter.h"
+#include "scriptmanager.h"
+#include "scripting/codecompletion.h"
+#include "scripting/completionmodel.h"
+#include "types/script.h"
+#include "types/scripts.h"
 
 #include <QtQml/qqml.h>
 
@@ -230,6 +236,13 @@ void registerQmlTypes() {
     qmlRegisterUncreatableType<NetworkDevice>(uri, 1, 0, "NetworkDevice", "Get it from NetworkDevices");
     qmlRegisterUncreatableType<WiredNetworkDevice>(uri, 1, 0, "WiredNetworkDevice", "Get it from NetworkDevices");
     qmlRegisterUncreatableType<WirelessNetworkDevice>(uri, 1, 0, "WirelessNetworkDevice", "Get it from NetworkDevices");
+
+    qmlRegisterUncreatableType<ScriptManager>(uri, 1, 0, "ScriptManager", "Get it from Engine");
+    qmlRegisterUncreatableType<Scripts>(uri, 1, 0, "Scripts", "Getit from ScriptManager");
+    qmlRegisterUncreatableType<Script>(uri, 1, 0, "Script", "Getit from Scripts");
+    qmlRegisterType<ScriptSyntaxHighlighter>(uri, 1, 0, "ScriptSyntaxHighlighter");
+    qmlRegisterType<CodeCompletion>(uri, 1, 0, "CodeCompletion");
+    qmlRegisterUncreatableType<CompletionProxyModel>(uri, 1, 0, "CompletionModel", "Get it from ScriptSyntaxHighlighter");
 }
 
 #endif // LIBNYMEAAPPCORE_H

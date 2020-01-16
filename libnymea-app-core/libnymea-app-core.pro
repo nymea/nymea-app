@@ -15,7 +15,7 @@ include(../nymea-remoteproxy/libnymea-remoteproxyclient/libnymea-remoteproxyclie
 
 
 QT -= gui
-QT += network websockets bluetooth charts
+QT += network websockets bluetooth charts quick
 
 LIBS += -lssl -lcrypto
 
@@ -48,6 +48,10 @@ SOURCES += \
     devicediscovery.cpp \
     models/packagesfiltermodel.cpp \
     models/taglistmodel.cpp \
+    scripting/codecompletion.cpp \
+    scripting/completionmodel.cpp \
+    scriptmanager.cpp \
+    scriptsyntaxhighlighter.cpp \
     vendorsproxy.cpp \
     pluginsproxy.cpp \
     interfacesmodel.cpp \
@@ -111,6 +115,10 @@ HEADERS += \
     devicediscovery.h \
     models/packagesfiltermodel.h \
     models/taglistmodel.h \
+    scripting/codecompletion.h \
+    scripting/completionmodel.h \
+    scriptmanager.h \
+    scriptsyntaxhighlighter.h \
     vendorsproxy.h \
     pluginsproxy.h \
     interfacesmodel.h \

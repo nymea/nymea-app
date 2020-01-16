@@ -16,6 +16,8 @@ HEADERS += \
     types/packages.h \
     types/repositories.h \
     types/repository.h \
+    types/script.h \
+    types/scripts.h \
     types/types.h \
     types/vendor.h \
     types/vendors.h \
@@ -72,6 +74,8 @@ SOURCES += \
     types/packages.cpp \
     types/repositories.cpp \
     types/repository.cpp \
+    types/script.cpp \
+    types/scripts.cpp \
     types/vendor.cpp \
     types/vendors.cpp \
     types/deviceclass.cpp \
