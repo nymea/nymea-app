@@ -499,7 +499,11 @@
     </message>
     <message>
         <source>An unexpected error happened. Please report this isse. Error code:</source>
-        <translation>예기치 않은 오류가 발생했습니다. 이 문제를 신고하십시오. 에러 코드:</translation>
+        <translation type="vanished">예기치 않은 오류가 발생했습니다. 이 문제를 신고하십시오. 에러 코드:</translation>
+    </message>
+    <message>
+        <source>An unexpected error happened. Please report this isse. Error code: %1</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -816,6 +820,85 @@
     <message>
         <source>WebSocket server interfaces</source>
         <translation>WebSocket 서버 인터페이스</translation>
+    </message>
+</context>
+<context>
+    <name>DatePicker</name>
+    <message>
+        <source>January</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>February</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>March</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>April</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>May</source>
+        <translation type="unfinished">5월</translation>
+    </message>
+    <message>
+        <source>June</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>July</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>August</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>September</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>October</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>November</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>December</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Mon</source>
+        <translation type="unfinished">월요일</translation>
+    </message>
+    <message>
+        <source>Tue</source>
+        <translation type="unfinished">화요일</translation>
+    </message>
+    <message>
+        <source>Wed</source>
+        <translation type="unfinished">수요일</translation>
+    </message>
+    <message>
+        <source>Thu</source>
+        <translation type="unfinished">목요일</translation>
+    </message>
+    <message>
+        <source>Fri</source>
+        <translation type="unfinished">금요일</translation>
+    </message>
+    <message>
+        <source>Sat</source>
+        <translation type="unfinished">토요일</translation>
+    </message>
+    <message>
+        <source>Sun</source>
+        <translation type="unfinished">일요일</translation>
     </message>
 </context>
 <context>
@@ -1566,7 +1649,7 @@ Please try again.</source>
     <name>GeneralSettingsPage</name>
     <message>
         <source>Box settings</source>
-        <translation>상자(장치) 설정</translation>
+        <translation type="vanished">상자(장치) 설정</translation>
     </message>
     <message>
         <source>Name</source>
@@ -1578,7 +1661,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Language</source>
-        <translation>언어</translation>
+        <translation type="vanished">언어</translation>
     </message>
     <message>
         <source>Time zone</source>
@@ -1603,6 +1686,22 @@ Please try again.</source>
     <message>
         <source>Shut down %1:core</source>
         <translation>%1:코어 종료</translation>
+    </message>
+    <message>
+        <source>General settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set date and time automatically</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Date</source>
+        <translation type="unfinished">날짜</translation>
+    </message>
+    <message>
+        <source>Time</source>
+        <translation type="unfinished">시간</translation>
     </message>
 </context>
 <context>
@@ -2190,6 +2289,10 @@ Please try again.</source>
     <message>
         <source>Screen brightness</source>
         <translation>화면 밝기</translation>
+    </message>
+    <message>
+        <source>Automatic</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2883,7 +2986,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Garage gates</source>
-        <translation>차고 문</translation>
+        <translation type="vanished">차고 문</translation>
     </message>
     <message>
         <source>Access control</source>
@@ -2895,7 +2998,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Heatings</source>
-        <translation>난방기(온열기)</translation>
+        <translation type="vanished">난방기(온열기)</translation>
     </message>
     <message>
         <source>EV-chargers</source>
@@ -2990,6 +3093,18 @@ Please try again.</source>
     <message>
         <source>thing to notify</source>
         <extracomment>Select ...</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Garage doors</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Heating</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Accounts</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3205,6 +3320,72 @@ Please try again.</source>
     <message>
         <source>&lt;font color=&quot;%1&quot;&gt;The password needs to be &lt;/font&gt;&lt;font color=&quot;%2&quot;&gt;at least %3 characters long&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt;, contain &lt;/font&gt;&lt;font color=&quot;%4&quot;&gt;lowercase&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt;, &lt;/font&gt;&lt;font color=&quot;%5&quot;&gt;uppercase&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt; letters as well as &lt;/font&gt;&lt;font color=&quot;%6&quot;&gt;numbers&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt; and &lt;/font&gt;&lt;font color=&quot;%7&quot;&gt;special characters&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt;.&lt;/font&gt;</source>
         <translation type="vanished">&lt;font color=&quot;%1&quot;&gt;비밀번호는 &lt;/font&gt;&lt;font color=&quot;%4&quot;&gt;소문자 &lt;/font&gt;&lt;font color = &quot;% 1&quot;&gt;, &lt;/ font&gt; &lt;font color = &quot;% 5&quot;&gt; 대문자 &lt;/ font&gt; &lt;font color=&quot;%1&quot;&gt;, &lt;/font&gt;&lt;font color = &quot;% 1 &quot;&gt; 문자 및  &lt;/ font&gt; &lt;font color =&quot;% 6 &quot;&gt; 숫자 &lt;/ font&gt;&lt;font color=&quot;%1&quot;&gt;, &lt;/font&gt; &lt;font color =&quot;% 7 &quot;&gt; 특수 문자 &lt;/ font&gt;  &lt;font color=&quot;%1&quot;&gt;포함 &lt;/font&gt;&lt;font color=&quot;%1&quot;&gt;,&lt;/font&gt;  &lt;font color=&quot;%2&quot;&gt;최소 % 3 자 이상이어야 합니다&lt;font color=&quot;%1&quot;&gt;. &lt;/ font&gt;</translation>
+    </message>
+</context>
+<context>
+    <name>ScriptEditor</name>
+    <message>
+        <source>Did you know...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>nymea:app is available for all kinds of devices. In order to edit scripts we recommend to use nymea:app on your personal computer or connect a keyboard to your tablet.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unsaved changes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There are unsaved changes in the script. Do you want to discard the changes?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Script name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Help</source>
+        <translation type="unfinished">도움</translation>
+    </message>
+    <message>
+        <source>Deploy script</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The script has not been deployed because it contains errors.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Errors</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Console</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ScriptsPage</name>
+    <message>
+        <source>Scripts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add new script</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No scripts are installed yet.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Press &quot;Add script&quot; to get started.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add script</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3546,7 +3727,7 @@ Please try again.</source>
     <name>SetupWizard</name>
     <message>
         <source>Set up thing</source>
-        <translation>사물(장치) 설정</translation>
+        <translation type="vanished">사물(장치) 설정</translation>
     </message>
     <message>
         <source>Search again</source>
@@ -3626,6 +3807,14 @@ Please try again.</source>
     </message>
     <message>
         <source>In order to use OAuth on this platform, make sure qml-module-qtwebview is installed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reconfigure %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set up %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

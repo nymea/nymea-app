@@ -722,7 +722,11 @@
     </message>
     <message>
         <source>An unexpected error happened. Please report this isse. Error code:</source>
-        <translation>Ein Unerwartetet Fehler ist aufgetreten. Bitte benachrichtige uns darüber. Fehler code:</translation>
+        <translation type="vanished">Ein Unerwartetet Fehler ist aufgetreten. Bitte benachrichtige uns darüber. Fehler code:</translation>
+    </message>
+    <message>
+        <source>An unexpected error happened. Please report this isse. Error code: %1</source>
+        <translation>Ein unerwarteter Fehler ist aufgetreten. Bitte berichte dieses Problem. Fehlercode: %1</translation>
     </message>
 </context>
 <context>
@@ -1207,6 +1211,85 @@
     <message>
         <source>WebSocket server interfaces</source>
         <translation>WebSocket server Schnittstellen</translation>
+    </message>
+</context>
+<context>
+    <name>DatePicker</name>
+    <message>
+        <source>January</source>
+        <translation>Januar</translation>
+    </message>
+    <message>
+        <source>February</source>
+        <translation>Februar</translation>
+    </message>
+    <message>
+        <source>March</source>
+        <translation>März</translation>
+    </message>
+    <message>
+        <source>April</source>
+        <translation>April</translation>
+    </message>
+    <message>
+        <source>May</source>
+        <translation>Mai</translation>
+    </message>
+    <message>
+        <source>June</source>
+        <translation>Juni</translation>
+    </message>
+    <message>
+        <source>July</source>
+        <translation>Juli</translation>
+    </message>
+    <message>
+        <source>August</source>
+        <translation>August</translation>
+    </message>
+    <message>
+        <source>September</source>
+        <translation>September</translation>
+    </message>
+    <message>
+        <source>October</source>
+        <translation>Oktober</translation>
+    </message>
+    <message>
+        <source>November</source>
+        <translation>November</translation>
+    </message>
+    <message>
+        <source>December</source>
+        <translation>Dezember</translation>
+    </message>
+    <message>
+        <source>Mon</source>
+        <translation>Mo</translation>
+    </message>
+    <message>
+        <source>Tue</source>
+        <translation>Di</translation>
+    </message>
+    <message>
+        <source>Wed</source>
+        <translation>Mi</translation>
+    </message>
+    <message>
+        <source>Thu</source>
+        <translation>Do</translation>
+    </message>
+    <message>
+        <source>Fri</source>
+        <translation>Fr</translation>
+    </message>
+    <message>
+        <source>Sat</source>
+        <translation>Sa</translation>
+    </message>
+    <message>
+        <source>Sun</source>
+        <translation>So</translation>
     </message>
 </context>
 <context>
@@ -2071,7 +2154,7 @@ Bitte versuche es erneut.</translation>
     <name>GeneralSettingsPage</name>
     <message>
         <source>Box settings</source>
-        <translation>Box Einstellungen</translation>
+        <translation type="vanished">Box Einstellungen</translation>
     </message>
     <message>
         <source>Name</source>
@@ -2083,7 +2166,7 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Language</source>
-        <translation>Sprache</translation>
+        <translation type="vanished">Sprache</translation>
     </message>
     <message>
         <source>Time zone</source>
@@ -2112,6 +2195,22 @@ Bitte versuche es erneut.</translation>
     <message>
         <source>Shut down %1:core</source>
         <translation>%1:core ausschalten</translation>
+    </message>
+    <message>
+        <source>General settings</source>
+        <translation>Generelle Einstellungen</translation>
+    </message>
+    <message>
+        <source>Set date and time automatically</source>
+        <translation>Zeit und Datum automatisch einstellen</translation>
+    </message>
+    <message>
+        <source>Date</source>
+        <translation>Datum</translation>
+    </message>
+    <message>
+        <source>Time</source>
+        <translation>Zeit</translation>
     </message>
 </context>
 <context>
@@ -2800,6 +2899,10 @@ Bitte versuche es erneut.</translation>
     <message>
         <source>Screen brightness</source>
         <translation>Bildschirmhelligkeit</translation>
+    </message>
+    <message>
+        <source>Automatic</source>
+        <translation>Automatisch</translation>
     </message>
 </context>
 <context>
@@ -3634,7 +3737,7 @@ Möchtest Du fortfahren?</translation>
     </message>
     <message>
         <source>Garage gates</source>
-        <translation>Garagentore</translation>
+        <translation type="vanished">Garagentore</translation>
     </message>
     <message>
         <source>Uncategorized</source>
@@ -3698,7 +3801,7 @@ Möchtest Du fortfahren?</translation>
     </message>
     <message>
         <source>Heatings</source>
-        <translation>Heizungen</translation>
+        <translation type="vanished">Heizungen</translation>
     </message>
     <message>
         <source>EV-chargers</source>
@@ -3770,6 +3873,18 @@ Möchtest Du fortfahren?</translation>
         <source>thing to notify</source>
         <extracomment>Select ...</extracomment>
         <translation>&quot;Thing&quot; zum Benachrichtigen</translation>
+    </message>
+    <message>
+        <source>Garage doors</source>
+        <translation>Garagentore</translation>
+    </message>
+    <message>
+        <source>Heating</source>
+        <translation>Heizung</translation>
+    </message>
+    <message>
+        <source>Accounts</source>
+        <translation>Konten</translation>
     </message>
 </context>
 <context>
@@ -4004,6 +4119,72 @@ Möchtest Du fortfahren?</translation>
     <message>
         <source>&lt;font color=&quot;%1&quot;&gt;The password needs to be &lt;/font&gt;&lt;font color=&quot;%2&quot;&gt;at least %3 characters long&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt;, contain &lt;/font&gt;&lt;font color=&quot;%4&quot;&gt;lowercase&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt;, &lt;/font&gt;&lt;font color=&quot;%5&quot;&gt;uppercase&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt; letters as well as &lt;/font&gt;&lt;font color=&quot;%6&quot;&gt;numbers&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt; and &lt;/font&gt;&lt;font color=&quot;%7&quot;&gt;special characters&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt;.&lt;/font&gt;</source>
         <translation type="vanished">&lt;font color=&quot;%1&quot;&gt;Das Passwort muss &lt;/font&gt;&lt;font color=&quot;%2&quot;&gt;mindestens %3 Zeichen lang&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt; sein, &lt;/font&gt;&lt;font color=&quot;%4&quot;&gt;Kleinbuchstaben&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt;, &lt;/font&gt;&lt;font color=&quot;%5&quot;&gt;Großbuchstaben&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt; sowie &lt;/font&gt;&lt;font color=&quot;%6&quot;&gt;Zahlen&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt; und &lt;/font&gt;&lt;font color=&quot;%7&quot;&gt;Sonderzeichen&lt;/font&gt;&lt;font color=&quot;%1&quot;&gt; beinhalten.&lt;/font&gt;</translation>
+    </message>
+</context>
+<context>
+    <name>ScriptEditor</name>
+    <message>
+        <source>Did you know...</source>
+        <translation>Wusstest Du...</translation>
+    </message>
+    <message>
+        <source>nymea:app is available for all kinds of devices. In order to edit scripts we recommend to use nymea:app on your personal computer or connect a keyboard to your tablet.</source>
+        <translation>nymea:app gibt es für alle Arten von Gerägen. Um Scripte zu bearbeiten empfehlen wir nymea:app auf einem PC zu nutzen.</translation>
+    </message>
+    <message>
+        <source>Unsaved changes</source>
+        <translation>Ungespeicherte Änderungen</translation>
+    </message>
+    <message>
+        <source>There are unsaved changes in the script. Do you want to discard the changes?</source>
+        <translation>Es gibt ungespeicherte Änderungen im Script. Möchtest Du diese verwerfen?</translation>
+    </message>
+    <message>
+        <source>Script name</source>
+        <translation>Script Name</translation>
+    </message>
+    <message>
+        <source>Help</source>
+        <translation>Hilfe</translation>
+    </message>
+    <message>
+        <source>Deploy script</source>
+        <translation>Script bereitstellen</translation>
+    </message>
+    <message>
+        <source>The script has not been deployed because it contains errors.</source>
+        <translation>Das Script wurde nicht installiert weil es Fehler enthält.</translation>
+    </message>
+    <message>
+        <source>Errors</source>
+        <translation>Fehler</translation>
+    </message>
+    <message>
+        <source>Console</source>
+        <translation>Konsole</translation>
+    </message>
+</context>
+<context>
+    <name>ScriptsPage</name>
+    <message>
+        <source>Scripts</source>
+        <translation>Scripte</translation>
+    </message>
+    <message>
+        <source>Add new script</source>
+        <translation>Ein neues Script erstellen</translation>
+    </message>
+    <message>
+        <source>No scripts are installed yet.</source>
+        <translation>Es sind noch keine Scripte installiert.</translation>
+    </message>
+    <message>
+        <source>Press &quot;Add script&quot; to get started.</source>
+        <translation>Drücke dden &quot;Script erstellen&quot; Knopf um loszulegen.</translation>
+    </message>
+    <message>
+        <source>Add script</source>
+        <translation>Script erstellen</translation>
     </message>
 </context>
 <context>
@@ -4480,7 +4661,7 @@ Möchtest Du fortfahren?</translation>
     <name>SetupWizard</name>
     <message>
         <source>Set up thing</source>
-        <translation>&quot;Thing&quot; einrichten</translation>
+        <translation type="vanished">&quot;Thing&quot; einrichten</translation>
     </message>
     <message>
         <source>Search again</source>
@@ -4561,6 +4742,14 @@ Möchtest Du fortfahren?</translation>
     <message>
         <source>In order to use OAuth on this platform, make sure qml-module-qtwebview is installed.</source>
         <translation>Um OAuth auf diesem System zu benutzen, stelle sicher, dass qml-module-qtwebview installiert ist.</translation>
+    </message>
+    <message>
+        <source>Reconfigure %1</source>
+        <translation>%1 neu konfigurieren</translation>
+    </message>
+    <message>
+        <source>Set up %1</source>
+        <translation>%1 einrichten</translation>
     </message>
 </context>
 <context>
