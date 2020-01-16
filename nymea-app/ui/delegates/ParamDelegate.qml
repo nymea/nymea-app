@@ -24,10 +24,11 @@ ItemDelegate {
     contentItem: ColumnLayout {
         id: contentItemColumn
         RowLayout {
+            spacing: app.margins
             Label {
                 id: nameLabel
-                Layout.fillWidth: true
-                Layout.minimumWidth: parent.width / 2
+//                Layout.fillWidth: true
+//                Layout.minimumWidth: parent.width / 2
                 text: root.paramType.displayName
                 elide: Text.ElideRight
             }
