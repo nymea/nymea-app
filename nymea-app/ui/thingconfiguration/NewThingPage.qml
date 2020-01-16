@@ -119,10 +119,10 @@ Page {
 
         model: DeviceClassesProxy {
             id: deviceClassesProxy
-            vendorId: vendorFilterComboBox.currentIndex >= 0 ? vendorsFilterModel.get(vendorFilterComboBox.currentIndex).vendorId : ""
-            deviceClasses: engine.deviceManager.deviceClasses
+            engine: _engine
             filterInterface: typeFilterModel.get(typeFilterComboBox.currentIndex).interfaceName
-            filterDisplayName: displayNameFilterField.displayText
+            filterVendorId: vendorFilterComboBox.currentIndex >= 0 ? vendorsFilterModel.get(vendorFilterComboBox.currentIndex).vendorId : ""
+            filterString: displayNameFilterField.displayText
             groupByInterface: true
         }
 
