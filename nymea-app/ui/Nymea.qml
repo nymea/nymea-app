@@ -111,7 +111,7 @@ ApplicationWindow {
         case "extendedawning":
             return qsTr("Awnings");
         case "garagegate":
-            return qsTr("Garage gates");
+            return qsTr("Garage doors");
         case "accesscontrol":
             return qsTr("Access control");
         case "fingerprintreader":
@@ -123,7 +123,7 @@ ApplicationWindow {
         case "extendedsmartmeterconsumer":
             return qsTr("Smart meters");
         case "heating":
-            return qsTr("Heatings");
+            return qsTr("Heating");
         case "evcharger":
             return qsTr("EV-chargers");
         case "powersocket":

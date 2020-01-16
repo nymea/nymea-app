@@ -501,7 +501,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>An unexpected error happened. Please report this isse. Error code:</source>
+        <source>An unexpected error happened. Please report this isse. Error code: %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -794,6 +794,85 @@
     </message>
     <message>
         <source>WebSocket server interfaces</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>DatePicker</name>
+    <message>
+        <source>January</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>February</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>March</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>April</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>May</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>June</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>July</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>August</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>September</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>October</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>November</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>December</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Mon</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tue</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Wed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Thu</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Fri</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sat</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sun</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1529,19 +1608,11 @@ Please try again.</source>
 <context>
     <name>GeneralSettingsPage</name>
     <message>
-        <source>Box settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Language</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1566,6 +1637,22 @@ Please try again.</source>
     </message>
     <message>
         <source>Shut down %1:core</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>General settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set date and time automatically</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Date</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Time</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2149,6 +2236,10 @@ Please try again.</source>
     </message>
     <message>
         <source>Screen brightness</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Automatic</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2839,19 +2930,11 @@ Please try again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Garage gates</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Access control</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Smart meters</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Heatings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2947,6 +3030,18 @@ Please try again.</source>
     <message>
         <source>thing to notify</source>
         <extracomment>Select ...</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Garage doors</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Heating</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Accounts</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3145,6 +3240,72 @@ Please try again.</source>
     </message>
     <message>
         <source>and %1 %2 %3</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ScriptEditor</name>
+    <message>
+        <source>Did you know...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>nymea:app is available for all kinds of devices. In order to edit scripts we recommend to use nymea:app on your personal computer or connect a keyboard to your tablet.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unsaved changes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There are unsaved changes in the script. Do you want to discard the changes?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Script name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Help</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Deploy script</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The script has not been deployed because it contains errors.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Errors</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Console</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ScriptsPage</name>
+    <message>
+        <source>Scripts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add new script</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No scripts are installed yet.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Press &quot;Add script&quot; to get started.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add script</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3474,10 +3635,6 @@ Please try again.</source>
 <context>
     <name>SetupWizard</name>
     <message>
-        <source>Set up thing</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Search again</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3555,6 +3712,14 @@ Please try again.</source>
     </message>
     <message>
         <source>In order to use OAuth on this platform, make sure qml-module-qtwebview is installed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reconfigure %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set up %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
