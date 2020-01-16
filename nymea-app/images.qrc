@@ -216,5 +216,6 @@
         <file>ui/images/script.svg</file>
         <file>ui/images/save.svg</file>
         <file>ui/images/edit-clear.svg</file>
+        <file>ui/images/smartlock.svg</file>
     </qresource>
 </RCC>

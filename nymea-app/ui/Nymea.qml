@@ -69,7 +69,7 @@ ApplicationWindow {
     }
     property alias _discovery: discovery
 
-    property var supportedInterfaces: ["light", "weather", "media", "garagegate", "awning", "shutter", "blind", "powersocket", "heating", "doorbell", "sensor", "smartmeter", "evcharger", "fingerprintreader", "button", "notifications", "inputtrigger", "outputtrigger", "gateway", "account"]
+    property var supportedInterfaces: ["light", "weather", "media", "garagegate", "awning", "shutter", "blind", "powersocket", "heating", "doorbell", "sensor", "smartmeter", "evcharger", "fingerprintreader", "smartlock", "button", "notifications", "inputtrigger", "outputtrigger", "gateway", "account"]
     function interfaceToString(name) {
         switch(name) {
         case "light":
@@ -132,6 +132,8 @@ ApplicationWindow {
             return qsTr("Doorbells");
         case "account":
             return qsTr("Accounts");
+        case "smartlock":
+            return qsTr("Smartlocks")
         case "uncategorized":
             return qsTr("Uncategorized")
         default:
@@ -246,6 +248,8 @@ ApplicationWindow {
             return Qt.resolvedUrl("images/system-shutdown.svg")
         case "account":
             return Qt.resolvedUrl("images/account.svg")
+        case "smartlock":
+            return Qt.resolvedUrl("images/smartlock.svg")
         default:
             console.warn("InterfaceToIcon: Unhandled interface", name)
         }
@@ -342,6 +346,9 @@ ApplicationWindow {
         case "notifications":
             //: Select ...
             return qsTr("thing to notify")
+        case "smartlock":
+            //: Select ...
+            return qsTr("smartlock");
         default:
             console.warn("Unhandled interfaceToDisplayName:", name)
         }
