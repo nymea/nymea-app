@@ -1,3 +1,14 @@
+nymea-app (1.0.174) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Improve ParamDelegate layout
+  * Allow filtering by vendor when adding new things
+  * Fix wording for heating and garagedoors
+  * Add a smartlock interface
+  * Add Bluetooth media browser icon
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 16 Jan 2020 19:27:01 +0100
+
 nymea-app (1.0.173) bionic; urgency=medium
 
   [ Michael Zanetti ]
