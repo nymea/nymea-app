@@ -201,6 +201,7 @@
         <file>ui/images/browser/MediaBrowserIconVideoLibrary.svg</file>
         <file>ui/images/browser/MediaBrowserIconVTuner.svg</file>
         <file>ui/images/browser/MediaBrowserIconDisk.svg</file>
+        <file>ui/images/browser/MediaBrowserIconBluetooth.svg</file>
         <file>ui/images/browser/BrowserIconFavorites.svg</file>
         <file>ui/images/browser/BrowserIconMusic.svg</file>
         <file>ui/images/browser/BrowserIconPicture.svg</file>
