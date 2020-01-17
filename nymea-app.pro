@@ -66,7 +66,7 @@ osxbundle.commands += mv /Volumes/nymea-app/nymea-app.app /Volumes/nymea-app/nym
 osxbundle.commands += tar -xpf $$top_srcdir/packaging/osx/template.tar -C /Volumes/nymea-app/ &&
 osxbundle.commands += hdiutil eject /Volumes/nymea-app &&
 osxbundle.commands += hdiutil convert nymea-app_writable.dmg -format UDRO -o ../nymea-app-osx-bundle-$${APP_VERSION}.dmg &&
-osxbundle.commands += rm nymea-app.dmg nymea-app_writable.dmg &&
+osxbundle.commands += rm nymea-app.dmg nymea-app_writable.dmg
 QMAKE_EXTRA_TARGETS += osxbundle
 
 # Create a .pkg osx installer. We're dropping the QtWebEngineCore framework as that's not app store compliant
