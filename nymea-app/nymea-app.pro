@@ -97,7 +97,7 @@ macx: {
     OTHER_FILES += ../packaging/osx/Info.plist.in \
                    ../packaging/osx/nymea-app.entitlements
 
-    ICON = ../packaging/osx/icon.icns
+    ICON = ../packaging/osx/AppIcon.icns
 
     OSX_ENTITLEMENTS.name = CODE_SIGN_ENTITLEMENTS
     OSX_ENTITLEMENTS.value = $$files($$PWD/../packaging/ios/nymea-app.entitlements)
