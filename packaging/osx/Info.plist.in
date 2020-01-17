@@ -9,7 +9,7 @@
 	<key>CFBundleExecutable</key>
 	<string>nymea-app</string>
 	<key>CFBundleIconFile</key>
-        <string>icon.icns</string>
+        <string>AppIcon.icns</string>
 	<key>CFBundleIdentifier</key>
 	<string>io.nymea.nymeaApp.mac</string>
         <key>CFBundleVersion</key>
