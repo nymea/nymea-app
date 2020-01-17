@@ -74,7 +74,7 @@ QMAKE_EXTRA_TARGETS += osxbundle
 osxinstaller.depends = osxbundle
 osxinstaller.commands += cd nymea-app &&
 osxinstaller.commands += rm -r nymea-app.app/Contents/Frameworks/QtWebEngineCore.framework &&
-osxinstaller.commands += productbuild --component nymea-app.app /Applications ../nymea-app-$${APP_VERSION}.pkg &&
+osxinstaller.commands += productbuild --component nymea-app.app /Applications ../nymea-app-$${APP_VERSION}.pkg && cd .. &&
 osxinstaller.commands += productsign -s "3rd Party Mac Developer Installer" nymea-app-$${APP_VERSION}.pkg nymea-app-signed-$${APP_VERSION}.pkg
 QMAKE_EXTRA_TARGETS += osxinstaller
 
