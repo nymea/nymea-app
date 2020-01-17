@@ -59,7 +59,8 @@ QMAKE_EXTRA_TARGETS += wininstaller
 osxbundle.depends = nymea-app
 osxbundle.commands += cd nymea-app && rm -f ../*.dmg ../*pkg *.dmg || true &&
 osxbundle.commands += hdiutil eject /Volumes/nymea-app || true &&
-osxbundle.commands += macdeployqt nymea-app.app -appstore-compliant -qmldir=$$top_srcdir/nymea-app/ui -codesign=\"3rd Party Mac Developer Application\" -dmg &&
+osxbundle.commands += macdeployqt nymea-app.app -appstore-compliant -qmldir=$$top_srcdir/nymea-app/ui -dmg &&
+osxbundle.commands += codesign -s \"3rd Party Mac Developer Application\" --entitlements $$top_srcdir/packaging/osx/nymea-app.entitlements --deep nymea-app.app &&
 osxbundle.commands += hdiutil convert nymea-app.dmg -format UDRW -o nymea-app_writable.dmg &&
 osxbundle.commands += hdiutil attach -readwrite -noverify nymea-app_writable.dmg && sleep 2 &&
 osxbundle.commands += mv /Volumes/nymea-app/nymea-app.app /Volumes/nymea-app/nymea\:app.app &&
