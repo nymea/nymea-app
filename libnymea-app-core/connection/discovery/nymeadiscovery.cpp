@@ -49,21 +49,13 @@ void NymeaDiscovery::setDiscovering(bool discovering)
         return;
 
     m_discovering = discovering;
-    // If we have zeroconf skip upnp. ZeroConf will not do an active discovery and if it's available it'll always have good data
-    if (!m_zeroConf->available()) {
-        if (discovering) {
-            m_upnp->discover();
-        } else {
-            m_upnp->stopDiscovery();
-        }
-    }
     if (discovering) {
-        // If there's no Zeroconf, use UPnP instead
-        if (!m_zeroConf->available()) {
-            m_upnp->discover();
-        }
+        // ZeroConf is always in discovery mode, nothing to do...
 
-        // Always start Bluetooth discovery if HW is available
+        // Start UPnP discovery
+        m_upnp->discover();
+
+        // Start Bluetooth discovery if HW is available
         if (m_bluetooth) {
             m_bluetooth->discover();
         }
@@ -75,9 +67,7 @@ void NymeaDiscovery::setDiscovering(bool discovering)
             m_awsClient->fetchDevices();
         }
     } else {
-        if (!m_zeroConf->available()) {
-            m_upnp->stopDiscovery();
-        }
+        m_upnp->stopDiscovery();
 
         if (m_bluetooth) {
             m_bluetooth->stopDiscovery();

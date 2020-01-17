@@ -238,7 +238,7 @@ void UpnpDiscovery::networkReplyFinished(QNetworkReply *reply)
         }
     }
 
-//    qDebug() << "discovered device" << uuid << name << discoveredAddress << version << connections << data;
+    qDebug() << "UPnP: Discovered device" << name << discoveredAddress << version << connections /*<< data*/;
 
     NymeaHost* device = m_nymeaHosts->find(uuid);
     if (!device) {
