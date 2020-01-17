@@ -59,7 +59,7 @@ QMAKE_EXTRA_TARGETS += wininstaller
 osxbundle.depends = nymea-app
 osxbundle.commands += cd nymea-app && rm -f ../*.dmg ../*pkg *.dmg || true &&
 osxbundle.commands += hdiutil eject /Volumes/nymea-app || true &&
-osxbundle.commands += macdeployqt nymea-app.app -appstore-compliant -qmldir=$$top_srcdir/nymea-app/ui -codesign="3rd Party Mac Developer Application" -dmg &&
+osxbundle.commands += macdeployqt nymea-app.app -appstore-compliant -qmldir=$$top_srcdir/nymea-app/ui -codesign=\"3rd Party Mac Developer Application\" -dmg &&
 osxbundle.commands += hdiutil convert nymea-app.dmg -format UDRW -o nymea-app_writable.dmg &&
 osxbundle.commands += hdiutil attach -readwrite -noverify nymea-app_writable.dmg && sleep 2 &&
 osxbundle.commands += mv /Volumes/nymea-app/nymea-app.app /Volumes/nymea-app/nymea\:app.app &&
@@ -75,7 +75,7 @@ osxinstaller.depends = osxbundle
 osxinstaller.commands += cd nymea-app &&
 osxinstaller.commands += rm -r nymea-app.app/Contents/Frameworks/QtWebEngineCore.framework &&
 osxinstaller.commands += productbuild --component nymea-app.app /Applications ../nymea-app-$${APP_VERSION}.pkg && cd .. &&
-osxinstaller.commands += productsign -s "3rd Party Mac Developer Installer" nymea-app-$${APP_VERSION}.pkg nymea-app-signed-$${APP_VERSION}.pkg
+osxinstaller.commands += productsign -s \"3rd Party Mac Developer Installer\" nymea-app-$${APP_VERSION}.pkg nymea-app-signed-$${APP_VERSION}.pkg
 QMAKE_EXTRA_TARGETS += osxinstaller
 
 # Generic linux desktop
