@@ -1,3 +1,10 @@
+nymea-app (1.0.177) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Enable building macOS AppStore compliant packages
+
+ -- Jenkins <jenkins@nymea.io>  Sat, 18 Jan 2020 02:09:37 +0100
+
 nymea-app (1.0.176) bionic; urgency=medium
 
   [ Michael Zanetti ]
