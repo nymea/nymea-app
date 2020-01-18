@@ -8,14 +8,18 @@
 	<string>nymea:app</string>
 	<key>CFBundleExecutable</key>
 	<string>nymea-app</string>
-	<key>CFBundleGetInfoString</key>
-	<string>Created by Qt/QMake</string>
 	<key>CFBundleIconFile</key>
-        <string>icon.icns</string>
+        <string>AppIcon.icns</string>
 	<key>CFBundleIdentifier</key>
-	<string>io.guh.nymea-app</string>
+	<string>io.nymea.nymeaApp.mac</string>
+        <key>CFBundleVersion</key>
+        <string>$$APP_REVISION</string>
+        <key>CFBundleShortVersionString</key>
+        <string>$$APP_VERSION</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
+        <key>LSApplicationCategoryType</key>
+        <string>public.app-category.utilities</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>LSMinimumSystemVersion</key>
