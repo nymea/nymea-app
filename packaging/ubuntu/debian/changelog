@@ -1,3 +1,10 @@
+nymea-app (1.0.176) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix SSL connections on windows
+
+ -- Jenkins <jenkins@nymea.io>  Sat, 18 Jan 2020 01:48:13 +0100
+
 nymea-app (1.0.175) bionic; urgency=medium
 
   [ Michael Zanetti ]
