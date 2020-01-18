@@ -41,11 +41,7 @@ wininstaller.commands += rmdir /S /Q $${PACKAGE_DIR}\packages\\$${PACKAGE_URN}\d
 wininstaller.commands += copy $${PACKAGE_DIR}\packages\\$${PACKAGE_URN}\meta\logo.ico $${PACKAGE_DIR}\packages\\$${PACKAGE_URN}\data\logo.ico &&
 CONFIG(debug,debug|release):wininstaller.commands += copy nymea-app\debug\nymea-app.exe $${PACKAGE_DIR}\packages\\$${PACKAGE_URN}\data\\$${APP_NAME}.exe &&
 CONFIG(release,debug|release):wininstaller.commands += copy nymea-app\release\nymea-app.exe $${PACKAGE_DIR}\packages\\$${PACKAGE_URN}\data\\$${APP_NAME}.exe &&
-!equals(SSL_LIBS, "") {
-message("Deploying SSL libs from $${SSL_LIBS} to package.")
-wininstaller.commands += copy $${SSL_LIBS}\libeay32.dll $${PACKAGE_DIR}\packages\\$${PACKAGE_URN}\data &&
-wininstaller.commands += copy $${SSL_LIBS}\ssleay32.dll $${PACKAGE_DIR}\packages\\$${PACKAGE_URN}\data &&
-}
+wininstaller.commands += copy \"$${top_srcdir}\"\windows_openssl\*.dll $${PACKAGE_DIR}\packages\\$${PACKAGE_URN}\data &&
 wininstaller.commands += windeployqt --compiler-runtime --qmldir \"$${top_srcdir}\"\nymea-app\ui $${PACKAGE_DIR}\packages\\$${PACKAGE_URN}\data\ &&
 wininstaller.commands += binarycreator -c $${PACKAGE_DIR}\config\config.xml -p $${PACKAGE_DIR}\packages\ $${PACKAGE_NAME}-$${APP_VERSION}
 win32:message("Windows installer package directory: $${PACKAGE_DIR}")
