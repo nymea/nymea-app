@@ -1,3 +1,10 @@
+nymea-app (1.0.175) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Reenable UPnP, regardless if ZeroConf is enabled already
+
+ -- Jenkins <jenkins@nymea.io>  Sat, 18 Jan 2020 01:31:39 +0100
+
 nymea-app (1.0.174) bionic; urgency=medium
 
   [ Michael Zanetti ]
