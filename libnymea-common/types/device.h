@@ -48,27 +48,35 @@ class Device : public QObject
     Q_PROPERTY(QUuid parentDeviceId READ parentDeviceId CONSTANT)
     Q_PROPERTY(bool isChild READ isChild CONSTANT)
     Q_PROPERTY(QString name READ name NOTIFY nameChanged)
-    Q_PROPERTY(bool setupComplete READ setupComplete NOTIFY setupCompleteChanged)
+    Q_PROPERTY(DeviceSetupStatus setupStatus READ setupStatus NOTIFY setupStatusChanged)
     Q_PROPERTY(Params *params READ params NOTIFY paramsChanged)
     Q_PROPERTY(Params *settings READ settings NOTIFY settingsChanged)
     Q_PROPERTY(States *states READ states NOTIFY statesChanged)
     Q_PROPERTY(DeviceClass *deviceClass READ deviceClass CONSTANT)
 
 public:
-    explicit Device(DeviceClass *deviceClass, const QUuid &parentDeviceId = QUuid(), QObject *parent = nullptr);
+    enum DeviceSetupStatus {
+        DeviceSetupStatusNone,
+        DeviceSetupStatusInProgress,
+        DeviceSetupStatusComplete,
+        DeviceSetupStatusFailed
+    };
+    Q_ENUM(DeviceSetupStatus)
 
-    QString name() const;
-    void setName(const QString &name);
+    explicit Device(DeviceClass *deviceClass, const QUuid &parentDeviceId = QUuid(), QObject *parent = nullptr);
 
     QUuid id() const;
     void setId(const QUuid &id);
+
+    QString name() const;
+    void setName(const QString &name);
 
     QUuid deviceClassId() const;
     QUuid parentDeviceId() const;
     bool isChild() const;
 
-    bool setupComplete();
-    void setSetupComplete(const bool &setupComplete);
+    DeviceSetupStatus setupStatus() const;
+    void setSetupStatus(DeviceSetupStatus setupStatus);
 
     Params *params() const;
     void setParams(Params *params);
@@ -86,25 +94,25 @@ public:
     Q_INVOKABLE QVariant stateValue(const QUuid &stateTypeId);
     void setStateValue(const QUuid &stateTypeId, const QVariant &value);
 
-private:
-    QString m_name;
-    QUuid m_id;
-    QUuid m_parentDeviceId;
-    bool m_setupComplete;
-    Params *m_params = nullptr;
-    Params *m_settings = nullptr;
-    States *m_states = nullptr;
-    DeviceClass *m_deviceClass = nullptr;
-
-
 signals:
     void nameChanged();
-    void setupCompleteChanged();
+    void setupStatusChanged();
     void paramsChanged();
     void settingsChanged();
     void statesChanged();
     void eventTriggered(const QString &eventTypeId, const QVariantMap &params);
 
+private:
+
+private:
+    QString m_name;
+    QUuid m_id;
+    QUuid m_parentDeviceId;
+    DeviceSetupStatus m_setupStatus;
+    Params *m_params = nullptr;
+    Params *m_settings = nullptr;
+    States *m_states = nullptr;
+    DeviceClass *m_deviceClass = nullptr;
 };
 
 QDebug operator<<(QDebug &dbg, Device* device);

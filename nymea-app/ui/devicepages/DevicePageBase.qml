@@ -214,14 +214,16 @@ Page {
 
     Rectangle {
         id: infoPane
-        visible: batteryState !== null || (connectedState !== null && connectedState.value === false)
+        visible: setupInProgress || setupFailure || batteryState !== null || (connectedState !== null && connectedState.value === false)
         height: visible ? contentRow.implicitHeight : 0
         anchors { left: parent.left; top: parent.top; right: parent.right }
+        property bool setupInProgress: device.setupStatus == Device.DeviceSetupStatusInProgress
+        property bool setupFailure: device.setupStatus == Device.DeviceSetupStatusFailed
         property var batteryState: deviceClass.interfaces.indexOf("battery") >= 0 ? device.states.getState(deviceClass.stateTypes.findByName("batteryLevel").id) : null
         property var batteryCriticalState: deviceClass.interfaces.indexOf("battery") >= 0 ? device.states.getState(deviceClass.stateTypes.findByName("batteryCritical").id) : null
-//        property var connectedState: deviceClass.interfaces.indexOf("connectable") >= 0 ? device.states.getState(deviceClass.stateTypes.findByName("connected").id) : null
         property var connectedState: deviceClass.interfaces.indexOf("connectable") >= 0 ? device.states.getState(deviceClass.stateTypes.findByName("connected").id) : null
-        property bool alertState: (connectedState !== null && connectedState.value === false) ||
+        property bool alertState: setupFailure ||
+                                  (connectedState !== null && connectedState.value === false) ||
                                   (batteryCriticalState !== null && batteryCriticalState.value === true)
         color: alertState ? "red" : "transparent"
         z: 1000
@@ -235,9 +237,13 @@ Page {
             }
 
             Label {
-                text: (infoPane.connectedState !== null && infoPane.connectedState.value === false) ?
-                          qsTr("Thing is not connected!")
-                        : qsTr("Thing runs out of battery!")
+                text: infoPane.setupInProgress ?
+                          qsTr("Thing is being set up...")
+                        : infoPane.setupFailure ?
+                              qsTr("Thing setup failed!")
+                            : (infoPane.connectedState !== null && infoPane.connectedState.value === false) ?
+                                  qsTr("Thing is not connected!")
+                                : qsTr("Thing runs out of battery!")
                 visible: infoPane.alertState
                 font.pixelSize: app.smallFont
                 color: "white"
@@ -246,9 +252,11 @@ Page {
             ColorIcon {
                 height: app.iconSize / 2
                 width: height
-                visible: infoPane.connectedState !== null && infoPane.connectedState.value === false
+                visible: infoPane.setupInProgress || infoPane.setupFailure || (infoPane.connectedState !== null && infoPane.connectedState.value === false)
                 color: "white"
-                name: "../images/dialog-warning-symbolic.svg"
+                name: infoPane.setupInProgress ?
+                          "../images/settings.svg"
+                        : "../images/dialog-warning-symbolic.svg"
             }
 
             ColorIcon {

@@ -76,15 +76,17 @@ bool Device::isChild() const
     return !m_parentDeviceId.isNull();
 }
 
-bool Device::setupComplete()
+Device::DeviceSetupStatus Device::setupStatus() const
 {
-    return m_setupComplete;
+    return m_setupStatus;
 }
 
-void Device::setSetupComplete(const bool &setupComplete)
+void Device::setSetupStatus(Device::DeviceSetupStatus setupStatus)
 {
-    m_setupComplete = setupComplete;
-    emit setupCompleteChanged();
+    if (m_setupStatus != setupStatus) {
+        m_setupStatus = setupStatus;
+        emit setupStatusChanged();
+    }
 }
 
 Params *Device::params() const
