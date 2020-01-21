@@ -33,7 +33,7 @@ Page {
             NymeaListItemDelegate {
                 Layout.fillWidth: true
                 text: qsTr("Qt version:")
-                subText: qtVersion
+                subText: qtVersion + (qtBuildVersion !== qtVersion ? " (" + qsTr("Built with %1").arg(qtBuildVersion) + ")" : "")
                 progressive: false
                 prominentSubText: false
             }

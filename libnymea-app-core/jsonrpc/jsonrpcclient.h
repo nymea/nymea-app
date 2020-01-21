@@ -44,6 +44,8 @@ class JsonRpcClient : public JsonHandler
     Q_PROPERTY(QString serverVersion READ serverVersion NOTIFY handshakeReceived)
     Q_PROPERTY(QString jsonRpcVersion READ jsonRpcVersion NOTIFY handshakeReceived)
     Q_PROPERTY(QString serverUuid READ serverUuid NOTIFY handshakeReceived)
+    Q_PROPERTY(QString serverQtVersion READ serverQtVersion NOTIFY serverQtVersionChanged)
+    Q_PROPERTY(QString serverQtBuildVersion READ serverQtBuildVersion NOTIFY serverQtVersionChanged)
 
 public:
     enum CloudConnectionState {
@@ -75,6 +77,8 @@ public:
     QString serverVersion() const;
     QString jsonRpcVersion() const;
     QString serverUuid() const;
+    QString serverQtVersion();
+    QString serverQtBuildVersion();
 
     // ui methods
     Q_INVOKABLE int createUser(const QString &username, const QString &password);
@@ -97,6 +101,7 @@ signals:
     void createUserSucceeded();
     void createUserFailed(const QString &error);
     void cloudConnectionStateChanged();
+    void serverQtVersionChanged();
 
     void responseReceived(const int &commandId, const QVariantMap &response);
 
@@ -125,6 +130,8 @@ private:
     QString m_serverUuid;
     QVersionNumber m_jsonRpcVersion;
     QString m_serverVersion;
+    QString m_serverQtVersion;
+    QString m_serverQtBuildVersion;
     QByteArray m_token;
     QByteArray m_receiveBuffer;
 
@@ -141,6 +148,7 @@ private:
     Q_INVOKABLE void isCloudConnectedReply(const QVariantMap &data);
     Q_INVOKABLE void setupRemoteAccessReply(const QVariantMap &data);
     Q_INVOKABLE void deployCertificateReply(const QVariantMap &data);
+    Q_INVOKABLE void getVersionsReply(const QVariantMap &data);
 
     void sendRequest(const QVariantMap &request);
 

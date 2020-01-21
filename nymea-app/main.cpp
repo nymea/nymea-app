@@ -124,7 +124,8 @@ int main(int argc, char *argv[])
     engine->rootContext()->setContextProperty("appBranding", "");
 #endif
     engine->rootContext()->setContextProperty("appVersion", APP_VERSION);
-    engine->rootContext()->setContextProperty("qtVersion", QT_VERSION_STR);
+    engine->rootContext()->setContextProperty("qtBuildVersion", QT_VERSION_STR);
+    engine->rootContext()->setContextProperty("qtVersion", qVersion());
 
     StyleController styleController;
     engine->rootContext()->setContextProperty("styleController", &styleController);
