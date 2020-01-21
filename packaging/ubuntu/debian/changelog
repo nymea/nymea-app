@@ -1,3 +1,11 @@
+nymea-app (1.0.178) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add support for imperial unit conversion
+  * Fix signing of the macOS app bundle
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 21 Jan 2020 14:55:52 +0100
+
 nymea-app (1.0.177) bionic; urgency=medium
 
   [ Michael Zanetti ]
