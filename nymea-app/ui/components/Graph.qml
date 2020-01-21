@@ -164,10 +164,11 @@ Item {
             ctx.strokeStyle = Material.foreground
             ctx.fillStyle = Material.foreground
             ctx.lineWidth = 0;
-            var label = root.stateType ? root.stateType.unitString : ""
+            var unit = root.stateType ? root.stateType.unit : Types.UnitNone
+            var label = Types.toUiUnit(unit)
             var textSize = ctx.measureText(label)
             ctx.text(label, -textSize.width - app.margins, height + app.margins + app.smallFont)
-//            ctx.stroke();
+            ctx.stroke();
             ctx.fill()
             ctx.closePath()
 

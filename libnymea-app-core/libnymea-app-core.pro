@@ -86,7 +86,7 @@ SOURCES += \
     configuration/mqttpolicy.cpp \
     configuration/mqttpolicies.cpp \
     models/devicemodel.cpp \
-    system/systemcontroller.cpp
+    system/systemcontroller.cpp \
 
 HEADERS += \
     configuration/networkmanager.h \
@@ -153,8 +153,7 @@ HEADERS += \
     configuration/mqttpolicy.h \
     configuration/mqttpolicies.h \
     models/devicemodel.h \
-    system/systemcontroller.h
-
+    system/systemcontroller.h \
 
 ubports: {
     DEFINES += UBPORTS

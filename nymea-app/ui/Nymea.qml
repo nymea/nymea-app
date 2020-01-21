@@ -45,6 +45,7 @@ ApplicationWindow {
         property string cloudEnvironment: "Community"
         property bool showConnectionTabs: false
         property int tabCount: 1
+        property string units: "metric" // or "imperial"
     }
 
     property string privacyPolicyUrl: "https://nymea.io/privacy-statement/en/nymea_privacy.html"
@@ -53,6 +54,12 @@ ApplicationWindow {
         styleController.setSystemFont(app.font)
         PlatformHelper.topPanelColor = app.primaryColor
         PlatformHelper.bottomPanelColor = Material.background
+    }
+
+    Binding {
+        target: Types
+        property: "unitSystem"
+        value: settings.units === "metric" ? Types.UnitSystemMetric : Types.UnitSystemImperial
     }
 
     RootItem {
@@ -65,7 +72,7 @@ ApplicationWindow {
         id: discovery
         objectName: "discovery"
         awsClient: AWSClient
-//        discovering: pageStack.currentItem.objectName === "discoveryPage"
+        //        discovering: pageStack.currentItem.objectName === "discoveryPage"
     }
     property alias _discovery: discovery
 

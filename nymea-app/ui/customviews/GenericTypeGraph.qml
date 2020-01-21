@@ -64,7 +64,7 @@ Item {
                 Layout.fillWidth: true
                 text: root.stateType.type.toLowerCase() === "bool"
                       ? root.stateType.displayName
-                      : 1.0 * Math.round(root.valueState.value * Math.pow(10, root.roundTo)) / Math.pow(10, root.roundTo) + " " + root.stateType.unitString
+                      : 1.0 * Math.round(Types.toUiValue(root.valueState.value, root.stateType.unit) * Math.pow(10, root.roundTo)) / Math.pow(10, root.roundTo) + " " + Types.toUiUnit(root.stateType.unit)
                 font.pixelSize: app.largeFont
             }
 

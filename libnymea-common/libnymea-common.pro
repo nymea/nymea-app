@@ -76,6 +76,7 @@ SOURCES += \
     types/repository.cpp \
     types/script.cpp \
     types/scripts.cpp \
+    types/types.cpp \
     types/vendor.cpp \
     types/vendors.cpp \
     types/deviceclass.cpp \

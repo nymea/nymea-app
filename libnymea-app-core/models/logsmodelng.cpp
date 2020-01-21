@@ -226,10 +226,16 @@ void LogsModelNg::logsReply(const QVariantMap &data)
     for (int i = 0; i < newBlock.count(); i++) {
         LogEntry *entry = newBlock.at(i);
         m_list.insert(offset + i, entry);
+        Device *dev = m_engine->deviceManager()->devices()->getDevice(entry->deviceId());
+        if (!dev) {
+            qWarning() << "Device not found in system. Cannot add item to graph series.";
+            continue;
+        }
+
+        StateType *entryStateType = dev->deviceClass()->stateTypes()->getStateType(entry->typeId());
 
         if (m_graphSeries) {
-            Device *dev = m_engine->deviceManager()->devices()->getDevice(entry->deviceId());
-            if (dev && dev->deviceClass()->stateTypes()->getStateType(entry->typeId())->type() == "Bool") {
+            if (entryStateType->type() == "Bool") {
 
                 // We don't want bools painting triangles, add a toggle point to keep lines straight
                 if (i > 0) {
@@ -265,18 +271,19 @@ void LogsModelNg::logsReply(const QVariantMap &data)
 
                 // Add a pint in the future to extend the graph (so it can scroll with time and the graph wouldn't end at the last known value)
                 if (m_graphSeries->count() == 0) {
-                    m_graphSeries->append(QPointF(QDateTime::currentDateTime().addDays(1).toMSecsSinceEpoch(), entry->value().toReal()));
+                    m_graphSeries->append(QPointF(QDateTime::currentDateTime().addDays(1).toMSecsSinceEpoch(), Types::instance()->toUiValue(entry->value(), entryStateType->unit()).toReal()));
                 }
 
                 // Add the actual value
-                m_graphSeries->append(QPointF(entry->timestamp().toMSecsSinceEpoch(), entry->value().toReal()));
+                QVariant value = Types::instance()->toUiValue(entry->value(), entryStateType->unit());
+                m_graphSeries->append(QPointF(entry->timestamp().toMSecsSinceEpoch(), value.toReal()));
 
                 // Adjust min/max
-                if (!newMin.isValid() || newMin > entry->value()) {
-                    newMin = entry->value().toReal();
+                if (!newMin.isValid() || newMin > value) {
+                    newMin = value.toReal();
                 }
-                if (!newMax.isValid() || newMax < entry->value()) {
-                    newMax = entry->value().toReal();
+                if (!newMax.isValid() || newMax < value) {
+                    newMax = value.toReal();
                 }
             }
         }

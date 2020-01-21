@@ -83,6 +83,24 @@ Page {
             }
         }
 
+        RowLayout {
+            Layout.fillWidth: true
+            Layout.leftMargin: app.margins
+            Layout.rightMargin: app.margins
+            Label {
+                Layout.fillWidth: true
+                text: qsTr("Unit system")
+            }
+            ComboBox {
+                id: unitsComboBox
+                currentIndex: settings.units === "metric" ? 0 : 1
+                model: [ qsTr("Metric"), qsTr("Imperial") ]
+                onActivated: {
+                    settings.units = index == 0 ? "metric" : "imperial";
+                }
+            }
+        }
+
         CheckDelegate {
             Layout.fillWidth: true
             text: qsTr("Return to home on idle")

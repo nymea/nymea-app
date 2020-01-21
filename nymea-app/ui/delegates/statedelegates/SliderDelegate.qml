@@ -11,6 +11,7 @@ RowLayout {
     signal changed(var value)
 
     property var value
+    property var unit: Types.UnitNone
     property alias from: slider.from
     property alias to: slider.to
 
@@ -52,6 +53,6 @@ RowLayout {
         }
     }
     Label {
-        text: slider.value.toFixed(root.decimals)
+        text: Types.toUiValue(slider.value, root.unit).toFixed(root.decimals)
     }
 }

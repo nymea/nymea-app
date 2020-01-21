@@ -7,6 +7,7 @@ import "../../components"
 
 Label {
     property var value
-    text: Math.round(value * 100) / 100
+    property var unit: Types.UnitNone
+    text: Math.round(Types.toUiValue(value, unit) * 100) / 100
     horizontalAlignment: Text.AlignRight
 }

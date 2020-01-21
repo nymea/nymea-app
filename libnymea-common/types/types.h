@@ -24,12 +24,12 @@
 #define TYPES_H
 
 #include <QObject>
+#include <QVariant>
 
-class Types
+class Types: public QObject
 {
-    Q_GADGET
-    Q_ENUMS(InputType)
-    Q_ENUMS(Unit)
+    Q_OBJECT
+    Q_PROPERTY(UnitSystem unitSystem READ unitSystem WRITE setUnitSystem NOTIFY unitSystemChanged)
 
 public:
     enum InputType {
@@ -44,6 +44,7 @@ public:
         InputTypeUrl,
         InputTypeMacAddress
     };
+    Q_ENUM(InputType)
 
     enum Unit {
         UnitNone,
@@ -97,10 +98,42 @@ public:
         UnitVoltAmpereReactive,
         UnitAmpereHour,
         UnitMicroSiemensPerCentimeter,
-        UnitDuration
-    };
+        UnitDuration,
 
+        // Those do not exist in nymea:core at this point, Adding them for easier conversion to imperial
+        UnitDegreeFahrenheit,
+        UnitOunce,
+        UnitPound,
+        UnitInch,
+        UnitFoot,
+        UnitMile,
+        UnitFootPerSecond,
+        UnitMilePerHour,
+    };
+    Q_ENUM(Unit)
+
+    enum UnitSystem {
+        UnitSystemMetric,
+        UnitSystemImperial
+    };
+    Q_ENUM(UnitSystem)
+
+    static Types* instance();
+
+    UnitSystem unitSystem() const;
+    void setUnitSystem(UnitSystem unitSystem);
+
+    Q_INVOKABLE QString toUiUnit(Types::Unit unit) const;
+    Q_INVOKABLE QVariant toUiValue(const QVariant &value, Types::Unit unit) const;
+
+signals:
+    void unitSystemChanged();
+
+private:
     Types(QObject *parent = nullptr);
+    static Types *s_instance;
+
+    UnitSystem m_unitSystem = UnitSystemMetric;
 
 };
 #endif // TYPES_H

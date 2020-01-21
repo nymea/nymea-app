@@ -60,7 +60,7 @@ CustomViewBase {
                 color: app.interfaceToColor(root.interfaceName)
             }
             Label {
-                text: deviceState.value + " " + stateType.unitString
+                text: Types.toUiValue(deviceState.value, stateType.unit) + " " + Types.toUiUnit(stateType.unit)
                 font.pixelSize: app.largeFont
             }
 

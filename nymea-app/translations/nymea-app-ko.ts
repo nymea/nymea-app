@@ -2294,6 +2294,18 @@ Please try again.</source>
         <source>Automatic</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Unit system</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Metric</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Imperial</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>MagicPage</name>
@@ -3105,6 +3117,15 @@ Please try again.</source>
     </message>
     <message>
         <source>Accounts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Smartlocks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>smartlock</source>
+        <extracomment>Select ...</extracomment>
         <translation type="unfinished"></translation>
     </message>
 </context>
