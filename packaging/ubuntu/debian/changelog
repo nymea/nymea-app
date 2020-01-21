@@ -1,3 +1,10 @@
+nymea-app (1.0.179) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add info about Qt versions in about pages
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 21 Jan 2020 23:35:49 +0100
+
 nymea-app (1.0.178) bionic; urgency=medium
 
   [ Michael Zanetti ]
