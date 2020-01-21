@@ -209,13 +209,13 @@ MainPageTile {
                 Label {
                     Layout.fillWidth: true
                     horizontalAlignment: Text.AlignRight
-                    text: sensorsRoot.currentStateType.unitString
+                    text: Types.toUiUnit(sensorsRoot.currentStateType.unit)
                     font.pixelSize: app.smallFont
                 }
                 Label {
                     Layout.fillWidth: true
                     horizontalAlignment: Text.AlignRight
-                    text: sensorsRoot.currentState.value// + " " + sensorsRoot.currentStateType.unitString
+                    text: Math.round(Types.toUiValue(sensorsRoot.currentState.value, sensorsRoot.currentStateType.unit) * 100) / 100
                     elide: Text.ElideRight
                 }
             }

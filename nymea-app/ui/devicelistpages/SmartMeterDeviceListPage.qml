@@ -110,7 +110,7 @@ DeviceListPageBase {
                                     Label {
                                         Layout.fillWidth: true
                                         text: sensorValueDelegate.stateValue
-                                              ? "%1 %2".arg(1.0 * Math.round(sensorValueDelegate.stateValue.value * 100000) / 100000).arg(sensorValueDelegate.stateType.unitString)
+                                              ? "%1 %2".arg(1.0 * Math.round(Types.toUiValue(sensorValueDelegate.stateValue.value, sensorValueDelegate.stateType.unit) * 100000) / 100000).arg(Types.toUiUnit(sensorValueDelegate.stateType.unit))
                                               : ""
                                         elide: Text.ElideRight
                                         verticalAlignment: Text.AlignVCenter

@@ -147,7 +147,8 @@ Page {
                         text : {
                             switch (model.source) {
                             case LogEntry.LoggingSourceStates:
-                                return "%1 -> %2".arg(delegate.deviceClass.stateTypes.getStateType(model.typeId).displayName).arg(model.value);
+                                var stateType = delegate.deviceClass.stateTypes.getStateType(model.typeId);
+                                return "%1 -> %2 %3".arg(stateType.displayName).arg(Types.toUiValue(model.value, stateType.unit)).arg(Types.toUiUnit(stateType.unit));
                             case LogEntry.LoggingSourceSystem:
                                 return model.loggingEventType === LogEntry.LoggingEventTypeActiveChange ? qsTr("System started") : "N/A"
                             case LogEntry.LoggingSourceActions:

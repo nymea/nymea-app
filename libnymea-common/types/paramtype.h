@@ -42,6 +42,7 @@ class ParamType : public QObject
     Q_PROPERTY(QVariant minValue READ minValue CONSTANT)
     Q_PROPERTY(QVariant maxValue READ maxValue CONSTANT)
     Q_PROPERTY(Types::InputType inputType READ inputType CONSTANT)
+    Q_PROPERTY(Types::Unit unit READ unit CONSTANT)
     Q_PROPERTY(QString unitString READ unitString CONSTANT)
     Q_PROPERTY(QVariantList allowedValues READ allowedValues CONSTANT)
     Q_PROPERTY(bool readOnly READ readOnly CONSTANT)

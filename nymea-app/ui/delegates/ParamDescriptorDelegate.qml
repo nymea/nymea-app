@@ -106,7 +106,7 @@ ItemDelegate {
             }
 
             Label {
-                text: paramType.unitString
+                text: Types.toUiUnit(paramType.unit)
             }
         }
 
@@ -132,9 +132,9 @@ ItemDelegate {
             text: {
                 switch (root.paramType.type.toLowerCase()) {
                 case "double":
-                    return Math.round(root.value * 10) / 10
+                    return Math.round(Types.toUiValue(root.value, root.paramType.unit) * 10) / 10
                 }
-                return root.value
+                return Types.toUiValue(root.value, root.paramType.unit)
             }
         }
     }
@@ -153,10 +153,11 @@ ItemDelegate {
         id: sliderComponent
         RowLayout {
             spacing: app.margins
-            Label { text: root.paramType.minValue }
+            Label { text: Types.toUiValue(root.paramType.minValue, root.paramType.unit) }
             Slider {
                 from: paramType.minValue
                 to: paramType.maxValue
+                value: root.value
                 stepSize: {
                     switch (root.paramType.type.toLowerCase()) {
                     case "double":
@@ -169,7 +170,7 @@ ItemDelegate {
                     root.value = value;
                 }
             }
-            Label { text: root.paramType.maxValue  }
+            Label { text: Types.toUiValue(root.paramType.maxValue, root.paramType.unit) }
         }
 
     }

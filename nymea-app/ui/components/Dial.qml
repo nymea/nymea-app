@@ -90,7 +90,8 @@ ColumnLayout {
     Label {
         id: topLabel
         Layout.fillWidth: true
-        text: rotateMouseArea.currentValue + (dial.stateType ? dial.stateType.unitString : "")
+        property var unit: dial.stateType ? dial.stateType.unit : Types.UnitNone
+        text: Types.toUiValue(rotateMouseArea.currentValue, unit) + Types.toUiUnit(unit)
         font.pixelSize: app.largeFont * 1.5
         horizontalAlignment: Text.AlignHCenter
         visible: dial.showValueLabel && dial.stateType !== null

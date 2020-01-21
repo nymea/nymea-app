@@ -104,7 +104,7 @@ DeviceListPageBase {
                                         color: {
                                             switch (model.interfaceName) {
                                             case "closablesensor":
-                                                return sensorValueDelegate.stateValue.value === true ? "green" : "red";
+                                                return sensorValueDelegate.stateValue && sensorValueDelegate.stateValue.value === true ? "green" : "red";
                                             default:
                                                 return app.interfaceToColor(model.interfaceName)
                                             }
@@ -112,7 +112,7 @@ DeviceListPageBase {
                                         name: {
                                             switch (model.interfaceName) {
                                             case "closablesensor":
-                                                return sensorValueDelegate.stateValue.value === true ? Qt.resolvedUrl("../images/lock-closed.svg") : Qt.resolvedUrl("../images/lock-open.svg");
+                                                return sensorValueDelegate.stateValue && sensorValueDelegate.stateValue.value === true ? Qt.resolvedUrl("../images/lock-closed.svg") : Qt.resolvedUrl("../images/lock-open.svg");
                                             default:
                                                 return app.interfaceToIcon(model.interfaceName)
                                             }
@@ -121,15 +121,16 @@ DeviceListPageBase {
 
                                     Label {
                                         Layout.fillWidth: true
+                                        property var unit: sensorValueDelegate.stateType ? sensorValueDelegate.stateType.unit : Types.UnitNone
                                         text: {
                                             switch (model.interfaceName) {
                                             case "closablesensor":
-                                                return sensorValueDelegate.stateValue.value === true ? qsTr("is closed") : qsTr("is open");
+                                                return sensorValueDelegate.stateValue && sensorValueDelegate.stateValue.value === true ? qsTr("is closed") : qsTr("is open");
                                             default:
                                                 return sensorValueDelegate.stateType && sensorValueDelegate.stateType.type.toLowerCase() === "bool"
                                                   ? sensorValueDelegate.stateType.displayName
                                                   : sensorValueDelegate.stateValue
-                                                    ? "%1 %2".arg(Math.round(sensorValueDelegate.stateValue.value * 100) / 100).arg(sensorValueDelegate.stateType.unitString)
+                                                    ? "%1 %2".arg(Math.round(Types.toUiValue(sensorValueDelegate.stateValue.value, unit) * 100) / 100).arg(Types.toUiUnit(unit))
                                                     : ""
                                             }
                                         }

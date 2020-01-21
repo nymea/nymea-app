@@ -145,7 +145,7 @@ ItemDelegate {
                 }
             }
             Label {
-                text: root.param.value.toFixed(slider.decimals) + root.paramType.unitString
+                text: Types.toUiValue(root.param.value, root.paramType.unit).toFixed(slider.decimals) + Types.toUiUnit(root.paramType.unit)
             }
         }
 
@@ -170,7 +170,7 @@ ItemDelegate {
                 width: 150
                 onValueModified: root.param.value = value
                 textFromValue: function(value) {
-                    return value
+                    return Types.toUiValue(value, root.paramType.unit)
                 }
                 Component.onCompleted: {
                     if (root.value === undefined) {
@@ -179,7 +179,7 @@ ItemDelegate {
                 }
             }
             Label {
-                text: root.paramType.unitString
+                text: Types.toUiUnit(root.paramType.unit)
                 visible: text.length > 0
             }
         }

@@ -125,8 +125,8 @@ DevicePageBase {
                 Layout.fillWidth: true
             }
             Label {
-                visible: stateDelegate.stateType.unit !== Types.UnitUnixTime && stateDelegate.stateType.unitString.length > 0
-                text: stateDelegate.stateType.unitString
+                visible: stateDelegate.stateType.unit !== Types.UnitUnixTime && stateDelegate.stateType.unit !== Types.UnitUnixTime
+                text: Types.toUiUnit(stateDelegate.stateType.unit)
             }
 
             Component.onCompleted: updateLoader()
@@ -202,6 +202,7 @@ DevicePageBase {
                                                   possibleValues: stateDelegate.stateType.allowedValues,
                                                   from: minValue,
                                                   to: maxValue,
+                                                  unit: stateDelegate.stateType.unit,
                                                   writable: isWritable,
                                                   stateType: stateDelegate.stateType
                                               })
@@ -236,6 +237,11 @@ DevicePageBase {
                 property: "value"
                 value: stateDelegate.deviceState.value
                 when: !stateDelegate.valueCacheDirty && stateDelegate.pendingActionId === -1
+            }
+            Binding {
+                target: stateDelegateLoader.item.hasOwnProperty("unit") ? stateDelegateLoader.item : null
+                property: "unit"
+                value: stateDelegate.stateType.unit
             }
 
             Connections {

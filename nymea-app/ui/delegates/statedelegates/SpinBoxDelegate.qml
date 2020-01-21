@@ -9,8 +9,12 @@ SpinBox {
     width: 150
     signal changed(var value)
     stepSize: Math.min(10, (to - from) / 10)
+    property var unit: Types.UnitNone
     editable: true
     onValueModified: {
         changed(value)
+    }
+    textFromValue: function(value) {
+        return Types.toUiValue(value, unit)
     }
 }

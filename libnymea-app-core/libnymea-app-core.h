@@ -74,6 +74,7 @@
 #include "scripting/completionmodel.h"
 #include "types/script.h"
 #include "types/scripts.h"
+#include "types/types.h"
 
 #include <QtQml/qqml.h>
 
@@ -93,6 +94,13 @@ static QObject* awsClientProvider(QQmlEngine *engine, QJSEngine *scriptEngine)
     return AWSClient::instance();
 }
 
+static QObject* typesProvider(QQmlEngine *engine, QJSEngine *scriptEngine)
+{
+    Q_UNUSED(engine)
+    Q_UNUSED(scriptEngine)
+    return Types::instance();
+}
+
 void registerQmlTypes() {
 
     const char uri[] = "Nymea";
@@ -104,7 +112,7 @@ void registerQmlTypes() {
     qmlRegisterUncreatableType<NymeaConnection>(uri, 1, 0, "NymeaConnection", "Can't create this in QML. Get it from the Engine.");
 
     // libnymea-common
-    qmlRegisterUncreatableType<Types>(uri, 1, 0, "Types", "Can't create this in QML. Get it from the Engine.");
+    qmlRegisterSingletonType<Types>(uri, 1, 0, "Types", typesProvider);
 
     qmlRegisterUncreatableType<ParamType>(uri, 1, 0, "ParamType", "Can't create this in QML. Get it from the ParamTypes.");
     qmlRegisterUncreatableType<ParamTypes>(uri, 1, 0, "ParamTypes", "Can't create this in QML. Get it from the DeviceClass.");

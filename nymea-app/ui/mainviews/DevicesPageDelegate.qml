@@ -560,7 +560,7 @@ MainPageTile {
 
                     Label {
                         text: sensorsRoot.shownStateType
-                              ? Math.round(sensorsRoot.device.states.getState(shownStateType.id).value * 100) / 100 + " " + sensorsRoot.shownStateType.unitString
+                              ? (Math.round(Types.toUiValue(sensorsRoot.device.states.getState(shownStateType.id).value, sensorsRoot.shownStateType.unit) * 100) / 100) + " " + Types.toUiUnit(sensorsRoot.shownStateType.unit)
                               : ""
     //                    font.pixelSize: app.smallFont
                         Layout.fillWidth: true

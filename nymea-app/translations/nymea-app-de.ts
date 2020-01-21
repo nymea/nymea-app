@@ -2904,6 +2904,18 @@ Bitte versuche es erneut.</translation>
         <source>Automatic</source>
         <translation>Automatisch</translation>
     </message>
+    <message>
+        <source>Unit system</source>
+        <translation>Einheitensystem</translation>
+    </message>
+    <message>
+        <source>Metric</source>
+        <translation>Metrisch</translation>
+    </message>
+    <message>
+        <source>Imperial</source>
+        <translation>Imperialistisch</translation>
+    </message>
 </context>
 <context>
     <name>MagicPage</name>
@@ -3885,6 +3897,15 @@ Möchtest Du fortfahren?</translation>
     <message>
         <source>Accounts</source>
         <translation>Konten</translation>
+    </message>
+    <message>
+        <source>Smartlocks</source>
+        <translation>Smartlocks</translation>
+    </message>
+    <message>
+        <source>smartlock</source>
+        <extracomment>Select ...</extracomment>
+        <translation>Smartlock</translation>
     </message>
 </context>
 <context>

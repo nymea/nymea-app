@@ -229,11 +229,11 @@ Page {
 
                                 return labelComponent
                             }
-                            Binding { target: valueLoader.item; property: "value"; value: model.value }
+                            Binding { target: valueLoader.item; property: "value"; value: Types.toUiValue(model.value, entryDelegate.stateType.unit) }
                             Binding {
                                 target: entryDelegate.stateType && valueLoader.item.hasOwnProperty("unitString") ? valueLoader.item : null;
                                 property: "unitString"
-                                value: entryDelegate.stateType ? entryDelegate.stateType.unitString : ""
+                                value: entryDelegate.stateType ? Types.toUiUnit(entryDelegate.stateType.unit) : ""
                             }
                         }
                     }
