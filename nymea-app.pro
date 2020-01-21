@@ -52,10 +52,13 @@ QMAKE_EXTRA_TARGETS += wininstaller
 # OS X installer bundle
 # Install XCode and Qt clang64, add qmake directory to PATH
 # run "make osxbundle"
+# Note: We're dropping the QtWebEngineCore framework manually, as that's not app store compliant
+# and we're using the WebView instead anyways. (IMHO a bug that macdeployqt -appstore-compliant even adds it)
 osxbundle.depends = nymea-app
 osxbundle.commands += cd nymea-app && rm -f ../*.dmg ../*pkg *.dmg || true &&
 osxbundle.commands += hdiutil eject /Volumes/nymea-app || true &&
 osxbundle.commands += macdeployqt nymea-app.app -appstore-compliant -qmldir=$$top_srcdir/nymea-app/ui -dmg &&
+osxbundle.commands += rm -r nymea-app.app/Contents/Frameworks/QtWebEngineCore.framework &&
 osxbundle.commands += codesign -s \"3rd Party Mac Developer Application\" --entitlements $$top_srcdir/packaging/osx/nymea-app.entitlements --deep nymea-app.app &&
 osxbundle.commands += hdiutil convert nymea-app.dmg -format UDRW -o nymea-app_writable.dmg &&
 osxbundle.commands += hdiutil attach -readwrite -noverify nymea-app_writable.dmg && sleep 2 &&
@@ -66,11 +69,9 @@ osxbundle.commands += hdiutil convert nymea-app_writable.dmg -format UDRO -o ../
 osxbundle.commands += rm nymea-app.dmg nymea-app_writable.dmg
 QMAKE_EXTRA_TARGETS += osxbundle
 
-# Create a .pkg osx installer. We're dropping the QtWebEngineCore framework as that's not app store compliant
-# and we're using the WebView instead anyways. (IMHO a bug that macdeployqt -appstore-compliant even adds it)
+# Create a .pkg osx installer.
 osxinstaller.depends = osxbundle
 osxinstaller.commands += cd nymea-app &&
-osxinstaller.commands += rm -r nymea-app.app/Contents/Frameworks/QtWebEngineCore.framework &&
 osxinstaller.commands += productbuild --component nymea-app.app /Applications ../nymea-app-$${APP_VERSION}.pkg && cd .. &&
 osxinstaller.commands += productsign -s \"3rd Party Mac Developer Installer\" nymea-app-$${APP_VERSION}.pkg nymea-app-signed-$${APP_VERSION}.pkg
 QMAKE_EXTRA_TARGETS += osxinstaller
