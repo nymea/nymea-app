@@ -150,6 +150,15 @@ void JsonRpcClient::deployCertificateReply(const QVariantMap &data)
     qDebug() << "deploy certificate reply:" << data;
 }
 
+void JsonRpcClient::getVersionsReply(const QVariantMap &data)
+{
+    m_serverQtVersion = data.value("params").toMap().value("qtVersion").toString();
+    m_serverQtBuildVersion = data.value("params").toMap().value("qtBuildVersion").toString();
+    if (!m_serverQtVersion.isEmpty()) {
+        emit serverQtVersionChanged();
+    }
+}
+
 bool JsonRpcClient::connected() const
 {
     return m_connected;
@@ -200,6 +209,22 @@ QString JsonRpcClient::jsonRpcVersion() const
 QString JsonRpcClient::serverUuid() const
 {
     return m_serverUuid;
+}
+
+QString JsonRpcClient::serverQtVersion()
+{
+    if (!m_serverQtVersion.isEmpty()) {
+        return m_serverQtVersion;
+    }
+    if (ensureServerVersion("4.0")) {
+        sendCommand("JSONRPC.Version", QVariantMap(), this, "getVersionsReply");
+    }
+    return QString();
+}
+
+QString JsonRpcClient::serverQtBuildVersion()
+{
+    return m_serverQtBuildVersion;
 }
 
 int JsonRpcClient::createUser(const QString &username, const QString &password)
@@ -336,10 +361,13 @@ void JsonRpcClient::sendRequest(const QVariantMap &request)
 
 void JsonRpcClient::onInterfaceConnectedChanged(bool connected)
 {
+
     if (!connected) {
         qDebug() << "JsonRpcClient: Transport disconnected.";
         m_initialSetupRequired = false;
         m_authenticationRequired = false;
+        m_serverQtVersion.clear();
+        m_serverQtBuildVersion.clear();
         if (m_connected) {
             m_connected = false;
             emit connectedChanged(false);
