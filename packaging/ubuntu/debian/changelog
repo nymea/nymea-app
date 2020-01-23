@@ -1,3 +1,10 @@
+nymea-app (1.0.180) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix dependency to Qt.labs.calendar for click, snap and dpkg
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 23 Jan 2020 16:20:54 +0100
+
 nymea-app (1.0.179) bionic; urgency=medium
 
   [ Michael Zanetti ]
