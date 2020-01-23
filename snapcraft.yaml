@@ -71,8 +71,9 @@ parts:
       - qml-module-qtquick-controls2
       - qml-module-qtquick-layouts
       - qml-module-qtquick-window2
+      - qml-module-qt-labs-calendar
       - qml-module-qt-labs-settings
+      - qml-module-qt-labs-folderlistmodel
       - libavahi-client3
       - libavahi-common3
-      - qml-module-qt-labs-folderlistmodel
       - qtvirtualkeyboard-plugin

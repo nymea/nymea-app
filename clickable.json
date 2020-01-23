@@ -7,6 +7,7 @@
     "libavahi-common-dev",
     "libqt5charts5-dev",
     "qml-module-qtcharts",
+    "qml-module-qt-labs-calendar",
     "libconnectivity-qt1-dev",
     "libunity-api-dev"
   ]
