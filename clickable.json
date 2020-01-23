@@ -10,5 +10,8 @@
     "qml-module-qt-labs-calendar",
     "libconnectivity-qt1-dev",
     "libunity-api-dev"
+  ],
+  "install_qml": [
+    "/usr/lib/${ARCH_TRIPLET}/qt5/qml/Qt/"
   ]
 }
