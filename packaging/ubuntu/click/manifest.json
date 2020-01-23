@@ -1,8 +1,8 @@
 {
     "name": "io.guh.nymeaapp",
-    "description": "nymea:app is a client for nymea - a professional IoT server that allows to link smart devices and services. Functional relations of all available sensing and acting capabilities can be defined by 'Magic'.",
-    "architecture": "armhf",
+    "description": "Client app for for nymea",
     "title": "nymea:app",
+    "architecture": "@CLICK_ARCH@",
     "hooks": {
         "nymea-app": {
             "apparmor": "nymea-app.apparmor",
