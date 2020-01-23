@@ -1,3 +1,10 @@
+nymea-app (1.0.181) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Allow building different architectures with clickable
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 23 Jan 2020 23:42:04 +0100
+
 nymea-app (1.0.180) bionic; urgency=medium
 
   [ Michael Zanetti ]
