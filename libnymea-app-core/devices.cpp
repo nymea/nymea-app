@@ -84,6 +84,8 @@ QVariant Devices::data(const QModelIndex &index, int role) const
         return device->parentDeviceId().toString();
     case RoleSetupStatus:
         return device->setupStatus();
+    case RoleSetupDisplayMessage:
+        return device->setupDisplayMessage();
     case RoleInterfaces:
         return device->deviceClass()->interfaces();
     case RoleBaseInterface:
@@ -107,7 +109,7 @@ void Devices::addDevice(Device *device)
     connect(device, &Device::setupStatusChanged, this, [device, this]() {
         int idx = m_devices.indexOf(device);
         if (idx < 0) return;
-        emit dataChanged(index(idx), index(idx), {RoleSetupStatus});
+        emit dataChanged(index(idx), index(idx), {RoleSetupStatus, RoleSetupDisplayMessage});
     });
     connect(device->states(), &States::dataChanged, this, [device, this]() {
         int idx = m_devices.indexOf(device);
@@ -145,6 +147,7 @@ QHash<int, QByteArray> Devices::roleNames() const
     roles[RoleDeviceClass] = "deviceClassId";
     roles[RoleParentDeviceId] = "parentDeviceId";
     roles[RoleSetupStatus] = "setupStatus";
+    roles[RoleSetupDisplayMessage] = "setupDisplayMessage";
     roles[RoleInterfaces] = "interfaces";
     roles[RoleBaseInterface] = "baseInterface";
     return roles;

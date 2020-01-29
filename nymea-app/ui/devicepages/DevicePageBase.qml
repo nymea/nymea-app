@@ -240,7 +240,7 @@ Page {
                 text: infoPane.setupInProgress ?
                           qsTr("Thing is being set up...")
                         : infoPane.setupFailure ?
-                              qsTr("Thing setup failed!")
+                              (root.device.setupDisplayMessage.length > 0 ? root.device.setupDisplayMessage : qsTr("Thing setup failed!"))
                             : (infoPane.connectedState !== null && infoPane.connectedState.value === false) ?
                                   qsTr("Thing is not connected!")
                                 : qsTr("Thing runs out of battery!")

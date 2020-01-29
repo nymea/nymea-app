@@ -49,6 +49,7 @@ class Device : public QObject
     Q_PROPERTY(bool isChild READ isChild CONSTANT)
     Q_PROPERTY(QString name READ name NOTIFY nameChanged)
     Q_PROPERTY(DeviceSetupStatus setupStatus READ setupStatus NOTIFY setupStatusChanged)
+    Q_PROPERTY(QString setupDisplayMessage READ setupDisplayMessage NOTIFY setupStatusChanged)
     Q_PROPERTY(Params *params READ params NOTIFY paramsChanged)
     Q_PROPERTY(Params *settings READ settings NOTIFY settingsChanged)
     Q_PROPERTY(States *states READ states NOTIFY statesChanged)
@@ -76,7 +77,8 @@ public:
     bool isChild() const;
 
     DeviceSetupStatus setupStatus() const;
-    void setSetupStatus(DeviceSetupStatus setupStatus);
+    QString setupDisplayMessage() const;
+    void setSetupStatus(DeviceSetupStatus setupStatus, const QString &displayMessage);
 
     Params *params() const;
     void setParams(Params *params);
@@ -109,6 +111,7 @@ private:
     QUuid m_id;
     QUuid m_parentDeviceId;
     DeviceSetupStatus m_setupStatus;
+    QString m_setupDisplayMessage;
     Params *m_params = nullptr;
     Params *m_settings = nullptr;
     States *m_states = nullptr;

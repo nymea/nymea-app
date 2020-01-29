@@ -81,10 +81,16 @@ Device::DeviceSetupStatus Device::setupStatus() const
     return m_setupStatus;
 }
 
-void Device::setSetupStatus(Device::DeviceSetupStatus setupStatus)
+QString Device::setupDisplayMessage() const
 {
-    if (m_setupStatus != setupStatus) {
+    return m_setupDisplayMessage;
+}
+
+void Device::setSetupStatus(Device::DeviceSetupStatus setupStatus, const QString &displayMessage)
+{
+    if (m_setupStatus != setupStatus || m_setupDisplayMessage != displayMessage) {
         m_setupStatus = setupStatus;
+        m_setupDisplayMessage = displayMessage;
         emit setupStatusChanged();
     }
 }
