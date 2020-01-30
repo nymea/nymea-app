@@ -38,6 +38,7 @@
 #include "connection/awsclient.h"
 #include "system/systemcontroller.h"
 #include "configuration/networkmanager.h"
+#include "usersmanager.h"
 
 #include "connection/tcpsockettransport.h"
 #include "connection/websockettransport.h"
@@ -54,7 +55,8 @@ Engine::Engine(QObject *parent) :
     m_logManager(new LogManager(m_jsonRpcClient, this)),
     m_tagsManager(new TagsManager(m_jsonRpcClient, this)),
     m_nymeaConfiguration(new NymeaConfiguration(m_jsonRpcClient, this)),
-    m_systemController(new SystemController(m_jsonRpcClient, this))
+    m_systemController(new SystemController(m_jsonRpcClient, this)),
+    m_usersManager(new UsersManager(m_jsonRpcClient, this))
 {
     m_connection->registerTransport(new TcpSocketTransportFactory());
     m_connection->registerTransport(new WebsocketTransportFactory());
@@ -120,6 +122,11 @@ NymeaConfiguration *Engine::nymeaConfiguration() const
 SystemController *Engine::systemController() const
 {
     return m_systemController;
+}
+
+UsersManager *Engine::usersManager() const
+{
+    return m_usersManager;
 }
 
 void Engine::deployCertificate()

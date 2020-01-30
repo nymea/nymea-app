@@ -73,6 +73,21 @@ Page {
             Pane {
                 Layout.fillWidth: true
                 Material.elevation: layout.isGrid ? 1 : 0
+                padding: 0
+                NymeaListItemDelegate {
+                    width: parent.width
+                    iconName: "../images/lock-closed.svg"
+                    text: qsTr("Authentication")
+                    subText: qsTr("Configure who can log in")
+                    prominentSubText: false
+                    wrapTexts: false
+                    onClicked: pageStack.push(Qt.resolvedUrl("system/UsersSettingsPage.qml"))
+                }
+            }
+
+            Pane {
+                Layout.fillWidth: true
+                Material.elevation: layout.isGrid ? 1 : 0
 
                 padding: 0
                 NymeaListItemDelegate {
