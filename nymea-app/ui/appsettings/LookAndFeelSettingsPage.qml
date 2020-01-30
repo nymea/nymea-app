@@ -39,7 +39,7 @@ Page {
                     }
                 }
 
-                onCurrentIndexChanged: {
+                onActivated: {
                     switch (currentIndex) {
                     case 0:
                         settings.viewMode = ApplicationWindow.Windowed;
