@@ -112,59 +112,60 @@ void DeviceClass::setInterfaces(const QStringList &interfaces)
 
 QString DeviceClass::baseInterface() const
 {
-    if (m_interfaces.contains("gateway")) {
-        return "gateway";
-    }
-    if (m_interfaces.contains("shutter")) {
-        return "shutter";
-    }
-    if (m_interfaces.contains("blind")) {
-        return "blind";
-    }
-    if (m_interfaces.contains("garagegate")) {
-        return "garagegate";
-    }
-    if (m_interfaces.contains("inputtrigger")) {
-        return "inputtrigger";
-    }
-    if (m_interfaces.contains("awning")) {
-        return "awning";
-    }
-    if (m_interfaces.contains("outputtrigger")) {
-        return "outputtrigger";
-    }
-    if (m_interfaces.contains("light")) {
-        return "light";
-    }
-    if (m_interfaces.contains("sensor")) {
-        return "sensor";
-    }
-    if (m_interfaces.contains("weather")) {
-        return "weather";
-    }
-    if (m_interfaces.contains("media")) {
-        return "media";
-    }
-    if (m_interfaces.contains("button") || m_interfaces.contains("powerswitch")) {
-        return "button";
-    }
-    if (m_interfaces.contains("notifications")) {
-        return "notifications";
-    }
-    if (m_interfaces.contains("smartmeter")) {
-        return "smartmeter";
-    }
-    if (m_interfaces.contains("heating")) {
-        return "heating";
-    }
-    if (m_interfaces.contains("evcharger")) {
-        return "evcharger";
-    }
-    if (m_interfaces.contains("powersocket")) {
-        return "powersocket";
+    foreach (const QString &interface, m_interfaces) {
+        if (interface == "gateway") {
+            return "gateway";
+        }
+        if (interface == "shutter") {
+            return "shutter";
+        }
+        if (interface == "blind") {
+            return "blind";
+        }
+        if (interface == "garagegate") {
+            return "garagegate";
+        }
+        if (interface == "inputtrigger") {
+            return "inputtrigger";
+        }
+        if (interface == "awning") {
+            return "awning";
+        }
+        if (interface == "outputtrigger") {
+            return "outputtrigger";
+        }
+        if (interface == "light") {
+            return "light";
+        }
+        if (interface == "sensor") {
+            return "sensor";
+        }
+        if (interface == "weather") {
+            return "weather";
+        }
+        if (interface == "media") {
+            return "media";
+        }
+        if (interface == "button" || interface == "powerswitch") {
+            return "button";
+        }
+        if (interface == "notifications") {
+            return "notifications";
+        }
+        if (interface == "powersocket") {
+            return "powersocket";
+        }
+        if (interface == "smartmeter") {
+            return "smartmeter";
+        }
+        if (interface == "heating") {
+            return "heating";
+        }
+        if (interface == "evcharger") {
+            return "evcharger";
+        }
     }
     return "uncategorized";
-
 }
 
 bool DeviceClass::browsable() const
