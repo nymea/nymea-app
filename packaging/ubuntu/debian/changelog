@@ -1,3 +1,11 @@
+nymea-app (1.0.182) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Don't change viewmode "by accident"
+  * Fix grouping by base interface
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 31 Jan 2020 01:01:12 +0100
+
 nymea-app (1.0.181) bionic; urgency=medium
 
   [ Michael Zanetti ]
