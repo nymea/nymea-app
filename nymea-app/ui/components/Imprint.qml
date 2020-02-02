@@ -39,6 +39,8 @@ Item {
 
     property alias title: titleLabel.text
     property url githubLink
+    property var additionalLicenses: null
+
     default property alias content: contentGrid.data
 
     ColumnLayout {
@@ -99,7 +101,7 @@ Item {
             Layout.rightMargin: app.margins
             wrapMode: Text.WordWrap
             font.bold: true
-            text: "Copyright (C) 2019 nymea GmbH"
+            text: "Copyright (C) 2020 nymea GmbH"
         }
 
         Label {
@@ -116,7 +118,7 @@ Item {
             Layout.rightMargin: app.margins
             wrapMode: Text.WordWrap
             font.pixelSize: app.smallFont
-            text: qsTr("Licensed under the terms of the GNU general public license, version 2. Please visit the GitHub page for source code and build instructions.")
+            text: qsTr("Licensed under the terms of the GNU General Public License, version 3. Please visit the GitHub page for source code and build instructions.")
         }
 
         ColumnLayout {
@@ -153,24 +155,35 @@ Item {
                 subText: app.privacyPolicyUrl
                 prominentSubText: false
                 wrapTexts: false
-                onClicked: {
+                onClicked:
                     Qt.openUrlExternally(app.privacyPolicyUrl)
+            }
+
+            NymeaListItemDelegate {
+                Layout.fillWidth: true
+                text: qsTr("Software license")
+                iconName: "../images/stock_website.svg"
+                subText: "The nymea sofware license"
+                prominentSubText: false
+                wrapTexts: false
+                onClicked: {
+                    Qt.openUrlExternally("https://nymea.io/license")
                 }
             }
 
             NymeaListItemDelegate {
                 Layout.fillWidth: true
-                text: qsTr("View license text")
+                text: qsTr("Additional software licenses")
                 iconName: "../images/logs.svg"
-                subText: "GNU General Public License v2"
+                subText: "Additional used software licenses"
                 prominentSubText: false
                 wrapTexts: false
+                visible: root.additionalLicenses && root.additionalLicenses.count > 0
                 onClicked: {
-                    pageStack.push(licenseTextComponent)
+                    pageStack.push(licensesPageComponent)
                 }
             }
         }
-
 
         ThinDivider { }
 
@@ -209,12 +222,46 @@ Item {
 
 
     Component {
-        id: licenseTextComponent
+        id: licensesPageComponent
         Page {
+            id: licensesPage
             header: NymeaHeader {
-                text: qsTr("License text")
+                text: qsTr("Additional software licenses")
                 onBackPressed: pageStack.pop()
             }
+
+            ColumnLayout {
+                anchors { left: parent.left; top: parent.top; right: parent.right }
+
+                Repeater {
+                    model: root.additionalLicenses
+
+                    delegate: NymeaListItemDelegate {
+                        Layout.fillWidth: true
+                        text: model.component
+                        subText: model.infoText
+                        prominentSubText: false
+                        visible: model.platforms === "*" ||  model.platforms.indexOf(Qt.platform.os) >= 0
+                        onClicked: {
+                            pageStack.push(licenseTextComponent, {license: model.license})
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    Component {
+        id: licenseTextComponent
+        Page {
+            id: licenseTextPage
+            header: NymeaHeader {
+                text: parent.license
+                onBackPressed: pageStack.pop()
+            }
+
+            property string license
+
             Flickable {
                 anchors.fill: parent
                 contentHeight: licenseText.implicitHeight
@@ -228,10 +275,10 @@ Item {
                     readOnly: true
                     Component.onCompleted: {
                         var xhr = new XMLHttpRequest;
-                        xhr.open("GET", "../../LICENSE");
+                        xhr.open("GET", "../../LICENSE." + licenseTextPage.license);
                         xhr.onreadystatechange = function() {
                             if (xhr.readyState === XMLHttpRequest.DONE) {
-                                text = xhr.responseText.replace(/(^\ *)/gm, "").replace(/(\n\n)/gm,"\t").replace(/(\n)/gm, " ").replace(/(\t)/gm, "\n\n");
+                                text = xhr.responseText
                             }
                         };
                         xhr.send();
