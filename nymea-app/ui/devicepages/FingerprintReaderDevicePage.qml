@@ -164,10 +164,11 @@ DevicePageBase {
                             Layout.preferredWidth: 100
                             Layout.preferredHeight: width
                             Layout.alignment: Qt.AlignHCenter
-                            FingerprintVisual {
-                                id: fingerprintVisual
+                            ColorIcon {
+                                name: "../images/fingerprint.svg"
                                 anchors.centerIn: parent
-                                scale: parent.height / implicitHeight
+                                height: Math.min(parent.width, parent.height)
+                                width: height
                             }
                         }
 
@@ -199,11 +200,10 @@ DevicePageBase {
             Connections {
                 target: engine.deviceManager
                 onExecuteActionReply: {
-                    addUserPage.error = params["deviceError"] !== "DeviceErrorNoError"
-                    print("Execute action reply:", params["deviceError"]);
+                    print("Execute action reply:", JSON.stringify(params));
+                    addUserPage.error = params["params"]["deviceError"] !== "DeviceErrorNoError"
                     var masks =[]
                     masks.push({x: 0, y: 0, width: 1, height: 1});
-                    fingerprintVisual.masks = masks
                     addUserPage.done = true
                 }
             }
@@ -299,13 +299,15 @@ DevicePageBase {
                                 Layout.preferredHeight: 100
                                 Layout.alignment: Qt.AlignCenter
 
-                                FingerprintVisual {
-                                    id: fingerprintVisual
-                                    scale: parent.height / implicitHeight
+                                ColorIcon {
+                                    name: "../images/fingerprint.svg"
+                                    height: Math.min(parent.width, parent.height)
+                                    width: height
                                     anchors.centerIn: parent
-                                    fillColor: addUserPage.error ? "red" : app.accentColor
+                                    color: addUserPage.done ?
+                                               (addUserPage.error ? "red" : app.accentColor)
+                                             : keyColor
                                 }
-
                             }
                             Label {
                                 text: addUserPage.error ? qsTr("Fingerprint could not be read.\nPlease try again.") :
