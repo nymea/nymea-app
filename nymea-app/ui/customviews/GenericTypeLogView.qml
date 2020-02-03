@@ -31,45 +31,24 @@ Item {
             }
         }
 
-        delegate: SwipeDelegate {
+        delegate: NymeaListItemDelegate {
             id: logEntryDelegate
             width: parent.width
             implicitHeight: app.delegateHeight
             property var device: engine.deviceManager.devices.getDevice(model.deviceId)
             property var deviceClass: engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId)
-            contentItem: RowLayout {
-                ColorIcon {
-                    Layout.preferredHeight: app.iconSize
-                    Layout.preferredWidth: height
-                    name: "../images/event.svg"
-                    color: app.accentColor
+            iconName: "../images/event.svg"
+            text: Qt.formatDateTime(model.timestamp,"dd.MM.yy - hh:mm:ss")
+            subText: deviceClass.eventTypes.getEventType(model.typeId).displayName + (model.value.length > 0 ? (": " + model.value.trim()) : "")
+            prominentSubText: true
+            progressive: false
+            contextOptions: [
+                {
+                    text: qsTr("Magic"),
+                    icon: "../images/magic.svg",
+                    callback: function() { root.addRuleClicked(index) }
                 }
-
-                ColumnLayout {
-                    Label {
-                        id: timeStampLabel
-                        Layout.fillWidth: true
-                        text: Qt.formatDateTime(model.timestamp,"dd.MM.yy - hh:mm:ss")
-                    }
-                    Label {
-                        Layout.fillWidth: true
-                        text: deviceClass.eventTypes.getEventType(model.typeId).displayName + (model.value.length > 0 ? (": " + model.value.trim()) : "")
-                        elide: Text.ElideRight
-                        font.pixelSize: app.smallFont
-                    }
-                }
-            }
-            swipe.right: MouseArea {
-                height: logEntryDelegate.height
-                width: height
-                anchors.right: parent.right
-                ColorIcon {
-                    anchors.fill: parent
-                    anchors.margins: app.margins
-                    name: "../images/magic.svg"
-                }
-                onClicked: root.addRuleClicked(index)
-            }
+            ]
             onClicked: {
                 if (swipe.complete) {
                     swipe.close()

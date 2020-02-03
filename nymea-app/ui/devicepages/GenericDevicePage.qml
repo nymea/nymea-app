@@ -84,7 +84,7 @@ DevicePageBase {
             }
 
             onClicked: swipe.close()
-
+            onPressAndHold: swipe.open(SwipeDelegate.Right)
             swipe.right: RowLayout {
                 height: delegate.height
                 anchors.right: parent.right

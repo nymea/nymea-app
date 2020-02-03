@@ -29,12 +29,33 @@ SwipeDelegate {
     property alias tertiaryIconKeyColor: tertiaryIcon.keyColor
     property alias tertiaryIconClickable: tertiaryIconMouseArea.enabled
 
+    property var contextOptions: []
+
     property alias additionalItem: additionalItemContainer.children
 
     property alias busy: busyIndicator.running
 
     signal deleteClicked()
     signal secondaryIconClicked()
+
+    onPressAndHold: swipe.open(SwipeDelegate.Right)
+
+    QtObject {
+        id: d
+        property var deleteContextOption: [{
+            text: qsTr("Delete"),
+            icon: "../images/delete.svg",
+            backgroundColor: "red",
+            foregroundColor: "white",
+            visible: canDelete,
+            callback: function deleteClicked() {
+                root.deleteClicked();
+                swipe.close();
+            }
+        }]
+
+        property var finalContextOptions: root.contextOptions.concat(d.deleteContextOption)
+    }
 
     contentItem: RowLayout {
         id: innerLayout
@@ -142,25 +163,54 @@ SwipeDelegate {
         }
     }
 
-    swipe.enabled: canDelete
-    swipe.right: MouseArea {
+    swipe.right: Row {
         height: root.height
-        width: height
         anchors.right: parent.right
-        Rectangle {
-            anchors.fill: parent
-            color: "red"
-        }
+        width: height * d.finalContextOptions.count
+        Repeater {
+            model: d.finalContextOptions
 
-        ColorIcon {
-            anchors.fill: parent
-            anchors.margins: app.margins
-            name: "../images/delete.svg"
-            color: "white"
+            delegate: MouseArea {
+                height: root.height
+                width: height
+                property var entry: d.finalContextOptions[index]
+                visible: entry.hasOwnProperty("visible") ? entry.visible : true
+                Rectangle {
+                    anchors.fill: parent
+                    color: entry.hasOwnProperty("backgroundColor") ? entry.backgroundColor : "transparent"
+                }
+
+                ColorIcon {
+                    anchors.fill: parent
+                    anchors.margins: app.margins
+                    name: entry.icon
+                    color: entry.hasOwnProperty("foregroundColor") ? entry.foregroundColor : keyColor
+                }
+                onClicked: {
+                    swipe.close();
+                    entry.callback()
+                }
+            }
         }
-        onClicked: {
-            swipe.close();
-            root.deleteClicked()
+    }
+
+    Component {
+        id: contextMenu
+        Dialog {
+            width: 300
+            height: 200
+            x: (parent.width - width) / 2
+            ColumnLayout {
+                width: parent.width
+                Repeater {
+                    model: root.contextOptions
+                    delegate: ItemDelegate {
+                        property var entry: root.contextOptions[index]
+                        width: parent.width
+                        text: entry.text
+                    }
+                }
+            }
         }
     }
 }
