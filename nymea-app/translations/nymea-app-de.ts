@@ -42,6 +42,14 @@
         <source>JSON-RPC version:</source>
         <translation>JSON-RPC Version:</translation>
     </message>
+    <message>
+        <source>Qt version:</source>
+        <translation>Qt Version:</translation>
+    </message>
+    <message>
+        <source>Built with %1</source>
+        <translation>Erstellt mit %1</translation>
+    </message>
 </context>
 <context>
     <name>AboutPage</name>
@@ -100,6 +108,10 @@
     <message>
         <source>Howdy cowboy!</source>
         <translation type="vanished">Howdy cowboy!</translation>
+    </message>
+    <message>
+        <source>Built with %1</source>
+        <translation>Erstellt mit %1</translation>
     </message>
 </context>
 <context>
@@ -4150,7 +4162,7 @@ Möchtest Du fortfahren?</translation>
     </message>
     <message>
         <source>nymea:app is available for all kinds of devices. In order to edit scripts we recommend to use nymea:app on your personal computer or connect a keyboard to your tablet.</source>
-        <translation>nymea:app gibt es für alle Arten von Gerägen. Um Scripte zu bearbeiten empfehlen wir nymea:app auf einem PC zu nutzen.</translation>
+        <translation>nymea:app gibt es für alle Arten von Geräten. Um Scripte zu bearbeiten empfehlen wir nymea:app auf einem PC zu nutzen.</translation>
     </message>
     <message>
         <source>Unsaved changes</source>
