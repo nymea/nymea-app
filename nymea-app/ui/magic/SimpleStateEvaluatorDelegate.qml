@@ -128,6 +128,7 @@ SwipeDelegate {
         }
     }
 
+    onPressAndHold: swipe.open(SwipeDelegate.Right)
     swipe.right: MouseArea {
         height: parent.height
         width: height

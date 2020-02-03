@@ -172,31 +172,22 @@ Page {
                         tertiaryIconColor: isTrusted ? app.accentColor : Material.foreground
                         secondaryIconName: !isOnline ? "../images/cloud-error.svg" : ""
                         secondaryIconColor: "red"
-                        swipe.enabled: nymeaHostDelegate.nymeaHost.deviceType === NymeaHost.DeviceTypeNetwork
 
                         onClicked: {
                             root.connectToHost2(nymeaHostDelegate.nymeaHost)
                         }
 
-                        swipe.right: MouseArea {
-                            height: parent.height
-                            width: height
-                            anchors.right: parent.right
-                            ColorIcon {
-                                anchors.fill: parent
-                                anchors.margins: app.margins
-                                name: "../images/info.svg"
-                            }
-                            onClicked: {
-                                if (model.deviceType === NymeaHost.DeviceTypeNetwork) {
-                                    swipe.close()
+                        contextOptions: [
+                            {
+                                text: qsTr("Info"),
+                                icon: Qt.resolvedUrl("../images/info.svg"),
+                                callback: function() {
                                     var nymeaHost = hostsProxy.get(index);
-                                    print("Getting info for", nymeaHost.name)
                                     var popup = infoDialog.createObject(app,{nymeaHost: nymeaHost})
                                     popup.open()
                                 }
                             }
-                        }
+                        ]
                     }
 
                     Column {
