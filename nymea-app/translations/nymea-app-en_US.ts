@@ -27,6 +27,14 @@
         <source>JSON-RPC version:</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Qt version:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Built with %1</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>AboutPage</name>
@@ -40,6 +48,10 @@
     </message>
     <message>
         <source>Qt version:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Built with %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

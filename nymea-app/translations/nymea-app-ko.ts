@@ -27,6 +27,14 @@
         <source>JSON-RPC version:</source>
         <translation>JSON-RPC 버전:</translation>
     </message>
+    <message>
+        <source>Qt version:</source>
+        <translation type="unfinished">Qt 버전:</translation>
+    </message>
+    <message>
+        <source>Built with %1</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>AboutPage</name>
@@ -41,6 +49,10 @@
     <message>
         <source>Qt version:</source>
         <translation>Qt 버전:</translation>
+    </message>
+    <message>
+        <source>Built with %1</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
