@@ -51,7 +51,9 @@ QMAKE_EXTRA_TARGETS += wininstaller
 
 # OS X installer bundle
 # Install XCode and Qt clang64, add qmake directory to PATH
-# run "make osxbundle"
+# run "make osxbundle" or "make osxinstaller"
+# Note: Our target is "nymea-app" but we want it to show up as "nymea:app" so we need to rename
+# the app bundle in the last steps because not all tools deal well with the ":" if we rename in earlier steps.
 # Note: We're dropping the QtWebEngineCore framework manually, as that's not app store compliant
 # and we're using the WebView instead anyways. (IMHO a bug that macdeployqt -appstore-compliant even adds it)
 osxbundle.depends = nymea-app
@@ -72,7 +74,8 @@ QMAKE_EXTRA_TARGETS += osxbundle
 # Create a .pkg osx installer.
 osxinstaller.depends = osxbundle
 osxinstaller.commands += cd nymea-app &&
-osxinstaller.commands += productbuild --component nymea-app.app /Applications ../nymea-app-$${APP_VERSION}.pkg && cd .. &&
+osxinstaller.commands += cp -R nymea-app.app nymea\:app.app &&
+osxinstaller.commands += productbuild --component nymea\:app.app /Applications ../nymea-app-$${APP_VERSION}.pkg && cd .. &&
 osxinstaller.commands += productsign -s \"3rd Party Mac Developer Installer\" nymea-app-$${APP_VERSION}.pkg nymea-app-signed-$${APP_VERSION}.pkg
 QMAKE_EXTRA_TARGETS += osxinstaller
 
