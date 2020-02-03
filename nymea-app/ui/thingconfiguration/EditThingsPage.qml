@@ -46,6 +46,7 @@ Page {
                 popup.open();
                 return;
             default:
+                var errorDialog = Qt.createComponent(Qt.resolvedUrl("../components/ErrorDialog.qml"))
                 var popup = errorDialog.createObject(root, {errorCode: params.deviceError})
                 popup.open();
             }
@@ -74,7 +75,7 @@ Page {
 
             delegate: ThingDelegate {
                 device: deviceProxy.getDevice(model.id)
-                canDelete: true
+                canDelete: !device.isChild
                 onClicked: {
                     print("clicked:", model.id)
                     pageStack.push(Qt.resolvedUrl("ConfigureThingPage.qml"), {device: device})
