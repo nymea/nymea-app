@@ -67,6 +67,7 @@ Item {
                 delegate: Item {
                     height: swipeView.height
                     width: swipeView.width
+                    clip: true
 
                     property var tabSettings: Settings {
                         category: "tabSettings" + index
