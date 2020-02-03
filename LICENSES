@@ -9,14 +9,16 @@ to meet the development and distribution needs of both commercial distributors
 Commercial License
 
 With the commercial license you can combine and distribute your software with
-nymea for any commercial purpose. You don’t have to comply with the rules of 
-the open-source license.
+nymea for any commercial purpose without the implications of the open-sources
+on nymea code.
 
 Please keep in mind, that nymea is based on the Qt framework and thus requires
 a valid Qt license.
 
 The nymea commercial license comes with additional tools and services to make
 a developers life easier. You can download the terms and conditions here.
+
+Please contact contact@nymea.io for further details.
 
 ===============================================================================
 
@@ -62,6 +64,8 @@ Files: QtZeroConf/
 The QtZeroConf library is provided by Jonathan Bagg and licensed under the
 terms of the GNU Lesser General Public License, version 3. Please see
 LICENSE.LGPL3 for more details.
+QtZeroConf can be excluded by adding the config option CONFIG-=nozeroconf
+to qmake.
 
 * OpenSSL
 Files: windows_openssl/* and android_openssl/*
