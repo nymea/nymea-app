@@ -1,3 +1,15 @@
+nymea-app (1.0.183) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Update translations
+  * Open context menu on longpress in list items
+  * Hide the delete option on child devices
+  * Fix dropshadow of tabbed views reaching into other tabs
+  * Fix the app bundle name in the macOS installer.
+  * Copyright
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 03 Feb 2020 23:37:08 +0100
+
 nymea-app (1.0.182) bionic; urgency=medium
 
   [ Michael Zanetti ]
