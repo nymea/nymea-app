@@ -22,8 +22,6 @@
         <file>ui/images/battery/battery-080.svg</file>
         <file>ui/images/battery/battery-090.svg</file>
         <file>ui/images/battery/battery-100.svg</file>
-        <file>ui/images/fingerprint/fingerprint_boxes.json</file>
-        <file>ui/images/fingerprint/fingerprint_segmented.png</file>
         <file>ui/images/sensors/conductivity.svg</file>
         <file>ui/images/sensors/humidity.svg</file>
         <file>ui/images/sensors/light.svg</file>

@@ -3,12 +3,15 @@ TEMPLATE = lib
 CONFIG += staticlib
 
 include(../config.pri)
-!win32: {
+!win32:!nozeroconf {
     # To enable this on Windows we'd need to install Bonjour
     # https://support.apple.com/kb/DL999
+    message("Building with QtZeroConf")
     DEFINES += QZEROCONF_STATIC
     DEFINES += WITH_ZEROCONF
     include(../QtZeroConf/qtzeroconf.pri)
+} else {
+    message("Building without QtZeroConf")
 }
 
 include(../nymea-remoteproxy/libnymea-remoteproxyclient/libnymea-remoteproxyclient.pri)

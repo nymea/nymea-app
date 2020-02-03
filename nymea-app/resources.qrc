@@ -43,10 +43,6 @@
         <file>ui/components/SwipeDelegateGroup.qml</file>
         <file>ui/components/PasswordTextField.qml</file>
         <file>ui/components/BrightnessSlider.qml</file>
-        <file>ui/components/SegmentedImage.qml</file>
-        <file>ui/components/SegmentRenderer.qml</file>
-        <file>ui/components/SegmentBoundingBoxes.qml</file>
-        <file>ui/components/FingerprintVisual.qml</file>
         <file>ui/components/ListSectionHeader.qml</file>
         <file>ui/components/ListFilterInput.qml</file>
         <file>ui/components/Led.qml</file>
@@ -133,7 +129,11 @@
         <file>ui/fonts/Ubuntu-R.ttf</file>
         <file>ui/fonts/Ubuntu-RI.ttf</file>
         <file>qtquickcontrols2.conf</file>
-        <file>../LICENSE</file>
+        <file>../LICENSE.GPL3</file>
+        <file>../LICENSE.CC-BY-SA-3.0</file>
+        <file>../LICENSE.OFL</file>
+        <file>../LICENSE.OpenSSL</file>
+        <file>../LICENSE.LGPL3</file>
         <file>ui/customviews/GenericTypeGraphPre110.qml</file>
         <file>ui/customviews/GenericTypeGraph.qml</file>
         <file>ui/devicepages/SmartMeterDevicePage.qml</file>
