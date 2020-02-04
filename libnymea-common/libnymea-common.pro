@@ -64,6 +64,9 @@ HEADERS += \
     types/tags.h \
     types/wirelessaccesspoint.h \
     types/wirelessaccesspoints.h \
+    types/tokeninfo.h \
+    types/tokeninfos.h \
+
 
 SOURCES += \
     types/browseritem.cpp \
@@ -122,3 +125,7 @@ SOURCES += \
     types/tags.cpp \
     types/wirelessaccesspoint.cpp \
     types/wirelessaccesspoints.cpp \
+    types/tokeninfo.cpp \
+    types/tokeninfos.cpp \
+
+

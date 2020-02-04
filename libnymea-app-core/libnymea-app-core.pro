@@ -55,6 +55,7 @@ SOURCES += \
     scripting/completionmodel.cpp \
     scriptmanager.cpp \
     scriptsyntaxhighlighter.cpp \
+    usermanager.cpp \
     vendorsproxy.cpp \
     pluginsproxy.cpp \
     interfacesmodel.cpp \
@@ -90,7 +91,6 @@ SOURCES += \
     configuration/mqttpolicies.cpp \
     models/devicemodel.cpp \
     system/systemcontroller.cpp \
-    usersmanager.cpp \
 
 
 HEADERS += \
@@ -124,6 +124,7 @@ HEADERS += \
     scripting/completionmodel.h \
     scriptmanager.h \
     scriptsyntaxhighlighter.h \
+    usermanager.h \
     vendorsproxy.h \
     pluginsproxy.h \
     interfacesmodel.h \
@@ -159,7 +160,6 @@ HEADERS += \
     configuration/mqttpolicies.h \
     models/devicemodel.h \
     system/systemcontroller.h \
-    usersmanager.h \
 
 ubports: {
     DEFINES += UBPORTS
