@@ -30,54 +30,14 @@
 
 import QtQuick 2.9
 import QtQuick.Controls 2.2
-import QtQuick.Layouts 1.3
-import Nymea 1.0
-import "../components"
+import QtQuick.Layouts 1.2
 
-SettingsPageBase {
-    id: root
-    title: qsTr("Developer options")
-
-    SettingsPageSectionHeader {
-        text: qsTr("Logging")
-    }
-
-    CheckDelegate {
-        text: qsTr("Enable app logging")
-        enabled: AppLogController.canWriteLogs
-        checked: AppLogController.enabled
-        onCheckedChanged: AppLogController.enabled = checked;
-        Layout.fillWidth: true
-    }
-
-    NymeaListItemDelegate {
-        Layout.fillWidth: true
-        text: qsTr("View log")
-        onClicked: pageStack.push(Qt.resolvedUrl("../appsettings/AppLogPage.qml"))
-        enabled: AppLogController.enabled
-    }
-
-
-    SettingsPageSectionHeader {
-        text: qsTr("Advanced options")
-        visible: settings.showHiddenOptions
-    }
-
-    RowLayout {
-        Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
-        visible: settings.showHiddenOptions
-
-        Label {
-            Layout.fillWidth: true
-            text: qsTr("Cloud environment")
-        }
-
-        ComboBox {
-            currentIndex: model.indexOf(app.settings.cloudEnvironment)
-            model: AWSClient.availableConfigs
-            onActivated: {
-                app.settings.cloudEnvironment = model[index];
-            }
-        }
-    }
+Label {
+    Layout.fillWidth: true
+    Layout.topMargin: app.margins * 1.5
+    Layout.leftMargin: app.margins
+    Layout.rightMargin: app.margins
+    Layout.bottomMargin: app.margins
+    color: app.accentColor
+    wrapMode: Text.WordWrap
 }

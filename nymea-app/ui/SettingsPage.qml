@@ -74,10 +74,11 @@ Page {
                 Layout.fillWidth: true
                 Material.elevation: layout.isGrid ? 1 : 0
                 padding: 0
+                visible: engine.jsonRpcClient.ensureServerVersion("4.2")
                 NymeaListItemDelegate {
                     width: parent.width
-                    iconName: "../images/lock-closed.svg"
-                    text: qsTr("Authentication")
+                    iconName: "../images/account.svg"
+                    text: qsTr("User settings")
                     subText: qsTr("Configure who can log in")
                     prominentSubText: false
                     wrapTexts: false

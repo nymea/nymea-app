@@ -35,166 +35,194 @@ import QtQuick.Layouts 1.1
 import Nymea 1.0
 import "../components"
 
-Page {
+SettingsPageBase {
     id: root
-    header: NymeaHeader {
-        text: qsTr("Look and feel")
-        backButtonVisible: true
-        onBackPressed: pageStack.pop()
+    title: qsTr("Look and feel")
+
+    SettingsPageSectionHeader {
+        text: qsTr("Appearance")
     }
 
-    ColumnLayout {
-        id: contentColumn
-        width: parent.width
-
-        RowLayout {
-            Layout.fillWidth: true; Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.topMargin: app.margins
-            visible: !kioskMode && Qt.platform.os !== "ios"
-            Label {
-                Layout.fillWidth: true
-                text: qsTr("View mode")
-            }
-            ComboBox {
-                model: [qsTr("Windowed"), qsTr("Maximized"), qsTr("Fullscreen"), qsTr("Automatic")]
-                currentIndex: {
-                    switch (settings.viewMode) {
-                    case ApplicationWindow.Windowed:
-                        return 0;
-                    case ApplicationWindow.Maximized:
-                        return 1;
-                    case ApplicationWindow.FullScreen:
-                        return 2;
-                    case ApplicationWindow.AutomaticVisibility:
-                        return 3;
-                    }
-                }
-
-                onActivated: {
-                    switch (currentIndex) {
-                    case 0:
-                        settings.viewMode = ApplicationWindow.Windowed;
-                        break;
-                    case 1:
-                        settings.viewMode = ApplicationWindow.Maximized;
-                        break;
-                    case 2:
-                        settings.viewMode = ApplicationWindow.FullScreen;
-                        break;
-                    case 3:
-                        settings.viewMode = ApplicationWindow.AutomaticVisibility;
-                        break;
-                    }
-                }
-            }
-        }
-
-        RowLayout {
-            Layout.fillWidth: true; Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
-            visible: appBranding.length === 0
-            Label {
-                Layout.fillWidth: true
-                text: "Style"
-            }
-            ComboBox {
-                model: styleController.allStyles
-                currentIndex: styleController.allStyles.indexOf(styleController.currentStyle)
-
-                onActivated: {
-                    styleController.currentStyle = model[index]
-                }
-            }
-
-            Connections {
-                target: styleController
-                onCurrentStyleChanged: {
-                    var popup = styleChangedDialog.createObject(root)
-                    popup.open()
-                }
-            }
-        }
-
-        RowLayout {
+    RowLayout {
+        Layout.fillWidth: true
+        Layout.leftMargin: app.margins
+        Layout.rightMargin: app.margins
+        visible: appBranding.length === 0
+        Label {
             Layout.fillWidth: true
-            Layout.leftMargin: app.margins
-            Layout.rightMargin: app.margins
-            Label {
-                Layout.fillWidth: true
-                text: qsTr("Unit system")
-            }
-            ComboBox {
-                id: unitsComboBox
-                currentIndex: settings.units === "metric" ? 0 : 1
-                model: [ qsTr("Metric"), qsTr("Imperial") ]
-                onActivated: {
-                    settings.units = index == 0 ? "metric" : "imperial";
-                }
+            text: "Style"
+        }
+        ComboBox {
+            model: styleController.allStyles
+            currentIndex: styleController.allStyles.indexOf(styleController.currentStyle)
+
+            onActivated: {
+                styleController.currentStyle = model[index]
             }
         }
 
-        CheckDelegate {
-            Layout.fillWidth: true
-            text: qsTr("Return to home on idle")
-            checked: settings.returnToHome
-            onClicked: settings.returnToHome = checked
-        }
-        CheckDelegate {
-            Layout.fillWidth: true
-            text: qsTr("Show connection tabs")
-            checked: settings.showConnectionTabs
-            onClicked: settings.showConnectionTabs = checked
-        }
-
-        CheckDelegate {
-            id: screenOffCheck
-            Layout.fillWidth: true
-            text: qsTr("Turn screen off when idle")
-            visible: PlatformHelper.canControlScreen
-            checked: PlatformHelper.screenTimeout > 0
-            onClicked: PlatformHelper.screenTimeout = (checked ? 15000 : 0)
-        }
-
-        ItemDelegate {
-            Layout.fillWidth: true
-            Layout.preferredHeight: screenOffCheck.height
-            visible: PlatformHelper.screenTimeout > 0
-            topPadding: 0
-            contentItem: RowLayout {
-                Label {
-                    Layout.fillWidth: true
-                    text: qsTr("Screen off timeout")
-                }
-                SpinBox {
-                    value: PlatformHelper.screenTimeout / 1000
-                    onValueModified: {
-                        PlatformHelper.screenTimeout = value * 1000
-                    }
-                }
-                Label {
-                    text: qsTr("seconds")
-                }
+        Connections {
+            target: styleController
+            onCurrentStyleChanged: {
+                var popup = styleChangedDialog.createObject(root)
+                popup.open()
             }
         }
+    }
 
-        ItemDelegate {
+    RowLayout {
+        Layout.fillWidth: true
+        Layout.leftMargin: app.margins
+        Layout.rightMargin: app.margins
+        visible: !kioskMode && Qt.platform.os !== "ios"
+        Label {
             Layout.fillWidth: true
-            visible: PlatformHelper.canControlScreen
-            topPadding: 0
-            contentItem: RowLayout {
-                Label {
-                    Layout.fillWidth: true
-                    text: qsTr("Screen brightness")
+            text: qsTr("View mode")
+        }
+        ComboBox {
+            model: [qsTr("Windowed"), qsTr("Maximized"), qsTr("Fullscreen"), qsTr("Automatic")]
+            currentIndex: {
+                switch (settings.viewMode) {
+                case ApplicationWindow.Windowed:
+                    return 0;
+                case ApplicationWindow.Maximized:
+                    return 1;
+                case ApplicationWindow.FullScreen:
+                    return 2;
+                case ApplicationWindow.AutomaticVisibility:
+                    return 3;
                 }
-                Slider {
-                    Layout.fillWidth: true
-                    value: PlatformHelper.screenBrightness
-                    onMoved: PlatformHelper.screenBrightness = value
-                    from: 0
-                    to: 100
-                    stepSize: 1
+            }
+
+            onActivated: {
+                switch (currentIndex) {
+                case 0:
+                    settings.viewMode = ApplicationWindow.Windowed;
+                    break;
+                case 1:
+                    settings.viewMode = ApplicationWindow.Maximized;
+                    break;
+                case 2:
+                    settings.viewMode = ApplicationWindow.FullScreen;
+                    break;
+                case 3:
+                    settings.viewMode = ApplicationWindow.AutomaticVisibility;
+                    break;
                 }
             }
         }
     }
+
+    CheckDelegate {
+        Layout.fillWidth: true
+        text: qsTr("Show connection tabs")
+        checked: settings.showConnectionTabs
+        onClicked: settings.showConnectionTabs = checked
+    }
+
+    RowLayout {
+        Layout.leftMargin: app.margins
+        Layout.rightMargin: app.margins
+        visible: settings.showHiddenOptions
+
+        Label {
+            Layout.fillWidth: true
+            text: qsTr("Experience mode")
+        }
+
+        ComboBox {
+            currentIndex: model.indexOf(styleController.currentExperience)
+            model: styleController.allExperiences
+            onActivated: {
+                styleController.currentExperience = model[index]
+            }
+        }
+    }
+
+    SettingsPageSectionHeader {
+        text: qsTr("Regional")
+    }
+
+    RowLayout {
+        Layout.fillWidth: true
+        Layout.leftMargin: app.margins
+        Layout.rightMargin: app.margins
+        Label {
+            Layout.fillWidth: true
+            text: qsTr("Unit system")
+        }
+        ComboBox {
+            id: unitsComboBox
+            currentIndex: settings.units === "metric" ? 0 : 1
+            model: [ qsTr("Metric"), qsTr("Imperial") ]
+            onActivated: {
+                settings.units = index == 0 ? "metric" : "imperial";
+            }
+        }
+    }
+
+    SettingsPageSectionHeader {
+        text: qsTr("Behavior")
+    }
+
+    CheckDelegate {
+        Layout.fillWidth: true
+        text: qsTr("Return to home on idle")
+        checked: settings.returnToHome
+        onClicked: settings.returnToHome = checked
+    }
+
+    CheckDelegate {
+        id: screenOffCheck
+        Layout.fillWidth: true
+        text: qsTr("Turn screen off when idle")
+        visible: PlatformHelper.canControlScreen
+        checked: PlatformHelper.screenTimeout > 0
+        onClicked: PlatformHelper.screenTimeout = (checked ? 15000 : 0)
+    }
+
+    ItemDelegate {
+        Layout.fillWidth: true
+        Layout.preferredHeight: screenOffCheck.height
+        visible: PlatformHelper.screenTimeout > 0
+        topPadding: 0
+        contentItem: RowLayout {
+            Label {
+                Layout.fillWidth: true
+                text: qsTr("Screen off timeout")
+            }
+            SpinBox {
+                value: PlatformHelper.screenTimeout / 1000
+                onValueModified: {
+                    PlatformHelper.screenTimeout = value * 1000
+                }
+            }
+            Label {
+                text: qsTr("seconds")
+            }
+        }
+    }
+
+    ItemDelegate {
+        Layout.fillWidth: true
+        visible: PlatformHelper.canControlScreen
+        topPadding: 0
+        contentItem: RowLayout {
+            Label {
+                Layout.fillWidth: true
+                text: qsTr("Screen brightness")
+            }
+            Slider {
+                Layout.fillWidth: true
+                value: PlatformHelper.screenBrightness
+                onMoved: PlatformHelper.screenBrightness = value
+                from: 0
+                to: 100
+                stepSize: 1
+            }
+        }
+    }
+
 
     Component {
         id: styleChangedDialog

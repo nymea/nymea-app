@@ -209,5 +209,7 @@
         <file>ui/magic/scripting/CompletionBox.qml</file>
         <file>ui/magic/scripting/EditorPane.qml</file>
         <file>ui/system/UsersSettingsPage.qml</file>
+        <file>ui/components/SettingsPageBase.qml</file>
+        <file>ui/components/SettingsPageSectionHeader.qml</file>
     </qresource>
 </RCC>

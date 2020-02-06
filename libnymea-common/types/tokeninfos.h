@@ -24,6 +24,8 @@ public:
     QHash<int, QByteArray> roleNames() const override;
 
     void addToken(TokenInfo *tokenInfo);
+    void removeToken(const QUuid &tokenId);
+
 signals:
     void countChanged();
 

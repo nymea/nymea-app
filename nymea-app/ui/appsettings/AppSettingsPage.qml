@@ -87,12 +87,11 @@ Page {
             Pane {
                 Layout.fillWidth: true
                 Material.elevation: layout.isGrid ? 1 : 0
-                visible: settings.showHiddenOptions
                 padding: 0
                 NymeaListItemDelegate {
                     width: parent.width
                     text: qsTr("Developer options")
-                    subText: qsTr("Yeehaaa!")
+                    subText: qsTr("Access tools for debugging and error reporting")
                     iconName: "../images/sdk.svg"
                     prominentSubText: false
                     wrapTexts: false

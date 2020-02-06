@@ -66,6 +66,7 @@ HEADERS += \
     types/wirelessaccesspoints.h \
     types/tokeninfo.h \
     types/tokeninfos.h \
+    types/userinfo.h \
 
 
 SOURCES += \
@@ -127,5 +128,6 @@ SOURCES += \
     types/wirelessaccesspoints.cpp \
     types/tokeninfo.cpp \
     types/tokeninfos.cpp \
+    types/userinfo.cpp \
 
 

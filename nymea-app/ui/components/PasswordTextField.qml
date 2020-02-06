@@ -99,7 +99,7 @@ ColumnLayout {
                 }
                 var ret = []
                 for (var i = 0; i < texts.length; i++) {
-                    var entry = "<font color=\"%1\">• ".arg(checks[i] ? app.foregroundColor : app.accentColor)
+                    var entry = "<font color=\"%1\">• ".arg(checks[i] ? "#ffffff" : app.accentColor)
                     entry += texts[i]
                     entry += "</font>"
                     ret.push(entry)

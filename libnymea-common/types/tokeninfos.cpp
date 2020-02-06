@@ -45,3 +45,16 @@ void TokenInfos::addToken(TokenInfo *tokenInfo)
     endInsertRows();
     emit countChanged();
 }
+
+void TokenInfos::removeToken(const QUuid &tokenId)
+{
+    for (int i = 0; i < m_list.count(); i++) {
+        if (m_list.at(i)->id() == tokenId) {
+            beginRemoveRows(QModelIndex(), i, i);
+            m_list.takeAt(i)->deleteLater();
+            endRemoveRows();
+            emit countChanged();
+            return;
+        }
+    }
+}
