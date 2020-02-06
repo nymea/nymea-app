@@ -115,7 +115,7 @@ Page {
                     break;
                 case NymeaConnection.ConnectionStatusUnknownError:
                 default:
-                    errorMessage = qsTr("An unknown error happened. We're very sorry for that.").arg(engine.connection.connectionStatus);
+                    errorMessage = qsTr("An unknown error happened. We're very sorry for that. (Error code: %1)").arg(engine.connection.connectionStatus);
                 }
                 return errorMessage;
             }
