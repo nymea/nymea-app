@@ -1,3 +1,11 @@
+nymea-app (1.0.184) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix crash on startup on some android phones
+  * Fix error code missing in error message
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 07 Feb 2020 12:31:12 +0100
+
 nymea-app (1.0.183) bionic; urgency=medium
 
   [ Michael Zanetti ]
