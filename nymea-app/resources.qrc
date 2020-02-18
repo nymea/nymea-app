@@ -208,5 +208,6 @@
         <file>ui/magic/scripting/LineNumbers.qml</file>
         <file>ui/magic/scripting/CompletionBox.qml</file>
         <file>ui/magic/scripting/EditorPane.qml</file>
+        <file>ui/experiences/wheeloffortune/Main.qml</file>
     </qresource>
 </RCC>
