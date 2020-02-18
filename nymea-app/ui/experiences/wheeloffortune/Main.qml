@@ -43,8 +43,9 @@ Item {
 
     readonly property Device motorDevice: motors.count > 0 ? motors.get(0) : null
 
-    readonly property State powerState: motorDevice ? motorDevice.states.getState(motorDevice.deviceClass.stateTypes.findByName("powerr").id) : null
-    readonly property State driveVoltageState: motorDevice ? motorDevice.states.getState(motorWpDevice.deviceClass.stateTypes.findByName("driveVoltage").id) : null
+    readonly property State powerState: motorDevice ? motorDevice.states.getState(motorDevice.deviceClass.stateTypes.findByName("power").id) : null
+    readonly property State stateState: motorDevice ? motorDevice.states.getState(motorDevice.deviceClass.stateTypes.findByName("state").id) : null
+    readonly property State driveVoltageState: motorDevice ? motorDevice.states.getState(motorDevice.deviceClass.stateTypes.findByName("driveVoltage").id) : null
     readonly property State driveCurrentState: motorDevice ? motorDevice.states.getState(motorDevice.deviceClass.stateTypes.findByName("driveCurrent").id) : null
     readonly property State bemfState: motorDevice ? motorDevice.states.getState(motorDevice.deviceClass.stateTypes.findByName("bemf").id) : null
     readonly property State psiState: motorDevice ? motorDevice.states.getState(motorDevice.deviceClass.stateTypes.findByName("psi").id) : null
@@ -52,30 +53,31 @@ Item {
     readonly property State currentState: motorDevice ? motorDevice.states.getState(motorDevice.deviceClass.stateTypes.findByName("current").id) : null
     readonly property State torqueState: motorDevice ? motorDevice.states.getState(motorDevice.deviceClass.stateTypes.findByName("torque").id) : null
     readonly property State omegaState: motorDevice ? motorDevice.states.getState(motorDevice.deviceClass.stateTypes.findByName("omega").id) : null
+    readonly property State speedState: motorDevice ? motorDevice.states.getState(motorDevice.deviceClass.stateTypes.findByName("speed").id) : null
 
 
-    Connections {
-        target: engine.deviceManager
-        onExecuteActionReply: {
-            print("executeActionReply:", params["id"])
-            if (params["id"] === d.pendingCallId) {
-                d.pendingCallId = -1;
+    //    Connections {
+    //        target: engine.deviceManager
+    //        onExecuteActionReply: {
+    //            print("executeActionReply:", params["id"])
+    //            if (params["id"] === d.pendingCallId) {
+    //                d.pendingCallId = -1;
 
-                // React on action executed here. example:
+    //                // React on action executed here. example:
 
-//                if (d.setTempPending) {
-//                    setTargetTemp(d.queuedTargetTemp)
-//                }
-            }
-        }
-    }
+    ////                if (d.setTempPending) {
+    ////                    setTargetTemp(d.queuedTargetTemp)
+    ////                }
+    //            }
+    //        }
+    //    }
 
-    QtObject {
-        id: d
-        property int pendingCallId: -1
-        property bool setTempPending: false
-        property real queuedTargetTemp: 0
-    }
+    //    QtObject {
+    //        id: d
+    //        property int pendingCallId: -1
+    //        property bool setTempPending: false
+    //        property real queuedTargetTemp: 0
+    //    }
 
     DevicesProxy {
         id: motors
@@ -93,16 +95,101 @@ Item {
         visible: motors.count === 0 && !engine.deviceManager.fetchingData
     }
 
-
     Item {
         id: mainView
         anchors.fill: parent
-        visible: root.duwWpDevice !== null
+        visible: root.motorDevice !== null
 
         ColumnLayout {
             anchors.fill: parent
             anchors.margins: app.margins
 
+            Button {
+                Layout.fillWidth: true
+                Layout.preferredHeight: app.delegateHeight
+                text: qsTr("Play")
+                onClicked: {
+                    if (!motorDevice)
+                        return
+
+                    var deviceId = root.motorDevice.id
+                    var actionTypeId = root.motorDevice.deviceClass.actionTypes.findByName("trigger").id
+                    print("Execute play", deviceId, actionTypeId)
+                    // Maybe check reply
+                    engine.deviceManager.executeAction(root.motorDevice.id, actionTypeId)
+                }
+            }
+
+            Label {
+                Layout.alignment: Qt.AlignHCenter
+                text: {
+                    if (stateState.value === "Idle") {
+                        return qsTr("Uninitialized")
+                    } else if (stateState.value === "Spinning") {
+                        return qsTr("Spinning...")
+                    } else if (stateState.value === "You won") {
+                        return qsTr("Congratulations! You won!")
+                    } else if (stateState.value === "You lost") {
+                        return qsTr("Too bad. You lost.")
+                    } else {
+                        stateImage.rotation = 0
+                        return "qrc:/ui/images/ventilation.svg"
+                    }
+                }
+            }
+
+            Item {
+                Layout.fillWidth: true
+                Layout.preferredHeight: app.delegateHeight * 5
+
+
+                RotationAnimation {
+                    id: rotate
+                    target: stateImage
+                    running: stateState.value === "Spinning"
+                    duration: 2000
+                    loops: RotationAnimation.Infinite
+                    from: 0
+                    to: 360
+                }
+
+                Image {
+                    id: stateImage
+                    anchors.fill: parent
+                    fillMode: Image.PreserveAspectFit
+                    sourceSize.width: stateImage.width
+                    sourceSize.height: stateImage.height
+                    source: {
+                        if (stateState.value === "Idle") {
+                            stateImage.rotation = 0
+                            return "qrc:/ui/images/ventilation.svg"
+                        } else if (stateState.value === "Spinning") {
+                            return "qrc:/ui/images/refresh.svg"
+                        } else if (stateState.value === "You won") {
+                            stateImage.rotation = 0
+                            return "qrc:/ui/experiences/wheeloffortune/1f389.png"
+                        } else if (stateState.value === "You lost") {
+                            stateImage.rotation = 0
+                            return "qrc:/ui/experiences/wheeloffortune/lost.png"
+                        } else {
+                            stateImage.rotation = 0
+                            return "qrc:/ui/images/ventilation.svg"
+                        }
+                    }
+                }
+            }
+
+            Label {
+                id: torqueStateValue
+                Layout.alignment: Qt.AlignHCenter
+                text: qsTr("Torque") + " " + torqueState.value + " [Nm]"
+            }
+
+            Label {
+                id: speedStateValue
+                Layout.alignment: Qt.AlignHCenter
+                text: qsTr("Speed") + " " + speedState.value + " [rpm]"
+            }
         }
     }
 }

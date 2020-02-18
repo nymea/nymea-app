@@ -209,5 +209,7 @@
         <file>ui/magic/scripting/CompletionBox.qml</file>
         <file>ui/magic/scripting/EditorPane.qml</file>
         <file>ui/experiences/wheeloffortune/Main.qml</file>
+        <file>ui/experiences/wheeloffortune/1f389.png</file>
+        <file>ui/experiences/wheeloffortune/lost.png</file>
     </qresource>
 </RCC>
