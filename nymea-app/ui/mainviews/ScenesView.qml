@@ -49,8 +49,7 @@ MouseArea {
         anchors.fill: parent
         anchors.margins: app.margins / 2
 
-        readonly property int minTileWidth: 180
-        readonly property int minTileHeight: 180
+        readonly property int minTileWidth: 172
         readonly property int tilesPerRow: root.width / minTileWidth
 
         model: RulesFilterModel {
