@@ -1,3 +1,12 @@
+nymea-app (1.0.185) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Reduce minimum tile size to support 2 columns on most devices
+  * Fix an assertion when there are no tags
+  * Revert "Fix the app bundle name in the macOS installer."
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 19 Feb 2020 22:58:22 +0100
+
 nymea-app (1.0.184) bionic; urgency=medium
 
   [ Michael Zanetti ]
