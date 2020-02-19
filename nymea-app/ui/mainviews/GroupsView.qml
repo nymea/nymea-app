@@ -48,8 +48,7 @@ MouseArea {
         anchors.margins: app.margins / 2
 
 
-        readonly property int minTileWidth: 180
-        readonly property int minTileHeight: 180
+        readonly property int minTileWidth: 172
         readonly property int tilesPerRow: root.width / minTileWidth
 
         model: TagListModel {
@@ -409,6 +408,7 @@ MouseArea {
         id: mediaControllerDelegate
         MediaControls {
             property var devices: null
+            iconSize: app.iconSize
             DevicesProxy {
                 id: mediaControllers
                 engine: _engine

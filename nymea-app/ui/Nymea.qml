@@ -41,7 +41,7 @@ ApplicationWindow {
     visible: true
     width: 360
     height: 580
-    minimumWidth: 360
+    minimumWidth: 350
     minimumHeight: 480
     visibility: kioskMode ? ApplicationWindow.FullScreen : settings.viewMode
     color: Material.background
