@@ -82,6 +82,9 @@ void Tags::addTag(Tag *tag)
 
 void Tags::addTags(QList<Tag *> tags)
 {
+    if (tags.isEmpty()) {
+        return;
+    }
     beginInsertRows(QModelIndex(), m_list.count(), m_list.count() + tags.count() - 1);
     foreach (Tag *tag, tags) {
         tag->setParent(this);
