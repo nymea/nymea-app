@@ -55,8 +55,8 @@ Item {
     readonly property StateType powerConsumptionStateType: wallboxDevice ? wallboxDevice.deviceClass.stateTypes.findByName("powerConsumption") : null
     readonly property State powerConsumptionState: powerConsumptionStateType ? wallboxDevice.states.getState(powerConsumptionStateType.id) : null
 
-    readonly property StateType presentEnergyStateType: wallboxDevice ? wallboxDevice.deviceClass.stateTypes.findByName("EP") : null
-    readonly property State presentEnergyState: presentEnergyStateType ? wallboxDevice.states.getState(presentEnergyStateType.id) : null
+    readonly property StateType sessionEnergyStateType: wallboxDevice ? wallboxDevice.deviceClass.stateTypes.findByName("sessionEnergy") : null
+    readonly property State sessionEnergyState: sessionEnergyStateType ? wallboxDevice.states.getState(sessionEnergyStateType.id) : null
 
     readonly property StateType sessionTimeStateType: wallboxDevice ? wallboxDevice.deviceClass.stateTypes.findByName("sessionTime") : null
     readonly property State sessionTimeState: sessionTimeStateType ? wallboxDevice.states.getState(sessionTimeStateType.id) : null
@@ -111,7 +111,6 @@ Item {
                     MouseArea {
                         anchors.fill: parent
                         onClicked: {
-                            print("executing power action with param", !root.powerState.value)
                             var params = []
                             var param = {}
                             param["paramTypeId"] = root.powerStateType.id;
@@ -168,13 +167,13 @@ Item {
                     Label {
                         anchors.horizontalCenter: parent.horizontalCenter
                         text: root.sessionTimeState ?
-                                  (root.sessionTimeState.value / 60 / 60) + ":" + app.pad((root.sessionTimeState.value / 60) % 60, 2) + ":" + app.pad(root.sessionTimeState.value % 60, 2) : ""
+                                  Math.floor(root.sessionTimeState.value / 60 / 60) + ":" + app.pad(Math.floor(root.sessionTimeState.value / 60) % 60, 2) + ":" + app.pad(root.sessionTimeState.value % 60, 2) : ""
                         font.pixelSize: app.largeFont
                     }
 
                     Label {
                         anchors.horizontalCenter: parent.horizontalCenter
-                        text: (root.presentEnergyState ? root.presentEnergyState.value : "0") + " kW/h"
+                        text: (root.sessionEnergyState ? root.sessionEnergyState.value.toFixed(2) : "0") + " kWh"
                     }
                 }
             }
