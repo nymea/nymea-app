@@ -111,7 +111,13 @@ Item {
                     MouseArea {
                         anchors.fill: parent
                         onClicked: {
-                            engine.deviceManager.executeAction(wallboxDevice.id, root.powerStateType.id, {power: !root.powerStateType.value})
+                            print("executing power action with param", !root.powerState.value)
+                            var params = []
+                            var param = {}
+                            param["paramTypeId"] = root.powerStateType.id;
+                            param["value"] = !root.powerState.value;
+                            params.push(param)
+                            engine.deviceManager.executeAction(wallboxDevice.id, root.powerStateType.id, params)
                         }
                     }
                 }
