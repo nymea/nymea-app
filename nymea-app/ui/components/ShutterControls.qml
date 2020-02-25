@@ -38,9 +38,10 @@ RowLayout {
     id: root
     implicitWidth: childrenRect.width
 
-    property var device: null
+    property Device device: null
     readonly property var deviceClass: device ? engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
     readonly property var openState: device ? device.states.getState(deviceClass.stateTypes.findByName("state").id) : null
+    readonly property bool canStop: device && device.deviceClass.actionTypes.findByName("stop")
 
     property bool invert: false
 
@@ -66,6 +67,7 @@ RowLayout {
    ItemDelegate {
         Layout.preferredWidth: app.iconSize * 2
         Layout.preferredHeight: width
+        visible: root.canStop
 //        color: Material.foreground
 //        radius: height / 2
 
