@@ -189,6 +189,11 @@ bool JsonRpcClient::pushButtonAuthAvailable() const
     return m_pushButtonAuthAvailable;
 }
 
+bool JsonRpcClient::authenticated() const
+{
+    return m_authenticated;
+}
+
 JsonRpcClient::CloudConnectionState JsonRpcClient::cloudConnectionState() const
 {
     return m_cloudConnectionState;
@@ -297,6 +302,9 @@ void JsonRpcClient::processAuthenticate(const QVariantMap &data)
         settings.endGroup();
         emit authenticationRequiredChanged();
 
+        m_authenticated = true;
+        emit authenticated();
+
         setNotificationsEnabled();
     } else {
         qWarning() << "Authentication failed" << data;
@@ -376,6 +384,7 @@ void JsonRpcClient::onInterfaceConnectedChanged(bool connected)
         qDebug() << "JsonRpcClient: Transport disconnected.";
         m_initialSetupRequired = false;
         m_authenticationRequired = false;
+        m_authenticated = false;
         m_serverQtVersion.clear();
         m_serverQtBuildVersion.clear();
         if (m_connected) {
@@ -442,6 +451,8 @@ void JsonRpcClient::dataReceived(const QByteArray &data)
             settings.setValue(m_serverUuid, m_token);
             settings.endGroup();
             emit authenticationRequiredChanged();
+            m_authenticated = false;
+            emit authenticatedChanged();
         }
 
         if (!reply->caller().isNull() && !reply->callback().isEmpty()) {
@@ -508,11 +519,13 @@ void JsonRpcClient::helloReply(const QVariantMap &params)
             if (m_token.isEmpty()) {
                 return;
             }
+
+            m_authenticated = true;
+            emit authenticatedChanged();
         }
 
         setNotificationsEnabled();
         getCloudConnectionStatus();
-
     }
 }
 

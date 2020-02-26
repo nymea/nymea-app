@@ -53,7 +53,7 @@ Page {
             popup.open();
         }
         onCreateUserSucceeded: {
-            engine.jsonRpcClient.authenticate(usernameTextField.text, passwordTextField.password, "nymea-app (" + PlatformHelper.device + ")");
+            engine.jsonRpcClient.authenticate(usernameTextField.text, passwordTextField.password, "nymea-app (" + PlatformHelper.deviceModel + ")");
         }
 
         onCreateUserFailed: {
@@ -153,7 +153,7 @@ Page {
                         engine.jsonRpcClient.createUser(usernameTextField.text, passwordTextField.password);
                     } else {
                         print("authenticate", usernameTextField.text, passwordTextField.text, "nymea-app")
-                        engine.jsonRpcClient.authenticate(usernameTextField.text, passwordTextField.password, "nymea-app (" + PlatformHelper.device + ")");
+                        engine.jsonRpcClient.authenticate(usernameTextField.text, passwordTextField.password, "nymea-app (" + PlatformHelper.deviceModel + ")");
                     }
                 }
             }

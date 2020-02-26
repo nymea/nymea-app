@@ -164,7 +164,7 @@ void NymeaDiscovery::cacheHost(NymeaHost *host)
         settings.beginGroup(QString::number(i++));
         settings.setValue("url", connection->url());
         settings.setValue("bearerType", connection->bearerType());
-        settings.value("secure", connection->secure());
+        settings.setValue("secure", connection->secure());
         settings.setValue("displayName", connection->displayName());
         settings.endGroup();
     }

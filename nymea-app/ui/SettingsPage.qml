@@ -75,6 +75,7 @@ Page {
                 Material.elevation: layout.isGrid ? 1 : 0
                 padding: 0
                 visible: engine.jsonRpcClient.ensureServerVersion("4.2")
+                         && engine.jsonRpcClient.authenticated
                 NymeaListItemDelegate {
                     width: parent.width
                     iconName: "../images/account.svg"
