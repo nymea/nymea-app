@@ -46,7 +46,8 @@ public:
         RoleId,
         RoleParentDeviceId,
         RoleDeviceClass,
-        RoleSetupComplete,
+        RoleSetupStatus,
+        RoleSetupDisplayMessage,
         RoleInterfaces,
         RoleBaseInterface
     };

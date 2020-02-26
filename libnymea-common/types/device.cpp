@@ -76,15 +76,23 @@ bool Device::isChild() const
     return !m_parentDeviceId.isNull();
 }
 
-bool Device::setupComplete()
+Device::DeviceSetupStatus Device::setupStatus() const
 {
-    return m_setupComplete;
+    return m_setupStatus;
 }
 
-void Device::setSetupComplete(const bool &setupComplete)
+QString Device::setupDisplayMessage() const
 {
-    m_setupComplete = setupComplete;
-    emit setupCompleteChanged();
+    return m_setupDisplayMessage;
+}
+
+void Device::setSetupStatus(Device::DeviceSetupStatus setupStatus, const QString &displayMessage)
+{
+    if (m_setupStatus != setupStatus || m_setupDisplayMessage != displayMessage) {
+        m_setupStatus = setupStatus;
+        m_setupDisplayMessage = displayMessage;
+        emit setupStatusChanged();
+    }
 }
 
 Params *Device::params() const

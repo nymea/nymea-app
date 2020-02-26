@@ -240,7 +240,14 @@ Device* JsonTypes::unpackDevice(const QVariantMap &deviceMap, DeviceClasses *dev
     }
     device->setName(deviceMap.value("name").toString());
     device->setId(deviceMap.value("id").toUuid());
-    device->setSetupComplete(deviceMap.value("setupComplete").toBool());
+    // As of JSONRPC 4.2 setupComplete is deprecated and setupStatus is new
+    if (deviceMap.contains("setupStatus")) {
+        QMetaEnum setupStatusEnum = QMetaEnum::fromType<Device::DeviceSetupStatus>();
+        device->setSetupStatus(static_cast<Device::DeviceSetupStatus>(setupStatusEnum.keyToValue(deviceMap.value("setupStatus").toByteArray().data())),
+                               deviceMap.value("setupDisplayMessage").toString());
+    } else {
+        device->setSetupStatus(deviceMap.value("setupComplete").toBool() ? Device::DeviceSetupStatusComplete : Device::DeviceSetupStatusNone, QString());
+    }
 
     Params *params = device->params();
     if (!params) {
