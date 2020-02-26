@@ -319,6 +319,7 @@ MainPageTile {
                 ItemDelegate {
                     Layout.preferredHeight: app.iconSize
                     Layout.preferredWidth: height
+                    enabled: centerIcon.name.length > 0
                     ColorIcon {
                         id: centerIcon
                         width: app.iconSize
@@ -332,10 +333,10 @@ MainPageTile {
                                 return ""
                             case "garagegate":
                             case "blind":
-                            case "extendedblind":
                             case "awning":
-                            case "extendedawning":
                             case "shutter":
+                            case "extendedblind":
+                            case "extendedawning":
                             case "extendedshutter":
                                 return "../images/media-playback-stop.svg"
                             default:

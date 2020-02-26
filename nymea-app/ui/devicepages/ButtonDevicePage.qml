@@ -38,9 +38,20 @@ import "../customviews"
 DevicePageBase {
     id: root
 
+    EmptyViewPlaceholder {
+        anchors { left: parent.left; right: parent.right; margins: app.margins }
+        anchors.verticalCenter: parent.verticalCenter
+
+        title: qsTr("This switch has not been used yet.")
+        text: qsTr("Press a button on the switch to see logs appearing here.")
+        visible: logView.logsModel.count === 0
+        buttonVisible: false
+        imageSource: "../images/system-shutdown.svg"
+    }
+
     GenericTypeLogView {
-        anchors.fill: parent
         id: logView
+        anchors.fill: parent
 
         logsModel: engine.jsonRpcClient.ensureServerVersion("1.10") ? logsModelNg : logsModel
         LogsModelNg {
