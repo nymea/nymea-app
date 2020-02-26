@@ -28,56 +28,38 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.9
-import QtQuick.Controls 2.2
-import QtQuick.Layouts 1.3
+import QtQuick 2.5
+import QtQuick.Controls 2.1
+import QtQuick.Controls.Material 2.1
+import QtQuick.Layouts 1.1
 import Nymea 1.0
-import "../components"
 
-SettingsPageBase {
+Page {
     id: root
-    title: qsTr("Developer options")
-
-    SettingsPageSectionHeader {
-        text: qsTr("Logging")
+    header: NymeaHeader {
+        text: root.title
+        backButtonVisible: true
+        onBackPressed: pageStack.pop()
     }
 
-    CheckDelegate {
-        text: qsTr("Enable app logging")
-        enabled: AppLogController.canWriteLogs
-        checked: AppLogController.enabled
-        onCheckedChanged: AppLogController.enabled = checked;
-        Layout.fillWidth: true
-    }
+    property alias busy: busyOverlay.shown
+    default property alias content: contentColumn.data
 
-    NymeaListItemDelegate {
-        Layout.fillWidth: true
-        text: qsTr("View log")
-        onClicked: pageStack.push(Qt.resolvedUrl("../appsettings/AppLogPage.qml"))
-        enabled: AppLogController.enabled
-    }
+    Flickable {
+        anchors.fill: parent
+        contentHeight: contentColumn.height
+        interactive: contentHeight > height
 
+        ScrollBar.vertical: ScrollBar {}
 
-    SettingsPageSectionHeader {
-        text: qsTr("Advanced options")
-        visible: settings.showHiddenOptions
-    }
-
-    RowLayout {
-        Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
-        visible: settings.showHiddenOptions
-
-        Label {
-            Layout.fillWidth: true
-            text: qsTr("Cloud environment")
+        ColumnLayout {
+            id: contentColumn
+            anchors.horizontalCenter: parent.horizontalCenter
+            width: Math.min(500, parent.width)
         }
+    }
 
-        ComboBox {
-            currentIndex: model.indexOf(app.settings.cloudEnvironment)
-            model: AWSClient.availableConfigs
-            onActivated: {
-                app.settings.cloudEnvironment = model[index];
-            }
-        }
+    BusyOverlay {
+        id: busyOverlay
     }
 }

@@ -55,6 +55,7 @@ SOURCES += \
     scripting/completionmodel.cpp \
     scriptmanager.cpp \
     scriptsyntaxhighlighter.cpp \
+    usermanager.cpp \
     vendorsproxy.cpp \
     pluginsproxy.cpp \
     interfacesmodel.cpp \
@@ -91,6 +92,7 @@ SOURCES += \
     models/devicemodel.cpp \
     system/systemcontroller.cpp \
 
+
 HEADERS += \
     configuration/networkmanager.h \
     engine.h \
@@ -122,6 +124,7 @@ HEADERS += \
     scripting/completionmodel.h \
     scriptmanager.h \
     scriptsyntaxhighlighter.h \
+    usermanager.h \
     vendorsproxy.h \
     pluginsproxy.h \
     interfacesmodel.h \

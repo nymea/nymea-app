@@ -35,7 +35,7 @@ import QtQuick.Layouts 1.3
 import "../components"
 import Nymea 1.0
 
-Page {
+SettingsPageBase {
     id: root
     header: NymeaHeader {
         text: qsTr("Plugins")
@@ -51,36 +51,26 @@ Page {
         }
     }
 
-    ColumnLayout {
-        anchors.fill: parent
-
-        Label {
-            Layout.fillWidth: true
-            Layout.margins: app.margins
-            wrapMode: Text.WordWrap
-            text: qsTr("This list shows the list of installed plugins on this %1 system.").arg(app.systemName)
-        }
-
-        ThinDivider {}
-
-        ListView {
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            model: PluginsProxy {
-                id: pluginsProxy
-                plugins: engine.deviceManager.plugins
-            }
-            clip: true
-
-            delegate: NymeaListItemDelegate {
-                property var plugin: pluginsProxy.get(index)
-                width: parent.width
-                iconName: "../images/plugin.svg"
-                text: model.name
-                progressive: plugin.paramTypes.count > 0
-                onClicked: pageStack.push(Qt.resolvedUrl("PluginParamsPage.qml"), {plugin: plugin})
-            }
-        }
+    Label {
+        Layout.fillWidth: true
+        Layout.margins: app.margins
+        wrapMode: Text.WordWrap
+        text: qsTr("This list shows the list of installed plugins on this %1 system.").arg(app.systemName)
     }
 
+    Repeater {
+        model: PluginsProxy {
+            id: pluginsProxy
+            plugins: engine.deviceManager.plugins
+        }
+
+        delegate: NymeaListItemDelegate {
+            Layout.fillWidth: true
+            property var plugin: pluginsProxy.get(index)
+            iconName: "../images/plugin.svg"
+            text: model.name
+            progressive: plugin.paramTypes.count > 0
+            onClicked: pageStack.push(Qt.resolvedUrl("PluginParamsPage.qml"), {plugin: plugin})
+        }
+    }
 }

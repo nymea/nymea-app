@@ -34,12 +34,9 @@ import QtQuick.Layouts 1.3
 import Nymea 1.0
 import "../components"
 
-Page {
+SettingsPageBase {
     id: root
-    header: NymeaHeader {
-        text: qsTr("Cloud login")
-        onBackPressed: pageStack.pop()
-    }
+    title: qsTr("%1 cloud login").arg(app.appName)
 
     Component.onCompleted: {
         if (AWSClient.isLoggedIn) {
@@ -50,13 +47,13 @@ Page {
     Connections {
         target: AWSClient
         onLoginResult: {
-            busyOverlay.shown = false;
+            root.busy = false;
             if (error === AWSClient.LoginErrorNoError) {
                 AWSClient.fetchDevices();
             }
         }
         onDeleteAccountResult: {
-            busyOverlay.shown = false;
+            root.busy = false;
             if (error !== AWSClient.LoginErrorNoError) {
                 var errorDialog = Qt.createComponent(Qt.resolvedUrl("../components/ErrorDialog.qml"));
                 var text = qsTr("Sorry, an error happened removing the account. Please try again later.");
@@ -68,12 +65,15 @@ Page {
     }
 
     ColumnLayout {
-        anchors.fill: parent
+        Layout.fillWidth: true
         visible: AWSClient.isLoggedIn
+
+        SettingsPageSectionHeader {
+            text: qsTr("Login")
+        }
 
         Label {
             Layout.fillWidth: true
-            Layout.topMargin: app.margins
             Layout.leftMargin: app.margins
             Layout.rightMargin: app.margins
             wrapMode: Text.WordWrap
@@ -89,11 +89,20 @@ Page {
             }
         }
 
-        ThinDivider {}
+        RowLayout {
+            SettingsPageSectionHeader {
+                text: qsTr("Connected %1:core systems").arg(app.systemName)
+            }
+            BusyIndicator {
+                running: AWSClient.awsDevices.busy
+                height: app.iconSize
+                width: height
+            }
+        }
+
 
         Label {
             Layout.fillWidth: true
-            Layout.topMargin: app.margins
             Layout.leftMargin: app.margins
             Layout.rightMargin: app.margins
             wrapMode: Text.WordWrap
@@ -101,13 +110,11 @@ Page {
                       qsTr("There are no %1:core systems connected to your cloud yet.").arg(app.systemName) :
                       qsTr("There are %n %1:core systems connected to your cloud.", "", AWSClient.awsDevices.count).arg(app.systemName)
         }
-        ListView {
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            clip: true
+
+        Repeater {
             model: AWSClient.awsDevices
             delegate: NymeaListItemDelegate {
-                width: parent.width
+                Layout.fillWidth: true
                 text: model.name
                 subText: model.id
                 progressive: false
@@ -129,66 +136,173 @@ Page {
                 }
             }
 
-            BusyIndicator {
-                anchors.centerIn: parent
-                visible: AWSClient.awsDevices.busy
+        }
+    }
+
+
+    ColumnLayout {
+        id: loginColumn
+        visible: !AWSClient.isLoggedIn
+        Layout.fillWidth: true
+        SettingsPageSectionHeader {
+            text: qsTr("Login")
+        }
+        Label {
+            Layout.fillWidth: true
+            Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.topMargin: app.margins
+            wrapMode: Text.WordWrap
+            text: qsTr("Log %1 in to %2:cloud in order to connect to %2:core systems from anywhere and receive push notifications from %2:core systems.").arg(app.appName).arg(app.systemName)
+        }
+        Label {
+            Layout.fillWidth: true
+            Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.topMargin: app.margins
+            wrapMode: Text.WordWrap
+            font.pixelSize: app.smallFont
+            text: qsTr("See our <a href=\"%1\">privacy policy</a> to find out what information is processed.").arg(app.privacyPolicyUrl)
+            onLinkActivated: {
+                Qt.openUrlExternally(link)
+            }
+        }
+
+        Label {
+            Layout.fillWidth: true
+            Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.topMargin: app.margins
+            text: "Username (e-mail)"
+        }
+        TextField {
+            id: usernameTextField
+            Layout.fillWidth: true
+            Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
+            placeholderText: "john.smith@cooldomain.com"
+            inputMethodHints: Qt.ImhEmailCharactersOnly
+            validator: RegExpValidator { regExp:/\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/ }
+        }
+        Label {
+            Layout.fillWidth: true
+            Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.topMargin: app.margins
+            text: qsTr("Password")
+        }
+        RowLayout {
+            Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
+            PasswordTextField {
+                id: passwordTextField
+                Layout.fillWidth: true
+                signup: false
+            }
+        }
+
+
+        Button {
+            Layout.fillWidth: true
+            Layout.margins: app.margins
+            text: qsTr("OK")
+            enabled: usernameTextField.acceptableInput
+            onClicked:  {
+                root.busy = true
+                AWSClient.login(usernameTextField.text, passwordTextField.password);
+            }
+        }
+
+        Connections {
+            target: AWSClient
+            onLoginResult: {
+                switch (error) {
+                case AWSClient.LoginErrorInvalidUserOrPass:
+                    errorLabel.text = qsTr("Failed to log in. Please try again. Do you perhaps have <a href=\"#\">forgotten your password?</a>")
+                    break;
+                case AWSClient.LoginErrorNetworkError:
+                    errorLabel.text = qsTr("Failed to connect to the login server. Please mase sure your network connection is working.")
+                    break;
+                default:
+                    errorLabel.text = qsTr("An unexpected error happened. Please report this isse. Error code: %1").arg(error)
+                    break;
+                }
+                errorLabel.visible = (error !== AWSClient.LoginErrorNoError)
+            }
+        }
+
+        Label {
+            id: errorLabel
+            Layout.fillWidth: true
+            Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.bottomMargin: app.margins
+            wrapMode: Text.WordWrap
+            font.pixelSize: app.smallFont
+            color: "red"
+            visible: false
+            onLinkActivated: {
+                pageStack.push(resetPasswordComponent, {email: usernameTextField.text})
+            }
+        }
+
+        ThinDivider {}
+
+        Label {
+            Layout.fillWidth: true
+            Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.topMargin: app.margins
+            wrapMode: Text.WordWrap
+            text: qsTr("Don't have a user yet?")
+        }
+
+        Button {
+            Layout.fillWidth: true
+            Layout.margins: app.margins
+            text: qsTr("Sign Up")
+            onClicked: {
+                pageStack.push(signupPageComponent)
             }
         }
     }
+
 
     Component {
-        id : logoutDialogComponent
-        MeaDialog {
-            id: logoutDialog
-            title: qsTr("Goodbye")
-            text: qsTr("Sorry to see you go. If you log out you won't be able to connect to %1:core systems remotely any more. However, you can come back any time, we'll keep your user account. If you whish to completely delete your account and all the data associated with it, check the box below before hitting ok. If you decide to delete your account, all your personal information will be removed from %1:cloud and cannot be restored.").arg(app.systemName)
-            headerIcon: "../images/dialog-warning-symbolic.svg"
-            standardButtons: Dialog.Cancel | Dialog.Ok
+        id: signupPageComponent
+        SettingsPageBase {
+            id: signupPage
+            title: qsTr("Sign up")
 
-            RowLayout {
-                CheckBox {
-                    id: deleteCheckbox
-                }
-                Label {
-                    Layout.fillWidth: true
-                    wrapMode: Text.WordWrap
-                    text: qsTr("Delete my account")
-                }
-            }
-
-            onAccepted: {
-                if (deleteCheckbox.checked) {
-                    busyOverlay.shown = true;
-                    AWSClient.deleteAccount()
-                } else {
-                    AWSClient.logout()
+            Connections {
+                target: AWSClient
+                onSignupResult: {
+                    signupPage.busy = false;
+                    var text;
+                    switch (error) {
+                    case AWSClient.LoginErrorNoError:
+                        pageStack.push(enterCodeComponent)
+                        return;
+                    case AWSClient.LoginErrorInvalidUserOrPass:
+                        text = qsTr("The given username or password are not valid.")
+                        break;
+                    default:
+                        text = qsTr("Uh oh, something went wrong. Please try again.")
+                    }
+                    var errorDialog = Qt.createComponent(Qt.resolvedUrl("../components/ErrorDialog.qml"));
+                    var popup = errorDialog.createObject(app, {text: text})
+                    popup.open()
                 }
             }
-        }
-    }
 
 
-    Flickable {
-        anchors.fill: parent
-        interactive: contentHeight > height
-        contentHeight: loginColumn.height
-        visible: !AWSClient.isLoggedIn
+            SettingsPageSectionHeader {
+                text: qsTr("Welcome to %1:cloud.").arg(app.systemName)
+            }
 
-        ColumnLayout {
-            id: loginColumn
-            anchors { left: parent.left; right: parent.right; top: parent.top }
             Label {
                 Layout.fillWidth: true
-                Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.topMargin: app.margins
+                Layout.leftMargin: app.margins
+                Layout.rightMargin: app.margins
                 wrapMode: Text.WordWrap
-                text: qsTr("Log in to %1:cloud in order to connect to %1:core systems from anywhere.").arg(app.systemName)
+                text: qsTr("Please enter your email address and pick a password in order to create a new account.");
+                onLinkActivated: {
+                    print("clicked", link)
+                    Qt.openUrlExternally(link)
+                }
             }
             Label {
                 Layout.fillWidth: true
                 Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.topMargin: app.margins
                 wrapMode: Text.WordWrap
                 font.pixelSize: app.smallFont
-                text: qsTr("See our <a href=\"%1\">privacy policy</a> to find out what information is processed.").arg(app.privacyPolicyUrl)
+                text: qsTr("See our <a href=\"%1\">privacy policy</a> to find out what information is processed. By signing up to %2:cloud you accept those terms and conditions.").arg(app.privacyPolicyUrl).arg(app.systemName)
                 onLinkActivated: {
                     Qt.openUrlExternally(link)
                 }
@@ -212,198 +326,32 @@ Page {
                 Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.topMargin: app.margins
                 text: qsTr("Password")
             }
-            RowLayout {
+            PasswordTextField {
+                id: passwordTextField
                 Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
-                PasswordTextField {
-                    id: passwordTextField
-                    Layout.fillWidth: true
-                    signup: false
-                }
-            }
-
-
-            Button {
                 Layout.fillWidth: true
-                Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.topMargin: app.margins
-                text: qsTr("OK")
-                enabled: usernameTextField.acceptableInput
-                onClicked:  {
-                    busyOverlay.shown = true
-                    AWSClient.login(usernameTextField.text, passwordTextField.password);
-                }
-            }
-
-            Connections {
-                target: AWSClient
-                onLoginResult: {
-                    switch (error) {
-                    case AWSClient.LoginErrorInvalidUserOrPass:
-                        errorLabel.text = qsTr("Failed to log in. Please try again. Do you perhaps have <a href=\"#\">forgotten your password?</a>")
-                        break;
-                    case AWSClient.LoginErrorNetworkError:
-                        errorLabel.text = qsTr("Failed to connect to the login server. Please mase sure your network connection is working.")
-                        break;
-                    default:
-                        errorLabel.text = qsTr("An unexpected error happened. Please report this isse. Error code: %1").arg(error)
-                        break;
-                    }
-                    errorLabel.visible = (error !== AWSClient.LoginErrorNoError)
-                }
-            }
-
-            Label {
-                id: errorLabel
-                Layout.fillWidth: true
-                Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.bottomMargin: app.margins
-                wrapMode: Text.WordWrap
-                font.pixelSize: app.smallFont
-                color: "red"
-                visible: false
-                onLinkActivated: {
-                    pageStack.push(resetPasswordComponent, {email: usernameTextField.text})
-                }
-            }
-
-            ThinDivider {}
-
-            Label {
-                Layout.fillWidth: true
-                Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.topMargin: app.margins
-                wrapMode: Text.WordWrap
-                text: qsTr("Don't have a user yet?")
+                minPasswordLength: 8
+                requireLowerCaseLetter: true
+                requireUpperCaseLetter: true
+                requireNumber: true
+                requireSpecialChar: false
             }
 
             Button {
                 Layout.fillWidth: true
-                Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.topMargin: app.margins
-                text: qsTr("Sign Up")
-                onClicked: {
-                    pageStack.push(signupPageComponent)
-                }
-            }
-        }
-    }
-
-
-    BusyOverlay {
-        id: busyOverlay
-    }
-
-    Component {
-        id: signupPageComponent
-        Page {
-            id: signupPage
-            header: NymeaHeader {
+                Layout.margins: app.margins
                 text: qsTr("Sign up")
-                onBackPressed: pageStack.pop()
-            }
-
-            Flickable {
-                anchors.fill: parent
-                contentHeight: signupColumn.height
-                interactive: contentHeight > height
-
-                ColumnLayout {
-                    id: signupColumn
-                    anchors { left: parent.left; top: parent.top; right: parent.right }
-
-                    Label {
-                        Layout.fillWidth: true
-                        Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.topMargin: app.margins
-                        wrapMode: Text.WordWrap
-                        text: qsTr("Welcome to %1:cloud.").arg(app.systemName)
-                        color: app.accentColor
-                        font.pixelSize: app.largeFont
-                    }
-
-                    Label {
-                        Layout.fillWidth: true
-                        Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.topMargin: app.margins
-                        wrapMode: Text.WordWrap
-                        text: qsTr("Please enter your email address and pick a password in order to create a new account.");
-                        onLinkActivated: {
-                            print("clicked", link)
-                            Qt.openUrlExternally(link)
-                        }
-                    }
-                    Label {
-                        Layout.fillWidth: true
-                        Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.topMargin: app.margins
-                        wrapMode: Text.WordWrap
-                        font.pixelSize: app.smallFont
-                        text: qsTr("See our <a href=\"%1\">privacy policy</a> to find out what information is processed. By signing up to %2:cloud you accept those terms and conditions.").arg(app.privacyPolicyUrl).arg(app.systemName)
-                        onLinkActivated: {
-                            Qt.openUrlExternally(link)
-                        }
-                    }
-
-                    Label {
-                        Layout.fillWidth: true
-                        Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.topMargin: app.margins
-                        text: "Username (e-mail)"
-                    }
-                    TextField {
-                        id: usernameTextField
-                        Layout.fillWidth: true
-                        Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
-                        placeholderText: "john.smith@cooldomain.com"
-                        inputMethodHints: Qt.ImhEmailCharactersOnly
-                        validator: RegExpValidator { regExp:/\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/ }
-                    }
-                    Label {
-                        Layout.fillWidth: true
-                        Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.topMargin: app.margins
-                        text: qsTr("Password")
-                    }
-                    PasswordTextField {
-                        id: passwordTextField
-                        Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
-                        Layout.fillWidth: true
-                        minPasswordLength: 8
-                        requireLowerCaseLetter: true
-                        requireUpperCaseLetter: true
-                        requireNumber: true
-                        requireSpecialChar: false
-                    }
-
-                    Button {
-                        Layout.fillWidth: true
-                        Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.topMargin: app.margins
-                        text: qsTr("Sign up")
-                        enabled: usernameTextField.acceptableInput && passwordTextField.isValid
-                        onClicked: {
-                            busyOverlay.shown = true;
-                            AWSClient.signup(usernameTextField.text, passwordTextField.password)
-                        }
-                    }
+                enabled: usernameTextField.acceptableInput && passwordTextField.isValid
+                onClicked: {
+                    signupPage.busy = true;
+                    AWSClient.signup(usernameTextField.text, passwordTextField.password)
                 }
-
-                Connections {
-                    target: AWSClient
-                    onSignupResult: {
-                        busyOverlay.shown = false;
-                        var text;
-                        switch (error) {
-                        case AWSClient.LoginErrorNoError:
-                            pageStack.push(enterCodeComponent)
-                            return;
-                        case AWSClient.LoginErrorInvalidUserOrPass:
-                            text = qsTr("The given username or password are not valid.")
-                            break;
-                        default:
-                            text = qsTr("Uh oh, something went wrong. Please try again.")
-                        }
-                        var errorDialog = Qt.createComponent(Qt.resolvedUrl("../components/ErrorDialog.qml"));
-                        var popup = errorDialog.createObject(app, {text: text})
-                        popup.open()
-                    }
-                }
-            }
-
-            BusyOverlay {
-                id: busyOverlay
             }
         }
+
+
+
+
     }
 
     Component {
@@ -436,7 +384,7 @@ Page {
                     Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.topMargin: app.margins
                     text: qsTr("OK")
                     onClicked: {
-                        busyOverlay.shown = true;
+                        root.busy = true;
                         AWSClient.confirmRegistration(confirmationCodeTextField.text)
                     }
                 }
@@ -444,7 +392,7 @@ Page {
                 Connections {
                     target: AWSClient
                     onConfirmationResult: {
-                        busyOverlay.shown = false;
+                        root.busy = false;
                         var text
                         switch (error) {
                         case AWSClient.LoginErrorNoError:
@@ -473,20 +421,16 @@ Page {
 
     Component {
         id: resetPasswordComponent
-        Page {
+        SettingsPageBase {
             id: resetPasswordPage
+            title: qsTr("Reset password")
 
             property alias email: emailTextField.text
-
-            header: NymeaHeader {
-                text: qsTr("Reset password")
-                onBackPressed: pageStack.pop()
-            }
 
             Connections {
                 target: AWSClient
                 onForgotPasswordResult: {
-                    busyOverlay.shown = false
+                    resetPasswordPage.busy = false
                     if (error !== AWSClient.LoginErrorNoError) {
                         var errorDialog = Qt.createComponent(Qt.resolvedUrl("../components/ErrorDialog.qml"));
                         var text = qsTr("Sorry, this wasn't right. Did you misspell the email address?");
@@ -501,38 +445,31 @@ Page {
                 }
             }
 
-            ColumnLayout {
-                anchors { left: parent.left; top: parent.top; right: parent.right }
-                spacing: app.margins
 
-                Label {
-                    Layout.fillWidth: true; Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.topMargin: app.margins
-                    wrapMode: Text.WordWrap
-                    text: qsTr("Password forgotten?")
-                    font.pixelSize: app.largeFont
-                    color: app.accentColor
-                }
-                Label {
-                    Layout.fillWidth: true; Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
-                    wrapMode: Text.WordWrap
-                    text: qsTr("No problem. Enter your email address here and we'll send you a confirmation code to change your password.")
-                }
-                TextField {
-                    id: emailTextField
-                    Layout.fillWidth: true; Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
-                }
-                Button {
-                    Layout.fillWidth: true; Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
-                    text: qsTr("Reset password")
-                    onClicked: {
-                        AWSClient.forgotPassword(emailTextField.text)
-                        busyOverlay.shown = true
-                    }
-                }
+            Label {
+                Layout.fillWidth: true
+                Layout.margins: app.margins
+                wrapMode: Text.WordWrap
+                text: qsTr("Password forgotten?")
+                font.pixelSize: app.largeFont
+                color: app.accentColor
             }
-
-            BusyOverlay {
-                id: busyOverlay
+            Label {
+                Layout.fillWidth: true; Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
+                wrapMode: Text.WordWrap
+                text: qsTr("No problem. Enter your email address here and we'll send you a confirmation code to change your password.")
+            }
+            TextField {
+                id: emailTextField
+                Layout.fillWidth: true; Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
+            }
+            Button {
+                Layout.fillWidth: true; Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
+                text: qsTr("Reset password")
+                onClicked: {
+                    AWSClient.forgotPassword(emailTextField.text)
+                    resetPasswordPage.busy = true
+                }
             }
         }
     }
@@ -540,13 +477,13 @@ Page {
     Component {
         id: confirmResetPasswordComponent
 
-        Page {
+        SettingsPageBase {
             id: confirmResetPasswordPage
 
             Connections {
                 target: AWSClient
                 onConfirmForgotPasswordResult: {
-                    busyOverlay.shown = false
+                    confirmResetPasswordPage.busy = false
                     if (error !== AWSClient.LoginErrorNoError) {
                         var errorDialog = Qt.createComponent(Qt.resolvedUrl("../components/ErrorDialog.qml"));
                         var popup = errorDialog.createObject(app, {text: qsTr("Sorry, couldn't reset your password. Did you enter the wrong confirmation code?")})
@@ -564,63 +501,85 @@ Page {
             }
 
             property string email
-            header: NymeaHeader {
-                text: qsTr("Reset password")
-                onBackPressed: pageStack.pop()
+            title: qsTr("Reset password")
+
+            Label {
+                Layout.fillWidth: true
+                Layout.margins: app.margins
+                wrapMode: Text.WordWrap
+                text: qsTr("Check your email!")
+                color: app.accentColor
+                font.pixelSize: app.largeFont
             }
-            ColumnLayout {
-                anchors { left: parent.left; top: parent.top; right: parent.right }
-                spacing: app.margins
 
+            Label {
+                Layout.fillWidth: true; Layout.leftMargin: app.margins; Layout.rightMargin: app.margins;
+                wrapMode: Text.WordWrap
+                text: qsTr("Enter the confirmation code you've received and a new password for your user %1.").arg(confirmResetPasswordPage.email)
+            }
+
+            Label {
+                Layout.fillWidth: true; Layout.leftMargin: app.margins; Layout.rightMargin: app.margins;
+                text: qsTr("Confirmation code:")
+            }
+
+            TextField {
+                id: codeTextField
+                Layout.fillWidth: true; Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
+            }
+            Label {
+                Layout.fillWidth: true; Layout.leftMargin: app.margins; Layout.rightMargin: app.margins;
+                text: qsTr("Pick a new password:")
+            }
+
+            PasswordTextField {
+                id: passwordTextField
+                minPasswordLength: 8
+                requireLowerCaseLetter: true
+                requireUpperCaseLetter: true
+                requireNumber: true
+                requireSpecialChar: false
+                Layout.fillWidth: true; Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
+            }
+
+            Button {
+                Layout.fillWidth: true; Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
+                text: qsTr("Reset password")
+                enabled: passwordTextField.isValid && codeTextField.text.length > 0
+                onClicked: {
+                    confirmResetPasswordPage.busy = true
+                    AWSClient.confirmForgotPassword(confirmResetPasswordPage.email, codeTextField.text, passwordTextField.password)
+                }
+            }
+        }
+    }
+
+    Component {
+        id : logoutDialogComponent
+        MeaDialog {
+            id: logoutDialog
+            title: qsTr("Goodbye")
+            text: qsTr("Sorry to see you go. If you log out you won't be able to connect to %1:core systems remotely any more. However, you can come back any time, we'll keep your user account. If you whish to completely delete your account and all the data associated with it, check the box below before hitting ok. If you decide to delete your account, all your personal information will be removed from %1:cloud and cannot be restored.").arg(app.systemName)
+            headerIcon: "../images/dialog-warning-symbolic.svg"
+            standardButtons: Dialog.Cancel | Dialog.Ok
+
+            RowLayout {
+                CheckBox {
+                    id: deleteCheckbox
+                }
                 Label {
-                    Layout.fillWidth: true; Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.topMargin: app.margins
+                    Layout.fillWidth: true
                     wrapMode: Text.WordWrap
-                    text: qsTr("Check your email!")
-                    color: app.accentColor
-                    font.pixelSize: app.largeFont
+                    text: qsTr("Delete my account")
                 }
+            }
 
-                Label {
-                    Layout.fillWidth: true; Layout.leftMargin: app.margins; Layout.rightMargin: app.margins;
-                    wrapMode: Text.WordWrap
-                    text: qsTr("Enter the confirmation code you've received and a new password for your user %1.").arg(confirmResetPasswordPage.email)
-                }
-
-                Label {
-                    Layout.fillWidth: true; Layout.leftMargin: app.margins; Layout.rightMargin: app.margins;
-                    text: qsTr("Confirmation code:")
-                }
-
-                TextField {
-                    id: codeTextField
-                    Layout.fillWidth: true; Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
-                }
-                Label {
-                    Layout.fillWidth: true; Layout.leftMargin: app.margins; Layout.rightMargin: app.margins;
-                    text: qsTr("Pick a new password:")
-                }
-
-                PasswordTextField {
-                    id: passwordTextField
-                    minPasswordLength: 8
-                    requireLowerCaseLetter: true
-                    requireUpperCaseLetter: true
-                    requireNumber: true
-                    requireSpecialChar: false
-                    Layout.fillWidth: true; Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
-                }
-
-                Button {
-                    Layout.fillWidth: true; Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
-                    text: qsTr("Reset password")
-                    enabled: passwordTextField.isValid && codeTextField.text.length > 0
-                    onClicked: {
-                        busyOverlay.shown = true
-                        AWSClient.confirmForgotPassword(confirmResetPasswordPage.email, codeTextField.text, passwordTextField.password)
-                    }
-                }
-                BusyOverlay {
-                    id: busyOverlay
+            onAccepted: {
+                if (deleteCheckbox.checked) {
+                    root.busy = true;
+                    AWSClient.deleteAccount()
+                } else {
+                    AWSClient.logout()
                 }
             }
         }

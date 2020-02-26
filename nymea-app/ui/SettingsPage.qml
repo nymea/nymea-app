@@ -73,6 +73,23 @@ Page {
             Pane {
                 Layout.fillWidth: true
                 Material.elevation: layout.isGrid ? 1 : 0
+                padding: 0
+                visible: engine.jsonRpcClient.ensureServerVersion("4.2")
+                         && engine.jsonRpcClient.authenticated
+                NymeaListItemDelegate {
+                    width: parent.width
+                    iconName: "../images/account.svg"
+                    text: qsTr("User settings")
+                    subText: qsTr("Configure who can log in")
+                    prominentSubText: false
+                    wrapTexts: false
+                    onClicked: pageStack.push(Qt.resolvedUrl("system/UsersSettingsPage.qml"))
+                }
+            }
+
+            Pane {
+                Layout.fillWidth: true
+                Material.elevation: layout.isGrid ? 1 : 0
 
                 padding: 0
                 NymeaListItemDelegate {

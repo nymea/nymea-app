@@ -161,6 +161,7 @@ Connection *NymeaConnection::currentConnection() const
     if (!m_currentHost || !m_currentTransport) {
         return nullptr;
     }
+    qDebug() << "secure:" << m_transportCandidates.value(m_currentTransport)->secure();
     return m_transportCandidates.value(m_currentTransport);
 }
 

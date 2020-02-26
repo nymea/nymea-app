@@ -105,6 +105,10 @@
 #include "types/script.h"
 #include "types/scripts.h"
 #include "types/types.h"
+#include "usermanager.h"
+#include "types/tokeninfos.h"
+#include "types/tokeninfo.h"
+#include "types/userinfo.h"
 
 #include <QtQml/qqml.h>
 
@@ -281,6 +285,11 @@ void registerQmlTypes() {
     qmlRegisterType<ScriptSyntaxHighlighter>(uri, 1, 0, "ScriptSyntaxHighlighter");
     qmlRegisterType<CodeCompletion>(uri, 1, 0, "CodeCompletion");
     qmlRegisterUncreatableType<CompletionProxyModel>(uri, 1, 0, "CompletionModel", "Get it from ScriptSyntaxHighlighter");
+
+    qmlRegisterType<UserManager>(uri, 1, 0, "UserManager");
+    qmlRegisterUncreatableType<UserInfo>(uri, 1, 0, "UserInfo", "Get it from UserManager");
+    qmlRegisterUncreatableType<TokenInfo>(uri, 1, 0, "TokenInfo", "Get it from TokenInfos");
+    qmlRegisterUncreatableType<TokenInfos>(uri, 1, 0, "TokenInfos", "Get it from UserManager");
 }
 
 #endif // LIBNYMEAAPPCORE_H

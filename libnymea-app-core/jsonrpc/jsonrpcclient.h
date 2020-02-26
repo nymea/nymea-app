@@ -50,6 +50,7 @@ class JsonRpcClient : public JsonHandler
     Q_PROPERTY(bool initialSetupRequired READ initialSetupRequired NOTIFY initialSetupRequiredChanged)
     Q_PROPERTY(bool authenticationRequired READ authenticationRequired NOTIFY authenticationRequiredChanged)
     Q_PROPERTY(bool pushButtonAuthAvailable READ pushButtonAuthAvailable NOTIFY pushButtonAuthAvailableChanged)
+    Q_PROPERTY(bool authenticated READ authenticated NOTIFY authenticatedChanged)
     Q_PROPERTY(CloudConnectionState cloudConnectionState READ cloudConnectionState NOTIFY cloudConnectionStateChanged)
     Q_PROPERTY(QString serverVersion READ serverVersion NOTIFY handshakeReceived)
     Q_PROPERTY(QString jsonRpcVersion READ jsonRpcVersion NOTIFY handshakeReceived)
@@ -81,6 +82,7 @@ public:
     bool initialSetupRequired() const;
     bool authenticationRequired() const;
     bool pushButtonAuthAvailable() const;
+    bool authenticated() const;
     CloudConnectionState cloudConnectionState() const;
     void deployCertificate(const QByteArray &rootCA, const QByteArray &certificate, const QByteArray &publicKey, const QByteArray &privateKey, const QString &endpoint);
 
@@ -103,6 +105,7 @@ signals:
     void initialSetupRequiredChanged();
     void authenticationRequiredChanged();
     void pushButtonAuthAvailableChanged();
+    void authenticatedChanged();
     void connectedChanged(bool connected);
     void tokenChanged();
     void invalidProtocolVersion(const QString &actualVersion, const QString &minimumVersion);
@@ -135,6 +138,7 @@ private:
     bool m_initialSetupRequired = false;
     bool m_authenticationRequired = false;
     bool m_pushButtonAuthAvailable = false;
+    bool m_authenticated = false;
     CloudConnectionState m_cloudConnectionState = CloudConnectionStateDisabled;
     int m_pendingPushButtonTransaction = -1;
     QString m_serverUuid;
