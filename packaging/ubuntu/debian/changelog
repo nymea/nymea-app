@@ -1,3 +1,13 @@
+nymea-app (1.0.186) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix building with latest clickable
+  * Add a Placeholder in button views if there are no presses yet
+  * Add support for changing the password and manage tokens
+  * Make use of the new setupStatus property
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 26 Feb 2020 19:43:36 +0100
+
 nymea-app (1.0.185) bionic; urgency=medium
 
   [ Michael Zanetti ]
