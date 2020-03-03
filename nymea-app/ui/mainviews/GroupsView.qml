@@ -80,7 +80,7 @@ MouseArea {
 
                 InterfacesProxy {
                     id: controlsInGroup
-                    shownInterfaces: ["light", "simpleclosable", "mediacontroller"]
+                    shownInterfaces: ["light", "simpleclosable", "mediacontroller", "powersocket"]
                     devicesProxyFilter: devicesInGroup
                     showStates: true
                     showActions: true
@@ -132,7 +132,8 @@ MouseArea {
                                 anchors.fill: parent
 
                                 Repeater {
-                                    model: Math.min(controlsInGroup.count, parent.height / 50)
+//                                    model: Math.min(controlsInGroup.count, parent.height / 50)
+                                    model: controlsInGroup.count
                                     delegate: Loader {
                                         id: controlLoader
                                         Layout.fillWidth: true
@@ -147,6 +148,8 @@ MouseArea {
                                                 return lightDelegate
                                             case "mediacontroller":
                                                 return mediaControllerDelegate
+                                            case "powersocket":
+                                                return powerSocketDelegate
                                             }
                                         }
                                         Binding {
@@ -236,6 +239,51 @@ MouseArea {
                                     }
                                 }
                             }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    Component {
+        id: powerSocketDelegate
+        RowLayout {
+            property var devices
+
+            Layout.alignment: Layout.Right
+
+            DevicesProxy {
+                id: sockets
+                engine: _engine
+                parentProxy: devices
+                shownInterfaces: ["powersocket"]
+            }
+
+            ColorIcon {
+                Layout.preferredHeight: app.iconSize
+                Layout.preferredWidth: app.iconSize
+                name: "../images/powersocket.svg"
+                color: isOn ? app.accentColor : keyColor
+
+                property bool isOn: {
+                    for (var i = 0; i < sockets.count; i++) {
+                        var device = sockets.get(i)
+                        var powerId = device.deviceClass.stateTypes.findByName("power").id
+                        if (device.states.getState(powerId).value === true) {
+                            return true
+                        }
+                    }
+                    return false;
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        for (var i = 0; i < sockets.count; i++) {
+                            var device = sockets.get(i)
+                            var powerId = device.deviceClass.stateTypes.findByName("power").id
+                            engine.deviceManager.executeAction(device.id, powerId, [{paramTypeId: powerId, value: !parent.isOn}])
                         }
                     }
                 }

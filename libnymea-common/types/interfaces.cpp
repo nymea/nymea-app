@@ -157,6 +157,12 @@ Interfaces::Interfaces(QObject *parent) : QAbstractListModel(parent)
     addActionType("mediacontroller", "pause", tr("Pause playback"), new ParamTypes());
     addActionType("mediacontroller", "skipBack", tr("Skip back"), new ParamTypes());
     addActionType("mediacontroller", "skipNext", tr("Skip next"), new ParamTypes());
+
+    addInterface("powersocket", tr("Power sockets"));
+    addStateType("powersocket", "power", QVariant::Bool, true,
+                 tr("Powered"),
+                 tr("Turned on/off"),
+                 tr("Turn on/off"));
 }
 
 int Interfaces::rowCount(const QModelIndex &parent) const

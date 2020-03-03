@@ -58,29 +58,82 @@ Page {
         showStates: true
     }
 
-    GridView {
-        id: gridView
+    DevicesProxy {
+        id: lightsInGroup
+        engine: _engine
+        sourceModel: devicesInGroup
+        filterTagId: root.groupTag
+        shownInterfaces: "light"
+    }
+    DevicesProxy {
+        id: dimmableLightsInGroup
+        engine: _engine
+        sourceModel: devicesInGroup
+        filterTagId: root.groupTag
+        shownInterfaces: "dimmablelight"
+    }
+    DevicesProxy {
+        id: colorLightsInGroup
+        engine: _engine
+        sourceModel: devicesInGroup
+        filterTagId: root.groupTag
+        shownInterfaces: "colorlight"
+    }
+    DevicesProxy {
+        id: socketsInGroup
+        engine: _engine
+        sourceModel: devicesInGroup
+        filterTagId: root.groupTag
+        shownInterfaces: "powersocket"
+    }
+
+    ColumnLayout {
         anchors.fill: parent
-        anchors.margins: app.margins / 2
 
-        model: devicesInGroup
+        Pane {
+            Layout.fillWidth: true
+            Material.elevation: 1
+            RowLayout {
+                HeaderButton {
+                    imageSource: "../images/powersocket.svg"
+                    visible: socketsInGroup.count > 0
+                }
+                HeaderButton {
+                    imageSource: "../images/light-on.svg"
+                    visible: lightsInGroup.count > 0
+                }
+                HeaderButton {
+                    imageSource: "../images/radiator.svg"
+                }
+            }
+        }
 
-        readonly property int minTileWidth: 180
-        readonly property int minTileHeight: 240
-        readonly property int tilesPerRow: root.width / minTileWidth
+        GridView {
+            id: gridView
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            clip: true
 
-        cellWidth: gridView.width / tilesPerRow
-        cellHeight: cellWidth
+            model: devicesInGroup
 
-        delegate: ThingTile {
-            width: gridView.cellWidth
-            height: gridView.cellHeight
+            readonly property int minTileWidth: 180
+            readonly property int minTileHeight: 240
+            readonly property int tilesPerRow: root.width / minTileWidth
 
-            device: devicesInGroup.get(index)
+            cellWidth: gridView.width / tilesPerRow
+            cellHeight: cellWidth
 
-            onClicked: pageStack.push(Qt.resolvedUrl("../devicepages/" + app.interfaceListToDevicePage(deviceClass.interfaces)), {device: device})
+            delegate: ThingTile {
+                width: gridView.cellWidth
+                height: gridView.cellHeight
 
+                device: devicesInGroup.get(index)
+
+                onClicked: pageStack.push(Qt.resolvedUrl("../devicepages/" + app.interfaceListToDevicePage(deviceClass.interfaces)), {device: device})
+
+            }
         }
     }
+
 
 }
