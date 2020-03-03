@@ -259,7 +259,7 @@ Page {
 
                                 return labelComponent
                             }
-                            Binding { target: valueLoader.item; property: "value"; value: Types.toUiValue(model.value, entryDelegate.stateType.unit) }
+                            Binding { target: valueLoader.item; property: "value"; value: entryDelegate.stateType ? Types.toUiValue(model.value, entryDelegate.stateType.unit) : model.value }
                             Binding {
                                 target: entryDelegate.stateType && valueLoader.item.hasOwnProperty("unitString") ? valueLoader.item : null;
                                 property: "unitString"

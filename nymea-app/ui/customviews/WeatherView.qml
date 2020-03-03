@@ -32,31 +32,32 @@ import QtQuick 2.5
 import QtQuick.Layouts 1.1
 import QtQuick.Controls 2.1
 import "../components"
+import Nymea 1.0
 
 CustomViewBase {
     id: root
     height: grid.implicitHeight + app.margins * 2
 
-    readonly property var weatherConditionStateType: deviceClass.stateTypes ? deviceClass.stateTypes.findByName("weatherCondition") : null
-    readonly property var weatherConditionState: weatherConditionStateType && device.states ? device.states.getState(weatherConditionStateType.id) : null
+    readonly property StateType weatherConditionStateType: deviceClass.stateTypes ? deviceClass.stateTypes.findByName("weatherCondition") : null
+    readonly property State weatherConditionState: weatherConditionStateType && device.states ? device.states.getState(weatherConditionStateType.id) : null
 
-    readonly property var weatherDescriptionStateType: deviceClass.stateTypes ? deviceClass.stateTypes.findByName("weatherDescription") : null
-    readonly property var weatherDescriptionState: weatherDescriptionStateType && device.states ? device.states.getState(weatherDescriptionStateType.id) : null
+    readonly property StateType weatherDescriptionStateType: deviceClass.stateTypes ? deviceClass.stateTypes.findByName("weatherDescription") : null
+    readonly property State weatherDescriptionState: weatherDescriptionStateType && device.states ? device.states.getState(weatherDescriptionStateType.id) : null
 
-    readonly property var temperatureStateType: deviceClass.stateTypes ? deviceClass.stateTypes.findByName("temperature") : null
-    readonly property var temperatureState: temperatureStateType && device.states ? device.states.getState(temperatureStateType.id) : null
+    readonly property StateType temperatureStateType: deviceClass.stateTypes ? deviceClass.stateTypes.findByName("temperature") : null
+    readonly property State temperatureState: temperatureStateType && device.states ? device.states.getState(temperatureStateType.id) : null
 
-    readonly property var humidityStateType: deviceClass.stateTypes ? deviceClass.stateTypes.findByName("humidity") : null
-    readonly property var humidityState: humidityStateType && device.states ? device.states.getState(humidityStateType.id) : null
+    readonly property StateType humidityStateType: deviceClass.stateTypes ? deviceClass.stateTypes.findByName("humidity") : null
+    readonly property State humidityState: humidityStateType && device.states ? device.states.getState(humidityStateType.id) : null
 
-    readonly property var pressureStateType: deviceClass.stateTypes ? deviceClass.stateTypes.findByName("pressure") : null
-    readonly property var pressureState: pressureStateType && device.states ? device.states.getState(pressureStateType.id) : null
+    readonly property StateType pressureStateType: deviceClass.stateTypes ? deviceClass.stateTypes.findByName("pressure") : null
+    readonly property State pressureState: pressureStateType && device.states ? device.states.getState(pressureStateType.id) : null
 
-    readonly property var windDirectionStateType: deviceClass.stateTypes ? deviceClass.stateTypes.findByName("windDirection") : null
-    readonly property var windDirectionState: windDirectionStateType && device.states ? device.states.getState(windDirectionStateType.id) : null
+    readonly property StateType windDirectionStateType: deviceClass.stateTypes ? deviceClass.stateTypes.findByName("windDirection") : null
+    readonly property State windDirectionState: windDirectionStateType && device.states ? device.states.getState(windDirectionStateType.id) : null
 
-    readonly property var windSpeedStateType: deviceClass.stateTypes ? deviceClass.stateTypes.findByName("windSpeed") : null
-    readonly property var windSpeedState: windSpeedStateType && device.states ? device.states.getState(windSpeedStateType.id) : null
+    readonly property StateType windSpeedStateType: deviceClass.stateTypes ? deviceClass.stateTypes.findByName("windSpeed") : null
+    readonly property State windSpeedState: windSpeedStateType && device.states ? device.states.getState(windSpeedStateType.id) : null
 
     ColumnLayout {
         id: grid
@@ -80,7 +81,7 @@ CustomViewBase {
                         color: app.interfaceToColor("temperaturesensor")
                     }
                     Label {
-                        text: (temperatureState ? Math.round(temperatureState.value * 10) / 10 : "N/A") + " °"
+                        text: (temperatureState ? Math.round(Types.toUiValue(temperatureState.value, temperatureStateType.unit) * 10) / 10 : "N/A") + " °"
                         Layout.fillWidth: true
                         font.pixelSize: app.largeFont
                         horizontalAlignment: Text.AlignHCenter
