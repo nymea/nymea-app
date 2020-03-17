@@ -162,7 +162,7 @@ void CodeCompletion::update()
 
     QList<CompletionModel::Entry> entries;
 
-    QRegExp deviceIdExp(".*deviceId: \"[a-zA-Z0-9- ]*");
+    QRegExp deviceIdExp(".*deviceId: \"[a-zA-ZÀ-ž0-9- ]*");
     if (deviceIdExp.exactMatch(blockText)) {
         for (int i = 0; i < m_engine->deviceManager()->devices()->rowCount(); i++) {
             Device *dev = m_engine->deviceManager()->devices()->get(i);
@@ -644,6 +644,18 @@ void CodeCompletion::complete(int index)
 
     m_cursor.select(QTextCursor::WordUnderCursor);
     m_cursor.removeSelectedText();
+
+    // Do we need to remove more? Thing names may contain spaces...
+    QTextCursor tmp = m_cursor;
+    tmp.movePosition(QTextCursor::StartOfBlock, QTextCursor::KeepAnchor);
+    QString blockText = tmp.selectedText();
+    QRegExp deviceIdExp(".*deviceId: \"[a-zA-ZÀ-ž0-9- ]*");
+    if (deviceIdExp.exactMatch(blockText)) {
+        QTextCursor tmp = m_document->textDocument()->find("\"", m_cursor.position(), QTextDocument::FindBackward);
+        m_cursor.movePosition(QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor, m_cursor.position() - tmp.position());
+        m_cursor.removeSelectedText();
+    }
+
     qDebug() << "inserting:" << entry.text;
     m_cursor.insertText(entry.text);
 
