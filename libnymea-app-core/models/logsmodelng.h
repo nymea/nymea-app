@@ -35,6 +35,7 @@
 #include <QAbstractListModel>
 #include <QDateTime>
 #include <QLineSeries>
+#include <QUuid>
 
 class LogEntry;
 class Engine;
@@ -46,7 +47,7 @@ class LogsModelNg : public QAbstractListModel
     Q_PROPERTY(bool busy READ busy NOTIFY busyChanged)
     Q_PROPERTY(bool live READ live WRITE setLive NOTIFY liveChanged)
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
-    Q_PROPERTY(QString deviceId READ deviceId WRITE setDeviceId NOTIFY deviceIdChanged)
+    Q_PROPERTY(QUuid deviceId READ deviceId WRITE setDeviceId NOTIFY deviceIdChanged)
     Q_PROPERTY(QStringList typeIds READ typeIds WRITE setTypeIds NOTIFY typeIdsChanged)
     Q_PROPERTY(QDateTime startTime READ startTime WRITE setStartTime NOTIFY startTimeChanged)
     Q_PROPERTY(QDateTime endTime READ endTime WRITE setEndTime NOTIFY endTimeChanged)
@@ -80,8 +81,8 @@ public:
     bool live() const;
     void setLive(bool live);
 
-    QString deviceId() const;
-    void setDeviceId(const QString &deviceId);
+    QUuid deviceId() const;
+    void setDeviceId(const QUuid &deviceId);
 
     QStringList typeIds() const;
     void setTypeIds(const QStringList &typeId);
@@ -131,8 +132,8 @@ private:
     Engine *m_engine = nullptr;
     bool m_busy = false;
     bool m_live = false;
-    QString m_deviceId;
-    QStringList m_typeIds;
+    QUuid m_deviceId;
+    QList<QUuid> m_typeIds;
     QDateTime m_startTime;
     QDateTime m_endTime;
     int m_blockSize = 100;

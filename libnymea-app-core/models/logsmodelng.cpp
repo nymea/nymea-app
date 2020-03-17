@@ -111,12 +111,12 @@ void LogsModelNg::setLive(bool live)
     }
 }
 
-QString LogsModelNg::deviceId() const
+QUuid LogsModelNg::deviceId() const
 {
     return m_deviceId;
 }
 
-void LogsModelNg::setDeviceId(const QString &deviceId)
+void LogsModelNg::setDeviceId(const QUuid &deviceId)
 {
     if (m_deviceId != deviceId) {
         m_deviceId = deviceId;
@@ -126,13 +126,21 @@ void LogsModelNg::setDeviceId(const QString &deviceId)
 
 QStringList LogsModelNg::typeIds() const
 {
-    return m_typeIds;
+    QStringList strings;
+    foreach (const QUuid &id, m_typeIds) {
+        strings.append(id.toString());
+    }
+    return strings;
 }
 
 void LogsModelNg::setTypeIds(const QStringList &typeIds)
 {
-    if (m_typeIds != typeIds) {
-        m_typeIds = typeIds;
+    QList<QUuid> fixedTypeIds;
+    foreach (const QString &id, typeIds) {
+        fixedTypeIds.append(QUuid(id));
+    }
+    if (m_typeIds != fixedTypeIds) {
+        m_typeIds = fixedTypeIds;
         emit typeIdsChanged();
         beginResetModel();
         qDeleteAll(m_list);
@@ -361,14 +369,14 @@ void LogsModelNg::fetchMore(const QModelIndex &parent)
     emit busyChanged();
 
     QVariantMap params;
-    if (!m_deviceId.isEmpty()) {
+    if (!m_deviceId.isNull()) {
         QVariantList deviceIds;
         deviceIds.append(m_deviceId);
         params.insert("deviceIds", deviceIds);
     }
     if (!m_typeIds.isEmpty()) {
         QVariantList typeIds;
-        foreach (const QString &typeId, m_typeIds) {
+        foreach (const QUuid &typeId, m_typeIds) {
             typeIds.append(typeId);
         }
         params.insert("typeIds", typeIds);
@@ -403,12 +411,12 @@ void LogsModelNg::newLogEntryReceived(const QVariantMap &data)
     }
 
     QVariantMap entryMap = data;
-    QString deviceId = entryMap.value("deviceId").toString();
+    QUuid deviceId = entryMap.value("deviceId").toUuid();
     if (!m_deviceId.isNull() && deviceId != m_deviceId) {
         return;
     }
 
-    QString typeId = entryMap.value("typeId").toString();
+    QUuid typeId = entryMap.value("typeId").toUuid();
     if (!m_typeIds.isEmpty() && !m_typeIds.contains(typeId)) {
         return;
     }
