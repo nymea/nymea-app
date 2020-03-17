@@ -31,6 +31,7 @@
 #include "interfacesmodel.h"
 
 #include "engine.h"
+#include "devicesproxy.h"
 
 InterfacesModel::InterfacesModel(QObject *parent):
     QAbstractListModel(parent)
@@ -60,20 +61,49 @@ QHash<int, QByteArray> InterfacesModel::roleNames() const
     return roles;
 }
 
-DeviceManager *InterfacesModel::deviceManager() const
+Engine *InterfacesModel::engine() const
 {
-    return m_deviceManager;
+    return m_engine;
 }
 
-void InterfacesModel::setDeviceManager(DeviceManager *deviceManager)
+void InterfacesModel::setEngine(Engine *engine)
 {
-    if (m_deviceManager != deviceManager) {
-        m_deviceManager = deviceManager;
-        emit deviceManagerChanged();
-        connect(m_deviceManager->devices(), &Devices::countChanged, this, [this]() {
+    if (m_engine != engine) {
+        static QMetaObject::Connection countChangedConnection;
+
+        if (m_engine) {
+            disconnect(countChangedConnection);
+        }
+
+        m_engine = engine;
+        emit engineChanged();
+
+        countChangedConnection = connect(engine->deviceManager()->deviceClasses(), &DeviceClasses::countChanged, this, [this]() {
             syncInterfaces();
         });
-        connect(m_deviceManager->deviceClasses(), &DeviceClasses::countChanged, this, [this]() {
+
+        syncInterfaces();
+    }
+}
+
+DevicesProxy *InterfacesModel::devices() const
+{
+    return m_devicesProxy;
+}
+
+void InterfacesModel::setDevices(DevicesProxy *devices)
+{
+    if (m_devicesProxy != devices) {
+        static QMetaObject::Connection countChangedConnection;
+
+        if (m_devicesProxy) {
+            disconnect(countChangedConnection);
+        }
+
+        m_devicesProxy = devices;
+        emit devicesChanged();
+
+        countChangedConnection = connect(devices, &DevicesProxy::countChanged, this, [this]() {
             syncInterfaces();
         });
         syncInterfaces();
@@ -91,20 +121,6 @@ void InterfacesModel::setShownInterfaces(const QStringList &shownInterfaces)
         m_shownInterfaces = shownInterfaces;
         emit shownInterfacesChanged();
 
-        syncInterfaces();
-    }
-}
-
-bool InterfacesModel::onlyConfiguredDevices() const
-{
-    return m_onlyConfiguredDevices;
-}
-
-void InterfacesModel::setOnlyConfiguredDevices(bool onlyConfigured)
-{
-    if (m_onlyConfiguredDevices != onlyConfigured) {
-        m_onlyConfiguredDevices = onlyConfigured;
-        emit onlyConfiguredDevicesChanged();
         syncInterfaces();
     }
 }
@@ -133,17 +149,17 @@ QString InterfacesModel::get(int index) const
 
 void InterfacesModel::syncInterfaces()
 {
-    if (!m_deviceManager) {
+    if (!m_engine) {
         return;
     }
     QList<DeviceClass*> deviceClasses;
-    if (m_onlyConfiguredDevices) {
-        for (int i = 0; i < m_deviceManager->devices()->rowCount(); i++) {
-            deviceClasses << m_deviceManager->deviceClasses()->getDeviceClass(m_deviceManager->devices()->get(i)->deviceClassId());
+    if (m_devicesProxy) {
+        for (int i = 0; i < m_devicesProxy->rowCount(); i++) {
+            deviceClasses << m_engine->deviceManager()->deviceClasses()->getDeviceClass(m_devicesProxy->get(i)->deviceClassId());
         }
     } else {
-        for (int i = 0; i < m_deviceManager->deviceClasses()->rowCount(); i++) {
-            deviceClasses << m_deviceManager->deviceClasses()->get(i);
+        for (int i = 0; i < m_engine->deviceManager()->deviceClasses()->rowCount(); i++) {
+            deviceClasses << m_engine->deviceManager()->deviceClasses()->get(i);
         }
     }
 

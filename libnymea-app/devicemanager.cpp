@@ -33,6 +33,8 @@
 #include "jsonrpc/jsontypes.h"
 #include "types/browseritems.h"
 #include "types/browseritem.h"
+#include "thinggroup.h"
+#include "types/interface.h"
 #include <QMetaEnum>
 
 DeviceManager::DeviceManager(JsonRpcClient* jsonclient, QObject *parent) :
@@ -133,6 +135,7 @@ void DeviceManager::addDevice(const QUuid &deviceClassId, const QString &name, c
 void DeviceManager::notificationReceived(const QVariantMap &data)
 {
     QString notification = data.value("notification").toString();
+    qDebug() << "*** Notification received:" << notification;
     if (notification == "Devices.StateChanged") {
 //        qDebug() << "Device state changed" << data.value("params");
         Device *dev = m_devices->getDevice(data.value("params").toMap().value("deviceId").toUuid());
@@ -142,7 +145,7 @@ void DeviceManager::notificationReceived(const QVariantMap &data)
         }
         dev->setStateValue(data.value("params").toMap().value("stateTypeId").toUuid(), data.value("params").toMap().value("value"));
     } else if (notification == "Devices.DeviceAdded") {
-        Device *dev = JsonTypes::unpackDevice(data.value("params").toMap().value("device").toMap(), m_deviceClasses);
+        Device *dev = JsonTypes::unpackDevice(this, data.value("params").toMap().value("device").toMap(), m_deviceClasses);
         if (!dev) {
             qWarning() << "Cannot parse json device:" << data;
             return;
@@ -168,7 +171,7 @@ void DeviceManager::notificationReceived(const QVariantMap &data)
             qWarning() << "Received a device changed notification for a device we don't know";
             return;
         }
-        if (!JsonTypes::unpackDevice(data.value("params").toMap().value("device").toMap(), m_deviceClasses, oldDevice)) {
+        if (!JsonTypes::unpackDevice(this, data.value("params").toMap().value("device").toMap(), m_deviceClasses, oldDevice)) {
             qWarning() << "Error parsing device changed notification";
             return;
         }
@@ -282,7 +285,7 @@ void DeviceManager::getConfiguredDevicesResponse(const QVariantMap &params)
     if (params.value("params").toMap().keys().contains("devices")) {
         QVariantList deviceList = params.value("params").toMap().value("devices").toList();
         foreach (QVariant deviceVariant, deviceList) {
-            Device *device = JsonTypes::unpackDevice(deviceVariant.toMap(), m_deviceClasses);
+            Device *device = JsonTypes::unpackDevice(this, deviceVariant.toMap(), m_deviceClasses);
             if (!device) {
                 qWarning() << "Error unpacking device" << deviceVariant.toMap().value("name").toString();
                 continue;
@@ -323,7 +326,7 @@ void DeviceManager::addDeviceResponse(const QVariantMap &params)
         qWarning() << "Failed to add the device:" << params.value("params").toMap().value("deviceError").toString();
     } else if (params.value("params").toMap().keys().contains("device")) {
         QVariantMap deviceVariant = params.value("params").toMap().value("device").toMap();
-        Device *device = JsonTypes::unpackDevice(deviceVariant, m_deviceClasses);
+        Device *device = JsonTypes::unpackDevice(this, deviceVariant, m_deviceClasses);
         if (!device) {
             qWarning() << "Couldn't parse json in addDeviceResponse";
             return;
@@ -392,6 +395,14 @@ void DeviceManager::savePluginConfig(const QUuid &pluginId)
     }
     params.insert("configuration", pluginParams);
     m_jsonClient->sendCommand("Devices.SetPluginConfiguration", params, this, "setPluginConfigResponse");
+}
+
+ThingGroup *DeviceManager::createGroup(Interface *interface, DevicesProxy *things)
+{
+
+    ThingGroup* group = new ThingGroup(this, interface->createDeviceClass(), things, this);
+
+    return group;
 }
 
 void DeviceManager::addDiscoveredDevice(const QUuid &deviceClassId, const QUuid &deviceDescriptorId, const QString &name, const QVariantList &deviceParams)

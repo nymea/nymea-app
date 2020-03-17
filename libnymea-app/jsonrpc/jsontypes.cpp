@@ -222,7 +222,7 @@ ActionType *JsonTypes::unpackActionType(const QVariantMap &actionTypeMap, QObjec
     return actionType;
 }
 
-Device* JsonTypes::unpackDevice(const QVariantMap &deviceMap, DeviceClasses *deviceClasses, Device *oldDevice)
+Device* JsonTypes::unpackDevice(DeviceManager *deviceManager, const QVariantMap &deviceMap, DeviceClasses *deviceClasses, Device *oldDevice)
 {
     QUuid deviceClassId = deviceMap.value("deviceClassId").toUuid();
     DeviceClass *deviceClass = deviceClasses->getDeviceClass(deviceClassId);
@@ -236,7 +236,7 @@ Device* JsonTypes::unpackDevice(const QVariantMap &deviceMap, DeviceClasses *dev
     if (oldDevice) {
         device = oldDevice;
     } else {
-        device = new Device(deviceClass, parentDeviceId);
+        device = new Device(deviceManager, deviceClass, parentDeviceId);
     }
     device->setName(deviceMap.value("name").toString());
     device->setId(deviceMap.value("id").toUuid());

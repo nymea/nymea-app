@@ -284,7 +284,10 @@ Page {
                     height: swipeView.height
                     model: InterfacesSortModel {
                         interfacesModel: InterfacesModel {
-                            deviceManager: engine.deviceManager
+                            engine: _engine
+                            devices: DevicesProxy {
+                                engine: _engine
+                            }
                             shownInterfaces: app.supportedInterfaces
                             showUncategorized: true
                         }

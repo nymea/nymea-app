@@ -28,36 +28,36 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.8
-import QtQuick.Controls 2.1
-import QtQuick.Controls.Material 2.1
-import QtQuick.Layouts 1.2
-import Nymea 1.0
-import "../components"
+#ifndef THINGGROUP_H
+#define THINGGROUP_H
 
-MouseArea {
-    id: root
-    property alias count: interfacesGridView.count
-    property alias model: interfacesGridView.model
+#include <QObject>
 
-    // Prevent scroll events to swipe left/right in case they fall through the grid
-    preventStealing: true
-    onWheel: wheel.accepted = true
+#include "types/device.h"
 
-    GridView {
-        id: interfacesGridView
-        anchors.fill: parent
-        anchors.margins: app.margins / 2
+class DevicesProxy;
+class DeviceManager;
 
-        readonly property int minTileWidth: 172
-        readonly property int tilesPerRow: root.width / minTileWidth
+class ThingGroup : public Device
+{
+    Q_OBJECT
+public:
+    explicit ThingGroup(DeviceManager *deviceManager, DeviceClass *deviceClass, DevicesProxy *devices, QObject *parent = nullptr);
 
-        cellWidth: width / tilesPerRow
-        cellHeight: cellWidth
-        delegate: DevicesPageDelegate {
-            width: interfacesGridView.cellWidth
-            height: interfacesGridView.cellHeight
-            iface: Interfaces.findByName(model.name)
-        }
-    }
-}
+    Q_INVOKABLE int executeAction(const QString &actionName, const QVariantList &params) override;
+
+private:
+    void syncStates();
+
+signals:
+    void actionExecutionFinished(int id, const QString &status);
+
+private:
+    DeviceManager* m_deviceManager = nullptr;
+    DevicesProxy* m_devices = nullptr;
+
+    int m_idCounter = 0;
+    QHash<int, QList<int>> m_pendingActions;
+};
+
+#endif // THINGGROUP_H

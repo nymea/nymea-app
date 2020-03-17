@@ -39,6 +39,7 @@
 #include "statesproxy.h"
 
 class DeviceClass;
+class DeviceManager;
 
 class Device : public QObject
 {
@@ -64,7 +65,7 @@ public:
     };
     Q_ENUM(DeviceSetupStatus)
 
-    explicit Device(DeviceClass *deviceClass, const QUuid &parentDeviceId = QUuid(), QObject *parent = nullptr);
+    explicit Device(DeviceManager *deviceManager, DeviceClass *deviceClass, const QUuid &parentDeviceId = QUuid(), QObject *parent = nullptr);
 
     QUuid id() const;
     void setId(const QUuid &id);
@@ -96,6 +97,8 @@ public:
     Q_INVOKABLE QVariant stateValue(const QUuid &stateTypeId);
     void setStateValue(const QUuid &stateTypeId, const QVariant &value);
 
+    Q_INVOKABLE virtual int executeAction(const QString &actionName, const QVariantList &params);
+
 signals:
     void nameChanged();
     void setupStatusChanged();
@@ -106,7 +109,8 @@ signals:
 
 private:
 
-private:
+protected:
+    DeviceManager *m_deviceManager = nullptr;
     QString m_name;
     QUuid m_id;
     QUuid m_parentDeviceId;

@@ -109,6 +109,7 @@
 #include "types/tokeninfos.h"
 #include "types/tokeninfo.h"
 #include "types/userinfo.h"
+#include "thinggroup.h"
 
 #include <QtQml/qqml.h>
 
@@ -210,6 +211,8 @@ void registerQmlTypes() {
     qmlRegisterUncreatableType<Interface>(uri, 1, 0, "Interface", "Uncreatable");
     qmlRegisterSingletonType<Interfaces>(uri, 1, 0, "Interfaces", interfacesModel_provider);
     qmlRegisterType<InterfacesProxy>(uri, 1, 0, "InterfacesProxy");
+
+    qmlRegisterUncreatableType<ThingGroup>(uri, 1, 0, "ThingGroup", "Uncreatable");
 
     qmlRegisterUncreatableType<Plugin>(uri, 1, 0, "Plugin", "Can't create this in QML. Get it from the Plugins.");
     qmlRegisterUncreatableType<Plugins>(uri, 1, 0, "Plugins", "Can't create this in QML. Get it from the DeviceManager.");

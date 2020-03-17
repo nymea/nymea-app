@@ -28,36 +28,60 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.8
+import QtQuick 2.5
 import QtQuick.Controls 2.1
 import QtQuick.Controls.Material 2.1
-import QtQuick.Layouts 1.2
+import QtQuick.Layouts 1.1
 import Nymea 1.0
 import "../components"
+import "../delegates"
+import "../mainviews"
 
-MouseArea {
+Page {
     id: root
-    property alias count: interfacesGridView.count
-    property alias model: interfacesGridView.model
+    header: NymeaHeader {
+        text: root.groupTag.substring(6)
+        onBackPressed: pageStack.pop()
+    }
 
-    // Prevent scroll events to swipe left/right in case they fall through the grid
-    preventStealing: true
-    onWheel: wheel.accepted = true
+    property string groupTag
+
+    DevicesProxy {
+        id: devicesInGroup
+        engine: _engine
+        filterTagId: root.groupTag
+    }
 
     GridView {
         id: interfacesGridView
         anchors.fill: parent
         anchors.margins: app.margins / 2
 
+        model: InterfacesSortModel {
+            interfacesModel: InterfacesModel {
+                engine: _engine
+                devices: devicesInGroup
+                shownInterfaces: app.supportedInterfaces
+                showUncategorized: true
+            }
+        }
+
         readonly property int minTileWidth: 172
         readonly property int tilesPerRow: root.width / minTileWidth
 
         cellWidth: width / tilesPerRow
         cellHeight: cellWidth
+//        delegate: DevicesPageDelegate {
+//            width: interfacesGridView.cellWidth
+//            height: interfacesGridView.cellHeight
+//        }
+
         delegate: DevicesPageDelegate {
             width: interfacesGridView.cellWidth
             height: interfacesGridView.cellHeight
             iface: Interfaces.findByName(model.name)
+            filterTagId: root.groupTag
         }
     }
+
 }

@@ -2,15 +2,14 @@ include(config.pri)
 message("APP_VERSION: $${APP_VERSION} ($${APP_REVISION})")
 TEMPLATE=subdirs
 
-SUBDIRS = libnymea-common libnymea-app-core nymea-app
-libnymea-app-core.depends = libnymea-common
-nymea-app.depends = libnymea-app-core
+SUBDIRS = libnymea-app nymea-app
+nymea-app.depends = libnymea-app
 
 #QML_IMPORT_PATH=/home/micha/Develop/Qt/5.11.0/gcc_64/qml/
 
 withtests: {
     SUBDIRS += tests
-    tests.depends = libnymea-app-core
+    tests.depends = libnymea-app
 }
 
 # Building a Windows installer:

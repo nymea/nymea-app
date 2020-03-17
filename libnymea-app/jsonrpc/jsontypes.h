@@ -47,6 +47,7 @@ class EventType;
 class ActionType;
 class ParamType;
 
+class DeviceManager;
 class Device;
 class DeviceClasses;
 class Param;
@@ -73,7 +74,7 @@ public:
     static StateType *unpackStateType(const QVariantMap &stateTypeMap, QObject *parent);
     static EventType *unpackEventType(const QVariantMap &eventTypeMap, QObject *parent);
     static ActionType *unpackActionType(const QVariantMap &actionTypeMap, QObject *parent);
-    static Device *unpackDevice(const QVariantMap &deviceMap, DeviceClasses *deviceClasses, Device *oldDevice = nullptr);
+    static Device *unpackDevice(DeviceManager *deviceManager, const QVariantMap &deviceMap, DeviceClasses *deviceClasses, Device *oldDevice = nullptr);
 
     static QVariantMap packRule(Rule* rule);
     static QVariantList packRuleActions(RuleActions* ruleActions);

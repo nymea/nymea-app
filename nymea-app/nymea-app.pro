@@ -4,17 +4,13 @@ include(../config.pri)
 
 QT += network qml quick quickcontrols2 svg websockets bluetooth charts gui-private
 
-INCLUDEPATH += $$top_srcdir/libnymea-common \
-               $$top_srcdir/libnymea-app-core
-LIBS += -L$$top_builddir/libnymea-app-core/ -lnymea-app-core \
-        -L$$top_builddir/libnymea-common/ -lnymea-common \
+INCLUDEPATH += $$top_srcdir/libnymea-app
+LIBS += -L$$top_builddir/libnymea-app/ -lnymea-app
 
-win32:Debug:LIBS += -L$$top_builddir/libnymea-app-core/debug \
-                    -L$$top_builddir/libnymea-common/debug
-win32:Release:LIBS += -L$$top_builddir/libnymea-app-core/release \
-                      -L$$top_builddir/libnymea-common/release
+win32:Debug:LIBS += -L$$top_builddir/libnymea-app/debug
+win32:Release:LIBS += -L$$top_builddir/libnymea-app/release
 linux:!android:LIBS += -lavahi-client -lavahi-common
-PRE_TARGETDEPS += ../libnymea-app-core ../libnymea-common
+PRE_TARGETDEPS += ../libnymea-app
 
 HEADERS += \
     platformintegration/generic/raspberrypihelper.h \

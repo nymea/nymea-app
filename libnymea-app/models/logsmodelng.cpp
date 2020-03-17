@@ -406,6 +406,7 @@ bool LogsModelNg::canFetchMore(const QModelIndex &parent) const
 
 void LogsModelNg::newLogEntryReceived(const QVariantMap &data)
 {
+    qDebug() << "***** model NG" << data << m_live;
     if (!m_live) {
         return;
     }
@@ -421,6 +422,7 @@ void LogsModelNg::newLogEntryReceived(const QVariantMap &data)
         return;
     }
 
+    qDebug() << "Adding entry!!!!!!";
     beginInsertRows(QModelIndex(), 0, 0);
     QDateTime timeStamp = QDateTime::fromMSecsSinceEpoch(entryMap.value("timestamp").toLongLong());
     QMetaEnum sourceEnum = QMetaEnum::fromType<LogEntry::LoggingSource>();

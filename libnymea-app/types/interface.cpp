@@ -33,6 +33,7 @@
 #include "eventtypes.h"
 #include "statetypes.h"
 #include "actiontypes.h"
+#include "deviceclass.h"
 
 Interface::Interface(const QString &name, const QString &displayName, QObject *parent) :
     QObject(parent),
@@ -68,4 +69,15 @@ StateTypes* Interface::stateTypes() const
 ActionTypes* Interface::actionTypes() const
 {
     return m_actionTypes;
+}
+
+DeviceClass *Interface::createDeviceClass()
+{
+    DeviceClass* dc = new DeviceClass();
+    dc->setName(m_name);
+    dc->setDisplayName(m_displayName);
+    dc->setEventTypes(m_eventTypes);
+    dc->setStateTypes(m_stateTypes);
+    dc->setActionTypes(m_actionTypes);
+    return dc;
 }

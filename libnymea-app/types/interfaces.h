@@ -61,12 +61,13 @@ public:
 
 private:
     QList<Interface*> m_list;
+    QHash<QString, Interface*> m_hash;
 
     // helpers to populate the model
-    void addInterface(const QString &name, const QString &displayName);
+    void addInterface(const QString &name, const QString &displayName, const QStringList &extends = QStringList());
     void addEventType(const QString &interfaceName, const QString &name, const QString &displayName, ParamTypes *paramTypes);
     void addActionType(const QString &interfaceName, const QString &name, const QString &displayName, ParamTypes *paramTypes);
-    void addStateType(const QString &interfaceName, const QString &name, QVariant::Type type, bool writable, const QString &displayName, const QString &displayNameEvent, const QString &displayNameAction = QString());
+    void addStateType(const QString &interfaceName, const QString &name, QVariant::Type type, bool writable, const QString &displayName, const QString &displayNameEvent, const QString &displayNameAction = QString(), const QVariant &min = QVariant(), const QVariant &max = QVariant());
 
     ParamTypes* createParamTypes(const QString &name, const QString &displayName, QVariant::Type type, const QVariant &defaultValue = QVariant(), const QVariant &minValue = QVariant(), const QVariant &maxValue = QVariant());
     void addParamType(ParamTypes* paramTypes, const QString &name, const QString &displayName, QVariant::Type type, const QVariant &defaultValue = QVariant(), const QVariant &minValue = QVariant(), const QVariant &maxValue = QVariant());
