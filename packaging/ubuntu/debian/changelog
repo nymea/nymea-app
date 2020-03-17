@@ -1,3 +1,11 @@
+nymea-app (1.0.188) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix log viewers string/uuid conversion
+  * Fix spaces and umlauts in code completion for deviceId
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 17 Mar 2020 12:51:27 +0100
+
 nymea-app (1.0.187) bionic; urgency=medium
 
   [ Michael Zanetti ]
