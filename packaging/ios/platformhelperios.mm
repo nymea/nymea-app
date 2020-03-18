@@ -6,7 +6,6 @@
 #include <QtDebug>
 #include "platformintegration/ios/platformhelperios.h"
 
-
 QString PlatformHelperIOS::readKeyChainEntry(const QString &service, const QString &key)
 {
     NSDictionary *const query = @{

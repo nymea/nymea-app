@@ -23,3 +23,6 @@ android: {
     !no-firebase:DEFINES+=WITH_FIREBASE
 }
 
+ios: {
+    !no-firebase:DEFINES+=WITH_FIREBASE
+}

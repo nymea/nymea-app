@@ -6,8 +6,11 @@
 
 #include <QDebug>
 
+#import "Firebase/Firebase.h"
+
+
 // This is hidden, so we declare it here to hook into it
-@interface QIOSApplicationDelegate: UIResponder <UIApplicationDelegate,UNUserNotificationCenterDelegate>
+@interface QIOSApplicationDelegate: UIResponder <UIApplicationDelegate,UNUserNotificationCenterDelegate,FIRMessagingDelegate>
 @end
 
 //add a category to QIOSApplicationDelegate
@@ -19,6 +22,12 @@
 @implementation QIOSApplicationDelegate (APNSApplicationDelegate)
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+
+    // Use Firebase library to configure APIs
+    [FIRApp configure];
+    [FIRMessaging messaging].delegate = self;
+
+
     // Register to receive notifications from the system
     UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
     center.delegate = self;
@@ -30,6 +39,8 @@
 
     NSLog(@"registering for remote notifications");
     qDebug() << "Registering for remote notifications";
+
+
     return YES;
 }
 
@@ -45,7 +56,8 @@
     qDebug() << "Registering for remote notifications";
     qDebug() << "Token description:" << QString::fromNSString(deviceToken.description);
     qDebug() << "Parsed token:" << QString::fromNSString(tokenStr);
-    PushNotifications::instance()->setAPNSRegistrationToken(QString::fromNSString(tokenStr));
+    // We've switched to firebase... Not emitting the native APNS token
+//    PushNotifications::instance()->setAPNSRegistrationToken(QString::fromNSString(tokenStr));
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
@@ -64,6 +76,26 @@
     NSLog(@"User Info : %@",response.notification.request.content.userInfo);
     qDebug() << "received notification response!";
     completionHandler();
+}
+
+- (void)tokenRefreshNotification:(NSNotification *)notification {
+   NSLog(@"instanceId_notification=>%@",[notification object]);
+    NSString *InstanceID = [NSString stringWithFormat:@"%@",[notification object]];
+    qDebug() << "Firebase token:" << QString::fromNSString(InstanceID);
+
+}
+
+- (void)messaging:(FIRMessaging *)messaging didReceiveRegistrationToken:(NSString *)fcmToken {
+    NSLog(@"FCM registration token: %@", fcmToken);
+    // Notify about received token.
+    NSDictionary *dataDict = [NSDictionary dictionaryWithObject:fcmToken forKey:@"token"];
+    [[NSNotificationCenter defaultCenter] postNotificationName:
+     @"FCMToken" object:nil userInfo:dataDict];
+    // TODO: If necessary send token to application server.
+    // Note: This callback is fired at each app startup and whenever a new token is generated.
+    qDebug() << "Firebase token received:" << QString::fromNSString(fcmToken);
+    PushNotifications::instance()->setAPNSRegistrationToken(QString::fromNSString(fcmToken));
+
 }
 
 @end
