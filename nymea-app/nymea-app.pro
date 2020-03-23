@@ -51,7 +51,12 @@ win32 {
 }
 
 android {
-    ANDROID_PACKAGE_SOURCE_DIR = $$PWD/../packaging/android
+    !equals(STYLES_PATH, ""):!equals(BRANDING, "") {
+        ANDROID_PACKAGE_SOURCE_DIR = $${STYLES_PATH}/packaging/android_$$BRANDING
+    } else {
+        ANDROID_PACKAGE_SOURCE_DIR = $${top_srcdir}/packaging/android
+    }
+    message("andorid package dir $${ANDROID_PACKAGE_SOURCE_DIR}")
 
     android-clang {
         FIREBASE_STL_VARIANT = c++
