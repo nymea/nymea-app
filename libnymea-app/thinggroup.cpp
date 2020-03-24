@@ -76,6 +76,7 @@ int ThingGroup::executeAction(const QString &actionName, const QVariantList &par
 {
     QList<int> pendingIds;
 
+    qDebug() << "Execute action for group:" << this;
     for (int i = 0; i < m_devices->rowCount(); i++) {
         Device *device = m_devices->get(i);
         if (device->setupStatus() != Device::DeviceSetupStatusComplete) {
@@ -119,9 +120,18 @@ void ThingGroup::syncStates()
         int count = 0;
         for (int j = 0; j < m_devices->rowCount(); j++) {
             Device *d = m_devices->get(j);
+            // Skip things that don't have the required state
             StateType *ds = d->deviceClass()->stateTypes()->findByName(stateType->name());
             if (!ds) {
                 continue;
+            }
+
+            // Skip disconnected things
+            StateType *connectedStateType = d->deviceClass()->stateTypes()->findByName("connected");
+            if (connectedStateType) {
+                if (!d->stateValue(connectedStateType->id()).toBool()) {
+                    continue;
+                }
             }
 
             if (stateType->type().toLower() == "bool") {

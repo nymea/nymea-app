@@ -75,6 +75,8 @@ DeviceClass *Interface::createDeviceClass()
 {
     DeviceClass* dc = new DeviceClass();
     dc->setName(m_name);
+    dc->setParamTypes(new ParamTypes(dc));
+    dc->setSettingsTypes(new ParamTypes(dc));
     dc->setDisplayName(m_displayName);
     dc->setEventTypes(m_eventTypes);
     dc->setStateTypes(m_stateTypes);

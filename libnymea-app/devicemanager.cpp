@@ -161,6 +161,10 @@ void DeviceManager::notificationReceived(const QVariantMap &data)
         QUuid deviceId = data.value("params").toMap().value("deviceId").toUuid();
         qDebug() << "JsonRpc: Notification: Device removed" << deviceId.toString();
         Device *device = m_devices->getDevice(deviceId);
+        if (!device) {
+            qWarning() << "Received a DeviceRemoved notification for a device we don't know!";
+            return;
+        }
         m_devices->removeDevice(device);
         device->deleteLater();
     } else if (notification == "Devices.DeviceChanged") {
@@ -399,9 +403,8 @@ void DeviceManager::savePluginConfig(const QUuid &pluginId)
 
 ThingGroup *DeviceManager::createGroup(Interface *interface, DevicesProxy *things)
 {
-
     ThingGroup* group = new ThingGroup(this, interface->createDeviceClass(), things, this);
-
+    group->setSetupStatus(Device::DeviceSetupStatusComplete, QString());
     return group;
 }
 

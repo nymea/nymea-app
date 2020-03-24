@@ -242,9 +242,17 @@ Device* JsonTypes::unpackDevice(DeviceManager *deviceManager, const QVariantMap 
     device->setId(deviceMap.value("id").toUuid());
     // As of JSONRPC 4.2 setupComplete is deprecated and setupStatus is new
     if (deviceMap.contains("setupStatus")) {
-        QMetaEnum setupStatusEnum = QMetaEnum::fromType<Device::DeviceSetupStatus>();
-        device->setSetupStatus(static_cast<Device::DeviceSetupStatus>(setupStatusEnum.keyToValue(deviceMap.value("setupStatus").toByteArray().data())),
-                               deviceMap.value("setupDisplayMessage").toString());
+        QString setupStatus = deviceMap.value("setupStatus").toString();
+        QString setupDisplayMessage = deviceMap.value("setupDisplayMessage").toString();
+        if (setupStatus == "DeviceSetupStatusNone" || setupStatus == "ThingSetupStatusNone") {
+            device->setSetupStatus(Device::DeviceSetupStatusNone, setupDisplayMessage);
+        } else if (setupStatus == "DeviceSetupStatusInProgress" || setupStatus == "ThingSetupStatusInProgress") {
+            device->setSetupStatus(Device::DeviceSetupStatusInProgress, setupDisplayMessage);
+        } else if (setupStatus == "DeviceSetupStatusComplete" || setupStatus == "ThingSetupStatusComplete") {
+            device->setSetupStatus(Device::DeviceSetupStatusComplete, setupDisplayMessage);
+        } else if (setupStatus == "DeviceSetupStatusFailed" || setupStatus == "ThingSetupStatusFailed") {
+            device->setSetupStatus(Device::DeviceSetupStatusFailed, setupDisplayMessage);
+        }
     } else {
         device->setSetupStatus(deviceMap.value("setupComplete").toBool() ? Device::DeviceSetupStatusComplete : Device::DeviceSetupStatusNone, QString());
     }

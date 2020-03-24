@@ -114,7 +114,7 @@ protected:
     QString m_name;
     QUuid m_id;
     QUuid m_parentDeviceId;
-    DeviceSetupStatus m_setupStatus;
+    DeviceSetupStatus m_setupStatus = DeviceSetupStatusNone;
     QString m_setupDisplayMessage;
     Params *m_params = nullptr;
     Params *m_settings = nullptr;

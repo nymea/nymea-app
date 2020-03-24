@@ -161,8 +161,9 @@ MainPageTile {
             onClicked: {
                 switch (iface.name) {
                 case "light":
-
-                    pageStack.push("../devicepages/LightDevicePage.qml", {device: engine.deviceManager.createGroup(Interfaces.findByName("colorlight"), devicesProxy)})
+                    var group = engine.deviceManager.createGroup(Interfaces.findByName("colorlight"), devicesProxy);
+                    print("opening lights page for group", group)
+                    pageStack.push("../devicepages/LightDevicePage.qml", {device: group})
                 }
 
             }
