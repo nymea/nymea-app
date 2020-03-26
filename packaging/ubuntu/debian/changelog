@@ -1,3 +1,12 @@
+nymea-app (1.0.189) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix font color on dark headers
+  * Allow removing childs which weren't autocreated
+  * Add Radio Paradise icon
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 26 Mar 2020 19:35:52 +0100
+
 nymea-app (1.0.188) bionic; urgency=medium
 
   [ Michael Zanetti ]
