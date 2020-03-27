@@ -1,3 +1,10 @@
+nymea-app (1.0.190) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Change group behavior a bit
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 27 Mar 2020 01:05:37 +0100
+
 nymea-app (1.0.189) bionic; urgency=medium
 
   [ Michael Zanetti ]
