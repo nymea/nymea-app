@@ -60,182 +60,253 @@ MouseArea {
         cellWidth: width / tilesPerRow
         cellHeight: cellWidth
 
-        delegate: Item {
-            id: groupDelegate
+        delegate: MainPageTile {
             width: groupsGridView.cellWidth
             height: groupsGridView.cellHeight
+            iconName: "../images/view-grid-symbolic.svg"
+            iconColor: app.accentColor
+            text: model.tagId.substring(6)
+            onClicked: {
+                pageStack.push(Qt.resolvedUrl("../grouping/GroupInterfacesPage.qml"), {groupTag: model.tagId})
+            }
 
-            Pane {
-                anchors.fill: parent
-                anchors.margins: app.margins / 2
-                Material.elevation: 2
-                padding: 0
+//        delegate: Item {
+//            id: groupDelegate
+//            width: groupsGridView.cellWidth
+//            height: groupsGridView.cellHeight
 
-                DevicesProxy {
-                    id: devicesInGroup
-                    engine: _engine
-                    filterTagId: model.tagId
-                    filterTagValue: model.value
-                }
+//            Pane {
+//                anchors.fill: parent
+//                anchors.margins: app.margins / 2
+//                Material.elevation: 2
+//                padding: 0
 
-                InterfacesProxy {
-                    id: controlsInGroup
-                    shownInterfaces: ["light", "simpleclosable", "mediacontroller"]
-                    devicesProxyFilter: devicesInGroup
-                    showStates: true
-                    showActions: true
-                }
-                InterfacesProxy {
-                    id: sensorsInGroup
-                    shownInterfaces: ["temperaturesensor", "lightsensor", "presencesensor"]
-                    devicesProxyFilter: devicesInGroup
-                    showStates: true
-                }
+//                DevicesProxy {
+//                    id: devicesInGroup
+//                    engine: _engine
+//                    filterTagId: model.tagId
+//                    filterTagValue: model.value
+//                }
 
-                contentItem: ItemDelegate {
-                    leftPadding: 0
-                    topPadding: 0
-                    rightPadding: 0
-                    bottomPadding: 0
+//                contentItem: ColumnLayout {
 
-                    onClicked: {
-                        pageStack.push(Qt.resolvedUrl("../grouping/GroupPage.qml"), {groupTag: model.tagId})
+//                    ColorIcon {
+//                        name: "../images/view-grid-symbolic.svg"
+//                    }
+
+//                    Label {
+//                        text: model
+//                    }
+//                }
+
+
+//                InterfacesProxy {
+//                    id: controlsInGroup
+//                    shownInterfaces: ["light", "simpleclosable", "mediacontroller", "powersocket"]
+//                    devicesProxyFilter: devicesInGroup
+//                    showStates: true
+//                    showActions: true
+//                }
+//                InterfacesProxy {
+//                    id: sensorsInGroup
+//                    shownInterfaces: ["temperaturesensor", "lightsensor", "presencesensor"]
+//                    devicesProxyFilter: devicesInGroup
+//                    showStates: true
+//                }
+
+
+//                contentItem: ItemDelegate {
+//                    leftPadding: 0
+//                    topPadding: 0
+//                    rightPadding: 0
+//                    bottomPadding: 0
+
+//                    onClicked: {
+//                        pageStack.push(Qt.resolvedUrl("../grouping/GroupInterfacesPage.qml"), {groupTag: model.tagId})
+//                    }
+
+//                    contentItem: ColumnLayout {
+//                        Rectangle {
+//                            Layout.fillWidth: true
+//                            Layout.preferredHeight: 30
+//                            color: Qt.rgba(app.foregroundColor.r, app.foregroundColor.g, app.foregroundColor.b, .05)
+//                            Label {
+//                                anchors.fill: parent
+//                                verticalAlignment: Text.AlignVCenter
+//                                anchors { leftMargin: app.margins; rightMargin: app.margins }
+//                                text: model.tagId.substring(6)
+//                                elide: Text.ElideRight
+//                            }
+//                        }
+//                        Item {
+//                            Layout.fillHeight: true
+//                            Layout.fillWidth: true
+
+//                            ColorIcon {
+//                                anchors.centerIn: parent
+//                                height: app.iconSize * 2
+//                                width: height
+//                                visible: controlsInGroup.count == 0
+//                                color: app.accentColor
+//                                name: "../images/view-grid-symbolic.svg"
+//                            }
+
+//                            ColumnLayout {
+//                                anchors.fill: parent
+
+//                                Repeater {
+////                                    model: Math.min(controlsInGroup.count, parent.height / 50)
+//                                    model: controlsInGroup.count
+//                                    delegate: Loader {
+//                                        id: controlLoader
+//                                        Layout.fillWidth: true
+//                                        Layout.leftMargin: app.margins / 2
+//                                        Layout.rightMargin: app.margins / 2
+//                                        property string interfaceName: controlsInGroup.get(index).name
+//                                        sourceComponent: {
+//                                            switch (interfaceName) {
+//                                            case "simpleclosable":
+//                                                return closableDelegate
+//                                            case "light":
+//                                                return lightDelegate
+//                                            case "mediacontroller":
+//                                                return mediaControllerDelegate
+//                                            case "powersocket":
+//                                                return powerSocketDelegate
+//                                            }
+//                                        }
+//                                        Binding {
+//                                            target: controlLoader.item
+//                                            property: "devices"
+//                                            value: devicesInGroup
+//                                        }
+//                                    }
+//                                }
+//                                Item {
+//                                    Layout.fillHeight: true
+//                                    Layout.fillWidth: true
+//                                }
+//                            }
+
+//                        }
+//                        Rectangle {
+//                            Layout.fillWidth: true
+//                            Layout.preferredHeight: app.iconSize * 1.2
+//                            color: Qt.rgba(app.foregroundColor.r, app.foregroundColor.g, app.foregroundColor.b, 0.05)
+
+//                            RowLayout {
+//                                anchors.fill: parent
+
+//                                Repeater {
+//                                    model: sensorsInGroup
+//                                    delegate: Row {
+//                                        height: parent.height
+
+//                                        ColorIcon {
+//                                            height: app.iconSize * .8
+//                                            width: height
+//                                            name: app.interfaceToIcon(model.name)
+//                                            color: app.interfaceToColor(model.name)
+//                                        }
+//                                        DevicesProxy {
+//                                            id: innerProxy
+//                                            engine: _engine
+//                                            parentProxy: devicesInGroup
+//                                            shownInterfaces: [model.name]
+//                                        }
+
+//                                        Led {
+//                                            visible: ["presencesensor"].indexOf(model.name) >= 0
+//                                            state: {
+//                                                var stateName = null
+//                                                switch (model.name) {
+//                                                case "presencesensor":
+//                                                    stateName = "isPresent"
+//                                                    break;
+//                                                }
+//                                                if (!stateName) {
+//                                                    return "off";
+//                                                }
+//                                                var ret = false;
+//                                                for (var i = 0; i < innerProxy.count; i++) {
+//                                                    ret |= innerProxy.get(i).states.getState(innerProxy.get(i).deviceClass.stateTypes.findByName(stateName).id).value
+//                                                }
+//                                                return ret ? "on" : "off";
+//                                            }
+//                                        }
+
+//                                        Label {
+//                                            height: parent.height
+//                                            verticalAlignment: Text.AlignVCenter
+//                                            text: {
+//                                                var stateName = null;
+//                                                switch (model.name) {
+//                                                case "temperaturesensor":
+//                                                    stateName = "temperature";
+//                                                    break;
+//                                                case "lightsensor":
+//                                                    stateName = "lightIntensity"
+//                                                    break;
+//                                                }
+//                                                if (!stateName) {
+//                                                    return "";
+//                                                }
+
+//                                                var ret = 0
+//                                                for (var i = 0; i < innerProxy.count; i++) {
+//                                                    ret += innerProxy.get(i).states.getState(innerProxy.get(i).deviceClass.stateTypes.findByName(stateName).id).value
+//                                                }
+//                                                return (ret / innerProxy.count).toFixed(1)
+//                                            }
+//                                        }
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+        }
+    }
+
+    Component {
+        id: powerSocketDelegate
+        RowLayout {
+            property var devices
+
+            Layout.alignment: Layout.Right
+
+            DevicesProxy {
+                id: sockets
+                engine: _engine
+                parentProxy: devices
+                shownInterfaces: ["powersocket"]
+            }
+
+            ColorIcon {
+                Layout.preferredHeight: app.iconSize
+                Layout.preferredWidth: app.iconSize
+                name: "../images/powersocket.svg"
+                color: isOn ? app.accentColor : keyColor
+
+                property bool isOn: {
+                    for (var i = 0; i < sockets.count; i++) {
+                        var device = sockets.get(i)
+                        var powerId = device.deviceClass.stateTypes.findByName("power").id
+                        if (device.states.getState(powerId).value === true) {
+                            return true
+                        }
                     }
+                    return false;
+                }
 
-                    contentItem: ColumnLayout {
-                        Rectangle {
-                            Layout.fillWidth: true
-                            Layout.preferredHeight: 30
-                            color: Qt.rgba(app.foregroundColor.r, app.foregroundColor.g, app.foregroundColor.b, .05)
-                            Label {
-                                anchors.fill: parent
-                                verticalAlignment: Text.AlignVCenter
-                                anchors { leftMargin: app.margins; rightMargin: app.margins }
-                                text: model.tagId.substring(6)
-                                elide: Text.ElideRight
-                            }
-                        }
-                        Item {
-                            Layout.fillHeight: true
-                            Layout.fillWidth: true
-
-                            ColorIcon {
-                                anchors.centerIn: parent
-                                height: app.iconSize * 2
-                                width: height
-                                visible: controlsInGroup.count == 0
-                                color: app.accentColor
-                                name: "../images/view-grid-symbolic.svg"
-                            }
-
-                            ColumnLayout {
-                                anchors.fill: parent
-
-                                Repeater {
-                                    model: Math.min(controlsInGroup.count, parent.height / 50)
-                                    delegate: Loader {
-                                        id: controlLoader
-                                        Layout.fillWidth: true
-                                        Layout.leftMargin: app.margins / 2
-                                        Layout.rightMargin: app.margins / 2
-                                        property string interfaceName: controlsInGroup.get(index).name
-                                        sourceComponent: {
-                                            switch (interfaceName) {
-                                            case "simpleclosable":
-                                                return closableDelegate
-                                            case "light":
-                                                return lightDelegate
-                                            case "mediacontroller":
-                                                return mediaControllerDelegate
-                                            }
-                                        }
-                                        Binding {
-                                            target: controlLoader.item
-                                            property: "devices"
-                                            value: devicesInGroup
-                                        }
-                                    }
-                                }
-                                Item {
-                                    Layout.fillHeight: true
-                                    Layout.fillWidth: true
-                                }
-                            }
-
-                        }
-                        Rectangle {
-                            Layout.fillWidth: true
-                            Layout.preferredHeight: app.iconSize * 1.2
-                            color: Qt.rgba(app.foregroundColor.r, app.foregroundColor.g, app.foregroundColor.b, 0.05)
-
-                            RowLayout {
-                                anchors.fill: parent
-
-                                Repeater {
-                                    model: sensorsInGroup
-                                    delegate: Row {
-                                        height: parent.height
-
-                                        ColorIcon {
-                                            height: app.iconSize * .8
-                                            width: height
-                                            name: app.interfaceToIcon(model.name)
-                                            color: app.interfaceToColor(model.name)
-                                        }
-                                        DevicesProxy {
-                                            id: innerProxy
-                                            engine: _engine
-                                            parentProxy: devicesInGroup
-                                            shownInterfaces: [model.name]
-                                        }
-
-                                        Led {
-                                            visible: ["presencesensor"].indexOf(model.name) >= 0
-                                            state: {
-                                                var stateName = null
-                                                switch (model.name) {
-                                                case "presencesensor":
-                                                    stateName = "isPresent"
-                                                    break;
-                                                }
-                                                if (!stateName) {
-                                                    return "off";
-                                                }
-                                                var ret = false;
-                                                for (var i = 0; i < innerProxy.count; i++) {
-                                                    ret |= innerProxy.get(i).states.getState(innerProxy.get(i).deviceClass.stateTypes.findByName(stateName).id).value
-                                                }
-                                                return ret ? "on" : "off";
-                                            }
-                                        }
-
-                                        Label {
-                                            height: parent.height
-                                            verticalAlignment: Text.AlignVCenter
-                                            text: {
-                                                var stateName = null;
-                                                switch (model.name) {
-                                                case "temperaturesensor":
-                                                    stateName = "temperature";
-                                                    break;
-                                                case "lightsensor":
-                                                    stateName = "lightIntensity"
-                                                    break;
-                                                }
-                                                if (!stateName) {
-                                                    return "";
-                                                }
-
-                                                var ret = 0
-                                                for (var i = 0; i < innerProxy.count; i++) {
-                                                    ret += innerProxy.get(i).states.getState(innerProxy.get(i).deviceClass.stateTypes.findByName(stateName).id).value
-                                                }
-                                                return (ret / innerProxy.count).toFixed(1)
-                                            }
-                                        }
-                                    }
-                                }
-                            }
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        for (var i = 0; i < sockets.count; i++) {
+                            var device = sockets.get(i)
+                            var powerId = device.deviceClass.stateTypes.findByName("power").id
+                            engine.deviceManager.executeAction(device.id, powerId, [{paramTypeId: powerId, value: !parent.isOn}])
                         }
                     }
                 }

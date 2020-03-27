@@ -74,6 +74,7 @@ public:
     bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const override;
 
     Q_INVOKABLE Interface* get(int index) const;
+    Q_INVOKABLE Interface* getInterface(const QString &name) const;
 
 signals:
     void shownInterfacesChanged();

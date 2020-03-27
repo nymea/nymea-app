@@ -76,6 +76,9 @@ void DevicesProxy::setParentProxy(DevicesProxy *parentProxy)
         m_parentProxy = parentProxy;
         setSourceModel(parentProxy);
 
+        if (!m_engine) {
+            return;
+        }
         setSortRole(Devices::RoleName);
         sort(0);
         connect(m_parentProxy, SIGNAL(countChanged()), this, SIGNAL(countChanged()));

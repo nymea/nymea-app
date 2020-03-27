@@ -160,3 +160,15 @@ Interface *InterfacesProxy::get(int index) const
 {
     return m_interfaces->get(mapToSource(this->index(index, 0)).row());
 }
+
+Interface *InterfacesProxy::getInterface(const QString &name) const
+{
+    qDebug() << "Getting iface" << name;
+    for (int i = 0; i < rowCount(); i++) {
+        if (get(i)->name() == name) {
+            qDebug() << "checking" << get(i)->name();
+            return get(i);
+        }
+    }
+    return nullptr;
+}

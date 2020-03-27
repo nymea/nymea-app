@@ -44,6 +44,8 @@
 class BrowserItem;
 class BrowserItems;
 class EventHandler;
+class ThingGroup;
+class Interface;
 
 class DeviceManager : public JsonHandler
 {
@@ -119,6 +121,8 @@ private:
 
 public slots:
     void savePluginConfig(const QUuid &pluginId);
+
+    ThingGroup* createGroup(Interface *interface, DevicesProxy *things);
 
 signals:
     void pairDeviceReply(const QVariantMap &params);

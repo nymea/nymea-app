@@ -37,17 +37,20 @@ import "../components"
 
 MainPageTile {
     id: root
-    text: interfaceToString(model.name).toUpperCase()
-    iconName: interfaceToIcon(model.name)
+    text: interfaceToString(iface.name).toUpperCase()
+    iconName: interfaceToIcon(iface.name)
     iconColor: app.accentColor
     disconnected: devicesSubProxyConnectables.count > 0
     batteryCritical: devicesSubProxyBattery.count > 0
+
+    property Interface iface: null
+    property alias filterTagId: devicesProxy.filterTagId
 
     backgroundImage: inlineControlLoader.item && inlineControlLoader.item.hasOwnProperty("backgroundImage") ? inlineControlLoader.item.backgroundImage : ""
 
     onClicked: {
         var page;
-        switch (model.name) {
+        switch (iface.name) {
         case "heating":
         case "sensor":
             page = "SensorsDeviceListPage.qml"
@@ -85,18 +88,18 @@ MainPageTile {
         default:
             page = "GenericDeviceListPage.qml"
         }
-        if (model.name === "uncategorized") {
-            pageStack.push(Qt.resolvedUrl("../devicelistpages/" + page), {hiddenInterfaces: app.supportedInterfaces})
+        if (iface.name === "uncategorized") {
+            pageStack.push(Qt.resolvedUrl("../devicelistpages/" + page), {hiddenInterfaces: app.supportedInterfaces, filterTagId: root.filterTagId})
         } else {
-            print("<entering for shown interfaces:", model.name)
-            pageStack.push(Qt.resolvedUrl("../devicelistpages/" + page), {shownInterfaces: [model.name]})
+            print("<entering for shown interfaces:", iface.name)
+            pageStack.push(Qt.resolvedUrl("../devicelistpages/" + page), {shownInterfaces: [iface.name], filterTagId: root.filterTagId})
         }
     }
 
     DevicesProxy {
         id: devicesProxy
         engine: _engine
-        shownInterfaces: [model.name]
+        shownInterfaces: [iface.name]
     }
 
     DevicesProxy {
@@ -123,7 +126,7 @@ MainPageTile {
             rightMargin: app.margins / 2
         }
         sourceComponent: {
-            switch (model.name) {
+            switch (iface.name) {
             case "sensor":
             case "weather":
             case "smartmeter":
@@ -148,7 +151,21 @@ MainPageTile {
             case "media":
                 return mediaControlComponent
             default:
-                console.warn("DevicesPageDelegate, inlineControl: Unhandled interface", model.name)
+                console.warn("DevicesPageDelegate, inlineControl: Unhandled interface", iface.name)
+            }
+
+        }
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                switch (iface.name) {
+                case "light":
+                    var group = engine.deviceManager.createGroup(Interfaces.findByName("colorlight"), devicesProxy);
+                    print("opening lights page for group", group)
+                    pageStack.push("../devicepages/LightDevicePage.qml", {device: group})
+                }
+
             }
         }
     }
@@ -215,7 +232,7 @@ MainPageTile {
                 Layout.fillWidth: true
                 visible: text != ""
                 text: {
-                    switch (model.name) {
+                    switch (iface.name) {
                     case "media":
                         return devicesProxy.get(0).name;
                     case "light":
@@ -271,7 +288,7 @@ MainPageTile {
                         color: app.accentColor
 
                         name: {
-                            switch (model.name) {
+                            switch (iface.name) {
                             case "media":
                             case "light":
                                 return ""
@@ -284,14 +301,14 @@ MainPageTile {
                             case "extendedshutter":
                                 return "../images/up.svg"
                             default:
-                                console.warn("DevicesPageDelegate, inlineButtonControl image: Unhandled interface", model.name)
+                                console.warn("DevicesPageDelegate, inlineButtonControl image: Unhandled interface", iface.name)
                             }
                             return ""
                         }
                     }
 
                     onClicked: {
-                        switch (model.name) {
+                        switch (iface.name) {
                         case "light":
                         case "media":
                             break;
@@ -311,7 +328,7 @@ MainPageTile {
                             }
                             break;
                         default:
-                            console.warn("DevicesPageDelegate, inlineButtonControl clicked: Unhandled interface", model.name)
+                            console.warn("DevicesPageDelegate, inlineButtonControl clicked: Unhandled interface", iface.name)
                         }
                     }
                 }
@@ -327,7 +344,7 @@ MainPageTile {
                         color: app.accentColor
 
                         name: {
-                            switch (model.name) {
+                            switch (iface.name) {
                             case "media":
                             case "light":
                                 return ""
@@ -340,14 +357,14 @@ MainPageTile {
                             case "extendedshutter":
                                 return "../images/media-playback-stop.svg"
                             default:
-                                console.warn("DevicesPageDelegate, inlineButtonControl image: Unhandled interface", model.name)
+                                console.warn("DevicesPageDelegate, inlineButtonControl image: Unhandled interface", iface.name)
                             }
                             return "";
                         }
                     }
 
                     onClicked: {
-                        switch (model.name) {
+                        switch (iface.name) {
                         case "light":
                         case "media":
                             break;
@@ -367,7 +384,7 @@ MainPageTile {
                             }
 
                         default:
-                            console.warn("DevicesPageDelegate, inlineButtonControl clicked: Unhandled interface", model.name)
+                            console.warn("DevicesPageDelegate, inlineButtonControl clicked: Unhandled interface", iface.name)
                         }
                     }
                 }
@@ -383,7 +400,7 @@ MainPageTile {
                         color: app.accentColor
 
                         name: {
-                            switch (model.name) {
+                            switch (iface.name) {
                             case "media":
                                 var device = devicesProxy.get(0)
                                 var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
@@ -404,13 +421,13 @@ MainPageTile {
                             case "extendedshutter":
                                 return "../images/down.svg"
                             default:
-                                console.warn("DevicesPageDelegate, inlineButtonControl image: Unhandled interface", model.name)
+                                console.warn("DevicesPageDelegate, inlineButtonControl image: Unhandled interface", iface.name)
                             }
                         }
                     }
 
                     onClicked: {
-                        switch (model.name) {
+                        switch (iface.name) {
                         case "light":
                         case "powersocket":
                             var allOff = true;
@@ -471,7 +488,7 @@ MainPageTile {
                             }
 
                         default:
-                            console.warn("DevicesPageDelegate, inlineButtonControl clicked: Unhandled interface", model.name)
+                            console.warn("DevicesPageDelegate, inlineButtonControl clicked: Unhandled interface", iface.name)
                         }
                     }
                 }

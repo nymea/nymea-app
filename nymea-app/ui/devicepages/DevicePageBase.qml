@@ -37,7 +37,7 @@ import "../components"
 Page {
     id: root
     property Device device: null
-    readonly property DeviceClass deviceClass: engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId)
+    readonly property DeviceClass deviceClass: device.deviceClass
 
     property bool showLogsButton: true
     property bool showDetailsButton: true

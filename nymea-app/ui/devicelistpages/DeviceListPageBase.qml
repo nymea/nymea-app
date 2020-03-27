@@ -40,6 +40,7 @@ Page {
 
     property alias shownInterfaces: devicesProxyInternal.shownInterfaces
     property alias hiddenInterfaces: devicesProxyInternal.hiddenInterfaces
+    property alias filterTagId: devicesProxyInternal.filterTagId
 
     Component.onCompleted: {
         if (devicesProxyInternal.count === 1) {

@@ -51,7 +51,7 @@ DevicePageBase {
         Layout.alignment: Qt.AlignCenter
 
         Item {
-            Layout.preferredWidth: Math.max(app.iconSize * 4, parent.width / 5)
+            Layout.preferredWidth: Math.max(app.iconSize * 6, parent.width / 5)
             Layout.preferredHeight: width
             Layout.topMargin: app.margins
             Layout.bottomMargin: app.landscape ? app.margins : 0
@@ -65,7 +65,7 @@ DevicePageBase {
                 anchors.centerIn: parent
                 Rectangle {
                     anchors.fill: parent
-                    color: "white"
+                    color: "transparent"
                     border.color: root.powerState.value === true ? app.accentColor : bulbIcon.keyColor
                     border.width: 4
                     radius: width / 2

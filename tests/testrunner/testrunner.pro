@@ -7,16 +7,12 @@ QT += core gui testlib bluetooth websockets
 CONFIG += qmltestcase
 
 INCLUDEPATH += ../../nymea-app/ \
-    ../../libnymea-common/ \
-    ../../libnymea-app-core/
+    ../../libnymea-app
 
-LIBS += -L$$top_builddir/libnymea-app-core/ -lnymea-app-core \
-        -L$$top_builddir/libnymea-common/ -lnymea-common \
+LIBS += -L$$top_builddir/libnymea-app/ -lnymea-app \
         -lavahi-common -lavahi-client
-win32:Debug:LIBS += -L$$top_builddir/libmea-core/debug \
-                    -L$$top_builddir/libnymea-common/debug
-win32:Release:LIBS += -L$$top_builddir/libmea-core/release \
-                      -L$$top_builddir/libnymea-common/release
+win32:Debug:LIBS += -L$$top_builddir/libnymea-app/debug
+win32:Release:LIBS += -L$$top_builddir/libnymea-app/release
 
 SOURCES += testrunner.cpp
 

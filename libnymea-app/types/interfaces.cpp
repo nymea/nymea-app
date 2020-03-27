@@ -69,11 +69,23 @@ Interfaces::Interfaces(QObject *parent) : QAbstractListModel(parent)
                  tr("A light is turned on or off"),
                  tr("Turn lights on or off"));
 
-    addInterface("dimmablelight", tr("Dimmable lights"));
+    addInterface("dimmablelight", tr("Dimmable lights"), {"light"});
     addStateType("dimmablelight", "brightness", QVariant::Int, true,
                  tr("Light's brightness is"),
                  tr("A light's brightness has changed"),
-                 tr("Set lights brightness"));
+                 tr("Set lights brightness"), 0, 100);
+
+    addInterface("colortemperaturelight", tr("Color temperature light"), {"light", "dimmablelight"});
+    addStateType("colortemperaturelight", "colorTemperature", QVariant::Int, true,
+                 tr("Lights color temperature is"),
+                 tr("A lights color temperature has changed"),
+                 tr("Set lights color temperature"), 0, 100);
+
+    addInterface("colorlight", tr("Color lights"), {"light", "dimmablelight", "colortemperaturelight"});
+    addStateType("colorlight", "color", QVariant::Color, true,
+                 tr("Light's color is"),
+                 tr("A light's color has changed"),
+                 tr("Set lights color"));
 
     addInterface("temperaturesensor", tr("Temperature sensors"));
     addStateType("temperaturesensor", "temperature", QVariant::Double, false,
@@ -157,6 +169,49 @@ Interfaces::Interfaces(QObject *parent) : QAbstractListModel(parent)
     addActionType("mediacontroller", "pause", tr("Pause playback"), new ParamTypes());
     addActionType("mediacontroller", "skipBack", tr("Skip back"), new ParamTypes());
     addActionType("mediacontroller", "skipNext", tr("Skip next"), new ParamTypes());
+
+    addInterface("powersocket", tr("Power sockets"));
+    addStateType("powersocket", "power", QVariant::Bool, true,
+                 tr("Powered"),
+                 tr("Turned on/off"),
+                 tr("Turn on/off"));
+
+    addInterface("weather", tr("Weather"));
+    addStateType("weather", "weatherCondition", QVariant::String, false,
+                 tr("Weather description"),
+                 tr("Weather description changed"));
+    addStateType("weather", "weatherDescription", QVariant::String, false,
+                 tr("Weather condition"),
+                 tr("Weather condition changed"));
+    addStateType("weather", "temperature", QVariant::Double, false,
+                 tr("Temperature"),
+                 tr("Temperature changed"));
+    addStateType("weather", "humidity", QVariant::Double, false,
+                 tr("Humidity"),
+                 tr("Humidity changed"));
+    addStateType("weather", "humidity", QVariant::Double, false,
+                 tr("Pressure"),
+                 tr("Pressure changed"));
+    addStateType("weather", "windSpeed", QVariant::Double, false,
+                 tr("Wind seed"),
+                 tr("Wind speed changed"));
+    addStateType("weather", "windDirection", QVariant::Int, false,
+                 tr("Wind direction"),
+                 tr("Wind direction changed"));
+
+    addInterface("media", tr("Media"));
+
+    addInterface("sensor", tr("Sensor"));
+
+    addInterface("smartmeter", tr("Smart meter"));
+
+    addInterface("button", tr("Button"));
+    addEventType("button", "pressed", tr("Button pressed"), new ParamTypes());
+
+    addInterface("account", tr("Accounts"), {"gateway"});
+    addStateType("account", "loggedIn", QVariant::Bool, false,
+                 tr("User is logged in"),
+                 tr("User login changed"));
 }
 
 int Interfaces::rowCount(const QModelIndex &parent) const
@@ -202,10 +257,23 @@ Interface *Interfaces::findByName(const QString &name) const
     return nullptr;
 }
 
-void Interfaces::addInterface(const QString &name, const QString &displayName)
+void Interfaces::addInterface(const QString &name, const QString &displayName, const QStringList &extends)
 {
-    Interface *iface = new Interface(name, displayName, this);
-    m_list.append(iface);
+    Interface *newIface = new Interface(name, displayName, this);
+    foreach (const QString &extend, extends) {
+        Interface *extendIface = m_hash.value(extend);
+        for (int i = 0; i < extendIface->stateTypes()->rowCount(); i++) {
+            newIface->stateTypes()->addStateType(extendIface->stateTypes()->get(i));
+        }
+        for (int i = 0; i < extendIface->actionTypes()->rowCount(); i++) {
+            newIface->actionTypes()->addActionType(extendIface->actionTypes()->get(i));
+        }
+        for (int i = 0; i < extendIface->eventTypes()->rowCount(); i++) {
+            newIface->eventTypes()->addEventType(extendIface->eventTypes()->get(i));
+        }
+    }
+    m_list.append(newIface);
+    m_hash.insert(name, newIface);
 }
 
 void Interfaces::addEventType(const QString &interfaceName, const QString &name, const QString &displayName, ParamTypes *paramTypes)
@@ -219,6 +287,7 @@ void Interfaces::addEventType(const QString &interfaceName, const QString &name,
     }
     Q_ASSERT_X(iface != nullptr, "Interfaces", "Interface not found");
     EventType *et = new EventType();
+    et->setId(QUuid::createUuid());
     et->setName(name);
     et->setDisplayName(displayName);
     et->setParamTypes(paramTypes);
@@ -236,13 +305,14 @@ void Interfaces::addActionType(const QString &interfaceName, const QString &name
     }
     Q_ASSERT_X(iface != nullptr, "Interfaces", "Interface not found");
     ActionType *at = new ActionType();
+    at->setId(QUuid::createUuid());
     at->setName(name);
     at->setDisplayName(displayName);
     at->setParamTypes(paramTypes);
     iface->actionTypes()->addActionType(at);
 }
 
-void Interfaces::addStateType(const QString &interfaceName, const QString &name, QVariant::Type type, bool writable, const QString &displayName, const QString &displayNameEvent, const QString &displayNameAction)
+void Interfaces::addStateType(const QString &interfaceName, const QString &name, QVariant::Type type, bool writable, const QString &displayName, const QString &displayNameEvent, const QString &displayNameAction, const QVariant &min, const QVariant &max)
 {
     Interface *iface = nullptr;
     foreach (Interface* i, m_list) {
@@ -253,9 +323,12 @@ void Interfaces::addStateType(const QString &interfaceName, const QString &name,
     }
     Q_ASSERT_X(iface != nullptr, "Interfaces", "Interface not found");
     StateType *st = new StateType();
+    st->setId(QUuid::createUuid());
     st->setName(name);
     st->setDisplayName(displayName);
     st->setType(type);
+    st->setMinValue(min);
+    st->setMaxValue(max);
     iface->stateTypes()->addStateType(st);
     ParamTypes *pts = createParamTypes(name, displayName, type);
     addEventType(interfaceName, name, displayNameEvent, pts);

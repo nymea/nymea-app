@@ -90,10 +90,10 @@ ColumnLayout {
         function executeAction(value) {
             var params = []
             var param = {}
-            param["paramTypeId"] = dial.stateType.id
+            param["paramName"] = dial.stateType.name
             param["value"] = value
             params.push(param)
-            d.pendingActionId = engine.deviceManager.executeAction(dial.device.id, dial.stateType.id, params)
+            d.pendingActionId = dial.device.executeAction(dial.stateType.name, params)
         }
     }
     Connections {
@@ -103,6 +103,18 @@ ColumnLayout {
             if (d.valueCacheDirty) {
                 d.executeAction(d.valueCache)
                 d.valueCacheDirty = false;
+            }
+        }
+    }
+    Connections {
+        target: dial.device
+        onActionExecutionFinished: {
+            if (id == d.pendingActionId) {
+                d.pendingActionId = -1;
+                if (d.valueCacheDirty) {
+                    d.executeAction(d.valueCache)
+                    d.valueCacheDirty = false;
+                }
             }
         }
     }
@@ -268,10 +280,10 @@ ColumnLayout {
                 if (dial.powerStateType && !dragging) {
                     var params = []
                     var param = {}
-                    param["paramTypeId"] = dial.powerStateType.id
+                    param["paramName"] = "power"
                     param["value"] = !dial.powerState.value
                     params.push(param)
-                    engine.deviceManager.executeAction(dial.device.id, dial.powerStateType.id, params)
+                    dial.device.executeAction("power", params)
                 }
                 dragging = false;
             }
@@ -312,6 +324,7 @@ ColumnLayout {
                         }
                         lastVibration = new Date()
                     }
+
                     d.enqueueSetValue(newValue);
                 }
             }

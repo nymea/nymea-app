@@ -28,44 +28,42 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include "interface.h"
+#ifndef INTERFACE_H
+#define INTERFACE_H
 
-#include "eventtypes.h"
-#include "statetypes.h"
-#include "actiontypes.h"
+#include <QObject>
 
-Interface::Interface(const QString &name, const QString &displayName, QObject *parent) :
-    QObject(parent),
-    m_name(name),
-    m_displayName(displayName),
-    m_eventTypes(new EventTypes(this)),
-    m_stateTypes(new StateTypes(this)),
-    m_actionTypes(new ActionTypes(this))
+class EventTypes;
+class StateTypes;
+class ActionTypes;
+class DeviceClass;
+
+class Interface : public QObject
 {
+    Q_OBJECT
+    Q_PROPERTY(QString name READ name CONSTANT)
+    Q_PROPERTY(QString displayName READ displayName CONSTANT)
+    Q_PROPERTY(EventTypes* eventTypes READ eventTypes CONSTANT)
+    Q_PROPERTY(StateTypes* stateTypes READ stateTypes CONSTANT)
+    Q_PROPERTY(ActionTypes* actionTypes READ actionTypes CONSTANT)
 
-}
+public:
+    explicit Interface(const QString &name, const QString &displayName, QObject *parent = nullptr);
 
-QString Interface::name() const
-{
-    return m_name;
-}
+    QString name() const;
+    QString displayName() const;
+    EventTypes* eventTypes() const;
+    StateTypes* stateTypes() const;
+    ActionTypes* actionTypes() const;
 
-QString Interface::displayName() const
-{
-    return m_displayName;
-}
+    DeviceClass* createDeviceClass();
 
-EventTypes* Interface::eventTypes() const
-{
-    return m_eventTypes;
-}
+private:
+    QString m_name;
+    QString m_displayName;
+    EventTypes* m_eventTypes = nullptr;
+    StateTypes* m_stateTypes = nullptr;
+    ActionTypes* m_actionTypes = nullptr;
+};
 
-StateTypes* Interface::stateTypes() const
-{
-    return m_stateTypes;
-}
-
-ActionTypes* Interface::actionTypes() const
-{
-    return m_actionTypes;
-}
+#endif // INTERFACE_H

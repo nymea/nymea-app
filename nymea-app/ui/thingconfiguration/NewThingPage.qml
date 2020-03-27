@@ -104,9 +104,8 @@ Page {
                     InterfacesSortModel {
                         id: interfacesSortModel
                         interfacesModel: InterfacesModel {
-                            deviceManager: engine.deviceManager
+                            engine: _engine
                             shownInterfaces: app.supportedInterfaces
-                            onlyConfiguredDevices: false
                             showUncategorized: false
                         }
                     }

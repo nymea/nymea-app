@@ -36,16 +36,20 @@
 
 #include "devices.h"
 
-class DeviceManager;
+class Engine;
+class DevicesProxy;
 
 class InterfacesModel : public QAbstractListModel
 {
     Q_OBJECT
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
-    Q_PROPERTY(DeviceManager* deviceManager READ deviceManager WRITE setDeviceManager NOTIFY deviceManagerChanged)
-    Q_PROPERTY(QStringList shownInterfaces READ shownInterfaces WRITE setShownInterfaces NOTIFY shownInterfacesChanged)
 
-    Q_PROPERTY(bool onlyConfiguredDevices READ onlyConfiguredDevices WRITE setOnlyConfiguredDevices NOTIFY onlyConfiguredDevicesChanged)
+    // Required
+    Q_PROPERTY(Engine* engine READ engine WRITE setEngine NOTIFY engineChanged)
+
+    // Optional filters
+    Q_PROPERTY(DevicesProxy* devices READ devices WRITE setDevices NOTIFY devicesChanged)
+    Q_PROPERTY(QStringList shownInterfaces READ shownInterfaces WRITE setShownInterfaces NOTIFY shownInterfacesChanged)
     Q_PROPERTY(bool showUncategorized READ showUncategorized WRITE setShowUncategorized NOTIFY showUncategorizedChanged)
 
 public:
@@ -60,8 +64,11 @@ public:
     QVariant data(const QModelIndex &index, int role) const override;
     QHash<int, QByteArray> roleNames() const override;
 
-    DeviceManager* deviceManager() const;
-    void setDeviceManager(DeviceManager *deviceManager);
+    Engine* engine() const;
+    void setEngine(Engine *engine);
+
+    DevicesProxy* devices() const;
+    void setDevices(DevicesProxy *devices);
 
     QStringList shownInterfaces() const;
     void setShownInterfaces(const QStringList &shownInterfaces);
@@ -76,7 +83,8 @@ public:
 
 signals:
     void countChanged();
-    void deviceManagerChanged();
+    void engineChanged();
+    void devicesChanged();
     void shownInterfacesChanged();
     bool onlyConfiguredDevicesChanged();
     void showUncategorizedChanged();
@@ -86,11 +94,11 @@ private slots:
     void rowsChanged(const QModelIndex &index, int first, int last);
 
 private:
-    DeviceManager *m_deviceManager = nullptr;
+    Engine *m_engine = nullptr;
     QStringList m_interfaces;
 
+    DevicesProxy *m_devicesProxy = nullptr;
     QStringList m_shownInterfaces;
-    bool m_onlyConfiguredDevices = true;
     bool m_showUncategorized = false;
 };
 

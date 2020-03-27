@@ -35,6 +35,7 @@ import QtQuick.Layouts 1.1
 import Nymea 1.0
 import "../components"
 import "../delegates"
+import "../mainviews"
 
 Page {
     id: root
@@ -45,41 +46,41 @@ Page {
 
     property string groupTag
 
-
     DevicesProxy {
         id: devicesInGroup
         engine: _engine
         filterTagId: root.groupTag
     }
 
-    InterfacesProxy {
-        id: interfacesInGroup
-        devicesProxyFilter: devicesInGroup
-        showStates: true
-    }
-
     GridView {
-        id: gridView
+        id: interfacesGridView
         anchors.fill: parent
         anchors.margins: app.margins / 2
 
-        model: devicesInGroup
+        model: InterfacesSortModel {
+            interfacesModel: InterfacesModel {
+                engine: _engine
+                devices: devicesInGroup
+                shownInterfaces: app.supportedInterfaces
+                showUncategorized: true
+            }
+        }
 
-        readonly property int minTileWidth: 180
-        readonly property int minTileHeight: 240
+        readonly property int minTileWidth: 172
         readonly property int tilesPerRow: root.width / minTileWidth
 
-        cellWidth: gridView.width / tilesPerRow
+        cellWidth: width / tilesPerRow
         cellHeight: cellWidth
+//        delegate: DevicesPageDelegate {
+//            width: interfacesGridView.cellWidth
+//            height: interfacesGridView.cellHeight
+//        }
 
-        delegate: ThingTile {
-            width: gridView.cellWidth
-            height: gridView.cellHeight
-
-            device: devicesInGroup.get(index)
-
-            onClicked: pageStack.push(Qt.resolvedUrl("../devicepages/" + app.interfaceListToDevicePage(deviceClass.interfaces)), {device: device})
-
+        delegate: DevicesPageDelegate {
+            width: interfacesGridView.cellWidth
+            height: interfacesGridView.cellHeight
+            iface: Interfaces.findByName(model.name)
+            filterTagId: root.groupTag
         }
     }
 

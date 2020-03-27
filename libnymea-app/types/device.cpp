@@ -30,11 +30,13 @@
 
 #include "device.h"
 #include "deviceclass.h"
+#include "devicemanager.h"
 
 #include <QDebug>
 
-Device::Device(DeviceClass *deviceClass, const QUuid &parentDeviceId, QObject *parent) :
+Device::Device(DeviceManager *deviceManager, DeviceClass *deviceClass, const QUuid &parentDeviceId, QObject *parent) :
     QObject(parent),
+    m_deviceManager(deviceManager),
     m_parentDeviceId(parentDeviceId),
     m_deviceClass(deviceClass)
 {
@@ -179,6 +181,22 @@ void Device::setStateValue(const QUuid &stateTypeId, const QVariant &value)
             return;
         }
     }
+}
+
+int Device::executeAction(const QString &actionName, const QVariantList &params)
+{
+    ActionType *actionType = m_deviceClass->actionTypes()->findByName(actionName);
+
+    QVariantList finalParams;
+    foreach (const QVariant &paramVariant, params) {
+        QVariantMap param = paramVariant.toMap();
+        if (!param.contains("paramTypeId") && param.contains("paramName")) {
+            ParamType *paramType = actionType->paramTypes()->findByName(param.take("paramName").toString());
+            param.insert("paramTypeId", paramType->id());
+        }
+        finalParams.append(param);
+    }
+    return m_deviceManager->executeAction(m_id, actionType->id(), finalParams);
 }
 
 QDebug operator<<(QDebug &dbg, Device *device)

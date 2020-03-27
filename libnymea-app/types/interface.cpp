@@ -28,39 +28,58 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef INTERFACE_H
-#define INTERFACE_H
+#include "interface.h"
 
-#include <QObject>
+#include "eventtypes.h"
+#include "statetypes.h"
+#include "actiontypes.h"
+#include "deviceclass.h"
 
-class EventTypes;
-class StateTypes;
-class ActionTypes;
-
-class Interface : public QObject
+Interface::Interface(const QString &name, const QString &displayName, QObject *parent) :
+    QObject(parent),
+    m_name(name),
+    m_displayName(displayName),
+    m_eventTypes(new EventTypes(this)),
+    m_stateTypes(new StateTypes(this)),
+    m_actionTypes(new ActionTypes(this))
 {
-    Q_OBJECT
-    Q_PROPERTY(QString name READ name CONSTANT)
-    Q_PROPERTY(QString displayName READ displayName CONSTANT)
-    Q_PROPERTY(EventTypes* eventTypes READ eventTypes CONSTANT)
-    Q_PROPERTY(StateTypes* stateTypes READ stateTypes CONSTANT)
-    Q_PROPERTY(ActionTypes* actionTypes READ actionTypes CONSTANT)
 
-public:
-    explicit Interface(const QString &name, const QString &displayName, QObject *parent = nullptr);
+}
 
-    QString name() const;
-    QString displayName() const;
-    EventTypes* eventTypes() const;
-    StateTypes* stateTypes() const;
-    ActionTypes* actionTypes() const;
+QString Interface::name() const
+{
+    return m_name;
+}
 
-private:
-    QString m_name;
-    QString m_displayName;
-    EventTypes* m_eventTypes = nullptr;
-    StateTypes* m_stateTypes = nullptr;
-    ActionTypes* m_actionTypes = nullptr;
-};
+QString Interface::displayName() const
+{
+    return m_displayName;
+}
 
-#endif // INTERFACE_H
+EventTypes* Interface::eventTypes() const
+{
+    return m_eventTypes;
+}
+
+StateTypes* Interface::stateTypes() const
+{
+    return m_stateTypes;
+}
+
+ActionTypes* Interface::actionTypes() const
+{
+    return m_actionTypes;
+}
+
+DeviceClass *Interface::createDeviceClass()
+{
+    DeviceClass* dc = new DeviceClass();
+    dc->setName(m_name);
+    dc->setParamTypes(new ParamTypes(dc));
+    dc->setSettingsTypes(new ParamTypes(dc));
+    dc->setDisplayName(m_displayName);
+    dc->setEventTypes(m_eventTypes);
+    dc->setStateTypes(m_stateTypes);
+    dc->setActionTypes(m_actionTypes);
+    return dc;
+}
