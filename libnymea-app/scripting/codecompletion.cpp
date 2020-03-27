@@ -41,6 +41,9 @@ CodeCompletion::CodeCompletion(QObject *parent):
     QObject(parent)
 {
     m_classes.insert("Item", ClassInfo("Item", {"id"}));
+    m_classes.insert("ThingAction", ClassInfo("ThingAction", {"id", "thingId", "actionTypeId", "actionName"}, {"execute"}));
+    m_classes.insert("ThingState", ClassInfo("ThingState", {"id", "thingId", "stateTypeId", "stateName", "value"}, {}, {"onValueChanged"}));
+    m_classes.insert("ThingEvent", ClassInfo("ThingEvent", {"id", "thingId", "eventTypeId", "eventName"}, {}, {"onTriggered"}));
     m_classes.insert("DeviceAction", ClassInfo("DeviceAction", {"id", "deviceId", "actionTypeId", "actionName"}, {"execute"}));
     m_classes.insert("DeviceState", ClassInfo("DeviceState", {"id", "deviceId", "stateTypeId", "stateName", "value"}, {}, {"onValueChanged"}));
     m_classes.insert("DeviceEvent", ClassInfo("DeviceEvent", {"id", "deviceId", "eventTypeId", "eventName"}, {}, {"onTriggered"}));
@@ -162,6 +165,19 @@ void CodeCompletion::update()
 
     QList<CompletionModel::Entry> entries;
 
+    QRegExp thingIdExp(".*thingId: \"[a-zA-ZÀ-ž0-9- ]*");
+    if (thingIdExp.exactMatch(blockText)) {
+        for (int i = 0; i < m_engine->deviceManager()->devices()->rowCount(); i++) {
+            Device *dev = m_engine->deviceManager()->devices()->get(i);
+            entries.append(CompletionModel::Entry(dev->id().toString() + "\" // " + dev->name(), dev->name(), "thing", dev->deviceClass()->interfaces().join(",")));
+        }
+        blockText.remove(QRegExp(".*thingId: \""));
+        m_model->update(entries);
+        m_proxy->setFilter(blockText, false);
+        emit hint();
+        return;
+    }
+
     QRegExp deviceIdExp(".*deviceId: \"[a-zA-ZÀ-ž0-9- ]*");
     if (deviceIdExp.exactMatch(blockText)) {
         for (int i = 0; i < m_engine->deviceManager()->devices()->rowCount(); i++) {
@@ -178,13 +194,17 @@ void CodeCompletion::update()
     QRegExp stateTypeIdExp(".*stateTypeId: \"[a-zA-Z0-9-]*");
     if (stateTypeIdExp.exactMatch(blockText)) {
         BlockInfo info = getBlockInfo(m_cursor.position());
-        if (!info.properties.contains("deviceId")) {
+        QString thingId;
+        if (info.properties.contains("thingId")) {
+            thingId = info.properties.value("thingId");
+        } else if (info.properties.contains("deviceId")) {
+            thingId = info.properties.value("deviceId");
+        } else {
             return;
         }
-        QString deviceId = info.properties.value("deviceId");
 
-        qDebug() << "selected deviceId" << deviceId;
-        Device *device = m_engine->deviceManager()->devices()->getDevice(deviceId);
+        qDebug() << "selected thingId" << thingId;
+        Device *device = m_engine->deviceManager()->devices()->getDevice(thingId);
         if (!device) {
             return;
         }
@@ -205,16 +225,21 @@ void CodeCompletion::update()
     if (stateNameExp.exactMatch(blockText)) {
         BlockInfo info = getBlockInfo(m_cursor.position());
         qDebug() << "stateName block info" << info.name << info.properties;
-        if (!info.properties.contains("deviceId")) {
+        QString thingId;
+        if (info.properties.contains("thingId")) {
+            thingId = info.properties.value("thingId");
+        } else if (info.properties.contains("deviceId")) {
+            thingId = info.properties.value("deviceId");
+        } else {
             return;
         }
-        QString deviceId = info.properties.value("deviceId");
 
-        qDebug() << "selected deviceId" << deviceId;
-        Device *device = m_engine->deviceManager()->devices()->getDevice(deviceId);
+        qDebug() << "selected deviceId" << thingId;
+        Device *device = m_engine->deviceManager()->devices()->getDevice(thingId);
         if (!device) {
             return;
         }
+        qDebug() << "Device is" << device->name();
 
         for (int i = 0; i < device->deviceClass()->stateTypes()->rowCount(); i++) {
             StateType *stateType = device->deviceClass()->stateTypes()->get(i);
@@ -230,13 +255,17 @@ void CodeCompletion::update()
     QRegExp actionTypeIdExp(".*actionTypeId: \"[a-zA-Z0-9-]*");
     if (actionTypeIdExp.exactMatch(blockText)) {
         BlockInfo info = getBlockInfo(m_cursor.position());
-        if (!info.properties.contains("deviceId")) {
+        QString thingId;
+        if (info.properties.contains("thingId")) {
+            thingId = info.properties.value("thingId");
+        } else if (info.properties.contains("deviceId")) {
+            thingId = info.properties.value("deviceId");
+        } else {
             return;
         }
-        QString deviceId = info.properties.value("deviceId");
 
-        qDebug() << "selected deviceId" << deviceId;
-        Device *device = m_engine->deviceManager()->devices()->getDevice(deviceId);
+        qDebug() << "selected deviceId" << thingId;
+        Device *device = m_engine->deviceManager()->devices()->getDevice(thingId);
         if (!device) {
             return;
         }
@@ -255,13 +284,17 @@ void CodeCompletion::update()
     QRegExp actionNameExp(".*actionName: \"[a-zA-Z0-9-]*");
     if (actionNameExp.exactMatch(blockText)) {
         BlockInfo info = getBlockInfo(m_cursor.position());
-        if (!info.properties.contains("deviceId")) {
+        QString thingId;
+        if (info.properties.contains("thingId")) {
+            thingId = info.properties.value("thingId");
+        } else if (info.properties.contains("deviceId")) {
+            thingId = info.properties.value("deviceId");
+        } else {
             return;
         }
-        QString deviceId = info.properties.value("deviceId");
 
-        qDebug() << "selected deviceId" << deviceId;
-        Device *device = m_engine->deviceManager()->devices()->getDevice(deviceId);
+        qDebug() << "selected deviceId" << thingId;
+        Device *device = m_engine->deviceManager()->devices()->getDevice(thingId);
         if (!device) {
             return;
         }
@@ -280,12 +313,17 @@ void CodeCompletion::update()
     QRegExp eventTypeIdExp(".*eventTypeId: \"[a-zA-Z0-9-]*");
     if (eventTypeIdExp.exactMatch(blockText)) {
         BlockInfo info = getBlockInfo(m_cursor.position());
-        if (!info.properties.contains("deviceId")) {
+        QString thingId;
+        if (info.properties.contains("thingId")) {
+            thingId = info.properties.value("thingId");
+        } else if (info.properties.contains("deviceId")) {
+            thingId = info.properties.value("deviceId");
+        } else {
             return;
         }
-        QString deviceId = info.properties.value("deviceId");
 
-        Device *device = m_engine->deviceManager()->devices()->getDevice(deviceId);
+        qDebug() << "selected deviceId" << thingId;
+        Device *device = m_engine->deviceManager()->devices()->getDevice(thingId);
         if (!device) {
             return;
         }
@@ -304,12 +342,18 @@ void CodeCompletion::update()
     QRegExp eventNameExp(".*eventName: \"[a-zA-Z0-9-]*");
     if (eventNameExp.exactMatch(blockText)) {
         BlockInfo info = getBlockInfo(m_cursor.position());
-        if (!info.properties.contains("deviceId")) {
+        QString thingId;
+        if (info.properties.contains("thingId")) {
+            thingId = info.properties.value("thingId");
+        } else if (info.properties.contains("deviceId")) {
+            thingId = info.properties.value("deviceId");
+        } else {
             return;
         }
-        QString deviceId = info.properties.value("deviceId");
 
-        Device *device = m_engine->deviceManager()->devices()->getDevice(deviceId);
+        qDebug() << "selected deviceId" << thingId;
+
+        Device *device = m_engine->deviceManager()->devices()->getDevice(thingId);
         if (!device) {
             return;
         }
