@@ -1,3 +1,11 @@
+nymea-app (1.0.191) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix interfaces handling
+  * Add Thing items and thingId support to script editor
+
+ -- Jenkins <jenkins@nymea.io>  Sun, 29 Mar 2020 01:09:32 +0100
+
 nymea-app (1.0.190) bionic; urgency=medium
 
   [ Michael Zanetti ]
