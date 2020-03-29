@@ -1,3 +1,10 @@
+nymea-app (1.0.192) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix units in dynamic graph view updates
+
+ -- Jenkins <jenkins@nymea.io>  Sun, 29 Mar 2020 20:23:42 +0200
+
 nymea-app (1.0.191) bionic; urgency=medium
 
   [ Michael Zanetti ]
