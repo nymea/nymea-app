@@ -135,7 +135,6 @@ void DeviceManager::addDevice(const QUuid &deviceClassId, const QString &name, c
 void DeviceManager::notificationReceived(const QVariantMap &data)
 {
     QString notification = data.value("notification").toString();
-    qDebug() << "*** Notification received:" << notification;
     if (notification == "Devices.StateChanged") {
 //        qDebug() << "Device state changed" << data.value("params");
         Device *dev = m_devices->getDevice(data.value("params").toMap().value("deviceId").toUuid());

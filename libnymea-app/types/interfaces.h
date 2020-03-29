@@ -70,6 +70,7 @@ private:
     void addStateType(const QString &interfaceName, const QString &name, QVariant::Type type, bool writable, const QString &displayName, const QString &displayNameEvent, const QString &displayNameAction = QString(), const QVariant &min = QVariant(), const QVariant &max = QVariant());
 
     ParamTypes* createParamTypes(const QString &name, const QString &displayName, QVariant::Type type, const QVariant &defaultValue = QVariant(), const QVariant &minValue = QVariant(), const QVariant &maxValue = QVariant());
+    ParamTypes* createParamTypes(const QString &name, const QString &displayName, QVariant::Type type, const QVariant &defaultValue, const QVariantList &allowedValues);
     void addParamType(ParamTypes* paramTypes, const QString &name, const QString &displayName, QVariant::Type type, const QVariant &defaultValue = QVariant(), const QVariant &minValue = QVariant(), const QVariant &maxValue = QVariant());
 };
 
