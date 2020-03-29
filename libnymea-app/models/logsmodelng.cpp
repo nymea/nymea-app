@@ -32,6 +32,7 @@
 #include <QDateTime>
 #include <QDebug>
 #include <QMetaEnum>
+#include <QJsonDocument>
 
 #include "engine.h"
 #include "types/logentry.h"
@@ -226,7 +227,7 @@ LogEntry *LogsModelNg::get(int index) const
 
 void LogsModelNg::logsReply(const QVariantMap &data)
 {
-//    qDebug() << "logs reply" << data;
+    qDebug() << "logs reply" << qUtf8Printable(QJsonDocument::fromVariant(data).toJson());
 
 
     int offset = data.value("params").toMap().value("offset").toInt();
@@ -273,7 +274,7 @@ void LogsModelNg::logsReply(const QVariantMap &data)
         StateType *entryStateType = dev->deviceClass()->stateTypes()->getStateType(entry->typeId());
 
         if (m_graphSeries) {
-            if (entryStateType->type() == "Bool") {
+            if (entryStateType->type().toLower() == "bool") {
 
                 // We don't want bools painting triangles, add a toggle point to keep lines straight
                 if (i > 0) {
@@ -307,7 +308,7 @@ void LogsModelNg::logsReply(const QVariantMap &data)
 
             } else {
 
-                // Add a pint in the future to extend the graph (so it can scroll with time and the graph wouldn't end at the last known value)
+                // Add a point in the future to extend the graph (so it can scroll with time and the graph wouldn't end at the last known value)
                 if (m_graphSeries->count() == 0) {
                     m_graphSeries->append(QPointF(QDateTime::currentDateTime().addDays(1).toMSecsSinceEpoch(), Types::instance()->toUiValue(entry->value(), entryStateType->unit()).toReal()));
                 }
@@ -406,7 +407,7 @@ bool LogsModelNg::canFetchMore(const QModelIndex &parent) const
 
 void LogsModelNg::newLogEntryReceived(const QVariantMap &data)
 {
-    qDebug() << "***** model NG" << data << m_live;
+//    qDebug() << "***** model NG" << data << m_live;
     if (!m_live) {
         return;
     }
@@ -434,10 +435,11 @@ void LogsModelNg::newLogEntryReceived(const QVariantMap &data)
     m_list.prepend(entry);
     if (m_graphSeries) {
 
-
         Device *dev = m_engine->deviceManager()->devices()->getDevice(entry->deviceId());
 
-        if (dev && dev->deviceClass()->stateTypes()->getStateType(entry->typeId())->type() == "Bool") {
+        StateType *entryStateType = dev->deviceClass()->stateTypes()->getStateType(entry->typeId());
+
+        if (dev && dev->deviceClass()->stateTypes()->getStateType(entry->typeId())->type().toLower() == "bool") {
             // First, remove the 2 rightmost (newest on the timeline) values. They're the ones in the future we added to extend the graph and making it end at 1
             if (m_graphSeries->count() > 1) {
                 m_graphSeries->removePoints(0, 2);
@@ -464,10 +466,11 @@ void LogsModelNg::newLogEntryReceived(const QVariantMap &data)
             }
 
             // Add the actual value
-            m_graphSeries->insert(0, QPointF(entry->timestamp().toMSecsSinceEpoch(), entry->value().toReal()));
+            QVariant value = Types::instance()->toUiValue(entry->value(), entryStateType->unit());
+            m_graphSeries->insert(0, QPointF(entry->timestamp().toMSecsSinceEpoch(), value.toReal()));
 
             // And add the "future" point again
-            m_graphSeries->insert(0, QPointF(entry->timestamp().addDays(1).toMSecsSinceEpoch(), entry->value().toReal()));
+            m_graphSeries->insert(0, QPointF(entry->timestamp().addDays(1).toMSecsSinceEpoch(), value.toReal()));
         }
 
 
