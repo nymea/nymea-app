@@ -37,8 +37,8 @@ import "../components"
 
 MainPageTile {
     id: root
-    text: interfaceToString(iface.name).toUpperCase()
-    iconName: interfaceToIcon(iface.name)
+    text: iface ? iface.displayName.toUpperCase() : qsTr("uncategorized").toUpperCase()
+    iconName: iface ? interfaceToIcon(iface.name) : interfaceToIcon("uncategorized")
     iconColor: app.accentColor
     disconnected: devicesSubProxyConnectables.count > 0
     batteryCritical: devicesSubProxyBattery.count > 0
@@ -50,6 +50,12 @@ MainPageTile {
 
     onClicked: {
         var page;
+        if (!iface) {
+            page = "GenericDeviceListPage.qml"
+            pageStack.push(Qt.resolvedUrl("../devicelistpages/" + page), {hiddenInterfaces: app.supportedInterfaces, filterTagId: root.filterTagId})
+            return;
+        }
+
         switch (iface.name) {
         case "heating":
         case "sensor":
@@ -88,12 +94,8 @@ MainPageTile {
         default:
             page = "GenericDeviceListPage.qml"
         }
-        if (iface.name === "uncategorized") {
-            pageStack.push(Qt.resolvedUrl("../devicelistpages/" + page), {hiddenInterfaces: app.supportedInterfaces, filterTagId: root.filterTagId})
-        } else {
-            print("<entering for shown interfaces:", iface.name)
-            pageStack.push(Qt.resolvedUrl("../devicelistpages/" + page), {shownInterfaces: [iface.name], filterTagId: root.filterTagId})
-        }
+        print("entering for shown interfaces:", iface.name)
+        pageStack.push(Qt.resolvedUrl("../devicelistpages/" + page), {shownInterfaces: [iface.name], filterTagId: root.filterTagId})
     }
 
     DevicesProxy {
