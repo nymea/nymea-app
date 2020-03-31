@@ -1,3 +1,10 @@
+nymea-app (1.0.193) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix opening links from the snap package
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 31 Mar 2020 13:22:24 +0200
+
 nymea-app (1.0.192) bionic; urgency=medium
 
   [ Michael Zanetti ]
