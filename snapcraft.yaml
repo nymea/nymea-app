@@ -30,6 +30,7 @@ apps:
     - network
     - opengl
     - x11
+    - desktop
 
 #  nymea-app-webgl:
 #    command: env PATH=$PATH:$SNAP/bin qt5-launch nymea-app -platform webgl:port=8080
