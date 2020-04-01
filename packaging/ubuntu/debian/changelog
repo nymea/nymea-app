@@ -1,3 +1,10 @@
+nymea-app (1.0.195) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix resource config for AAB package
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 01 Apr 2020 23:31:00 +0200
+
 nymea-app (1.0.194) bionic; urgency=medium
 
   [ Michael Zanetti ]
