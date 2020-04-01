@@ -77,6 +77,8 @@ android {
         $$ANDROID_PACKAGE_SOURCE_DIR/src/io/guh/nymeaapp/NymeaAppNotificationService.java \
         $$ANDROID_PACKAGE_SOURCE_DIR/LICENSE
 
+    # https://bugreports.qt.io/browse/QTBUG-83165
+    LIBS += -L$${top_builddir}/libnymea-app/$${ANDROID_TARGET_ARCH}
 }
 
 macx: {

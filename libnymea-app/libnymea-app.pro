@@ -283,3 +283,8 @@ HEADERS += \
 ubports: {
     DEFINES += UBPORTS
 }
+
+# https://bugreports.qt.io/browse/QTBUG-83165
+android: {
+    DESTDIR = $${ANDROID_TARGET_ARCH}
+}
