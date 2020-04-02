@@ -106,10 +106,9 @@ Page {
             delegate: ThingDelegate {
                 device: deviceProxy.getDevice(model.id)
                 // FIXME: This isn't entirely correct... we should have a way to know if a particular thing is in fact autocreated
-                // This check might be wrong for thingClasses with multiple create methods...
-                canDelete: !device.isChild && device.deviceClass.createMethods === ["auto"]
+                // This check might be wrong for thingClasses with multiple create methods...                
+                canDelete: !device.isChild || device.deviceClass.createMethods.indexOf("CreateMethodAuto") < 0
                 onClicked: {
-                    print("clicked:", model.id)
                     pageStack.push(Qt.resolvedUrl("ConfigureThingPage.qml"), {device: device})
                 }
                 onDeleteClicked: {

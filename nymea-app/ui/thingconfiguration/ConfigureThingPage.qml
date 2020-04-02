@@ -59,12 +59,12 @@ Page {
             deviceMenu.addItem(menuEntryComponent.createObject(deviceMenu, {text: qsTr("Rename"), iconSource: "../images/edit.svg", functionName: "renameThing"}))
             // FIXME: This isn't entirely correct... we should have a way to know if a particular thing is in fact autocreated
             // This check might be wrong for thingClasses with multiple create methods...
-            if (!root.device.isChild || root.deviceClass.createMethods !== ["auto"]) {
+            if (!root.device.isChild || root.deviceClass.createMethods.indexOf("CreateMethodAuto") < 0) {
                 deviceMenu.addItem(menuEntryComponent.createObject(deviceMenu, {text: qsTr("Delete"), iconSource: "../images/delete.svg", functionName: "deleteThing"}))
             }
             // FIXME: This isn't entirely correct... we should have a way to know if a particular thing is in fact autocreated
             // This check might be wrong for thingClasses with multiple create methods...
-            if (!root.device.isChild || root.deviceClass.createMethods !== ["auto"]) {
+            if (!root.device.isChild || root.deviceClass.createMethods.indexOf("CreateMethodAuto") < 0) {
                 deviceMenu.addItem(menuEntryComponent.createObject(deviceMenu, {text: qsTr("Reconfigure"), iconSource: "../images/configure.svg", functionName: "reconfigureThing"}))
             }
         }
