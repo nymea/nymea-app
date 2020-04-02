@@ -41,5 +41,7 @@
         <string>Nymea boxes can be connected to WiFi using a Bluetooth setup. Also, this app can connect to nymea boxes using Bluetooth only, without requiring WiFi at all.</string>
         <key>UIViewControllerBasedStatusBarAppearance</key>
         <false/>
+        <key>XSAppIconAssets</key>
+        <string>AppIcons.xcassets/AppIcon.appiconset</string>
 </dict>
 </plist>
