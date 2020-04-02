@@ -120,7 +120,7 @@ Page {
                         engine.deviceManager.rePairDevice(root.device.id, []);
                         break;
                     default:
-                        console.warn("Unahndled setup method!")
+                        console.warn("Unhandled setup method!")
                     }
                 }
             }
