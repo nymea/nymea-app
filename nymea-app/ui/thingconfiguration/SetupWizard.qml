@@ -403,17 +403,20 @@ Page {
                             var params = []
                             for (var i = 0; i < paramRepeater.count; i++) {
                                 var param = {}
-                                param.paramTypeId = paramRepeater.itemAt(i).paramType.id
-                                param.value = paramRepeater.itemAt(i).value
-                                print("adding param", param.paramTypeId, param.value)
-                                params.push(param)
+                                var paramType = paramRepeater.itemAt(i).paramType
+                                if (!paramType.readOnly) {
+                                    param.paramTypeId = paramType.id
+                                    param.value = paramRepeater.itemAt(i).value
+                                    print("adding param", param.paramTypeId, param.value)
+                                    params.push(param)
+                                }
                             }
 
                             switch (root.deviceClass.setupMethod) {
                             case 0:
                                 if (root.device) {
                                     if (d.deviceDescriptor) {
-                                        engine.deviceManager.reconfigureDiscoveredDevice(root.device.id, d.deviceDescriptor.id);
+                                        engine.deviceManager.reconfigureDiscoveredDevice(root.device.id, d.deviceDescriptor.id, params);
                                     } else {
                                         engine.deviceManager.reconfigureDevice(root.device.id, params);
                                     }
