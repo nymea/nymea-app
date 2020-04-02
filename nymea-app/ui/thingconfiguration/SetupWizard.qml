@@ -75,7 +75,7 @@ Page {
     }
 
     Component.onCompleted: {
-        print("Starting setup wizard")
+        print("Starting setup wizard. Create Methods:", root.deviceClass.createMethods, "Setup method:", root.deviceClass.setupMethod)
         if (root.deviceClass.createMethods.indexOf("CreateMethodDiscovery") !== -1) {
             print("CreateMethodDiscovery")
             if (deviceClass["discoveryParamTypes"].count > 0) {
@@ -115,6 +115,7 @@ Page {
                     case 2:
                     case 3:
                     case 4:
+                    case 5:
                         print("re-pairing", root.device.id)
                         engine.deviceManager.rePairDevice(root.device.id, []);
                         break;
