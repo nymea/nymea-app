@@ -1,3 +1,13 @@
+nymea-app (1.0.196) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix unit for pressure in weather view
+  * Fix providing param overrides for rediscovery
+  * Fix the check for preventing to remove auto things
+  * Fix ios appicon catalog
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 03 Apr 2020 12:29:54 +0200
+
 nymea-app (1.0.195) bionic; urgency=medium
 
   [ Michael Zanetti ]
