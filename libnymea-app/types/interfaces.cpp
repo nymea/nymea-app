@@ -277,11 +277,11 @@ Interfaces::Interfaces(QObject *parent) : QAbstractListModel(parent)
     addStateType("weather", "temperature", QVariant::Double, false, tr("Temperature"), tr("Temperature changed"));
     addStateType("weather", "humidity", QVariant::Double, false, tr("Humidity"), tr("Humidity changed"));
     addStateType("weather", "humidity", QVariant::Double, false, tr("Pressure"), tr("Pressure changed"));
-    addStateType("weather", "windSpeed", QVariant::Double, false, tr("Wind seed"), tr("Wind speed changed"));
+    addStateType("weather", "windSpeed", QVariant::Double, false, tr("Wind speed"), tr("Wind speed changed"));
     addStateType("weather", "windDirection", QVariant::Int, false, tr("Wind direction"), tr("Wind direction changed"));
 
     addInterface("windspeedsensor", tr("Wind speed sensors"), {"sensor"});
-    addStateType("windspeedsensor", "windSpeed", QVariant::Double, false, tr("Wind speed"), tr("Wind speed change"));
+    addStateType("windspeedsensor", "windSpeed", QVariant::Double, false, tr("Wind speed"), tr("Wind speed changed"));
 
     addInterface("wirelessconnectable", tr("Wireless devices"), {"connectable"});
     addStateType("wirelessconnectable", "signalStrength", QVariant::UInt, false, tr("Signal strength"), tr("Signal strength changed"));
