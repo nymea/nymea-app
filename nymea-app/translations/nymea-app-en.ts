@@ -54,6 +54,26 @@
         <source>Built with %1</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Suru icons by Ubuntu</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ubuntu font by Ubuntu</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>QtZeroConf library by Jonathan Bagg</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OpenSSL libraries by Eric Young</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Oswald font by The Oswald Project</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>AppLogPage</name>
@@ -85,10 +105,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Yeehaaa!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>About %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -98,6 +114,10 @@
     </message>
     <message>
         <source>Log into %1:cloud and manage connected %1:core systems</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Access tools for debugging and error reporting</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -236,6 +256,17 @@
     </message>
 </context>
 <context>
+    <name>ButtonDevicePage</name>
+    <message>
+        <source>This switch has not been used yet.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Press a button on the switch to see logs appearing here.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>CalendarItemDelegate</name>
     <message>
         <source>From %1 to %2</source>
@@ -352,10 +383,6 @@
             <numerusform>There is %n box connected to your cloud.</numerusform>
             <numerusform>There are %n boxes connected to your cloud.</numerusform>
         </translation>
-    </message>
-    <message>
-        <source>Cloud login</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Sorry, an error happened removing the account. Please try again later.</source>
@@ -505,10 +532,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Log in to %1:cloud in order to connect to %1:core systems from anywhere.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Failed to connect to the login server. Please mase sure your network connection is working.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -516,17 +539,25 @@
         <source>An unexpected error happened. Please report this isse. Error code: %1</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>%1 cloud login</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Login</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connected %1:core systems</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Log %1 in to %2:cloud in order to connect to %2:core systems from anywhere and receive push notifications from %2:core systems.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>CloudSettingsPage</name>
-    <message>
-        <source>Cloud settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>You can connect a nymea:box to a nymea:cloud in order to access it from anywhere</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <source>Cloud connection enabled</source>
         <translation type="unfinished"></translation>
@@ -561,6 +592,38 @@
     </message>
     <message>
         <source>Log in to cloud</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1:core cloud settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cloud connection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connect %1:core to %1:cloud in order to access it from anywhere and send push notifications from %1:core to %2.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Status</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remote connection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>In order to remotely connect to this %1:core, %2 needs to be logged into %1:cloud as well.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Go to app settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set up cloud connection for %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -696,6 +759,10 @@
         <source>Do you have a %1:core but it&apos;s not connected to your network yet? Use the wireless setup to connect it!</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Info</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ConnectWiFiPage</name>
@@ -759,15 +826,15 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>An unknown error happened. We&apos;re very sorry for that.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>%1:core could not be found on this address. Please make sure you entered the address correctly and that the system is powered on.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>An unknown error happened. We&apos;re very sorry for that. (Error code: %1)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -907,7 +974,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Experience mode</source>
+        <source>Logging</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Advanced options</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -935,6 +1006,10 @@
     </message>
     <message>
         <source>Open debug interface</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Debug server</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1010,6 +1085,14 @@
         <source>Groups for %1</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Thing is being set up...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Thing setup failed!</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DeviceRulesPage</name>
@@ -1042,6 +1125,10 @@
     </message>
     <message>
         <source>%1 open</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>uncategorized</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1667,6 +1754,18 @@ Please try again.</source>
         <source>Time</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>General</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Date and time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>System</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>GenericDeviceListPage</name>
@@ -1757,6 +1856,13 @@ Please try again.</source>
     </message>
 </context>
 <context>
+    <name>GenericTypeLogView</name>
+    <message>
+        <source>Magic</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Graph</name>
     <message>
         <source>Sorry, there isn&apos;t enough data to display a graph here yet!</source>
@@ -1792,10 +1898,6 @@ Please try again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Licensed under the terms of the GNU general public license, version 2. Please visit the GitHub page for source code and build instructions.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Visit the nymea website</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1808,10 +1910,6 @@ Please try again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>View license text</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Qt is a registered trademark of The Qt Company Ltd. and its subsidiaries.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1820,11 +1918,19 @@ Please try again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>License text</source>
+        <source>nymea is a registered trademark of nymea GmbH.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>nymea is a registered trademark of nymea GmbH.</source>
+        <source>Licensed under the terms of the GNU General Public License, version 3. Please visit the GitHub page for source code and build instructions.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Software license</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Additional software licenses</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1955,22 +2061,6 @@ Please try again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Garage gates</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Air sensors</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Air quality</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Air quality changed</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Humidity sensors</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2067,10 +2157,6 @@ Please try again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Light intensity sensors</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Light intensity</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2100,6 +2186,558 @@ Please try again.</source>
     </message>
     <message>
         <source>Skip next</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Access control systems</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Access granted</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Access denied</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connectable things</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Accounts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>User is logged in</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>User login changed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Alert</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Simple closables</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Closables</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Stop</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Barcode scanners</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Content</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Code scanned</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Battery level</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Battery level changed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Switches</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Button pressed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sensor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Closable sensors</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Closed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Opened or closed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>CO2 sensor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>CO2 level</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>CO2 level changed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Color temperature light</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Lights color temperature is</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A lights color temperature has changed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set lights color temperature</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Color lights</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Light&apos;s color is</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A light&apos;s color has changed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set lights color</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Conductivity sensors</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Conductivity</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Conductivity changed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Doorbells</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Doorbell pressed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Moving</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Moving changed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>EV chargers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Maximum charging current</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Maximum charging current changed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set maximum charging current</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Percentage</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Percentage changed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set percentage</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Media</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Fast forward</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Fast rewind</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Navigation pad</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Navigate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Smart meter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Smart meters</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Total energy consumed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Total energy consumed changed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current power</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current power changed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Total energy producedd</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Total energy produced changed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Volume control</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Mute</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Muted</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Volume</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Volume changed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set volume</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>User access control systems</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Users</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Users changed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>User</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add user</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove user</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Fingerprint readers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Finger</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Garage doors</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>State</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>State changed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Intermediate position</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Intermediate position changed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Incoming events</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Triggered</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Light sensors</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Buttons</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Long pressed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Media sources</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Title changed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Artist</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Artist changed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Collection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Collection changed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Artwork</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Artwork changed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Moisture sensors</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Moisture</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Moisture changed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Button name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pressed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Noise sensors</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Noise level</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Noise level changed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Outgoing events</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Trigger</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Power sockets</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Powered</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Turned on/off</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Turn on/off</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Power switches</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pressure sensors</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pressure</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pressure changed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Media player</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shuffle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shuffle changed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set shuffle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Repeat</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Repeat changed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set repeat</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Smart locks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unlatch</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Thermostats</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Target temperature</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Target temperature changed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set target temperature</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Weather</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Weather description</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Weather description changed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Weather condition</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Weather condition changed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Temperature changed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Wind speed changed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Wind direction</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Wind direction changed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Wind speed sensors</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Wind speed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Wireless devices</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Signal strength</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Signal strength changed</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2264,6 +2902,22 @@ Please try again.</source>
     </message>
     <message>
         <source>Imperial</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Appearance</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Experience mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Regional</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Behavior</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2597,6 +3251,10 @@ Please try again.</source>
         <source>Allowed subscribe filters</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Client info</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>NetworkSettingsPage</name>
@@ -2713,10 +3371,6 @@ Please try again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Shows the current ethernet status</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Plugged in</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2778,6 +3432,18 @@ Please try again.</source>
     </message>
     <message>
         <source>Disabling WiFi will disconnect all clients connected via WiFi. Be aware that you will not be able to interact remotely with this %1 system any more unless a LAN cable is connected.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>General</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No wired network interfaces available</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enabled</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3098,6 +3764,13 @@ Please try again.</source>
     </message>
     <message>
         <source>Country:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>NymeaListItemDelegate</name>
+    <message>
+        <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3664,6 +4337,14 @@ Please try again.</source>
         <source>Configure how clients interact with this system</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>User settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Configure who can log in</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SetupWizard</name>
@@ -4012,6 +4693,57 @@ Do you want to proceed?</source>
     </message>
     <message>
         <source>The system may restart in order to complete the update. %1:app will reconnect automatically after the update.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>UsersSettingsPage</name>
+    <message>
+        <source>User settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The given password is not valid.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Permission denied.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The new password could not be stored.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Un unexpected error happened when changing the password. We&apos;re sorry for this. (Error code: %1)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>User info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Username</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Change password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Devices / Apps accessing nymea:core</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Created on %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please enter the new password for %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

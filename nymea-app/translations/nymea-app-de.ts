@@ -113,6 +113,26 @@
         <source>Built with %1</source>
         <translation>Erstellt mit %1</translation>
     </message>
+    <message>
+        <source>Suru icons by Ubuntu</source>
+        <translation>Suru Icons von Ubuntu</translation>
+    </message>
+    <message>
+        <source>Ubuntu font by Ubuntu</source>
+        <translation>Ubuntu Schrift von Ubuntu</translation>
+    </message>
+    <message>
+        <source>QtZeroConf library by Jonathan Bagg</source>
+        <translation>QtZeroConf Bibliothek von Jonathan Bagg</translation>
+    </message>
+    <message>
+        <source>OpenSSL libraries by Eric Young</source>
+        <translation>OpenSSL Bibliothek von Eric Young</translation>
+    </message>
+    <message>
+        <source>Oswald font by The Oswald Project</source>
+        <translation>Oswald Schrift von &quot;The Oswald Project&quot;</translation>
+    </message>
 </context>
 <context>
     <name>AppLogPage</name>
@@ -197,7 +217,7 @@
     </message>
     <message>
         <source>Yeehaaa!</source>
-        <translation>Yeehaaa!</translation>
+        <translation type="vanished">Yeehaaa!</translation>
     </message>
     <message>
         <source>Find app versions and licence information</source>
@@ -206,6 +226,10 @@
     <message>
         <source>Log into %1:cloud and manage connected %1:core systems</source>
         <translation>Melde dich bei %1:cloud an und verwalte deine verbundenen %1:core Systeme</translation>
+    </message>
+    <message>
+        <source>Access tools for debugging and error reporting</source>
+        <translation>Greife auf Werkzeuge und Fehleranalyse-Werkzeuge zu</translation>
     </message>
 </context>
 <context>
@@ -422,6 +446,14 @@
         <source>This button has been pressed %1 times in the last %2 days.</source>
         <translation type="vanished">Dieser Knopf wurde in den letzten %2 Tagen %1 mal betätigt.</translation>
     </message>
+    <message>
+        <source>This switch has not been used yet.</source>
+        <translation>Dieser Schalter wurde noch nicht benutzt.</translation>
+    </message>
+    <message>
+        <source>Press a button on the switch to see logs appearing here.</source>
+        <translation>Drücke einen Knopf auf dem Schalter um die Ereignisse hier anzuzeigen.</translation>
+    </message>
 </context>
 <context>
     <name>CalendarItemDelegate</name>
@@ -545,7 +577,7 @@
     <name>CloudLoginPage</name>
     <message>
         <source>Cloud login</source>
-        <translation>Cloud Login</translation>
+        <translation type="vanished">Cloud Login</translation>
     </message>
     <message>
         <source>Sorry, an error happened removing the account. Please try again later.</source>
@@ -726,7 +758,7 @@
     </message>
     <message>
         <source>Log in to %1:cloud in order to connect to %1:core systems from anywhere.</source>
-        <translation>Melde Dich bei %1:cloud an um von überall aus auf Deine %1:core Systeme zugreifen zu können.</translation>
+        <translation type="vanished">Melde Dich bei %1:cloud an um von überall aus auf Deine %1:core Systeme zugreifen zu können.</translation>
     </message>
     <message>
         <source>Failed to connect to the login server. Please mase sure your network connection is working.</source>
@@ -740,16 +772,32 @@
         <source>An unexpected error happened. Please report this isse. Error code: %1</source>
         <translation>Ein unerwarteter Fehler ist aufgetreten. Bitte berichte dieses Problem. Fehlercode: %1</translation>
     </message>
+    <message>
+        <source>%1 cloud login</source>
+        <translation>%1 Cloud-Benutzerkonto</translation>
+    </message>
+    <message>
+        <source>Login</source>
+        <translation>Anmelden</translation>
+    </message>
+    <message>
+        <source>Connected %1:core systems</source>
+        <translation>Verbundene %1:core Systeme</translation>
+    </message>
+    <message>
+        <source>Log %1 in to %2:cloud in order to connect to %2:core systems from anywhere and receive push notifications from %2:core systems.</source>
+        <translation>Melde %1 in %2:cloud an um Dich aus der Ferne zu Deinem %2:core System zu verbinden und Push Nachrichten von %2:core Systemen zu empfangen.</translation>
+    </message>
 </context>
 <context>
     <name>CloudSettingsPage</name>
     <message>
         <source>Cloud settings</source>
-        <translation>Cloud Einstellungen</translation>
+        <translation type="vanished">Cloud Einstellungen</translation>
     </message>
     <message>
         <source>You can connect a nymea:box to a nymea:cloud in order to access it from anywhere</source>
-        <translation>Du kannst eine nymea:box mit nymea:cloud verbinden um von überall aus auf sie zuzugreifen</translation>
+        <translation type="vanished">Du kannst eine nymea:box mit nymea:cloud verbinden um von überall aus auf sie zuzugreifen</translation>
     </message>
     <message>
         <source>Cloud connection enabled</source>
@@ -786,6 +834,38 @@
     <message>
         <source>Log in to cloud</source>
         <translation>Bei Cloud einloggen</translation>
+    </message>
+    <message>
+        <source>%1:core cloud settings</source>
+        <translation>%1:core Cloud-Einstellungen</translation>
+    </message>
+    <message>
+        <source>Cloud connection</source>
+        <translation>Cloud Verbindung</translation>
+    </message>
+    <message>
+        <source>Connect %1:core to %1:cloud in order to access it from anywhere and send push notifications from %1:core to %2.</source>
+        <translation>Verbinde %1:core zu %1:cloud um Dich aus der Ferne anzumelden und Push Nachrichten von %1:core zu %2 zu senden.</translation>
+    </message>
+    <message>
+        <source>Status</source>
+        <translation>Status</translation>
+    </message>
+    <message>
+        <source>Remote connection</source>
+        <translation>Fernverbindung</translation>
+    </message>
+    <message>
+        <source>In order to remotely connect to this %1:core, %2 needs to be logged into %1:cloud as well.</source>
+        <translation>Um Dich aus der Ferne zu diesem %1:core zu verbinden, muss %2 in %1:cloud eingeloggt sein.</translation>
+    </message>
+    <message>
+        <source>Go to app settings</source>
+        <translation>Gehe zu App-Einstellungen</translation>
+    </message>
+    <message>
+        <source>Set up cloud connection for %1</source>
+        <translation>Cloud-Verbindung für %1 einrichten</translation>
     </message>
 </context>
 <context>
@@ -1092,6 +1172,10 @@
         <source>Do you have a %1:core but it&apos;s not connected to your network yet? Use the wireless setup to connect it!</source>
         <translation>Hast Du bereits ein %1:core aber es ist noch nicht mit Deinem Netzwerk verbunden? Benutze das Kabellose Setup um eine WLAN-Verbindung herzustellen!</translation>
     </message>
+    <message>
+        <source>Info</source>
+        <translation>Information</translation>
+    </message>
 </context>
 <context>
     <name>ConnectWiFiPage</name>
@@ -1172,11 +1256,15 @@
     </message>
     <message>
         <source>An unknown error happened. We&apos;re very sorry for that.</source>
-        <translation>Ein unbekannter Fehler ist aufgetreten. Das tut uns leid.</translation>
+        <translation type="vanished">Ein unbekannter Fehler ist aufgetreten. Das tut uns leid.</translation>
     </message>
     <message>
         <source>%1:core could not be found on this address. Please make sure you entered the address correctly and that the system is powered on.</source>
         <translation>%1:core konnte unter dieser Addresse nicht erreicht werden. Bitte stelle sicher, dass Du die Adresse richtig eingegeben hast und das System eingeschaltet ist.</translation>
+    </message>
+    <message>
+        <source>An unknown error happened. We&apos;re very sorry for that. (Error code: %1)</source>
+        <translation>Ein unbekannter Fehler ist aufgetreten. Dies tut uns leid. (Fehlercode: %1)</translation>
     </message>
 </context>
 <context>
@@ -1336,11 +1424,19 @@
     </message>
     <message>
         <source>Experience mode</source>
-        <translation>&quot;Experience&quot; Modus</translation>
+        <translation type="vanished">&quot;Experience&quot; Modus</translation>
     </message>
     <message>
         <source>App log</source>
         <translation type="vanished">App Logs</translation>
+    </message>
+    <message>
+        <source>Logging</source>
+        <translation>Protokoll</translation>
+    </message>
+    <message>
+        <source>Advanced options</source>
+        <translation>Erweiterte Einstellungen</translation>
     </message>
 </context>
 <context>
@@ -1368,6 +1464,10 @@
     <message>
         <source>Open debug interface</source>
         <translation>Testschnittstelle öffnen</translation>
+    </message>
+    <message>
+        <source>Debug server</source>
+        <translation>Debug Server</translation>
     </message>
 </context>
 <context>
@@ -1450,6 +1550,14 @@
         <source>Groups for %1</source>
         <translation>Gruppen für %1</translation>
     </message>
+    <message>
+        <source>Thing is being set up...</source>
+        <translation>&quot;Thing&quot; wird konfiguriert...</translation>
+    </message>
+    <message>
+        <source>Thing setup failed!</source>
+        <translation>Konfiguration fehlgeschlagen.</translation>
+    </message>
 </context>
 <context>
     <name>DeviceRulesPage</name>
@@ -1498,6 +1606,10 @@
     <message>
         <source>%1 installed</source>
         <translation type="vanished">%1 installiert</translation>
+    </message>
+    <message>
+        <source>uncategorized</source>
+        <translation>nicht kategorisiert</translation>
     </message>
 </context>
 <context>
@@ -2224,6 +2336,18 @@ Bitte versuche es erneut.</translation>
         <source>Time</source>
         <translation>Zeit</translation>
     </message>
+    <message>
+        <source>General</source>
+        <translation>Allgemein</translation>
+    </message>
+    <message>
+        <source>Date and time</source>
+        <translation>Datum und Uhrzeit</translation>
+    </message>
+    <message>
+        <source>System</source>
+        <translation>System</translation>
+    </message>
 </context>
 <context>
     <name>GenericDeviceListPage</name>
@@ -2323,6 +2447,10 @@ Bitte versuche es erneut.</translation>
         <source>Data:</source>
         <translation type="vanished">Daten:</translation>
     </message>
+    <message>
+        <source>Magic</source>
+        <translation>Magie</translation>
+    </message>
 </context>
 <context>
     <name>Graph</name>
@@ -2365,7 +2493,7 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Licensed under the terms of the GNU general public license, version 2. Please visit the GitHub page for source code and build instructions.</source>
-        <translation>Lizensiert unter den Bedingungen der GNU General Public License, Version 2. Bitte besuchen Sie die GitHub seite für Quellcode und Installationsanleitungen.</translation>
+        <translation type="vanished">Lizensiert unter den Bedingungen der GNU General Public License, Version 2. Bitte besuchen Sie die GitHub seite für Quellcode und Installationsanleitungen.</translation>
     </message>
     <message>
         <source>Visit the nymea website</source>
@@ -2381,7 +2509,7 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>View license text</source>
-        <translation>Lizenztext</translation>
+        <translation type="vanished">Lizenztext</translation>
     </message>
     <message>
         <source>Qt is a registered trademark of The Qt Company Ltd. and its subsidiaries.</source>
@@ -2393,11 +2521,23 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>License text</source>
-        <translation>Lizenztext</translation>
+        <translation type="vanished">Lizenztext</translation>
     </message>
     <message>
         <source>nymea is a registered trademark of nymea GmbH.</source>
-        <translation>nymea ist ein eingetragenes Markenzeichen der nymea GmbH</translation>
+        <translation>nymea ist ein eingetragenes Markenzeichen der nymea GmbH.</translation>
+    </message>
+    <message>
+        <source>Licensed under the terms of the GNU General Public License, version 3. Please visit the GitHub page for source code and build instructions.</source>
+        <translation>Lizensiert unter den Bedingungen der GNU General Public License, Version 3. Bitte besuche die GitHub Seite für mehr Informationen zum Quellcode und Kompilier-Anleitungen.</translation>
+    </message>
+    <message>
+        <source>Software license</source>
+        <translation>Software-Lizenz</translation>
+    </message>
+    <message>
+        <source>Additional software licenses</source>
+        <translation>Zusätzliche Software-Lizenzen</translation>
     </message>
 </context>
 <context>
@@ -2539,19 +2679,19 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Garage gates</source>
-        <translation>Garagentore</translation>
+        <translation type="vanished">Garagentore</translation>
     </message>
     <message>
         <source>Air sensors</source>
-        <translation>Luftsensoren</translation>
+        <translation type="vanished">Luftsensoren</translation>
     </message>
     <message>
         <source>Air quality</source>
-        <translation>Luftqualität</translation>
+        <translation type="vanished">Luftqualität</translation>
     </message>
     <message>
         <source>Air quality changed</source>
-        <translation>Luftqualität geändert</translation>
+        <translation type="vanished">Luftqualität geändert</translation>
     </message>
     <message>
         <source>Humidity sensors</source>
@@ -2651,7 +2791,7 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Light intensity sensors</source>
-        <translation>Lichtstärkesensoren</translation>
+        <translation type="vanished">Lichtstärkesensoren</translation>
     </message>
     <message>
         <source>Light intensity</source>
@@ -2684,6 +2824,566 @@ Bitte versuche es erneut.</translation>
     <message>
         <source>Skip next</source>
         <translation>Weiter springen</translation>
+    </message>
+    <message>
+        <source>Access control systems</source>
+        <translation>Zutrittsysteme</translation>
+    </message>
+    <message>
+        <source>Access granted</source>
+        <translation>Zutritt erlaubt</translation>
+    </message>
+    <message>
+        <source>Access denied</source>
+        <translation>Zutritt verweigert</translation>
+    </message>
+    <message>
+        <source>Connectable things</source>
+        <translation>Verbundene &quot;Things&quot;</translation>
+    </message>
+    <message>
+        <source>Accounts</source>
+        <translation>Konten</translation>
+    </message>
+    <message>
+        <source>User is logged in</source>
+        <translation>Benutzer ist eingeloggt</translation>
+    </message>
+    <message>
+        <source>User login changed</source>
+        <translation>Butzer-Login geändert</translation>
+    </message>
+    <message>
+        <source>Alert</source>
+        <translation>Alarm</translation>
+    </message>
+    <message>
+        <source>Simple closables</source>
+        <translation>Schließbare Geräte</translation>
+    </message>
+    <message>
+        <source>Closables</source>
+        <translation>Schließbare Geräte</translation>
+    </message>
+    <message>
+        <source>Stop</source>
+        <translation>Stop</translation>
+    </message>
+    <message>
+        <source>Barcode scanners</source>
+        <translation>Barcode-Scanner</translation>
+    </message>
+    <message>
+        <source>Content</source>
+        <translation>Inhalt</translation>
+    </message>
+    <message>
+        <source>Code scanned</source>
+        <translation>Inhalt gescannt</translation>
+    </message>
+    <message>
+        <source>Battery level</source>
+        <translation>Batteriezustand</translation>
+    </message>
+    <message>
+        <source>Battery level changed</source>
+        <translation>Batteriezustand geändert</translation>
+    </message>
+    <message>
+        <source>Switches</source>
+        <translation>Schalter</translation>
+    </message>
+    <message>
+        <source>Button pressed</source>
+        <translation>Schalter gedrückt</translation>
+    </message>
+    <message>
+        <source>Sensor</source>
+        <translation>Sensor</translation>
+    </message>
+    <message>
+        <source>Closable sensors</source>
+        <translation>Schließ-Sensoren</translation>
+    </message>
+    <message>
+        <source>Closed</source>
+        <translation>Geschlossen</translation>
+    </message>
+    <message>
+        <source>Opened or closed</source>
+        <translation>Geöffnet oder geschlossen</translation>
+    </message>
+    <message>
+        <source>CO2 sensor</source>
+        <translation>CO2 Sensor</translation>
+    </message>
+    <message>
+        <source>CO2 level</source>
+        <translation>CO2-Pegel</translation>
+    </message>
+    <message>
+        <source>CO2 level changed</source>
+        <translation>CO2 Pegel geändert</translation>
+    </message>
+    <message>
+        <source>Color temperature light</source>
+        <translation>Leuchtmittel mit Lichttemperatur</translation>
+    </message>
+    <message>
+        <source>Lights color temperature is</source>
+        <translation>Lighttemperatur ist</translation>
+    </message>
+    <message>
+        <source>A lights color temperature has changed</source>
+        <translation>Die Lichttemperatur einer Lampe wurde geändert</translation>
+    </message>
+    <message>
+        <source>Set lights color temperature</source>
+        <translation>Setze Lichttemperatur</translation>
+    </message>
+    <message>
+        <source>Color lights</source>
+        <translation>Farblampen</translation>
+    </message>
+    <message>
+        <source>Light&apos;s color is</source>
+        <translation>Die Farbe der Lampe ist</translation>
+    </message>
+    <message>
+        <source>A light&apos;s color has changed</source>
+        <translation>Die Farbe einer Lampe wurde geändert</translation>
+    </message>
+    <message>
+        <source>Set lights color</source>
+        <translation>Setze Lichtfarbe</translation>
+    </message>
+    <message>
+        <source>Conductivity sensors</source>
+        <translation>Leitwertsensoren</translation>
+    </message>
+    <message>
+        <source>Conductivity</source>
+        <translation>Leitwert</translation>
+    </message>
+    <message>
+        <source>Conductivity changed</source>
+        <translation>Leitwert geändert</translation>
+    </message>
+    <message>
+        <source>Doorbells</source>
+        <translation>Türklingeln</translation>
+    </message>
+    <message>
+        <source>Doorbell pressed</source>
+        <translation>Türklingel gedrückt</translation>
+    </message>
+    <message>
+        <source>Moving</source>
+        <translation>Bewegung</translation>
+    </message>
+    <message>
+        <source>Moving changed</source>
+        <translation>Bewegung geändert</translation>
+    </message>
+    <message>
+        <source>EV chargers</source>
+        <translation>EV-Ladestationen</translation>
+    </message>
+    <message>
+        <source>Maximum charging current</source>
+        <translation>Maximaler Ladestrom</translation>
+    </message>
+    <message>
+        <source>Maximum charging current changed</source>
+        <translation>Maximaler Ladestrom geändert</translation>
+    </message>
+    <message>
+        <source>Set maximum charging current</source>
+        <translation>Setze maximalen Ladestrom</translation>
+    </message>
+    <message>
+        <source>Percentage</source>
+        <translation>Prozent</translation>
+    </message>
+    <message>
+        <source>Percentage changed</source>
+        <translation>Prozent geändert</translation>
+    </message>
+    <message>
+        <source>Set percentage</source>
+        <translation>Setze Prozent</translation>
+    </message>
+    <message>
+        <source>Media</source>
+        <translation>Medien</translation>
+    </message>
+    <message>
+        <source>Fast forward</source>
+        <translation>Vorlauf</translation>
+    </message>
+    <message>
+        <source>Fast rewind</source>
+        <translation>Zurückspulen</translation>
+    </message>
+    <message>
+        <source>Navigation pad</source>
+        <translation>Navigationsfläche</translation>
+    </message>
+    <message>
+        <source>To</source>
+        <translation>Bis</translation>
+    </message>
+    <message>
+        <source>Navigate</source>
+        <translation>Navigieren</translation>
+    </message>
+    <message>
+        <source>Smart meter</source>
+        <translation>Intelligener Stromzähler</translation>
+    </message>
+    <message>
+        <source>Smart meters</source>
+        <translation>Intelligente Stromzähler</translation>
+    </message>
+    <message>
+        <source>Total energy consumed</source>
+        <translation>Energieverbrauch</translation>
+    </message>
+    <message>
+        <source>Total energy consumed changed</source>
+        <translation>Energieverbrauch geändert</translation>
+    </message>
+    <message>
+        <source>Current power</source>
+        <translation>Aktueller Energiefluss</translation>
+    </message>
+    <message>
+        <source>Current power changed</source>
+        <translation>Aktueller Energiefluss geändert</translation>
+    </message>
+    <message>
+        <source>Total energy producedd</source>
+        <translation>Erzeugte Energie</translation>
+    </message>
+    <message>
+        <source>Total energy produced changed</source>
+        <translation>Erzeugte Energie geändert</translation>
+    </message>
+    <message>
+        <source>Volume control</source>
+        <translation>Laustärke geändert</translation>
+    </message>
+    <message>
+        <source>Mute</source>
+        <translation>Stummschalten</translation>
+    </message>
+    <message>
+        <source>Muted</source>
+        <translation>Stummgeschaltet</translation>
+    </message>
+    <message>
+        <source>Volume</source>
+        <translation>Laustärke</translation>
+    </message>
+    <message>
+        <source>Volume changed</source>
+        <translation>Lautstärke geändert</translation>
+    </message>
+    <message>
+        <source>Set volume</source>
+        <translation>Setze Lautstärke</translation>
+    </message>
+    <message>
+        <source>User access control systems</source>
+        <translation>Zugriffskontrollsysteme</translation>
+    </message>
+    <message>
+        <source>Users</source>
+        <translation>Benutzer</translation>
+    </message>
+    <message>
+        <source>Users changed</source>
+        <translation>Benutzer geändert</translation>
+    </message>
+    <message>
+        <source>User</source>
+        <translation>Benutzer</translation>
+    </message>
+    <message>
+        <source>Add user</source>
+        <translation>Benutzer hinzufügen</translation>
+    </message>
+    <message>
+        <source>Remove user</source>
+        <translation>Benutzer entfernen</translation>
+    </message>
+    <message>
+        <source>Fingerprint readers</source>
+        <translation>Fingerabdrucklesegeräte</translation>
+    </message>
+    <message>
+        <source>Finger</source>
+        <translation>Finger</translation>
+    </message>
+    <message>
+        <source>Garage doors</source>
+        <translation>Garagentore</translation>
+    </message>
+    <message>
+        <source>State</source>
+        <translation>Zustand</translation>
+    </message>
+    <message>
+        <source>State changed</source>
+        <translation>Zustand geändert</translation>
+    </message>
+    <message>
+        <source>Intermediate position</source>
+        <translation>Mittelposition</translation>
+    </message>
+    <message>
+        <source>Intermediate position changed</source>
+        <translation>Mittelposition geändert</translation>
+    </message>
+    <message>
+        <source>Incoming events</source>
+        <translation>Einkommende Ereignisse</translation>
+    </message>
+    <message>
+        <source>Triggered</source>
+        <translation>Ausgelöst</translation>
+    </message>
+    <message>
+        <source>Light sensors</source>
+        <translation>Lichtsensoren</translation>
+    </message>
+    <message>
+        <source>Buttons</source>
+        <translation>Tasten</translation>
+    </message>
+    <message>
+        <source>Long pressed</source>
+        <translation>Lange gedrückt</translation>
+    </message>
+    <message>
+        <source>Media sources</source>
+        <translation>Medienquellen</translation>
+    </message>
+    <message>
+        <source>Title changed</source>
+        <translation>Titel geändert</translation>
+    </message>
+    <message>
+        <source>Artist</source>
+        <translation>Künstler</translation>
+    </message>
+    <message>
+        <source>Artist changed</source>
+        <translation>Künstler geändert</translation>
+    </message>
+    <message>
+        <source>Collection</source>
+        <translation>Sammlung</translation>
+    </message>
+    <message>
+        <source>Collection changed</source>
+        <translation>Sammlung geändert</translation>
+    </message>
+    <message>
+        <source>Artwork</source>
+        <translation>Medienbild</translation>
+    </message>
+    <message>
+        <source>Artwork changed</source>
+        <translation>Medienbild geändert</translation>
+    </message>
+    <message>
+        <source>Moisture sensors</source>
+        <translation>Feuchtigkeitssensoren</translation>
+    </message>
+    <message>
+        <source>Moisture</source>
+        <translation>Feuchtigkeit</translation>
+    </message>
+    <message>
+        <source>Moisture changed</source>
+        <translation>Feuchtigkeit geändert</translation>
+    </message>
+    <message>
+        <source>Button name</source>
+        <translation>Tastenname</translation>
+    </message>
+    <message>
+        <source>Pressed</source>
+        <translation>Gedrückt</translation>
+    </message>
+    <message>
+        <source>Noise sensors</source>
+        <translation>Geräuschsensoren</translation>
+    </message>
+    <message>
+        <source>Noise level</source>
+        <translation>Geräuschpegel</translation>
+    </message>
+    <message>
+        <source>Noise level changed</source>
+        <translation>Geräuschpegel geändert</translation>
+    </message>
+    <message>
+        <source>Outgoing events</source>
+        <translation>Ausgehende ereignisse</translation>
+    </message>
+    <message>
+        <source>Trigger</source>
+        <translation>Auslösen</translation>
+    </message>
+    <message>
+        <source>Power sockets</source>
+        <translation>Steckdosen</translation>
+    </message>
+    <message>
+        <source>Powered</source>
+        <translation>Eingeschaltet</translation>
+    </message>
+    <message>
+        <source>Turned on/off</source>
+        <translation>Ein- oder ausgeschaltet</translation>
+    </message>
+    <message>
+        <source>Turn on/off</source>
+        <translation>Ein- oder ausschalten</translation>
+    </message>
+    <message>
+        <source>Power switches</source>
+        <translation>Schalter</translation>
+    </message>
+    <message>
+        <source>Pressure sensors</source>
+        <translation>Drucksensoren</translation>
+    </message>
+    <message>
+        <source>Pressure</source>
+        <translation>Druck</translation>
+    </message>
+    <message>
+        <source>Pressure changed</source>
+        <translation>Druck geändert</translation>
+    </message>
+    <message>
+        <source>Media player</source>
+        <translation>Medienplayer</translation>
+    </message>
+    <message>
+        <source>Shuffle</source>
+        <translation>Zufallswiedergabe</translation>
+    </message>
+    <message>
+        <source>Shuffle changed</source>
+        <translation>Zufallswiedergabe geändert</translation>
+    </message>
+    <message>
+        <source>Set shuffle</source>
+        <translation>Setze Zufallswiedergabe</translation>
+    </message>
+    <message>
+        <source>Repeat</source>
+        <translation>Wiederholen</translation>
+    </message>
+    <message>
+        <source>Repeat changed</source>
+        <translation>Wiederholen geändert</translation>
+    </message>
+    <message>
+        <source>Set repeat</source>
+        <translation>Setze wiederholen</translation>
+    </message>
+    <message>
+        <source>Smart locks</source>
+        <translation>Smarte Türschlösser</translation>
+    </message>
+    <message>
+        <source>Unlatch</source>
+        <translation>Entriegeln</translation>
+    </message>
+    <message>
+        <source>Thermostats</source>
+        <translation>Thermostaten</translation>
+    </message>
+    <message>
+        <source>Target temperature</source>
+        <translation>Wunschtemperatur</translation>
+    </message>
+    <message>
+        <source>Target temperature changed</source>
+        <translation>Wunschtemperatur geändert</translation>
+    </message>
+    <message>
+        <source>Set target temperature</source>
+        <translation>Setze Wunschtemperatur</translation>
+    </message>
+    <message>
+        <source>Weather</source>
+        <translation>Wetter</translation>
+    </message>
+    <message>
+        <source>Weather description</source>
+        <translation>Wetterbeschreibung</translation>
+    </message>
+    <message>
+        <source>Weather description changed</source>
+        <translation>Wetterbeschreibung geändert</translation>
+    </message>
+    <message>
+        <source>Weather condition</source>
+        <translation>Wetter</translation>
+    </message>
+    <message>
+        <source>Weather condition changed</source>
+        <translation>Wetter geändert</translation>
+    </message>
+    <message>
+        <source>Temperature changed</source>
+        <translation>Temperatur geändert</translation>
+    </message>
+    <message>
+        <source>Wind seed</source>
+        <translation type="vanished">Windgeschwindigkeit</translation>
+    </message>
+    <message>
+        <source>Wind speed changed</source>
+        <translation>Windgeschwindigkeit geändert</translation>
+    </message>
+    <message>
+        <source>Wind direction</source>
+        <translation>Windrichtung</translation>
+    </message>
+    <message>
+        <source>Wind direction changed</source>
+        <translation>Windrichtung geändert</translation>
+    </message>
+    <message>
+        <source>Wind speed sensors</source>
+        <translation>Windsensoren</translation>
+    </message>
+    <message>
+        <source>Wind speed</source>
+        <translation>Windgeschwindigkeit</translation>
+    </message>
+    <message>
+        <source>Wind speed change</source>
+        <translation type="vanished">Änderung der Windgeschwindigkeit</translation>
+    </message>
+    <message>
+        <source>Wireless devices</source>
+        <translation>Kabellose Geräte</translation>
+    </message>
+    <message>
+        <source>Signal strength</source>
+        <translation>Signalstärke</translation>
+    </message>
+    <message>
+        <source>Signal strength changed</source>
+        <translation>Signalstärke geändert</translation>
     </message>
 </context>
 <context>
@@ -2927,6 +3627,22 @@ Bitte versuche es erneut.</translation>
     <message>
         <source>Imperial</source>
         <translation>Imperialistisch</translation>
+    </message>
+    <message>
+        <source>Appearance</source>
+        <translation>Aussehen</translation>
+    </message>
+    <message>
+        <source>Experience mode</source>
+        <translation>&quot;Experience&quot; Modus</translation>
+    </message>
+    <message>
+        <source>Regional</source>
+        <translation>Regional</translation>
+    </message>
+    <message>
+        <source>Behavior</source>
+        <translation>Verhalten</translation>
     </message>
 </context>
 <context>
@@ -3346,6 +4062,10 @@ Bitte versuche es erneut.</translation>
         <source>Allowed subscribe filters</source>
         <translation>Erlaubte Subscribe-Filter</translation>
     </message>
+    <message>
+        <source>Client info</source>
+        <translation>Klient-Informationen</translation>
+    </message>
 </context>
 <context>
     <name>NetworkSettingsPage</name>
@@ -3473,7 +4193,7 @@ Möchtest Du fortfahren?</translation>
     </message>
     <message>
         <source>Shows the current ethernet status</source>
-        <translation>Zeigt den aktuellen Zustand des Kabel-Netzwerks an</translation>
+        <translation type="vanished">Zeigt den aktuellen Zustand des Kabel-Netzwerks an</translation>
     </message>
     <message>
         <source>Plugged in</source>
@@ -3542,6 +4262,18 @@ Möchtest Du fortfahren?</translation>
     <message>
         <source>Disabling WiFi will disconnect all clients connected via WiFi. Be aware that you will not be able to interact remotely with this %1 system any more unless a LAN cable is connected.</source>
         <translation>Das Deaktivieren der WLAN-Verbindung wird alle über WLAN verbundenen Geräte trennen. Bitte beachte, dass es nicht mehr möglich sein wird mit diesem %1 System zu interagieren insofern kein Netzwerk-Kabel angeschlossen ist.</translation>
+    </message>
+    <message>
+        <source>General</source>
+        <translation>Allgemein</translation>
+    </message>
+    <message>
+        <source>No wired network interfaces available</source>
+        <translation>Kein Kabelnetzwerk vorhanden</translation>
+    </message>
+    <message>
+        <source>Enabled</source>
+        <translation>Aktiv</translation>
     </message>
 </context>
 <context>
@@ -3941,6 +4673,13 @@ Möchtest Du fortfahren?</translation>
     <message>
         <source>Country:</source>
         <translation>Land:</translation>
+    </message>
+</context>
+<context>
+    <name>NymeaListItemDelegate</name>
+    <message>
+        <source>Delete</source>
+        <translation>Löschen</translation>
     </message>
 </context>
 <context>
@@ -4689,6 +5428,14 @@ Möchtest Du fortfahren?</translation>
         <source>Configure how clients interact with this system</source>
         <translation>Richte ein, wie andere Geräte mit diesem System kommunizieren</translation>
     </message>
+    <message>
+        <source>User settings</source>
+        <translation>Benutzereinstellungen</translation>
+    </message>
+    <message>
+        <source>Configure who can log in</source>
+        <translation>Konfiguriere wer sich Verbinden darf</translation>
+    </message>
 </context>
 <context>
     <name>SetupWizard</name>
@@ -5111,6 +5858,57 @@ Bitte warte bis diese abgeschlossen ist.</translation>
     <message>
         <source>The system may restart in order to complete the update. %1:app will reconnect automatically after the update.</source>
         <translation>Das System wird möglicherweise neu starten um die Aktualisierung abzuschließen. %1:app wird automatisch neu verbinden sobald die Aktualisierung abgeschlossen ist.</translation>
+    </message>
+</context>
+<context>
+    <name>UsersSettingsPage</name>
+    <message>
+        <source>User settings</source>
+        <translation>Benutzereinstellungen</translation>
+    </message>
+    <message>
+        <source>The given password is not valid.</source>
+        <translation>Das eingegebene Passwort ist nicht gültig.</translation>
+    </message>
+    <message>
+        <source>Permission denied.</source>
+        <translation>Zugriff verweigert.</translation>
+    </message>
+    <message>
+        <source>The new password could not be stored.</source>
+        <translation>Das neue Passwort konnte nicht gespeichert werden.</translation>
+    </message>
+    <message>
+        <source>Un unexpected error happened when changing the password. We&apos;re sorry for this. (Error code: %1)</source>
+        <translation>Ein unerwarteter Fehler ist beim Ändern des Passwortes aufgetreten. Dies tut uns leid. (Fehlercode: %1)</translation>
+    </message>
+    <message>
+        <source>User info</source>
+        <translation>Benutzerinformationen</translation>
+    </message>
+    <message>
+        <source>Username</source>
+        <translation>Benutzername</translation>
+    </message>
+    <message>
+        <source>Change password</source>
+        <translation>Passwort ändern</translation>
+    </message>
+    <message>
+        <source>Devices / Apps accessing nymea:core</source>
+        <translation>Geräte/Apps welche auf nymea:core zugreifen</translation>
+    </message>
+    <message>
+        <source>Created on %1</source>
+        <translation>Erstellt am %1</translation>
+    </message>
+    <message>
+        <source>Please enter the new password for %1</source>
+        <translation>Bitte gib das neue Passwort für %1 ein</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>OK</translation>
     </message>
 </context>
 <context>
@@ -5687,7 +6485,7 @@ Bitte warte bis diese abgeschlossen ist.</translation>
     <name>ruleNameTemplate for buttontemplates</name>
     <message>
         <source>%0 turns on %1</source>
-        <translation>0% schaltet %1 ein</translation>
+        <translation>%0 schaltet %1 ein</translation>
     </message>
     <message>
         <source>%0 turns off %1</source>
