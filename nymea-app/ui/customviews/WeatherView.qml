@@ -122,7 +122,7 @@ CustomViewBase {
                     }
 
                     Label {
-                        text: (pressureState ? pressureState.value : "N/A") + " %"
+                        text: (pressureState ? pressureState.value : "N/A") + " mBar"
                     }
                     ColorIcon {
                         name: "../images/weathericons/wind.svg"
