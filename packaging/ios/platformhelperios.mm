@@ -102,8 +102,18 @@ void PlatformHelperIOS::generateNotificationFeedback()
 
 void PlatformHelperIOS::setTopPanelColorInternal(const QColor &color)
 {
-    UIView *statusBar = (UIView *)[[UIApplication sharedApplication] valueForKey:@"statusBar"];
-    statusBar.backgroundColor = [UIColor colorWithRed:color.redF() green:color.greenF() blue:color.blueF() alpha:color.alphaF()];
+    if (@available(iOS 13.0, *)) {
+        UIView *statusBar = [[UIView alloc]initWithFrame:[UIApplication sharedApplication].keyWindow.windowScene.statusBarManager.statusBarFrame];
+        if ([statusBar respondsToSelector:@selector(setBackgroundColor:)]) {
+            statusBar.backgroundColor = [UIColor colorWithRed:color.redF() green:color.greenF() blue:color.blueF() alpha:color.alphaF()];
+        }
+        [[UIApplication sharedApplication].keyWindow addSubview:statusBar];
+    } else {
+        UIView *statusBar = [[UIView alloc]initWithFrame:[UIApplication sharedApplication].keyWindow.frame];
+        if ([statusBar respondsToSelector:@selector(setBackgroundColor:)]) {
+            statusBar.backgroundColor = [UIColor colorWithRed:color.redF() green:color.greenF() blue:color.blueF() alpha:color.alphaF()];
+        }
+    }
 
     if (((color.red() * 299 + color.green() * 587 + color.blue() * 114) / 1000) > 123) {
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
