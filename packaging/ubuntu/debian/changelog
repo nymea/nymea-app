@@ -1,3 +1,10 @@
+nymea-app (1.0.197) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix setting iOS status bar color with new xcode apis
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 03 Apr 2020 20:46:41 +0200
+
 nymea-app (1.0.196) bionic; urgency=medium
 
   [ Michael Zanetti ]
