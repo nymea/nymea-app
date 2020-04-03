@@ -503,11 +503,15 @@ void DeviceManager::reconfigureDevice(const QUuid &deviceId, const QVariantList 
     m_jsonClient->sendCommand("Devices.ReconfigureDevice", params, this, "reconfigureDeviceResponse");
 }
 
-void DeviceManager::reconfigureDiscoveredDevice(const QUuid &deviceId, const QUuid &deviceDescriptorId)
+void DeviceManager::reconfigureDiscoveredDevice(const QUuid &deviceId, const QUuid &deviceDescriptorId, const QVariantList &paramOverride)
 {
     QVariantMap params;
     params.insert("deviceId", deviceId.toString());
     params.insert("deviceDescriptorId", deviceDescriptorId);
+    if (!paramOverride.isEmpty()) {
+        params.insert("deviceParams", paramOverride);
+    }
+    qDebug() << "Calling ReconfigureDevice" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson());
     m_jsonClient->sendCommand("Devices.ReconfigureDevice", params, this, "reconfigureDeviceResponse");
 }
 

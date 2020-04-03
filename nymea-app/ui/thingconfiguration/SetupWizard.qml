@@ -75,7 +75,7 @@ Page {
     }
 
     Component.onCompleted: {
-        print("Starting setup wizard")
+        print("Starting setup wizard. Create Methods:", root.deviceClass.createMethods, "Setup method:", root.deviceClass.setupMethod)
         if (root.deviceClass.createMethods.indexOf("CreateMethodDiscovery") !== -1) {
             print("CreateMethodDiscovery")
             if (deviceClass["discoveryParamTypes"].count > 0) {
@@ -115,11 +115,12 @@ Page {
                     case 2:
                     case 3:
                     case 4:
+                    case 5:
                         print("re-pairing", root.device.id)
                         engine.deviceManager.rePairDevice(root.device.id, []);
                         break;
                     default:
-                        console.warn("Unahndled setup method!")
+                        console.warn("Unhandled setup method!")
                     }
                 }
             }
@@ -403,17 +404,20 @@ Page {
                             var params = []
                             for (var i = 0; i < paramRepeater.count; i++) {
                                 var param = {}
-                                param.paramTypeId = paramRepeater.itemAt(i).paramType.id
-                                param.value = paramRepeater.itemAt(i).value
-                                print("adding param", param.paramTypeId, param.value)
-                                params.push(param)
+                                var paramType = paramRepeater.itemAt(i).paramType
+                                if (!paramType.readOnly) {
+                                    param.paramTypeId = paramType.id
+                                    param.value = paramRepeater.itemAt(i).value
+                                    print("adding param", param.paramTypeId, param.value)
+                                    params.push(param)
+                                }
                             }
 
                             switch (root.deviceClass.setupMethod) {
                             case 0:
                                 if (root.device) {
                                     if (d.deviceDescriptor) {
-                                        engine.deviceManager.reconfigureDiscoveredDevice(root.device.id, d.deviceDescriptor.id);
+                                        engine.deviceManager.reconfigureDiscoveredDevice(root.device.id, d.deviceDescriptor.id, params);
                                     } else {
                                         engine.deviceManager.reconfigureDevice(root.device.id, params);
                                     }

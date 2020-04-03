@@ -91,7 +91,7 @@ public:
     Q_INVOKABLE void editDevice(const QUuid &deviceId, const QString &name);
     Q_INVOKABLE void setDeviceSettings(const QUuid &deviceId, const QVariantList &settings);
     Q_INVOKABLE void reconfigureDevice(const QUuid &deviceId, const QVariantList &deviceParams);
-    Q_INVOKABLE void reconfigureDiscoveredDevice(const QUuid &deviceId, const QUuid &deviceDescriptorId);
+    Q_INVOKABLE void reconfigureDiscoveredDevice(const QUuid &deviceId, const QUuid &deviceDescriptorId, const QVariantList &paramOverride);
     Q_INVOKABLE int executeAction(const QUuid &deviceId, const QUuid &actionTypeId, const QVariantList &params = QVariantList());
     Q_INVOKABLE BrowserItems* browseDevice(const QUuid &deviceId, const QString &itemId = QString());
     Q_INVOKABLE void refreshBrowserItems(BrowserItems *browserItems);
