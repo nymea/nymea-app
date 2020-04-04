@@ -31,13 +31,39 @@ apps:
     - opengl
     - x11
     - desktop
+    - desktop-legacy
+
+parts:
+  desktop-qt5:
+    source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
+    source-subdir: qt
+    plugin: make
+    make-parameters: ["FLAVOR=qt5"]
+    build-packages:
+      - build-essential
+      - qtbase5-dev
+      - dpkg-dev
+    stage-packages:
+      - libxkbcommon0
+      - ttf-ubuntu-font-family
+      - dmz-cursor-theme
+      - light-themes
+      - adwaita-icon-theme
+      - gnome-themes-standard
+      - shared-mime-info
+      - libqt5gui5
+      - libgdk-pixbuf2.0-0
+      - libqt5svg5 # for loading icon themes which are svg
+      - locales-all
+      - xdg-user-dirs
+      - fcitx-frontend-qt5
+
 
 #  nymea-app-webgl:
 #    command: env PATH=$PATH:$SNAP/bin qt5-launch nymea-app -platform webgl:port=8080
 #    daemon: simple
 #    restart-condition: always
 
-parts:
   nymea-app:
     plugin: qmake
     source: .
@@ -59,8 +85,6 @@ parts:
       - qtdeclarative5-dev
       - qtquickcontrols2-5-dev
       - qttools5-dev-tools
-    prepare: |
-      find . -name libQtWebEngineCore.so.5 -exec execstack --clear-execstack \{} \;
     stage-packages:
       - libqt5gui5
       - libqt5websockets5
