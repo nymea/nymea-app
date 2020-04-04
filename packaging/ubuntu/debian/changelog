@@ -1,3 +1,11 @@
+nymea-app (1.0.199) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Update upstream android-ssl
+  * Fix the snap package after including desktop helpers
+
+ -- Jenkins <jenkins@nymea.io>  Sat, 04 Apr 2020 12:19:38 +0200
+
 nymea-app (1.0.198) bionic; urgency=medium
 
   [ Michael Zanetti ]
