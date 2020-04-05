@@ -203,6 +203,66 @@ void DevicesProxy::setNameFilter(const QString &nameFilter)
     }
 }
 
+bool DevicesProxy::showDigitalInputs() const
+{
+    return m_showDigitalInputs;
+}
+
+void DevicesProxy::setShowDigitalInputs(bool showDigitalInputs)
+{
+    if (m_showDigitalInputs != showDigitalInputs) {
+        m_showDigitalInputs = showDigitalInputs;
+        emit showDigitalInputsChanged();
+        invalidateFilter();
+        emit countChanged();
+    }
+}
+
+bool DevicesProxy::showDigitalOutputs() const
+{
+    return m_showDigitalOutputs;
+}
+
+void DevicesProxy::setShowDigitalOutputs(bool showDigitalOutputs)
+{
+    if (m_showDigitalOutputs != showDigitalOutputs) {
+        m_showDigitalOutputs = showDigitalOutputs;
+        emit showDigitalOutputsChanged();
+        invalidateFilter();
+        emit countChanged();
+    }
+}
+
+bool DevicesProxy::showAnalogInputs() const
+{
+    return m_showAnalogInputs;
+}
+
+void DevicesProxy::setShowAnalogInputs(bool showAnalogInputs)
+{
+    if (m_showAnalogInputs != showAnalogInputs) {
+        m_showAnalogInputs = showAnalogInputs;
+        emit showAnalogInputsChanged();
+        invalidateFilter();
+        emit countChanged();
+    }
+}
+
+bool DevicesProxy::showAnalogOutputs() const
+{
+    return m_showDigitalOutputs;
+}
+
+void DevicesProxy::setShowAnalogOutputs(bool showAnalogOutputs)
+{
+    if (m_showAnalogOutputs != showAnalogOutputs) {
+        m_showAnalogOutputs = showAnalogOutputs;
+        emit showAnalogOutputsChanged();
+        invalidateFilter();
+        emit countChanged();
+    }
+}
+
 bool DevicesProxy::filterBatteryCritical() const
 {
     return m_filterBatteryCritical;
@@ -336,6 +396,21 @@ bool DevicesProxy::filterAcceptsRow(int source_row, const QModelIndex &source_pa
             if (deviceClass->interfaces().contains(filterInterface)) {
                 return false;
             }
+        }
+    }
+
+    if (m_showDigitalInputs || m_showDigitalOutputs || m_showAnalogInputs || m_showAnalogOutputs) {
+        if (m_showDigitalInputs && deviceClass->stateTypes()->ioStateTypes(Types::IOTypeDigitalInput).isEmpty()) {
+            return false;
+        }
+        if (m_showDigitalOutputs && deviceClass->stateTypes()->ioStateTypes(Types::IOTypeDigitalOutput).isEmpty()) {
+            return false;
+        }
+        if (m_showAnalogInputs && deviceClass->stateTypes()->ioStateTypes(Types::IOTypeAnalogInput).isEmpty()) {
+            return false;
+        }
+        if (m_showAnalogOutputs && deviceClass->stateTypes()->ioStateTypes(Types::IOTypeAnalogOutput).isEmpty()) {
+            return false;
         }
     }
 

@@ -189,6 +189,11 @@ StateType *JsonTypes::unpackStateType(const QVariantMap &stateTypeMap, QObject *
     QPair<Types::Unit, QString> unit = stringToUnit(stateTypeMap.value("unit").toString());
     stateType->setUnit(unit.first);
     stateType->setUnitString(unit.second);
+
+    QMetaEnum metaEnum = QMetaEnum::fromType<Types::IOType>();
+    Types::IOType ioType = static_cast<Types::IOType>(metaEnum.keyToValue(stateTypeMap.value("ioType").toByteArray()));
+    stateType->setIOType(ioType);
+
     return stateType;
 }
 

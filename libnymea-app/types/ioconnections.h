@@ -28,58 +28,46 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef STATETYPES_H
-#define STATETYPES_H
+#ifndef IOCONNECTIONS_H
+#define IOCONNECTIONS_H
 
-#include <QObject>
+#include "ioconnection.h"
+
 #include <QAbstractListModel>
 
-#include "statetype.h"
-
-class StateTypes : public QAbstractListModel
+class IOConnections : public QAbstractListModel
 {
     Q_OBJECT
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
-
 public:
-    enum Role {
-        RoleId,
-        RoleName,
-        RoleDisplayName,
-        RoleType,
-        RoleDefaultValue,
-        RoleUnit,
-        RoleUnitString,
-        RoleIOType,
+    enum Roles {
+        RoleInputThingId,
+        RoleInputStateTypeId,
+        RoleOutputThingId,
+        RoleOutputStateTypeId
     };
+    Q_ENUM(Roles)
 
-    StateTypes(QObject *parent = nullptr);
+    explicit IOConnections(QObject *parent = nullptr);
 
-    QList<StateType *> stateTypes();
+    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+    QVariant data(const QModelIndex &index, int role) const override;
+    QHash<int, QByteArray> roleNames() const;
 
-    Q_INVOKABLE StateType *get(int index) const;
-    Q_INVOKABLE StateType *getStateType(const QUuid &stateTypeId) const;
-
-    int rowCount(const QModelIndex & parent = QModelIndex()) const;
-    QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;
-
-    void addStateType(StateType *stateType);
-
-    Q_INVOKABLE StateType *findByName(const QString &name) const;
-
-    QList<StateType*> ioStateTypes(Types::IOType ioType) const;
-
+    void addIOConnection(IOConnection *ioConnection);
+    void removeIOConnection(const QUuid &ioConnectionId);
     void clearModel();
 
-protected:
-    QHash<int, QByteArray> roleNames() const;
+    Q_INVOKABLE IOConnection* getIOConnection(const QUuid &ioConnectionId) const;
+
+    Q_INVOKABLE IOConnection* findIOConnectionByInput(const QUuid &inputThingId, const QUuid &inputStateTypeId) const;
+    Q_INVOKABLE IOConnection* findIOConnectionByOutput(const QUuid &outputThingId, const QUuid &outputStateTypeId) const;
 
 signals:
     void countChanged();
 
 private:
-    QList<StateType *> m_stateTypes;
-
+    QList<IOConnection*> m_list;
 };
 
-#endif // STATETYPES_H
+#endif // IOCONNECTIONS_H

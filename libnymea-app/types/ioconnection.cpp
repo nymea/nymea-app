@@ -28,58 +28,40 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef STATETYPES_H
-#define STATETYPES_H
+#include "ioconnection.h"
 
-#include <QObject>
-#include <QAbstractListModel>
-
-#include "statetype.h"
-
-class StateTypes : public QAbstractListModel
+IOConnection::IOConnection(const QUuid &id, const QUuid &inputThingId, const QUuid &inputStateTypeId, const QUuid &outputThingId, const QUuid &outputStateTypeId, QObject *parent):
+    QObject(parent),
+    m_id(id),
+    m_inputThingId(inputThingId),
+    m_inputStateTypeId(inputStateTypeId),
+    m_outputThingId(outputThingId),
+    m_outputStateTypeId(outputStateTypeId)
 {
-    Q_OBJECT
-    Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
 
-public:
-    enum Role {
-        RoleId,
-        RoleName,
-        RoleDisplayName,
-        RoleType,
-        RoleDefaultValue,
-        RoleUnit,
-        RoleUnitString,
-        RoleIOType,
-    };
+}
 
-    StateTypes(QObject *parent = nullptr);
+QUuid IOConnection::id() const
+{
+    return m_id;
+}
 
-    QList<StateType *> stateTypes();
+QUuid IOConnection::inputThingId() const
+{
+    return m_inputThingId;
+}
 
-    Q_INVOKABLE StateType *get(int index) const;
-    Q_INVOKABLE StateType *getStateType(const QUuid &stateTypeId) const;
+QUuid IOConnection::inputStateTypeId() const
+{
+    return m_inputStateTypeId;
+}
 
-    int rowCount(const QModelIndex & parent = QModelIndex()) const;
-    QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;
+QUuid IOConnection::outputThingId() const
+{
+    return m_outputThingId;
+}
 
-    void addStateType(StateType *stateType);
-
-    Q_INVOKABLE StateType *findByName(const QString &name) const;
-
-    QList<StateType*> ioStateTypes(Types::IOType ioType) const;
-
-    void clearModel();
-
-protected:
-    QHash<int, QByteArray> roleNames() const;
-
-signals:
-    void countChanged();
-
-private:
-    QList<StateType *> m_stateTypes;
-
-};
-
-#endif // STATETYPES_H
+QUuid IOConnection::outputStateTypeId() const
+{
+    return m_outputStateTypeId;
+}

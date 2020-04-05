@@ -87,6 +87,8 @@ QVariant StateTypes::data(const QModelIndex &index, int role) const
         return stateType->unitString();
     case RoleUnit:
         return stateType->unit();
+    case RoleIOType:
+        return stateType->ioType();
     }
     return QVariant();
 }
@@ -110,6 +112,17 @@ StateType *StateTypes::findByName(const QString &name) const
     return nullptr;
 }
 
+QList<StateType *> StateTypes::ioStateTypes(Types::IOType ioType) const
+{
+    QList<StateType*> ret;
+    foreach (StateType* stateType, m_stateTypes) {
+        if (stateType->ioType() == ioType) {
+            ret.append(stateType);
+        }
+    }
+    return ret;
+}
+
 void StateTypes::clearModel()
 {
     beginResetModel();
@@ -129,6 +142,7 @@ QHash<int, QByteArray> StateTypes::roleNames() const
     roles[RoleDefaultValue] = "defaultValue";
     roles[RoleUnitString] = "unitString";
     roles[RoleUnit] = "unit";
+    roles[RoleIOType] = "ioType";
     return roles;
 }
 

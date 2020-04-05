@@ -110,6 +110,10 @@
 #include "types/tokeninfo.h"
 #include "types/userinfo.h"
 #include "thinggroup.h"
+#include "types/statetypesproxy.h"
+#include "types/ioconnection.h"
+#include "types/ioconnections.h"
+#include "types/ioconnectionwatcher.h"
 
 #include <QtQml/qqml.h>
 
@@ -157,6 +161,7 @@ void registerQmlTypes() {
     qmlRegisterUncreatableType<StateTypes>(uri, 1, 0, "StateTypes", "Can't create this in QML. Get it from the DeviceClass.");
     qmlRegisterUncreatableType<ActionType>(uri, 1, 0, "ActionType", "Can't create this in QML. Get it from the ActionTypes.");
     qmlRegisterUncreatableType<ActionTypes>(uri, 1, 0, "ActionTypes", "Can't create this in QML. Get it from the DeviceClass.");
+    qmlRegisterType<StateTypesProxy>(uri, 1, 0, "StateTypesProxy");
 
     qmlRegisterUncreatableType<State>(uri, 1, 0, "State", "Can't create this in QML. Get it from the States.");
     qmlRegisterUncreatableType<States>(uri, 1, 0, "States", "Can't create this in QML. Get it from the Device.");
@@ -293,6 +298,11 @@ void registerQmlTypes() {
     qmlRegisterUncreatableType<UserInfo>(uri, 1, 0, "UserInfo", "Get it from UserManager");
     qmlRegisterUncreatableType<TokenInfo>(uri, 1, 0, "TokenInfo", "Get it from TokenInfos");
     qmlRegisterUncreatableType<TokenInfos>(uri, 1, 0, "TokenInfos", "Get it from UserManager");
+
+    qmlRegisterUncreatableType<IOConnections>(uri, 1, 0, "IOConnections", "Get it from DeviceManager");
+    qmlRegisterUncreatableType<IOConnection>(uri, 1, 0, "IOConnection", "Get it from IOConnections");
+    qmlRegisterType<IOInputConnectionWatcher>(uri, 1, 0, "IOInputConnectionWatcher");
+    qmlRegisterType<IOOutputConnectionWatcher>(uri, 1, 0, "IOOutputConnectionWatcher");
 }
 
 #endif // LIBNYMEAAPPCORE_H

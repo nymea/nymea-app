@@ -35,6 +35,7 @@
 #include "types/browseritem.h"
 #include "thinggroup.h"
 #include "types/interface.h"
+#include "types/ioconnections.h"
 #include <QMetaEnum>
 
 DeviceManager::DeviceManager(JsonRpcClient* jsonclient, QObject *parent) :
@@ -43,6 +44,7 @@ DeviceManager::DeviceManager(JsonRpcClient* jsonclient, QObject *parent) :
     m_plugins(new Plugins(this)),
     m_devices(new Devices(this)),
     m_deviceClasses(new DeviceClasses(this)),
+    m_ioConnections(new IOConnections(this)),
     m_jsonClient(jsonclient)
 {
     m_jsonClient->registerNotificationHandler(this, "notificationReceived");
@@ -54,6 +56,7 @@ void DeviceManager::clear()
     m_deviceClasses->clearModel();
     m_vendors->clearModel();
     m_plugins->clearModel();
+    m_ioConnections->clearModel();
 }
 
 void DeviceManager::init()
@@ -86,10 +89,21 @@ void DeviceManager::init()
         }
     }
 
+    // Register a custom notification handler for the Integrations namespace for now.
+    if (m_jsonClient->ensureServerVersion("5.1")) {
+        if (!m_integrationsHandler) {
+            m_integrationsHandler = new IntegrationsHandler(this);
+            m_jsonClient->registerNotificationHandler(m_integrationsHandler, "notificationReceived");
+            connect(m_integrationsHandler, &IntegrationsHandler::onNotificationReceived, this, [this](const QVariantMap &params){
+                notificationReceived(params);
+            });
+        }
+    }
 
     m_fetchingData = true;
     emit fetchingDataChanged();
-    m_jsonClient->sendCommand("Devices.GetPlugins", this, "getPluginsResponse");
+
+    m_jsonClient->sendCommand("Devices.GetSupportedDevices", this, "getSupportedDevicesResponse");
 }
 
 QString DeviceManager::nameSpace() const
@@ -115,6 +129,11 @@ Devices *DeviceManager::devices() const
 DeviceClasses *DeviceManager::deviceClasses() const
 {
     return m_deviceClasses;
+}
+
+IOConnections *DeviceManager::ioConnections() const
+{
+    return m_ioConnections;
 }
 
 bool DeviceManager::fetchingData() const
@@ -207,6 +226,22 @@ void DeviceManager::notificationReceived(const QVariantMap &data)
         }
 //        qDebug() << "Event received" << deviceId.toString() << eventTypeId.toString();
         dev->eventTriggered(eventTypeId.toString(), event.value("params").toMap());
+    } else if (notification == "Integrations.IOConnectionAdded") {
+        QVariantMap connectionMap = data.value("params").toMap().value("ioConnection").toMap();
+        QUuid id = connectionMap.value("id").toUuid();
+        QUuid inputThingId = connectionMap.value("inputThingId").toUuid();
+        QUuid inputStateTypeId = connectionMap.value("inputStateTypeId").toUuid();
+        QUuid outputThingId = connectionMap.value("outputThingId").toUuid();
+        QUuid outputStateTypeId = connectionMap.value("outputStateTypeId").toUuid();
+        IOConnection *ioConnection = new IOConnection(id, inputThingId, inputStateTypeId, outputThingId, outputStateTypeId);
+        m_ioConnections->addIOConnection(ioConnection);
+    } else if (notification == "Integrations.IOConnectionRemoved") {
+        QUuid connectionId = data.value("params").toMap().value("ioConnectionId").toUuid();
+        if (!m_ioConnections->getIOConnection(connectionId)) {
+            qWarning() << "Received an IO connection removed event for an IO connection we don't know.";
+            return;
+        }
+        m_ioConnections->removeIOConnection(connectionId);
     } else {
         qWarning() << "DeviceManager unhandled device notification received" << notification;
     }
@@ -223,8 +258,6 @@ void DeviceManager::getVendorsResponse(const QVariantMap &params)
 //            qDebug() << "Added Vendor:" << vendor->name();
         }
     }
-
-    m_jsonClient->sendCommand("Devices.GetSupportedDevices", this, "getSupportedDevicesResponse");
 }
 
 void DeviceManager::getSupportedDevicesResponse(const QVariantMap &params)
@@ -321,6 +354,10 @@ void DeviceManager::getConfiguredDevicesResponse(const QVariantMap &params)
     }
     m_fetchingData = false;
     emit fetchingDataChanged();
+
+    m_jsonClient->sendCommand("Integrations.GetIOConnections", this, "getIOConnectionsResponse");
+
+    m_jsonClient->sendCommand("Devices.GetPlugins", this, "getPluginsResponse");
 }
 
 void DeviceManager::addDeviceResponse(const QVariantMap &params)
@@ -675,9 +712,52 @@ int DeviceManager::executeBrowserItemAction(const QUuid &deviceId, const QString
     return m_jsonClient->sendCommand("Actions.ExecuteBrowserItemAction", data, this, "executeBrowserItemActionResponse");
 }
 
+int DeviceManager::connectIO(const QUuid &inputThingId, const QUuid &inputStateTypeId, const QUuid &outputThingId, const QUuid &outputStateTypeId)
+{
+    QVariantMap data;
+    data.insert("inputThingId", inputThingId);
+    data.insert("inputStateTypeId", inputStateTypeId);
+    data.insert("outputThingId", outputThingId);
+    data.insert("outputStateTypeId", outputStateTypeId);
+    return m_jsonClient->sendCommand("Integrations.ConnectIO", data, this, "connectIOResponse");
+}
+
+int DeviceManager::disconnectIO(const QUuid &ioConnectionId)
+{
+    QVariantMap data;
+    data.insert("ioConnectionId", ioConnectionId);
+    return m_jsonClient->sendCommand("Integrations.DisconnectIO", data, this, "disconnectIOResponse");
+}
+
 void DeviceManager::executeBrowserItemActionResponse(const QVariantMap &params)
 {
     qDebug() << "Execute Browser Item Action finished" << params;
     emit executeBrowserItemActionReply(params);
+}
+
+void DeviceManager::getIOConnectionsResponse(const QVariantMap &params)
+{
+    qDebug() << "Get IO connections response" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson());
+
+    foreach (const QVariant &connectionVariant, params.value("params").toMap().value("ioConnections").toList()) {
+        QVariantMap connectionMap = connectionVariant.toMap();
+        QUuid id = connectionMap.value("id").toUuid();
+        QUuid inputThingId = connectionMap.value("inputThingId").toUuid();
+        QUuid inputStateTypeId = connectionMap.value("inputStateTypeId").toUuid();
+        QUuid outputThingId = connectionMap.value("outputThingId").toUuid();
+        QUuid outputStateTypeId = connectionMap.value("outputStateTypeId").toUuid();
+        IOConnection *ioConnection = new IOConnection(id, inputThingId, inputStateTypeId, outputThingId, outputStateTypeId);
+        m_ioConnections->addIOConnection(ioConnection);
+    }
+}
+
+void DeviceManager::connectIOResponse(const QVariantMap &params)
+{
+    qDebug() << "ConnectIO response" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson());
+}
+
+void DeviceManager::disconnectIOResponse(const QVariantMap &params)
+{
+    qDebug() << "DisconnectIO response" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson());
 }
 
