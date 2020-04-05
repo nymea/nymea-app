@@ -101,7 +101,8 @@ MainPageTile {
     DevicesProxy {
         id: devicesProxy
         engine: _engine
-        shownInterfaces: [iface.name]
+        shownInterfaces: iface ? [iface.name] : []
+        hiddenInterfaces: iface ? [] : app.supportedInterfaces
     }
 
     DevicesProxy {
