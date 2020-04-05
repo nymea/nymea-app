@@ -1,3 +1,10 @@
+nymea-app (1.0.200) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix filtering for uncategorized on main page tile
+
+ -- Jenkins <jenkins@nymea.io>  Sun, 05 Apr 2020 19:48:06 +0200
+
 nymea-app (1.0.199) bionic; urgency=medium
 
   [ Michael Zanetti ]
