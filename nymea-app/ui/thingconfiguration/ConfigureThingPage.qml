@@ -433,7 +433,13 @@ SettingsPageBase {
                 engine.deviceManager.connectIO(inputThingId, inputStateTypeId, outputThingId, outputStateTypeId);
             }
             onReset: {
-                engine.deviceManager.disconnectIO(ioConnectionDialog.watcher.ioConnection.id);
+                if (ioConnectionDialog.ioStateType.ioType == Types.IOTypeDigitalInput
+                        || ioConnectionDialog.ioStateType.ioType == Types.IOTypeAnalogInput) {
+                    engine.deviceManager.disconnectIO(ioConnectionDialog.inputWatcher.ioConnection.id);
+                } else {
+                    engine.deviceManager.disconnectIO(ioConnectionDialog.outputWatcher.ioConnection.id);
+                }
+
                 ioConnectionDialog.reject();
             }
         }

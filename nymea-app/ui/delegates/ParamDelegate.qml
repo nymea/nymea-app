@@ -77,7 +77,7 @@ ItemDelegate {
                     case "uint":
                     case "int":
                     case "double":
-                        if (root.paramType.minValue && root.paramType.maxValue) {
+                        if (root.paramType.minValue !== undefined && root.paramType.maxValue !== undefined) {
                             return sliderComponent;
                         } else {
                             return spinnerComponent;
