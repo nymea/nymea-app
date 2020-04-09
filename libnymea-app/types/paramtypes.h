@@ -54,7 +54,7 @@ public:
         ReadOnlyRole
     };
 
-    explicit ParamTypes(QObject *parent = 0);
+    explicit ParamTypes(QObject *parent = nullptr);
 
     QList<ParamType *> paramTypes();
 
