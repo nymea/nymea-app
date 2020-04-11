@@ -1,3 +1,12 @@
+nymea-app (1.0.201) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix popping the page stack when things are deleted
+  * Fix time zone handling on Android
+  * Don't allow editing read only params
+
+ -- Jenkins <jenkins@nymea.io>  Sat, 11 Apr 2020 12:41:51 +0200
+
 nymea-app (1.0.200) bionic; urgency=medium
 
   [ Michael Zanetti ]
