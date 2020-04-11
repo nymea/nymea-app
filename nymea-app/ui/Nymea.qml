@@ -106,7 +106,7 @@ ApplicationWindow {
     }
     property alias _discovery: discovery
 
-    property var supportedInterfaces: ["light", "weather", "media", "garagegate", "awning", "shutter", "blind", "powersocket", "heating", "doorbell", "sensor", "smartmeter", "evcharger", "fingerprintreader", "smartlock", "button", "notifications", "inputtrigger", "outputtrigger", "gateway", "account"]
+    property var supportedInterfaces: ["light", "weather", "media", "garagegate", "awning", "shutter", "blind", "powersocket", "heating", "doorbell", "sensor", "irrigation", "smartmeter", "evcharger", "fingerprintreader", "smartlock", "button", "notifications", "inputtrigger", "outputtrigger", "gateway", "account"]
     function interfaceToString(name) {
         switch(name) {
         case "light":
@@ -171,6 +171,8 @@ ApplicationWindow {
             return qsTr("Accounts");
         case "smartlock":
             return qsTr("Smartlocks")
+        case "irrigation":
+            return qsTr("Irrigation");
         case "uncategorized":
             return qsTr("Uncategorized")
         default:
@@ -281,6 +283,8 @@ ApplicationWindow {
             return Qt.resolvedUrl("images/notification.svg")
         case "connectable":
             return Qt.resolvedUrl("images/stock_link.svg")
+        case "irrigation":
+            return Qt.resolvedUrl("images/irrigation.svg")
         case "power":
             return Qt.resolvedUrl("images/system-shutdown.svg")
         case "account":
@@ -310,7 +314,8 @@ ApplicationWindow {
         "extendedsmartmeterproducer": "blue",
         "extendedsmartmeterconsumer": "blue",
         "heating" : "gainsboro",
-        "thermostat": "dodgerblue"
+        "thermostat": "dodgerblue",
+        "irrigation": "lightblue"
     }
 
     function interfaceToColor(name) {
@@ -343,6 +348,9 @@ ApplicationWindow {
         case "connectable":
             //: Select ...
             return qsTr("connectable thing")
+        case "irrigation":
+            //: Select ...
+            return qsTr("irrigation");
         case "power":
             //: Select ...
             return qsTr("switchable thing")
@@ -425,6 +433,8 @@ ApplicationWindow {
             page = "PowersocketDevicePage.qml";
         } else if (interfaceList.indexOf("doorbell") >= 0) {
             page = "DoorbellDevicePage.qml";
+        } else if (interfaceList.indexOf("irrigation") >= 0) {
+            page = "IrrigationDevicePage.qml";
         } else {
             page = "GenericDevicePage.qml";
         }
