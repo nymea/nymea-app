@@ -248,6 +248,5 @@ QVariant Types::toUiValue(const QVariant &value, Types::Unit unit) const
             return value;
         }
     }
-    qDebug() << "**********" << value;
     return value;
 }
