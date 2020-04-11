@@ -128,6 +128,7 @@ private:
     Repositories *m_repositories = nullptr;
 
     QDateTime m_serverTime;
+    QString m_serverTimeZone;
     QStringList m_timeZones;
     bool m_automaticTimeAvailable = false;
     bool m_automaticTime = false;

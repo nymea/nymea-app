@@ -167,7 +167,11 @@ QStringList SystemController::timeZones() const
 
 QString SystemController::serverTimeZone() const
 {
-    return m_serverTime.timeZone().id();
+    // NOTE: Ideally we'd just set the TimeZone of our serverTime prooperly, however, there's a bug on Android
+    // Which doesn't allow to create QTimeZone objects by IANA id.... So, let's keep that separated in a string
+    // https://bugreports.qt.io/browse/QTBUG-83438
+//    return m_serverTime.timeZone().id();
+    return m_serverTimeZone;
 }
 
 void SystemController::setServerTimeZone(const QString &serverTimeZone)
@@ -212,9 +216,9 @@ void SystemController::getCapabilitiesResponse(const QVariantMap &data)
         m_jsonRpcClient->sendCommand("System.GetRepositories", this, "getRepositoriesResponse");
     }
 
-//    if (m_jsonRpcClient->ensureServerVersion("4.1")) {
+    if (m_jsonRpcClient->ensureServerVersion("4.1")) {
         m_jsonRpcClient->sendCommand("System.GetTime", this, "getServerTimeResponse");
-//    }
+    }
 }
 
 void SystemController::getUpdateStatusResponse(const QVariantMap &data)
@@ -243,7 +247,6 @@ void SystemController::getPackagesResponse(const QVariantMap &data)
 
 void SystemController::getRepositoriesResponse(const QVariantMap &data)
 {
-    qDebug() << "******** Repos" << data;
     foreach (const QVariant &repoVariant, data.value("params").toMap().value("repositories").toList()) {
         QString id = repoVariant.toMap().value("id").toString();
         QString displayName = repoVariant.toMap().value("displayName").toString();
@@ -266,15 +269,22 @@ void SystemController::enableRepositoryResponse(const QVariantMap &params)
 
 void SystemController::getServerTimeResponse(const QVariantMap &params)
 {
-    qDebug() << "Server time" << params;
     m_serverTime = QDateTime::fromSecsSinceEpoch(params.value("params").toMap().value("time").toUInt());
-    m_serverTime.setTimeZone(QTimeZone(params.value("params").toMap().value("timeZone").toString().toUtf8()));
+
+    // NOTE: Ideally we'd just set the TimeZone of our serverTime prooperly, however, there's a bug on Android
+    // Which doesn't allow to create QTimeZone objects by IANA id.... So, let's keep that separated in a string
+    // https://bugreports.qt.io/browse/QTBUG-83438
+
+//    m_serverTime.setTimeZone(QTimeZone(params.value("params").toMap().value("timeZone").toString().toUtf8()));
+    m_serverTimeZone = params.value("params").toMap().value("timeZone").toString();
+
     emit serverTimeChanged();
     emit serverTimeZoneChanged();
     m_automaticTimeAvailable = params.value("params").toMap().value("automaticTimeAvailable").toBool();
     emit automaticTimeAvailableChanged();
     m_automaticTime = params.value("params").toMap().value("automaticTime").toBool();
     emit automaticTimeChanged();
+    qDebug() << "Server time:" << m_serverTime << "Automatic Time available:" << m_automaticTimeAvailable << "Automatic time:" << m_automaticTime;
 }
 
 void SystemController::setTimeResponse(const QVariantMap &params)
