@@ -144,6 +144,16 @@ Page {
             }
         }
 
+        Connections {
+            target: engine.deviceManager.devices
+            onThingRemoved:{
+                if (device == root.device) {
+                    print("Device destroyed")
+                    pageStack.pop()
+                }
+            }
+        }
+
         Component {
             id: addToGroupDialog
             MeaDialog {

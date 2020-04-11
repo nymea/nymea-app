@@ -117,6 +117,7 @@ void Devices::addDevice(Device *device)
         emit dataChanged(index(idx), index(idx));
     });
     emit countChanged();
+    emit thingAdded(device);
 }
 
 void Devices::removeDevice(Device *device)
@@ -124,9 +125,10 @@ void Devices::removeDevice(Device *device)
     int index = m_devices.indexOf(device);
     beginRemoveRows(QModelIndex(), index, index);
     qDebug() << "Devices: removed device" << device->name();
-    m_devices.removeAt(index);
+    m_devices.takeAt(index)->deleteLater();
     endRemoveRows();
     emit countChanged();
+    emit thingRemoved(device);
 }
 
 void Devices::clearModel()
