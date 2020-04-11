@@ -181,7 +181,6 @@ Page {
     Component {
         id: discoveryParamsPage
         Page {
-
             id: discoveryParamsView
 
             ColumnLayout {
@@ -385,6 +384,7 @@ Page {
                         delegate: ParamDelegate {
 //                            Layout.preferredHeight: 60
                             Layout.fillWidth: true
+                            enabled: !model.readOnly
                             paramType: root.deviceClass.paramTypes.get(index)
                             value: d.deviceDescriptor && d.deviceDescriptor.params.getParam(paramType.id) ?
                                        d.deviceDescriptor.params.getParam(paramType.id).value :
