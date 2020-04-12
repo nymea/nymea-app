@@ -49,6 +49,7 @@ class DeviceClass : public QObject
     Q_PROPERTY(QString displayName READ displayName CONSTANT)
     Q_PROPERTY(QUuid id READ id CONSTANT)
     Q_PROPERTY(QUuid vendorId READ vendorId CONSTANT)
+    Q_PROPERTY(QUuid pluginId READ pluginId CONSTANT)
     Q_PROPERTY(QStringList createMethods READ createMethods CONSTANT)
     Q_PROPERTY(SetupMethod setupMethod READ setupMethod CONSTANT)
     Q_PROPERTY(QStringList interfaces READ interfaces CONSTANT)
