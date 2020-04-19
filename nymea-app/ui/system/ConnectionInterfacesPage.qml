@@ -47,7 +47,10 @@ SettingsPageBase {
         model: engine.nymeaConfiguration.tcpServerConfigurations
         delegate: ConnectionInterfaceDelegate {
             Layout.fillWidth: true
-            canDelete: true
+            iconColor: inUse ? app.accentColor : iconKeyColor
+            readonly property bool inUse: (engine.jsonRpcClient.currentConnection.hostAddress === model.address || model.address === "0.0.0.0")
+                                 && engine.jsonRpcClient.currentConnection.port === model.port
+            canDelete: !inUse
             onClicked: {
                 var component = Qt.createComponent(Qt.resolvedUrl("ServerConfigurationDialog.qml"));
                 var popup = component.createObject(root, { serverConfiguration: engine.nymeaConfiguration.tcpServerConfigurations.get(index).clone() });
@@ -61,7 +64,6 @@ SettingsPageBase {
                 popup.open()
             }
             onDeleteClicked: {
-                print("should delete")
                 engine.nymeaConfiguration.deleteTcpServerConfiguration(model.id)
             }
         }
@@ -93,7 +95,10 @@ SettingsPageBase {
         model: engine.nymeaConfiguration.webSocketServerConfigurations
         delegate: ConnectionInterfaceDelegate {
             Layout.fillWidth: true
-            canDelete: true
+            iconColor: inUse ? app.accentColor : iconKeyColor
+            readonly property bool inUse: (engine.jsonRpcClient.currentConnection.hostAddress === model.address || model.address === "0.0.0.0")
+                                 && engine.jsonRpcClient.currentConnection.port === model.port
+            canDelete: !inUse
             onClicked: {
                 var component = Qt.createComponent(Qt.resolvedUrl("ServerConfigurationDialog.qml"));
                 var popup = component.createObject(root, { serverConfiguration: engine.nymeaConfiguration.webSocketServerConfigurations.get(index).clone() });

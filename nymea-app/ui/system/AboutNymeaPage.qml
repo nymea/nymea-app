@@ -48,7 +48,7 @@ SettingsPageBase {
         NymeaListItemDelegate {
             Layout.fillWidth: true
             text: qsTr("Connection:")
-            subText: engine.connection.currentConnection.url
+            subText: engine.jsonRpcClient.currentConnection.url
             progressive: false
             prominentSubText: false
         }

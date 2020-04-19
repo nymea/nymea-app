@@ -124,7 +124,6 @@ void TagListModel::update()
         }
     }
 
-    qDebug() << "Model populated" << m_list.count() << this;
     endResetModel();
     emit countChanged();
 }

@@ -38,7 +38,7 @@
 #include "nymeahost.h"
 
 class NymeaDiscovery;
-class NymeaConnection;
+class JsonRpcClient;
 
 class NymeaHosts : public QAbstractListModel
 {
@@ -87,7 +87,7 @@ class NymeaHostsFilterModel: public QSortFilterProxyModel
     Q_OBJECT
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
     Q_PROPERTY(NymeaDiscovery* discovery READ discovery WRITE setDiscovery NOTIFY discoveryChanged)
-    Q_PROPERTY(NymeaConnection* nymeaConnection READ nymeaConnection WRITE setNymeaConnection NOTIFY nymeaConnectionChanged)
+    Q_PROPERTY(JsonRpcClient* jsonRpcClient READ jsonRpcClient WRITE setJsonRpcClient NOTIFY jsonRpcClientChanged)
     Q_PROPERTY(bool showUnreachableBearers READ showUnreachableBearers WRITE setShowUnreachableBearers NOTIFY showUnreachableBearersChanged)
     Q_PROPERTY(bool showUnreachableHosts READ showUnreachableHosts WRITE setShowUnreachableHosts NOTIFY showUnreachableHostsChanged)
 
@@ -97,8 +97,8 @@ public:
     NymeaDiscovery* discovery() const;
     void setDiscovery(NymeaDiscovery *discovery);
 
-    NymeaConnection* nymeaConnection() const;
-    void setNymeaConnection(NymeaConnection* nymeaConnection);
+    JsonRpcClient* jsonRpcClient() const;
+    void setJsonRpcClient(JsonRpcClient* jsonRpcClient);
 
     bool showUnreachableBearers() const;
     void setShowUnreachableBearers(bool showUnreachableBearers);
@@ -111,7 +111,7 @@ public:
 signals:
     void countChanged();
     void discoveryChanged();
-    void nymeaConnectionChanged();
+    void jsonRpcClientChanged();
     void showUnreachableBearersChanged();
     void showUnreachableHostsChanged();
 
@@ -120,7 +120,7 @@ protected:
 
 private:
     NymeaDiscovery *m_nymeaDiscovery = nullptr;
-    NymeaConnection *m_nymeaConnection = nullptr;
+    JsonRpcClient *m_jsonRpcClient = nullptr;
 
     bool m_showUneachableBearers = false;
     bool m_showUneachableHosts = false;

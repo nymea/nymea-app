@@ -45,33 +45,22 @@ Page {
         pageStack.push(discoveryPage, StackView.Immediate)
     }
 
-
-    function connectToHost(url, noAnimations) {
+    function connectToHost(host, noAnimations) {
         var page = pageStack.push(Qt.resolvedUrl("ConnectingPage.qml"), noAnimations ? StackView.Immediate : StackView.PushTransition)
         page.cancel.connect(function() {
-            engine.connection.disconnect()
-            pageStack.pop(root, StackView.Immediate);
-            pageStack.push(discoveryPage)
-        })
-        engine.connection.connect(url)
-    }
-
-    function connectToHost2(host, noAnimations) {
-        var page = pageStack.push(Qt.resolvedUrl("ConnectingPage.qml"), noAnimations ? StackView.Immediate : StackView.PushTransition)
-        page.cancel.connect(function() {
-            engine.connection.disconnect()
+            engine.jsonRpcClient.disconnectFromHost()
             pageStack.pop(root, StackView.Immediate);
             pageStack.push(discoveryPage)
         })
         print("Connecting to host", host)
-        engine.connection.connect(host)
+        engine.jsonRpcClient.connectToHost(host)
     }
 
     NymeaHostsFilterModel {
         id: hostsProxy
         discovery: _discovery
         showUnreachableBearers: false
-        nymeaConnection: engine.connection
+        jsonRpcClient: engine.jsonRpcClient
         showUnreachableHosts: false
     }
 
@@ -91,7 +80,7 @@ Page {
                 onClicked: {
                     if (index === 2) {
                         var host = discovery.nymeaHosts.createWanHost("Demo server", "nymea://nymea.nymea.io:2222")
-                        engine.connection.connect(host)
+                        engine.jsonRpcClient.connectToHost(host)
                     } else {
                         pageStack.push(model.get(index).page, {nymeaDiscovery: discovery});
                     }
@@ -176,7 +165,7 @@ Page {
                             switch (nymeaHost.connections.get(defaultConnectionIndex).bearerType) {
                             case Connection.BearerTypeLan:
                             case Connection.BearerTypeWan:
-                                if (engine.connection.availableBearerTypes & NymeaConnection.BearerTypeEthernet != NymeaConnection.BearerTypeNone) {
+                                if (engine.jsonRpcClient.availableBearerTypes & NymeaConnection.BearerTypeEthernet != NymeaConnection.BearerTypeNone) {
                                     return "../images/network-wired.svg"
                                 }
                                 return "../images/network-wifi.svg";
@@ -196,15 +185,13 @@ Page {
                         prominentSubText: false
                         progressive: false
                         property bool isSecure: nymeaHost.connections.get(defaultConnectionIndex).secure
-                        property bool isTrusted: engine.connection.isTrusted(nymeaHostDelegate.nymeaHost.connections.get(defaultConnectionIndex).url)
                         property bool isOnline: nymeaHost.connections.get(defaultConnectionIndex).bearerType !== Connection.BearerTypeWan ? nymeaHost.connections.get(defaultConnectionIndex).online : true
                         tertiaryIconName: isSecure ? "../images/network-secure.svg" : ""
-                        tertiaryIconColor: isTrusted ? app.accentColor : Material.foreground
                         secondaryIconName: !isOnline ? "../images/cloud-error.svg" : ""
                         secondaryIconColor: "red"
 
                         onClicked: {
-                            root.connectToHost2(nymeaHostDelegate.nymeaHost)
+                            root.connectToHost(nymeaHostDelegate.nymeaHost)
                         }
 
                         contextOptions: [
@@ -272,7 +259,7 @@ Page {
                     text: qsTr("Demo mode (online)")
                     onClicked: {
                         var host = discovery.nymeaHosts.createWanHost("Demo server", "nymea://nymea.nymea.io:2222")
-                        engine.connection.connect(host)
+                        engine.jsonRpcClient.connectToHost(host)
                     }
                 }
 
@@ -390,7 +377,7 @@ Page {
                                     switch (model.bearerType) {
                                     case Connection.BearerTypeLan:
                                     case Connection.BearerTypeWan:
-                                        if (engine.connection.availableBearerTypes & NymeaConnection.BearerTypeEthernet != NymeaConnection.BearerTypeNone) {
+                                        if (engine.jsonRpcClient.availableBearerTypes & NymeaConnection.BearerTypeEthernet != NymeaConnection.BearerTypeNone) {
                                             return "../images/network-wired.svg"
                                         }
                                         return "../images/network-wifi.svg";
@@ -398,19 +385,19 @@ Page {
                                         return "../images/bluetooth.svg";
                                     case Connection.BearerTypeCloud:
                                         return "../images/cloud.svg"
+                                    case Connection.BearerTypeLoopback:
+                                        return "../images/network-wired.svg"
                                     }
                                     return ""
                                 }
 
                                 tertiaryIconName: model.secure ? "../images/network-secure.svg" : ""
-                                tertiaryIconColor: isTrusted ? app.accentColor : "gray"
-                                readonly property bool isTrusted: engine.connection.isTrusted(url)
                                 secondaryIconName: !model.online ? "../images/cloud-error.svg" : ""
                                 secondaryIconColor: "red"
 
                                 onClicked: {
                                     dialog.close()
-                                    engine.connection.connect(dialog.nymeaHost, dialog.nymeaHost.connections.get(index))
+                                    engine.jsonRpcClient.connectToHost(dialog.nymeaHost, dialog.nymeaHost.connections.get(index))
                                 }
                             }
                         }

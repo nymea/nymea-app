@@ -40,14 +40,10 @@ Dialog {
     width: Math.min(parent.width * .9, 400)
     x: (parent.width - width) / 2
     y: (parent.height - height) / 2
-    standardButtons: Dialog.Yes | Dialog.No
+    standardButtons: Dialog.Ok
 
-    property string url
-    property var fingerprint
+    property string serverUuid
     property var issuerInfo
-    property var pem
-
-    readonly property bool hasOldFingerprint: engine.connection.isTrusted(url)
 
     ColumnLayout {
         id: certLayout
@@ -60,84 +56,68 @@ Dialog {
             ColorIcon {
                 Layout.preferredHeight: app.iconSize * 2
                 Layout.preferredWidth: height
-                name: certDialog.hasOldFingerprint ? "../images/lock-broken.svg" : "../images/info.svg"
-                color: certDialog.hasOldFingerprint ? "red" : app.accentColor
+                name: "../images/lock-closed.svg"
+                color: app.accentColor
             }
 
             Label {
                 id: titleLabel
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: certDialog.hasOldFingerprint ? qsTr("Warning") : qsTr("Hi there!")
-                color: certDialog.hasOldFingerprint ? "red" : app.accentColor
+                text: qsTr("Certificate information")
+                color: app.accentColor
                 font.pixelSize: app.largeFont
             }
         }
 
-        Label {
-            Layout.fillWidth: true
-            wrapMode: Text.WordWrap
-            text: certDialog.hasOldFingerprint ? qsTr("The certificate of this %1:core has changed!").arg(app.systemName) : qsTr("It seems this is the first time you connect to this %1:core.").arg(app.systemName)
-        }
-
-        Label {
-            Layout.fillWidth: true
-            wrapMode: Text.WordWrap
-            text: certDialog.hasOldFingerprint ? qsTr("Did you change the system's configuration? Verify if this information is correct.") : qsTr("This is the certificate for this %1:core. Once you trust it, an encrypted connection will be established.").arg(app.systemName)
-        }
-
-        ThinDivider {}
         Item {
             Layout.fillWidth: true
-            Layout.fillHeight: true
-            implicitHeight: certGridLayout.implicitHeight
-            Flickable {
-                anchors.fill: parent
-                contentHeight: certGridLayout.implicitHeight
-                clip: true
-
-                ScrollBar.vertical: ScrollBar {
-                    policy: contentHeight > height ? ScrollBar.AlwaysOn : ScrollBar.AsNeeded
-                }
-
-                GridLayout {
-                    id: certGridLayout
-                    columns: 2
-                    width: parent.width
-
-                    Repeater {
-                        model: certDialog.issuerInfo
-
-                        Label {
-                            Layout.fillWidth: true
-                            wrapMode: Text.WordWrap
-                            text: modelData
-                        }
-                    }
-                    Label {
-                        Layout.fillWidth: true
-                        Layout.columnSpan: 2
-                        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                        text: qsTr("Fingerprint: ") + certDialog.fingerprint
-                    }
-                }
-            }
+            Layout.preferredHeight: app.margins
         }
-
-        ThinDivider {}
 
         Label {
+            text: qsTr("nymea UUID:")
             Layout.fillWidth: true
-            wrapMode: Text.WordWrap
-            text: certDialog.hasOldFingerprint ? qsTr("Do you want to connect nevertheless?") : qsTr("Do you want to trust this device?")
-            font.bold: true
         }
-    }
-
-    onAccepted: {
-        engine.connection.acceptCertificate(certDialog.url, certDialog.pem)
-    }
-    onRejected: {
-        engine.connection.disconnect();
+        Label {
+            text: certDialog.serverUuid
+            Layout.fillWidth: true
+        }
+        Item {
+            Layout.fillWidth: true
+            Layout.preferredHeight: app.margins
+        }
+        GridLayout {
+            columns: 2
+            Label {
+                text: qsTr("Organisation:")
+                Layout.fillWidth: true
+            }
+            Label {
+                text: certDialog.issuerInfo["O"]
+                Layout.fillWidth: true
+            }
+            Label {
+                text: qsTr("Common name:")
+                Layout.fillWidth: true
+            }
+            Label {
+                text: certDialog.issuerInfo["CN"]
+                Layout.fillWidth: true
+            }
+        }
+        Item {
+            Layout.fillWidth: true
+            Layout.preferredHeight: app.margins
+        }
+        Label {
+            text: qsTr("Fingerprint:")
+            Layout.fillWidth: true
+        }
+        Label {
+            text: certDialog.issuerInfo["fingerprint"]
+            Layout.fillWidth: true
+            wrapMode: Text.WrapAnywhere
+        }
     }
 }

@@ -97,7 +97,6 @@ void Plugins::addPlugin(Plugin *plugin)
 void Plugins::clearModel()
 {
     beginResetModel();
-    qDebug() << "Plugins: delete all plugins";
     qDeleteAll(m_plugins);
     m_plugins.clear();
     endResetModel();

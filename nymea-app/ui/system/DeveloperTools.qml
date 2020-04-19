@@ -43,7 +43,7 @@ SettingsPageBase {
         for (var i = 0; i < engine.nymeaConfiguration.webServerConfigurations.count; i++) {
             var tmp = engine.nymeaConfiguration.webServerConfigurations.get(i)
             print("checking config:", tmp.id, tmp.address, tmp.port, tmp.sslEnabled)
-            if (tmp.address === engine.connection.currentConnection.hostAddress || tmp.address === "0.0.0.0") {
+            if (tmp.address === engine.jsonRpcClient.currentConnection.hostAddress || tmp.address === "0.0.0.0") {
 
                 // This one prefers https over http...
                 //                if (config === null || (!config.sslEnabled && tmp.sslEnabled)) {
@@ -86,7 +86,7 @@ SettingsPageBase {
         Layout.fillWidth: true
         Layout.leftMargin: app.margins
         Layout.rightMargin: app.margins
-        text: qsTr("The web server cannot be reached on %1.").arg(engine.connection.currentConnection.hostAddress)
+        text: qsTr("The web server cannot be reached on %1.").arg(engine.jsonRpcClient.currentConnection.hostAddress)
         wrapMode: Text.WordWrap
         font.pixelSize: app.smallFont
         color: "red"
@@ -111,10 +111,10 @@ SettingsPageBase {
         enabled: root.usedConfig !== null && engine.nymeaConfiguration.webServerConfigurations.count > 0
         text: qsTr("Open debug interface")
         onClicked: {
-            print("opening:", engine.connection.currentConnection.url)
+            print("opening:", engine.jsonRpcClient.currentConnection.url)
 
             var proto = "http" + (root.usedConfig.sslEnabled ? "s" : "") + "://"
-            var path = engine.connection.currentConnection.hostAddress + ":" + root.usedConfig.port + "/debug"
+            var path = engine.jsonRpcClient.currentConnection.hostAddress + ":" + root.usedConfig.port + "/debug"
             print("opening:", proto + path)
             Qt.openUrlExternally(proto + path)
         }

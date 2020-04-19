@@ -243,6 +243,11 @@ QString Connection::hostAddress() const
     return m_url.host();
 }
 
+int Connection::port() const
+{
+    return m_url.port();
+}
+
 Connection::BearerType Connection::bearerType() const
 {
     return m_bearerType;

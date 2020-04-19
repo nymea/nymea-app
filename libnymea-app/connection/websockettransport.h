@@ -56,6 +56,9 @@ public:
     void sendData(const QByteArray &data) override;
     void ignoreSslErrors(const QList<QSslError> &errors) override;
 
+    bool isEncrypted() const override;
+    QSslCertificate serverCertificate() const override;
+
 private:
     QUrl m_url;
     QWebSocket *m_socket;

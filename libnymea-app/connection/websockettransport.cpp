@@ -99,6 +99,16 @@ void WebsocketTransport::ignoreSslErrors(const QList<QSslError> &errors)
     m_socket->ignoreSslErrors();
 }
 
+bool WebsocketTransport::isEncrypted() const
+{
+    return !m_socket->sslConfiguration().isNull();
+}
+
+QSslCertificate WebsocketTransport::serverCertificate() const
+{
+    return m_socket->sslConfiguration().peerCertificate();
+}
+
 void WebsocketTransport::onTextMessageReceived(const QString &data)
 {
     emit dataReady(data.toUtf8());

@@ -153,7 +153,7 @@ Page {
             text: qsTr("Connect to %1:core").arg(app.systemName)
             property string url
             onClicked: {
-                engine.connection.connect(url)
+                engine.jsonRpcClient.connectToHost(url)
             }
         }
 

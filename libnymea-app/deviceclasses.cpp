@@ -108,7 +108,6 @@ void DeviceClasses::addDeviceClass(DeviceClass *deviceClass)
 void DeviceClasses::clearModel()
 {
     beginResetModel();
-    qDebug() << "Devices: delete all deviceClasses";
     qDeleteAll(m_deviceClasses);
     m_deviceClasses.clear();
     endResetModel();

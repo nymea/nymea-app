@@ -134,7 +134,6 @@ void Devices::removeDevice(Device *device)
 void Devices::clearModel()
 {
     beginResetModel();
-    qDebug() << "Devices: delete all devices";
     qDeleteAll(m_devices);
     m_devices.clear();
     endResetModel();

@@ -46,7 +46,11 @@ class Params;
 class JsonRpcClient : public JsonHandler
 {
     Q_OBJECT
+    Q_PROPERTY(NymeaConnection::BearerTypes availableBearerTypes READ availableBearerTypes NOTIFY availableBearerTypesChanged)
+    Q_PROPERTY(NymeaConnection::ConnectionStatus connectionStatus READ connectionStatus NOTIFY connectionStatusChanged)
     Q_PROPERTY(bool connected READ connected NOTIFY connectedChanged)
+    Q_PROPERTY(NymeaHost* currentHost READ currentHost NOTIFY currentHostChanged)
+    Q_PROPERTY(Connection* currentConnection READ currentConnection NOTIFY currentConnectionChanged)
     Q_PROPERTY(bool initialSetupRequired READ initialSetupRequired NOTIFY initialSetupRequiredChanged)
     Q_PROPERTY(bool authenticationRequired READ authenticationRequired NOTIFY authenticationRequiredChanged)
     Q_PROPERTY(bool pushButtonAuthAvailable READ pushButtonAuthAvailable NOTIFY pushButtonAuthAvailableChanged)
@@ -57,6 +61,7 @@ class JsonRpcClient : public JsonHandler
     Q_PROPERTY(QString serverUuid READ serverUuid NOTIFY handshakeReceived)
     Q_PROPERTY(QString serverQtVersion READ serverQtVersion NOTIFY serverQtVersionChanged)
     Q_PROPERTY(QString serverQtBuildVersion READ serverQtBuildVersion NOTIFY serverQtVersionChanged)
+    Q_PROPERTY(QVariantMap certificateIssuerInfo READ certificateIssuerInfo NOTIFY currentConnectionChanged)
 
 public:
     enum CloudConnectionState {
@@ -67,7 +72,7 @@ public:
     };
     Q_ENUM(CloudConnectionState)
 
-    explicit JsonRpcClient(NymeaConnection *connection, QObject *parent = nullptr);
+    explicit JsonRpcClient(QObject *parent = nullptr);
 
     QString nameSpace() const override;
 
@@ -77,8 +82,12 @@ public:
     int sendCommand(const QString &method, const QVariantMap &params, QObject *caller = nullptr, const QString &callbackMethod = QString());
     int sendCommand(const QString &method, QObject *caller = nullptr, const QString &callbackMethod = QString());
 
-    void setConnection(NymeaConnection *connection);
+    NymeaConnection::BearerTypes availableBearerTypes() const;
+    NymeaConnection::ConnectionStatus connectionStatus() const;
     bool connected() const;
+    NymeaHost* currentHost() const;
+    Connection* currentConnection() const;
+    QVariantMap certificateIssuerInfo() const;
     bool initialSetupRequired() const;
     bool authenticationRequired() const;
     bool pushButtonAuthAvailable() const;
@@ -93,20 +102,31 @@ public:
     QString serverQtBuildVersion();
 
     // ui methods
+    Q_INVOKABLE void connectToHost(NymeaHost *host, Connection *connection = nullptr);
+    Q_INVOKABLE void disconnectFromHost();
+    Q_INVOKABLE void acceptCertificate(const QString &serverUuid, const QByteArray &pem);
+
+    Q_INVOKABLE bool ensureServerVersion(const QString &jsonRpcVersion);
+
     Q_INVOKABLE int createUser(const QString &username, const QString &password);
     Q_INVOKABLE int authenticate(const QString &username, const QString &password, const QString &deviceName);
     Q_INVOKABLE int requestPushButtonAuth(const QString &deviceName);
     Q_INVOKABLE void setupRemoteAccess(const QString &idToken, const QString &userId);
 
-    Q_INVOKABLE bool ensureServerVersion(const QString &jsonRpcVersion);
 
 signals:
+    void availableBearerTypesChanged();
+    void connectionStatusChanged();
+    void connectedChanged(bool connected);
+    void currentHostChanged();
+    void currentConnectionChanged();
     void handshakeReceived();
+    void newSslCertificate();
+    void verifyConnectionCertificate(const QString &serverUuid, const QVariantMap &issuerInfo, const QByteArray &pem);
     void initialSetupRequiredChanged();
     void authenticationRequiredChanged();
     void pushButtonAuthAvailableChanged();
     void authenticatedChanged();
-    void connectedChanged(bool connected);
     void tokenChanged();
     void invalidProtocolVersion(const QString &actualVersion, const QString &minimumVersion);
     void authenticationFailed();
@@ -165,6 +185,9 @@ private:
     Q_INVOKABLE void getVersionsReply(const QVariantMap &data);
 
     void sendRequest(const QVariantMap &request);
+
+    bool loadPem(const QUuid &serverUud, QByteArray &pem);
+    bool storePem(const QUuid &serverUuid, const QByteArray &pem);
 
 };
 

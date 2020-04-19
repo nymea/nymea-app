@@ -85,10 +85,11 @@ public:
 
     void registerTransport(NymeaTransportInterfaceFactory *transportFactory);
 
-    Q_INVOKABLE void connect(NymeaHost* nymeaHost, Connection *connection = nullptr);
-    Q_INVOKABLE void disconnect();
-    Q_INVOKABLE void acceptCertificate(const QString &url, const QByteArray &pem);
-    Q_INVOKABLE bool isTrusted(const QString &url);
+    Q_INVOKABLE void connectToHost(NymeaHost* nymeaHost, Connection *connection = nullptr);
+    Q_INVOKABLE void disconnectFromHost();
+
+    bool isEncrypted() const;
+    QSslCertificate sslCertificate() const;
 
     NymeaConnection::BearerTypes availableBearerTypes() const;
 
@@ -120,9 +121,6 @@ private slots:
 
     void updateActiveBearers();
 private:
-    bool storePem(const QUrl &host, const QByteArray &pem);
-    bool loadPem(const QUrl &host, QByteArray &pem);
-
     void connectInternal(NymeaHost *host);
     bool connectInternal(Connection *connection);
 

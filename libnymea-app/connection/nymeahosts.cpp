@@ -31,7 +31,7 @@
 #include "nymeahosts.h"
 #include "connection/discovery/nymeadiscovery.h"
 #include "nymeahost.h"
-#include "connection/nymeaconnection.h"
+#include "jsonrpc/jsonrpcclient.h"
 #include <QUuid>
 
 NymeaHosts::NymeaHosts(QObject *parent) :
@@ -186,18 +186,18 @@ void NymeaHostsFilterModel::setDiscovery(NymeaDiscovery *discovery)
     }
 }
 
-NymeaConnection *NymeaHostsFilterModel::nymeaConnection() const
+JsonRpcClient *NymeaHostsFilterModel::jsonRpcClient() const
 {
-    return m_nymeaConnection;
+    return m_jsonRpcClient;
 }
 
-void NymeaHostsFilterModel::setNymeaConnection(NymeaConnection *nymeaConnection)
+void NymeaHostsFilterModel::setJsonRpcClient(JsonRpcClient *jsonRpcClient)
 {
-    if (m_nymeaConnection != nymeaConnection) {
-        m_nymeaConnection = nymeaConnection;
-        emit nymeaConnectionChanged();
+    if (m_jsonRpcClient != jsonRpcClient) {
+        m_jsonRpcClient = jsonRpcClient;
+        emit jsonRpcClientChanged();
 
-        connect(m_nymeaConnection, &NymeaConnection::availableBearerTypesChanged, this, [this](){
+        connect(m_jsonRpcClient, &JsonRpcClient::availableBearerTypesChanged, this, [this](){
 //            qDebug() << "Bearer Types Changed!";
             invalidateFilter();
             emit countChanged();
@@ -247,24 +247,24 @@ bool NymeaHostsFilterModel::filterAcceptsRow(int sourceRow, const QModelIndex &s
 {
     Q_UNUSED(sourceParent)
     NymeaHost *host = m_nymeaDiscovery->nymeaHosts()->get(sourceRow);
-    if (m_nymeaConnection && !m_showUneachableBearers) {
+    if (m_jsonRpcClient && !m_showUneachableBearers) {
         bool hasReachableConnection = false;
         for (int i = 0; i < host->connections()->rowCount(); i++) {
 //            qDebug() << "checking host for available bearer" << host->name() << host->connections()->get(i)->url() << "available bearer types:" << m_nymeaConnection->availableBearerTypes() << "hosts bearer types" << host->connections()->get(i)->bearerType();
             // Either enable a connection when the Bearer type is directly available
             switch (host->connections()->get(i)->bearerType()) {
             case Connection::BearerTypeLan:
-                hasReachableConnection |= m_nymeaConnection->availableBearerTypes().testFlag(NymeaConnection::BearerTypeEthernet);
-                hasReachableConnection |= m_nymeaConnection->availableBearerTypes().testFlag(NymeaConnection::BearerTypeWiFi);
+                hasReachableConnection |= m_jsonRpcClient->availableBearerTypes().testFlag(NymeaConnection::BearerTypeEthernet);
+                hasReachableConnection |= m_jsonRpcClient->availableBearerTypes().testFlag(NymeaConnection::BearerTypeWiFi);
                 break;
             case Connection::BearerTypeWan:
             case Connection::BearerTypeCloud:
-                hasReachableConnection |= m_nymeaConnection->availableBearerTypes().testFlag(NymeaConnection::BearerTypeEthernet);
-                hasReachableConnection |= m_nymeaConnection->availableBearerTypes().testFlag(NymeaConnection::BearerTypeWiFi);
-                hasReachableConnection |= m_nymeaConnection->availableBearerTypes().testFlag(NymeaConnection::BearerTypeMobileData);
+                hasReachableConnection |= m_jsonRpcClient->availableBearerTypes().testFlag(NymeaConnection::BearerTypeEthernet);
+                hasReachableConnection |= m_jsonRpcClient->availableBearerTypes().testFlag(NymeaConnection::BearerTypeWiFi);
+                hasReachableConnection |= m_jsonRpcClient->availableBearerTypes().testFlag(NymeaConnection::BearerTypeMobileData);
                 break;
             case Connection::BearerTypeBluetooth:
-                hasReachableConnection |= m_nymeaConnection->availableBearerTypes().testFlag(NymeaConnection::BearerTypeBluetooth);
+                hasReachableConnection |= m_jsonRpcClient->availableBearerTypes().testFlag(NymeaConnection::BearerTypeBluetooth);
                 break;
             case Connection::BearerTypeUnknown:
                 hasReachableConnection = true;

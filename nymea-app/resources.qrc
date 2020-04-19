@@ -212,5 +212,6 @@
         <file>ui/components/SettingsPageBase.qml</file>
         <file>ui/components/SettingsPageSectionHeader.qml</file>
         <file>ui/grouping/GroupInterfacesPage.qml</file>
+        <file>ui/connection/CertificateErrorDialog.qml</file>
     </qresource>
 </RCC>
