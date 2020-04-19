@@ -69,32 +69,6 @@ NymeaConnection::NymeaConnection(QObject *parent) : QObject(parent)
     updateActiveBearers();
 }
 
-void NymeaConnection::acceptCertificate(const QString &url, const QByteArray &pem)
-{
-    storePem(url, pem);
-    if (m_currentHost) {
-        connectInternal(m_currentHost);
-    }
-}
-
-bool NymeaConnection::isTrusted(const QString &url)
-{
-    // Do we have a legacy fingerprint
-    QSettings settings;
-    settings.beginGroup("acceptedCertificates");
-    if (settings.contains(QUrl(url).host())) {
-        return true;
-    }
-
-    // Do we have a PEM file?
-    QByteArray pem;
-    if (loadPem(url, pem)) {
-        return true;
-    }
-
-    return false;
-}
-
 NymeaConnection::BearerTypes NymeaConnection::availableBearerTypes() const
 {
     return m_availableBearerTypes;
@@ -161,7 +135,6 @@ Connection *NymeaConnection::currentConnection() const
     if (!m_currentHost || !m_currentTransport) {
         return nullptr;
     }
-    qDebug() << "secure:" << m_transportCandidates.value(m_currentTransport)->secure();
     return m_transportCandidates.value(m_currentTransport);
 }
 
@@ -187,63 +160,8 @@ void NymeaConnection::onSslErrors(const QList<QSslError> &errors)
             qDebug() << "Ignoring host mismatch on certificate.";
             ignoredErrors.append(error);
         } else if (error.error() == QSslError::SelfSignedCertificate || error.error() == QSslError::CertificateUntrusted) {
-            // Check our cert DB
-            QByteArray pem;
-
-
-            // Keep this for compatibility with old versions for a bit...
-            // New code will look up the PEM instead and set it before the connection attempt
-            // However, we want to emit verifyConnectionCertificate in any case here.
-            QSettings settings;
-            settings.beginGroup("acceptedCertificates");
-            QByteArray storedFingerPrint = settings.value(transport->url().host()).toByteArray();
-            settings.endGroup();
-
-            QByteArray certificateFingerprint;
-            QByteArray digest = error.certificate().digest(QCryptographicHash::Sha256);
-            for (int i = 0; i < digest.length(); i++) {
-                if (certificateFingerprint.length() > 0) {
-                    certificateFingerprint.append(":");
-                }
-                certificateFingerprint.append(digest.mid(i,1).toHex().toUpper());
-            }
-
-            // Ignore self signed certs for connections to localhost
-            if (QHostAddress(transport->url().host()) == QHostAddress::LocalHost || QHostAddress(transport->url().host()) == QHostAddress::LocalHostIPv6) {
-                ignoredErrors.append(error);
-
-            // Check old style fingerprint storage
-            } else if (storedFingerPrint == certificateFingerprint) {
-                qDebug() << "This fingerprint is known to us.";
-                ignoredErrors.append(error);
-
-                // Update the config to use the new system:
-                storePem(transport->url(), error.certificate().toPem());
-
-            // Check new style PEM storage
-            } else if (loadPem(transport->url(), pem) && pem == error.certificate().toPem()) {
-                qDebug() << "Found a SSL certificate for this host. Ignoring error.";
-                ignoredErrors.append(error);
-
-            // Ok... nothing found... Pop up the message
-            } else {
-                qDebug() << "Host presents an unknown self signed certificate:" << error.certificate();
-                qDebug() << "Asking user for confirmation.";
-
-                QStringList info;
-                info << tr("Common Name:") << error.certificate().issuerInfo(QSslCertificate::CommonName);
-                info << tr("Oragnisation:") <<error.certificate().issuerInfo(QSslCertificate::Organization);
-                info << tr("Locality:") << error.certificate().issuerInfo(QSslCertificate::LocalityName);
-                info << tr("Oragnisational Unit:")<< error.certificate().issuerInfo(QSslCertificate::OrganizationalUnitName);
-                info << tr("Country:")<< error.certificate().issuerInfo(QSslCertificate::CountryName);
-//                info << tr("State:")<< error.certificate().issuerInfo(QSslCertificate::StateOrProvinceName);
-//                info << tr("Name Qualifier:")<< error.certificate().issuerInfo(QSslCertificate::DistinguishedNameQualifier);
-//                info << tr("Email:")<< error.certificate().issuerInfo(QSslCertificate::EmailAddress);
-
-                m_connectionStatus = ConnectionStatusSslUntrusted;
-                emit connectionStatusChanged();
-                emit verifyConnectionCertificate(transport->url().toString(), info, certificateFingerprint, error.certificate().toPem());
-            }
+            qDebug() << "Ignoring self signed certificate.";
+            ignoredErrors.append(error);
         } else {
             // Reject the connection on all other errors...
             qDebug() << "SSL Error:" << error.errorString() << error.certificate();
@@ -475,35 +393,6 @@ void NymeaConnection::updateActiveBearers()
     }
 }
 
-
-bool NymeaConnection::storePem(const QUrl &host, const QByteArray &pem)
-{
-    QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/sslcerts/");
-    if (!dir.exists()) {
-        dir.mkpath(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/sslcerts/");
-    }
-    QFile certFile(dir.absoluteFilePath(host.host() + ".pem"));
-    if (!certFile.open(QFile::WriteOnly)) {
-        return false;
-    }
-    certFile.write(pem);
-    certFile.close();
-    return true;
-}
-
-bool NymeaConnection::loadPem(const QUrl &host, QByteArray &pem)
-{
-    QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/sslcerts/");
-//    qDebug() << "Loading certificates from:" << dir.absoluteFilePath(host.host() + ".pem");
-    QFile certFile(dir.absoluteFilePath(host.host() + ".pem"));
-    if (!certFile.open(QFile::ReadOnly)) {
-        return false;
-    }
-    pem.clear();
-    pem.append(certFile.readAll());
-    return true;
-}
-
 void NymeaConnection::registerTransport(NymeaTransportInterfaceFactory *transportFactory)
 {
     foreach (const QString &scheme, transportFactory->supportedSchemes()) {
@@ -511,7 +400,7 @@ void NymeaConnection::registerTransport(NymeaTransportInterfaceFactory *transpor
     }
 }
 
-void NymeaConnection::connect(NymeaHost *nymeaHost, Connection *connection)
+void NymeaConnection::connectToHost(NymeaHost *nymeaHost, Connection *connection)
 {
     if (!nymeaHost) {
         return;
@@ -602,15 +491,15 @@ bool NymeaConnection::connectInternal(Connection *connection)
     QObject::connect(newTransport, &NymeaTransportInterface::disconnected, this, &NymeaConnection::onDisconnected);
     QObject::connect(newTransport, &NymeaTransportInterface::dataReady, this, &NymeaConnection::dataAvailable);
 
-    // Load any certificate we might have for this url
-    QByteArray pem;
-    if (loadPem(connection->url(), pem)) {
-        qDebug() << "Loaded SSL certificate for" << connection->url().host();
-        QList<QSslError> expectedSslErrors;
-        expectedSslErrors.append(QSslError::HostNameMismatch);
-        expectedSslErrors.append(QSslError(QSslError::SelfSignedCertificate, QSslCertificate(pem)));
-        newTransport->ignoreSslErrors(expectedSslErrors);
-    }
+//    // Load any certificate we might have for this url
+//    QByteArray pem;
+//    if (loadPem(connection->url(), pem)) {
+//        qDebug() << "Loaded SSL certificate for" << connection->url().host();
+//        QList<QSslError> expectedSslErrors;
+//        expectedSslErrors.append(QSslError::HostNameMismatch);
+//        expectedSslErrors.append(QSslError(QSslError::SelfSignedCertificate, QSslCertificate(pem)));
+//        newTransport->ignoreSslErrors(expectedSslErrors);
+//    }
 
     m_transportCandidates.insert(newTransport, connection);
     qDebug() << "Connecting to:" << connection->url() << newTransport << m_transportCandidates.value(newTransport);
@@ -666,7 +555,20 @@ bool NymeaConnection::isConnectionBearerAvailable(Connection::BearerType connect
     return false;
 }
 
-void NymeaConnection::disconnect()
+void NymeaConnection::disconnectFromHost()
 {
     setCurrentHost(nullptr);
+}
+
+bool NymeaConnection::isEncrypted() const
+{
+    return m_currentTransport && m_currentTransport->isEncrypted();
+}
+
+QSslCertificate NymeaConnection::sslCertificate() const
+{
+    if (!m_currentTransport) {
+        return QSslCertificate();
+    }
+    return m_currentTransport->serverCertificate();
 }

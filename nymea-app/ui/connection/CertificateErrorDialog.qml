@@ -28,46 +28,18 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef TCPSOCKETTRANSPORT_H
-#define TCPSOCKETTRANSPORT_H
+import QtQuick 2.9
+import QtQuick.Controls 2.2
+import QtQuick.Controls.Material 2.2
+import QtQuick.Layouts 1.3
+import Nymea 1.0
+import "../components"
 
-#include "nymeatransportinterface.h"
+MeaDialog {
+    id: root
 
-#include <QObject>
-#include <QSslSocket>
-#include <QUrl>
-
-class TcpSocketTransportFactory: public NymeaTransportInterfaceFactory
-{
-public:
-    NymeaTransportInterface* createTransport(QObject *parent = nullptr) const override;
-    QStringList supportedSchemes() const override;
-};
-
-class TcpSocketTransport: public NymeaTransportInterface
-{
-    Q_OBJECT
-public:
-    explicit TcpSocketTransport(QObject *parent = nullptr);
-
-    bool connect(const QUrl &url) override;
-    QUrl url() const override;
-    ConnectionState connectionState() const override;
-    void disconnect() override;
-    void sendData(const QByteArray &data) override;
-    void ignoreSslErrors(const QList<QSslError> &errors) override;
-    bool isEncrypted() const override;
-    QSslCertificate serverCertificate() const override;
-
-private slots:
-    void onConnected();
-    void onEncrypted();
-    void socketReadyRead();
-    void onSocketStateChanged(const QAbstractSocket::SocketState &state);
-
-private:
-    QSslSocket m_socket;
-    QUrl m_url;
-};
-
-#endif // TCPSOCKETTRANSPROT_H
+    title: qsTr("Insecure connection")
+    headerIcon: "../images/lock-broken.svg"
+    text: qsTr("The certificate for this %1 system has changed. This could be because the configuration has been changed, but could also mean the system has been compromised. Do you want to accept the new certificate?").arg(app.systemName)
+    standardButtons: Dialog.Ok | Dialog.Cancel
+}

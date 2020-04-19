@@ -31,6 +31,7 @@
 #include "tcpsockettransport.h"
 
 #include <QUrl>
+#include <QSslConfiguration>
 
 TcpSocketTransport::TcpSocketTransport(QObject *parent) : NymeaTransportInterface(parent)
 {
@@ -56,6 +57,17 @@ void TcpSocketTransport::sendData(const QByteArray &data)
 void TcpSocketTransport::ignoreSslErrors(const QList<QSslError> &errors)
 {
     m_socket.ignoreSslErrors(errors);
+}
+
+bool TcpSocketTransport::isEncrypted() const
+{
+    return m_socket.isEncrypted();
+}
+
+QSslCertificate TcpSocketTransport::serverCertificate() const
+{
+    qDebug() << "******" << m_socket.peerCertificate();
+    return m_socket.peerCertificate();
 }
 
 void TcpSocketTransport::onConnected()

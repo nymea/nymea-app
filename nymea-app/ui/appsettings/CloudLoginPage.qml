@@ -124,10 +124,10 @@ SettingsPageBase {
                 secondaryIconName: !model.online ? "../images/cloud-error.svg" : ""
 
                 onClicked: {
-                    print("clicked, connected:", engine.connection.connected, model.id)
-                    if (!engine.connection.connected) {
+                    print("clicked, connected:", engine.jsonRpcClient.connected, model.id)
+                    if (!engine.jsonRpcClient.connected) {
                         var host = discovery.nymeaHosts.find(model.id)
-                        engine.connection.connect(host);
+                        engine.jsonRpcClient.connectToHost(host);
                     }
                 }
 

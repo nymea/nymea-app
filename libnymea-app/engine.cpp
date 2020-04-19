@@ -39,15 +39,9 @@
 #include "system/systemcontroller.h"
 #include "configuration/networkmanager.h"
 
-#include "connection/tcpsockettransport.h"
-#include "connection/websockettransport.h"
-#include "connection/bluetoothtransport.h"
-#include "connection/cloudtransport.h"
-
 Engine::Engine(QObject *parent) :
     QObject(parent),
-    m_connection(new NymeaConnection(this)),
-    m_jsonRpcClient(new JsonRpcClient(m_connection, this)),
+    m_jsonRpcClient(new JsonRpcClient(this)),
     m_deviceManager(new DeviceManager(m_jsonRpcClient, this)),
     m_ruleManager(new RuleManager(m_jsonRpcClient, this)),
     m_scriptManager(new ScriptManager(m_jsonRpcClient, this)),
@@ -56,10 +50,6 @@ Engine::Engine(QObject *parent) :
     m_nymeaConfiguration(new NymeaConfiguration(m_jsonRpcClient, this)),
     m_systemController(new SystemController(m_jsonRpcClient, this))
 {
-    m_connection->registerTransport(new TcpSocketTransportFactory());
-    m_connection->registerTransport(new WebsocketTransportFactory());
-    m_connection->registerTransport(new BluetoothTransportFactoy());
-    m_connection->registerTransport(new CloudTransportFactory());
 
     connect(m_jsonRpcClient, &JsonRpcClient::connectedChanged, this, &Engine::onConnectedChanged);
 
@@ -136,11 +126,6 @@ void Engine::deployCertificate()
         qDebug() << "Certificate received" << certificate << publicKey << privateKey;
         m_jsonRpcClient->deployCertificate(rootCA, certificate, publicKey, privateKey, endpoint);
     });
-}
-
-NymeaConnection *Engine::connection() const
-{
-    return m_connection;
 }
 
 void Engine::onConnectedChanged()

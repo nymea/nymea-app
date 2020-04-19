@@ -42,7 +42,7 @@ Dialog {
     y: (parent.height - height) / 2
     standardButtons: Dialog.Yes | Dialog.No
 
-    property string url
+    property string serverUuid
     property var fingerprint
     property var issuerInfo
     property var pem
@@ -135,7 +135,7 @@ Dialog {
     }
 
     onAccepted: {
-        engine.connection.acceptCertificate(certDialog.url, certDialog.pem)
+        engine.jsonRpcClient.acceptCertificate(certDialog.serverUuid, certDialog.pem)
     }
     onRejected: {
         engine.connection.disconnect();

@@ -200,7 +200,6 @@ void SystemController::setAutomaticTime(bool automaticTime)
 
 void SystemController::getCapabilitiesResponse(const QVariantMap &data)
 {
-    qDebug() << "capabilities received" << data;
     m_powerManagementAvailable = data.value("params").toMap().value("powerManagement").toBool();
     emit powerManagementAvailableChanged();
 
@@ -219,6 +218,8 @@ void SystemController::getCapabilitiesResponse(const QVariantMap &data)
     if (m_jsonRpcClient->ensureServerVersion("4.1")) {
         m_jsonRpcClient->sendCommand("System.GetTime", this, "getServerTimeResponse");
     }
+
+    qDebug() << "nymea:core capabilities: Power management:" << m_powerManagementAvailable << "Update management:" << m_updateManagementAvailable << "Time management:" << m_timeManagementAvailable;
 }
 
 void SystemController::getUpdateStatusResponse(const QVariantMap &data)

@@ -66,6 +66,8 @@ public:
     virtual ConnectionState connectionState() const = 0;
     virtual void sendData(const QByteArray &data) = 0;
     virtual void ignoreSslErrors(const QList<QSslError> &errors) { Q_UNUSED(errors) }
+    virtual bool isEncrypted() const { return false; }
+    virtual QSslCertificate serverCertificate() const { return QSslCertificate(); }
 
 signals:
     void connected();

@@ -33,6 +33,11 @@
 #include "types/param.h"
 #include "types/params.h"
 
+#include "connection/tcpsockettransport.h"
+#include "connection/websockettransport.h"
+#include "connection/bluetoothtransport.h"
+#include "connection/cloudtransport.h"
+
 #include <QJsonDocument>
 #include <QVariantMap>
 #include <QDebug>
@@ -41,13 +46,24 @@
 #include <QVersionNumber>
 #include <QMetaEnum>
 #include <QLocale>
+#include <QDir>
+#include <QStandardPaths>
 
-JsonRpcClient::JsonRpcClient(NymeaConnection *connection, QObject *parent) :
+JsonRpcClient::JsonRpcClient(QObject *parent) :
     JsonHandler(parent),
-    m_id(0),
-    m_connection(connection)
+    m_id(0)
 {
+    m_connection = new NymeaConnection(this);
+    m_connection->registerTransport(new TcpSocketTransportFactory());
+    m_connection->registerTransport(new WebsocketTransportFactory());
+    m_connection->registerTransport(new BluetoothTransportFactoy());
+    m_connection->registerTransport(new CloudTransportFactory());
+
+    connect(m_connection, &NymeaConnection::availableBearerTypesChanged, this, &JsonRpcClient::availableBearerTypesChanged);
+    connect(m_connection, &NymeaConnection::connectionStatusChanged, this, &JsonRpcClient::connectionStatusChanged);
     connect(m_connection, &NymeaConnection::connectedChanged, this, &JsonRpcClient::onInterfaceConnectedChanged);
+    connect(m_connection, &NymeaConnection::currentHostChanged, this, &JsonRpcClient:: currentHostChanged);
+    connect(m_connection, &NymeaConnection::currentConnectionChanged, this, &JsonRpcClient:: currentConnectionChanged);
     connect(m_connection, &NymeaConnection::dataAvailable, this, &JsonRpcClient::dataReceived);
 
     registerNotificationHandler(this, "notificationReceived");
@@ -87,6 +103,32 @@ int JsonRpcClient::sendCommand(const QString &method, const QVariantMap &params,
 int JsonRpcClient::sendCommand(const QString &method, QObject *caller, const QString &callbackMethod)
 {
     return sendCommand(method, QVariantMap(), caller, callbackMethod);
+}
+
+NymeaConnection::BearerTypes JsonRpcClient::availableBearerTypes() const
+{
+    return m_connection->availableBearerTypes();
+}
+
+NymeaConnection::ConnectionStatus JsonRpcClient::connectionStatus() const
+{
+    return m_connection->connectionStatus();
+}
+
+void JsonRpcClient::connectToHost(NymeaHost *host, Connection *connection)
+{
+    m_connection->connectToHost(host, connection);
+}
+
+void JsonRpcClient::disconnectFromHost()
+{
+    m_connection->disconnectFromHost();
+}
+
+void JsonRpcClient::acceptCertificate(const QString &serverUuid, const QByteArray &pem)
+{
+    qDebug() << "Pinning new certificate for" << serverUuid;
+    storePem(serverUuid, pem);
 }
 
 void JsonRpcClient::getCloudConnectionStatus()
@@ -172,6 +214,16 @@ void JsonRpcClient::getVersionsReply(const QVariantMap &data)
 bool JsonRpcClient::connected() const
 {
     return m_connected;
+}
+
+NymeaHost *JsonRpcClient::currentHost() const
+{
+    return m_connection->currentHost();
+}
+
+Connection *JsonRpcClient::currentConnection() const
+{
+    return m_connection->currentConnection();
 }
 
 bool JsonRpcClient::initialSetupRequired() const
@@ -377,6 +429,33 @@ void JsonRpcClient::sendRequest(const QVariantMap &request)
     m_connection->sendData(QJsonDocument::fromVariant(newRequest).toJson(QJsonDocument::Compact) + "\n");
 }
 
+bool JsonRpcClient::loadPem(const QUuid &serverUud, QByteArray &pem)
+{
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/sslcerts/");
+    QFile certFile(dir.absoluteFilePath(serverUud.toString().remove(QRegExp("[{}]")) + ".pem"));
+    if (!certFile.open(QFile::ReadOnly)) {
+        return false;
+    }
+    pem.clear();
+    pem.append(certFile.readAll());
+    return true;
+}
+
+bool JsonRpcClient::storePem(const QUuid &serverUuid, const QByteArray &pem)
+{
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/sslcerts/");
+    if (!dir.exists()) {
+        dir.mkpath(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/sslcerts/");
+    }
+    QFile certFile(dir.absoluteFilePath(serverUuid.toString().remove(QRegExp("[{}]")) + ".pem"));
+    if (!certFile.open(QFile::WriteOnly | QFile::Truncate)) {
+        return false;
+    }
+    certFile.write(pem);
+    certFile.close();
+    return true;
+}
+
 void JsonRpcClient::onInterfaceConnectedChanged(bool connected)
 {
 
@@ -496,6 +575,49 @@ void JsonRpcClient::helloReply(const QVariantMap &params)
             emit invalidProtocolVersion(m_jsonRpcVersion.toString(), minimumRequiredVersion.toString());
             return;
         }
+
+        // Verify SSL certificate
+        if (m_connection->isEncrypted()) {
+            QByteArray pem;
+            if (!loadPem(m_serverUuid, pem)) {
+                qDebug() << "No SSL certificate for this host stored. Accepting and pinning new certificate.";
+                // No certificate yet! Inform ui about it.
+                emit newSslCertificate();
+                storePem(m_serverUuid, m_connection->sslCertificate().toPem());
+            } else {
+                // We have a certificate pinned already. Check if it's the same
+                if (m_connection->sslCertificate().toPem() != pem) {
+
+                    // Uh oh, the certificate has changed
+                    QSslCertificate certificate = m_connection->sslCertificate();
+                    qWarning() << "This connections certificate has changed!" << certificate;
+
+                    // Reject the connection until the UI explicitly accepts this...
+                    m_connection->disconnectFromHost();
+
+                    QStringList info;
+                    info << tr("Common Name:") << certificate.issuerInfo(QSslCertificate::CommonName);
+                    info << tr("Oragnisation:") << certificate.issuerInfo(QSslCertificate::Organization);
+                    info << tr("Locality:") << certificate.issuerInfo(QSslCertificate::LocalityName);
+                    info << tr("Oragnisational Unit:")<< certificate.issuerInfo(QSslCertificate::OrganizationalUnitName);
+                    info << tr("Country:")<< certificate.issuerInfo(QSslCertificate::CountryName);
+
+                    QByteArray certificateFingerprint;
+                    QByteArray digest = certificate.digest(QCryptographicHash::Sha256);
+                    for (int i = 0; i < digest.length(); i++) {
+                        if (certificateFingerprint.length() > 0) {
+                            certificateFingerprint.append(":");
+                        }
+                        certificateFingerprint.append(digest.mid(i,1).toHex().toUpper());
+                    }
+
+                    emit verifyConnectionCertificate(m_serverUuid, info, certificateFingerprint, certificate.toPem());
+                    return;
+                }
+                qDebug() << "This connections certificate is trusted.";
+            }
+        }
+
 
         emit handshakeReceived();
 

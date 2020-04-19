@@ -45,10 +45,10 @@ Page {
         title: swipeView.currentItem.title
         leftButtonVisible: true
         leftButtonImageSource: {
-            switch (engine.connection.currentConnection.bearerType) {
+            switch (engine.jsonRpcClient.currentConnection.bearerType) {
             case Connection.BearerTypeLan:
             case Connection.BearerTypeWan:
-                if (engine.connection.availableBearerTypes & NymeaConnection.BearerTypeEthernet != NymeaConnection.BearerTypeNone) {
+                if (engine.jsonRpcClient.availableBearerTypes & NymeaConnection.BearerTypeEthernet != NymeaConnection.BearerTypeNone) {
                     return "../images/network-wired.svg"
                 }
                 return "../images/network-wifi.svg";
@@ -404,7 +404,7 @@ Page {
         id: connectionDialogComponent
         MeaDialog {
             id: connectionDialog
-            title: engine.connection.currentHost.name
+            title: engine.jsonRpcClient.currentHost.name
             standardButtons: Dialog.NoButton
 
             Label {
@@ -417,14 +417,14 @@ Page {
             }
             Label {
                 Layout.fillWidth: true
-                text: engine.connection.currentHost.name
+                text: engine.jsonRpcClient.currentHost.name
                 elide: Text.ElideRight
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 horizontalAlignment: Text.AlignHCenter
             }
             Label {
                 Layout.fillWidth: true
-                text: engine.connection.currentHost.uuid
+                text: engine.jsonRpcClient.currentHost.uuid
                 font.pixelSize: app.smallFont
                 elide: Text.ElideRight
                 color: Material.color(Material.Grey)
@@ -432,7 +432,7 @@ Page {
             }
             Label {
                 Layout.fillWidth: true
-                text: engine.connection.currentConnection.url
+                text: engine.jsonRpcClient.currentConnection.url
                 font.pixelSize: app.smallFont
                 elide: Text.ElideRight
                 color: Material.color(Material.Grey)
@@ -463,7 +463,7 @@ Page {
                     Layout.preferredWidth: Math.max(cancelButton.implicitWidth, disconnectButton.implicitWidth)
                     onClicked: {
                         tabSettings.lastConnectedHost = "";
-                        engine.connection.disconnect();
+                        engine.jsonRpcClient.disconnectFromHost();
                     }
                 }
             }

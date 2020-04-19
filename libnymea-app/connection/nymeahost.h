@@ -43,6 +43,7 @@ class Connection: public QObject {
     Q_OBJECT
     Q_PROPERTY(QUrl url READ url CONSTANT)
     Q_PROPERTY(QString hostAddress READ hostAddress CONSTANT)
+    Q_PROPERTY(int port READ port CONSTANT)
     Q_PROPERTY(BearerType bearerType READ bearerType CONSTANT)
     Q_PROPERTY(bool secure READ secure CONSTANT)
     Q_PROPERTY(QString displayName READ displayName CONSTANT)
@@ -68,6 +69,7 @@ public:
 
     QUrl url() const;
     QString hostAddress() const;
+    int port() const;
     BearerType bearerType() const;
     bool secure() const;
     QString displayName() const;

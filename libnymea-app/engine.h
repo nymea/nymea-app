@@ -49,7 +49,6 @@ class NetworkManager;
 class Engine : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(NymeaConnection* connection READ connection CONSTANT)
     Q_PROPERTY(DeviceManager* deviceManager READ deviceManager CONSTANT)
     Q_PROPERTY(RuleManager* ruleManager READ ruleManager CONSTANT)
     Q_PROPERTY(ScriptManager* scriptManager READ scriptManager CONSTANT)
@@ -64,7 +63,6 @@ public:
     bool connected() const;
     QString connectedHost() const;
 
-    NymeaConnection *connection() const;
     DeviceManager *deviceManager() const;
     RuleManager *ruleManager() const;
     ScriptManager *scriptManager() const;
@@ -77,7 +75,6 @@ public:
     Q_INVOKABLE void deployCertificate();
 
 private:
-    NymeaConnection *m_connection;
     JsonRpcClient *m_jsonRpcClient;
     DeviceManager *m_deviceManager;
     RuleManager *m_ruleManager;

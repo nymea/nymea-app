@@ -39,18 +39,8 @@ NymeaListItemDelegate {
     subText: qsTr("Port: %1").arg(model.port)
     iconName: "../images/network-vpn.svg"
     progressive: false
-    iconColor: {
-        if ((engine.connection.hostAddress === model.address || model.address === "0.0.0.0")
-                && engine.connection.port === model.port) {
-            return app.accentColor
-        }
-        return iconKeyColor
-    }
-
     secondaryIconName: "../images/account.svg"
     secondaryIconColor: model.authenticationEnabled ? app.accentColor : secondaryIconKeyColor
     tertiaryIconName: "../images/network-secure.svg"
     tertiaryIconColor: model.sslEnabled ? app.accentColor : tertiaryIconKeyColor
-
-//    canDelete: true
 }

@@ -111,7 +111,7 @@ Item {
                     readonly property Engine engine: engineObject
                     readonly property Engine _engine: engineObject // In case a child cannot use "engine"
                     property int connectionTabIndex: index
-//                    onConnectionTabIndexChanged: tabSettings.lastConnectedHost = engine.connection.url
+//                    onConnectionTabIndexChanged: tabSettings.lastConnectedHost = engine.jsonRpcClient.url
 
                     Binding {
                         target: AWSClient
@@ -122,7 +122,7 @@ Item {
                     Binding {
                         target: _discovery
                         property: "discovering"
-                        value: engine.connection.currentHost === null
+                        value: engine.jsonRpcClient.currentHost === null
                     }
 
                     StackView {
@@ -136,12 +136,12 @@ Item {
                         setupPushNotifications();
                         if (autoConnectHost.length > 0) {
                             var host = discovery.nymeaHosts.createLanHost("Manual connection", autoConnectHost);
-                            engine.connection.connect(host)
+                            engine.jsonRpcClient.connectToHost(host)
                         } else if (tabSettings.lastConnectedHost.length > 0) {
                             print("Last connected host was", tabSettings.lastConnectedHost)
                             var cachedHost = discovery.nymeaHosts.find(tabSettings.lastConnectedHost);
                             if (cachedHost) {
-                                engine.connection.connect(cachedHost)
+                                engine.jsonRpcClient.connectToHost(cachedHost)
                                 return;
                             }
                             print("Warning: There is a last connected host but UUID is unknown to discovery...")
@@ -153,9 +153,9 @@ Item {
                     Timer { running: true; repeat: false; interval: 3000; onTriggered: PlatformHelper.hideSplashScreen(); }
 
                     function init() {
-                        print("calling init. Auth required:", engine.jsonRpcClient.authenticationRequired, "initial setup required:", engine.jsonRpcClient.initialSetupRequired, "jsonrpc connected:", engine.jsonRpcClient.connected, "Current host:", engine.connection.currentHost)
+                        print("calling init. Auth required:", engine.jsonRpcClient.authenticationRequired, "initial setup required:", engine.jsonRpcClient.initialSetupRequired, "jsonrpc connected:", engine.jsonRpcClient.connected, "Current host:", engine.jsonRpcClient.currentHost)
                         pageStack.clear()
-                        if (!engine.connection.currentHost) {
+                        if (!engine.jsonRpcClient.currentHost) {
                             print("pushing ConnectPage")
                             pageStack.push(Qt.resolvedUrl("connection/ConnectPage.qml"))
                             PlatformHelper.hideSplashScreen();
@@ -169,7 +169,7 @@ Item {
                                 var page = pageStack.push(Qt.resolvedUrl("PushButtonAuthPage.qml"))
                                 page.backPressed.connect(function() {
                                     tabSettings.lastConnectedHost = "";
-                                    engine.connection.disconnect();
+                                    engine.jsonRpcClient.disconnectFromHost();
                                     init();
                                 })
                                 return;
@@ -178,7 +178,7 @@ Item {
                                     var page = pageStack.push(Qt.resolvedUrl("connection/SetupWizard.qml"));
                                     page.backPressed.connect(function() {
                                         tabSettings.lastConnectedHost = "";
-                                        engine.connection.disconnect()
+                                        engine.jsonRpcClient.disconnectFromHost()
                                         init();
                                     })
                                     return;
@@ -187,7 +187,7 @@ Item {
                                 var page = pageStack.push(Qt.resolvedUrl("connection/LoginPage.qml"));
                                 page.backPressed.connect(function() {
                                     tabSettings.lastConnectedHost = "";
-                                    engine.connection.disconnect()
+                                    engine.jsonRpcClient.disconnectFromHost()
                                     init();
                                 })
                                 return;
@@ -200,10 +200,9 @@ Item {
                             return;
                         }
 
-                        print("pushing ConnectingPage")
                         var page = pageStack.push(Qt.resolvedUrl("connection/ConnectingPage.qml"));
                         page.cancel.connect(function(){
-                            engine.connection.disconnect();
+                            engine.jsonRpcClient.disconnectFromHost();
                         })
                     }
 
@@ -243,25 +242,24 @@ Item {
                     }
 
                     Connections {
-                        target: engine.connection
+                        target: engine.jsonRpcClient
                         onCurrentHostChanged: {
                             init();
                         }
                         onVerifyConnectionCertificate: {
-                            print("verify cert!")
-                            var certDialogComponent = Qt.createComponent(Qt.resolvedUrl("connection/CertificateDialog.qml"));
-                            var popup = certDialogComponent.createObject(root, {url: url, issuerInfo: issuerInfo, fingerprint: fingerprint, pem: pem});
+                            print("Asking user to verify certificate:", serverUuid, issuerInfo, fingerprint, pem)
+                            var certDialogComponent = Qt.createComponent(Qt.resolvedUrl("connection/CertificateErrorDialog.qml"));
+                            var popup = certDialogComponent.createObject(root);
+                            popup.accepted.connect(function(){
+                                engine.jsonRpcClient.acceptCertificate(serverUuid, pem);
+                                engine.jsonRpcClient.connectToHost(discovery.nymeaHosts.find(serverUuid));
+                            })
                             popup.open();
                         }
-                    }
-
-
-                    Connections {
-                        target: engine.jsonRpcClient
                         onConnectedChanged: {
                             print("json client connected changed", engine.jsonRpcClient.connected)
                             if (engine.jsonRpcClient.connected) {
-                                discovery.cacheHost(engine.connection.currentHost)
+                                discovery.cacheHost(engine.jsonRpcClient.currentHost)
                                 tabSettings.lastConnectedHost = engine.jsonRpcClient.serverUuid
                             }
                             init();
@@ -348,7 +346,7 @@ Item {
                                     Layout.fillWidth: true
                                     text: qsTr("OK")
                                     onClicked: {
-                                        engine.connection.disconnect();
+                                        engine.jsonRpcClient.disconnectFromHost();
                                         popup.close()
                                     }
                                 }
