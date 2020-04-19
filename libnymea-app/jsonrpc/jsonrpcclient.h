@@ -61,6 +61,7 @@ class JsonRpcClient : public JsonHandler
     Q_PROPERTY(QString serverUuid READ serverUuid NOTIFY handshakeReceived)
     Q_PROPERTY(QString serverQtVersion READ serverQtVersion NOTIFY serverQtVersionChanged)
     Q_PROPERTY(QString serverQtBuildVersion READ serverQtBuildVersion NOTIFY serverQtVersionChanged)
+    Q_PROPERTY(QVariantMap certificateIssuerInfo READ certificateIssuerInfo NOTIFY currentConnectionChanged)
 
 public:
     enum CloudConnectionState {
@@ -86,6 +87,7 @@ public:
     bool connected() const;
     NymeaHost* currentHost() const;
     Connection* currentConnection() const;
+    QVariantMap certificateIssuerInfo() const;
     bool initialSetupRequired() const;
     bool authenticationRequired() const;
     bool pushButtonAuthAvailable() const;
@@ -120,7 +122,7 @@ signals:
     void currentConnectionChanged();
     void handshakeReceived();
     void newSslCertificate();
-    void verifyConnectionCertificate(const QString &serverUuid, const QStringList &issuerInfo, const QByteArray &fingerprint, const QByteArray &pem);
+    void verifyConnectionCertificate(const QString &serverUuid, const QVariantMap &issuerInfo, const QByteArray &pem);
     void initialSetupRequiredChanged();
     void authenticationRequiredChanged();
     void pushButtonAuthAvailableChanged();

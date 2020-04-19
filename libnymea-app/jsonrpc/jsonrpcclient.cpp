@@ -226,6 +226,27 @@ Connection *JsonRpcClient::currentConnection() const
     return m_connection->currentConnection();
 }
 
+QVariantMap JsonRpcClient::certificateIssuerInfo() const
+{
+    QVariantMap issuerInfo;
+    foreach (const QByteArray &attr, m_connection->sslCertificate().issuerInfoAttributes()) {
+        issuerInfo.insert(attr, m_connection->sslCertificate().issuerInfo(attr));
+    }
+
+    QByteArray certificateFingerprint;
+    QByteArray digest = m_connection->sslCertificate().digest(QCryptographicHash::Sha256);
+    for (int i = 0; i < digest.length(); i++) {
+        if (certificateFingerprint.length() > 0) {
+            certificateFingerprint.append(":");
+        }
+        certificateFingerprint.append(digest.mid(i,1).toHex().toUpper());
+    }
+
+    issuerInfo.insert("fingerprint", certificateFingerprint);
+
+    return issuerInfo;
+}
+
 bool JsonRpcClient::initialSetupRequired() const
 {
     return m_initialSetupRequired;
@@ -587,31 +608,16 @@ void JsonRpcClient::helloReply(const QVariantMap &params)
             } else {
                 // We have a certificate pinned already. Check if it's the same
                 if (m_connection->sslCertificate().toPem() != pem) {
-
                     // Uh oh, the certificate has changed
+                    qWarning() << "This connections certificate has changed!";
+
                     QSslCertificate certificate = m_connection->sslCertificate();
-                    qWarning() << "This connections certificate has changed!" << certificate;
+                    QVariantMap issuerInfo = certificateIssuerInfo();
+                    emit verifyConnectionCertificate(m_serverUuid, issuerInfo, certificate.toPem());
 
                     // Reject the connection until the UI explicitly accepts this...
                     m_connection->disconnectFromHost();
 
-                    QStringList info;
-                    info << tr("Common Name:") << certificate.issuerInfo(QSslCertificate::CommonName);
-                    info << tr("Oragnisation:") << certificate.issuerInfo(QSslCertificate::Organization);
-                    info << tr("Locality:") << certificate.issuerInfo(QSslCertificate::LocalityName);
-                    info << tr("Oragnisational Unit:")<< certificate.issuerInfo(QSslCertificate::OrganizationalUnitName);
-                    info << tr("Country:")<< certificate.issuerInfo(QSslCertificate::CountryName);
-
-                    QByteArray certificateFingerprint;
-                    QByteArray digest = certificate.digest(QCryptographicHash::Sha256);
-                    for (int i = 0; i < digest.length(); i++) {
-                        if (certificateFingerprint.length() > 0) {
-                            certificateFingerprint.append(":");
-                        }
-                        certificateFingerprint.append(digest.mid(i,1).toHex().toUpper());
-                    }
-
-                    emit verifyConnectionCertificate(m_serverUuid, info, certificateFingerprint, certificate.toPem());
                     return;
                 }
                 qDebug() << "This connections certificate is trusted.";

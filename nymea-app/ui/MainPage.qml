@@ -62,7 +62,7 @@ Page {
             return ""
         }
         onLeftButtonClicked: {
-            var dialog = connectionDialogComponent.createObject(root, {headerIcon: leftButtonImageSource})
+            var dialog = connectionDialogComponent.createObject(root)
             dialog.open();
         }
 
@@ -406,6 +406,23 @@ Page {
             id: connectionDialog
             title: engine.jsonRpcClient.currentHost.name
             standardButtons: Dialog.NoButton
+            headerIcon: {
+                switch (engine.jsonRpcClient.currentConnection.bearerType) {
+                case Connection.BearerTypeLan:
+                case Connection.BearerTypeWan:
+                    if (engine.jsonRpcClient.availableBearerTypes & NymeaConnection.BearerTypeEthernet != NymeaConnection.BearerTypeNone) {
+                        return "../images/network-wired.svg"
+                    }
+                    return "../images/network-wifi.svg";
+                case Connection.BearerTypeBluetooth:
+                    return "../images/network-wifi.svg";
+                case Connection.BearerTypeCloud:
+                    return "../images/cloud.svg"
+                case Connection.BearerTypeLoopback:
+                    return "../images/network-wired.svg"
+                }
+                return ""
+            }
 
             Label {
                 Layout.fillWidth: true
@@ -422,21 +439,44 @@ Page {
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 horizontalAlignment: Text.AlignHCenter
             }
-            Label {
+
+            Item {
                 Layout.fillWidth: true
-                text: engine.jsonRpcClient.currentHost.uuid
-                font.pixelSize: app.smallFont
-                elide: Text.ElideRight
-                color: Material.color(Material.Grey)
-                horizontalAlignment: Text.AlignHCenter
+                Layout.preferredHeight: app.margins
             }
-            Label {
-                Layout.fillWidth: true
-                text: engine.jsonRpcClient.currentConnection.url
-                font.pixelSize: app.smallFont
-                elide: Text.ElideRight
-                color: Material.color(Material.Grey)
-                horizontalAlignment: Text.AlignHCenter
+
+            RowLayout {
+                ColumnLayout {
+                    Label {
+                        Layout.fillWidth: true
+                        text: engine.jsonRpcClient.currentHost.uuid
+                        font.pixelSize: app.smallFont
+                        elide: Text.ElideRight
+                        color: Material.color(Material.Grey)
+//                        horizontalAlignment: Text.AlignHCenter
+                    }
+                    Label {
+                        Layout.fillWidth: true
+                        text: engine.jsonRpcClient.currentConnection.url
+                        font.pixelSize: app.smallFont
+                        elide: Text.ElideRight
+                        color: Material.color(Material.Grey)
+//                        horizontalAlignment: Text.AlignHCenter
+                    }
+                }
+                ColorIcon {
+                    Layout.preferredHeight: app.iconSize
+                    Layout.preferredWidth: app.iconSize
+                    name: engine.jsonRpcClient.currentConnection.secure ? "../images/lock-closed.svg" : "../images/lock-open.svg"
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: {
+                            var component = Qt.createComponent(Qt.resolvedUrl("connection/CertificateDialog.qml"));
+                            var popup = component.createObject(app,  {serverUuid: engine.jsonRpcClient.serverUuid, issuerInfo: engine.jsonRpcClient.certificateIssuerInfo});
+                            popup.open();
+                        }
+                    }
+                }
             }
 
             Item {
@@ -446,16 +486,6 @@ Page {
 
             RowLayout {
                 Layout.fillWidth: true
-                Button {
-                    id: cancelButton
-                    text: qsTr("OK")
-                    Layout.preferredWidth: Math.max(cancelButton.implicitWidth, disconnectButton.implicitWidth)
-                    onClicked: connectionDialog.close()
-                }
-
-                Item {
-                    Layout.fillWidth: true
-                }
 
                 Button {
                     id: disconnectButton
@@ -465,6 +495,15 @@ Page {
                         tabSettings.lastConnectedHost = "";
                         engine.jsonRpcClient.disconnectFromHost();
                     }
+                }
+                Item {
+                    Layout.fillWidth: true
+                }
+                Button {
+                    id: cancelButton
+                    text: qsTr("OK")
+                    Layout.preferredWidth: Math.max(cancelButton.implicitWidth, disconnectButton.implicitWidth)
+                    onClicked: connectionDialog.close()
                 }
             }
         }

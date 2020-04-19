@@ -247,7 +247,7 @@ Item {
                             init();
                         }
                         onVerifyConnectionCertificate: {
-                            print("Asking user to verify certificate:", serverUuid, issuerInfo, fingerprint, pem)
+                            print("Asking user to verify certificate:", serverUuid, issuerInfo, pem)
                             var certDialogComponent = Qt.createComponent(Qt.resolvedUrl("connection/CertificateErrorDialog.qml"));
                             var popup = certDialogComponent.createObject(root);
                             popup.accepted.connect(function(){

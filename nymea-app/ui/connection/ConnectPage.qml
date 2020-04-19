@@ -185,10 +185,8 @@ Page {
                         prominentSubText: false
                         progressive: false
                         property bool isSecure: nymeaHost.connections.get(defaultConnectionIndex).secure
-                        property bool isTrusted: engine.jsonRpcClient.isTrusted(nymeaHostDelegate.nymeaHost.connections.get(defaultConnectionIndex).url)
                         property bool isOnline: nymeaHost.connections.get(defaultConnectionIndex).bearerType !== Connection.BearerTypeWan ? nymeaHost.connections.get(defaultConnectionIndex).online : true
                         tertiaryIconName: isSecure ? "../images/network-secure.svg" : ""
-                        tertiaryIconColor: isTrusted ? app.accentColor : Material.foreground
                         secondaryIconName: !isOnline ? "../images/cloud-error.svg" : ""
                         secondaryIconColor: "red"
 
@@ -387,13 +385,13 @@ Page {
                                         return "../images/bluetooth.svg";
                                     case Connection.BearerTypeCloud:
                                         return "../images/cloud.svg"
+                                    case Connection.BearerTypeLoopback:
+                                        return "../images/network-wired.svg"
                                     }
                                     return ""
                                 }
 
                                 tertiaryIconName: model.secure ? "../images/network-secure.svg" : ""
-                                tertiaryIconColor: isTrusted ? app.accentColor : "gray"
-                                readonly property bool isTrusted: engine.jsonRpcClient.isTrusted(url)
                                 secondaryIconName: !model.online ? "../images/cloud-error.svg" : ""
                                 secondaryIconColor: "red"
 

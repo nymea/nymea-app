@@ -66,7 +66,6 @@ bool TcpSocketTransport::isEncrypted() const
 
 QSslCertificate TcpSocketTransport::serverCertificate() const
 {
-    qDebug() << "******" << m_socket.peerCertificate();
     return m_socket.peerCertificate();
 }
 
