@@ -76,7 +76,7 @@ Rectangle {
     }
 
     function show() {
-        if (root.model.count > 1) {
+        if (root.model.count > 0) {
             d.hidden = false;
             d.manuallyInvoked = true;
         }

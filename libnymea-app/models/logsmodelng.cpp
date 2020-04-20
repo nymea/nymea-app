@@ -207,13 +207,12 @@ void LogsModelNg::setViewStartTime(const QDateTime &viewStartTime)
 
 QVariant LogsModelNg::minValue() const
 {
-//    qDebug() << "returning min value" << m_minValue;
+
     return m_minValue;
 }
 
 QVariant LogsModelNg::maxValue() const
 {
-//    qDebug() << "returning max value" << m_maxValue;
     return m_maxValue;
 }
 
@@ -423,7 +422,6 @@ void LogsModelNg::newLogEntryReceived(const QVariantMap &data)
         return;
     }
 
-    qDebug() << "Adding entry!!!!!!";
     beginInsertRows(QModelIndex(), 0, 0);
     QDateTime timeStamp = QDateTime::fromMSecsSinceEpoch(entryMap.value("timestamp").toLongLong());
     QMetaEnum sourceEnum = QMetaEnum::fromType<LogEntry::LoggingSource>();
