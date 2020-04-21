@@ -85,7 +85,7 @@ int WirelessAccessPoint::signalStrength() const
     return m_signalStrength;
 }
 
-void WirelessAccessPoint::setSignalStrength(const int &signalStrength)
+void WirelessAccessPoint::setSignalStrength(int signalStrength)
 {
     if (m_signalStrength == signalStrength)
         return;
@@ -99,7 +99,7 @@ bool WirelessAccessPoint::isProtected() const
     return m_isProtected;
 }
 
-void WirelessAccessPoint::setProtected(const bool &isProtected)
+void WirelessAccessPoint::setProtected(bool isProtected)
 {
     if (m_isProtected == isProtected)
         return;
@@ -107,4 +107,17 @@ void WirelessAccessPoint::setProtected(const bool &isProtected)
     m_isProtected = isProtected;
     emit isProtectedChanged(m_isProtected);
 
+}
+
+double WirelessAccessPoint::frequency() const
+{
+    return m_frequency;
+}
+
+void WirelessAccessPoint::setFrequency(double frequency)
+{
+    if (!qFuzzyCompare(m_frequency,frequency)) {
+        m_frequency = frequency;
+        emit frequencyChanged();
+    }
 }

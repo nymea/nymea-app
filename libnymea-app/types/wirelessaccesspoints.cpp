@@ -69,16 +69,19 @@ QVariant WirelessAccessPoints::data(const QModelIndex &index, int role) const
         return QVariant();
 
     WirelessAccessPoint *accessPoint = m_wirelessAccessPoints.at(index.row());
-    if (role == WirelessAccesspointRoleSsid) {
+    switch (role) {
+    case WirelessAccesspointRoleSsid:
         return accessPoint->ssid();
-    } else if (role == WirelessAccesspointRoleMacAddress) {
+    case WirelessAccesspointRoleMacAddress:
         return accessPoint->macAddress();
-    } else if (role == WirelessAccesspointRoleHostAddress) {
+    case WirelessAccesspointRoleHostAddress:
         return accessPoint->hostAddress();
-    }  else if (role == WirelessAccesspointRoleSignalStrength) {
+    case WirelessAccesspointRoleSignalStrength:
         return accessPoint->signalStrength();
-    } else if (role == WirelessAccesspointRoleProtected) {
+    case WirelessAccesspointRoleProtected:
         return accessPoint->isProtected();
+    case WirelessAccessPointRoleFrequency:
+        return accessPoint->frequency();
     }
 
     return QVariant();
@@ -159,6 +162,7 @@ QHash<int, QByteArray> WirelessAccessPoints::roleNames() const
     roles[WirelessAccesspointRoleHostAddress] = "hostAddress";
     roles[WirelessAccesspointRoleSignalStrength] = "signalStrength";
     roles[WirelessAccesspointRoleProtected] = "protected";
+    roles[WirelessAccessPointRoleFrequency] = "frequency";
     return roles;
 }
 

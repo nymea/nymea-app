@@ -75,6 +75,11 @@ Engine *NetworkManager::engine() const
     return m_engine;
 }
 
+bool NetworkManager::loading()
+{
+    return m_loading;
+}
+
 QString NetworkManager::nameSpace() const
 {
     return "NetworkManager";
@@ -90,8 +95,16 @@ void NetworkManager::init()
         return;
     }
 
+    m_loading = true;
+    emit loadingChanged();
+
     m_engine->jsonRpcClient()->sendCommand("NetworkManager.GetNetworkStatus", QVariantMap(), this, "getStatusReply");
     m_engine->jsonRpcClient()->sendCommand("NetworkManager.GetNetworkDevices", QVariantMap(), this, "getDevicesReply");
+}
+
+bool NetworkManager::available() const
+{
+    return m_available;
 }
 
 NetworkManager::NetworkManagerState NetworkManager::state() const
@@ -159,7 +172,18 @@ void NetworkManager::disconnectInterface(const QString &interface)
 
 void NetworkManager::getStatusReply(const QVariantMap &params)
 {
-//    qDebug() << "NetworkManager reply" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson(QJsonDocument::Indented));
+    m_loading = false;
+    emit loadingChanged();
+
+    if (params.value("params").toMap().value("networkManagerError").toString() != "NetworkManagerErrorNoError") {
+        qWarning() << "NetworkManager error:" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson(QJsonDocument::Indented));
+        m_available = false;
+        emit availableChanged();
+        return;
+    }
+
+    m_available = true;
+    emit availableChanged();
 
     QVariantMap statusMap = params.value("params").toMap().value("status").toMap();
 
@@ -207,6 +231,7 @@ void NetworkManager::getDevicesReply(const QVariantMap &params)
         device->currentAccessPoint()->setMacAddress(currentApMap.value("macAddress").toString());
         device->currentAccessPoint()->setProtected(currentApMap.value("protected").toBool());
         device->currentAccessPoint()->setSignalStrength(currentApMap.value("signalStrength").toInt());
+        device->currentAccessPoint()->setFrequency(currentApMap.value("frequency").toDouble());
         m_wirelessNetworkDevices->addNetworkDevice(device);
     }
 }
@@ -237,6 +262,7 @@ void NetworkManager::getAccessPointsReply(const QVariantMap &params)
         ap->setSsid(apMap.value("ssid").toString());
         ap->setProtected(apMap.value("protected").toBool());
         ap->setSignalStrength(apMap.value("signalStrength").toInt());
+        ap->setFrequency(apMap.value("frequency").toDouble());
         dev->accessPoints()->addWirelessAccessPoint(ap);
     }
 

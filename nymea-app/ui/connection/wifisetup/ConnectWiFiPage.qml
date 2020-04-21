@@ -75,7 +75,7 @@ Page {
 
             delegate: NymeaListItemDelegate {
                 width: parent.width
-                text: model.ssid
+                text: model.ssid !== "" ? model.ssid : qsTr("Hidden Network")
                 enabled: !networkManagerController.manager.working
                 subText: model.hostAddress
 
