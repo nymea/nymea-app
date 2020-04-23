@@ -165,6 +165,9 @@ void JsonRpcClient::notificationReceived(const QVariantMap &data)
             settings.beginGroup("jsonTokens");
             settings.setValue(m_serverUuid, m_token);
             settings.endGroup();
+
+            m_initialSetupRequired = false;
+
             emit authenticationRequiredChanged();
 
             setNotificationsEnabled();
