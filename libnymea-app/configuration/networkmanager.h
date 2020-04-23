@@ -46,6 +46,9 @@ class NetworkManager : public JsonHandler
     Q_OBJECT
     Q_PROPERTY(Engine *engine READ engine WRITE setEngine NOTIFY engineChanged)
 
+    Q_PROPERTY(bool loading READ loading NOTIFY loadingChanged)
+    Q_PROPERTY(bool available READ available NOTIFY availableChanged)
+
     Q_PROPERTY(NetworkManagerState state READ state NOTIFY stateChanged)
     Q_PROPERTY(bool networkingEnabled READ networkingEnabled NOTIFY networkingEnabledChanged)
     Q_PROPERTY(bool wirelessNetworkingEnabled READ wirelessNetworkingEnabled NOTIFY wirelessNetworkingEnabledChanged)
@@ -72,8 +75,11 @@ public:
     void setEngine(Engine *engine);
     Engine *engine() const;
 
+    bool loading();
+
     QString nameSpace() const override;
 
+    bool available() const;
     NetworkManagerState state() const;
     bool networkingEnabled() const;
     bool wirelessNetworkingEnabled() const;
@@ -103,13 +109,16 @@ private slots:
 
 signals:
     void engineChanged();
+    void loadingChanged();
+    void availableChanged();
     void stateChanged();
     void networkingEnabledChanged();
     void wirelessNetworkingEnabledChanged();
 
 private:
     Engine *m_engine = nullptr;
-
+    bool m_loading = false;
+    bool m_available = false;
     NetworkManagerState m_state = NetworkManagerStateUnknown;
     bool m_networkingEnabled = false;
     bool m_wirelessNetworkingEnabled = false;

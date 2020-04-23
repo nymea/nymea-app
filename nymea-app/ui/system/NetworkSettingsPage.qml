@@ -38,6 +38,7 @@ import "../components"
 SettingsPageBase {
     id: root
     title: qsTr("Network settings")
+    busy: networkManager.loading
 
     NetworkManager {
         id: networkManager
@@ -75,14 +76,33 @@ SettingsPageBase {
         }
     }
 
+    RowLayout {
+        Layout.topMargin: app.margins * 6
+        visible: !networkManager.available
+        spacing: app.margins
+        ColorIcon {
+            Layout.preferredHeight: app.iconSize
+            Layout.preferredWidth: app.iconSize
+            name: "../images/network-wired-offline.svg"
+        }
+        Label {
+            Layout.fillWidth: true
+            wrapMode: Text.WordWrap
+            text: qsTr("Network management is unavailable on this system.")
+        }
+    }
+
+
     SettingsPageSectionHeader {
         text: qsTr("General")
+        visible: networkManager.available
     }
 
     NymeaListItemDelegate {
         Layout.fillWidth: true
         text: qsTr("Current connection state")
         prominentSubText: false
+        visible: networkManager.available
         subText: {
             switch (networkManager.state) {
             case NetworkManager.NetworkManagerStateUnknown:
@@ -133,6 +153,7 @@ SettingsPageBase {
         subText: qsTr("Enable or disable networking altogether")
         prominentSubText: false
         progressive: false
+        visible: networkManager.available
         additionalItem: Switch {
             anchors.verticalCenter: parent.verticalCenter
             checked: networkManager.networkingEnabled
@@ -165,6 +186,7 @@ SettingsPageBase {
 
     SettingsPageSectionHeader {
         text: qsTr("Wired network")
+        visible: networkManager.available
     }
 
     Label {
@@ -173,15 +195,17 @@ SettingsPageBase {
         Layout.rightMargin: app.margins
         text: qsTr("No wired network interfaces available")
         wrapMode: Text.WordWrap
-        visible: networkManager.wiredNetworkDevices.count == 0
+        visible: networkManager.available && networkManager.wiredNetworkDevices.count == 0
     }
 
     Repeater {
         model: networkManager.wiredNetworkDevices
+
         NymeaListItemDelegate {
             Layout.fillWidth: true
             iconName: model.pluggedIn ? "../images/network-wired.svg" : "../images/network-wired-offline.svg"
             text: model.interface + " (" + model.macAddress + ")"
+            visible: networkManager.available
             subText: {
                 var ret = model.pluggedIn ? qsTr("Plugged in") : qsTr("Unplugged")
                 ret += " - "
@@ -194,6 +218,7 @@ SettingsPageBase {
 
     SettingsPageSectionHeader {
         text: qsTr("Wireless network")
+        visible: networkManager.available
     }
 
     NymeaListItemDelegate {
@@ -205,6 +230,7 @@ SettingsPageBase {
         additionalItem: Switch {
             anchors.verticalCenter: parent.verticalCenter
             checked: networkManager.wirelessNetworkingEnabled
+            visible: networkManager.available
             onClicked: {
                 if (!checked) {
                     var dialog = Qt.createComponent(Qt.resolvedUrl("../components/MeaDialog.qml"));
@@ -238,11 +264,12 @@ SettingsPageBase {
         Layout.rightMargin: app.margins
         text: qsTr("No wired network interfaces available")
         wrapMode: Text.WordWrap
-        visible: networkManager.wirelessNetworkDevices.count == 0
+        visible: networkManager.available &&networkManager.wirelessNetworkDevices.count == 0
     }
 
     Repeater {
         model: networkManager.wirelessNetworkDevices
+        visible: networkManager.available
         NymeaListItemDelegate {
             Layout.fillWidth: true
             iconName: {
@@ -304,8 +331,8 @@ SettingsPageBase {
                 model: apProxy
                 delegate: NymeaListItemDelegate {
                     Layout.fillWidth: true
-                    text: model.ssid
-                    subText: model.macAddress
+                    text: model.ssid !== "" ? model.ssid : qsTr("Hidden Network")
+                    subText: "%1 (%2)".arg(model.macAddress).arg(model.frequency < 3 ? "2.4GHz" : "5GHz")
                     iconName: {
                         var ret = "../images/nm-signal-";
                         if (model.signalStrength > 90) {
@@ -412,7 +439,13 @@ SettingsPageBase {
             NymeaListItemDelegate {
                 Layout.fillWidth: true
                 text: qsTr("Signal strength")
-                subText: currentApPage.wirelessNetworkDevice.currentAccessPoint.signalStrength
+                subText: currentApPage.wirelessNetworkDevice.currentAccessPoint.signalStrength + " %"
+                progressive: false
+            }
+            NymeaListItemDelegate {
+                Layout.fillWidth: true
+                text: qsTr("WiFi frequency")
+                subText: currentApPage.wirelessNetworkDevice.currentAccessPoint.frequency + " GHz"
                 progressive: false
             }
 
@@ -425,7 +458,6 @@ SettingsPageBase {
                     pageStack.pop(root);
                 }
             }
-
         }
     }
 }

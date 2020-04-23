@@ -47,7 +47,8 @@ public:
         WirelessAccesspointRoleMacAddress,
         WirelessAccesspointRoleHostAddress,
         WirelessAccesspointRoleSignalStrength,
-        WirelessAccesspointRoleProtected
+        WirelessAccesspointRoleProtected,
+        WirelessAccessPointRoleFrequency
     };
 
     explicit WirelessAccessPoints(QObject *parent = nullptr);
