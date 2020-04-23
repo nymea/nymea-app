@@ -1,3 +1,11 @@
+nymea-app (1.0.204) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix pushbutton auth appearing to fail on a first set
+  * Improve network settings
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 23 Apr 2020 18:05:26 +0200
+
 nymea-app (1.0.203) bionic; urgency=medium
 
   [ Michael Zanetti ]
