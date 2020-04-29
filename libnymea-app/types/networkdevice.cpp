@@ -46,9 +46,35 @@ QString NetworkDevice::macAddress() const
     return m_macAddress;
 }
 
+QStringList NetworkDevice::ipv4Addresses() const
+{
+    return m_ipv4Addresses;
+}
+
+QStringList NetworkDevice::ipv6Addresses() const
+{
+    return m_ipv6Addresses;
+}
+
 QString NetworkDevice::interface() const
 {
     return m_interface;
+}
+
+void NetworkDevice::setIpv4Addresses(const QStringList &ipAddresses)
+{
+    if (m_ipv4Addresses != ipAddresses) {
+        m_ipv4Addresses = ipAddresses;
+        emit ipv4AddressesChanged();
+    }
+}
+
+void NetworkDevice::setIpv6Addresses(const QStringList &ipAddresses)
+{
+    if (m_ipv6Addresses != ipAddresses) {
+        m_ipv6Addresses = ipAddresses;
+        emit ipv6AddressesChanged();
+    }
 }
 
 QString NetworkDevice::bitRate() const
@@ -103,6 +129,11 @@ WirelessNetworkDevice::WirelessNetworkDevice(const QString &macAddress, const QS
     m_currentAccessPoint = new WirelessAccessPoint(this);
 }
 
+WirelessNetworkDevice::WirelessMode WirelessNetworkDevice::wirelessMode() const
+{
+    return m_wirelessMode;
+}
+
 WirelessAccessPoints *WirelessNetworkDevice::accessPoints() const
 {
     return m_accessPoints;
@@ -111,4 +142,12 @@ WirelessAccessPoints *WirelessNetworkDevice::accessPoints() const
 WirelessAccessPoint *WirelessNetworkDevice::currentAccessPoint() const
 {
     return m_currentAccessPoint;
+}
+
+void WirelessNetworkDevice::setWirelessMode(WirelessNetworkDevice::WirelessMode wirelessMode)
+{
+    if (m_wirelessMode != wirelessMode) {
+        m_wirelessMode = wirelessMode;
+        emit wirelessModeChanged();
+    }
 }

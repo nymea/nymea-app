@@ -87,25 +87,14 @@ public:
     WiredNetworkDevices* wiredNetworkDevices() const;
     WirelessNetworkDevices* wirelessNetworkDevices() const;
 
-    Q_INVOKABLE void enableNetworking(bool enable);
-    Q_INVOKABLE void enableWirelessNetworking(bool enable);
+    Q_INVOKABLE int enableNetworking(bool enable);
+    Q_INVOKABLE int enableWirelessNetworking(bool enable);
 
     Q_INVOKABLE void refreshWifis(const QString &interface);
 
-    Q_INVOKABLE void connectToWiFi(const QString &interface, const QString &ssid, const QString &passphrase);
-    Q_INVOKABLE void disconnectInterface(const QString &interface);
-
-private slots:
-    void init();
-
-    void getStatusReply(const QVariantMap &params);
-    void getDevicesReply(const QVariantMap &params);
-    void getAccessPointsReply(const QVariantMap &params);
-    void connectToWiFiReply(const QVariantMap &params);
-    void disconnectReply(const QVariantMap &params);
-    void enableNetworkingReply(const QVariantMap &params);
-
-    void notificationReceived(const QVariantMap &params);
+    Q_INVOKABLE int connectToWiFi(const QString &interface, const QString &ssid, const QString &passphrase);
+    Q_INVOKABLE int startAccessPoint(const QString &interface, const QString &ssid, const QString &passphrase);
+    Q_INVOKABLE int disconnectInterface(const QString &interface);
 
 signals:
     void engineChanged();
@@ -114,6 +103,26 @@ signals:
     void stateChanged();
     void networkingEnabledChanged();
     void wirelessNetworkingEnabledChanged();
+
+    void enableNetworkingReply(int id, const QString &status);
+    void enableWirelessNetworkingReply(int id, const QString &status);
+    void connectToWiFiReply(int id, const QString &status);
+    void disconnectReply(int id, const QString &status);
+    void startAccessPointReply(int id, const QString &status);
+
+private slots:
+    void init();
+
+    void getStatusResponse(const QVariantMap &params);
+    void getDevicesResponse(const QVariantMap &params);
+    void getAccessPointsResponse(const QVariantMap &params);
+    void connectToWiFiResponse(const QVariantMap &params);
+    void disconnectResponse(const QVariantMap &params);
+    void enableNetworkingResponse(const QVariantMap &params);
+    void enableWirelessNetworkingResponse(const QVariantMap &params);
+    void startAccessPointResponse(const QVariantMap &params);
+
+    void notificationReceived(const QVariantMap &params);
 
 private:
     Engine *m_engine = nullptr;
