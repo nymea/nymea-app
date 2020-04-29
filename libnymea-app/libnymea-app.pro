@@ -18,7 +18,11 @@ include(../nymea-remoteproxy/libnymea-remoteproxyclient/libnymea-remoteproxyclie
 
 
 QT -= gui
-QT += network websockets bluetooth charts quick
+QT += network websockets bluetooth quick
+
+# FIXME: We should add QT += charts, however there seems to be an isse in yoctos meta-qt5 with that
+INCLUDEPATH += $$[QT_INSTALL_HEADERS]/QtCharts/
+LIBS += $$[QT_INSTALL_LIBS]/libQt5Charts.so
 
 LIBS += -lssl -lcrypto
 

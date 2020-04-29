@@ -12,6 +12,10 @@ win32:Release:LIBS += -L$$top_builddir/libnymea-app/release
 linux:!android:LIBS += -lavahi-client -lavahi-common
 PRE_TARGETDEPS += ../libnymea-app
 
+# FIXME: We should add QT += charts, however there seems to be an isse in yoctos meta-qt5 with that
+INCLUDEPATH += $$[QT_INSTALL_HEADERS]/QtCharts/
+LIBS += $$[QT_INSTALL_LIBS]/libQt5Charts.so
+
 HEADERS += \
     platformintegration/generic/raspberrypihelper.h \
     stylecontroller.h \
