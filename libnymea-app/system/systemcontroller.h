@@ -64,8 +64,9 @@ public:
     QString nameSpace() const override;
 
     bool powerManagementAvailable() const;
-    Q_INVOKABLE void reboot();
-    Q_INVOKABLE void shutdown();
+    Q_INVOKABLE int restart();
+    Q_INVOKABLE int reboot();
+    Q_INVOKABLE int shutdown();
 
     bool updateManagementAvailable() const;
     bool updateManagementBusy() const;
@@ -99,6 +100,10 @@ signals:
     void automaticTimeAvailableChanged();
     void automaticTimeChanged();
 
+    void restartReply(int id, bool success);
+    void rebootReply(int id, bool success);
+    void shutdownReply(int id, bool success);
+
 private slots:
     void getCapabilitiesResponse(const QVariantMap &data);
     void getUpdateStatusResponse(const QVariantMap &data);
@@ -108,6 +113,9 @@ private slots:
     void enableRepositoryResponse(const QVariantMap &params);
     void getServerTimeResponse(const QVariantMap &params);
     void setTimeResponse(const QVariantMap &params);
+    void restartResponse(const QVariantMap &params);
+    void rebootResponse(const QVariantMap &params);
+    void shutdownResponse(const QVariantMap &params);
 
     void notificationReceived(const QVariantMap &data);
 
