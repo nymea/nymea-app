@@ -77,7 +77,9 @@ ItemDelegate {
                     case "uint":
                     case "int":
                     case "double":
-                        if (root.paramType.minValue !== undefined && root.paramType.maxValue !== undefined) {
+                        if (root.paramType.allowedValues.length > 0) {
+                            return comboBoxComponent;
+                        } else if (root.paramType.minValue !== undefined && root.paramType.maxValue !== undefined) {
                             return sliderComponent;
                         } else {
                             return spinnerComponent;
@@ -238,11 +240,18 @@ ItemDelegate {
     Component {
         id: comboBoxComponent
         ComboBox {
+            id: control
+            Layout.fillWidth: true
             model: root.paramType.allowedValues
-            currentIndex: root.paramType.allowedValues.indexOf(root.param.value)
+            displayText: currentText + ( root.paramType.unit != Types.UnitNone ? " " + Types.toUiUnit(root.paramType.unit) : "")
+            currentIndex: root.paramType.allowedValues.indexOf(root.param.value !== undefined ? root.param.value : root.paramType.defaultValue)
+            delegate: ItemDelegate {
+                width: control.width
+                text: Types.toUiValue(modelData, root.paramType.unit) + ( root.paramType.unit != Types.UnitNone ? " " + Types.toUiUnit(root.paramType.unit) : "")
+                highlighted: control.highlightedIndex === index
+            }
             onActivated: {
                 root.param.value = root.paramType.allowedValues[index]
-                print("setting value to", root.param.value)
             }
             Component.onCompleted: {
                 if (root.value === undefined) {
