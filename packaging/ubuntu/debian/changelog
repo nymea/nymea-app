@@ -1,3 +1,15 @@
+nymea-app (1.0.205) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add support for restarting nymea in the settings
+  * Add support for allowed values in number type params
+  * Add support for AP mode in settings and display IP address configs
+  * Fix building with ZeroConf disabled
+  * Add support for the irrigation interface
+  * Add support for generic IO connections
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 06 May 2020 00:16:29 +0200
+
 nymea-app (1.0.204) bionic; urgency=medium
 
   [ Michael Zanetti ]
