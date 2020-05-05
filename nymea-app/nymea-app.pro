@@ -9,7 +9,7 @@ LIBS += -L$$top_builddir/libnymea-app/ -lnymea-app
 
 win32:Debug:LIBS += -L$$top_builddir/libnymea-app/debug
 win32:Release:LIBS += -L$$top_builddir/libnymea-app/release
-linux:!android:LIBS += -lavahi-client -lavahi-common
+linux:!android:!nozeroconf:LIBS += -lavahi-client -lavahi-common
 PRE_TARGETDEPS += ../libnymea-app
 
 HEADERS += \
