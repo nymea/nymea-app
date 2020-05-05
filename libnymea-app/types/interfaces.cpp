@@ -209,6 +209,8 @@ Interfaces::Interfaces(QObject *parent) : QAbstractListModel(parent)
     addInterface("inputtrigger", tr("Incoming events"));
     addEventType("inputtrigger", "triggered", tr("Triggered"), new ParamTypes());
 
+    addInterface("irrigation", tr("Irrigation"), {"power"});
+
     addInterface("lightsensor", tr("Light sensors"), {"sensor"});
     addStateType("lightsensor", "lightIntensity", QVariant::Double, false, tr("Light intensity"), tr("Light intensity changed"));
 

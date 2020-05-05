@@ -144,6 +144,7 @@
         <file>ui/devicepages/BoolSensorDevicePage.qml</file>
         <file>ui/devicepages/HeatingDevicePage.qml</file>
         <file>ui/devicepages/PowersocketDevicePage.qml</file>
+        <file>ui/devicepages/IrrigationDevicePage.qml</file>
         <file>ui/devicelistpages/PowerSocketsDeviceListPage.qml</file>
         <file>ui/components/GroupedListView.qml</file>
         <file>ui/delegates/statedelegates/LedDelegate.qml</file>

@@ -171,6 +171,9 @@ QString DeviceClass::baseInterface() const
         if (interface == "evcharger") {
             return "evcharger";
         }
+        if (interface == "irrigation") {
+            return "irrigation";
+        }
     }
     return "uncategorized";
 }
