@@ -47,6 +47,8 @@ public:
         RoleInterface,
         RoleBitRate,
         RoleState,
+        RoleIpv4Addresses,
+        RoleIpv6Addresses
     };
     Q_ENUM(Roles)
 
@@ -82,17 +84,25 @@ public:
 
     explicit WiredNetworkDevices(QObject *parent = nullptr);
     QVariant data(const QModelIndex &index, int role) const override;
+    QHash<int, QByteArray> roleNames() const override;
 
     void addNetworkDevice(NetworkDevice *device) override;
 
-    QHash<int, QByteArray> roleNames() const override;
+    Q_INVOKABLE WiredNetworkDevice* getWiredNetworkDevice(const QString &interface);
+
 };
 
 class WirelessNetworkDevices: public NetworkDevices
 {
     Q_OBJECT
 public:
+    enum Roles {
+        RoleWirelessMode = 1000
+    };
     explicit WirelessNetworkDevices(QObject *parent = nullptr);
+
+    QVariant data(const QModelIndex &index, int role) const override;
+    QHash<int, QByteArray> roleNames() const override;
 
     Q_INVOKABLE WirelessNetworkDevice* getWirelessNetworkDevice(const QString &interface);
 

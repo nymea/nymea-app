@@ -38,14 +38,64 @@ import "../components"
 SettingsPageBase {
     id: root
     title: qsTr("Network settings")
-    busy: networkManager.loading
+    busy: networkManager.loading || d.pendingCallId !== -1
 
     NetworkManager {
         id: networkManager
         engine: _engine
+        onEnableNetworkingReply: handleReply(id, status)
+        onEnableWirelessNetworkingReply: handleReply(id, status)
+        onConnectToWiFiReply: handleReply(id, status)
+        onStartAccessPointReply: handleReply(id, status)
+        onDisconnectReply: handleReply(id, status)
+
+        function handleReply(id, status) {
+            if (id === d.pendingCallId) {
+                d.pendingCallId = -1
+            }
+            var errorMessage;
+            switch (status) {
+            case "NetworkManagerErrorNoError":
+                return;
+            case "NetworkManagerErrorWirelessNotAvailable":
+                errorMessage = qsTr("No wireless hardware available.")
+                break;
+            case "NetworkManagerErrorAccessPointNotFound":
+                errorMessage = qsTr("The access point cannot be found.")
+                break;
+            case "NetworkManagerErrorNetworkInterfaceNotFound":
+                errorMessage = qsTr("The network interface cannot be found.")
+                break;
+            case "NetworkManagerErrorInvalidNetworkDeviceType":
+                errorMessage = qsTr("Invalid network device type.")
+                break;
+            case "NetworkManagerErrorWirelessNetworkingDisabled":
+                errorMessage = qsTr("Wireless networking is disabled.")
+                break;
+            case "NetworkManagerErrorWirelessConnectionFailed":
+                errorMessage = qsTr("The wireless connection failed.")
+                break;
+            case "NetworkManagerErrorNetworkingDisabled":
+                errorMessage = qsTr("Networking is disabled.")
+                break;
+            case "NetworkManagerErrorNetworkManagerNotAvailable":
+                errorMessage = qsTr("The network manager is not available.")
+                break;
+            case "NetworkManagerErrorUnknownError":
+                break;
+
+            }
+            var component = Qt.createComponent(Qt.resolvedUrl("../components/ErrorDialog.qml"))
+            var popup = component.createObject(root, {text: errorMessage, errorCode: stats})
+        }
     }
 
-    function networkStateToString(networkState) {
+    QtObject {
+        id: d
+        property int pendingCallId: -1
+    }
+
+    function networkStateToString(networkState, mode) {
         switch (networkState) {
         case NetworkDevice.NetworkDeviceStateUnknown:
             return qsTr("Unknown")
@@ -72,13 +122,17 @@ SettingsPageBase {
         case NetworkDevice.NetworkDeviceStateSecondaries:
             return qsTr("Secondaries")
         case NetworkDevice.NetworkDeviceStateActivated:
-            return qsTr("Connected");
+            if (mode === WirelessNetworkDevice.WirelessModeAccessPoint) {
+                return qsTr("Hosting access point");
+            } else {
+                return qsTr("Connected");
+            }
         }
     }
 
     RowLayout {
         Layout.topMargin: app.margins * 6
-        visible: !networkManager.available
+        visible: !networkManager.available && !networkManager.loading
         spacing: app.margins
         ColorIcon {
             Layout.preferredHeight: app.iconSize
@@ -172,13 +226,13 @@ SettingsPageBase {
                                                     });
                     popup.open();
                     popup.accepted.connect(function() {
-                        networkManager.enableNetworking(false);
+                        d.pendingCallId = networkManager.enableNetworking(false);
                     })
                     popup.rejected.connect(function() {
                         checked = true;
                     })
                 } else {
-                    networkManager.enableNetworking(true);
+                    d.pendingCallId = networkManager.enableNetworking(true);
                 }
             }
         }
@@ -186,7 +240,7 @@ SettingsPageBase {
 
     SettingsPageSectionHeader {
         text: qsTr("Wired network")
-        visible: networkManager.available
+        visible: networkManager.available && networkManager.networkingEnabled
     }
 
     Label {
@@ -195,7 +249,7 @@ SettingsPageBase {
         Layout.rightMargin: app.margins
         text: qsTr("No wired network interfaces available")
         wrapMode: Text.WordWrap
-        visible: networkManager.available && networkManager.wiredNetworkDevices.count == 0
+        visible: networkManager.available && networkManager.networkingEnabled && networkManager.wiredNetworkDevices.count == 0
     }
 
     Repeater {
@@ -205,7 +259,7 @@ SettingsPageBase {
             Layout.fillWidth: true
             iconName: model.pluggedIn ? "../images/network-wired.svg" : "../images/network-wired-offline.svg"
             text: model.interface + " (" + model.macAddress + ")"
-            visible: networkManager.available
+            visible: networkManager.available && networkManager.networkingEnabled
             subText: {
                 var ret = model.pluggedIn ? qsTr("Plugged in") : qsTr("Unplugged")
                 ret += " - "
@@ -218,7 +272,7 @@ SettingsPageBase {
 
     SettingsPageSectionHeader {
         text: qsTr("Wireless network")
-        visible: networkManager.available
+        visible: networkManager.available && networkManager.networkingEnabled
     }
 
     NymeaListItemDelegate {
@@ -227,10 +281,11 @@ SettingsPageBase {
         subText: qsTr("Enable or disable WiFi")
         progressive: false
         prominentSubText: false
+        visible: networkManager.available && networkManager.networkingEnabled
         additionalItem: Switch {
             anchors.verticalCenter: parent.verticalCenter
             checked: networkManager.wirelessNetworkingEnabled
-            visible: networkManager.available
+            visible: networkManager.available && networkManager.networkingEnabled
             onClicked: {
                 if (!checked) {
                     var dialog = Qt.createComponent(Qt.resolvedUrl("../components/MeaDialog.qml"));
@@ -246,13 +301,13 @@ SettingsPageBase {
                                                     });
                     popup.open();
                     popup.accepted.connect(function() {
-                        networkManager.enableWirelessNetworking(false);
+                        d.pendingCallId = networkManager.enableWirelessNetworking(false);
                     })
                     popup.rejected.connect(function() {
                         checked = true;
                     })
                 } else {
-                    networkManager.enableWirelessNetworking(true);
+                    d.pendingCallId = networkManager.enableWirelessNetworking(true);
                 }
             }
         }
@@ -264,14 +319,14 @@ SettingsPageBase {
         Layout.rightMargin: app.margins
         text: qsTr("No wired network interfaces available")
         wrapMode: Text.WordWrap
-        visible: networkManager.available &&networkManager.wirelessNetworkDevices.count == 0
+        visible: networkManager.available && networkManager.wirelessNetworkDevices.count == 0
     }
 
     Repeater {
         model: networkManager.wirelessNetworkDevices
-        visible: networkManager.available
         NymeaListItemDelegate {
             Layout.fillWidth: true
+            visible: networkManager.available && networkManager.networkingEnabled
             iconName: {
                 switch (model.state) {
                 case NetworkDevice.NetworkDeviceStateUnknown:
@@ -300,8 +355,9 @@ SettingsPageBase {
                 console.warn("Unhandled enum", model.state)
             }
             text: model.interface + " (" + model.macAddress + ")"
-            subText: networkStateToString(model.state)
+            subText: networkStateToString(model.state, model.wirelessMode)
             onClicked: {
+                print("*** --", model.wirelessMode)
                 var wirelessNetworkDevice = networkManager.wirelessNetworkDevices.getWirelessNetworkDevice(model.interface);
                 if (wirelessNetworkDevice.state === NetworkDevice.NetworkDeviceStateDisconnected) {
                     networkManager.refreshWifis(model.interface)
@@ -319,11 +375,54 @@ SettingsPageBase {
             id: wirelessAccessPointsPage
             title: qsTr("WiFi networks")
 
-            property var wirelessNetworkDevice: null
+            property WirelessNetworkDevice wirelessNetworkDevice: null
 
             WirelessAccessPointsProxy {
                 id: apProxy
                 accessPoints: wirelessAccessPointsPage.wirelessNetworkDevice.accessPoints
+            }
+
+            SettingsPageSectionHeader {
+                text: qsTr("Access Point")
+            }
+
+            TextField {
+                id: ssidTextField
+                Layout.fillWidth: true
+                maximumLength: 32
+                Layout.leftMargin: app.margins
+                Layout.rightMargin: app.margins
+                placeholderText: qsTr("SSID")
+            }
+
+            PasswordTextField {
+                id: passwordTextField
+                Layout.fillWidth: true
+                minPasswordLength: 8
+                Layout.leftMargin: app.margins
+                Layout.rightMargin: app.margins
+                requireLowerCaseLetter: false
+                requireUpperCaseLetter: false
+                requireNumber: false
+                requireSpecialChar: false
+                signup: false
+            }
+
+            Button {
+                Layout.fillWidth: true
+                Layout.margins: app.margins
+                Layout.leftMargin: app.margins
+                Layout.rightMargin: app.margins
+                text: qsTr("Create Access Point")
+                enabled: ssidTextField.displayText.length > 0 && passwordTextField.isValidPassword
+                onClicked: {
+                    d.pendingCallId = networkManager.startAccessPoint(wirelessAccessPointsPage.wirelessNetworkDevice.interface, ssidTextField.text, passwordTextField.password)
+                    pageStack.pop(root);
+                }
+            }
+
+            SettingsPageSectionHeader {
+                text: qsTr("Connect to wireless network")
             }
 
             Repeater {
@@ -333,6 +432,7 @@ SettingsPageBase {
                     Layout.fillWidth: true
                     text: model.ssid !== "" ? model.ssid : qsTr("Hidden Network")
                     subText: "%1 (%2)".arg(model.macAddress).arg(model.frequency < 3 ? "2.4GHz" : "5GHz")
+                    prominentSubText: false
                     iconName: {
                         var ret = "../images/nm-signal-";
                         if (model.signalStrength > 90) {
@@ -353,8 +453,6 @@ SettingsPageBase {
                         return ret;
                     }
 
-                    progressive: false
-                    prominentSubText: false
                     onClicked: {
                         print("pushing", wirelessAccessPointsPage.wirelessNetworkDevice.state)
                         pageStack.push(authPageComponent, {wirelessNetworkDevice: wirelessAccessPointsPage.wirelessNetworkDevice, wirelessAccessPoint: apProxy.get(index)})
@@ -407,7 +505,7 @@ SettingsPageBase {
                 text: qsTr("OK")
                 enabled: passwordTextField.displayText.length >= 8
                 onClicked: {
-                    networkManager.connectToWiFi(authPage.wirelessNetworkDevice.interface, authPage.wirelessAccessPoint.ssid, passwordTextField.text)
+                    d.pendingCallId = networkManager.connectToWiFi(authPage.wirelessNetworkDevice.interface, authPage.wirelessAccessPoint.ssid, passwordTextField.text)
                     pageStack.pop(root);
                 }
             }
@@ -423,11 +521,28 @@ SettingsPageBase {
 
             property WirelessNetworkDevice wirelessNetworkDevice: null
 
+            SettingsPageSectionHeader {
+                text: wirelessNetworkDevice.wirelessMode === WirelessNetworkDevice.WirelessModeAccessPoint ? qsTr("Hosting access point") : qsTr("Connected to")
+            }
 
             NymeaListItemDelegate {
                 Layout.fillWidth: true
                 text: qsTr("SSID")
                 subText: currentApPage.wirelessNetworkDevice.currentAccessPoint.ssid
+                progressive: false
+            }
+
+            NymeaListItemDelegate {
+                Layout.fillWidth: true
+                text: qsTr("IPv4 Address")
+                subText: currentApPage.wirelessNetworkDevice.ipv4Addresses.join(", ")
+                progressive: false
+            }
+            NymeaListItemDelegate {
+                Layout.fillWidth: true
+                text: qsTr("IPv6 Address")
+                subText: currentApPage.wirelessNetworkDevice.ipv6Addresses.join(", ")
+                visible: subText.length > 0
                 progressive: false
             }
             NymeaListItemDelegate {
@@ -454,7 +569,7 @@ SettingsPageBase {
                 Layout.margins: app.margins
                 text: qsTr("Disconnect")
                 onClicked: {
-                    networkManager.disconnectInterface(currentApPage.wirelessNetworkDevice.interface)
+                    d.pendingCallId = networkManager.disconnectInterface(currentApPage.wirelessNetworkDevice.interface)
                     pageStack.pop(root);
                 }
             }

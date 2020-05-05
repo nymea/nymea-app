@@ -53,6 +53,10 @@ QVariant NetworkDevices::data(const QModelIndex &index, int role) const
         return m_list.at(index.row())->bitRate();
     case RoleState:
         return m_list.at(index.row())->state();
+    case RoleIpv4Addresses:
+        return m_list.at(index.row())->ipv4Addresses();
+    case RoleIpv6Addresses:
+        return m_list.at(index.row())->ipv6Addresses();
     }
     return QVariant();
 }
@@ -64,6 +68,8 @@ QHash<int, QByteArray> NetworkDevices::roleNames() const
     roles.insert(RoleInterface, "interface");
     roles.insert(RoleBitRate, "bitRate");
     roles.insert(RoleState, "state");
+    roles.insert(RoleIpv4Addresses, "ipv4Addresses");
+    roles.insert(RoleIpv6Addresses, "ipv6Addresses");
     return roles;
 }
 
@@ -164,13 +170,33 @@ QHash<int, QByteArray> WiredNetworkDevices::roleNames() const
     return roles;
 }
 
+WiredNetworkDevice *WiredNetworkDevices::getWiredNetworkDevice(const QString &interface)
+{
+    return dynamic_cast<WiredNetworkDevice*>(NetworkDevices::getNetworkDevice(interface));
+}
+
 WirelessNetworkDevices::WirelessNetworkDevices(QObject *parent):
     NetworkDevices (parent)
 {
 
 }
 
-#include <QDebug>
+QVariant WirelessNetworkDevices::data(const QModelIndex &index, int role) const
+{
+    if (role == RoleWirelessMode) {
+        WirelessNetworkDevice *dev = qobject_cast<WirelessNetworkDevice*>(m_list.at(index.row()));
+        return dev->wirelessMode();
+    }
+    return NetworkDevices::data(index, role);
+}
+
+
+QHash<int, QByteArray> WirelessNetworkDevices::roleNames() const
+{
+    QHash<int, QByteArray> roles = NetworkDevices::roleNames();
+    roles.insert(RoleWirelessMode, "wirelessMode");
+    return roles;
+}
 
 WirelessNetworkDevice *WirelessNetworkDevices::getWirelessNetworkDevice(const QString &interface)
 {

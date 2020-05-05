@@ -85,7 +85,7 @@ Interfaces::Interfaces(QObject *parent) : QAbstractListModel(parent)
     addInterface("button", tr("Switches"));
     addEventType("button", "pressed", tr("Button pressed"), new ParamTypes());
 
-    addInterface("sensor", tr("Sensor"));
+    addInterface("sensor", tr("Sensors"));
 
     addInterface("closablesensor", tr("Closable sensors"), {"sensor"});
     addStateType("closablesensor", "closed", QVariant::Bool, false, tr("Closed"), tr("Opened or closed"));

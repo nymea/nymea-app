@@ -71,7 +71,7 @@ ColumnLayout {
             id: passwordTextField
             Layout.fillWidth: true
             echoMode: root.hiddenPassword ? TextInput.Password : TextInput.Normal
-            placeholderText: root.signup ? qsTr("Pick a password") : ""
+            placeholderText: root.signup ? qsTr("Pick a password") : qsTr("Password")
 
             ToolTip.visible: root.signup && focus && !root.isValidPassword
             ToolTip.delay: 1000

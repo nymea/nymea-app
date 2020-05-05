@@ -40,6 +40,8 @@ class NetworkDevice : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString macAddress READ macAddress CONSTANT)
+    Q_PROPERTY(QStringList ipv4Addresses READ ipv4Addresses NOTIFY ipv4AddressesChanged)
+    Q_PROPERTY(QStringList ipv6Addresses READ ipv6Addresses NOTIFY ipv6AddressesChanged)
     Q_PROPERTY(QString interface READ interface CONSTANT)
     Q_PROPERTY(QString bitRate READ bitRate NOTIFY bitRateChanged)
     Q_PROPERTY(NetworkDeviceState state READ state NOTIFY stateChanged)
@@ -65,8 +67,13 @@ public:
     explicit NetworkDevice(const QString &macAddress, const QString &interface, QObject *parent = nullptr);
     virtual ~NetworkDevice() = default;
 
-    QString macAddress() const;
     QString interface() const;
+    QString macAddress() const;
+    QStringList ipv4Addresses() const;
+    QStringList ipv6Addresses() const;
+
+    void setIpv4Addresses(const QStringList &ipv4Addresses);
+    void setIpv6Addresses(const QStringList &ipv6Addresses);
 
     QString bitRate() const;
     void setBitRate(const QString &bitRate);
@@ -77,9 +84,13 @@ public:
 signals:
     void bitRateChanged();
     void stateChanged();
+    void ipv4AddressesChanged();
+    void ipv6AddressesChanged();
 
 private:
     QString m_macAddress;
+    QStringList m_ipv4Addresses;
+    QStringList m_ipv6Addresses;
     QString m_interface;
     QString m_bitRate;
     NetworkDeviceState m_state;
@@ -105,16 +116,31 @@ private:
 class WirelessNetworkDevice: public NetworkDevice
 {
     Q_OBJECT
+    Q_PROPERTY(WirelessMode wirelessMode READ wirelessMode NOTIFY wirelessModeChanged)
     Q_PROPERTY(WirelessAccessPoints* accessPoints READ accessPoints CONSTANT)
     Q_PROPERTY(WirelessAccessPoint* currentAccessPoint READ currentAccessPoint CONSTANT)
 
 public:
+    enum WirelessMode {
+        WirelessModeUnknown          = 0,
+        WirelessModeAdhoc            = 1,
+        WirelessModeInfrastructure   = 2,
+        WirelessModeAccessPoint      = 3
+    };
+    Q_ENUM(WirelessMode)
     explicit WirelessNetworkDevice(const QString &macAddress, const QString &interface, QObject *parent = nullptr);
 
+    WirelessMode wirelessMode() const;
     WirelessAccessPoints* accessPoints() const;
     WirelessAccessPoint* currentAccessPoint() const;
 
+    void setWirelessMode(WirelessMode wirelessMode);
+
+signals:
+    void wirelessModeChanged();
+
 private:
+    WirelessMode m_wirelessMode = WirelessModeUnknown;
     WirelessAccessPoints *m_accessPoints = nullptr;
     WirelessAccessPoint *m_currentAccessPoint = nullptr;
 };
