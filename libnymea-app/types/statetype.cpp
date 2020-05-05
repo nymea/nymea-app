@@ -149,3 +149,13 @@ void StateType::setMaxValue(const QVariant &maxValue)
 {
     m_maxValue = maxValue;
 }
+
+Types::IOType StateType::ioType() const
+{
+    return m_ioType;
+}
+
+void StateType::setIOType(Types::IOType ioType)
+{
+    m_ioType = ioType;
+}

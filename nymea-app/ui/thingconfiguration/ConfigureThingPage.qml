@@ -35,7 +35,7 @@ import Nymea 1.0
 import "../components"
 import "../delegates"
 
-Page {
+SettingsPageBase {
     id: root
     property Device device: null
     readonly property DeviceClass deviceClass: device ? device.deviceClass : null
@@ -110,120 +110,174 @@ Page {
         }
     }
 
-    Flickable {
-        anchors.fill: parent
-        contentHeight: contentColumn.implicitHeight
 
-        ColumnLayout {
-            id: contentColumn
-            width: parent.width
-
-            Label {
-                Layout.fillWidth: true
-                Layout.margins: app.margins
-                text: qsTr("Information")
-                color: app.accentColor
-            }
-            RowLayout {
-                Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
-                Label {
-                    text: qsTr("Vendor:")
-                    Layout.fillWidth: true
-                }
-                Label {
-                    text: engine.deviceManager.vendors.getVendor(root.deviceClass.vendorId).displayName
-                }
-            }
-            RowLayout {
-                Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
-                Label {
-                    text: qsTr("Type")
-                    Layout.fillWidth: true
-                }
-                Label {
-                    text: root.deviceClass.displayName
-                }
-            }
-
-            Label {
-                Layout.fillWidth: true
-                Layout.leftMargin: app.margins
-                Layout.rightMargin: app.margins
-                Layout.topMargin: app.margins
-                text: qsTr("Parameters")
-                color: app.accentColor
-                visible: root.deviceClass.paramTypes.count > 0
-            }
-
-            Repeater {
-                model: root.device.params
-                delegate: ParamDelegate {
-                    Layout.fillWidth: true
-                    paramType: root.deviceClass.paramTypes.getParamType(model.id)
-                    param: root.device.params.get(index)
-                    writable: false
-                }
-            }
-
-            Label {
-                Layout.fillWidth: true
-                Layout.leftMargin: app.margins
-                Layout.rightMargin: app.margins
-                Layout.topMargin: app.margins
-                text: qsTr("Settings")
-                color: app.accentColor
-                visible: root.deviceClass.settingsTypes.count > 0
-            }
-
-            Repeater {
-                id: settingsRepeater
-                model: root.device.settings
-                delegate: ParamDelegate {
-                    Layout.fillWidth: true
-                    paramType: root.deviceClass.settingsTypes.getParamType(model.id)
-                    value: root.device.settings.get(index).value
-                    writable: true
-                    property bool dirty: root.device.settings.get(index).value !== value
-                    onDirtyChanged: settingsRepeater.checkDirty()
-                }
-                function checkDirty() {
-                    for (var i = 0; i < settingsRepeater.count; i++) {
-                        if (settingsRepeater.itemAt(i).dirty) {
-                            dirty = true;
-                            return;
-                        }
-                    }
-                    dirty = false;
-                }
-                property bool dirty: false
-            }
-            Button {
-                Layout.fillWidth: true
-                Layout.leftMargin: app.margins
-                Layout.rightMargin: app.margins
-                text: qsTr("Apply")
-                enabled: settingsRepeater.dirty
-                visible: settingsRepeater.count > 0
-
-                onClicked: {
-                    var params = []
-                    for (var i = 0; i < settingsRepeater.count; i++) {
-                        if (!settingsRepeater.itemAt(i).dirty) {
-                            continue;
-                        }
-                        var setting = {}
-                        setting["paramTypeId"] = settingsRepeater.itemAt(i).param.paramTypeId
-                        setting["value"] = settingsRepeater.itemAt(i).param.value
-                        params.push(setting)
-                    }
-
-                    engine.deviceManager.setDeviceSettings(root.device.id, params);
-                }
-            }
-
-//            ThinDivider {}
+    Label {
+        Layout.fillWidth: true
+        Layout.margins: app.margins
+        text: qsTr("Information")
+        color: app.accentColor
+    }
+    RowLayout {
+        Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
+        Label {
+            text: qsTr("Vendor:")
+            Layout.fillWidth: true
         }
+        Label {
+            text: engine.deviceManager.vendors.getVendor(root.deviceClass.vendorId).displayName
+        }
+    }
+    RowLayout {
+        Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
+        Label {
+            text: qsTr("Type")
+            Layout.fillWidth: true
+        }
+        Label {
+            text: root.deviceClass.displayName
+        }
+    }
 
+    Label {
+        Layout.fillWidth: true
+        Layout.leftMargin: app.margins
+        Layout.rightMargin: app.margins
+        Layout.topMargin: app.margins
+        text: qsTr("Parameters")
+        color: app.accentColor
+        visible: root.deviceClass.paramTypes.count > 0
+    }
+
+    Repeater {
+        model: root.device.params
+        delegate: ParamDelegate {
+            Layout.fillWidth: true
+            paramType: root.deviceClass.paramTypes.getParamType(model.id)
+            param: root.device.params.get(index)
+            writable: false
+        }
+    }
+
+    Label {
+        Layout.fillWidth: true
+        Layout.leftMargin: app.margins
+        Layout.rightMargin: app.margins
+        Layout.topMargin: app.margins
+        text: qsTr("Input/Output Connections")
+        color: app.accentColor
+        visible: ioModel.count > 0
+    }
+
+    StateTypesProxy {
+        id: ioModel
+        stateTypes: root.deviceClass.stateTypes
+        digitalInputs: true
+        digitalOutputs: true
+        analogInputs: true
+        analogOutputs: true
+    }
+    Repeater {
+        model: ioModel
+        delegate: NymeaListItemDelegate {
+            Layout.fillWidth: true
+
+            iconName: "../images/io-connections.svg"
+            text: model.displayName
+            subText: {
+                if (ioStateType.ioType == Types.IOTypeDigitalInput || ioStateType.ioType == Types.IOTypeAnalogInput) {
+                    if (inputConnectionWatcher.ioConnection) {
+                        return "%1: %2".arg(inputConnectionWatcher.outputThing.name).arg(inputConnectionWatcher.outputStateType.displayName)
+                    }
+                } else {
+                    if (outputConnectionWatcher.ioConnection) {
+                        return "%1: %2".arg(outputConnectionWatcher.inputThing.name).arg(outputConnectionWatcher.inputStateType.displayName)
+                    }
+                }
+                return qsTr("Not connected")
+            }
+
+
+            property StateType ioStateType: ioModel.get(index)
+
+            IOInputConnectionWatcher {
+                id: inputConnectionWatcher
+                ioConnections: engine.deviceManager.ioConnections
+                inputThingId: root.device.id
+                inputStateTypeId: ioStateType.id
+                property Device outputThing: ioConnection ? engine.deviceManager.devices.getDevice(ioConnection.outputThingId) : null
+                property StateType outputStateType: ioConnection ? outputThing.deviceClass.stateTypes.getStateType(ioConnection.outputStateTypeId) : null
+            }
+            IOOutputConnectionWatcher {
+                id: outputConnectionWatcher
+                ioConnections: engine.deviceManager.ioConnections
+                outputThingId: root.device.id
+                outputStateTypeId: ioStateType.id
+                property Device inputThing: ioConnection ? engine.deviceManager.devices.getDevice(ioConnection.inputThingId) : null
+                property StateType inputStateType: ioConnection ? inputThing.deviceClass.stateTypes.getStateType(ioConnection.inputStateTypeId) : null
+            }
+
+            onClicked: {
+                var popup = ioConnectionsDialogComponent.createObject(app, {ioStateType: ioStateType, inputWatcher: inputConnectionWatcher, outputWatcher: outputConnectionWatcher})
+                popup.open()
+            }
+        }
+    }
+
+
+    Label {
+        Layout.fillWidth: true
+        Layout.leftMargin: app.margins
+        Layout.rightMargin: app.margins
+        Layout.topMargin: app.margins
+        text: qsTr("Settings")
+        color: app.accentColor
+        visible: root.deviceClass.settingsTypes.count > 0
+    }
+
+    Repeater {
+        id: settingsRepeater
+        model: root.device.settings
+        delegate: ParamDelegate {
+            Layout.fillWidth: true
+            paramType: root.deviceClass.settingsTypes.getParamType(model.id)
+            value: root.device.settings.get(index).value
+            writable: true
+            property bool dirty: root.device.settings.get(index).value !== value
+            onDirtyChanged: settingsRepeater.checkDirty()
+        }
+        function checkDirty() {
+            for (var i = 0; i < settingsRepeater.count; i++) {
+                if (settingsRepeater.itemAt(i).dirty) {
+                    dirty = true;
+                    return;
+                }
+            }
+            dirty = false;
+        }
+        property bool dirty: false
+    }
+    Button {
+        Layout.fillWidth: true
+        Layout.leftMargin: app.margins
+        Layout.rightMargin: app.margins
+        text: qsTr("Apply")
+        enabled: settingsRepeater.dirty
+        visible: settingsRepeater.count > 0
+
+        onClicked: {
+            var params = []
+            for (var i = 0; i < settingsRepeater.count; i++) {
+                if (!settingsRepeater.itemAt(i).dirty) {
+                    continue;
+                }
+                var setting = {}
+                setting["paramTypeId"] = settingsRepeater.itemAt(i).param.paramTypeId
+                setting["value"] = settingsRepeater.itemAt(i).param.value
+                params.push(setting)
+            }
+
+            engine.deviceManager.setDeviceSettings(root.device.id, params);
+        }
     }
 
     Component {
@@ -264,4 +318,130 @@ Page {
         }
     }
 
+    Component {
+        id: ioConnectionsDialogComponent
+        MeaDialog {
+            id: ioConnectionDialog
+            standardButtons: Dialog.Ok | Dialog.Cancel | Dialog.Reset
+
+            title: qsTr("Connect Inputs/Outputs")
+
+            property StateType ioStateType: null
+            property IOInputConnectionWatcher inputWatcher: null
+            property IOOutputConnectionWatcher outputWatcher: null
+
+            Label {
+                Layout.fillWidth: true
+                text: qsTr("Connect \"%1\" to:").arg(ioConnectionDialog.ioStateType.displayName)
+                wrapMode: Text.WordWrap
+            }
+            Label { text: "\n" } // Fake in some spacing
+
+            GridLayout {
+                columns: (ioConnectionDialog.width / 400) * 2
+
+                Label {
+                    Layout.fillWidth: true
+                    text: qsTr("Thing")
+                }
+
+                ComboBox {
+                    id: ioThingComboBox
+                    model: DevicesProxy {
+                        id: connectableIODevices
+                        engine: _engine
+                        showDigitalInputs: ioConnectionDialog.ioStateType.ioType == Types.IOTypeDigitalOutput
+                        showDigitalOutputs: ioConnectionDialog.ioStateType.ioType == Types.IOTypeDigitalInput
+                        showAnalogInputs: ioConnectionDialog.ioStateType.ioType == Types.IOTypeAnalogOutput
+                        showAnalogOutputs: ioConnectionDialog.ioStateType.ioType == Types.IOTypeAnalogInput
+                    }
+                    textRole: "name"
+                    Layout.fillWidth: true
+                    Component.onCompleted: {
+                        for (var i = 0; i < connectableIODevices.count; i++) {
+                            if (ioConnectionDialog.ioStateType.ioType == Types.IOTypeDigitalInput || ioConnectionDialog.ioStateType.ioType == Types.IOTypeAnalogInput) {
+                                if (connectableIODevices.get(i).id === ioConnectionDialog.inputWatcher.ioConnection.outputThingId) {
+                                    ioThingComboBox.currentIndex = i;
+                                    break;
+                                }
+                            } else {
+                                if (connectableIODevices.get(i).id === ioConnectionDialog.outputWatcher.ioConnection.inputThingId) {
+                                    ioThingComboBox.currentIndex = i;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                Label {
+                    Layout.fillWidth: true
+                    text: (ioConnectionDialog.ioStateType.ioType == Types.IOTypeDigitalInput || ioConnectionDialog.ioStateType.ioType == Types.IOTypeAnalogInput) ? qsTr("Output") : qsTr("Input")
+                }
+
+                ComboBox {
+                    id: ioStateComboBox
+                    model: StateTypesProxy {
+                        id: connectableStateTypes
+                        stateTypes: connectableIODevices.get(ioThingComboBox.currentIndex).deviceClass.stateTypes
+                        digitalInputs: ioConnectionDialog.ioStateType.ioType == Types.IOTypeDigitalOutput
+                        digitalOutputs: ioConnectionDialog.ioStateType.ioType == Types.IOTypeDigitalInput
+                        analogInputs: ioConnectionDialog.ioStateType.ioType == Types.IOTypeAnalogOutput
+                        analogOutputs: ioConnectionDialog.ioStateType.ioType == Types.IOTypeAnalogInput
+                    }
+                    textRole: "displayName"
+                    Layout.fillWidth: true
+                    onCountChanged: {
+//                        print("loading for:", ioConnectionDialog.inputWatcher.ioConnection.outputStateTypeId)
+                        for (var i = 0; i < connectableStateTypes.count; i++) {
+                            print("checking:", connectableStateTypes.get(i).id)
+                            if (ioConnectionDialog.ioStateType.ioType == Types.IOTypeDigitalInput || ioConnectionDialog.ioStateType.ioType == Types.IOTypeAnalogInput) {
+                                if (connectableStateTypes.get(i).id === ioConnectionDialog.inputWatcher.ioConnection.outputStateTypeId) {
+                                    ioStateComboBox.currentIndex = i;
+                                    break;
+                                }
+                            } else {
+                                if (connectableStateTypes.get(i).id === ioConnectionDialog.outputWatcher.ioConnection.inputStateTypeId) {
+                                    ioStateComboBox.currentIndex = i;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            onAccepted: {
+                var inputThingId;
+                var inputStateTypeId;
+                var outputThingId;
+                var outputStateTypeId;
+                if (ioConnectionDialog.ioStateType.ioType == Types.IOTypeDigitalInput
+                        || ioConnectionDialog.ioStateType.ioType == Types.IOTypeAnalogInput) {
+                    inputThingId = root.device.id;
+                    inputStateTypeId = ioConnectionDialog.ioStateType.id;
+                    outputThingId = connectableIODevices.get(ioThingComboBox.currentIndex).id;
+                    outputStateTypeId = connectableStateTypes.get(ioStateComboBox.currentIndex).id;
+                } else {
+                    inputThingId = connectableIODevices.get(ioThingComboBox.currentIndex).id;
+                    inputStateTypeId = connectableStateTypes.get(ioStateComboBox.currentIndex).id;
+                    outputThingId = root.device.id;
+                    outputStateTypeId = ioConnectionDialog.ioStateType.id;
+                }
+
+                print("connecting", inputThingId, inputStateTypeId, outputThingId, outputStateTypeId)
+                engine.deviceManager.connectIO(inputThingId, inputStateTypeId, outputThingId, outputStateTypeId);
+            }
+            onReset: {
+                if (ioConnectionDialog.ioStateType.ioType == Types.IOTypeDigitalInput
+                        || ioConnectionDialog.ioStateType.ioType == Types.IOTypeAnalogInput) {
+                    engine.deviceManager.disconnectIO(ioConnectionDialog.inputWatcher.ioConnection.id);
+                } else {
+                    engine.deviceManager.disconnectIO(ioConnectionDialog.outputWatcher.ioConnection.id);
+                }
+
+                ioConnectionDialog.reject();
+            }
+        }
+    }
 }

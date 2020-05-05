@@ -28,58 +28,36 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef STATETYPES_H
-#define STATETYPES_H
+#ifndef IOCONNECTION_H
+#define IOCONNECTION_H
 
 #include <QObject>
-#include <QAbstractListModel>
+#include <QUuid>
 
-#include "statetype.h"
-
-class StateTypes : public QAbstractListModel
+class IOConnection : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
+    Q_PROPERTY(QUuid id READ id CONSTANT)
+    Q_PROPERTY(QUuid inputThingId READ inputThingId CONSTANT)
+    Q_PROPERTY(QUuid inputStateTypeId READ inputStateTypeId CONSTANT)
+    Q_PROPERTY(QUuid outputThingId READ outputThingId CONSTANT)
+    Q_PROPERTY(QUuid outputStateTypeId READ outputStateTypeId CONSTANT)
 
 public:
-    enum Role {
-        RoleId,
-        RoleName,
-        RoleDisplayName,
-        RoleType,
-        RoleDefaultValue,
-        RoleUnit,
-        RoleUnitString,
-        RoleIOType,
-    };
+    explicit IOConnection(const QUuid &id, const QUuid &inputThingId, const QUuid &inputStateTypeId, const QUuid &outputThingId, const QUuid &outputStateTypeId, QObject *parent = nullptr);
 
-    StateTypes(QObject *parent = nullptr);
-
-    QList<StateType *> stateTypes();
-
-    Q_INVOKABLE StateType *get(int index) const;
-    Q_INVOKABLE StateType *getStateType(const QUuid &stateTypeId) const;
-
-    int rowCount(const QModelIndex & parent = QModelIndex()) const;
-    QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;
-
-    void addStateType(StateType *stateType);
-
-    Q_INVOKABLE StateType *findByName(const QString &name) const;
-
-    QList<StateType*> ioStateTypes(Types::IOType ioType) const;
-
-    void clearModel();
-
-protected:
-    QHash<int, QByteArray> roleNames() const;
-
-signals:
-    void countChanged();
+    QUuid id() const;
+    QUuid inputThingId() const;
+    QUuid inputStateTypeId() const;
+    QUuid outputThingId() const;
+    QUuid outputStateTypeId() const;
 
 private:
-    QList<StateType *> m_stateTypes;
-
+    QUuid m_id;
+    QUuid m_inputThingId;
+    QUuid m_inputStateTypeId;
+    QUuid m_outputThingId;
+    QUuid m_outputStateTypeId;
 };
 
-#endif // STATETYPES_H
+#endif // IOCONNECTION_H

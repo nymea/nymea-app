@@ -48,6 +48,7 @@ SOURCES += \
     types/paramtypes.cpp \
     types/statetype.cpp \
     types/statetypes.cpp \
+    types/statetypesproxy.cpp \
     types/eventtype.cpp \
     types/eventtypes.cpp \
     types/actiontype.cpp \
@@ -86,6 +87,9 @@ SOURCES += \
     types/tokeninfo.cpp \
     types/tokeninfos.cpp \
     types/userinfo.cpp \
+    types/ioconnection.cpp \
+    types/ioconnections.cpp \
+    types/ioconnectionwatcher.cpp \
     connection/nymeahost.cpp \
     connection/nymeahosts.cpp  \
     connection/nymeaconnection.cpp \
@@ -176,6 +180,7 @@ HEADERS += \
     types/paramtypes.h \
     types/statetype.h \
     types/statetypes.h \
+    types/statetypesproxy.h \
     types/eventtype.h \
     types/eventtypes.h \
     types/actiontype.h \
@@ -214,6 +219,9 @@ HEADERS += \
     types/tokeninfo.h \
     types/tokeninfos.h \
     types/userinfo.h \
+    types/ioconnection.h \
+    types/ioconnections.h \
+    types/ioconnectionwatcher.h \
     connection/nymeahost.h \
     connection/nymeahosts.h \
     connection/nymeaconnection.h \

@@ -43,17 +43,20 @@
 
 class BrowserItem;
 class BrowserItems;
-class EventHandler;
 class ThingGroup;
 class Interface;
+class IOConnections;
+class EventHandler;
+class IntegrationsHandler;
 
 class DeviceManager : public JsonHandler
 {
     Q_OBJECT
-    Q_PROPERTY(Vendors *vendors READ vendors CONSTANT)
-    Q_PROPERTY(Plugins *plugins READ plugins CONSTANT)
-    Q_PROPERTY(Devices *devices READ devices CONSTANT)
-    Q_PROPERTY(DeviceClasses *deviceClasses READ deviceClasses CONSTANT)
+    Q_PROPERTY(Vendors* vendors READ vendors CONSTANT)
+    Q_PROPERTY(Plugins* plugins READ plugins CONSTANT)
+    Q_PROPERTY(Devices* devices READ devices CONSTANT)
+    Q_PROPERTY(DeviceClasses* deviceClasses READ deviceClasses CONSTANT)
+    Q_PROPERTY(IOConnections* ioConnections READ ioConnections CONSTANT)
 
     Q_PROPERTY(bool fetchingData READ fetchingData NOTIFY fetchingDataChanged)
 
@@ -72,10 +75,11 @@ public:
 
     QString nameSpace() const override;
 
-    Vendors *vendors() const;
-    Plugins *plugins() const;
-    Devices *devices() const;
-    DeviceClasses *deviceClasses() const;
+    Vendors* vendors() const;
+    Plugins* plugins() const;
+    Devices* devices() const;
+    DeviceClasses* deviceClasses() const;
+    IOConnections* ioConnections() const;
 
     bool fetchingData() const;
 
@@ -99,6 +103,9 @@ public:
     Q_INVOKABLE int executeBrowserItem(const QUuid &deviceId, const QString &itemId);
     Q_INVOKABLE int executeBrowserItemAction(const QUuid &deviceId, const QString &itemId, const QUuid &actionTypeId, const QVariantList &params = QVariantList());
 
+    Q_INVOKABLE int connectIO(const QUuid &inputThingId, const QUuid &inputStateTypeId, const QUuid &outputThingId, const QUuid &outputStateTypeId);
+    Q_INVOKABLE int disconnectIO(const QUuid &ioConnectionId);
+
 private:
     Q_INVOKABLE void notificationReceived(const QVariantMap &data);
     Q_INVOKABLE void getVendorsResponse(const QVariantMap &params);
@@ -118,6 +125,9 @@ private:
     Q_INVOKABLE void browserItemResponse(const QVariantMap &params);
     Q_INVOKABLE void executeBrowserItemResponse(const QVariantMap &params);
     Q_INVOKABLE void executeBrowserItemActionResponse(const QVariantMap &params);
+    Q_INVOKABLE void getIOConnectionsResponse(const QVariantMap &params);
+    Q_INVOKABLE void connectIOResponse(const QVariantMap &params);
+    Q_INVOKABLE void disconnectIOResponse(const QVariantMap &params);
 
 public slots:
     void savePluginConfig(const QUuid &pluginId);
@@ -145,6 +155,7 @@ private:
     Plugins *m_plugins;
     Devices *m_devices;
     DeviceClasses *m_deviceClasses;
+    IOConnections *m_ioConnections;
 
     bool m_fetchingData = false;
 
@@ -158,6 +169,8 @@ private:
 
     // Deprecated stuff for nymea < 0.17 (JSONRPC < 4.0)
     EventHandler *m_eventHandler = nullptr;
+    // Register notifications for new stuff that's only available in the Integrations namespace for now
+    IntegrationsHandler *m_integrationsHandler = nullptr;
 
 };
 
@@ -179,6 +192,24 @@ private:
         emit eventReceived(data.value("params").toMap().value("event").toMap());
     }
 
+};
+
+class IntegrationsHandler: public JsonHandler {
+    Q_OBJECT
+
+public:
+    IntegrationsHandler(QObject *parent = nullptr): JsonHandler(parent) {}
+    QString nameSpace() const override {
+        return "Integrations";
+    }
+
+signals:
+    void onNotificationReceived(const QVariantMap &data);
+
+private:
+    Q_INVOKABLE void notificationReceived(const QVariantMap &data) {
+        emit onNotificationReceived(data);
+    }
 };
 
 #endif // DEVICEMANAGER_H

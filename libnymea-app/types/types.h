@@ -120,6 +120,15 @@ public:
     };
     Q_ENUM(Unit)
 
+    enum IOType {
+        IOTypeNone,
+        IOTypeDigitalInput,
+        IOTypeDigitalOutput,
+        IOTypeAnalogInput,
+        IOTypeAnalogOutput
+    };
+    Q_ENUM(IOType)
+
     enum UnitSystem {
         UnitSystemMetric,
         UnitSystemImperial

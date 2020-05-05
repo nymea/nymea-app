@@ -53,6 +53,12 @@ class DevicesProxy : public QSortFilterProxyModel
     Q_PROPERTY(QStringList hiddenInterfaces READ hiddenInterfaces WRITE setHiddenInterfaces NOTIFY hiddenInterfacesChanged)
     Q_PROPERTY(QString nameFilter READ nameFilter WRITE setNameFilter NOTIFY nameFilterChanged)
 
+    // Setting one of those to true will hide those set to false. If all of those are false no IO filtering will be done
+    Q_PROPERTY(bool showDigitalInputs READ showDigitalInputs WRITE setShowDigitalInputs NOTIFY showDigitalInputsChanged)
+    Q_PROPERTY(bool showDigitalOutputs READ showDigitalOutputs WRITE setShowDigitalOutputs NOTIFY showDigitalOutputsChanged)
+    Q_PROPERTY(bool showAnalogInputs READ showAnalogInputs WRITE setShowAnalogInputs NOTIFY showAnalogInputsChanged)
+    Q_PROPERTY(bool showAnalogOutputs READ showAnalogOutputs WRITE setShowAnalogOutputs NOTIFY showAnalogOutputsChanged)
+
     // Setting this to true will imply filtering for "battery" interface
     Q_PROPERTY(bool filterBatteryCritical READ filterBatteryCritical WRITE setFilterBatteryCritical NOTIFY filterBatteryCriticalChanged)
 
@@ -91,6 +97,18 @@ public:
     QString nameFilter() const;
     void setNameFilter(const QString &nameFilter);
 
+    bool showDigitalInputs() const;
+    void setShowDigitalInputs(bool showDigitalInputs);
+
+    bool showDigitalOutputs() const;
+    void setShowDigitalOutputs(bool showDigitalOutputs);
+
+    bool showAnalogInputs() const;
+    void setShowAnalogInputs(bool showAnalogInputs);
+
+    bool showAnalogOutputs() const;
+    void setShowAnalogOutputs(bool showAnalogOutputs);
+
     bool filterBatteryCritical() const;
     void setFilterBatteryCritical(bool filterBatteryCritical);
 
@@ -113,6 +131,10 @@ signals:
     void shownInterfacesChanged();
     void hiddenInterfacesChanged();
     void nameFilterChanged();
+    void showDigitalInputsChanged();
+    void showDigitalOutputsChanged();
+    void showAnalogInputsChanged();
+    void showAnalogOutputsChanged();
     void filterBatteryCriticalChanged();
     void filterDisconnectedChanged();
     void groupByInterfaceChanged();
@@ -130,6 +152,11 @@ private:
     QStringList m_shownInterfaces;
     QStringList m_hiddenInterfaces;
     QString m_nameFilter;
+
+    bool m_showDigitalInputs = false;
+    bool m_showDigitalOutputs = false;
+    bool m_showAnalogInputs = false;
+    bool m_showAnalogOutputs = false;
 
     bool m_filterBatteryCritical = false;
     bool m_filterDisconnected = false;
