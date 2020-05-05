@@ -38,7 +38,30 @@ import "../components"
 SettingsPageBase {
     id: root
     title: qsTr("General settings")
+    busy: d.pendingCommand !== -1
 
+    QtObject {
+        id: d
+        property int pendingCommand: -1
+    }
+
+    Connections {
+        target: engine.systemController
+        onRestartReply: handleReply(id, success)
+        onRebootReply: handleReply(id, success)
+        onShutdownReply: handleReply(id, success)
+
+        function handleReply(id, success) {
+            if (id === d.pendingCommand) {
+                d.pendingCommand = -1
+                if (!success) {
+                    var component = Qt.createComponent(Qt.resolvedUrl("../components/ErrorDialog.qml"))
+                    var popup = component.createObject(root);
+                    popup.open()
+                }
+            }
+        }
+    }
 
     SettingsPageSectionHeader {
         text: qsTr("General")
@@ -200,7 +223,30 @@ SettingsPageBase {
         Layout.fillWidth: true
         Layout.leftMargin: app.margins
         Layout.rightMargin: app.margins
-        text: qsTr("Reboot %1:core").arg(app.systemName)
+        text: qsTr("Restart %1:core").arg(app.systemName)
+        visible: engine.systemController.powerManagementAvailable && engine.jsonRpcClient.ensureServerVersion("5.1")
+        onClicked: {
+            var dialog = Qt.createComponent(Qt.resolvedUrl("../components/MeaDialog.qml"));
+            var text = qsTr("Are you sure you want to restart %1:core now?").arg(app.systemName)
+            var popup = dialog.createObject(app,
+                                            {
+                                                headerIcon: "../images/dialog-warning-symbolic.svg",
+                                                title: qsTr("Restart %1:core").arg(app.systemName),
+                                                text: text,
+                                                standardButtons: Dialog.Ok | Dialog.Cancel
+                                            });
+            popup.open();
+            popup.accepted.connect(function() {
+                d.pendingCommand = engine.systemController.restart()
+            })
+        }
+    }
+
+    Button {
+        Layout.fillWidth: true
+        Layout.leftMargin: app.margins
+        Layout.rightMargin: app.margins
+        text: qsTr("Reboot %1:core system").arg(app.systemName)
         visible: engine.systemController.powerManagementAvailable
         onClicked: {
             var dialog = Qt.createComponent(Qt.resolvedUrl("../components/MeaDialog.qml"));
@@ -214,7 +260,7 @@ SettingsPageBase {
                                             });
             popup.open();
             popup.accepted.connect(function() {
-                engine.systemController.reboot()
+                d.pendingCommand = engine.systemController.reboot()
             })
         }
     }
@@ -222,7 +268,7 @@ SettingsPageBase {
         Layout.fillWidth: true
         Layout.leftMargin: app.margins
         Layout.rightMargin: app.margins
-        text: qsTr("Shutdown %1:core").arg(app.systemName)
+        text: qsTr("Shutdown %1:core system").arg(app.systemName)
         visible: engine.systemController.powerManagementAvailable
         onClicked: {
             var dialog = Qt.createComponent(Qt.resolvedUrl("../components/MeaDialog.qml"));
@@ -236,7 +282,7 @@ SettingsPageBase {
                                             });
             popup.open();
             popup.accepted.connect(function() {
-                engine.systemController.shutdown()
+                d.pendingCommand = engine.systemController.shutdown()
             })
         }
     }

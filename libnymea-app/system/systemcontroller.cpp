@@ -76,14 +76,19 @@ bool SystemController::updateManagementAvailable() const
     return m_updateManagementAvailable;
 }
 
-void SystemController::reboot()
+int SystemController::restart()
 {
-    m_jsonRpcClient->sendCommand("System.Reboot");
+    return m_jsonRpcClient->sendCommand("System.Restart", this, "restartResponse");
 }
 
-void SystemController::shutdown()
+int SystemController::reboot()
 {
-    m_jsonRpcClient->sendCommand("System.Shutdown");
+    return m_jsonRpcClient->sendCommand("System.Reboot", this, "rebootResponse");
+}
+
+int SystemController::shutdown()
+{
+    return m_jsonRpcClient->sendCommand("System.Shutdown", this, "shutdownResponse");
 }
 
 bool SystemController::updateManagementBusy() const
@@ -291,6 +296,27 @@ void SystemController::getServerTimeResponse(const QVariantMap &params)
 void SystemController::setTimeResponse(const QVariantMap &params)
 {
     qDebug() << "set time response" << params;
+}
+
+void SystemController::restartResponse(const QVariantMap &params)
+{
+    int id = params.value("id").toInt();
+    bool success = params.value("params").toMap().value("success").toBool();
+    emit restartReply(id, success);
+}
+
+void SystemController::rebootResponse(const QVariantMap &params)
+{
+    int id = params.value("id").toInt();
+    bool success = params.value("params").toMap().value("success").toBool();
+    emit rebootReply(id, success);
+}
+
+void SystemController::shutdownResponse(const QVariantMap &params)
+{
+    int id = params.value("id").toInt();
+    bool success = params.value("params").toMap().value("success").toBool();
+    emit shutdownReply(id, success);
 }
 
 void SystemController::notificationReceived(const QVariantMap &data)
