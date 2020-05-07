@@ -64,9 +64,18 @@ NymeaListItemDelegate {
             var ruleActionParam = root.ruleAction.ruleActionParams.get(i)
             print("populating subtext:", ruleActionParam.eventTypeId, ruleActionParam.eventParamTypeId, ruleActionParam.stateDeviceId, ruleActionParam.stateTypeId, ruleActionParam.isValueBased, ruleActionParam.isEventParamBased, ruleActionParam.isStateValueBased)
 
-            var paramString = qsTr("%1: %2").arg(root.actionType.paramTypes.getParamType(ruleActionParam.paramTypeId).displayName)
+            var paramType = root.actionType.paramTypes.getParamType(ruleActionParam.paramTypeId);
+            var paramString = qsTr("%1: %2").arg(paramType.displayName)
             if (ruleActionParam.isValueBased) {
-                paramString = paramString.arg(ruleActionParam.value)
+                var text = ""
+                switch (paramType.type.toLowerCase()) {
+                case "bool":
+                    text = ruleActionParam.value === true ? qsTr("True") : qsTr("False")
+                    break;
+                default:
+                    text = ruleActionParam.value
+                }
+                paramString = paramString.arg(text)
             } else if (ruleActionParam.isEventParamBased) {
                 paramString = paramString.arg(qsTr("value from event"))
             } else if (ruleActionParam.isStateValueBased) {

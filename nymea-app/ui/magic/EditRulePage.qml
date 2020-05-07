@@ -499,7 +499,7 @@ Page {
 
             Button {
                 Layout.fillWidth: true
-                Layout.margins: app.margins
+                Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.bottomMargin: app.margins
                 text: eventsRepeater.count == 0 && timeEventRepeater.count === 0 ? qsTr("Configure...") : qsTr("Add another...")
                 visible: !root.isStateBased
                 onClicked: {
@@ -592,8 +592,8 @@ Page {
 
             Button {
                 Layout.fillWidth: true
-                Layout.margins: app.margins
-                text: root.rule.stateEvaluator === null && root.rule.timeDescriptor.calendarItems.count === 0 ?
+                Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.bottomMargin: app.margins
+                text: root.rule.stateEvaluator === null || root.rule.timeDescriptor.calendarItems.count === 0 ?
                           qsTr("Configure...") :
                           qsTr("Add another...")
                 visible: root.rule.timeDescriptor.timeEventItems.count === 0 || root.rule.stateEvaluator === null
@@ -661,7 +661,7 @@ Page {
 
             Button {
                 Layout.fillWidth: true
-                Layout.margins: app.margins
+                Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.bottomMargin: app.margins
                 text: root.isEmpty ? qsTr("Configure...") :
                                      actionsRepeater.count == 0 ? qsTr("Add an action...") : qsTr("Add another action...")
                 onClicked: {
@@ -697,7 +697,7 @@ Page {
 
             Button {
                 Layout.fillWidth: true
-                Layout.margins: app.margins
+                Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.bottomMargin: app.margins
                 text: actionsRepeater.count == 0 ? qsTr("Add an action...") : qsTr("Add another action...")
                 onClicked: {
                     var page = pageStack.push(ruleActionQuestionPageComponent, {exitAction: true});
