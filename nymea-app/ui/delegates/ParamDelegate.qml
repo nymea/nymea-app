@@ -66,7 +66,8 @@ ItemDelegate {
                 id: loader
                 Layout.fillWidth: true// sourceComponent === textFieldComponent || sourceComponent === stringComponent
                 sourceComponent: {
-                    print("loading paramdelegate:", root.writable, root.paramType.type)
+                    print("Loading ParamDelegate");
+                    print("Writable:", root.writable, "type:", root.paramType.type, "min:", root.paramType.minValue, "max:", root.paramType.maxValue)
                     if (!root.writable) {
                         return stringComponent;
                     }
@@ -79,7 +80,8 @@ ItemDelegate {
                     case "double":
                         if (root.paramType.allowedValues.length > 0) {
                             return comboBoxComponent;
-                        } else if (root.paramType.minValue !== undefined && root.paramType.maxValue !== undefined) {
+                        } else if (root.paramType.minValue !== undefined && root.paramType.maxValue !== undefined
+                                   && (root.paramType.maxValue - root.paramType.minValue <= 100)) {
                             return sliderComponent;
                         } else {
                             return spinnerComponent;
@@ -149,6 +151,7 @@ ItemDelegate {
         id: sliderComponent
         RowLayout {
             spacing: app.margins
+
             Slider {
                 id: slider
                 Layout.fillWidth: true
@@ -162,7 +165,7 @@ ItemDelegate {
                     }
                     return ret;
                 }
-                property int decimals: root.paramType.type.toLocaleLowerCase() === "int" ? 0 : 1
+                property int decimals: root.paramType.type.toLocaleLowerCase() === "double" ? 1 : 0
 
                 onMoved: {
                     var newValue
@@ -190,12 +193,12 @@ ItemDelegate {
 
             SpinBox {
                 value: root.param.value ? root.param.value : 0
-                from: root.paramType.minValue
+                from: root.paramType.minValue !== undefined
                       ? root.paramType.minValue
                       : root.paramType.type.toLowerCase() === "uint"
                         ? 0
                         : -2000000000
-                to: root.paramType.maxValue
+                to: root.paramType.maxValue !== undefined
                     ? root.paramType.maxValue
                     : 2000000000
                 editable: true
@@ -205,6 +208,7 @@ ItemDelegate {
                     return Types.toUiValue(value, root.paramType.unit)
                 }
                 Component.onCompleted: {
+                    print("from:", from, "min", root.paramType.minValue)
                     if (root.value === undefined) {
                         root.value = value
                     }

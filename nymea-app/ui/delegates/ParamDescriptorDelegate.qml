@@ -137,6 +137,7 @@ ItemDelegate {
 
             Label {
                 text: Types.toUiUnit(paramType.unit)
+                visible: paramType.unit !== Types.UnitNone
             }
         }
 
