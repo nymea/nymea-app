@@ -97,10 +97,17 @@ SwipeDelegate {
                     if (!root.stateType) {
                         return qsTr("Press to edit condition")
                     }
+                    var valueText = root.stateEvaluator.stateDescriptor.value;
+                    switch (root.stateType.type.toLowerCase()) {
+                    case "bool":
+                        valueText = root.stateEvaluator.stateDescriptor.value === true ? qsTr("True") : qsTr("False")
+                        break;
+                    }
+
                     if (root.device) {
-                        return qsTr("%1: %2 %3 %4").arg(root.device.name).arg(root.stateType.displayName).arg(operatorString).arg(root.stateEvaluator.stateDescriptor.value)
+                        return qsTr("%1: %2 %3 %4").arg(root.device.name).arg(root.stateType.displayName).arg(operatorString).arg(valueText)
                     } else if (root.iface) {
-                        return qsTr("%1: %2 %3 %4").arg(root.iface.displayName).arg(root.stateType.displayName).arg(operatorString).arg(root.stateEvaluator.stateDescriptor.value)
+                        return qsTr("%1: %2 %3 %4").arg(root.iface.displayName).arg(root.stateType.displayName).arg(operatorString).arg(valueText)
                     }
                     return "--";
                 }
