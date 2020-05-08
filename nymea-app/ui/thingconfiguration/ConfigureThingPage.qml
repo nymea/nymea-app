@@ -322,8 +322,7 @@ SettingsPageBase {
         id: ioConnectionsDialogComponent
         MeaDialog {
             id: ioConnectionDialog
-            standardButtons: Dialog.Ok | Dialog.Cancel | Dialog.Reset
-
+            standardButtons: Dialog.NoButton
             title: qsTr("Connect Inputs/Outputs")
 
             property StateType ioStateType: null
@@ -411,37 +410,59 @@ SettingsPageBase {
                 }
             }
 
-            onAccepted: {
-                var inputThingId;
-                var inputStateTypeId;
-                var outputThingId;
-                var outputStateTypeId;
-                if (ioConnectionDialog.ioStateType.ioType == Types.IOTypeDigitalInput
-                        || ioConnectionDialog.ioStateType.ioType == Types.IOTypeAnalogInput) {
-                    inputThingId = root.device.id;
-                    inputStateTypeId = ioConnectionDialog.ioStateType.id;
-                    outputThingId = connectableIODevices.get(ioThingComboBox.currentIndex).id;
-                    outputStateTypeId = connectableStateTypes.get(ioStateComboBox.currentIndex).id;
-                } else {
-                    inputThingId = connectableIODevices.get(ioThingComboBox.currentIndex).id;
-                    inputStateTypeId = connectableStateTypes.get(ioStateComboBox.currentIndex).id;
-                    outputThingId = root.device.id;
-                    outputStateTypeId = ioConnectionDialog.ioStateType.id;
+            RowLayout {
+                Item {
+                    Layout.fillWidth: true
                 }
 
-                print("connecting", inputThingId, inputStateTypeId, outputThingId, outputStateTypeId)
-                engine.deviceManager.connectIO(inputThingId, inputStateTypeId, outputThingId, outputStateTypeId);
-            }
-            onReset: {
-                if (ioConnectionDialog.ioStateType.ioType == Types.IOTypeDigitalInput
-                        || ioConnectionDialog.ioStateType.ioType == Types.IOTypeAnalogInput) {
-                    engine.deviceManager.disconnectIO(ioConnectionDialog.inputWatcher.ioConnection.id);
-                } else {
-                    engine.deviceManager.disconnectIO(ioConnectionDialog.outputWatcher.ioConnection.id);
+                Button {
+                    text: qsTr("Cancel")
+                    onClicked: ioConnectionDialog.reject();
                 }
+                Button {
+                    text: qsTr("Disconnect")
 
-                ioConnectionDialog.reject();
+                    onClicked: {
+                        if (ioConnectionDialog.ioStateType.ioType == Types.IOTypeDigitalInput
+                                || ioConnectionDialog.ioStateType.ioType == Types.IOTypeAnalogInput) {
+                            engine.deviceManager.disconnectIO(ioConnectionDialog.inputWatcher.ioConnection.id);
+                        } else {
+                            engine.deviceManager.disconnectIO(ioConnectionDialog.outputWatcher.ioConnection.id);
+                        }
+
+                        ioConnectionDialog.reject();
+                    }
+                }
+                Button {
+                    text: qsTr("Connect")
+
+                    onClicked: {
+                        var inputThingId;
+                        var inputStateTypeId;
+                        var outputThingId;
+                        var outputStateTypeId;
+                        if (ioConnectionDialog.ioStateType.ioType == Types.IOTypeDigitalInput
+                                || ioConnectionDialog.ioStateType.ioType == Types.IOTypeAnalogInput) {
+                            inputThingId = root.device.id;
+                            inputStateTypeId = ioConnectionDialog.ioStateType.id;
+                            outputThingId = connectableIODevices.get(ioThingComboBox.currentIndex).id;
+                            outputStateTypeId = connectableStateTypes.get(ioStateComboBox.currentIndex).id;
+                        } else {
+                            inputThingId = connectableIODevices.get(ioThingComboBox.currentIndex).id;
+                            inputStateTypeId = connectableStateTypes.get(ioStateComboBox.currentIndex).id;
+                            outputThingId = root.device.id;
+                            outputStateTypeId = ioConnectionDialog.ioStateType.id;
+                        }
+
+                        print("connecting", inputThingId, inputStateTypeId, outputThingId, outputStateTypeId)
+                        engine.deviceManager.connectIO(inputThingId, inputStateTypeId, outputThingId, outputStateTypeId);
+
+                        ioConnectionDialog.accept();
+                    }
+                }
             }
+
+
         }
     }
 }
