@@ -142,6 +142,8 @@ Rectangle {
                                 return "yellow";
                             case "property":
                                 return "#ff5555";
+                            case "attachedProperty":
+                                return "orange"
                             case "method":
                                 return "blue";
                             case "event":
