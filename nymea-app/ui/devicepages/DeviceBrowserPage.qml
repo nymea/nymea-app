@@ -70,11 +70,9 @@ Page {
         onExecuteBrowserItemActionReply: actionExecuted(params)
     }
     function actionExecuted(params) {
-        print("Execute Action reply:", params, params.id, params["id"], d.pendingBrowserItemId)
         if (params.id === d.pendingBrowserItemId) {
             d.pendingBrowserItemId = -1;
             d.pendingItemId = ""
-            print("yep finished")
             if (params.status !== "success") {
                 header.showInfo(params.error, true);
             } else  if (params.params.deviceError !== "DeviceErrorNoError") {
