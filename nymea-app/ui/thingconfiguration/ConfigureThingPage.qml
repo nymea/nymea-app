@@ -130,7 +130,7 @@ SettingsPageBase {
     RowLayout {
         Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
         Label {
-            text: qsTr("Type")
+            text: qsTr("Type:")
             Layout.fillWidth: true
         }
         Label {
@@ -329,6 +329,8 @@ SettingsPageBase {
             property IOInputConnectionWatcher inputWatcher: null
             property IOOutputConnectionWatcher outputWatcher: null
 
+            readonly property bool isInput: ioConnectionDialog.ioStateType.ioType == Types.IOTypeDigitalInput || ioConnectionDialog.ioStateType.ioType == Types.IOTypeAnalogInput
+
             Label {
                 Layout.fillWidth: true
                 text: qsTr("Connect \"%1\" to:").arg(ioConnectionDialog.ioStateType.displayName)
@@ -408,6 +410,16 @@ SettingsPageBase {
                         }
                     }
                 }
+
+                Label {
+                    text: qsTr("Inverted")
+                    Layout.fillWidth: true
+                }
+
+                CheckBox {
+                    id: invertCheckBox
+                    checked: ioConnectionDialog.isInput ? ioConnectionDialog.inputWatcher.ioConnection.inverted : ioConnectionDialog.outputWatcher.ioConnection.inverted
+                }
             }
 
             RowLayout {
@@ -421,6 +433,7 @@ SettingsPageBase {
                 }
                 Button {
                     text: qsTr("Disconnect")
+                    enabled: ioConnectionDialog.isInput ? ioConnectionDialog.inputWatcher.ioConnection != null : ioConnectionDialog.outputWatcher.ioConnection != null
 
                     onClicked: {
                         if (ioConnectionDialog.ioStateType.ioType == Types.IOTypeDigitalInput
@@ -435,6 +448,7 @@ SettingsPageBase {
                 }
                 Button {
                     text: qsTr("Connect")
+                    enabled: ioThingComboBox.currentIndex >= 0 && ioStateComboBox.currentIndex >= 0
 
                     onClicked: {
                         var inputThingId;
@@ -453,9 +467,10 @@ SettingsPageBase {
                             outputThingId = root.device.id;
                             outputStateTypeId = ioConnectionDialog.ioStateType.id;
                         }
+                        var inverted = invertCheckBox.checked
 
-                        print("connecting", inputThingId, inputStateTypeId, outputThingId, outputStateTypeId)
-                        engine.deviceManager.connectIO(inputThingId, inputStateTypeId, outputThingId, outputStateTypeId);
+                        print("connecting", inputThingId, inputStateTypeId, outputThingId, outputStateTypeId, inverted)
+                        engine.deviceManager.connectIO(inputThingId, inputStateTypeId, outputThingId, outputStateTypeId, inverted);
 
                         ioConnectionDialog.accept();
                     }

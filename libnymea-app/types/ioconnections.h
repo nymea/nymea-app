@@ -44,7 +44,8 @@ public:
         RoleInputThingId,
         RoleInputStateTypeId,
         RoleOutputThingId,
-        RoleOutputStateTypeId
+        RoleOutputStateTypeId,
+        RoleInverted
     };
     Q_ENUM(Roles)
 

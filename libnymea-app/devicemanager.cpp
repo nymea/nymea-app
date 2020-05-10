@@ -233,7 +233,8 @@ void DeviceManager::notificationReceived(const QVariantMap &data)
         QUuid inputStateTypeId = connectionMap.value("inputStateTypeId").toUuid();
         QUuid outputThingId = connectionMap.value("outputThingId").toUuid();
         QUuid outputStateTypeId = connectionMap.value("outputStateTypeId").toUuid();
-        IOConnection *ioConnection = new IOConnection(id, inputThingId, inputStateTypeId, outputThingId, outputStateTypeId);
+        bool inverted = connectionMap.value("inverted").toBool();
+        IOConnection *ioConnection = new IOConnection(id, inputThingId, inputStateTypeId, outputThingId, outputStateTypeId, inverted);
         m_ioConnections->addIOConnection(ioConnection);
     } else if (notification == "Integrations.IOConnectionRemoved") {
         QUuid connectionId = data.value("params").toMap().value("ioConnectionId").toUuid();
@@ -712,13 +713,14 @@ int DeviceManager::executeBrowserItemAction(const QUuid &deviceId, const QString
     return m_jsonClient->sendCommand("Actions.ExecuteBrowserItemAction", data, this, "executeBrowserItemActionResponse");
 }
 
-int DeviceManager::connectIO(const QUuid &inputThingId, const QUuid &inputStateTypeId, const QUuid &outputThingId, const QUuid &outputStateTypeId)
+int DeviceManager::connectIO(const QUuid &inputThingId, const QUuid &inputStateTypeId, const QUuid &outputThingId, const QUuid &outputStateTypeId, bool inverted)
 {
     QVariantMap data;
     data.insert("inputThingId", inputThingId);
     data.insert("inputStateTypeId", inputStateTypeId);
     data.insert("outputThingId", outputThingId);
     data.insert("outputStateTypeId", outputStateTypeId);
+    data.insert("inverted", inverted);
     return m_jsonClient->sendCommand("Integrations.ConnectIO", data, this, "connectIOResponse");
 }
 
@@ -746,7 +748,8 @@ void DeviceManager::getIOConnectionsResponse(const QVariantMap &params)
         QUuid inputStateTypeId = connectionMap.value("inputStateTypeId").toUuid();
         QUuid outputThingId = connectionMap.value("outputThingId").toUuid();
         QUuid outputStateTypeId = connectionMap.value("outputStateTypeId").toUuid();
-        IOConnection *ioConnection = new IOConnection(id, inputThingId, inputStateTypeId, outputThingId, outputStateTypeId);
+        bool inverted = connectionMap.value("inverted").toBool();
+        IOConnection *ioConnection = new IOConnection(id, inputThingId, inputStateTypeId, outputThingId, outputStateTypeId, inverted);
         m_ioConnections->addIOConnection(ioConnection);
     }
 }

@@ -30,13 +30,14 @@
 
 #include "ioconnection.h"
 
-IOConnection::IOConnection(const QUuid &id, const QUuid &inputThingId, const QUuid &inputStateTypeId, const QUuid &outputThingId, const QUuid &outputStateTypeId, QObject *parent):
+IOConnection::IOConnection(const QUuid &id, const QUuid &inputThingId, const QUuid &inputStateTypeId, const QUuid &outputThingId, const QUuid &outputStateTypeId, bool inverted, QObject *parent):
     QObject(parent),
     m_id(id),
     m_inputThingId(inputThingId),
     m_inputStateTypeId(inputStateTypeId),
     m_outputThingId(outputThingId),
-    m_outputStateTypeId(outputStateTypeId)
+    m_outputStateTypeId(outputStateTypeId),
+    m_inverted(inverted)
 {
 
 }
@@ -64,4 +65,9 @@ QUuid IOConnection::outputThingId() const
 QUuid IOConnection::outputStateTypeId() const
 {
     return m_outputStateTypeId;
+}
+
+bool IOConnection::inverted() const
+{
+    return m_inverted;
 }
