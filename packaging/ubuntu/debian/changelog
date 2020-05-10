@@ -1,3 +1,13 @@
+nymea-app (1.0.207) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Support inverted IO connections
+  * Don't use ResetRole in dialog
+  * Improve attached properties in scripting code completion
+  * Fix the browsers context menu positioning
+
+ -- Jenkins <jenkins@nymea.io>  Sun, 10 May 2020 22:56:41 +0200
+
 nymea-app (1.0.206) bionic; urgency=medium
 
   [ Michael Zanetti ]
