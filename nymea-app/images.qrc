@@ -220,5 +220,6 @@
         <file>ui/images/key.svg</file>
         <file>ui/images/browser/MediaBrowserIconRadioParadise.svg</file>
         <file>ui/images/io-connections.svg</file>
+        <file>ui/images/sensors/windspeed.svg</file>
     </qresource>
 </RCC>

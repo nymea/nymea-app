@@ -106,6 +106,7 @@ CustomViewBase {
                 Layout.preferredWidth: app.largeFont * 4
                 Layout.preferredHeight: app.largeFont * 4
                 name: weatherConditionState ? "../images/weathericons/weather-" + weatherConditionState.value + ".svg" : ""
+                color: "white"
             }
 
             Item {
@@ -128,6 +129,7 @@ CustomViewBase {
                         name: "../images/weathericons/wind.svg"
                         width: app.iconSize
                         height: width
+                        color: app.interfaceToColor("windspeedsensor")
                     }
 
                     Label {

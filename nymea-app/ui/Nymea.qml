@@ -222,6 +222,8 @@ ApplicationWindow {
             return Qt.resolvedUrl("images/sensors/presence.svg")
         case "closablesensor":
             return Qt.resolvedUrl("images/sensors/closable.svg")
+        case "windspeedsensor":
+            return Qt.resolvedUrl("images/sensors/windspeed.svg")
         case "media":
         case "mediacontroller":
         case "mediaplayer":
@@ -315,7 +317,8 @@ ApplicationWindow {
         "extendedsmartmeterconsumer": "blue",
         "heating" : "gainsboro",
         "thermostat": "dodgerblue",
-        "irrigation": "lightblue"
+        "irrigation": "lightblue",
+        "windspeedsensor": "blue"
     }
 
     function interfaceToColor(name) {
