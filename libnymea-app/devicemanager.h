@@ -103,7 +103,7 @@ public:
     Q_INVOKABLE int executeBrowserItem(const QUuid &deviceId, const QString &itemId);
     Q_INVOKABLE int executeBrowserItemAction(const QUuid &deviceId, const QString &itemId, const QUuid &actionTypeId, const QVariantList &params = QVariantList());
 
-    Q_INVOKABLE int connectIO(const QUuid &inputThingId, const QUuid &inputStateTypeId, const QUuid &outputThingId, const QUuid &outputStateTypeId);
+    Q_INVOKABLE int connectIO(const QUuid &inputThingId, const QUuid &inputStateTypeId, const QUuid &outputThingId, const QUuid &outputStateTypeId, bool inverted);
     Q_INVOKABLE int disconnectIO(const QUuid &ioConnectionId);
 
 private:

@@ -130,7 +130,7 @@ SettingsPageBase {
     RowLayout {
         Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
         Label {
-            text: qsTr("Type")
+            text: qsTr("Type:")
             Layout.fillWidth: true
         }
         Label {
@@ -322,13 +322,14 @@ SettingsPageBase {
         id: ioConnectionsDialogComponent
         MeaDialog {
             id: ioConnectionDialog
-            standardButtons: Dialog.Ok | Dialog.Cancel | Dialog.Reset
-
+            standardButtons: Dialog.NoButton
             title: qsTr("Connect Inputs/Outputs")
 
             property StateType ioStateType: null
             property IOInputConnectionWatcher inputWatcher: null
             property IOOutputConnectionWatcher outputWatcher: null
+
+            readonly property bool isInput: ioConnectionDialog.ioStateType.ioType == Types.IOTypeDigitalInput || ioConnectionDialog.ioStateType.ioType == Types.IOTypeAnalogInput
 
             Label {
                 Layout.fillWidth: true
@@ -409,39 +410,74 @@ SettingsPageBase {
                         }
                     }
                 }
-            }
 
-            onAccepted: {
-                var inputThingId;
-                var inputStateTypeId;
-                var outputThingId;
-                var outputStateTypeId;
-                if (ioConnectionDialog.ioStateType.ioType == Types.IOTypeDigitalInput
-                        || ioConnectionDialog.ioStateType.ioType == Types.IOTypeAnalogInput) {
-                    inputThingId = root.device.id;
-                    inputStateTypeId = ioConnectionDialog.ioStateType.id;
-                    outputThingId = connectableIODevices.get(ioThingComboBox.currentIndex).id;
-                    outputStateTypeId = connectableStateTypes.get(ioStateComboBox.currentIndex).id;
-                } else {
-                    inputThingId = connectableIODevices.get(ioThingComboBox.currentIndex).id;
-                    inputStateTypeId = connectableStateTypes.get(ioStateComboBox.currentIndex).id;
-                    outputThingId = root.device.id;
-                    outputStateTypeId = ioConnectionDialog.ioStateType.id;
+                Label {
+                    text: qsTr("Inverted")
+                    Layout.fillWidth: true
                 }
 
-                print("connecting", inputThingId, inputStateTypeId, outputThingId, outputStateTypeId)
-                engine.deviceManager.connectIO(inputThingId, inputStateTypeId, outputThingId, outputStateTypeId);
+                CheckBox {
+                    id: invertCheckBox
+                    checked: ioConnectionDialog.isInput ? ioConnectionDialog.inputWatcher.ioConnection.inverted : ioConnectionDialog.outputWatcher.ioConnection.inverted
+                }
             }
-            onReset: {
-                if (ioConnectionDialog.ioStateType.ioType == Types.IOTypeDigitalInput
-                        || ioConnectionDialog.ioStateType.ioType == Types.IOTypeAnalogInput) {
-                    engine.deviceManager.disconnectIO(ioConnectionDialog.inputWatcher.ioConnection.id);
-                } else {
-                    engine.deviceManager.disconnectIO(ioConnectionDialog.outputWatcher.ioConnection.id);
+
+            RowLayout {
+                Item {
+                    Layout.fillWidth: true
                 }
 
-                ioConnectionDialog.reject();
+                Button {
+                    text: qsTr("Cancel")
+                    onClicked: ioConnectionDialog.reject();
+                }
+                Button {
+                    text: qsTr("Disconnect")
+                    enabled: ioConnectionDialog.isInput ? ioConnectionDialog.inputWatcher.ioConnection != null : ioConnectionDialog.outputWatcher.ioConnection != null
+
+                    onClicked: {
+                        if (ioConnectionDialog.ioStateType.ioType == Types.IOTypeDigitalInput
+                                || ioConnectionDialog.ioStateType.ioType == Types.IOTypeAnalogInput) {
+                            engine.deviceManager.disconnectIO(ioConnectionDialog.inputWatcher.ioConnection.id);
+                        } else {
+                            engine.deviceManager.disconnectIO(ioConnectionDialog.outputWatcher.ioConnection.id);
+                        }
+
+                        ioConnectionDialog.reject();
+                    }
+                }
+                Button {
+                    text: qsTr("Connect")
+                    enabled: ioThingComboBox.currentIndex >= 0 && ioStateComboBox.currentIndex >= 0
+
+                    onClicked: {
+                        var inputThingId;
+                        var inputStateTypeId;
+                        var outputThingId;
+                        var outputStateTypeId;
+                        if (ioConnectionDialog.ioStateType.ioType == Types.IOTypeDigitalInput
+                                || ioConnectionDialog.ioStateType.ioType == Types.IOTypeAnalogInput) {
+                            inputThingId = root.device.id;
+                            inputStateTypeId = ioConnectionDialog.ioStateType.id;
+                            outputThingId = connectableIODevices.get(ioThingComboBox.currentIndex).id;
+                            outputStateTypeId = connectableStateTypes.get(ioStateComboBox.currentIndex).id;
+                        } else {
+                            inputThingId = connectableIODevices.get(ioThingComboBox.currentIndex).id;
+                            inputStateTypeId = connectableStateTypes.get(ioStateComboBox.currentIndex).id;
+                            outputThingId = root.device.id;
+                            outputStateTypeId = ioConnectionDialog.ioStateType.id;
+                        }
+                        var inverted = invertCheckBox.checked
+
+                        print("connecting", inputThingId, inputStateTypeId, outputThingId, outputStateTypeId, inverted)
+                        engine.deviceManager.connectIO(inputThingId, inputStateTypeId, outputThingId, outputStateTypeId, inverted);
+
+                        ioConnectionDialog.accept();
+                    }
+                }
             }
+
+
         }
     }
 }

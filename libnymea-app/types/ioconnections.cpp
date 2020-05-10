@@ -52,6 +52,8 @@ QVariant IOConnections::data(const QModelIndex &index, int role) const
         return m_list.at(index.row())->outputThingId();
     case RoleOutputStateTypeId:
         return m_list.at(index.row())->outputStateTypeId();
+    case RoleInverted:
+        return m_list.at(index.row())->inverted();
     }
     return QVariant();
 }
@@ -63,6 +65,7 @@ QHash<int, QByteArray> IOConnections::roleNames() const
     roles.insert(RoleInputStateTypeId, "inputStateTypeId");
     roles.insert(RoleOutputThingId, "outputThingId");
     roles.insert(RoleOutputStateTypeId, "outputStateTypeId");
+    roles.insert(RoleInverted, "inverted");
     return roles;
 }
 

@@ -42,15 +42,17 @@ class IOConnection : public QObject
     Q_PROPERTY(QUuid inputStateTypeId READ inputStateTypeId CONSTANT)
     Q_PROPERTY(QUuid outputThingId READ outputThingId CONSTANT)
     Q_PROPERTY(QUuid outputStateTypeId READ outputStateTypeId CONSTANT)
+    Q_PROPERTY(bool inverted READ inverted CONSTANT)
 
 public:
-    explicit IOConnection(const QUuid &id, const QUuid &inputThingId, const QUuid &inputStateTypeId, const QUuid &outputThingId, const QUuid &outputStateTypeId, QObject *parent = nullptr);
+    explicit IOConnection(const QUuid &id, const QUuid &inputThingId, const QUuid &inputStateTypeId, const QUuid &outputThingId, const QUuid &outputStateTypeId, bool inverted, QObject *parent = nullptr);
 
     QUuid id() const;
     QUuid inputThingId() const;
     QUuid inputStateTypeId() const;
     QUuid outputThingId() const;
     QUuid outputStateTypeId() const;
+    bool inverted() const;
 
 private:
     QUuid m_id;
@@ -58,6 +60,7 @@ private:
     QUuid m_inputStateTypeId;
     QUuid m_outputThingId;
     QUuid m_outputStateTypeId;
+    bool m_inverted = false;
 };
 
 #endif // IOCONNECTION_H
