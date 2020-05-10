@@ -61,7 +61,7 @@ NymeaListItemDelegate {
         }
 
         var actionDialogComponent = Qt.createComponent(Qt.resolvedUrl("../components/BrowserContextMenu.qml"));
-        var popup = actionDialogComponent.createObject(root.parent,
+        var popup = actionDialogComponent.createObject(app,
                                                        {
                                                            device: root.device,
                                                            title: model.displayName,

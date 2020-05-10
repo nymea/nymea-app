@@ -36,8 +36,6 @@ import "../delegates"
 
 MeaDialog {
     id: root
-    x: (parent.width - width) / 2
-    y: (parent.height - height / 2)
 
     property Device device
     property string itemId
@@ -76,7 +74,12 @@ MeaDialog {
 
                     var params = []
                     root.activated(actionType.id, params)
+
                     root.accept()
+                    // In case the action removes the item from the browser, our closed handler might be deleted
+                    // before being called and that would keep the popup open
+                    // explicitly destroy the popup to make sure it'll always go away
+                    root.destroy()
                 }
             }
         }
@@ -110,9 +113,7 @@ MeaDialog {
             visible: stackView.depth > 1
             onClicked: {
                 var params = []
-                print("k", stackView.currentItem.count)
                 for (var i = 0; i < stackView.currentItem.count; i++) {
-                    print("juhu", i)
                     var param =  {}
                     param["paramTypeId"] = stackView.currentItem.itemAt(i).paramType.id
                     param["value"] = stackView.currentItem.itemAt(i).value
