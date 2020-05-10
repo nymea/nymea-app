@@ -513,7 +513,7 @@ void CodeCompletion::update()
         }
         // Always append attached class names
         foreach (const QString &s, m_attachedClasses.keys()) {
-            entries.append(CompletionModel::Entry(s, s, "type"));
+            entries.append(CompletionModel::Entry(s, s, "attachedProperty"));
         }
 
         // Add generic qml syntax

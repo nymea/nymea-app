@@ -138,7 +138,7 @@ bool CompletionProxyModel::lessThan(const QModelIndex &source_left, const QModel
     CompletionModel::Entry left = m_model->get(source_left.row());
     CompletionModel::Entry right = m_model->get(source_right.row());
 
-    static QStringList ordering = {"property", "method", "event", "type", "keyword" };
+    static QStringList ordering = {"property", "method", "event", "type", "attachedProperty", "keyword" };
 
     int leftOrder = ordering.indexOf(left.decoration);
     int rightOrder = ordering.indexOf(right.decoration);
