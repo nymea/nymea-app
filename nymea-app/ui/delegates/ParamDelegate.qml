@@ -158,6 +158,16 @@ ItemDelegate {
                 from: root.paramType.minValue
                 to: root.paramType.maxValue
                 value: root.param.value
+                Component.onCompleted: {
+                    if (root.param.value === undefined) {
+                        if (root.paramType.defaultValue !== undefined) {
+                            root.param.value = root.paramType.defaultValue
+                        } else {
+                            root.param.value = root.paramType.minValue
+                        }
+                    }
+                }
+
                 stepSize: {
                     var ret = 1
                     for (var i = 0; i < decimals; i++) {

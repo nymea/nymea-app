@@ -39,6 +39,8 @@
 class States : public QAbstractListModel
 {
     Q_OBJECT
+    Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
+
 public:
     enum StateRole {
         ValueRole = Qt::DisplayRole,
@@ -49,7 +51,6 @@ public:
 
     QList<State *> states();
 
-    Q_INVOKABLE int count() const;
     Q_INVOKABLE State *get(int index) const;
     Q_INVOKABLE State *getState(const QUuid &stateTypeId) const;
 
@@ -57,6 +58,9 @@ public:
     QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;
 
     void addState(State *state);
+
+signals:
+    void countChanged();
 
 protected:
     QHash<int, QByteArray> roleNames() const;

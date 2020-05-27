@@ -539,7 +539,7 @@ MainPageTile {
             property int currentDevice: 0
 
             property Device device: devicesProxy.get(currentDevice)
-            property DeviceClass deviceClass: device ? engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
+            property DeviceClass deviceClass: device ? device.deviceClass : null
 
             property var shownSensors: findSensors(deviceClass)
             property int currentSensor: 0
@@ -627,7 +627,7 @@ MainPageTile {
 
                     Label {
                         text: sensorsRoot.shownStateType
-                              ? (Math.round(Types.toUiValue(sensorsRoot.device.states.getState(shownStateType.id).value, sensorsRoot.shownStateType.unit) * 100) / 100) + " " + Types.toUiUnit(sensorsRoot.shownStateType.unit)
+                              ? (Math.round(Types.toUiValue(sensorsRoot.device.states.getState(sensorsRoot.shownStateType.id).value, sensorsRoot.shownStateType.unit) * 100) / 100) + " " + Types.toUiUnit(sensorsRoot.shownStateType.unit)
                               : ""
     //                    font.pixelSize: app.smallFont
                         Layout.fillWidth: true
@@ -637,7 +637,7 @@ MainPageTile {
                     Led {
                         Layout.preferredHeight: app.iconSize * .5
                         Layout.preferredWidth: height
-                        state: sensorsRoot.shownStateType && sensorsRoot.device.states.getState(sensorsRoot.shownStateType.id).value === true ? "on" : "off"
+                        state: visible && sensorsRoot.device.states.getState(sensorsRoot.shownStateType.id).value === true ? "on" : "off"
                         visible: sensorsRoot.shownStateType && sensorsRoot.shownStateType.type.toLowerCase() === "bool"
                     }
                 }

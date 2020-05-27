@@ -115,6 +115,12 @@ DevicePageBase {
             if (params["id"] === d.pendingVolumeId) {
                 d.pendingVolumeId = -1
                 print("volume action finished")
+                if (params.params.deviceError !== "DeviceErrorNoError") {
+                    print("Error setting volume", params.params.deviceError)
+                    d.pendingVolumeValue = -1;
+                    return;
+                }
+
                 if (d.pendingVolumeValue !== volumeState.value) {
                     root.adjustVolume(d.pendingVolumeValue);
                 } else {
