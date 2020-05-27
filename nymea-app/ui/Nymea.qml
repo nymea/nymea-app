@@ -106,7 +106,32 @@ ApplicationWindow {
     }
     property alias _discovery: discovery
 
-    property var supportedInterfaces: ["light", "weather", "media", "garagegate", "awning", "shutter", "blind", "powersocket", "heating", "doorbell", "sensor", "irrigation", "smartmeter", "evcharger", "fingerprintreader", "smartlock", "button", "notifications", "inputtrigger", "outputtrigger", "gateway", "account"]
+    property var supportedInterfaces: [
+        "light",
+        "weather",
+        "media",
+        "garagegate",
+        "awning",
+        "shutter",
+        "blind",
+        "powersocket",
+        "heating",
+        "doorbell",
+        "sensor",
+        "irrigation",
+        "ventilation",
+        "smartmeter",
+        "evcharger",
+        "fingerprintreader",
+        "smartlock",
+        "button",
+        "notifications",
+        "inputtrigger",
+        "outputtrigger",
+        "gateway",
+        "account"
+    ]
+
     function interfaceToString(name) {
         switch(name) {
         case "light":
@@ -173,6 +198,8 @@ ApplicationWindow {
             return qsTr("Smartlocks")
         case "irrigation":
             return qsTr("Irrigation");
+        case "ventilation":
+            return qsTr("Ventilation")
         case "uncategorized":
             return qsTr("Uncategorized")
         default:
@@ -222,6 +249,8 @@ ApplicationWindow {
             return Qt.resolvedUrl("images/sensors/presence.svg")
         case "closablesensor":
             return Qt.resolvedUrl("images/sensors/closable.svg")
+        case "windspeedsensor":
+            return Qt.resolvedUrl("images/sensors/windspeed.svg")
         case "media":
         case "mediacontroller":
         case "mediaplayer":
@@ -285,6 +314,8 @@ ApplicationWindow {
             return Qt.resolvedUrl("images/stock_link.svg")
         case "irrigation":
             return Qt.resolvedUrl("images/irrigation.svg")
+        case "ventilation":
+            return Qt.resolvedUrl("images/ventilation.svg")
         case "power":
             return Qt.resolvedUrl("images/system-shutdown.svg")
         case "account":
@@ -315,7 +346,9 @@ ApplicationWindow {
         "extendedsmartmeterconsumer": "blue",
         "heating" : "gainsboro",
         "thermostat": "dodgerblue",
-        "irrigation": "lightblue"
+        "irrigation": "lightblue",
+        "windspeedsensor": "blue",
+        "ventilation": "lightblue"
     }
 
     function interfaceToColor(name) {
@@ -351,6 +384,9 @@ ApplicationWindow {
         case "irrigation":
             //: Select ...
             return qsTr("irrigation");
+        case "ventilation":
+            //: Select ...
+            return qsTr("ventilation");
         case "power":
             //: Select ...
             return qsTr("switchable thing")
@@ -435,6 +471,8 @@ ApplicationWindow {
             page = "DoorbellDevicePage.qml";
         } else if (interfaceList.indexOf("irrigation") >= 0) {
             page = "IrrigationDevicePage.qml";
+        } else if (interfaceList.indexOf("ventilation") >= 0) {
+            page = "VentilationDevicePage.qml";
         } else {
             page = "GenericDevicePage.qml";
         }

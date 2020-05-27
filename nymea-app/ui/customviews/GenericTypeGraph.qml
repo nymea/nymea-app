@@ -350,7 +350,7 @@ Item {
                 borderColor: root.color
                 axisX: xAxis
                 axisY: yAxis
-                pointLabelsVisible: true
+                pointLabelsVisible: root.stateType.type.toLowerCase() !== "bool"
                 pointLabelsColor: app.foregroundColor
                 pointLabelsFont.pixelSize: app.smallFont
                 pointLabelsFormat: "@yPoint"

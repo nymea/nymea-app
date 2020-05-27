@@ -150,6 +150,8 @@ MainPageTile {
             case "awning":
             case "extendedawning":
             case "powersocket":
+            case "irrigation":
+            case "ventilation":
                 return buttonComponent
             case "media":
                 return mediaControlComponent
@@ -239,6 +241,8 @@ MainPageTile {
                     case "media":
                         return devicesProxy.get(0).name;
                     case "light":
+                    case "irrigation":
+                    case "ventilation":
                     case "powersocket":
                         var count = 0;
                         for (var i = 0; i < devicesProxy.count; i++) {
@@ -294,6 +298,8 @@ MainPageTile {
                             switch (iface.name) {
                             case "media":
                             case "light":
+                            case "irrigation":
+                            case "ventilation":
                                 return ""
                             case "garagegate":
                             case "blind":
@@ -314,6 +320,8 @@ MainPageTile {
                         switch (iface.name) {
                         case "light":
                         case "media":
+                        case "irrigation":
+                        case "ventilation":
                             break;
                         case "garagegate":
                         case "shutter":
@@ -350,6 +358,8 @@ MainPageTile {
                             switch (iface.name) {
                             case "media":
                             case "light":
+                            case "irrigation":
+                            case "ventilation":
                                 return ""
                             case "garagegate":
                             case "blind":
@@ -370,6 +380,8 @@ MainPageTile {
                         switch (iface.name) {
                         case "light":
                         case "media":
+                        case "irrigation":
+                        case "ventilation":
                             break;
                         case "garagegate":
                         case "shutter":
@@ -414,6 +426,8 @@ MainPageTile {
                                                                                               ""
                             case "light":
                             case "powersocket":
+                            case "irrigation":
+                            case "ventilation":
                                 return "../images/system-shutdown.svg"
                             case "garagegate":
                             case "blind":
@@ -433,6 +447,8 @@ MainPageTile {
                         switch (iface.name) {
                         case "light":
                         case "powersocket":
+                        case "irrigation":
+                        case "ventilation":
                             var allOff = true;
                             for (var i = 0; i < devicesProxy.count; i++) {
                                 var device = devicesProxy.get(i);

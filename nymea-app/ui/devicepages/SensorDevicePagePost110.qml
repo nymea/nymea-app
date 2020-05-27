@@ -35,43 +35,59 @@ import Nymea 1.0
 import "../components"
 import "../customviews"
 
-ListView {
+Flickable {
     id: listView
     anchors { fill: parent }
     interactive: contentHeight > height
-    model: ListModel {
-        Component.onCompleted: {
-            var supportedInterfaces = ["temperaturesensor", "humiditysensor", "pressuresensor", "moisturesensor", "lightsensor", "conductivitysensor", "noisesensor", "co2sensor", "presencesensor", "daylightsensor", "closablesensor"]
-            for (var i = 0; i < supportedInterfaces.length; i++) {
-                if (root.deviceClass.interfaces.indexOf(supportedInterfaces[i]) >= 0) {
-                    append({name: supportedInterfaces[i]});
+    contentHeight: contentGrid.implicitHeight
+
+    GridLayout {
+        id: contentGrid
+        width: parent.width
+        columns: width / 300
+
+        Repeater {
+            model: ListModel {
+                Component.onCompleted: {
+                    var supportedInterfaces = ["temperaturesensor", "humiditysensor", "pressuresensor", "moisturesensor", "lightsensor", "conductivitysensor", "noisesensor", "co2sensor", "presencesensor", "daylightsensor", "closablesensor"]
+                    for (var i = 0; i < supportedInterfaces.length; i++) {
+                        if (root.deviceClass.interfaces.indexOf(supportedInterfaces[i]) >= 0) {
+                            append({name: supportedInterfaces[i]});
+                        }
+                    }
                 }
             }
+
+            delegate: Loader {
+                id: loader
+                Layout.fillWidth: true
+                Layout.preferredHeight: item.implicitHeight
+
+                property StateType stateType: root.deviceClass.stateTypes.findByName(interfaceStateMap[modelData])
+                property string interfaceName: modelData
+
+//                sourceComponent: stateType && stateType.type.toLowerCase() === "bool" ? boolComponent : graphComponent
+                sourceComponent: graphComponent
+
+                property var interfaceStateMap: {
+                    "temperaturesensor": "temperature",
+                    "humiditysensor": "humidity",
+                    "pressuresensor": "pressure",
+                    "moisturesensor": "moisture",
+                    "lightsensor": "lightIntensity",
+                    "conductivitysensor": "conductivity",
+                    "noisesensor": "noise",
+                    "co2sensor": "co2",
+                    "presencesensor": "isPresent",
+                    "daylightsensor": "daylight",
+                    "closablesensor": "closed"
+                }
+            }
+
         }
     }
-    delegate: Loader {
-        id: loader
-        width: parent.width
 
-        property StateType stateType: root.deviceClass.stateTypes.findByName(interfaceStateMap[modelData])
-        property string interfaceName: modelData
 
-        sourceComponent: stateType && stateType.type.toLowerCase() === "bool" ? boolComponent : graphComponent
-
-        property var interfaceStateMap: {
-            "temperaturesensor": "temperature",
-            "humiditysensor": "humidity",
-            "pressuresensor": "pressure",
-            "moisturesensor": "moisture",
-            "lightsensor": "lightIntensity",
-            "conductivitysensor": "conductivity",
-            "noisesensor": "noise",
-            "co2sensor": "co2",
-            "presencesensor": "isPresent",
-            "daylightsensor": "daylight",
-            "closablesensor": "closed"
-        }
-    }
 
     Component {
         id: graphComponent

@@ -38,39 +38,55 @@ import "../customviews"
 Flickable {
     anchors.fill: parent
     clip: true
-    contentHeight: content.implicitHeight
+    contentHeight: contentColumn.implicitHeight
 
     property var device
     property var deviceClass
 
     ColumnLayout {
-        id: content
+        id: contentColumn
         width: parent.width
+
         WeatherView {
             Layout.fillWidth: true
             device: root.device
             deviceClass: root.deviceClass
         }
-        GenericTypeGraph {
+
+        GridLayout {
+            id: content
             Layout.fillWidth: true
-            device: root.device
-            stateType: root.deviceClass.stateTypes.findByName("temperature")
-            iconSource: app.interfaceToIcon("temperaturesensor")
-            color: app.interfaceToColor("temperaturesensor")
-        }
-        GenericTypeGraph {
-            Layout.fillWidth: true
-            device: root.device
-            stateType: root.deviceClass.stateTypes.findByName("humidity")
-            iconSource: app.interfaceToIcon("humiditysensor")
-            color: app.interfaceToColor("humiditysensor")
-        }
-        GenericTypeGraph {
-            Layout.fillWidth: true
-            device: root.device
-            stateType: root.deviceClass.stateTypes.findByName("pressure")
-            iconSource: app.interfaceToIcon("pressuresensor")
-            color: app.interfaceToColor("pressuresensor")
+            columns: Math.min(width / 300, 4)
+
+            GenericTypeGraph {
+                Layout.fillWidth: true
+                device: root.device
+                stateType: root.deviceClass.stateTypes.findByName("temperature")
+                iconSource: app.interfaceToIcon("temperaturesensor")
+                color: app.interfaceToColor("temperaturesensor")
+            }
+            GenericTypeGraph {
+                Layout.fillWidth: true
+                device: root.device
+                stateType: root.deviceClass.stateTypes.findByName("humidity")
+                iconSource: app.interfaceToIcon("humiditysensor")
+                color: app.interfaceToColor("humiditysensor")
+            }
+            GenericTypeGraph {
+                Layout.fillWidth: true
+                device: root.device
+                stateType: root.deviceClass.stateTypes.findByName("pressure")
+                iconSource: app.interfaceToIcon("pressuresensor")
+                color: app.interfaceToColor("pressuresensor")
+            }
+            GenericTypeGraph {
+                Layout.fillWidth: true
+                device: root.device
+                stateType: root.deviceClass.stateTypes.findByName("windSpeed")
+                iconSource: app.interfaceToIcon("windspeedsensor")
+                color: app.interfaceToColor("windspeedsensor")
+            }
         }
     }
+
 }
