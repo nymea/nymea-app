@@ -1,3 +1,10 @@
+nymea-app (1.0.209) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix description for debian/ubuntu package
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 27 May 2020 19:55:10 +0200
+
 nymea-app (1.0.208) bionic; urgency=medium
 
   [ Michael Zanetti ]
