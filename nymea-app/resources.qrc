@@ -214,5 +214,6 @@
         <file>ui/components/SettingsPageSectionHeader.qml</file>
         <file>ui/grouping/GroupInterfacesPage.qml</file>
         <file>ui/connection/CertificateErrorDialog.qml</file>
+        <file>ui/devicepages/VentilationDevicePage.qml</file>
     </qresource>
 </RCC>

@@ -269,6 +269,8 @@ Interfaces::Interfaces(QObject *parent) : QAbstractListModel(parent)
     addInterface("thermostat", tr("Thermostats"));
     addStateType("thermostat", "targetTemperature", QVariant::Double, true, tr("Target temperature"), tr("Target temperature changed"), tr("Set target temperature"));
 
+    addInterface("ventilation", tr("Ventilation"), {"power"});
+
     addInterface("volumecontroller", tr("Speakers"));
     addActionType("volumecontroller", "increaseVolume", tr("Increase volume"), new ParamTypes());
     addActionType("volumecontroller", "decreaseVolume", tr("Decrease volume"), new ParamTypes());
