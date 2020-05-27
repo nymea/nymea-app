@@ -42,11 +42,6 @@ QList<State *> States::states()
     return m_states;
 }
 
-int States::count() const
-{
-    return m_states.count();
-}
-
 State *States::get(int index) const
 {
     return m_states.at(index);
@@ -59,7 +54,7 @@ State *States::getState(const QUuid &stateTypeId) const
             return state;
         }
     }
-    return 0;
+    return nullptr;
 }
 
 int States::rowCount(const QModelIndex &parent) const
@@ -94,6 +89,7 @@ void States::addState(State *state)
         emit dataChanged(index(idx), index(idx), {ValueRole});
     });
     endInsertRows();
+    emit countChanged();
 }
 
 QHash<int, QByteArray> States::roleNames() const
