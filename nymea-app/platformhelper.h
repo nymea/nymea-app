@@ -85,6 +85,9 @@ public:
 
     Q_INVOKABLE virtual void vibrate(HapticsFeedback feedbackType) = 0;
 
+    Q_INVOKABLE virtual void toClipBoard(const QString &text);
+    Q_INVOKABLE virtual QString fromClipBoard();
+
 signals:
     void permissionsRequestFinished();
     void screenTimeoutChanged();

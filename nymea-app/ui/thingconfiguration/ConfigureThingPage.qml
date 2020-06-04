@@ -110,42 +110,36 @@ SettingsPageBase {
         }
     }
 
-
-    Label {
-        Layout.fillWidth: true
-        Layout.margins: app.margins
+    SettingsPageSectionHeader {
         text: qsTr("Information")
-        color: app.accentColor
     }
-    RowLayout {
-        Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
-        Label {
-            text: qsTr("Vendor:")
-            Layout.fillWidth: true
-        }
-        Label {
-            text: engine.deviceManager.vendors.getVendor(root.deviceClass.vendorId).displayName
-        }
+
+    NymeaListItemDelegate {
+        Layout.fillWidth: true
+        text: qsTr("Vendor:")
+        subText: engine.deviceManager.vendors.getVendor(root.deviceClass.vendorId).displayName
+        progressive: false
     }
-    RowLayout {
-        Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
-        Label {
-            text: qsTr("Type:")
-            Layout.fillWidth: true
-        }
-        Label {
-            text: root.deviceClass.displayName
+    NymeaListItemDelegate {
+        Layout.fillWidth: true
+        text: qsTr("Type:")
+        subText: root.deviceClass.displayName
+        progressive: false
+    }
+    NymeaListItemDelegate {
+        Layout.fillWidth: true
+        text: qsTr("ID:")
+        subText: root.device.id.toString().replace(/[{}]/g, "")
+        progressive: false
+        onClicked: {
+            PlatformHelper.toClipBoard(root.device.id.toString().replace(/[{}]/g, ""));
+            ToolTip.show(qsTr("ID copied to clipboard"), 500);
         }
     }
 
-    Label {
-        Layout.fillWidth: true
-        Layout.leftMargin: app.margins
-        Layout.rightMargin: app.margins
-        Layout.topMargin: app.margins
+    SettingsPageSectionHeader {
         text: qsTr("Parameters")
-        color: app.accentColor
-        visible: root.deviceClass.paramTypes.count > 0
+        visible: root.device.params.count > 0
     }
 
     Repeater {
@@ -158,13 +152,8 @@ SettingsPageBase {
         }
     }
 
-    Label {
-        Layout.fillWidth: true
-        Layout.leftMargin: app.margins
-        Layout.rightMargin: app.margins
-        Layout.topMargin: app.margins
+    SettingsPageSectionHeader {
         text: qsTr("Input/Output Connections")
-        color: app.accentColor
         visible: ioModel.count > 0
     }
 
@@ -224,13 +213,8 @@ SettingsPageBase {
     }
 
 
-    Label {
-        Layout.fillWidth: true
-        Layout.leftMargin: app.margins
-        Layout.rightMargin: app.margins
-        Layout.topMargin: app.margins
+    SettingsPageSectionHeader {
         text: qsTr("Settings")
-        color: app.accentColor
         visible: root.deviceClass.settingsTypes.count > 0
     }
 
