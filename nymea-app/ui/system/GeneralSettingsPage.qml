@@ -254,7 +254,7 @@ SettingsPageBase {
             var popup = dialog.createObject(app,
                                             {
                                                 headerIcon: "../images/dialog-warning-symbolic.svg",
-                                                title: qsTr("Reboot %1:core").arg(app.systemName),
+                                                title: qsTr("Reboot %1:core system").arg(app.systemName),
                                                 text: text,
                                                 standardButtons: Dialog.Ok | Dialog.Cancel
                                             });
@@ -268,7 +268,7 @@ SettingsPageBase {
         Layout.fillWidth: true
         Layout.leftMargin: app.margins
         Layout.rightMargin: app.margins
-        text: qsTr("Shutdown %1:core system").arg(app.systemName)
+        text: qsTr("Shut down %1:core system").arg(app.systemName)
         visible: engine.systemController.powerManagementAvailable
         onClicked: {
             var dialog = Qt.createComponent(Qt.resolvedUrl("../components/MeaDialog.qml"));
@@ -276,7 +276,7 @@ SettingsPageBase {
             var popup = dialog.createObject(app,
                                             {
                                                 headerIcon: "../images/dialog-warning-symbolic.svg",
-                                                title: qsTr("Shut down %1:core").arg(app.systemName),
+                                                title: qsTr("Shut down %1:core system").arg(app.systemName),
                                                 text: text,
                                                 standardButtons: Dialog.Ok | Dialog.Cancel
                                             });

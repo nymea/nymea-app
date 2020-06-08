@@ -337,39 +337,70 @@
     <name>CertificateDialog</name>
     <message>
         <source>Warning</source>
-        <translation>경고</translation>
+        <translation type="vanished">경고</translation>
     </message>
     <message>
         <source>Hi there!</source>
-        <translation>여러분 안녕하세요!</translation>
+        <translation type="vanished">여러분 안녕하세요!</translation>
     </message>
     <message>
         <source>Fingerprint: </source>
-        <translation>지문: </translation>
+        <translation type="vanished">지문: </translation>
     </message>
     <message>
         <source>Do you want to connect nevertheless?</source>
-        <translation>그럼에도 불구하고 연결하시겠습니까?</translation>
+        <translation type="vanished">그럼에도 불구하고 연결하시겠습니까?</translation>
     </message>
     <message>
         <source>Do you want to trust this device?</source>
-        <translation>이 장치를 신뢰하시겠습니까?</translation>
+        <translation type="vanished">이 장치를 신뢰하시겠습니까?</translation>
     </message>
     <message>
         <source>The certificate of this %1:core has changed!</source>
-        <translation>이 %1:코어의 인증서가 변경되었습니다!</translation>
+        <translation type="vanished">이 %1:코어의 인증서가 변경되었습니다!</translation>
     </message>
     <message>
         <source>It seems this is the first time you connect to this %1:core.</source>
-        <translation>이 %1:core에 처음 연결하는 것 같습니다.</translation>
+        <translation type="vanished">이 %1:core에 처음 연결하는 것 같습니다.</translation>
     </message>
     <message>
         <source>Did you change the system&apos;s configuration? Verify if this information is correct.</source>
-        <translation>시스템의 구성을 변경했습니까? 이 정보가 올바른지 확인합니다.</translation>
+        <translation type="vanished">시스템의 구성을 변경했습니까? 이 정보가 올바른지 확인합니다.</translation>
     </message>
     <message>
         <source>This is the certificate for this %1:core. Once you trust it, an encrypted connection will be established.</source>
-        <translation>이 %1:core에 대한 인증서입니다. 신뢰하면 암호화된 연결이 설정됩니다.</translation>
+        <translation type="vanished">이 %1:core에 대한 인증서입니다. 신뢰하면 암호화된 연결이 설정됩니다.</translation>
+    </message>
+    <message>
+        <source>Certificate information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>nymea UUID:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Organisation:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Common name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Fingerprint:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>CertificateErrorDialog</name>
+    <message>
+        <source>Insecure connection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The certificate for this %1 system has changed. This could be because the configuration has been changed, but could also mean the system has been compromised. Do you want to accept the new certificate?</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -687,7 +718,7 @@
     </message>
     <message>
         <source>Type</source>
-        <translation>유형</translation>
+        <translation type="vanished">유형</translation>
     </message>
     <message>
         <source>Thing parameters</source>
@@ -724,6 +755,70 @@
     <message>
         <source>Settings</source>
         <translation type="unfinished">설정</translation>
+    </message>
+    <message>
+        <source>Type:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ID:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ID copied to clipboard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Thing class</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>View the type definition for this thing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Input/Output Connections</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Not connected</source>
+        <translation type="unfinished">연결되지 않았습니다</translation>
+    </message>
+    <message>
+        <source>Connect Inputs/Outputs</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connect &quot;%1&quot; to:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Thing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Output</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Input</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Inverted</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">취소</translation>
+    </message>
+    <message>
+        <source>Disconnect</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connect</source>
+        <translation type="unfinished">접속하기</translation>
     </message>
 </context>
 <context>
@@ -834,6 +929,10 @@
     <message>
         <source>Connecting the %1:core to %2</source>
         <translation>%1:코어를 %2에 연결</translation>
+    </message>
+    <message>
+        <source>Hidden Network</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1796,11 +1895,11 @@ Please try again.</source>
     </message>
     <message>
         <source>Reboot %1:core</source>
-        <translation>재부팅 %1:코어</translation>
+        <translation type="vanished">재부팅 %1:코어</translation>
     </message>
     <message>
         <source>Shutdown %1:core</source>
-        <translation>종료 %1:코어</translation>
+        <translation type="vanished">종료 %1:코어</translation>
     </message>
     <message>
         <source>Are you sure you want to reboot your %1:core sytem now?</source>
@@ -1812,7 +1911,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Shut down %1:core</source>
-        <translation>%1:코어 종료</translation>
+        <translation type="vanished">%1:코어 종료</translation>
     </message>
     <message>
         <source>General settings</source>
@@ -1840,6 +1939,22 @@ Please try again.</source>
     </message>
     <message>
         <source>System</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Restart %1:core</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to restart %1:core now?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reboot %1:core system</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shut down %1:core system</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2369,10 +2484,6 @@ Please try again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Sensor</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Closable sensors</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2846,6 +2957,22 @@ Please try again.</source>
     </message>
     <message>
         <source>Signal strength changed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sensors</source>
+        <translation type="unfinished">센서</translation>
+    </message>
+    <message>
+        <source>Heating</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Irrigation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ventilation</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3561,6 +3688,78 @@ Please try again.</source>
         <source>Enabled</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>No wireless hardware available.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The access point cannot be found.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The network interface cannot be found.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Invalid network device type.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Wireless networking is disabled.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The wireless connection failed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Networking is disabled.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The network manager is not available.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hosting access point</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Network management is unavailable on this system.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Access Point</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Create Access Point</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connect to wireless network</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hidden Network</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connected to</source>
+        <translation type="unfinished">연결됨</translation>
+    </message>
+    <message>
+        <source>IPv4 Address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>IPv6 Address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>WiFi frequency</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>NewMagicPage</name>
@@ -3866,28 +4065,46 @@ Please try again.</source>
         <extracomment>Select ...</extracomment>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Irrigation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ventilation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>irrigation</source>
+        <extracomment>Select ...</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ventilation</source>
+        <extracomment>Select ...</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>NymeaConnection</name>
     <message>
         <source>Common Name:</source>
-        <translation>공용 이름:</translation>
+        <translation type="vanished">공용 이름:</translation>
     </message>
     <message>
         <source>Oragnisation:</source>
-        <translation>조직:</translation>
+        <translation type="vanished">조직:</translation>
     </message>
     <message>
         <source>Locality:</source>
-        <translation>지역:</translation>
+        <translation type="vanished">지역:</translation>
     </message>
     <message>
         <source>Oragnisational Unit:</source>
-        <translation>단체:</translation>
+        <translation type="vanished">단체:</translation>
     </message>
     <message>
         <source>Country:</source>
-        <translation>국가:</translation>
+        <translation type="vanished">국가:</translation>
     </message>
 </context>
 <context>
@@ -3953,6 +4170,10 @@ Please try again.</source>
     <message>
         <source>Confirm password</source>
         <translation type="unfinished">비밀번호 확인</translation>
+    </message>
+    <message>
+        <source>Password</source>
+        <translation type="unfinished">암호</translation>
     </message>
 </context>
 <context>
@@ -4054,6 +4275,14 @@ Please try again.</source>
     <message>
         <source>Unknown item</source>
         <translation>알 수 없는 항목</translation>
+    </message>
+    <message>
+        <source>True</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>False</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4609,6 +4838,14 @@ Please try again.</source>
         <source>%1: %2 %3 %4</source>
         <translation></translation>
     </message>
+    <message>
+        <source>True</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>False</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SmartMeterDeviceListPage</name>
@@ -4771,6 +5008,37 @@ Do you want to proceed?</source>
     <message>
         <source>Failure adding repository.</source>
         <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ThingClassDetailsPage</name>
+    <message>
+        <source>Type</source>
+        <translation type="unfinished">유형</translation>
+    </message>
+    <message>
+        <source>Parameters</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ID copied to clipboard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation type="unfinished">설정</translation>
+    </message>
+    <message>
+        <source>Events</source>
+        <translation type="unfinished">이벤트</translation>
+    </message>
+    <message>
+        <source>States</source>
+        <translation type="unfinished">상태</translation>
+    </message>
+    <message>
+        <source>Actions</source>
+        <translation type="unfinished">작동(조치)</translation>
     </message>
 </context>
 <context>

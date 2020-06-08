@@ -126,6 +126,7 @@ SettingsPageBase {
         subText: root.deviceClass.displayName
         progressive: false
     }
+
     NymeaListItemDelegate {
         Layout.fillWidth: true
         text: qsTr("ID:")
@@ -134,6 +135,15 @@ SettingsPageBase {
         onClicked: {
             PlatformHelper.toClipBoard(root.device.id.toString().replace(/[{}]/g, ""));
             ToolTip.show(qsTr("ID copied to clipboard"), 500);
+        }
+    }
+
+    NymeaListItemDelegate {
+        Layout.fillWidth: true
+        text: qsTr("Thing class")
+        subText: qsTr("View the type definition for this thing")
+        onClicked: {
+            pageStack.push(Qt.resolvedUrl("ThingClassDetailsPage.qml"), {device: root.device})
         }
     }
 
