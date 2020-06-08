@@ -522,11 +522,11 @@
     <name>CertificateDialog</name>
     <message>
         <source>Warning</source>
-        <translation>Warnung</translation>
+        <translation type="vanished">Warnung</translation>
     </message>
     <message>
         <source>Hi there!</source>
-        <translation>Hallo!</translation>
+        <translation type="vanished">Hallo!</translation>
     </message>
     <message>
         <source>The certificate of this %1 box has changed!</source>
@@ -546,31 +546,62 @@
     </message>
     <message>
         <source>Fingerprint: </source>
-        <translation>Fingerabdruck: </translation>
+        <translation type="vanished">Fingerabdruck: </translation>
     </message>
     <message>
         <source>Do you want to connect nevertheless?</source>
-        <translation>Möchtest Du trotzdem verbinden?</translation>
+        <translation type="vanished">Möchtest Du trotzdem verbinden?</translation>
     </message>
     <message>
         <source>Do you want to trust this device?</source>
-        <translation>Möchten Sie diesem Gerät vertrauen?</translation>
+        <translation type="vanished">Möchten Sie diesem Gerät vertrauen?</translation>
     </message>
     <message>
         <source>The certificate of this %1:core has changed!</source>
-        <translation>Das Zertifikat dieses %1:cores hat sich geändert!</translation>
+        <translation type="vanished">Das Zertifikat dieses %1:cores hat sich geändert!</translation>
     </message>
     <message>
         <source>It seems this is the first time you connect to this %1:core.</source>
-        <translation>Es scheint als würdest Du dich zum ersten Mal zu diesem %1:core verbinden.</translation>
+        <translation type="vanished">Es scheint als würdest Du dich zum ersten Mal zu diesem %1:core verbinden.</translation>
     </message>
     <message>
         <source>Did you change the system&apos;s configuration? Verify if this information is correct.</source>
-        <translation>Hast Du die Konfiguration des Systems verändert? Bitte überprüfe ob diese Information korrekt ist.</translation>
+        <translation type="vanished">Hast Du die Konfiguration des Systems verändert? Bitte überprüfe ob diese Information korrekt ist.</translation>
     </message>
     <message>
         <source>This is the certificate for this %1:core. Once you trust it, an encrypted connection will be established.</source>
-        <translation>Die ist das Zertifikat dieses %1:cores. Sobald Du ihm vertraust wird eine verschlüsselte Verbindung aufgebaut.</translation>
+        <translation type="vanished">Die ist das Zertifikat dieses %1:cores. Sobald Du ihm vertraust wird eine verschlüsselte Verbindung aufgebaut.</translation>
+    </message>
+    <message>
+        <source>Certificate information</source>
+        <translation>Zertifikatinformationen</translation>
+    </message>
+    <message>
+        <source>nymea UUID:</source>
+        <translation>nymea UUID:</translation>
+    </message>
+    <message>
+        <source>Organisation:</source>
+        <translation>Organisation:</translation>
+    </message>
+    <message>
+        <source>Common name:</source>
+        <translation>Name:</translation>
+    </message>
+    <message>
+        <source>Fingerprint:</source>
+        <translation>Fingerabdruck:</translation>
+    </message>
+</context>
+<context>
+    <name>CertificateErrorDialog</name>
+    <message>
+        <source>Insecure connection</source>
+        <translation>Unsichere Verbindung</translation>
+    </message>
+    <message>
+        <source>The certificate for this %1 system has changed. This could be because the configuration has been changed, but could also mean the system has been compromised. Do you want to accept the new certificate?</source>
+        <translation>Das Zeritifikat für dieses %1 system hat sich geändert. Dies könnte durch eine Änderrung der Konfiguration verursacht worden sein, könnte jedoch auch darauf hindeuten, dass das System kompromittiert wurde. Möchtest du diesem Zertifikat vertrauen?</translation>
     </message>
 </context>
 <context>
@@ -931,7 +962,7 @@
     </message>
     <message>
         <source>Type</source>
-        <translation>Typ</translation>
+        <translation type="vanished">Typ</translation>
     </message>
     <message>
         <source>Thing settings</source>
@@ -964,6 +995,70 @@
     <message>
         <source>Settings</source>
         <translation>Einstellungen</translation>
+    </message>
+    <message>
+        <source>Type:</source>
+        <translation>Typ:</translation>
+    </message>
+    <message>
+        <source>ID:</source>
+        <translation>ID:</translation>
+    </message>
+    <message>
+        <source>ID copied to clipboard</source>
+        <translation>ID in die Zwischenablage kopiert</translation>
+    </message>
+    <message>
+        <source>Thing class</source>
+        <translation>&quot;Thing&quot; Klasse</translation>
+    </message>
+    <message>
+        <source>View the type definition for this thing</source>
+        <translation>Genaue Typendefinition dieses &quot;Things&quot; anzeigen</translation>
+    </message>
+    <message>
+        <source>Input/Output Connections</source>
+        <translation>Verbindungen der Ein-/Ausgänge</translation>
+    </message>
+    <message>
+        <source>Not connected</source>
+        <translation>Nicht verbunden</translation>
+    </message>
+    <message>
+        <source>Connect Inputs/Outputs</source>
+        <translation>Verbundene Ein-/Ausgäange</translation>
+    </message>
+    <message>
+        <source>Connect &quot;%1&quot; to:</source>
+        <translation>Verbinde &quot;%1&quot; zu:</translation>
+    </message>
+    <message>
+        <source>Thing</source>
+        <translation>Thing</translation>
+    </message>
+    <message>
+        <source>Output</source>
+        <translation>Oausgang</translation>
+    </message>
+    <message>
+        <source>Input</source>
+        <translation>Eingang</translation>
+    </message>
+    <message>
+        <source>Inverted</source>
+        <translation>Invertiert</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Abbrechen</translation>
+    </message>
+    <message>
+        <source>Disconnect</source>
+        <translation>Trennen</translation>
+    </message>
+    <message>
+        <source>Connect</source>
+        <translation>Verbinden</translation>
     </message>
 </context>
 <context>
@@ -1206,6 +1301,10 @@
     <message>
         <source>Connecting the %1:core to %2</source>
         <translation>Verbinde %1:core mit %2</translation>
+    </message>
+    <message>
+        <source>Hidden Network</source>
+        <translation>Verstecktes Netzwerk</translation>
     </message>
 </context>
 <context>
@@ -2298,11 +2397,11 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Reboot %1:core</source>
-        <translation>%1:core neu starten</translation>
+        <translation type="vanished">%1:core system neu starten</translation>
     </message>
     <message>
         <source>Shutdown %1:core</source>
-        <translation>%1:core ausschalten</translation>
+        <translation type="vanished">%1:core ausschalten</translation>
     </message>
     <message>
         <source>Are you sure you want to reboot your %1:core sytem now?</source>
@@ -2318,7 +2417,7 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Shut down %1:core</source>
-        <translation>%1:core ausschalten</translation>
+        <translation type="vanished">%1:core System ausschalten</translation>
     </message>
     <message>
         <source>General settings</source>
@@ -2347,6 +2446,26 @@ Bitte versuche es erneut.</translation>
     <message>
         <source>System</source>
         <translation>System</translation>
+    </message>
+    <message>
+        <source>Restart %1:core</source>
+        <translation>%1:core neu starten</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to restart %1:core now?</source>
+        <translation>Bist du sicher, dass du %1:core jetzt neu starten möchtest?</translation>
+    </message>
+    <message>
+        <source>Reboot %1:core system</source>
+        <translation>%1:core System rebooten</translation>
+    </message>
+    <message>
+        <source>Shutdown %1:core system</source>
+        <translation type="vanished">%1:core System herunterfahren</translation>
+    </message>
+    <message>
+        <source>Shut down %1:core system</source>
+        <translation>Das %1:core System herunterfahren</translation>
     </message>
 </context>
 <context>
@@ -2899,7 +3018,7 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Sensor</source>
-        <translation>Sensor</translation>
+        <translation type="vanished">Sensor</translation>
     </message>
     <message>
         <source>Closable sensors</source>
@@ -3384,6 +3503,22 @@ Bitte versuche es erneut.</translation>
     <message>
         <source>Signal strength changed</source>
         <translation>Signalstärke geändert</translation>
+    </message>
+    <message>
+        <source>Sensors</source>
+        <translation>Sensoren</translation>
+    </message>
+    <message>
+        <source>Heating</source>
+        <translation>Heizung</translation>
+    </message>
+    <message>
+        <source>Irrigation</source>
+        <translation>Bewässerung</translation>
+    </message>
+    <message>
+        <source>Ventilation</source>
+        <translation>Belüftung</translation>
     </message>
 </context>
 <context>
@@ -4275,6 +4410,78 @@ Möchtest Du fortfahren?</translation>
         <source>Enabled</source>
         <translation>Aktiv</translation>
     </message>
+    <message>
+        <source>No wireless hardware available.</source>
+        <translation>Keine Hardware für Funkverbindung verfügbar.</translation>
+    </message>
+    <message>
+        <source>The access point cannot be found.</source>
+        <translation>Der Access Point konnte nicht gefunden werden.</translation>
+    </message>
+    <message>
+        <source>The network interface cannot be found.</source>
+        <translation>Die Netzwerkschnittstelle konnte nicht gefunden werden.</translation>
+    </message>
+    <message>
+        <source>Invalid network device type.</source>
+        <translation>Ungültiges Netzwerkgerät.</translation>
+    </message>
+    <message>
+        <source>Wireless networking is disabled.</source>
+        <translation>Die Funkverbindung ist deaktiviert.</translation>
+    </message>
+    <message>
+        <source>The wireless connection failed.</source>
+        <translation>Die Funkverbindung ist fehlgeschlagen.</translation>
+    </message>
+    <message>
+        <source>Networking is disabled.</source>
+        <translation>Das Netzwerk ist deaktiviert.</translation>
+    </message>
+    <message>
+        <source>The network manager is not available.</source>
+        <translation>Der Netzwerk-Manager ist nicht verfügbar.</translation>
+    </message>
+    <message>
+        <source>Hosting access point</source>
+        <translation>Access Point bereit</translation>
+    </message>
+    <message>
+        <source>Network management is unavailable on this system.</source>
+        <translation>Die Netwerkverwaltung ist auf dieses System nicht verfügbar.</translation>
+    </message>
+    <message>
+        <source>Access Point</source>
+        <translation>Access Point</translation>
+    </message>
+    <message>
+        <source>Create Access Point</source>
+        <translation>Access Point erstellen</translation>
+    </message>
+    <message>
+        <source>Connect to wireless network</source>
+        <translation>Mit Funknetzwerk verbinden</translation>
+    </message>
+    <message>
+        <source>Hidden Network</source>
+        <translation>Verstecktes Netzwerk</translation>
+    </message>
+    <message>
+        <source>Connected to</source>
+        <translation>Verbunden mit</translation>
+    </message>
+    <message>
+        <source>IPv4 Address</source>
+        <translation>IPv4 Adresse</translation>
+    </message>
+    <message>
+        <source>IPv6 Address</source>
+        <translation>IPv6 Adresse</translation>
+    </message>
+    <message>
+        <source>WiFi frequency</source>
+        <translation>Funkfrequenz</translation>
+    </message>
 </context>
 <context>
     <name>NewDeviceWizard</name>
@@ -4651,28 +4858,46 @@ Möchtest Du fortfahren?</translation>
         <extracomment>Select ...</extracomment>
         <translation>Smartlock</translation>
     </message>
+    <message>
+        <source>Irrigation</source>
+        <translation>Bewässerung</translation>
+    </message>
+    <message>
+        <source>Ventilation</source>
+        <translation>Belüftung</translation>
+    </message>
+    <message>
+        <source>irrigation</source>
+        <extracomment>Select ...</extracomment>
+        <translation>Bewässerung</translation>
+    </message>
+    <message>
+        <source>ventilation</source>
+        <extracomment>Select ...</extracomment>
+        <translation>Belüftung</translation>
+    </message>
 </context>
 <context>
     <name>NymeaConnection</name>
     <message>
         <source>Common Name:</source>
-        <translation>Allgemeiner Name:</translation>
+        <translation type="vanished">Allgemeiner Name:</translation>
     </message>
     <message>
         <source>Oragnisation:</source>
-        <translation>Organisation:</translation>
+        <translation type="vanished">Organisation:</translation>
     </message>
     <message>
         <source>Locality:</source>
-        <translation>Lokalität:</translation>
+        <translation type="vanished">Lokalität:</translation>
     </message>
     <message>
         <source>Oragnisational Unit:</source>
-        <translation>Organisationseinheit:</translation>
+        <translation type="vanished">Organisationseinheit:</translation>
     </message>
     <message>
         <source>Country:</source>
-        <translation>Land:</translation>
+        <translation type="vanished">Land:</translation>
     </message>
 </context>
 <context>
@@ -4738,6 +4963,10 @@ Möchtest Du fortfahren?</translation>
     <message>
         <source>Confirm password</source>
         <translation>Passwort bestätigen</translation>
+    </message>
+    <message>
+        <source>Password</source>
+        <translation>Passwort</translation>
     </message>
 </context>
 <context>
@@ -4851,6 +5080,14 @@ Möchtest Du fortfahren?</translation>
     <message>
         <source>Unknown item</source>
         <translation>Unbekanntes Element</translation>
+    </message>
+    <message>
+        <source>True</source>
+        <translation>Wahr</translation>
+    </message>
+    <message>
+        <source>False</source>
+        <translation>Falsch</translation>
     </message>
 </context>
 <context>
@@ -5553,6 +5790,14 @@ Möchtest Du fortfahren?</translation>
         <source>%1 %2: %3 %4 %5%6</source>
         <translation type="vanished">%1 %2: %3 %4 %5%6</translation>
     </message>
+    <message>
+        <source>True</source>
+        <translation>Wahr</translation>
+    </message>
+    <message>
+        <source>False</source>
+        <translation>Falsch</translation>
+    </message>
 </context>
 <context>
     <name>SmartMeterDeviceListPage</name>
@@ -5774,6 +6019,37 @@ Möchtest Du fortfahren?</translation>
     <message>
         <source>Failure adding repository.</source>
         <translation>Fehler beim Hinzufügen der Paketquelle.</translation>
+    </message>
+</context>
+<context>
+    <name>ThingClassDetailsPage</name>
+    <message>
+        <source>Type</source>
+        <translation>Typ</translation>
+    </message>
+    <message>
+        <source>Parameters</source>
+        <translation>Parameter</translation>
+    </message>
+    <message>
+        <source>ID copied to clipboard</source>
+        <translation>ID in die Zwischenablage kopiert</translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation>Einstellungen</translation>
+    </message>
+    <message>
+        <source>Events</source>
+        <translation>Ereignisse</translation>
+    </message>
+    <message>
+        <source>States</source>
+        <translation>Zustände</translation>
+    </message>
+    <message>
+        <source>Actions</source>
+        <translation>Aktionen</translation>
     </message>
 </context>
 <context>
