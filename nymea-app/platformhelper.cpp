@@ -30,6 +30,9 @@
 
 #include "platformhelper.h"
 
+#include <QApplication>
+#include <QClipboard>
+
 PlatformHelper::PlatformHelper(QObject *parent) : QObject(parent)
 {
 
@@ -84,4 +87,14 @@ void PlatformHelper::setBottomPanelColor(const QColor &color)
         m_bottomPanelColor = color;
         emit bottomPanelColorChanged();
     }
+}
+
+void PlatformHelper::toClipBoard(const QString &text)
+{
+    QApplication::clipboard()->setText(text);
+}
+
+QString PlatformHelper::fromClipBoard()
+{
+    return QApplication::clipboard()->text();
 }

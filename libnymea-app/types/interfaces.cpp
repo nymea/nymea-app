@@ -130,7 +130,7 @@ Interfaces::Interfaces(QObject *parent) : QAbstractListModel(parent)
     addInterface("extendedevcharger", tr("EV chargers"), {"evcharger"});
     addStateType("extendedevcharger", "maxChargingCurrent", QVariant::UInt, true, tr("Maximum charging current"), tr("Maximum charging current changed"), tr("Set maximum charging current"));
 
-    addInterface("heating", tr("Heatings"));
+    addInterface("heating", tr("Heating"));
     addStateType("heating", "power", QVariant::Bool, true, tr("Heating enabled"), tr("Heating enabled changed"), tr("Enable heating"));
 
     addInterface("extendedheating", tr("Heatings"), {"heating"});
