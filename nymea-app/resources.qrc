@@ -215,5 +215,6 @@
         <file>ui/grouping/GroupInterfacesPage.qml</file>
         <file>ui/connection/CertificateErrorDialog.qml</file>
         <file>ui/devicepages/VentilationDevicePage.qml</file>
+        <file>ui/thingconfiguration/ThingClassDetailsPage.qml</file>
     </qresource>
 </RCC>
