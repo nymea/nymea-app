@@ -1,3 +1,11 @@
+nymea-app (1.0.211) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Update translations
+  * Add a thing class viewer page to thing settings
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 08 Jun 2020 17:57:03 +0200
+
 nymea-app (1.0.210) bionic; urgency=medium
 
   [ Michael Zanetti ]
