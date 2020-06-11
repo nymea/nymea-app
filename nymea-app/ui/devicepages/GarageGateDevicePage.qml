@@ -51,11 +51,14 @@ DevicePageBase {
 
         ColorIcon {
             id: shutterImage
-            Layout.preferredWidth: root.landscape ? Math.min(parent.width - shutterControlsContainer.width, parent.height) - app.margins : parent.width
+            Layout.preferredWidth: root.landscape ?
+                                       Math.min(parent.width - shutterControlsContainer.minimumWidth, parent.height) - app.margins
+                                     : Math.min(Math.min(parent.width, 500), parent.height - shutterControlsContainer.minimumHeight)
             Layout.preferredHeight: width
+            Layout.alignment: Qt.AlignHCenter
             property string currentImage: root.openState.value === "closed" ? "100" :
                                     root.openState.value === "open" && root.intermediatePositionState.value === false ? "000" : "050"
-            name: "../images/shutter/shutter-" + currentImage + ".svg"
+            name: "../images/garage/garage-" + currentImage + ".svg"
 
             Item {
                 id: arrows
@@ -105,10 +108,11 @@ DevicePageBase {
 
         Item {
             id: shutterControlsContainer
-            Layout.preferredWidth: root.landscape ? Math.max(parent.width / 2, shutterControls.implicitWidth) : parent.width
-            Layout.minimumWidth: shutterControls.implicitWidth
+            Layout.fillWidth: true
+            Layout.margins: app.margins * 2
             Layout.fillHeight: true
-            Layout.minimumHeight: app.iconSize * 2.5
+            property int minimumWidth: app.iconSize * 2.5 * (root.lightState ? 4 : 3)
+            property int minimumHeight: app.iconSize * 2.5
 
             ShutterControls {
                 id: shutterControls
@@ -117,8 +121,8 @@ DevicePageBase {
                 spacing: (parent.width - app.iconSize*2*children.length) / (children.length - 1)
 
                 ItemDelegate {
-                    Layout.preferredWidth: app.iconSize * 2
-                    Layout.preferredHeight: width
+                    width: app.iconSize * 2
+                    height: width
                     visible: root.lightStateType !== null
 
                     ColorIcon {

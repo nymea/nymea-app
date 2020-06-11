@@ -72,8 +72,6 @@
         <file>ui/images/configure.svg</file>
         <file>ui/images/contact-new.svg</file>
         <file>ui/images/delete.svg</file>
-        <file>ui/images/DeviceIconBlind.svg</file>
-        <file>ui/images/DeviceIconRollerShutter.svg</file>
         <file>ui/images/dialog-error-symbolic.svg</file>
         <file>ui/images/dialog-warning-symbolic.svg</file>
         <file>ui/images/down.svg</file>
@@ -221,5 +219,18 @@
         <file>ui/images/browser/MediaBrowserIconRadioParadise.svg</file>
         <file>ui/images/io-connections.svg</file>
         <file>ui/images/sensors/windspeed.svg</file>
+        <file>ui/images/shutter/shutter-inlay.svg</file>
+        <file>ui/images/garage/garage-inlay.svg</file>
+        <file>ui/images/garage/garage-000.svg</file>
+        <file>ui/images/garage/garage-010.svg</file>
+        <file>ui/images/garage/garage-020.svg</file>
+        <file>ui/images/garage/garage-030.svg</file>
+        <file>ui/images/garage/garage-040.svg</file>
+        <file>ui/images/garage/garage-050.svg</file>
+        <file>ui/images/garage/garage-060.svg</file>
+        <file>ui/images/garage/garage-070.svg</file>
+        <file>ui/images/garage/garage-080.svg</file>
+        <file>ui/images/garage/garage-090.svg</file>
+        <file>ui/images/garage/garage-100.svg</file>
     </qresource>
 </RCC>

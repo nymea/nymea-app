@@ -13,7 +13,7 @@
    version="1.1"
    inkscape:version="1.0 (1.0+r73+1)"
    viewBox="0 0 96 96.000001"
-   sodipodi:docname="shutter-090.svg"
+   sodipodi:docname="shutter-inlay.svg"
    inkscape:export-filename="/home/micha/Develop/nymea-app/nymea-app/ui/images/shutter/shutter-100.svg.png"
    inkscape:export-xdpi="96"
    inkscape:export-ydpi="96">
@@ -159,12 +159,6 @@
            d="m 157.56075,1032.3622 h 4.00158 v -55.99998 h -4.00158 z"
            style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#808080;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:6.52053;marker:none;enable-background:accumulate" />
         <path
-           sodipodi:nodetypes="ccccccccccc"
-           inkscape:connector-curvature="0"
-           id="path4315"
-           d="m 141.99912,1040.3622 h 88.03483 v -72 h -4.00158 v 68 h -80.03166 v -64 h 80.03165 v -4 h -84.03324 z"
-           style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#808080;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4.00079;marker:none;enable-background:accumulate" />
-        <path
            style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#808080;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:6.52053;marker:none;enable-background:accumulate"
            d="m 150.00221,1032.3622 h 4.00158 v -55.99998 h -4.00158 z"
            id="path33"
@@ -210,6 +204,12 @@
            style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#808080;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:6.52053;marker:none;enable-background:accumulate"
            d="m 210.47053,1032.3622 h 4.00158 v -55.99998 h -4.00158 z"
            id="path47"
+           inkscape:connector-curvature="0"
+           sodipodi:nodetypes="ccccc" />
+        <path
+           style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#808080;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:6.52053;marker:none;enable-background:accumulate"
+           d="m 218.02907,1032.3622 h 4.00158 v -55.99998 h -4.00158 z"
+           id="path51"
            inkscape:connector-curvature="0"
            sodipodi:nodetypes="ccccc" />
       </g>

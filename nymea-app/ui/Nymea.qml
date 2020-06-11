@@ -275,12 +275,12 @@ ApplicationWindow {
             return Qt.resolvedUrl("images/send.svg")
         case "shutter":
         case "extendedshutter":
-            return Qt.resolvedUrl("images/DeviceIconRollerShutter.svg")
+            return Qt.resolvedUrl("images/shutter/shutter-040.svg")
         case "blind":
         case "extendedblind":
-            return Qt.resolvedUrl("images/DeviceIconBlind.svg")
+            return Qt.resolvedUrl("images/shutter/shutter-060.svg")
         case "garagegate":
-            return Qt.resolvedUrl("images/shutter/shutter-100.svg")
+            return Qt.resolvedUrl("images/garage/garage-100.svg")
         case "awning":
         case "extendedawning":
             return Qt.resolvedUrl("images/awning/awning-100.svg")
