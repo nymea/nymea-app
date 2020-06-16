@@ -76,7 +76,11 @@ Page {
             if (params.status !== "success") {
                 header.showInfo(params.error, true);
             } else  if (params.params.deviceError !== "DeviceErrorNoError") {
-                header.showInfo(qsTr("Error: %1").arg(params.params.deviceError), true)
+                if (params.params.displayMessage.length > 0) {
+                    header.showInfo(qsTr("Error: %1").arg(params.params.displayMessage), true)
+                } else {
+                    header.showInfo(qsTr("Error: %1").arg(params.params.deviceError), true)
+                }
             }
         }
         engine.deviceManager.refreshBrowserItems(d.model)
