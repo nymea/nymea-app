@@ -1,3 +1,12 @@
+nymea-app (1.0.212) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Show browser error messages to the user when available
+  * Fix event inidication LED in things details page
+  * Rework closable views and add support for venetian blinds
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 06 Jul 2020 14:21:26 +0200
+
 nymea-app (1.0.211) bionic; urgency=medium
 
   [ Michael Zanetti ]
