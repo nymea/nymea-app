@@ -432,7 +432,9 @@ DevicePageBase {
             Connections {
                 target: root.device
                 onEventTriggered: {
-                    flashlightAnimation.start();
+                    if (eventTypeId === eventComponentItem.eventType.id) {
+                        flashlightAnimation.start();
+                    }
                 }
             }
         }
