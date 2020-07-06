@@ -32,6 +32,7 @@ import QtQuick 2.5
 import QtQuick.Controls 2.1
 import QtQuick.Controls.Material 2.2
 import QtQuick.Layouts 1.1
+import QtGraphicalEffects 1.0
 import Nymea 1.0
 import "../components"
 import "../customviews"
@@ -39,96 +40,268 @@ import "../customviews"
 DevicePageBase {
     id: root
 
-    readonly property bool landscape: width > height
+    readonly property bool landscape: width > height * 1.5
     readonly property bool isExtended: deviceClass.interfaces.indexOf("extendedclosable") >= 0
-    readonly property var percentageState: isExtended ? device.states.getState(deviceClass.stateTypes.findByName("percentage").id) : 0
-    readonly property var movingState: isExtended ? device.states.getState(deviceClass.stateTypes.findByName("moving").id) : 0
+    readonly property bool isVenetian: deviceClass.interfaces.indexOf("venetianblind") >= 0
+
+    readonly property StateType movingStateType: isExtended ? deviceClass.stateTypes.findByName("moving") : null
+    readonly property StateType angleStateType: isVenetian ? deviceClass.stateTypes.findByName("angle") : null
+
+    readonly property State movingState: isExtended ? device.states.getState(movingStateType.id) : 0
+    readonly property State percentageState: isExtended ? device.states.getState(deviceClass.stateTypes.findByName("percentage").id) : 0
+    readonly property State angleState: isVenetian ? device.states.getState(angleStateType.id) : 0
+
+
+    readonly property bool moving: movingState ? movingState.value === true : false
+    readonly property int percentage: percentageState ? percentageState.value : 50
+    readonly property int angle: angleState ? angleState.value : 0
+
+    onMovingChanged: if (!moving) angleMovable.visible = false
 
     GridLayout {
         anchors.fill: parent
-        columns: root.landscape ? 2 : 1
+        columns: root.isVenetian ?
+                     root.landscape ? 3 : 2
+                   : root.landscape ? 2 : 1
 
-        ColorIcon {
-            id: shutterImage
-            Layout.preferredWidth: root.landscape ? Math.min(parent.width - shutterControlsContainer.width, parent.height) - app.margins : parent.width
-            Layout.preferredHeight: width
-            name: "../images/shutter/shutter-" + app.pad(isExtended ? Math.round(root.percentageState.value / 10) * 10 : 50, 3) + ".svg"
+        Item {
+            id: window
 
-            ClosableArrowAnimation {
-                id: arrowAnimation
-                anchors.centerIn: parent
+            Layout.preferredWidth: root.landscape ?
+                                       Math.min(parent.width *.4, parent.height)
+                                     : Math.min(Math.min(parent.width, 500), (parent.height - shutterControlsContainer.minimumHeight)) / (root.isVenetian ? 2 : 1)
+//            Layout.preferredWidth: root.landscape ?
+//                                       Math.min(parent.width - shutterControlsContainer.minimumWidth, parent.height) - app.margins
+//                                     : Math.min(Math.min(parent.width, parent.height - shutterControlsContainer.minimumHeight), 500)
+            Layout.preferredHeight: root.landscape ?
+                                        width
+                                      : width * (root.isVenetian ? 2 : 1)
+            Layout.alignment: root.landscape ? Qt.AlignVCenter : Qt.AlignHCenter
+            clip: true
 
-                onStateChanged: {
-                    if (state != "") {
-                        animationTimer.start();
+            ClosablesControlLarge {
+                anchors { left: parent.left; top: parent.top; bottom: parent.bottom; }
+                width: height
+                thing: root.device
+
+                ClosableArrowAnimation {
+                    id: arrowAnimation
+                    anchors.centerIn: parent
+                    anchors.horizontalCenterOffset: isVenetian ? -width: 0
+
+                    onStateChanged: {
+                        if (state != "") {
+                            animationTimer.start();
+                        }
+                    }
+
+                    Timer {
+                        id: animationTimer
+                        running: false
+                        interval: 5000
+                        repeat: false
+                        onTriggered: parent.state = ""
                     }
                 }
 
-                Timer {
-                    id: animationTimer
-                    running: false
-                    interval: 5000
-                    repeat: false
-                    onTriggered: parent.state = ""
+            }
+        }
+
+
+        Item {
+            id: angleControls
+            Layout.preferredWidth: root.landscape ? window.width / 2 : window.width
+            Layout.preferredHeight: window.height
+            visible: root.isVenetian
+
+            Item {
+                anchors.fill: parent
+
+                Item {
+                    anchors { fill: parent; topMargin: parent.height * .09; bottomMargin: parent.height * 0.09; leftMargin: app.margins * 2; rightMargin: app.margins * 2 }
+
+                    Repeater {
+                        model: 10
+                        Item {
+                            width: parent.height * .1
+                            height: width
+                            y: parent.height / 10 * index
+
+                            Rectangle {
+                                anchors.centerIn: parent
+                                width: parent.width
+                                height: width / 4
+                                rotation: root.angle
+                                color: "#808080"
+                            }
+                        }
+                    }
+
+                    Item {
+                        id: angleMovable
+                        anchors.fill: parent
+                        property int angle: 0
+                        visible: false
+
+                        Repeater {
+                            model: 10
+                            Item {
+                                width: parent.height * .1
+                                height: width
+                                y: parent.height / 10 * index
+
+                                Rectangle {
+                                    anchors.centerIn: parent
+                                    width: parent.width
+                                    height: width / 4
+                                    rotation: angleMovable.angle
+                                    color: app.foregroundColor
+                                    opacity: 0.1
+                                }
+                            }
+
+                        }
+                    }
+
+                    Item {
+                        anchors { top: parent.top; bottom: parent.bottom; right: parent.right; rightMargin: app.margins / 2 }
+                        width: parent.width * .5
+
+                        Rectangle {
+                            id: angleSlider
+                            anchors.fill: parent
+                            color: Qt.rgba(app.foregroundColor.r, app.foregroundColor.g, app.foregroundColor.b, 0.1)
+                            visible: false
+                            ColorIcon {
+                                anchors { horizontalCenter: parent.horizontalCenter; top: parent.top; topMargin: app.margins }
+                                height: app.iconSize
+                                width: app.iconSize
+                                name: "../images/up.svg"
+                            }
+                            ColorIcon {
+                                anchors { horizontalCenter: parent.horizontalCenter; bottom: parent.bottom; bottomMargin: app.margins }
+                                height: app.iconSize
+                                width: app.iconSize
+                                name: "../images/down.svg"
+                            }
+                            Rectangle {
+                                width: parent.width
+                                height: 2
+                                color: angleMouseArea.containsMouse ? app.accentColor : "transparent"
+                                y: angleMouseArea.mouseY
+                                onYChanged: sliderMask.update()
+                            }
+
+                        }
+                        Rectangle {
+                            id: mask
+                            anchors.fill: parent
+                            radius: app.margins
+                            color: "blue"
+                            visible: false
+                        }
+                        OpacityMask {
+                            id: sliderMask
+                            anchors.fill: parent
+                            source: angleSlider
+                            maskSource: mask
+                        }
+
+
+                        MouseArea {
+                            id: angleMouseArea
+                            anchors.fill: parent
+                            // angle : totalAngle  = mouseY : height
+                            property int totalAngle: root.angleStateType.maxValue - root.angleStateType.minValue
+                            property int angle: totalAngle * mouseY / height + root.angleStateType.minValue
+                            hoverEnabled: true
+
+                            property int startY: 0
+
+                            onPressed: {
+                                startY = mouseY
+                                angleMovable.visible = true
+                            }
+                            onMouseYChanged: if (pressed) angleMovable.angle = angle
+
+                            onReleased: {
+                                print("released at", angle)
+                                var targetAngle = 0
+                                if (Math.abs(mouseY - startY) < 5) {
+                                    print("clicked")
+                                    // clicked without drag
+                                    if (mouseY < width) {
+                                        print("top area")
+                                        // clicked in top area
+                                        if (root.angle > 5) {
+                                            targetAngle = 0;
+                                        } else {
+                                            targetAngle = root.angleStateType.minValue
+                                        }
+                                    } else if (mouseY > height - width){
+                                        print("bottom area")
+                                        //clicked in bottom area
+                                        if (root.angle < -5) {
+                                            targetAngle = 0;
+                                        } else {
+                                            targetAngle = root.angleStateType.maxValue
+                                        }
+                                    } else {
+                                        targetAngle = angle
+                                    }
+
+                                } else {
+                                    targetAngle = angle
+                                }
+
+                                angleMovable.angle = targetAngle
+
+
+                                var actionType = root.deviceClass.actionTypes.findByName("angle");
+                                var params = [];
+                                var percentageParam = {}
+                                percentageParam["paramTypeId"] = actionType.paramTypes.findByName("angle").id;
+                                percentageParam["value"] = targetAngle
+                                params.push(percentageParam);
+                                engine.deviceManager.executeAction(root.device.id, actionType.id, params);
+
+                            }
+                        }
+                    }
                 }
             }
         }
 
+
         Item {
             id: shutterControlsContainer
-            Layout.preferredWidth: root.landscape ? Math.max(parent.width / 2, shutterControls.implicitWidth) : parent.width
-            Layout.minimumWidth: shutterControls.implicitWidth
+            Layout.columnSpan: root.isVenetian && !root.landscape ? 2 : 1
+            Layout.fillWidth: true
+            Layout.maximumWidth: 500
+//            Layout.preferredWidth: root.landscape ? Math.max(parent.width / 2, shutterControls.implicitWidth) : parent.width
+            Layout.margins: app.margins * 2
+            Layout.alignment: Qt.AlignHCenter
             Layout.fillHeight: true
-            Layout.minimumHeight: app.iconSize * 2.5
+            property int minimumHeight: app.iconSize * 2.5
+            property int minimumWidth: app.iconSize * 2.5 * 3
 
-            Column {
-                anchors.centerIn: parent
-                width: parent.width - app.margins * 2
-                spacing: app.margins
+            ShutterControls {
+                id: shutterControls
+                device: root.device
+                width: parent.width
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.verticalCenter: parent.verticalCenter
+                spacing: (width - app.iconSize*2*children.length) / (children.length - 1)
 
-                Slider {
-                    id: percentageSlider
-                    width: parent.width
-                    from: 0
-                    to: 100
-                    stepSize: 1
-                    visible: isExtended
+                property int count: children.length
 
-                    Binding {
-                        target: percentageSlider
-                        property: "value"
-                        value: root.percentageState.value
-                        when: root.movingState.value === false
-                    }
-
-                    onPressedChanged: {
-                        if (pressed) {
-                            return;
-                        }
-
-                        var actionType = root.deviceClass.actionTypes.findByName("percentage");
-                        var params = [];
-                        var percentageParam = {}
-                        percentageParam["paramTypeId"] = actionType.paramTypes.findByName("percentage").id;
-                        percentageParam["value"] = value
-                        params.push(percentageParam);
-                        engine.deviceManager.executeAction(root.device.id, actionType.id, params);
-                    }
-                }
-
-                ShutterControls {
-                    id: shutterControls
-                    device: root.device
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    spacing: (parent.width - app.iconSize*2*children.length) / (children.length - 1)
-                    onActivated: {
-                        if (button == "open") {
-                            arrowAnimation.state = "opening"
-                        } else if (button == "close") {
-                            arrowAnimation.state = "closing"
-                        } else {
-                            arrowAnimation.state = ""
-                        }
+                onActivated: {
+                    if (button == "open") {
+                        arrowAnimation.state = "opening"
+                    } else if (button == "close") {
+                        arrowAnimation.state = "closing"
+                    } else {
+                        arrowAnimation.state = ""
                     }
                 }
             }

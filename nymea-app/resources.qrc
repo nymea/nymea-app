@@ -216,5 +216,6 @@
         <file>ui/connection/CertificateErrorDialog.qml</file>
         <file>ui/devicepages/VentilationDevicePage.qml</file>
         <file>ui/thingconfiguration/ThingClassDetailsPage.qml</file>
+        <file>ui/components/ClosablesControlLarge.qml</file>
     </qresource>
 </RCC>

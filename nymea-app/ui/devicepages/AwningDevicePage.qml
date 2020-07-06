@@ -50,8 +50,11 @@ DevicePageBase {
 
         ColorIcon {
             id: shutterImage
-            Layout.preferredWidth: root.landscape ? Math.min(parent.width - shutterControlsContainer.width, parent.height) - app.margins : parent.width
+            Layout.preferredWidth: root.landscape ?
+                                       Math.min(parent.width - shutterControlsContainer.minimumWidth, parent.height) - app.margins
+                                     : Math.min(Math.min(500, parent.width), parent.height - shutterControlsContainer.minimumHeight)
             Layout.preferredHeight: width
+            Layout.alignment: Qt.AlignHCenter
             name: "../images/awning/awning-" + app.pad(Math.round(root.percentageState.value / 10) * 10, 3) + ".svg"
             visible: isExtended
         }
@@ -59,14 +62,15 @@ DevicePageBase {
 
         Item {
             id: shutterControlsContainer
-            Layout.preferredWidth: root.landscape ? Math.max(parent.width / 2, shutterControls.implicitWidth) : parent.width
-            Layout.minimumWidth: shutterControls.implicitWidth
+            Layout.fillWidth: true
             Layout.fillHeight: true
-            Layout.minimumHeight: app.iconSize * 2.5
+            Layout.margins: app.margins * 2
+            property int minimumWidth: app.iconSize * 2.7 * 3
+            property int minimumHeight: app.iconSize * 4.5
 
             Column {
                 anchors.centerIn: parent
-                width: parent.width - app.margins * 2
+                width: parent.width
                 spacing: app.margins
 
                 Slider {
@@ -81,13 +85,14 @@ DevicePageBase {
                         target: percentageSlider
                         property: "value"
                         value: root.percentageState.value
-                        when: root.movingState.value === false
+                        when: !percentageSlider.pressed
                     }
 
                     onPressedChanged: {
-                        if (!pressed) {
+                        if (pressed) {
                             return
                         }
+                        print("should move", value)
 
                         var actionType = root.deviceClass.actionTypes.findByName("percentage");
                         var params = [];

@@ -34,9 +34,8 @@ import QtQuick.Controls.Material 2.2
 import QtQuick.Layouts 1.3
 import Nymea 1.0
 
-RowLayout {
+Row {
     id: root
-    implicitWidth: childrenRect.width
 
     property Device device: null
     readonly property var deviceClass: device ? engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
@@ -48,8 +47,8 @@ RowLayout {
     signal activated(string button);
 
     ItemDelegate {
-        Layout.preferredWidth: app.iconSize * 2
-        Layout.preferredHeight: width
+        width: app.iconSize * 2
+        height: width
 
         ColorIcon {
             anchors.fill: parent
@@ -65,8 +64,8 @@ RowLayout {
 
 
    ItemDelegate {
-        Layout.preferredWidth: app.iconSize * 2
-        Layout.preferredHeight: width
+       width: app.iconSize * 2
+       height: width
         visible: root.canStop
 //        color: Material.foreground
 //        radius: height / 2
@@ -83,8 +82,8 @@ RowLayout {
     }
 
     ItemDelegate {
-        Layout.preferredWidth: app.iconSize * 2
-        Layout.preferredHeight: width
+        width: app.iconSize * 2
+        height: width
 
         ColorIcon {
             anchors.fill: parent
