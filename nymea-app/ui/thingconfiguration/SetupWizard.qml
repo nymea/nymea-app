@@ -45,23 +45,8 @@ Page {
     // Optional: If set, it will be reconfigred, otherwise a new one will be created
     property Thing thing: null
 
+    signal aborted();
     signal done();
-
-    header: NymeaHeader {
-        text: root.thing ? qsTr("Reconfigure %1").arg(root.thing.name) : qsTr("Set up %1").arg(root.thingClass.displayName)
-        onBackPressed: {
-            if (internalPageStack.depth > 1) {
-                internalPageStack.pop();
-            } else {
-                pageStack.pop();
-            }
-        }
-
-        HeaderButton {
-            imageSource: "../images/close.svg"
-            onClicked: root.done();
-        }
-    }
 
     QtObject {
         id: d
@@ -72,6 +57,54 @@ Page {
         property int pairRequestId: 0
         property var pairingTransactionId: null
         property int addRequestId: 0
+        property var name: ""
+        property var params: []
+
+        function pairThing() {
+            print("setupMethod", root.thingClass.setupMethod)
+
+            switch (root.thingClass.setupMethod) {
+            case 0:
+                if (root.thing) {
+                    if (d.thingDescriptor) {
+                        engine.thingManager.reconfigureDiscoveredThing(root.thing.id, d.thingDescriptor.id, params);
+                    } else {
+                        engine.thingManager.reconfigureThing(root.thing.id, params);
+                    }
+                } else {
+                    if (d.thingDescriptor) {
+                        engine.thingManager.addDiscoveredThing(root.thingClass.id, d.thingDescriptor.id, d.name, params);
+                    } else {
+                        engine.thingManager.addThing(root.thingClass.id, d.name, params);
+                    }
+                }
+                break;
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+                if (root.thing) {
+                    if (d.thingDescriptor) {
+                        engine.thingManager.pairDiscoveredThing(d.thingDescriptor.id, params, d.name);
+                    } else {
+                        engine.thingManager.rePairThing(root.thing.id, params, d.name);
+                    }
+                    return;
+                } else {
+                    if (d.thingDescriptor) {
+                        engine.thingManager.pairDiscoveredThing(d.thingDescriptor.id, params, d.name);
+                    } else {
+                        engine.thingManager.pairThing(root.thingClass.id, params, d.name);
+                    }
+                }
+
+                break;
+            }
+
+            busyOverlay.shown = true;
+
+        }
     }
 
     Component.onCompleted: {
@@ -176,64 +209,50 @@ Page {
         id: internalPageStack
         anchors.fill: parent
     }
+    property QtObject pageStack: QtObject {
+        function pop(item) {
+            if (internalPageStack.depth > 1) {
+                internalPageStack.pop(item)
+            } else {
+                root.aborted()
+            }
+        }
+    }
 
     Component {
         id: discoveryParamsPage
-        Page {
+        SettingsPageBase {
             id: discoveryParamsView
+            title: qsTr("Discover %1").arg(root.thingClass.displayName)
 
-            ColumnLayout {
-                anchors.fill: parent
-                anchors.margins: 10
+            SettingsPageSectionHeader {
+                text: qsTr("Discovery options")
+            }
 
-                Flickable {
-                    Layout.fillHeight: true
+            Repeater {
+                id: paramRepeater
+                model: root.thingClass ? root.thingClass.discoveryParamTypes : null
+                delegate: ParamDelegate {
                     Layout.fillWidth: true
-                    ColumnLayout {
-                        width: parent.width
-
-                        Repeater {
-                            id: paramRepeater
-                            model: root.thingClass ? root.thingClass["discoveryParamTypes"] : null
-                            Loader {
-                                Layout.fillWidth: true
-                                sourceComponent: searchStringEntryComponent
-                                property var discoveryParams: model
-                                property var value: item ? item.value : null
-                            }
-                        }
-                        Button {
-                            Layout.fillWidth: true
-                            text: "Next"
-                            onClicked: {
-                                var paramTypes = root.thingClass["discoveryParamTypes"];
-                                d.discoveryParams = [];
-                                for (var i = 0; i < paramTypes.count; i++) {
-                                    var param = {};
-                                    param["paramTypeId"] = paramTypes.get(i).id;
-                                    param["value"] = paramRepeater.itemAt(i).value
-                                    d.discoveryParams.push(param);
-                                }
-                                discovery.discoverThings(root.thingClass.id, d.discoveryParams)
-                                internalPageStack.push(discoveryPage, {thingClass: root.thingClass})
-                            }
-                        }
-                    }
+                    paramType: root.thingClass.discoveryParamTypes.get(index)
                 }
+            }
 
-                Component {
-                    id: searchStringEntryComponent
-                    ColumnLayout {
-                        property alias value: searchTextField.text
-                        Label {
-                            text: discoveryParams.displayName
-                            Layout.fillWidth: true
-                        }
-                        TextField {
-                            id: searchTextField
-                            Layout.fillWidth: true
-                        }
+            Button {
+                Layout.fillWidth: true
+                Layout.margins: app.margins
+                text: "Next"
+                onClicked: {
+                    var paramTypes = root.thingClass.discoveryParamTypes;
+                    d.discoveryParams = [];
+                    for (var i = 0; i < paramTypes.count; i++) {
+                        var param = {};
+                        param["paramTypeId"] = paramTypes.get(i).id;
+                        param["value"] = paramRepeater.itemAt(i).value
+                        d.discoveryParams.push(param);
                     }
+                    discovery.discoverThings(root.thingClass.id, d.discoveryParams)
+                    internalPageStack.push(discoveryPage, {thingClass: root.thingClass})
                 }
             }
         }
@@ -242,102 +261,90 @@ Page {
     Component {
         id: discoveryPage
 
-        Page {
+        SettingsPageBase {
             id: discoveryView
 
-            property ThingClass thingClass: null
+            header: NymeaHeader {
+                text: qsTr("Discover %1").arg(root.thingClass.displayName)
+                backButtonVisible: true
+                onBackPressed: pageStack.pop()
 
-            ColumnLayout {
-                anchors.fill: parent
-                anchors.bottomMargin: app.margins
-
-                ListView {
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    clip: true
-                    model: ThingDiscoveryProxy {
-                        id: discoveryProxy
-                        thingDiscovery: discovery
-                        showAlreadyAdded: root.thing !== null
-                        showNew: root.thing === null
-                        filterThingId: root.thing ? root.thing.id : ""
-                    }
-                    delegate: NymeaSwipeDelegate {
-                        width: parent.width
-                        height: app.delegateHeight
-                        text: model.name
-                        subText: model.description
-                        iconName: app.interfacesToIcon(discoveryView.thingClass.interfaces)
-                        onClicked: {
-                            d.thingDescriptor = discoveryProxy.get(index);
-                            d.thingName = model.name;
-                            internalPageStack.push(paramsPage)
-                        }
-                    }
-                }
-                Button {
-                    id: retryButton
-                    Layout.fillWidth: true
-                    Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
-                    text: qsTr("Search again")
-                    onClicked: discovery.discoverThings(root.thingClass.id, d.discoveryParams)
-                    visible: !discovery.busy
-                }
-
-                Button {
-                    id: manualAddButton
-                    Layout.fillWidth: true
-                    Layout.leftMargin: app.margins; Layout.rightMargin: app.margins;
+                HeaderButton {
+                    imageSource: "../images/configure.svg"
                     visible: root.thingClass.createMethods.indexOf("CreateMethodUser") >= 0
                     text: qsTr("Add thing manually")
                     onClicked: internalPageStack.push(paramsPage)
                 }
             }
 
+            property ThingClass thingClass: null
 
-            ColumnLayout {
-                anchors.centerIn: parent
-                width: parent.width - app.margins * 2
-                visible: discovery.busy
-                spacing: app.margins * 2
-                Label {
-                    text: qsTr("Searching for things...")
-                    Layout.fillWidth: true
-                    font.pixelSize: app.largeFont
-                    horizontalAlignment: Text.AlignHCenter
+            SettingsPageSectionHeader {
+                text: qsTr("Nymea found the following things")
+                visible: !discovery.busy && discoveryProxy.count > 0
+            }
+
+            Repeater {
+                model: ThingDiscoveryProxy {
+                    id: discoveryProxy
+                    thingDiscovery: discovery
+                    showAlreadyAdded: root.thing !== null
+                    showNew: root.thing === null
+                    filterThingId: root.thing ? root.thing.id : ""
                 }
-                BusyIndicator {
-                    running: visible
-                    Layout.alignment: Qt.AlignHCenter
+                delegate: NymeaItemDelegate {
+                    Layout.fillWidth: true
+                    text: model.name
+                    subText: model.description
+                    iconName: app.interfacesToIcon(discoveryView.thingClass.interfaces)
+                    onClicked: {
+                        d.thingDescriptor = discoveryProxy.get(index);
+                        d.thingName = model.name;
+                        internalPageStack.push(paramsPage)
+                    }
                 }
             }
 
+            busy: discovery.busy
+            busyText: qsTr("Searching for things...")
+
             ColumnLayout {
-                anchors.centerIn: parent
-                width: parent.width - app.margins * 2
                 visible: !discovery.busy && discoveryProxy.count === 0
-                spacing: app.margins * 2
+                spacing: app.margins
+                Layout.preferredHeight: discoveryView.height - discoveryView.header.height - retryButton.height - app.margins * 3
                 Label {
                     text: qsTr("Too bad...")
                     font.pixelSize: app.largeFont
                     Layout.fillWidth: true
+                    Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
                     horizontalAlignment: Text.AlignHCenter
                 }
                 Label {
                     text: qsTr("No things of this kind could be found...")
                     Layout.fillWidth: true
+                    Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
                     wrapMode: Text.WordWrap
                     horizontalAlignment: Text.AlignHCenter
                 }
 
                 Label {
                     Layout.fillWidth: true
+                    Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
                     horizontalAlignment: Text.AlignHCenter
                     text: discovery.displayMessage.length === 0 ?
                               qsTr("Make sure your things are set up and connected, try searching again or go back and pick a different kind of thing.")
                             : discovery.displayMessage
                     wrapMode: Text.WordWrap
                 }
+
+            }
+            Button {
+                id: retryButton
+                Layout.fillWidth: true
+                Layout.margins: app.margins
+                text: qsTr("Search again")
+                onClicked: discovery.discoverThings(root.thingClass.id, d.discoveryParams)
+                visible: !discovery.busy
             }
         }
     }
@@ -345,138 +352,63 @@ Page {
     Component {
         id: paramsPage
 
-        Page {
+        SettingsPageBase {
             id: paramsView
-            Flickable {
-                anchors.fill: parent
-                contentHeight: paramsColumn.implicitHeight
+            title: root.thing ? qsTr("Reconfigure %1").arg(root.thing.name) : qsTr("Set up %1").arg(root.thingClass.displayName)
 
-                ColumnLayout {
-                    id: paramsColumn
-                    width: parent.width
+            SettingsPageSectionHeader {
+                text: qsTr("Name the thing:")
+            }
 
-                    ColumnLayout {
-//                        visible: root.thing === null
-                        Label {
-                            Layout.leftMargin: app.margins
-                            Layout.rightMargin: app.margins
-                            Layout.topMargin: app.margins
-                            Layout.fillWidth: true
-                            text: qsTr("Name the thing:")
-                        }
-                        TextField {
-                            id: nameTextField
-                            text: (d.thingName ? d.thingName : root.thingClass.displayName)
-                                  + (root.thingClass.id.toString().match(/\{?f0dd4c03-0aca-42cc-8f34-9902457b05de\}?/) ? " (" + PlatformHelper.machineHostname + ")" : "")
-                            Layout.fillWidth: true
-                            Layout.leftMargin: app.margins
-                            Layout.rightMargin: app.margins
-                        }
+            TextField {
+                id: nameTextField
+                text: d.thingName ? d.thingName : root.thingClass.displayName
+                Layout.fillWidth: true
+                Layout.leftMargin: app.margins
+                Layout.rightMargin: app.margins
+            }
 
-                        ThinDivider {
-                            visible: paramRepeater.count > 0
-                        }
-                    }
+            SettingsPageSectionHeader {
+                text: qsTr("Thing parameters")
+                visible: paramRepeater.count > 0
+            }
 
-                    Repeater {
-                        id: paramRepeater
-                        model: engine.jsonRpcClient.ensureServerVersion("1.12") || d.thingDescriptor == null ?  root.thingClass.paramTypes : null
-                        delegate: ParamDelegate {
+            Repeater {
+                id: paramRepeater
+                model: engine.jsonRpcClient.ensureServerVersion("1.12") || d.thingDescriptor == null ?  root.thingClass.paramTypes : null
+                delegate: ParamDelegate {
 //                            Layout.preferredHeight: 60
-                            Layout.fillWidth: true
-                            enabled: !model.readOnly
-                            paramType: root.thingClass.paramTypes.get(index)
-                            //visible: root.thingClass.id.toString().match(/\{?f0dd4c03-0aca-42cc-8f34-9902457b05de\}?/) === null
-                            value: {
-                                // Discovery, use params from discovered descriptor
-                                if (d.thingDescriptor && d.thingDescriptor.params.getParam(paramType.id)) {
-                                    return d.thingDescriptor.params.getParam(paramType.id).value
-                                }
+                    Layout.fillWidth: true
+                    enabled: !model.readOnly
+                    paramType: root.thingClass.paramTypes.get(index)
+                    value: d.thingDescriptor && d.thingDescriptor.params.getParam(paramType.id) ?
+                               d.thingDescriptor.params.getParam(paramType.id).value :
+                               root.thingClass.paramTypes.get(index).defaultValue
+                }
+            }
 
-                                // Special hook for push notifications as we need to provide the token etc implicitly
-                                print("Setting up params for thing class:", root.thingClass.id, root.thingClass.name)
-                                if (root.thingClass.id.toString().match(/\{?f0dd4c03-0aca-42cc-8f34-9902457b05de\}?/)) {
-                                    if (paramType.id.toString().match(/\{?3cb8e30e-2ec5-4b4b-8c8c-03eaf7876839\}?/)) {
-                                        return PushNotifications.service;
-                                    }
-                                    if (paramType.id.toString().match(/\{?12ec06b2-44e7-486a-9169-31c684b91c8f\}?/)) {
-                                        return PushNotifications.coreToken;
-                                    }
-                                    if (paramType.id.toString().match(/\{?d76da367-64e3-4b7d-aa84-c96b3acfb65e\}?/)) {
-                                        return PushNotifications.clientId;
-                                    }
-                                }
+            Button {
+                Layout.fillWidth: true
+                Layout.leftMargin: app.margins
+                Layout.rightMargin: app.margins
 
-                                // Manual setup, use default value from thing class
-                                return root.thingClass.paramTypes.get(index).defaultValue
-                            }
+                text: "OK"
+                onClicked: {
+                    var params = []
+                    for (var i = 0; i < paramRepeater.count; i++) {
+                        var param = {}
+                        var paramType = paramRepeater.itemAt(i).paramType
+                        if (!paramType.readOnly) {
+                            param.paramTypeId = paramType.id
+                            param.value = paramRepeater.itemAt(i).value
+                            print("adding param", param.paramTypeId, param.value)
+                            params.push(param)
                         }
                     }
 
-                    Button {
-                        Layout.fillWidth: true
-                        Layout.leftMargin: app.margins
-                        Layout.rightMargin: app.margins
-
-                        text: "OK"
-                        onClicked: {
-                            print("setupMethod", root.thingClass.setupMethod)
-
-                            var params = []
-                            for (var i = 0; i < paramRepeater.count; i++) {
-                                var param = {}
-                                var paramType = paramRepeater.itemAt(i).paramType
-                                if (!paramType.readOnly) {
-                                    param.paramTypeId = paramType.id
-                                    param.value = paramRepeater.itemAt(i).value
-                                    print("adding param", param.paramTypeId, param.value)
-                                    params.push(param)
-                                }
-                            }
-
-                            switch (root.thingClass.setupMethod) {
-                            case 0:
-                                if (root.thing) {
-                                    if (d.thingDescriptor) {
-                                        engine.thingManager.reconfigureDiscoveredThing(d.thingDescriptor.id, params);
-                                    } else {
-                                        engine.thingManager.reconfigureThing(root.thing.id, params);
-                                    }
-                                } else {
-                                    if (d.thingDescriptor) {
-                                        engine.thingManager.addDiscoveredThing(root.thingClass.id, d.thingDescriptor.id, nameTextField.text, params);
-                                    } else {
-                                        engine.thingManager.addThing(root.thingClass.id, nameTextField.text, params);
-                                    }
-                                }
-                                break;
-                            case 1:
-                            case 2:
-                            case 3:
-                            case 4:
-                            case 5:
-                                if (root.thing) {
-                                    if (d.thingDescriptor) {
-                                        engine.thingManager.pairDiscoveredThing(d.thingDescriptor.id, params, nameTextField.text);
-                                    } else {
-                                        engine.thingManager.rePairThing(root.thing.id, params, nameTextField.text);
-                                    }
-                                    return;
-                                } else {
-                                    if (d.thingDescriptor) {
-                                        engine.thingManager.pairDiscoveredThing(d.thingDescriptor.id, params, nameTextField.text);
-                                    } else {
-                                        engine.thingManager.pairThing(root.thingClass.id, params, nameTextField.text);
-                                    }
-                                }
-
-                                break;
-                            }
-
-                            busyOverlay.shown = true;
-
-                        }
-                    }
+                    d.params = params
+                    d.name = nameTextField.text
+                    d.pairThing();
                 }
             }
         }
@@ -484,54 +416,48 @@ Page {
 
     Component {
         id: pairingPageComponent
-        Page {
+        SettingsPageBase {
             id: pairingPage
+            title: root.thing ? qsTr("Reconfigure %1").arg(root.thing.name) : qsTr("Set up %1").arg(root.thingClass.displayName)
             property alias text: textLabel.text
 
             property string setupMethod
 
-            ColumnLayout {
-                anchors.centerIn: parent
-                width: parent.width - app.margins * 2
-                spacing: app.margins * 2
+            SettingsPageSectionHeader {
+                text: qsTr("Login required")
+            }
 
-                Label {
-                    Layout.fillWidth: true
-                    wrapMode: Text.WordWrap
-                    font.pixelSize: app.largeFont
-                    text: qsTr("Pairing...")
-                    color: Style.accentColor
-                    horizontalAlignment: Text.AlignHCenter
-                }
+            Label {
+                id: textLabel
+                Layout.fillWidth: true
+                Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
+                wrapMode: Text.WordWrap
+            }
 
-                Label {
-                    id: textLabel
-                    Layout.fillWidth: true
-                    wrapMode: Text.WordWrap
-                    horizontalAlignment: Text.AlignHCenter
-                }
+            TextField {
+                id: usernameTextField
+                Layout.fillWidth: true
+                Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
+                placeholderText: qsTr("Username")
+                visible: pairingPage.setupMethod === "SetupMethodUserAndPassword"
+            }
 
-                TextField {
-                    id: usernameTextField
-                    Layout.fillWidth: true
-                    visible: pairingPage.setupMethod === "SetupMethodUserAndPassword"
-                }
-
-                PasswordTextField {
-                    id: pinTextField
-                    Layout.fillWidth: true
-                    visible: pairingPage.setupMethod === "SetupMethodDisplayPin" || pairingPage.setupMethod === "SetupMethodUserAndPassword"
-                    signup: false
-                }
+            PasswordTextField {
+                id: pinTextField
+                Layout.fillWidth: true
+                Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
+                visible: pairingPage.setupMethod === "SetupMethodDisplayPin" || pairingPage.setupMethod === "SetupMethodUserAndPassword"
+                signup: false
+            }
 
 
-                Button {
-                    Layout.fillWidth: true
-                    text: "OK"
-                    onClicked: {
-                        engine.thingManager.confirmPairing(d.pairingTransactionId, pinTextField.password, usernameTextField.displayText);
-                        busyOverlay.shown = true;
-                    }
+            Button {
+                Layout.fillWidth: true
+                Layout.margins: app.margins
+                text: "OK"
+                onClicked: {
+                    engine.thingManager.confirmPairing(d.pairingTransactionId, pinTextField.password, usernameTextField.displayText);
+                    busyOverlay.shown = true;
                 }
             }
         }
@@ -542,6 +468,10 @@ Page {
         Page {
             id: oAuthPage
             property string oAuthUrl
+            header: NymeaHeader {
+                text: root.thing ? qsTr("Reconfigure %1").arg(root.thing.name) : qsTr("Set up %1").arg(root.thingClass.displayName)
+                onBackPressed: pageStack.pop()
+            }
 
             ColumnLayout {
                 anchors.centerIn: parent
@@ -617,6 +547,10 @@ Page {
 
         Page {
             id: resultsView
+            header: NymeaHeader {
+                text: root.thing ? qsTr("Reconfigure %1").arg(root.thing.name) : qsTr("Set up %1").arg(root.thingClass.displayName)
+                onBackPressed: pageStack.pop()
+            }
 
             property string thingId
             property int thingError
@@ -627,7 +561,7 @@ Page {
             readonly property Thing thing: root.thing ? root.thing : engine.thingManager.things.getThing(thingId)
 
             ColumnLayout {
-                width: parent.width - app.margins * 2
+                width: Math.min(500, parent.width - app.margins * 2)
                 anchors.centerIn: parent
                 spacing: app.margins * 2
                 Label {
@@ -652,8 +586,22 @@ Page {
                     text: resultsView.message
                 }
 
+
                 Button {
                     Layout.fillWidth: true
+                    Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
+                    visible: !resultsView.success
+                    text: "Retry"
+                    onClicked: {
+                        internalPageStack.pop({immediate: true});
+                        internalPageStack.pop({immediate: true});
+                        d.pairThing();
+                    }
+                }
+
+                Button {
+                    Layout.fillWidth: true
+                    Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
                     text: qsTr("Ok")
                     onClicked: {
                         root.done();
