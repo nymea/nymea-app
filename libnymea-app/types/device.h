@@ -105,7 +105,7 @@ signals:
     void paramsChanged();
     void settingsChanged();
     void statesChanged();
-    void eventTriggered(const QString &eventTypeId, const QVariantMap &params);
+    void eventTriggered(const QUuid &eventTypeId, const QVariantMap &params);
 
 private:
 
