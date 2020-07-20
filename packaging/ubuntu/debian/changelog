@@ -1,3 +1,11 @@
+nymea-app (1.0.213) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Improve color picker throttling
+  * User proper type for eventtypeId in events from things
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 20 Jul 2020 19:21:52 +0200
+
 nymea-app (1.0.212) bionic; urgency=medium
 
   [ Michael Zanetti ]
