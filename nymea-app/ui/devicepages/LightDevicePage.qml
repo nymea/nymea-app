@@ -262,6 +262,20 @@ DevicePageBase {
                     id: colorPicker
                     anchors.fill: parent
 
+                    property int pendingCommand: -1
+
+                    property var queuedColor: null
+
+                    function sendColor(color) {
+                        var params = [];
+                        var param1 = {};
+                        param1["paramTypeId"] = root.colorActionType.paramTypes.get(0).id;
+                        param1["value"] = color;
+                        params.push(param1)
+                        colorPicker.pendingCommand = engine.deviceManager.executeAction(root.device.id, root.colorActionType.id, params)
+                        print("sent command", colorPicker.pendingCommand, color)
+                    }
+
                     color: root.colorState ? root.colorState.value : "white"
                     touchDelegate: Rectangle {
                         height: 15
@@ -283,18 +297,32 @@ DevicePageBase {
                         }
                     }
 
-                    property var lastSentTime: new Date()
-                    onColorChanged: {
-                        var currentTime = new Date();
-                        if (pressed && currentTime - lastSentTime > 200) {
-                            var params = [];
-                            var param1 = {};
-                            param1["paramTypeId"] = root.colorActionType.paramTypes.get(0).id;
-                            param1["value"] = color;
-                            params.push(param1)
-                            engine.deviceManager.executeAction(root.device.id, root.colorActionType.id, params)
-                            lastSentTime = currentTime
+
+                    Connections {
+                        target: engine.deviceManager
+                        onExecuteActionReply: {
+                            print("action finished", JSON.stringify(params))
+                            if (params.id === colorPicker.pendingCommand) {
+                                colorPicker.pendingCommand = -1;
+                                if (colorPicker.queuedColor) {
+                                    colorPicker.sendColor(colorPicker.queuedColor);
+                                    colorPicker.queuedColor = null
+                                }
+                            }
                         }
+                    }
+
+                    onColorChanged: {
+                        if (!pressed) {
+                            return;
+                        }
+
+                        if (pendingCommand != -1) {
+                            queuedColor = color;
+                            return;
+                        }
+
+                        sendColor(color);
                     }
                 }
             }
