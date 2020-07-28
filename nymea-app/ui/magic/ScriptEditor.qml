@@ -97,7 +97,7 @@ Page {
             imageSource: "../images/question.svg"
             text: qsTr("Help")
             onClicked: {
-                Qt.openUrlExternally("https://nymea.io/en/wiki/nymea/master/configuration/scripting")
+                Qt.openUrlExternally("https://nymea.io/documentation/users/usage/scripting")
             }
         }
 
