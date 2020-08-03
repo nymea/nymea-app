@@ -248,7 +248,7 @@
     <name>BrowserContextMenu</name>
     <message>
         <source>Cancel</source>
-        <translation></translation>
+        <translation>Cancella</translation>
     </message>
     <message>
         <source>OK</source>
@@ -835,7 +835,7 @@
     </message>
     <message>
         <source>OK</source>
-        <translation></translation>
+        <translation>Ok</translation>
     </message>
     <message>
         <source>Connecting the %1:core to %2</source>
@@ -850,7 +850,7 @@
     <name>ConnectingPage</name>
     <message>
         <source>Connecting...</source>
-        <translation></translation>
+        <translation>Connettendo...</translation>
     </message>
     <message>
         <source>The network connection failed.</source>
@@ -882,7 +882,7 @@
     </message>
     <message>
         <source>Cancel</source>
-        <translation></translation>
+        <translation>Cancella</translation>
     </message>
     <message>
         <source>%1:core could not be found on this address. Please make sure you entered the address correctly and that the system is powered on.</source>
@@ -2894,7 +2894,7 @@ Please try again.</source>
     </message>
     <message>
         <source>OK</source>
-        <translation></translation>
+        <translation>Ok</translation>
     </message>
     <message>
         <source>An error happened with the user storage. Please make sure your %1:core system is installed correctly.</source>
@@ -3090,7 +3090,7 @@ Please try again.</source>
     </message>
     <message>
         <source>My favorites</source>
-        <translation></translation>
+        <translation>Preferiti</translation>
     </message>
     <message>
         <source>There are no favorite things yet.</source>
@@ -3146,7 +3146,7 @@ Please try again.</source>
     </message>
     <message>
         <source>OK</source>
-        <translation></translation>
+        <translation>Ok</translation>
     </message>
     <message>
         <source>Disconnect</source>
@@ -3163,7 +3163,7 @@ Please try again.</source>
         </translation></message>
     <message>
         <source>System settings</source>
-        <translation></translation>
+        <translation>Impostazioni di sistema</translation>
     </message>
     <message>
         <source>In order for your %1 system to be useful, go ahead and add some things.</source>
@@ -3179,11 +3179,11 @@ Please try again.</source>
     </message>
     <message>
         <source>My groups</source>
-        <translation></translation>
+        <translation>I miei gruppi</translation>
     </message>
     <message>
         <source>There are no groups set up yet.</source>
-        <translation></translation>
+        <translation>Non ci sono gruppi già impostati</translation>
     </message>
     <message>
         <source>Grouping things can be useful to control multiple devices at once, for example an entire room. Watch out for the group symbol when interacting with things and use it to add them to groups.</source>
@@ -4043,7 +4043,7 @@ Please try again.</source>
     </message>
     <message>
         <source>OK</source>
-        <translation></translation>
+        <translation>Ok</translation>
     </message>
     <message>
         <source>New connection</source>
@@ -4498,15 +4498,15 @@ Please try again.</source>
     <name>SetupWizard</name>
     <message>
         <source>Search again</source>
-        <translation></translation>
+        <translation>Cerca ancora</translation>
     </message>
     <message>
         <source>Add thing manually</source>
-        <translation></translation>
+        <translation>Aggiungi oggetti manualmente</translation>
     </message>
     <message>
         <source>Searching for things...</source>
-        <translation></translation>
+        <translation>Cercando oggetti...</translation>
     </message>
     <message>
         <source>Too bad...</source>
@@ -4514,11 +4514,11 @@ Please try again.</source>
     </message>
     <message>
         <source>No things of this kind could be found...</source>
-        <translation></translation>
+        <translation>Nessun oggetto di questo tipo può essere trovato...</translation>
     </message>
     <message>
         <source>Make sure your things are set up and connected, try searching again or go back and pick a different kind of thing.</source>
-        <translation></translation>
+        <translation>Assicurati che i tuoi oggetti siano configurati e connessi, prova a cercare nuovamente o torna indietro e scegli un tipo diverso di oggetto.</translation>
     </message>
     <message>
         <source>Name the thing:</source>
@@ -4530,11 +4530,11 @@ Please try again.</source>
     </message>
     <message>
         <source>Thing reconfigured!</source>
-        <translation></translation>
+        <translation>Oggetto configurato!</translation>
     </message>
     <message>
         <source>Thing added!</source>
-        <translation></translation>
+        <translation>Oggetto aggiunto!</translation>
     </message>
     <message>
         <source>Uh oh</source>
@@ -4542,11 +4542,11 @@ Please try again.</source>
     </message>
     <message>
         <source>All done. You can now start using %1.</source>
-        <translation></translation>
+        <translation>Fatto. Puoi ora iniziare a usare %1.</translation>
     </message>
     <message>
         <source>Something went wrong setting up this thing...</source>
-        <translation></translation>
+        <translation>Qualcosa è andato storto configurando questo oggetto...</translation>
     </message>
     <message>
         <source>Ok</source>
@@ -4570,7 +4570,7 @@ Please try again.</source>
     </message>
     <message>
         <source>OAuth is not supported on this platform. Please use this app on a different device to set up this thing.</source>
-        <translation></translation>
+        <translation>OAuth non è supportato su questa piattaforma. Per favore usa questa app su un dispositivo diverso per configurare questo oggetto.</translation>
     </message>
     <message>
         <source>In order to use OAuth on this platform, make sure qml-module-qtwebview is installed.</source>
@@ -4578,11 +4578,11 @@ Please try again.</source>
     </message>
     <message>
         <source>Reconfigure %1</source>
-        <translation></translation>
+        <translation>Riconfigura %1</translation>
     </message>
     <message>
         <source>Set up %1</source>
-        <translation></translation>
+        <translation>Configura %1</translation>
     </message>
 </context>
 <context>
@@ -4604,11 +4604,11 @@ Please try again.</source>
     </message>
     <message>
         <source>True</source>
-        <translation></translation>
+        <translation>Vero</translation>
     </message>
     <message>
         <source>False</source>
-        <translation></translation>
+        <translation>Falso</translation>
     </message>
 </context>
 <context>
@@ -4649,7 +4649,7 @@ Please try again.</source>
     <name>StateLogPage</name>
     <message>
         <source>History for %1</source>
-        <translation></translation>
+        <translation>Cronologia per %1</translation>
     </message>
     <message>
         <source>Log</source>
@@ -4657,7 +4657,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Graph</source>
-        <translation></translation>
+        <translation>Grafico</translation>
     </message>
 </context>
 <context>
@@ -4929,7 +4929,7 @@ Do you want to proceed?</source>
     </message>
     <message>
         <source>OK</source>
-        <translation></translation>
+        <translation>Ok</translation>
     </message>
 </context>
 <context>
@@ -5029,7 +5029,7 @@ Do you want to proceed?</source>
     </message>
     <message>
         <source>Add</source>
-        <translation></translation>
+        <translation>Aggiungi</translation>
     </message>
 </context>
 <context>
