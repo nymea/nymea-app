@@ -4562,7 +4562,7 @@ Please try again.</source>
     </message>
     <message>
         <source>This %1 system has not been set up yet. This wizard will guide you through a few simple steps to set it up.</source>
-        <translation>Questo systema %1 Non è ancora stato configurato. Questo tutorial ti guiderà attraverso alcuni semplici passaggi per configurarlo.</translation>
+        <translation>Questo sistema %1 non è ancora stato configurato. Questo tutorial ti guiderà attraverso alcuni semplici passaggi per configurarlo.</translation>
     </message>
     <message>
         <source>Next</source>
