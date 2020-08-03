@@ -2021,7 +2021,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Send notification</source>
-        <translation></translation>
+        <translation>Invia notifica</translation>
     </message>
     <message>
         <source>Lights</source>
