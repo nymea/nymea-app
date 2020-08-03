@@ -13,7 +13,7 @@
     </message>
     <message>
         <source>Connection:</source>
-        <translation></translation>
+        <translation>Connessione:</translation>
     </message>
     <message>
         <source>Server UUID:</source>
@@ -21,15 +21,15 @@
     </message>
     <message>
         <source>Server version:</source>
-        <translation></translation>
+        <translation>Versione server:</translation>
     </message>
     <message>
         <source>JSON-RPC version:</source>
-        <translation></translation>
+        <translation>Versione JSON-RPC:</translation>
     </message>
     <message>
         <source>Qt version:</source>
-        <translation></translation>
+        <translation>Versione Qt:</translation>
     </message>
     <message>
         <source>Built with %1</source>
@@ -44,11 +44,11 @@
     </message>
     <message>
         <source>App version:</source>
-        <translation></translation>
+        <translation>Versione app:</translation>
     </message>
     <message>
         <source>Qt version:</source>
-        <translation></translation>
+        <translation>Versione Qt:</translation>
     </message>
     <message>
         <source>Built with %1</source>
@@ -56,19 +56,19 @@
     </message>
     <message>
         <source>Suru icons by Ubuntu</source>
-        <translation></translation>
+        <translation>Icone Suru di Ubuntu</translation>
     </message>
     <message>
         <source>Ubuntu font by Ubuntu</source>
-        <translation></translation>
+        <translation>Font Ubuntu di Ubuntu</translation>
     </message>
     <message>
         <source>QtZeroConf library by Jonathan Bagg</source>
-        <translation></translation>
+        <translation>Libreria QtZeroConf di Jonathan Bagg</translation>
     </message>
     <message>
         <source>OpenSSL libraries by Eric Young</source>
-        <translation></translation>
+        <translation>Libreria OpenSSL di Eric Young</translation>
     </message>
     <message>
         <source>Oswald font by The Oswald Project</source>
@@ -86,7 +86,7 @@
     <name>AppSettingsPage</name>
     <message>
         <source>App Settings</source>
-        <translation></translation>
+        <translation>Impostazioni app</translation>
     </message>
     <message>
         <source>Look &amp; feel</source>
@@ -98,11 +98,11 @@
     </message>
     <message>
         <source>Cloud login</source>
-        <translation></translation>
+        <translation>Login cloud</translation>
     </message>
     <message>
         <source>Developer options</source>
-        <translation></translation>
+        <translation>Opzioni sviluppatore</translation>
     </message>
     <message>
         <source>About %1</source>
@@ -139,27 +139,27 @@
     <name>BluetoothDevice</name>
     <message>
         <source>Connecting to %1...</source>
-        <translation></translation>
+        <translation>Connettendo a %1...</translation>
     </message>
     <message>
         <source>Connected to %1</source>
-        <translation></translation>
+        <translation>Connesso a %1</translation>
     </message>
     <message>
         <source>Disconnecting from %1...</source>
-        <translation></translation>
+        <translation>Disconnettendo da %1...</translation>
     </message>
     <message>
         <source>Discovering services of %1...</source>
-        <translation></translation>
+        <translation>Scoprendo i servizi di %1...</translation>
     </message>
     <message>
         <source>%1 connected and discovered.</source>
-        <translation></translation>
+        <translation>%1 connesso e trovato.</translation>
     </message>
     <message>
         <source>%1 disconnected.</source>
-        <translation></translation>
+        <translation>%1 disconnesso.</translation>
     </message>
 </context>
 <context>
@@ -427,7 +427,7 @@
     </message>
     <message>
         <source>Welcome to %1:cloud.</source>
-        <translation></translation>
+        <translation>Benvenuto in %1:cloud.</translation>
     </message>
     <message>
         <source>Please enter your email address and pick a password in order to create a new account.</source>
@@ -866,7 +866,7 @@
     </message>
     <message>
         <source>%1:core has closed the connection. This probably means it has been turned off or restarted.</source>
-        <translation></translation>
+        <translation>%1:core ha chiuso la connessione. Significa probabilmente che è stato spento o riavviato.</translation>
     </message>
     <message>
         <source>%1:core did not respond. Please make sure your network connection works properly</source>
@@ -1997,27 +1997,27 @@ Please try again.</source>
     <name>Interfaces</name>
     <message>
         <source>Battery powered devices</source>
-        <translation></translation>
+        <translation>Dispositivi a batteria</translation>
     </message>
     <message>
         <source>Battery level is critical</source>
-        <translation></translation>
+        <translation>Il livello della batteria è critico</translation>
     </message>
     <message>
         <source>Battery level entered critical state</source>
-        <translation></translation>
+        <translation>Il livello della batteria è diventato critico</translation>
     </message>
     <message>
         <source>Notification services</source>
-        <translation></translation>
+        <translation>Servizi di notifica</translation>
     </message>
     <message>
         <source>Title</source>
-        <translation></translation>
+        <translation>Titolo</translation>
     </message>
     <message>
         <source>Message body</source>
-        <translation></translation>
+        <translation>Corpo del messaggio</translation>
     </message>
     <message>
         <source>Send notification</source>
@@ -2025,39 +2025,39 @@ Please try again.</source>
     </message>
     <message>
         <source>Lights</source>
-        <translation></translation>
+        <translation>Luci</translation>
     </message>
     <message>
         <source>Light is turned on</source>
-        <translation></translation>
+        <translation>La luce è accesa</translation>
     </message>
     <message>
         <source>A light is turned on or off</source>
-        <translation></translation>
+        <translation>Una luce è stata accesa o spenta</translation>
     </message>
     <message>
         <source>Turn lights on or off</source>
-        <translation></translation>
+        <translation>Accendi o spegni le luci</translation>
     </message>
     <message>
         <source>Temperature sensors</source>
-        <translation></translation>
+        <translation>Sensori di temperatura</translation>
     </message>
     <message>
         <source>Temperature</source>
-        <translation></translation>
+        <translation>Temperatura</translation>
     </message>
     <message>
         <source>Temperature has changed</source>
-        <translation></translation>
+        <translation>La temperatura è cambiata</translation>
     </message>
     <message>
         <source>Closable things</source>
-        <translation></translation>
+        <translation>Cose chiudibili</translation>
     </message>
     <message>
         <source>Powered things</source>
-        <translation></translation>
+        <translation>Cose alimentate</translation>
     </message>
     <message>
         <source>Thing is turned on</source>
@@ -2077,7 +2077,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Light&apos;s brightness is</source>
-        <translation></translation>
+        <translation>La luminosità della luce è</translation>
     </message>
     <message>
         <source>A light&apos;s brightness has changed</source>
@@ -2089,7 +2089,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Close</source>
-        <translation></translation>
+        <translation>Chiudi</translation>
     </message>
     <message>
         <source>Presence sensors</source>
@@ -2862,7 +2862,7 @@ Please try again.</source>
     <name>LoginPage</name>
     <message>
         <source>Welcome to %1!</source>
-        <translation></translation>
+        <translation>Benvenuto in %1!</translation>
     </message>
     <message>
         <source>Sorry, that wasn&apos;t right. Try again please.</source>
@@ -3114,7 +3114,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Welcome to %1!</source>
-        <translation></translation>
+        <translation>Benvenuto in %1!</translation>
     </message>
     <message>
         <source>There are no things set up yet.</source>
@@ -4001,7 +4001,7 @@ Please try again.</source>
     <name>PushButtonAuthPage</name>
     <message>
         <source>Welcome to %1!</source>
-        <translation></translation>
+        <translation>Benvenuto in %1!</translation>
     </message>
     <message>
         <source>Sorry, something went wrong during the setup. Try again please.</source>
@@ -4554,11 +4554,11 @@ Please try again.</source>
     </message>
     <message>
         <source>First setup</source>
-        <translation></translation>
+        <translation>Configurazione iniziale</translation>
     </message>
     <message>
         <source>Welcome to %1!</source>
-        <translation></translation>
+        <translation>Benvenuto in %1!</translation>
     </message>
     <message>
         <source>This %1 system has not been set up yet. This wizard will guide you through a few simple steps to set it up.</source>
@@ -4566,7 +4566,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Next</source>
-        <translation></translation>
+        <translation>Avanti</translation>
     </message>
     <message>
         <source>OAuth is not supported on this platform. Please use this app on a different device to set up this thing.</source>
@@ -5036,35 +5036,35 @@ Do you want to proceed?</source>
     <name>WirelessSetupManager</name>
     <message>
         <source>Invalid value.</source>
-        <translation></translation>
+        <translation>Valore non valido.</translation>
     </message>
     <message>
         <source>There is no networkmanager available on the device.</source>
-        <translation></translation>
+        <translation>Non c&apos;é alcun gestore di rete disponibile sul dispositivo.</translation>
     </message>
     <message>
         <source>There is no wireless device available on the device.</source>
-        <translation></translation>
+        <translation>Non c&apos;é alcun dispositivo wireless disponibile.</translation>
     </message>
     <message>
         <source>Invalid command.</source>
-        <translation></translation>
+        <translation>Comando non valido.</translation>
     </message>
     <message>
         <source>Invalid parameters.</source>
-        <translation></translation>
+        <translation>Parametri non validi.</translation>
     </message>
     <message>
         <source>The wireless networking is disabled on the device.</source>
-        <translation></translation>
+        <translation>La connettività wireless è disabilitata sul dispositivo.</translation>
     </message>
     <message>
         <source>The networking is disabled on the device.</source>
-        <translation></translation>
+        <translation>La connettività è disabilitata sul dispositivo.</translation>
     </message>
     <message>
         <source>Unknown error occured.</source>
-        <translation></translation>
+        <translation>Errore sconosciuto.</translation>
     </message>
 </context>
 <context>
