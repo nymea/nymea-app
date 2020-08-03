@@ -866,7 +866,7 @@
     </message>
     <message>
         <source>%1:core has closed the connection. This probably means it has been turned off or restarted.</source>
-        <translation>%1:core ha chiuso la connessione. Significa probabilmente che è stato spento o riavviato.</translation>
+        <translation>%1:core ha chiuso la connessione. Probabilmente è stato spento o riavviato.</translation>
     </message>
     <message>
         <source>%1:core did not respond. Please make sure your network connection works properly</source>
@@ -4562,7 +4562,7 @@ Please try again.</source>
     </message>
     <message>
         <source>This %1 system has not been set up yet. This wizard will guide you through a few simple steps to set it up.</source>
-        <translation></translation>
+        <translation>Questo systema %1 Non è ancora stato configurato. Questo tutorial ti guiderà attraverso alcuni semplici passaggi per configurarlo.</translation>
     </message>
     <message>
         <source>Next</source>
