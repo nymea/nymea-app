@@ -407,7 +407,7 @@
     </message>
     <message>
         <source>OK</source>
-        <translation></translation>
+        <translation>Ok</translation>
     </message>
     <message>
         <source>Failed to log in. Please try again. Do you perhaps have &lt;a href=&quot;#&quot;&gt;forgotten your password?&lt;/a&gt;</source>
@@ -800,7 +800,7 @@
     </message>
     <message>
         <source>There doesn&apos;t seem to be a %1:core installed in your network. Please make sure your %1:core system is correctly set up and connected.</source>
-        <translation>Non ci sembra essere un %1:core installato nella tua rete. Per favore assicurati che il tuo sistema %1:core sia configurato correttamente e connesso</translation>
+        <translation>Non ci sembra essere un %1:core installato nella tua rete. Per favore assicurati che il tuo sistema %1:core sia configurato correttamente e connesso.</translation>
     </message>
     <message>
         <source>Searching for %1:core systems...</source>
@@ -5071,31 +5071,31 @@ Do you want to proceed?</source>
     <name>WirelessSetupPage</name>
     <message>
         <source>Wireless network setup</source>
-        <translation></translation>
+        <translation>Configura rete wireless</translation>
     </message>
     <message>
         <source>IP address: %1</source>
-        <translation></translation>
+        <translation>Indirizzo IP: %1</translation>
     </message>
     <message>
         <source>Change network</source>
-        <translation></translation>
+        <translation>Cambia rete</translation>
     </message>
     <message>
         <source>Close wireless setup</source>
-        <translation></translation>
+        <translation>Chiudi configurazione wireless</translation>
     </message>
     <message>
         <source>Your %1:core is connected to %2</source>
-        <translation></translation>
+        <translation>Il tuo %1:core è connesso a %2</translation>
     </message>
     <message>
         <source>Waiting for the %1:core to appear in your network.</source>
-        <translation></translation>
+        <translation>Aspettando che %1:core appaia nella tua rete.</translation>
     </message>
     <message>
         <source>Connect to %1:core</source>
-        <translation></translation>
+        <translation>Connesso a %1:core</translation>
     </message>
 </context>
 <context>
