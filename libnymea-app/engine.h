@@ -50,6 +50,7 @@ class Engine : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(DeviceManager* deviceManager READ deviceManager CONSTANT)
+    Q_PROPERTY(DeviceManager* thingManager READ thingManager CONSTANT)
     Q_PROPERTY(RuleManager* ruleManager READ ruleManager CONSTANT)
     Q_PROPERTY(ScriptManager* scriptManager READ scriptManager CONSTANT)
     Q_PROPERTY(TagsManager* tagsManager READ tagsManager CONSTANT)
@@ -64,6 +65,7 @@ public:
     QString connectedHost() const;
 
     DeviceManager *deviceManager() const;
+    DeviceManager *thingManager() const;
     RuleManager *ruleManager() const;
     ScriptManager *scriptManager() const;
     TagsManager *tagsManager() const;
@@ -76,7 +78,7 @@ public:
 
 private:
     JsonRpcClient *m_jsonRpcClient;
-    DeviceManager *m_deviceManager;
+    DeviceManager *m_thingManager;
     RuleManager *m_ruleManager;
     ScriptManager *m_scriptManager;
     LogManager *m_logManager;

@@ -263,7 +263,7 @@ void DeviceManager::getVendorsResponse(const QVariantMap &params)
 
 void DeviceManager::getSupportedDevicesResponse(const QVariantMap &params)
 {
-//    qDebug() << "DeviceClass received:" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson(QJsonDocument::Indented));
+    qDebug() << "DeviceClass received:" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson(QJsonDocument::Indented));
     if (params.value("params").toMap().keys().contains("deviceClasses")) {
         QVariantList deviceClassList = params.value("params").toMap().value("deviceClasses").toList();
         foreach (QVariant deviceClassVariant, deviceClassList) {

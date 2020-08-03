@@ -42,7 +42,7 @@
 Engine::Engine(QObject *parent) :
     QObject(parent),
     m_jsonRpcClient(new JsonRpcClient(this)),
-    m_deviceManager(new DeviceManager(m_jsonRpcClient, this)),
+    m_thingManager(new DeviceManager(m_jsonRpcClient, this)),
     m_ruleManager(new RuleManager(m_jsonRpcClient, this)),
     m_scriptManager(new ScriptManager(m_jsonRpcClient, this)),
     m_logManager(new LogManager(m_jsonRpcClient, this)),
@@ -53,7 +53,7 @@ Engine::Engine(QObject *parent) :
 
     connect(m_jsonRpcClient, &JsonRpcClient::connectedChanged, this, &Engine::onConnectedChanged);
 
-    connect(m_deviceManager, &DeviceManager::fetchingDataChanged, this, &Engine::onDeviceManagerFetchingChanged);
+    connect(m_thingManager, &DeviceManager::fetchingDataChanged, this, &Engine::onDeviceManagerFetchingChanged);
 
     connect(AWSClient::instance(), &AWSClient::devicesFetched, this, [this]() {
         if (m_jsonRpcClient->connected() && m_jsonRpcClient->cloudConnectionState() == JsonRpcClient::CloudConnectionStateConnected) {
@@ -74,7 +74,12 @@ Engine::Engine(QObject *parent) :
 
 DeviceManager *Engine::deviceManager() const
 {
-    return m_deviceManager;
+    return m_thingManager;
+}
+
+DeviceManager *Engine::thingManager() const
+{
+    return m_thingManager;
 }
 
 RuleManager *Engine::ruleManager() const
@@ -131,20 +136,20 @@ void Engine::deployCertificate()
 void Engine::onConnectedChanged()
 {
     qDebug() << "Engine: connected changed:" << m_jsonRpcClient->connected();
-    m_deviceManager->clear();
+    m_thingManager->clear();
     m_ruleManager->clear();
     m_tagsManager->clear();
     if (m_jsonRpcClient->connected()) {
         qDebug() << "Engine: inital setup required:" << m_jsonRpcClient->initialSetupRequired() << "auth required:" << m_jsonRpcClient->authenticationRequired();
         if (!m_jsonRpcClient->initialSetupRequired() && !m_jsonRpcClient->authenticationRequired()) {
-            m_deviceManager->init();
+            m_thingManager->init();
         }
     }
 }
 
 void Engine::onDeviceManagerFetchingChanged()
 {
-    if (!m_deviceManager->fetchingData()) {
+    if (!m_thingManager->fetchingData()) {
         m_ruleManager->init();
         m_scriptManager->init();
         m_nymeaConfiguration->init();

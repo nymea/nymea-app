@@ -77,7 +77,7 @@ SettingsPageBase {
             Layout.fillWidth: true
             text: qsTr("Qt version:")
             visible: engine.jsonRpcClient.ensureServerVersion("4.1")
-            subText: engine.jsonRpcClient.serverQtVersion + (engine.jsonRpcClient.serverQtVersion !== engine.jsonRpcClient.serverQtBuildVersion ? + " (" + qsTr("Built with %1").arg(engine.jsonRpcClient.serverQtBuildVersion) + ")" : "")
+            subText: engine.jsonRpcClient.serverQtVersion + (engine.jsonRpcClient.serverQtVersion !== engine.jsonRpcClient.serverQtBuildVersion ? " (" + qsTr("Built with %1").arg(engine.jsonRpcClient.serverQtBuildVersion) + ")" : "")
             progressive: false
             prominentSubText: false
         }

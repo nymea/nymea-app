@@ -70,8 +70,9 @@ MainPageTile {
         case "smartmeter":
             page ="SmartMeterDeviceListPage.qml";
             break;
-        case "garagegate":
-            page = "GarageDeviceListPage.qml";
+        case "garagegate": // Deprecated, might not inherit garagedoor in old versions
+        case "garagedoor":
+            page = "GarageThingListPage.qml";
             break;
         case "awning":
         case "extendedAwning":

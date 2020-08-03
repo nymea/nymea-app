@@ -110,7 +110,7 @@ ApplicationWindow {
         "light",
         "weather",
         "media",
-        "garagegate",
+        "garagedoor",
         "awning",
         "shutter",
         "blind",
@@ -172,7 +172,7 @@ ApplicationWindow {
         case "awning":
         case "extendedawning":
             return qsTr("Awnings");
-        case "garagegate":
+        case "garagedoor":
             return qsTr("Garage doors");
         case "accesscontrol":
             return qsTr("Access control");
@@ -209,6 +209,7 @@ ApplicationWindow {
     }
 
     function interfacesToIcon(interfaces) {
+        print("finding icon for interfaces:", interfaces)
         for (var i = 0; i < interfaces.length; i++) {
             var icon = interfaceToIcon(interfaces[i]);
             if (icon !== "") {
@@ -219,6 +220,7 @@ ApplicationWindow {
     }
 
     function interfaceToIcon(name) {
+        print("finding icon for interface:", name)
         switch (name) {
         case "light":
         case "colorlight":
@@ -279,7 +281,7 @@ ApplicationWindow {
         case "blind":
         case "extendedblind":
             return Qt.resolvedUrl("images/shutter/shutter-060.svg")
-        case "garagegate":
+        case "garagedoor":
             return Qt.resolvedUrl("images/garage/garage-100.svg")
         case "awning":
         case "extendedawning":
@@ -289,7 +291,7 @@ ApplicationWindow {
         case "uncategorized":
             return Qt.resolvedUrl("images/select-none.svg")
         case "simpleclosable":
-            return Qt.resolvedUrl("images/sort-listitem.svg")
+            return Qt.resolvedUrl("images/closable-move.svg")
         case "fingerprintreader":
             return Qt.resolvedUrl("images/fingerprint.svg")
         case "accesscontrol":
@@ -451,8 +453,8 @@ ApplicationWindow {
             page = "SensorDevicePage.qml";
         } else if (interfaceList.indexOf("inputtrigger") >= 0) {
             page = "InputTriggerDevicePage.qml";
-        } else if (interfaceList.indexOf("garagegate") >= 0 ) {
-            page = "GarageGateDevicePage.qml";
+        } else if (interfaceList.indexOf("garagedoor") >= 0 ) {
+            page = "GarageThingPage.qml";
         } else if (interfaceList.indexOf("light") >= 0) {
             page = "LightDevicePage.qml";
         } else if (interfaceList.indexOf("shutter") >= 0  || interfaceList.indexOf("blind") >= 0) {

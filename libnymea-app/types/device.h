@@ -46,6 +46,7 @@ class Device : public QObject
     Q_OBJECT
     Q_PROPERTY(QUuid id READ id CONSTANT)
     Q_PROPERTY(QUuid deviceClassId READ deviceClassId CONSTANT)
+    Q_PROPERTY(QUuid thingClassId READ thingClassId CONSTANT)
     Q_PROPERTY(QUuid parentDeviceId READ parentDeviceId CONSTANT)
     Q_PROPERTY(bool isChild READ isChild CONSTANT)
     Q_PROPERTY(QString name READ name NOTIFY nameChanged)
@@ -55,6 +56,7 @@ class Device : public QObject
     Q_PROPERTY(Params *settings READ settings NOTIFY settingsChanged)
     Q_PROPERTY(States *states READ states NOTIFY statesChanged)
     Q_PROPERTY(DeviceClass *deviceClass READ deviceClass CONSTANT)
+    Q_PROPERTY(DeviceClass *thingClass READ thingClass CONSTANT)
 
 public:
     enum DeviceSetupStatus {
@@ -74,6 +76,7 @@ public:
     void setName(const QString &name);
 
     QUuid deviceClassId() const;
+    QUuid thingClassId() const;
     QUuid parentDeviceId() const;
     bool isChild() const;
 
@@ -91,6 +94,7 @@ public:
     void setStates(States *states);
 
     DeviceClass *deviceClass() const;
+    DeviceClass *thingClass() const;
 
     Q_INVOKABLE bool hasState(const QUuid &stateTypeId);
 
