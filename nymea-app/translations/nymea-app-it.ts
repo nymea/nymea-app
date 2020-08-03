@@ -515,8 +515,8 @@
     </message>
     <message numerus="yes">
         <source>There are %n %1:core systems connected to your cloud.</source>
-        <translation><numerusform>C&apos;è un sistema %1:core connesso al tuo cloud</numerusform>
-        <numerusform>Ci sono %n sistemi %1:core connessi al tuo cloud</numerusform>
+        <translation><numerusform>C&apos;è un sistema %1:core connesso al tuo cloud.</numerusform>
+        <numerusform>Ci sono %n sistemi %1:core connessi al tuo cloud.</numerusform>
         </translation></message>
     <message>
         <source>Sorry to see you go. If you log out you won&apos;t be able to connect to %1:core systems remotely any more. However, you can come back any time, we&apos;ll keep your user account. If you whish to completely delete your account and all the data associated with it, check the box below before hitting ok. If you decide to delete your account, all your personal information will be removed from %1:cloud and cannot be restored.</source>
