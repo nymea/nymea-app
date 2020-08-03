@@ -736,51 +736,51 @@
     <name>ConnectPage</name>
     <message>
         <source>Connect %1</source>
-        <translation></translation>
+        <translation>Connetti %1</translation>
     </message>
     <message>
         <source>Manual connection</source>
-        <translation></translation>
+        <translation>Connessione manuale</translation>
     </message>
     <message>
         <source>Wireless setup</source>
-        <translation></translation>
+        <translation>Configurazione wireless</translation>
     </message>
     <message>
         <source>Demo mode</source>
-        <translation></translation>
+        <translation>Modalità demo</translation>
     </message>
     <message>
         <source>App settings</source>
-        <translation></translation>
+        <translation>Impostazioni app</translation>
     </message>
     <message>
         <source>Oh, look!</source>
-        <translation></translation>
+        <translation>Oh, guarda!</translation>
     </message>
     <message>
         <source>Just a moment...</source>
-        <translation></translation>
+        <translation>Solo un momento...</translation>
     </message>
     <message>
         <source>Uh oh</source>
-        <translation></translation>
+        <translation>Oh oh</translation>
     </message>
     <message>
         <source>Start wireless setup</source>
-        <translation></translation>
+        <translation>Inizia configurazione wireless</translation>
     </message>
     <message>
         <source>Cloud login</source>
-        <translation></translation>
+        <translation>Login cloud</translation>
     </message>
     <message>
         <source>Demo mode (online)</source>
-        <translation></translation>
+        <translation>Modalità demo (online)</translation>
     </message>
     <message>
         <source>Not the ones you&apos;re looking for? We&apos;re looking for more!</source>
-        <translation></translation>
+        <translation>Non trovi quello che stavi cercando? Ne stiamo cercando di nuovi!</translation>
     </message>
     <message>
         <source>Box information</source>
@@ -788,27 +788,27 @@
     </message>
     <message>
         <source>Available connections</source>
-        <translation></translation>
+        <translation>Connessioni disponibili</translation>
     </message>
     <message>
         <source>There are %1 %2:cores in your network! Which one would you like to use?</source>
-        <translation></translation>
+        <translation>Ci sono %1 %2:core nella tua rete! Quale vuoi usare?</translation>
     </message>
     <message>
         <source>We haven&apos;t found a %1:core in your network yet.</source>
-        <translation></translation>
+        <translation>Non abbiamo ancora trovato un %1:core nella tua rete.</translation>
     </message>
     <message>
         <source>There doesn&apos;t seem to be a %1:core installed in your network. Please make sure your %1:core system is correctly set up and connected.</source>
-        <translation></translation>
+        <translation>Non ci sembra essere un %1:core installato nella tua rete. Per favore assicurati che il tuo sistema %1:core sia configurato correttamente e connesso</translation>
     </message>
     <message>
         <source>Searching for %1:core systems...</source>
-        <translation></translation>
+        <translation>Cercando sistemi %1:core...</translation>
     </message>
     <message>
         <source>Do you have a %1:core but it&apos;s not connected to your network yet? Use the wireless setup to connect it!</source>
-        <translation></translation>
+        <translation>Hai un %1:core ma non è ancora connesso alla tua rete? Usa la configurazione wireless per connetterlo!</translation>
     </message>
     <message>
         <source>Info</source>
