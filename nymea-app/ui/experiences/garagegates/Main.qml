@@ -36,19 +36,19 @@ import Nymea 1.0
 
 Item {
     id: root
-    readonly property string title: qsTr("Garage gates")
+    readonly property string title: qsTr("Garage doors")
     readonly property string icon: Qt.resolvedUrl("qrc:/ui/images/shutter/shutter-050.svg")
 
     DevicesProxy {
         id: garagesFilterModel
         engine: _engine
-        shownInterfaces: ["garagegate"]
+        shownInterfaces: ["garagedoors"]
     }
 
     EmptyViewPlaceholder {
         anchors.centerIn: parent
         width: parent.width - app.margins * 2
-        text: qsTr("There are no garage gates set up yet.")
+        text: qsTr("There are no garage doors set up yet.")
         imageSource: "qrc:/ui/images/shutter/shutter-050.svg"
         buttonText: qsTr("Set up now")
         visible: garagesFilterModel.count === 0

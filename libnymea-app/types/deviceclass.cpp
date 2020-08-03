@@ -129,8 +129,8 @@ QString DeviceClass::baseInterface() const
         if (interface == "blind") {
             return "blind";
         }
-        if (interface == "garagegate") {
-            return "garagegate";
+        if (interface == "garagedoor") {
+            return "garagedoor";
         }
         if (interface == "inputtrigger") {
             return "inputtrigger";

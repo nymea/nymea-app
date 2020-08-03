@@ -40,10 +40,31 @@ DevicePageBase {
     id: root
 
     readonly property bool landscape: width > height
-    readonly property var openState: device.states.getState(deviceClass.stateTypes.findByName("state").id)
-    readonly property var intermediatePositionState: device.states.getState(deviceClass.stateTypes.findByName("intermediatePosition").id)
-    readonly property var lightStateType: deviceClass.stateTypes.findByName("power")
-    readonly property var lightState: lightStateType ? device.states.getState(lightStateType.id) : null
+
+    readonly property bool isImpulseBased: thing.thingClass.interfaces.indexOf("impulsegaragedoor") >= 0
+    readonly property bool isStateful: thing.thingClass.interfaces.indexOf("statefulgaragedoor") >= 0
+    readonly property bool isExtended: thing.thingClass.interfaces.indexOf("extendedstatefulgaragedoor") >= 0
+
+    // Stateful garagedoor
+    readonly property StateType stateStateType: thing.thingClass.stateTypes.findByName("state")
+    readonly property State stateState: stateStateType ? thing.states.getState(stateStateType.id) : null
+
+    // Extended stateful garagedoor
+    readonly property StateType percentageStateType: thing.thingClass.stateTypes.findByName("percentage")
+    readonly property State percentageState: percentageStateType ? thing.states.getState(percentageStateType.id) : null
+
+
+    // Backward compatiblity with old garagegate interface
+    readonly property StateType intermediatePositionStateType: thing.thingClass.stateTypes.findByName("intermediatePosition")
+    readonly property var intermediatePositionState: intermediatePositionStateType ? device.states.getState(intermediatePositionStateType.id) : null
+
+    // Some garages may also implement the light interface
+    readonly property var lightStateType: thing.thingClass.stateTypes.findByName("power")
+    readonly property var lightState: lightStateType ? thing.states.getState(lightStateType.id) : null
+
+    Component.onCompleted: {
+        print("Creating garage page. Impulse based:", isImpulseBased, "stateful:", isStateful, "extended:", isExtended, "legacy:", intermediatePositionState !== null)
+    }
 
     GridLayout {
         anchors.fill: parent
@@ -56,8 +77,16 @@ DevicePageBase {
                                      : Math.min(Math.min(parent.width, 500), parent.height - shutterControlsContainer.minimumHeight)
             Layout.preferredHeight: width
             Layout.alignment: Qt.AlignHCenter
-            property string currentImage: root.openState.value === "closed" ? "100" :
-                                    root.openState.value === "open" && root.intermediatePositionState.value === false ? "000" : "050"
+            property string currentImage: {
+                if (root.isExtended) {
+                    return app.pad(Math.round(root.percentageState.value / 10), 2) + "0"
+                }
+                if (root.intermediatePositionStateType) {
+                    return root.stateState.value === "closed" ? "100"
+                            : root.intermediatePositionState.value === false ? "000" : "050"
+                }
+                return "100"
+            }
             name: "../images/garage/garage-" + currentImage + ".svg"
 
             Item {
@@ -66,8 +95,8 @@ DevicePageBase {
                 width: app.iconSize * 2
                 height: parent.height * .6
                 clip: true
-                visible: root.openState.value === "opening" || root.openState.value === "closing"
-                property bool up: root.openState.value === "opening"
+                visible: root.stateStateType && (root.stateState.value === "opening" || root.stateState.value === "closing")
+                property bool up: root.stateState && root.stateState.value === "opening"
 
                 // NumberAnimation doesn't reload to/from while it's running. If we switch from closing to opening or vice versa
                 // we need to somehow stop and start the animation
@@ -76,7 +105,7 @@ DevicePageBase {
                     if (!animationHack) hackTimer.start();
                 }
                 Timer { id: hackTimer; interval: 1; onTriggered: arrows.animationHack = true }
-                Connections { target: root.openState; onValueChanged: arrows.animationHack = false }
+                Connections { target: root.stateState; onValueChanged: arrows.animationHack = false }
 
                 NumberAnimation {
                     target: arrowColumn
@@ -86,7 +115,7 @@ DevicePageBase {
                     from: arrows.up ? app.iconSize : -app.iconSize
                     to: arrows.up ? -app.iconSize : app.iconSize
                     loops: Animation.Infinite
-                    running: arrows.animationHack && (root.openState.value === "opening" || root.openState.value === "closing")
+                    running: arrows.animationHack && root.stateState && (root.stateState.value === "opening" || root.stateState.value === "closing")
                 }
 
                 Column {
@@ -114,11 +143,29 @@ DevicePageBase {
             property int minimumWidth: app.iconSize * 2.5 * (root.lightState ? 4 : 3)
             property int minimumHeight: app.iconSize * 2.5
 
+            ItemDelegate {
+                height: app.iconSize * 2
+                width: height
+                anchors.centerIn: parent
+                visible: root.isImpulseBased
+                ColorIcon {
+                    anchors.fill: parent
+                    name: "../images/closable-move.svg"
+                    anchors.margins: app.margins
+                }
+                onClicked: {
+                    var actionTypeId = root.thing.thingClass.actionTypes.findByName("triggerImpulse").id
+                    print("Triggering impulse", actionTypeId)
+                    engine.thingManager.executeAction(root.thing.id, actionTypeId)
+                }
+            }
+
             ShutterControls {
                 id: shutterControls
                 device: root.device
                 anchors.centerIn: parent
                 spacing: (parent.width - app.iconSize*2*children.length) / (children.length - 1)
+                visible: !root.isImpulseBased
 
                 ItemDelegate {
                     width: app.iconSize * 2

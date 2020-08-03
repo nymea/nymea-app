@@ -199,7 +199,20 @@ Interfaces::Interfaces(QObject *parent) : QAbstractListModel(parent)
     pts = createParamTypes("user", tr("User"), QVariant::String);
     addActionType("useraccesscontrol", "removeUser", tr("Remove user"), pts);
 
-    addInterface("garagegate", tr("Garage doors"), {"closable"});
+    addInterface("garagedoor", tr("Garage doors"));
+
+    addInterface("impulsegaragedoor", tr("Garage doors"), {"garagedoor"});
+    addActionType("impulsegaragedoor", "triggerImpulse", tr("Operate"), new ParamTypes());
+
+    addInterface("simplegaragedoor", tr("Garage doors"), {"garagedoor", "closable"});
+
+    addInterface("statefulgaragedoor", tr("Garage doors"), {"garagedoor", "closable"});
+    addStateType("statefulgaragedoor", "state", QVariant::String, false, tr("State"), tr("State changed"));
+
+    addInterface("extendedstatfulgaragedoor", tr("Garage doors"), {"statefulgaragedoor", "extendedclosable"});
+
+    // Deprecated garagegate
+    addInterface("garagegate", tr("Garage doors"), {"garagedoor", "closable"});
     addStateType("garagegate", "state", QVariant::String, false, tr("State"), tr("State changed"));
     addStateType("garagegate", "intermediatePosition", QVariant::Bool, false, tr("Intermediate position"), tr("Intermediate position changed"));
 

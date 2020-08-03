@@ -68,6 +68,11 @@ QUuid Device::deviceClassId() const
     return m_deviceClass->id();
 }
 
+QUuid Device::thingClassId() const
+{
+    return m_deviceClass->id();
+}
+
 QUuid Device::parentDeviceId() const
 {
     return m_parentDeviceId;
@@ -149,6 +154,11 @@ void Device::setStates(States *states)
 }
 
 DeviceClass *Device::deviceClass() const
+{
+    return m_deviceClass;
+}
+
+DeviceClass *Device::thingClass() const
 {
     return m_deviceClass;
 }

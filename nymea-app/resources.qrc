@@ -67,7 +67,7 @@
         <file>ui/devicepages/InputTriggerDevicePage.qml</file>
         <file>ui/devicepages/StateLogPage.qml</file>
         <file>ui/devicepages/ShutterDevicePage.qml</file>
-        <file>ui/devicepages/GarageGateDevicePage.qml</file>
+        <file>ui/devicepages/GarageThingPage.qml</file>
         <file>ui/devicepages/AwningDevicePage.qml</file>
         <file>ui/devicepages/NotificationsDevicePage.qml</file>
         <file>ui/devicepages/LightDevicePage.qml</file>
@@ -75,7 +75,7 @@
         <file>ui/devicepages/DeviceLogPage.qml</file>
         <file>ui/devicelistpages/GenericDeviceListPage.qml</file>
         <file>ui/devicelistpages/ClosablesDeviceListPage.qml</file>
-        <file>ui/devicelistpages/GarageDeviceListPage.qml</file>
+        <file>ui/devicelistpages/GarageThingListPage.qml</file>
         <file>ui/devicelistpages/AwningDeviceListPage.qml</file>
         <file>ui/devicelistpages/ShutterDeviceListPage.qml</file>
         <file>ui/devicelistpages/BlindDeviceListPage.qml</file>

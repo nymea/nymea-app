@@ -39,6 +39,8 @@ Page {
     property Device device: null
     readonly property DeviceClass deviceClass: device.deviceClass
 
+    readonly property Device thing: device
+
     property bool showLogsButton: true
     property bool showDetailsButton: true
     property bool showBrowserButton: true
