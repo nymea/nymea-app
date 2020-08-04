@@ -1,3 +1,10 @@
+nymea-app (1.0.215) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Dynamically show/hide the mouse cursor, depending on the input type
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 04 Aug 2020 11:35:13 +0200
+
 nymea-app (1.0.214) bionic; urgency=medium
 
   [ Michael Zanetti ]
