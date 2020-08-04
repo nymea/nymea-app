@@ -59,6 +59,8 @@ private:
     QFile m_powerFile;
     QFile m_brightnessFile;
 
+    bool m_cursorHidden = false;
+
     int m_currentBrightness = 255;
 };
 
