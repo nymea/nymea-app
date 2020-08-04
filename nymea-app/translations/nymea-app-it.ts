@@ -1580,7 +1580,7 @@
     </message>
     <message>
         <source>Day of month</source>
-        <translation>of month</translation>
+        <translation></translation>
     </message>
     <message>
         <source>OK</source>
