@@ -595,7 +595,7 @@
     </message>
     <message>
         <source>Connect %1:core to %1:cloud in order to access it from anywhere and send push notifications from %1:core to %2.</source>
-        <translation>access it from anywhere and send push notifications from %1:core to %2.</translation>
+        <translation></translation>
     </message>
     <message>
         <source>Status</source>
@@ -831,7 +831,7 @@
     </message>
     <message>
         <source>Sorry, the password is wrong. Please try again.</source>
-        <translation></translation>
+        <translation>Please try again.</translation>
     </message>
     <message>
         <source>OK</source>
