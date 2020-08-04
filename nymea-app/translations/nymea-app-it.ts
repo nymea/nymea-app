@@ -151,7 +151,7 @@
     </message>
     <message>
         <source>Discovering services of %1...</source>
-        <translation>Trovando servizi di %1...</translation>
+        <translation>Trovando i servizi di %1...</translation>
     </message>
     <message>
         <source>%1 connected and discovered.</source>
@@ -595,7 +595,7 @@
     </message>
     <message>
         <source>Connect %1:core to %1:cloud in order to access it from anywhere and send push notifications from %1:core to %2.</source>
-        <translation></translation>
+        <translation>access it from anywhere and send push notifications from %1:core to %2.</translation>
     </message>
     <message>
         <source>Status</source>
