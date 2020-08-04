@@ -40,7 +40,7 @@
     <name>AboutPage</name>
     <message>
         <source>About %1</source>
-        <translation></translation>
+        <translation>Riguardo a %1</translation>
     </message>
     <message>
         <source>App version:</source>
@@ -72,14 +72,14 @@
     </message>
     <message>
         <source>Oswald font by The Oswald Project</source>
-        <translation></translation>
+        <translation>Font Oswald di The Oswald Project</translation>
     </message>
 </context>
 <context>
     <name>AppLogPage</name>
     <message>
         <source>App log</source>
-        <translation></translation>
+        <translation>Log dell&apos;app</translation>
     </message>
 </context>
 <context>
@@ -90,11 +90,11 @@
     </message>
     <message>
         <source>Look &amp; feel</source>
-        <translation></translation>
+        <translation>Aspetto</translation>
     </message>
     <message>
         <source>Customize the app&apos;s look and behavior</source>
-        <translation></translation>
+        <translation>Personalizza l&apos;aspetto e il comportamento dell&apos;app</translation>
     </message>
     <message>
         <source>Cloud login</source>
@@ -106,33 +106,33 @@
     </message>
     <message>
         <source>About %1</source>
-        <translation></translation>
+        <translation>Riguardo a %1</translation>
     </message>
     <message>
         <source>Find app versions and licence information</source>
-        <translation></translation>
+        <translation>Trova la versione dell&apos;app e informazioni sulle licenze</translation>
     </message>
     <message>
         <source>Log into %1:cloud and manage connected %1:core systems</source>
-        <translation></translation>
+        <translation>Accedi a %1:cloud e gestisci i sistemi %1:core connessi</translation>
     </message>
     <message>
         <source>Access tools for debugging and error reporting</source>
-        <translation></translation>
+        <translation>Accedi a strumenti per debug e riportare errori</translation>
     </message>
 </context>
 <context>
     <name>AwningDeviceListPage</name>
     <message>
         <source>Awnings</source>
-        <translation></translation>
+        <translation>Tende da sole</translation>
     </message>
 </context>
 <context>
     <name>BlindDeviceListPage</name>
     <message>
         <source>Blinds</source>
-        <translation></translation>
+        <translation>Veneziane</translation>
     </message>
 </context>
 <context>
@@ -170,27 +170,27 @@
     </message>
     <message>
         <source>Help</source>
-        <translation></translation>
+        <translation>Aiuto</translation>
     </message>
     <message>
         <source>Uh oh</source>
-        <translation></translation>
+        <translation>Oh oh</translation>
     </message>
     <message>
         <source>Bluetooth doesn&apos;t seem to be available on this device. The wireless network setup requires a working Bluetooth connection.</source>
-        <translation></translation>
+        <translation>Bluetooth non sembra essere disponibile su questo dispositivo. La configurazione wireless della rete richiede una connessione bluetooth funzionante.</translation>
     </message>
     <message>
         <source>Bluetooth seems to be disabled. Please enable Bluetooth on your device in order to use the wireless network setup.</source>
-        <translation></translation>
+        <translation>Bluetooth sembra essere disabilitato. Abilita il bluetooth sul tuo dispositivo per poter usare la configurazione wireless della rete.</translation>
     </message>
     <message>
         <source>Wireless setup help</source>
-        <translation></translation>
+        <translation>Aiuto per la configurazione wireless</translation>
     </message>
     <message>
         <source>After having installed the nymea community image to your Raspberry Pi, all you need to do is to plug it into a power socket. Note that the Wireless setup will only be available if the Raspberry Pi is not connected to a wired network.</source>
-        <translation></translation>
+        <translation>Dopo aver installato l&apos;immagine della comunità di nymea sul tuo Raspberry Pi, tutto ciò che devi fare è attaccarlo a una presa di corrente. Nota che la configurazione wireless è disponibile solo se il Raspberry Pi non è connesso a una rete cablata.</translation>
     </message>
     <message>
         <source>If you have a %1 box, plug it into a power socket and wait for it to be booted. Once the LED pulses slowly, press the button for 3 seconds until the LED changes.</source>
@@ -198,19 +198,19 @@
     </message>
     <message>
         <source>Connecting...</source>
-        <translation></translation>
+        <translation>Connettendo...</translation>
     </message>
     <message>
         <source>Connecting to %1</source>
-        <translation></translation>
+        <translation>Connettendo a %1</translation>
     </message>
     <message>
         <source>Searching for %1:core systems.</source>
-        <translation></translation>
+        <translation>Ricerca di sistemi %1:core.</translation>
     </message>
     <message>
         <source>Troubles finding your %1:core?</source>
-        <translation></translation>
+        <translation>Problemi a trovare il tuo %1:core?</translation>
     </message>
     <message>
         <source>%1 box</source>
