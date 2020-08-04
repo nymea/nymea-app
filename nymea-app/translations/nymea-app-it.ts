@@ -2465,7 +2465,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Total energy consumed</source>
-        <translation></translation>
+        <translation>Energia totale consumata</translation>
     </message>
     <message>
         <source>Total energy consumed changed</source>
