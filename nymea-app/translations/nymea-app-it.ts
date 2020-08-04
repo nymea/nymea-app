@@ -151,7 +151,7 @@
     </message>
     <message>
         <source>Discovering services of %1...</source>
-        <translation>Scoprendo i servizi di %1...</translation>
+        <translation>Trovando servizi di %1...</translation>
     </message>
     <message>
         <source>%1 connected and discovered.</source>
