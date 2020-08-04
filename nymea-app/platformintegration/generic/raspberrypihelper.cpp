@@ -67,6 +67,10 @@ RaspberryPiHelper::RaspberryPiHelper(QObject *parent) : QObject(parent)
     if (m_screenOffTimer.interval() > 0) {
         m_screenOffTimer.start();
     }
+
+    // Hide the mouse cursor right away, it'll be restored on mouse move events
+    QApplication::setOverrideCursor(Qt::BlankCursor);
+    m_cursorHidden = true;
 }
 
 bool RaspberryPiHelper::active() const
@@ -125,6 +129,29 @@ bool RaspberryPiHelper::eventFilter(QObject *watched, QEvent *event)
     if (!watchedTypes.contains(event->type())) {
         return QObject::eventFilter(watched, event);
     }
+
+    // Hide the mouse cursor if touchscreen events are coming in
+    QList<QEvent::Type> touchTypes = {
+        QEvent::TouchBegin,
+        QEvent::TouchUpdate,
+        QEvent::TouchEnd
+    };
+    if (touchTypes.contains(event->type()) && !m_cursorHidden) {
+        QApplication::setOverrideCursor(Qt::BlankCursor);
+        m_cursorHidden = true;
+    }
+
+    // Restore the mouse cursor if hidden and mouse events come in
+    QList<QEvent::Type> mouseTypes = {
+        QEvent::MouseMove,
+        QEvent::MouseButtonPress,
+        QEvent::GrabMouse
+    };
+    if (mouseTypes.contains(event->type()) && m_cursorHidden) {
+        QApplication::restoreOverrideCursor();
+        m_cursorHidden = false;
+    }
+
 
     if (!m_screenOffTimer.isActive()) {
         screenOn();
