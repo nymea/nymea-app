@@ -1348,7 +1348,7 @@
     </message>
     <message>
         <source>Do something while a condition is met.</source>
-        <translation>is met.</translation>
+        <translation></translation>
     </message>
     <message>
         <source>...but only if those conditions are met...</source>
@@ -1580,7 +1580,7 @@
     </message>
     <message>
         <source>Day of month</source>
-        <translation></translation>
+        <translation>of month</translation>
     </message>
     <message>
         <source>OK</source>
