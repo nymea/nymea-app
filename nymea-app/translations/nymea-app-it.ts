@@ -831,7 +831,7 @@
     </message>
     <message>
         <source>Sorry, the password is wrong. Please try again.</source>
-        <translation>Please try again.</translation>
+        <translation></translation>
     </message>
     <message>
         <source>OK</source>
@@ -1348,7 +1348,7 @@
     </message>
     <message>
         <source>Do something while a condition is met.</source>
-        <translation></translation>
+        <translation>is met.</translation>
     </message>
     <message>
         <source>...but only if those conditions are met...</source>
