@@ -1,3 +1,10 @@
+nymea-app (1.0.217) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add support for barcode scanners
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 06 Aug 2020 01:16:51 +0200
+
 nymea-app (1.0.216) bionic; urgency=medium
 
   [ Michael Zanetti ]
