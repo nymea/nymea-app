@@ -125,6 +125,7 @@ ApplicationWindow {
         "fingerprintreader",
         "smartlock",
         "button",
+        "barcodescanner",
         "notifications",
         "inputtrigger",
         "outputtrigger",
@@ -283,6 +284,10 @@ ApplicationWindow {
         case "extendedblind":
             return Qt.resolvedUrl("images/shutter/shutter-060.svg")
         case "garagedoor":
+        case "impulsegaragedoor":
+        case "statefulgaragedoor":
+        case "extendedstatefulgaragedoor":
+        case "garagegate":
             return Qt.resolvedUrl("images/garage/garage-100.svg")
         case "awning":
         case "extendedawning":
@@ -335,6 +340,8 @@ ApplicationWindow {
             return Qt.resolvedUrl("images/media-playlist-shuffle.svg")
         case "alert":
             return Qt.resolvedUrl("images/notification.svg")
+        case "barcodescanner":
+            return Qt.resolvedUrl("images/qrcode.svg")
         default:
             console.warn("InterfaceToIcon: Unhandled interface", name)
         }
@@ -486,6 +493,8 @@ ApplicationWindow {
             page = "IrrigationDevicePage.qml";
         } else if (interfaceList.indexOf("ventilation") >= 0) {
             page = "VentilationDevicePage.qml";
+        } else if (interfaceList.indexOf("barcodescanner") >= 0) {
+            page = "BarcodeScannerThingPage.qml";
         } else {
             page = "GenericDevicePage.qml";
         }
