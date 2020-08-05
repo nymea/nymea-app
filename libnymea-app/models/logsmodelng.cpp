@@ -226,11 +226,10 @@ LogEntry *LogsModelNg::get(int index) const
 
 void LogsModelNg::logsReply(const QVariantMap &data)
 {
-    qDebug() << "logs reply" << qUtf8Printable(QJsonDocument::fromVariant(data).toJson());
-
-
     int offset = data.value("params").toMap().value("offset").toInt();
     int count = data.value("params").toMap().value("count").toInt();
+
+//    qDebug() << qUtf8Printable(QJsonDocument::fromVariant(data).toJson());
 
     QList<LogEntry*> newBlock;
     QList<QVariant> logEntries = data.value("params").toMap().value("logEntries").toList();
@@ -247,6 +246,8 @@ void LogsModelNg::logsReply(const QVariantMap &data)
         LogEntry *entry = new LogEntry(timeStamp, value, deviceId, typeId, loggingSource, loggingEventType, this);
         newBlock.append(entry);
     }
+
+    qDebug() << "Received logs from" << offset << "to" << offset + count << "Actual count:" << newBlock.count();
 
     if (count < m_blockSize) {
         m_canFetchMore = false;
@@ -350,7 +351,6 @@ void LogsModelNg::logsReply(const QVariantMap &data)
 void LogsModelNg::fetchMore(const QModelIndex &parent)
 {
     Q_UNUSED(parent)
-//    qDebug() << "fetchMore called";
 
     if (!m_engine) {
         qWarning() << "Cannot update. Engine not set";
@@ -392,6 +392,8 @@ void LogsModelNg::fetchMore(const QModelIndex &parent)
 
     params.insert("limit", m_blockSize);
     params.insert("offset", m_list.count());
+
+    qDebug() << "Fetching logs from" << m_startTime.toString() << "to" << m_endTime.toString() << "with offset" << m_list.count() << "and limit" << m_blockSize;
 
     m_engine->jsonRpcClient()->sendCommand("Logging.GetLogEntries", params, this, "logsReply");
 //    qDebug() << "GetLogEntries called";

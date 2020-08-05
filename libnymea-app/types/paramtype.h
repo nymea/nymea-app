@@ -56,8 +56,8 @@ class ParamType : public QObject
     Q_PROPERTY(bool readOnly READ readOnly CONSTANT)
 
 public:
-    ParamType(QObject *parent = 0);
-    ParamType(const QString &name, const QVariant::Type type, const QVariant &defaultValue = QVariant(), QObject *parent = 0);
+    ParamType(QObject *parent = nullptr);
+    ParamType(const QString &name, const QVariant::Type type, const QVariant &defaultValue = QVariant(), QObject *parent = nullptr);
 
     QUuid id() const;
     void setId(const QUuid &id);
