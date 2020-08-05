@@ -76,7 +76,7 @@ void DeviceManager::init()
                     qWarning() << "received an event from a device we don't know..." << deviceId << event;
                     return;
                 }
-//                qDebug() << "Event received" << deviceId.toString() << eventTypeId.toString();
+                qDebug() << "Event received" << deviceId.toString() << eventTypeId.toString() << qUtf8Printable(QJsonDocument::fromVariant(event).toJson());
                 dev->eventTriggered(eventTypeId.toString(), event.value("params").toMap());
                 emit eventTriggered(deviceId.toString(), eventTypeId.toString(), event.value("params").toMap());
             });
@@ -226,7 +226,7 @@ void DeviceManager::notificationReceived(const QVariantMap &data)
             qWarning() << "received an event from a device we don't know..." << deviceId << qUtf8Printable(QJsonDocument::fromVariant(data).toJson());
             return;
         }
-//        qDebug() << "Event received" << deviceId.toString() << eventTypeId.toString();
+        qDebug() << "Event received" << deviceId.toString() << eventTypeId.toString() << qUtf8Printable(QJsonDocument::fromVariant(event).toJson());
         dev->eventTriggered(eventTypeId.toString(), event.value("params").toMap());
     } else if (notification == "Integrations.IOConnectionAdded") {
         QVariantMap connectionMap = data.value("params").toMap().value("ioConnection").toMap();

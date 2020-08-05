@@ -233,5 +233,6 @@
         <file>ui/images/garage/garage-090.svg</file>
         <file>ui/images/garage/garage-100.svg</file>
         <file>ui/images/navigationpad.svg</file>
+        <file>ui/images/qrcode.svg</file>
     </qresource>
 </RCC>
