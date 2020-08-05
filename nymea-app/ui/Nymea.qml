@@ -209,7 +209,7 @@ ApplicationWindow {
     }
 
     function interfacesToIcon(interfaces) {
-        print("finding icon for interfaces:", interfaces)
+//        print("finding icon for interfaces:", interfaces)
         for (var i = 0; i < interfaces.length; i++) {
             var icon = interfaceToIcon(interfaces[i]);
             if (icon !== "") {
@@ -220,7 +220,7 @@ ApplicationWindow {
     }
 
     function interfaceToIcon(name) {
-        print("finding icon for interface:", name)
+//        print("finding icon for interface:", name)
         switch (name) {
         case "light":
         case "colorlight":
@@ -255,6 +255,7 @@ ApplicationWindow {
             return Qt.resolvedUrl("images/sensors/windspeed.svg")
         case "media":
         case "mediacontroller":
+        case "extendedmediacontroller":
         case "mediaplayer":
             return Qt.resolvedUrl("images/mediaplayer-app-symbolic.svg")
         case "powersocket":
@@ -324,6 +325,16 @@ ApplicationWindow {
             return Qt.resolvedUrl("images/account.svg")
         case "smartlock":
             return Qt.resolvedUrl("images/smartlock.svg")
+        case "navigationpad":
+        case "extendednavigationpad":
+            return Qt.resolvedUrl("images/navigationpad.svg")
+        case "volumecontroller":
+        case "extendedvolumecontroller":
+            return Qt.resolvedUrl("images/audio-speakers-symbolic.svg")
+        case "shufflerepeat":
+            return Qt.resolvedUrl("images/media-playlist-shuffle.svg")
+        case "alert":
+            return Qt.resolvedUrl("images/notification.svg")
         default:
             console.warn("InterfaceToIcon: Unhandled interface", name)
         }

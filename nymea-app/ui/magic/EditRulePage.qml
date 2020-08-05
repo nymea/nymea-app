@@ -246,6 +246,7 @@ Page {
             pageStack.pop();
         })
         ruleActionPage.onDone.connect(function() {
+            print("Adding rule action", ruleAction)
             ruleActions.addRuleAction(ruleAction)
             pageStack.pop(root);
         })

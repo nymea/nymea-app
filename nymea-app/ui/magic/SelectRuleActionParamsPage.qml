@@ -40,7 +40,7 @@ Page {
     // Needs to be set and have rule.ruleActions filled in with deviceId and actionTypeId or interfaceName and interfaceAction
     property var ruleAction: null
 
-    // optionally a rule which will be used to propose event's params as param values
+    // optionally a rule which will be used to propose events params as param values
     property var rule: null
 
     readonly property var device: ruleAction && ruleAction.deviceId ? engine.deviceManager.devices.getDevice(ruleAction.deviceId) : null
@@ -216,20 +216,32 @@ Page {
                     var params = [];
                     for (var i = 0; i < delegateRepeater.count; i++) {
                         var paramDelegate = delegateRepeater.itemAt(i);
+                        print("Working on parameter", paramDelegate.paramType, paramDelegate.paramType.id, paramDelegate.value, paramDelegate.eventType, paramDelegate.eventParamTypeId, paramDelegate.stateDeviceId, paramDelegate.stateTypeId)
+
                         if (paramDelegate.type === "static") {
-                            print("Setting static value", paramDelegate.value)
                             if (root.device) {
-                                print("setting", paramDelegate.paramType.id)
+                                print("Setting static value rule action param", paramDelegate.paramType.id, paramDelegate.value)
                                 root.ruleAction.ruleActionParams.setRuleActionParam(paramDelegate.paramType.id, paramDelegate.value)
                             } else if (root.iface) {
+                                print("Setting static value rule action param by name", root.actionType.paramTypes.get(i).name, paramDelegate.value)
                                 root.ruleAction.ruleActionParams.setRuleActionParamByName(root.actionType.paramTypes.get(i).name, paramDelegate.value)
                             }
                         } else if (paramDelegate.type === "event") {
-                            print("adding event based rule action param", paramDelegate.paramType.id, paramDelegate.eventType.id, paramDelegate.eventParamTypeId)
-                            root.ruleAction.ruleActionParams.setRuleActionParamEvent(paramDelegate.paramType.id, paramDelegate.eventType.id, paramDelegate.eventParamTypeId)
+                            if (root.device) {
+                                print("adding event based rule action param", paramDelegate.paramType.id, paramDelegate.eventType.id, paramDelegate.eventParamTypeId)
+                                root.ruleAction.ruleActionParams.setRuleActionParamEvent(paramDelegate.paramType.id, paramDelegate.eventType.id, paramDelegate.eventParamTypeId)
+                            } else if (root.iface) {
+                                print("adding event based rule action param by name", root.actionType.paramTypes.get(i).name, paramDelegate.eventType.id, paramDelegate.eventParamTypeId)
+                                root.ruleAction.ruleActionParams.setRuleActionParamEventByName(root.actionType.paramTypes.get(i).name, paramDelegate.eventType.id, paramDelegate.eventParamTypeId)
+                            }
                         } else if (paramDelegate.type === "state") {
-                            print("adding state value based rule action param", paramDelegate.paramType.id, paramDelegate.stateDeviceId, paramDelegate.stateTypeId)
-                            root.ruleAction.ruleActionParams.setRuleActionParamState(paramDelegate.paramType.id, paramDelegate.stateDeviceId, paramDelegate.stateTypeId)
+                            if (root.device) {
+                                print("adding state value based rule action param", paramDelegate.paramType.id, paramDelegate.stateDeviceId, paramDelegate.stateTypeId)
+                                root.ruleAction.ruleActionParams.setRuleActionParamState(paramDelegate.paramType.id, paramDelegate.stateDeviceId, paramDelegate.stateTypeId)
+                            } else if (root.iface) {
+                                print("adding state value based rule action param by name", root.actionType.paramTypes.get(i).name, paramDelegate.stateDeviceId, paramDelegate.stateTypeId)
+                                root.ruleAction.ruleActionParams.setRuleActionParamStateByName(root.actionType.paramTypes.get(i).name, paramDelegate.stateDeviceId, paramDelegate.stateTypeId)
+                            }
                         }
                     }
                     root.completed()

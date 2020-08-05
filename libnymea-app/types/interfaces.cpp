@@ -145,15 +145,15 @@ Interfaces::Interfaces(QObject *parent) : QAbstractListModel(parent)
     addActionType("mediacontroller", "skipBack", tr("Skip back"), new ParamTypes());
     addActionType("mediacontroller", "skipNext", tr("Skip next"), new ParamTypes());
 
-    addInterface("extendedmediacontroller", tr("Media controllers"), {"mediacontroller"});
+    addInterface("extendedmediacontroller", tr("Media controllers with seeking"), {"mediacontroller"});
     addActionType("extendedmediacontroller", "fastForward", tr("Fast forward"), new ParamTypes());
     addActionType("extendedmediacontroller", "fastRewind", tr("Fast rewind"), new ParamTypes());
 
     addInterface("navigationpad", tr("Navigation pad"));
-    pts = createParamTypes("to", tr("To"), QVariant::String, QVariant(), {"up", "down", "left", "right", "enter", "back", "menu", "info", "home"});
+    pts = createParamTypes("to", tr("To"), QVariant::String, QVariant(), {"up", "down", "left", "right", "enter", "back"});
     addActionType("navigationpad", "navigate", tr("Navigate"), pts);
 
-    addInterface("extendednavigationpad", tr("Navigation pad"));
+    addInterface("extendednavigationpad", tr("Navigation pad with menu"));
     pts = createParamTypes("to", tr("To"), QVariant::String, QVariant(), {"up", "down", "left", "right", "enter", "back", "menu", "info", "home"});
     addActionType("extendednavigationpad", "navigate", tr("Navigate"), pts);
 
@@ -268,7 +268,7 @@ Interfaces::Interfaces(QObject *parent) : QAbstractListModel(parent)
     addInterface("pressuresensor", tr("Pressure sensors"), {"sensor"});
     addStateType("pressuresensor", "pressure", QVariant::Double, false, tr("Pressure"), tr("Pressure changed"));
 
-    addInterface("shufflerepeat", tr("Media player"));
+    addInterface("shufflerepeat", tr("Shuffle and repeat controllers"));
     addStateType("shufflerepeat", "shuffle", QVariant::Bool, true, tr("Shuffle"), tr("Shuffle changed"), tr("Set shuffle"));
     addStateType("shufflerepeat", "repeat", QVariant::Bool, true, tr("Repeat"), tr("Repeat changed"), tr("Set repeat"));
 

@@ -155,13 +155,15 @@ void DeviceManager::notificationReceived(const QVariantMap &data)
 {
     QString notification = data.value("notification").toString();
     if (notification == "Devices.StateChanged") {
-//        qDebug() << "Device state changed" << data.value("params");
         Device *dev = m_devices->getDevice(data.value("params").toMap().value("deviceId").toUuid());
         if (!dev) {
             qWarning() << "Device state change notification received for an unknown device";
             return;
         }
-        dev->setStateValue(data.value("params").toMap().value("stateTypeId").toUuid(), data.value("params").toMap().value("value"));
+        QUuid stateTyoeId = data.value("params").toMap().value("stateTypeId").toUuid();
+        QVariant value = data.value("params").toMap().value("value");
+//        qDebug() << "Device state changed for:" << dev->name() << "State name:" << dev->thingClass()->stateTypes()->getStateType(stateTyoeId) << "value:" << value;
+        dev->setStateValue(stateTyoeId, value);
     } else if (notification == "Devices.DeviceAdded") {
         Device *dev = JsonTypes::unpackDevice(this, data.value("params").toMap().value("device").toMap(), m_deviceClasses);
         if (!dev) {
@@ -243,6 +245,10 @@ void DeviceManager::notificationReceived(const QVariantMap &data)
             return;
         }
         m_ioConnections->removeIOConnection(connectionId);
+    } else if (notification == "Integrations.EventTriggered") {
+        // Still using Devices.EventTriggered
+    } else if (notification == "Integrations.StateChanged") {
+        // Still using Devies.StateChanged
     } else {
         qWarning() << "DeviceManager unhandled device notification received" << notification;
     }
@@ -263,7 +269,7 @@ void DeviceManager::getVendorsResponse(const QVariantMap &params)
 
 void DeviceManager::getSupportedDevicesResponse(const QVariantMap &params)
 {
-    qDebug() << "DeviceClass received:" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson(QJsonDocument::Indented));
+//    qDebug() << "DeviceClasses received:" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson(QJsonDocument::Indented));
     if (params.value("params").toMap().keys().contains("deviceClasses")) {
         QVariantList deviceClassList = params.value("params").toMap().value("deviceClasses").toList();
         foreach (QVariant deviceClassVariant, deviceClassList) {
