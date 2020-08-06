@@ -330,15 +330,15 @@ SettingsPageBase {
                 text: qsTr("Connect \"%1\" to:").arg(ioConnectionDialog.ioStateType.displayName)
                 wrapMode: Text.WordWrap
             }
-            Label { text: "\n" } // Fake in some spacing
+//            Label { text: "\n" } // Fake in some spacing
 
             GridLayout {
                 columns: (ioConnectionDialog.width / 400) * 2
 
-                Label {
-                    Layout.fillWidth: true
-                    text: qsTr("Thing")
-                }
+//                Label {
+//                    Layout.fillWidth: true
+//                    text: qsTr("Thing")
+//                }
 
                 ComboBox {
                     id: ioThingComboBox
@@ -369,10 +369,10 @@ SettingsPageBase {
                     }
                 }
 
-                Label {
-                    Layout.fillWidth: true
-                    text: (ioConnectionDialog.ioStateType.ioType == Types.IOTypeDigitalInput || ioConnectionDialog.ioStateType.ioType == Types.IOTypeAnalogInput) ? qsTr("Output") : qsTr("Input")
-                }
+//                Label {
+//                    Layout.fillWidth: true
+//                    text: (ioConnectionDialog.ioStateType.ioType == Types.IOTypeDigitalInput || ioConnectionDialog.ioStateType.ioType == Types.IOTypeAnalogInput) ? qsTr("Output") : qsTr("Input")
+//                }
 
                 ComboBox {
                     id: ioStateComboBox
@@ -405,29 +405,41 @@ SettingsPageBase {
                     }
                 }
 
-                Label {
-                    text: qsTr("Inverted")
-                    Layout.fillWidth: true
+                RowLayout {
+
+                    Label {
+                        text: qsTr("Inverted")
+                        Layout.fillWidth: true
+                    }
+
+                    CheckBox {
+                        id: invertCheckBox
+                        checked: ioConnectionDialog.isInput ? ioConnectionDialog.inputWatcher.ioConnection.inverted : ioConnectionDialog.outputWatcher.ioConnection.inverted
+                    }
+                }
                 }
 
-                CheckBox {
-                    id: invertCheckBox
-                    checked: ioConnectionDialog.isInput ? ioConnectionDialog.inputWatcher.ioConnection.inverted : ioConnectionDialog.outputWatcher.ioConnection.inverted
-                }
-            }
 
-            RowLayout {
+            GridLayout {
+                id: buttonGrid
+                columns: width > (cancelButton.implicitWidth + disconnectButton.implicitWidth + connectButton.implicitWidth)
+                         ? 4 : 1
+                layoutDirection: columns == 1 ? Qt.RightToLeft : Qt.LeftToRight
                 Item {
                     Layout.fillWidth: true
                 }
 
                 Button {
+                    id: cancelButton
                     text: qsTr("Cancel")
+                    Layout.fillWidth: buttonGrid.columns === 1
                     onClicked: ioConnectionDialog.reject();
                 }
                 Button {
+                    id: disconnectButton
                     text: qsTr("Disconnect")
                     enabled: ioConnectionDialog.isInput ? ioConnectionDialog.inputWatcher.ioConnection != null : ioConnectionDialog.outputWatcher.ioConnection != null
+                    Layout.fillWidth: buttonGrid.columns === 1
 
                     onClicked: {
                         if (ioConnectionDialog.ioStateType.ioType == Types.IOTypeDigitalInput
@@ -441,8 +453,10 @@ SettingsPageBase {
                     }
                 }
                 Button {
+                    id: connectButton
                     text: qsTr("Connect")
                     enabled: ioThingComboBox.currentIndex >= 0 && ioStateComboBox.currentIndex >= 0
+                    Layout.fillWidth: buttonGrid.columns === 1
 
                     onClicked: {
                         var inputThingId;
