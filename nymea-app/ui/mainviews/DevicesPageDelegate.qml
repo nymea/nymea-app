@@ -143,6 +143,10 @@ MainPageTile {
 //                return labelComponent;
 
             case "light":
+            case "garagedoor":
+            case "impulsegaragedoor":
+            case "statefulgaragedoor":
+            case "extendedstatefulgaragedoor":
             case "garagegate":
             case "blind":
             case "extendedblind":
@@ -255,17 +259,23 @@ MainPageTile {
                             }
                         }
                         return count === 0 ? qsTr("All off") : qsTr("%1 on").arg(count)
-                    case "garagegate":
+                    case "garagedoor":
+                        var statefulCount = 0;
                         var count = 0;
                         for (var i = 0; i < devicesProxy.count; i++) {
-                            var device = devicesProxy.get(i);
-                            var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
-                            var stateType = deviceClass.stateTypes.findByName("state");
-                            if (device.states.getState(stateType.id).value !== "closed") {
-                                count++;
+                            var thing = devicesProxy.get(i);
+                            if (thing.thingClass.interfaces.indexOf("statefulgaragedoor") >= 0 || thing.thingClass.interfaces.indexOf("extendedstatefulgaragedoor") >= 0 || thing.thingClass.interfaces.indexOf("garagegate") >= 0) {
+                                statefulCount++;
+                                var stateType = thing.thingClass.stateTypes.findByName("state");
+                                if (stateType && device.states.getState(stateType.id).value !== "closed") {
+                                    count++;
+                                }
                             }
                         }
-                        return count === 0 ? qsTr("All closed") : qsTr("%1 open").arg(count)
+                        if (statefulCount > 0) {
+                            return count === 0 ? qsTr("All closed") : qsTr("%1 open").arg(count)
+                        }
+                        return "";
                     case "blind":
                     case "extendedblind":
                     case "awning":
@@ -302,7 +312,15 @@ MainPageTile {
                             case "irrigation":
                             case "ventilation":
                                 return ""
-                            case "garagegate":
+                            case "garagedoor":
+                                var dev = devicesProxy.get(0)
+                                if (dev.thingClass.interfaces.indexOf("simplegaragedoor") >= 0
+                                        || dev.thingClass.interfaces.indexOf("statefulgaragedoor") >= 0
+                                        || dev.thingClass.interfaces.indexOf("extendedstatefulgaragedoor") >= 0
+                                        || dev.thingClass.interfaces.indexOf("garagegate") >= 0) {
+                                    return "../images/up.svg"
+                                }
+                                return ""
                             case "blind":
                             case "extendedblind":
                             case "awning":
@@ -324,7 +342,19 @@ MainPageTile {
                         case "irrigation":
                         case "ventilation":
                             break;
-                        case "garagegate":
+                        case "garagedoor":
+                            for (var i = 0; i < devicesProxy.count; i++) {
+                                var thing = devicesProxy.get(i);
+                                if (thing.thingClass.interfaces.indexOf("simplegaragedoor") >= 0
+                                        || thing.thingClass.interfaces.indexOf("statefulgaragedoor") >= 0
+                                        || thing.thingClass.interfaces.indexOf("extendedstatefulgaragedoor") >= 0
+                                        || thing.thingClass.interfaces.indexOf("garagegate") >= 0) {
+
+                                    var actionType = thing.thingClass.actionTypes.findByName("open");
+                                    engine.deviceManager.executeAction(thing.id, actionType.id)
+                                }
+                            }
+                            break;
                         case "shutter":
                         case "extendedshutter":
                         case "blind":
@@ -362,7 +392,15 @@ MainPageTile {
                             case "irrigation":
                             case "ventilation":
                                 return ""
-                            case "garagegate":
+                            case "garagedoor":
+                                var dev = devicesProxy.get(0)
+                                if (dev.thingClass.interfaces.indexOf("simplegaragedoor") >= 0
+                                        || dev.thingClass.interfaces.indexOf("statefulgaragedoor") >= 0
+                                        || dev.thingClass.interfaces.indexOf("extendedstatefulgaragedoor") >= 0
+                                        || dev.thingClass.interfaces.indexOf("garagegate") >= 0) {
+                                    return "../images/media-playback-stop.svg"
+                                }
+                                return ""
                             case "blind":
                             case "awning":
                             case "shutter":
@@ -384,7 +422,19 @@ MainPageTile {
                         case "irrigation":
                         case "ventilation":
                             break;
-                        case "garagegate":
+                        case "garagedoor":
+                            for (var i = 0; i < devicesProxy.count; i++) {
+                                var thing = devicesProxy.get(i);
+                                if (thing.thingClass.interfaces.indexOf("simplegaragedoor") >= 0
+                                        || thing.thingClass.interfaces.indexOf("statefulgaragedoor") >= 0
+                                        || thing.thingClass.interfaces.indexOf("extendedstatefulgaragedoor") >= 0
+                                        || thing.thingClass.interfaces.indexOf("garagegate") >= 0) {
+
+                                    var actionType = thing.thingClass.actionTypes.findByName("stop");
+                                    engine.thingManager.executeAction(thing.id, actionType.id)
+                                }
+                            }
+                            break;
                         case "shutter":
                         case "extendedshutter":
                         case "blind":
@@ -398,7 +448,7 @@ MainPageTile {
                                 var actionType = deviceClass.actionTypes.findByName("stop");
                                 engine.deviceManager.executeAction(device.id, actionType.id)
                             }
-
+                            break;
                         default:
                             console.warn("DevicesPageDelegate, inlineButtonControl clicked: Unhandled interface", iface.name)
                         }
@@ -430,7 +480,18 @@ MainPageTile {
                             case "irrigation":
                             case "ventilation":
                                 return "../images/system-shutdown.svg"
-                            case "garagegate":
+                            case "garagedoor":
+                                var dev = devicesProxy.get(0)
+                                if (dev.thingClass.interfaces.indexOf("simplegaragedoor") >= 0
+                                        || dev.thingClass.interfaces.indexOf("statefulgaragedoor") >= 0
+                                        || dev.thingClass.interfaces.indexOf("extendedstatefulgaragedoor") >= 0
+                                        || dev.thingClass.interfaces.indexOf("garagegate") >= 0) {
+                                    return "../images/down.svg"
+                                }
+                                if (dev.thingClass.interfaces.indexOf("impulsegaragedoor") >= 0) {
+                                    return "../images/closable-move.svg"
+                                }
+                                return ""
                             case "blind":
                             case "extendedblind":
                             case "awning":
@@ -492,7 +553,23 @@ MainPageTile {
                             print("executing", device, device.id, actionTypeId, actionName, deviceClass.actionTypes)
 
                             engine.deviceManager.executeAction(device.id, actionTypeId)
-                        case "garagegate":
+                        case "garagedoor":
+                            for (var i = 0; i < devicesProxy.count; i++) {
+                                var thing = devicesProxy.get(i);
+                                if (thing.thingClass.interfaces.indexOf("simplegaragedoor") >= 0
+                                        || thing.thingClass.interfaces.indexOf("statefulgaragedoor") >= 0
+                                        || thing.thingClass.interfaces.indexOf("extendedstatefulgaragedoor") >= 0
+                                        || thing.thingClass.interfaces.indexOf("garagegate") >= 0) {
+
+                                    var actionType = thing.thingClass.actionTypes.findByName("close");
+                                    engine.deviceManager.executeAction(thing.id, actionType.id)
+                                }
+                                if (thing.thingClass.interfaces.indexOf("impulsegaragedoor") >= 0) {
+                                    var actionType = thing.thingClass.actionTypes.findByName("triggerImpulse");
+                                    engine.deviceManager.executeAction(thing.id, actionType.id)
+                                }
+                            }
+                            break;
                         case "shutter":
                         case "extendedshutter":
                         case "blind":

@@ -38,6 +38,17 @@ import "../customviews"
 DevicePageBase {
     id: root
 
+    EmptyViewPlaceholder {
+        anchors { left: parent.left; right: parent.right; margins: app.margins }
+        anchors.verticalCenter: parent.verticalCenter
+
+        title: qsTr("No codes have been scanned yet.")
+        text: qsTr("Scan a code to see it appearing here.")
+        visible: logView.logsModel.count === 0
+        buttonVisible: false
+        imageSource: "../images/qrcode.svg"
+    }
+
     Connections {
         target: logsModelNg
         onCountChanged: {
@@ -49,7 +60,7 @@ DevicePageBase {
     ColumnLayout {
         anchors.fill: parent
         spacing: app.margins
-
+        visible: logView.logsModel.count > 0
 
         Label {
             Layout.fillWidth: true
@@ -58,11 +69,17 @@ DevicePageBase {
             text: qsTr("Last scan")
         }
 
+        FontMetrics {
+            id: fontMetrics
+            font.pixelSize: app.largeFont
+        }
+
         Label {
             id: codeLabel
             Layout.fillWidth: true
-            font.pixelSize: app.largeFont * 2
+            font.pixelSize: fontMetrics.boundingRect(text).width < root.width ? app.largeFont * 2 : app.mediumFont
             horizontalAlignment: Text.AlignHCenter
+            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }
 
         Label {
@@ -105,6 +122,7 @@ DevicePageBase {
                 var rulePage = pageStack.push(Qt.resolvedUrl("../magic/DeviceRulesPage.qml"), {device: root.device});
                 rulePage.addRule(rule);
             }
+
         }
     }
 
