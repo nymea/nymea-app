@@ -1,3 +1,10 @@
+nymea-app (1.0.219) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Improve irrigation view, add support for time based rule templates
+
+ -- Jenkins <jenkins@nymea.io>  Sat, 15 Aug 2020 00:24:46 +0200
+
 nymea-app (1.0.218) bionic; urgency=medium
 
   [ Michael Zanetti ]
