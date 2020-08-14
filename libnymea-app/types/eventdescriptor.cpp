@@ -36,25 +36,25 @@ EventDescriptor::EventDescriptor(QObject *parent) : QObject(parent)
     m_paramDescriptors = new ParamDescriptors(this);
 }
 
-QString EventDescriptor::deviceId() const
+QUuid EventDescriptor::thingId() const
 {
-    return m_deviceId;
+    return m_thingId;
 }
 
-void EventDescriptor::setDeviceId(const QString &deviceId)
+void EventDescriptor::setThingId(const QUuid &thingId)
 {
-    if (m_deviceId != deviceId) {
-        m_deviceId = deviceId;
-        emit deviceIdChanged();
+    if (m_thingId != thingId) {
+        m_thingId = thingId;
+        emit thingIdChanged();
     }
 }
 
-QString EventDescriptor::eventTypeId() const
+QUuid EventDescriptor::eventTypeId() const
 {
     return m_eventTypeId;
 }
 
-void EventDescriptor::setEventTypeId(const QString &eventTypeId)
+void EventDescriptor::setEventTypeId(const QUuid &eventTypeId)
 {
     if (m_eventTypeId != eventTypeId) {
         m_eventTypeId = eventTypeId;
@@ -96,7 +96,7 @@ ParamDescriptors *EventDescriptor::paramDescriptors() const
 EventDescriptor *EventDescriptor::clone() const
 {
     EventDescriptor *ret = new EventDescriptor();
-    ret->setDeviceId(this->deviceId());
+    ret->setThingId(this->thingId());
     ret->setEventTypeId(this->eventTypeId());
     ret->setInterfaceName(this->interfaceName());
     ret->setInterfaceEvent(this->interfaceEvent());
@@ -110,7 +110,7 @@ EventDescriptor *EventDescriptor::clone() const
 #define COMPARE_PTR(a, b) if (!a->operator==(b)) { qDebug() << a << "!=" << b; return false; }
 bool EventDescriptor::operator==(EventDescriptor *other) const
 {
-    COMPARE(m_deviceId, other->deviceId());
+    COMPARE(m_thingId, other->thingId());
     COMPARE(m_eventTypeId, other->eventTypeId());
     COMPARE(m_interfaceName, other->interfaceName());
     COMPARE(m_interfaceEvent, other->interfaceEvent());

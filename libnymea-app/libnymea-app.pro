@@ -27,6 +27,9 @@ INCLUDEPATH += $$top_srcdir/QtZeroConf
 SOURCES += \
     configuration/networkmanager.cpp \
     engine.cpp \
+    ruletemplates/calendaritemtemplate.cpp \
+    ruletemplates/timedescriptortemplate.cpp \
+    ruletemplates/timeeventitemtemplate.cpp \
     types/browseritem.cpp \
     types/browseritems.cpp \
     types/networkdevice.cpp \
@@ -159,6 +162,9 @@ SOURCES += \
 HEADERS += \
     configuration/networkmanager.h \
     engine.h \
+    ruletemplates/calendaritemtemplate.h \
+    ruletemplates/timedescriptortemplate.h \
+    ruletemplates/timeeventitemtemplate.h \
     types/browseritem.h \
     types/browseritems.h \
     types/networkdevice.h \

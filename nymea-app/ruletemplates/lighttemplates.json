@@ -1,0 +1,38 @@
+{
+    "templates": [
+        {
+            "description": "Wake up with light",
+            "ruleNameTemplate": "Wake up with %0",
+            "timeDescriptorTemplate": {
+                "timeEventItemTemplates": [
+                    {
+                        "time": "07:00",
+                        "repeatingOption": {
+                            "repeatingMode": "RepeatingModeWeekly",
+                            "weekDays": [1, 2, 3, 4, 5]
+                        },
+                        "editable": true
+                    }
+                ]
+            },
+            "ruleActionTemplates": [
+                {
+                    "interfaceName": "dimmablelight",
+                    "interfaceAction": "power",
+                    "selectionId": 0,
+                    "params": [
+                        {
+                            "name": "power",
+                            "value": true
+                        }
+                    ]
+                },
+                {
+                    "interfaceName": "dimmablelight",
+                    "interfaceAction": "brightness",
+                    "selectionId": 0
+                }
+            ]
+        }
+    ]
+}

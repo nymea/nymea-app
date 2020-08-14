@@ -93,6 +93,48 @@ Page {
                 return;
             }
 
+            // Fill in TimeDescriptor
+            if (ruleTemplate.timeDescriptorTemplate !== null) {
+                print("RuleFromTemplate: Filling timeDescriptor.", rule.timeDescriptor.calendarItems.count, ruleTemplate.timeDescriptorTemplate.calendarItemTemplates.count);
+                for (var i = rule.timeDescriptor.calendarItems.count; i < ruleTemplate.timeDescriptorTemplate.calendarItemTemplates.count; i++) {
+                    print("Need more CalendarItems");
+                    var calendarItemTemplate = ruleTemplate.timeDescriptorTemplate.calendarItemTemplates.get(i);
+                    var calendarItem = calendarItemTemplate.createCalendarItem();
+                    if (!calendarItemTemplate.editable) {
+                        rule.timeDescriptor.calendarItems.addCalendarItem(calendarItem);
+                        fillRuleFromTemplate(rule, ruleTemplate);
+                        return;
+                    }
+
+                    var page = pageStack.push(Qt.resolvedUrl("EditCalendarItemPage.qml"), {calendarItem: calendarItem})
+                    page.done.connect(function() {
+                        rule.timeDescriptor.calendarItems.addCalendarItem(calendarItem);
+                        fillRuleFromTemplate(rule, ruleTemplate);
+                    });
+                    page.backPressed.connect(function() {rule.destroy(); root.done();});
+                    return;
+                }
+
+                for (var i = rule.timeDescriptor.timeEventItems.count; i < ruleTemplate.timeDescriptorTemplate.timeEventItemTemplates.count; i++) {
+                    print("Need more TimeEventItems");
+                    var timeEventItemTemplate = ruleTemplate.timeDescriptorTemplate.timeEventItemTemplates.get(i);
+                    var timeEventItem = timeEventItemTemplate.createTimeEventItem();
+                    if (!timeEventItemTemplate.editable) {
+                        rule.timeDescriptor.timeEventItems.addTimeEventItem(timeEventItem);
+                        fillRuleFromTemplate(rule, ruleTemplate);
+                        return;
+                    }
+
+                    var page = pageStack.push(Qt.resolvedUrl("EditTimeEventItemPage.qml"), {timeEventItem: timeEventItem});
+                    page.done.connect(function() {
+                        rule.timeDescriptor.timeEventItems.addTimeEventItem(timeEventItem);
+                        fillRuleFromTemplate(rule, ruleTemplate);
+                    })
+                    page.backPressed.connect(function() {rule.destroy(); root.done()});
+                    return;
+                }
+            }
+
             // Fill in StateEvaluator
             if (ruleTemplate.stateEvaluatorTemplate !== null) {
                 print("RuleFromTemplate: Filling stateEvaluator")

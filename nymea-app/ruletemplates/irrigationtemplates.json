@@ -1,0 +1,46 @@
+{
+    "templates": [
+        {
+            "description": "Schedule an irrigation",
+            "ruleNameTemplate": "Schedule for %0",
+            "timeDescriptorTemplate": {
+                "calendarItemTemplates": [
+                    {
+                        "startTime": "07:00",
+                        "duration": 20,
+                        "repeatingOption": {
+                            "repeatingMode": "RepeatingModeDaily"
+                        },
+                        "editable": true
+                    }
+                ]
+            },
+            "ruleActionTemplates": [
+                {
+                    "interfaceName": "irrigation",
+                    "interfaceAction": "power",
+                    "selectionId": 0,
+                    "params": [
+                        {
+                            "name": "power",
+                            "value": true
+                        }
+                    ]
+                }
+            ],
+            "ruleExitActionTemplates": [
+                {
+                    "interfaceName": "irrigation",
+                    "interfaceAction": "power",
+                    "selectionId": 0,
+                    "params": [
+                        {
+                            "name": "power",
+                            "value": false
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

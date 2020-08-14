@@ -220,8 +220,8 @@ QDebug operator <<(QDebug &dbg, Rule *rule)
     for (int i = 0; i < rule->eventDescriptors()->rowCount(); i++) {
         EventDescriptor *ed = rule->eventDescriptors()->get(i);
         dbg << " " << i << ":";
-        if (!ed->deviceId().isNull() && !ed->eventTypeId().isNull()) {
-            dbg << "Device ID:" << ed->deviceId() << "Event Type ID:" << ed->eventTypeId() << endl;
+        if (!ed->thingId().isNull() && !ed->eventTypeId().isNull()) {
+            dbg << "Thing ID:" << ed->thingId() << "Event Type ID:" << ed->eventTypeId() << endl;
         } else {
             dbg << "Interface Name:" << ed->interfaceName() << "Event Name:" << ed->interfaceEvent() << endl;
         }

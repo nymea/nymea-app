@@ -39,6 +39,7 @@ class RuleActionParams;
 class RuleAction : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(QUuid thingId READ deviceId WRITE setDeviceId NOTIFY deviceIdChanged)
     Q_PROPERTY(QUuid deviceId READ deviceId WRITE setDeviceId NOTIFY deviceIdChanged)
     Q_PROPERTY(QUuid actionTypeId READ actionTypeId WRITE setActionTypeId NOTIFY actionTypeIdChanged)
     Q_PROPERTY(QString interfaceName READ interfaceName WRITE setInterfaceName NOTIFY interfaceNameChanged)

@@ -41,6 +41,7 @@ class EventDescriptors : public QAbstractListModel
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
 public:
     enum Roles {
+        RoleThingId,
         RoleDeviceId,
         RoleEventTypeId
     };

@@ -36,6 +36,7 @@
 class EventDescriptorTemplates;
 class RuleActionTemplates;
 class StateEvaluatorTemplate;
+class TimeDescriptorTemplate;
 
 class RuleTemplate : public QObject
 {
@@ -44,6 +45,7 @@ class RuleTemplate : public QObject
     Q_PROPERTY(QString ruleNameTemplate READ ruleNameTemplate CONSTANT)
     Q_PROPERTY(QStringList interfaces READ interfaces CONSTANT)
     Q_PROPERTY(EventDescriptorTemplates* eventDescriptorTemplates READ eventDescriptorTemplates CONSTANT)
+    Q_PROPERTY(TimeDescriptorTemplate* timeDescriptorTemplate READ timeDescriptorTemplate CONSTANT)
     Q_PROPERTY(StateEvaluatorTemplate* stateEvaluatorTemplate READ stateEvaluatorTemplate CONSTANT)
     Q_PROPERTY(RuleActionTemplates* ruleActionTemplates READ ruleActionTemplates CONSTANT)
     Q_PROPERTY(RuleActionTemplates* ruleExitActionTemplates READ ruleExitActionTemplates CONSTANT)
@@ -58,6 +60,8 @@ public:
     EventDescriptorTemplates* eventDescriptorTemplates() const;
     StateEvaluatorTemplate* stateEvaluatorTemplate() const;
     void setStateEvaluatorTemplate(StateEvaluatorTemplate *stateEvaluatorTemplate);
+    TimeDescriptorTemplate* timeDescriptorTemplate() const;
+    void setTimeDescriptorTemplate(TimeDescriptorTemplate *timeDescriptorTemplate);
     RuleActionTemplates* ruleActionTemplates() const;
     RuleActionTemplates* ruleExitActionTemplates() const;
 
@@ -67,6 +71,7 @@ private:
     QString m_ruleNameTemplate;
     EventDescriptorTemplates* m_eventDescriptorTemplates = nullptr;
     StateEvaluatorTemplate* m_stateEvaluatorTemplate = nullptr;
+    TimeDescriptorTemplate* m_timeDescriptorTemplate = nullptr;
     RuleActionTemplates *m_ruleActionTemplates = nullptr;
     RuleActionTemplates *m_ruleExitActionTemplates = nullptr;
 };

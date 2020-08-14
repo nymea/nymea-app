@@ -32,12 +32,16 @@
 
 #include "ruletemplate.h"
 #include "eventdescriptortemplate.h"
+#include "timedescriptortemplate.h"
+#include "calendaritemtemplate.h"
+#include "timeeventitemtemplate.h"
 #include "ruleactiontemplate.h"
 #include "stateevaluatortemplate.h"
 #include "ruleactionparamtemplate.h"
 
 #include "types/ruleactionparam.h"
 #include "types/ruleactionparams.h"
+#include "types/repeatingoption.h"
 #include "devicesproxy.h"
 
 #include <QDebug>
@@ -112,6 +116,12 @@ RuleTemplates::RuleTemplates(QObject *parent) : QAbstractListModel(parent)
             // StateEvaluatorTemplate
             if (ruleTemplate.contains("stateEvaluatorTemplate")) {
                 t->setStateEvaluatorTemplate(loadStateEvaluatorTemplate(ruleTemplate.value("stateEvaluatorTemplate").toMap()));
+            }
+
+            // TimeDescriptorTemplate
+            if (ruleTemplate.contains("timeDescriptorTemplate")) {
+
+                t->setTimeDescriptorTemplate(loadTimeDescriptorTemplate(ruleTemplate.value("timeDescriptorTemplate").toMap()));
             }
 
             // RuleActionTemplates
@@ -238,6 +248,42 @@ StateEvaluatorTemplate *RuleTemplates::loadStateEvaluatorTemplate(const QVariant
     }
 
     return set;
+}
+
+TimeDescriptorTemplate *RuleTemplates::loadTimeDescriptorTemplate(const QVariantMap &timeDescriptorTemplate) const
+{
+    TimeDescriptorTemplate *tdt = new TimeDescriptorTemplate();
+    foreach (const QVariant &childVariant, timeDescriptorTemplate.value("calendarItemTemplates").toList()) {
+        QVariantMap childMap = childVariant.toMap();
+
+        int duration = childMap.value("duration").toInt();
+        QDateTime dateTime = childMap.value("dateTime").toDateTime();
+        QTime startTime = childMap.value("startTime").toTime();
+        bool editable = childMap.value("editable", true).toBool();
+        RepeatingOption *repeatingOption = loadRepeatingOption(childMap.value("repeatingOption").toMap());
+        CalendarItemTemplate *cit = new CalendarItemTemplate(duration, dateTime, startTime, repeatingOption, editable, tdt);
+        tdt->calendarItemTemplates()->addCalendarItemTemplate(cit);
+    }
+    foreach (const QVariant &childVariant, timeDescriptorTemplate.value("timeEventItemTemplates").toList()) {
+        QVariantMap childMap = childVariant.toMap();
+        QDateTime dateTime = childMap.value("dateTime").toDateTime();
+        QTime time = childMap.value("time").toTime();
+        bool editable = childMap.value("editable", true).toBool();
+        RepeatingOption *repeatingOption = loadRepeatingOption(childMap.value("repeatingOption").toMap());
+        TimeEventItemTemplate *teit = new TimeEventItemTemplate(dateTime, time, repeatingOption, editable, tdt);
+        tdt->timeEventItemTemplates()->addTimeEventItemTemplate(teit);
+    }
+    return tdt;
+}
+
+RepeatingOption *RuleTemplates::loadRepeatingOption(const QVariantMap &repeatingOptionMap) const
+{
+    RepeatingOption *repeatingOption = new RepeatingOption();
+    repeatingOption->setWeekDays(repeatingOptionMap.value("weekDays").toList());
+    repeatingOption->setMonthDays(repeatingOptionMap.value("monthDays").toList());
+    QMetaEnum repeatingModeEnum = QMetaEnum::fromType<RepeatingOption::RepeatingMode>();
+    repeatingOption->setRepeatingMode(static_cast<RepeatingOption::RepeatingMode>(repeatingModeEnum.keyToValue(repeatingOptionMap.value("repeatingMode").toString().toUtf8().data())));
+    return repeatingOption;
 }
 
 bool RuleTemplatesFilterModel::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const

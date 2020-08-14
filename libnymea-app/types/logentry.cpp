@@ -32,11 +32,11 @@
 
 #include <QDateTime>
 
-LogEntry::LogEntry(const QDateTime &timestamp, const QVariant &value, const QUuid &deviceId, const QUuid &typeId, LoggingSource source, LoggingEventType loggingEventType, QObject *parent):
+LogEntry::LogEntry(const QDateTime &timestamp, const QVariant &value, const QUuid &thingId, const QUuid &typeId, LoggingSource source, LoggingEventType loggingEventType, QObject *parent):
     QObject(parent),
     m_value(value),
     m_timeStamp(timestamp),
-    m_deviceId(deviceId),
+    m_thingId(thingId),
     m_typeId(typeId),
     m_source(source),
     m_loggingEventType(loggingEventType)
@@ -54,9 +54,9 @@ QDateTime LogEntry::timestamp() const
     return m_timeStamp;
 }
 
-QUuid LogEntry::deviceId() const
+QUuid LogEntry::thingId() const
 {
-    return m_deviceId;
+    return m_thingId;
 }
 
 QUuid LogEntry::typeId() const

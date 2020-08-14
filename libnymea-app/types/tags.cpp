@@ -47,8 +47,9 @@ int Tags::rowCount(const QModelIndex &parent) const
 QVariant Tags::data(const QModelIndex &index, int role) const
 {
     switch (role) {
+    case RoleThingId:
     case RoleDeviceId:
-        return m_list.at(index.row())->deviceId();
+        return m_list.at(index.row())->thingId();
     case RoleRuleId:
         return m_list.at(index.row())->ruleId();
     case RoleTagId:
@@ -62,6 +63,7 @@ QVariant Tags::data(const QModelIndex &index, int role) const
 QHash<int, QByteArray> Tags::roleNames() const
 {
     QHash<int, QByteArray> roles;
+    roles.insert(RoleThingId, "thingId");
     roles.insert(RoleDeviceId, "deviceId");
     roles.insert(RoleRuleId, "ruleId");
     roles.insert(RoleTagId, "tagId");
@@ -111,17 +113,25 @@ void Tags::removeTag(Tag *tag)
 
 Tag *Tags::get(int index) const
 {
+    if (index < 0 || index >= m_list.count()) {
+        return nullptr;
+    }
     return m_list.at(index);
 }
 
-Tag *Tags::findDeviceTag(const QUuid &deviceId, const QString &tagId) const
+Tag *Tags::findThingTag(const QUuid &thingId, const QString &tagId) const
 {
     foreach (Tag *tag, m_list) {
-        if (tag->deviceId() == deviceId && tag->tagId() == tagId) {
+        if (tag->thingId() == thingId && tag->tagId() == tagId) {
             return tag;
         }
     }
     return nullptr;
+}
+
+Tag *Tags::findDeviceTag(const QUuid &deviceId, const QString &tagId) const
+{
+    return findThingTag(deviceId, tagId);
 }
 
 Tag *Tags::findRuleTag(const QString &ruleId, const QString &tagId) const

@@ -39,8 +39,9 @@
 class EventDescriptor : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QString deviceId READ deviceId WRITE setDeviceId NOTIFY deviceIdChanged)
-    Q_PROPERTY(QString eventTypeId READ eventTypeId WRITE setEventTypeId NOTIFY eventTypeIdChanged)
+    Q_PROPERTY(QUuid thingId READ thingId WRITE setThingId NOTIFY thingIdChanged)
+    Q_PROPERTY(QUuid deviceId READ thingId WRITE setThingId NOTIFY thingIdChanged)
+    Q_PROPERTY(QUuid eventTypeId READ eventTypeId WRITE setEventTypeId NOTIFY eventTypeIdChanged)
 
     Q_PROPERTY(QString interfaceName READ interfaceName WRITE setInterfaceName NOTIFY interfaceNameChanged)
     Q_PROPERTY(QString interfaceEvent READ interfaceEvent WRITE setInterfaceEvent NOTIFY interfaceEventChanged)
@@ -50,11 +51,11 @@ class EventDescriptor : public QObject
 public:
     explicit EventDescriptor(QObject *parent = nullptr);
 
-    QString deviceId() const;
-    void setDeviceId(const QString &deviceId);
+    QUuid thingId() const;
+    void setThingId(const QUuid &thingId);
 
-    QString eventTypeId() const;
-    void setEventTypeId(const QString &eventTypeId);
+    QUuid eventTypeId() const;
+    void setEventTypeId(const QUuid &eventTypeId);
 
     QString interfaceName() const;
     void setInterfaceName(const QString &interfaceName);
@@ -68,14 +69,14 @@ public:
     bool operator==(EventDescriptor* other) const;
 
 signals:
-    void deviceIdChanged();
+    void thingIdChanged();
     void eventTypeIdChanged();
     void interfaceNameChanged();
     void interfaceEventChanged();
 
 private:
-    QString m_deviceId;
-    QString m_eventTypeId;
+    QUuid m_thingId;
+    QUuid m_eventTypeId;
 
     QString m_interfaceName;
     QString m_interfaceEvent;

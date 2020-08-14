@@ -61,16 +61,16 @@ void RulesFilterModel::setRules(Rules *rules)
     }
 }
 
-QString RulesFilterModel::filterDeviceId() const
+QUuid RulesFilterModel::filterThingId() const
 {
-    return m_filterDeviceId;
+    return m_filterThingId;
 }
 
-void RulesFilterModel::setFilterDeviceId(const QString &filterDeviceId)
+void RulesFilterModel::setFilterThingId(const QUuid &filterThingId)
 {
-    if (m_filterDeviceId != filterDeviceId) {
-        m_filterDeviceId = filterDeviceId;
-        emit filterDeviceIdChanged();
+    if (m_filterThingId != filterThingId) {
+        m_filterThingId = filterThingId;
+        emit filterThingIdChanged();
         invalidateFilter();
         emit countChanged();
     }
@@ -104,22 +104,22 @@ bool RulesFilterModel::filterAcceptsRow(int source_row, const QModelIndex &sourc
         return false;
     }
     bool found = true;
-    if (!m_filterDeviceId.isNull()) {
+    if (!m_filterThingId.isNull()) {
         found = false;
         for (int i = 0; i < rule->eventDescriptors()->rowCount(); i++) {
             EventDescriptor *ed = rule->eventDescriptors()->get(i);
-            if (ed->deviceId() == m_filterDeviceId) {
+            if (ed->thingId() == m_filterThingId) {
                 found = true;
                 break;
             }
         }
-        if (!found && rule->stateEvaluator() && rule->stateEvaluator()->containsDevice(m_filterDeviceId)) {
+        if (!found && rule->stateEvaluator() && rule->stateEvaluator()->containsDevice(m_filterThingId)) {
             found = true;
         }
         if (!found) {
             for (int i = 0; i < rule->actions()->rowCount(); i++) {
                 RuleAction *ra = rule->actions()->get(i);
-                if (ra->deviceId() == m_filterDeviceId) {
+                if (ra->deviceId() == m_filterThingId) {
                     found = true;
                     break;
                 }
@@ -128,7 +128,7 @@ bool RulesFilterModel::filterAcceptsRow(int source_row, const QModelIndex &sourc
         if (!found) {
             for (int i = 0; i < rule->exitActions()->rowCount(); i++) {
                 RuleAction *ra = rule->exitActions()->get(i);
-                if (ra->deviceId() == m_filterDeviceId) {
+                if (ra->deviceId() == m_filterThingId) {
                     found = true;
                     break;
                 }

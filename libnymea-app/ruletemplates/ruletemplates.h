@@ -35,6 +35,8 @@
 
 class RuleTemplate;
 class StateEvaluatorTemplate;
+class TimeDescriptorTemplate;
+class RepeatingOption;
 class DevicesProxy;
 
 class RuleTemplates : public QAbstractListModel
@@ -60,6 +62,8 @@ signals:
 
 private:
     StateEvaluatorTemplate* loadStateEvaluatorTemplate(const QVariantMap &stateEvaluatorTemplate) const;
+    TimeDescriptorTemplate* loadTimeDescriptorTemplate(const QVariantMap &timeDescriptorTemplate) const;
+    RepeatingOption* loadRepeatingOption(const QVariantMap &repeatingOptionMap) const;
 
 private:
     QList<RuleTemplate*> m_list;
