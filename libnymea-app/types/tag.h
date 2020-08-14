@@ -37,7 +37,8 @@
 class Tag : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QUuid deviceId READ deviceId CONSTANT)
+    Q_PROPERTY(QUuid thingId READ thingId CONSTANT)
+    Q_PROPERTY(QUuid deviceId READ thingId CONSTANT)
     Q_PROPERTY(QUuid ruleId READ ruleId CONSTANT)
     Q_PROPERTY(QString tagId READ tagId CONSTANT)
     Q_PROPERTY(QString value READ value NOTIFY valueChanged)
@@ -45,8 +46,8 @@ class Tag : public QObject
 public:
     explicit Tag(const QString &tagId, const QString &value, QObject *parent = nullptr);
 
-    QUuid deviceId() const;
-    void setDeviceId(const QUuid &deviceId);
+    QUuid thingId() const;
+    void setThingId(const QUuid &thingId);
 
     QUuid ruleId() const;
     void setRuleId(const QUuid &ruleId);
@@ -60,7 +61,7 @@ signals:
     void valueChanged();
 
 private:
-    QUuid m_deviceId;
+    QUuid m_thingId;
     QUuid m_ruleId;
     QString m_tagId;
     QString m_value;

@@ -57,7 +57,8 @@ public:
     enum Roles {
         RoleTimestamp,
         RoleValue,
-        RoleDeviceId,
+        RoleThingId,
+        RoleDeviceId, // < JSONRPC 5.0
         RoleTypeId,
         RoleSource,
         RoleLoggingEventType

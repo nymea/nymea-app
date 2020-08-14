@@ -70,8 +70,9 @@ QVariant LogsModelNg::data(const QModelIndex &index, int role) const
         return m_list.at(index.row())->timestamp();
     case RoleValue:
         return m_list.at(index.row())->value();
+    case RoleThingId:
     case RoleDeviceId:
-        return m_list.at(index.row())->deviceId();
+        return m_list.at(index.row())->thingId();
     case RoleTypeId:
         return m_list.at(index.row())->typeId();
     case RoleSource:
@@ -87,6 +88,7 @@ QHash<int, QByteArray> LogsModelNg::roleNames() const
     QHash<int, QByteArray> roles;
     roles.insert(RoleTimestamp, "timestamp");
     roles.insert(RoleValue, "value");
+    roles.insert(RoleThingId, "thingId");
     roles.insert(RoleDeviceId, "deviceId");
     roles.insert(RoleTypeId, "typeId");
     roles.insert(RoleSource, "source");
@@ -112,16 +114,16 @@ void LogsModelNg::setLive(bool live)
     }
 }
 
-QUuid LogsModelNg::deviceId() const
+QUuid LogsModelNg::thingId() const
 {
-    return m_deviceId;
+    return m_thingId;
 }
 
-void LogsModelNg::setDeviceId(const QUuid &deviceId)
+void LogsModelNg::setThingId(const QUuid &thingId)
 {
-    if (m_deviceId != deviceId) {
-        m_deviceId = deviceId;
-        emit deviceIdChanged();
+    if (m_thingId != thingId) {
+        m_thingId = thingId;
+        emit thingIdChanged();
     }
 }
 
@@ -236,14 +238,19 @@ void LogsModelNg::logsReply(const QVariantMap &data)
     foreach (const QVariant &logEntryVariant, logEntries) {
         QVariantMap entryMap = logEntryVariant.toMap();
         QDateTime timeStamp = QDateTime::fromMSecsSinceEpoch(entryMap.value("timestamp").toLongLong());
-        QString deviceId = entryMap.value("deviceId").toString();
+        QString thingId;
+        if (m_engine->jsonRpcClient()->ensureServerVersion("5.0")) {
+            thingId = entryMap.value("thingId").toString();
+        } else {
+            thingId = entryMap.value("deviceId").toString();
+        }
         QString typeId = entryMap.value("typeId").toString();
         QMetaEnum sourceEnum = QMetaEnum::fromType<LogEntry::LoggingSource>();
         LogEntry::LoggingSource loggingSource = static_cast<LogEntry::LoggingSource>(sourceEnum.keyToValue(entryMap.value("source").toByteArray()));
         QMetaEnum loggingEventTypeEnum = QMetaEnum::fromType<LogEntry::LoggingEventType>();
         LogEntry::LoggingEventType loggingEventType = static_cast<LogEntry::LoggingEventType>(loggingEventTypeEnum.keyToValue(entryMap.value("eventType").toByteArray()));
         QVariant value = loggingEventType == LogEntry::LoggingEventTypeActiveChange ? entryMap.value("active").toBool() : entryMap.value("value");
-        LogEntry *entry = new LogEntry(timeStamp, value, deviceId, typeId, loggingSource, loggingEventType, this);
+        LogEntry *entry = new LogEntry(timeStamp, value, thingId, typeId, loggingSource, loggingEventType, this);
         newBlock.append(entry);
     }
 
@@ -265,7 +272,7 @@ void LogsModelNg::logsReply(const QVariantMap &data)
     for (int i = 0; i < newBlock.count(); i++) {
         LogEntry *entry = newBlock.at(i);
         m_list.insert(offset + i, entry);
-        Device *dev = m_engine->deviceManager()->devices()->getDevice(entry->deviceId());
+        Device *dev = m_engine->deviceManager()->devices()->getDevice(entry->thingId());
         if (!dev) {
             qWarning() << "Device not found in system. Cannot add item to graph series.";
             continue;
@@ -369,10 +376,14 @@ void LogsModelNg::fetchMore(const QModelIndex &parent)
     emit busyChanged();
 
     QVariantMap params;
-    if (!m_deviceId.isNull()) {
-        QVariantList deviceIds;
-        deviceIds.append(m_deviceId);
-        params.insert("deviceIds", deviceIds);
+    if (!m_thingId.isNull()) {
+        QVariantList thingIds;
+        thingIds.append(m_thingId);
+        if (m_engine->jsonRpcClient()->ensureServerVersion("5.0")) {
+            params.insert("thingIds", thingIds);
+        } else {
+            params.insert("deviceIds", thingIds);
+        }
     }
     if (!m_typeIds.isEmpty()) {
         QVariantList typeIds;
@@ -414,8 +425,13 @@ void LogsModelNg::newLogEntryReceived(const QVariantMap &data)
     }
 
     QVariantMap entryMap = data;
-    QUuid deviceId = entryMap.value("deviceId").toUuid();
-    if (!m_deviceId.isNull() && deviceId != m_deviceId) {
+    QUuid thingId;
+    if (m_engine->jsonRpcClient()->ensureServerVersion("5.0")) {
+        thingId = entryMap.value("deviceId").toUuid();
+    } else {
+        thingId = entryMap.value("thingId").toUuid();
+    }
+    if (!m_thingId.isNull() && thingId != m_thingId) {
         return;
     }
 
@@ -431,11 +447,11 @@ void LogsModelNg::newLogEntryReceived(const QVariantMap &data)
     QMetaEnum loggingEventTypeEnum = QMetaEnum::fromType<LogEntry::LoggingEventType>();
     LogEntry::LoggingEventType loggingEventType = static_cast<LogEntry::LoggingEventType>(loggingEventTypeEnum.keyToValue(entryMap.value("eventType").toByteArray()));
     QVariant value = loggingEventType == LogEntry::LoggingEventTypeActiveChange ? entryMap.value("active").toBool() : entryMap.value("value");
-    LogEntry *entry = new LogEntry(timeStamp, value, deviceId, typeId, loggingSource, loggingEventType, this);
+    LogEntry *entry = new LogEntry(timeStamp, value, thingId, typeId, loggingSource, loggingEventType, this);
     m_list.prepend(entry);
     if (m_graphSeries) {
 
-        Device *dev = m_engine->deviceManager()->devices()->getDevice(entry->deviceId());
+        Device *dev = m_engine->thingManager()->devices()->getDevice(entry->thingId());
 
         StateType *entryStateType = dev->deviceClass()->stateTypes()->getStateType(entry->typeId());
 

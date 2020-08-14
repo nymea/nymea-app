@@ -40,14 +40,14 @@ Tag::Tag(const QString &tagId, const QString &value, QObject *parent):
 
 }
 
-QUuid Tag::deviceId() const
+QUuid Tag::thingId() const
 {
-    return m_deviceId;
+    return m_thingId;
 }
 
-void Tag::setDeviceId(const QUuid &deviceId)
+void Tag::setThingId(const QUuid &thingId)
 {
-    m_deviceId = deviceId;
+    m_thingId = thingId;
 }
 
 QUuid Tag::ruleId() const
@@ -74,7 +74,7 @@ void Tag::setValue(const QString &value)
 {
     if (m_value != value) {
         m_value = value;
-        qDebug() << "tags value changed" << m_deviceId << m_tagId << value;
+        qDebug() << "tags value changed" << m_thingId.toString() << m_tagId << value;
         emit valueChanged();
     }
 }

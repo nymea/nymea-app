@@ -84,16 +84,16 @@ Rule *RuleManager::createNewRule()
     return new Rule(QUuid(), this);
 }
 
-void RuleManager::addRule(const QVariantMap params)
+int RuleManager::addRule(const QVariantMap params)
 {
-    m_jsonClient->sendCommand("Rules.AddRule", params, this, "onAddRuleReply");
+    return m_jsonClient->sendCommand("Rules.AddRule", params, this, "onAddRuleReply");
 }
 
-void RuleManager::addRule(Rule *rule)
+int RuleManager::addRule(Rule *rule)
 {
-    QVariantMap params = JsonTypes::packRule(rule);
+    QVariantMap params = packRule(rule);
     qDebug() << "packed rule:" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson(QJsonDocument::Indented));
-    m_jsonClient->sendCommand("Rules.AddRule", params, this, "onAddRuleReply");
+    return m_jsonClient->sendCommand("Rules.AddRule", params, this, "onAddRuleReply");
 }
 
 void RuleManager::removeRule(const QUuid &ruleId)
@@ -105,7 +105,7 @@ void RuleManager::removeRule(const QUuid &ruleId)
 
 void RuleManager::editRule(Rule *rule)
 {
-    QVariantMap params = JsonTypes::packRule(rule);
+    QVariantMap params = packRule(rule);
     qWarning() << "Packed rule:" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson(QJsonDocument::Indented));
     m_jsonClient->sendCommand("Rules.EditRule", params, this, "onEditRuleReply");
 
@@ -159,7 +159,7 @@ void RuleManager::getRulesReply(const QVariantMap &params)
         qWarning() << "Error getting rules:" << params.value("error").toString();
         return;
     }
-//    qDebug() << "Get Rules reply" << params;
+    //    qDebug() << "Get Rules reply" << params;
     foreach (const QVariant &ruleDescriptionVariant, params.value("params").toMap().value("ruleDescriptions").toList()) {
         QUuid ruleId = ruleDescriptionVariant.toMap().value("id").toUuid();
         QString name = ruleDescriptionVariant.toMap().value("name").toString();
@@ -193,14 +193,18 @@ void RuleManager::getRuleDetailsReply(const QVariantMap &params)
     parseRuleExitActions(ruleMap.value("exitActions").toList(), rule);
     parseTimeDescriptor(ruleMap.value("timeDescriptor").toMap(), rule);
     rule->setStateEvaluator(parseStateEvaluator(ruleMap.value("stateEvaluator").toMap()));
-//    qDebug() << "** Rule details received:" << rule;
-//    qDebug() << "Rule JSON:" << qUtf8Printable(QJsonDocument::fromVariant(ruleMap).toJson());
+    //    qDebug() << "** Rule details received:" << rule;
+    //    qDebug() << "Rule JSON:" << qUtf8Printable(QJsonDocument::fromVariant(ruleMap).toJson());
 }
 
 void RuleManager::onAddRuleReply(const QVariantMap &params)
 {
-    qDebug() << "Add rule reply:" << params;//.value("params").toMap().value("ruleError").toString();
-    emit addRuleReply(params.value("params").toMap().value("ruleError").toString(), params.value("params").toMap().value("ruleId").toString());
+    if (params.value("params").toMap().value("ruleError").toString() != "RuleErrorNoError") {
+        qWarning() << "Failed to add rule:" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson());
+    } else {
+        qDebug() << "Rule added successfully. Rule ID:" << params.value("params").toMap().value("ruleId").toString();
+    }
+    emit addRuleReply(params.value("id").toInt(), params.value("params").toMap().value("ruleError").toString(), params.value("params").toMap().value("ruleId").toString());
 }
 
 void RuleManager::removeRuleReply(const QVariantMap &params)
@@ -249,7 +253,11 @@ void RuleManager::parseEventDescriptors(const QVariantList &eventDescriptorList,
 {
     foreach (const QVariant &eventDescriptorVariant, eventDescriptorList) {
         EventDescriptor *eventDescriptor = new EventDescriptor(rule);
-        eventDescriptor->setDeviceId(eventDescriptorVariant.toMap().value("deviceId").toString());
+        if (m_jsonClient->ensureServerVersion("5.0")) {
+            eventDescriptor->setThingId(eventDescriptorVariant.toMap().value("thingId").toString());
+        } else {
+            eventDescriptor->setThingId(eventDescriptorVariant.toMap().value("deviceId").toString());
+        }
         eventDescriptor->setEventTypeId(eventDescriptorVariant.toMap().value("eventTypeId").toString());
         eventDescriptor->setInterfaceName(eventDescriptorVariant.toMap().value("interface").toString());
         eventDescriptor->setInterfaceEvent(eventDescriptorVariant.toMap().value("interfaceEvent").toString());
@@ -262,14 +270,14 @@ void RuleManager::parseEventDescriptors(const QVariantList &eventDescriptorList,
             paramDescriptor->setOperatorType((ParamDescriptor::ValueOperator)operatorEnum.keyToValue(paramDescriptorVariant.toMap().value("operator").toString().toLocal8Bit()));
             eventDescriptor->paramDescriptors()->addParamDescriptor(paramDescriptor);
         }
-//        qDebug() << "Adding eventdescriptor" << eventDescriptor->deviceId() << eventDescriptor->eventTypeId();
+        //        qDebug() << "Adding eventdescriptor" << eventDescriptor->deviceId() << eventDescriptor->eventTypeId();
         rule->eventDescriptors()->addEventDescriptor(eventDescriptor);
     }
 }
 
 StateEvaluator *RuleManager::parseStateEvaluator(const QVariantMap &stateEvaluatorMap)
 {
-//    qDebug() << "Parsing state evaluator. Child count:" << stateEvaluatorMap.value("childEvaluators").toList().count();
+    //    qDebug() << "Parsing state evaluator. Child count:" << stateEvaluatorMap.value("childEvaluators").toList().count();
     if (!stateEvaluatorMap.contains("stateDescriptor")) {
         return nullptr;
     }
@@ -280,7 +288,7 @@ StateEvaluator *RuleManager::parseStateEvaluator(const QVariantMap &stateEvaluat
 
     StateDescriptor *sd = nullptr;
     if (sdMap.contains("deviceId") && sdMap.contains("stateTypeId")) {
-         sd = new StateDescriptor(sdMap.value("deviceId").toUuid(), sdMap.value("stateTypeId").toUuid(), op, sdMap.value("value"), stateEvaluator);
+        sd = new StateDescriptor(sdMap.value("deviceId").toUuid(), sdMap.value("stateTypeId").toUuid(), op, sdMap.value("value"), stateEvaluator);
     } else {
         sd = new StateDescriptor(sdMap.value("interface").toString(), sdMap.value("interfaceState").toString(), op, sdMap.value("value"), stateEvaluator);
     }
@@ -371,5 +379,206 @@ void RuleManager::parseTimeDescriptor(const QVariantMap &timeDescriptor, Rule *r
         calendarItem->repeatingOption()->setMonthDays(repeatingOptionMap.value("monthDays").toList());
         rule->timeDescriptor()->calendarItems()->addCalendarItem(calendarItem);
     }
-//    rule->timeDescriptor()
+    //    rule->timeDescriptor()
+}
+
+QVariantMap RuleManager::packRule(Rule *rule)
+{
+    QVariantMap ret;
+    if (!rule->id().isNull()) {
+        ret.insert("ruleId", rule->id());
+    }
+    ret.insert("name", rule->name());
+    ret.insert("enabled", rule->enabled());
+    ret.insert("executable", rule->executable());
+
+    if (rule->actions()->rowCount() > 0) {
+        ret.insert("actions", packRuleActions(rule->actions()));
+    }
+    if (rule->exitActions()->rowCount() > 0) {
+        ret.insert("exitActions", packRuleActions(rule->exitActions()));
+    }
+
+    if (rule->eventDescriptors()->rowCount() > 0) {
+        ret.insert("eventDescriptors", packEventDescriptors(rule->eventDescriptors()));
+    }
+
+    if (rule->timeDescriptor()->timeEventItems()->rowCount() > 0 || rule->timeDescriptor()->calendarItems()->rowCount() > 0) {
+        ret.insert("timeDescriptor", packTimeDescriptor(rule->timeDescriptor()));
+    }
+
+    if (rule->stateEvaluator()) {
+        ret.insert("stateEvaluator", packStateEvaluator(rule->stateEvaluator()));
+    }
+
+    return ret;
+}
+
+QVariantList RuleManager::packEventDescriptors(EventDescriptors *eventDescriptors)
+{
+    QVariantList ret;
+    for (int i = 0; i < eventDescriptors->rowCount(); i++) {
+        QVariantMap eventDescriptorMap;
+        EventDescriptor* eventDescriptor = eventDescriptors->get(i);
+        if (!eventDescriptor->thingId().isNull() && !eventDescriptor->eventTypeId().isNull()) {
+            eventDescriptorMap.insert("eventTypeId", eventDescriptor->eventTypeId());
+            if (m_jsonClient->ensureServerVersion("5.0")) {
+                eventDescriptorMap.insert("thingId", eventDescriptor->thingId());
+            } else {
+                eventDescriptorMap.insert("deviceId", eventDescriptor->thingId());
+            }
+        } else {
+            eventDescriptorMap.insert("interface", eventDescriptor->interfaceName());
+            eventDescriptorMap.insert("interfaceEvent", eventDescriptor->interfaceEvent());
+        }
+        if (eventDescriptor->paramDescriptors()->rowCount() > 0) {
+            QVariantList paramDescriptors;
+            for (int j = 0; j < eventDescriptor->paramDescriptors()->rowCount(); j++) {
+                QVariantMap paramDescriptor;
+                if (!eventDescriptor->paramDescriptors()->get(j)->paramTypeId().isEmpty()) {
+                    paramDescriptor.insert("paramTypeId", eventDescriptor->paramDescriptors()->get(j)->paramTypeId());
+                } else {
+                    paramDescriptor.insert("paramName", eventDescriptor->paramDescriptors()->get(j)->paramName());
+                }
+                paramDescriptor.insert("value", eventDescriptor->paramDescriptors()->get(j)->value());
+                QMetaEnum operatorEnum = QMetaEnum::fromType<ParamDescriptor::ValueOperator>();
+                paramDescriptor.insert("operator", operatorEnum.valueToKey(eventDescriptor->paramDescriptors()->get(j)->operatorType()));
+                paramDescriptors.append(paramDescriptor);
+            }
+            eventDescriptorMap.insert("paramDescriptors", paramDescriptors);
+        }
+        ret.append(eventDescriptorMap);
+    }
+    return ret;
+}
+
+QVariantMap RuleManager::packTimeDescriptor(TimeDescriptor *timeDescriptor)
+{
+    QVariantMap ret;
+    QVariantList timeEventItems;
+    for (int i = 0; i < timeDescriptor->timeEventItems()->rowCount(); i++) {
+        timeEventItems.append(packTimeEventItem(timeDescriptor->timeEventItems()->get(i)));
+    }
+    if (!timeEventItems.isEmpty()) {
+        ret.insert("timeEventItems", timeEventItems);
+    }
+    QVariantList calendarItems;
+    for (int i = 0; i < timeDescriptor->calendarItems()->rowCount(); i++) {
+        calendarItems.append(packCalendarItem(timeDescriptor->calendarItems()->get(i)));
+    }
+    if (!calendarItems.isEmpty()) {
+        ret.insert("calendarItems", calendarItems);
+    }
+    return ret;
+}
+
+QVariantMap RuleManager::packTimeEventItem(TimeEventItem *timeEventItem)
+{
+    QVariantMap ret;
+    if (!timeEventItem->time().isNull()) {
+        ret.insert("time", timeEventItem->time().toString("hh:mm"));
+    }
+    if (!timeEventItem->dateTime().isNull()) {
+        ret.insert("datetime", timeEventItem->dateTime().toSecsSinceEpoch());
+    }
+    ret.insert("repeating", packRepeatingOption(timeEventItem->repeatingOption()));
+    return ret;
+}
+
+QVariantMap RuleManager::packCalendarItem(CalendarItem *calendarItem)
+{
+    QVariantMap ret;
+    ret.insert("duration", calendarItem->duration());
+    if (!calendarItem->dateTime().isNull()) {
+        ret.insert("datetime", calendarItem->dateTime().toSecsSinceEpoch());
+    }
+    if (!calendarItem->startTime().isNull()) {
+        ret.insert("startTime", calendarItem->startTime().toString("hh:mm"));
+    }
+    ret.insert("repeating", packRepeatingOption(calendarItem->repeatingOption()));
+    return ret;
+}
+
+QVariantMap RuleManager::packRepeatingOption(RepeatingOption *repeatingOption)
+{
+    QVariantMap ret;
+    QMetaEnum repeatingModeEnum = QMetaEnum::fromType<RepeatingOption::RepeatingMode>();
+    ret.insert("mode", repeatingModeEnum.valueToKey(repeatingOption->repeatingMode()));
+    if (!repeatingOption->weekDays().isEmpty()) {
+        ret.insert("weekDays", repeatingOption->weekDays());
+    }
+    if (!repeatingOption->monthDays().isEmpty()) {
+        ret.insert("monthDays", repeatingOption->monthDays());
+    }
+    return ret;
+}
+
+QVariantList RuleManager::packRuleActions(RuleActions *ruleActions)
+{
+    QVariantList ret;
+    for (int i = 0; i < ruleActions->rowCount(); i++) {
+        QVariantMap ruleAction;
+        RuleAction *ra = ruleActions->get(i);
+        if (!ra->actionTypeId().isNull() && !ra->deviceId().isNull()) {
+            ruleAction.insert("deviceId", ra->deviceId());
+            ruleAction.insert("actionTypeId", ra->actionTypeId());
+        } else if (!ra->deviceId().isNull() && !ra->browserItemId().isEmpty()) {
+            ruleAction.insert("deviceId", ra->deviceId());
+            ruleAction.insert("browserItemId", ra->browserItemId());
+        } else {
+            ruleAction.insert("interface", ra->interfaceName());
+            ruleAction.insert("interfaceAction", ra->interfaceAction());
+        }
+        if (ra->ruleActionParams()->rowCount() > 0) {
+            QVariantList ruleActionParams;
+            for (int j = 0; j < ra->ruleActionParams()->rowCount(); j++) {
+                QVariantMap ruleActionParam;
+                RuleActionParam *rap = ruleActions->get(i)->ruleActionParams()->get(j);
+                if (!rap->paramTypeId().isNull()) {
+                    ruleActionParam.insert("paramTypeId", rap->paramTypeId());
+                } else {
+                    ruleActionParam.insert("paramName", rap->paramName());
+                }
+                if (rap->isValueBased()) {
+                    ruleActionParam.insert("value", rap->value());
+                } else if (rap->isEventParamBased()) {
+                    ruleActionParam.insert("eventTypeId", rap->eventTypeId());
+                    ruleActionParam.insert("eventParamTypeId", rap->eventParamTypeId());
+                } else {
+                    ruleActionParam.insert("stateDeviceId", rap->stateDeviceId());
+                    ruleActionParam.insert("stateTypeId", rap->stateTypeId());
+                }
+                ruleActionParams.append(ruleActionParam);
+            }
+            ruleAction.insert("ruleActionParams", ruleActionParams);
+        }
+        ret.append(ruleAction);
+    }
+
+    return ret;
+}
+
+QVariantMap RuleManager::packStateEvaluator(StateEvaluator *stateEvaluator)
+{
+    QVariantMap ret;
+    QMetaEnum stateOperatorEnum = QMetaEnum::fromType<StateEvaluator::StateOperator>();
+    ret.insert("operator", stateOperatorEnum.valueToKey(stateEvaluator->stateOperator()));
+    QVariantMap stateDescriptor;
+    if (!stateEvaluator->stateDescriptor()->deviceId().isNull() && !stateEvaluator->stateDescriptor()->stateTypeId().isNull()) {
+        stateDescriptor.insert("deviceId", stateEvaluator->stateDescriptor()->deviceId());
+        stateDescriptor.insert("stateTypeId", stateEvaluator->stateDescriptor()->stateTypeId());
+    } else {
+        stateDescriptor.insert("interface", stateEvaluator->stateDescriptor()->interfaceName());
+        stateDescriptor.insert("interfaceState", stateEvaluator->stateDescriptor()->interfaceState());
+    }
+    QMetaEnum valueOperatorEnum = QMetaEnum::fromType<StateDescriptor::ValueOperator>();
+    stateDescriptor.insert("operator", valueOperatorEnum.valueToKeys(stateEvaluator->stateDescriptor()->valueOperator()));
+    stateDescriptor.insert("value", stateEvaluator->stateDescriptor()->value());
+    ret.insert("stateDescriptor", stateDescriptor);
+    QVariantList childEvaluators;
+    for (int i = 0; i < stateEvaluator->childEvaluators()->rowCount(); i++) {
+        childEvaluators.append(packStateEvaluator(stateEvaluator->childEvaluators()->get(i)));
+    }
+    ret.insert("childEvaluators", childEvaluators);
+    return ret;
 }

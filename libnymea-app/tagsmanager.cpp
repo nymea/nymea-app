@@ -133,21 +133,31 @@ void TagsManager::handleTagsNotification(const QVariantMap &params)
     } else if (notification == "Tags.TagRemoved") {
         for (int i = 0; i < m_tags->rowCount(); i++) {
             Tag* tag = m_tags->get(i);
-            if (tagMap.value("deviceId").toUuid() == tag->deviceId() &&
-                    tagMap.value("ruleId").toUuid() == tag->ruleId() &&
-                    tagMap.value("tagId").toString() == tag->tagId()) {
+            QUuid thingId;
+            if (m_jsonClient->ensureServerVersion("5.0")) {
+                thingId = tagMap.value("thingId").toUuid();
+            } else {
+                thingId = tagMap.value("deviceId").toUuid();
+            }
+            QUuid ruleId = tagMap.value("ruleId").toUuid();
+            QString tagId = tagMap.value("tagId").toString();
+            if (thingId == tag->thingId() && ruleId == tag->ruleId() && tagId == tag->tagId()) {
                 m_tags->removeTag(tag);
                 return;
             }
         }
     } else if (notification == "Tags.TagValueChanged") {
-        qDebug() << "tag value changed";
         for (int i = 0; i < m_tags->rowCount(); i++) {
             Tag* tag = m_tags->get(i);
-            if (tagMap.value("deviceId").toUuid() == tag->deviceId() &&
-                    tagMap.value("ruleId").toUuid() == tag->ruleId() &&
-                    tagMap.value("tagId").toString() == tag->tagId()) {
-                qDebug() << "Found tag";
+            QUuid thingId;
+            if (m_jsonClient->ensureServerVersion("5.0")) {
+                thingId = tagMap.value("thingId").toUuid();
+            } else {
+                thingId = tagMap.value("deviceId").toUuid();
+            }
+            QUuid ruleId = tagMap.value("ruleId").toUuid();
+            QString tagId = tagMap.value("tagId").toString();
+            if (thingId == tag->thingId() && ruleId == tag->ruleId() && tagId == tag->tagId()) {
                 tag->setValue(tagMap.value("value").toString());
             }
         }
@@ -181,14 +191,19 @@ void TagsManager::removeTagReply(const QVariantMap &params)
 
 Tag* TagsManager::unpackTag(const QVariantMap &tagMap)
 {
-    QString deviceId = tagMap.value("deviceId").toString();
+    QString thingId;
+    if (m_jsonClient->ensureServerVersion("5.0")) {
+        thingId = tagMap.value("thingId").toString();
+    } else {
+        thingId = tagMap.value("deviceId").toString();
+    }
     QString ruleId = tagMap.value("ruleId").toString();
     QString tagId = tagMap.value("tagId").toString();
     QString value = tagMap.value("value").toString();
     Tag *tag = nullptr;
-    if (!deviceId.isEmpty()) {
+    if (!thingId.isEmpty()) {
         tag = new Tag(tagId, value);
-        tag->setDeviceId(deviceId);
+        tag->setThingId(thingId);
     } else if (!ruleId.isEmpty()) {
         tag = new Tag(tagId, value);
         tag->setRuleId(ruleId);

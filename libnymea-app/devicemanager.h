@@ -54,6 +54,7 @@ class DeviceManager : public JsonHandler
     Q_OBJECT
     Q_PROPERTY(Vendors* vendors READ vendors CONSTANT)
     Q_PROPERTY(Plugins* plugins READ plugins CONSTANT)
+    Q_PROPERTY(Devices* things READ things CONSTANT)
     Q_PROPERTY(Devices* devices READ devices CONSTANT)
     Q_PROPERTY(DeviceClasses* deviceClasses READ deviceClasses CONSTANT)
     Q_PROPERTY(IOConnections* ioConnections READ ioConnections CONSTANT)
@@ -78,6 +79,7 @@ public:
     Vendors* vendors() const;
     Plugins* plugins() const;
     Devices* devices() const;
+    Devices* things() const;
     DeviceClasses* deviceClasses() const;
     IOConnections* ioConnections() const;
 

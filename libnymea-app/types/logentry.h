@@ -40,7 +40,8 @@ class LogEntry : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QVariant value READ value CONSTANT)
-    Q_PROPERTY(QUuid deviceId READ deviceId CONSTANT)
+    Q_PROPERTY(QUuid thingId READ thingId CONSTANT)
+    Q_PROPERTY(QUuid deviceId READ thingId CONSTANT)
     Q_PROPERTY(QUuid typeId READ typeId CONSTANT)
     Q_PROPERTY(LoggingSource source READ source CONSTANT)
     Q_PROPERTY(LoggingEventType loggingEventType READ loggingEventType CONSTANT)
@@ -70,11 +71,11 @@ public:
     };
     Q_ENUM(LoggingEventType)
 
-    explicit LogEntry(const QDateTime &timestamp, const QVariant &value, const QUuid &deviceId = QUuid(), const QUuid &typeId = QUuid(), LoggingSource source = LoggingSourceSystem, LoggingEventType loggingEventType = LoggingEventTypeTrigger, QObject *parent = nullptr);
+    explicit LogEntry(const QDateTime &timestamp, const QVariant &value, const QUuid &thingId = QUuid(), const QUuid &typeId = QUuid(), LoggingSource source = LoggingSourceSystem, LoggingEventType loggingEventType = LoggingEventTypeTrigger, QObject *parent = nullptr);
 
     QVariant value() const;
     QDateTime timestamp() const;
-    QUuid deviceId() const;
+    QUuid thingId() const;
     QUuid typeId() const;
     LoggingSource source() const;
     LoggingEventType loggingEventType() const;
@@ -86,7 +87,7 @@ public:
 private:
     QVariant m_value;
     QDateTime m_timeStamp;
-    QUuid m_deviceId;
+    QUuid m_thingId;
     QUuid m_typeId;
     LoggingSource m_source;
     LoggingEventType m_loggingEventType;

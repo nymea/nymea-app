@@ -47,7 +47,11 @@ void TagsProxyModel::setTags(Tags *tags)
     if (m_tags != tags) {
         m_tags = tags;
         setSourceModel(tags);
-        connect(tags, &Tags::countChanged, this, &TagsProxyModel::countChanged, Qt::QueuedConnection);
+        connect(tags, &Tags::countChanged, this, [=](){
+            qWarning() << "Tag count changed!";
+            invalidateFilter();
+            emit countChanged();
+        }, Qt::QueuedConnection);
         setSortRole(Tags::RoleValue);
         sort(0);
         emit tagsChanged();
@@ -70,31 +74,46 @@ void TagsProxyModel::setFilterTagId(const QString &filterTagId)
     }
 }
 
-QString TagsProxyModel::filterDeviceId() const
+QUuid TagsProxyModel::filterThingId() const
 {
-    return m_filterDeviceId;
+    return m_filterThingId;
 }
 
-void TagsProxyModel::setFilterDeviceId(const QString &filterDeviceId)
+void TagsProxyModel::setFilterThingId(const QUuid &filterThingId)
 {
-    if (m_filterDeviceId != filterDeviceId) {
-        m_filterDeviceId = filterDeviceId;
-        emit filterDeviceIdChanged();
+    if (m_filterThingId != filterThingId) {
+        m_filterThingId = filterThingId;
+        emit filterThingIdChanged();
         invalidateFilter();
         emit countChanged();
     }
 }
 
-QString TagsProxyModel::filterRuleId() const
+QUuid TagsProxyModel::filterRuleId() const
 {
     return m_filterRuleId;
 }
 
-void TagsProxyModel::setFilterRuleId(const QString &filterRuleId)
+void TagsProxyModel::setFilterRuleId(const QUuid &filterRuleId)
 {
     if (m_filterRuleId != filterRuleId) {
         m_filterRuleId = filterRuleId;
         emit filterRuleIdChanged();
+        invalidateFilter();
+        emit countChanged();
+    }
+}
+
+QString TagsProxyModel::filterValue() const
+{
+    return m_filterValue;
+}
+
+void TagsProxyModel::setFilterValue(const QString &filterValue)
+{
+    if (m_filterValue != filterValue) {
+        m_filterValue = filterValue;
+        emit filterValueChanged();
         invalidateFilter();
         emit countChanged();
     }
@@ -129,13 +148,19 @@ bool TagsProxyModel::filterAcceptsRow(int source_row, const QModelIndex &source_
             return false;
         }
     }
-    if (!m_filterDeviceId.isEmpty()) {
-        if (QUuid(tag->deviceId()) != QUuid(m_filterDeviceId)) {
+    if (!m_filterThingId.isNull()) {
+        if (tag->thingId() != m_filterThingId) {
             return false;
         }
     }
-    if (!m_filterRuleId.isEmpty()) {
-        if (QUuid(tag->ruleId()) != QUuid(m_filterRuleId)) {
+    if (!m_filterRuleId.isNull()) {
+        if (tag->ruleId() != m_filterRuleId) {
+            return false;
+        }
+    }
+    if (!m_filterValue.isEmpty()) {
+        qDebug() << "**************************************************************" << tag->value() << m_filterValue;
+        if (tag->value() != m_filterValue) {
             return false;
         }
     }

@@ -30,6 +30,7 @@
 
 #include "ruletemplate.h"
 #include "eventdescriptortemplate.h"
+#include "timedescriptortemplate.h"
 #include "stateevaluatortemplate.h"
 #include "ruleactiontemplate.h"
 
@@ -83,6 +84,20 @@ void RuleTemplate::setStateEvaluatorTemplate(StateEvaluatorTemplate *stateEvalua
     }
     stateEvaluatorTemplate->setParent(this);
     m_stateEvaluatorTemplate = stateEvaluatorTemplate;
+}
+
+TimeDescriptorTemplate *RuleTemplate::timeDescriptorTemplate() const
+{
+    return m_timeDescriptorTemplate;
+}
+
+void RuleTemplate::setTimeDescriptorTemplate(TimeDescriptorTemplate *timeDescriptorTemplate)
+{
+    if (m_timeDescriptorTemplate) {
+        m_timeDescriptorTemplate->deleteLater();
+    }
+    timeDescriptorTemplate->setParent(this);
+    m_timeDescriptorTemplate = timeDescriptorTemplate;
 }
 
 RuleActionTemplates *RuleTemplate::ruleActionTemplates() const

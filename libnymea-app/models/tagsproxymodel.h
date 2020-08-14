@@ -32,6 +32,7 @@
 #define TAGSPROXYMODEL_H
 
 #include <QSortFilterProxyModel>
+#include <QUuid>
 
 class Tag;
 class Tags;
@@ -42,8 +43,10 @@ class TagsProxyModel : public QSortFilterProxyModel
     Q_PROPERTY(Tags* tags READ tags WRITE setTags NOTIFY tagsChanged)
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
     Q_PROPERTY(QString filterTagId READ filterTagId WRITE setFilterTagId NOTIFY filterTagIdChanged)
-    Q_PROPERTY(QString filterDeviceId READ filterDeviceId WRITE setFilterDeviceId NOTIFY filterDeviceIdChanged)
-    Q_PROPERTY(QString filterRuleId READ filterRuleId WRITE setFilterRuleId NOTIFY filterRuleIdChanged)
+    Q_PROPERTY(QUuid filterThingId READ filterThingId WRITE setFilterThingId NOTIFY filterThingIdChanged)
+    Q_PROPERTY(QUuid filterDeviceId READ filterThingId WRITE setFilterThingId NOTIFY filterThingIdChanged)
+    Q_PROPERTY(QUuid filterRuleId READ filterRuleId WRITE setFilterRuleId NOTIFY filterRuleIdChanged)
+    Q_PROPERTY(QString filterValue READ filterValue WRITE setFilterValue NOTIFY filterValueChanged)
 
 public:
     explicit TagsProxyModel(QObject *parent = nullptr);
@@ -54,11 +57,14 @@ public:
     QString filterTagId() const;
     void setFilterTagId(const QString &filterTagId);
 
-    QString filterDeviceId() const;
-    void setFilterDeviceId(const QString &filterDeviceId);
+    QUuid filterThingId() const;
+    void setFilterThingId(const QUuid &filterThingId);
 
-    QString filterRuleId() const;
-    void setFilterRuleId(const QString &filterRuleId);
+    QUuid filterRuleId() const;
+    void setFilterRuleId(const QUuid &filterRuleId);
+
+    QString filterValue() const;
+    void setFilterValue(const QString &filterValue);
 
     Q_INVOKABLE Tag* get(int index) const;
     Q_INVOKABLE Tag* findTag(const QString &tagId) const;
@@ -70,16 +76,18 @@ protected:
 signals:
     void tagsChanged();
     void filterTagIdChanged();
-    void filterDeviceIdChanged();
+    void filterThingIdChanged();
     void filterRuleIdChanged();
+    void filterValueChanged();
     void groupSameTagsChanged();
     void countChanged();
 
 private:
     Tags *m_tags = nullptr;
     QString m_filterTagId;
-    QString m_filterDeviceId;
-    QString m_filterRuleId;
+    QUuid m_filterThingId;
+    QUuid m_filterRuleId;
+    QString m_filterValue;
 };
 
 #endif // TAGSPROXYMODEL_H

@@ -126,6 +126,11 @@ Devices *DeviceManager::devices() const
     return m_devices;
 }
 
+Devices *DeviceManager::things() const
+{
+    return m_devices;
+}
+
 DeviceClasses *DeviceManager::deviceClasses() const
 {
     return m_deviceClasses;

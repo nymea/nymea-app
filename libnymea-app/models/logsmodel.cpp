@@ -71,8 +71,8 @@ QVariant LogsModel::data(const QModelIndex &index, int role) const
         return m_list.at(index.row())->timestamp();
     case RoleValue:
         return m_list.at(index.row())->value();
-    case RoleDeviceId:
-        return m_list.at(index.row())->deviceId();
+    case RoleThingId:
+        return m_list.at(index.row())->thingId();
     case RoleTypeId:
         return m_list.at(index.row())->typeId();
     case RoleSource:
@@ -88,7 +88,7 @@ QHash<int, QByteArray> LogsModel::roleNames() const
     QHash<int, QByteArray> roles;
     roles.insert(RoleTimestamp, "timestamp");
     roles.insert(RoleValue, "value");
-    roles.insert(RoleDeviceId, "deviceId");
+    roles.insert(RoleThingId, "deviceId");
     roles.insert(RoleTypeId, "typeId");
     roles.insert(RoleSource, "source");
     roles.insert(RoleLoggingEventType, "loggingEventType");

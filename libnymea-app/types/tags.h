@@ -41,6 +41,7 @@ class Tags: public QAbstractListModel
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
 public:
     enum Roles {
+        RoleThingId,
         RoleDeviceId,
         RoleRuleId,
         RoleTagId,
@@ -58,8 +59,9 @@ public:
     void addTags(QList<Tag*> tags);
     void removeTag(Tag *tag);
 
-    Tag* get(int index) const;
+    Q_INVOKABLE Tag* get(int index) const;
 
+    Q_INVOKABLE Tag* findThingTag(const QUuid &thingId, const QString &tagId) const;
     Q_INVOKABLE Tag* findDeviceTag(const QUuid &deviceId, const QString &tagId) const;
     Q_INVOKABLE Tag* findRuleTag(const QString &ruleId, const QString &tagId) const;
 

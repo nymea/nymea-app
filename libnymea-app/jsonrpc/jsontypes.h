@@ -51,14 +51,6 @@ class DeviceManager;
 class Device;
 class DeviceClasses;
 class Param;
-class Rule;
-class StateEvaluator;
-class RuleActions;
-class EventDescriptors;
-class TimeDescriptor;
-class TimeEventItem;
-class CalendarItem;
-class RepeatingOption;
 
 class JsonTypes : public QObject
 {
@@ -76,15 +68,7 @@ public:
     static ActionType *unpackActionType(const QVariantMap &actionTypeMap, QObject *parent);
     static Device *unpackDevice(DeviceManager *deviceManager, const QVariantMap &deviceMap, DeviceClasses *deviceClasses, Device *oldDevice = nullptr);
 
-    static QVariantMap packRule(Rule* rule);
-    static QVariantList packRuleActions(RuleActions* ruleActions);
-    static QVariantList packEventDescriptors(EventDescriptors* eventDescriptors);
     static QVariantMap packParam(Param *param);
-    static QVariantMap packStateEvaluator(StateEvaluator* stateEvaluator);
-    static QVariantMap packTimeDescriptor(TimeDescriptor* timeDescriptor);
-    static QVariantMap packTimeEventItem(TimeEventItem* timeEventItem);
-    static QVariantMap packCalendarItem(CalendarItem* calendarItem);
-    static QVariantMap packRepeatingOption(RepeatingOption* repeatingOption);
 
 private:
     static DeviceClass::SetupMethod stringToSetupMethod(const QString &setupMethodString);

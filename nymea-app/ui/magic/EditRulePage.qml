@@ -43,9 +43,9 @@ Page {
     property bool busy: false
 
     readonly property bool isEventBased: rule.eventDescriptors.count > 0 || rule.timeDescriptor.timeEventItems.count > 0
-    readonly property bool isStateBased: (rule.stateEvaluator !== null || rule.timeDescriptor.calendarItems.count > 0) && !isEventBased
+    readonly property bool isStateBased: (rule.stateEvaluator !== null || rule.timeDescriptor.calendarItems.count > 0)
     readonly property bool actionsVisible: true
-    readonly property bool exitActionsVisible: (engine.jsonRpcClient.ensureServerVersion(1.7) && !isEmpty) || isStateBased
+    readonly property bool exitActionsVisible: engine.jsonRpcClient.ensureServerVersion("1.7") && isStateBased
     readonly property bool hasActions: rule.actions.count > 0
     readonly property bool hasExitActions: rule.exitActions.count > 0
     readonly property bool isEmpty: !isEventBased && !isStateBased && !hasActions
@@ -445,12 +445,10 @@ Page {
                             }
                         }
                     }
-
-
                 }
             }
 
-            ThinDivider { visible: !root.isStateBased }
+            ThinDivider { visible: root.isEmpty || root.isEventBased }
 
             Label {
                 Layout.fillWidth: true
@@ -460,7 +458,7 @@ Page {
                 text: eventsRepeater.count === 0 && timeEventRepeater.count === 0 && actionsRepeater.count === 0 ?
                           qsTr("Execute actions when something happens.") :
                           qsTr("When any of these events happen...")
-                visible: !root.isStateBased
+                visible: root.isEmpty || root.isEventBased
                 font.bold: true
             }
             Label {
@@ -502,7 +500,7 @@ Page {
                 Layout.fillWidth: true
                 Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.bottomMargin: app.margins
                 text: eventsRepeater.count == 0 && timeEventRepeater.count === 0 ? qsTr("Configure...") : qsTr("Add another...")
-                visible: !root.isStateBased
+                visible: root.isEmpty || root.isEventBased
                 onClicked: {
                     if (root.initialDeviceToBeAdded !== null) {
                         var eventDescriptor = root.rule.eventDescriptors.createNewEventDescriptor();
@@ -617,10 +615,10 @@ Page {
             ThinDivider { visible: root.actionsVisible }
 
             Label {
-                text: root.isEmpty ? qsTr("Create a scene.") :
-                                     root.isStateBased ?
-                                         (root.rule.stateEvaluator === 0 ? qsTr("...come true, execute those actions:") : qsTr("...comes true, execute those actions:")) :
-                                         qsTr("...execute those actions:")
+                text: root.isEmpty ? qsTr("Create a scene.")
+                                   : root.isEventBased ? qsTr("...execute those actions:")
+                                   : root.isStateBased ? qsTr("...come true, execute those actions:")
+                                   : qsTr("Execute those actions:")
                 font.pixelSize: app.mediumFont
                 Layout.fillWidth: true
                 Layout.margins: app.margins
@@ -674,8 +672,8 @@ Page {
             ThinDivider { visible: root.exitActionsVisible }
 
             Label {
-                text: root.isStateBased ? qsTr("...isn't met any more, execute those actions:") :
-                                          qsTr("If the condition isn't met, execute those actions instead:")
+                text: root.isEventBased ? qsTr("If the condition isn't met, execute those actions instead:") : qsTr("When the condition isn't met any more, execute those actions:")
+
                 Layout.fillWidth: true
                 Layout.margins: app.margins
                 wrapMode: Text.WordWrap
@@ -699,7 +697,7 @@ Page {
             Button {
                 Layout.fillWidth: true
                 Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.bottomMargin: app.margins
-                text: actionsRepeater.count == 0 ? qsTr("Add an action...") : qsTr("Add another action...")
+                text: exitActionsRepeater.count == 0 ? qsTr("Add an action...") : qsTr("Add another action...")
                 onClicked: {
                     var page = pageStack.push(ruleActionQuestionPageComponent, {exitAction: true});
                 }

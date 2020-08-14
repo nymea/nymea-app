@@ -83,6 +83,9 @@
 #include "ruletemplates/ruletemplates.h"
 #include "ruletemplates/ruletemplate.h"
 #include "ruletemplates/eventdescriptortemplate.h"
+#include "ruletemplates/timedescriptortemplate.h"
+#include "ruletemplates/calendaritemtemplate.h"
+#include "ruletemplates/timeeventitemtemplate.h"
 #include "ruletemplates/stateevaluatortemplate.h"
 #include "ruletemplates/statedescriptortemplate.h"
 #include "ruletemplates/ruleactiontemplate.h"
@@ -265,6 +268,11 @@ void registerQmlTypes() {
     qmlRegisterUncreatableType<RuleTemplate>(uri, 1, 0, "RuleTemplate", "Get them from RuleTemplates");
     qmlRegisterUncreatableType<EventDescriptorTemplates>(uri, 1, 0, "EventDescriptorTemplates", "Get it from RuleTemplate");
     qmlRegisterUncreatableType<EventDescriptorTemplate>(uri, 1, 0, "EventDescriptorTemplate", "Get it from EventDescriptorTemplates");
+    qmlRegisterUncreatableType<TimeDescriptorTemplate>(uri, 1, 0, "TimeDescriptorTemplate", "Get it from RuleTemplate");
+    qmlRegisterUncreatableType<CalendarItemTemplates>(uri, 1, 0, "CalendarItemTemplates", "Get it from TimeDescriptorTemplate");
+    qmlRegisterUncreatableType<CalendarItemTemplate>(uri, 1, 0, "CalendarItemTemplate", "Get it from CalendarItemTemplates");
+    qmlRegisterUncreatableType<TimeEventItemTemplates>(uri, 1, 0, "TimeEventItemTemplates", "Get it from TimeDescriptorTemplate");
+    qmlRegisterUncreatableType<TimeEventItemTemplate>(uri, 1, 0, "TimeEventItemTemplate", "Get it from TimeEventItemTemplates");
     qmlRegisterUncreatableType<StateEvaluatorTemplate>(uri, 1, 0, "StateEvaluatorTemplate", "Get it from RuleTemplate");
     qmlRegisterUncreatableType<StateDescriptorTemplate>(uri, 1, 0, "StateDescriptorTemplate", "Get it from StateEvaluatorTemplate");
     qmlRegisterUncreatableType<RuleActionTemplates>(uri, 1, 0, "RuleActionTemplates", "Get it from RuleTemplate");

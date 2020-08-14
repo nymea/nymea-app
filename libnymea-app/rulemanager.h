@@ -37,8 +37,14 @@
 #include "jsonrpc/jsonhandler.h"
 
 class JsonRpcClient;
+class EventDescriptors;
+class TimeDescriptor;
+class TimeEventItem;
+class CalendarItem;
+class RepeatingOption;
 class StateEvaluator;
 class RuleAction;
+class RuleActions;
 
 class RuleManager : public JsonHandler
 {
@@ -57,8 +63,8 @@ public:
 
     Q_INVOKABLE Rule* createNewRule();
 
-    Q_INVOKABLE void addRule(const QVariantMap params);
-    Q_INVOKABLE void addRule(Rule *rule);
+    Q_INVOKABLE int addRule(const QVariantMap params);
+    Q_INVOKABLE int addRule(Rule *rule);
     Q_INVOKABLE void removeRule(const QUuid &ruleId);
     Q_INVOKABLE void editRule(Rule *rule);
     Q_INVOKABLE void executeActions(const QString &ruleId);
@@ -81,8 +87,17 @@ private:
     RuleAction* parseRuleAction(const QVariantMap &ruleAction);
     void parseTimeDescriptor(const QVariantMap &timeDescriptor, Rule *rule);
 
+    QVariantMap packRule(Rule *rule);
+    QVariantList packEventDescriptors(EventDescriptors *eventDescriptors);
+    QVariantMap packTimeDescriptor(TimeDescriptor *timeDescriptor);
+    QVariantMap packTimeEventItem(TimeEventItem *timeEventItem);
+    QVariantMap packCalendarItem(CalendarItem *calendarItem);
+    QVariantMap packRepeatingOption(RepeatingOption *repeatingOption);
+    QVariantList packRuleActions(RuleActions *ruleActions);
+    QVariantMap packStateEvaluator(StateEvaluator *stateEvaluator);
+
 signals:
-    void addRuleReply(const QString &ruleError, const QString &ruleId);
+    void addRuleReply(int commandId, const QString &ruleError, const QString &ruleId);
     void editRuleReply(const QString &ruleError);
 
 private:
