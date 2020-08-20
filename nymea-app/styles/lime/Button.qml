@@ -51,7 +51,7 @@ T.Button {
 
     Material.elevation: flat ? control.down || control.hovered ? 2 : 0
                              : control.down ? 8 : 2
-    Material.background: flat ? "transparent" : undefined
+//    Material.background: flat ? "transparent" : undefined
 
     contentItem: Text {
         text: control.text
