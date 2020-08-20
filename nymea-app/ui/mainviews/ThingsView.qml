@@ -34,30 +34,50 @@ import QtQuick.Controls.Material 2.1
 import QtQuick.Layouts 1.2
 import Nymea 1.0
 import "../components"
+import "../delegates"
 
-MouseArea {
+MainViewBase {
     id: root
-    property alias count: interfacesGridView.count
-    property alias model: interfacesGridView.model
 
-    // Prevent scroll events to swipe left/right in case they fall through the grid
-    preventStealing: true
-    onWheel: wheel.accepted = true
+    InterfacesSortModel {
+        id: mainModel
+        interfacesModel: InterfacesModel {
+            engine: _engine
+            devices: DevicesProxy {
+                engine: _engine
+            }
+            shownInterfaces: app.supportedInterfaces
+            showUncategorized: true
+        }
+    }
 
     GridView {
         id: interfacesGridView
         anchors.fill: parent
         anchors.margins: app.margins / 2
+        model: mainModel
 
         readonly property int minTileWidth: 172
         readonly property int tilesPerRow: root.width / minTileWidth
 
         cellWidth: width / tilesPerRow
         cellHeight: cellWidth
-        delegate: DevicesPageDelegate {
+        delegate: InterfaceTile {
             width: interfacesGridView.cellWidth
             height: interfacesGridView.cellHeight
             iface: Interfaces.findByName(model.name)
         }
+    }
+
+    EmptyViewPlaceholder {
+        anchors { left: parent.left; right: parent.right; margins: app.margins }
+        anchors.verticalCenter: parent.verticalCenter
+        visible: engine.deviceManager.devices.count === 0 && !engine.deviceManager.fetchingData
+        title: qsTr("Welcome to %1!").arg(app.systemName)
+        // Have that split in 2 because we need those strings separated in EditDevicesPage too and don't want translators to do them twice
+        text: qsTr("There are no things set up yet.") + "\n" + qsTr("In order for your %1 system to be useful, go ahead and add some things.").arg(app.systemName)
+        imageSource: "qrc:/styles/%1/logo.svg".arg(styleController.currentStyle)
+        buttonText: qsTr("Add a thing")
+        onButtonClicked: pageStack.push(Qt.resolvedUrl("../thingconfiguration/NewThingPage.qml"))
     }
 }

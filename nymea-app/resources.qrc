@@ -10,8 +10,7 @@
         <file>ui/RootItem.qml</file>
         <file>ui/mainviews/ScenesView.qml</file>
         <file>ui/mainviews/FavoritesView.qml</file>
-        <file>ui/mainviews/DevicesPageDelegate.qml</file>
-        <file>ui/mainviews/DevicesPage.qml</file>
+        <file>ui/mainviews/ThingsView.qml</file>
         <file>ui/connection/ConnectPage.qml</file>
         <file>ui/connection/ManualConnectPage.qml</file>
         <file>ui/connection/ConnectingPage.qml</file>
@@ -108,6 +107,7 @@
         <file>ui/delegates/ParamDelegate.qml</file>
         <file>ui/delegates/ActionDelegate.qml</file>
         <file>ui/delegates/ThingDelegate.qml</file>
+        <file>ui/delegates/InterfaceTile.qml</file>
         <file>ui/system/LogViewerPage.qml</file>
         <file>ui/system/PluginsPage.qml</file>
         <file>ui/system/PluginParamsPage.qml</file>
@@ -218,5 +218,9 @@
         <file>ui/thingconfiguration/ThingClassDetailsPage.qml</file>
         <file>ui/components/ClosablesControlLarge.qml</file>
         <file>ui/devicepages/BarcodeScannerThingPage.qml</file>
+        <file>ui/mainviews/GaragesView.qml</file>
+        <file>ui/mainviews/EnergyView.qml</file>
+        <file>ui/components/MainViewBase.qml</file>
+        <file>ui/components/SmartMeterChart.qml</file>
     </qresource>
 </RCC>

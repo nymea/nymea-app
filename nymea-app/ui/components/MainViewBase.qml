@@ -28,44 +28,19 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.9
-import QtQuick.Controls 2.2
-import QtQuick.Controls.Material 2.2
-import QtQuick.Layouts 1.3
+import QtQuick 2.8
+import QtQuick.Controls 2.1
+import QtQuick.Controls.Material 2.1
+import QtQuick.Layouts 1.2
+import Nymea 1.0
+import "../components"
+import "../delegates"
 
-TabButton {
+MouseArea {
     id: root
-    property string iconSource
-    property var alignment: Qt.Vertical
 
-    Rectangle {
-        anchors.fill: parent
-        color: Material.foreground
-        opacity: 0.05
-    }
+    // Prevent scroll events to swipe left/right in case they fall through the grid
+    preventStealing: true
+    onWheel: wheel.accepted = true
 
-    contentItem: Item {
-        height: root.height
-        Grid {
-            anchors.centerIn: parent
-            columns: root.alignment == Qt.Vertical ? 1 : 2
-            spacing: root.alignment == Qt.Horizontal ? app.margins : app.margins / 2
-            horizontalItemAlignment: Grid.AlignHCenter
-            verticalItemAlignment: Grid.AlignVCenter
-
-            ColorIcon {
-                width: app.iconSize
-                height: app.iconSize
-                name: root.iconSource
-                color: root.checked ? app.accentColor : keyColor
-            }
-            Label {
-                id: textLabel
-                text: root.text
-                font.pixelSize: app.smallFont
-                color: root.checked ? app.accentColor : Material.foreground
-            }
-        }
-    }
 }
-

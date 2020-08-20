@@ -33,6 +33,8 @@ import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.1
 import QtQuick.Layouts 1.2
 import QtQuick.Window 2.3
+import Qt.labs.settings 1.0
+import Qt.labs.folderlistmodel 2.2
 import Nymea 1.0
 import "components"
 import "delegates"
@@ -42,7 +44,8 @@ Page {
     id: root
 
     header: FancyHeader {
-        title: swipeView.currentItem.title
+        id: mainHeader
+        title: filteredContentModel.data(swipeView.currentIndex, "displayName")
         leftButtonVisible: true
         leftButtonImageSource: {
             switch (engine.jsonRpcClient.currentConnection.bearerType) {
@@ -65,10 +68,14 @@ Page {
             var dialog = connectionDialogComponent.createObject(root)
             dialog.open();
         }
-
+        onMenuOpenChanged: {
+            if (menuOpen && d.configOverlay) {
+                d.configOverlay.destroy()
+            }
+        }
 
         model: ListModel {
-            ListElement { iconSource: "../images/share.svg"; text: qsTr("Configure things"); page: "thingconfiguration/EditThingsPage.qml" }
+            ListElement { iconSource: "../images/things.svg"; text: qsTr("Configure things"); page: "thingconfiguration/EditThingsPage.qml" }
             ListElement { iconSource: "../images/magic.svg"; text: qsTr("Magic"); page: "MagicPage.qml" }
             ListElement { iconSource: "../images/stock_application.svg"; text: qsTr("App settings"); page: "appsettings/AppSettingsPage.qml" }
             ListElement { iconSource: "../images/settings.svg"; text: qsTr("System settings"); page: "SettingsPage.qml" }
@@ -78,84 +85,6 @@ Page {
             pageStack.push(model.get(index).page)
         }
     }
-
-    property int currentViewIndex: 0
-
-    property bool swipeViewReady: false
-    property bool tabsReady: false
-
-    // FIXME: All this can go away when we require Controls 2.3 (Qt 5.10) or greater as TabBar got a major rework there.
-    // Ideally we'd just list the 3 items and set visible to false if the server version isn't good enough but TabBar
-    // has troubles dealing with that. For now, let's manually fill it and use a timer to initialize the currentIndex.
-    Component.onCompleted: {
-        // Fill SwipeView (The 2 static views things and scenes will already be there).
-        if (engine.jsonRpcClient.ensureServerVersion(1.6)) {
-            swipeView.insertItem(0, favoritesViewComponent.createObject(swipeView))
-        }
-        var experienceView = null;
-        if (styleController.currentExperience != "Default") {
-            experienceView = experienceViewComponent.createObject(swipeView, {source: "experiences/" + styleController.currentExperience + "/Main.qml" });
-            swipeView.insertItem(0, experienceView)
-        }
-        root.swipeViewReady = true;
-
-
-        var pi = 0;
-        if (experienceView) {
-            tabEntryComponent.createObject(tabBar, {text: experienceView.title, iconSource: experienceView.icon, pageIndex: pi++})
-        }
-        if (engine.jsonRpcClient.ensureServerVersion(1.6)) {
-            tabEntryComponent.createObject(tabBar, {text: qsTr("Favorites"), iconSource: "../images/starred.svg", pageIndex: pi++})
-        }
-        tabEntryComponent.createObject(tabBar, {text: qsTr("Things"), iconSource: "../images/share.svg", pageIndex: pi++})
-        tabEntryComponent.createObject(tabBar, {text: qsTr("Scenes"), iconSource: "../images/slideshow.svg", pageIndex: pi++})
-        if (engine.jsonRpcClient.ensureServerVersion(1.6)) {
-            tabEntryComponent.createObject(tabBar, {text: qsTr("Groups"), iconSource: "../images/view-grid-symbolic.svg", pageIndex: pi++})
-        }
-
-        root.tabsReady = true
-    }
-
-    readonly property bool viewReady: swipeViewReady && tabsReady
-    onViewReadyChanged: {
-        if (tabSettings.currentMainViewIndex > swipeView.count) {
-            tabSettings.currentMainViewIndex = swipeView.count - 1;
-        }
-
-        // Load current index from settings
-        currentViewIndex = tabSettings.currentMainViewIndex;
-
-        // If setting is not initialized yet, init to "Things" page (might be 0 or 1, depending whether we have tags support)
-        if (currentViewIndex === -1) {
-            currentViewIndex = engine.jsonRpcClient.ensureServerVersion(1.6) ? 1 : 0
-        }
-
-        // and set up a binding to sync changes back to the settings
-        tabSettings.currentMainViewIndex = Qt.binding(function() { return root.currentViewIndex; });
-
-        // Tabbar gets a little confused if it's bound to it before the init happened, do it now
-        tabBar.currentIndex = Qt.binding(function() { return root.currentViewIndex; });
-    }
-
-    // FIXME: Currently we don't have any feedback for executeAction
-    // we don't want all the results, e.g. on looped calls like "all off"
-    //    Connections {
-    //        target: engine.deviceManager
-    //        onExecuteActionReply: {
-    //            var text = params["deviceError"]
-    //            switch(text) {
-    //            case "DeviceErrorNoError":
-    //                return;
-    //            case "DeviceErrorHardwareNotAvailable":
-    //                text = qsTr("Could not execute action. The thing is not available");
-    //                break;
-    //            }
-
-    //            var errorDialog = Qt.createComponent(Qt.resolvedUrl("components/ErrorDialog.qml"))
-    //            var popup = errorDialog.createObject(root, {text: text})
-    //            popup.open()
-    //        }
-    //    }
 
     Connections {
         target: engine.ruleManager
@@ -170,6 +99,69 @@ Page {
     QtObject {
         id: d
         property var editRulePage: null
+        property var configOverlay: null
+    }
+
+    Settings {
+        id: mainViewSettings
+        category: engine.jsonRpcClient.currentHost.uuid
+        property string mainMenuContent: ""
+        property var sortOrder: []
+        property var filterList: ["things"]
+        property int currentIndex: 0
+    }
+
+    ListModel {
+        id: mainMenuBaseModel
+        // TODO: Should read this from disk somehow maybe?
+        ListElement { name: "things"; source: "ThingsView"; displayName: qsTr("Things"); icon: "things" }
+        ListElement { name: "favorites"; source: "FavoritesView"; displayName: qsTr("Favorites"); icon: "starred" }
+        ListElement { name: "groups"; source: "GroupsView"; displayName: qsTr("Groups"); icon: "view-grid-symbolic" }
+        ListElement { name: "scenes"; source: "ScenesView"; displayName: qsTr("Scenes"); icon: "slideshow" }
+        ListElement { name: "garages"; source: "GaragesView"; displayName: qsTr("Garages"); icon: "garage/garage-100" }
+        ListElement { name: "energy"; source: "EnergyView"; displayName: qsTr("Energy"); icon: "smartmeter" }
+    }
+
+    ListModel {
+        id: mainMenuModel
+        ListElement { name: "dummy"; source: "Dummy"; displayName: ""; icon: "" }
+
+        Component.onCompleted: {
+            var configList = {}
+            var newList = {}
+            var newItems = 0
+            for (var i = 0; i < mainMenuBaseModel.count; i++) {
+                var item = mainMenuBaseModel.get(i);
+                var idx = mainViewSettings.sortOrder.indexOf(item.name);
+                if (idx === -1) {
+                    newList[newItems++] = item;
+                } else {
+                    configList[idx] = item;
+                }
+            }
+
+            clear();
+
+            for (idx in configList) {
+                item = configList[idx];
+                mainMenuModel.append(item)
+            }
+            for (idx  in newList) {
+                item = newList[idx];
+                mainMenuModel.append(item)
+            }
+
+            tabBar.currentIndex = Qt.binding(function() { return mainViewSettings.currentIndex; })
+            swipeView.currentIndex = Qt.binding(function() { return tabBar.currentIndex; })
+            mainViewSettings.currentIndex = Qt.binding(function() { return swipeView.currentIndex; })
+        }
+    }
+
+    SortFilterProxyModel {
+        id: filteredContentModel
+        sourceModel: mainMenuModel
+        filterList: mainViewSettings.filterList
+        filterRoleName: "name"
     }
 
     ColumnLayout {
@@ -226,8 +218,8 @@ Page {
             }
         }
 
-
         Item {
+            id: contentContainer
             Layout.fillWidth: true
             Layout.fillHeight: true
             clip: true
@@ -235,131 +227,17 @@ Page {
             SwipeView {
                 id: swipeView
                 anchors.fill: parent
-                currentIndex: root.currentViewIndex
+                opacity: d.configOverlay === null ? 1 : 0
+                Behavior on opacity { NumberAnimation { duration: 200; easing.type: Easing.InOutQuad } }
 
-                onCurrentIndexChanged: {
-                    root.currentViewIndex = currentIndex
-                }
+                Repeater {
+                    model: filteredContentModel
 
-                Component {
-                    id: experienceViewComponent
-                    Loader {
+                    delegate: Loader {
                         width: swipeView.width
                         height: swipeView.height
                         clip: true
-                        readonly property string title: item ? item.title : ""
-                        readonly property string icon: item ? item.icon : ""
-                    }
-                }
-
-                Component {
-                    id: favoritesViewComponent
-                    FavoritesView {
-                        id: favoritesView
-                        objectName: "favorites"
-                        width: swipeView.width
-                        height: swipeView.height
-                        property string title: qsTr("My favorites")
-
-                        EmptyViewPlaceholder {
-                            anchors { left: parent.left; right: parent.right; margins: app.margins }
-                            anchors.verticalCenter: parent.verticalCenter
-                            visible: favoritesView.count === 0 && !engine.deviceManager.fetchingData
-                            title: qsTr("There are no favorite things yet.")
-                            text: engine.deviceManager.devices.count === 0 ?
-                                      qsTr("It appears there are no things set up either yet. In order to use favorites you need to add some things first.") :
-                                      qsTr("Favorites allow you to keep track of your most important things when you have lots of them. Watch out for the star when interacting with things and use it to mark them as your favorites.")
-                            imageSource: "images/starred.svg"
-                            buttonVisible: engine.deviceManager.devices.count === 0
-                            buttonText: qsTr("Add a thing")
-                            onButtonClicked: pageStack.push(Qt.resolvedUrl("thingconfiguration/NewThingPage.qml"))
-                        }
-
-                    }
-                }
-
-                DevicesPage {
-                    property string title: qsTr("My things")
-                    width: swipeView.width
-                    height: swipeView.height
-                    model: InterfacesSortModel {
-                        interfacesModel: InterfacesModel {
-                            engine: _engine
-                            devices: DevicesProxy {
-                                engine: _engine
-                            }
-                            shownInterfaces: app.supportedInterfaces
-                            showUncategorized: true
-                        }
-                    }
-
-                    EmptyViewPlaceholder {
-                        anchors { left: parent.left; right: parent.right; margins: app.margins }
-                        anchors.verticalCenter: parent.verticalCenter
-                        visible: engine.deviceManager.devices.count === 0 && !engine.deviceManager.fetchingData
-                        title: qsTr("Welcome to %1!").arg(app.systemName)
-                        // Have that split in 2 because we need those strings separated in EditDevicesPage too and don't want translators to do them twice
-                        text: qsTr("There are no things set up yet.") + "\n" + qsTr("In order for your %1 system to be useful, go ahead and add some things.").arg(app.systemName)
-                        imageSource: "qrc:/styles/%1/logo.svg".arg(styleController.currentStyle)
-                        buttonText: qsTr("Add a thing")
-                        onButtonClicked: pageStack.push(Qt.resolvedUrl("thingconfiguration/NewThingPage.qml"))
-                    }
-                }
-
-                ScenesView {
-                    id: scenesView
-                    property string title: qsTr("My scenes");
-                    width: swipeView.width
-                    height: swipeView.height
-
-                    EmptyViewPlaceholder {
-                        anchors { left: parent.left; right: parent.right; margins: app.margins }
-                        anchors.verticalCenter: parent.verticalCenter
-                        visible: scenesView.count === 0 && !engine.deviceManager.fetchingData
-                        title: qsTr("There are no scenes set up yet.")
-                        text: engine.deviceManager.devices.count === 0 ?
-                                  qsTr("It appears there are no things set up either yet. In order to use scenes you need to add some things first.") :
-                                  qsTr("Scenes provide a useful way to control your things with just one click.")
-                        imageSource: "images/slideshow.svg"
-                        buttonText: engine.deviceManager.devices.count === 0 ? qsTr("Add a thing") : qsTr("Add a scene")
-                        onButtonClicked: {
-                            if (engine.deviceManager.devices.count === 0) {
-                                pageStack.push(Qt.resolvedUrl("thingconfiguration/NewThingPage.qml"))
-                            } else {
-                                var newRule = engine.ruleManager.createNewRule();
-                                d.editRulePage = pageStack.push(Qt.resolvedUrl("magic/EditRulePage.qml"), {rule: newRule });
-                                d.editRulePage.startAddAction();
-                                d.editRulePage.StackView.onRemoved.connect(function() {
-                                    newRule.destroy();
-                                })
-                                d.editRulePage.onAccept.connect(function() {
-                                    d.editRulePage.busy = true;
-                                    engine.ruleManager.addRule(d.editRulePage.rule);
-                                })
-                                d.editRulePage.onCancel.connect(function() {
-                                    pageStack.pop();
-                                })
-                            }
-                        }
-                    }
-                }
-
-                GroupsView {
-                    id: groupsView
-                    property string title: qsTr("My groups");
-                    width: swipeView.width
-                    height: swipeView.height
-
-                    EmptyViewPlaceholder {
-                        anchors { left: parent.left; right: parent.right; margins: app.margins }
-                        anchors.verticalCenter: parent.verticalCenter
-                        visible: groupsView.count == 0 && !engine.deviceManager.fetchingData && !engine.tagsManager.busy
-                        title: qsTr("There are no groups set up yet.")
-                        text: qsTr("Grouping things can be useful to control multiple devices at once, for example an entire room. Watch out for the group symbol when interacting with things and use it to add them to groups.")
-                        imageSource: "images/view-grid-symbolic.svg"
-                        buttonVisible: false
-//                        buttonText: qsTr("Create a group")
-//                        onButtonClicked: pageStack.push(Qt.resolvedUrl("thingconfiguration/NewThingPage.qml"))
+                        source: "mainviews/" + model.source + ".qml"
                     }
                 }
             }
@@ -383,19 +261,300 @@ Page {
         }
 
     }
-    footer: TabBar {
-        id: tabBar
-        Material.elevation: 3
-        position: TabBar.Footer
-        implicitHeight: 70 + (app.landscape ? -20 : 0)
+    footer: Item {
+        readonly property bool shown: tabsRepeater.count > 1 || mainHeader.menuOpen || d.configOverlay
+        implicitHeight: shown ? 70 + (app.landscape ? -20 : 0) : 0
+        Behavior on implicitHeight { NumberAnimation { duration: 200; easing.type: Easing.InOutQuad }}
+        clip: true
 
-        Component {
-            id: tabEntryComponent
-            MainPageTabButton {
-                property int pageIndex: 0
-//                    height: tabBar.height
-                onClicked: root.currentViewIndex = pageIndex
-                alignment: app.landscape ? Qt.Horizontal : Qt.Vertical
+        TabBar {
+            id: tabBar
+            anchors.fill: parent
+            Material.elevation: 3
+            position: TabBar.Footer
+
+            visible: !mainHeader.menuOpen && !d.configOverlay
+            opacity: d.configOverlay === null ? 1 : 0
+            Behavior on opacity { NumberAnimation { duration: 200; easing.type: Easing.InOutQuad } }
+
+            Repeater {
+                id: tabsRepeater
+                model: filteredContentModel
+
+                delegate: MainPageTabButton {
+                    alignment: app.landscape ? Qt.Horizontal : Qt.Vertical
+                    height: tabBar.height
+                    anchors.verticalCenter: parent.verticalCenter
+                    text: model.displayName
+                    iconSource: "../images/" + model.icon + ".svg"
+
+                    onPressAndHold: {
+                        PlatformHelper.vibrate(PlatformHelper.HapticsFeedbackSelection)
+                        d.configOverlay = configComponent.createObject(contentContainer)
+                        mainHeader.menuOpen = false;
+                    }
+                }
+            }
+        }
+
+        MainPageTabButton {
+            anchors.fill: parent
+            alignment: app.landscape ? Qt.Horizontal : Qt.Vertical
+            text: d.configOverlay ? qsTr("Done") : qsTr("Configure")
+            iconSource: "../images/configure.svg"
+            opacity: visible ? 1 : 0
+            visible: mainHeader.menuOpen || d.configOverlay
+            Behavior on opacity { NumberAnimation { duration: 200; easing.type: Easing.InOutQuad } }
+
+            checked: false
+            checkable: false
+
+            onClicked: {
+                if (d.configOverlay) {
+                    d.configOverlay.destroy()
+                } else {
+                    PlatformHelper.vibrate(PlatformHelper.HapticsFeedbackSelection)
+                    d.configOverlay = configComponent.createObject(contentContainer)
+                    mainHeader.menuOpen = false;
+                }
+            }
+        }
+    }
+
+    Component {
+        id: configComponent
+        Item {
+            id: configOverlay
+            width: contentContainer.width
+            height: contentContainer.height
+
+            NumberAnimation {
+                target: configOverlay
+                property: "scale"
+                duration: 200
+                easing.type: Easing.InOutQuad
+                from: 2
+                to: 1
+                running: true
+            }
+            NumberAnimation {
+                target: configOverlay
+                property: "opacity"
+                duration: 200
+                easing.type: Easing.InOutQuad
+                from: 0
+                to: 1
+                running: true
+            }
+
+            ListView {
+                id: configListView
+                model: mainMenuModel
+                width: parent.width
+                height: parent.height / 2.5
+                anchors.centerIn: parent
+                orientation: ListView.Horizontal
+                moveDisplaced: Transition {
+                    NumberAnimation { properties: "x,y"; duration: 200 }
+                }
+
+                property int delegateWidth: width / 2.5
+
+                property bool dragging: draggingIndex >= 0
+                property int draggingIndex : -1
+
+                MouseArea {
+                    id: dndArea
+                    anchors.fill: parent
+                    preventStealing: configListView.dragging
+                    property int dragOffset: 0
+
+                    onPressAndHold: {
+                        mouse.accepted = true
+                        var mouseXInListView = configListView.contentItem.mapFromItem(dndArea, mouseX, mouseY).x;
+                        configListView.draggingIndex = configListView.indexAt(mouseXInListView, mouseY)
+                        var item = mainMenuModel.get(configListView.draggingIndex)
+                        dndItem.displayName = item.displayName
+                        dndItem.icon = item.icon
+                        var visualItem = configListView.itemAt(mouseXInListView, mouseY)
+                        dndItem.isEnabled = visualItem.isEnabled
+                        dndArea.dragOffset = configListView.mapToItem(visualItem, mouseX, mouseY).x
+                        PlatformHelper.vibrate(PlatformHelper.HapticsFeedbackImpact)
+                    }
+                    onMouseYChanged: {
+                        if (configListView.dragging) {
+                            var mouseXInListView = configListView.contentItem.mapFromItem(dndArea, mouseX, mouseY).x;
+                            var indexUnderMouse = configListView.indexAt(mouseXInListView - dndArea.dragOffset / 2, mouseY)
+                            indexUnderMouse = Math.min(Math.max(0, indexUnderMouse), configListView.count - 1)
+                            if (configListView.draggingIndex !== indexUnderMouse) {
+                                PlatformHelper.vibrate(PlatformHelper.HapticsFeedbackSelection)
+                                mainMenuModel.move(configListView.draggingIndex, indexUnderMouse, 1)
+                                configListView.draggingIndex = indexUnderMouse;
+                            }
+                        }
+                    }
+                    onReleased: {
+                        print("released!")
+                        var mouseXInListView = configListView.contentItem.mapFromItem(dndArea, mouseX, mouseY).x;
+                        var clickedIndex = configListView.indexAt(mouseXInListView, mouseY)
+                        var item = mainMenuModel.get(clickedIndex)
+                        var isEnabled = mainViewSettings.filterList.indexOf(item.name) >= 0;
+                        if (!configListView.dragging) {
+                            var newList = []
+                            for (var i = 0; i < mainMenuModel.count; i++) {
+                                var entry = mainMenuModel.get(i).name;
+                                if (entry === item.name) {
+                                    if (!isEnabled) {
+                                        newList.push(item.name)
+                                    }
+                                } else {
+                                    if (mainViewSettings.filterList.indexOf(entry) >= 0) {
+                                        newList.push(entry)
+                                    }
+                                }
+                            }
+                            if (newList.length === 0) {
+                                newList.push("things")
+                            }
+
+                            mainViewSettings.filterList = newList
+                        }
+                        configListView.draggingIndex = -1;
+
+                        var newSortOrder = []
+                        for (var i = 0; i < mainMenuModel.count; i++) {
+                            newSortOrder.push(mainMenuModel.get(i).name)
+                        }
+                        mainViewSettings.sortOrder = newSortOrder;
+                    }
+                    Timer {
+                        id: scroller
+                        interval: 2
+                        repeat: true
+                        running: direction != 0
+                        property int direction: {
+                            if (!configListView.dragging) {
+                                return 0;
+                            }
+                            return dndArea.mouseX < 50 ? -1 : dndArea.mouseX > dndArea.width - 50 ? 1 : 0
+                        }
+                        onTriggered: {
+                            configListView.contentX = Math.min(Math.max(0, configListView.contentX + direction), configListView.contentWidth - configListView.width)
+                        }
+                    }
+                }
+
+                delegate: Item {
+                    id: configDelegate
+                    width: configListView.delegateWidth
+                    height: configListView.height
+                    property bool isEnabled: mainViewSettings.filterList.indexOf(model.name) >= 0
+                    visible: configListView.draggingIndex !== index
+
+                    Pane {
+                        anchors.fill: parent
+                        anchors.margins: app.margins / 2
+                        Material.elevation: 2
+
+                        leftPadding: 0
+                        rightPadding: 0
+                        topPadding: 0
+                        bottomPadding: 0
+
+                        contentItem: ItemDelegate {
+                            anchors.fill: parent
+
+                            padding: app.margins * 2
+                            contentItem: GridLayout {
+                                columns: 1
+
+                                Item {
+                                    Layout.fillWidth: true
+                                    Layout.fillHeight: true
+                                    ColorIcon {
+                                        anchors.centerIn: parent
+                                        width: Math.min(parent.width, parent.height) * .8
+                                        height: width
+                                        name: Qt.resolvedUrl("images/" + model.icon + ".svg")
+                                        color: configDelegate.isEnabled ? app.accentColor : keyColor
+                                    }
+                                }
+
+
+                                Label {
+                                    text: model.displayName
+                                    Layout.fillWidth: true
+                                    horizontalAlignment: Text.AlignHCenter
+                                    font.pixelSize: app.largeFont
+                                }
+                            }
+                        }
+                    }
+                }
+                Item {
+                    id: dndItem
+                    width: configListView.delegateWidth
+                    height: configListView.height
+                    property bool isEnabled: false
+                    property string displayName: ""
+                    property string icon: "things"
+                    visible: configListView.dragging
+                    x: dndArea.mouseX - dndArea.dragOffset
+                    onVisibleChanged: {
+                        if (visible) {
+                            dragStartAnimation.start();
+                        }
+                    }
+
+                    NumberAnimation {
+                        id: dragStartAnimation
+                        target: dndItem
+                        property: "scale"
+                        from: 1
+                        to: 0.9
+                        duration: 200
+                    }
+
+                    Pane {
+                        anchors.fill: parent
+                        anchors.margins: app.margins / 2
+                        Material.elevation: 2
+
+                        leftPadding: 0
+                        rightPadding: 0
+                        topPadding: 0
+                        bottomPadding: 0
+
+                        contentItem: ItemDelegate {
+                            anchors.fill: parent
+
+                            padding: app.margins * 2
+                            contentItem: GridLayout {
+                                columns: 1
+
+                                Item {
+                                    Layout.fillWidth: true
+                                    Layout.fillHeight: true
+                                    ColorIcon {
+                                        anchors.centerIn: parent
+                                        width: Math.min(parent.width, parent.height) * .8
+                                        height: width
+                                        name: Qt.resolvedUrl("images/" + dndItem.icon + ".svg")
+                                        color: dndItem.isEnabled ? app.accentColor : keyColor
+                                    }
+                                }
+
+
+                                Label {
+                                    text: dndItem.displayName
+                                    Layout.fillWidth: true
+                                    horizontalAlignment: Text.AlignHCenter
+                                    font.pixelSize: app.largeFont
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }
@@ -453,7 +612,7 @@ Page {
                         font.pixelSize: app.smallFont
                         elide: Text.ElideRight
                         color: Material.color(Material.Grey)
-//                        horizontalAlignment: Text.AlignHCenter
+                        //                        horizontalAlignment: Text.AlignHCenter
                     }
                     Label {
                         Layout.fillWidth: true
@@ -461,7 +620,7 @@ Page {
                         font.pixelSize: app.smallFont
                         elide: Text.ElideRight
                         color: Material.color(Material.Grey)
-//                        horizontalAlignment: Text.AlignHCenter
+                        //                        horizontalAlignment: Text.AlignHCenter
                     }
                 }
                 ColorIcon {

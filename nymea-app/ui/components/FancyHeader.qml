@@ -35,7 +35,7 @@ import QtQuick.Controls.Material 2.1
 
 ToolBar {
     id: root
-    height: 50 + (d.menuOpen ? app.iconSize * 3 + app.margins / 2 : 0)
+    height: 50 + (menuOpen ? app.iconSize * 3 + app.margins / 2 : 0)
     Behavior on height { NumberAnimation { easing.type: Easing.InOutQuad; duration: 200 } }
 
     property string title
@@ -47,16 +47,13 @@ ToolBar {
     signal clicked(int index);
     signal leftButtonClicked();
 
-    QtObject {
-        id: d
-        property bool menuOpen: false
-    }
+    property bool menuOpen: false
 
     RowLayout {
         id: mainRow
         height: 50
         width: parent.width
-        opacity: d.menuOpen ? 0 : 1
+        opacity: menuOpen ? 0 : 1
         Behavior on opacity { NumberAnimation { easing.type: Easing.InOutQuad; duration: 200 } }
 
         HeaderButton {
@@ -81,7 +78,7 @@ ToolBar {
         HeaderButton {
             id: menuButton
             imageSource: "../images/navigation-menu.svg"
-            onClicked: d.menuOpen = true
+            onClicked: menuOpen = true
         }
     }
 
@@ -89,7 +86,7 @@ ToolBar {
         height: 50
         anchors.bottom: menuPanel.top
         width: parent.width
-        opacity: d.menuOpen ? 1 : 0
+        opacity: menuOpen ? 1 : 0
         visible: opacity > 0
         Behavior on opacity { NumberAnimation { easing.type: Easing.InOutQuad; duration: 200 } }
 
@@ -106,7 +103,7 @@ ToolBar {
 
         HeaderButton {
             imageSource:"../images/close.svg"
-            onClicked: d.menuOpen = false
+            onClicked: menuOpen = false
         }
     }
 
@@ -118,7 +115,7 @@ ToolBar {
         width: Math.min(menuRow.childrenRect.width, parent.width)
         height: app.iconSize * 3
         contentWidth: menuRow.childrenRect.width
-        opacity: d.menuOpen ? 1 : 0
+        opacity: menuOpen ? 1 : 0
         visible: opacity > 0
         Behavior on opacity { NumberAnimation { easing.type: Easing.InOutQuad; duration: 200 } }
 
@@ -132,7 +129,7 @@ ToolBar {
                     width: app.iconSize * 3
 
                     onClicked: {
-                        d.menuOpen = false
+                        menuOpen = false
                         root.clicked(index)
                     }
 

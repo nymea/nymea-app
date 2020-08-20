@@ -28,60 +28,64 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.5
+import QtQuick 2.8
 import QtQuick.Controls 2.1
 import QtQuick.Controls.Material 2.1
-import QtQuick.Layouts 1.1
+import QtQuick.Layouts 1.2
+import QtCharts 2.2
 import Nymea 1.0
 import "../components"
 import "../delegates"
-import "../mainviews"
 
-Page {
+MainViewBase {
     id: root
-    header: NymeaHeader {
-        text: root.groupTag.substring(6)
-        onBackPressed: pageStack.pop()
-    }
 
-    property string groupTag
-
-    DevicesProxy {
-        id: devicesInGroup
+    ThingsProxy {
+        id: consumers
         engine: _engine
-        filterTagId: root.groupTag
+        shownInterfaces: ["smartmeterconsumer"]
+    }
+    ThingsProxy {
+        id: producers
+        engine: _engine
+        shownInterfaces: ["smartmeterproducer"]
     }
 
-    GridView {
-        id: interfacesGridView
-        anchors.fill: parent
-        anchors.margins: app.margins / 2
+    EmptyViewPlaceholder {
+        anchors.centerIn: parent
+        width: parent.width - app.margins * 2
+        visible: !engine.thingManager.fetchingData && consumers.count == 0
+        title: qsTr("There are no energy meters installed.")
+        text: qsTr("To get an overview of your current energy usage, install some energy meters.")
+        imageSource: "../images/smartmeter.svg"
+        buttonText: qsTr("Add things")
+    }
 
-        model: InterfacesSortModel {
-            interfacesModel: InterfacesModel {
-                engine: _engine
-                devices: devicesInGroup
-                shownInterfaces: app.supportedInterfaces
-                showUncategorized: true
+    Flickable {
+        anchors.fill: parent
+        contentHeight: energyGrid.childrenRect.height
+
+        GridLayout {
+            id: energyGrid
+            width: parent.width
+            visible: consumers.count > 0
+            columns: Math.floor(root.width / 300)
+
+            SmartMeterChart {
+                Layout.fillWidth: true
+                Layout.preferredHeight: width * .7
+                meters: consumers
+                title: qsTr("Total consumed energy")
+                visible: consumers.count > 0
+            }
+            SmartMeterChart {
+                Layout.fillWidth: true
+                Layout.preferredHeight: width * .7
+                meters: producers
+                title: qsTr("Total produced energy")
+                visible: producers.count > 0
+                multiplier: -1
             }
         }
-
-        readonly property int minTileWidth: 172
-        readonly property int tilesPerRow: root.width / minTileWidth
-
-        cellWidth: width / tilesPerRow
-        cellHeight: cellWidth
-//        delegate: InterfaceTile {
-//            width: interfacesGridView.cellWidth
-//            height: interfacesGridView.cellHeight
-//        }
-
-        delegate: InterfaceTile {
-            width: interfacesGridView.cellWidth
-            height: interfacesGridView.cellHeight
-            iface: Interfaces.findByName(model.name)
-            filterTagId: root.groupTag
-        }
     }
-
 }

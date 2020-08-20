@@ -129,7 +129,7 @@
         <file>ui/images/send.svg</file>
         <file>ui/images/sensors.svg</file>
         <file>ui/images/settings.svg</file>
-        <file>ui/images/share.svg</file>
+        <file>ui/images/things.svg</file>
         <file>ui/images/slideshow.svg</file>
         <file>ui/images/closable-move.svg</file>
         <file>ui/images/starred.svg</file>
@@ -234,5 +234,6 @@
         <file>ui/images/garage/garage-100.svg</file>
         <file>ui/images/navigationpad.svg</file>
         <file>ui/images/qrcode.svg</file>
+        <file>ui/images/energy.svg</file>
     </qresource>
 </RCC>

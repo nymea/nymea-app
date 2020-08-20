@@ -27,6 +27,7 @@ INCLUDEPATH += $$top_srcdir/QtZeroConf
 SOURCES += \
     configuration/networkmanager.cpp \
     engine.cpp \
+    models/sortfilterproxymodel.cpp \
     ruletemplates/calendaritemtemplate.cpp \
     ruletemplates/timedescriptortemplate.cpp \
     ruletemplates/timeeventitemtemplate.cpp \
@@ -162,6 +163,7 @@ SOURCES += \
 HEADERS += \
     configuration/networkmanager.h \
     engine.h \
+    models/sortfilterproxymodel.h \
     ruletemplates/calendaritemtemplate.h \
     ruletemplates/timedescriptortemplate.h \
     ruletemplates/timeeventitemtemplate.h \
