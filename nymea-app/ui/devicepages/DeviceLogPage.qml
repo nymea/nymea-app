@@ -141,12 +141,7 @@ Page {
                 return;
             }
 
-            var source;
-            if (engine.jsonRpcClient.ensureServerVersion("1.10")) {
-                source = Qt.resolvedUrl("../customviews/GenericTypeGraph.qml");
-            } else {
-                source = Qt.resolvedUrl("../customviews/GenericTypeGraphPre110.qml");
-            }
+            var source = Qt.resolvedUrl("../customviews/GenericTypeGraph.qml");
             setSource(source, {device: root.device, stateType: stateType})
         }
     }

@@ -302,7 +302,7 @@ bool RuleTemplatesFilterModel::filterAcceptsRow(int source_row, const QModelInde
             bool found = false;
             for (int i = 0; i < m_filterDevicesProxy->rowCount(); i++) {
 //                qDebug() << "Checking device:" << m_filterDevicesProxy->get(i)->deviceClass()->interfaces();
-                if (m_filterDevicesProxy->get(i)->deviceClass()->interfaces().contains(toBeFound)) {
+                if (m_filterDevicesProxy->get(i)->thingClass()->interfaces().contains(toBeFound)) {
                     found = true;
                     break;
                 }

@@ -484,7 +484,7 @@ MainViewBase {
             }
 
             // involve count in the statement to make the binding re-evaluate when the group is changed
-            device: mediaControllers.count > 0 ? mediaControllers.get(0) : null
+            thing: mediaControllers.count > 0 ? mediaControllers.get(0) : null
         }
     }
 

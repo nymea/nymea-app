@@ -259,7 +259,7 @@ ApplicationWindow {
         case "mediacontroller":
         case "extendedmediacontroller":
         case "mediaplayer":
-            return Qt.resolvedUrl("images/mediaplayer-app-symbolic.svg")
+            return Qt.resolvedUrl("images/media.svg")
         case "powersocket":
             return Qt.resolvedUrl("images/powersocket.svg")
         case "button":

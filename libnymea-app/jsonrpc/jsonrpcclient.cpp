@@ -592,7 +592,7 @@ void JsonRpcClient::helloReply(const QVariantMap &params)
 
         qDebug() << "Handshake reply:" << "Protocol version:" << protoVersionString << "InitRequired:" << m_initialSetupRequired << "AuthRequired:" << m_authenticationRequired << "PushButtonAvailable:" << m_pushButtonAuthAvailable;;
 
-        QVersionNumber minimumRequiredVersion = QVersionNumber(1, 0);
+        QVersionNumber minimumRequiredVersion = QVersionNumber(1, 10);
         if (m_jsonRpcVersion < minimumRequiredVersion) {
             qWarning() << "Nymea core doesn't support minimum required version. Required:" << minimumRequiredVersion << "Found:" << m_jsonRpcVersion;
             m_connection->disconnect();

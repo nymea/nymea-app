@@ -64,25 +64,19 @@ ChartView {
     function refresh() {
         pieSeries.clear();
         d.sliceMap = {}
-        print("calculating", chart.multiplier)
         for (var i = 0; i < meters.count; i++) {
             var thing = meters.get(i);
-            print("thing:", thing.name)
             var value = 0;
             var totalConsumedStateType = thing.thingClass.stateTypes.findByName("totalEnergyConsumed")
             if (totalConsumedStateType) {
                 var totalConsumedState = thing.states.getState(totalConsumedStateType.id)
                 value = value + (totalConsumedState.value * chart.multiplier)
-                print("Adding", totalConsumedState.value * chart.multiplier, value)
             }
             var totalProducedStateType = thing.thingClass.stateTypes.findByName("totalEnergyProduced")
             if (totalProducedStateType) {
                 var totalProducedState = thing.states.getState(totalProducedStateType.id)
                 value = value - (totalProducedState.value * chart.multiplier)
-                print("removing", totalProducedState.value * chart.multiplier, value)
             }
-            print("consumed", totalConsumedState.value, "produced", totalProducedState.value)
-            print("value", value)
             var slice = pieSeries.append(thing.name, Math.max(0, value))
             var color = app.accentColor
             for (var j = 0; j < i; j+=2) {

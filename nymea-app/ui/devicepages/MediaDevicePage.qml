@@ -173,7 +173,7 @@ DevicePageBase {
                 MediaArtworkImage {
                     Layout.fillHeight: true
                     Layout.preferredWidth: parent.width / parent.columns
-                    device: root.device
+                    thing: root.device
                 }
 
                 ColumnLayout {
@@ -208,7 +208,7 @@ DevicePageBase {
                     }
 
                     MediaControls {
-                        device: root.device
+                        thing: root.device
                         iconSize: app.iconSize * 2
                     }
                 }
@@ -220,63 +220,8 @@ DevicePageBase {
     Component {
         id: browserComponent
 
-        Item {
-
-            function backPressed() {
-                if (internalPageStack.depth > 1) {
-                    internalPageStack.pop();
-                } else {
-                    swipeView.currentIndex--
-                }
-            }
-
-            StackView {
-                id: internalPageStack
-                anchors.fill: parent
-                initialItem: internalBrowserPage
-
-                Component {
-                    id: internalBrowserPage
-                    ListView {
-                        id: listView
-                        model: browserItems
-                        ScrollBar.vertical: ScrollBar {}
-
-                        property string nodeId: ""
-
-                        // Need to keep a explicit property here or the GC will eat it too early
-                        property BrowserItems browserItems: null
-                        Component.onCompleted: {
-                            browserItems = engine.deviceManager.browseDevice(root.device.id, nodeId);
-                        }
-
-                        delegate: BrowserItemDelegate {
-                            iconName: "../images/browser/" + (model.mediaIcon && model.mediaIcon !== "MediaBrowserIconNone" ? model.mediaIcon : model.icon) + ".svg"
-                            busy: d.pendingItemId === model.id
-                            device: root.device
-
-                            onClicked: {
-                                print("clicked:", model.id)
-                                if (model.executable) {
-                                    root.executeBrowserItem(model.id)
-                                } else if (model.browsable) {
-                                    internalPageStack.push(internalBrowserPage, {device: root.device, nodeId: model.id})
-                                }
-                            }
-
-                            onContextMenuActionTriggered: {
-                                root.executeBrowserItemAction(model.id, actionTypeId, params)
-                            }
-                        }
-
-                        BusyIndicator {
-                            anchors.centerIn: parent
-                            running: listView.model.busy
-                            visible: running
-                        }
-                    }
-                }
-            }
+        MediaBrowser {
+            thing: root.device
         }
     }
 
@@ -286,7 +231,6 @@ DevicePageBase {
             function backPressed() {
                 swipeView.currentIndex--;
             }
-
 
             ColumnLayout {
                 anchors.fill: parent
@@ -300,46 +244,10 @@ DevicePageBase {
 
                 MediaControls {
                     Layout.fillWidth: true
-                    device: root.device
+                    thing: root.device
                 }
             }
 
-        }
-    }
-
-
-    Component {
-        id: volumeSliderPaneComponent
-        Dialog {
-
-            leftPadding: 0
-            topPadding: app.margins / 2
-            rightPadding: 0
-            bottomPadding: app.margins / 2
-            modal: true
-
-            contentItem: ColumnLayout {
-                Slider {
-                    Layout.fillHeight: true
-                    orientation: Qt.Vertical
-                    from: 0
-                    to: 100
-                    value: d.pendingVolumeValue != -1 ? d.pendingVolumeValue : root.stateValue("volume")
-                    onMoved: root.adjustVolume(value)
-                }
-                HeaderButton {
-                    imageSource: "../images/audio-speakers-muted-symbolic.svg"
-                    color: root.stateValue("mute") ? app.accentColor : keyColor
-                    onClicked: {
-                        var params = []
-                        var muteParam = {}
-                        muteParam["paramTypeId"] = root.deviceClass.actionTypes.findByName("mute").id
-                        muteParam["value"] = !root.stateValue("mute");
-                        params.push(muteParam)
-                        root.executeAction("mute", params);
-                    }
-                }
-            }
         }
     }
 
@@ -374,64 +282,11 @@ DevicePageBase {
                         onClicked: swipeView.currentIndex--
                     }
                 }
-                Item {
-                    Layout.fillWidth: true; Layout.fillHeight: true
-                    visible: root.deviceClass.interfaces.indexOf("shufflerepeat") >= 0
-                    HeaderButton {
-                        anchors.centerIn: parent
-                        imageSource: root.stateValue("repeat") === "One" ? "../images/media-playlist-repeat-one.svg" : "../images/media-playlist-repeat.svg"
-                        color: root.stateValue("repeat") === "None" ? keyColor : app.accentColor
-                        property var allowedValues: ["None", "All", "One"]
-                        onClicked: {
-                            var params = []
-                            var param = {}
-                            param["paramTypeId"] = root.deviceClass.actionTypes.findByName("repeat").id;
-                            param["value"] = allowedValues[(allowedValues.indexOf(root.stateValue("repeat")) + 1) % 3]
-                            params.push(param)
-                            root.executeAction("repeat", params)
-                        }
-                    }
+                ShuffleRepeatVolumeControl {
+                    Layout.fillWidth: true
+                    thing: root.device
                 }
-                Item {
-                    Layout.fillWidth: true; Layout.fillHeight: true
-                    visible: root.deviceClass.interfaces.indexOf("shufflerepeat") >= 0
-                    HeaderButton {
-                        anchors.centerIn: parent
-                        imageSource: "../images/media-playlist-shuffle.svg"
-                        color: root.stateValue("shuffle") ? app.accentColor: keyColor
-                        onClicked: {
-                            var params = []
-                            var param = {}
-                            param["paramTypeId"] = root.deviceClass.actionTypes.findByName("shuffle").id;
-                            param["value"] = !root.stateValue("shuffle")
-                            params.push(param)
-                            root.executeAction("shuffle", params)
-                        }
-                    }
-                }
-                Item {
-                    id: volumeButtonContainer
-                    Layout.fillWidth: true; Layout.fillHeight: true
-                    HeaderButton {
-                        id: volumeButton
-                        anchors.centerIn: parent
-                        imageSource: "../images/audio-speakers-symbolic.svg"
-                        onClicked: {
-                            print("...");
-                            print(volumeButton.x, volumeButton.y)
-                            print(Qt.point(volumeButton.x, volumeButton.y))
-                            print(volumeButton.mapToItem(root, volumeButton.x,0))
-                            var buttonPosition = root.mapFromItem(volumeButtonContainer, volumeButton.x, 0)
-                            var sliderHeight = 200
-                            var props = {}
-                            props["x"] = buttonPosition.x
-                            props["y"] = root.height - sliderHeight - root.footer.height
-                            props["height"] = sliderHeight
-                            var sliderPane = volumeSliderPaneComponent.createObject(root, props)
-                            sliderPane.open()
-                        }
-                    }
-                }
+
                 Item {
                     Layout.fillHeight: true
                     Layout.preferredWidth: swipeView.count > 1 && swipeView.currentIndex < swipeView.count - 1 ? parent.width / 4 : 0

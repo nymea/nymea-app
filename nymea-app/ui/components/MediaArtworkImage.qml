@@ -36,13 +36,13 @@ import Nymea 1.0
 
 Item {
     id: root
-    property Device device: null
+    property Thing thing: null
 
-    readonly property StateType artworkStateType: device ? device.deviceClass.stateTypes.findByName("artwork") : null
-    readonly property State artworkState: artworkStateType ? device.states.getState(artworkStateType.id) : null
+    readonly property StateType artworkStateType: thing ? thing.thingClass.stateTypes.findByName("artwork") : null
+    readonly property State artworkState: artworkStateType ? thing.states.getState(artworkStateType.id) : null
 
-    readonly property StateType playerTypeStateType: device ? device.deviceClass.stateTypes.findByName("playerType") : null
-    readonly property State playerTypeState: playerTypeStateType ? device.states.getState(playerTypeStateType.id) : null
+    readonly property StateType playerTypeStateType: thing ? thing.thingClass.stateTypes.findByName("playerType") : null
+    readonly property State playerTypeState: playerTypeStateType ? thing.states.getState(playerTypeStateType.id) : null
 
     Pane {
         Material.elevation: 2

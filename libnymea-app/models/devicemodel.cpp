@@ -49,35 +49,35 @@ QVariant DeviceModel::data(const QModelIndex &index, int role) const
         return m_list.at(index.row());
     }
     if (role == RoleType) {
-        StateType* stateType = m_device->deviceClass()->stateTypes()->getStateType(m_list.at(index.row()));
+        StateType* stateType = m_device->thingClass()->stateTypes()->getStateType(m_list.at(index.row()));
         if (stateType) {
             return TypeStateType;
         }
-        ActionType* actionType = m_device->deviceClass()->actionTypes()->getActionType(m_list.at(index.row()));
+        ActionType* actionType = m_device->thingClass()->actionTypes()->getActionType(m_list.at(index.row()));
         if (actionType) {
             return TypeActionType;
         }
-        EventType* eventType = m_device->deviceClass()->eventTypes()->getEventType(m_list.at(index.row()));
+        EventType* eventType = m_device->thingClass()->eventTypes()->getEventType(m_list.at(index.row()));
         if (eventType) {
             return TypeEventType;
         }
     }
     if (role == RoleDisplayName) {
-        StateType* stateType = m_device->deviceClass()->stateTypes()->getStateType(m_list.at(index.row()));
+        StateType* stateType = m_device->thingClass()->stateTypes()->getStateType(m_list.at(index.row()));
         if (stateType) {
             return stateType->displayName();
         }
-        ActionType* actionType = m_device->deviceClass()->actionTypes()->getActionType(m_list.at(index.row()));
+        ActionType* actionType = m_device->thingClass()->actionTypes()->getActionType(m_list.at(index.row()));
         if (actionType) {
             return actionType->displayName();
         }
-        EventType* eventType = m_device->deviceClass()->eventTypes()->getEventType(m_list.at(index.row()));
+        EventType* eventType = m_device->thingClass()->eventTypes()->getEventType(m_list.at(index.row()));
         if (eventType) {
             return eventType->displayName();
         }
     }
     if (role == RoleWritable) {
-        ActionType* actionType = m_device->deviceClass()->actionTypes()->getActionType(m_list.at(index.row()));
+        ActionType* actionType = m_device->thingClass()->actionTypes()->getActionType(m_list.at(index.row()));
         return actionType != nullptr;
     }
     return QVariant();
@@ -169,22 +169,22 @@ void DeviceModel::updateList()
     beginResetModel();
     m_list.clear();
     if (m_showStates) {
-        for (int i = 0; i < m_device->deviceClass()->stateTypes()->rowCount(); i++) {
-            m_list.append(m_device->deviceClass()->stateTypes()->get(i)->id());
+        for (int i = 0; i < m_device->thingClass()->stateTypes()->rowCount(); i++) {
+            m_list.append(m_device->thingClass()->stateTypes()->get(i)->id());
         }
     }
 
     if (m_showActions) {
-        for (int i = 0; i < m_device->deviceClass()->actionTypes()->rowCount(); i++) {
-            if (!m_list.contains(m_device->deviceClass()->actionTypes()->get(i)->id())) {
-                m_list.append(m_device->deviceClass()->actionTypes()->get(i)->id());
+        for (int i = 0; i < m_device->thingClass()->actionTypes()->rowCount(); i++) {
+            if (!m_list.contains(m_device->thingClass()->actionTypes()->get(i)->id())) {
+                m_list.append(m_device->thingClass()->actionTypes()->get(i)->id());
             }
         }
     }
     if (m_showEvents) {
-        for (int i = 0; i < m_device->deviceClass()->eventTypes()->rowCount(); i++) {
-            if (!m_list.contains(m_device->deviceClass()->eventTypes()->get(i)->id())) {
-                m_list.append(m_device->deviceClass()->eventTypes()->get(i)->id());
+        for (int i = 0; i < m_device->thingClass()->eventTypes()->rowCount(); i++) {
+            if (!m_list.contains(m_device->thingClass()->eventTypes()->get(i)->id())) {
+                m_list.append(m_device->thingClass()->eventTypes()->get(i)->id());
             }
         }
     }

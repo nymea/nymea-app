@@ -36,6 +36,8 @@ Item {
     implicitHeight: slider.implicitHeight
     implicitWidth: slider.implicitWidth
 
+    property alias orientation: slider.orientation
+
     property real value: 0
     property alias from: slider.from
     property alias to: slider.to
@@ -49,6 +51,7 @@ Item {
     Slider {
         id: slider
         anchors.left: parent.left; anchors.right: parent.right
+        anchors.top: parent.top; anchors.bottom: parent.bottom
         from: 0
         to: 100
         property var lastSentTime: new Date()

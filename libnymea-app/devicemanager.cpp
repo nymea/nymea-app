@@ -343,7 +343,7 @@ void DeviceManager::getConfiguredDevicesResponse(const QVariantMap &params)
             QVariantList stateVariantList = deviceVariant.toMap().value("states").toList();
             foreach (const QVariant &stateMap, stateVariantList) {
                 QString stateTypeId = stateMap.toMap().value("stateTypeId").toString();
-                StateType *st = device->deviceClass()->stateTypes()->getStateType(stateTypeId);
+                StateType *st = device->thingClass()->stateTypes()->getStateType(stateTypeId);
                 if (!st) {
                     qWarning() << "Can't find a statetype for this state";
                     continue;

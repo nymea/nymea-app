@@ -120,6 +120,7 @@ Page {
         ListElement { name: "scenes"; source: "ScenesView"; displayName: qsTr("Scenes"); icon: "slideshow" }
         ListElement { name: "garages"; source: "GaragesView"; displayName: qsTr("Garages"); icon: "garage/garage-100" }
         ListElement { name: "energy"; source: "EnergyView"; displayName: qsTr("Energy"); icon: "smartmeter" }
+        ListElement { name: "media"; source: "MediaView"; displayName: qsTr("Media"); icon: "media" }
     }
 
     ListModel {

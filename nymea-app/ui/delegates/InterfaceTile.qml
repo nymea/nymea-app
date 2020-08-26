@@ -227,7 +227,7 @@ MainPageTile {
 
             MediaControls {
                 iconSize: app.iconSize * 1.2
-                device: inlineMediaControl.currentDevice
+                thing: inlineMediaControl.currentDevice
             }
         }
     }

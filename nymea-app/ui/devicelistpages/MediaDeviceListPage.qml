@@ -145,7 +145,7 @@ DeviceListPageBase {
                                         }
                                         MediaControls {
                                             visible: itemDelegate.deviceClass.interfaces.indexOf("mediacontroller") >= 0
-                                            device: itemDelegate.device
+                                            thing: itemDelegate.device
                                         }
                                     }
                                     Item {

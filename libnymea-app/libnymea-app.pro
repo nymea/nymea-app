@@ -27,7 +27,9 @@ INCLUDEPATH += $$top_srcdir/QtZeroConf
 SOURCES += \
     configuration/networkmanager.cpp \
     engine.cpp \
+    models/barseriesadapter.cpp \
     models/sortfilterproxymodel.cpp \
+    models/xyseriesadapter.cpp \
     ruletemplates/calendaritemtemplate.cpp \
     ruletemplates/timedescriptortemplate.cpp \
     ruletemplates/timeeventitemtemplate.cpp \
@@ -128,7 +130,6 @@ SOURCES += \
     rulemanager.cpp \
     models/rulesfiltermodel.cpp \
     models/logsmodel.cpp \
-    models/valuelogsproxymodel.cpp \
     logmanager.cpp \
     wifisetup/bluetoothdevice.cpp \
     wifisetup/bluetoothdeviceinfo.cpp \
@@ -163,7 +164,9 @@ SOURCES += \
 HEADERS += \
     configuration/networkmanager.h \
     engine.h \
+    models/barseriesadapter.h \
     models/sortfilterproxymodel.h \
+    models/xyseriesadapter.h \
     ruletemplates/calendaritemtemplate.h \
     ruletemplates/timedescriptortemplate.h \
     ruletemplates/timeeventitemtemplate.h \
@@ -265,7 +268,6 @@ HEADERS += \
     rulemanager.h \
     models/rulesfiltermodel.h \
     models/logsmodel.h \
-    models/valuelogsproxymodel.h \
     logmanager.h \
     wifisetup/bluetoothdevice.h \
     wifisetup/bluetoothdeviceinfo.h \

@@ -65,7 +65,8 @@
 #include "types/browseritem.h"
 #include "models/logsmodel.h"
 #include "models/logsmodelng.h"
-#include "models/valuelogsproxymodel.h"
+#include "models/barseriesadapter.h"
+#include "models/xyseriesadapter.h"
 #include "models/interfacesproxy.h"
 #include "configuration/nymeaconfiguration.h"
 #include "configuration/serverconfiguration.h"
@@ -246,8 +247,9 @@ void registerQmlTypes() {
 
     qmlRegisterType<LogsModel>(uri, 1, 0, "LogsModel");
     qmlRegisterType<LogsModelNg>(uri, 1, 0, "LogsModelNg");
-    qmlRegisterType<ValueLogsProxyModel>(uri, 1, 0, "ValueLogsProxyModel");
     qmlRegisterUncreatableType<LogEntry>(uri, 1, 0, "LogEntry", "Get them from LogsModel");
+    qmlRegisterType<BarSeriesAdapter>(uri, 1, 0, "BarSeriesAdapter");
+    qmlRegisterType<XYSeriesAdapter>(uri, 1, 0, "XYSeriesAdapter");
 
     qmlRegisterUncreatableType<TagsManager>(uri, 1, 0, "TagsManager", "Get it from Engine");
     qmlRegisterUncreatableType<Tags>(uri, 1, 0, "Tags", "Get it from TagsManager");
