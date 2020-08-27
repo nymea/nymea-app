@@ -1,3 +1,11 @@
+nymea-app (1.0.220) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Make the main view more customizable
+  * Fix broken button box style in lime style
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 27 Aug 2020 16:12:08 +0200
+
 nymea-app (1.0.219) bionic; urgency=medium
 
   [ Michael Zanetti ]
