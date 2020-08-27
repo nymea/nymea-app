@@ -247,6 +247,21 @@
     </message>
 </context>
 <context>
+    <name>BarcodeScannerThingPage</name>
+    <message>
+        <source>No codes have been scanned yet.</source>
+        <translation>Es wurde noch kein Code gescannt.</translation>
+    </message>
+    <message>
+        <source>Scan a code to see it appearing here.</source>
+        <translation>Scanne einen Code um ihn hier anzuzeigen.</translation>
+    </message>
+    <message>
+        <source>Last scan</source>
+        <translation>Letzter scan</translation>
+    </message>
+</context>
+<context>
     <name>BlindDeviceListPage</name>
     <message>
         <source>Blinds</source>
@@ -1034,15 +1049,15 @@
     </message>
     <message>
         <source>Thing</source>
-        <translation>Thing</translation>
+        <translation type="vanished">Thing</translation>
     </message>
     <message>
         <source>Output</source>
-        <translation>Oausgang</translation>
+        <translation type="vanished">Oausgang</translation>
     </message>
     <message>
         <source>Input</source>
-        <translation>Eingang</translation>
+        <translation type="vanished">Eingang</translation>
     </message>
     <message>
         <source>Inverted</source>
@@ -1688,19 +1703,19 @@
     <name>DevicesPageDelegate</name>
     <message>
         <source>All off</source>
-        <translation>Alle aus</translation>
+        <translation type="vanished">Alle aus</translation>
     </message>
     <message>
         <source>%1 on</source>
-        <translation>%1 an</translation>
+        <translation type="vanished">%1 an</translation>
     </message>
     <message>
         <source>All closed</source>
-        <translation>Alle geschlossen</translation>
+        <translation type="vanished">Alle geschlossen</translation>
     </message>
     <message>
         <source>%1 open</source>
-        <translation>%1 geöffnet</translation>
+        <translation type="vanished">%1 geöffnet</translation>
     </message>
     <message>
         <source>%1 installed</source>
@@ -1708,7 +1723,7 @@
     </message>
     <message>
         <source>uncategorized</source>
-        <translation>nicht kategorisiert</translation>
+        <translation type="vanished">nicht kategorisiert</translation>
     </message>
 </context>
 <context>
@@ -1980,7 +1995,7 @@
     </message>
     <message>
         <source>...comes true, execute those actions:</source>
-        <translation>...wahr wird, führe diese Aktionen aus:</translation>
+        <translation type="vanished">...wahr wird, führe diese Aktionen aus:</translation>
     </message>
     <message>
         <source>...execute those actions:</source>
@@ -1992,7 +2007,7 @@
     </message>
     <message>
         <source>...isn&apos;t met any more, execute those actions:</source>
-        <translation>...nicht mehr erfüllt ist, führe diese Aktionen aus:</translation>
+        <translation type="vanished">...nicht mehr erfüllt ist, führe diese Aktionen aus:</translation>
     </message>
     <message>
         <source>Add event</source>
@@ -2053,6 +2068,14 @@
     <message>
         <source>This is a scene</source>
         <translation>Dies ist eine Szene</translation>
+    </message>
+    <message>
+        <source>Execute those actions:</source>
+        <translation>Führe diese Aktionen aus:</translation>
+    </message>
+    <message>
+        <source>When the condition isn&apos;t met any more, execute those actions:</source>
+        <translation>Wenn die Bedingung nicht mehr erfüllt ist, führe diese Aktionen aus:</translation>
     </message>
 </context>
 <context>
@@ -2189,6 +2212,61 @@
     </message>
 </context>
 <context>
+    <name>EnergyView</name>
+    <message>
+        <source>There are no energy meters installed.</source>
+        <translation>Es sind keine Stromzähler eingerichtet.</translation>
+    </message>
+    <message>
+        <source>To get an overview of your current energy usage, install some energy meters.</source>
+        <translation>Um einen Überblick über den aktuellen Energieverbrauch zu bekommen, installiere einen oder mehrere Stromzähler.</translation>
+    </message>
+    <message>
+        <source>Add things</source>
+        <translation>&quot;Things&quot; hinzufügen</translation>
+    </message>
+    <message>
+        <source>Total consumed energy</source>
+        <translation>Gesamtverbrauch</translation>
+    </message>
+    <message>
+        <source>Power usage history</source>
+        <translation>Verbrrauchshistorie</translation>
+    </message>
+    <message>
+        <source>%1 seconds</source>
+        <translation>%1 Sekunden</translation>
+    </message>
+    <message>
+        <source>%1 minutes</source>
+        <translation>%1 Minuten</translation>
+    </message>
+    <message>
+        <source>%1 hours</source>
+        <translation>%1 Stunden</translation>
+    </message>
+    <message>
+        <source>%1 days</source>
+        <translation>%1 Tage</translation>
+    </message>
+    <message>
+        <source>%1 weeks</source>
+        <translation>%1 Wochen</translation>
+    </message>
+    <message>
+        <source>%1 months</source>
+        <translation>%1 Monate</translation>
+    </message>
+    <message>
+        <source>%1 years</source>
+        <translation>%1 Jahre</translation>
+    </message>
+    <message>
+        <source>Total produced energy</source>
+        <translation>Gesamtertrag</translation>
+    </message>
+</context>
+<context>
     <name>ErrorDialog</name>
     <message>
         <source>Error</source>
@@ -2227,6 +2305,25 @@
     <message>
         <source>Menu</source>
         <translation>Menü</translation>
+    </message>
+</context>
+<context>
+    <name>FavoritesView</name>
+    <message>
+        <source>There are no favorite things yet.</source>
+        <translation>Es gibt noch keine Favoriten.</translation>
+    </message>
+    <message>
+        <source>It appears there are no things set up either yet. In order to use favorites you need to add some things first.</source>
+        <translation>Es scheint als seien auch noch keine &quot;Things&quot; eingerichtet. Um Favoriten einzurichten musst Du zuerst einige &quot;Things&quot; hinzufügen.</translation>
+    </message>
+    <message>
+        <source>Favorites allow you to keep track of your most important things when you have lots of them. Watch out for the star when interacting with things and use it to mark them as your favorites.</source>
+        <translation>Favoriten erlauben es den Überblick über die wichtigsten &quot;Things&quot; zu behalten wenn Du viele davon eingebunden hast. Halte ausschau nach dem Stern wenn Du mit &quot;Things&quot; interagierst umd benutze ihn um diese als Favoriten zu markieren.</translation>
+    </message>
+    <message>
+        <source>Add a thing</source>
+        <translation>&quot;Thing&quot; hinzufügen</translation>
     </message>
 </context>
 <context>
@@ -2370,7 +2467,18 @@ Bitte versuche es erneut.</translation>
     <name>GarageDeviceListPage</name>
     <message>
         <source>Garage gates</source>
-        <translation>Garagentore</translation>
+        <translation type="vanished">Garagentore</translation>
+    </message>
+</context>
+<context>
+    <name>GaragesView</name>
+    <message>
+        <source>There are no garage doors set up yet.</source>
+        <translation>Es sind noch keine Garagentore eingerichtet.</translation>
+    </message>
+    <message>
+        <source>Set up now</source>
+        <translation>Jetzt einrichten</translation>
     </message>
 </context>
 <context>
@@ -2549,15 +2657,15 @@ Bitte versuche es erneut.</translation>
     <name>GenericTypeGraphPre110</name>
     <message>
         <source>6 h</source>
-        <translation>6 h</translation>
+        <translation type="vanished">6 h</translation>
     </message>
     <message>
         <source>24 h</source>
-        <translation>24 h</translation>
+        <translation type="vanished">24 h</translation>
     </message>
     <message>
         <source>7 d</source>
-        <translation>7 T</translation>
+        <translation type="vanished">7 T</translation>
     </message>
 </context>
 <context>
@@ -2583,6 +2691,14 @@ Bitte versuche es erneut.</translation>
     <message>
         <source>Lighting</source>
         <translation>Beleuchtung</translation>
+    </message>
+    <message>
+        <source>There are no groups set up yet.</source>
+        <translation>Es sind noch keine Gruppen eingerichtet.</translation>
+    </message>
+    <message>
+        <source>Grouping things can be useful to control multiple devices at once, for example an entire room. Watch out for the group symbol when interacting with things and use it to add them to groups.</source>
+        <translation>&quot;Things&quot; in Gruppen zu verwalten ist hilfreich um mehrere Geräte gleichzeitig zu schalten, z.B. einen ganzen Raum. Halte Ausschau nach dem Gruppensymbol wenn du mit &quot;Things&quot; interagierst und benutze es um sie Gruppen hinzuzufügen.</translation>
     </message>
 </context>
 <context>
@@ -2668,6 +2784,29 @@ Bitte versuche es erneut.</translation>
     <message>
         <source>This event has appeared %1 times in the last %2 days.</source>
         <translation type="vanished">Dieses Ereignis ist in den letzten %2 Tage %1 mal aufgetreten.</translation>
+    </message>
+</context>
+<context>
+    <name>InterfaceTile</name>
+    <message>
+        <source>uncategorized</source>
+        <translation>nicht kategorisiert</translation>
+    </message>
+    <message>
+        <source>All off</source>
+        <translation>Alle aus</translation>
+    </message>
+    <message>
+        <source>%1 on</source>
+        <translation>%1 an</translation>
+    </message>
+    <message>
+        <source>All closed</source>
+        <translation>Alle geschlossen</translation>
+    </message>
+    <message>
+        <source>%1 open</source>
+        <translation>%1 geöffnet</translation>
     </message>
 </context>
 <context>
@@ -3390,7 +3529,7 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Media player</source>
-        <translation>Medienplayer</translation>
+        <translation type="vanished">Medienplayer</translation>
     </message>
     <message>
         <source>Shuffle</source>
@@ -3520,6 +3659,22 @@ Bitte versuche es erneut.</translation>
         <source>Ventilation</source>
         <translation>Belüftung</translation>
     </message>
+    <message>
+        <source>Media controllers with seeking</source>
+        <translation>Mediensteuerung mit Positionssuche</translation>
+    </message>
+    <message>
+        <source>Navigation pad with menu</source>
+        <translation>Navigationsfeld mit Menü</translation>
+    </message>
+    <message>
+        <source>Operate</source>
+        <translation>Bewegen</translation>
+    </message>
+    <message>
+        <source>Shuffle and repeat controllers</source>
+        <translation>Zufallswiedergabe und Wiederholung</translation>
+    </message>
 </context>
 <context>
     <name>InterfacesModels</name>
@@ -3538,6 +3693,126 @@ Bitte versuche es erneut.</translation>
     <message>
         <source>Battery critical changed</source>
         <translation type="vanished">Batterie kritisch geändert</translation>
+    </message>
+</context>
+<context>
+    <name>IrrigationDevicePage</name>
+    <message>
+        <source>Turn %1 off at %2</source>
+        <translation>%1 um %2 ausschalten</translation>
+    </message>
+    <message>
+        <source>Watering since</source>
+        <translation>Bewässerung läuft seit</translation>
+    </message>
+    <message>
+        <source>Last watering</source>
+        <translation>Letzte Bewässerung</translation>
+    </message>
+    <message>
+        <source>This irrigation has not been used yet</source>
+        <translation>Diese Bewässerung wurde noch nicht benutzt.</translation>
+    </message>
+    <message numerus="yes">
+        <source>%n minute(s)</source>
+        <translation>
+            <numerusform>%n Minute</numerusform>
+            <numerusform>%n Minuten</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n hour(s)</source>
+        <translation>
+            <numerusform>%n Stunde</numerusform>
+            <numerusform>%n Stunden</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n day(s)</source>
+        <translation>
+            <numerusform>%n Tag</numerusform>
+            <numerusform>%n Tage</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n minute(s) ago</source>
+        <translation>
+            <numerusform>Vor einer Minute</numerusform>
+            <numerusform>Vor %n Minuten</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n hour(s) ago</source>
+        <translation>
+            <numerusform>Vor einer Stunde</numerusform>
+            <numerusform>Vor %n Stunden</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n day(s) ago</source>
+        <translation>
+            <numerusform>Vor einem Tag</numerusform>
+            <numerusform>Vor %n Tagen</numerusform>
+        </translation>
+    </message>
+    <message>
+        <source>Watering until</source>
+        <extracomment>Irrigation will be turned of at, e.g. 09:00</extracomment>
+        <translation>Bewässerung bis</translation>
+    </message>
+    <message>
+        <source>Turn off in</source>
+        <extracomment>Turn on irrigation for, e.g. 5 minutes</extracomment>
+        <translation>Ausschalten in</translation>
+    </message>
+    <message>
+        <source>Water for</source>
+        <translation>Wässern für</translation>
+    </message>
+    <message>
+        <source>1 minute</source>
+        <translation>1 Minute</translation>
+    </message>
+    <message>
+        <source>2 minutes</source>
+        <translation>2 Minuten</translation>
+    </message>
+    <message>
+        <source>5 minutes</source>
+        <translation>5 Minuten</translation>
+    </message>
+    <message>
+        <source>15 minutes</source>
+        <translation>15 Minuten</translation>
+    </message>
+    <message>
+        <source>30 minutes</source>
+        <translation>30 Minuten</translation>
+    </message>
+    <message>
+        <source>1 hour</source>
+        <translation>1 Stunde</translation>
+    </message>
+    <message numerus="yes">
+        <source>%n minute(s) left</source>
+        <translation>
+            <numerusform>Eine Minute verbeibend</numerusform>
+            <numerusform>%n Minuten verbleibend</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n hour(s) left</source>
+        <translation>
+            <numerusform>Eine Stunde verbleibend</numerusform>
+            <numerusform>%n Stunden verbleibend</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n day(s) left</source>
+        <translation>
+            <numerusform>Ein Tag verbleibend</numerusform>
+            <numerusform>%n Tage verbleibend</numerusform>
+        </translation>
     </message>
 </context>
 <context>
@@ -3769,7 +4044,7 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Experience mode</source>
-        <translation>&quot;Experience&quot; Modus</translation>
+        <translation type="vanished">&quot;Experience&quot; Modus</translation>
     </message>
     <message>
         <source>Regional</source>
@@ -3803,11 +4078,11 @@ Bitte versuche es erneut.</translation>
     <name>Main</name>
     <message>
         <source>Garage gates</source>
-        <translation>Garagentore</translation>
+        <translation type="vanished">Garagentore</translation>
     </message>
     <message>
         <source>There are no garage gates set up yet.</source>
-        <translation>Es sind noch keine Garagentore eingerichtet.</translation>
+        <translation type="vanished">Es sind noch keine Garagentore eingerichtet.</translation>
     </message>
     <message>
         <source>Set up now</source>
@@ -3854,7 +4129,7 @@ Bitte versuche es erneut.</translation>
     <name>MainPage</name>
     <message>
         <source>My things</source>
-        <translation>Meine &quot;Things&quot;</translation>
+        <translation type="vanished">Meine &quot;Things&quot;</translation>
     </message>
     <message>
         <source>Configure things</source>
@@ -3882,7 +4157,7 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Welcome to %1!</source>
-        <translation>Willkommen bei %1!</translation>
+        <translation type="vanished">Willkommen bei %1!</translation>
     </message>
     <message>
         <source>There are no things set up yet. You can start with adding your things by using the menu on the upper left and selecting &quot;Add a new thing&quot;.</source>
@@ -3898,27 +4173,27 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>My favorites</source>
-        <translation>Meine Favoriten</translation>
+        <translation type="vanished">Meine Favoriten</translation>
     </message>
     <message>
         <source>There are no favorite things yet.</source>
-        <translation>Es gibt noch keine Favoriten.</translation>
+        <translation type="vanished">Es gibt noch keine Favoriten.</translation>
     </message>
     <message>
         <source>It appears there are no things set up either yet. In order to use favorites you need to add some things first.</source>
-        <translation>Es scheint als seien auch noch keine &quot;Things&quot; eingerichtet. Um Favoriten einzurichten musst Du zuerst einige &quot;Things&quot; hinzufügen.</translation>
+        <translation type="vanished">Es scheint als seien auch noch keine &quot;Things&quot; eingerichtet. Um Favoriten einzurichten musst Du zuerst einige &quot;Things&quot; hinzufügen.</translation>
     </message>
     <message>
         <source>Favorites allow you to keep track of your most important things when you have lots of them. Watch out for the star when interacting with things and use it to mark them as your favorites.</source>
-        <translation>Favoriten erlauben es den Überblick über die wichtigsten &quot;Things&quot; zu behalten wenn Du viele davon eingebunden hast. Halte ausschau nach dem Stern wenn Du mit &quot;Things&quot; interagierst umd benutze ihn um diese als Favoriten zu markieren.</translation>
+        <translation type="vanished">Favoriten erlauben es den Überblick über die wichtigsten &quot;Things&quot; zu behalten wenn Du viele davon eingebunden hast. Halte ausschau nach dem Stern wenn Du mit &quot;Things&quot; interagierst umd benutze ihn um diese als Favoriten zu markieren.</translation>
     </message>
     <message>
         <source>Add a thing</source>
-        <translation>&quot;Thing&quot; hinzufügen</translation>
+        <translation type="vanished">&quot;Thing&quot; hinzufügen</translation>
     </message>
     <message>
         <source>There are no things set up yet.</source>
-        <translation>Es sind noch keine &quot;Things&quot; eingerichtet.</translation>
+        <translation type="vanished">Es sind noch keine &quot;Things&quot; eingerichtet.</translation>
     </message>
     <message>
         <source>In order for your %1 box to be useful, go ahead and add some things.</source>
@@ -3926,7 +4201,7 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>My scenes</source>
-        <translation>Meine Szenen</translation>
+        <translation type="vanished">Meine Szenen</translation>
     </message>
     <message>
         <source>There are no scenes set up yet</source>
@@ -3934,15 +4209,15 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>It appears there are no things set up either yet. In order to use scenes you need to add some things first.</source>
-        <translation>Es scheint als seien auch noch keine &quot;Things&quot; eingerichtet. Um Szenen zu erstellen musst Du zuerst einige &quot;Things&quot; hinzufügen.</translation>
+        <translation type="vanished">Es scheint als seien auch noch keine &quot;Things&quot; eingerichtet. Um Szenen zu erstellen musst Du zuerst einige &quot;Things&quot; hinzufügen.</translation>
     </message>
     <message>
         <source>Scenes provide a useful way to control your things with just one click.</source>
-        <translation>Szenen bieten einen einfachen Weg um deine &quot;Things&quot; mit nur einem klick zu steuern.</translation>
+        <translation type="vanished">Szenen bieten einen einfachen Weg um deine &quot;Things&quot; mit nur einem klick zu steuern.</translation>
     </message>
     <message>
         <source>Add a scene</source>
-        <translation>Szene hinzufügen</translation>
+        <translation type="vanished">Szene hinzufügen</translation>
     </message>
     <message>
         <source>Favorites</source>
@@ -3985,7 +4260,7 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>In order for your %1 system to be useful, go ahead and add some things.</source>
-        <translation>Damit dein %1 System sich nützlich machen kann, füge einige &quot;Things&quot; hinzu.</translation>
+        <translation type="vanished">Damit dein %1 System sich nützlich machen kann, füge einige &quot;Things&quot; hinzu.</translation>
     </message>
     <message>
         <source>Groups</source>
@@ -3993,19 +4268,39 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>There are no scenes set up yet.</source>
-        <translation>Es sind noch keine Szenen eingerichtet.</translation>
+        <translation type="vanished">Es sind noch keine Szenen eingerichtet.</translation>
     </message>
     <message>
         <source>My groups</source>
-        <translation>Meine Gruppen</translation>
+        <translation type="vanished">Meine Gruppen</translation>
     </message>
     <message>
         <source>There are no groups set up yet.</source>
-        <translation>Es sind noch keine Gruppen eingerichtet.</translation>
+        <translation type="vanished">Es sind noch keine Gruppen eingerichtet.</translation>
     </message>
     <message>
         <source>Grouping things can be useful to control multiple devices at once, for example an entire room. Watch out for the group symbol when interacting with things and use it to add them to groups.</source>
-        <translation>&quot;Things&quot; in Gruppen zu verwalten ist hilfreich um mehrere Geräte gleichzeitig zu schalten, z.B. einen ganzen Raum. Halte Ausschau nach dem Gruppensymbol wenn du mit &quot;Things&quot; interagierst und benutze es um sie Gruppen hinzuzufügen.</translation>
+        <translation type="vanished">&quot;Things&quot; in Gruppen zu verwalten ist hilfreich um mehrere Geräte gleichzeitig zu schalten, z.B. einen ganzen Raum. Halte Ausschau nach dem Gruppensymbol wenn du mit &quot;Things&quot; interagierst und benutze es um sie Gruppen hinzuzufügen.</translation>
+    </message>
+    <message>
+        <source>Garages</source>
+        <translation>Garagen</translation>
+    </message>
+    <message>
+        <source>Energy</source>
+        <translation>Energie</translation>
+    </message>
+    <message>
+        <source>Media</source>
+        <translation>Medien</translation>
+    </message>
+    <message>
+        <source>Done</source>
+        <translation>Erledigt</translation>
+    </message>
+    <message>
+        <source>Configure</source>
+        <translation>Einrichten</translation>
     </message>
 </context>
 <context>
@@ -4118,6 +4413,21 @@ Bitte versuche es erneut.</translation>
     <message>
         <source>Error: %1</source>
         <translation>Fehler: %1</translation>
+    </message>
+</context>
+<context>
+    <name>MediaView</name>
+    <message>
+        <source>There are no media players set up.</source>
+        <translation>Es sind keine Medienabspielgeräte eingerichtet.</translation>
+    </message>
+    <message>
+        <source>Connect your media players in order to control them from here.</source>
+        <translation>Verbinde deine Medienabspielgeräte um diese von hier aus zu steuern.</translation>
+    </message>
+    <message>
+        <source>Add things</source>
+        <translation>&quot;Things&quot; hinzufügen</translation>
     </message>
 </context>
 <context>
@@ -5131,6 +5441,29 @@ Möchtest Du fortfahren?</translation>
     </message>
 </context>
 <context>
+    <name>ScenesView</name>
+    <message>
+        <source>There are no scenes set up yet.</source>
+        <translation>Es sind noch keine Szenen eingerichtet.</translation>
+    </message>
+    <message>
+        <source>It appears there are no things set up either yet. In order to use scenes you need to add some things first.</source>
+        <translation>Es scheint als seien auch noch keine &quot;Things&quot; eingerichtet. Um Szenen zu erstellen musst Du zuerst einige &quot;Things&quot; hinzufügen.</translation>
+    </message>
+    <message>
+        <source>Scenes provide a useful way to control your things with just one click.</source>
+        <translation>Szenen bieten einen einfachen Weg um deine &quot;Things&quot; mit nur einem klick zu steuern.</translation>
+    </message>
+    <message>
+        <source>Add a thing</source>
+        <translation>&quot;Thing&quot; hinzufügen</translation>
+    </message>
+    <message>
+        <source>Add a scene</source>
+        <translation>Szene hinzufügen</translation>
+    </message>
+</context>
+<context>
     <name>ScriptEditor</name>
     <message>
         <source>Did you know...</source>
@@ -5380,7 +5713,7 @@ Möchtest Du fortfahren?</translation>
     </message>
 </context>
 <context>
-    <name>SensorDevicePagePost110</name>
+    <name>SensorDevicePage</name>
     <message>
         <source>Last seen:</source>
         <translation>Zuletzt gesehen:</translation>
@@ -5395,18 +5728,33 @@ Möchtest Du fortfahren?</translation>
     </message>
 </context>
 <context>
+    <name>SensorDevicePagePost110</name>
+    <message>
+        <source>Last seen:</source>
+        <translation type="vanished">Zuletzt gesehen:</translation>
+    </message>
+    <message>
+        <source>Sunrise:</source>
+        <translation type="vanished">Sonnenaufgang:</translation>
+    </message>
+    <message>
+        <source>Sunset:</source>
+        <translation type="vanished">Sonnenuntergang:</translation>
+    </message>
+</context>
+<context>
     <name>SensorView</name>
     <message>
         <source>6 h</source>
-        <translation>6 h</translation>
+        <translation type="vanished">6 h</translation>
     </message>
     <message>
         <source>24 h</source>
-        <translation>24 h</translation>
+        <translation type="vanished">24 h</translation>
     </message>
     <message>
         <source>7 d</source>
-        <translation>7 T</translation>
+        <translation type="vanished">7 T</translation>
     </message>
 </context>
 <context>
@@ -6050,6 +6398,25 @@ Möchtest Du fortfahren?</translation>
     <message>
         <source>Actions</source>
         <translation>Aktionen</translation>
+    </message>
+</context>
+<context>
+    <name>ThingsView</name>
+    <message>
+        <source>Welcome to %1!</source>
+        <translation>Willkommen bei %1!</translation>
+    </message>
+    <message>
+        <source>There are no things set up yet.</source>
+        <translation>Es sind noch keine &quot;Things&quot; eingerichtet.</translation>
+    </message>
+    <message>
+        <source>In order for your %1 system to be useful, go ahead and add some things.</source>
+        <translation>Um dein %1 System zu benutzen, füge einige Geräte oder Dienste hinzu.</translation>
+    </message>
+    <message>
+        <source>Add a thing</source>
+        <translation>&quot;Thing&quot; hinzufügen</translation>
     </message>
 </context>
 <context>

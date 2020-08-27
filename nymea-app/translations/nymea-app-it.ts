@@ -129,6 +129,21 @@
     </message>
 </context>
 <context>
+    <name>BarcodeScannerThingPage</name>
+    <message>
+        <source>No codes have been scanned yet.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Scan a code to see it appearing here.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Last scan</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>BlindDeviceListPage</name>
     <message>
         <source>Blinds</source>
@@ -372,11 +387,6 @@
             <numerusform>There are %n boxes connected to your cloud.</numerusform>
         </translation>
     </message>
-    <message numerus="yes">
-        <source>There are %n boxes connected to your cloud.</source>
-        <translation><numerusform></numerusform>
-        <numerusform></numerusform>
-        </translation></message>
     <message>
         <source>Sorry, an error happened removing the account. Please try again later.</source>
         <translation></translation>
@@ -515,9 +525,11 @@
     </message>
     <message numerus="yes">
         <source>There are %n %1:core systems connected to your cloud.</source>
-        <translation><numerusform>C&apos;è un sistema %1:core connesso al tuo cloud.</numerusform>
-        <numerusform>Ci sono %n sistemi %1:core connessi al tuo cloud.</numerusform>
-        </translation></message>
+        <translation>
+            <numerusform>C&apos;è un sistema %1:core connesso al tuo cloud.</numerusform>
+            <numerusform>Ci sono %n sistemi %1:core connessi al tuo cloud.</numerusform>
+        </translation>
+    </message>
     <message>
         <source>Sorry to see you go. If you log out you won&apos;t be able to connect to %1:core systems remotely any more. However, you can come back any time, we&apos;ll keep your user account. If you whish to completely delete your account and all the data associated with it, check the box below before hitting ok. If you decide to delete your account, all your personal information will be removed from %1:cloud and cannot be restored.</source>
         <translation></translation>
@@ -701,18 +713,6 @@
     </message>
     <message>
         <source>Connect &quot;%1&quot; to:</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Thing</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Output</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Input</source>
         <translation></translation>
     </message>
     <message>
@@ -1165,29 +1165,6 @@
     </message>
 </context>
 <context>
-    <name>DevicesPageDelegate</name>
-    <message>
-        <source>All off</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>%1 on</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>All closed</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>%1 open</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>uncategorized</source>
-        <translation></translation>
-    </message>
-</context>
-<context>
     <name>DoorbellDevicePage</name>
     <message>
         <source>History</source>
@@ -1382,10 +1359,6 @@
         <translation></translation>
     </message>
     <message>
-        <source>...comes true, execute those actions:</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>...execute those actions:</source>
         <translation></translation>
     </message>
@@ -1399,10 +1372,6 @@
     </message>
     <message>
         <source>Add another action...</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>...isn&apos;t met any more, execute those actions:</source>
         <translation></translation>
     </message>
     <message>
@@ -1456,6 +1425,14 @@
     <message>
         <source>This is a scene</source>
         <translation></translation>
+    </message>
+    <message>
+        <source>Execute those actions:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>When the condition isn&apos;t met any more, execute those actions:</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1588,6 +1565,61 @@
     </message>
 </context>
 <context>
+    <name>EnergyView</name>
+    <message>
+        <source>There are no energy meters installed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To get an overview of your current energy usage, install some energy meters.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add things</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Total consumed energy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Power usage history</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 seconds</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 minutes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 hours</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 days</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 weeks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 months</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 years</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Total produced energy</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ErrorDialog</name>
     <message>
         <source>Oh snap!</source>
@@ -1618,6 +1650,25 @@
     <message>
         <source>Menu</source>
         <translation></translation>
+    </message>
+</context>
+<context>
+    <name>FavoritesView</name>
+    <message>
+        <source>There are no favorite things yet.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>It appears there are no things set up either yet. In order to use favorites you need to add some things first.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Favorites allow you to keep track of your most important things when you have lots of them. Watch out for the star when interacting with things and use it to mark them as your favorites.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add a thing</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1753,10 +1804,14 @@ Please try again.</source>
     </message>
 </context>
 <context>
-    <name>GarageDeviceListPage</name>
+    <name>GaragesView</name>
     <message>
-        <source>Garage gates</source>
-        <translation></translation>
+        <source>There are no garage doors set up yet.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set up now</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1900,21 +1955,6 @@ Please try again.</source>
     </message>
 </context>
 <context>
-    <name>GenericTypeGraphPre110</name>
-    <message>
-        <source>6 h</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>24 h</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>7 d</source>
-        <translation></translation>
-    </message>
-</context>
-<context>
     <name>GenericTypeLogView</name>
     <message>
         <source>Magic</source>
@@ -1933,6 +1973,14 @@ Please try again.</source>
     <message>
         <source>Lighting</source>
         <translation></translation>
+    </message>
+    <message>
+        <source>There are no groups set up yet.</source>
+        <translation type="unfinished">Non ci sono gruppi già impostati.</translation>
+    </message>
+    <message>
+        <source>Grouping things can be useful to control multiple devices at once, for example an entire room. Watch out for the group symbol when interacting with things and use it to add them to groups.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1991,6 +2039,29 @@ Please try again.</source>
     <message>
         <source>Additional software licenses</source>
         <translation></translation>
+    </message>
+</context>
+<context>
+    <name>InterfaceTile</name>
+    <message>
+        <source>uncategorized</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All off</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 on</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All closed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 open</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2688,10 +2759,6 @@ Please try again.</source>
         <translation></translation>
     </message>
     <message>
-        <source>Media player</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Shuffle</source>
         <translation></translation>
     </message>
@@ -2810,6 +2877,142 @@ Please try again.</source>
     <message>
         <source>Ventilation</source>
         <translation></translation>
+    </message>
+    <message>
+        <source>Media controllers with seeking</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Navigation pad with menu</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Operate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shuffle and repeat controllers</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>IrrigationDevicePage</name>
+    <message>
+        <source>Turn %1 off at %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Watering since</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Last watering</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This irrigation has not been used yet</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n minute(s)</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n hour(s)</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n day(s)</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n minute(s) ago</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n hour(s) ago</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n day(s) ago</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message>
+        <source>Watering until</source>
+        <extracomment>Irrigation will be turned of at, e.g. 09:00</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Turn off in</source>
+        <extracomment>Turn on irrigation for, e.g. 5 minutes</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Water for</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>1 minute</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>2 minutes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>5 minutes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>15 minutes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>30 minutes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>1 hour</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n minute(s) left</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n hour(s) left</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n day(s) left</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
     </message>
 </context>
 <context>
@@ -2980,10 +3183,6 @@ Please try again.</source>
         <translation></translation>
     </message>
     <message>
-        <source>Experience mode</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Regional</source>
         <translation></translation>
     </message>
@@ -3013,14 +3212,6 @@ Please try again.</source>
 </context>
 <context>
     <name>Main</name>
-    <message>
-        <source>Garage gates</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>There are no garage gates set up yet.</source>
-        <translation></translation>
-    </message>
     <message>
         <source>Set up now</source>
         <translation></translation>
@@ -3090,51 +3281,11 @@ Please try again.</source>
     </message>
     <message>
         <source>My favorites</source>
-        <translation>Preferiti</translation>
-    </message>
-    <message>
-        <source>There are no favorite things yet.</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>It appears there are no things set up either yet. In order to use favorites you need to add some things first.</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Favorites allow you to keep track of your most important things when you have lots of them. Watch out for the star when interacting with things and use it to mark them as your favorites.</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Add a thing</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>My things</source>
-        <translation></translation>
+        <translation type="vanished">Preferiti</translation>
     </message>
     <message>
         <source>Welcome to %1!</source>
-        <translation>Benvenuto in %1!</translation>
-    </message>
-    <message>
-        <source>There are no things set up yet.</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>My scenes</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>It appears there are no things set up either yet. In order to use scenes you need to add some things first.</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Scenes provide a useful way to control your things with just one click.</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Add a scene</source>
-        <translation></translation>
+        <translation type="vanished">Benvenuto in %1!</translation>
     </message>
     <message>
         <source>Loading data...</source>
@@ -3158,36 +3309,46 @@ Please try again.</source>
     </message>
     <message numerus="yes">
         <source>%n system update(s) available</source>
-        <translation><numerusform></numerusform>
-        <numerusform></numerusform>
-        </translation></message>
+        <translation>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
     <message>
         <source>System settings</source>
         <translation>Impostazioni di sistema</translation>
-    </message>
-    <message>
-        <source>In order for your %1 system to be useful, go ahead and add some things.</source>
-        <translation></translation>
     </message>
     <message>
         <source>Groups</source>
         <translation></translation>
     </message>
     <message>
-        <source>There are no scenes set up yet.</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>My groups</source>
-        <translation>I miei gruppi</translation>
+        <translation type="vanished">I miei gruppi</translation>
     </message>
     <message>
         <source>There are no groups set up yet.</source>
-        <translation>Non ci sono gruppi già impostati.</translation>
+        <translation type="vanished">Non ci sono gruppi già impostati.</translation>
     </message>
     <message>
-        <source>Grouping things can be useful to control multiple devices at once, for example an entire room. Watch out for the group symbol when interacting with things and use it to add them to groups.</source>
-        <translation></translation>
+        <source>Garages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Energy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Media</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Done</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Configure</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3241,6 +3402,21 @@ Please try again.</source>
     <message>
         <source>Error: %1</source>
         <translation></translation>
+    </message>
+</context>
+<context>
+    <name>MediaView</name>
+    <message>
+        <source>There are no media players set up.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connect your media players in order to control them from here.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add things</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4098,6 +4274,29 @@ Please try again.</source>
     </message>
 </context>
 <context>
+    <name>ScenesView</name>
+    <message>
+        <source>There are no scenes set up yet.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>It appears there are no things set up either yet. In order to use scenes you need to add some things first.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Scenes provide a useful way to control your things with just one click.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add a thing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add a scene</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ScriptEditor</name>
     <message>
         <source>Did you know...</source>
@@ -4308,33 +4507,18 @@ Please try again.</source>
     </message>
 </context>
 <context>
-    <name>SensorDevicePagePost110</name>
+    <name>SensorDevicePage</name>
     <message>
         <source>Last seen:</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Sunrise:</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Sunset:</source>
-        <translation></translation>
-    </message>
-</context>
-<context>
-    <name>SensorView</name>
-    <message>
-        <source>6 h</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>24 h</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>7 d</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4739,9 +4923,11 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message numerus="yes">
         <source>%n update(s) available</source>
-        <translation><numerusform></numerusform>
-        <numerusform></numerusform>
-        </translation></message>
+        <translation>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
     <message>
         <source>Check again</source>
         <translation></translation>
@@ -4801,6 +4987,25 @@ Do you want to proceed?</source>
     <message>
         <source>Actions</source>
         <translation></translation>
+    </message>
+</context>
+<context>
+    <name>ThingsView</name>
+    <message>
+        <source>Welcome to %1!</source>
+        <translation type="unfinished">Benvenuto in %1!</translation>
+    </message>
+    <message>
+        <source>There are no things set up yet.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>In order for your %1 system to be useful, go ahead and add some things.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add a thing</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

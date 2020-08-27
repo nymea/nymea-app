@@ -78,14 +78,14 @@ Item {
                     onClicked: {
                         print("clicked:", model.id)
                         if (model.executable) {
-                            root.executeBrowserItem(model.id)
+                            engine.thingManager.executeBrowserItem(root.thing.id, model.id)
                         } else if (model.browsable) {
-                            internalPageStack.push(internalBrowserPage, {device: root.thing, nodeId: model.id})
+                            internalPageStack.push(internalBrowserPage, {nodeId: model.id})
                         }
                     }
 
                     onContextMenuActionTriggered: {
-                        root.executeBrowserItemAction(model.id, actionTypeId, params)
+                        engine.thingManager.executeBrowserItemAction(root.thing.id, model.id, actionTypeId, params)
                     }
                 }
 

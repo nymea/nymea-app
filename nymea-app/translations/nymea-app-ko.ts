@@ -133,6 +133,21 @@
     </message>
 </context>
 <context>
+    <name>BarcodeScannerThingPage</name>
+    <message>
+        <source>No codes have been scanned yet.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Scan a code to see it appearing here.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Last scan</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>BlindDeviceListPage</name>
     <message>
         <source>Blinds</source>
@@ -793,18 +808,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Thing</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Output</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Input</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Inverted</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1273,23 +1276,19 @@
     <name>DevicesPageDelegate</name>
     <message>
         <source>All off</source>
-        <translation>전부 끄기</translation>
+        <translation type="vanished">전부 끄기</translation>
     </message>
     <message>
         <source>%1 on</source>
-        <translation>%1 켜짐</translation>
+        <translation type="vanished">%1 켜짐</translation>
     </message>
     <message>
         <source>All closed</source>
-        <translation>모두 닫힘</translation>
+        <translation type="vanished">모두 닫힘</translation>
     </message>
     <message>
         <source>%1 open</source>
-        <translation>%1 열림</translation>
-    </message>
-    <message>
-        <source>uncategorized</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">%1 열림</translation>
     </message>
 </context>
 <context>
@@ -1494,7 +1493,7 @@
     </message>
     <message>
         <source>...comes true, execute those actions:</source>
-        <translation>...참이 되고, 다음 작업을 실행하십시오:</translation>
+        <translation type="vanished">...참이 되고, 다음 작업을 실행하십시오:</translation>
     </message>
     <message>
         <source>...execute those actions:</source>
@@ -1514,7 +1513,7 @@
     </message>
     <message>
         <source>...isn&apos;t met any more, execute those actions:</source>
-        <translation>...더 이상 충족되지 않음, 다음 작업을 실행하십시오:</translation>
+        <translation type="vanished">...더 이상 충족되지 않음, 다음 작업을 실행하십시오:</translation>
     </message>
     <message>
         <source>If the condition isn&apos;t met, execute those actions instead:</source>
@@ -1567,6 +1566,14 @@
     <message>
         <source>This is a scene</source>
         <translation>시나리오</translation>
+    </message>
+    <message>
+        <source>Execute those actions:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>When the condition isn&apos;t met any more, execute those actions:</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1699,6 +1706,61 @@
     </message>
 </context>
 <context>
+    <name>EnergyView</name>
+    <message>
+        <source>There are no energy meters installed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To get an overview of your current energy usage, install some energy meters.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add things</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Total consumed energy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Power usage history</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 seconds</source>
+        <translation type="unfinished">%1 초</translation>
+    </message>
+    <message>
+        <source>%1 minutes</source>
+        <translation type="unfinished">%1 분</translation>
+    </message>
+    <message>
+        <source>%1 hours</source>
+        <translation type="unfinished">%1 시간</translation>
+    </message>
+    <message>
+        <source>%1 days</source>
+        <translation type="unfinished">%1 일</translation>
+    </message>
+    <message>
+        <source>%1 weeks</source>
+        <translation type="unfinished">%1 주</translation>
+    </message>
+    <message>
+        <source>%1 months</source>
+        <translation type="unfinished">%1 달</translation>
+    </message>
+    <message>
+        <source>%1 years</source>
+        <translation type="unfinished">%1 년</translation>
+    </message>
+    <message>
+        <source>Total produced energy</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ErrorDialog</name>
     <message>
         <source>Oh snap!</source>
@@ -1729,6 +1791,25 @@
     <message>
         <source>Menu</source>
         <translation>메뉴</translation>
+    </message>
+</context>
+<context>
+    <name>FavoritesView</name>
+    <message>
+        <source>There are no favorite things yet.</source>
+        <translation type="unfinished">아직 즐겨찾기가 없습니다.</translation>
+    </message>
+    <message>
+        <source>It appears there are no things set up either yet. In order to use favorites you need to add some things first.</source>
+        <translation type="unfinished">아직 설정된 것이 없는 것 같습니다. 즐겨찾기를 사용하려면 먼저 몇 가지를 추가해야 합니다.</translation>
+    </message>
+    <message>
+        <source>Favorites allow you to keep track of your most important things when you have lots of them. Watch out for the star when interacting with things and use it to mark them as your favorites.</source>
+        <translation type="unfinished">즐겨찾기는 당신이 많은 것을 가질 때 가장 중요한 것들을 추적할 수 있게 해줍니다. 사물(장치)과 상호작용할 때 별을 주의하여 즐겨찾기로 표시하십시오.</translation>
+    </message>
+    <message>
+        <source>Add a thing</source>
+        <translation type="unfinished">사물(장치) 추가</translation>
     </message>
 </context>
 <context>
@@ -1868,7 +1949,18 @@ Please try again.</source>
     <name>GarageDeviceListPage</name>
     <message>
         <source>Garage gates</source>
-        <translation>차고 문</translation>
+        <translation type="vanished">차고 문</translation>
+    </message>
+</context>
+<context>
+    <name>GaragesView</name>
+    <message>
+        <source>There are no garage doors set up yet.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set up now</source>
+        <translation type="unfinished">지금 설정</translation>
     </message>
 </context>
 <context>
@@ -2032,21 +2124,6 @@ Please try again.</source>
     </message>
 </context>
 <context>
-    <name>GenericTypeGraphPre110</name>
-    <message>
-        <source>6 h</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>24 h</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>7 d</source>
-        <translation></translation>
-    </message>
-</context>
-<context>
     <name>GenericTypeLogView</name>
     <message>
         <source>Magic</source>
@@ -2065,6 +2142,14 @@ Please try again.</source>
     <message>
         <source>Lighting</source>
         <translation type="unfinished">전등(조명)</translation>
+    </message>
+    <message>
+        <source>There are no groups set up yet.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Grouping things can be useful to control multiple devices at once, for example an entire room. Watch out for the group symbol when interacting with things and use it to add them to groups.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2139,6 +2224,29 @@ Please try again.</source>
     <message>
         <source>Additional software licenses</source>
         <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>InterfaceTile</name>
+    <message>
+        <source>uncategorized</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All off</source>
+        <translation type="unfinished">전부 끄기</translation>
+    </message>
+    <message>
+        <source>%1 on</source>
+        <translation type="unfinished">%1 켜짐</translation>
+    </message>
+    <message>
+        <source>All closed</source>
+        <translation type="unfinished">모두 닫힘</translation>
+    </message>
+    <message>
+        <source>%1 open</source>
+        <translation type="unfinished">%1 열림</translation>
     </message>
 </context>
 <context>
@@ -2852,10 +2960,6 @@ Please try again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Media player</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Shuffle</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2974,6 +3078,133 @@ Please try again.</source>
     <message>
         <source>Ventilation</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Media controllers with seeking</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Navigation pad with menu</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Operate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shuffle and repeat controllers</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>IrrigationDevicePage</name>
+    <message>
+        <source>Turn %1 off at %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Watering since</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Last watering</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This irrigation has not been used yet</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n minute(s)</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n hour(s)</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n day(s)</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n minute(s) ago</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n hour(s) ago</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n day(s) ago</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message>
+        <source>Watering until</source>
+        <extracomment>Irrigation will be turned of at, e.g. 09:00</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Turn off in</source>
+        <extracomment>Turn on irrigation for, e.g. 5 minutes</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Water for</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>1 minute</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>2 minutes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>5 minutes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>15 minutes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>30 minutes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>1 hour</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n minute(s) left</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n hour(s) left</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n day(s) left</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+        </translation>
     </message>
 </context>
 <context>
@@ -3145,7 +3376,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Experience mode</source>
-        <translation type="unfinished">경험 모드</translation>
+        <translation type="obsolete">경험 모드</translation>
     </message>
     <message>
         <source>Regional</source>
@@ -3179,11 +3410,11 @@ Please try again.</source>
     <name>Main</name>
     <message>
         <source>Garage gates</source>
-        <translation>차고 문</translation>
+        <translation type="vanished">차고 문</translation>
     </message>
     <message>
         <source>There are no garage gates set up yet.</source>
-        <translation>아직 차고 문이 설치되어 있지 않네요.</translation>
+        <translation type="vanished">아직 차고 문이 설치되어 있지 않네요.</translation>
     </message>
     <message>
         <source>Set up now</source>
@@ -3254,39 +3485,39 @@ Please try again.</source>
     </message>
     <message>
         <source>My favorites</source>
-        <translation>내 즐겨찾기</translation>
+        <translation type="vanished">내 즐겨찾기</translation>
     </message>
     <message>
         <source>There are no favorite things yet.</source>
-        <translation>아직 즐겨찾기가 없습니다.</translation>
+        <translation type="vanished">아직 즐겨찾기가 없습니다.</translation>
     </message>
     <message>
         <source>It appears there are no things set up either yet. In order to use favorites you need to add some things first.</source>
-        <translation>아직 설정된 것이 없는 것 같습니다. 즐겨찾기를 사용하려면 먼저 몇 가지를 추가해야 합니다.</translation>
+        <translation type="vanished">아직 설정된 것이 없는 것 같습니다. 즐겨찾기를 사용하려면 먼저 몇 가지를 추가해야 합니다.</translation>
     </message>
     <message>
         <source>Favorites allow you to keep track of your most important things when you have lots of them. Watch out for the star when interacting with things and use it to mark them as your favorites.</source>
-        <translation>즐겨찾기는 당신이 많은 것을 가질 때 가장 중요한 것들을 추적할 수 있게 해줍니다. 사물(장치)과 상호작용할 때 별을 주의하여 즐겨찾기로 표시하십시오.</translation>
+        <translation type="vanished">즐겨찾기는 당신이 많은 것을 가질 때 가장 중요한 것들을 추적할 수 있게 해줍니다. 사물(장치)과 상호작용할 때 별을 주의하여 즐겨찾기로 표시하십시오.</translation>
     </message>
     <message>
         <source>Add a thing</source>
-        <translation>사물(장치) 추가</translation>
+        <translation type="vanished">사물(장치) 추가</translation>
     </message>
     <message>
         <source>My things</source>
-        <translation>내 사물(장치)</translation>
+        <translation type="vanished">내 사물(장치)</translation>
     </message>
     <message>
         <source>Welcome to %1!</source>
-        <translation>%1에 오신 것을 환영합니다!</translation>
+        <translation type="vanished">%1에 오신 것을 환영합니다!</translation>
     </message>
     <message>
         <source>There are no things set up yet.</source>
-        <translation>아직 설정된 것이 없습니다.</translation>
+        <translation type="vanished">아직 설정된 것이 없습니다.</translation>
     </message>
     <message>
         <source>My scenes</source>
-        <translation>내 시나리오</translation>
+        <translation type="vanished">내 시나리오</translation>
     </message>
     <message>
         <source>There are no scenes set up yet</source>
@@ -3294,15 +3525,15 @@ Please try again.</source>
     </message>
     <message>
         <source>It appears there are no things set up either yet. In order to use scenes you need to add some things first.</source>
-        <translation>아직 설정된 것이 없는 것 같습니다. 시나리오를 사용하려면 먼저 몇 가지를 추가해야 합니다.</translation>
+        <translation type="vanished">아직 설정된 것이 없는 것 같습니다. 시나리오를 사용하려면 먼저 몇 가지를 추가해야 합니다.</translation>
     </message>
     <message>
         <source>Scenes provide a useful way to control your things with just one click.</source>
-        <translation>시나리오는 단 한 번의 클릭으로 여러분의 사물(장치)들을 조절할 수 있는 유용한 방법을 제공합니다.</translation>
+        <translation type="vanished">시나리오는 단 한 번의 클릭으로 여러분의 사물(장치)들을 조절할 수 있는 유용한 방법을 제공합니다.</translation>
     </message>
     <message>
         <source>Add a scene</source>
-        <translation>시나리오 추가</translation>
+        <translation type="vanished">시나리오 추가</translation>
     </message>
     <message>
         <source>Loading data...</source>
@@ -3336,26 +3567,30 @@ Please try again.</source>
     </message>
     <message>
         <source>In order for your %1 system to be useful, go ahead and add some things.</source>
-        <translation>%1 시스템이 유용하려면 먼저 몇 가지를 추가하십시오.</translation>
+        <translation type="vanished">%1 시스템이 유용하려면 먼저 몇 가지를 추가하십시오.</translation>
     </message>
     <message>
         <source>Groups</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>There are no scenes set up yet.</source>
+        <source>Garages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>My groups</source>
+        <source>Energy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>There are no groups set up yet.</source>
+        <source>Media</source>
+        <translation type="unfinished">미디어</translation>
+    </message>
+    <message>
+        <source>Done</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Grouping things can be useful to control multiple devices at once, for example an entire room. Watch out for the group symbol when interacting with things and use it to add them to groups.</source>
+        <source>Configure</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3410,6 +3645,21 @@ Please try again.</source>
     <message>
         <source>Error: %1</source>
         <translation>오류: %1</translation>
+    </message>
+</context>
+<context>
+    <name>MediaView</name>
+    <message>
+        <source>There are no media players set up.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connect your media players in order to control them from here.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add things</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4318,6 +4568,29 @@ Please try again.</source>
     </message>
 </context>
 <context>
+    <name>ScenesView</name>
+    <message>
+        <source>There are no scenes set up yet.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>It appears there are no things set up either yet. In order to use scenes you need to add some things first.</source>
+        <translation type="unfinished">아직 설정된 것이 없는 것 같습니다. 시나리오를 사용하려면 먼저 몇 가지를 추가해야 합니다.</translation>
+    </message>
+    <message>
+        <source>Scenes provide a useful way to control your things with just one click.</source>
+        <translation type="unfinished">시나리오는 단 한 번의 클릭으로 여러분의 사물(장치)들을 조절할 수 있는 유용한 방법을 제공합니다.</translation>
+    </message>
+    <message>
+        <source>Add a thing</source>
+        <translation type="unfinished">사물(장치) 추가</translation>
+    </message>
+    <message>
+        <source>Add a scene</source>
+        <translation type="unfinished">시나리오 추가</translation>
+    </message>
+</context>
+<context>
     <name>ScriptEditor</name>
     <message>
         <source>Did you know...</source>
@@ -4540,33 +4813,33 @@ Please try again.</source>
     </message>
 </context>
 <context>
-    <name>SensorDevicePagePost110</name>
+    <name>SensorDevicePage</name>
     <message>
         <source>Last seen:</source>
-        <translation>마지막으로 본:</translation>
+        <translation type="unfinished">마지막으로 본:</translation>
     </message>
     <message>
         <source>Sunrise:</source>
-        <translation>일출:</translation>
+        <translation type="unfinished">일출:</translation>
     </message>
     <message>
         <source>Sunset:</source>
-        <translation>일몰:</translation>
+        <translation type="unfinished">일몰:</translation>
     </message>
 </context>
 <context>
-    <name>SensorView</name>
+    <name>SensorDevicePagePost110</name>
     <message>
-        <source>6 h</source>
-        <translation></translation>
+        <source>Last seen:</source>
+        <translation type="vanished">마지막으로 본:</translation>
     </message>
     <message>
-        <source>24 h</source>
-        <translation></translation>
+        <source>Sunrise:</source>
+        <translation type="vanished">일출:</translation>
     </message>
     <message>
-        <source>7 d</source>
-        <translation></translation>
+        <source>Sunset:</source>
+        <translation type="vanished">일몰:</translation>
     </message>
 </context>
 <context>
@@ -5039,6 +5312,25 @@ Do you want to proceed?</source>
     <message>
         <source>Actions</source>
         <translation type="unfinished">작동(조치)</translation>
+    </message>
+</context>
+<context>
+    <name>ThingsView</name>
+    <message>
+        <source>Welcome to %1!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There are no things set up yet.</source>
+        <translation type="unfinished">아직 설정된 것이 없습니다.</translation>
+    </message>
+    <message>
+        <source>In order for your %1 system to be useful, go ahead and add some things.</source>
+        <translation type="unfinished">%1 시스템이 유용하려면 먼저 몇 가지를 추가하십시오.</translation>
+    </message>
+    <message>
+        <source>Add a thing</source>
+        <translation type="unfinished">사물(장치) 추가</translation>
     </message>
 </context>
 <context>
