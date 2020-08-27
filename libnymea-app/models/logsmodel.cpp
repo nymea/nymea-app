@@ -240,6 +240,7 @@ void LogsModel::logsReply(const QVariantMap &data)
     }
 
     if (newBlock.isEmpty()) {
+        m_busyInternal = false;
         m_busy = false;
         emit busyChanged();
         return;
@@ -254,11 +255,13 @@ void LogsModel::logsReply(const QVariantMap &data)
     endInsertRows();
     emit countChanged();
 
-    m_busy = false;
-    emit busyChanged();
+    m_busyInternal = false;
 
     if (m_viewStartTime.isValid() && m_list.count() > 0 && m_list.last()->timestamp() > m_viewStartTime && m_canFetchMore) {
         fetchMore();
+    } else {
+        m_busy = false;
+        emit busyChanged();
     }
 }
 
@@ -270,7 +273,7 @@ void LogsModel::fetchMore(const QModelIndex &parent)
         qWarning() << "Cannot update. Engine not set";
         return;
     }
-    if (m_busy) {
+    if (m_busyInternal) {
         return;
     }
 
@@ -279,8 +282,11 @@ void LogsModel::fetchMore(const QModelIndex &parent)
         return;
     }
 
-    m_busy = true;
-    emit busyChanged();
+    m_busyInternal = true;
+    if (!m_busy) {
+        m_busy = true;
+        emit busyChanged();
+    }
 
 
     QVariantMap params;
@@ -325,7 +331,6 @@ void LogsModel::classBegin()
 
 void LogsModel::componentComplete()
 {
-    m_busy = false;
     fetchMore();
 }
 

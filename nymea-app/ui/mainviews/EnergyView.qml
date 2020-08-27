@@ -63,22 +63,24 @@ MainViewBase {
 
     Flickable {
         anchors.fill: parent
+        topMargin: app.margins
         contentHeight: energyGrid.childrenRect.height
 
         GridLayout {
             id: energyGrid
             width: parent.width
             visible: consumers.count > 0
-            columns: Math.floor(root.width / 300)
+            columns: root.width > 600 ? 2 : 1
             rowSpacing: 0
 
             SmartMeterChart {
-                Layout.fillWidth: true
+                Layout.preferredWidth: energyGrid.width / energyGrid.columns
                 Layout.preferredHeight: width * .7
                 meters: consumers
                 title: qsTr("Total consumed energy")
                 visible: consumers.count > 0
             }
+
 
             ChartView {
                 id: chartView
@@ -88,23 +90,19 @@ MainViewBase {
                 legend.font.pixelSize: app.smallFont
                 legend.visible: false
                 backgroundColor: app.backgroundColor
+                title: qsTr("Power usage history")
 
                 property var startTime: xAxis.min
                 property var endTime: xAxis.max
 
                 property int sampleRate: XYSeriesAdapter.SampleRateMinute
 
+                property int busyModels: 0
+
                 BusyIndicator {
                     anchors.centerIn: parent
-                    visible: running
-                    running: {
-                        for (var i = 0; i < consumersRepeater.count; i++) {
-                            if (consumersRepeater.itemAt(i).model.busy) {
-                                return true;
-                            }
-                        }
-                        return false;
-                    }
+                    visible: chartView.busyModels > 0
+                    running: visible
                 }
 
                 Repeater {
@@ -122,6 +120,13 @@ MainViewBase {
                             typeIds: [consumer.thing.thingClass.stateTypes.findByName("currentPower").id]
                             viewStartTime: xAxis.min
                             live: true
+                            onBusyChanged: {
+                                if (busy) {
+                                    chartView.busyModels++
+                                } else {
+                                    chartView.busyModels--
+                                }
+                            }
                         }
                         property XYSeriesAdapter adapter: XYSeriesAdapter {
                             id: seriesAdapter
@@ -176,8 +181,6 @@ MainViewBase {
                             areaSeries.color = color;
                             areaSeries.borderColor = color;
                             areaSeries.borderWidth = 0;
-
-                            seriesAdapter.xySeries = series;
                         }
                     }
                 }
@@ -190,17 +193,8 @@ MainViewBase {
                     onMinChanged: applyNiceNumbers();
                     onMaxChanged: applyNiceNumbers();
                     labelsFont.pixelSize: app.smallFont
-                    labelFormat: {
-                        return "%d";
-                        //                        switch (root.stateType.type.toLowerCase()) {
-                        //                        case "bool":
-                        //                            return "x";
-                        //                        default:
-                        //                            return "%d";
-                        //                        }
-                    }
+                    labelFormat: "%d"
                     labelsColor: app.foregroundColor
-                    //                    tickCount: root.stateType.type.toLowerCase() === "bool" ? 2 : chartView.height / 40
                     color: Qt.rgba(app.foregroundColor.r, app.foregroundColor.g, app.foregroundColor.b, .2)
                     gridLineColor: color
                 }
@@ -273,7 +267,7 @@ MainViewBase {
 
                     min: {
                         var date = new Date();
-                        date.setTime(date.getTime() - (1000 * 60 * 60 * 24) + 2000);
+                        date.setTime(date.getTime() - (1000 * 60 * 60 * 6) + 2000);
                         return date;
                     }
                     max: {
@@ -304,7 +298,7 @@ MainViewBase {
                         }
                         // figure out if we scrolled too far
                         var overshoot = xAxis.max.getTime() - now.getTime()
-    //                    print("overshoot is:", overshoot, "oldMax", xAxis.max, "newMax", now, "oldMin", xAxis.min, "newMin", new Date(xAxis.min.getTime() - overshoot))
+                        //                    print("overshoot is:", overshoot, "oldMax", xAxis.max, "newMax", now, "oldMin", xAxis.min, "newMin", new Date(xAxis.min.getTime() - overshoot))
                         if (overshoot > 0) {
                             var range = xAxis.max - xAxis.min
                             xAxis.max = now
@@ -330,13 +324,13 @@ MainViewBase {
                         preventStealing = true
                     }
                     onClicked: {
-//                        var pt = chartView.mapToValue(Qt.point(mouse.x + chartView.plotArea.x, mouse.y + chartView.plotArea.y), mainSeries)
-//                        mainSeries.markClosestPoint(pt)
+                        //                        var pt = chartView.mapToValue(Qt.point(mouse.x + chartView.plotArea.x, mouse.y + chartView.plotArea.y), mainSeries)
+                        //                        mainSeries.markClosestPoint(pt)
                     }
 
                     onWheel: {
                         scrollRightLimited(-wheel.pixelDelta.x)
-    //                    zoomInLimited(wheel.pixelDelta.y)
+                        //                    zoomInLimited(wheel.pixelDelta.y)
                     }
 
                     onPositionChanged: {
@@ -361,6 +355,7 @@ MainViewBase {
                             scrollMouseArea.scrollRightLimited(10)
                         }
                     }
+
                 }
             }
 

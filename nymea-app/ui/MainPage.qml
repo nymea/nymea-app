@@ -232,7 +232,7 @@ Page {
                 Behavior on opacity { NumberAnimation { duration: 200; easing.type: Easing.InOutQuad } }
 
                 Repeater {
-                    model: filteredContentModel
+                    model: d.configOverlay != null ? null : filteredContentModel
 
                     delegate: Loader {
                         width: swipeView.width
@@ -280,7 +280,7 @@ Page {
 
             Repeater {
                 id: tabsRepeater
-                model: filteredContentModel
+                model: d.configOverlay != null ? null : filteredContentModel
 
                 delegate: MainPageTabButton {
                     alignment: app.landscape ? Qt.Horizontal : Qt.Vertical

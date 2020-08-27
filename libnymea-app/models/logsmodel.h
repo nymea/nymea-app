@@ -124,9 +124,11 @@ protected:
     QDateTime m_endTime;
     QDateTime m_viewStartTime;
 
-    bool m_busy = true;
+    bool m_busy = false;
     bool m_live = false;
     int m_blockSize = 100;
+
+    bool m_busyInternal = false;
 
     bool m_canFetchMore = true;
 
