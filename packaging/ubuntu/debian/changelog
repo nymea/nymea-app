@@ -1,3 +1,11 @@
+nymea-app (1.0.221) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fixes and translations
+  * Add engergize style
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 27 Aug 2020 19:03:07 +0200
+
 nymea-app (1.0.220) bionic; urgency=medium
 
   [ Michael Zanetti ]
