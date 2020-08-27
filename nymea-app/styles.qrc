@@ -16,5 +16,9 @@
         <file>styles/lime/Page.qml</file>
         <file>styles/lime/logo.svg</file>
         <file>styles/lime/Button.qml</file>
+        <file>styles/energize/ApplicationWindow.qml</file>
+        <file>styles/energize/Button.qml</file>
+        <file>styles/energize/logo.svg</file>
+        <file>styles/energize/Page.qml</file>
     </qresource>
 </RCC>
