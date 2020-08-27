@@ -39,9 +39,6 @@ class StyleController : public QObject
     Q_PROPERTY(QString currentStyle READ currentStyle WRITE setCurrentStyle NOTIFY currentStyleChanged)
     Q_PROPERTY(QStringList allStyles READ allStyles CONSTANT)
 
-    Q_PROPERTY(QString currentExperience READ currentExperience WRITE setCurrentExperience NOTIFY currentExperienceChanged)
-    Q_PROPERTY(QStringList allExperiences READ allExperiences CONSTANT)
-
 public:
     explicit StyleController(QObject *parent = nullptr);
 
@@ -50,17 +47,10 @@ public:
 
     QStringList allStyles() const;
 
-    QString currentExperience() const;
-    void setCurrentExperience(const QString &currentExperience);
-
-    QStringList allExperiences() const;
-
     Q_INVOKABLE void setSystemFont(const QFont &font);
 
 signals:
     void currentStyleChanged();
-    void currentExperienceChanged();
-
 };
 
 #endif // STYLECONTROLLER_H
