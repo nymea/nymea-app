@@ -143,8 +143,8 @@ Item {
                     }
                 }
                 min: Math.floor(logsModelNg.minValue - Math.abs(logsModelNg.minValue * .05))
-                onMinChanged: print("min set to", min)
-                onMaxChanged: print("max set to", min)
+                onMinChanged: applyNiceNumbers();
+                onMaxChanged: applyNiceNumbers();
                 labelsFont.pixelSize: app.smallFont
                 labelFormat: {
                     switch (root.stateType.type.toLowerCase()) {

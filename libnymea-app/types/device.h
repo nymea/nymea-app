@@ -55,7 +55,7 @@ class Device : public QObject
     Q_PROPERTY(Params *params READ params NOTIFY paramsChanged)
     Q_PROPERTY(Params *settings READ settings NOTIFY settingsChanged)
     Q_PROPERTY(States *states READ states NOTIFY statesChanged)
-    Q_PROPERTY(DeviceClass *deviceClass READ deviceClass CONSTANT)
+    Q_PROPERTY(DeviceClass *deviceClass READ thingClass CONSTANT)
     Q_PROPERTY(DeviceClass *thingClass READ thingClass CONSTANT)
 
 public:
@@ -67,7 +67,7 @@ public:
     };
     Q_ENUM(DeviceSetupStatus)
 
-    explicit Device(DeviceManager *deviceManager, DeviceClass *deviceClass, const QUuid &parentDeviceId = QUuid(), QObject *parent = nullptr);
+    explicit Device(DeviceManager *deviceManager, DeviceClass *thingClass, const QUuid &parentId = QUuid(), QObject *parent = nullptr);
 
     QUuid id() const;
     void setId(const QUuid &id);
@@ -93,10 +93,11 @@ public:
     States *states() const;
     void setStates(States *states);
 
-    DeviceClass *deviceClass() const;
     DeviceClass *thingClass() const;
 
     Q_INVOKABLE bool hasState(const QUuid &stateTypeId);
+    Q_INVOKABLE State *state(const QUuid &stateTypeId) const;
+    Q_INVOKABLE State *stateByName(const QString &stateName) const;
 
     Q_INVOKABLE QVariant stateValue(const QUuid &stateTypeId);
     void setStateValue(const QUuid &stateTypeId, const QVariant &value);
@@ -117,15 +118,15 @@ protected:
     DeviceManager *m_deviceManager = nullptr;
     QString m_name;
     QUuid m_id;
-    QUuid m_parentDeviceId;
+    QUuid m_parentId;
     DeviceSetupStatus m_setupStatus = DeviceSetupStatusNone;
     QString m_setupDisplayMessage;
     Params *m_params = nullptr;
     Params *m_settings = nullptr;
     States *m_states = nullptr;
-    DeviceClass *m_deviceClass = nullptr;
+    DeviceClass *m_thingClass = nullptr;
 };
 
-QDebug operator<<(QDebug &dbg, Device* device);
+QDebug operator<<(QDebug &dbg, Device* thing);
 
 #endif // DEVICE_H

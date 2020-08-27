@@ -72,24 +72,24 @@ QVariant Devices::data(const QModelIndex &index, int role) const
     if (index.row() < 0 || index.row() >= m_devices.count())
         return QVariant();
 
-    Device *device = m_devices.at(index.row());
+    Device *thing = m_devices.at(index.row());
     switch (role) {
     case RoleName:
-        return device->name();
+        return thing->name();
     case RoleId:
-        return device->id().toString();
+        return thing->id().toString();
     case RoleDeviceClass:
-        return device->deviceClassId().toString();
+        return thing->deviceClassId().toString();
     case RoleParentDeviceId:
-        return device->parentDeviceId().toString();
+        return thing->parentDeviceId().toString();
     case RoleSetupStatus:
-        return device->setupStatus();
+        return thing->setupStatus();
     case RoleSetupDisplayMessage:
-        return device->setupDisplayMessage();
+        return thing->setupDisplayMessage();
     case RoleInterfaces:
-        return device->deviceClass()->interfaces();
+        return thing->thingClass()->interfaces();
     case RoleBaseInterface:
-        return device->deviceClass()->baseInterface();
+        return thing->thingClass()->baseInterface();
     }
     return QVariant();
 }

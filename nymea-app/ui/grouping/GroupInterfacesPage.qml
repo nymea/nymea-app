@@ -71,12 +71,12 @@ Page {
 
         cellWidth: width / tilesPerRow
         cellHeight: cellWidth
-//        delegate: DevicesPageDelegate {
+//        delegate: InterfaceTile {
 //            width: interfacesGridView.cellWidth
 //            height: interfacesGridView.cellHeight
 //        }
 
-        delegate: DevicesPageDelegate {
+        delegate: InterfaceTile {
             width: interfacesGridView.cellWidth
             height: interfacesGridView.cellHeight
             iface: Interfaces.findByName(model.name)

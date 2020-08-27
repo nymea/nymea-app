@@ -56,23 +56,6 @@ Page {
     LogsModel {
         id: logsModel
         engine: _engine
-        startTime: {
-            var date = new Date();
-            date.setHours(new Date().getHours() - 2);
-            return date;
-        }
-        endTime: new Date()
-        live: true
-        onCountChanged: {
-            if (root.autoScroll) {
-                listView.positionViewAtEnd()
-            }
-        }
-    }
-
-    LogsModelNg {
-        id: logsModelNg
-        engine: _engine
         live: true
     }
 
@@ -83,12 +66,10 @@ Page {
 
     ListView {
         id: listView
-        model: engine.jsonRpcClient.ensureServerVersion("1.10") ? logsModelNg : logsModel
+        model: logsModel
         anchors.fill: parent
         clip: true
         headerPositioning: ListView.OverlayHeader
-
-        Component.onCompleted: model.update()
 
         onDraggingChanged: {
             if (dragging) {
@@ -101,14 +82,6 @@ Page {
         BusyIndicator {
             anchors.centerIn: parent
             visible: listView.model.busy
-        }
-
-        onContentYChanged: {
-            if (!engine.jsonRpcClient.ensureServerVersion("1.10")) {
-                if (!logsModel.busy && contentY - originY < 5 * height) {
-                    logsModel.fetchEarlier(1)
-                }
-            }
         }
 
         delegate: ItemDelegate {

@@ -13,6 +13,7 @@ linux:!android:!nozeroconf:LIBS += -lavahi-client -lavahi-common
 PRE_TARGETDEPS += ../libnymea-app
 
 HEADERS += \
+    mainmenumodel.h \
     platformintegration/generic/raspberrypihelper.h \
     stylecontroller.h \
     pushnotifications.h \
@@ -22,6 +23,7 @@ HEADERS += \
     ruletemplates/messages.h
 
 SOURCES += main.cpp \
+    mainmenumodel.cpp \
     platformintegration/generic/raspberrypihelper.cpp \
     stylecontroller.cpp \
     pushnotifications.cpp \

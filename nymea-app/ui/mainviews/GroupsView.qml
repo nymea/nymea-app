@@ -35,12 +35,8 @@ import Nymea 1.0
 import QtQuick.Controls.Material 2.2
 import "../components"
 
-MouseArea {
+MainViewBase {
     id: root
-    preventStealing: true
-    onWheel: wheel.accepted = true
-
-    readonly property int count: groupsGridView.count
 
     GridView {
         id: groupsGridView
@@ -488,7 +484,18 @@ MouseArea {
             }
 
             // involve count in the statement to make the binding re-evaluate when the group is changed
-            device: mediaControllers.count > 0 ? mediaControllers.get(0) : null
+            thing: mediaControllers.count > 0 ? mediaControllers.get(0) : null
         }
     }
+
+    EmptyViewPlaceholder {
+        anchors { left: parent.left; right: parent.right; margins: app.margins }
+        anchors.verticalCenter: parent.verticalCenter
+        visible: groupsGridView.count == 0 && !engine.deviceManager.fetchingData && !engine.tagsManager.busy
+        title: qsTr("There are no groups set up yet.")
+        text: qsTr("Grouping things can be useful to control multiple devices at once, for example an entire room. Watch out for the group symbol when interacting with things and use it to add them to groups.")
+        imageSource: "../images/view-grid-symbolic.svg"
+        buttonVisible: false
+    }
+
 }

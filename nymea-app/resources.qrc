@@ -10,8 +10,7 @@
         <file>ui/RootItem.qml</file>
         <file>ui/mainviews/ScenesView.qml</file>
         <file>ui/mainviews/FavoritesView.qml</file>
-        <file>ui/mainviews/DevicesPageDelegate.qml</file>
-        <file>ui/mainviews/DevicesPage.qml</file>
+        <file>ui/mainviews/ThingsView.qml</file>
         <file>ui/connection/ConnectPage.qml</file>
         <file>ui/connection/ManualConnectPage.qml</file>
         <file>ui/connection/ConnectingPage.qml</file>
@@ -51,18 +50,13 @@
         <file>ui/customviews/CustomViewBase.qml</file>
         <file>ui/customviews/WeatherView.qml</file>
         <file>ui/customviews/MediaControllerView.qml</file>
-        <file>ui/customviews/SensorView.qml</file>
         <file>ui/customviews/NotificationsView.qml</file>
         <file>ui/customviews/ExtendedVolumeController.qml</file>
         <file>ui/devicepages/MediaDevicePage.qml</file>
         <file>ui/devicepages/ButtonDevicePage.qml</file>
         <file>ui/devicepages/GenericDevicePage.qml</file>
-        <file>ui/devicepages/WeatherDevicePagePre110.qml</file>
-        <file>ui/devicepages/WeatherDevicePagePost110.qml</file>
         <file>ui/devicepages/WeatherDevicePage.qml</file>
         <file>ui/devicepages/SensorDevicePage.qml</file>
-        <file>ui/devicepages/SensorDevicePagePre110.qml</file>
-        <file>ui/devicepages/SensorDevicePagePost110.qml</file>
         <file>ui/devicepages/DevicePageBase.qml</file>
         <file>ui/devicepages/InputTriggerDevicePage.qml</file>
         <file>ui/devicepages/StateLogPage.qml</file>
@@ -108,6 +102,7 @@
         <file>ui/delegates/ParamDelegate.qml</file>
         <file>ui/delegates/ActionDelegate.qml</file>
         <file>ui/delegates/ThingDelegate.qml</file>
+        <file>ui/delegates/InterfaceTile.qml</file>
         <file>ui/system/LogViewerPage.qml</file>
         <file>ui/system/PluginsPage.qml</file>
         <file>ui/system/PluginParamsPage.qml</file>
@@ -134,7 +129,6 @@
         <file>../LICENSE.OFL</file>
         <file>../LICENSE.OpenSSL</file>
         <file>../LICENSE.LGPL3</file>
-        <file>ui/customviews/GenericTypeGraphPre110.qml</file>
         <file>ui/customviews/GenericTypeGraph.qml</file>
         <file>ui/devicepages/SmartMeterDevicePage.qml</file>
         <file>ui/devicelistpages/SmartMeterDeviceListPage.qml</file>
@@ -165,7 +159,6 @@
         <file>ui/thingconfiguration/EditThingsPage.qml</file>
         <file>ui/thingconfiguration/ConfigureThingPage.qml</file>
         <file>ui/connection/CertificateDialog.qml</file>
-        <file>ui/experiences/garagegates/Main.qml</file>
         <file>ui/experiences/heating/Main.qml</file>
         <file>ui/fonts/Oswald-Bold.ttf</file>
         <file>ui/fonts/Oswald-ExtraLight.ttf</file>
@@ -218,5 +211,12 @@
         <file>ui/thingconfiguration/ThingClassDetailsPage.qml</file>
         <file>ui/components/ClosablesControlLarge.qml</file>
         <file>ui/devicepages/BarcodeScannerThingPage.qml</file>
+        <file>ui/mainviews/GaragesView.qml</file>
+        <file>ui/mainviews/EnergyView.qml</file>
+        <file>ui/components/MainViewBase.qml</file>
+        <file>ui/components/SmartMeterChart.qml</file>
+        <file>ui/mainviews/MediaView.qml</file>
+        <file>ui/components/ShuffleRepeatVolumeControl.qml</file>
+        <file>ui/components/MediaBrowser.qml</file>
     </qresource>
 </RCC>

@@ -34,11 +34,11 @@
 
 #include <QDebug>
 
-Device::Device(DeviceManager *deviceManager, DeviceClass *deviceClass, const QUuid &parentDeviceId, QObject *parent) :
+Device::Device(DeviceManager *deviceManager, DeviceClass *thingClass, const QUuid &parentId, QObject *parent) :
     QObject(parent),
     m_deviceManager(deviceManager),
-    m_parentDeviceId(parentDeviceId),
-    m_deviceClass(deviceClass)
+    m_parentId(parentId),
+    m_thingClass(thingClass)
 {
 }
 
@@ -65,22 +65,22 @@ void Device::setId(const QUuid &id)
 
 QUuid Device::deviceClassId() const
 {
-    return m_deviceClass->id();
+    return m_thingClass->id();
 }
 
 QUuid Device::thingClassId() const
 {
-    return m_deviceClass->id();
+    return m_thingClass->id();
 }
 
 QUuid Device::parentDeviceId() const
 {
-    return m_parentDeviceId;
+    return m_parentId;
 }
 
 bool Device::isChild() const
 {
-    return !m_parentDeviceId.isNull();
+    return !m_parentId.isNull();
 }
 
 Device::DeviceSetupStatus Device::setupStatus() const
@@ -153,14 +153,23 @@ void Device::setStates(States *states)
     }
 }
 
-DeviceClass *Device::deviceClass() const
+State *Device::state(const QUuid &stateTypeId) const
 {
-    return m_deviceClass;
+    return m_states->getState(stateTypeId);
+}
+
+State *Device::stateByName(const QString &stateName) const
+{
+    StateType *st = m_thingClass->stateTypes()->findByName(stateName);
+    if (!st) {
+        return nullptr;
+    }
+    return m_states->getState(st->id());
 }
 
 DeviceClass *Device::thingClass() const
 {
-    return m_deviceClass;
+    return m_thingClass;
 }
 
 bool Device::hasState(const QUuid &stateTypeId)
@@ -195,7 +204,7 @@ void Device::setStateValue(const QUuid &stateTypeId, const QVariant &value)
 
 int Device::executeAction(const QString &actionName, const QVariantList &params)
 {
-    ActionType *actionType = m_deviceClass->actionTypes()->findByName(actionName);
+    ActionType *actionType = m_thingClass->actionTypes()->findByName(actionName);
 
     QVariantList finalParams;
     foreach (const QVariant &paramVariant, params) {
@@ -209,30 +218,30 @@ int Device::executeAction(const QString &actionName, const QVariantList &params)
     return m_deviceManager->executeAction(m_id, actionType->id(), finalParams);
 }
 
-QDebug operator<<(QDebug &dbg, Device *device)
+QDebug operator<<(QDebug &dbg, Device *thing)
 {
-    dbg.nospace() << "Device: " << device->name() << " (" << device->id().toString() << ") Class:" << device->deviceClass()->name() << " (" << device->deviceClassId().toString() << ")" << endl;
-    for (int i = 0; i < device->deviceClass()->paramTypes()->rowCount(); i++) {
-        ParamType *pt = device->deviceClass()->paramTypes()->get(i);
-        Param *p = device->params()->getParam(pt->id().toString());
+    dbg.nospace() << "Thing: " << thing->name() << " (" << thing->id().toString() << ") Class:" << thing->thingClass()->name() << " (" << thing->thingClassId().toString() << ")" << endl;
+    for (int i = 0; i < thing->thingClass()->paramTypes()->rowCount(); i++) {
+        ParamType *pt = thing->thingClass()->paramTypes()->get(i);
+        Param *p = thing->params()->getParam(pt->id().toString());
         if (p) {
             dbg << "  Param " << i << ": " << pt->id().toString() << ": " << pt->name() << " = " << p->value() << endl;
         } else {
             dbg << "  Param " << i << ": " << pt->id().toString() << ": " << pt->name() << " = " << "*** Unknown value ***" << endl;
         }
     }
-    for (int i = 0; i < device->deviceClass()->settingsTypes()->rowCount(); i++) {
-        ParamType *pt = device->deviceClass()->settingsTypes()->get(i);
-        Param *p = device->settings()->getParam(pt->id().toString());
+    for (int i = 0; i < thing->thingClass()->settingsTypes()->rowCount(); i++) {
+        ParamType *pt = thing->thingClass()->settingsTypes()->get(i);
+        Param *p = thing->settings()->getParam(pt->id().toString());
         if (p) {
             dbg << "  Setting " << i << ": " << pt->id().toString() << ": " << pt->name() << " = " << p->value() << endl;
         } else {
             dbg << "  Setting " << i << ": " << pt->id().toString() << ": " << pt->name() << " = " << "*** Unknown value ***" << endl;
         }
     }
-    for (int i = 0; i < device->deviceClass()->stateTypes()->rowCount(); i++) {
-        StateType *st = device->deviceClass()->stateTypes()->get(i);
-        State *s = device->states()->getState(st->id());
+    for (int i = 0; i < thing->thingClass()->stateTypes()->rowCount(); i++) {
+        StateType *st = thing->thingClass()->stateTypes()->get(i);
+        State *s = thing->states()->getState(st->id());
         dbg << "  State " << i << ": " << st->id() << ": " << st->name() << " = " << s->value() << endl;
     }
     return dbg;

@@ -278,7 +278,7 @@ void LogsModelNg::logsReply(const QVariantMap &data)
             continue;
         }
 
-        StateType *entryStateType = dev->deviceClass()->stateTypes()->getStateType(entry->typeId());
+        StateType *entryStateType = dev->thingClass()->stateTypes()->getStateType(entry->typeId());
 
         if (m_graphSeries) {
             if (entryStateType->type().toLower() == "bool") {
@@ -453,9 +453,9 @@ void LogsModelNg::newLogEntryReceived(const QVariantMap &data)
 
         Device *dev = m_engine->thingManager()->devices()->getDevice(entry->thingId());
 
-        StateType *entryStateType = dev->deviceClass()->stateTypes()->getStateType(entry->typeId());
+        StateType *entryStateType = dev->thingClass()->stateTypes()->getStateType(entry->typeId());
 
-        if (dev && dev->deviceClass()->stateTypes()->getStateType(entry->typeId())->type().toLower() == "bool") {
+        if (dev && dev->thingClass()->stateTypes()->getStateType(entry->typeId())->type().toLower() == "bool") {
             // First, remove the 2 rightmost (newest on the timeline) values. They're the ones in the future we added to extend the graph and making it end at 1
             if (m_graphSeries->count() > 1) {
                 m_graphSeries->removePoints(0, 2);

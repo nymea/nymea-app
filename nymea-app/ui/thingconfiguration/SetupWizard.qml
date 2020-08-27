@@ -309,7 +309,7 @@ Page {
                 }
                 BusyIndicator {
                     running: visible
-                    anchors.horizontalCenter: parent.horizontalCenter
+                    Layout.alignment: Qt.AlignHCenter
                 }
             }
 

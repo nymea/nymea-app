@@ -161,7 +161,7 @@ MainPageTile {
             case "media":
                 return mediaControlComponent
             default:
-                console.warn("DevicesPageDelegate, inlineControl: Unhandled interface", iface.name)
+                console.warn("InterfaceTile, inlineControl: Unhandled interface", iface.name)
             }
 
         }
@@ -227,7 +227,7 @@ MainPageTile {
 
             MediaControls {
                 iconSize: app.iconSize * 1.2
-                device: inlineMediaControl.currentDevice
+                thing: inlineMediaControl.currentDevice
             }
         }
     }
@@ -267,7 +267,7 @@ MainPageTile {
                             if (thing.thingClass.interfaces.indexOf("statefulgaragedoor") >= 0 || thing.thingClass.interfaces.indexOf("extendedstatefulgaragedoor") >= 0 || thing.thingClass.interfaces.indexOf("garagegate") >= 0) {
                                 statefulCount++;
                                 var stateType = thing.thingClass.stateTypes.findByName("state");
-                                if (stateType && device.states.getState(stateType.id).value !== "closed") {
+                                if (stateType && thing.states.getState(stateType.id).value !== "closed") {
                                     count++;
                                 }
                             }
@@ -285,7 +285,7 @@ MainPageTile {
                         return ""
                         //                        return qsTr("%1 installed").arg(devicesProxy.count)
                     }
-                    console.warn("DevicesPageDelegate, inlineButtonControl: Unhandled interface", model.name)
+                    console.warn("InterfaceTile, inlineButtonControl: Unhandled interface", model.name)
                 }
                 font.pixelSize: app.smallFont
                 elide: Text.ElideRight
@@ -329,7 +329,7 @@ MainPageTile {
                             case "extendedshutter":
                                 return "../images/up.svg"
                             default:
-                                console.warn("DevicesPageDelegate, inlineButtonControl image: Unhandled interface", iface.name)
+                                console.warn("InterfaceTile", "inlineButtonControl image: Unhandled interface", iface.name)
                             }
                             return ""
                         }
@@ -370,7 +370,7 @@ MainPageTile {
                             }
                             break;
                         default:
-                            console.warn("DevicesPageDelegate, inlineButtonControl clicked: Unhandled interface", iface.name)
+                            console.warn("InterfaceTile:", "inlineButtonControl clicked: Unhandled interface", iface.name)
                         }
                     }
                 }
@@ -409,7 +409,7 @@ MainPageTile {
                             case "extendedshutter":
                                 return "../images/media-playback-stop.svg"
                             default:
-                                console.warn("DevicesPageDelegate, inlineButtonControl image: Unhandled interface", iface.name)
+                                console.warn("InterfaceTile, inlineButtonControl image: Unhandled interface", iface.name)
                             }
                             return "";
                         }
@@ -450,7 +450,7 @@ MainPageTile {
                             }
                             break;
                         default:
-                            console.warn("DevicesPageDelegate, inlineButtonControl clicked: Unhandled interface", iface.name)
+                            console.warn("InterfaceTile, inlineButtonControl clicked: Unhandled interface", iface.name)
                         }
                     }
                 }
@@ -500,7 +500,7 @@ MainPageTile {
                             case "extendedshutter":
                                 return "../images/down.svg"
                             default:
-                                console.warn("DevicesPageDelegate, inlineButtonControl image: Unhandled interface", iface.name)
+                                console.warn("InterfaceTile, inlineButtonControl image: Unhandled interface", iface.name)
                             }
                         }
                     }
@@ -585,7 +585,7 @@ MainPageTile {
                             }
 
                         default:
-                            console.warn("DevicesPageDelegate, inlineButtonControl clicked: Unhandled interface", iface.name)
+                            console.warn("InterfaceTile, inlineButtonControl clicked: Unhandled interface", iface.name)
                         }
                     }
                 }

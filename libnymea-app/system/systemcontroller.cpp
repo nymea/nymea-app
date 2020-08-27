@@ -389,9 +389,15 @@ void SystemController::notificationReceived(const QVariantMap &data)
         emit powerManagementAvailableChanged();
         emit updateManagementAvailableChanged();
     } else if (notification == "System.TimeConfigurationChanged") {
-        qDebug() << "System time configuration changed";
+        qDebug() << "System time configuration changed" << data.value("params").toMap().value("timeZone").toByteArray();
         m_serverTime = QDateTime::fromSecsSinceEpoch(data.value("params").toMap().value("time").toUInt());
-        m_serverTime.setTimeZone(QTimeZone(data.value("params").toMap().value("timeZone").toByteArray()));
+
+        // NOTE: Ideally we'd just set the TimeZone of our serverTime prooperly, however, there's a bug on Android
+        // Which doesn't allow to create QTimeZone objects by IANA id.... So, let's keep that separated in a string
+        // https://bugreports.qt.io/browse/QTBUG-83438
+        // m_serverTime.setTimeZone(QTimeZone(data.value("params").toMap().value("timeZone").toByteArray()));
+        m_serverTimeZone = data.value("params").toMap().value("timeZone").toString();
+
         emit serverTimeChanged();
         emit serverTimeZoneChanged();
         m_automaticTimeAvailable = data.value("params").toMap().value("automaticTimeAvailable").toBool();

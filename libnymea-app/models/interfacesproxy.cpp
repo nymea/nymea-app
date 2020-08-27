@@ -103,11 +103,11 @@ bool InterfacesProxy::filterAcceptsRow(int source_row, const QModelIndex &source
         bool found = false;
         for (int i = 0; i < m_devicesFilter->rowCount(); i++) {
             Device *d = m_devicesFilter->get(i);
-            if (!d->deviceClass()) {
+            if (!d->thingClass()) {
                 qWarning() << "Cannot find DeviceClass for device:" << d->id() << d->name();
                 return false;
             }
-            if (d->deviceClass()->interfaces().contains(interfaceName)) {
+            if (d->thingClass()->interfaces().contains(interfaceName)) {
                 found = true;
                 break;
             }
@@ -121,11 +121,11 @@ bool InterfacesProxy::filterAcceptsRow(int source_row, const QModelIndex &source
         bool found = false;
         for (int i = 0; i < m_devicesProxyFilter->rowCount(); i++) {
             Device *d = m_devicesProxyFilter->get(i);
-            if (!d->deviceClass()) {
-                qWarning() << "Cannot find DeviceClass for device:" << d->id() << d->name();
+            if (!d->thingClass()) {
+                qWarning() << "Cannot find ThingClass for thing:" << d->id() << d->name();
                 return false;
             }
-            if (d->deviceClass()->interfaces().contains(interfaceName)) {
+            if (d->thingClass()->interfaces().contains(interfaceName)) {
                 found = true;
                 break;
             }

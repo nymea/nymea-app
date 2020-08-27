@@ -36,15 +36,10 @@ import Nymea 1.0
 import "../components"
 import "../delegates"
 
-MouseArea {
+MainViewBase {
     id: root
 
     property bool editMode: false
-    readonly property int count: tagsProxy.count
-
-    // Prevent scroll events to swipe left/right in case they fall through the grid
-    preventStealing: true
-    onWheel: wheel.accepted = true
 
     TagsProxyModel {
         id: tagsProxy
@@ -167,4 +162,19 @@ MouseArea {
             }
         }
     }
+
+    EmptyViewPlaceholder {
+        anchors { left: parent.left; right: parent.right; margins: app.margins }
+        anchors.verticalCenter: parent.verticalCenter
+        visible: gridView.count === 0 && !engine.deviceManager.fetchingData
+        title: qsTr("There are no favorite things yet.")
+        text: engine.deviceManager.devices.count === 0 ?
+                  qsTr("It appears there are no things set up either yet. In order to use favorites you need to add some things first.") :
+                  qsTr("Favorites allow you to keep track of your most important things when you have lots of them. Watch out for the star when interacting with things and use it to mark them as your favorites.")
+        imageSource: "../images/starred.svg"
+        buttonVisible: engine.deviceManager.devices.count === 0
+        buttonText: qsTr("Add a thing")
+        onButtonClicked: pageStack.push(Qt.resolvedUrl("../thingconfiguration/NewThingPage.qml"))
+    }
+
 }

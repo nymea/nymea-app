@@ -76,7 +76,7 @@ void DeviceManager::init()
                     qWarning() << "received an event from a device we don't know..." << deviceId << event;
                     return;
                 }
-                qDebug() << "Event received" << deviceId.toString() << eventTypeId.toString() << qUtf8Printable(QJsonDocument::fromVariant(event).toJson());
+//                qDebug() << "Event received" << deviceId.toString() << eventTypeId.toString() << qUtf8Printable(QJsonDocument::fromVariant(event).toJson());
                 dev->eventTriggered(eventTypeId.toString(), event.value("params").toMap());
                 emit eventTriggered(deviceId.toString(), eventTypeId.toString(), event.value("params").toMap());
             });
@@ -231,7 +231,7 @@ void DeviceManager::notificationReceived(const QVariantMap &data)
             qWarning() << "received an event from a device we don't know..." << deviceId << qUtf8Printable(QJsonDocument::fromVariant(data).toJson());
             return;
         }
-        qDebug() << "Event received" << deviceId.toString() << eventTypeId.toString() << qUtf8Printable(QJsonDocument::fromVariant(event).toJson());
+//        qDebug() << "Event received" << deviceId.toString() << eventTypeId.toString() << qUtf8Printable(QJsonDocument::fromVariant(event).toJson());
         dev->eventTriggered(eventTypeId.toString(), event.value("params").toMap());
     } else if (notification == "Integrations.IOConnectionAdded") {
         QVariantMap connectionMap = data.value("params").toMap().value("ioConnection").toMap();
@@ -343,7 +343,7 @@ void DeviceManager::getConfiguredDevicesResponse(const QVariantMap &params)
             QVariantList stateVariantList = deviceVariant.toMap().value("states").toList();
             foreach (const QVariant &stateMap, stateVariantList) {
                 QString stateTypeId = stateMap.toMap().value("stateTypeId").toString();
-                StateType *st = device->deviceClass()->stateTypes()->getStateType(stateTypeId);
+                StateType *st = device->thingClass()->stateTypes()->getStateType(stateTypeId);
                 if (!st) {
                     qWarning() << "Can't find a statetype for this state";
                     continue;
@@ -750,7 +750,7 @@ void DeviceManager::executeBrowserItemActionResponse(const QVariantMap &params)
 
 void DeviceManager::getIOConnectionsResponse(const QVariantMap &params)
 {
-    qDebug() << "Get IO connections response" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson());
+//    qDebug() << "Get IO connections response" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson());
 
     foreach (const QVariant &connectionVariant, params.value("params").toMap().value("ioConnections").toList()) {
         QVariantMap connectionMap = connectionVariant.toMap();

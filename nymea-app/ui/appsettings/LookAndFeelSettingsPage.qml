@@ -120,25 +120,6 @@ SettingsPageBase {
         onClicked: settings.showConnectionTabs = checked
     }
 
-    RowLayout {
-        Layout.leftMargin: app.margins
-        Layout.rightMargin: app.margins
-        visible: settings.showHiddenOptions
-
-        Label {
-            Layout.fillWidth: true
-            text: qsTr("Experience mode")
-        }
-
-        ComboBox {
-            currentIndex: model.indexOf(styleController.currentExperience)
-            model: styleController.allExperiences
-            onActivated: {
-                styleController.currentExperience = model[index]
-            }
-        }
-    }
-
     SettingsPageSectionHeader {
         text: qsTr("Regional")
     }

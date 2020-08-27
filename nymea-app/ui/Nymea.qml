@@ -33,6 +33,7 @@ import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.1
 import QtQuick.Layouts 1.2
 import Qt.labs.settings 1.0
+import Qt.labs.folderlistmodel 2.2
 import QtQuick.Window 2.3
 import Nymea 1.0
 
@@ -258,7 +259,7 @@ ApplicationWindow {
         case "mediacontroller":
         case "extendedmediacontroller":
         case "mediaplayer":
-            return Qt.resolvedUrl("images/mediaplayer-app-symbolic.svg")
+            return Qt.resolvedUrl("images/media.svg")
         case "powersocket":
             return Qt.resolvedUrl("images/powersocket.svg")
         case "button":
@@ -533,6 +534,11 @@ ApplicationWindow {
         onStateChanged: closeTimer.stop()
     }
 
+    FolderListModel {
+        id: availableMainViews
+        folder: "mainviews"
+        showFiles: false
+    }
 
     // NOTE: If using a Dialog, make sure closePolicy does not contain Dialog.CloseOnPressOutside
     // or the virtual keyboard will close when pressing it...

@@ -32,26 +32,26 @@
 #define LOGSMODEL_H
 
 #include <QAbstractListModel>
+#include <QQmlParserStatus>
 
 #include "jsonrpc/jsonhandler.h"
 #include "types/logentry.h"
 
 class Engine;
 
-class LogsModel : public QAbstractListModel
+class LogsModel : public QAbstractListModel, public QQmlParserStatus
 {
     Q_OBJECT
     Q_PROPERTY(Engine* engine READ engine WRITE setEngine NOTIFY engineChanged)
 
-    Q_PROPERTY(bool busy READ busy NOTIFY busyChanged)
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
-    Q_PROPERTY(QString deviceId READ deviceId WRITE setDeviceId NOTIFY deviceIdChanged)
+    Q_PROPERTY(bool busy READ busy NOTIFY busyChanged)
+    Q_PROPERTY(bool live READ live WRITE setLive NOTIFY liveChanged)
+    Q_PROPERTY(QUuid thingId READ thingId WRITE setThingId NOTIFY thingIdChanged)
     Q_PROPERTY(QStringList typeIds READ typeIds WRITE setTypeIds NOTIFY typeIdsChanged)
     Q_PROPERTY(QDateTime startTime READ startTime WRITE setStartTime NOTIFY startTimeChanged)
     Q_PROPERTY(QDateTime endTime READ endTime WRITE setEndTime NOTIFY endTimeChanged)
-//    Q_PROPERTY(int paginationCount READ paginationCount WRITE setPaginationCount NOTIFY paginationCountChanged)
-
-    Q_PROPERTY(bool live READ live WRITE setLive NOTIFY liveChanged)
+    Q_PROPERTY(QDateTime viewStartTime READ viewStartTime WRITE setViewStartTime NOTIFY viewStartTimeChanged)
 
 public:
     enum Roles {
@@ -72,12 +72,16 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role) const override;
     QHash<int, QByteArray> roleNames() const override;
+    bool canFetchMore(const QModelIndex &parent) const override;
+    void fetchMore(const QModelIndex &parent = QModelIndex()) override;
+    void classBegin() override;
+    void componentComplete() override;
 
     bool live() const;
     void setLive(bool live);
 
-    QString deviceId() const;
-    void setDeviceId(const QString &deviceId);
+    QUuid thingId() const;
+    void setThingId(const QUuid &deviceId);
 
     QStringList typeIds() const;
     void setTypeIds(const QStringList &typeIds);
@@ -88,44 +92,45 @@ public:
     QDateTime endTime() const;
     void setEndTime(const QDateTime &endTime);
 
-//    int paginationCount() const;
-//    void setPaginationCount(int paginationCount);
+    QDateTime viewStartTime() const;
+    void setViewStartTime(const QDateTime &viewStartTime);
 
     Q_INVOKABLE LogEntry* get(int index) const;
 
-    Q_INVOKABLE void notificationReceived(const QVariantMap &data);
 
 signals:
     void engineChanged();
     void busyChanged();
     void liveChanged();
     void countChanged();
-    void deviceIdChanged();
+    void thingIdChanged();
     void typeIdsChanged();
     void startTimeChanged();
     void endTimeChanged();
-//    void paginationCountChanged();
+    void viewStartTimeChanged();
 
-public slots:
-    virtual void update();
-    virtual void fetchEarlier(int hours);
-//    virtual void fetchLater(int hours);
+    void logEntryAdded(LogEntry *entry);
 
 private slots:
     virtual void logsReply(const QVariantMap &data);
-    virtual void fetchEarlierReply(const QVariantMap &data);
     void newLogEntryReceived(const QVariantMap &data);
 
 protected:
     Engine *m_engine = nullptr;
     QList<LogEntry*> m_list;
-    QString m_deviceId;
-    QStringList m_typeIds;
-    QDateTime m_startTime = QDateTime::currentDateTime().addDays(-1);
-    QDateTime m_endTime = QDateTime::currentDateTime();
+    QUuid m_thingId;
+    QList<QUuid> m_typeIds;
+    QDateTime m_startTime;
+    QDateTime m_endTime;
+    QDateTime m_viewStartTime;
 
     bool m_busy = false;
     bool m_live = false;
+    int m_blockSize = 100;
+
+    bool m_busyInternal = false;
+
+    bool m_canFetchMore = true;
 
 };
 

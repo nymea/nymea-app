@@ -82,7 +82,7 @@ int ThingGroup::executeAction(const QString &actionName, const QVariantList &par
         if (device->setupStatus() != Device::DeviceSetupStatusComplete) {
             continue;
         }
-        ActionType *actionType = device->deviceClass()->actionTypes()->findByName(actionName);
+        ActionType *actionType = device->thingClass()->actionTypes()->findByName(actionName);
         if (!actionType) {
             continue;
         }
@@ -110,8 +110,8 @@ int ThingGroup::executeAction(const QString &actionName, const QVariantList &par
 
 void ThingGroup::syncStates()
 {
-    for (int i = 0; i < deviceClass()->stateTypes()->rowCount(); i++) {
-        StateType *stateType = deviceClass()->stateTypes()->get(i);
+    for (int i = 0; i < thingClass()->stateTypes()->rowCount(); i++) {
+        StateType *stateType = thingClass()->stateTypes()->get(i);
         State *state = states()->getState(stateType->id());
 
         qDebug() << "syncing state" << stateType->name();
@@ -121,13 +121,13 @@ void ThingGroup::syncStates()
         for (int j = 0; j < m_devices->rowCount(); j++) {
             Device *d = m_devices->get(j);
             // Skip things that don't have the required state
-            StateType *ds = d->deviceClass()->stateTypes()->findByName(stateType->name());
+            StateType *ds = d->thingClass()->stateTypes()->findByName(stateType->name());
             if (!ds) {
                 continue;
             }
 
             // Skip disconnected things
-            StateType *connectedStateType = d->deviceClass()->stateTypes()->findByName("connected");
+            StateType *connectedStateType = d->thingClass()->stateTypes()->findByName("connected");
             if (connectedStateType) {
                 if (!d->stateValue(connectedStateType->id()).toBool()) {
                     continue;

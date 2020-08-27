@@ -44,22 +44,27 @@ TabButton {
         opacity: 0.05
     }
 
-    contentItem: GridLayout {
-        columns: root.alignment === Qt.Vertical ? 1 : 2
-        rowSpacing: 4
-        ColorIcon {
-            Layout.preferredWidth: app.iconSize
-            Layout.preferredHeight: app.iconSize
-            Layout.alignment: Qt.AlignHCenter
-            name: root.iconSource
-            color: root.checked ? app.accentColor : keyColor
-        }
-        Label {
-            Layout.fillWidth: root.alignment === Qt.Vertical
-            text: root.text
-            horizontalAlignment: Text.AlignHCenter
-            font.pixelSize: app.smallFont
-            color: root.checked ? app.accentColor : Material.foreground
+    contentItem: Item {
+        height: root.height
+        Grid {
+            anchors.centerIn: parent
+            columns: root.alignment == Qt.Vertical ? 1 : 2
+            spacing: root.alignment == Qt.Horizontal ? app.margins : app.margins / 2
+            horizontalItemAlignment: Grid.AlignHCenter
+            verticalItemAlignment: Grid.AlignVCenter
+
+            ColorIcon {
+                width: app.iconSize
+                height: app.iconSize
+                name: root.iconSource
+                color: root.checked ? app.accentColor : keyColor
+            }
+            Label {
+                id: textLabel
+                text: root.text
+                font.pixelSize: app.smallFont
+                color: root.checked ? app.accentColor : Material.foreground
+            }
         }
     }
 }

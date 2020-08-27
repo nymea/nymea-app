@@ -48,7 +48,10 @@ Item {
         id: image
         anchors.fill: parent
         anchors.margins: parent ? parent.margins : 0
-        source: width > 0 && height > 0 && icon.name ? icon.name : ""
+        source: width > 0 && height > 0 && icon.name ?
+                    icon.name.endsWith(".svg") ? icon.name
+                                               : "qrc:/ui/images/" + icon.name + ".svg"
+                                                 : ""
         sourceSize {
             width: width
             height: height

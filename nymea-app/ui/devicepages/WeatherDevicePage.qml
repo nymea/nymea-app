@@ -38,16 +38,55 @@ import "../customviews"
 DevicePageBase {
     id: root
 
-    Loader {
+    Flickable {
         anchors.fill: parent
-        Component.onCompleted: {
-            var src
-            if (engine.jsonRpcClient.ensureServerVersion("1.10")) {
-                src = "WeatherDevicePagePost110.qml"
-            } else {
-                src = "WeatherDevicePagePre110.qml"
+        clip: true
+        contentHeight: contentColumn.implicitHeight
+
+        ColumnLayout {
+            id: contentColumn
+            width: parent.width
+
+            WeatherView {
+                Layout.fillWidth: true
+                device: root.device
+                deviceClass: root.deviceClass
             }
-            setSource(Qt.resolvedUrl(src), {device: root.device, deviceClass: root.deviceClass})
+
+            GridLayout {
+                id: content
+                Layout.fillWidth: true
+                columns: Math.min(width / 300, 4)
+
+                GenericTypeGraph {
+                    Layout.fillWidth: true
+                    device: root.device
+                    stateType: root.deviceClass.stateTypes.findByName("temperature")
+                    iconSource: app.interfaceToIcon("temperaturesensor")
+                    color: app.interfaceToColor("temperaturesensor")
+                }
+                GenericTypeGraph {
+                    Layout.fillWidth: true
+                    device: root.device
+                    stateType: root.deviceClass.stateTypes.findByName("humidity")
+                    iconSource: app.interfaceToIcon("humiditysensor")
+                    color: app.interfaceToColor("humiditysensor")
+                }
+                GenericTypeGraph {
+                    Layout.fillWidth: true
+                    device: root.device
+                    stateType: root.deviceClass.stateTypes.findByName("pressure")
+                    iconSource: app.interfaceToIcon("pressuresensor")
+                    color: app.interfaceToColor("pressuresensor")
+                }
+                GenericTypeGraph {
+                    Layout.fillWidth: true
+                    device: root.device
+                    stateType: root.deviceClass.stateTypes.findByName("windSpeed")
+                    iconSource: app.interfaceToIcon("windspeedsensor")
+                    color: app.interfaceToColor("windspeedsensor")
+                }
+            }
         }
     }
 }
