@@ -93,7 +93,7 @@ qreal XYSeriesAdapter::minValue() const
     return m_minValue;
 }
 
-void XYSeriesAdapter::logEntryAdded(LogEntry *entry)
+void XYSeriesAdapter::ensureSamples(const QDateTime &from, const QDateTime &to)
 {
     if (!m_series) {
         return;
@@ -101,34 +101,37 @@ void XYSeriesAdapter::logEntryAdded(LogEntry *entry)
 
     if (m_samples.isEmpty()) {
         Sample *sample = new Sample();
-        sample->timestamp = entry->timestamp().addSecs(m_sampleRate);
-        sample->entries.append(entry);
-        sample->last = entry;
+        sample->timestamp = from.addSecs(m_sampleRate);
         m_newestSample = sample->timestamp;
         m_oldestSample = m_newestSample;
         m_samples.append(sample);
-        m_series->insert(0, QPointF(sample->timestamp.toMSecsSinceEpoch(), entry->value().toDouble()));
+        m_series->insert(0, QPointF(sample->timestamp.toMSecsSinceEpoch(), 0));
+    }
+
+    while (to > m_newestSample) {
+        Sample *sample = new Sample();
+        sample->timestamp = m_newestSample.addSecs(m_sampleRate);
+        m_newestSample = sample->timestamp;
+        m_samples.prepend(sample);
+        m_series->insert(0, QPointF(sample->timestamp.toMSecsSinceEpoch(), 0));
+    }
+
+    while (from < m_oldestSample.addSecs(m_sampleRate)) {
+        Sample *sample = new Sample();
+        sample->timestamp = m_oldestSample.addSecs(-m_sampleRate);
+        m_oldestSample = sample->timestamp;
+        m_samples.append(sample);
+        m_series->append(sample->timestamp.toMSecsSinceEpoch(), 0);
+    }
+}
+
+void XYSeriesAdapter::logEntryAdded(LogEntry *entry)
+{
+    if (!m_series) {
         return;
     }
 
-    while (entry->timestamp() > m_newestSample) {
-        Sample *sample = new Sample();
-        sample->timestamp = m_newestSample.addSecs(m_sampleRate);
-        sample->last = m_samples.value(0)->last;
-        m_newestSample = sample->timestamp;
-        m_samples.prepend(sample);
-        m_series->insert(0, QPointF(sample->timestamp.toMSecsSinceEpoch(), sample->last->value().toDouble()));
-    }
-
-    while (entry->timestamp() < m_oldestSample.addSecs(m_sampleRate)) {
-        Sample *sample = new Sample();
-        sample->timestamp = m_oldestSample.addSecs(-m_sampleRate);
-        sample->last = entry;
-        m_oldestSample = sample->timestamp;
-        m_samples.append(sample);
-        m_series->append(sample->timestamp.toMSecsSinceEpoch(), sample->last->value().toDouble());
-    }
-
+    ensureSamples(entry->timestamp(), entry->timestamp());
 
     int idx = entry->timestamp().secsTo(m_newestSample) / m_sampleRate;
     if (idx > m_samples.count()) {
@@ -137,6 +140,15 @@ void XYSeriesAdapter::logEntryAdded(LogEntry *entry)
     }
     Sample *sample = m_samples.at(static_cast<int>(idx));
     sample->entries.append(entry);
+    for (int i = idx; i > 0; i--) {
+        Sample *nextSample = m_samples.at(i);
+        if (!nextSample->last) {
+            nextSample->last = entry;
+            m_series->replace(i, nextSample->timestamp.toMSecsSinceEpoch(), calculateSampleValue(i));
+        } else {
+            break;
+        }
+    }
 
     qreal value = calculateSampleValue(idx);
     m_series->replace(idx, sample->timestamp.toMSecsSinceEpoch(), value);
@@ -158,8 +170,10 @@ qreal XYSeriesAdapter::calculateSampleValue(int index)
     int count = 0;
     if (m_samples.length() > index + 1) {
         Sample *previousSample = m_samples.at(static_cast<int>(index) + 1);
-        value = previousSample->last->value().toDouble();
-        count++;
+        if (previousSample->last) {
+            value = previousSample->last->value().toDouble();
+            count++;
+        }
     }
     foreach (LogEntry *entry, sample->entries) {
         value += entry->value().toDouble();

@@ -129,6 +129,11 @@ MainViewBase {
                             sampleRate: chartView.sampleRate
                             xySeries: upperSeries
                         }
+                        Connections {
+                            target: xAxis
+                            onMinChanged: seriesAdapter.ensureSamples(xAxis.min, xAxis.max)
+                            onMaxChanged: seriesAdapter.ensureSamples(xAxis.min, xAxis.max)
+                        }
                         property XYSeries lineSeries: LineSeries {
                             id: upperSeries
                             onPointAdded: {
@@ -150,6 +155,7 @@ MainViewBase {
 
                         Component.onCompleted: {
                             print("creating series")
+                            seriesAdapter.ensureSamples(xAxis.min, xAxis.max)
                             var areaSeries = chartView.createSeries(ChartView.SeriesTypeArea, consumer.thing.name, xAxis, yAxis)
                             areaSeries.upperSeries = upperSeries;
                             if (index > 0) {

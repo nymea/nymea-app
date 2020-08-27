@@ -437,7 +437,7 @@ Page {
                             if (!configListView.dragging) {
                                 return 0;
                             }
-                            return dndArea.mouseX < 50 ? -1 : dndArea.mouseX > dndArea.width - 50 ? 1 : 0
+                            return dndArea.mouseX < 50 ? -2 : dndArea.mouseX > dndArea.width - 50 ? 2 : 0
                         }
                         onTriggered: {
                             configListView.contentX = Math.min(Math.max(0, configListView.contentX + direction), configListView.contentWidth - configListView.width)

@@ -48,6 +48,8 @@ public:
     qreal maxValue() const;
     qreal minValue() const;
 
+    Q_INVOKABLE void ensureSamples(const QDateTime &from, const QDateTime &to);
+
 signals:
     void xySeriesChanged();
     void logsModelChanged();
