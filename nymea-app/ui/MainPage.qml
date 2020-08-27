@@ -45,7 +45,7 @@ Page {
 
     header: FancyHeader {
         id: mainHeader
-        title: filteredContentModel.data(swipeView.currentIndex, "displayName")
+        title: d.configOverlay !== null ? qsTr("Configure main view") : filteredContentModel.data(swipeView.currentIndex, "displayName")
         leftButtonVisible: true
         leftButtonImageSource: {
             switch (engine.jsonRpcClient.currentConnection.bearerType) {

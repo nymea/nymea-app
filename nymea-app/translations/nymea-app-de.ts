@@ -4302,6 +4302,10 @@ Bitte versuche es erneut.</translation>
         <source>Configure</source>
         <translation>Einrichten</translation>
     </message>
+    <message>
+        <source>Configure main view</source>
+        <translation>Hauptansicht einrichten</translation>
+    </message>
 </context>
 <context>
     <name>ManualConnectPage</name>

@@ -3341,6 +3341,10 @@ Please try again.</source>
         <source>Configure</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Configure main view</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ManualConnectPage</name>
