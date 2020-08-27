@@ -90,6 +90,7 @@ MainViewBase {
                 legend.font.pixelSize: app.smallFont
                 legend.visible: false
                 backgroundColor: app.backgroundColor
+                titleColor: app.foregroundColor
                 title: qsTr("Power usage history")
 
                 property var startTime: xAxis.min
