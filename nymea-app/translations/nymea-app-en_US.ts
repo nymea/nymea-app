@@ -1574,6 +1574,18 @@
 <context>
     <name>EnergyView</name>
     <message>
+        <source>Total consumed energy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Power usage history</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Total produced energy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>There are no energy meters installed.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1585,45 +1597,54 @@
         <source>Add things</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>Total consumed energy</source>
-        <translation type="unfinished"></translation>
+    <message numerus="yes">
+        <source>%n seconds</source>
+        <translation>
+            <numerusform>One second</numerusform>
+            <numerusform>%n seconds</numerusform>
+        </translation>
     </message>
-    <message>
-        <source>Power usage history</source>
-        <translation type="unfinished"></translation>
+    <message numerus="yes">
+        <source>%n minutes</source>
+        <translation>
+            <numerusform>One minute</numerusform>
+            <numerusform>%n minutes</numerusform>
+        </translation>
     </message>
-    <message>
-        <source>%1 seconds</source>
-        <translation type="unfinished"></translation>
+    <message numerus="yes">
+        <source>%n hours</source>
+        <translation>
+            <numerusform>One hour</numerusform>
+            <numerusform>%n hours</numerusform>
+        </translation>
     </message>
-    <message>
-        <source>%1 minutes</source>
-        <translation type="unfinished"></translation>
+    <message numerus="yes">
+        <source>%n days</source>
+        <translation>
+            <numerusform>One day</numerusform>
+            <numerusform>%n days</numerusform>
+        </translation>
     </message>
-    <message>
-        <source>%1 hours</source>
-        <translation type="unfinished"></translation>
+    <message numerus="yes">
+        <source>%n weeks</source>
+        <translation>
+            <numerusform>One week</numerusform>
+            <numerusform>%n weeks</numerusform>
+        </translation>
     </message>
-    <message>
-        <source>%1 days</source>
-        <translation type="unfinished"></translation>
+    <message numerus="yes">
+        <source>%n months</source>
+        <translation>
+            <numerusform>One month</numerusform>
+            <numerusform>%n months</numerusform>
+        </translation>
     </message>
-    <message>
-        <source>%1 weeks</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 months</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 years</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Total produced energy</source>
-        <translation type="unfinished"></translation>
+    <message numerus="yes">
+        <source>%n years</source>
+        <translation>
+            <numerusform>One year</numerusform>
+            <numerusform>%n years</numerusform>
+        </translation>
     </message>
 </context>
 <context>
@@ -1674,7 +1695,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Add a thing</source>
+        <source>Add things</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1817,7 +1838,11 @@ Please try again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Set up now</source>
+        <source>Connect your garage doors in order to control them from here.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add things</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1929,36 +1954,57 @@ Please try again.</source>
 <context>
     <name>GenericTypeGraph</name>
     <message>
-        <source>%1 seconds</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 minutes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 hours</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 days</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 weeks</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 months</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 years</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Not connected</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n seconds</source>
+        <translation>
+            <numerusform>One second</numerusform>
+            <numerusform>%n seconds</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n minutes</source>
+        <translation>
+            <numerusform>One minute</numerusform>
+            <numerusform>%n minutes</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n hours</source>
+        <translation>
+            <numerusform>One hour</numerusform>
+            <numerusform>%n hours</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n days</source>
+        <translation>
+            <numerusform>One day</numerusform>
+            <numerusform>%n days</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n weeks</source>
+        <translation>
+            <numerusform>One week</numerusform>
+            <numerusform>%n weeks</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n months</source>
+        <translation>
+            <numerusform>One month</numerusform>
+            <numerusform>%n months</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n years</source>
+        <translation>
+            <numerusform>One year</numerusform>
+            <numerusform>%n years</numerusform>
+        </translation>
     </message>
 </context>
 <context>
@@ -2958,7 +3004,7 @@ Please try again.</source>
     <message numerus="yes">
         <source>%n day(s) ago</source>
         <translation>
-            <numerusform>One days ago</numerusform>
+            <numerusform>One day ago</numerusform>
             <numerusform>%n days ago</numerusform>
         </translation>
     </message>
@@ -3308,7 +3354,7 @@ Please try again.</source>
     </message>
     <message numerus="yes">
         <source>%n system update(s) available</source>
-        <translation type="unfinished">
+        <translation>
             <numerusform>%n system update available</numerusform>
             <numerusform>%n system updates available</numerusform>
         </translation>
@@ -4283,11 +4329,11 @@ Please try again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Add a thing</source>
+        <source>Add things</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Add a scene</source>
+        <source>Add scenes</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4999,7 +5045,7 @@ Do you want to proceed?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Add a thing</source>
+        <source>Add things</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

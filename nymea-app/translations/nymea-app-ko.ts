@@ -1708,18 +1708,6 @@
 <context>
     <name>EnergyView</name>
     <message>
-        <source>There are no energy meters installed.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>To get an overview of your current energy usage, install some energy meters.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Add things</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Total consumed energy</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1729,35 +1717,89 @@
     </message>
     <message>
         <source>%1 seconds</source>
-        <translation type="unfinished">%1 초</translation>
+        <translation type="obsolete">%1 초</translation>
     </message>
     <message>
         <source>%1 minutes</source>
-        <translation type="unfinished">%1 분</translation>
+        <translation type="obsolete">%1 분</translation>
     </message>
     <message>
         <source>%1 hours</source>
-        <translation type="unfinished">%1 시간</translation>
+        <translation type="obsolete">%1 시간</translation>
     </message>
     <message>
         <source>%1 days</source>
-        <translation type="unfinished">%1 일</translation>
+        <translation type="obsolete">%1 일</translation>
     </message>
     <message>
         <source>%1 weeks</source>
-        <translation type="unfinished">%1 주</translation>
+        <translation type="obsolete">%1 주</translation>
     </message>
     <message>
         <source>%1 months</source>
-        <translation type="unfinished">%1 달</translation>
+        <translation type="obsolete">%1 달</translation>
     </message>
     <message>
         <source>%1 years</source>
-        <translation type="unfinished">%1 년</translation>
+        <translation type="obsolete">%1 년</translation>
     </message>
     <message>
         <source>Total produced energy</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There are no energy meters installed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To get an overview of your current energy usage, install some energy meters.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add things</source>
+        <translation type="unfinished">사물(장치) 추가</translation>
+    </message>
+    <message numerus="yes">
+        <source>%n seconds</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n minutes</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n hours</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n days</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n weeks</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n months</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n years</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+        </translation>
     </message>
 </context>
 <context>
@@ -1808,7 +1850,7 @@
         <translation type="unfinished">즐겨찾기는 당신이 많은 것을 가질 때 가장 중요한 것들을 추적할 수 있게 해줍니다. 사물(장치)과 상호작용할 때 별을 주의하여 즐겨찾기로 표시하십시오.</translation>
     </message>
     <message>
-        <source>Add a thing</source>
+        <source>Add things</source>
         <translation type="unfinished">사물(장치) 추가</translation>
     </message>
 </context>
@@ -1959,8 +2001,12 @@ Please try again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Set up now</source>
-        <translation type="unfinished">지금 설정</translation>
+        <source>Connect your garage doors in order to control them from here.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add things</source>
+        <translation type="unfinished">사물(장치) 추가</translation>
     </message>
 </context>
 <context>
@@ -2092,35 +2138,77 @@ Please try again.</source>
     <name>GenericTypeGraph</name>
     <message>
         <source>%1 seconds</source>
-        <translation>%1 초</translation>
+        <translation type="vanished">%1 초</translation>
     </message>
     <message>
         <source>%1 minutes</source>
-        <translation>%1 분</translation>
+        <translation type="vanished">%1 분</translation>
     </message>
     <message>
         <source>%1 hours</source>
-        <translation>%1 시간</translation>
+        <translation type="vanished">%1 시간</translation>
     </message>
     <message>
         <source>%1 days</source>
-        <translation>%1 일</translation>
+        <translation type="vanished">%1 일</translation>
     </message>
     <message>
         <source>%1 weeks</source>
-        <translation>%1 주</translation>
+        <translation type="vanished">%1 주</translation>
     </message>
     <message>
         <source>%1 months</source>
-        <translation>%1 달</translation>
+        <translation type="vanished">%1 달</translation>
     </message>
     <message>
         <source>%1 years</source>
-        <translation>%1 년</translation>
+        <translation type="vanished">%1 년</translation>
     </message>
     <message>
         <source>Not connected</source>
         <translation>연결되지 않았습니다</translation>
+    </message>
+    <message numerus="yes">
+        <source>%n seconds</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n minutes</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n hours</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n days</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n weeks</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n months</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n years</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+        </translation>
     </message>
 </context>
 <context>
@@ -3663,7 +3751,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Add things</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">사물(장치) 추가</translation>
     </message>
 </context>
 <context>
@@ -4586,12 +4674,12 @@ Please try again.</source>
         <translation type="unfinished">시나리오는 단 한 번의 클릭으로 여러분의 사물(장치)들을 조절할 수 있는 유용한 방법을 제공합니다.</translation>
     </message>
     <message>
-        <source>Add a thing</source>
+        <source>Add things</source>
         <translation type="unfinished">사물(장치) 추가</translation>
     </message>
     <message>
-        <source>Add a scene</source>
-        <translation type="unfinished">시나리오 추가</translation>
+        <source>Add scenes</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5333,7 +5421,7 @@ Do you want to proceed?</source>
         <translation type="unfinished">%1 시스템이 유용하려면 먼저 몇 가지를 추가하십시오.</translation>
     </message>
     <message>
-        <source>Add a thing</source>
+        <source>Add things</source>
         <translation type="unfinished">사물(장치) 추가</translation>
     </message>
 </context>

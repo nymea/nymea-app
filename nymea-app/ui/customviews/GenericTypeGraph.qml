@@ -143,8 +143,8 @@ Item {
                     }
                 }
                 min: Math.floor(logsModelNg.minValue - Math.abs(logsModelNg.minValue * .05))
-                onMinChanged: applyNiceNumbers();
-                onMaxChanged: applyNiceNumbers();
+//                onMinChanged: applyNiceNumbers();
+//                onMaxChanged: applyNiceNumbers();
                 labelsFont.pixelSize: app.smallFont
                 labelFormat: {
                     switch (root.stateType.type.toLowerCase()) {
@@ -177,32 +177,32 @@ Item {
                 property int timeDiff: (xAxis.max.getTime() - xAxis.min.getTime()) / 1000
 
                 function getTimeSpanString() {
-                    var td = timeDiff
+                    var td = Math.round(timeDiff)
                     if (td < 60) {
-                        return qsTr("%1 seconds").arg(Math.round(td));
+                        return qsTr("%n seconds", "", td).arg(td);
                     }
-                    td = td / 60
+                    td = Math.round(td / 60)
                     if (td < 60) {
-                        return qsTr("%1 minutes").arg(Math.round(td));
+                        return qsTr("%n minutes", "", td).arg(td);
                     }
-                    td = td / 60
+                    td = Math.round(td / 60)
                     if (td < 48) {
-                        return qsTr("%1 hours").arg(Math.round(td));
+                        return qsTr("%n hours", "", td).arg(td);
                     }
-                    td = td / 24;
+                    td = Math.round(td / 24);
                     if (td < 14) {
-                        return qsTr("%1 days").arg(Math.round(td));
+                        return qsTr("%n days", "", td).arg(td);
                     }
-                    td = td / 7
+                    td = Math.round(td / 7)
                     if (td < 9) {
-                        return qsTr("%1 weeks").arg(Math.round(td));
+                        return qsTr("%n weeks", "", td).arg(td);
                     }
-                    td = td * 7 / 30
+                    td = Math.round(td * 7 / 30)
                     if (td < 24) {
-                        return qsTr("%1 months").arg(Math.round(td));
+                        return qsTr("%n months", "", td).arg(td);
                     }
-                    td = td * 30 / 356
-                    return qsTr("%1 years").arg(Math.round(td))
+                    td = Math.round(td * 30 / 356)
+                    return qsTr("%n years", "", td).arg(td)
                 }
 
                 titleText: {
@@ -284,7 +284,7 @@ Item {
                     id: lineSeries1
                     onPointAdded: {
                         var newPoint = lineSeries1.at(index)
-//                        print("pointadded", newPoint.x, newPoint.y)
+                        print("pointadded", newPoint.x, newPoint.y)
 
                         if (newPoint.x > lineSeries0.at(0).x) {
                             lineSeries0.replace(0, newPoint.x, 0)
