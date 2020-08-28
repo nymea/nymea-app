@@ -51,16 +51,6 @@ MainViewBase {
         shownInterfaces: ["smartmeterproducer"]
     }
 
-    EmptyViewPlaceholder {
-        anchors.centerIn: parent
-        width: parent.width - app.margins * 2
-        visible: !engine.thingManager.fetchingData && consumers.count == 0
-        title: qsTr("There are no energy meters installed.")
-        text: qsTr("To get an overview of your current energy usage, install some energy meters.")
-        imageSource: "../images/smartmeter.svg"
-        buttonText: qsTr("Add things")
-    }
-
     Flickable {
         anchors.fill: parent
         topMargin: app.margins
@@ -191,8 +181,9 @@ MainViewBase {
                     readonly property XYSeriesAdapter adapter: consumersRepeater.itemAt(consumersRepeater.count - 1).adapter;
                     max: Math.ceil(adapter.maxValue + Math.abs(adapter.maxValue * .05))
                     min: Math.floor(adapter.minValue - Math.abs(adapter.minValue * .05))
-                    onMinChanged: applyNiceNumbers();
-                    onMaxChanged: applyNiceNumbers();
+                    // This seems to crash occationally
+//                    onMinChanged: applyNiceNumbers();
+//                    onMaxChanged: applyNiceNumbers();
                     labelsFont.pixelSize: app.smallFont
                     labelFormat: "%d"
                     labelsColor: app.foregroundColor
@@ -210,32 +201,32 @@ MainViewBase {
                     property int timeDiff: (xAxis.max.getTime() - xAxis.min.getTime()) / 1000
 
                     function getTimeSpanString() {
-                        var td = timeDiff
+                        var td = Math.round(timeDiff)
                         if (td < 60) {
-                            return qsTr("%1 seconds").arg(Math.round(td));
+                            return qsTr("%n seconds", "", td).arg(td);
                         }
-                        td = td / 60
+                        td = Math.round(td / 60)
                         if (td < 60) {
-                            return qsTr("%1 minutes").arg(Math.round(td));
+                            return qsTr("%n minutes", "", td).arg(td);
                         }
-                        td = td / 60
+                        td = Math.round(td / 60)
                         if (td < 48) {
-                            return qsTr("%1 hours").arg(Math.round(td));
+                            return qsTr("%n hours", "", td).arg(td);
                         }
-                        td = td / 24;
+                        td = Math.round(td / 24);
                         if (td < 14) {
-                            return qsTr("%1 days").arg(Math.round(td));
+                            return qsTr("%n days", "", td).arg(td);
                         }
-                        td = td / 7
+                        td = Math.round(td / 7)
                         if (td < 9) {
-                            return qsTr("%1 weeks").arg(Math.round(td));
+                            return qsTr("%n weeks", "", td).arg(td);
                         }
-                        td = td * 7 / 30
+                        td = Math.round(td * 7 / 30)
                         if (td < 24) {
-                            return qsTr("%1 months").arg(Math.round(td));
+                            return qsTr("%n months", "", td).arg(td);
                         }
-                        td = td * 30 / 356
-                        return qsTr("%1 years").arg(Math.round(td))
+                        td = Math.round(td * 30 / 356)
+                        return qsTr("%n years", "", td).arg(td)
                     }
 
                     titleText: {
@@ -369,5 +360,16 @@ MainViewBase {
                 multiplier: -1
             }
         }
+    }
+
+    EmptyViewPlaceholder {
+        anchors.centerIn: parent
+        width: parent.width - app.margins * 2
+        visible: !engine.thingManager.fetchingData && consumers.count == 0
+        title: qsTr("There are no energy meters installed.")
+        text: qsTr("To get an overview of your current energy usage, install some energy meters.")
+        imageSource: "../images/smartmeter.svg"
+        buttonText: qsTr("Add things")
+        onButtonClicked: pageStack.push(Qt.resolvedUrl("../thingconfiguration/NewThingPage.qml"))
     }
 }

@@ -254,11 +254,11 @@
     </message>
     <message>
         <source>Scan a code to see it appearing here.</source>
-        <translation>Scanne einen Code um ihn hier anzuzeigen.</translation>
+        <translation>Scanne einen Code um ihn hier zu sehen.</translation>
     </message>
     <message>
         <source>Last scan</source>
-        <translation>Letzter scan</translation>
+        <translation>Letzter Scan</translation>
     </message>
 </context>
 <context>
@@ -794,8 +794,8 @@
     <message numerus="yes">
         <source>There are %n %1:core systems connected to your cloud.</source>
         <translation>
-            <numerusform>Es ist %n %1:core System mit Deiner cloud verbunden.</numerusform>
-            <numerusform>Es sind %n %1:ore Systeme mit Deiner cloud verbunden.</numerusform>
+            <numerusform>Es ist ein %1:core System mit Deiner cloud verbunden.</numerusform>
+            <numerusform>Es sind %n %1:core Systeme mit Deiner cloud verbunden.</numerusform>
         </translation>
     </message>
     <message>
@@ -2214,56 +2214,105 @@
 <context>
     <name>EnergyView</name>
     <message>
+        <source>Total consumed energy</source>
+        <translation>Energieverbrauch</translation>
+    </message>
+    <message>
+        <source>Power usage history</source>
+        <translation>Verbrauchshistorie</translation>
+    </message>
+    <message>
+        <source>%1 seconds</source>
+        <translation type="obsolete">%1 Sekunden</translation>
+    </message>
+    <message>
+        <source>%1 minutes</source>
+        <translation type="obsolete">%1 Minuten</translation>
+    </message>
+    <message>
+        <source>%1 hours</source>
+        <translation type="obsolete">%1 Stunden</translation>
+    </message>
+    <message>
+        <source>%1 days</source>
+        <translation type="obsolete">%1 Tage</translation>
+    </message>
+    <message>
+        <source>%1 weeks</source>
+        <translation type="obsolete">%1 Wochen</translation>
+    </message>
+    <message>
+        <source>%1 months</source>
+        <translation type="obsolete">%1 Monate</translation>
+    </message>
+    <message>
+        <source>%1 years</source>
+        <translation type="obsolete">%1 Jahre</translation>
+    </message>
+    <message>
+        <source>Total produced energy</source>
+        <translation>Erzeugte Energie</translation>
+    </message>
+    <message>
         <source>There are no energy meters installed.</source>
-        <translation>Es sind keine Stromzähler eingerichtet.</translation>
+        <translation>Es sind noch keine Stromzähler installiert.</translation>
     </message>
     <message>
         <source>To get an overview of your current energy usage, install some energy meters.</source>
-        <translation>Um einen Überblick über den aktuellen Energieverbrauch zu bekommen, installiere einen oder mehrere Stromzähler.</translation>
+        <translation>Installiere einen oder mehrere Stromzähler um einen Überlick über Deinen Energieverbrauch zu sehen.</translation>
     </message>
     <message>
         <source>Add things</source>
         <translation>&quot;Things&quot; hinzufügen</translation>
     </message>
-    <message>
-        <source>Total consumed energy</source>
-        <translation>Gesamtverbrauch</translation>
+    <message numerus="yes">
+        <source>%n seconds</source>
+        <translation>
+            <numerusform>Eine Sekunde</numerusform>
+            <numerusform>%n Sekunden</numerusform>
+        </translation>
     </message>
-    <message>
-        <source>Power usage history</source>
-        <translation>Verbrrauchshistorie</translation>
+    <message numerus="yes">
+        <source>%n minutes</source>
+        <translation>
+            <numerusform>Eine Minute</numerusform>
+            <numerusform>%n Minuten</numerusform>
+        </translation>
     </message>
-    <message>
-        <source>%1 seconds</source>
-        <translation>%1 Sekunden</translation>
+    <message numerus="yes">
+        <source>%n hours</source>
+        <translation>
+            <numerusform>Eine Stunde</numerusform>
+            <numerusform>%n Stunden</numerusform>
+        </translation>
     </message>
-    <message>
-        <source>%1 minutes</source>
-        <translation>%1 Minuten</translation>
+    <message numerus="yes">
+        <source>%n days</source>
+        <translation>
+            <numerusform>Einen Tag</numerusform>
+            <numerusform>%n Tage</numerusform>
+        </translation>
     </message>
-    <message>
-        <source>%1 hours</source>
-        <translation>%1 Stunden</translation>
+    <message numerus="yes">
+        <source>%n weeks</source>
+        <translation>
+            <numerusform>Eine Woche</numerusform>
+            <numerusform>%n Wochen</numerusform>
+        </translation>
     </message>
-    <message>
-        <source>%1 days</source>
-        <translation>%1 Tage</translation>
+    <message numerus="yes">
+        <source>%n months</source>
+        <translation>
+            <numerusform>Einen Monat</numerusform>
+            <numerusform>%n Monate</numerusform>
+        </translation>
     </message>
-    <message>
-        <source>%1 weeks</source>
-        <translation>%1 Wochen</translation>
-    </message>
-    <message>
-        <source>%1 months</source>
-        <translation>%1 Monate</translation>
-    </message>
-    <message>
-        <source>%1 years</source>
-        <translation>%1 Jahre</translation>
-    </message>
-    <message>
-        <source>Total produced energy</source>
-        <translation>Gesamtertrag</translation>
+    <message numerus="yes">
+        <source>%n years</source>
+        <translation>
+            <numerusform>Ein Jahr</numerusform>
+            <numerusform>%n Jahre</numerusform>
+        </translation>
     </message>
 </context>
 <context>
@@ -2322,8 +2371,8 @@
         <translation>Favoriten erlauben es den Überblick über die wichtigsten &quot;Things&quot; zu behalten wenn Du viele davon eingebunden hast. Halte ausschau nach dem Stern wenn Du mit &quot;Things&quot; interagierst umd benutze ihn um diese als Favoriten zu markieren.</translation>
     </message>
     <message>
-        <source>Add a thing</source>
-        <translation>&quot;Thing&quot; hinzufügen</translation>
+        <source>Add things</source>
+        <translation>&quot;Things&quot; hinzufügen</translation>
     </message>
 </context>
 <context>
@@ -2477,8 +2526,12 @@ Bitte versuche es erneut.</translation>
         <translation>Es sind noch keine Garagentore eingerichtet.</translation>
     </message>
     <message>
-        <source>Set up now</source>
-        <translation>Jetzt einrichten</translation>
+        <source>Connect your garage doors in order to control them from here.</source>
+        <translation>Verbinde deine Garagentore um diese von hier aus zu steuern.</translation>
+    </message>
+    <message>
+        <source>Add things</source>
+        <translation>&quot;Things&quot; hinzufügen</translation>
     </message>
 </context>
 <context>
@@ -2622,35 +2675,84 @@ Bitte versuche es erneut.</translation>
     <name>GenericTypeGraph</name>
     <message>
         <source>%1 seconds</source>
-        <translation>%1 Sekunden</translation>
+        <translation type="vanished">%1 Sekunden</translation>
     </message>
     <message>
         <source>%1 minutes</source>
-        <translation>%1 Minuten</translation>
+        <translation type="vanished">%1 Minuten</translation>
     </message>
     <message>
         <source>%1 hours</source>
-        <translation>%1 Stunden</translation>
+        <translation type="vanished">%1 Stunden</translation>
     </message>
     <message>
         <source>%1 days</source>
-        <translation>%1 Tage</translation>
+        <translation type="vanished">%1 Tage</translation>
     </message>
     <message>
         <source>%1 weeks</source>
-        <translation>%1 Wochen</translation>
+        <translation type="vanished">%1 Wochen</translation>
     </message>
     <message>
         <source>%1 months</source>
-        <translation>%1 Monate</translation>
+        <translation type="vanished">%1 Monate</translation>
     </message>
     <message>
         <source>%1 years</source>
-        <translation>%1 Jahre</translation>
+        <translation type="vanished">%1 Jahre</translation>
     </message>
     <message>
         <source>Not connected</source>
         <translation>Nicht verbunden</translation>
+    </message>
+    <message numerus="yes">
+        <source>%n seconds</source>
+        <translation>
+            <numerusform>Eine Sekunde</numerusform>
+            <numerusform>%n Sekunden</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n minutes</source>
+        <translation>
+            <numerusform>Eine Minute</numerusform>
+            <numerusform>%n Minuten</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n hours</source>
+        <translation>
+            <numerusform>Eine Stunde</numerusform>
+            <numerusform>%n Stunden</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n days</source>
+        <translation>
+            <numerusform>Einen Tag</numerusform>
+            <numerusform>%n Tage</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n weeks</source>
+        <translation>
+            <numerusform>Eine Woche</numerusform>
+            <numerusform>%n Wochen</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n months</source>
+        <translation>
+            <numerusform>Einen Monat</numerusform>
+            <numerusform>%n Monate</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n years</source>
+        <translation>
+            <numerusform>Ein Jahr</numerusform>
+            <numerusform>%n Jahre</numerusform>
+        </translation>
     </message>
 </context>
 <context>
@@ -3661,11 +3763,11 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Media controllers with seeking</source>
-        <translation>Mediensteuerung mit Positionssuche</translation>
+        <translation>Medienabspielgeräte mit Suchfunktion</translation>
     </message>
     <message>
         <source>Navigation pad with menu</source>
-        <translation>Navigationsfeld mit Menü</translation>
+        <translation>Navigationsfläche mit Menü</translation>
     </message>
     <message>
         <source>Operate</source>
@@ -3703,7 +3805,7 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Watering since</source>
-        <translation>Bewässerung läuft seit</translation>
+        <translation>Bewässerung seit</translation>
     </message>
     <message>
         <source>Last watering</source>
@@ -3711,26 +3813,26 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>This irrigation has not been used yet</source>
-        <translation>Diese Bewässerung wurde noch nicht benutzt.</translation>
+        <translation>Diese Bewässerung wurde noch nicht benutzt</translation>
     </message>
     <message numerus="yes">
         <source>%n minute(s)</source>
         <translation>
-            <numerusform>%n Minute</numerusform>
+            <numerusform>Eine Minute</numerusform>
             <numerusform>%n Minuten</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <source>%n hour(s)</source>
         <translation>
-            <numerusform>%n Stunde</numerusform>
+            <numerusform>Eine Stunde</numerusform>
             <numerusform>%n Stunden</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <source>%n day(s)</source>
         <translation>
-            <numerusform>%n Tag</numerusform>
+            <numerusform>Ein Tag</numerusform>
             <numerusform>%n Tage</numerusform>
         </translation>
     </message>
@@ -3758,7 +3860,7 @@ Bitte versuche es erneut.</translation>
     <message>
         <source>Watering until</source>
         <extracomment>Irrigation will be turned of at, e.g. 09:00</extracomment>
-        <translation>Bewässerung bis</translation>
+        <translation>Wässern bis</translation>
     </message>
     <message>
         <source>Turn off in</source>
@@ -3796,22 +3898,22 @@ Bitte versuche es erneut.</translation>
     <message numerus="yes">
         <source>%n minute(s) left</source>
         <translation>
-            <numerusform>Eine Minute verbeibend</numerusform>
-            <numerusform>%n Minuten verbleibend</numerusform>
+            <numerusform>Noch eine Minute</numerusform>
+            <numerusform>Noch %n Minuten</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <source>%n hour(s) left</source>
         <translation>
-            <numerusform>Eine Stunde verbleibend</numerusform>
-            <numerusform>%n Stunden verbleibend</numerusform>
+            <numerusform>Noch eine Stunde</numerusform>
+            <numerusform>Noch %n Stunden</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <source>%n day(s) left</source>
         <translation>
-            <numerusform>Ein Tag verbleibend</numerusform>
-            <numerusform>%n Tage verbleibend</numerusform>
+            <numerusform>Noch einen Tag</numerusform>
+            <numerusform>Noch %n Tage</numerusform>
         </translation>
     </message>
 </context>
@@ -4423,7 +4525,7 @@ Bitte versuche es erneut.</translation>
     <name>MediaView</name>
     <message>
         <source>There are no media players set up.</source>
-        <translation>Es sind keine Medienabspielgeräte eingerichtet.</translation>
+        <translation>Es sind noch keine Medienabspielgeräte eingerichtet.</translation>
     </message>
     <message>
         <source>Connect your media players in order to control them from here.</source>
@@ -5459,12 +5561,12 @@ Möchtest Du fortfahren?</translation>
         <translation>Szenen bieten einen einfachen Weg um deine &quot;Things&quot; mit nur einem klick zu steuern.</translation>
     </message>
     <message>
-        <source>Add a thing</source>
-        <translation>&quot;Thing&quot; hinzufügen</translation>
+        <source>Add things</source>
+        <translation>&quot;Things&quot; hinzufügen</translation>
     </message>
     <message>
-        <source>Add a scene</source>
-        <translation>Szene hinzufügen</translation>
+        <source>Add scenes</source>
+        <translation>Szenen hinzufügen</translation>
     </message>
 </context>
 <context>
@@ -6416,11 +6518,11 @@ Möchtest Du fortfahren?</translation>
     </message>
     <message>
         <source>In order for your %1 system to be useful, go ahead and add some things.</source>
-        <translation>Um dein %1 System zu benutzen, füge einige Geräte oder Dienste hinzu.</translation>
+        <translation>Um dein %1 system zu nutzen, füge einige &quot;Things&quot; hinzu.</translation>
     </message>
     <message>
-        <source>Add a thing</source>
-        <translation>&quot;Thing&quot; hinzufügen</translation>
+        <source>Add things</source>
+        <translation>&quot;Things&quot; hinzufügen</translation>
     </message>
 </context>
 <context>

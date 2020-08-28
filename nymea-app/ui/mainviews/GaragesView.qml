@@ -45,16 +45,6 @@ MainViewBase {
         shownInterfaces: ["garagedoor", "garagegate"]
     }
 
-    EmptyViewPlaceholder {
-        anchors.centerIn: parent
-        width: parent.width - app.margins * 2
-        text: qsTr("There are no garage doors set up yet.")
-        imageSource: "qrc:/ui/images/garage/garage-100.svg"
-        buttonText: qsTr("Set up now")
-        visible: garagesFilterModel.count === 0 && !engine.thingManager.fetchingData
-        onButtonClicked: pageStack.push(Qt.resolvedUrl("../thingconfiguration/NewThingPage.qml"))
-    }
-
     SwipeView {
         id: swipeView
         anchors.fill: parent
@@ -230,6 +220,17 @@ MainViewBase {
                 }
             }
         }
+    }
+
+    EmptyViewPlaceholder {
+        anchors.centerIn: parent
+        width: parent.width - app.margins * 2
+        title: qsTr("There are no garage doors set up yet.")
+        text: qsTr("Connect your garage doors in order to control them from here.")
+        imageSource: "qrc:/ui/images/garage/garage-100.svg"
+        buttonText: qsTr("Add things")
+        visible: garagesFilterModel.count === 0 && !engine.thingManager.fetchingData
+        onButtonClicked: pageStack.push(Qt.resolvedUrl("../thingconfiguration/NewThingPage.qml"))
     }
 
     PageIndicator {

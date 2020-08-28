@@ -46,16 +46,6 @@ MainViewBase {
         shownInterfaces: ["mediaplayer"]
     }
 
-    EmptyViewPlaceholder {
-        anchors.centerIn: parent
-        width: parent.width - app.margins * 2
-        visible: !engine.thingManager.fetchingData && mediaDevices.count == 0
-        title: qsTr("There are no media players set up.")
-        text: qsTr("Connect your media players in order to control them from here.")
-        imageSource: "../images/media.svg"
-        buttonText: qsTr("Add things")
-    }
-
     SwipeView {
         id: swipeView
         anchors.fill: parent
@@ -181,6 +171,17 @@ MainViewBase {
         interactive: true
         anchors.bottom: parent.bottom
         anchors.horizontalCenter: parent.horizontalCenter
+    }
+
+    EmptyViewPlaceholder {
+        anchors.centerIn: parent
+        width: parent.width - app.margins * 2
+        visible: !engine.thingManager.fetchingData && mediaDevices.count == 0
+        title: qsTr("There are no media players set up.")
+        text: qsTr("Connect your media players in order to control them from here.")
+        imageSource: "../images/media.svg"
+        buttonText: qsTr("Add things")
+        onButtonClicked: pageStack.push(Qt.resolvedUrl("../thingconfiguration/NewThingPage.qml"))
     }
 
 }

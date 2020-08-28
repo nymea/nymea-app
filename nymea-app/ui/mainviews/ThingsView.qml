@@ -77,7 +77,7 @@ MainViewBase {
         // Have that split in 2 because we need those strings separated in EditDevicesPage too and don't want translators to do them twice
         text: qsTr("There are no things set up yet.") + "\n" + qsTr("In order for your %1 system to be useful, go ahead and add some things.").arg(app.systemName)
         imageSource: "qrc:/styles/%1/logo.svg".arg(styleController.currentStyle)
-        buttonText: qsTr("Add a thing")
+        buttonText: qsTr("Add things")
         onButtonClicked: pageStack.push(Qt.resolvedUrl("../thingconfiguration/NewThingPage.qml"))
     }
 }
