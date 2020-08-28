@@ -1,3 +1,10 @@
+nymea-app (1.0.222) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * More fixes and translations
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 28 Aug 2020 17:21:05 +0200
+
 nymea-app (1.0.221) bionic; urgency=medium
 
   [ Michael Zanetti ]
