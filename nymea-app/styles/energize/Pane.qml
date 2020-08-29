@@ -28,48 +28,49 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.0
-import QtQuick.Templates 2.2
+import QtQuick 2.9
+import QtQuick.Templates 2.2 as T
 import QtQuick.Controls.Material 2.2
+import QtQuick.Controls.Material.impl 2.2
+import QtGraphicalEffects 1.0
 
-ApplicationWindow {
-    // The app style
-    Material.theme: Material.Light
+T.Pane {
+    id: control
 
-    // Main background color
-    Material.background: "#FFFFFF"
+    implicitWidth: Math.max(background ? background.implicitWidth : 0, contentWidth + leftPadding + rightPadding)
+    implicitHeight: Math.max(background ? background.implicitHeight : 0, contentHeight + topPadding + bottomPadding)
 
-    font.pixelSize: 14
-    font.weight: Font.Normal
-    font.capitalization: Font.MixedCase
-    font.family: "Ubuntu"
+    contentWidth: contentItem.implicitWidth || (contentChildren.length === 1 ? contentChildren[0].implicitWidth : 0)
+    contentHeight: contentItem.implicitHeight || (contentChildren.length === 1 ? contentChildren[0].implicitHeight : 0)
 
-    // The core system name.
-    property string systemName: "nymea"
+    padding: 12
 
-    // The app name
-    property string appName: "nymea:app"
+    background: Rectangle {
+        color: control.Material.backgroundColor
+        radius: 5
 
-    // The header background color
-    property color primaryColor: Material.background
-
-
-    // Header font color
-    property color headerForegroundColor: "#79a79f"
-
-    // The font color
-    property color foregroundColor: "#69938c"
-
-    // The color of selected/highlighted things
-    property color accentColor: "#8cc1b6"
-
-    // colors for interfaces, e.g. icons
-    property var interfaceColors: {
-        "temperaturesensor": "#FF0000",
-        "humiditysensor": "#00BFFF",
-        "moisturesensor":"#0000FF",
-        "lightsensor": "#FFA500",
-        "conductivitysensor": "#008000",
-        "pressuresensor": "#808080"
+        layer.enabled: control.enabled && control.Material.elevation > 0
+        layer.effect: ElevationEffect {
+            elevation: control.Material.elevation
+        }
     }
+
+    layer.effect: Item {
+        width: control.width
+        height: control.height
+        Rectangle {
+            id: mask
+            anchors.fill: parent
+            color: "#FFFFFFFF"
+            radius: 5
+        }
+        OpacityMask {
+            width: control.width
+            height: control.height
+            source: control
+            maskSource: mask
+        }
+    }
+    layer.enabled: true
+
 }
