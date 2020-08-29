@@ -42,20 +42,12 @@ DevicePageBase {
         id: logView
         anchors.fill: parent
 
-        logsModel: engine.jsonRpcClient.ensureServerVersion("1.10") ? logsModelNg : logsModel
+        logsModel: logsModelNg
         LogsModelNg {
             id: logsModelNg
             engine: _engine
             deviceId: root.device.id
             live: true
-            typeIds: [root.deviceClass.eventTypes.findByName("triggered").id];
-        }
-        LogsModel {
-            id: logsModel
-            engine: _engine
-            deviceId: root.device.id
-            live: true
-            Component.onCompleted: update()
             typeIds: [root.deviceClass.eventTypes.findByName("triggered").id];
         }
 
