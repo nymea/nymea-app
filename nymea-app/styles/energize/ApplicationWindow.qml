@@ -37,7 +37,7 @@ ApplicationWindow {
     Material.theme: Material.Light
 
     // Main background color
-    Material.background: "676767"
+    Material.background: "#FFFFFF"
 
     font.pixelSize: 14
     font.weight: Font.Normal
