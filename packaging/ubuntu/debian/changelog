@@ -1,3 +1,10 @@
+nymea-app (1.0.223) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Make Pane corners slightly rounded in energize style
+
+ -- Jenkins <jenkins@nymea.io>  Sat, 29 Aug 2020 20:26:37 +0200
+
 nymea-app (1.0.222) bionic; urgency=medium
 
   [ Michael Zanetti ]
