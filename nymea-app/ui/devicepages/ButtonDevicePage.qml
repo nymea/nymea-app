@@ -53,35 +53,19 @@ DevicePageBase {
         id: logView
         anchors.fill: parent
 
-        logsModel: engine.jsonRpcClient.ensureServerVersion("1.10") ? logsModelNg : logsModel
-        LogsModelNg {
-            id: logsModelNg
-            engine: _engine
-            deviceId: root.device.id
-            live: true
-            typeIds: {
-                var ret = [];
-                ret.push(root.deviceClass.eventTypes.findByName("pressed").id)
-                if (root.deviceClass.eventTypes.findByName("longPressed")) {
-                    ret.push(root.deviceClass.eventTypes.findByName("longPressed").id)
-                }
-                return ret;
-            }
-        }
-        LogsModel {
+        logsModel: LogsModel {
             id: logsModel
             engine: _engine
-            deviceId: root.device.id
+            thingId: root.thing.id
             live: true
             typeIds: {
                 var ret = [];
-                ret.push(root.deviceClass.eventTypes.findByName("pressed").id)
-                if (root.deviceClass.eventTypes.findByName("longPressed")) {
-                    ret.push(root.deviceClass.eventTypes.findByName("longPressed").id)
+                ret.push(root.thing.thingClass.eventTypes.findByName("pressed").id)
+                if (root.thing.thingClass.eventTypes.findByName("longPressed")) {
+                    ret.push(root.thing.thingClass.eventTypes.findByName("longPressed").id)
                 }
                 return ret;
             }
-            Component.onCompleted: update()
         }
 
         onAddRuleClicked: {
@@ -89,17 +73,17 @@ DevicePageBase {
             var typeId = logView.logsModel.get(index).typeId
             var rule = engine.ruleManager.createNewRule();
             var eventDescriptor = rule.eventDescriptors.createNewEventDescriptor();
-            eventDescriptor.deviceId = device.id;
-            var eventType = root.deviceClass.eventTypes.getEventType(typeId);
+            eventDescriptor.deviceId = root.thing.id;
+            var eventType = root.thing.thingClass.eventTypes.getEventType(typeId);
             eventDescriptor.eventTypeId = eventType.id;
-            rule.name = root.device.name + " - " + eventType.displayName;
+            rule.name = root.thing.name + " - " + eventType.displayName;
             if (eventType.paramTypes.count === 1) {
                 var paramType = eventType.paramTypes.get(0);
                 eventDescriptor.paramDescriptors.setParamDescriptor(paramType.id, value, ParamDescriptor.ValueOperatorEquals);
                 rule.eventDescriptors.addEventDescriptor(eventDescriptor);
                 rule.name = rule.name + " - " + value
             }
-            var rulePage = pageStack.push(Qt.resolvedUrl("../magic/DeviceRulesPage.qml"), {device: root.device});
+            var rulePage = pageStack.push(Qt.resolvedUrl("../magic/DeviceRulesPage.qml"), {device: root.thing});
             rulePage.addRule(rule);
         }
     }

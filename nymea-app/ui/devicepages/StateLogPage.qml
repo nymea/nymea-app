@@ -59,17 +59,6 @@ Page {
         onBackPressed: pageStack.pop()
     }
 
-    LogsModel {
-        id: logsModel
-        engine: _engine
-        deviceId: root.device.id
-        live: true
-        Component.onCompleted: {
-            update()
-        }
-        typeIds: [root.stateType.id]
-    }
-
     LogsModelNg {
         id: logsModelNg
         engine: _engine

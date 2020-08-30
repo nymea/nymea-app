@@ -113,21 +113,11 @@ DevicePageBase {
             Layout.fillHeight: true
             Layout.fillWidth: true
 
-            logsModel: engine.jsonRpcClient.ensureServerVersion("1.10") ? logsModelNg : logsModel
-            LogsModelNg {
-                id: logsModelNg
-                deviceId: root.device.id
-                engine: _engine
-                live: true
-                typeIds: [root.deviceClass.actionTypes.findByName("notify").id];
-            }
-
-            LogsModel {
+            logsModel: LogsModel {
                 id: logsModel
-                deviceId: root.device.id
-                live: true
+                thingId: root.device.id
                 engine: _engine
-                Component.onCompleted: update()
+                live: true
                 typeIds: [root.deviceClass.actionTypes.findByName("notify").id];
             }
 
