@@ -1,3 +1,10 @@
+nymea-app (1.0.225) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix the footer dropshadow
+
+ -- Jenkins <jenkins@nymea.io>  Sun, 30 Aug 2020 17:23:15 +0200
+
 nymea-app (1.0.224) bionic; urgency=medium
 
   [ Michael Zanetti ]
