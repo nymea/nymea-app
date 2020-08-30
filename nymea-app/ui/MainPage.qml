@@ -266,16 +266,15 @@ Page {
         readonly property bool shown: tabsRepeater.count > 1 || mainHeader.menuOpen || d.configOverlay
         implicitHeight: shown ? 70 + (app.landscape ? -20 : 0) : 0
         Behavior on implicitHeight { NumberAnimation { duration: 200; easing.type: Easing.InOutQuad }}
-        clip: true
 
         TabBar {
             id: tabBar
-            anchors.fill: parent
+            anchors { left: parent.left; top: parent.top; right: parent.right }
+            height: 70 + (app.landscape ? -20 : 0)
             Material.elevation: 3
             position: TabBar.Footer
 
-            visible: !mainHeader.menuOpen && !d.configOverlay
-            opacity: d.configOverlay === null ? 1 : 0
+            opacity: (!mainHeader.menuOpen && !d.configOverlay) ? 1 : 0
             Behavior on opacity { NumberAnimation { duration: 200; easing.type: Easing.InOutQuad } }
 
             Repeater {
@@ -298,28 +297,37 @@ Page {
             }
         }
 
-        MainPageTabButton {
-            anchors.fill: parent
-            alignment: app.landscape ? Qt.Horizontal : Qt.Vertical
-            text: d.configOverlay ? qsTr("Done") : qsTr("Configure")
-            iconSource: "../images/configure.svg"
-            opacity: visible ? 1 : 0
-            visible: mainHeader.menuOpen || d.configOverlay
+        TabBar {
+            anchors.fill: tabBar
+            Material.elevation: 3
+            position: TabBar.Footer
+
+            opacity: mainHeader.menuOpen || d.configOverlay ? 1 : 0
             Behavior on opacity { NumberAnimation { duration: 200; easing.type: Easing.InOutQuad } }
+            visible: opacity > 0
 
-            checked: false
-            checkable: false
+            MainPageTabButton {
+                height: tabBar.height
+                alignment: app.landscape ? Qt.Horizontal : Qt.Vertical
+                text: d.configOverlay ? qsTr("Done") : qsTr("Configure")
+                iconSource: "../images/configure.svg"
+                anchors.verticalCenter: parent.verticalCenter
 
-            onClicked: {
-                if (d.configOverlay) {
-                    d.configOverlay.destroy()
-                } else {
-                    PlatformHelper.vibrate(PlatformHelper.HapticsFeedbackSelection)
-                    d.configOverlay = configComponent.createObject(contentContainer)
-                    mainHeader.menuOpen = false;
+                checked: false
+                checkable: false
+
+                onClicked: {
+                    if (d.configOverlay) {
+                        d.configOverlay.destroy()
+                    } else {
+                        PlatformHelper.vibrate(PlatformHelper.HapticsFeedbackSelection)
+                        d.configOverlay = configComponent.createObject(contentContainer)
+                        mainHeader.menuOpen = false;
+                    }
                 }
             }
         }
+
     }
 
     Component {
