@@ -427,7 +427,41 @@ void CodeCompletion::update()
             entries.append(CompletionModel::Entry(property, property, "property"));
         }
         foreach (const QString &method, m_classes.value(type).methods) {
-            entries.append(CompletionModel::Entry(method + "(", method, "method", "", ")"));
+            QString paramString;
+            if (method == "execute") {
+                int blockposition = getBlockPosition(id);
+                qDebug() << "Blockposition:" << blockposition;
+                if (blockposition >= 0) {
+                    BlockInfo info = getBlockInfo(blockposition);
+                    qDebug() << "actionType" << info.properties.keys() << info.properties.value("actionName") << info.properties.value("actionTypeId");
+                    if (info.valid) {
+                        QString thingId = info.properties.value("thingId");
+                        if (thingId.isEmpty()) {
+                            thingId = info.properties.value("deviceId");
+                        }
+                        Device *d = m_engine->thingManager()->things()->getDevice(QUuid(thingId));
+                        if (d) {
+                            ActionType *at = nullptr;
+                            if (info.properties.contains("actionTypeId")) {
+                                at = d->thingClass()->actionTypes()->getActionType(info.properties.value("actionTypeId"));
+                            } else if (info.properties.contains("actionName")) {
+                                at = d->thingClass()->actionTypes()->findByName(info.properties.value("actionName"));
+                            }
+                            if (at) {
+                                QStringList params;
+                                QStringList nonEscapeTypes = {"Int", "Bool", "Double"};
+                                for (int i = 0; i < at->paramTypes()->rowCount(); i++) {
+                                    ParamType *pt = at->paramTypes()->get(i);
+                                    QString escapeChar = nonEscapeTypes.contains(pt->type()) ? "" : "\"";
+                                    params.append("\"" + pt->name() + "\": " + escapeChar + pt->defaultValue().toString() + escapeChar);
+                                }
+                                paramString = "{" + params.join(", ") + "}";
+                            }
+                        }
+                    }
+                }
+            }
+            entries.append(CompletionModel::Entry(method + "(", method, "method", "", paramString + ")"));
         }
         // Attached classes/properties
         foreach (const QString &property, m_attachedClasses.value(id).properties) {
@@ -537,6 +571,7 @@ CodeCompletion::BlockInfo CodeCompletion::getBlockInfo(int position) const
 {
     BlockInfo info;
 
+    // Find start of block
     QTextCursor blockStart = m_document->textDocument()->find("{", position, QTextDocument::FindBackward);
     QTextCursor blockEnd = m_document->textDocument()->find("}", position, QTextDocument::FindBackward);
     while (blockEnd.position() > blockStart.position() && !blockStart.isNull()) {
@@ -548,21 +583,26 @@ CodeCompletion::BlockInfo CodeCompletion::getBlockInfo(int position) const
         return info;
     }
 
+    // Find end of block
+    QTextCursor tmp = blockStart;
+    blockEnd = blockStart;
+    while (!tmp.isNull() && blockEnd >= tmp) {
+        tmp = m_document->textDocument()->find("{", tmp.position());
+        blockEnd = m_document->textDocument()->find("}", blockEnd.position());
+    }
+
     info.start = blockStart.position();
-    info.end = m_document->textDocument()->find("}", position).position();
+    info.end = blockEnd.position(); //m_document->textDocument()->find("}", position).position();
     info.valid = true;
 
-    qDebug() << "block name" << blockStart.block().text();
     info.name = blockStart.block().text();
     info.name.remove(QRegExp(" *\\{ *"));
-    qDebug() << "stripped klammer" << info.name;
     while (info.name.contains(" ")) {
         info.name.remove(QRegExp(".* "));
     }
-    qDebug() << "final name" << info.name;
 
     int childBlocks = 0;
-    while (!blockStart.isNull() && blockStart.position() < position) {
+    while (!blockStart.isNull() && blockStart.position() < info.end) {
         QString line = blockStart.block().text();
         if (line.endsWith("{")) {
             childBlocks++;
@@ -584,14 +624,12 @@ CodeCompletion::BlockInfo CodeCompletion::getBlockInfo(int position) const
             continue;
         }
         foreach (const QString &statement, blockStart.block().text().split(";")) {
-//            qDebug() << "Have statement" << statement;
             QStringList parts = statement.split(":");
             if (parts.length() != 2) {
                 continue;
             }
             QString propName = parts.first().trimmed();
             QString propValue = parts.last().split("//").first().trimmed().remove("\"");
-//            qDebug() << "inserting:" << propName << "->" << propValue;
             info.properties.insert(propName, propValue);
         }
         if (!blockStart.movePosition(QTextCursor::NextBlock)) {
@@ -835,4 +873,25 @@ void CodeCompletion::moveCursor(CodeCompletion::MoveOperation moveOperation, int
         return;
     }
     }
+}
+
+int CodeCompletion::getBlockPosition(const QString &id) const
+{
+    // Find block with id "id" in the doc
+    QTextCursor tmp = QTextCursor(m_document->textDocument());
+    while (!tmp.atEnd()) {
+        tmp.movePosition(QTextCursor::StartOfWord, QTextCursor::MoveAnchor);
+        tmp.movePosition(QTextCursor::EndOfWord, QTextCursor::KeepAnchor);
+        QString word = tmp.selectedText();
+        if (word == "id") {
+            tmp.movePosition(QTextCursor::NextWord, QTextCursor::MoveAnchor);
+            tmp.movePosition(QTextCursor::EndOfWord, QTextCursor::KeepAnchor);
+            QString idName = tmp.selectedText();
+            if (idName == id) {
+                return tmp.position();
+            }
+        }
+        tmp.movePosition(QTextCursor::NextWord);
+    }
+    return -1;
 }
