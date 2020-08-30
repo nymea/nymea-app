@@ -1,3 +1,13 @@
+nymea-app (1.0.224) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix more views that broke on the LogsModel transition
+  * Autocomplete action params in script editor
+  * Fix inputtrigger view
+  * Fix warning because of bad arg usage
+
+ -- Jenkins <jenkins@nymea.io>  Sun, 30 Aug 2020 16:16:54 +0200
+
 nymea-app (1.0.223) bionic; urgency=medium
 
   [ Michael Zanetti ]
