@@ -68,20 +68,11 @@ DevicePageBase {
             Layout.fillHeight: true
             Layout.fillWidth: true
 
-            logsModel: engine.jsonRpcClient.ensureServerVersion("1.10") ? logsModelNg : logsModel
-            LogsModelNg {
-                id: logsModelNg
-                deviceId: root.device.id
-                engine: _engine
-                live: true
-                typeIds: [root.accessGrantedEventType.id, root.accessDeniedEventType.id];
-            }
-            LogsModel {
+            logsModel: LogsModel {
                 id: logsModel
-                deviceId: root.device.id
+                thingId: root.device.id
                 engine: _engine
                 live: true
-                Component.onCompleted: update()
                 typeIds: [root.accessGrantedEventType.id, root.accessDeniedEventType.id];
             }
 
