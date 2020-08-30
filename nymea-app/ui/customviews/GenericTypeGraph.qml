@@ -179,30 +179,30 @@ Item {
                 function getTimeSpanString() {
                     var td = Math.round(timeDiff)
                     if (td < 60) {
-                        return qsTr("%n seconds", "", td).arg(td);
+                        return qsTr("%n seconds", "", td);
                     }
                     td = Math.round(td / 60)
                     if (td < 60) {
-                        return qsTr("%n minutes", "", td).arg(td);
+                        return qsTr("%n minutes", "", td);
                     }
                     td = Math.round(td / 60)
                     if (td < 48) {
-                        return qsTr("%n hours", "", td).arg(td);
+                        return qsTr("%n hours", "", td);
                     }
                     td = Math.round(td / 24);
                     if (td < 14) {
-                        return qsTr("%n days", "", td).arg(td);
+                        return qsTr("%n days", "", td);
                     }
                     td = Math.round(td / 7)
                     if (td < 9) {
-                        return qsTr("%n weeks", "", td).arg(td);
+                        return qsTr("%n weeks", "", td);
                     }
                     td = Math.round(td * 7 / 30)
                     if (td < 24) {
-                        return qsTr("%n months", "", td).arg(td);
+                        return qsTr("%n months", "", td);
                     }
                     td = Math.round(td * 30 / 356)
-                    return qsTr("%n years", "", td).arg(td)
+                    return qsTr("%n years", "", td)
                 }
 
                 titleText: {

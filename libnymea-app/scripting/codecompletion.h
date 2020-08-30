@@ -113,6 +113,7 @@ private:
         QStringList events;
     };
 
+    int getBlockPosition(const QString &id) const;
     BlockInfo getBlockInfo(int postition) const;
     QList<CompletionModel::Entry> getIds() const;
     QHash<QString, QString> getIdTypes() const;

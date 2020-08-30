@@ -81,6 +81,7 @@ public:
     Devices* devices() const;
     Devices* things() const;
     DeviceClasses* deviceClasses() const;
+    DeviceClasses* thingClasses() const;
     IOConnections* ioConnections() const;
 
     bool fetchingData() const;
@@ -156,7 +157,7 @@ private:
     Vendors *m_vendors;
     Plugins *m_plugins;
     Devices *m_devices;
-    DeviceClasses *m_deviceClasses;
+    DeviceClasses *m_thingClasses;
     IOConnections *m_ioConnections;
 
     bool m_fetchingData = false;
