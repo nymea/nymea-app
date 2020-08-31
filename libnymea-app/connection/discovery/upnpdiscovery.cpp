@@ -260,14 +260,18 @@ void UpnpDiscovery::networkReplyFinished(QNetworkReply *reply)
     device->setName(name);
     device->setVersion(version);
     foreach (const QUrl &url, connections) {
-        if (!device->connections()->find(url)) {
+        Connection *connection = device->connections()->find(url);
+        if (!connection) {
             qDebug() << "UPnP: Adding new connection to host:" << device->name() << url;
             bool sslEnabled = url.scheme() == "nymeas" || url.scheme() == "wss";
             QString displayName = QString("%1:%2").arg(url.host()).arg(url.port());
             Connection::BearerType bearerType = QHostAddress(url.host()).isLoopback() ? Connection::BearerTypeLoopback : Connection::BearerTypeLan;
-            Connection *conn = new Connection(url, bearerType, sslEnabled, displayName);
-            conn->setOnline(true);
-            device->connections()->addConnection(conn);
+            connection = new Connection(url, bearerType, sslEnabled, displayName);
+            connection->setOnline(true);
+            device->connections()->addConnection(connection);
+        } else {
+            qDebug() << "UPnP: Setting connection online:" << device->name() << url.toString();
+            connection->setOnline(true);
         }
     }
 }
