@@ -59,13 +59,23 @@ MainViewBase {
                 width: swipeView.width
                 property Thing thing: chargerDevices.get(index)
                 property State powerState: thing.stateByName("power")
+                property State maxChargingCurrentState: thing.stateByName("maxChargingCurrent")
 
                 GridLayout {
                     anchors.fill: parent
                     anchors.margins: app.margins
                     columns: 1
                     rowSpacing: app.margins
+
+                    Text {
+                        text: powerState
+                    }
+
+                    Text {
+                        text: maxChargingCurrentState
+                    }
                 }
+            }
         }
     }
     PageIndicator {
@@ -87,5 +97,4 @@ MainViewBase {
         buttonText: qsTr("Add things")
         onButtonClicked: pageStack.push(Qt.resolvedUrl("../thingconfiguration/NewThingPage.qml"))
     }
-
 }
