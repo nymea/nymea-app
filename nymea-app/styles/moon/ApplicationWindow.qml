@@ -45,14 +45,13 @@ ApplicationWindow {
     font.family: "Ubuntu"
 
     // The core system name.
-    property string systemName: "nymea"
+    property string systemName: "moon"
 
     // The app name
-    property string appName: "nymea:app"
+    property string appName: "moon:app"
 
     // The header background color
-    property color primaryColor: Material.background
-
+    property color primaryColor: "#010a29"
 
     // Header font color
     property color headerForegroundColor: "white"

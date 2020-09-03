@@ -61,7 +61,7 @@ T.Pane {
         Rectangle {
             id: mask
             anchors.fill: parent
-            color: "#FFFFFFFF"
+            color: "green"
             radius: 5
         }
         OpacityMask {
