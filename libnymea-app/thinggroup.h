@@ -53,7 +53,7 @@ signals:
     void actionExecutionFinished(int id, const QString &status);
 
 private:
-    DeviceManager* m_deviceManager = nullptr;
+    DeviceManager* m_thingManager = nullptr;
     DevicesProxy* m_devices = nullptr;
 
     int m_idCounter = 0;

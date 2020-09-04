@@ -50,7 +50,7 @@ class Device : public QObject
     Q_PROPERTY(QUuid parentDeviceId READ parentDeviceId CONSTANT)
     Q_PROPERTY(bool isChild READ isChild CONSTANT)
     Q_PROPERTY(QString name READ name NOTIFY nameChanged)
-    Q_PROPERTY(DeviceSetupStatus setupStatus READ setupStatus NOTIFY setupStatusChanged)
+    Q_PROPERTY(ThingSetupStatus setupStatus READ setupStatus NOTIFY setupStatusChanged)
     Q_PROPERTY(QString setupDisplayMessage READ setupDisplayMessage NOTIFY setupStatusChanged)
     Q_PROPERTY(Params *params READ params NOTIFY paramsChanged)
     Q_PROPERTY(Params *settings READ settings NOTIFY settingsChanged)
@@ -67,7 +67,15 @@ public:
     };
     Q_ENUM(DeviceSetupStatus)
 
-    explicit Device(DeviceManager *deviceManager, DeviceClass *thingClass, const QUuid &parentId = QUuid(), QObject *parent = nullptr);
+    enum ThingSetupStatus {
+        ThingSetupStatusNone,
+        ThingSetupStatusInProgress,
+        ThingSetupStatusComplete,
+        ThingSetupStatusFailed
+    };
+    Q_ENUM(ThingSetupStatus)
+
+    explicit Device(DeviceManager *thingManager, DeviceClass *thingClass, const QUuid &parentId = QUuid(), QObject *parent = nullptr);
 
     QUuid id() const;
     void setId(const QUuid &id);
@@ -80,9 +88,9 @@ public:
     QUuid parentDeviceId() const;
     bool isChild() const;
 
-    DeviceSetupStatus setupStatus() const;
+    Device::ThingSetupStatus setupStatus() const;
     QString setupDisplayMessage() const;
-    void setSetupStatus(DeviceSetupStatus setupStatus, const QString &displayMessage);
+    void setSetupStatus(Device::ThingSetupStatus setupStatus, const QString &displayMessage);
 
     Params *params() const;
     void setParams(Params *params);
@@ -115,11 +123,11 @@ signals:
 private:
 
 protected:
-    DeviceManager *m_deviceManager = nullptr;
+    DeviceManager *m_thingManager = nullptr;
     QString m_name;
     QUuid m_id;
     QUuid m_parentId;
-    DeviceSetupStatus m_setupStatus = DeviceSetupStatusNone;
+    ThingSetupStatus m_setupStatus = ThingSetupStatusNone;
     QString m_setupDisplayMessage;
     Params *m_params = nullptr;
     Params *m_settings = nullptr;

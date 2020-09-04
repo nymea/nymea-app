@@ -32,6 +32,7 @@ import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.2
 import QtQuick.Layouts 1.3
+import Nymea 1.0
 
 Item {
     id: root
@@ -42,6 +43,9 @@ Item {
     property alias backgroundImage: background.source
     property string text
     property bool disconnected: false
+    property bool isWireless: false
+    property int signalStrength: -1
+    property int setupStatus: Device.DeviceSetupStatusNone
     property bool batteryCritical: false
 
     property alias contentItem: innerContent.children
@@ -143,12 +147,20 @@ Item {
     Row {
         id: quickAlertPane
         anchors { top: parent.top; right: parent.right; margins: app.margins }
+        spacing: app.margins / 2
         ColorIcon {
             height: app.iconSize / 2
             width: height
-            name: "../images/dialog-warning-symbolic.svg"
-            color: "red"
-            visible: root.disconnected
+            name: root.isWireless ? "../images/network-wifi-offline.svg" : "../images/network-wired-offline.svg"
+            color: root.disconnected ? "red" : "orange"
+            visible: root.setupStatus == Device.DeviceSetupStatusComplete && (root.disconnected || (root.signalStrength >= 0 && root.signalStrength < 10))
+        }
+        ColorIcon {
+            height: app.iconSize / 2
+            width: height
+            name: root.setupStatus === Device.DeviceSetupStatusFailed ? "../images/dialog-warning-symbolic.svg" : "../images/settings.svg"
+            color: root.setupStatus === Device.DeviceSetupStatusFailed ? "red" : keyColor
+            visible: root.setupStatus === Device.DeviceSetupStatusFailed || root.setupStatus === Device.DeviceSetupStatusInProgress
         }
         ColorIcon {
             height: app.iconSize / 2

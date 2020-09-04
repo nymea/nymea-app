@@ -37,22 +37,31 @@ import Nymea 1.0
 NymeaListItemDelegate {
     id: root
     width: parent.width
-    iconName: device && device.deviceClass ? app.interfacesToIcon(device.deviceClass.interfaces) : ""
-    text: device ? device.name : ""
+    iconName: thing && thing.thingClass ? app.interfacesToIcon(thing.thingClass.interfaces) : ""
+    text: thing ? thing.name : ""
     progressive: true
     secondaryIconName: batteryCritical ? "../images/battery/battery-010.svg" : ""
-    tertiaryIconName: disconnected ? "../images/dialog-warning-symbolic.svg" : ""
-    tertiaryIconColor: "red"
+    tertiaryIconName: thing.setupStatus == Thing.ThingSetupStatusFailed
+                      ? "../images/dialog-warning-symbolic.svg"
+                      : thing.setupStatus == Thing.ThingSetupStatusInProgress
+                        ? "../images/settings.svg"
+                        : disconnected
+                          ? "../images/dialog-warning-symbolic.svg"
+                          : ""
+    tertiaryIconColor: thing.setupStatus == Thing.ThingSetupStatusInProgress ? iconKeyColor : "red"
 
     property Device device: null
+    property Thing thing: device
 
-    readonly property bool hasBatteryInterface: device && device.deviceClass.interfaces.indexOf("battery") > 0
-    readonly property StateType batteryCriticalStateType: hasBatteryInterface ? device.deviceClass.stateTypes.findByName("batteryCritical") : null
-    readonly property State batteryCriticalState: batteryCriticalStateType ? device.states.getState(batteryCriticalStateType.id) : null
+    readonly property bool hasBatteryInterface: thing && thing.thingClass.interfaces.indexOf("battery") > 0
+    readonly property StateType batteryCriticalStateType: hasBatteryInterface ? thing.thingClass.stateTypes.findByName("batteryCritical") : null
+    readonly property State batteryCriticalState: batteryCriticalStateType ? thing.states.getState(batteryCriticalStateType.id) : null
     readonly property bool batteryCritical: batteryCriticalState && batteryCriticalState.value === true
 
-    readonly property bool hasConnectableInterface: device && device.deviceClass.interfaces.indexOf("connectable") > 0
-    readonly property StateType connectedStateType: hasConnectableInterface ? device.deviceClass.stateTypes.findByName("connected") : null
-    readonly property State connectedState: connectedStateType ? device.states.getState(connectedStateType.id) : null
+    readonly property bool hasConnectableInterface: thing && thing.thingClass.interfaces.indexOf("connectable") > 0
+    readonly property StateType connectedStateType: hasConnectableInterface ? thing.thingClass.stateTypes.findByName("connected") : null
+    readonly property State connectedState: connectedStateType ? thing.states.getState(connectedStateType.id) : null
     readonly property bool disconnected: connectedState && connectedState.value === false ? true : false
+
+
 }

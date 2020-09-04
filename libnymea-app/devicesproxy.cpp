@@ -293,6 +293,21 @@ void DevicesProxy::setFilterDisconnected(bool filterDisconnected)
     }
 }
 
+bool DevicesProxy::filterSetupFailed() const
+{
+    return m_filterSetupFailed;
+}
+
+void DevicesProxy::setFilterSetupFailed(bool filterSetupFailed)
+{
+    if (m_filterSetupFailed != filterSetupFailed) {
+        m_filterSetupFailed = filterSetupFailed;
+        emit filterSetupFailedChanged();
+        invalidateFilter();
+        emit countChanged();
+    }
+}
+
 bool DevicesProxy::groupByInterface() const
 {
     return m_groupByInterface;
@@ -422,6 +437,12 @@ bool DevicesProxy::filterAcceptsRow(int source_row, const QModelIndex &source_pa
 
     if (m_filterDisconnected) {
         if (!deviceClass->interfaces().contains("connectable") || device->stateValue(deviceClass->stateTypes()->findByName("connected")->id()).toBool() == true) {
+            return false;
+        }
+    }
+
+    if (m_filterSetupFailed) {
+        if (device->setupStatus() != Device::DeviceSetupStatusFailed) {
             return false;
         }
     }

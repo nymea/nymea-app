@@ -36,7 +36,7 @@
 
 ThingGroup::ThingGroup(DeviceManager *deviceManager, DeviceClass *deviceClass, DevicesProxy *devices, QObject *parent):
     Device(deviceManager, deviceClass, QUuid::createUuid(), parent),
-    m_deviceManager(deviceManager),
+    m_thingManager(deviceManager),
     m_devices(devices)
 {
     deviceClass->setParent(this);
@@ -56,7 +56,7 @@ ThingGroup::ThingGroup(DeviceManager *deviceManager, DeviceClass *deviceClass, D
         syncStates();
     });
 
-    connect(m_deviceManager, &DeviceManager::executeActionReply, this, [this](const QVariantMap &params){
+    connect(m_thingManager, &DeviceManager::executeActionReply, this, [this](const QVariantMap &params){
         int returningId = params.value("id").toInt();
         foreach (int id, m_pendingActions.keys()) {
             if (m_pendingActions.value(id).contains(returningId)) {
@@ -101,7 +101,7 @@ int ThingGroup::executeAction(const QString &actionName, const QVariantList &par
 
         qDebug() << "Initial params" << params;
         qDebug() << "Executing" << device->id() << actionType->name() << finalParams;
-        int id = m_deviceManager->executeAction(device->id(), actionType->id(), finalParams);
+        int id = m_thingManager->executeAction(device->id(), actionType->id(), finalParams);
         pendingIds.append(id);
     }
     m_pendingActions.insert(++m_idCounter, pendingIds);
