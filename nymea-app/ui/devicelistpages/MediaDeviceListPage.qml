@@ -64,14 +64,13 @@ DeviceListPageBase {
 
                     property bool inline: width > 500
 
-                    property Device device: devicesProxy.getDevice(model.id)
-                    property DeviceClass deviceClass: device.deviceClass
+                    property Thing thing: thingsProxy.getThing(model.id)
 
-                    readonly property StateType playbackStateType: deviceClass.stateTypes.findByName("playbackStatus")
-                    readonly property State playbackState: playbackStateType ? device.states.getState(playbackStateType.id) : null
+                    readonly property StateType playbackStateType: thing.thingClass.stateTypes.findByName("playbackStatus")
+                    readonly property State playbackState: thing.stateByName("playbackStatus")
 
-                    readonly property StateType playerTypeStateType: deviceClass.stateTypes.findByName("playerType")
-                    readonly property State playerTypeState: playerTypeStateType ? device.states.getState(playerTypeStateType.id) : null
+                    readonly property StateType playerTypeStateType: thing.thingClass.stateTypes.findByName("playerType")
+                    readonly property State playerTypeState: thing.stateByName("playerType")
 
                     bottomPadding: index === root.devicesProxy.count - 1 ? topPadding : 0
                     contentItem: Pane {
@@ -100,18 +99,23 @@ DeviceListPageBase {
                                             text: model.name
                                             elide: Text.ElideRight
                                         }
-                                        ColorIcon {
+                                        BatteryStatusIcon {
                                             Layout.preferredHeight: app.iconSize * .5
                                             Layout.preferredWidth: height
-                                            name: "../images/battery/battery-020.svg"
-                                            visible: itemDelegate.deviceClass.interfaces.indexOf("battery") >= 0 && itemDelegate.device.states.getState(itemDelegate.deviceClass.stateTypes.findByName("batteryCritical").id).value === true
+                                            thing: itemDelegate.thing
+                                            visible: itemDelegate.thing.setupStatus == Thing.ThingSetupStatusComplete && (hasBatteryLevel || isCritical)
                                         }
-                                        ColorIcon {
+                                        ConnectionStatusIcon {
                                             Layout.preferredHeight: app.iconSize * .5
                                             Layout.preferredWidth: height
-                                            name: "../images/dialog-warning-symbolic.svg"
-                                            visible: itemDelegate.deviceClass.interfaces.indexOf("connectable") >= 0 && itemDelegate.device.states.getState(itemDelegate.deviceClass.stateTypes.findByName("connected").id).value === false
-                                            color: "red"
+                                            thing: itemDelegate.thing
+                                            visible: itemDelegate.thing.setupStatus == Thing.ThingSetupStatusComplete && (hasSignalStrength || !isConnected)
+                                        }
+                                        SetupStatusIcon {
+                                            Layout.preferredHeight: app.iconSize * .5
+                                            Layout.preferredWidth: height
+                                            thing: itemDelegate.thing
+                                            visible: setupFailed || setupInProgress
                                         }
                                     }
 
@@ -124,28 +128,28 @@ DeviceListPageBase {
                                             Layout.fillWidth: true
                                             text: itemDelegate.playbackState.value === "Stopped" ?
                                                       qsTr("No playback")
-                                                    : itemDelegate.device.states.getState(itemDelegate.deviceClass.stateTypes.findByName("title").id).value
+                                                    : itemDelegate.thing.stateByName("title").value
                                             horizontalAlignment: Text.AlignHCenter
                                             //                                    font.pixelSize: app.largeFont
                                             elide: Text.ElideRight
                                         }
                                         Label {
                                             Layout.fillWidth: true
-                                            text: itemDelegate.device.states.getState(itemDelegate.deviceClass.stateTypes.findByName("artist").id).value
+                                            text: itemDelegate.thing.stateByName("artist").value
                                             font.pixelSize: app.smallFont
                                             horizontalAlignment: Text.AlignHCenter
                                             elide: Text.ElideRight
                                         }
                                         Label {
                                             Layout.fillWidth: true
-                                            text: itemDelegate.device.states.getState(itemDelegate.deviceClass.stateTypes.findByName("collection").id).value
+                                            text: itemDelegate.thing.stateByName("collection").value
                                             horizontalAlignment: Text.AlignHCenter
                                             font.pixelSize: app.smallFont
                                             elide: Text.ElideRight
                                         }
                                         MediaControls {
-                                            visible: itemDelegate.deviceClass.interfaces.indexOf("mediacontroller") >= 0
-                                            thing: itemDelegate.device
+                                            visible: itemDelegate.thing.thingClass.interfaces.indexOf("mediacontroller") >= 0
+                                            thing: itemDelegate.thing
                                         }
                                     }
                                     Item {
@@ -159,8 +163,7 @@ DeviceListPageBase {
                                                 id: artworkImage
                                                 width: artworkImage.sourceSize.width * height / artworkImage.sourceSize.height
                                                 anchors { top: parent.top; right: parent.right; bottom: parent.bottom }
-                                                readonly property StateType artworkStateType: device ? device.deviceClass.stateTypes.findByName("artwork") : null
-                                                readonly property State artworkState: artworkStateType ? device.states.getState(artworkStateType.id) : null
+                                                readonly property State artworkState: thing.stateByName("artwork")
                                                 source: artworkState ? artworkState.value : ""
                                             }
                                             Rectangle {

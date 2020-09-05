@@ -41,8 +41,7 @@ RowLayout {
     property Thing thing: null
     property int iconSize: app.iconSize * 1.5
 
-    readonly property StateType playbackStateType: thing ? thing.thingClass.stateTypes.findByName("playbackStatus") : null
-    readonly property State playbackState: playbackStateType ? thing.states.getState(playbackStateType.id) : null
+    readonly property State playbackState: thing.stateByName("playbackStatus")
 
     function executeAction(actionName, params) {
         if (params === undefined) {
@@ -58,7 +57,7 @@ RowLayout {
         Layout.preferredWidth: height
         imageSource: "../images/media-skip-backward.svg"
         longpressImageSource: "../images/media-seek-backward.svg"
-        enabled: root.playbackState.value !== "Stopped"
+        enabled: root.playbackState && root.playbackState.value !== "Stopped"
         opacity: enabled ? 1 : .5
 
         repeat: true
@@ -75,7 +74,7 @@ RowLayout {
         Layout.preferredWidth: height
         imageSource: root.playbackState && root.playbackState.value === "Playing" ? "../images/media-playback-pause.svg" : "../images/media-playback-start.svg"
         longpressImageSource: "../images/media-playback-stop.svg"
-        longpressEnabled: root.playbackState.value !== "Stopped"
+        longpressEnabled: root.playbackState && root.playbackState.value !== "Stopped"
 
         onClicked: {
             if (root.playbackState.value === "Playing") {
@@ -95,7 +94,7 @@ RowLayout {
         Layout.preferredWidth: height
         imageSource: "../images/media-skip-forward.svg"
         longpressImageSource: "../images/media-seek-forward.svg"
-        enabled: root.playbackState.value !== "Stopped"
+        enabled: root.playbackState && root.playbackState.value !== "Stopped"
         opacity: enabled ? 1 : .5
         repeat: true
         onClicked: {

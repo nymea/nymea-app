@@ -36,8 +36,8 @@
 
 ThingGroup::ThingGroup(DeviceManager *deviceManager, DeviceClass *deviceClass, DevicesProxy *devices, QObject *parent):
     Device(deviceManager, deviceClass, QUuid::createUuid(), parent),
-    m_deviceManager(deviceManager),
-    m_devices(devices)
+    m_thingManager(deviceManager),
+    m_things(devices)
 {
     deviceClass->setParent(this);
 
@@ -52,11 +52,11 @@ ThingGroup::ThingGroup(DeviceManager *deviceManager, DeviceClass *deviceClass, D
     syncStates();
     setName(deviceClass->displayName());
 
-    connect(devices, &DevicesProxy::dataChanged, this, [this](const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles){
+    connect(devices, &DevicesProxy::dataChanged, this, [this](const QModelIndex &/*topLeft*/, const QModelIndex &/*bottomRight*/, const QVector<int> &/*roles*/){
         syncStates();
     });
 
-    connect(m_deviceManager, &DeviceManager::executeActionReply, this, [this](const QVariantMap &params){
+    connect(m_thingManager, &DeviceManager::executeActionReply, this, [this](const QVariantMap &params){
         int returningId = params.value("id").toInt();
         foreach (int id, m_pendingActions.keys()) {
             if (m_pendingActions.value(id).contains(returningId)) {
@@ -77,9 +77,9 @@ int ThingGroup::executeAction(const QString &actionName, const QVariantList &par
     QList<int> pendingIds;
 
     qDebug() << "Execute action for group:" << this;
-    for (int i = 0; i < m_devices->rowCount(); i++) {
-        Device *device = m_devices->get(i);
-        if (device->setupStatus() != Device::DeviceSetupStatusComplete) {
+    for (int i = 0; i < m_things->rowCount(); i++) {
+        Device *device = m_things->get(i);
+        if (device->setupStatus() != Device::ThingSetupStatusComplete) {
             continue;
         }
         ActionType *actionType = device->thingClass()->actionTypes()->findByName(actionName);
@@ -101,7 +101,7 @@ int ThingGroup::executeAction(const QString &actionName, const QVariantList &par
 
         qDebug() << "Initial params" << params;
         qDebug() << "Executing" << device->id() << actionType->name() << finalParams;
-        int id = m_deviceManager->executeAction(device->id(), actionType->id(), finalParams);
+        int id = m_thingManager->executeAction(device->id(), actionType->id(), finalParams);
         pendingIds.append(id);
     }
     m_pendingActions.insert(++m_idCounter, pendingIds);
@@ -118,8 +118,8 @@ void ThingGroup::syncStates()
 
         QVariant value;
         int count = 0;
-        for (int j = 0; j < m_devices->rowCount(); j++) {
-            Device *d = m_devices->get(j);
+        for (int j = 0; j < m_things->rowCount(); j++) {
+            Device *d = m_things->get(j);
             // Skip things that don't have the required state
             StateType *ds = d->thingClass()->stateTypes()->findByName(stateType->name());
             if (!ds) {

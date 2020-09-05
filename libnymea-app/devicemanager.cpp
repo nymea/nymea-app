@@ -457,7 +457,7 @@ void DeviceManager::savePluginConfig(const QUuid &pluginId)
 ThingGroup *DeviceManager::createGroup(Interface *interface, DevicesProxy *things)
 {
     ThingGroup* group = new ThingGroup(this, interface->createDeviceClass(), things, this);
-    group->setSetupStatus(Device::DeviceSetupStatusComplete, QString());
+    group->setSetupStatus(Device::ThingSetupStatusComplete, QString());
     return group;
 }
 

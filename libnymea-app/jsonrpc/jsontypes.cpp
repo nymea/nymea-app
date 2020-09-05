@@ -250,16 +250,16 @@ Device* JsonTypes::unpackDevice(DeviceManager *deviceManager, const QVariantMap 
         QString setupStatus = deviceMap.value("setupStatus").toString();
         QString setupDisplayMessage = deviceMap.value("setupDisplayMessage").toString();
         if (setupStatus == "DeviceSetupStatusNone" || setupStatus == "ThingSetupStatusNone") {
-            device->setSetupStatus(Device::DeviceSetupStatusNone, setupDisplayMessage);
+            device->setSetupStatus(Device::ThingSetupStatusNone, setupDisplayMessage);
         } else if (setupStatus == "DeviceSetupStatusInProgress" || setupStatus == "ThingSetupStatusInProgress") {
-            device->setSetupStatus(Device::DeviceSetupStatusInProgress, setupDisplayMessage);
+            device->setSetupStatus(Device::ThingSetupStatusInProgress, setupDisplayMessage);
         } else if (setupStatus == "DeviceSetupStatusComplete" || setupStatus == "ThingSetupStatusComplete") {
-            device->setSetupStatus(Device::DeviceSetupStatusComplete, setupDisplayMessage);
+            device->setSetupStatus(Device::ThingSetupStatusComplete, setupDisplayMessage);
         } else if (setupStatus == "DeviceSetupStatusFailed" || setupStatus == "ThingSetupStatusFailed") {
-            device->setSetupStatus(Device::DeviceSetupStatusFailed, setupDisplayMessage);
+            device->setSetupStatus(Device::ThingSetupStatusFailed, setupDisplayMessage);
         }
     } else {
-        device->setSetupStatus(deviceMap.value("setupComplete").toBool() ? Device::DeviceSetupStatusComplete : Device::DeviceSetupStatusNone, QString());
+        device->setSetupStatus(deviceMap.value("setupComplete").toBool() ? Device::ThingSetupStatusComplete : Device::ThingSetupStatusNone, QString());
     }
 
     Params *params = device->params();

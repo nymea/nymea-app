@@ -293,6 +293,21 @@ void DevicesProxy::setFilterDisconnected(bool filterDisconnected)
     }
 }
 
+bool DevicesProxy::filterSetupFailed() const
+{
+    return m_filterSetupFailed;
+}
+
+void DevicesProxy::setFilterSetupFailed(bool filterSetupFailed)
+{
+    if (m_filterSetupFailed != filterSetupFailed) {
+        m_filterSetupFailed = filterSetupFailed;
+        emit filterSetupFailedChanged();
+        invalidateFilter();
+        emit countChanged();
+    }
+}
+
 bool DevicesProxy::groupByInterface() const
 {
     return m_groupByInterface;
@@ -315,13 +330,18 @@ Device *DevicesProxy::get(int index) const
 
 Device *DevicesProxy::getDevice(const QUuid &deviceId) const
 {
+    return getThing(deviceId);
+}
+
+Device *DevicesProxy::getThing(const QUuid &thingId) const
+{
     Devices *d = qobject_cast<Devices*>(sourceModel());
     if (d) {
-        return d->getDevice(deviceId);
+        return d->getThing(thingId);
     }
     DevicesProxy *dp = qobject_cast<DevicesProxy*>(sourceModel());
     if (dp) {
-        return dp->getDevice(deviceId);
+        return dp->getThing(thingId);
     }
     return nullptr;
 }
@@ -422,6 +442,12 @@ bool DevicesProxy::filterAcceptsRow(int source_row, const QModelIndex &source_pa
 
     if (m_filterDisconnected) {
         if (!deviceClass->interfaces().contains("connectable") || device->stateValue(deviceClass->stateTypes()->findByName("connected")->id()).toBool() == true) {
+            return false;
+        }
+    }
+
+    if (m_filterSetupFailed) {
+        if (device->setupStatus() != Device::ThingSetupStatusFailed) {
             return false;
         }
     }

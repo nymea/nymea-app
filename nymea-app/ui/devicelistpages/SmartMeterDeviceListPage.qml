@@ -53,8 +53,7 @@ DeviceListPageBase {
 
             property bool inline: width > 500
 
-            property Device device: devicesProxy.getDevice(model.id)
-            property DeviceClass deviceClass: device.deviceClass
+            property Thing thing: thingsProxy.getThing(model.id)
 
             bottomPadding: index === ListView.view.count - 1 ? topPadding : 0
             contentItem: Pane {
@@ -82,18 +81,23 @@ DeviceListPageBase {
                                     text: model.name
                                     elide: Text.ElideRight
                                 }
-                                ColorIcon {
+                                BatteryStatusIcon {
                                     Layout.preferredHeight: app.iconSize * .5
                                     Layout.preferredWidth: height
-                                    name: "../images/battery/battery-020.svg"
-                                    visible: itemDelegate.deviceClass.interfaces.indexOf("battery") >= 0 && itemDelegate.device.states.getState(itemDelegate.deviceClass.stateTypes.findByName("batteryCritical").id).value === true
+                                    thing: itemDelegate.thing
+                                    visible: thing.setupStatus == Thing.ThingSetupStatusComplete && (isCritical || hasBatteryLevel)
                                 }
-                                ColorIcon {
+                                ConnectionStatusIcon {
                                     Layout.preferredHeight: app.iconSize * .5
                                     Layout.preferredWidth: height
-                                    name: "../images/dialog-warning-symbolic.svg"
-                                    visible: itemDelegate.deviceClass.interfaces.indexOf("connectable") >= 0 && itemDelegate.device.states.getState(itemDelegate.deviceClass.stateTypes.findByName("connected").id).value === false
-                                    color: "red"
+                                    thing: itemDelegate.thing
+                                    visible: thing.setupStatus == Thing.ThingSetupStatusComplete && (isWireless || !isConnected)
+                                }
+                                SetupStatusIcon {
+                                    Layout.preferredHeight: app.iconSize * .5
+                                    Layout.preferredWidth: height
+                                    thing: itemDelegate.thing
+                                    visible: setupFailed || setupInProgress
                                 }
                             }
 
@@ -105,18 +109,18 @@ DeviceListPageBase {
                             Repeater {
                                 model: ListModel {
                                     Component.onCompleted: {
-                                        if (itemDelegate.deviceClass.interfaces.indexOf("smartmeterproducer") >= 0) {
+                                        if (itemDelegate.thing.thingClass.interfaces.indexOf("smartmeterproducer") >= 0) {
                                             append( {interfaceName: "smartmeterproducer", stateName: "totalEnergyProduced" })
                                         }
-                                        if (itemDelegate.deviceClass.interfaces.indexOf("smartmeterconsumer") >= 0) {
+                                        if (itemDelegate.thing.thingClass.interfaces.indexOf("smartmeterconsumer") >= 0) {
                                             append( {interfaceName: "smartmeterconsumer", stateName: "totalEnergyConsumed" })
                                         }
                                         var added = false;
-                                        if (itemDelegate.deviceClass.interfaces.indexOf("extendedsmartmeterproducer") >= 0) {
+                                        if (itemDelegate.thing.thingClass.interfaces.indexOf("extendedsmartmeterproducer") >= 0) {
                                             append({interfaceName: "extendedsmartmeterconsumer", stateName: "currentPower"});
                                             added = true;
                                         }
-                                        if (!added && itemDelegate.deviceClass.interfaces.indexOf("extendedsmartmeterconsumer") >= 0) {
+                                        if (!added && itemDelegate.thing.thingClass.interfaces.indexOf("extendedsmartmeterconsumer") >= 0) {
                                             append({interfaceName: "extendedsmartmeterconsumer", stateName: "currentPower"});
                                         }
                                     }
@@ -126,8 +130,8 @@ DeviceListPageBase {
                                     id: sensorValueDelegate
                                     Layout.preferredWidth: contentItem.width / dataGrid.columns
 
-                                    property var stateType: itemDelegate.deviceClass.stateTypes.findByName(model.stateName)
-                                    property var stateValue: stateType ? itemDelegate.device.states.getState(stateType.id) : null
+                                    property StateType stateType: itemDelegate.thing.thingClass.stateTypes.findByName(model.stateName)
+                                    property State stateValue: stateType ? itemDelegate.thing.states.getState(stateType.id) : null
 
                                     ColorIcon {
                                         Layout.preferredHeight: app.iconSize * .8

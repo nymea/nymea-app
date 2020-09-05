@@ -34,9 +34,9 @@
 
 #include <QDebug>
 
-Device::Device(DeviceManager *deviceManager, DeviceClass *thingClass, const QUuid &parentId, QObject *parent) :
+Device::Device(DeviceManager *thingManager, DeviceClass *thingClass, const QUuid &parentId, QObject *parent) :
     QObject(parent),
-    m_deviceManager(deviceManager),
+    m_thingManager(thingManager),
     m_parentId(parentId),
     m_thingClass(thingClass)
 {
@@ -83,7 +83,7 @@ bool Device::isChild() const
     return !m_parentId.isNull();
 }
 
-Device::DeviceSetupStatus Device::setupStatus() const
+Device::ThingSetupStatus Device::setupStatus() const
 {
     return m_setupStatus;
 }
@@ -93,7 +93,7 @@ QString Device::setupDisplayMessage() const
     return m_setupDisplayMessage;
 }
 
-void Device::setSetupStatus(Device::DeviceSetupStatus setupStatus, const QString &displayMessage)
+void Device::setSetupStatus(Device::ThingSetupStatus setupStatus, const QString &displayMessage)
 {
     if (m_setupStatus != setupStatus || m_setupDisplayMessage != displayMessage) {
         m_setupStatus = setupStatus;
@@ -215,7 +215,7 @@ int Device::executeAction(const QString &actionName, const QVariantList &params)
         }
         finalParams.append(param);
     }
-    return m_deviceManager->executeAction(m_id, actionType->id(), finalParams);
+    return m_thingManager->executeAction(m_id, actionType->id(), finalParams);
 }
 
 QDebug operator<<(QDebug &dbg, Device *thing)

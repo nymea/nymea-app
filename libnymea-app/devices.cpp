@@ -40,46 +40,52 @@ Devices::Devices(QObject *parent) :
 
 QList<Device *> Devices::devices()
 {
-    return m_devices;
+    return m_things;
 }
 
 Device *Devices::get(int index) const
 {
-    if (index < 0 || index >= m_devices.count()) {
+    if (index < 0 || index >= m_things.count()) {
         return nullptr;
     }
-    return m_devices.at(index);
+    return m_things.at(index);
 }
 
-Device *Devices::getDevice(const QUuid &deviceId) const
+Device *Devices::getThing(const QUuid &thingId) const
 {
-    foreach (Device *device, m_devices) {
-        if (device->id() == deviceId) {
-            return device;
+    foreach (Device *thing, m_things) {
+        if (thing->id() == thingId) {
+            return thing;
         }
     }
     return nullptr;
 }
 
+Device *Devices::getDevice(const QUuid &deviceId) const
+{
+    return getThing(deviceId);
+}
+
 int Devices::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_devices.count();
+    return m_things.count();
 }
 
 QVariant Devices::data(const QModelIndex &index, int role) const
 {
-    if (index.row() < 0 || index.row() >= m_devices.count())
+    if (index.row() < 0 || index.row() >= m_things.count())
         return QVariant();
 
-    Device *thing = m_devices.at(index.row());
+    Device *thing = m_things.at(index.row());
     switch (role) {
     case RoleName:
         return thing->name();
     case RoleId:
         return thing->id().toString();
     case RoleDeviceClass:
-        return thing->deviceClassId().toString();
+    case RoleThingClass:
+        return thing->thingClassId().toString();
     case RoleParentDeviceId:
         return thing->parentDeviceId().toString();
     case RoleSetupStatus:
@@ -97,22 +103,22 @@ QVariant Devices::data(const QModelIndex &index, int role) const
 void Devices::addDevice(Device *device)
 {
     device->setParent(this);
-    beginInsertRows(QModelIndex(), m_devices.count(), m_devices.count());
+    beginInsertRows(QModelIndex(), m_things.count(), m_things.count());
 //    qDebug() << "Devices: add device" << device->name();
-    m_devices.append(device);
+    m_things.append(device);
     endInsertRows();
     connect(device, &Device::nameChanged, this, [device, this]() {
-        int idx = m_devices.indexOf(device);
+        int idx = m_things.indexOf(device);
         if (idx < 0) return;
         emit dataChanged(index(idx), index(idx), {RoleName});
     });
     connect(device, &Device::setupStatusChanged, this, [device, this]() {
-        int idx = m_devices.indexOf(device);
+        int idx = m_things.indexOf(device);
         if (idx < 0) return;
         emit dataChanged(index(idx), index(idx), {RoleSetupStatus, RoleSetupDisplayMessage});
     });
     connect(device->states(), &States::dataChanged, this, [device, this]() {
-        int idx = m_devices.indexOf(device);
+        int idx = m_things.indexOf(device);
         if (idx < 0) return;
         emit dataChanged(index(idx), index(idx));
     });
@@ -122,10 +128,10 @@ void Devices::addDevice(Device *device)
 
 void Devices::removeDevice(Device *device)
 {
-    int index = m_devices.indexOf(device);
+    int index = m_things.indexOf(device);
     beginRemoveRows(QModelIndex(), index, index);
     qDebug() << "Devices: removed device" << device->name();
-    m_devices.takeAt(index)->deleteLater();
+    m_things.takeAt(index)->deleteLater();
     endRemoveRows();
     emit countChanged();
     emit thingRemoved(device);
@@ -134,8 +140,8 @@ void Devices::removeDevice(Device *device)
 void Devices::clearModel()
 {
     beginResetModel();
-    qDeleteAll(m_devices);
-    m_devices.clear();
+    qDeleteAll(m_things);
+    m_things.clear();
     endResetModel();
     emit countChanged();
 }
@@ -146,6 +152,7 @@ QHash<int, QByteArray> Devices::roleNames() const
     roles[RoleName] = "name";
     roles[RoleId] = "id";
     roles[RoleDeviceClass] = "deviceClassId";
+    roles[RoleThingClass] = "thingClassId";
     roles[RoleParentDeviceId] = "parentDeviceId";
     roles[RoleSetupStatus] = "setupStatus";
     roles[RoleSetupDisplayMessage] = "setupDisplayMessage";

@@ -41,7 +41,9 @@ MainPageTile {
     iconName: iface ? interfaceToIcon(iface.name) : interfaceToIcon("uncategorized")
     iconColor: app.accentColor
     disconnected: devicesSubProxyConnectables.count > 0
+    isWireless: devicesSubProxyConnectables.count > 0 && devicesSubProxyConnectables.get(0).thingClass.interfaces.indexOf("wirelessconnectable") >= 0
     batteryCritical: devicesSubProxyBattery.count > 0
+    setupStatus: thingsSubProxySetupFailure.count > 0 ? Thing.ThingSetupStatusFailed : Thing.ThingSetupStatusComplete
 
     property Interface iface: null
     property alias filterTagId: devicesProxy.filterTagId
@@ -117,6 +119,12 @@ MainPageTile {
         engine: _engine
         parentProxy: devicesProxy
         filterBatteryCritical: true
+    }
+    DevicesProxy {
+        id: thingsSubProxySetupFailure
+        engine: _engine
+        parentProxy: devicesProxy
+        filterSetupFailed: true
     }
 
     property int currentDeviceIndex: 0

@@ -46,6 +46,7 @@ public:
         RoleId,
         RoleParentDeviceId,
         RoleDeviceClass,
+        RoleThingClass,
         RoleSetupStatus,
         RoleSetupDisplayMessage,
         RoleInterfaces,
@@ -58,6 +59,7 @@ public:
     QList<Device *> devices();
 
     Q_INVOKABLE Device *get(int index) const;
+    Q_INVOKABLE Device *getThing(const QUuid &thingId) const;
     Q_INVOKABLE Device *getDevice(const QUuid &deviceId) const;
 
     int rowCount(const QModelIndex & parent = QModelIndex()) const;
@@ -77,7 +79,7 @@ signals:
     void thingRemoved(Device *device);
 
 private:
-    QList<Device *> m_devices;
+    QList<Device *> m_things;
 
 };
 

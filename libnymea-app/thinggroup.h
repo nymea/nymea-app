@@ -53,8 +53,8 @@ signals:
     void actionExecutionFinished(int id, const QString &status);
 
 private:
-    DeviceManager* m_deviceManager = nullptr;
-    DevicesProxy* m_devices = nullptr;
+    DeviceManager* m_thingManager = nullptr;
+    DevicesProxy* m_things = nullptr;
 
     int m_idCounter = 0;
     QHash<int, QList<int>> m_pendingActions;
