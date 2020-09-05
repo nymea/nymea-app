@@ -1,3 +1,12 @@
+nymea-app (1.0.226) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Make plugin issues more visible to the user
+  * Some fixes in zeroconf discovery
+  * Update the windows installer
+
+ -- Jenkins <jenkins@nymea.io>  Sat, 05 Sep 2020 22:41:11 +0200
+
 nymea-app (1.0.225) bionic; urgency=medium
 
   [ Michael Zanetti ]
