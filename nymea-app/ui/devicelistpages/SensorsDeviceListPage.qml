@@ -45,7 +45,7 @@ DeviceListPageBase {
 
     ListView {
         anchors.fill: parent
-        model: root.devicesProxy
+        model: root.thingsProxy
 
         delegate: ItemDelegate {
             id: itemDelegate
@@ -53,8 +53,7 @@ DeviceListPageBase {
 
             property bool inline: width > 500
 
-            property Device device: devicesProxy.getDevice(model.id)
-            property DeviceClass deviceClass: device.deviceClass
+            property Thing thing: thingsProxy.getThing(model.id)
 
             bottomPadding: index === ListView.view.count - 1 ? topPadding : 0
             contentItem: Pane {
@@ -82,21 +81,25 @@ DeviceListPageBase {
                                     text: model.name
                                     elide: Text.ElideRight
                                 }
-                                ColorIcon {
+                                BatteryStatusIcon {
                                     Layout.preferredHeight: app.iconSize * .5
                                     Layout.preferredWidth: height
-                                    name: "../images/battery/battery-020.svg"
-                                    visible: itemDelegate.deviceClass.interfaces.indexOf("battery") >= 0 && itemDelegate.device.states.getState(itemDelegate.deviceClass.stateTypes.findByName("batteryCritical").id).value === true
+                                    thing: itemDelegate.thing
+                                    visible: itemDelegate.thing.setupStatus == Thing.ThingSetupStatusComplete && (hasBatteryLevel || isCritical)
                                 }
-                                ColorIcon {
+                                ConnectionStatusIcon {
                                     Layout.preferredHeight: app.iconSize * .5
                                     Layout.preferredWidth: height
-                                    name: "../images/dialog-warning-symbolic.svg"
-                                    visible: itemDelegate.deviceClass.interfaces.indexOf("connectable") >= 0 && itemDelegate.device.states.getState(itemDelegate.deviceClass.stateTypes.findByName("connected").id).value === false
-                                    color: "red"
+                                    thing: itemDelegate.thing
+                                    visible: itemDelegate.thing.setupStatus == Thing.ThingSetupStatusComplete && (isWireless || !isConnected)
+                                }
+                                SetupStatusIcon {
+                                    Layout.preferredHeight: app.iconSize * .5
+                                    Layout.preferredWidth: height
+                                    thing: itemDelegate.thing
+                                    visible: setupFailed || setupInProgress
                                 }
                             }
-
                         }
                         GridLayout {
                             id: dataGrid
@@ -121,11 +124,11 @@ DeviceListPageBase {
 
                                 delegate: RowLayout {
                                     id: sensorValueDelegate
-                                    visible: itemDelegate.deviceClass.interfaces.indexOf(model.interfaceName) >= 0
+                                    visible: itemDelegate.thing.thingClass.interfaces.indexOf(model.interfaceName) >= 0
                                     Layout.preferredWidth: contentItem.width / dataGrid.columns
 
-                                    property StateType stateType: itemDelegate.deviceClass.stateTypes.findByName(model.stateName)
-                                    property State stateValue: stateType ? itemDelegate.device.states.getState(stateType.id) : null
+                                    property StateType stateType: itemDelegate.thing.thingClass.stateTypes.findByName(model.stateName)
+                                    property State stateValue: stateType ? itemDelegate.thing.states.getState(stateType.id) : null
 
                                     ColorIcon {
                                         Layout.preferredHeight: app.iconSize * .8

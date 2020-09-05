@@ -218,5 +218,9 @@
         <file>ui/mainviews/MediaView.qml</file>
         <file>ui/components/ShuffleRepeatVolumeControl.qml</file>
         <file>ui/components/MediaBrowser.qml</file>
+        <file>ui/utils/NymeaUtils.qml</file>
+        <file>ui/components/ConnectionStatusIcon.qml</file>
+        <file>ui/components/BatteryStatusIcon.qml</file>
+        <file>ui/components/SetupStatusIcon.qml</file>
     </qresource>
 </RCC>

@@ -59,14 +59,6 @@ class Device : public QObject
     Q_PROPERTY(DeviceClass *thingClass READ thingClass CONSTANT)
 
 public:
-    enum DeviceSetupStatus {
-        DeviceSetupStatusNone,
-        DeviceSetupStatusInProgress,
-        DeviceSetupStatusComplete,
-        DeviceSetupStatusFailed
-    };
-    Q_ENUM(DeviceSetupStatus)
-
     enum ThingSetupStatus {
         ThingSetupStatusNone,
         ThingSetupStatusInProgress,

@@ -43,7 +43,7 @@ MainPageTile {
     disconnected: devicesSubProxyConnectables.count > 0
     isWireless: devicesSubProxyConnectables.count > 0 && devicesSubProxyConnectables.get(0).thingClass.interfaces.indexOf("wirelessconnectable") >= 0
     batteryCritical: devicesSubProxyBattery.count > 0
-    setupStatus: thingsSubProxySetupFailure.count > 0 ? Device.DeviceSetupStatusFailed : Device.DeviceSetupStatusComplete
+    setupStatus: thingsSubProxySetupFailure.count > 0 ? Thing.ThingSetupStatusFailed : Thing.ThingSetupStatusComplete
 
     property Interface iface: null
     property alias filterTagId: devicesProxy.filterTagId

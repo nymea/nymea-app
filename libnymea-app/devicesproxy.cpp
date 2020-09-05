@@ -330,13 +330,18 @@ Device *DevicesProxy::get(int index) const
 
 Device *DevicesProxy::getDevice(const QUuid &deviceId) const
 {
+    return getThing(deviceId);
+}
+
+Device *DevicesProxy::getThing(const QUuid &thingId) const
+{
     Devices *d = qobject_cast<Devices*>(sourceModel());
     if (d) {
-        return d->getDevice(deviceId);
+        return d->getThing(thingId);
     }
     DevicesProxy *dp = qobject_cast<DevicesProxy*>(sourceModel());
     if (dp) {
-        return dp->getDevice(deviceId);
+        return dp->getThing(thingId);
     }
     return nullptr;
 }
@@ -442,7 +447,7 @@ bool DevicesProxy::filterAcceptsRow(int source_row, const QModelIndex &source_pa
     }
 
     if (m_filterSetupFailed) {
-        if (device->setupStatus() != Device::DeviceSetupStatusFailed) {
+        if (device->setupStatus() != Device::ThingSetupStatusFailed) {
             return false;
         }
     }

@@ -54,7 +54,7 @@ signals:
 
 private:
     DeviceManager* m_thingManager = nullptr;
-    DevicesProxy* m_devices = nullptr;
+    DevicesProxy* m_things = nullptr;
 
     int m_idCounter = 0;
     QHash<int, QList<int>> m_pendingActions;

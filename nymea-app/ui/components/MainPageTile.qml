@@ -44,8 +44,8 @@ Item {
     property string text
     property bool disconnected: false
     property bool isWireless: false
-    property int signalStrength: -1
-    property int setupStatus: Device.DeviceSetupStatusNone
+    property int signalStrength: 0
+    property int setupStatus: Thing.ThingSetupStatusNone
     property bool batteryCritical: false
 
     property alias contentItem: innerContent.children
@@ -153,20 +153,20 @@ Item {
             width: height
             name: root.isWireless ? "../images/network-wifi-offline.svg" : "../images/network-wired-offline.svg"
             color: root.disconnected ? "red" : "orange"
-            visible: root.setupStatus == Device.DeviceSetupStatusComplete && (root.disconnected || (root.signalStrength >= 0 && root.signalStrength < 10))
+            visible: root.setupStatus == Thing.ThingSetupStatusComplete && (root.disconnected || (root.isWireless && root.signalStrength < 20))
         }
         ColorIcon {
             height: app.iconSize / 2
             width: height
-            name: root.setupStatus === Device.DeviceSetupStatusFailed ? "../images/dialog-warning-symbolic.svg" : "../images/settings.svg"
-            color: root.setupStatus === Device.DeviceSetupStatusFailed ? "red" : keyColor
-            visible: root.setupStatus === Device.DeviceSetupStatusFailed || root.setupStatus === Device.DeviceSetupStatusInProgress
+            name: root.setupStatus === Thing.ThingSetupStatusFailed ? "../images/dialog-warning-symbolic.svg" : "../images/settings.svg"
+            color: root.setupStatus === Thing.ThingSetupStatusFailed ? "red" : keyColor
+            visible: root.setupStatus === Thing.ThingSetupStatusFailed || root.setupStatus === Thing.ThingSetupStatusInProgress
         }
         ColorIcon {
             height: app.iconSize / 2
             width: height
             name: "../images/battery/battery-010.svg"
-            visible: root.batteryCritical
+            visible: root.setupStatus == Thing.ThingSetupStatusComplete && root.batteryCritical
         }
     }
 }

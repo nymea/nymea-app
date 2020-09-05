@@ -187,6 +187,8 @@ void registerQmlTypes() {
     qmlRegisterType<InterfacesModel>(uri, 1, 0, "InterfacesModel");
     qmlRegisterType<InterfacesSortModel>(uri, 1, 0, "InterfacesSortModel");
 
+    qmlRegisterUncreatableType<DeviceClass>(uri, 1, 0, "ThingClass", "Can't create this in QML. Get it from the ThingClasses.");
+    qmlRegisterUncreatableType<DeviceClasses>(uri, 1, 0, "ThingClasses", "Can't create this in QML. Get it from the ThingManager.");
     qmlRegisterUncreatableType<DeviceClass>(uri, 1, 0, "DeviceClass", "Can't create this in QML. Get it from the DeviceClasses.");
     qmlRegisterUncreatableType<DeviceClasses>(uri, 1, 0, "DeviceClasses", "Can't create this in QML. Get it from the DeviceManager.");
     qmlRegisterType<DeviceClassesProxy>(uri, 1, 0, "DeviceClassesProxy");

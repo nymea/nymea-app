@@ -46,7 +46,8 @@ NymeaListItemDelegate {
                       : thing.setupStatus == Thing.ThingSetupStatusInProgress
                         ? "../images/settings.svg"
                         : disconnected
-                          ? "../images/dialog-warning-symbolic.svg"
+                          ? isWireless
+                            ? "../images/network-wifi-offline.svg" : "../images/network-wired-offline.svg"
                           : ""
     tertiaryIconColor: thing.setupStatus == Thing.ThingSetupStatusInProgress ? iconKeyColor : "red"
 
@@ -62,6 +63,8 @@ NymeaListItemDelegate {
     readonly property StateType connectedStateType: hasConnectableInterface ? thing.thingClass.stateTypes.findByName("connected") : null
     readonly property State connectedState: connectedStateType ? thing.states.getState(connectedStateType.id) : null
     readonly property bool disconnected: connectedState && connectedState.value === false ? true : false
+
+    readonly property bool isWireless: root.thing.thingClass.interfaces.indexOf("wirelessconnectable") >= 0
 
 
 }

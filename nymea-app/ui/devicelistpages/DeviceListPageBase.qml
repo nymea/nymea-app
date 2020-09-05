@@ -38,32 +38,32 @@ import "../components"
 Page {
     id: root
 
-    property alias shownInterfaces: devicesProxyInternal.shownInterfaces
-    property alias hiddenInterfaces: devicesProxyInternal.hiddenInterfaces
-    property alias filterTagId: devicesProxyInternal.filterTagId
+    property alias shownInterfaces: thingsProxyInternal.shownInterfaces
+    property alias hiddenInterfaces: thingsProxyInternal.hiddenInterfaces
+    property alias filterTagId: thingsProxyInternal.filterTagId
 
     Component.onCompleted: {
-        if (devicesProxyInternal.count === 1) {
+        if (thingsProxyInternal.count === 1) {
             enterPage(0, true)
         }
     }
 
-    property var devicesProxy: devicesProxyInternal
+    property var devicesProxy: thingsProxyInternal
+    property var thingsProxy: thingsProxyInternal
 
     function enterPage(index, replace) {
-        var device = devicesProxy.get(index);
-        var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
+        var thing = thingsProxy.get(index);
         var page = app.interfaceListToDevicePage(root.shownInterfaces);
 //        var page = "GenericDevicePage.qml";
         if (replace) {
-            pageStack.replace(Qt.resolvedUrl("../devicepages/" + page), {device: devicesProxy.get(index)})
+            pageStack.replace(Qt.resolvedUrl("../devicepages/" + page), {thing: thingsProxy.get(index)})
         } else {
-            pageStack.push(Qt.resolvedUrl("../devicepages/" + page), {device: devicesProxy.get(index)})
+            pageStack.push(Qt.resolvedUrl("../devicepages/" + page), {thing: thingsProxy.get(index)})
         }
     }
 
     DevicesProxy {
-        id: devicesProxyInternal
+        id: thingsProxyInternal
         engine: _engine
     }
 }
