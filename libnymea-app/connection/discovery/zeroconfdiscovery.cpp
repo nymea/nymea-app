@@ -153,14 +153,14 @@ void ZeroconfDiscovery::serviceEntryAdded(const QZeroConfService &entry)
     url.setPort(entry->port());
     Connection *connection = host->connections()->find(url);
     if (!connection) {
-//        qDebug() << "Zeroconf: Adding new connection to host:" << host->name() << url.toString();
+        qDebug() << "Zeroconf: Adding new connection to host:" << host->name() << url.toString();
         QString displayName = QString("%1:%2").arg(url.host()).arg(url.port());
         Connection::BearerType bearerType = QHostAddress(url.host()).isLoopback() ? Connection::BearerTypeLoopback : Connection::BearerTypeLan;
         connection = new Connection(url, bearerType, sslEnabled, displayName);
         connection->setOnline(true);
         host->connections()->addConnection(connection);
     } else {
-//        qDebug() << "Zeroconf: Setting connection online:" << host->name() << url.toString();
+        qDebug() << "Zeroconf: Setting connection online:" << host->name() << url.toString();
         connection->setOnline(true);
     }
 }
@@ -213,7 +213,7 @@ void ZeroconfDiscovery::serviceEntryRemoved(const QZeroConfService &entry)
         return;
     }
 
-//    qDebug() << "Zeroconf: Setting connection offline:" << host->name() << url.toString();
+    qDebug() << "Zeroconf: Setting connection offline:" << host->name() << url.toString();
     connection->setOnline(false);
 }
 #endif
