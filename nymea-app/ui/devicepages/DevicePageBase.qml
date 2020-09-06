@@ -227,7 +227,7 @@ Page {
 
     Rectangle {
         id: infoPane
-        visible: setupInProgress || setupFailure || batteryState !== null || (connectedState !== null && connectedState.value === false)
+        visible: setupInProgress || setupFailure || batteryState !== null || (connectedState !== null && connectedState.value === false) || isWireless || updateAvailable
         height: visible ? contentRow.implicitHeight : 0
         anchors { left: parent.left; top: parent.top; right: parent.right }
         property bool setupInProgress: root.thing.setupStatus == Thing.ThingSetupStatusInProgress
@@ -235,10 +235,17 @@ Page {
         property State batteryState: root.thing.stateByName("batteryLevel")
         property State batteryCriticalState: root.thing.stateByName("batteryCritical")
         property State connectedState: root.thing.stateByName("connected")
+        property State signalStrengthState: root.thing.stateByName("signalStrength")
+        property State updateStatusState: root.thing.stateByName("updateStatus")
+        property bool updateAvailable: updateStatusState && updateStatusState.value === "available"
+        property bool updateRunning: updateStatusState && updateStatusState.value === "updating"
+        property bool isWireless: root.thingClass.interfaces.indexOf("wirelessconnectable") >= 0
         property bool alertState: setupFailure ||
                                   (connectedState !== null && connectedState.value === false) ||
                                   (batteryCriticalState !== null && batteryCriticalState.value === true)
-        color: alertState ? "red" : "transparent"
+        property bool highlightState: updateAvailable || updateRunning
+        color: alertState ? "red"
+                : infoPane.highlightState ? app.accentColor : "transparent"
         z: 1000
 
         RowLayout {
@@ -256,17 +263,29 @@ Page {
                               (root.device.setupDisplayMessage.length > 0 ? root.device.setupDisplayMessage : qsTr("Thing setup failed!"))
                             : (infoPane.connectedState !== null && infoPane.connectedState.value === false) ?
                                   qsTr("Thing is not connected!")
-                                : qsTr("Thing runs out of battery!")
-                visible: infoPane.alertState
+                                : infoPane.updateAvailable ?
+                                      qsTr("Update available!")
+                                    : infoPane.updateRunning ?
+                                          qsTr("Updating...")
+                                        : qsTr("Thing runs out of battery!")
+                visible: infoPane.alertState || infoPane.updateAvailable || infoPane.updateRunning
                 font.pixelSize: app.smallFont
                 color: "white"
+            }
+
+            UpdateStatusIcon {
+                height: app.iconSize / 2
+                width: height
+                thing: root.thing
+                color: infoPane.alertState || infoPane.highlightState ? "white" : keyColor
+                visible: updateAvailable || updateRunning
             }
 
             BatteryStatusIcon {
                 height: app.iconSize / 2
                 width: height * 1.23
                 thing: root.thing
-                color: infoPane.alertState ? "white" : keyColor
+                color: infoPane.alertState || infoPane.highlightState ? "white" : keyColor
                 visible: thing.setupStatus == Thing.ThingSetupStatusComplete && (hasBatteryLevel || isCritical)
             }
 
@@ -274,7 +293,7 @@ Page {
                 height: app.iconSize / 2
                 width: height
                 thing: root.thing
-                color: infoPane.alertState ? "white" : keyColor
+                color: infoPane.alertState || infoPane.highlightState ? "white" : keyColor
                 visible: thing.setupStatus == Thing.ThingSetupStatusComplete && (hasSignalStrength || !isConnected)
             }
 
@@ -282,7 +301,7 @@ Page {
                 height: app.iconSize / 2
                 width: height
                 thing: root.thing
-                color: infoPane.alertState ? "white" : keyColor
+                color: infoPane.alertState || infoPane.highlightState ? "white" : keyColor
                 visible: setupFailed || setupInProgress
             }
         }

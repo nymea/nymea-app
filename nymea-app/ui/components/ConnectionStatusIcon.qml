@@ -15,17 +15,17 @@ ColorIcon {
 
     name: {
         if (!isWireless) {
-            return connectedState && connectedState.value === true ? "../images/network-wired.svg" : "../images/network-wired-offline.svg"
+            return connectedState && connectedState.value === true ? "../images/connections/network-wired.svg" : "../images/connections/network-wired-offline.svg"
         }
         if (connectedState && connectedState.value === false) {
-            return "../images/network-wifi-offline.svg"
+            return "../images/connections/nm-signal-00.svg"
         }
 
-        if (signalStrengthState && signalStrengthState.value === -1) {
-            return "../images/network-wifi.svg"
+        if (!signalStrengthState) {
+            return "../images/connections/nm-signal-100.svg"
         }
 
-        return "../images/nm-signal-" + NymeaUtils.pad(Math.round(signalStrengthState.value * 4 / 100) * 25, 2) + ".svg"
+        return "../images/connections/nm-signal-" + NymeaUtils.pad(Math.round(signalStrengthState.value * 4 / 100) * 25, 2) + ".svg"
     }
 
     color: connectedState && connectedState.value === false

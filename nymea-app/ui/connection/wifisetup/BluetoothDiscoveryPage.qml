@@ -119,7 +119,7 @@ Page {
 
             delegate: NymeaListItemDelegate {
                 width: parent.width
-                iconName: Qt.resolvedUrl("../../images/bluetooth.svg")
+                iconName: Qt.resolvedUrl("../../images/connections/bluetooth.svg")
                 text: model.name
                 subText: model.address
 

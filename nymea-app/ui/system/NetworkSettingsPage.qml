@@ -137,7 +137,7 @@ SettingsPageBase {
         ColorIcon {
             Layout.preferredHeight: app.iconSize
             Layout.preferredWidth: app.iconSize
-            name: "../images/network-wired-offline.svg"
+            name: "../images/connections/network-wired-disabled.svg"
         }
         Label {
             Layout.fillWidth: true
@@ -257,7 +257,7 @@ SettingsPageBase {
 
         NymeaListItemDelegate {
             Layout.fillWidth: true
-            iconName: model.pluggedIn ? "../images/network-wired.svg" : "../images/network-wired-offline.svg"
+            iconName: model.pluggedIn ? "../images/connections/network-wired.svg" : "../images/connections/network-wired-offline.svg"
             text: model.interface + " (" + model.macAddress + ")"
             visible: networkManager.available && networkManager.networkingEnabled
             subText: {
@@ -335,21 +335,21 @@ SettingsPageBase {
                 case NetworkDevice.NetworkDeviceStateDisconnected:
                 case NetworkDevice.NetworkDeviceStateDeactivating:
                 case NetworkDevice.NetworkDeviceStateFailed:
-                    return "../images/network-wifi-offline.svg"
+                    return "../images/connections/network-wifi-offline.svg"
                 case NetworkDevice.NetworkDeviceStatePrepare:
-                    return "../images/network-wifi.svg";
+                    return "../images/connections/network-wifi.svg";
                 case NetworkDevice.NetworkDeviceStateConfig:
-                    return "../images/network-wifi-offline.svg"
+                    return "../images/connections/network-wifi-offline.svg"
                 case NetworkDevice.NetworkDeviceStateNeedAuth:
-                    return "../images/network-wifi.svg";
+                    return "../images/connections/network-wifi.svg";
                 case NetworkDevice.NetworkDeviceStateIpConfig:
-                    return "../images/network-wifi-offline.svg"
+                    return "../images/connections/network-wifi-offline.svg"
                 case NetworkDevice.NetworkDeviceStateIpCheck:
-                    return "../images/network-wifi.svg";
+                    return "../images/connections/network-wifi.svg";
                 case NetworkDevice.NetworkDeviceStateSecondaries:
-                    return "../images/network-wifi-offline.svg"
+                    return "../images/connections/network-wifi-offline.svg"
                 case NetworkDevice.NetworkDeviceStateActivated:
-                    return "../images/network-wifi.svg";
+                    return "../images/connections/network-wifi.svg";
 
                 }
                 console.warn("Unhandled enum", model.state)
@@ -434,7 +434,7 @@ SettingsPageBase {
                     subText: "%1 (%2)".arg(model.macAddress).arg(model.frequency < 3 ? "2.4GHz" : "5GHz")
                     prominentSubText: false
                     iconName: {
-                        var ret = "../images/nm-signal-";
+                        var ret = "../images/connections/nm-signal-";
                         if (model.signalStrength > 90) {
                             ret += "100";
                         } else if (model.signalStrength > 60) {
