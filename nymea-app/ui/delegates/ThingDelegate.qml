@@ -40,31 +40,49 @@ NymeaListItemDelegate {
     iconName: thing && thing.thingClass ? app.interfacesToIcon(thing.thingClass.interfaces) : ""
     text: thing ? thing.name : ""
     progressive: true
-    secondaryIconName: batteryCritical ? "../images/battery/battery-010.svg" : ""
-    tertiaryIconName: thing.setupStatus == Thing.ThingSetupStatusFailed
-                      ? "../images/dialog-warning-symbolic.svg"
-                      : thing.setupStatus == Thing.ThingSetupStatusInProgress
-                        ? "../images/settings.svg"
-                        : disconnected
-                          ? isWireless
-                            ? "../images/network-wifi-offline.svg" : "../images/network-wired-offline.svg"
-                          : ""
-    tertiaryIconColor: thing.setupStatus == Thing.ThingSetupStatusInProgress ? iconKeyColor : "red"
+    secondaryIconName: thing.setupStatus == Thing.ThingSetupStatusComplete && batteryCritical ? "../images/battery/battery-010.svg" : ""
+    tertiaryIconName: {
+        if (thing.setupStatus == Thing.ThingSetupStatusFailed) {
+            return "../images/dialog-warning-symbolic.svg";
+        }
+        if (thing.setupStatus == Thing.ThingSetupStatusInProgress) {
+            return "../images/settings.svg"
+        }
+        if (connectedState && connectedState.value === false) {
+            if (!isWireless) {
+                return "../images/connections/network-wired-offline.svg"
+            }
+            return "../images/connections/nm-signal-00.svg"
+        }
+        return ""
+    }
 
-    property Device device: null
-    property Thing thing: device
+    tertiaryIconColor: {
+        if (thing.setupStatus == Thing.ThingSetupStatusFailed) {
+            return "red"
+        }
+        if (thing.setupStatus == Thing.ThingSetupStatusInProgress) {
+            return iconKeyColor
+        }
+        if (connectedState && connectedState.value === false) {
+            return "red"
+        }
+        return iconKeyColor
+    }
 
-    readonly property bool hasBatteryInterface: thing && thing.thingClass.interfaces.indexOf("battery") > 0
+    property alias device: root.thing
+    property Thing thing: null
+
+    readonly property bool hasBatteryInterface: thing && thing.thingClass.interfaces.indexOf("battery") >= 0
     readonly property StateType batteryCriticalStateType: hasBatteryInterface ? thing.thingClass.stateTypes.findByName("batteryCritical") : null
     readonly property State batteryCriticalState: batteryCriticalStateType ? thing.states.getState(batteryCriticalStateType.id) : null
     readonly property bool batteryCritical: batteryCriticalState && batteryCriticalState.value === true
 
-    readonly property bool hasConnectableInterface: thing && thing.thingClass.interfaces.indexOf("connectable") > 0
+    readonly property bool hasConnectableInterface: thing && thing.thingClass.interfaces.indexOf("connectable") >= 0
     readonly property StateType connectedStateType: hasConnectableInterface ? thing.thingClass.stateTypes.findByName("connected") : null
     readonly property State connectedState: connectedStateType ? thing.states.getState(connectedStateType.id) : null
     readonly property bool disconnected: connectedState && connectedState.value === false ? true : false
 
     readonly property bool isWireless: root.thing.thingClass.interfaces.indexOf("wirelessconnectable") >= 0
-
-
+    readonly property State signalStrengthState: root.thing.stateByName("signalStrength")
 }

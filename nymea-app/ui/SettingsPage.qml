@@ -94,7 +94,7 @@ Page {
                 padding: 0
                 NymeaListItemDelegate {
                     width: parent.width
-                    iconName: "../images/network-wifi.svg"
+                    iconName: "../images/connections/network-wifi.svg"
                     text: qsTr("Networking")
                     subText: qsTr("Configure the system's network connection")
                     prominentSubText: false
@@ -111,7 +111,7 @@ Page {
                 padding: 0
                 NymeaListItemDelegate {
                     width: parent.width
-                    iconName: "../images/cloud.svg"
+                    iconName: "../images/connections/cloud.svg"
                     text: qsTr("Cloud")
                     subText: qsTr("Connect this %1:core to %1:cloud").arg(app.systemName)
                     prominentSubText: false
@@ -127,7 +127,7 @@ Page {
                 padding: 0
                 NymeaListItemDelegate {
                     width: parent.width
-                    iconName: "../images/network-vpn.svg"
+                    iconName: "../images/connections/network-vpn.svg"
                     text: qsTr("API interfaces")
                     prominentSubText: false
                     wrapTexts: false

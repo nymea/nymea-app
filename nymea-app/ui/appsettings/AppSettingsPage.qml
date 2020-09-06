@@ -78,7 +78,7 @@ Page {
                     width: parent.width
                     text: qsTr("Cloud login")
                     subText: qsTr("Log into %1:cloud and manage connected %1:core systems").arg(app.systemName)
-                    iconName: "../images/cloud.svg"
+                    iconName: "../images/connections/cloud.svg"
                     prominentSubText: false
                     wrapTexts: false
                     onClicked: pageStack.push(Qt.resolvedUrl("CloudLoginPage.qml"))

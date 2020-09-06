@@ -416,7 +416,7 @@ Page {
                         }
                     }
                     Repeater {
-                        model: ["light-on", "light-off", "alarm-clock", "media-playback-start", "network-secure", "notification", "sensors", "shutter/shutter-050", "attention", "eye"]
+                        model: ["light-on", "light-off", "alarm-clock", "media-playback-start", "connections/network-secure", "notification", "sensors", "shutter/shutter-050", "attention", "eye"]
                         delegate: Item {
                             Layout.fillWidth: true
                             Layout.preferredHeight: app.iconSize + app.margins

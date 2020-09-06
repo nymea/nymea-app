@@ -52,13 +52,13 @@ Page {
             case Connection.BearerTypeLan:
             case Connection.BearerTypeWan:
                 if (engine.jsonRpcClient.availableBearerTypes & NymeaConnection.BearerTypeEthernet != NymeaConnection.BearerTypeNone) {
-                    return "../images/network-wired.svg"
+                    return "../images/connections/network-wired.svg"
                 }
-                return "../images/network-wifi.svg";
+                return "../images/connections/network-wifi.svg";
             case Connection.BearerTypeBluetooth:
-                return "../images/network-wifi.svg";
+                return "../images/connections/network-wifi.svg";
             case Connection.BearerTypeCloud:
-                return "../images/cloud.svg"
+                return "../images/connections/cloud.svg"
             case Connection.BearerTypeLoopback:
                 return "qrc:/styles/%1/logo.svg".arg(styleController.currentStyle)
             }
@@ -579,15 +579,15 @@ Page {
                 case Connection.BearerTypeLan:
                 case Connection.BearerTypeWan:
                     if (engine.jsonRpcClient.availableBearerTypes & NymeaConnection.BearerTypeEthernet != NymeaConnection.BearerTypeNone) {
-                        return "../images/network-wired.svg"
+                        return "../images/connections/network-wired.svg"
                     }
-                    return "../images/network-wifi.svg";
+                    return "../images/connections/network-wifi.svg";
                 case Connection.BearerTypeBluetooth:
-                    return "../images/network-wifi.svg";
+                    return "../images/connections/bluetooth.svg";
                 case Connection.BearerTypeCloud:
-                    return "../images/cloud.svg"
+                    return "../images/connections/cloud.svg"
                 case Connection.BearerTypeLoopback:
-                    return "../images/network-wired.svg"
+                    return "../images/connections/network-wired.svg"
                 }
                 return ""
             }
