@@ -151,7 +151,7 @@ Item {
         ColorIcon {
             height: app.iconSize / 2
             width: height
-            name: root.isWireless ? "../images/network-wifi-offline.svg" : "../images/network-wired-offline.svg"
+            name: root.isWireless ? "../images/connections/nm-signal-00.svg" : "../images/connections/network-wired-offline.svg"
             color: root.disconnected ? "red" : "orange"
             visible: root.setupStatus == Thing.ThingSetupStatusComplete && (root.disconnected || (root.isWireless && root.signalStrength < 20))
         }

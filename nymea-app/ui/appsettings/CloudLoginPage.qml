@@ -120,8 +120,8 @@ SettingsPageBase {
                 progressive: false
                 prominentSubText: false
                 canDelete: true
-                iconName: "../images/cloud.svg"
-                secondaryIconName: !model.online ? "../images/cloud-error.svg" : ""
+                iconName: "../images/connections/cloud.svg"
+                secondaryIconName: !model.online ? "../images/connections/cloud-error.svg" : ""
 
                 onClicked: {
                     print("clicked, connected:", engine.jsonRpcClient.connected, model.id)

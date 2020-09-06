@@ -72,8 +72,8 @@ Page {
             header: FancyHeader {
                 title: qsTr("Connect %1").arg(app.systemName)
                 model: ListModel {
-                    ListElement { iconSource: "../images/network-vpn.svg"; text: qsTr("Manual connection"); page: "ManualConnectPage.qml" }
-                    ListElement { iconSource: "../images/bluetooth.svg"; text: qsTr("Wireless setup"); page: "wifisetup/BluetoothDiscoveryPage.qml"; }
+                    ListElement { iconSource: "../images/connections/network-vpn.svg"; text: qsTr("Manual connection"); page: "ManualConnectPage.qml" }
+                    ListElement { iconSource: "../images/connections/bluetooth.svg"; text: qsTr("Wireless setup"); page: "wifisetup/BluetoothDiscoveryPage.qml"; }
                     ListElement { iconSource: "../images/private-browsing.svg"; text: qsTr("Demo mode"); page: "" }
                     ListElement { iconSource: "../images/stock_application.svg"; text: qsTr("App settings"); page: "../appsettings/AppSettingsPage.qml" }
                 }
@@ -166,13 +166,13 @@ Page {
                             case Connection.BearerTypeLan:
                             case Connection.BearerTypeWan:
                                 if (engine.jsonRpcClient.availableBearerTypes & NymeaConnection.BearerTypeEthernet != NymeaConnection.BearerTypeNone) {
-                                    return "../images/network-wired.svg"
+                                    return "../images/connections/network-wired.svg"
                                 }
-                                return "../images/network-wifi.svg";
+                                return "../images/connections/network-wifi.svg";
                             case Connection.BearerTypeBluetooth:
-                                return "../images/bluetooth.svg";
+                                return "../images/connections/bluetooth.svg";
                             case Connection.BearerTypeCloud:
-                                return "../images/cloud.svg"
+                                return "../images/connections/cloud.svg"
                             case Connection.BearerTypeLoopback:
                                 return "qrc:/styles/%1/logo.svg".arg(styleController.currentStyle)
                             }
@@ -186,8 +186,8 @@ Page {
                         progressive: false
                         property bool isSecure: nymeaHost.connections.get(defaultConnectionIndex).secure
                         property bool isOnline: nymeaHost.connections.get(defaultConnectionIndex).bearerType !== Connection.BearerTypeWan ? nymeaHost.connections.get(defaultConnectionIndex).online : true
-                        tertiaryIconName: isSecure ? "../images/network-secure.svg" : ""
-                        secondaryIconName: !isOnline ? "../images/cloud-error.svg" : ""
+                        tertiaryIconName: isSecure ? "../images/connections/network-secure.svg" : ""
+                        secondaryIconName: !isOnline ? "../images/connections/cloud-error.svg" : ""
                         secondaryIconColor: "red"
 
                         onClicked: {
@@ -378,21 +378,21 @@ Page {
                                     case Connection.BearerTypeLan:
                                     case Connection.BearerTypeWan:
                                         if (engine.jsonRpcClient.availableBearerTypes & NymeaConnection.BearerTypeEthernet != NymeaConnection.BearerTypeNone) {
-                                            return "../images/network-wired.svg"
+                                            return "../images/connections/network-wired.svg"
                                         }
-                                        return "../images/network-wifi.svg";
+                                        return "../images/connections/network-wifi.svg";
                                     case Connection.BearerTypeBluetooth:
-                                        return "../images/bluetooth.svg";
+                                        return "../images/connections/bluetooth.svg";
                                     case Connection.BearerTypeCloud:
-                                        return "../images/cloud.svg"
+                                        return "../images/connections/cloud.svg"
                                     case Connection.BearerTypeLoopback:
-                                        return "../images/network-wired.svg"
+                                        return "../images/connections/network-wired.svg"
                                     }
                                     return ""
                                 }
 
-                                tertiaryIconName: model.secure ? "../images/network-secure.svg" : ""
-                                secondaryIconName: !model.online ? "../images/cloud-error.svg" : ""
+                                tertiaryIconName: model.secure ? "../images/connections/network-secure.svg" : ""
+                                secondaryIconName: !model.online ? "../images/connections/cloud-error.svg" : ""
                                 secondaryIconColor: "red"
 
                                 onClicked: {
