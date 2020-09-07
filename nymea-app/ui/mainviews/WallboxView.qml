@@ -43,7 +43,7 @@ MainViewBase {
     ThingsProxy {
         id: wallboxDevices
         engine: _engine
-        shownInterfaces: ["evcharger", "extendedevcharger"]
+        shownInterfaces: ["evcharger"]
     }
 
     SwipeView {
