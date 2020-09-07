@@ -44,16 +44,20 @@ MainViewBase {
         id: wallboxDevices
         engine: _engine
         shownInterfaces: ["evcharger"]
-    }
+    }    
 
     SwipeView {
         id: swipeView
         anchors.fill: parent
+        anchors.horizontalCenter: parent.horizontalCenter
         currentIndex: pageIndicator.currentIndex
-        visible: !engine.thingManager.fetchingData && wallboxDevices.count == 0
+        visible: wallboxDevices.count != 0
 
         Repeater {
+            anchors.fill: parent
+            anchors.horizontalCenter: parent.horizontalCenter
             model: wallboxDevices
+
             delegate: Item {
                 property Thing thing: wallboxDevices.get(index)
                 property State powerState: thing.stateByName("power")
@@ -63,19 +67,65 @@ MainViewBase {
                 height: swipeView.height
                 width: swipeView.width
 
-                GridLayout {
-                    anchors.fill: parent
-                    anchors.margins: app.margins
-                    columns: 1
-                    rowSpacing: app.margins
+                Component.onCompleted: {
+                    console.log(thing.name);
+                }
 
+                Rectangle {
+                    id: one
+                    width: swipeView.width
+                    height: swipeView.height
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    color: "green"
 
-                    Text {
-                        text: powerState
+                    gradient: Gradient {
+                        GradientStop { position: 0; color: "#07203F" }
+                        GradientStop { position: 1; color: "#01092A" }
                     }
 
-                    Text {
-                        text: maxChargingCurrentState
+                    GridLayout {
+                        anchors.fill: parent
+                        anchors.margins: app.margins
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        columns: 1
+                        rowSpacing: app.margins
+
+                        Text {
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            text: thing.name
+                            color: "white"
+                        }
+
+                        Switch {
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            id: powerSwitch
+                            checked: powerState.value
+                            onClicked: {
+                                console.log(checked)
+                            }
+                        }
+
+                        Text {
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            text: Math.round(maxChargingSlider.value) + " " + qsTr("Ampere")
+                            color: "white"
+                        }
+
+                        Slider {
+                            id: maxChargingSlider
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            Layout.fillWidth: true
+                            Layout.leftMargin: parent.width * .05
+                            Layout.rightMargin: parent.width * .05
+                            from: 6000 / 1000
+                            to: 80000 / 1000
+                            stepSize: 1
+                            snapMode: Slider.SnapAlways
+                            value: maxChargingCurrentState.value / 1000
+                            onMoved: {
+                                console.log(value)
+                            }
+                        }
                     }
                 }
             }
@@ -94,7 +144,7 @@ MainViewBase {
     EmptyViewPlaceholder {
         anchors.centerIn: parent
         width: parent.width - app.margins * 2
-        visible: engine.thingManager.fetchingData && wallboxDevices.count == 0
+        visible: !engine.thingManager.fetchingData && wallboxDevices.count == 0
         title: qsTr("There are no wallbox devices set up.")
         text: qsTr("Connect your wallbox devices in order to control them from here.")
         imageSource: "../images/wallbox/wallbox.svg"
