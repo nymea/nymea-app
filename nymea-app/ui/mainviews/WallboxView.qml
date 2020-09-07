@@ -50,22 +50,25 @@ MainViewBase {
         id: swipeView
         anchors.fill: parent
         currentIndex: pageIndicator.currentIndex
+        visible: !engine.thingManager.fetchingData && wallboxDevices.count == 0
 
         Repeater {
             model: wallboxDevices
             delegate: Item {
-                id: wallboxDelegate
-                height: swipeView.height
-                width: swipeView.width
                 property Thing thing: wallboxDevices.get(index)
                 property State powerState: thing.stateByName("power")
                 property State maxChargingCurrentState: thing.stateByName("maxChargingCurrent")
+
+                id: wallboxDelegate
+                height: swipeView.height
+                width: swipeView.width
 
                 GridLayout {
                     anchors.fill: parent
                     anchors.margins: app.margins
                     columns: 1
                     rowSpacing: app.margins
+
 
                     Text {
                         text: powerState
@@ -78,6 +81,7 @@ MainViewBase {
             }
         }
     }
+
     PageIndicator {
         id: pageIndicator
         count: swipeView.count
@@ -90,7 +94,7 @@ MainViewBase {
     EmptyViewPlaceholder {
         anchors.centerIn: parent
         width: parent.width - app.margins * 2
-        visible: !engine.thingManager.fetchingData && wallboxDevices.count == 0
+        visible: engine.thingManager.fetchingData && wallboxDevices.count == 0
         title: qsTr("There are no wallbox devices set up.")
         text: qsTr("Connect your wallbox devices in order to control them from here.")
         imageSource: "../images/wallbox/wallbox.svg"
