@@ -218,6 +218,6 @@
         <file>ui/mainviews/MediaView.qml</file>
         <file>ui/components/ShuffleRepeatVolumeControl.qml</file>
         <file>ui/components/MediaBrowser.qml</file>
-        <file>ui/mainviews/ChargerView.qml</file>
+        <file>ui/mainviews/WallboxView.qml</file>
     </qresource>
 </RCC>

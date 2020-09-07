@@ -235,5 +235,6 @@
         <file>ui/images/navigationpad.svg</file>
         <file>ui/images/qrcode.svg</file>
         <file>ui/images/energy.svg</file>
+        <file>ui/images/wallbox/wallbox.svg</file>
     </qresource>
 </RCC>

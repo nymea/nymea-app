@@ -41,7 +41,7 @@ MainViewBase {
     id: root
 
     ThingsProxy {
-        id: chargerDevices
+        id: wallboxDevices
         engine: _engine
         shownInterfaces: ["evcharger", "extendedevcharger"]
     }
@@ -52,12 +52,12 @@ MainViewBase {
         currentIndex: pageIndicator.currentIndex
 
         Repeater {
-            model: chargerDevices
+            model: wallboxDevices
             delegate: Item {
-                id: chargerDelegate
+                id: wallboxDelegate
                 height: swipeView.height
                 width: swipeView.width
-                property Thing thing: chargerDevices.get(index)
+                property Thing thing: wallboxDevices.get(index)
                 property State powerState: thing.stateByName("power")
                 property State maxChargingCurrentState: thing.stateByName("maxChargingCurrent")
 
@@ -90,10 +90,10 @@ MainViewBase {
     EmptyViewPlaceholder {
         anchors.centerIn: parent
         width: parent.width - app.margins * 2
-        visible: !engine.thingManager.fetchingData && chargerDevices.count == 0
-        title: qsTr("There are no charging devices set up.")
-        text: qsTr("Connect your charging devices in order to control them from here.")
-        imageSource: "../images/ev-charger.svg"
+        visible: !engine.thingManager.fetchingData && wallboxDevices.count == 0
+        title: qsTr("There are no wallbox devices set up.")
+        text: qsTr("Connect your wallbox devices in order to control them from here.")
+        imageSource: "../images/wallbox/wallbox.svg"
         buttonText: qsTr("Add things")
         onButtonClicked: pageStack.push(Qt.resolvedUrl("../thingconfiguration/NewThingPage.qml"))
     }

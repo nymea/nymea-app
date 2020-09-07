@@ -113,7 +113,7 @@ Page {
 
     ListModel {
         id: mainMenuBaseModel
-        // TODO: Should read this from disk somehow maybe?
+        // TODO: Should read this from disk somehow maybe?    
         ListElement { name: "things"; source: "ThingsView"; displayName: qsTr("Things"); icon: "things" }
         ListElement { name: "favorites"; source: "FavoritesView"; displayName: qsTr("Favorites"); icon: "starred" }
         ListElement { name: "groups"; source: "GroupsView"; displayName: qsTr("Groups"); icon: "view-grid-symbolic" }
@@ -121,6 +121,7 @@ Page {
         ListElement { name: "garages"; source: "GaragesView"; displayName: qsTr("Garages"); icon: "garage/garage-100" }
         ListElement { name: "energy"; source: "EnergyView"; displayName: qsTr("Energy"); icon: "smartmeter" }
         ListElement { name: "media"; source: "MediaView"; displayName: qsTr("Media"); icon: "media" }
+        ListElement { name: "wallbox"; source: "WallboxView"; displayName: qsTr("Wallbox"); icon: "wallbox/wallbox" }
     }
 
     ListModel {
