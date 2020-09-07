@@ -59,20 +59,19 @@ MainViewBase {
             model: wallboxDevices
 
             delegate: Item {
-                property Thing thing: wallboxDevices.get(index)
-                property State powerState: thing.stateByName("power")
-                property State maxChargingCurrentState: thing.stateByName("maxChargingCurrent")
-
                 id: wallboxDelegate
                 height: swipeView.height
                 width: swipeView.width
+
+                property Thing thing: wallboxDevices.get(index)
+                property State powerState: thing.stateByName("power")
+                property State maxChargingCurrentState: thing.stateByName("maxChargingCurrent")
 
                 Component.onCompleted: {
                     console.log(thing.name);
                 }
 
                 Rectangle {
-                    id: one
                     width: swipeView.width
                     height: swipeView.height
                     anchors.horizontalCenter: parent.horizontalCenter
@@ -108,11 +107,11 @@ MainViewBase {
                         Text {
                             Layout.alignment: parent.horizontalCenter
                             anchors.horizontalCenter: parent.horizontalCenter
-                            text: Math.round(maxChargingSlider.value, 2) + " " + qsTr("Ampere")
+                            text: maxChargingSlider.value + " " + qsTr("Ampere")
                             color: "white"
                         }
 
-                        Slider {
+                        ThrottledSlider {
                             id: maxChargingSlider
                             Layout.fillWidth: true
                             Layout.leftMargin: parent.width * .05
@@ -120,7 +119,6 @@ MainViewBase {
                             from: 6
                             to: 80
                             stepSize: 1
-                            snapMode: Slider.SnapAlways
                             value: maxChargingCurrentState.value / 1000
                             onMoved: {
                                 root.setMaxChargingCurrent(maxChargingCurrentState, value)
