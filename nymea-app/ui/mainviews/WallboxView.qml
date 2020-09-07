@@ -101,29 +101,29 @@ MainViewBase {
                             id: powerSwitch
                             checked: powerState.value
                             onClicked: {
-                                console.log(checked)
+                                root.setPower(powerState, checked)
                             }
                         }
 
                         Text {
+                            Layout.alignment: parent.horizontalCenter
                             anchors.horizontalCenter: parent.horizontalCenter
-                            text: Math.round(maxChargingSlider.value) + " " + qsTr("Ampere")
+                            text: Math.round(maxChargingSlider.value, 2) + " " + qsTr("Ampere")
                             color: "white"
                         }
 
                         Slider {
                             id: maxChargingSlider
-                            anchors.horizontalCenter: parent.horizontalCenter
                             Layout.fillWidth: true
                             Layout.leftMargin: parent.width * .05
                             Layout.rightMargin: parent.width * .05
-                            from: 6000 / 1000
-                            to: 80000 / 1000
+                            from: 6
+                            to: 80
                             stepSize: 1
                             snapMode: Slider.SnapAlways
                             value: maxChargingCurrentState.value / 1000
                             onMoved: {
-                                console.log(value)
+                                root.setMaxChargingCurrent(maxChargingCurrentState, value)
                             }
                         }
                     }
@@ -150,5 +150,23 @@ MainViewBase {
         imageSource: "../images/wallbox/wallbox.svg"
         buttonText: qsTr("Add things")
         onButtonClicked: pageStack.push(Qt.resolvedUrl("../thingconfiguration/NewThingPage.qml"))
+    }
+
+    function setPower(state, enabled) {
+        var params =[];
+        var param = {};
+        param["paramTypeId"] = state.stateTypeId
+        param["value"] = enabled
+        params.push(param)
+        engine.deviceManager.executeAction(state.deviceId, state.stateTypeId, params)
+    }
+
+    function setMaxChargingCurrent(state, value) {
+        var params =[];
+        var param = {};
+        param["paramTypeId"] = state.stateTypeId
+        param["value"] = value * 1000
+        params.push(param)
+        engine.deviceManager.executeAction(state.deviceId, state.stateTypeId, params)
     }
 }
