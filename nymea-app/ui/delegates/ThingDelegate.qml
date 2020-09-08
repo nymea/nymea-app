@@ -73,12 +73,12 @@ NymeaListItemDelegate {
     property Device device: null
     property Thing thing: device
 
-    readonly property bool hasBatteryInterface: thing && thing.thingClass.interfaces.indexOf("battery") > 0
+    readonly property bool hasBatteryInterface: thing && thing.thingClass.interfaces.indexOf("battery") >= 0
     readonly property StateType batteryCriticalStateType: hasBatteryInterface ? thing.thingClass.stateTypes.findByName("batteryCritical") : null
     readonly property State batteryCriticalState: batteryCriticalStateType ? thing.states.getState(batteryCriticalStateType.id) : null
     readonly property bool batteryCritical: batteryCriticalState && batteryCriticalState.value === true
 
-    readonly property bool hasConnectableInterface: thing && thing.thingClass.interfaces.indexOf("connectable") > 0
+    readonly property bool hasConnectableInterface: thing && thing.thingClass.interfaces.indexOf("connectable") >= 0
     readonly property StateType connectedStateType: hasConnectableInterface ? thing.thingClass.stateTypes.findByName("connected") : null
     readonly property State connectedState: connectedStateType ? thing.states.getState(connectedStateType.id) : null
     readonly property bool disconnected: connectedState && connectedState.value === false ? true : false
