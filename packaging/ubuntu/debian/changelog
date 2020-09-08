@@ -1,3 +1,12 @@
+nymea-app (1.0.228) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix graphs not filtering properly for type id
+  * Update ev charger icon
+  * Fix icons in ThingDelegate
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 09 Sep 2020 01:05:52 +0200
+
 nymea-app (1.0.227) bionic; urgency=medium
 
   [ Michael Zanetti ]
