@@ -143,8 +143,8 @@ MainViewBase {
         anchors.centerIn: parent
         width: parent.width - app.margins * 2
         visible: !engine.thingManager.fetchingData && wallboxDevices.count == 0
-        title: qsTr("There are no wallbox devices set up.")
-        text: qsTr("Connect your wallbox devices in order to control them from here.")
+        title: qsTr("There are no wallboxes set up.")
+        text: qsTr("Connect your wallboxes in order to control them from here.")
         imageSource: "../images/wallbox/wallbox.svg"
         buttonText: qsTr("Add things")
         onButtonClicked: pageStack.push(Qt.resolvedUrl("../thingconfiguration/NewThingPage.qml"))
