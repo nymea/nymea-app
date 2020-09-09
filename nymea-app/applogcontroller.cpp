@@ -36,6 +36,7 @@
 #include <QClipboard>
 #include <QGuiApplication>
 #include <QDir>
+#include <QMutexLocker>
 
 QtMessageHandler AppLogController::s_oldLogMessageHandler = nullptr;
 
@@ -161,6 +162,7 @@ void AppLogController::logMessageHandler(QtMsgType type, const QMessageLogContex
 
 void AppLogController::append(const QString &message, AppLogController::Type type)
 {
+    QMutexLocker locker(&m_mutex);
     QString finalMessage = message + "\n";
     m_logFile.write(finalMessage.toUtf8());
     m_logFile.flush();

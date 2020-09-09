@@ -35,6 +35,7 @@
 #include <QFile>
 #include <QQmlEngine>
 #include <QAbstractListModel>
+#include <QMutex>
 
 class AppLogController : public QAbstractListModel
 {
@@ -86,6 +87,7 @@ private:
     QFile m_logFile;
     QStringList m_buffer;
     QList<Type> m_types;
+    QMutex m_mutex;
 };
 
 #endif // APPLOGCONTROLLER_H
