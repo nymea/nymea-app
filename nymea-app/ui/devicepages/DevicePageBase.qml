@@ -36,10 +36,11 @@ import "../components"
 
 Page {
     id: root
-    property Device device: null
-    readonly property DeviceClass deviceClass: device.deviceClass
+    property Thing thing: null
+    readonly property ThingClass thingClass: thing.thingClass
 
-    readonly property Device thing: device
+    property alias device: root.thing
+    property alias deviceClass: root.thingClass
 
     property bool showLogsButton: true
     property bool showDetailsButton: true
@@ -51,7 +52,7 @@ Page {
     signal backPressed()
 
     header: NymeaHeader {
-        text: device.name
+        text: root.thing.name
         onBackPressed: {
             root.backPressed();
             if (root.popStackOnBackButton) {
@@ -61,7 +62,7 @@ Page {
 
         HeaderButton {
             imageSource: "../images/folder-symbolic.svg"
-            visible: root.deviceClass.browsable && root.showBrowserButton
+            visible: root.thingClass.browsable && root.showBrowserButton
             onClicked: {
                 pageStack.push(Qt.resolvedUrl("DeviceBrowserPage.qml"), {device: root.device})
             }
@@ -226,18 +227,25 @@ Page {
 
     Rectangle {
         id: infoPane
-        visible: setupInProgress || setupFailure || batteryState !== null || (connectedState !== null && connectedState.value === false)
+        visible: setupInProgress || setupFailure || batteryState !== null || (connectedState !== null && connectedState.value === false) || isWireless || updateAvailable
         height: visible ? contentRow.implicitHeight : 0
         anchors { left: parent.left; top: parent.top; right: parent.right }
-        property bool setupInProgress: device.setupStatus == Device.DeviceSetupStatusInProgress
-        property bool setupFailure: device.setupStatus == Device.DeviceSetupStatusFailed
-        property var batteryState: deviceClass.interfaces.indexOf("battery") >= 0 ? device.states.getState(deviceClass.stateTypes.findByName("batteryLevel").id) : null
-        property var batteryCriticalState: deviceClass.interfaces.indexOf("battery") >= 0 ? device.states.getState(deviceClass.stateTypes.findByName("batteryCritical").id) : null
-        property var connectedState: deviceClass.interfaces.indexOf("connectable") >= 0 ? device.states.getState(deviceClass.stateTypes.findByName("connected").id) : null
+        property bool setupInProgress: root.thing.setupStatus == Thing.ThingSetupStatusInProgress
+        property bool setupFailure: root.thing.setupStatus == Thing.ThingSetupStatusFailed
+        property State batteryState: root.thing.stateByName("batteryLevel")
+        property State batteryCriticalState: root.thing.stateByName("batteryCritical")
+        property State connectedState: root.thing.stateByName("connected")
+        property State signalStrengthState: root.thing.stateByName("signalStrength")
+        property State updateStatusState: root.thing.stateByName("updateStatus")
+        property bool updateAvailable: updateStatusState && updateStatusState.value === "available"
+        property bool updateRunning: updateStatusState && updateStatusState.value === "updating"
+        property bool isWireless: root.thingClass.interfaces.indexOf("wirelessconnectable") >= 0
         property bool alertState: setupFailure ||
                                   (connectedState !== null && connectedState.value === false) ||
                                   (batteryCriticalState !== null && batteryCriticalState.value === true)
-        color: alertState ? "red" : "transparent"
+        property bool highlightState: updateAvailable || updateRunning
+        color: alertState ? "red"
+                : infoPane.highlightState ? app.accentColor : "transparent"
         z: 1000
 
         RowLayout {
@@ -255,28 +263,46 @@ Page {
                               (root.device.setupDisplayMessage.length > 0 ? root.device.setupDisplayMessage : qsTr("Thing setup failed!"))
                             : (infoPane.connectedState !== null && infoPane.connectedState.value === false) ?
                                   qsTr("Thing is not connected!")
-                                : qsTr("Thing runs out of battery!")
-                visible: infoPane.alertState
+                                : infoPane.updateAvailable ?
+                                      qsTr("Update available!")
+                                    : infoPane.updateRunning ?
+                                          qsTr("Updating...")
+                                        : qsTr("Thing runs out of battery!")
+                visible: infoPane.alertState || infoPane.updateAvailable || infoPane.updateRunning
                 font.pixelSize: app.smallFont
                 color: "white"
             }
 
-            ColorIcon {
+            UpdateStatusIcon {
                 height: app.iconSize / 2
                 width: height
-                visible: infoPane.setupInProgress || infoPane.setupFailure || (infoPane.connectedState !== null && infoPane.connectedState.value === false)
-                color: "white"
-                name: infoPane.setupInProgress ?
-                          "../images/settings.svg"
-                        : "../images/dialog-warning-symbolic.svg"
+                thing: root.thing
+                color: infoPane.alertState || infoPane.highlightState ? "white" : keyColor
+                visible: updateAvailable || updateRunning
             }
 
-            ColorIcon {
+            BatteryStatusIcon {
                 height: app.iconSize / 2
                 width: height * 1.23
-                name: infoPane.batteryState !== null ? "../images/battery/battery-" + ("00" + (Math.floor(infoPane.batteryState.value / 10) * 10)).slice(-3) + ".svg" : ""
-                visible: infoPane.batteryState !== null
-                color: infoPane.alertState ? "white" : keyColor
+                thing: root.thing
+                color: infoPane.alertState || infoPane.highlightState ? "white" : keyColor
+                visible: thing.setupStatus == Thing.ThingSetupStatusComplete && (hasBatteryLevel || isCritical)
+            }
+
+            ConnectionStatusIcon {
+                height: app.iconSize / 2
+                width: height
+                thing: root.thing
+                color: infoPane.alertState || infoPane.highlightState ? "white" : keyColor
+                visible: thing.setupStatus == Thing.ThingSetupStatusComplete && (hasSignalStrength || !isConnected)
+            }
+
+            SetupStatusIcon {
+                height: app.iconSize / 2
+                width: height
+                thing: root.thing
+                color: infoPane.alertState || infoPane.highlightState ? "white" : keyColor
+                visible: setupFailed || setupInProgress
             }
         }
     }

@@ -3,7 +3,7 @@
     <Name>nymea:app</Name>
     <Version>1.0.0</Version>
     <Title>nymea:app Windows Installer</Title>
-    <Publisher>guh GmbH</Publisher>
+    <Publisher>nymea GmbH</Publisher>
     <StartMenuDir>nymea</StartMenuDir>
-    <TargetDir>@ApplicationsDir@/nymea-app</TargetDir>
+    <TargetDir>@ApplicationsDirX64@/nymea-app</TargetDir>
 </Installer>

@@ -40,14 +40,18 @@ MainPageTile {
     text: device.name.toUpperCase()
     iconName: app.interfacesToIcon(deviceClass.interfaces)
     iconColor: app.accentColor
+    isWireless: deviceClass.interfaces.indexOf("wirelessconnectable") >= 0
     batteryCritical: batteryCriticalState && batteryCriticalState.value === true
     disconnected: connectedState && connectedState.value === false
+    signalStrength: signalStrengthState ? signalStrengthState.value : -1
+    setupStatus: device.setupStatus
 
     backgroundImage: artworkState && artworkState.value.length > 0 ? artworkState.value : ""
 
     property Device device: null
     readonly property DeviceClass deviceClass: device ? engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
     readonly property State connectedState: deviceClass.interfaces.indexOf("connectable") >= 0 ? device.states.getState(deviceClass.stateTypes.findByName("connected").id) : null
+    readonly property State signalStrengthState: device.stateByName("signalStrength")
     readonly property State batteryCriticalState: deviceClass.interfaces.indexOf("battery") >= 0 ? device.states.getState(deviceClass.stateTypes.findByName("batteryCritical").id) : null
     readonly property State artworkState: deviceClass.interfaces.indexOf("mediametadataprovider") >= 0 ? device.states.getState(deviceClass.stateTypes.findByName("artwork").id) : null
 

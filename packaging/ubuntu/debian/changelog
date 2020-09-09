@@ -1,3 +1,28 @@
+nymea-app (1.0.228) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix graphs not filtering properly for type id
+  * Update ev charger icon
+  * Fix icons in ThingDelegate
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 09 Sep 2020 01:05:52 +0200
+
+nymea-app (1.0.227) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Rearrange some connectivity icons
+
+ -- Jenkins <jenkins@nymea.io>  Sun, 06 Sep 2020 04:31:28 +0200
+
+nymea-app (1.0.226) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Make plugin issues more visible to the user
+  * Some fixes in zeroconf discovery
+  * Update the windows installer
+
+ -- Jenkins <jenkins@nymea.io>  Sat, 05 Sep 2020 22:41:11 +0200
+
 nymea-app (1.0.225) bionic; urgency=medium
 
   [ Michael Zanetti ]

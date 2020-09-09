@@ -36,11 +36,12 @@
 #include <QDateTime>
 #include <QLineSeries>
 #include <QUuid>
+#include <QQmlParserStatus>
 
 class LogEntry;
 class Engine;
 
-class LogsModelNg : public QAbstractListModel
+class LogsModelNg : public QAbstractListModel, public QQmlParserStatus
 {
     Q_OBJECT
     Q_PROPERTY(Engine* engine READ engine WRITE setEngine NOTIFY engineChanged)
@@ -77,6 +78,8 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role) const override;
     QHash<int, QByteArray> roleNames() const override;
+    void classBegin() override;
+    void componentComplete() override;
 
     bool busy() const;
 
@@ -143,6 +146,7 @@ private:
     QDateTime m_viewStartTime;
     QVariant m_minValue;
     QVariant m_maxValue;
+    bool m_ready = false;
 
     QtCharts::QXYSeries *m_graphSeries = nullptr;
 

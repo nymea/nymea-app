@@ -83,30 +83,30 @@ Page {
                 iconName:  {
                     if (model.protected) {
                         if (model.signalStrength <= 25)
-                            return  Qt.resolvedUrl("../../images/nm-signal-25-secure.svg")
+                            return  Qt.resolvedUrl("../../images/connections/nm-signal-25-secure.svg")
 
                         if (model.signalStrength <= 50)
-                            return  Qt.resolvedUrl("../../images/nm-signal-50-secure.svg")
+                            return  Qt.resolvedUrl("../../images/connections/nm-signal-50-secure.svg")
 
                         if (model.signalStrength <= 75)
-                            return  Qt.resolvedUrl("../../images/nm-signal-75-secure.svg")
+                            return  Qt.resolvedUrl("../../images/connections/nm-signal-75-secure.svg")
 
                         if (model.signalStrength <= 100)
-                            return  Qt.resolvedUrl("../../images/nm-signal-100-secure.svg")
+                            return  Qt.resolvedUrl("../../images/connections/nm-signal-100-secure.svg")
 
                     } else {
 
                         if (model.signalStrength <= 25)
-                            return  Qt.resolvedUrl("../../images/nm-signal-25.svg")
+                            return  Qt.resolvedUrl("../../images/connections/nm-signal-25.svg")
 
                         if (model.signalStrength <= 50)
-                            return  Qt.resolvedUrl("../../images/nm-signal-50.svg")
+                            return  Qt.resolvedUrl("../../images/connections/nm-signal-50.svg")
 
                         if (model.signalStrength <= 75)
-                            return  Qt.resolvedUrl("../../images/nm-signal-75.svg")
+                            return  Qt.resolvedUrl("../../images/connections/nm-signal-75.svg")
 
                         if (model.signalStrength <= 100)
-                            return  Qt.resolvedUrl("../../images/nm-signal-100.svg")
+                            return  Qt.resolvedUrl("../../images/connections/nm-signal-100.svg")
 
                     }
                 }

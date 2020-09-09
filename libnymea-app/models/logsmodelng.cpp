@@ -96,6 +96,17 @@ QHash<int, QByteArray> LogsModelNg::roleNames() const
     return roles;
 }
 
+void LogsModelNg::classBegin()
+{
+
+}
+
+void LogsModelNg::componentComplete()
+{
+    m_ready = true;
+    fetchMore();
+}
+
 bool LogsModelNg::busy() const
 {
     return m_busy;
@@ -359,6 +370,9 @@ void LogsModelNg::fetchMore(const QModelIndex &parent)
 {
     Q_UNUSED(parent)
 
+    if (!m_ready) {
+        return;
+    }
     if (!m_engine) {
         qWarning() << "Cannot update. Engine not set";
         return;
@@ -404,7 +418,7 @@ void LogsModelNg::fetchMore(const QModelIndex &parent)
     params.insert("limit", m_blockSize);
     params.insert("offset", m_list.count());
 
-    qDebug() << "Fetching logs from" << m_startTime.toString() << "to" << m_endTime.toString() << "with offset" << m_list.count() << "and limit" << m_blockSize;
+    qDebug() << "Fetching logs:" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson());
 
     m_engine->jsonRpcClient()->sendCommand("Logging.GetLogEntries", params, this, "logsReply");
 //    qDebug() << "GetLogEntries called";

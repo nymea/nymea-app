@@ -5,17 +5,15 @@ TEMPLATE=subdirs
 SUBDIRS = libnymea-app nymea-app
 nymea-app.depends = libnymea-app
 
-#QML_IMPORT_PATH=/home/micha/Develop/Qt/5.11.0/gcc_64/qml/
-
 withtests: {
     SUBDIRS += tests
     tests.depends = libnymea-app
 }
 
 # Building a Windows installer:
-# Qt MinGW including the Qt Install Framework and MinGW runtime from Qt Installer
-# Add QT_INSTALL_DIR/bin, QT_IFW_INSTALL_DIR/bin and MINGW_INSTALL_DIR/bin to PATH
-# run "make wininstaller"
+# Make sure your environment has the toolchain you want (e.g. msvc17 64 bit) by executing the command:
+# $ call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat"
+# $ make wininstaller
 wininstaller.depends = nymea-app
 !equals(STYLES_PATH, ""):!equals(BRANDING, "") {
     PACKAGE_BASE_DIR = $${STYLES_PATH}\packaging
@@ -24,12 +22,12 @@ wininstaller.depends = nymea-app
 }
 equals(BRANDING, "") {
     APP_NAME = nymea-app
-    PACKAGE_URN = io.guh.nymeaapp
+    PACKAGE_URN = io.nymea.nymeaapp
     PACKAGE_NAME = nymea-app-win-installer
     PACKAGE_DIR = $${PACKAGE_BASE_DIR}\windows
 } else {
     APP_NAME = $${BRANDING}
-    PACKAGE_URN = io.guh.$${APP_NAME}
+    PACKAGE_URN = io.nymea.$${APP_NAME}
     PACKAGE_NAME = $${BRANDING}-win-installer
     PACKAGE_DIR = $${PACKAGE_BASE_DIR}\windows_$${APP_NAME}
 }

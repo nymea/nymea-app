@@ -375,7 +375,7 @@ Item {
                         property var engine: mainRepeater.itemAt(index)._engine
                         property string serverName: engine.nymeaConfiguration.serverName
                         Material.elevation: index
-                        width: Math.max(150, tabbar.width / tabbar.count)
+                        width: Math.max(150, tabbar.width / tabModel.count)
 
                         Rectangle {
                             anchors.fill: parent
