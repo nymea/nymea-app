@@ -67,20 +67,10 @@ MainViewBase {
                 property State powerState: thing.stateByName("power")
                 property State maxChargingCurrentState: thing.stateByName("maxChargingCurrent")
 
-                Component.onCompleted: {
-                    console.log(thing.name);
-                }
-
                 Rectangle {
                     width: swipeView.width
                     height: swipeView.height
                     anchors.horizontalCenter: parent.horizontalCenter
-                    color: "green"
-
-                    gradient: Gradient {
-                        GradientStop { position: 0; color: "#07203F" }
-                        GradientStop { position: 1; color: "#01092A" }
-                    }
 
                     GridLayout {
                         anchors.fill: parent
@@ -92,7 +82,6 @@ MainViewBase {
                         Text {
                             anchors.horizontalCenter: parent.horizontalCenter
                             text: thing.name
-                            color: "white"
                         }
 
                         Switch {
@@ -108,7 +97,6 @@ MainViewBase {
                             Layout.alignment: parent.horizontalCenter
                             anchors.horizontalCenter: parent.horizontalCenter
                             text: maxChargingSlider.value + " " + qsTr("Ampere")
-                            color: "white"
                         }
 
                         ThrottledSlider {
