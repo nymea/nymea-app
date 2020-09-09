@@ -46,70 +46,94 @@ MainViewBase {
         shownInterfaces: ["evcharger"]
     }    
 
-    SwipeView {
-        id: swipeView
+    Rectangle {
         anchors.fill: parent
-        anchors.horizontalCenter: parent.horizontalCenter
-        currentIndex: pageIndicator.currentIndex
-        visible: wallboxDevices.count != 0
+        color: app.foregroundColor
 
-        Repeater {
+        SwipeView {
+            id: swipeView
             anchors.fill: parent
             anchors.horizontalCenter: parent.horizontalCenter
-            model: wallboxDevices
+            currentIndex: pageIndicator.currentIndex
+            visible: wallboxDevices.count != 0
 
-            delegate: Item {
-                id: wallboxDelegate
-                height: swipeView.height
-                width: swipeView.width
-
-                property Thing thing: wallboxDevices.get(index)
-                property State powerState: thing.stateByName("power")
-                property State maxChargingCurrentState: thing.stateByName("maxChargingCurrent")
-
-                Rectangle {
-                    width: swipeView.width
+            Repeater {
+                anchors.fill: parent
+                anchors.horizontalCenter: parent.horizontalCenter
+                model: wallboxDevices
+                delegate: Item {
+                    id: wallboxDelegate
                     height: swipeView.height
-                    anchors.horizontalCenter: parent.horizontalCenter
+                    width: swipeView.width
 
-                    GridLayout {
-                        anchors.fill: parent
-                        anchors.margins: app.margins
+                    property Thing thing: wallboxDevices.get(index)
+                    property State powerState: thing.stateByName("power")
+                    property State maxChargingCurrentState: thing.stateByName("maxChargingCurrent")
+
+                    ColumnLayout {
+                        width: swipeView.width
+                        height: swipeView.height
                         anchors.horizontalCenter: parent.horizontalCenter
-                        columns: 1
-                        rowSpacing: app.margins
 
-                        Text {
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            text: thing.name
-                        }
+                        Rectangle {
+                            Layout.alignment: Qt.AlignCenter
+                            Layout.preferredWidth: thingName.width * 1.5
+                            Layout.preferredHeight: thingName.height * 2
+                            Layout.topMargin: app.margins * 4
+                            Layout.bottomMargin: app.margins
+                            radius: 20
+                            color: app.accentColor
 
-                        Switch {
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            id: powerSwitch
-                            checked: powerState.value
-                            onClicked: {
-                                root.setPower(powerState, checked)
+                            Text {
+                                id: thingName
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                anchors.verticalCenter: parent.verticalCenter
+                                text: thing.name
                             }
                         }
 
-                        Text {
-                            Layout.alignment: parent.horizontalCenter
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            text: maxChargingSlider.value + " " + qsTr("Ampere")
+                        Rectangle {
+                            Layout.alignment: Qt.AlignCenter
+                            Layout.preferredWidth: parent.width
+                            Layout.preferredHeight: maxChargingSlider.height * 4                            
+
+                            Text {
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                anchors.verticalCenter: parent.verticalCenter - maxChargingSlider.height
+                                text: maxChargingSlider.value + " " + qsTr("Ampere")
+                                font: app.font
+                            }
+
+                            ThrottledSlider {
+                                id: maxChargingSlider
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                anchors.verticalCenter: parent.verticalCenter
+                                width: swipeView.width * 0.5
+                                from: 6
+                                to: 80
+                                stepSize: 1
+                                value: maxChargingCurrentState.value / 1000
+                                onMoved: {
+                                    root.setMaxChargingCurrent(maxChargingCurrentState, value)
+                                }
+                            }
                         }
 
-                        ThrottledSlider {
-                            id: maxChargingSlider
-                            Layout.fillWidth: true
-                            Layout.leftMargin: parent.width * .05
-                            Layout.rightMargin: parent.width * .05
-                            from: 6
-                            to: 80
-                            stepSize: 1
-                            value: maxChargingCurrentState.value / 1000
-                            onMoved: {
-                                root.setMaxChargingCurrent(maxChargingCurrentState, value)
+                        Rectangle {
+                            Layout.alignment: Qt.AlignCenter
+                            Layout.preferredWidth: powerSwitch.width * 1.5
+                            Layout.preferredHeight: powerSwitch.width * 1.5
+                            Layout.bottomMargin: app.margins * 2
+                            radius: 20
+
+                            Switch {
+                                id: powerSwitch
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                anchors.verticalCenter: parent.verticalCenter
+                                checked: powerState.value
+                                onClicked: {
+                                    root.setPower(powerState, checked)
+                                }
                             }
                         }
                     }
