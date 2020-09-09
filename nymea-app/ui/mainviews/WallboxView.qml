@@ -133,7 +133,7 @@ MainViewBase {
         visible: !engine.thingManager.fetchingData && wallboxDevices.count == 0
         title: qsTr("There are no wallboxes set up.")
         text: qsTr("Connect your wallboxes in order to control them from here.")
-        imageSource: "../images/wallbox/wallbox.svg"
+        imageSource: "../images/ev-charger.svg"
         buttonText: qsTr("Add things")
         onButtonClicked: pageStack.push(Qt.resolvedUrl("../thingconfiguration/NewThingPage.qml"))
     }
