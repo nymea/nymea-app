@@ -117,8 +117,8 @@ MainViewBase {
 
                         Rectangle {
                             Layout.alignment: Qt.AlignCenter
-                            Layout.preferredWidth: powerSwitch.width * 1.5
-                            Layout.preferredHeight: powerSwitch.width * 1.5
+                            Layout.implicitWidth: powerSwitch.width * 1.5
+                            Layout.implicitHeight: powerSwitch.width * 1.5
                             Layout.bottomMargin: app.margins * 2
                             radius: 20
 
