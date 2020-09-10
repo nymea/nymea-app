@@ -38,12 +38,26 @@ import "../components"
 Page {
     id: root
 
+    header: FancyHeader {
+        title: qsTr("Connect %1").arg(app.systemName)
+        model: ListModel {
+            ListElement { iconSource: "../images/connections/network-vpn.svg"; text: qsTr("Manual connection"); page: "ManualConnectPage.qml" }
+            ListElement { iconSource: "../images/connections/bluetooth.svg"; text: qsTr("Wireless setup"); page: "wifisetup/BluetoothDiscoveryPage.qml"; }
+            ListElement { iconSource: "../images/private-browsing.svg"; text: qsTr("Demo mode"); page: "" }
+            ListElement { iconSource: "../images/stock_application.svg"; text: qsTr("App settings"); page: "../appsettings/AppSettingsPage.qml" }
+        }
+        onClicked: {
+            if (index === 2) {
+                var host = discovery.nymeaHosts.createWanHost("Demo server", "nymea://nymea.nymea.io:2222")
+                engine.jsonRpcClient.connectToHost(host)
+            } else {
+                pageStack.push(model.get(index).page, {nymeaDiscovery: discovery});
+            }
+        }
+    }
+
     readonly property bool haveHosts: hostsProxy.count > 0
 
-    Component.onCompleted: {
-        print("Ready to connect")
-        pageStack.push(discoveryPage, StackView.Immediate)
-    }
 
     function connectToHost(host, noAnimations) {
         var page = pageStack.push(Qt.resolvedUrl("ConnectingPage.qml"), noAnimations ? StackView.Immediate : StackView.PushTransition)
@@ -64,220 +78,196 @@ Page {
         showUnreachableHosts: false
     }
 
-    Component {
-        id: discoveryPage
 
-        Page {
-            objectName: "discoveryPage"
-            header: FancyHeader {
-                title: qsTr("Connect %1").arg(app.systemName)
-                model: ListModel {
-                    ListElement { iconSource: "../images/connections/network-vpn.svg"; text: qsTr("Manual connection"); page: "ManualConnectPage.qml" }
-                    ListElement { iconSource: "../images/connections/bluetooth.svg"; text: qsTr("Wireless setup"); page: "wifisetup/BluetoothDiscoveryPage.qml"; }
-                    ListElement { iconSource: "../images/private-browsing.svg"; text: qsTr("Demo mode"); page: "" }
-                    ListElement { iconSource: "../images/stock_application.svg"; text: qsTr("App settings"); page: "../appsettings/AppSettingsPage.qml" }
+    Timer {
+        id: splashHideTimeout
+        interval: 3000
+        repeat: false
+        running: true
+        onTriggered: {
+            PlatformHelper.hideSplashScreen()
+            startupTimer.start()
+        }
+    }
+
+    Timer {
+        id: startupTimer
+        interval: 10000
+        repeat: false
+        running: false
+    }
+
+
+    ColumnLayout {
+        anchors.fill: parent
+        spacing: app.margins
+
+        ColumnLayout {
+            Layout.fillWidth: true
+            Layout.leftMargin: app.margins
+            Layout.rightMargin: app.margins
+            Layout.topMargin: app.margins
+            spacing: app.margins
+
+            Label {
+                Layout.fillWidth: true
+                text: root.haveHosts ? qsTr("Oh, look!") : startupTimer.running ? qsTr("Just a moment...") : qsTr("Uh oh")
+                //color: "black"
+                font.pixelSize: app.largeFont
+            }
+
+            Label {
+                Layout.fillWidth: true
+                text: root.haveHosts ?
+                          qsTr("There are %1 %2:cores in your network! Which one would you like to use?").arg(hostsProxy.count).arg(app.systemName)
+                        : startupTimer.running ? qsTr("We haven't found a %1:core in your network yet.").arg(app.systemName)
+                                               : qsTr("There doesn't seem to be a %1:core installed in your network. Please make sure your %1:core system is correctly set up and connected.").arg(app.systemName)
+                wrapMode: Text.WordWrap
+            }
+        }
+
+        ThinDivider { }
+
+        ListView {
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            model: hostsProxy
+            clip: true
+
+            delegate: NymeaListItemDelegate {
+                id: nymeaHostDelegate
+                width: parent.width
+                height: app.delegateHeight
+                objectName: "discoveryDelegate" + index
+                property var nymeaHost: hostsProxy.get(index)
+                property string defaultConnectionIndex: {
+                    var bestIndex = -1
+                    var bestPriority = 0;
+                    for (var i = 0; i < nymeaHost.connections.count; i++) {
+                        var connection = nymeaHost.connections.get(i);
+                        if (bestIndex === -1 || connection.priority > bestPriority) {
+                            bestIndex = i;
+                            bestPriority = connection.priority;
+                        }
+                    }
+                    return bestIndex;
                 }
+
+                iconName: {
+                    switch (nymeaHost.connections.get(defaultConnectionIndex).bearerType) {
+                    case Connection.BearerTypeLan:
+                    case Connection.BearerTypeWan:
+                        if (engine.jsonRpcClient.availableBearerTypes & NymeaConnection.BearerTypeEthernet != NymeaConnection.BearerTypeNone) {
+                            return "../images/connections/network-wired.svg"
+                        }
+                        return "../images/connections/network-wifi.svg";
+                    case Connection.BearerTypeBluetooth:
+                        return "../images/connections/bluetooth.svg";
+                    case Connection.BearerTypeCloud:
+                        return "../images/connections/cloud.svg"
+                    case Connection.BearerTypeLoopback:
+                        return "qrc:/styles/%1/logo.svg".arg(styleController.currentStyle)
+                    }
+                    return ""
+                }
+
+                text: model.name
+                subText: nymeaHost.connections.get(defaultConnectionIndex).url
+                wrapTexts: false
+                prominentSubText: false
+                progressive: false
+                property bool isSecure: nymeaHost.connections.get(defaultConnectionIndex).secure
+                property bool isOnline: nymeaHost.connections.get(defaultConnectionIndex).bearerType !== Connection.BearerTypeWan ? nymeaHost.connections.get(defaultConnectionIndex).online : true
+                tertiaryIconName: isSecure ? "../images/connections/network-secure.svg" : ""
+                secondaryIconName: !isOnline ? "../images/connections/cloud-error.svg" : ""
+                secondaryIconColor: "red"
+
                 onClicked: {
-                    if (index === 2) {
-                        var host = discovery.nymeaHosts.createWanHost("Demo server", "nymea://nymea.nymea.io:2222")
-                        engine.jsonRpcClient.connectToHost(host)
-                    } else {
-                        pageStack.push(model.get(index).page, {nymeaDiscovery: discovery});
+                    root.connectToHost(nymeaHostDelegate.nymeaHost)
+                }
+
+                contextOptions: [
+                    {
+                        text: qsTr("Info"),
+                        icon: Qt.resolvedUrl("../images/info.svg"),
+                        callback: function() {
+                            var nymeaHost = hostsProxy.get(index);
+                            var popup = infoDialog.createObject(app,{nymeaHost: nymeaHost})
+                            popup.open()
+                        }
                     }
-                }
+                ]
             }
 
-            Timer {
-                id: splashHideTimeout
-                interval: 3000
-                repeat: false
-                running: true
-                onTriggered: {
-                    PlatformHelper.hideSplashScreen()
-                    startupTimer.start()
-                }
-            }
-
-            Timer {
-                id: startupTimer
-                interval: 10000
-                repeat: false
-                running: false
-            }
-
-
-            ColumnLayout {
-                anchors.fill: parent
+            Column {
+                anchors.centerIn: parent
                 spacing: app.margins
-
-                ColumnLayout {
-                    Layout.fillWidth: true
-                    Layout.leftMargin: app.margins
-                    Layout.rightMargin: app.margins
-                    Layout.topMargin: app.margins
-                    spacing: app.margins
-
-                    Label {
-                        Layout.fillWidth: true
-                        text: root.haveHosts ? qsTr("Oh, look!") : startupTimer.running ? qsTr("Just a moment...") : qsTr("Uh oh")
-                        //color: "black"
-                        font.pixelSize: app.largeFont
-                    }
-
-                    Label {
-                        Layout.fillWidth: true
-                        text: root.haveHosts ?
-                                  qsTr("There are %1 %2:cores in your network! Which one would you like to use?").arg(hostsProxy.count).arg(app.systemName)
-                                : startupTimer.running ? qsTr("We haven't found a %1:core in your network yet.").arg(app.systemName)
-                                                       : qsTr("There doesn't seem to be a %1:core installed in your network. Please make sure your %1:core system is correctly set up and connected.").arg(app.systemName)
-                        wrapMode: Text.WordWrap
-                    }
-                }
-
-                ThinDivider { }
-
-                ListView {
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    model: hostsProxy
-                    clip: true
-
-                    delegate: NymeaListItemDelegate {
-                        id: nymeaHostDelegate
-                        width: parent.width
-                        height: app.delegateHeight
-                        objectName: "discoveryDelegate" + index
-                        property var nymeaHost: hostsProxy.get(index)
-                        property string defaultConnectionIndex: {
-                            var bestIndex = -1
-                            var bestPriority = 0;
-                            for (var i = 0; i < nymeaHost.connections.count; i++) {
-                                var connection = nymeaHost.connections.get(i);
-                                if (bestIndex === -1 || connection.priority > bestPriority) {
-                                    bestIndex = i;
-                                    bestPriority = connection.priority;
-                                }
-                            }
-                            return bestIndex;
-                        }
-
-                        iconName: {
-                            switch (nymeaHost.connections.get(defaultConnectionIndex).bearerType) {
-                            case Connection.BearerTypeLan:
-                            case Connection.BearerTypeWan:
-                                if (engine.jsonRpcClient.availableBearerTypes & NymeaConnection.BearerTypeEthernet != NymeaConnection.BearerTypeNone) {
-                                    return "../images/connections/network-wired.svg"
-                                }
-                                return "../images/connections/network-wifi.svg";
-                            case Connection.BearerTypeBluetooth:
-                                return "../images/connections/bluetooth.svg";
-                            case Connection.BearerTypeCloud:
-                                return "../images/connections/cloud.svg"
-                            case Connection.BearerTypeLoopback:
-                                return "qrc:/styles/%1/logo.svg".arg(styleController.currentStyle)
-                            }
-                            return ""
-                        }
-
-                        text: model.name
-                        subText: nymeaHost.connections.get(defaultConnectionIndex).url
-                        wrapTexts: false
-                        prominentSubText: false
-                        progressive: false
-                        property bool isSecure: nymeaHost.connections.get(defaultConnectionIndex).secure
-                        property bool isOnline: nymeaHost.connections.get(defaultConnectionIndex).bearerType !== Connection.BearerTypeWan ? nymeaHost.connections.get(defaultConnectionIndex).online : true
-                        tertiaryIconName: isSecure ? "../images/connections/network-secure.svg" : ""
-                        secondaryIconName: !isOnline ? "../images/connections/cloud-error.svg" : ""
-                        secondaryIconColor: "red"
-
-                        onClicked: {
-                            root.connectToHost(nymeaHostDelegate.nymeaHost)
-                        }
-
-                        contextOptions: [
-                            {
-                                text: qsTr("Info"),
-                                icon: Qt.resolvedUrl("../images/info.svg"),
-                                callback: function() {
-                                    var nymeaHost = hostsProxy.get(index);
-                                    var popup = infoDialog.createObject(app,{nymeaHost: nymeaHost})
-                                    popup.open()
-                                }
-                            }
-                        ]
-                    }
-
-                    Column {
-                        anchors.centerIn: parent
-                        spacing: app.margins
-                        visible: !root.haveHosts
-
-                        Label {
-                            text: qsTr("Searching for %1:core systems...").arg(app.systemName)
-                        }
-
-                        BusyIndicator {
-                            running: visible
-                            anchors.horizontalCenter: parent.horizontalCenter
-                        }
-                    }
-                }
-
-                ThinDivider {}
+                visible: !root.haveHosts
 
                 Label {
-                    Layout.fillWidth: true
-                    Layout.leftMargin: app.margins
-                    Layout.rightMargin: app.margins
-                    wrapMode: Text.WordWrap
-                    visible: discovery.nymeaHosts.count === 0
-                    text: qsTr("Do you have a %1:core but it's not connected to your network yet? Use the wireless setup to connect it!").arg(app.systemName)
-                }
-                Button {
-                    Layout.fillWidth: true
-                    Layout.leftMargin: app.margins
-                    Layout.rightMargin: app.margins
-                    visible: discovery.nymeaHosts.count === 0
-                    text: qsTr("Start wireless setup")
-                    onClicked: pageStack.push(Qt.resolvedUrl("wifisetup/BluetoothDiscoveryPage.qml"), {nymeaDiscovery: discovery})
-                }
-                Button {
-                    Layout.fillWidth: true
-                    Layout.leftMargin: app.margins
-                    Layout.rightMargin: app.margins
-                    text: qsTr("Cloud login")
-                    visible: !AWSClient.isLoggedIn
-                    onClicked: pageStack.push(Qt.resolvedUrl("../appsettings/CloudLoginPage.qml"))
+                    text: qsTr("Searching for %1:core systems...").arg(app.systemName)
                 }
 
-                Button {
-                    Layout.fillWidth: true
-                    Layout.leftMargin: app.margins
-                    Layout.rightMargin: app.margins
-                    Layout.bottomMargin: app.margins
-                    visible: discovery.nymeaHosts.count === 0
-                    text: qsTr("Demo mode (online)")
-                    onClicked: {
-                        var host = discovery.nymeaHosts.createWanHost("Demo server", "nymea://nymea.nymea.io:2222")
-                        engine.jsonRpcClient.connectToHost(host)
-                    }
-                }
-
-                RowLayout {
-                    Layout.fillWidth: true
-                    Layout.leftMargin: app.margins
-                    Layout.rightMargin: app.margins
-                    Layout.bottomMargin: app.margins
-                    visible: root.haveHosts
-                    Label {
-                        Layout.fillWidth: true
-                        text: qsTr("Not the ones you're looking for? We're looking for more!")
-                        wrapMode: Text.WordWrap
-                    }
-
-                    BusyIndicator { }
+                BusyIndicator {
+                    running: visible
+                    anchors.horizontalCenter: parent.horizontalCenter
                 }
             }
+        }
+
+        ThinDivider {}
+
+        Label {
+            Layout.fillWidth: true
+            Layout.leftMargin: app.margins
+            Layout.rightMargin: app.margins
+            wrapMode: Text.WordWrap
+            visible: discovery.nymeaHosts.count === 0
+            text: qsTr("Do you have a %1:core but it's not connected to your network yet? Use the wireless setup to connect it!").arg(app.systemName)
+        }
+        Button {
+            Layout.fillWidth: true
+            Layout.leftMargin: app.margins
+            Layout.rightMargin: app.margins
+            visible: discovery.nymeaHosts.count === 0
+            text: qsTr("Start wireless setup")
+            onClicked: pageStack.push(Qt.resolvedUrl("wifisetup/BluetoothDiscoveryPage.qml"), {nymeaDiscovery: discovery})
+        }
+        Button {
+            Layout.fillWidth: true
+            Layout.leftMargin: app.margins
+            Layout.rightMargin: app.margins
+            text: qsTr("Cloud login")
+            visible: !AWSClient.isLoggedIn
+            onClicked: pageStack.push(Qt.resolvedUrl("../appsettings/CloudLoginPage.qml"))
+        }
+
+        Button {
+            Layout.fillWidth: true
+            Layout.leftMargin: app.margins
+            Layout.rightMargin: app.margins
+            Layout.bottomMargin: app.margins
+            visible: discovery.nymeaHosts.count === 0
+            text: qsTr("Demo mode (online)")
+            onClicked: {
+                var host = discovery.nymeaHosts.createWanHost("Demo server", "nymea://nymea.nymea.io:2222")
+                engine.jsonRpcClient.connectToHost(host)
+            }
+        }
+
+        RowLayout {
+            Layout.fillWidth: true
+            Layout.leftMargin: app.margins
+            Layout.rightMargin: app.margins
+            Layout.bottomMargin: app.margins
+            visible: root.haveHosts
+            Label {
+                Layout.fillWidth: true
+                text: qsTr("Not the ones you're looking for? We're looking for more!")
+                wrapMode: Text.WordWrap
+            }
+
+            BusyIndicator { }
         }
     }
 
