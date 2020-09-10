@@ -5,15 +5,12 @@ import android.content.Intent;
 import android.app.PendingIntent;
 import android.net.Uri;
 import android.content.Context;
-import android.provider.Settings.System;
-import android.os.Build;
 import android.service.controls.ControlsProviderService;
 import android.service.controls.actions.ControlAction;
 import android.service.controls.actions.BooleanAction;
 import android.service.controls.Control;
 import android.service.controls.DeviceTypes;
 
-import java.util.Random;
 import java.util.concurrent.Flow.Publisher;
 import java.util.function.Consumer;
 import java.util.List;
@@ -22,19 +19,20 @@ import io.reactivex.Flowable;
 import io.reactivex.processors.ReplayProcessor;
 import org.reactivestreams.FlowAdapters;
 
-public class NymeaAppHomeControlsService extends ControlsProviderService {
+public class NymeaAppControlService extends ControlsProviderService {
 
     private ReplayProcessor updatePublisher;
-    private PendingIntent pi;
 
     @Override
     public Publisher createPublisherForAllAvailable() {
+        Log.d("********************************* Creating publishers for all ****************************", "fff");
+
         Context context = getBaseContext();
         Intent i = new Intent();
-//        PendingIntent pi = PendingIntent.getActivity(context, 1, i, PendingIntent.FLAG_UPDATE_CURRENT);
-        pi = PendingIntent.getActivity(context, 1, i, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pi = PendingIntent.getActivity(context, 1, i, PendingIntent.FLAG_UPDATE_CURRENT);
+//        pi = PendingIntent.getActivity(context, 1, i, PendingIntent.FLAG_UPDATE_CURRENT);
         List controls = new ArrayList<>();
-        Control control = new Control.StatelessBuilder("123", pi)
+        Control control = new Control.StatelessBuilder("e24b0d95-9982-4f9b-ad8b-2aa6b9aba8fd", pi)
           // Required: The name of the control
           .setTitle("TestControl")
           // Required: Usually the room where the control is located
@@ -42,7 +40,7 @@ public class NymeaAppHomeControlsService extends ControlsProviderService {
           // Optional: Structure where the control is located, an example would be a house
           .setStructure("TestLocation")
           // Required: Type of device, i.e., thermostat, light, switch
-          .setDeviceType(DeviceTypes.TYPE_LIGHT) // For example, DeviceTypes.TYPE_THERMOSTAT
+          .setDeviceType(DeviceTypes.TYPE_GENERIC_ON_OFF) // For example, DeviceTypes.TYPE_THERMOSTAT
           .build();
         controls.add(control);
         // Create more controls here if needed and add it to the ArrayList
@@ -54,6 +52,10 @@ public class NymeaAppHomeControlsService extends ControlsProviderService {
 
     @Override
     public Publisher createPublisherFor(List controlIds) {
+        Log.d("********************************* Creating publishers for one ****************************", "..");
+//        for(int i = 0; i < controlIds.size(); i++) {
+//            Log.d("requested control id:", controlIds.get(i));
+//        }
         Context context = getBaseContext();
         /* Fill in details for the activity related to this device. On long press,
          * this Intent will be launched in a bottomsheet. Please design the activity
@@ -66,8 +68,9 @@ public class NymeaAppHomeControlsService extends ControlsProviderService {
 
         // For each controlId in controlIds
 
-        if (controlIds.contains(123)) {
-            Control control = new Control.StatefulBuilder("123", pi)
+        if (controlIds.contains("e24b0d95-9982-4f9b-ad8b-2aa6b9aba8fd")) {
+            Log.d("**", "control asked");
+            Control control = new Control.StatefulBuilder("e24b0d95-9982-4f9b-ad8b-2aa6b9aba8fd", pi)
             // Required: The name of the control
             .setTitle("TestTitle")
             // Required: Usually the room where the control is located
@@ -75,7 +78,7 @@ public class NymeaAppHomeControlsService extends ControlsProviderService {
             // Optional: Structure where the control is located, an example would be a house
             .setStructure("TestStructure")
             // Required: Type of device, i.e., thermostat, light, switch
-            .setDeviceType(DeviceTypes.TYPE_LIGHT) // For example, DeviceTypes.TYPE_THERMOSTAT
+            .setDeviceType(DeviceTypes.TYPE_GENERIC_ON_OFF) // For example, DeviceTypes.TYPE_THERMOSTAT
             // Required: Current status of the device
             .setStatus(Control.STATUS_OK) // For example, Control.STATUS_OK
             .build();
@@ -107,21 +110,21 @@ public class NymeaAppHomeControlsService extends ControlsProviderService {
              * After updating, the application should use the publisher to update SystemUI with the new
              * state.
              */
-            Control control = new Control.StatefulBuilder("123", pi)
-                // Required: The name of the control
-                .setTitle("TestControl")
-                // Required: Usually the room where the control is located
-                .setSubtitle("TestSubTitle")
-                // Optional: Structure where the control is located, an example would be a house
-                .setStructure("TestStructure")
-                // Required: Type of device, i.e., thermostat, light, switch
-                .setDeviceType(DeviceTypes.TYPE_LIGHT) // For example, DeviceTypes.TYPE_THERMOSTAT
-                // Required: Current status of the device
-                .setStatus(Control.STATUS_OK) // For example, Control.STATUS_OK
-                .build();
+//            Control control = new Control.StatefulBuilder("123", pi)
+//                // Required: The name of the control
+//                .setTitle("TestControl")
+//                // Required: Usually the room where the control is located
+//                .setSubtitle("TestSubTitle")
+//                // Optional: Structure where the control is located, an example would be a house
+//                .setStructure("TestStructure")
+//                // Required: Type of device, i.e., thermostat, light, switch
+//                .setDeviceType(DeviceTypes.TYPE_GENERIC_ON_OFF) // For example, DeviceTypes.TYPE_THERMOSTAT
+//                // Required: Current status of the device
+//                .setStatus(Control.STATUS_OK) // For example, Control.STATUS_OK
+//                .build();
 
-            // This is the publisher the application created during the call to createPublisherFor()
-            updatePublisher.onNext(control);
+//            // This is the publisher the application created during the call to createPublisherFor()
+//            updatePublisher.onNext(control);
         }
     }
 }
