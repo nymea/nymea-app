@@ -53,13 +53,10 @@ MainViewBase {
         SwipeView {
             id: swipeView
             anchors.fill: parent
-            anchors.horizontalCenter: parent.horizontalCenter
             currentIndex: pageIndicator.currentIndex
             visible: wallboxDevices.count != 0
 
             Repeater {
-                anchors.fill: parent
-                anchors.horizontalCenter: parent.horizontalCenter
                 model: wallboxDevices
                 delegate: Item {
                     id: wallboxDelegate
@@ -71,8 +68,7 @@ MainViewBase {
                     property State maxChargingCurrentState: thing.stateByName("maxChargingCurrent")
 
                     ColumnLayout {
-                        width: swipeView.width
-                        height: swipeView.height
+                        anchors.fill: parent
                         anchors.horizontalCenter: parent.horizontalCenter
 
                         Rectangle {
@@ -99,7 +95,7 @@ MainViewBase {
 
                             Text {
                                 anchors.horizontalCenter: parent.horizontalCenter
-                                anchors.verticalCenter: parent.verticalCenter - maxChargingSlider.height
+                                anchors.verticalCenterOffset: maxChargingSlider.height
                                 text: maxChargingSlider.value + " " + qsTr("Ampere")
                                 font: app.font
                             }
