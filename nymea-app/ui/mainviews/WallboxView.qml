@@ -64,8 +64,8 @@ MainViewBase {
                     width: swipeView.width
 
                     property Thing thing: wallboxDevices.get(index)
-                    property State powerState: thing.stateByName("power")
                     property State maxChargingCurrentState: thing.stateByName("maxChargingCurrent")
+                    property StateType maxChargingCurrentStateType: thing.thingClass.stateTypes.findByName("maxChargingCurrent")
 
                     ColumnLayout {
                         anchors.fill: parent
@@ -91,44 +91,25 @@ MainViewBase {
                         Rectangle {
                             Layout.alignment: Qt.AlignCenter
                             Layout.preferredWidth: parent.width
-                            Layout.preferredHeight: maxChargingSlider.height * 4                            
+                            Layout.preferredHeight: swipeView.height * 0.6
 
-                            Text {
-                                anchors.horizontalCenter: parent.horizontalCenter
-                                anchors.verticalCenterOffset: maxChargingSlider.height
-                                text: maxChargingSlider.value + " " + qsTr("Ampere")
-                                font: app.font
-                            }
-
-                            ThrottledSlider {
-                                id: maxChargingSlider
+                            CircularSlider {
+                                id: maxChargingCurrentStateDial
+                                width: parent.width * 0.8
+                                height: parent.height * 0.8
                                 anchors.horizontalCenter: parent.horizontalCenter
                                 anchors.verticalCenter: parent.verticalCenter
-                                width: swipeView.width * 0.5
-                                from: 6
-                                to: 80
-                                stepSize: 1
-                                value: maxChargingCurrentState.value / 1000
-                                onMoved: {
-                                    root.setMaxChargingCurrent(maxChargingCurrentState, value)
-                                }
-                            }
-                        }
+                                Layout.alignment: Qt.AlignCenter
+                                Layout.rowSpan: app.landscape ? 3 : 1
+                                device: thing
+                                stateType: maxChargingCurrentStateType
+                                showValueLabel: false
 
-                        Rectangle {
-                            Layout.alignment: Qt.AlignCenter
-                            Layout.implicitWidth: powerSwitch.width * 1.5
-                            Layout.implicitHeight: powerSwitch.width * 1.5
-                            Layout.bottomMargin: app.margins * 2
-                            radius: 20
-
-                            Switch {
-                                id: powerSwitch
-                                anchors.horizontalCenter: parent.horizontalCenter
-                                anchors.verticalCenter: parent.verticalCenter
-                                checked: powerState.value
-                                onClicked: {
-                                    root.setPower(powerState, checked)
+                                Text {
+                                    Layout.alignment: Qt.AlignHCenter
+                                    id: maxChargingCurrentStateText
+                                    text: Math.round(maxChargingCurrentState.value / 1000) + " " + qsTr("Ampere")
+                                    font: app.font
                                 }
                             }
                         }
@@ -156,23 +137,5 @@ MainViewBase {
         imageSource: "../images/ev-charger.svg"
         buttonText: qsTr("Add things")
         onButtonClicked: pageStack.push(Qt.resolvedUrl("../thingconfiguration/NewThingPage.qml"))
-    }
-
-    function setPower(state, enabled) {
-        var params =[];
-        var param = {};
-        param["paramTypeId"] = state.stateTypeId
-        param["value"] = enabled
-        params.push(param)
-        engine.deviceManager.executeAction(state.deviceId, state.stateTypeId, params)
-    }
-
-    function setMaxChargingCurrent(state, value) {
-        var params =[];
-        var param = {};
-        param["paramTypeId"] = state.stateTypeId
-        param["value"] = value * 1000
-        params.push(param)
-        engine.deviceManager.executeAction(state.deviceId, state.stateTypeId, params)
     }
 }
