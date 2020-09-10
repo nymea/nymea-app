@@ -73,6 +73,13 @@
             </intent-filter>
         </service>
 
+        <service android:name="io.guh.nymeaapp.NymeaHomeControlsService" android:label="nymea:app" android:permission="android.permission.BIND_CONTROLS">
+            <intent-filter>
+                <action android:name="android.service.controls.ControlProviderService"/>
+            </intent-filter>
+        </service>
+
+
     </application>
 
     <uses-sdk android:minSdkVersion="21" android:targetSdkVersion="28"/>
