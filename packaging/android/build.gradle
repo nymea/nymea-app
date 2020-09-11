@@ -70,6 +70,12 @@ android {
     }
 
     defaultConfig {
-        resConfigs "en", "de", "ko"
+        resConfigs "en", "de", "ko", "it"
+    }
+
+    defaultConfig {
+        resConfig "en"
+        minSdkVersion = qtMinSdkVersion
+        targetSdkVersion = qtTargetSdkVersion
     }
 }
