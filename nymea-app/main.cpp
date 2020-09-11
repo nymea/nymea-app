@@ -104,15 +104,14 @@ int main(int argc, char *argv[])
     }
 
     QTranslator qtTranslator;    
-    qtTranslator.load("qt_" + QLocale::system().name(),
-            QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+    qtTranslator.load("qt_" + QLocale::system().name(), QLibraryInfo::location(QLibraryInfo::TranslationsPath));
     application.installTranslator(&qtTranslator);
 
     qDebug() << "nymea:app" << APP_VERSION << "running on" << QSysInfo::machineHostName() << QSysInfo::prettyProductName() << QSysInfo::productType() << QSysInfo::productVersion();
     qDebug() << "Locale info:" << QLocale() << QLocale().name() << QLocale().language() << QLocale().system();
 
     QTranslator appTranslator;
-    bool translationResult = appTranslator.load(QLocale(), "nymea-app", "-", ":/translations/", ".qm");
+    bool translationResult = appTranslator.load("nymea-app-" + QLocale().name(), ":/translations/");
     if (translationResult) {
         qDebug() << "Loaded translation for locale" << QLocale();
     } else {
