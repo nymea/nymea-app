@@ -72,10 +72,30 @@ MainViewBase {
                         anchors.horizontalCenter: parent.horizontalCenter
 
                         Rectangle {
+                            Layout.alignment: Qt.AlignLeft
+                            Layout.preferredWidth: parent.width - 36.67
+                            Layout.preferredHeight: 40
+                            Layout.topMargin: 36.67
+
+                            ColorIcon {
+                                anchors.right: parent.right
+                                height: parent.height
+                                width: height
+                                name: "../images/settings_gear.svg"
+                                color: "#CACACA" // TODO: VK template
+
+                                MouseArea {
+                                    anchors.fill: parent
+                                    onClicked: pageStack.push(Qt.resolvedUrl("../thingconfiguration/NewThingPage.qml"))
+                                }
+                            }
+                        }
+
+                        Rectangle {
                             Layout.alignment: Qt.AlignCenter
                             Layout.preferredWidth: thingName.width * 1.3
                             Layout.preferredHeight: thingName.height * 2
-                            Layout.topMargin: app.margins * 4
+                            Layout.topMargin: app.margins
                             Layout.bottomMargin: 0
                             radius: 20
                             color: "#E3E3E3" // TODO: VK template
@@ -115,6 +135,7 @@ MainViewBase {
                                 unitLabelColor: "white" // TODO: VK template
                                 centerValueLabelColor: "white" // TODO: VK template
                                 roundValue: true
+                                color: "#78CDC6" // TODO: VK template
                             }
                         }
                     }
