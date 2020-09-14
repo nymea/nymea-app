@@ -62,7 +62,35 @@
             <!-- extract android style -->
         </activity>
 
+
+        <activity android:configChanges="orientation|uiMode|screenLayout|screenSize|smallestScreenSize|layoutDirection|locale|fontScale|keyboard|keyboardHidden|navigation|mcc|mnc|density" android:name="io.guh.nymeaapp.NymeaAppControlsActivity" android:label="nymea:app" android:screenOrientation="unspecified" android:launchMode="singleTop">
+            <meta-data android:name="android.app.lib_name" android:value="service"/>
+        </activity>
+
         <!-- For adding service(s) please check: https://wiki.qt.io/AndroidServices -->
+
+        <service android:process=":qt_service" android:name="io.guh.nymeaapp.NymeaAppService">
+            <meta-data android:name="android.app.lib_name" android:value="service"/>
+            <meta-data android:name="android.app.qt_sources_resource_id" android:resource="@array/qt_sources"/>
+            <meta-data android:name="android.app.repository" android:value="default"/>
+            <meta-data android:name="android.app.qt_libs_resource_id" android:resource="@array/qt_libs"/>
+            <meta-data android:name="android.app.bundled_libs_resource_id" android:resource="@array/bundled_libs"/>
+
+            <!-- Deploy Qt libs as part of package -->
+            <meta-data android:name="android.app.bundle_local_qt_libs" android:value="-- %%BUNDLE_LOCAL_QT_LIBS%% --"/>
+
+            <!-- Run with local libs -->
+            <meta-data android:name="android.app.use_local_qt_libs" android:value="-- %%USE_LOCAL_QT_LIBS%% --"/>
+            <meta-data android:name="android.app.libs_prefix" android:value="/data/local/tmp/qt/"/>
+            <meta-data android:name="android.app.load_local_libs_resource_id" android:resource="@array/load_local_libs"/>
+            <meta-data android:name="android.app.load_local_jars" android:value="-- %%INSERT_LOCAL_JARS%% --"/>
+            <meta-data android:name="android.app.static_init_classes" android:value="-- %%INSERT_INIT_CLASSES%% --"/>
+            <!-- Run with local libs -->
+
+            <!-- Background running -->
+            <meta-data android:name="android.app.background_running" android:value="true"/>
+            <!-- Background running -->
+        </service>
 
         <service android:name="com.google.firebase.messaging.MessageForwardingService" android:exported="false">
         </service>

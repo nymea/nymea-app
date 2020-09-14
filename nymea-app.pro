@@ -82,6 +82,11 @@ icons.path = /usr/share/
 INSTALLS += desktopfile icons
 }
 
+# Android service
+android: {
+SUBDIRS += androidservice
+}
+
 # Linux desktop (snap package)
 snap: {
 desktopfile.files = packaging/linux/nymea-app.desktop

@@ -88,6 +88,8 @@ public:
     Q_INVOKABLE virtual void toClipBoard(const QString &text);
     Q_INVOKABLE virtual QString fromClipBoard();
 
+    Q_INVOKABLE virtual void syncThings();
+
 signals:
     void permissionsRequestFinished();
     void screenTimeoutChanged();

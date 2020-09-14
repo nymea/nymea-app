@@ -151,7 +151,8 @@ signals:
     void fetchingDataChanged();
     void notificationReceived(const QString &deviceId, const QString &eventTypeId, const QVariantList &params);
 
-    void eventTriggered(const QString &deviceId, const QString &eventTypeId, const QVariantMap params);
+    void eventTriggered(const QUuid &deviceId, const QUuid &eventTypeId, const QVariantMap params);
+    void thingStateChanged(const QUuid &deviceId, const QUuid &stateTypeId, const QVariant &value);
 
 private:
     Vendors *m_vendors;

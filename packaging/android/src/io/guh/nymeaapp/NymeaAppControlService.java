@@ -2,129 +2,212 @@ package io.guh.nymeaapp;
 
 import android.util.Log;
 import android.content.Intent;
+import android.content.ServiceConnection;
+import android.content.ComponentName;
 import android.app.PendingIntent;
 import android.net.Uri;
 import android.content.Context;
 import android.service.controls.ControlsProviderService;
-import android.service.controls.actions.ControlAction;
-import android.service.controls.actions.BooleanAction;
+import android.service.controls.actions.*;
 import android.service.controls.Control;
 import android.service.controls.DeviceTypes;
+import android.service.controls.templates.*;
+import android.os.Binder;
+import android.os.IBinder;
+import android.os.Parcel;
 
 import java.util.concurrent.Flow.Publisher;
 import java.util.function.Consumer;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.HashMap;
 import io.reactivex.Flowable;
 import io.reactivex.processors.ReplayProcessor;
 import org.reactivestreams.FlowAdapters;
+import org.json.*;
 
 public class NymeaAppControlService extends ControlsProviderService {
+    private String TAG = "nymea-app: NymeaAppControlService";
+    private NymeaAppServiceConnection m_serviceConnection;
 
-    private ReplayProcessor updatePublisher;
+    private ReplayProcessor m_publisherForAll;
+    private ReplayProcessor m_updatePublisher;
+    private List m_activeControlIds;
 
-    @Override
-    public Publisher createPublisherForAllAvailable() {
-        Log.d("********************************* Creating publishers for all ****************************", "fff");
 
-        Context context = getBaseContext();
-        Intent i = new Intent();
-        PendingIntent pi = PendingIntent.getActivity(context, 1, i, PendingIntent.FLAG_UPDATE_CURRENT);
-//        pi = PendingIntent.getActivity(context, 1, i, PendingIntent.FLAG_UPDATE_CURRENT);
-        List controls = new ArrayList<>();
-        Control control = new Control.StatelessBuilder("e24b0d95-9982-4f9b-ad8b-2aa6b9aba8fd", pi)
-          // Required: The name of the control
-          .setTitle("TestControl")
-          // Required: Usually the room where the control is located
-          .setSubtitle("TestSubtitle")
-          // Optional: Structure where the control is located, an example would be a house
-          .setStructure("TestLocation")
-          // Required: Type of device, i.e., thermostat, light, switch
-          .setDeviceType(DeviceTypes.TYPE_GENERIC_ON_OFF) // For example, DeviceTypes.TYPE_THERMOSTAT
-          .build();
-        controls.add(control);
-        // Create more controls here if needed and add it to the ArrayList
+    private void ensureServiceConnection() {
+        if (m_serviceConnection == null) {
+            m_serviceConnection = new NymeaAppServiceConnection(getBaseContext()) {
+                @Override public void onReady() {
+                    process();
+                }
+                @Override public void onUpdate(String thingId) {
+                    if (m_updatePublisher != null && m_activeControlIds.contains(thingId)) {
+                        Thing thing = m_serviceConnection.getThing(thingId);
+                        Log.d(TAG, "Updating publisher for thing: " + thing.name + " id: " + thing.id);
+                        m_updatePublisher.onNext(thingToControl(thing));
+//                        m_updatePublisher.onComplete();
+                    }
+                }
+            };
+        }
+        if (!m_serviceConnection.isConnected()) {
+            Intent serviceIntent = new Intent(this, NymeaAppService.class);
+            bindService(serviceIntent, m_serviceConnection, Context.BIND_AUTO_CREATE);
+        }
+    }
 
-        // Uses the RxJava 2 library
-        return FlowAdapters.toFlowPublisher(Flowable.fromIterable(controls));
+    private void process() {
+        Log.d(TAG, "Processing...");
+        ensureServiceConnection();
+        if (!m_serviceConnection.isReady()) {
+            Log.d(TAG, "Service connection is not ready yet...");
+            return;
+        }
+
+//        ArrayList<Thing> things = m_serviceConnection.getThings();
+
+        for (Thing thing : m_serviceConnection.getThings()) {
+            Log.d(TAG, "Processing thing: " + thing.name);
+
+            if (m_publisherForAll != null) {
+                Log.d(TAG, "Adding stateless");
+                m_publisherForAll.onNext(thingToControl(thing));
+            }
+
+            if (m_updatePublisher != null) {
+                if (m_activeControlIds.contains(thing.id)) {
+                    Log.d(TAG, "Adding stateful");
+                    m_updatePublisher.onNext(thingToControl(thing));
+                }
+            }
+        }
+
+        // The publisher for all needs to be completed when done
+        if (m_publisherForAll != null) {
+            Log.d(TAG, "Completing all publisher");
+            m_publisherForAll.onComplete();
+        }
+
+        Log.d(TAG, "Done processing");
+        // We never close the update publisher as we need that one to send updates
     }
 
 
     @Override
+    public Publisher createPublisherForAllAvailable() {
+        Log.d(TAG, "Creating publishers for all");
+        m_publisherForAll = ReplayProcessor.create();
+        process();
+        return FlowAdapters.toFlowPublisher(m_publisherForAll);
+    }
+
+    @Override
     public Publisher createPublisherFor(List controlIds) {
-        Log.d("********************************* Creating publishers for one ****************************", "..");
-//        for(int i = 0; i < controlIds.size(); i++) {
-//            Log.d("requested control id:", controlIds.get(i));
-//        }
-        Context context = getBaseContext();
-        /* Fill in details for the activity related to this device. On long press,
-         * this Intent will be launched in a bottomsheet. Please design the activity
-         * accordingly to fit a more limited space (about 2/3 screen height).
-         */
-        Intent i = new Intent();
-        PendingIntent pi = PendingIntent.getActivity(context, 1, i, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        updatePublisher = ReplayProcessor.create();
-
-        // For each controlId in controlIds
-
-        if (controlIds.contains("e24b0d95-9982-4f9b-ad8b-2aa6b9aba8fd")) {
-            Log.d("**", "control asked");
-            Control control = new Control.StatefulBuilder("e24b0d95-9982-4f9b-ad8b-2aa6b9aba8fd", pi)
-            // Required: The name of the control
-            .setTitle("TestTitle")
-            // Required: Usually the room where the control is located
-            .setSubtitle("TestSubTitle")
-            // Optional: Structure where the control is located, an example would be a house
-            .setStructure("TestStructure")
-            // Required: Type of device, i.e., thermostat, light, switch
-            .setDeviceType(DeviceTypes.TYPE_GENERIC_ON_OFF) // For example, DeviceTypes.TYPE_THERMOSTAT
-            // Required: Current status of the device
-            .setStatus(Control.STATUS_OK) // For example, Control.STATUS_OK
-            .build();
-
-            updatePublisher.onNext(control);
-        }
-        // Uses the Reactive Streams API
-        return FlowAdapters.toFlowPublisher(updatePublisher);
+        Log.d(TAG, "Creating publishers for " + Integer.toString(controlIds.size()));
+        m_updatePublisher = ReplayProcessor.create();
+        m_activeControlIds = controlIds;
+        process();
+        return FlowAdapters.toFlowPublisher(m_updatePublisher);
     }
 
     @Override
     public void performControlAction(String controlId, ControlAction action, Consumer consumer) {
-        /* First, locate the control identified by the controlId. Once it is located, you can
-         * interpret the action appropriately for that specific device. For instance, the following
-         * assumes that the controlId is associated with a light, and the light can be turned on
-         * or off.
-         */
-        if (action instanceof BooleanAction) {
+        Log.d(TAG, "Performing control action: " + controlId);
+////         PendingAction pendingAction = new PendingAction();
+////         pendingAction.thingId = controlId;
+////         pendingAction.actionTypeId = "";
+////         pendingAction.consumer = consumer;
+////         m_pendingActions.put(
 
-            // Inform SystemUI that the action has been received and is being processed
-            consumer.accept(ControlAction.RESPONSE_OK);
-
-            BooleanAction bAction = (BooleanAction) action;
-            // In this example, action.getNewState() will have the requested action: true for “On”,
-            // false for “Off”.
-
-            /* This is where application logic/network requests would be invoked to update the state of
-             * the device.
-             * After updating, the application should use the publisher to update SystemUI with the new
-             * state.
-             */
-//            Control control = new Control.StatefulBuilder("123", pi)
-//                // Required: The name of the control
-//                .setTitle("TestControl")
-//                // Required: Usually the room where the control is located
-//                .setSubtitle("TestSubTitle")
-//                // Optional: Structure where the control is located, an example would be a house
-//                .setStructure("TestStructure")
-//                // Required: Type of device, i.e., thermostat, light, switch
-//                .setDeviceType(DeviceTypes.TYPE_GENERIC_ON_OFF) // For example, DeviceTypes.TYPE_THERMOSTAT
-//                // Required: Current status of the device
-//                .setStatus(Control.STATUS_OK) // For example, Control.STATUS_OK
-//                .build();
-
-//            // This is the publisher the application created during the call to createPublisherFor()
-//            updatePublisher.onNext(control);
+        Thing thing = m_serviceConnection.getThing(controlId);
+        if (thing == null) {
+            Log.d(TAG, "Thing not found for id: " + controlId);
+            consumer.accept(ControlAction.RESPONSE_FAIL);
+            return;
         }
+
+        String actionTypeId;
+        String param;
+        if (thing.interfaces.contains("dimmablelight") && action instanceof FloatAction) {
+            actionTypeId = thing.stateByName("brightness").typeId;
+            FloatAction fAction = (FloatAction) action;
+            param = String.valueOf(Math.round(fAction.getNewValue()));
+        } else if (thing.interfaces.contains("power") && action instanceof BooleanAction) {
+            actionTypeId = thing.stateByName("power").typeId;
+            BooleanAction bAction = (BooleanAction) action;
+            param = bAction.getNewState() == true ? "true" : "false";
+        } else if (thing.interfaces.contains("closable") && action instanceof BooleanAction) {
+            BooleanAction bAction = (BooleanAction) action;
+            if (bAction.getNewState()) {
+                Log.d(TAG, "executing open");
+                actionTypeId = thing.actionByName("open").typeId;
+            } else {
+                Log.d(TAG, "executing close");
+                actionTypeId = thing.actionByName("close").typeId;
+            }
+            param = "";
+        } else {
+            Log.d(TAG, "Unhandled action for: " + thing.name);
+            consumer.accept(ControlAction.RESPONSE_FAIL);
+            return;
+        }
+
+        m_serviceConnection.executeAction(thing.id, actionTypeId, param);
+        consumer.accept(ControlAction.RESPONSE_OK);
+
+    }
+
+    private Control thingToControl(Thing thing) {
+        Log.d(TAG, "Creating control for thing: " + thing.name + " id: " + thing.id);
+
+
+        // TODO: Create Intent to launch control view
+        Context context = getBaseContext();
+        Intent intent = new Intent(this, NymeaAppActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        PendingIntent m_pi = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Control.StatefulBuilder builder = new Control.StatefulBuilder(thing.id, m_pi)
+        .setTitle(thing.name)
+        .setSubtitle(thing.className)
+        .setStructure("TestLocation");
+
+        if (thing.interfaces.contains("impulsebasedgaragedoor")) {
+            builder.setDeviceType(DeviceTypes.TYPE_GARAGE);
+            builder.setControlTemplate(new StatelessTemplate(thing.id));
+        } else if (thing.interfaces.contains("statefulgaragedoor")) {
+            builder.setDeviceType(DeviceTypes.TYPE_GARAGE);
+            State stateState = thing.stateByName("state");
+            ControlButton controlButton = new ControlButton(stateState.value.equals("open"), stateState.displayName);
+            builder.setControlTemplate(new ToggleTemplate(thing.id, controlButton));
+
+//        } else if (thing.interfaces.contains("extendedstatefulgaragedoor")) {
+//            builder.setDeviceTyoe(DeviceTypes.TYPE_GARAGE);
+
+        } else if (thing.interfaces.contains("light")) {
+            builder.setDeviceType(DeviceTypes.TYPE_LIGHT);
+            State powerState = thing.stateByName("power");
+            ControlButton controlButton = new ControlButton(powerState.value.equals("true"), powerState.displayName);
+
+            if (thing.interfaces.contains("dimmablelight")) {
+                State brightnessState = thing.stateByName("brightness");
+                RangeTemplate rangeTemplate = new RangeTemplate(thing.id, 0, 100, Float.parseFloat(brightnessState.value), 1, brightnessState.displayName);
+                builder.setControlTemplate(new ToggleRangeTemplate(thing.id, controlButton, rangeTemplate));
+            } else {
+                builder.setControlTemplate(new ToggleTemplate(thing.id, controlButton));
+            }
+        } else if (thing.interfaces.contains("powersocket")) {
+            builder.setDeviceType(DeviceTypes.TYPE_OUTLET);
+            State powerState = thing.stateByName("power");
+            ControlButton controlButton = new ControlButton(powerState.value.equals("true"), powerState.displayName);
+            builder.setControlTemplate(new ToggleTemplate(thing.id, controlButton));
+        } else {
+            builder.setDeviceType(DeviceTypes.TYPE_GENERIC_ON_OFF);
+        }
+        builder.setStatus(Control.STATUS_OK);
+
+        Log.d(TAG, "Created control for thing: " + thing.name + " id: " + thing.id);
+        return builder.build();
     }
 }

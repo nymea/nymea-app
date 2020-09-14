@@ -33,6 +33,7 @@
 #include <QAndroidJniObject>
 #include <QtAndroid>
 #include <QDebug>
+#include <QAndroidIntent>
 
 
 // WindowManager.LayoutParams
@@ -47,13 +48,16 @@ static PlatformHelperAndroid *m_instance;
 static QAndroidJniObject getAndroidWindow()
 {
     QAndroidJniObject window = QtAndroid::androidActivity().callObjectMethod("getWindow", "()Landroid/view/Window;");
-    window.callMethod<void>("addFlags", "(I)V", FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-    window.callMethod<void>("clearFlags", "(I)V", FLAG_TRANSLUCENT_STATUS);
     return window;
 }
 
 PlatformHelperAndroid::PlatformHelperAndroid(QObject *parent) : PlatformHelper(parent)
 {
+//    QAndroidIntent serviceIntent(QtAndroid::androidActivity().object(), "io.guh.nymeaapp.NymeaAppControlService");
+
+//    m_serviceConnection = new DeviceControlServiceConnection();
+//    QtAndroid::bindService(serviceIntent, *m_serviceConnection, QtAndroid::BindFlag::AutoCreate);
+
     m_instance = this;
 }
 
@@ -123,6 +127,33 @@ void PlatformHelperAndroid::vibrate(PlatformHelper::HapticsFeedback feedbackType
     QtAndroid::androidActivity().callMethod<void>("vibrate","(I)V", duration);
 }
 
+void PlatformHelperAndroid::syncThings()
+{
+
+    QAndroidIntent serviceIntent(QtAndroid::androidActivity().object(),
+                                        "io/guh/nymeaapp/NymeaAppService");
+    QAndroidJniObject result = QtAndroid::androidActivity().callObjectMethod(
+                "startService",
+                "(Landroid/content/Intent;)Landroid/content/ComponentName;",
+                serviceIntent.handle().object());
+
+
+//    QtAndroid::androidService()
+
+//    QAndroidIntent serviceIntent(QtAndroid::androidActivity().object(),
+//                                          "io/guh/nymeaapp/NymeaAppControlService");
+//      serviceIntent.putExtra("name", QByteArray("foobar"));
+
+
+//    m_serviceConnection->handle().callMethod<void>("syncThings", "(Ljava/lang/String;)V", "bla");
+
+
+//      QAndroidJniObject result = QtAndroid::androidActivity().callObjectMethod(
+//                  "syncThings",
+//                  "(Landroid/content/Intent;)Landroid/content/ComponentName;",
+//                  m_serviceConnection->handle().object());
+}
+
 void PlatformHelperAndroid::setTopPanelColor(const QColor &color)
 {
     PlatformHelper::setTopPanelColor(color);
@@ -132,6 +163,8 @@ void PlatformHelperAndroid::setTopPanelColor(const QColor &color)
 
     QtAndroid::runOnAndroidThread([=]() {
         QAndroidJniObject window = getAndroidWindow();
+        window.callMethod<void>("addFlags", "(I)V", FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.callMethod<void>("clearFlags", "(I)V", FLAG_TRANSLUCENT_STATUS);
         window.callMethod<void>("setStatusBarColor", "(I)V", color.rgba());
     });
 
