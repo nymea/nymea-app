@@ -236,5 +236,8 @@
         <file>ui/images/connections/nm-signal-100-secure.svg</file>
         <file>ui/images/connections/bluetooth.svg</file>
         <file>ui/images/connections/network-wired-disabled.svg</file>
+        <file>ui/images/settings_gear.svg</file>
+        <file>ui/images/dial_stripes.svg</file>
+        <file>ui/images/dial_ellipse.svg</file>
     </qresource>
 </RCC>

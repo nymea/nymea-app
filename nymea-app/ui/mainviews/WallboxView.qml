@@ -73,44 +73,48 @@ MainViewBase {
 
                         Rectangle {
                             Layout.alignment: Qt.AlignCenter
-                            Layout.preferredWidth: thingName.width * 1.5
+                            Layout.preferredWidth: thingName.width * 1.3
                             Layout.preferredHeight: thingName.height * 2
                             Layout.topMargin: app.margins * 4
-                            Layout.bottomMargin: app.margins
+                            Layout.bottomMargin: 0
                             radius: 20
-                            color: app.accentColor
+                            color: "#E3E3E3" // TODO: VK template
 
                             Text {
                                 id: thingName
                                 anchors.horizontalCenter: parent.horizontalCenter
                                 anchors.verticalCenter: parent.verticalCenter
                                 text: thing.name
+                                color: app.accentColor
+                                font.pixelSize: 22
                             }
                         }
 
                         Rectangle {
-                            Layout.alignment: Qt.AlignCenter
+                            Layout.alignment: Qt.AlignTop
                             Layout.preferredWidth: parent.width
-                            Layout.preferredHeight: swipeView.height * 0.6
+                            Layout.preferredHeight: parent.height * 0.5
 
                             CircularSlider {
                                 id: maxChargingCurrentStateDial
-                                width: parent.width * 0.8
-                                height: parent.height * 0.8
+                                width: parent.width * .8
+                                height: parent.height * .8
                                 anchors.horizontalCenter: parent.horizontalCenter
-                                anchors.verticalCenter: parent.verticalCenter
-                                Layout.alignment: Qt.AlignCenter
-                                Layout.rowSpan: app.landscape ? 3 : 1
+                                Layout.alignment: Qt.AlignTop
                                 device: thing
                                 stateType: maxChargingCurrentStateType
                                 showValueLabel: false
-
-                                Text {
-                                    Layout.alignment: Qt.AlignHCenter
-                                    id: maxChargingCurrentStateText
-                                    text: Math.round(maxChargingCurrentState.value / 1000) + " " + qsTr("Ampere")
-                                    font: app.font
-                                }
+                                backgroundImage: "../images/dial_stripes.svg"
+                                innerBackgroundImage: "../images/dial_ellipse.svg"
+                                handleVisible: true
+                                steps: 360
+                                maxAngle: 360
+                                showMinLabel: false
+                                showMaxLabel: false
+                                units: qsTr("Ampere")
+                                unitLabelColor: "white" // TODO: VK template
+                                centerValueLabelColor: "white" // TODO: VK template
+                                roundValue: true
                             }
                         }
                     }

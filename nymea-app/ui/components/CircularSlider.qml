@@ -40,6 +40,17 @@ ColumnLayout {
     property Device device: null
     property StateType stateType: null
 
+    property url backgroundImage: ""
+    property url innerBackgroundImage: ""
+    property int outerMargin: 1
+    property bool handleVisible: true
+    property bool showMinLabel: true
+    property bool showMaxLabel: true
+    property string units: ""
+    property string unitLabelColor: "black"
+    property string centerValueLabelColor: "black"
+    property bool roundValue: false
+
     property bool showValueLabel: true
     property int steps: 10
     property color color: app.accentColor
@@ -71,7 +82,7 @@ ColumnLayout {
         property bool busy: rotateMouseArea.pressed || pendingActionId != -1 || valueCacheDirty
 
         property color onColor: circularSlider.color
-        property color offColor: "#808080"
+        property color offColor: "transparent"
         property color poweredColor: circularSlider.powerStateType
                                               ? (circularSlider.powerState.value === true ? onColor : offColor)
                                               : onColor
@@ -90,8 +101,8 @@ ColumnLayout {
         function executeAction(value) {
             var params = []
             var param = {}
-            param["paramName"] = circularSlider.stateType.name
-            param["value"] = value
+            param["paramName"] = circularSlider.stateType.name                        
+            param["value"] = circularSlider.roundValue ? Math.round(value / 1000) * 1000 : value
             params.push(param)
             d.pendingActionId = circularSlider.device.executeAction(circularSlider.stateType.name, params)
         }
@@ -139,31 +150,54 @@ ColumnLayout {
         visible: circularSlider.showValueLabel && circularSlider.stateType !== null
     }
 
-    Item {
+    Image {
         id: buttonContainer
         Layout.fillWidth: true
         Layout.fillHeight: true
+        fillMode: Image.PreserveAspectFit
+        source: circularSlider.backgroundImage
 
         Item {
             id: innercircularSlider
 
-            height: Math.min(parent.height, parent.width) * .9
-            width: height
+            height: Math.min(parent.height, parent.width) * circularSlider.outerMargin * .9
+            width: height * .9
             anchors.centerIn: parent
             rotation: circularSlider.startAngle
 
-            Rectangle {
+            Image {
                 anchors.fill: rotationButton
-                radius: height / 2
-                border.color: app.foregroundColor
-                border.width: 2
-                color: "transparent"
                 opacity: rotateMouseArea.pressed && !rotateMouseArea.grabbed ? .7 : 1
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                fillMode: Image.PreserveAspectFit
+                source: circularSlider.innerBackgroundImage
+            }
+
+            Repeater {
+                id: indexLEDs
+                model: circularSlider.steps + 1
+
+                Item {
+                    height: parent.height * .9
+                    width: parent.width * .055
+                    anchors.centerIn: parent
+                    rotation: circularSlider.anglePerStep * index
+                    visible: circularSlider.stateType !== null
+
+                    Rectangle {
+                        width: parent.width
+                        height: width
+                        radius: 0
+                        color: circularSlider.deviceState && circularSlider.angleToValue(parent.rotation) <= circularSlider.deviceState.value ? d.poweredColor : d.offColor
+                        Behavior on color { ColorAnimation { duration: 100 } }
+                    }
+                }
             }
 
             Item {
                 id: rotationButton
-                height: parent.height * .75
+                height: parent.height * .76
                 width: height
                 anchors.centerIn: parent
                 visible: circularSlider.stateType !== null
@@ -175,41 +209,26 @@ ColumnLayout {
                 Item {
                     id: handle
                     anchors.horizontalCenter: parent.horizontalCenter
-                    height: parent.height * .35
+                    height: parent.height * .2
                     width: height
+                    visible: circularSlider.handleVisible && circularSlider.powerStateType !== null
+                    anchors.top: parent.top
+                    anchors.topMargin: -31
 
-//                    Rectangle { anchors.fill: parent; color: "red"; opacity: .3}
+//                    Rectangle { anchors.fill: parent; color: "red"; opacity: .3 }
 
                     Rectangle {
-                        height: parent.height * .5
-                        width: innercircularSlider.width * 0.02
+                        height: parent.height * .4
+                        width: height
                         radius: width / 2
                         anchors.top: parent.top
-                        anchors.topMargin: height * .25
+                        anchors.topMargin: height
                         anchors.horizontalCenter: parent.horizontalCenter
-                        color: d.poweredColor
-                        Behavior on color { ColorAnimation { duration: 200 } }
-                    }
-                }
-            }
-
-            Repeater {
-                id: indexLEDs
-                model: circularSlider.steps + 1
-
-                Item {
-                    height: parent.height
-                    width: parent.width * .04
-                    anchors.centerIn: parent
-                    rotation: circularSlider.anglePerStep * index
-                    visible: circularSlider.stateType !== null
-
-                    Rectangle {
-                        width: parent.width
-                        height: width
-                        radius: width / 2
-                        color: circularSlider.deviceState && circularSlider.angleToValue(parent.rotation) <= circularSlider.deviceState.value ? d.poweredColor : d.offColor
-                        Behavior on color { ColorAnimation { duration: 200 } }
+                        color: "white"
+                        border.color: "black"
+                        border.width: 1
+                        visible: circularSlider.powerState.value
+//                        Behavior on color { ColorAnimation { duration: 200 } }
                     }
                 }
             }
@@ -217,7 +236,7 @@ ColumnLayout {
 
         Rectangle {
             id: buttonBorder
-            height: innercircularSlider.height * .8
+            height: innercircularSlider.height
             width: height
             anchors.centerIn: parent
             radius: height / 2
@@ -231,14 +250,14 @@ ColumnLayout {
             anchors { left: innercircularSlider.left; bottom: innercircularSlider.bottom; bottomMargin: innercircularSlider.height * .1 }
             text: "MIN"
             font.pixelSize: innercircularSlider.height * .06
-            visible: circularSlider.stateType !== null
+            visible: circularSlider.stateType !== null && circularSlider.showMinLabel
         }
 
         Label {
             anchors { right: innercircularSlider.right; bottom: innercircularSlider.bottom; bottomMargin: innercircularSlider.height * .1 }
             text: "MAX"
             font.pixelSize: innercircularSlider.height * .06
-            visible: circularSlider.stateType !== null
+            visible: circularSlider.stateType !== null && circularSlider.showMaxLabel
         }
 
         ColorIcon {
@@ -246,9 +265,32 @@ ColumnLayout {
             height: innercircularSlider.height * .2
             width: height
             name: "../images/system-shutdown.svg"
-            visible: circularSlider.powerStateType !== null
+            visible: circularSlider.powerStateType !== null && !circularSlider.powerState.value
             color: d.poweredColor
             Behavior on color { ColorAnimation { duration: 200 } }
+        }
+
+        Label {
+            id: centerValueLabel
+            anchors.centerIn: parent
+            text: Math.round(rotateMouseArea.currentValue / 1000)
+            color: centerValueLabelColor
+            font.pixelSize: innercircularSlider.height * .17
+            visible: circularSlider.powerState.value
+        }
+
+         ColumnLayout {
+            anchors.centerIn: parent
+            anchors.fill: parent
+
+            Label {
+                Layout.topMargin: buttonContainer.height * .27
+                Layout.alignment: Layout.Center
+                text: units
+                color: unitLabelColor
+                font.pixelSize: buttonContainer.height * .066
+                visible: circularSlider.powerState.value
+            }
         }
 
         MouseArea {
@@ -294,6 +336,10 @@ ColumnLayout {
             property int startX
             property int startY
             onPositionChanged: {
+                if (!circularSlider.powerState.value) {
+                    return
+                }
+
                 if (Math.abs(mouseX - startX) > 10 || Math.abs(mouseY - startY) > 10) {
                     dragging = true;
                 }
@@ -314,7 +360,7 @@ ColumnLayout {
                 rotationButton.rotation = angle;
                 newValue = newValue.toFixed(decimals)
 
-                if (newValue != currentValue) {
+                if (newValue !== currentValue) {
                     currentValue = newValue;
                     if (newValue <= circularSlider.stateType.minValue || newValue >= circularSlider.stateType.maxValue) {
                         PlatformHelper.vibrate(PlatformHelper.HapticsFeedbackImpact)
