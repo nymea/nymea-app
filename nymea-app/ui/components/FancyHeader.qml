@@ -54,7 +54,7 @@ ToolBar {
         height: 50
         width: parent.width
         opacity: menuOpen ? 0 : 1
-        Behavior on opacity { NumberAnimation { easing.type: Easing.InOutQuad; duration: 200 } }
+        Behavior on opacity { NumberAnimation { easing.type: Easing.InOutQuad; duration: 200 } }        
 
         HeaderButton {
             id: leftButton
@@ -73,6 +73,24 @@ ToolBar {
             elide: Text.ElideRight
             text: root.title
             color: app.headerForegroundColor
+        }
+
+        Rectangle {
+            id: branding
+            Layout.fillHeight: true
+            anchors.centerIn: mainRow
+            width: mainRow.height
+            color: "transparent"
+            visible: hidden // TODO: VK enable for demo
+
+            AnimatedImage {
+                id: background
+                anchors.fill: parent
+                anchors.margins: 1
+                source: "../images/moon.gif"
+                fillMode: Image.PreserveAspectCrop
+                opacity: .5
+            }
         }
 
         HeaderButton {
