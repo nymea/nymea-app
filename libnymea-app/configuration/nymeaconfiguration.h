@@ -106,23 +106,24 @@ public:
     void init();
 
 private:
-    Q_INVOKABLE void getConfigurationsResponse(const QVariantMap &params);
+    Q_INVOKABLE void getConfigurationsResponse(int commandId, const QVariantMap &params);
     Q_INVOKABLE void getCloudConfigurationResponse(const QVariantMap &params);
-    Q_INVOKABLE void setDebugServerEnabledResponse(const QVariantMap &params);
-    Q_INVOKABLE void setServerNameResponse(const QVariantMap &params);
-    Q_INVOKABLE void setCloudEnabledResponse(const QVariantMap &params);
-    Q_INVOKABLE void setTcpConfigReply(const QVariantMap &params);
-    Q_INVOKABLE void deleteTcpConfigReply(const QVariantMap &params);
-    Q_INVOKABLE void setWebSocketConfigReply(const QVariantMap &params);
-    Q_INVOKABLE void deleteWebSocketConfigReply(const QVariantMap &params);
-    Q_INVOKABLE void setWebConfigReply(const QVariantMap &params);
-    Q_INVOKABLE void deleteWebConfigReply(const QVariantMap &params);
-    Q_INVOKABLE void getMqttServerConfigsReply(const QVariantMap &params);
-    Q_INVOKABLE void setMqttConfigReply(const QVariantMap &params);
-    Q_INVOKABLE void deleteMqttConfigReply(const QVariantMap &params);
-    Q_INVOKABLE void getMqttPoliciesReply(const QVariantMap &params);
-    Q_INVOKABLE void setMqttPolicyReply(const QVariantMap &params);
-    Q_INVOKABLE void deleteMqttPolicyReply(const QVariantMap &params);
+    Q_INVOKABLE void setDebugServerEnabledResponse(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void setServerNameResponse(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void setTimezoneResponse(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void setCloudEnabledResponse(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void setTcpConfigReply(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void deleteTcpConfigReply(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void setWebSocketConfigReply(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void deleteWebSocketConfigReply(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void setWebConfigReply(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void deleteWebConfigReply(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void getMqttServerConfigsReply(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void setMqttConfigReply(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void deleteMqttConfigReply(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void getMqttPoliciesReply(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void setMqttPolicyReply(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void deleteMqttPolicyReply(int commandId, const QVariantMap &params);
 
     Q_INVOKABLE void notificationReceived(const QVariantMap &notification);
 

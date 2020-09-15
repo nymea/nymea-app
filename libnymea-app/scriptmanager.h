@@ -68,12 +68,12 @@ signals:
     void scriptMessage(const QUuid &scriptId, const QString &type, const QString &message);
 
 private slots:
-    void onScriptsFetched(const QVariantMap &params);
-    void onScriptFetched(const QVariantMap &params);
-    void onScriptAdded(const QVariantMap &params);
-    void onScriptEdited(const QVariantMap &params);
-    void onScriptRenamed(const QVariantMap &params);
-    void onScriptRemoved(const QVariantMap &params);
+    void onScriptsFetched(int commandId, const QVariantMap &params);
+    void onScriptFetched(int commandId, const QVariantMap &params);
+    void onScriptAdded(int commandId, const QVariantMap &params);
+    void onScriptEdited(int commandId, const QVariantMap &params);
+    void onScriptRenamed(int commandId, const QVariantMap &params);
+    void onScriptRemoved(int commandId, const QVariantMap &params);
 
     void onNotificationReceived(const QVariantMap &params);
 private:

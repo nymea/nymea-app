@@ -80,13 +80,13 @@ public:
 
     bool timeManagementAvailable() const;
     QDateTime serverTime() const;
-    void setServerTime(const QDateTime &serverTime);
+    int setServerTime(const QDateTime &serverTime);
     QStringList timeZones() const;
     QString serverTimeZone() const;
-    void setServerTimeZone(const QString &serverTimeZone);
+    int setServerTimeZone(const QString &serverTimeZone);
     bool automaticTimeAvailable() const;
     bool automaticTime() const;
-    void setAutomaticTime(bool automaticTime);
+    int setAutomaticTime(bool automaticTime);
 
 signals:
     void powerManagementAvailableChanged();
@@ -105,17 +105,17 @@ signals:
     void shutdownReply(int id, bool success);
 
 private slots:
-    void getCapabilitiesResponse(const QVariantMap &data);
-    void getUpdateStatusResponse(const QVariantMap &data);
-    void getPackagesResponse(const QVariantMap &data);
-    void getRepositoriesResponse(const QVariantMap &data);
-    void removePackageResponse(const QVariantMap &params);
-    void enableRepositoryResponse(const QVariantMap &params);
-    void getServerTimeResponse(const QVariantMap &params);
-    void setTimeResponse(const QVariantMap &params);
-    void restartResponse(const QVariantMap &params);
-    void rebootResponse(const QVariantMap &params);
-    void shutdownResponse(const QVariantMap &params);
+    void getCapabilitiesResponse(int commandId, const QVariantMap &data);
+    void getUpdateStatusResponse(int commandId, const QVariantMap &data);
+    void getPackagesResponse(int commandId, const QVariantMap &data);
+    void getRepositoriesResponse(int commandId, const QVariantMap &data);
+    void removePackageResponse(int commandId, const QVariantMap &params);
+    void enableRepositoryResponse(int commandId, const QVariantMap &params);
+    void getServerTimeResponse(int commandId, const QVariantMap &params);
+    void setTimeResponse(int commandId, const QVariantMap &params);
+    void restartResponse(int commandId, const QVariantMap &params);
+    void rebootResponse(int commandId, const QVariantMap &params);
+    void shutdownResponse(int commandId, const QVariantMap &params);
 
     void notificationReceived(const QVariantMap &data);
 

@@ -94,6 +94,7 @@ public:
     bool authenticated() const;
     CloudConnectionState cloudConnectionState() const;
     void deployCertificate(const QByteArray &rootCA, const QByteArray &certificate, const QByteArray &publicKey, const QByteArray &privateKey, const QString &endpoint);
+    QHash<QString, QString> cacheHashes() const;
 
     QString serverVersion() const;
     QString jsonRpcVersion() const;
@@ -111,7 +112,7 @@ public:
     Q_INVOKABLE int createUser(const QString &username, const QString &password);
     Q_INVOKABLE int authenticate(const QString &username, const QString &password, const QString &deviceName);
     Q_INVOKABLE int requestPushButtonAuth(const QString &deviceName);
-    Q_INVOKABLE void setupRemoteAccess(const QString &idToken, const QString &userId);
+    Q_INVOKABLE int setupRemoteAccess(const QString &idToken, const QString &userId);
 
 
 signals:
@@ -142,7 +143,7 @@ private slots:
     void onInterfaceConnectedChanged(bool connected);
     void dataReceived(const QByteArray &data);
 
-    void helloReply(const QVariantMap &params);
+    void helloReply(int commandId, const QVariantMap &params);
 
 private:
     int m_id;
@@ -168,21 +169,22 @@ private:
     QString m_serverQtBuildVersion;
     QByteArray m_token;
     QByteArray m_receiveBuffer;
+    QHash<QString, QString> m_cacheHashes;
 
     void setNotificationsEnabled();
     void getCloudConnectionStatus();
 
     // json handler
-    Q_INVOKABLE void processAuthenticate(const QVariantMap &data);
-    Q_INVOKABLE void processCreateUser(const QVariantMap &data);
-    Q_INVOKABLE void processRequestPushButtonAuth(const QVariantMap &data);
+    Q_INVOKABLE void processAuthenticate(int commandId, const QVariantMap &data);
+    Q_INVOKABLE void processCreateUser(int commandId, const QVariantMap &data);
+    Q_INVOKABLE void processRequestPushButtonAuth(int commandId, const QVariantMap &data);
 
-    Q_INVOKABLE void setNotificationsEnabledResponse(const QVariantMap &params);
+    Q_INVOKABLE void setNotificationsEnabledResponse(int commandId, const QVariantMap &params);
     Q_INVOKABLE void notificationReceived(const QVariantMap &data);
-    Q_INVOKABLE void isCloudConnectedReply(const QVariantMap &data);
-    Q_INVOKABLE void setupRemoteAccessReply(const QVariantMap &data);
-    Q_INVOKABLE void deployCertificateReply(const QVariantMap &data);
-    Q_INVOKABLE void getVersionsReply(const QVariantMap &data);
+    Q_INVOKABLE void isCloudConnectedReply(int commandId, const QVariantMap &data);
+    Q_INVOKABLE void setupRemoteAccessReply(int commandId, const QVariantMap &data);
+    Q_INVOKABLE void deployCertificateReply(int commandId, const QVariantMap &data);
+    Q_INVOKABLE void getVersionsReply(int commandId, const QVariantMap &data);
 
     void sendRequest(const QVariantMap &request);
 

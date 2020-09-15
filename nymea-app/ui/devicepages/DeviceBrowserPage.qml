@@ -66,20 +66,18 @@ Page {
 
     Connections {
         target: engine.deviceManager
-        onExecuteBrowserItemReply: actionExecuted(params)
-        onExecuteBrowserItemActionReply: actionExecuted(params)
+        onExecuteBrowserItemReply: actionExecuted(commandId, params)
+        onExecuteBrowserItemActionReply: actionExecuted(commandId, params)
     }
-    function actionExecuted(params) {
-        if (params.id === d.pendingBrowserItemId) {
+    function actionExecuted(commandId, params) {
+        if (commandId === d.pendingBrowserItemId) {
             d.pendingBrowserItemId = -1;
             d.pendingItemId = ""
-            if (params.status !== "success") {
-                header.showInfo(params.error, true);
-            } else  if (params.params.deviceError !== "DeviceErrorNoError") {
-                if (params.params.displayMessage.length > 0) {
-                    header.showInfo(qsTr("Error: %1").arg(params.params.displayMessage), true)
+            if (params.deviceError !== "DeviceErrorNoError") {
+                if (params.displayMessage.length > 0) {
+                    header.showInfo(qsTr("Error: %1").arg(params.displayMessage), true)
                 } else {
-                    header.showInfo(qsTr("Error: %1").arg(params.params.deviceError), true)
+                    header.showInfo(qsTr("Error: %1").arg(params.deviceError), true)
                 }
             }
         }

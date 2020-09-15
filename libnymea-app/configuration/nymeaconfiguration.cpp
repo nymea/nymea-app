@@ -252,34 +252,34 @@ void NymeaConfiguration::deleteMqttPolicy(const QString &clientId)
     m_client->sendCommand("Configuration.DeleteMqttPolicy", params, this, "deleteMqttPolicyReply");
 }
 
-void NymeaConfiguration::getConfigurationsResponse(const QVariantMap &params)
+void NymeaConfiguration::getConfigurationsResponse(int commandId, const QVariantMap &params)
 {
 //    qDebug() << "have config reply" << params;
-    QVariantMap basicConfig = params.value("params").toMap().value("basicConfiguration").toMap();
+    QVariantMap basicConfig = params.value("basicConfiguration").toMap();
     m_debugServerEnabled = basicConfig.value("debugServerEnabled").toBool();
     emit debugServerEnabledChanged();
     m_serverName = basicConfig.value("serverName").toString();
     emit serverNameChanged();
-    QVariantMap cloudConfig = params.value("params").toMap().value("cloud").toMap();
+    QVariantMap cloudConfig = params.value("cloud").toMap();
     m_cloudEnabled = cloudConfig.value("enabled").toBool();
     emit cloudEnabledChanged();
 
     tcpServerConfigurations()->clear();
-    foreach (const QVariant &tcpServerVariant, params.value("params").toMap().value("tcpServerConfigurations").toList()) {
+    foreach (const QVariant &tcpServerVariant, params.value("tcpServerConfigurations").toList()) {
 //        qDebug() << "tcp server config:" << tcpServerVariant;
         QVariantMap tcpConfigMap = tcpServerVariant.toMap();
         ServerConfiguration *config = new ServerConfiguration(tcpConfigMap.value("id").toString(), QHostAddress(tcpConfigMap.value("address").toString()), tcpConfigMap.value("port").toInt(), tcpConfigMap.value("authenticationEnabled").toBool(), tcpConfigMap.value("sslEnabled").toBool());
         m_tcpServerConfigurations->addConfiguration(config);
     }
     webSocketServerConfigurations()->clear();
-    foreach (const QVariant &websocketServerVariant, params.value("params").toMap().value("webSocketServerConfigurations").toList()) {
+    foreach (const QVariant &websocketServerVariant, params.value("webSocketServerConfigurations").toList()) {
         QVariantMap websocketConfigMap = websocketServerVariant.toMap();
         ServerConfiguration *config = new ServerConfiguration(websocketConfigMap.value("id").toString(), QHostAddress(websocketConfigMap.value("address").toString()), websocketConfigMap.value("port").toInt(), websocketConfigMap.value("authenticationEnabled").toBool(), websocketConfigMap.value("sslEnabled").toBool());
         m_webSocketServerConfigurations->addConfiguration(config);
     }
 
     webServerConfigurations()->clear();
-    foreach (const QVariant &webServerVariant, params.value("params").toMap().value("webServerConfigurations").toList()) {
+    foreach (const QVariant &webServerVariant, params.value("webServerConfigurations").toList()) {
         QVariantMap webServerConfigMap = webServerVariant.toMap();
         WebServerConfiguration* config = new WebServerConfiguration(webServerConfigMap.value("id").toString(), QHostAddress(webServerConfigMap.value("address").toString()), webServerConfigMap.value("port").toInt(), webServerConfigMap.value("authenticationEnabled").toBool(), webServerConfigMap.value("sslEnabled").toBool());
         config->setPublicFolder(webServerConfigMap.value("publicFolder").toString());
@@ -287,9 +287,14 @@ void NymeaConfiguration::getConfigurationsResponse(const QVariantMap &params)
     }
 }
 
-void NymeaConfiguration::setServerNameResponse(const QVariantMap &params)
+void NymeaConfiguration::setServerNameResponse(int commandId, const QVariantMap &params)
 {
-    qDebug() << "Server name set:" << params;
+    qDebug() << "Server name set:" << commandId << params;
+}
+
+void NymeaConfiguration::setTimezoneResponse(int commandId, const QVariantMap &params)
+{
+    qDebug() << "Set timezone response" << commandId << params;
 }
 
 void NymeaConfiguration::getCloudConfigurationResponse(const QVariantMap &params)
@@ -297,72 +302,71 @@ void NymeaConfiguration::getCloudConfigurationResponse(const QVariantMap &params
     qDebug() << "Cloud config reply" << params;
 }
 
-void NymeaConfiguration::setCloudEnabledResponse(const QVariantMap &params)
+void NymeaConfiguration::setCloudEnabledResponse(int commandId, const QVariantMap &params)
 {
-    qDebug() << "Set cloud enabled:" << params;
+    qDebug() << "Set cloud enabled:" << commandId << params;
 }
 
-void NymeaConfiguration::setDebugServerEnabledResponse(const QVariantMap &params)
+void NymeaConfiguration::setDebugServerEnabledResponse(int commandId, const QVariantMap &params)
 {
-    qDebug() << "Debug server set:" << params;
+    qDebug() << "Debug server set:" << commandId << params;
 }
 
-void NymeaConfiguration::setTcpConfigReply(const QVariantMap &params)
+void NymeaConfiguration::setTcpConfigReply(int commandId, const QVariantMap &params)
 {
-    qDebug() << "Set TCP server config reply" << params;
+    qDebug() << "Set TCP server config reply" << commandId << params;
 }
 
-void NymeaConfiguration::deleteTcpConfigReply(const QVariantMap &params)
+void NymeaConfiguration::deleteTcpConfigReply(int commandId, const QVariantMap &params)
 {
-    if (params.value("params").toMap().value("configurationError").toString() == "ConfigurationErrorNoError") {
-    }
+    qDebug() << "Deöete  TCP server config reply" << commandId << params;
 }
 
-void NymeaConfiguration::setWebSocketConfigReply(const QVariantMap &params)
+void NymeaConfiguration::setWebSocketConfigReply(int commandId, const QVariantMap &params)
 {
-    qDebug() << "set websocket config reply" << params;
+    qDebug() << "set websocket config reply" << commandId << params;
 }
 
-void NymeaConfiguration::setWebConfigReply(const QVariantMap &params)
+void NymeaConfiguration::setWebConfigReply(int commandId, const QVariantMap &params)
 {
-    qDebug() << "set web server config reply" << params;
+    qDebug() << "set web server config reply" << commandId << params;
 }
 
-void NymeaConfiguration::deleteWebConfigReply(const QVariantMap &params)
+void NymeaConfiguration::deleteWebConfigReply(int commandId, const QVariantMap &params)
 {
-    qDebug() << "Delete web server config reply" << params;
+    qDebug() << "Delete web server config reply" << commandId << params;
 }
 
-void NymeaConfiguration::deleteWebSocketConfigReply(const QVariantMap &params)
+void NymeaConfiguration::deleteWebSocketConfigReply(int commandId, const QVariantMap &params)
 {
-    qDebug() << "Delete web socket server config reply" << params;
+    qDebug() << "Delete web socket server config reply" << commandId << params;
 }
 
-void NymeaConfiguration::getMqttServerConfigsReply(const QVariantMap &params)
+void NymeaConfiguration::getMqttServerConfigsReply(int commandId, const QVariantMap &params)
 {
     m_mqttServerConfigurations->clear();
-    foreach (const QVariant &mqttServerVariant, params.value("params").toMap().value("mqttServerConfigurations").toList()) {
+    foreach (const QVariant &mqttServerVariant, params.value("mqttServerConfigurations").toList()) {
         QVariantMap mqttConfigMap = mqttServerVariant.toMap();
         ServerConfiguration *config = new ServerConfiguration(mqttConfigMap.value("id").toString(), QHostAddress(mqttConfigMap.value("address").toString()), mqttConfigMap.value("port").toInt(), mqttConfigMap.value("authenticationEnabled").toBool(), mqttConfigMap.value("sslEnabled").toBool());
         m_mqttServerConfigurations->addConfiguration(config);
     }
 }
 
-void NymeaConfiguration::setMqttConfigReply(const QVariantMap &params)
+void NymeaConfiguration::setMqttConfigReply(int commandId, const QVariantMap &params)
 {
-    qDebug() << "Set mqtt config reply" << params;
+    qDebug() << "Set mqtt config reply" << commandId << params;
 }
 
-void NymeaConfiguration::deleteMqttConfigReply(const QVariantMap &params)
+void NymeaConfiguration::deleteMqttConfigReply(int commandId, const QVariantMap &params)
 {
-    qDebug() << "Delete Mqtt Broker config reply:" << params;
+    qDebug() << "Delete Mqtt Broker config reply:" << commandId << params;
 }
 
-void NymeaConfiguration::getMqttPoliciesReply(const QVariantMap &params)
+void NymeaConfiguration::getMqttPoliciesReply(int commandId, const QVariantMap &params)
 {
 //    qDebug() << "Mqtt polices:" << params;
     m_mqttPolicies->clear();
-    foreach (const QVariant &policyVariant, params.value("params").toMap().value("mqttPolicies").toList()) {
+    foreach (const QVariant &policyVariant, params.value("mqttPolicies").toList()) {
         QVariantMap policyMap = policyVariant.toMap();
         MqttPolicy *policy = new MqttPolicy(
                     policyMap.value("clientId").toString(),
@@ -374,14 +378,14 @@ void NymeaConfiguration::getMqttPoliciesReply(const QVariantMap &params)
     }
 }
 
-void NymeaConfiguration::setMqttPolicyReply(const QVariantMap &params)
+void NymeaConfiguration::setMqttPolicyReply(int commandId, const QVariantMap &params)
 {
-    qDebug() << "Set MQTT policy reply" << params;
+    qDebug() << "Set MQTT policy reply" << commandId << params;
 }
 
-void NymeaConfiguration::deleteMqttPolicyReply(const QVariantMap &params)
+void NymeaConfiguration::deleteMqttPolicyReply(int commandId, const QVariantMap &params)
 {
-    qDebug() << "Delete MQTT policy reply" << params;
+    qDebug() << "Delete MQTT policy reply" << commandId << params;
 }
 
 void NymeaConfiguration::notificationReceived(const QVariantMap &notification)

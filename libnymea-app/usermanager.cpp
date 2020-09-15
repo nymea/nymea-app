@@ -73,17 +73,17 @@ void UserManager::notificationReceived(const QVariantMap &data)
     qDebug() << "Users notification" << data;
 }
 
-void UserManager::getUserInfoReply(const QVariantMap &data)
+void UserManager::getUserInfoReply(int commandId, const QVariantMap &data)
 {
-    qDebug() << "User info reply" << data;
+    qDebug() << "User info reply" << commandId << data;
 
-    m_userInfo->setUsername(data.value("params").toMap().value("userInfo").toMap().value("username").toString());
+    m_userInfo->setUsername(data.value("userInfo").toMap().value("username").toString());
 }
 
-void UserManager::getTokensReply(const QVariantMap &data)
+void UserManager::getTokensReply(int /*commandId*/, const QVariantMap &data)
 {
 
-    foreach (const QVariant &tokenVariant, data.value("params").toMap().value("tokenInfoList").toList()) {
+    foreach (const QVariant &tokenVariant, data.value("tokenInfoList").toList()) {
         //        qDebug() << "Token received" << tokenVariant.toMap();
         QVariantMap token = tokenVariant.toMap();
         QUuid id = token.value("id").toString();
@@ -98,32 +98,28 @@ void UserManager::getTokensReply(const QVariantMap &data)
 
 
 
-void UserManager::deleteTokenReply(const QVariantMap &payload)
+void UserManager::deleteTokenReply(int commandId, const QVariantMap &params)
 {
-    qDebug() << "Delete token reply" << payload;
-    int callId = payload.value("id").toInt();
-    QUuid tokenId = m_tokensToBeRemoved.take(callId);
-    QVariantMap params = payload.value("params").toMap();
+    qDebug() << "Delete token reply" << commandId << params;
+    QUuid tokenId = m_tokensToBeRemoved.take(commandId);
     QString errorString = params.value("error").toString();
     QMetaEnum metaEnum = QMetaEnum::fromType<UserManager::UserError>();
     UserError error = static_cast<UserError>(metaEnum.keyToValue(errorString.toUtf8()));
 
-    emit deleteTokenResponse(callId, error);
+    emit deleteTokenResponse(commandId, error);
 
     if (error == UserErrorNoError) {
         m_tokenInfos->removeToken(tokenId);
     }
 }
 
-void UserManager::changePasswordReply(const QVariantMap &data)
+void UserManager::changePasswordReply(int commandId, const QVariantMap &params)
 {
-    qDebug() << "Change password reply" << data;
+    qDebug() << "Change password reply" << commandId << params;
 
-    int callId = data.value("id").toInt();
-    QVariantMap params = data.value("params").toMap();
     QString errorString = params.value("error").toString();
     QMetaEnum metaEnum = QMetaEnum::fromType<UserManager::UserError>();
     UserError error = static_cast<UserError>(metaEnum.keyToValue(errorString.toUtf8()));
 
-    emit changePasswordResponse(callId, error);
+    emit changePasswordResponse(commandId, error);
 }

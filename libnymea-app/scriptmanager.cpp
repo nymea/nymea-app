@@ -96,9 +96,9 @@ int ScriptManager::fetchScript(const QUuid &id)
     return m_client->sendCommand("Scripts.GetScriptContent", params, this, "onScriptFetched");
 }
 
-void ScriptManager::onScriptsFetched(const QVariantMap &params)
+void ScriptManager::onScriptsFetched(int /*commandId*/, const QVariantMap &params)
 {
-    foreach (const QVariant &variant, params.value("params").toMap().value("scripts").toList()) {
+    foreach (const QVariant &variant, params.value("scripts").toList()) {
         QUuid id = variant.toMap().value("id").toUuid();
         Script *script = new Script(id);
         script->setName(variant.toMap().value("name").toString());
@@ -106,38 +106,38 @@ void ScriptManager::onScriptsFetched(const QVariantMap &params)
     }
 }
 
-void ScriptManager::onScriptFetched(const QVariantMap &params)
+void ScriptManager::onScriptFetched(int commandId, const QVariantMap &params)
 {
-    emit fetchScriptReply(params.value("id").toInt(),
-                       params.value("params").toMap().value("scriptError").toString(),
-                       params.value("params").toMap().value("content").toString());
+    emit fetchScriptReply(commandId,
+                       params.value("scriptError").toString(),
+                       params.value("content").toString());
 }
 
-void ScriptManager::onScriptAdded(const QVariantMap &params)
+void ScriptManager::onScriptAdded(int commandId, const QVariantMap &params)
 {
-    emit addScriptReply(params.value("id").toInt(),
-                     params.value("params").toMap().value("scriptError").toString(),
-                     params.value("params").toMap().value("script").toMap().value("id").toUuid(),
-                     params.value("params").toMap().value("errors").toStringList());
-
-}
-
-void ScriptManager::onScriptEdited(const QVariantMap &params)
-{
-    emit editScriptReply(params.value("id").toInt(),
-                      params.value("params").toMap().value("scriptError").toString(),
-                      params.value("params").toMap().value("errors").toStringList());
+    emit addScriptReply(commandId,
+                     params.value("scriptError").toString(),
+                     params.value("script").toMap().value("id").toUuid(),
+                     params.value("errors").toStringList());
 
 }
 
-void ScriptManager::onScriptRenamed(const QVariantMap &params)
+void ScriptManager::onScriptEdited(int commandId, const QVariantMap &params)
 {
-    emit renameScriptReply(params.value("id").toInt(), params.value("params").toMap().value("scriptError").toString());
+    emit editScriptReply(commandId,
+                      params.value("scriptError").toString(),
+                      params.value("errors").toStringList());
+
 }
 
-void ScriptManager::onScriptRemoved(const QVariantMap &params)
+void ScriptManager::onScriptRenamed(int commandId, const QVariantMap &params)
 {
-    emit removeScriptReply(params.value("id").toInt(), params.value("params").toMap().value("scriptError").toString());
+    emit renameScriptReply(commandId, params.value("scriptError").toString());
+}
+
+void ScriptManager::onScriptRemoved(int commandId, const QVariantMap &params)
+{
+    emit removeScriptReply(commandId, params.value("scriptError").toString());
 }
 
 void ScriptManager::onNotificationReceived(const QVariantMap &params)
@@ -154,16 +154,11 @@ void ScriptManager::onNotificationReceived(const QVariantMap &params)
         Script *script = new Script(scriptMap.value("id").toUuid());
         script->setName(scriptMap.value("name").toString());
         m_scripts->addScript(script);
-        emit addScriptReply(params.value("id").toInt(),
-                            params.value("params").toMap().value("scriptError").toString(),
-                            params.value("params").toMap().value("scriptId").toUuid(),
-                            params.value("params").toMap().value("errors").toStringList());
     }
 
     else if (params.value("notification").toString() == "Scripts.ScriptRemoved") {
         QUuid id = params.value("params").toMap().value("id").toUuid();
         m_scripts->removeScript(id);
-        emit removeScriptReply(params.value("id").toInt(), params.value("params").toMap().value("scriptError").toString());
     }
 
     else if (params.value("notification").toString() == "Scripts.ScriptChanged") {

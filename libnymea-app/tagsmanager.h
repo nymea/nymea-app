@@ -52,19 +52,19 @@ public:
 
     Tags* tags() const;
 
-    Q_INVOKABLE void tagDevice(const QString &deviceId, const QString &tagId, const QString &value);
-    Q_INVOKABLE void untagDevice(const QString &deviceId, const QString &tagId);
-    Q_INVOKABLE void tagRule(const QString &ruleId, const QString &tagId, const QString &value);
-    Q_INVOKABLE void untagRule(const QString &ruleId, const QString &tagId);
+    Q_INVOKABLE int tagDevice(const QString &deviceId, const QString &tagId, const QString &value);
+    Q_INVOKABLE int untagDevice(const QString &deviceId, const QString &tagId);
+    Q_INVOKABLE int tagRule(const QString &ruleId, const QString &tagId, const QString &value);
+    Q_INVOKABLE int untagRule(const QString &ruleId, const QString &tagId);
 
 signals:
     void busyChanged();
 
 private slots:
     void handleTagsNotification(const QVariantMap &params);
-    void getTagsReply(const QVariantMap &params);
-    void addTagReply(const QVariantMap &params);
-    void removeTagReply(const QVariantMap &params);
+    void getTagsReply(int commandId, const QVariantMap &params);
+    void addTagReply(int commandId, const QVariantMap &params);
+    void removeTagReply(int commandId, const QVariantMap &params);
 
 private:
     Tag *unpackTag(const QVariantMap &tagMap);

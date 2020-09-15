@@ -152,13 +152,13 @@ QDateTime SystemController::serverTime() const
     return m_serverTime;
 }
 
-void SystemController::setServerTime(const QDateTime &serverTime)
+int SystemController::setServerTime(const QDateTime &serverTime)
 {
     QVariantMap params;
     params.insert("automaticTime", false);
     params.insert("time", serverTime.toSecsSinceEpoch());
     params.insert("timeZone", serverTime.timeZone().id());
-    m_jsonRpcClient->sendCommand("System.SetTime", params, this, "setTimeResponse");
+    return m_jsonRpcClient->sendCommand("System.SetTime", params, this, "setTimeResponse");
 }
 
 QStringList SystemController::timeZones() const
@@ -179,11 +179,11 @@ QString SystemController::serverTimeZone() const
     return m_serverTimeZone;
 }
 
-void SystemController::setServerTimeZone(const QString &serverTimeZone)
+int SystemController::setServerTimeZone(const QString &serverTimeZone)
 {
     QVariantMap params;
     params.insert("timeZone", serverTimeZone);
-    m_jsonRpcClient->sendCommand("System.SetTime", params, this, "setTimeResponse");
+    return m_jsonRpcClient->sendCommand("System.SetTime", params, this, "setTimeResponse");
 }
 
 bool SystemController::automaticTimeAvailable() const
@@ -196,22 +196,22 @@ bool SystemController::automaticTime() const
     return m_automaticTime;
 }
 
-void SystemController::setAutomaticTime(bool automaticTime)
+int SystemController::setAutomaticTime(bool automaticTime)
 {
     QVariantMap params;
     params.insert("automaticTime", automaticTime);
-    m_jsonRpcClient->sendCommand("System.SetTime", params, this, "setTimeResponse");
+    return m_jsonRpcClient->sendCommand("System.SetTime", params, this, "setTimeResponse");
 }
 
-void SystemController::getCapabilitiesResponse(const QVariantMap &data)
+void SystemController::getCapabilitiesResponse(int /*commandId*/, const QVariantMap &data)
 {
-    m_powerManagementAvailable = data.value("params").toMap().value("powerManagement").toBool();
+    m_powerManagementAvailable = data.value("powerManagement").toBool();
     emit powerManagementAvailableChanged();
 
-    m_updateManagementAvailable = data.value("params").toMap().value("updateManagement").toBool();
+    m_updateManagementAvailable = data.value("updateManagement").toBool();
     emit updateManagementAvailableChanged();
 
-    m_timeManagementAvailable = data.value("params").toMap().value("timeManagement").toBool();
+    m_timeManagementAvailable = data.value("timeManagement").toBool();
     emit timeManagementAvailableChanged();
 
     if (m_updateManagementAvailable) {
@@ -227,16 +227,16 @@ void SystemController::getCapabilitiesResponse(const QVariantMap &data)
     qDebug() << "nymea:core capabilities: Power management:" << m_powerManagementAvailable << "Update management:" << m_updateManagementAvailable << "Time management:" << m_timeManagementAvailable;
 }
 
-void SystemController::getUpdateStatusResponse(const QVariantMap &data)
+void SystemController::getUpdateStatusResponse(int /*commandId*/, const QVariantMap &data)
 {
-    m_updateManagementBusy = data.value("params").toMap().value("busy").toBool();
-    m_updateRunning = data.value("params").toMap().value("updateRunning").toBool();
+    m_updateManagementBusy = data.value("busy").toBool();
+    m_updateRunning = data.value("updateRunning").toBool();
     emit updateRunningChanged();
 }
 
-void SystemController::getPackagesResponse(const QVariantMap &data)
+void SystemController::getPackagesResponse(int commandId, const QVariantMap &data)
 {
-    foreach (const QVariant &packageVariant, data.value("params").toMap().value("packages").toList()) {
+    foreach (const QVariant &packageVariant, data.value("packages").toList()) {
         QString id = packageVariant.toMap().value("id").toString();
         QString displayName = packageVariant.toMap().value("displayName").toString();
         Package *p = new Package(id, displayName);
@@ -251,9 +251,9 @@ void SystemController::getPackagesResponse(const QVariantMap &data)
     }
 }
 
-void SystemController::getRepositoriesResponse(const QVariantMap &data)
+void SystemController::getRepositoriesResponse(int /*commandId*/, const QVariantMap &data)
 {
-    foreach (const QVariant &repoVariant, data.value("params").toMap().value("repositories").toList()) {
+    foreach (const QVariant &repoVariant, data.value("repositories").toList()) {
         QString id = repoVariant.toMap().value("id").toString();
         QString displayName = repoVariant.toMap().value("displayName").toString();
         Repository *repo = new Repository(id, displayName);
@@ -262,61 +262,58 @@ void SystemController::getRepositoriesResponse(const QVariantMap &data)
     }
 }
 
-void SystemController::removePackageResponse(const QVariantMap &params)
+void SystemController::removePackageResponse(int commandId, const QVariantMap &params)
 {
-    qDebug() << "Remove result" << params;
+    qDebug() << "Remove result" << commandId << params;
 }
 
-void SystemController::enableRepositoryResponse(const QVariantMap &params)
+void SystemController::enableRepositoryResponse(int commandId, const QVariantMap &params)
 {
     qDebug() << "Enable repo response" << params;
-    emit enableRepositoryFinished(params.value("id").toInt(), params.value("params").toMap().value("success").toBool());
+    emit enableRepositoryFinished(commandId, params.value("success").toBool());
 }
 
-void SystemController::getServerTimeResponse(const QVariantMap &params)
+void SystemController::getServerTimeResponse(int commandId, const QVariantMap &params)
 {
-    m_serverTime = QDateTime::fromSecsSinceEpoch(params.value("params").toMap().value("time").toUInt());
+    m_serverTime = QDateTime::fromSecsSinceEpoch(params.value("time").toUInt());
 
     // NOTE: Ideally we'd just set the TimeZone of our serverTime prooperly, however, there's a bug on Android
     // Which doesn't allow to create QTimeZone objects by IANA id.... So, let's keep that separated in a string
     // https://bugreports.qt.io/browse/QTBUG-83438
 
-//    m_serverTime.setTimeZone(QTimeZone(params.value("params").toMap().value("timeZone").toString().toUtf8()));
-    m_serverTimeZone = params.value("params").toMap().value("timeZone").toString();
+//    m_serverTime.setTimeZone(QTimeZone(params.value("timeZone").toString().toUtf8()));
+    m_serverTimeZone = params.value("timeZone").toString();
 
     emit serverTimeChanged();
     emit serverTimeZoneChanged();
-    m_automaticTimeAvailable = params.value("params").toMap().value("automaticTimeAvailable").toBool();
+    m_automaticTimeAvailable = params.value("automaticTimeAvailable").toBool();
     emit automaticTimeAvailableChanged();
-    m_automaticTime = params.value("params").toMap().value("automaticTime").toBool();
+    m_automaticTime = params.value("automaticTime").toBool();
     emit automaticTimeChanged();
     qDebug() << "Server time:" << m_serverTime << "Automatic Time available:" << m_automaticTimeAvailable << "Automatic time:" << m_automaticTime;
 }
 
-void SystemController::setTimeResponse(const QVariantMap &params)
+void SystemController::setTimeResponse(int commandId, const QVariantMap &params)
 {
-    qDebug() << "set time response" << params;
+    qDebug() << "set time response" << commandId << params;
 }
 
-void SystemController::restartResponse(const QVariantMap &params)
+void SystemController::restartResponse(int commandId, const QVariantMap &params)
 {
-    int id = params.value("id").toInt();
-    bool success = params.value("params").toMap().value("success").toBool();
-    emit restartReply(id, success);
+    bool success = params.value("success").toBool();
+    emit restartReply(commandId, success);
 }
 
-void SystemController::rebootResponse(const QVariantMap &params)
+void SystemController::rebootResponse(int commandId, const QVariantMap &params)
 {
-    int id = params.value("id").toInt();
-    bool success = params.value("params").toMap().value("success").toBool();
-    emit rebootReply(id, success);
+    bool success = params.value("success").toBool();
+    emit rebootReply(commandId, success);
 }
 
-void SystemController::shutdownResponse(const QVariantMap &params)
+void SystemController::shutdownResponse(int commandId, const QVariantMap &params)
 {
-    int id = params.value("id").toInt();
-    bool success = params.value("params").toMap().value("success").toBool();
-    emit shutdownReply(id, success);
+    bool success = params.value("success").toBool();
+    emit shutdownReply(commandId, success);
 }
 
 void SystemController::notificationReceived(const QVariantMap &data)

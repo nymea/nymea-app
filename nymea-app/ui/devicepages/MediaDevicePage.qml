@@ -108,15 +108,15 @@ DevicePageBase {
 
     Connections {
         target: engine.deviceManager
-        onExecuteBrowserItemReply: executionFinished(params)
-        onExecuteBrowserItemActionReply: executionFinished(params)
+        onExecuteBrowserItemReply: executionFinished(commandId, params)
+        onExecuteBrowserItemActionReply: executionFinished(commandId, params)
         onExecuteActionReply: {
-            print("actionfinished", params["id"])
-            if (params["id"] === d.pendingVolumeId) {
+            print("actionfinished", commandId)
+            if (commandId === d.pendingVolumeId) {
                 d.pendingVolumeId = -1
                 print("volume action finished")
-                if (params.params.deviceError !== "DeviceErrorNoError") {
-                    print("Error setting volume", params.params.deviceError)
+                if (params.deviceError !== "DeviceErrorNoError") {
+                    print("Error setting volume", params.deviceError)
                     d.pendingVolumeValue = -1;
                     return;
                 }
@@ -129,16 +129,16 @@ DevicePageBase {
             }
         }
     }
-    function executionFinished(params) {
-        print("Execute reply:", params, params.id, params["id"], d.pendingBrowserItemId)
-        if (params.id === d.pendingBrowserItemId) {
+    function executionFinished(commandId, params) {
+        print("Execute reply:", params, commandId, d.pendingBrowserItemId)
+        if (commandId === d.pendingBrowserItemId) {
             d.pendingBrowserItemId = -1;
             d.pendingItemId = ""
             print("yep finished")
-            if (params.params.deviceError === "DeviceErrorNoError") {
+            if (params.deviceError === "DeviceErrorNoError") {
                 swipeView.currentIndex = 0;
             } else {
-                header.showInfo(qsTr("Error: %1").arg(params.params.deviceError), true)
+                header.showInfo(qsTr("Error: %1").arg(params.deviceError), true)
             }
         }
     }

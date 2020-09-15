@@ -48,7 +48,6 @@ void TagsProxyModel::setTags(Tags *tags)
         m_tags = tags;
         setSourceModel(tags);
         connect(tags, &Tags::countChanged, this, [=](){
-            qWarning() << "Tag count changed!";
             invalidateFilter();
             emit countChanged();
         }, Qt::QueuedConnection);

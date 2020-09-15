@@ -205,15 +205,15 @@ LogEntry *LogsModel::get(int index) const
     return nullptr;
 }
 
-void LogsModel::logsReply(const QVariantMap &data)
+void LogsModel::logsReply(int /*commandId*/, const QVariantMap &data)
 {
-    int offset = data.value("params").toMap().value("offset").toInt();
-    int count = data.value("params").toMap().value("count").toInt();
+    int offset = data.value("offset").toInt();
+    int count = data.value("count").toInt();
 
 //    qDebug() << qUtf8Printable(QJsonDocument::fromVariant(data).toJson());
 
     QList<LogEntry*> newBlock;
-    QList<QVariant> logEntries = data.value("params").toMap().value("logEntries").toList();
+    QList<QVariant> logEntries = data.value("logEntries").toList();
     foreach (const QVariant &logEntryVariant, logEntries) {
         QVariantMap entryMap = logEntryVariant.toMap();
         QDateTime timeStamp = QDateTime::fromMSecsSinceEpoch(entryMap.value("timestamp").toLongLong());
