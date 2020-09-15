@@ -1,3 +1,11 @@
+nymea-app (1.0.230) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Make use of the new caching mechanism in nymea
+  * Fix weather view crashing with Qt 5.15
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 15 Sep 2020 19:11:18 +0200
+
 nymea-app (1.0.229) bionic; urgency=medium
 
   [ Michael Zanetti ]
