@@ -66,10 +66,13 @@ CustomViewBase {
 
         RowLayout {
             Layout.fillWidth: true
+            Layout.preferredHeight: mainImageSize
+
+            property int mainImageSize: app.iconSize * 2
 
             Item {
                 Layout.fillWidth: true
-                Layout.preferredWidth: (parent.width - mainImage.width) / 2
+                Layout.preferredWidth: (parent.width - parent.mainImageSize) / 2
 
                 GridLayout {
                     anchors.centerIn: parent
@@ -98,20 +101,19 @@ CustomViewBase {
                         horizontalAlignment: Text.AlignHCenter
                     }
                 }
-
             }
 
             ColorIcon {
                 id: mainImage
-                Layout.preferredWidth: app.largeFont * 4
-                Layout.preferredHeight: app.largeFont * 4
+                Layout.preferredWidth: parent.mainImageSize
+                Layout.preferredHeight: width
                 name: weatherConditionState ? "../images/weathericons/weather-" + weatherConditionState.value + ".svg" : ""
-                color: "white"
+                color: app.foregroundColor
             }
 
             Item {
                 Layout.fillWidth: true
-                Layout.preferredWidth: (parent.width - mainImage.width) / 2
+                Layout.preferredWidth: (parent.width - parent.mainImageSize) / 2
                 GridLayout {
                     columns: 2
                     anchors.centerIn: parent
