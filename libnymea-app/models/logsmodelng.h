@@ -129,7 +129,7 @@ signals:
 
 private slots:
     void newLogEntryReceived(const QVariantMap &data);
-    void logsReply(const QVariantMap &data);
+    void logsReply(int commandId, const QVariantMap &data);
 
 private:
     QList<LogEntry*> m_list;

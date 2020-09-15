@@ -131,10 +131,10 @@ QString DeviceDiscovery::displayMessage() const
     return m_displayMessage;
 }
 
-void DeviceDiscovery::discoverDevicesResponse(const QVariantMap &params)
+void DeviceDiscovery::discoverDevicesResponse(int /*commandId*/, const QVariantMap &params)
 {
 //    qDebug() << "response received" << params;
-    QVariantList descriptors = params.value("params").toMap().value("deviceDescriptors").toList();
+    QVariantList descriptors = params.value("deviceDescriptors").toList();
     foreach (const QVariant &descriptorVariant, descriptors) {
         qDebug() << "Found device. Descriptor:" << descriptorVariant;
         if (!contains(descriptorVariant.toMap().value("id").toUuid())) {
@@ -154,7 +154,7 @@ void DeviceDiscovery::discoverDevicesResponse(const QVariantMap &params)
         }
     }
 
-    m_displayMessage = params.value("params").toMap().value("displayMessage").toString();
+    m_displayMessage = params.value("displayMessage").toString();
     m_busy = false;
     emit busyChanged();
 }

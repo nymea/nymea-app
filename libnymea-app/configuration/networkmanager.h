@@ -113,14 +113,14 @@ signals:
 private slots:
     void init();
 
-    void getStatusResponse(const QVariantMap &params);
-    void getDevicesResponse(const QVariantMap &params);
-    void getAccessPointsResponse(const QVariantMap &params);
-    void connectToWiFiResponse(const QVariantMap &params);
-    void disconnectResponse(const QVariantMap &params);
-    void enableNetworkingResponse(const QVariantMap &params);
-    void enableWirelessNetworkingResponse(const QVariantMap &params);
-    void startAccessPointResponse(const QVariantMap &params);
+    void getStatusResponse(int commandId, const QVariantMap &params);
+    void getDevicesResponse(int commandId, const QVariantMap &params);
+    void getAccessPointsResponse(int commandId, const QVariantMap &params);
+    void connectToWiFiResponse(int commandId, const QVariantMap &params);
+    void disconnectResponse(int commandId, const QVariantMap &params);
+    void enableNetworkingResponse(int commandId, const QVariantMap &params);
+    void enableWirelessNetworkingResponse(int commandId, const QVariantMap &params);
+    void startAccessPointResponse(int commandId, const QVariantMap &params);
 
     void notificationReceived(const QVariantMap &params);
 

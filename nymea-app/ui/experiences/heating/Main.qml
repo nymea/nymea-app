@@ -119,8 +119,8 @@ Item {
     Connections {
         target: engine.deviceManager
         onExecuteActionReply: {
-            print("executeActionReply:", params["id"])
-            if (params["id"] === d.pendingCallId) {
+            print("executeActionReply:", commandId)
+            if (commandId === d.pendingCallId) {
                 d.pendingCallId = -1;
                 if (d.setTempPending) {
                     setTargetTemp(d.queuedTargetTemp)

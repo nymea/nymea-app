@@ -55,10 +55,10 @@ signals:
 private slots:
     void notificationReceived(const QVariantMap &data);
 
-    void getUserInfoReply(const QVariantMap &data);
-    void getTokensReply(const QVariantMap &data);
-    void deleteTokenReply(const QVariantMap &data);
-    void changePasswordReply(const QVariantMap &data);
+    void getUserInfoReply(int commandId, const QVariantMap &data);
+    void getTokensReply(int commandId, const QVariantMap &data);
+    void deleteTokenReply(int commandId, const QVariantMap &params);
+    void changePasswordReply(int commandId, const QVariantMap &params);
 
 private:
     Engine *m_engine = nullptr;

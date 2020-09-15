@@ -192,7 +192,7 @@ DevicePageBase {
                 target: engine.deviceManager
                 onExecuteActionReply: {
                     print("Execute action reply:", JSON.stringify(params));
-                    addUserPage.error = params["params"]["deviceError"] !== "DeviceErrorNoError"
+                    addUserPage.error = params["deviceError"] !== "DeviceErrorNoError"
                     var masks =[]
                     masks.push({x: 0, y: 0, width: 1, height: 1});
                     addUserPage.done = true

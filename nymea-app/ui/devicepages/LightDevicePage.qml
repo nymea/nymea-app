@@ -302,7 +302,7 @@ DevicePageBase {
                         target: engine.deviceManager
                         onExecuteActionReply: {
                             print("action finished", JSON.stringify(params))
-                            if (params.id === colorPicker.pendingCommand) {
+                            if (commandId === colorPicker.pendingCommand) {
                                 colorPicker.pendingCommand = -1;
                                 if (colorPicker.queuedColor) {
                                     colorPicker.sendColor(colorPicker.queuedColor);

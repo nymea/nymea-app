@@ -36,7 +36,10 @@
 #include "thinggroup.h"
 #include "types/interface.h"
 #include "types/ioconnections.h"
+
 #include <QMetaEnum>
+#include <QFile>
+#include <QStandardPaths>
 
 DeviceManager::DeviceManager(JsonRpcClient* jsonclient, QObject *parent) :
     JsonHandler(parent),
@@ -61,6 +64,8 @@ void DeviceManager::clear()
 
 void DeviceManager::init()
 {
+    m_connectionBenchmark = QDateTime::currentDateTime();
+
     // For old nymea setups we need to register to Events.Notifications.
     // Deprecated since JSONRPC 4.0/nymea 0.17
     if (!m_jsonClient->ensureServerVersion("4.0")) {
@@ -151,14 +156,14 @@ bool DeviceManager::fetchingData() const
     return m_fetchingData;
 }
 
-void DeviceManager::addDevice(const QUuid &deviceClassId, const QString &name, const QVariantList &deviceParams)
+int DeviceManager::addDevice(const QUuid &deviceClassId, const QString &name, const QVariantList &deviceParams)
 {
     qDebug() << "add device " << deviceClassId.toString();
     QVariantMap params;
     params.insert("deviceClassId", deviceClassId.toString());
     params.insert("name", name);
     params.insert("deviceParams", deviceParams);
-    m_jsonClient->sendCommand("Devices.AddConfiguredDevice", params, this, "addDeviceResponse");
+    return m_jsonClient->sendCommand("Devices.AddConfiguredDevice", params, this, "addDeviceResponse");
 }
 
 void DeviceManager::notificationReceived(const QVariantMap &data)
@@ -264,11 +269,11 @@ void DeviceManager::notificationReceived(const QVariantMap &data)
     }
 }
 
-void DeviceManager::getVendorsResponse(const QVariantMap &params)
+void DeviceManager::getVendorsResponse(int /*commandId*/, const QVariantMap &params)
 {
 //    qDebug() << "Got GetSupportedVendors response" << params;
-    if (params.value("params").toMap().keys().contains("vendors")) {
-        QVariantList vendorList = params.value("params").toMap().value("vendors").toList();
+    if (params.keys().contains("vendors")) {
+        QVariantList vendorList = params.value("vendors").toList();
         foreach (QVariant vendorVariant, vendorList) {
             Vendor *vendor = JsonTypes::unpackVendor(vendorVariant.toMap());
             m_vendors->addVendor(vendor);
@@ -277,11 +282,11 @@ void DeviceManager::getVendorsResponse(const QVariantMap &params)
     }
 }
 
-void DeviceManager::getSupportedDevicesResponse(const QVariantMap &params)
+void DeviceManager::getSupportedDevicesResponse(int /*commandId*/, const QVariantMap &params)
 {
 //    qDebug() << "DeviceClasses received:" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson(QJsonDocument::Indented));
-    if (params.value("params").toMap().keys().contains("deviceClasses")) {
-        QVariantList deviceClassList = params.value("params").toMap().value("deviceClasses").toList();
+    if (params.keys().contains("deviceClasses")) {
+        QVariantList deviceClassList = params.value("deviceClasses").toList();
         foreach (QVariant deviceClassVariant, deviceClassList) {
             DeviceClass *deviceClass = JsonTypes::unpackDeviceClass(deviceClassVariant.toMap(), deviceClasses());
             m_thingClasses->addDeviceClass(deviceClass);
@@ -290,11 +295,11 @@ void DeviceManager::getSupportedDevicesResponse(const QVariantMap &params)
     m_jsonClient->sendCommand("Devices.GetConfiguredDevices", this, "getConfiguredDevicesResponse");
 }
 
-void DeviceManager::getPluginsResponse(const QVariantMap &params)
+void DeviceManager::getPluginsResponse(int /*commandId*/, const QVariantMap &params)
 {
 //    qDebug() << "received plugins";
-    if (params.value("params").toMap().keys().contains("plugins")) {
-        QVariantList pluginList = params.value("params").toMap().value("plugins").toList();
+    if (params.keys().contains("plugins")) {
+        QVariantList pluginList = params.value("plugins").toList();
         foreach (QVariant pluginVariant, pluginList) {
             Plugin *plugin = JsonTypes::unpackPlugin(pluginVariant.toMap(), plugins());
             m_plugins->addPlugin(plugin);
@@ -310,7 +315,7 @@ void DeviceManager::getPluginsResponse(const QVariantMap &params)
     }
 }
 
-void DeviceManager::getPluginConfigResponse(const QVariantMap &params)
+void DeviceManager::getPluginConfigResponse(int /*commandId*/, const QVariantMap &params)
 {
 //    qDebug() << "plugin config response" << params;
     Plugin *p = m_plugins->get(m_currentGetConfigIndex);
@@ -318,7 +323,7 @@ void DeviceManager::getPluginConfigResponse(const QVariantMap &params)
         qDebug() << "Received a plugin config for a plugin we don't know";
         return;
     }
-    QVariantList pluginParams = params.value("params").toMap().value("configuration").toList();
+    QVariantList pluginParams = params.value("configuration").toList();
     foreach (const QVariant &paramVariant, pluginParams) {
         Param* param = new Param();
         JsonTypes::unpackParam(paramVariant.toMap(), param);
@@ -333,10 +338,10 @@ void DeviceManager::getPluginConfigResponse(const QVariantMap &params)
     }
 }
 
-void DeviceManager::getConfiguredDevicesResponse(const QVariantMap &params)
+void DeviceManager::getConfiguredDevicesResponse(int /*commandId*/, const QVariantMap &params)
 {
-    if (params.value("params").toMap().keys().contains("devices")) {
-        QVariantList deviceList = params.value("params").toMap().value("devices").toList();
+    if (params.keys().contains("devices")) {
+        QVariantList deviceList = params.value("devices").toList();
         foreach (QVariant deviceVariant, deviceList) {
             Device *device = JsonTypes::unpackDevice(this, deviceVariant.toMap(), m_thingClasses);
             if (!device) {
@@ -369,6 +374,7 @@ void DeviceManager::getConfiguredDevicesResponse(const QVariantMap &params)
 //            qDebug() << "*** Added device:" << endl << device;
         }
     }
+    qDebug() << "Initializing thing manager took" << m_connectionBenchmark.msecsTo(QDateTime::currentDateTime()) << "ms";
     m_fetchingData = false;
     emit fetchingDataChanged();
 
@@ -377,12 +383,12 @@ void DeviceManager::getConfiguredDevicesResponse(const QVariantMap &params)
     m_jsonClient->sendCommand("Devices.GetPlugins", this, "getPluginsResponse");
 }
 
-void DeviceManager::addDeviceResponse(const QVariantMap &params)
+void DeviceManager::addDeviceResponse(int commandId, const QVariantMap &params)
 {
-    if (params.value("params").toMap().value("deviceError").toString() != "DeviceErrorNoError") {
-        qWarning() << "Failed to add the device:" << params.value("params").toMap().value("deviceError").toString();
-    } else if (params.value("params").toMap().keys().contains("device")) {
-        QVariantMap deviceVariant = params.value("params").toMap().value("device").toMap();
+    if (params.value("deviceError").toString() != "DeviceErrorNoError") {
+        qWarning() << "Failed to add the device:" << params.value("deviceError").toString();
+    } else if (params.keys().contains("device")) {
+        QVariantMap deviceVariant = params.value("device").toMap();
         Device *device = JsonTypes::unpackDevice(this, deviceVariant, m_thingClasses);
         if (!device) {
             qWarning() << "Couldn't parse json in addDeviceResponse";
@@ -392,57 +398,57 @@ void DeviceManager::addDeviceResponse(const QVariantMap &params)
         qDebug() << "Device added" << device->id().toString();
         m_devices->addDevice(device);
     }
-    emit addDeviceReply(params.value("params").toMap());
+    emit addDeviceReply(commandId, params);
 }
 
-void DeviceManager::removeDeviceResponse(const QVariantMap &params)
+void DeviceManager::removeDeviceResponse(int commandId, const QVariantMap &params)
 {
     qDebug() << "Device removed response" << params;
-    emit removeDeviceReply(params.value("params").toMap());
+    emit removeDeviceReply(commandId, params);
 }
 
-void DeviceManager::pairDeviceResponse(const QVariantMap &params)
+void DeviceManager::pairDeviceResponse(int commandId, const QVariantMap &params)
 {
     qDebug() << "Pair device response:" << params;
-    emit pairDeviceReply(params.value("params").toMap());
+    emit pairDeviceReply(commandId, params);
 }
 
-void DeviceManager::confirmPairingResponse(const QVariantMap &params)
+void DeviceManager::confirmPairingResponse(int commandId, const QVariantMap &params)
 {
     qDebug() << "ConfirmPairingResponse" << params;
-    emit confirmPairingReply(params.value("params").toMap());
+    emit confirmPairingReply(commandId, params);
 }
 
-void DeviceManager::setPluginConfigResponse(const QVariantMap &params)
+void DeviceManager::setPluginConfigResponse(int commandId, const QVariantMap &params)
 {
-    qDebug() << "set plugin config respionse" << params;
-    emit savePluginConfigReply(params);
+    qDebug() << "set plugin config response" << params;
+    emit savePluginConfigReply(commandId, params);
 }
 
-void DeviceManager::editDeviceResponse(const QVariantMap &params)
+void DeviceManager::editDeviceResponse(int commandId, const QVariantMap &params)
 {
     qDebug() << "Edit device response" << params;
-    emit editDeviceReply(params);
+    emit editDeviceReply(commandId, params);
 }
 
-void DeviceManager::executeActionResponse(const QVariantMap &params)
+void DeviceManager::executeActionResponse(int commandId, const QVariantMap &params)
 {
     qDebug() << "Execute Action response" << params;
-    emit executeActionReply(params);
+    emit executeActionReply(commandId, params);
 }
 
-void DeviceManager::reconfigureDeviceResponse(const QVariantMap &params)
+void DeviceManager::reconfigureDeviceResponse(int commandId, const QVariantMap &params)
 {
     qDebug() << "Reconfigure device response" << params;
-    emit reconfigureDeviceReply(params.value("params").toMap());
+    emit reconfigureDeviceReply(commandId, params);
 }
 
-void DeviceManager::savePluginConfig(const QUuid &pluginId)
+int DeviceManager::savePluginConfig(const QUuid &pluginId)
 {
     Plugin *p = m_plugins->getPlugin(pluginId);
     if (!p) {
         qWarning()<< "Error: can't find plugin with id" << pluginId;
-        return;
+        return -1;
     }
     QVariantMap params;
     params.insert("pluginId", pluginId);
@@ -451,7 +457,7 @@ void DeviceManager::savePluginConfig(const QUuid &pluginId)
         pluginParams.append(JsonTypes::packParam(p->params()->get(i)));
     }
     params.insert("configuration", pluginParams);
-    m_jsonClient->sendCommand("Devices.SetPluginConfiguration", params, this, "setPluginConfigResponse");
+    return m_jsonClient->sendCommand("Devices.SetPluginConfiguration", params, this, "setPluginConfigResponse");
 }
 
 ThingGroup *DeviceManager::createGroup(Interface *interface, DevicesProxy *things)
@@ -461,7 +467,7 @@ ThingGroup *DeviceManager::createGroup(Interface *interface, DevicesProxy *thing
     return group;
 }
 
-void DeviceManager::addDiscoveredDevice(const QUuid &deviceClassId, const QUuid &deviceDescriptorId, const QString &name, const QVariantList &deviceParams)
+int DeviceManager::addDiscoveredDevice(const QUuid &deviceClassId, const QUuid &deviceDescriptorId, const QString &name, const QVariantList &deviceParams)
 {
     qDebug() << "JsonRpc: add discovered device " << deviceClassId.toString();
     QVariantMap params;
@@ -469,10 +475,10 @@ void DeviceManager::addDiscoveredDevice(const QUuid &deviceClassId, const QUuid 
     params.insert("name", name);
     params.insert("deviceDescriptorId", deviceDescriptorId.toString());
     params.insert("deviceParams", deviceParams);
-    m_jsonClient->sendCommand("Devices.AddConfiguredDevice", params, this, "addDeviceResponse");
+    return m_jsonClient->sendCommand("Devices.AddConfiguredDevice", params, this, "addDeviceResponse");
 }
 
-void DeviceManager::pairDiscoveredDevice(const QUuid &deviceClassId, const QUuid &deviceDescriptorId, const QVariantList &deviceParams, const QString &name)
+int DeviceManager::pairDiscoveredDevice(const QUuid &deviceClassId, const QUuid &deviceDescriptorId, const QVariantList &deviceParams, const QString &name)
 {
     qDebug() << "JsonRpc: pair discovered device " << deviceDescriptorId.toString();
     QVariantMap params;
@@ -484,20 +490,20 @@ void DeviceManager::pairDiscoveredDevice(const QUuid &deviceClassId, const QUuid
         params.insert("deviceClassId", deviceClassId);
     }
 
-    m_jsonClient->sendCommand("Devices.PairDevice", params, this, "pairDeviceResponse");
+    return m_jsonClient->sendCommand("Devices.PairDevice", params, this, "pairDeviceResponse");
 }
 
-void DeviceManager::pairDevice(const QUuid &deviceClassId, const QVariantList &deviceParams, const QString &name)
+int DeviceManager::pairDevice(const QUuid &deviceClassId, const QVariantList &deviceParams, const QString &name)
 {
     qDebug() << "JsonRpc: pair device " << deviceClassId.toString();
     QVariantMap params;
     params.insert("deviceClassId", deviceClassId.toString());
     params.insert("deviceParams", deviceParams);
     params.insert("name", name);
-    m_jsonClient->sendCommand("Devices.PairDevice", params, this, "pairDeviceResponse");
+    return m_jsonClient->sendCommand("Devices.PairDevice", params, this, "pairDeviceResponse");
 }
 
-void DeviceManager::rePairDevice(const QUuid &deviceId, const QVariantList &deviceParams, const QString &name)
+int DeviceManager::rePairDevice(const QUuid &deviceId, const QVariantList &deviceParams, const QString &name)
 {
     qDebug() << "JsonRpc: pair device (reconfigure)" << deviceId;
     QVariantMap params;
@@ -506,10 +512,10 @@ void DeviceManager::rePairDevice(const QUuid &deviceId, const QVariantList &devi
     if (!name.isEmpty()) {
         params.insert("name", name);
     }
-    m_jsonClient->sendCommand("Devices.PairDevice", params, this, "pairDeviceResponse");
+    return m_jsonClient->sendCommand("Devices.PairDevice", params, this, "pairDeviceResponse");
 }
 
-void DeviceManager::confirmPairing(const QUuid &pairingTransactionId, const QString &secret, const QString &username)
+int DeviceManager::confirmPairing(const QUuid &pairingTransactionId, const QString &secret, const QString &username)
 {
     qDebug() << "JsonRpc: confirm pairing" << pairingTransactionId.toString();
     QVariantMap params;
@@ -518,10 +524,10 @@ void DeviceManager::confirmPairing(const QUuid &pairingTransactionId, const QStr
     if (!username.isEmpty()) {
         params.insert("username", username);
     }
-    m_jsonClient->sendCommand("Devices.ConfirmPairing", params, this, "confirmPairingResponse");
+    return m_jsonClient->sendCommand("Devices.ConfirmPairing", params, this, "confirmPairingResponse");
 }
 
-void DeviceManager::removeDevice(const QUuid &deviceId, RemovePolicy removePolicy)
+int DeviceManager::removeDevice(const QUuid &deviceId, RemovePolicy removePolicy)
 {
     qDebug() << "JsonRpc: delete device" << deviceId.toString();
     QVariantMap params;
@@ -530,34 +536,34 @@ void DeviceManager::removeDevice(const QUuid &deviceId, RemovePolicy removePolic
         QMetaEnum policyEnum = QMetaEnum::fromType<DeviceManager::RemovePolicy>();
         params.insert("removePolicy", policyEnum.valueToKey(removePolicy));
     }
-    m_jsonClient->sendCommand("Devices.RemoveConfiguredDevice", params, this, "removeDeviceResponse");
+    return m_jsonClient->sendCommand("Devices.RemoveConfiguredDevice", params, this, "removeDeviceResponse");
 }
 
-void DeviceManager::editDevice(const QUuid &deviceId, const QString &name)
+int DeviceManager::editDevice(const QUuid &deviceId, const QString &name)
 {
     QVariantMap params;
     params.insert("deviceId", deviceId.toString());
     params.insert("name", name);
-    m_jsonClient->sendCommand("Devices.EditDevice", params, this, "editDeviceResponse");
+    return m_jsonClient->sendCommand("Devices.EditDevice", params, this, "editDeviceResponse");
 }
 
-void DeviceManager::setDeviceSettings(const QUuid &deviceId, const QVariantList &settings)
+int DeviceManager::setDeviceSettings(const QUuid &deviceId, const QVariantList &settings)
 {
     QVariantMap params;
     params.insert("deviceId", deviceId);
     params.insert("settings", settings);
-    m_jsonClient->sendCommand("Devices.SetDeviceSettings", params);
+    return m_jsonClient->sendCommand("Devices.SetDeviceSettings", params);
 }
 
-void DeviceManager::reconfigureDevice(const QUuid &deviceId, const QVariantList &deviceParams)
+int DeviceManager::reconfigureDevice(const QUuid &deviceId, const QVariantList &deviceParams)
 {
     QVariantMap params;
     params.insert("deviceId", deviceId.toString());
     params.insert("deviceParams", deviceParams);
-    m_jsonClient->sendCommand("Devices.ReconfigureDevice", params, this, "reconfigureDeviceResponse");
+    return m_jsonClient->sendCommand("Devices.ReconfigureDevice", params, this, "reconfigureDeviceResponse");
 }
 
-void DeviceManager::reconfigureDiscoveredDevice(const QUuid &deviceId, const QUuid &deviceDescriptorId, const QVariantList &paramOverride)
+int DeviceManager::reconfigureDiscoveredDevice(const QUuid &deviceId, const QUuid &deviceDescriptorId, const QVariantList &paramOverride)
 {
     QVariantMap params;
     params.insert("deviceId", deviceId.toString());
@@ -566,7 +572,7 @@ void DeviceManager::reconfigureDiscoveredDevice(const QUuid &deviceId, const QUu
         params.insert("deviceParams", paramOverride);
     }
     qDebug() << "Calling ReconfigureDevice" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson());
-    m_jsonClient->sendCommand("Devices.ReconfigureDevice", params, this, "reconfigureDeviceResponse");
+    return m_jsonClient->sendCommand("Devices.ReconfigureDevice", params, this, "reconfigureDeviceResponse");
 }
 
 int DeviceManager::executeAction(const QUuid &deviceId, const QUuid &actionTypeId, const QVariantList &params)
@@ -627,16 +633,15 @@ BrowserItem *DeviceManager::browserItem(const QUuid &deviceId, const QString &it
     return item;
 }
 
-void DeviceManager::browseDeviceResponse(const QVariantMap &params)
+void DeviceManager::browseDeviceResponse(int commandId, const QVariantMap &params)
 {
 //    qDebug() << "Browsing response:" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson(QJsonDocument::Indented));
-    int id = params.value("id").toInt();
-    if (!m_browsingRequests.contains(id)) {
+    if (!m_browsingRequests.contains(commandId)) {
         qWarning() << "Received a browsing reply for an id we don't know.";
         return;
     }
 
-    QPointer<BrowserItems> itemModel = m_browsingRequests.take(id);
+    QPointer<BrowserItems> itemModel = m_browsingRequests.take(commandId);
     if (!itemModel) {
         qDebug() << "BrowserItems model seems to have disappeared. Discarding browsing result.";
         return;
@@ -644,7 +649,7 @@ void DeviceManager::browseDeviceResponse(const QVariantMap &params)
 
     QList<BrowserItem*> itemsToRemove = itemModel->list();
 
-    foreach (const QVariant &itemVariant, params.value("params").toMap().value("items").toList()) {
+    foreach (const QVariant &itemVariant, params.value("items").toList()) {
         QVariantMap itemMap = itemVariant.toMap();
         QString itemId = itemMap.value("id").toString();
         BrowserItem *item = itemModel->getBrowserItem(itemId);
@@ -676,22 +681,21 @@ void DeviceManager::browseDeviceResponse(const QVariantMap &params)
     itemModel->setBusy(false);
 }
 
-void DeviceManager::browserItemResponse(const QVariantMap &params)
+void DeviceManager::browserItemResponse(int commandId, const QVariantMap &params)
 {
     qDebug() << "Browser item details response:" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson(QJsonDocument::Indented));
-    int id = params.value("id").toInt();
-    if (!m_browserDetailsRequests.contains(id)) {
+    if (!m_browserDetailsRequests.contains(commandId)) {
         qWarning() << "Received a browser item details reply for an id we don't know.";
         return;
     }
 
-    QPointer<BrowserItem> item = m_browserDetailsRequests.take(id);
+    QPointer<BrowserItem> item = m_browserDetailsRequests.take(commandId);
     if (!item) {
         qDebug() << "BrowserItem seems to have disappeared. Discarding browser item details result.";
         return;
     }
 
-    QVariantMap itemMap = params.value("params").toMap().value("item").toMap();
+    QVariantMap itemMap = params.value("item").toMap();
     item->setDisplayName(itemMap.value("displayName").toString());
     item->setDescription(itemMap.value("description").toString());
     item->setIcon(itemMap.value("icon").toString());
@@ -712,10 +716,10 @@ int DeviceManager::executeBrowserItem(const QUuid &deviceId, const QString &item
     return m_jsonClient->sendCommand("Actions.ExecuteBrowserItem", params, this, "executeBrowserItemResponse");
 }
 
-void DeviceManager::executeBrowserItemResponse(const QVariantMap &params)
+void DeviceManager::executeBrowserItemResponse(int commandId, const QVariantMap &params)
 {
     qDebug() << "Execute Browser Item finished" << params;
-    emit executeBrowserItemReply(params);
+    emit executeBrowserItemReply(commandId, params);
 }
 
 int DeviceManager::executeBrowserItemAction(const QUuid &deviceId, const QString &itemId, const QUuid &actionTypeId, const QVariantList &params)
@@ -747,17 +751,17 @@ int DeviceManager::disconnectIO(const QUuid &ioConnectionId)
     return m_jsonClient->sendCommand("Integrations.DisconnectIO", data, this, "disconnectIOResponse");
 }
 
-void DeviceManager::executeBrowserItemActionResponse(const QVariantMap &params)
+void DeviceManager::executeBrowserItemActionResponse(int commandId, const QVariantMap &params)
 {
     qDebug() << "Execute Browser Item Action finished" << params;
-    emit executeBrowserItemActionReply(params);
+    emit executeBrowserItemActionReply(commandId, params);
 }
 
-void DeviceManager::getIOConnectionsResponse(const QVariantMap &params)
+void DeviceManager::getIOConnectionsResponse(int /*commandId*/, const QVariantMap &params)
 {
 //    qDebug() << "Get IO connections response" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson());
 
-    foreach (const QVariant &connectionVariant, params.value("params").toMap().value("ioConnections").toList()) {
+    foreach (const QVariant &connectionVariant, params.value("ioConnections").toList()) {
         QVariantMap connectionMap = connectionVariant.toMap();
         QUuid id = connectionMap.value("id").toUuid();
         QUuid inputThingId = connectionMap.value("inputThingId").toUuid();
@@ -770,13 +774,13 @@ void DeviceManager::getIOConnectionsResponse(const QVariantMap &params)
     }
 }
 
-void DeviceManager::connectIOResponse(const QVariantMap &params)
+void DeviceManager::connectIOResponse(int commandId, const QVariantMap &params)
 {
-    qDebug() << "ConnectIO response" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson());
+    qDebug() << "ConnectIO response" << commandId << qUtf8Printable(QJsonDocument::fromVariant(params).toJson());
 }
 
-void DeviceManager::disconnectIOResponse(const QVariantMap &params)
+void DeviceManager::disconnectIOResponse(int commandId, const QVariantMap &params)
 {
-    qDebug() << "DisconnectIO response" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson());
+    qDebug() << "DisconnectIO response" << commandId << qUtf8Printable(QJsonDocument::fromVariant(params).toJson());
 }
 

@@ -68,7 +68,7 @@ Tags *TagsManager::tags() const
     return m_tags;
 }
 
-void TagsManager::tagDevice(const QString &deviceId, const QString &tagId, const QString &value)
+int TagsManager::tagDevice(const QString &deviceId, const QString &tagId, const QString &value)
 {
     QVariantMap params;
     QVariantMap tag;
@@ -77,10 +77,10 @@ void TagsManager::tagDevice(const QString &deviceId, const QString &tagId, const
     tag.insert("tagId", tagId);
     tag.insert("value", value);
     params.insert("tag", tag);
-    m_jsonClient->sendCommand("Tags.AddTag", params, this, "addTagReply");
+    return m_jsonClient->sendCommand("Tags.AddTag", params, this, "addTagReply");
 }
 
-void TagsManager::untagDevice(const QString &deviceId, const QString &tagId)
+int TagsManager::untagDevice(const QString &deviceId, const QString &tagId)
 {
     QVariantMap params;
     QVariantMap tag;
@@ -88,10 +88,10 @@ void TagsManager::untagDevice(const QString &deviceId, const QString &tagId)
     tag.insert("appId", "nymea:app");
     tag.insert("tagId", tagId);
     params.insert("tag", tag);
-    m_jsonClient->sendCommand("Tags.RemoveTag", params, this, "removeTagReply");
+    return m_jsonClient->sendCommand("Tags.RemoveTag", params, this, "removeTagReply");
 }
 
-void TagsManager::tagRule(const QString &ruleId, const QString &tagId, const QString &value)
+int TagsManager::tagRule(const QString &ruleId, const QString &tagId, const QString &value)
 {
     QVariantMap params;
     QVariantMap tag;
@@ -100,10 +100,10 @@ void TagsManager::tagRule(const QString &ruleId, const QString &tagId, const QSt
     tag.insert("tagId", tagId);
     tag.insert("value", value);
     params.insert("tag", tag);
-    m_jsonClient->sendCommand("Tags.AddTag", params, this, "addTagReply");
+    return m_jsonClient->sendCommand("Tags.AddTag", params, this, "addTagReply");
 }
 
-void TagsManager::untagRule(const QString &ruleId, const QString &tagId)
+int TagsManager::untagRule(const QString &ruleId, const QString &tagId)
 {
     QVariantMap params;
     QVariantMap tag;
@@ -111,7 +111,7 @@ void TagsManager::untagRule(const QString &ruleId, const QString &tagId)
     tag.insert("appId", "nymea:app");
     tag.insert("tagId", tagId);
     params.insert("tag", tag);
-    m_jsonClient->sendCommand("Tags.RemoveTag", params, this, "removeTagReply");
+    return m_jsonClient->sendCommand("Tags.RemoveTag", params, this, "removeTagReply");
 }
 
 void TagsManager::handleTagsNotification(const QVariantMap &params)
@@ -164,10 +164,10 @@ void TagsManager::handleTagsNotification(const QVariantMap &params)
     }
 }
 
-void TagsManager::getTagsReply(const QVariantMap &params)
+void TagsManager::getTagsReply(int /*commandId*/, const QVariantMap &params)
 {
     QList<Tag*> tags;
-    foreach (const QVariant &tagVariant, params.value("params").toMap().value("tags").toList()) {
+    foreach (const QVariant &tagVariant, params.value("tags").toList()) {
         Tag *tag = unpackTag(tagVariant.toMap());
         if (tag) {
             tags.append(tag);
@@ -179,14 +179,14 @@ void TagsManager::getTagsReply(const QVariantMap &params)
     emit busyChanged();
 }
 
-void TagsManager::addTagReply(const QVariantMap &params)
+void TagsManager::addTagReply(int commandId, const QVariantMap &params)
 {
-    qDebug() << "AddTag reply" << params;
+    qDebug() << "AddTag reply" << commandId << params;
 }
 
-void TagsManager::removeTagReply(const QVariantMap &params)
+void TagsManager::removeTagReply(int commandId, const QVariantMap &params)
 {
-    qDebug() << "RemoveTag reply" << params;
+    qDebug() << "RemoveTag reply" << commandId << params;
 }
 
 Tag* TagsManager::unpackTag(const QVariantMap &tagMap)

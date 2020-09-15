@@ -56,11 +56,11 @@ ThingGroup::ThingGroup(DeviceManager *deviceManager, DeviceClass *deviceClass, D
         syncStates();
     });
 
-    connect(m_thingManager, &DeviceManager::executeActionReply, this, [this](const QVariantMap &params){
-        int returningId = params.value("id").toInt();
+    connect(m_thingManager, &DeviceManager::executeActionReply, this, [this](int commandId, const QVariantMap &/*params*/){
+        // This should maybe check the params and only emit NoError if there is at least one thing that returned without error?
         foreach (int id, m_pendingActions.keys()) {
-            if (m_pendingActions.value(id).contains(returningId)) {
-                m_pendingActions[id].removeAll(returningId);
+            if (m_pendingActions.value(id).contains(commandId)) {
+                m_pendingActions[id].removeAll(commandId);
                 if (m_pendingActions[id].isEmpty()) {
                     m_pendingActions.remove(id);
                     emit actionExecutionFinished(id, "DeviceErrorNoError");

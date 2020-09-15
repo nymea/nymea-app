@@ -93,7 +93,7 @@ public:
     QString displayMessage() const;
 
 private slots:
-    void discoverDevicesResponse(const QVariantMap &params);
+    void discoverDevicesResponse(int commandId, const QVariantMap &params);
 
 signals:
     void busyChanged();

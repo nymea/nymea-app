@@ -94,7 +94,31 @@ void JsonRpcClient::unregisterNotificationHandler(JsonHandler *handler)
 
 int JsonRpcClient::sendCommand(const QString &method, const QVariantMap &params, QObject *caller, const QString &callbackMethod)
 {
+
     JsonRpcReply *reply = createReply(method, params, caller, callbackMethod);
+
+    if (m_cacheHashes.contains(method)) {
+        QString hash = m_cacheHashes.value(method);
+        QString callSignature = method + '-' + QJsonDocument::fromVariant(params).toJson() + '-' + QLocale().name();
+        QString callSignatureHash = QCryptographicHash::hash(callSignature.toUtf8(), QCryptographicHash::Md5).toHex();
+        QFile f(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + '/' + method + '-' + callSignatureHash + '-' + hash + ".cache");
+        if (f.exists() && f.open(QFile::ReadOnly)) {
+            QJsonParseError error;
+            QVariantMap cachedParams = QJsonDocument::fromJson(f.readAll(), &error).toVariant().toMap();
+            f.close();
+            if (error.error == QJsonParseError::NoError) {
+                qDebug() << "Loaded results for" << reply->nameSpace() + '.' + reply->method() << "from cache";
+                // We want to make sure this is an async operation even if we have stuff in cache, so only call callbacks using Qt::QueuedConnection
+                if (!reply->caller().isNull() && !reply->callback().isEmpty()) {
+                    QMetaObject::invokeMethod(reply->caller(), reply->callback().toLatin1().data(), Qt::QueuedConnection, Q_ARG(int, reply->commandId()), Q_ARG(QVariantMap, cachedParams));
+                }
+                QMetaObject::invokeMethod(this, "responseReceived", Qt::QueuedConnection, Q_ARG(int, reply->commandId()), Q_ARG(QVariantMap, cachedParams));
+                QMetaObject::invokeMethod(reply, "deleteLater", Qt::QueuedConnection);
+                return reply->commandId();
+            }
+        }
+    }
+
     m_replies.insert(reply->commandId(), reply);
     sendRequest(reply->requestMap());
     return reply->commandId();
@@ -102,6 +126,7 @@ int JsonRpcClient::sendCommand(const QString &method, const QVariantMap &params,
 
 int JsonRpcClient::sendCommand(const QString &method, QObject *caller, const QString &callbackMethod)
 {
+
     return sendCommand(method, QVariantMap(), caller, callbackMethod);
 }
 
@@ -138,7 +163,7 @@ void JsonRpcClient::getCloudConnectionStatus()
     sendRequest(reply->requestMap());
 }
 
-void JsonRpcClient::setNotificationsEnabledResponse(const QVariantMap &params)
+void JsonRpcClient::setNotificationsEnabledResponse(int /*commandId*/, const QVariantMap &params)
 {
     qDebug() << "Notifications enabled:" << params;
 
@@ -187,28 +212,28 @@ void JsonRpcClient::notificationReceived(const QVariantMap &data)
     qDebug() << "JsonRpcClient: Unhandled notification received" << data;
 }
 
-void JsonRpcClient::isCloudConnectedReply(const QVariantMap &data)
+void JsonRpcClient::isCloudConnectedReply(int /*commandId*/, const QVariantMap &data)
 {
-//    qDebug() << "Cloud is connected" << data;
+    //    qDebug() << "Cloud is connected" << data;
     QMetaEnum connectionStateEnum = QMetaEnum::fromType<CloudConnectionState>();
-    m_cloudConnectionState = static_cast<CloudConnectionState>(connectionStateEnum.keyToValue(data.value("params").toMap().value("connectionState").toByteArray().data()));
+    m_cloudConnectionState = static_cast<CloudConnectionState>(connectionStateEnum.keyToValue(data.value("connectionState").toByteArray().data()));
     emit cloudConnectionStateChanged();
 }
 
-void JsonRpcClient::setupRemoteAccessReply(const QVariantMap &data)
+void JsonRpcClient::setupRemoteAccessReply(int commandId, const QVariantMap &data)
 {
-    qDebug() << "Setup Remote Access reply" << data;
+    qDebug() << "Setup Remote Access reply" << commandId << data;
 }
 
-void JsonRpcClient::deployCertificateReply(const QVariantMap &data)
+void JsonRpcClient::deployCertificateReply(int commandId, const QVariantMap &data)
 {
-    qDebug() << "deploy certificate reply:" << data;
+    qDebug() << "deploy certificate reply:" << commandId << data;
 }
 
-void JsonRpcClient::getVersionsReply(const QVariantMap &data)
+void JsonRpcClient::getVersionsReply(int /*commandId*/, const QVariantMap &data)
 {
-    m_serverQtVersion = data.value("params").toMap().value("qtVersion").toString();
-    m_serverQtBuildVersion = data.value("params").toMap().value("qtBuildVersion").toString();
+    m_serverQtVersion = data.value("qtVersion").toString();
+    m_serverQtBuildVersion = data.value("qtBuildVersion").toString();
     if (!m_serverQtVersion.isEmpty()) {
         emit serverQtVersionChanged();
     }
@@ -287,6 +312,11 @@ void JsonRpcClient::deployCertificate(const QByteArray &rootCA, const QByteArray
     sendCommand("JSONRPC.SetupCloudConnection", params, this, "deployCertificateReply");
 }
 
+QHash<QString, QString> JsonRpcClient::cacheHashes() const
+{
+    return m_cacheHashes;
+}
+
 QString JsonRpcClient::serverVersion() const
 {
     return m_serverVersion;
@@ -353,13 +383,13 @@ int JsonRpcClient::requestPushButtonAuth(const QString &deviceName)
     return reply->commandId();
 }
 
-void JsonRpcClient::setupRemoteAccess(const QString &idToken, const QString &userId)
+int JsonRpcClient::setupRemoteAccess(const QString &idToken, const QString &userId)
 {
     qDebug() << "Calling SetupRemoteAccess";
     QVariantMap params;
     params.insert("idToken", idToken);
     params.insert("userId", userId);
-    sendCommand("JSONRPC.SetupRemoteAccess", params, this, "setupRemoteAccessReply");
+    return sendCommand("JSONRPC.SetupRemoteAccess", params, this, "setupRemoteAccessReply");
 }
 
 bool JsonRpcClient::ensureServerVersion(const QString &jsonRpcVersion)
@@ -367,11 +397,11 @@ bool JsonRpcClient::ensureServerVersion(const QString &jsonRpcVersion)
     return QVersionNumber(m_jsonRpcVersion) >= QVersionNumber::fromString(jsonRpcVersion);
 }
 
-void JsonRpcClient::processAuthenticate(const QVariantMap &data)
+void JsonRpcClient::processAuthenticate(int /*commandId*/, const QVariantMap &data)
 {
-    if (data.value("status").toString() == "success" && data.value("params").toMap().value("success").toBool()) {
+    if (data.value("success").toBool()) {
         qDebug() << "authentication successful";
-        m_token = data.value("params").toMap().value("token").toByteArray();
+        m_token = data.value("token").toByteArray();
         QSettings settings;
         settings.beginGroup("jsonTokens");
         settings.setValue(m_serverUuid, m_token);
@@ -388,24 +418,24 @@ void JsonRpcClient::processAuthenticate(const QVariantMap &data)
     }
 }
 
-void JsonRpcClient::processCreateUser(const QVariantMap &data)
+void JsonRpcClient::processCreateUser(int /*commandId*/, const QVariantMap &data)
 {
     qDebug() << "create user response:" << data;
-    if (data.value("status").toString() == "success" && data.value("params").toMap().value("error").toString() == "UserErrorNoError") {
+    if (data.value("error").toString() == "UserErrorNoError") {
         emit createUserSucceeded();
         m_initialSetupRequired = false;
         emit initialSetupRequiredChanged();
     } else {
         qDebug() << "Emitting create user failed";
-        emit createUserFailed(data.value("params").toMap().value("error").toString());
+        emit createUserFailed(data.value("error").toString());
     }
 }
 
-void JsonRpcClient::processRequestPushButtonAuth(const QVariantMap &data)
+void JsonRpcClient::processRequestPushButtonAuth(int /*commandId*/, const QVariantMap &data)
 {
     qDebug() << "requestPushButtonAuth response" << data;
-    if (data.value("status").toString() == "success" && data.value("params").toMap().value("success").toBool()) {
-        m_pendingPushButtonTransaction = data.value("params").toMap().value("transactionId").toInt();
+    if (data.value("success").toBool()) {
+        m_pendingPushButtonTransaction = data.value("transactionId").toInt();
     } else {
         emit pushButtonAuthFailed();
     }
@@ -449,7 +479,7 @@ void JsonRpcClient::sendRequest(const QVariantMap &request)
 {
     QVariantMap newRequest = request;
     newRequest.insert("token", m_token);
-//    qDebug() << "Sending request" << qUtf8Printable(QJsonDocument::fromVariant(newRequest).toJson());
+    //    qDebug() << "Sending request" << qUtf8Printable(QJsonDocument::fromVariant(newRequest).toJson());
     m_connection->sendData(QJsonDocument::fromVariant(newRequest).toJson(QJsonDocument::Compact) + "\n");
 }
 
@@ -506,7 +536,7 @@ void JsonRpcClient::onInterfaceConnectedChanged(bool connected)
 
 void JsonRpcClient::dataReceived(const QByteArray &data)
 {
-//    qDebug() << "JsonRpcClient: received data:" << qUtf8Printable(data);
+    //    qDebug() << "JsonRpcClient: received data:" << qUtf8Printable(data);
     m_receiveBuffer.append(data);
 
     int splitIndex = m_receiveBuffer.indexOf("}\n{") + 1;
@@ -516,10 +546,10 @@ void JsonRpcClient::dataReceived(const QByteArray &data)
     QJsonParseError error;
     QJsonDocument jsonDoc = QJsonDocument::fromJson(m_receiveBuffer.left(splitIndex), &error);
     if (error.error != QJsonParseError::NoError) {
-//        qWarning() << "Could not parse json data from nymea" << m_receiveBuffer.left(splitIndex) << error.errorString();
+        //        qWarning() << "Could not parse json data from nymea" << m_receiveBuffer.left(splitIndex) << error.errorString();
         return;
     }
-//    qDebug() << "received response" << qUtf8Printable(jsonDoc.toJson(QJsonDocument::Indented));
+    //    qDebug() << "received response" << qUtf8Printable(jsonDoc.toJson(QJsonDocument::Indented));
     m_receiveBuffer = m_receiveBuffer.right(m_receiveBuffer.length() - splitIndex - 1);
     if (!m_receiveBuffer.isEmpty()) {
         staticMetaObject.invokeMethod(this, "dataReceived", Qt::QueuedConnection, Q_ARG(QByteArray, QByteArray()));
@@ -529,7 +559,7 @@ void JsonRpcClient::dataReceived(const QByteArray &data)
 
     // check if this is a notification
     if (dataMap.contains("notification")) {
-//        qDebug() << "Incoming notification:" << jsonDoc.toJson();
+        //        qDebug() << "Incoming notification:" << jsonDoc.toJson();
         QStringList notification = dataMap.value("notification").toString().split(".");
         QString nameSpace = notification.first();
         foreach (JsonHandler *handler, m_notificationHandlers.values(nameSpace)) {
@@ -543,7 +573,7 @@ void JsonRpcClient::dataReceived(const QByteArray &data)
     JsonRpcReply *reply = m_replies.take(commandId);
     if (reply) {
         reply->deleteLater();
-//        qDebug() << QString("JsonRpc: got response for %1.%2: %3").arg(reply->nameSpace(), reply->method(), QString::fromUtf8(jsonDoc.toJson(QJsonDocument::Indented))) << reply->callback() << reply->callback();
+        //        qDebug() << QString("JsonRpc: got response for %1.%2: %3").arg(reply->nameSpace(), reply->method(), QString::fromUtf8(jsonDoc.toJson(QJsonDocument::Indented))) << reply->callback() << reply->callback();
 
         if (dataMap.value("status").toString() == "unauthorized") {
             qWarning() << "Something's off with the token";
@@ -558,106 +588,134 @@ void JsonRpcClient::dataReceived(const QByteArray &data)
             emit authenticatedChanged();
         }
 
+        if (dataMap.value("status").toString() == "error") {
+            qWarning() << "An error happened in the JSONRPC layer!";
+            if (reply->nameSpace() == "JSONRPC" && reply->method() == "Hello") {
+                qWarning() << "Hello call failed. Trying again without locale";
+                m_id = 0;
+                sendCommand("JSONRPC.Hello", QVariantMap(), this, "helloReply");
+            }
+        }
+        // Note: We're still forwarding a failed call, params will be empty tho...
+        // This should never really happen as errors on this layer indicate a but in the caller code in the first place
+        // Some methods however, like authenticate might fail on an invalid token tho and stil need to act on it
+
         if (!reply->caller().isNull() && !reply->callback().isEmpty()) {
-            QMetaObject::invokeMethod(reply->caller(), reply->callback().toLatin1().data(), Q_ARG(QVariantMap, dataMap));
+            QMetaObject::invokeMethod(reply->caller(), reply->callback().toLatin1().data(), Q_ARG(int, commandId), Q_ARG(QVariantMap, dataMap.value("params").toMap()));
         }
 
         emit responseReceived(reply->commandId(), dataMap.value("params").toMap());
+
+
+        // If the server supports cache hashes, cache stuff locally
+        QString fullMethod = reply->nameSpace() + '.' + reply->method();
+        if (m_cacheHashes.contains(fullMethod)) {
+            QString hash = m_cacheHashes.value(fullMethod);
+            QString callSignature = fullMethod + '-' + QJsonDocument::fromVariant(reply->params()).toJson() + '-' + QLocale().name();
+            QString callSignatureHash = QCryptographicHash::hash(callSignature.toUtf8(), QCryptographicHash::Md5).toHex();
+            QFile f(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + '/' + fullMethod + '-' + callSignatureHash + '-' + hash + ".cache");
+            if (!f.exists() && f.open(QFile::WriteOnly | QFile::Truncate)) {
+                f.write(QJsonDocument::fromVariant(dataMap.value("params")).toJson());
+                f.close();
+            }
+        }
+
         return;
     }
 }
 
-void JsonRpcClient::helloReply(const QVariantMap &params)
+void JsonRpcClient::helloReply(int /*commandId*/, const QVariantMap &params)
 {
-    if (params.value("status").toString() == "error") {
-        qWarning() << "Hello call failed. Trying again without locale";
-        m_id = 0;
-        sendCommand("JSONRPC.Hello", QVariantMap(), this, "helloReply");
-    } else {
-        QVariantMap dataMap = params.value("params").toMap();
-        m_initialSetupRequired = dataMap.value("initialSetupRequired").toBool();
-        m_authenticationRequired = dataMap.value("authenticationRequired").toBool();
-        m_pushButtonAuthAvailable = dataMap.value("pushButtonAuthAvailable").toBool();
-        emit pushButtonAuthAvailableChanged();
+    m_initialSetupRequired = params.value("initialSetupRequired").toBool();
+    m_authenticationRequired = params.value("authenticationRequired").toBool();
+    m_pushButtonAuthAvailable = params.value("pushButtonAuthAvailable").toBool();
+    emit pushButtonAuthAvailableChanged();
 
-        m_serverUuid = dataMap.value("uuid").toString();
-        m_serverVersion = dataMap.value("version").toString();
+    m_serverUuid = params.value("uuid").toString();
+    m_serverVersion = params.value("version").toString();
 
-        QString protoVersionString = dataMap.value("protocol version").toString();
-        if (!protoVersionString.contains('.')) {
-            protoVersionString.prepend("0.");
-        }
+    QString protoVersionString = params.value("protocol version").toString();
+    if (!protoVersionString.contains('.')) {
+        protoVersionString.prepend("0.");
+    }
 
-        m_jsonRpcVersion = QVersionNumber::fromString(protoVersionString);
+    m_jsonRpcVersion = QVersionNumber::fromString(protoVersionString);
 
-        qDebug() << "Handshake reply:" << "Protocol version:" << protoVersionString << "InitRequired:" << m_initialSetupRequired << "AuthRequired:" << m_authenticationRequired << "PushButtonAvailable:" << m_pushButtonAuthAvailable;;
+    qDebug() << "Handshake reply:" << "Protocol version:" << protoVersionString << "InitRequired:" << m_initialSetupRequired << "AuthRequired:" << m_authenticationRequired << "PushButtonAvailable:" << m_pushButtonAuthAvailable;;
 
-        QVersionNumber minimumRequiredVersion = QVersionNumber(1, 10);
-        if (m_jsonRpcVersion < minimumRequiredVersion) {
-            qWarning() << "Nymea core doesn't support minimum required version. Required:" << minimumRequiredVersion << "Found:" << m_jsonRpcVersion;
-            m_connection->disconnect();
-            emit invalidProtocolVersion(m_jsonRpcVersion.toString(), minimumRequiredVersion.toString());
-            return;
-        }
+    QVersionNumber minimumRequiredVersion = QVersionNumber(1, 10);
+    if (m_jsonRpcVersion < minimumRequiredVersion) {
+        qWarning() << "Nymea core doesn't support minimum required version. Required:" << minimumRequiredVersion << "Found:" << m_jsonRpcVersion;
+        m_connection->disconnect();
+        emit invalidProtocolVersion(m_jsonRpcVersion.toString(), minimumRequiredVersion.toString());
+        return;
+    }
 
-        // Verify SSL certificate
-        if (m_connection->isEncrypted()) {
-            QByteArray pem;
-            if (!loadPem(m_serverUuid, pem)) {
-                qDebug() << "No SSL certificate for this host stored. Accepting and pinning new certificate.";
-                // No certificate yet! Inform ui about it.
-                emit newSslCertificate();
-                storePem(m_serverUuid, m_connection->sslCertificate().toPem());
-            } else {
-                // We have a certificate pinned already. Check if it's the same
-                if (m_connection->sslCertificate().toPem() != pem) {
-                    // Uh oh, the certificate has changed
-                    qWarning() << "This connections certificate has changed!";
+    // Verify SSL certificate
+    if (m_connection->isEncrypted()) {
+        QByteArray pem;
+        if (!loadPem(m_serverUuid, pem)) {
+            qDebug() << "No SSL certificate for this host stored. Accepting and pinning new certificate.";
+            // No certificate yet! Inform ui about it.
+            emit newSslCertificate();
+            storePem(m_serverUuid, m_connection->sslCertificate().toPem());
+        } else {
+            // We have a certificate pinned already. Check if it's the same
+            if (m_connection->sslCertificate().toPem() != pem) {
+                // Uh oh, the certificate has changed
+                qWarning() << "This connections certificate has changed!";
 
-                    QSslCertificate certificate = m_connection->sslCertificate();
-                    QVariantMap issuerInfo = certificateIssuerInfo();
-                    emit verifyConnectionCertificate(m_serverUuid, issuerInfo, certificate.toPem());
+                QSslCertificate certificate = m_connection->sslCertificate();
+                QVariantMap issuerInfo = certificateIssuerInfo();
+                emit verifyConnectionCertificate(m_serverUuid, issuerInfo, certificate.toPem());
 
-                    // Reject the connection until the UI explicitly accepts this...
-                    m_connection->disconnectFromHost();
+                // Reject the connection until the UI explicitly accepts this...
+                m_connection->disconnectFromHost();
 
-                    return;
-                }
-                qDebug() << "This connections certificate is trusted.";
-            }
-        }
-
-
-        emit handshakeReceived();
-
-        if (m_connection->currentHost()->uuid().isNull()) {
-            qDebug() << "Updating Server UUID in connection:" << m_connection->currentHost()->uuid().toString() << "->" << m_serverUuid;
-            m_connection->currentHost()->setUuid(m_serverUuid);
-        }
-
-        if (m_initialSetupRequired) {
-            emit initialSetupRequiredChanged();
-            return;
-        }
-
-        if (m_authenticationRequired) {
-            QSettings settings;
-            settings.beginGroup("jsonTokens");
-            m_token = settings.value(m_serverUuid).toByteArray();
-            settings.endGroup();
-            emit authenticationRequiredChanged();
-
-            if (m_token.isEmpty()) {
                 return;
             }
+            qDebug() << "This connections certificate is trusted.";
+        }
+    }
 
-            m_authenticated = true;
-            emit authenticatedChanged();
+    m_cacheHashes.clear();
+    qDebug() << "Hello reply:" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson());
+    QVariantList cacheHashes = params.value("cacheHashes").toList();
+    foreach (const QVariant &cacheHash, cacheHashes) {
+        m_cacheHashes.insert(cacheHash.toMap().value("method").toString(), cacheHash.toMap().value("hash").toString());
+    }
+    qDebug() << "Caches:" << m_cacheHashes;
+
+    emit handshakeReceived();
+
+    if (m_connection->currentHost()->uuid().isNull()) {
+        qDebug() << "Updating Server UUID in connection:" << m_connection->currentHost()->uuid().toString() << "->" << m_serverUuid;
+        m_connection->currentHost()->setUuid(m_serverUuid);
+    }
+
+    if (m_initialSetupRequired) {
+        emit initialSetupRequiredChanged();
+        return;
+    }
+
+    if (m_authenticationRequired) {
+        QSettings settings;
+        settings.beginGroup("jsonTokens");
+        m_token = settings.value(m_serverUuid).toByteArray();
+        settings.endGroup();
+        emit authenticationRequiredChanged();
+
+        if (m_token.isEmpty()) {
+            return;
         }
 
-        setNotificationsEnabled();
-        getCloudConnectionStatus();
+        m_authenticated = true;
+        emit authenticatedChanged();
     }
+
+    setNotificationsEnabled();
+    getCloudConnectionStatus();
+
 }
 
 JsonRpcReply::JsonRpcReply(int commandId, QString nameSpace, QString method, QVariantMap params, QPointer<QObject> caller, const QString &callback):

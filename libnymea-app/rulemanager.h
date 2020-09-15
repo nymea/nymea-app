@@ -65,18 +65,18 @@ public:
 
     Q_INVOKABLE int addRule(const QVariantMap params);
     Q_INVOKABLE int addRule(Rule *rule);
-    Q_INVOKABLE void removeRule(const QUuid &ruleId);
-    Q_INVOKABLE void editRule(Rule *rule);
-    Q_INVOKABLE void executeActions(const QString &ruleId);
+    Q_INVOKABLE int removeRule(const QUuid &ruleId);
+    Q_INVOKABLE int editRule(Rule *rule);
+    Q_INVOKABLE int executeActions(const QString &ruleId);
 
 private slots:
     void handleRulesNotification(const QVariantMap &params);
-    void getRulesReply(const QVariantMap &params);
-    void getRuleDetailsReply(const QVariantMap &params);
-    void onAddRuleReply(const QVariantMap &params);
-    void removeRuleReply(const QVariantMap &params);
-    void onEditRuleReply(const QVariantMap &params);
-    void onExecuteRuleActionsReply(const QVariantMap &params);
+    void getRulesReply(int commandId, const QVariantMap &params);
+    void getRuleDetailsReply(int commandId, const QVariantMap &params);
+    void onAddRuleReply(int commandId, const QVariantMap &params);
+    void removeRuleReply(int commandId, const QVariantMap &params);
+    void onEditRuleReply(int commandId, const QVariantMap &params);
+    void onExecuteRuleActionsReply(int commandId, const QVariantMap &params);
 
 private:
     Rule *parseRule(const QVariantMap &ruleMap);
@@ -98,7 +98,7 @@ private:
 
 signals:
     void addRuleReply(int commandId, const QString &ruleError, const QString &ruleId);
-    void editRuleReply(const QString &ruleError);
+    void editRuleReply(int commandId, const QString &ruleError);
 
 private:
     JsonRpcClient *m_jsonClient;

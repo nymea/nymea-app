@@ -112,7 +112,7 @@ signals:
     void logEntryAdded(LogEntry *entry);
 
 private slots:
-    virtual void logsReply(const QVariantMap &data);
+    virtual void logsReply(int commandId, const QVariantMap &data);
     void newLogEntryReceived(const QVariantMap &data);
 
 protected:

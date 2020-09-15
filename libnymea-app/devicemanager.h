@@ -86,19 +86,19 @@ public:
 
     bool fetchingData() const;
 
-    Q_INVOKABLE void addDevice(const QUuid &deviceClassId, const QString &name, const QVariantList &deviceParams);
+    Q_INVOKABLE int addDevice(const QUuid &deviceClassId, const QString &name, const QVariantList &deviceParams);
     // param deviceClassId is deprecated and should be removed when minimum JSONRPC version is 3.1
-    Q_INVOKABLE void addDiscoveredDevice(const QUuid &deviceClassId, const QUuid &deviceDescriptorId, const QString &name, const QVariantList &deviceParams);
-    Q_INVOKABLE void pairDevice(const QUuid &deviceClassId, const QVariantList &deviceParams, const QString &name);
+    Q_INVOKABLE int addDiscoveredDevice(const QUuid &deviceClassId, const QUuid &deviceDescriptorId, const QString &name, const QVariantList &deviceParams);
+    Q_INVOKABLE int pairDevice(const QUuid &deviceClassId, const QVariantList &deviceParams, const QString &name);
     // param deviceClassId is deprecated and should be removed when minimum JSONRPC version is 3.1
-    Q_INVOKABLE void pairDiscoveredDevice(const QUuid &deviceClassId, const QUuid &deviceDescriptorId, const QVariantList &deviceParams, const QString &name);
-    Q_INVOKABLE void rePairDevice(const QUuid &deviceId, const QVariantList &deviceParams, const QString &name = QString());
-    Q_INVOKABLE void confirmPairing(const QUuid &pairingTransactionId, const QString &secret = QString(), const QString &username = QString());
-    Q_INVOKABLE void removeDevice(const QUuid &deviceId, RemovePolicy policy = RemovePolicyNone);
-    Q_INVOKABLE void editDevice(const QUuid &deviceId, const QString &name);
-    Q_INVOKABLE void setDeviceSettings(const QUuid &deviceId, const QVariantList &settings);
-    Q_INVOKABLE void reconfigureDevice(const QUuid &deviceId, const QVariantList &deviceParams);
-    Q_INVOKABLE void reconfigureDiscoveredDevice(const QUuid &deviceId, const QUuid &deviceDescriptorId, const QVariantList &paramOverride);
+    Q_INVOKABLE int pairDiscoveredDevice(const QUuid &deviceClassId, const QUuid &deviceDescriptorId, const QVariantList &deviceParams, const QString &name);
+    Q_INVOKABLE int rePairDevice(const QUuid &deviceId, const QVariantList &deviceParams, const QString &name = QString());
+    Q_INVOKABLE int confirmPairing(const QUuid &pairingTransactionId, const QString &secret = QString(), const QString &username = QString());
+    Q_INVOKABLE int removeDevice(const QUuid &deviceId, RemovePolicy policy = RemovePolicyNone);
+    Q_INVOKABLE int editDevice(const QUuid &deviceId, const QString &name);
+    Q_INVOKABLE int setDeviceSettings(const QUuid &deviceId, const QVariantList &settings);
+    Q_INVOKABLE int reconfigureDevice(const QUuid &deviceId, const QVariantList &deviceParams);
+    Q_INVOKABLE int reconfigureDiscoveredDevice(const QUuid &deviceId, const QUuid &deviceDescriptorId, const QVariantList &paramOverride);
     Q_INVOKABLE int executeAction(const QUuid &deviceId, const QUuid &actionTypeId, const QVariantList &params = QVariantList());
     Q_INVOKABLE BrowserItems* browseDevice(const QUuid &deviceId, const QString &itemId = QString());
     Q_INVOKABLE void refreshBrowserItems(BrowserItems *browserItems);
@@ -111,43 +111,43 @@ public:
 
 private:
     Q_INVOKABLE void notificationReceived(const QVariantMap &data);
-    Q_INVOKABLE void getVendorsResponse(const QVariantMap &params);
-    Q_INVOKABLE void getSupportedDevicesResponse(const QVariantMap &params);
-    Q_INVOKABLE void getPluginsResponse(const QVariantMap &params);
-    Q_INVOKABLE void getPluginConfigResponse(const QVariantMap &params);
-    Q_INVOKABLE void getConfiguredDevicesResponse(const QVariantMap &params);
-    Q_INVOKABLE void addDeviceResponse(const QVariantMap &params);
-    Q_INVOKABLE void removeDeviceResponse(const QVariantMap &params);
-    Q_INVOKABLE void pairDeviceResponse(const QVariantMap &params);
-    Q_INVOKABLE void confirmPairingResponse(const QVariantMap &params);
-    Q_INVOKABLE void setPluginConfigResponse(const QVariantMap &params);
-    Q_INVOKABLE void editDeviceResponse(const QVariantMap &params);
-    Q_INVOKABLE void executeActionResponse(const QVariantMap &params);
-    Q_INVOKABLE void reconfigureDeviceResponse(const QVariantMap &params);
-    Q_INVOKABLE void browseDeviceResponse(const QVariantMap &params);
-    Q_INVOKABLE void browserItemResponse(const QVariantMap &params);
-    Q_INVOKABLE void executeBrowserItemResponse(const QVariantMap &params);
-    Q_INVOKABLE void executeBrowserItemActionResponse(const QVariantMap &params);
-    Q_INVOKABLE void getIOConnectionsResponse(const QVariantMap &params);
-    Q_INVOKABLE void connectIOResponse(const QVariantMap &params);
-    Q_INVOKABLE void disconnectIOResponse(const QVariantMap &params);
+    Q_INVOKABLE void getVendorsResponse(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void getSupportedDevicesResponse(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void getPluginsResponse(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void getPluginConfigResponse(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void getConfiguredDevicesResponse(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void addDeviceResponse(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void removeDeviceResponse(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void pairDeviceResponse(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void confirmPairingResponse(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void setPluginConfigResponse(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void editDeviceResponse(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void executeActionResponse(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void reconfigureDeviceResponse(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void browseDeviceResponse(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void browserItemResponse(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void executeBrowserItemResponse(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void executeBrowserItemActionResponse(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void getIOConnectionsResponse(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void connectIOResponse(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void disconnectIOResponse(int commandId, const QVariantMap &params);
 
 public slots:
-    void savePluginConfig(const QUuid &pluginId);
+    int savePluginConfig(const QUuid &pluginId);
 
     ThingGroup* createGroup(Interface *interface, DevicesProxy *things);
 
 signals:
-    void pairDeviceReply(const QVariantMap &params);
-    void confirmPairingReply(const QVariantMap &params);
-    void addDeviceReply(const QVariantMap &params);
-    void removeDeviceReply(const QVariantMap &params);
-    void savePluginConfigReply(const QVariantMap &params);
-    void editDeviceReply(const QVariantMap &params);
-    void reconfigureDeviceReply(const QVariantMap &params);
-    void executeActionReply(const QVariantMap &params);
-    void executeBrowserItemReply(const QVariantMap &params);
-    void executeBrowserItemActionReply(const QVariantMap &params);
+    void pairDeviceReply(int commandId, const QVariantMap &params);
+    void confirmPairingReply(int commandId, const QVariantMap &params);
+    void addDeviceReply(int commandId, const QVariantMap &params);
+    void removeDeviceReply(int commandId, const QVariantMap &params);
+    void savePluginConfigReply(int commandId, const QVariantMap &params);
+    void editDeviceReply(int commandId, const QVariantMap &params);
+    void reconfigureDeviceReply(int commandId, const QVariantMap &params);
+    void executeActionReply(int commandId, const QVariantMap &params);
+    void executeBrowserItemReply(int commandId, const QVariantMap &params);
+    void executeBrowserItemActionReply(int commandId, const QVariantMap &params);
     void fetchingDataChanged();
     void notificationReceived(const QString &deviceId, const QString &eventTypeId, const QVariantList &params);
 
@@ -169,6 +169,7 @@ private:
     QHash<int, QPointer<BrowserItems> > m_browsingRequests;
     QHash<int, QPointer<BrowserItem> > m_browserDetailsRequests;
 
+    QDateTime m_connectionBenchmark;
 
     // Deprecated stuff for nymea < 0.17 (JSONRPC < 4.0)
     EventHandler *m_eventHandler = nullptr;

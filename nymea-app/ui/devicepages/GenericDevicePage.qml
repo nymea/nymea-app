@@ -283,7 +283,7 @@ DevicePageBase {
             Connections {
                 target: engine.deviceManager
                 onExecuteActionReply: {
-                    if (stateDelegate.pendingActionId === params.id) {
+                    if (stateDelegate.pendingActionId === commandId) {
                         stateDelegate.pendingActionId = -1
                         if (stateDelegate.valueCacheDirty) {
                             stateDelegate.executeAction(stateDelegate.valueCache)
@@ -308,9 +308,9 @@ DevicePageBase {
             Connections {
                 target: engine.deviceManager
                 onExecuteActionReply: {
-                    if (params["id"] === actionDelegate.pendingActionId) {
+                    if (commandId === actionDelegate.pendingActionId) {
                         pendingTimer.start();
-                        actionDelegate.lastSuccess = params["params"]["deviceError"] === "DeviceErrorNoError"
+                        actionDelegate.lastSuccess = params["deviceError"] === "DeviceErrorNoError"
                         actionDelegate.pendingActionId = -1
                     }
                 }

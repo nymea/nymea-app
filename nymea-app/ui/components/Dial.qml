@@ -99,10 +99,12 @@ ColumnLayout {
     Connections {
         target: engine.deviceManager
         onExecuteActionReply: {
-            d.pendingActionId = -1
-            if (d.valueCacheDirty) {
-                d.executeAction(d.valueCache)
-                d.valueCacheDirty = false;
+            if (d.pendingActionId == commandId) {
+                d.pendingActionId = -1
+                if (d.valueCacheDirty) {
+                    d.executeAction(d.valueCache)
+                    d.valueCacheDirty = false;
+                }
             }
         }
     }

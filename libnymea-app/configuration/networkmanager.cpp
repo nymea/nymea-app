@@ -179,12 +179,12 @@ int NetworkManager::disconnectInterface(const QString &interface)
     return m_engine->jsonRpcClient()->sendCommand("NetworkManager.DisconnectInterface", params, this, "disconnectResponse");
 }
 
-void NetworkManager::getStatusResponse(const QVariantMap &params)
+void NetworkManager::getStatusResponse(int /*commandId*/, const QVariantMap &params)
 {
     m_loading = false;
     emit loadingChanged();
 
-    if (params.value("params").toMap().value("networkManagerError").toString() != "NetworkManagerErrorNoError") {
+    if (params.value("networkManagerError").toString() != "NetworkManagerErrorNoError") {
         qWarning() << "NetworkManager error:" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson(QJsonDocument::Indented));
         m_available = false;
         emit availableChanged();
@@ -194,10 +194,10 @@ void NetworkManager::getStatusResponse(const QVariantMap &params)
     m_available = true;
     emit availableChanged();
 
-    QVariantMap statusMap = params.value("params").toMap().value("status").toMap();
+    QVariantMap statusMap = params.value("status").toMap();
 
     QMetaEnum stateEnum = QMetaEnum::fromType<NetworkManager::NetworkManagerState>();
-    NetworkManagerState state = static_cast<NetworkManager::NetworkManagerState>(stateEnum.keyToValue(params.value("params").toMap().value("status").toMap().value("state").toString().toUtf8()));
+    NetworkManagerState state = static_cast<NetworkManager::NetworkManagerState>(stateEnum.keyToValue(statusMap.value("state").toString().toUtf8()));
     if (m_state != state) {
         m_state = state;
         emit stateChanged();
@@ -215,11 +215,11 @@ void NetworkManager::getStatusResponse(const QVariantMap &params)
     }
 }
 
-void NetworkManager::getDevicesResponse(const QVariantMap &params)
+void NetworkManager::getDevicesResponse(int /*commandId*/, const QVariantMap &params)
 {
-    qDebug() << "Devices reply" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson(QJsonDocument::Indented));
+//    qDebug() << "Devices reply" << commandId << qUtf8Printable(QJsonDocument::fromVariant(params).toJson(QJsonDocument::Indented));
 
-    foreach (const QVariant &deviceVariant, params.value("params").toMap().value("wiredNetworkDevices").toList()) {
+    foreach (const QVariant &deviceVariant, params.value("wiredNetworkDevices").toList()) {
         QVariantMap deviceMap = deviceVariant.toMap();
         WiredNetworkDevice *device = new WiredNetworkDevice(deviceMap.value("macAddress").toString(), deviceMap.value("interface").toString(), this);
         device->setIpv4Addresses(deviceMap.value("ipv4Addresses").toStringList());
@@ -230,7 +230,7 @@ void NetworkManager::getDevicesResponse(const QVariantMap &params)
         device->setPluggedIn(deviceMap.value("pluggedIn").toBool());
         m_wiredNetworkDevices->addNetworkDevice(device);
     }
-    foreach (const QVariant &deviceVariant, params.value("params").toMap().value("wirelessNetworkDevices").toList()) {
+    foreach (const QVariant &deviceVariant, params.value("wirelessNetworkDevices").toList()) {
         QVariantMap deviceMap = deviceVariant.toMap();
         WirelessNetworkDevice *device = new WirelessNetworkDevice(deviceMap.value("macAddress").toString(), deviceMap.value("interface").toString(), this);
         device->setIpv4Addresses(deviceMap.value("ipv4Addresses").toStringList());
@@ -251,16 +251,15 @@ void NetworkManager::getDevicesResponse(const QVariantMap &params)
     }
 }
 
-void NetworkManager::getAccessPointsResponse(const QVariantMap &params)
+void NetworkManager::getAccessPointsResponse(int commandId, const QVariantMap &params)
 {
     qDebug() << "Access points reply" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson(QJsonDocument::Indented));
 
-    int requestId = params.value("id").toInt();
-    if (!m_apRequests.contains(requestId)) {
+    if (!m_apRequests.contains(commandId)) {
         qWarning() << "NetworkManager received a reply for a request we don't know!";
         return;
     }
-    QString interface = m_apRequests.take(requestId);
+    QString interface = m_apRequests.take(commandId);
 
     WirelessNetworkDevice *dev = m_wirelessNetworkDevices->getWirelessNetworkDevice(interface);
     if (!dev) {
@@ -270,7 +269,7 @@ void NetworkManager::getAccessPointsResponse(const QVariantMap &params)
 
     dev->accessPoints()->clearModel();
 
-    foreach (const QVariant &apVariant, params.value("params").toMap().value("wirelessAccessPoints").toList()) {
+    foreach (const QVariant &apVariant, params.value("wirelessAccessPoints").toList()) {
         QVariantMap apMap = apVariant.toMap();
         WirelessAccessPoint* ap = new WirelessAccessPoint(this);
         ap->setMacAddress(apMap.value("macAddress").toString());
@@ -283,44 +282,39 @@ void NetworkManager::getAccessPointsResponse(const QVariantMap &params)
 
 }
 
-void NetworkManager::connectToWiFiResponse(const QVariantMap &params)
+void NetworkManager::connectToWiFiResponse(int commandId, const QVariantMap &params)
 {
     qDebug() << "connect to wifi reply" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson(QJsonDocument::Indented));
-    int id = params.value("id").toInt();
-    QString status = params.value("params").toMap().value("networkManagerError").toString();
-    emit connectToWiFiReply(id, status);
+    QString status = params.value("networkManagerError").toString();
+    emit connectToWiFiReply(commandId, status);
 }
 
-void NetworkManager::disconnectResponse(const QVariantMap &params)
+void NetworkManager::disconnectResponse(int commandId, const QVariantMap &params)
 {
     qDebug() << "disconnect reply" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson(QJsonDocument::Indented));
-    int id = params.value("id").toInt();
-    QString status = params.value("params").toMap().value("networkManagerError").toString();
-    emit disconnectReply(id, status);
+    QString status = params.value("networkManagerError").toString();
+    emit disconnectReply(commandId, status);
 }
 
-void NetworkManager::enableNetworkingResponse(const QVariantMap &params)
+void NetworkManager::enableNetworkingResponse(int commandId, const QVariantMap &params)
 {
     qDebug() << "enable networking reply" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson(QJsonDocument::Indented));
-    int id = params.value("id").toInt();
-    QString status = params.value("params").toMap().value("networkManagerError").toString();
-    emit enableNetworkingReply(id, status);
+    QString status = params.value("networkManagerError").toString();
+    emit enableNetworkingReply(commandId, status);
 }
 
-void NetworkManager::enableWirelessNetworkingResponse(const QVariantMap &params)
+void NetworkManager::enableWirelessNetworkingResponse(int commandId, const QVariantMap &params)
 {
     qDebug() << "enable wireless networking reply" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson(QJsonDocument::Indented));
-    int id = params.value("id").toInt();
-    QString status = params.value("params").toMap().value("networkManagerError").toString();
-    emit enableWirelessNetworkingReply(id, status);
+    QString status = params.value("networkManagerError").toString();
+    emit enableWirelessNetworkingReply(commandId, status);
 }
 
-void NetworkManager::startAccessPointResponse(const QVariantMap &params)
+void NetworkManager::startAccessPointResponse(int commandId, const QVariantMap &params)
 {
     qDebug() << "Start access point reply" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson(QJsonDocument::Indented));
-    int id = params.value("id").toInt();
-    QString status = params.value("params").toMap().value("networkManagerError").toString();
-    emit startAccessPointReply(id, status);
+    QString status = params.value("networkManagerError").toString();
+    emit startAccessPointReply(commandId, status);
 }
 
 void NetworkManager::notificationReceived(const QVariantMap &params)
