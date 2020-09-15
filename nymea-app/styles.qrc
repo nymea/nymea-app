@@ -21,5 +21,10 @@
         <file>styles/energize/logo.svg</file>
         <file>styles/energize/Page.qml</file>
         <file>styles/energize/Pane.qml</file>
+        <file>styles/moon/ApplicationWindow.qml</file>
+        <file>styles/moon/Button.qml</file>
+        <file>styles/moon/Page.qml</file>
+        <file>styles/moon/Pane.qml</file>
+        <file>styles/moon/logo.png</file>
     </qresource>
 </RCC>
