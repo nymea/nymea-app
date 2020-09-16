@@ -86,6 +86,10 @@
             <meta-data android:value="@string/fatal_error_msg" android:name="android.app.fatal_error_msg"/>
             <!--  Messages maps -->
             <meta-data android:name="android.app.extract_android_style" android:value="minimal"/>
+            <!-- Splash screen -->
+            <meta-data android:name="android.app.splash_screen_drawable" android:resource="@drawable/splash"/>
+            <meta-data android:name="android.app.splash_screen_sticky" android:value="true"/>
+            <!-- Splash screen -->
         </activity>
 
         <!-- For adding service(s) please check: https://wiki.qt.io/AndroidServices -->

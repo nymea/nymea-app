@@ -41,6 +41,7 @@ ApplicationWindow {
 
     onControlledThingChanged: {
         loader.setSource("qrc:/ui/devicepages/" + NymeaUtils.interfaceListToDevicePage(controlledThing.thingClass.interfaces), {thing: controlledThing, header: null})
+        PlatformHelper.hideSplashScreen();
     }
 
     Loader {
