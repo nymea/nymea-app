@@ -63,8 +63,29 @@
         </activity>
 
 
-        <activity android:configChanges="orientation|uiMode|screenLayout|screenSize|smallestScreenSize|layoutDirection|locale|fontScale|keyboard|keyboardHidden|navigation|mcc|mnc|density" android:name="io.guh.nymeaapp.NymeaAppControlsActivity" android:label="nymea:app" android:screenOrientation="unspecified" android:launchMode="singleTop">
+        <activity android:process=":qt_controlsActivity"  android:configChanges="orientation|uiMode|screenLayout|screenSize|smallestScreenSize|layoutDirection|locale|fontScale|keyboard|keyboardHidden|navigation|mcc|mnc|density" android:name="io.guh.nymeaapp.NymeaAppControlsActivity" android:label="nymea:app" android:screenOrientation="unspecified" android:launchMode="standard">
             <meta-data android:name="android.app.lib_name" android:value="service"/>
+            <meta-data android:name="android.app.arguments" android:value="--controlActivity"/>
+            <meta-data android:name="android.app.qt_sources_resource_id" android:resource="@array/qt_sources"/>
+            <meta-data android:name="android.app.repository" android:value="default"/>
+            <meta-data android:name="android.app.qt_libs_resource_id" android:resource="@array/qt_libs"/>
+            <meta-data android:name="android.app.bundled_libs_resource_id" android:resource="@array/bundled_libs"/>
+            <!-- Deploy Qt libs as part of package -->
+            <meta-data android:name="android.app.bundle_local_qt_libs" android:value="-- %%BUNDLE_LOCAL_QT_LIBS%% --"/>
+            <meta-data android:name="android.app.bundled_in_lib_resource_id" android:resource="@array/bundled_in_lib"/>
+            <meta-data android:name="android.app.bundled_in_assets_resource_id" android:resource="@array/bundled_in_assets"/>
+            <!-- Run with local libs -->
+            <meta-data android:name="android.app.use_local_qt_libs" android:value="-- %%USE_LOCAL_QT_LIBS%% --"/>
+            <meta-data android:name="android.app.libs_prefix" android:value="/data/local/tmp/qt/"/>
+            <meta-data android:name="android.app.load_local_libs_resource_id" android:resource="@array/load_local_libs"/>
+            <meta-data android:name="android.app.load_local_jars" android:value="-- %%INSERT_LOCAL_JARS%% --"/>
+            <meta-data android:name="android.app.static_init_classes" android:value="-- %%INSERT_INIT_CLASSES%% --"/>
+            <!--  Messages maps -->
+            <meta-data android:value="@string/ministro_not_found_msg" android:name="android.app.ministro_not_found_msg"/>
+            <meta-data android:value="@string/ministro_needed_msg" android:name="android.app.ministro_needed_msg"/>
+            <meta-data android:value="@string/fatal_error_msg" android:name="android.app.fatal_error_msg"/>
+            <!--  Messages maps -->
+            <meta-data android:name="android.app.extract_android_style" android:value="minimal"/>
         </activity>
 
         <!-- For adding service(s) please check: https://wiki.qt.io/AndroidServices -->
@@ -101,11 +122,11 @@
             </intent-filter>
         </service>
 
-<service android:name="io.guh.nymeaapp.NymeaAppControlService" android:permission="android.permission.BIND_CONTROLS" android:exported="true">
-  <intent-filter>
-    <action android:name="android.service.controls.ControlsProviderService"/>
-  </intent-filter>
-</service>
+        <service android:name="io.guh.nymeaapp.NymeaAppControlService" android:permission="android.permission.BIND_CONTROLS" android:exported="true">
+            <intent-filter>
+                <action android:name="android.service.controls.ControlsProviderService"/>
+            </intent-filter>
+        </service>
 
     </application>
 

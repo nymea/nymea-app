@@ -127,32 +127,32 @@ void PlatformHelperAndroid::vibrate(PlatformHelper::HapticsFeedback feedbackType
     QtAndroid::androidActivity().callMethod<void>("vibrate","(I)V", duration);
 }
 
-void PlatformHelperAndroid::syncThings()
-{
-
-    QAndroidIntent serviceIntent(QtAndroid::androidActivity().object(),
-                                        "io/guh/nymeaapp/NymeaAppService");
-    QAndroidJniObject result = QtAndroid::androidActivity().callObjectMethod(
-                "startService",
-                "(Landroid/content/Intent;)Landroid/content/ComponentName;",
-                serviceIntent.handle().object());
-
-
-//    QtAndroid::androidService()
+//void PlatformHelperAndroid::syncThings()
+//{
 
 //    QAndroidIntent serviceIntent(QtAndroid::androidActivity().object(),
-//                                          "io/guh/nymeaapp/NymeaAppControlService");
-//      serviceIntent.putExtra("name", QByteArray("foobar"));
+//                                        "io/guh/nymeaapp/NymeaAppService");
+//    QAndroidJniObject result = QtAndroid::androidActivity().callObjectMethod(
+//                "startService",
+//                "(Landroid/content/Intent;)Landroid/content/ComponentName;",
+//                serviceIntent.handle().object());
 
 
-//    m_serviceConnection->handle().callMethod<void>("syncThings", "(Ljava/lang/String;)V", "bla");
+////    QtAndroid::androidService()
+
+////    QAndroidIntent serviceIntent(QtAndroid::androidActivity().object(),
+////                                          "io/guh/nymeaapp/NymeaAppControlService");
+////      serviceIntent.putExtra("name", QByteArray("foobar"));
 
 
-//      QAndroidJniObject result = QtAndroid::androidActivity().callObjectMethod(
-//                  "syncThings",
-//                  "(Landroid/content/Intent;)Landroid/content/ComponentName;",
-//                  m_serviceConnection->handle().object());
-}
+////    m_serviceConnection->handle().callMethod<void>("syncThings", "(Ljava/lang/String;)V", "bla");
+
+
+////      QAndroidJniObject result = QtAndroid::androidActivity().callObjectMethod(
+////                  "syncThings",
+////                  "(Landroid/content/Intent;)Landroid/content/ComponentName;",
+////                  m_serviceConnection->handle().object());
+//}
 
 void PlatformHelperAndroid::setTopPanelColor(const QColor &color)
 {

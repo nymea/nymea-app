@@ -64,7 +64,7 @@ MainViewBase {
             height: gridView.cellHeight
             device: engine.deviceManager.devices.getDevice(deviceId)
 
-            onClicked: pageStack.push(Qt.resolvedUrl("../devicepages/" + app.interfaceListToDevicePage(deviceClass.interfaces)), {device: device})
+            onClicked: pageStack.push(Qt.resolvedUrl("../devicepages/" + NymeaUtils.interfaceListToDevicePage(deviceClass.interfaces)), {device: device})
 
             onPressAndHold: root.editMode = true
 

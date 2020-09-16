@@ -22,8 +22,12 @@ bool AndroidBinder::onTransact(int code, const QAndroidParcel &data, const QAndr
 
     switch (code) {
     case 0: { // Status request
+        qDebug() << "Engine is:" << m_engine->jsonRpcClient()->connected();
         bool isReady = m_engine->jsonRpcClient()->connected() && !m_engine->thingManager()->fetchingData();
         reply.handle().callMethod<void>("writeBoolean", "(Z)V", isReady);
+        if (isReady) {
+            reply.handle().callMethod<void>("writeString", "(Ljava/lang/String;)V", QAndroidJniObject::fromString(m_engine->jsonRpcClient()->currentHost()->name()).object<jstring>());
+        }
     } break;
     case 1: {// Things request
         QVariantList thingsList;

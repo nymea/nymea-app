@@ -57,7 +57,6 @@ public:
     QString deviceManufacturer() const override;
 
     Q_INVOKABLE void vibrate(HapticsFeedback feedbackType) override;
-    Q_INVOKABLE void syncThings() override;
 
     void setTopPanelColor(const QColor &color) override;
     void setTopPanelTheme(Theme theme);

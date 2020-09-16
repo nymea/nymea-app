@@ -22,6 +22,8 @@ import io.reactivex.processors.ReplayProcessor;
 
 import org.json.*;
 
+// Helper class to establish a connection to the NymeaAppService and interact
+// with that using IBinder and ServiceBroadcastListener
 
 public class NymeaAppServiceConnection implements ServiceConnection {
     private static final String TAG = "nymea-app: NymeaAppServiceConnection";
@@ -30,6 +32,7 @@ public class NymeaAppServiceConnection implements ServiceConnection {
     private boolean m_isReady = false;
     private Context m_context;
 
+    private String m_nymeaName = "nymea";
     private ArrayList<Thing> m_things = new ArrayList<>();
 
     public NymeaAppServiceConnection(Context context) {
@@ -43,6 +46,10 @@ public class NymeaAppServiceConnection implements ServiceConnection {
 
     final public boolean isConnectedToNymea() {
         return m_isConnectedToNymea;
+    }
+
+    final public String nymeaName() {
+        return m_nymeaName;
     }
 
     final public boolean isReady() {
@@ -93,6 +100,8 @@ public class NymeaAppServiceConnection implements ServiceConnection {
                 ready = retParcel.readBoolean();
                 if (!ready) {
                     Thread.sleep(100);
+                } else {
+                    m_nymeaName = retParcel.readString();
                 }
             } while (!ready);
             Log.d(TAG, "Service connected to nymea!");
@@ -185,13 +194,13 @@ public class NymeaAppServiceConnection implements ServiceConnection {
     private BroadcastReceiver serviceMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Log.d(TAG, "In OnReceive broadcast receiver");
+//            Log.d(TAG, "In OnReceive broadcast receiver");
             if (NymeaAppService.BROADCAST_STATE_CHANGE.equals(intent.getAction())) {
                 String name = intent.getStringExtra("name");
                 String thingId = intent.getStringExtra("thingId");
                 String stateTypeId = intent.getStringExtra("stateTypeId");
                 String value = intent.getStringExtra("value");
-                Log.d(TAG, "Thing state changed: " + thingId + " stateTypeId: " + stateTypeId + " value: " + value);
+//                Log.d(TAG, "Thing state changed: " + thingId + " stateTypeId: " + stateTypeId + " value: " + value);
 
                 for (int i = 0; i < m_things.size(); i++) {
                     if (m_things.get(i).id.equals(thingId)) {

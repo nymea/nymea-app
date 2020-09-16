@@ -132,12 +132,6 @@ Item {
                         initialItem: Page {}
                     }
 
-                    Button {
-                        anchors.centerIn: parent
-                        text: "bla"
-                        onClicked: PlatformHelper.syncThings()
-                    }
-
                     Component.onCompleted: {
                         setupPushNotifications();
                         if (autoConnectHost.length > 0) {

@@ -61,6 +61,7 @@ class DeviceManager : public JsonHandler
 
     Q_PROPERTY(bool fetchingData READ fetchingData NOTIFY fetchingDataChanged)
 
+    Q_ENUMS(RemovePolicy)
 public:
     enum RemovePolicy {
         RemovePolicyNone,

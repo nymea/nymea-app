@@ -26,6 +26,11 @@ import io.reactivex.processors.ReplayProcessor;
 import org.reactivestreams.FlowAdapters;
 import org.json.*;
 
+// Android device controls service
+
+// This service is instantiated by the android device controls on demand. It will
+// connect to the NymeaAppService and interact with nymea through that.
+
 public class NymeaAppControlService extends ControlsProviderService {
     private String TAG = "nymea-app: NymeaAppControlService";
     private NymeaAppServiceConnection m_serviceConnection;
@@ -64,8 +69,6 @@ public class NymeaAppControlService extends ControlsProviderService {
             Log.d(TAG, "Service connection is not ready yet...");
             return;
         }
-
-//        ArrayList<Thing> things = m_serviceConnection.getThings();
 
         for (Thing thing : m_serviceConnection.getThings()) {
             Log.d(TAG, "Processing thing: " + thing.name);
@@ -147,6 +150,10 @@ public class NymeaAppControlService extends ControlsProviderService {
                 actionTypeId = thing.actionByName("close").typeId;
             }
             param = "";
+        } else if (thing.interfaces.contains("extendedvolumecontroller")) {
+            actionTypeId = thing.stateByName("volume").typeId;
+            FloatAction fAction = (FloatAction) action;
+            param = String.valueOf(Math.round(fAction.getNewValue()));
         } else {
             Log.d(TAG, "Unhandled action for: " + thing.name);
             consumer.accept(ControlAction.RESPONSE_FAIL);
@@ -158,20 +165,31 @@ public class NymeaAppControlService extends ControlsProviderService {
 
     }
 
+    private HashMap<String, Integer> m_intents = new HashMap<String, Integer>();
+
     private Control thingToControl(Thing thing) {
-        Log.d(TAG, "Creating control for thing: " + thing.name + " id: " + thing.id);
+//        Log.d(TAG, "Creating control for thing: " + thing.name + " id: " + thing.id);
 
+        // NOTE: intentId 1 doesn't work for some reason I don't understand yet... so let's make sure we never add "1" to it by always added 100
+        int intentId = m_intents.size() + 100;
+        PendingIntent pi;
+        if (m_intents.containsKey(thing.id)) {
+            intentId = m_intents.get(thing.id);
+        } else {
+            m_intents.put(thing.id, intentId);
+        }
 
-        // TODO: Create Intent to launch control view
         Context context = getBaseContext();
-        Intent intent = new Intent(this, NymeaAppActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        PendingIntent m_pi = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        Intent intent = new Intent(context, NymeaAppControlsActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+        intent.putExtra("thingId", thing.id);
+        pi = PendingIntent.getActivity(context, intentId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        Log.d(TAG, "Created pendingintent for " + thing.name + " with id " + intentId + " and extra " + thing.id);
 
-        Control.StatefulBuilder builder = new Control.StatefulBuilder(thing.id, m_pi)
+        Control.StatefulBuilder builder = new Control.StatefulBuilder(thing.id, pi)
         .setTitle(thing.name)
         .setSubtitle(thing.className)
-        .setStructure("TestLocation");
+        .setStructure(m_serviceConnection.nymeaName());
 
         if (thing.interfaces.contains("impulsebasedgaragedoor")) {
             builder.setDeviceType(DeviceTypes.TYPE_GARAGE);
@@ -202,12 +220,24 @@ public class NymeaAppControlService extends ControlsProviderService {
             State powerState = thing.stateByName("power");
             ControlButton controlButton = new ControlButton(powerState.value.equals("true"), powerState.displayName);
             builder.setControlTemplate(new ToggleTemplate(thing.id, controlButton));
+        } else if (thing.interfaces.contains("mediaplayer")) {
+            if (thing.stateByName("playerType").value == "video") {
+                builder.setDeviceType(DeviceTypes.TYPE_TV);
+            } else {
+                // FIXME: There doesn't seem to be a speaker DeviceType!?!
+                builder.setDeviceType(DeviceTypes.TYPE_TV);
+            }
+            if (thing.interfaces.contains("extendedvolumecontroller")) {
+                State volumeState = thing.stateByName("volume");
+                RangeTemplate rangeTemplate = new RangeTemplate(thing.id, 0, 100, Float.parseFloat(volumeState.value), 1, volumeState.displayName);
+                builder.setControlTemplate(rangeTemplate);
+            }
         } else {
             builder.setDeviceType(DeviceTypes.TYPE_GENERIC_ON_OFF);
         }
         builder.setStatus(Control.STATUS_OK);
 
-        Log.d(TAG, "Created control for thing: " + thing.name + " id: " + thing.id);
+//        Log.d(TAG, "Created control for thing: " + thing.name + " id: " + thing.id);
         return builder.build();
     }
 }

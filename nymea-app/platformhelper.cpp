@@ -98,8 +98,3 @@ QString PlatformHelper::fromClipBoard()
 {
     return QApplication::clipboard()->text();
 }
-
-void PlatformHelper::syncThings()
-{
-    // no-op by default
-}
