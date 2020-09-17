@@ -240,5 +240,6 @@
         <file>ui/images/dial_stripes.svg</file>
         <file>ui/images/dial_ellipse.svg</file>
 		<file>ui/images/moon.mp4</file>
+		<file>ui/images/audi_e-tron.png</file>
     </qresource>
 </RCC>

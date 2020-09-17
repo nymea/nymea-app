@@ -71,8 +71,8 @@ MainViewBase {
                         Layout.alignment: Qt.AlignCenter
                         Layout.preferredWidth: thingName.width * 1.3
                         Layout.preferredHeight: thingName.height * 2
-                        Layout.topMargin: app.margins * 3
-                        Layout.bottomMargin: 0
+                        Layout.topMargin: app.margins * 2
+                        Layout.bottomMargin: app.margins
                         radius: 20
                         color: "#E3E3E3" // TODO: VK template
 
@@ -113,6 +113,21 @@ MainViewBase {
                             centerValueLabelColor: "white" // TODO: VK template
                             roundValue: true
                             color: "#78CDC6" // TODO: VK template
+                        }
+                    }
+
+                    Rectangle {
+                        Layout.alignment: Qt.AlignCenter
+                        Layout.preferredWidth: 1024 / 3
+                        Layout.preferredHeight: 683 / 3
+                        color: "transparent"
+
+                        Image {
+                            anchors.fill: parent
+                            source: "../images/audi_e-tron.png"
+                            sourceSize.width: width
+                            sourceSize.height: height
+                            opacity: .9
                         }
                     }
                 }
