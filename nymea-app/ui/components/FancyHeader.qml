@@ -32,6 +32,7 @@ import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 import QtQuick.Controls.Material 2.1
+import QtMultimedia 5.15
 
 ToolBar {
     id: root
@@ -83,13 +84,14 @@ ToolBar {
             color: "transparent"
             visible: hidden // TODO: VK enable for demo
 
-            AnimatedImage {
-                id: background
+            Video {
+                id: aaaaaaa
                 anchors.fill: parent
                 anchors.margins: 1
-                source: "../images/moon.gif"
-                fillMode: Image.PreserveAspectCrop
-                opacity: .5
+                autoLoad: true
+                autoPlay: true
+                source: "../images/moon.mp4"
+                loops: MediaPlayer.Infinite
             }
         }
 

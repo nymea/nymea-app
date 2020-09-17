@@ -239,6 +239,6 @@
         <file>ui/images/settings_gear.svg</file>
         <file>ui/images/dial_stripes.svg</file>
         <file>ui/images/dial_ellipse.svg</file>
-        <file>ui/images/moon.gif</file>
+		<file>ui/images/moon.mp4</file>
     </qresource>
 </RCC>
