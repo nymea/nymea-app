@@ -59,9 +59,18 @@ ToolBar {
 
         HeaderButton {
             id: leftButton
-            imageSource: "../images/navigation-menu.svg"
             visible: false
             onClicked: root.leftButtonClicked()
+
+            Video {
+                id: moonVideo
+                anchors.fill: parent
+                anchors.margins: 1
+                autoLoad: true
+                autoPlay: true
+                source: "../images/moon.mp4"
+                loops: MediaPlayer.Infinite
+            }
         }
 
         Label {
@@ -74,25 +83,6 @@ ToolBar {
             elide: Text.ElideRight
             text: root.title
             color: app.headerForegroundColor
-        }
-
-        Rectangle {
-            id: branding
-            Layout.fillHeight: true
-            anchors.centerIn: mainRow
-            width: mainRow.height
-            color: "transparent"
-            visible: hidden // TODO: VK enable for demo
-
-            Video {
-                id: aaaaaaa
-                anchors.fill: parent
-                anchors.margins: 1
-                autoLoad: true
-                autoPlay: true
-                source: "../images/moon.mp4"
-                loops: MediaPlayer.Infinite
-            }
         }
 
         HeaderButton {
