@@ -50,6 +50,7 @@ ColumnLayout {
     property string unitLabelColor: "black"
     property string centerValueLabelColor: "black"
     property bool roundValue: false
+    property bool circleBorder: false
 
     property bool showValueLabel: true
     property int steps: 10
@@ -244,6 +245,7 @@ ColumnLayout {
             opacity: .3
             border.width: width * .025
             color: "transparent"
+            visible: circleBorder
         }
 
         Label {
@@ -279,7 +281,7 @@ ColumnLayout {
             visible: circularSlider.powerState.value
         }
 
-         ColumnLayout {
+        ColumnLayout {
             anchors.centerIn: parent
             anchors.fill: parent
 

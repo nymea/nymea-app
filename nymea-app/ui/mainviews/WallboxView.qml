@@ -46,97 +46,73 @@ MainViewBase {
         shownInterfaces: ["evcharger"]
     }    
 
-    Rectangle {
+    SwipeView {
+        id: swipeView
         anchors.fill: parent
-        color: app.foregroundColor
+        currentIndex: pageIndicator.currentIndex
+        visible: wallboxDevices.count != 0
 
-        SwipeView {
-            id: swipeView
-            anchors.fill: parent
-            currentIndex: pageIndicator.currentIndex
-            visible: wallboxDevices.count != 0
+        Repeater {
+            model: wallboxDevices
+            delegate: Item {
+                id: wallboxDelegate
+                height: swipeView.height
+                width: swipeView.width
 
-            Repeater {
-                model: wallboxDevices
-                delegate: Item {
-                    id: wallboxDelegate
-                    height: swipeView.height
-                    width: swipeView.width
+                property Thing thing: wallboxDevices.get(index)
+                property State maxChargingCurrentState: thing.stateByName("maxChargingCurrent")
+                property StateType maxChargingCurrentStateType: thing.thingClass.stateTypes.findByName("maxChargingCurrent")
 
-                    property Thing thing: wallboxDevices.get(index)
-                    property State maxChargingCurrentState: thing.stateByName("maxChargingCurrent")
-                    property StateType maxChargingCurrentStateType: thing.thingClass.stateTypes.findByName("maxChargingCurrent")
+                ColumnLayout {
+                    anchors.fill: parent
+                    anchors.horizontalCenter: parent.horizontalCenter
 
-                    ColumnLayout {
-                        anchors.fill: parent
-                        anchors.horizontalCenter: parent.horizontalCenter
+                    Rectangle {
+                        Layout.alignment: Qt.AlignCenter
+                        Layout.preferredWidth: thingName.width * 1.3
+                        Layout.preferredHeight: thingName.height * 2
+                        Layout.topMargin: app.margins * 3
+                        Layout.bottomMargin: 0
+                        radius: 20
+                        color: "#E3E3E3" // TODO: VK template
 
-                        Rectangle {
-                            Layout.alignment: Qt.AlignLeft
-                            Layout.preferredWidth: parent.width - 36.67
-                            Layout.preferredHeight: 40
-                            Layout.topMargin: 36.67
-
-                            ColorIcon {
-                                anchors.right: parent.right
-                                height: parent.height
-                                width: height
-                                name: "../images/settings_gear.svg"
-                                color: "#CACACA" // TODO: VK template
-
-                                MouseArea {
-                                    anchors.fill: parent
-                                    onClicked: pageStack.push(Qt.resolvedUrl("../thingconfiguration/NewThingPage.qml"))
-                                }
-                            }
+                        Text {
+                            id: thingName
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            anchors.verticalCenter: parent.verticalCenter
+                            text: thing.name
+                            color: app.accentColor
+                            font.pixelSize: 22
                         }
+                    }
 
-                        Rectangle {
-                            Layout.alignment: Qt.AlignCenter
-                            Layout.preferredWidth: thingName.width * 1.3
-                            Layout.preferredHeight: thingName.height * 2
-                            Layout.topMargin: app.margins
-                            Layout.bottomMargin: 0
-                            radius: 20
-                            color: "#E3E3E3" // TODO: VK template
+                    Rectangle {
+                        Layout.alignment: Qt.AlignTop
+                        Layout.preferredWidth: parent.width
+                        Layout.preferredHeight: parent.height * 0.5
+                        color: "transparent"
 
-                            Text {
-                                id: thingName
-                                anchors.horizontalCenter: parent.horizontalCenter
-                                anchors.verticalCenter: parent.verticalCenter
-                                text: thing.name
-                                color: app.accentColor
-                                font.pixelSize: 22
-                            }
-                        }
-
-                        Rectangle {
+                        CircularSlider {
+                            id: maxChargingCurrentStateDial
+                            width: parent.width * .8
+                            height: parent.height * .8
+                            anchors.horizontalCenter: parent.horizontalCenter
                             Layout.alignment: Qt.AlignTop
-                            Layout.preferredWidth: parent.width
-                            Layout.preferredHeight: parent.height * 0.5
-
-                            CircularSlider {
-                                id: maxChargingCurrentStateDial
-                                width: parent.width * .8
-                                height: parent.height * .8
-                                anchors.horizontalCenter: parent.horizontalCenter
-                                Layout.alignment: Qt.AlignTop
-                                device: thing
-                                stateType: maxChargingCurrentStateType
-                                showValueLabel: false
-                                backgroundImage: "../images/dial_stripes.svg"
-                                innerBackgroundImage: "../images/dial_ellipse.svg"
-                                handleVisible: true
-                                steps: 360
-                                maxAngle: 360
-                                showMinLabel: false
-                                showMaxLabel: false
-                                units: qsTr("Ampere")
-                                unitLabelColor: "white" // TODO: VK template
-                                centerValueLabelColor: "white" // TODO: VK template
-                                roundValue: true
-                                color: "#78CDC6" // TODO: VK template
-                            }
+                            device: thing
+                            stateType: maxChargingCurrentStateType
+                            showValueLabel: false
+                            backgroundImage: "../images/dial_stripes.svg"
+                            innerBackgroundImage: "../images/dial_ellipse.svg"
+                            handleVisible: true
+                            steps: 360
+                            maxAngle: 360
+                            showMinLabel: false
+                            showMaxLabel: false
+                            units: qsTr("Ampere")
+                            unitLabelColor: "white" // TODO: VK template
+                            centerValueLabelColor: "white" // TODO: VK template
+                            roundValue: true
+                            color: "#78CDC6" // TODO: VK template
                         }
                     }
                 }
