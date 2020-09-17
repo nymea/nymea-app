@@ -34,12 +34,12 @@ SOURCES += main.cpp \
 RESOURCES += resources.qrc \
     ruletemplates.qrc \
     images.qrc \
-    translations.qrc
-equals(STYLES_PATH, "") {
-    RESOURCES += styles.qrc
-} else {
-    message("Style override enabled. Will be using styles from $${STYLES_PATH}")
-    RESOURCES += $${STYLES_PATH}/styles.qrc
+    translations.qrc \
+    styles.qrc
+
+!equals(OVERLAY_PATH, "") {
+    message("Resource overlay enabled. Will be using overlay from $${OVERLAY_PATH}")
+    RESOURCES += $${OVERLAY_PATH}/overlay.qrc
 }
 
 win32 {

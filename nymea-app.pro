@@ -15,8 +15,8 @@ withtests: {
 # $ call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat"
 # $ make wininstaller
 wininstaller.depends = nymea-app
-!equals(STYLES_PATH, ""):!equals(BRANDING, "") {
-    PACKAGE_BASE_DIR = $${STYLES_PATH}\packaging
+!equals(OVERLAY_PATH, ""):!equals(BRANDING, "") {
+    PACKAGE_BASE_DIR = $${OVERLAY_PATH}\packaging
 } else {
     PACKAGE_BASE_DIR = $$shell_path($$PWD)\packaging
 }
