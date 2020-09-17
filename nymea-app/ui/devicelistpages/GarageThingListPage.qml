@@ -97,7 +97,7 @@ DeviceListPageBase {
                     Binding { target: contentLoader.item; property: "device"; value: itemDelegate.device }
                 }
                 onClicked: {
-                    enterPage(index, false)
+                    enterPage(index)
                 }
             }
         }
