@@ -298,6 +298,7 @@ ColumnLayout {
         MouseArea {
             id: rotateMouseArea
             anchors.fill: buttonBorder
+            preventStealing: true
             onPressedChanged: PlatformHelper.vibrate(PlatformHelper.HapticsFeedbackImpact)
 
 //            Rectangle { anchors.fill: parent; color: "blue"; opacity: .3}
