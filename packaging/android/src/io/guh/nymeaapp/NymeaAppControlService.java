@@ -20,6 +20,7 @@ import java.util.concurrent.Flow.Publisher;
 import java.util.function.Consumer;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.UUID;
 import java.util.HashMap;
 import io.reactivex.Flowable;
 import io.reactivex.processors.ReplayProcessor;
@@ -46,8 +47,9 @@ public class NymeaAppControlService extends ControlsProviderService {
                 @Override public void onReady() {
                     process();
                 }
-                @Override public void onUpdate(String thingId) {
-                    if (m_updatePublisher != null && m_activeControlIds.contains(thingId)) {
+                @Override public void onUpdate(UUID thingId) {
+                    Log.d(TAG, "onUpdate()");
+                    if (m_updatePublisher != null && m_activeControlIds.contains(thingId.toString())) {
                         Thing thing = m_serviceConnection.getThing(thingId);
                         Log.d(TAG, "Updating publisher for thing: " + thing.name + " id: " + thing.id);
                         m_updatePublisher.onNext(thingToControl(thing));
@@ -79,7 +81,7 @@ public class NymeaAppControlService extends ControlsProviderService {
             }
 
             if (m_updatePublisher != null) {
-                if (m_activeControlIds.contains(thing.id)) {
+                if (m_activeControlIds.contains(thing.id.toString())) {
                     Log.d(TAG, "Adding stateful");
                     m_updatePublisher.onNext(thingToControl(thing));
                 }
@@ -123,14 +125,14 @@ public class NymeaAppControlService extends ControlsProviderService {
 ////         pendingAction.consumer = consumer;
 ////         m_pendingActions.put(
 
-        Thing thing = m_serviceConnection.getThing(controlId);
+        Thing thing = m_serviceConnection.getThing(UUID.fromString(controlId));
         if (thing == null) {
             Log.d(TAG, "Thing not found for id: " + controlId);
             consumer.accept(ControlAction.RESPONSE_FAIL);
             return;
         }
 
-        String actionTypeId;
+        UUID actionTypeId;
         String param;
         if (thing.interfaces.contains("dimmablelight") && action instanceof FloatAction) {
             actionTypeId = thing.stateByName("brightness").typeId;
@@ -165,7 +167,7 @@ public class NymeaAppControlService extends ControlsProviderService {
 
     }
 
-    private HashMap<String, Integer> m_intents = new HashMap<String, Integer>();
+    private HashMap<UUID, Integer> m_intents = new HashMap<UUID, Integer>();
 
     private Control thingToControl(Thing thing) {
 //        Log.d(TAG, "Creating control for thing: " + thing.name + " id: " + thing.id);
@@ -182,23 +184,23 @@ public class NymeaAppControlService extends ControlsProviderService {
         Context context = getBaseContext();
         Intent intent = new Intent(context, NymeaAppControlsActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
-        intent.putExtra("thingId", thing.id);
+        intent.putExtra("thingId", thing.id.toString());
         pi = PendingIntent.getActivity(context, intentId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         Log.d(TAG, "Created pendingintent for " + thing.name + " with id " + intentId + " and extra " + thing.id);
 
-        Control.StatefulBuilder builder = new Control.StatefulBuilder(thing.id, pi)
+        Control.StatefulBuilder builder = new Control.StatefulBuilder(thing.id.toString(), pi)
         .setTitle(thing.name)
         .setSubtitle(thing.className)
         .setStructure(m_serviceConnection.nymeaName());
 
         if (thing.interfaces.contains("impulsebasedgaragedoor")) {
             builder.setDeviceType(DeviceTypes.TYPE_GARAGE);
-            builder.setControlTemplate(new StatelessTemplate(thing.id));
+            builder.setControlTemplate(new StatelessTemplate(thing.id.toString()));
         } else if (thing.interfaces.contains("statefulgaragedoor")) {
             builder.setDeviceType(DeviceTypes.TYPE_GARAGE);
             State stateState = thing.stateByName("state");
             ControlButton controlButton = new ControlButton(stateState.value.equals("open"), stateState.displayName);
-            builder.setControlTemplate(new ToggleTemplate(thing.id, controlButton));
+            builder.setControlTemplate(new ToggleTemplate(thing.id.toString(), controlButton));
 
 //        } else if (thing.interfaces.contains("extendedstatefulgaragedoor")) {
 //            builder.setDeviceTyoe(DeviceTypes.TYPE_GARAGE);
@@ -210,16 +212,16 @@ public class NymeaAppControlService extends ControlsProviderService {
 
             if (thing.interfaces.contains("dimmablelight")) {
                 State brightnessState = thing.stateByName("brightness");
-                RangeTemplate rangeTemplate = new RangeTemplate(thing.id, 0, 100, Float.parseFloat(brightnessState.value), 1, brightnessState.displayName);
-                builder.setControlTemplate(new ToggleRangeTemplate(thing.id, controlButton, rangeTemplate));
+                RangeTemplate rangeTemplate = new RangeTemplate(thing.id.toString(), 0, 100, Float.parseFloat(brightnessState.value), 1, brightnessState.displayName);
+                builder.setControlTemplate(new ToggleRangeTemplate(thing.id.toString(), controlButton, rangeTemplate));
             } else {
-                builder.setControlTemplate(new ToggleTemplate(thing.id, controlButton));
+                builder.setControlTemplate(new ToggleTemplate(thing.id.toString(), controlButton));
             }
         } else if (thing.interfaces.contains("powersocket")) {
             builder.setDeviceType(DeviceTypes.TYPE_OUTLET);
             State powerState = thing.stateByName("power");
             ControlButton controlButton = new ControlButton(powerState.value.equals("true"), powerState.displayName);
-            builder.setControlTemplate(new ToggleTemplate(thing.id, controlButton));
+            builder.setControlTemplate(new ToggleTemplate(thing.id.toString(), controlButton));
         } else if (thing.interfaces.contains("mediaplayer")) {
             if (thing.stateByName("playerType").value == "video") {
                 builder.setDeviceType(DeviceTypes.TYPE_TV);
@@ -229,7 +231,7 @@ public class NymeaAppControlService extends ControlsProviderService {
             }
             if (thing.interfaces.contains("extendedvolumecontroller")) {
                 State volumeState = thing.stateByName("volume");
-                RangeTemplate rangeTemplate = new RangeTemplate(thing.id, 0, 100, Float.parseFloat(volumeState.value), 1, volumeState.displayName);
+                RangeTemplate rangeTemplate = new RangeTemplate(thing.id.toString(), 0, 100, Float.parseFloat(volumeState.value), 1, volumeState.displayName);
                 builder.setControlTemplate(rangeTemplate);
             }
         } else {

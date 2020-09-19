@@ -4,10 +4,12 @@ import android.util.Log;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.UUID;
+
 
 public class Thing {
     static final public String TAG = "nymea-app: Thing";
-    public String id;
+    public UUID id;
     public String name;
     public String className;
     public List interfaces = new ArrayList<State>();
@@ -24,7 +26,7 @@ public class Thing {
         return null;
     }
 
-    public State stateById(String stateTypeId) {
+    public State stateById(UUID stateTypeId) {
         for (int i = 0; i < states.size(); i++) {
             if (states.get(i).typeId.equals(stateTypeId)) {
                 return states.get(i);
@@ -43,7 +45,7 @@ public class Thing {
         return null;
     }
 
-    public Action actionById(String actionTypeId) {
+    public Action actionById(UUID actionTypeId) {
         for (int i = 0; i < actions.size(); i++) {
             if (actions.get(i).typeId.equals(actionTypeId)) {
                 return actions.get(i);

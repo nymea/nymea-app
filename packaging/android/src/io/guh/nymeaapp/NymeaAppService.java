@@ -13,7 +13,7 @@ import org.qtproject.qt5.android.bindings.QtService;
 
 public class NymeaAppService extends QtService
 {
-    public static final String BROADCAST_STATE_CHANGE = "io.guh.nymeaapp.NymeaAppService.broadcast.stateChanged";
+    public static final String NYMEA_APP_BROADCAST = "io.guh.nymeaapp.NymeaAppService.broadcast";
 
     private static final String TAG = "nymea-app: NymeaAppService";
 
@@ -40,13 +40,10 @@ public class NymeaAppService extends QtService
         return ret;
     }
 
-    public void sendBroadcast(String thingId, String stateTypeId, String value) {
+    public void sendBroadcast(String payload) {
         Intent sendToUiIntent = new Intent();
-        sendToUiIntent.setAction(BROADCAST_STATE_CHANGE);
-        sendToUiIntent.putExtra("name", "io.guh.nymeaapp.NymeaAppService");
-        sendToUiIntent.putExtra("thingId", thingId);
-        sendToUiIntent.putExtra("stateTypeId", stateTypeId);
-        sendToUiIntent.putExtra("value", value);
+        sendToUiIntent.setAction(NYMEA_APP_BROADCAST);
+        sendToUiIntent.putExtra("data", payload);
 //        Log.d(TAG, "Service sending broadcast");
         sendBroadcast(sendToUiIntent);
     }

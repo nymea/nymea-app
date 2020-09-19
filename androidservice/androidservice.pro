@@ -24,18 +24,18 @@ RESOURCES += controlviews/controlviews.qrc \
 INCLUDEPATH += ../nymea-app/
 
 SOURCES += \
-    androidbinder.cpp \
     controlviews/devicecontrolapplication.cpp \
     nymeaappservice/nymeaappservice.cpp \
+    nymeaappservice/androidbinder.cpp \
     ../nymea-app/stylecontroller.cpp \
     ../nymea-app/platformhelper.cpp \
     ../nymea-app/platformintegration/android/platformhelperandroid.cpp \
     service_main.cpp
 
 HEADERS += \
-    androidbinder.h \
     controlviews/devicecontrolapplication.h \
     nymeaappservice/nymeaappservice.h \
+    nymeaappservice/androidbinder.h \
     ../nymea-app/stylecontroller.h \
     ../nymea-app/platformhelper.h \
     ../nymea-app/platformintegration/android/platformhelperandroid.h \

@@ -24,6 +24,7 @@ bool AndroidBinder::onTransact(int code, const QAndroidParcel &data, const QAndr
     case 0: { // Status request
         qDebug() << "Engine is:" << m_engine->jsonRpcClient()->connected();
         bool isReady = m_engine->jsonRpcClient()->connected() && !m_engine->thingManager()->fetchingData();
+        isReady = false;
         reply.handle().callMethod<void>("writeBoolean", "(Z)V", isReady);
         if (isReady) {
             reply.handle().callMethod<void>("writeString", "(Ljava/lang/String;)V", QAndroidJniObject::fromString(m_engine->jsonRpcClient()->currentHost()->name()).object<jstring>());
@@ -34,7 +35,7 @@ bool AndroidBinder::onTransact(int code, const QAndroidParcel &data, const QAndr
         for (int i = 0; i < m_engine->thingManager()->things()->rowCount(); i++) {
             Device *thing = m_engine->thingManager()->things()->get(i);
             QVariantMap thingMap;
-            thingMap.insert("id", thing->id().toString());
+            thingMap.insert("id", thing->id());
             thingMap.insert("name", thing->name());
             thingMap.insert("className", thing->thingClass()->displayName());
             thingMap.insert("interfaces", thing->thingClass()->interfaces());
@@ -42,7 +43,7 @@ bool AndroidBinder::onTransact(int code, const QAndroidParcel &data, const QAndr
             for (int j = 0; j < thing->states()->rowCount(); j++) {
                 State *state = thing->states()->get(j);
                 QVariantMap stateMap;
-                stateMap.insert("stateTypeId", state->stateTypeId().toString());
+                stateMap.insert("stateTypeId", state->stateTypeId());
                 stateMap.insert("name", thing->thingClass()->stateTypes()->getStateType(state->stateTypeId())->name());
                 stateMap.insert("displayName", thing->thingClass()->stateTypes()->getStateType(state->stateTypeId())->displayName());
                 stateMap.insert("value", state->value());
@@ -53,7 +54,7 @@ bool AndroidBinder::onTransact(int code, const QAndroidParcel &data, const QAndr
             for (int j = 0; j < thing->thingClass()->actionTypes()->rowCount(); j++) {
                 ActionType *actionType = thing->thingClass()->actionTypes()->get(j);
                 QVariantMap actionMap;
-                actionMap.insert("actionTypeId", actionType->id().toString());
+                actionMap.insert("actionTypeId", actionType->id());
                 actionMap.insert("name", actionType->name());
                 actionMap.insert("displayName", actionType->displayName());
                 actions.append(actionMap);

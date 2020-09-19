@@ -37,6 +37,8 @@ DeviceControlApplication::DeviceControlApplication(int argc, char *argv[]) : QAp
     settings.endGroup();
 
     NymeaDiscovery *discovery = new NymeaDiscovery(this);
+    AWSClient::instance()->setConfig(settings.value("cloudEnvironment").toString());
+    discovery->setAwsClient(AWSClient::instance());
 
     NymeaHost *host = discovery->nymeaHosts()->find(lastConnected);
     qDebug() << "**** Tab settings" << lastConnected << host;
