@@ -26,27 +26,29 @@ DeviceControlApplication::DeviceControlApplication(int argc, char *argv[]) : QAp
     setApplicationName("nymea-app");
     setOrganizationName("nymea");
 
-    qDebug() << "Creating QML view";
-    QQmlApplicationEngine *qmlEngine = new QQmlApplicationEngine(this);
-
-    Engine *m_engine = new Engine(this);
+    QString nymeaId = QtAndroid::androidActivity().callObjectMethod<jstring>("nymeaId").toString();
+    QString thingId = QtAndroid::androidActivity().callObjectMethod<jstring>("thingId").toString();
 
     QSettings settings;
-    settings.beginGroup("tabSettings0");
-    QUuid lastConnected = settings.value("lastConnectedHost").toUuid();
-    settings.endGroup();
 
     NymeaDiscovery *discovery = new NymeaDiscovery(this);
     AWSClient::instance()->setConfig(settings.value("cloudEnvironment").toString());
     discovery->setAwsClient(AWSClient::instance());
+    NymeaHost *host = discovery->nymeaHosts()->find(nymeaId);
 
-    NymeaHost *host = discovery->nymeaHosts()->find(lastConnected);
-    qDebug() << "**** Tab settings" << lastConnected << host;
-    if (host) {
-        m_engine->jsonRpcClient()->connectToHost(host);
+    if (!host) {
+        qWarning() << "No such nymea host:" << nymeaId;
+        // TODO: We could wait here until the discovery finds it... But it really should be cached already...
+        exit(1);
     }
 
-    QString thingId = QtAndroid::androidActivity().callObjectMethod<jstring>("thingId").toString();
+    Engine *m_engine = new Engine(this);
+
+    qDebug() << "Connecting to:" << host;
+    m_engine->jsonRpcClient()->connectToHost(host);
+
+    qDebug() << "Creating QML view";
+    QQmlApplicationEngine *qmlEngine = new QQmlApplicationEngine(this);
 
     registerQmlTypes();
 

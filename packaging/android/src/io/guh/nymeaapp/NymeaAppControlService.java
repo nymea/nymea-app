@@ -36,7 +36,10 @@ public class NymeaAppControlService extends ControlsProviderService {
     private String TAG = "nymea-app: NymeaAppControlService";
     private NymeaAppServiceConnection m_serviceConnection;
 
+    // For publishing all available
     private ReplayProcessor m_publisherForAll;
+    private ArrayList<UUID> m_pendingForAll = new ArrayList<UUID>(); // pending nymea ids to query
+
     private ReplayProcessor m_updatePublisher;
     private List m_activeControlIds;
 
@@ -44,52 +47,84 @@ public class NymeaAppControlService extends ControlsProviderService {
     private void ensureServiceConnection() {
         if (m_serviceConnection == null) {
             m_serviceConnection = new NymeaAppServiceConnection(getBaseContext()) {
-                @Override public void onReady() {
-                    process();
+                @Override public void onConnectedChanged(boolean connected) {
+                    Log.d(TAG, "Connected to NymeaAppService. Known hosts: " + m_serviceConnection.getHosts().size());
+                    if (connected && m_publisherForAll != null) {
+                        Log.d(TAG, "Processing all");
+                        processAll();
+                    }
                 }
-                @Override public void onUpdate(UUID thingId) {
+                @Override public void onReadyChanged(UUID nymeaId, boolean ready) {
+                    Log.d(TAG, "Nymea instance " + nymeaId.toString() + " ready state changed: " + Boolean.toString(ready));
+                    if (ready) {
+                        process(nymeaId);
+                    }
+                }
+                @Override public void onUpdate(UUID nymeaId, UUID thingId) {
                     Log.d(TAG, "onUpdate()");
                     if (m_updatePublisher != null && m_activeControlIds.contains(thingId.toString())) {
-                        Thing thing = m_serviceConnection.getThing(thingId);
-                        Log.d(TAG, "Updating publisher for thing: " + thing.name + " id: " + thing.id);
-                        m_updatePublisher.onNext(thingToControl(thing));
+                        Log.d(TAG, "Updating publisher for thing: " + thingId);
+                        m_updatePublisher.onNext(thingToControl(nymeaId, thingId));
 //                        m_updatePublisher.onComplete();
                     }
                 }
             };
         }
-        if (!m_serviceConnection.isConnected()) {
-            Intent serviceIntent = new Intent(this, NymeaAppService.class);
-            bindService(serviceIntent, m_serviceConnection, Context.BIND_AUTO_CREATE);
+        Intent serviceIntent = new Intent(this, NymeaAppService.class);
+        bindService(serviceIntent, m_serviceConnection, Context.BIND_AUTO_CREATE);
+    }
+
+    private void processAll() {
+        ensureServiceConnection();
+        if (m_serviceConnection.connected()) {
+            // Need to add all the pending before processing
+            if (m_publisherForAll != null) {
+                for (UUID nymeaId: m_serviceConnection.getHosts().keySet()) {
+                    m_pendingForAll.add(nymeaId);
+                }
+            }
+            for (UUID nymeaId: m_serviceConnection.getHosts().keySet()) {
+                process(nymeaId);
+            }
+        } else {
+            Log.d(TAG, "Not connected to NymeaAppService yet...");
         }
     }
 
-    private void process() {
+    private void process(UUID nymeaId) {
         Log.d(TAG, "Processing...");
         ensureServiceConnection();
-        if (!m_serviceConnection.isReady()) {
+        if (!m_serviceConnection.connected()) {
+            Log.d(TAG, "NymeaAppService not connected to nymea instance " + nymeaId + " yet.");
+            return;
+        }
+        if (!m_serviceConnection.getHosts().keySet().contains(nymeaId)) {
             Log.d(TAG, "Service connection is not ready yet...");
             return;
         }
 
-        for (Thing thing : m_serviceConnection.getThings()) {
+        for (Thing thing : m_serviceConnection.getHosts().get(nymeaId).things.values()) {
             Log.d(TAG, "Processing thing: " + thing.name);
 
             if (m_publisherForAll != null) {
                 Log.d(TAG, "Adding stateless");
-                m_publisherForAll.onNext(thingToControl(thing));
+                m_publisherForAll.onNext(thingToControl(nymeaId, thing.id));
             }
 
             if (m_updatePublisher != null) {
                 if (m_activeControlIds.contains(thing.id.toString())) {
                     Log.d(TAG, "Adding stateful");
-                    m_updatePublisher.onNext(thingToControl(thing));
+                    m_updatePublisher.onNext(thingToControl(nymeaId, thing.id));
                 }
             }
         }
 
+        if (m_pendingForAll.contains(nymeaId)) {
+            m_pendingForAll.remove(nymeaId);
+        }
+
         // The publisher for all needs to be completed when done
-        if (m_publisherForAll != null) {
+        if (m_publisherForAll != null && m_pendingForAll.isEmpty()) {
             Log.d(TAG, "Completing all publisher");
             m_publisherForAll.onComplete();
         }
@@ -103,7 +138,7 @@ public class NymeaAppControlService extends ControlsProviderService {
     public Publisher createPublisherForAllAvailable() {
         Log.d(TAG, "Creating publishers for all");
         m_publisherForAll = ReplayProcessor.create();
-        process();
+        processAll();
         return FlowAdapters.toFlowPublisher(m_publisherForAll);
     }
 
@@ -112,19 +147,20 @@ public class NymeaAppControlService extends ControlsProviderService {
         Log.d(TAG, "Creating publishers for " + Integer.toString(controlIds.size()));
         m_updatePublisher = ReplayProcessor.create();
         m_activeControlIds = controlIds;
-        process();
+        processAll();
         return FlowAdapters.toFlowPublisher(m_updatePublisher);
     }
 
     @Override
     public void performControlAction(String controlId, ControlAction action, Consumer consumer) {
         Log.d(TAG, "Performing control action: " + controlId);
-////         PendingAction pendingAction = new PendingAction();
-////         pendingAction.thingId = controlId;
-////         pendingAction.actionTypeId = "";
-////         pendingAction.consumer = consumer;
-////         m_pendingActions.put(
 
+        UUID nymeaId = m_serviceConnection.hostForThing(UUID.fromString(controlId));
+        if (nymeaId == null) {
+            Log.d(TAG, "Nymea host not found for thing id: " + controlId);
+            consumer.accept(ControlAction.RESPONSE_FAIL);
+            return;
+        }
         Thing thing = m_serviceConnection.getThing(UUID.fromString(controlId));
         if (thing == null) {
             Log.d(TAG, "Thing not found for id: " + controlId);
@@ -162,17 +198,21 @@ public class NymeaAppControlService extends ControlsProviderService {
             return;
         }
 
-        m_serviceConnection.executeAction(thing.id, actionTypeId, param);
+        m_serviceConnection.executeAction(nymeaId, thing.id, actionTypeId, param);
         consumer.accept(ControlAction.RESPONSE_OK);
 
     }
 
     private HashMap<UUID, Integer> m_intents = new HashMap<UUID, Integer>();
 
-    private Control thingToControl(Thing thing) {
+    private Control thingToControl(UUID nymeaId, UUID thingId) {
 //        Log.d(TAG, "Creating control for thing: " + thing.name + " id: " + thing.id);
 
-        // NOTE: intentId 1 doesn't work for some reason I don't understand yet... so let's make sure we never add "1" to it by always added 100
+        NymeaHost nymeaHost = m_serviceConnection.getHosts().get(nymeaId);
+        Thing thing = nymeaHost.things.get(thingId);
+
+        // NOTE: intentId 1 doesn't work for some reason I don't understand yet...
+        // so let's make sure we never add "1" to it by always added 100
         int intentId = m_intents.size() + 100;
         PendingIntent pi;
         if (m_intents.containsKey(thing.id)) {
@@ -184,6 +224,7 @@ public class NymeaAppControlService extends ControlsProviderService {
         Context context = getBaseContext();
         Intent intent = new Intent(context, NymeaAppControlsActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+        intent.putExtra("nymeaId", nymeaId.toString());
         intent.putExtra("thingId", thing.id.toString());
         pi = PendingIntent.getActivity(context, intentId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         Log.d(TAG, "Created pendingintent for " + thing.name + " with id " + intentId + " and extra " + thing.id);
@@ -191,7 +232,7 @@ public class NymeaAppControlService extends ControlsProviderService {
         Control.StatefulBuilder builder = new Control.StatefulBuilder(thing.id.toString(), pi)
         .setTitle(thing.name)
         .setSubtitle(thing.className)
-        .setStructure(m_serviceConnection.nymeaName());
+        .setStructure(nymeaHost.name);
 
         if (thing.interfaces.contains("impulsebasedgaragedoor")) {
             builder.setDeviceType(DeviceTypes.TYPE_GARAGE);

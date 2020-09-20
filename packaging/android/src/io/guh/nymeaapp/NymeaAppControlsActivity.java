@@ -32,10 +32,13 @@ public class NymeaAppControlsActivity extends org.qtproject.qt5.android.bindings
     }
 
 
+    public String nymeaId()
+    {
+        return getIntent().getStringExtra("nymeaId");
+    }
+
     public String thingId()
     {
-        Log.d(TAG, "ThingId called!");
-        Log.d(TAG, getIntent().getStringExtra("thingId"));
         return getIntent().getStringExtra("thingId");
     }
 

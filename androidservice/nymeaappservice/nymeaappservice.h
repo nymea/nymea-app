@@ -11,12 +11,14 @@ class NymeaAppService : public QAndroidService
 public:
     explicit NymeaAppService(int argc, char** argv);
 
+    QHash<QUuid, Engine*> engines() const;
+
 private:
     void sendNotification(const QString &notification, const QVariantMap &params);
 
 
 private:
-    Engine *m_engine = nullptr;
+    QHash<QUuid, Engine*> m_engines;
 
 };
 

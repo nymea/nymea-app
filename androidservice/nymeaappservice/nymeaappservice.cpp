@@ -11,44 +11,63 @@
 
 NymeaAppService::NymeaAppService(int argc, char **argv):
     QAndroidService(argc, argv, [=](const QAndroidIntent &) {
-        return new AndroidBinder{m_engine};
+        return new AndroidBinder{this};
     })
 {
     setApplicationName("nymea-app");
     setOrganizationName("nymea");
 
-    m_engine = new Engine(this);
-
     QSettings settings;
-    settings.beginGroup("tabSettings0");
-    QUuid lastConnected = settings.value("lastConnectedHost").toUuid();
-    settings.endGroup();
 
     NymeaDiscovery *discovery = new NymeaDiscovery(this);
     AWSClient::instance()->setConfig(settings.value("cloudEnvironment").toString());
     discovery->setAwsClient(AWSClient::instance());
 
-    NymeaHost *host = discovery->nymeaHosts()->find(lastConnected);
-    if (host) {
-        m_engine->jsonRpcClient()->connectToHost(host);
+
+    for (int i = 0; i < 5; i++) {
+        settings.beginGroup(QString("tabSettings%1").arg(i));
+        QUuid lastConnected = settings.value("lastConnectedHost").toUuid();
+        settings.endGroup();
+
+        if (lastConnected.isNull()) {
+            continue;
+        }
+        NymeaHost *host = discovery->nymeaHosts()->find(lastConnected);
+        if (!host) {
+            continue;
+        }
+
+        Engine *engine = new Engine(this);
+        engine->jsonRpcClient()->connectToHost(host);
+        m_engines.insert(host->uuid(), engine);
+
+
+        QObject::connect(engine->thingManager(), &DeviceManager::thingStateChanged, [=](const QUuid &thingId, const QUuid &stateTypeId, const QVariant &value){
+            QVariantMap params;
+            params.insert("nymeaId", engine->jsonRpcClient()->currentHost()->uuid());
+            params.insert("thingId", thingId);
+            params.insert("stateTypeId", stateTypeId);
+            params.insert("value", value);
+            sendNotification("ThingStateChanged", params);
+        });
+
+        connect(engine->thingManager(), &DeviceManager::fetchingDataChanged, [=]() {
+            qDebug() << "Fetching data changed";
+            QVariantMap params;
+            params.insert("nymeaId", engine->jsonRpcClient()->currentHost()->uuid());
+            params.insert("isReady", !engine->thingManager()->fetchingData());
+            qDebug() << "Nymea host is ready" << engine->jsonRpcClient()->currentHost()->uuid();
+            sendNotification("ReadyStateChanged", params);
+        });
     }
 
-    QObject::connect(m_engine->thingManager(), &DeviceManager::thingStateChanged, [=](const QUuid &thingId, const QUuid &stateTypeId, const QVariant &value){
-        QVariantMap params;
-        params.insert("thingId", thingId);
-        params.insert("stateTypeId", stateTypeId);
-        params.insert("value", value);
-        sendNotification("ThingStateChanged", params);
-    });
+    qDebug() << "NymeaAppService started.";
 
-    connect(m_engine->thingManager(), &DeviceManager::fetchingDataChanged, [=]() {
-        QVariantMap params;
-        params.insert("isReady", !m_engine->thingManager()->fetchingData());
-        if (m_engine->jsonRpcClient()->connected()) {
-            params.insert("systemName", m_engine->jsonRpcClient()->currentHost()->name());
-        }
-        sendNotification("ReadyStateChanged", params);
-    });
+}
+
+QHash<QUuid, Engine *> NymeaAppService::engines() const
+{
+    return m_engines;
 }
 
 void NymeaAppService::sendNotification(const QString &notification, const QVariantMap &params)
