@@ -1,3 +1,12 @@
+nymea-app (1.0.231) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Allow adding custom main views in the overlay
+  * Fix entering things pages when there's only one in the list
+  * Android device controls
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 21 Sep 2020 23:34:37 +0200
+
 nymea-app (1.0.230) bionic; urgency=medium
 
   [ Michael Zanetti ]
