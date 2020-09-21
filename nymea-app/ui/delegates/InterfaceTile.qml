@@ -52,12 +52,21 @@ MainPageTile {
 
     onClicked: {
         var page;
+        // Only one item? Go streight to the thing page
+        if (devicesProxy.count === 1) {
+            page = app.interfaceListToDevicePage([iface.name]);
+            pageStack.push(Qt.resolvedUrl("../devicepages/" + page), {thing: devicesProxy.get(0)})
+            return;
+        }
+
+        // No (supported by app) interfaces at all? Open generic list
         if (!iface) {
             page = "GenericDeviceListPage.qml"
             pageStack.push(Qt.resolvedUrl("../devicelistpages/" + page), {hiddenInterfaces: app.supportedInterfaces, filterTagId: root.filterTagId})
             return;
         }
 
+        // Open interface specific things list
         switch (iface.name) {
         case "heating":
         case "sensor":

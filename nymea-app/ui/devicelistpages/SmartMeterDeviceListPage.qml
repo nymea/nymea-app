@@ -155,7 +155,7 @@ DeviceListPageBase {
                         }
                     }
                     onClicked: {
-                        enterPage(index, false)
+                        enterPage(index)
                     }
                 }
             }

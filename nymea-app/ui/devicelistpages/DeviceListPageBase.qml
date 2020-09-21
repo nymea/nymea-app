@@ -42,24 +42,13 @@ Page {
     property alias hiddenInterfaces: thingsProxyInternal.hiddenInterfaces
     property alias filterTagId: thingsProxyInternal.filterTagId
 
-    Component.onCompleted: {
-        if (thingsProxyInternal.count === 1) {
-            enterPage(0, true)
-        }
-    }
-
     property var devicesProxy: thingsProxyInternal
     property var thingsProxy: thingsProxyInternal
 
-    function enterPage(index, replace) {
+    function enterPage(index) {
         var thing = thingsProxy.get(index);
         var page = app.interfaceListToDevicePage(root.shownInterfaces);
-//        var page = "GenericDevicePage.qml";
-        if (replace) {
-            pageStack.replace(Qt.resolvedUrl("../devicepages/" + page), {thing: thingsProxy.get(index)})
-        } else {
-            pageStack.push(Qt.resolvedUrl("../devicepages/" + page), {thing: thingsProxy.get(index)})
-        }
+        pageStack.push(Qt.resolvedUrl("../devicepages/" + page), {thing: thingsProxy.get(index)})
     }
 
     DevicesProxy {

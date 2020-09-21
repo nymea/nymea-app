@@ -61,7 +61,7 @@ DeviceListPageBase {
             width: parent.width
             device: engine.deviceManager.devices.getDevice(model.id);
             onClicked: {
-                enterPage(index, false)
+                enterPage(index)
             }
         }
     }
