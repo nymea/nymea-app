@@ -175,10 +175,11 @@ void DeviceManager::notificationReceived(const QVariantMap &data)
             qWarning() << "Device state change notification received for an unknown device";
             return;
         }
-        QUuid stateTyoeId = data.value("params").toMap().value("stateTypeId").toUuid();
+        QUuid stateTypeId = data.value("params").toMap().value("stateTypeId").toUuid();
         QVariant value = data.value("params").toMap().value("value");
-//        qDebug() << "Device state changed for:" << dev->name() << "State name:" << dev->thingClass()->stateTypes()->getStateType(stateTyoeId) << "value:" << value;
-        dev->setStateValue(stateTyoeId, value);
+//        qDebug() << "Device state changed for:" << dev->name() << "State name:" << dev->thingClass()->stateTypes()->getStateType(stateTypeId) << "value:" << value;
+        dev->setStateValue(stateTypeId, value);
+        emit thingStateChanged(dev->id(), stateTypeId, value);
     } else if (notification == "Devices.DeviceAdded") {
         Device *dev = JsonTypes::unpackDevice(this, data.value("params").toMap().value("device").toMap(), m_thingClasses);
         if (!dev) {

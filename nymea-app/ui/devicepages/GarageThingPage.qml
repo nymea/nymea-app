@@ -79,7 +79,7 @@ DevicePageBase {
             Layout.alignment: Qt.AlignHCenter
             property string currentImage: {
                 if (root.isExtended) {
-                    return app.pad(Math.round(root.percentageState.value / 10), 2) + "0"
+                    return NymeaUtils.pad(Math.round(root.percentageState.value / 10), 2) + "0"
                 }
                 if (root.intermediatePositionStateType) {
                     return root.stateState.value === "closed" ? "100"

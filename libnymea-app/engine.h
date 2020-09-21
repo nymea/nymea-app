@@ -61,9 +61,6 @@ class Engine : public QObject
 public:
     explicit Engine(QObject *parent = nullptr);
 
-    bool connected() const;
-    QString connectedHost() const;
-
     DeviceManager *deviceManager() const;
     DeviceManager *thingManager() const;
     RuleManager *ruleManager() const;

@@ -8,9 +8,6 @@ import android.telephony.TelephonyManager;
 import android.provider.Settings.Secure;
 import android.os.Vibrator;
 
-//import com.google.firebase.messaging.MessageForwardingService;
-
-
 public class NymeaAppActivity extends org.qtproject.qt5.android.bindings.QtActivity
 {
     public String deviceSerial()

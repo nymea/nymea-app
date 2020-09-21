@@ -31,9 +31,11 @@
 #ifndef PLATFORMHELPERANDROID_H
 #define PLATFORMHELPERANDROID_H
 
-#include <QObject>
 #include "platformhelper.h"
+
+#include <QObject>
 #include <QtAndroid>
+#include <QAndroidServiceConnection>
 
 class PlatformHelperAndroid : public PlatformHelper
 {
@@ -62,7 +64,6 @@ public:
 
 private:
     static void permissionRequestFinished(const QtAndroid::PermissionResultMap &);
-
 };
 
 #endif // PLATFORMHELPERANDROID_H

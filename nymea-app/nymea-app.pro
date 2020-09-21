@@ -81,6 +81,8 @@ android {
 
     # https://bugreports.qt.io/browse/QTBUG-83165
     LIBS += -L$${top_builddir}/libnymea-app/$${ANDROID_TARGET_ARCH}
+
+    ANDROID_ABIS = armeabi-v7a arm64-v8a
 }
 
 macx: {
@@ -160,4 +162,3 @@ BR=$$BRANDING
 
 target.path = /usr/bin
 INSTALLS += target
-

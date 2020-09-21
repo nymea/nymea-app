@@ -11,3 +11,6 @@ APP_REVISION=$$member(VERSION_INFO, 1)
 
 DEFINES+=APP_VERSION=\\\"$${APP_VERSION}\\\"
 android:QMAKE_POST_LINK += cp $$top_srcdir/version.txt $$top_builddir/
+
+DISTFILES += \
+    $$PWD/packaging/android/src/io/guh/nymeaapp/NymeaHost.java
