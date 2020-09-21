@@ -85,6 +85,7 @@ INSTALLS += desktopfile icons
 # Android service
 android: {
 SUBDIRS += androidservice
+androidservice.depends = libnymea-app
 }
 
 # Linux desktop (snap package)
