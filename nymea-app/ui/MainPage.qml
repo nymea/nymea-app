@@ -131,6 +131,21 @@ Page {
             var configList = {}
             var newList = {}
             var newItems = 0
+
+            // Add extra views first to make them appear first in the list unless the config says otherwise
+            if (app.hasOwnProperty("additionalMainViews")) {
+                for (var i = 0; i < app.additionalMainViews.count; i++) {
+                    var item = app.additionalMainViews.get(i);
+                    var idx = mainViewSettings.sortOrder.indexOf(item.name);
+                    if (idx === -1) {
+                        newList[newItems++] = item;
+                    } else {
+                        configList[idx] = item;
+                    }
+                }
+            }
+
+
             for (var i = 0; i < mainMenuBaseModel.count; i++) {
                 var item = mainMenuBaseModel.get(i);
                 var idx = mainViewSettings.sortOrder.indexOf(item.name);
@@ -140,16 +155,21 @@ Page {
                     configList[idx] = item;
                 }
             }
-
             clear();
+
+            var brandingFilter = app.hasOwnProperty("mainViewsFilter") ? app.mainViewsFilter : []
 
             for (idx in configList) {
                 item = configList[idx];
-                mainMenuModel.append(item)
+                if (brandingFilter.length === 0 || brandingFilter.indexOf(item.name) >= 0) {
+                    mainMenuModel.append(item)
+                }
             }
             for (idx  in newList) {
                 item = newList[idx];
-                mainMenuModel.append(item)
+                if (brandingFilter.length === 0 || brandingFilter.indexOf(item.name) >= 0) {
+                    mainMenuModel.append(item)
+                }
             }
 
             tabBar.currentIndex = Qt.binding(function() { return mainViewSettings.currentIndex; })
