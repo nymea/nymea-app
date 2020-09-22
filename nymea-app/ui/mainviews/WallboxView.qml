@@ -63,41 +63,49 @@ MainViewBase {
                 property State maxChargingCurrentState: thing.stateByName("maxChargingCurrent")
                 property StateType maxChargingCurrentStateType: thing.thingClass.stateTypes.findByName("maxChargingCurrent")
 
-                ColumnLayout {
+                GridLayout {
+                    id: gridLayout
+                    rows: app.landscape ? 1 : 3
+                    columns: app.landscape ? 3 : 1
+                    flow: GridLayout.TopToBottom
                     anchors.fill: parent
-                    anchors.horizontalCenter: parent.horizontalCenter
 
-                    Rectangle {
-                        Layout.alignment: Qt.AlignCenter
-                        Layout.preferredWidth: thingName.width * 1.3
-                        Layout.preferredHeight: thingName.height * 2
-                        Layout.topMargin: app.margins * 2
-                        Layout.bottomMargin: app.margins
-                        radius: 20
-                        color: "#E3E3E3" // TODO: VK template
+                    Rectangle {                        
+                        Layout.fillHeight: true
+                        Layout.fillWidth: true
+                        color: "transparent"
 
-                        Text {
-                            id: thingName
+                        Rectangle {
+                            id: nameCointainer
                             anchors.horizontalCenter: parent.horizontalCenter
                             anchors.verticalCenter: parent.verticalCenter
-                            text: thing.name
-                            color: app.accentColor
-                            font.pixelSize: 22
+                            color: "#E3E3E3" // TODO: VK template
+                            radius: 20
+
+                            Text {
+                                id: thingName
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                anchors.verticalCenter: parent.verticalCenter
+                                text: thing.name
+                                color: app.accentColor
+                                font.pixelSize: 22
+
+                                Component.onCompleted: {
+                                    nameCointainer.width = width * 1.3
+                                    nameCointainer.height = height * 2
+                                }
+                            }
                         }
                     }
 
                     Rectangle {
-                        Layout.alignment: Qt.AlignTop
-                        Layout.preferredWidth: parent.width
-                        Layout.preferredHeight: parent.height * 0.5
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
                         color: "transparent"
 
                         CircularSlider {
-                            id: maxChargingCurrentStateDial
-                            width: parent.width * .8
-                            height: parent.height * .8
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            Layout.alignment: Qt.AlignTop
+                            anchors.fill: parent
+                            anchors.centerIn: parent
                             device: thing
                             stateType: maxChargingCurrentStateType
                             showValueLabel: false
@@ -117,16 +125,15 @@ MainViewBase {
                     }
 
                     Rectangle {
-                        Layout.alignment: Qt.AlignCenter
-                        Layout.preferredWidth: 1024 / 3
-                        Layout.preferredHeight: 683 / 3
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
                         color: "transparent"
 
                         Image {
-                            anchors.fill: parent
+                            anchors.centerIn: parent
+                            fillMode: Image.PreserveAspectFit
                             source: "../images/audi_e-tron.png"
-                            sourceSize.width: width
-                            sourceSize.height: height
+                            width: app.landscape ? parent.width * .6 : parent.width * .5
                             opacity: .9
                         }
                     }

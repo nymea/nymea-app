@@ -281,18 +281,13 @@ ColumnLayout {
             visible: circularSlider.powerState.value
         }
 
-        ColumnLayout {
-            anchors.centerIn: parent
-            anchors.fill: parent
-
-            Label {
-                Layout.topMargin: buttonContainer.height * .27
-                Layout.alignment: Layout.Center
-                text: units
-                color: unitLabelColor
-                font.pixelSize: buttonContainer.height * .066
-                visible: circularSlider.powerState.value
-            }
+        Label {
+            x: buttonContainer.width / 2 - width / 2
+            y: centerValueLabel.y + height * 2
+            text: units
+            color: unitLabelColor
+            font.pixelSize: innercircularSlider.height * .08
+            visible: circularSlider.powerState.value
         }
 
         MouseArea {
