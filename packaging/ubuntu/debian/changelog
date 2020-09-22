@@ -5,7 +5,7 @@ nymea-app (1.0.231) bionic; urgency=medium
   * Fix entering things pages when there's only one in the list
   * Android device controls
 
- -- Jenkins <jenkins@nymea.io>  Tue, 22 Sep 2020 00:53:29 +0200
+ -- Jenkins <jenkins@nymea.io>  Tue, 22 Sep 2020 10:34:09 +0200
 
 nymea-app (1.0.230) bionic; urgency=medium
 
