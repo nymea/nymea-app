@@ -48,5 +48,6 @@ DISTFILES += \
     ../packaging/android/src/io/guh/nymeaapp/NymeaAppServiceConnection.java \
     ../packaging/android/src/io/guh/nymeaapp/Thing.java \
     ../packaging/android/src/io/guh/nymeaapp/State.java \
+    ../packaging/android/src/io/guh/nymeaapp/NymeaHost.java \
     controlviews/Main.qml
 
