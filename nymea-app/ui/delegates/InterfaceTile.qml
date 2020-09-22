@@ -54,7 +54,7 @@ MainPageTile {
         var page;
         // Only one item? Go streight to the thing page
         if (devicesProxy.count === 1) {
-            page = app.interfaceListToDevicePage([iface.name]);
+            page = NymeaUtils.interfaceListToDevicePage([iface.name]);
             pageStack.push(Qt.resolvedUrl("../devicepages/" + page), {thing: devicesProxy.get(0)})
             return;
         }
