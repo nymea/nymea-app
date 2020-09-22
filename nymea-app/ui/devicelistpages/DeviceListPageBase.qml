@@ -47,7 +47,7 @@ Page {
 
     function enterPage(index) {
         var thing = thingsProxy.get(index);
-        var page = app.interfaceListToDevicePage(root.shownInterfaces);
+        var page = NymeaUtils.interfaceListToDevicePage(root.shownInterfaces);
         pageStack.push(Qt.resolvedUrl("../devicepages/" + page), {thing: thingsProxy.get(index)})
     }
 
