@@ -1,3 +1,11 @@
+nymea-app (1.0.237) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix entering thing pages
+  * Add new permission requests as required by iOS 14
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 22 Sep 2020 19:48:17 +0200
+
 nymea-app (1.0.235) bionic; urgency=medium
 
   [ Michael Zanetti ]
