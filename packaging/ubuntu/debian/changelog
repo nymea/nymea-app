@@ -1,3 +1,10 @@
+nymea-app (1.0.235) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Move a java file to the correct .pro file
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 22 Sep 2020 17:00:01 +0200
+
 nymea-app (1.0.234) bionic; urgency=medium
 
   [ Michael Zanetti ]
