@@ -1,3 +1,10 @@
+nymea-app (1.0.234) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * bump revision so we can try uploading it to google play again
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 22 Sep 2020 12:22:52 +0200
+
 nymea-app (1.0.231) bionic; urgency=medium
 
   [ Michael Zanetti ]
