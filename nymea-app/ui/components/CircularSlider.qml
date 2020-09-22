@@ -177,7 +177,7 @@ ColumnLayout {
 
             Repeater {
                 id: indexLEDs
-                model: circularSlider.steps + 1
+                model: circularSlider.steps
 
                 Item {
                     height: parent.height * .9
@@ -210,11 +210,11 @@ ColumnLayout {
                 Item {
                     id: handle
                     anchors.horizontalCenter: parent.horizontalCenter
-                    height: parent.height * .2
+                    height: parent.height * .27
                     width: height
                     visible: circularSlider.handleVisible && circularSlider.powerStateType !== null
                     anchors.top: parent.top
-                    anchors.topMargin: -31
+                    anchors.topMargin: -parent.height * 0.22
 
 //                    Rectangle { anchors.fill: parent; color: "red"; opacity: .3 }
 
