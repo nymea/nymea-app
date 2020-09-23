@@ -12,6 +12,11 @@ win32:Release:LIBS += -L$$top_builddir/libnymea-app/release
 linux:!android:!nozeroconf:LIBS += -lavahi-client -lavahi-common
 PRE_TARGETDEPS += ../libnymea-app
 
+wasm:{
+    QT -= bluetooth
+    DEFINES += NO_BLUETOOTH
+}
+
 HEADERS += \
     mainmenumodel.h \
     platformintegration/generic/raspberrypihelper.h \
@@ -150,6 +155,12 @@ ubports: {
     HEADERS += platformintegration/ubports/pushclient.h
 
     SOURCES += platformintegration/ubports/pushclient.cpp
+}
+
+wasm: {
+# Seems QMAKE_WASM_TOTAL_MEMORY doesn't work yet but it should be the correct things according to docs
+#QMAKE_WASM_TOTAL_MEMORY = 20000000
+QMAKE_LFLAGS += -s TOTAL_MEMORY=33554432
 }
 
 BR=$$BRANDING

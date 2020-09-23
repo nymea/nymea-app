@@ -36,7 +36,6 @@
 #include "../nymeahost.h"
 
 #include <QUuid>
-#include <QBluetoothUuid>
 #include <QUrlQuery>
 #include <QSettings>
 #include <QNetworkConfigurationManager>
@@ -51,7 +50,7 @@ NymeaDiscovery::NymeaDiscovery(QObject *parent) : QObject(parent)
     m_upnp = new UpnpDiscovery(m_nymeaHosts, this);
     m_zeroConf = new ZeroconfDiscovery(m_nymeaHosts, this);
 
-#ifndef Q_OS_IOS
+#if not Q_OS_IOS && not NO_BLUETOOTH
     m_bluetooth = new BluetoothServiceDiscovery(m_nymeaHosts, this);
 #endif
 
@@ -85,10 +84,12 @@ void NymeaDiscovery::setDiscovering(bool discovering)
         // Start UPnP discovery
         m_upnp->discover();
 
+#ifndef NO_BLUETOOTH
         // Start Bluetooth discovery if HW is available
         if (m_bluetooth) {
             m_bluetooth->discover();
         }
+#endif
 
         // start polling cloud
         m_cloudPollTimer.start();
@@ -99,9 +100,11 @@ void NymeaDiscovery::setDiscovering(bool discovering)
     } else {
         m_upnp->stopDiscovery();
 
+#ifndef NO_BLUETOOTH
         if (m_bluetooth) {
             m_bluetooth->stopDiscovery();
         }
+#endif
 
         m_cloudPollTimer.stop();
     }

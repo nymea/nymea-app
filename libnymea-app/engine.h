@@ -36,7 +36,7 @@
 #include "devicemanager.h"
 #include "connection/nymeatransportinterface.h"
 #include "jsonrpc/jsonrpcclient.h"
-#include "wifisetup/bluetoothdiscovery.h"
+
 
 class RuleManager;
 class ScriptManager;

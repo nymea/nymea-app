@@ -33,7 +33,6 @@
 
 #include <QAbstractListModel>
 #include <QList>
-#include <QBluetoothAddress>
 #include <QSortFilterProxyModel>
 #include "nymeahost.h"
 

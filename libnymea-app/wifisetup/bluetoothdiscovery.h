@@ -31,6 +31,8 @@
 #ifndef BLUETOOTHDISCOVERY_H
 #define BLUETOOTHDISCOVERY_H
 
+#ifndef NO_BLUETOOTH
+
 #include <QObject>
 #include <QBluetoothLocalDevice>
 #include <QBluetoothDeviceDiscoveryAgent>
@@ -88,5 +90,7 @@ private:
 #endif
     bool m_discoveryEnabled = false;
 };
+
+#endif // NO_BLUETOOTH
 
 #endif // BLUETOOTHDISCOVERY_H

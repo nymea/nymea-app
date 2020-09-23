@@ -3,7 +3,7 @@ TEMPLATE = lib
 CONFIG += staticlib
 
 include(../config.pri)
-!win32:!nozeroconf {
+!win32:!nozeroconf:!wasm: {
     # To enable this on Windows we'd need to install Bonjour
     # https://support.apple.com/kb/DL999
     message("Building with QtZeroConf")
@@ -14,13 +14,20 @@ include(../config.pri)
     message("Building without QtZeroConf")
 }
 
-include(../nymea-remoteproxy/libnymea-remoteproxyclient/libnymea-remoteproxyclient.pri)
-
 
 QT -= gui
-QT += network websockets bluetooth charts quick
+QT += network websockets charts quick bluetooth
 
-LIBS += -lssl -lcrypto
+wasm {
+    DEFINES += NO_BLUETOOTH
+    QT -= bluetooth
+}
+
+!wasm {
+    include(../nymea-remoteproxy/libnymea-remoteproxyclient/libnymea-remoteproxyclient.pri)
+    LIBS += -lssl -lcrypto
+}
+
 
 INCLUDEPATH += $$top_srcdir/QtZeroConf
 
@@ -102,12 +109,10 @@ SOURCES += \
     connection/nymeatransportinterface.cpp \
     connection/websockettransport.cpp \
     connection/tcpsockettransport.cpp \
-    connection/bluetoothtransport.cpp \
     connection/awsclient.cpp \
     connection/discovery/nymeadiscovery.cpp \
     connection/discovery/upnpdiscovery.cpp \
     connection/discovery/zeroconfdiscovery.cpp \
-    connection/discovery/bluetoothservicediscovery.cpp \
     devicemanager.cpp \
     jsonrpc/jsontypes.cpp \
     jsonrpc/jsonrpcclient.cpp \
@@ -131,12 +136,6 @@ SOURCES += \
     models/rulesfiltermodel.cpp \
     models/logsmodel.cpp \
     logmanager.cpp \
-    wifisetup/bluetoothdevice.cpp \
-    wifisetup/bluetoothdeviceinfo.cpp \
-    wifisetup/bluetoothdeviceinfos.cpp \
-    wifisetup/bluetoothdiscovery.cpp \
-    wifisetup/wirelesssetupmanager.cpp \
-    wifisetup/networkmanagercontroller.cpp \
     models/logsmodelng.cpp \
     models/interfacesproxy.cpp \
     models/tagsproxymodel.cpp \
@@ -148,7 +147,6 @@ SOURCES += \
     ruletemplates/ruleactiontemplate.cpp \
     ruletemplates/stateevaluatortemplate.cpp \
     ruletemplates/statedescriptortemplate.cpp \
-    connection/cloudtransport.cpp \
     connection/sigv4utils.cpp \
     ruletemplates/ruleactionparamtemplate.cpp \
     configuration/serverconfiguration.cpp \
@@ -159,6 +157,19 @@ SOURCES += \
     models/devicemodel.cpp \
     system/systemcontroller.cpp \
     thinggroup.cpp \
+
+!wasm {
+SOURCES += \
+    connection/cloudtransport.cpp \
+    connection/bluetoothtransport.cpp \
+    connection/discovery/bluetoothservicediscovery.cpp \
+    wifisetup/bluetoothdevice.cpp \
+    wifisetup/bluetoothdeviceinfo.cpp \
+    wifisetup/bluetoothdeviceinfos.cpp \
+    wifisetup/bluetoothdiscovery.cpp \
+    wifisetup/wirelesssetupmanager.cpp \
+    wifisetup/networkmanagercontroller.cpp \
+}
 
 
 HEADERS += \
@@ -239,13 +250,11 @@ HEADERS += \
     connection/nymeatransportinterface.h \
     connection/websockettransport.h \
     connection/tcpsockettransport.h \
-    connection/bluetoothtransport.h \
     connection/awsclient.h \
     connection/sigv4utils.h \
     connection/discovery/nymeadiscovery.h \
     connection/discovery/upnpdiscovery.h \
     connection/discovery/zeroconfdiscovery.h \
-    connection/discovery/bluetoothservicediscovery.h \
     devicemanager.h \
     jsonrpc/jsontypes.h \
     jsonrpc/jsonrpcclient.h \
@@ -269,12 +278,6 @@ HEADERS += \
     models/rulesfiltermodel.h \
     models/logsmodel.h \
     logmanager.h \
-    wifisetup/bluetoothdevice.h \
-    wifisetup/bluetoothdeviceinfo.h \
-    wifisetup/bluetoothdeviceinfos.h \
-    wifisetup/bluetoothdiscovery.h \
-    wifisetup/wirelesssetupmanager.h \
-    wifisetup/networkmanagercontroller.h \
     libnymea-app-core.h \
     models/logsmodelng.h \
     models/interfacesproxy.h \
@@ -287,7 +290,6 @@ HEADERS += \
     ruletemplates/ruleactiontemplate.h \
     ruletemplates/stateevaluatortemplate.h \
     ruletemplates/statedescriptortemplate.h \
-    connection/cloudtransport.h \
     ruletemplates/ruleactionparamtemplate.h \
     configuration/serverconfiguration.h \
     configuration/serverconfigurations.h \
@@ -297,6 +299,19 @@ HEADERS += \
     models/devicemodel.h \
     system/systemcontroller.h \
     thinggroup.h \
+
+!wasm {
+HEADERS += \
+    connection/cloudtransport.h \
+    connection/bluetoothtransport.h \
+    connection/discovery/bluetoothservicediscovery.h \
+    wifisetup/bluetoothdevice.h \
+    wifisetup/bluetoothdeviceinfo.h \
+    wifisetup/bluetoothdeviceinfos.h \
+    wifisetup/bluetoothdiscovery.h \
+    wifisetup/wirelesssetupmanager.h \
+    wifisetup/networkmanagercontroller.h \
+}
 
 ubports: {
     DEFINES += UBPORTS

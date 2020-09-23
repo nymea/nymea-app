@@ -35,15 +35,16 @@
 
 TcpSocketTransport::TcpSocketTransport(QObject *parent) : NymeaTransportInterface(parent)
 {
-    QObject::connect(&m_socket, &QSslSocket::connected, this, &TcpSocketTransport::onConnected);
+    QObject::connect(&m_socket, &QTcpSocket::connected, this, &TcpSocketTransport::onConnected);
+    QObject::connect(&m_socket, &QTcpSocket::readyRead, this, &TcpSocketTransport::socketReadyRead);
+    QObject::connect(&m_socket, &QTcpSocket::stateChanged, this, &TcpSocketTransport::onSocketStateChanged);
+#ifndef QT_NO_SSL
     QObject::connect(&m_socket, &QSslSocket::encrypted, this, &TcpSocketTransport::onEncrypted);
     typedef void (QSslSocket:: *sslErrorsSignal)(const QList<QSslError> &);
     QObject::connect(&m_socket, static_cast<sslErrorsSignal>(&QSslSocket::sslErrors), this, &TcpSocketTransport::sslErrors);
-    QObject::connect(&m_socket, &QSslSocket::readyRead, this, &TcpSocketTransport::socketReadyRead);
     typedef void (QSslSocket:: *errorSignal)(QAbstractSocket::SocketError);
     QObject::connect(&m_socket, static_cast<errorSignal>(&QSslSocket::error), this, &TcpSocketTransport::error);
-    QObject::connect(&m_socket, &QSslSocket::stateChanged, this, &TcpSocketTransport::onSocketStateChanged);
-
+#endif
 }
 
 void TcpSocketTransport::sendData(const QByteArray &data)
@@ -56,17 +57,27 @@ void TcpSocketTransport::sendData(const QByteArray &data)
 
 void TcpSocketTransport::ignoreSslErrors(const QList<QSslError> &errors)
 {
+#ifndef QT_NO_SSL
     m_socket.ignoreSslErrors(errors);
+#endif
 }
 
 bool TcpSocketTransport::isEncrypted() const
 {
+#ifndef QT_NO_SSL
     return m_socket.isEncrypted();
+#else
+    return false;
+#endif
 }
 
 QSslCertificate TcpSocketTransport::serverCertificate() const
 {
+#ifndef QT_NO_SSL
     return m_socket.peerCertificate();
+#else
+    return QSslCertificate();
+#endif
 }
 
 void TcpSocketTransport::onConnected()
@@ -87,9 +98,14 @@ bool TcpSocketTransport::connect(const QUrl &url)
 {
     m_url = url;
     if (url.scheme() == "nymeas") {
+#ifndef QT_NO_SSL
         qDebug() << "TCP socket connecting to" << url.host() << url.port();
         m_socket.connectToHostEncrypted(url.host(), static_cast<quint16>(url.port()));
         return true;
+#else
+        qDebug() << "SSL not supported in this build. Cannot connect.";
+        return false;
+#endif
     } else if (url.scheme() == "nymea") {
         m_socket.connectToHost(url.host(), static_cast<quint16>(url.port()));
         return true;

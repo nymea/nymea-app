@@ -56,8 +56,12 @@ JsonRpcClient::JsonRpcClient(QObject *parent) :
     m_connection = new NymeaConnection(this);
     m_connection->registerTransport(new TcpSocketTransportFactory());
     m_connection->registerTransport(new WebsocketTransportFactory());
-    m_connection->registerTransport(new BluetoothTransportFactoy());
+#ifndef QT_NO_SSL
     m_connection->registerTransport(new CloudTransportFactory());
+#endif
+#ifndef NO_BLUETOOTH
+    m_connection->registerTransport(new BluetoothTransportFactoy());
+#endif
 
     connect(m_connection, &NymeaConnection::availableBearerTypesChanged, this, &JsonRpcClient::availableBearerTypesChanged);
     connect(m_connection, &NymeaConnection::connectionStatusChanged, this, &JsonRpcClient::connectionStatusChanged);

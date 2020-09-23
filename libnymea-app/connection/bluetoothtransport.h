@@ -31,6 +31,8 @@
 #ifndef BLUETOOTHTRANSPORT_H
 #define BLUETOOTHTRANSPORT_H
 
+#ifndef NO_BLUETOOTH
+
 #include <QObject>
 #include <QUrl>
 #include <QBluetoothSocket>
@@ -68,5 +70,7 @@ private slots:
     void onStateChanged(const QBluetoothSocket::SocketState &state);
     void onDataReady();
 };
+
+#endif // NO_BLUETOOTH
 
 #endif // BLUETOOTHTRANSPROT_H
