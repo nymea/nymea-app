@@ -1,3 +1,10 @@
+nymea-app (1.0.238) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Reduce Android target API to 29
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 23 Sep 2020 13:49:54 +0200
+
 nymea-app (1.0.237) bionic; urgency=medium
 
   [ Michael Zanetti ]
