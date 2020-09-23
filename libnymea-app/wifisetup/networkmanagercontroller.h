@@ -31,6 +31,8 @@
 #ifndef NETWORKMANAGERCONTROLLER_H
 #define NETWORKMANAGERCONTROLLER_H
 
+#ifndef NO_BLUETOOTH
+
 #include <QObject>
 #include <QBluetoothDeviceInfo>
 
@@ -64,5 +66,7 @@ signals:
     void bluetoothDeviceInfoChanged();
 
 };
+
+#endif // NO_BLUETOOTH
 
 #endif // NETWORKMANAGERCONTROLLER_H

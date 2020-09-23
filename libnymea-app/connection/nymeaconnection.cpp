@@ -515,6 +515,7 @@ bool NymeaConnection::connectInternal(Connection *connection)
     return newTransport->connect(connection->url());
 }
 
+#ifndef QT_NO_BEARERMANAGEMENT
 NymeaConnection::BearerType NymeaConnection::qBearerTypeToNymeaBearerType(QNetworkConfiguration::BearerType type) const
 {
     switch (type) {
@@ -540,6 +541,7 @@ NymeaConnection::BearerType NymeaConnection::qBearerTypeToNymeaBearerType(QNetwo
     }
     return BearerTypeAll;
 }
+#endif
 
 bool NymeaConnection::isConnectionBearerAvailable(Connection::BearerType connectionBearerType) const
 {

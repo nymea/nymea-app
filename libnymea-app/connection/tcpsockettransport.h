@@ -35,6 +35,7 @@
 
 #include <QObject>
 #include <QSslSocket>
+#include <QTcpSocket>
 #include <QUrl>
 
 class TcpSocketTransportFactory: public NymeaTransportInterfaceFactory
@@ -66,7 +67,11 @@ private slots:
     void onSocketStateChanged(const QAbstractSocket::SocketState &state);
 
 private:
+#ifndef QT_NO_SSL
     QSslSocket m_socket;
+#else
+    QTcpSocket m_socket;
+#endif
     QUrl m_url;
 };
 

@@ -55,21 +55,29 @@ void TcpSocketTransport::sendData(const QByteArray &data)
     }
 }
 
-#ifndef QT_NO_SSL
 void TcpSocketTransport::ignoreSslErrors(const QList<QSslError> &errors)
 {
+#ifndef QT_NO_SSL
     m_socket.ignoreSslErrors(errors);
-}
 #endif
+}
 
 bool TcpSocketTransport::isEncrypted() const
 {
+#ifndef QT_NO_SSL
     return m_socket.isEncrypted();
+#else
+    return false;
+#endif
 }
 
 QSslCertificate TcpSocketTransport::serverCertificate() const
 {
+#ifndef QT_NO_SSL
     return m_socket.peerCertificate();
+#else
+    return QSslCertificate();
+#endif
 }
 
 void TcpSocketTransport::onConnected()

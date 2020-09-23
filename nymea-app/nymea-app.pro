@@ -12,6 +12,11 @@ win32:Release:LIBS += -L$$top_builddir/libnymea-app/release
 linux:!android:!nozeroconf:LIBS += -lavahi-client -lavahi-common
 PRE_TARGETDEPS += ../libnymea-app
 
+wasm:{
+    QT -= bluetooth
+    DEFINES += NO_BLUETOOTH
+}
+
 HEADERS += \
     mainmenumodel.h \
     platformintegration/generic/raspberrypihelper.h \

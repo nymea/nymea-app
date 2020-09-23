@@ -88,6 +88,8 @@ int main(int argc, char *argv[])
     application.setApplicationName("nymea-app");
     application.setOrganizationName("nymea");
 
+    qDebug() << "ARGS:" << QCoreApplication::arguments();
+
     QCommandLineParser parser;
     parser.addHelpOption();
     QCommandLineOption kioskOption = QCommandLineOption({"k", "kiosk"}, "Start the application in kiosk mode.");

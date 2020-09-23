@@ -124,7 +124,9 @@ private:
     void connectInternal(NymeaHost *host);
     bool connectInternal(Connection *connection);
 
+#ifndef QT_NO_BEARERMANAGEMENT
     NymeaConnection::BearerType qBearerTypeToNymeaBearerType(QNetworkConfiguration::BearerType type) const;
+#endif
 
     bool isConnectionBearerAvailable(Connection::BearerType connectionBearerType) const;
 

@@ -31,6 +31,8 @@
 #ifndef CLOUDTRANSPORT_H
 #define CLOUDTRANSPORT_H
 
+#ifndef QT_NO_SSL
+
 #include "nymeatransportinterface.h"
 
 #include <QObject>
@@ -68,5 +70,7 @@ private:
     remoteproxyclient::RemoteProxyConnection *m_remoteproxyConnection = nullptr;
     QString m_nonce;
 };
+
+#endif // QT_NO_SSL
 
 #endif // CLOUDTRANSPORT_H

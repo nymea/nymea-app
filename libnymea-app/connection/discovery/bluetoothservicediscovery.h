@@ -31,6 +31,8 @@
 #ifndef BLUETOOTHSERVICEDISCOVERY_H
 #define BLUETOOTHSERVICEDISCOVERY_H
 
+#ifndef NO_BLUETOOTH
+
 #include <QObject>
 #include <QBluetoothUuid>
 #include <QBluetoothLocalDevice>
@@ -72,5 +74,7 @@ private slots:
     void onServiceDiscoveryFinished();
 
 };
+
+#endif // NO_BLUETOOTH
 
 #endif // BLUETOOTHSERVICEDISCOVERY_H
