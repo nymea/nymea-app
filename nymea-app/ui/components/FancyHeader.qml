@@ -56,18 +56,43 @@ ToolBar {
         opacity: menuOpen ? 0 : 1
         Behavior on opacity { NumberAnimation { easing.type: Easing.InOutQuad; duration: 200 } }
 
-        HeaderButton {
+        ToolButton {
             id: leftButton
-            imageSource: "../images/navigation-menu.svg"
+            property string imageSource: "../images/navigation-menu.svg"
             visible: false
             onClicked: root.leftButtonClicked()
+
+            contentItem: Item {
+                height: 20
+                width: 20
+                Loader {
+                    id: image
+                    anchors.fill: parent
+                    anchors.margins: app.margins / 2
+                    opacity: enabled ? 1 : .5
+                    sourceComponent: leftButton.imageSource.endsWith(".gif") ? animatedImageComponent : stillImageComponent
+                    Component {
+                        id: animatedImageComponent
+                        AnimatedImage {
+                            source: leftButton.imageSource
+                        }
+                    }
+                    Component {
+                        id: stillImageComponent
+                        Image {
+                            source: leftButton.imageSource
+                        }
+                    }
+
+                }
+            }
         }
 
         Label {
             id: label
             Layout.fillWidth: true
             Layout.fillHeight: true
-            Layout.margins: app.margins
+            Layout.topMargin: app.margins; Layout.bottomMargin: app.margins; Layout.leftMargin: leftButton.visible ? 0 : app.margins
             verticalAlignment: Text.AlignVCenter
             font.pixelSize: app.mediumFont
             elide: Text.ElideRight
