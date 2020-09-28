@@ -314,7 +314,10 @@ Item {
                 }
 
                 function markClosestPoint(point) {
-                    var found = false;
+                    if (lineSeries1.count == 0) {
+                        return;
+                    }
+
                     if (lineSeries1.count == 1) {
                         selectedHighlights.removePoints(0, selectedHighlights.count)
                         selectedHighlights.append(lineSeries1.at(0).x, lineSeries1.at(1).y)
