@@ -48,6 +48,10 @@ Page {
         title: d.configOverlay !== null ? qsTr("Configure main view") : filteredContentModel.data(swipeView.currentIndex, "displayName")
         leftButtonVisible: true
         leftButtonImageSource: {
+            if (app.hasOwnProperty("headerIcon")) {
+                return app.headerIcon
+            }
+
             switch (engine.jsonRpcClient.currentConnection.bearerType) {
             case Connection.BearerTypeLan:
             case Connection.BearerTypeWan:
