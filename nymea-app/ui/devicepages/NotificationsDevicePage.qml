@@ -38,74 +38,29 @@ import "../customviews"
 DevicePageBase {
     id: root
 
-    property bool inputVisible: false
+    QtObject {
+        id: d
+        property int pendingAction: -1
+    }
+
+    Connections {
+        target: engine.thingManager
+        onExecuteActionReply: {
+            if (commandId == d.pendingAction) {
+                d.pendingAction = -1
+            }
+        }
+    }
 
     ColumnLayout {
         anchors.fill: parent
-
-        Item {
-            Layout.fillWidth: true
-            Layout.preferredHeight: root.inputVisible ? inputColumn.implicitHeight : 0
-            Behavior on Layout.preferredHeight { NumberAnimation { duration: 130; easing.type: Easing.InOutQuad } }
-
-            ColumnLayout {
-                id: inputColumn
-                anchors { left: parent.left; bottom: parent.bottom; right: parent.right }
-
-                TextField {
-                    id: titleTextField
-                    Layout.fillWidth: true
-                    Layout.topMargin: app.margins
-                    Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
-                    placeholderText: qsTr("Title")
-                }
-
-                TextArea {
-                    id: bodyTextField
-                    Layout.fillWidth: true
-                    Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
-                    placeholderText: qsTr("Text")
-                    wrapMode: Text.WordWrap
-                }
-            }
-        }
-
-
-
-
-        Button {
-            Layout.fillWidth: true
-            Layout.margins: app.margins
-            text: !root.inputVisible ?
-                      qsTr("Send a notification")
-                    : titleTextField.displayText.length > 0 ?
-                          qsTr("Send now")
-                        : qsTr("Cancel")
-            onClicked: {
-                if (root.inputVisible && titleTextField.displayText.length > 0) {
-                    var actionType = root.deviceClass.actionTypes.findByName("notify")
-                    var params = []
-                    var titleParam = {}
-                    titleParam["paramTypeId"] = actionType.paramTypes.findByName("title").id
-                    titleParam["value"] = titleTextField.displayText
-                    params.push(titleParam)
-                    var bodyParam = {}
-                    bodyParam["paramTypeId"] = actionType.paramTypes.findByName("body").id
-                    bodyParam["value"] = bodyTextField.text
-                    params.push(bodyParam)
-                    engine.deviceManager.executeAction(root.device.id, actionType.id, params)
-                }
-                root.inputVisible = !root.inputVisible
-            }
-        }
-
-        ThinDivider {}
 
         Label {
             Layout.fillWidth: true
             Layout.margins: app.margins
             wrapMode: Text.WordWrap
             text: qsTr("Sent notifications:")
+            visible: logsModel.count > 0 && !logsModel.busy
         }
 
 
@@ -129,14 +84,95 @@ DevicePageBase {
                 progressive: false
 
                 onClicked: {
-                    print("a", model.value.trim())
                     var parts = model.value.trim().split(', ')
-                    print("b", parts)
-                    var popup = detailsPopup.createObject(root, {timestamp: model.timestamp, notificationTitle: parts[1], notificationBody: parts[0]});
+                    var popup = detailsPopup.createObject(root, {timestamp: model.timestamp, notificationTitle: parts[0], notificationBody: parts[1]});
                     popup.open();
                 }
             }
+
+            EmptyViewPlaceholder {
+                anchors.centerIn: parent
+                width: parent.width - app.margins * 2
+                title: qsTr("No messages sent yet.")
+                text: qsTr("Sent messages will appear here.")
+                imageSource: "../images/messaging-app-symbolic.svg"
+                buttonVisible: false
+                visible: logsModel.count == 0 && !logsModel.busy
+            }
         }
+
+        ThinDivider {}
+
+        RowLayout {
+            Layout.fillWidth: true
+            Layout.margins: app.margins
+            spacing: app.margins
+
+            ColumnLayout {
+                id: inputColumn
+                anchors { left: parent.left; bottom: parent.bottom; right: parent.right }
+
+                TextField {
+                    id: titleTextField
+                    Layout.fillWidth: true
+                    placeholderText: qsTr("Title")
+                }
+
+                TextArea {
+                    id: bodyTextField
+                    Layout.fillWidth: true
+                    placeholderText: qsTr("Text")
+                    wrapMode: Text.WordWrap
+                }
+            }
+
+            Item {
+                Layout.preferredWidth: app.iconSize
+                Layout.preferredHeight: inputColumn.height
+                ColorIcon {
+                    anchors.centerIn: parent
+                    height: app.iconSize
+                    width: app.iconSize
+                    name: "../images/send.svg"
+                    color: titleTextField.displayText.length > 0 ? app.accentColor : keyColor
+                    visible: d.pendingAction == -1
+                }
+
+                BusyIndicator {
+                    anchors.centerIn: parent
+                    visible: d.pendingAction != -1
+                    running: visible
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        print("clicked!")
+                        if (titleTextField.displayText.length > 0) {
+                            var actionType = root.deviceClass.actionTypes.findByName("notify")
+                            var params = []
+                            var titleParam = {}
+                            titleParam["paramTypeId"] = actionType.paramTypes.findByName("title").id
+                            titleParam["value"] = titleTextField.displayText
+                            params.push(titleParam)
+                            var bodyParam = {}
+                            bodyParam["paramTypeId"] = actionType.paramTypes.findByName("body").id
+                            bodyParam["value"] = bodyTextField.text
+                            params.push(bodyParam)
+                            d.pendingAction = engine.deviceManager.executeAction(root.device.id, actionType.id, params)
+                            titleTextField.clear();
+                            bodyTextField.clear();
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    BusyIndicator {
+        anchors.centerIn: parent
+        visible: logsModel.busy
+        running: visible
     }
 
     Component {
