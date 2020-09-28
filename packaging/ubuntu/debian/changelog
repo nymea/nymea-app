@@ -1,3 +1,14 @@
+nymea-app (1.0.239) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix app freeze when selecting a point in an empty graph
+  * Add barcode scanner grouping
+  * Fix entering uncategorized when there's only 1 thing
+  * Improve notifications view
+  * Allow overriding the header icon in styles
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 28 Sep 2020 20:38:52 +0200
+
 nymea-app (1.0.238) bionic; urgency=medium
 
   [ Michael Zanetti ]
