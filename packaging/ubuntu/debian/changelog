@@ -7,7 +7,7 @@ nymea-app (1.0.239) bionic; urgency=medium
   * Improve notifications view
   * Allow overriding the header icon in styles
 
- -- Jenkins <jenkins@nymea.io>  Mon, 28 Sep 2020 20:38:52 +0200
+ -- Jenkins <jenkins@nymea.io>  Mon, 28 Sep 2020 21:38:26 +0200
 
 nymea-app (1.0.238) bionic; urgency=medium
 
