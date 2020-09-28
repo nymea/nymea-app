@@ -174,6 +174,9 @@ QString DeviceClass::baseInterface() const
         if (interface == "irrigation") {
             return "irrigation";
         }
+        if (interface == "barcodescanner") {
+            return "barcodescanner";
+        }
     }
     return "uncategorized";
 }

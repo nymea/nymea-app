@@ -202,6 +202,8 @@ ApplicationWindow {
             return qsTr("Irrigation");
         case "ventilation":
             return qsTr("Ventilation")
+        case "barcodescanner":
+            return qsTr("Barcode scanners");
         case "uncategorized":
             return qsTr("Uncategorized")
         default:
