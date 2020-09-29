@@ -69,6 +69,13 @@ PushNotifications *PushNotifications::instance()
 void PushNotifications::connectClient()
 {
 #ifdef Q_OS_ANDROID
+
+    jboolean playServicesAvailable = QtAndroid::androidActivity().callMethod<jboolean>("checkPlayServices", "()Z");
+    if (!playServicesAvailable) {
+        qDebug() << "Google Play Services not available. Cannot connect to push client";
+        return;
+    }
+
     m_firebaseApp = ::firebase::App::Create(::firebase::AppOptions(), QAndroidJniEnvironment(),
                                                 QtAndroid::androidActivity().object());
 
@@ -77,12 +84,6 @@ void PushNotifications::connectClient()
     m_firebase_initializer.Initialize(m_firebaseApp, nullptr, [](::firebase::App * fapp, void *) {
         return ::firebase::messaging::Initialize( *fapp, (::firebase::messaging::Listener *)m_client_pointer);
     });
-
-    while (m_firebase_initializer.InitializeLastResult().status() !=
-            firebase::kFutureStatusComplete) {
-
-        qDebug() << "Firebase: InitializeLastResult wait...";
-    }
 #endif
 }
 
