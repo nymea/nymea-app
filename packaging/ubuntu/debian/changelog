@@ -1,3 +1,10 @@
+nymea-app (1.0.241) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Make use of Google Play Services optional
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 29 Sep 2020 19:59:21 +0200
+
 nymea-app (1.0.239) bionic; urgency=medium
 
   [ Michael Zanetti ]
