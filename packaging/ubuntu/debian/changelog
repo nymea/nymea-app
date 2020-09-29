@@ -1,3 +1,11 @@
+nymea-app (1.0.242) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add Fastlane structure for F-Droid
+  * Fix Android Device Controls not always loading on initial setup
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 29 Sep 2020 23:46:08 +0200
+
 nymea-app (1.0.241) bionic; urgency=medium
 
   [ Michael Zanetti ]
