@@ -84,7 +84,9 @@ public class NymeaAppControlService extends ControlsProviderService {
                 }
             }
             for (UUID nymeaId: m_serviceConnection.getHosts().keySet()) {
-                process(nymeaId);
+                if (m_serviceConnection.getHosts().get(nymeaId).isReady) {
+                    process(nymeaId);
+                }
             }
         } else {
             Log.d(TAG, "Not connected to NymeaAppService yet...");

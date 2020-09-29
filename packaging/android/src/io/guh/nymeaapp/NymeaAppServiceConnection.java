@@ -46,6 +46,11 @@ public class NymeaAppServiceConnection implements ServiceConnection {
     }
     public void onConnectedChanged(boolean connected) {};
 
+    final public boolean isReady(UUID nymeaId) {
+        return m_nymeaHosts.get(nymeaId).isReady;
+    }
+    public void onReadyChanged(UUID nymeaId, boolean ready) {}
+
     public final HashMap<UUID, NymeaHost> getHosts() {
         return m_nymeaHosts;
     }
@@ -69,7 +74,6 @@ public class NymeaAppServiceConnection implements ServiceConnection {
         return null;
     }
 
-    public void onReadyChanged(UUID nymeaId, boolean ready) {}
     public void onError() {}
     public void onUpdate(UUID nymeaId, UUID thingId) {}
 
