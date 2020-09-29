@@ -1,0 +1,11 @@
+nymea transforms your regular smart devices into a harmoniously connected ecosystem.
+
+The uses for nymea are broad, varying from a powerful smart home to connect individual things and remotely control them.
+
+All it takes is to set up nymea in your network, e.g. by copying the nymea image to a Raspberry Pi or installing it on any other Linux powered computer in your network, and use nymea:app to easily connect all your devices and services.
+
+While being fully open source, nymea respects the users privacy and keeps on working even without internet connection by following an offline first approach.
+
+Out of the box, nymea can connect to hundreds of things. If your thing is not supported, we’re open source and have all the tools you need & step-by-step guides ready for you to connect your device!
+
+Find us on https://www.nymea.io to get the nymea image and install instructions or ask for help on the forums: https://forum.nymea.io
