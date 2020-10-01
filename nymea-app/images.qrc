@@ -236,5 +236,6 @@
         <file>ui/images/connections/nm-signal-100-secure.svg</file>
         <file>ui/images/connections/bluetooth.svg</file>
         <file>ui/images/connections/network-wired-disabled.svg</file>
+        <file>ui/images/nfc.svg</file>
     </qresource>
 </RCC>

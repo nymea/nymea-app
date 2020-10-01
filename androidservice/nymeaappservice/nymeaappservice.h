@@ -2,6 +2,8 @@
 #define NYMEAAPPSERVICE_H
 
 #include <QAndroidService>
+#include <QNearFieldManager>
+#include <QNdefMessage>
 
 #include "engine.h"
 

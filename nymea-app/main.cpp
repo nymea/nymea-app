@@ -52,6 +52,7 @@
 #include "pushnotifications.h"
 #include "applogcontroller.h"
 #include "ruletemplates/messages.h"
+#include "nfchelper.h"
 
 QObject *platformHelperProvider(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
@@ -124,6 +125,7 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine *engine = new QQmlApplicationEngine();
 
     qmlRegisterSingletonType<PlatformHelper>("Nymea", 1, 0, "PlatformHelper", platformHelperProvider);
+    qmlRegisterType<NfcHelper>("Nymea", 1, 0, "NfcHelper");
 
     PushNotifications::instance()->connectClient();
     qmlRegisterSingletonType<PushNotifications>("Nymea", 1, 0, "PushNotifications", PushNotifications::pushNotificationsProvider);

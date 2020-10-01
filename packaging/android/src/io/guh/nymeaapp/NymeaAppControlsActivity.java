@@ -8,6 +8,9 @@ import android.telephony.TelephonyManager;
 import android.provider.Settings.Secure;
 import android.os.Vibrator;
 import android.os.Process;
+import android.nfc.NfcAdapter;
+import android.nfc.NdefMessage;
+import android.os.Parcelable;
 
 // An activity spawned by android device controls on demand.
 
@@ -46,6 +49,24 @@ public class NymeaAppControlsActivity extends org.qtproject.qt5.android.bindings
     {
         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         v.vibrate(duration);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        Log.d(TAG, "*************** New intent");
+        super.onNewIntent(intent);
+        if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(intent.getAction())) {
+            Parcelable[] rawMessages =
+                intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
+            if (rawMessages != null) {
+                NdefMessage[] messages = new NdefMessage[rawMessages.length];
+                for (int i = 0; i < rawMessages.length; i++) {
+                    messages[i] = (NdefMessage) rawMessages[i];
+                    Log.d(TAG, messages[i].toString());
+                }
+                // Process the messages array.
+            }
+        }
     }
 
 }

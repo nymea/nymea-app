@@ -64,6 +64,11 @@
 
 
         <activity android:process=":qt_controlsActivity"  android:configChanges="orientation|uiMode|screenLayout|screenSize|smallestScreenSize|layoutDirection|locale|fontScale|keyboard|keyboardHidden|navigation|mcc|mnc|density" android:name="io.guh.nymeaapp.NymeaAppControlsActivity" android:label="nymea:app" android:screenOrientation="unspecified" android:launchMode="standard">
+            <intent-filter>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:scheme="nymea"/>
+            </intent-filter>
             <meta-data android:name="android.app.lib_name" android:value="service"/>
             <meta-data android:name="android.app.arguments" android:value="--controlActivity"/>
             <meta-data android:name="android.app.qt_sources_resource_id" android:resource="@array/qt_sources"/>
@@ -95,6 +100,11 @@
         <!-- For adding service(s) please check: https://wiki.qt.io/AndroidServices -->
 
         <service android:process=":qt_service" android:name="io.guh.nymeaapp.NymeaAppService">
+            <intent-filter>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:scheme="xbmc"/>
+            </intent-filter>
             <meta-data android:name="android.app.lib_name" android:value="service"/>
             <meta-data android:name="android.app.qt_sources_resource_id" android:resource="@array/qt_sources"/>
             <meta-data android:name="android.app.repository" android:value="default"/>
@@ -145,4 +155,5 @@
          Remove the comment if you do not require these default features. -->
     <!-- %%INSERT_FEATURES -->
     <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.NFC" />
 </manifest>
