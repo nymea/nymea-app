@@ -6,6 +6,7 @@
 #include "libnymea-app-core.h"
 #include "../nymea-app/stylecontroller.h"
 #include "../nymea-app/platformhelper.h"
+#include "../nymea-app/nfchelper.h"
 #include "../nymea-app/platformintegration/android/platformhelperandroid.h"
 
 #include <QQmlApplicationEngine>
@@ -54,20 +55,21 @@ DeviceControlApplication::DeviceControlApplication(int argc, char *argv[]) : QAp
     qDebug() << "Connecting to:" << host;
 
     qDebug() << "Creating QML view";
-    QQmlApplicationEngine *qmlEngine = new QQmlApplicationEngine(this);
+    m_qmlEngine = new QQmlApplicationEngine(this);
 
     registerQmlTypes();
 
     qmlRegisterSingletonType<PlatformHelper>("Nymea", 1, 0, "PlatformHelper", platformHelperProvider);
     qmlRegisterSingletonType(QUrl("qrc:///ui/utils/NymeaUtils.qml"), "Nymea", 1, 0, "NymeaUtils" );
+    qmlRegisterType<NfcHelper>("Nymea", 1, 0, "NfcHelper");
 
     StyleController styleController;
-    qmlEngine->rootContext()->setContextProperty("styleController", &styleController);
-    qmlEngine->rootContext()->setContextProperty("engine", m_engine);
-    qmlEngine->rootContext()->setContextProperty("_engine", m_engine);
-    qmlEngine->rootContext()->setContextProperty("controlledThingId", thingId);
+    m_qmlEngine->rootContext()->setContextProperty("styleController", &styleController);
+    m_qmlEngine->rootContext()->setContextProperty("engine", m_engine);
+    m_qmlEngine->rootContext()->setContextProperty("_engine", m_engine);
+    m_qmlEngine->rootContext()->setContextProperty("controlledThingId", thingId);
 
-    qmlEngine->load(QUrl(QLatin1String("qrc:/Main.qml")));
+    m_qmlEngine->load(QUrl(QLatin1String("qrc:/Main.qml")));
 }
 
 void DeviceControlApplication::handleNdefMessage(QNdefMessage message, QNearFieldTarget *target)
@@ -88,8 +90,7 @@ void DeviceControlApplication::handleNdefMessage(QNdefMessage message, QNearFiel
 
         NymeaHost *host = m_discovery->nymeaHosts()->find(nymeaId);
         m_engine->jsonRpcClient()->connectToHost(host);
-        qmlEngine->rootContext()->setContextProperty("controlledThingId", thingId);
-
+        m_qmlEngine->rootContext()->setContextProperty("controlledThingId", thingId);
     }
 }
 

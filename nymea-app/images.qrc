@@ -237,5 +237,6 @@
         <file>ui/images/connections/bluetooth.svg</file>
         <file>ui/images/connections/network-wired-disabled.svg</file>
         <file>ui/images/nfc.svg</file>
+        <file>ui/images/smartphone.svg</file>
     </qresource>
 </RCC>

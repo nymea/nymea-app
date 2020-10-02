@@ -29,6 +29,7 @@ SOURCES += \
     nymeaappservice/androidbinder.cpp \
     ../nymea-app/stylecontroller.cpp \
     ../nymea-app/platformhelper.cpp \
+    ../nymea-app/nfchelper.cpp \
     ../nymea-app/platformintegration/android/platformhelperandroid.cpp \
     service_main.cpp
 
@@ -38,6 +39,7 @@ HEADERS += \
     nymeaappservice/androidbinder.h \
     ../nymea-app/stylecontroller.h \
     ../nymea-app/platformhelper.h \
+    ../nymea-app/nfchelper.h \
     ../nymea-app/platformintegration/android/platformhelperandroid.h \
 
 DISTFILES += \

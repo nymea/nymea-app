@@ -146,12 +146,8 @@ Page {
             pageStack.push(Qt.resolvedUrl("DeviceLogPage.qml"), {device: root.device });
         }
 
-        NfcHelper {
-            id: nfcHelper
-        }
-
         function writeNfcTag() {
-            nfcHelper.writeThingStates(engine, root.thing)
+            pageStack.push(Qt.resolvedUrl("../magic/WriteNfcTagPage.qml"), {thing: root.thing})
         }
 
         Component {

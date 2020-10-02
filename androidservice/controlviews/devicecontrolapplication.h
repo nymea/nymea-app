@@ -4,6 +4,7 @@
 #include <QApplication>
 #include <QNearFieldManager>
 #include <QNdefMessage>
+#include <QQmlApplicationEngine>
 
 #include "connection/discovery/nymeadiscovery.h"
 #include "engine.h"
@@ -22,7 +23,7 @@ private slots:
 private:
     NymeaDiscovery *m_discovery = nullptr;
     Engine *m_engine = nullptr;
-
+    QQmlApplicationEngine *m_qmlEngine = nullptr;
 };
 
 #endif // DEVICECONTROLAPPLICATION_H
