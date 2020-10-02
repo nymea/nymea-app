@@ -83,6 +83,7 @@ public slots:
     void closeBlock();
     void insertBeforeCursor(const QString &text);
     void insertAfterCursor(const QString &text);
+    void toggleComment(int from, int to);
 
     void moveCursor(MoveOperation moveOperation, int count = 1);
 
@@ -92,6 +93,7 @@ signals:
     void cursorPositionChanged();
     void currentWordChanged();
     void hint();
+    void select(int from, int to);
 
 private:
     class BlockInfo {

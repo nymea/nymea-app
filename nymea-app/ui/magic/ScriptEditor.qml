@@ -231,6 +231,10 @@ Page {
                     return event.modifiers & Qt.ControlModifier || event.modifiers & Qt.MetaModifier
                 }
 
+                function shiftPressed(event) {
+                    return event.modifiers & Qt.ShiftModifier
+                }
+
                 Keys.onPressed: {
                     print("key", event.key, "Completion box visible:", completionBox.visible)
                     // Things to happen only when we're not autocompleting
@@ -301,7 +305,12 @@ Page {
                             event.accepted = true;
                             return;
                         }
-
+                    case Qt.Key_Slash:
+                        if (controlPressed(event)) {
+                            completion.toggleComment(selectionStart, selectionEnd);
+                            event.accepted = true;
+                            return;
+                        }
                     }
 
                     // Things to do only when we're autocompleting
@@ -446,6 +455,7 @@ Page {
         cursorPosition: scriptEdit.cursorPosition
         onCursorPositionChanged: scriptEdit.cursorPosition = cursorPosition
         onHint: completionBox.show()
+        onSelect: scriptEdit.select(from, to)
     }
 
     BusyOverlay {
