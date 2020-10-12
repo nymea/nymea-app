@@ -5,7 +5,9 @@
 #include <QNearFieldManager>
 #include <QNdefMessage>
 #include <QQmlApplicationEngine>
+#include <QNdefMessage>
 
+#include "types/ruleactions.h"
 #include "connection/discovery/nymeadiscovery.h"
 #include "engine.h"
 
@@ -18,12 +20,18 @@ public:
 private slots:
     void handleNdefMessage(QNdefMessage message,QNearFieldTarget* target);
 
-    void createView();
+    void connectToNymea(const QUuid &nymeaId);
+
+    void runNfcAction();
 
 private:
     NymeaDiscovery *m_discovery = nullptr;
     Engine *m_engine = nullptr;
     QQmlApplicationEngine *m_qmlEngine = nullptr;
+
+    QUrl m_pendingNfcAction;
+
+
 };
 
 #endif // DEVICECONTROLAPPLICATION_H

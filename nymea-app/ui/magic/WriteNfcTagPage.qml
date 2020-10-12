@@ -42,13 +42,16 @@ Page {
     header: NymeaHeader {
         text: qsTr("Write NFC tag")
         onBackPressed: {
-            root.backPressed();
+            pageStack.pop()
         }
     }
 
 
     NfcHelper {
         id: nfcHelper
+        engine: _engine
+        thing: root.thing
+
     }
 //    nfcHelper.writeThingStates(engine, root.thing)
 
@@ -56,140 +59,163 @@ Page {
         anchors.fill: parent
         columns: app.landscape ? 2 : 1
 
-        Item {
-            Layout.preferredWidth: Math.min(root.width / parent.columns, root.height)
-            Layout.preferredHeight: app.iconSize * 8
-
-            SequentialAnimation {
-                loops: Animation.Infinite
-                running: true
-
-                PropertyAction { target: phoneIcon; property: "anchors.horizontalCenterOffset"; value: app.iconSize * 2 }
-                PropertyAction { target: phoneIcon; property: "scale"; value: 1.3 }
-                NumberAnimation {
-                    target: phoneIcon
-                    property: "opacity"
-                    duration: 500
-                    to: 1
-                }
-
-                PauseAnimation { duration: 500 }
-                ParallelAnimation {
-                    NumberAnimation {
-                        target: phoneIcon
-                        property: "anchors.horizontalCenterOffset"
-                        from: app.iconSize * 2
-                        to: -app.iconSize * 2
-                        duration: 1500
-                        easing.type: Easing.OutQuad
-                    }
-
-                    NumberAnimation {
-                        target: phoneIcon
-                        property: "scale"
-                        duration: 1500
-                        from: 1.3
-                        to: 1
-                        easing.type: Easing.InOutQuad
-                    }
-                }
-
-                ParallelAnimation {
-                    loops: 2
-                    NumberAnimation {
-                        duration: 250
-                        target: vibrateCircle
-                        property: "scale"
-                        from: .8
-                        to: 1.5
-                    }
-                    NumberAnimation {
-                        duration: 250
-                        target: vibrateCircle
-                        property: "opacity"
-                        from: 1
-                        to: 0
-                    }
-                }
-                PauseAnimation {
-                    duration: 500
-                }
-
-                NumberAnimation {
-                    target: phoneIcon
-                    property: "opacity"
-                    duration: 500
-                    to: 0
-                }
-            }
-
-
-            ColorIcon {
-                id: nfcIcon
-                name: "../images/nfc.svg"
-                height: app.iconSize * 2
-                width: app.iconSize * 2
-                anchors.centerIn: parent
-                anchors.horizontalCenterOffset: - app.iconSize * 2
-            }
-
-            Item {
-                id: phoneIcon
-                height: app.iconSize * 5
-                width: app.iconSize * 5
-                scale: 1.5
-                anchors.centerIn: parent
-                anchors.horizontalCenterOffset: app.iconSize * 2
-
-                Rectangle {
-                    id: vibrateCircle
-                    anchors.centerIn: parent
-                    anchors.fill: parent
-                    radius: width / 2
-                    color: "transparent"
-//                    border.color: nfcIcon.keyColor
-                    border.color: app.accentColor
-                    border.width: 2
-                    scale: .8
-                    opacity: 0
-                }
-
-                Rectangle {
-                    anchors.fill: parent
-                    anchors.leftMargin: phoneIcon.width * .21
-                    anchors.rightMargin: phoneIcon.width * .21
-                    anchors.topMargin: phoneIcon.height * .1
-                    anchors.bottomMargin: phoneIcon.height * .1
-                    color: app.backgroundColor
-                }
-
-                ColorIcon {
-                    name: "../images/smartphone.svg"
-                    anchors.fill: parent
-                }
-            }
-
-        }
-
         ColumnLayout {
+            Layout.preferredWidth: parent.width / parent.columns
+            Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.topMargin: app.margins
 
             Label {
                 Layout.fillWidth: true
-                Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
-                text: qsTr("Select the wanted states and tap an NFC tag to store them. When tapping this tag later, they will be restored.").arg(root.thing.name)
+                text: {
+                    switch (nfcHelper.status) {
+                    case NfcHelper.TagStatusWaiting:
+                        return qsTr("Tap an NFC tag to link it to %1.").arg(root.thing.name)
+                    case NfcHelper.TagStatusWriting:
+                        return qsTr("Writing NFC tag...")
+                    case NfcHelper.TagStatusWritten:
+                        return qsTr("NFC tag linked to %1.").arg(root.thing.name)
+                    case NfcHelper.TagStatusFailed:
+                        return qsTr("Failed linking the NFC tag to %1.").arg(root.thing.name)
+                    }
+                }
+                horizontalAlignment: Text.AlignHCenter
                 wrapMode: Text.WordWrap
-                font.pixelSize: app.smallFont
             }
+
+            Label {
+                Layout.fillWidth: true
+                text: qsTr("Required tag size: %1 bytes").arg(nfcHelper.messageSize)
+                font.pixelSize: app.smallFont
+                horizontalAlignment: Text.AlignHCenter
+                enabled: false
+            }
+
+            Item {
+                Layout.fillWidth: true
+                Layout.preferredHeight: app.iconSize * 8
+
+                SequentialAnimation {
+                    loops: Animation.Infinite
+                    running: true
+
+                    PropertyAction { target: phoneIcon; property: "anchors.horizontalCenterOffset"; value: app.iconSize * 2 }
+                    PropertyAction { target: phoneIcon; property: "scale"; value: 1.3 }
+                    NumberAnimation { target: phoneIcon; property: "opacity"; duration: 500; to: 1 }
+                    PauseAnimation { duration: 500 }
+                    ParallelAnimation {
+                        NumberAnimation { target: phoneIcon; property: "anchors.horizontalCenterOffset"; from: app.iconSize * 2; to: -app.iconSize * 2; duration: 1500; easing.type: Easing.OutQuad }
+                        NumberAnimation { target: phoneIcon; property: "scale"; duration: 1500; from: 1.3; to: 1; easing.type: Easing.InOutQuad }
+                    }
+                    PauseAnimation { duration: 500 }
+                    NumberAnimation { target: phoneIcon; property: "opacity"; duration: 500; to: 0 }
+                    PauseAnimation { duration: 500 }
+                }
+
+
+                ColorIcon {
+                    id: nfcIcon
+                    name: "../images/nfc.svg"
+                    height: app.iconSize * 2
+                    width: app.iconSize * 2
+                    anchors.centerIn: parent
+                    anchors.horizontalCenterOffset: - app.iconSize * 2
+                    visible: nfcHelper.status == NfcHelper.TagStatusWaiting
+                }
+
+                Item {
+                    id: phoneIcon
+                    height: app.iconSize * 5
+                    width: app.iconSize * 5
+                    scale: 1.5
+                    anchors.centerIn: parent
+                    anchors.horizontalCenterOffset: app.iconSize * 2
+                    visible: nfcHelper.status == NfcHelper.TagStatusWaiting
+
+                    Rectangle {
+                        anchors.fill: parent
+                        anchors.leftMargin: phoneIcon.width * .21
+                        anchors.rightMargin: phoneIcon.width * .21
+                        anchors.topMargin: phoneIcon.height * .1
+                        anchors.bottomMargin: phoneIcon.height * .1
+                        color: app.backgroundColor
+                    }
+
+                    ColorIcon {
+                        name: "../images/smartphone.svg"
+                        anchors.fill: parent
+                    }
+                }
+
+                Rectangle {
+                    id: tick
+                    anchors.centerIn: parent
+                    height: app.iconSize * 6
+                    width: app.iconSize * 6
+                    radius: width / 2
+                    color: app.backgroundColor
+                    border.width: 4
+                    border.color: app.foregroundColor
+                    opacity: nfcHelper.status == NfcHelper.TagStatusWaiting ? 0 : 1
+                    Behavior on opacity { NumberAnimation { duration: 300 } }
+
+                    property bool shown: nfcHelper.status == NfcHelper.TagStatusWritten || nfcHelper.status == NfcHelper.TagStatusFailed
+
+                    BusyIndicator {
+                        anchors.fill: parent
+                        running: visible
+                        visible: nfcHelper.status == NfcHelper.TagStatusWriting
+                    }
+
+                    Item {
+                        anchors.fill: parent
+                        anchors.rightMargin: tick.shown ? 0 : parent.width
+                        Behavior on anchors.rightMargin { NumberAnimation { duration: 500 } }
+                        clip: true
+
+                        ColorIcon {
+                            x: (tick.width - width) / 2
+                            y: (tick.height - height) / 2
+                            height: app.iconSize * 4
+                            width: app.iconSize * 4
+                            name: nfcHelper.status == NfcHelper.TagStatusFailed ? "../images/close.svg" : "../images/tick.svg"
+                            color: nfcHelper.status == NfcHelper.TagStatusFailed ? "red" : "green"
+                        }
+                    }
+                }
+            }
+        }
+
+
+        ColumnLayout {
+            Layout.preferredWidth: parent.width / parent.columns
 
             ListView {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-                model: root.thingClass.stateTypes
+                model: nfcHelper.actions
                 clip: true
-                delegate: CheckDelegate {
+                delegate: RuleActionDelegate {
+                    ruleAction: nfcHelper.actions.get(index)
                     width: parent.width
-                    text: model.displayName
-                    checked: true
+                    onRemoveRuleAction: nfcHelper.actions.removeRuleAction(index)
+                }
+            }
+
+            Button {
+                text: qsTr("Add action")
+                Layout.fillWidth: true
+                Layout.margins: app.margins
+                onClicked: {
+                    var action = nfcHelper.actions.createNewRuleAction()
+                    action.thingId = root.thing.id
+                    var page = pageStack.push("SelectRuleActionPage.qml", {ruleAction: action});
+                    page.done.connect(function() {
+                        nfcHelper.actions.addRuleAction(action);
+                        pageStack.pop();
+                    })
+                    page.backPressed.connect(function() {
+                        action.destroy()
+                        pageStack.pop();
+                    })
                 }
             }
         }

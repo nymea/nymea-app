@@ -61,9 +61,8 @@ public class NymeaAppControlService extends ControlsProviderService {
                     }
                 }
                 @Override public void onUpdate(UUID nymeaId, UUID thingId) {
-                    Log.d(TAG, "onUpdate()");
                     if (m_updatePublisher != null && m_activeControlIds.contains(thingId.toString())) {
-                        Log.d(TAG, "Updating publisher for thing: " + thingId);
+//                        Log.d(TAG, "Updating publisher for thing: " + thingId);
                         m_updatePublisher.onNext(thingToControl(nymeaId, thingId));
 //                        m_updatePublisher.onComplete();
                     }

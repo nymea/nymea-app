@@ -14,6 +14,7 @@
 #include <QtQml>
 #include <QtAndroid>
 #include <QAndroidJniObject>
+#include <QAndroidIntent>
 #include <QNdefNfcUriRecord>
 
 QObject *platformHelperProvider(QQmlEngine *engine, QJSEngine *scriptEngine)
@@ -28,75 +29,180 @@ DeviceControlApplication::DeviceControlApplication(int argc, char *argv[]) : QAp
     setApplicationName("nymea-app");
     setOrganizationName("nymea");
 
-    QNearFieldManager *manager = new QNearFieldManager(this);
-    int ret = manager->registerNdefMessageHandler(this, SLOT(handleNdefMessage(QNdefMessage,QNearFieldTarget*)));
-    qDebug() << "*** NFC registered" << ret;
-
-    QString nymeaId = QtAndroid::androidActivity().callObjectMethod<jstring>("nymeaId").toString();
-    QString thingId = QtAndroid::androidActivity().callObjectMethod<jstring>("thingId").toString();
-
     QSettings settings;
 
     m_discovery = new NymeaDiscovery(this);
     AWSClient::instance()->setConfig(settings.value("cloudEnvironment").toString());
     m_discovery->setAwsClient(AWSClient::instance());
-    NymeaHost *host = m_discovery->nymeaHosts()->find(nymeaId);
-
-    if (nymeaId.isEmpty() && !host) {
-        qWarning() << "No such nymea host:" << nymeaId;
-        // TODO: We could wait here until the discovery finds it... But it really should be cached already...
-        exit(1);
-    }
 
     m_engine = new Engine(this);
 
-    m_engine->jsonRpcClient()->connectToHost(host);
-
-    qDebug() << "Connecting to:" << host;
-
-    qDebug() << "Creating QML view";
     m_qmlEngine = new QQmlApplicationEngine(this);
-
     registerQmlTypes();
-
     qmlRegisterSingletonType<PlatformHelper>("Nymea", 1, 0, "PlatformHelper", platformHelperProvider);
     qmlRegisterSingletonType(QUrl("qrc:///ui/utils/NymeaUtils.qml"), "Nymea", 1, 0, "NymeaUtils" );
     qmlRegisterType<NfcHelper>("Nymea", 1, 0, "NfcHelper");
 
-    StyleController styleController;
-    m_qmlEngine->rootContext()->setContextProperty("styleController", &styleController);
+    StyleController *styleController = new StyleController(this);
+    m_qmlEngine->rootContext()->setContextProperty("styleController", styleController);
     m_qmlEngine->rootContext()->setContextProperty("engine", m_engine);
     m_qmlEngine->rootContext()->setContextProperty("_engine", m_engine);
-    m_qmlEngine->rootContext()->setContextProperty("controlledThingId", thingId);
+    m_qmlEngine->rootContext()->setContextProperty("controlledThingId", ""); // Unknown at this point
 
     m_qmlEngine->load(QUrl(QLatin1String("qrc:/Main.qml")));
-}
 
-void DeviceControlApplication::handleNdefMessage(QNdefMessage message, QNearFieldTarget *target)
-{
-    qDebug() << "************* NFC message!" << message.toByteArray() << target;
-    foreach (const QNdefRecord &record, message) {
-        QNdefNfcUriRecord uriRecord(record);
-        qDebug() << "record" << uriRecord.uri();
-        QUrl url = uriRecord.uri();
-        QUuid nymeaId = QUuid(url.host().split('.').first());
-        QUuid thingId = QUuid(url.host().split('.').last());
-        QList<QPair<QString, QString>> queryItems = QUrlQuery(url.query()).queryItems();
-        for (int i = 0; i < queryItems.count(); i++) {
-            QUuid stateTypeId = queryItems.at(i).first;
-            QVariant value = queryItems.at(i).second;
+    jboolean startedByNfc = QtAndroid::androidActivity().callMethod<jboolean>("startedByNfc", "()Z");
+    if (startedByNfc) {
+        qDebug() << "**** Started by NFC";
+        qDebug() << "Registering NFC handler and waiting for message.";
 
-        }
+        QNearFieldManager *manager = new QNearFieldManager(this);
+        manager->registerNdefMessageHandler(this, SLOT(handleNdefMessage(QNdefMessage,QNearFieldTarget*)));
 
-        NymeaHost *host = m_discovery->nymeaHosts()->find(nymeaId);
-        m_engine->jsonRpcClient()->connectToHost(host);
+    } else {
+        qDebug() << "*** Started by other intent";
+        qDebug() << "Expecing nymeaId and thingId in intent extras.";
+        QString nymeaId = QtAndroid::androidActivity().callObjectMethod<jstring>("nymeaId").toString();
+        QString thingId = QtAndroid::androidActivity().callObjectMethod<jstring>("thingId").toString();
+
+        connectToNymea(nymeaId);
         m_qmlEngine->rootContext()->setContextProperty("controlledThingId", thingId);
     }
 }
 
-void DeviceControlApplication::createView()
+void DeviceControlApplication::handleNdefMessage(QNdefMessage message, QNearFieldTarget *target)
 {
+    qDebug() << "************* NFC message!" << message.toByteArray();
+    if (message.count() < 1) {
+        qWarning() << "NFC message doesn't contain any records...";
+        return;
+    }
+    // NOTE: At this point we're only supporting one NDEF record per message
+    QNdefRecord record = message.first();
+    QNdefNfcUriRecord uriRecord(record);
 
+    QUrl url = uriRecord.uri();
+    if (url.scheme() != "nymea") {
+        qWarning() << "NDEF URI record scheme is not \"nymea://\"";
+        return;
+    }
+
+    QUuid nymeaId = QUuid(url.host());
+    if (nymeaId.isNull()) {
+        qWarning() << "Invalid nymea UUID in NDEF record.";
+        return;
+    }
+
+    QUuid thingId = QUuid(QUrlQuery(url).queryItemValue("t"));
+    if (thingId.isNull()) {
+        qWarning() << "Invalid thing in NDEF record";
+        return;
+    }
+
+    m_pendingNfcAction = url;
+
+    connectToNymea(nymeaId);
+    m_qmlEngine->rootContext()->setContextProperty("controlledThingId", thingId);
+
+    connect(m_engine->thingManager(), &DeviceManager::fetchingDataChanged, [this](){
+        if (m_engine->jsonRpcClient()->connected() && !m_engine->thingManager()->fetchingData()) {
+            qDebug() << "Ready to process commands";
+            runNfcAction();
+        }
+    });
+}
+
+void DeviceControlApplication::connectToNymea(const QUuid &nymeaId)
+{
+    NymeaHost *host = m_discovery->nymeaHosts()->find(nymeaId);
+    if (!host) {
+        qWarning() << "No such nymea host:" << nymeaId;
+        // TODO: We could wait here until the discovery finds it... But it really should be cached already...
+        exit(1);
+    }
+    qDebug() << "Connecting to:" << host->name();
+    m_engine->jsonRpcClient()->connectToHost(host);
+}
+
+void DeviceControlApplication::runNfcAction()
+{
+    if (!m_pendingNfcAction.isEmpty()) {
+        qDebug() << "NFC action:" << m_pendingNfcAction;
+    }
+    QUrl url = m_pendingNfcAction;
+    m_pendingNfcAction.clear();
+
+    if (url.scheme() != "nymea") {
+        qWarning() << "NDEF URI record scheme is not \"nymea://\" in" << url.toString();
+        return;
+    }
+
+    QUuid nymeaId = QUuid(url.host());
+    if (nymeaId.isNull()) {
+        qWarning() << "Invalid nymea UUID" << url.host() << "in NDEF record" << url.toString();
+        return;
+    }
+
+    QUuid thingId = QUuid(QUrlQuery(url).queryItemValue("t"));
+    Device *thing = m_engine->thingManager()->things()->getThing(thingId);
+    if (!thing) {
+        qDebug() << "Thing" << thingId.toString() << "from" << url.toString() << "doesn't exist on nymea host" << nymeaId.toString();
+        return;
+    }
+
+    QList<QPair<QString, QString>> queryItems = QUrlQuery(url.query()).queryItems();
+    for (int i = 0; i < queryItems.count(); i++) {
+        QString entryName = queryItems.at(i).first;
+        if (entryName == "t") {
+            continue;
+        }
+        if (!entryName.startsWith("a")) {
+            qDebug() << "Only actions are supported. Skipping query item" << entryName;
+            continue;
+        }
+
+        QString actionString = queryItems.at(i).second;
+        QStringList parts = actionString.split("#");
+        if (parts.count() == 0) {
+            qDebug() << "Invalid action definition:" << actionString;
+            continue;
+        }
+
+        QString actionTypeName = parts.at(0);
+        ActionType *actionType = thing->thingClass()->actionTypes()->findByName(actionTypeName);
+        if (!actionType) {
+            qWarning() << "Invalid action name" << actionType << "in url:" << url.toString();
+            continue;
+        }
+
+        QHash<QString, QVariant> paramsInUri;
+        if (parts.count() > 1) {
+            QString paramsString = parts.at(1);
+            foreach (const QString &paramString, paramsString.split("+")) {
+                QStringList parts = paramString.split(":");
+                if (parts.count() != 2) {
+                    qWarning() << "Invalid param format" << paramString << "in url:" << url.toString();
+                    continue;
+                }
+                paramsInUri.insert(parts.at(0), parts.at(1));
+            }
+        }
+
+        QVariantList params;
+        for (int j = 0; j < actionType->paramTypes()->rowCount(); j++) {
+            ParamType *paramType = actionType->paramTypes()->get(j);
+            QVariantMap param;
+            param.insert("paramTypeId", paramType->id());
+            if (paramsInUri.contains(paramType->name())) {
+                param.insert("value", paramsInUri.value(paramType->name()));
+            } else {
+                param.insert("value", paramType->defaultValue());
+            }
+            params.append(param);
+        }
+
+        m_engine->thingManager()->executeAction(thingId, actionType->id(), params);
+    }
 }
 
 

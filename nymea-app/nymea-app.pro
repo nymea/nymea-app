@@ -165,10 +165,9 @@ BR=$$BRANDING
 target.path = /usr/bin
 INSTALLS += target
 
-ANDROID_ABIS = armeabi-v7a
-
 contains(ANDROID_TARGET_ARCH,) {
     ANDROID_ABIS = \
         armeabi-v7a \
         arm64-v8a
 }
+

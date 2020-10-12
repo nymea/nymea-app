@@ -49,11 +49,12 @@ ActionType *ActionTypes::get(int index) const
 ActionType *ActionTypes::getActionType(const QUuid &actionTypeId) const
 {
     foreach (ActionType *actionType, m_actionTypes) {
+        qDebug() << "checking:" << actionType->id();
         if (actionType->id() == actionTypeId) {
             return actionType;
         }
     }
-    return 0;
+    return nullptr;
 }
 
 int ActionTypes::rowCount(const QModelIndex &parent) const
