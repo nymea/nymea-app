@@ -31,6 +31,8 @@
 #include "codecompletion.h"
 
 #include "engine.h"
+#include "types/interfaces.h"
+#include "types/interface.h"
 
 #include <QDebug>
 #include <QQuickItem>
@@ -44,9 +46,8 @@ CodeCompletion::CodeCompletion(QObject *parent):
     m_classes.insert("ThingAction", ClassInfo("ThingAction", {"id", "thingId", "actionTypeId", "actionName"}, {"execute"}));
     m_classes.insert("ThingState", ClassInfo("ThingState", {"id", "thingId", "stateTypeId", "stateName", "value"}, {}, {"onValueChanged"}));
     m_classes.insert("ThingEvent", ClassInfo("ThingEvent", {"id", "thingId", "eventTypeId", "eventName"}, {}, {"onTriggered"}));
-    m_classes.insert("DeviceAction", ClassInfo("DeviceAction", {"id", "deviceId", "actionTypeId", "actionName"}, {"execute"}));
-    m_classes.insert("DeviceState", ClassInfo("DeviceState", {"id", "deviceId", "stateTypeId", "stateName", "value"}, {}, {"onValueChanged"}));
-    m_classes.insert("DeviceEvent", ClassInfo("DeviceEvent", {"id", "deviceId", "eventTypeId", "eventName"}, {}, {"onTriggered"}));
+    m_classes.insert("InterfaceAction", ClassInfo("InterfaceAction", {"id", "interfaceName", "actionName"}, {"execute"}));
+    m_classes.insert("InterfaceEvent", ClassInfo("InterfaceEvent", {"id", "interfaceName", "eventName"}, {}, {"onTriggered"}));
     m_classes.insert("Timer", ClassInfo("Timer", {"id", "interval", "running", "repeat"}, {"start", "stop"}, {"onTriggered"}));
     m_classes.insert("Alarm", ClassInfo("Alarm", {"id", "time", "endTime", "weekDays", "active"}, {}, {"onTriggered", "onActiveChanged"}));
     m_classes.insert("PropertyAnimation", ClassInfo("PropertyAnimation", {"id", "target", "targets", "property", "properties", "value", "from", "to", "easing", "exclude", "duration", "alwaysRunToEnd", "loops", "paused", "running"}, {"start", "stop", "pause", "resume", "complete"}, {"onStarted", "onStopped", "onFinished", "onRunningChanged"}));
@@ -178,30 +179,14 @@ void CodeCompletion::update()
         return;
     }
 
-    QRegExp deviceIdExp(".*deviceId: \"[a-zA-ZÀ-ž0-9- ]*");
-    if (deviceIdExp.exactMatch(blockText)) {
-        for (int i = 0; i < m_engine->deviceManager()->devices()->rowCount(); i++) {
-            Device *dev = m_engine->deviceManager()->devices()->get(i);
-            entries.append(CompletionModel::Entry(dev->id().toString() + "\" // " + dev->name(), dev->name(), "thing", dev->thingClass()->interfaces().join(",")));
-        }
-        blockText.remove(QRegExp(".*deviceId: \""));
-        m_model->update(entries);
-        m_proxy->setFilter(blockText, false);
-        emit hint();
-        return;
-    }
-
     QRegExp stateTypeIdExp(".*stateTypeId: \"[a-zA-Z0-9-]*");
     if (stateTypeIdExp.exactMatch(blockText)) {
         BlockInfo info = getBlockInfo(m_cursor.position());
         QString thingId;
-        if (info.properties.contains("thingId")) {
-            thingId = info.properties.value("thingId");
-        } else if (info.properties.contains("deviceId")) {
-            thingId = info.properties.value("deviceId");
-        } else {
+        if (!info.properties.contains("thingId")) {
             return;
         }
+        thingId = info.properties.value("thingId");
 
         qDebug() << "selected thingId" << thingId;
         Device *device = m_engine->deviceManager()->devices()->getDevice(thingId);
@@ -221,20 +206,17 @@ void CodeCompletion::update()
     }
 
     QRegExp stateNameExp(".*stateName: \"[a-zA-Z0-9-]*");
-    qDebug() << "block text" << blockText << stateNameExp.exactMatch(blockText);
+//    qDebug() << "block text" << blockText << stateNameExp.exactMatch(blockText);
     if (stateNameExp.exactMatch(blockText)) {
         BlockInfo info = getBlockInfo(m_cursor.position());
         qDebug() << "stateName block info" << info.name << info.properties;
         QString thingId;
-        if (info.properties.contains("thingId")) {
-            thingId = info.properties.value("thingId");
-        } else if (info.properties.contains("deviceId")) {
-            thingId = info.properties.value("deviceId");
-        } else {
+        if (!info.properties.contains("thingId")) {
             return;
         }
+        thingId = info.properties.value("thingId");
 
-        qDebug() << "selected deviceId" << thingId;
+        qDebug() << "selected thingId" << thingId;
         Device *device = m_engine->deviceManager()->devices()->getDevice(thingId);
         if (!device) {
             return;
@@ -256,15 +238,12 @@ void CodeCompletion::update()
     if (actionTypeIdExp.exactMatch(blockText)) {
         BlockInfo info = getBlockInfo(m_cursor.position());
         QString thingId;
-        if (info.properties.contains("thingId")) {
-            thingId = info.properties.value("thingId");
-        } else if (info.properties.contains("deviceId")) {
-            thingId = info.properties.value("deviceId");
-        } else {
+        if (!info.properties.contains("thingId")) {
             return;
         }
+        thingId = info.properties.value("thingId");
 
-        qDebug() << "selected deviceId" << thingId;
+        qDebug() << "selected thingId" << thingId;
         Device *device = m_engine->deviceManager()->devices()->getDevice(thingId);
         if (!device) {
             return;
@@ -284,25 +263,34 @@ void CodeCompletion::update()
     QRegExp actionNameExp(".*actionName: \"[a-zA-Z0-9-]*");
     if (actionNameExp.exactMatch(blockText)) {
         BlockInfo info = getBlockInfo(m_cursor.position());
-        QString thingId;
+        Interfaces ifaces;
+
+        ActionTypes *actionTypes = nullptr;
+
         if (info.properties.contains("thingId")) {
-            thingId = info.properties.value("thingId");
-        } else if (info.properties.contains("deviceId")) {
-            thingId = info.properties.value("deviceId");
+            QString thingId = info.properties.value("thingId");
+            qDebug() << "selected thingId" << thingId;
+            Device *thing = m_engine->thingManager()->things()->getThing(thingId);
+            if (!thing) {
+                return;
+            }
+            actionTypes = thing->thingClass()->actionTypes();
+        } else if (info.properties.contains("interfaceName")) {
+            QString interfaceName = info.properties.value("interfaceName");
+            Interface *iface = ifaces.findByName(interfaceName);
+            if (!iface) {
+                return;
+            }
+            actionTypes = iface->actionTypes();
         } else {
             return;
         }
 
-        qDebug() << "selected deviceId" << thingId;
-        Device *device = m_engine->deviceManager()->devices()->getDevice(thingId);
-        if (!device) {
-            return;
-        }
-
-        for (int i = 0; i < device->thingClass()->actionTypes()->rowCount(); i++) {
-            ActionType *actionType = device->thingClass()->actionTypes()->get(i);
+        for (int i = 0; i < actionTypes->rowCount(); i++) {
+            ActionType *actionType = actionTypes->get(i);
             entries.append(CompletionModel::Entry(actionType->name() + "\"", actionType->name(), "actionType"));
         }
+
         blockText.remove(QRegExp(".*actionName: \""));
         m_model->update(entries);
         m_proxy->setFilter(blockText);
@@ -314,15 +302,12 @@ void CodeCompletion::update()
     if (eventTypeIdExp.exactMatch(blockText)) {
         BlockInfo info = getBlockInfo(m_cursor.position());
         QString thingId;
-        if (info.properties.contains("thingId")) {
-            thingId = info.properties.value("thingId");
-        } else if (info.properties.contains("deviceId")) {
-            thingId = info.properties.value("deviceId");
-        } else {
+        if (!info.properties.contains("thingId")) {
             return;
         }
+        thingId = info.properties.value("thingId");
 
-        qDebug() << "selected deviceId" << thingId;
+        qDebug() << "selected thingId" << thingId;
         Device *device = m_engine->deviceManager()->devices()->getDevice(thingId);
         if (!device) {
             return;
@@ -342,28 +327,49 @@ void CodeCompletion::update()
     QRegExp eventNameExp(".*eventName: \"[a-zA-Z0-9-]*");
     if (eventNameExp.exactMatch(blockText)) {
         BlockInfo info = getBlockInfo(m_cursor.position());
-        QString thingId;
+        Interfaces ifaces;
+        EventTypes *eventTypes = nullptr;
         if (info.properties.contains("thingId")) {
-            thingId = info.properties.value("thingId");
-        } else if (info.properties.contains("deviceId")) {
-            thingId = info.properties.value("deviceId");
+            QString thingId = info.properties.value("thingId");
+            Device *thing = m_engine->thingManager()->things()->getThing(thingId);
+            if (!thing) {
+                return;
+            }
+            eventTypes = thing->thingClass()->eventTypes();
+
+        } else if (info.properties.contains("interfaceName")) {
+            QString interfaceName = info.properties.value("interfaceName");
+            Interface *iface = ifaces.findByName(interfaceName);
+            if (!iface) {
+                return;
+            }
+            eventTypes = iface->eventTypes();
         } else {
             return;
         }
 
-        qDebug() << "selected deviceId" << thingId;
-
-        Device *device = m_engine->deviceManager()->devices()->getDevice(thingId);
-        if (!device) {
-            return;
-        }
-
-        for (int i = 0; i < device->thingClass()->eventTypes()->rowCount(); i++) {
-            EventType *eventType = device->thingClass()->eventTypes()->get(i);
+        for (int i = 0; i < eventTypes->rowCount(); i++) {
+            EventType *eventType = eventTypes->get(i);
             entries.append(CompletionModel::Entry(eventType->name() + "\"", eventType->name(), "eventType"));
         }
         blockText.remove(QRegExp(".*eventName: \""));
         m_model->update(entries);
+        m_proxy->setFilter(blockText);
+        emit hint();
+        return;
+    }
+
+    QRegExp interfaceNameExp(".*interfaceName: \"[a-zA-Z]*");
+    if (interfaceNameExp.exactMatch(blockText)) {
+        BlockInfo info = getBlockInfo(m_cursor.position());
+
+        Interfaces ifaces;
+        for (int i = 0; i < ifaces.rowCount(); i++) {
+            Interface *iface = ifaces.get(i);
+            entries.append(CompletionModel::Entry(iface->name() + "\"", iface->name(), "interface", iface->name()));
+        }
+        m_model->update(entries);
+        blockText.remove(QRegExp(".*interfaceName: \""));
         m_proxy->setFilter(blockText);
         emit hint();
         return;
@@ -436,9 +442,6 @@ void CodeCompletion::update()
                     qDebug() << "actionType" << info.properties.keys() << info.properties.value("actionName") << info.properties.value("actionTypeId");
                     if (info.valid) {
                         QString thingId = info.properties.value("thingId");
-                        if (thingId.isEmpty()) {
-                            thingId = info.properties.value("deviceId");
-                        }
                         Device *d = m_engine->thingManager()->things()->getDevice(QUuid(thingId));
                         if (d) {
                             ActionType *at = nullptr;
@@ -491,7 +494,7 @@ void CodeCompletion::update()
     bool isImperative = jsBlock.name.endsWith(":") || jsBlock.name.endsWith("()");
     bool atStart = false;
     while (!isImperative && jsBlock.valid && !atStart) {
-        qDebug() << "is imperative block?" << isImperative << jsBlock.name << "blockText" << blockText;
+//        qDebug() << "is imperative block?" << isImperative << jsBlock.name << "blockText" << blockText;
         BlockInfo tmp = getBlockInfo(jsBlock.start - 1);
         if (tmp.valid) {
             jsBlock = tmp;
@@ -501,7 +504,7 @@ void CodeCompletion::update()
         }
     }
     if (isImperative) {
-        qDebug() << "Is imperative!";
+//        qDebug() << "Is imperative!";
         // Starting a new expression?
         QRegExp newExpressionExp("(.*; [a-zA-Z0-9]*| *[a-zA-Z0-9]*)");
         if (newExpressionExp.exactMatch(blockText)) {
@@ -731,8 +734,8 @@ void CodeCompletion::complete(int index)
     QTextCursor tmp = m_cursor;
     tmp.movePosition(QTextCursor::StartOfBlock, QTextCursor::KeepAnchor);
     QString blockText = tmp.selectedText();
-    QRegExp deviceIdExp(".*deviceId: \"[a-zA-ZÀ-ž0-9- ]*");
-    if (deviceIdExp.exactMatch(blockText)) {
+    QRegExp thingIdExp(".*thingId: \"[a-zA-ZÀ-ž0-9- ]*");
+    if (thingIdExp.exactMatch(blockText)) {
         QTextCursor tmp = m_document->textDocument()->find("\"", m_cursor.position(), QTextDocument::FindBackward);
         m_cursor.movePosition(QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor, m_cursor.position() - tmp.position());
         m_cursor.removeSelectedText();
@@ -844,6 +847,46 @@ void CodeCompletion::insertAfterCursor(const QString &text)
     m_cursor.insertText(text);
     m_cursor.movePosition(QTextCursor::PreviousCharacter, QTextCursor::MoveAnchor, text.length());
     emit cursorPositionChanged();
+}
+
+void CodeCompletion::toggleComment(int from, int to)
+{
+    bool textSelected = from != to;
+    QTextCursor tmp = QTextCursor(m_document->textDocument());
+    tmp.setPosition(from);
+    tmp.movePosition(QTextCursor::StartOfLine);
+
+    bool allLinesHaveComments = true;
+    do {
+        QTextCursor nextComment = m_document->textDocument()->find(QRegExp("^[ ]*//"), tmp.position());
+        nextComment.movePosition(QTextCursor::StartOfLine);
+        bool lineHasComment = tmp.position() == nextComment.position();
+        allLinesHaveComments &= lineHasComment;
+        tmp.movePosition(QTextCursor::EndOfLine);
+        tmp.movePosition(QTextCursor::NextCharacter);
+    } while (tmp.position() < to);
+    qDebug() << "All lines have comments:" << allLinesHaveComments;
+
+    tmp.setPosition(from);
+    tmp.movePosition(QTextCursor::StartOfLine);
+    do {
+        if (allLinesHaveComments) {
+            QTextCursor nextComment = m_document->textDocument()->find(QRegExp("//"), tmp.position());
+            nextComment.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor, 2);
+            nextComment.removeSelectedText();
+            nextComment.insertText("  ");
+            to -= 2;
+        } else {
+            tmp.insertText("//");
+            to += 2;
+        }
+        tmp.movePosition(QTextCursor::EndOfLine);
+        tmp.movePosition(QTextCursor::NextCharacter);
+    } while (tmp.position() < to);
+
+    if (textSelected) {
+        emit select(from, to);
+    }
 }
 
 void CodeCompletion::moveCursor(CodeCompletion::MoveOperation moveOperation, int count)

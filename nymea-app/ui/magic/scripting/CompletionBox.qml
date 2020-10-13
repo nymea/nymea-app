@@ -172,6 +172,8 @@ Rectangle {
                                 return Qt.resolvedUrl("../../images/state.svg")
                             case "actionType":
                                 return Qt.resolvedUrl("../../images/action.svg")
+                            case "interface":
+                                return app.interfaceToIcon(model.decorationProperty)
                             }
                             return ""
                         }
