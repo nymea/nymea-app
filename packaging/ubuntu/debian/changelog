@@ -1,3 +1,10 @@
+nymea-app (1.0.243) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add support for interface based Actions/Event in ScriptEditor
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 13 Oct 2020 12:48:34 +0200
+
 nymea-app (1.0.242) bionic; urgency=medium
 
   [ Michael Zanetti ]
