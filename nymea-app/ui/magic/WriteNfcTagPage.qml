@@ -47,11 +47,10 @@ Page {
     }
 
 
-    NfcHelper {
-        id: nfcHelper
+    NfcThingActionWriter {
+        id: nfcWriter
         engine: _engine
         thing: root.thing
-
     }
 //    nfcHelper.writeThingStates(engine, root.thing)
 
@@ -66,14 +65,14 @@ Page {
             Label {
                 Layout.fillWidth: true
                 text: {
-                    switch (nfcHelper.status) {
-                    case NfcHelper.TagStatusWaiting:
+                    switch (nfcWriter.status) {
+                    case NfcThingActionWriter.TagStatusWaiting:
                         return qsTr("Tap an NFC tag to link it to %1.").arg(root.thing.name)
-                    case NfcHelper.TagStatusWriting:
+                    case NfcThingActionWriter.TagStatusWriting:
                         return qsTr("Writing NFC tag...")
-                    case NfcHelper.TagStatusWritten:
+                    case NfcThingActionWriter.TagStatusWritten:
                         return qsTr("NFC tag linked to %1.").arg(root.thing.name)
-                    case NfcHelper.TagStatusFailed:
+                    case NfcThingActionWriter.TagStatusFailed:
                         return qsTr("Failed linking the NFC tag to %1.").arg(root.thing.name)
                     }
                 }
@@ -83,7 +82,7 @@ Page {
 
             Label {
                 Layout.fillWidth: true
-                text: qsTr("Required tag size: %1 bytes").arg(nfcHelper.messageSize)
+                text: qsTr("Required tag size: %1 bytes").arg(nfcWriter.messageSize)
                 font.pixelSize: app.smallFont
                 horizontalAlignment: Text.AlignHCenter
                 enabled: false
@@ -118,7 +117,7 @@ Page {
                     width: app.iconSize * 2
                     anchors.centerIn: parent
                     anchors.horizontalCenterOffset: - app.iconSize * 2
-                    visible: nfcHelper.status == NfcHelper.TagStatusWaiting
+                    visible: nfcWriter.status == NfcThingActionWriter.TagStatusWaiting
                 }
 
                 Item {
@@ -128,7 +127,7 @@ Page {
                     scale: 1.5
                     anchors.centerIn: parent
                     anchors.horizontalCenterOffset: app.iconSize * 2
-                    visible: nfcHelper.status == NfcHelper.TagStatusWaiting
+                    visible: nfcWriter.status == NfcThingActionWriter.TagStatusWaiting
 
                     Rectangle {
                         anchors.fill: parent
@@ -154,15 +153,15 @@ Page {
                     color: app.backgroundColor
                     border.width: 4
                     border.color: app.foregroundColor
-                    opacity: nfcHelper.status == NfcHelper.TagStatusWaiting ? 0 : 1
+                    opacity: nfcWriter.status == NfcThingActionWriter.TagStatusWaiting ? 0 : 1
                     Behavior on opacity { NumberAnimation { duration: 300 } }
 
-                    property bool shown: nfcHelper.status == NfcHelper.TagStatusWritten || nfcHelper.status == NfcHelper.TagStatusFailed
+                    property bool shown: nfcWriter.status == NfcThingActionWriter.TagStatusWritten || nfcWriter.status == NfcThingActionWriter.TagStatusFailed
 
                     BusyIndicator {
                         anchors.fill: parent
                         running: visible
-                        visible: nfcHelper.status == NfcHelper.TagStatusWriting
+                        visible: nfcWriter.status == NfcThingActionWriter.TagStatusWriting
                     }
 
                     Item {
@@ -176,8 +175,8 @@ Page {
                             y: (tick.height - height) / 2
                             height: app.iconSize * 4
                             width: app.iconSize * 4
-                            name: nfcHelper.status == NfcHelper.TagStatusFailed ? "../images/close.svg" : "../images/tick.svg"
-                            color: nfcHelper.status == NfcHelper.TagStatusFailed ? "red" : "green"
+                            name: nfcWriter.status == NfcThingActionWriter.TagStatusFailed ? "../images/close.svg" : "../images/tick.svg"
+                            color: nfcWriter.status == NfcThingActionWriter.TagStatusFailed ? "red" : "green"
                         }
                     }
                 }
@@ -191,12 +190,12 @@ Page {
             ListView {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-                model: nfcHelper.actions
+                model: nfcWriter.actions
                 clip: true
                 delegate: RuleActionDelegate {
-                    ruleAction: nfcHelper.actions.get(index)
+                    ruleAction: nfcWriter.actions.get(index)
                     width: parent.width
-                    onRemoveRuleAction: nfcHelper.actions.removeRuleAction(index)
+                    onRemoveRuleAction: nfcWriter.actions.removeRuleAction(index)
                 }
             }
 
@@ -205,11 +204,11 @@ Page {
                 Layout.fillWidth: true
                 Layout.margins: app.margins
                 onClicked: {
-                    var action = nfcHelper.actions.createNewRuleAction()
+                    var action = nfcWriter.actions.createNewRuleAction()
                     action.thingId = root.thing.id
                     var page = pageStack.push("SelectRuleActionPage.qml", {ruleAction: action});
                     page.done.connect(function() {
-                        nfcHelper.actions.addRuleAction(action);
+                        nfcWriter.actions.addRuleAction(action);
                         pageStack.pop();
                     })
                     page.backPressed.connect(function() {

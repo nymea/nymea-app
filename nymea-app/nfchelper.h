@@ -2,70 +2,22 @@
 #define NFCHELPER_H
 
 #include <QObject>
-#include <QNearFieldManager>
-#include <QNdefMessage>
-
-#include "types/device.h"
-#include "engine.h"
-#include "types/ruleactions.h"
+#include <QQmlEngine>
 
 class NfcHelper : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(Engine *engine READ engine WRITE setEngine NOTIFY engineChanged)
-    Q_PROPERTY(Device *thing READ thing WRITE setThing NOTIFY thingChanged)
-    Q_PROPERTY(RuleActions *actions READ actions CONSTANT)
-    Q_PROPERTY(int messageSize READ messageSize NOTIFY messageSizeChanged)
-    Q_PROPERTY(TagStatus status READ status NOTIFY statusChanged)
-
+    Q_PROPERTY(bool isAvailable READ isAvailable CONSTANT)
 
 public:
-    enum TagStatus {
-        TagStatusWaiting,
-        TagStatusWriting,
-        TagStatusWritten,
-        TagStatusFailed
-    };
-    Q_ENUM(TagStatus)
+    static NfcHelper* instance();
+    static QObject *nfcHelperProvider(QQmlEngine *engine, QJSEngine *scriptEngine);
 
-    explicit NfcHelper(QObject *parent = nullptr);
-    ~NfcHelper();
 
-    Engine *engine() const;
-    void setEngine(Engine *engine);
-
-    Device *thing() const;
-    void setThing(Device *thing);
-
-    RuleActions *actions() const;
-
-    int messageSize() const;
-
-    TagStatus status() const;
-
-signals:
-    void engineChanged();
-    void thingChanged();
-
-    void messageSizeChanged();
-    void statusChanged();
-
-private slots:
-    void updateContent();
-
-    void targetDetected(QNearFieldTarget *target);
-    void targetLost(QNearFieldTarget *target);
+    bool isAvailable() const;
 
 private:
-    QNearFieldManager *m_manager = nullptr;
-    Engine *m_engine = nullptr;
-    Device *m_thing = nullptr;
-    RuleActions* m_actions;
-
-    TagStatus m_status = TagStatusWaiting;
-
-    QNdefMessage m_currentMessage;
-
+    explicit NfcHelper(QObject *parent = nullptr);
 };
 
 #endif // NFCHELPER_H

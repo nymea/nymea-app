@@ -30,6 +30,7 @@ SOURCES += \
     ../nymea-app/stylecontroller.cpp \
     ../nymea-app/platformhelper.cpp \
     ../nymea-app/nfchelper.cpp \
+    ../nymea-app/nfcthingactionwriter.cpp \
     ../nymea-app/platformintegration/android/platformhelperandroid.cpp \
     service_main.cpp
 
@@ -40,6 +41,7 @@ HEADERS += \
     ../nymea-app/stylecontroller.h \
     ../nymea-app/platformhelper.h \
     ../nymea-app/nfchelper.h \
+    ../nymea-app/nfcthingactionwriter.h \
     ../nymea-app/platformintegration/android/platformhelperandroid.h \
 
 DISTFILES += \

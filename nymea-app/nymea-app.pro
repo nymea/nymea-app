@@ -15,6 +15,7 @@ PRE_TARGETDEPS += ../libnymea-app
 HEADERS += \
     mainmenumodel.h \
     nfchelper.h \
+    nfcthingactionwriter.h \
     platformintegration/generic/raspberrypihelper.h \
     stylecontroller.h \
     pushnotifications.h \
@@ -26,6 +27,7 @@ HEADERS += \
 SOURCES += main.cpp \
     mainmenumodel.cpp \
     nfchelper.cpp \
+    nfcthingactionwriter.cpp \
     platformintegration/generic/raspberrypihelper.cpp \
     stylecontroller.cpp \
     pushnotifications.cpp \
@@ -170,4 +172,6 @@ contains(ANDROID_TARGET_ARCH,) {
         armeabi-v7a \
         arm64-v8a
 }
+
+ANDROID_ABIS = armeabi-v7a arm64-v8a
 

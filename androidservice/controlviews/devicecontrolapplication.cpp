@@ -7,6 +7,7 @@
 #include "../nymea-app/stylecontroller.h"
 #include "../nymea-app/platformhelper.h"
 #include "../nymea-app/nfchelper.h"
+#include "../nymea-app/nfcthingactionwriter.h"
 #include "../nymea-app/platformintegration/android/platformhelperandroid.h"
 
 #include <QQmlApplicationEngine>
@@ -41,7 +42,8 @@ DeviceControlApplication::DeviceControlApplication(int argc, char *argv[]) : QAp
     registerQmlTypes();
     qmlRegisterSingletonType<PlatformHelper>("Nymea", 1, 0, "PlatformHelper", platformHelperProvider);
     qmlRegisterSingletonType(QUrl("qrc:///ui/utils/NymeaUtils.qml"), "Nymea", 1, 0, "NymeaUtils" );
-    qmlRegisterType<NfcHelper>("Nymea", 1, 0, "NfcHelper");
+    qmlRegisterType<NfcThingActionWriter>("Nymea", 1, 0, "NfcThingActionWriter");
+    qmlRegisterSingletonType<NfcHelper>("Nymea", 1, 0, "NfcHelper", NfcHelper::nfcHelperProvider);
 
     StyleController *styleController = new StyleController(this);
     m_qmlEngine->rootContext()->setContextProperty("styleController", styleController);
@@ -168,6 +170,11 @@ void DeviceControlApplication::runNfcAction()
             continue;
         }
 
+        if (parts.count() > 2) {
+            // The parameters might contain a #, let's merge them again
+            parts[1] = parts.mid(1).join('#');
+        }
+
         QString actionTypeName = parts.at(0);
         ActionType *actionType = thing->thingClass()->actionTypes()->findByName(actionTypeName);
         if (!actionType) {
@@ -188,6 +195,8 @@ void DeviceControlApplication::runNfcAction()
             }
         }
 
+        qDebug() << "Parameters in NFC uri:" << paramsInUri;
+
         QVariantList params;
         for (int j = 0; j < actionType->paramTypes()->rowCount(); j++) {
             ParamType *paramType = actionType->paramTypes()->get(j);
@@ -200,6 +209,8 @@ void DeviceControlApplication::runNfcAction()
             }
             params.append(param);
         }
+
+        qDebug() << "Action parameters:" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson());
 
         m_engine->thingManager()->executeAction(thingId, actionType->id(), params);
     }

@@ -112,14 +112,19 @@ Page {
                     }))
             }
 
-            thingMenu.addItem(menuEntryComponent.createObject(thingMenu,
-                {
-                    text: qsTr("Write NFC tag"),
-                    iconSource: "../images/nfc.svg",
-                    functionName: "writeNfcTag"
+            print("*** creating menu")
+            print("NFC", NfcHelper.isAvailable)
+            if (NfcHelper.isAvailable) {
+                thingMenu.addItem(menuEntryComponent.createObject(thingMenu,
+                    {
+                        text: qsTr("Write NFC tag"),
+                        iconSource: "../images/nfc.svg",
+                        functionName: "writeNfcTag"
 
-                }));
+                    }));
+            }
         }
+
         function openDeviceMagicPage() {
             pageStack.push(Qt.resolvedUrl("../magic/DeviceRulesPage.qml"), {device: root.device})
         }
