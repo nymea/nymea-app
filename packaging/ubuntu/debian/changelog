@@ -1,3 +1,10 @@
+nymea-app (1.0.245) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add support for writing NFC tags and launching stuff with them
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 15 Oct 2020 20:01:19 +0200
+
 nymea-app (1.0.243) bionic; urgency=medium
 
   [ Michael Zanetti ]
