@@ -223,5 +223,6 @@
         <file>ui/components/BatteryStatusIcon.qml</file>
         <file>ui/components/SetupStatusIcon.qml</file>
         <file>ui/components/UpdateStatusIcon.qml</file>
+        <file>ui/magic/WriteNfcTagPage.qml</file>
     </qresource>
 </RCC>

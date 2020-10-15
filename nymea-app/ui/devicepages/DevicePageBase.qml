@@ -96,7 +96,7 @@ Page {
                 thingMenu.addItem(menuEntryComponent.createObject(thingMenu, {text: qsTr("Logs"), iconSource: "../images/logs.svg", functionName: "openDeviceLogPage"}))
             }
 
-            if (engine.jsonRpcClient.ensureServerVersion(1.6)) {
+            if (engine.jsonRpcClient.ensureServerVersion("1.6")) {
                 thingMenu.addItem(menuEntryComponent.createObject(thingMenu,
                     {
                         text: Qt.binding(function() { return favoritesProxy.count === 0 ? qsTr("Mark as favorite") : qsTr("Remove from favorites")}),
@@ -111,7 +111,20 @@ Page {
                         functionName: "addToGroup"
                     }))
             }
+
+            print("*** creating menu")
+            print("NFC", NfcHelper.isAvailable)
+            if (NfcHelper.isAvailable) {
+                thingMenu.addItem(menuEntryComponent.createObject(thingMenu,
+                    {
+                        text: qsTr("Write NFC tag"),
+                        iconSource: "../images/nfc.svg",
+                        functionName: "writeNfcTag"
+
+                    }));
+            }
         }
+
         function openDeviceMagicPage() {
             pageStack.push(Qt.resolvedUrl("../magic/DeviceRulesPage.qml"), {device: root.device})
         }
@@ -136,6 +149,10 @@ Page {
 
         function openDeviceLogPage() {
             pageStack.push(Qt.resolvedUrl("DeviceLogPage.qml"), {device: root.device });
+        }
+
+        function writeNfcTag() {
+            pageStack.push(Qt.resolvedUrl("../magic/WriteNfcTagPage.qml"), {thing: root.thing})
         }
 
         Component {

@@ -8,6 +8,9 @@ import android.telephony.TelephonyManager;
 import android.provider.Settings.Secure;
 import android.os.Vibrator;
 import android.os.Process;
+import android.nfc.NfcAdapter;
+import android.nfc.NdefMessage;
+import android.os.Parcelable;
 
 // An activity spawned by android device controls on demand.
 
@@ -26,11 +29,13 @@ public class NymeaAppControlsActivity extends org.qtproject.qt5.android.bindings
         Log.d(TAG, "Resuming...");
     }
 
-
     @Override public void onDestroy() {
         Log.d(TAG, "Destroying...");
     }
 
+    public boolean startedByNfc() {
+        return NfcAdapter.ACTION_NDEF_DISCOVERED.equals(getIntent().getAction());
+    }
 
     public String nymeaId()
     {
@@ -47,5 +52,4 @@ public class NymeaAppControlsActivity extends org.qtproject.qt5.android.bindings
         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         v.vibrate(duration);
     }
-
 }

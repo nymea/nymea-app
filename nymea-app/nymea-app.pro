@@ -2,7 +2,7 @@ TEMPLATE=app
 TARGET=nymea-app
 include(../config.pri)
 
-QT += network qml quick quickcontrols2 svg websockets bluetooth charts gui-private
+QT += network qml quick quickcontrols2 svg websockets bluetooth charts gui-private nfc
 
 INCLUDEPATH += $$top_srcdir/libnymea-app
 LIBS += -L$$top_builddir/libnymea-app/ -lnymea-app
@@ -14,6 +14,8 @@ PRE_TARGETDEPS += ../libnymea-app
 
 HEADERS += \
     mainmenumodel.h \
+    nfchelper.h \
+    nfcthingactionwriter.h \
     platformintegration/generic/raspberrypihelper.h \
     stylecontroller.h \
     pushnotifications.h \
@@ -24,6 +26,8 @@ HEADERS += \
 
 SOURCES += main.cpp \
     mainmenumodel.cpp \
+    nfchelper.cpp \
+    nfcthingactionwriter.cpp \
     platformintegration/generic/raspberrypihelper.cpp \
     stylecontroller.cpp \
     pushnotifications.cpp \
@@ -162,3 +166,12 @@ BR=$$BRANDING
 
 target.path = /usr/bin
 INSTALLS += target
+
+contains(ANDROID_TARGET_ARCH,) {
+    ANDROID_ABIS = \
+        armeabi-v7a \
+        arm64-v8a
+}
+
+ANDROID_ABIS = armeabi-v7a arm64-v8a
+

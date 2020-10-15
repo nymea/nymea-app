@@ -154,7 +154,6 @@ public class NymeaAppServiceConnection implements ServiceConnection {
     private BroadcastReceiver serviceMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Log.d(TAG, "In OnReceive broadcast receiver");
             if (NymeaAppService.NYMEA_APP_BROADCAST.equals(intent.getAction())) {
                 String payload = intent.getStringExtra("data");
                 try {
@@ -170,7 +169,7 @@ public class NymeaAppServiceConnection implements ServiceConnection {
     {
         JSONObject data = new JSONObject(payload);
         JSONObject params = data.getJSONObject("params");
-        Log.d(TAG, "Broadcast received from NymeaAppService: " + data.getString("notification"));
+//        Log.d(TAG, "Broadcast received from NymeaAppService: " + data.getString("notification"));
         Log.d(TAG, params.toString());
 
         if (data.getString("notification").equals("ThingStateChanged")) {
@@ -178,7 +177,7 @@ public class NymeaAppServiceConnection implements ServiceConnection {
             UUID thingId = UUID.fromString(params.getString("thingId"));
             UUID stateTypeId = UUID.fromString(params.getString("stateTypeId"));
             String value = params.getString("value");
-            Log.d(TAG, "Thing state changed: " + thingId + " stateTypeId: " + stateTypeId + " value: " + value);
+//            Log.d(TAG, "Thing state changed: " + thingId + " stateTypeId: " + stateTypeId + " value: " + value);
 
             Thing thing = getThing(thingId);
             if (thing != null) {

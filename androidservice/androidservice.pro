@@ -2,7 +2,7 @@ TEMPLATE = lib
 TARGET = service
 CONFIG += dll
 QT += core androidextras
-QT += network qml quick quickcontrols2 svg websockets bluetooth charts
+QT += network qml quick quickcontrols2 svg websockets bluetooth charts nfc
 
 include(../config.pri)
 include(../android_openssl/openssl.pri)
@@ -29,6 +29,8 @@ SOURCES += \
     nymeaappservice/androidbinder.cpp \
     ../nymea-app/stylecontroller.cpp \
     ../nymea-app/platformhelper.cpp \
+    ../nymea-app/nfchelper.cpp \
+    ../nymea-app/nfcthingactionwriter.cpp \
     ../nymea-app/platformintegration/android/platformhelperandroid.cpp \
     service_main.cpp
 
@@ -38,6 +40,8 @@ HEADERS += \
     nymeaappservice/androidbinder.h \
     ../nymea-app/stylecontroller.h \
     ../nymea-app/platformhelper.h \
+    ../nymea-app/nfchelper.h \
+    ../nymea-app/nfcthingactionwriter.h \
     ../nymea-app/platformintegration/android/platformhelperandroid.h \
 
 DISTFILES += \
