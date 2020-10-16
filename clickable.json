@@ -11,6 +11,9 @@
     "libconnectivity-qt1-dev",
     "libunity-api-dev"
   ],
+  "install_lib": [
+    "/usr/lib/${ARCH_TRIPLET}/libQt5Nfc.so*"
+  ],
   "install_qml": [
     "/usr/lib/${ARCH_TRIPLET}/qt5/qml/Qt/labs/calendar/"
   ]
