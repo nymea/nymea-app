@@ -18,6 +18,8 @@ import android.support.v4.app.NotificationCompat;
 
 import java.util.Random;
 
+import R;
+
 public class NymeaAppNotificationService extends FirebaseMessagingService {
 
 
@@ -48,6 +50,7 @@ public class NymeaAppNotificationService extends FirebaseMessagingService {
 //        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent, PendingIntent.FLAG_ONE_SHOT);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent, 0);
 
+        Resources r = Context.getResources();
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, "notify_001")
                 .setSmallIcon(R.drawable.ic_stat_notificationicon)
                 .setColor(0xFF57BAAE)

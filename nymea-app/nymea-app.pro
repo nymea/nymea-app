@@ -51,8 +51,8 @@ win32 {
 }
 
 android {
-    !equals(STYLES_PATH, ""):!equals(BRANDING, "") {
-        ANDROID_PACKAGE_SOURCE_DIR = $${STYLES_PATH}/packaging/android_$$BRANDING
+    !equals(OVERLAY_PATH, ""):!equals(BRANDING, "") {
+        ANDROID_PACKAGE_SOURCE_DIR = $${OVERLAY_PATH}/packaging/android_$$BRANDING
     } else {
         ANDROID_PACKAGE_SOURCE_DIR = $${top_srcdir}/packaging/android
     }
@@ -75,6 +75,10 @@ android {
     HEADERS += platformintegration/android/platformhelperandroid.h
     SOURCES += platformintegration/android/platformhelperandroid.cpp
 
+    javafiles.commands = $(COPY_DIR) $${PWD}/platformintegration/android/io $${ANDROID_PACKAGE_SOURCE_DIR}/src
+    QMAKE_EXTRA_TARGETS += javafiles
+    POST_TARGETDEPS += javafiles
+
     DISTFILES += \
         $$ANDROID_PACKAGE_SOURCE_DIR/AndroidManifest.xml \
         $$ANDROID_PACKAGE_SOURCE_DIR/google-services.json \
@@ -84,14 +88,12 @@ android {
         $$ANDROID_PACKAGE_SOURCE_DIR/build.gradle \
         $$ANDROID_PACKAGE_SOURCE_DIR/gradle/wrapper/gradle-wrapper.properties \
         $$ANDROID_PACKAGE_SOURCE_DIR/gradlew.bat \
-        $$ANDROID_PACKAGE_SOURCE_DIR/src/io/guh/nymeaapp/NymeaAppActivity.java \
-        $$ANDROID_PACKAGE_SOURCE_DIR/src/io/guh/nymeaapp/NymeaAppNotificationService.java \
-        $$ANDROID_PACKAGE_SOURCE_DIR/LICENSE
+        $$ANDROID_PACKAGE_SOURCE_DIR/LICENSE \
+        platformintegration/android/io/guh/nymeaapp/NymeaAppActivity.java \
+        platformintegration/android/io/guh/nymeaapp/NymeaAppNotificationService.java \
 
     # https://bugreports.qt.io/browse/QTBUG-83165
     LIBS += -L$${top_builddir}/libnymea-app/$${ANDROID_TARGET_ARCH}
-
-    ANDROID_ABIS = armeabi-v7a arm64-v8a
 }
 
 macx: {

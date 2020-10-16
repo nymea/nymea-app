@@ -45,13 +45,13 @@ HEADERS += \
     ../nymea-app/platformintegration/android/platformhelperandroid.h \
 
 DISTFILES += \
-    ../packaging/android/src/io/guh/nymeaapp/Action.java \
-    ../packaging/android/src/io/guh/nymeaapp/NymeaAppControlService.java \
-    ../packaging/android/src/io/guh/nymeaapp/NymeaAppService.java \
-    ../packaging/android/src/io/guh/nymeaapp/NymeaAppControlsActivity.java \
-    ../packaging/android/src/io/guh/nymeaapp/NymeaAppServiceConnection.java \
-    ../packaging/android/src/io/guh/nymeaapp/Thing.java \
-    ../packaging/android/src/io/guh/nymeaapp/State.java \
-    ../packaging/android/src/io/guh/nymeaapp/NymeaHost.java \
+    ../nymea-app/platformintegration/android/io/guh/nymeaapp/Action.java \
+    ../nymea-app/platformintegration/android/io/guh/nymeaapp/NymeaAppControlService.java \
+    ../nymea-app/platformintegration/android/io/guh/nymeaapp/NymeaAppService.java \
+    ../nymea-app/platformintegration/android/io/guh/nymeaapp/NymeaAppControlsActivity.java \
+    ../nymea-app/platformintegration/android/io/guh/nymeaapp/NymeaAppServiceConnection.java \
+    ../nymea-app/platformintegration/android/io/guh/nymeaapp/Thing.java \
+    ../nymea-app/platformintegration/android/io/guh/nymeaapp/State.java \
+    ../nymea-app/platformintegration/android/io/guh/nymeaapp/NymeaHost.java \
     controlviews/Main.qml
 
