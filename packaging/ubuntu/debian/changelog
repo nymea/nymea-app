@@ -1,3 +1,10 @@
+nymea-app (1.0.246) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix the Ubuntu phone build
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 16 Oct 2020 13:49:16 +0200
+
 nymea-app (1.0.245) bionic; urgency=medium
 
   [ Michael Zanetti ]
