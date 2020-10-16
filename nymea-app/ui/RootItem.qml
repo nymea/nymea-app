@@ -237,7 +237,12 @@ Item {
                                 PlatformHelper.requestPermissions();
                             }
                         } else {
-                            AWSClient.registerPushNotificationEndpoint(PushNotifications.token, PlatformHelper.machineHostname, PlatformHelper.deviceSerial + "+io.guh.nymeaapp", PlatformHelper.deviceManufacturer, PlatformHelper.deviceModel);
+                            AWSClient.registerPushNotificationEndpoint(
+                                        PushNotifications.token,
+                                        PlatformHelper.machineHostname,
+                                        PlatformHelper.deviceSerial + "+io.guh.nymeaapp" + (appBranding.length > 0 ? "-" + appBranding : ""),
+                                        PlatformHelper.deviceManufacturer,
+                                        PlatformHelper.deviceModel);
                         }
                     }
 
