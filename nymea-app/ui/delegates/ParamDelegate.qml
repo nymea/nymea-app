@@ -67,7 +67,7 @@ ItemDelegate {
                 Layout.fillWidth: true// sourceComponent === textFieldComponent || sourceComponent === stringComponent
                 sourceComponent: {
                     print("Loading ParamDelegate");
-                    print("Writable:", root.writable, "type:", root.paramType.type, "min:", root.paramType.minValue, "max:", root.paramType.maxValue)
+                    print("Writable:", root.writable, "type:", root.paramType.type, "min:", root.paramType.minValue, "max:", root.paramType.maxValue, "value:", root.param.value)
                     if (!root.writable) {
                         return stringComponent;
                     }
@@ -77,6 +77,9 @@ ItemDelegate {
                         return boolComponent;
                     case "uint":
                     case "int":
+                        if (root.paramType.name == "colorTemperature") {
+                            return null;
+                        }
                     case "double":
                         if (root.paramType.allowedValues.length > 0) {
                             return comboBoxComponent;
@@ -103,13 +106,11 @@ ItemDelegate {
         Loader {
             Layout.fillWidth: true
             sourceComponent: {
+                if (root.paramType.name == "colorTemperature") {
+                    return colorTemperaturePickerComponent;
+                }
+
                 switch (root.paramType.type.toLowerCase()) {
-//                case "int":
-//                case "double":
-//                    if (root.paramType.minValue !== undefined && root.paramType.maxValue !== undefined) {
-//                        return sliderComponent
-//                    }
-//                    break;
                 case "color":
                     return colorPickerComponent
                 }
@@ -308,6 +309,32 @@ ItemDelegate {
                     radius: width / 2
                     Behavior on color { ColorAnimation { duration: 200 } }
                 }
+            }
+        }
+    }
+
+    Component {
+        id: colorTemperaturePickerComponent
+        ColorPickerCt {
+            id: colorPickerCt
+            implicitHeight: 50
+            minCt: root.paramType.minValue
+            maxCt: root.paramType.maxValue
+            ct: root.param.value !== undefined
+                  ? root.param.value
+                  : root.paramType.defaultValue
+                    ? root.paramType.defaultValue
+                    : root.paramType.minValue
+
+            onCtChanged: {
+                root.param.value = ct
+            }
+
+
+            touchDelegate: Rectangle {
+                height: colorPickerCt.height
+                width: 5
+                color: app.accentColor
             }
         }
     }

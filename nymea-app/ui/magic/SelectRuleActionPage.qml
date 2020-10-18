@@ -175,7 +175,10 @@ Page {
                         } else {
                             var actionType = root.deviceClass.actionTypes.getActionType(model.actionTypeId);
                             console.log("ActionType", actionType.id, "selected. Has", actionType.paramTypes.count, "params");
-                            root.ruleAction.actionTypeId = actionType.id;
+                            if (root.ruleAction.actionTypeId !== actionType.id) {
+                                root.ruleAction.actionTypeId = actionType.id;
+                                root.ruleAction.ruleActionParams.clear();
+                            }
                             root.ruleAction.browserItemId = "";
                             root.ruleAction.interfaceAction = "";
                             if (actionType.paramTypes.count > 0) {

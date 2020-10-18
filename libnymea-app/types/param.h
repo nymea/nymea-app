@@ -32,21 +32,21 @@
 #define PARAM_H
 
 #include <QObject>
-#include <QString>
+#include <QUuid>
 #include <QVariant>
 
 class Param : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QString paramTypeId READ paramTypeId WRITE setParamTypeId NOTIFY paramTypeIdChanged)
+    Q_PROPERTY(QUuid paramTypeId READ paramTypeId WRITE setParamTypeId NOTIFY paramTypeIdChanged)
     Q_PROPERTY(QVariant value READ value WRITE setValue NOTIFY valueChanged)
 
 public:
-    Param(const QString &paramTypeId = QString(), const QVariant &value = QVariant(), QObject *parent = nullptr);
+    Param(const QUuid &paramTypeId = QString(), const QVariant &value = QVariant(), QObject *parent = nullptr);
     Param(QObject *parent);
 
-    QString paramTypeId() const;
-    void setParamTypeId(const QString &paramTypeId);
+    QUuid paramTypeId() const;
+    void setParamTypeId(const QUuid &paramTypeId);
 
     QVariant value() const;
     void setValue(const QVariant &value);
@@ -56,7 +56,7 @@ signals:
     void valueChanged();
 
 protected:
-    QString m_paramTypeId;
+    QUuid m_paramTypeId;
     QVariant m_value;
 };
 

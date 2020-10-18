@@ -48,10 +48,10 @@ ParamType *ParamTypes::get(int index) const
     return nullptr;
 }
 
-ParamType *ParamTypes::getParamType(const QString &id) const
+ParamType *ParamTypes::getParamType(const QUuid &id) const
 {
     foreach (ParamType *paramType, m_paramTypes) {
-        if (paramType->id() == QUuid(id)) {
+        if (paramType->id() == id) {
             return paramType;
         }
     }

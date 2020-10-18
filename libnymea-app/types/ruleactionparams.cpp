@@ -74,9 +74,10 @@ void RuleActionParams::addRuleActionParam(RuleActionParam *ruleActionParam)
     beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
     m_list.append(ruleActionParam);
     endInsertRows();
+    emit countChanged();
 }
 
-void RuleActionParams::setRuleActionParam(const QString &paramTypeId, const QVariant &value)
+void RuleActionParams::setRuleActionParam(const QUuid &paramTypeId, const QVariant &value)
 {
     foreach (RuleActionParam *rap, m_list) {
         if (rap->paramTypeId() == paramTypeId) {
@@ -174,6 +175,9 @@ void RuleActionParams::setRuleActionParamStateByName(const QString &paramName, c
 
 RuleActionParam *RuleActionParams::get(int index) const
 {
+    if (index < 0 || index >= m_list.count()) {
+        return nullptr;
+    }
     return m_list.at(index);
 }
 
@@ -185,6 +189,15 @@ bool RuleActionParams::hasRuleActionParam(const QString &paramTypeId) const
         }
     }
     return false;
+}
+
+void RuleActionParams::clear()
+{
+    beginResetModel();
+    qDeleteAll(m_list);
+    m_list.clear();
+    endResetModel();
+    emit countChanged();
 }
 
 bool RuleActionParams::operator==(RuleActionParams *other) const

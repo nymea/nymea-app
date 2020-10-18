@@ -49,7 +49,6 @@ ActionType *ActionTypes::get(int index) const
 ActionType *ActionTypes::getActionType(const QUuid &actionTypeId) const
 {
     foreach (ActionType *actionType, m_actionTypes) {
-        qDebug() << "checking:" << actionType->id();
         if (actionType->id() == actionTypeId) {
             return actionType;
         }

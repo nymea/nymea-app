@@ -220,7 +220,7 @@ DevicePageBase {
                     touchDelegate: Rectangle {
                         height: pickerCt.height
                         width: 5
-                        color: app.foregroundColor
+                        color: app.accentColor
                     }
 
                     property var lastSentTime: new Date()

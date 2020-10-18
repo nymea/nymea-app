@@ -59,7 +59,7 @@ public:
     QList<ParamType *> paramTypes();
 
     Q_INVOKABLE ParamType *get(int index) const;
-    Q_INVOKABLE ParamType *getParamType(const QString &id) const;
+    Q_INVOKABLE ParamType *getParamType(const QUuid &id) const;
     Q_INVOKABLE ParamType *findByName(const QString &name) const;
 
     int rowCount(const QModelIndex & parent = QModelIndex()) const;
