@@ -51,12 +51,6 @@ win32 {
 }
 
 android {
-    !equals(OVERLAY_PATH, ""):!equals(BRANDING, "") {
-        ANDROID_PACKAGE_SOURCE_DIR = $${OVERLAY_PATH}/packaging/android_$$BRANDING
-    } else {
-        ANDROID_PACKAGE_SOURCE_DIR = $${top_srcdir}/packaging/android
-    }
-    message("andorid package dir $${ANDROID_PACKAGE_SOURCE_DIR}")
 
     android-clang {
         FIREBASE_STL_VARIANT = c++
@@ -75,10 +69,8 @@ android {
     HEADERS += platformintegration/android/platformhelperandroid.h
     SOURCES += platformintegration/android/platformhelperandroid.cpp
 
-    QMAKE_COPY_DIR=cp -f -R -v
-    javafiles.commands = $$quote($(COPY_DIR) $${PWD}/platformintegration/android/io $${ANDROID_PACKAGE_SOURCE_DIR}/src/)
-    QMAKE_EXTRA_TARGETS += javafiles
-    POST_TARGETDEPS += javafiles
+    # https://bugreports.qt.io/browse/QTBUG-83165
+    LIBS += -L$${top_builddir}/libnymea-app/$${ANDROID_TARGET_ARCH}
 
     DISTFILES += \
         $$ANDROID_PACKAGE_SOURCE_DIR/AndroidManifest.xml \
@@ -90,11 +82,16 @@ android {
         $$ANDROID_PACKAGE_SOURCE_DIR/gradle/wrapper/gradle-wrapper.properties \
         $$ANDROID_PACKAGE_SOURCE_DIR/gradlew.bat \
         $$ANDROID_PACKAGE_SOURCE_DIR/LICENSE \
-        platformintegration/android/io/guh/nymeaapp/NymeaAppActivity.java \
-        platformintegration/android/io/guh/nymeaapp/NymeaAppNotificationService.java \
+        platformintegration/android/java/io/guh/nymeaapp/NymeaAppActivity.java \
+        platformintegration/android/java/io/guh/nymeaapp/NymeaAppNotificationService.java \
 
-    # https://bugreports.qt.io/browse/QTBUG-83165
-    LIBS += -L$${top_builddir}/libnymea-app/$${ANDROID_TARGET_ARCH}
+    QMAKE_COPY_DIR=cp -f -R -v
+    QMAKE_MKDIR_COMMAND=echo tralala; mkdir
+    javafiles.commands = $(MKDIR) $${ANDROID_PACKAGE_SOURCE_DIR}/src/;
+    javafiles.commands += $(COPY_DIR) $${PWD}/platformintegration/android/java/io $${ANDROID_PACKAGE_SOURCE_DIR}/src/;
+    QMAKE_EXTRA_TARGETS += javafiles
+    POST_TARGETDEPS += javafiles
+
 }
 
 macx: {

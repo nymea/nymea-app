@@ -10,4 +10,15 @@ APP_VERSION=$$member(VERSION_INFO, 0)
 APP_REVISION=$$member(VERSION_INFO, 1)
 
 DEFINES+=APP_VERSION=\\\"$${APP_VERSION}\\\"
-android:QMAKE_POST_LINK += cp $$top_srcdir/version.txt $$top_builddir/
+
+android: {
+    QMAKE_POST_LINK += cp $$top_srcdir/version.txt $$top_builddir/
+
+    !equals(OVERLAY_PATH, ""):!equals(BRANDING, "") {
+        ANDROID_PACKAGE_SOURCE_DIR = $${OVERLAY_PATH}/packaging/android_$$BRANDING
+    } else {
+        ANDROID_PACKAGE_SOURCE_DIR = $${top_srcdir}/packaging/android
+    }
+    message("Andorid package source dir $${ANDROID_PACKAGE_SOURCE_DIR}")
+}
+
