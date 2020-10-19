@@ -72,6 +72,9 @@ NymeaListItemDelegate {
                 case "bool":
                     text = ruleActionParam.value === true ? qsTr("True") : qsTr("False")
                     break;
+                case "color":
+                    text = "<font color=\"" + ruleActionParam.value + "\">⬤</font>"
+                    break;
                 default:
                     text = ruleActionParam.value
                 }

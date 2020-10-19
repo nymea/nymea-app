@@ -63,7 +63,7 @@ SwipeDelegate {
             ColorIcon {
                 Layout.preferredHeight: childEvaluatorsRepeater.count > 0 ? app.iconSize * .6 : app.iconSize
                 Layout.preferredWidth: height
-                name: root.stateEvaluator.stateDescriptor.interfaceName.length === 0 ? "../images/state.svg" : "../images/state-interface.svg"
+                name: root.stateEvaluator && root.stateEvaluator.stateDescriptor.interfaceName.length === 0 ? "../images/state.svg" : "../images/state-interface.svg"
                 color: app.accentColor
             }
 

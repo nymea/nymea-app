@@ -56,7 +56,7 @@ public:
 
     void addRuleActionParam(RuleActionParam* ruleActionParam);
 
-    Q_INVOKABLE void setRuleActionParam(const QString &paramTypeId, const QVariant &value);
+    Q_INVOKABLE void setRuleActionParam(const QUuid &paramTypeId, const QVariant &value);
     Q_INVOKABLE void setRuleActionParamByName(const QString &paramName, const QVariant &value);
     Q_INVOKABLE void setRuleActionParamEvent(const QString &paramTypeId, const QString &eventTypeId, const QString &eventParamTypeId);
     Q_INVOKABLE void setRuleActionParamEventByName(const QString &paramName, const QString &eventTypeId, const QString &eventParamTypeId);
@@ -66,6 +66,8 @@ public:
     Q_INVOKABLE RuleActionParam* get(int index) const;
 
     Q_INVOKABLE bool hasRuleActionParam(const QString &paramTypeId) const;
+
+    Q_INVOKABLE void clear();
 
     bool operator==(RuleActionParams *other) const;
 

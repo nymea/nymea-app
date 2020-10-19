@@ -38,14 +38,14 @@ import Nymea 1.0
 Page {
     id: root
     // Needs to be set and have rule.ruleActions filled in with deviceId and actionTypeId or interfaceName and interfaceAction
-    property var ruleAction: null
+    property RuleAction ruleAction: null
 
     // optionally a rule which will be used to propose events params as param values
     property var rule: null
 
-    readonly property var device: ruleAction && ruleAction.deviceId ? engine.deviceManager.devices.getDevice(ruleAction.deviceId) : null
+    readonly property Device device: ruleAction && ruleAction.deviceId ? engine.deviceManager.devices.getDevice(ruleAction.deviceId) : null
     readonly property var iface: ruleAction && ruleAction.interfaceName ? Interfaces.findByName(ruleAction.interfaceName) : null
-    readonly property var actionType: device ? engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId).actionTypes.getActionType(ruleAction.actionTypeId)
+    readonly property var actionType: device ? device.deviceClass.actionTypes.getActionType(ruleAction.actionTypeId)
                                             : iface ? iface.actionTypes.findByName(ruleAction.interfaceAction) : null
 
     signal backPressed();
@@ -125,6 +125,7 @@ Page {
                                 paramType: root.actionType.paramTypes.get(index)
                                 enabled: staticParamRadioButton.checked
                                 nameVisible: false
+                                value: root.ruleAction.ruleActionParams.get(index).value
                                 visible: staticParamRadioButton.checked
                                 placeholderText: qsTr("Insert value here")
                             }

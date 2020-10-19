@@ -427,7 +427,7 @@ QVariantList RuleManager::packEventDescriptors(EventDescriptors *eventDescriptor
             QVariantList paramDescriptors;
             for (int j = 0; j < eventDescriptor->paramDescriptors()->rowCount(); j++) {
                 QVariantMap paramDescriptor;
-                if (!eventDescriptor->paramDescriptors()->get(j)->paramTypeId().isEmpty()) {
+                if (!eventDescriptor->paramDescriptors()->get(j)->paramTypeId().isNull()) {
                     paramDescriptor.insert("paramTypeId", eventDescriptor->paramDescriptors()->get(j)->paramTypeId());
                 } else {
                     paramDescriptor.insert("paramName", eventDescriptor->paramDescriptors()->get(j)->paramName());

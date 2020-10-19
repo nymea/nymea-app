@@ -30,7 +30,7 @@
 
 #include "param.h"
 
-Param::Param(const QString &paramTypeId, const QVariant &value, QObject *parent) :
+Param::Param(const QUuid &paramTypeId, const QVariant &value, QObject *parent) :
     QObject(parent),
     m_paramTypeId(paramTypeId),
     m_value(value)
@@ -43,12 +43,12 @@ Param::Param(QObject *parent):
 
 }
 
-QString Param::paramTypeId() const
+QUuid Param::paramTypeId() const
 {
     return m_paramTypeId;
 }
 
-void Param::setParamTypeId(const QString &paramTypeId)
+void Param::setParamTypeId(const QUuid &paramTypeId)
 {
     if (m_paramTypeId != paramTypeId) {
         m_paramTypeId = paramTypeId;
