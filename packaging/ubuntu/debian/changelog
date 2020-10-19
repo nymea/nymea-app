@@ -1,3 +1,12 @@
+nymea-app (1.0.247) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add support for color the temperature picker in param delegates
+  * Allow overriding the complete android packaging structure for
+    branding
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 19 Oct 2020 22:23:59 +0200
+
 nymea-app (1.0.246) bionic; urgency=medium
 
   [ Michael Zanetti ]
