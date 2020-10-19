@@ -75,7 +75,8 @@ android {
     HEADERS += platformintegration/android/platformhelperandroid.h
     SOURCES += platformintegration/android/platformhelperandroid.cpp
 
-    javafiles.commands = $(COPY_DIR) $${PWD}/platformintegration/android/io $${ANDROID_PACKAGE_SOURCE_DIR}/src/
+    QMAKE_COPY_DIR=cp -f -R -v
+    javafiles.commands = $$quote($(COPY_DIR) $${PWD}/platformintegration/android/io $${ANDROID_PACKAGE_SOURCE_DIR}/src/)
     QMAKE_EXTRA_TARGETS += javafiles
     POST_TARGETDEPS += javafiles
 
