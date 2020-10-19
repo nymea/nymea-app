@@ -5,6 +5,7 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 
 import android.util.Log;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.app.PendingIntent;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -13,13 +14,16 @@ import android.net.Uri;
 import android.content.Context;
 import android.provider.Settings.System;
 import android.os.Build;
-
+import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.support.v4.app.NotificationCompat;
 
 import java.util.Random;
 
+
 public class NymeaAppNotificationService extends FirebaseMessagingService {
 
+    private static final String TAG = "nymea-app: NymeaAppNotificationService";
 
     /**
      * Called when message is received.
@@ -48,8 +52,16 @@ public class NymeaAppNotificationService extends FirebaseMessagingService {
 //        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent, PendingIntent.FLAG_ONE_SHOT);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent, 0);
 
+        // We can't directly access R.drawable.ic_stat_notification from here:
+        // When the package is branded, the package name is not "io.guh.nymeaapp" and resources in
+        // the res/ folder are built into the app's package which isn't the same as this files package.
+        // Because of this, we need to dynamically fetch the resource from the package resources
+        int resId = getResources().getIdentifier("ic_stat_notificationicon", "drawable", getPackageName());
+
+        Log.d(TAG, "notification icon resource: " + resId + " Package:" + getPackageName());
+
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, "notify_001")
-                .setSmallIcon(R.drawable.ic_stat_notificationicon)
+                .setSmallIcon(resId)
                 .setColor(0xFF57BAAE)
                 .setContentTitle(remoteMessage.getData().get("title"))
                 .setContentText(remoteMessage.getData().get("body"))
@@ -67,7 +79,7 @@ public class NymeaAppNotificationService extends FirebaseMessagingService {
 
         int notificationId = new Random().nextInt(60000);
 
-        Log.d("Posting Notification", remoteMessage.getMessageId());
+        Log.d(TAG, "Posting Notification: " + remoteMessage.getMessageId());
         notificationManager.notify(notificationId, notificationBuilder.build());
 
     }

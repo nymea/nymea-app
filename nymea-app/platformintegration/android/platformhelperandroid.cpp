@@ -53,11 +53,6 @@ static QAndroidJniObject getAndroidWindow()
 
 PlatformHelperAndroid::PlatformHelperAndroid(QObject *parent) : PlatformHelper(parent)
 {
-//    QAndroidIntent serviceIntent(QtAndroid::androidActivity().object(), "io.guh.nymeaapp.NymeaAppControlService");
-
-//    m_serviceConnection = new DeviceControlServiceConnection();
-//    QtAndroid::bindService(serviceIntent, *m_serviceConnection, QtAndroid::BindFlag::AutoCreate);
-
     m_instance = this;
 }
 
