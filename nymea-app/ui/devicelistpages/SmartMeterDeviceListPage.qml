@@ -46,18 +46,22 @@ DeviceListPageBase {
     ListView {
         anchors.fill: parent
         model: root.devicesProxy
+        topMargin: app.margins / 2
 
-        delegate: ItemDelegate {
+        delegate: Item {
             id: itemDelegate
-            width: parent.width
+            width: parent.width - app.margins
+            anchors.horizontalCenter: parent.horizontalCenter
+            height: contentItem.height + app.margins
 
             property bool inline: width > 500
 
             property Thing thing: thingsProxy.getThing(model.id)
 
-            bottomPadding: index === ListView.view.count - 1 ? topPadding : 0
-            contentItem: Pane {
+            Pane {
                 id: contentItem
+                width: parent.width - app.margins
+                anchors.centerIn: parent
                 Material.elevation: 2
                 leftPadding: 0
                 rightPadding: 0
