@@ -82,10 +82,16 @@ icons.path = /usr/share/
 INSTALLS += desktopfile icons
 }
 
-# Android service
 android: {
-SUBDIRS += androidservice
-androidservice.depends = libnymea-app
+    message("Android package source dir $${ANDROID_PACKAGE_SOURCE_DIR}")
+    SUBDIRS += androidservice
+    androidservice.depends = libnymea-app
+
+    NYMEA_APP_ROOT_PROPERTY="nymeaAppRoot=$${top_srcdir}"
+    no-firebase: FIREBASE_PROPERTY="useFirebase=false"
+    else: FIREBASE_PROPERTY="useFirebase=true"
+    write_file($${ANDROID_PACKAGE_SOURCE_DIR}/nymeaapp.properties, NYMEA_APP_ROOT_PROPERTY)
+    write_file($${ANDROID_PACKAGE_SOURCE_DIR}/nymeaapp.properties, FIREBASE_PROPERTY, append)
 }
 
 # Linux desktop (snap package)

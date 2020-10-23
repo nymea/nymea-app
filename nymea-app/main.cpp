@@ -128,7 +128,6 @@ int main(int argc, char *argv[])
     qmlRegisterSingletonType<NfcHelper>("Nymea", 1, 0, "NfcHelper", NfcHelper::nfcHelperProvider);
     qmlRegisterType<NfcThingActionWriter>("Nymea", 1, 0, "NfcThingActionWriter");
 
-    PushNotifications::instance()->connectClient();
     qmlRegisterSingletonType<PushNotifications>("Nymea", 1, 0, "PushNotifications", PushNotifications::pushNotificationsProvider);
     qmlRegisterSingletonType<AppLogController>("Nymea", 1, 0, "AppLogController", AppLogController::appLogControllerProvider);
     qmlRegisterSingletonType(QUrl("qrc:///ui/utils/NymeaUtils.qml"), "Nymea", 1, 0, "NymeaUtils" );

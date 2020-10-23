@@ -19,6 +19,7 @@ android: {
     } else {
         ANDROID_PACKAGE_SOURCE_DIR = $${top_srcdir}/packaging/android
     }
-    message("Andorid package source dir $${ANDROID_PACKAGE_SOURCE_DIR}")
+
+    !no-firebase:DEFINES+=WITH_FIREBASE
 }
 
