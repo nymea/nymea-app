@@ -1,3 +1,11 @@
+nymea-app (1.0.248) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Allow building without firebase
+  * Clean up some list views
+
+ -- Jenkins <jenkins@nymea.io>  Sat, 24 Oct 2020 02:19:05 +0200
+
 nymea-app (1.0.247) bionic; urgency=medium
 
   [ Michael Zanetti ]
