@@ -47,20 +47,22 @@ DeviceListPageBase {
     Flickable {
         anchors.fill: parent
         contentHeight: contentGrid.implicitHeight
+        topMargin: app.margins / 2
 
         GridLayout {
             id: contentGrid
-            width: parent.width
-            columns: Math.ceil(width / 500)
+            width: parent.width - app.margins
+            anchors.horizontalCenter: parent.horizontalCenter
+            columns: Math.ceil(width / 600)
             rowSpacing: 0
             columnSpacing: 0
-
             Repeater {
                 model: root.devicesProxy
 
-                delegate: ItemDelegate {
+                delegate: Item {
                     id: itemDelegate
                     Layout.preferredWidth: contentGrid.width / contentGrid.columns
+                    height: contentItem.implicitHeight + app.margins
 
                     property bool inline: width > 500
 
@@ -72,9 +74,10 @@ DeviceListPageBase {
                     readonly property StateType playerTypeStateType: thing.thingClass.stateTypes.findByName("playerType")
                     readonly property State playerTypeState: thing.stateByName("playerType")
 
-                    bottomPadding: index === root.devicesProxy.count - 1 ? topPadding : 0
-                    contentItem: Pane {
+                    Pane {
                         id: contentItem
+                        width: parent.width - app.margins
+                        anchors.centerIn: parent
                         Material.elevation: 2
                         leftPadding: 0
                         rightPadding: 0
