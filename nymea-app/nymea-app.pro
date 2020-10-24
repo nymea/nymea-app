@@ -52,18 +52,7 @@ win32 {
 
 android {
 
-    android-clang {
-        FIREBASE_STL_VARIANT = c++
-    }
-
-    isEmpty(FIREBASE_STL_VARIANT){
-        FIREBASE_STL_VARIANT = gnustl
-    }
-
     include(../android_openssl/openssl.pri)
-
-    INCLUDEPATH += /opt/firebase_cpp_sdk/include
-    LIBS += -L/opt/firebase_cpp_sdk/libs/android/$$ANDROID_TARGET_ARCH/$$FIREBASE_STL_VARIANT/ -lfirebase_messaging -lfirebase_app
 
     QT += androidextras webview
     HEADERS += platformintegration/android/platformhelperandroid.h
@@ -83,14 +72,18 @@ android {
         $$ANDROID_PACKAGE_SOURCE_DIR/gradlew.bat \
         $$ANDROID_PACKAGE_SOURCE_DIR/LICENSE \
         platformintegration/android/java/io/guh/nymeaapp/NymeaAppActivity.java \
-        platformintegration/android/java/io/guh/nymeaapp/NymeaAppNotificationService.java \
+        platformintegration/android/java-firebase/io/guh/nymeaapp/NymeaAppNotificationService.java \
 
-    QMAKE_COPY_DIR=cp -f -R -v
-    QMAKE_MKDIR_COMMAND=echo tralala; mkdir
-    javafiles.commands = $(MKDIR) $${ANDROID_PACKAGE_SOURCE_DIR}/src/;
-    javafiles.commands += $(COPY_DIR) $${PWD}/platformintegration/android/java/io $${ANDROID_PACKAGE_SOURCE_DIR}/src/;
-    QMAKE_EXTRA_TARGETS += javafiles
-    POST_TARGETDEPS += javafiles
+    !no-firebase: {
+        android-clang {
+            FIREBASE_STL_VARIANT = c++
+        }
+        isEmpty(FIREBASE_STL_VARIANT){
+            FIREBASE_STL_VARIANT = gnustl
+        }
+        INCLUDEPATH += /opt/firebase_cpp_sdk/include
+        LIBS += -L/opt/firebase_cpp_sdk/libs/android/$$ANDROID_TARGET_ARCH/$$FIREBASE_STL_VARIANT/ -lfirebase_messaging -lfirebase_app
+    }
 
 }
 
@@ -171,12 +164,4 @@ BR=$$BRANDING
 
 target.path = /usr/bin
 INSTALLS += target
-
-contains(ANDROID_TARGET_ARCH,) {
-    ANDROID_ABIS = \
-        armeabi-v7a \
-        arm64-v8a
-}
-
-ANDROID_ABIS = armeabi-v7a arm64-v8a
 

@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.os.Build;
 import android.telephony.TelephonyManager;
 import android.provider.Settings.Secure;
-import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.android.gms.common.ConnectionResult;
 import android.os.Vibrator;
 
 public class NymeaAppActivity extends org.qtproject.qt5.android.bindings.QtActivity
@@ -32,16 +30,6 @@ public class NymeaAppActivity extends org.qtproject.qt5.android.bindings.QtActiv
     public static String device()
     {
         return Build.DEVICE;
-    }
-
-    public boolean checkPlayServices() {
-        try {
-            int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
-            return resultCode == ConnectionResult.SUCCESS;
-        } catch (Exception e) {
-            Log.d(TAG, e.toString());
-        }
-        return true;
     }
 
     public void vibrate(int duration)

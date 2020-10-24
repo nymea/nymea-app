@@ -9,3 +9,5 @@ Thumbs.db
 /.qmake.stash
 
 *.pro.user*
+
+packaging/android/nymeaapp.properties

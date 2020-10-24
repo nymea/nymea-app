@@ -54,10 +54,3 @@ DISTFILES += \
     java/io/guh/nymeaapp/State.java \
     java/io/guh/nymeaapp/NymeaHost.java \
     controlviews/Main.qml
-
-QMAKE_COPY_DIR=cp -f -R -v
-javafiles.commands = $(MKDIR) $${ANDROID_PACKAGE_SOURCE_DIR}/src;
-javafiles.commands += $(COPY_DIR) $${PWD}/java/io $${ANDROID_PACKAGE_SOURCE_DIR}/src/
-QMAKE_EXTRA_TARGETS += javafiles
-POST_TARGETDEPS += javafiles
-

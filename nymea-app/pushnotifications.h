@@ -34,18 +34,17 @@
 #include <QObject>
 #include <QQmlEngine>
 
-#ifdef Q_OS_ANDROID
+#if defined Q_OS_ANDROID && defined WITH_FIREBASE
 #include "firebase/app.h"
 #include "firebase/messaging.h"
 #include "firebase/util.h"
-
-#elif UBPORTS
-
-#include "platformintegration/ubports/pushclient.h"
-
 #endif
 
-#ifdef Q_OS_ANDROID
+#if defined UBPORTS
+#include "platformintegration/ubports/pushclient.h"
+#endif
+
+#if defined Q_OS_ANDROID && defined WITH_FIREBASE
 class PushNotifications : public QObject, firebase::messaging::Listener
 #else
 class PushNotifications : public QObject
@@ -56,12 +55,10 @@ class PushNotifications : public QObject
 
 public:
     explicit PushNotifications(QObject *parent = nullptr);
+    ~PushNotifications();
 
     static QObject* pushNotificationsProvider(QQmlEngine *engine, QJSEngine *scriptEngine);
     static PushNotifications* instance();
-
-    void connectClient();
-    void disconnectClient();
 
     QString token() const;
 
@@ -72,18 +69,18 @@ signals:
     void tokenChanged();
 
 protected:
-#ifdef Q_OS_ANDROID
+
+#if defined Q_OS_ANDROID && defined WITH_FIREBASE
     //! Firebase overrides
     virtual void OnMessage(const ::firebase::messaging::Message &message) override;
     virtual void OnTokenReceived(const char *token) override;
 private:
     ::firebase::App *m_firebaseApp = nullptr;
     ::firebase::ModuleInitializer  m_firebase_initializer;
+#endif
 
-#elif UBPORTS
-
+#if defined UBPORTS
     PushClient *m_pushClient = nullptr;
-
 #endif
 
 private:
