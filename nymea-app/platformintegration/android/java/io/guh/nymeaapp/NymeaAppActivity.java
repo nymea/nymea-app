@@ -11,6 +11,17 @@ import android.os.Vibrator;
 public class NymeaAppActivity extends org.qtproject.qt5.android.bindings.QtActivity
 {
     private static final String TAG = "nymea-app: NymeaAppActivity";
+    private static Context context = null;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        this.context = getApplicationContext();
+    }
+
+    public static Context getAppContext() {
+        return NymeaAppActivity.context;
+    }
 
     public String deviceSerial()
     {
