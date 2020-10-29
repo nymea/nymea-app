@@ -12,18 +12,12 @@ grade: stable
 base: core18
 confinement: strict
 
-environment:
-  USE_qt5: 1
-
 apps:
   nymea-app:
     command: desktop-launch nymea-app
     desktop: usr/share/applications/nymea-app.desktop
     environment:
-      QT_IM_MODULE: qtvirtualkeyboard
-      __EGL_VENDOR_LIBRARY_DIRS: $SNAP/etc/glvnd/egl_vendor.d:$SNAP/usr/share/glvnd/egl_vendor.d
-      QT_PLUGIN_PATH: ${SNAP}/usr/lib/${SNAPCRAFT_ARCH_TRIPLET}/qt5/plugins
-      QML2_IMPORT_PATH: ${SNAP}/usr/lib/${SNAPCRAFT_ARCH_TRIPLET}/qt5/qml
+        DISABLE_WAYLAND: 1    
     plugs:
     - avahi-observe
     - bluez
@@ -54,22 +48,16 @@ parts:
       - libqt5gui5
       - libgdk-pixbuf2.0-0
       - libqt5svg5 # for loading icon themes which are svg
+      - try: [appmenu-qt5] # not available on core18
       - locales-all
       - xdg-user-dirs
       - fcitx-frontend-qt5
-
-
-#  nymea-app-webgl:
-#    command: env PATH=$PATH:$SNAP/bin qt5-launch nymea-app -platform webgl:port=8080
-#    daemon: simple
-#    restart-condition: always
 
   nymea-app:
     plugin: qmake
     source: .
     after: [desktop-qt5]
     project-files: [ nymea-app.pro ]
-#    options: [ CONFIG+=withavahi ]
     build-packages:
       - execstack
       - qt5-default
@@ -89,6 +77,7 @@ parts:
       - libqt5gui5
       - libqt5websockets5
       - libqt5bluetooth5
+      - libqt5nfc5
       - libgl1-mesa-dri
       - qml-module-qtcharts
       - qml-module-qtgraphicaleffects
@@ -102,3 +91,4 @@ parts:
       - libavahi-client3
       - libavahi-common3
       - qtvirtualkeyboard-plugin
+      - qtwayland5
