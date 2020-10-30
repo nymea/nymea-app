@@ -55,16 +55,18 @@ ItemDelegate {
         id: contentItemColumn
         RowLayout {
             spacing: app.margins
+            property bool labelFillsWidth: loader.sourceComponent !== textFieldComponent
+                                           && loader.sourceComponent !== stringComponent
             Label {
                 id: nameLabel
-//                Layout.fillWidth: true
+                Layout.fillWidth: parent.labelFillsWidth
 //                Layout.minimumWidth: parent.width / 2
                 text: root.paramType.displayName
                 elide: Text.ElideRight
             }
             Loader {
                 id: loader
-                Layout.fillWidth: true// sourceComponent === textFieldComponent || sourceComponent === stringComponent
+                Layout.fillWidth: !parent.labelFillsWidth
                 sourceComponent: {
                     print("Loading ParamDelegate");
                     print("Writable:", root.writable, "type:", root.paramType.type, "min:", root.paramType.minValue, "max:", root.paramType.maxValue, "value:", root.param.value)

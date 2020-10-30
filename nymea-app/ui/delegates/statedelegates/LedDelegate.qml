@@ -35,7 +35,16 @@ import QtQuick.Layouts 1.1
 import Nymea 1.0
 import "../../components"
 
-Led {
+Item {
     property bool value
-    state: value === true ? "on" : "off"
+    implicitHeight: led.implicitHeight
+    implicitWidth: led.implicitWidth
+
+    Led {
+        id: led
+        anchors { top: parent.top; right: parent.right; bottom: parent.bottom }
+        width: height
+        state: parent.value === true ? "on" : "off"
+    }
 }
+

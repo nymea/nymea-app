@@ -155,7 +155,7 @@ DevicePageBase {
                 Layout.fillWidth: true
             }
             Label {
-                visible: stateDelegate.stateType.unit !== Types.UnitUnixTime && stateDelegate.stateType.unit !== Types.UnitUnixTime
+                visible: text.length > 0 && stateDelegate.stateType.unit !== Types.UnitUnixTime && stateDelegate.stateType.unit !== Types.UnitUnixTime
                 text: Types.toUiUnit(stateDelegate.stateType.unit)
             }
 
