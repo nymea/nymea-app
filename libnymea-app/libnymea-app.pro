@@ -160,6 +160,11 @@ SOURCES += \
     models/devicemodel.cpp \
     system/systemcontroller.cpp \
     thinggroup.cpp \
+    zigbee/zigbeeadapters.cpp \
+    zigbee/zigbeeadaptersproxy.cpp \
+    zigbee/zigbeemanager.cpp \
+    zigbee/zigbeeadapter.cpp \
+
 
 
 HEADERS += \
@@ -299,6 +304,10 @@ HEADERS += \
     models/devicemodel.h \
     system/systemcontroller.h \
     thinggroup.h \
+    zigbee/zigbeeadapters.h \
+    zigbee/zigbeeadaptersproxy.h \
+    zigbee/zigbeemanager.h \
+    zigbee/zigbeeadapter.h \
 
 ubports: {
     DEFINES += UBPORTS

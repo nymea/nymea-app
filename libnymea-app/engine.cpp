@@ -38,6 +38,7 @@
 #include "connection/awsclient.h"
 #include "system/systemcontroller.h"
 #include "configuration/networkmanager.h"
+#include "zigbee/zigbeemanager.h"
 
 Engine::Engine(QObject *parent) :
     QObject(parent),
@@ -48,7 +49,8 @@ Engine::Engine(QObject *parent) :
     m_logManager(new LogManager(m_jsonRpcClient, this)),
     m_tagsManager(new TagsManager(m_jsonRpcClient, this)),
     m_nymeaConfiguration(new NymeaConfiguration(m_jsonRpcClient, this)),
-    m_systemController(new SystemController(m_jsonRpcClient, this))
+    m_systemController(new SystemController(m_jsonRpcClient, this)),
+    m_zigbeeManager(new ZigbeeManager(m_jsonRpcClient, this))
 {
 
     connect(m_jsonRpcClient, &JsonRpcClient::connectedChanged, this, &Engine::onConnectedChanged);
@@ -117,6 +119,11 @@ SystemController *Engine::systemController() const
     return m_systemController;
 }
 
+ZigbeeManager *Engine::zigbeeManager() const
+{
+    return m_zigbeeManager;
+}
+
 void Engine::deployCertificate()
 {
     if (!m_jsonRpcClient->connected()) {
@@ -154,8 +161,13 @@ void Engine::onDeviceManagerFetchingChanged()
         m_scriptManager->init();
         m_nymeaConfiguration->init();
         m_systemController->init();
+
         if (m_jsonRpcClient->ensureServerVersion("1.7")) {
             m_tagsManager->init();
+        }
+
+        if (m_jsonRpcClient->ensureServerVersion("5.1")) {
+            m_zigbeeManager->init();
         }
     }
 }
