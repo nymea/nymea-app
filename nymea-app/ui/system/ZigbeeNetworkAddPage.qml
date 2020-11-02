@@ -37,10 +37,10 @@ import "../components"
 
 SettingsPageBase {
     id: root
-    title: qsTr("Add a new ZigBee network")
+    title: qsTr("Add a new Zigbee network")
 
     SettingsPageSectionHeader {
-        text: qsTr("ZigBee adapters")
+        text: qsTr("Zigbee adapters")
     }
 
     Repeater {
@@ -59,7 +59,7 @@ SettingsPageBase {
     }
 
     SettingsPageSectionHeader {
-        text: qsTr("Unrecognized ZigBee adapters")
+        text: qsTr("Unrecognized Zigbee adapters")
     }
 
     Repeater {

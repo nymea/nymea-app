@@ -162,8 +162,8 @@ Page {
                 NymeaListItemDelegate {
                     width: parent.width
                     iconName: "../images/zigbee.svg"
-                    text: qsTr("ZigBee networking")
-                    subText: qsTr("Manage and configure ZigBee networks")
+                    text: qsTr("Zigbee")
+                    subText: qsTr("Manage and configure Zigbee networks")
                     prominentSubText: false
                     wrapTexts: false
                     onClicked: pageStack.push(Qt.resolvedUrl("system/ZigbeeNetworkSettingsPage.qml"))

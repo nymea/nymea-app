@@ -35,10 +35,10 @@ import QtQuick.Layouts 1.3
 import "../components"
 import Nymea 1.0
 
-Page {
+SettingsPageBase {
     id: root
     header: NymeaHeader {
-        text: qsTr("ZigBee networking")
+        text: qsTr("Zigbee")
         backButtonVisible: true
         onBackPressed: pageStack.pop()
 
@@ -57,15 +57,15 @@ Page {
 
         // List networks
         SettingsPageSectionHeader {
-            text: qsTr("ZigBee networks")
+            text: qsTr("Zigbee networks")
         }
 
 
 
         NymeaListItemDelegate {
             Layout.fillWidth: true
-            text: qsTr("Add ZigBee network")
-            subText: qsTr("Set up a new ZigBee network")
+            text: qsTr("Add Zigbee network")
+            subText: qsTr("Set up a new Zigbee network")
             prominentSubText: false
             onClicked: {
                 pageStack.push(Qt.resolvedUrl("../system/ZigbeeNetworkAddPage.qml"))
