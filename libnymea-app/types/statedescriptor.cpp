@@ -135,11 +135,39 @@ void StateDescriptor::setValue(const QVariant &value)
     }
 }
 
+QUuid StateDescriptor::valueThingId() const
+{
+    return m_valueThingId;
+}
+
+void StateDescriptor::setValueThingId(const QUuid &valueThingId)
+{
+    if (m_valueThingId != valueThingId) {
+        m_valueThingId = valueThingId;
+        emit valueThingIdChanged();
+    }
+}
+
+QUuid StateDescriptor::valueStateTypeId() const
+{
+    return m_valueStateTypeId;
+}
+
+void StateDescriptor::setValueStateTypeId(const QUuid &valueStateTypeId)
+{
+    if (m_valueStateTypeId != valueStateTypeId) {
+        m_valueStateTypeId = valueStateTypeId;
+        emit valueStateTypeIdChanged();
+    }
+}
+
 StateDescriptor *StateDescriptor::clone() const
 {
     StateDescriptor *ret = new StateDescriptor(thingId(), stateTypeId(), valueOperator(), value());
     ret->setInterfaceName(interfaceName());
     ret->setInterfaceState(interfaceState());
+    ret->setValueThingId(valueThingId());
+    ret->setValueStateTypeId(valueStateTypeId());
     return ret;
 }
 
@@ -147,11 +175,13 @@ StateDescriptor *StateDescriptor::clone() const
 #define COMPARE_PTR(a, b) if (!a->operator==(b)) { qDebug() << a << "!=" << b; return false; }
 bool StateDescriptor::operator==(StateDescriptor *other) const
 {
-    COMPARE(m_thingId, other->thingId());
-    COMPARE(m_stateTypeId, other->stateTypeId());
-    COMPARE(m_interfaceName, other->interfaceName());
-    COMPARE(m_interfaceState, other->interfaceState());
-    COMPARE(m_operator, other->valueOperator());
-    COMPARE(m_value, other->value());
+    COMPARE(m_thingId, other->thingId())
+    COMPARE(m_stateTypeId, other->stateTypeId())
+    COMPARE(m_interfaceName, other->interfaceName())
+    COMPARE(m_interfaceState, other->interfaceState())
+    COMPARE(m_operator, other->valueOperator())
+    COMPARE(m_value, other->value())
+    COMPARE(m_valueThingId, other->valueThingId())
+    COMPARE(m_valueStateTypeId, other->valueStateTypeId())
     return true;
 }

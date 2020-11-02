@@ -330,7 +330,7 @@ QDebug printStateEvaluator(QDebug &dbg, StateEvaluator *stateEvaluator, int inde
             dbg << ">=";
             break;
         }
-        dbg << stateEvaluator->stateDescriptor()->value() << endl;
+        dbg << stateEvaluator->stateDescriptor()->value() << '/' << stateEvaluator->stateDescriptor()->valueThingId() << stateEvaluator->stateDescriptor()->valueStateTypeId() << endl;
     }
     if (stateEvaluator->childEvaluators()->rowCount() > 0) {
         for (int i = 0; i < indentLevel; i++) { dbg << " "; }

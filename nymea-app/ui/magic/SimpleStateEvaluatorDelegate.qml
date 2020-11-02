@@ -39,12 +39,12 @@ SwipeDelegate {
     Layout.fillWidth: true
     clip: true
 
-    property var stateEvaluator: null
+    property StateEvaluator stateEvaluator: null
     property bool showChilds: false
 
     readonly property Thing thing: stateEvaluator ? engine.thingManager.things.getThing(stateEvaluator.stateDescriptor.thingId) : null
-    readonly property var iface: stateEvaluator ? Interfaces.findByName(stateEvaluator.stateDescriptor.interfaceName) : null
-    readonly property var stateType: thing ? thing.thingClass.stateTypes.getStateType(stateEvaluator.stateDescriptor.stateTypeId)
+    readonly property Interface iface: stateEvaluator ? Interfaces.findByName(stateEvaluator.stateDescriptor.interfaceName) : null
+    readonly property StateType stateType: thing ? thing.thingClass.stateTypes.getStateType(stateEvaluator.stateDescriptor.stateTypeId)
                                                  : iface ? iface.stateTypes.findByName(stateEvaluator.stateDescriptor.interfaceState) : null
 
     signal deleteClicked();
@@ -96,17 +96,26 @@ SwipeDelegate {
                     if (!root.stateType) {
                         return qsTr("Press to edit condition")
                     }
-                    var valueText = root.stateEvaluator.stateDescriptor.value;
-                    switch (root.stateType.type.toLowerCase()) {
-                    case "bool":
-                        valueText = root.stateEvaluator.stateDescriptor.value === true ? qsTr("True") : qsTr("False")
-                        break;
+
+                    var valueText;
+                    if (root.stateEvaluator.stateDescriptor.value !== undefined) {
+                        valueText = root.stateEvaluator.stateDescriptor.value;
+                        switch (root.stateType.type.toLowerCase()) {
+                        case "bool":
+                            valueText = root.stateEvaluator.stateDescriptor.value === true ? qsTr("True") : qsTr("False")
+                            break;
+                        }
+                    } else {
+                        print("value thing id:", root.stateEvaluator.stateDescriptor.valueThingId)
+                        var valueThing = engine.thingManager.things.getThing(root.stateEvaluator.stateDescriptor.valueThingId)
+                        valueText = valueThing.name
+                        valueText += ", " + valueThing.thingClass.stateTypes.getStateType(root.stateEvaluator.stateDescriptor.valueStateTypeId).displayName
                     }
 
                     if (root.thing) {
-                        return qsTr("%1: %2 %3 %4").arg(root.thing.name).arg(root.stateType.displayName).arg(operatorString).arg(valueText)
+                        return "%1: %2 %3 %4".arg(root.thing.name).arg(root.stateType.displayName).arg(operatorString).arg(valueText)
                     } else if (root.iface) {
-                        return qsTr("%1: %2 %3 %4").arg(root.iface.displayName).arg(root.stateType.displayName).arg(operatorString).arg(valueText)
+                        return "%1, %2 %3 %4".arg(root.iface.displayName).arg(root.stateType.displayName).arg(operatorString).arg(valueText)
                     }
                     return "--";
                 }

@@ -96,12 +96,8 @@ StateEvaluator *StateEvaluator::clone() const
 {
     StateEvaluator *ret = new StateEvaluator();
     ret->m_operator = this->m_operator;
-    ret->m_stateDescriptor->setThingId(this->m_stateDescriptor->thingId());
-    ret->m_stateDescriptor->setStateTypeId(this->m_stateDescriptor->stateTypeId());
-    ret->m_stateDescriptor->setInterfaceName(this->m_stateDescriptor->interfaceName());
-    ret->m_stateDescriptor->setInterfaceState(this->m_stateDescriptor->interfaceState());
-    ret->m_stateDescriptor->setValueOperator(this->m_stateDescriptor->valueOperator());
-    ret->m_stateDescriptor->setValue(this->m_stateDescriptor->value());
+    delete ret->m_stateDescriptor; // Delete existing empty one and replace it with a clone of the
+    ret->m_stateDescriptor = this->m_stateDescriptor->clone();
     for (int i = 0; i < this->m_childEvaluators->rowCount(); i++) {
         ret->m_childEvaluators->addStateEvaluator(this->m_childEvaluators->get(i)->clone());
     }

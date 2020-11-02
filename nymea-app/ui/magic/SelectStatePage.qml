@@ -49,7 +49,7 @@ Page {
     ListView {
         anchors.fill: parent
 
-        model: thing.thingClass.stateTypes
+        model: root.thing.thingClass.stateTypes
 
         delegate: NymeaSwipeDelegate {
             width: parent.width
