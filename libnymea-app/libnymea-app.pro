@@ -164,6 +164,8 @@ SOURCES += \
     zigbee/zigbeeadaptersproxy.cpp \
     zigbee/zigbeemanager.cpp \
     zigbee/zigbeeadapter.cpp \
+    zigbee/zigbeenetwork.cpp \
+    zigbee/zigbeenetworks.cpp
 
 
 
@@ -308,6 +310,8 @@ HEADERS += \
     zigbee/zigbeeadaptersproxy.h \
     zigbee/zigbeemanager.h \
     zigbee/zigbeeadapter.h \
+    zigbee/zigbeenetwork.h \
+    zigbee/zigbeenetworks.h
 
 ubports: {
     DEFINES += UBPORTS

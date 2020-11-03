@@ -31,12 +31,16 @@
 #include "zigbeemanager.h"
 
 #include "jsonrpc/jsonrpcclient.h"
+#include "zigbee/zigbeeadapter.h"
 #include "zigbee/zigbeeadapters.h"
+#include "zigbee/zigbeenetwork.h"
+#include "zigbee/zigbeenetworks.h"
 
 ZigbeeManager::ZigbeeManager(JsonRpcClient *client, QObject *parent) :
     JsonHandler(parent),
     m_client(client),
-    m_adapters(new ZigbeeAdapters(this))
+    m_adapters(new ZigbeeAdapters(this)),
+    m_networks(new ZigbeeNetworks(this))
 {
     client->registerNotificationHandler(this, "notificationReceived");
 }
@@ -56,27 +60,40 @@ ZigbeeAdapters *ZigbeeManager::adapters() const
     return m_adapters;
 }
 
+ZigbeeNetworks *ZigbeeManager::networks() const
+{
+    return m_networks;
+}
+
 void ZigbeeManager::init()
 {
     qDebug() << "Zigbee init...";
     m_adapters->clear();
     m_client->sendCommand("Zigbee.GetAdapters", this, "getAdaptersResponse");
+    m_client->sendCommand("Zigbee.GetNetworks", this, "getNetworksResponse");
 }
 
-void ZigbeeManager::getAdaptersResponse(const QVariantMap &params)
+void ZigbeeManager::getAdaptersResponse(int commandId, const QVariantMap &params)
 {
-    qDebug() << "Get adapters response" << params;
+    qDebug() << "Zigbee get adapters response" << commandId << params;
     m_adapters->clear();
-    foreach (const QVariant &adapterVariant, params.value("params").toMap().value("adapters").toList()) {
+    foreach (const QVariant &adapterVariant, params.value("adapters").toList()) {
         QVariantMap adapterMap = adapterVariant.toMap();
-        ZigbeeAdapter *adapter = new ZigbeeAdapter(m_adapters);
-        adapter->setName(adapterMap.value("name").toString());
-        adapter->setDescription(adapterMap.value("description").toString());
-        adapter->setSystemLocation(adapterMap.value("systemLocation").toString());
-        adapter->setBackendType(ZigbeeAdapter::stringToZigbeeBackendType(adapterMap.value("backendType").toString()));
-        adapter->setBaudRate(adapterMap.value("baudRate").toUInt());
+        ZigbeeAdapter *adapter = unpackAdapter(adapterMap);
         qDebug() << "Zigbee adapter added" << adapter->description() << adapter->systemLocation();
         m_adapters->addAdapter(adapter);
+    }
+}
+
+void ZigbeeManager::getNetworksResponse(int commandId, const QVariantMap &params)
+{
+    qDebug() << "Zigbee get networks response" << commandId << params;
+    m_adapters->clear();
+    foreach (const QVariant &networkVariant, params.value("zigbeeNetworks").toList()) {
+        QVariantMap networkMap = networkVariant.toMap();
+        ZigbeeNetwork *network = unpackNetwork(networkMap);
+        qDebug() << "Zigbee network added" << network->networkUuid().toString() << network->serialPort() << network->macAddress();
+        m_networks->addNetwork(network);
     }
 }
 
@@ -95,6 +112,30 @@ void ZigbeeManager::notificationReceived(const QVariantMap &notification)
         return;
     }
 
+    if (notificationString == "Zigbee.NetworkAdded") {
+        QVariantMap networkMap = notification.value("params").toMap().value("zigbeeNetwork").toMap();
+        m_networks->addNetwork(unpackNetwork(networkMap));
+        return;
+    }
+
+    if (notificationString == "Zigbee.NetworkRemoved") {
+        QUuid networkUuid = notification.value("params").toMap().value("zigbeeNetwork").toUuid();
+        m_networks->removeNetwork(networkUuid);
+        return;
+    }
+
+    if (notificationString == "Zigbee.NetworkChanged") {
+        QVariantMap networkMap = notification.value("params").toMap().value("zigbeeNetwork").toMap();
+        QUuid networkUuid = networkMap.value("networkUuid").toUuid();
+        ZigbeeNetwork *network = m_networks->getNetwork(networkUuid);
+        if (!network) {
+            qWarning() << "Could not find network for changed notification";
+            return;
+        }
+        fillNetworkData(network, networkMap);
+        return;
+    }
+
     qDebug() << "Unhandled Zigbee notification" << notificationString << notification;
 }
 
@@ -104,8 +145,33 @@ ZigbeeAdapter *ZigbeeManager::unpackAdapter(const QVariantMap &adapterMap)
     adapter->setName(adapterMap.value("name").toString());
     adapter->setDescription(adapterMap.value("description").toString());
     adapter->setSystemLocation(adapterMap.value("systemLocation").toString());
+    adapter->setHardwareRecognized(adapterMap.value("hardwareRecognized").toBool());
     adapter->setBackendType(ZigbeeAdapter::stringToZigbeeBackendType(adapterMap.value("backendType").toString()));
     adapter->setBaudRate(adapterMap.value("baudRate").toUInt());
     return adapter;
+}
+
+ZigbeeNetwork *ZigbeeManager::unpackNetwork(const QVariantMap &networkMap)
+{
+    ZigbeeNetwork *network = new ZigbeeNetwork(m_networks);
+    fillNetworkData(network, networkMap);
+    return network;
+}
+
+void ZigbeeManager::fillNetworkData(ZigbeeNetwork *network, const QVariantMap &networkMap)
+{
+    network->setNetworkUuid(networkMap.value("networkUuid").toUuid());
+    network->setSerialPort(networkMap.value("serialPort").toString());
+    network->setBaudRate(networkMap.value("baudRate").toUInt());
+    network->setMacAddress(networkMap.value("macAddress").toString());
+    network->setFirmwareVersion(networkMap.value("firmwareVersion").toString());
+    network->setPanId(networkMap.value("panId").toUInt());
+    network->setChannel(networkMap.value("channel").toUInt());
+    network->setChannelMask(networkMap.value("channelMask").toUInt());
+    network->setPermitJoiningEnabled(networkMap.value("permitJoiningEnabled").toBool());
+    network->setPermitJoiningDuration(networkMap.value("permitJoiningDuration").toUInt());
+    network->setPermitJoiningRemaining(networkMap.value("permitJoiningRemaining").toUInt());
+    network->setBackendType(ZigbeeAdapter::stringToZigbeeBackendType(networkMap.value("backendType").toString()));
+    network->setNetworkState(ZigbeeNetwork::stringToZigbeeNetworkState(networkMap.value("networkState").toString()));
 }
 

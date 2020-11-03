@@ -123,3 +123,15 @@ ZigbeeAdapter::ZigbeeBackendType ZigbeeAdapter::stringToZigbeeBackendType(const 
     }
 }
 
+QDebug operator<<(QDebug debug, const ZigbeeAdapter &adapter)
+{
+    debug.nospace() << "ZigbeeAdapter(" << adapter.name() << " - " << adapter.description();
+    debug.nospace() << ", " << adapter.systemLocation();
+    if (adapter.hardwareRecognized()) {
+        debug.nospace() << " Hardware recognized: " << adapter.backendType();
+        debug.nospace() << ", " << adapter.baudRate();
+    }
+
+    debug.nospace() << ")";
+    return debug.space();
+}

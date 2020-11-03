@@ -51,7 +51,7 @@ SettingsPageBase {
 
         delegate: NymeaListItemDelegate {
             Layout.fillWidth: true
-            property var adapter: engine.zigbeeManager.adapters.get(index)
+//            property var adapter: engine.zigbeeManager.adapters.get(index)
             iconName: "../images/stock_link.svg"
             text: model.description + " - " + model.systemLocation
             //onClicked: pageStack.push(Qt.resolvedUrl("PluginParamsPage.qml"), {plugin: plugin})
@@ -70,7 +70,7 @@ SettingsPageBase {
 
         delegate: NymeaListItemDelegate {
             Layout.fillWidth: true
-            property var adapter: engine.zigbeeManager.adapters.get(index)
+//            property var adapter: engine.zigbeeManager.adapters.get(index)
             iconName: "../images/stock_link.svg"
             text: model.description + " - " + model.systemLocation
             //onClicked: pageStack.push(Qt.resolvedUrl("PluginParamsPage.qml"), {plugin: plugin})

@@ -61,6 +61,22 @@ SettingsPageBase {
         }
 
 
+        Repeater {
+            model: engine.zigbeeManager.networks
+
+
+            delegate: NymeaListItemDelegate {
+                Layout.fillWidth: true
+    //            property var adapter: engine.zigbeeManager.adapters.get(index)
+                iconName: "../images/zigbee.svg"
+                text: model.macAddress + " - " + model.serialPort
+                subText: model.firmwareVersion
+
+                //onClicked: pageStack.push(Qt.resolvedUrl("PluginParamsPage.qml"), {plugin: plugin})
+            }
+        }
+
+
 
         NymeaListItemDelegate {
             Layout.fillWidth: true

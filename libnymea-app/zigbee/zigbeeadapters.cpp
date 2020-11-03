@@ -77,7 +77,6 @@ void ZigbeeAdapters::addAdapter(ZigbeeAdapter *adapter)
     adapter->setParent(this);
     beginInsertRows(QModelIndex(), m_adapters.count(), m_adapters.count());
     m_adapters.append(adapter);
-
     connect(adapter, &ZigbeeAdapter::nameChanged, this, [this, adapter]() {
         QModelIndex idx = index(m_adapters.indexOf(adapter), 0);
         emit dataChanged(idx, idx, {RoleName});
@@ -107,8 +106,6 @@ void ZigbeeAdapters::addAdapter(ZigbeeAdapter *adapter)
         QModelIndex idx = index(m_adapters.indexOf(adapter), 0);
         emit dataChanged(idx, idx, {RoleBaudRate});
     });
-
-
     endInsertRows();
     emit countChanged();
 }

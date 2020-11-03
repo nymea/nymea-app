@@ -31,6 +31,7 @@
 #ifndef ZIGBEEADAPTER_H
 #define ZIGBEEADAPTER_H
 
+#include <QDebug>
 #include <QObject>
 
 class ZigbeeAdapter : public QObject
@@ -90,5 +91,7 @@ signals:
     void backendTypeChanged();
     void baudRateChanged();
 };
+
+QDebug operator<<(QDebug debug, const ZigbeeAdapter &adapter);
 
 #endif // ZIGBEEADAPTER_H

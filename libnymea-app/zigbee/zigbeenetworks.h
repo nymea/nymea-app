@@ -28,52 +28,58 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef ZIGBEEMANAGER_H
-#define ZIGBEEMANAGER_H
+#ifndef ZIGBEENETWORKS_H
+#define ZIGBEENETWORKS_H
 
 #include <QObject>
-#include "jsonrpc/jsonhandler.h"
+#include <QAbstractListModel>
 
-class JsonRpcClient;
-class ZigbeeAdapter;
-class ZigbeeAdapters;
-class ZigbeeNetwork;
-class ZigbeeNetworks;
+#include "zigbeenetwork.h"
 
-class ZigbeeManager : public JsonHandler
+class ZigbeeNetworks : public QAbstractListModel
 {
     Q_OBJECT
-    Q_PROPERTY(ZigbeeAdapters *adapters READ adapters CONSTANT)
-    Q_PROPERTY(ZigbeeNetworks *networks READ networks CONSTANT)
+    Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
 
 public:
-    explicit ZigbeeManager(JsonRpcClient* client, QObject *parent = nullptr);
-    ~ZigbeeManager();
+    enum Roles {
+        RoleUuid,
+        RoleSerialPort,
+        RoleBaudRate,
+        RoleMacAddress,
+        RoleFirmwareVersion,
+        RolePanId,
+        RoleChannel,
+        RoleChannelMask,
+        RolePermitJoiningEnabled,
+        RolePermitJoiningDuration,
+        RolePermitJoiningRemaining,
+        RoleBackendType,
+        RoleNetworkState
+    };
+    Q_ENUM(Roles)
 
-    QString nameSpace() const override;
+    explicit ZigbeeNetworks(QObject *parent = nullptr);
+    virtual ~ZigbeeNetworks() override = default;
 
-    ZigbeeAdapters *adapters() const;
-    ZigbeeNetworks *networks() const;
+    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+    QVariant data(const QModelIndex &index, int role) const override;
+    QHash<int, QByteArray> roleNames() const override;
 
-    void init();
+    void addNetwork(ZigbeeNetwork *network);
+    void removeNetwork(const QUuid &networkUuid);
+
+    void clear();
+
+    Q_INVOKABLE virtual ZigbeeNetwork *get(int index) const;
+    Q_INVOKABLE ZigbeeNetwork *getNetwork(const QUuid &networkUuid) const;
 
 signals:
+    void countChanged();
 
-private:
-    Q_INVOKABLE void getAdaptersResponse(int commandId, const QVariantMap &params);
-    Q_INVOKABLE void getNetworksResponse(int commandId, const QVariantMap &params);
-
-    Q_INVOKABLE void notificationReceived(const QVariantMap &notification);
-
-private:
-    JsonRpcClient* m_client = nullptr;
-    ZigbeeAdapters *m_adapters = nullptr;
-    ZigbeeNetworks *m_networks = nullptr;
-
-    ZigbeeAdapter *unpackAdapter(const QVariantMap &adapterMap);
-    ZigbeeNetwork *unpackNetwork(const QVariantMap &networkMap);
-    void fillNetworkData(ZigbeeNetwork *network, const QVariantMap &networkMap);
+protected:
+    QList<ZigbeeNetwork *> m_networks;
 
 };
 
-#endif // ZIGBEEMANAGER_H
+#endif // ZIGBEENETWORKS_H
