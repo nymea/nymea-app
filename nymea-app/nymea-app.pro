@@ -154,6 +154,7 @@ ubports: {
     SOURCES += platformintegration/ubports/pushclient.cpp
 }
 
+message("BRANDING is: $${BRANDING}")
 BR=$$BRANDING
 !equals(BR, "") {
     DEFINES += BRANDING=\\\"$${BR}\\\"

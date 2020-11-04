@@ -111,7 +111,7 @@ Page {
         category: engine.jsonRpcClient.currentHost.uuid
         property string mainMenuContent: ""
         property var sortOrder: []
-        property var filterList: ["things"]
+        property var filterList: app.hasOwnProperty("mainViewsFilter") ? app.mainViewsFilter : ["things"]
         property int currentIndex: 0
     }
 
