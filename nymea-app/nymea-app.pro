@@ -154,9 +154,9 @@ ubports: {
     SOURCES += platformintegration/ubports/pushclient.cpp
 }
 
-message("BRANDING is: $${BRANDING}")
 BR=$$BRANDING
 !equals(BR, "") {
+    message("Branding the style to: $${BR}")
     DEFINES += BRANDING=\\\"$${BR}\\\"
     win32:RCC_ICONS += ../packaging/windows_$${BR}/packages/io.guh.$${BR}/meta/logo.ico
 } else {
