@@ -55,7 +55,8 @@ SettingsPageBase {
         delegate: NymeaListItemDelegate {
             Layout.fillWidth: true
             property ZigbeeAdapter adapter: engine.zigbeeManager.adapters.get(index)
-            iconName: "../images/add.svg"
+            iconName: "../images/stock_usb.svg"
+            progressive: false
             text: model.description + " - " + model.serialPort
             onClicked: engine.zigbeeManager.addNetwork(adapter.serialPort, adapter.baudRate, adapter.backendType)
         }
@@ -75,11 +76,12 @@ SettingsPageBase {
 
         delegate: NymeaListItemDelegate {
             Layout.fillWidth: true
-//            property var adapter: engine.zigbeeManager.adapters.get(index)
-            iconName: "../images/add.svg"
+            property ZigbeeAdapter adapter: engine.zigbeeManager.adapters.get(index)
+            iconName: "../images/stock_usb.svg"
             text: model.description + " - " + model.serialPort
             // TODO: show backend and baudrate popup before adding
             //onClicked: pageStack.push(Qt.resolvedUrl("PluginParamsPage.qml"), {plugin: plugin})
+            onClicked: engine.zigbeeManager.addNetwork(adapter.serialPort, adapter.baudRate, adapter.backendType)
         }
     }
 
