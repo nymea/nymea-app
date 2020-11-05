@@ -51,7 +51,7 @@ void ZigbeeAdaptersProxy::setAdapters(ZigbeeAdapters *adapters)
     });
 
     setSourceModel(m_adapters);
-    setSortRole(ZigbeeAdapters::RoleSystemLocation);
+    setSortRole(ZigbeeAdapters::RoleSerialPort);
     sort(0, Qt::DescendingOrder);
     invalidateFilter();
     emit countChanged();
@@ -66,6 +66,7 @@ void ZigbeeAdaptersProxy::setHardwareFilter(ZigbeeAdaptersProxy::HardwareFilter 
 {
     m_hardwareFilter = hardwareFilter;
     emit hardwareFilterChanged(m_hardwareFilter);
+
     invalidateFilter();
     emit countChanged();
 }
@@ -80,6 +81,9 @@ bool ZigbeeAdaptersProxy::filterAcceptsRow(int source_row, const QModelIndex &so
     Q_UNUSED(source_parent)
 
     ZigbeeAdapter *adapter = m_adapters->get(source_row);
+    if (!adapter)
+        return false;
+
     if (m_hardwareFilter == HardwareFilterRecognized) {
         return adapter->hardwareRecognized();
     } else if (m_hardwareFilter == HardwareFilterUnrecognized) {

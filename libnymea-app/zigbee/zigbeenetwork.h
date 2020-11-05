@@ -33,6 +33,7 @@
 
 #include <QUuid>
 #include <QObject>
+#include <QTimer>
 
 #include "zigbeeadapter.h"
 
@@ -53,8 +54,9 @@ class ZigbeeNetwork : public QObject
     Q_PROPERTY(ZigbeeAdapter::ZigbeeBackendType backendType READ backendType NOTIFY backendTypeChanged)
     Q_PROPERTY(ZigbeeNetworkState networkState READ networkState NOTIFY networkStateChanged)
 
-public:
+    // Internal properties
 
+public:
     enum ZigbeeNetworkState {
         ZigbeeNetworkStateOffline,
         ZigbeeNetworkStateStarting,
@@ -136,6 +138,8 @@ private:
     uint m_permitJoiningRemaining;
     ZigbeeAdapter::ZigbeeBackendType m_backendType;
     ZigbeeNetworkState m_networkState;
+
+    QTimer *m_permitJoinTimer = nullptr;
 };
 
 #endif // ZIGBEENETWORK_H

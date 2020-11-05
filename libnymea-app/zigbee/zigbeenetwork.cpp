@@ -32,7 +32,16 @@
 
 ZigbeeNetwork::ZigbeeNetwork(QObject *parent) : QObject(parent)
 {
+    m_permitJoinTimer = new QTimer(this);
+    m_permitJoinTimer->setInterval(1000);
+    m_permitJoinTimer->setSingleShot(true);
+    connect(m_permitJoinTimer, &QTimer::timeout, this, [this](){
 
+        setPermitJoiningRemaining(m_permitJoiningRemaining - 1);
+        if (m_permitJoiningRemaining <= 0) {
+            m_permitJoinTimer->stop();
+        }
+    });
 }
 
 QUuid ZigbeeNetwork::networkUuid() const
@@ -186,7 +195,14 @@ void ZigbeeNetwork::setPermitJoiningRemaining(uint permitJoiningRemaining)
         return;
 
     m_permitJoiningRemaining = permitJoiningRemaining;
-    emit permitJoiningRemainingChanged();
+    emit permitJoiningRemainingChanged();    
+
+    if (m_permitJoinTimer->isActive())
+        m_permitJoinTimer->stop();
+
+    if (m_permitJoiningRemaining != 0) {
+        m_permitJoinTimer->start();
+    }
 }
 
 ZigbeeAdapter::ZigbeeBackendType ZigbeeNetwork::backendType() const

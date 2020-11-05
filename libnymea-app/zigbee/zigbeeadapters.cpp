@@ -48,8 +48,8 @@ QVariant ZigbeeAdapters::data(const QModelIndex &index, int role) const
         return m_adapters.at(index.row())->name();
     case RoleDescription:
         return m_adapters.at(index.row())->description();
-    case RoleSystemLocation:
-        return m_adapters.at(index.row())->systemLocation();
+    case RoleSerialPort:
+        return m_adapters.at(index.row())->serialPort();
     case RoleHardwareRecognized:
         return m_adapters.at(index.row())->hardwareRecognized();
     case RoleBackendType:
@@ -65,7 +65,7 @@ QHash<int, QByteArray> ZigbeeAdapters::roleNames() const
     QHash<int, QByteArray> roles;
     roles.insert(RoleName, "name");
     roles.insert(RoleDescription, "description");
-    roles.insert(RoleSystemLocation, "systemLocation");
+    roles.insert(RoleSerialPort, "serialPort");
     roles.insert(RoleHardwareRecognized, "hardwareRecognized");
     roles.insert(RoleBackendType, "backendType");
     roles.insert(RoleBaudRate, "baudRate");
@@ -75,8 +75,10 @@ QHash<int, QByteArray> ZigbeeAdapters::roleNames() const
 void ZigbeeAdapters::addAdapter(ZigbeeAdapter *adapter)
 {
     adapter->setParent(this);
+
     beginInsertRows(QModelIndex(), m_adapters.count(), m_adapters.count());
     m_adapters.append(adapter);
+
     connect(adapter, &ZigbeeAdapter::nameChanged, this, [this, adapter]() {
         QModelIndex idx = index(m_adapters.indexOf(adapter), 0);
         emit dataChanged(idx, idx, {RoleName});
@@ -87,9 +89,9 @@ void ZigbeeAdapters::addAdapter(ZigbeeAdapter *adapter)
         emit dataChanged(idx, idx, {RoleDescription});
     });
 
-    connect(adapter, &ZigbeeAdapter::systemLocationChanged, this, [this, adapter]() {
+    connect(adapter, &ZigbeeAdapter::serialPortChanged, this, [this, adapter]() {
         QModelIndex idx = index(m_adapters.indexOf(adapter), 0);
-        emit dataChanged(idx, idx, {RoleSystemLocation});
+        emit dataChanged(idx, idx, {RoleSerialPort});
     });
 
     connect(adapter, &ZigbeeAdapter::hardwareRecognizedChanged, this, [this, adapter]() {
@@ -106,14 +108,16 @@ void ZigbeeAdapters::addAdapter(ZigbeeAdapter *adapter)
         QModelIndex idx = index(m_adapters.indexOf(adapter), 0);
         emit dataChanged(idx, idx, {RoleBaudRate});
     });
+
     endInsertRows();
+
     emit countChanged();
 }
 
-void ZigbeeAdapters::removeAdapter(const QString &systemLocation)
+void ZigbeeAdapters::removeAdapter(const QString &serialPort)
 {
     for (int i = 0; i < m_adapters.count(); i++) {
-        if (m_adapters.at(i)->systemLocation() == systemLocation) {
+        if (m_adapters.at(i)->serialPort() == serialPort) {
             beginRemoveRows(QModelIndex(), i, i);
             m_adapters.takeAt(i)->deleteLater();
             endRemoveRows();
@@ -136,5 +140,6 @@ ZigbeeAdapter *ZigbeeAdapters::get(int index) const
     if (index < 0 || index > m_adapters.count() - 1) {
         return nullptr;
     }
+
     return m_adapters.at(index);
 }

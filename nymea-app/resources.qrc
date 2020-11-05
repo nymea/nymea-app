@@ -227,5 +227,7 @@
         <file>ui/components/ThingInfoPane.qml</file>
         <file>ui/system/ZigbeeNetworkSettingsPage.qml</file>
         <file>ui/system/ZigbeeNetworkAddPage.qml</file>
+        <file>ui/system/ZigbeeNetworkPage.qml</file>
+        <file>ui/system/ZigbeeNetworkInfoPage.qml</file>
     </qresource>
 </RCC>

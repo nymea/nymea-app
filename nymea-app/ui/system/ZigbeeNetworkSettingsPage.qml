@@ -42,13 +42,14 @@ SettingsPageBase {
         backButtonVisible: true
         onBackPressed: pageStack.pop()
 
-        HeaderButton {
-            text: qsTr("Settings")
-            imageSource: "../images/settings.svg"
-            onClicked: {
-                //pageStack.push()
-            }
-        }
+        // TODO: create a settings page where zigbee networking can be enabled/disabled in general
+        //        HeaderButton {
+        //            text: qsTr("Settings")
+        //            imageSource: "../images/settings.svg"
+        //            onClicked: {
+        //                //pageStack.push()
+        //            }
+        //        }
     }
 
     ColumnLayout {
@@ -60,23 +61,17 @@ SettingsPageBase {
             text: qsTr("Zigbee networks")
         }
 
-
         Repeater {
             model: engine.zigbeeManager.networks
-
-
             delegate: NymeaListItemDelegate {
                 Layout.fillWidth: true
-    //            property var adapter: engine.zigbeeManager.adapters.get(index)
+                property var network: engine.zigbeeManager.networks.get(index)
                 iconName: "../images/zigbee.svg"
-                text: model.macAddress + " - " + model.serialPort
-                subText: model.firmwareVersion
-
-                //onClicked: pageStack.push(Qt.resolvedUrl("PluginParamsPage.qml"), {plugin: plugin})
+                text: model.macAddress
+                subText: model.serialPort  + " - " + model.firmwareVersion
+                onClicked: pageStack.push(Qt.resolvedUrl("ZigbeeNetworkPage.qml"), { network: network })
             }
         }
-
-
 
         NymeaListItemDelegate {
             Layout.fillWidth: true

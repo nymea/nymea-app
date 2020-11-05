@@ -45,7 +45,7 @@ public:
     enum Roles {
         RoleName,
         RoleDescription,
-        RoleSystemLocation,
+        RoleSerialPort,
         RoleHardwareRecognized,
         RoleBackendType,
         RoleBaudRate
@@ -60,7 +60,7 @@ public:
     QHash<int, QByteArray> roleNames() const override;
 
     void addAdapter(ZigbeeAdapter *adapter);
-    void removeAdapter(const QString &systemLocation);
+    void removeAdapter(const QString &serialPort);
 
     void clear();
 

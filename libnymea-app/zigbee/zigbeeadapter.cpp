@@ -57,15 +57,26 @@ void ZigbeeAdapter::setDescription(const QString &description)
     emit descriptionChanged();
 }
 
-QString ZigbeeAdapter::systemLocation() const
+QString ZigbeeAdapter::serialPort() const
 {
-    return m_systemLocation;
+    return m_serialPort;
 }
 
-void ZigbeeAdapter::setSystemLocation(const QString &systemLocation)
+void ZigbeeAdapter::setSerialPort(const QString &serialPort)
 {
-    m_systemLocation = systemLocation;
-    emit systemLocationChanged();
+    m_serialPort = serialPort;
+    emit serialPortChanged();
+}
+
+QString ZigbeeAdapter::serialNumber() const
+{
+    return m_serialNumber;
+}
+
+void ZigbeeAdapter::setSerialNumber(const QString &serialNumber)
+{
+    m_serialNumber = serialNumber;
+    emit serialNumberChanged();
 }
 
 bool ZigbeeAdapter::hardwareRecognized() const
@@ -103,7 +114,7 @@ void ZigbeeAdapter::setBaudRate(qint32 baudRate)
 
 bool ZigbeeAdapter::operator==(const ZigbeeAdapter &other) const
 {
-    return m_systemLocation == other.systemLocation()
+    return m_serialPort == other.serialPort()
             && m_name == other.name()
             && m_description == other.description()
             && m_hardwareRecognized == other.hardwareRecognized()
@@ -123,10 +134,22 @@ ZigbeeAdapter::ZigbeeBackendType ZigbeeAdapter::stringToZigbeeBackendType(const 
     }
 }
 
+QString ZigbeeAdapter::getBackendName(ZigbeeAdapter::ZigbeeBackendType backendType)
+{
+    switch (backendType) {
+    case ZigbeeAdapter::ZigbeeBackendTypeDeconz:
+        return "deCONZ";
+    case ZigbeeAdapter::ZigbeeBackendTypeNxp:
+        return "Nxp";
+    default:
+        return tr("Unknown");
+    }
+}
+
 QDebug operator<<(QDebug debug, const ZigbeeAdapter &adapter)
 {
     debug.nospace() << "ZigbeeAdapter(" << adapter.name() << " - " << adapter.description();
-    debug.nospace() << ", " << adapter.systemLocation();
+    debug.nospace() << ", " << adapter.serialPort();
     if (adapter.hardwareRecognized()) {
         debug.nospace() << " Hardware recognized: " << adapter.backendType();
         debug.nospace() << ", " << adapter.baudRate();

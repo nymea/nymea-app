@@ -32,10 +32,10 @@
 #define ZIGBEEMANAGER_H
 
 #include <QObject>
+#include "zigbeeadapter.h"
 #include "jsonrpc/jsonhandler.h"
 
 class JsonRpcClient;
-class ZigbeeAdapter;
 class ZigbeeAdapters;
 class ZigbeeNetwork;
 class ZigbeeNetworks;
@@ -55,6 +55,9 @@ public:
     ZigbeeAdapters *adapters() const;
     ZigbeeNetworks *networks() const;
 
+    Q_INVOKABLE void addNetwork(const QString &serialPort, uint baudRate, ZigbeeAdapter::ZigbeeBackendType backendType);
+    Q_INVOKABLE void removeNetwork(const QUuid &networkUuid);
+
     void init();
 
 signals:
@@ -62,6 +65,10 @@ signals:
 private:
     Q_INVOKABLE void getAdaptersResponse(int commandId, const QVariantMap &params);
     Q_INVOKABLE void getNetworksResponse(int commandId, const QVariantMap &params);
+
+    Q_INVOKABLE void addNetworkResponse(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void removeNetworkResponse(int commandId, const QVariantMap &params);
+
 
     Q_INVOKABLE void notificationReceived(const QVariantMap &notification);
 

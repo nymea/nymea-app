@@ -39,11 +39,14 @@ SettingsPageBase {
     id: root
     title: qsTr("Add a new Zigbee network")
 
+
+
     SettingsPageSectionHeader {
         text: qsTr("Zigbee adapters")
     }
 
     Repeater {
+        id: recognizedRepeater
         model: ZigbeeAdaptersProxy {
             adapters: engine.zigbeeManager.adapters
             hardwareFilter: ZigbeeAdaptersProxy.HardwareFilterRecognized
@@ -51,18 +54,20 @@ SettingsPageBase {
 
         delegate: NymeaListItemDelegate {
             Layout.fillWidth: true
-//            property var adapter: engine.zigbeeManager.adapters.get(index)
-            iconName: "../images/stock_link.svg"
-            text: model.description + " - " + model.systemLocation
-            //onClicked: pageStack.push(Qt.resolvedUrl("PluginParamsPage.qml"), {plugin: plugin})
+            property ZigbeeAdapter adapter: engine.zigbeeManager.adapters.get(index)
+            iconName: "../images/add.svg"
+            text: model.description + " - " + model.serialPort
+            onClicked: engine.zigbeeManager.addNetwork(adapter.serialPort, adapter.baudRate, adapter.backendType)
         }
     }
 
     SettingsPageSectionHeader {
         text: qsTr("Unrecognized Zigbee adapters")
+        visible: unrecognizedRepeater.count !== 0
     }
 
     Repeater {
+        id: unrecognizedRepeater
         model: ZigbeeAdaptersProxy {
             adapters: engine.zigbeeManager.adapters
             hardwareFilter: ZigbeeAdaptersProxy.HardwareFilterUnrecognized
@@ -71,8 +76,9 @@ SettingsPageBase {
         delegate: NymeaListItemDelegate {
             Layout.fillWidth: true
 //            property var adapter: engine.zigbeeManager.adapters.get(index)
-            iconName: "../images/stock_link.svg"
-            text: model.description + " - " + model.systemLocation
+            iconName: "../images/add.svg"
+            text: model.description + " - " + model.serialPort
+            // TODO: show backend and baudrate popup before adding
             //onClicked: pageStack.push(Qt.resolvedUrl("PluginParamsPage.qml"), {plugin: plugin})
         }
     }
