@@ -57,6 +57,7 @@ public:
 
     Q_INVOKABLE void addNetwork(const QString &serialPort, uint baudRate, ZigbeeAdapter::ZigbeeBackendType backendType);
     Q_INVOKABLE void removeNetwork(const QUuid &networkUuid);
+    Q_INVOKABLE void setPermitJoin(const QUuid &networkUuid, uint duration = 120);
 
     void init();
 
@@ -68,6 +69,7 @@ private:
 
     Q_INVOKABLE void addNetworkResponse(int commandId, const QVariantMap &params);
     Q_INVOKABLE void removeNetworkResponse(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void setPermitJoinResponse(int commandId, const QVariantMap &params);
 
 
     Q_INVOKABLE void notificationReceived(const QVariantMap &notification);

@@ -89,6 +89,14 @@ void ZigbeeManager::removeNetwork(const QUuid &networkUuid)
     m_client->sendCommand("Zigbee.RemoveNetwork", params, this, "removeNetworkResponse");
 }
 
+void ZigbeeManager::setPermitJoin(const QUuid &networkUuid, uint duration)
+{
+    QVariantMap params;
+    params.insert("networkUuid", networkUuid);
+    params.insert("duration", duration);
+    m_client->sendCommand("Zigbee.SetPermitJoin", params, this, "setPermitJoinResponse");
+}
+
 void ZigbeeManager::init()
 {
     // FIXME: load only when used
@@ -130,6 +138,11 @@ void ZigbeeManager::addNetworkResponse(int commandId, const QVariantMap &params)
 void ZigbeeManager::removeNetworkResponse(int commandId, const QVariantMap &params)
 {
     qDebug() << "Zigbee remove network response" << commandId << params;
+}
+
+void ZigbeeManager::setPermitJoinResponse(int commandId, const QVariantMap &params)
+{
+    qDebug() << "Zigbee set permit join network response" << commandId << params;
 }
 
 void ZigbeeManager::notificationReceived(const QVariantMap &notification)

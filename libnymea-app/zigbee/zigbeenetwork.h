@@ -41,6 +41,7 @@ class ZigbeeNetwork : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QUuid networkUuid READ networkUuid NOTIFY networkUuidChanged)
+    Q_PROPERTY(bool enabled READ enabled NOTIFY enabledChanged)
     Q_PROPERTY(QString serialPort READ serialPort NOTIFY serialPortChanged)
     Q_PROPERTY(uint baudRate READ baudRate NOTIFY baudRateChanged)
     Q_PROPERTY(QString macAddress READ macAddress NOTIFY macAddressChanged)
@@ -70,6 +71,9 @@ public:
 
     QUuid networkUuid() const;
     void setNetworkUuid(const QUuid &networkUuid);
+
+    bool enabled() const;
+    void setEnabled(bool enabled);
 
     QString serialPort() const;
     void setSerialPort(const QString &serialPort);
@@ -111,6 +115,7 @@ public:
 
 signals:
     void networkUuidChanged();
+    void enabledChanged();
     void serialPortChanged();
     void baudRateChanged();
     void macAddressChanged();
@@ -126,6 +131,7 @@ signals:
 
 private:
     QUuid m_networkUuid;
+    bool m_enabled;
     QString m_serialPort;
     uint m_baudRate;
     QString m_macAddress;

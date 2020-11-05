@@ -58,6 +58,20 @@ void ZigbeeNetwork::setNetworkUuid(const QUuid &networkUuid)
     emit networkUuidChanged();
 }
 
+bool ZigbeeNetwork::enabled() const
+{
+    return m_enabled;
+}
+
+void ZigbeeNetwork::setEnabled(bool enabled)
+{
+    if (m_enabled == enabled)
+        return;
+
+    m_enabled = enabled;
+    emit enabledChanged();
+}
+
 QString ZigbeeNetwork::serialPort() const
 {
     return m_serialPort;

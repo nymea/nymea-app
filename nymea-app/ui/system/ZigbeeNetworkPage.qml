@@ -59,7 +59,21 @@ SettingsPageBase {
     NymeaListItemDelegate {
         Layout.fillWidth: true
         text: qsTr("Network state")
-        subText: root.network.networkState
+        subText: {
+            switch (root.network.networkState) {
+            case ZigbeeNetwork.ZigbeeNetworkStateOnline:
+                return qsTr("The network is online")
+            case ZigbeeNetwork.ZigbeeNetworkStateOffline:
+                return qsTr("The network is offline")
+            case ZigbeeNetwork.ZigbeeNetworkStateStarting:
+                return qsTr("The network is starting...")
+            case ZigbeeNetwork.ZigbeeNetworkStateUpdating:
+                return qsTr("The controller is currently installing an update")
+            case ZigbeeNetwork.ZigbeeNetworkStateError:
+                return qsTr("The network is in an error state.")
+            }
+        }
+
         progressive: false
     }
 
@@ -108,7 +122,16 @@ SettingsPageBase {
             Layout.rightMargin: app.margins
             enabled: network.networkState === ZigbeeNetwork.ZigbeeNetworkStateOnline
             text: root.network.permitJoiningEnabled ? qsTr("Extend network open duration") : qsTr("Open network for new Zigbee devices")
-            onClicked: print("Permit join clicked")
+            onClicked: engine.zigbeeManager.setPermitJoin(root.network.networkUuid)
+        }
+
+        Button {
+            Layout.fillWidth: true
+            Layout.leftMargin: app.margins
+            Layout.rightMargin: app.margins
+            visible: network.networkState === ZigbeeNetwork.ZigbeeNetworkStateOnline && root.network.permitJoiningEnabled
+            text: qsTr("Close network")
+            onClicked: engine.zigbeeManager.setPermitJoin(root.network.networkUuid, 0)
         }
     }
 
