@@ -114,7 +114,10 @@ SettingsPageBase {
             Layout.leftMargin: app.margins
             Layout.rightMargin: app.margins
             text: qsTr("Factory reset controller")
-            onClicked: print("Reset clicked")
+            onClicked: {
+                engine.zigbeeManager.factoryResetNetwork(root.network.networkUuid)
+                pageStack.pop()
+            }
         }
     }
 
