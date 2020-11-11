@@ -32,6 +32,7 @@
 #define TAGLISTMODEL_H
 
 #include <QAbstractListModel>
+#include <QSortFilterProxyModel>
 
 class TagsProxyModel;
 class Tag;
@@ -69,6 +70,29 @@ private:
     TagsProxyModel *m_tagsProxy = nullptr;
 
     QList<Tag*> m_list;
+};
+
+class TagListProxyModel: public QSortFilterProxyModel
+{
+    Q_OBJECT
+
+    Q_PROPERTY(TagListModel *tagListModel READ tagListModel WRITE setTagListModel NOTIFY tagListModelChanged)
+
+    Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
+
+public:
+    TagListProxyModel(QObject *parent = nullptr);
+
+    TagListModel *tagListModel() const;
+    void setTagListModel(TagListModel *tagListModel);
+
+signals:
+    void tagListModelChanged();
+
+    void countChanged();
+
+private:
+    TagListModel *m_tagListModel = nullptr;
 };
 
 #endif // TAGLISTMODEL_H

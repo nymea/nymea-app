@@ -258,6 +258,7 @@ void registerQmlTypes() {
     qmlRegisterUncreatableType<Tag>(uri, 1, 0, "Tag", "Get it from Tags");
     qmlRegisterType<TagsProxyModel>(uri, 1, 0, "TagsProxyModel");
     qmlRegisterType<TagListModel>(uri, 1, 0, "TagListModel");
+    qmlRegisterType<TagListProxyModel>(uri, 1, 0, "TagListProxyModel");
 
     qmlRegisterType<NetworkManagerController>(uri, 1, 0, "NetworkManagerController");
     qmlRegisterType<BluetoothDiscovery>(uri, 1, 0, "BluetoothDiscovery");

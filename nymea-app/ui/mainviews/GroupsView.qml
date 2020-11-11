@@ -47,10 +47,12 @@ MainViewBase {
         readonly property int minTileWidth: 172
         readonly property int tilesPerRow: root.width / minTileWidth
 
-        model: TagListModel {
-            tagsProxy: TagsProxyModel {
-                tags: engine.tagsManager.tags
-                filterTagId: "group-.*"
+        model: TagListProxyModel {
+            tagListModel: TagListModel {
+                tagsProxy: TagsProxyModel {
+                    tags: engine.tagsManager.tags
+                    filterTagId: "group-.*"
+                }
             }
         }
         cellWidth: width / tilesPerRow
