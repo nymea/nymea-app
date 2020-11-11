@@ -1,3 +1,14 @@
+nymea-app (1.0.250) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Sort groups alphabetically
+  * Fix invalid property access with Qt 5.15 in AppLogPage
+  * Fix adaptive icon on "round" launchers
+  * Use main views from branding if set
+  * Align param and state delegates better
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 11 Nov 2020 16:48:38 +0100
+
 nymea-app (1.0.249) bionic; urgency=medium
 
   [ Michael Zanetti ]
