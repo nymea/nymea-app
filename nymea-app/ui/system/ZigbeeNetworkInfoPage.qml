@@ -38,6 +38,8 @@ import Nymea 1.0
 SettingsPageBase {
     id: root
 
+    property ZigbeeManager zigbeeManager: null
+
     property ZigbeeNetwork network: null
 
     header: NymeaHeader {
@@ -103,7 +105,7 @@ SettingsPageBase {
             Layout.rightMargin: app.margins
             text: qsTr("Remove network")
             onClicked: {
-                engine.zigbeeManager.removeNetwork(root.network.networkUuid)
+                root.zigbeeManager.removeNetwork(root.network.networkUuid)
                 pageStack.pop()
                 pageStack.pop()
             }

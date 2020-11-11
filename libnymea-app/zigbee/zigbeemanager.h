@@ -39,32 +39,44 @@ class JsonRpcClient;
 class ZigbeeAdapters;
 class ZigbeeNetwork;
 class ZigbeeNetworks;
+class ZigbeeNetworksAndAdapters;
+class Engine;
 
 class ZigbeeManager : public JsonHandler
 {
     Q_OBJECT
+    Q_PROPERTY(Engine* engine READ engine WRITE setEngine NOTIFY engineChanged)
+
     Q_PROPERTY(ZigbeeAdapters *adapters READ adapters CONSTANT)
     Q_PROPERTY(ZigbeeNetworks *networks READ networks CONSTANT)
+    Q_PROPERTY(ZigbeeNetworksAndAdapters *networksAndAdapters READ networksAndAdapters CONSTANT)
 
 public:
-    explicit ZigbeeManager(JsonRpcClient* client, QObject *parent = nullptr);
+    explicit ZigbeeManager(QObject *parent = nullptr);
     ~ZigbeeManager();
 
     QString nameSpace() const override;
 
+    void setEngine(Engine *engine);
+    Engine *engine() const;
+
     ZigbeeAdapters *adapters() const;
     ZigbeeNetworks *networks() const;
+    ZigbeeNetworksAndAdapters *networksAndAdapters() const;
 
-    Q_INVOKABLE void addNetwork(const QString &serialPort, uint baudRate, ZigbeeAdapter::ZigbeeBackendType backendType);
+    Q_INVOKABLE int addNetwork(const QString &serialPort, uint baudRate, ZigbeeAdapter::ZigbeeBackendType backendType);
     Q_INVOKABLE void removeNetwork(const QUuid &networkUuid);
     Q_INVOKABLE void setPermitJoin(const QUuid &networkUuid, uint duration = 120);
     Q_INVOKABLE void factoryResetNetwork(const QUuid &networkUuid);
 
-    void init();
-
 signals:
+    void engineChanged();
+
+    void addNetworkReply(int commandId, const QString &error, const QUuid &networkUuid);
 
 private:
+    void init();
+
     Q_INVOKABLE void getAdaptersResponse(int commandId, const QVariantMap &params);
     Q_INVOKABLE void getNetworksResponse(int commandId, const QVariantMap &params);
 
@@ -73,13 +85,13 @@ private:
     Q_INVOKABLE void setPermitJoinResponse(int commandId, const QVariantMap &params);
     Q_INVOKABLE void factoryResetNetworkResponse(int commandId, const QVariantMap &params);
 
-
     Q_INVOKABLE void notificationReceived(const QVariantMap &notification);
 
 private:
-    JsonRpcClient* m_client = nullptr;
+    Engine* m_engine = nullptr;
     ZigbeeAdapters *m_adapters = nullptr;
     ZigbeeNetworks *m_networks = nullptr;
+    ZigbeeNetworksAndAdapters *m_networksAndAdapters = nullptr;
 
     ZigbeeAdapter *unpackAdapter(const QVariantMap &adapterMap);
     ZigbeeNetwork *unpackNetwork(const QVariantMap &networkMap);

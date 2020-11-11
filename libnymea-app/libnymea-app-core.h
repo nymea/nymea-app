@@ -302,7 +302,7 @@ void registerQmlTypes() {
     qmlRegisterUncreatableType<Repository>(uri, 1, 0, "Repository", "Get it from Repositories");
     qmlRegisterType<PackagesFilterModel>(uri, 1, 0, "PackagesFilterModel");
 
-    qmlRegisterUncreatableType<ZigbeeManager>(uri, 1, 0, "ZigbeeManager", "Get it from Engine");
+    qmlRegisterType<ZigbeeManager>(uri, 1, 0, "ZigbeeManager");
     qmlRegisterUncreatableType<ZigbeeAdapter>(uri, 1, 0, "ZigbeeAdapter", "Get it from the ZigbeeAdapters");
     qmlRegisterUncreatableType<ZigbeeAdapters>(uri, 1, 0, "ZigbeeAdapters", "Get it from ZigbeeManager");
     qmlRegisterType<ZigbeeAdaptersProxy>(uri, 1, 0, "ZigbeeAdaptersProxy");

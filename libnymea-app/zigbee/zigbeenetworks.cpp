@@ -177,6 +177,7 @@ void ZigbeeNetworks::removeNetwork(const QUuid &networkUuid)
             beginRemoveRows(QModelIndex(), i, i);
             m_networks.takeAt(i)->deleteLater();
             endRemoveRows();
+            emit countChanged();
             return;
         }
     }
@@ -193,7 +194,7 @@ void ZigbeeNetworks::clear()
 
 ZigbeeNetwork *ZigbeeNetworks::get(int index) const
 {
-    if (index < 0 || index > m_networks.count() - 1) {
+    if (index < 0 || index >= m_networks.count()) {
         return nullptr;
     }
     return m_networks.at(index);
@@ -207,5 +208,15 @@ ZigbeeNetwork *ZigbeeNetworks::getNetwork(const QUuid &networkUuid) const
         }
     }
 
+    return nullptr;
+}
+
+ZigbeeNetwork *ZigbeeNetworks::findBySerialPort(const QString &serialPort) const
+{
+    foreach (ZigbeeNetwork* network, m_networks) {
+        if (network->serialPort() == serialPort) {
+            return network;
+        }
+    }
     return nullptr;
 }

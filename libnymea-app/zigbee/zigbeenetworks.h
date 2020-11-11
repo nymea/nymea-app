@@ -73,6 +73,7 @@ public:
 
     Q_INVOKABLE virtual ZigbeeNetwork *get(int index) const;
     Q_INVOKABLE ZigbeeNetwork *getNetwork(const QUuid &networkUuid) const;
+    ZigbeeNetwork *findBySerialPort(const QString &serialPort) const;
 
 signals:
     void countChanged();

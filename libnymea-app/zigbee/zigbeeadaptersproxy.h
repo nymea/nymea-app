@@ -35,14 +35,20 @@
 #include <QSortFilterProxyModel>
 
 class ZigbeeAdapter;
-class ZigbeeAdapters;
+class ZigbeeManager;
 
 class ZigbeeAdaptersProxy : public QSortFilterProxyModel
 {
     Q_OBJECT
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
-    Q_PROPERTY(ZigbeeAdapters * adapters READ adapters WRITE setAdapters NOTIFY adaptersChanged)
+
+    // Required
+    Q_PROPERTY(ZigbeeManager* manager READ manager WRITE setManager NOTIFY managerChanged)
+
+    // Optional filtering
     Q_PROPERTY(ZigbeeAdaptersProxy::HardwareFilter hardwareFilter READ hardwareFilter WRITE setHardwareFilter NOTIFY hardwareFilterChanged)
+    Q_PROPERTY(bool onlyUnused READ onlyUnused WRITE setOnlyUnused NOTIFY onlyUnusedChanged)
+
 public:
     enum HardwareFilter {
         HardwareFilterNone,
@@ -53,11 +59,14 @@ public:
 
     explicit ZigbeeAdaptersProxy(QObject *parent = nullptr);
 
-    ZigbeeAdapters *adapters() const;
-    void setAdapters(ZigbeeAdapters *adapters);
+    ZigbeeManager *manager() const;
+    void setManager(ZigbeeManager *manager);
 
     HardwareFilter hardwareFilter() const;
     void setHardwareFilter(HardwareFilter hardwareFilter);
+
+    bool onlyUnused() const;
+    void setOnlyUnused(bool onlyUnused);
 
     Q_INVOKABLE ZigbeeAdapter* get(int index) const;
 
@@ -66,13 +75,14 @@ protected:
 
 signals:
     void countChanged();
-    void adaptersChanged();
+    void managerChanged();
     void hardwareFilterChanged(HardwareFilter hardwareFilter);
+    void onlyUnusedChanged();
 
 private:
-    ZigbeeAdapters *m_adapters = nullptr;
+    ZigbeeManager *m_manager = nullptr;
     HardwareFilter m_hardwareFilter = HardwareFilterNone;
-
+    bool m_onlyUnused = false;
 };
 
 #endif // ZIGBEEADAPTERSPROXY_H

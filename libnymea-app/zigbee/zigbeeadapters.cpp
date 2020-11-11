@@ -137,7 +137,7 @@ void ZigbeeAdapters::clear()
 
 ZigbeeAdapter *ZigbeeAdapters::get(int index) const
 {
-    if (index < 0 || index > m_adapters.count() - 1) {
+    if (index < 0 || index >= m_adapters.count()) {
         return nullptr;
     }
 

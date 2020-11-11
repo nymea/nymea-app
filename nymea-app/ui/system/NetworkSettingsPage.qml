@@ -132,6 +132,8 @@ SettingsPageBase {
 
     RowLayout {
         Layout.topMargin: app.margins * 6
+        Layout.leftMargin: app.margins
+        Layout.rightMargin: app.margins
         visible: !networkManager.available && !networkManager.loading
         spacing: app.margins
         ColorIcon {

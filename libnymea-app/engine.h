@@ -45,7 +45,6 @@ class TagsManager;
 class NymeaConfiguration;
 class SystemController;
 class NetworkManager;
-class ZigbeeManager;
 
 class Engine : public QObject
 {
@@ -58,7 +57,6 @@ class Engine : public QObject
     Q_PROPERTY(JsonRpcClient* jsonRpcClient READ jsonRpcClient CONSTANT)
     Q_PROPERTY(NymeaConfiguration* nymeaConfiguration READ nymeaConfiguration CONSTANT)
     Q_PROPERTY(SystemController* systemController READ systemController CONSTANT)
-    Q_PROPERTY(ZigbeeManager *zigbeeManager READ zigbeeManager CONSTANT)
 
 public:
     explicit Engine(QObject *parent = nullptr);
@@ -72,7 +70,6 @@ public:
     LogManager *logManager() const;
     NymeaConfiguration *nymeaConfiguration() const;
     SystemController *systemController() const;
-    ZigbeeManager *zigbeeManager() const;
 
     Q_INVOKABLE void deployCertificate();
 
@@ -85,7 +82,6 @@ private:
     TagsManager *m_tagsManager;
     NymeaConfiguration *m_nymeaConfiguration;
     SystemController *m_systemController;
-    ZigbeeManager *m_zigbeeManager;
 
 private slots:
     void onConnectedChanged();

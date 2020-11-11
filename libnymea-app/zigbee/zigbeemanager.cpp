@@ -30,23 +30,24 @@
 
 #include "zigbeemanager.h"
 
+#include "engine.h"
 #include "jsonrpc/jsonrpcclient.h"
 #include "zigbee/zigbeeadapter.h"
 #include "zigbee/zigbeeadapters.h"
 #include "zigbee/zigbeenetwork.h"
 #include "zigbee/zigbeenetworks.h"
+#include "zigbeenetworksandadapters.h"
 
 #include <QMetaEnum>
 
-ZigbeeManager::ZigbeeManager(JsonRpcClient *client, QObject *parent) :
+ZigbeeManager::ZigbeeManager(QObject *parent) :
     JsonHandler(parent),
-    m_client(client),
     m_adapters(new ZigbeeAdapters(this)),
-    m_networks(new ZigbeeNetworks(this))
+    m_networks(new ZigbeeNetworks(this)),
+    m_networksAndAdapters(new ZigbeeNetworksAndAdapters(this))
 {
     qRegisterMetaType<ZigbeeAdapter::ZigbeeBackendType>();
 
-    client->registerNotificationHandler(this, "notificationReceived");
 }
 
 ZigbeeManager::~ZigbeeManager()
@@ -59,6 +60,20 @@ QString ZigbeeManager::nameSpace() const
     return "Zigbee";
 }
 
+void ZigbeeManager::setEngine(Engine *engine)
+{
+    if (m_engine != engine) {
+        m_engine = engine;
+        emit engineChanged();
+        init();
+    }
+}
+
+Engine *ZigbeeManager::engine() const
+{
+    return m_engine;
+}
+
 ZigbeeAdapters *ZigbeeManager::adapters() const
 {
     return m_adapters;
@@ -69,7 +84,12 @@ ZigbeeNetworks *ZigbeeManager::networks() const
     return m_networks;
 }
 
-void ZigbeeManager::addNetwork(const QString &serialPort, uint baudRate, ZigbeeAdapter::ZigbeeBackendType backendType)
+ZigbeeNetworksAndAdapters *ZigbeeManager::networksAndAdapters() const
+{
+    return m_networksAndAdapters;
+}
+
+int ZigbeeManager::addNetwork(const QString &serialPort, uint baudRate, ZigbeeAdapter::ZigbeeBackendType backendType)
 {
     QVariantMap params;
     params.insert("serialPort", serialPort);
@@ -78,7 +98,7 @@ void ZigbeeManager::addNetwork(const QString &serialPort, uint baudRate, ZigbeeA
     params.insert("backendType", metaEnum.valueToKey(backendType));
 
     qDebug() << "Add zigbee network" << params;
-    m_client->sendCommand("Zigbee.AddNetwork", params, this, "addNetworkResponse");
+    return m_engine->jsonRpcClient()->sendCommand("Zigbee.AddNetwork", params, this, "addNetworkResponse");
 }
 
 void ZigbeeManager::removeNetwork(const QUuid &networkUuid)
@@ -86,7 +106,7 @@ void ZigbeeManager::removeNetwork(const QUuid &networkUuid)
     QVariantMap params;
     params.insert("networkUuid", networkUuid);
     qDebug() << "Remove zigbee network" << params;
-    m_client->sendCommand("Zigbee.RemoveNetwork", params, this, "removeNetworkResponse");
+    m_engine->jsonRpcClient()->sendCommand("Zigbee.RemoveNetwork", params, this, "removeNetworkResponse");
 }
 
 void ZigbeeManager::setPermitJoin(const QUuid &networkUuid, uint duration)
@@ -94,23 +114,25 @@ void ZigbeeManager::setPermitJoin(const QUuid &networkUuid, uint duration)
     QVariantMap params;
     params.insert("networkUuid", networkUuid);
     params.insert("duration", duration);
-    m_client->sendCommand("Zigbee.SetPermitJoin", params, this, "setPermitJoinResponse");
+    m_engine->jsonRpcClient()->sendCommand("Zigbee.SetPermitJoin", params, this, "setPermitJoinResponse");
 }
 
 void ZigbeeManager::factoryResetNetwork(const QUuid &networkUuid)
 {
     QVariantMap params;
     params.insert("networkUuid", networkUuid);
-    m_client->sendCommand("Zigbee.FactoryResetNetwork", params, this, "factoryResetNetworkResponse");
+    m_engine->jsonRpcClient()->sendCommand("Zigbee.FactoryResetNetwork", params, this, "factoryResetNetworkResponse");
 }
 
 void ZigbeeManager::init()
 {
-    // FIXME: load only when used
     m_adapters->clear();
     m_networks->clear();
-    m_client->sendCommand("Zigbee.GetAdapters", this, "getAdaptersResponse");
-    m_client->sendCommand("Zigbee.GetNetworks", this, "getNetworksResponse");
+
+    m_engine->jsonRpcClient()->registerNotificationHandler(this, "notificationReceived");
+
+    m_engine->jsonRpcClient()->sendCommand("Zigbee.GetAdapters", this, "getAdaptersResponse");
+    m_engine->jsonRpcClient()->sendCommand("Zigbee.GetNetworks", this, "getNetworksResponse");
 }
 
 void ZigbeeManager::getAdaptersResponse(int commandId, const QVariantMap &params)
@@ -123,6 +145,15 @@ void ZigbeeManager::getAdaptersResponse(int commandId, const QVariantMap &params
         qDebug() << "Zigbee adapter added" << adapter->description() << adapter->serialPort() << adapter->hardwareRecognized();
         m_adapters->addAdapter(adapter);
     }
+
+    ZigbeeAdapter *fakeAdapter = new ZigbeeAdapter();
+    fakeAdapter->setSerialPort("/dev/fake");
+    fakeAdapter->setBackendType(ZigbeeAdapter::ZigbeeBackendTypeDeconz);
+    fakeAdapter->setBaudRate(9600);
+    fakeAdapter->setDescription("Fake adapter");
+    fakeAdapter->setHardwareRecognized(true);
+    fakeAdapter->setName("Fake");
+    m_adapters->addAdapter(fakeAdapter);
 }
 
 void ZigbeeManager::getNetworksResponse(int commandId, const QVariantMap &params)
@@ -140,6 +171,7 @@ void ZigbeeManager::getNetworksResponse(int commandId, const QVariantMap &params
 void ZigbeeManager::addNetworkResponse(int commandId, const QVariantMap &params)
 {
     qDebug() << "Zigbee add network response" << commandId << params;
+    emit addNetworkReply(commandId, params.value("zigbeeError").toString(), params.value("networkUuid").toUuid());
 }
 
 void ZigbeeManager::removeNetworkResponse(int commandId, const QVariantMap &params)

@@ -30,31 +30,36 @@
 
 #include "zigbeeadaptersproxy.h"
 
+#include "zigbeemanager.h"
 #include "zigbeeadapters.h"
+#include "zigbeenetworks.h"
 
 ZigbeeAdaptersProxy::ZigbeeAdaptersProxy(QObject *parent) : QSortFilterProxyModel(parent)
 {
 
 }
 
-ZigbeeAdapters *ZigbeeAdaptersProxy::adapters() const
+ZigbeeManager *ZigbeeAdaptersProxy::manager() const
 {
-    return m_adapters;
+    return m_manager;
 }
 
-void ZigbeeAdaptersProxy::setAdapters(ZigbeeAdapters *adapters)
+void ZigbeeAdaptersProxy::setManager(ZigbeeManager *manager)
 {
-    m_adapters = adapters;
-    connect(m_adapters, &ZigbeeAdapters::countChanged, this, [this](){
+    if (m_manager != manager) {
+        m_manager = manager;
+        connect(m_manager->adapters(), &ZigbeeAdapters::countChanged, this, [this](){
+            emit countChanged();
+        });
+        connect(m_manager->networks(), &ZigbeeNetworks::countChanged, this, [this]() {
+            invalidateFilter();
+        });
+        setSourceModel(m_manager->adapters());
+        setSortRole(ZigbeeAdapters::RoleSerialPort);
+        sort(0, Qt::DescendingOrder);
         invalidateFilter();
         emit countChanged();
-    });
-
-    setSourceModel(m_adapters);
-    setSortRole(ZigbeeAdapters::RoleSerialPort);
-    sort(0, Qt::DescendingOrder);
-    invalidateFilter();
-    emit countChanged();
+    }
 }
 
 ZigbeeAdaptersProxy::HardwareFilter ZigbeeAdaptersProxy::hardwareFilter() const
@@ -64,30 +69,57 @@ ZigbeeAdaptersProxy::HardwareFilter ZigbeeAdaptersProxy::hardwareFilter() const
 
 void ZigbeeAdaptersProxy::setHardwareFilter(ZigbeeAdaptersProxy::HardwareFilter hardwareFilter)
 {
-    m_hardwareFilter = hardwareFilter;
-    emit hardwareFilterChanged(m_hardwareFilter);
+    if (m_hardwareFilter != hardwareFilter) {
+        m_hardwareFilter = hardwareFilter;
+        emit hardwareFilterChanged(m_hardwareFilter);
 
-    invalidateFilter();
-    emit countChanged();
+        invalidateFilter();
+        emit countChanged();
+    }
+}
+
+bool ZigbeeAdaptersProxy::onlyUnused() const
+{
+    return m_onlyUnused;
+}
+
+void ZigbeeAdaptersProxy::setOnlyUnused(bool onlyUnused)
+{
+    if (m_onlyUnused != onlyUnused) {
+        m_onlyUnused = onlyUnused;
+        emit onlyUnusedChanged();
+
+        invalidateFilter();
+        emit countChanged();
+    }
 }
 
 ZigbeeAdapter *ZigbeeAdaptersProxy::get(int index) const
 {
-    return m_adapters->get(mapToSource(this->index(index, 0)).row());
+    if (index >= 0 && index < m_manager->adapters()->rowCount()) {
+        return m_manager->adapters()->get(mapToSource(this->index(index, 0)).row());
+    }
+    return nullptr;
 }
 
 bool ZigbeeAdaptersProxy::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
 {
     Q_UNUSED(source_parent)
 
-    ZigbeeAdapter *adapter = m_adapters->get(source_row);
-    if (!adapter)
-        return false;
+    ZigbeeAdapter *adapter = m_manager->adapters()->get(source_row);
 
-    if (m_hardwareFilter == HardwareFilterRecognized) {
-        return adapter->hardwareRecognized();
-    } else if (m_hardwareFilter == HardwareFilterUnrecognized) {
-        return !adapter->hardwareRecognized();
+    if (m_hardwareFilter == HardwareFilterRecognized && !adapter->hardwareRecognized()) {
+        return false;
+    }
+
+    if (m_hardwareFilter == HardwareFilterUnrecognized && adapter->hardwareRecognized()) {
+        return false;
+    }
+
+    if (m_onlyUnused) {
+        if (m_manager->networks()->findBySerialPort(adapter->serialPort()) != nullptr) {
+            return false;
+        }
     }
 
     return true;

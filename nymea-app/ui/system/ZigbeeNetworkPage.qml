@@ -38,6 +38,7 @@ import Nymea 1.0
 SettingsPageBase {
     id: root
 
+    property ZigbeeManager zigbeeManager: null
     property ZigbeeNetwork network: null
 
     header: NymeaHeader {
@@ -48,7 +49,7 @@ SettingsPageBase {
         HeaderButton {
             text: qsTr("Settings")
             imageSource: "../images/settings.svg"
-            onClicked: pageStack.push(Qt.resolvedUrl("ZigbeeNetworkInfoPage.qml"), { network: root.network })
+            onClicked: pageStack.push(Qt.resolvedUrl("ZigbeeNetworkInfoPage.qml"), { network: root.network, zigbeeManager: root.zigbeeManager })
         }
     }
 
@@ -104,7 +105,6 @@ SettingsPageBase {
     }
 
     ColumnLayout {
-        anchors { left: parent.left; right: parent.right }
 
         ProgressBar {
             Layout.fillWidth: true
@@ -122,7 +122,7 @@ SettingsPageBase {
             Layout.rightMargin: app.margins
             enabled: network.networkState === ZigbeeNetwork.ZigbeeNetworkStateOnline
             text: root.network.permitJoiningEnabled ? qsTr("Extend network open duration") : qsTr("Open network for new Zigbee devices")
-            onClicked: engine.zigbeeManager.setPermitJoin(root.network.networkUuid)
+            onClicked: root.zigbeeManager.setPermitJoin(root.network.networkUuid)
         }
 
         Button {
@@ -131,7 +131,7 @@ SettingsPageBase {
             Layout.rightMargin: app.margins
             visible: network.networkState === ZigbeeNetwork.ZigbeeNetworkStateOnline && root.network.permitJoiningEnabled
             text: qsTr("Close network")
-            onClicked: engine.zigbeeManager.setPermitJoin(root.network.networkUuid, 0)
+            onClicked: root.zigbeeManager.setPermitJoin(root.network.networkUuid, 0)
         }
     }
 
