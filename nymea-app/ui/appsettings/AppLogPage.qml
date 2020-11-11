@@ -46,13 +46,14 @@ Page {
     }
 
     ListView {
+        id: listView
         anchors.fill: parent
 
         ScrollBar.vertical: ScrollBar {}
 
         model: AppLogController
         delegate: Text {
-            width: parent.width
+            width: listView.width
             maximumLineCount: 2
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             text: model.text
