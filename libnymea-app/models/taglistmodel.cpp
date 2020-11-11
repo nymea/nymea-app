@@ -127,3 +127,31 @@ void TagListModel::update()
     endResetModel();
     emit countChanged();
 }
+
+TagListProxyModel::TagListProxyModel(QObject *parent):
+    QSortFilterProxyModel(parent)
+{
+
+}
+
+TagListModel *TagListProxyModel::tagListModel() const
+{
+    return m_tagListModel;
+}
+
+void TagListProxyModel::setTagListModel(TagListModel *tagListModel)
+{
+    if (m_tagListModel != tagListModel) {
+        m_tagListModel = tagListModel;
+        setSourceModel(tagListModel);
+        emit tagListModelChanged();
+
+        connect(tagListModel, &TagListModel::countChanged, this, &TagListProxyModel::countChanged);
+
+        setSortCaseSensitivity(Qt::CaseInsensitive);
+        setSortRole(TagListModel::RoleTagId);
+        sort(0);
+
+        emit countChanged();
+    }
+}
