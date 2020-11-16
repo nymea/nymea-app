@@ -211,7 +211,7 @@ SettingsPageBase {
             }
 
             onAccepted: {
-                d.addNetwork(serialPortOptionsDialog.serialPort, baudRateComboBox.currentValue, backendModel.get(backendComboBox.currentIndex).backendValue)
+                d.addNetwork(serialPortOptionsDialog.serialPort, baudRateComboBox.currentText, backendModel.get(backendComboBox.currentIndex).backendValue)
             }
         }
     }

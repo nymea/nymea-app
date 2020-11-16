@@ -97,7 +97,6 @@ SettingsPageBase {
     }
 
     ColumnLayout {
-        anchors { left: parent.left; right: parent.right }
 
         Button {
             Layout.fillWidth: true
@@ -117,7 +116,7 @@ SettingsPageBase {
             Layout.rightMargin: app.margins
             text: qsTr("Factory reset controller")
             onClicked: {
-                engine.zigbeeManager.factoryResetNetwork(root.network.networkUuid)
+                root.zigbeeManager.factoryResetNetwork(root.network.networkUuid)
                 pageStack.pop()
             }
         }
