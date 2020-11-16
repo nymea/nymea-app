@@ -146,14 +146,14 @@ void ZigbeeManager::getAdaptersResponse(int commandId, const QVariantMap &params
         m_adapters->addAdapter(adapter);
     }
 
-    ZigbeeAdapter *fakeAdapter = new ZigbeeAdapter();
-    fakeAdapter->setSerialPort("/dev/fake");
-    fakeAdapter->setBackendType(ZigbeeAdapter::ZigbeeBackendTypeDeconz);
-    fakeAdapter->setBaudRate(9600);
-    fakeAdapter->setDescription("Fake adapter");
-    fakeAdapter->setHardwareRecognized(true);
-    fakeAdapter->setName("Fake");
-    m_adapters->addAdapter(fakeAdapter);
+//    ZigbeeAdapter *fakeAdapter = new ZigbeeAdapter();
+//    fakeAdapter->setSerialPort("/dev/fake");
+//    fakeAdapter->setBackendType(ZigbeeAdapter::ZigbeeBackendTypeDeconz);
+//    fakeAdapter->setBaudRate(9600);
+//    fakeAdapter->setDescription("Fake adapter");
+//    fakeAdapter->setHardwareRecognized(true);
+//    fakeAdapter->setName("Fake");
+//    m_adapters->addAdapter(fakeAdapter);
 }
 
 void ZigbeeManager::getNetworksResponse(int commandId, const QVariantMap &params)
