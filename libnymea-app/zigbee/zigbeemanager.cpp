@@ -36,15 +36,13 @@
 #include "zigbee/zigbeeadapters.h"
 #include "zigbee/zigbeenetwork.h"
 #include "zigbee/zigbeenetworks.h"
-#include "zigbeenetworksandadapters.h"
 
 #include <QMetaEnum>
 
 ZigbeeManager::ZigbeeManager(QObject *parent) :
     JsonHandler(parent),
     m_adapters(new ZigbeeAdapters(this)),
-    m_networks(new ZigbeeNetworks(this)),
-    m_networksAndAdapters(new ZigbeeNetworksAndAdapters(this))
+    m_networks(new ZigbeeNetworks(this))
 {
     qRegisterMetaType<ZigbeeAdapter::ZigbeeBackendType>();
 
@@ -82,11 +80,6 @@ ZigbeeAdapters *ZigbeeManager::adapters() const
 ZigbeeNetworks *ZigbeeManager::networks() const
 {
     return m_networks;
-}
-
-ZigbeeNetworksAndAdapters *ZigbeeManager::networksAndAdapters() const
-{
-    return m_networksAndAdapters;
 }
 
 int ZigbeeManager::addNetwork(const QString &serialPort, uint baudRate, ZigbeeAdapter::ZigbeeBackendType backendType)

@@ -39,7 +39,6 @@ class JsonRpcClient;
 class ZigbeeAdapters;
 class ZigbeeNetwork;
 class ZigbeeNetworks;
-class ZigbeeNetworksAndAdapters;
 class Engine;
 
 class ZigbeeManager : public JsonHandler
@@ -49,7 +48,6 @@ class ZigbeeManager : public JsonHandler
 
     Q_PROPERTY(ZigbeeAdapters *adapters READ adapters CONSTANT)
     Q_PROPERTY(ZigbeeNetworks *networks READ networks CONSTANT)
-    Q_PROPERTY(ZigbeeNetworksAndAdapters *networksAndAdapters READ networksAndAdapters CONSTANT)
 
 public:
     explicit ZigbeeManager(QObject *parent = nullptr);
@@ -62,7 +60,6 @@ public:
 
     ZigbeeAdapters *adapters() const;
     ZigbeeNetworks *networks() const;
-    ZigbeeNetworksAndAdapters *networksAndAdapters() const;
 
     Q_INVOKABLE int addNetwork(const QString &serialPort, uint baudRate, ZigbeeAdapter::ZigbeeBackendType backendType);
     Q_INVOKABLE void removeNetwork(const QUuid &networkUuid);
@@ -91,7 +88,6 @@ private:
     Engine* m_engine = nullptr;
     ZigbeeAdapters *m_adapters = nullptr;
     ZigbeeNetworks *m_networks = nullptr;
-    ZigbeeNetworksAndAdapters *m_networksAndAdapters = nullptr;
 
     ZigbeeAdapter *unpackAdapter(const QVariantMap &adapterMap);
     ZigbeeNetwork *unpackNetwork(const QVariantMap &networkMap);
