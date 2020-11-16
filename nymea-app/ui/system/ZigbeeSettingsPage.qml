@@ -54,20 +54,21 @@ SettingsPageBase {
         engine: _engine
     }
 
-    SettingsPageSectionHeader {
-        text: qsTr("General")
-    }
+    // Disabled for now, the Resources API won't make it in time
+//    SettingsPageSectionHeader {
+//        text: qsTr("General")
+//    }
 
-    NymeaListItemDelegate {
-        Layout.fillWidth: true
-        text: qsTr("Zigbee enabled")
-        subText: qsTr("Enable or disable Zigbee altogether")
-        prominentSubText: false
-        progressive: false
-        additionalItem: Switch {
-            anchors.centerIn: parent
-        }
-    }
+//    NymeaListItemDelegate {
+//        Layout.fillWidth: true
+//        text: qsTr("Zigbee enabled")
+//        subText: qsTr("Enable or disable Zigbee altogether")
+//        prominentSubText: false
+//        progressive: false
+//        additionalItem: Switch {
+//            anchors.centerIn: parent
+//        }
+//    }
 
     SettingsPageSectionHeader {
         text: qsTr("Zigbee networks")
