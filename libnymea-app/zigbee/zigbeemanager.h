@@ -46,6 +46,7 @@ class ZigbeeManager : public JsonHandler
     Q_OBJECT
     Q_PROPERTY(Engine* engine READ engine WRITE setEngine NOTIFY engineChanged)
 
+    Q_PROPERTY(QStringList availableBackends READ availableBackends NOTIFY availableBackendsChanged)
     Q_PROPERTY(ZigbeeAdapters *adapters READ adapters CONSTANT)
     Q_PROPERTY(ZigbeeNetworks *networks READ networks CONSTANT)
 
@@ -58,22 +59,24 @@ public:
     void setEngine(Engine *engine);
     Engine *engine() const;
 
+    QStringList availableBackends() const;
     ZigbeeAdapters *adapters() const;
     ZigbeeNetworks *networks() const;
 
-    Q_INVOKABLE int addNetwork(const QString &serialPort, uint baudRate, ZigbeeAdapter::ZigbeeBackendType backendType);
+    Q_INVOKABLE int addNetwork(const QString &serialPort, uint baudRate, const QString &backend);
     Q_INVOKABLE void removeNetwork(const QUuid &networkUuid);
     Q_INVOKABLE void setPermitJoin(const QUuid &networkUuid, uint duration = 120);
     Q_INVOKABLE void factoryResetNetwork(const QUuid &networkUuid);
 
 signals:
     void engineChanged();
-
+    void availableBackendsChanged();
     void addNetworkReply(int commandId, const QString &error, const QUuid &networkUuid);
 
 private:
     void init();
 
+    Q_INVOKABLE void getAvailableBackendsResponse(int commandId, const QVariantMap &params);
     Q_INVOKABLE void getAdaptersResponse(int commandId, const QVariantMap &params);
     Q_INVOKABLE void getNetworksResponse(int commandId, const QVariantMap &params);
 
@@ -86,6 +89,7 @@ private:
 
 private:
     Engine* m_engine = nullptr;
+    QStringList m_availableBackends;
     ZigbeeAdapters *m_adapters = nullptr;
     ZigbeeNetworks *m_networks = nullptr;
 

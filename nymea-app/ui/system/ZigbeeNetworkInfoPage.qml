@@ -79,7 +79,7 @@ SettingsPageBase {
     NymeaListItemDelegate {
         Layout.fillWidth: true
         text: qsTr("Controller backend")
-        subText: ZigbeeAdapter.getBackendName(root.network.backendType)
+        subText: root.network.backend
         progressive: false
         prominentSubText: false
     }

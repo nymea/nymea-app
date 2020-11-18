@@ -52,7 +52,7 @@ class ZigbeeNetwork : public QObject
     Q_PROPERTY(bool permitJoiningEnabled READ permitJoiningEnabled NOTIFY permitJoiningEnabledChanged)
     Q_PROPERTY(uint permitJoiningDuration READ permitJoiningDuration NOTIFY permitJoiningDurationChanged)
     Q_PROPERTY(uint permitJoiningRemaining READ permitJoiningRemaining NOTIFY permitJoiningRemainingChanged)
-    Q_PROPERTY(ZigbeeAdapter::ZigbeeBackendType backendType READ backendType NOTIFY backendTypeChanged)
+    Q_PROPERTY(QString backend READ backend NOTIFY backendChanged)
     Q_PROPERTY(ZigbeeNetworkState networkState READ networkState NOTIFY networkStateChanged)
 
     // Internal properties
@@ -105,8 +105,8 @@ public:
     uint permitJoiningRemaining() const;
     void setPermitJoiningRemaining(uint permitJoiningRemaining);
 
-    ZigbeeAdapter::ZigbeeBackendType backendType() const;
-    void setBackendType(ZigbeeAdapter::ZigbeeBackendType backendType);
+    QString backend() const;
+    void setBackend(const QString &backend);
 
     ZigbeeNetworkState networkState() const;
     void setNetworkState(ZigbeeNetworkState networkState);
@@ -126,7 +126,7 @@ signals:
     void permitJoiningEnabledChanged();
     void permitJoiningDurationChanged();
     void permitJoiningRemainingChanged();
-    void backendTypeChanged();
+    void backendChanged();
     void networkStateChanged();
 
 private:
@@ -142,7 +142,7 @@ private:
     bool m_permitJoiningEnabled;
     uint m_permitJoiningDuration;
     uint m_permitJoiningRemaining;
-    ZigbeeAdapter::ZigbeeBackendType m_backendType;
+    QString m_backend;
     ZigbeeNetworkState m_networkState;
 
     QTimer *m_permitJoinTimer = nullptr;

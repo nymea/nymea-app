@@ -219,18 +219,18 @@ void ZigbeeNetwork::setPermitJoiningRemaining(uint permitJoiningRemaining)
     }
 }
 
-ZigbeeAdapter::ZigbeeBackendType ZigbeeNetwork::backendType() const
+QString ZigbeeNetwork::backend() const
 {
-    return m_backendType;
+    return m_backend;
 }
 
-void ZigbeeNetwork::setBackendType(ZigbeeAdapter::ZigbeeBackendType backendType)
+void ZigbeeNetwork::setBackend(const QString &backend)
 {
-    if (m_backendType == backendType)
+    if (m_backend == backend)
         return;
 
-    m_backendType = backendType;
-    emit backendTypeChanged();
+    m_backend = backend;
+    emit backendChanged();
 }
 
 ZigbeeNetwork::ZigbeeNetworkState ZigbeeNetwork::networkState() const

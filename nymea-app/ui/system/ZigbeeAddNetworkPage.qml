@@ -47,8 +47,8 @@ SettingsPageBase {
         id: d
         property int pendingCommandId: -1
 
-        function addNetwork(serialPort, baudRate, backendType) {
-            d.pendingCommandId = root.zigbeeManager.addNetwork(serialPort, baudRate, backendType)
+        function addNetwork(serialPort, baudRate, backend) {
+            d.pendingCommandId = root.zigbeeManager.addNetwork(serialPort, baudRate, backend)
         }
     }
 
@@ -128,8 +128,8 @@ SettingsPageBase {
         delegate: NymeaListItemDelegate {
             Layout.fillWidth: true
             iconName: "../images/zigbee.svg"
-            text: model.name + " - " + model.description + " - " + model.serialPort
-            onClicked: d.addNetwork(model.serialPort, model.baudRate, model.backendType)
+            text: model.backend + " - " + model.description + " - " + model.serialPort
+            onClicked: d.addNetwork(model.serialPort, model.baudRate, model.backend)
         }
     }
 
@@ -161,7 +161,7 @@ SettingsPageBase {
             iconName: "../images/stock_usb.svg"
             text: model.description + " - " + model.serialPort
             onClicked: {
-                var dialog = serialPortOptionsDialogComponent.createObject(app, {serialPort: model.serialPort, baudRate: model.baudRate})
+                var dialog = serialPortOptionsDialogComponent.createObject(app, {serialPort: model.serialPort, baudRate: model.baudRate, backend: model.backend})
                 dialog.open()
             }
         }
@@ -174,6 +174,7 @@ SettingsPageBase {
             id: serialPortOptionsDialog
             property string serialPort
             property int baudRate
+            property string backend
 
             headerIcon: "../images/stock_usb.svg"
             title: qsTr("Serial port options")
@@ -187,12 +188,10 @@ SettingsPageBase {
                 }
                 ComboBox {
                     id: backendComboBox
-                    model: ListModel {
-                        id: backendModel
-                        ListElement { displayName: "deConz"; backendValue: ZigbeeAdapter.ZigbeeBackendTypeDeconz }
-                        ListElement { displayName: "NXP"; backendValue: ZigbeeAdapter.ZigbeeBackendTypeNxp }
+                    model: root.zigbeeManager.availableBackends
+                    Component.onCompleted: {
+                        currentIndex = backendComboBox.find(serialPortOptionsDialog.backend)
                     }
-                    textRole: "displayName"
                 }
             }
 
@@ -203,15 +202,15 @@ SettingsPageBase {
                 }
                 ComboBox {
                     id: baudRateComboBox
-                    model: [300, 600, 1200, 2400, 4800, 9600, 14400, 19200, 38400, 57600]
+                    model: ["9600", "14400", "19200", "38400", "57600", "115200", "128000", "230400", "256000"]
                     Component.onCompleted: {
-                        currentIndex = indexOfValue(serialPortOptionsDialog.baudRate)
+                        currentIndex = baudRateComboBox.find(serialPortOptionsDialog.baudRate)
                     }
                 }
             }
 
             onAccepted: {
-                d.addNetwork(serialPortOptionsDialog.serialPort, baudRateComboBox.currentText, backendModel.get(backendComboBox.currentIndex).backendValue)
+                d.addNetwork(serialPortOptionsDialog.serialPort, baudRateComboBox.currentText, backendComboBox.currentText)
             }
         }
     }

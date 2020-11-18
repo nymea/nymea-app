@@ -54,7 +54,7 @@ public:
         RolePermitJoiningEnabled,
         RolePermitJoiningDuration,
         RolePermitJoiningRemaining,
-        RoleBackendType,
+        RoleBackend,
         RoleNetworkState
     };
     Q_ENUM(Roles)

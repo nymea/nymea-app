@@ -52,8 +52,8 @@ QVariant ZigbeeAdapters::data(const QModelIndex &index, int role) const
         return m_adapters.at(index.row())->serialPort();
     case RoleHardwareRecognized:
         return m_adapters.at(index.row())->hardwareRecognized();
-    case RoleBackendType:
-        return m_adapters.at(index.row())->backendType();
+    case RoleBackend:
+        return m_adapters.at(index.row())->backend();
     case RoleBaudRate:
         return m_adapters.at(index.row())->baudRate();
     }
@@ -67,7 +67,7 @@ QHash<int, QByteArray> ZigbeeAdapters::roleNames() const
     roles.insert(RoleDescription, "description");
     roles.insert(RoleSerialPort, "serialPort");
     roles.insert(RoleHardwareRecognized, "hardwareRecognized");
-    roles.insert(RoleBackendType, "backendType");
+    roles.insert(RoleBackend, "backend");
     roles.insert(RoleBaudRate, "baudRate");
     return roles;
 }
@@ -99,9 +99,9 @@ void ZigbeeAdapters::addAdapter(ZigbeeAdapter *adapter)
         emit dataChanged(idx, idx, {RoleHardwareRecognized});
     });
 
-    connect(adapter, &ZigbeeAdapter::backendTypeChanged, this, [this, adapter]() {
+    connect(adapter, &ZigbeeAdapter::backendChanged, this, [this, adapter]() {
         QModelIndex idx = index(m_adapters.indexOf(adapter), 0);
-        emit dataChanged(idx, idx, {RoleBackendType});
+        emit dataChanged(idx, idx, {RoleBackend});
     });
 
     connect(adapter, &ZigbeeAdapter::baudRateChanged, this, [this, adapter]() {

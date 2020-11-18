@@ -66,8 +66,8 @@ QVariant ZigbeeNetworks::data(const QModelIndex &index, int role) const
         return m_networks.at(index.row())->permitJoiningDuration();
     case RolePermitJoiningRemaining:
         return m_networks.at(index.row())->permitJoiningRemaining();
-    case RoleBackendType:
-        return m_networks.at(index.row())->backendType();
+    case RoleBackend:
+        return m_networks.at(index.row())->backend();
     case RoleNetworkState:
         return m_networks.at(index.row())->networkState();
     }
@@ -89,7 +89,7 @@ QHash<int, QByteArray> ZigbeeNetworks::roleNames() const
     roles.insert(RolePermitJoiningEnabled, "permitJoiningEnabled");
     roles.insert(RolePermitJoiningDuration, "permitJoiningDuration");
     roles.insert(RolePermitJoiningRemaining, "permitJoiningRemaining");
-    roles.insert(RoleBackendType, "backendType");
+    roles.insert(RoleBackend, "backend");
     roles.insert(RoleNetworkState, "networkState");
     return roles;
 
@@ -155,9 +155,9 @@ void ZigbeeNetworks::addNetwork(ZigbeeNetwork *network)
         emit dataChanged(idx, idx, {RolePermitJoiningRemaining});
     });
 
-    connect(network, &ZigbeeNetwork::backendTypeChanged, this, [this, network]() {
+    connect(network, &ZigbeeNetwork::backendChanged, this, [this, network]() {
         QModelIndex idx = index(m_networks.indexOf(network), 0);
-        emit dataChanged(idx, idx, {RoleBackendType});
+        emit dataChanged(idx, idx, {RoleBackend});
     });
 
     connect(network, &ZigbeeNetwork::networkStateChanged, this, [this, network]() {

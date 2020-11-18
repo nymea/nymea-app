@@ -47,7 +47,7 @@ public:
         RoleDescription,
         RoleSerialPort,
         RoleHardwareRecognized,
-        RoleBackendType,
+        RoleBackend,
         RoleBaudRate
     };
     Q_ENUM(Roles)

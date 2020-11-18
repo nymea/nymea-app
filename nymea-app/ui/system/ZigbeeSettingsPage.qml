@@ -88,7 +88,7 @@ SettingsPageBase {
             Layout.fillWidth: true
             property var network: zigbeeManager.networks.get(index)
             iconName: "../images/zigbee.svg"
-            text: model.macAddress
+            text: model.backend + " - " + model.macAddress
             subText: model.serialPort  + " - " + model.firmwareVersion
             onClicked: pageStack.push(Qt.resolvedUrl("ZigbeeNetworkPage.qml"), { zigbeeManager: zigbeeManager, network: network })
         }

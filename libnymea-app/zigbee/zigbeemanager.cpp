@@ -44,7 +44,6 @@ ZigbeeManager::ZigbeeManager(QObject *parent) :
     m_adapters(new ZigbeeAdapters(this)),
     m_networks(new ZigbeeNetworks(this))
 {
-    qRegisterMetaType<ZigbeeAdapter::ZigbeeBackendType>();
 
 }
 
@@ -72,6 +71,11 @@ Engine *ZigbeeManager::engine() const
     return m_engine;
 }
 
+QStringList ZigbeeManager::availableBackends() const
+{
+    return m_availableBackends;
+}
+
 ZigbeeAdapters *ZigbeeManager::adapters() const
 {
     return m_adapters;
@@ -82,13 +86,12 @@ ZigbeeNetworks *ZigbeeManager::networks() const
     return m_networks;
 }
 
-int ZigbeeManager::addNetwork(const QString &serialPort, uint baudRate, ZigbeeAdapter::ZigbeeBackendType backendType)
+int ZigbeeManager::addNetwork(const QString &serialPort, uint baudRate, const QString &backend)
 {
     QVariantMap params;
     params.insert("serialPort", serialPort);
     params.insert("baudRate", baudRate);
-    QMetaEnum metaEnum = QMetaEnum::fromType<ZigbeeAdapter::ZigbeeBackendType>();
-    params.insert("backendType", metaEnum.valueToKey(backendType));
+    params.insert("backend", backend);
 
     qDebug() << "Add zigbee network" << params;
     return m_engine->jsonRpcClient()->sendCommand("Zigbee.AddNetwork", params, this, "addNetworkResponse");
@@ -121,11 +124,23 @@ void ZigbeeManager::init()
 {
     m_adapters->clear();
     m_networks->clear();
+    m_availableBackends.clear();
 
     m_engine->jsonRpcClient()->registerNotificationHandler(this, "notificationReceived");
 
+    m_engine->jsonRpcClient()->sendCommand("Zigbee.GetAvailableBackends", this, "getAvailableBackendsResponse");
     m_engine->jsonRpcClient()->sendCommand("Zigbee.GetAdapters", this, "getAdaptersResponse");
     m_engine->jsonRpcClient()->sendCommand("Zigbee.GetNetworks", this, "getNetworksResponse");
+}
+
+void ZigbeeManager::getAvailableBackendsResponse(int commandId, const QVariantMap &params)
+{
+    qDebug() << "Zigbee get available backends response" << commandId << params;
+    m_availableBackends.clear();
+    foreach (const QVariant &backendVariant, params.value("backends").toList()) {
+        m_availableBackends << backendVariant.toString();
+    }
+    emit availableBackendsChanged();
 }
 
 void ZigbeeManager::getAdaptersResponse(int commandId, const QVariantMap &params)
@@ -141,7 +156,7 @@ void ZigbeeManager::getAdaptersResponse(int commandId, const QVariantMap &params
 
 //    ZigbeeAdapter *fakeAdapter = new ZigbeeAdapter();
 //    fakeAdapter->setSerialPort("/dev/fake");
-//    fakeAdapter->setBackendType(ZigbeeAdapter::ZigbeeBackendTypeDeconz);
+//    fakeAdapter->setBackend("Fake");
 //    fakeAdapter->setBaudRate(9600);
 //    fakeAdapter->setDescription("Fake adapter");
 //    fakeAdapter->setHardwareRecognized(true);
@@ -232,7 +247,7 @@ ZigbeeAdapter *ZigbeeManager::unpackAdapter(const QVariantMap &adapterMap)
     adapter->setSerialPort(adapterMap.value("serialPort").toString());
     adapter->setSerialNumber(adapterMap.value("serialNumber").toString());
     adapter->setHardwareRecognized(adapterMap.value("hardwareRecognized").toBool());
-    adapter->setBackendType(ZigbeeAdapter::stringToZigbeeBackendType(adapterMap.value("backendType").toString()));
+    adapter->setBackend(adapterMap.value("backend").toString());
     adapter->setBaudRate(adapterMap.value("baudRate").toUInt());
     return adapter;
 }
@@ -257,7 +272,7 @@ void ZigbeeManager::fillNetworkData(ZigbeeNetwork *network, const QVariantMap &n
     network->setPermitJoiningEnabled(networkMap.value("permitJoiningEnabled").toBool());
     network->setPermitJoiningDuration(networkMap.value("permitJoiningDuration").toUInt());
     network->setPermitJoiningRemaining(networkMap.value("permitJoiningRemaining").toUInt());
-    network->setBackendType(ZigbeeAdapter::stringToZigbeeBackendType(networkMap.value("backendType").toString()));
+    network->setBackend(networkMap.value("backend").toString());
     network->setNetworkState(ZigbeeNetwork::stringToZigbeeNetworkState(networkMap.value("networkState").toString()));
 }
 

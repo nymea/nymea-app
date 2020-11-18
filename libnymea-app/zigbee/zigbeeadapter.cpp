@@ -90,15 +90,15 @@ void ZigbeeAdapter::setHardwareRecognized(bool hardwareRecognized)
     emit hardwareRecognizedChanged();
 }
 
-ZigbeeAdapter::ZigbeeBackendType ZigbeeAdapter::backendType() const
+QString ZigbeeAdapter::backend() const
 {
-    return m_backendType;
+    return m_backend;
 }
 
-void ZigbeeAdapter::setBackendType(ZigbeeAdapter::ZigbeeBackendType backendType)
+void ZigbeeAdapter::setBackend(const QString &backend)
 {
-    m_backendType = backendType;
-    emit backendTypeChanged();
+    m_backend = backend;
+    emit backendChanged();
 }
 
 qint32 ZigbeeAdapter::baudRate() const
@@ -118,32 +118,8 @@ bool ZigbeeAdapter::operator==(const ZigbeeAdapter &other) const
             && m_name == other.name()
             && m_description == other.description()
             && m_hardwareRecognized == other.hardwareRecognized()
-            && m_backendType == other.backendType()
+            && m_backend == other.backend()
             && m_baudRate == other.baudRate();
-}
-
-ZigbeeAdapter::ZigbeeBackendType ZigbeeAdapter::stringToZigbeeBackendType(const QString &backendTypeString)
-{
-    if (backendTypeString == "ZigbeeBackendTypeNxp") {
-        return ZigbeeBackendTypeNxp;
-    } else if (backendTypeString == "ZigbeeBackendTypeDeconz") {
-        return ZigbeeBackendTypeDeconz;
-    } else {
-        // default if not recognized
-        return ZigbeeBackendTypeDeconz;
-    }
-}
-
-QString ZigbeeAdapter::getBackendName(ZigbeeAdapter::ZigbeeBackendType backendType)
-{
-    switch (backendType) {
-    case ZigbeeAdapter::ZigbeeBackendTypeDeconz:
-        return "deCONZ";
-    case ZigbeeAdapter::ZigbeeBackendTypeNxp:
-        return "Nxp";
-    default:
-        return tr("Unknown");
-    }
 }
 
 QDebug operator<<(QDebug debug, const ZigbeeAdapter &adapter)
@@ -151,7 +127,7 @@ QDebug operator<<(QDebug debug, const ZigbeeAdapter &adapter)
     debug.nospace() << "ZigbeeAdapter(" << adapter.name() << " - " << adapter.description();
     debug.nospace() << ", " << adapter.serialPort();
     if (adapter.hardwareRecognized()) {
-        debug.nospace() << " Hardware recognized: " << adapter.backendType();
+        debug.nospace() << " Hardware recognized: " << adapter.backend();
         debug.nospace() << ", " << adapter.baudRate();
     }
 

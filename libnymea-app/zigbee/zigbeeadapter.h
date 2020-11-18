@@ -42,16 +42,10 @@ class ZigbeeAdapter : public QObject
     Q_PROPERTY(QString serialPort READ serialPort WRITE setSerialPort NOTIFY serialPortChanged)
     Q_PROPERTY(QString serialNumber READ serialNumber WRITE setSerialNumber NOTIFY serialNumberChanged)
     Q_PROPERTY(bool hardwareRecognized READ hardwareRecognized WRITE setHardwareRecognized NOTIFY hardwareRecognizedChanged)
-    Q_PROPERTY(ZigbeeAdapter::ZigbeeBackendType backendType READ backendType WRITE setBackendType NOTIFY backendTypeChanged)
+    Q_PROPERTY(QString backend READ backend WRITE setBackend NOTIFY backendChanged)
     Q_PROPERTY(qint32 baudRate READ baudRate WRITE setBaudRate NOTIFY baudRateChanged)
 
 public:
-    enum ZigbeeBackendType {
-        ZigbeeBackendTypeDeconz,
-        ZigbeeBackendTypeNxp
-    };
-    Q_ENUM(ZigbeeBackendType)
-
     explicit ZigbeeAdapter(QObject *parent = nullptr);
 
     QString name() const;
@@ -69,17 +63,13 @@ public:
     bool hardwareRecognized() const;
     void setHardwareRecognized(bool hardwareRecognized);
 
-    ZigbeeAdapter::ZigbeeBackendType backendType() const;
-    void setBackendType(ZigbeeAdapter::ZigbeeBackendType backendType);
+    QString backend() const;
+    void setBackend(const QString &backend);
 
     qint32 baudRate() const;
     void setBaudRate(qint32 baudRate);
 
     bool operator==(const ZigbeeAdapter &other) const;
-
-    static ZigbeeAdapter::ZigbeeBackendType stringToZigbeeBackendType(const QString &backendTypeString);
-
-    Q_INVOKABLE static QString getBackendName(ZigbeeAdapter::ZigbeeBackendType backendType);
 
 private:
     QString m_name;
@@ -87,7 +77,7 @@ private:
     QString m_serialPort;
     QString m_serialNumber;
     bool m_hardwareRecognized = false;
-    ZigbeeAdapter::ZigbeeBackendType m_backendType = ZigbeeAdapter::ZigbeeBackendTypeDeconz;
+    QString m_backend;
     qint32 m_baudRate = 38400;
 
 signals:
@@ -96,11 +86,9 @@ signals:
     void serialPortChanged();
     void serialNumberChanged();
     void hardwareRecognizedChanged();
-    void backendTypeChanged();
+    void backendChanged();
     void baudRateChanged();
 };
-
-Q_DECLARE_METATYPE(ZigbeeAdapter::ZigbeeBackendType)
 
 QDebug operator<<(QDebug debug, const ZigbeeAdapter &adapter);
 
