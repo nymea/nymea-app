@@ -49,7 +49,9 @@ ZigbeeManager::ZigbeeManager(QObject *parent) :
 
 ZigbeeManager::~ZigbeeManager()
 {
-
+    if (m_engine) {
+        m_engine->jsonRpcClient()->unregisterNotificationHandler(this);
+    }
 }
 
 QString ZigbeeManager::nameSpace() const
@@ -60,6 +62,11 @@ QString ZigbeeManager::nameSpace() const
 void ZigbeeManager::setEngine(Engine *engine)
 {
     if (m_engine != engine) {
+
+        if (m_engine) {
+            m_engine->jsonRpcClient()->unregisterNotificationHandler(this);
+        }
+
         m_engine = engine;
         emit engineChanged();
         init();
