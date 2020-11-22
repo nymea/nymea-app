@@ -189,7 +189,7 @@ public class NymeaAppControlService extends ControlsProviderService {
                 actionTypeId = thing.actionByName("close").typeId;
             }
             param = "";
-        } else if (thing.interfaces.contains("extendedvolumecontroller")) {
+        } else if (thing.interfaces.contains("volumecontroller") && thing.stateByName("volume") != null) {
             actionTypeId = thing.stateByName("volume").typeId;
             FloatAction fAction = (FloatAction) action;
             param = String.valueOf(Math.round(fAction.getNewValue()));
@@ -271,10 +271,12 @@ public class NymeaAppControlService extends ControlsProviderService {
                 // FIXME: There doesn't seem to be a speaker DeviceType!?!
                 builder.setDeviceType(DeviceTypes.TYPE_TV);
             }
-            if (thing.interfaces.contains("extendedvolumecontroller")) {
+            if (thing.interfaces.contains("volumecontroller")) {
                 State volumeState = thing.stateByName("volume");
-                RangeTemplate rangeTemplate = new RangeTemplate(thing.id.toString(), 0, 100, Float.parseFloat(volumeState.value), 1, volumeState.displayName);
-                builder.setControlTemplate(rangeTemplate);
+                if (volumeState != null) {
+                    RangeTemplate rangeTemplate = new RangeTemplate(thing.id.toString(), 0, 100, Float.parseFloat(volumeState.value), 1, volumeState.displayName);
+                    builder.setControlTemplate(rangeTemplate);
+                }
             }
         } else {
             builder.setDeviceType(DeviceTypes.TYPE_GENERIC_ON_OFF);

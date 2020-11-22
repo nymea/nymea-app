@@ -36,12 +36,15 @@ import Nymea 1.0
 
 RowLayout {
     id: root
-    implicitHeight: iconSize + app.margins
+    implicitHeight: app.iconSize * (showExtendedControls ? 2 : 1) + app.margins
 
     property Thing thing: null
-    property int iconSize: app.iconSize * 1.5
+
+    property bool showExtendedControls: false
 
     readonly property State playbackState: thing.stateByName("playbackStatus")
+    readonly property State shuffleState: thing.stateByName("shuffle")
+    readonly property State repeatState: thing.stateByName("repeat")
 
     function executeAction(actionName, params) {
         if (params === undefined) {
@@ -51,12 +54,31 @@ RowLayout {
         engine.thingManager.executeAction(thing.id, actionTypeId, params)
     }
 
+    ProgressButton {
+        Layout.preferredHeight: app.iconSize
+        Layout.preferredWidth: height
+        imageSource: "../images/media-playlist-shuffle.svg"
+        longpressEnabled: false
+        enabled: root.shuffleState !== null
+        opacity: enabled ? 1 : .5
+        visible: root.showExtendedControls
+        onClicked: {
+            var params = []
+            var param = {}
+            param["paramTypeId"] = root.shuffleState.stateTypeId
+            param["value"] = !root.shuffleState.value
+            params.push(param)
+            root.executeAction("shuffle", params)
+        }
+    }
+
     Item { Layout.fillWidth: true }
     ProgressButton {
-        Layout.preferredHeight: root.iconSize * .6
+        Layout.preferredHeight: app.iconSize * (root.showExtendedControls ? 1.5 : 1)
         Layout.preferredWidth: height
         imageSource: "../images/media-skip-backward.svg"
         longpressImageSource: "../images/media-seek-backward.svg"
+        longpressEnabled: root.thing.thingClass.actionTypes.findByName("fastRewind") !== null
         enabled: root.playbackState && root.playbackState.value !== "Stopped"
         opacity: enabled ? 1 : .5
 
@@ -70,7 +92,7 @@ RowLayout {
     }
     Item { Layout.fillWidth: true }
     ProgressButton {
-        Layout.preferredHeight: root.iconSize
+        Layout.preferredHeight: app.iconSize * (root.showExtendedControls ? 2 : 1)
         Layout.preferredWidth: height
         imageSource: root.playbackState && root.playbackState.value === "Playing" ? "../images/media-playback-pause.svg" : "../images/media-playback-start.svg"
         longpressImageSource: "../images/media-playback-stop.svg"
@@ -90,10 +112,11 @@ RowLayout {
     }
     Item { Layout.fillWidth: true }
     ProgressButton {
-        Layout.preferredHeight: root.iconSize * .6
+        Layout.preferredHeight: app.iconSize * (root.showExtendedControls ? 1.5 : 1)
         Layout.preferredWidth: height
         imageSource: "../images/media-skip-forward.svg"
         longpressImageSource: "../images/media-seek-forward.svg"
+        longpressEnabled: root.thing.thingClass.actionTypes.findByName("fastForward") !== null
         enabled: root.playbackState && root.playbackState.value !== "Stopped"
         opacity: enabled ? 1 : .5
         repeat: true
@@ -105,4 +128,24 @@ RowLayout {
         }
     }
     Item { Layout.fillWidth: true }
+
+    ProgressButton {
+        Layout.preferredHeight: app.iconSize
+        Layout.preferredWidth: height
+        imageSource: root.repeatState.value === "One" ? "../images/media-playlist-repeat-one.svg" : "../images/media-playlist-repeat.svg"
+        color: root.repeatState.value === "None" ? keyColor : app.accentColor
+        longpressEnabled: false
+        enabled: root.repeatState !== null
+        opacity: enabled ? 1 : .5
+        visible: root.showExtendedControls
+        property var allowedValues: ["None", "All", "One"]
+        onClicked: {
+            var params = []
+            var param = {}
+            param["paramTypeId"] = root.repeatState.stateTypeId;
+            param["value"] = allowedValues[(allowedValues.indexOf(root.repeatState.value) + 1) % 3]
+            params.push(param)
+            root.executeAction("repeat", params)
+        }
+    }
 }

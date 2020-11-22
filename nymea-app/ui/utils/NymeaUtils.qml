@@ -20,7 +20,7 @@ Item {
         print("**** getting page for interfaces", interfaceList)
         var page;
         if (interfaceList.indexOf("media") >= 0) {
-            page = "MediaDevicePage.qml";
+            page = "MediaThingPage.qml";
         } else if (interfaceList.indexOf("button") >= 0) {
             page = "ButtonDevicePage.qml";
         } else if (interfaceList.indexOf("powerswitch") >= 0) {

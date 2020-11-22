@@ -59,7 +59,7 @@ ApplicationWindow {
     property int smallFont: 13
     property int mediumFont: 16
     property int largeFont: 20
-    property int iconSize: 30
+    property int iconSize: 24
     property int delegateHeight: 60
     property color backgroundColor: Material.background
 
@@ -259,7 +259,6 @@ ApplicationWindow {
             return Qt.resolvedUrl("images/sensors/windspeed.svg")
         case "media":
         case "mediacontroller":
-        case "extendedmediacontroller":
         case "mediaplayer":
             return Qt.resolvedUrl("images/media.svg")
         case "powersocket":
@@ -337,7 +336,6 @@ ApplicationWindow {
         case "extendednavigationpad":
             return Qt.resolvedUrl("images/navigationpad.svg")
         case "volumecontroller":
-        case "extendedvolumecontroller":
             return Qt.resolvedUrl("images/audio-speakers-symbolic.svg")
         case "shufflerepeat":
             return Qt.resolvedUrl("images/media-playlist-shuffle.svg")

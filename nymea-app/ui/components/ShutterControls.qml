@@ -34,10 +34,11 @@ import QtQuick.Controls.Material 2.2
 import QtQuick.Layouts 1.3
 import Nymea 1.0
 
-Row {
+RowLayout {
     id: root
 
-    property Device device: null
+    property Device thing: null
+    property alias device: root.thing
     readonly property var deviceClass: device ? engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
     readonly property var openState: device ? device.states.getState(deviceClass.stateTypes.findByName("state").id) : null
     readonly property bool canStop: device && device.deviceClass.actionTypes.findByName("stop")
@@ -46,54 +47,41 @@ Row {
 
     signal activated(string button);
 
-    ItemDelegate {
-        width: app.iconSize * 2
-        height: width
+    Item { Layout.fillWidth: true; Layout.fillHeight: true }
 
-        ColorIcon {
-            anchors.fill: parent
-            anchors.margins: app.margins
-            name: root.invert ? "../images/down.svg" : "../images/up.svg"
-            color: root.openState && root.openState.value === "opening" ? Material.accent : keyColor
-        }
+    ProgressButton {
+        longpressEnabled: false
+        imageSource: root.invert ? "../images/down.svg" : "../images/up.svg"
+        color: root.openState && root.openState.value === "opening" ? Material.accent : keyColor
         onClicked: {
             engine.deviceManager.executeAction(root.device.id, root.deviceClass.actionTypes.findByName("open").id)
             root.activated("open")
         }
     }
 
+    Item { Layout.fillWidth: true; Layout.fillHeight: true }
 
-   ItemDelegate {
-       width: app.iconSize * 2
-       height: width
+    ProgressButton {
         visible: root.canStop
-//        color: Material.foreground
-//        radius: height / 2
-
-        ColorIcon {
-            anchors.fill: parent
-            anchors.margins: app.margins
-            name: "../images/media-playback-stop.svg"
-        }
+        longpressEnabled: false
+        imageSource: "../images/media-playback-stop.svg"
         onClicked: {
             engine.deviceManager.executeAction(root.device.id, root.deviceClass.actionTypes.findByName("stop").id)
             root.activated("stop")
         }
     }
 
-    ItemDelegate {
-        width: app.iconSize * 2
-        height: width
+    Item { Layout.fillWidth: true; Layout.fillHeight: true }
 
-        ColorIcon {
-            anchors.fill: parent
-            anchors.margins: app.margins
-            name: root.invert ? "../images/up.svg" : "../images/down.svg"
-            color: root.openState && root.openState.value === "closing" ? Material.accent : keyColor
-        }
+    ProgressButton {
+        imageSource: root.invert ? "../images/up.svg" : "../images/down.svg"
+        longpressEnabled: false
+        color: root.openState && root.openState.value === "closing" ? Material.accent : keyColor
         onClicked: {
             engine.deviceManager.executeAction(root.device.id, root.deviceClass.actionTypes.findByName("close").id)
             root.activated("close")
         }
     }
+
+    Item { Layout.fillWidth: true; Layout.fillHeight: true }
 }

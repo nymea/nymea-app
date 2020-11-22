@@ -144,10 +144,10 @@ Interfaces::Interfaces(QObject *parent) : QAbstractListModel(parent)
     addActionType("mediacontroller", "pause", tr("Pause playback"), new ParamTypes());
     addActionType("mediacontroller", "skipBack", tr("Skip back"), new ParamTypes());
     addActionType("mediacontroller", "skipNext", tr("Skip next"), new ParamTypes());
-
-    addInterface("extendedmediacontroller", tr("Media controllers with seeking"), {"mediacontroller"});
-    addActionType("extendedmediacontroller", "fastForward", tr("Fast forward"), new ParamTypes());
-    addActionType("extendedmediacontroller", "fastRewind", tr("Fast rewind"), new ParamTypes());
+    addActionType("mediacontroller", "fastForward", tr("Fast forward"), new ParamTypes());
+    addActionType("mediacontroller", "fastRewind", tr("Fast rewind"), new ParamTypes());
+    addStateType("mediacontroller", "shuffle", QVariant::Bool, true, tr("Shuffle"), tr("Shuffle changed"), tr("Set shuffle"));
+    addStateType("mediacontroller", "repeat", QVariant::Bool, true, tr("Repeat"), tr("Repeat changed"), tr("Set repeat"));
 
     addInterface("navigationpad", tr("Navigation pad"));
     pts = createParamTypes("to", tr("To"), QVariant::String, QVariant(), {"up", "down", "left", "right", "enter", "back"});
@@ -174,10 +174,6 @@ Interfaces::Interfaces(QObject *parent) : QAbstractListModel(parent)
 
     addInterface("extendedsmartmeterproducer", tr("Smart meters"), {"smartmeterproducer"});
     addStateType("extendedsmartmeterproducer", "currentPower", QVariant::Double, false, tr("Current power"), tr("Current power changed"));
-
-    addInterface("extendedvolumecontroller", tr("Volume control"), {"media"});
-    addStateType("extendedvolumecontroller", "mute", QVariant::Bool, true, tr("Mute"), tr("Muted"), tr("Mute"));
-    addStateType("extendedvolumecontroller", "volume", QVariant::Bool, true, tr("Volume"), tr("Volume changed"), tr("Set volume"), 0, 100);
 
     addInterface("useraccesscontrol", tr("User access control systems"), {"accesscontrol"});
     addStateType("useraccesscontrol", "users", QVariant::StringList, false, tr("Users"), tr("Users changed"));
@@ -268,10 +264,6 @@ Interfaces::Interfaces(QObject *parent) : QAbstractListModel(parent)
     addInterface("pressuresensor", tr("Pressure sensors"), {"sensor"});
     addStateType("pressuresensor", "pressure", QVariant::Double, false, tr("Pressure"), tr("Pressure changed"));
 
-    addInterface("shufflerepeat", tr("Shuffle and repeat controllers"));
-    addStateType("shufflerepeat", "shuffle", QVariant::Bool, true, tr("Shuffle"), tr("Shuffle changed"), tr("Set shuffle"));
-    addStateType("shufflerepeat", "repeat", QVariant::Bool, true, tr("Repeat"), tr("Repeat changed"), tr("Set repeat"));
-
     addInterface("smartlock", tr("Smart locks"));
     addStateType("smartlock", "state", QVariant::String, false, tr("State"), tr("State changed"));
     addActionType("smartlock", "unlatch", tr("Unlatch"), new ParamTypes());
@@ -285,6 +277,8 @@ Interfaces::Interfaces(QObject *parent) : QAbstractListModel(parent)
     addInterface("ventilation", tr("Ventilation"), {"power"});
 
     addInterface("volumecontroller", tr("Speakers"));
+    addStateType("volumecontroller", "mute", QVariant::Bool, true, tr("Mute"), tr("Muted"), tr("Mute"));
+    addStateType("volumecontroller", "volume", QVariant::Bool, true, tr("Volume"), tr("Volume changed"), tr("Set volume"), 0, 100);
     addActionType("volumecontroller", "increaseVolume", tr("Increase volume"), new ParamTypes());
     addActionType("volumecontroller", "decreaseVolume", tr("Decrease volume"), new ParamTypes());
 

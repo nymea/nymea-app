@@ -167,3 +167,9 @@ INSTALLS += target
 
 ANDROID_ABIS = armeabi-v7a arm64-v8a
 
+contains(ANDROID_TARGET_ARCH,) {
+    ANDROID_ABIS = \
+        armeabi-v7a \
+        arm64-v8a
+}
+

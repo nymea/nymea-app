@@ -73,11 +73,11 @@ Page {
         if (commandId === d.pendingBrowserItemId) {
             d.pendingBrowserItemId = -1;
             d.pendingItemId = ""
-            if (params.deviceError !== "DeviceErrorNoError") {
+            if (params.thinggError !== "ThingErrorNoError") {
                 if (params.displayMessage.length > 0) {
                     header.showInfo(qsTr("Error: %1").arg(params.displayMessage), true)
                 } else {
-                    header.showInfo(qsTr("Error: %1").arg(params.deviceError), true)
+                    header.showInfo(qsTr("Error: %1").arg(params.thingError), true)
                 }
             }
         }

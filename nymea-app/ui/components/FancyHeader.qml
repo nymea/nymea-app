@@ -150,8 +150,8 @@ ToolBar {
                 id: menuRepeater
 
                 MouseArea {
-                    height: app.iconSize * 3
-                    width: app.iconSize * 3
+                    height: 80
+                    width: height
 
                     onClicked: {
                         menuOpen = false

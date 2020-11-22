@@ -58,10 +58,6 @@ DevicePageBase {
     readonly property StateType intermediatePositionStateType: thing.thingClass.stateTypes.findByName("intermediatePosition")
     readonly property var intermediatePositionState: intermediatePositionStateType ? device.states.getState(intermediatePositionStateType.id) : null
 
-    // Some garages may also implement the light interface
-    readonly property var lightStateType: thing.thingClass.stateTypes.findByName("power")
-    readonly property var lightState: lightStateType ? thing.states.getState(lightStateType.id) : null
-
     Component.onCompleted: {
         print("Creating garage page. Impulse based:", isImpulseBased, "stateful:", isStateful, "extended:", isExtended, "legacy:", intermediatePositionState !== null)
     }
@@ -140,19 +136,14 @@ DevicePageBase {
             Layout.fillWidth: true
             Layout.margins: app.margins * 2
             Layout.fillHeight: true
-            property int minimumWidth: app.iconSize * 2.5 * (root.lightState ? 4 : 3)
+            property int minimumWidth: app.iconSize * 2.5
             property int minimumHeight: app.iconSize * 2.5
 
-            ItemDelegate {
-                height: app.iconSize * 2
-                width: height
+            ProgressButton {
                 anchors.centerIn: parent
                 visible: root.isImpulseBased
-                ColorIcon {
-                    anchors.fill: parent
-                    name: "../images/closable-move.svg"
-                    anchors.margins: app.margins
-                }
+                longpressEnabled: false
+                imageSource: "../images/closable-move.svg"
                 onClicked: {
                     var actionTypeId = root.thing.thingClass.actionTypes.findByName("triggerImpulse").id
                     print("Triggering impulse", actionTypeId)
@@ -163,31 +154,10 @@ DevicePageBase {
             ShutterControls {
                 id: shutterControls
                 device: root.device
+                width: parent.width
                 anchors.centerIn: parent
                 spacing: (parent.width - app.iconSize*2*children.length) / (children.length - 1)
                 visible: !root.isImpulseBased
-
-                ItemDelegate {
-                    width: app.iconSize * 2
-                    height: width
-                    visible: root.lightStateType !== null
-
-                    ColorIcon {
-                        anchors.fill: parent
-                        anchors.margins: app.margins
-                        name: "../images/light-" + (root.lightState && root.lightState.value === true ? "on" : "off") + ".svg"
-                        color: root.lightState && root.lightState.value === true ? Material.accent : keyColor
-                    }
-                    onClicked: {
-                        print("blabla", root.lightState, root.lightState.value, root.lightStateType.name, root.lightState.stateTypeId, root.lightStateType.id)
-                        var params = [];
-                        var param = {};
-                        param["paramTypeId"] = root.lightStateType.id;
-                        param["value"] = !root.lightState.value;
-                        params.push(param)
-                        engine.deviceManager.executeAction(root.device.id, root.lightStateType.id, params)
-                    }
-                }
             }
         }
     }
