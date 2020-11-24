@@ -107,6 +107,7 @@
 #include "scriptmanager.h"
 #include "scripting/codecompletion.h"
 #include "scripting/completionmodel.h"
+#include "scripting/scriptautosaver.h"
 #include "types/script.h"
 #include "types/scripts.h"
 #include "types/types.h"
@@ -309,6 +310,7 @@ void registerQmlTypes() {
     qmlRegisterType<ScriptSyntaxHighlighter>(uri, 1, 0, "ScriptSyntaxHighlighter");
     qmlRegisterType<CodeCompletion>(uri, 1, 0, "CodeCompletion");
     qmlRegisterUncreatableType<CompletionProxyModel>(uri, 1, 0, "CompletionModel", "Get it from ScriptSyntaxHighlighter");
+    qmlRegisterType<ScriptAutoSaver>(uri, 1, 0, "ScriptAutoSaver");
 
     qmlRegisterType<UserManager>(uri, 1, 0, "UserManager");
     qmlRegisterUncreatableType<UserInfo>(uri, 1, 0, "UserInfo", "Get it from UserManager");

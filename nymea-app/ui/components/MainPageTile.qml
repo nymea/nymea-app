@@ -92,7 +92,7 @@ Item {
                         ColorIcon {
                             id: colorIcon
                             anchors.centerIn: parent
-                            height: app.iconSize * 1.5
+                            height: app.hugeIconSize //* 1.5
                             width: height
                             ColorIcon {
                                 id: fallbackIcon
@@ -149,21 +149,21 @@ Item {
         anchors { top: parent.top; right: parent.right; margins: app.margins }
         spacing: app.margins / 2
         ColorIcon {
-            height: app.iconSize / 2
+            height: app.smallIconSize
             width: height
             name: root.isWireless ? "../images/connections/nm-signal-00.svg" : "../images/connections/network-wired-offline.svg"
             color: root.disconnected ? "red" : "orange"
             visible: root.setupStatus == Thing.ThingSetupStatusComplete && (root.disconnected || (root.isWireless && root.signalStrength < 20))
         }
         ColorIcon {
-            height: app.iconSize / 2
+            height: app.smallIconSize
             width: height
             name: root.setupStatus === Thing.ThingSetupStatusFailed ? "../images/dialog-warning-symbolic.svg" : "../images/settings.svg"
             color: root.setupStatus === Thing.ThingSetupStatusFailed ? "red" : keyColor
             visible: root.setupStatus === Thing.ThingSetupStatusFailed || root.setupStatus === Thing.ThingSetupStatusInProgress
         }
         ColorIcon {
-            height: app.iconSize / 2
+            height: app.smallIconSize
             width: height
             name: "../images/battery/battery-010.svg"
             visible: root.setupStatus == Thing.ThingSetupStatusComplete && root.batteryCritical

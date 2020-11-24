@@ -139,38 +139,43 @@ Page {
         font: scriptEdit.font
     }
 
+    ScriptAutoSaver {
+        id: autoSaver
+        scriptId: d.scriptId
+        liveContent: scriptEdit.text
+    }
+
     Connections {
         target: engine.scriptManager
-        onAddScriptReply: {
-            if (id == d.callId) {
+        onAddScriptReply: deployReply(id, scriptError, errors)
+        onEditScriptReply: deployReply(id, scriptError, errors)
+        function deployReply(id, scriptError, errors) {
+            if (id === d.callId) {
                 d.callId = -1;
-                if (scriptError == "ScriptErrorNoError") {
-                    d.scriptId = scriptId;
+                if (scriptError === "ScriptErrorNoError") {
                     d.oldContent = scriptEdit.text;
-                } else if (scriptError == "ScriptErrorInvalidScript") {
-                    content.ToolTip.show(qsTr("The script has not been deployed because it contains errors."))
-                }
-
-                errorModel.update(errors);
-            }
-        }
-        onEditScriptReply: {
-            print("edit reply", id, d.callId)
-            if (id == d.callId) {
-                d.callId = -1;
-                if (scriptError == "ScriptErrorNoError") {
-                    d.oldContent = scriptEdit.text;
-                } else if (scriptError == "ScriptErrorInvalidScript") {
-                    content.ToolTip.show(qsTr("The script has not been deployed because it contains errors."))
+                    infoPane.hide();
+                    errorPane.hide();
+                } else if (scriptError === "ScriptErrorInvalidScript") {
+                    errorPane.show();
                 }
                 errorModel.update(errors)
             }
         }
+
         onFetchScriptReply: {
             if (id == d.callId && scriptError == "ScriptErrorNoError") {
                 d.callId = -1;
-                scriptEdit.text = content;
                 d.oldContent = content;
+
+                if (autoSaver.cachedContent.length > 0 && autoSaver.cachedContent !== content) {
+                    console.log("autosaved version available!");
+                    scriptEdit.text = autoSaver.cachedContent;
+                    infoPane.show();
+                } else {
+                    scriptEdit.text = content;
+                }
+                autoSaver.active = true;
             }
         }
         onRenameScriptReply: {
@@ -191,7 +196,29 @@ Page {
     // TODO: Make this a SplitView when we can use Qt 5.13
     ColumnLayout {
         id: content
+        spacing: 0
         anchors.fill: parent
+
+        InfoPane {
+            id: infoPane
+            Layout.fillWidth: true
+            text: qsTr("An autosaved version of this script has been loaded. Deploy to store this version or reload to restore the deployed version.")
+            buttonText: qsTr("Reload")
+            z: 1
+            onButtonClicked: {
+                scriptEdit.text = d.oldContent
+                infoPane.hide();
+                errorPane.hide();
+                errorModel.update([])
+            }
+        }
+
+        InfoPane {
+            id: errorPane
+            Layout.fillWidth: true
+            color: "red"
+            text: qsTr("The script has not been deployed because it contains errors.")
+        }
 
         Flickable {
             id: scriptFlickable
@@ -236,7 +263,7 @@ Page {
                 }
 
                 Keys.onPressed: {
-                    print("key", event.key, "Completion box visible:", completionBox.visible)
+//                    print("key", event.key, "Completion box visible:", completionBox.visible)
                     // Things to happen only when we're not autocompleting
                     if (!completionBox.visible) {
                         switch (event.key) {

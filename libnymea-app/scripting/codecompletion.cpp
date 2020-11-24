@@ -530,7 +530,7 @@ void CodeCompletion::update()
         BlockInfo blockInfo = getBlockInfo(m_cursor.position());
 
         // If we're inside a class, add properties
-        qDebug() << "Block name" << blockInfo.name;
+//        qDebug() << "Block name" << blockInfo.name;
 
         if (!blockInfo.name.isEmpty()) {
             foreach (const QString &s, m_classes.value(blockInfo.name).properties) {
@@ -561,7 +561,7 @@ void CodeCompletion::update()
         m_model->update(entries);
         blockText.remove(QRegExp(".* "));
         m_proxy->setFilter(blockText);
-        qDebug() << "Model has" << m_model->rowCount() << "Filtered:" << m_proxy->rowCount() << "filter:" << blockText;
+//        qDebug() << "Model has" << m_model->rowCount() << "Filtered:" << m_proxy->rowCount() << "filter:" << blockText;
         return;
     }
 
