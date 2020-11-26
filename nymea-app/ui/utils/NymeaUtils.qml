@@ -64,4 +64,7 @@ Item {
         return page;
     }
 
+    function isDark(color) {
+        return ((color.r() * 299 + color.g() * 587 + color.b() * 114) / 1000) > 123
+    }
 }

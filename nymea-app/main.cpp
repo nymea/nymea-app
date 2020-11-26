@@ -124,6 +124,13 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine *engine = new QQmlApplicationEngine();
 
+    StyleController styleController;
+
+    QQmlFileSelector *styleSelector = new QQmlFileSelector(engine);
+    styleSelector->setExtraSelectors({styleController.currentStyle()});
+
+    engine->rootContext()->setContextProperty("styleController", &styleController);
+
     qmlRegisterSingletonType<PlatformHelper>("Nymea", 1, 0, "PlatformHelper", platformHelperProvider);
     qmlRegisterSingletonType<NfcHelper>("Nymea", 1, 0, "NfcHelper", NfcHelper::nfcHelperProvider);
     qmlRegisterType<NfcThingActionWriter>("Nymea", 1, 0, "NfcThingActionWriter");
@@ -140,9 +147,6 @@ int main(int argc, char *argv[])
     engine->rootContext()->setContextProperty("appVersion", APP_VERSION);
     engine->rootContext()->setContextProperty("qtBuildVersion", QT_VERSION_STR);
     engine->rootContext()->setContextProperty("qtVersion", qVersion());
-
-    StyleController styleController;
-    engine->rootContext()->setContextProperty("styleController", &styleController);
 
     engine->rootContext()->setContextProperty("kioskMode", parser.isSet(kioskOption));
     engine->rootContext()->setContextProperty("autoConnectHost", parser.value(connectOption));
