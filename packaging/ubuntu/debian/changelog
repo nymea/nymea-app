@@ -1,3 +1,15 @@
+nymea-app (1.0.251) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Rework media views for new interfaces
+  * Add support for autosaving in the script editor
+  * New tiles
+
+  [ Simon Stürz ]
+  * Add support for zigbee network management
+
+ -- Jenkins <jenkins@nymea.io>  Sat, 28 Nov 2020 21:09:18 +0100
+
 nymea-app (1.0.250) bionic; urgency=medium
 
   [ Michael Zanetti ]
