@@ -151,7 +151,7 @@ SwipeDelegate {
 
         ColorIcon {
             id: secondaryIcon
-            Layout.preferredHeight: app.iconSize * .5
+            Layout.preferredHeight: app.smallIconSize
             Layout.preferredWidth: height
             visible: name.length > 0
             MouseArea {
@@ -165,7 +165,7 @@ SwipeDelegate {
 
         ColorIcon {
             id: tertiaryIcon
-            Layout.preferredHeight: app.iconSize * .5
+            Layout.preferredHeight: app.smallIconSize
             Layout.preferredWidth: height
             visible: name.length > 0
             MouseArea {
@@ -179,7 +179,7 @@ SwipeDelegate {
 
         ColorIcon {
             id: progressionIcon
-            Layout.preferredHeight: app.iconSize * .6
+            Layout.preferredHeight: app.smallIconSize
             Layout.preferredWidth: height
             name: "../images/next.svg"
             visible: root.progressive

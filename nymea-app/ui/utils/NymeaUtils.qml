@@ -65,6 +65,18 @@ Item {
     }
 
     function isDark(color) {
-        return ((color.r() * 299 + color.g() * 587 + color.b() * 114) / 1000) > 123
+        var r, g, b;
+        if (color.constructor.name === "Object") {
+            r = color.r * 255;
+            g = color.g * 255;
+            b = color.b * 255;
+        } else if (color.constructor.name === "String") {
+            var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(color);
+            r = parseInt(result[1], 16)
+            g = parseInt(result[2], 16)
+            b = parseInt(result[3], 16)
+        }
+
+        return ((r * 299 + g * 587 + b * 114) / 1000) < 128
     }
 }

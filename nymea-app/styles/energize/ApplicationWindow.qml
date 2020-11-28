@@ -58,7 +58,7 @@ ApplicationWindow {
     property color headerForegroundColor: "#79a79f"
 
     // The font color
-    property color foregroundColor: "#69938c"
+    property color foregroundColor: "#638B87"
 
     // The color of selected/highlighted things
     property color accentColor: "#8cc1b6"

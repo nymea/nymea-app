@@ -49,8 +49,7 @@ DevicePageBase {
 
             WeatherView {
                 Layout.fillWidth: true
-                device: root.device
-                deviceClass: root.deviceClass
+                thing: root.thing
             }
 
             GridLayout {

@@ -47,80 +47,67 @@ DeviceListPageBase {
         }
     }
 
-    ListView {
+    Flickable {
         anchors.fill: parent
-        model: devicesProxy
-        spacing: app.margins
+        contentHeight: contentGrid.implicitHeight
+        topMargin: app.margins / 2
 
-        delegate: Pane {
-            id: itemDelegate
-            width: parent.width
+        GridLayout {
+            id: contentGrid
+            width: parent.width - app.margins
+            anchors.horizontalCenter: parent.horizontalCenter
+            columns: Math.ceil(width / 600)
+            rowSpacing: 0
+            columnSpacing: 0
+            Repeater {
+                model: root.thingsProxy
 
-            property Device device: devicesProxy.getDevice(model.id)
-            property DeviceClass deviceClass: device.deviceClass
+                delegate: BigTile {
+                    id: itemDelegate
+                    Layout.preferredWidth: contentGrid.width / contentGrid.columns
+                    thing: root.thingsProxy.getThing(model.id)
+                    showHeader: false
+                    enabled: connectedState == null || connectedState.value === true
+                    topPadding: 0
+                    bottomPadding: 0
 
-            property var connectedStateType: deviceClass.stateTypes.findByName("connected");
-            property var connectedState: connectedStateType ? device.states.getState(connectedStateType.id) : null
+                    onClicked: root.enterPage(index)
 
-            property var powerStateType: deviceClass.stateTypes.findByName("power");
-            property var powerActionType: deviceClass.actionTypes.findByName("power");
-            property var powerState: device.states.getState(powerStateType.id)
+                    property State connectedState: thing.stateByName("connected")
+                    property State powerState: thing.stateByName("power")
 
-            Material.elevation: 1
-            topPadding: 0
-            bottomPadding: 0
-            leftPadding: 0
-            rightPadding: 0
-            contentItem: ItemDelegate {
-                id: contentItem
-                implicitHeight: nameRow.implicitHeight
-                topPadding: 0
-
-                contentItem: ColumnLayout {
-                    spacing: 0
-                    RowLayout {
-                        enabled: itemDelegate.connectedState === null || itemDelegate.connectedState.value === true
-                        id: nameRow
-                        z: 2 // make sure the switch in here is on top of the slider, given we cheated a bit and made them overlap
+                    contentItem: RowLayout {
                         spacing: app.margins
-                        Item {
-                            Layout.preferredHeight: app.iconSize
-                            Layout.preferredWidth: height
-                            Layout.alignment: Qt.AlignVCenter
 
-                            ColorIcon {
-                                id: icon
-                                anchors.fill: parent
-                                color: itemDelegate.connectedState !== null && itemDelegate.connectedState.value === false
-                                       ? "red"
-                                       : itemDelegate.powerState.value === true ? app.accentColor : keyColor
-                                name: itemDelegate.connectedState !== null && itemDelegate.connectedState.value === false ?
-                                          "../images/dialog-warning-symbolic.svg"
-                                        : app.interfaceToIcon("powersocket")
-                            }
+                        ColorIcon {
+                            Layout.preferredHeight: app.iconSize
+                            Layout.preferredWidth: app.iconSize
+                            name: app.interfaceToIcon("powersocket")
+                            color: itemDelegate.powerState.value === true ? app.accentColor : keyColor
                         }
 
                         Label {
                             Layout.fillWidth: true
-                            text: model.name
+                            text: itemDelegate.thing.name
                             elide: Text.ElideRight
-                            verticalAlignment: Text.AlignVCenter
                         }
+
+                        ThingStatusIcons {
+                            thing: itemDelegate.thing
+                        }
+
                         Switch {
                             checked: itemDelegate.powerState.value === true
                             onClicked: {
                                 var params = [];
                                 var param1 = {};
-                                param1["paramTypeId"] = itemDelegate.powerActionType.paramTypes.get(0).id;
+                                param1["paramTypeId"] = itemDelegate.powerState.stateTypeId;
                                 param1["value"] = checked;
                                 params.push(param1)
-                                engine.deviceManager.executeAction(device.id, itemDelegate.powerActionType.id, params)
+                                engine.deviceManager.executeAction(itemDelegate.thing.id, itemDelegate.powerState.stateTypeId, params)
                             }
                         }
                     }
-                }
-                onClicked: {
-                    enterPage(index)
                 }
             }
         }

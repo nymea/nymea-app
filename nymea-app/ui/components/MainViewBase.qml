@@ -36,13 +36,15 @@ import Nymea 1.0
 import "../components"
 import "../delegates"
 
-MouseArea {
+Item {
     id: root
-
-    // Prevent scroll events to swipe left/right in case they fall through the grid
-    preventStealing: true
-    onWheel: wheel.accepted = true
 
     property string title: ""
 
+    // Prevent scroll events to swipe left/right in case they fall through the grid
+    MouseArea {
+        anchors.fill: parent
+        preventStealing: true
+        onWheel: wheel.accepted = true
+    }
 }

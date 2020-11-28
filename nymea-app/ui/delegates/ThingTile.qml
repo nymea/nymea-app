@@ -45,6 +45,7 @@ MainPageTile {
     disconnected: connectedState && connectedState.value === false
     signalStrength: signalStrengthState ? signalStrengthState.value : -1
     setupStatus: device.setupStatus
+    updateStatus: updateStatusState && updateStatusState.value !== "idle"
 
     backgroundImage: artworkState && artworkState.value.length > 0 ? artworkState.value : ""
 
@@ -54,6 +55,7 @@ MainPageTile {
     readonly property State signalStrengthState: device.stateByName("signalStrength")
     readonly property State batteryCriticalState: deviceClass.interfaces.indexOf("battery") >= 0 ? device.states.getState(deviceClass.stateTypes.findByName("batteryCritical").id) : null
     readonly property State artworkState: deviceClass.interfaces.indexOf("mediametadataprovider") >= 0 ? device.states.getState(deviceClass.stateTypes.findByName("artwork").id) : null
+    readonly property State updateStatusState: device.stateByName("updateStatus")
 
     contentItem: Loader {
         id: loader

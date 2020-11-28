@@ -44,242 +44,86 @@ DeviceListPageBase {
     header: NymeaHeader {
         id: header
         onBackPressed: pageStack.pop()
-        text: root.title
+        text: qsTr("Garage doors")
     }
 
-    ListView {
+    Flickable {
         anchors.fill: parent
-        model: devicesProxy
-        spacing: app.margins
+        contentHeight: contentGrid.implicitHeight
+        topMargin: app.margins / 2
 
-        delegate: Pane {
-            id: itemDelegate
-            width: parent.width
+        GridLayout {
+            id: contentGrid
+            width: parent.width - app.margins
+            anchors.horizontalCenter: parent.horizontalCenter
+            columns: Math.ceil(width / 600)
+            rowSpacing: 0
+            columnSpacing: 0
+            Repeater {
+                model: root.thingsProxy
 
+                delegate: BigTile {
+                    id: itemDelegate
+                    Layout.preferredWidth: contentGrid.width / contentGrid.columns
+                    thing: root.thingsProxy.getThing(model.id)
+                    showHeader: false
+                    enabled: connectedState == null || connectedState.value === true
+                    topPadding: 0
+                    bottomPadding: 0
 
-            property bool inline: width > 500
+                    onClicked: root.enterPage(index)
 
-            property Device device: devicesProxy.getDevice(model.id)
-            property Device thing: device
-            property DeviceClass deviceClass: device.deviceClass
+                    property State connectedState: thing.stateByName("connected")
+                    property State movingState: thing.stateByName("moving")
+                    property State percentageState: thing.stateByName("percentage")
 
-            readonly property bool isImpulseBased: device.deviceClass.interfaces.indexOf("impulsegaragedoor") >= 0
-            readonly property bool isStateful: device.deviceClass.interfaces.indexOf("statefulgaragedoor") >= 0
-                                               || device.deviceClass.interfaces.indexOf("garagegate") >= 0 // garagegate did not inherit garagedoor before 0.23
-            readonly property bool isExtended: device.deviceClass.interfaces.indexOf("extendedstatefulgaragedoor") >= 0
+                    readonly property bool isImpulseBased: thing.thingClass.interfaces.indexOf("impulsegaragedoor") >= 0
 
-            property var connectedStateType: deviceClass.stateTypes.findByName("connected");
-            property var connectedState: connectedStateType ? device.states.getState(connectedStateType.id) : null
+                    contentItem: RowLayout {
+                        spacing: app.margins
 
+                        ColorIcon {
+                            Layout.preferredHeight: app.iconSize
+                            Layout.preferredWidth: app.iconSize
+                            color: itemDelegate.movingState && itemDelegate.movingState.value === true
+                                   ? app.accentColor
+                                   : keyColor
+                            name: itemDelegate.percentageState
+                                  ? root.iconBasename + "-" + app.pad(Math.round(itemDelegate.percentageState.value / 10) * 10, 3) + ".svg"
+                                  : root.iconBasename + "-050.svg"
+                        }
 
-            property StateType movingStateType: deviceClass.stateTypes.findByName("moving");
-            property ActionType movingActionType: deviceClass.actionTypes.findByName("moving");
-            property State movingState: movingStateType ? device.states.getState(movingStateType.id) : null
+                        Label {
+                            Layout.fillWidth: true
+                            text: itemDelegate.thing.name
+                            elide: Text.ElideRight
+                        }
 
-            Material.elevation: 1
-            topPadding: 0
-            bottomPadding: 0
-            leftPadding: 0
-            rightPadding: 0
-            contentItem: ItemDelegate {
-                id: contentItem
-                implicitHeight: contentLoader.item.implicitHeight
+                        ThingStatusIcons {
+                            thing: itemDelegate.thing
+                        }
 
-                topPadding: 0
-
-                contentItem: Loader {
-                    id: contentLoader
-                    enabled: itemDelegate.connectedState === null || itemDelegate.connectedState.value === true
-                    sourceComponent: isImpulseBased ? impulseGaragedoor
-                                                    : isExtended ? extendedStatefulGaragedoor
-                                                                 : isStateful ? garagedoor
-                                                                              : simpleGaragedoor
-                    Binding { target: contentLoader.item; property: "device"; value: itemDelegate.device }
-                }
-                onClicked: {
-                    enterPage(index)
-                }
-            }
-        }
-    }
-
-    Component {
-        id: impulseGaragedoor
-
-        RowLayout {
-            id: contentItem
-            property Device device: null
-
-            spacing: app.margins
-            Item {
-                Layout.preferredHeight: app.iconSize
-                Layout.preferredWidth: height
-                Layout.alignment: Qt.AlignVCenter
-
-                ColorIcon {
-                    id: icon
-                    anchors.fill: parent
-                    name: root.iconBasename + "-100.svg"
-                }
-            }
-
-            Label {
-                Layout.fillWidth: true
-                text: contentItem.device.name
-                elide: Text.ElideRight
-                verticalAlignment: Text.AlignVCenter
-            }
-
-            ItemDelegate {
-                Layout.preferredHeight: app.iconSize * 2
-                Layout.preferredWidth: height
-                ColorIcon {
-                    anchors.centerIn: parent
-                    height: app.iconSize
-                    width: height
-                    name: "../images/closable-move.svg"
-                }
-                onClicked: {
-                    var actionTypeId = device.thingClass.actionTypes.findByName("triggerImpulse").id
-                    print("Triggering impulse", actionTypeId)
-                    engine.thingManager.executeAction(device.id, actionTypeId)
-                }
-            }
-        }
-    }
-
-    Component {
-        id: simpleGaragedoor
-
-        RowLayout {
-            id: contentItem
-            spacing: app.margins
-            property Device device: null
-
-            Item {
-                Layout.preferredHeight: app.iconSize
-                Layout.preferredWidth: height
-                Layout.alignment: Qt.AlignVCenter
-
-                ColorIcon {
-                    id: icon
-                    anchors.fill: parent
-                    color: keyColor
-                    name: root.iconBasename + "-100.svg"
-                }
-            }
-
-            Label {
-                Layout.fillWidth: true
-                text: contentItem.device.name
-                elide: Text.ElideRight
-                verticalAlignment: Text.AlignVCenter
-            }
-
-            Item {
-                Layout.preferredWidth: shutterControls.implicitWidth
-                Layout.preferredHeight: app.iconSize * 2
-                ShutterControls {
-                    id: shutterControls
-                    height: parent.height
-                    device: contentItem.device
-                }
-            }
-        }
-    }
-
-
-    Component {
-        id: garagedoor
-
-        RowLayout {
-            id: contentItem
-            spacing: app.margins
-            property Device device: null
-
-            property StateType stateStateType: device.deviceClass.stateTypes.findByName("state")
-            property State stateState: stateStateType ? device.states.getState(stateStateType.id) : null
-            Item {
-                Layout.preferredHeight: app.iconSize
-                Layout.preferredWidth: height
-                Layout.alignment: Qt.AlignVCenter
-
-                ColorIcon {
-                    id: icon
-                    anchors.fill: parent
-                    color: ["opening", "closing"].indexOf(contentItem.stateState.value) >= 0
-                    ? app.accentColor
-                    : keyColor
-                    name: root.iconBasename + "-100.svg"
-                }
-            }
-
-            Label {
-                Layout.fillWidth: true
-                text: contentItem.device.name
-                elide: Text.ElideRight
-                verticalAlignment: Text.AlignVCenter
-            }
-
-            Item {
-                Layout.preferredWidth: shutterControls.implicitWidth
-                Layout.preferredHeight: app.iconSize * 2
-                ShutterControls {
-                    id: shutterControls
-                    height: parent.height
-                    device: contentItem.device
-                }
-            }
-        }
-    }
-
-
-    Component {
-        id: extendedStatefulGaragedoor
-
-        RowLayout {
-            id: contentItem
-            spacing: app.margins
-            property Device device: null
-
-            property StateType stateStateType: device.deviceClass.stateTypes.findByName("state")
-            property State stateState: stateStateType ? device.states.getState(stateStateType.id) : null
-            
-            property StateType percentageStateType: device.deviceClass.stateTypes.findByName("percentage");
-            property ActionType percentageActionType: device.deviceClass.actionTypes.findByName("percentage");
-            property State percentageState: percentageStateType ? device.states.getState(percentageStateType.id) : null
-
-            Item {
-                Layout.preferredHeight: app.iconSize
-                Layout.preferredWidth: height
-                Layout.alignment: Qt.AlignVCenter
-
-                ColorIcon {
-                    id: icon
-                    anchors.fill: parent
-                    color: ["opening", "closing"].indexOf(contentItem.stateState.value) >= 0
-                                    ? app.accentColor
-                                    : keyColor
-                    name: contentItem.percentageStateType
-                          ? root.iconBasename + "-" + app.pad(Math.round(contentItem.percentageState.value / 10) * 10, 3) + ".svg"
-                          : root.iconBasename + "-050.svg"
-                }
-            }
-
-            Label {
-                Layout.fillWidth: true
-                text: contentItem.device.name
-                elide: Text.ElideRight
-                verticalAlignment: Text.AlignVCenter
-            }
-
-            Item {
-                Layout.preferredWidth: shutterControls.implicitWidth
-                Layout.preferredHeight: app.iconSize * 2
-                ShutterControls {
-                    id: shutterControls
-                    height: parent.height
-                    device: contentItem.device
+                        ShutterControls {
+                            id: shutterControls
+                            Layout.fillWidth: false
+                            height: parent.height
+                            device: itemDelegate.thing
+                            invert: root.invertControls
+                            visible: !itemDelegate.isImpulseBased
+                        }
+                        ProgressButton {
+                            Layout.preferredHeight: app.iconSize
+                            Layout.preferredWidth: height
+                            longpressEnabled: false
+                            imageSource: "../images/closable-move.svg"
+                            visible: itemDelegate.isImpulseBased
+                            onClicked: {
+                                var actionTypeId = itemDelegate.thing.thingClass.actionTypes.findByName("triggerImpulse").id
+                                print("Triggering impulse", actionTypeId)
+                                engine.thingManager.executeAction(itemDelegate.thing.id, actionTypeId)
+                            }
+                        }
+                    }
                 }
             }
         }

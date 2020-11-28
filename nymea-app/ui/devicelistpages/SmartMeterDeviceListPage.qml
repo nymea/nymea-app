@@ -43,123 +43,81 @@ DeviceListPageBase {
         onBackPressed: pageStack.pop()
     }
 
-    ListView {
+    Flickable {
         anchors.fill: parent
-        model: root.devicesProxy
+        contentHeight: contentGrid.implicitHeight
         topMargin: app.margins / 2
 
-        delegate: Item {
-            id: itemDelegate
+        GridLayout {
+            id: contentGrid
             width: parent.width - app.margins
             anchors.horizontalCenter: parent.horizontalCenter
-            height: contentItem.height + app.margins
+            columns: Math.ceil(width / 600)
+            rowSpacing: 0
+            columnSpacing: 0
 
-            property bool inline: width > 500
+            Repeater {
+                model: root.thingsProxy
 
-            property Thing thing: thingsProxy.getThing(model.id)
+                delegate: BigTile {
+                    id: itemDelegate
+                    Layout.preferredWidth: contentGrid.width / contentGrid.columns
+                    thing: root.thingsProxy.getThing(model.id)
 
-            Pane {
-                id: contentItem
-                width: parent.width - app.margins
-                anchors.centerIn: parent
-                Material.elevation: 2
-                leftPadding: 0
-                rightPadding: 0
-                topPadding: 0
-                bottomPadding: 0
-
-                contentItem: ItemDelegate {
-                    leftPadding: 0
-                    rightPadding: 0
-                    topPadding: 0
-                    bottomPadding: 0
-                    contentItem: ColumnLayout {
-                        Rectangle {
-                            Layout.fillWidth: true
-                            Layout.preferredHeight: app.mediumFont + app.margins
-                            color: Qt.rgba(app.foregroundColor.r, app.foregroundColor.g, app.foregroundColor.b, .05)
-                            RowLayout {
-                                anchors { verticalCenter: parent.verticalCenter; left: parent.left; right: parent.right; margins: app.margins }
-                                Label {
-                                    Layout.fillWidth: true
-                                    text: model.name
-                                    elide: Text.ElideRight
-                                }
-                                BatteryStatusIcon {
-                                    Layout.preferredHeight: app.iconSize * .5
-                                    Layout.preferredWidth: height
-                                    thing: itemDelegate.thing
-                                    visible: thing.setupStatus == Thing.ThingSetupStatusComplete && (isCritical || hasBatteryLevel)
-                                }
-                                ConnectionStatusIcon {
-                                    Layout.preferredHeight: app.iconSize * .5
-                                    Layout.preferredWidth: height
-                                    thing: itemDelegate.thing
-                                    visible: thing.setupStatus == Thing.ThingSetupStatusComplete && (isWireless || !isConnected)
-                                }
-                                SetupStatusIcon {
-                                    Layout.preferredHeight: app.iconSize * .5
-                                    Layout.preferredWidth: height
-                                    thing: itemDelegate.thing
-                                    visible: setupFailed || setupInProgress
-                                }
-                            }
-
-                        }
-                        GridLayout {
-                            id: dataGrid
-                            columns: Math.floor(contentItem.width / 120)
-                            Layout.margins: app.margins
-                            Repeater {
-                                model: ListModel {
-                                    Component.onCompleted: {
-                                        if (itemDelegate.thing.thingClass.interfaces.indexOf("smartmeterproducer") >= 0) {
-                                            append( {interfaceName: "smartmeterproducer", stateName: "totalEnergyProduced" })
-                                        }
-                                        if (itemDelegate.thing.thingClass.interfaces.indexOf("smartmeterconsumer") >= 0) {
-                                            append( {interfaceName: "smartmeterconsumer", stateName: "totalEnergyConsumed" })
-                                        }
-                                        var added = false;
-                                        if (itemDelegate.thing.thingClass.interfaces.indexOf("extendedsmartmeterproducer") >= 0) {
-                                            append({interfaceName: "extendedsmartmeterconsumer", stateName: "currentPower"});
-                                            added = true;
-                                        }
-                                        if (!added && itemDelegate.thing.thingClass.interfaces.indexOf("extendedsmartmeterconsumer") >= 0) {
-                                            append({interfaceName: "extendedsmartmeterconsumer", stateName: "currentPower"});
-                                        }
-                                    }
-                                }
-
-                                delegate: RowLayout {
-                                    id: sensorValueDelegate
-                                    Layout.preferredWidth: contentItem.width / dataGrid.columns
-
-                                    property StateType stateType: itemDelegate.thing.thingClass.stateTypes.findByName(model.stateName)
-                                    property State stateValue: stateType ? itemDelegate.thing.states.getState(stateType.id) : null
-
-                                    ColorIcon {
-                                        Layout.preferredHeight: app.iconSize * .8
-                                        Layout.preferredWidth: height
-                                        Layout.alignment: Qt.AlignVCenter
-                                        color: app.interfaceToColor(model.interfaceName)
-                                        name: app.interfaceToIcon(model.interfaceName)
-                                    }
-
-                                    Label {
-                                        Layout.fillWidth: true
-                                        text: sensorValueDelegate.stateValue
-                                              ? "%1 %2".arg(1.0 * Math.round(Types.toUiValue(sensorValueDelegate.stateValue.value, sensorValueDelegate.stateType.unit) * 100000) / 100000).arg(Types.toUiUnit(sensorValueDelegate.stateType.unit))
-                                              : ""
-                                        elide: Text.ElideRight
-                                        verticalAlignment: Text.AlignVCenter
-                                        font.pixelSize: app.smallFont
-                                    }
-                                }
-                            }
-                        }
-                    }
                     onClicked: {
                         enterPage(index)
+                    }
+                    contentItem: GridLayout {
+                        id: dataGrid
+                        columns: Math.floor(contentItem.width / 120)
+
+                        Repeater {
+                            model: ListModel {
+                                Component.onCompleted: {
+                                    if (itemDelegate.thing.thingClass.interfaces.indexOf("smartmeterproducer") >= 0) {
+                                        append( {interfaceName: "smartmeterproducer", stateName: "totalEnergyProduced" })
+                                    }
+                                    if (itemDelegate.thing.thingClass.interfaces.indexOf("smartmeterconsumer") >= 0) {
+                                        append( {interfaceName: "smartmeterconsumer", stateName: "totalEnergyConsumed" })
+                                    }
+                                    var added = false;
+                                    if (itemDelegate.thing.thingClass.interfaces.indexOf("extendedsmartmeterproducer") >= 0) {
+                                        append({interfaceName: "extendedsmartmeterconsumer", stateName: "currentPower"});
+                                        added = true;
+                                    }
+                                    if (!added && itemDelegate.thing.thingClass.interfaces.indexOf("extendedsmartmeterconsumer") >= 0) {
+                                        append({interfaceName: "extendedsmartmeterconsumer", stateName: "currentPower"});
+                                    }
+                                }
+                            }
+
+                            delegate: RowLayout {
+                                id: sensorValueDelegate
+                                visible: itemDelegate.thing.thingClass.interfaces.indexOf(model.interfaceName) >= 0
+                                Layout.preferredWidth: contentItem.width / dataGrid.columns
+
+                                property StateType stateType: itemDelegate.thing.thingClass.stateTypes.findByName(model.stateName)
+                                property State stateValue: stateType ? itemDelegate.thing.states.getState(stateType.id) : null
+
+                                ColorIcon {
+                                    Layout.preferredHeight: app.iconSize
+                                    Layout.preferredWidth: height
+                                    Layout.alignment: Qt.AlignVCenter
+                                    color: app.interfaceToColor(model.interfaceName)
+                                    name: app.interfaceToIcon(model.interfaceName)
+                                }
+
+                                Label {
+                                    Layout.fillWidth: true
+                                    text: sensorValueDelegate.stateValue
+                                          ? "%1 %2".arg(1.0 * Math.round(Types.toUiValue(sensorValueDelegate.stateValue.value, sensorValueDelegate.stateType.unit) * 100000) / 100000).arg(Types.toUiUnit(sensorValueDelegate.stateType.unit))
+                                          : ""
+                                    elide: Text.ElideRight
+                                    verticalAlignment: Text.AlignVCenter
+                                    font.pixelSize: app.smallFont
+                                }
+                            }
+                        }
                     }
                 }
             }

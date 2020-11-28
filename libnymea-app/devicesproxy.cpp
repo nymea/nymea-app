@@ -308,6 +308,21 @@ void DevicesProxy::setFilterSetupFailed(bool filterSetupFailed)
     }
 }
 
+bool DevicesProxy::filterUpdates() const
+{
+    return m_filterUpdates;
+}
+
+void DevicesProxy::setFilterUpdates(bool filterUpdates)
+{
+    if (m_filterUpdates != filterUpdates) {
+        m_filterUpdates = filterUpdates;
+        emit filterUpdatesChanged();
+        invalidateFilter();
+        emit countChanged();
+    }
+}
+
 bool DevicesProxy::groupByInterface() const
 {
     return m_groupByInterface;
@@ -371,7 +386,15 @@ bool DevicesProxy::lessThan(const QModelIndex &left, const QModelIndex &right) c
     QString leftName = sourceModel()->data(left, Devices::RoleName).toString();
     QString rightName = sourceModel()->data(right, Devices::RoleName).toString();
 
-    return QString::localeAwareCompare(leftName, rightName) < 0;
+    int comparison = QString::localeAwareCompare(leftName, rightName);
+    if (comparison == 0) {
+        // If there are 2 identically named things we don't want undefined behavor as it may cause items
+        // to reorder randomly. Use something static like thingId as fallback
+        QString leftThingId = sourceModel()->data(left, Devices::RoleId).toString();
+        QString rightThingId = sourceModel()->data(right, Devices::RoleId).toString();
+        comparison = QString::localeAwareCompare(leftThingId, rightThingId);
+    }
+    return comparison < 0;
 }
 
 bool DevicesProxy::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
@@ -448,6 +471,15 @@ bool DevicesProxy::filterAcceptsRow(int source_row, const QModelIndex &source_pa
 
     if (m_filterSetupFailed) {
         if (device->setupStatus() != Device::ThingSetupStatusFailed) {
+            return false;
+        }
+    }
+
+    if (m_filterUpdates) {
+        if (!deviceClass->interfaces().contains("update")) {
+            return false;
+        }
+        if (device->stateValue(deviceClass->stateTypes()->findByName("updateStatus")->id()).toString() == "idle") {
             return false;
         }
     }

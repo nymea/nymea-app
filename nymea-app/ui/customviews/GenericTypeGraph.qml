@@ -259,7 +259,7 @@ Item {
                     id: connectedLineSeries
                     onPointAdded: {
                         var newPoint = connectedLineSeries.at(index)
-                        print("pointadded", newPoint.x, newPoint.y)
+//                        print("pointadded", newPoint.x, newPoint.y)
                     }
 
                 }
@@ -284,7 +284,7 @@ Item {
                     id: lineSeries1
                     onPointAdded: {
                         var newPoint = lineSeries1.at(index)
-                        print("pointadded", newPoint.x, newPoint.y)
+//                        print("pointadded", newPoint.x, newPoint.y)
 
                         if (newPoint.x > lineSeries0.at(0).x) {
                             lineSeries0.replace(0, newPoint.x, 0)

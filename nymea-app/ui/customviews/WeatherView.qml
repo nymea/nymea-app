@@ -34,30 +34,21 @@ import QtQuick.Controls 2.1
 import "../components"
 import Nymea 1.0
 
-CustomViewBase {
+Item {
     id: root
-    height: grid.implicitHeight + app.margins * 2
+    implicitHeight: grid.implicitHeight + app.margins * 2
 
-    readonly property StateType weatherConditionStateType: deviceClass.stateTypes ? deviceClass.stateTypes.findByName("weatherCondition") : null
-    readonly property State weatherConditionState: weatherConditionStateType && device.states ? device.states.getState(weatherConditionStateType.id) : null
+    property Thing thing: null
 
-    readonly property StateType weatherDescriptionStateType: deviceClass.stateTypes ? deviceClass.stateTypes.findByName("weatherDescription") : null
-    readonly property State weatherDescriptionState: weatherDescriptionStateType && device.states ? device.states.getState(weatherDescriptionStateType.id) : null
+    readonly property State weatherConditionState: thing.stateByName("weatherCondition")
+    readonly property State weatherDescriptionState: thing.stateByName("weatherDescription")
+    readonly property State temperatureState: thing.stateByName("temperature")
+    readonly property State humidityState: thing.stateByName("humidity")
+    readonly property State pressureState: thing.stateByName("pressure")
+    readonly property State windDirectionState: thing.stateByName("windDirection")
+    readonly property State windSpeedState: thing.stateByName("windSpeed")
 
-    readonly property StateType temperatureStateType: deviceClass.stateTypes ? deviceClass.stateTypes.findByName("temperature") : null
-    readonly property State temperatureState: temperatureStateType && device.states ? device.states.getState(temperatureStateType.id) : null
-
-    readonly property StateType humidityStateType: deviceClass.stateTypes ? deviceClass.stateTypes.findByName("humidity") : null
-    readonly property State humidityState: humidityStateType && device.states ? device.states.getState(humidityStateType.id) : null
-
-    readonly property StateType pressureStateType: deviceClass.stateTypes ? deviceClass.stateTypes.findByName("pressure") : null
-    readonly property State pressureState: pressureStateType && device.states ? device.states.getState(pressureStateType.id) : null
-
-    readonly property StateType windDirectionStateType: deviceClass.stateTypes ? deviceClass.stateTypes.findByName("windDirection") : null
-    readonly property State windDirectionState: windDirectionStateType && device.states ? device.states.getState(windDirectionStateType.id) : null
-
-    readonly property StateType windSpeedStateType: deviceClass.stateTypes ? deviceClass.stateTypes.findByName("windSpeed") : null
-    readonly property State windSpeedState: windSpeedStateType && device.states ? device.states.getState(windSpeedStateType.id) : null
+    readonly property StateType temperatureStateType: thing.thingClass.stateTypes.findByName("temperature")
 
     ColumnLayout {
         id: grid
@@ -86,7 +77,6 @@ CustomViewBase {
                     Label {
                         text: (temperatureState ? Math.round(Types.toUiValue(temperatureState.value, temperatureStateType.unit) * 10) / 10 : "N/A") + " °"
                         Layout.fillWidth: true
-                        font.pixelSize: app.largeFont
                         horizontalAlignment: Text.AlignHCenter
                     }
                     ColorIcon {

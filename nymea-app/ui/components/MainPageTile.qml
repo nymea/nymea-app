@@ -48,6 +48,7 @@ Item {
     property int signalStrength: 0
     property int setupStatus: Thing.ThingSetupStatusNone
     property bool batteryCritical: false
+    property bool updateStatus: false
 
     property alias contentItem: innerContent.children
 
@@ -119,7 +120,10 @@ Item {
             spacing: 0
             ColumnLayout {
                 Layout.fillHeight: true
-                Layout.margins: app.margins
+                Layout.topMargin: app.margins
+                Layout.leftMargin: app.margins
+                Layout.rightMargin: app.margins
+                Layout.bottomMargin: app.margins / 2
                 Item {
                     visible: backgroundImg.status !== Image.Ready
                     Layout.fillWidth: true
@@ -171,10 +175,17 @@ Item {
         }
     }
 
-    Row {
+    RowLayout {
         id: quickAlertPane
         anchors { top: parent.top; right: parent.right; margins: app.margins }
-        spacing: app.margins / 2
+        ColorIcon {
+            height: app.smallIconSize
+            width: height
+            name: "../images/system-update.svg"
+            color: app.accentColor
+            visible: root.updateStatus
+        }
+
         ColorIcon {
             height: app.smallIconSize
             width: height

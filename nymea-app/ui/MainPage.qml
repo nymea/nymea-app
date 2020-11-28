@@ -202,7 +202,7 @@ Page {
             text: engine.systemController.updateRunning ? qsTr("System update in progress...") : qsTr("%n system update(s) available", "", updatesModel.count)
             imageSource: "../images/system-update.svg"
             rotatingIcon: engine.systemController.updateRunning
-            onPaneClicked: pageStack.push(Qt.resolvedUrl("system/SystemUpdatePage.qml"))
+            onClicked: pageStack.push(Qt.resolvedUrl("system/SystemUpdatePage.qml"))
 
             PackagesFilterModel {
                 id: updatesModel
