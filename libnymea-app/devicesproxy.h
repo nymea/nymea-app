@@ -67,6 +67,8 @@ class DevicesProxy : public QSortFilterProxyModel
 
     Q_PROPERTY(bool filterSetupFailed READ filterSetupFailed WRITE setFilterSetupFailed NOTIFY filterSetupFailedChanged)
 
+    Q_PROPERTY(bool filterUpdates READ filterUpdates WRITE setFilterUpdates NOTIFY filterUpdatesChanged)
+
     Q_PROPERTY(bool groupByInterface READ groupByInterface WRITE setGroupByInterface NOTIFY groupByInterfaceChanged)
 
 public:
@@ -120,12 +122,15 @@ public:
     bool filterSetupFailed() const;
     void setFilterSetupFailed(bool filterSetupFailed);
 
-   bool groupByInterface() const;
-   void setGroupByInterface(bool groupByInterface);
+    bool filterUpdates() const;
+    void setFilterUpdates(bool filterUpdates);
+
+    bool groupByInterface() const;
+    void setGroupByInterface(bool groupByInterface);
 
     Q_INVOKABLE Device *get(int index) const;
-   Q_INVOKABLE Device *getDevice(const QUuid &deviceId) const;
-   Q_INVOKABLE Device *getThing(const QUuid &thingId) const;
+    Q_INVOKABLE Device *getDevice(const QUuid &deviceId) const;
+    Q_INVOKABLE Device *getThing(const QUuid &thingId) const;
 
 signals:
     void engineChanged();
@@ -144,6 +149,7 @@ signals:
     void filterBatteryCriticalChanged();
     void filterDisconnectedChanged();
     void filterSetupFailedChanged();
+    void filterUpdatesChanged();
     void groupByInterfaceChanged();
     void countChanged();
 
@@ -168,6 +174,7 @@ private:
     bool m_filterBatteryCritical = false;
     bool m_filterDisconnected = false;
     bool m_filterSetupFailed = false;
+    bool m_filterUpdates = false;
 
     bool m_groupByInterface = false;
 

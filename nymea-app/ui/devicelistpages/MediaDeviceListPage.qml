@@ -57,16 +57,20 @@ DeviceListPageBase {
             rowSpacing: 0
             columnSpacing: 0
             Repeater {
-                model: root.devicesProxy
+                model: root.thingsProxy
 
-                delegate: Item {
+                delegate: BigTile {
                     id: itemDelegate
                     Layout.preferredWidth: contentGrid.width / contentGrid.columns
-                    height: contentItem.implicitHeight + app.margins
+                    thing: thingsProxy.getThing(model.id)
 
-                    property bool inline: width > 500
+                    topPadding: 0
+                    bottomPadding: 0
+                    leftPadding: 0
+                    rightPadding: 0
+                    enabled: connectedState == null || connectedState.value === true
 
-                    property Thing thing: thingsProxy.getThing(model.id)
+                    property State connectedState: thing.stateByName("connected")
 
                     readonly property StateType playbackStateType: thing.thingClass.stateTypes.findByName("playbackStatus")
                     readonly property State playbackState: thing.stateByName("playbackStatus")
@@ -74,162 +78,112 @@ DeviceListPageBase {
                     readonly property StateType playerTypeStateType: thing.thingClass.stateTypes.findByName("playerType")
                     readonly property State playerTypeState: thing.stateByName("playerType")
 
-                    Pane {
-                        id: contentItem
-                        width: parent.width - app.margins
-                        anchors.centerIn: parent
-                        Material.elevation: 2
-                        leftPadding: 0
-                        rightPadding: 0
-                        topPadding: 0
-                        bottomPadding: 0
+                    onClicked: {
+                        enterPage(index)
+                    }
 
-                        contentItem: ItemDelegate {
-                            leftPadding: 0
-                            rightPadding: 0
-                            topPadding: 0
-                            bottomPadding: 0
-                            contentItem: ColumnLayout {
-                                spacing: 0
-                                Rectangle {
-                                    Layout.fillWidth: true
-                                    Layout.preferredHeight: app.mediumFont + app.margins
-                                    color: Qt.rgba(app.foregroundColor.r, app.foregroundColor.g, app.foregroundColor.b, .05)
-                                    RowLayout {
-                                        anchors { verticalCenter: parent.verticalCenter; left: parent.left; right: parent.right; margins: app.margins }
-                                        Label {
-                                            Layout.fillWidth: true
-                                            text: model.name
-                                            elide: Text.ElideRight
-                                        }
-                                        BatteryStatusIcon {
-                                            Layout.preferredHeight: app.iconSize * .5
-                                            Layout.preferredWidth: height
-                                            thing: itemDelegate.thing
-                                            visible: itemDelegate.thing.setupStatus == Thing.ThingSetupStatusComplete && (hasBatteryLevel || isCritical)
-                                        }
-                                        ConnectionStatusIcon {
-                                            Layout.preferredHeight: app.iconSize * .5
-                                            Layout.preferredWidth: height
-                                            thing: itemDelegate.thing
-                                            visible: itemDelegate.thing.setupStatus == Thing.ThingSetupStatusComplete && (hasSignalStrength || !isConnected)
-                                        }
-                                        SetupStatusIcon {
-                                            Layout.preferredHeight: app.iconSize * .5
-                                            Layout.preferredWidth: height
-                                            thing: itemDelegate.thing
-                                            visible: setupFailed || setupInProgress
-                                        }
-                                    }
+                    contentItem: RowLayout {
+                        ColumnLayout {
+                            id: leftColummn
+                            Layout.margins: app.margins
+                            Label {
+                                Layout.fillWidth: true
+                                text: itemDelegate.playbackState.value === "Stopped" ?
+                                          qsTr("No playback")
+                                        : itemDelegate.thing.stateByName("title").value
+                                horizontalAlignment: Text.AlignHCenter
+                                elide: Text.ElideRight
+                            }
+                            Label {
+                                Layout.fillWidth: true
+                                text: itemDelegate.thing.stateByName("artist").value
+                                font.pixelSize: app.smallFont
+                                horizontalAlignment: Text.AlignHCenter
+                                elide: Text.ElideRight
+                            }
+                            Label {
+                                Layout.fillWidth: true
+                                text: itemDelegate.thing.stateByName("collection").value
+                                horizontalAlignment: Text.AlignHCenter
+                                font.pixelSize: app.smallFont
+                                elide: Text.ElideRight
+                            }
+                            MediaControls {
+                                visible: itemDelegate.thing.thingClass.interfaces.indexOf("mediacontroller") >= 0
+                                thing: itemDelegate.thing
+                            }
+                        }
+                        Item {
+                            Layout.preferredHeight: leftColummn.height + app.margins * 2
+                            Layout.preferredWidth: height * .7
 
+                            Item {
+                                id: artworkContainer
+                                anchors.fill: parent
+                                Image {
+                                    id: artworkImage
+                                    width: artworkImage.sourceSize.width * height / artworkImage.sourceSize.height
+                                    anchors { top: parent.top; right: parent.right; bottom: parent.bottom }
+                                    readonly property State artworkState: thing.stateByName("artwork")
+                                    source: artworkState ? artworkState.value : ""
                                 }
-                                RowLayout {
-                                    ColumnLayout {
-                                        id: leftColummn
-                                        Layout.margins: app.margins
-                                        Label {
-                                            Layout.fillWidth: true
-                                            text: itemDelegate.playbackState.value === "Stopped" ?
-                                                      qsTr("No playback")
-                                                    : itemDelegate.thing.stateByName("title").value
-                                            horizontalAlignment: Text.AlignHCenter
-                                            //                                    font.pixelSize: app.largeFont
-                                            elide: Text.ElideRight
-                                        }
-                                        Label {
-                                            Layout.fillWidth: true
-                                            text: itemDelegate.thing.stateByName("artist").value
-                                            font.pixelSize: app.smallFont
-                                            horizontalAlignment: Text.AlignHCenter
-                                            elide: Text.ElideRight
-                                        }
-                                        Label {
-                                            Layout.fillWidth: true
-                                            text: itemDelegate.thing.stateByName("collection").value
-                                            horizontalAlignment: Text.AlignHCenter
-                                            font.pixelSize: app.smallFont
-                                            elide: Text.ElideRight
-                                        }
-                                        MediaControls {
-                                            visible: itemDelegate.thing.thingClass.interfaces.indexOf("mediacontroller") >= 0
-                                            thing: itemDelegate.thing
-                                        }
-                                    }
-                                    Item {
-                                        Layout.preferredHeight: leftColummn.height + app.margins * 2
-                                        Layout.preferredWidth: height * .7
+                                Rectangle {
+                                    visible: artworkImage.status !== Image.Ready || artworkImage.source === ""
+                                    anchors.fill: parent
+                                    color: "black"
+                                }
 
-                                        Item {
-                                            id: artworkContainer
-                                            anchors.fill: parent
-                                            Image {
-                                                id: artworkImage
-                                                width: artworkImage.sourceSize.width * height / artworkImage.sourceSize.height
-                                                anchors { top: parent.top; right: parent.right; bottom: parent.bottom }
-                                                readonly property State artworkState: thing.stateByName("artwork")
-                                                source: artworkState ? artworkState.value : ""
-                                            }
-                                            Rectangle {
-                                                visible: artworkImage.status !== Image.Ready || artworkImage.source === ""
-                                                anchors.fill: parent
-                                                color: "black"
-                                            }
-
-                                            ColorIcon {
-                                                width: Math.min(parent.width, parent.height) - app.margins * 2
-                                                height: width
-                                                anchors.centerIn: parent
-                                                name: itemDelegate.playerTypeState && itemDelegate.playerTypeState.value === "video" ? "../images/stock_video.svg" : "../images/stock_music.svg"
-                                                visible: artworkImage.status !== Image.Ready || artworkImage.source === ""
-                                                color: "white"
-                                            }
-                                        }
-
-                                        Rectangle {
-                                            id: maskRect
-                                            anchors.centerIn: parent
-                                            height: parent.width
-                                            width: parent.height
-                                            gradient: Gradient {
-                                                GradientStop { position: 0; color: "#00FF0000" }
-                                                GradientStop { position: 0.2; color: "#15FF0000" }
-                                                GradientStop { position: 1; color: "#FFFF0000" }
-                                            }
-                                        }
-
-                                        ShaderEffect {
-                                            anchors.fill: parent
-                                            property variant source: ShaderEffectSource {
-                                                sourceItem: artworkContainer
-                                                hideSource: true
-                                            }
-                                            property variant mask: ShaderEffectSource {
-                                                sourceItem: maskRect
-                                                hideSource: true
-                                            }
-
-                                            fragmentShader: "
-                                                varying highp vec2 qt_TexCoord0;
-                                                uniform sampler2D source;
-                                                uniform sampler2D mask;
-                                                void main(void)
-                                                {
-                                                    highp vec4 sourceColor = texture2D(source, qt_TexCoord0);
-                                                    highp float alpha = texture2D(mask, vec2(qt_TexCoord0.y, qt_TexCoord0.x)).a;
-                                                    sourceColor *= alpha;
-                                                    gl_FragColor = sourceColor;
-                                                }
-                                                "
-                                        }
-                                    }
+                                ColorIcon {
+                                    width: Math.min(parent.width, parent.height) - app.margins * 2
+                                    height: width
+                                    anchors.centerIn: parent
+                                    name: itemDelegate.playerTypeState && itemDelegate.playerTypeState.value === "video" ? "../images/stock_video.svg" : "../images/stock_music.svg"
+                                    visible: artworkImage.status !== Image.Ready || artworkImage.source === ""
+                                    color: "white"
                                 }
                             }
-                            onClicked: {
-                                enterPage(index)
+
+                            Rectangle {
+                                id: maskRect
+                                anchors.centerIn: parent
+                                height: parent.width
+                                width: parent.height
+                                radius: 6
+                                gradient: Gradient {
+                                    GradientStop { position: 0; color: "#00FF0000" }
+                                    GradientStop { position: 0.2; color: "#15FF0000" }
+                                    GradientStop { position: 1; color: "#FFFF0000" }
+                                }
+                            }
+
+                            ShaderEffect {
+                                anchors.fill: parent
+                                property variant source: ShaderEffectSource {
+                                    sourceItem: artworkContainer
+                                    hideSource: true
+                                }
+                                property variant mask: ShaderEffectSource {
+                                    sourceItem: maskRect
+                                    hideSource: true
+                                }
+
+                                fragmentShader: "
+                                                                    varying highp vec2 qt_TexCoord0;
+                                                                    uniform sampler2D source;
+                                                                    uniform sampler2D mask;
+                                                                    void main(void)
+                                                                    {
+                                                                        highp vec4 sourceColor = texture2D(source, qt_TexCoord0);
+                                                                        highp float alpha = texture2D(mask, vec2(qt_TexCoord0.y, qt_TexCoord0.x)).a;
+                                                                        sourceColor *= alpha;
+                                                                        gl_FragColor = sourceColor;
+                                                                    }
+                                                                    "
                             }
                         }
                     }
                 }
+
             }
         }
     }

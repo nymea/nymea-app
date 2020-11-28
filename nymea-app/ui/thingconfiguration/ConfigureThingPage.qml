@@ -37,7 +37,8 @@ import "../delegates"
 
 SettingsPageBase {
     id: root
-    property Device device: null
+    property Thing thing: null
+    property alias device: root.thing
     readonly property DeviceClass deviceClass: device ? device.deviceClass : null
 
     header: NymeaHeader {
@@ -48,6 +49,12 @@ SettingsPageBase {
             imageSource: "../images/navigation-menu.svg"
             onClicked: deviceMenu.open()
         }
+    }
+
+    ThingInfoPane {
+        id: infoPane
+        anchors { left: parent.left; top: parent.top; right: parent.right }
+        thing: root.thing
     }
 
     Menu {

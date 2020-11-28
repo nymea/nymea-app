@@ -83,87 +83,68 @@ DeviceListPageBase {
         }
     }
 
-    ListView {
+    Flickable {
         anchors.fill: parent
-        model: devicesProxy
-        spacing: app.margins
+        contentHeight: contentGrid.implicitHeight
+        topMargin: app.margins / 2
 
-        delegate: Pane {
-            id: itemDelegate
-            width: parent.width
+        GridLayout {
+            id: contentGrid
+            width: parent.width - app.margins
+            anchors.horizontalCenter: parent.horizontalCenter
+            columns: Math.ceil(width / 600)
+            rowSpacing: 0
+            columnSpacing: 0
+            Repeater {
+                model: root.thingsProxy
 
-            property bool inline: width > 500
+                delegate: BigTile {
+                    id: itemDelegate
+                    Layout.preferredWidth: contentGrid.width / contentGrid.columns
+                    thing: root.thingsProxy.getThing(model.id)
+                    showHeader: false
+                    enabled: connectedState == null || connectedState.value === true
+                    topPadding: 0
+                    bottomPadding: 0
 
-            property Device device: devicesProxy.getDevice(model.id)
-            property DeviceClass deviceClass: device.deviceClass
+                    onClicked: root.enterPage(index)
 
-            property var connectedStateType: deviceClass.stateTypes.findByName("connected");
-            property var connectedState: connectedStateType ? device.states.getState(connectedStateType.id) : null
+                    property State connectedState: thing.stateByName("connected")
+                    property State movingState: thing.stateByName("moving")
+                    property State percentageState: thing.stateByName("percentage")
 
-            property StateType percentageStateType: deviceClass.stateTypes.findByName("percentage");
-            property ActionType percentageActionType: deviceClass.actionTypes.findByName("percentage");
-            property State percentageState: percentageStateType ? device.states.getState(percentageStateType.id) : null
-
-            property StateType movingStateType: deviceClass.stateTypes.findByName("moving");
-            property ActionType movingActionType: deviceClass.actionTypes.findByName("moving");
-            property State movingState: movingStateType ? device.states.getState(movingStateType.id) : null
-
-            Material.elevation: 1
-            topPadding: 0
-            bottomPadding: 0
-            leftPadding: 0
-            rightPadding: 0
-            contentItem: ItemDelegate {
-                id: contentItem
-                implicitHeight: nameRow.implicitHeight
-
-                topPadding: 0
-
-                contentItem: ColumnLayout {
-                    spacing: 0
-                    RowLayout {
-                        enabled: itemDelegate.connectedState === null || itemDelegate.connectedState.value === true
-                        id: nameRow
-                        z: 2 // make sure the switch in here is on top of the slider, given we cheated a bit and made them overlap
+                    contentItem: RowLayout {
                         spacing: app.margins
-                        Item {
-                            Layout.preferredHeight: app.iconSize
-                            Layout.preferredWidth: height
-                            Layout.alignment: Qt.AlignVCenter
 
-                            ColorIcon {
-                                id: icon
-                                anchors.fill: parent
-                                color: itemDelegate.movingStateType && itemDelegate.movingState.value === true
-                                       ? app.accentColor
-                                       : keyColor
-                                name: itemDelegate.percentageStateType
-                                      ? root.iconBasename + "-" + app.pad(Math.round(itemDelegate.percentageState.value / 10) * 10, 3) + ".svg"
-                                      : root.iconBasename + "-050.svg"
-                            }
+                        ColorIcon {
+                            Layout.preferredHeight: app.iconSize
+                            Layout.preferredWidth: app.iconSize
+                            color: itemDelegate.movingState && itemDelegate.movingState.value === true
+                                   ? app.accentColor
+                                   : keyColor
+                            name: itemDelegate.percentageState
+                                  ? root.iconBasename + "-" + app.pad(Math.round(itemDelegate.percentageState.value / 10) * 10, 3) + ".svg"
+                                  : root.iconBasename + "-050.svg"
                         }
 
                         Label {
                             Layout.fillWidth: true
-                            text: itemDelegate.device.name
+                            text: itemDelegate.thing.name
                             elide: Text.ElideRight
-                            verticalAlignment: Text.AlignVCenter
                         }
 
-                        Item {
-                            Layout.preferredWidth: shutterControls.implicitWidth
-                            Layout.preferredHeight: app.iconSize * 2
-                            ShutterControls {
-                                id: shutterControls
-                                height: parent.height
-                                device: itemDelegate.device
-                                invert: root.invertControls
-                            }
+                        ThingStatusIcons {
+                            thing: itemDelegate.thing
+                        }
+
+                        ShutterControls {
+                            id: shutterControls
+                            Layout.fillWidth: false
+                            height: parent.height
+                            device: itemDelegate.thing
+                            invert: root.invertControls
                         }
                     }
-                }
-                onClicked: {
-                    enterPage(index)
                 }
             }
         }

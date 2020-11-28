@@ -47,9 +47,7 @@
         <file>ui/components/Led.qml</file>
         <file>ui/components/ProgressButton.qml</file>
         <file>ui/customviews/GenericTypeLogView.qml</file>
-        <file>ui/customviews/CustomViewBase.qml</file>
         <file>ui/customviews/WeatherView.qml</file>
-        <file>ui/customviews/NotificationsView.qml</file>
         <file>ui/devicepages/MediaThingPage.qml</file>
         <file>ui/devicepages/ButtonDevicePage.qml</file>
         <file>ui/devicepages/GenericDevicePage.qml</file>
@@ -223,5 +221,9 @@
         <file>ui/magic/WriteNfcTagPage.qml</file>
         <file>ui/components/MediaPlayer.qml</file>
         <file>ui/components/InfoPane.qml</file>
+        <file>ui/components/BigTile.qml</file>
+        <file>ui/components/ThingStatusIcons.qml</file>
+        <file>ui/components/InfoPaneBase.qml</file>
+        <file>ui/components/ThingInfoPane.qml</file>
     </qresource>
 </RCC>

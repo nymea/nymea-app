@@ -37,6 +37,7 @@ import Nymea 1.0
 import "../components"
 
 DeviceListPageBase {
+    id: root
 
     header: NymeaHeader {
         text: qsTr("Lights")
@@ -70,125 +71,151 @@ DeviceListPageBase {
         }
     }
 
-    ListView {
+    Flickable {
         anchors.fill: parent
-        model: devicesProxy
-        spacing: app.margins
+        contentHeight: contentGrid.implicitHeight
+        topMargin: app.margins / 2
 
-        delegate: Pane {
-            id: itemDelegate
-            width: parent.width
+        GridLayout {
+            id: contentGrid
+            width: parent.width - app.margins
+            anchors.horizontalCenter: parent.horizontalCenter
+            columns: Math.ceil(width / 600)
+            rowSpacing: 0
+            columnSpacing: 0
+            Repeater {
+                model: root.thingsProxy
 
-            property bool inline: width > 500
+                delegate: BigTile {
+                    id: itemDelegate
+                    Layout.preferredWidth: contentGrid.width / contentGrid.columns
+                    thing: root.thingsProxy.getThing(model.id)
+                    showHeader: false
+                    topPadding: 0
+                    bottomPadding: 0
+                    leftPadding: 0
+                    rightPadding: 0
+                    enabled: connectedState == null || connectedState.value === true
 
-            property Device device: devicesProxy.getDevice(model.id)
-            property DeviceClass deviceClass: device.deviceClass
+                    property State connectedState: thing.stateByName("connected")
+                    property State powerState: thing.stateByName("power")
+                    property State brightnessState: thing.stateByName("brightness")
+                    property State colorState: thing.stateByName("color")
 
-            property StateType connectedStateType: deviceClass.stateTypes.findByName("connected");
-            property State connectedState: connectedStateType ? device.states.getState(connectedStateType.id) : null
+                    onClicked: root.enterPage(index)
 
-            property StateType powerStateType: deviceClass.stateTypes.findByName("power");
-            property ActionType powerActionType: deviceClass.actionTypes.findByName("power");
-            property State powerState: device.states.getState(powerStateType.id)
+                    property int pendingCommand: -1
+                    property var pendingValue: null
 
-            property StateType brightnessStateType: deviceClass.stateTypes.findByName("brightness");
-            property ActionType brightnessActionType: deviceClass.actionTypes.findByName("brightness");
-            property State brightnessState: brightnessStateType ? device.states.getState(brightnessStateType.id) : null
-
-            property StateType colorStateType: deviceClass.stateTypes.findByName("color");
-            property State colorState: colorStateType ? device.states.getState(colorStateType.id) : null
-
-            Material.elevation: 1
-            topPadding: 0
-            bottomPadding: 0
-            leftPadding: 0
-            rightPadding: 0
-            contentItem: ItemDelegate {
-                id: contentItem
-                implicitHeight: nameRow.implicitHeight
-                //                gradient: Gradient {
-                //                    GradientStop { position: 0.0; color: "transparent" }
-                //                    GradientStop { position: 1.0; color: Qt.rgba(app.foregroundColor.r, app.foregroundColor.g, app.foregroundColor.b, 0.05) }
-                //                }
-
-
-                topPadding: 0
-
-                Rectangle {
-                    anchors { left: parent.left; top: parent.top; bottom: parent.bottom }
-                    width: app.margins / 2
-                    color: itemDelegate.colorStateType ? itemDelegate.colorState.value : "#00000000"
-                }
-
-                contentItem: ColumnLayout {
-                    spacing: 0
-                    RowLayout {
-                        enabled: itemDelegate.connectedState === null || itemDelegate.connectedState.value === true
-                        id: nameRow
-                        z: 2 // make sure the switch in here is on top of the slider, given we cheated a bit and made them overlap
-                        spacing: app.margins
-                        Item {
-                            Layout.preferredHeight: app.iconSize
-                            Layout.preferredWidth: height
-                            Layout.alignment: Qt.AlignVCenter
-
-//                            DropShadow {
-//                                anchors.fill: icon
-//                                horizontalOffset: 0
-//                                verticalOffset: 0
-//                                radius: 2.0
-//                                samples: 17
-//                                color: app.foregroundColor
-//                                source: icon
-//                            }
-
-                            ColorIcon {
-                                id: icon
-                                anchors.fill: parent
-                                color: itemDelegate.connectedState !== null && itemDelegate.connectedState.value === false
-                                       ? "red"
-                                       : app.accentColor
-                                name: itemDelegate.connectedState !== null && itemDelegate.connectedState.value === false ?
-                                          "../images/dialog-warning-symbolic.svg"
-                                        : itemDelegate.powerState.value === true ? "../images/light-on.svg" : "../images/light-off.svg"
-                            }
+                    function adjustBrightness(value) {
+                        if (pendingCommand != -1) {
+                            // busy, cache value
+                            pendingValue = value;
+                            return;
                         }
+                        pendingCommand = engine.thingManager.executeAction(itemDelegate.thing.id,
+                                                          itemDelegate.brightnessState.stateTypeId,
+                                                          [{
+                                                               paramTypeId: itemDelegate.brightnessState.stateTypeId,
+                                                               value: value
+                                                           }])
+                        pendingValue = null;
+                    }
 
-                        Label {
-                            Layout.fillWidth: true
-                            text: model.name
-                            elide: Text.ElideRight
-                            verticalAlignment: Text.AlignVCenter
-                        }
-                        ThrottledSlider {
-                            id: inlineSlider
-                            visible: contentItem.enabled && itemDelegate.brightnessStateType && itemDelegate.inline
-                            from: 0; to: 100
-                            value: itemDelegate.brightnessState ?  itemDelegate.brightnessState.value : 0
-                            onMoved: {
-                                var params = [];
-                                var param1 = {};
-                                param1["paramTypeId"] = itemDelegate.brightnessActionType.paramTypes.get(0).id;
-                                param1["value"] = value;
-                                params.push(param1)
-                                engine.deviceManager.executeAction(itemDelegate.device.id, itemDelegate.brightnessActionType.id, params)
-                            }
-                        }
-                        Switch {
-                            checked: itemDelegate.powerState.value === true
-                            onClicked: {
-                                var params = [];
-                                var param1 = {};
-                                param1["paramTypeId"] = itemDelegate.powerActionType.paramTypes.get(0).id;
-                                param1["value"] = checked;
-                                params.push(param1)
-                                engine.deviceManager.executeAction(device.id, itemDelegate.powerActionType.id, params)
+                    Connections {
+                        target: engine.thingManager
+                        onExecuteActionReply: {
+                            if (itemDelegate.pendingCommand == commandId) {
+                                itemDelegate.pendingCommand = -1;
+                                if (itemDelegate.pendingValue != null) {
+                                    itemDelegate.adjustBrightness(pendingValue)
+                                }
                             }
                         }
                     }
-                }
-                onClicked: {
-                    enterPage(index)
+
+                    contentItem: Rectangle {
+                        color: itemDelegate.powerState.value === true && itemDelegate.colorState ? itemDelegate.colorState.value : "#00000000"
+                        implicitHeight: contentColumn.implicitHeight
+                        Behavior on implicitHeight { NumberAnimation { duration: 100 } }
+                        radius: 6
+
+                        ColumnLayout {
+                            id: contentColumn
+                            anchors { left: parent.left; right: parent.right }
+                            spacing: 0
+
+                            RowLayout {
+                                Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
+                                spacing: app.margins
+
+                                ColorIcon {
+                                    Layout.preferredHeight: app.iconSize
+                                    Layout.preferredWidth: app.iconSize
+                                    name: itemDelegate.powerState.value === true ? "../images/light-on.svg" : "../images/light-off.svg"
+                                    color: itemDelegate.powerState.value === true ? app.accentColor : keyColor
+                                }
+
+                                Label {
+                                    id: nameLabel
+                                    Layout.fillWidth: true
+                                    text: itemDelegate.thing.name
+                                    elide: Text.ElideRight
+
+                                    Binding {
+                                        target: nameLabel
+                                        property: "color"
+                                        value: itemDelegate.colorState && NymeaUtils.isDark(app.foregroundColor) === NymeaUtils.isDark(itemDelegate.colorState.value) ?
+                                                    app.backgroundColor : app.foregroundColor
+                                        when: nameLabel.enabled && itemDelegate.colorState !== null && itemDelegate.powerState.value === true
+                                    }
+                                }
+
+                                ThingStatusIcons {
+                                    thing: itemDelegate.thing
+                                }
+
+                                Switch {
+                                    checked: itemDelegate.powerState.value === true
+                                    onClicked: {
+                                        var params = [];
+                                        var param1 = {};
+                                        param1["paramTypeId"] = itemDelegate.powerState.stateTypeId;
+                                        param1["value"] = checked;
+                                        params.push(param1)
+                                        print("executing for thing:", itemDelegate.thing.id)
+                                        engine.deviceManager.executeAction(itemDelegate.thing.id, itemDelegate.powerState.stateTypeId, params)
+                                    }
+                                }
+                            }
+
+                            Rectangle {
+                                Layout.fillWidth: true
+                                Layout.preferredHeight: 12
+                                visible: itemDelegate.powerState.value === true && itemDelegate.brightnessState != null
+                                radius: 6
+                                color: Qt.tint(app.backgroundColor, Qt.rgba(app.foregroundColor.r, app.foregroundColor.g, app.foregroundColor.b, .1))
+
+                                Rectangle {
+                                    id: knob
+                                    height: 12
+                                    width: 12
+                                    radius: 8
+                                    color: app.accentColor
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    x: itemDelegate.brightnessState ? itemDelegate.brightnessState.value * (parent.width - width) / 100 : 0
+                                }
+
+                                MouseArea {
+                                    anchors.fill: parent
+                                    preventStealing: true
+                                    onMouseXChanged: {
+                                        itemDelegate.adjustBrightness(Math.max(1, Math.min(100, mouseX / width * 100)))
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }

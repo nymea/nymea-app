@@ -33,6 +33,7 @@ import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.2
 import QtQuick.Layouts 1.3
 import Nymea 1.0
+import QtGraphicalEffects 1.0
 
 Item {
     id: root
@@ -40,114 +41,151 @@ Item {
     property alias iconName: colorIcon.name
     property alias fallbackIconName: fallbackIcon.name
     property alias iconColor: colorIcon.color
-    property alias backgroundImage: background.source
+    property alias backgroundImage: backgroundImg.source
     property string text
     property bool disconnected: false
     property bool isWireless: false
     property int signalStrength: 0
     property int setupStatus: Thing.ThingSetupStatusNone
     property bool batteryCritical: false
+    property bool updateStatus: false
 
     property alias contentItem: innerContent.children
 
     signal clicked();
     signal pressAndHold();
 
-    Pane {
+    Rectangle {
+        id: background
         anchors.fill: parent
         anchors.margins: app.margins / 2
-        Material.elevation: 1
-        padding: 0
-
-        Image {
-            id: background
-            anchors.fill: parent
-            anchors.margins: 1
-            z: -1
-            fillMode: Image.PreserveAspectCrop
-//            horizontalAlignment: Image.AlignTop
-//            opacity: .5
-//            Rectangle {
-//                anchors.fill: parent
-//                color: Material.background
-//                opacity: .5
-//            }
+        gradient: Gradient {
+            GradientStop {
+                position: 1 - innerContent.height / background.height
+                color: Qt.tint(app.backgroundColor, Qt.rgba(app.foregroundColor.r, app.foregroundColor.g, app.foregroundColor.b, .1))
+            }
+            GradientStop {
+                position: 1 - innerContent.height / background.height
+                color: Qt.tint(app.backgroundColor, Qt.rgba(app.foregroundColor.r, app.foregroundColor.g, app.foregroundColor.b, .05))
+            }
         }
 
-        contentItem: ItemDelegate {
-            padding: 0; topPadding: 0; bottomPadding: 0
-            onClicked: root.clicked()
-            onPressAndHold: root.pressAndHold()
+        radius: 6
+    }
 
-            contentItem: ColumnLayout {
-                spacing: 0
-                ColumnLayout {
-                    Layout.fillHeight: true
-                    Layout.margins: app.margins
-                    Item {
-                        visible: background.status !== Image.Ready
-                        Layout.fillWidth: true
-                        Layout.fillHeight: true
+    Image {
+        id: backgroundImg
+        anchors.fill: parent
+        anchors.margins: app.margins / 2
+        visible: false
+        z: -1
+        fillMode: Image.PreserveAspectCrop
+    }
 
-                        ColorIcon {
-                            id: colorIcon
-                            anchors.centerIn: parent
-                            height: app.hugeIconSize //* 1.5
-                            width: height
-                            ColorIcon {
-                                id: fallbackIcon
-                                anchors.fill: parent
-                                color: root.iconColor
-                                visible: parent.status === Image.Error
-                            }
-                        }
-                    }
+    Rectangle {
+        id: backgroundImgClipper
+        radius: background.radius
+        anchors.fill: parent
+        visible: false
+        gradient: Gradient {
+            GradientStop {
+                position: 1 - innerContent.height / background.height
+                color: "transparent"
+            }
+            GradientStop {
+                position: 1 - innerContent.height / background.height
+                color: "white"
+            }
+        }
+    }
 
-                    Item {
-                        Layout.fillWidth: true
-                        Layout.fillHeight: true
-                        visible: background.status !== Image.Ready
+    OpacityMask {
+        anchors.fill: parent
+        anchors.margins: app.margins / 2
+        source: backgroundImg
+        maskSource: backgroundImgClipper
+//        visible: root.backgroundImage.length > 0
+    }
 
-                        Label {
-                            id: label
-                            anchors.centerIn: parent
-                            width: parent.width
-                            text: root.text.toUpperCase()
-                            font.pixelSize: app.smallFont
-                            font.letterSpacing: 1
-                            wrapMode: Text.WordWrap
-                            horizontalAlignment: Text.AlignHCenter
-                            maximumLineCount: 2
-                            elide: Text.ElideRight
-                        }
-                    }
+    ItemDelegate {
+        anchors {
+            top: parent.top; left: parent.left; right: parent.right; bottom: innerContent.top
+            topMargin: app.margins / 2; leftMargin: app.margins / 2; rightMargin: app.margins / 2
+        }
+        padding: 0; topPadding: 0; bottomPadding: 0
+        onClicked: root.clicked()
+        onPressAndHold: root.pressAndHold()
 
-                }
-                MouseArea {
-                    id: innerContent
+        contentItem: ColumnLayout {
+            spacing: 0
+            ColumnLayout {
+                Layout.fillHeight: true
+                Layout.topMargin: app.margins
+                Layout.leftMargin: app.margins
+                Layout.rightMargin: app.margins
+                Layout.bottomMargin: app.margins / 2
+                Item {
+                    visible: backgroundImg.status !== Image.Ready
                     Layout.fillWidth: true
-                    Layout.preferredHeight: app.iconSize + app.margins * 2
-                    visible: root.contentItem.length > 1
+                    Layout.fillHeight: true
 
-                    Rectangle {
-                        anchors.fill: parent
-                        color: Material.background
+                    ColorIcon {
+                        id: colorIcon
+                        anchors.centerIn: parent
+                        height: app.hugeIconSize
+                        width: height
+                        ColorIcon {
+                            id: fallbackIcon
+                            anchors.fill: parent
+                            color: root.iconColor
+                            visible: parent.status === Image.Error
+                        }
                     }
+                }
 
-                    Rectangle {
-                        anchors.fill: parent
-                        color: Material.foreground
-                        opacity: 0.05
+                Item {
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    visible: backgroundImg.status !== Image.Ready
+
+                    Label {
+                        id: label
+                        anchors.centerIn: parent
+                        width: parent.width
+                        text: root.text.toUpperCase()
+                        font.pixelSize: app.smallFont
+                        font.letterSpacing: 1
+                        wrapMode: Text.WordWrap
+                        horizontalAlignment: Text.AlignHCenter
+                        maximumLineCount: 2
+                        elide: Text.ElideRight
                     }
                 }
             }
         }
     }
 
-    Row {
+    Item {
+        id: innerContent
+        anchors { left: parent.left; bottom: parent.bottom; right: parent.right; margins: app.margins / 2 }
+        height: app.iconSize + app.margins * 2
+
+        MouseArea {
+            anchors.fill: parent
+        }
+    }
+
+    RowLayout {
         id: quickAlertPane
         anchors { top: parent.top; right: parent.right; margins: app.margins }
-        spacing: app.margins / 2
+        ColorIcon {
+            height: app.smallIconSize
+            width: height
+            name: "../images/system-update.svg"
+            color: app.accentColor
+            visible: root.updateStatus
+        }
+
         ColorIcon {
             height: app.smallIconSize
             width: height

@@ -47,7 +47,7 @@ DevicePageBase {
         GridLayout {
             id: contentGrid
             width: parent.width
-            columns: width / 300
+            columns: Math.ceil(width / 600)
 
             Repeater {
                 model: ListModel {

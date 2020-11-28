@@ -53,15 +53,69 @@ DeviceListPageBase {
         }
     }
 
-    ListView {
+    Flickable {
         anchors.fill: parent
-        model: root.devicesProxy
+        contentHeight: contentGrid.implicitHeight
+        topMargin: app.margins / 2
 
-        delegate: ThingDelegate {
-            width: parent.width
-            device: engine.deviceManager.devices.getDevice(model.id);
-            onClicked: {
-                enterPage(index)
+        GridLayout {
+            id: contentGrid
+            width: parent.width - app.margins
+            anchors.horizontalCenter: parent.horizontalCenter
+            columns: Math.ceil(width / 600)
+            rowSpacing: 0
+            columnSpacing: 0
+            Repeater {
+                model: root.thingsProxy
+
+                delegate: BigTile {
+                    id: itemDelegate
+                    Layout.preferredWidth: contentGrid.width / contentGrid.columns
+                    thing: root.thingsProxy.getThing(model.id)
+                    showHeader: false
+                    enabled: connectedState == null || connectedState.value === true
+                    topPadding: 0
+                    bottomPadding: 0
+
+                    onClicked: root.enterPage(index)
+
+                    property State connectedState: thing.stateByName("connected")
+                    property State powerState: thing.stateByName("power")
+
+                    contentItem: RowLayout {
+                        spacing: app.margins
+
+                        ColorIcon {
+                            Layout.preferredHeight: app.iconSize
+                            Layout.preferredWidth: app.iconSize
+                            name: app.interfacesToIcon(itemDelegate.thing.thingClass.interfaces)
+                            color: itemDelegate.powerState && itemDelegate.powerState.value === true ? app.accentColor : keyColor
+                        }
+
+                        Label {
+                            Layout.fillWidth: true
+                            text: itemDelegate.thing.name
+                            elide: Text.ElideRight
+                        }
+
+                        ThingStatusIcons {
+                            thing: itemDelegate.thing
+                        }
+
+                        Switch {
+                            visible: itemDelegate.powerState !== null
+                            checked: itemDelegate.powerState.value === true
+                            onClicked: {
+                                var params = [];
+                                var param1 = {};
+                                param1["paramTypeId"] = itemDelegate.powerState.stateTypeId;
+                                param1["value"] = checked;
+                                params.push(param1)
+                                engine.deviceManager.executeAction(itemDelegate.thing.id, itemDelegate.powerState.stateTypeId, params)
+                            }
+                        }
+                    }
+                }
             }
         }
     }

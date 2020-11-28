@@ -44,6 +44,7 @@ MainPageTile {
     isWireless: devicesSubProxyConnectables.count > 0 && devicesSubProxyConnectables.get(0).thingClass.interfaces.indexOf("wirelessconnectable") >= 0
     batteryCritical: devicesSubProxyBattery.count > 0
     setupStatus: thingsSubProxySetupFailure.count > 0 ? Thing.ThingSetupStatusFailed : Thing.ThingSetupStatusComplete
+    updateStatus: thingsSubProxyUpdates.count > 0
 
     property Interface iface: null
     property alias filterTagId: devicesProxy.filterTagId
@@ -139,6 +140,12 @@ MainPageTile {
         parentProxy: devicesProxy
         filterSetupFailed: true
     }
+    ThingsProxy {
+        id: thingsSubProxyUpdates
+        engine: _engine
+        parentProxy: devicesProxy
+        filterUpdates: true
+    }
 
     property int currentDeviceIndex: 0
     readonly property Device currentDevice: devicesProxy.get(currentDeviceIndex)
@@ -220,7 +227,7 @@ MainPageTile {
                     var d = devicesProxy.get(i);
                     var st = d.deviceClass.stateTypes.findByName("playbackStatus")
                     var s = d.states.getState(st.id)
-                    s.valueChanged.connect(function() {updateTile()})
+                    s.valueChanged.connect(function() {inlineMediaControl.updateTile()})
                 }
                 updateTile();
             }
