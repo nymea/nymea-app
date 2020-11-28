@@ -38,13 +38,13 @@ import Nymea 1.0
 SettingsPageBase {
     id: root
     header: NymeaHeader {
-        text: qsTr("Zigbee")
+        text: qsTr("ZigBee")
         backButtonVisible: true
         onBackPressed: pageStack.pop()
 
         HeaderButton {
             imageSource: "../images/add.svg"
-            text: qsTr("Add Zigbee network")
+            text: qsTr("Add ZigBee network")
             onClicked: pageStack.push(Qt.resolvedUrl("ZigbeeAddNetworkPage.qml"), {zigbeeManager: zigbeeManager})
         }
     }
@@ -71,14 +71,14 @@ SettingsPageBase {
 //    }
 
     SettingsPageSectionHeader {
-        text: qsTr("Zigbee networks")
+        text: qsTr("ZigBee networks")
     }
 
     Label {
         Layout.fillWidth: true
         Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
         wrapMode: Text.WordWrap
-        text: qsTr("There are no Zigbee networks set up yet. In order to use Zigbee, create a Zigbee network.")
+        text: qsTr("There are no ZigBee networks set up yet. In order to use ZigBee, create a ZigBee network.")
         visible: zigbeeManager.networks.count == 0
     }
 
@@ -97,65 +97,8 @@ SettingsPageBase {
     Button {
         Layout.fillWidth: true
         Layout.margins: app.margins
-        text: qsTr("Add a Zigbee network")
+        text: qsTr("Add a ZigBee network")
         onClicked: pageStack.push(Qt.resolvedUrl("ZigbeeAddNetworkPage.qml"), {zigbeeManager: zigbeeManager})
     }
-
-
-//    SettingsPageSectionHeader {
-//        text: qsTr("Available Zigbee adapters")
-//    }
-
-//    Repeater {
-//        id: recognizedAdaptersRepeater
-//        model: ZigbeeAdaptersProxy {
-//            id: recognizedAdaptersProxy
-//            manager: zigbeeManager
-//            onlyUnused: true
-////            hardwareFilter: ZigbeeAdaptersProxy.HardwareFilterRecognized
-//        }
-
-//        delegate: NymeaListItemDelegate {
-//            Layout.fillWidth: true
-//            property ZigbeeAdapter adapter: recognizedAdaptersProxy.get(index)
-//            iconName: "../images/stock_usb.svg"
-//            progressive: false
-//            text: model.description + " - " + model.serialPort
-//            subText: adapter.serialPort + " - " + adapter.baudRate + " - " + adapter.backendType + " - " + adapter.serialNumber
-//            onClicked: {
-//                zigbeeManager.addNetwork(adapter.serialPort, adapter.baudRate, adapter.backendType)
-////                pageStack.pop()
-//            }
-//        }
-//    }
-
-
-//    // List networks
-//    SettingsPageSectionHeader {
-//        text: qsTr("Zigbee networks")
-//    }
-
-//    Repeater {
-//        model: zigbeeManager.networks
-//        delegate: NymeaListItemDelegate {
-//            Layout.fillWidth: true
-//            property var network: zigbeeManager.networks.get(index)
-//            iconName: "../images/zigbee.svg"
-//            text: model.macAddress
-//            subText: model.serialPort  + " - " + model.firmwareVersion
-//            onClicked: pageStack.push(Qt.resolvedUrl("ZigbeeNetworkPage.qml"), { network: network })
-//        }
-//    }
-
-//    NymeaListItemDelegate {
-//        Layout.fillWidth: true
-//        text: qsTr("Add Zigbee network")
-//        subText: qsTr("Set up a new Zigbee network")
-//        prominentSubText: false
-//        onClicked: {
-//            pageStack.push(Qt.resolvedUrl("../system/ZigbeeNetworkAddPage.qml"), {zigbeeManager: zigbeeManager})
-//        }
-//    }
-
 }
 

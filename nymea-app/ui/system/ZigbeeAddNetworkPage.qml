@@ -97,19 +97,19 @@ SettingsPageBase {
         Label {
             Layout.fillWidth: true
             wrapMode: Text.WordWrap
-            text: qsTr("No Zigbee adapters or serial ports are available on this system. Connect a Zigbee adapter via USB or UART serial port.")
+            text: qsTr("No ZigBee adapters or serial ports are available on this system. Connect a ZigBee adapter via USB or UART serial port.")
         }
     }
 
     SettingsPageSectionHeader {
-        text: qsTr("Available Zigbee adapters")
+        text: qsTr("Available ZigBee adapters")
         visible: recognizedAdapters.count > 0
     }
 
     Label {
         Layout.fillWidth: true
         Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
-        text: qsTr("Please select the Zigbee adapter on which the new network will be created.")
+        text: qsTr("Please select the ZigBee adapter on which the new network will be created.")
         font.pixelSize: app.smallFont
         wrapMode: Text.WordWrap
         visible: recognizedAdapters.count > 0
@@ -142,7 +142,7 @@ SettingsPageBase {
         Layout.fillWidth: true; Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
         wrapMode: Text.WordWrap
         font.pixelSize: app.smallFont
-        text: qsTr("Please verify that the Zigbee adapter is properly connected to a serial port and select the appropriate port.")
+        text: qsTr("Please verify that the ZigBee adapter is properly connected to a serial port and select the appropriate port.")
         visible: serialPorts.count > 0
     }
 
@@ -178,7 +178,7 @@ SettingsPageBase {
 
             headerIcon: "../images/stock_usb.svg"
             title: qsTr("Serial port options")
-            text: qsTr("Please select the serial port options for using the Zigbee adapter")
+            text: qsTr("Please select the serial port options for using the ZigBee adapter")
             standardButtons: Dialog.Ok | Dialog.Cancel
 
             RowLayout {

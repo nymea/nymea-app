@@ -93,7 +93,7 @@ SettingsPageBase {
     }
 
     SettingsPageSectionHeader {
-        text: qsTr("Adding zigbee devices")
+        text: qsTr("Network control")
     }
 
     NymeaListItemDelegate {
@@ -121,7 +121,7 @@ SettingsPageBase {
             Layout.leftMargin: app.margins
             Layout.rightMargin: app.margins
             enabled: network.networkState === ZigbeeNetwork.ZigbeeNetworkStateOnline
-            text: root.network.permitJoiningEnabled ? qsTr("Extend network open duration") : qsTr("Open network for new Zigbee devices")
+            text: root.network.permitJoiningEnabled ? qsTr("Extend network open duration") : qsTr("Open network for new ZigBee devices")
             onClicked: root.zigbeeManager.setPermitJoin(root.network.networkUuid)
         }
 
