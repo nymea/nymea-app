@@ -44,14 +44,23 @@ Item {
     readonly property StateType playerTypeStateType: thing ? thing.thingClass.stateTypes.findByName("playerType") : null
     readonly property State playerTypeState: playerTypeStateType ? thing.states.getState(playerTypeStateType.id) : null
 
-    Pane {
-        Material.elevation: 2
-        anchors.centerIn: parent
-        height: fallback.visible ? Math.min(parent.height, parent.width) : artworkImage.paintedHeight - 1
-        width: fallback.visible ? Math.min(parent.height, parent.width) : artworkImage.paintedWidth - 1
-        padding: 0
-        contentItem: Rectangle {
-            color: "black"
+    readonly property int paintedWidth: fallbackImage.visible ? fallbackImage.width : artworkImage.paintedWidth
+    readonly property int paintedHeight: fallbackImage.visible ? fallbackImage.height : artworkImage.paintedHeight
+
+    Rectangle {
+        id: fallbackImage
+        anchors { left: parent.left; top: parent.top }
+        height: visible ? Math.min(parent.height, parent.width) : artworkImage.paintedHeight - 1
+        width: visible ? Math.min(parent.height, parent.width) : artworkImage.paintedWidth - 1
+        visible: artworkImage.status !== Image.Ready || artworkImage.source === ""
+        color: "black"
+
+        ColorIcon {
+            anchors.centerIn: parent
+            width: Math.min(parent.height, parent.width) - app.margins * 2
+            height: Math.min(parent.height, parent.width) - app.margins * 2
+            name: root.playerTypeState.value === "video" ? "../images/stock_video.svg" : "../images/stock_music.svg"
+            color: "white"
         }
     }
 
@@ -61,17 +70,7 @@ Item {
         fillMode: Image.PreserveAspectFit
         source: root.artworkState.value
         visible: source !== ""
-    }
-
-    ColorIcon {
-        id: fallback
-        anchors.centerIn: parent
-        width: Math.min(parent.height, parent.width) - app.margins * 2
-        height: Math.min(parent.height, parent.width) - app.margins * 2
-
-        name: root.playerTypeState.value === "video" ? "../images/stock_video.svg" : "../images/stock_music.svg"
-        visible: artworkImage.status !== Image.Ready || artworkImage.source === ""
-//        color: app.primaryColor
-        color: "white"
+        horizontalAlignment: Image.AlignLeft
+        verticalAlignment: Image.AlignTop
     }
 }

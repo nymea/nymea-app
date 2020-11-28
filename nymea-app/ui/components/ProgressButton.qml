@@ -33,10 +33,14 @@ import QtQuick.Layouts 1.3
 
 Item {
     id: root
+    implicitHeight: app.iconSize
+    implicitWidth: app.iconSize
 
     property string imageSource
     property string longpressImageSource: imageSource
     property bool repeat: false
+    property alias keyColor: icon.keyColor
+    property alias color: icon.color
 
     property bool longpressEnabled: true
 
@@ -46,6 +50,7 @@ Item {
     MouseArea {
         id: buttonDelegate
         anchors.fill: parent
+        hoverEnabled: true
 
         property bool longpressed: false
 
@@ -94,7 +99,7 @@ Item {
             anchors.margins: -app.margins / 2
             radius: width / 2
             color: app.foregroundColor
-            opacity: buttonDelegate.pressed ? .08 : 0
+            opacity: buttonDelegate.pressed || buttonDelegate.containsMouse ? .08 : 0
             Behavior on opacity {
                 NumberAnimation { duration: 200 }
             }
@@ -144,6 +149,7 @@ Item {
         }
 
         ColorIcon {
+            id: icon
             anchors.fill: parent
             name: buttonDelegate.longpressed ? root.longpressImageSource : root.imageSource
         }

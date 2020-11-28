@@ -42,11 +42,46 @@ Item {
 
     property Thing thing: null
 
-    function backPressed() {
+    signal exit();
+    signal itemLaunched()
+
+    property ListModel path: ListModel {
+        id: pathModel
+        dynamicRoles: true
+        Component.onCompleted: pathModel.append({modelData: root.thing.name})
+    }
+
+
+    function backPressed(immediate) {
         if (internalPageStack.depth > 1) {
-            internalPageStack.pop();
+            pathModel.remove(pathModel.count - 1)
+            internalPageStack.pop(immediate ? StackView.Immediate : StackView.PopTransition);
         } else {
-            swipeView.currentIndex--
+            root.exit();
+        }
+    }
+
+    QtObject {
+        id: d
+        property int pendingItemExecutionId: -1
+    }
+
+    Connections {
+        target: engine.thingManager
+        onExecuteBrowserItemReply: {
+            if (commandId == d.pendingItemExecutionId) {
+                if (params.thingError === "ThingErrorNoError") {
+                    root.itemLaunched();
+                } else {
+                    var errorDialog = Qt.createComponent(Qt.resolvedUrl("ErrorDialog.qml"));
+                    var text = qsTr("Sorry. An error happened launching the item. (Error code: %1)").arg(params.error);
+                    if (params.displayMessage.length > 0) {
+                        text = params.displayMessage;
+                    }
+                    var popup = errorDialog.createObject(app, {text: text})
+                    popup.open()
+                }
+            }
         }
     }
 
@@ -78,8 +113,9 @@ Item {
                     onClicked: {
                         print("clicked:", model.id)
                         if (model.executable) {
-                            engine.thingManager.executeBrowserItem(root.thing.id, model.id)
+                            d.pendingItemExecutionId = engine.thingManager.executeBrowserItem(root.thing.id, model.id)
                         } else if (model.browsable) {
+                            pathModel.append({modelData: model.displayName})
                             internalPageStack.push(internalBrowserPage, {nodeId: model.id})
                         }
                     }

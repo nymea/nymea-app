@@ -28,56 +28,22 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.9
+import QtQuick 2.5
 import QtQuick.Controls 2.1
 import QtQuick.Controls.Material 2.1
-import QtQuick.Layouts 1.2
-import QtCharts 2.2
+import QtQuick.Layouts 1.1
+import QtGraphicalEffects 1.0
 import Nymea 1.0
 import "../components"
+import "../customviews"
 import "../delegates"
 
-MainViewBase {
+DevicePageBase {
     id: root
+    showBrowserButton: false
 
-    title: swipeView.currentItem ? swipeView.currentItem.thing.name : ""
-
-    ThingsProxy {
-        id: mediaDevices
-        engine: _engine
-        shownInterfaces: ["mediaplayer"]
-    }
-
-    SwipeView {
-        id: swipeView
-        anchors { left: parent.left; top: parent.top; right: parent.right; bottom: parent.bottom }
-        currentIndex: pageIndicator.currentIndex
-
-        Repeater {
-            model: mediaDevices
-            delegate: MediaPlayer {
-                thing: mediaDevices.get(index)
-            }
-        }
-    }
-    PageIndicator {
-        id: pageIndicator
-        count: swipeView.count
-        visible: count > 1
-        currentIndex: swipeView.currentIndex
-        interactive: true
-        anchors.bottom: parent.bottom
-        anchors.horizontalCenter: parent.horizontalCenter
-    }
-
-    EmptyViewPlaceholder {
-        anchors.centerIn: parent
-        width: parent.width - app.margins * 2
-        visible: !engine.thingManager.fetchingData && mediaDevices.count == 0
-        title: qsTr("There are no media players set up.")
-        text: qsTr("Connect your media players in order to control them from here.")
-        imageSource: "../images/media.svg"
-        buttonText: qsTr("Add things")
-        onButtonClicked: pageStack.push(Qt.resolvedUrl("../thingconfiguration/NewThingPage.qml"))
+    MediaPlayer {
+        anchors.fill: parent
+        thing: root.thing
     }
 }

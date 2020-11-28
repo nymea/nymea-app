@@ -238,5 +238,8 @@
         <file>ui/images/connections/network-wired-disabled.svg</file>
         <file>ui/images/nfc.svg</file>
         <file>ui/images/smartphone.svg</file>
+        <file>ui/images/state-in.svg</file>
+        <file>ui/images/state-out.svg</file>
+        <file>ui/images/like.svg</file>
     </qresource>
 </RCC>

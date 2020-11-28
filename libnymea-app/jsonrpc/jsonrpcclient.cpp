@@ -589,7 +589,8 @@ void JsonRpcClient::dataReceived(const QByteArray &data)
         }
 
         if (dataMap.value("status").toString() == "error") {
-            qWarning() << "An error happened in the JSONRPC layer!";
+            qWarning() << "An error happened in the JSONRPC layer:" << dataMap.value("error").toString();
+            qWarning() << "Request was:" << qUtf8Printable(QJsonDocument::fromVariant(reply->requestMap()).toJson());
             if (reply->nameSpace() == "JSONRPC" && reply->method() == "Hello") {
                 qWarning() << "Hello call failed. Trying again without locale";
                 m_id = 0;

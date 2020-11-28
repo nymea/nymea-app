@@ -43,4 +43,6 @@ MouseArea {
     preventStealing: true
     onWheel: wheel.accepted = true
 
+    property string title: ""
+
 }

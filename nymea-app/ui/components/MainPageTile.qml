@@ -92,7 +92,7 @@ Item {
                         ColorIcon {
                             id: colorIcon
                             anchors.centerIn: parent
-                            height: app.iconSize * 1.3
+                            height: app.iconSize * 1.5
                             width: height
                             ColorIcon {
                                 id: fallbackIcon

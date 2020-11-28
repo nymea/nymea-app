@@ -49,10 +49,8 @@
         <file>ui/customviews/GenericTypeLogView.qml</file>
         <file>ui/customviews/CustomViewBase.qml</file>
         <file>ui/customviews/WeatherView.qml</file>
-        <file>ui/customviews/MediaControllerView.qml</file>
         <file>ui/customviews/NotificationsView.qml</file>
-        <file>ui/customviews/ExtendedVolumeController.qml</file>
-        <file>ui/devicepages/MediaDevicePage.qml</file>
+        <file>ui/devicepages/MediaThingPage.qml</file>
         <file>ui/devicepages/ButtonDevicePage.qml</file>
         <file>ui/devicepages/GenericDevicePage.qml</file>
         <file>ui/devicepages/WeatherDevicePage.qml</file>
@@ -77,7 +75,6 @@
         <file>ui/devicelistpages/SensorsDeviceListPage.qml</file>
         <file>ui/devicelistpages/WeatherDeviceListPage.qml</file>
         <file>ui/devicelistpages/DeviceListPageBase.qml</file>
-        <file>ui/magic/SelectActionPage.qml</file>
         <file>ui/magic/DeviceRulesPage.qml</file>
         <file>ui/magic/EditRulePage.qml</file>
         <file>ui/magic/SelectThingPage.qml</file>
@@ -224,5 +221,6 @@
         <file>ui/components/SetupStatusIcon.qml</file>
         <file>ui/components/UpdateStatusIcon.qml</file>
         <file>ui/magic/WriteNfcTagPage.qml</file>
+        <file>ui/components/MediaPlayer.qml</file>
     </qresource>
 </RCC>

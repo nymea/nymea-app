@@ -45,7 +45,9 @@ Page {
 
     header: FancyHeader {
         id: mainHeader
-        title: d.configOverlay !== null ? qsTr("Configure main view") : filteredContentModel.data(swipeView.currentIndex, "displayName")
+        title: d.configOverlay !== null ?
+                   qsTr("Configure main view")
+                 : swipeView.currentItem.item.title.length > 0 ? swipeView.currentItem.item.title : filteredContentModel.data(swipeView.currentIndex, "displayName")
         leftButtonVisible: true
         leftButtonImageSource: {
             if (app.hasOwnProperty("headerIcon")) {
@@ -288,13 +290,13 @@ Page {
     }
     footer: Item {
         readonly property bool shown: tabsRepeater.count > 1 || mainHeader.menuOpen || d.configOverlay
-        implicitHeight: shown ? 70 + (app.landscape ? -20 : 0) : 0
+        implicitHeight: shown ? 64 + (app.landscape ? -20 : 0) : 0
         Behavior on implicitHeight { NumberAnimation { duration: 200; easing.type: Easing.InOutQuad }}
 
         TabBar {
             id: tabBar
             anchors { left: parent.left; top: parent.top; right: parent.right }
-            height: 70 + (app.landscape ? -20 : 0)
+            height: 64 + (app.landscape ? -20 : 0)
             Material.elevation: 3
             position: TabBar.Footer
 

@@ -40,6 +40,7 @@ Item {
     property alias backButtonVisible: backButton.visible
     property alias menuButtonVisible: menuButton.visible
     default property alias children: layout.data
+    property alias elide: label.elide
 
     signal backPressed();
     signal menuPressed();

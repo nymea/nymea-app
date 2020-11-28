@@ -208,16 +208,11 @@ MainPageTile {
                 currentStateIndex = 0
             }
 
-            ItemDelegate {
-                Layout.preferredWidth: app.iconSize
-                Layout.preferredHeight: width
-                Layout.leftMargin: app.margins / 2
-                Layout.alignment: Qt.AlignVCenter
-                padding: 0; topPadding: 0; bottomPadding: 0
+            Item { Layout.fillHeight: true; Layout.fillWidth: true }
+            ProgressButton {
                 visible: sensorsRoot.shownInterfaces.length > 1
-                contentItem: ColorIcon {
-                    name: "../images/back.svg"
-                }
+                longpressEnabled: false
+                imageSource: "../images/back.svg"
                 onClicked: {
                     var newIndex = sensorsRoot.currentStateIndex - 1;
                     if (newIndex < 0) newIndex = sensorsRoot.shownInterfaces.length - 1
@@ -236,7 +231,7 @@ MainPageTile {
 
             Item { Layout.fillHeight: true; Layout.fillWidth: true }
             ColumnLayout {
-                Layout.fillWidth: true
+                Layout.fillWidth: false
                 spacing: 0
                 visible: sensorsRoot.currentStateType.type.toLowerCase() !== "bool"
 
@@ -260,151 +255,34 @@ MainPageTile {
 
             Item { Layout.fillHeight: true; Layout.fillWidth: true }
 
-            ItemDelegate {
-                Layout.preferredWidth: app.iconSize
-                Layout.preferredHeight: width
-                Layout.rightMargin: app.margins / 2
-                Layout.alignment: Qt.AlignVCenter
-                padding: 0; topPadding: 0; bottomPadding: 0
+            ProgressButton {
                 visible: sensorsRoot.shownInterfaces.length > 1
-                contentItem: ColorIcon {
-                    name: "../images/next.svg"
-                }
+                longpressEnabled: false
+                imageSource: "../images/next.svg"
                 onClicked: {
                     var newIndex = sensorsRoot.currentStateIndex + 1;
                     if (newIndex >= sensorsRoot.shownInterfaces.length) newIndex = 0;
                     sensorsRoot.currentStateIndex = newIndex;
                 }
             }
+            Item { Layout.fillHeight: true; Layout.fillWidth: true }
         }
     }
 
     Component {
         id: closableComponent
-        RowLayout {
-            property var device: null
-            property var deviceClass: null
 
-            ItemDelegate {
-                Layout.preferredWidth: app.iconSize
-                Layout.preferredHeight: width
-                Layout.leftMargin: app.margins / 2
-                Layout.alignment: Qt.AlignVCenter
-                padding: 0; topPadding: 0; bottomPadding: 0
-                contentItem: ColorIcon {
-                    name: "../images/up.svg"
-                    color: app.accentColor
-                }
-                onClicked: {
-                    var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
-                    var actionType = deviceClass.actionTypes.findByName("open");
-                    engine.deviceManager.executeAction(device.id, actionType.id);
-                }
-            }
+        ShutterControls {
 
-            Slider {
-                id: closableSlider
-                Layout.fillWidth: true
-                Layout.alignment: Qt.AlignVCenter
-                visible: deviceClass.interfaces.indexOf("extendedclosable") >= 0
-                readonly property var percentageStateType: deviceClass.stateTypes.findByName("percentage");
-                readonly property var percentateState: percentageStateType ? device.states.getState(percentageStateType.id) : null
-                from: 0
-                to: 100
-                value: percentateState ? percentateState.value : 0
-            }
-            Item {
-                Layout.fillWidth: true
-                Layout.alignment: Qt.AlignVCenter
-                visible: !closableSlider.visible
-            }
-
-            ItemDelegate {
-                Layout.preferredWidth: app.iconSize
-                Layout.preferredHeight: width
-                Layout.rightMargin: app.margins / 2
-                Layout.alignment: Qt.AlignVCenter
-                padding: 0; topPadding: 0; bottomPadding: 0
-                contentItem: ColorIcon {
-                    name: "../images/down.svg"
-                    color: app.accentColor
-                }
-                onClicked: {
-                    var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
-                    var actionType = deviceClass.actionTypes.findByName("close");
-                    engine.deviceManager.executeAction(device.id, actionType.id);
-                }
-            }
         }
     }
 
     Component {
         id: mediaComponent
-        RowLayout {
-            id: mediaRoot
 
+        MediaControls {
             property Device device: null
-            property DeviceClass deviceClass: null
-
-            readonly property State playbackState: device.states.getState(deviceClass.stateTypes.findByName("playbackStatus").id)
-
-            function executeAction(actionName, params) {
-                var actionTypeId = deviceClass.actionTypes.findByName(actionName).id;
-                engine.deviceManager.executeAction(device.id, actionTypeId, params)
-            }
-            Item { Layout.fillWidth: true }
-
-            ProgressButton {
-                Layout.preferredHeight: app.iconSize * .9
-                Layout.preferredWidth: height
-                imageSource: "../images/media-skip-backward.svg"
-                longpressImageSource: "../images/media-seek-backward.svg"
-                repeat: true
-
-                onClicked: {
-                    mediaRoot.executeAction("skipBack")
-                }
-                onLongpressed: {
-                    mediaRoot.executeAction("fastRewind")
-                }
-            }
-            Item { Layout.fillWidth: true }
-
-            ProgressButton {
-                Layout.preferredHeight: app.iconSize * 1.3
-                Layout.preferredWidth: height
-                imageSource: mediaRoot.playbackState.value === "Playing" ? "../images/media-playback-pause.svg" : "../images/media-playback-start.svg"
-                longpressImageSource: "../images/media-playback-stop.svg"
-                longpressEnabled: mediaRoot.playbackState.value !== "Stopped"
-
-                onClicked: {
-                    if (mediaRoot.playbackState.value === "Playing") {
-                        mediaRoot.executeAction("pause")
-                    } else {
-                        mediaRoot.executeAction("play")
-                    }
-                }
-
-                onLongpressed: {
-                    mediaRoot.executeAction("stop")
-                }
-            }
-
-            Item { Layout.fillWidth: true }
-            ProgressButton {
-                Layout.preferredHeight: app.iconSize * .9
-                Layout.preferredWidth: height
-                imageSource: "../images/media-skip-forward.svg"
-                longpressImageSource: "../images/media-seek-forward.svg"
-                repeat: true
-                onClicked: {
-                    mediaRoot.executeAction("skipNext")
-                }
-                onLongpressed: {
-                    mediaRoot.executeAction("fastForward")
-                }
-            }
-            Item { Layout.fillWidth: true }
+            thing: device
         }
     }
 }

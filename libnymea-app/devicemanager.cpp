@@ -712,9 +712,9 @@ void DeviceManager::browserItemResponse(int commandId, const QVariantMap &params
 int DeviceManager::executeBrowserItem(const QUuid &deviceId, const QString &itemId)
 {
     QVariantMap params;
-    params.insert("deviceId", deviceId);
+    params.insert("thingId", deviceId);
     params.insert("itemId", itemId);
-    return m_jsonClient->sendCommand("Actions.ExecuteBrowserItem", params, this, "executeBrowserItemResponse");
+    return m_jsonClient->sendCommand("Integrations.ExecuteBrowserItem", params, this, "executeBrowserItemResponse");
 }
 
 void DeviceManager::executeBrowserItemResponse(int commandId, const QVariantMap &params)
@@ -726,12 +726,12 @@ void DeviceManager::executeBrowserItemResponse(int commandId, const QVariantMap 
 int DeviceManager::executeBrowserItemAction(const QUuid &deviceId, const QString &itemId, const QUuid &actionTypeId, const QVariantList &params)
 {
     QVariantMap data;
-    data.insert("deviceId", deviceId);
+    data.insert("thingId", deviceId);
     data.insert("itemId", itemId);
     data.insert("actionTypeId", actionTypeId);
     data.insert("params", params);
     qDebug() << "params:" << params;
-    return m_jsonClient->sendCommand("Actions.ExecuteBrowserItemAction", data, this, "executeBrowserItemActionResponse");
+    return m_jsonClient->sendCommand("Integrations.ExecuteBrowserItemAction", data, this, "executeBrowserItemActionResponse");
 }
 
 int DeviceManager::connectIO(const QUuid &inputThingId, const QUuid &inputStateTypeId, const QUuid &outputThingId, const QUuid &outputStateTypeId, bool inverted)

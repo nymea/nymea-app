@@ -161,7 +161,7 @@ MainPageTile {
             case "extendedsmartmeterproducer":
             case "heating":
                 return sensorComponent;
-//                return labelComponent;
+                //                return labelComponent;
 
             case "light":
             case "garagedoor":
@@ -247,7 +247,6 @@ MainPageTile {
             }
 
             MediaControls {
-                iconSize: app.iconSize * 1.2
                 thing: inlineMediaControl.currentDevice
             }
         }
@@ -255,8 +254,11 @@ MainPageTile {
 
     Component {
         id: buttonComponent
-        ColumnLayout {
-            spacing: 0
+
+        RowLayout {
+            Layout.fillWidth: true
+
+            Item { Layout.fillWidth: true; Layout.fillHeight: true }
 
             Label {
                 id: label
@@ -281,22 +283,6 @@ MainPageTile {
                         }
                         return count === 0 ? qsTr("All off") : qsTr("%1 on").arg(count)
                     case "garagedoor":
-                        var statefulCount = 0;
-                        var count = 0;
-                        for (var i = 0; i < devicesProxy.count; i++) {
-                            var thing = devicesProxy.get(i);
-                            if (thing.thingClass.interfaces.indexOf("statefulgaragedoor") >= 0 || thing.thingClass.interfaces.indexOf("extendedstatefulgaragedoor") >= 0 || thing.thingClass.interfaces.indexOf("garagegate") >= 0) {
-                                statefulCount++;
-                                var stateType = thing.thingClass.stateTypes.findByName("state");
-                                if (stateType && thing.states.getState(stateType.id).value !== "closed") {
-                                    count++;
-                                }
-                            }
-                        }
-                        if (statefulCount > 0) {
-                            return count === 0 ? qsTr("All closed") : qsTr("%1 open").arg(count)
-                        }
-                        return "";
                     case "blind":
                     case "extendedblind":
                     case "awning":
@@ -311,307 +297,282 @@ MainPageTile {
                 font.pixelSize: app.smallFont
                 elide: Text.ElideRight
             }
-            RowLayout {
-//                Layout.alignment: Qt.AlignRight
-                Layout.fillWidth: true
-                spacing: (parent.width - app.iconSize * 3) / 2
 
-                ItemDelegate {
-                    Layout.preferredHeight: app.iconSize
-                    Layout.preferredWidth: height
-
-                    ColorIcon {
-                        id: leftIcon
-                        width: app.iconSize
-                        height: width
-                        color: app.accentColor
-
-                        name: {
-                            switch (iface.name) {
-                            case "media":
-                            case "light":
-                            case "irrigation":
-                            case "ventilation":
-                                return ""
-                            case "garagedoor":
-                                var dev = devicesProxy.get(0)
-                                if (dev.thingClass.interfaces.indexOf("simplegaragedoor") >= 0
-                                        || dev.thingClass.interfaces.indexOf("statefulgaragedoor") >= 0
-                                        || dev.thingClass.interfaces.indexOf("extendedstatefulgaragedoor") >= 0
-                                        || dev.thingClass.interfaces.indexOf("garagegate") >= 0) {
-                                    return "../images/up.svg"
-                                }
-                                return ""
-                            case "blind":
-                            case "extendedblind":
-                            case "awning":
-                            case "extendedawning":
-                            case "shutter":
-                            case "extendedshutter":
-                                return "../images/up.svg"
-                            default:
-                                console.warn("InterfaceTile", "inlineButtonControl image: Unhandled interface", iface.name)
-                            }
-                            return ""
+            ProgressButton {
+                longpressEnabled: false
+                visible: imageSource.length > 0
+                imageSource: {
+                    switch (iface.name) {
+                    case "media":
+                    case "light":
+                    case "irrigation":
+                    case "ventilation":
+                        return ""
+                    case "garagedoor":
+                        var dev = devicesProxy.get(0)
+                        if (dev.thingClass.interfaces.indexOf("simplegaragedoor") >= 0
+                                || dev.thingClass.interfaces.indexOf("statefulgaragedoor") >= 0
+                                || dev.thingClass.interfaces.indexOf("extendedstatefulgaragedoor") >= 0
+                                || dev.thingClass.interfaces.indexOf("garagegate") >= 0) {
+                            return "../images/up.svg"
                         }
+                        return ""
+                    case "blind":
+                    case "extendedblind":
+                    case "awning":
+                    case "extendedawning":
+                    case "shutter":
+                    case "extendedshutter":
+                        return "../images/up.svg"
+                    default:
+                        console.warn("InterfaceTile", "inlineButtonControl image: Unhandled interface", iface.name)
                     }
-
-                    onClicked: {
-                        switch (iface.name) {
-                        case "light":
-                        case "media":
-                        case "irrigation":
-                        case "ventilation":
-                            break;
-                        case "garagedoor":
-                            for (var i = 0; i < devicesProxy.count; i++) {
-                                var thing = devicesProxy.get(i);
-                                if (thing.thingClass.interfaces.indexOf("simplegaragedoor") >= 0
-                                        || thing.thingClass.interfaces.indexOf("statefulgaragedoor") >= 0
-                                        || thing.thingClass.interfaces.indexOf("extendedstatefulgaragedoor") >= 0
-                                        || thing.thingClass.interfaces.indexOf("garagegate") >= 0) {
-
-                                    var actionType = thing.thingClass.actionTypes.findByName("open");
-                                    engine.deviceManager.executeAction(thing.id, actionType.id)
-                                }
-                            }
-                            break;
-                        case "shutter":
-                        case "extendedshutter":
-                        case "blind":
-                        case "extendedblind":
-                        case "awning":
-                        case "extendedawning":
-                        case "simpleclosable":
-                            for (var i = 0; i < devicesProxy.count; i++) {
-                                var device = devicesProxy.get(i);
-                                var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
-                                var actionType = deviceClass.actionTypes.findByName("open");
-                                engine.deviceManager.executeAction(device.id, actionType.id)
-                            }
-                            break;
-                        default:
-                            console.warn("InterfaceTile:", "inlineButtonControl clicked: Unhandled interface", iface.name)
-                        }
-                    }
+                    return ""
                 }
 
-                ItemDelegate {
-                    Layout.preferredHeight: app.iconSize
-                    Layout.preferredWidth: height
-                    enabled: centerIcon.name.length > 0
-                    ColorIcon {
-                        id: centerIcon
-                        width: app.iconSize
-                        height: width
-                        color: app.accentColor
+                onClicked: {
+                    switch (iface.name) {
+                    case "light":
+                    case "media":
+                    case "irrigation":
+                    case "ventilation":
+                        break;
+                    case "garagedoor":
+                        for (var i = 0; i < devicesProxy.count; i++) {
+                            var thing = devicesProxy.get(i);
+                            if (thing.thingClass.interfaces.indexOf("simplegaragedoor") >= 0
+                                    || thing.thingClass.interfaces.indexOf("statefulgaragedoor") >= 0
+                                    || thing.thingClass.interfaces.indexOf("extendedstatefulgaragedoor") >= 0
+                                    || thing.thingClass.interfaces.indexOf("garagegate") >= 0) {
 
-                        name: {
-                            switch (iface.name) {
-                            case "media":
-                            case "light":
-                            case "irrigation":
-                            case "ventilation":
-                                return ""
-                            case "garagedoor":
-                                var dev = devicesProxy.get(0)
-                                if (dev.thingClass.interfaces.indexOf("simplegaragedoor") >= 0
-                                        || dev.thingClass.interfaces.indexOf("statefulgaragedoor") >= 0
-                                        || dev.thingClass.interfaces.indexOf("extendedstatefulgaragedoor") >= 0
-                                        || dev.thingClass.interfaces.indexOf("garagegate") >= 0) {
-                                    return "../images/media-playback-stop.svg"
-                                }
-                                return ""
-                            case "blind":
-                            case "awning":
-                            case "shutter":
-                            case "extendedblind":
-                            case "extendedawning":
-                            case "extendedshutter":
-                                return "../images/media-playback-stop.svg"
-                            default:
-                                console.warn("InterfaceTile, inlineButtonControl image: Unhandled interface", iface.name)
-                            }
-                            return "";
-                        }
-                    }
-
-                    onClicked: {
-                        switch (iface.name) {
-                        case "light":
-                        case "media":
-                        case "irrigation":
-                        case "ventilation":
-                            break;
-                        case "garagedoor":
-                            for (var i = 0; i < devicesProxy.count; i++) {
-                                var thing = devicesProxy.get(i);
-                                if (thing.thingClass.interfaces.indexOf("simplegaragedoor") >= 0
-                                        || thing.thingClass.interfaces.indexOf("statefulgaragedoor") >= 0
-                                        || thing.thingClass.interfaces.indexOf("extendedstatefulgaragedoor") >= 0
-                                        || thing.thingClass.interfaces.indexOf("garagegate") >= 0) {
-
-                                    var actionType = thing.thingClass.actionTypes.findByName("stop");
-                                    engine.thingManager.executeAction(thing.id, actionType.id)
-                                }
-                            }
-                            break;
-                        case "shutter":
-                        case "extendedshutter":
-                        case "blind":
-                        case "extendedblind":
-                        case "awning":
-                        case "extendedawning":
-                        case "simpleclosable":
-                            for (var i = 0; i < devicesProxy.count; i++) {
-                                var device = devicesProxy.get(i);
-                                var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
-                                var actionType = deviceClass.actionTypes.findByName("stop");
-                                engine.deviceManager.executeAction(device.id, actionType.id)
-                            }
-                            break;
-                        default:
-                            console.warn("InterfaceTile, inlineButtonControl clicked: Unhandled interface", iface.name)
-                        }
-                    }
-                }
-
-                ItemDelegate {
-                    Layout.preferredHeight: app.iconSize
-                    Layout.preferredWidth: height
-
-                    ColorIcon {
-                        id: icon
-                        width: app.iconSize
-                        height: width
-                        color: app.accentColor
-
-                        name: {
-                            switch (iface.name) {
-                            case "media":
-                                var device = devicesProxy.get(0)
-                                var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
-                                var stateType = deviceClass.stateTypes.findByName("playbackStatus");
-                                var state = device.states.getState(stateType.id)
-                                return state.value === "Playing" ? "../images/media-playback-pause.svg" :
-                                                                   state.value === "Paused" ? "../images/media-playback-start.svg" :
-                                                                                              ""
-                            case "light":
-                            case "powersocket":
-                            case "irrigation":
-                            case "ventilation":
-                                return "../images/system-shutdown.svg"
-                            case "garagedoor":
-                                var dev = devicesProxy.get(0)
-                                if (dev.thingClass.interfaces.indexOf("simplegaragedoor") >= 0
-                                        || dev.thingClass.interfaces.indexOf("statefulgaragedoor") >= 0
-                                        || dev.thingClass.interfaces.indexOf("extendedstatefulgaragedoor") >= 0
-                                        || dev.thingClass.interfaces.indexOf("garagegate") >= 0) {
-                                    return "../images/down.svg"
-                                }
-                                if (dev.thingClass.interfaces.indexOf("impulsegaragedoor") >= 0) {
-                                    return "../images/closable-move.svg"
-                                }
-                                return ""
-                            case "blind":
-                            case "extendedblind":
-                            case "awning":
-                            case "extendedawning":
-                            case "shutter":
-                            case "extendedshutter":
-                                return "../images/down.svg"
-                            default:
-                                console.warn("InterfaceTile, inlineButtonControl image: Unhandled interface", iface.name)
+                                var actionType = thing.thingClass.actionTypes.findByName("open");
+                                engine.deviceManager.executeAction(thing.id, actionType.id)
                             }
                         }
-                    }
-
-                    onClicked: {
-                        switch (iface.name) {
-                        case "light":
-                        case "powersocket":
-                        case "irrigation":
-                        case "ventilation":
-                            var allOff = true;
-                            for (var i = 0; i < devicesProxy.count; i++) {
-                                var device = devicesProxy.get(i);
-                                if (device.states.getState(device.deviceClass.stateTypes.findByName("power").id).value === true) {
-                                    allOff = false;
-                                    break;
-                                }
-                            }
-
-                            for (var i = 0; i < devicesProxy.count; i++) {
-                                var device = devicesProxy.get(i);
-                                var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
-                                var actionType = deviceClass.actionTypes.findByName("power");
-
-                                var params = [];
-                                var param1 = {};
-                                param1["paramTypeId"] = actionType.paramTypes.get(0).id;
-                                param1["value"] = allOff ? true : false;
-                                params.push(param1)
-                                engine.deviceManager.executeAction(device.id, actionType.id, params)
-                            }
-                            break;
-                        case "media":
-                            var device = devicesProxy.get(0)
+                        break;
+                    case "shutter":
+                    case "extendedshutter":
+                    case "blind":
+                    case "extendedblind":
+                    case "awning":
+                    case "extendedawning":
+                    case "simpleclosable":
+                        for (var i = 0; i < devicesProxy.count; i++) {
+                            var device = devicesProxy.get(i);
                             var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
-                            var stateType = deviceClass.stateTypes.findByName("playbackStatus");
-                            var state = device.states.getState(stateType.id)
-
-                            var actionName
-                            switch (state.value) {
-                            case "Playing":
-                                actionName = "pause";
-                                break;
-                            case "Paused":
-                                actionName = "play";
-                                break;
-                            }
-                            var actionTypeId = deviceClass.actionTypes.findByName(actionName).id;
-
-                            print("executing", device, device.id, actionTypeId, actionName, deviceClass.actionTypes)
-
-                            engine.deviceManager.executeAction(device.id, actionTypeId)
-                        case "garagedoor":
-                            for (var i = 0; i < devicesProxy.count; i++) {
-                                var thing = devicesProxy.get(i);
-                                if (thing.thingClass.interfaces.indexOf("simplegaragedoor") >= 0
-                                        || thing.thingClass.interfaces.indexOf("statefulgaragedoor") >= 0
-                                        || thing.thingClass.interfaces.indexOf("extendedstatefulgaragedoor") >= 0
-                                        || thing.thingClass.interfaces.indexOf("garagegate") >= 0) {
-
-                                    var actionType = thing.thingClass.actionTypes.findByName("close");
-                                    engine.deviceManager.executeAction(thing.id, actionType.id)
-                                }
-                                if (thing.thingClass.interfaces.indexOf("impulsegaragedoor") >= 0) {
-                                    var actionType = thing.thingClass.actionTypes.findByName("triggerImpulse");
-                                    engine.deviceManager.executeAction(thing.id, actionType.id)
-                                }
-                            }
-                            break;
-                        case "shutter":
-                        case "extendedshutter":
-                        case "blind":
-                        case "extendedblind":
-                        case "awning":
-                        case "extendedawning":
-                        case "simpleclosable":
-                            for (var i = 0; i < devicesProxy.count; i++) {
-                                var device = devicesProxy.get(i);
-                                var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
-                                var actionType = deviceClass.actionTypes.findByName("close");
-                                engine.deviceManager.executeAction(device.id, actionType.id)
-                            }
-
-                        default:
-                            console.warn("InterfaceTile, inlineButtonControl clicked: Unhandled interface", iface.name)
+                            var actionType = deviceClass.actionTypes.findByName("open");
+                            engine.deviceManager.executeAction(device.id, actionType.id)
                         }
+                        break;
+                    default:
+                        console.warn("InterfaceTile:", "inlineButtonControl clicked: Unhandled interface", iface.name)
                     }
                 }
             }
+
+            Item { Layout.fillWidth: true; Layout.fillHeight: true }
+
+            ProgressButton {
+                longpressEnabled: false
+                visible: imageSource.length > 0
+                imageSource: {
+                    switch (iface.name) {
+                    case "media":
+                    case "light":
+                    case "irrigation":
+                    case "ventilation":
+                        return ""
+                    case "garagedoor":
+                        var dev = devicesProxy.get(0)
+                        if (dev.thingClass.interfaces.indexOf("simplegaragedoor") >= 0
+                                || dev.thingClass.interfaces.indexOf("statefulgaragedoor") >= 0
+                                || dev.thingClass.interfaces.indexOf("extendedstatefulgaragedoor") >= 0
+                                || dev.thingClass.interfaces.indexOf("garagegate") >= 0) {
+                            return "../images/media-playback-stop.svg"
+                        }
+                        return ""
+                    case "blind":
+                    case "awning":
+                    case "shutter":
+                    case "extendedblind":
+                    case "extendedawning":
+                    case "extendedshutter":
+                        return "../images/media-playback-stop.svg"
+                    default:
+                        console.warn("InterfaceTile, inlineButtonControl image: Unhandled interface", iface.name)
+                    }
+                    return "";
+                }
+
+                onClicked: {
+                    switch (iface.name) {
+                    case "light":
+                    case "media":
+                    case "irrigation":
+                    case "ventilation":
+                        break;
+                    case "garagedoor":
+                        for (var i = 0; i < devicesProxy.count; i++) {
+                            var thing = devicesProxy.get(i);
+                            if (thing.thingClass.interfaces.indexOf("simplegaragedoor") >= 0
+                                    || thing.thingClass.interfaces.indexOf("statefulgaragedoor") >= 0
+                                    || thing.thingClass.interfaces.indexOf("extendedstatefulgaragedoor") >= 0
+                                    || thing.thingClass.interfaces.indexOf("garagegate") >= 0) {
+
+                                var actionType = thing.thingClass.actionTypes.findByName("stop");
+                                engine.thingManager.executeAction(thing.id, actionType.id)
+                            }
+                        }
+                        break;
+                    case "shutter":
+                    case "extendedshutter":
+                    case "blind":
+                    case "extendedblind":
+                    case "awning":
+                    case "extendedawning":
+                    case "simpleclosable":
+                        for (var i = 0; i < devicesProxy.count; i++) {
+                            var device = devicesProxy.get(i);
+                            var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
+                            var actionType = deviceClass.actionTypes.findByName("stop");
+                            engine.deviceManager.executeAction(device.id, actionType.id)
+                        }
+                        break;
+                    default:
+                        console.warn("InterfaceTile, inlineButtonControl clicked: Unhandled interface", iface.name)
+                    }
+                }
+            }
+            Item { Layout.fillWidth: true; Layout.fillHeight: true }
+
+            ProgressButton {
+                longpressEnabled: false
+                imageSource: {
+                    switch (iface.name) {
+                    case "media":
+                        var device = devicesProxy.get(0)
+                        var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
+                        var stateType = deviceClass.stateTypes.findByName("playbackStatus");
+                        var state = device.states.getState(stateType.id)
+                        return state.value === "Playing" ? "../images/media-playback-pause.svg" :
+                                                           state.value === "Paused" ? "../images/media-playback-start.svg" :
+                                                                                      ""
+                    case "light":
+                    case "powersocket":
+                    case "irrigation":
+                    case "ventilation":
+                        return "../images/system-shutdown.svg"
+                    case "garagedoor":
+                        var dev = devicesProxy.get(0)
+                        if (dev.thingClass.interfaces.indexOf("simplegaragedoor") >= 0
+                                || dev.thingClass.interfaces.indexOf("statefulgaragedoor") >= 0
+                                || dev.thingClass.interfaces.indexOf("extendedstatefulgaragedoor") >= 0
+                                || dev.thingClass.interfaces.indexOf("garagegate") >= 0) {
+                            return "../images/down.svg"
+                        }
+                        if (dev.thingClass.interfaces.indexOf("impulsegaragedoor") >= 0) {
+                            return "../images/closable-move.svg"
+                        }
+                        return ""
+                    case "blind":
+                    case "extendedblind":
+                    case "awning":
+                    case "extendedawning":
+                    case "shutter":
+                    case "extendedshutter":
+                        return "../images/down.svg"
+                    default:
+                        console.warn("InterfaceTile, inlineButtonControl image: Unhandled interface", iface.name)
+                    }
+                }
+
+                onClicked: {
+                    switch (iface.name) {
+                    case "light":
+                    case "powersocket":
+                    case "irrigation":
+                    case "ventilation":
+                        var allOff = true;
+                        for (var i = 0; i < devicesProxy.count; i++) {
+                            var device = devicesProxy.get(i);
+                            if (device.states.getState(device.deviceClass.stateTypes.findByName("power").id).value === true) {
+                                allOff = false;
+                                break;
+                            }
+                        }
+
+                        for (var i = 0; i < devicesProxy.count; i++) {
+                            var device = devicesProxy.get(i);
+                            var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
+                            var actionType = deviceClass.actionTypes.findByName("power");
+
+                            var params = [];
+                            var param1 = {};
+                            param1["paramTypeId"] = actionType.paramTypes.get(0).id;
+                            param1["value"] = allOff ? true : false;
+                            params.push(param1)
+                            engine.deviceManager.executeAction(device.id, actionType.id, params)
+                        }
+                        break;
+                    case "media":
+                        var device = devicesProxy.get(0)
+                        var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
+                        var stateType = deviceClass.stateTypes.findByName("playbackStatus");
+                        var state = device.states.getState(stateType.id)
+
+                        var actionName
+                        switch (state.value) {
+                        case "Playing":
+                            actionName = "pause";
+                            break;
+                        case "Paused":
+                            actionName = "play";
+                            break;
+                        }
+                        var actionTypeId = deviceClass.actionTypes.findByName(actionName).id;
+
+                        print("executing", device, device.id, actionTypeId, actionName, deviceClass.actionTypes)
+
+                        engine.deviceManager.executeAction(device.id, actionTypeId)
+                    case "garagedoor":
+                        for (var i = 0; i < devicesProxy.count; i++) {
+                            var thing = devicesProxy.get(i);
+                            if (thing.thingClass.interfaces.indexOf("simplegaragedoor") >= 0
+                                    || thing.thingClass.interfaces.indexOf("statefulgaragedoor") >= 0
+                                    || thing.thingClass.interfaces.indexOf("extendedstatefulgaragedoor") >= 0
+                                    || thing.thingClass.interfaces.indexOf("garagegate") >= 0) {
+
+                                var actionType = thing.thingClass.actionTypes.findByName("close");
+                                engine.deviceManager.executeAction(thing.id, actionType.id)
+                            }
+                            if (thing.thingClass.interfaces.indexOf("impulsegaragedoor") >= 0) {
+                                var actionType = thing.thingClass.actionTypes.findByName("triggerImpulse");
+                                engine.deviceManager.executeAction(thing.id, actionType.id)
+                            }
+                        }
+                        break;
+                    case "shutter":
+                    case "extendedshutter":
+                    case "blind":
+                    case "extendedblind":
+                    case "awning":
+                    case "extendedawning":
+                    case "simpleclosable":
+                        for (var i = 0; i < devicesProxy.count; i++) {
+                            var device = devicesProxy.get(i);
+                            var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
+                            var actionType = deviceClass.actionTypes.findByName("close");
+                            engine.deviceManager.executeAction(device.id, actionType.id)
+                        }
+
+                    default:
+                        console.warn("InterfaceTile, inlineButtonControl clicked: Unhandled interface", iface.name)
+                    }
+                }
+            }
+            Item { Layout.fillWidth: true; Layout.fillHeight: true }
         }
+
     }
 
     Component {
@@ -728,7 +689,7 @@ MainPageTile {
                         text: sensorsRoot.shownStateType
                               ? (Math.round(Types.toUiValue(sensorsRoot.device.states.getState(sensorsRoot.shownStateType.id).value, sensorsRoot.shownStateType.unit) * 100) / 100) + " " + Types.toUiUnit(sensorsRoot.shownStateType.unit)
                               : ""
-    //                    font.pixelSize: app.smallFont
+                        //                    font.pixelSize: app.smallFont
                         Layout.fillWidth: true
                         visible: sensorsRoot.shownStateType && sensorsRoot.shownStateType.type.toLowerCase() !== "bool"
                         elide: Text.ElideRight

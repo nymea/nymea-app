@@ -93,7 +93,9 @@ RowLayout {
         HeaderButton {
             id: volumeButton
             anchors.centerIn: parent
-            imageSource: "../images/audio-speakers-symbolic.svg"
+            imageSource: root.muteState && root.muteState.value === true ?
+                             "../images/audio-speakers-muted-symbolic.svg"
+                           : "../images/audio-speakers-symbolic.svg"
             onClicked: {
                 print(volumeButton.x, volumeButton.y)
                 print(Qt.point(volumeButton.x, volumeButton.y))
@@ -125,8 +127,20 @@ RowLayout {
             property int pendingVolumeValue: -1
 
             contentItem: ColumnLayout {
+                HeaderButton {
+                    visible: root.volumeState === null
+                    imageSource: "../images/up.svg"
+                    onClicked: engine.thingManager.executeAction(root.thing.id, root.thing.thingClass.actionTypes.findByName("increaseVolume").id);
+                }
+                HeaderButton {
+                    visible: root.volumeState === null
+                    imageSource: "../images/down.svg"
+                    onClicked: engine.thingManager.executeAction(root.thing.id, root.thing.thingClass.actionTypes.findByName("decreaseVolume").id);
+                }
+
                 ThrottledSlider {
                     Layout.fillHeight: true
+                    visible: root.volumeState !== null
                     from: 0
                     to: 100
                     value: root.volumeState.value
@@ -135,6 +149,7 @@ RowLayout {
                 }
 
                 HeaderButton {
+                    visible: root.muteState !== null
                     imageSource: "../images/audio-speakers-muted-symbolic.svg"
                     color: root.muteState.value === true ? app.accentColor : keyColor
                     onClicked: engine.thingManager.executeAction(root.thing.id, root.muteState.stateTypeId, [{paramTypeId: root.muteState.stateTypeId, value: !root.muteState.value}]);

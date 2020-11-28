@@ -477,7 +477,6 @@ MainViewBase {
         id: mediaControllerDelegate
         MediaControls {
             property var devices: null
-            iconSize: app.iconSize
             DevicesProxy {
                 id: mediaControllers
                 engine: _engine
