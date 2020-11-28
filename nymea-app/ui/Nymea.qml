@@ -62,8 +62,8 @@ ApplicationWindow {
 
     property int smallIconSize: 16
     property int iconSize: 24
-    property int largeIconSize: 32
-    property int hugeIconSize: 40
+    property int largeIconSize: 40
+    property int hugeIconSize: 64
 
     property int delegateHeight: 60
     property color backgroundColor: Material.background
@@ -96,6 +96,15 @@ ApplicationWindow {
         target: Types
         property: "unitSystem"
         value: settings.units === "metric" ? Types.UnitSystemMetric : Types.UnitSystemImperial
+    }
+
+    property alias mainMenu: m
+    MainMenu {
+        id: m
+        anchors.fill: parent
+        z: 1000
+        currentEngine: rootItem.currentEngine
+        onOpenThingSettings: rootItem.openThigSettings();
     }
 
     RootItem {

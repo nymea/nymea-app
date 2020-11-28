@@ -71,8 +71,9 @@ Page {
             return ""
         }
         onLeftButtonClicked: {
-            var dialog = connectionDialogComponent.createObject(root)
-            dialog.open();
+            app.mainMenu.show()
+//            var dialog = connectionDialogComponent.createObject(root)
+//            dialog.open();
         }
         onMenuOpenChanged: {
             if (menuOpen && d.configOverlay) {
@@ -210,55 +211,6 @@ Page {
                 updatesOnly: true
             }
         }
-
-//        Pane {
-//            Layout.fillWidth: true
-//            Layout.preferredHeight: shownHeight
-//            property int shownHeight: shown ? contentRow.implicitHeight : 0
-//            property bool shown: updatesModel.count > 0 || engine.systemController.updateRunning
-//            visible: shownHeight > 0
-//            Behavior on shownHeight { NumberAnimation { easing.type: Easing.InOutQuad; duration: 150 } }
-//            Material.elevation: 2
-//            padding: 0
-
-//            MouseArea {
-//                anchors.fill: parent
-//                onClicked: pageStack.push(Qt.resolvedUrl("system/SystemUpdatePage.qml"))
-//            }
-
-//            Rectangle {
-//                color: app.accentColor
-//                anchors.fill: parent
-
-//                PackagesFilterModel {
-//                    id: updatesModel
-//                    packages: engine.systemController.packages
-//                    updatesOnly: true
-//                }
-
-//                RowLayout {
-//                    id: contentRow
-//                    anchors { left: parent.left; top: parent.top; right: parent.right; leftMargin: app.margins; rightMargin: app.margins }
-//                    Item {
-//                        Layout.fillWidth: true
-//                        height: app.iconSize
-//                    }
-
-//                    Label {
-//                        text: engine.systemController.updateRunning ? qsTr("System update in progress...") : qsTr("%n system update(s) available", "", updatesModel.count)
-//                        color: "white"
-//                        font.pixelSize: app.smallFont
-//                    }
-//                    ColorIcon {
-//                        height: app.iconSize / 2
-//                        width: height
-//                        color: "white"
-//                        name: "../images/system-update.svg"
-//                        RotationAnimation on rotation { from: 0; to: 360; duration: 2000; loops: Animation.Infinite; running: engine.systemController.updateRunning }
-//                    }
-//                }
-//            }
-//        }
 
         Item {
             id: contentContainer

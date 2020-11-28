@@ -229,5 +229,6 @@
         <file>ui/system/ZigbeeAddNetworkPage.qml</file>
         <file>ui/system/ZigbeeNetworkPage.qml</file>
         <file>ui/system/ZigbeeNetworkInfoPage.qml</file>
+        <file>ui/MainMenu.qml</file>
     </qresource>
 </RCC>

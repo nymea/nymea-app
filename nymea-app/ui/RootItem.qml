@@ -40,8 +40,14 @@ import "connection"
 Item {
     id: root
 
+    readonly property Engine currentEngine: swipeView.currentItem.engine
+
     function handleAndroidBackButton() {
         return swipeView.currentItem.handleAndroidBackButton()
+    }
+
+    function openThigSettings() {
+        swipeView.currentItem.pageStack.push("thingconfiguration/EditThingsPage.qml")
     }
 
     ListModel {
@@ -125,8 +131,9 @@ Item {
                         value: engine.jsonRpcClient.currentHost === null
                     }
 
+                    readonly property alias pageStack: _pageStack
                     StackView {
-                        id: pageStack
+                        id: _pageStack
                         objectName: "pageStack"
                         anchors.fill: parent
                         initialItem: Page {}

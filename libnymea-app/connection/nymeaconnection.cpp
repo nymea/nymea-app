@@ -248,6 +248,7 @@ void NymeaConnection::onConnected()
     if (!m_currentTransport) {
         m_currentTransport = newTransport;
         qDebug() << "NymeaConnection: Connected to" << m_currentHost->name() << "via" << m_currentTransport->url();
+        emit currentConnectionChanged();
         emit connectedChanged(true);
         return;
     }
