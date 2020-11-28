@@ -33,6 +33,7 @@ SOURCES += \
     ruletemplates/calendaritemtemplate.cpp \
     ruletemplates/timedescriptortemplate.cpp \
     ruletemplates/timeeventitemtemplate.cpp \
+    scripting/scriptautosaver.cpp \
     types/browseritem.cpp \
     types/browseritems.cpp \
     types/networkdevice.cpp \
@@ -170,6 +171,7 @@ HEADERS += \
     ruletemplates/calendaritemtemplate.h \
     ruletemplates/timedescriptortemplate.h \
     ruletemplates/timeeventitemtemplate.h \
+    scripting/scriptautosaver.h \
     types/browseritem.h \
     types/browseritems.h \
     types/networkdevice.h \

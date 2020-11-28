@@ -59,7 +59,12 @@ ApplicationWindow {
     property int smallFont: 13
     property int mediumFont: 16
     property int largeFont: 20
+
+    property int smallIconSize: 16
     property int iconSize: 24
+    property int largeIconSize: 32
+    property int hugeIconSize: 40
+
     property int delegateHeight: 60
     property color backgroundColor: Material.background
 
