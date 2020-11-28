@@ -241,5 +241,7 @@
         <file>ui/images/state-in.svg</file>
         <file>ui/images/state-out.svg</file>
         <file>ui/images/like.svg</file>
+        <file>ui/images/zigbee.svg</file>
+        <file>ui/images/stock_usb.svg</file>
     </qresource>
 </RCC>

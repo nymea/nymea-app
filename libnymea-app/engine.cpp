@@ -154,6 +154,7 @@ void Engine::onDeviceManagerFetchingChanged()
         m_scriptManager->init();
         m_nymeaConfiguration->init();
         m_systemController->init();
+
         if (m_jsonRpcClient->ensureServerVersion("1.7")) {
             m_tagsManager->init();
         }

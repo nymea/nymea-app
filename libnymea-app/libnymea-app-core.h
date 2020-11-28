@@ -120,6 +120,12 @@
 #include "types/ioconnection.h"
 #include "types/ioconnections.h"
 #include "types/ioconnectionwatcher.h"
+#include "zigbee/zigbeemanager.h"
+#include "zigbee/zigbeeadapter.h"
+#include "zigbee/zigbeeadapters.h"
+#include "zigbee/zigbeeadaptersproxy.h"
+#include "zigbee/zigbeenetwork.h"
+#include "zigbee/zigbeenetworks.h"
 
 #include <QtQml/qqml.h>
 
@@ -296,6 +302,13 @@ void registerQmlTypes() {
     qmlRegisterUncreatableType<Repositories>(uri, 1, 0, "Repositories", "Get it from SystemController");
     qmlRegisterUncreatableType<Repository>(uri, 1, 0, "Repository", "Get it from Repositories");
     qmlRegisterType<PackagesFilterModel>(uri, 1, 0, "PackagesFilterModel");
+
+    qmlRegisterType<ZigbeeManager>(uri, 1, 0, "ZigbeeManager");
+    qmlRegisterUncreatableType<ZigbeeAdapter>(uri, 1, 0, "ZigbeeAdapter", "Get it from the ZigbeeAdapters");
+    qmlRegisterUncreatableType<ZigbeeAdapters>(uri, 1, 0, "ZigbeeAdapters", "Get it from ZigbeeManager");
+    qmlRegisterType<ZigbeeAdaptersProxy>(uri, 1, 0, "ZigbeeAdaptersProxy");
+    qmlRegisterUncreatableType<ZigbeeNetwork>(uri, 1, 0, "ZigbeeNetwork", "Get it from the ZigbeeManager");
+    qmlRegisterUncreatableType<ZigbeeNetworks>(uri, 1, 0, "ZigbeeNetworks", "Get it from the ZigbeeManager");
 
     qmlRegisterType<NetworkManager>(uri, 1, 0, "NetworkManager");
     qmlRegisterUncreatableType<NetworkDevices>(uri, 1, 0, "NetworkDevices", "Get it from NetworkManager");

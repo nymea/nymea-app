@@ -156,6 +156,23 @@ Page {
             Pane {
                 Layout.fillWidth: true
                 Material.elevation: layout.isGrid ? 1 : 0
+                visible: engine.jsonRpcClient.ensureServerVersion("5.3")
+
+                padding: 0
+                NymeaListItemDelegate {
+                    width: parent.width
+                    iconName: "../images/zigbee.svg"
+                    text: qsTr("ZigBee")
+                    subText: qsTr("Configure ZigBee networks")
+                    prominentSubText: false
+                    wrapTexts: false
+                    onClicked: pageStack.push(Qt.resolvedUrl("system/ZigbeeSettingsPage.qml"))
+                }
+            }
+
+            Pane {
+                Layout.fillWidth: true
+                Material.elevation: layout.isGrid ? 1 : 0
 
                 padding: 0
                 NymeaListItemDelegate {
