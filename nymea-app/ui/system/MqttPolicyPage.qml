@@ -149,7 +149,7 @@ SettingsPageBase {
 
     Repeater {
         model: root.policy.allowedPublishTopicFilters
-        delegate: NymeaListItemDelegate {
+        delegate: NymeaSwipeDelegate {
             Layout.fillWidth: true
             text: modelData
             canDelete: true
@@ -195,7 +195,7 @@ SettingsPageBase {
     }
     Repeater {
         model: root.policy.allowedSubscribeTopicFilters
-        delegate: NymeaListItemDelegate {
+        delegate: NymeaSwipeDelegate {
             Layout.fillWidth: true
             text: modelData
             canDelete: true

@@ -34,7 +34,7 @@ import QtQuick.Layouts 1.3
 import Nymea 1.0
 import "../components"
 
-NymeaListItemDelegate{
+NymeaSwipeDelegate{
     id: root
     implicitHeight: app.delegateHeight
     progressive: false

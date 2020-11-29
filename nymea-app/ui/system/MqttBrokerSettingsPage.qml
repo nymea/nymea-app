@@ -91,7 +91,7 @@ SettingsPageBase {
 
     Repeater {
         model: engine.nymeaConfiguration.mqttPolicies
-        delegate: NymeaListItemDelegate {
+        delegate: NymeaSwipeDelegate {
             Layout.fillWidth: true
             iconName: "../images/account.svg"
             text: qsTr("Client ID: %1").arg(model.clientId)

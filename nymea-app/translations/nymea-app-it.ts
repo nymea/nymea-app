@@ -4130,7 +4130,7 @@ Please try again.</source>
     </message>
 </context>
 <context>
-    <name>NymeaListItemDelegate</name>
+    <name>NymeaSwipeDelegate</name>
     <message>
         <source>Delete</source>
         <translation></translation>

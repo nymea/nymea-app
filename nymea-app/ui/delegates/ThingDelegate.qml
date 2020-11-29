@@ -34,7 +34,7 @@ import QtQuick.Layouts 1.2
 import "../components"
 import Nymea 1.0
 
-NymeaListItemDelegate {
+NymeaSwipeDelegate {
     id: root
     width: parent.width
     iconName: thing && thing.thingClass ? app.interfacesToIcon(thing.thingClass.interfaces) : ""

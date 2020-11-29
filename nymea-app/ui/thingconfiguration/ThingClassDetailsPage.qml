@@ -49,7 +49,7 @@ SettingsPageBase {
         text: qsTr("Type")
     }
 
-    NymeaListItemDelegate {
+    NymeaSwipeDelegate {
         Layout.fillWidth: true
         text: root.thingClass.displayName
         subText: root.thingClass.id.toString().replace(/[{}]/g, "")
@@ -63,7 +63,7 @@ SettingsPageBase {
 
     Repeater {
         model: root.thingClass.paramTypes
-        NymeaListItemDelegate {
+        NymeaSwipeDelegate {
             Layout.fillWidth: true
             text: root.thingClass.paramTypes.get(index).displayName
             subText: root.thingClass.paramTypes.get(index).id.toString().replace(/[{}]/g, "")
@@ -82,7 +82,7 @@ SettingsPageBase {
 
     Repeater {
         model: root.thingClass.settingsTypes
-        NymeaListItemDelegate {
+        NymeaSwipeDelegate {
             Layout.fillWidth: true
             text: root.thingClass.settingsTypes.get(index).displayName
             subText: root.thingClass.settingsTypes.get(index).id.toString().replace(/[{}]/g, "")
@@ -101,7 +101,7 @@ SettingsPageBase {
 
     Repeater {
         model: root.thingClass.eventTypes
-        NymeaListItemDelegate {
+        NymeaSwipeDelegate {
             Layout.fillWidth: true
             text: root.thingClass.eventTypes.get(index).displayName
             subText: root.thingClass.eventTypes.get(index).id.toString().replace(/[{}]/g, "")
@@ -120,7 +120,7 @@ SettingsPageBase {
 
     Repeater {
         model: root.thingClass.stateTypes
-        NymeaListItemDelegate {
+        NymeaSwipeDelegate {
             Layout.fillWidth: true
             text: root.thingClass.stateTypes.get(index).displayName
             subText: root.thingClass.stateTypes.get(index).id.toString().replace(/[{}]/g, "")
@@ -139,7 +139,7 @@ SettingsPageBase {
 
     Repeater {
         model: root.thingClass.actionTypes
-        NymeaListItemDelegate {
+        NymeaSwipeDelegate {
             Layout.fillWidth: true
             text: root.thingClass.actionTypes.get(index).displayName
             subText: root.thingClass.actionTypes.get(index).id.toString().replace(/[{}]/g, "")

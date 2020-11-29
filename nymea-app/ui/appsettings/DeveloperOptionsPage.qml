@@ -50,7 +50,7 @@ SettingsPageBase {
         Layout.fillWidth: true
     }
 
-    NymeaListItemDelegate {
+    NymeaSwipeDelegate {
         Layout.fillWidth: true
         text: qsTr("View log")
         onClicked: pageStack.push(Qt.resolvedUrl("../appsettings/AppLogPage.qml"))

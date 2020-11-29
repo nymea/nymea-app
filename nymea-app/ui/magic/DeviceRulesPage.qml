@@ -141,7 +141,7 @@ Page {
             filterDeviceId: root.device.id
         }
 
-        delegate: NymeaListItemDelegate {
+        delegate: NymeaSwipeDelegate {
             width: parent.width
             iconName: "../images/magic.svg"
             iconColor: !model.enabled ? "red" : (model.active ? app.accentColor : "grey")

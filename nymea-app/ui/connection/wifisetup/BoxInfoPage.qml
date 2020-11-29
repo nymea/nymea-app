@@ -46,31 +46,31 @@ Page {
     ColumnLayout {
         anchors { left: parent.left; top: parent.top; right: parent.right }
 
-        NymeaListItemDelegate {
+        NymeaSwipeDelegate {
             Layout.fillWidth: true
             progressive: false
             text: qsTr("System UUID")
             subText: networkManagerController.manager.modelNumber
         }
-        NymeaListItemDelegate {
+        NymeaSwipeDelegate {
             Layout.fillWidth: true
             progressive: false
             text: qsTr("Manufacturer")
             subText: networkManagerController.manager.manufacturer
         }
-        NymeaListItemDelegate {
+        NymeaSwipeDelegate {
             Layout.fillWidth: true
             progressive: false
             text: qsTr("Software revision")
             subText: networkManagerController.manager.softwareRevision
         }
-        NymeaListItemDelegate {
+        NymeaSwipeDelegate {
             Layout.fillWidth: true
             progressive: false
             text: qsTr("Firmware revision")
             subText: networkManagerController.manager.firmwareRevision
         }
-        NymeaListItemDelegate {
+        NymeaSwipeDelegate {
             Layout.fillWidth: true
             progressive: false
             text: qsTr("Hardware revision")

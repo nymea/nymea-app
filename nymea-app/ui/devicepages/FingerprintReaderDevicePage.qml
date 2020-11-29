@@ -76,7 +76,7 @@ DevicePageBase {
                 typeIds: [root.accessGrantedEventType.id, root.accessDeniedEventType.id];
             }
 
-            delegate: NymeaListItemDelegate {
+            delegate: NymeaSwipeDelegate {
                 width: parent.width
                 iconName: accessGranted ? "../images/tick.svg" : "../images/dialog-error-symbolic.svg"
                 iconColor: accessGranted ? "green" : "red"
@@ -125,7 +125,7 @@ DevicePageBase {
                     clip: true
                     model: root.usersState.value
 
-                    delegate: NymeaListItemDelegate {
+                    delegate: NymeaSwipeDelegate {
                         text: modelData
                         width: parent.width
                         progressive: false

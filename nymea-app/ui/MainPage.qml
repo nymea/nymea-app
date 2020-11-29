@@ -43,52 +43,33 @@ import "mainviews"
 Page {
     id: root
 
-    header: FancyHeader {
+    header: ToolBar {
         id: mainHeader
-        title: d.configOverlay !== null ?
-                   qsTr("Configure main view")
-                 : swipeView.currentItem.item.title.length > 0 ? swipeView.currentItem.item.title : filteredContentModel.data(swipeView.currentIndex, "displayName")
-        leftButtonVisible: true
-        leftButtonImageSource: {
-            if (app.hasOwnProperty("headerIcon")) {
-                return app.headerIcon
-            }
+        RowLayout {
+            anchors.fill: parent
 
-            switch (engine.jsonRpcClient.currentConnection.bearerType) {
-            case Connection.BearerTypeLan:
-            case Connection.BearerTypeWan:
-                if (engine.jsonRpcClient.availableBearerTypes & NymeaConnection.BearerTypeEthernet != NymeaConnection.BearerTypeNone) {
-                    return "../images/connections/network-wired.svg"
+            HeaderButton {
+                imageSource: "qrc:/styles/%1/logo.svg".arg(styleController.currentStyle)
+                onClicked: {
+                    if (d.configOverlay != null) {
+                        d.configOverlay.destroy();
+                    }
+                    app.mainMenu.open()
                 }
-                return "../images/connections/network-wifi.svg";
-            case Connection.BearerTypeBluetooth:
-                return "../images/connections/network-wifi.svg";
-            case Connection.BearerTypeCloud:
-                return "../images/connections/cloud.svg"
-            case Connection.BearerTypeLoopback:
-                return "qrc:/styles/%1/logo.svg".arg(styleController.currentStyle)
             }
-            return ""
-        }
-        onLeftButtonClicked: {
-            var dialog = connectionDialogComponent.createObject(root)
-            dialog.open();
-        }
-        onMenuOpenChanged: {
-            if (menuOpen && d.configOverlay) {
-                d.configOverlay.destroy()
+
+            Label {
+                Layout.fillWidth: true
+                text: d.configOverlay !== null ?
+                           qsTr("Configure main view")
+                         : swipeView.currentItem.item.title.length > 0 ? swipeView.currentItem.item.title : filteredContentModel.data(swipeView.currentIndex, "displayName")
             }
-        }
 
-        model: ListModel {
-            ListElement { iconSource: "../images/things.svg"; text: qsTr("Configure things"); page: "thingconfiguration/EditThingsPage.qml" }
-            ListElement { iconSource: "../images/magic.svg"; text: qsTr("Magic"); page: "MagicPage.qml" }
-            ListElement { iconSource: "../images/stock_application.svg"; text: qsTr("App settings"); page: "appsettings/AppSettingsPage.qml" }
-            ListElement { iconSource: "../images/settings.svg"; text: qsTr("System settings"); page: "SettingsPage.qml" }
-        }
-
-        onClicked: {
-            pageStack.push(model.get(index).page)
+            HeaderButton {
+                imageSource: "../images/settings.svg"
+                visible: d.configOverlay == null
+                onClicked: d.configOverlay = configComponent.createObject(contentContainer)
+            }
         }
     }
 
@@ -211,55 +192,6 @@ Page {
             }
         }
 
-//        Pane {
-//            Layout.fillWidth: true
-//            Layout.preferredHeight: shownHeight
-//            property int shownHeight: shown ? contentRow.implicitHeight : 0
-//            property bool shown: updatesModel.count > 0 || engine.systemController.updateRunning
-//            visible: shownHeight > 0
-//            Behavior on shownHeight { NumberAnimation { easing.type: Easing.InOutQuad; duration: 150 } }
-//            Material.elevation: 2
-//            padding: 0
-
-//            MouseArea {
-//                anchors.fill: parent
-//                onClicked: pageStack.push(Qt.resolvedUrl("system/SystemUpdatePage.qml"))
-//            }
-
-//            Rectangle {
-//                color: app.accentColor
-//                anchors.fill: parent
-
-//                PackagesFilterModel {
-//                    id: updatesModel
-//                    packages: engine.systemController.packages
-//                    updatesOnly: true
-//                }
-
-//                RowLayout {
-//                    id: contentRow
-//                    anchors { left: parent.left; top: parent.top; right: parent.right; leftMargin: app.margins; rightMargin: app.margins }
-//                    Item {
-//                        Layout.fillWidth: true
-//                        height: app.iconSize
-//                    }
-
-//                    Label {
-//                        text: engine.systemController.updateRunning ? qsTr("System update in progress...") : qsTr("%n system update(s) available", "", updatesModel.count)
-//                        color: "white"
-//                        font.pixelSize: app.smallFont
-//                    }
-//                    ColorIcon {
-//                        height: app.iconSize / 2
-//                        width: height
-//                        color: "white"
-//                        name: "../images/system-update.svg"
-//                        RotationAnimation on rotation { from: 0; to: 360; duration: 2000; loops: Animation.Infinite; running: engine.systemController.updateRunning }
-//                    }
-//                }
-//            }
-//        }
-
         Item {
             id: contentContainer
             Layout.fillWidth: true
@@ -363,7 +295,6 @@ Page {
                     } else {
                         PlatformHelper.vibrate(PlatformHelper.HapticsFeedbackSelection)
                         d.configOverlay = configComponent.createObject(contentContainer)
-                        mainHeader.menuOpen = false;
                     }
                 }
             }

@@ -522,7 +522,7 @@ Page {
 
                 filterInterfaceNames: root.device ? root.device.deviceClass.interfaces : []
             }
-            delegate: NymeaListItemDelegate {
+            delegate: NymeaSwipeDelegate {
                 width: parent.width
                 text: model.description
                 iconName: app.interfacesToIcon(model.interfaces)

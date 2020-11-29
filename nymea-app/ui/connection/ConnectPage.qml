@@ -38,23 +38,39 @@ import "../components"
 Page {
     id: root
 
-    header: FancyHeader {
-        title: qsTr("Connect %1").arg(app.systemName)
-        model: ListModel {
-            ListElement { iconSource: "../images/connections/network-vpn.svg"; text: qsTr("Manual connection"); page: "ManualConnectPage.qml" }
-            ListElement { iconSource: "../images/connections/bluetooth.svg"; text: qsTr("Wireless setup"); page: "wifisetup/BluetoothDiscoveryPage.qml"; }
-            ListElement { iconSource: "../images/private-browsing.svg"; text: qsTr("Demo mode"); page: "" }
-            ListElement { iconSource: "../images/stock_application.svg"; text: qsTr("App settings"); page: "../appsettings/AppSettingsPage.qml" }
-        }
-        onClicked: {
-            if (index === 2) {
-                var host = discovery.nymeaHosts.createWanHost("Demo server", "nymea://nymea.nymea.io:2222")
-                engine.jsonRpcClient.connectToHost(host)
-            } else {
-                pageStack.push(model.get(index).page, {nymeaDiscovery: discovery});
+    header: ToolBar {
+        RowLayout {
+            anchors.fill: parent
+
+            HeaderButton {
+                imageSource: "../images/navigation-menu.svg"
+                onClicked: app.mainMenu.open()
+            }
+
+            Label {
+                Layout.fillWidth: true
+                text: qsTr("Connect %1").arg(app.systemName)
             }
         }
     }
+
+//    header: FancyHeader {
+//        title: qsTr("Connect %1").arg(app.systemName)
+//        model: ListModel {
+//            ListElement { iconSource: "../images/connections/network-vpn.svg"; text: qsTr("Manual connection"); page: "ManualConnectPage.qml" }
+//            ListElement { iconSource: "../images/connections/bluetooth.svg"; text: qsTr("Wireless setup"); page: "wifisetup/BluetoothDiscoveryPage.qml"; }
+//            ListElement { iconSource: "../images/private-browsing.svg"; text: qsTr("Demo mode"); page: "" }
+//            ListElement { iconSource: "../images/stock_application.svg"; text: qsTr("App settings"); page: "../appsettings/AppSettingsPage.qml" }
+//        }
+//        onClicked: {
+//            if (index === 2) {
+//                var host = discovery.nymeaHosts.createWanHost("Demo server", "nymea://nymea.nymea.io:2222")
+//                engine.jsonRpcClient.connectToHost(host)
+//            } else {
+//                pageStack.push(model.get(index).page, {nymeaDiscovery: discovery});
+//            }
+//        }
+//    }
 
     readonly property bool haveHosts: hostsProxy.count > 0
 
@@ -134,7 +150,7 @@ Page {
             model: hostsProxy
             clip: true
 
-            delegate: NymeaListItemDelegate {
+            delegate: NymeaSwipeDelegate {
                 id: nymeaHostDelegate
                 width: parent.width
                 height: app.delegateHeight
@@ -356,7 +372,7 @@ Page {
                         width: parent.width
                         Repeater {
                             model: dialog.nymeaHost.connections
-                            delegate: NymeaListItemDelegate {
+                            delegate: NymeaSwipeDelegate {
                                 Layout.fillWidth: true
                                 wrapTexts: false
                                 progressive: false

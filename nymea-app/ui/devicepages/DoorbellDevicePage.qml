@@ -128,7 +128,7 @@ DevicePageBase {
                         deviceId: root.device.id
                         typeIds: [root.doorbellPressedType.id]
                     }
-                    delegate: NymeaListItemDelegate {
+                    delegate: NymeaSwipeDelegate {
                         width: parent.width
                         text: Qt.formatDateTime(model.timestamp)
                         progressive: false

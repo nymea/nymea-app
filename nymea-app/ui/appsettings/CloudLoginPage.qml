@@ -113,7 +113,7 @@ SettingsPageBase {
 
         Repeater {
             model: AWSClient.awsDevices
-            delegate: NymeaListItemDelegate {
+            delegate: NymeaSwipeDelegate {
                 Layout.fillWidth: true
                 text: model.name
                 subText: model.id

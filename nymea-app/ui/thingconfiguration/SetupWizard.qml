@@ -263,7 +263,7 @@ Page {
                         showNew: root.device === null
                         filterDeviceId: root.device ? root.device.id : ""
                     }
-                    delegate: NymeaListItemDelegate {
+                    delegate: NymeaSwipeDelegate {
                         width: parent.width
                         height: app.delegateHeight
                         text: model.name

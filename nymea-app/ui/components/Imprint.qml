@@ -124,7 +124,7 @@ Item {
         ColumnLayout {
             Layout.fillWidth: true
 
-            NymeaListItemDelegate {
+            NymeaSwipeDelegate {
                 Layout.fillWidth: true
                 iconName: "../images/stock_website.svg"
                 text: qsTr("Visit the nymea website")
@@ -136,7 +136,7 @@ Item {
                 }
             }
 
-            NymeaListItemDelegate {
+            NymeaSwipeDelegate {
                 Layout.fillWidth: true
                 iconName: "../images/stock_website.svg"
                 text: qsTr("Visit GitHub page")
@@ -148,7 +148,7 @@ Item {
                 }
             }
 
-            NymeaListItemDelegate {
+            NymeaSwipeDelegate {
                 Layout.fillWidth: true
                 text: qsTr("View privacy policy")
                 iconName: "../images/stock_website.svg"
@@ -159,7 +159,7 @@ Item {
                     Qt.openUrlExternally(app.privacyPolicyUrl)
             }
 
-            NymeaListItemDelegate {
+            NymeaSwipeDelegate {
                 Layout.fillWidth: true
                 text: qsTr("Software license")
                 iconName: "../images/stock_website.svg"
@@ -171,7 +171,7 @@ Item {
                 }
             }
 
-            NymeaListItemDelegate {
+            NymeaSwipeDelegate {
                 Layout.fillWidth: true
                 text: qsTr("Additional software licenses")
                 iconName: "../images/logs.svg"
@@ -207,7 +207,7 @@ Item {
                 wrapMode: Text.WordWrap
             }
         }
-        NymeaListItemDelegate {
+        NymeaSwipeDelegate {
             Layout.fillWidth: true
             iconName: "../images/stock_website.svg"
             text: qsTr("Visit the Qt website")
@@ -236,7 +236,7 @@ Item {
                 Repeater {
                     model: root.additionalLicenses
 
-                    delegate: NymeaListItemDelegate {
+                    delegate: NymeaSwipeDelegate {
                         Layout.fillWidth: true
                         text: model.component
                         subText: model.infoText

@@ -243,5 +243,8 @@
         <file>ui/images/like.svg</file>
         <file>ui/images/zigbee.svg</file>
         <file>ui/images/stock_usb.svg</file>
+        <file>ui/images/twitter.svg</file>
+        <file>ui/images/discourse.svg</file>
+        <file>ui/images/telegram.svg</file>
     </qresource>
 </RCC>

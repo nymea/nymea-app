@@ -137,7 +137,7 @@ Page {
             id: rulesProxy
             rules: engine.ruleManager.rules
         }
-        delegate: NymeaListItemDelegate {
+        delegate: NymeaSwipeDelegate {
             id: ruleDelegate
             width: parent.width
             iconName: "../images/" + (model.executable ? (iconTag.value.length > 0 ? iconTag.value : "slideshow") : "magic") + ".svg"

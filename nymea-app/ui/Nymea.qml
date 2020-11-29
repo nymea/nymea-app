@@ -62,8 +62,8 @@ ApplicationWindow {
 
     property int smallIconSize: 16
     property int iconSize: 24
-    property int largeIconSize: 32
-    property int hugeIconSize: 40
+    property int largeIconSize: 40
+    property int hugeIconSize: 64
 
     property int delegateHeight: 60
     property color backgroundColor: Material.background
@@ -96,6 +96,22 @@ ApplicationWindow {
         target: Types
         property: "unitSystem"
         value: settings.units === "metric" ? Types.UnitSystemMetric : Types.UnitSystemImperial
+    }
+
+    property alias mainMenu: m
+    MainMenu {
+        id: m
+        height: app.height
+        width: Math.min(300, app.width)
+//        z: 1000
+        currentEngine: rootItem.currentEngine
+        onOpenThingSettings: rootItem.openThingSettings();
+        onOpenMagicSettings: rootItem.openMagicSettings();
+        onOpenAppSettings: rootItem.openAppSettings();
+        onOpenSystemSettings: rootItem.openSystemSettings();
+        onStartManualConnection: rootItem.startManualConnection();
+        onStartWirelessSetup: rootItem.startWirelessSetup();
+        onStartDemoMode: rootItem.startDemoMode();
     }
 
     RootItem {

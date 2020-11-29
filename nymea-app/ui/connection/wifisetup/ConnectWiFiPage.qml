@@ -73,7 +73,7 @@ Page {
             }
             clip: true
 
-            delegate: NymeaListItemDelegate {
+            delegate: NymeaSwipeDelegate {
                 width: parent.width
                 text: model.ssid !== "" ? model.ssid : qsTr("Hidden Network")
                 enabled: !networkManagerController.manager.working

@@ -750,7 +750,7 @@ Page {
                             minimumJsonRpcVersion: "1.0"
                         }
                     }
-                    delegate: NymeaListItemDelegate {
+                    delegate: NymeaSwipeDelegate {
                         Layout.fillWidth: true
                         iconName: model.iconName
                         text: model.text
@@ -800,7 +800,7 @@ Page {
                             minimumJsonRpcVersion: "1.0"
                         }
                     }
-                    delegate: NymeaListItemDelegate {
+                    delegate: NymeaSwipeDelegate {
                         Layout.fillWidth: true
                         iconName: model.iconName
                         text: model.text
@@ -863,7 +863,7 @@ Page {
                             minimumJsonRpcVersion: "1.5"
                         }
                     }
-                    delegate: NymeaListItemDelegate {
+                    delegate: NymeaSwipeDelegate {
                         Layout.fillWidth: true
                         iconName: model.iconName
                         text: model.text

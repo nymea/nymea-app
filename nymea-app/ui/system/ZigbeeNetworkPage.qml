@@ -57,7 +57,7 @@ SettingsPageBase {
         text: qsTr("Network information")
     }
 
-    NymeaListItemDelegate {
+    NymeaSwipeDelegate {
         Layout.fillWidth: true
         text: qsTr("Network state")
         subText: {
@@ -78,14 +78,14 @@ SettingsPageBase {
         progressive: false
     }
 
-    NymeaListItemDelegate {
+    NymeaSwipeDelegate {
         Layout.fillWidth: true
         text: qsTr("Channel")
         subText: root.network.channel
         progressive: false
     }
 
-    NymeaListItemDelegate {
+    NymeaSwipeDelegate {
         Layout.fillWidth: true
         text: qsTr("Network PAN ID")
         subText: root.network.panId
@@ -96,7 +96,7 @@ SettingsPageBase {
         text: qsTr("Network control")
     }
 
-    NymeaListItemDelegate {
+    NymeaSwipeDelegate {
         Layout.fillWidth: true
         text: root.network.permitJoiningEnabled ? qsTr("The network is open") : qsTr("The network is closed")
         subText: root.network.permitJoiningEnabled ? qsTr("Devices can join this network") : qsTr("Devices are not allowed to join this network")

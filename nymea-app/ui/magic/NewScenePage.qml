@@ -56,7 +56,7 @@ Page {
 
         }
 
-        delegate: NymeaListItemDelegate {
+        delegate: NymeaSwipeDelegate {
             text: model.description
         }
     }

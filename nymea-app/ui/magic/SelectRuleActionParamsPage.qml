@@ -157,7 +157,7 @@ Page {
                                 }
                             }
 
-                            NymeaListItemDelegate {
+                            NymeaSwipeDelegate {
                                 id: statePickerDelegate
                                 Layout.fillWidth: true
                                 text: deviceId === null || stateTypeId === null

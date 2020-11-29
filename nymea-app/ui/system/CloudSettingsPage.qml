@@ -163,7 +163,7 @@ SettingsPageBase {
         text: qsTr("In order to remotely connect to this %1:core, %2 needs to be logged into %1:cloud as well.").arg(app.systemName).arg(app.appName)
     }
 
-    NymeaListItemDelegate {
+    NymeaSwipeDelegate {
         Layout.fillWidth: true
         text: qsTr("Go to app settings")
         subText: qsTr("Set up cloud connection for %1").arg(app.appName)

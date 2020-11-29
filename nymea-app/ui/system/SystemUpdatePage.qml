@@ -185,7 +185,7 @@ Page {
                 visible: count > 0
                 model: updatesModel
                 clip: true
-                delegate: NymeaListItemDelegate {
+                delegate: NymeaSwipeDelegate {
                     width: parent.width
                     text: model.displayName
                     subText: model.candidateVersion
@@ -205,7 +205,7 @@ Page {
 
         ThinDivider {}
 
-        NymeaListItemDelegate {
+        NymeaSwipeDelegate {
             Layout.fillWidth: true
             text: qsTr("Install or remove software")
             onClicked: {
@@ -276,7 +276,7 @@ Page {
                     id: filterModel
                     packages: packageListPage.packages
                 }
-                delegate: NymeaListItemDelegate {
+                delegate: NymeaSwipeDelegate {
                     width: parent.width
                     text: model.displayName
                     subText: model.candidateVersion
@@ -337,14 +337,14 @@ Page {
                     wrapMode: Text.WordWrap
                 }
 
-                NymeaListItemDelegate {
+                NymeaSwipeDelegate {
                     Layout.fillWidth: true
                     text: qsTr("Installed version:")
                     subText: packageDetailsPage.pkg.installedVersion.length > 0 ? packageDetailsPage.pkg.installedVersion : qsTr("Not installed")
                     progressive: false
                 }
 
-                NymeaListItemDelegate {
+                NymeaSwipeDelegate {
                     Layout.fillWidth: true
                     text: qsTr("Candidate version:")
                     subText: packageDetailsPage.pkg.candidateVersion

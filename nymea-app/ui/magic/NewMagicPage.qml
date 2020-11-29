@@ -58,7 +58,7 @@ Page {
                 ruleTemplates: ruleTemplates
             }
 
-            delegate: NymeaListItemDelegate {
+            delegate: NymeaSwipeDelegate {
                 width: parent.width
                 text: model.description
             }
