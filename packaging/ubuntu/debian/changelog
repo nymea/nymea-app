@@ -1,3 +1,10 @@
+nymea-app (1.0.252) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Rework main menu
+
+ -- Jenkins <jenkins@nymea.io>  Sun, 29 Nov 2020 01:50:03 +0100
+
 nymea-app (1.0.251) bionic; urgency=medium
 
   [ Michael Zanetti ]
