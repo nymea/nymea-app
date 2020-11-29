@@ -41,10 +41,6 @@ Drawer {
                     sourceSize.width: width
                     sourceSize.height: height
                     source: "qrc:/styles/%1/logo.svg".arg(styleController.currentStyle)
-                    MouseArea {
-                        anchors.fill: parent
-                        onClicked: Qt.openUrlExternally("https://nymea.io")
-                    }
                 }
 
                 RowLayout {
