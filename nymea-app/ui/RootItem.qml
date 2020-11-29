@@ -46,23 +46,37 @@ Item {
         return swipeView.currentItem.handleAndroidBackButton()
     }
 
+    QtObject {
+        id: d
+        // We want only one of them pushed at a time
+        property var currentSettingsPage: null
+
+        function pushSettingsPage(page) {
+            if (d.currentSettingsPage != null) {
+                d.currentSettingsPage = swipeView.currentItem.pageStack.replace(d.currentSettingsPage, page);
+            } else {
+                d.currentSettingsPage = swipeView.currentItem.pageStack.push(page)
+            }
+        }
+    }
+
     function openThingSettings() {
-        swipeView.currentItem.pageStack.push("thingconfiguration/EditThingsPage.qml")
+        d.pushSettingsPage("thingconfiguration/EditThingsPage.qml")
     }
     function openMagicSettings() {
-        swipeView.currentItem.pageStack.push("MagicPage.qml")
+        d.pushSettingsPage("MagicPage.qml")
     }
     function openAppSettings() {
-        swipeView.currentItem.pageStack.push("appsettings/AppSettingsPage.qml")
+        d.pushSettingsPage("appsettings/AppSettingsPage.qml")
     }
     function openSystemSettings() {
-        swipeView.currentItem.pageStack.push("SettingsPage.qml")
+        d.pushSettingsPage("SettingsPage.qml")
     }
     function startManualConnection() {
-        swipeView.currentItem.pageStack.push("connection/ManualConnectPage.qml")
+        d.pushSettingsPage("connection/ManualConnectPage.qml")
     }
     function startWirelessSetup() {
-        swipeView.currentItem.pageStack.push("connection/wifisetup/BluetoothDiscoveryPage.qml");
+        d.pushSettingsPage("connection/wifisetup/BluetoothDiscoveryPage.qml");
     }
     function startDemoMode() {
         var host = discovery.nymeaHosts.createWanHost("Demo server", "nymea://nymea.nymea.io:2222")

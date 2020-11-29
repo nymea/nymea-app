@@ -175,7 +175,7 @@ void JsonRpcClient::setNotificationsEnabledResponse(int /*commandId*/, const QVa
 
 void JsonRpcClient::notificationReceived(const QVariantMap &data)
 {
-    qDebug() << "Notification received:" << data;
+//    qDebug() << "Notification received:" << data;
     if (data.value("notification").toString() == "JSONRPC.PushButtonAuthFinished") {
         qDebug() << "Push button auth finished.";
         if (data.value("params").toMap().value("transactionId").toInt() != m_pendingPushButtonTransaction) {
