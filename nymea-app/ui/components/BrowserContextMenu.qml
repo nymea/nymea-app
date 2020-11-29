@@ -59,7 +59,7 @@ MeaDialog {
 
             interactive: contentHeight > height
             clip: true
-            delegate: NymeaListItemDelegate {
+            delegate: NymeaSwipeDelegate {
                 width: parent.width
                 text: actionType.displayName
                 progressive: false

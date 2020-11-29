@@ -101,10 +101,17 @@ ApplicationWindow {
     property alias mainMenu: m
     MainMenu {
         id: m
-        anchors.fill: parent
-        z: 1000
+        height: app.height
+        width: Math.min(300, app.width)
+//        z: 1000
         currentEngine: rootItem.currentEngine
-        onOpenThingSettings: rootItem.openThigSettings();
+        onOpenThingSettings: rootItem.openThingSettings();
+        onOpenMagicSettings: rootItem.openMagicSettings();
+        onOpenAppSettings: rootItem.openAppSettings();
+        onOpenSystemSettings: rootItem.openSystemSettings();
+        onStartManualConnection: rootItem.startManualConnection();
+        onStartWirelessSetup: rootItem.startWirelessSetup();
+        onStartDemoMode: rootItem.startDemoMode();
     }
 
     RootItem {

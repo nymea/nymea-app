@@ -68,7 +68,7 @@ Dialog {
         }
         ThinDivider {}
 
-        NymeaListItemDelegate {
+        NymeaSwipeDelegate {
             Layout.fillWidth: true
             text: qsTr("Remove all those rules")
             progressive: false
@@ -79,7 +79,7 @@ Dialog {
             }
         }
 
-        NymeaListItemDelegate {
+        NymeaSwipeDelegate {
             text: qsTr("Update rules, removing this thing")
             Layout.fillWidth: true
             progressive: false
@@ -90,7 +90,7 @@ Dialog {
             }
         }
 
-        NymeaListItemDelegate {
+        NymeaSwipeDelegate {
             text: qsTr("Don't remove this thing")
             Layout.fillWidth: true
             progressive: false

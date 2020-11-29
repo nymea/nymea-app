@@ -51,7 +51,7 @@ DevicePageBase {
             typeIds: [root.deviceClass.eventTypes.findByName("triggered").id];
         }
 
-//        delegate: NymeaListItemDelegate {
+//        delegate: NymeaSwipeDelegate {
 //            width: parent.width
 //            iconName: app.interfaceToIcon("inputtrigger")
 //            text: model.value.trim()

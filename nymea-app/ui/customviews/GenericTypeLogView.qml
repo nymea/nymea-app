@@ -61,7 +61,7 @@ Item {
             }
         }
 
-        delegate: NymeaListItemDelegate {
+        delegate: NymeaSwipeDelegate {
             id: logEntryDelegate
             width: parent.width
             implicitHeight: app.delegateHeight

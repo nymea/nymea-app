@@ -64,7 +64,7 @@ SettingsPageBase {
             plugins: engine.deviceManager.plugins
         }
 
-        delegate: NymeaListItemDelegate {
+        delegate: NymeaSwipeDelegate {
             Layout.fillWidth: true
             property var plugin: pluginsProxy.get(index)
             iconName: "../images/plugin.svg"

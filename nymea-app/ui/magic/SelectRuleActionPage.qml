@@ -118,7 +118,7 @@ Page {
         anchors.fill: parent
         ScrollBar.vertical: ScrollBar {}
 
-        delegate: NymeaListItemDelegate {
+        delegate: NymeaSwipeDelegate {
             id: delegate
             text: model.displayName
             width: parent.width

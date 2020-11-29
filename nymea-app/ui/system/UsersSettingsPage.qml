@@ -42,7 +42,7 @@ SettingsPageBase {
         text: qsTr("User info")
     }
 
-    NymeaListItemDelegate {
+    NymeaSwipeDelegate {
         Layout.fillWidth: true
         text: userManager.userInfo.username
         subText: qsTr("Username")
@@ -51,7 +51,7 @@ SettingsPageBase {
         iconName: "../images/account.svg"
     }
 
-    NymeaListItemDelegate {
+    NymeaSwipeDelegate {
         Layout.fillWidth: true
         text: qsTr("Change password")
         iconName: "../images/key.svg"
@@ -70,7 +70,7 @@ SettingsPageBase {
     Repeater {
         model: userManager.tokenInfos
 
-        delegate: NymeaListItemDelegate {
+        delegate: NymeaSwipeDelegate {
             Layout.fillWidth: true
             text: model.deviceName
             subText: qsTr("Created on %1").arg(Qt.formatDateTime(model.creationTime, Qt.DefaultLocaleShortDate))

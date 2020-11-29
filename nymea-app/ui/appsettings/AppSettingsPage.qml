@@ -59,7 +59,7 @@ Page {
                 Layout.fillWidth: true
                 Material.elevation: layout.isGrid ? 1 : 0
                 padding: 0
-                NymeaListItemDelegate {
+                NymeaSwipeDelegate {
                     width: parent.width
                     text: qsTr("Look & feel")
                     subText: qsTr("Customize the app's look and behavior")
@@ -74,7 +74,7 @@ Page {
                 Layout.fillWidth: true
                 Material.elevation: layout.isGrid ? 1 : 0
                 padding: 0
-                NymeaListItemDelegate {
+                NymeaSwipeDelegate {
                     width: parent.width
                     text: qsTr("Cloud login")
                     subText: qsTr("Log into %1:cloud and manage connected %1:core systems").arg(app.systemName)
@@ -88,7 +88,7 @@ Page {
                 Layout.fillWidth: true
                 Material.elevation: layout.isGrid ? 1 : 0
                 padding: 0
-                NymeaListItemDelegate {
+                NymeaSwipeDelegate {
                     width: parent.width
                     text: qsTr("Developer options")
                     subText: qsTr("Access tools for debugging and error reporting")
@@ -102,7 +102,7 @@ Page {
                 Layout.fillWidth: true
                 Material.elevation: layout.isGrid ? 1 : 0
                 padding: 0
-                NymeaListItemDelegate {
+                NymeaSwipeDelegate {
                     width: parent.width
                     text: qsTr("About %1").arg(app.appName)
                     subText: qsTr("Find app versions and licence information")

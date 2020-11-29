@@ -4,10 +4,8 @@ import QtQuick.Layouts 1.1
 import "components"
 import Nymea 1.0
 
-Rectangle {
+Drawer {
     id: root
-    visible: !Qt.colorEqual(color, "transparent")
-    property bool shown: false
 
     property Engine currentEngine: null
 
@@ -16,156 +14,185 @@ Rectangle {
     signal openAppSettings();
     signal openSystemSettings();
 
-    function show() {
-        shown = true;
-    }
-    function hide() {
-        shown = false;
+    signal startWirelessSetup();
+    signal startManualConnection();
+    signal startDemoMode();
+
+    background: Rectangle {
+        color: app.backgroundColor
     }
 
-    color: root.shown ? "#88000000" : "transparent"
-    Behavior on color { ColorAnimation { duration: 200 } }
 
-    MouseArea {
+    ColumnLayout {
         anchors.fill: parent
-        onClicked: root.hide()
-        hoverEnabled: true
-    }
+        spacing: 0
 
-    Pane {
-        anchors { top: parent.top; bottom: parent.bottom; left: parent.left }
-        width: Math.min(root.width, 300)
-        anchors.leftMargin: root.shown ? 0 : -width
-        Behavior on anchors.leftMargin { NumberAnimation { duration: 200; easing.type: Easing.InOutQuad } }
+        Rectangle {
+            Layout.fillWidth: true
+            Layout.preferredHeight: topSectionLayout.implicitHeight + app.margins * 2
+            color: Qt.tint(app.backgroundColor, Qt.rgba(app.foregroundColor.r, app.foregroundColor.g, app.foregroundColor.b, 0.05))
+            ColumnLayout {
+                id: topSectionLayout
+                anchors { left: parent.left; top: parent.top; right: parent.right; margins: app.margins }
 
-        leftPadding: 0
-        topPadding: 0
-        rightPadding: 0
-        bottomPadding: 0
+                Image {
+                    Layout.preferredHeight: app.hugeIconSize
+                    Layout.preferredWidth: height
+                    sourceSize.width: width
+                    sourceSize.height: height
+                    source: "qrc:/styles/%1/logo.svg".arg(styleController.currentStyle)
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: Qt.openUrlExternally("https://nymea.io")
+                    }
+                }
 
-        ColumnLayout {
-            anchors { left: parent.left; top: parent.top; right: parent.right }
-            spacing: 0
-
-            Rectangle {
-                Layout.fillWidth: true
-                Layout.preferredHeight: topSectionLayout.implicitHeight + app.margins * 2
-                color: Qt.tint(app.backgroundColor, Qt.rgba(app.foregroundColor.r, app.foregroundColor.g, app.foregroundColor.b, 0.05))
-                ColumnLayout {
-                    id: topSectionLayout
-                    anchors { left: parent.left; top: parent.top; right: parent.right; margins: app.margins }
-
-                    RowLayout {
-                        Image {
-                            Layout.preferredHeight: app.hugeIconSize
-                            Layout.preferredWidth: height
-                            sourceSize.width: width
-                            sourceSize.height: height
-
-                            source: "qrc:/styles/%1/logo.svg".arg(styleController.currentStyle)
-                        }
-                        Item {
-                            Layout.fillHeight: true
+                RowLayout {
+                    ColumnLayout {
+                        Label {
                             Layout.fillWidth: true
+                            text: root.currentEngine && root.currentEngine.jsonRpcClient.currentHost ? root.currentEngine.jsonRpcClient.currentHost.name : app.systemName
                         }
-                        ColorIcon {
-                            Layout.preferredHeight: app.iconSize
-                            Layout.preferredWidth: app.iconSize
-                            name: {
-                                if (root.currentEngine === null) {
-                                    return "";
-                                }
-
-                                switch (root.currentEngine.jsonRpcClient.currentConnection.bearerType) {
-                                case Connection.BearerTypeLan:
-                                case Connection.BearerTypeWan:
-                                    if (root.currentEngine.jsonRpcClient.availableBearerTypes & NymeaConnection.BearerTypeEthernet != NymeaConnection.BearerTypeNone) {
-                                        return "../images/connections/network-wired.svg"
-                                    }
-                                    return "../images/connections/network-wifi.svg";
-                                case Connection.BearerTypeBluetooth:
-                                    return "../images/connections/network-wifi.svg";
-                                case Connection.BearerTypeCloud:
-                                    return "../images/connections/cloud.svg"
-                                case Connection.BearerTypeLoopback:
-                                }
-                                return ""
-                            }
-
+                        Label {
+                            Layout.fillWidth: true
+                            text: root.currentEngine.jsonRpcClient.currentConnection.url
+                            font.pixelSize: app.extraSmallFont
+                            enabled: false
+                            visible: root.currentEngine && root.currentEngine.jsonRpcClient.currentHost
                         }
                     }
-
-                    Label {
-                        Layout.fillWidth: true
-                        text: root.currentEngine.jsonRpcClient.currentHost.name
+                    ProgressButton {
+                        longpressEnabled: false
+                        imageSource: "../images/close.svg"
+                        visible: root.currentEngine && root.currentEngine.jsonRpcClient.currentHost
+                        onClicked: {
+                            root.currentEngine.jsonRpcClient.disconnectFromHost();
+                            root.close();
+                        }
                     }
-                    Label {
-                        Layout.fillWidth: true
-                        text: root.currentEngine.jsonRpcClient.currentConnection.url
-                        font.pixelSize: app.smallFont
-                        enabled: false
-                    }
-
                 }
-            }
-
-            SettingsPageSectionHeader {
-                text: qsTr("Configuration")
-            }
-
-            NymeaListItemDelegate {
-                Layout.fillWidth: true
-                text: qsTr("Configure things")
-                iconName: "../images/things.svg"
-                visible: root.currentEngine != null
-                progressive: false
-                onClicked: {
-                    root.openThingSettings()
-                    root.hide();
-                }
-            }
-            NymeaListItemDelegate {
-                Layout.fillWidth: true
-                text: qsTr("Magic")
-                iconName: "../images/magic.svg"
-                progressive: false
-                visible: root.currentEngine != null
-            }
-            NymeaListItemDelegate {
-                Layout.fillWidth: true
-                text: qsTr("App settings")
-                iconName: "../images/stock_application.svg"
-                progressive: false
-            }
-            NymeaListItemDelegate {
-                Layout.fillWidth: true
-                text: qsTr("System settings")
-                iconName: "../images/settings.svg"
-                progressive: false
-                visible: root.currentEngine != null
-            }
-            SettingsPageSectionHeader {
-                text: qsTr("Community")
-            }
-
-            NymeaListItemDelegate {
-                Layout.fillWidth: true
-                text: qsTr("Forum")
-                iconName: "../images/discourse.svg"
-                progressive: false
-            }
-            NymeaListItemDelegate {
-                Layout.fillWidth: true
-                text: qsTr("Telegram")
-                iconName: "../images/telegram.svg"
-                progressive: false
-            }
-            NymeaListItemDelegate {
-                Layout.fillWidth: true
-                text: qsTr("Twitter")
-                iconName: "../images/twitter.svg"
-                progressive: false
             }
         }
-    }
+
+        Flickable {
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            contentHeight: contentColumn.implicitHeight
+            interactive: contentHeight > height
+            clip: true
+
+            ScrollBar.vertical: ScrollBar {}
+
+            ColumnLayout {
+                id: contentColumn
+                width: parent.width
+                spacing: 0
+
+                NymeaItemDelegate {
+                    Layout.fillWidth: true
+                    text: qsTr("Wireless setup")
+                    iconName: "../images/connections/bluetooth.svg"
+                    progressive: false
+                    visible: root.currentEngine && root.currentEngine.jsonRpcClient.currentHost == null
+                    onClicked: {
+                        root.startWirelessSetup();
+                        root.close();
+                    }
+                }
+                NymeaItemDelegate {
+                    Layout.fillWidth: true
+                    text: qsTr("Manual connection")
+                    iconName: "../images/connections/network-vpn.svg"
+                    progressive: false
+                    visible: root.currentEngine && root.currentEngine.jsonRpcClient.currentHost == null
+                    onClicked: {
+                        root.startManualConnection();
+                        root.close();
+                    }
+                }
+                NymeaItemDelegate {
+                    Layout.fillWidth: true
+                    text: qsTr("Demo mode")
+                    iconName: "../images/private-browsing.svg"
+                    progressive: false
+                    visible: root.currentEngine && root.currentEngine.jsonRpcClient.currentHost == null
+                    onClicked: {
+                        root.startDemoMode();
+                        root.close();
+                    }
+                }
+
+                NymeaItemDelegate {
+                    Layout.fillWidth: true
+                    text: qsTr("Configure things")
+                    iconName: "../images/things.svg"
+                    visible: root.currentEngine && root.currentEngine.jsonRpcClient.currentHost
+                    progressive: false
+                    onClicked: {
+                        root.openThingSettings()
+                        root.close();
+                    }
+                }
+                NymeaItemDelegate {
+                    Layout.fillWidth: true
+                    text: qsTr("Magic")
+                    iconName: "../images/magic.svg"
+                    progressive: false
+                    visible: root.currentEngine && root.currentEngine.jsonRpcClient.currentHost
+                    onClicked: {
+                        root.openMagicSettings();
+                        root.close();
+                    }
+                }
+                NymeaItemDelegate {
+                    Layout.fillWidth: true
+                    text: qsTr("App settings")
+                    iconName: "../images/stock_application.svg"
+                    progressive: false
+                    onClicked: {
+                        root.openAppSettings();
+                        root.close();
+                    }
+                }
+                NymeaItemDelegate {
+                    Layout.fillWidth: true
+                    text: qsTr("System settings")
+                    iconName: "../images/settings.svg"
+                    progressive: false
+                    visible: root.currentEngine && root.currentEngine.jsonRpcClient.currentHost
+                    onClicked: {
+                        root.openSystemSettings();
+                        root.close();
+                    }
+                }
+
+
+                NymeaItemDelegate {
+                    Layout.fillWidth: true
+                    Layout.topMargin: app.margins
+                    text: qsTr("Forum")
+                    iconName: "../images/discourse.svg"
+                    progressive: false
+                    onClicked: Qt.openUrlExternally("https://forum.nymea.io")
+                }
+                NymeaItemDelegate {
+                    Layout.fillWidth: true
+                    text: qsTr("Telegram")
+                    iconName: "../images/telegram.svg"
+                    progressive: false
+                    onClicked: Qt.openUrlExternally("https://t.me/nymeacommunity")
+                }
+                NymeaItemDelegate {
+                    Layout.fillWidth: true
+                    text: qsTr("Twitter")
+                    iconName: "../images/twitter.svg"
+                    progressive: false
+                    onClicked: Qt.openUrlExternally("https://twitter.com/nymea_io")
+                }
+            }
+            }
+
+        }
+
 }
+

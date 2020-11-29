@@ -52,7 +52,7 @@ SettingsPageBase {
         text: qsTr("Hardware information")
     }
 
-    NymeaListItemDelegate {
+    NymeaSwipeDelegate {
         Layout.fillWidth: true
         text: qsTr("MAC address:")
         subText: root.network.macAddress
@@ -60,7 +60,7 @@ SettingsPageBase {
         prominentSubText: false
     }
 
-    NymeaListItemDelegate {
+    NymeaSwipeDelegate {
         Layout.fillWidth: true
         text: qsTr("Serial port")
         subText: root.network.serialPort
@@ -68,7 +68,7 @@ SettingsPageBase {
         prominentSubText: false
     }
 
-    NymeaListItemDelegate {
+    NymeaSwipeDelegate {
         Layout.fillWidth: true
         text: qsTr("Baud rate")
         subText: root.network.baudRate
@@ -76,7 +76,7 @@ SettingsPageBase {
         prominentSubText: false
     }
 
-    NymeaListItemDelegate {
+    NymeaSwipeDelegate {
         Layout.fillWidth: true
         text: qsTr("Controller backend")
         subText: root.network.backend
@@ -84,7 +84,7 @@ SettingsPageBase {
         prominentSubText: false
     }
 
-    NymeaListItemDelegate {
+    NymeaSwipeDelegate {
         Layout.fillWidth: true
         text: qsTr("Controller firmware version")
         subText: root.network.firmwareVersion

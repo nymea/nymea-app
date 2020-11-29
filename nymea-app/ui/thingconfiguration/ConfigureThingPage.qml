@@ -121,20 +121,20 @@ SettingsPageBase {
         text: qsTr("Information")
     }
 
-    NymeaListItemDelegate {
+    NymeaSwipeDelegate {
         Layout.fillWidth: true
         text: qsTr("Vendor:")
         subText: engine.deviceManager.vendors.getVendor(root.deviceClass.vendorId).displayName
         progressive: false
     }
-    NymeaListItemDelegate {
+    NymeaSwipeDelegate {
         Layout.fillWidth: true
         text: qsTr("Type:")
         subText: root.deviceClass.displayName
         progressive: false
     }
 
-    NymeaListItemDelegate {
+    NymeaSwipeDelegate {
         Layout.fillWidth: true
         text: qsTr("ID:")
         subText: root.device.id.toString().replace(/[{}]/g, "")
@@ -145,7 +145,7 @@ SettingsPageBase {
         }
     }
 
-    NymeaListItemDelegate {
+    NymeaSwipeDelegate {
         Layout.fillWidth: true
         text: qsTr("Thing class")
         subText: qsTr("View the type definition for this thing")
@@ -184,7 +184,7 @@ SettingsPageBase {
     }
     Repeater {
         model: ioModel
-        delegate: NymeaListItemDelegate {
+        delegate: NymeaSwipeDelegate {
             Layout.fillWidth: true
 
             iconName: "../images/io-connections.svg"

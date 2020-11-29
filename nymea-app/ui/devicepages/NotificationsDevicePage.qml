@@ -76,7 +76,7 @@ DevicePageBase {
                 typeIds: [root.deviceClass.actionTypes.findByName("notify").id];
             }
 
-            delegate: NymeaListItemDelegate {
+            delegate: NymeaSwipeDelegate {
                 width: parent.width
                 iconName: app.interfaceToIcon("notifications")
                 text: model.value.trim()

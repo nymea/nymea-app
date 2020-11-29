@@ -51,7 +51,7 @@ Page {
 
         model: device.deviceClass.stateTypes
 
-        delegate: NymeaListItemDelegate {
+        delegate: NymeaSwipeDelegate {
             width: parent.width
             iconName: "../images/state.svg"
             text: model.displayName

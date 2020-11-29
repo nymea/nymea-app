@@ -154,7 +154,7 @@ SettingsPageBase {
         visible: networkManager.available
     }
 
-    NymeaListItemDelegate {
+    NymeaSwipeDelegate {
         Layout.fillWidth: true
         text: qsTr("Current connection state")
         prominentSubText: false
@@ -203,7 +203,7 @@ SettingsPageBase {
         }
     }
 
-    NymeaListItemDelegate {
+    NymeaSwipeDelegate {
         Layout.fillWidth: true
         text: qsTr("Networking enabled")
         subText: qsTr("Enable or disable networking altogether")
@@ -257,7 +257,7 @@ SettingsPageBase {
     Repeater {
         model: networkManager.wiredNetworkDevices
 
-        NymeaListItemDelegate {
+        NymeaSwipeDelegate {
             Layout.fillWidth: true
             iconName: model.pluggedIn ? "../images/connections/network-wired.svg" : "../images/connections/network-wired-offline.svg"
             text: model.interface + " (" + model.macAddress + ")"
@@ -277,7 +277,7 @@ SettingsPageBase {
         visible: networkManager.available && networkManager.networkingEnabled
     }
 
-    NymeaListItemDelegate {
+    NymeaSwipeDelegate {
         Layout.fillWidth: true
         text: qsTr("Enabled")
         subText: qsTr("Enable or disable WiFi")
@@ -326,7 +326,7 @@ SettingsPageBase {
 
     Repeater {
         model: networkManager.wirelessNetworkDevices
-        NymeaListItemDelegate {
+        NymeaSwipeDelegate {
             Layout.fillWidth: true
             visible: networkManager.available && networkManager.networkingEnabled
             iconName: {
@@ -430,7 +430,7 @@ SettingsPageBase {
             Repeater {
                 id: listView
                 model: apProxy
-                delegate: NymeaListItemDelegate {
+                delegate: NymeaSwipeDelegate {
                     Layout.fillWidth: true
                     text: model.ssid !== "" ? model.ssid : qsTr("Hidden Network")
                     subText: "%1 (%2)".arg(model.macAddress).arg(model.frequency < 3 ? "2.4GHz" : "5GHz")
@@ -527,39 +527,39 @@ SettingsPageBase {
                 text: wirelessNetworkDevice.wirelessMode === WirelessNetworkDevice.WirelessModeAccessPoint ? qsTr("Hosting access point") : qsTr("Connected to")
             }
 
-            NymeaListItemDelegate {
+            NymeaSwipeDelegate {
                 Layout.fillWidth: true
                 text: qsTr("SSID")
                 subText: currentApPage.wirelessNetworkDevice.currentAccessPoint.ssid
                 progressive: false
             }
 
-            NymeaListItemDelegate {
+            NymeaSwipeDelegate {
                 Layout.fillWidth: true
                 text: qsTr("IPv4 Address")
                 subText: currentApPage.wirelessNetworkDevice.ipv4Addresses.join(", ")
                 progressive: false
             }
-            NymeaListItemDelegate {
+            NymeaSwipeDelegate {
                 Layout.fillWidth: true
                 text: qsTr("IPv6 Address")
                 subText: currentApPage.wirelessNetworkDevice.ipv6Addresses.join(", ")
                 visible: subText.length > 0
                 progressive: false
             }
-            NymeaListItemDelegate {
+            NymeaSwipeDelegate {
                 Layout.fillWidth: true
                 text: qsTr("MAC Address")
                 subText: currentApPage.wirelessNetworkDevice.currentAccessPoint.macAddress
                 progressive: false
             }
-            NymeaListItemDelegate {
+            NymeaSwipeDelegate {
                 Layout.fillWidth: true
                 text: qsTr("Signal strength")
                 subText: currentApPage.wirelessNetworkDevice.currentAccessPoint.signalStrength + " %"
                 progressive: false
             }
-            NymeaListItemDelegate {
+            NymeaSwipeDelegate {
                 Layout.fillWidth: true
                 text: qsTr("WiFi frequency")
                 subText: currentApPage.wirelessNetworkDevice.currentAccessPoint.frequency + " GHz"

@@ -59,7 +59,7 @@ SettingsPageBase {
 //        text: qsTr("General")
 //    }
 
-//    NymeaListItemDelegate {
+//    NymeaSwipeDelegate {
 //        Layout.fillWidth: true
 //        text: qsTr("Zigbee enabled")
 //        subText: qsTr("Enable or disable Zigbee altogether")
@@ -84,7 +84,7 @@ SettingsPageBase {
 
     Repeater {
         model: zigbeeManager.networks
-        delegate: NymeaListItemDelegate {
+        delegate: NymeaSwipeDelegate {
             Layout.fillWidth: true
             property var network: zigbeeManager.networks.get(index)
             iconName: "../images/zigbee.svg"

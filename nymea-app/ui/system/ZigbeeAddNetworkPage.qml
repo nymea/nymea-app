@@ -125,7 +125,7 @@ SettingsPageBase {
             onlyUnused: true
         }
 
-        delegate: NymeaListItemDelegate {
+        delegate: NymeaSwipeDelegate {
             Layout.fillWidth: true
             iconName: "../images/zigbee.svg"
             text: model.backend + " - " + model.description + " - " + model.serialPort
@@ -155,7 +155,7 @@ SettingsPageBase {
             onlyUnused: true
         }
 
-        delegate: NymeaListItemDelegate {
+        delegate: NymeaSwipeDelegate {
             Layout.fillWidth: true
             property ZigbeeAdapter adapter: root.zigbeeManager.adapters.get(index)
             iconName: "../images/stock_usb.svg"

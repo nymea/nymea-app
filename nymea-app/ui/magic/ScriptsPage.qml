@@ -64,7 +64,7 @@ Page {
     ListView {
         anchors.fill: parent
         model: engine.scriptManager.scripts
-        delegate: NymeaListItemDelegate {
+        delegate: NymeaSwipeDelegate {
             width: parent.width
             text: model.name
             iconName: "../images/script.svg"

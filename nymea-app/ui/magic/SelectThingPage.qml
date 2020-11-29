@@ -88,7 +88,7 @@ Page {
             Layout.fillWidth: true
         }
 
-        NymeaListItemDelegate {
+        NymeaSwipeDelegate {
             Layout.fillWidth: true
             text: qsTr("Any %1").arg(app.interfaceToDisplayName(root.shownInterfaces[0]))
             visible: root.allowSelectAny
@@ -116,7 +116,7 @@ Page {
                 print("new checked state;", newCache[deviceId])
             }
 
-            delegate: NymeaListItemDelegate {
+            delegate: NymeaSwipeDelegate {
                 width: parent.width
                 text: root.selectInterface ? model.displayName : model.name
                 iconName: root.selectInterface ? app.interfaceToIcon(model.name) : app.interfacesToIcon(model.interfaces)

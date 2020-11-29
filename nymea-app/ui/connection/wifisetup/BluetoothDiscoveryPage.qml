@@ -117,7 +117,7 @@ Page {
             model: bluetoothDiscovery.deviceInfos
             clip: true
 
-            delegate: NymeaListItemDelegate {
+            delegate: NymeaSwipeDelegate {
                 width: parent.width
                 iconName: Qt.resolvedUrl("../../images/connections/bluetooth.svg")
                 text: model.name

@@ -153,7 +153,7 @@ ItemDelegate {
                             method: "editInterfaceStateDescriptor"
                         }
                     }
-                    delegate: NymeaListItemDelegate {
+                    delegate: NymeaSwipeDelegate {
                         Layout.fillWidth: true
                         iconName: model.iconName
                         text: model.text

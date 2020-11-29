@@ -5317,7 +5317,7 @@ Möchtest Du fortfahren?</translation>
     </message>
 </context>
 <context>
-    <name>NymeaListItemDelegate</name>
+    <name>NymeaSwipeDelegate</name>
     <message>
         <source>Delete</source>
         <translation>Löschen</translation>

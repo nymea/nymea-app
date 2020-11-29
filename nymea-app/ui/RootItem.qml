@@ -40,14 +40,33 @@ import "connection"
 Item {
     id: root
 
-    readonly property Engine currentEngine: swipeView.currentItem.engine
+    readonly property Engine currentEngine: swipeView.currentItem ? swipeView.currentItem.engine : null
 
     function handleAndroidBackButton() {
         return swipeView.currentItem.handleAndroidBackButton()
     }
 
-    function openThigSettings() {
+    function openThingSettings() {
         swipeView.currentItem.pageStack.push("thingconfiguration/EditThingsPage.qml")
+    }
+    function openMagicSettings() {
+        swipeView.currentItem.pageStack.push("MagicPage.qml")
+    }
+    function openAppSettings() {
+        swipeView.currentItem.pageStack.push("appsettings/AppSettingsPage.qml")
+    }
+    function openSystemSettings() {
+        swipeView.currentItem.pageStack.push("SettingsPage.qml")
+    }
+    function startManualConnection() {
+        swipeView.currentItem.pageStack.push("connection/ManualConnectPage.qml")
+    }
+    function startWirelessSetup() {
+        swipeView.currentItem.pageStack.push("connection/wifisetup/BluetoothDiscoveryPage.qml");
+    }
+    function startDemoMode() {
+        var host = discovery.nymeaHosts.createWanHost("Demo server", "nymea://nymea.nymea.io:2222")
+        root.currentEngine.jsonRpcClient.connectToHost(host)
     }
 
     ListModel {

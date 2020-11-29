@@ -45,35 +45,35 @@ SettingsPageBase {
         title: qsTr("%1:core").arg(app.systemName)
         githubLink: "https://github.com/nymea/nymea"
 
-        NymeaListItemDelegate {
+        NymeaSwipeDelegate {
             Layout.fillWidth: true
             text: qsTr("Connection:")
             subText: engine.jsonRpcClient.currentConnection.url
             progressive: false
             prominentSubText: false
         }
-        NymeaListItemDelegate {
+        NymeaSwipeDelegate {
             Layout.fillWidth: true
             text: qsTr("Server UUID:")
             subText: engine.jsonRpcClient.serverUuid
             progressive: false
             prominentSubText: false
         }
-        NymeaListItemDelegate {
+        NymeaSwipeDelegate {
             Layout.fillWidth: true
             text: qsTr("Server version:")
             subText: engine.jsonRpcClient.serverVersion
             progressive: false
             prominentSubText: false
         }
-        NymeaListItemDelegate {
+        NymeaSwipeDelegate {
             Layout.fillWidth: true
             text: qsTr("JSON-RPC version:")
             subText: engine.jsonRpcClient.jsonRpcVersion
             progressive: false
             prominentSubText: false
         }
-        NymeaListItemDelegate {
+        NymeaSwipeDelegate {
             Layout.fillWidth: true
             text: qsTr("Qt version:")
             visible: engine.jsonRpcClient.ensureServerVersion("4.1")

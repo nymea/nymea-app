@@ -158,7 +158,7 @@ Page {
             groupByInterface: true
         }
 
-        delegate: NymeaListItemDelegate {
+        delegate: NymeaSwipeDelegate {
             id: deviceClassDelegate
             width: parent.width
             text: model.displayName

@@ -53,14 +53,14 @@ SettingsPageBase {
 
         githubLink: "https://github.com/nymea/nymea-app"
 
-        NymeaListItemDelegate {
+        NymeaSwipeDelegate {
             Layout.fillWidth: true
             text: qsTr("App version:")
             subText: appVersion
             progressive: false
             prominentSubText: false
         }
-        NymeaListItemDelegate {
+        NymeaSwipeDelegate {
             Layout.fillWidth: true
             text: qsTr("Qt version:")
             subText: qtVersion + (qtBuildVersion !== qtVersion ? " (" + qsTr("Built with %1").arg(qtBuildVersion) + ")" : "")
