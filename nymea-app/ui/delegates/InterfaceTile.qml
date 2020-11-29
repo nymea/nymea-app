@@ -676,6 +676,8 @@ MainPageTile {
 
             RowLayout {
                 anchors.fill: parent
+                anchors.margins: app.margins / 2
+                spacing: app.margins / 2
 
                 ColorIcon {
                     Layout.preferredHeight: app.iconSize
