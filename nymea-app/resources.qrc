@@ -231,5 +231,6 @@
         <file>ui/MainMenu.qml</file>
         <file>ui/components/NymeaItemDelegate.qml</file>
         <file>ui/components/NymeaSwipeDelegate.qml</file>
+        <file>ui/customviews/GarageController.qml</file>
     </qresource>
 </RCC>
