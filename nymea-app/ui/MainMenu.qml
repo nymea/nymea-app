@@ -13,6 +13,7 @@ Drawer {
     signal openMagicSettings();
     signal openAppSettings();
     signal openSystemSettings();
+    signal configureMainView();
 
     signal startWirelessSetup();
     signal startManualConnection();
@@ -158,6 +159,17 @@ Drawer {
                     visible: root.currentEngine && root.currentEngine.jsonRpcClient.currentHost
                     onClicked: {
                         root.openSystemSettings();
+                        root.close();
+                    }
+                }
+                NymeaItemDelegate {
+                    Layout.fillWidth: true
+                    text: qsTr("Configure main view")
+                    iconName: "../images/configure.svg"
+                    progressive: false
+                    visible: root.currentEngine && root.currentEngine.jsonRpcClient.currentHost
+                    onClicked: {
+                        root.configureMainView();
                         root.close();
                     }
                 }

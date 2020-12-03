@@ -109,6 +109,7 @@ ApplicationWindow {
         onOpenMagicSettings: rootItem.openMagicSettings();
         onOpenAppSettings: rootItem.openAppSettings();
         onOpenSystemSettings: rootItem.openSystemSettings();
+        onConfigureMainView: rootItem.configureMainView();
         onStartManualConnection: rootItem.startManualConnection();
         onStartWirelessSetup: rootItem.startWirelessSetup();
         onStartDemoMode: rootItem.startDemoMode();

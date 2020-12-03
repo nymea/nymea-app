@@ -91,7 +91,7 @@ Page {
             if (root.showDetailsButton) {
                 thingMenu.addItem(menuEntryComponent.createObject(thingMenu, {text: qsTr("Details"), iconSource: "../images/info.svg", functionName: "openGenericDevicePage"}))
             }
-            thingMenu.addItem(menuEntryComponent.createObject(thingMenu, {text: qsTr("Settings"), iconSource: "../images/configure.svg", functionName: "openThingSettingsPage"}))
+//            thingMenu.addItem(menuEntryComponent.createObject(thingMenu, {text: qsTr("Settings"), iconSource: "../images/configure.svg", functionName: "openThingSettingsPage"}))
             if (root.showLogsButton) {
                 thingMenu.addItem(menuEntryComponent.createObject(thingMenu, {text: qsTr("Logs"), iconSource: "../images/logs.svg", functionName: "openDeviceLogPage"}))
             }
