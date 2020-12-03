@@ -29,12 +29,13 @@
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import QtQuick 2.5
-import QtQuick.Controls 2.1
-import QtQuick.Controls.Material 2.1
+import QtQuick.Controls 2.2
+import QtQuick.Controls.Material 2.2
 import QtQuick.Layouts 1.1
 import QtGraphicalEffects 1.0
 import Nymea 1.0
 import "../components"
+import "../utils"
 
 DeviceListPageBase {
     id: root
@@ -95,50 +96,37 @@ DeviceListPageBase {
                     bottomPadding: 0
                     leftPadding: 0
                     rightPadding: 0
-                    enabled: connectedState == null || connectedState.value === true
 
                     property State connectedState: thing.stateByName("connected")
                     property State powerState: thing.stateByName("power")
                     property State brightnessState: thing.stateByName("brightness")
                     property State colorState: thing.stateByName("color")
 
-                    onClicked: root.enterPage(index)
+                    property bool tileColored: enabled && colorState && powerState.value === true
+                    property bool colorInverted: tileColored && NymeaUtils.isDark(app.foregroundColor) === NymeaUtils.isDark(colorState.value)
+                    property bool isConnected: connectedState && connectedState.value === true
 
-                    property int pendingCommand: -1
-                    property var pendingValue: null
 
-                    function adjustBrightness(value) {
-                        if (pendingCommand != -1) {
-                            // busy, cache value
-                            pendingValue = value;
-                            return;
+                    onClicked: {
+                        if (isConnected) {
+                            root.enterPage(index)
+                        } else {
+                            itemDelegate.wobble()
                         }
-                        pendingCommand = engine.thingManager.executeAction(itemDelegate.thing.id,
-                                                          itemDelegate.brightnessState.stateTypeId,
-                                                          [{
-                                                               paramTypeId: itemDelegate.brightnessState.stateTypeId,
-                                                               value: value
-                                                           }])
-                        pendingValue = null;
                     }
 
-                    Connections {
-                        target: engine.thingManager
-                        onExecuteActionReply: {
-                            if (itemDelegate.pendingCommand == commandId) {
-                                itemDelegate.pendingCommand = -1;
-                                if (itemDelegate.pendingValue != null) {
-                                    itemDelegate.adjustBrightness(pendingValue)
-                                }
-                            }
-                        }
+                    ActionQueue {
+                        id: actionQueue
+                        thing: itemDelegate.thing
+                        stateType: thing.thingClass.stateTypes.findByName("brightness")
                     }
 
                     contentItem: Rectangle {
-                        color: itemDelegate.powerState.value === true && itemDelegate.colorState ? itemDelegate.colorState.value : "#00000000"
+                        color: enabled && itemDelegate.powerState.value === true && itemDelegate.colorState ? itemDelegate.colorState.value : "#00000000"
                         implicitHeight: contentColumn.implicitHeight
                         Behavior on implicitHeight { NumberAnimation { duration: 100 } }
                         radius: 6
+                        enabled: itemDelegate.connectedState == null || connectedState.value === true
 
                         ColumnLayout {
                             id: contentColumn
@@ -150,10 +138,17 @@ DeviceListPageBase {
                                 spacing: app.margins
 
                                 ColorIcon {
+                                    id: lightIcon
                                     Layout.preferredHeight: app.iconSize
                                     Layout.preferredWidth: app.iconSize
                                     name: itemDelegate.powerState.value === true ? "../images/light-on.svg" : "../images/light-off.svg"
                                     color: itemDelegate.powerState.value === true ? app.accentColor : keyColor
+                                    Binding {
+                                        target: lightIcon
+                                        property: "color"
+                                        value: itemDelegate.colorInverted ? app.backgroundColor : app.foregroundColor
+                                        when: itemDelegate.tileColored
+                                    }
                                 }
 
                                 Label {
@@ -165,9 +160,8 @@ DeviceListPageBase {
                                     Binding {
                                         target: nameLabel
                                         property: "color"
-                                        value: itemDelegate.colorState && NymeaUtils.isDark(app.foregroundColor) === NymeaUtils.isDark(itemDelegate.colorState.value) ?
-                                                    app.backgroundColor : app.foregroundColor
-                                        when: nameLabel.enabled && itemDelegate.colorState !== null && itemDelegate.powerState.value === true
+                                        value: itemDelegate.colorInverted ? app.backgroundColor : app.foregroundColor
+                                        when: itemDelegate.tileColored
                                     }
                                 }
 
@@ -176,6 +170,7 @@ DeviceListPageBase {
                                 }
 
                                 Switch {
+                                    id: lightSwitch
                                     checked: itemDelegate.powerState.value === true
                                     onClicked: {
                                         var params = [];
@@ -185,6 +180,76 @@ DeviceListPageBase {
                                         params.push(param1)
                                         print("executing for thing:", itemDelegate.thing.id)
                                         engine.deviceManager.executeAction(itemDelegate.thing.id, itemDelegate.powerState.stateTypeId, params)
+                                    }
+
+                                    indicator: Item {
+                                        id: indicator
+                                        implicitWidth: 38
+                                        implicitHeight: 32
+                                        x: lightSwitch.leftPadding + (lightSwitch.availableWidth - width) / 2
+                                        y: lightSwitch.topPadding + (lightSwitch.availableHeight - height) / 2
+
+                                        property Item control
+                                        property alias handle: handle
+
+                                        Material.elevation: 1
+
+                                        Rectangle {
+                                            id: indicatorBackground
+                                            width: parent.width
+                                            height: 14
+                                            radius: height / 2
+                                            y: parent.height / 2 - height / 2
+                                            color: lightSwitch.enabled ?
+                                                       (lightSwitch.checked ? lightSwitch.Material.switchCheckedTrackColor : lightSwitch.Material.switchUncheckedTrackColor)
+                                                     : lightSwitch.Material.switchDisabledTrackColor
+
+                                            Binding {
+                                                target: indicatorBackground
+                                                property: "color"
+                                                value: "#808080"
+                                                when: itemDelegate.tileColored
+                                            }
+                                        }
+
+                                        Rectangle {
+                                            id: handle
+                                            x: Math.max(0, Math.min(parent.width - width, lightSwitch.visualPosition * parent.width - (width / 2)))
+                                            y: (parent.height - height) / 2
+                                            width: 20
+                                            height: 20
+                                            radius: width / 2
+                                            color: lightSwitch.enabled ? (lightSwitch.checked ? lightSwitch.Material.switchCheckedHandleColor : lightSwitch.Material.switchUncheckedHandleColor)
+                                                                   : lightSwitch.Material.switchDisabledHandleColor
+
+
+                                            Binding {
+                                                target: handle
+                                                property: "color"
+                                                value: "#f0f0f0"
+                                                when: itemDelegate.tileColored
+                                            }
+
+                                            Behavior on x {
+                                                enabled: !lightSwitch.pressed
+                                                SmoothedAnimation {
+                                                    duration: 300
+                                                }
+                                            }
+//                                            layer.enabled: indicator.Material.elevation > 0
+//                                            layer.effect: ElevationEffect {
+//                                                elevation: indicator.Material.elevation
+//                                            }
+                                        }
+                                        DropShadow {
+                                            anchors.fill: handle
+                                            horizontalOffset: 1
+                                            verticalOffset: 1
+                                            radius: 4.0
+                                            samples: 17
+                                            color: "#80000000"
+                                            source: handle
+                                        }
                                     }
                                 }
                             }
@@ -197,20 +262,44 @@ DeviceListPageBase {
                                 color: Qt.tint(app.backgroundColor, Qt.rgba(app.foregroundColor.r, app.foregroundColor.g, app.foregroundColor.b, .1))
 
                                 Rectangle {
+                                    height: knob.x + knob.width / 2
+                                    width: parent.height
+                                    anchors.centerIn: parent
+                                    anchors.horizontalCenterOffset: -(parent.width - height) / 2
+                                    rotation: -90
+                                    gradient: Gradient {
+                                        GradientStop { position: 0; color: "transparent" }
+                                        GradientStop { position: 1; color: "#55ffffff" }
+                                    }
+                                }
+
+                                Rectangle {
                                     id: knob
-                                    height: 12
-                                    width: 12
+                                    height: 14
+                                    width: 14
                                     radius: 8
-                                    color: app.accentColor
+                                    color: "#f0f0f0"
                                     anchors.verticalCenter: parent.verticalCenter
-                                    x: itemDelegate.brightnessState ? itemDelegate.brightnessState.value * (parent.width - width) / 100 : 0
+                                    x: itemDelegate.brightnessState ?
+                                           (actionQueue.queuedValue || actionQueue.pendingValue || itemDelegate.brightnessState.value) * (parent.width - width) / 100
+                                         : 0
+                                }
+                                DropShadow {
+                                    anchors.fill: knob
+                                    horizontalOffset: 1
+                                    verticalOffset: 1
+                                    radius: 4.0
+                                    samples: 17
+                                    color: "#80000000"
+                                    source: knob
                                 }
 
                                 MouseArea {
+                                    id: brightnessMouseArea
                                     anchors.fill: parent
                                     preventStealing: true
                                     onMouseXChanged: {
-                                        itemDelegate.adjustBrightness(Math.max(1, Math.min(100, mouseX / width * 100)))
+                                        actionQueue.sendValue(Math.max(1, Math.min(100, mouseX / width * 100)))
                                     }
                                 }
                             }

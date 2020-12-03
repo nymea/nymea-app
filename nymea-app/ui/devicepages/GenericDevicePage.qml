@@ -239,7 +239,7 @@ DevicePageBase {
             }
 
             property int pendingActionId: -1
-            property real valueCache: 0
+            property var valueCache: 0
             property bool valueCacheDirty: false
 
             function enqueueSetValue(value) {

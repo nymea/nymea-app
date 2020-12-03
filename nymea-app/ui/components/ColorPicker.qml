@@ -1,249 +1,126 @@
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-*
-* Copyright 2013 - 2020, nymea GmbH
-* Contact: contact@nymea.io
-*
-* This file is part of nymea.
-* This project including source code and documentation is protected by
-* copyright law, and remains the property of nymea GmbH. All rights, including
-* reproduction, publication, editing and translation, are reserved. The use of
-* this project is subject to the terms of a license agreement to be concluded
-* with nymea GmbH in accordance with the terms of use of nymea GmbH, available
-* under https://nymea.io/license
-*
-* GNU General Public License Usage
-* Alternatively, this project may be redistributed and/or modified under the
-* terms of the GNU General Public License as published by the Free Software
-* Foundation, GNU version 3. This project is distributed in the hope that it
-* will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
-* of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
-* Public License for more details.
-*
-* You should have received a copy of the GNU General Public License along with
-* this project. If not, see <https://www.gnu.org/licenses/>.
-*
-* For any further details and any questions please contact us under
-* contact@nymea.io or see our FAQ/Licensing Information on
-* https://nymea.io/license/faq
-*
-* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-import QtQuick 2.5
+import QtQuick 2.9
+import QtGraphicalEffects 1.0
+import Nymea 1.0
+import "../utils"
 
 Item {
     id: root
 
-    property color color: actionState
-    property bool pressed: mouseArea.pressed
-    property bool hovered: mouseArea.containsMouse
+    property Thing thing: null
 
-    property bool active: true
-
-    property Component touchDelegate: Rectangle {
-        height: 15
-        width: height
-        radius: height / 2
-        color: app.accentColor
-
-
-        Rectangle {
-            color: root.hovered || root.pressed ? "#11000000" : "transparent"
-            anchors.centerIn: parent
-            height: 30
-            width: height
-            radius: width / 2
-            Behavior on color { ColorAnimation { duration: 200 } }
-        }
+    ActionQueue {
+        id: actionQueue
+        thing: root.thing
+        stateType: thing.thingClass.stateTypes.findByName("color")
     }
 
-    function calculateXy(color) {
-        if (!color.hasOwnProperty("r")) {
-            // Qt 4.8's color doesn't have r,g,b properties
-            var colorString = color.toString();
-            color = new Object;
-            color.r = 1.0 * parseInt("0x" + colorString.substring(1,3), 16) / 256;
-            color.g = 1.0 * parseInt("0x" + colorString.substring(3,5), 16) / 256;
-            color.b = 1.0 * parseInt("0x" + colorString.substring(5,7), 16) / 256;
-        }
-
-        var point = new Object;
-        var brightness = Math.min(color.r, color.g, color.b);
-        point.y = Math.round(root.height * brightness);
-        var newColor = new Object;
-        newColor.r = color.r - brightness;
-        newColor.g = color.g - brightness;
-        newColor.b = color.b - brightness;
-
-        var sectionWidth = root.width / 6;
-
-        var sections = [true, true, true];
-        if (newColor.r > 0) {
-            sections[1] = false;
-        }
-        if (newColor.g > 0) {
-            sections[2] = false;
-        }
-        if (newColor.b > 0) {
-            sections[0] = false;
-        }
-        if (sections[0]) {
-            if (newColor.r > newColor.g) {
-                point.x = sectionWidth * newColor.g;
-            } else if (newColor.r == newColor.g) {
-                point.x = sectionWidth
-            } else {
-                point.x = sectionWidth * 2 - newColor.r * sectionWidth;
-            }
-        } else if (sections[1]) {
-            if (newColor.g > newColor.b) {
-                point.x = sectionWidth * 2 + sectionWidth * newColor.b;
-            } else if (newColor.g == newColor.b) {
-                point.x = sectionWidth * 3;
-            } else {
-                point.x = sectionWidth * 4 - newColor.g * sectionWidth
-            }
-        } else {
-            if (newColor.b > newColor.r) {
-                point.x = sectionWidth * 4 + sectionWidth * newColor.r
-            } else if (newColor.b == newColor.r) {
-                point.x = sectionWidth * 5;
-            } else {
-                point.x = sectionWidth * 6 - newColor.b * sectionWidth;
-            }
-        }
-        return point;
-    }
-
-    function calculateColor(x, y) {
-        x = Math.min(Math.max(0, x), width - 1);
-        y = Math.min(Math.max(0, y), height - 1);
-        var color = root.color;
-        var sectionWidth = root.width / 6;
-        var section = Math.floor(x / sectionWidth)
-        var sectionX = Math.floor(x % (sectionWidth - 0.00001)) // the - 0.00001 is to prevent a mismatch when rounding
-        // sectionVal : 1.0 = sectionX : sectionWidth
-        var sectionVal = (1.0 * sectionX / sectionWidth)
-
-        // brightnessVal : 1.0 = mouseY : height
-        var brightness = 1.0 * y / height
-
-        switch (section) {
-        case 0:
-            // GradientStop { position: 0.0; color: "#ff0000" }
-            color = Qt.rgba(1, sectionVal + brightness, brightness, 1)
-            break;
-        case 1:
-            // GradientStop { position: 0.17; color: "#ffff00" }
-            color = Qt.rgba(1 - sectionVal + brightness, 1, brightness, 1)
-            break;
-        case 2:
-            // GradientStop { position: 0.33; color: "#00ff00" }
-            color = Qt.rgba(brightness, 1, sectionVal + brightness, 1)
-            break;
-        case 3:
-            // GradientStop { position: 0.5; color: "#00ffff" }
-            color = Qt.rgba(brightness, 1 - sectionVal + brightness, 1, 1)
-            break;
-        case 4:
-            // GradientStop { position: 0.66; color: "#0000ff" }
-            color = Qt.rgba(sectionVal + brightness, brightness, 1, 1)
-            break;
-        case 5:
-            // GradientStop { position: 0.83; color: "#ff00ff" }
-            color = Qt.rgba(1, brightness, 1 - sectionVal + brightness, 1)
-            break;
-        }
-        //        print("got color", color.r, color.g, color.b)
-        return color
-    }
-
-    Rectangle {
-        height: parent.width
-        width: parent.height
+    ConicalGradient {
+        id: gradient
         anchors.centerIn: parent
-        rotation: -90
-
-        gradient: Gradient {
-            GradientStop { position: 0.0; color: "#ff0000" }
-            GradientStop { position: 0.17; color: "#ffff00" }
-            GradientStop { position: 0.33; color: "#00ff00" }
-            GradientStop { position: 0.5; color: "#00ffff" }
-            GradientStop { position: 0.66; color: "#0000ff" }
-            GradientStop { position: 0.83; color: "#ff00ff" }
-            GradientStop { position: 1.0; color: "#ff0000" }
+        width: Math.min(parent.width, parent.height)
+        height: width
+        visible: false
+        gradient: Gradient{
+            id: g
+            GradientStop { position: 0.000; color: Qt.rgba(1, 0, 0, 1) }
+            GradientStop { position: 0.167; color: Qt.rgba(1, 1, 0, 1) }
+            GradientStop { position: 0.333; color: Qt.rgba(0, 1, 0, 1) }
+            GradientStop { position: 0.500; color: Qt.rgba(0, 1, 1, 1) }
+            GradientStop { position: 0.667; color: Qt.rgba(0, 0, 1, 1) }
+            GradientStop { position: 0.833; color: Qt.rgba(1, 0, 1, 1) }
+            GradientStop { position: 1.000; color: Qt.rgba(1, 0, 0, 1) }
         }
     }
 
     Rectangle {
-        anchors.fill: parent
-        border.color: app.foregroundColor
-        border.width: 1
-        gradient: Gradient {
-            GradientStop { position: 0.0; color: "transparent" }
-            GradientStop { position: 1.0; color: "white" }
+        id: mask
+        anchors.fill: gradient
+        radius: width / 2
+    }
+    OpacityMask {
+        anchors.fill: gradient
+        source: gradient
+        maskSource: mask
+    }
+
+    RadialGradient {
+        anchors.fill: gradient
+        gradient: Gradient{
+            GradientStop { position: 0.05; color: Qt.rgba(1, 1, 1, 1) }
+            GradientStop { position: 0.10; color: Qt.rgba(1, 1, 1, .9) }
+            GradientStop { position: 0.20; color: Qt.rgba(1, 1, 1, .7) }
+            GradientStop { position: 0.30; color: Qt.rgba(1, 1, 1, .5) }
+            GradientStop { position: 0.40; color: Qt.rgba(1, 1, 1, .3) }
+            GradientStop { position: 0.50; color: "transparent" }
         }
     }
 
     MouseArea {
         id: mouseArea
         anchors.fill: parent
-        preventStealing: true
-        hoverEnabled: true
-
-        drag.minimumX: 0
-        drag.maximumX: width - dndItem.width
-        drag.minimumY: 0
-        drag.maximumY: height - dndItem.height
-
-        property variant draggedItem
-        property variant draggedLight
-
-        onPressed: {
-            mouseArea.drag.target = dndItem;
-            dndItem.x = Math.min(width - dndItem.width, Math.max(0, mouseX - dndItem.width / 2))
-            dndItem.y = Math.min(height - dndItem.height, Math.max(0, mouseY - dndItem.height / 2))
-            mouseArea.draggedItem = touchDelegateLoader;
-        }
         onPositionChanged: {
-            if (mouseArea.draggedItem) {
-                root.color = root.calculateColor(mouseX, mouseY);
-                if (mouseArea.draggedLight) {
-                    mouseArea.draggedLight.color = root.calculateColor(mouseX, mouseY);
+
+            var angle = calculateAngle(mouseX, mouseY)
+            var position = angle / 360;
+
+            var stopBefore = null;
+            var stopAfter = null;
+            for (var i = 0; i < g.stops.length; i++) {
+                var stop = g.stops[i];
+                if (stop.position < position) {
+                    stopBefore = stop;
+                    continue
                 }
+                stopAfter = stop;
+                break;
             }
+
+            var colorBefore = stopBefore.color
+            var colorAfter = stopAfter.color
+            // p : 1 = pis : (a - b)
+            var positionInStop = (position - stopBefore.position) / (stopAfter.position - stopBefore.position);
+
+            var dr = stopAfter.color.r - stopBefore.color.r;
+            var dg = stopAfter.color.g - stopBefore.color.g;
+            var db = stopAfter.color.b - stopBefore.color.b;
+
+            var distanceFromCenter = calculateDistance(mouseX, mouseY)
+
+            // Reduce width a bit to keep outside circle for full color intensity
+            var positionFromCenter = Math.min(distanceFromCenter / (width * 0.9 / 2), 1)
+            // Invert it, The further we're away, the less impact this should have
+            positionFromCenter = 1 - positionFromCenter;
+            print("pos", positionFromCenter)
+
+            var color = Qt.rgba((stopBefore.color.r + dr * positionInStop) + positionFromCenter,
+                                (stopBefore.color.g + dg * positionInStop) + positionFromCenter,
+                                (stopBefore.color.b + db * positionInStop) + positionFromCenter,
+                                1)
+
+            actionQueue.sendValue(color);
         }
 
-        onReleased: {
-            if (mouseArea.draggedItem) {
-                root.color = root.calculateColor(mouseX, mouseY);
-                if (mouseArea.draggedLight) {
-                    mouseArea.draggedLight.color = root.calculateColor(mouseX, mouseY);
-                }
-            }
-            mouseArea.draggedItem = undefined;
-            mouseArea.draggedLight = undefined;
-            mouseArea.drag.target = undefined;
+        function calculateAngle(mouseX, mouseY) {
+            // transform coords to center of dial
+            mouseX -= mouseArea.width / 2
+            mouseY -= mouseArea.height / 2
 
+            var rad = Math.atan(mouseY / mouseX);
+            var angle = rad * 180 / Math.PI
+
+            angle += 90;
+
+            if (mouseX < 0 && mouseY >= 0) angle = 180 + angle;
+            if (mouseX < 0 && mouseY < 0) angle = 180 + angle;
+
+            return angle;
         }
 
-    }
+        function calculateDistance(mouseX, mouseY) {
+            mouseX -= mouseArea.width / 2
+            mouseY -= mouseArea.height / 2
 
-    Loader {
-        id: touchDelegateLoader
-        property variant point: calculateXy(root.color);
-        x: item ? Math.max(0, Math.min(point.x - width * .5, parent.width - item.width)) : 0
-        y: item ? Math.max(0, Math.min(point.y - height * .5, parent.height - item.height)) : 0
-        sourceComponent: root.touchDelegate
-        visible: mouseArea.draggedItem !== touchDelegateLoader && root.active
-        //        Behavior on x {
-        //            enabled: !mouseArea.pressed
-        //            NumberAnimation {}
-        //        }
-    }
-
-    Loader {
-        id: dndItem
-        sourceComponent: root.touchDelegate
-        visible: mouseArea.draggedItem !== undefined && root.active
+            return Math.abs(Math.sqrt(Math.pow(mouseX, 2) + Math.pow(mouseY, 2)))
+        }
     }
 }
