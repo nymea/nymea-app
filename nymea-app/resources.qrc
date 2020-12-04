@@ -21,7 +21,7 @@
         <file>ui/connection/wifisetup/BoxInfoPage.qml</file>
         <file>ui/components/NymeaHeader.qml</file>
         <file>ui/components/HeaderButton.qml</file>
-        <file>ui/components/ColorPicker.qml</file>
+        <file>ui/components/ColorPickerPre510.qml</file>
         <file>ui/components/ColorIcon.qml</file>
         <file>ui/components/ThinDivider.qml</file>
         <file>ui/components/ThrottledSlider.qml</file>
@@ -232,5 +232,8 @@
         <file>ui/components/NymeaItemDelegate.qml</file>
         <file>ui/components/NymeaSwipeDelegate.qml</file>
         <file>ui/customviews/GarageController.qml</file>
+        <file>ui/components/ColorPicker.qml</file>
+        <file>ui/utils/ActionQueue.qml</file>
+        <file>ui/components/ColorTemperaturePicker.qml</file>
     </qresource>
 </RCC>

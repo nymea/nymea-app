@@ -102,5 +102,4 @@ Item {
         sourceComponent: root.touchDelegate
         visible: mouseArea.pressed && root.active
     }
-
 }

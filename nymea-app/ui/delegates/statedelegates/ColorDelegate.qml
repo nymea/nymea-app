@@ -81,7 +81,7 @@ Item {
             padding: app.margins
             property var colorValue
             property int preferredY: 0
-            contentItem: ColorPicker {
+            contentItem: ColorPickerPre510 {
                 color: colorPickerDialog.colorValue
                 property var lastSentTime: new Date()
                 onColorChanged: {

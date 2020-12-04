@@ -28,89 +28,81 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.3
+import QtQuick 2.9
+import QtGraphicalEffects 1.0
+import Nymea 1.0
+import "../utils"
 
 Item {
     id: root
+    implicitWidth: orientation == Qt.Horizontal ? 300 : app.hugeIconSize
+    implicitHeight: orientation == Qt.Horizontal ? app.hugeIconSize : 300
 
-    property int brightness: min
-    property int min: 0
-    property int max: 100
-    property Component touchDelegate: Rectangle { height: root.height; width: 5; color: app.foregroundColor }
+    property Thing thing: null
 
-    property bool active: true
-    property bool pressed: mouseArea.pressed
+    readonly property StateType colorTemperatureStateType: root.thing.thingClass.stateTypes.findByName("brightness")
 
-    signal moved(real brightness);
+    property int value: thing.stateByName("brightness").value
+
+    property int orientation: Qt.Horizontal
+
+    ActionQueue {
+        id: actionQueue
+        thing: root.thing
+        stateType: root.colorTemperatureStateType
+    }
 
     Rectangle {
-        height: parent.width
-        width: parent.height
-        anchors.centerIn: parent
-        rotation: -90
-        border.width: 1
-        border.color: app.foregroundColor
+        id: clipRect
+        anchors.fill: parent
+        radius: app.radius
+        color: Qt.tint(app.backgroundColor, Qt.rgba(app.foregroundColor.r, app.foregroundColor.g, app.foregroundColor.b, 0.1))
+    }
 
+    LinearGradient {
+        anchors.fill: parent
+        anchors.rightMargin: root.orientation == Qt.Horizontal ?
+                                 parent.width - (dragHandle.x + dragHandle.width / 2)
+                               : 0
+        anchors.topMargin: root.orientation == Qt.Vertical ?
+                                 dragHandle.y + dragHandle.height / 2
+                               : 0
+        start: root.orientation == Qt.Horizontal ? Qt.point(0,0) : Qt.point(0, height)
+        end: root.orientation == Qt.Horizontal ? Qt.point(width, 0) : Qt.point(0, 0)
+        source: clipRect
         gradient: Gradient {
-            GradientStop { position: 0.0; color: Qt.rgba(0, 0, 0, .5) }
-            GradientStop { position: 1.0; color: Qt.rgba(1, 1, 1, .5) }
+            GradientStop { position: 0.0; color: "transparent" }
+            GradientStop { position: 1.0; color: "#55ffffff" }
         }
     }
 
-    Loader {
-        id: touchDelegateLoader
-        // 0 : width = min : max
-        // x = (width * (brightness - min) / (max-min))
-        property int position: (root.width * (root.brightness - root.min) / (root.max - root.min));
-        x: item ? Math.max(0, Math.min(position - width * .5, parent.width - item.width)) : 0
-        sourceComponent: root.touchDelegate
-        visible: !mouseArea.pressed && root.active
-        Behavior on x {
-            enabled: !mouseArea.pressed
-            NumberAnimation {}
-        }
+    Rectangle {
+        id: dragHandle
+        x: root.orientation === Qt.Horizontal ?
+               (actionQueue.pendingValue || root.value) * (root.width - dragHandle.width) / 100
+             : 0
+        y: root.orientation === Qt.Vertical ?
+               root.height - dragHandle.height - ((actionQueue.pendingValue || root.value) * (root.height - dragHandle.height) / 100)
+             : 0
+        height: root.orientation === Qt.Horizontal ? parent.height : 8
+        width: root.orientation === Qt.Horizontal ? 8 : parent.width
+        radius: 4
+        color: app.foregroundColor
     }
 
     MouseArea {
-        id: mouseArea
         anchors.fill: parent
-        preventStealing: true
-
-        drag.minimumX: 0
-        drag.maximumX: width - dndItem.width
-        drag.minimumY: 0
-        drag.maximumY: height - dndItem.height
-
-        property var lastSentTime: new Date()
-
-        onPressed: {
-            dndItem.x = Math.min(width - dndItem.width, Math.max(0, mouseX - dndItem.width / 2))
-            dndItem.y = 0;
-            mouseArea.drag.target = dndItem;
-        }
-
         onPositionChanged: {
-            root.brightness = Math.min(root.max, Math.max(root.min, (mouseX * (root.max - root.min) / width) + root.min))
-
-            var currentTime = new Date();
-            if (pressed && currentTime - lastSentTime > 200) {
-                root.moved(root.brightness)
-                lastSentTime = currentTime
+            var minCt = root.colorTemperatureStateType.minValue;
+            var maxCt = root.colorTemperatureStateType.maxValue
+            var ct;
+            if (root.orientation == Qt.Horizontal) {
+                ct = Math.min(maxCt, Math.max(minCt, (mouseX * (maxCt - minCt) / (width - dragHandle.width)) + minCt))
+            } else {
+                ct = Math.min(maxCt, Math.max(minCt, ((height - mouseY) * (maxCt - minCt) / (height - dragHandle.height)) + minCt))
             }
+            actionQueue.sendValue(ct);
         }
-
-        onReleased: {
-            root.brightness = Math.min(root.max, Math.max(root.min, (mouseX * (root.max - root.min) / width) + root.min))
-            root.moved(root.brightness)
-            mouseArea.drag.target = undefined;
-        }
-
     }
-
-    Loader {
-        id: dndItem
-        sourceComponent: root.touchDelegate
-        visible: mouseArea.pressed && root.active
-    }
-
 }
+

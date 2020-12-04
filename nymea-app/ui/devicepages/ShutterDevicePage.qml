@@ -196,7 +196,7 @@ DevicePageBase {
                         Rectangle {
                             id: mask
                             anchors.fill: parent
-                            radius: app.margins
+                            radius: app.radius
                             color: "blue"
                             visible: false
                         }

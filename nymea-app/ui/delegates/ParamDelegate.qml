@@ -280,7 +280,7 @@ ItemDelegate {
 
     Component {
         id: colorPickerComponent
-        ColorPicker {
+        ColorPickerPre510 {
             id: colorPicker
             implicitHeight: 200
             //            color: root.param.value
