@@ -1,3 +1,11 @@
+nymea-app (1.0.254) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Move main view configuration into menu
+  * Fixes and improvements for lights
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 04 Dec 2020 13:48:23 +0100
+
 nymea-app (1.0.253) bionic; urgency=medium
 
   [ Michael Zanetti ]
