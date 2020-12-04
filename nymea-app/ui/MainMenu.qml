@@ -143,6 +143,17 @@ Drawer {
                 }
                 NymeaItemDelegate {
                     Layout.fillWidth: true
+                    text: qsTr("Configure main view")
+                    iconName: "../images/configure.svg"
+                    progressive: false
+                    visible: root.currentEngine && root.currentEngine.jsonRpcClient.currentHost
+                    onClicked: {
+                        root.configureMainView();
+                        root.close();
+                    }
+                }
+                NymeaItemDelegate {
+                    Layout.fillWidth: true
                     text: qsTr("App settings")
                     iconName: "../images/stock_application.svg"
                     progressive: false
@@ -162,22 +173,18 @@ Drawer {
                         root.close();
                     }
                 }
-                NymeaItemDelegate {
-                    Layout.fillWidth: true
-                    text: qsTr("Configure main view")
-                    iconName: "../images/configure.svg"
-                    progressive: false
-                    visible: root.currentEngine && root.currentEngine.jsonRpcClient.currentHost
-                    onClicked: {
-                        root.configureMainView();
-                        root.close();
-                    }
-                }
 
 
                 NymeaItemDelegate {
                     Layout.fillWidth: true
                     Layout.topMargin: app.margins
+                    text: qsTr("Help")
+                    iconName: "../images/help.svg"
+                    progressive: false
+                    onClicked: Qt.openUrlExternally("https://nymea.io/documentation/users/usage/first-steps")
+                }
+                NymeaItemDelegate {
+                    Layout.fillWidth: true
                     text: qsTr("Forum")
                     iconName: "../images/discourse.svg"
                     progressive: false
@@ -192,15 +199,27 @@ Drawer {
                 }
                 NymeaItemDelegate {
                     Layout.fillWidth: true
+                    text: qsTr("Discord")
+                    iconName: "../images/discord.svg"
+                    progressive: false
+                    onClicked: Qt.openUrlExternally("https://discord.gg/tX9YCpD")
+                }
+                NymeaItemDelegate {
+                    Layout.fillWidth: true
                     text: qsTr("Twitter")
                     iconName: "../images/twitter.svg"
                     progressive: false
                     onClicked: Qt.openUrlExternally("https://twitter.com/nymea_io")
                 }
+                NymeaItemDelegate {
+                    Layout.fillWidth: true
+                    text: qsTr("Facebook")
+                    iconName: "../images/facebook.svg"
+                    progressive: false
+                    onClicked: Qt.openUrlExternally("https://m.facebook.com/groups/nymea")
+                }
             }
-            }
-
         }
-
+    }
 }
 
