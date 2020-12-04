@@ -246,5 +246,8 @@
         <file>ui/images/twitter.svg</file>
         <file>ui/images/discourse.svg</file>
         <file>ui/images/telegram.svg</file>
+        <file>ui/images/facebook.svg</file>
+        <file>ui/images/help.svg</file>
+        <file>ui/images/discord.svg</file>
     </qresource>
 </RCC>

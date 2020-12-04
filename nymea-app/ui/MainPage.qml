@@ -43,13 +43,17 @@ import "mainviews"
 Page {
     id: root
 
+    function configureViews() {
+        d.configOverlay = configComponent.createObject(contentContainer)
+    }
+
     header: ToolBar {
         id: mainHeader
         RowLayout {
             anchors.fill: parent
 
             HeaderButton {
-                imageSource: "qrc:/styles/%1/logo.svg".arg(styleController.currentStyle)
+                imageSource: "../images/navigation-menu.svg"
                 onClicked: {
                     if (d.configOverlay != null) {
                         d.configOverlay.destroy();
@@ -63,12 +67,6 @@ Page {
                 text: d.configOverlay !== null ?
                            qsTr("Configure main view")
                          : swipeView.currentItem.item.title.length > 0 ? swipeView.currentItem.item.title : filteredContentModel.data(swipeView.currentIndex, "displayName")
-            }
-
-            HeaderButton {
-                imageSource: "../images/settings.svg"
-                visible: d.configOverlay == null
-                onClicked: d.configOverlay = configComponent.createObject(contentContainer)
             }
         }
     }

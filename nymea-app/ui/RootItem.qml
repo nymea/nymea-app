@@ -72,6 +72,11 @@ Item {
     function openSystemSettings() {
         d.pushSettingsPage("SettingsPage.qml")
     }
+    function configureMainView() {
+        swipeView.currentItem.pageStack.pop(null)
+        swipeView.currentItem.pageStack.currentItem.configureViews()
+    }
+
     function startManualConnection() {
         d.pushSettingsPage("connection/ManualConnectPage.qml")
     }
