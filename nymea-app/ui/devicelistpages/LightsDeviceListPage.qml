@@ -97,18 +97,16 @@ DeviceListPageBase {
                     leftPadding: 0
                     rightPadding: 0
 
-                    property State connectedState: thing.stateByName("connected")
                     property State powerState: thing.stateByName("power")
                     property State brightnessState: thing.stateByName("brightness")
                     property State colorState: thing.stateByName("color")
+                    property State colorTemperatureState: thing.stateByName("colorTemperature")
 
-                    property bool tileColored: isConnected && colorState && powerState.value === true
+                    property bool tileColored: isEnabled && colorState && powerState.value === true
                     property bool colorInverted: tileColored && NymeaUtils.isDark(app.foregroundColor) === NymeaUtils.isDark(colorState.value)
-                    property bool isConnected: connectedState === null || connectedState.value === true
-
 
                     onClicked: {
-                        if (isConnected) {
+                        if (isEnabled && (colorState || colorTemperatureState)) {
                             root.enterPage(index)
                         } else {
                             itemDelegate.wobble()
@@ -126,7 +124,6 @@ DeviceListPageBase {
                         implicitHeight: contentColumn.implicitHeight
                         Behavior on implicitHeight { NumberAnimation { duration: 100 } }
                         radius: 6
-                        enabled: itemDelegate.isConnected
 
                         ColumnLayout {
                             id: contentColumn
@@ -156,6 +153,7 @@ DeviceListPageBase {
                                     Layout.fillWidth: true
                                     text: itemDelegate.thing.name
                                     elide: Text.ElideRight
+                                    enabled: itemDelegate.isEnabled
 
                                     Binding {
                                         target: nameLabel
@@ -172,6 +170,7 @@ DeviceListPageBase {
                                 Switch {
                                     id: lightSwitch
                                     checked: itemDelegate.powerState.value === true
+                                    enabled: itemDelegate.isEnabled
                                     onClicked: {
                                         var params = [];
                                         var param1 = {};
@@ -256,6 +255,7 @@ DeviceListPageBase {
                                 visible: itemDelegate.powerState.value === true && itemDelegate.brightnessState != null
                                 radius: 6
                                 color: Qt.tint(app.backgroundColor, Qt.rgba(app.foregroundColor.r, app.foregroundColor.g, app.foregroundColor.b, .1))
+                                enabled: itemDelegate.isEnabled
 
                                 Rectangle {
                                     height: knob.x + knob.width / 2

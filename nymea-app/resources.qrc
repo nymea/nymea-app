@@ -235,5 +235,6 @@
         <file>ui/components/ColorPicker.qml</file>
         <file>ui/utils/ActionQueue.qml</file>
         <file>ui/components/ColorTemperaturePicker.qml</file>
+        <file>ui/components/ThingContextMenu.qml</file>
     </qresource>
 </RCC>

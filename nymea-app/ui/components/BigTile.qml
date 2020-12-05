@@ -3,7 +3,7 @@ import QtQuick.Layouts 1.2
 import QtQuick.Controls 2.1
 import Nymea 1.0
 
-Item {
+    Item {
     id: root
     implicitHeight: layout.implicitHeight + app.margins
 
@@ -18,11 +18,22 @@ Item {
     property alias topPadding: content.topPadding
     property alias bottomPadding: content.bottomPadding
 
+    readonly property State connectedState: thing.stateByName("connected")
+    readonly property bool isConnected: connectedState === null || connectedState.value === true
+    readonly property bool isEnabled: thing.setupStatus == Thing.ThingSetupStatusComplete && isConnected
+
     signal clicked();
     signal pressAndHold();
 
     function wobble() {
         wobbleAnimation.start();
+    }
+
+    onPressAndHold: {
+        var contextMenuComponent = Qt.createComponent("../components/ThingContextMenu.qml");
+        var contextMenu = contextMenuComponent.createObject(root, { thing: root.thing })
+        contextMenu.x = Qt.binding(function() { return (root.width - contextMenu.width) / 2 })
+        contextMenu.open()
     }
 
     transform: Translate { id: wobbleTransform }

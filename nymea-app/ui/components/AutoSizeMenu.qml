@@ -32,6 +32,7 @@ import QtQuick 2.9
 import QtQuick.Controls 2.2
 
 Menu {
+    modal: true
     function calculateWidth() {
         var result = 0;
         var i = 0;

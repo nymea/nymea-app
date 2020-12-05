@@ -74,171 +74,21 @@ Page {
         }
     }
 
-    TagsProxyModel {
-        id: favoritesProxy
-        tags: engine.tagsManager.tags
-        filterDeviceId: root.device.id
-        filterTagId: "favorites"
-    }
-
-    AutoSizeMenu {
+    ThingContextMenu {
         id: thingMenu
         x: parent.width - width
+        thing: root.thing
+        showDetails: root.showDetailsButton
+        showLogs: root.showLogsButton
+    }
 
-        Component.onCompleted: {
-            thingMenu.addItem(menuEntryComponent.createObject(thingMenu, {text: qsTr("Magic"), iconSource: "../images/magic.svg", functionName: "openDeviceMagicPage"}))
-
-            if (root.showDetailsButton) {
-                thingMenu.addItem(menuEntryComponent.createObject(thingMenu, {text: qsTr("Details"), iconSource: "../images/info.svg", functionName: "openGenericDevicePage"}))
+    Connections {
+        target: engine.deviceManager.devices
+        onThingRemoved:{
+            if (device == root.device) {
+                print("Device destroyed")
+                pageStack.pop()
             }
-//            thingMenu.addItem(menuEntryComponent.createObject(thingMenu, {text: qsTr("Settings"), iconSource: "../images/configure.svg", functionName: "openThingSettingsPage"}))
-            if (root.showLogsButton) {
-                thingMenu.addItem(menuEntryComponent.createObject(thingMenu, {text: qsTr("Logs"), iconSource: "../images/logs.svg", functionName: "openDeviceLogPage"}))
-            }
-
-            if (engine.jsonRpcClient.ensureServerVersion("1.6")) {
-                thingMenu.addItem(menuEntryComponent.createObject(thingMenu,
-                    {
-                        text: Qt.binding(function() { return favoritesProxy.count === 0 ? qsTr("Mark as favorite") : qsTr("Remove from favorites")}),
-                        iconSource: Qt.binding(function() { return favoritesProxy.count === 0 ? "../images/starred.svg" : "../images/non-starred.svg"}),
-                        functionName: "toggleFavorite"
-                    }))
-
-                thingMenu.addItem(menuEntryComponent.createObject(thingMenu,
-                    {
-                        text: qsTr("Grouping"),
-                        iconSource: "../images/view-grid-symbolic.svg",
-                        functionName: "addToGroup"
-                    }))
-            }
-
-            print("*** creating menu")
-            print("NFC", NfcHelper.isAvailable)
-            if (NfcHelper.isAvailable) {
-                thingMenu.addItem(menuEntryComponent.createObject(thingMenu,
-                    {
-                        text: qsTr("Write NFC tag"),
-                        iconSource: "../images/nfc.svg",
-                        functionName: "writeNfcTag"
-
-                    }));
-            }
-        }
-
-        function openDeviceMagicPage() {
-            pageStack.push(Qt.resolvedUrl("../magic/DeviceRulesPage.qml"), {device: root.device})
-        }
-        function openGenericDevicePage() {
-            pageStack.push(Qt.resolvedUrl("GenericDevicePage.qml"), {device: root.device})
-        }
-        function toggleFavorite() {
-            if (favoritesProxy.count === 0) {
-                engine.tagsManager.tagDevice(root.device.id, "favorites", 100000)
-            } else {
-                engine.tagsManager.untagDevice(root.device.id, "favorites")
-            }
-        }
-        function addToGroup() {
-            var dialog = addToGroupDialog.createObject(root)
-            dialog.open();
-        }
-
-        function openThingSettingsPage() {
-            pageStack.push(Qt.resolvedUrl("../thingconfiguration/ConfigureThingPage.qml"), {device: root.device})
-        }
-
-        function openDeviceLogPage() {
-            pageStack.push(Qt.resolvedUrl("DeviceLogPage.qml"), {device: root.device });
-        }
-
-        function writeNfcTag() {
-            pageStack.push(Qt.resolvedUrl("../magic/WriteNfcTagPage.qml"), {thing: root.thing})
-        }
-
-        Component {
-            id: menuEntryComponent
-            IconMenuItem {
-                width: parent.width
-                property string functionName: ""
-                onTriggered: thingMenu[functionName]()
-            }
-        }
-
-        Connections {
-            target: engine.deviceManager.devices
-            onThingRemoved:{
-                if (device == root.device) {
-                    print("Device destroyed")
-                    pageStack.pop()
-                }
-            }
-        }
-
-        Component {
-            id: addToGroupDialog
-            MeaDialog {
-                title: qsTr("Groups for %1").arg(root.device.name)
-                headerIcon: "../images/view-grid-symbolic.svg"
-                // NOTE: If CloseOnPressOutside is active (default) it will break the QtVirtualKeyboard
-                // https://bugreports.qt.io/browse/QTBUG-56918
-                closePolicy: Popup.CloseOnEscape
-
-                RowLayout {
-                    Layout.leftMargin: app.margins
-                    Layout.rightMargin: app.margins
-                    spacing: app.margins
-                    TextField {
-                        id: newGroupdTextField
-                        Layout.fillWidth: true
-                        placeholderText: qsTr("New group")
-                    }
-                    Button {
-                        text: qsTr("OK")
-                        enabled: newGroupdTextField.displayText.length > 0 && !groupTags.containsId("group-" + newGroupdTextField.displayText)
-                        onClicked: {
-                            engine.tagsManager.tagDevice(root.device.id, "group-" + newGroupdTextField.text, 1000)
-                            newGroupdTextField.text = ""
-                        }
-                    }
-                }
-
-
-                ListView {
-                    Layout.fillWidth: true
-                    height: 200
-                    clip: true
-                    ScrollIndicator.vertical: ScrollIndicator {}
-
-                    model: TagListModel {
-                        id: groupTags
-                        tagsProxy: TagsProxyModel {
-                            tags: engine.tagsManager.tags
-                            filterTagId: "group-.*"
-                        }
-                    }
-
-                    delegate: CheckDelegate {
-                        width: parent.width
-                        text: model.tagId.substring(6)
-                        checked: innerProxy.count > 0
-                        onClicked: {
-                            if (innerProxy.count == 0) {
-                                engine.tagsManager.tagDevice(root.device.id, model.tagId, 1000)
-                            } else {
-                                engine.tagsManager.untagDevice(root.device.id, model.tagId, model.value)
-                            }
-                        }
-
-                        DevicesProxy {
-                            id: innerProxy
-                            engine: _engine
-                            filterTagId: model.tagId
-                            filterDeviceId: root.device.id
-                        }
-                    }
-                }
-            }
-
         }
     }
 

@@ -47,9 +47,9 @@ DevicePageBase {
     readonly property StateType movingStateType: isExtended ? deviceClass.stateTypes.findByName("moving") : null
     readonly property StateType angleStateType: isVenetian ? deviceClass.stateTypes.findByName("angle") : null
 
-    readonly property State movingState: isExtended ? device.states.getState(movingStateType.id) : 0
-    readonly property State percentageState: isExtended ? device.states.getState(deviceClass.stateTypes.findByName("percentage").id) : 0
-    readonly property State angleState: isVenetian ? device.states.getState(angleStateType.id) : 0
+    readonly property State movingState: isExtended ? device.states.getState(movingStateType.id) : null
+    readonly property State percentageState: isExtended ? device.states.getState(deviceClass.stateTypes.findByName("percentage").id) : null
+    readonly property State angleState: isVenetian ? device.states.getState(angleStateType.id) : null
 
 
     readonly property bool moving: movingState ? movingState.value === true : false
@@ -212,8 +212,8 @@ DevicePageBase {
                             id: angleMouseArea
                             anchors.fill: parent
                             // angle : totalAngle  = mouseY : height
-                            property int totalAngle: root.angleStateType.maxValue - root.angleStateType.minValue
-                            property int angle: totalAngle * mouseY / height + root.angleStateType.minValue
+                            property int totalAngle: root.angleState ? root.angleStateType.maxValue - root.angleStateType.minValue : 0
+                            property int angle: root.angleState ? totalAngle * mouseY / height + root.angleStateType.minValue : 0
                             hoverEnabled: true
 
                             property int startY: 0

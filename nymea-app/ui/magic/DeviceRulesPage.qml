@@ -37,7 +37,8 @@ import Nymea 1.0
 Page {
     id: root
 
-    property var device: null
+    property Thing thing: null
+    property alias device: root.thing
 
     Component.onCompleted: print("+++ created devicerulespage")
     Component.onDestruction: print("--- destroying devicerulespage")

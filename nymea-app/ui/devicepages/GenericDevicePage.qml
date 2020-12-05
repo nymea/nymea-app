@@ -42,7 +42,7 @@ DevicePageBase {
 
     function executeAction(actionTypeId, params) {
         print("executing", actionTypeId)
-        return engine.deviceManager.executeAction(root.device.id, actionTypeId, params)
+        return engine.thingManager.executeAction(root.thing.id, actionTypeId, params)
     }
 
     ListView {

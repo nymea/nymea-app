@@ -103,13 +103,17 @@ DeviceListPageBase {
                     Layout.preferredWidth: contentGrid.width / contentGrid.columns
                     thing: root.thingsProxy.getThing(model.id)
                     showHeader: false
-                    enabled: connectedState == null || connectedState.value === true
                     topPadding: 0
                     bottomPadding: 0
 
-                    onClicked: root.enterPage(index)
+                    onClicked: {
+                        if (isEnabled) {
+                            root.enterPage(index)
+                        } else {
+                            itemDelegate.wobble()
+                        }
+                    }
 
-                    property State connectedState: thing.stateByName("connected")
                     property State movingState: thing.stateByName("moving")
                     property State percentageState: thing.stateByName("percentage")
 
@@ -131,6 +135,7 @@ DeviceListPageBase {
                             Layout.fillWidth: true
                             text: itemDelegate.thing.name
                             elide: Text.ElideRight
+                            enabled: itemDelegate.isEnabled
                         }
 
                         ThingStatusIcons {
@@ -143,6 +148,7 @@ DeviceListPageBase {
                             height: parent.height
                             device: itemDelegate.thing
                             invert: root.invertControls
+                            enabled: itemDelegate.isEnabled
                         }
                     }
                 }
