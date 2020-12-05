@@ -1,3 +1,10 @@
+nymea-app (1.0.256) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * More fixes for the media player
+
+ -- Jenkins <jenkins@nymea.io>  Sat, 05 Dec 2020 18:37:37 +0100
+
 nymea-app (1.0.255) bionic; urgency=medium
 
   [ Michael Zanetti ]
