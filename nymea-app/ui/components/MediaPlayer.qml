@@ -35,6 +35,7 @@ import QtQuick.Layouts 1.2
 import Nymea 1.0
 import QtGraphicalEffects 1.0
 import "../delegates"
+import "../utils"
 
 Item {
     id: root
@@ -56,7 +57,12 @@ Item {
     readonly property State volumeState: thing.stateByName("volume")
     readonly property State muteState: thing.stateByName("mute")
 
+    readonly property State equalizerPresetState: thing.stateByName("equalizerPreset")
+    readonly property State nightModeState: thing.stateByName("nightMode")
     readonly property State likeState: thing.stateByName("like")
+
+    // NOTE: This is not in any interface, special feature just for AMBEO
+    readonly property State ambeoModeState: thing.stateByName("ambeoMode")
 
     readonly property bool hasNavigationPatd: thing.thingClass.interfaces.indexOf("navigationpad") >= 0
 
@@ -65,20 +71,21 @@ Item {
     QtObject {
         id: d
         property var browser: null
-        property int pendingInputSourceSelectId: -1
+        property int pendingCallId: -1
     }
 
     Connections {
         target: engine.thingManager
         onExecuteActionReply: {
-            if (commandId == d.pendingInputSourceSelectId) {
+            if (commandId == d.pendingCallId) {
                 if (params.deviceError !== "DeviceErrorNoError") {
                     var errorDialog = Qt.createComponent(Qt.resolvedUrl("../components/ErrorDialog.qml"));
-                    var text
-                    if (params.displayMessage.length > 0) {
-                        text = params.displayMessage
+                    var dialogParams = {}
+                    dialogParams.errorCode = params.deviceError
+                    if (params.displayMessage && params.displayMessage.length > 0) {
+                        dialogParams.text = params.displayMessage
                     }
-                    var popup = errorDialog.createObject(app, {text: text})
+                    var popup = errorDialog.createObject(app, dialogParams)
                     popup.open()
                 }
             }
@@ -231,8 +238,17 @@ Item {
                     d.browser.show();
                 }
             }
+            ProgressButton {
+                Layout.preferredHeight: app.iconSize
+                Layout.preferredWidth: app.iconSize
+                longpressEnabled: false
+                visible: root.hasNavigationPatd
+                imageSource: "../images/navigationpad.svg"
+                onClicked: pageStack.push(navigationPadPage)
+            }
             RowLayout {
                 ProgressButton {
+                    id: inputSourceButton
                     Layout.preferredHeight: app.iconSize
                     Layout.preferredWidth: app.iconSize
                     longpressEnabled: false
@@ -246,23 +262,52 @@ Item {
                 Label {
                     Layout.fillWidth: true
                     text: root.inputSourceState ? root.inputSourceState.value : ""
+                    wrapMode: Text.WordWrap
+                    elide: Text.ElideRight
                     font.pixelSize: app.smallFont
+                    MouseArea { anchors.fill: parent; onClicked: inputSourceButton.clicked() }
+                }
+            }
+            ColorIcon {
+                Layout.preferredHeight: app.iconSize
+                Layout.preferredWidth: app.iconSize * 3
+                visible: root.ambeoModeState !== null
+                name: "../images/media/ambeo.svg"
+                color: root.ambeoModeState && root.ambeoModeState.value !== "Off" ? app.accentColor : keyColor
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        var popup = ambeoModeDialogComponent.createObject(root)
+                        popup.open()
+                    }
                 }
             }
             ProgressButton {
                 Layout.preferredHeight: app.iconSize
                 Layout.preferredWidth: app.iconSize
                 longpressEnabled: false
-                visible: root.hasNavigationPatd
-                imageSource: "../images/navigationpad.svg"
-                onClicked: pageStack.push(navigationPadPage)
+                visible: root.nightModeState !== null
+                imageSource: "../images/weathericons/weather-clear-night.svg"
+                color: root.nightModeState && root.nightModeState.value === true ? app.accentColor : keyColor
+                onClicked: d.pendingCallId = engine.thingManager.executeAction(root.thing.id, root.nightModeState.stateTypeId, [{paramTypeId: root.nightModeState.stateTypeId, value: !root.nightModeState.value}])
             }
-
+            ProgressButton {
+                Layout.preferredHeight: app.iconSize
+                Layout.preferredWidth: app.iconSize
+                longpressEnabled: false
+                visible: root.equalizerPresetState !== null
+                imageSource: "../images/media/equalizer.svg"
+                onClicked: {
+                    var dialog = equalizerComponent.createObject(root)
+                    dialog.open()
+                }
+            }
             ProgressButton {
                 id: volumeButton
                 Layout.preferredHeight: app.iconSize
                 Layout.preferredWidth: app.iconSize
                 visible: root.hasVolumeControl
+                longpressEnabled: false
                 imageSource: root.muteState && root.muteState.value === true ?
                                  "../images/audio-speakers-muted-symbolic.svg"
                                : "../images/audio-speakers-symbolic.svg"
@@ -279,9 +324,6 @@ Item {
                     var sliderPane = volumeSliderPaneComponent.createObject(root, props)
                     sliderPane.open()
                 }
-                onLongpressed: {
-
-                }
             }
         }
     }
@@ -297,7 +339,11 @@ Item {
             bottomPadding: app.margins / 2
             modal: true
 
-            property int pendingVolumeValue: -1
+            ActionQueue {
+                id: volumeActionQueue
+                thing: root.thing
+                stateType: root.thing.thingClass.stateTypes.findByName("volume")
+            }
 
             contentItem: ColumnLayout {
                 ProgressButton {
@@ -315,14 +361,14 @@ Item {
                     onClicked: engine.thingManager.executeAction(root.thing.id, root.thing.thingClass.actionTypes.findByName("decreaseVolume").id);
                 }
 
-                ThrottledSlider {
+                Slider {
                     Layout.fillHeight: true
                     visible: root.volumeState !== null
                     from: 0
                     to: 100
-                    value: root.volumeState.value
+                    value: volumeActionQueue.pendingValue || root.volumeState.value
                     orientation: Qt.Vertical
-                    onMoved: engine.thingManager.executeAction(root.thing.id, root.volumeState.stateTypeId, [{paramTypeId: root.volumeState.stateTypeId, value: value}])
+                    onMoved: volumeActionQueue.sendValue(value)
                 }
 
                 ProgressButton {
@@ -442,6 +488,7 @@ Item {
         id: inputSourceSelectDialogComponent
         MeaDialog {
             id: inputSourceSelectDialog
+            headerIcon: "../images/state-in.svg"
             title: qsTr("Select input")
             standardButtons: Dialog.NoButton
 
@@ -457,7 +504,7 @@ Item {
                     text: modelData
                     checked: root.inputSourceState.value === modelData
                     onClicked: {
-                        d.pendingInputSourceSelectId = engine.thingManager.executeAction(root.thing.id, root.inputSourceState.stateTypeId, [{paramTypeId: root.inputSourceState.stateTypeId, value: modelData}])
+                        d.pendingCallId = engine.thingManager.executeAction(root.thing.id, root.inputSourceState.stateTypeId, [{paramTypeId: root.inputSourceState.stateTypeId, value: modelData}])
                         inputSourceSelectDialog.close();
                     }
                 }
@@ -465,4 +512,62 @@ Item {
         }
     }
 
+    Component {
+        id: equalizerComponent
+        MeaDialog {
+            id: equalizer
+            headerIcon: "../images/media/equalizer.svg"
+            title: qsTr("Equalizer preset")
+            standardButtons: Dialog.NoButton
+            ListView {
+                id: inputSourceListView
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                Layout.preferredHeight: 200
+                clip: true
+                model: root.thing.thingClass.stateTypes.findByName("equalizerPreset").allowedValues
+                delegate: RadioDelegate {
+                    width: inputSourceListView.width
+                    text: modelData
+                    checked: root.equalizerPresetState.value === modelData
+                    onClicked: {
+                        d.pendingCallId = engine.thingManager.executeAction(root.thing.id, root.equalizerPresetState.stateTypeId, [{paramTypeId: root.equalizerPresetState.stateTypeId, value: modelData}])
+                        equalizer.close();
+                    }
+                }
+            }
+        }
+    }
+    Component {
+        id: ambeoModeDialogComponent
+        MeaDialog {
+            id: ambeoModeDialog
+            standardButtons: Dialog.NoButton
+            ColorIcon {
+                Layout.preferredHeight: app.hugeIconSize
+                Layout.preferredWidth: app.hugeIconSize * 3
+                Layout.alignment: Qt.AlignHCenter
+                name: "../images/media/ambeo.svg"
+                color: app.accentColor
+            }
+
+            ListView {
+                id: ambeoModeListView
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                Layout.preferredHeight: 200
+                clip: true
+                model: root.thing.thingClass.stateTypes.findByName("ambeoMode").allowedValues
+                delegate: RadioDelegate {
+                    width: ambeoModeListView.width
+                    text: modelData
+                    checked: root.ambeoModeState.value === modelData
+                    onClicked: {
+                        d.pendingCallId = engine.thingManager.executeAction(root.thing.id, root.ambeoModeState.stateTypeId, [{paramTypeId: root.ambeoModeState.stateTypeId, value: modelData}])
+                        ambeoModeDialog.close();
+                    }
+                }
+            }
+        }
+    }
 }
