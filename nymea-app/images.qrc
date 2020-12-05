@@ -249,5 +249,7 @@
         <file>ui/images/facebook.svg</file>
         <file>ui/images/help.svg</file>
         <file>ui/images/discord.svg</file>
+        <file>ui/images/media/equalizer.svg</file>
+        <file>ui/images/media/ambeo.svg</file>
     </qresource>
 </RCC>

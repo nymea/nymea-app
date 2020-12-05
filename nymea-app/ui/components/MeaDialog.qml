@@ -46,6 +46,11 @@ Dialog {
 
     onClosed: root.destroy()
 
+    Connections {
+        target: root.parent
+        onDestroyed: root.destroy()
+    }
+
     MouseArea {
         parent: app.overlay
         anchors.fill: parent
@@ -56,13 +61,14 @@ Dialog {
     header: Item {
         implicitHeight: headerRow.height + app.margins * 2
         implicitWidth: parent.width
+        visible: root.title.length > 0
         RowLayout {
             id: headerRow
             anchors { left: parent.left; right: parent.right; top: parent.top; margins: app.margins }
             spacing: app.margins
             ColorIcon {
                 id: headerColorIcon
-                Layout.preferredHeight: app.iconSize * 2
+                Layout.preferredHeight: app.hugeIconSize
                 Layout.preferredWidth: height
                 color: app.accentColor
                 visible: name.length > 0
