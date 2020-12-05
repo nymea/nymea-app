@@ -39,11 +39,12 @@ import "../customviews"
 Page {
     id: root
 
-    property Device device: null
+    property Thing thing: null
+    property alias device: root.thing
     property var filterTypeIds: []
 
     header: NymeaHeader {
-        text: qsTr("History for %1").arg(root.device.name)
+        text: qsTr("History for %1").arg(root.thing.name)
         onBackPressed: pageStack.pop()
 
         HeaderButton {
@@ -57,7 +58,7 @@ Page {
     LogsModelNg {
         id: logsModelNg
         engine: _engine
-        deviceId: root.device.id
+        deviceId: root.thing.id
         typeIds: root.filterTypeIds.length > 0
                  ? root.filterTypeIds
                  : filterEnabled
@@ -70,7 +71,7 @@ Page {
 
     DeviceModel {
         id: filterDeviceModel
-        device: root.device
+        device: root.thing
     }
 
     Pane {
@@ -111,7 +112,7 @@ Page {
             right: parent.right
         }
 
-        readonly property StateType stateType: root.device.deviceClass.stateTypes.getStateType(root.filterTypeIds[0])
+        readonly property StateType stateType: root.thing.thingClass.stateTypes.getStateType(root.filterTypeIds[0])
 
         readonly property bool canShowGraph: {
             if (stateType === null) {
@@ -122,14 +123,15 @@ Page {
                 return false;
             }
 
-            switch (stateType.type) {
-            case "Int":
-            case "Double":
+            switch (stateType.type.toLowerCase()) {
+            case "uint":
+            case "int":
+            case "double":
                 return true;
-            case "Bool":
+            case "bool":
                 return engine.jsonRpcClient.ensureServerVersion("1.10")
             }
-            print("not showing graph for", root.stateType.type)
+            print("not showing graph for", stateType.type)
             return false;
         }
 
@@ -142,7 +144,7 @@ Page {
             }
 
             var source = Qt.resolvedUrl("../customviews/GenericTypeGraph.qml");
-            setSource(source, {device: root.device, stateType: stateType})
+            setSource(source, {device: root.thing, stateType: stateType})
         }
     }
 
@@ -162,9 +164,9 @@ Page {
             id: entryDelegate
             width: parent.width
 
-            property StateType stateType: model.source === LogEntry.LoggingSourceStates ? root.device.deviceClass.stateTypes.getStateType(model.typeId) : null
-            property EventType eventType: model.source === LogEntry.LoggingSourceEvents || model.source === LogEntry.LoggingSourceStates ? root.device.deviceClass.eventTypes.getEventType(model.typeId) : null
-            property ActionType actionType: model.source === LogEntry.LoggingSourceActions ? root.device.deviceClass.actionTypes.getActionType(model.typeId) : null
+            property StateType stateType: model.source === LogEntry.LoggingSourceStates ? root.thing.thingClass.stateTypes.getStateType(model.typeId) : null
+            property EventType eventType: model.source === LogEntry.LoggingSourceEvents || model.source === LogEntry.LoggingSourceStates ? root.thing.thingClass.eventTypes.getEventType(model.typeId) : null
+            property ActionType actionType: model.source === LogEntry.LoggingSourceActions ? root.thing.thingClass.actionTypes.getActionType(model.typeId) : null
 
             contentItem: RowLayout {
                 ColorIcon {

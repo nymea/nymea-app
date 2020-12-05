@@ -68,9 +68,6 @@ DeviceListPageBase {
                     bottomPadding: 0
                     leftPadding: 0
                     rightPadding: 0
-                    enabled: connectedState == null || connectedState.value === true
-
-                    property State connectedState: thing.stateByName("connected")
 
                     readonly property StateType playbackStateType: thing.thingClass.stateTypes.findByName("playbackStatus")
                     readonly property State playbackState: thing.stateByName("playbackStatus")
@@ -79,10 +76,15 @@ DeviceListPageBase {
                     readonly property State playerTypeState: thing.stateByName("playerType")
 
                     onClicked: {
-                        enterPage(index)
+                        if (isEnabled) {
+                            enterPage(index)
+                        } else {
+                            itemDelegate.wobble();
+                        }
                     }
 
                     contentItem: RowLayout {
+                        enabled: itemDelegate.isEnabled
                         ColumnLayout {
                             id: leftColummn
                             Layout.margins: app.margins
@@ -183,7 +185,6 @@ DeviceListPageBase {
                         }
                     }
                 }
-
             }
         }
     }

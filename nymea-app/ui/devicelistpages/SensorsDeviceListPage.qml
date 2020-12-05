@@ -64,9 +64,7 @@ DeviceListPageBase {
                     Layout.preferredWidth: contentGrid.width / contentGrid.columns
                     thing: root.thingsProxy.getThing(model.id)
 
-                    onClicked: {
-                        enterPage(index)
-                    }
+                    onClicked: enterPage(index)
 
                     contentItem: GridLayout {
                         id: dataGrid

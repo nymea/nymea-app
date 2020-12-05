@@ -73,11 +73,16 @@ DeviceListPageBase {
                     Layout.preferredWidth: contentGrid.width / contentGrid.columns
                     thing: root.thingsProxy.getThing(model.id)
                     showHeader: false
-                    enabled: connectedState == null || connectedState.value === true
                     topPadding: 0
                     bottomPadding: 0
 
-                    onClicked: root.enterPage(index)
+                    onClicked: {
+                        if (isEnabled) {
+                            root.enterPage(index)
+                        } else {
+                            itemDelegate.wobble()
+                        }
+                    }
 
                     property State connectedState: thing.stateByName("connected")
                     property State powerState: thing.stateByName("power")
@@ -96,6 +101,7 @@ DeviceListPageBase {
                             Layout.fillWidth: true
                             text: itemDelegate.thing.name
                             elide: Text.ElideRight
+                            enabled: itemDelegate.isEnabled
                         }
 
                         ThingStatusIcons {
@@ -104,7 +110,8 @@ DeviceListPageBase {
 
                         Switch {
                             visible: itemDelegate.powerState !== null
-                            checked: itemDelegate.powerState.value === true
+                            checked: itemDelegate.powerState && itemDelegate.powerState.value === true
+                            enabled: itemDelegate.isEnabled
                             onClicked: {
                                 var params = [];
                                 var param1 = {};

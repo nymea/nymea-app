@@ -67,13 +67,17 @@ DeviceListPageBase {
                     Layout.preferredWidth: contentGrid.width / contentGrid.columns
                     thing: root.thingsProxy.getThing(model.id)
                     showHeader: false
-                    enabled: connectedState == null || connectedState.value === true
                     topPadding: 0
                     bottomPadding: 0
 
-                    onClicked: root.enterPage(index)
+                    onClicked: {
+                        if (isEnabled) {
+                            root.enterPage(index)
+                        } else {
+                            itemDelegate.wobble()
+                        }
+                    }
 
-                    property State connectedState: thing.stateByName("connected")
                     property State movingState: thing.stateByName("moving")
                     property State percentageState: thing.stateByName("percentage")
 
@@ -97,6 +101,7 @@ DeviceListPageBase {
                             Layout.fillWidth: true
                             text: itemDelegate.thing.name
                             elide: Text.ElideRight
+                            enabled: itemDelegate.isEnabled
                         }
 
                         ThingStatusIcons {
@@ -110,6 +115,7 @@ DeviceListPageBase {
                             device: itemDelegate.thing
                             invert: root.invertControls
                             visible: !itemDelegate.isImpulseBased
+                            enabled: itemDelegate.isEnabled
                         }
                         ProgressButton {
                             Layout.preferredHeight: app.iconSize
@@ -117,6 +123,7 @@ DeviceListPageBase {
                             longpressEnabled: false
                             imageSource: "../images/closable-move.svg"
                             visible: itemDelegate.isImpulseBased
+                            enabled: itemDelegate.isEnabled
                             onClicked: {
                                 var actionTypeId = itemDelegate.thing.thingClass.actionTypes.findByName("triggerImpulse").id
                                 print("Triggering impulse", actionTypeId)

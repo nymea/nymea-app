@@ -97,18 +97,16 @@ DeviceListPageBase {
                     leftPadding: 0
                     rightPadding: 0
 
-                    property State connectedState: thing.stateByName("connected")
                     property State powerState: thing.stateByName("power")
                     property State brightnessState: thing.stateByName("brightness")
                     property State colorState: thing.stateByName("color")
+                    property State colorTemperatureState: thing.stateByName("colorTemperature")
 
-                    property bool tileColored: enabled && colorState && powerState.value === true
+                    property bool tileColored: isEnabled && colorState && powerState.value === true
                     property bool colorInverted: tileColored && NymeaUtils.isDark(app.foregroundColor) === NymeaUtils.isDark(colorState.value)
-                    property bool isConnected: connectedState && connectedState.value === true
-
 
                     onClicked: {
-                        if (isConnected) {
+                        if (isEnabled && (colorState || colorTemperatureState)) {
                             root.enterPage(index)
                         } else {
                             itemDelegate.wobble()
@@ -122,11 +120,10 @@ DeviceListPageBase {
                     }
 
                     contentItem: Rectangle {
-                        color: enabled && itemDelegate.powerState.value === true && itemDelegate.colorState ? itemDelegate.colorState.value : "#00000000"
+                        color: itemDelegate.tileColored ? itemDelegate.colorState.value : "#00000000"
                         implicitHeight: contentColumn.implicitHeight
                         Behavior on implicitHeight { NumberAnimation { duration: 100 } }
                         radius: 6
-                        enabled: itemDelegate.connectedState == null || connectedState.value === true
 
                         ColumnLayout {
                             id: contentColumn
@@ -156,6 +153,7 @@ DeviceListPageBase {
                                     Layout.fillWidth: true
                                     text: itemDelegate.thing.name
                                     elide: Text.ElideRight
+                                    enabled: itemDelegate.isEnabled
 
                                     Binding {
                                         target: nameLabel
@@ -172,6 +170,7 @@ DeviceListPageBase {
                                 Switch {
                                     id: lightSwitch
                                     checked: itemDelegate.powerState.value === true
+                                    enabled: itemDelegate.isEnabled
                                     onClicked: {
                                         var params = [];
                                         var param1 = {};
@@ -236,10 +235,6 @@ DeviceListPageBase {
                                                     duration: 300
                                                 }
                                             }
-//                                            layer.enabled: indicator.Material.elevation > 0
-//                                            layer.effect: ElevationEffect {
-//                                                elevation: indicator.Material.elevation
-//                                            }
                                         }
                                         DropShadow {
                                             anchors.fill: handle
@@ -260,6 +255,7 @@ DeviceListPageBase {
                                 visible: itemDelegate.powerState.value === true && itemDelegate.brightnessState != null
                                 radius: 6
                                 color: Qt.tint(app.backgroundColor, Qt.rgba(app.foregroundColor.r, app.foregroundColor.g, app.foregroundColor.b, .1))
+                                enabled: itemDelegate.isEnabled
 
                                 Rectangle {
                                     height: knob.x + knob.width / 2
@@ -272,7 +268,25 @@ DeviceListPageBase {
                                         GradientStop { position: 1; color: "#55ffffff" }
                                     }
                                 }
-
+                                MouseArea {
+                                    id: brightnessMouseArea
+                                    anchors.fill: parent
+                                    anchors.margins: -app.margins
+                                    preventStealing: true
+                                    property bool active: false
+                                    onPressed: {
+                                        print("pressed", mouseX, mouseY, active)
+                                        if (!active) {
+                                            mouse.accepted = false
+                                        }
+                                    }
+                                    onReleased: active = false
+                                    onMouseXChanged: {
+                                        if (active) {
+                                            actionQueue.sendValue(Math.max(1, Math.min(100, mouseX / width * 100)))
+                                        }
+                                    }
+                                }
                                 Rectangle {
                                     id: knob
                                     height: 14
@@ -283,6 +297,15 @@ DeviceListPageBase {
                                     x: itemDelegate.brightnessState ?
                                            (actionQueue.queuedValue || actionQueue.pendingValue || itemDelegate.brightnessState.value) * (parent.width - width) / 100
                                          : 0
+                                    MouseArea {
+                                        id: knobMouseArea
+                                        anchors.fill: parent
+                                        anchors.margins: -app.margins
+                                        onPressed: {
+                                            brightnessMouseArea.active = true
+                                            mouse.accepted = false
+                                        }
+                                    }
                                 }
                                 DropShadow {
                                     anchors.fill: knob
@@ -292,15 +315,6 @@ DeviceListPageBase {
                                     samples: 17
                                     color: "#80000000"
                                     source: knob
-                                }
-
-                                MouseArea {
-                                    id: brightnessMouseArea
-                                    anchors.fill: parent
-                                    preventStealing: true
-                                    onMouseXChanged: {
-                                        actionQueue.sendValue(Math.max(1, Math.min(100, mouseX / width * 100)))
-                                    }
                                 }
                             }
                         }
