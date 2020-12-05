@@ -1,3 +1,10 @@
+nymea-app (1.0.255) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * More fixes in things lists
+
+ -- Jenkins <jenkins@nymea.io>  Sat, 05 Dec 2020 02:15:25 +0100
+
 nymea-app (1.0.254) bionic; urgency=medium
 
   [ Michael Zanetti ]
