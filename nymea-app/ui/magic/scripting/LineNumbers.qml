@@ -30,6 +30,7 @@
 
 import QtQuick 2.4
 import QtQuick.Controls 2.2
+import Nymea 1.0
 
 Rectangle {
     id: root
@@ -60,7 +61,7 @@ Rectangle {
 
     width: textMetrics.advanceWidth + app.margins / 2
     height: root.textArea.height - 10
-    color: (app.backgroundColor.r * 0.2126 + app.backgroundColor.g * 0.7152 + app.backgroundColor.b * 0.0722) * 255 < 128 ? "#202020" : "#e0e0e0"
+    color: (Style.backgroundColor.r * 0.2126 + Style.backgroundColor.g * 0.7152 + Style.backgroundColor.b * 0.0722) * 255 < 128 ? "#202020" : "#e0e0e0"
 
     Column {
         id: lineNumbersColumn

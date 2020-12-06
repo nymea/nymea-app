@@ -96,7 +96,7 @@ Page {
                     Layout.preferredHeight: app.iconSize * 2
                     Layout.preferredWidth: app.iconSize * 2
                     name: "../images/lock-closed.svg"
-                    color: app.accentColor
+                    color: Style.accentColor
                 }
 
                 Label {

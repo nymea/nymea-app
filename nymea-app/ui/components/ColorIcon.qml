@@ -31,16 +31,14 @@
 
 import QtQuick 2.4
 import QtGraphicalEffects 1.0
+import Nymea 1.0
 
 Item {
     id: icon
 
     property string name
-    property alias color: colorizedImage.color
+    property alias color: colorizedImage.outColor
     property int margins: 0
-
-    //TODO: Should be in the style
-    readonly property color keyColor: "#808080"
 
     property alias status: image.status
 
@@ -59,12 +57,32 @@ Item {
         cache: true
     }
 
-    ColorOverlay {
+    ShaderEffect {
         id: colorizedImage
+        objectName: "shader"
 
         anchors.fill: parent
-        anchors.margins: parent ? parent.margins : 0
-        visible: image.status == Image.Ready
-        source: image
+
+        // Whether or not a color has been set.
+        visible: image.status == Image.Ready && outColor != inColor
+
+        property Image source: image
+        property color outColor: Style.iconColor
+        // Colorize only pixels of this color, leave the rest untouched.
+        // This needs to match the basic color of the icon set
+        property color inColor: "#808080"
+        property real threshold: 0.1
+
+        fragmentShader: "
+            varying highp vec2 qt_TexCoord0;
+            uniform sampler2D source;
+            uniform highp vec4 outColor;
+            uniform highp vec4 inColor;
+            uniform lowp float threshold;
+            uniform lowp float qt_Opacity;
+            void main() {
+                lowp vec4 sourceColor = texture2D(source, qt_TexCoord0);
+                gl_FragColor = mix(vec4(outColor.rgb, 1.0) * sourceColor.a, sourceColor, step(threshold, distance(sourceColor.rgb / sourceColor.a, inColor.rgb))) * qt_Opacity;
+            }"
     }
 }

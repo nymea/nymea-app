@@ -49,7 +49,7 @@ Item {
     readonly property bool hasConnectable: deviceClass.interfaces.indexOf("connectable") >= 0
     readonly property var connectedStateType: hasConnectable ? deviceClass.stateTypes.findByName("connected") : null
 
-    property color color: app.accentColor
+    property color color: Style.accentColor
     property string iconSource: ""
 
     LogsModelNg {
@@ -127,7 +127,7 @@ Item {
             margins.right: 0
             backgroundColor: Material.background
             legend.visible: false
-            legend.labelColor: app.foregroundColor
+            legend.labelColor: Style.foregroundColor
 
             animationDuration: 300
             animationOptions: ChartView.SeriesAnimations
@@ -154,9 +154,9 @@ Item {
                         return "%d";
                     }
                 }
-                labelsColor: app.foregroundColor
+                labelsColor: Style.foregroundColor
                 tickCount: root.stateType.type.toLowerCase() === "bool" ? 2 : chartView.height / 40
-                color: Qt.rgba(app.foregroundColor.r, app.foregroundColor.g, app.foregroundColor.b, .2)
+                color: Qt.rgba(Style.foregroundColor.r, Style.foregroundColor.g, Style.foregroundColor.b, .2)
                 gridLineColor: color
             }
 
@@ -170,10 +170,10 @@ Item {
             DateTimeAxis {
                 id: xAxis
                 gridVisible: false
-                color: Qt.rgba(app.foregroundColor.r, app.foregroundColor.g, app.foregroundColor.b, .2)
+                color: Qt.rgba(Style.foregroundColor.r, Style.foregroundColor.g, Style.foregroundColor.b, .2)
                 tickCount: chartView.width / 70
                 labelsFont.pixelSize: app.smallFont
-                labelsColor: app.foregroundColor
+                labelsColor: Style.foregroundColor
                 property int timeDiff: (xAxis.max.getTime() - xAxis.min.getTime()) / 1000
 
                 function getTimeSpanString() {
@@ -213,7 +213,7 @@ Item {
                     }
                     return Qt.formatDate(xAxis.min) + " - " + Qt.formatDate(xAxis.max) + " (" + getTimeSpanString() + ")"
                 }
-                titleBrush: app.foregroundColor
+                titleBrush: Style.foregroundColor
                 format: {
                     if (timeDiff < 60) { // one minute
                         return "mm:ss"
@@ -354,7 +354,7 @@ Item {
                 axisX: xAxis
                 axisY: yAxis
                 pointLabelsVisible: root.stateType.type.toLowerCase() !== "bool"
-                pointLabelsColor: app.foregroundColor
+                pointLabelsColor: Style.foregroundColor
                 pointLabelsFont.pixelSize: app.smallFont
                 pointLabelsFormat: "@yPoint"
                 pointLabelsClipping: false

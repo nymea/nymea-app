@@ -57,7 +57,7 @@ Page {
             maximumLineCount: 2
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             text: model.text
-            color: model.type === AppLogController.TypeWarning ? "red" : app.foregroundColor
+            color: model.type === AppLogController.TypeWarning ? "red" : Style.foregroundColor
             font.pixelSize: app.smallFont
         }
     }

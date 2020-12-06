@@ -29,6 +29,7 @@
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import QtQuick 2.5
+import Nymea 1.0
 
 Item {
     id: root
@@ -43,7 +44,7 @@ Item {
         height: 15
         width: height
         radius: height / 2
-        color: app.accentColor
+        color: Style.accentColor
 
 
         Rectangle {
@@ -176,7 +177,7 @@ Item {
 
     Rectangle {
         anchors.fill: parent
-        border.color: app.foregroundColor
+        border.color: Style.foregroundColor
         border.width: 1
         gradient: Gradient {
             GradientStop { position: 0.0; color: "transparent" }

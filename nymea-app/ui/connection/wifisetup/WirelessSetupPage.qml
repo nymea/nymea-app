@@ -115,7 +115,7 @@ Page {
             Layout.preferredWidth: height
             Layout.alignment: Qt.AlignCenter
             name: "../images/tick.svg"
-            color: app.accentColor
+            color: Style.accentColor
         }
         Label {
             Layout.fillWidth: true

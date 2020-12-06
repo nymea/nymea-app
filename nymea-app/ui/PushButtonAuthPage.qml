@@ -68,7 +68,7 @@ Page {
         Label {
             Layout.fillWidth: true
             horizontalAlignment: Text.AlignHCenter
-            color: app.accentColor
+            color: Style.accentColor
             text: qsTr("Authentication required")
             wrapMode: Text.WordWrap
             font.pixelSize: app.largeFont

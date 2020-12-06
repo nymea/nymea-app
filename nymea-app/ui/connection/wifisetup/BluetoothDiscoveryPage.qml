@@ -159,7 +159,7 @@ Page {
         Label {
             Layout.fillWidth: true
             text: qsTr("Uh oh")
-            color: app.accentColor
+            color: Style.accentColor
             font.pixelSize: app.largeFont
         }
 

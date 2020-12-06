@@ -29,6 +29,7 @@
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import QtQuick 2.0
+import Nymea 1.0
 
 Item {
     id: arrows
@@ -71,7 +72,7 @@ Item {
                 name: arrows.up ? "../images/up.svg" : "../images/down.svg"
                 width: parent.width
                 height: width
-                color: app.accentColor
+                color: Style.accentColor
             }
         }
     }

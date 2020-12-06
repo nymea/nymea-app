@@ -60,7 +60,7 @@ Item {
                 imageSource: "../images/erase.svg"
                 onClicked: searchTextField.text = ""
                 enabled: searchTextField.displayText.length > 0
-                color: enabled ? app.accentColor : keyColor
+                color: enabled ? Style.accentColor : Style.iconColor
             }
         }
         ThinDivider {}

@@ -93,7 +93,7 @@ Item {
                             name: arrows.up ? "../images/up.svg" : "../images/down.svg"
                             width: parent.width
                             height: width
-                            color: app.accentColor
+                            color: Style.accentColor
                         }
                     }
                 }

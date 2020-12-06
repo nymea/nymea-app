@@ -54,24 +54,6 @@ Page {
         }
     }
 
-//    header: FancyHeader {
-//        title: qsTr("Connect %1").arg(app.systemName)
-//        model: ListModel {
-//            ListElement { iconSource: "../images/connections/network-vpn.svg"; text: qsTr("Manual connection"); page: "ManualConnectPage.qml" }
-//            ListElement { iconSource: "../images/connections/bluetooth.svg"; text: qsTr("Wireless setup"); page: "wifisetup/BluetoothDiscoveryPage.qml"; }
-//            ListElement { iconSource: "../images/private-browsing.svg"; text: qsTr("Demo mode"); page: "" }
-//            ListElement { iconSource: "../images/stock_application.svg"; text: qsTr("App settings"); page: "../appsettings/AppSettingsPage.qml" }
-//        }
-//        onClicked: {
-//            if (index === 2) {
-//                var host = discovery.nymeaHosts.createWanHost("Demo server", "nymea://nymea.nymea.io:2222")
-//                engine.jsonRpcClient.connectToHost(host)
-//            } else {
-//                pageStack.push(model.get(index).page, {nymeaDiscovery: discovery});
-//            }
-//        }
-//    }
-
     readonly property bool haveHosts: hostsProxy.count > 0
 
 
@@ -312,7 +294,7 @@ Page {
                         Layout.preferredHeight: app.iconSize * 2
                         Layout.preferredWidth: height
                         name: "../images/info.svg"
-                        color: app.accentColor
+                        color: Style.accentColor
                     }
 
                     Label {
@@ -320,7 +302,7 @@ Page {
                         Layout.fillWidth: true
                         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                         text: dialog.title
-                        color: app.accentColor
+                        color: Style.accentColor
                         font.pixelSize: app.largeFont
                     }
                 }

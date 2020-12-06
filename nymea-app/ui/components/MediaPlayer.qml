@@ -117,7 +117,7 @@ Item {
 
         gradient: Gradient {
             GradientStop { position: gradientMask.gradientEnd - .5; color: "transparent"}
-            GradientStop { position: gradientMask.gradientEnd; color: app.backgroundColor }
+            GradientStop { position: gradientMask.gradientEnd; color: Style.backgroundColor }
         }
     }
 
@@ -169,7 +169,7 @@ Item {
                 longpressEnabled: false
                 imageSource: "../images/like.svg"
                 visible: root.likeState !== null
-                color: root.likeState && root.likeState.value === true ? app.accentColor : keyColor
+                color: root.likeState && root.likeState.value === true ? Style.accentColor : Style.iconColor
                 onClicked: {
                     engine.thingManager.executeAction(root.thing.id, root.likeState.stateTypeId, [{ paramTypeId: root.likeState.stateTypeId, value: !root.likeState.value}])
                 }
@@ -273,7 +273,7 @@ Item {
                 Layout.preferredWidth: app.iconSize * 3
                 visible: root.ambeoModeState !== null
                 name: "../images/media/ambeo.svg"
-                color: root.ambeoModeState && root.ambeoModeState.value !== "Off" ? app.accentColor : keyColor
+                color: root.ambeoModeState && root.ambeoModeState.value !== "Off" ? Style.accentColor : Style.iconColor
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
@@ -288,7 +288,7 @@ Item {
                 longpressEnabled: false
                 visible: root.nightModeState !== null
                 imageSource: "../images/weathericons/weather-clear-night.svg"
-                color: root.nightModeState && root.nightModeState.value === true ? app.accentColor : keyColor
+                color: root.nightModeState && root.nightModeState.value === true ? Style.accentColor : Style.iconColor
                 onClicked: d.pendingCallId = engine.thingManager.executeAction(root.thing.id, root.nightModeState.stateTypeId, [{paramTypeId: root.nightModeState.stateTypeId, value: !root.nightModeState.value}])
             }
             ProgressButton {
@@ -375,7 +375,7 @@ Item {
                     visible: root.muteState !== null
                     Layout.alignment: Qt.AlignHCenter
                     imageSource: "../images/audio-speakers-muted-symbolic.svg"
-                    color: root.muteState.value === true ? app.accentColor : keyColor
+                    color: root.muteState.value === true ? Style.accentColor : Style.iconColor
                     onClicked: engine.thingManager.executeAction(root.thing.id, root.muteState.stateTypeId, [{paramTypeId: root.muteState.stateTypeId, value: !root.muteState.value}]);
                 }
             }
@@ -436,10 +436,10 @@ Item {
                                 Rectangle {
                                     height: pathFlickable.height
                                     width: Math.min(150, folderLabel.implicitWidth + app.margins)
-                                    border.color: app.backgroundColor
+                                    border.color: Style.backgroundColor
                                     border.width: 1
                                     radius: 4
-                                    color: Qt.lighter(app.backgroundColor)
+                                    color: Qt.lighter(Style.backgroundColor)
                                     Label {
                                         id: folderLabel
                                         text: modelData
@@ -548,7 +548,7 @@ Item {
                 Layout.preferredWidth: app.hugeIconSize * 3
                 Layout.alignment: Qt.AlignHCenter
                 name: "../images/media/ambeo.svg"
-                color: app.accentColor
+                color: Style.accentColor
             }
 
             ListView {

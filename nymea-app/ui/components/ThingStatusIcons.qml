@@ -10,8 +10,7 @@ RowLayout {
 
     property Thing thing: null
 
-    property color color: keyColor
-    readonly property color keyColor: updateStatusIcon.keyColor
+    property color color: Style.iconColor
 
     signal updateIconClicked();
     signal batteryIconClicked();
@@ -24,7 +23,7 @@ RowLayout {
         Layout.preferredWidth: height
         thing: root.thing
         visible: setupStatusIcon.setupStatus == Thing.ThingSetupStatusComplete && connectionStatusIcon.isConnected && (updateAvailable || updateRunning)
-        Binding { target: updateStatusIcon; property: "color"; value: root.color; when: root.color !== root.keyColor }
+        Binding { target: updateStatusIcon; property: "color"; value: root.color; when: root.color !== Style.iconColor }
         MouseArea {
             anchors.fill: parent
             anchors.margins: -app.margins / 4
@@ -62,7 +61,7 @@ RowLayout {
         Layout.preferredWidth: height
         thing: root.thing
         visible: root.thing.setupStatus == Thing.ThingSetupStatusComplete && (hasBatteryLevel || isCritical)
-        Binding { target: batteryStatusIcon; property: "color"; value: root.color; when: root.color !== root.keyColor }
+        Binding { target: batteryStatusIcon; property: "color"; value: root.color; when: root.color !== Style.iconColor }
         MouseArea {
             anchors.fill: parent
             anchors.margins: -app.margins / 4
@@ -91,7 +90,7 @@ RowLayout {
         Layout.preferredWidth: height
         thing: root.thing
         visible: root.thing.setupStatus == Thing.ThingSetupStatusComplete && (hasSignalStrength || !isConnected)
-        Binding { target: connectionStatusIcon; property: "color"; value: root.color; when: root.color !== root.keyColor }
+        Binding { target: connectionStatusIcon; property: "color"; value: root.color; when: root.color !== Style.iconColor }
         MouseArea {
             anchors.fill: parent
             anchors.margins: -app.margins / 4
@@ -120,7 +119,7 @@ RowLayout {
         Layout.preferredWidth: height
         thing: root.thing
         visible: setupFailed || setupInProgress
-        Binding { target: setupStatusIcon; property: "color"; value: root.color; when: root.color !== root.keyColor }
+        Binding { target: setupStatusIcon; property: "color"; value: root.color; when: root.color !== Style.iconColor }
         MouseArea {
             anchors.fill: parent
             anchors.margins: -app.margins / 4

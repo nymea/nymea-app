@@ -132,7 +132,7 @@ SettingsPageBase {
             contentItem: Item {
                 ColorIcon {
                     name: "../images/edit.svg"
-                    color: app.foregroundColor
+                    color: Style.foregroundColor
                     anchors.centerIn: parent
                     height: parent.height
                     width: height
@@ -172,7 +172,7 @@ SettingsPageBase {
             contentItem: Item {
                 ColorIcon {
                     name: "../images/edit.svg"
-                    color: app.foregroundColor
+                    color: Style.foregroundColor
                     anchors.centerIn: parent
                     height: parent.height
                     width: height

@@ -25,7 +25,7 @@ Item {
     Rectangle {
         id: clipRect
         anchors.fill: parent
-        radius: app.radius
+        radius: Style.tileRadius
     }
 
     LinearGradient {
@@ -48,7 +48,7 @@ Item {
         height: root.orientation == Qt.Horizontal ? parent.height : 8
         width: root.orientation == Qt.Horizontal ? 8 : parent.width
         radius: 4
-        color: Qt.tint(app.backgroundColor, Qt.rgba(app.foregroundColor.r, app.foregroundColor.g, app.foregroundColor.b, 0.5))
+        color: Qt.tint(Style.backgroundColor, Qt.rgba(Style.foregroundColor.r, Style.foregroundColor.g, Style.foregroundColor.b, 0.5))
     }
 
     MouseArea {

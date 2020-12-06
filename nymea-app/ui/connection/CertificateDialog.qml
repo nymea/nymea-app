@@ -57,7 +57,7 @@ Dialog {
                 Layout.preferredHeight: app.iconSize * 2
                 Layout.preferredWidth: height
                 name: "../images/lock-closed.svg"
-                color: app.accentColor
+                color: Style.accentColor
             }
 
             Label {
@@ -65,7 +65,7 @@ Dialog {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Certificate information")
-                color: app.accentColor
+                color: Style.accentColor
                 font.pixelSize: app.largeFont
             }
         }

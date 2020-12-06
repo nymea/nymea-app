@@ -281,7 +281,7 @@ DevicePageBase {
                                                                             : qsTr("All done!")
                                 Layout.fillWidth: true
                                 font.pixelSize: app.largeFont
-                                color: app.accentColor
+                                color: Style.accentColor
                                 horizontalAlignment: Text.AlignHCenter
                             }
 
@@ -296,8 +296,8 @@ DevicePageBase {
                                     width: height
                                     anchors.centerIn: parent
                                     color: addUserPage.done ?
-                                               (addUserPage.error ? "red" : app.accentColor)
-                                             : keyColor
+                                               (addUserPage.error ? "red" : Style.accentColor)
+                                             : Style.iconColor
                                 }
                             }
                             Label {

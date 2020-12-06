@@ -101,7 +101,7 @@ DevicePageBase {
 
                         contentItem: Rectangle {
                             color: model.color
-                            radius: 6
+                            radius: Style.tileRadius
 
                             ColorIcon {
                                 anchors.fill: parent
@@ -162,9 +162,9 @@ DevicePageBase {
             Rectangle {
                 Layout.preferredWidth: app.hugeIconSize
                 Layout.preferredHeight: width
-                radius: app.radius
+                radius: Style.tileRadius
                 color: root.colorState ? root.colorState.value : "red"
-//                color: Qt.tint(app.backgroundColor, Qt.rgba(app.foregroundColor.r, app.foregroundColor.g, app.foregroundColor.b, 0.1))
+//                color: Qt.tint(Style.backgroundColor, Qt.rgba(Style.foregroundColor.r, Style.foregroundColor.g, Style.foregroundColor.b, 0.1))
                 ColorIcon {
                     anchors.centerIn: parent
                     height: app.largeIconSize

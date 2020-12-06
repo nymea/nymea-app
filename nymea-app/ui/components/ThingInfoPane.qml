@@ -28,7 +28,7 @@ InfoPaneBase {
     shown: setupInProgress || setupFailure || batteryState !== null || (connectedState !== null && connectedState.value === false) || signalStrengthState !== null || updateAvailable
 
     color: alertState ? "red"
-            : highlightState ? app.accentColor : "transparent"
+            : highlightState ? Style.accentColor : "transparent"
 
     contentItem: RowLayout {
         id: contentRow
@@ -36,7 +36,7 @@ InfoPaneBase {
 
         Label {
             id: textLabel
-            color: root.alertState || root.highlightState ? "white" : app.foregroundColor
+            color: root.alertState || root.highlightState ? "white" : Style.foregroundColor
             font.pixelSize: app.smallFont
             Layout.fillWidth: true
             horizontalAlignment: Text.AlignRight
@@ -59,7 +59,7 @@ InfoPaneBase {
 
         ThingStatusIcons {
             thing: root.thing
-            color: root.alertState || root.highlightState ? "white" : keyColor
+            color: root.alertState || root.highlightState ? "white" : Style.iconColor
 
         }
     }

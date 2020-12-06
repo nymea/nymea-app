@@ -155,7 +155,7 @@ DevicePageBase {
                                     width: parent.width
                                     height: width / 4
                                     rotation: angleMovable.angle
-                                    color: app.foregroundColor
+                                    color: Style.foregroundColor
                                     opacity: 0.1
                                 }
                             }
@@ -170,7 +170,7 @@ DevicePageBase {
                         Rectangle {
                             id: angleSlider
                             anchors.fill: parent
-                            color: Qt.rgba(app.foregroundColor.r, app.foregroundColor.g, app.foregroundColor.b, 0.1)
+                            color: Qt.rgba(Style.foregroundColor.r, Style.foregroundColor.g, Style.foregroundColor.b, 0.1)
                             visible: false
                             ColorIcon {
                                 anchors { horizontalCenter: parent.horizontalCenter; top: parent.top; topMargin: app.margins }
@@ -187,7 +187,7 @@ DevicePageBase {
                             Rectangle {
                                 width: parent.width
                                 height: 2
-                                color: angleMouseArea.containsMouse ? app.accentColor : "transparent"
+                                color: angleMouseArea.containsMouse ? Style.accentColor : "transparent"
                                 y: angleMouseArea.mouseY
                                 onYChanged: sliderMask.update()
                             }
@@ -196,7 +196,7 @@ DevicePageBase {
                         Rectangle {
                             id: mask
                             anchors.fill: parent
-                            radius: app.radius
+                            radius: Style.tileRadius
                             color: "blue"
                             visible: false
                         }
@@ -206,7 +206,6 @@ DevicePageBase {
                             source: angleSlider
                             maskSource: mask
                         }
-
 
                         MouseArea {
                             id: angleMouseArea

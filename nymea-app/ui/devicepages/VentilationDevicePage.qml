@@ -66,7 +66,7 @@ DevicePageBase {
                 Rectangle {
                     anchors.fill: parent
                     color: "transparent"
-                    border.color: root.powerState.value === true ? app.accentColor : bulbIcon.keyColor
+                    border.color: root.powerState.value === true ? Style.accentColor : Style.iconColor
                     border.width: 4
                     radius: width / 2
                 }
@@ -76,7 +76,7 @@ DevicePageBase {
                     anchors.fill: parent
                     anchors.margins: app.margins * 1.5
                     name: "../images/ventilation.svg"
-                    color: root.powerState.value === true ? app.accentColor : keyColor
+                    color: root.powerState.value === true ? Style.accentColor : Style.iconColor
 
                     PropertyAnimation on rotation {
                         running: root.powerState.value === true

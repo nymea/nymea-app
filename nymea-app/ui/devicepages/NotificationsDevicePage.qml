@@ -134,7 +134,7 @@ DevicePageBase {
                     height: app.iconSize
                     width: app.iconSize
                     name: "../images/send.svg"
-                    color: titleTextField.displayText.length > 0 ? app.accentColor : keyColor
+                    color: titleTextField.displayText.length > 0 ? Style.accentColor : Style.iconColor
                     visible: d.pendingAction == -1
                 }
 

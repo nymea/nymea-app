@@ -86,7 +86,7 @@ Page {
                     Layout.preferredWidth: height
                     Layout.alignment: Qt.AlignHCenter
                     name: "../images/system-update.svg"
-                    color: app.accentColor
+                    color: Style.accentColor
                     RotationAnimation on rotation {
                         from: 0; to: 360
                         duration: 2000
@@ -127,7 +127,7 @@ Page {
                     Layout.preferredHeight: app.iconSize * 2
                     Layout.preferredWidth: height
                     name: "../images/system-update.svg"
-                    color: app.accentColor
+                    color: Style.accentColor
                     RotationAnimation on rotation {
                         from: 0; to: 360
                         duration: 2000
@@ -195,7 +195,7 @@ Page {
                                 : Qt.resolvedUrl("../images/view-" + (model.installedVersion.length > 0 ? "expand" : "collapse") + ".svg")
                     iconColor: model.updateAvailable
                                ? "green"
-                                 : model.installedVersion.length > 0 ? "blue" : iconKeyColor
+                                 : model.installedVersion.length > 0 ? "blue" : Style.iconColor
                     onClicked: {
                         pageStack.push(packageDetailsComponent, {pkg: updatesModel.get(index)})
                     }
@@ -286,7 +286,7 @@ Page {
                                 : Qt.resolvedUrl("../images/view-" + (model.installedVersion.length > 0 ? "expand" : "collapse") + ".svg")
                     iconColor: model.updateAvailable
                                ? "green"
-                                 : model.installedVersion.length > 0 ? "blue" : iconKeyColor
+                                 : model.installedVersion.length > 0 ? "blue" : Style.iconColor
                     onClicked: {
                         pageStack.push(packageDetailsComponent, {pkg: filterModel.get(index)})
                     }
@@ -319,7 +319,7 @@ Page {
                         Layout.preferredHeight: app.iconSize * 2
                         Layout.preferredWidth: app.iconSize * 2
                         name: "../images/plugin.svg"
-                        color: app.accentColor
+                        color: Style.accentColor
                     }
                     Label {
                         Layout.fillWidth: true

@@ -419,7 +419,7 @@ DevicePageBase {
                 Layout.preferredWidth: height
                 color: "lightgray"
                 radius: width / 2
-                border.color: app.foregroundColor
+                border.color: Style.foregroundColor
                 border.width: 1
 
                 SequentialAnimation on color {

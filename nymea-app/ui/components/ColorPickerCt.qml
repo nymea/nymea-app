@@ -29,6 +29,7 @@
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import QtQuick 2.3
+import Nymea 1.0
 
 Item {
     id: root
@@ -46,7 +47,7 @@ Item {
         anchors.centerIn: parent
         rotation: -90
         border.width: 1
-        border.color: app.foregroundColor
+        border.color: Style.foregroundColor
 
         gradient: Gradient {
             GradientStop { position: 0.0; color: "#efffff" }

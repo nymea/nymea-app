@@ -43,7 +43,7 @@ Page {
 
         HeaderButton {
             imageSource: "../images/find.svg"
-            color: filterInput.shown ? app.accentColor : keyColor
+            color: filterInput.shown ? Style.accentColor : Style.iconColor
             onClicked: filterInput.shown = !filterInput.shown
 
         }

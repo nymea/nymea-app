@@ -166,7 +166,7 @@ DevicePageBase {
                 Rectangle {
                     anchors.fill: parent
                     color: "transparent"
-                    border.color: root.powerState.value === true ? app.accentColor : irrigationIcon.keyColor
+                    border.color: root.powerState.value === true ? Style.accentColor : Style.iconColoor
                     border.width: 4
                     radius: width / 2
                 }
@@ -176,7 +176,7 @@ DevicePageBase {
                     anchors.fill: parent
                     anchors.margins: app.margins * 1.5
                     name: "../images/irrigation.svg"
-                    color: root.powerState.value === true ? app.accentColor : keyColor
+                    color: root.powerState.value === true ? Style.accentColor : Style.iconColor
                 }
                 onClicked: {
                     var params = []
@@ -209,7 +209,7 @@ DevicePageBase {
                 horizontalAlignment: Text.AlignHCenter
                 text: history.lastWatering ? Qt.formatDateTime(history.lastWatering) : ""
                 font.pixelSize: app.largeFont
-                color: app.accentColor
+                color: Style.accentColor
             }
             Label {
                 Layout.fillWidth: true
@@ -303,7 +303,7 @@ DevicePageBase {
                 horizontalAlignment: Text.AlignHCenter
                 visible: tagsProxy.count > 0
                 font.pixelSize: app.largeFont
-                color: app.accentColor
+                color: Style.accentColor
                 text: tagsProxy.count == 0 ? "" : Qt.formatDateTime(engine.ruleManager.rules.getRule(tagsProxy.get(0).ruleId).timeDescriptor.timeEventItems.get(0).dateTime)
             }
             Label {

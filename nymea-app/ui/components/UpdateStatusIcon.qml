@@ -11,7 +11,7 @@ ColorIcon {
     readonly property bool updateRunning: updateStatusState && updateStatusState.value === "updating"
 
     name: "../images/system-update.svg"
-    color: app.accentColor
+    color: Style.accentColor
 
     RotationAnimation on rotation {
         from: 0; to: 360

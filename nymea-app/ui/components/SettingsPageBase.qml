@@ -47,7 +47,7 @@ Page {
 
     Flickable {
         anchors.fill: parent
-        contentHeight: contentColumn.height
+        contentHeight: contentColumn.height + app.margins
         interactive: contentHeight > height
 
         ScrollBar.vertical: ScrollBar {}

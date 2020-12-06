@@ -49,7 +49,7 @@ Page {
 
         HeaderButton {
             imageSource: "../images/filters.svg"
-            color: logsModelNg.filterEnabled ? app.accentColor : keyColor
+            color: logsModelNg.filterEnabled ? Style.accentColor : Style.iconColor
             onClicked: logsModelNg.filterEnabled = !logsModelNg.filterEnabled
             visible: root.filterTypeIds.length === 0
         }
@@ -179,12 +179,12 @@ Page {
                         case LogEntry.LoggingSourceSystem:
                         case LogEntry.LoggingSourceActions:
                         case LogEntry.LoggingSourceEvents:
-                            return app.accentColor
+                            return Style.accentColor
                         case LogEntry.LoggingSourceRules:
                             if (model.loggingEventType === LogEntry.LoggingEventTypeActiveChange) {
-                                return model.value === true ? "green" : keyColor
+                                return model.value === true ? "green" : Style.iconColor
                             }
-                            return app.accentColor
+                            return Style.accentColor
                         }
                     }
                     name: {
@@ -310,7 +310,7 @@ Page {
                 width: height * 2
                 color: parent.value
                 //                radius: width / 2
-                border.color: app.foregroundColor
+                border.color: Style.foregroundColor
                 border.width: 1
             }
         }

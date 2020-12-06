@@ -133,7 +133,7 @@ RowLayout {
         Layout.preferredHeight: app.iconSize
         Layout.preferredWidth: height
         imageSource: root.repeatState.value === "One" ? "../images/media-playlist-repeat-one.svg" : "../images/media-playlist-repeat.svg"
-        color: root.repeatState.value === "None" ? keyColor : app.accentColor
+        color: root.repeatState.value === "None" ? Style.iconColor : Style.accentColor
         longpressEnabled: false
         enabled: root.repeatState !== null
         opacity: enabled ? 1 : .5

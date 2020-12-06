@@ -30,6 +30,7 @@
 
 import QtQuick 2.9
 import QtQuick.Layouts 1.3
+import Nymea 1.0
 
 Item {
     id: root
@@ -39,7 +40,6 @@ Item {
     property string imageSource
     property string longpressImageSource: imageSource
     property bool repeat: false
-    property alias keyColor: icon.keyColor
     property alias color: icon.color
 
     property bool longpressEnabled: true
@@ -98,7 +98,7 @@ Item {
             anchors.fill: parent
             anchors.margins: -app.margins / 2
             radius: width / 2
-            color: app.foregroundColor
+            color: Style.foregroundColor
             opacity: buttonDelegate.pressed || buttonDelegate.containsMouse ? .08 : 0
             Behavior on opacity {
                 NumberAnimation { duration: 200 }
@@ -132,7 +132,7 @@ Item {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 ctx.fillStyle = Qt.rgba(1, 0, 0, 1);
                 ctx.lineWidth = canvas.penWidth
-                ctx.strokeStyle = app.accentColor
+                ctx.strokeStyle = Style.accentColor
 
                 var start = -Math.PI / 2;
                 var stop = -Math.PI / 2;

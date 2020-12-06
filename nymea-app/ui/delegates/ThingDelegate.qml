@@ -62,12 +62,12 @@ NymeaSwipeDelegate {
             return "red"
         }
         if (thing.setupStatus == Thing.ThingSetupStatusInProgress) {
-            return iconKeyColor
+            return Style.iconColor
         }
         if (connectedState && connectedState.value === false) {
             return "red"
         }
-        return iconKeyColor
+        return Style.iconColor
     }
 
     property Device device: null

@@ -39,7 +39,7 @@ MainPageTile {
     id: root
     text: device.name.toUpperCase()
     iconName: app.interfacesToIcon(deviceClass.interfaces)
-    iconColor: app.accentColor
+    iconColor: Style.accentColor
     isWireless: deviceClass.interfaces.indexOf("wirelessconnectable") >= 0
     batteryCritical: batteryCriticalState && batteryCriticalState.value === true
     disconnected: connectedState && connectedState.value === false
@@ -128,7 +128,7 @@ MainPageTile {
                     name: deviceClass.interfaces.indexOf("light") >= 0
                           ? (powerState.value === true ? "../images/light-on.svg" : "../images/light-off.svg")
                           : app.interfacesToIcon(deviceClass.interfaces)
-                    color: powerState.value === true ? app.accentColor : keyColor
+                    color: powerState.value === true ? Style.accentColor : Style.iconColor
                 }
                 onClicked: {
                     var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);

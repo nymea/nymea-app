@@ -39,7 +39,7 @@ MainPageTile {
     id: root
     text: iface ? iface.displayName.toUpperCase() : qsTr("uncategorized").toUpperCase()
     iconName: iface ? interfaceToIcon(iface.name) : interfaceToIcon("uncategorized")
-    iconColor: app.accentColor
+    iconColor: Style.accentColor
     disconnected: devicesSubProxyConnectables.count > 0
     isWireless: devicesSubProxyConnectables.count > 0 && devicesSubProxyConnectables.get(0).thingClass.interfaces.indexOf("wirelessconnectable") >= 0
     batteryCritical: devicesSubProxyBattery.count > 0
@@ -683,7 +683,7 @@ MainPageTile {
                     Layout.preferredHeight: app.iconSize
                     Layout.preferredWidth: app.iconSize
                     name: sensorsRoot.currentSensor >= 0 && sensorsRoot.shownSensors.length > sensorsRoot.currentSensor ? app.interfaceToIcon(sensorsRoot.shownSensors[sensorsRoot.currentSensor].ifaceName) : ""
-                    color: sensorsRoot.currentSensor >= 0 && sensorsRoot.shownSensors.length > sensorsRoot.currentSensor ? app.interfaceToColor(sensorsRoot.shownSensors[sensorsRoot.currentSensor].ifaceName) : keyColor
+                    color: sensorsRoot.currentSensor >= 0 && sensorsRoot.shownSensors.length > sensorsRoot.currentSensor ? app.interfaceToColor(sensorsRoot.shownSensors[sensorsRoot.currentSensor].ifaceName) : Style.iconColor
                 }
 
                 ColumnLayout {
@@ -698,7 +698,7 @@ MainPageTile {
                         text: sensorsRoot.shownStateType
                               ? (Math.round(Types.toUiValue(sensorsRoot.device.states.getState(sensorsRoot.shownStateType.id).value, sensorsRoot.shownStateType.unit) * 100) / 100) + " " + Types.toUiUnit(sensorsRoot.shownStateType.unit)
                               : ""
-                        //                    font.pixelSize: app.smallFont
+                        font.pixelSize: app.smallFont
                         Layout.fillWidth: true
                         visible: sensorsRoot.shownStateType && sensorsRoot.shownStateType.type.toLowerCase() !== "bool"
                         elide: Text.ElideRight

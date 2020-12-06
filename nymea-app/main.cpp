@@ -95,14 +95,12 @@ int main(int argc, char *argv[])
     parser.addOption(kioskOption);
     QCommandLineOption connectOption = QCommandLineOption({"c", "connect"}, "Connect to nymea:core without discovery.", "host");
     parser.addOption(connectOption);
+    QCommandLineOption styleOption = QCommandLineOption({"s", "style"}, "Override the style. Style in settings will be disabled.", "style");
+    parser.addOption(styleOption);
     parser.process(application);
 
     // Initialize app log controller as early as possible, but after setting app name etc
     AppLogController::instance();
-
-    foreach (const QFileInfo &fi, QDir(":/ui/fonts/").entryInfoList()) {
-        QFontDatabase::addApplicationFont(fi.absoluteFilePath());
-    }
 
     QTranslator qtTranslator;    
     qtTranslator.load("qt_" + QLocale::system().name(), QLibraryInfo::location(QLibraryInfo::TranslationsPath));
@@ -125,9 +123,23 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine *engine = new QQmlApplicationEngine();
 
     StyleController styleController;
+    if (parser.isSet(styleOption)) {
+        qDebug() << "Setting style to" << parser.value(styleOption);
+        styleController.setCurrentStyle(parser.value(styleOption));
+    }
 
     QQmlFileSelector *styleSelector = new QQmlFileSelector(engine);
     styleSelector->setExtraSelectors({styleController.currentStyle()});
+
+    foreach (const QFileInfo &fi, QDir(":/ui/fonts/").entryInfoList()) {
+        QFontDatabase::addApplicationFont(fi.absoluteFilePath());
+    }
+    foreach (const QFileInfo &fi, QDir(":/styles/" + styleController.currentStyle() + "/fonts/").entryInfoList()) {
+        qDebug() << "Adding style font:" << fi.absoluteFilePath();
+        QFontDatabase::addApplicationFont(fi.absoluteFilePath());
+    }
+
+    qmlRegisterSingletonType(QUrl("qrc:///styles/" + styleController.currentStyle() + "/Style.qml"), "Nymea", 1, 0, "Style" );
 
     engine->rootContext()->setContextProperty("styleController", &styleController);
 

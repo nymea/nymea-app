@@ -150,7 +150,7 @@ DeviceListPageBase {
                                 anchors.centerIn: parent
                                 height: parent.width
                                 width: parent.height
-                                radius: 6
+                                radius: Style.tileRadius
                                 gradient: Gradient {
                                     GradientStop { position: 0; color: "#00FF0000" }
                                     GradientStop { position: 0.2; color: "#15FF0000" }

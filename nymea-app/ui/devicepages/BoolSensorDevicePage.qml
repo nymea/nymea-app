@@ -59,7 +59,7 @@ Item {
                 anchors.fill: parent
                 anchors.margins: app.margins * 1.5
                 name: root.powerState.value === true ? "../images/light-on.svg" : "../images/light-off.svg"
-                color: root.powerState.value === true ? app.accentColor : keyColor
+                color: root.powerState.value === true ? Style.accentColor : Style.iconColor
             }
         }
 

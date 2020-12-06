@@ -1,6 +1,7 @@
 import QtQuick 2.9
 import QtQuick.Layouts 1.2
 import QtQuick.Controls 2.1
+import QtQuick.Controls.Material 2.1
 import Nymea 1.0
 
     Item {
@@ -24,6 +25,8 @@ import Nymea 1.0
 
     signal clicked();
     signal pressAndHold();
+
+    Material.foreground: Style.tileForegroundColor
 
     function wobble() {
         wobbleAnimation.start();
@@ -66,18 +69,18 @@ import Nymea 1.0
         id: background
         anchors.fill: parent
         anchors.margins: app.margins / 2
-        radius: 6
+        radius: Style.tileRadius
 
         gradient: Gradient {
             GradientStop {
                 position: (headerRow.height + app.margins) / background.height
-                color: Qt.tint(app.backgroundColor, Qt.rgba(app.foregroundColor.r, app.foregroundColor.g, app.foregroundColor.b, .05))
+                color: Style.tileBackgroundColor
             }
             GradientStop {
                 position: (headerRow.height + app.margins) / background.height
                 color:root.showHeader ?
-                          Qt.tint(app.backgroundColor, Qt.rgba(app.foregroundColor.r, app.foregroundColor.g, app.foregroundColor.b, .1))
-                        : Qt.tint(app.backgroundColor, Qt.rgba(app.foregroundColor.r, app.foregroundColor.g, app.foregroundColor.b, .05))
+                          Style.tileOverlayColor
+                        : Style.tileBackgroundColor
             }
         }
     }
@@ -95,9 +98,11 @@ import Nymea 1.0
                 Layout.fillWidth: true
                 text: root.thing.name
                 elide: Text.ElideRight
+                color: Style.tileOverlayForegroundColor
             }
             ThingStatusIcons {
                 thing: root.thing
+//                color: Style.tileOverlayForegroundColor
             }
         }
 

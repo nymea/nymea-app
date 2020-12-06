@@ -64,7 +64,7 @@ SwipeDelegate {
                 Layout.preferredHeight: childEvaluatorsRepeater.count > 0 ? app.iconSize * .6 : app.iconSize
                 Layout.preferredWidth: height
                 name: root.stateEvaluator && root.stateEvaluator.stateDescriptor.interfaceName.length === 0 ? "../images/state.svg" : "../images/state-interface.svg"
-                color: app.accentColor
+                color: Style.accentColor
             }
 
             Label {
@@ -134,7 +134,7 @@ SwipeDelegate {
                     Layout.preferredHeight: app.iconSize * .6
                     Layout.preferredWidth: height
                     name: childEvaluatorDelegate.stateDescriptor.interfaceName.length === 0 ? "../images/state.svg" : "../images/state-interface.svg"
-                    color: app.accentColor
+                    color: Style.accentColor
                 }
                 Label {
                     font.pixelSize: app.smallFont

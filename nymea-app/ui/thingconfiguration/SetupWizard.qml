@@ -479,7 +479,7 @@ Page {
                     wrapMode: Text.WordWrap
                     font.pixelSize: app.largeFont
                     text: qsTr("Pairing...")
-                    color: app.accentColor
+                    color: Style.accentColor
                     horizontalAlignment: Text.AlignHCenter
                 }
 
@@ -598,7 +598,7 @@ Page {
                     horizontalAlignment: Text.AlignHCenter
                     text: resultsView.success ? root.device ? qsTr("Thing reconfigured!") : qsTr("Thing added!") : qsTr("Uh oh")
                     font.pixelSize: app.largeFont
-                    color: app.accentColor
+                    color: Style.accentColor
                 }
                 Label {
                     Layout.fillWidth: true

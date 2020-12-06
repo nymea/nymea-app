@@ -336,7 +336,7 @@ ItemDelegate {
             touchDelegate: Rectangle {
                 height: colorPickerCt.height
                 width: 5
-                color: app.accentColor
+                color: Style.accentColor
             }
         }
     }

@@ -1,24 +1,35 @@
 <RCC>
     <qresource prefix="/">
-        <file>styles/light/ApplicationWindow.qml</file>
         <file>styles/light/Page.qml</file>
         <file>styles/light/logo.svg</file>
         <file>styles/light/Button.qml</file>
-        <file>styles/dark/ApplicationWindow.qml</file>
         <file>styles/dark/Page.qml</file>
         <file>styles/dark/logo.svg</file>
         <file>styles/dark/Button.qml</file>
-        <file>styles/noir/ApplicationWindow.qml</file>
         <file>styles/noir/Page.qml</file>
         <file>styles/noir/logo.svg</file>
         <file>styles/noir/Button.qml</file>
-        <file>styles/lime/ApplicationWindow.qml</file>
+        <file>styles/noir/fonts/Oswald-Bold.ttf</file>
+        <file>styles/noir/fonts/Oswald-ExtraLight.ttf</file>
+        <file>styles/noir/fonts/Oswald-Light.ttf</file>
+        <file>styles/noir/fonts/Oswald-Medium.ttf</file>
+        <file>styles/noir/fonts/Oswald-Regular.ttf</file>
+        <file>styles/noir/fonts/Oswald-SemiBold.ttf</file>
         <file>styles/lime/Page.qml</file>
         <file>styles/lime/logo.svg</file>
         <file>styles/lime/Button.qml</file>
-        <file>styles/energize/ApplicationWindow.qml</file>
         <file>styles/energize/Button.qml</file>
         <file>styles/energize/logo.svg</file>
         <file>styles/energize/Page.qml</file>
+        <file>styles/dark/Style.qml</file>
+        <file>styles/light/Style.qml</file>
+        <file>styles/noir/Style.qml</file>
+        <file>styles/lime/Style.qml</file>
+        <file>styles/energize/Style.qml</file>
+        <file>styles/light/logo-wide.svg</file>
+        <file>styles/dark/logo-wide.svg</file>
+        <file>styles/energize/logo-wide.svg</file>
+        <file>styles/lime/logo-wide.svg</file>
+        <file>styles/noir/logo-wide.svg</file>
     </qresource>
 </RCC>

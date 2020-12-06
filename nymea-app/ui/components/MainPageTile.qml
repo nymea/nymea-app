@@ -62,15 +62,15 @@ Item {
         gradient: Gradient {
             GradientStop {
                 position: 1 - innerContent.height / background.height
-                color: Qt.tint(app.backgroundColor, Qt.rgba(app.foregroundColor.r, app.foregroundColor.g, app.foregroundColor.b, .1))
+                color: Style.tileOverlayColor
             }
             GradientStop {
                 position: 1 - innerContent.height / background.height
-                color: Qt.tint(app.backgroundColor, Qt.rgba(app.foregroundColor.r, app.foregroundColor.g, app.foregroundColor.b, .05))
+                color: Style.tileBackgroundColor
             }
         }
 
-        radius: 6
+        radius: Style.tileRadius
     }
 
     Image {
@@ -159,6 +159,7 @@ Item {
                         horizontalAlignment: Text.AlignHCenter
                         maximumLineCount: 2
                         elide: Text.ElideRight
+                        color: Style.tileForegroundColor
                     }
                 }
             }
@@ -169,6 +170,7 @@ Item {
         id: innerContent
         anchors { left: parent.left; bottom: parent.bottom; right: parent.right; margins: app.margins / 2 }
         height: app.iconSize + app.margins * 2
+        Material.foreground: Style.tileOverlayForegroundColor
 
         MouseArea {
             anchors.fill: parent
@@ -182,7 +184,7 @@ Item {
             height: app.smallIconSize
             width: height
             name: "../images/system-update.svg"
-            color: app.accentColor
+            color: Style.accentColor
             visible: root.updateStatus
         }
 
@@ -191,13 +193,13 @@ Item {
             width: height
             name: root.isWireless ? "../images/connections/nm-signal-00.svg" : "../images/connections/network-wired-offline.svg"
             color: root.disconnected ? "red" : "orange"
-            visible: root.setupStatus == Thing.ThingSetupStatusComplete && (root.disconnected || (root.isWireless && root.signalStrength < 20))
+            visible: root.setupStatus == Thing.ThingSetupStatusComplete && (root.disconnected || (root.isWireless && root.signalStrength < 20 && root.signalStrength >= 0))
         }
         ColorIcon {
             height: app.smallIconSize
             width: height
             name: root.setupStatus === Thing.ThingSetupStatusFailed ? "../images/dialog-warning-symbolic.svg" : "../images/settings.svg"
-            color: root.setupStatus === Thing.ThingSetupStatusFailed ? "red" : keyColor
+            color: root.setupStatus === Thing.ThingSetupStatusFailed ? "red" : Style.tileForegroundColor
             visible: root.setupStatus === Thing.ThingSetupStatusFailed || root.setupStatus === Thing.ThingSetupStatusInProgress
         }
         ColorIcon {
@@ -205,6 +207,7 @@ Item {
             width: height
             name: "../images/battery/battery-010.svg"
             visible: root.setupStatus == Thing.ThingSetupStatusComplete && root.batteryCritical
+            color: Style.tileForegroundColor
         }
     }
 }

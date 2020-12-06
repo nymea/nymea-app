@@ -145,7 +145,7 @@ Page {
         delegate: NymeaSwipeDelegate {
             width: parent.width
             iconName: "../images/magic.svg"
-            iconColor: !model.enabled ? "red" : (model.active ? app.accentColor : "grey")
+            iconColor: !model.enabled ? "red" : (model.active ? Style.accentColor : "grey")
             text: model.name
             canDelete: true
 
@@ -183,7 +183,7 @@ Page {
             horizontalAlignment: Text.AlignHCenter
             text: qsTr("There's no magic involving %1.").arg(root.device.name)
             font.pixelSize: app.largeFont
-            color: app.accentColor
+            color: Style.accentColor
         }
         Label {
             width: parent.width

@@ -32,6 +32,7 @@ import QtQuick 2.2
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.1
 import "../../components"
+import Nymea 1.0
 
 Item {
     id: pane
@@ -72,7 +73,7 @@ Item {
                         background: Rectangle {
                             implicitWidth: 200
                             implicitHeight: panelHeader.height
-                            color: app.backgroundColor
+                            color: Style.backgroundColor
                             Label {
                                 anchors.centerIn: parent
                                 text: contentContainer.data[index].title
@@ -102,7 +103,7 @@ Item {
             ColorIcon {
                 name: "../images/edit-clear.svg"
                 enabled: contentContainer.data[panelTabs.currentIndex].clearEnabled
-                color: enabled ? app.accentColor : keyColor
+                color: enabled ? Style.accentColor : Style.iconColor
                 Layout.preferredHeight: app.iconSize  / 2
                 Layout.preferredWidth: height
                 MouseArea {
@@ -116,7 +117,7 @@ Item {
                 name: pane.shown ? "../images/down.svg" : "../images/up.svg"
                 Layout.preferredHeight: app.iconSize  / 2
                 Layout.preferredWidth: height
-                color: app.accentColor
+                color: Style.accentColor
                 MouseArea {
                     anchors.fill: parent
                     anchors.margins: -5

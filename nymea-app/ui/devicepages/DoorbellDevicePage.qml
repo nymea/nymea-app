@@ -58,18 +58,16 @@ DevicePageBase {
                 width: height
                 name: "../images/notification.svg"
 
-                color: keyColor
-
                 SequentialAnimation {
                     id: ringAnimation
-                    ColorAnimation { target: doorbellIcon; property: "color"; from: doorbellIcon.keyColor; to: app.accentColor; duration: 200 }
-                    ColorAnimation { target: doorbellIcon; property: "color"; from: app.accentColor; to: doorbellIcon.keyColor; duration: 300 }
-                    ColorAnimation { target: doorbellIcon; property: "color"; from: doorbellIcon.keyColor; to: app.accentColor; duration: 200 }
-                    ColorAnimation { target: doorbellIcon; property: "color"; from: app.accentColor; to: doorbellIcon.keyColor; duration: 300 }
-                    ColorAnimation { target: doorbellIcon; property: "color"; from: doorbellIcon.keyColor; to: app.accentColor; duration: 200 }
-                    ColorAnimation { target: doorbellIcon; property: "color"; from: app.accentColor; to: doorbellIcon.keyColor; duration: 300 }
-                    ColorAnimation { target: doorbellIcon; property: "color"; from: doorbellIcon.keyColor; to: app.accentColor; duration: 200 }
-                    ColorAnimation { target: doorbellIcon; property: "color"; from: app.accentColor; to: doorbellIcon.keyColor; duration: 300 }
+                    ColorAnimation { target: doorbellIcon; property: "color"; from: Style.iconColor; to: Style.accentColor; duration: 200 }
+                    ColorAnimation { target: doorbellIcon; property: "color"; from: Style.accentColor; to: Style.iconColor; duration: 300 }
+                    ColorAnimation { target: doorbellIcon; property: "color"; from: Style.iconColor; to: Style.accentColor; duration: 200 }
+                    ColorAnimation { target: doorbellIcon; property: "color"; from: Style.accentColor; to: Style.iconColor; duration: 300 }
+                    ColorAnimation { target: doorbellIcon; property: "color"; from: Style.iconColor; to: Style.accentColor; duration: 200 }
+                    ColorAnimation { target: doorbellIcon; property: "color"; from: Style.accentColor; to: Style.iconColor; duration: 300 }
+                    ColorAnimation { target: doorbellIcon; property: "color"; from: Style.iconColor; to: Style.accentColor; duration: 200 }
+                    ColorAnimation { target: doorbellIcon; property: "color"; from: Style.accentColor; to: Style.iconColor; duration: 300 }
                 }
 
                 Connections {
@@ -106,7 +104,7 @@ DevicePageBase {
                         Layout.preferredHeight: app.iconSize
                         Layout.preferredWidth: app.iconSize
                         name: "../images/alarm-clock.svg"
-                        color: app.accentColor
+                        color: Style.accentColor
                     }
 
                     Label {
