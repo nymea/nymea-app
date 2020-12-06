@@ -61,7 +61,7 @@ SettingsPageBase {
         Layout.fillWidth: true
         Layout.margins: app.margins
         text: qsTr("Client info")
-        color: app.accentColor
+        color: Style.accentColor
     }
 
     RowLayout {
@@ -131,7 +131,7 @@ SettingsPageBase {
                 Layout.preferredHeight: app.iconSize
                 Layout.preferredWidth: height
                 name: "../images/eye.svg"
-                color: passwordTextField.hiddenPassword ? keyColor : app.accentColor
+                color: passwordTextField.hiddenPassword ? Style.iconColor : Style.accentColor
                 MouseArea {
                     anchors.fill: parent
                     onClicked: passwordTextField.hiddenPassword = !passwordTextField.hiddenPassword
@@ -144,7 +144,7 @@ SettingsPageBase {
         Layout.fillWidth: true
         Layout.margins: app.margins
         text: qsTr("Allowed publish topics")
-        color: app.accentColor
+        color: Style.accentColor
     }
 
     Repeater {
@@ -191,7 +191,7 @@ SettingsPageBase {
         Layout.fillWidth: true
         Layout.margins: app.margins
         text: qsTr("Allowed subscribe filters")
-        color: app.accentColor
+        color: Style.accentColor
     }
     Repeater {
         model: root.policy.allowedSubscribeTopicFilters

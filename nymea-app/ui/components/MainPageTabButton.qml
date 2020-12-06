@@ -32,6 +32,7 @@ import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.2
 import QtQuick.Layouts 1.3
+import Nymea 1.0
 
 TabButton {
     id: root
@@ -57,13 +58,13 @@ TabButton {
                 width: app.iconSize
                 height: app.iconSize
                 name: root.iconSource
-                color: root.checked ? app.accentColor : keyColor
+                color: root.checked ? Style.accentColor : Style.iconColor
             }
             Label {
                 id: textLabel
                 text: root.text
                 font.pixelSize: app.smallFont
-                color: root.checked ? app.accentColor : Material.foreground
+                color: root.checked ? Style.accentColor : Material.foreground
             }
         }
     }

@@ -52,7 +52,7 @@ RowLayout {
     ProgressButton {
         longpressEnabled: false
         imageSource: root.invert ? "../images/down.svg" : "../images/up.svg"
-        color: root.openState && root.openState.value === "opening" ? Material.accent : keyColor
+        color: root.openState && root.openState.value === "opening" ? Material.accent : Style.iconColor
         onClicked: {
             engine.deviceManager.executeAction(root.device.id, root.deviceClass.actionTypes.findByName("open").id)
             root.activated("open")
@@ -76,7 +76,7 @@ RowLayout {
     ProgressButton {
         imageSource: root.invert ? "../images/up.svg" : "../images/down.svg"
         longpressEnabled: false
-        color: root.openState && root.openState.value === "closing" ? Material.accent : keyColor
+        color: root.openState && root.openState.value === "closing" ? Material.accent : Style.iconColor
         onClicked: {
             engine.deviceManager.executeAction(root.device.id, root.deviceClass.actionTypes.findByName("close").id)
             root.activated("close")

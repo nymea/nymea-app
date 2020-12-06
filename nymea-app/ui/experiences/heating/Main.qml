@@ -181,7 +181,7 @@ Item {
                         Layout.preferredHeight: app.iconSize
                         Layout.preferredWidth: app.iconSize
                         name: "qrc:/ui/images/weathericons/wind.svg"
-                        color: app.accentColor
+                        color: Style.accentColor
                     }
                     Led {
                         state: {
@@ -209,7 +209,7 @@ Item {
                         Layout.preferredHeight: app.iconSize
                         Layout.preferredWidth: app.iconSize
                         name: "qrc:/ui/images/sensors/temperature.svg"
-                        color: app.accentColor
+                        color: Style.accentColor
                     }
                     Label {
                         text: root.temperatureState ? root.temperatureState.value.toFixed(1) + "°C" : "N/A"
@@ -240,7 +240,7 @@ Item {
                     Layout.preferredHeight: app.iconSize //* 1.5
                     Layout.preferredWidth: height
                     Layout.alignment: Qt.AlignHCenter
-                    color: app.accentColor
+                    color: Style.accentColor
                     name: "qrc:/ui/images/magic.svg"
                     MouseArea {
                         anchors.fill: parent
@@ -249,7 +249,7 @@ Item {
                 }
                 Label {
                     text: qsTr("Automate this thing")
-                    color: app.accentColor
+                    color: Style.accentColor
                     font.pixelSize: app.smallFont
                 }
             }
@@ -263,7 +263,7 @@ Item {
                     ColorIcon {
                         Layout.preferredHeight: app.iconSize
                         Layout.preferredWidth: app.iconSize
-                        color: app.accentColor
+                        color: Style.accentColor
                         name: "qrc:/ui/images/ventilation.svg"
                         PropertyAnimation on rotation {
                             running: root.ventilationLevelState !== null
@@ -296,8 +296,8 @@ Item {
                                 Layout.fillWidth: true
                                 Layout.fillHeight: true
                                 border.width: 1
-                                border.color: app.accentColor
-                                color: root.ventilationModeState && root.ventilationModeToUiMode(root.ventilationModeState.value) === index ? app.accentColor : "transparent"
+                                border.color: Style.accentColor
+                                color: root.ventilationModeState && root.ventilationModeToUiMode(root.ventilationModeState.value) === index ? Style.accentColor : "transparent"
                                 Label {
                                     anchors.centerIn: parent
                                     text: model.text
@@ -362,14 +362,14 @@ Item {
                 radius: width / 2
                 border.width: 3
                 color: "transparent"
-                border.color: app.accentColor
+                border.color: Style.accentColor
             }
 
             Glow {
                 anchors.fill: parent
                 source: outerRadius
 //                color: "#f45b69"
-                color: Qt.rgba(app.accentColor.r, app.accentColor.g, app.accentColor.b, .5)
+                color: Qt.rgba(Style.accentColor.r, Style.accentColor.g, Style.accentColor.b, .5)
                 radius: 8
                 samples: 17
                 spread: 0.5
@@ -382,7 +382,7 @@ Item {
                 radius: width / 2
                 border.width: 2
                 color: "transparent"
-                border.color: app.accentColor
+                border.color: Style.accentColor
 
                 Repeater {
                     id: ticksRepeater
@@ -396,7 +396,7 @@ Item {
                         readonly property int isBold: index % 10 === 0
 //                        Rectangle  { anchors.fill: parent; color: "blue" }
 
-                        Rectangle { height: parent.height; width: parent.isBold ? 20 : 10; color: app.accentColor }
+                        Rectangle { height: parent.height; width: parent.isBold ? 20 : 10; color: Style.accentColor }
 
                     }
                 }

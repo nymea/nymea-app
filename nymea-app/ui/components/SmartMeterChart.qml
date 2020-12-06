@@ -37,12 +37,12 @@ import Nymea 1.0
 
 ChartView {
     id: chart
-    backgroundColor: app.backgroundColor
+    backgroundColor: Style.backgroundColor
     theme: ChartView.ChartThemeLight
-    legend.labelColor: app.foregroundColor
+    legend.labelColor: Style.foregroundColor
     legend.font.pixelSize: app.smallFont
     legend.alignment: Qt.AlignRight
-    titleColor: app.foregroundColor
+    titleColor: Style.foregroundColor
 
     property ThingsProxy meters: null
     property int multiplier: 1
@@ -78,7 +78,7 @@ ChartView {
                 value = value - (totalProducedState.value * chart.multiplier)
             }
             var slice = pieSeries.append(thing.name, Math.max(0, value))
-            var color = app.accentColor
+            var color = Style.accentColor
             for (var j = 0; j < i; j+=2) {
                 if (i % 2 == 0) {
                     color = Qt.lighter(color, 1.2);

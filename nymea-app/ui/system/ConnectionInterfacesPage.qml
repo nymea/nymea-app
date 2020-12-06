@@ -47,7 +47,7 @@ SettingsPageBase {
         model: engine.nymeaConfiguration.tcpServerConfigurations
         delegate: ConnectionInterfaceDelegate {
             Layout.fillWidth: true
-            iconColor: inUse ? app.accentColor : iconKeyColor
+            iconColor: inUse ? Style.accentColor : Style.iconColor
             readonly property bool inUse: (engine.jsonRpcClient.currentConnection.hostAddress === model.address || model.address === "0.0.0.0")
                                  && engine.jsonRpcClient.currentConnection.port === model.port
             canDelete: !inUse
@@ -95,7 +95,7 @@ SettingsPageBase {
         model: engine.nymeaConfiguration.webSocketServerConfigurations
         delegate: ConnectionInterfaceDelegate {
             Layout.fillWidth: true
-            iconColor: inUse ? app.accentColor : iconKeyColor
+            iconColor: inUse ? Style.accentColor : Style.iconColor
             readonly property bool inUse: (engine.jsonRpcClient.currentConnection.hostAddress === model.address || model.address === "0.0.0.0")
                                  && engine.jsonRpcClient.currentConnection.port === model.port
             canDelete: !inUse

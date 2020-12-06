@@ -44,7 +44,7 @@ SettingsPageBase {
 
         HeaderButton {
             imageSource: "../images/configure.svg"
-            color: pluginsProxy.showOnlyConfigurable ? app.accentColor : keyColor
+            color: pluginsProxy.showOnlyConfigurable ? Style.accentColor : Style.iconColor
             onClicked: {
                 pluginsProxy.showOnlyConfigurable = !pluginsProxy.showOnlyConfigurable
             }

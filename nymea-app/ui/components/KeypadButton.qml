@@ -39,7 +39,7 @@ Item {
 
     property alias imageSource: icon.name
 
-    property color activeColor: app.accentColor
+    property color activeColor: Style.accentColor
 
     function activate() {
         t.start();
@@ -48,7 +48,7 @@ Item {
     ColorIcon {
         id: icon
         anchors.fill: parent
-        color: active ? root.activeColor : keyColor
+        color: active ? root.activeColor : Style.iconColor
         Behavior on color { ColorAnimation { duration: 200 } }
 
         property bool active: t.running

@@ -54,6 +54,7 @@ Page {
 
             HeaderButton {
                 imageSource: "../images/navigation-menu.svg"
+                color: Style.headerForegroundColor
                 onClicked: {
                     if (d.configOverlay != null) {
                         d.configOverlay.destroy();
@@ -64,6 +65,7 @@ Page {
 
             Label {
                 Layout.fillWidth: true
+                color: Style.headerForegroundColor
                 text: d.configOverlay !== null ?
                            qsTr("Configure main view")
                          : swipeView.currentItem.item.title.length > 0 ? swipeView.currentItem.item.title : filteredContentModel.data(swipeView.currentIndex, "displayName")
@@ -455,7 +457,7 @@ Page {
                                         width: Math.min(parent.width, parent.height) * .8
                                         height: width
                                         name: Qt.resolvedUrl("images/" + model.icon + ".svg")
-                                        color: configDelegate.isEnabled ? app.accentColor : keyColor
+                                        color: configDelegate.isEnabled ? Style.accentColor : Style.iconColor
                                     }
                                 }
 
@@ -519,7 +521,7 @@ Page {
                                         width: Math.min(parent.width, parent.height) * .8
                                         height: width
                                         name: Qt.resolvedUrl("images/" + dndItem.icon + ".svg")
-                                        color: dndItem.isEnabled ? app.accentColor : keyColor
+                                        color: dndItem.isEnabled ? Style.accentColor : Style.iconColor
                                     }
                                 }
 

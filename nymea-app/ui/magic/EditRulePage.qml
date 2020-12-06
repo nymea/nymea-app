@@ -395,7 +395,7 @@ Page {
                                 width: height
                                 color: "transparent"
                                 border.width: 2
-                                border.color: modelData === root.ruleColor ? app.accentColor : "transparent"
+                                border.color: modelData === root.ruleColor ? Style.accentColor : "transparent"
                                 anchors.centerIn: parent
                             }
 
@@ -425,7 +425,7 @@ Page {
                                 width: height
                                 color: "transparent"
                                 border.width: 2
-                                border.color: modelData === root.ruleIcon ? app.accentColor : "transparent"
+                                border.color: modelData === root.ruleIcon ? Style.accentColor : "transparent"
                                 anchors.centerIn: parent
                             }
 

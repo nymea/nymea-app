@@ -90,8 +90,8 @@ DeviceListPageBase {
                             Layout.preferredHeight: app.iconSize
                             Layout.preferredWidth: app.iconSize
                             color: itemDelegate.movingState && itemDelegate.movingState.value === true
-                                   ? app.accentColor
-                                   : keyColor
+                                   ? Style.accentColor
+                                   : Style.iconColor
                             name: itemDelegate.percentageState
                                   ? root.iconBasename + "-" + app.pad(Math.round(itemDelegate.percentageState.value / 10) * 10, 3) + ".svg"
                                   : root.iconBasename + "-050.svg"

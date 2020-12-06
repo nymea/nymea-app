@@ -31,6 +31,7 @@
 import QtQuick 2.8
 import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.2
+import Nymea 1.0
 
 Dialog {
     id: root
@@ -70,7 +71,7 @@ Dialog {
                 id: headerColorIcon
                 Layout.preferredHeight: app.hugeIconSize
                 Layout.preferredWidth: height
-                color: app.accentColor
+                color: Style.accentColor
                 visible: name.length > 0
             }
 
@@ -80,7 +81,7 @@ Dialog {
                 Layout.margins: app.margins
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 text: root.title
-                color: app.accentColor
+                color: Style.accentColor
                 font.pixelSize: app.largeFont
             }
         }

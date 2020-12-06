@@ -61,9 +61,14 @@ QString StyleController::currentStyle() const
 
 void StyleController::setCurrentStyle(const QString &currentStyle)
 {
+    if (!allStyles().contains(currentStyle)) {
+        qWarning().nospace() << "No style named: " << currentStyle << ". Available styles are: " << allStyles().join(", ");
+        return;
+    }
     QSettings settings;
     if (settings.value("style").toString() != currentStyle) {
         settings.setValue("style", currentStyle);
+        QQuickStyle::setStyle(QString(":/styles/%1").arg(currentStyle));
         emit currentStyleChanged();
     }
 }

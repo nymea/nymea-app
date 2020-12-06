@@ -452,7 +452,7 @@ SettingsPageBase {
                 wrapMode: Text.WordWrap
                 text: qsTr("Password forgotten?")
                 font.pixelSize: app.largeFont
-                color: app.accentColor
+                color: Style.accentColor
             }
             Label {
                 Layout.fillWidth: true; Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
@@ -508,7 +508,7 @@ SettingsPageBase {
                 Layout.margins: app.margins
                 wrapMode: Text.WordWrap
                 text: qsTr("Check your email!")
-                color: app.accentColor
+                color: Style.accentColor
                 font.pixelSize: app.largeFont
             }
 

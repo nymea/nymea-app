@@ -95,7 +95,7 @@ Item {
                 width: parent.width
                 height: parent.height
                 name: "../images/" + root.type + "/" + root.type + "-inlay.svg"
-                color: app.foregroundColor
+                color: Style.foregroundColor
             }
         }
         OpacityMask {
@@ -131,7 +131,7 @@ Item {
             anchors.right: parent.right
             anchors.margins: parent.width / 6
             height: 2
-            color: app.accentColor
+            color: Style.accentColor
             y: Math.max(parent.minY, Math.min(parent.maxY, dragArea.mouseY))
             visible: root.isExtended && dragArea.containsMouse
         }

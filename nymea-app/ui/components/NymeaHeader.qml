@@ -32,6 +32,7 @@ import QtQuick 2.5
 import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.1
 import QtQuick.Controls.Material 2.1
+import Nymea 1.0
 
 Item {
     id: root
@@ -90,7 +91,7 @@ Item {
                 elide: Text.ElideRight
                 text: root.text
                 visible: text.length > 0
-                color: app.headerForegroundColor
+                color: Style.headerForegroundColor
             }
         }
     }
@@ -111,7 +112,7 @@ Item {
 
         padding: 0
         contentItem: Rectangle {
-            color: infoPane.isError ? "red" : app.accentColor
+            color: infoPane.isError ? "red" : Style.accentColor
             implicitHeight: contentRow.implicitHeight
             RowLayout {
                 id: contentRow

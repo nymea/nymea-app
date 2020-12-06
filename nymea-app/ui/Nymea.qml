@@ -46,17 +46,24 @@ ApplicationWindow {
     minimumHeight: 480
     visibility: kioskMode ? ApplicationWindow.FullScreen : settings.viewMode
     color: Material.background
+    title: app.appName
 
-    // Those variables must be present in the Style
-    title: appName
-    Material.primary: primaryColor
-    Material.accent: accentColor
-    Material.foreground: foregroundColor
+    Material.theme: NymeaUtils.isDark(Style.backgroundColor) ? Material.Dark : Material.Light
+    Material.background: Style.backgroundColor
+    Material.primary: Style.headerBackgroundColor
+    Material.accent: Style.accentColor
+    Material.foreground: Style.foregroundColor
+
+    font.pixelSize: mediumFont
+    font.weight: Font.Normal
+    font.capitalization: Font.MixedCase
+    font.family: Style.fontFamily
+
+    property string appName: "appBranding" in app ? app.appBranding : "nymea:app"
+    property string systemName: "coreBranding" in app ? app.coreBranding : "nymea"
 
     property int margins: 16
     property int bigMargins: 20
-
-    property int radius: 6
 
     property int extraSmallFont: 10
     property int smallFont: 13
@@ -69,7 +76,6 @@ ApplicationWindow {
     property int hugeIconSize: 64
 
     property int delegateHeight: 60
-    property color backgroundColor: Material.background
 
     readonly property bool landscape: app.width > app.height
 
@@ -91,8 +97,8 @@ ApplicationWindow {
 
     Component.onCompleted: {
         styleController.setSystemFont(app.font)
-        PlatformHelper.topPanelColor = app.primaryColor
-        PlatformHelper.bottomPanelColor = Material.background
+        PlatformHelper.topPanelColor = Style.headerBackgroundColor
+        PlatformHelper.bottomPanelColor = Style.backgroundColor
     }
 
     Binding {
@@ -374,37 +380,20 @@ ApplicationWindow {
         return "";
     }
 
-    property var fallbackColors: {
-        "temperaturesensor": "red",
-        "humiditysensor": "deepskyblue",
-        "moisturesensor":"blue",
-        "lightsensor": "orange",
-        "conductivitysensor": "green",
-        "pressuresensor": "grey",
-        "noisesensor": "darkviolet",
-        "co2sensor": "turquoise",
-        "daylightsensor": "gold",
-        "presencesensor": "darkblue",
-        "closablesensor": "green",
-        "smartmeterproducer": "lightgreen",
-        "smartmeterconsumer": "orange",
-        "extendedsmartmeterproducer": "blue",
-        "extendedsmartmeterconsumer": "blue",
-        "heating" : "gainsboro",
-        "thermostat": "dodgerblue",
-        "irrigation": "lightblue",
-        "windspeedsensor": "blue",
-        "ventilation": "lightblue"
+
+
+    StyleBase {
+        id: styleBase
     }
 
     function interfaceToColor(name) {
         // Try to load color map from style
-        if (interfaceColors[name]) {
-            return interfaceColors[name];
+        if (Style.interfaceColors[name]) {
+            return Style.interfaceColors[name];
         }
 
-        if (fallbackColors[name]) {
-            return fallbackColors[name];
+        if (styleBase.interfaceColors[name]) {
+            return styleBase.interfaceColors[name];
         }
 
         return "grey";

@@ -104,7 +104,7 @@ Page {
         HeaderButton {
             imageSource: "../images/save.svg"
             enabled: d.script && d.script.name !== nameTextField.text || d.oldContent !== scriptEdit.text
-            color: enabled ? app.accentColor : keyColor
+            color: enabled ? Style.accentColor : Style.iconColor
             hoverEnabled: true
             ToolTip.text: qsTr("Deploy script")
             ToolTip.visible: hovered
@@ -188,7 +188,7 @@ Page {
             if (scriptId !== d.scriptId) {
                 return;
             }
-            var str = "<font color=\"%1\">".arg(type == "ScriptMessageTypeWarning" ? app.accentColor : app.foregroundColor) + message + "</font>"
+            var str = "<font color=\"%1\">".arg(type == "ScriptMessageTypeWarning" ? Style.accentColor : Style.foregroundColor) + message + "</font>"
             consoleOutput.append(str)
         }
     }
@@ -472,7 +472,7 @@ Page {
     ScriptSyntaxHighlighter {
         id: syntax
         document: scriptEdit.textDocument
-        backgroundColor: app.backgroundColor
+        backgroundColor: Style.backgroundColor
     }
 
     CodeCompletion {

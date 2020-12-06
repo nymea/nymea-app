@@ -98,7 +98,7 @@ Item {
                 Layout.preferredWidth: parent.mainImageSize
                 Layout.preferredHeight: width
                 name: weatherConditionState ? "../images/weathericons/weather-" + weatherConditionState.value + ".svg" : ""
-                color: app.foregroundColor
+                color: Style.foregroundColor
             }
 
             Item {

@@ -79,8 +79,8 @@ MainViewBase {
                 legend.alignment: Qt.AlignBottom
                 legend.font.pixelSize: app.smallFont
                 legend.visible: false
-                backgroundColor: app.backgroundColor
-                titleColor: app.foregroundColor
+                backgroundColor: Style.backgroundColor
+                titleColor: Style.foregroundColor
                 title: qsTr("Power usage history")
 
                 property var startTime: xAxis.min
@@ -161,7 +161,7 @@ MainViewBase {
                                 areaSeries.lowerSeries = lowerSeries;
                             }
 
-                            var color = app.accentColor
+                            var color = Style.accentColor
                             for (var j = 0; j < index; j+=2) {
                                 if (index % 2 == 0) {
                                     color = Qt.lighter(color, 1.2);
@@ -186,18 +186,18 @@ MainViewBase {
 //                    onMaxChanged: applyNiceNumbers();
                     labelsFont.pixelSize: app.smallFont
                     labelFormat: "%d"
-                    labelsColor: app.foregroundColor
-                    color: Qt.rgba(app.foregroundColor.r, app.foregroundColor.g, app.foregroundColor.b, .2)
+                    labelsColor: Style.foregroundColor
+                    color: Qt.rgba(Style.foregroundColor.r, Style.foregroundColor.g, Style.foregroundColor.b, .2)
                     gridLineColor: color
                 }
 
                 DateTimeAxis {
                     id: xAxis
                     gridVisible: false
-                    color: Qt.rgba(app.foregroundColor.r, app.foregroundColor.g, app.foregroundColor.b, .2)
+                    color: Qt.rgba(Style.foregroundColor.r, Style.foregroundColor.g, Style.foregroundColor.b, .2)
                     tickCount: chartView.width / 70
                     labelsFont.pixelSize: app.smallFont
-                    labelsColor: app.foregroundColor
+                    labelsColor: Style.foregroundColor
                     property int timeDiff: (xAxis.max.getTime() - xAxis.min.getTime()) / 1000
 
                     function getTimeSpanString() {
@@ -237,7 +237,7 @@ MainViewBase {
                         }
                         return Qt.formatDate(xAxis.min) + " - " + Qt.formatDate(xAxis.max) + " (" + getTimeSpanString() + ")"
                     }
-                    titleBrush: app.foregroundColor
+                    titleBrush: Style.foregroundColor
                     format: {
                         if (timeDiff < 60) { // one minute
                             return "mm:ss"

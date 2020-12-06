@@ -206,7 +206,7 @@ ColumnLayout {
                 Rectangle {
                     anchors { left: parent.left; top: parent.top; right: parent.right }
                     height: width
-                    color: app.accentColor
+                    color: Style.accentColor
                     radius: width / 2
                 }
                 Rectangle {
@@ -214,7 +214,7 @@ ColumnLayout {
                     anchors.horizontalCenter: parent.horizontalCenter
                     width: 5
                     height: parent.height / 2
-                    color: app.accentColor
+                    color: Style.accentColor
                     radius: width / 2
                 }
             }

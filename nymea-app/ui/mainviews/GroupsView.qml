@@ -62,7 +62,7 @@ MainViewBase {
             width: groupsGridView.cellWidth
             height: groupsGridView.cellHeight
             iconName: "../images/view-grid-symbolic.svg"
-            iconColor: app.accentColor
+            iconColor: Style.accentColor
             text: model.tagId.substring(6)
             onClicked: {
                 pageStack.push(Qt.resolvedUrl("../grouping/GroupInterfacesPage.qml"), {groupTag: model.tagId})
@@ -88,7 +88,7 @@ MainViewBase {
                 Layout.preferredHeight: app.iconSize
                 Layout.preferredWidth: app.iconSize
                 name: "../images/powersocket.svg"
-                color: isOn ? app.accentColor : keyColor
+                color: isOn ? Style.accentColor : Style.iconColor
 
                 property bool isOn: {
                     for (var i = 0; i < sockets.count; i++) {
@@ -172,7 +172,7 @@ MainViewBase {
                 Layout.preferredHeight: app.iconSize
                 Layout.preferredWidth: app.iconSize
                 name: isOn ? "../images/light-on.svg" : "../images/light-off.svg"
-                color: isOn ? app.accentColor : keyColor
+                color: isOn ? Style.accentColor : Style.iconColor
 
                 property bool isOn: {
                     for (var i = 0; i < lights.count; i++) {

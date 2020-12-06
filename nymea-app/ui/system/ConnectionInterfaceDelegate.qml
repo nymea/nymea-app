@@ -40,7 +40,7 @@ NymeaSwipeDelegate {
     iconName: "../images/connections/network-vpn.svg"
     progressive: false
     secondaryIconName: "../images/account.svg"
-    secondaryIconColor: model.authenticationEnabled ? app.accentColor : secondaryIconKeyColor
+    secondaryIconColor: model.authenticationEnabled ? Style.accentColor : Style.iconColor
     tertiaryIconName: "../images/connections/network-secure.svg"
-    tertiaryIconColor: model.sslEnabled ? app.accentColor : tertiaryIconKeyColor
+    tertiaryIconColor: model.sslEnabled ? Style.accentColor : Style.iconColor
 }

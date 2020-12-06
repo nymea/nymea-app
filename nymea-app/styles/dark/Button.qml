@@ -34,6 +34,7 @@ import QtQuick.Controls 2.2
 import QtQuick.Controls.impl 2.2
 import QtQuick.Controls.Material 2.2
 import QtQuick.Controls.Material.impl 2.2
+import Nymea 1.0
 
 T.Button {
     id: control
@@ -55,7 +56,7 @@ T.Button {
 
     contentItem: Text {
         text: control.text
-        color: app.foregroundColor
+        color: Style.foregroundColor
         font.bold: control.font.bold
         font.capitalization: Font.AllUppercase
         font.family: control.font.family

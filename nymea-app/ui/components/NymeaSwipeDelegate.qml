@@ -32,6 +32,7 @@ import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 import QtQuick.Controls.Material 2.2
+import Nymea 1.0
 
 SwipeDelegate {
     id: root
@@ -48,15 +49,12 @@ SwipeDelegate {
     property string iconName
     property string thumbnail
     property int iconSize: app.iconSize
-    property color iconColor: app.accentColor
-    property alias iconKeyColor: icon.keyColor
+    property color iconColor: Style.accentColor
     property alias secondaryIconName: secondaryIcon.name
     property alias secondaryIconColor: secondaryIcon.color
-    property alias secondaryIconKeyColor: secondaryIcon.keyColor
     property alias secondaryIconClickable: secondaryIconMouseArea.enabled
     property alias tertiaryIconName: tertiaryIcon.name
     property alias tertiaryIconColor: tertiaryIcon.color
-    property alias tertiaryIconKeyColor: tertiaryIcon.keyColor
     property alias tertiaryIconClickable: tertiaryIconMouseArea.enabled
 
     property var contextOptions: []
@@ -214,7 +212,7 @@ SwipeDelegate {
                     anchors.fill: parent
                     anchors.margins: app.margins
                     name: entry.icon
-                    color: entry.hasOwnProperty("foregroundColor") ? entry.foregroundColor : keyColor
+                    color: entry.hasOwnProperty("foregroundColor") ? entry.foregroundColor : Style.iconColor
                 }
                 onClicked: {
                     swipe.close();

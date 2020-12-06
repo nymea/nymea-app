@@ -12,7 +12,7 @@ ColorIcon {
 
     name: setupFailed ? "../images/dialog-warning-symbolic.svg"
                       : setupInProgress ?  "../images/settings.svg" : "../images/tick.svg"
-    color: setupFailed ? "red" : keyColor
+    color: setupFailed ? "red" : Style.iconColor
 
     RotationAnimation on rotation {
         from: 0; to: 360

@@ -53,7 +53,7 @@ Rectangle {
             width: height
             Layout.alignment: Qt.AlignHCenter
             name: Qt.resolvedUrl("../images/system-update.svg")
-            color: app.accentColor
+            color: Style.accentColor
             PropertyAnimation on rotation {
                 from: 0; to: 360;
                 duration: 2000

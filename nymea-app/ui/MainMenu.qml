@@ -20,7 +20,7 @@ Drawer {
     signal startDemoMode();
 
     background: Rectangle {
-        color: app.backgroundColor
+        color: Style.backgroundColor
     }
 
 
@@ -31,20 +31,21 @@ Drawer {
         Rectangle {
             Layout.fillWidth: true
             Layout.preferredHeight: topSectionLayout.implicitHeight + app.margins * 2
-            color: Qt.tint(app.backgroundColor, Qt.rgba(app.foregroundColor.r, app.foregroundColor.g, app.foregroundColor.b, 0.05))
+            color: Qt.tint(Style.backgroundColor, Qt.rgba(Style.foregroundColor.r, Style.foregroundColor.g, Style.foregroundColor.b, 0.05))
             ColumnLayout {
                 id: topSectionLayout
                 anchors { left: parent.left; top: parent.top; right: parent.right; margins: app.margins }
+                spacing: app.margins
 
                 Image {
                     Layout.preferredHeight: app.hugeIconSize
-                    Layout.preferredWidth: height
-                    sourceSize.width: width
-                    sourceSize.height: height
-                    source: "qrc:/styles/%1/logo.svg".arg(styleController.currentStyle)
+                    // w : h = ss.w : ss.h
+                    Layout.preferredWidth: app.hugeIconSize * sourceSize.width / sourceSize.height
+                    source: "qrc:/styles/%1/logo-wide.svg".arg(styleController.currentStyle)
                 }
 
                 RowLayout {
+                    visible: root.currentEngine && root.currentEngine.jsonRpcClient.currentHost
                     ColumnLayout {
                         Label {
                             Layout.fillWidth: true
@@ -55,13 +56,11 @@ Drawer {
                             text: root.currentEngine.jsonRpcClient.currentConnection.url
                             font.pixelSize: app.extraSmallFont
                             enabled: false
-                            visible: root.currentEngine && root.currentEngine.jsonRpcClient.currentHost
                         }
                     }
                     ProgressButton {
                         longpressEnabled: false
                         imageSource: "../images/close.svg"
-                        visible: root.currentEngine && root.currentEngine.jsonRpcClient.currentHost
                         onClicked: {
                             root.currentEngine.jsonRpcClient.disconnectFromHost();
                             root.close();

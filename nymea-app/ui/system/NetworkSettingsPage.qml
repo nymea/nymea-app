@@ -494,7 +494,7 @@ SettingsPageBase {
                     Layout.preferredHeight: app.iconSize
                     Layout.preferredWidth: app.iconSize
                     name: "../images/eye.svg"
-                    color: passwordTextField.showPassword ? app.accentColor : keyColor
+                    color: passwordTextField.showPassword ? Style.accentColor : Style.iconColor
                     MouseArea {
                         anchors.fill: parent
                         onClicked: passwordTextField.showPassword = !passwordTextField.showPassword

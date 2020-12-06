@@ -29,6 +29,7 @@
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import QtQuick 2.9
+import Nymea 1.0
 
 Item {
     id: root
@@ -46,7 +47,7 @@ Item {
         color: {
             switch (root.state) {
             case "on":
-                return app.accentColor
+                return Style.accentColor
             case "green":
                 return "#73c0b3";
             case "off":
@@ -58,6 +59,6 @@ Item {
             }
         }
         border.width: 1
-        border.color: app.foregroundColor
+        border.color: Style.foregroundColor
     }
 }

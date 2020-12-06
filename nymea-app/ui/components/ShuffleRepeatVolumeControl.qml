@@ -54,7 +54,7 @@ RowLayout {
         HeaderButton {
             anchors.centerIn: parent
             imageSource: root.repeatState.value === "One" ? "../images/media-playlist-repeat-one.svg" : "../images/media-playlist-repeat.svg"
-            color: root.repeatState.value === "None" ? keyColor : app.accentColor
+            color: root.repeatState.value === "None" ? Style.iconColor : Style.accentColor
             property var allowedValues: ["None", "All", "One"]
             onClicked: {
                 var params = []
@@ -75,7 +75,7 @@ RowLayout {
         HeaderButton {
             anchors.centerIn: parent
             imageSource: "../images/media-playlist-shuffle.svg"
-            color: root.shuffleState.value === true ? app.accentColor: keyColor
+            color: root.shuffleState.value === true ? Style.accentColor: Style.iconColor
             onClicked: {
                 var params = []
                 var param = {}
@@ -151,7 +151,7 @@ RowLayout {
                 HeaderButton {
                     visible: root.muteState !== null
                     imageSource: "../images/audio-speakers-muted-symbolic.svg"
-                    color: root.muteState.value === true ? app.accentColor : keyColor
+                    color: root.muteState.value === true ? Style.accentColor : Style.iconColor
                     onClicked: engine.thingManager.executeAction(root.thing.id, root.muteState.stateTypeId, [{paramTypeId: root.muteState.stateTypeId, value: !root.muteState.value}]);
                 }
             }

@@ -31,6 +31,7 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.2
+import Nymea 1.0
 
 ColumnLayout {
     id: root
@@ -99,7 +100,7 @@ ColumnLayout {
                 }
                 var ret = []
                 for (var i = 0; i < texts.length; i++) {
-                    var entry = "<font color=\"%1\">• ".arg(checks[i] ? "#ffffff" : app.accentColor)
+                    var entry = "<font color=\"%1\">• ".arg(checks[i] ? "#ffffff" : Style.accentColor)
                     entry += texts[i]
                     entry += "</font>"
                     ret.push(entry)
@@ -112,7 +113,7 @@ ColumnLayout {
             Layout.preferredHeight: app.iconSize
             Layout.preferredWidth: app.iconSize
             name: "../images/eye.svg"
-            color: root.hiddenPassword ? keyColor : app.accentColor
+            color: root.hiddenPassword ? Style.iconColor : Style.accentColor
             MouseArea {
                 anchors.fill: parent
                 onClicked: {

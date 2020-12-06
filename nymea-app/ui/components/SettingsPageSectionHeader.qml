@@ -31,6 +31,7 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.2
+import Nymea 1.0
 
 Label {
     Layout.fillWidth: true
@@ -38,6 +39,6 @@ Label {
     Layout.leftMargin: app.margins
     Layout.rightMargin: app.margins
     Layout.bottomMargin: app.margins
-    color: app.accentColor
+    color: Style.accentColor
     wrapMode: Text.WordWrap
 }

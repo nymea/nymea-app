@@ -79,7 +79,7 @@ Page {
                 enabled: !networkManagerController.manager.working
                 subText: model.hostAddress
 
-                iconColor: model.selectedNetwork ? app.accentColor : "#808080"
+                iconColor: model.selectedNetwork ? Style.accentColor : "#808080"
                 iconName:  {
                     if (model.protected) {
                         if (model.signalStrength <= 25)
@@ -175,7 +175,7 @@ Page {
                         Layout.preferredHeight: app.iconSize
                         Layout.preferredWidth: app.iconSize
                         name: "../images/eye.svg"
-                        color: passwordTextField.showPassword ? app.accentColor : keyColor
+                        color: passwordTextField.showPassword ? Style.accentColor : Style.iconColor
                         MouseArea {
                             anchors.fill: parent
                             onClicked: passwordTextField.showPassword = !passwordTextField.showPassword

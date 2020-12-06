@@ -142,7 +142,7 @@ ColumnLayout {
                 property bool isNextMonth: dayOfMonth > daysGrid.daysInMonth
                 property int correctedDayOfMonth: isPreviousMonth ? daysGrid.daysInPreviousMonth + dayOfMonth
                                                                   : isNextMonth ? dayOfMonth - daysGrid.daysInMonth : dayOfMonth
-                color: !isPreviousMonth && !isNextMonth && correctedDayOfMonth == root.date.getDate() ? app.accentColor : "transparent"
+                color: !isPreviousMonth && !isNextMonth && correctedDayOfMonth == root.date.getDate() ? Style.accentColor : "transparent"
                 Label {
                     anchors.centerIn: parent
                     opacity: isPreviousMonth || isNextMonth ? 0.6 : 1

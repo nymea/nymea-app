@@ -43,7 +43,7 @@ Page {
 
         HeaderButton {
             imageSource: "../images/go-down.svg"
-            color: root.autoScroll ? app.accentColor : keyColor
+            color: root.autoScroll ? Style.accentColor : Style.iconColor
             onClicked: {
                 listView.positionViewAtEnd();
                 root.autoScroll = !root.autoScroll
@@ -106,12 +106,12 @@ Page {
                         case LogEntry.LoggingSourceSystem:
                         case LogEntry.LoggingSourceActions:
                         case LogEntry.LoggingSourceEvents:
-                            return app.accentColor
+                            return Style.accentColor
                         case LogEntry.LoggingSourceRules:
                             if (model.loggingEventType === LogEntry.LoggingEventTypeActiveChange) {
-                                return model.value === true ? "green" : keyColor
+                                return model.value === true ? "green" : Style.iconColor
                             }
-                            return app.accentColor
+                            return Style.accentColor
                         }
                     }
                     name: {

@@ -37,8 +37,8 @@ import "../../components"
 Rectangle {
     id: root
     border.width: 1
-    border.color: app.foregroundColor
-    color: app.backgroundColor
+    border.color: Style.foregroundColor
+    color: Style.backgroundColor
     height: (Math.min(model.count, 10) * d.entryHeight) + (border.width * 2)
     width: 200
 
@@ -118,7 +118,7 @@ Rectangle {
         delegate: Rectangle {
             height: d.entryHeight
             width: parent.width
-            color: index == root.currentIndex ? app.accentColor : "transparent"
+            color: index == root.currentIndex ? Style.accentColor : "transparent"
             RowLayout {
                 anchors.fill: parent
                 spacing: 0
@@ -161,7 +161,7 @@ Rectangle {
                         width: height
                         anchors.centerIn: parent
                         visible: name != ""
-                        color: root.currentIndex == index ? app.backgroundColor : app.accentColor
+                        color: root.currentIndex == index ? Style.backgroundColor : Style.accentColor
                         name: {
                             switch (model.decoration) {
                             case "thing":
@@ -184,7 +184,7 @@ Rectangle {
                     Layout.alignment: Qt.AlignVCenter
                     Layout.fillWidth: true
                     text: model.displayText
-                    color: app.foregroundColor
+                    color: Style.foregroundColor
                     width: parent.width
                     elide: Text.ElideRight
                     font: root.font

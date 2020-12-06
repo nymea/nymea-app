@@ -2,6 +2,7 @@ import QtQuick 2.0
 import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.2
 import QtQuick.Layouts 1.2
+import Nymea 1.0
 
 Item {
     id: root
@@ -44,7 +45,7 @@ Item {
 
         Rectangle {
             id: background
-            color: app.accentColor
+            color: Style.accentColor
             anchors.fill: parent
         }
 

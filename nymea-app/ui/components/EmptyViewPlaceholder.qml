@@ -31,6 +31,7 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
+import Nymea 1.0
 
 ColumnLayout {
     id: root
@@ -51,7 +52,7 @@ ColumnLayout {
         Layout.fillWidth: true
         wrapMode: Text.WordWrap
         horizontalAlignment: Text.AlignHCenter
-        color: app.accentColor
+        color: Style.accentColor
     }
     Label {
         id: textLabel

@@ -31,5 +31,5 @@ ColorIcon {
     color: connectedState && connectedState.value === false
            ? "red"
            : signalStrengthState && signalStrengthState.value < 20
-             ? "orange" : keyColor
+             ? "orange" : Style.iconColor
 }

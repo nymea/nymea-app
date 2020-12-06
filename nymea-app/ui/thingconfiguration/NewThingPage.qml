@@ -66,7 +66,7 @@ Page {
                 columns: Math.max(1, Math.floor(width / 250)) * 2
                 Label {
                     text: qsTr("Vendor")
-                    color: app.headerForegroundColor
+                    color: Style.headerForegroundColor
                 }
 
                 ComboBox {
@@ -94,7 +94,7 @@ Page {
                 }
                 Label {
                     text: qsTr("Type")
-                    color: app.headerForegroundColor
+                    color: Style.headerForegroundColor
                 }
 
                 ComboBox {
@@ -135,7 +135,7 @@ Page {
                 TextField {
                     id: displayNameFilterField
                     Layout.fillWidth: true
-                    color: app.headerForegroundColor
+                    color: Style.headerForegroundColor
                 }
             }
         }

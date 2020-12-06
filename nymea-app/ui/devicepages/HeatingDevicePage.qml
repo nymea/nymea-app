@@ -77,10 +77,10 @@ DevicePageBase {
             Layout.preferredWidth: app.landscape ? parent.width / 2 : parent.width
             Layout.preferredHeight: 50
             visible: root.boostStateType
-            border.color: boostMouseArea.pressed || root.boostStateType && root.boostState.value === true ? app.accentColor : app.foregroundColor
+            border.color: boostMouseArea.pressed || root.boostStateType && root.boostState.value === true ? Style.accentColor : Style.foregroundColor
             border.width: 1
             radius: height / 2
-            color: root.boostStateType && root.boostState.value === true ? app.accentColor : "transparent"
+            color: root.boostStateType && root.boostState.value === true ? Style.accentColor : "transparent"
 
             Row {
                 anchors.centerIn: parent
@@ -89,7 +89,7 @@ DevicePageBase {
                     height: app.iconSize
                     width: app.iconSize
                     name: "../images/sensors/temperature.svg"
-                    color: root.boostStateType && root.boostState.value === true ? "red" : keyColor
+                    color: root.boostStateType && root.boostState.value === true ? "red" : Style.iconColor
                 }
 
                 Label {

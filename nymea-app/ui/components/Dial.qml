@@ -42,7 +42,7 @@ ColumnLayout {
 
     property bool showValueLabel: true
     property int steps: 10
-    property color color: app.accentColor
+    property color color: Style.accentColor
     property int maxAngle: 235
 
     // value : max = angle : maxAngle
@@ -157,7 +157,7 @@ ColumnLayout {
             Rectangle {
                 anchors.fill: rotationButton
                 radius: height / 2
-                border.color: app.foregroundColor
+                border.color: Style.foregroundColor
                 border.width: 2
                 color: "transparent"
                 opacity: rotateMouseArea.pressed && !rotateMouseArea.grabbed ? .7 : 1
@@ -223,7 +223,7 @@ ColumnLayout {
             width: height
             anchors.centerIn: parent
             radius: height / 2
-            border.color: app.foregroundColor
+            border.color: Style.foregroundColor
             opacity: .3
             border.width: width * .025
             color: "transparent"

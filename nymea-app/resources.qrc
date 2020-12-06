@@ -35,7 +35,6 @@
         <file>ui/components/AutoSizeMenu.qml</file>
         <file>ui/components/EmptyViewPlaceholder.qml</file>
         <file>ui/components/RemoveDeviceMethodDialog.qml</file>
-        <file>ui/components/FancyHeader.qml</file>
         <file>ui/components/MainPageTile.qml</file>
         <file>ui/components/BusyOverlay.qml</file>
         <file>ui/components/SwipeDelegateGroup.qml</file>
@@ -154,12 +153,6 @@
         <file>ui/thingconfiguration/ConfigureThingPage.qml</file>
         <file>ui/connection/CertificateDialog.qml</file>
         <file>ui/experiences/heating/Main.qml</file>
-        <file>ui/fonts/Oswald-Bold.ttf</file>
-        <file>ui/fonts/Oswald-ExtraLight.ttf</file>
-        <file>ui/fonts/Oswald-Light.ttf</file>
-        <file>ui/fonts/Oswald-Medium.ttf</file>
-        <file>ui/fonts/Oswald-Regular.ttf</file>
-        <file>ui/fonts/Oswald-SemiBold.ttf</file>
         <file>ui/system/WebServerSettingsPage.qml</file>
         <file>ui/system/WebServerConfigurationDialog.qml</file>
         <file>ui/system/DeveloperTools.qml</file>
@@ -236,5 +229,6 @@
         <file>ui/utils/ActionQueue.qml</file>
         <file>ui/components/ColorTemperaturePicker.qml</file>
         <file>ui/components/ThingContextMenu.qml</file>
+        <file>ui/StyleBase.qml</file>
     </qresource>
 </RCC>

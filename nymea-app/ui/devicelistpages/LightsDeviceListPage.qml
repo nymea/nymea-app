@@ -103,7 +103,7 @@ DeviceListPageBase {
                     property State colorTemperatureState: thing.stateByName("colorTemperature")
 
                     property bool tileColored: isEnabled && colorState && powerState.value === true
-                    property bool colorInverted: tileColored && NymeaUtils.isDark(app.foregroundColor) === NymeaUtils.isDark(colorState.value)
+                    property bool colorInverted: tileColored && NymeaUtils.isDark(Style.foregroundColor) === NymeaUtils.isDark(colorState.value)
 
                     onClicked: {
                         if (isEnabled && (colorState || colorTemperatureState)) {
@@ -123,7 +123,7 @@ DeviceListPageBase {
                         color: itemDelegate.tileColored ? itemDelegate.colorState.value : "#00000000"
                         implicitHeight: contentColumn.implicitHeight
                         Behavior on implicitHeight { NumberAnimation { duration: 100 } }
-                        radius: 6
+                        radius: Style.tileRadius
 
                         ColumnLayout {
                             id: contentColumn
@@ -139,11 +139,11 @@ DeviceListPageBase {
                                     Layout.preferredHeight: app.iconSize
                                     Layout.preferredWidth: app.iconSize
                                     name: itemDelegate.powerState.value === true ? "../images/light-on.svg" : "../images/light-off.svg"
-                                    color: itemDelegate.powerState.value === true ? app.accentColor : keyColor
+                                    color: itemDelegate.powerState.value === true ? Style.accentColor : Style.iconColor
                                     Binding {
                                         target: lightIcon
                                         property: "color"
-                                        value: itemDelegate.colorInverted ? app.backgroundColor : app.foregroundColor
+                                        value: itemDelegate.colorInverted ? Style.backgroundColor : Style.foregroundColor
                                         when: itemDelegate.tileColored
                                     }
                                 }
@@ -158,7 +158,7 @@ DeviceListPageBase {
                                     Binding {
                                         target: nameLabel
                                         property: "color"
-                                        value: itemDelegate.colorInverted ? app.backgroundColor : app.foregroundColor
+                                        value: itemDelegate.colorInverted ? Style.backgroundColor : Style.foregroundColor
                                         when: itemDelegate.tileColored
                                     }
                                 }
@@ -253,8 +253,8 @@ DeviceListPageBase {
                                 Layout.fillWidth: true
                                 Layout.preferredHeight: 12
                                 visible: itemDelegate.powerState.value === true && itemDelegate.brightnessState != null
-                                radius: 6
-                                color: Qt.tint(app.backgroundColor, Qt.rgba(app.foregroundColor.r, app.foregroundColor.g, app.foregroundColor.b, .1))
+                                radius: Style.tileRadius
+                                color: Style.tileOverlayColor
                                 enabled: itemDelegate.isEnabled
 
                                 Rectangle {

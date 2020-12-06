@@ -135,7 +135,7 @@ DevicePageBase {
                             case "closablesensor":
                                 return device.states.getState(boolView.stateType.id).value === true ? "green" : "red"
                             default:
-                                device.states.getState(boolView.stateType.id).value === true ? app.interfaceToColor(boolView.interfaceName) : keyColor
+                                device.states.getState(boolView.stateType.id).value === true ? app.interfaceToColor(boolView.interfaceName) : Style.iconColor
                             }
                         }
                     }

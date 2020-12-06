@@ -135,7 +135,7 @@ Page {
                         anchors.rightMargin: phoneIcon.width * .21
                         anchors.topMargin: phoneIcon.height * .1
                         anchors.bottomMargin: phoneIcon.height * .1
-                        color: app.backgroundColor
+                        color: Style.backgroundColor
                     }
 
                     ColorIcon {
@@ -150,9 +150,9 @@ Page {
                     height: app.iconSize * 6
                     width: app.iconSize * 6
                     radius: width / 2
-                    color: app.backgroundColor
+                    color: Style.backgroundColor
                     border.width: 4
-                    border.color: app.foregroundColor
+                    border.color: Style.foregroundColor
                     opacity: nfcWriter.status == NfcThingActionWriter.TagStatusWaiting ? 0 : 1
                     Behavior on opacity { NumberAnimation { duration: 300 } }
 

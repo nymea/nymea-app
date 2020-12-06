@@ -64,7 +64,7 @@ T.Button {
         font.overline: control.font.overline
         font.pixelSize: app.smallFont
         font.weight: Font.Bold
-        color: app.foregroundColor
+        color: Style.foregroundColor
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight

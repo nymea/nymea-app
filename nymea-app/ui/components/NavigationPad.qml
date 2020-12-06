@@ -103,7 +103,7 @@ Item {
                 height: app.iconSize
                 width: app.iconSize
                 radius: width / 2
-                border.color: t.running ? app.accentColor : "#808080"
+                border.color: t.running ? Style.accentColor : "#808080"
                 Behavior on border.color { ColorAnimation { duration: 200 } }
                 Timer { id: t; interval: 400 }
                 border.width: 3

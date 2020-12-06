@@ -94,7 +94,7 @@ DeviceListPageBase {
                             Layout.preferredHeight: app.iconSize
                             Layout.preferredWidth: app.iconSize
                             name: app.interfacesToIcon(itemDelegate.thing.thingClass.interfaces)
-                            color: itemDelegate.powerState && itemDelegate.powerState.value === true ? app.accentColor : keyColor
+                            color: itemDelegate.powerState && itemDelegate.powerState.value === true ? Style.accentColor : Style.iconColor
                         }
 
                         Label {
