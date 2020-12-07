@@ -34,6 +34,7 @@ import QtQuick.Controls 2.2
 import QtQuick.Controls.impl 2.2
 import QtQuick.Controls.Material 2.2
 import QtQuick.Controls.Material.impl 2.2
+import Nymea 1.0
 
 T.Button {
     id: control
@@ -64,7 +65,7 @@ T.Button {
         font.overline: control.font.overline
         font.pixelSize: app.smallFont
         font.weight: Font.Bold
-        color: app.primaryColor
+        color: Style.backgroundColor
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight

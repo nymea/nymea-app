@@ -83,8 +83,7 @@ Page {
         Material.elevation: 1
 
         leftPadding: 0; rightPadding: 0; topPadding: 0; bottomPadding: 0
-        contentItem: Rectangle {
-            color: app.primaryColor
+        contentItem: Item {
             clip: true
             RowLayout {
                 anchors.fill: parent
