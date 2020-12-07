@@ -46,6 +46,20 @@ DeviceControlApplication::DeviceControlApplication(int argc, char *argv[]) : QAp
     qmlRegisterSingletonType<NfcHelper>("Nymea", 1, 0, "NfcHelper", NfcHelper::nfcHelperProvider);
 
     StyleController *styleController = new StyleController(this);
+
+    QQmlFileSelector *styleSelector = new QQmlFileSelector(m_qmlEngine);
+    styleSelector->setExtraSelectors({styleController->currentStyle()});
+
+    foreach (const QFileInfo &fi, QDir(":/ui/fonts/").entryInfoList()) {
+        QFontDatabase::addApplicationFont(fi.absoluteFilePath());
+    }
+    foreach (const QFileInfo &fi, QDir(":/styles/" + styleController->currentStyle() + "/fonts/").entryInfoList()) {
+        qDebug() << "Adding style font:" << fi.absoluteFilePath();
+        QFontDatabase::addApplicationFont(fi.absoluteFilePath());
+    }
+
+    qmlRegisterSingletonType(QUrl("qrc:///styles/" + styleController->currentStyle() + "/Style.qml"), "Nymea", 1, 0, "Style" );
+
     m_qmlEngine->rootContext()->setContextProperty("styleController", styleController);
     m_qmlEngine->rootContext()->setContextProperty("engine", m_engine);
     m_qmlEngine->rootContext()->setContextProperty("_engine", m_engine);

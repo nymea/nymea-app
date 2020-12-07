@@ -10,24 +10,37 @@ ApplicationWindow {
     id: app
     visible: true
     visibility: ApplicationWindow.FullScreen
-
     color: Material.background
-
-    // Those variables must be present in the Style
     title: appName
-    Material.primary: primaryColor
-    Material.accent: accentColor
-    Material.foreground: foregroundColor
+
+    Material.theme: NymeaUtils.isDark(Style.backgroundColor) ? Material.Dark : Material.Light
+    Material.background: Style.backgroundColor
+    Material.primary: Style.headerBackgroundColor
+    Material.accent: Style.accentColor
+    Material.foreground: Style.foregroundColor
+
+    font.pixelSize: mediumFont
+    font.weight: Font.Normal
+    font.capitalization: Font.MixedCase
+    font.family: Style.fontFamily
+
+    property string appName: "appBranding" in app ? app.appBranding : "nymea:app"
+    property string systemName: "coreBranding" in app ? app.coreBranding : "nymea"
 
     property int margins: 16
     property int bigMargins: 20
+
     property int extraSmallFont: 10
     property int smallFont: 13
     property int mediumFont: 16
     property int largeFont: 20
-    property int iconSize: 30
+
+    property int smallIconSize: 16
+    property int iconSize: 24
+    property int largeIconSize: 40
+    property int hugeIconSize: 64
+
     property int delegateHeight: 60
-    property color backgroundColor: Material.background
 
     readonly property bool landscape: app.width > app.height
 
