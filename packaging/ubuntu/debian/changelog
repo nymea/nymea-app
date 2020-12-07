@@ -1,3 +1,10 @@
+nymea-app (1.0.258) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Some fixes for regressions after the style changes
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 07 Dec 2020 15:35:57 +0100
+
 nymea-app (1.0.257) bionic; urgency=medium
 
   [ Michael Zanetti ]
