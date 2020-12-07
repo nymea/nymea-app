@@ -344,14 +344,19 @@ void NymeaConnection::updateActiveBearers()
 //    qDebug() << "Network configuations:" << configs.count();
     foreach (const QNetworkConfiguration &config, configs) {
 //        qDebug() << "Active network config:" << config.name() << config.bearerTypeFamily() << config.bearerTypeName();
-
-        // NOTE: iOS doesn't correctly report bearer types. It'll be Unknown all the time. Let's hardcode it to WiFi for that...
-#if defined(Q_OS_IOS)
-        availableBearerTypes.setFlag(NymeaConnection::BearerTypeWiFi);
-#else
         availableBearerTypes.setFlag(qBearerTypeToNymeaBearerType(config.bearerType()));
+#if defined(Q_OS_IOS)
+        // NOTE: iOS doesn't correctly report bearer types. It'll be Unknown all the time. Let's hardcode it to WiFi.
+        availableBearerTypes.setFlag(NymeaConnection::BearerTypeWiFi);
 #endif
     }
+
+    // Allow disabling bearer management by environment variable
+    if (qEnvironmentVariableIsSet("NYMEA_NO_BEARER_MANAGEMENT")) {
+        qDebug() << "Bearer management disabled by environment";
+        availableBearerTypes.setFlag(NymeaConnection::BearerTypeWiFi);
+    }
+
     if (availableBearerTypes == NymeaConnection::BearerTypeNone) {
         // This is just debug info... On some platform bearer management seems a bit broken, so let's get some infos right away...
         qDebug() << "No active bearer available. Inactive bearers are:";
