@@ -454,6 +454,7 @@ ApplicationWindow {
             return qsTr("smart meter");
         case "media":
         case "mediaplayer":
+        case "mediacontroller":
             //: Select ...
             return qsTr("media player");
         case "moisturesensor":

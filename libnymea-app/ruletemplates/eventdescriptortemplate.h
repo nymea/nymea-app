@@ -38,7 +38,7 @@ class EventDescriptorTemplate : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString interfaceName READ interfaceName CONSTANT)
-    Q_PROPERTY(QString interfaceEvent READ interfaceEvent CONSTANT)
+    Q_PROPERTY(QString eventName READ eventName CONSTANT)
     Q_PROPERTY(int selectionId READ selectionId CONSTANT)
     Q_PROPERTY(SelectionMode selectionMode READ selectionMode CONSTANT)
     Q_PROPERTY(ParamDescriptors* paramDescriptors READ paramDescriptors CONSTANT)
@@ -50,17 +50,17 @@ public:
     };
     Q_ENUM(SelectionMode)
 
-    explicit EventDescriptorTemplate(const QString &interfaceName, const QString &interfaceEvent, int selectionId, SelectionMode selectionMode = SelectionModeAny, QObject *parent = nullptr);
+    explicit EventDescriptorTemplate(const QString &interfaceName, const QString &eventName, int selectionId, SelectionMode selectionMode = SelectionModeAny, QObject *parent = nullptr);
 
     QString interfaceName() const;
-    QString interfaceEvent() const;
+    QString eventName() const;
     int selectionId() const;
     SelectionMode selectionMode() const;
     ParamDescriptors* paramDescriptors() const;
 
 private:
     QString m_interfaceName;
-    QString m_interfaceEvent;
+    QString m_eventName;
     int m_selectionId = 0;
     SelectionMode m_selectionMode = SelectionModeAny;
     ParamDescriptors *m_paramDescriptors = nullptr;

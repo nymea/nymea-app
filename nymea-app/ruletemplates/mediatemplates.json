@@ -63,6 +63,48 @@
                     ]
                 }
             ]
+        },
+        {
+            "description": "Automatic night mode",
+            "ruleNameTemplate": "Automatic night mode on %0",
+            "timeDescriptorTemplate": {
+                "calendarItemTemplates": [
+                    {
+                        "startTime": "22:00",
+                        "duration": 600,
+                        "repeatingOption": {
+                            "repeatingMode": "RepeatingModeDaily"
+                        },
+                        "editable": true
+                    }
+                ]
+            },
+            "ruleActionTemplates": [
+                {
+                    "interfaceName": "mediacontroller",
+                    "interfaceAction": "nightMode",
+                    "selectionId": 0,
+                    "params": [
+                        {
+                            "name": "nightMode",
+                            "value": true
+                        }
+                    ]
+                }
+            ],
+            "ruleExitActionTemplates": [
+                {
+                    "interfaceName": "mediacontroller",
+                    "interfaceAction": "nightMode",
+                    "selectionId": 0,
+                    "params": [
+                        {
+                            "name": "nightMode",
+                            "value": false
+                        }
+                    ]
+                }
+            ]
         }
     ]
 }

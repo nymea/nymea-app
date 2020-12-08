@@ -30,10 +30,10 @@
 
 #include "statedescriptortemplate.h"
 
-StateDescriptorTemplate::StateDescriptorTemplate(const QString &interfaceName, const QString &interfaceState, int selectionId, StateDescriptorTemplate::SelectionMode selectionMode, StateDescriptorTemplate::ValueOperator valueOperator, const QVariant &value, QObject *parent):
+StateDescriptorTemplate::StateDescriptorTemplate(const QString &interfaceName, const QString &stateName, int selectionId, StateDescriptorTemplate::SelectionMode selectionMode, StateDescriptorTemplate::ValueOperator valueOperator, const QVariant &value, QObject *parent):
     QObject(parent),
     m_interfaceName(interfaceName),
-    m_interfaceState(interfaceState),
+    m_stateName(stateName),
     m_selectionId(selectionId),
     m_selectionMode(selectionMode),
     m_valueOperator(valueOperator),
@@ -47,9 +47,9 @@ QString StateDescriptorTemplate::interfaceName() const
     return m_interfaceName;
 }
 
-QString StateDescriptorTemplate::interfaceState() const
+QString StateDescriptorTemplate::stateName() const
 {
-    return m_interfaceState;
+    return m_stateName;
 }
 
 int StateDescriptorTemplate::selectionId() const

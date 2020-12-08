@@ -38,7 +38,7 @@ class StateDescriptorTemplate : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString interfaceName READ interfaceName CONSTANT)
-    Q_PROPERTY(QString interfaceState READ interfaceState CONSTANT)
+    Q_PROPERTY(QString stateName READ stateName CONSTANT)
     Q_PROPERTY(int selectionId READ selectionId CONSTANT)
     Q_PROPERTY(SelectionMode selectionMode READ selectionMode CONSTANT)
     Q_PROPERTY(ValueOperator valueOperator READ valueOperator CONSTANT)
@@ -61,10 +61,10 @@ public:
     };
     Q_ENUM(ValueOperator)
 
-    explicit StateDescriptorTemplate(const QString &interfaceName, const QString &interfaceState, int selectionId, SelectionMode selectionMode, ValueOperator valueOperator = ValueOperatorEquals, const QVariant &value = QVariant(), QObject *parent = nullptr);
+    explicit StateDescriptorTemplate(const QString &interfaceName, const QString &stateName, int selectionId, SelectionMode selectionMode, ValueOperator valueOperator = ValueOperatorEquals, const QVariant &value = QVariant(), QObject *parent = nullptr);
 
     QString interfaceName() const;
-    QString interfaceState() const;
+    QString stateName() const;
     int selectionId() const;
     SelectionMode selectionMode() const;
     ValueOperator valueOperator() const;
@@ -72,7 +72,7 @@ public:
 
 private:
     QString m_interfaceName;
-    QString m_interfaceState;
+    QString m_stateName;
     int m_selectionId = 0;
     SelectionMode m_selectionMode = SelectionModeAny;
     ValueOperator m_valueOperator = ValueOperatorEquals;

@@ -30,10 +30,10 @@
 
 #include "eventdescriptortemplate.h"
 
-EventDescriptorTemplate::EventDescriptorTemplate(const QString &interfaceName, const QString &interfaceEvent, int selectionId, SelectionMode selectionMode, QObject *parent):
+EventDescriptorTemplate::EventDescriptorTemplate(const QString &interfaceName, const QString &eventName, int selectionId, SelectionMode selectionMode, QObject *parent):
     QObject(parent),
     m_interfaceName(interfaceName),
-    m_interfaceEvent(interfaceEvent),
+    m_eventName(eventName),
     m_selectionId(selectionId),
     m_selectionMode(selectionMode),
     m_paramDescriptors(new ParamDescriptors(this))
@@ -46,9 +46,9 @@ QString EventDescriptorTemplate::interfaceName() const
     return m_interfaceName;
 }
 
-QString EventDescriptorTemplate::interfaceEvent() const
+QString EventDescriptorTemplate::eventName() const
 {
-    return m_interfaceEvent;
+    return m_eventName;
 }
 
 int EventDescriptorTemplate::selectionId() const
