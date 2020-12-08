@@ -38,19 +38,26 @@ class StyleController : public QObject
     Q_OBJECT
     Q_PROPERTY(QString currentStyle READ currentStyle WRITE setCurrentStyle NOTIFY currentStyleChanged)
     Q_PROPERTY(QStringList allStyles READ allStyles CONSTANT)
+    Q_PROPERTY(bool locked READ locked CONSTANT)
 
 public:
-    explicit StyleController(QObject *parent = nullptr);
+    explicit StyleController(const QString &defaultStyle, QObject *parent = nullptr);
 
     QString currentStyle() const;
     void setCurrentStyle(const QString &currentStyle);
+    void lockToStyle(const QString &style);
 
     QStringList allStyles() const;
+    bool locked() const;
 
     Q_INVOKABLE void setSystemFont(const QFont &font);
 
 signals:
     void currentStyleChanged();
+
+private:
+    QString m_defaultStyle;
+    bool m_locked = false;
 };
 
 #endif // STYLECONTROLLER_H

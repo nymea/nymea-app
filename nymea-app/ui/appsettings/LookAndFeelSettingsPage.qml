@@ -47,7 +47,7 @@ SettingsPageBase {
         Layout.fillWidth: true
         Layout.leftMargin: app.margins
         Layout.rightMargin: app.margins
-        visible: appBranding.length === 0
+        visible: !styleController.locked
         Label {
             Layout.fillWidth: true
             text: "Style"

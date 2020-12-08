@@ -91,12 +91,17 @@ int main(int argc, char *argv[])
 
     QCommandLineParser parser;
     parser.addHelpOption();
-    QCommandLineOption kioskOption = QCommandLineOption({"k", "kiosk"}, "Start the application in kiosk mode.");
-    parser.addOption(kioskOption);
     QCommandLineOption connectOption = QCommandLineOption({"c", "connect"}, "Connect to nymea:core without discovery.", "host");
     parser.addOption(connectOption);
+#ifndef BRANDING
     QCommandLineOption styleOption = QCommandLineOption({"s", "style"}, "Override the style. Style in settings will be disabled.", "style");
     parser.addOption(styleOption);
+    QCommandLineOption defaultStyleOption = QCommandLineOption({"d", "default-style"}, "The default style to be used if there is no style explicitly selected by the user yet.", "style");
+    defaultStyleOption.setDefaultValue("light");
+    parser.addOption(defaultStyleOption);
+#endif
+    QCommandLineOption kioskOption = QCommandLineOption({"k", "kiosk"}, "Start the application in kiosk mode.");
+    parser.addOption(kioskOption);
     parser.process(application);
 
     // Initialize app log controller as early as possible, but after setting app name etc
@@ -122,11 +127,16 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine *engine = new QQmlApplicationEngine();
 
-    StyleController styleController;
+#if defined BRANDING
+    StyleController styleController(BRANDING);
+    styleController.lockToStyle(BRANDING);
+#else
+    StyleController styleController(parser.value(defaultStyleOption));
     if (parser.isSet(styleOption)) {
         qDebug() << "Setting style to" << parser.value(styleOption);
-        styleController.setCurrentStyle(parser.value(styleOption));
+        styleController.lockToStyle(parser.value(styleOption));
     }
+#endif
 
     QQmlFileSelector *styleSelector = new QQmlFileSelector(engine);
     styleSelector->setExtraSelectors({styleController.currentStyle()});
@@ -151,11 +161,6 @@ int main(int argc, char *argv[])
     qmlRegisterSingletonType<AppLogController>("Nymea", 1, 0, "AppLogController", AppLogController::appLogControllerProvider);
     qmlRegisterSingletonType(QUrl("qrc:///ui/utils/NymeaUtils.qml"), "Nymea", 1, 0, "NymeaUtils" );
 
-#ifdef BRANDING
-    engine->rootContext()->setContextProperty("appBranding", BRANDING);
-#else
-    engine->rootContext()->setContextProperty("appBranding", "");
-#endif
     engine->rootContext()->setContextProperty("appVersion", APP_VERSION);
     engine->rootContext()->setContextProperty("qtBuildVersion", QT_VERSION_STR);
     engine->rootContext()->setContextProperty("qtVersion", qVersion());
