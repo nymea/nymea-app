@@ -94,7 +94,16 @@ Page {
         category: engine.jsonRpcClient.currentHost.uuid
         property string mainMenuContent: ""
         property var sortOrder: []
-        property var filterList: app.hasOwnProperty("mainViewsFilter") ? app.mainViewsFilter : ["things"]
+        // Priority for main view config:
+        // 1. Settings made by the user
+        // 2. Style mainViewsFilter as that comes with branding (for now, if a style defines main views, all of them are active by default)
+        // 3. Command line args
+        // 4. Just show "things" alone by default
+        property var filterList: app.hasOwnProperty("mainViewsFilter") ?
+                                     app.mainViewsFilter
+                                   : defaultMainViewFilter.length > 0 ?
+                                         defaultMainViewFilter.split(',')
+                                       : ["things"]
         property int currentIndex: 0
     }
 

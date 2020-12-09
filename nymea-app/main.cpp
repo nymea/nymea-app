@@ -100,6 +100,8 @@ int main(int argc, char *argv[])
     defaultStyleOption.setDefaultValue("light");
     parser.addOption(defaultStyleOption);
 #endif
+    QCommandLineOption defaultViewsOption = QCommandLineOption({"v", "default-views"}, "The main views enabled by default if there is no configuration done by the user and the style doesn't dictate them, comma separated.", "mainviews");
+    parser.addOption(defaultViewsOption);
     QCommandLineOption kioskOption = QCommandLineOption({"k", "kiosk"}, "Start the application in kiosk mode.");
     parser.addOption(kioskOption);
     parser.process(application);
@@ -165,6 +167,7 @@ int main(int argc, char *argv[])
     engine->rootContext()->setContextProperty("qtBuildVersion", QT_VERSION_STR);
     engine->rootContext()->setContextProperty("qtVersion", qVersion());
 
+    engine->rootContext()->setContextProperty("defaultMainViewFilter", parser.value(defaultViewsOption));
     engine->rootContext()->setContextProperty("kioskMode", parser.isSet(kioskOption));
     engine->rootContext()->setContextProperty("autoConnectHost", parser.value(connectOption));
 
