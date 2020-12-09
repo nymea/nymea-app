@@ -38,6 +38,7 @@ class StateEvaluatorTemplate;
 class TimeDescriptorTemplate;
 class RepeatingOption;
 class DevicesProxy;
+class Device;
 
 class RuleTemplates : public QAbstractListModel
 {
@@ -103,6 +104,10 @@ signals:
     void filterByDevicesChanged();
     void countChanged();
 
+
+private:
+    bool thingsSatisfyRuleTemplate(RuleTemplate *ruleTemplate, DevicesProxy *things) const;
+    bool thingsSatisfyStateEvaluatorTemplate(StateEvaluatorTemplate *stateEvaluatorTemplate, DevicesProxy *things) const;
 
 private:
     RuleTemplates* m_ruleTemplates = nullptr;

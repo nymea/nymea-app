@@ -39,7 +39,7 @@ class RuleActionTemplate : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString interfaceName READ interfaceName CONSTANT)
-    Q_PROPERTY(QString interfaceAction READ interfaceAction CONSTANT)
+    Q_PROPERTY(QString actionName READ actionName CONSTANT)
     Q_PROPERTY(int selectionId READ selectionId CONSTANT)
     Q_PROPERTY(SelectionMode selectionMode READ selectionMode CONSTANT)
     Q_PROPERTY(RuleActionParamTemplates* ruleActionParamTemplates READ ruleActionParamTemplates CONSTANT)
@@ -53,17 +53,17 @@ public:
     };
     Q_ENUM(SelectionMode)
 
-    explicit RuleActionTemplate(const QString &interfaceName, const QString &interfaceAction, int selectionId, SelectionMode selectionMode = SelectionModeAny, RuleActionParamTemplates *params = nullptr, QObject *parent = nullptr);
+    explicit RuleActionTemplate(const QString &interfaceName, const QString &actionName, int selectionId, SelectionMode selectionMode = SelectionModeAny, RuleActionParamTemplates *params = nullptr, QObject *parent = nullptr);
 
     QString interfaceName() const;
-    QString interfaceAction() const;
+    QString actionName() const;
     int selectionId() const;
     SelectionMode selectionMode() const;
     RuleActionParamTemplates* ruleActionParamTemplates() const;
 
 private:
     QString m_interfaceName;
-    QString m_interfaceAction;
+    QString m_actionName;
     int m_selectionId = 0;
     SelectionMode m_selectionMode = SelectionModeAny;
     RuleActionParamTemplates* m_ruleActionParamTemplates = nullptr;

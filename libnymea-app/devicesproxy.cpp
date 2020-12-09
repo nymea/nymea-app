@@ -203,6 +203,51 @@ void DevicesProxy::setNameFilter(const QString &nameFilter)
     }
 }
 
+QString DevicesProxy::requiredEventName() const
+{
+    return m_requiredEventName;
+}
+
+void DevicesProxy::setRequiredEventName(const QString &requiredEventName)
+{
+    if (m_requiredEventName != requiredEventName) {
+        m_requiredEventName = requiredEventName;
+        emit requiredEventNameChanged();
+        invalidateFilter();
+        emit countChanged();
+    }
+}
+
+QString DevicesProxy::requiredStateName() const
+{
+    return m_requiredStateName;
+}
+
+void DevicesProxy::setRequiredStateName(const QString &requiredStateName)
+{
+    if (m_requiredStateName != requiredStateName) {
+        m_requiredStateName = requiredStateName;
+        emit requiredStateNameChanged();
+        invalidateFilter();
+        emit countChanged();
+    }
+}
+
+QString DevicesProxy::requiredActionName() const
+{
+    return m_requiredActionName;
+}
+
+void DevicesProxy::setRequiredActionName(const QString &requiredActionName)
+{
+    if (m_requiredActionName != requiredActionName) {
+        m_requiredActionName = requiredActionName;
+        emit requiredActionNameChanged();
+        invalidateFilter();
+        emit countChanged();
+    }
+}
+
 bool DevicesProxy::showDigitalInputs() const
 {
     return m_showDigitalInputs;
@@ -489,5 +534,22 @@ bool DevicesProxy::filterAcceptsRow(int source_row, const QModelIndex &source_pa
             return false;
         }
     }
+
+    if (!m_requiredEventName.isEmpty()) {
+        if (!device->thingClass()->eventTypes()->findByName(m_requiredEventName)) {
+            return false;
+        }
+    }
+    if (!m_requiredStateName.isEmpty()) {
+        if (!device->thingClass()->stateTypes()->findByName(m_requiredStateName)) {
+            return false;
+        }
+    }
+    if (!m_requiredActionName.isEmpty()) {
+        if (!device->thingClass()->actionTypes()->findByName(m_requiredActionName)) {
+            return false;
+        }
+    }
+
     return QSortFilterProxyModel::filterAcceptsRow(source_row, source_parent);
 }

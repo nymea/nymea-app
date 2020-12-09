@@ -45,6 +45,9 @@ Page {
     property alias shownInterfaces: devicesProxy.shownInterfaces
     property bool allowSelectAny: false
     property bool multipleSelection: false
+    property alias requiredEventName: devicesProxy.requiredEventName
+    property alias requiredStateName: devicesProxy.requiredStateName
+    property alias requiredActionName: devicesProxy.requiredActionName
 
     signal backPressed();
     signal thingSelected(var device);

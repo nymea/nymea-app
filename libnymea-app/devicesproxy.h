@@ -53,6 +53,10 @@ class DevicesProxy : public QSortFilterProxyModel
     Q_PROPERTY(QStringList hiddenInterfaces READ hiddenInterfaces WRITE setHiddenInterfaces NOTIFY hiddenInterfacesChanged)
     Q_PROPERTY(QString nameFilter READ nameFilter WRITE setNameFilter NOTIFY nameFilterChanged)
 
+    Q_PROPERTY(QString requiredEventName READ requiredEventName WRITE setRequiredEventName NOTIFY requiredEventNameChanged)
+    Q_PROPERTY(QString requiredStateName READ requiredStateName WRITE setRequiredStateName NOTIFY requiredStateNameChanged)
+    Q_PROPERTY(QString requiredActionName READ requiredActionName WRITE setRequiredActionName NOTIFY requiredActionNameChanged)
+
     // Setting one of those to true will hide those set to false. If all of those are false no IO filtering will be done
     Q_PROPERTY(bool showDigitalInputs READ showDigitalInputs WRITE setShowDigitalInputs NOTIFY showDigitalInputsChanged)
     Q_PROPERTY(bool showDigitalOutputs READ showDigitalOutputs WRITE setShowDigitalOutputs NOTIFY showDigitalOutputsChanged)
@@ -101,6 +105,15 @@ public:
     QString nameFilter() const;
     void setNameFilter(const QString &nameFilter);
 
+    QString requiredEventName() const;
+    void setRequiredEventName(const QString &requiredEventName);
+
+    QString requiredStateName() const;
+    void setRequiredStateName(const QString &requiredStateName);
+
+    QString requiredActionName() const;
+    void setRequiredActionName(const QString &requiredActionName);
+
     bool showDigitalInputs() const;
     void setShowDigitalInputs(bool showDigitalInputs);
 
@@ -142,6 +155,9 @@ signals:
     void shownInterfacesChanged();
     void hiddenInterfacesChanged();
     void nameFilterChanged();
+    void requiredEventNameChanged();
+    void requiredStateNameChanged();
+    void requiredActionNameChanged();
     void showDigitalInputsChanged();
     void showDigitalOutputsChanged();
     void showAnalogInputsChanged();
@@ -165,6 +181,10 @@ private:
     QStringList m_shownInterfaces;
     QStringList m_hiddenInterfaces;
     QString m_nameFilter;
+
+    QString m_requiredEventName;
+    QString m_requiredStateName;
+    QString m_requiredActionName;
 
     bool m_showDigitalInputs = false;
     bool m_showDigitalOutputs = false;

@@ -63,7 +63,7 @@ Page {
             // Fill in all EventDescriptors
             for (var i = rule.eventDescriptors.count; i < ruleTemplate.eventDescriptorTemplates.count; i++) {
                 var eventDescriptorTemplate = ruleTemplate.eventDescriptorTemplates.get(i);
-                print("RuleFromTemplate: Filling eventDescriptor:", eventDescriptorTemplate.interfaceName, eventDescriptorTemplate.interfaceEvent, eventDescriptorTemplate.selectionId)
+                print("RuleFromTemplate: Filling eventDescriptor:", eventDescriptorTemplate.interfaceName, eventDescriptorTemplate.eventName, eventDescriptorTemplate.selectionId)
                 // If we already have a thing selected for this selectionIndex, use that
                 if (eventDescriptorTemplate.selectionId in selectedThings) {
                     var device = engine.deviceManager.devices.getDevice(selectedThings[eventDescriptorTemplate.selectionId]);
@@ -82,7 +82,7 @@ Page {
 
                 // We need to pick a thing
                 print("We need to pick a new device for selectionId", eventDescriptorTemplate.selectionId)
-                var page = pageStack.push(Qt.resolvedUrl("SelectThingPage.qml"), {shownInterfaces: [eventDescriptorTemplate.interfaceName]});
+                var page = pageStack.push(Qt.resolvedUrl("SelectThingPage.qml"), {shownInterfaces: [eventDescriptorTemplate.interfaceName], requiredEventName: eventDescriptorTemplate.eventName});
                 page.thingSelected.connect(function(device) {
                     selectedThings[eventDescriptorTemplate.selectionId] = device.id;
                     selectedThingNames[eventDescriptorTemplate.selectionId] = device.name;
@@ -152,13 +152,13 @@ Page {
 
             for (var i = rule.actions.count; i < ruleTemplate.ruleActionTemplates.count; i++) {
                 var ruleActionTemplate = ruleTemplate.ruleActionTemplates.get(i);
-                print("RuleFromTemplate: Filling ruleAction:", ruleActionTemplate.interfaceName, ruleActionTemplate.interfaceAction, ruleActionTemplate.selectionId)
+                print("RuleFromTemplate: Filling ruleAction:", ruleActionTemplate.interfaceName, ruleActionTemplate.actionName, ruleActionTemplate.selectionId)
 
                 if (ruleActionTemplate.selectionMode === RuleActionTemplate.SelectionModeInterface) {
                     // TODO: Implement blacklist for interface based actions
                     var ruleAction = rule.actions.createNewRuleAction();
                     ruleAction.interfaceName = ruleActionTemplate.interfaceName;
-                    ruleAction.interfaceAction = ruleActionTemplate.interfaceAction;
+                    ruleAction.interfaceAction = ruleActionTemplate.actionName;
                     for (var j = 0; j < ruleActionTemplate.ruleActionParamTemplates.count; j++) {
                         var ruleActionParam = ruleActionTemplate.ruleActionParamTemplates.get(j)
                         ruleAction.ruleActionParams.setRuleActionParamByName(ruleActionParam.paramName, ruleActionParam.value)
@@ -188,7 +188,7 @@ Page {
 
                 // Ok, we need to pick a thing
                 var multipleSelection = ruleActionTemplate.selectionMode === RuleActionTemplate.SelectionModeDevices;
-                var page = pageStack.push(Qt.resolvedUrl("SelectThingPage.qml"), {shownInterfaces: [ruleActionTemplate.interfaceName], multipleSelection: multipleSelection});
+                var page = pageStack.push(Qt.resolvedUrl("SelectThingPage.qml"), {shownInterfaces: [ruleActionTemplate.interfaceName], requiredActionName: ruleActionTemplate.actionName, multipleSelection: multipleSelection});
                 page.thingSelected.connect(function(device) {
                     selectedThings[ruleActionTemplate.selectionId] = device.id;
                     selectedThingNames[ruleActionTemplate.selectionId] = device.name;
@@ -216,7 +216,7 @@ Page {
                     // TODO: Implement blacklist for interface based actions
                     var ruleExitAction = rule.exitActions.createNewRuleAction();
                     ruleExitAction.interfaceName = ruleExitActionTemplate.interfaceName;
-                    ruleExitAction.interfaceAction = ruleExitActionTemplate.interfaceAction;
+                    ruleExitAction.interfaceAction = ruleExitActionTemplate.actionName;
                     for (var j = 0; j < ruleExitActionTemplate.ruleActionParamTemplates.count; j++) {
                         var ruleActionParam = ruleExitActionTemplate.ruleActionParamTemplates.get(j)
                         ruleExitAction.ruleActionParams.setRuleActionParam(ruleActionParam.paramName, ruleActionParam.value)
@@ -244,7 +244,7 @@ Page {
 
                 // Ok, we need to pick a thing
                 var multipleSelection = ruleActionTemplate.selectionMode === RuleActionTemplate.SelectionModeDevices;
-                var page = pageStack.push(Qt.resolvedUrl("SelectThingPage.qml"), {shownInterfaces: [ruleExitActionTemplate.interfaceName], multipleSelection: multipleSelection});
+                var page = pageStack.push(Qt.resolvedUrl("SelectThingPage.qml"), {shownInterfaces: [ruleExitActionTemplate.interfaceName], requiredActionName: ruleExitActionTemplate.actionName, multipleSelection: multipleSelection});
                 page.thingSelected.connect(function(device) {
                     selectedThings[ruleExitActionTemplate.selectionId] = device.id;
                     selectedThingNames[ruleExitActionTemplate.selectionId] = device.name;
@@ -309,7 +309,7 @@ Page {
                 print("filling in state evaluator for selection mode:", stateEvaluatorTemplate.stateDescriptorTemplate.selectionMode)
                 if (stateEvaluatorTemplate.stateDescriptorTemplate.selectionMode === StateDescriptor.SelectionModeInterface) {
                     stateEvaluator.stateDescriptor.interfaceName = stateEvaluatorTemplate.stateDescriptorTemplate.interfaceName;
-                    stateEvaluator.stateDescriptor.interfaceState = stateEvaluatorTemplate.stateDescriptorTemplate.interfaceState;
+                    stateEvaluator.stateDescriptor.interfaceState = stateEvaluatorTemplate.stateDescriptorTemplate.stateName;
                     stateEvaluator.stateDescriptor.valueOperator = stateEvaluatorTemplate.stateDescriptorTemplate.valueOperator;
                     stateEvaluator.stateDescriptor.value = stateEvaluatorTemplate.stateDescriptorTemplate.value;
                     selectedInterfaces[stateEvaluatorTemplate.stateDescriptorTemplate.selectionId] = stateEvaluator.stateDescriptor.interfaceName;
@@ -323,7 +323,7 @@ Page {
                     var device = engine.deviceManager.devices.getDevice(deviceId)
                     var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
                     stateEvaluator.stateDescriptor.deviceId = deviceId;
-                    stateEvaluator.stateDescriptor.stateTypeId = deviceClass.stateTypes.findByName(stateEvaluatorTemplate.stateDescriptorTemplate.interfaceState).id
+                    stateEvaluator.stateDescriptor.stateTypeId = deviceClass.stateTypes.findByName(stateEvaluatorTemplate.stateDescriptorTemplate.stateName).id
                     stateEvaluator.stateDescriptor.valueOperator = stateEvaluatorTemplate.stateDescriptorTemplate.valueOperator;
                     stateEvaluator.stateDescriptor.value = stateEvaluatorTemplate.stateDescriptorTemplate.value;
                     fillRuleFromTemplate(rule, ruleTemplate);
@@ -331,7 +331,7 @@ Page {
                 }
                 if (root.device && !deviceIsUsed(root.device.id) && root.deviceClass.interfaces.indexOf(stateEvaluatorTemplate.stateDescriptorTemplate.interfaceName) >= 0) {
                     stateEvaluator.stateDescriptor.deviceId = root.device.id;
-                    stateEvaluator.stateDescriptor.stateTypeId = root.deviceClass.stateTypes.findByName(stateEvaluatorTemplate.stateDescriptorTemplate.interfaceState).id
+                    stateEvaluator.stateDescriptor.stateTypeId = root.deviceClass.stateTypes.findByName(stateEvaluatorTemplate.stateDescriptorTemplate.stateName).id
                     stateEvaluator.stateDescriptor.valueOperator = stateEvaluatorTemplate.stateDescriptorTemplate.valueOperator;
                     stateEvaluator.stateDescriptor.value = stateEvaluatorTemplate.stateDescriptorTemplate.value;
                     selectedThings[stateEvaluatorTemplate.stateDescriptorTemplate.selectionId] = root.device.id;
@@ -341,11 +341,11 @@ Page {
                 }
                 print("opening SelectThingPage for shownInterfaces:")
                 print("..", stateEvaluatorTemplate.stateDescriptorTemplate.interfaceName)
-                var page = pageStack.push(Qt.resolvedUrl("SelectThingPage.qml"), {shownInterfaces: [stateEvaluatorTemplate.stateDescriptorTemplate.interfaceName], allowSelectAny: stateEvaluatorTemplate.stateDescriptorTemplate.selectionMode === StateDescriptorTemplate.SelectionModeAny});
+                var page = pageStack.push(Qt.resolvedUrl("SelectThingPage.qml"), {shownInterfaces: [stateEvaluatorTemplate.stateDescriptorTemplate.interfaceName], requiredStateName: stateEvaluatorTemplate.stateDescriptorTemplate.stateName, allowSelectAny: stateEvaluatorTemplate.stateDescriptorTemplate.selectionMode === StateDescriptorTemplate.SelectionModeAny});
                 page.thingSelected.connect(function(device) {
                     var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
                     stateEvaluator.stateDescriptor.deviceId = device.id;
-                    stateEvaluator.stateDescriptor.stateTypeId = deviceClass.stateTypes.findByName(stateEvaluatorTemplate.stateDescriptorTemplate.interfaceState).id;
+                    stateEvaluator.stateDescriptor.stateTypeId = deviceClass.stateTypes.findByName(stateEvaluatorTemplate.stateDescriptorTemplate.stateName).id;
                     stateEvaluator.stateDescriptor.valueOperator = stateEvaluatorTemplate.stateDescriptorTemplate.valueOperator;
                     stateEvaluator.stateDescriptor.value = stateEvaluatorTemplate.stateDescriptorTemplate.value;
                     selectedThings[stateEvaluatorTemplate.stateDescriptorTemplate.selectionId] = device.id;
@@ -354,7 +354,7 @@ Page {
                 })
                 page.onAnySelected.connect(function() {
                     stateEvaluator.stateDescriptor.interfaceName = stateEvaluatorTemplate.stateDescriptorTemplate.interfaceName;
-                    stateEvaluator.stateDescriptor.interfaceState = stateEvaluatorTemplate.stateDescriptorTemplate.interfaceState;
+                    stateEvaluator.stateDescriptor.interfaceState = stateEvaluatorTemplate.stateDescriptorTemplate.stateName;
                     stateEvaluator.stateDescriptor.valueOperator = stateEvaluatorTemplate.stateDescriptorTemplate.valueOperator;
                     stateEvaluator.stateDescriptor.value = stateEvaluatorTemplate.stateDescriptorTemplate.value;
                     selectedInterfaces[stateEvaluatorTemplate.stateDescriptorTemplate.selectionId] = stateEvaluator.stateDescriptor.interfaceName;
@@ -381,7 +381,7 @@ Page {
             var eventDescriptor = rule.eventDescriptors.createNewEventDescriptor();
             eventDescriptor.deviceId = device.id;
             var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
-            eventDescriptor.eventTypeId = deviceClass.eventTypes.findByName(eventDescriptorTemplate.interfaceEvent).id
+            eventDescriptor.eventTypeId = deviceClass.eventTypes.findByName(eventDescriptorTemplate.eventName).id
             var needsParams = false;
 
             var eventType = deviceClass.eventTypes.getEventType(eventDescriptor.eventTypeId);
@@ -423,9 +423,9 @@ Page {
             var ruleAction = ruleActions.createNewRuleAction();
             var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
 
-            ruleAction.actionTypeId = deviceClass.actionTypes.findByName(ruleActionTemplate.interfaceAction).id
+            ruleAction.actionTypeId = deviceClass.actionTypes.findByName(ruleActionTemplate.actionName).id
             ruleAction.deviceId = device.id;
-            print("Creating action", ruleActionTemplate.interfaceAction, "on device class", deviceClass.displayName)
+            print("Creating action", ruleActionTemplate.actionName, "on device class", deviceClass.displayName)
 
             var actionType = deviceClass.actionTypes.getActionType(ruleAction.actionTypeId);
 
@@ -441,7 +441,7 @@ Page {
                     for (var k = 0; k < ruleTemplate.eventDescriptorTemplates.count; k++) {
                         var tmp = ruleTemplate.eventDescriptorTemplates.get(k);
                         print("evaluating eventDescriptor", tmp.interfaceName)
-                        if (tmp.interfaceName === ruleActionParamTemplate.eventInterface && tmp.interfaceEvent === ruleActionParamTemplate.eventName) {
+                        if (tmp.interfaceName === ruleActionParamTemplate.eventInterface && tmp.eventName === ruleActionParamTemplate.eventName) {
                             eventDescriptorTemplate = tmp;
                             break;
                         }

@@ -63,6 +63,218 @@
                     ]
                 }
             ]
+        },
+        {
+            "description": "Automatic night mode",
+            "ruleNameTemplate": "Automatic night mode on %0",
+            "timeDescriptorTemplate": {
+                "calendarItemTemplates": [
+                    {
+                        "startTime": "22:00",
+                        "duration": 600,
+                        "repeatingOption": {
+                            "repeatingMode": "RepeatingModeDaily"
+                        },
+                        "editable": true
+                    }
+                ]
+            },
+            "ruleActionTemplates": [
+                {
+                    "interfaceName": "mediacontroller",
+                    "interfaceAction": "nightMode",
+                    "selectionId": 0,
+                    "params": [
+                        {
+                            "name": "nightMode",
+                            "value": true
+                        }
+                    ]
+                }
+            ],
+            "ruleExitActionTemplates": [
+                {
+                    "interfaceName": "mediacontroller",
+                    "interfaceAction": "nightMode",
+                    "selectionId": 0,
+                    "params": [
+                        {
+                            "name": "nightMode",
+                            "value": false
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "description": "Automatic night mode",
+            "ruleNameTemplate": "Automatic night mode on %0",
+            "timeDescriptorTemplate": {
+                "calendarItemTemplates": [
+                    {
+                        "startTime": "22:00",
+                        "duration": 600,
+                        "repeatingOption": {
+                            "repeatingMode": "RepeatingModeDaily"
+                        },
+                        "editable": true
+                    }
+                ]
+            },
+            "ruleActionTemplates": [
+                {
+                    "interfaceName": "mediacontroller",
+                    "interfaceAction": "nightMode",
+                    "selectionId": 0,
+                    "params": [
+                        {
+                            "name": "nightMode",
+                            "value": true
+                        }
+                    ]
+                }
+            ],
+            "ruleExitActionTemplates": [
+                {
+                    "interfaceName": "mediacontroller",
+                    "interfaceAction": "nightMode",
+                    "selectionId": 0,
+                    "params": [
+                        {
+                            "name": "nightMode",
+                            "value": false
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "description": "Play/pause music by button press",
+            "ruleNameTemplate": "%1 toggles play/pause on %0",
+            "eventDescriptorTemplates": [
+                {
+                    "interfaceName": "button",
+                    "interfaceEvent": "pressed",
+                    "selectionId": 1,
+                    "selectionMode": "SelectionModeDevice"
+                }
+            ],
+            "stateEvaluatorTemplate": {
+                "stateDescriptorTemplate": {
+                    "interfaceName": "mediaplayer",
+                    "interfaceState": "playbackStatus",
+                    "selectionId": 0,
+                    "selectionMode": "SelectionModeDevice",
+                    "operator": "ValueOperatorEquals",
+                    "value": "Playing"
+                }
+            },
+            "ruleActionTemplates": [
+                {
+                    "interfaceName": "mediacontroller",
+                    "interfaceAction": "pause",
+                    "selectionId": 0,
+                    "selectionMode": "SelectionModeDevice"
+                }
+            ],
+            "ruleExitActionTemplates": [
+                {
+                    "interfaceName": "mediacontroller",
+                    "interfaceAction": "play",
+                    "selectionId": 0,
+                    "selectionMode": "SelectionModeDevice"
+                }
+            ]
+        },
+        {
+            "description": "Toggle mute by button press",
+            "ruleNameTemplate": "%1 toggles mute on %0",
+            "eventDescriptorTemplates": [
+                {
+                    "interfaceName": "button",
+                    "interfaceEvent": "pressed",
+                    "selectionId": 1,
+                    "selectionMode": "SelectionModeDevice"
+                }
+            ],
+            "stateEvaluatorTemplate": {
+                "stateDescriptorTemplate": {
+                    "interfaceName": "volumecontroller",
+                    "interfaceState": "mute",
+                    "selectionId": 0,
+                    "selectionMode": "SelectionModeDevice",
+                    "operator": "ValueOperatorEquals",
+                    "value": false
+                }
+            },
+            "ruleActionTemplates": [
+                {
+                    "interfaceName": "volumecontroller",
+                    "interfaceAction": "mute",
+                    "selectionId": 0,
+                    "selectionMode": "SelectionModeDevice",
+                    "params": [
+                        {
+                            "name": "mute",
+                            "value": true
+                        }
+                    ]
+                }
+            ],
+            "ruleExitActionTemplates": [
+                {
+                    "interfaceName": "volumecontroller",
+                    "interfaceAction": "mute",
+                    "selectionId": 0,
+                    "selectionMode": "SelectionModeDevice",
+                    "params": [
+                        {
+                            "name": "mute",
+                            "value": false
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "description": "Increase volume by button press",
+            "ruleNameTemplate": "%1 increases volume on %0",
+            "eventDescriptorTemplates": [
+                {
+                    "interfaceName": "button",
+                    "interfaceEvent": "pressed",
+                    "selectionId": 1,
+                    "selectionMode": "SelectionModeDevice"
+                }
+            ],
+            "ruleActionTemplates": [
+                {
+                    "interfaceName": "volumecontroller",
+                    "interfaceAction": "increaseVolume",
+                    "selectionId": 0,
+                    "selectionMode": "SelectionModeDevice"
+                }
+            ]
+        },
+        {
+            "description": "Decrease volume by button press",
+            "ruleNameTemplate": "%1 decreases volume on %0",
+            "eventDescriptorTemplates": [
+                {
+                    "interfaceName": "button",
+                    "interfaceEvent": "pressed",
+                    "selectionId": 1,
+                    "selectionMode": "SelectionModeDevice"
+                }
+            ],
+            "ruleActionTemplates": [
+                {
+                    "interfaceName": "volumecontroller",
+                    "interfaceAction": "decreaseVolume",
+                    "selectionId": 0,
+                    "selectionMode": "SelectionModeDevice"
+                }
+            ]
         }
     ]
 }
