@@ -36,22 +36,16 @@
 
 #include "stylecontroller.h"
 
-StyleController::StyleController(QObject *parent) : QObject(parent)
+StyleController::StyleController(const QString &defaultStyle, QObject *parent) : QObject(parent),
+    m_defaultStyle(defaultStyle)
 {
-#ifdef BRANDING
-    QQuickStyle::setStyle(QString(":/styles/%1").arg(BRANDING));
-#else
     QQuickStyle::setStyle(QString(":/styles/%1").arg(currentStyle()));
-#endif
 }
 
 QString StyleController::currentStyle() const
 {
-#ifdef BRANDING
-    return BRANDING;
-#endif
     QSettings settings;
-    QString currentSetting = settings.value("style", "light").toString();
+    QString currentSetting = settings.value("style", m_defaultStyle).toString();
     // ensure style is available
     if (allStyles().contains(currentSetting)) {
         return currentSetting;
@@ -61,6 +55,10 @@ QString StyleController::currentStyle() const
 
 void StyleController::setCurrentStyle(const QString &currentStyle)
 {
+    if (m_locked) {
+        qDebug() << "Ignoring style change request. Style is locked to" << this->currentStyle();
+        return;
+    }
     if (!allStyles().contains(currentStyle)) {
         qWarning().nospace() << "No style named: " << currentStyle << ". Available styles are: " << allStyles().join(", ");
         return;
@@ -73,11 +71,22 @@ void StyleController::setCurrentStyle(const QString &currentStyle)
     }
 }
 
+void StyleController::lockToStyle(const QString &style)
+{
+    setCurrentStyle(style);
+    m_locked = true;
+}
+
 QStringList StyleController::allStyles() const
 {
     QDir dir(":/styles/");
 //    qDebug() << "styles:" << dir.entryList();
     return dir.entryList(QDir::Dirs);
+}
+
+bool StyleController::locked() const
+{
+    return m_locked;
 }
 
 void StyleController::setSystemFont(const QFont &font)

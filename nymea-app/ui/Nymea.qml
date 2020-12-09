@@ -85,7 +85,6 @@ ApplicationWindow {
         property alias windowHeight: app.height
         property bool returnToHome: false
         property string graphStyle: "bars"
-        property string style: "light"
         property bool showHiddenOptions: false
         property string cloudEnvironment: "Community"
         property bool showConnectionTabs: false

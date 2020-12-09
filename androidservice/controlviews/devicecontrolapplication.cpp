@@ -45,7 +45,7 @@ DeviceControlApplication::DeviceControlApplication(int argc, char *argv[]) : QAp
     qmlRegisterType<NfcThingActionWriter>("Nymea", 1, 0, "NfcThingActionWriter");
     qmlRegisterSingletonType<NfcHelper>("Nymea", 1, 0, "NfcHelper", NfcHelper::nfcHelperProvider);
 
-    StyleController *styleController = new StyleController(this);
+    StyleController *styleController = new StyleController("light", this);
 
     QQmlFileSelector *styleSelector = new QQmlFileSelector(m_qmlEngine);
     styleSelector->setExtraSelectors({styleController->currentStyle()});
