@@ -35,11 +35,11 @@
 #include <QTimer>
 #include <QFile>
 
-class RaspberryPiHelper : public QObject
+class ScreenHelper : public QObject
 {
     Q_OBJECT
 public:
-    explicit RaspberryPiHelper(QObject *parent = nullptr);
+    explicit ScreenHelper(QObject *parent = nullptr);
 
     bool active() const;
     int screenTimeout() const;
