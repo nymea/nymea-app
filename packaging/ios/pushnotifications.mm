@@ -53,10 +53,11 @@
                           ntohl(tokenBytes[3]), ntohl(tokenBytes[4]), ntohl(tokenBytes[5]),
                           ntohl(tokenBytes[6]), ntohl(tokenBytes[7])];
 
-    qDebug() << "Registering for remote notifications";
-    qDebug() << "Token description:" << QString::fromNSString(deviceToken.description);
-    qDebug() << "Parsed token:" << QString::fromNSString(tokenStr);
     // We've switched to firebase... Not emitting the native APNS token
+
+//    qDebug() << "Registering for remote notifications";
+//    qDebug() << "Token description:" << QString::fromNSString(deviceToken.description);
+//    qDebug() << "Parsed token:" << QString::fromNSString(tokenStr);
 //    PushNotifications::instance()->setAPNSRegistrationToken(QString::fromNSString(tokenStr));
 }
 
@@ -96,6 +97,10 @@
     qDebug() << "Firebase token received:" << QString::fromNSString(fcmToken);
     PushNotifications::instance()->setAPNSRegistrationToken(QString::fromNSString(fcmToken));
 
+}
+
+- (void)application:(UIApplication*)application didReceiveRemoteNotification:(NSDictionary*)userInfo {
+    qDebug() << "didReceiveRemoteNotification called";
 }
 
 @end

@@ -390,7 +390,7 @@ Page {
                             Layout.fillWidth: true
                             enabled: !model.readOnly
                             paramType: root.deviceClass.paramTypes.get(index)
-                            visible: root.thingClass.id.toString().match(/\{?f0dd4c03-0aca-42cc-8f34-9902457b05de\}?/) === null
+                            //visible: root.thingClass.id.toString().match(/\{?f0dd4c03-0aca-42cc-8f34-9902457b05de\}?/) === null
                             value: {
                                 // Discovery, use params from discovered descriptor
                                 if (d.thingDescriptor && d.thingDescriptor.params.getParam(paramType.id)) {
@@ -400,12 +400,13 @@ Page {
                                 // Special hook for push notifications as we need to provide the token implicitly
                                 print("Setting up params for thing class:", root.thingClass.id, root.thingClass.name)
                                 if (root.thingClass.id.toString().match(/\{?f0dd4c03-0aca-42cc-8f34-9902457b05de\}?/)) {
-                                    print("It's push notifications. Token is:", PushNotifications.token, "Platform is:", Qt.platform.os);
                                     if (paramType.id.toString().match(/\{?3cb8e30e-2ec5-4b4b-8c8c-03eaf7876839\}?/)) {
                                         if (Qt.platform.os == "android") {
                                             return "GCM";
+                                        } else if (Qt.platform.os == "ios") {
+                                            return "APNs"
                                         } else {
-                                            print("Unsupported platform for push notifications!")
+                                            print("Unsupported platform for push notifications:", Qt.platform.os)
                                         }
                                     }
                                     if (paramType.id.toString().match(/\{?12ec06b2-44e7-486a-9169-31c684b91c8f\}?/)) {
