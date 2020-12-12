@@ -397,16 +397,18 @@ Page {
                                     return d.thingDescriptor.params.getParam(paramType.id).value
                                 }
 
-                                // Special hook for push notifications as we need to provide the token implicitly
+                                // Special hook for push notifications as we need to provide the token etc implicitly
                                 print("Setting up params for thing class:", root.thingClass.id, root.thingClass.name)
                                 if (root.thingClass.id.toString().match(/\{?f0dd4c03-0aca-42cc-8f34-9902457b05de\}?/)) {
                                     if (paramType.id.toString().match(/\{?3cb8e30e-2ec5-4b4b-8c8c-03eaf7876839\}?/)) {
-                                        if (Qt.platform.os == "android") {
-                                            return "GCM";
-                                        } else if (Qt.platform.os == "ios") {
-                                            return "APNs"
+                                        if (PlatformHelper.platform === "android") {
+                                            return "FB-GCM";
+                                        } else if (PlatformHelper.platform === "ios") {
+                                            return "FB-APNs"
+                                        } else if (PlatformHelper.platform === "ubports") {
+                                            return "UBPorts";
                                         } else {
-                                            print("Unsupported platform for push notifications:", Qt.platform.os)
+                                            print("Unsupported platform for push notifications:", PlatformHelper.platform)
                                         }
                                     }
                                     if (paramType.id.toString().match(/\{?12ec06b2-44e7-486a-9169-31c684b91c8f\}?/)) {

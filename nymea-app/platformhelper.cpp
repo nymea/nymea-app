@@ -38,6 +38,56 @@ PlatformHelper::PlatformHelper(QObject *parent) : QObject(parent)
 
 }
 
+bool PlatformHelper::hasPermissions() const
+{
+    return true;
+}
+
+void PlatformHelper::requestPermissions()
+{
+    emit permissionsRequestFinished();
+}
+
+void PlatformHelper::hideSplashScreen()
+{
+    // No splash screen by default...
+}
+
+
+QString PlatformHelper::platform() const
+{
+    return QSysInfo::productType();
+}
+
+QString PlatformHelper::machineHostname() const
+{
+    return QSysInfo::machineHostName();
+}
+
+QString PlatformHelper::device() const
+{
+    return QSysInfo::prettyProductName();
+}
+
+QString PlatformHelper::deviceSerial() const
+{
+#if QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
+    return QSysInfo::machineUniqueId();
+#else
+    return "1234567890";
+#endif
+}
+
+QString PlatformHelper::deviceModel() const
+{
+    return QSysInfo::prettyProductName();
+}
+
+QString PlatformHelper::deviceManufacturer() const
+{
+    return QSysInfo::productType();
+}
+
 bool PlatformHelper::canControlScreen() const
 {
     return false;
@@ -87,6 +137,11 @@ void PlatformHelper::setBottomPanelColor(const QColor &color)
         m_bottomPanelColor = color;
         emit bottomPanelColorChanged();
     }
+}
+
+void PlatformHelper::vibrate(PlatformHelper::HapticsFeedback feedbackType)
+{
+    Q_UNUSED(feedbackType)
 }
 
 void PlatformHelper::toClipBoard(const QString &text)

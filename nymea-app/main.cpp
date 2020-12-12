@@ -42,6 +42,8 @@
 #include "platformintegration/android/platformhelperandroid.h"
 #elif defined(Q_OS_IOS)
 #include "platformintegration/ios/platformhelperios.h"
+#elif defined UBPORTS
+#include "platformintegration/ubports/platformhelperubports.h"
 #else
 #include "platformintegration/generic/platformhelpergeneric.h"
 #endif
@@ -63,6 +65,8 @@ QObject *platformHelperProvider(QQmlEngine *engine, QJSEngine *scriptEngine)
     return new PlatformHelperAndroid();
 #elif defined(Q_OS_IOS)
     return new PlatformHelperIOS();
+#elif defined UBPORTS
+    return new PlatformHelperUBPorts();
 #else
     return new PlatformHelperGeneric();
 #endif

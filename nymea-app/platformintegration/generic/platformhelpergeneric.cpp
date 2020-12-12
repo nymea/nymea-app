@@ -35,50 +35,6 @@ PlatformHelperGeneric::PlatformHelperGeneric(QObject *parent) : PlatformHelper(p
     m_piHelper = new ScreenHelper(this);
 }
 
-void PlatformHelperGeneric::requestPermissions()
-{
-    emit permissionsRequestFinished();
-}
-
-void PlatformHelperGeneric::hideSplashScreen()
-{
-
-}
-
-bool PlatformHelperGeneric::hasPermissions() const
-{
-    return true;
-}
-
-QString PlatformHelperGeneric::machineHostname() const
-{
-    return QSysInfo::machineHostName();
-}
-
-QString PlatformHelperGeneric::device() const
-{
-    return QSysInfo::prettyProductName();
-}
-
-QString PlatformHelperGeneric::deviceSerial() const
-{
-#if QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
-    return QSysInfo::machineUniqueId();
-#else
-    return "1234567890";
-#endif
-}
-
-QString PlatformHelperGeneric::deviceModel() const
-{
-    return QSysInfo::prettyProductName();
-}
-
-QString PlatformHelperGeneric::deviceManufacturer() const
-{
-    return QSysInfo::productType();
-}
-
 bool PlatformHelperGeneric::canControlScreen() const
 {
     return m_piHelper->active();
@@ -108,9 +64,4 @@ void PlatformHelperGeneric::setScreenBrightness(int percent)
         m_piHelper->setScreenBrightness(percent);
         emit screenTimeoutChanged();
     }
-}
-
-void PlatformHelperGeneric::vibrate(PlatformHelper::HapticsFeedback feedbyckType)
-{
-    Q_UNUSED(feedbyckType)
 }

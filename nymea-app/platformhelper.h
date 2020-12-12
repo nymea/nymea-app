@@ -38,6 +38,7 @@ class PlatformHelper : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(bool hasPermissions READ hasPermissions NOTIFY permissionsRequestFinished)
+    Q_PROPERTY(QString platform READ platform CONSTANT)
     Q_PROPERTY(QString deviceSerial READ deviceSerial CONSTANT)
     Q_PROPERTY(QString device READ device CONSTANT)
     Q_PROPERTY(QString deviceModel READ deviceModel CONSTANT)
@@ -60,16 +61,15 @@ public:
     explicit PlatformHelper(QObject *parent = nullptr);
     virtual ~PlatformHelper() = default;
 
-    Q_INVOKABLE virtual void requestPermissions() = 0;
+    virtual bool hasPermissions() const;
+    Q_INVOKABLE virtual void requestPermissions();
 
-    Q_INVOKABLE virtual void hideSplashScreen() = 0;
-
-    virtual bool hasPermissions() const = 0;
-    virtual QString machineHostname() const = 0;
-    virtual QString device() const = 0;
-    virtual QString deviceSerial() const = 0;
-    virtual QString deviceModel() const = 0;
-    virtual QString deviceManufacturer() const = 0;
+    virtual QString platform() const;
+    virtual QString machineHostname() const;
+    virtual QString device() const;
+    virtual QString deviceSerial() const;
+    virtual QString deviceModel() const;
+    virtual QString deviceManufacturer() const;
 
     virtual bool canControlScreen() const;
     virtual int screenTimeout() const;
@@ -82,8 +82,8 @@ public:
     virtual QColor bottomPanelColor() const;
     virtual void setBottomPanelColor(const QColor &color);
 
-
-    Q_INVOKABLE virtual void vibrate(HapticsFeedback feedbackType) = 0;
+    Q_INVOKABLE virtual void hideSplashScreen();
+    Q_INVOKABLE virtual void vibrate(HapticsFeedback feedbackType);
 
     Q_INVOKABLE virtual void toClipBoard(const QString &text);
     Q_INVOKABLE virtual QString fromClipBoard();

@@ -17,6 +17,7 @@ HEADERS += \
     nfchelper.h \
     nfcthingactionwriter.h \
     platformintegration/generic/screenhelper.h \
+    platformintegration/ubports/platformhelperubports.h \
     stylecontroller.h \
     pushnotifications.h \
     platformhelper.h \
@@ -29,6 +30,7 @@ SOURCES += main.cpp \
     nfchelper.cpp \
     nfcthingactionwriter.cpp \
     platformintegration/generic/screenhelper.cpp \
+    platformintegration/ubports/platformhelperubports.cpp \
     stylecontroller.cpp \
     pushnotifications.cpp \
     platformhelper.cpp \
@@ -51,8 +53,7 @@ win32 {
 }
 
 android {
-
-    include(../android_openssl/openssl.pri)
+    include(../3rdParty/android/android_openssl/openssl.pri)
 
     QT += androidextras webview
     HEADERS += platformintegration/android/platformhelperandroid.h
@@ -75,14 +76,8 @@ android {
         platformintegration/android/java-firebase/io/guh/nymeaapp/NymeaAppNotificationService.java \
 
     !no-firebase: {
-        android-clang {
-            FIREBASE_STL_VARIANT = c++
-        }
-        isEmpty(FIREBASE_STL_VARIANT){
-            FIREBASE_STL_VARIANT = gnustl
-        }
-        INCLUDEPATH += /opt/firebase_cpp_sdk/include
-        LIBS += -L/opt/firebase_cpp_sdk/libs/android/$$ANDROID_TARGET_ARCH/$$FIREBASE_STL_VARIANT/ -lfirebase_messaging -lfirebase_app
+        INCLUDEPATH += $${top_srcdir}/3rdParty/android/firebase_cpp_sdk/include
+        LIBS += -L$${top_srcdir}/3rdParty/android/firebase_cpp_sdk/libs/android/$$ANDROID_TARGET_ARCH/c++/ -lfirebase_messaging -lfirebase_app
     }
 }
 
