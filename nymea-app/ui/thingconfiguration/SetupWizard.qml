@@ -40,10 +40,12 @@ import "../delegates"
 Page {
     id: root
 
-    property DeviceClass deviceClass: device ? device.deviceClass : null
+    property ThingClass thingClass: thing ? thing.thingClass : null
+    property alias deviceClass: root.thingClass
 
     // Optional: If set, it will be reconfigred, otherwise a new one will be created
-    property Device device: null
+    property Thing thing: null
+    property alias device: root.thing // Transitional, use thing instead
 
     signal done();
 
@@ -66,7 +68,8 @@ Page {
     QtObject {
         id: d
         property var vendorId: null
-        property DeviceDescriptor deviceDescriptor: null
+        property ThingDescriptor thingDescriptor: null
+        property alias deviceDescriptor: d.thingDescriptor
         property var discoveryParams: []
         property string deviceName: ""
         property int pairRequestId: 0
@@ -89,8 +92,8 @@ Page {
         } else if (root.deviceClass.createMethods.indexOf("CreateMethodUser") !== -1) {
             print("CreateMethodUser")
             // Setting up a new device
-            if (!root.device) {
-                print("New device. Opening params page")
+            if (!root.thing) {
+                print("New thing setup")
                 internalPageStack.push(paramsPage)
 
             // Reconfigure
@@ -367,7 +370,8 @@ Page {
                         }
                         TextField {
                             id: nameTextField
-                            text: d.deviceName ? d.deviceName : root.deviceClass.displayName
+                            text: (d.deviceName ? d.deviceName : root.deviceClass.displayName)
+                                  + (root.thingClass.id.toString().match(/\{?f0dd4c03-0aca-42cc-8f34-9902457b05de\}?/) ? " (" + PlatformHelper.machineHostname + ")" : "")
                             Layout.fillWidth: true
                             Layout.leftMargin: app.margins
                             Layout.rightMargin: app.margins
@@ -386,9 +390,35 @@ Page {
                             Layout.fillWidth: true
                             enabled: !model.readOnly
                             paramType: root.deviceClass.paramTypes.get(index)
-                            value: d.deviceDescriptor && d.deviceDescriptor.params.getParam(paramType.id) ?
-                                       d.deviceDescriptor.params.getParam(paramType.id).value :
-                                       root.deviceClass.paramTypes.get(index).defaultValue
+                            visible: root.thingClass.id.toString().match(/\{?f0dd4c03-0aca-42cc-8f34-9902457b05de\}?/) === null
+                            value: {
+                                // Discovery, use params from discovered descriptor
+                                if (d.thingDescriptor && d.thingDescriptor.params.getParam(paramType.id)) {
+                                    return d.thingDescriptor.params.getParam(paramType.id).value
+                                }
+
+                                // Special hook for push notifications as we need to provide the token implicitly
+                                print("Setting up params for thing class:", root.thingClass.id, root.thingClass.name)
+                                if (root.thingClass.id.toString().match(/\{?f0dd4c03-0aca-42cc-8f34-9902457b05de\}?/)) {
+                                    print("It's push notifications. Token is:", PushNotifications.token, "Platform is:", Qt.platform.os);
+                                    if (paramType.id.toString().match(/\{?3cb8e30e-2ec5-4b4b-8c8c-03eaf7876839\}?/)) {
+                                        if (Qt.platform.os == "android") {
+                                            return "GCM";
+                                        } else {
+                                            print("Unsupported platform for push notifications!")
+                                        }
+                                    }
+                                    if (paramType.id.toString().match(/\{?12ec06b2-44e7-486a-9169-31c684b91c8f\}?/)) {
+                                        return PushNotifications.token;
+                                    }
+                                    if (paramType.id.toString().match(/\{?d76da367-64e3-4b7d-aa84-c96b3acfb65e\}?/)) {
+                                        return PlatformHelper.deviceSerial + "+io.guh.nymeaapp" + (appBranding.length > 0 ? "-" + appBranding : "");
+                                    }
+                                }
+
+                                // Manual setup, use default value from thing class
+                                return root.thingClass.paramTypes.get(index).defaultValue
+                            }
                         }
                     }
 
