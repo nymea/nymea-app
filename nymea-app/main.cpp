@@ -37,16 +37,6 @@
 #include <QCommandLineParser>
 #include <QCommandLineOption>
 
-#ifdef Q_OS_ANDROID
-#include <QtAndroidExtras/QtAndroid>
-#include "platformintegration/android/platformhelperandroid.h"
-#elif defined(Q_OS_IOS)
-#include "platformintegration/ios/platformhelperios.h"
-#elif defined UBPORTS
-#include "platformintegration/ubports/platformhelperubports.h"
-#else
-#include "platformintegration/generic/platformhelpergeneric.h"
-#endif
 
 #include "libnymea-app-core.h"
 
@@ -56,21 +46,8 @@
 #include "ruletemplates/messages.h"
 #include "nfchelper.h"
 #include "nfcthingactionwriter.h"
+#include "platformhelper.h"
 
-QObject *platformHelperProvider(QQmlEngine *engine, QJSEngine *scriptEngine)
-{
-    Q_UNUSED(engine)
-    Q_UNUSED(scriptEngine)
-#ifdef Q_OS_ANDROID
-    return new PlatformHelperAndroid();
-#elif defined(Q_OS_IOS)
-    return new PlatformHelperIOS();
-#elif defined UBPORTS
-    return new PlatformHelperUBPorts();
-#else
-    return new PlatformHelperGeneric();
-#endif
-}
 
 int main(int argc, char *argv[])
 {
@@ -159,7 +136,7 @@ int main(int argc, char *argv[])
 
     engine->rootContext()->setContextProperty("styleController", &styleController);
 
-    qmlRegisterSingletonType<PlatformHelper>("Nymea", 1, 0, "PlatformHelper", platformHelperProvider);
+    qmlRegisterSingletonType<PlatformHelper>("Nymea", 1, 0, "PlatformHelper", PlatformHelper::platformHelperProvider);
     qmlRegisterSingletonType<NfcHelper>("Nymea", 1, 0, "NfcHelper", NfcHelper::nfcHelperProvider);
     qmlRegisterType<NfcThingActionWriter>("Nymea", 1, 0, "NfcThingActionWriter");
 

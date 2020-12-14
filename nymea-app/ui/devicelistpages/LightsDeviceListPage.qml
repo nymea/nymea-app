@@ -87,7 +87,7 @@ DeviceListPageBase {
             Repeater {
                 model: root.thingsProxy
 
-                delegate: BigTile {
+                delegate: BigThingTile {
                     id: itemDelegate
                     Layout.preferredWidth: contentGrid.width / contentGrid.columns
                     thing: root.thingsProxy.getThing(model.id)
@@ -96,6 +96,7 @@ DeviceListPageBase {
                     bottomPadding: 0
                     leftPadding: 0
                     rightPadding: 0
+
 
                     property State powerState: thing.stateByName("power")
                     property State brightnessState: thing.stateByName("brightness")

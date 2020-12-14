@@ -4,24 +4,19 @@ import QtQuick.Controls 2.1
 import QtQuick.Controls.Material 2.1
 import Nymea 1.0
 
-    Item {
+Item {
     id: root
     implicitHeight: layout.implicitHeight + app.margins
 
-    property Thing thing: null
-
-    property bool showHeader: true
-
+    property alias header: headerContainer.children
     property alias contentItem: content.contentItem
+
+    property alias showHeader: headerContainer.visible
 
     property alias leftPadding: content.leftPadding
     property alias rightPadding: content.rightPadding
     property alias topPadding: content.topPadding
     property alias bottomPadding: content.bottomPadding
-
-    readonly property State connectedState: thing.stateByName("connected")
-    readonly property bool isConnected: connectedState === null || connectedState.value === true
-    readonly property bool isEnabled: thing.setupStatus == Thing.ThingSetupStatusComplete && isConnected
 
     signal clicked();
     signal pressAndHold();
@@ -73,12 +68,12 @@ import Nymea 1.0
 
         gradient: Gradient {
             GradientStop {
-                position: (headerRow.height + app.margins) / background.height
+                position: (headerContainer.height + app.margins) / background.height
                 color: Style.tileBackgroundColor
             }
             GradientStop {
-                position: (headerRow.height + app.margins) / background.height
-                color:root.showHeader ?
+                position: (headerContainer.height + app.margins) / background.height
+                color: headerContainer.visible ?
                           Style.tileOverlayColor
                         : Style.tileBackgroundColor
             }
@@ -90,20 +85,12 @@ import Nymea 1.0
         spacing: 0
         anchors { left: parent.left; top: parent.top; right: parent.right; margins: app.margins / 2 }
 
-        RowLayout {
-            id: headerRow
-            visible: root.showHeader
+        Item {
+            id: headerContainer
+            Layout.fillWidth: true
             Layout.margins: app.margins / 2
-            Label {
-                Layout.fillWidth: true
-                text: root.thing.name
-                elide: Text.ElideRight
-                color: Style.tileOverlayForegroundColor
-            }
-            ThingStatusIcons {
-                thing: root.thing
-//                color: Style.tileOverlayForegroundColor
-            }
+            visible: children.length > 0
+            height: childrenRect.height
         }
 
         ItemDelegate {

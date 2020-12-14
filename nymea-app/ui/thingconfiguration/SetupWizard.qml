@@ -401,21 +401,13 @@ Page {
                                 print("Setting up params for thing class:", root.thingClass.id, root.thingClass.name)
                                 if (root.thingClass.id.toString().match(/\{?f0dd4c03-0aca-42cc-8f34-9902457b05de\}?/)) {
                                     if (paramType.id.toString().match(/\{?3cb8e30e-2ec5-4b4b-8c8c-03eaf7876839\}?/)) {
-                                        if (PlatformHelper.platform === "android") {
-                                            return "FB-GCM";
-                                        } else if (PlatformHelper.platform === "ios") {
-                                            return "FB-APNs"
-                                        } else if (PlatformHelper.platform === "ubports") {
-                                            return "UBPorts";
-                                        } else {
-                                            print("Unsupported platform for push notifications:", PlatformHelper.platform)
-                                        }
+                                        return PushNotifications.service;
                                     }
                                     if (paramType.id.toString().match(/\{?12ec06b2-44e7-486a-9169-31c684b91c8f\}?/)) {
                                         return PushNotifications.token;
                                     }
                                     if (paramType.id.toString().match(/\{?d76da367-64e3-4b7d-aa84-c96b3acfb65e\}?/)) {
-                                        return PlatformHelper.deviceSerial + "+io.guh.nymeaapp" + (appBranding.length > 0 ? "-" + appBranding : "");
+                                        return PushNotifications.clientId;
                                     }
                                 }
 

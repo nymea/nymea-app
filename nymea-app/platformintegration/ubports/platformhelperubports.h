@@ -12,6 +12,7 @@ public:
     explicit PlatformHelperUBPorts(QObject *parent = nullptr);
 
     QString platform() const override;
+    QString deviceSerial() const override;
 
 signals:
 

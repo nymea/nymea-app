@@ -51,7 +51,7 @@ public:
 
     Q_INVOKABLE int count() const;
     Q_INVOKABLE Param *get(int index) const;
-    Q_INVOKABLE Param *getParam(QString paramTypeId) const;
+    Q_INVOKABLE Param *getParam(const QUuid &paramTypeId) const;
 
     Q_INVOKABLE int paramCount() const;
 

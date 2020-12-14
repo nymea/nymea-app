@@ -167,12 +167,26 @@ State *Device::stateByName(const QString &stateName) const
     return m_states->getState(st->id());
 }
 
+Param *Device::param(const QUuid &paramTypeId) const
+{
+    return m_params->getParam(paramTypeId);
+}
+
+Param *Device::paramByName(const QString &paramName) const
+{
+    ParamType *paramType = m_thingClass->paramTypes()->findByName(paramName);
+    if (!paramType) {
+        return nullptr;
+    }
+    return m_params->getParam(paramType->id());
+}
+
 DeviceClass *Device::thingClass() const
 {
     return m_thingClass;
 }
 
-bool Device::hasState(const QUuid &stateTypeId)
+bool Device::hasState(const QUuid &stateTypeId) const
 {
     foreach (State *state, states()->states()) {
         if (state->stateTypeId() == stateTypeId) {
@@ -182,7 +196,7 @@ bool Device::hasState(const QUuid &stateTypeId)
     return false;
 }
 
-QVariant Device::stateValue(const QUuid &stateTypeId)
+QVariant Device::stateValue(const QUuid &stateTypeId) const
 {
     foreach (State *state, states()->states()) {
         if (state->stateTypeId() == stateTypeId) {

@@ -56,10 +56,10 @@ Param *Params::get(int index) const
     return m_params.at(index);
 }
 
-Param *Params::getParam(QString paramTypeId) const
+Param *Params::getParam(const QUuid &paramTypeId) const
 {
     foreach (Param *param, m_params) {
-        if (QUuid(param->paramTypeId()) == QUuid(paramTypeId)) {
+        if (param->paramTypeId() == paramTypeId) {
             return param;
         }
     }

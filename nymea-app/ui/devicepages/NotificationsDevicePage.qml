@@ -28,8 +28,8 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.5
-import QtQuick.Controls 2.1
+import QtQuick 2.9
+import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.1
 import Nymea 1.0
 import "../components"
@@ -52,19 +52,92 @@ DevicePageBase {
         }
     }
 
+    function sendMessage(title, text) {
+        print("sending message", title, text)
+        var actionType = root.deviceClass.actionTypes.findByName("notify")
+        var params = []
+        var titleParam = {}
+        titleParam["paramTypeId"] = actionType.paramTypes.findByName("title").id
+        titleParam["value"] = title
+        params.push(titleParam)
+        var bodyParam = {}
+        bodyParam["paramTypeId"] = actionType.paramTypes.findByName("body").id
+        bodyParam["value"] = text
+        params.push(bodyParam)
+        d.pendingAction = engine.deviceManager.executeAction(root.device.id, actionType.id, params)
+        titleTextField.clear();
+        bodyTextField.clear();
+    }
+
     ColumnLayout {
+        id: content
         anchors.fill: parent
 
-        Label {
+        RowLayout {
+            id: inputPane
             Layout.fillWidth: true
             Layout.margins: app.margins
-            wrapMode: Text.WordWrap
-            text: qsTr("Sent notifications:")
-            visible: logsModel.count > 0 && !logsModel.busy
+            spacing: app.margins
+
+            ColumnLayout {
+                id: inputColumn
+
+                TextField {
+                    id: titleTextField
+                    Layout.fillWidth: true
+                    placeholderText: qsTr("Title")
+                }
+
+                ScrollView {
+                    Layout.preferredWidth: inputPane.width - app.iconSize - inputPane.spacing
+                    Layout.maximumHeight: content.height - y - app.margins
+                    contentWidth: width
+
+                    TextArea {
+                        id: bodyTextField
+                        placeholderText: qsTr("Text")
+                        wrapMode: TextArea.WrapAtWordBoundaryOrAnywhere
+                    }
+                }
+            }
+
+            Item {
+                id: sendButton
+                Layout.preferredWidth: app.iconSize
+                Layout.preferredHeight: inputColumn.height
+                ColorIcon {
+                    anchors { horizontalCenter: parent.horizontalCenter; bottom: parent.bottom; margins: app.margins }
+                    height: app.iconSize
+                    width: app.iconSize
+                    name: "../images/send.svg"
+                    color: titleTextField.displayText.length > 0 ? Style.accentColor : Style.iconColor
+                    visible: d.pendingAction == -1
+                }
+
+                BusyIndicator {
+                    anchors { horizontalCenter: parent.horizontalCenter; bottom: parent.bottom; margins: app.margins }
+                    visible: d.pendingAction != -1
+                    running: visible
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        print("clicked!")
+                        bodyTextField.focus = false
+                        if (titleTextField.displayText.length > 0) {
+                            root.sendMessage(titleTextField.displayText, bodyTextField.text)
+                            titleTextField.clear();
+                            bodyTextField.clear();
+                        }
+                    }
+                }
+            }
         }
 
 
         GenericTypeLogView {
+            id: logView
             Layout.fillHeight: true
             Layout.fillWidth: true
 
@@ -76,16 +149,65 @@ DevicePageBase {
                 typeIds: [root.deviceClass.actionTypes.findByName("notify").id];
             }
 
-            delegate: NymeaSwipeDelegate {
-                width: parent.width
-                iconName: app.interfaceToIcon("notifications")
-                text: model.value.trim()
-                subText: Qt.formatDateTime(model.timestamp)
-                progressive: false
+            delegate: BigTile {
+                id: itemDelegate
+                showHeader: false
+                width: logView.width - app.margins
+                anchors.horizontalCenter: parent.horizontalCenter
+
+                // Note: This will go wrong if the title contains ", ". Known shortcoming of the log db
+                readonly property string title: model.value.trim().replace(/, ?.*/, "")
+                readonly property string text: model.value.trim().replace(/.*, ?/, "")
+
+                contentItem: RowLayout {
+                    ColumnLayout {
+                        Label {
+                            Layout.fillWidth: true
+                            text: itemDelegate.title
+                            elide: Text.ElideRight
+                        }
+                        GridLayout {
+                            Layout.fillWidth: true
+                            columns: textLabel.implicitWidth + dateLayout.implicitWidth < width ? 2 : 1
+
+                            Label {
+                                id: textLabel
+                                Layout.fillWidth: true
+                                text: itemDelegate.text
+                                font.pixelSize: app.smallFont
+                                wrapMode: Text.WordWrap
+                            }
+
+                            RowLayout {
+                                id: dateLayout
+                                Layout.fillWidth: true
+                                spacing: app.margins / 2
+                                Label {
+                                    Layout.fillWidth: true
+                                    horizontalAlignment: Text.AlignRight
+                                    text: Qt.formatDateTime(model.timestamp)
+                                    font.pixelSize: app.extraSmallFont
+                                }
+                                ColorIcon {
+                                    Layout.preferredWidth: app.smallIconSize
+                                    Layout.preferredHeight: app.smallIconSize
+                                    name: "../images/dialog-warning-symbolic.svg"
+                                    color: "red"
+                                    visible: model.errorCode !== ""
+                                }
+                            }
+                        }
+                    }
+                }
 
                 onClicked: {
-                    var parts = model.value.trim().split(', ')
-                    var popup = detailsPopup.createObject(root, {timestamp: model.timestamp, notificationTitle: parts[0], notificationBody: parts[1]});
+                    var popup = detailsPopup.createObject(root,
+                                                          {
+                                                              timestamp: model.timestamp,
+                                                              notificationTitle: itemDelegate.title,
+                                                              notificationBody: itemDelegate.text,
+                                                              errorCode: model.errorCode
+                                                          });
                     popup.open();
                 }
             }
@@ -100,73 +222,6 @@ DevicePageBase {
                 visible: logsModel.count == 0 && !logsModel.busy
             }
         }
-
-        ThinDivider {}
-
-        RowLayout {
-            Layout.fillWidth: true
-            Layout.margins: app.margins
-            spacing: app.margins
-
-            ColumnLayout {
-                id: inputColumn
-                anchors { left: parent.left; bottom: parent.bottom; right: parent.right }
-
-                TextField {
-                    id: titleTextField
-                    Layout.fillWidth: true
-                    placeholderText: qsTr("Title")
-                }
-
-                TextArea {
-                    id: bodyTextField
-                    Layout.fillWidth: true
-                    placeholderText: qsTr("Text")
-                    wrapMode: Text.WordWrap
-                }
-            }
-
-            Item {
-                Layout.preferredWidth: app.iconSize
-                Layout.preferredHeight: inputColumn.height
-                ColorIcon {
-                    anchors.centerIn: parent
-                    height: app.iconSize
-                    width: app.iconSize
-                    name: "../images/send.svg"
-                    color: titleTextField.displayText.length > 0 ? Style.accentColor : Style.iconColor
-                    visible: d.pendingAction == -1
-                }
-
-                BusyIndicator {
-                    anchors.centerIn: parent
-                    visible: d.pendingAction != -1
-                    running: visible
-                }
-
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: {
-                        print("clicked!")
-                        if (titleTextField.displayText.length > 0) {
-                            var actionType = root.deviceClass.actionTypes.findByName("notify")
-                            var params = []
-                            var titleParam = {}
-                            titleParam["paramTypeId"] = actionType.paramTypes.findByName("title").id
-                            titleParam["value"] = titleTextField.displayText
-                            params.push(titleParam)
-                            var bodyParam = {}
-                            bodyParam["paramTypeId"] = actionType.paramTypes.findByName("body").id
-                            bodyParam["value"] = bodyTextField.text
-                            params.push(bodyParam)
-                            d.pendingAction = engine.deviceManager.executeAction(root.device.id, actionType.id, params)
-                            titleTextField.clear();
-                            bodyTextField.clear();
-                        }
-                    }
-                }
-            }
-        }
     }
 
     BusyIndicator {
@@ -177,22 +232,38 @@ DevicePageBase {
 
     Component {
         id: detailsPopup
+
         MeaDialog {
             id: detailsDialog
+            standardButtons: Dialog.NoButton
             property string timestamp
             property string notificationTitle
             property string notificationBody
+            property string errorCode
             title: qsTr("Notification details")
-            Label {
-                Layout.fillWidth: true
-                text: qsTr("Date sent")
-                font.bold: true
+            headerIcon: "../images/messaging-app-symbolic.svg"
+            RowLayout {
+                ColumnLayout {
+
+                    Label {
+                        Layout.fillWidth: true
+                        text: detailsDialog.errorCode == "" ? qsTr("Date sent") : qsTr("Sending failed")
+                        font.bold: true
+                    }
+                    Label {
+                        Layout.fillWidth: true
+                        text: Qt.formatDateTime(detailsDialog.timestamp)
+                    }
+                }
+                ColorIcon {
+                    Layout.preferredWidth: app.largeIconSize
+                    Layout.preferredHeight: app.largeIconSize
+                    name: "../images/dialog-warning-symbolic.svg"
+                    color: "red"
+                    visible: detailsDialog.errorCode !== ""
+                }
             }
 
-            Label {
-                Layout.fillWidth: true
-                text: Qt.formatDateTime(detailsDialog.timestamp)
-            }
             Label {
                 Layout.topMargin: app.margins
                 Layout.fillWidth: true
@@ -216,6 +287,20 @@ DevicePageBase {
                 Layout.fillWidth: true
                 text: detailsDialog.notificationBody
                 wrapMode: Text.WordWrap
+            }
+
+            RowLayout {
+                Item {
+                    Layout.fillWidth: true
+                }
+                Button {
+                    text: qsTr("Resend")
+                    onClicked: root.sendMessage(detailsDialog.notificationTitle, detailsDialog.notificationBody)
+                }
+                Button {
+                    text: qsTr("Close")
+                    onClicked: detailsDialog.close()
+                }
             }
         }
     }

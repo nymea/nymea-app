@@ -51,6 +51,8 @@ class PushNotifications : public QObject
 #endif
 {
     Q_OBJECT
+    Q_PROPERTY(QString service READ service CONSTANT)
+    Q_PROPERTY(QString clientId READ clientId CONSTANT)
     Q_PROPERTY(QString token READ token NOTIFY tokenChanged)
 
 public:
@@ -60,6 +62,8 @@ public:
     static QObject* pushNotificationsProvider(QQmlEngine *engine, QJSEngine *scriptEngine);
     static PushNotifications* instance();
 
+    QString service() const;
+    QString clientId() const;
     QString token() const;
 
     // Called by Objective-C++

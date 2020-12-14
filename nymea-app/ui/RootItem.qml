@@ -262,6 +262,7 @@ Item {
                         return false;
                     }
 
+                    // Old nymea:cloud based push notifications...
                     function setupPushNotifications(askForPermissions) {
                         if (askForPermissions === undefined) {
                             askForPermissions = true;
@@ -293,6 +294,46 @@ Item {
                                         clientId,
                                         PlatformHelper.deviceManufacturer,
                                         PlatformHelper.deviceModel);
+                        }
+                    }
+
+                    // New, nymea thing based push notifactions
+                    function updatePushNotificationThings() {
+                        if (PushNotifications.service == "") {
+                            print("This platform does not support push notifications")
+                            return;
+                        }
+                        if (!PushNotifications.token) {
+                            print("No push notification token available at this time. Not updating...");
+                            return;
+                        }
+
+                        print("Updating push notifications")
+                        print("Own push service:", PushNotifications.service);
+                        print("Own client ID:", PushNotifications.clientId);
+                        print("Current token:", PushNotifications.token);
+
+                        for (var i = 0; i < engine.thingManager.things.count; i++) {
+                            var thing = engine.thingManager.things.get(i);
+                            if (thing.thingClass.id.toString().match(/\{?f0dd4c03-0aca-42cc-8f34-9902457b05de\}?/)) {
+                                var serviceParam = thing.paramByName("service");
+                                var clientIdParam = thing.paramByName("clientId")
+                                var tokenParam = thing.paramByName("token")
+                                print("Found a push notification thing for client id:", clientIdParam.value)
+                                if (clientIdParam.value === PushNotifications.clientId) {
+                                    if (tokenParam.value !== PushNotifications.token) {
+                                        var params = [
+                                                    { "paramTypeId": serviceParam.paramTypeId, "value": PushNotifications.service },
+                                                    { "paramTypeId": clientIdParam.paramTypeId, "value": PushNotifications.clientId },
+                                                    { "paramTypeId": tokenParam.paramTypeId, "value": PushNotifications.token }
+                                                ];
+                                        print("Reconfiguring PushNotifications for", thing.name)
+                                        engine.thingManager.reconfigureDevice(thing.id, params);
+                                    } else {
+                                        print("Push notifications don't need to be updated. Token is valid.")
+                                    }
+                                }
+                            }
                         }
                     }
 
@@ -370,13 +411,22 @@ Item {
                         }
                     }
 
+                    Connections {
+                        target: engine.thingManager
+                        onFetchingDataChanged: {
+                            if (!engine.thingManager.fetchingData) {
+                                updatePushNotificationThings()
+                            }
+                        }
+                    }
+
                     Component {
                         id: invalidVersionComponent
                         Popup {
                             id: popup
 
                             property string actualVersion: "0.0"
-                            property string minimumVersion: "1.0"
+                            property string minimumVersion: "1.10"
 
                             width: app.width * .8
                             height: col.childrenRect.height + app.margins * 2

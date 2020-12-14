@@ -68,7 +68,7 @@ DeviceListPageBase {
             Repeater {
                 model: root.thingsProxy
 
-                delegate: BigTile {
+                delegate: BigThingTile {
                     id: itemDelegate
                     Layout.preferredWidth: contentGrid.width / contentGrid.columns
                     thing: root.thingsProxy.getThing(model.id)

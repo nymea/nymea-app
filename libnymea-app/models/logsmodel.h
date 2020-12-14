@@ -61,7 +61,8 @@ public:
         RoleDeviceId, // < JSONRPC 5.0
         RoleTypeId,
         RoleSource,
-        RoleLoggingEventType
+        RoleLoggingEventType,
+        RoleErrorCode
     };
     explicit LogsModel(QObject *parent = nullptr);
 

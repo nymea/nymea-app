@@ -92,15 +92,17 @@ public:
 
     States *states() const;
     void setStates(States *states);
+    void setStateValue(const QUuid &stateTypeId, const QVariant &value);
 
     DeviceClass *thingClass() const;
 
-    Q_INVOKABLE bool hasState(const QUuid &stateTypeId);
+    Q_INVOKABLE bool hasState(const QUuid &stateTypeId) const;
     Q_INVOKABLE State *state(const QUuid &stateTypeId) const;
     Q_INVOKABLE State *stateByName(const QString &stateName) const;
+    Q_INVOKABLE QVariant stateValue(const QUuid &stateTypeId) const;
 
-    Q_INVOKABLE QVariant stateValue(const QUuid &stateTypeId);
-    void setStateValue(const QUuid &stateTypeId, const QVariant &value);
+    Q_INVOKABLE Param *param(const QUuid &paramTypeId) const;
+    Q_INVOKABLE Param *paramByName(const QString &paramName) const;
 
     Q_INVOKABLE virtual int executeAction(const QString &actionName, const QVariantList &params);
 
@@ -111,8 +113,6 @@ signals:
     void settingsChanged();
     void statesChanged();
     void eventTriggered(const QUuid &eventTypeId, const QVariantMap &params);
-
-private:
 
 protected:
     DeviceManager *m_thingManager = nullptr;

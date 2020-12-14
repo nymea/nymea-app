@@ -29,6 +29,7 @@
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #include "pushnotifications.h"
+#include "platformhelper.h"
 
 #include <QDebug>
 
@@ -85,6 +86,27 @@ PushNotifications *PushNotifications::instance()
 {
     static PushNotifications* pushNotifications = new PushNotifications();
     return pushNotifications;
+}
+
+QString PushNotifications::service() const
+{
+#if defined Q_OS_ANDROID
+    return "FB-GCM";
+#elif defined Q_OS_IOS
+    return "FB-APNs";
+#elif defined UBPORTS
+    return "ubports";
+#endif
+    return QString();
+}
+
+QString PushNotifications::clientId() const
+{
+    QString branding;
+#if defined BRANDING
+    branding = "-" + BRANDING;
+#endif
+    return PlatformHelper::instance()->deviceSerial() + "+io.guh.nymeaapp" + branding;
 }
 
 QString PushNotifications::token() const

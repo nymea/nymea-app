@@ -232,5 +232,6 @@
         <file>ui/StyleBase.qml</file>
         <file>ui/customviews/ThermostatController.qml</file>
         <file>ui/devicepages/ThermostatDevicePage.qml</file>
+        <file>ui/components/BigThingTile.qml</file>
     </qresource>
 </RCC>

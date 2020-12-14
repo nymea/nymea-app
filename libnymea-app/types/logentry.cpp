@@ -32,14 +32,15 @@
 
 #include <QDateTime>
 
-LogEntry::LogEntry(const QDateTime &timestamp, const QVariant &value, const QUuid &thingId, const QUuid &typeId, LoggingSource source, LoggingEventType loggingEventType, QObject *parent):
+LogEntry::LogEntry(const QDateTime &timestamp, const QVariant &value, const QUuid &thingId, const QUuid &typeId, LoggingSource source, LoggingEventType loggingEventType, const QString &errorCode, QObject *parent):
     QObject(parent),
     m_value(value),
     m_timeStamp(timestamp),
     m_thingId(thingId),
     m_typeId(typeId),
     m_source(source),
-    m_loggingEventType(loggingEventType)
+    m_loggingEventType(loggingEventType),
+    m_errorCode(errorCode)
 {
 
 }
@@ -103,4 +104,9 @@ QString LogEntry::dayString() const
 QString LogEntry::dateString() const
 {
     return m_timeStamp.date().toString("dd.MM.");
+}
+
+QString LogEntry::errorCode() const
+{
+    return m_errorCode;
 }

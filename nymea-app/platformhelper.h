@@ -34,6 +34,9 @@
 #include <QObject>
 #include <QColor>
 
+class QQmlEngine;
+class QJSEngine;
+
 class PlatformHelper : public QObject
 {
     Q_OBJECT
@@ -58,7 +61,7 @@ public:
     };
     Q_ENUM(HapticsFeedback)
 
-    explicit PlatformHelper(QObject *parent = nullptr);
+    static PlatformHelper* instance();
     virtual ~PlatformHelper() = default;
 
     virtual bool hasPermissions() const;
@@ -88,6 +91,7 @@ public:
     Q_INVOKABLE virtual void toClipBoard(const QString &text);
     Q_INVOKABLE virtual QString fromClipBoard();
 
+    static QObject *platformHelperProvider(QQmlEngine *engine, QJSEngine *scriptEngine);
 signals:
     void permissionsRequestFinished();
     void screenTimeoutChanged();
@@ -95,7 +99,12 @@ signals:
     void topPanelColorChanged();
     void bottomPanelColorChanged();
 
+protected:
+    explicit PlatformHelper(QObject *parent = nullptr);
+
 private:
+    static PlatformHelper *s_instance;
+
     QColor m_topPanelColor = QColor("black");
     QColor m_bottomPanelColor = QColor("black");
 };

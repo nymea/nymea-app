@@ -33,9 +33,38 @@
 #include <QApplication>
 #include <QClipboard>
 
+#if defined Q_OS_ANDROID
+#include <QtAndroidExtras/QtAndroid>
+#include "platformintegration/android/platformhelperandroid.h"
+#elif defined Q_OS_IOS
+#include "platformintegration/ios/platformhelperios.h"
+#elif defined UBPORTS
+#include "platformintegration/ubports/platformhelperubports.h"
+#else
+#include "platformintegration/generic/platformhelpergeneric.h"
+#endif
+
+PlatformHelper* PlatformHelper::s_instance = nullptr;
+
 PlatformHelper::PlatformHelper(QObject *parent) : QObject(parent)
 {
 
+}
+
+PlatformHelper *PlatformHelper::instance()
+{
+    if (!s_instance) {
+#ifdef Q_OS_ANDROID
+        s_instance = new PlatformHelperAndroid();
+#elif defined(Q_OS_IOS)
+        s_instance = new PlatformHelperIOS();
+#elif defined UBPORTS
+        s_instance = new PlatformHelperUBPorts();
+#else
+        s_instance = new PlatformHelperGeneric();
+#endif
+    }
+    return s_instance;
 }
 
 bool PlatformHelper::hasPermissions() const
@@ -152,4 +181,11 @@ void PlatformHelper::toClipBoard(const QString &text)
 QString PlatformHelper::fromClipBoard()
 {
     return QApplication::clipboard()->text();
+}
+
+QObject *PlatformHelper::platformHelperProvider(QQmlEngine *engine, QJSEngine *scriptEngine)
+{
+    Q_UNUSED(engine)
+    Q_UNUSED(scriptEngine)
+    return instance();
 }

@@ -50,6 +50,7 @@ class LogEntry : public QObject
     Q_PROPERTY(QString timeString READ timeString CONSTANT)
     Q_PROPERTY(QString dayString READ dayString CONSTANT)
     Q_PROPERTY(QString dateString READ dateString CONSTANT)
+    Q_PROPERTY(QString errorCode READ errorCode CONSTANT)
 
 public:
     enum LoggingSource {
@@ -71,7 +72,7 @@ public:
     };
     Q_ENUM(LoggingEventType)
 
-    explicit LogEntry(const QDateTime &timestamp, const QVariant &value, const QUuid &thingId = QUuid(), const QUuid &typeId = QUuid(), LoggingSource source = LoggingSourceSystem, LoggingEventType loggingEventType = LoggingEventTypeTrigger, QObject *parent = nullptr);
+    explicit LogEntry(const QDateTime &timestamp, const QVariant &value, const QUuid &thingId = QUuid(), const QUuid &typeId = QUuid(), LoggingSource source = LoggingSourceSystem, LoggingEventType loggingEventType = LoggingEventTypeTrigger, const QString &errorCode = QString(), QObject *parent = nullptr);
 
     QVariant value() const;
     QDateTime timestamp() const;
@@ -83,6 +84,7 @@ public:
     QString timeString() const;
     QString dayString() const;
     QString dateString() const;
+    QString errorCode() const;
 
 private:
     QVariant m_value;
@@ -91,6 +93,7 @@ private:
     QUuid m_typeId;
     LoggingSource m_source;
     LoggingEventType m_loggingEventType;
+    QString m_errorCode;
 };
 
 #endif // LOGENTRY_H

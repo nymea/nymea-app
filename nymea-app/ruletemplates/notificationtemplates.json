@@ -32,8 +32,8 @@
             ]
         },
         {
-            "description": "Notify me when something runs dry",
-            "ruleNameTemplate": "Notify %1 when %0 runs dry",
+            "description": "Notify me when something dries ou",
+            "ruleNameTemplate": "Notify %1 when %0 dries out",
             "stateEvaluatorTemplate": {
                 "stateDescriptorTemplate": {
                     "interfaceName": "moisturesensor",

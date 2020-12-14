@@ -79,6 +79,8 @@ QVariant LogsModel::data(const QModelIndex &index, int role) const
         return m_list.at(index.row())->source();
     case RoleLoggingEventType:
         return m_list.at(index.row())->loggingEventType();
+    case RoleErrorCode:
+        return m_list.at(index.row())->errorCode();
     }
     return QVariant();
 }
@@ -93,6 +95,7 @@ QHash<int, QByteArray> LogsModel::roleNames() const
     roles.insert(RoleTypeId, "typeId");
     roles.insert(RoleSource, "source");
     roles.insert(RoleLoggingEventType, "loggingEventType");
+    roles.insert(RoleErrorCode, "errorCode");
     return roles;
 }
 
@@ -229,7 +232,8 @@ void LogsModel::logsReply(int /*commandId*/, const QVariantMap &data)
         QMetaEnum loggingEventTypeEnum = QMetaEnum::fromType<LogEntry::LoggingEventType>();
         LogEntry::LoggingEventType loggingEventType = static_cast<LogEntry::LoggingEventType>(loggingEventTypeEnum.keyToValue(entryMap.value("eventType").toByteArray()));
         QVariant value = loggingEventType == LogEntry::LoggingEventTypeActiveChange ? entryMap.value("active").toBool() : entryMap.value("value");
-        LogEntry *entry = new LogEntry(timeStamp, value, thingId, typeId, loggingSource, loggingEventType, this);
+        QString errorCode = entryMap.value("errorCode").toString();
+        LogEntry *entry = new LogEntry(timeStamp, value, thingId, typeId, loggingSource, loggingEventType, errorCode, this);
         newBlock.append(entry);
     }
 
@@ -371,7 +375,7 @@ void LogsModel::newLogEntryReceived(const QVariantMap &data)
     QMetaEnum loggingEventTypeEnum = QMetaEnum::fromType<LogEntry::LoggingEventType>();
     LogEntry::LoggingEventType loggingEventType = static_cast<LogEntry::LoggingEventType>(loggingEventTypeEnum.keyToValue(entryMap.value("eventType").toByteArray()));
     QVariant value = loggingEventType == LogEntry::LoggingEventTypeActiveChange ? entryMap.value("active").toBool() : entryMap.value("value");
-    LogEntry *entry = new LogEntry(timeStamp, value, thingId, typeId, loggingSource, loggingEventType, this);
+    LogEntry *entry = new LogEntry(timeStamp, value, thingId, typeId, loggingSource, loggingEventType, entryMap.value("errorCode").toString(), this);
     m_list.prepend(entry);
     endInsertRows();
     emit countChanged();
