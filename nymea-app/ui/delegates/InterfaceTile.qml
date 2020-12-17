@@ -255,6 +255,7 @@ MainPageTile {
 
             MediaControls {
                 thing: inlineMediaControl.currentDevice
+                iconColor: Style.tileOverlayIconColor
             }
         }
     }
@@ -308,6 +309,7 @@ MainPageTile {
             ProgressButton {
                 longpressEnabled: false
                 visible: imageSource.length > 0
+                color: Style.tileOverlayIconColor
                 imageSource: {
                     switch (iface.name) {
                     case "media":
@@ -382,6 +384,7 @@ MainPageTile {
             ProgressButton {
                 longpressEnabled: false
                 visible: imageSource.length > 0
+                color: Style.tileOverlayIconColor
                 imageSource: {
                     switch (iface.name) {
                     case "media":
@@ -454,6 +457,7 @@ MainPageTile {
 
             ProgressButton {
                 longpressEnabled: false
+                color: Style.tileOverlayIconColor
                 imageSource: {
                     switch (iface.name) {
                     case "media":
