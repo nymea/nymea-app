@@ -33,7 +33,7 @@
 
 #include <QObject>
 #include "platformhelper.h"
-#include "raspberrypihelper.h"
+#include "screenhelper.h"
 
 class PlatformHelperGeneric : public PlatformHelper
 {
@@ -61,7 +61,7 @@ public:
     Q_INVOKABLE virtual void vibrate(HapticsFeedback feedbyckType) override;
 
 private:
-    RaspberryPiHelper *m_piHelper = nullptr;
+    ScreenHelper *m_piHelper = nullptr;
 };
 
 #endif // PLATFORMHELPERGENERIC_H

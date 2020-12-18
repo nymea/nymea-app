@@ -28,31 +28,56 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include "raspberrypihelper.h"
+#include "screenhelper.h"
 
 #include <QDebug>
 #include <QApplication>
 #include <QWindow>
 #include <QSettings>
+#include <QFileInfo>
+#include <QDir>
 
-RaspberryPiHelper::RaspberryPiHelper(QObject *parent) : QObject(parent)
+ScreenHelper::ScreenHelper(QObject *parent) : QObject(parent)
 {
-    m_powerFile.setFileName("/sys/class/backlight/rpi_backlight/bl_power");
-    bool available = m_powerFile.open(QFile::ReadWrite | QFile::Text);
+    // Try generic backlight
+    QDir backlightDir("/sys/class/backlight");
+    foreach (const QFileInfo &fi, backlightDir.entryInfoList({"*_backlight"}, QDir::Dirs)) {
+        qDebug() << "Checking backlight directory:" << fi.absoluteFilePath();
+        m_powerFile.setFileName(fi.absoluteFilePath() + "/bl_power");
+        m_brightnessFile.setFileName(fi.absoluteFilePath() + "/brightness");
+        if (!m_powerFile.open(QFile::ReadWrite | QFile::Text)) {
+            qWarning() << "Cannot open" << m_powerFile.fileName() << "for writing";
+            continue;
+        }
+        if (!m_brightnessFile.open(QFile::ReadWrite | QFile::Text)) {
+            qWarning() << "Cannot open" << m_brightnessFile.fileName() << "for writing";
+            continue;
+        }
+        QFile maxBrightnessFile(fi.absoluteFilePath() + "/max_brightness");
+        if (!maxBrightnessFile.open(QFile::ReadOnly)) {
+            qWarning() << "Cannot open" << m_brightnessFile.fileName() << "for reading";
+            continue;
+        }
+        bool ok;
+        m_maxBrightness = maxBrightnessFile.readAll().toInt(&ok);
+        if (!ok) {
+            qWarning() << "Error reading max brightness value from" << maxBrightnessFile.fileName();
+            m_maxBrightness = -1;
+            continue;
+        }
+        // All good. Let's use this and not check more files
+        break;
+    }
 
-    if (!available) {
+    if (!m_powerFile.isOpen() || !m_brightnessFile.isOpen()) {
+        qWarning() << "No backlight support on this platform";
         return;
     }
+    qDebug() << "Backlight control enabled on" << m_powerFile.fileName();
 
-    qDebug() << "Raspberry Pi detected. Enabling backlight control";
-
-    m_brightnessFile.setFileName("/sys/class/backlight/rpi_backlight/brightness");
-    if (!m_brightnessFile.open(QFile::ReadWrite | QFile::Text)) {
-        qWarning() << "Failed to open brightness file";
-    }
     QByteArray currentBrightness = m_brightnessFile.readLine();
-    m_currentBrightness = currentBrightness.trimmed().toInt() * 100 / 255;
-    qDebug() << "Current brightness is:" << currentBrightness << m_currentBrightness;
+    m_currentBrightness = currentBrightness.trimmed().toInt() * 100 / m_maxBrightness;
+    qDebug() << "Current brightness is: Absolute:" << currentBrightness << "Percentage:" << m_currentBrightness;
 
     screenOn();
 
@@ -63,7 +88,7 @@ RaspberryPiHelper::RaspberryPiHelper(QObject *parent) : QObject(parent)
     QSettings settings;
     m_screenOffTimer.setInterval(settings.value("screenOffTimeout", 15000).toInt());
     m_screenOffTimer.setSingleShot(true);
-    connect(&m_screenOffTimer, &QTimer::timeout, this, &RaspberryPiHelper::screenOff);
+    connect(&m_screenOffTimer, &QTimer::timeout, this, &ScreenHelper::screenOff);
     if (m_screenOffTimer.interval() > 0) {
         m_screenOffTimer.start();
     }
@@ -73,17 +98,17 @@ RaspberryPiHelper::RaspberryPiHelper(QObject *parent) : QObject(parent)
     m_cursorHidden = true;
 }
 
-bool RaspberryPiHelper::active() const
+bool ScreenHelper::active() const
 {
     return m_powerFile.isOpen();
 }
 
-int RaspberryPiHelper::screenTimeout() const
+int ScreenHelper::screenTimeout() const
 {
     return m_screenOffTimer.interval();
 }
 
-void RaspberryPiHelper::setScreenTimeout(int timeout)
+void ScreenHelper::setScreenTimeout(int timeout)
 {
     m_screenOffTimer.setInterval(timeout);
     QSettings settings;
@@ -95,19 +120,19 @@ void RaspberryPiHelper::setScreenTimeout(int timeout)
     }
 }
 
-int RaspberryPiHelper::screenBrightness() const
+int ScreenHelper::screenBrightness() const
 {
     return m_currentBrightness;
 }
 
-void RaspberryPiHelper::setScreenBrightness(int percent)
+void ScreenHelper::setScreenBrightness(int percent)
 {
     m_currentBrightness = percent;
     m_brightnessFile.write(QString("%1\n").arg(percent * 255 / 100).toUtf8());
     m_brightnessFile.flush();
 }
 
-bool RaspberryPiHelper::eventFilter(QObject *watched, QEvent *event)
+bool ScreenHelper::eventFilter(QObject *watched, QEvent *event)
 {
     if (m_screenOffTimer.interval() == 0) {
         return QObject::eventFilter(watched, event);
@@ -162,7 +187,7 @@ bool RaspberryPiHelper::eventFilter(QObject *watched, QEvent *event)
     return QObject::eventFilter(watched, event);
 }
 
-void RaspberryPiHelper::screenOn()
+void ScreenHelper::screenOn()
 {
     qDebug() << "Turning screen on";
     int ret = m_powerFile.write("0\n");
@@ -172,7 +197,7 @@ void RaspberryPiHelper::screenOn()
     }
 }
 
-void RaspberryPiHelper::screenOff()
+void ScreenHelper::screenOff()
 {
     qDebug() << "Turning screen off";
     int ret = m_powerFile.write("1\n");

@@ -32,7 +32,7 @@
 
 PlatformHelperGeneric::PlatformHelperGeneric(QObject *parent) : PlatformHelper(parent)
 {
-    m_piHelper = new RaspberryPiHelper(this);
+    m_piHelper = new ScreenHelper(this);
 }
 
 void PlatformHelperGeneric::requestPermissions()
