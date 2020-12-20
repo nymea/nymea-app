@@ -44,7 +44,7 @@ DevicePageBase {
 
         title: qsTr("This switch has not been used yet.")
         text: qsTr("Press a button on the switch to see logs appearing here.")
-        visible: logView.logsModel.count === 0
+        visible: !logsModel.busy && logsModel.count === 0
         buttonVisible: false
         imageSource: "../images/system-shutdown.svg"
     }

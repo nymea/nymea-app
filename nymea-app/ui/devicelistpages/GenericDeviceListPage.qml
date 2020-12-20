@@ -107,20 +107,6 @@ DeviceListPageBase {
                         ThingStatusIcons {
                             thing: itemDelegate.thing
                         }
-
-                        Switch {
-                            visible: itemDelegate.powerState !== null
-                            checked: itemDelegate.powerState && itemDelegate.powerState.value === true
-                            enabled: itemDelegate.isEnabled
-                            onClicked: {
-                                var params = [];
-                                var param1 = {};
-                                param1["paramTypeId"] = itemDelegate.powerState.stateTypeId;
-                                param1["value"] = checked;
-                                params.push(param1)
-                                engine.deviceManager.executeAction(itemDelegate.thing.id, itemDelegate.powerState.stateTypeId, params)
-                            }
-                        }
                     }
                 }
             }
