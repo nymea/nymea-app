@@ -4,6 +4,9 @@ Item {
     property color backgroundColor: "#fafafa"
     property color foregroundColor: "#202020"
 
+    property color accentColor: "#ff57baae"
+    property color iconColor: "#808080"
+
     property color headerBackgroundColor: "#ffffff"
     property color headerForegroundColor: "#202020"
 
@@ -11,11 +14,9 @@ Item {
     property color tileForegroundColor: foregroundColor
     property color tileOverlayColor: Qt.tint(backgroundColor, Qt.rgba(foregroundColor.r, foregroundColor.g, foregroundColor.b, 0.1))
     property color tileOverlayForegroundColor: foregroundColor
+    property color tileOverlayIconColor: iconColor
     property int tileRadius: 6
 
-    property color accentColor: "#ff57baae"
-
-    property color iconColor: "#808080"
 
     // Note: Font files need to be provided in a "fonts" folder in the style
     property string fontFamily: "Ubuntu"

@@ -40,11 +40,14 @@ RowLayout {
 
     property Thing thing: null
 
+    property color iconColor: Style.iconColor
+
     property bool showExtendedControls: false
 
     readonly property State playbackState: thing.stateByName("playbackStatus")
     readonly property State shuffleState: thing.stateByName("shuffle")
     readonly property State repeatState: thing.stateByName("repeat")
+
 
     function executeAction(actionName, params) {
         if (params === undefined) {
@@ -62,6 +65,7 @@ RowLayout {
         enabled: root.shuffleState !== null
         opacity: enabled ? 1 : .5
         visible: root.showExtendedControls
+        color: root.shuffleState.value === false ? root.iconColor : Style.accentColor
         onClicked: {
             var params = []
             var param = {}
@@ -81,6 +85,7 @@ RowLayout {
         longpressEnabled: root.thing.thingClass.actionTypes.findByName("fastRewind") !== null
         enabled: root.playbackState && root.playbackState.value !== "Stopped"
         opacity: enabled ? 1 : .5
+        color: root.iconColor
 
         repeat: true
         onClicked: {
@@ -97,6 +102,7 @@ RowLayout {
         imageSource: root.playbackState && root.playbackState.value === "Playing" ? "../images/media-playback-pause.svg" : "../images/media-playback-start.svg"
         longpressImageSource: "../images/media-playback-stop.svg"
         longpressEnabled: root.playbackState && root.playbackState.value !== "Stopped"
+        color: root.iconColor
 
         onClicked: {
             if (root.playbackState.value === "Playing") {
@@ -120,6 +126,7 @@ RowLayout {
         enabled: root.playbackState && root.playbackState.value !== "Stopped"
         opacity: enabled ? 1 : .5
         repeat: true
+        color: root.iconColor
         onClicked: {
             root.executeAction("skipNext")
         }
@@ -133,7 +140,7 @@ RowLayout {
         Layout.preferredHeight: app.iconSize
         Layout.preferredWidth: height
         imageSource: root.repeatState.value === "One" ? "../images/media-playlist-repeat-one.svg" : "../images/media-playlist-repeat.svg"
-        color: root.repeatState.value === "None" ? Style.iconColor : Style.accentColor
+        color: root.repeatState.value === "None" ? root.iconColor : Style.accentColor
         longpressEnabled: false
         enabled: root.repeatState !== null
         opacity: enabled ? 1 : .5
