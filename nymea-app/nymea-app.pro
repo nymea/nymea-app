@@ -16,7 +16,7 @@ HEADERS += \
     mainmenumodel.h \
     nfchelper.h \
     nfcthingactionwriter.h \
-    platformintegration/generic/raspberrypihelper.h \
+    platformintegration/generic/screenhelper.h \
     stylecontroller.h \
     pushnotifications.h \
     platformhelper.h \
@@ -28,7 +28,7 @@ SOURCES += main.cpp \
     mainmenumodel.cpp \
     nfchelper.cpp \
     nfcthingactionwriter.cpp \
-    platformintegration/generic/raspberrypihelper.cpp \
+    platformintegration/generic/screenhelper.cpp \
     stylecontroller.cpp \
     pushnotifications.cpp \
     platformhelper.cpp \
