@@ -59,7 +59,7 @@ ScreenHelper::ScreenHelper(QObject *parent) : QObject(parent)
             continue;
         }
         bool ok;
-        m_maxBrightness = maxBrightnessFile.readAll().toInt(&ok);
+        m_maxBrightness = maxBrightnessFile.readLine().trimmed().toInt(&ok);
         if (!ok) {
             qWarning() << "Error reading max brightness value from" << maxBrightnessFile.fileName();
             m_maxBrightness = -1;
@@ -75,9 +75,10 @@ ScreenHelper::ScreenHelper(QObject *parent) : QObject(parent)
     }
     qDebug() << "Backlight control enabled on" << m_powerFile.fileName();
 
-    QByteArray currentBrightness = m_brightnessFile.readLine();
-    m_currentBrightness = currentBrightness.trimmed().toInt() * 100 / m_maxBrightness;
-    qDebug() << "Current brightness is: Absolute:" << currentBrightness << "Percentage:" << m_currentBrightness;
+    bool ok;
+    int currentBrightness = m_brightnessFile.readLine().trimmed().toInt(&ok);
+    m_currentBrightness = currentBrightness * 100 / m_maxBrightness;
+    qDebug().nospace() << "Brigness: Absolute: " << currentBrightness << "/" << m_maxBrightness << " Percentage:" << m_currentBrightness;
 
     screenOn();
 
@@ -128,7 +129,7 @@ int ScreenHelper::screenBrightness() const
 void ScreenHelper::setScreenBrightness(int percent)
 {
     m_currentBrightness = percent;
-    m_brightnessFile.write(QString("%1\n").arg(percent * 255 / 100).toUtf8());
+    m_brightnessFile.write(QString("%1\n").arg(percent * m_maxBrightness / 100).toUtf8());
     m_brightnessFile.flush();
 }
 
