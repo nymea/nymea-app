@@ -1,3 +1,11 @@
+nymea-app (1.0.261) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Update QtZeroConf
+  * Fix brightness settings
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 23 Dec 2020 21:12:20 +0100
+
 nymea-app (1.0.260) bionic; urgency=medium
 
   [ Michael Zanetti ]
