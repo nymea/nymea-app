@@ -16,8 +16,6 @@ apps:
   nymea-app:
     command: desktop-launch nymea-app
     desktop: usr/share/applications/nymea-app.desktop
-    environment:
-        DISABLE_WAYLAND: 1    
     plugs:
     - avahi-observe
     - bluez
