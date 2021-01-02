@@ -30,84 +30,61 @@
 
 import QtQuick 2.5
 import QtQuick.Controls 2.1
-import QtQuick.Controls.Material 2.2
 import QtQuick.Layouts 1.1
+import QtQuick.Controls.Material 2.1
 import Nymea 1.0
 import "../components"
-import "../customviews"
 
 DevicePageBase {
     id: root
 
-    readonly property bool landscape: width > height
-
-    readonly property StateType targetTemperatureStateType: device.deviceClass.stateTypes.findByName("targetTemperature")
-    readonly property State targetTemperatureState: targetTemperatureStateType ? device.states.getState(targetTemperatureStateType.id) : null
-    readonly property StateType powerStateType: deviceClass.stateTypes.findByName("power")
-    readonly property State powerState: powerStateType ? device.states.getState(powerStateType.id) : null
-    readonly property StateType temperatureStateType: device.deviceClass.stateTypes.findByName("temperature")
-    readonly property State temperatureState: temperatureStateType ? device.states.getState(temperatureStateType.id) : null
-    readonly property StateType percentageStateType: device.deviceClass.stateTypes.findByName("percentage")
-    readonly property State percentageState: percentageStateType ? device.states.getState(percentageStateType.id) : null
-    // TODO: should this be an interface? e.g. extendedthermostat
-    readonly property StateType boostStateType: device.deviceClass.stateTypes.findByName("boost")
-    readonly property State boostState: boostStateType ? device.states.getState(boostStateType.id) : null
-
-    Component.onCompleted: {
-        print("d:", root.device, root.targetTemperatureStateType, root.percentageStateType)
-    }
+    readonly property var powerStateType: deviceClass.stateTypes.findByName("power")
+    readonly property var powerState: device.states.getState(powerStateType.id)
+    readonly property var powerActionType: deviceClass.actionTypes.findByName("power");
 
     GridLayout {
         anchors.fill: parent
         anchors.margins: app.margins
         columns: app.landscape ? 2 : 1
+        rowSpacing: app.margins
+        columnSpacing: app.margins
+        Layout.alignment: Qt.AlignCenter
 
-        Dial {
-            id: dial
-            Layout.fillWidth: true
+        Item {
+            Layout.preferredWidth: Math.max(app.iconSize * 6, parent.width / 5)
+            Layout.preferredHeight: width
+            Layout.topMargin: app.margins
+            Layout.bottomMargin: app.landscape ? app.margins : 0
+            Layout.alignment: Qt.AlignCenter
+            Layout.rowSpan: app.landscape ? 4 : 1
             Layout.fillHeight: true
-//            visible: root.targetTemperatureStateType || root.percentageStateType
 
-            device: root.device
-            stateType: root.targetTemperatureStateType ? root.targetTemperatureStateType : root.percentageStateType
-
-        }
-
-        Rectangle {
-            Layout.preferredWidth: app.landscape ? parent.width / 2 : parent.width
-            Layout.preferredHeight: 50
-            visible: root.boostStateType
-            border.color: boostMouseArea.pressed || root.boostStateType && root.boostState.value === true ? Style.accentColor : Style.foregroundColor
-            border.width: 1
-            radius: height / 2
-            color: root.boostStateType && root.boostState.value === true ? Style.accentColor : "transparent"
-
-            Row {
+            AbstractButton {
+                height: Math.min(parent.height, parent.width)
+                width: height
                 anchors.centerIn: parent
-                spacing: app.margins / 2
-                ColorIcon {
-                    height: app.iconSize
-                    width: app.iconSize
-                    name: "../images/sensors/temperature.svg"
-                    color: root.boostStateType && root.boostState.value === true ? "red" : Style.iconColor
+                Rectangle {
+                    anchors.fill: parent
+                    color: "transparent"
+                    border.color: root.powerState.value === true ? Style.accentColor : Style.iconColor
+                    border.width: 4
+                    radius: width / 2
                 }
 
-                Label {
-                    text: qsTr("Boost")
-                    anchors.verticalCenter: parent.verticalCenter
+                ColorIcon {
+                    id: bulbIcon
+                    anchors.fill: parent
+                    anchors.margins: app.margins * 1.5
+                    name: "../images/thermostat/heating.svg"
+                    color: root.powerState.value === true ? Style.accentColor : Style.iconColor
                 }
-            }
-            MouseArea {
-                id: boostMouseArea
-                anchors.fill: parent
-                onPressedChanged: PlatformHelper.vibrate(PlatformHelper.HapticsFeedbackImpact)
                 onClicked: {
                     var params = []
                     var param = {}
-                    param["paramTypeId"] = root.boostStateType.id
-                    param["value"] = !root.boostState.value
+                    param["paramTypeId"] = root.powerActionType.paramTypes.get(0).id;
+                    param["value"] = !root.powerState.value;
                     params.push(param)
-                    engine.deviceManager.executeAction(root.device.id, root.boostStateType.id, params);
+                    engine.deviceManager.executeAction(root.device.id, root.powerStateType.id, params);
                 }
             }
         }

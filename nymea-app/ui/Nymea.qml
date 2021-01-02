@@ -69,6 +69,7 @@ ApplicationWindow {
     property int smallFont: 13
     property int mediumFont: 16
     property int largeFont: 20
+    property int hugeFont: 40
 
     property int smallIconSize: 16
     property int iconSize: 24
@@ -145,6 +146,7 @@ ApplicationWindow {
         "blind",
         "garagedoor",
         "powersocket",
+        "thermostat",
         "heating",
         "smartlock",
         "doorbell",
@@ -218,6 +220,8 @@ ApplicationWindow {
             return qsTr("Smart meters");
         case "heating":
             return qsTr("Heating");
+        case "thermostat":
+            return qsTr("Thermostats");
         case "evcharger":
             return qsTr("EV-chargers");
         case "powersocket":
@@ -341,8 +345,9 @@ ApplicationWindow {
         case "extendedsmartmeterproducer":
             return Qt.resolvedUrl("images/smartmeter.svg")
         case "heating":
-        case "extendedheating":
-            return Qt.resolvedUrl("images/radiator.svg")
+            return Qt.resolvedUrl("images/thermostat/heating.svg")
+        case "cooling":
+            return Qt.resolvedUrl("images/thermostat/cooling.svg")
         case "thermostat":
             return Qt.resolvedUrl("images/dial.svg")
         case "evcharger":

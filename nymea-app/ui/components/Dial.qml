@@ -37,7 +37,8 @@ import QtQuick.Controls.Material 2.2
 ColumnLayout {
     id: dial
 
-    property Device device: null
+    property Thing thing: null
+    property alias device: dial.thing
     property StateType stateType: null
 
     property bool showValueLabel: true
@@ -53,14 +54,14 @@ ColumnLayout {
         return (to - from) * angle / maxAngle + from
     }
 
-    readonly property State deviceState: device && stateType ? device.states.getState(stateType.id) : null
+    readonly property State deviceState: thing && stateType ? thing.states.getState(stateType.id) : null
     readonly property double from: dial.stateType ? dial.stateType.minValue : 0
     readonly property double to: dial.stateType ? dial.stateType.maxValue : 100
     readonly property double anglePerStep: maxAngle / dial.steps
     readonly property double startAngle: -(dial.steps * dial.anglePerStep) / 2
 
-    readonly property StateType powerStateType: dial.device.deviceClass.stateTypes.findByName("power")
-    readonly property State powerState: powerStateType ? dial.device.states.getState(powerStateType.id) : null
+    readonly property StateType powerStateType: dial.thing.thingClass.stateTypes.findByName("power")
+    readonly property State powerState: powerStateType ? dial.thing.states.getState(powerStateType.id) : null
 
     QtObject {
         id: d
@@ -93,11 +94,11 @@ ColumnLayout {
             param["paramName"] = dial.stateType.name
             param["value"] = value
             params.push(param)
-            d.pendingActionId = dial.device.executeAction(dial.stateType.name, params)
+            d.pendingActionId = dial.thing.executeAction(dial.stateType.name, params)
         }
     }
     Connections {
-        target: engine.deviceManager
+        target: engine.thingManager
         onExecuteActionReply: {
             if (d.pendingActionId == commandId) {
                 d.pendingActionId = -1
@@ -109,7 +110,7 @@ ColumnLayout {
         }
     }
     Connections {
-        target: dial.device
+        target: dial.thing
         onActionExecutionFinished: {
             if (id == d.pendingActionId) {
                 d.pendingActionId = -1;
@@ -121,12 +122,12 @@ ColumnLayout {
         }
     }
 
-    Component.onCompleted: rotationButton.rotation = dial.valueToAngle(dial.deviceState.value)
+    Component.onCompleted: rotationButton.rotation = dial.valueToAngle(dial.thingState.value)
     Connections {
-        target: dial.deviceState
+        target: dial.thingState
         onValueChanged: {
             if (!d.busy) {
-                rotationButton.rotation = dial.valueToAngle(dial.deviceState.value)
+                rotationButton.rotation = dial.valueToAngle(dial.thingState.value)
             }
         }
     }
@@ -285,7 +286,7 @@ ColumnLayout {
                     param["paramName"] = "power"
                     param["value"] = !dial.powerState.value
                     params.push(param)
-                    dial.device.executeAction("power", params)
+                    dial.thing.executeAction("power", params)
                 }
                 dragging = false;
             }

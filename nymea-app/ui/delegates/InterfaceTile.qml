@@ -167,6 +167,7 @@ MainPageTile {
             case "extendedsmartmeterconsumer":
             case "extendedsmartmeterproducer":
             case "heating":
+            case "thermostat":
                 return sensorComponent;
                 //                return labelComponent;
 

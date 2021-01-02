@@ -230,5 +230,7 @@
         <file>ui/components/ColorTemperaturePicker.qml</file>
         <file>ui/components/ThingContextMenu.qml</file>
         <file>ui/StyleBase.qml</file>
+        <file>ui/customviews/ThermostatController.qml</file>
+        <file>ui/devicepages/ThermostatDevicePage.qml</file>
     </qresource>
 </RCC>

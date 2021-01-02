@@ -251,5 +251,7 @@
         <file>ui/images/discord.svg</file>
         <file>ui/images/media/equalizer.svg</file>
         <file>ui/images/media/ambeo.svg</file>
+        <file>ui/images/thermostat/cooling.svg</file>
+        <file>ui/images/thermostat/heating.svg</file>
     </qresource>
 </RCC>
