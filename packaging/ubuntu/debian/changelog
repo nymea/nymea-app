@@ -1,3 +1,13 @@
+nymea-app (1.0.262) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix UPnP when multiple hosts reply and add more debug
+  * Fix the default port for manual connections
+  * Improve thermostat views
+  * Revert the hotfix for broken desktop helpers
+
+ -- Jenkins <jenkins@nymea.io>  Sat, 02 Jan 2021 13:30:21 +0100
+
 nymea-app (1.0.261) bionic; urgency=medium
 
   [ Michael Zanetti ]
