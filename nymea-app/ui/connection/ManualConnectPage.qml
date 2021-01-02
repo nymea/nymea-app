@@ -72,9 +72,7 @@ Page {
             TextField {
                 id: portTextInput
                 Layout.fillWidth: true
-                placeholderText: connectionTypeComboBox.currentIndex === 0 ?
-                                     secureCheckBox.checked ? "2223" : "2222"
-                                   : secureCheckBox.checked ? "4445" : "4444"
+                placeholderText: connectionTypeComboBox.currentIndex === 0 ? "2222" : "4444"
                 validator: IntValidator{bottom: 1; top: 65535;}
             }
 
