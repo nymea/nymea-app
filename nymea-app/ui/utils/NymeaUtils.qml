@@ -27,8 +27,10 @@ Item {
             page = "ButtonDevicePage.qml";
         } else if (interfaceList.indexOf("weather") >= 0) {
             page = "WeatherDevicePage.qml";
-        } else if (interfaceList.indexOf("heating") >= 0 || interfaceList.indexOf("thermostat") >= 0) {
+        } else if (interfaceList.indexOf("heating") >= 0) {
             page = "HeatingDevicePage.qml";
+        } else if (interfaceList.indexOf("thermostat") >= 0) {
+            page = "ThermostatDevicePage.qml";
         } else if (interfaceList.indexOf("sensor") >= 0) {
             page = "SensorDevicePage.qml";
         } else if (interfaceList.indexOf("inputtrigger") >= 0) {
