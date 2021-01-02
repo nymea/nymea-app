@@ -135,50 +135,46 @@ void UpnpDiscovery::readData()
     quint16 port;
     QHostAddress hostAddress;
 
-    // read the answere from the multicast
+    // read the answers from the multicast
     while (socket->hasPendingDatagrams()) {
         data.resize(socket->pendingDatagramSize());
         socket->readDatagram(data.data(), data.size(), &hostAddress, &port);
-    }
 
-    if (!discovering()) {
-        return;
-    }
+        qDebug() << "Received UPnP datagram:" << data;
 
-//    qDebug() << "upnp packet" << data;
+        // if the data contains the HTTP OK header...
+        if (data.contains("HTTP/1.1 200 OK")) {
+            QUrl location;
+            bool isNymea = false;
 
-    // if the data contains the HTTP OK header...
-    if (data.contains("HTTP/1.1 200 OK")) {
-        QUrl location;
-        bool isNymea = false;
-
-        const QStringList lines = QString(data).split("\r\n");
-        foreach (const QString& line, lines) {
-            int separatorIndex = line.indexOf(':');
-            QString key = line.left(separatorIndex).toUpper();
-            QString value = line.mid(separatorIndex+1).trimmed();
+            const QStringList lines = QString(data).split("\r\n");
+            foreach (const QString& line, lines) {
+                int separatorIndex = line.indexOf(':');
+                QString key = line.left(separatorIndex).toUpper();
+                QString value = line.mid(separatorIndex+1).trimmed();
 
 
-            if (key.contains("Server") || key.contains("SERVER")) {
-                if (value.contains("nymea")) {
-                    isNymea = true;
+                if (key.contains("Server") || key.contains("SERVER")) {
+                    if (value.contains("nymea")) {
+                        isNymea = true;
+                    }
+                }
+
+                // get location
+                if (key.contains("LOCATION") || key.contains("Location")) {
+                    location = QUrl(value);
                 }
             }
 
-            // get location
-            if (key.contains("LOCATION") || key.contains("Location")) {
-                location = QUrl(value);
+            if (!m_foundDevices.contains(location) && isNymea) {
+                m_foundDevices.append(location);
+    //            qDebug() << "Getting server data from:" << location;
+                QNetworkReply *reply = m_networkAccessManager->get(QNetworkRequest(location));
+                connect(reply, &QNetworkReply::sslErrors, [reply](const QList<QSslError> &errors){
+                    reply->ignoreSslErrors(errors);
+                });
+                m_runningReplies.insert(reply, hostAddress);
             }
-        }
-
-        if (!m_foundDevices.contains(location) && isNymea) {
-            m_foundDevices.append(location);
-//            qDebug() << "Getting server data from:" << location;
-            QNetworkReply *reply = m_networkAccessManager->get(QNetworkRequest(location));
-            connect(reply, &QNetworkReply::sslErrors, [reply](const QList<QSslError> &errors){
-                reply->ignoreSslErrors(errors);
-            });
-            m_runningReplies.insert(reply, hostAddress);
         }
     }
 }
