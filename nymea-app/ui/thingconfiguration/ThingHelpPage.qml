@@ -28,44 +28,49 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef PLUGINS_H
-#define PLUGINS_H
+import QtQuick 2.9
+import QtQuick.Layouts 1.1
+import QtQuick.Controls 2.3
+import QtQuick.Controls.Material 2.1
+import Nymea 1.0
 
-#include <QObject>
-#include <QAbstractListModel>
+import "../components"
+import "../delegates"
 
-#include "plugin.h"
+Page {
+    id: root
 
-class Plugins : public QAbstractListModel
-{
-    Q_OBJECT
-public:
-    enum StateRole {
-        NameRole = Qt::DisplayRole,
-        PluginIdRole
-    };
+    header: NymeaHeader {
+        text: qsTr("Help for %1").arg(root.plugin.name)
+        onBackPressed: pageStack.pop();
+    }
 
-    explicit Plugins(QObject *parent = nullptr);
+    property Plugin plugin: null
 
-    QList<Plugin *> plugins();
+    Component.onCompleted: {
+        var xhr = new XMLHttpRequest;
+        var url = "https://raw.githubusercontent.com/nymea/nymea-plugins/master/" + root.plugin.name.toLowerCase() + "/README.md"
+        print("fetching", url)
+        xhr.open("GET", url);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                helpTextArea.text = xhr.responseText
+            }
+        };
+        xhr.send();
+    }
 
-    Q_INVOKABLE int count() const;
-    Q_INVOKABLE Plugin *get(int index) const;
-    Q_INVOKABLE Plugin *getPlugin(const QUuid &pluginId) const;
+    ScrollView {
+        anchors.fill: parent
+        TextArea {
+            id: helpTextArea
+            textMargin: app.margins
+            textFormat: TextEdit.MarkdownText
+            wrapMode: Text.WordWrap
+            readOnly: true
+            width: parent.width
+            onLinkActivated: Qt.openUrlExternally(link)
+        }
+    }
 
-    int rowCount(const QModelIndex & parent = QModelIndex()) const;
-    QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;
-
-    void addPlugin(Plugin *plugin);
-
-    void clearModel();
-
-protected:
-    QHash<int, QByteArray> roleNames() const;
-
-private:
-    QList<Plugin *> m_plugins;
-
-};
-
-#endif // PLUGINS_H
+}
