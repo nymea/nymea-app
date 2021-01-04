@@ -53,7 +53,8 @@ class PushNotifications : public QObject
     Q_OBJECT
     Q_PROPERTY(QString service READ service CONSTANT)
     Q_PROPERTY(QString clientId READ clientId CONSTANT)
-    Q_PROPERTY(QString token READ token NOTIFY tokenChanged)
+    Q_PROPERTY(QString cloudToken READ cloudToken NOTIFY cloudTokenChanged)
+    Q_PROPERTY(QString coreToken READ coreToken NOTIFY coreTokenChanged)
 
 public:
     explicit PushNotifications(QObject *parent = nullptr);
@@ -64,13 +65,16 @@ public:
 
     QString service() const;
     QString clientId() const;
-    QString token() const;
+    QString coreToken() const;
+    QString cloudToken() const;
 
-    // Called by Objective-C++
+    // Called by Objective-C++ on iOS
     void setAPNSRegistrationToken(const QString &apnsRegistrationToken);
+    void setFirebaseRegistrationToken(const QString &firebaseRegistrationToken);
 
 signals:
-    void tokenChanged();
+    void coreTokenChanged();
+    void cloudTokenChanged();
 
 protected:
 
@@ -88,7 +92,10 @@ private:
 #endif
 
 private:
-    QString m_token;
+    // For nymea:core plugin based push notifications
+    QString m_coreToken;
+    // for nymea:cloud based push notifications (deprecated)
+    QString m_cloudToken;
 };
 
 #endif // PUSHNOTIFICATIONS_H

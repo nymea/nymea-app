@@ -62,8 +62,11 @@ PushNotifications::PushNotifications(QObject *parent) : QObject(parent)
     m_pushClient = new PushClient(this);
     m_pushClient->setAppId("io.guh.nymeaapp_nymea-app");
     connect(m_pushClient, &PushClient::tokenChanged, this, [this](const QString &token) {
-        m_token = token;
-        emit tokenChanged();
+        // On UBPorts, core and cloud use the same token
+        m_coreToken = token;
+        emit coreTokenChanged();
+        m_cloudToken = m_coreToken;
+        emit cloudTokenChanged();
     });
 #endif
 }
@@ -109,16 +112,28 @@ QString PushNotifications::clientId() const
     return PlatformHelper::instance()->deviceSerial() + "+io.guh.nymeaapp" + branding;
 }
 
-QString PushNotifications::token() const
+QString PushNotifications::coreToken() const
 {
-    return m_token;
+    return m_coreToken;
+}
+
+QString PushNotifications::cloudToken() const
+{
+    return m_cloudToken;
 }
 
 void PushNotifications::setAPNSRegistrationToken(const QString &apnsRegistrationToken)
 {
     qDebug() << "Received APNS push notification token:" << apnsRegistrationToken;
-    m_token = apnsRegistrationToken;
-    emit tokenChanged();
+    m_cloudToken = apnsRegistrationToken;
+    emit cloudTokenChanged();
+}
+
+void PushNotifications::setFirebaseRegistrationToken(const QString &firebaseRegistrationToken)
+{
+    qDebug() << "Received Firebase/APNS push notification token:" << firebaseRegistrationToken;
+    m_coreToken = firebaseRegistrationToken;
+    emit coreTokenChanged();
 }
 
 #if defined Q_OS_ANDROID && defined WITH_FIREBASE
@@ -130,7 +145,10 @@ void PushNotifications::OnMessage(const firebase::messaging::Message &message)
 void PushNotifications::OnTokenReceived(const char *token)
 {
     qDebug() << "Firebase token received:" << token;
-    m_token = QString(token);
-    emit tokenChanged();
+    // On Android, both, core and cloud use the same token
+    m_coreToken = QString(token);
+    emit coreTokenChanged();
+    m_cloudToken = m_cloudToken;
+    emit cloudTokenChanged();
 }
 #endif

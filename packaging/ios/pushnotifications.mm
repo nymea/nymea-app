@@ -92,7 +92,6 @@
     NSDictionary *dataDict = [NSDictionary dictionaryWithObject:fcmToken forKey:@"token"];
     [[NSNotificationCenter defaultCenter] postNotificationName:
      @"FCMToken" object:nil userInfo:dataDict];
-    // TODO: If necessary send token to application server.
     // Note: This callback is fired at each app startup and whenever a new token is generated.
     qDebug() << "Firebase token received:" << QString::fromNSString(fcmToken);
     PushNotifications::instance()->setAPNSRegistrationToken(QString::fromNSString(fcmToken));

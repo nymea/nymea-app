@@ -404,7 +404,7 @@ Page {
                                         return PushNotifications.service;
                                     }
                                     if (paramType.id.toString().match(/\{?12ec06b2-44e7-486a-9169-31c684b91c8f\}?/)) {
-                                        return PushNotifications.token;
+                                        return PushNotifications.coreToken;
                                     }
                                     if (paramType.id.toString().match(/\{?d76da367-64e3-4b7d-aa84-c96b3acfb65e\}?/)) {
                                         return PushNotifications.clientId;

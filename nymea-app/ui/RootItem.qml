@@ -273,7 +273,7 @@ Item {
                             return;
                         }
 
-                        if (PushNotifications.token.length === 0) {
+                        if (PushNotifications.cloudToken.length === 0) {
                             print("Don't have a token yet. Cannot register for push");
                             return;
                         }
@@ -289,7 +289,7 @@ Item {
                             }
 
                             AWSClient.registerPushNotificationEndpoint(
-                                        PushNotifications.token,
+                                        PushNotifications.cloudToken,
                                         PlatformHelper.machineHostname,
                                         clientId,
                                         PlatformHelper.deviceManufacturer,
@@ -303,7 +303,7 @@ Item {
                             print("This platform does not support push notifications")
                             return;
                         }
-                        if (!PushNotifications.token) {
+                        if (!PushNotifications.coreToken) {
                             print("No push notification token available at this time. Not updating...");
                             return;
                         }
@@ -311,7 +311,7 @@ Item {
                         print("Updating push notifications")
                         print("Own push service:", PushNotifications.service);
                         print("Own client ID:", PushNotifications.clientId);
-                        print("Current token:", PushNotifications.token);
+                        print("Current token:", PushNotifications.coreToken);
 
                         for (var i = 0; i < engine.thingManager.things.count; i++) {
                             var thing = engine.thingManager.things.get(i);
@@ -321,11 +321,11 @@ Item {
                                 var tokenParam = thing.paramByName("token")
                                 print("Found a push notification thing for client id:", clientIdParam.value)
                                 if (clientIdParam.value === PushNotifications.clientId) {
-                                    if (tokenParam.value !== PushNotifications.token) {
+                                    if (tokenParam.value !== PushNotifications.coreToken) {
                                         var params = [
                                                     { "paramTypeId": serviceParam.paramTypeId, "value": PushNotifications.service },
                                                     { "paramTypeId": clientIdParam.paramTypeId, "value": PushNotifications.clientId },
-                                                    { "paramTypeId": tokenParam.paramTypeId, "value": PushNotifications.token }
+                                                    { "paramTypeId": tokenParam.paramTypeId, "value": PushNotifications.coreToken }
                                                 ];
                                         print("Reconfiguring PushNotifications for", thing.name)
                                         engine.thingManager.reconfigureDevice(thing.id, params);
@@ -399,7 +399,7 @@ Item {
 
                     Connections {
                         target: PushNotifications
-                        onTokenChanged: {
+                        onCloudTokenChanged: {
                             setupPushNotifications();
                         }
                     }
