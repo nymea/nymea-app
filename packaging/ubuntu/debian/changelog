@@ -1,3 +1,11 @@
+nymea-app (1.0.263) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Clean up warnings in code
+  * Fix presence sensor in sensors list view
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 05 Jan 2021 19:16:11 +0100
+
 nymea-app (1.0.262) bionic; urgency=medium
 
   [ Michael Zanetti ]
