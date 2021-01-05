@@ -1,6 +1,9 @@
 CONFIG += c++11
-#DEFINES += QT_DEPRECATED_WARNINGS
-QMAKE_CXXFLAGS += -Wall
+
+# We want -Wall to keep the code clean and tidy, however:
+# On Windows, -Wall goes mental, so not using it there
+# As of Qt 5.15, lots of things are deprecated inside Qt in preparation for Qt6 but no replacement to actually fix those yet.
+!win32:QMAKE_CXXFLAGS += -Wall -Wno-deprecated-declarations -Wno-deprecated-copy
 
 top_srcdir=$$PWD
 top_builddir=$$shadowed($$PWD)

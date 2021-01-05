@@ -107,7 +107,7 @@ QString PushNotifications::clientId() const
 {
     QString branding;
 #if defined BRANDING
-    branding = "-" + BRANDING;
+    branding = QString("-%1").arg(BRANDING);
 #endif
     return PlatformHelper::instance()->deviceSerial() + "+io.guh.nymeaapp" + branding;
 }
