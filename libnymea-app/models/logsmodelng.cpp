@@ -239,6 +239,7 @@ LogEntry *LogsModelNg::get(int index) const
 
 void LogsModelNg::logsReply(int commandId, const QVariantMap &data)
 {
+    Q_UNUSED(commandId)
     int offset = data.value("offset").toInt();
     int count = data.value("count").toInt();
 
