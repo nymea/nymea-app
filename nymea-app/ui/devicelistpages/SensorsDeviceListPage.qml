@@ -124,7 +124,7 @@ DeviceListPageBase {
                                         switch (model.interfaceName) {
                                         case "closablesensor":
                                             return sensorValueDelegate.stateValue && sensorValueDelegate.stateValue.value === true ? qsTr("Closed") : qsTr("Open");
-                                        case "preencesensor":
+                                        case "presencesensor":
                                             return sensorValueDelegate.stateValue && sensorValueDelegate.stateValue.value === true ? qsTr("Presence") : qsTr("Vacant");
                                         case "daylightsensor":
                                             return sensorValueDelegate.stateValue && sensorValueDelegate.stateValue.value === true ? qsTr("Daytime") : qsTr("Nighttime");
