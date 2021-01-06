@@ -1,3 +1,10 @@
+nymea-app (1.0.264) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Improve smartmeter and sensor views
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 06 Jan 2021 19:32:01 +0100
+
 nymea-app (1.0.263) bionic; urgency=medium
 
   [ Michael Zanetti ]
