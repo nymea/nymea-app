@@ -297,6 +297,8 @@ Interfaces::Interfaces(QObject *parent) : QAbstractListModel(parent)
     addInterface("wirelessconnectable", tr("Wireless devices"), {"connectable"});
     addStateType("wirelessconnectable", "signalStrength", QVariant::UInt, false, tr("Signal strength"), tr("Signal strength changed"));
 
+    addInterface("watersensor", tr("Water sensors"), {"sensor"});
+    addStateType("watersensor", "watterDetected", QVariant::Double, false, tr("Water detected"), tr("Water detected changed"));
 }
 
 int Interfaces::rowCount(const QModelIndex &parent) const

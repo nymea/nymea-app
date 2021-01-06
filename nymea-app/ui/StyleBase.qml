@@ -35,13 +35,20 @@ Item {
         "presencesensor": "darkblue",
         "closablesensor": "green",
         "smartmeterproducer": "lightgreen",
-        "smartmeterconsumer": "orange",
-        "extendedsmartmeterproducer": "blue",
-        "extendedsmartmeterconsumer": "blue",
+        "extendedsmartmeterproducer": "lightgreen",
+        "smartmeterconsumer": "deepskyblue",
+        "extendedsmartmeterconsumer": "deepskyblue",
         "heating" : "gainsboro",
         "thermostat": "dodgerblue",
         "irrigation": "lightblue",
         "windspeedsensor": "blue",
-        "ventilation": "lightblue"
+        "ventilation": "lightblue",
+        "watersensor": "aqua"
+    }
+
+    property var stateColors: {
+        "totalEnergyConsumed": "orange",
+        "totalEnergyProduced": "lightgreen",
+        "currentPower": "deepskyblue",
     }
 }

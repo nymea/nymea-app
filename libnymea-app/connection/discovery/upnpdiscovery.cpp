@@ -140,7 +140,7 @@ void UpnpDiscovery::readData()
         data.resize(socket->pendingDatagramSize());
         socket->readDatagram(data.data(), data.size(), &hostAddress, &port);
 
-        qDebug() << "Received UPnP datagram:" << data;
+//        qDebug() << "Received UPnP datagram:" << data;
 
         // if the data contains the HTTP OK header...
         if (data.contains("HTTP/1.1 200 OK")) {

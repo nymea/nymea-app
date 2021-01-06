@@ -419,7 +419,7 @@ void LogsModelNg::fetchMore(const QModelIndex &parent)
     params.insert("limit", m_blockSize);
     params.insert("offset", m_list.count());
 
-    qDebug() << "Fetching logs:" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson());
+//    qDebug() << "Fetching logs:" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson());
 
     m_engine->jsonRpcClient()->sendCommand("Logging.GetLogEntries", params, this, "logsReply");
 //    qDebug() << "GetLogEntries called";

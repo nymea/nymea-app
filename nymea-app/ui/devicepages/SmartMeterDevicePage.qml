@@ -38,41 +38,67 @@ import "../customviews"
 DevicePageBase {
     id: root
 
+    readonly property State totalEnergyConsumedState: root.thing.stateByName("totalEnergyConsumed")
+    readonly property StateType totalEnergyConsumedStateType: root.thing.thingClass.stateTypes.findByName("totalEnergyConsumed")
+    readonly property State totalEnergyProducedState: root.thing.stateByName("totalEnergyProduced")
+    readonly property StateType totalEnergyProducedStateType: root.thing.thingClass.stateTypes.findByName("totalEnergyProduced")
+
     Flickable {
         anchors.fill: parent
+        topMargin: app.margins / 2
         contentHeight: contentGrid.height
         interactive: contentHeight > height
 
         GridLayout {
             id: contentGrid
-            width: parent.width
-            columns: Math.min(width / 300, contentModel.count)
+            width: parent.width - app.margins
+            anchors.horizontalCenter: parent.horizontalCenter
+            columns: 1
 
-            Repeater {
-                model: ListModel {
-                    id: contentModel
-                    Component.onCompleted: {
-                        if (root.deviceClass.interfaces.indexOf("extendedsmartmeterproducer") >= 0
-                                || root.deviceClass.interfaces.indexOf("extendedsmartmeterconsumer") >= 0) {
-                            append( {interface: "extendedsmartmeterproducer", stateTypeName: "currentPower" })
-                        }
-                        if (root.deviceClass.interfaces.indexOf("smartmeterproducer") >= 0) {
-                            append( {interface: "smartmeterproducer", stateTypeName: "totalEnergyProduced" })
-                        }
-                        if (root.deviceClass.interfaces.indexOf("smartmeterconsumer") >= 0) {
-                            append( {interface: "smartmeterconsumer", stateTypeName: "totalEnergyConsumed" })
-                        }
-                        print("shown graphs are", count)
+            BigTile {
+                Layout.preferredWidth: contentGrid.width / contentGrid.columns
+                showHeader: true
+                header: Label {
+                    text: qsTr("Total energy consumption")
+                }
+
+                contentItem: RowLayout {
+                    ColorIcon {
+                        Layout.preferredHeight: app.iconSize
+                        Layout.preferredWidth: app.iconSize
+                        name: app.stateIcon("totalEnergyConsumed")
+                        color: app.stateColor("totalEnergyConsumed")
+                    }
+
+                    Label {
+                        Layout.fillWidth: true
+                        text: root.totalEnergyConsumedState.value.toFixed(2) + " " + root.totalEnergyConsumedStateType.unitString
+                        font.pixelSize: app.largeFont
+                    }
+                    ColorIcon {
+                        Layout.preferredHeight: app.iconSize
+                        Layout.preferredWidth: app.iconSize
+                        name: app.stateIcon("totalEnergyProduced")
+                        color: app.stateColor("totalEnergyProduced")
+                        visible: root.totalEnergyProducedState !== null
+                    }
+
+                    Label {
+                        Layout.fillWidth: true
+                        text: root.totalEnergyProducedState.value.toFixed(2) + " " + root.totalEnergyProducedStateType.unitString
+                        font.pixelSize: app.largeFont
+                        visible: root.totalEnergyProducedState !== null
                     }
                 }
-                delegate: GenericTypeGraph {
-                    Layout.preferredWidth: contentGrid.width / contentGrid.columns
-                    device: root.device
-                    stateType: root.deviceClass.stateTypes.findByName(model.stateTypeName)
-                    color: app.interfaceToColor(model.interface)
-                    iconSource: app.interfaceToIcon(model.interface)
-                    roundTo: 5
-                }
+            }
+
+            GenericTypeGraph {
+                Layout.preferredWidth: contentGrid.width / contentGrid.columns
+                device: root.device
+                stateType: root.deviceClass.stateTypes.findByName("currentPower")
+                color: app.stateColor("currentPower")
+                iconSource: app.stateIcon("currentPower")
+                roundTo: 5
             }
         }
     }

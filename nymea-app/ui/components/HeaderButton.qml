@@ -36,8 +36,8 @@ ToolButton {
     property alias color: image.color
 
     contentItem: Item {
-        height: 20
-        width: 20
+        height: app.iconSize
+        width: app.iconSize
         ColorIcon {
             id: image
             anchors.fill: parent

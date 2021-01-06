@@ -291,6 +291,8 @@ ApplicationWindow {
             return Qt.resolvedUrl("images/sensors/closable.svg")
         case "windspeedsensor":
             return Qt.resolvedUrl("images/sensors/windspeed.svg")
+        case "watersensor":
+            return Qt.resolvedUrl("images/sensors/water.svg")
         case "media":
         case "mediacontroller":
         case "mediaplayer":
@@ -388,6 +390,31 @@ ApplicationWindow {
 
     StyleBase {
         id: styleBase
+    }
+
+    function stateColor(stateName) {
+        // Try to load color map from style
+        if (Style.stateColors[stateName]) {
+            return Style.stateColors[stateName];
+        }
+
+        if (styleBase.stateColors[stateName]) {
+            return styleBase.stateColors[stateName];
+        }
+        console.warn("stateColor(): Color not set for state", stateName)
+        return "grey";
+    }
+
+    function stateIcon(stateName) {
+        var iconMap = {
+            "currentPower": "energy.svg",
+            "totalEnergyConsumed": "smartmeter.svg",
+            "totalEnergyProduced": "smartmeter.svg",
+        }
+        if (!iconMap[stateName]) {
+            console.warn("stateIcon(): Icon not set for state", stateName)
+        }
+        return Qt.resolvedUrl("images/" + iconMap[stateName]);
     }
 
     function interfaceToColor(name) {

@@ -627,6 +627,7 @@ MainPageTile {
                 ListElement { ifaceName: "presencesensor"; stateName: "isPresent" }
                 ListElement { ifaceName: "closablesensor"; stateName: "closed" }
                 ListElement { ifaceName: "lightsensor"; stateName: "lightIntensity" }
+                ListElement { ifaceName: "watersensor"; stateName: "waterDetected" }
                 ListElement { ifaceName: "co2sensor"; stateName: "co2" }
                 ListElement { ifaceName: "conductivity"; stateName: "conductivity" }
                 ListElement { ifaceName: "noisesensor"; stateName: "noise" }
@@ -717,6 +718,5 @@ MainPageTile {
                 }
             }
         }
-
     }
 }
