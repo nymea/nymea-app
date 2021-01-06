@@ -41,18 +41,22 @@ DevicePageBase {
     Flickable {
         id: listView
         anchors { fill: parent }
+        topMargin: app.margins / 2
         interactive: contentHeight > height
         contentHeight: contentGrid.implicitHeight
 
         GridLayout {
             id: contentGrid
-            width: parent.width
+            width: parent.width - app.margins
+            anchors.horizontalCenter: parent.horizontalCenter
             columns: Math.ceil(width / 600)
+            rowSpacing: 0
+            columnSpacing: 0
 
             Repeater {
                 model: ListModel {
                     Component.onCompleted: {
-                        var supportedInterfaces = ["temperaturesensor", "humiditysensor", "pressuresensor", "moisturesensor", "lightsensor", "conductivitysensor", "noisesensor", "co2sensor", "presencesensor", "daylightsensor", "closablesensor"]
+                        var supportedInterfaces = ["temperaturesensor", "humiditysensor", "pressuresensor", "moisturesensor", "lightsensor", "conductivitysensor", "noisesensor", "co2sensor", "presencesensor", "daylightsensor", "closablesensor", "watersensor"]
                         for (var i = 0; i < supportedInterfaces.length; i++) {
                             if (root.deviceClass.interfaces.indexOf(supportedInterfaces[i]) >= 0) {
                                 append({name: supportedInterfaces[i]});
@@ -67,6 +71,7 @@ DevicePageBase {
                     Layout.preferredHeight: item.implicitHeight
 
                     property StateType stateType: root.deviceClass.stateTypes.findByName(interfaceStateMap[modelData])
+                    property State state: root.thing.stateByName(interfaceStateMap[modelData])
                     property string interfaceName: modelData
 
     //                sourceComponent: stateType && stateType.type.toLowerCase() === "bool" ? boolComponent : graphComponent
@@ -83,7 +88,8 @@ DevicePageBase {
                         "co2sensor": "co2",
                         "presencesensor": "isPresent",
                         "daylightsensor": "daylight",
-                        "closablesensor": "closed"
+                        "closablesensor": "closed",
+                        "watersensor": "waterDetected"
                     }
                 }
 
@@ -96,12 +102,32 @@ DevicePageBase {
             id: graphComponent
 
             GenericTypeGraph {
+                id: graph
                 device: root.device
                 color: app.interfaceToColor(interfaceName)
                 iconSource: app.interfaceToIcon(interfaceName)
                 implicitHeight: width * .6
                 property string interfaceName: parent.interfaceName
                 stateType: parent.stateType
+                property State state: parent.state
+
+                Binding {
+                    target: graph
+                    property: "title"
+                    when: ["presencesensor", "daylightsensor", "closablesensor", "watersensor"].indexOf(graph.interfaceName) >= 0
+                    value: {
+                        switch (graph.interfaceName) {
+                        case "presencesensor":
+                            return graph.state.value === true ? qsTr("Presence") : qsTr("Vacant")
+                        case "daylightsensor":
+                            return graph.state.value === true ? qsTr("Daytimet") : qsTr("Nighttime")
+                        case "closablesensor":
+                            return graph.state.value === true ? qsTr("Closed") : qsTr("Open")
+                        case "watersensor":
+                            return graph.state.value === true ? qsTr("Wet") : qsTr("Dry")
+                        }
+                    }
+                }
             }
         }
 

@@ -44,13 +44,15 @@ Item {
     property Device device: null
     property StateType stateType: null
     property int roundTo: 2
+    property color color: Style.accentColor
+    property string iconSource: ""
+    property alias title: titleLabel.text
+
     readonly property var valueState: device.states.getState(stateType.id)
     readonly property var deviceClass: engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
     readonly property bool hasConnectable: deviceClass.interfaces.indexOf("connectable") >= 0
     readonly property var connectedStateType: hasConnectable ? deviceClass.stateTypes.findByName("connected") : null
 
-    property color color: Style.accentColor
-    property string iconSource: ""
 
     LogsModelNg {
         id: logsModelNg
@@ -91,7 +93,7 @@ Item {
         animationOptions: ChartView.SeriesAnimations
 
         RowLayout {
-            anchors { left: parent.left; top: parent.top; right: parent.right; topMargin: app.margins / 2; leftMargin: app.margins; rightMargin: app.margins }
+            anchors { left: parent.left; top: parent.top; right: parent.right; topMargin: app.margins / 2; leftMargin: app.margins * 1.5; rightMargin: app.margins }
 
             ColorIcon {
                 Layout.preferredHeight: app.iconSize
@@ -101,6 +103,7 @@ Item {
                 color: root.color
             }
             Label {
+                id: titleLabel
                 Layout.fillWidth: true
                 text: root.stateType.type.toLowerCase() === "bool"
                        ? root.stateType.displayName

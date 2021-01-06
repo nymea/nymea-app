@@ -253,5 +253,6 @@
         <file>ui/images/media/ambeo.svg</file>
         <file>ui/images/thermostat/cooling.svg</file>
         <file>ui/images/thermostat/heating.svg</file>
+        <file>ui/images/sensors/water.svg</file>
     </qresource>
 </RCC>

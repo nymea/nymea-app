@@ -45,6 +45,7 @@ DevicePageBase {
 
     Flickable {
         anchors.fill: parent
+        topMargin: app.margins / 2
         contentHeight: contentGrid.height
         interactive: contentHeight > height
 
@@ -56,13 +57,17 @@ DevicePageBase {
 
             BigTile {
                 Layout.preferredWidth: contentGrid.width / contentGrid.columns
-                showHeader: false
+                showHeader: true
+                header: Label {
+                    text: qsTr("Total energy consumption")
+                }
+
                 contentItem: RowLayout {
                     ColorIcon {
                         Layout.preferredHeight: app.iconSize
                         Layout.preferredWidth: app.iconSize
-                        name: app.interfaceToIcon("smartmeterconsumer")
-                        color: app.interfaceToColor("smartmeterconsumer")
+                        name: app.stateIcon("totalEnergyConsumed")
+                        color: app.stateColor("totalEnergyConsumed")
                     }
 
                     Label {
@@ -73,14 +78,16 @@ DevicePageBase {
                     ColorIcon {
                         Layout.preferredHeight: app.iconSize
                         Layout.preferredWidth: app.iconSize
-                        name: app.interfaceToIcon("smartmeterproducer")
-                        color: app.interfaceToColor("smartmeterproducer")
+                        name: app.stateIcon("totalEnergyProduced")
+                        color: app.stateColor("totalEnergyProduced")
+                        visible: root.totalEnergyProducedState !== null
                     }
 
                     Label {
                         Layout.fillWidth: true
                         text: root.totalEnergyProducedState.value.toFixed(2) + " " + root.totalEnergyProducedStateType.unitString
                         font.pixelSize: app.largeFont
+                        visible: root.totalEnergyProducedState !== null
                     }
                 }
             }
@@ -89,8 +96,8 @@ DevicePageBase {
                 Layout.preferredWidth: contentGrid.width / contentGrid.columns
                 device: root.device
                 stateType: root.deviceClass.stateTypes.findByName("currentPower")
-                color: app.interfaceToColor("smartmeterconsumer")
-                iconSource: app.interfaceToIcon("smartmeterconsumer")
+                color: app.stateColor("currentPower")
+                iconSource: app.stateIcon("currentPower")
                 roundTo: 5
             }
         }

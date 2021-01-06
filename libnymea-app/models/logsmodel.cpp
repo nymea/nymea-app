@@ -322,7 +322,7 @@ void LogsModel::fetchMore(const QModelIndex &parent)
     params.insert("limit", m_blockSize);
     params.insert("offset", m_list.count());
 
-    qDebug() << "Fetching logs from" << m_startTime.toString() << "to" << m_endTime.toString() << "with offset" << m_list.count() << "and limit" << m_blockSize;
+//    qDebug() << "Fetching logs from" << m_startTime.toString() << "to" << m_endTime.toString() << "with offset" << m_list.count() << "and limit" << m_blockSize;
 
     m_engine->jsonRpcClient()->sendCommand("Logging.GetLogEntries", params, this, "logsReply");
     //    qDebug() << "GetLogEntries called";

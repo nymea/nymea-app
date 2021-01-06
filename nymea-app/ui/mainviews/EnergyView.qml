@@ -79,7 +79,8 @@ MainViewBase {
                 legend.alignment: Qt.AlignBottom
                 legend.font.pixelSize: app.smallFont
                 legend.visible: false
-                backgroundColor: Style.backgroundColor
+                backgroundColor: Style.tileBackgroundColor
+                backgroundRoundness: Style.tileRadius
                 titleColor: Style.foregroundColor
                 title: qsTr("Power usage history")
 
@@ -150,7 +151,7 @@ MainViewBase {
                         }
 
                         Component.onCompleted: {
-                            print("creating series")
+                            print("creating series", consumer.thing.name, index)
                             seriesAdapter.ensureSamples(xAxis.min, xAxis.max)
                             var areaSeries = chartView.createSeries(ChartView.SeriesTypeArea, consumer.thing.name, xAxis, yAxis)
                             areaSeries.upperSeries = upperSeries;
@@ -179,8 +180,8 @@ MainViewBase {
                 ValueAxis {
                     id: yAxis
                     readonly property XYSeriesAdapter adapter: consumersRepeater.itemAt(consumersRepeater.count - 1).adapter;
-                    max: Math.ceil(adapter.maxValue + Math.abs(adapter.maxValue * .05))
-                    min: Math.floor(adapter.minValue - Math.abs(adapter.minValue * .05))
+                    max: Math.ceil(Math.max(adapter.maxValue * 0.95, adapter.maxValue * 1.05))
+                    min: Math.floor(Math.min(adapter.minValue * 0.95, adapter.minValue * 1.05))
                     // This seems to crash occationally
 //                    onMinChanged: applyNiceNumbers();
 //                    onMaxChanged: applyNiceNumbers();
@@ -354,6 +355,8 @@ MainViewBase {
             SmartMeterChart {
                 Layout.fillWidth: true
                 Layout.preferredHeight: width * .7
+                backgroundColor: Style.tileBackgroundColor
+                backgroundRoundness: Style.tileRadius
                 meters: producers
                 title: qsTr("Total produced energy")
                 visible: producers.count > 0

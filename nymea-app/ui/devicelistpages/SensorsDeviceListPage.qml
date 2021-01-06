@@ -85,6 +85,7 @@ DeviceListPageBase {
                                 ListElement { interfaceName: "closablesensor"; stateName: "closed" }
                                 ListElement { interfaceName: "heating"; stateName: "power" }
                                 ListElement { interfaceName: "thermostat"; stateName: "targetTemperature" }
+                                ListElement { interfaceName: "watersensor"; stateName: "waterDetected" }
                             }
 
                             delegate: RowLayout {
@@ -124,10 +125,12 @@ DeviceListPageBase {
                                         switch (model.interfaceName) {
                                         case "closablesensor":
                                             return sensorValueDelegate.stateValue && sensorValueDelegate.stateValue.value === true ? qsTr("Closed") : qsTr("Open");
-                                        case "preencesensor":
+                                        case "presencesensor":
                                             return sensorValueDelegate.stateValue && sensorValueDelegate.stateValue.value === true ? qsTr("Presence") : qsTr("Vacant");
                                         case "daylightsensor":
                                             return sensorValueDelegate.stateValue && sensorValueDelegate.stateValue.value === true ? qsTr("Daytime") : qsTr("Nighttime");
+                                        case "watersensor":
+                                            return sensorValueDelegate.stateValue && sensorValueDelegate.stateValue.value === true ? qsTr("Wet") : qsTr("Dry");
                                         case "heating":
                                             return sensorValueDelegate.stateValue && sensorValueDelegate.stateValue.value === true ? qsTr("On") : qsTr("Off");
                                         default:
@@ -144,7 +147,7 @@ DeviceListPageBase {
                                 }
                                 Led {
                                     id: led
-                                    visible: sensorValueDelegate.stateType && sensorValueDelegate.stateType.type.toLowerCase() === "bool" && ["presencesensor", "daylightsensor", "heating", "closablesensor"].indexOf(model.interfaceName) < 0
+                                    visible: sensorValueDelegate.stateType && sensorValueDelegate.stateType.type.toLowerCase() === "bool" && ["presencesensor", "daylightsensor", "heating", "closablesensor", "watersensor"].indexOf(model.interfaceName) < 0
                                     state: visible && sensorValueDelegate.stateValue.value === true ? "on" : "off"
                                 }
                                 Item {

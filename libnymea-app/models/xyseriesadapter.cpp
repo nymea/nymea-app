@@ -46,12 +46,34 @@ void XYSeriesAdapter::setBaseSeries(QtCharts::QXYSeries *series)
 
         connect(m_baseSeries, &QtCharts::QXYSeries::pointAdded, this, [=](int index){
             if (m_series->count() > index) {
-                m_series->replace(index, m_series->at(index).x(), calculateSampleValue(index));
+                qreal value = calculateSampleValue(index);
+                m_series->replace(index, m_series->at(index).x(), value);
+                if (value < m_minValue) {
+                    m_minValue = value;
+                    qDebug() << "New min:" << m_minValue;
+                    emit minValueChanged();
+                }
+                if (value > m_maxValue) {
+                    m_maxValue = value;
+                    qDebug() << "New max:" << m_maxValue;
+                    emit maxValueChanged();
+                }
             }
         });
         connect(m_baseSeries, &QtCharts::QXYSeries::pointReplaced, this, [=](int index){
             if (m_series->count() > index) {
-                m_series->replace(index, m_series->at(index).x(), calculateSampleValue(index));
+                qreal value = calculateSampleValue(index);
+                m_series->replace(index, m_series->at(index).x(), value);
+                if (value < m_minValue) {
+                    m_minValue = value;
+                    qDebug() << "New min:" << m_minValue;
+                    emit minValueChanged();
+                }
+                if (value > m_maxValue) {
+                    m_maxValue = value;
+                    qDebug() << "New max:" << m_maxValue;
+                    emit maxValueChanged();
+                }
             }
         });
     }
@@ -155,10 +177,12 @@ void XYSeriesAdapter::logEntryAdded(LogEntry *entry)
 
     if (value < m_minValue) {
         m_minValue = value;
+//        qDebug() << "New min:" << m_minValue;
         emit minValueChanged();
     }
     if (value > m_maxValue) {
         m_maxValue = value;
+//        qDebug() << "New max:" << m_maxValue;
         emit maxValueChanged();
     }
 }

@@ -103,8 +103,8 @@ DeviceListPageBase {
                                     Layout.preferredHeight: app.iconSize
                                     Layout.preferredWidth: height
                                     Layout.alignment: Qt.AlignVCenter
-                                    color: app.interfaceToColor(model.interfaceName)
-                                    name: app.interfaceToIcon(model.interfaceName)
+                                    color: app.stateColor(model.stateName)
+                                    name: app.stateIcon(model.stateName)
                                 }
 
                                 Label {
