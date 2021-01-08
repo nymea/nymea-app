@@ -98,9 +98,9 @@ QString PushNotifications::service() const
 #elif defined Q_OS_IOS
     return "FB-APNs";
 #elif defined UBPORTS
-    return "ubports";
+    return "UBPorts";
 #endif
-    return QString();
+    return "None";
 }
 
 QString PushNotifications::clientId() const
@@ -148,7 +148,7 @@ void PushNotifications::OnTokenReceived(const char *token)
     // On Android, both, core and cloud use the same token
     m_coreToken = QString(token);
     emit coreTokenChanged();
-    m_cloudToken = m_cloudToken;
+    m_cloudToken = m_coreToken;
     emit cloudTokenChanged();
 }
 #endif
