@@ -283,15 +283,10 @@ Item {
                                 PlatformHelper.requestPermissions();
                             }
                         } else {
-                            var clientId = PlatformHelper.deviceSerial + "+io.guh.nymeaapp";
-                            if ("branding" in app) {
-                                clientId += "-" + app.branding;
-                            }
-
                             AWSClient.registerPushNotificationEndpoint(
                                         PushNotifications.cloudToken,
                                         PlatformHelper.machineHostname,
-                                        clientId,
+                                        PushNotifications.clientId,
                                         PlatformHelper.deviceManufacturer,
                                         PlatformHelper.deviceModel);
                         }

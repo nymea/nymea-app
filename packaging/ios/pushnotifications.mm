@@ -58,7 +58,7 @@
 //    qDebug() << "Registering for remote notifications";
 //    qDebug() << "Token description:" << QString::fromNSString(deviceToken.description);
 //    qDebug() << "Parsed token:" << QString::fromNSString(tokenStr);
-//    PushNotifications::instance()->setAPNSRegistrationToken(QString::fromNSString(tokenStr));
+    PushNotifications::instance()->setAPNSRegistrationToken(QString::fromNSString(tokenStr));
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
@@ -82,7 +82,7 @@
 - (void)tokenRefreshNotification:(NSNotification *)notification {
    NSLog(@"instanceId_notification=>%@",[notification object]);
     NSString *InstanceID = [NSString stringWithFormat:@"%@",[notification object]];
-    qDebug() << "Firebase token:" << QString::fromNSString(InstanceID);
+    qDebug() << "Notifation:" << QString::fromNSString(InstanceID);
 
 }
 
@@ -93,8 +93,8 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:
      @"FCMToken" object:nil userInfo:dataDict];
     // Note: This callback is fired at each app startup and whenever a new token is generated.
-    qDebug() << "Firebase token received:" << QString::fromNSString(fcmToken);
-    PushNotifications::instance()->setAPNSRegistrationToken(QString::fromNSString(fcmToken));
+    //qDebug() << "Firebase token received:" << QString::fromNSString(fcmToken);
+    PushNotifications::instance()->setFirebaseRegistrationToken(QString::fromNSString(fcmToken));
 
 }
 
