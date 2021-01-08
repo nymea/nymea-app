@@ -38,6 +38,7 @@
 #include <QMetaObject>
 #include <QTextDocumentFragment>
 #include <QQuickItem>
+#include <QRegularExpression>
 
 class ScriptSyntaxHighlighterPrivate: public QSyntaxHighlighter
 {
@@ -62,7 +63,7 @@ private:
     };
     struct HighlightingRule
     {
-        QRegExp pattern;
+        QRegularExpression pattern;
         QTextCharFormat format;
     };
     QVector<HighlightingRule> highlightingRules;
@@ -118,19 +119,19 @@ void ScriptSyntaxHighlighterPrivate::update(bool dark)
 
     // ClassNames
     format.setForeground(dark ? QColor("#55fc49") : QColor("#800080"));
-    rule.pattern =  QRegExp("\\b[A-Z][a-zA-Z0-9_]+\\b");
+    rule.pattern =  QRegularExpression("\\b[A-Z][a-zA-Z0-9_]+\\b");
     rule.format = format;
     highlightingRules.append(rule);
 
     // Property bindings
     format.setForeground(dark ? QColor("#ff5555") : QColor("#800000"));
-    rule.pattern = QRegExp("[a-zA-Z][a-zA-Z0-9_.]+:");
+    rule.pattern = QRegularExpression("[a-zA-Z][a-zA-Z0-9_.]+:");
     rule.format = format;
     highlightingRules.append(rule);
 
     // imports
     format.clearForeground();
-    rule.pattern = QRegExp("import .*$");
+    rule.pattern = QRegularExpression("import .*$");
     rule.format = format;
     highlightingRules.append(rule);
 
@@ -158,13 +159,14 @@ void ScriptSyntaxHighlighterPrivate::update(bool dark)
         "\\bbool\\b",
         "\\bint\\b",
         "\\breal\\b",
+        "\\bdouble\\b",
         "\\bdate\\b",
         "\\btrue\\b",
         "\\bfalse\\b",
     };
     format.setForeground(dark ? Qt::yellow : QColor("#80831a"));
     foreach (const QString &pattern, keywordPatterns) {
-        rule.pattern = QRegExp(pattern);
+        rule.pattern = QRegularExpression(pattern);
         rule.format = format;
         highlightingRules.append(rule);
     }
@@ -172,17 +174,15 @@ void ScriptSyntaxHighlighterPrivate::update(bool dark)
     // String literals
     format.setForeground(dark ? QColor("#e64ad7") : Qt::darkGreen);
     rule.format = format;
-    rule.pattern = QRegExp("\".[^\"]*\"");
-    highlightingRules.append(rule);
-    rule.pattern = QRegExp("'.[^']*'");
+    rule.pattern = QRegularExpression(R"**((?<!\\)([\"'])(.*?)(?<!\\)\1)**", QRegularExpression::DotMatchesEverythingOption | QRegularExpression::MultilineOption);
     highlightingRules.append(rule);
 
     // comments
     format.setForeground(dark ? Qt::cyan : Qt::darkGray);
     rule.format = format;
-    rule.pattern = QRegExp("//.*$");
+    rule.pattern = QRegularExpression("//.*$");
     highlightingRules.append(rule);
-    rule.pattern = QRegExp("/*.*\\*/");
+    rule.pattern = QRegularExpression("/*.*\\*/");
     highlightingRules.append(rule);
 }
 
@@ -191,15 +191,11 @@ void ScriptSyntaxHighlighterPrivate::highlightBlock(const QString &text)
 //    qDebug() << "hightlightBlock called for" << text << previousBlockState() << currentBlock().text();
 
     foreach(const HighlightingRule &rule, highlightingRules){
-        QRegExp expression(rule.pattern);
-        int index = expression.indexIn(text);
-        while (index >= 0) {
-            int length = expression.matchedLength();
-            if (text.mid(index, length).endsWith(':')) {
-                length--;
-            }
-            setFormat(index, length, rule.format);
-            index = expression.indexIn(text, index + length);
+        QRegularExpression expression(rule.pattern);
+        QRegularExpressionMatchIterator matches = expression.globalMatch(text);
+        while (matches.hasNext()) {
+            QRegularExpressionMatch match = matches.next();
+            setFormat(match.capturedStart(), match.capturedLength(), rule.format);
         }
     }
     if (text.trimmed().startsWith("import")) {
