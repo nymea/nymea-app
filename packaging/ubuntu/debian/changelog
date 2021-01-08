@@ -1,3 +1,11 @@
+nymea-app (1.0.265) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fixes for push notifications
+  * Fix a warning in the gradlew script
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 08 Jan 2021 22:15:54 +0100
+
 nymea-app (1.0.264) bionic; urgency=medium
 
   [ Michael Zanetti ]
