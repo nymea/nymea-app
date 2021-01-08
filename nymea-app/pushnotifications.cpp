@@ -98,9 +98,9 @@ QString PushNotifications::service() const
 #elif defined Q_OS_IOS
     return "FB-APNs";
 #elif defined UBPORTS
-    return "ubports";
+    return "UBPorts";
 #endif
-    return QString();
+    return "None";
 }
 
 QString PushNotifications::clientId() const

@@ -136,12 +136,12 @@ DevicePageBase {
         }
 
 
-        GenericTypeLogView {
+        ListView {
             id: logView
             Layout.fillHeight: true
             Layout.fillWidth: true
 
-            logsModel: LogsModel {
+            model: LogsModel {
                 id: logsModel
                 thingId: root.device.id
                 engine: _engine
