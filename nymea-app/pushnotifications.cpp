@@ -148,7 +148,7 @@ void PushNotifications::OnTokenReceived(const char *token)
     // On Android, both, core and cloud use the same token
     m_coreToken = QString(token);
     emit coreTokenChanged();
-    m_cloudToken = m_cloudToken;
+    m_cloudToken = m_coreToken;
     emit cloudTokenChanged();
 }
 #endif
