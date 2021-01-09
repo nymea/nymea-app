@@ -1,3 +1,11 @@
+nymea-app (1.0.266) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix weather device list page
+  * Some improvements in the Script autocompletion
+
+ -- Jenkins <jenkins@nymea.io>  Sat, 09 Jan 2021 12:54:18 +0100
+
 nymea-app (1.0.265) bionic; urgency=medium
 
   [ Michael Zanetti ]
