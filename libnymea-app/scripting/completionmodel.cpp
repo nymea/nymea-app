@@ -81,6 +81,7 @@ CompletionModel::Entry CompletionModel::get(int index)
     return m_list.at(index);
 }
 
+
 //************************************************
 // CompletionProxyModel
 //************************************************

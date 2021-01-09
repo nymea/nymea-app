@@ -49,6 +49,9 @@ public:
         QString decoration;
         QString decorationProperty;
         QString trailingText;
+        bool operator==(const Entry &other) const {
+            return text == other.text && displayText == other.displayText;
+        }
     };
 
     CompletionModel(QObject *parent = nullptr);

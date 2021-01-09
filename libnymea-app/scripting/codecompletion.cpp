@@ -427,28 +427,40 @@ void CodeCompletion::update()
         QString id = blockText;
         id.remove(QRegExp(".* ")).remove(QRegExp("\\.[a-zA-Z0-9]*"));
         QString type = getIdTypes().value(id);
+        int blockPosition = getBlockPosition(id);
+        BlockInfo blockInfo = getBlockInfo(blockPosition);
+
         qDebug() << "dot expression:" << id << type;
-        // Classes
+        qDebug() << "lvalue info:" << blockInfo.properties.keys() << blockInfo.properties.value("actionName") << blockInfo.properties.value("actionTypeId");
+
+        // Append properties of the type
         foreach (const QString &property, m_classes.value(type).properties) {
             entries.append(CompletionModel::Entry(property, property, "property"));
         }
+        // Append user-defined properties of the type
+        foreach (const QString &property, blockInfo.properties.keys()) {
+            CompletionModel::Entry entry(property, property, "property");
+            if (!entries.contains(entry)) {
+                entries.append(entry);
+            }
+        }
+
+        // Append methods of the item
         foreach (const QString &method, m_classes.value(type).methods) {
             QString paramString;
+            // If it's an execute() call, also autocomplete the params
             if (method == "execute") {
-                int blockposition = getBlockPosition(id);
-                qDebug() << "Blockposition:" << blockposition;
-                if (blockposition >= 0) {
-                    BlockInfo info = getBlockInfo(blockposition);
-                    qDebug() << "actionType" << info.properties.keys() << info.properties.value("actionName") << info.properties.value("actionTypeId");
-                    if (info.valid) {
-                        QString thingId = info.properties.value("thingId");
+                qDebug() << "Blockposition:" << blockPosition;
+                if (blockPosition >= 0) {
+                    if (blockInfo.valid) {
+                        QString thingId = blockInfo.properties.value("thingId");
                         Device *d = m_engine->thingManager()->things()->getDevice(QUuid(thingId));
                         if (d) {
                             ActionType *at = nullptr;
-                            if (info.properties.contains("actionTypeId")) {
-                                at = d->thingClass()->actionTypes()->getActionType(info.properties.value("actionTypeId"));
-                            } else if (info.properties.contains("actionName")) {
-                                at = d->thingClass()->actionTypes()->findByName(info.properties.value("actionName"));
+                            if (blockInfo.properties.contains("actionTypeId")) {
+                                at = d->thingClass()->actionTypes()->getActionType(blockInfo.properties.value("actionTypeId"));
+                            } else if (blockInfo.properties.contains("actionName")) {
+                                at = d->thingClass()->actionTypes()->findByName(blockInfo.properties.value("actionName"));
                             }
                             if (at) {
                                 QStringList params;
@@ -465,6 +477,10 @@ void CodeCompletion::update()
                 }
             }
             entries.append(CompletionModel::Entry(method + "(", method, "method", "", paramString + ")"));
+        }
+        // User-defined functions of the item
+        foreach (const QString &function, blockInfo.functions) {
+            entries.append(CompletionModel::Entry(function + "(", function, "method", "", ")"));
         }
         // Attached classes/properties
         foreach (const QString &property, m_attachedClasses.value(id).properties) {
@@ -595,8 +611,9 @@ CodeCompletion::BlockInfo CodeCompletion::getBlockInfo(int position) const
     }
 
     info.start = blockStart.position();
-    info.end = blockEnd.position(); //m_document->textDocument()->find("}", position).position();
+    info.end = blockEnd.position();
     info.valid = true;
+//    qDebug() << "Block start:" << info.start << "end:" << info.end;
 
     info.name = blockStart.block().text();
     info.name.remove(QRegExp(" *\\{ *"));
@@ -607,14 +624,11 @@ CodeCompletion::BlockInfo CodeCompletion::getBlockInfo(int position) const
     int childBlocks = 0;
     while (!blockStart.isNull() && blockStart.position() < info.end) {
         QString line = blockStart.block().text();
-        if (line.endsWith("{")) {
+//        qDebug() << "line:" << line;
+        if (line.contains("{") && !line.contains("}")) {
             childBlocks++;
-            if (!blockStart.movePosition(QTextCursor::NextBlock)) {
-                break;
-            }
-            continue;
         }
-        if (line.trimmed().startsWith("}")) {
+        if (line.contains("}") && !line.contains("{")) {
             childBlocks--;
             if (!blockStart.movePosition(QTextCursor::NextBlock)) {
                 break;
@@ -622,18 +636,30 @@ CodeCompletion::BlockInfo CodeCompletion::getBlockInfo(int position) const
             continue;
         }
         // \n
-        if (childBlocks > 1) { // Skip all stuff in child blocks
+        if (childBlocks > 1 && !(childBlocks == 2 && line.trimmed().startsWith("function"))) { // Skip all stuff in child blocks
+//            qDebug() << "skipping line in child block" << childBlocks;
             blockStart.movePosition(QTextCursor::NextBlock);
             continue;
         }
         foreach (const QString &statement, blockStart.block().text().split(";")) {
+//            qDebug() << "analysing statement:" << statement;
             QStringList parts = statement.split(":");
-            if (parts.length() != 2) {
-                continue;
+            if (parts.length() == 2) { // Properties must be "foo: bar"
+                QString propName = parts.first().trimmed();
+                if (propName.split(" ").count() > 1) { // trim modifiers e.g. "property bool foo: bar"
+                    propName = propName.split(" ").last();
+                }
+                if (propName.contains(".")) { // skip attached properties e.g. "Component.onCompleted: ..."
+                    continue;
+                }
+                QString propValue = parts.last().split("//").first().trimmed().remove("\"");
+                info.properties.insert(propName, propValue);
             }
-            QString propName = parts.first().trimmed();
-            QString propValue = parts.last().split("//").first().trimmed().remove("\"");
-            info.properties.insert(propName, propValue);
+            parts = statement.trimmed().split(" ");
+            if (parts.count() >= 2 && parts.first().trimmed() == "function") {
+                QString functionHeader = parts.at(1).trimmed();
+                info.functions.append(functionHeader.split("(").first());
+            }
         }
         if (!blockStart.movePosition(QTextCursor::NextBlock)) {
             break;

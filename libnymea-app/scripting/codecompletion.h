@@ -101,6 +101,7 @@ private:
         bool valid = false;
         QString name;
         QHash<QString, QString> properties;
+        QStringList functions;
         int start = -1;
         int end = -1;
     };
