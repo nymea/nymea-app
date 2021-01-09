@@ -32,7 +32,7 @@
             ]
         },
         {
-            "description": "Notify me when something dries ou",
+            "description": "Notify me when something dries out",
             "ruleNameTemplate": "Notify %1 when %0 dries out",
             "stateEvaluatorTemplate": {
                 "stateDescriptorTemplate": {

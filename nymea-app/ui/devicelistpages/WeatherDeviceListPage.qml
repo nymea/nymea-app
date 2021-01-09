@@ -63,7 +63,7 @@ DeviceListPageBase {
                 delegate: BigThingTile {
                     id: itemDelegate
                     Layout.preferredWidth: contentGrid.width / contentGrid.columns
-                    thing: root.thingsProxy.get(model.id)
+                    thing: root.thingsProxy.get(index)
 
                     onClicked: enterPage(index)
 
