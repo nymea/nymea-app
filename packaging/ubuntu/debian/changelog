@@ -1,3 +1,10 @@
+nymea-app (1.0.267) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Allow resizing the console/error panel in the scripteditor
+
+ -- Jenkins <jenkins@nymea.io>  Sat, 09 Jan 2021 19:34:47 +0100
+
 nymea-app (1.0.266) bionic; urgency=medium
 
   [ Michael Zanetti ]
