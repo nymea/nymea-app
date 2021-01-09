@@ -36,7 +36,9 @@ import Nymea 1.0
 
 Item {
     id: pane
-    implicitHeight: shown ? 40 + 10 * app.smallFont : 25
+    implicitHeight: shown ? 40 + 10 * app.smallFont : collapsedHeight
+
+    readonly property int collapsedHeight: 25
 
     readonly property bool shown: (shownOverride === "auto" && autoWouldShow)
                                   || shownOverride == "shown"

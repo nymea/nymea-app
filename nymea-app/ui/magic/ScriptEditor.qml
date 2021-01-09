@@ -28,7 +28,7 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.4
+import QtQuick 2.9
 import QtQuick.Controls 2.2
 import Nymea 1.0
 import QtQuick.Layouts 1.2
@@ -49,7 +49,7 @@ Page {
             scriptEdit.text = "import QtQuick 2.0\nimport nymea 1.0\n\nItem {\n    \n}\n"
         }
 
-        if ((Qt.platform.os == "android" || Qt.platform.os == "ios") && !popupCache.shown) {
+        if ((Qt.platform.os == "android" || Qt.platform.os == "ios") && !editorSettings.popupWasShown) {
             var component = Qt.createComponent(Qt.resolvedUrl("../components/MeaDialog.qml"));
             var infoPopup = component.createObject(root,
                                                {
@@ -58,13 +58,14 @@ Page {
                                                    text: qsTr("nymea:app is available for all kinds of devices. In order to edit scripts we recommend to use nymea:app on your personal computer or connect a keyboard to your tablet.")
                                                })
             infoPopup.open();
-            popupCache.shown = true
+            editorSettings.popupWasShown = true
         }
     }
 
     Settings {
-        id: popupCache
-        property bool shown: false
+        id: editorSettings
+        property bool popupWasShown: false
+        property int preferredPaneHeight: Math.min(200, root.height / 4)
     }
 
     header: NymeaHeader {
@@ -227,7 +228,6 @@ Page {
             clip: true
             interactive: !completionBox.visible
             boundsBehavior: Flickable.StopAtBounds
-
             ScrollBar.vertical: ScrollBar { policy: ScrollBar.AlwaysOn }
             ScrollBar.horizontal: ScrollBar { policy: ScrollBar.AlwaysOn }
 
@@ -367,9 +367,23 @@ Page {
             }
         }
 
-        EditorPane {
+        MouseArea {
             Layout.fillWidth: true
-            Layout.preferredHeight: Math.min(implicitHeight, root.height / 4)
+            Layout.preferredHeight: app.margins / 4
+            property int offset: 0
+            enabled: editorPane.shown
+            onPressed: offset = height - mouseY
+            cursorShape: enabled ? Qt.SplitVCursor : Qt.ArrowCursor
+            onMouseYChanged: {
+                var newSize = content.height - mapToItem(content, mouseX, mouseY).y - offset
+                editorSettings.preferredPaneHeight = Math.min(Math.max(editorPane.collapsedHeight + 50, newSize), root.height - infoPane.height)
+            }
+        }
+
+        EditorPane {
+            id: editorPane
+            Layout.fillWidth: true
+            Layout.preferredHeight: shown ? editorSettings.preferredPaneHeight : collapsedHeight
 
             ScrollView {
                 id: errorsPane
