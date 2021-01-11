@@ -45,12 +45,13 @@ class BluetoothDeviceInfo : public QObject
 public:
     BluetoothDeviceInfo();
     BluetoothDeviceInfo(const QBluetoothDeviceInfo &deviceInfo);
+    ~BluetoothDeviceInfo();
 
     QString address() const;
     QString name() const;
     bool isLowEnergy() const;
 
-    QBluetoothDeviceInfo getBluetoothDeviceInfo() const;
+    QBluetoothDeviceInfo bluetoothDeviceInfo() const;
     void setBluetoothDeviceInfo(const QBluetoothDeviceInfo &deviceInfo);
 
 signals:

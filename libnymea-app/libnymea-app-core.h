@@ -73,6 +73,7 @@
 #include "configuration/serverconfigurations.h"
 #include "configuration/mqttpolicy.h"
 #include "configuration/mqttpolicies.h"
+#include "wifisetup/btwifisetup.h"
 #include "wifisetup/networkmanagercontroller.h"
 #include "types/wirelessaccesspoint.h"
 #include "types/wirelessaccesspoints.h"
@@ -270,6 +271,7 @@ void registerQmlTypes() {
     qmlRegisterType<TagListModel>(uri, 1, 0, "TagListModel");
     qmlRegisterType<TagListProxyModel>(uri, 1, 0, "TagListProxyModel");
 
+    qmlRegisterType<BtWiFiSetup>(uri, 1, 0, "BtWiFiSetup");
     qmlRegisterType<NetworkManagerController>(uri, 1, 0, "NetworkManagerController");
     qmlRegisterType<BluetoothDiscovery>(uri, 1, 0, "BluetoothDiscovery");
     qmlRegisterUncreatableType<BluetoothDeviceInfo>(uri, 1, 0, "BluetoothDeviceInfo", "Can't create this in QML. Get it from the DeviceInfos.");

@@ -41,6 +41,11 @@ BluetoothDeviceInfo::BluetoothDeviceInfo(const QBluetoothDeviceInfo &deviceInfo)
     m_deviceInfo = deviceInfo;
 }
 
+BluetoothDeviceInfo::~BluetoothDeviceInfo()
+{
+    qDebug() << "~BluetoothDeviceInfo";
+}
+
 QString BluetoothDeviceInfo::address() const
 {
 #ifdef Q_OS_MAC
@@ -62,7 +67,7 @@ bool BluetoothDeviceInfo::isLowEnergy() const
     return m_deviceInfo.coreConfigurations() & QBluetoothDeviceInfo::LowEnergyCoreConfiguration;
 }
 
-QBluetoothDeviceInfo BluetoothDeviceInfo::getBluetoothDeviceInfo() const
+QBluetoothDeviceInfo BluetoothDeviceInfo::bluetoothDeviceInfo() const
 {
     return m_deviceInfo;
 }

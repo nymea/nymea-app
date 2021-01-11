@@ -174,34 +174,26 @@ void BluetoothDiscovery::onBluetoothHostModeChanged(const QBluetoothLocalDevice:
 
 void BluetoothDiscovery::deviceDiscovered(const QBluetoothDeviceInfo &deviceInfo)
 {
-    if (!deviceInfo.isValid())
-        return;
-
-    BluetoothDeviceInfo *deviceInformation = new BluetoothDeviceInfo(deviceInfo);
-    bool isLowEnergy = deviceInfo.coreConfigurations() & QBluetoothDeviceInfo::LowEnergyCoreConfiguration;
-
-    qDebug() << "BluetoothDiscovery: [+]" << deviceInformation->name() << "(" << deviceInformation->address() << ")" << (isLowEnergy ? "LE" : "");
-
-    if (!isLowEnergy || deviceInformation->name().isEmpty()) {
-        delete deviceInformation;
+    if (!deviceInfo.isValid()
+            || !deviceInfo.coreConfigurations().testFlag(QBluetoothDeviceInfo::LowEnergyCoreConfiguration)
+            || deviceInfo.name().isEmpty()) {
         return;
     }
 
-    // Check if we already have added this device info
     foreach (BluetoothDeviceInfo *di, m_deviceInfos->deviceInfos()) {
-        if (di->address() == deviceInformation->address()) {
-            qWarning() << "BluetoothDiscover: device" << deviceInformation->name() << "(" << deviceInformation->address() << ") already added";
-            deviceInformation->deleteLater();
+        if (di->address() == deviceInfo.address().toString()) {
             return;
         }
     }
 
+    BluetoothDeviceInfo *deviceInformation = new BluetoothDeviceInfo(deviceInfo);
+//    qDebug() << "BluetoothDiscovery: [+]" << deviceInformation->name() << "(" << deviceInformation->address() << ")" << (isLowEnergy ? "LE" : "") << deviceInfo.majorDeviceClass() << deviceInfo.minorDeviceClass() << deviceInfo.serviceClasses();
     m_deviceInfos->addBluetoothDeviceInfo(deviceInformation);
 }
 
 void BluetoothDiscovery::discoveryFinished()
 {
-    qDebug() << "BluetoothDiscovery: Discovery finished";
+    qDebug() << "BluetoothDiscovery: Discovery finished" << m_discoveryEnabled << this;
     if (m_discoveryEnabled) {
         qDebug() << "BluetoothDiscovery: Restarting discovery";
         m_discoveryAgent->start();
@@ -240,9 +232,9 @@ void BluetoothDiscovery::start()
         m_discoveryAgent->stop();
     }
 
-    m_deviceInfos->clearModel();
+//    m_deviceInfos->clearModel();
 
-    qDebug() << "BluetoothDiscovery: Start discovering.";
+    qDebug() << "BluetoothDiscovery: Starting discovery.";
     m_discoveryAgent->start();
     emit discoveringChanged();
 }

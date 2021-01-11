@@ -71,7 +71,7 @@ void NetworkManagerController::connectDevice()
         return;
     }
 
-    m_wirelessSetupManager = new WirelessSetupManager(m_bluetoothDeviceInfo->getBluetoothDeviceInfo(), this);
+    m_wirelessSetupManager = new WirelessSetupManager(m_bluetoothDeviceInfo->bluetoothDeviceInfo(), this);
     emit managerChanged();
 
     m_wirelessSetupManager->connectDevice();
