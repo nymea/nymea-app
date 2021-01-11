@@ -41,57 +41,70 @@ Page {
         onBackPressed: pageStack.pop()
     }
 
-    property var nymeaDiscovery: null
-
     BluetoothDiscovery {
         id: bluetoothDiscovery
         discoveryEnabled: pageStack.currentItem === root
     }
 
-    NetworkManagerController {
-        id: networkManager
+    BtWiFiSetup {
+        id: wifiSetup
+
+        onStatusChanged: {
+            print("status changed", status)
+            switch (status) {
+            case BtWiFiSetup.StatusDisconnected:
+                pageStack.pop(root)
+                break;
+            case BtWiFiSetup.StatusConnectingToBluetooth:
+                break;
+            case BtWiFiSetup.StatusConnectedToBluetooth:
+                if (!wifiSetup.networkingEnabled) {
+                    wifiSetup.networkingEnabled = true;
+                }
+                if (!wifiSetup.wirelessEnabled) {
+                    wifiSetup.wirelessEnabled = true;
+                }
+                setupDevice()
+                break;
+            case BtWiFiSetup.StatusConnectingToWiFi:
+                break;
+            case BtWiFiSetup.StatusConnectedToWiFi:
+                print("Connected to wifi!")
+            }
+        }
+        onBluetoothConnectionError: {
+            print("Error")
+            pageStack.pop(root)
+        }
+        onWirelessEnabledChanged: {
+            if (wirelessEnabled) {
+                scanWiFi();
+            }
+        }
     }
 
     function connectDevice(btDeviceInfo) {
-        networkManager.bluetoothDeviceInfo = btDeviceInfo
-        networkManager.connectDevice();
+        wifiSetup.connectToDevice(btDeviceInfo)
         print("**** connecting")
         pageStack.push(connectingPageComponent, {deviceName: btDeviceInfo.name})
     }
 
     function setupDevice() {
         pageStack.pop(root, StackView.Immediate)
-        if (networkManager.manager.currentConnection) {
-            print("***** pushing WirelessSetupPage with networkManager:", networkManager)
-            var page = pageStack.push(Qt.resolvedUrl("WirelessSetupPage.qml"), { networkManagerController: networkManager, nymeaDiscovery: root.nymeaDiscovery } )
+        if (wifiSetup.currentConnection) {
+            var page = pageStack.push(Qt.resolvedUrl("WirelessSetupPage.qml"), { wifiSetup: wifiSetup } )
             page.done.connect(function() {
                 pageStack.pop(root, StackView.Immediate);
                 pageStack.pop();
             })
         } else {
-            var page = pageStack.push(Qt.resolvedUrl("ConnectWiFiPage.qml"), { networkManagerController: networkManager } )
+            var page = pageStack.push(Qt.resolvedUrl("ConnectWiFiPage.qml"), { wifiSetup: wifiSetup } )
             page.connected.connect(function() {
                 setupDevice();
             })
         }
     }
 
-    Connections {
-        target: networkManager.manager
-        onInitializedChanged: {
-            if (networkManager.manager.initialized) {
-                setupDevice()
-            } else {
-                pageStack.pop(root)
-            }
-        }
-
-        onConnectedChanged: {
-            if (!networkManager.manager.connected) {
-                pageStack.pop(root)
-            }
-        }
-    }
 
     ColumnLayout {
         anchors.fill: parent

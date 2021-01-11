@@ -41,7 +41,7 @@ Page {
         onBackPressed: pageStack.pop()
     }
 
-    property var networkManagerController: null
+    property BtWiFiSetup wifiSetup: null
 
     ColumnLayout {
         anchors { left: parent.left; top: parent.top; right: parent.right }
@@ -50,31 +50,31 @@ Page {
             Layout.fillWidth: true
             progressive: false
             text: qsTr("System UUID")
-            subText: networkManagerController.manager.modelNumber
+            subText: wifiSetup.modelNumber
         }
         NymeaSwipeDelegate {
             Layout.fillWidth: true
             progressive: false
             text: qsTr("Manufacturer")
-            subText: networkManagerController.manager.manufacturer
+            subText: wifiSetup.manufacturer
         }
         NymeaSwipeDelegate {
             Layout.fillWidth: true
             progressive: false
             text: qsTr("Software revision")
-            subText: networkManagerController.manager.softwareRevision
+            subText: wifiSetup.softwareRevision
         }
         NymeaSwipeDelegate {
             Layout.fillWidth: true
             progressive: false
             text: qsTr("Firmware revision")
-            subText: networkManagerController.manager.firmwareRevision
+            subText: wifiSetup.firmwareRevision
         }
         NymeaSwipeDelegate {
             Layout.fillWidth: true
             progressive: false
             text: qsTr("Hardware revision")
-            subText: networkManagerController.manager.hardwareRevision
+            subText: wifiSetup.hardwareRevision
         }
     }
 }

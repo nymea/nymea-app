@@ -37,7 +37,7 @@ import Nymea 1.0
 Page {
     id: root
 
-    property var networkManagerController: null
+    property BtWiFiSetup wifiSetup: null
 
     signal connected();
 
@@ -50,13 +50,13 @@ Page {
         HeaderButton {
             imageSource: "../images/info.svg"
             onClicked: {
-                pageStack.push(Qt.resolvedUrl("BoxInfoPage.qml"), {networkManagerController: root.networkManagerController})
+                pageStack.push(Qt.resolvedUrl("BoxInfoPage.qml"), {wifiSetup: root.wifiSetup})
             }
         }
         HeaderButton {
             imageSource: "../images/settings.svg"
             onClicked: {
-                pageStack.push(Qt.resolvedUrl("NetworkSettingsPage.qml"), {networkManagerController: root.networkManagerController})
+                pageStack.push(Qt.resolvedUrl("NetworkSettingsPage.qml"), {wifiSetup: root.wifiSetup})
             }
         }
     }
@@ -69,14 +69,26 @@ Page {
             Layout.fillHeight: true
 
             model: WirelessAccessPointsProxy {
-                accessPoints: networkManagerController.manager.accessPoints
+                accessPoints: wifiSetup.accessPoints
             }
             clip: true
+
+            Timer {
+                interval: 5000
+                repeat: true
+                onTriggered: wifiSetup.scanWiFi()
+                running: wifiSetup.accessPoints.count === 0
+            }
+
+            BusyIndicator {
+                anchors.centerIn: parent
+                visible: wifiSetup.accessPoints.count === 0
+                running: visible
+            }
 
             delegate: NymeaSwipeDelegate {
                 width: parent.width
                 text: model.ssid !== "" ? model.ssid : qsTr("Hidden Network")
-                enabled: !networkManagerController.manager.working
                 subText: model.hostAddress
 
                 iconColor: model.selectedNetwork ? Style.accentColor : "#808080"
@@ -136,16 +148,16 @@ Page {
             property string macAddress
 
             Connections {
-                target: root.networkManagerController.manager
+                target: root.wifiSetup
                 onCurrentConnectionChanged: {
-                    if (root.networkManagerController.manager.currentConnection && root.networkManagerController.manager.currentConnection.ssid === authenticationPage.ssid) {
+                    if (root.wifiSetup.currentConnection && root.wifiSetup.currentConnection.ssid === authenticationPage.ssid) {
                         print("**** connected!")
                         root.connected();
                     }
                 }
                 onWirelessStatusChanged: {
-                    print("Wireless status changed:", networkManagerController.manager.networkStatus)
-                    if (networkManagerController.manager.wirelessStatus === WirelessSetupManager.WirelessStatusFailed) {
+                    print("Wireless status changed:", wifiSetup.networkStatus)
+                    if (wifiSetup.wirelessStatus === BtWiFiSetup.WirelessStatusFailed) {
                         wrongPasswordText.visible = true
                         pageStack.pop(authenticationPage)
                     }
@@ -199,7 +211,7 @@ Page {
                     text: qsTr("OK")
                     enabled: passwordTextField.displayText.length >= 8
                     onClicked: {
-                        root.networkManagerController.manager.connectWirelessNetwork(authenticationPage.ssid, passwordTextField.text)
+                        root.wifiSetup.connectDeviceToWiFi(authenticationPage.ssid, passwordTextField.text)
                         pageStack.push(connectingWifiWaitPageComponent, {ssid: authenticationPage.ssid })
                     }
                 }

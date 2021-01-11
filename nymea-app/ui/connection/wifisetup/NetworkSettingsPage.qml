@@ -41,7 +41,7 @@ Page {
         onBackPressed: pageStack.pop()
     }
 
-    property var networkManagerController: null
+    property BtWiFiSetup wifiSetup: null
 
     ColumnLayout {
         anchors { left: parent.left; top: parent.top; right: parent.right }
@@ -49,17 +49,17 @@ Page {
         SwitchDelegate {
             Layout.fillWidth: true
             text: qsTr("Networking")
-            checked: networkManagerController.manager.networkingEnabled
-            onClicked: networkManagerController.manager.enableNetworking(checked)
+            checked: wifiSetup.networkingEnabled
+            onClicked: wifiSetup.networkingEnabled = checked
         }
 
         SwitchDelegate {
             Layout.fillWidth: true
-            enabled: networkManagerController.manager.networkingEnabled
+            enabled: wifiSetup.networkingEnabled
             text: qsTr("Wireless network")
-            checked: networkManagerController.manager.wirelessEnabled
+            checked: wifiSetup.wirelessEnabled
             onClicked: {
-                networkManagerController.manager.enableWireless(checked)
+                wifiSetup.wirelessEnabled = checked
             }
         }
 
@@ -68,7 +68,7 @@ Page {
             Layout.leftMargin: app.margins
             Layout.rightMargin: app.margins
             text: qsTr("Trigger a wireless scan on the device.")
-            onClicked: networkManagerController.manager.performWifiScan()
+            onClicked: wifiSetup.scanWiFi()
         }
     }
 }

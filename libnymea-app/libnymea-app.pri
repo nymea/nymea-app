@@ -134,8 +134,6 @@ SOURCES += \
     $${PWD}/wifisetup/bluetoothdeviceinfo.cpp \
     $${PWD}/wifisetup/bluetoothdeviceinfos.cpp \
     $${PWD}/wifisetup/bluetoothdiscovery.cpp \
-    $${PWD}/wifisetup/wirelesssetupmanager.cpp \
-    $${PWD}/wifisetup/networkmanagercontroller.cpp \
     $${PWD}/models/logsmodelng.cpp \
     $${PWD}/models/interfacesproxy.cpp \
     $${PWD}/models/tagsproxymodel.cpp \
@@ -281,8 +279,6 @@ HEADERS += \
     $${PWD}/wifisetup/bluetoothdeviceinfo.h \
     $${PWD}/wifisetup/bluetoothdeviceinfos.h \
     $${PWD}/wifisetup/bluetoothdiscovery.h \
-    $${PWD}/wifisetup/wirelesssetupmanager.h \
-    $${PWD}/wifisetup/networkmanagercontroller.h \
     $${PWD}/libnymea-app-core.h \
     $${PWD}/models/logsmodelng.h \
     $${PWD}/models/interfacesproxy.h \

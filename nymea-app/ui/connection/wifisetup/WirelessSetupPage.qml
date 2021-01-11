@@ -37,8 +37,7 @@ import Nymea 1.0
 Page {
     id: root
 
-    property var networkManagerController: null
-    property var nymeaDiscovery: null
+    property BtWiFiSetup wifiSetup: null
 
     signal done()
 
@@ -51,25 +50,24 @@ Page {
         HeaderButton {
             imageSource: "../images/info.svg"
             onClicked: {
-                pageStack.push(Qt.resolvedUrl("BoxInfoPage.qml"), {networkManagerController: root.networkManagerController})
+                pageStack.push(Qt.resolvedUrl("BoxInfoPage.qml"), {wifiSetup: root.wifiSetup})
             }
         }
         HeaderButton {
             imageSource: "../images/settings.svg"
             onClicked: {
-                pageStack.push(Qt.resolvedUrl("NetworkSettingsPage.qml"), {networkManagerController: root.networkManagerController})
+                pageStack.push(Qt.resolvedUrl("NetworkSettingsPage.qml"), {wifiSetup: root.wifiSetup})
             }
         }
     }
 
     Component.onCompleted: {
-        print("created with networkmanagercontroller:", root.networkManagerController)
         updateConnectButton();
     }
 
     Connections {
-        target: root.networkManagerController.manager
-        onErrorOccurred: {
+        target: root.wifiSetup
+        onWifiSetupError: {
             print("Error occurred", errorMessage)
             var errorDialog = Qt.createComponent(Qt.resolvedUrl("../components/ErrorDialog.qml"));
             var popup = errorDialog.createObject(app, {text: errorMessage})
@@ -82,25 +80,25 @@ Page {
     }
 
     Connections {
-        target: root.nymeadiscovery.nymeaHosts
+        target: nymeaDiscovery.nymeaHosts
         onCountChanged: updateConnectButton();
     }
 
     function updateConnectButton() {
-        if (!root.networkManagerController.manager.currentConnection) {
+        if (!root.wifiSetup.currentConnection) {
             connectButton.url = "";
             return;
         }
 
         // FIXME: We should rather look for the UUID here, but nymea-networkmanager doesn't support getting us the nymea uuid (yet)
-        for (var i = 0; i < root.nymeadiscovery.nymeaHosts.count; i++) {
-            for (var j = 0; j < root.nymeadiscovery.nymeaHosts.get(i).connections.count; j++) {
-                if (root.nymeadiscovery.nymeaHosts.get(i).connections.get(j).url.toString().indexOf(root.networkManagerController.manager.currentConnection.hostAddress) >= 0) {
-                    connectButton.url = root.nymeadiscovery.nymeaHosts.get(i).connections.get(j).url
+        for (var i = 0; i < nymeaDiscovery.nymeaHosts.count; i++) {
+            for (var j = 0; j < nymeaDiscovery.nymeaHosts.get(i).connections.count; j++) {
+                if (nymeaDiscovery.nymeaHosts.get(i).connections.get(j).url.toString().indexOf(root.wifiSetup.currentConnection.hostAddress) >= 0) {
+                    connectButton.host = nymeaDiscovery.nymeaHosts.get(i)
                     return;
                 }
             }
-            root.nymeadiscovery.nymeaHosts.get(i).connections.countChanged.connect(function() {
+            nymeaDiscovery.nymeaHosts.get(i).connections.countChanged.connect(function() {
                 updateConnectButton();
             })
         }
@@ -121,15 +119,15 @@ Page {
             Layout.fillWidth: true
             Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
             wrapMode: Text.WordWrap
-            text: root.networkManagerController.manager.currentConnection
-                  ? qsTr("Your %1:core is connected to %2").arg(app.systemName).arg(root.networkManagerController.manager.currentConnection.ssid)
+            text: root.wifiSetup.currentConnection
+                  ? qsTr("Your %1:core is connected to %2").arg(app.systemName).arg(root.wifiSetup.currentConnection.ssid)
                   : ""
         }
 
         Label {
             Layout.fillWidth: true
             Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
-            text: qsTr("IP address: %1").arg(root.networkManagerController.manager.currentConnection.hostAddress)
+            text: qsTr("IP address: %1").arg(root.wifiSetup.currentConnection.hostAddress)
             elide: Text.ElideRight
         }
 
@@ -147,13 +145,14 @@ Page {
 
         Button {
             id: connectButton
-            visible: url != ""
+            visible: host !== null
             Layout.fillWidth: true
             Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
             text: qsTr("Connect to %1:core").arg(app.systemName)
-            property string url
+            property NymeaHost host: null
             onClicked: {
-                engine.jsonRpcClient.connectToHost(url)
+                print("connecting to", host)
+                engine.jsonRpcClient.connectToHost(host)
             }
         }
 
@@ -162,7 +161,7 @@ Page {
             Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
             text: qsTr("Change network")
             onClicked: {
-                var page = pageStack.push(Qt.resolvedUrl("ConnectWiFiPage.qml"), {networkManagerController: root.networkManagerController})
+                var page = pageStack.push(Qt.resolvedUrl("ConnectWiFiPage.qml"), {wifiSetup: root.wifiSetup})
                 page.connected.connect(function() {
                     pageStack.pop(root)
                 })

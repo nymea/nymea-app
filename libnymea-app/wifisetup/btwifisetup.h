@@ -22,8 +22,8 @@ class BtWiFiSetup : public QObject
 
     Q_PROPERTY(NetworkStatus networkStatus READ networkStatus NOTIFY networkStatusChanged)
     Q_PROPERTY(WirelessStatus wirelessStatus READ wirelessStatus NOTIFY wirelessStatusChanged)
-    Q_PROPERTY(bool networkingEnabled READ networkingEnabled NOTIFY networkingEnabledChanged)
-    Q_PROPERTY(bool wirelessEnabled READ wirelessEnabled NOTIFY wirelessEnabledChanged)
+    Q_PROPERTY(bool networkingEnabled READ networkingEnabled WRITE setNetworkingEnabled NOTIFY networkingEnabledChanged)
+    Q_PROPERTY(bool wirelessEnabled READ wirelessEnabled WRITE setWirelessEnabled NOTIFY wirelessEnabledChanged)
 
     Q_PROPERTY(WirelessAccessPoints *accessPoints READ accessPoints CONSTANT)
     Q_PROPERTY(WirelessAccessPoint *currentConnection READ currentConnection NOTIFY currentConnectionChanged)
@@ -128,6 +128,9 @@ public:
     Q_INVOKABLE void connectToDevice(const BluetoothDeviceInfo *device);
     Q_INVOKABLE void disconnectFromDevice();
     Q_INVOKABLE void connectDeviceToWiFi(const QString &ssid, const QString &password);
+    Q_INVOKABLE void disconnectDeviceFromWiFi();
+    Q_INVOKABLE void scanWiFi();
+    Q_INVOKABLE void pressPushButton();
 
     Status status() const;
 
@@ -140,7 +143,10 @@ public:
     NetworkStatus networkStatus() const;
     WirelessStatus wirelessStatus() const;
     bool networkingEnabled() const;
+    void setNetworkingEnabled(bool networkingEnabled);
+
     bool wirelessEnabled() const;
+    void setWirelessEnabled(bool wirelessEnabled) const;
 
     WirelessAccessPoints *accessPoints() const;
     WirelessAccessPoint *currentConnection() const;
@@ -165,14 +171,14 @@ signals:
 
 private:
     void setupServices();
-    void streamData(const QVariantMap &request);
+    void streamData(QLowEnergyService *service, const QUuid &characteristicUuid, const QVariantMap &request);
     void processWiFiPacket(const QVariantMap &data);
 
     void loadNetworks();
     void loadCurrentConnection();
 
 private slots:
-    void characteristicChanged(const QLowEnergyCharacteristic &characteristic, const QByteArray &data);
+    void characteristicChanged(const QLowEnergyCharacteristic &characteristic, const QByteArray &value);
 
 private:
     Status m_status = StatusDisconnected;

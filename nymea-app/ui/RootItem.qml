@@ -84,7 +84,7 @@ Item {
         d.pushSettingsPage("connection/wifisetup/BluetoothDiscoveryPage.qml");
     }
     function startDemoMode() {
-        var host = discovery.nymeaHosts.createWanHost("Demo server", "nymea://nymea.nymea.io:2222")
+        var host = nymeaDiscovery.nymeaHosts.createWanHost("Demo server", "nymea://nymea.nymea.io:2222")
         root.currentEngine.jsonRpcClient.connectToHost(host)
     }
 
@@ -164,7 +164,7 @@ Item {
                     }
 
                     Binding {
-                        target: _discovery
+                        target: nymeaDiscovery
                         property: "discovering"
                         value: engine.jsonRpcClient.currentHost === null
                     }
@@ -180,11 +180,11 @@ Item {
                     Component.onCompleted: {
                         setupPushNotifications();
                         if (autoConnectHost.length > 0) {
-                            var host = discovery.nymeaHosts.createLanHost("Manual connection", autoConnectHost);
+                            var host = nymeaDiscovery.nymeaHosts.createLanHost("Manual connection", autoConnectHost);
                             engine.jsonRpcClient.connectToHost(host)
                         } else if (tabSettings.lastConnectedHost.length > 0) {
                             print("Last connected host was", tabSettings.lastConnectedHost)
-                            var cachedHost = discovery.nymeaHosts.find(tabSettings.lastConnectedHost);
+                            var cachedHost = nymeaDiscovery.nymeaHosts.find(tabSettings.lastConnectedHost);
                             if (cachedHost) {
                                 engine.jsonRpcClient.connectToHost(cachedHost)
                                 return;
@@ -343,14 +343,14 @@ Item {
                             var popup = certDialogComponent.createObject(root);
                             popup.accepted.connect(function(){
                                 engine.jsonRpcClient.acceptCertificate(serverUuid, pem);
-                                engine.jsonRpcClient.connectToHost(discovery.nymeaHosts.find(serverUuid));
+                                engine.jsonRpcClient.connectToHost(nymeaDiscovery.nymeaHosts.find(serverUuid));
                             })
                             popup.open();
                         }
                         onConnectedChanged: {
                             print("json client connected changed", engine.jsonRpcClient.connected)
                             if (engine.jsonRpcClient.connected) {
-                                discovery.cacheHost(engine.jsonRpcClient.currentHost)
+                                nymeaDiscovery.cacheHost(engine.jsonRpcClient.currentHost)
                                 tabSettings.lastConnectedHost = engine.jsonRpcClient.serverUuid
                             }
                             init();

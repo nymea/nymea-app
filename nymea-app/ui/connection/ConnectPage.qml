@@ -70,7 +70,7 @@ Page {
 
     NymeaHostsFilterModel {
         id: hostsProxy
-        discovery: _discovery
+        discovery: nymeaDiscovery
         showUnreachableBearers: false
         jsonRpcClient: engine.jsonRpcClient
         showUnreachableHosts: false
@@ -220,16 +220,16 @@ Page {
             Layout.leftMargin: app.margins
             Layout.rightMargin: app.margins
             wrapMode: Text.WordWrap
-            visible: discovery.nymeaHosts.count === 0
+            visible: nymeaDiscovery.nymeaHosts.count === 0
             text: qsTr("Do you have a %1:core but it's not connected to your network yet? Use the wireless setup to connect it!").arg(app.systemName)
         }
         Button {
             Layout.fillWidth: true
             Layout.leftMargin: app.margins
             Layout.rightMargin: app.margins
-            visible: discovery.nymeaHosts.count === 0
+            visible: nymeaDiscovery.nymeaHosts.count === 0
             text: qsTr("Start wireless setup")
-            onClicked: pageStack.push(Qt.resolvedUrl("wifisetup/BluetoothDiscoveryPage.qml"), {nymeaDiscovery: discovery})
+            onClicked: pageStack.push(Qt.resolvedUrl("wifisetup/BluetoothDiscoveryPage.qml"))
         }
         Button {
             Layout.fillWidth: true
@@ -245,10 +245,10 @@ Page {
             Layout.leftMargin: app.margins
             Layout.rightMargin: app.margins
             Layout.bottomMargin: app.margins
-            visible: discovery.nymeaHosts.count === 0
+            visible: nymeaDiscovery.nymeaHosts.count === 0
             text: qsTr("Demo mode (online)")
             onClicked: {
-                var host = discovery.nymeaHosts.createWanHost("Demo server", "nymea://nymea.nymea.io:2222")
+                var host = nymeaDiscovery.nymeaHosts.createWanHost("Demo server", "nymea://nymea.nymea.io:2222")
                 engine.jsonRpcClient.connectToHost(host)
             }
         }

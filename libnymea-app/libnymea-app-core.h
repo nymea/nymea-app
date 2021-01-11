@@ -74,7 +74,6 @@
 #include "configuration/mqttpolicy.h"
 #include "configuration/mqttpolicies.h"
 #include "wifisetup/btwifisetup.h"
-#include "wifisetup/networkmanagercontroller.h"
 #include "types/wirelessaccesspoint.h"
 #include "types/wirelessaccesspoints.h"
 #include "models/wirelessaccesspointsproxy.h"
@@ -272,11 +271,9 @@ void registerQmlTypes() {
     qmlRegisterType<TagListProxyModel>(uri, 1, 0, "TagListProxyModel");
 
     qmlRegisterType<BtWiFiSetup>(uri, 1, 0, "BtWiFiSetup");
-    qmlRegisterType<NetworkManagerController>(uri, 1, 0, "NetworkManagerController");
     qmlRegisterType<BluetoothDiscovery>(uri, 1, 0, "BluetoothDiscovery");
     qmlRegisterUncreatableType<BluetoothDeviceInfo>(uri, 1, 0, "BluetoothDeviceInfo", "Can't create this in QML. Get it from the DeviceInfos.");
     qmlRegisterUncreatableType<BluetoothDeviceInfos>(uri, 1, 0, "BluetoothDeviceInfos", "Can't create this in QML. Get it from the BluetoothDiscovery.");
-    qmlRegisterUncreatableType<WirelessSetupManager>(uri, 1, 0, "WirelessSetupManager", "Can't create this in QML. Get it from the NetworkManagerControler.");
     qmlRegisterUncreatableType<WirelessAccessPoint>(uri, 1, 0, "WirelessAccessPoint", "Can't create this in QML. Get it from the WirelessAccessPoints.");
     qmlRegisterUncreatableType<WirelessAccessPoints>(uri, 1, 0, "WirelessAccessPoints", "Can't create this in QML. Get it from the Engine instance.");
     qmlRegisterType<WirelessAccessPointsProxy>(uri, 1, 0, "WirelessAccessPointsProxy");
