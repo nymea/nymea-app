@@ -126,7 +126,8 @@ public:
     explicit BtWiFiSetup(QObject *parent = nullptr);
 
     Q_INVOKABLE void connectToDevice(const BluetoothDeviceInfo *device);
-    Q_INVOKABLE void connectDeviceToWiFi(const QString &ssid);
+    Q_INVOKABLE void disconnectFromDevice();
+    Q_INVOKABLE void connectDeviceToWiFi(const QString &ssid, const QString &password);
 
     Status status() const;
 
@@ -146,7 +147,8 @@ public:
 
 signals:
     void statusChanged(Status status);
-    void error();
+    void bluetoothConnectionError();
+    void wifiSetupError();
 
     void modelNumberChanged();
     void manufacturerChanged();
@@ -165,6 +167,9 @@ private:
     void setupServices();
     void streamData(const QVariantMap &request);
     void processWiFiPacket(const QVariantMap &data);
+
+    void loadNetworks();
+    void loadCurrentConnection();
 
 private slots:
     void characteristicChanged(const QLowEnergyCharacteristic &characteristic, const QByteArray &data);

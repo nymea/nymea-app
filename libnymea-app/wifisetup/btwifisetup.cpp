@@ -52,7 +52,7 @@ void BtWiFiSetup::connectToDevice(const BluetoothDeviceInfo *device)
     typedef void (QLowEnergyController::*errorsSignal)(QLowEnergyController::Error);
     connect(m_btController, static_cast<errorsSignal>(&QLowEnergyController::error), this, [this](QLowEnergyController::Error error){
         qDebug() << "Bluetooth error:" << error;
-        emit this->error();
+        emit this->bluetoothConnectionError();
     });
 
     connect(m_btController, &QLowEnergyController::discoveryFinished, this, [this](){
@@ -65,11 +65,28 @@ void BtWiFiSetup::connectToDevice(const BluetoothDeviceInfo *device)
     m_btController->connectToDevice();
 }
 
-void BtWiFiSetup::connectDeviceToWiFi(const QString &ssid)
+void BtWiFiSetup::disconnectFromDevice()
+{
+    if (m_btController) {
+        m_btController->disconnectFromDevice();
+        m_btController->deleteLater();
+        m_btController = nullptr;
+    }
+}
+
+void BtWiFiSetup::connectDeviceToWiFi(const QString &ssid, const QString &password)
 {
     if (m_status != StatusConnectedToBluetooth) {
         qWarning() << "Cannot connect to wifi in state" << m_status;
     }
+
+    QVariantMap request;
+    request.insert("c", (int)WirelessServiceCommandConnect);
+    QVariantMap parameters;
+    parameters.insert("e", ssid);
+    parameters.insert("p", password);
+    request.insert("p", parameters);
+    streamData(request);
 }
 
 BtWiFiSetup::Status BtWiFiSetup::status() const
@@ -206,9 +223,7 @@ void BtWiFiSetup::setupServices()
         m_wifiService->writeDescriptor(m_wifiService->characteristic(wifiResponseCharacteristicUuid).descriptor(QBluetoothUuid::ClientCharacteristicConfiguration), QByteArray::fromHex("0100"));
         m_wifiService->writeDescriptor(m_wifiService->characteristic(wifiStatusCharacteristicUuid).descriptor(QBluetoothUuid::ClientCharacteristicConfiguration), QByteArray::fromHex("0100"));
 
-        QVariantMap request;
-        request.insert("c", (int)WirelessServiceCommandGetNetworks);
-        streamData(request);
+        loadNetworks();
     });
     connect(m_wifiService, &QLowEnergyService::characteristicChanged, this, &BtWiFiSetup::characteristicChanged);
     m_wifiService->discoverDetails();
@@ -255,7 +270,7 @@ void BtWiFiSetup::processWiFiPacket(const QVariantMap &data)
     WirelessServiceCommand command = static_cast<WirelessServiceCommand>(data.value("c").toInt());
     WirelessServiceResponse responseCode = (WirelessServiceResponse)data.value("r").toInt();
     if (responseCode != WirelessServiceResponseSuccess) {
-        qWarning() << "Error in wifi command:" << responseCode;
+        qWarning() << "Error in wifi command" << command << ":" << responseCode;
         return;
     }
 
@@ -275,28 +290,70 @@ void BtWiFiSetup::processWiFiPacket(const QVariantMap &data)
             accessPoint->setHostAddress("");
             m_accessPoints->addWirelessAccessPoint(accessPoint);
         }
+        break;
+    case WirelessServiceCommandConnect:
+        qDebug() << "Connect call succeeded";
+        m_status = StatusConnectingToWiFi;
+        emit statusChanged(m_status);
+        break;
     }
 }
 
-void BtWiFiSetup::characteristicChanged(const QLowEnergyCharacteristic &characteristic, const QByteArray &data)
+void BtWiFiSetup::loadNetworks()
 {
-    m_inputBuffers[characteristic.uuid()].append(data);
-    if (m_inputBuffers[characteristic.uuid()].endsWith("\n")) {
-        QByteArray data = m_inputBuffers.take(characteristic.uuid());
+    QVariantMap request;
+    request.insert("c", (int)WirelessServiceCommandGetNetworks);
+    streamData(request);
+}
 
+void BtWiFiSetup::loadCurrentConnection()
+{
+    QVariantMap request;
+    request.insert("c", (int)WirelessServiceCommandGetCurrentConnection);
+    streamData(request);
+}
+
+void BtWiFiSetup::characteristicChanged(const QLowEnergyCharacteristic &characteristic, const QByteArray &data)
+{    
+    if (characteristic.uuid() == wifiResponseCharacteristicUuid) {
+        m_inputBuffers[characteristic.uuid()].append(data);
+        if (!m_inputBuffers[characteristic.uuid()].endsWith("\n")) {
+            return;
+        }
+        QByteArray data = m_inputBuffers.take(characteristic.uuid());
         QJsonParseError error;
         QJsonDocument jsonDoc = QJsonDocument::fromJson(data, &error);
         if (error.error != QJsonParseError::NoError) {
-            qWarning() << "Invalid json data received:" << error.errorString() << data;
+            qWarning() << "Invalid json data received:" << error.errorString() << data << "from characteristic:" << characteristic.uuid();
             m_btController->disconnectFromDevice();
             return;
         }
+        processWiFiPacket(jsonDoc.toVariant().toMap());
 
-        if (characteristic.uuid() == wifiResponseCharacteristicUuid) {
-            processWiFiPacket(jsonDoc.toVariant().toMap());
-        } else {
-            qWarning() << "Unhandled packet from characteristic" << characteristic.uuid();
+    } else if (characteristic.uuid() == wifiStatusCharacteristicUuid) {
+
+        m_wirelessStatus = static_cast<WirelessStatus>(data.toHex().toInt(nullptr, 16));
+        qDebug() << "Wireless status changed" << m_wirelessStatus;
+        emit wirelessStatusChanged();
+
+        if (m_wirelessStatus == WirelessStatusFailed) {
+            emit wifiSetupError();
+        } else if (m_wirelessStatus == WirelessStatusActivated) {
+            loadCurrentConnection();
         }
 
+    } else if (characteristic.uuid() == networkStatusCharacteristicUuid) {
+        m_networkStatus = static_cast<NetworkStatus>(data.toHex().toInt(nullptr, 16));
+        qDebug() << "Network status changed:" << m_networkStatus;
+        if (m_networkStatus == NetworkStatusGlobal) {
+            m_status = StatusConnectedToWiFi;
+            emit statusChanged(m_status);
+
+            loadCurrentConnection();
+        }
+
+    } else {
+        qWarning() << "Unhandled packet from characteristic" << characteristic.uuid();
     }
+
 }
