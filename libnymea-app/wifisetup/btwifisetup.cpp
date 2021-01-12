@@ -36,8 +36,8 @@ void BtWiFiSetup::connectToDevice(const BluetoothDeviceInfo *device)
         m_currentConnection = nullptr;
         currentConnectionChanged();
         m_accessPoints->clearModel();
-        m_status = StatusDisconnected;
-        emit statusChanged(m_status);
+        m_bluetoothStatus = BluetoothStatusDisconnected;
+        emit bluetoothStatusChanged(m_bluetoothStatus);
 
     }
 
@@ -45,12 +45,14 @@ void BtWiFiSetup::connectToDevice(const BluetoothDeviceInfo *device)
     connect(m_btController, &QLowEnergyController::connected, this, [this](){
         qDebug() << "Bluetooth connected";
         m_btController->discoverServices();
+        m_bluetoothStatus = BluetoothStatusConnectedToBluetooth;
+        emit bluetoothStatusChanged(m_bluetoothStatus);
     });
 
     connect(m_btController, &QLowEnergyController::disconnected, this, [this](){
         qDebug() << "Bluetooth disconnected";
-        m_status = StatusDisconnected;
-        emit statusChanged(m_status);
+        m_bluetoothStatus = BluetoothStatusDisconnected;
+        emit bluetoothStatusChanged(m_bluetoothStatus);
         m_btController->deleteLater();
         m_btController = nullptr;
         m_currentConnection = nullptr;
@@ -69,8 +71,8 @@ void BtWiFiSetup::connectToDevice(const BluetoothDeviceInfo *device)
         setupServices();
     });
 
-    m_status = StatusConnectingToBluetooth;
-    emit statusChanged(m_status);
+    m_bluetoothStatus = BluetoothStatusConnectingToBluetooth;
+    emit bluetoothStatusChanged(m_bluetoothStatus);
     m_btController->connectToDevice();
 }
 
@@ -83,8 +85,8 @@ void BtWiFiSetup::disconnectFromDevice()
 
 void BtWiFiSetup::connectDeviceToWiFi(const QString &ssid, const QString &password)
 {
-    if (m_status != StatusConnectedToBluetooth) {
-        qWarning() << "Cannot connect to wifi in state" << m_status;
+    if (m_bluetoothStatus != BluetoothStatusConnectedToBluetooth) {
+        qWarning() << "Cannot connect to wifi in state" << m_bluetoothStatus;
     }
 
     QVariantMap request;
@@ -98,10 +100,9 @@ void BtWiFiSetup::connectDeviceToWiFi(const QString &ssid, const QString &passwo
 
 void BtWiFiSetup::disconnectDeviceFromWiFi()
 {
-    if (m_status != StatusConnectedToWiFi) {
-        qWarning() << "Cannot disconnect from wifi in state" << m_status;
+    if (m_bluetoothStatus != BluetoothStatusConnectedToBluetooth) {
+        qWarning() << "Cannot disconnect from wifi in state" << m_bluetoothStatus;
     }
-    QLowEnergyCharacteristic ssidCharacteristic = m_wifiService->characteristic(wifiCommanderCharacteristicUuid);
     QVariantMap request;
     request.insert("c", (int)WirelessServiceCommandDisconnect);
     streamData(m_wifiService, wifiCommanderCharacteristicUuid, request);
@@ -109,28 +110,30 @@ void BtWiFiSetup::disconnectDeviceFromWiFi()
 
 void BtWiFiSetup::scanWiFi()
 {
-    QLowEnergyCharacteristic characteristic = m_wifiService->characteristic(wifiCommanderCharacteristicUuid);
+    if (m_bluetoothStatus != BluetoothStatusConnectedToBluetooth) {
+        qWarning() << "Cannot disconnect from wifi in state" << m_bluetoothStatus;
+    }
     QVariantMap request;
     request.insert("c", (int)WirelessServiceCommandScan);
     streamData(m_wifiService, wifiCommanderCharacteristicUuid, request);
 }
 
-void BtWiFiSetup::pressPushButton()
+bool BtWiFiSetup::pressPushButton()
 {
     if (!m_systemService) {
         qDebug() << "System service not available. Cannot perform push button pairing";
-        return;
+        return false;
     }
-    QLowEnergyCharacteristic commanderCharacteristic = m_systemService->characteristic(systemCommanderCharacteristicUuid);
     QVariantMap request;
     request.insert("c", (int)SystemServiceCommandPushAuthentication);
 
     streamData(m_systemService, systemCommanderCharacteristicUuid, request);
+    return true;
 }
 
-BtWiFiSetup::Status BtWiFiSetup::status() const
+BtWiFiSetup::BluetoothStatus BtWiFiSetup::bluetoothStatus() const
 {
-    return m_status;
+    return m_bluetoothStatus;
 }
 
 QString BtWiFiSetup::modelNumber() const
@@ -175,6 +178,9 @@ bool BtWiFiSetup::networkingEnabled() const
 
 void BtWiFiSetup::setNetworkingEnabled(bool networkingEnabled)
 {
+    if (m_bluetoothStatus != BluetoothStatusConnectedToBluetooth) {
+        qWarning() << "Cannot disconnect from wifi in state" << m_bluetoothStatus;
+    }
     QLowEnergyCharacteristic characteristic = m_networkService->characteristic(networkCommanderCharacteristicUuid);
     m_networkService->writeCharacteristic(characteristic, networkingEnabled ? QByteArray::fromHex("00") : QByteArray::fromHex("01"));
 }
@@ -186,6 +192,9 @@ bool BtWiFiSetup::wirelessEnabled() const
 
 void BtWiFiSetup::setWirelessEnabled(bool wirelessEnabled) const
 {
+    if (m_bluetoothStatus != BluetoothStatusConnectedToBluetooth) {
+        qWarning() << "Cannot disconnect from wifi in state" << m_bluetoothStatus;
+    }
     QLowEnergyCharacteristic characteristic = m_networkService->characteristic(networkCommanderCharacteristicUuid);
     m_networkService->writeCharacteristic(characteristic, wirelessEnabled ? QByteArray::fromHex("02") : QByteArray::fromHex("03"));
 }
@@ -202,7 +211,7 @@ WirelessAccessPoint *BtWiFiSetup::currentConnection() const
 
 void BtWiFiSetup::setupServices()
 {
-    qDebug() << "Setting up services";
+    qDebug() << "Setting up Bluetooth services";
     m_deviceInformationService = m_btController->createServiceObject(QBluetoothUuid::DeviceInformation, m_btController);
     m_networkService = m_btController->createServiceObject(networkServiceUuid, m_btController);
     m_wifiService = m_btController->createServiceObject(wifiServiceUuid, m_btController);
@@ -268,8 +277,6 @@ void BtWiFiSetup::setupServices()
             return;
 
         qDebug() << "Wifi service discovered";
-        m_status = StatusConnectedToBluetooth;
-        emit statusChanged(m_status);
 
         // Enable notifations
         m_wifiService->writeDescriptor(m_wifiService->characteristic(wifiResponseCharacteristicUuid).descriptor(QBluetoothUuid::ClientCharacteristicConfiguration), QByteArray::fromHex("0100"));
@@ -345,11 +352,15 @@ void BtWiFiSetup::processWiFiPacket(const QVariantMap &data)
         break;
     case WirelessServiceCommandConnect:
         qDebug() << "Connect call succeeded";
-        m_status = StatusConnectingToWiFi;
-        emit statusChanged(m_status);
         break;
     case WirelessServiceCommandGetCurrentConnection:
         // Find current network
+        if (!data.value("p").toMap().value("m").toString().isEmpty() && data.value("p").toMap().value("i").toString().isEmpty()) {
+            // There's a bug in libnymea-networkmanager that sometimes it emits current connection before it actually obtained the IP address
+            qDebug() << "Retring to fetch the current connection because IP is not set yet.";
+            loadCurrentConnection();
+            return;
+        }
         m_currentConnection = nullptr;
         foreach (WirelessAccessPoint *accessPoint, m_accessPoints->wirelessAccessPoints()) {
             QVariantMap currentConnection = data.value("p").toMap();
@@ -357,6 +368,7 @@ void BtWiFiSetup::processWiFiPacket(const QVariantMap &data)
             if (accessPoint->macAddress() == macAddress) {
                 // Set the current network
                 m_currentConnection = accessPoint;
+
                 accessPoint->setHostAddress(currentConnection.value("i").toString());
             }
         }
@@ -428,9 +440,6 @@ void BtWiFiSetup::characteristicChanged(const QLowEnergyCharacteristic &characte
         m_networkStatus = static_cast<NetworkStatus>(value.toHex().toInt(nullptr, 16));
         qDebug() << "Network status changed:" << m_networkStatus;
         if (m_networkStatus == NetworkStatusGlobal) {
-            m_status = StatusConnectedToWiFi;
-            emit statusChanged(m_status);
-
             loadCurrentConnection();
         }
 

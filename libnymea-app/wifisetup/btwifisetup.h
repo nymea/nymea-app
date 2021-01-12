@@ -12,7 +12,7 @@ class WirelessAccessPoint;
 class BtWiFiSetup : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(Status status READ status NOTIFY statusChanged)
+    Q_PROPERTY(BluetoothStatus bluetoothStatus READ bluetoothStatus NOTIFY bluetoothStatusChanged)
 
     Q_PROPERTY(QString modelNumber READ modelNumber NOTIFY modelNumberChanged)
     Q_PROPERTY(QString manufacturer READ manufacturer NOTIFY manufacturerChanged)
@@ -29,14 +29,41 @@ class BtWiFiSetup : public QObject
     Q_PROPERTY(WirelessAccessPoint *currentConnection READ currentConnection NOTIFY currentConnectionChanged)
 
 public:
-    enum Status {
-        StatusDisconnected,
-        StatusConnectingToBluetooth,
-        StatusConnectedToBluetooth,
-        StatusConnectingToWiFi,
-        StatusConnectedToWiFi
+    enum BluetoothStatus {
+        BluetoothStatusDisconnected,
+        BluetoothStatusConnectingToBluetooth,
+        BluetoothStatusConnectedToBluetooth
     };
-    Q_ENUM(Status)
+    Q_ENUM(BluetoothStatus)
+
+    enum NetworkStatus {
+        NetworkStatusUnknown = 0x00,
+        NetworkStatusAsleep = 0x01,
+        NetworkStatusDisconnected = 0x02,
+        NetworkStatusDisconnecting = 0x03,
+        NetworkStatusConnecting = 0x04,
+        NetworkStatusLocal = 0x05,
+        NetworkStatusConnectedSite = 0x06,
+        NetworkStatusGlobal = 0x07
+    };
+    Q_ENUM(NetworkStatus)
+
+    enum WirelessStatus {
+        WirelessStatusUnknown = 0x00,
+        WirelessStatusUnmanaged = 0x01,
+        WirelessStatusUnavailable = 0x02,
+        WirelessStatusDisconnected = 0x03,
+        WirelessStatusPrepare = 0x04,
+        WirelessStatusConfig = 0x05,
+        WirelessStatusNeedAuth = 0x06,
+        WirelessStatusIpConfig = 0x07,
+        WirelessStatusIpCheck = 0x08,
+        WirelessStatusSecondaries = 0x09,
+        WirelessStatusActivated = 0x0A,
+        WirelessStatusDeactivating = 0x0B,
+        WirelessStatusFailed = 0x0C
+    };
+    Q_ENUM(WirelessStatus)
 
     enum WirelessServiceCommand {
         WirelessServiceCommandInvalid = -1,
@@ -94,34 +121,6 @@ public:
     };
     Q_ENUM(SystemServiceResponse)
 
-    enum NetworkStatus {
-        NetworkStatusUnknown = 0x00,
-        NetworkStatusAsleep = 0x01,
-        NetworkStatusDisconnected = 0x02,
-        NetworkStatusDisconnecting = 0x03,
-        NetworkStatusConnecting = 0x04,
-        NetworkStatusLocal = 0x05,
-        NetworkStatusConnectedSite = 0x06,
-        NetworkStatusGlobal = 0x07
-    };
-    Q_ENUM(NetworkStatus)
-
-    enum WirelessStatus {
-        WirelessStatusUnknown = 0x00,
-        WirelessStatusUnmanaged = 0x01,
-        WirelessStatusUnavailable = 0x02,
-        WirelessStatusDisconnected = 0x03,
-        WirelessStatusPrepare = 0x04,
-        WirelessStatusConfig = 0x05,
-        WirelessStatusNeedAuth = 0x06,
-        WirelessStatusIpConfig = 0x07,
-        WirelessStatusIpCheck = 0x08,
-        WirelessStatusSecondaries = 0x09,
-        WirelessStatusActivated = 0x0A,
-        WirelessStatusDeactivating = 0x0B,
-        WirelessStatusFailed = 0x0C
-    };
-    Q_ENUM(WirelessStatus)
 
     explicit BtWiFiSetup(QObject *parent = nullptr);
 
@@ -130,9 +129,9 @@ public:
     Q_INVOKABLE void connectDeviceToWiFi(const QString &ssid, const QString &password);
     Q_INVOKABLE void disconnectDeviceFromWiFi();
     Q_INVOKABLE void scanWiFi();
-    Q_INVOKABLE void pressPushButton();
+    Q_INVOKABLE bool pressPushButton();
 
-    Status status() const;
+    BluetoothStatus bluetoothStatus() const;
 
     QString modelNumber() const;
     QString manufacturer() const;
@@ -152,7 +151,7 @@ public:
     WirelessAccessPoint *currentConnection() const;
 
 signals:
-    void statusChanged(Status status);
+    void bluetoothStatusChanged(BluetoothStatus status);
     void bluetoothConnectionError();
     void wifiSetupError();
 
@@ -181,7 +180,7 @@ private slots:
     void characteristicChanged(const QLowEnergyCharacteristic &characteristic, const QByteArray &value);
 
 private:
-    Status m_status = StatusDisconnected;
+    BluetoothStatus m_bluetoothStatus = BluetoothStatusDisconnected;
     QLowEnergyController *m_btController = nullptr;
 
     QLowEnergyService *m_deviceInformationService = nullptr;
