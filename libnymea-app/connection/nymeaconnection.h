@@ -120,6 +120,7 @@ private slots:
     void onDisconnected();
 
     void updateActiveBearers();
+    void hostConnectionsUpdated();
 private:
     void connectInternal(NymeaHost *host);
     bool connectInternal(Connection *connection);
