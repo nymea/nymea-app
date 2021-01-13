@@ -126,7 +126,7 @@ SettingsPageBase {
                 onClicked: {
                     print("clicked, connected:", engine.jsonRpcClient.connected, model.id)
                     if (!engine.jsonRpcClient.connected) {
-                        var host = discovery.nymeaHosts.find(model.id)
+                        var host = nymeaDiscovery.nymeaHosts.find(model.id)
                         engine.jsonRpcClient.connectToHost(host);
                     }
                 }

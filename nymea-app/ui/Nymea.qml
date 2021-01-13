@@ -130,13 +130,11 @@ ApplicationWindow {
         anchors.bottomMargin: keyboardRect.height
     }
 
-    NymeaDiscovery {
-        id: discovery
+    property NymeaDiscovery nymeaDiscovery: NymeaDiscovery {
         objectName: "discovery"
         awsClient: AWSClient
         //        discovering: pageStack.currentItem.objectName === "discoveryPage"
     }
-    property alias _discovery: discovery
 
     property var supportedInterfaces: [
         "light",

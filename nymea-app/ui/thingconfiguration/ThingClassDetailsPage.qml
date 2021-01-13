@@ -54,6 +54,10 @@ SettingsPageBase {
         text: root.thingClass.displayName
         subText: root.thingClass.id.toString().replace(/[{}]/g, "")
         progressive: false
+        onClicked: {
+            PlatformHelper.toClipBoard(subText);
+            ToolTip.show(qsTr("ID copied to clipboard"), 500);
+        }
     }
 
     SettingsPageSectionHeader {
