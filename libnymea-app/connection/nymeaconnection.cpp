@@ -107,6 +107,7 @@ void NymeaConnection::setCurrentHost(NymeaHost *host)
         transport->deleteLater();
     }
     if (m_currentHost) {
+        disconnect(m_currentHost, &NymeaHost::connectionChanged, this, &NymeaConnection::hostConnectionsUpdated);
         m_currentHost = nullptr;
     }
 
@@ -120,6 +121,8 @@ void NymeaConnection::setCurrentHost(NymeaHost *host)
     }
 
     qDebug() << "Nymea host is" << m_currentHost->name() << m_currentHost->uuid();
+
+    connect(m_currentHost, &NymeaHost::connectionChanged, this, &NymeaConnection::hostConnectionsUpdated);
 
     m_connectionStatus = ConnectionStatusConnecting;
     emit connectionStatusChanged();
@@ -392,6 +395,11 @@ void NymeaConnection::updateActiveBearers()
         qDebug() << "There's a host but no connection. Trying to connect now...";
         connectInternal(m_currentHost);
     }
+}
+
+void NymeaConnection::hostConnectionsUpdated()
+{
+    connectInternal(m_currentHost);
 }
 
 void NymeaConnection::registerTransport(NymeaTransportInterfaceFactory *transportFactory)
