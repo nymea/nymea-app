@@ -44,8 +44,10 @@ public:
     enum BluetoothDeviceInfoRole {
         BluetoothDeviceInfoRoleName = Qt::DisplayRole,
         BluetoothDeviceInfoRoleAddress,
-        BluetoothDeviceInfoRoleLe
+        BluetoothDeviceInfoRoleLe,
+        BluetoothDeviceInfoRoleSignalStrength
     };
+    Q_ENUM(BluetoothDeviceInfoRole)
 
     explicit BluetoothDeviceInfos(QObject *parent = nullptr);
 

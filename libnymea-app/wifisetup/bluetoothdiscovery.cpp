@@ -176,15 +176,18 @@ void BluetoothDiscovery::deviceDiscovered(const QBluetoothDeviceInfo &deviceInfo
 {
     if (!deviceInfo.isValid()
             || !deviceInfo.coreConfigurations().testFlag(QBluetoothDeviceInfo::LowEnergyCoreConfiguration)
-            || deviceInfo.name().isEmpty()) {
+            || deviceInfo.name().isEmpty()
+            || deviceInfo.isCached()) {
         return;
     }
 
     foreach (BluetoothDeviceInfo *di, m_deviceInfos->deviceInfos()) {
         if (di->address() == deviceInfo.address().toString()) {
+            di->setBluetoothDeviceInfo(deviceInfo);
             return;
         }
     }
+
 
     BluetoothDeviceInfo *deviceInformation = new BluetoothDeviceInfo(deviceInfo);
 //    qDebug() << "BluetoothDiscovery: [+]" << deviceInformation->name() << "(" << deviceInformation->address() << ")" << (isLowEnergy ? "LE" : "") << deviceInfo.majorDeviceClass() << deviceInfo.minorDeviceClass() << deviceInfo.serviceClasses();

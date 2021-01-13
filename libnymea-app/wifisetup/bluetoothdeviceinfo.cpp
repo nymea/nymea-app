@@ -67,6 +67,11 @@ bool BluetoothDeviceInfo::isLowEnergy() const
     return m_deviceInfo.coreConfigurations() & QBluetoothDeviceInfo::LowEnergyCoreConfiguration;
 }
 
+int BluetoothDeviceInfo::signalStrength() const
+{
+    return (m_deviceInfo.rssi() + 100) * 2;
+}
+
 QBluetoothDeviceInfo BluetoothDeviceInfo::bluetoothDeviceInfo() const
 {
     return m_deviceInfo;

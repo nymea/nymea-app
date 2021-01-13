@@ -60,6 +60,8 @@ QVariant BluetoothDeviceInfos::data(const QModelIndex &index, int role) const
         return deviceInfo->address();
     } else if (role == BluetoothDeviceInfoRoleLe) {
         return deviceInfo->isLowEnergy();
+    } else if (role == BluetoothDeviceInfoRoleSignalStrength) {
+        return deviceInfo->signalStrength();
     }
 
     return QVariant();
@@ -103,5 +105,6 @@ QHash<int, QByteArray> BluetoothDeviceInfos::roleNames() const
     roles[BluetoothDeviceInfoRoleName] = "name";
     roles[BluetoothDeviceInfoRoleAddress] = "address";
     roles[BluetoothDeviceInfoRoleLe] = "lowEnergy";
+    roles[BluetoothDeviceInfoRoleSignalStrength] = "signalStrength";
     return roles;
 }
