@@ -69,7 +69,6 @@ Page {
         id: d
         property var vendorId: null
         property ThingDescriptor thingDescriptor: null
-        property alias deviceDescriptor: d.thingDescriptor
         property var discoveryParams: []
         property string deviceName: ""
         property int pairRequestId: 0
@@ -86,7 +85,7 @@ Page {
                 internalPageStack.push(discoveryParamsPage)
             } else {
                 print("Starting discovery...")
-                discovery.discoverDevices(deviceClass.id)
+                discovery.discoverThings(deviceClass.id)
                 internalPageStack.push(discoveryPage, {deviceClass: deviceClass})
             }
         } else if (root.deviceClass.createMethods.indexOf("CreateMethodUser") !== -1) {
@@ -171,7 +170,7 @@ Page {
         }
     }
 
-    DeviceDiscovery {
+    ThingDiscovery {
         id: discovery
         engine: _engine
     }
@@ -218,7 +217,7 @@ Page {
                                     param["value"] = paramRepeater.itemAt(i).value
                                     d.discoveryParams.push(param);
                                 }
-                                discovery.discoverDevices(root.deviceClass.id, d.discoveryParams)
+                                discovery.discoverThings(root.deviceClass.id, d.discoveryParams)
                                 internalPageStack.push(discoveryPage, {deviceClass: root.deviceClass})
                             }
                         }
@@ -259,12 +258,12 @@ Page {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
                     clip: true
-                    model: DeviceDiscoveryProxy {
+                    model: ThingDiscoveryProxy {
                         id: discoveryProxy
-                        deviceDiscovery: discovery
+                        thingDiscovery: discovery
                         showAlreadyAdded: root.device !== null
                         showNew: root.device === null
-                        filterDeviceId: root.device ? root.device.id : ""
+                        filterThingId: root.device ? root.device.id : ""
                     }
                     delegate: NymeaSwipeDelegate {
                         width: parent.width
@@ -273,7 +272,7 @@ Page {
                         subText: model.description
                         iconName: app.interfacesToIcon(discoveryView.deviceClass.interfaces)
                         onClicked: {
-                            d.deviceDescriptor = discoveryProxy.get(index);
+                            d.thingDescriptor = discoveryProxy.get(index);
                             d.deviceName = model.name;
                             internalPageStack.push(paramsPage)
                         }
@@ -284,7 +283,7 @@ Page {
                     Layout.fillWidth: true
                     Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
                     text: qsTr("Search again")
-                    onClicked: discovery.discoverDevices(root.deviceClass.id, d.discoveryParams)
+                    onClicked: discovery.discoverThings(root.deviceClass.id, d.discoveryParams)
                     visible: !discovery.busy
                 }
 
@@ -384,7 +383,7 @@ Page {
 
                     Repeater {
                         id: paramRepeater
-                        model: engine.jsonRpcClient.ensureServerVersion("1.12") || d.deviceDescriptor == null ?  root.deviceClass.paramTypes : null
+                        model: engine.jsonRpcClient.ensureServerVersion("1.12") || d.thingDescriptor == null ?  root.deviceClass.paramTypes : null
                         delegate: ParamDelegate {
 //                            Layout.preferredHeight: 60
                             Layout.fillWidth: true
@@ -441,14 +440,14 @@ Page {
                             switch (root.deviceClass.setupMethod) {
                             case 0:
                                 if (root.device) {
-                                    if (d.deviceDescriptor) {
-                                        engine.deviceManager.reconfigureDiscoveredDevice(root.device.id, d.deviceDescriptor.id, params);
+                                    if (d.thingDescriptor) {
+                                        engine.deviceManager.reconfigureDiscoveredDevice(root.device.id, d.thingDescriptor.id, params);
                                     } else {
                                         engine.deviceManager.reconfigureDevice(root.device.id, params);
                                     }
                                 } else {
-                                    if (d.deviceDescriptor) {
-                                        engine.deviceManager.addDiscoveredDevice(root.deviceClass.id, d.deviceDescriptor.id, nameTextField.text, params);
+                                    if (d.thingDescriptor) {
+                                        engine.deviceManager.addDiscoveredDevice(root.deviceClass.id, d.thingDescriptor.id, nameTextField.text, params);
                                     } else {
                                         engine.deviceManager.addDevice(root.deviceClass.id, nameTextField.text, params);
                                     }
@@ -460,15 +459,15 @@ Page {
                             case 4:
                             case 5:
                                 if (root.device) {
-                                    if (d.deviceDescriptor) {
-                                        engine.deviceManager.pairDiscoveredDevice(root.deviceClass.id, d.deviceDescriptor.id, params, nameTextField.text);
+                                    if (d.thingDescriptor) {
+                                        engine.deviceManager.pairDiscoveredDevice(root.deviceClass.id, d.thingDescriptor.id, params, nameTextField.text);
                                     } else {
                                         engine.deviceManager.rePairDevice(root.device.id, params, nameTextField.text);
                                     }
                                     return;
                                 } else {
-                                    if (d.deviceDescriptor) {
-                                        engine.deviceManager.pairDiscoveredDevice(root.deviceClass.id, d.deviceDescriptor.id, params, nameTextField.text);
+                                    if (d.thingDescriptor) {
+                                        engine.deviceManager.pairDiscoveredDevice(root.deviceClass.id, d.thingDescriptor.id, params, nameTextField.text);
                                     } else {
                                         engine.deviceManager.pairDevice(root.deviceClass.id, params, nameTextField.text);
                                     }

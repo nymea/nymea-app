@@ -36,25 +36,25 @@
 
 #include "engine.h"
 
-class DeviceDescriptor: public QObject {
+class ThingDescriptor: public QObject {
     Q_OBJECT
     Q_PROPERTY(QUuid id READ id CONSTANT)
-    Q_PROPERTY(QUuid deviceId READ deviceId CONSTANT)
+    Q_PROPERTY(QUuid thingId READ thingId CONSTANT)
     Q_PROPERTY(QString name READ name CONSTANT)
     Q_PROPERTY(QString description READ description CONSTANT)
     Q_PROPERTY(Params* params READ params CONSTANT)
 public:
-    DeviceDescriptor(const QUuid &id, const QUuid &deviceId, const QString &name, const QString &description, QObject *parent = nullptr);
+    ThingDescriptor(const QUuid &id, const QUuid &thingId, const QString &name, const QString &description, QObject *parent = nullptr);
 
     QUuid id() const;
-    QUuid deviceId() const;
+    QUuid thingId() const;
     QString name() const;
     QString description() const;
     Params* params() const;
 
 private:
     QUuid m_id;
-    QUuid m_deviceId;
+    QUuid m_thingId;
     QString m_name;
     QString m_description;
     Params *m_params = nullptr;
@@ -84,7 +84,7 @@ public:
 
     Q_INVOKABLE void discoverThings(const QUuid &thingClassId, const QVariantList &discoveryParams = {});
 
-    Q_INVOKABLE DeviceDescriptor* get(int index) const;
+    Q_INVOKABLE ThingDescriptor* get(int index) const;
 
     Engine* engine() const;
     void setEngine(Engine *jsonRpcClient);
@@ -106,23 +106,23 @@ private:
     QString m_displayMessage;
 
     bool contains(const QUuid &deviceDescriptorId) const;
-    QList<DeviceDescriptor*> m_foundDevices;
+    QList<ThingDescriptor*> m_foundDevices;
 };
 
-class DeviceDiscoveryProxy: public QSortFilterProxyModel
+class ThingDiscoveryProxy: public QSortFilterProxyModel
 {
     Q_OBJECT
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
-    Q_PROPERTY(ThingDiscovery* deviceDiscovery READ deviceDiscovery WRITE setDeviceDiscovery NOTIFY deviceDiscoveryChanged)
+    Q_PROPERTY(ThingDiscovery* thingDiscovery READ thingDiscovery WRITE setThingDiscovery NOTIFY thingDiscoveryChanged)
     Q_PROPERTY(bool showAlreadyAdded READ showAlreadyAdded WRITE setShowAlreadyAdded NOTIFY showAlreadyAddedChanged)
     Q_PROPERTY(bool showNew READ showNew WRITE setShowNew NOTIFY showNewChanged)
-    Q_PROPERTY(QUuid filterDeviceId READ filterDeviceId WRITE setFilterDeviceId NOTIFY filterDeviceIdChanged)
+    Q_PROPERTY(QUuid filterThingId READ filterThingId WRITE setFilterThingId NOTIFY filterThingIdChanged)
 
 public:
-    DeviceDiscoveryProxy(QObject *parent = nullptr);
+    ThingDiscoveryProxy(QObject *parent = nullptr);
 
-    ThingDiscovery* deviceDiscovery() const;
-    void setDeviceDiscovery(ThingDiscovery* deviceDiscovery);
+    ThingDiscovery* thingDiscovery() const;
+    void setThingDiscovery(ThingDiscovery* thingDiscovery);
 
     bool showAlreadyAdded() const;
     void setShowAlreadyAdded(bool showAlreadyAdded);
@@ -130,26 +130,26 @@ public:
     bool showNew() const;
     void setShowNew(bool showNew);
 
-    QUuid filterDeviceId() const;
-    void setFilterDeviceId(const QUuid &filterDeviceId);
+    QUuid filterThingId() const;
+    void setFilterThingId(const QUuid &filterDeviceId);
 
-    Q_INVOKABLE DeviceDescriptor* get(int index) const;
+    Q_INVOKABLE ThingDescriptor* get(int index) const;
 
 signals:
     void countChanged();
-    void deviceDiscoveryChanged();
+    void thingDiscoveryChanged();
     void showAlreadyAddedChanged();
     void showNewChanged();
-    void filterDeviceIdChanged();
+    void filterThingIdChanged();
 
 protected:
     bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override;
 
 private:
-    ThingDiscovery* m_deviceDiscovery = nullptr;
+    ThingDiscovery* m_thingDiscovery = nullptr;
     bool m_showAlreadyAdded = false;
     bool m_showNew = true;
-    QUuid m_filterDeviceId;
+    QUuid m_filterThingId;
 };
 
 #endif // THINGDISCOVERY_H

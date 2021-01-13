@@ -199,12 +199,10 @@ void registerQmlTypes() {
     qmlRegisterUncreatableType<DeviceClass>(uri, 1, 0, "DeviceClass", "Can't create this in QML. Get it from the DeviceClasses.");
     qmlRegisterUncreatableType<DeviceClasses>(uri, 1, 0, "DeviceClasses", "Can't create this in QML. Get it from the DeviceManager.");
     qmlRegisterType<DeviceClassesProxy>(uri, 1, 0, "DeviceClassesProxy");
-    qmlRegisterType<ThingDiscovery>(uri, 1, 0, "DeviceDiscovery");
     qmlRegisterType<ThingDiscovery>(uri, 1, 0, "ThingDiscovery");
-    qmlRegisterType<DeviceDiscoveryProxy>(uri, 1, 0, "DeviceDiscoveryProxy");
-    qmlRegisterType<DeviceDiscoveryProxy>(uri, 1, 0, "ThingDiscoveryProxy");
-    qmlRegisterUncreatableType<DeviceDescriptor>(uri, 1, 0, "DeviceDescriptor", "Get it from DeviceDiscovery");
-    qmlRegisterUncreatableType<DeviceDescriptor>(uri, 1, 0, "ThingDescriptor", "Get it from ThingDiscovery");
+    qmlRegisterType<ThingDiscoveryProxy>(uri, 1, 0, "ThingDiscoveryProxy");
+    qmlRegisterUncreatableType<ThingDescriptor>(uri, 1, 0, "DeviceDescriptor", "Get it from DeviceDiscovery");
+    qmlRegisterUncreatableType<ThingDescriptor>(uri, 1, 0, "ThingDescriptor", "Get it from ThingDiscovery");
 
     qmlRegisterType<DeviceModel>(uri, 1, 0, "DeviceModel");
 

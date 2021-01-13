@@ -53,7 +53,7 @@ QVariant ThingDiscovery::data(const QModelIndex &index, int role) const
     case RoleDescription:
         return m_foundDevices.at(index.row())->description();
     case RoleDeviceId:
-        return m_foundDevices.at(index.row())->deviceId();
+        return m_foundDevices.at(index.row())->thingId();
     }
 
     return QVariant();
@@ -100,7 +100,7 @@ void ThingDiscovery::discoverThings(const QUuid &deviceClassId, const QVariantLi
     emit busyChanged();
 }
 
-DeviceDescriptor *ThingDiscovery::get(int index) const
+ThingDescriptor *ThingDiscovery::get(int index) const
 {
     if (index < 0 || index >= m_foundDevices.count()) {
         return nullptr;
@@ -139,7 +139,7 @@ void ThingDiscovery::discoverThingsResponse(int /*commandId*/, const QVariantMap
         qDebug() << "Found device. Descriptor:" << descriptorVariant;
         if (!contains(descriptorVariant.toMap().value("id").toUuid())) {
             beginInsertRows(QModelIndex(), m_foundDevices.count(), m_foundDevices.count());
-            DeviceDescriptor *descriptor = new DeviceDescriptor(descriptorVariant.toMap().value("id").toUuid(),
+            ThingDescriptor *descriptor = new ThingDescriptor(descriptorVariant.toMap().value("id").toUuid(),
                                                    descriptorVariant.toMap().value("deviceId").toString(),
                                                    descriptorVariant.toMap().value("title").toString(),
                                                    descriptorVariant.toMap().value("description").toString());
@@ -161,7 +161,7 @@ void ThingDiscovery::discoverThingsResponse(int /*commandId*/, const QVariantMap
 
 bool ThingDiscovery::contains(const QUuid &deviceDescriptorId) const
 {
-    foreach (DeviceDescriptor *descriptor, m_foundDevices) {
+    foreach (ThingDescriptor *descriptor, m_foundDevices) {
         if (descriptor->id() == deviceDescriptorId) {
             return true;
         }
@@ -169,10 +169,10 @@ bool ThingDiscovery::contains(const QUuid &deviceDescriptorId) const
     return false;
 }
 
-DeviceDescriptor::DeviceDescriptor(const QUuid &id, const QUuid &deviceId, const QString &name, const QString &description, QObject *parent):
+ThingDescriptor::ThingDescriptor(const QUuid &id, const QUuid &thingId, const QString &name, const QString &description, QObject *parent):
     QObject(parent),
     m_id(id),
-    m_deviceId(deviceId),
+    m_thingId(thingId),
     m_name(name),
     m_description(description),
     m_params(new Params(this))
@@ -180,60 +180,60 @@ DeviceDescriptor::DeviceDescriptor(const QUuid &id, const QUuid &deviceId, const
 
 }
 
-QUuid DeviceDescriptor::id() const
+QUuid ThingDescriptor::id() const
 {
     return m_id;
 }
 
-QUuid DeviceDescriptor::deviceId() const
+QUuid ThingDescriptor::thingId() const
 {
-    return m_deviceId;
+    return m_thingId;
 }
 
-QString DeviceDescriptor::name() const
+QString ThingDescriptor::name() const
 {
     return m_name;
 }
 
-QString DeviceDescriptor::description() const
+QString ThingDescriptor::description() const
 {
     return m_description;
 }
 
-Params* DeviceDescriptor::params() const
+Params* ThingDescriptor::params() const
 {
     return m_params;
 }
 
-DeviceDiscoveryProxy::DeviceDiscoveryProxy(QObject *parent):
+ThingDiscoveryProxy::ThingDiscoveryProxy(QObject *parent):
     QSortFilterProxyModel (parent)
 {
 
 }
 
-ThingDiscovery *DeviceDiscoveryProxy::deviceDiscovery() const
+ThingDiscovery *ThingDiscoveryProxy::thingDiscovery() const
 {
-    return m_deviceDiscovery;
+    return m_thingDiscovery;
 }
 
-void DeviceDiscoveryProxy::setDeviceDiscovery(ThingDiscovery *deviceDiscovery)
+void ThingDiscoveryProxy::setThingDiscovery(ThingDiscovery *thingDiscovery)
 {
-    if (m_deviceDiscovery != deviceDiscovery) {
-        m_deviceDiscovery = deviceDiscovery;
-        setSourceModel(deviceDiscovery);
-        emit deviceDiscoveryChanged();
+    if (m_thingDiscovery != thingDiscovery) {
+        m_thingDiscovery = thingDiscovery;
+        setSourceModel(thingDiscovery);
+        emit thingDiscoveryChanged();
         emit countChanged();
-        connect(m_deviceDiscovery, &ThingDiscovery::countChanged, this, &DeviceDiscoveryProxy::countChanged);
+        connect(m_thingDiscovery, &ThingDiscovery::countChanged, this, &ThingDiscoveryProxy::countChanged);
         invalidateFilter();
     }
 }
 
-bool DeviceDiscoveryProxy::showAlreadyAdded() const
+bool ThingDiscoveryProxy::showAlreadyAdded() const
 {
     return m_showAlreadyAdded;
 }
 
-void DeviceDiscoveryProxy::setShowAlreadyAdded(bool showAlreadyAdded)
+void ThingDiscoveryProxy::setShowAlreadyAdded(bool showAlreadyAdded)
 {
     if (m_showAlreadyAdded != showAlreadyAdded) {
         m_showAlreadyAdded = showAlreadyAdded;
@@ -243,12 +243,12 @@ void DeviceDiscoveryProxy::setShowAlreadyAdded(bool showAlreadyAdded)
     }
 }
 
-bool DeviceDiscoveryProxy::showNew() const
+bool ThingDiscoveryProxy::showNew() const
 {
     return m_showNew;
 }
 
-void DeviceDiscoveryProxy::setShowNew(bool showNew)
+void ThingDiscoveryProxy::setShowNew(bool showNew)
 {
     if (m_showNew != showNew) {
         m_showNew = showNew;
@@ -258,37 +258,37 @@ void DeviceDiscoveryProxy::setShowNew(bool showNew)
     }
 }
 
-QUuid DeviceDiscoveryProxy::filterDeviceId() const
+QUuid ThingDiscoveryProxy::filterThingId() const
 {
-    return m_filterDeviceId;
+    return m_filterThingId;
 }
 
-void DeviceDiscoveryProxy::setFilterDeviceId(const QUuid &filterDeviceId)
+void ThingDiscoveryProxy::setFilterThingId(const QUuid &filterDeviceId)
 {
-    if (m_filterDeviceId != filterDeviceId) {
-        m_filterDeviceId = filterDeviceId;
-        emit filterDeviceIdChanged();
+    if (m_filterThingId != filterDeviceId) {
+        m_filterThingId = filterDeviceId;
+        emit filterThingIdChanged();
         invalidateFilter();
         emit countChanged();
     }
 }
 
-DeviceDescriptor *DeviceDiscoveryProxy::get(int index) const
+ThingDescriptor *ThingDiscoveryProxy::get(int index) const
 {
-    return m_deviceDiscovery->get(mapToSource(this->index(index, 0)).row());
+    return m_thingDiscovery->get(mapToSource(this->index(index, 0)).row());
 }
 
-bool DeviceDiscoveryProxy::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const
+bool ThingDiscoveryProxy::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const
 {
     Q_UNUSED(sourceParent)
-    DeviceDescriptor* dev = m_deviceDiscovery->get(sourceRow);
-    if (!m_showAlreadyAdded && !dev->deviceId().isNull()) {
+    ThingDescriptor* dev = m_thingDiscovery->get(sourceRow);
+    if (!m_showAlreadyAdded && !dev->thingId().isNull()) {
         return false;
     }
-    if (!m_showNew && dev->deviceId().isNull()) {
+    if (!m_showNew && dev->thingId().isNull()) {
         return false;
     }
-    if (!m_filterDeviceId.isNull() && dev->deviceId() != m_filterDeviceId) {
+    if (!m_filterThingId.isNull() && dev->thingId() != m_filterThingId) {
         return false;
     }
     return true;
