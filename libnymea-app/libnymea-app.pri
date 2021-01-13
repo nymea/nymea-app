@@ -15,8 +15,6 @@ include(../nymea-remoteproxy/libnymea-remoteproxyclient/libnymea-remoteproxyclie
 QT -= gui
 QT += network websockets bluetooth charts quick
 
-LIBS += -lssl -lcrypto
-
 INCLUDEPATH += \
     $${PWD} \
     $$top_srcdir/QtZeroConf
