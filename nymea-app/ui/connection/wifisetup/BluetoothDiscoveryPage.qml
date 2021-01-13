@@ -49,15 +49,17 @@ Page {
     BtWiFiSetup {
         id: wifiSetup
 
-        onStatusChanged: {
+        onBluetoothStatusChanged: {
             print("status changed", status)
             switch (status) {
-            case BtWiFiSetup.StatusDisconnected:
+            case BtWiFiSetup.BluetoothStatusDisconnected:
                 pageStack.pop(root)
                 break;
-            case BtWiFiSetup.StatusConnectingToBluetooth:
+            case BtWiFiSetup.BluetoothStatusConnectingToBluetooth:
                 break;
-            case BtWiFiSetup.StatusConnectedToBluetooth:
+            case BtWiFiSetup.BluetoothStatusConnectedToBluetooth:
+                break;
+            case BtWiFiSetup.BluetoothStatusLoaded:
                 if (!wifiSetup.networkingEnabled) {
                     wifiSetup.networkingEnabled = true;
                 }
@@ -66,12 +68,12 @@ Page {
                 }
                 setupDevice()
                 break;
-            case BtWiFiSetup.StatusConnectingToWiFi:
-                break;
-            case BtWiFiSetup.StatusConnectedToWiFi:
-                print("Connected to wifi!")
             }
         }
+        onWirelessStatusChanged: {
+
+        }
+
         onBluetoothConnectionError: {
             print("Error")
             pageStack.pop(root)

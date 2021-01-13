@@ -348,7 +348,9 @@ void BtWiFiSetup::processWiFiPacket(const QVariantMap &data)
             accessPoint->setProtected(data.toMap().value("p").toBool());
             accessPoint->setHostAddress("");
             m_accessPoints->addWirelessAccessPoint(accessPoint);
+
         }
+        loadCurrentConnection();
         break;
     case WirelessServiceCommandConnect:
         qDebug() << "Connect call succeeded";
@@ -374,6 +376,12 @@ void BtWiFiSetup::processWiFiPacket(const QVariantMap &data)
         }
         qDebug() << "current connection is:" << m_currentConnection;
         emit currentConnectionChanged();
+
+        if (m_bluetoothStatus != BluetoothStatusLoaded) {
+            m_bluetoothStatus = BluetoothStatusLoaded;
+            emit bluetoothStatusChanged(m_bluetoothStatus);
+        }
+
         break;
     case WirelessServiceCommandScan:
         if (responseCode == WirelessServiceResponseSuccess) {
@@ -439,7 +447,7 @@ void BtWiFiSetup::characteristicChanged(const QLowEnergyCharacteristic &characte
     } else if (characteristic.uuid() == networkStatusCharacteristicUuid) {
         m_networkStatus = static_cast<NetworkStatus>(value.toHex().toInt(nullptr, 16));
         qDebug() << "Network status changed:" << m_networkStatus;
-        if (m_networkStatus == NetworkStatusGlobal) {
+        if (m_networkStatus == NetworkStatusGlobal || m_networkStatus == NetworkStatusLocal || m_networkStatus == NetworkStatusConnectedSite) {
             loadCurrentConnection();
         }
 

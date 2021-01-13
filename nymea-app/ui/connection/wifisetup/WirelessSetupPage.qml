@@ -86,7 +86,7 @@ Page {
 
     function updateConnectButton() {
         if (!root.wifiSetup.currentConnection) {
-            connectButton.url = "";
+            connectButton.host = null;
             return;
         }
 
@@ -102,7 +102,7 @@ Page {
                 updateConnectButton();
             })
         }
-        connectButton.url = "";
+        connectButton.host = null;
     }
 
     ColumnLayout {

@@ -32,7 +32,8 @@ public:
     enum BluetoothStatus {
         BluetoothStatusDisconnected,
         BluetoothStatusConnectingToBluetooth,
-        BluetoothStatusConnectedToBluetooth
+        BluetoothStatusConnectedToBluetooth,
+        BluetoothStatusLoaded,
     };
     Q_ENUM(BluetoothStatus)
 
