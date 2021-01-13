@@ -1,3 +1,15 @@
+nymea-app (1.0.268) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add sorting capability to generic sortfilter proxy model
+  * Retry the connection if the discovery finds more URLs for a host
+    afte…
+  * Rename DeviceDiscovery to ThingDiscovery
+  * Improve bt setup
+  * Create a pri for the lib
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 14 Jan 2021 00:38:23 +0100
+
 nymea-app (1.0.267) bionic; urgency=medium
 
   [ Michael Zanetti ]
