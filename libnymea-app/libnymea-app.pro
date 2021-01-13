@@ -4,3 +4,5 @@ CONFIG += staticlib
 
 include(../config.pri)
 include(libnymea-app.pri)
+
+LIBS += -lssl -lcrypto
