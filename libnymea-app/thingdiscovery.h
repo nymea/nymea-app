@@ -28,8 +28,8 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef DEVICEDISCOVERY_H
-#define DEVICEDISCOVERY_H
+#ifndef THINGDISCOVERY_H
+#define THINGDISCOVERY_H
 
 #include <QAbstractListModel>
 #include <QUuid>
@@ -60,7 +60,7 @@ private:
     Params *m_params = nullptr;
 };
 
-class DeviceDiscovery : public QAbstractListModel
+class ThingDiscovery : public QAbstractListModel
 {
     Q_OBJECT
     Q_PROPERTY(Engine* engine READ engine WRITE setEngine)
@@ -75,14 +75,14 @@ public:
         RoleDescription
     };
 
-    DeviceDiscovery(QObject *parent = nullptr);
+    ThingDiscovery(QObject *parent = nullptr);
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role) const override;
     QHash<int, QByteArray> roleNames() const override;
 
 
-    Q_INVOKABLE void discoverDevices(const QUuid &deviceClassId, const QVariantList &discoveryParams = {});
+    Q_INVOKABLE void discoverThings(const QUuid &thingClassId, const QVariantList &discoveryParams = {});
 
     Q_INVOKABLE DeviceDescriptor* get(int index) const;
 
@@ -93,7 +93,7 @@ public:
     QString displayMessage() const;
 
 private slots:
-    void discoverDevicesResponse(int commandId, const QVariantMap &params);
+    void discoverThingsResponse(int commandId, const QVariantMap &params);
 
 signals:
     void busyChanged();
@@ -113,7 +113,7 @@ class DeviceDiscoveryProxy: public QSortFilterProxyModel
 {
     Q_OBJECT
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
-    Q_PROPERTY(DeviceDiscovery* deviceDiscovery READ deviceDiscovery WRITE setDeviceDiscovery NOTIFY deviceDiscoveryChanged)
+    Q_PROPERTY(ThingDiscovery* deviceDiscovery READ deviceDiscovery WRITE setDeviceDiscovery NOTIFY deviceDiscoveryChanged)
     Q_PROPERTY(bool showAlreadyAdded READ showAlreadyAdded WRITE setShowAlreadyAdded NOTIFY showAlreadyAddedChanged)
     Q_PROPERTY(bool showNew READ showNew WRITE setShowNew NOTIFY showNewChanged)
     Q_PROPERTY(QUuid filterDeviceId READ filterDeviceId WRITE setFilterDeviceId NOTIFY filterDeviceIdChanged)
@@ -121,8 +121,8 @@ class DeviceDiscoveryProxy: public QSortFilterProxyModel
 public:
     DeviceDiscoveryProxy(QObject *parent = nullptr);
 
-    DeviceDiscovery* deviceDiscovery() const;
-    void setDeviceDiscovery(DeviceDiscovery* deviceDiscovery);
+    ThingDiscovery* deviceDiscovery() const;
+    void setDeviceDiscovery(ThingDiscovery* deviceDiscovery);
 
     bool showAlreadyAdded() const;
     void setShowAlreadyAdded(bool showAlreadyAdded);
@@ -146,10 +146,10 @@ protected:
     bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override;
 
 private:
-    DeviceDiscovery* m_deviceDiscovery = nullptr;
+    ThingDiscovery* m_deviceDiscovery = nullptr;
     bool m_showAlreadyAdded = false;
     bool m_showNew = true;
     QUuid m_filterDeviceId;
 };
 
-#endif // DEVICEDISCOVERY_H
+#endif // THINGDISCOVERY_H

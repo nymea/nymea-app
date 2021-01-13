@@ -39,7 +39,7 @@
 #include "deviceclassesproxy.h"
 #include "devicesproxy.h"
 #include "pluginsproxy.h"
-#include "devicediscovery.h"
+#include "thingdiscovery.h"
 #include "interfacesmodel.h"
 #include "rulemanager.h"
 #include "models/rulesfiltermodel.h"
@@ -199,8 +199,8 @@ void registerQmlTypes() {
     qmlRegisterUncreatableType<DeviceClass>(uri, 1, 0, "DeviceClass", "Can't create this in QML. Get it from the DeviceClasses.");
     qmlRegisterUncreatableType<DeviceClasses>(uri, 1, 0, "DeviceClasses", "Can't create this in QML. Get it from the DeviceManager.");
     qmlRegisterType<DeviceClassesProxy>(uri, 1, 0, "DeviceClassesProxy");
-    qmlRegisterType<DeviceDiscovery>(uri, 1, 0, "DeviceDiscovery");
-    qmlRegisterType<DeviceDiscovery>(uri, 1, 0, "ThingDiscovery");
+    qmlRegisterType<ThingDiscovery>(uri, 1, 0, "DeviceDiscovery");
+    qmlRegisterType<ThingDiscovery>(uri, 1, 0, "ThingDiscovery");
     qmlRegisterType<DeviceDiscoveryProxy>(uri, 1, 0, "DeviceDiscoveryProxy");
     qmlRegisterType<DeviceDiscoveryProxy>(uri, 1, 0, "ThingDiscoveryProxy");
     qmlRegisterUncreatableType<DeviceDescriptor>(uri, 1, 0, "DeviceDescriptor", "Get it from DeviceDiscovery");

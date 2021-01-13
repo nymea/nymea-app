@@ -115,7 +115,7 @@ SOURCES += \
     $${PWD}/devicesproxy.cpp \
     $${PWD}/deviceclasses.cpp \
     $${PWD}/deviceclassesproxy.cpp \
-    $${PWD}/devicediscovery.cpp \
+    $${PWD}/thingdiscovery.cpp \
     $${PWD}/models/packagesfiltermodel.cpp \
     $${PWD}/models/taglistmodel.cpp \
     $${PWD}/scripting/codecompletion.cpp \
@@ -260,7 +260,7 @@ HEADERS += \
     $${PWD}/devicesproxy.h \
     $${PWD}/deviceclasses.h \
     $${PWD}/deviceclassesproxy.h \
-    $${PWD}/devicediscovery.h \
+    $${PWD}/thingdiscovery.h \
     $${PWD}/models/packagesfiltermodel.h \
     $${PWD}/models/taglistmodel.h \
     $${PWD}/scripting/codecompletion.h \

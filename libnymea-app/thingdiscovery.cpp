@@ -28,22 +28,22 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include "devicediscovery.h"
+#include "thingdiscovery.h"
 
 #include "engine.h"
 
-DeviceDiscovery::DeviceDiscovery(QObject *parent) :
+ThingDiscovery::ThingDiscovery(QObject *parent) :
     QAbstractListModel(parent)
 {
 }
 
-int DeviceDiscovery::rowCount(const QModelIndex &parent) const
+int ThingDiscovery::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
     return m_foundDevices.count();
 }
 
-QVariant DeviceDiscovery::data(const QModelIndex &index, int role) const
+QVariant ThingDiscovery::data(const QModelIndex &index, int role) const
 {
     switch (role) {
     case RoleId:
@@ -59,7 +59,7 @@ QVariant DeviceDiscovery::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-QHash<int, QByteArray> DeviceDiscovery::roleNames() const
+QHash<int, QByteArray> ThingDiscovery::roleNames() const
 {
     QHash<int, QByteArray> roles;
     roles.insert(RoleId, "id");
@@ -69,7 +69,7 @@ QHash<int, QByteArray> DeviceDiscovery::roleNames() const
     return roles;
 }
 
-void DeviceDiscovery::discoverDevices(const QUuid &deviceClassId, const QVariantList &discoveryParams)
+void ThingDiscovery::discoverThings(const QUuid &deviceClassId, const QVariantList &discoveryParams)
 {
     if (m_busy) {
         qWarning() << "Busy... not restarting discovery";
@@ -94,13 +94,13 @@ void DeviceDiscovery::discoverDevices(const QUuid &deviceClassId, const QVariant
     if (!discoveryParams.isEmpty()) {
         params.insert("discoveryParams", discoveryParams);
     }
-    m_engine->jsonRpcClient()->sendCommand("Devices.GetDiscoveredDevices", params, this, "discoverDevicesResponse");
+    m_engine->jsonRpcClient()->sendCommand("Devices.GetDiscoveredDevices", params, this, "discoverThingsResponse");
     m_busy = true;
     m_displayMessage.clear();
     emit busyChanged();
 }
 
-DeviceDescriptor *DeviceDiscovery::get(int index) const
+DeviceDescriptor *ThingDiscovery::get(int index) const
 {
     if (index < 0 || index >= m_foundDevices.count()) {
         return nullptr;
@@ -108,12 +108,12 @@ DeviceDescriptor *DeviceDiscovery::get(int index) const
     return m_foundDevices.at(index);
 }
 
-Engine *DeviceDiscovery::engine() const
+Engine *ThingDiscovery::engine() const
 {
     return m_engine;
 }
 
-void DeviceDiscovery::setEngine(Engine *engine)
+void ThingDiscovery::setEngine(Engine *engine)
 {
     if (m_engine != engine) {
         m_engine = engine;
@@ -121,19 +121,19 @@ void DeviceDiscovery::setEngine(Engine *engine)
     }
 }
 
-bool DeviceDiscovery::busy() const
+bool ThingDiscovery::busy() const
 {
     return m_busy;
 }
 
-QString DeviceDiscovery::displayMessage() const
+QString ThingDiscovery::displayMessage() const
 {
     return m_displayMessage;
 }
 
-void DeviceDiscovery::discoverDevicesResponse(int /*commandId*/, const QVariantMap &params)
+void ThingDiscovery::discoverThingsResponse(int /*commandId*/, const QVariantMap &params)
 {
-//    qDebug() << "response received" << params;
+    qDebug() << "response received" << params;
     QVariantList descriptors = params.value("deviceDescriptors").toList();
     foreach (const QVariant &descriptorVariant, descriptors) {
         qDebug() << "Found device. Descriptor:" << descriptorVariant;
@@ -159,7 +159,7 @@ void DeviceDiscovery::discoverDevicesResponse(int /*commandId*/, const QVariantM
     emit busyChanged();
 }
 
-bool DeviceDiscovery::contains(const QUuid &deviceDescriptorId) const
+bool ThingDiscovery::contains(const QUuid &deviceDescriptorId) const
 {
     foreach (DeviceDescriptor *descriptor, m_foundDevices) {
         if (descriptor->id() == deviceDescriptorId) {
@@ -211,19 +211,19 @@ DeviceDiscoveryProxy::DeviceDiscoveryProxy(QObject *parent):
 
 }
 
-DeviceDiscovery *DeviceDiscoveryProxy::deviceDiscovery() const
+ThingDiscovery *DeviceDiscoveryProxy::deviceDiscovery() const
 {
     return m_deviceDiscovery;
 }
 
-void DeviceDiscoveryProxy::setDeviceDiscovery(DeviceDiscovery *deviceDiscovery)
+void DeviceDiscoveryProxy::setDeviceDiscovery(ThingDiscovery *deviceDiscovery)
 {
     if (m_deviceDiscovery != deviceDiscovery) {
         m_deviceDiscovery = deviceDiscovery;
         setSourceModel(deviceDiscovery);
         emit deviceDiscoveryChanged();
         emit countChanged();
-        connect(m_deviceDiscovery, &DeviceDiscovery::countChanged, this, &DeviceDiscoveryProxy::countChanged);
+        connect(m_deviceDiscovery, &ThingDiscovery::countChanged, this, &DeviceDiscoveryProxy::countChanged);
         invalidateFilter();
     }
 }
