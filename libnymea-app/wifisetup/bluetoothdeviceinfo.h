@@ -41,6 +41,7 @@ class BluetoothDeviceInfo : public QObject
     Q_OBJECT
     Q_PROPERTY(QString name READ name NOTIFY deviceChanged)
     Q_PROPERTY(QString address READ address NOTIFY deviceChanged)
+    Q_PROPERTY(int signalStrength READ signalStrength NOTIFY deviceChanged)
 
 public:
     BluetoothDeviceInfo();
@@ -50,6 +51,7 @@ public:
     QString address() const;
     QString name() const;
     bool isLowEnergy() const;
+    int signalStrength() const;
 
     QBluetoothDeviceInfo bluetoothDeviceInfo() const;
     void setBluetoothDeviceInfo(const QBluetoothDeviceInfo &deviceInfo);
