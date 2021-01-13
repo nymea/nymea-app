@@ -42,6 +42,26 @@ void SortFilterProxyModel::setFilterList(const QStringList &filterList)
     }
 }
 
+QString SortFilterProxyModel::sortRoleName() const
+{
+    return m_sortRoleName;
+}
+
+void SortFilterProxyModel::setSortRoleName(const QString &sortRoleName)
+{
+    if (m_sortRoleName != sortRoleName) {
+        m_sortRoleName = sortRoleName;
+        emit sortRoleNameChanged();
+        sort(0, sortOrder());
+    }
+}
+
+void SortFilterProxyModel::setSortOrder(Qt::SortOrder sortOrder)
+{
+    sort(0, sortOrder);
+    emit sortOrderChanged();
+}
+
 QVariant SortFilterProxyModel::data(int row, const QString &role) const
 {
     int roleId = roleNames().key(role.toUtf8());
@@ -59,4 +79,14 @@ bool SortFilterProxyModel::filterAcceptsRow(int source_row, const QModelIndex &s
         }
     }
     return QSortFilterProxyModel::filterAcceptsRow(source_row, source_parent);
+}
+
+bool SortFilterProxyModel::lessThan(const QModelIndex &source_left, const QModelIndex &source_right) const
+{
+    int sortRole = sourceModel()->roleNames().key(m_sortRoleName.toUtf8());
+
+    QVariant left = sourceModel()->data(source_left, sortRole);
+    QVariant right = sourceModel()->data(source_right, sortRole);
+
+    return left <= right;
 }
