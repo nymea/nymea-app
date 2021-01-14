@@ -1,3 +1,10 @@
+nymea-app (1.0.269) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Some more fixes in the BT discovery
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 14 Jan 2021 14:59:44 +0100
+
 nymea-app (1.0.268) bionic; urgency=medium
 
   [ Michael Zanetti ]
