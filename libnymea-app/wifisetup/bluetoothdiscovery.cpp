@@ -124,7 +124,7 @@ void BluetoothDiscovery::setDiscoveryEnabled(bool discoveryEnabled)
         return;
     }
     m_discoveryEnabled = discoveryEnabled;
-    emit discoveringChanged();
+    emit discoveryEnabledChanged(m_discoveryEnabled);
 
     if (m_discoveryEnabled) {
         start();
@@ -176,8 +176,7 @@ void BluetoothDiscovery::deviceDiscovered(const QBluetoothDeviceInfo &deviceInfo
 {
     if (!deviceInfo.isValid()
             || !deviceInfo.coreConfigurations().testFlag(QBluetoothDeviceInfo::LowEnergyCoreConfiguration)
-            || deviceInfo.name().isEmpty()
-            || deviceInfo.isCached()) {
+            || deviceInfo.name().isEmpty()) {
         return;
     }
 
@@ -235,7 +234,7 @@ void BluetoothDiscovery::start()
         m_discoveryAgent->stop();
     }
 
-//    m_deviceInfos->clearModel();
+    m_deviceInfos->clearModel();
 
     qDebug() << "BluetoothDiscovery: Starting discovery.";
     m_discoveryAgent->start();
