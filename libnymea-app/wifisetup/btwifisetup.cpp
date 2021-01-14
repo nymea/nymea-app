@@ -30,7 +30,7 @@ BtWiFiSetup::BtWiFiSetup(QObject *parent) : QObject(parent)
 
 void BtWiFiSetup::connectToDevice(const BluetoothDeviceInfo *device)
 {
-    qDebug() << "device" << device;
+    qDebug() << "Connecting to device" << device->address() << device->name();
     if (m_btController) {
         delete m_btController;
         m_currentConnection = nullptr;
@@ -38,7 +38,6 @@ void BtWiFiSetup::connectToDevice(const BluetoothDeviceInfo *device)
         m_accessPoints->clearModel();
         m_bluetoothStatus = BluetoothStatusDisconnected;
         emit bluetoothStatusChanged(m_bluetoothStatus);
-
     }
 
     m_btController = QLowEnergyController::createCentral(device->bluetoothDeviceInfo(), this);
@@ -47,7 +46,7 @@ void BtWiFiSetup::connectToDevice(const BluetoothDeviceInfo *device)
         m_btController->discoverServices();
         m_bluetoothStatus = BluetoothStatusConnectedToBluetooth;
         emit bluetoothStatusChanged(m_bluetoothStatus);
-    });
+    }, Qt::QueuedConnection);
 
     connect(m_btController, &QLowEnergyController::disconnected, this, [this](){
         qDebug() << "Bluetooth disconnected";
@@ -58,13 +57,13 @@ void BtWiFiSetup::connectToDevice(const BluetoothDeviceInfo *device)
         m_currentConnection = nullptr;
         emit currentConnectionChanged();
         m_accessPoints->clearModel();
-    });
+    }, Qt::QueuedConnection);
 
     typedef void (QLowEnergyController::*errorsSignal)(QLowEnergyController::Error);
     connect(m_btController, static_cast<errorsSignal>(&QLowEnergyController::error), this, [this](QLowEnergyController::Error error){
         qDebug() << "Bluetooth error:" << error;
         emit this->bluetoothConnectionError();
-    });
+    }, Qt::QueuedConnection);
 
     connect(m_btController, &QLowEnergyController::discoveryFinished, this, [this](){
         qDebug() << "Bluetooth service discovery finished";
@@ -85,8 +84,9 @@ void BtWiFiSetup::disconnectFromDevice()
 
 void BtWiFiSetup::connectDeviceToWiFi(const QString &ssid, const QString &password)
 {
-    if (m_bluetoothStatus != BluetoothStatusConnectedToBluetooth) {
+    if (m_bluetoothStatus < BluetoothStatusConnectedToBluetooth) {
         qWarning() << "Cannot connect to wifi in state" << m_bluetoothStatus;
+        return;
     }
 
     QVariantMap request;
@@ -219,7 +219,12 @@ void BtWiFiSetup::setupServices()
 
     if (!m_wifiService || !m_deviceInformationService || !m_networkService) {
         qWarning() << "Required services not found on remote device.";
-        m_btController->disconnectFromDevice();
+        if (m_btController->property("retries").toInt() < 3) {
+            m_btController->discoverServices();
+            m_btController->setProperty("retries", m_btController->property("retries").toInt() + 1);
+        } else {
+            m_btController->disconnectFromDevice();
+        }
         return;
     }
 
@@ -322,6 +327,7 @@ void BtWiFiSetup::processWiFiPacket(const QVariantMap &data)
     WirelessServiceResponse responseCode = (WirelessServiceResponse)data.value("r").toInt();
     if (responseCode != WirelessServiceResponseSuccess) {
         qWarning() << "Error in wifi command" << command << ":" << responseCode;
+        emit wifiSetupError();
         return;
     }
 

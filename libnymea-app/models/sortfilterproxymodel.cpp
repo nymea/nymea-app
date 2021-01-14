@@ -68,6 +68,11 @@ QVariant SortFilterProxyModel::data(int row, const QString &role) const
     return QSortFilterProxyModel::data(index(row, 0), roleId);
 }
 
+int SortFilterProxyModel::mapToSource(int index) const
+{
+    return QSortFilterProxyModel::mapToSource(this->index(index, 0)).row();
+}
+
 bool SortFilterProxyModel::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
 {
     if (!m_filterList.isEmpty() && !m_filterRoleName.isEmpty()) {
