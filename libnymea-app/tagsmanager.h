@@ -52,8 +52,8 @@ public:
 
     Tags* tags() const;
 
-    Q_INVOKABLE int tagDevice(const QString &deviceId, const QString &tagId, const QString &value);
-    Q_INVOKABLE int untagDevice(const QString &deviceId, const QString &tagId);
+    Q_INVOKABLE int tagThing(const QString &thingId, const QString &tagId, const QString &value);
+    Q_INVOKABLE int untagThing(const QString &thingId, const QString &tagId);
     Q_INVOKABLE int tagRule(const QString &ruleId, const QString &tagId, const QString &value);
     Q_INVOKABLE int untagRule(const QString &ruleId, const QString &tagId);
 

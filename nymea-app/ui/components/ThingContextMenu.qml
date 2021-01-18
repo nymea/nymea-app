@@ -59,9 +59,9 @@ AutoSizeMenu {
     }
     function toggleFavorite() {
         if (favoritesProxy.count === 0) {
-            engine.tagsManager.tagDevice(root.thing.id, "favorites", 100000)
+            engine.tagsManager.tagThing(root.thing.id, "favorites", 100000)
         } else {
-            engine.tagsManager.untagDevice(root.thing.id, "favorites")
+            engine.tagsManager.untagThing(root.thing.id, "favorites")
         }
     }
     function addToGroup() {
@@ -119,7 +119,7 @@ AutoSizeMenu {
                     text: qsTr("OK")
                     enabled: newGroupdTextField.displayText.length > 0 && !groupTags.containsId("group-" + newGroupdTextField.displayText)
                     onClicked: {
-                        engine.tagsManager.tagDevice(root.thing.id, "group-" + newGroupdTextField.text, 1000)
+                        engine.tagsManager.tagThing(root.thing.id, "group-" + newGroupdTextField.text, 1000)
                         newGroupdTextField.text = ""
                     }
                 }
@@ -146,9 +146,9 @@ AutoSizeMenu {
                     checked: innerProxy.count > 0
                     onClicked: {
                         if (innerProxy.count == 0) {
-                            engine.tagsManager.tagDevice(root.thing.id, model.tagId, 1000)
+                            engine.tagsManager.tagThing(root.thing.id, model.tagId, 1000)
                         } else {
-                            engine.tagsManager.untagDevice(root.thing.id, model.tagId, model.value)
+                            engine.tagsManager.untagThing(root.thing.id, model.tagId, model.value)
                         }
                     }
                     ThingsProxy {
