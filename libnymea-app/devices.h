@@ -66,7 +66,7 @@ public:
     QVariant data(const QModelIndex & index, int role = RoleName) const;
 
     void addDevice(Device *device);
-    void removeDevice(Device *device);
+    void removeThing(Device *thing);
 
     void clearModel();
 

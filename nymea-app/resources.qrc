@@ -34,7 +34,7 @@
         <file>ui/components/MainPageTabButton.qml</file>
         <file>ui/components/AutoSizeMenu.qml</file>
         <file>ui/components/EmptyViewPlaceholder.qml</file>
-        <file>ui/components/RemoveDeviceMethodDialog.qml</file>
+        <file>ui/components/RemoveThingMethodDialog.qml</file>
         <file>ui/components/MainPageTile.qml</file>
         <file>ui/components/BusyOverlay.qml</file>
         <file>ui/components/SwipeDelegateGroup.qml</file>

@@ -82,7 +82,7 @@ SettingsPageBase {
         }
 
         function deleteThing() {
-            engine.deviceManager.removeDevice(root.device.id)
+            engine.thingManager.removeThing(root.device.id)
         }
 
         function reconfigureThing() {
@@ -100,8 +100,8 @@ SettingsPageBase {
     }
 
     Connections {
-        target: engine.deviceManager
-        onRemoveDeviceReply: {
+        target: engine.thingManager
+        onRemoveThingReply: {
             switch (params.deviceError) {
             case "DeviceErrorNoError":
                 pageStack.pop();
@@ -314,7 +314,7 @@ SettingsPageBase {
 
     Component {
         id: removeMethodComponent
-        RemoveDeviceMethodDialog {
+        RemoveThingMethodDialog {
 
         }
     }

@@ -196,13 +196,13 @@ void DeviceManager::notificationReceived(const QVariantMap &data)
     } else if (notification == "Devices.DeviceRemoved") {
         QUuid deviceId = data.value("params").toMap().value("deviceId").toUuid();
 //        qDebug() << "JsonRpc: Notification: Device removed" << deviceId.toString();
-        Device *device = m_devices->getDevice(deviceId);
-        if (!device) {
+        Device *thing = m_devices->getDevice(deviceId);
+        if (!thing) {
             qWarning() << "Received a DeviceRemoved notification for a device we don't know!";
             return;
         }
-        m_devices->removeDevice(device);
-        device->deleteLater();
+        m_devices->removeThing(thing);
+        thing->deleteLater();
     } else if (notification == "Devices.DeviceChanged") {
         QUuid deviceId = data.value("params").toMap().value("device").toMap().value("id").toUuid();
 //        qDebug() << "Device changed notification" << deviceId << data.value("params").toMap();
@@ -401,10 +401,10 @@ void DeviceManager::addDeviceResponse(int commandId, const QVariantMap &params)
     emit addDeviceReply(commandId, params);
 }
 
-void DeviceManager::removeDeviceResponse(int commandId, const QVariantMap &params)
+void DeviceManager::removeThingResponse(int commandId, const QVariantMap &params)
 {
-    qDebug() << "Device removed response" << params;
-    emit removeDeviceReply(commandId, params);
+    qDebug() << "Thing removed response" << params;
+    emit removeThingReply(commandId, params);
 }
 
 void DeviceManager::pairDeviceResponse(int commandId, const QVariantMap &params)
@@ -527,16 +527,16 @@ int DeviceManager::confirmPairing(const QUuid &pairingTransactionId, const QStri
     return m_jsonClient->sendCommand("Devices.ConfirmPairing", params, this, "confirmPairingResponse");
 }
 
-int DeviceManager::removeDevice(const QUuid &deviceId, RemovePolicy removePolicy)
+int DeviceManager::removeThing(const QUuid &thingId, DeviceManager::RemovePolicy policy)
 {
-    qDebug() << "JsonRpc: delete device" << deviceId.toString();
+    qDebug() << "JsonRpc: delete device" << thingId.toString();
     QVariantMap params;
-    params.insert("deviceId", deviceId.toString());
-    if (removePolicy != RemovePolicyNone) {
+    params.insert("deviceId", thingId.toString());
+    if (policy != RemovePolicyNone) {
         QMetaEnum policyEnum = QMetaEnum::fromType<DeviceManager::RemovePolicy>();
-        params.insert("removePolicy", policyEnum.valueToKey(removePolicy));
+        params.insert("removePolicy", policyEnum.valueToKey(policy));
     }
-    return m_jsonClient->sendCommand("Devices.RemoveConfiguredDevice", params, this, "removeDeviceResponse");
+    return m_jsonClient->sendCommand("Devices.RemoveConfiguredDevice", params, this, "removeThingResponse");
 }
 
 int DeviceManager::editDevice(const QUuid &deviceId, const QString &name)
