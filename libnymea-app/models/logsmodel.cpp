@@ -262,6 +262,7 @@ void LogsModel::logsReply(int /*commandId*/, const QVariantMap &data)
     m_busyInternal = false;
 
     if (m_viewStartTime.isValid() && m_list.count() > 0 && m_list.last()->timestamp() > m_viewStartTime && m_canFetchMore) {
+//        qDebug() << "Fetching more because of viewStartTime" << m_viewStartTime.toString() << "last" << m_list.last()->timestamp().toString();
         fetchMore();
     } else {
         m_busy = false;

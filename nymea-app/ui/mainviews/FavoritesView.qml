@@ -57,12 +57,15 @@ MainViewBase {
         cellWidth: gridView.width / tilesPerRow
         cellHeight: cellWidth
 
+        moveDisplaced: Transition { NumberAnimation { properties: "x,y"; duration: 150; easing.type: Easing.InOutQuad } }
+
         model: tagsProxy
         delegate: ThingTile {
             id: delegateRoot
             width: gridView.cellWidth
             height: gridView.cellHeight
             device: engine.deviceManager.devices.getDevice(deviceId)
+            visible: thingId !== fakeDragItem.deviceId
 
             onClicked: pageStack.push(Qt.resolvedUrl("../devicepages/" + NymeaUtils.interfaceListToDevicePage(deviceClass.interfaces)), {device: device})
 
@@ -76,6 +79,8 @@ MainViewBase {
                 NumberAnimation { from: 3; to: -3; target: delegateRoot; duration: 150; property: "rotation" }
                 NumberAnimation { from: -3; to: 0; target: delegateRoot; duration: 75; property: "rotation" }
             }
+
+
         }
 
         MouseArea {
@@ -103,6 +108,7 @@ MainViewBase {
             onReleased: {
                 drag.target = null
                 draggedItem = null
+                fakeDragItem.deviceId = ""
             }
 
             onClicked: {
@@ -115,8 +121,8 @@ MainViewBase {
             width: gridView.cellWidth
             height: gridView.cellHeight
             Drag.active: dragArea.drag.active
-            visible: Drag.active
-            property var deviceId
+            visible: deviceId !== ""
+            property var deviceId: ""
         }
 
         DropArea {
