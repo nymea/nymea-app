@@ -53,7 +53,7 @@ MainViewBase {
 
     Flickable {
         anchors.fill: parent
-        topMargin: app.margins
+        anchors.margins: app.margins / 2
         contentHeight: energyGrid.childrenRect.height
 
         GridLayout {
@@ -62,9 +62,11 @@ MainViewBase {
             visible: consumers.count > 0
             columns: root.width > 600 ? 2 : 1
             rowSpacing: 0
+            columnSpacing: 0
 
             SmartMeterChart {
-                Layout.preferredWidth: energyGrid.width / energyGrid.columns
+                Layout.fillWidth: true
+//                Layout.preferredWidth: energyGrid.width / energyGrid.columns
                 Layout.preferredHeight: width * .7
                 meters: consumers
                 title: qsTr("Total consumed energy")
@@ -75,7 +77,8 @@ MainViewBase {
             ChartView {
                 id: chartView
                 Layout.fillWidth: true
-                Layout.preferredHeight: width * .75
+//                Layout.preferredWidth: energyGrid.width / energyGrid.columns
+                Layout.preferredHeight: width * .7
                 legend.alignment: Qt.AlignBottom
                 legend.font.pixelSize: app.smallFont
                 legend.visible: false
