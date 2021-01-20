@@ -1,3 +1,15 @@
+nymea-app (1.0.270) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Allow changing the connection given by the --connect flag
+  * Update the Mac signing ID to the new default by apple
+  * Fix cloud pairing not working automagically in all cases
+  * Rename Devices to Things in tags api
+  * Some fixes in the energy view
+  * Rename removeDevice to removeThing
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 20 Jan 2021 22:07:55 +0100
+
 nymea-app (1.0.269) bionic; urgency=medium
 
   [ Michael Zanetti ]
