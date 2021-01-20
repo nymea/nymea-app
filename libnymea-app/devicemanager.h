@@ -95,7 +95,7 @@ public:
     Q_INVOKABLE int pairDiscoveredDevice(const QUuid &deviceClassId, const QUuid &deviceDescriptorId, const QVariantList &deviceParams, const QString &name);
     Q_INVOKABLE int rePairDevice(const QUuid &deviceId, const QVariantList &deviceParams, const QString &name = QString());
     Q_INVOKABLE int confirmPairing(const QUuid &pairingTransactionId, const QString &secret = QString(), const QString &username = QString());
-    Q_INVOKABLE int removeDevice(const QUuid &deviceId, RemovePolicy policy = RemovePolicyNone);
+    Q_INVOKABLE int removeThing(const QUuid &thingId, RemovePolicy policy = RemovePolicyNone);
     Q_INVOKABLE int editDevice(const QUuid &deviceId, const QString &name);
     Q_INVOKABLE int setDeviceSettings(const QUuid &deviceId, const QVariantList &settings);
     Q_INVOKABLE int reconfigureDevice(const QUuid &deviceId, const QVariantList &deviceParams);
@@ -118,7 +118,7 @@ private:
     Q_INVOKABLE void getPluginConfigResponse(int commandId, const QVariantMap &params);
     Q_INVOKABLE void getConfiguredDevicesResponse(int commandId, const QVariantMap &params);
     Q_INVOKABLE void addDeviceResponse(int commandId, const QVariantMap &params);
-    Q_INVOKABLE void removeDeviceResponse(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void removeThingResponse(int commandId, const QVariantMap &params);
     Q_INVOKABLE void pairDeviceResponse(int commandId, const QVariantMap &params);
     Q_INVOKABLE void confirmPairingResponse(int commandId, const QVariantMap &params);
     Q_INVOKABLE void setPluginConfigResponse(int commandId, const QVariantMap &params);
@@ -142,7 +142,7 @@ signals:
     void pairDeviceReply(int commandId, const QVariantMap &params);
     void confirmPairingReply(int commandId, const QVariantMap &params);
     void addDeviceReply(int commandId, const QVariantMap &params);
-    void removeDeviceReply(int commandId, const QVariantMap &params);
+    void removeThingReply(int commandId, const QVariantMap &params);
     void savePluginConfigReply(int commandId, const QVariantMap &params);
     void editDeviceReply(int commandId, const QVariantMap &params);
     void reconfigureDeviceReply(int commandId, const QVariantMap &params);

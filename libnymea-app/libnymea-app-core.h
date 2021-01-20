@@ -158,6 +158,7 @@ void registerQmlTypes() {
 
     qmlRegisterType<Engine>(uri, 1, 0, "Engine");
 
+    qmlRegisterUncreatableType<DeviceManager>(uri, 1, 0, "ThingManager", "Can't create this in QML. Get it from the Engine.");
     qmlRegisterUncreatableType<DeviceManager>(uri, 1, 0, "DeviceManager", "Can't create this in QML. Get it from the Engine.");
     qmlRegisterUncreatableType<JsonRpcClient>(uri, 1, 0, "JsonRpcClient", "Can't create this in QML. Get it from the Engine.");
     qmlRegisterUncreatableType<NymeaConnection>(uri, 1, 0, "NymeaConnection", "Can't create this in QML. Get it from the Engine.");

@@ -73,7 +73,7 @@ Dialog {
             text: qsTr("Remove all those rules")
             progressive: false
             onClicked: {
-                engine.deviceManager.removeDevice(root.device.id, DeviceManager.RemovePolicyCascade)
+                engine.thingManager.removeThing(root.device.id, DeviceManager.RemovePolicyCascade)
                 root.close()
                 root.destroy();
             }
@@ -84,7 +84,7 @@ Dialog {
             Layout.fillWidth: true
             progressive: false
             onClicked: {
-                engine.deviceManager.removeDevice(root.device.id, DeviceManager.RemovePolicyUpdate)
+                engine.thingManager.removeThing(root.device.id, DeviceManager.RemovePolicyUpdate)
                 root.close()
                 root.destroy();
             }

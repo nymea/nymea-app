@@ -56,23 +56,23 @@ Page {
 
     QtObject {
         id: d
-        property var deviceToRemove: null
+        property var thingToRemove: null
     }
 
     Connections {
         target: engine.deviceManager
-        onRemoveDeviceReply: {
-            if (!d.deviceToRemove) {
+        onRemoveThingReply: {
+            if (!d.thingToRemove) {
                 return;
             }
 
             switch (params.deviceError) {
             case "DeviceErrorNoError":
-                d.deviceToRemove = null;
+                d.thingToRemove = null;
                 return;
             case "DeviceErrorDeviceInRule":
-                var removeMethodComponent = Qt.createComponent(Qt.resolvedUrl("../components/RemoveDeviceMethodDialog.qml"))
-                var popup = removeMethodComponent.createObject(root, {device: d.deviceToRemove, rulesList: params["ruleIds"]});
+                var removeMethodComponent = Qt.createComponent(Qt.resolvedUrl("../components/RemoveTThingMethodDialog.qml"))
+                var popup = removeMethodComponent.createObject(root, {device: d.thingToRemove, rulesList: params["ruleIds"]});
                 popup.open();
                 return;
             default:
@@ -112,8 +112,8 @@ Page {
                     pageStack.push(Qt.resolvedUrl("ConfigureThingPage.qml"), {device: device})
                 }
                 onDeleteClicked: {
-                    d.deviceToRemove = device;
-                    engine.deviceManager.removeDevice(d.deviceToRemove.id)
+                    d.thingToRemove = device;
+                    engine.thingManager.removeThing(d.thingToRemove.id)
                 }
             }
         }
