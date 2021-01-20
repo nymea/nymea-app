@@ -68,11 +68,11 @@ Tags *TagsManager::tags() const
     return m_tags;
 }
 
-int TagsManager::tagDevice(const QString &deviceId, const QString &tagId, const QString &value)
+int TagsManager::tagThing(const QString &thingId, const QString &tagId, const QString &value)
 {
     QVariantMap params;
     QVariantMap tag;
-    tag.insert("deviceId", deviceId);
+    tag.insert("deviceId", thingId);
     tag.insert("appId", "nymea:app");
     tag.insert("tagId", tagId);
     tag.insert("value", value);
@@ -80,11 +80,11 @@ int TagsManager::tagDevice(const QString &deviceId, const QString &tagId, const 
     return m_jsonClient->sendCommand("Tags.AddTag", params, this, "addTagReply");
 }
 
-int TagsManager::untagDevice(const QString &deviceId, const QString &tagId)
+int TagsManager::untagThing(const QString &thingId, const QString &tagId)
 {
     QVariantMap params;
     QVariantMap tag;
-    tag.insert("deviceId", deviceId);
+    tag.insert("deviceId", thingId);
     tag.insert("appId", "nymea:app");
     tag.insert("tagId", tagId);
     params.insert("tag", tag);

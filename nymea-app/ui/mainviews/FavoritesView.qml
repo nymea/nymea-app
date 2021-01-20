@@ -155,7 +155,7 @@ MainViewBase {
                         }
 
                         var tag = tagsProxy.get(i);
-                        engine.tagsManager.tagDevice(tag.deviceId, tag.tagId, newIdx);
+                        engine.tagsManager.tagThing(tag.thingId, tag.tagId, newIdx);
                     }
                     from = index;
                 }
