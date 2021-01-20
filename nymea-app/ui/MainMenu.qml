@@ -61,8 +61,6 @@ Drawer {
                     ProgressButton {
                         longpressEnabled: false
                         imageSource: "../images/close.svg"
-                        // When we're connected via command line arg, don't allow disconnecting
-                        visible: autoConnectHost.length === 0
                         onClicked: {
                             root.currentEngine.jsonRpcClient.disconnectFromHost();
                             root.close();
