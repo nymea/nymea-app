@@ -179,10 +179,7 @@ Item {
 
                     Component.onCompleted: {
                         setupPushNotifications();
-                        if (autoConnectHost.length > 0) {
-                            var host = nymeaDiscovery.nymeaHosts.createLanHost("Manual connection", autoConnectHost);
-                            engine.jsonRpcClient.connectToHost(host)
-                        } else if (tabSettings.lastConnectedHost.length > 0) {
+                        if (tabSettings.lastConnectedHost.length > 0) {
                             print("Last connected host was", tabSettings.lastConnectedHost)
                             var cachedHost = nymeaDiscovery.nymeaHosts.find(tabSettings.lastConnectedHost);
                             if (cachedHost) {
@@ -190,7 +187,11 @@ Item {
                                 return;
                             }
                             print("Warning: There is a last connected host but UUID is unknown to discovery...")
+                        } else if (autoConnectHost.length > 0) {
+                            var host = nymeaDiscovery.nymeaHosts.createLanHost(app.systemName, autoConnectHost);
+                            engine.jsonRpcClient.connectToHost(host)
                         }
+
                         PlatformHelper.hideSplashScreen();
                         pageStack.push(Qt.resolvedUrl("connection/ConnectPage.qml"), StackView.Immediate)
                     }
