@@ -55,13 +55,6 @@ Engine::Engine(QObject *parent) :
 
     connect(m_thingManager, &DeviceManager::fetchingDataChanged, this, &Engine::onDeviceManagerFetchingChanged);
 
-    connect(AWSClient::instance(), &AWSClient::devicesFetched, this, [this]() {
-        if (m_jsonRpcClient->connected() && m_jsonRpcClient->cloudConnectionState() == JsonRpcClient::CloudConnectionStateConnected) {
-            if (AWSClient::instance()->awsDevices()->getDevice(m_jsonRpcClient->serverUuid()) == nullptr) {
-                m_jsonRpcClient->setupRemoteAccess(AWSClient::instance()->idToken(), AWSClient::instance()->userId());
-            }
-        }
-    });
     connect(m_jsonRpcClient, &JsonRpcClient::connectedChanged, this, [this]() {
         qDebug() << "JSONRpc connected changed:" << m_jsonRpcClient->connected() << "AWS status:" << AWSClient::instance()->awsDevices()->rowCount();
         if (m_jsonRpcClient->connected() && m_jsonRpcClient->cloudConnectionState() == JsonRpcClient::CloudConnectionStateConnected) {
