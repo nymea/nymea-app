@@ -1,3 +1,11 @@
+nymea-app (1.0.271) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Don't automatically pair the cloud every time we refresh something
+    from the cloud
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 21 Jan 2021 13:24:29 +0100
+
 nymea-app (1.0.270) bionic; urgency=medium
 
   [ Michael Zanetti ]
