@@ -101,7 +101,7 @@ void WebsocketTransport::ignoreSslErrors(const QList<QSslError> &errors)
 
 bool WebsocketTransport::isEncrypted() const
 {
-    return !m_socket->sslConfiguration().isNull();
+    return m_url.scheme() == "wss";
 }
 
 QSslCertificate WebsocketTransport::serverCertificate() const
