@@ -152,7 +152,7 @@ void JsonRpcClient::disconnectFromHost()
 
 void JsonRpcClient::acceptCertificate(const QString &serverUuid, const QByteArray &pem)
 {
-    qDebug() << "Pinning new certificate for" << serverUuid;
+    qDebug() << "Pinning new certificate for" << serverUuid << pem;
     storePem(serverUuid, pem);
 }
 
@@ -654,25 +654,27 @@ void JsonRpcClient::helloReply(int /*commandId*/, const QVariantMap &params)
 
     // Verify SSL certificate
     if (m_connection->isEncrypted()) {
-        QByteArray pem;
-        if (!loadPem(m_serverUuid, pem)) {
+        QByteArray oldPem;
+        QSslCertificate certificate = m_connection->sslCertificate();
+        if (!loadPem(m_serverUuid, oldPem)) {
             qDebug() << "No SSL certificate for this host stored. Accepting and pinning new certificate.";
             // No certificate yet! Inform ui about it.
             emit newSslCertificate();
             storePem(m_serverUuid, m_connection->sslCertificate().toPem());
         } else {
             // We have a certificate pinned already. Check if it's the same
-            if (m_connection->sslCertificate().toPem() != pem) {
+            if (certificate.toPem() != oldPem) {
                 // Uh oh, the certificate has changed
                 qWarning() << "This connections certificate has changed!";
-                qWarning() << "Old PEM:" << pem;
-                qWarning() << "New PEM:" << m_connection->sslCertificate().toPem();
+                qWarning() << "Old PEM:" << oldPem;
+                qWarning() << "New PEM:" << certificate.toPem();
+
+                // Extract certificate info before disconnecting.
+                QVariantMap issuerInfo = certificateIssuerInfo();
 
                 // Reject the connection until the UI explicitly accepts this...
                 m_connection->disconnectFromHost();
 
-                QSslCertificate certificate = m_connection->sslCertificate();
-                QVariantMap issuerInfo = certificateIssuerInfo();
                 emit verifyConnectionCertificate(m_serverUuid, issuerInfo, certificate.toPem());
                 return;
             }
