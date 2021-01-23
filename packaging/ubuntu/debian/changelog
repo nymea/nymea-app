@@ -1,3 +1,11 @@
+nymea-app (1.0.272) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix encryption flag erraneously set for "ws" connections
+  * Revert "Update the Mac signing ID to the new default by apple"
+
+ -- Jenkins <jenkins@nymea.io>  Sat, 23 Jan 2021 20:30:21 +0100
+
 nymea-app (1.0.271) bionic; urgency=medium
 
   [ Michael Zanetti ]
