@@ -665,14 +665,15 @@ void JsonRpcClient::helloReply(int /*commandId*/, const QVariantMap &params)
             if (m_connection->sslCertificate().toPem() != pem) {
                 // Uh oh, the certificate has changed
                 qWarning() << "This connections certificate has changed!";
-
-                QSslCertificate certificate = m_connection->sslCertificate();
-                QVariantMap issuerInfo = certificateIssuerInfo();
-                emit verifyConnectionCertificate(m_serverUuid, issuerInfo, certificate.toPem());
+                qWarning() << "Old PEM:" << pem;
+                qWarning() << "New PEM:" << m_connection->sslCertificate().toPem();
 
                 // Reject the connection until the UI explicitly accepts this...
                 m_connection->disconnectFromHost();
 
+                QSslCertificate certificate = m_connection->sslCertificate();
+                QVariantMap issuerInfo = certificateIssuerInfo();
+                emit verifyConnectionCertificate(m_serverUuid, issuerInfo, certificate.toPem());
                 return;
             }
             qDebug() << "This connections certificate is trusted.";
