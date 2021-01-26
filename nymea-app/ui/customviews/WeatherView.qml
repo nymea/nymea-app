@@ -49,6 +49,8 @@ Item {
     readonly property State windSpeedState: thing.stateByName("windSpeed")
 
     readonly property StateType temperatureStateType: thing.thingClass.stateTypes.findByName("temperature")
+    readonly property StateType pressureStateType: thing.thingClass.stateTypes.findByName("pressure")
+    readonly property StateType windSpeedStateType: thing.thingClass.stateTypes.findByName("windspeed")
 
     ColumnLayout {
         id: grid
@@ -75,7 +77,7 @@ Item {
                         color: app.interfaceToColor("temperaturesensor")
                     }
                     Label {
-                        text: (temperatureState ? Math.round(Types.toUiValue(temperatureState.value, temperatureStateType.unit) * 10) / 10 : "N/A") + " °"
+                        text: (temperatureState ? "%1 %2".arg(Math.round(Types.toUiValue(temperatureState.value, temperatureStateType.unit) * 10) / 10).arg(Types.toUiUnit(temperatureStateType.unit)) : "N/A")
                         Layout.fillWidth: true
                         horizontalAlignment: Text.AlignHCenter
                     }
@@ -115,7 +117,7 @@ Item {
                     }
 
                     Label {
-                        text: (pressureState ? pressureState.value : "N/A") + " mBar"
+                        text: (pressureState ? "%1 %2".arg(Types.toUiValue(pressureState.value, pressureStateType.unit)).arg(Types.toUiUnit(pressureStateType.unit)) : "N/A")
                     }
                     ColorIcon {
                         name: "../images/weathericons/wind.svg"
@@ -125,7 +127,7 @@ Item {
                     }
 
                     Label {
-                        text: windSpeedState && windDirectionState ? "%1 km/h %2".arg(windSpeedState.value).arg(angleToOrientation(windDirectionState.value)) : "N/A"
+                        text: windSpeedState && windDirectionState ? "%1 %2 %3".arg(Types.toUiValue(windSpeedState.value, windSpeedStateType.unit)).arg(Types.toUiUnit(windSpeedStateType.unit)).arg(angleToOrientation(windDirectionState.value)) : "N/A"
                         function angleToOrientation(windAngle) {
                             if (windAngle < 23) {
                                 return qsTr("N");

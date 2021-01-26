@@ -117,6 +117,7 @@ public:
         UnitMile,
         UnitFootPerSecond,
         UnitMilePerHour,
+        UnitPoundsPerSquareInch
     };
     Q_ENUM(Unit)
 
