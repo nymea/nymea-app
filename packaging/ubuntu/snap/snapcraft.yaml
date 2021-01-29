@@ -18,6 +18,23 @@ architectures:
 - build-on: armhf
 
 apps:
+  daemon:
+    daemon: simple
+    environment:
+      QT_IM_MODULE: qtvirtualkeyboard
+    restart-condition: always
+    command-chain:
+      - bin/run-daemon
+      - bin/desktop-launch
+      - bin/wayland-launch
+    command: usr/bin/nymea-app --kiosk
+    plugs:
+    - avahi-observe
+    - bluez
+    - network
+    - opengl
+    - wayland
+
   nymea-app:
     command-chain: [ bin/desktop-launch ]
     command: usr/bin/nymea-app
@@ -56,6 +73,14 @@ parts:
       - locales-all
       - xdg-user-dirs
       - fcitx-frontend-qt5
+
+  mir-kiosk-snap-launch:
+    plugin: dump
+    source: https://github.com/MirServer/mir-kiosk-snap-launch.git
+    override-build: |
+      ${SNAPCRAFT_PART_BUILD}/build-with-plugs.sh opengl wayland
+    stage-packages:
+      - inotify-tools
 
   nymea-app:
     plugin: qmake
