@@ -90,7 +90,10 @@ ApplicationWindow {
         property string cloudEnvironment: "Community"
         property bool showConnectionTabs: false
         property int tabCount: 1
-        property string units: "metric" // or "imperial"
+        // FIXME: This shouldn't be needed... we should probably only use the system locale and not even provide a setting
+        // However, the topic is more complex, and in the long run we'd probably want to allow the user selecting the
+        // desired unit for particular interfaces/things/views. See https://github.com/nymea/nymea/issues/386
+        property string units: Qt.locale().measurementSystem === Locale.MetricSystem ? "metric" : "imperial"
     }
 
     property string privacyPolicyUrl: "https://nymea.io/privacy-statement/en/nymea_privacy.html"
