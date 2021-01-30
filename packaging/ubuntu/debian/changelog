@@ -1,3 +1,11 @@
+nymea-app (1.0.273) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Some fixes for units (pressure mostly)
+  * Extract certificate data before disconnecting
+
+ -- Jenkins <jenkins@nymea.io>  Sat, 30 Jan 2021 23:22:02 +0100
+
 nymea-app (1.0.272) bionic; urgency=medium
 
   [ Michael Zanetti ]
