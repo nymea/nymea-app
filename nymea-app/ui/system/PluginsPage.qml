@@ -1,6 +1,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 *
-* Copyright 2013 - 2020, nymea GmbH
+* Copyright 2013 - 2021, nymea GmbH
 * Contact: contact@nymea.io
 *
 * This file is part of nymea.
@@ -70,7 +70,7 @@ SettingsPageBase {
             iconName: "../images/plugin.svg"
             text: model.name
             progressive: plugin.paramTypes.count > 0
-            onClicked: pageStack.push(Qt.resolvedUrl("PluginParamsPage.qml"), {plugin: plugin})
+            onClicked: if (progressive) { pageStack.push(Qt.resolvedUrl("PluginParamsPage.qml"), {plugin: plugin}) }
         }
     }
 }
