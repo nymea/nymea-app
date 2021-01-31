@@ -417,7 +417,7 @@ void Interfaces::addStateType(const QString &interfaceName, const QString &name,
     st->setMinValue(min);
     st->setMaxValue(max);
     iface->stateTypes()->addStateType(st);
-    ParamTypes *pts = createParamTypes(name, displayName, type);
+    ParamTypes *pts = createParamTypes(name, displayName, type, QVariant(), min, max);
     addEventType(interfaceName, name, displayNameEvent, pts);
     if (writable) {
         addActionType(interfaceName, name, displayNameAction, pts);

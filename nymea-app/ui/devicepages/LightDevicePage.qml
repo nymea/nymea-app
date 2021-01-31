@@ -118,16 +118,16 @@ DevicePageBase {
                             var absoluteCtValue = (model.ct * (root.ctStateType.maxValue - root.ctStateType.minValue) / 100) + root.ctStateType.minValue
                             var params = [];
                             var param1 = {};
-                            param1["paramTypeId"] = root.ctActionType.paramTypes.get(0).id;
+                            param1["paramName"] = root.ctActionType.paramTypes.get(0).name;
                             param1["value"] = absoluteCtValue;
                             params.push(param1)
-                            engine.deviceManager.executeAction(root.device.id, root.ctActionType.id, params)
+                            root.thing.executeAction(root.ctActionType.name, params)
                             params = [];
                             param1 = {};
-                            param1["paramTypeId"] = root.brightnessActionType.paramTypes.get(0).id;
+                            param1["paramName"] = root.brightnessActionType.paramTypes.get(0).name;
                             param1["value"] = model.bri;
                             params.push(param1)
-                            engine.deviceManager.executeAction(root.device.id, root.brightnessActionType.id, params)
+                            root.thing.executeAction(root.brightnessActionType.name, params)
                         }
                     }
                 }
@@ -176,7 +176,7 @@ DevicePageBase {
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
-                        engine.thingManager.executeAction(root.thing.id, root.powerStateType.id, [{paramTypeId: root.powerStateType.id, value: !root.powerState.value}])
+                        root.thing.executeAction("power", [{paramName: "power", value: !root.powerState.value}])
                     }
                 }
             }

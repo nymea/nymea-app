@@ -114,6 +114,9 @@ signals:
     void statesChanged();
     void eventTriggered(const QUuid &eventTypeId, const QVariantMap &params);
 
+signals:
+    void executeActionReply(int commandId, const QVariantMap &params);
+
 protected:
     DeviceManager *m_thingManager = nullptr;
     QString m_name;
@@ -125,6 +128,8 @@ protected:
     Params *m_settings = nullptr;
     States *m_states = nullptr;
     DeviceClass *m_thingClass = nullptr;
+
+    QList<int> m_pendingActions;
 };
 
 QDebug operator<<(QDebug &dbg, Device* thing);

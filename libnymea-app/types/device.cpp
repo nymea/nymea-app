@@ -40,6 +40,12 @@ Device::Device(DeviceManager *thingManager, DeviceClass *thingClass, const QUuid
     m_parentId(parentId),
     m_thingClass(thingClass)
 {
+    connect(thingManager, &DeviceManager::executeActionReply, this, [=](int commandId, const QVariantMap &params){
+        if (m_pendingActions.contains(commandId)) {
+            m_pendingActions.removeAll(commandId);
+            emit executeActionReply(commandId, params);
+        }
+    });
 }
 
 QString Device::name() const
@@ -229,7 +235,9 @@ int Device::executeAction(const QString &actionName, const QVariantList &params)
         }
         finalParams.append(param);
     }
-    return m_thingManager->executeAction(m_id, actionType->id(), finalParams);
+    int commandId = m_thingManager->executeAction(m_id, actionType->id(), finalParams);
+    m_pendingActions.append(commandId);
+    return commandId;
 }
 
 QDebug operator<<(QDebug &dbg, Device *thing)
