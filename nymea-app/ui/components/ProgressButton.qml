@@ -50,6 +50,7 @@ Item {
     MouseArea {
         id: buttonDelegate
         anchors.fill: parent
+        anchors.margins: -app.margins / 2
         hoverEnabled: true
 
         property bool longpressed: false
@@ -75,84 +76,85 @@ Item {
             buttonDelegate.longpressed = false
         }
 
-        NumberAnimation {
-            target: canvas
-            properties: "progress"
-            from: 0.0
-            to: 1.0
-            running: root.longpressEnabled && buttonDelegate.pressed
-            duration: 750
-            onRunningChanged: {
-                if (!running && canvas.progress == 1) {
-                    buttonDelegate.longpressed = true;
-                    if (root.repeat) {
-                        root.longpressed();
-                        start();
-                        canvas.inverted = !canvas.inverted
-                    }
+    }
+
+    NumberAnimation {
+        target: canvas
+        properties: "progress"
+        from: 0.0
+        to: 1.0
+        running: root.longpressEnabled && buttonDelegate.pressed
+        duration: 750
+        onRunningChanged: {
+            if (!running && canvas.progress == 1) {
+                buttonDelegate.longpressed = true;
+                if (root.repeat) {
+                    root.longpressed();
+                    start();
+                    canvas.inverted = !canvas.inverted
+                }
+            }
+        }
+    }
+
+    Rectangle {
+        anchors.fill: parent
+        anchors.margins: -app.margins / 2
+        radius: width / 2
+        color: Style.foregroundColor
+        opacity: buttonDelegate.pressed || buttonDelegate.containsMouse ? .08 : 0
+        Behavior on opacity {
+            NumberAnimation { duration: 200 }
+        }
+    }
+
+    Canvas {
+        id: canvas
+        anchors.fill: parent
+        anchors.margins: -app.margins / 2
+
+        property real progress: 0
+        property bool inverted: false
+
+        readonly property int penWidth: 2
+        onProgressChanged: {
+            requestPaint()
+        }
+        Connections {
+            target: buttonDelegate
+            onPressedChanged: {
+                if (!buttonDelegate.pressed) {
+                    canvas.progress = 0;
+                    canvas.requestPaint()
                 }
             }
         }
 
-        Rectangle {
-            anchors.fill: parent
-            anchors.margins: -app.margins / 2
-            radius: width / 2
-            color: Style.foregroundColor
-            opacity: buttonDelegate.pressed || buttonDelegate.containsMouse ? .08 : 0
-            Behavior on opacity {
-                NumberAnimation { duration: 200 }
+        onPaint: {
+            var ctx = getContext("2d");
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = Qt.rgba(1, 0, 0, 1);
+            ctx.lineWidth = canvas.penWidth
+            ctx.strokeStyle = Style.accentColor
+
+            var start = -Math.PI / 2;
+            var stop = -Math.PI / 2;
+            if (inverted) {
+                start += canvas.progress * 2 * Math.PI
+            } else {
+                stop += canvas.progress * 2 * Math.PI
             }
+
+            ctx.beginPath();
+            ctx.arc(canvas.width / 2, canvas.height / 2, ((canvas.width - canvas.penWidth) / 2), start, stop);
+            ctx.stroke();
         }
+    }
 
-        Canvas {
-            id: canvas
-            anchors.fill: parent
-            anchors.margins: -app.margins / 2
-
-            property real progress: 0
-            property bool inverted: false
-
-            readonly property int penWidth: 2
-            onProgressChanged: {
-                requestPaint()
-            }
-            Connections {
-                target: buttonDelegate
-                onPressedChanged: {
-                    if (!buttonDelegate.pressed) {
-                        canvas.progress = 0;
-                        canvas.requestPaint()
-                    }
-                }
-            }
-
-            onPaint: {
-                var ctx = getContext("2d");
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                ctx.fillStyle = Qt.rgba(1, 0, 0, 1);
-                ctx.lineWidth = canvas.penWidth
-                ctx.strokeStyle = Style.accentColor
-
-                var start = -Math.PI / 2;
-                var stop = -Math.PI / 2;
-                if (inverted) {
-                    start += canvas.progress * 2 * Math.PI
-                } else {
-                    stop += canvas.progress * 2 * Math.PI
-                }
-
-                ctx.beginPath();
-                ctx.arc(canvas.width / 2, canvas.height / 2, ((canvas.width - canvas.penWidth) / 2), start, stop);
-                ctx.stroke();
-            }
-        }
-
-        ColorIcon {
-            id: icon
-            anchors.fill: parent
-            name: buttonDelegate.longpressed ? root.longpressImageSource : root.imageSource
-        }
+    ColorIcon {
+        id: icon
+        anchors.fill: parent
+        name: buttonDelegate.longpressed ? root.longpressImageSource : root.imageSource
     }
 }
 
