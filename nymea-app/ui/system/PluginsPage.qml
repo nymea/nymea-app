@@ -51,11 +51,8 @@ SettingsPageBase {
         }
     }
 
-    Label {
-        Layout.fillWidth: true
-        Layout.margins: app.margins
-        wrapMode: Text.WordWrap
-        text: qsTr("This list shows the list of installed plugins on this %1 system.").arg(app.systemName)
+    SettingsPageSectionHeader {
+        text: qsTr("Installed integration plugins")
     }
 
     Repeater {
@@ -66,7 +63,7 @@ SettingsPageBase {
 
         delegate: NymeaSwipeDelegate {
             Layout.fillWidth: true
-            property var plugin: pluginsProxy.get(index)
+            property Plugin plugin: pluginsProxy.get(index)
             iconName: "../images/plugin.svg"
             text: model.name
             progressive: plugin.paramTypes.count > 0
