@@ -48,13 +48,6 @@ NymeaDiscovery::NymeaDiscovery(QObject *parent) : QObject(parent)
 
     loadFromDisk();
 
-    m_upnp = new UpnpDiscovery(m_nymeaHosts, this);
-    m_zeroConf = new ZeroconfDiscovery(m_nymeaHosts, this);
-
-#ifndef Q_OS_IOS
-    m_bluetooth = new BluetoothServiceDiscovery(m_nymeaHosts, this);
-#endif
-
     m_cloudPollTimer.setInterval(5000);
     connect(&m_cloudPollTimer, &QTimer::timeout, this, [this](){
         if (m_awsClient && m_awsClient->isLoggedIn()) {
@@ -80,13 +73,25 @@ void NymeaDiscovery::setDiscovering(bool discovering)
 
     m_discovering = discovering;
     if (discovering) {
-        // ZeroConf is always in discovery mode, nothing to do...
+        if (m_zeroconfDiscoveryEnabled) {
+            if (!m_zeroConf) {
+                m_zeroConf = new ZeroconfDiscovery(m_nymeaHosts, this);
+            }
+        }
 
         // Start UPnP discovery
-        m_upnp->discover();
+        if (m_upnpDiscoveryEnabled) {
+            if (!m_upnp) {
+                m_upnp = new UpnpDiscovery(m_nymeaHosts, this);
+            }
+            m_upnp->discover();
+        }
 
         // Start Bluetooth discovery if HW is available
-        if (m_bluetooth) {
+        if (m_bluetoothDiscoveryEnabled) {
+            if (!m_bluetooth) {
+                m_bluetooth = new BluetoothServiceDiscovery(m_nymeaHosts, this);
+            }
             m_bluetooth->discover();
         }
 
@@ -97,10 +102,21 @@ void NymeaDiscovery::setDiscovering(bool discovering)
             m_awsClient->fetchDevices();
         }
     } else {
-        m_upnp->stopDiscovery();
+        if (m_zeroConf) {
+            m_zeroConf->deleteLater();
+            m_zeroConf = nullptr;
+        }
+
+        if (m_upnp) {
+            m_upnp->stopDiscovery();
+            m_upnp->deleteLater();
+            m_upnp = nullptr;
+        }
 
         if (m_bluetooth) {
             m_bluetooth->stopDiscovery();
+            m_bluetooth->deleteLater();
+            m_bluetooth = nullptr;
         }
 
         m_cloudPollTimer.stop();
@@ -169,6 +185,45 @@ void NymeaDiscovery::cacheHost(NymeaHost *host)
         settings.endGroup();
     }
     settings.endGroup();
+}
+
+bool NymeaDiscovery::zeroconfDiscoveryEnable() const
+{
+    return m_zeroconfDiscoveryEnabled;
+}
+
+bool NymeaDiscovery::bluetoothDiscoveryEnabled() const
+{
+    return m_bluetoothDiscoveryEnabled;
+}
+
+bool NymeaDiscovery::upnpDiscoveryEnabled() const
+{
+    return m_upnpDiscoveryEnabled;
+}
+
+void NymeaDiscovery::setZeroconfDiscoveryEnabled(bool zeroconfDiscoveryEnabled)
+{
+    if (m_zeroconfDiscoveryEnabled  != zeroconfDiscoveryEnabled) {
+        m_zeroconfDiscoveryEnabled = zeroconfDiscoveryEnabled;
+        emit zeroconfDiscoveryEnabledChanged(m_zeroconfDiscoveryEnabled);
+    }
+}
+
+void NymeaDiscovery::setBluetoothDiscoveryEnabled(bool bluetoothDiscoveryEnabled)
+{
+    if (m_bluetoothDiscoveryEnabled != bluetoothDiscoveryEnabled) {
+        m_bluetoothDiscoveryEnabled = bluetoothDiscoveryEnabled;
+        emit bluetoothDiscoveryEnabledChanged(m_bluetoothDiscoveryEnabled);
+    }
+}
+
+void NymeaDiscovery::setUpnpDiscoveryEnabled(bool upnpDiscoveryEnabled)
+{
+    if (m_upnpDiscoveryEnabled != upnpDiscoveryEnabled) {
+        m_upnpDiscoveryEnabled = upnpDiscoveryEnabled;
+        emit upnpDiscoveryEnabledChanged(m_upnpDiscoveryEnabled);
+    }
 }
 
 void NymeaDiscovery::syncCloudDevices()

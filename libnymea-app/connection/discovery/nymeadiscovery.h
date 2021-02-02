@@ -48,6 +48,10 @@ class NymeaDiscovery : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(bool discovering READ discovering WRITE setDiscovering NOTIFY discoveringChanged)
+    Q_PROPERTY(bool bluetoothDiscoveryEnabled READ bluetoothDiscoveryEnabled WRITE setBluetoothDiscoveryEnabled NOTIFY bluetoothDiscoveryEnabledChanged)
+    Q_PROPERTY(bool zeroconfDiscoveryEnabled READ zeroconfDiscoveryEnable WRITE setZeroconfDiscoveryEnabled NOTIFY zeroconfDiscoveryEnabledChanged)
+    Q_PROPERTY(bool upnpDiscoveryEnabled READ upnpDiscoveryEnabled WRITE setUpnpDiscoveryEnabled NOTIFY upnpDiscoveryEnabledChanged)
+
     Q_PROPERTY(AWSClient* awsClient READ awsClient WRITE setAwsClient NOTIFY awsClientChanged)
 
     Q_PROPERTY(NymeaHosts* nymeaHosts READ nymeaHosts CONSTANT)
@@ -66,11 +70,24 @@ public:
 
     Q_INVOKABLE void cacheHost(NymeaHost* host);
 
+    bool zeroconfDiscoveryEnable() const;
+    bool bluetoothDiscoveryEnabled() const;
+    bool upnpDiscoveryEnabled() const;
+
+public slots:
+    void setZeroconfDiscoveryEnabled(bool zeroconfDiscoveryEnabled);
+    void setBluetoothDiscoveryEnabled(bool bluetoothDiscoveryEnabled);
+    void setUpnpDiscoveryEnabled(bool upnpDiscoveryEnabled);
+
 signals:
     void discoveringChanged();
     void awsClientChanged();
 
     void serverUuidResolved(const QUuid &uuid, const QString &url);
+
+    void zeroconfDiscoveryEnabledChanged(bool zeroconfDiscoveryEnabled);
+    void bluetoothDiscoveryEnabledChanged(bool bluetoothDiscoveryEnabled);
+    void upnpDiscoveryEnabledChanged(bool upnpDiscoveryEnabled);
 
 private slots:
     void syncCloudDevices();
@@ -93,6 +110,9 @@ private:
 
     QList<QUuid> m_pendingHostResolutions;
 
+    bool m_zeroconfDiscoveryEnabled = true;
+    bool m_bluetoothDiscoveryEnabled = true;
+    bool m_upnpDiscoveryEnabled = true;
 };
 
 #endif // NYMEADISCOVERY_H
