@@ -36,7 +36,6 @@
 
 ThingGroup::ThingGroup(DeviceManager *deviceManager, DeviceClass *deviceClass, DevicesProxy *devices, QObject *parent):
     Device(deviceManager, deviceClass, QUuid::createUuid(), parent),
-    m_thingManager(deviceManager),
     m_things(devices)
 {
     deviceClass->setParent(this);
@@ -45,7 +44,7 @@ ThingGroup::ThingGroup(DeviceManager *deviceManager, DeviceClass *deviceClass, D
     for (int i = 0; i < deviceClass->stateTypes()->rowCount(); i++) {
         StateType *st = deviceClass->stateTypes()->get(i);
         State *state = new State(id(), st->id(), QVariant(), this);
-        qDebug() << "Adding state" << st->name();
+        qDebug() << "Adding state" << st->name() << st->minValue() << st->maxValue();
         states->addState(state);
     }
     setStates(states);
@@ -56,14 +55,15 @@ ThingGroup::ThingGroup(DeviceManager *deviceManager, DeviceClass *deviceClass, D
         syncStates();
     });
 
-    connect(m_thingManager, &DeviceManager::executeActionReply, this, [this](int commandId, const QVariantMap &/*params*/){
-        // This should maybe check the params and only emit NoError if there is at least one thing that returned without error?
-        foreach (int id, m_pendingActions.keys()) {
-            if (m_pendingActions.value(id).contains(commandId)) {
-                m_pendingActions[id].removeAll(commandId);
-                if (m_pendingActions[id].isEmpty()) {
-                    m_pendingActions.remove(id);
-                    emit actionExecutionFinished(id, "DeviceErrorNoError");
+    connect(m_thingManager, &DeviceManager::executeActionReply, this, [this](int commandId, const QVariantMap &params){
+        // This should maybe check the params and create a sensible group result instead of just forwarding the result of the last reply
+        qDebug() << "action reply:" << commandId;
+        foreach (int id, m_pendingGroupActions.keys()) {
+            if (m_pendingGroupActions.value(id).contains(commandId)) {
+                m_pendingGroupActions[id].removeAll(commandId);
+                if (m_pendingGroupActions[id].isEmpty()) {
+                    m_pendingGroupActions.remove(id);
+                    emit executeActionReply(id, params);
                 }
                 return;
             }
@@ -76,35 +76,51 @@ int ThingGroup::executeAction(const QString &actionName, const QVariantList &par
 {
     QList<int> pendingIds;
 
+    ActionType *groupActionType = m_thingClass->actionTypes()->findByName(actionName);
+    if (!groupActionType) {
+        qWarning() << "Group has no action" << actionName;
+        return -1;
+    }
+
     qDebug() << "Execute action for group:" << this;
     for (int i = 0; i < m_things->rowCount(); i++) {
-        Device *device = m_things->get(i);
-        if (device->setupStatus() != Device::ThingSetupStatusComplete) {
+        Device *thing = m_things->get(i);
+        if (thing->setupStatus() != Device::ThingSetupStatusComplete) {
             continue;
         }
-        ActionType *actionType = device->thingClass()->actionTypes()->findByName(actionName);
+        ActionType *actionType = thing->thingClass()->actionTypes()->findByName(actionName);
         if (!actionType) {
+            qWarning() << "Cannot send action to thing" << thing->name() << "because according action can't be found";
             continue;
         }
 
 
         QVariantList finalParams;
         foreach (const QVariant &paramVariant, params) {
-            ParamType *paramType = actionType->paramTypes()->findByName(paramVariant.toMap().value("paramName").toString());
-            if (paramType) {
-                QVariantMap finalParam;
-                finalParam.insert("paramTypeId", paramType->id());
-                finalParam.insert("value", paramVariant.toMap().value("value"));
-                finalParams.append(finalParam);
+            QString paramName = paramVariant.toMap().value("paramName").toString();
+            ParamType *groupParamType = groupActionType->paramTypes()->findByName(paramName);
+            if (!groupParamType) {
+                qWarning() << "Not adding param" << paramName << "to action" << actionName << "because group action param can't be found";
+                continue;
             }
+            ParamType *paramType = actionType->paramTypes()->findByName(paramName);
+            if (!paramType) {
+                qWarning() << "Not adding param" << paramName << "to action" << actionName << "because according action params can't be found";
+                continue;
+            }
+
+            QVariantMap finalParam;
+            finalParam.insert("paramTypeId", paramType->id());
+            finalParam.insert("value", mapValue(paramVariant.toMap().value("value"), groupParamType, paramType));
+            finalParams.append(finalParam);
         }
 
         qDebug() << "Initial params" << params;
-        qDebug() << "Executing" << device->id() << actionType->name() << finalParams;
-        int id = m_thingManager->executeAction(device->id(), actionType->id(), finalParams);
+        qDebug() << "Executing" << thing->id() << actionType->name() << finalParams;
+        int id = m_thingManager->executeAction(thing->id(), actionType->id(), finalParams);
         pendingIds.append(id);
     }
-    m_pendingActions.insert(++m_idCounter, pendingIds);
+    m_pendingGroupActions.insert(++m_idCounter, pendingIds);
     return m_idCounter;
 }
 
@@ -114,7 +130,7 @@ void ThingGroup::syncStates()
         StateType *stateType = thingClass()->stateTypes()->get(i);
         State *state = states()->getState(stateType->id());
 
-        qDebug() << "syncing state" << stateType->name();
+        qDebug() << "syncing state" << stateType->name() << stateType->type();
 
         QVariant value;
         int count = 0;
@@ -142,6 +158,9 @@ void ThingGroup::syncStates()
             } else if (stateType->type().toLower() == "int") {
                 value = value.toInt() + d->stateValue(ds->id()).toInt();
                 count++;
+            } else if (stateType->type().toLower() == "qcolor") {
+                value = d->stateValue(ds->id());
+                break;
             }
         }
         if (count > 0) {
@@ -149,4 +168,24 @@ void ThingGroup::syncStates()
         }
         state->setValue(value);
     }
+}
+
+QVariant ThingGroup::mapValue(const QVariant &value, ParamType *fromParamType, ParamType *toParamType) const
+{
+    qDebug() << "Mapping:" << value << fromParamType->minValue() << fromParamType->maxValue() << toParamType->minValue() << toParamType->maxValue();
+
+    if (!fromParamType->minValue().isValid()
+            || !fromParamType->maxValue().isValid()
+            || !toParamType->minValue().isValid()
+            || !toParamType->maxValue().isValid()) {
+        return value;
+    }
+    double fromMin = fromParamType->minValue().toDouble();
+    double fromMax = fromParamType->maxValue().toDouble();
+    double toMin = toParamType->minValue().toDouble();
+    double toMax = toParamType->maxValue().toDouble();
+    double fromValue = value.toDouble();
+    double fromPercent = (fromValue - fromMin) / (fromMax - fromMin);
+    double toValue = toMin + (toMax - toMin) * fromPercent;
+    return toValue;
 }

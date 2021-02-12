@@ -37,6 +37,7 @@
 
 class DevicesProxy;
 class DeviceManager;
+class ParamType;
 
 class ThingGroup : public Device
 {
@@ -49,15 +50,13 @@ public:
 private:
     void syncStates();
 
-signals:
-    void actionExecutionFinished(int id, const QString &status);
+    QVariant mapValue(const QVariant &value, ParamType *fromParamType, ParamType *toParamType) const;
 
-private:
-    DeviceManager* m_thingManager = nullptr;
+private:    
     DevicesProxy* m_things = nullptr;
 
     int m_idCounter = 0;
-    QHash<int, QList<int>> m_pendingActions;
+    QHash<int, QList<int>> m_pendingGroupActions;
 };
 
 #endif // THINGGROUP_H

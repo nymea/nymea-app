@@ -16,10 +16,9 @@ Item {
             return;
         }
         d.pendingValue = value;
-        d.pendingCommand = engine.thingManager.executeAction(root.thing.id,
-                                          root.stateType.id,
+        d.pendingCommand = root.thing.executeAction(root.stateType.name,
                                           [{
-                                               paramTypeId: root.stateType.id,
+                                               paramName: root.stateType.name,
                                                value: value
                                            }])
         d.queuedValue = null
@@ -33,7 +32,7 @@ Item {
     }
 
     Connections {
-        target: engine.thingManager
+        target: root.thing
         onExecuteActionReply: {
             if (d.pendingCommand == commandId) {
                 d.pendingCommand = -1;
