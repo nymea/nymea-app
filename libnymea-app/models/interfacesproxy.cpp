@@ -98,11 +98,11 @@ bool InterfacesProxy::filterAcceptsRow(int source_row, const QModelIndex &source
         }
     }
 
-    if (m_devicesFilter != nullptr) {
+    if (m_thingsFilter != nullptr) {
         // TODO: This could be improved *a lot* by caching interfaces in the devices model...
         bool found = false;
-        for (int i = 0; i < m_devicesFilter->rowCount(); i++) {
-            Device *d = m_devicesFilter->get(i);
+        for (int i = 0; i < m_thingsFilter->rowCount(); i++) {
+            Device *d = m_thingsFilter->get(i);
             if (!d->thingClass()) {
                 qWarning() << "Cannot find DeviceClass for device:" << d->id() << d->name();
                 return false;
@@ -116,11 +116,11 @@ bool InterfacesProxy::filterAcceptsRow(int source_row, const QModelIndex &source
             return false;
         }
     }
-    if (m_devicesProxyFilter != nullptr) {
+    if (m_thingsProxyFilter != nullptr) {
         // TODO: This could be improved *a lot* by caching interfaces in the devices model...
         bool found = false;
-        for (int i = 0; i < m_devicesProxyFilter->rowCount(); i++) {
-            Device *d = m_devicesProxyFilter->get(i);
+        for (int i = 0; i < m_thingsProxyFilter->rowCount(); i++) {
+            Device *d = m_thingsProxyFilter->get(i);
             if (!d->thingClass()) {
                 qWarning() << "Cannot find ThingClass for thing:" << d->id() << d->name();
                 return false;

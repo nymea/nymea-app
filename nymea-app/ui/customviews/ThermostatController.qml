@@ -136,7 +136,7 @@ Item {
             ctx.beginPath();
             ctx.font = "" + app.hugeFont + "px " + Style.fontFamily;
             ctx.fillStyle = Style.foregroundColor;
-            var roundedTargetTemp = Types.toUiValue(root.targetTemperatureState.value, root.targetTemperatureStateType.unit)
+            var roundedTargetTemp = Types.toUiValue(currentValue, root.targetTemperatureStateType.unit)
             roundedTargetTemp = roundToPrecision(roundedTargetTemp).toFixed(1) + "°"
             var size = ctx.measureText(roundedTargetTemp)
             ctx.text(roundedTargetTemp, center.x - size.width / 2, center.y + app.hugeFont / 2);

@@ -70,7 +70,7 @@ Page {
 
     InterfacesProxy {
         id: interfacesProxy
-        devicesFilter: engine.deviceManager.devices
+        thingsFilter: engine.thingManager.things
     }
 
     DevicesProxy {
