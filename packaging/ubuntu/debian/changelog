@@ -1,3 +1,13 @@
+nymea-app (1.0.274) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Allow disabling individual discovery methods
+  * Tweak plugin settings pages
+  * Fix mouse area size of the progressbutton
+  * Fix group action executions
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 12 Feb 2021 23:56:49 +0100
+
 nymea-app (1.0.273) bionic; urgency=medium
 
   [ Michael Zanetti ]
