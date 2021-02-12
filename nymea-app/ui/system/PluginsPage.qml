@@ -1,6 +1,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 *
-* Copyright 2013 - 2020, nymea GmbH
+* Copyright 2013 - 2021, nymea GmbH
 * Contact: contact@nymea.io
 *
 * This file is part of nymea.
@@ -51,11 +51,8 @@ SettingsPageBase {
         }
     }
 
-    Label {
-        Layout.fillWidth: true
-        Layout.margins: app.margins
-        wrapMode: Text.WordWrap
-        text: qsTr("This list shows the list of installed plugins on this %1 system.").arg(app.systemName)
+    SettingsPageSectionHeader {
+        text: qsTr("Installed integration plugins")
     }
 
     Repeater {
@@ -66,11 +63,11 @@ SettingsPageBase {
 
         delegate: NymeaSwipeDelegate {
             Layout.fillWidth: true
-            property var plugin: pluginsProxy.get(index)
+            property Plugin plugin: pluginsProxy.get(index)
             iconName: "../images/plugin.svg"
             text: model.name
             progressive: plugin.paramTypes.count > 0
-            onClicked: pageStack.push(Qt.resolvedUrl("PluginParamsPage.qml"), {plugin: plugin})
+            onClicked: if (progressive) { pageStack.push(Qt.resolvedUrl("PluginParamsPage.qml"), {plugin: plugin}) }
         }
     }
 }

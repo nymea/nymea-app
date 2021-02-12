@@ -36,12 +36,12 @@ import "../components"
 import "../delegates"
 import Nymea 1.0
 
-Page {
+SettingsPageBase {
     id: root
     property var plugin: null
 
     header: NymeaHeader {
-        text: qsTr("%1 settings").arg(plugin.name)
+        text: plugin.name
         backButtonVisible: true
         onBackPressed: pageStack.pop()
 
@@ -66,23 +66,17 @@ Page {
         }
     }
 
-    Flickable {
-        anchors.fill: parent
-        contentHeight: column.implicitHeight
+    SettingsPageSectionHeader {
+        text: qsTr("Settings")
+    }
 
-        ColumnLayout {
-            id: column
-            width: parent.width
+    Repeater {
+        model: plugin.paramTypes
 
-            Repeater {
-                model: plugin.paramTypes
-
-                delegate: ParamDelegate {
-                    Layout.fillWidth: true
-                    paramType: root.plugin.paramTypes.get(index)
-                    param: root.plugin.params.getParam(model.id)
-                }
-            }
+        delegate: ParamDelegate {
+            Layout.fillWidth: true
+            paramType: root.plugin.paramTypes.get(index)
+            param: root.plugin.params.getParam(model.id)
         }
     }
 
