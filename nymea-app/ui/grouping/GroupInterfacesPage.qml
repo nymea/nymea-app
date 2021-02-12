@@ -60,7 +60,7 @@ Page {
         model: InterfacesSortModel {
             interfacesModel: InterfacesModel {
                 engine: _engine
-                devices: devicesInGroup
+                things: devicesInGroup
                 shownInterfaces: app.supportedInterfaces
                 showUncategorized: true
             }

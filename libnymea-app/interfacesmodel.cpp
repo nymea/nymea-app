@@ -69,16 +69,15 @@ Engine *InterfacesModel::engine() const
 void InterfacesModel::setEngine(Engine *engine)
 {
     if (m_engine != engine) {
-        static QMetaObject::Connection countChangedConnection;
 
         if (m_engine) {
-            disconnect(countChangedConnection);
+            disconnect(m_thingClassesCountChangedConnection);
         }
 
         m_engine = engine;
         emit engineChanged();
 
-        countChangedConnection = connect(engine->deviceManager()->deviceClasses(), &DeviceClasses::countChanged, this, [this]() {
+        m_thingClassesCountChangedConnection = connect(engine->deviceManager()->deviceClasses(), &DeviceClasses::countChanged, this, [this]() {
             syncInterfaces();
         });
 
@@ -86,24 +85,22 @@ void InterfacesModel::setEngine(Engine *engine)
     }
 }
 
-DevicesProxy *InterfacesModel::devices() const
+DevicesProxy *InterfacesModel::things() const
 {
-    return m_devicesProxy;
+    return m_thingsProxy;
 }
 
-void InterfacesModel::setDevices(DevicesProxy *devices)
+void InterfacesModel::setThings(DevicesProxy *things)
 {
-    if (m_devicesProxy != devices) {
-        static QMetaObject::Connection countChangedConnection;
-
-        if (m_devicesProxy) {
-            disconnect(countChangedConnection);
+    if (m_thingsProxy != things) {
+        if (m_thingsProxy) {
+            disconnect(m_thingsCountChangedConnection);
         }
 
-        m_devicesProxy = devices;
-        emit devicesChanged();
+        m_thingsProxy = things;
+        emit thingsChanged();
 
-        countChangedConnection = connect(devices, &DevicesProxy::countChanged, this, [this]() {
+        m_thingsCountChangedConnection = connect(things, &DevicesProxy::countChanged, this, [this]() {
             syncInterfaces();
         });
         syncInterfaces();
@@ -153,9 +150,9 @@ void InterfacesModel::syncInterfaces()
         return;
     }
     QList<DeviceClass*> deviceClasses;
-    if (m_devicesProxy) {
-        for (int i = 0; i < m_devicesProxy->rowCount(); i++) {
-            deviceClasses << m_engine->deviceManager()->deviceClasses()->getDeviceClass(m_devicesProxy->get(i)->deviceClassId());
+    if (m_thingsProxy) {
+        for (int i = 0; i < m_thingsProxy->rowCount(); i++) {
+            deviceClasses << m_engine->deviceManager()->deviceClasses()->getDeviceClass(m_thingsProxy->get(i)->deviceClassId());
         }
     } else {
         for (int i = 0; i < m_engine->deviceManager()->deviceClasses()->rowCount(); i++) {

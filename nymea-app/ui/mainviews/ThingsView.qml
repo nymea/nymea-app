@@ -43,7 +43,7 @@ MainViewBase {
         id: mainModel
         interfacesModel: InterfacesModel {
             engine: _engine
-            devices: DevicesProxy {
+            things: DevicesProxy {
                 engine: _engine
             }
             shownInterfaces: app.supportedInterfaces
