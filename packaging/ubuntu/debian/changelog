@@ -1,3 +1,11 @@
+nymea-app (1.0.275) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Update devices to things in interfacesproxy
+  * Add x86_64 support for android build
+
+ -- Jenkins <jenkins@nymea.io>  Sat, 13 Feb 2021 14:29:40 +0100
+
 nymea-app (1.0.274) bionic; urgency=medium
 
   [ Michael Zanetti ]
