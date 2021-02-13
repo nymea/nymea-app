@@ -54,7 +54,7 @@ Page {
 
     InterfacesProxy {
         id: interfacesInGroup
-        devicesProxyFilter: devicesInGroup
+        thingsProxyFilter: devicesInGroup
         showStates: true
     }
 

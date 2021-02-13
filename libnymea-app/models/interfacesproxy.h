@@ -44,8 +44,8 @@ class InterfacesProxy: public QSortFilterProxyModel
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
 
     Q_PROPERTY(QStringList shownInterfaces READ shownInterfaces WRITE setShownInterfaces NOTIFY shownInterfacesChanged)
-    Q_PROPERTY(Devices* devicesFilter READ devicesFilter WRITE setDevicesFilter NOTIFY devicesFilterChanged)
-    Q_PROPERTY(DevicesProxy* devicesProxyFilter READ devicesProxyFilter WRITE setDevicesProxyFilter NOTIFY devicesProxyFilterChanged)
+    Q_PROPERTY(Devices* thingsFilter READ thingsFilter WRITE setThingsFilter NOTIFY thingsFilterChanged)
+    Q_PROPERTY(DevicesProxy* thingsProxyFilter READ thingsProxyFilter WRITE setThingsProxyFilter NOTIFY thingsProxyFilterChanged)
     Q_PROPERTY(bool showEvents READ showEvents WRITE setShowEvents NOTIFY showEventsChanged)
     Q_PROPERTY(bool showActions READ showActions WRITE setShowActions NOTIFY showActionsChanged)
     Q_PROPERTY(bool showStates READ showStates WRITE setShowStates NOTIFY showStatesChanged)
@@ -56,11 +56,11 @@ public:
     QStringList shownInterfaces() const { return m_shownInterfaces; }
     void setShownInterfaces(const QStringList &shownInterfaces) { m_shownInterfaces = shownInterfaces; emit shownInterfacesChanged(); invalidateFilter(); }
 
-    Devices* devicesFilter() const { return m_devicesFilter; }
-    void setDevicesFilter(Devices *devices) { m_devicesFilter = devices; emit devicesFilterChanged(); invalidateFilter(); }
+    Devices* thingsFilter() const { return m_thingsFilter; }
+    void setThingsFilter(Devices *things) { m_thingsFilter = things; emit thingsFilterChanged(); invalidateFilter(); }
 
-    DevicesProxy* devicesProxyFilter() const { return m_devicesProxyFilter; }
-    void setDevicesProxyFilter(DevicesProxy *devicesProxy) { m_devicesProxyFilter = devicesProxy; emit devicesProxyFilterChanged(); invalidateFilter(); }
+    DevicesProxy* thingsProxyFilter() const { return m_thingsProxyFilter; }
+    void setThingsProxyFilter(DevicesProxy *thingsProxy) { m_thingsProxyFilter = thingsProxy; emit thingsProxyFilterChanged(); invalidateFilter(); }
 
     bool showEvents() const;
     void setShowEvents(bool showEvents);
@@ -78,8 +78,8 @@ public:
 
 signals:
     void shownInterfacesChanged();
-    void devicesFilterChanged();
-    void devicesProxyFilterChanged();
+    void thingsFilterChanged();
+    void thingsProxyFilterChanged();
     void showEventsChanged();
     void showActionsChanged();
     void showStatesChanged();
@@ -89,8 +89,8 @@ signals:
 private:
     Interfaces *m_interfaces = nullptr;
     QStringList m_shownInterfaces;
-    Devices* m_devicesFilter = nullptr;
-    DevicesProxy* m_devicesProxyFilter = nullptr;
+    Devices* m_thingsFilter = nullptr;
+    DevicesProxy* m_thingsProxyFilter = nullptr;
     bool m_showEvents = false;
     bool m_showActions = false;
     bool m_showStates = false;
