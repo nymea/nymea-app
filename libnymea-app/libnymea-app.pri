@@ -26,6 +26,12 @@ SOURCES += \
     $${PWD}/logging.cpp \
     $${PWD}/applogcontroller.cpp \
     $${PWD}/wifisetup/btwifisetup.cpp \
+    $$PWD/modbus/modbusrtumanager.cpp \
+    $$PWD/modbus/modbusrtumaster.cpp \
+    $$PWD/modbus/modbusrtumasters.cpp \
+    $$PWD/types/serialport.cpp \
+    $$PWD/types/serialports.cpp \
+    $$PWD/types/serialportsproxy.cpp \
     $${PWD}/configuration/networkmanager.cpp \
     $${PWD}/engine.cpp \
     $${PWD}/models/barseriesadapter.cpp \
@@ -174,6 +180,12 @@ HEADERS += \
     $${PWD}/logging.h \
     $${PWD}/applogcontroller.h \
     $${PWD}/wifisetup/btwifisetup.h \
+    $$PWD/modbus/modbusrtumanager.h \
+    $$PWD/modbus/modbusrtumaster.h \
+    $$PWD/modbus/modbusrtumasters.h \
+    $$PWD/types/serialport.h \
+    $$PWD/types/serialports.h \
+    $$PWD/types/serialportsproxy.h \
     $${PWD}/configuration/networkmanager.h \
     $${PWD}/engine.h \
     $${PWD}/models/barseriesadapter.h \

@@ -246,5 +246,8 @@
         <file>ui/mainviews/dashboard/DashboardSceneDelegate.qml</file>
         <file>ui/mainviews/dashboard/DashboardWebViewDelegate.qml</file>
         <file>ui/components/SelectionTabs.qml</file>
+        <file>ui/system/ModbusRtuSettingsPage.qml</file>
+        <file>ui/system/ModbusRtuAddMasterPage.qml</file>
+        <file>ui/system/ModbusRtuReconfigureMasterPage.qml</file>
     </qresource>
 </RCC>
