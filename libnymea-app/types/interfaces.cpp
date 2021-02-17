@@ -119,6 +119,7 @@ Interfaces::Interfaces(QObject *parent) : QAbstractListModel(parent)
 
     addInterface("evcharger", tr("EV charger"));
     addStateType("evcharger", "power", QVariant::Bool, true, tr("Charging"), tr("Charging changed"), tr("Enable charging"));
+    addStateType("evcharger", "maxChargingCurrent", QVariant::UInt, true, tr("Maximum charging current"), tr("Maximum charging current changed"), tr("Set maximum charging current"));
 
     addInterface("extendedclosable", tr("Closable things"), {"closable"});
     addStateType("extendedclosable", "moving", QVariant::Bool, false, tr("Moving"), tr("Moving changed"));
@@ -126,9 +127,6 @@ Interfaces::Interfaces(QObject *parent) : QAbstractListModel(parent)
     addInterface("extendedawning", tr("Awnings"), {"awning", "extendedclosable"});
 
     addInterface("extendedblind", tr("Blinds"), {"blind", "extendedclosable"});
-
-    addInterface("extendedevcharger", tr("EV chargers"), {"evcharger"});
-    addStateType("extendedevcharger", "maxChargingCurrent", QVariant::UInt, true, tr("Maximum charging current"), tr("Maximum charging current changed"), tr("Set maximum charging current"));
 
     addInterface("heating", tr("Heating"));
     addStateType("heating", "power", QVariant::Bool, true, tr("Heating enabled"), tr("Heating enabled changed"), tr("Enable heating"));

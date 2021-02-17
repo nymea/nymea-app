@@ -354,7 +354,6 @@ ApplicationWindow {
         case "thermostat":
             return Qt.resolvedUrl("images/dial.svg")
         case "evcharger":
-        case "extendedevcharger":
             return Qt.resolvedUrl("images/ev-charger.svg")
         case "doorbell":
             return Qt.resolvedUrl("images/notification.svg")
