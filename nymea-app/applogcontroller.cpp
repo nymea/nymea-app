@@ -69,6 +69,16 @@ AppLogController::AppLogController(QObject *parent) : QAbstractListModel(parent)
             QFile::remove(fileName + ".old");
         }
         QFile::rename(fileName, fileName + ".old");
+        QFile oldFile(fileName + ".old");
+        if (oldFile.open(QFile::ReadOnly)) {
+            m_buffer.append(QString(oldFile.readAll()).split('\n'));
+            for (int i = 0; i < m_buffer.count(); i++) {
+                m_types.append(TypeInfo);
+            }
+            m_types.append(TypeWarning);
+            m_buffer.append("**** App restart ****");
+            oldFile.close();
+        }
     }
     QDir dir(path);
     if (!dir.exists()) {
