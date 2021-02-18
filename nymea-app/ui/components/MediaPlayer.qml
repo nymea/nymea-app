@@ -55,6 +55,7 @@ Item {
 
     readonly property bool hasVolumeControl: thing.thingClass.interfaces.indexOf("volumecontroller") >= 0
     readonly property State volumeState: thing.stateByName("volume")
+    readonly property StateType volumeStateType: thing.thingClass.stateTypes.findByName("volume")
     readonly property State muteState: thing.stateByName("mute")
 
     readonly property State equalizerPresetState: thing.stateByName("equalizerPreset")
@@ -364,8 +365,8 @@ Item {
                 Slider {
                     Layout.fillHeight: true
                     visible: root.volumeState !== null
-                    from: 0
-                    to: 100
+                    from: root.volumeStateType.minValue
+                    to: root.volumeStateType.maxValue
                     value: volumeActionQueue.pendingValue || root.volumeState.value
                     orientation: Qt.Vertical
                     onMoved: volumeActionQueue.sendValue(value)
