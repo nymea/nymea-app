@@ -46,9 +46,16 @@ Engine *DevicesProxy::engine() const
 void DevicesProxy::setEngine(Engine *engine)
 {
     if (m_engine != engine) {
+        if (m_engine) {
+            disconnect(m_engine->tagsManager()->tags(), &Tags::countChanged, this, &DevicesProxy::invalidateFilter);
+        }
         m_engine = engine;
-        connect(m_engine->tagsManager()->tags(), &Tags::countChanged, this, &DevicesProxy::invalidateFilter);
         emit engineChanged();
+        if (!m_engine) {
+            return;
+        }
+
+        connect(m_engine->tagsManager()->tags(), &Tags::countChanged, this, &DevicesProxy::invalidateFilter);
 
         if (!sourceModel()) {
             setSourceModel(m_engine->deviceManager()->devices());
