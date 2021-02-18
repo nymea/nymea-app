@@ -1,3 +1,15 @@
+nymea-app (1.0.276) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Rename editDevice to editThing
+  * Inlude also the previous runs logs in the applogcontroller
+  * Fix a crash on engine destruction
+  * update evcharger interface
+  * Fix volume slider limits if a thing doesn't have volume from 0 to
+    100
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 19 Feb 2021 00:40:15 +0100
+
 nymea-app (1.0.275) bionic; urgency=medium
 
   [ Michael Zanetti ]
