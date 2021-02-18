@@ -306,7 +306,7 @@ SettingsPageBase {
             }
 
             onAccepted: {
-                engine.deviceManager.editDevice(root.device.id, textField.text)
+                engine.deviceManager.editThing(root.device.id, textField.text)
                 dialog.destroy();
             }
         }

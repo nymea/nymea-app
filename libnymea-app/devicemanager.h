@@ -96,7 +96,7 @@ public:
     Q_INVOKABLE int rePairDevice(const QUuid &deviceId, const QVariantList &deviceParams, const QString &name = QString());
     Q_INVOKABLE int confirmPairing(const QUuid &pairingTransactionId, const QString &secret = QString(), const QString &username = QString());
     Q_INVOKABLE int removeThing(const QUuid &thingId, RemovePolicy policy = RemovePolicyNone);
-    Q_INVOKABLE int editDevice(const QUuid &deviceId, const QString &name);
+    Q_INVOKABLE int editThing(const QUuid &thingId, const QString &name);
     Q_INVOKABLE int setDeviceSettings(const QUuid &deviceId, const QVariantList &settings);
     Q_INVOKABLE int reconfigureDevice(const QUuid &deviceId, const QVariantList &deviceParams);
     Q_INVOKABLE int reconfigureDiscoveredDevice(const QUuid &deviceId, const QUuid &deviceDescriptorId, const QVariantList &paramOverride);
@@ -122,7 +122,7 @@ private:
     Q_INVOKABLE void pairDeviceResponse(int commandId, const QVariantMap &params);
     Q_INVOKABLE void confirmPairingResponse(int commandId, const QVariantMap &params);
     Q_INVOKABLE void setPluginConfigResponse(int commandId, const QVariantMap &params);
-    Q_INVOKABLE void editDeviceResponse(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void editThingResponse(int commandId, const QVariantMap &params);
     Q_INVOKABLE void executeActionResponse(int commandId, const QVariantMap &params);
     Q_INVOKABLE void reconfigureDeviceResponse(int commandId, const QVariantMap &params);
     Q_INVOKABLE void browseDeviceResponse(int commandId, const QVariantMap &params);
@@ -144,7 +144,7 @@ signals:
     void addDeviceReply(int commandId, const QVariantMap &params);
     void removeThingReply(int commandId, const QVariantMap &params);
     void savePluginConfigReply(int commandId, const QVariantMap &params);
-    void editDeviceReply(int commandId, const QVariantMap &params);
+    void editThingReply(int commandId, const QVariantMap &params);
     void reconfigureDeviceReply(int commandId, const QVariantMap &params);
     void executeActionReply(int commandId, const QVariantMap &params);
     void executeBrowserItemReply(int commandId, const QVariantMap &params);

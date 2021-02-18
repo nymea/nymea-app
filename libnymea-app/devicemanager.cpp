@@ -425,10 +425,10 @@ void DeviceManager::setPluginConfigResponse(int commandId, const QVariantMap &pa
     emit savePluginConfigReply(commandId, params);
 }
 
-void DeviceManager::editDeviceResponse(int commandId, const QVariantMap &params)
+void DeviceManager::editThingResponse(int commandId, const QVariantMap &params)
 {
-    qDebug() << "Edit device response" << params;
-    emit editDeviceReply(commandId, params);
+    qDebug() << "Edit thing response" << params;
+    emit editThingReply(commandId, params);
 }
 
 void DeviceManager::executeActionResponse(int commandId, const QVariantMap &params)
@@ -539,12 +539,12 @@ int DeviceManager::removeThing(const QUuid &thingId, DeviceManager::RemovePolicy
     return m_jsonClient->sendCommand("Devices.RemoveConfiguredDevice", params, this, "removeThingResponse");
 }
 
-int DeviceManager::editDevice(const QUuid &deviceId, const QString &name)
+int DeviceManager::editThing(const QUuid &thingId, const QString &name)
 {
     QVariantMap params;
-    params.insert("deviceId", deviceId.toString());
+    params.insert("deviceId", thingId.toString());
     params.insert("name", name);
-    return m_jsonClient->sendCommand("Devices.EditDevice", params, this, "editDeviceResponse");
+    return m_jsonClient->sendCommand("Devices.EditDevice", params, this, "editThingResponse");
 }
 
 int DeviceManager::setDeviceSettings(const QUuid &deviceId, const QVariantList &settings)
