@@ -45,7 +45,7 @@ Page {
     readonly property bool isEventBased: rule.eventDescriptors.count > 0 || rule.timeDescriptor.timeEventItems.count > 0
     readonly property bool isStateBased: (rule.stateEvaluator !== null || rule.timeDescriptor.calendarItems.count > 0)
     readonly property bool actionsVisible: true
-    readonly property bool exitActionsVisible: engine.jsonRpcClient.ensureServerVersion("1.7") && isStateBased
+    readonly property bool exitActionsVisible: isStateBased
     readonly property bool hasActions: rule.actions.count > 0
     readonly property bool hasExitActions: rule.exitActions.count > 0
     readonly property bool isEmpty: !isEventBased && !isStateBased && !hasActions
@@ -380,7 +380,7 @@ Page {
                     columnSpacing: app.margins
                     rowSpacing: app.margins
                     Layout.preferredHeight: opacity > 0 ? implicitHeight : 0
-                    opacity: engine.jsonRpcClient.ensureServerVersion(1.6) && ruleSettings.showDetails && root.rule.executable ? 1 : 0
+                    opacity: ruleSettings.showDetails && root.rule.executable ? 1 : 0
                     Behavior on Layout.preferredHeight { NumberAnimation { duration: 200; easing.type: Easing.InOutQuad} }
                     Behavior on opacity { NumberAnimation {duration: 200; easing.type: Easing.InOutQuad } }
 

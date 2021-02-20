@@ -54,10 +54,8 @@ Item {
         SwipeDelegateGroup {}
 
         onContentYChanged: {
-            if (!engine.jsonRpcClient.ensureServerVersion("1.10")) {
-                if (!logsModel.busy && contentY - originY < 5 * height) {
-                    logsModel.fetchEarlier(24)
-                }
+            if (!logsModel.busy && contentY - originY < 5 * height) {
+                logsModel.fetchEarlier(24)
             }
         }
 

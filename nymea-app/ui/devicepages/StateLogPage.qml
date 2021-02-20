@@ -46,9 +46,8 @@ Page {
         switch (root.stateType.type) {
         case "Int":
         case "Double":
-            return true;
         case "Bool":
-            return engine.jsonRpcClient.ensureServerVersion("1.10")
+            return true;
         }
         print("not showing graph for", root.stateType.type)
         return false;
@@ -94,7 +93,7 @@ Page {
                 width: swipeView.width
                 height: swipeView.height
 
-                logsModel: engine.jsonRpcClient.ensureServerVersion("1.10") ? logsModelNg : logsModel
+                logsModel: logsModelNg
 
                 onAddRuleClicked: {
                     var value = logView.logsModel.get(index).value
@@ -119,11 +118,7 @@ Page {
                 height: swipeView.height
                 Component.onCompleted: {
                     var source;
-                    if (engine.jsonRpcClient.ensureServerVersion("1.10")) {
-                        source = Qt.resolvedUrl("../customviews/GenericTypeGraph.qml");
-                    } else {
-                        source = Qt.resolvedUrl("../customviews/GenericTypeGraphPre110.qml");
-                    }
+                    source = Qt.resolvedUrl("../customviews/GenericTypeGraph.qml");
                     setSource(source, {device: root.device, stateType: root.stateType})
                 }
             }

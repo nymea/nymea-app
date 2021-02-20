@@ -150,13 +150,10 @@ void Engine::onConnectedChanged()
 void Engine::onDeviceManagerFetchingChanged()
 {
     if (!m_thingManager->fetchingData()) {
+        m_tagsManager->init();
         m_ruleManager->init();
         m_scriptManager->init();
         m_nymeaConfiguration->init();
         m_systemController->init();
-
-        if (m_jsonRpcClient->ensureServerVersion("1.7")) {
-            m_tagsManager->init();
-        }
     }
 }
