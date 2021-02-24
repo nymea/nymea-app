@@ -366,10 +366,17 @@ Item {
                             init();
                         }
 
-                        onInvalidProtocolVersion: {
+                        onInvalidMinimumVersion: {
                             var popup = invalidVersionComponent.createObject(app.contentItem);
                             popup.actualVersion = actualVersion;
-                            popup.minimumVersion = minimumVersion
+                            popup.minVersion = minVersion;
+                            popup.open()
+                            tabSettings.lastConnectedHost = ""
+                        }
+                        onInvalidMaximumVersion: {
+                            var popup = invalidVersionComponent.createObject(app.contentItem);
+                            popup.actualVersion = actualVersion;
+                            popup.maxVersion = maxVersion;
                             popup.open()
                             tabSettings.lastConnectedHost = ""
                         }
@@ -421,8 +428,9 @@ Item {
                         Popup {
                             id: popup
 
-                            property string actualVersion: "0.0"
-                            property string minimumVersion: "1.10"
+                            property string actualVersion: ""
+                            property string minVersion: ""
+                            property string maxVersion: ""
 
                             width: app.width * .8
                             height: col.childrenRect.height + app.margins * 2
@@ -439,7 +447,9 @@ Item {
                                     font.pixelSize: app.largeFont
                                 }
                                 Label {
-                                    text: qsTr("Sorry, the version of the %1:core you are trying to connect to is too old. This app requires at least version %2 but this %1:core only supports %3").arg(app.systemName).arg(popup.minimumVersion).arg(popup.actualVersion)
+                                    text: popup.minVersion != ""
+                                          ? qsTr("The version of the %1:core you are trying to connect to is too old. This app requires at least version %2 but this %1:core only supports %3. Please update your %1:core system.").arg(app.systemName).arg(popup.minVersion).arg(popup.actualVersion)
+                                          : qsTr("The version of the %1:core you are trying to connect to is too new. This app supports only up to version %2 but this %1:core provides %3. Please update %1:app.").arg(app.systemName).arg(popup.maxVersion).arg(popup.actualVersion)
                                     wrapMode: Text.WordWrap
                                     Layout.fillWidth: true
                                 }

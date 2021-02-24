@@ -129,7 +129,8 @@ signals:
     void pushButtonAuthAvailableChanged();
     void authenticatedChanged();
     void tokenChanged();
-    void invalidProtocolVersion(const QString &actualVersion, const QString &minimumVersion);
+    void invalidMinimumVersion(const QString &actualVersion, const QString &minVersion);
+    void invalidMaximumVersion(const QString &actualVersion, const QString &maxVersion);
     void authenticationFailed();
     void pushButtonAuthFailed();
     void createUserSucceeded();
