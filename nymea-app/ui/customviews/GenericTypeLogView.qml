@@ -63,11 +63,11 @@ Item {
             id: logEntryDelegate
             width: parent.width
             implicitHeight: app.delegateHeight
-            property var device: engine.deviceManager.devices.getDevice(model.deviceId)
-            property var deviceClass: engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId)
+            property Thing thing: engine.thingManager.things.getThing(model.thingId)
+            property Thing thingClass: engine.thingManager.thingClasses.getThingClass(thing.thingClassId)
             iconName: "../images/event.svg"
             text: Qt.formatDateTime(model.timestamp,"dd.MM.yy - hh:mm:ss")
-            subText: deviceClass.eventTypes.getEventType(model.typeId).displayName + (model.value.length > 0 ? (": " + model.value.trim()) : "")
+            subText: thingClass.eventTypes.getEventType(model.typeId).displayName + (model.value.length > 0 ? (": " + model.value.trim()) : "")
             prominentSubText: true
             progressive: false
             contextOptions: [

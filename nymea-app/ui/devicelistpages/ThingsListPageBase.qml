@@ -28,59 +28,30 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef DEVICES_H
-#define DEVICES_H
+import QtQuick 2.5
+import QtQuick.Controls 2.1
+import QtQuick.Controls.Material 2.1
+import QtQuick.Layouts 1.1
+import Nymea 1.0
+import "../components"
 
-#include <QAbstractListModel>
+Page {
+    id: root
 
-#include "types/device.h"
-#include "types/deviceclass.h"
+    property alias shownInterfaces: thingsProxyInternal.shownInterfaces
+    property alias hiddenInterfaces: thingsProxyInternal.hiddenInterfaces
+    property alias filterTagId: thingsProxyInternal.filterTagId
 
-class Devices : public QAbstractListModel
-{
-    Q_OBJECT
-    Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
-public:
-    enum Roles {
-        RoleName,
-        RoleId,
-        RoleParentDeviceId,
-        RoleDeviceClass,
-        RoleThingClass,
-        RoleSetupStatus,
-        RoleSetupDisplayMessage,
-        RoleInterfaces,
-        RoleBaseInterface
-    };
-    Q_ENUM(Roles)
+    property ThingsProxy thingsProxy: thingsProxyInternal
 
-    explicit Devices(QObject *parent = nullptr);
+    function enterPage(index) {
+        var thing = thingsProxy.get(index);
+        var page = NymeaUtils.interfaceListToDevicePage(root.shownInterfaces);
+        pageStack.push(Qt.resolvedUrl("../devicepages/" + page), {thing: thingsProxy.get(index)})
+    }
 
-    QList<Device *> devices();
-
-    Q_INVOKABLE Device *get(int index) const;
-    Q_INVOKABLE Device *getThing(const QUuid &thingId) const;
-    Q_INVOKABLE Device *getDevice(const QUuid &deviceId) const;
-
-    int rowCount(const QModelIndex & parent = QModelIndex()) const;
-    QVariant data(const QModelIndex & index, int role = RoleName) const;
-
-    void addDevice(Device *device);
-    void removeThing(Device *thing);
-
-    void clearModel();
-
-protected:
-    QHash<int, QByteArray> roleNames() const;
-
-signals:
-    void countChanged();
-    void thingAdded(Device *device);
-    void thingRemoved(Device *device);
-
-private:
-    QList<Device *> m_things;
-
-};
-
-#endif // DEVICES_H
+    ThingsProxy {
+        id: thingsProxyInternal
+        engine: _engine
+    }
+}

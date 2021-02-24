@@ -41,18 +41,18 @@ NymeaSwipeDelegate {
     progressive: false
 
     property EventDescriptor eventDescriptor: null
-    readonly property Device device: eventDescriptor ? engine.deviceManager.devices.getDevice(eventDescriptor.deviceId) : null
-    readonly property DeviceClass deviceClass: device ? engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
+    readonly property Thing thing: eventDescriptor ? engine.thingManager.things.getThing(eventDescriptor.thingId) : null
+    readonly property ThingClass thingClass: thing ? engine.thingManager.thingClasses.getThingClass(thing.thingClassId) : null
     readonly property Interface iface: eventDescriptor.interfaceName ? Interfaces.findByName(eventDescriptor.interfaceName) : null
-    readonly property EventType eventType: deviceClass ? deviceClass.eventTypes.getEventType(eventDescriptor.eventTypeId)
+    readonly property EventType eventType: thingClass ? thingClass.eventTypes.getEventType(eventDescriptor.eventTypeId)
                                                  : iface ? iface.eventTypes.findByName(eventDescriptor.interfaceEvent) : null
 
     signal removeEventDescriptor()
 
     onDeleteClicked: root.removeEventDescriptor()
 
-    iconName: root.device ? "../images/event.svg" : "../images/event-interface.svg"
-    text: qsTr("%1 - %2").arg(root.device ? root.device.name : root.iface.displayName).arg(root.eventType.displayName)
+    iconName: root.thing ? "../images/event.svg" : "../images/event-interface.svg"
+    text: qsTr("%1 - %2").arg(root.thing ? root.thing.name : root.iface.displayName).arg(root.eventType.displayName)
     subText: {
         var ret = qsTr("anytime");
         for (var i = 0; i < root.eventDescriptor.paramDescriptors.count; i++) {

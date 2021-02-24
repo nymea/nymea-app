@@ -37,8 +37,8 @@ class RuleTemplate;
 class StateEvaluatorTemplate;
 class TimeDescriptorTemplate;
 class RepeatingOption;
-class DevicesProxy;
-class Device;
+class ThingsProxy;
+class Thing;
 
 class RuleTemplates : public QAbstractListModel
 {
@@ -79,7 +79,7 @@ class RuleTemplatesFilterModel: public QSortFilterProxyModel
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
     Q_PROPERTY(RuleTemplates* ruleTemplates READ ruleTemplates WRITE setRuleTemplates NOTIFY ruleTemplatesChanged)
     Q_PROPERTY(QStringList filterInterfaceNames READ filterInterfaceNames WRITE setFilterInterfaceNames NOTIFY filterInterfaceNamesChanged)
-    Q_PROPERTY(DevicesProxy* filterByDevices READ filterByDevices WRITE setFilterByDevices NOTIFY filterByDevicesChanged)
+    Q_PROPERTY(ThingsProxy* filterByThings READ filterByThings WRITE setFilterByThings NOTIFY filterByThingsChanged)
 
 public:
     RuleTemplatesFilterModel(QObject *parent = nullptr): QSortFilterProxyModel(parent) {}
@@ -87,8 +87,8 @@ public:
     void setRuleTemplates(RuleTemplates* ruleTemplates) { if (m_ruleTemplates != ruleTemplates) { m_ruleTemplates = ruleTemplates; setSourceModel(ruleTemplates); emit ruleTemplatesChanged(); invalidateFilter(); emit countChanged();}}
     QStringList filterInterfaceNames() const { return m_filterInterfaceNames; }
     void setFilterInterfaceNames(const QStringList &filterInterfaceNames) { if (m_filterInterfaceNames != filterInterfaceNames) { m_filterInterfaceNames = filterInterfaceNames; emit filterInterfaceNamesChanged(); invalidateFilter(); emit countChanged(); }}
-    DevicesProxy* filterByDevices() const { return m_filterDevicesProxy; }
-    void setFilterByDevices(DevicesProxy* filterDevicesProxy) {if (m_filterDevicesProxy !=  filterDevicesProxy) { m_filterDevicesProxy = filterDevicesProxy; emit filterByDevicesChanged(); invalidateFilter(); }}
+    ThingsProxy* filterByThings() const { return m_filterThingsProxy; }
+    void setFilterByThings(ThingsProxy* filterThingsProxy) {if (m_filterThingsProxy !=  filterThingsProxy) { m_filterThingsProxy = filterThingsProxy; emit filterByThingsChanged(); invalidateFilter(); }}
     Q_INVOKABLE RuleTemplate* get(int index) {
         if (index < 0 || index >= rowCount()) {
             return nullptr;
@@ -101,18 +101,18 @@ protected:
 signals:
     void ruleTemplatesChanged();
     void filterInterfaceNamesChanged();
-    void filterByDevicesChanged();
+    void filterByThingsChanged();
     void countChanged();
 
 
 private:
-    bool thingsSatisfyRuleTemplate(RuleTemplate *ruleTemplate, DevicesProxy *things) const;
-    bool thingsSatisfyStateEvaluatorTemplate(StateEvaluatorTemplate *stateEvaluatorTemplate, DevicesProxy *things) const;
+    bool thingsSatisfyRuleTemplate(RuleTemplate *ruleTemplate, ThingsProxy *things) const;
+    bool thingsSatisfyStateEvaluatorTemplate(StateEvaluatorTemplate *stateEvaluatorTemplate, ThingsProxy *things) const;
 
 private:
     RuleTemplates* m_ruleTemplates = nullptr;
     QStringList m_filterInterfaceNames;
-    DevicesProxy* m_filterDevicesProxy = nullptr;
+    ThingsProxy* m_filterThingsProxy = nullptr;
 };
 
 #endif // RULETEMPLATES_H

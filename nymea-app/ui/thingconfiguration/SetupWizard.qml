@@ -41,7 +41,6 @@ Page {
     id: root
 
     property ThingClass thingClass: thing ? thing.thingClass : null
-    property alias deviceClass: root.thingClass
 
     // Optional: If set, it will be reconfigred, otherwise a new one will be created
     property Thing thing: null
@@ -50,7 +49,7 @@ Page {
     signal done();
 
     header: NymeaHeader {
-        text: root.device ? qsTr("Reconfigure %1").arg(root.device.name) : qsTr("Set up %1").arg(root.deviceClass.displayName)
+        text: root.thing ? qsTr("Reconfigure %1").arg(root.thing.name) : qsTr("Set up %1").arg(root.thingClass.displayName)
         onBackPressed: {
             if (internalPageStack.depth > 1) {
                 internalPageStack.pop();
@@ -70,25 +69,25 @@ Page {
         property var vendorId: null
         property ThingDescriptor thingDescriptor: null
         property var discoveryParams: []
-        property string deviceName: ""
+        property string thingName: ""
         property int pairRequestId: 0
         property var pairingTransactionId: null
         property int addRequestId: 0
     }
 
     Component.onCompleted: {
-        print("Starting setup wizard. Create Methods:", root.deviceClass.createMethods, "Setup method:", root.deviceClass.setupMethod)
-        if (root.deviceClass.createMethods.indexOf("CreateMethodDiscovery") !== -1) {
+        print("Starting setup wizard. Create Methods:", root.thingClass.createMethods, "Setup method:", root.thingClass.setupMethod)
+        if (root.thingClass.createMethods.indexOf("CreateMethodDiscovery") !== -1) {
             print("CreateMethodDiscovery")
-            if (deviceClass["discoveryParamTypes"].count > 0) {
-                print("Discovery params:", deviceClass.discoveryParamTypes.count)
+            if (thingClass["discoveryParamTypes"].count > 0) {
+                print("Discovery params:", thingClass.discoveryParamTypes.count)
                 internalPageStack.push(discoveryParamsPage)
             } else {
                 print("Starting discovery...")
-                discovery.discoverThings(deviceClass.id)
-                internalPageStack.push(discoveryPage, {deviceClass: deviceClass})
+                discovery.discoverThings(thingClass.id)
+                internalPageStack.push(discoveryPage, {thingClass: thingClass})
             }
-        } else if (root.deviceClass.createMethods.indexOf("CreateMethodUser") !== -1) {
+        } else if (root.thingClass.createMethods.indexOf("CreateMethodUser") !== -1) {
             print("CreateMethodUser")
             // Setting up a new device
             if (!root.thing) {
@@ -96,21 +95,21 @@ Page {
                 internalPageStack.push(paramsPage)
 
             // Reconfigure
-            } else if (root.device) {
+            } else if (root.thing) {
                 print("Existing device")
                 // There are params. Open params page in any case
-                if (root.deviceClass.paramTypes.count > 0) {
-                    print("Params:", root.deviceClass.paramTypes.count)
+                if (root.thingClass.paramTypes.count > 0) {
+                    print("Params:", root.thingClass.paramTypes.count)
                     internalPageStack.push(paramsPage)
 
                 // No params... go straight to reconfigure/repair
                 } else {
                     print("no params")
-                    switch (root.deviceClass.setupMethod) {
+                    switch (root.thingClass.setupMethod) {
                     case 0:
                         print("reconfiguring...")
                         // This totally does not make sense... Maybe we should hide the reconfigure button if there are no params?
-                        engine.deviceManager.reconfigureDevice(root.device.id, [])
+                        engine.thingManager.reconfigureThing(root.thing.id, [])
                         busyOverlay.shown = true;
                         break;
                     case 1:
@@ -118,8 +117,8 @@ Page {
                     case 3:
                     case 4:
                     case 5:
-                        print("re-pairing", root.device.id)
-                        engine.deviceManager.rePairDevice(root.device.id, []);
+                        print("re-pairing", root.thing.id)
+                        engine.thingManager.rePairThing(root.thing.id, []);
                         break;
                     default:
                         console.warn("Unhandled setup method!")
@@ -130,43 +129,42 @@ Page {
     }
 
     Connections {
-        target: engine.deviceManager
-        onPairDeviceReply: {
+        target: engine.thingManager
+        onPairThingReply: {
             busyOverlay.shown = false
-            if (params["deviceError"] !== "DeviceErrorNoError") {
+            if (thingError !== Thing.ThingErrorNoError) {
                 busyOverlay.shown = false;
-                internalPageStack.push(resultsPage, {deviceError: params["deviceError"], message: params["displayMessage"]});
+                internalPageStack.push(resultsPage, {thingError: thingError, message: displayMessage});
                 return;
 
             }
 
-            d.pairingTransactionId = params["pairingTransactionId"];
+            d.pairingTransactionId = pairingTransactionId;
 
-            switch (params["setupMethod"]) {
+            switch (setupMethod) {
             case "SetupMethodPushButton":
             case "SetupMethodDisplayPin":
             case "SetupMethodUserAndPassword":
-                internalPageStack.push(pairingPageComponent, {text: params["displayMessage"], setupMethod: params["setupMethod"]})
+                internalPageStack.push(pairingPageComponent, {text: displayMessage, setupMethod: setupMethod})
                 break;
             case "SetupMethodOAuth":
-                internalPageStack.push(oAuthPageComponent, {oAuthUrl: params["oAuthUrl"]})
+                internalPageStack.push(oAuthPageComponent, {oAuthUrl: oAuthUrl})
                 break;
             default:
-                print("Setup method reply not handled:", JSON.stringify(params));
+                print("Setup method reply not handled:", setupMethod);
             }
         }
         onConfirmPairingReply: {
             busyOverlay.shown = false
-            internalPageStack.push(resultsPage, {deviceError: params["deviceError"], deviceId: params["deviceId"], message: params["displayMessage"]})
+            internalPageStack.push(resultsPage, {thingError: thingError, thingId: thingId, message: displayMessage})
         }
-        onAddDeviceReply: {
-            print("Device added:", JSON.stringify(params))
+        onAddThingReply: {
             busyOverlay.shown = false;
-            internalPageStack.push(resultsPage, {deviceError: params["deviceError"], deviceId: params["deviceId"], message: params["displayMessage"]})
+            internalPageStack.push(resultsPage, {thingError: thingError, thingId: thingId, message: displayMessage})
         }
-        onReconfigureDeviceReply: {
+        onReconfigureThingReply: {
             busyOverlay.shown = false;
-            internalPageStack.push(resultsPage, {deviceError: params["deviceError"], deviceId: params["deviceId"], message: params["displayMessage"]})
+            internalPageStack.push(resultsPage, {thingError: thingError, thingId: root.thing.id, message: displayMessage})
         }
     }
 
@@ -197,7 +195,7 @@ Page {
 
                         Repeater {
                             id: paramRepeater
-                            model: root.deviceClass ? root.deviceClass["discoveryParamTypes"] : null
+                            model: root.thingClass ? root.thingClass["discoveryParamTypes"] : null
                             Loader {
                                 Layout.fillWidth: true
                                 sourceComponent: searchStringEntryComponent
@@ -209,7 +207,7 @@ Page {
                             Layout.fillWidth: true
                             text: "Next"
                             onClicked: {
-                                var paramTypes = root.deviceClass["discoveryParamTypes"];
+                                var paramTypes = root.thingClass["discoveryParamTypes"];
                                 d.discoveryParams = [];
                                 for (var i = 0; i < paramTypes.count; i++) {
                                     var param = {};
@@ -217,8 +215,8 @@ Page {
                                     param["value"] = paramRepeater.itemAt(i).value
                                     d.discoveryParams.push(param);
                                 }
-                                discovery.discoverThings(root.deviceClass.id, d.discoveryParams)
-                                internalPageStack.push(discoveryPage, {deviceClass: root.deviceClass})
+                                discovery.discoverThings(root.thingClass.id, d.discoveryParams)
+                                internalPageStack.push(discoveryPage, {thingClass: root.thingClass})
                             }
                         }
                     }
@@ -248,7 +246,7 @@ Page {
         Page {
             id: discoveryView
 
-            property var deviceClass: null
+            property ThingClass thingClass: null
 
             ColumnLayout {
                 anchors.fill: parent
@@ -261,19 +259,19 @@ Page {
                     model: ThingDiscoveryProxy {
                         id: discoveryProxy
                         thingDiscovery: discovery
-                        showAlreadyAdded: root.device !== null
-                        showNew: root.device === null
-                        filterThingId: root.device ? root.device.id : ""
+                        showAlreadyAdded: root.thing !== null
+                        showNew: root.thing === null
+                        filterThingId: root.thing ? root.thing.id : ""
                     }
                     delegate: NymeaSwipeDelegate {
                         width: parent.width
                         height: app.delegateHeight
                         text: model.name
                         subText: model.description
-                        iconName: app.interfacesToIcon(discoveryView.deviceClass.interfaces)
+                        iconName: app.interfacesToIcon(discoveryView.thingClass.interfaces)
                         onClicked: {
                             d.thingDescriptor = discoveryProxy.get(index);
-                            d.deviceName = model.name;
+                            d.thingName = model.name;
                             internalPageStack.push(paramsPage)
                         }
                     }
@@ -283,7 +281,7 @@ Page {
                     Layout.fillWidth: true
                     Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
                     text: qsTr("Search again")
-                    onClicked: discovery.discoverThings(root.deviceClass.id, d.discoveryParams)
+                    onClicked: discovery.discoverThings(root.thingClass.id, d.discoveryParams)
                     visible: !discovery.busy
                 }
 
@@ -291,7 +289,7 @@ Page {
                     id: manualAddButton
                     Layout.fillWidth: true
                     Layout.leftMargin: app.margins; Layout.rightMargin: app.margins;
-                    visible: root.deviceClass.createMethods.indexOf("CreateMethodUser") >= 0
+                    visible: root.thingClass.createMethods.indexOf("CreateMethodUser") >= 0
                     text: qsTr("Add thing manually")
                     onClicked: internalPageStack.push(paramsPage)
                 }
@@ -359,7 +357,7 @@ Page {
                     width: parent.width
 
                     ColumnLayout {
-//                        visible: root.device === null
+//                        visible: root.thing === null
                         Label {
                             Layout.leftMargin: app.margins
                             Layout.rightMargin: app.margins
@@ -369,7 +367,7 @@ Page {
                         }
                         TextField {
                             id: nameTextField
-                            text: (d.deviceName ? d.deviceName : root.deviceClass.displayName)
+                            text: (d.thingName ? d.thingName : root.thingClass.displayName)
                                   + (root.thingClass.id.toString().match(/\{?f0dd4c03-0aca-42cc-8f34-9902457b05de\}?/) ? " (" + PlatformHelper.machineHostname + ")" : "")
                             Layout.fillWidth: true
                             Layout.leftMargin: app.margins
@@ -383,12 +381,12 @@ Page {
 
                     Repeater {
                         id: paramRepeater
-                        model: engine.jsonRpcClient.ensureServerVersion("1.12") || d.thingDescriptor == null ?  root.deviceClass.paramTypes : null
+                        model: engine.jsonRpcClient.ensureServerVersion("1.12") || d.thingDescriptor == null ?  root.thingClass.paramTypes : null
                         delegate: ParamDelegate {
 //                            Layout.preferredHeight: 60
                             Layout.fillWidth: true
                             enabled: !model.readOnly
-                            paramType: root.deviceClass.paramTypes.get(index)
+                            paramType: root.thingClass.paramTypes.get(index)
                             //visible: root.thingClass.id.toString().match(/\{?f0dd4c03-0aca-42cc-8f34-9902457b05de\}?/) === null
                             value: {
                                 // Discovery, use params from discovered descriptor
@@ -423,7 +421,7 @@ Page {
 
                         text: "OK"
                         onClicked: {
-                            print("setupMethod", root.deviceClass.setupMethod)
+                            print("setupMethod", root.thingClass.setupMethod)
 
                             var params = []
                             for (var i = 0; i < paramRepeater.count; i++) {
@@ -437,19 +435,19 @@ Page {
                                 }
                             }
 
-                            switch (root.deviceClass.setupMethod) {
+                            switch (root.thingClass.setupMethod) {
                             case 0:
-                                if (root.device) {
+                                if (root.thing) {
                                     if (d.thingDescriptor) {
-                                        engine.deviceManager.reconfigureDiscoveredDevice(root.device.id, d.thingDescriptor.id, params);
+                                        engine.thingManager.reconfigureDiscoveredThing(d.thingDescriptor.id, params);
                                     } else {
-                                        engine.deviceManager.reconfigureDevice(root.device.id, params);
+                                        engine.thingManager.reconfigureThing(root.thing.id, params);
                                     }
                                 } else {
                                     if (d.thingDescriptor) {
-                                        engine.deviceManager.addDiscoveredDevice(root.deviceClass.id, d.thingDescriptor.id, nameTextField.text, params);
+                                        engine.thingManager.addDiscoveredThing(root.thingClass.id, d.thingDescriptor.id, nameTextField.text, params);
                                     } else {
-                                        engine.deviceManager.addDevice(root.deviceClass.id, nameTextField.text, params);
+                                        engine.thingManager.addThing(root.thingClass.id, nameTextField.text, params);
                                     }
                                 }
                                 break;
@@ -458,18 +456,18 @@ Page {
                             case 3:
                             case 4:
                             case 5:
-                                if (root.device) {
+                                if (root.thing) {
                                     if (d.thingDescriptor) {
-                                        engine.deviceManager.pairDiscoveredDevice(root.deviceClass.id, d.thingDescriptor.id, params, nameTextField.text);
+                                        engine.thingManager.pairDiscoveredThing(d.thingDescriptor.id, params, nameTextField.text);
                                     } else {
-                                        engine.deviceManager.rePairDevice(root.device.id, params, nameTextField.text);
+                                        engine.thingManager.rePairThing(root.thing.id, params, nameTextField.text);
                                     }
                                     return;
                                 } else {
                                     if (d.thingDescriptor) {
-                                        engine.deviceManager.pairDiscoveredDevice(root.deviceClass.id, d.thingDescriptor.id, params, nameTextField.text);
+                                        engine.thingManager.pairDiscoveredThing(d.thingDescriptor.id, params, nameTextField.text);
                                     } else {
-                                        engine.deviceManager.pairDevice(root.deviceClass.id, params, nameTextField.text);
+                                        engine.thingManager.pairThing(root.thingClass.id, params, nameTextField.text);
                                     }
                                 }
 
@@ -532,7 +530,7 @@ Page {
                     Layout.fillWidth: true
                     text: "OK"
                     onClicked: {
-                        engine.deviceManager.confirmPairing(d.pairingTransactionId, pinTextField.password, usernameTextField.displayText);
+                        engine.thingManager.confirmPairing(d.pairingTransactionId, pinTextField.password, usernameTextField.displayText);
                         busyOverlay.shown = true;
                     }
                 }
@@ -589,7 +587,7 @@ Page {
                             print("OAUTH URL changed", url)
                             if (url.toString().indexOf("https://127.0.0.1") == 0) {
                                 print("Redirect URL detected!");
-                                engine.deviceManager.confirmPairing(d.pairingTransactionId, url)
+                                engine.thingManager.confirmPairing(d.pairingTransactionId, url)
                             }
                         }
                     }
@@ -604,13 +602,13 @@ Page {
         Page {
             id: resultsView
 
-            property string deviceId
-            property string deviceError
+            property string thingId
+            property int thingError
             property string message
 
-            readonly property bool success: deviceError === "DeviceErrorNoError"
+            readonly property bool success: thingError === Thing.ThingErrorNoError
 
-            readonly property var device: root.device ? root.device : engine.deviceManager.devices.getDevice(deviceId)
+            readonly property Thing thing: root.thing ? root.thing : engine.thingManager.things.getThing(thingId)
 
             ColumnLayout {
                 width: parent.width - app.margins * 2
@@ -620,7 +618,7 @@ Page {
                     Layout.fillWidth: true
                     wrapMode: Text.WordWrap
                     horizontalAlignment: Text.AlignHCenter
-                    text: resultsView.success ? root.device ? qsTr("Thing reconfigured!") : qsTr("Thing added!") : qsTr("Uh oh")
+                    text: resultsView.success ? root.thing ? qsTr("Thing reconfigured!") : qsTr("Thing added!") : qsTr("Uh oh")
                     font.pixelSize: app.largeFont
                     color: Style.accentColor
                 }
@@ -628,7 +626,7 @@ Page {
                     Layout.fillWidth: true
                     horizontalAlignment: Text.AlignHCenter
                     wrapMode: Text.WordWrap
-                    text: resultsView.success ? qsTr("All done. You can now start using %1.").arg(resultsView.device.name) : qsTr("Something went wrong setting up this thing...");
+                    text: resultsView.success ? qsTr("All done. You can now start using %1.").arg(resultsView.thing.name) : qsTr("Something went wrong setting up this thing...");
                 }
 
                 Label {

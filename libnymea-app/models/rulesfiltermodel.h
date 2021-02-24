@@ -43,7 +43,6 @@ class RulesFilterModel : public QSortFilterProxyModel
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
     Q_PROPERTY(Rules* rules READ rules WRITE setRules NOTIFY rulesChanged)
     Q_PROPERTY(QUuid filterThingId READ filterThingId WRITE setFilterThingId NOTIFY filterThingIdChanged)
-    Q_PROPERTY(QUuid filterDeviceId READ filterThingId WRITE setFilterThingId NOTIFY filterThingIdChanged)
     Q_PROPERTY(bool filterExecutable READ filterExecutable WRITE setFilterExecutable NOTIFY filterExecutableChanged)
 
 public:

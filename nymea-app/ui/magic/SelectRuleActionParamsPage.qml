@@ -37,15 +37,15 @@ import Nymea 1.0
 
 Page {
     id: root
-    // Needs to be set and have rule.ruleActions filled in with deviceId and actionTypeId or interfaceName and interfaceAction
+    // Needs to be set and have rule.ruleActions filled in with thingId and actionTypeId or interfaceName and interfaceAction
     property RuleAction ruleAction: null
 
     // optionally a rule which will be used to propose events params as param values
-    property var rule: null
+    property Rule rule: null
 
-    readonly property Device device: ruleAction && ruleAction.deviceId ? engine.deviceManager.devices.getDevice(ruleAction.deviceId) : null
+    readonly property Thing thing: ruleAction && ruleAction.thingId ? engine.thingManager.things.getThing(ruleAction.thingId) : null
     readonly property var iface: ruleAction && ruleAction.interfaceName ? Interfaces.findByName(ruleAction.interfaceName) : null
-    readonly property var actionType: device ? device.deviceClass.actionTypes.getActionType(ruleAction.actionTypeId)
+    readonly property ActionType actionType: thing ? thing.thingClass.actionTypes.getActionType(ruleAction.actionTypeId)
                                             : iface ? iface.actionTypes.findByName(ruleAction.interfaceAction) : null
 
     signal backPressed();
@@ -86,7 +86,7 @@ Page {
                     property alias value: paramDelegate.value
                     property alias eventType: eventParamsComboBox.eventType
                     property alias eventParamTypeId: eventParamsComboBox.currentParamTypeId
-                    property alias stateDeviceId: statePickerDelegate.deviceId
+                    property alias stateThingId: statePickerDelegate.thingId
                     property alias stateTypeId: statePickerDelegate.stateTypeId
 
                     GroupBox {
@@ -134,25 +134,26 @@ Page {
                                 id: eventParamsComboBox
                                 Layout.fillWidth: true
                                 visible: eventParamRadioButton.checked && count > 0
-                                Component.onCompleted: currentIndex = 0;
                                 property var eventDescriptor: root.rule.eventDescriptors.count === 1 ? root.rule.eventDescriptors.get(0) : null
-                                property var device: eventDescriptor ? engine.deviceManager.devices.getDevice(eventDescriptor.deviceId) : null
-                                property var deviceClass: device ? engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
-                                property var eventType: deviceClass ? deviceClass.eventTypes.getEventType(eventDescriptor.eventTypeId) : null
+                                property Thing thing: eventDescriptor ? engine.thingManager.things.getThing(eventDescriptor.thingId) : null
+                                property EventType eventType: thing ? thing.thingClass.eventTypes.getEventType(eventDescriptor.eventTypeId) : null
 
                                 property var currentParamDescriptor: eventType.paramTypes.get(eventParamsComboBox.currentIndex)
                                 property var currentParamTypeId: currentParamDescriptor.id
+                                Component.onCompleted: {
+                                    currentIndex = 0;
+                                }
 
                                 model: eventType.paramTypes
                                 delegate: ItemDelegate {
                                     width: parent.width
-                                    text: eventParamsComboBox.device.name + " - " + eventParamsComboBox.eventType.displayName + " - " + eventParamsComboBox.eventType.paramTypes.getParamType(model.id).displayName
+                                    text: eventParamsComboBox.thing.name + " - " + eventParamsComboBox.eventType.displayName + " - " + eventParamsComboBox.eventType.paramTypes.getParamType(model.id).displayName
                                 }
                                 contentItem: Label {
                                     id: eventParamsComboBoxContentItem
                                     anchors.fill: parent
                                     anchors.margins: app.margins
-                                    text: eventParamsComboBox.device.name + " - " + eventParamsComboBox.eventType.displayName + " - " + eventParamsComboBox.currentParamDescriptor.displayName
+                                    text: eventParamsComboBox.thing.name + " - " + eventParamsComboBox.eventType.displayName + " - " + eventParamsComboBox.currentParamDescriptor.displayName
                                     elide: Text.ElideRight
                                 }
                             }
@@ -160,22 +161,22 @@ Page {
                             NymeaSwipeDelegate {
                                 id: statePickerDelegate
                                 Layout.fillWidth: true
-                                text: deviceId === null || stateTypeId === null
+                                text: thingId === null || stateTypeId === null
                                       ? qsTr("Select a state")
-                                      : dev.name + " - " + dev.deviceClass.stateTypes.getStateType(stateTypeId).displayName
+                                      : dev.name + " - " + thing.thingClass.stateTypes.getStateType(stateTypeId).displayName
                                 visible: stateValueRadioButton.checked
 
-                                property var deviceId: null
+                                property var thingId: null
                                 property var stateTypeId: null
 
-                                readonly property Device dev: engine.deviceManager.devices.getDevice(deviceId)
+                                readonly property Thing thing: engine.thingManager.things.getThing(thingId)
 
                                 onClicked: {
                                     var page = pageStack.push(Qt.resolvedUrl("SelectThingPage.qml"), {showStates: true, showEvents: false, showActions: false });
-                                    page.thingSelected.connect(function(device) {
-                                        print("Thing selected", device.name);
-                                        statePickerDelegate.deviceId = device.id
-                                        var selectStatePage = pageStack.replace(Qt.resolvedUrl("SelectStatePage.qml"), {device: device})
+                                    page.thingSelected.connect(function(thing) {
+                                        print("Thing selected", thing.name);
+                                        statePickerDelegate.thingId = thing.id
+                                        var selectStatePage = pageStack.replace(Qt.resolvedUrl("SelectStatePage.qml"), {thing: thing})
                                         selectStatePage.stateSelected.connect(function(stateTypeId) {
                                             print("State selected", stateTypeId)
                                             pageStack.pop();
@@ -217,10 +218,10 @@ Page {
                     var params = [];
                     for (var i = 0; i < delegateRepeater.count; i++) {
                         var paramDelegate = delegateRepeater.itemAt(i);
-                        print("Working on parameter", paramDelegate.paramType, paramDelegate.paramType.id, paramDelegate.value, paramDelegate.eventType, paramDelegate.eventParamTypeId, paramDelegate.stateDeviceId, paramDelegate.stateTypeId)
+                        print("Working on parameter", paramDelegate.paramType, paramDelegate.paramType.id, paramDelegate.value, paramDelegate.eventType, paramDelegate.eventParamTypeId, paramDelegate.stateThingId, paramDelegate.stateTypeId)
 
                         if (paramDelegate.type === "static") {
-                            if (root.device) {
+                            if (root.thing) {
                                 print("Setting static value rule action param", paramDelegate.paramType.id, paramDelegate.value)
                                 root.ruleAction.ruleActionParams.setRuleActionParam(paramDelegate.paramType.id, paramDelegate.value)
                             } else if (root.iface) {
@@ -228,7 +229,7 @@ Page {
                                 root.ruleAction.ruleActionParams.setRuleActionParamByName(root.actionType.paramTypes.get(i).name, paramDelegate.value)
                             }
                         } else if (paramDelegate.type === "event") {
-                            if (root.device) {
+                            if (root.thing) {
                                 print("adding event based rule action param", paramDelegate.paramType.id, paramDelegate.eventType.id, paramDelegate.eventParamTypeId)
                                 root.ruleAction.ruleActionParams.setRuleActionParamEvent(paramDelegate.paramType.id, paramDelegate.eventType.id, paramDelegate.eventParamTypeId)
                             } else if (root.iface) {
@@ -236,12 +237,12 @@ Page {
                                 root.ruleAction.ruleActionParams.setRuleActionParamEventByName(root.actionType.paramTypes.get(i).name, paramDelegate.eventType.id, paramDelegate.eventParamTypeId)
                             }
                         } else if (paramDelegate.type === "state") {
-                            if (root.device) {
-                                print("adding state value based rule action param", paramDelegate.paramType.id, paramDelegate.stateDeviceId, paramDelegate.stateTypeId)
-                                root.ruleAction.ruleActionParams.setRuleActionParamState(paramDelegate.paramType.id, paramDelegate.stateDeviceId, paramDelegate.stateTypeId)
+                            if (root.thing) {
+                                print("adding state value based rule action param", paramDelegate.paramType.id, paramDelegate.stateThingId, paramDelegate.stateTypeId)
+                                root.ruleAction.ruleActionParams.setRuleActionParamState(paramDelegate.paramType.id, paramDelegate.stateThingId, paramDelegate.stateTypeId)
                             } else if (root.iface) {
-                                print("adding state value based rule action param by name", root.actionType.paramTypes.get(i).name, paramDelegate.stateDeviceId, paramDelegate.stateTypeId)
-                                root.ruleAction.ruleActionParams.setRuleActionParamStateByName(root.actionType.paramTypes.get(i).name, paramDelegate.stateDeviceId, paramDelegate.stateTypeId)
+                                print("adding state value based rule action param by name", root.actionType.paramTypes.get(i).name, paramDelegate.stateThingId, paramDelegate.stateTypeId)
+                                root.ruleAction.ruleActionParams.setRuleActionParamStateByName(root.actionType.paramTypes.get(i).name, paramDelegate.stateThingId, paramDelegate.stateTypeId)
                             }
                         }
                     }

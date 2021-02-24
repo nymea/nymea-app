@@ -42,7 +42,6 @@ class EventDescriptors : public QAbstractListModel
 public:
     enum Roles {
         RoleThingId,
-        RoleDeviceId,
         RoleEventTypeId
     };
     explicit EventDescriptors(QObject *parent = nullptr);

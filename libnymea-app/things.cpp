@@ -28,22 +28,22 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include "devices.h"
+#include "things.h"
 #include "engine.h"
 
 #include <QDebug>
 
-Devices::Devices(QObject *parent) :
+Things::Things(QObject *parent) :
     QAbstractListModel(parent)
 {
 }
 
-QList<Device *> Devices::devices()
+QList<Thing *> Things::devices()
 {
     return m_things;
 }
 
-Device *Devices::get(int index) const
+Thing *Things::get(int index) const
 {
     if (index < 0 || index >= m_things.count()) {
         return nullptr;
@@ -51,9 +51,9 @@ Device *Devices::get(int index) const
     return m_things.at(index);
 }
 
-Device *Devices::getThing(const QUuid &thingId) const
+Thing *Things::getThing(const QUuid &thingId) const
 {
-    foreach (Device *thing, m_things) {
+    foreach (Thing *thing, m_things) {
         if (thing->id() == thingId) {
             return thing;
         }
@@ -61,23 +61,18 @@ Device *Devices::getThing(const QUuid &thingId) const
     return nullptr;
 }
 
-Device *Devices::getDevice(const QUuid &deviceId) const
-{
-    return getThing(deviceId);
-}
-
-int Devices::rowCount(const QModelIndex &parent) const
+int Things::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
     return m_things.count();
 }
 
-QVariant Devices::data(const QModelIndex &index, int role) const
+QVariant Things::data(const QModelIndex &index, int role) const
 {
     if (index.row() < 0 || index.row() >= m_things.count())
         return QVariant();
 
-    Device *thing = m_things.at(index.row());
+    Thing *thing = m_things.at(index.row());
     switch (role) {
     case RoleName:
         return thing->name();
@@ -86,8 +81,8 @@ QVariant Devices::data(const QModelIndex &index, int role) const
     case RoleDeviceClass:
     case RoleThingClass:
         return thing->thingClassId().toString();
-    case RoleParentDeviceId:
-        return thing->parentDeviceId().toString();
+    case RoleParentId:
+        return thing->parentId().toString();
     case RoleSetupStatus:
         return thing->setupStatus();
     case RoleSetupDisplayMessage:
@@ -100,33 +95,32 @@ QVariant Devices::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-void Devices::addDevice(Device *device)
+void Things::addThing(Thing *thing)
 {
-    device->setParent(this);
+    thing->setParent(this);
     beginInsertRows(QModelIndex(), m_things.count(), m_things.count());
-//    qDebug() << "Devices: add device" << device->name();
-    m_things.append(device);
+    m_things.append(thing);
     endInsertRows();
-    connect(device, &Device::nameChanged, this, [device, this]() {
-        int idx = m_things.indexOf(device);
+    connect(thing, &Thing::nameChanged, this, [thing, this]() {
+        int idx = m_things.indexOf(thing);
         if (idx < 0) return;
         emit dataChanged(index(idx), index(idx), {RoleName});
     });
-    connect(device, &Device::setupStatusChanged, this, [device, this]() {
-        int idx = m_things.indexOf(device);
+    connect(thing, &Thing::setupStatusChanged, this, [thing, this]() {
+        int idx = m_things.indexOf(thing);
         if (idx < 0) return;
         emit dataChanged(index(idx), index(idx), {RoleSetupStatus, RoleSetupDisplayMessage});
     });
-    connect(device->states(), &States::dataChanged, this, [device, this]() {
-        int idx = m_things.indexOf(device);
+    connect(thing->states(), &States::dataChanged, this, [thing, this]() {
+        int idx = m_things.indexOf(thing);
         if (idx < 0) return;
         emit dataChanged(index(idx), index(idx));
     });
     emit countChanged();
-    emit thingAdded(device);
+    emit thingAdded(thing);
 }
 
-void Devices::removeThing(Device *thing)
+void Things::removeThing(Thing *thing)
 {
     int index = m_things.indexOf(thing);
     beginRemoveRows(QModelIndex(), index, index);
@@ -137,7 +131,7 @@ void Devices::removeThing(Device *thing)
     emit thingRemoved(thing);
 }
 
-void Devices::clearModel()
+void Things::clearModel()
 {
     beginResetModel();
     qDeleteAll(m_things);
@@ -146,14 +140,14 @@ void Devices::clearModel()
     emit countChanged();
 }
 
-QHash<int, QByteArray> Devices::roleNames() const
+QHash<int, QByteArray> Things::roleNames() const
 {
     QHash<int, QByteArray> roles;
     roles[RoleName] = "name";
     roles[RoleId] = "id";
     roles[RoleDeviceClass] = "deviceClassId";
     roles[RoleThingClass] = "thingClassId";
-    roles[RoleParentDeviceId] = "parentDeviceId";
+    roles[RoleParentId] = "parentId";
     roles[RoleSetupStatus] = "setupStatus";
     roles[RoleSetupDisplayMessage] = "setupDisplayMessage";
     roles[RoleInterfaces] = "interfaces";

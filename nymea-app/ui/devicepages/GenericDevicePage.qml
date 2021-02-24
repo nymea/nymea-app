@@ -36,7 +36,7 @@ import Nymea 1.0
 import "../components"
 import "../delegates"
 
-DevicePageBase {
+ThingPageBase {
     id: root
     showDetailsButton: false
 
@@ -56,58 +56,58 @@ DevicePageBase {
         section.delegate: ListSectionHeader {
             text: {
                 switch (parseInt(section)) {
-                case DeviceModel.TypeStateType:
+                case ThingModel.TypeStateType:
                     return qsTr("States")
-                case DeviceModel.TypeActionType:
+                case ThingModel.TypeActionType:
                     return qsTr("Actions")
-                case DeviceModel.TypeEventType:
+                case ThingModel.TypeEventType:
                     return qsTr("Events")
                 }
             }
         }
 
-        model: DeviceModel {
-            device: root.device
+        model: ThingModel {
+            thing: root.thing
         }
         delegate: SwipeDelegate {
             id: delegate
             width: parent.width
 
-            readonly property StateType stateType: model.type === DeviceModel.TypeStateType ? root.deviceClass.stateTypes.getStateType(model.id) : null
-            readonly property ActionType actionType: model.writable ? root.deviceClass.actionTypes.getActionType(model.id) : null
-            readonly property EventType eventType: model.type === DeviceModel.TypeEventType ? root.deviceClass.eventTypes.getEventType(model.id) : null
+            readonly property StateType stateType: model.type === ThingModel.TypeStateType ? root.thing.thingClass.stateTypes.getStateType(model.id) : null
+            readonly property ActionType actionType: model.writable ? root.thing.thingClass.actionTypes.getActionType(model.id) : null
+            readonly property EventType eventType: model.type === ThingModel.TypeEventType ? root.thing.thingClass.eventTypes.getEventType(model.id) : null
 
             Layout.fillWidth: true
-            topPadding: model.type === DeviceModel.TypeActionType ? app.margins / 2 : 0
+            topPadding: model.type === ThingModel.TypeActionType ? app.margins / 2 : 0
             bottomPadding: 0
             contentItem: Loader {
                 id: inlineLoader
                 sourceComponent: {
                     switch (model.type) {
-                    case DeviceModel.TypeStateType:
+                    case ThingModel.TypeStateType:
                         return stateComponent;
-                    case DeviceModel.TypeActionType:
+                    case ThingModel.TypeActionType:
                         return actionComponent;
-                    case DeviceModel.TypeEventType:
+                    case ThingModel.TypeEventType:
                         return eventComponent;
                     }
                 }
 
                 Binding {
                     target: inlineLoader.item
-                    when: model.type === DeviceModel.TypeStateType
+                    when: model.type === ThingModel.TypeStateType
                     property: "stateType"
                     value: delegate.stateType
                 }
                 Binding {
                     target: inlineLoader.item
-                    when: model.type === DeviceModel.TypeActionType
+                    when: model.type === ThingModel.TypeActionType
                     property: "actionType"
                     value: delegate.actionType
                 }
                 Binding {
                     target: inlineLoader.item
-                    when: model.type === DeviceModel.TypeEventType
+                    when: model.type === ThingModel.TypeEventType
                     property: "eventType"
                     value: delegate.eventType
                 }
@@ -128,7 +128,7 @@ DevicePageBase {
                     }
                     onClicked: {
                         swipe.close();
-                        pageStack.push(Qt.resolvedUrl("DeviceLogPage.qml"), {device: root.device, filterTypeIds: [model.id]})
+                        pageStack.push(Qt.resolvedUrl("DeviceLogPage.qml"), {thing: root.thing, filterTypeIds: [model.id]})
                     }
                 }
             }
@@ -141,8 +141,8 @@ DevicePageBase {
         RowLayout {
             id: stateDelegate
             property StateType stateType: null
-            readonly property State deviceState: stateType ? root.device.states.getState(stateType.id) : null
-            readonly property bool writable: root.deviceClass.actionTypes.getActionType(stateType.id) !== null
+            readonly property State thingState: stateType ? root.thing.states.getState(stateType.id) : null
+            readonly property bool writable: root.thing.thingClass.actionTypes.getActionType(stateType.id) !== null
 
             Label {
                 Layout.fillWidth: true
@@ -167,7 +167,7 @@ DevicePageBase {
                     return;
                 }
 
-                var isWritable =  root.deviceClass.actionTypes.getActionType(stateType.id) !== null;
+                var isWritable =  root.thing.thingClass.actionTypes.getActionType(stateType.id) !== null;
 
                 var sourceComp;
                 switch (stateDelegate.stateType.type.toLowerCase()) {
@@ -213,7 +213,7 @@ DevicePageBase {
                 }
                 if (!sourceComp) {
                     sourceComp = "LabelDelegate.qml";
-                    print("GenericDevicePage: unhandled entry", stateDelegate.stateType.displayName)
+                    print("GenericThingPage: unhandled entry", stateDelegate.stateType.displayName)
                 }
 
                 var minValue = stateDelegate.stateType.minValue !== undefined
@@ -228,7 +228,7 @@ DevicePageBase {
                 print("pushing delegate for", stateDelegate.stateType.name, "from:", minValue, "to:", maxValue)
                 stateDelegateLoader.setSource("../delegates/statedelegates/" + sourceComp,
                                               {
-//                                                  value: root.device.states.getState(stateType.id).value,
+//                                                  value: root.thing.states.getState(stateType.id).value,
                                                   possibleValues: stateDelegate.stateType.allowedValues,
                                                   from: minValue,
                                                   to: maxValue,
@@ -265,7 +265,7 @@ DevicePageBase {
             Binding {
                 target: stateDelegateLoader.item
                 property: "value"
-                value: stateDelegate.deviceState.value
+                value: stateDelegate.thingState.value
                 when: !stateDelegate.valueCacheDirty && stateDelegate.pendingActionId === -1
             }
             Binding {
@@ -281,7 +281,7 @@ DevicePageBase {
                 }
             }
             Connections {
-                target: engine.deviceManager
+                target: engine.thingManager
                 onExecuteActionReply: {
                     if (stateDelegate.pendingActionId === commandId) {
                         stateDelegate.pendingActionId = -1
@@ -306,11 +306,11 @@ DevicePageBase {
             property bool lastSuccess: false
 
             Connections {
-                target: engine.deviceManager
+                target: engine.thingManager
                 onExecuteActionReply: {
                     if (commandId === actionDelegate.pendingActionId) {
                         pendingTimer.start();
-                        actionDelegate.lastSuccess = params["deviceError"] === "DeviceErrorNoError"
+                        actionDelegate.lastSuccess = thingError === Thing.ThingErrorNoError
                         actionDelegate.pendingActionId = -1
                     }
                 }
@@ -430,7 +430,7 @@ DevicePageBase {
                 }
             }
             Connections {
-                target: root.device
+                target: root.thing
                 onEventTriggered: {
                     if (eventTypeId === eventComponentItem.eventType.id) {
                         flashlightAnimation.start();

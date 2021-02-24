@@ -87,8 +87,7 @@ Page {
         delegate: ItemDelegate {
             id: delegate
             width: parent.width
-            property var device: engine.deviceManager.devices.getDevice(model.deviceId)
-            property var deviceClass: device ? engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
+            property Thing thing: engine.thingManager.things.getThing(model.thingId)
             leftPadding: 0
             rightPadding: 0
             topPadding: 0
@@ -137,7 +136,7 @@ Page {
                                       qsTr("%1 Server").arg(app.systemName)
                                     : model.source === LogEntry.LoggingSourceRules ?
                                           engine.ruleManager.rules.getRule(model.typeId).name
-                                        : delegate.device.name
+                                        : delegate.thing.name
                             elide: Text.ElideRight
                         }
                         Label {
@@ -150,14 +149,14 @@ Page {
                         text : {
                             switch (model.source) {
                             case LogEntry.LoggingSourceStates:
-                                var stateType = delegate.deviceClass.stateTypes.getStateType(model.typeId);
+                                var stateType = delegate.thing.thingClass.stateTypes.getStateType(model.typeId);
                                 return "%1 -> %2 %3".arg(stateType.displayName).arg(Types.toUiValue(model.value, stateType.unit)).arg(Types.toUiUnit(stateType.unit));
                             case LogEntry.LoggingSourceSystem:
                                 return model.loggingEventType === LogEntry.LoggingEventTypeActiveChange ? qsTr("System started") : "N/A"
                             case LogEntry.LoggingSourceActions:
-                                return "%1 (%2)".arg(delegate.deviceClass.actionTypes.getActionType(model.typeId).displayName).arg(model.value);
+                                return "%1 (%2)".arg(delegate.thing.thingClass.actionTypes.getActionType(model.typeId).displayName).arg(model.value);
                             case LogEntry.LoggingSourceEvents:
-                                return "%1 (%2)".arg(delegate.deviceClass.eventTypes.getEventType(model.typeId).displayName).arg(model.value);
+                                return "%1 (%2)".arg(delegate.thing.thingClass.eventTypes.getEventType(model.typeId).displayName).arg(model.value);
                             case LogEntry.LoggingSourceRules:
                                 switch (model.loggingEventType) {
                                 case LogEntry.LoggingEventTypeTrigger:

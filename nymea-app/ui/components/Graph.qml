@@ -47,9 +47,9 @@ Item {
     }
     onModelChanged: canvas.requestPaint()
 
-    readonly property var device: root.model ? engine.deviceManager.devices.getDevice(root.model.deviceId) : null
-    readonly property var deviceClass: device ? engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
-    readonly property var stateType: deviceClass ? deviceClass.stateTypes.getStateType(root.model.typeIds[0]) : null
+    readonly property Thing thing: root.model ? engine.thingManager.things.getThing(root.model.thingId) : null
+    readonly property ThingClass thingClass: thing ? engine.thingManager.thingClasses.getThingClass(thing.thingClassId) : null
+    readonly property StateType stateType: thingClass ? thingClass.stateTypes.getStateType(root.model.typeIds[0]) : null
 
     Label {
         anchors.centerIn: parent

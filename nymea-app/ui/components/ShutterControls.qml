@@ -37,11 +37,9 @@ import Nymea 1.0
 RowLayout {
     id: root
 
-    property Device thing: null
-    property alias device: root.thing
-    readonly property var deviceClass: device ? engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
-    readonly property var openState: device ? device.states.getState(deviceClass.stateTypes.findByName("state").id) : null
-    readonly property bool canStop: device && device.deviceClass.actionTypes.findByName("stop")
+    property Thing thing: null
+    readonly property State openState: thing.stateByName("state")
+    readonly property bool canStop: thing && thing.thingClass.actionTypes.findByName("stop")
 
     property bool invert: false
 
@@ -54,7 +52,7 @@ RowLayout {
         imageSource: root.invert ? "../images/down.svg" : "../images/up.svg"
         color: root.openState && root.openState.value === "opening" ? Material.accent : Style.iconColor
         onClicked: {
-            engine.deviceManager.executeAction(root.device.id, root.deviceClass.actionTypes.findByName("open").id)
+            engine.thingManager.executeAction(root.thing.id, root.thing.thingClass.actionTypes.findByName("open").id)
             root.activated("open")
         }
     }
@@ -66,7 +64,7 @@ RowLayout {
         longpressEnabled: false
         imageSource: "../images/media-playback-stop.svg"
         onClicked: {
-            engine.deviceManager.executeAction(root.device.id, root.deviceClass.actionTypes.findByName("stop").id)
+            engine.thingManager.executeAction(root.thing.id, root.thing.thingClass.actionTypes.findByName("stop").id)
             root.activated("stop")
         }
     }
@@ -78,7 +76,7 @@ RowLayout {
         longpressEnabled: false
         color: root.openState && root.openState.value === "closing" ? Material.accent : Style.iconColor
         onClicked: {
-            engine.deviceManager.executeAction(root.device.id, root.deviceClass.actionTypes.findByName("close").id)
+            engine.thingManager.executeAction(root.thing.id, root.thing.thingClass.actionTypes.findByName("close").id)
             root.activated("close")
         }
     }

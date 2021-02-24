@@ -35,7 +35,7 @@ import Nymea 1.0
 import "../components"
 import "../delegates"
 
-DeviceListPageBase {
+ThingsListPageBase {
     id: root
 
     header: NymeaHeader {

@@ -59,7 +59,7 @@ public:
     StateDescriptor* stateDescriptor() const;
     void setStateDescriptor(StateDescriptor *stateDescriptor);
 
-    bool containsDevice(const QUuid &deviceId) const;
+    bool containsThing(const QUuid &thingId) const;
 
     Q_INVOKABLE StateEvaluator* addChildEvaluator();
 

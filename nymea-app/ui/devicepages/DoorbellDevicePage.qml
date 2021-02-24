@@ -35,10 +35,10 @@ import Nymea 1.0
 import "../components"
 import "../customviews"
 
-DevicePageBase {
+ThingPageBase {
     id: root
 
-    readonly property EventType doorbellPressedType: deviceClass.eventTypes.findByName("doorbellPressed")
+    readonly property EventType doorbellPressedType: thing.thingClass.eventTypes.findByName("doorbellPressed")
 
     GridLayout {
         anchors.fill: parent
@@ -71,7 +71,7 @@ DevicePageBase {
                 }
 
                 Connections {
-                    target: root.device
+                    target: root.thing
                     onEventTriggered: {
                         print("evenEmitted", params)
                         if (eventTypeId == root.doorbellPressedType.id) {
@@ -123,7 +123,7 @@ DevicePageBase {
                     model: LogsModelNg {
                         engine: _engine
                         live: true
-                        deviceId: root.device.id
+                        thingId: root.thing.id
                         typeIds: [root.doorbellPressedType.id]
                     }
                     delegate: NymeaSwipeDelegate {

@@ -70,7 +70,7 @@ class ThingDiscovery : public QAbstractListModel
 public:
     enum Roles {
         RoleId,
-        RoleDeviceId,
+        RoleThingId,
         RoleName,
         RoleDescription
     };
@@ -106,7 +106,7 @@ private:
     QString m_displayMessage;
 
     bool contains(const QUuid &deviceDescriptorId) const;
-    QList<ThingDescriptor*> m_foundDevices;
+    QList<ThingDescriptor*> m_foundThings;
 };
 
 class ThingDiscoveryProxy: public QSortFilterProxyModel
@@ -131,7 +131,7 @@ public:
     void setShowNew(bool showNew);
 
     QUuid filterThingId() const;
-    void setFilterThingId(const QUuid &filterDeviceId);
+    void setFilterThingId(const QUuid &filterThingId);
 
     Q_INVOKABLE ThingDescriptor* get(int index) const;
 

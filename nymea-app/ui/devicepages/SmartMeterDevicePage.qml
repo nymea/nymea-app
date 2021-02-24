@@ -35,7 +35,7 @@ import Nymea 1.0
 import "../components"
 import "../customviews"
 
-DevicePageBase {
+ThingPageBase {
     id: root
 
     readonly property State totalEnergyConsumedState: root.thing.stateByName("totalEnergyConsumed")
@@ -94,8 +94,8 @@ DevicePageBase {
 
             GenericTypeGraph {
                 Layout.preferredWidth: contentGrid.width / contentGrid.columns
-                device: root.device
-                stateType: root.deviceClass.stateTypes.findByName("currentPower")
+                thing: root.thing
+                stateType: root.thingClass.stateTypes.findByName("currentPower")
                 color: app.stateColor("currentPower")
                 iconSource: app.stateIcon("currentPower")
                 roundTo: 5

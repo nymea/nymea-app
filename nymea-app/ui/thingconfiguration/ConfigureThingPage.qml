@@ -38,11 +38,9 @@ import "../delegates"
 SettingsPageBase {
     id: root
     property Thing thing: null
-    property alias device: root.thing
-    readonly property DeviceClass deviceClass: device ? device.deviceClass : null
 
     header: NymeaHeader {
-        text: root.device.name
+        text: root.thing.name
         onBackPressed: pageStack.pop()
 
         HeaderButton {
@@ -66,12 +64,12 @@ SettingsPageBase {
             deviceMenu.addItem(menuEntryComponent.createObject(deviceMenu, {text: qsTr("Rename"), iconSource: "../images/edit.svg", functionName: "renameThing"}))
             // FIXME: This isn't entirely correct... we should have a way to know if a particular thing is in fact autocreated
             // This check might be wrong for thingClasses with multiple create methods...
-            if (!root.device.isChild || root.deviceClass.createMethods.indexOf("CreateMethodAuto") < 0) {
+            if (!root.thing.isChild || root.thing.thingClass.createMethods.indexOf("CreateMethodAuto") < 0) {
                 deviceMenu.addItem(menuEntryComponent.createObject(deviceMenu, {text: qsTr("Delete"), iconSource: "../images/delete.svg", functionName: "deleteThing"}))
             }
             // FIXME: This isn't entirely correct... we should have a way to know if a particular thing is in fact autocreated
             // This check might be wrong for thingClasses with multiple create methods...
-            if (!root.device.isChild || root.deviceClass.createMethods.indexOf("CreateMethodAuto") < 0) {
+            if (!root.thing.isChild || root.thingClass.createMethods.indexOf("CreateMethodAuto") < 0) {
                 deviceMenu.addItem(menuEntryComponent.createObject(deviceMenu, {text: qsTr("Reconfigure"), iconSource: "../images/configure.svg", functionName: "reconfigureThing"}))
             }
         }
@@ -82,11 +80,11 @@ SettingsPageBase {
         }
 
         function deleteThing() {
-            engine.thingManager.removeThing(root.device.id)
+            engine.thingManager.removeThing(root.thing.id)
         }
 
         function reconfigureThing() {
-            var configPage = pageStack.push(Qt.resolvedUrl("SetupWizard.qml"), {device: root.device})
+            var configPage = pageStack.push(Qt.resolvedUrl("SetupWizard.qml"), {thing: root.thing})
             configPage.done.connect(function() {pageStack.pop(root)})
         }
 
@@ -102,16 +100,17 @@ SettingsPageBase {
     Connections {
         target: engine.thingManager
         onRemoveThingReply: {
-            switch (params.deviceError) {
-            case "DeviceErrorNoError":
+            switch (thingError) {
+            case Thing.ThingErrorNoError:
                 pageStack.pop();
                 return;
-            case "DeviceErrorDeviceInRule":
-                var popup = removeMethodComponent.createObject(root, {device: root.device, rulesList: params["ruleIds"]});
+            case Thing.ThingErrorThingInRule:
+                var removeMethodComponent = Qt.createComponent(Qt.resolvedUrl("../components/RemoveThingMethodDialog.qml"))
+                var popup = removeMethodComponent.createObject(root, {thing: root.thing, rulesList: ruleIds});
                 popup.open();
                 return;
             default:
-                var popup = errorDialog.createObject(root, {errorCode: params.deviceError})
+                var popup = errorDialog.createObject(root, {error: thingError})
                 popup.open();
             }
         }
@@ -124,23 +123,23 @@ SettingsPageBase {
     NymeaSwipeDelegate {
         Layout.fillWidth: true
         text: qsTr("Vendor:")
-        subText: engine.deviceManager.vendors.getVendor(root.deviceClass.vendorId).displayName
+        subText: engine.thingManager.vendors.getVendor(root.thing.thingClass.vendorId).displayName
         progressive: false
     }
     NymeaSwipeDelegate {
         Layout.fillWidth: true
         text: qsTr("Type:")
-        subText: root.deviceClass.displayName
+        subText: root.thing.thingClass.displayName
         progressive: false
     }
 
     NymeaSwipeDelegate {
         Layout.fillWidth: true
         text: qsTr("ID:")
-        subText: root.device.id.toString().replace(/[{}]/g, "")
+        subText: root.thing.id.toString().replace(/[{}]/g, "")
         progressive: false
         onClicked: {
-            PlatformHelper.toClipBoard(root.device.id.toString().replace(/[{}]/g, ""));
+            PlatformHelper.toClipBoard(root.thing.id.toString().replace(/[{}]/g, ""));
             ToolTip.show(qsTr("ID copied to clipboard"), 500);
         }
     }
@@ -150,21 +149,21 @@ SettingsPageBase {
         text: qsTr("Thing class")
         subText: qsTr("View the type definition for this thing")
         onClicked: {
-            pageStack.push(Qt.resolvedUrl("ThingClassDetailsPage.qml"), {device: root.device})
+            pageStack.push(Qt.resolvedUrl("ThingClassDetailsPage.qml"), {thing: root.thing})
         }
     }
 
     SettingsPageSectionHeader {
         text: qsTr("Parameters")
-        visible: root.device.params.count > 0
+        visible: root.thing.params.count > 0
     }
 
     Repeater {
-        model: root.device.params
+        model: root.thing.params
         delegate: ParamDelegate {
             Layout.fillWidth: true
-            paramType: root.deviceClass.paramTypes.getParamType(model.id)
-            param: root.device.params.get(index)
+            paramType: root.thing.thingClass.paramTypes.getParamType(model.id)
+            param: root.thing.params.get(index)
             writable: false
         }
     }
@@ -176,7 +175,7 @@ SettingsPageBase {
 
     StateTypesProxy {
         id: ioModel
-        stateTypes: root.deviceClass.stateTypes
+        stateTypes: root.thing.thingClass.stateTypes
         digitalInputs: true
         digitalOutputs: true
         analogInputs: true
@@ -207,19 +206,19 @@ SettingsPageBase {
 
             IOInputConnectionWatcher {
                 id: inputConnectionWatcher
-                ioConnections: engine.deviceManager.ioConnections
-                inputThingId: root.device.id
+                ioConnections: engine.thingManager.ioConnections
+                inputThingId: root.thing.id
                 inputStateTypeId: ioStateType.id
-                property Device outputThing: ioConnection ? engine.deviceManager.devices.getDevice(ioConnection.outputThingId) : null
-                property StateType outputStateType: ioConnection ? outputThing.deviceClass.stateTypes.getStateType(ioConnection.outputStateTypeId) : null
+                property Thing outputThing: ioConnection ? engine.thingManager.things.getThing(ioConnection.outputThingId) : null
+                property StateType outputStateType: ioConnection ? outputThing.thingClass.stateTypes.getStateType(ioConnection.outputStateTypeId) : null
             }
             IOOutputConnectionWatcher {
                 id: outputConnectionWatcher
-                ioConnections: engine.deviceManager.ioConnections
-                outputThingId: root.device.id
+                ioConnections: engine.thingManager.ioConnections
+                outputThingId: root.thing.id
                 outputStateTypeId: ioStateType.id
-                property Device inputThing: ioConnection ? engine.deviceManager.devices.getDevice(ioConnection.inputThingId) : null
-                property StateType inputStateType: ioConnection ? inputThing.deviceClass.stateTypes.getStateType(ioConnection.inputStateTypeId) : null
+                property Thing inputThing: ioConnection ? engine.thingManager.things.getThing(ioConnection.inputThingId) : null
+                property StateType inputStateType: ioConnection ? inputThing.thingClass.stateTypes.getStateType(ioConnection.inputStateTypeId) : null
             }
 
             onClicked: {
@@ -232,18 +231,18 @@ SettingsPageBase {
 
     SettingsPageSectionHeader {
         text: qsTr("Settings")
-        visible: root.deviceClass.settingsTypes.count > 0
+        visible: root.thing.thingClass.settingsTypes.count > 0
     }
 
     Repeater {
         id: settingsRepeater
-        model: root.device.settings
+        model: root.thing.settings
         delegate: ParamDelegate {
             Layout.fillWidth: true
-            paramType: root.deviceClass.settingsTypes.getParamType(model.id)
-            value: root.device.settings.get(index).value
+            paramType: root.thing.thingClass.settingsTypes.getParamType(model.id)
+            value: root.thing.settings.get(index).value
             writable: true
-            property bool dirty: root.device.settings.get(index).value !== value
+            property bool dirty: root.thing.settings.get(index).value !== value
             onDirtyChanged: settingsRepeater.checkDirty()
         }
         function checkDirty() {
@@ -277,7 +276,7 @@ SettingsPageBase {
                 params.push(setting)
             }
 
-            engine.deviceManager.setDeviceSettings(root.device.id, params);
+            engine.thingManager.setThingSettings(root.thing.id, params);
         }
     }
 
@@ -301,21 +300,14 @@ SettingsPageBase {
 
             TextField {
                 id: textField
-                text: root.device.name
+                text: root.thing.name
                 width: parent.width
             }
 
             onAccepted: {
-                engine.deviceManager.editThing(root.device.id, textField.text)
+                engine.thingManager.editThing(root.thing.id, textField.text)
                 dialog.destroy();
             }
-        }
-    }
-
-    Component {
-        id: removeMethodComponent
-        RemoveThingMethodDialog {
-
         }
     }
 
@@ -349,7 +341,7 @@ SettingsPageBase {
 
                 ComboBox {
                     id: ioThingComboBox
-                    model: DevicesProxy {
+                    model: ThingsProxy {
                         id: connectableIODevices
                         engine: _engine
                         showDigitalInputs: ioConnectionDialog.ioStateType.ioType == Types.IOTypeDigitalOutput
@@ -385,7 +377,7 @@ SettingsPageBase {
                     id: ioStateComboBox
                     model: StateTypesProxy {
                         id: connectableStateTypes
-                        stateTypes: connectableIODevices.get(ioThingComboBox.currentIndex).deviceClass.stateTypes
+                        stateTypes: connectableIODevices.get(ioThingComboBox.currentIndex).thingClass.stateTypes
                         digitalInputs: ioConnectionDialog.ioStateType.ioType == Types.IOTypeDigitalOutput
                         digitalOutputs: ioConnectionDialog.ioStateType.ioType == Types.IOTypeDigitalInput
                         analogInputs: ioConnectionDialog.ioStateType.ioType == Types.IOTypeAnalogOutput
@@ -451,9 +443,9 @@ SettingsPageBase {
                     onClicked: {
                         if (ioConnectionDialog.ioStateType.ioType == Types.IOTypeDigitalInput
                                 || ioConnectionDialog.ioStateType.ioType == Types.IOTypeAnalogInput) {
-                            engine.deviceManager.disconnectIO(ioConnectionDialog.inputWatcher.ioConnection.id);
+                            engine.thingManager.disconnectIO(ioConnectionDialog.inputWatcher.ioConnection.id);
                         } else {
-                            engine.deviceManager.disconnectIO(ioConnectionDialog.outputWatcher.ioConnection.id);
+                            engine.thingManager.disconnectIO(ioConnectionDialog.outputWatcher.ioConnection.id);
                         }
 
                         ioConnectionDialog.reject();
@@ -472,20 +464,20 @@ SettingsPageBase {
                         var outputStateTypeId;
                         if (ioConnectionDialog.ioStateType.ioType == Types.IOTypeDigitalInput
                                 || ioConnectionDialog.ioStateType.ioType == Types.IOTypeAnalogInput) {
-                            inputThingId = root.device.id;
+                            inputThingId = root.thing.id;
                             inputStateTypeId = ioConnectionDialog.ioStateType.id;
                             outputThingId = connectableIODevices.get(ioThingComboBox.currentIndex).id;
                             outputStateTypeId = connectableStateTypes.get(ioStateComboBox.currentIndex).id;
                         } else {
                             inputThingId = connectableIODevices.get(ioThingComboBox.currentIndex).id;
                             inputStateTypeId = connectableStateTypes.get(ioStateComboBox.currentIndex).id;
-                            outputThingId = root.device.id;
+                            outputThingId = root.thing.id;
                             outputStateTypeId = ioConnectionDialog.ioStateType.id;
                         }
                         var inverted = invertCheckBox.checked
 
                         print("connecting", inputThingId, inputStateTypeId, outputThingId, outputStateTypeId, inverted)
-                        engine.deviceManager.connectIO(inputThingId, inputStateTypeId, outputThingId, outputStateTypeId, inverted);
+                        engine.thingManager.connectIO(inputThingId, inputStateTypeId, outputThingId, outputStateTypeId, inverted);
 
                         ioConnectionDialog.accept();
                     }

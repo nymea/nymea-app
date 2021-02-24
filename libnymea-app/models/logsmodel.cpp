@@ -71,7 +71,6 @@ QVariant LogsModel::data(const QModelIndex &index, int role) const
     case RoleValue:
         return m_list.at(index.row())->value();
     case RoleThingId:
-    case RoleDeviceId:
         return m_list.at(index.row())->thingId();
     case RoleTypeId:
         return m_list.at(index.row())->typeId();
@@ -91,7 +90,6 @@ QHash<int, QByteArray> LogsModel::roleNames() const
     roles.insert(RoleTimestamp, "timestamp");
     roles.insert(RoleValue, "value");
     roles.insert(RoleThingId, "thingId");
-    roles.insert(RoleDeviceId, "deviceId");
     roles.insert(RoleTypeId, "typeId");
     roles.insert(RoleSource, "source");
     roles.insert(RoleLoggingEventType, "loggingEventType");
@@ -220,12 +218,7 @@ void LogsModel::logsReply(int /*commandId*/, const QVariantMap &data)
     foreach (const QVariant &logEntryVariant, logEntries) {
         QVariantMap entryMap = logEntryVariant.toMap();
         QDateTime timeStamp = QDateTime::fromMSecsSinceEpoch(entryMap.value("timestamp").toLongLong());
-        QString thingId;
-        if (m_engine->jsonRpcClient()->ensureServerVersion("5.0")) {
-            thingId = entryMap.value("thingId").toString();
-        } else {
-            thingId = entryMap.value("deviceId").toString();
-        }
+        QString thingId = entryMap.value("thingId").toString();
         QString typeId = entryMap.value("typeId").toString();
         QMetaEnum sourceEnum = QMetaEnum::fromType<LogEntry::LoggingSource>();
         LogEntry::LoggingSource loggingSource = static_cast<LogEntry::LoggingSource>(sourceEnum.keyToValue(entryMap.value("source").toByteArray()));
@@ -298,11 +291,7 @@ void LogsModel::fetchMore(const QModelIndex &parent)
     if (!m_thingId.isNull()) {
         QVariantList thingIds;
         thingIds.append(m_thingId);
-        if (m_engine->jsonRpcClient()->ensureServerVersion("5.0")) {
-            params.insert("thingIds", thingIds);
-        } else {
-            params.insert("deviceIds", thingIds);
-        }
+        params.insert("thingIds", thingIds);
     }
     if (!m_typeIds.isEmpty()) {
         QVariantList typeIds;
@@ -354,12 +343,7 @@ void LogsModel::newLogEntryReceived(const QVariantMap &data)
     }
 
     QVariantMap entryMap = data;
-    QUuid thingId;
-    if (m_engine->jsonRpcClient()->ensureServerVersion("5.0")) {
-        thingId = entryMap.value("deviceId").toUuid();
-    } else {
-        thingId = entryMap.value("thingId").toUuid();
-    }
+    QUuid thingId = entryMap.value("thingId").toUuid();
     if (!m_thingId.isNull() && thingId != m_thingId) {
         return;
     }

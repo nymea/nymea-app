@@ -36,7 +36,7 @@ import "../components"
 import "../delegates"
 import QtQuick.Controls.Material 2.1
 
-DeviceListPageBase {
+ThingsListPageBase {
     id: root
 
     header: NymeaHeader {
@@ -111,7 +111,7 @@ DeviceListPageBase {
                                 param1["paramTypeId"] = itemDelegate.powerState.stateTypeId;
                                 param1["value"] = checked;
                                 params.push(param1)
-                                engine.deviceManager.executeAction(itemDelegate.thing.id, itemDelegate.powerState.stateTypeId, params)
+                                engine.thingManager.executeAction(itemDelegate.thing.id, itemDelegate.powerState.stateTypeId, params)
                             }
                         }
                     }

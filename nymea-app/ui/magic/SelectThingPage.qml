@@ -42,16 +42,16 @@ Page {
     property alias showEvents: interfacesProxy.showEvents
     property alias showActions: interfacesProxy.showActions
     property alias showStates: interfacesProxy.showStates
-    property alias shownInterfaces: devicesProxy.shownInterfaces
+    property alias shownInterfaces: thingsProxy.shownInterfaces
     property bool allowSelectAny: false
     property bool multipleSelection: false
-    property alias requiredEventName: devicesProxy.requiredEventName
-    property alias requiredStateName: devicesProxy.requiredStateName
-    property alias requiredActionName: devicesProxy.requiredActionName
+    property alias requiredEventName: thingsProxy.requiredEventName
+    property alias requiredStateName: thingsProxy.requiredStateName
+    property alias requiredActionName: thingsProxy.requiredActionName
 
     signal backPressed();
-    signal thingSelected(var device);
-    signal thingsSelected(var devices);
+    signal thingSelected(var thing);
+    signal thingsSelected(var thing);
     signal interfaceSelected(string interfaceName);
     signal anySelected();
 
@@ -73,13 +73,13 @@ Page {
         thingsFilter: engine.thingManager.things
     }
 
-    DevicesProxy {
-        id: devicesProxy
+    ThingsProxy {
+        id: thingsProxy
         engine: _engine
         groupByInterface: true
         nameFilter: filterInput.shown ? filterInput.text : ""
         Component.onCompleted: {
-            print("showing devices for interfaces", devicesProxy.shownInterfaces)
+            print("showing things for interfaces", thingsProxy.shownInterfaces)
         }
     }
 
@@ -105,18 +105,18 @@ Page {
             id: listView
             Layout.fillWidth: true
             Layout.fillHeight: true
-            model: root.selectInterface ? interfacesProxy : devicesProxy
+            model: root.selectInterface ? interfacesProxy : thingsProxy
             clip: true
             property var checkBoxCache: ({})
-            function toggleCheckBoxCache(deviceId) {
+            function toggleCheckBoxCache(thingId) {
                 var newCache = listView.checkBoxCache;
-                if (!newCache.hasOwnProperty(deviceId) || !newCache[deviceId]) {
-                    newCache[deviceId] = true
+                if (!newCache.hasOwnProperty(thingId) || !newCache[thingId]) {
+                    newCache[thingId] = true
                 } else {
-                    newCache[deviceId] = false
+                    newCache[thingId] = false
                 }
                 listView.checkBoxCache = newCache;
-                print("new checked state;", newCache[deviceId])
+                print("new checked state;", newCache[thingId])
             }
 
             delegate: NymeaSwipeDelegate {
@@ -127,7 +127,7 @@ Page {
                     if (root.selectInterface) {
                         root.interfaceSelected(interfacesProxy.get(index).name)
                     } else if (!root.multipleSelection) {
-                        root.thingSelected(devicesProxy.get(index))
+                        root.thingSelected(thingsProxy.get(index))
                     } else {
                         listView.toggleCheckBoxCache(model.id)
                     }
@@ -151,14 +151,14 @@ Page {
             text: qsTr("OK")
             visible: root.multipleSelection
             onClicked: {
-                var devices = []
-                for (var i = 0; i < devicesProxy.count; i++) {
-                    var device = devicesProxy.get(i);
-                    if (listView.checkBoxCache.hasOwnProperty(device.id) && listView.checkBoxCache[device.id]) {
-                        devices.push(device)
+                var things = []
+                for (var i = 0; i < thingsProxy.count; i++) {
+                    var thing = thingsProxy.get(i);
+                    if (listView.checkBoxCache.hasOwnProperty(thing.id) && listView.checkBoxCache[thing.id]) {
+                        things.push(thing)
                     }
                 }
-                root.thingsSelected(devices)
+                root.thingsSelected(things)
             }
         }
     }

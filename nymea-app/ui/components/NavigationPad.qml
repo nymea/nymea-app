@@ -37,11 +37,11 @@ import QtQuick.Layouts 1.3
 Item {
     id: root
 
-    property Device device: null
+    property Thing thing: null
 
-    readonly property bool isExtended: device && device.deviceClass.interfaces.indexOf("extendednavigationpad") >= 0
+    readonly property bool isExtended: thing && thing.thingClass.interfaces.indexOf("extendednavigationpad") >= 0
 
-    readonly property ActionType navigateActionType: device ? device.deviceClass.actionTypes.findByName("navigate") : null
+    readonly property ActionType navigateActionType: thing ? thing.thingClass.actionTypes.findByName("navigate") : null
 
     Pane {
         id: pane
@@ -75,7 +75,7 @@ Item {
                 anchors { right: parent.right; top: parent.top; margins: parent.width * .1 }
                 height: app.iconSize
                 width: app.iconSize
-                visible: root.device.deviceClass.interfaces.indexOf("extendednavigationpad") >= 0
+                visible: root.thing.thingClass.interfaces.indexOf("extendednavigationpad") >= 0
                 imageSource: "../images/navigation-menu.svg"
                 Item { id: menuButtonArea; anchors.centerIn: parent; width: pane.width / 4; height: width; rotation: 45 }
             }
@@ -85,7 +85,7 @@ Item {
                 height: app.iconSize
                 width: app.iconSize
                 imageSource: "../images/home.svg"
-                visible: root.device.deviceClass.interfaces.indexOf("extendednavigationpad") >= 0
+                visible: root.thing.thingClass.interfaces.indexOf("extendednavigationpad") >= 0
                 Item { id: homeButtonArea; anchors.centerIn: parent; width: pane.width / 4; height: width; rotation: 45 }
             }
             KeypadButton {
@@ -94,7 +94,7 @@ Item {
                 height: app.iconSize
                 width: app.iconSize
                 imageSource: "../images/info.svg"
-                visible: root.device.deviceClass.interfaces.indexOf("extendednavigationpad") >= 0
+                visible: root.thing.thingClass.interfaces.indexOf("extendednavigationpad") >= 0
                 Item { id: infoButtonArea; anchors.centerIn: parent; width: pane.width / 4; height: width; rotation: 45 }
             }
             Rectangle {
@@ -259,7 +259,7 @@ Item {
                 param["paramTypeId"] = root.navigateActionType.paramTypes.findByName("to").id;
                 param["value"] = direction;
                 params.push(param);
-                engine.deviceManager.executeAction(root.device.id, root.navigateActionType.id, params)
+                engine.thingManager.executeAction(root.thing.id, root.navigateActionType.id, params)
                 PlatformHelper.vibrate(PlatformHelper.HapticsFeedbackSelection)
             }
 

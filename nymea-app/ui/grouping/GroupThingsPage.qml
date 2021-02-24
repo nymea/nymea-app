@@ -46,7 +46,7 @@ Page {
     property string groupTag
 
 
-    DevicesProxy {
+    ThingsProxy {
         id: devicesInGroup
         engine: _engine
         filterTagId: root.groupTag
@@ -58,28 +58,28 @@ Page {
         showStates: true
     }
 
-    DevicesProxy {
+    ThingsProxy {
         id: lightsInGroup
         engine: _engine
         sourceModel: devicesInGroup
         filterTagId: root.groupTag
         shownInterfaces: "light"
     }
-    DevicesProxy {
+    ThingsProxy {
         id: dimmableLightsInGroup
         engine: _engine
         sourceModel: devicesInGroup
         filterTagId: root.groupTag
         shownInterfaces: "dimmablelight"
     }
-    DevicesProxy {
+    ThingsProxy {
         id: colorLightsInGroup
         engine: _engine
         sourceModel: devicesInGroup
         filterTagId: root.groupTag
         shownInterfaces: "colorlight"
     }
-    DevicesProxy {
+    ThingsProxy {
         id: socketsInGroup
         engine: _engine
         sourceModel: devicesInGroup
@@ -129,11 +129,8 @@ Page {
 
                 device: devicesInGroup.get(index)
 
-                onClicked: pageStack.push(Qt.resolvedUrl("../devicepages/" + NymeaUtils.interfaceListToDevicePage(deviceClass.interfaces)), {device: device})
-
+                onClicked: pageStack.push(Qt.resolvedUrl("../devicepages/" + NymeaUtils.interfaceListToDevicePage(thing.thingClass.interfaces)), {device: device})
             }
         }
     }
-
-
 }

@@ -57,10 +57,10 @@ public:
     };
     Q_ENUM(Roles)
 
-    explicit BrowserItems(const QUuid &deviceId, const QString &itemId, QObject *parent = nullptr);
+    explicit BrowserItems(const QUuid &thingId, const QString &itemId, QObject *parent = nullptr);
     virtual ~BrowserItems() override;
 
-    QUuid deviceId() const;
+    QUuid thingId() const;
     QString itemId() const;
 
     bool busy() const;
@@ -89,7 +89,7 @@ protected:
     bool m_busy = false;
     QList<BrowserItem*> m_list;
 
-    QUuid m_deviceId;
+    QUuid m_thingId;
     QString m_itemId;
 };
 

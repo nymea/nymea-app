@@ -28,78 +28,78 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include "device.h"
-#include "deviceclass.h"
-#include "devicemanager.h"
+#include "thing.h"
+#include "thingclass.h"
+#include "thingmanager.h"
 
 #include <QDebug>
 
-Device::Device(DeviceManager *thingManager, DeviceClass *thingClass, const QUuid &parentId, QObject *parent) :
+Thing::Thing(ThingManager *thingManager, ThingClass *thingClass, const QUuid &parentId, QObject *parent) :
     QObject(parent),
     m_thingManager(thingManager),
     m_parentId(parentId),
     m_thingClass(thingClass)
 {
-    connect(thingManager, &DeviceManager::executeActionReply, this, [=](int commandId, const QVariantMap &params){
+    connect(thingManager, &ThingManager::executeActionReply, this, [=](int commandId, Thing::ThingError thingError, const QString &displayMessage){
         if (m_pendingActions.contains(commandId)) {
             m_pendingActions.removeAll(commandId);
-            emit executeActionReply(commandId, params);
+            emit executeActionReply(commandId, thingError, displayMessage);
         }
     });
 }
 
-QString Device::name() const
+QString Thing::name() const
 {
     return m_name;
 }
 
-void Device::setName(const QString &name)
+void Thing::setName(const QString &name)
 {
     m_name = name;
     emit nameChanged();
 }
 
-QUuid Device::id() const
+QUuid Thing::id() const
 {
     return m_id;
 }
 
-void Device::setId(const QUuid &id)
+void Thing::setId(const QUuid &id)
 {
     m_id = id;
 }
 
-QUuid Device::deviceClassId() const
+QUuid Thing::deviceClassId() const
 {
     return m_thingClass->id();
 }
 
-QUuid Device::thingClassId() const
+QUuid Thing::thingClassId() const
 {
     return m_thingClass->id();
 }
 
-QUuid Device::parentDeviceId() const
+QUuid Thing::parentId() const
 {
     return m_parentId;
 }
 
-bool Device::isChild() const
+bool Thing::isChild() const
 {
     return !m_parentId.isNull();
 }
 
-Device::ThingSetupStatus Device::setupStatus() const
+Thing::ThingSetupStatus Thing::setupStatus() const
 {
     return m_setupStatus;
 }
 
-QString Device::setupDisplayMessage() const
+QString Thing::setupDisplayMessage() const
 {
     return m_setupDisplayMessage;
 }
 
-void Device::setSetupStatus(Device::ThingSetupStatus setupStatus, const QString &displayMessage)
+void Thing::setSetupStatus(Thing::ThingSetupStatus setupStatus, const QString &displayMessage)
 {
     if (m_setupStatus != setupStatus || m_setupDisplayMessage != displayMessage) {
         m_setupStatus = setupStatus;
@@ -108,12 +108,12 @@ void Device::setSetupStatus(Device::ThingSetupStatus setupStatus, const QString 
     }
 }
 
-Params *Device::params() const
+Params *Thing::params() const
 {
     return m_params;
 }
 
-void Device::setParams(Params *params)
+void Thing::setParams(Params *params)
 {
     if (m_params != params) {
         if (m_params) {
@@ -125,12 +125,12 @@ void Device::setParams(Params *params)
     }
 }
 
-Params *Device::settings() const
+Params *Thing::settings() const
 {
     return m_settings;
 }
 
-void Device::setSettings(Params *settings)
+void Thing::setSettings(Params *settings)
 {
     if (m_settings != settings) {
         if (m_settings) {
@@ -142,12 +142,12 @@ void Device::setSettings(Params *settings)
     }
 }
 
-States *Device::states() const
+States *Thing::states() const
 {
     return m_states;
 }
 
-void Device::setStates(States *states)
+void Thing::setStates(States *states)
 {
     if (m_states != states) {
         if (m_states) {
@@ -159,12 +159,12 @@ void Device::setStates(States *states)
     }
 }
 
-State *Device::state(const QUuid &stateTypeId) const
+State *Thing::state(const QUuid &stateTypeId) const
 {
     return m_states->getState(stateTypeId);
 }
 
-State *Device::stateByName(const QString &stateName) const
+State *Thing::stateByName(const QString &stateName) const
 {
     StateType *st = m_thingClass->stateTypes()->findByName(stateName);
     if (!st) {
@@ -173,12 +173,12 @@ State *Device::stateByName(const QString &stateName) const
     return m_states->getState(st->id());
 }
 
-Param *Device::param(const QUuid &paramTypeId) const
+Param *Thing::param(const QUuid &paramTypeId) const
 {
     return m_params->getParam(paramTypeId);
 }
 
-Param *Device::paramByName(const QString &paramName) const
+Param *Thing::paramByName(const QString &paramName) const
 {
     ParamType *paramType = m_thingClass->paramTypes()->findByName(paramName);
     if (!paramType) {
@@ -187,12 +187,12 @@ Param *Device::paramByName(const QString &paramName) const
     return m_params->getParam(paramType->id());
 }
 
-DeviceClass *Device::thingClass() const
+ThingClass *Thing::thingClass() const
 {
     return m_thingClass;
 }
 
-bool Device::hasState(const QUuid &stateTypeId) const
+bool Thing::hasState(const QUuid &stateTypeId) const
 {
     foreach (State *state, states()->states()) {
         if (state->stateTypeId() == stateTypeId) {
@@ -202,7 +202,7 @@ bool Device::hasState(const QUuid &stateTypeId) const
     return false;
 }
 
-QVariant Device::stateValue(const QUuid &stateTypeId) const
+QVariant Thing::stateValue(const QUuid &stateTypeId) const
 {
     foreach (State *state, states()->states()) {
         if (state->stateTypeId() == stateTypeId) {
@@ -212,7 +212,7 @@ QVariant Device::stateValue(const QUuid &stateTypeId) const
     return QVariant();
 }
 
-void Device::setStateValue(const QUuid &stateTypeId, const QVariant &value)
+void Thing::setStateValue(const QUuid &stateTypeId, const QVariant &value)
 {
     foreach (State *state, states()->states()) {
         if (state->stateTypeId() == stateTypeId) {
@@ -222,7 +222,7 @@ void Device::setStateValue(const QUuid &stateTypeId, const QVariant &value)
     }
 }
 
-int Device::executeAction(const QString &actionName, const QVariantList &params)
+int Thing::executeAction(const QString &actionName, const QVariantList &params)
 {
     ActionType *actionType = m_thingClass->actionTypes()->findByName(actionName);
 
@@ -240,7 +240,7 @@ int Device::executeAction(const QString &actionName, const QVariantList &params)
     return commandId;
 }
 
-QDebug operator<<(QDebug &dbg, Device *thing)
+QDebug operator<<(QDebug &dbg, Thing *thing)
 {
     dbg.nospace() << "Thing: " << thing->name() << " (" << thing->id().toString() << ") Class:" << thing->thingClass()->name() << " (" << thing->thingClassId().toString() << ")" << endl;
     for (int i = 0; i < thing->thingClass()->paramTypes()->rowCount(); i++) {

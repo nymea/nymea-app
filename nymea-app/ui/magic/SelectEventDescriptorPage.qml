@@ -37,11 +37,10 @@ Page {
     id: root
     property alias text: header.text
 
-    // an eventDescriptor object needs to be set and prefilled with either deviceId or interfaceName
+    // an eventDescriptor object needs to be set and prefilled with either thingId or interfaceName
     property var eventDescriptor: null
 
-    readonly property var device: eventDescriptor && eventDescriptor.deviceId ? engine.deviceManager.devices.getDevice(eventDescriptor.deviceId) : null
-    readonly property var deviceClass: device ? engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
+    readonly property Thing thing: eventDescriptor && eventDescriptor.thingId ? engine.thingManager.things.getThing(eventDescriptor.thingId) : null
 
     signal backPressed();
     signal done();
@@ -70,14 +69,14 @@ Page {
 
     function buildInterface() {
         if (header.interfacesMode) {
-            if (root.device) {
+            if (root.thing) {
                 generatedModel.clear();
                 for (var i = 0; i < Interfaces.count; i++) {
                     var iface = Interfaces.get(i);
-                    if (root.deviceClass.interfaces.indexOf(iface.name) >= 0) {
+                    if (root.thing.thingClass.interfaces.indexOf(iface.name) >= 0) {
                         for (var j = 0; j < iface.eventTypes.count; j++) {
                             var ifaceEt = iface.eventTypes.get(j);
-                            var dcEt = root.deviceClass.eventTypes.findByName(ifaceEt.name)
+                            var dcEt = root.thing.thingClass.eventTypes.findByName(ifaceEt.name)
                             generatedModel.append({displayName: ifaceEt.displayName, eventTypeId: dcEt.id})
                         }
                     }
@@ -86,11 +85,11 @@ Page {
             } else if (root.eventDescriptor.interfaceName !== "") {
                 listView.model = Interfaces.findByName(root.eventDescriptor.interfaceName).eventTypes
             } else {
-                console.warn("You need to set device or interfaceName");
+                console.warn("You need to set thing or interfaceName");
             }
         } else {
-            if (root.device) {
-                listView.model = deviceClass.eventTypes;
+            if (root.thing) {
+                listView.model = root.thing.thingClass.eventTypes;
             }
         }
     }
@@ -104,9 +103,9 @@ Page {
             text: model.displayName
             onClicked: {
                 if (header.interfacesMode) {
-                    if (root.device) {
+                    if (root.thing) {
                         root.eventDescriptor.eventTypeId = model.eventTypeId;
-                        var eventType = root.deviceClass.eventTypes.getEventType(model.eventTypeId)
+                        var eventType = root.thing.thingClass.eventTypes.getEventType(model.eventTypeId)
                         if (eventType.paramTypes.count > 0) {
                             var paramsPage = pageStack.push(Qt.resolvedUrl("SelectEventDescriptorParamsPage.qml"), {eventDescriptor: root.eventDescriptor})
                             paramsPage.onBackPressed.connect(function() {pageStack.pop()});
@@ -130,11 +129,11 @@ Page {
                             root.done();
                         }
                     } else {
-                        console.warn("Neither deviceId not interfaceName set. Cannot continue...");
+                        console.warn("Neither thingId not interfaceName set. Cannot continue...");
                     }
                 } else {
-                    if (root.device) {
-                        var eventType = root.deviceClass.eventTypes.getEventType(model.id);
+                    if (root.thing) {
+                        var eventType = root.thing.thingClass.eventTypes.getEventType(model.id);
                         root.eventDescriptor.eventTypeId = model.id;
                         if (eventType.paramTypes.count > 0) {
                             var paramsPage = pageStack.push(Qt.resolvedUrl("SelectEventDescriptorParamsPage.qml"), {eventDescriptor: root.eventDescriptor})

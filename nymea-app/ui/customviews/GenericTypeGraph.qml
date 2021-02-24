@@ -41,23 +41,22 @@ Item {
     id: root
     implicitHeight: width * .6
 
-    property Device device: null
+    property Thing thing: null
     property StateType stateType: null
     property int roundTo: 2
     property color color: Style.accentColor
     property string iconSource: ""
     property alias title: titleLabel.text
 
-    readonly property var valueState: device.states.getState(stateType.id)
-    readonly property var deviceClass: engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
-    readonly property bool hasConnectable: deviceClass.interfaces.indexOf("connectable") >= 0
-    readonly property var connectedStateType: hasConnectable ? deviceClass.stateTypes.findByName("connected") : null
+    readonly property var valueState: thing.states.getState(stateType.id)
+    readonly property bool hasConnectable: thing.thingClass.interfaces.indexOf("connectable") >= 0
+    readonly property StateType connectedStateType: hasConnectable ? thing.thingClass.stateTypes.findByName("connected") : null
 
 
     LogsModelNg {
         id: logsModelNg
         engine: _engine
-        deviceId: root.device.id
+        thingId: root.thing.id
         typeIds: [root.stateType.id]
         live: true
         graphSeries: lineSeries1
@@ -67,7 +66,7 @@ Item {
     LogsModelNg {
         id: connectedLogsModel
         engine: root.hasConnectable ? _engine : null // don't even try to poll if we don't have a connectable interface
-        deviceId: root.device.id
+        thingId: root.thing.id
         typeIds: root.hasConnectable ? [root.connectedStateType.id] : []
         live: true
         graphSeries: connectedLineSeries

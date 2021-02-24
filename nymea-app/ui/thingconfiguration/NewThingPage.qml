@@ -75,7 +75,7 @@ Page {
                     currentIndex: -1
                     VendorsProxy {
                         id: vendorsProxy
-                        vendors: engine.deviceManager.vendors
+                        vendors: engine.thingManager.vendors
                     }
                     model: ListModel {
                         id: vendorsFilterModel
@@ -148,8 +148,8 @@ Page {
             bottom: parent.bottom
         }
 
-        model: DeviceClassesProxy {
-            id: deviceClassesProxy
+        model: ThingClassesProxy {
+            id: thingClassesProxy
             engine: _engine
             filterInterface: typeFilterModel.get(typeFilterComboBox.currentIndex).interfaceName
             filterVendorId: vendorFilterComboBox.currentIndex >= 0 ? vendorsFilterModel.get(vendorFilterComboBox.currentIndex).vendorId : ""
@@ -158,18 +158,18 @@ Page {
         }
 
         delegate: NymeaSwipeDelegate {
-            id: deviceClassDelegate
+            id: tingClassDelegate
             width: parent.width
             text: model.displayName
-            subText: engine.deviceManager.vendors.getVendor(model.vendorId).displayName
-            iconName: app.interfacesToIcon(deviceClass.interfaces)
+            subText: engine.thingManager.vendors.getVendor(model.vendorId).displayName
+            iconName: app.interfacesToIcon(thingClass.interfaces)
             prominentSubText: false
             wrapTexts: false
 
-            property var deviceClass: deviceClassesProxy.get(index)
+            property ThingClass thingClass: thingClassesProxy.get(index)
 
             onClicked: {
-                var page = pageStack.push(Qt.resolvedUrl("SetupWizard.qml"), {deviceClass: deviceClassesProxy.get(index)});
+                var page = pageStack.push(Qt.resolvedUrl("SetupWizard.qml"), {thingClass: thingClassesProxy.get(index)});
                 page.done.connect(function() {
                     pageStack.pop(root, StackView.Immediate);
                     pageStack.pop();

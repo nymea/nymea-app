@@ -71,7 +71,6 @@ QVariant LogsModelNg::data(const QModelIndex &index, int role) const
     case RoleValue:
         return m_list.at(index.row())->value();
     case RoleThingId:
-    case RoleDeviceId:
         return m_list.at(index.row())->thingId();
     case RoleTypeId:
         return m_list.at(index.row())->typeId();
@@ -89,7 +88,6 @@ QHash<int, QByteArray> LogsModelNg::roleNames() const
     roles.insert(RoleTimestamp, "timestamp");
     roles.insert(RoleValue, "value");
     roles.insert(RoleThingId, "thingId");
-    roles.insert(RoleDeviceId, "deviceId");
     roles.insert(RoleTypeId, "typeId");
     roles.insert(RoleSource, "source");
     roles.insert(RoleLoggingEventType, "loggingEventType");
@@ -250,12 +248,7 @@ void LogsModelNg::logsReply(int commandId, const QVariantMap &data)
     foreach (const QVariant &logEntryVariant, logEntries) {
         QVariantMap entryMap = logEntryVariant.toMap();
         QDateTime timeStamp = QDateTime::fromMSecsSinceEpoch(entryMap.value("timestamp").toLongLong());
-        QString thingId;
-        if (m_engine->jsonRpcClient()->ensureServerVersion("5.0")) {
-            thingId = entryMap.value("thingId").toString();
-        } else {
-            thingId = entryMap.value("deviceId").toString();
-        }
+        QString thingId = entryMap.value("thingId").toString();
         QString typeId = entryMap.value("typeId").toString();
         QMetaEnum sourceEnum = QMetaEnum::fromType<LogEntry::LoggingSource>();
         LogEntry::LoggingSource loggingSource = static_cast<LogEntry::LoggingSource>(sourceEnum.keyToValue(entryMap.value("source").toByteArray()));
@@ -284,13 +277,13 @@ void LogsModelNg::logsReply(int commandId, const QVariantMap &data)
     for (int i = 0; i < newBlock.count(); i++) {
         LogEntry *entry = newBlock.at(i);
         m_list.insert(offset + i, entry);
-        Device *dev = m_engine->deviceManager()->devices()->getDevice(entry->thingId());
-        if (!dev) {
-            qWarning() << "Device not found in system. Cannot add item to graph series.";
+        Thing *thing = m_engine->thingManager()->things()->getThing(entry->thingId());
+        if (!thing) {
+            qWarning() << "Thing not found in system. Cannot add item to graph series.";
             continue;
         }
 
-        StateType *entryStateType = dev->thingClass()->stateTypes()->getStateType(entry->typeId());
+        StateType *entryStateType = thing->thingClass()->stateTypes()->getStateType(entry->typeId());
 
         if (m_graphSeries) {
             if (entryStateType->type().toLower() == "bool") {
@@ -394,11 +387,7 @@ void LogsModelNg::fetchMore(const QModelIndex &parent)
     if (!m_thingId.isNull()) {
         QVariantList thingIds;
         thingIds.append(m_thingId);
-        if (m_engine->jsonRpcClient()->ensureServerVersion("5.0")) {
-            params.insert("thingIds", thingIds);
-        } else {
-            params.insert("deviceIds", thingIds);
-        }
+        params.insert("thingIds", thingIds);
     }
     if (!m_typeIds.isEmpty()) {
         QVariantList typeIds;
@@ -440,12 +429,7 @@ void LogsModelNg::newLogEntryReceived(const QVariantMap &data)
     }
 
     QVariantMap entryMap = data;
-    QUuid thingId;
-    if (m_engine->jsonRpcClient()->ensureServerVersion("5.0")) {
-        thingId = entryMap.value("deviceId").toUuid();
-    } else {
-        thingId = entryMap.value("thingId").toUuid();
-    }
+    QUuid thingId = entryMap.value("thingId").toUuid();
     if (!m_thingId.isNull() && thingId != m_thingId) {
         return;
     }
@@ -466,7 +450,7 @@ void LogsModelNg::newLogEntryReceived(const QVariantMap &data)
     m_list.prepend(entry);
     if (m_graphSeries) {
 
-        Device *dev = m_engine->thingManager()->devices()->getDevice(entry->thingId());
+        Thing *dev = m_engine->thingManager()->devices()->getThing(entry->thingId());
 
         StateType *entryStateType = dev->thingClass()->stateTypes()->getStateType(entry->typeId());
 

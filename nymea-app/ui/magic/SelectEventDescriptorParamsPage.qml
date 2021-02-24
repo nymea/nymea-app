@@ -37,12 +37,12 @@ import Nymea 1.0
 
 Page {
     id: root
-    // Needs to be set and filled in with deviceId and eventTypeId
+    // Needs to be set and filled in with thingId and eventTypeId
     property var eventDescriptor: null
 
-    readonly property var device: eventDescriptor && eventDescriptor.deviceId ? engine.deviceManager.devices.getDevice(eventDescriptor.deviceId) : null
+    readonly property Thing thing: eventDescriptor && eventDescriptor.thingId ? engine.thingManager.things.getThing(eventDescriptor.thingId) : null
     readonly property var iface: eventDescriptor && eventDescriptor.interfaceName ? Interfaces.findByName(eventDescriptor.interfaceName) : null
-    readonly property var eventType: device ? engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId).eventTypes.getEventType(eventDescriptor.eventTypeId)
+    readonly property var eventType: thing ? thing.thingClass.eventTypes.getEventType(eventDescriptor.eventTypeId)
                                             : iface ? iface.eventTypes.findByName(eventDescriptor.interfaceEvent) : null
 
     signal backPressed();
@@ -94,8 +94,7 @@ Page {
                 for (var i = 0; i < delegateRepeater.count; i++) {
                     var paramDelegate = delegateRepeater.itemAt(i);
                     if (paramDelegate.considerParam) {
-                        print("adding param descriptor")
-                        if (root.device) {
+                        if (root.thing) {
                             root.eventDescriptor.paramDescriptors.setParamDescriptor(paramDelegate.paramType.id, paramDelegate.value, paramDelegate.operatorType)
                         } else if (root.iface) {
                             print("setting param descriptors by name", root.eventType.paramTypes.get(i), root.eventType.paramTypes.get(i).name)

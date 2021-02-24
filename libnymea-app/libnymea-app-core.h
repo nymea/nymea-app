@@ -36,8 +36,8 @@
 #include "connection/nymeahost.h"
 #include "connection/discovery/nymeadiscovery.h"
 #include "vendorsproxy.h"
-#include "deviceclassesproxy.h"
-#include "devicesproxy.h"
+#include "thingclassesproxy.h"
+#include "thingsproxy.h"
 #include "pluginsproxy.h"
 #include "thingdiscovery.h"
 #include "interfacesmodel.h"
@@ -92,7 +92,7 @@
 #include "ruletemplates/ruleactiontemplate.h"
 #include "ruletemplates/ruleactionparamtemplate.h"
 #include "connection/awsclient.h"
-#include "models/devicemodel.h"
+#include "models/thingmodel.h"
 #include "models/sortfilterproxymodel.h"
 #include "system/systemcontroller.h"
 #include "types/package.h"
@@ -158,8 +158,7 @@ void registerQmlTypes() {
 
     qmlRegisterType<Engine>(uri, 1, 0, "Engine");
 
-    qmlRegisterUncreatableType<DeviceManager>(uri, 1, 0, "ThingManager", "Can't create this in QML. Get it from the Engine.");
-    qmlRegisterUncreatableType<DeviceManager>(uri, 1, 0, "DeviceManager", "Can't create this in QML. Get it from the Engine.");
+    qmlRegisterUncreatableType<ThingManager>(uri, 1, 0, "ThingManager", "Can't create this in QML. Get it from the Engine.");
     qmlRegisterUncreatableType<JsonRpcClient>(uri, 1, 0, "JsonRpcClient", "Can't create this in QML. Get it from the Engine.");
     qmlRegisterUncreatableType<NymeaConnection>(uri, 1, 0, "NymeaConnection", "Can't create this in QML. Get it from the Engine.");
 
@@ -167,45 +166,39 @@ void registerQmlTypes() {
     qmlRegisterSingletonType<Types>(uri, 1, 0, "Types", typesProvider);
 
     qmlRegisterUncreatableType<ParamType>(uri, 1, 0, "ParamType", "Can't create this in QML. Get it from the ParamTypes.");
-    qmlRegisterUncreatableType<ParamTypes>(uri, 1, 0, "ParamTypes", "Can't create this in QML. Get it from the DeviceClass.");
+    qmlRegisterUncreatableType<ParamTypes>(uri, 1, 0, "ParamTypes", "Can't create this in QML. Get it from the ThingClass.");
     qmlRegisterUncreatableType<EventType>(uri, 1, 0, "EventType", "Can't create this in QML. Get it from the EventTypes.");
-    qmlRegisterUncreatableType<EventTypes>(uri, 1, 0, "EventTypes", "Can't create this in QML. Get it from the DeviceClass.");
+    qmlRegisterUncreatableType<EventTypes>(uri, 1, 0, "EventTypes", "Can't create this in QML. Get it from the ThingClass.");
     qmlRegisterUncreatableType<StateType>(uri, 1, 0, "StateType", "Can't create this in QML. Get it from the StateTypes.");
-    qmlRegisterUncreatableType<StateTypes>(uri, 1, 0, "StateTypes", "Can't create this in QML. Get it from the DeviceClass.");
+    qmlRegisterUncreatableType<StateTypes>(uri, 1, 0, "StateTypes", "Can't create this in QML. Get it from the ThingClass.");
     qmlRegisterUncreatableType<ActionType>(uri, 1, 0, "ActionType", "Can't create this in QML. Get it from the ActionTypes.");
-    qmlRegisterUncreatableType<ActionTypes>(uri, 1, 0, "ActionTypes", "Can't create this in QML. Get it from the DeviceClass.");
+    qmlRegisterUncreatableType<ActionTypes>(uri, 1, 0, "ActionTypes", "Can't create this in QML. Get it from the ThingClass.");
     qmlRegisterType<StateTypesProxy>(uri, 1, 0, "StateTypesProxy");
 
     qmlRegisterUncreatableType<State>(uri, 1, 0, "State", "Can't create this in QML. Get it from the States.");
-    qmlRegisterUncreatableType<States>(uri, 1, 0, "States", "Can't create this in QML. Get it from the Device.");
+    qmlRegisterUncreatableType<States>(uri, 1, 0, "States", "Can't create this in QML. Get it from the Thing.");
 
-    qmlRegisterUncreatableType<BrowserItems>(uri, 1, 0, "BrowserItems", "Can't create this in QML. Get it from DeviceManager.");
-    qmlRegisterUncreatableType<BrowserItem>(uri, 1, 0, "BrowserItem", "Can't create this in QML. Get it from BroweserItems.");
+    qmlRegisterUncreatableType<BrowserItems>(uri, 1, 0, "BrowserItems", "Can't create this in QML. Get it from ThingManager.");
+    qmlRegisterUncreatableType<BrowserItem>(uri, 1, 0, "BrowserItem", "Can't create this in QML. Get it from BrowserItems.");
 
     qmlRegisterUncreatableType<Vendor>(uri, 1, 0, "Vendor", "Can't create this in QML. Get it from the Vendors.");
-    qmlRegisterUncreatableType<Vendors>(uri, 1, 0, "Vendors", "Can't create this in QML. Get it from the DeviceManager.");
+    qmlRegisterUncreatableType<Vendors>(uri, 1, 0, "Vendors", "Can't create this in QML. Get it from the ThingManager.");
     qmlRegisterType<VendorsProxy>(uri, 1, 0, "VendorsProxy");
 
-    qmlRegisterUncreatableType<Device>(uri, 1, 0, "Device", "Can't create this in QML. Get it from the Devices.");
-    qmlRegisterUncreatableType<Device>(uri, 1, 0, "Thing", "Can't create this in QML. Get it from the Things.");
-    qmlRegisterUncreatableType<Devices>(uri, 1, 0, "Devices", "Can't create this in QML. Get it from the DeviceManager.");
-    qmlRegisterUncreatableType<Devices>(uri, 1, 0, "Things", "Can't create this in QML. Get it from the ThingManager.");
-    qmlRegisterType<DevicesProxy>(uri, 1, 0, "DevicesProxy");
-    qmlRegisterType<DevicesProxy>(uri, 1, 0, "ThingsProxy");
+    qmlRegisterUncreatableType<Thing>(uri, 1, 0, "Thing", "Can't create this in QML. Get it from the Things.");
+    qmlRegisterUncreatableType<Things>(uri, 1, 0, "Things", "Can't create this in QML. Get it from the ThingManager.");
+    qmlRegisterType<ThingsProxy>(uri, 1, 0, "ThingsProxy");
     qmlRegisterType<InterfacesModel>(uri, 1, 0, "InterfacesModel");
     qmlRegisterType<InterfacesSortModel>(uri, 1, 0, "InterfacesSortModel");
 
-    qmlRegisterUncreatableType<DeviceClass>(uri, 1, 0, "ThingClass", "Can't create this in QML. Get it from the ThingClasses.");
-    qmlRegisterUncreatableType<DeviceClasses>(uri, 1, 0, "ThingClasses", "Can't create this in QML. Get it from the ThingManager.");
-    qmlRegisterUncreatableType<DeviceClass>(uri, 1, 0, "DeviceClass", "Can't create this in QML. Get it from the DeviceClasses.");
-    qmlRegisterUncreatableType<DeviceClasses>(uri, 1, 0, "DeviceClasses", "Can't create this in QML. Get it from the DeviceManager.");
-    qmlRegisterType<DeviceClassesProxy>(uri, 1, 0, "DeviceClassesProxy");
+    qmlRegisterUncreatableType<ThingClass>(uri, 1, 0, "ThingClass", "Can't create this in QML. Get it from the ThingClasses.");
+    qmlRegisterUncreatableType<ThingClasses>(uri, 1, 0, "ThingClasses", "Can't create this in QML. Get it from the ThingManager.");
+    qmlRegisterType<ThingClassesProxy>(uri, 1, 0, "ThingClassesProxy");
     qmlRegisterType<ThingDiscovery>(uri, 1, 0, "ThingDiscovery");
     qmlRegisterType<ThingDiscoveryProxy>(uri, 1, 0, "ThingDiscoveryProxy");
-    qmlRegisterUncreatableType<ThingDescriptor>(uri, 1, 0, "DeviceDescriptor", "Get it from DeviceDiscovery");
     qmlRegisterUncreatableType<ThingDescriptor>(uri, 1, 0, "ThingDescriptor", "Get it from ThingDiscovery");
 
-    qmlRegisterType<DeviceModel>(uri, 1, 0, "DeviceModel");
+    qmlRegisterType<ThingModel>(uri, 1, 0, "ThingModel");
 
     qmlRegisterUncreatableType<RuleManager>(uri, 1, 0, "RuleManager", "Get it from the Engine");
     qmlRegisterUncreatableType<Rules>(uri, 1, 0, "Rules", "Get it from RuleManager");
@@ -239,7 +232,7 @@ void registerQmlTypes() {
     qmlRegisterUncreatableType<ThingGroup>(uri, 1, 0, "ThingGroup", "Uncreatable");
 
     qmlRegisterUncreatableType<Plugin>(uri, 1, 0, "Plugin", "Can't create this in QML. Get it from the Plugins.");
-    qmlRegisterUncreatableType<Plugins>(uri, 1, 0, "Plugins", "Can't create this in QML. Get it from the DeviceManager.");
+    qmlRegisterUncreatableType<Plugins>(uri, 1, 0, "Plugins", "Can't create this in QML. Get it from the ThingManager.");
     qmlRegisterType<PluginsProxy>(uri, 1, 0, "PluginsProxy");
 
     qmlRegisterUncreatableType<NymeaConfiguration>(uri, 1, 0, "NymeaConfiguration", "Get it from Engine");
@@ -332,7 +325,7 @@ void registerQmlTypes() {
     qmlRegisterUncreatableType<TokenInfo>(uri, 1, 0, "TokenInfo", "Get it from TokenInfos");
     qmlRegisterUncreatableType<TokenInfos>(uri, 1, 0, "TokenInfos", "Get it from UserManager");
 
-    qmlRegisterUncreatableType<IOConnections>(uri, 1, 0, "IOConnections", "Get it from DeviceManager");
+    qmlRegisterUncreatableType<IOConnections>(uri, 1, 0, "IOConnections", "Get it from ThingManager");
     qmlRegisterUncreatableType<IOConnection>(uri, 1, 0, "IOConnection", "Get it from IOConnections");
     qmlRegisterType<IOInputConnectionWatcher>(uri, 1, 0, "IOInputConnectionWatcher");
     qmlRegisterType<IOOutputConnectionWatcher>(uri, 1, 0, "IOOutputConnectionWatcher");

@@ -32,17 +32,17 @@
 
 #include <QDebug>
 
-State::State(const QUuid &deviceId, const QUuid &stateTypeId, const QVariant &value, QObject *parent) :
+State::State(const QUuid &thingId, const QUuid &stateTypeId, const QVariant &value, QObject *parent) :
     QObject(parent),
-    m_deviceId(deviceId),
+    m_thingId(thingId),
     m_stateTypeId(stateTypeId),
     m_value(value)
 {
 }
 
-QUuid State::deviceId() const
+QUuid State::thingId() const
 {
-    return m_deviceId;
+    return m_thingId;
 }
 
 QUuid State::stateTypeId() const

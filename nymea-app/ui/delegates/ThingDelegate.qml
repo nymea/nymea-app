@@ -70,8 +70,8 @@ NymeaSwipeDelegate {
         return Style.iconColor
     }
 
-    property Device device: null
-    property Thing thing: device
+    property Thing thing: null
+    property alias device: root.thing
 
     readonly property bool hasBatteryInterface: thing && thing.thingClass.interfaces.indexOf("battery") >= 0
     readonly property StateType batteryCriticalStateType: hasBatteryInterface ? thing.thingClass.stateTypes.findByName("batteryCritical") : null

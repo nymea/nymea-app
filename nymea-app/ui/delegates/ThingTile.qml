@@ -37,32 +37,32 @@ import "../components"
 
 MainPageTile {
     id: root
-    text: device.name.toUpperCase()
-    iconName: app.interfacesToIcon(deviceClass.interfaces)
+    text: thing.name.toUpperCase()
+    iconName: app.interfacesToIcon(thing.thingClass.interfaces)
     iconColor: Style.accentColor
-    isWireless: deviceClass.interfaces.indexOf("wirelessconnectable") >= 0
+    isWireless: thing.thingClass.interfaces.indexOf("wirelessconnectable") >= 0
     batteryCritical: batteryCriticalState && batteryCriticalState.value === true
     disconnected: connectedState && connectedState.value === false
     signalStrength: signalStrengthState ? signalStrengthState.value : -1
-    setupStatus: device.setupStatus
+    setupStatus: thing.setupStatus
     updateStatus: updateStatusState && updateStatusState.value !== "idle"
 
     backgroundImage: artworkState && artworkState.value.length > 0 ? artworkState.value : ""
 
-    property Device device: null
-    readonly property DeviceClass deviceClass: device ? engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
-    readonly property State connectedState: deviceClass.interfaces.indexOf("connectable") >= 0 ? device.states.getState(deviceClass.stateTypes.findByName("connected").id) : null
-    readonly property State signalStrengthState: device.stateByName("signalStrength")
-    readonly property State batteryCriticalState: deviceClass.interfaces.indexOf("battery") >= 0 ? device.states.getState(deviceClass.stateTypes.findByName("batteryCritical").id) : null
-    readonly property State artworkState: deviceClass.interfaces.indexOf("mediametadataprovider") >= 0 ? device.states.getState(deviceClass.stateTypes.findByName("artwork").id) : null
-    readonly property State updateStatusState: device.stateByName("updateStatus")
+    property Thing thing: null
+    property alias device: root.thing
+    readonly property State connectedState: thing.stateByName("connected")
+    readonly property State signalStrengthState: thing.stateByName("signalStrength")
+    readonly property State batteryCriticalState: thing.stateByName("batteryCritical")
+    readonly property State artworkState: thing.stateByName("artwork")
+    readonly property State updateStatusState: thing.stateByName("updateStatus")
 
     contentItem: Loader {
         id: loader
         anchors.fill: parent
         sourceComponent: {
-            for (var i = 0; i < root.deviceClass.interfaces.length; i++) {
-                switch (root.deviceClass.interfaces[i]) {
+            for (var i = 0; i < root.thing.thingClass.interfaces.length; i++) {
+                switch (root.thing.thingClass.interfaces[i]) {
                 case "closable":
                     return closableComponent;
                 case "mediacontroller":
@@ -78,40 +78,33 @@ MainPageTile {
                 }
             }
         }
-        Binding { target: loader.item ? loader.item : null; property: "deviceClass"; value: root.deviceClass }
-        Binding { target: loader.item ? loader.item : null; property: "device"; value: root.device }
+        Binding { target: loader.item ? loader.item : null; property: "thing"; value: root.thing }
     }
 
     Component {
         id: lightsComponent
         RowLayout {
-            property var device: null
-            property var deviceClass: null
-
-            readonly property var powerStateType: deviceClass.stateTypes.findByName("power");
-            readonly property var powerState: device.states.getState(powerStateType.id)
-
-            readonly property var brightnessStateType: deviceClass.stateTypes.findByName("brightness");
-            readonly property var brightnessState: brightnessStateType ? device.states.getState(brightnessStateType.id) : null
+            property Thing thing: null
+            readonly property State powerState: thing.stateByName("power")
+            readonly property State brightnessState: thing.stateByName("brightness")
 
             ThrottledSlider {
                 Layout.fillWidth: true
                 Layout.leftMargin: app.margins / 2
                 Layout.alignment: Qt.AlignVCenter
-                opacity: deviceClass.interfaces.indexOf("dimmablelight") >= 0 ? 1 : 0
+                opacity: thing.thingClass.interfaces.indexOf("dimmablelight") >= 0 ? 1 : 0
                 enabled: opacity > 0
                 from: 0
                 to: 100
                 value: brightnessState ? brightnessState.value : 0
                 onMoved: {
-                    var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
-                    var actionType = deviceClass.actionTypes.findByName("brightness");
+                    var actionType = thing.thingClass.actionTypes.findByName("brightness");
                     var params = [];
                     var powerParam = {}
                     powerParam["paramTypeId"] = actionType.paramTypes.get(0).id;
                     powerParam["value"] = value;
                     params.push(powerParam)
-                    engine.deviceManager.executeAction(device.id, actionType.id, params);
+                    engine.thingManager.executeAction(thing.id, actionType.id, params);
                 }
             }
 
@@ -123,20 +116,19 @@ MainPageTile {
                 padding: 0; topPadding: 0; bottomPadding: 0
 
                 contentItem: ColorIcon {
-                    name: deviceClass.interfaces.indexOf("light") >= 0
+                    name: thing.thingClass.interfaces.indexOf("light") >= 0
                           ? (powerState.value === true ? "../images/light-on.svg" : "../images/light-off.svg")
-                          : app.interfacesToIcon(deviceClass.interfaces)
+                          : app.interfacesToIcon(thing.thingClass.interfaces)
                     color: powerState.value === true ? Style.accentColor : Style.iconColor
                 }
                 onClicked: {
-                    var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
-                    var actionType = deviceClass.actionTypes.findByName("power");
+                    var actionType = thing.thingClass.actionTypes.findByName("power");
                     var params = [];
                     var powerParam = {}
                     powerParam["paramTypeId"] = actionType.paramTypes.get(0).id;
                     powerParam["value"] = !powerState.value;
                     params.push(powerParam)
-                    engine.deviceManager.executeAction(device.id, actionType.id, params);
+                    engine.thingManager.executeAction(thing.id, actionType.id, params);
                 }
             }
         }
@@ -146,59 +138,58 @@ MainPageTile {
         id: sensorsComponent
         RowLayout {
             id: sensorsRoot
-            property var device: null
-            property var deviceClass: null
+            property Thing thing: null
             spacing: 0
 
             property var shownInterfaces: []
             property int currentStateIndex: -1
-            property var currentStateType: deviceClass ? deviceClass.stateTypes.findByName(shownInterfaces[currentStateIndex].state) : null
-            property var currentState: currentStateType ? device.states.getState(currentStateType.id) : null
+            property StateType currentStateType: thing ? thing.thingClass.stateTypes.findByName(shownInterfaces[currentStateIndex].state) : null
+            property State currentState: currentStateType ? thing.states.getState(currentStateType.id) : null
 
-            onDeviceClassChanged:  {
-                if (deviceClass == null) {
+            onThingChanged:  {
+                if (thing == null) {
                     return;
                 }
 
                 var tmp = []
-                if (deviceClass.interfaces.indexOf("temperaturesensor") >= 0) {
+                if (thing.thingClass.interfaces.indexOf("temperaturesensor") >= 0) {
                     tmp.push({iface: "temperaturesensor", state: "temperature"});
                 }
-                if (deviceClass.interfaces.indexOf("humiditysensor") >= 0) {
+                if (thing.thingClass.interfaces.indexOf("humiditysensor") >= 0) {
                     tmp.push({iface: "humiditysensor", state: "humidity"});
                 }
-                if (deviceClass.interfaces.indexOf("moisturesensor") >= 0) {
+                if (thing.thingClass.interfaces.indexOf("moisturesensor") >= 0) {
                     tmp.push({iface: "moisturesensor", state: "moisture"});
                 }
-                if (deviceClass.interfaces.indexOf("pressuresensor") >= 0) {
+                if (thing.thingClass.interfaces.indexOf("pressuresensor") >= 0) {
                     tmp.push({iface: "pressuresensor", state: "pressure"});
                 }
-                if (deviceClass.interfaces.indexOf("lightsensor") >= 0) {
+                if (thing.thingClass.interfaces.indexOf("lightsensor") >= 0) {
                     tmp.push({iface: "lightsensor", state: "lightIntensity"});
                 }
-                if (deviceClass.interfaces.indexOf("conductivitysensor") >= 0) {
+                if (thing.thingClass.interfaces.indexOf("conductivitysensor") >= 0) {
                     tmp.push({iface: "conductivitysensor", state: "conductivity"});
                 }
-                if (deviceClass.interfaces.indexOf("noisesensor") >= 0) {
+                if (thing.thingClass.interfaces.indexOf("noisesensor") >= 0) {
                     tmp.push({iface: "noisesensor", state: "noise"});
                 }
-                if (deviceClass.interfaces.indexOf("co2sensor") >= 0) {
+                if (thing.thingClass.interfaces.indexOf("co2sensor") >= 0) {
                     tmp.push({iface: "co2sensor", state: "co2"});
                 }
-                if (deviceClass.interfaces.indexOf("smartmeterconsumer") >= 0) {
+                if (thing.thingClass.interfaces.indexOf("smartmeterconsumer") >= 0) {
                     tmp.push({iface: "smartmeterconsumer", state: "totalEnergyConsumed"});
                 }
-                if (deviceClass.interfaces.indexOf("smartmeterproducer") >= 0) {
+                if (thing.thingClass.interfaces.indexOf("smartmeterproducer") >= 0) {
                     tmp.push({iface: "smartmeterproducer", state: "totalEnergyProduced"});
                 }
-                if (deviceClass.interfaces.indexOf("daylightsensor") >= 0) {
+                if (thing.thingClass.interfaces.indexOf("daylightsensor") >= 0) {
                     tmp.push({iface: "daylightsensor", state: "daylight"});
                 }
-                if (deviceClass.interfaces.indexOf("presencesensor") >= 0) {
+                if (thing.thingClass.interfaces.indexOf("presencesensor") >= 0) {
                     tmp.push({iface: "presencesensor", state: "isPresent"});
                 }
 
-                if (deviceClass.interfaces.indexOf("weather") >= 0) {
+                if (thing.thingClass.interfaces.indexOf("weather") >= 0) {
                     tmp.push({iface: "temperaturesensor", state: "temperature"});
                     tmp.push({iface: "humiditysensor", state: "humidity"});
                     tmp.push({iface: "pressuresensor", state: "pressure"});
@@ -271,18 +262,11 @@ MainPageTile {
 
     Component {
         id: closableComponent
-
-        ShutterControls {
-
-        }
+        ShutterControls {}
     }
 
     Component {
         id: mediaComponent
-
-        MediaControls {
-            property Device device: null
-            thing: device
-        }
+        MediaControls {}
     }
 }

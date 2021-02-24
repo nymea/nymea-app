@@ -35,7 +35,7 @@ import Nymea 1.0
 import "../components"
 import "../customviews"
 
-DevicePageBase {
+ThingPageBase {
     id: root
 
     EmptyViewPlaceholder {
@@ -73,7 +73,7 @@ DevicePageBase {
             var typeId = logView.logsModel.get(index).typeId
             var rule = engine.ruleManager.createNewRule();
             var eventDescriptor = rule.eventDescriptors.createNewEventDescriptor();
-            eventDescriptor.deviceId = root.thing.id;
+            eventDescriptor.thingId = root.thing.id;
             var eventType = root.thing.thingClass.eventTypes.getEventType(typeId);
             eventDescriptor.eventTypeId = eventType.id;
             rule.name = root.thing.name + " - " + eventType.displayName;
@@ -83,7 +83,7 @@ DevicePageBase {
                 rule.eventDescriptors.addEventDescriptor(eventDescriptor);
                 rule.name = rule.name + " - " + value
             }
-            var rulePage = pageStack.push(Qt.resolvedUrl("../magic/DeviceRulesPage.qml"), {device: root.thing});
+            var rulePage = pageStack.push(Qt.resolvedUrl("../magic/ThingRulesPage.qml"), {thing: root.thing});
             rulePage.addRule(rule);
         }
     }

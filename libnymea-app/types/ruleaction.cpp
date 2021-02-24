@@ -40,16 +40,16 @@ RuleAction::RuleAction(QObject *parent) : QObject(parent)
     m_ruleActionParams = new RuleActionParams(this);
 }
 
-QUuid RuleAction::deviceId() const
+QUuid RuleAction::thingId() const
 {
-    return m_deviceId;
+    return m_thingId;
 }
 
-void RuleAction::setDeviceId(const QUuid &deviceId)
+void RuleAction::setThingId(const QUuid &thingId)
 {
-    if (m_deviceId != deviceId) {
-        m_deviceId = deviceId;
-        emit deviceIdChanged();
+    if (m_thingId != thingId) {
+        m_thingId = thingId;
+        emit thingIdChanged();
     }
 }
 
@@ -113,7 +113,7 @@ RuleActionParams *RuleAction::ruleActionParams() const
 RuleAction *RuleAction::clone() const
 {
     RuleAction *ret = new RuleAction();
-    ret->setDeviceId(deviceId());
+    ret->setThingId(thingId());
     ret->setActionTypeId(actionTypeId());
     ret->setBrowserItemId(browserItemId());
     ret->setInterfaceName(interfaceName());
@@ -128,7 +128,7 @@ RuleAction *RuleAction::clone() const
 #define COMPARE_PTR(a, b) if (!a->operator==(b)) { qDebug() << a << "!=" << b; return false; }
 bool RuleAction::operator==(RuleAction *other) const
 {
-    COMPARE(m_deviceId, other->deviceId());
+    COMPARE(m_thingId, other->thingId());
     COMPARE(m_actionTypeId, other->actionTypeId());
     COMPARE(m_interfaceName, other->interfaceName());
     COMPARE(m_interfaceAction, other->interfaceAction());

@@ -49,7 +49,6 @@ QVariant EventDescriptors::data(const QModelIndex &index, int role) const
 {
     switch (role) {
     case RoleThingId:
-    case RoleDeviceId:
         return m_list.at(index.row())->thingId();
     case RoleEventTypeId:
         return m_list.at(index.row())->eventTypeId();
@@ -61,7 +60,6 @@ QHash<int, QByteArray> EventDescriptors::roleNames() const
 {
     QHash<int, QByteArray> roles;
     roles.insert(RoleThingId, "thingId");
-    roles.insert(RoleDeviceId, "deviceId");
     roles.insert(RoleEventTypeId, "eventId");
     return roles;
 }

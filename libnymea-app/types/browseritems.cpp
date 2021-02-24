@@ -33,9 +33,9 @@
 
 #include <QDebug>
 
-BrowserItems::BrowserItems(const QUuid &deviceId, const QString &itemId, QObject *parent):
+BrowserItems::BrowserItems(const QUuid &thingId, const QString &itemId, QObject *parent):
     QAbstractListModel (parent),
-    m_deviceId(deviceId),
+    m_thingId(thingId),
     m_itemId(itemId)
 {
 
@@ -46,9 +46,9 @@ BrowserItems::~BrowserItems()
     qDebug() << "Deleting BrowserItems";
 }
 
-QUuid BrowserItems::deviceId() const
+QUuid BrowserItems::thingId() const
 {
-    return m_deviceId;
+    return m_thingId;
 }
 
 QString BrowserItems::itemId() const

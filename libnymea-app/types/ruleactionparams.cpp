@@ -141,34 +141,34 @@ void RuleActionParams::setRuleActionParamEventByName(const QString &paramName, c
     addRuleActionParam(rap);
 }
 
-void RuleActionParams::setRuleActionParamState(const QString &paramTypeId, const QString &stateDeviceId, const QString &stateTypeId)
+void RuleActionParams::setRuleActionParamState(const QString &paramTypeId, const QString &stateThingId, const QString &stateTypeId)
 {
     foreach (RuleActionParam *rap, m_list) {
         if (rap->paramTypeId() == paramTypeId) {
-            rap->setStateDeviceId(stateDeviceId);
+            rap->setStateThingId(stateThingId);
             rap->setStateTypeId(stateTypeId);
             return;
         }
     }
     RuleActionParam *rap = new RuleActionParam(this);
     rap->setParamTypeId(paramTypeId);
-    rap->setStateDeviceId(stateDeviceId);
+    rap->setStateThingId(stateThingId);
     rap->setStateTypeId(stateTypeId);
     addRuleActionParam(rap);
 }
 
-void RuleActionParams::setRuleActionParamStateByName(const QString &paramName, const QString &stateDeviceId, const QString &stateTypeId)
+void RuleActionParams::setRuleActionParamStateByName(const QString &paramName, const QString &stateThingId, const QString &stateTypeId)
 {
     foreach (RuleActionParam *rap, m_list) {
         if (rap->paramName() == paramName) {
-            rap->setStateDeviceId(stateDeviceId);
+            rap->setStateThingId(stateThingId);
             rap->setStateTypeId(stateTypeId);
             return;
         }
     }
     RuleActionParam *rap = new RuleActionParam(this);
     rap->setParamName(paramName);
-    rap->setStateDeviceId(stateDeviceId);
+    rap->setStateThingId(stateThingId);
     rap->setStateTypeId(stateTypeId);
     addRuleActionParam(rap);
 }

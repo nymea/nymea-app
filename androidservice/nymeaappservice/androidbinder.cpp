@@ -1,6 +1,6 @@
 #include "androidbinder.h"
 #include "engine.h"
-#include "types/device.h"
+#include "types/thing.h"
 
 #include <QDebug>
 #include <QAndroidParcel>

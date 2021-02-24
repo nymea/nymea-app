@@ -58,7 +58,7 @@ SettingsPageBase {
     Repeater {
         model: PluginsProxy {
             id: pluginsProxy
-            plugins: engine.deviceManager.plugins
+            plugins: engine.thingManager.plugins
         }
 
         delegate: NymeaSwipeDelegate {

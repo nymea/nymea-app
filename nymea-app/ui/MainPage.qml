@@ -228,7 +228,7 @@ Page {
             ColumnLayout {
                 anchors { left: parent.left; right: parent.right; verticalCenter: parent.verticalCenter; margins: app.margins }
                 spacing: app.margins
-                visible: engine.deviceManager.fetchingData
+                visible: engine.thingManager.fetchingData
                 BusyIndicator {
                     Layout.alignment: Qt.AlignHCenter
                     running: parent.visible

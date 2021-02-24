@@ -47,31 +47,31 @@
         <file>ui/customviews/GenericTypeLogView.qml</file>
         <file>ui/customviews/WeatherView.qml</file>
         <file>ui/devicepages/MediaThingPage.qml</file>
-        <file>ui/devicepages/ButtonDevicePage.qml</file>
+        <file>ui/devicepages/ButtonThingPage.qml</file>
         <file>ui/devicepages/GenericDevicePage.qml</file>
         <file>ui/devicepages/WeatherDevicePage.qml</file>
         <file>ui/devicepages/SensorDevicePage.qml</file>
-        <file>ui/devicepages/DevicePageBase.qml</file>
+        <file>ui/devicepages/ThingPageBase.qml</file>
         <file>ui/devicepages/InputTriggerDevicePage.qml</file>
         <file>ui/devicepages/StateLogPage.qml</file>
         <file>ui/devicepages/ShutterDevicePage.qml</file>
         <file>ui/devicepages/GarageThingPage.qml</file>
-        <file>ui/devicepages/AwningDevicePage.qml</file>
+        <file>ui/devicepages/AwningThingPage.qml</file>
         <file>ui/devicepages/NotificationsDevicePage.qml</file>
         <file>ui/devicepages/LightDevicePage.qml</file>
         <file>ui/devicepages/FingerprintReaderDevicePage.qml</file>
         <file>ui/devicepages/DeviceLogPage.qml</file>
-        <file>ui/devicelistpages/GenericDeviceListPage.qml</file>
-        <file>ui/devicelistpages/ClosablesDeviceListPage.qml</file>
-        <file>ui/devicelistpages/GarageThingListPage.qml</file>
-        <file>ui/devicelistpages/AwningDeviceListPage.qml</file>
+        <file>ui/devicelistpages/GenericThingsListPage.qml</file>
+        <file>ui/devicelistpages/ClosablesThingsListPage.qml</file>
+        <file>ui/devicelistpages/GarageThingsListPage.qml</file>
+        <file>ui/devicelistpages/AwningThingsListPage.qml</file>
         <file>ui/devicelistpages/ShutterDeviceListPage.qml</file>
-        <file>ui/devicelistpages/BlindDeviceListPage.qml</file>
-        <file>ui/devicelistpages/LightsDeviceListPage.qml</file>
+        <file>ui/devicelistpages/BlindThingsListPage.qml</file>
+        <file>ui/devicelistpages/LightThingsListPage.qml</file>
         <file>ui/devicelistpages/SensorsDeviceListPage.qml</file>
         <file>ui/devicelistpages/WeatherDeviceListPage.qml</file>
-        <file>ui/devicelistpages/DeviceListPageBase.qml</file>
-        <file>ui/magic/DeviceRulesPage.qml</file>
+        <file>ui/devicelistpages/ThingsListPageBase.qml</file>
+        <file>ui/magic/ThingRulesPage.qml</file>
         <file>ui/magic/EditRulePage.qml</file>
         <file>ui/magic/SelectThingPage.qml</file>
         <file>ui/magic/ComposeEventDescriptorPage.qml</file>

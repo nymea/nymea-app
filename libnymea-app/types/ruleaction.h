@@ -39,8 +39,7 @@ class RuleActionParams;
 class RuleAction : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QUuid thingId READ deviceId WRITE setDeviceId NOTIFY deviceIdChanged)
-    Q_PROPERTY(QUuid deviceId READ deviceId WRITE setDeviceId NOTIFY deviceIdChanged)
+    Q_PROPERTY(QUuid thingId READ thingId WRITE setThingId NOTIFY thingIdChanged)
     Q_PROPERTY(QUuid actionTypeId READ actionTypeId WRITE setActionTypeId NOTIFY actionTypeIdChanged)
     Q_PROPERTY(QString interfaceName READ interfaceName WRITE setInterfaceName NOTIFY interfaceNameChanged)
     Q_PROPERTY(QString interfaceAction READ interfaceAction WRITE setInterfaceAction NOTIFY interfaceActionChanged)
@@ -50,8 +49,8 @@ class RuleAction : public QObject
 public:
     explicit RuleAction(QObject *parent = nullptr);
 
-    QUuid deviceId() const;
-    void setDeviceId(const QUuid &deviceId);
+    QUuid thingId() const;
+    void setThingId(const QUuid &thingId);
 
     QUuid actionTypeId() const;
     void setActionTypeId(const QUuid &actionTypeId);
@@ -71,14 +70,14 @@ public:
     bool operator==(RuleAction *other) const;
 
 signals:
-    void deviceIdChanged();
+    void thingIdChanged();
     void actionTypeIdChanged();
     void interfaceNameChanged();
     void interfaceActionChanged();
     bool browserItemIdChanged();
 
 private:
-    QUuid m_deviceId;
+    QUuid m_thingId;
     QUuid m_actionTypeId;
     QString m_interfaceName;
     QString m_interfaceAction;

@@ -42,7 +42,7 @@
 Engine::Engine(QObject *parent) :
     QObject(parent),
     m_jsonRpcClient(new JsonRpcClient(this)),
-    m_thingManager(new DeviceManager(m_jsonRpcClient, this)),
+    m_thingManager(new ThingManager(m_jsonRpcClient, this)),
     m_ruleManager(new RuleManager(m_jsonRpcClient, this)),
     m_scriptManager(new ScriptManager(m_jsonRpcClient, this)),
     m_logManager(new LogManager(m_jsonRpcClient, this)),
@@ -53,7 +53,7 @@ Engine::Engine(QObject *parent) :
 
     connect(m_jsonRpcClient, &JsonRpcClient::connectedChanged, this, &Engine::onConnectedChanged);
 
-    connect(m_thingManager, &DeviceManager::fetchingDataChanged, this, &Engine::onDeviceManagerFetchingChanged);
+    connect(m_thingManager, &ThingManager::fetchingDataChanged, this, &Engine::onThingManagerFetchingChanged);
 
     connect(m_jsonRpcClient, &JsonRpcClient::connectedChanged, this, [this]() {
         qDebug() << "JSONRpc connected changed:" << m_jsonRpcClient->connected() << "AWS status:" << AWSClient::instance()->awsDevices()->rowCount();
@@ -72,12 +72,7 @@ Engine::Engine(QObject *parent) :
     });
 }
 
-DeviceManager *Engine::deviceManager() const
-{
-    return m_thingManager;
-}
-
-DeviceManager *Engine::thingManager() const
+ThingManager *Engine::thingManager() const
 {
     return m_thingManager;
 }
@@ -147,7 +142,7 @@ void Engine::onConnectedChanged()
     }
 }
 
-void Engine::onDeviceManagerFetchingChanged()
+void Engine::onThingManagerFetchingChanged()
 {
     if (!m_thingManager->fetchingData()) {
         m_tagsManager->init();

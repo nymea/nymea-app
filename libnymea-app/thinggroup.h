@@ -33,17 +33,17 @@
 
 #include <QObject>
 
-#include "types/device.h"
+#include "types/thing.h"
 
-class DevicesProxy;
-class DeviceManager;
+class ThingsProxy;
+class ThingManager;
 class ParamType;
 
-class ThingGroup : public Device
+class ThingGroup : public Thing
 {
     Q_OBJECT
 public:
-    explicit ThingGroup(DeviceManager *deviceManager, DeviceClass *deviceClass, DevicesProxy *devices, QObject *parent = nullptr);
+    explicit ThingGroup(ThingManager *thingManager, ThingClass *thingClass, ThingsProxy *things, QObject *parent = nullptr);
 
     Q_INVOKABLE int executeAction(const QString &actionName, const QVariantList &params) override;
 
@@ -53,7 +53,7 @@ private:
     QVariant mapValue(const QVariant &value, ParamType *fromParamType, ParamType *toParamType) const;
 
 private:    
-    DevicesProxy* m_things = nullptr;
+    ThingsProxy* m_things = nullptr;
 
     int m_idCounter = 0;
     QHash<int, QList<int>> m_pendingGroupActions;

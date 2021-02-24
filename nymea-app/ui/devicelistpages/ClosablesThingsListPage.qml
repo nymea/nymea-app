@@ -36,15 +36,48 @@ import QtGraphicalEffects 1.0
 import Nymea 1.0
 import "../components"
 
-DeviceListPageBase {
+ThingsListPageBase {
     id: root
 
-    property string iconBasename: "../images/garage/garage"
+    property string iconBasename
+
+    property bool invertControls: false
 
     header: NymeaHeader {
         id: header
         onBackPressed: pageStack.pop()
-        text: qsTr("Garage doors")
+        text: root.title
+
+        HeaderButton {
+            imageSource: root.invertControls ? "../images/down.svg" : "../images/up.svg"
+            onClicked: {
+                for (var i = 0; i < thingProxy.count; i++) {
+                    var thing = thingsProxy.get(i);
+                    var actionType = thing.thingClass.actionTypes.findByName("open");
+                    engine.thingManager.executeAction(thing.id, actionType.id)
+                }
+            }
+        }
+        HeaderButton {
+            imageSource: "../images/media-playback-stop.svg"
+            onClicked: {
+                for (var i = 0; i < thingsProxy.count; i++) {
+                    var thing = thingsProxy.get(i);
+                    var actionType = thing.thingClass.actionTypes.findByName("stop");
+                    engine.thingManager.executeAction(thing.id, actionType.id)
+                }
+            }
+        }
+        HeaderButton {
+            imageSource: root.invertControls ? "../images/up.svg" : "../images/down.svg"
+            onClicked: {
+                for (var i = 0; i < thingsProxy.count; i++) {
+                    var thing = thingsProxy.get(i);
+                    var actionType = thing.thingClass.actionTypes.findByName("close");
+                    engine.thingManager.executeAction(thing.id, actionType.id)
+                }
+            }
+        }
     }
 
     Flickable {
@@ -81,8 +114,6 @@ DeviceListPageBase {
                     property State movingState: thing.stateByName("moving")
                     property State percentageState: thing.stateByName("percentage")
 
-                    readonly property bool isImpulseBased: thing.thingClass.interfaces.indexOf("impulsegaragedoor") >= 0
-
                     contentItem: RowLayout {
                         spacing: app.margins
 
@@ -112,23 +143,9 @@ DeviceListPageBase {
                             id: shutterControls
                             Layout.fillWidth: false
                             height: parent.height
-                            device: itemDelegate.thing
+                            thing: itemDelegate.thing
                             invert: root.invertControls
-                            visible: !itemDelegate.isImpulseBased
                             enabled: itemDelegate.isEnabled
-                        }
-                        ProgressButton {
-                            Layout.preferredHeight: app.iconSize
-                            Layout.preferredWidth: height
-                            longpressEnabled: false
-                            imageSource: "../images/closable-move.svg"
-                            visible: itemDelegate.isImpulseBased
-                            enabled: itemDelegate.isEnabled
-                            onClicked: {
-                                var actionTypeId = itemDelegate.thing.thingClass.actionTypes.findByName("triggerImpulse").id
-                                print("Triggering impulse", actionTypeId)
-                                engine.thingManager.executeAction(itemDelegate.thing.id, actionTypeId)
-                            }
                         }
                     }
                 }

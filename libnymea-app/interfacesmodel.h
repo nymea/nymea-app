@@ -34,10 +34,10 @@
 #include <QObject>
 #include <QAbstractListModel>
 
-#include "devices.h"
+#include "things.h"
 
 class Engine;
-class DevicesProxy;
+class ThingsProxy;
 
 class InterfacesModel : public QAbstractListModel
 {
@@ -48,7 +48,7 @@ class InterfacesModel : public QAbstractListModel
     Q_PROPERTY(Engine* engine READ engine WRITE setEngine NOTIFY engineChanged)
 
     // Optional filters
-    Q_PROPERTY(DevicesProxy* things READ things WRITE setThings NOTIFY thingsChanged)
+    Q_PROPERTY(ThingsProxy* things READ things WRITE setThings NOTIFY thingsChanged)
     Q_PROPERTY(QStringList shownInterfaces READ shownInterfaces WRITE setShownInterfaces NOTIFY shownInterfacesChanged)
     Q_PROPERTY(bool showUncategorized READ showUncategorized WRITE setShowUncategorized NOTIFY showUncategorizedChanged)
 
@@ -67,14 +67,11 @@ public:
     Engine* engine() const;
     void setEngine(Engine *engine);
 
-    DevicesProxy* things() const;
-    void setThings(DevicesProxy *things);
+    ThingsProxy* things() const;
+    void setThings(ThingsProxy *things);
 
     QStringList shownInterfaces() const;
     void setShownInterfaces(const QStringList &shownInterfaces);
-
-    bool onlyConfiguredDevices() const;
-    void setOnlyConfiguredDevices(bool onlyConfigured);
 
     bool showUncategorized() const;
     void setShowUncategorized(bool showUncategorized);
@@ -86,7 +83,6 @@ signals:
     void engineChanged();
     void thingsChanged();
     void shownInterfacesChanged();
-    bool onlyConfiguredDevicesChanged();
     void showUncategorizedChanged();
 
 private slots:
@@ -99,7 +95,7 @@ private:
 
     QStringList m_interfaces;
 
-    DevicesProxy *m_thingsProxy = nullptr;
+    ThingsProxy *m_thingsProxy = nullptr;
     QMetaObject::Connection m_thingsCountChangedConnection;
 
     QStringList m_shownInterfaces;

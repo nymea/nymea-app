@@ -37,7 +37,7 @@ import Nymea 1.0
 import "../components"
 import "../utils"
 
-DeviceListPageBase {
+ThingsListPageBase {
     id: root
 
     header: NymeaHeader {
@@ -48,25 +48,24 @@ DeviceListPageBase {
             imageSource: "../images/system-shutdown.svg"
             onClicked: {
                 var allOff = true;
-                for (var i = 0; i < devicesProxy.count; i++) {
-                    var device = devicesProxy.get(i);
-                    if (device.states.getState(device.deviceClass.stateTypes.findByName("power").id).value === true) {
+                for (var i = 0; i < thingsProxy.count; i++) {
+                    var thing = thingsProxy.get(i);
+                    if (thing.stateByName("power").value === true) {
                         allOff = false;
                         break;
                     }
                 }
 
-                for (var i = 0; i < devicesProxy.count; i++) {
-                    var device = devicesProxy.get(i);
-                    var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
-                    var actionType = deviceClass.actionTypes.findByName("power");
+                for (var i = 0; i < thingsProxy.count; i++) {
+                    var thing = thingsProxy.get(i);
+                    var actionType = thing.thingClass.actionTypes.findByName("power");
 
                     var params = [];
                     var param1 = {};
                     param1["paramTypeId"] = actionType.paramTypes.get(0).id;
                     param1["value"] = allOff ? true : false;
                     params.push(param1)
-                    engine.deviceManager.executeAction(device.id, actionType.id, params)
+                    engine.thingManager.executeAction(thing.id, actionType.id, params)
                 }
             }
         }
@@ -179,7 +178,7 @@ DeviceListPageBase {
                                         param1["value"] = checked;
                                         params.push(param1)
                                         print("executing for thing:", itemDelegate.thing.id)
-                                        engine.deviceManager.executeAction(itemDelegate.thing.id, itemDelegate.powerState.stateTypeId, params)
+                                        engine.thingManager.executeAction(itemDelegate.thing.id, itemDelegate.powerState.stateTypeId, params)
                                     }
 
                                     indicator: Item {

@@ -31,8 +31,8 @@
 #include "scriptsyntaxhighlighter.h"
 
 #include "engine.h"
-#include "devicemanager.h"
-#include "devices.h"
+#include "thingmanager.h"
+#include "things.h"
 
 #include <QDebug>
 #include <QMetaObject>
@@ -59,7 +59,7 @@ private:
         BlockStateNone = 0,
         BlockStateImport = 1,
         BlockStateAction,
-        BlockstateDeviceId,
+        BlockstateThingId,
     };
     struct HighlightingRule
     {
@@ -202,8 +202,8 @@ void ScriptSyntaxHighlighterPrivate::highlightBlock(const QString &text)
         setCurrentBlockState(BlockStateImport);
     } else if (text.trimmed().startsWith("Action")) {
         setCurrentBlockState(BlockStateAction);
-    } else if (text.trimmed().startsWith("deviceId:")) {
-        setCurrentBlockState(BlockstateDeviceId);
+    } else if (text.trimmed().startsWith("thingId:")) {
+        setCurrentBlockState(BlockstateThingId);
     } else {
         setCurrentBlockState(0);
     }

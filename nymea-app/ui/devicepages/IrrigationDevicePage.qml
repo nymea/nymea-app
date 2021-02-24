@@ -35,7 +35,7 @@ import QtQuick.Controls.Material 2.1
 import Nymea 1.0
 import "../components"
 
-DevicePageBase {
+ThingPageBase {
     id: root
 
     readonly property var powerStateType: thing.thingClass.stateTypes.findByName("power")
@@ -184,7 +184,7 @@ DevicePageBase {
                     param["paramTypeId"] = root.powerActionType.paramTypes.get(0).id;
                     param["value"] = !root.powerState.value;
                     params.push(param)
-                    engine.thingManager.executeAction(root.device.id, root.powerStateType.id, params);
+                    engine.thingManager.executeAction(root.thing.id, root.powerStateType.id, params);
                     PlatformHelper.vibrate(PlatformHelper.HapticsFeedbackSelection)
                 }
             }

@@ -38,7 +38,7 @@
 class Interface;
 class ParamType;
 class ParamTypes;
-class Devices;
+class Things;
 
 class Interfaces : public QAbstractListModel
 {

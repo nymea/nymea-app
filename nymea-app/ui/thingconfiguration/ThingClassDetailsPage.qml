@@ -37,8 +37,8 @@ import "../delegates"
 
 SettingsPageBase {
     id: root
-    property Device device: null
-    readonly property DeviceClass thingClass: device ? device.deviceClass : null
+    property Thing thing: null
+    readonly property ThingClass thingClass: thing ? thing.thingClass : null
 
     header: NymeaHeader {
         text: root.thingClass.displayName

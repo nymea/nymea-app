@@ -40,7 +40,7 @@ Dialog {
     y: (parent.height - height) / 2
     modal: true
 
-    property var device: null
+    property Thing thing: null
     property var rulesList: null
 
     ColumnLayout {
@@ -73,7 +73,7 @@ Dialog {
             text: qsTr("Remove all those rules")
             progressive: false
             onClicked: {
-                engine.thingManager.removeThing(root.device.id, DeviceManager.RemovePolicyCascade)
+                engine.thingManager.removeThing(root.thing.id, ThingManager.RemovePolicyCascade)
                 root.close()
                 root.destroy();
             }
@@ -84,7 +84,7 @@ Dialog {
             Layout.fillWidth: true
             progressive: false
             onClicked: {
-                engine.thingManager.removeThing(root.device.id, DeviceManager.RemovePolicyUpdate)
+                engine.thingManager.removeThing(root.thing.id, ThingManager.RemovePolicyUpdate)
                 root.close()
                 root.destroy();
             }

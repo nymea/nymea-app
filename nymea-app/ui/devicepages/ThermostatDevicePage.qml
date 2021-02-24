@@ -36,7 +36,7 @@ import Nymea 1.0
 import "../components"
 import "../customviews"
 
-DevicePageBase {
+ThingPageBase {
     id: root
 
     readonly property bool landscape: width > height

@@ -60,24 +60,24 @@ Page {
     }
 
     Connections {
-        target: engine.deviceManager
+        target: engine.thingManager
         onRemoveThingReply: {
             if (!d.thingToRemove) {
                 return;
             }
 
-            switch (params.deviceError) {
-            case "DeviceErrorNoError":
+            switch (thingError) {
+            case Thing.ThingErrorNoError:
                 d.thingToRemove = null;
                 return;
-            case "DeviceErrorDeviceInRule":
-                var removeMethodComponent = Qt.createComponent(Qt.resolvedUrl("../components/RemoveTThingMethodDialog.qml"))
-                var popup = removeMethodComponent.createObject(root, {device: d.thingToRemove, rulesList: params["ruleIds"]});
+            case Thing.ThingErrorThingInRule:
+                var removeMethodComponent = Qt.createComponent(Qt.resolvedUrl("../components/RemoveThingMethodDialog.qml"))
+                var popup = removeMethodComponent.createObject(root, {thing: d.thingToRemove, rulesList: ruleIds});
                 popup.open();
                 return;
             default:
                 var errorDialog = Qt.createComponent(Qt.resolvedUrl("../components/ErrorDialog.qml"))
-                var popup = errorDialog.createObject(root, {errorCode: params.deviceError})
+                var popup = errorDialog.createObject(root, {error: thingError})
                 popup.open();
             }
         }
@@ -96,23 +96,23 @@ Page {
             Layout.fillHeight: true
             clip: true
 
-            model: DevicesProxy {
-                id: deviceProxy
+            model: ThingsProxy {
+                id: thingsProxy
                 engine: _engine
                 groupByInterface: true
                 nameFilter: filterInput.shown ? filterInput.text : ""
             }
 
             delegate: ThingDelegate {
-                device: deviceProxy.getDevice(model.id)
+                thing: thingsProxy.getThing(model.id)
                 // FIXME: This isn't entirely correct... we should have a way to know if a particular thing is in fact autocreated
                 // This check might be wrong for thingClasses with multiple create methods...                
-                canDelete: !device.isChild || device.deviceClass.createMethods.indexOf("CreateMethodAuto") < 0
+                canDelete: !thing.isChild || thing.thingClass.createMethods.indexOf("CreateMethodAuto") < 0
                 onClicked: {
-                    pageStack.push(Qt.resolvedUrl("ConfigureThingPage.qml"), {device: device})
+                    pageStack.push(Qt.resolvedUrl("ConfigureThingPage.qml"), {thing: thing})
                 }
                 onDeleteClicked: {
-                    d.thingToRemove = device;
+                    d.thingToRemove = thing;
                     engine.thingManager.removeThing(d.thingToRemove.id)
                 }
             }
@@ -123,7 +123,7 @@ Page {
     EmptyViewPlaceholder {
         anchors { left: parent.left; right: parent.right; margins: app.margins }
         anchors.verticalCenter: parent.verticalCenter
-        visible: engine.deviceManager.devices.count === 0 && !engine.deviceManager.fetchingData
+        visible: engine.thingManager.things.count === 0 && !engine.thingManager.fetchingData
         title: qsTr("There are no things set up yet.")
         text: qsTr("In order for your %1 system to be useful, go ahead and add some things.").arg(app.systemName)
         imageSource: "qrc:/styles/%1/logo.svg".arg(styleController.currentStyle)

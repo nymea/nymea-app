@@ -70,13 +70,13 @@ Item {
         target: engine.thingManager
         onExecuteBrowserItemReply: {
             if (commandId == d.pendingItemExecutionId) {
-                if (params.thingError === "ThingErrorNoError") {
+                if (thingError === Thing.ThingErrorNoError) {
                     root.itemLaunched();
                 } else {
                     var errorDialog = Qt.createComponent(Qt.resolvedUrl("ErrorDialog.qml"));
                     var text = qsTr("Sorry. An error happened launching the item. (Error code: %1)").arg(params.error);
-                    if (params.displayMessage.length > 0) {
-                        text = params.displayMessage;
+                    if (displayMessage.length > 0) {
+                        text = displayMessage;
                     }
                     var popup = errorDialog.createObject(app, {text: text})
                     popup.open()
@@ -102,7 +102,7 @@ Item {
                 // Need to keep a explicit property here or the GC will eat it too early
                 property BrowserItems browserItems: null
                 Component.onCompleted: {
-                    browserItems = engine.thingManager.browseDevice(root.thing.id, nodeId);
+                    browserItems = engine.thingManager.browseThing(root.thing.id, nodeId);
                 }
 
                 delegate: BrowserItemDelegate {

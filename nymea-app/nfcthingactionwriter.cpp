@@ -1,5 +1,5 @@
 #include "nfcthingactionwriter.h"
-#include "types/deviceclass.h"
+#include "types/thingclass.h"
 #include "types/statetype.h"
 #include "types/ruleaction.h"
 #include "types/ruleactionparams.h"
@@ -50,12 +50,12 @@ void NfcThingActionWriter::setEngine(Engine *engine)
     }
 }
 
-Device *NfcThingActionWriter::thing() const
+Thing *NfcThingActionWriter::thing() const
 {
     return m_thing;
 }
 
-void NfcThingActionWriter::setThing(Device *thing)
+void NfcThingActionWriter::setThing(Thing *thing)
 {
     if (m_thing != thing) {
         m_thing = thing;

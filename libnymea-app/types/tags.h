@@ -42,7 +42,6 @@ class Tags: public QAbstractListModel
 public:
     enum Roles {
         RoleThingId,
-        RoleDeviceId,
         RoleRuleId,
         RoleTagId,
         RoleValue
@@ -62,7 +61,6 @@ public:
     Q_INVOKABLE Tag* get(int index) const;
 
     Q_INVOKABLE Tag* findThingTag(const QUuid &thingId, const QString &tagId) const;
-    Q_INVOKABLE Tag* findDeviceTag(const QUuid &deviceId, const QString &tagId) const;
     Q_INVOKABLE Tag* findRuleTag(const QString &ruleId, const QString &tagId) const;
 
     void clear();

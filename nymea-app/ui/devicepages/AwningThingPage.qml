@@ -36,13 +36,13 @@ import Nymea 1.0
 import "../components"
 import "../customviews"
 
-DevicePageBase {
+ThingPageBase {
     id: root
 
     readonly property bool landscape: width > height
-    readonly property bool isExtended: deviceClass.interfaces.indexOf("extendedawning") >= 0
-    readonly property var percentageState: isExtended ? device.states.getState(deviceClass.stateTypes.findByName("percentage").id) : 0
-    readonly property var movingState: isExtended ? device.states.getState(deviceClass.stateTypes.findByName("moving").id) : 0
+    readonly property bool isExtended: thing.thingClass.interfaces.indexOf("extendedawning") >= 0
+    readonly property State percentageState: thing.stateByName("percentage")
+    readonly property State movingState: thing.stateByName("moving")
 
     GridLayout {
         anchors.fill: parent
@@ -94,25 +94,24 @@ DevicePageBase {
                         }
                         print("should move", value)
 
-                        var actionType = root.deviceClass.actionTypes.findByName("percentage");
+                        var actionType = root.thing.thingClass.actionTypes.findByName("percentage");
                         var params = [];
                         var percentageParam = {}
                         percentageParam["paramTypeId"] = actionType.paramTypes.findByName("percentage").id;
                         percentageParam["value"] = value
                         params.push(percentageParam);
-                        engine.deviceManager.executeAction(root.device.id, actionType.id, params);
+                        engine.thingManager.executeAction(root.thing.id, actionType.id, params);
                     }
                 }
 
                 ShutterControls {
                     id: shutterControls
-                    device: root.device
+                    thing: root.thing
                     invert: true
                     anchors.horizontalCenter: parent.horizontalCenter
                     spacing: (parent.width - app.iconSize*2*children.length) / (children.length - 1)
                 }
             }
-
         }
     }
 }

@@ -42,27 +42,26 @@ NymeaSwipeDelegate {
 
     property RuleAction ruleAction: null
 
-    readonly property Device device: ruleAction.deviceId ? engine.deviceManager.devices.getDevice(ruleAction.deviceId) : null
+    readonly property Thing thing: ruleAction.thingId ? engine.thingManager.things.getThing(ruleAction.thingId) : null
     readonly property Interface iface: ruleAction.interfaceName ? Interfaces.findByName(ruleAction.interfaceName) : null
-    readonly property DeviceClass deviceClass: device ? engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
-    readonly property ActionType actionType: deviceClass ? deviceClass.actionTypes.getActionType(ruleAction.actionTypeId)
+    readonly property ActionType actionType: thing ? thing.thingClass.actionTypes.getActionType(ruleAction.actionTypeId)
                                          : iface ? iface.actionTypes.findByName(ruleAction.interfaceAction) : null
     readonly property string browserItemId: ruleAction.browserItemId
-    readonly property BrowserItem browserItem: device && browserItemId.length > 0 ? engine.deviceManager.browserItem(device.id, browserItemId) : null
+    readonly property BrowserItem browserItem: thing && browserItemId.length > 0 ? engine.thingManager.browserItem(thing.id, browserItemId) : null
 
     signal removeRuleAction()
 
     onDeleteClicked: root.removeRuleAction()
 
-    iconName: root.device ? (root.browserItemId ? "../images/browser/BrowserIconFolder.svg" : "../images/action.svg") : "../images/action-interface.svg"
+    iconName: root.thing ? (root.browserItemId ? "../images/browser/BrowserIconFolder.svg" : "../images/action.svg") : "../images/action-interface.svg"
     text: qsTr("%1 - %2")
-        .arg(root.device ? root.device.name : root.iface.displayName)
+        .arg(root.thing ? root.thing.name : root.iface.displayName)
         .arg(root.actionType ? root.actionType.displayName : (root.browserItem.displayName.length > 0 ? root.browserItem.displayName : qsTr("Unknown item")))
     subText: {
         var ret = [];
         for (var i = 0; i < root.ruleAction.ruleActionParams.count; i++) {
             var ruleActionParam = root.ruleAction.ruleActionParams.get(i)
-            print("populating subtext:", ruleActionParam.eventTypeId, ruleActionParam.eventParamTypeId, ruleActionParam.stateDeviceId, ruleActionParam.stateTypeId, ruleActionParam.isValueBased, ruleActionParam.isEventParamBased, ruleActionParam.isStateValueBased)
+            print("populating subtext:", ruleActionParam.eventTypeId, ruleActionParam.eventParamTypeId, ruleActionParam.stateThingId, ruleActionParam.stateTypeId, ruleActionParam.isValueBased, ruleActionParam.isEventParamBased, ruleActionParam.isStateValueBased)
 
             var paramType = root.actionType.paramTypes.getParamType(ruleActionParam.paramTypeId);
             var paramString = qsTr("%1: %2").arg(paramType.displayName)
@@ -82,10 +81,10 @@ NymeaSwipeDelegate {
             } else if (ruleActionParam.isEventParamBased) {
                 paramString = paramString.arg(qsTr("value from event"))
             } else if (ruleActionParam.isStateValueBased) {
-                var stateDevice = engine.deviceManager.devices.getDevice(ruleActionParam.stateDeviceId)
-                var stateType = stateDevice.deviceClass.stateTypes.getStateType(ruleActionParam.stateTypeId)
-                print("have state value based param:", stateDevice.name)
-                paramString = paramString.arg("{" + stateDevice.name + " - " + stateType.displayName + "}")
+                var stateThing = engine.thingManager.things.getThing(ruleActionParam.stateThingId)
+                var stateType = stateThing.thingClass.stateTypes.getStateType(ruleActionParam.stateTypeId)
+                print("have state value based param:", stateThing.name)
+                paramString = paramString.arg("{" + stateThing.name + " - " + stateType.displayName + "}")
             }
 
             ret.push(paramString)

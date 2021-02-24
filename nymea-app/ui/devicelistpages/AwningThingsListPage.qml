@@ -30,7 +30,8 @@
 
 import QtQuick 2.9
 
-ClosablesDeviceListPage {
-    title: qsTr("Blinds")
-    iconBasename: "../images/shutter/shutter"
+ClosablesThingsListPage {
+    title: qsTr("Awnings")
+    iconBasename: "../images/awning/awning"
+    invertControls: true
 }

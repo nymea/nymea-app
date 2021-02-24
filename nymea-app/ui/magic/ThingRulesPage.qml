@@ -38,13 +38,9 @@ Page {
     id: root
 
     property Thing thing: null
-    property alias device: root.thing
-
-    Component.onCompleted: print("+++ created devicerulespage")
-    Component.onDestruction: print("--- destroying devicerulespage")
 
     header: NymeaHeader {
-        text: qsTr("Magic involving %1").arg(root.device.name)
+        text: qsTr("Magic involving %1").arg(root.thing.name)
         onBackPressed: pageStack.pop()
 
         HeaderButton {
@@ -57,18 +53,17 @@ Page {
     RuleTemplatesFilterModel {
         id: ruleTemplatesModel
         ruleTemplates: RuleTemplates {}
-        readonly property var deviceClass: device ? engine.deviceManager.deviceClasses.getDeviceClass(root.device.deviceClassId) : null
-        filterByDevices: DevicesProxy { engine: _engine }
-        filterInterfaceNames: deviceClass ? deviceClass.interfaces : []
+        filterByThings: ThingsProxy { engine: _engine }
+        filterInterfaceNames: root.thing ? root.thing.thingClass.interfaces : []
     }
 
     // Rule is optional and might be initialized with anything wanted. A new, empty one will be created if null
     // This Page will take ownership of the rule and delete it eventually.
     function addRule(rule) {
         if (rule === null || rule === undefined) {
-            print("creating new rule. have", ruleTemplatesModel.count, "templates", ruleTemplatesModel.deviceClass.interfaces)
+            print("creating new rule. have", ruleTemplatesModel.count, "templates", root.thing.thingClass.interfaces)
             if (ruleTemplatesModel.count > 0) {
-                d.editRulePage = pageStack.push(Qt.resolvedUrl("NewThingMagicPage.qml"), {device: root.device});
+                d.editRulePage = pageStack.push(Qt.resolvedUrl("NewThingMagicPage.qml"), {thing: root.thing});
                 d.editRulePage.manualCreation.connect(function() {
                     pageStack.pop();
                     rule = engine.ruleManager.createNewRule();
@@ -78,7 +73,7 @@ Page {
                 return;
             }
             rule = engine.ruleManager.createNewRule();
-            d.editRulePage = pageStack.push(Qt.resolvedUrl("EditRulePage.qml"), {rule: rule, initialDeviceToBeAdded: root.device});
+            d.editRulePage = pageStack.push(Qt.resolvedUrl("EditRulePage.qml"), {rule: rule, initialDeviceToBeAdded: root.thing});
         } else {
             d.editRulePage = pageStack.push(Qt.resolvedUrl("EditRulePage.qml"), {rule: rule});
         }
@@ -96,7 +91,7 @@ Page {
 
         //        if (rule.eventDescriptors.count === 0) {
         //            var eventDescriptor = rule.eventDescriptors.createNewEventDescriptor();
-        //            eventDescriptor.deviceId = device.id;
+        //            eventDescriptor.thingId = thing.id;
         //            page.selectEventDescriptorData(eventDescriptor);
         //        }
 
@@ -139,7 +134,7 @@ Page {
         model: RulesFilterModel {
             id: rulesFilterModel
             rules: engine.ruleManager.rules
-            filterDeviceId: root.device.id
+            filterThingId: root.thing.id
         }
 
         delegate: NymeaSwipeDelegate {
@@ -181,7 +176,7 @@ Page {
             width: parent.width
             wrapMode: Text.WordWrap
             horizontalAlignment: Text.AlignHCenter
-            text: qsTr("There's no magic involving %1.").arg(root.device.name)
+            text: qsTr("There's no magic involving %1.").arg(root.thing.name)
             font.pixelSize: app.largeFont
             color: Style.accentColor
         }

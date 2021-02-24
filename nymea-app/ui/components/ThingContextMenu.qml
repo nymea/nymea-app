@@ -50,7 +50,7 @@ AutoSizeMenu {
     }
 
     function openThingMagicPage() {
-        pageStack.push(Qt.resolvedUrl("../magic/DeviceRulesPage.qml"), {thing: root.thing})
+        pageStack.push(Qt.resolvedUrl("../magic/ThingRulesPage.qml"), {thing: root.thing})
     }
     function openGenericThingPage() {
         pageStack.push(Qt.resolvedUrl("../devicepages/GenericDevicePage.qml"), {thing: root.thing})
@@ -82,7 +82,7 @@ AutoSizeMenu {
     TagsProxyModel {
         id: favoritesProxy
         tags: engine.tagsManager.tags
-        filterDeviceId: root.thing.id
+        filterThingId: root.thing.id
         filterTagId: "favorites"
     }
 
@@ -153,7 +153,7 @@ AutoSizeMenu {
                         id: innerProxy
                         engine: _engine
                         filterTagId: model.tagId
-                        filterDeviceId: root.thing.id
+                        filterThingId: root.thing.id
                     }
                 }
             }

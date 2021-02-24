@@ -23,9 +23,9 @@ Item {
         if (interfaceList.indexOf("media") >= 0) {
             page = "MediaThingPage.qml";
         } else if (interfaceList.indexOf("button") >= 0) {
-            page = "ButtonDevicePage.qml";
+            page = "ButtonThingPage.qml";
         } else if (interfaceList.indexOf("powerswitch") >= 0) {
-            page = "ButtonDevicePage.qml";
+            page = "ButtonThingPage.qml";
         } else if (interfaceList.indexOf("weather") >= 0) {
             page = "WeatherDevicePage.qml";
         } else if (interfaceList.indexOf("heating") >= 0) {
@@ -43,7 +43,7 @@ Item {
         } else if (interfaceList.indexOf("shutter") >= 0  || interfaceList.indexOf("blind") >= 0) {
             page = "ShutterDevicePage.qml";
         } else if (interfaceList.indexOf("awning") >= 0) {
-            page = "AwningDevicePage.qml";
+            page = "AwningThingPage.qml";
         } else if (interfaceList.indexOf("notifications") >= 0) {
             page = "NotificationsDevicePage.qml";
         } else if (interfaceList.indexOf("fingerprintreader") >= 0) {

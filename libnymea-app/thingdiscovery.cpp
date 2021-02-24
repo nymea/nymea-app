@@ -40,20 +40,20 @@ ThingDiscovery::ThingDiscovery(QObject *parent) :
 int ThingDiscovery::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_foundDevices.count();
+    return m_foundThings.count();
 }
 
 QVariant ThingDiscovery::data(const QModelIndex &index, int role) const
 {
     switch (role) {
     case RoleId:
-        return m_foundDevices.at(index.row())->id();
+        return m_foundThings.at(index.row())->id();
     case RoleName:
-        return m_foundDevices.at(index.row())->name();
+        return m_foundThings.at(index.row())->name();
     case RoleDescription:
-        return m_foundDevices.at(index.row())->description();
-    case RoleDeviceId:
-        return m_foundDevices.at(index.row())->thingId();
+        return m_foundThings.at(index.row())->description();
+    case RoleThingId:
+        return m_foundThings.at(index.row())->thingId();
     }
 
     return QVariant();
@@ -63,7 +63,7 @@ QHash<int, QByteArray> ThingDiscovery::roleNames() const
 {
     QHash<int, QByteArray> roles;
     roles.insert(RoleId, "id");
-    roles.insert(RoleDeviceId, "deviceId");
+    roles.insert(RoleThingId, "thingId");
     roles.insert(RoleName, "name");
     roles.insert(RoleDescription, "description");
     return roles;
@@ -76,7 +76,7 @@ void ThingDiscovery::discoverThings(const QUuid &deviceClassId, const QVariantLi
         return;
     }
     beginResetModel();
-    m_foundDevices.clear();
+    m_foundThings.clear();
     endResetModel();
     emit countChanged();
 
@@ -102,10 +102,10 @@ void ThingDiscovery::discoverThings(const QUuid &deviceClassId, const QVariantLi
 
 ThingDescriptor *ThingDiscovery::get(int index) const
 {
-    if (index < 0 || index >= m_foundDevices.count()) {
+    if (index < 0 || index >= m_foundThings.count()) {
         return nullptr;
     }
-    return m_foundDevices.at(index);
+    return m_foundThings.at(index);
 }
 
 Engine *ThingDiscovery::engine() const
@@ -138,9 +138,9 @@ void ThingDiscovery::discoverThingsResponse(int /*commandId*/, const QVariantMap
     foreach (const QVariant &descriptorVariant, descriptors) {
         qDebug() << "Found device. Descriptor:" << descriptorVariant;
         if (!contains(descriptorVariant.toMap().value("id").toUuid())) {
-            beginInsertRows(QModelIndex(), m_foundDevices.count(), m_foundDevices.count());
+            beginInsertRows(QModelIndex(), m_foundThings.count(), m_foundThings.count());
             ThingDescriptor *descriptor = new ThingDescriptor(descriptorVariant.toMap().value("id").toUuid(),
-                                                   descriptorVariant.toMap().value("deviceId").toString(),
+                                                   descriptorVariant.toMap().value("thingId").toString(),
                                                    descriptorVariant.toMap().value("title").toString(),
                                                    descriptorVariant.toMap().value("description").toString());
             foreach (const QVariant &paramVariant, descriptorVariant.toMap().value("deviceParams").toList()) {
@@ -148,7 +148,7 @@ void ThingDiscovery::discoverThingsResponse(int /*commandId*/, const QVariantMap
                 Param* p = new Param(paramVariant.toMap().value("paramTypeId").toString(), paramVariant.toMap().value("value"));
                 descriptor->params()->addParam(p);
             }
-            m_foundDevices.append(descriptor);
+            m_foundThings.append(descriptor);
             endInsertRows();
             emit countChanged();
         }
@@ -161,7 +161,7 @@ void ThingDiscovery::discoverThingsResponse(int /*commandId*/, const QVariantMap
 
 bool ThingDiscovery::contains(const QUuid &deviceDescriptorId) const
 {
-    foreach (ThingDescriptor *descriptor, m_foundDevices) {
+    foreach (ThingDescriptor *descriptor, m_foundThings) {
         if (descriptor->id() == deviceDescriptorId) {
             return true;
         }
@@ -263,10 +263,10 @@ QUuid ThingDiscoveryProxy::filterThingId() const
     return m_filterThingId;
 }
 
-void ThingDiscoveryProxy::setFilterThingId(const QUuid &filterDeviceId)
+void ThingDiscoveryProxy::setFilterThingId(const QUuid &filterThingId)
 {
-    if (m_filterThingId != filterDeviceId) {
-        m_filterThingId = filterDeviceId;
+    if (m_filterThingId != filterThingId) {
+        m_filterThingId = filterThingId;
         emit filterThingIdChanged();
         invalidateFilter();
         emit countChanged();

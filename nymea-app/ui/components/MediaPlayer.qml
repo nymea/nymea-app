@@ -79,12 +79,12 @@ Item {
         target: engine.thingManager
         onExecuteActionReply: {
             if (commandId == d.pendingCallId) {
-                if (params.deviceError !== "DeviceErrorNoError") {
+                if (thingError !== Thing.ThingErrorNoError) {
                     var errorDialog = Qt.createComponent(Qt.resolvedUrl("../components/ErrorDialog.qml"));
                     var dialogParams = {}
-                    dialogParams.errorCode = params.deviceError
-                    if (params.displayMessage && params.displayMessage.length > 0) {
-                        dialogParams.text = params.displayMessage
+                    dialogParams.error = thingError
+                    if (displayMessage.length > 0) {
+                        dialogParams.text = displayMessage
                     }
                     var popup = errorDialog.createObject(app, dialogParams)
                     popup.open()
@@ -392,7 +392,7 @@ Item {
                 anchors.margins: app.margins
                 spacing: app.margins
 
-                NavigationPad { Layout.fillWidth: true; Layout.fillHeight: true; device: root.thing }
+                NavigationPad { Layout.fillWidth: true; Layout.fillHeight: true; thing: root.thing }
                 MediaControls { Layout.fillWidth: true; thing: root.thing }
                 ShuffleRepeatVolumeControl { Layout.fillWidth: true; Layout.fillHeight: false; Layout.preferredHeight: app.iconSize; thing: root.thing }
             }

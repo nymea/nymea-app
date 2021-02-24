@@ -42,10 +42,9 @@ SwipeDelegate {
     property var stateEvaluator: null
     property bool showChilds: false
 
-    readonly property var device: stateEvaluator ? engine.deviceManager.devices.getDevice(stateEvaluator.stateDescriptor.deviceId) : null
-    readonly property var deviceClass: device ? engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
+    readonly property Thing thing: stateEvaluator ? engine.thingManager.things.getThing(stateEvaluator.stateDescriptor.thingId) : null
     readonly property var iface: stateEvaluator ? Interfaces.findByName(stateEvaluator.stateDescriptor.interfaceName) : null
-    readonly property var stateType: deviceClass ? deviceClass.stateTypes.getStateType(stateEvaluator.stateDescriptor.stateTypeId)
+    readonly property var stateType: thing ? thing.thingClass.stateTypes.getStateType(stateEvaluator.stateDescriptor.stateTypeId)
                                                  : iface ? iface.stateTypes.findByName(stateEvaluator.stateDescriptor.interfaceState) : null
 
     signal deleteClicked();
@@ -104,8 +103,8 @@ SwipeDelegate {
                         break;
                     }
 
-                    if (root.device) {
-                        return qsTr("%1: %2 %3 %4").arg(root.device.name).arg(root.stateType.displayName).arg(operatorString).arg(valueText)
+                    if (root.thing) {
+                        return qsTr("%1: %2 %3 %4").arg(root.thing.name).arg(root.stateType.displayName).arg(operatorString).arg(valueText)
                     } else if (root.iface) {
                         return qsTr("%1: %2 %3 %4").arg(root.iface.displayName).arg(root.stateType.displayName).arg(operatorString).arg(valueText)
                     }
@@ -123,10 +122,9 @@ SwipeDelegate {
 
                 property var stateEvaluator: root.stateEvaluator.childEvaluators.get(index)
                 property var stateDescriptor: stateEvaluator.stateDescriptor
-                readonly property var device: engine.deviceManager.devices.getDevice(stateDescriptor.deviceId)
-                readonly property var deviceClass: device ? engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
+                readonly property Thing thing: engine.thingManager.things.getThing(stateDescriptor.thingId)
                 readonly property var iface: Interfaces.findByName(stateEvaluator.stateDescriptor.interfaceName)
-                readonly property var stateType: device ? deviceClass.stateTypes.getStateType(stateDescriptor.stateTypeId)
+                readonly property var stateType: thing ? thing.thingClass.stateTypes.getStateType(stateDescriptor.stateTypeId)
                                                         : iface ? iface.stateTypes.findByName(stateEvaluator.stateDescriptor.interfaceState)
                                                                 : null
 
@@ -157,7 +155,7 @@ SwipeDelegate {
                         }
                         return "FIXME"
                     }
-                    text: device ? ("%1 %2: %3 %4 %5%6").arg(root.stateEvaluator.stateOperator === StateEvaluator.StateOperatorAnd ? "and" : "or").arg(childEvaluatorDelegate.device.name).arg(childEvaluatorDelegate.stateType.displayName).arg(operatorString).arg(childEvaluatorDelegate.stateDescriptor.value).arg(childEvaluatorDelegate.stateEvaluator.childEvaluators.count > 0 ? "..." : "")
+                    text: thing ? ("%1 %2: %3 %4 %5%6").arg(root.stateEvaluator.stateOperator === StateEvaluator.StateOperatorAnd ? "and" : "or").arg(childEvaluatorDelegate.thing.name).arg(childEvaluatorDelegate.stateType.displayName).arg(operatorString).arg(childEvaluatorDelegate.stateDescriptor.value).arg(childEvaluatorDelegate.stateEvaluator.childEvaluators.count > 0 ? "..." : "")
                                  : iface ? ("%1 %2: %3 %4 %5%6").arg(root.stateEvaluator.stateOperator === StateEvaluator.StateOperatorAnd ? "and" : "or").arg(childEvaluatorDelegate.iface.displayName).arg(childEvaluatorDelegate.stateType.displayName).arg(operatorString).arg(childEvaluatorDelegate.stateDescriptor.value).arg(childEvaluatorDelegate.stateEvaluator.childEvaluators.count > 0 ? "..." : "")
                                          : "???"
                 }

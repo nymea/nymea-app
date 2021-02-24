@@ -28,52 +28,58 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef DEVICECLASSMODEL_H
-#define DEVICECLASSMODEL_H
+#ifndef THINGS_H
+#define THINGS_H
 
 #include <QAbstractListModel>
 
-#include "types/deviceclass.h"
+#include "types/thing.h"
+#include "types/thingclass.h"
 
-class DeviceClasses : public QAbstractListModel
+class Things : public QAbstractListModel
 {
     Q_OBJECT
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
 public:
-    enum Role {
-        RoleId,
+    enum Roles {
         RoleName,
-        RoleDisplayName,
-        RolePluginId,
-        RoleVendorId,
+        RoleId,
+        RoleParentId,
+        RoleDeviceClass,
+        RoleThingClass,
+        RoleSetupStatus,
+        RoleSetupDisplayMessage,
         RoleInterfaces,
         RoleBaseInterface
     };
+    Q_ENUM(Roles)
 
-    explicit DeviceClasses(QObject *parent = nullptr);
+    explicit Things(QObject *parent = nullptr);
 
-    QList<DeviceClass *> deviceClasses();
+    QList<Thing *> devices();
 
-    int rowCount(const QModelIndex & parent = QModelIndex()) const;
-    QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;
+    Q_INVOKABLE Thing *get(int index) const;
+    Q_INVOKABLE Thing *getThing(const QUuid &thingId) const;
 
-    Q_INVOKABLE int count() const;
-    Q_INVOKABLE DeviceClass *get(int index) const;
-    Q_INVOKABLE DeviceClass *getDeviceClass(QUuid deviceClassId) const;
+    int rowCount(const QModelIndex & parent = QModelIndex()) const override;
+    QVariant data(const QModelIndex & index, int role = RoleName) const override;
 
-    void addDeviceClass(DeviceClass *deviceClass);
+    void addThing(Thing *thing);
+    void removeThing(Thing *thing);
 
     void clearModel();
 
+protected:
+    QHash<int, QByteArray> roleNames() const override;
+
 signals:
     void countChanged();
-
-protected:
-    QHash<int, QByteArray> roleNames() const;
+    void thingAdded(Thing *device);
+    void thingRemoved(Thing *device);
 
 private:
-    QList<DeviceClass *> m_deviceClasses;
+    QList<Thing *> m_things;
 
 };
 
-#endif // DEVICECLASSMODEL_H
+#endif // THINGS_H

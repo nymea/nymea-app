@@ -37,7 +37,7 @@ import "../delegates"
 MeaDialog {
     id: root
 
-    property Device device
+    property Thing thing
     property string itemId
     property alias actionTypeIds: actionListView.model
 
@@ -63,7 +63,7 @@ MeaDialog {
                 width: parent.width
                 text: actionType.displayName
                 progressive: false
-                property ActionType actionType: root.device.deviceClass.browserItemActionTypes.getActionType(modelData)
+                property ActionType actionType: root.thing.thingClass.browserItemActionTypes.getActionType(modelData)
                 onClicked: {
                     var hasParams = actionType.paramTypes.count > 0
                     if (hasParams) {

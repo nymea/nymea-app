@@ -43,6 +43,7 @@ class LogsModel : public QAbstractListModel, public QQmlParserStatus
 {
     Q_OBJECT
     Q_PROPERTY(Engine* engine READ engine WRITE setEngine NOTIFY engineChanged)
+    Q_INTERFACES(QQmlParserStatus)
 
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
     Q_PROPERTY(bool busy READ busy NOTIFY busyChanged)
@@ -58,7 +59,6 @@ public:
         RoleTimestamp,
         RoleValue,
         RoleThingId,
-        RoleDeviceId, // < JSONRPC 5.0
         RoleTypeId,
         RoleSource,
         RoleLoggingEventType,
@@ -82,7 +82,7 @@ public:
     void setLive(bool live);
 
     QUuid thingId() const;
-    void setThingId(const QUuid &deviceId);
+    void setThingId(const QUuid &thingId);
 
     QStringList typeIds() const;
     void setTypeIds(const QStringList &typeIds);

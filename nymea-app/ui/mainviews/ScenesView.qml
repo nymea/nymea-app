@@ -80,15 +80,15 @@ MainViewBase {
     EmptyViewPlaceholder {
         anchors { left: parent.left; right: parent.right; margins: app.margins }
         anchors.verticalCenter: parent.verticalCenter
-        visible: interfacesGridView.count === 0 && !engine.deviceManager.fetchingData
+        visible: interfacesGridView.count === 0 && !engine.thingManager.fetchingData
         title: qsTr("There are no scenes set up yet.")
-        text: engine.deviceManager.devices.count === 0 ?
+        text: engine.thingManager.things.count === 0 ?
                   qsTr("It appears there are no things set up either yet. In order to use scenes you need to add some things first.") :
                   qsTr("Scenes provide a useful way to control your things with just one click.")
         imageSource: "../images/slideshow.svg"
-        buttonText: engine.deviceManager.devices.count === 0 ? qsTr("Add things") : qsTr("Add scenes")
+        buttonText: engine.thingManager.things.count === 0 ? qsTr("Add things") : qsTr("Add scenes")
         onButtonClicked: {
-            if (engine.deviceManager.devices.count === 0) {
+            if (engine.thingManager.things.count === 0) {
                 pageStack.push(Qt.resolvedUrl("../thingconfiguration/NewThingPage.qml"))
             } else {
                 var newRule = engine.ruleManager.createNewRule();
@@ -107,5 +107,4 @@ MainViewBase {
             }
         }
     }
-
 }

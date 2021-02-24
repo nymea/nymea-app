@@ -28,10 +28,53 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.9
+#ifndef DEVICECLASSMODEL_H
+#define DEVICECLASSMODEL_H
 
-ClosablesDeviceListPage {
-    title: qsTr("Awnings")
-    iconBasename: "../images/awning/awning"
-    invertControls: true
-}
+#include <QAbstractListModel>
+
+#include "types/thingclass.h"
+
+class ThingClasses : public QAbstractListModel
+{
+    Q_OBJECT
+    Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
+public:
+    enum Role {
+        RoleId,
+        RoleName,
+        RoleDisplayName,
+        RolePluginId,
+        RoleVendorId,
+        RoleInterfaces,
+        RoleBaseInterface
+    };
+
+    explicit ThingClasses(QObject *parent = nullptr);
+
+    QList<ThingClass *> thingClasses();
+
+    int rowCount(const QModelIndex & parent = QModelIndex()) const override;
+    QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const override;
+
+    Q_INVOKABLE int count() const;
+    Q_INVOKABLE ThingClass *get(int index) const;
+    Q_INVOKABLE ThingClass *getThingClass(QUuid thingClassId) const;
+    Q_INVOKABLE ThingClass *getDeviceClass(QUuid thingClassId) const;
+
+    void addThingClass(ThingClass *thingClass);
+
+    void clearModel();
+
+signals:
+    void countChanged();
+
+protected:
+    QHash<int, QByteArray> roleNames() const override;
+
+private:
+    QList<ThingClass *> m_thingClasses;
+
+};
+
+#endif // DEVICECLASSMODEL_H

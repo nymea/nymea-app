@@ -168,9 +168,9 @@ void CodeCompletion::update()
 
     QRegExp thingIdExp(".*thingId: \"[a-zA-ZÀ-ž0-9- ]*");
     if (thingIdExp.exactMatch(blockText)) {
-        for (int i = 0; i < m_engine->deviceManager()->devices()->rowCount(); i++) {
-            Device *dev = m_engine->deviceManager()->devices()->get(i);
-            entries.append(CompletionModel::Entry(dev->id().toString() + "\" // " + dev->name(), dev->name(), "thing", dev->thingClass()->interfaces().join(",")));
+        for (int i = 0; i < m_engine->thingManager()->things()->rowCount(); i++) {
+            Thing *thing = m_engine->thingManager()->things()->get(i);
+            entries.append(CompletionModel::Entry(thing->id().toString() + "\" // " + thing->name(), thing->name(), "thing", thing->thingClass()->interfaces().join(",")));
         }
         blockText.remove(QRegExp(".*thingId: \""));
         m_model->update(entries);
@@ -189,13 +189,13 @@ void CodeCompletion::update()
         thingId = info.properties.value("thingId");
 
         qDebug() << "selected thingId" << thingId;
-        Device *device = m_engine->deviceManager()->devices()->getDevice(thingId);
-        if (!device) {
+        Thing *thing = m_engine->thingManager()->things()->getThing(thingId);
+        if (!thing) {
             return;
         }
 
-        for (int i = 0; i < device->thingClass()->stateTypes()->rowCount(); i++) {
-            StateType *stateType = device->thingClass()->stateTypes()->get(i);
+        for (int i = 0; i < thing->thingClass()->stateTypes()->rowCount(); i++) {
+            StateType *stateType = thing->thingClass()->stateTypes()->get(i);
             entries.append(CompletionModel::Entry(stateType->id().toString() + "\" // " + stateType->name(), stateType->name(), "stateType"));
         }
         blockText.remove(QRegExp(".*stateTypeId: \""));
@@ -217,14 +217,14 @@ void CodeCompletion::update()
         thingId = info.properties.value("thingId");
 
         qDebug() << "selected thingId" << thingId;
-        Device *device = m_engine->deviceManager()->devices()->getDevice(thingId);
-        if (!device) {
+        Thing *thing = m_engine->thingManager()->things()->getThing(thingId);
+        if (!thing) {
             return;
         }
-        qDebug() << "Device is" << device->name();
+        qDebug() << "Thing is" << thing->name();
 
-        for (int i = 0; i < device->thingClass()->stateTypes()->rowCount(); i++) {
-            StateType *stateType = device->thingClass()->stateTypes()->get(i);
+        for (int i = 0; i < thing->thingClass()->stateTypes()->rowCount(); i++) {
+            StateType *stateType = thing->thingClass()->stateTypes()->get(i);
             entries.append(CompletionModel::Entry(stateType->name() + "\"", stateType->name(), "stateType"));
         }
         blockText.remove(QRegExp(".*stateName: \""));
@@ -244,13 +244,13 @@ void CodeCompletion::update()
         thingId = info.properties.value("thingId");
 
         qDebug() << "selected thingId" << thingId;
-        Device *device = m_engine->deviceManager()->devices()->getDevice(thingId);
-        if (!device) {
+        Thing *thing = m_engine->thingManager()->things()->getThing(thingId);
+        if (!thing) {
             return;
         }
 
-        for (int i = 0; i < device->thingClass()->actionTypes()->rowCount(); i++) {
-            ActionType *actionType = device->thingClass()->actionTypes()->get(i);
+        for (int i = 0; i < thing->thingClass()->actionTypes()->rowCount(); i++) {
+            ActionType *actionType = thing->thingClass()->actionTypes()->get(i);
             entries.append(CompletionModel::Entry(actionType->id().toString() + "\" // " + actionType->name(), actionType->name(), "actionType"));
         }
         blockText.remove(QRegExp(".*actionTypeId: \""));
@@ -270,7 +270,7 @@ void CodeCompletion::update()
         if (info.properties.contains("thingId")) {
             QString thingId = info.properties.value("thingId");
             qDebug() << "selected thingId" << thingId;
-            Device *thing = m_engine->thingManager()->things()->getThing(thingId);
+            Thing *thing = m_engine->thingManager()->things()->getThing(thingId);
             if (!thing) {
                 return;
             }
@@ -308,13 +308,13 @@ void CodeCompletion::update()
         thingId = info.properties.value("thingId");
 
         qDebug() << "selected thingId" << thingId;
-        Device *device = m_engine->deviceManager()->devices()->getDevice(thingId);
-        if (!device) {
+        Thing *thing= m_engine->thingManager()->things()->getThing(thingId);
+        if (!thing) {
             return;
         }
 
-        for (int i = 0; i < device->thingClass()->eventTypes()->rowCount(); i++) {
-            EventType *eventType = device->thingClass()->eventTypes()->get(i);
+        for (int i = 0; i < thing->thingClass()->eventTypes()->rowCount(); i++) {
+            EventType *eventType = thing->thingClass()->eventTypes()->get(i);
             entries.append(CompletionModel::Entry(eventType->id().toString() + "\" // " + eventType->name(), eventType->name(), "eventType"));
         }
         blockText.remove(QRegExp(".*eventTypeId: \""));
@@ -331,7 +331,7 @@ void CodeCompletion::update()
         EventTypes *eventTypes = nullptr;
         if (info.properties.contains("thingId")) {
             QString thingId = info.properties.value("thingId");
-            Device *thing = m_engine->thingManager()->things()->getThing(thingId);
+            Thing *thing = m_engine->thingManager()->things()->getThing(thingId);
             if (!thing) {
                 return;
             }
@@ -454,7 +454,7 @@ void CodeCompletion::update()
                 if (blockPosition >= 0) {
                     if (blockInfo.valid) {
                         QString thingId = blockInfo.properties.value("thingId");
-                        Device *d = m_engine->thingManager()->things()->getDevice(QUuid(thingId));
+                        Thing *d = m_engine->thingManager()->things()->getThing(QUuid(thingId));
                         if (d) {
                             ActionType *at = nullptr;
                             if (blockInfo.properties.contains("actionTypeId")) {

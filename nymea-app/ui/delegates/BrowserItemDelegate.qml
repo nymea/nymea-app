@@ -48,7 +48,8 @@ NymeaSwipeDelegate {
     secondaryIconName: model.actionTypeIds.length > 0 ? "../images/navigation-menu.svg" : ""
     secondaryIconClickable: true
 
-    property Device device: null
+    property Thing thing: null
+    property alias device: root.thing
 
     onPressAndHold: openContextMenu()
     onSecondaryIconClicked: openContextMenu()
@@ -63,7 +64,7 @@ NymeaSwipeDelegate {
         var actionDialogComponent = Qt.createComponent(Qt.resolvedUrl("../components/BrowserContextMenu.qml"));
         var popup = actionDialogComponent.createObject(app,
                                                        {
-                                                           device: root.device,
+                                                           thing: root.thing,
                                                            title: model.displayName,
                                                            itemId: model.id,
                                                            actionTypeIds: model.actionTypeIds

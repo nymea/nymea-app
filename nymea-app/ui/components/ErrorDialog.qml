@@ -38,9 +38,13 @@ MeaDialog {
     title: qsTr("Oh snap!")
     headerIcon: "../images/dialog-error-symbolic.svg"
 
+    property int error: 0
+
+    // Legacy as some places might still use strings instead of enums
     property string errorCode: ""
 
     text: qsTr("An unexpected error happened. We're sorry for that.") +
-          (errorCode.length > 0 ? "\n\n" + qsTr("Error code: %1").arg(errorCode) : "")
+          (errorCode.length > 0 ? "\n\n" + qsTr("Error code: %1").arg(errorCode) : "") +
+          (error != 0 ? "\n\n" + qsTr("Error code: %1").arg(error) : "")
 
 }
