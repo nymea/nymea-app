@@ -71,6 +71,14 @@ void NymeaHosts::addHost(NymeaHost *host)
         }
     }
     host->setParent(this);
+    connect(host, &NymeaHost::nameChanged, this, [=](){
+        int idx = m_hosts.indexOf(host);
+        emit dataChanged(index(idx), index(idx), {NameRole});
+    });
+    connect(host, &NymeaHost::versionChanged, this, [=](){
+        int idx = m_hosts.indexOf(host);
+        emit dataChanged(index(idx), index(idx), {VersionRole});
+    });
     connect(host, &NymeaHost::connectionChanged, this, &NymeaHosts::hostChanged);
 
     beginInsertRows(QModelIndex(), m_hosts.count(), m_hosts.count());

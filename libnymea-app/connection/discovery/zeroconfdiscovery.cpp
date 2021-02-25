@@ -137,7 +137,7 @@ void ZeroconfDiscovery::serviceEntryAdded(const QZeroConfService &entry)
     if (!host) {
         host = new NymeaHost(m_nymeaHosts);
         host->setUuid(uuid);
-//        qDebug() << "ZeroConf: Adding new host:" << serverName << uuid;
+        qDebug() << "ZeroConf: Adding new host:" << serverName << uuid;
         m_nymeaHosts->addHost(host);
     }
     host->setName(serverName);
