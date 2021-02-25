@@ -61,23 +61,21 @@ MainPageTile {
         id: loader
         anchors.fill: parent
         sourceComponent: {
-            if (root.deviceClass.interfaces.indexOf("closable") >= 0) {
-                return closableComponent;
-            }
-            if (root.deviceClass.interfaces.indexOf("power") >= 0) {
-                return lightsComponent;
-            }
-            if (root.deviceClass.interfaces.indexOf("sensor") >= 0) {
-                return sensorsComponent;
-            }
-            if (root.deviceClass.interfaces.indexOf("weather") >= 0) {
-                return sensorsComponent;
-            }
-            if (root.deviceClass.interfaces.indexOf("smartmeter") >= 0) {
-                return sensorsComponent;
-            }
-            if (root.deviceClass.interfaces.indexOf("mediacontroller") >= 0) {
-                return mediaComponent;
+            for (var i = 0; i < root.deviceClass.interfaces.length; i++) {
+                switch (root.deviceClass.interfaces[i]) {
+                case "closable":
+                    return closableComponent;
+                case "mediacontroller":
+                    return mediaComponent;
+                case "power":
+                    return lightsComponent;
+                case "sensor":
+                    return sensorsComponent;
+                case "weather":
+                    return sensorsComponent;
+                case "smartmeter":
+                    return sensorsComponent;
+                }
             }
         }
         Binding { target: loader.item ? loader.item : null; property: "deviceClass"; value: root.deviceClass }
