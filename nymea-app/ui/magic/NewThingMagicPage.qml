@@ -391,6 +391,7 @@ Page {
                 // has the template a value for this? If so, set it, otherwise flag as needsParams
                 print("template:", paramType.id, eventDescriptorTemplate.paramDescriptors.count)
                 if (paramDescriptorTemplate && paramDescriptorTemplate.value !== undefined) {
+                    print("filling in param descriptor:", paramDescriptorTemplate.value)
                     eventDescriptor.paramDescriptors.setParamDescriptorByName(paramDescriptorTemplate.paramName, paramDescriptorTemplate.value, paramDescriptorTemplate.operatorType);
                 } else {
                     needsParams = true;

@@ -94,6 +94,7 @@ Page {
                 for (var i = 0; i < delegateRepeater.count; i++) {
                     var paramDelegate = delegateRepeater.itemAt(i);
                     if (paramDelegate.considerParam) {
+                        print("adding param descriptor")
                         if (root.device) {
                             root.eventDescriptor.paramDescriptors.setParamDescriptor(paramDelegate.paramType.id, paramDelegate.value, paramDelegate.operatorType)
                         } else if (root.iface) {
