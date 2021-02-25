@@ -50,7 +50,7 @@ Item {
 
     readonly property StateType temperatureStateType: thing.thingClass.stateTypes.findByName("temperature")
     readonly property StateType pressureStateType: thing.thingClass.stateTypes.findByName("pressure")
-    readonly property StateType windSpeedStateType: thing.thingClass.stateTypes.findByName("windspeed")
+    readonly property StateType windSpeedStateType: thing.thingClass.stateTypes.findByName("windSpeed")
 
     ColumnLayout {
         id: grid
