@@ -58,7 +58,7 @@ MainViewBase {
             height: interfacesGridView.cellHeight
             iconName: iconTag ? "../images/" + iconTag.value + ".svg" : "../images/slideshow.svg";
             fallbackIconName: "../images/slideshow.svg"
-            iconColor: colorTag.value.length > 0 ? colorTag.value : Style.accentColor;
+            iconColor: colorTag && colorTag.value.length > 0 ? colorTag.value : Style.accentColor;
             text: model.name.toUpperCase()
 
             property var colorTag: engine.tagsManager.tags.findRuleTag(model.id, "color")
