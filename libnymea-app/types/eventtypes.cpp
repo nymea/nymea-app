@@ -54,7 +54,7 @@ EventType *EventTypes::getEventType(const QUuid &eventTypeId) const
             return eventType;
         }
     }
-    return 0;
+    return nullptr;
 }
 
 int EventTypes::rowCount(const QModelIndex &parent) const

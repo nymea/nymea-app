@@ -81,9 +81,9 @@ NymeaSwipeDelegate {
                 operatorString = " ? ";
             }
 
-            var paramType = paramDescriptor.paramTypeId
-                    ? root.eventType.paramTypes.getParamType(paramDescriptor.paramTypeId)
-                    : root.eventType.paramTypes.findByName(paramDescriptor.paramName)
+            var paramType = paramDescriptor.paramName
+                    ? root.eventType.paramTypes.findByName(paramDescriptor.paramName)
+                    : root.eventType.paramTypes.getParamType(paramDescriptor.paramTypeId)
 
             if (i === 0) {
                 // TRANSLATORS: example: "only if temperature > 5"
