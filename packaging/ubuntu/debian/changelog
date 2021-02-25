@@ -1,3 +1,15 @@
+nymea-app (1.0.277) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix Thing tile for mediaplayers that also implement the power
+    interface
+  * Fix eventdescriptor params in edit rule page
+  * Fix default scene icons
+  * Fix wind speed display in weather view
+  * Fix changed signal when new hosts are discovered
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 25 Feb 2021 23:51:00 +0100
+
 nymea-app (1.0.276) bionic; urgency=medium
 
   [ Michael Zanetti ]
