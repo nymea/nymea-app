@@ -32,21 +32,29 @@ import QtQuick 2.8
 import QtQuick.Controls 2.1
 import QtQuick.Controls.Material 2.1
 import QtQuick.Layouts 1.2
+import QtCharts 2.2
 import Nymea 1.0
-import "../components"
-import "../delegates"
+import "../../components"
+import "../../delegates"
 
-Item {
+Page {
     id: root
+    property DashboardFolderItem item: null
 
-    property string title: ""
+    header: NymeaHeader {
+        text: root.item.name
+        onBackPressed: pageStack.pop()
 
-    property var headerButtons: []
+        HeaderButton {
+            imageSource: "configure"
+            onClicked: dashboard.editMode = !dashboard.editMode
+            color: dashboard.editMode ? Style.accentColor : Style.iconColor
+        }
+    }
 
-    // Prevent scroll events to swipe left/right in case they fall through the grid
-    MouseArea {
+    Dashboard {
+        id: dashboard
         anchors.fill: parent
-        preventStealing: true
-        onWheel: wheel.accepted = true
+        model: root.item.model
     }
 }

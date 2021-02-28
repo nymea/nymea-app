@@ -32,21 +32,59 @@ import QtQuick 2.8
 import QtQuick.Controls 2.1
 import QtQuick.Controls.Material 2.1
 import QtQuick.Layouts 1.2
+import QtCharts 2.2
 import Nymea 1.0
+import Qt.labs.settings 1.1
 import "../components"
-import "../delegates"
+import "dashboard"
 
-Item {
+MainViewBase {
     id: root
 
-    property string title: ""
+    headerButtons: [
+        {
+            iconSource: "/ui/images/configure.svg",
+            color: dashboard.editMode ? Style.accentColor : Style.iconColor,
+            trigger: function() {
+                dashboard.editMode = !dashboard.editMode;
+            },
+            visible: true
+        }
+    ]
 
-    property var headerButtons: []
+    DashboardModel {
+        id: dashboardModel
 
-    // Prevent scroll events to swipe left/right in case they fall through the grid
-    MouseArea {
+        Component.onCompleted: {
+            print("loading dashboard:", dashboardSettings.dashboardConfig)
+            loadFromJson(dashboardSettings.dashboardConfig)
+        }
+
+        onSave: {
+            print("saving dashboard");
+            dashboardSettings.dashboardConfig = dashboardModel.toJson()
+        }
+    }
+
+    AppData {
+        id: dashboardSettings
+        engine: _engine
+        group: "dashboard-1"
+        property string dashboardConfig: ""
+        onDashboardConfigChanged: {
+            print("dashboard changed on server! Reloading...")
+            dashboardModel.loadFromJson(dashboardConfig)
+        }
+    }
+
+    Settings {
+        category: engine.jsonRpcClient.currentHost.uuid
+        property string dashboardConfig
+    }
+
+    Dashboard {
+        id: dashboard
         anchors.fill: parent
-        preventStealing: true
-        onWheel: wheel.accepted = true
+        model: dashboardModel
     }
 }

@@ -84,4 +84,50 @@ Item {
         return ((r * 299 + g * 587 + b * 114) / 1000) < 128
     }
 
+
+    property var namedIcons: {
+        "dashboard": "/ui/images/dashboard.svg",
+        "group": "/ui/images/groups.svg",
+        "folder": "/ui/images/folder.svg",
+        "star": "/ui/images/starred.svg",
+        "heart": "/ui/images/like.svg",
+        "wrench": "/ui/images/configure.svg",
+        "light": "/ui/images/light-on.svg",
+        "sensor": "/ui/images/sensors.svg",
+        "media": "/ui/images/media.svg",
+        "powersocket": "/ui/images/powersocket.svg",
+        "power": "/ui/images/system-shutdown.svg",
+        "weather": "/ui/images/weather-app-symbolic.svg",
+        "attention": "/ui/images/attention.svg",
+        "shutter": "/ui/images/shutter/shutter-040.svg",
+        "garage": "/ui/images/garage/garage-100.svg",
+        "awning": "/ui/images/awning/awning-100.svg",
+        "uncategorized": "/ui/images/select-none.svg",
+        "closable": "/ui/images/closable-move.svg",
+        "smartmeter": "/ui/images/smartmeter.svg",
+        "heating": "/ui/images/thermostat/heating.svg",
+        "cooling": "/ui/images/thermostat/cooling.svg",
+        "meter": "/ui/images/dial.svg",
+        "ev-charger": "/ui/images/ev-charger.svg",
+        "battery": "/ui/images/battery/battery-100.svg",
+        "message": "/ui/images/notification.svg",
+        "irrigation": "/ui/images/irrigation.svg",
+        "ventilation": "/ui/images/ventilation.svg",
+        "lock": "/ui/images/smartlock.svg",
+        "qrcode": "/ui/images/qrcode.svg",
+        "cleaningrobot": "/ui/images/cleaning-robot.svg",
+        "plant": "/ui/images/sensors/conductivity.svg",
+        "water": "/ui/images/sensors/water.svg",
+        "wind": "/ui/images/sensors/windspeed.svg",
+        "cloud": "/ui/images/weathericons/weather-clouds.svg",
+        "send": "/ui/images/send.svg"
+    }
+    function namedIcon(name) {
+        if (!namedIcons.hasOwnProperty(name)) {
+            console.error("No such named icon:", name)
+            return
+        }
+        return namedIcons[name]
+    }
+
 }

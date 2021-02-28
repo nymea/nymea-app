@@ -139,7 +139,7 @@ public:
     AWSDevices* awsDevices() const;
     bool confirmationPending() const;
 
-    Q_INVOKABLE void login(const QString &username, const QString &password);
+    Q_INVOKABLE bool login(const QString &username, const QString &password);
     Q_INVOKABLE void logout();
     Q_INVOKABLE void signup(const QString &username, const QString &password);
     Q_INVOKABLE void confirmRegistration(const QString &code);
@@ -151,7 +151,7 @@ public:
 
     Q_INVOKABLE void fetchDevices();
 
-    Q_INVOKABLE bool postToMQTT(const QString &coreId, const QString &nonce, QObject* sender, std::function<void(bool)> callback);
+    Q_INVOKABLE bool postToMQTT(const QString &coreId, const QString &nonce, QPointer<QObject> sender, std::function<void(bool)> callback);
     Q_INVOKABLE void getId();
 
     Q_INVOKABLE void registerPushNotificationEndpoint(const QString &registrationId, const QString &deviceDisplayName, const QString mobileDeviceId, const QString &mobileDeviceManufacturer, const QString &mobileDeviceModel);
@@ -185,7 +185,7 @@ private:
     explicit AWSClient(QObject *parent = nullptr);
     static AWSClient* s_instance;
 
-    void refreshAccessToken();
+    bool refreshAccessToken();
     void getCredentialsForIdentity(const QString &identityId);
     void connectMQTT();
 
@@ -218,7 +218,7 @@ private:
         QueuedCall(const QString &method): method(method) { }
         QueuedCall(const QString &method, const QString &arg1): method(method), arg1(arg1) { }
         QueuedCall(const QString &method, const QString &arg1, const QString &arg2, const QString &arg3, const QString &arg4, const QString &arg5): method(method), arg1(arg1), arg2(arg2), arg3(arg3), arg4(arg4), arg5(arg5) { }
-        QueuedCall(const QString &method, const QString &arg1, const QString &arg2, QObject* sender, std::function<void(bool)> callback): method(method), arg1(arg1), arg2(arg2), sender(sender), callback(callback) {}
+        QueuedCall(const QString &method, const QString &arg1, const QString &arg2, QPointer<QObject> sender, std::function<void(bool)> callback): method(method), arg1(arg1), arg2(arg2), sender(sender), callback(callback) {}
         QString method;
         QString arg1;
         QString arg2;
@@ -241,6 +241,7 @@ private:
             queue.append(call);
         }
     };
+    void cancelCallQueue();
 
     QList<QueuedCall> m_callQueue;
 

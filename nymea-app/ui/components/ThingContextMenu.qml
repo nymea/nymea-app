@@ -32,7 +32,7 @@ AutoSizeMenu {
         root.addItem(menuEntryComponent.createObject(root,
             {
                 text: qsTr("Grouping"),
-                iconSource: "../images/view-grid-symbolic.svg",
+                iconSource: "../images/groups.svg",
                 functionName: "addToGroup"
             }))
 
@@ -99,7 +99,7 @@ AutoSizeMenu {
         id: addToGroupDialog
         MeaDialog {
             title: qsTr("Groups for %1").arg(root.thing.name)
-            headerIcon: "../images/view-grid-symbolic.svg"
+            headerIcon: "../images/groups.svg"
             // NOTE: If CloseOnPressOutside is active (default) it will break the QtVirtualKeyboard
             // https://bugreports.qt.io/browse/QTBUG-56918
             closePolicy: Popup.CloseOnEscape

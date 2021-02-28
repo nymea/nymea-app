@@ -32,21 +32,22 @@ import QtQuick 2.8
 import QtQuick.Controls 2.1
 import QtQuick.Controls.Material 2.1
 import QtQuick.Layouts 1.2
+import QtCharts 2.2
 import Nymea 1.0
-import "../components"
-import "../delegates"
+import "../../components"
+import "../../delegates"
 
-Item {
+DashboardDelegateBase {
     id: root
+    property DashboardThingItem item: null
 
-    property string title: ""
+    contentItem: ThingTile {
+        id: delegateRoot
+        width: root.width
+        height: root.height
+        thing: engine.thingManager.fetchingData ? null : engine.thingManager.things.getThing(root.item.thingId)
 
-    property var headerButtons: []
-
-    // Prevent scroll events to swipe left/right in case they fall through the grid
-    MouseArea {
-        anchors.fill: parent
-        preventStealing: true
-        onWheel: wheel.accepted = true
+        onClicked: pageStack.push(Qt.resolvedUrl("../../devicepages/" + NymeaUtils.interfaceListToDevicePage(thing.thingClass.interfaces)), {thing: thing})
+        onPressAndHold: root.longPressed()
     }
 }

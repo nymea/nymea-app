@@ -188,15 +188,15 @@ bool AWSClient::confirmationPending() const
     return m_confirmationPending;
 }
 
-void AWSClient::login(const QString &username, const QString &password)
+bool AWSClient::login(const QString &username, const QString &password)
 {
     if (m_usedConfig.isEmpty()) {
         qCInfo(dcCloud()) << "AWS config not set. Not logging in.";
-        return;
+        return false;
     }
     if (m_loginInProgress) {
         qCDebug(dcCloud()) << "Login already pending...";
-        return;
+        return false;
     }
     m_loginInProgress = true;
 
@@ -243,16 +243,19 @@ void AWSClient::login(const QString &username, const QString &password)
             if (reply->error() == QNetworkReply::HostNotFoundError) {
                 qCWarning(dcCloud()) << "Error logging in to aws due to network connection.";
                 emit loginResult(LoginErrorNetworkError);
+                cancelCallQueue();
                 return;
             }
             if (reply->error() == QNetworkReply::ProtocolInvalidOperationError) {
                 qCWarning(dcCloud()) << "Looks like a wrong password.";
                 m_username.clear();
                 m_password.clear();
+                cancelCallQueue();
                 emit loginResult(LoginErrorInvalidUserOrPass);
                 return;
             }
             qCWarning(dcCloud()) << "Error logging in to aws. Error:" << reply->error() << reply->errorString();
+            cancelCallQueue();
             emit loginResult(LoginErrorUnknownError);
             return;
         }
@@ -263,6 +266,7 @@ void AWSClient::login(const QString &username, const QString &password)
             qCWarning(dcCloud()) << "Failed to parse AWS login response" << error.errorString();
             m_username.clear();
             m_password.clear();
+            cancelCallQueue();
             emit loginResult(LoginErrorUnknownError);
             return;
         }
@@ -277,6 +281,8 @@ void AWSClient::login(const QString &username, const QString &password)
         QList<QByteArray> jwtParts = m_idToken.split('.');
         if (jwtParts.count() != 3) {
             qCWarning(dcCloud()) << "Error: JWT token doesn't have 3 parts. Cannot retrieve AWS Cognito ID.";
+            cancelCallQueue();
+            emit loginResult(LoginErrorUnknownError);
             return;
         }
 //        qDebug() << "decoded header:" << QByteArray::fromBase64(jwtParts.at(0));
@@ -287,6 +293,7 @@ void AWSClient::login(const QString &username, const QString &password)
 //        qDebug() << "Getting cognito ID";
         getId();
     });
+    return true;
 }
 
 void AWSClient::logout()
@@ -634,6 +641,7 @@ void AWSClient::getId()
         reply->deleteLater();
         if (reply->error() != QNetworkReply::NoError) {
             qCWarning(dcCloud()) << "Error calling GetId" << reply->error() << reply->errorString();
+            cancelCallQueue();
             return;
         }
         QByteArray data = reply->readAll();
@@ -641,6 +649,7 @@ void AWSClient::getId()
         QJsonDocument jsonDoc = QJsonDocument::fromJson(data, &error);
         if (error.error != QJsonParseError::NoError) {
             qCWarning(dcCloud()) << "Error parsing json reply for GetId" << error.errorString();
+            cancelCallQueue();
             return;
         }
         m_identityId = jsonDoc.toVariant().toMap().value("IdentityId").toByteArray();
@@ -820,6 +829,7 @@ void AWSClient::getCredentialsForIdentity(const QString &identityId)
         reply->deleteLater();
         if (reply->error() != QNetworkReply::NoError) {
             qCWarning(dcCloud()) << "Error calling GetCredentialsForIdentity" << reply->errorString();
+            cancelCallQueue();
             emit loginResult(LoginErrorUnknownError);
             return;
         }
@@ -828,6 +838,7 @@ void AWSClient::getCredentialsForIdentity(const QString &identityId)
         QJsonDocument jsonDoc = QJsonDocument::fromJson(data, &error);
         if (error.error != QJsonParseError::NoError) {
             qCWarning(dcCloud()) << "Error parsing JSON reply from GetCredentialsForIdentity" << error.errorString();
+            cancelCallQueue();
             emit loginResult(LoginErrorUnknownError);
             return;
         }
@@ -884,12 +895,25 @@ void AWSClient::getCredentialsForIdentity(const QString &identityId)
     });
 }
 
+void AWSClient::cancelCallQueue()
+{
+    while (!m_callQueue.isEmpty()) {
+        QueuedCall qc = m_callQueue.takeFirst();
+        // Only postToMQTT needs calling a callback with error
+        if (qc.method == "postToMQTT") {
+            if (!qc.sender.isNull()) {
+                qc.callback(false);
+            }
+        }
+    }
+}
+
 bool AWSClient::tokensExpired() const
 {
     return (m_accessTokenExpiry.addSecs(-10) < QDateTime::currentDateTime()) || (m_sessionTokenExpiry.addSecs(-10) < QDateTime::currentDateTime());
 }
 
-bool AWSClient::postToMQTT(const QString &coreId, const QString &nonce, QObject* sender, std::function<void (bool)> callback)
+bool AWSClient::postToMQTT(const QString &coreId, const QString &nonce, QPointer<QObject> sender, std::function<void (bool)> callback)
 {
     if (!isLoggedIn()) {
         qCWarning(dcCloud()) << "Cannot post to MQTT. Not logged in to AWS";
@@ -899,11 +923,9 @@ bool AWSClient::postToMQTT(const QString &coreId, const QString &nonce, QObject*
         qCDebug(dcCloud()) << "Cannot post to MQTT. Need to refresh the tokens first";
         refreshAccessToken();
         QueuedCall::enqueue(m_callQueue, QueuedCall("postToMQTT", coreId, nonce, sender, callback));
-        return true; // So far it looks we're doing ok... let's return true
+        return true; // Pretending we're doing fine
     }    
     QString topic = QString("%1/%2/proxy").arg(coreId).arg(QString(m_identityId));
-
-    QPointer<QObject> senderWatcher = QPointer<QObject>(sender);
 
     // This is somehow broken in AWS...
     // The Signature needs to be created with having the topic percentage-encoded twice
@@ -938,18 +960,18 @@ bool AWSClient::postToMQTT(const QString &coreId, const QString &nonce, QObject*
 //    }
     qCDebug(dcCloud) << "Payload:" << payload;
     QNetworkReply *reply = m_nam->post(request, payload);
-    QTimer::singleShot(5000, reply, [reply, senderWatcher, callback](){
+    QTimer::singleShot(5000, reply, [reply, sender, callback](){
         reply->deleteLater();
         qCWarning(dcCloud) << "Timeout posting to MQTT";
-        if (senderWatcher) {
+        if (!sender.isNull()) {
             callback(false);
         }
     });
-    connect(reply, &QNetworkReply::finished, this, [reply, senderWatcher, callback]() {
+    connect(reply, &QNetworkReply::finished, this, [reply, sender, callback]() {
         reply->deleteLater();
         QByteArray data = reply->readAll();
-        qCDebug(dcCloud()) << "MQTT post reply" << data;
-        if (senderWatcher.isNull()) {
+//        qDebug() << "MQTT post reply" << data;
+        if (sender.isNull()) {
             qCDebug(dcCloud()) << "Request object disappeared. Discarding MQTT reply...";
             return;
         }
@@ -1052,18 +1074,17 @@ void AWSClient::fetchDevices()
     });
 }
 
-void AWSClient::refreshAccessToken()
+bool AWSClient::refreshAccessToken()
 {
     if (!isLoggedIn()) {
         qCWarning(dcCloud()) << "Cannot refresh tokens. Not logged in to AWS";
-        return;
+        return false;
     }
 
     // We should use REFRESH_TOKEN_AUTH to refresh our tokens but it's not working
     // https://forums.aws.amazon.com/thread.jspa?threadID=287978
     // Let's re-login instead with user & pass
-    login(m_username, m_password);
-    return;
+    return login(m_username, m_password);
 
 
     // Non-working block... Enable this if Amazon ever fixes their API...
@@ -1126,6 +1147,7 @@ void AWSClient::refreshAccessToken()
         emit isLoggedInChanged();
 
     });
+    return true;
 }
 
 

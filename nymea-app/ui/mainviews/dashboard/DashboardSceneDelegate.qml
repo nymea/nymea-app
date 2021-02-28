@@ -32,21 +32,37 @@ import QtQuick 2.8
 import QtQuick.Controls 2.1
 import QtQuick.Controls.Material 2.1
 import QtQuick.Layouts 1.2
+import QtCharts 2.2
 import Nymea 1.0
-import "../components"
-import "../delegates"
+import "../../components"
+import "../../delegates"
 
-Item {
+DashboardDelegateBase {
     id: root
+    property DashboardSceneItem item: null
 
-    property string title: ""
+    readonly property Rule rule: item && !engine.ruleManager.fetchingData ? engine.ruleManager.rules.getRule(item.ruleId) : null
 
-    property var headerButtons: []
+    property var colorTag: engine.tagsManager.tags.findRuleTag(root.item.ruleId, "color")
+    property var iconTag: engine.tagsManager.tags.findRuleTag(root.item.ruleId, "icon")
 
-    // Prevent scroll events to swipe left/right in case they fall through the grid
-    MouseArea {
-        anchors.fill: parent
-        preventStealing: true
-        onWheel: wheel.accepted = true
+    contentItem: MainPageTile {
+        width: root.width
+        height: root.height
+        iconName: iconTag ? "/ui/images/" + iconTag.value + ".svg" : "/ui/images/slideshow.svg";
+        fallbackIconName: "/ui/images/slideshow.svg"
+        iconColor: colorTag && colorTag.value.length > 0 ? colorTag.value : Style.accentColor;
+        lowerText: root.rule ? root.rule.name : ""
+
+        onClicked: engine.ruleManager.executeActions(root.item.ruleId)
+        onPressAndHold: root.longPressed()
+
+        Connections {
+            target: engine.tagsManager.tags
+            onCountChanged: {
+                colorTag = engine.tagsManager.tags.findRuleTag(root.item.ruleId, "color")
+                iconTag = engine.tagsManager.tags.findRuleTag(root.item.ruleId, "icon")
+            }
+        }
     }
 }

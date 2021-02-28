@@ -46,6 +46,9 @@
 #include "nfchelper.h"
 #include "nfcthingactionwriter.h"
 #include "platformhelper.h"
+#include "dashboard/dashboardmodel.h"
+#include "dashboard/dashboarditem.h"
+#include "mouseobserver.h"
 #include "../config.h"
 
 #include "logging.h"
@@ -150,6 +153,16 @@ int main(int argc, char *argv[])
 
     qmlRegisterSingletonType<PushNotifications>("Nymea", 1, 0, "PushNotifications", PushNotifications::pushNotificationsProvider);
     qmlRegisterSingletonType(QUrl("qrc:///ui/utils/NymeaUtils.qml"), "Nymea", 1, 0, "NymeaUtils" );
+
+    qmlRegisterType<DashboardModel>("Nymea", 1, 0, "DashboardModel");
+    qmlRegisterUncreatableType<DashboardItem>("Nymea", 1, 0, "DashboardItem", "");
+    qmlRegisterUncreatableType<DashboardThingItem>("Nymea", 1, 0, "DashboardThingItem", "");
+    qmlRegisterUncreatableType<DashboardFolderItem>("Nymea", 1, 0, "DashboardFolderItem", "");
+    qmlRegisterUncreatableType<DashboardGraphItem>("Nymea", 1, 0, "DashboardGraphItem", "");
+    qmlRegisterUncreatableType<DashboardSceneItem>("Nymea", 1, 0, "DashboardSceneItem", "");
+    qmlRegisterUncreatableType<DashboardWebViewItem>("Nymea", 1, 0, "DashboardWebViewItem", "");
+
+    qmlRegisterType<MouseObserver>("Nymea", 1, 0, "MouseObserver");
 
     engine->rootContext()->setContextProperty("appVersion", APP_VERSION);
     engine->rootContext()->setContextProperty("qtBuildVersion", QT_VERSION_STR);

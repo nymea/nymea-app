@@ -60,7 +60,7 @@ Dialog {
     }
 
     header: Item {
-        implicitHeight: headerRow.height + app.margins * 2
+        implicitHeight: headerRow.height + app.margins
         implicitWidth: parent.width
         visible: root.title.length > 0
         RowLayout {
@@ -86,9 +86,8 @@ Dialog {
             }
         }
     }
-    ColumnLayout {
+    contentItem: ColumnLayout {
         id: content
-        anchors { left: parent.left; top: parent.top; right: parent.right }
 
         Label {
             id: contentLabel

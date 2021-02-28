@@ -50,6 +50,7 @@ class RuleManager : public JsonHandler
 {
     Q_OBJECT
     Q_PROPERTY(Rules* rules READ rules CONSTANT)
+    Q_PROPERTY(bool fetchingData READ fetchingData NOTIFY fetchingDataChanged)
 
 public:
     explicit RuleManager(JsonRpcClient *jsonClient, QObject *parent = nullptr);
@@ -58,6 +59,7 @@ public:
 
     void clear();
     void init();
+    bool fetchingData() const;
 
     Rules* rules() const;
 
@@ -99,10 +101,12 @@ private:
 signals:
     void addRuleReply(int commandId, const QString &ruleError, const QString &ruleId);
     void editRuleReply(int commandId, const QString &ruleError);
+    void fetchingDataChanged();
 
 private:
     JsonRpcClient *m_jsonClient;
     Rules* m_rules;
+    bool m_fetchingData = false;
 };
 
 #endif // RULEMANAGER_H

@@ -51,6 +51,7 @@ Item {
     property bool updateStatus: false
 
     property alias contentItem: innerContent.children
+    property alias lowerText: lowerTextLabel.text
 
     signal clicked();
     signal pressAndHold();
@@ -146,7 +147,7 @@ Item {
                 Item {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
-                    visible: backgroundImg.status !== Image.Ready
+                    visible: backgroundImg.status !== Image.Ready && label.text != ""
 
                     Label {
                         id: label
@@ -155,7 +156,7 @@ Item {
                         text: root.text.toUpperCase()
                         font.pixelSize: app.smallFont
                         font.letterSpacing: 1
-                        wrapMode: Text.WordWrap
+                        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                         horizontalAlignment: Text.AlignHCenter
                         maximumLineCount: 2
                         elide: Text.ElideRight
@@ -166,15 +167,26 @@ Item {
         }
     }
 
+    Label {
+        id: lowerTextLabel
+        anchors.fill: innerContent
+        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+        maximumLineCount: 2
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
+        padding: app.margins / 2
+        visible: root.contentItem.length === 0
+    }
+
+    MouseArea {
+        anchors.fill: innerContent
+    }
+
     Item {
         id: innerContent
         anchors { left: parent.left; bottom: parent.bottom; right: parent.right; margins: app.margins / 2 }
         height: Style.iconSize + app.margins * 2
         Material.foreground: Style.tileOverlayForegroundColor
-
-        MouseArea {
-            anchors.fill: parent
-        }
     }
 
     RowLayout {

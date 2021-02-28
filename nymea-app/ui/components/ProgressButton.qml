@@ -65,6 +65,7 @@ Item {
             buttonDelegate.longpressed = false
         }
         onReleased: {
+            print("onReleased!")
             if (!containsMouse) {
                 print("cancelled")
                 buttonDelegate.longpressed = false;
@@ -79,6 +80,7 @@ Item {
                 root.clicked();
             }
             buttonDelegate.longpressed = false
+            print("released end")
         }
     }
 

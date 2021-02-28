@@ -61,9 +61,9 @@ MainViewBase {
         delegate: MainPageTile {
             width: groupsGridView.cellWidth
             height: groupsGridView.cellHeight
-            iconName: "../images/view-grid-symbolic.svg"
+            iconName: "../images/groups.svg"
             iconColor: Style.accentColor
-            text: model.tagId.substring(6)
+            lowerText: model.tagId.substring(6)
             onClicked: {
                 pageStack.push(Qt.resolvedUrl("../grouping/GroupInterfacesPage.qml"), {groupTag: model.tagId})
             }
@@ -76,7 +76,7 @@ MainViewBase {
         visible: groupsGridView.count == 0 && !engine.thingManager.fetchingData && !engine.tagsManager.busy
         title: qsTr("There are no groups set up yet.")
         text: qsTr("Grouping things can be useful to control multiple devices at once, for example an entire room. Watch out for the group symbol when interacting with things and use it to add them to groups.")
-        imageSource: "../images/view-grid-symbolic.svg"
+        imageSource: "../images/groups.svg"
         buttonVisible: false
     }
 }

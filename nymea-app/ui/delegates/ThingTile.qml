@@ -37,30 +37,34 @@ import "../components"
 
 MainPageTile {
     id: root
-    text: thing.name.toUpperCase()
-    iconName: app.interfacesToIcon(thing.thingClass.interfaces)
+    text: thing ? thing.name.toUpperCase() : ""
+    iconName: thing ? app.interfacesToIcon(thing.thingClass.interfaces) : ""
     iconColor: Style.accentColor
-    isWireless: thing.thingClass.interfaces.indexOf("wirelessconnectable") >= 0
+    isWireless: thing && thing.thingClass.interfaces.indexOf("wirelessconnectable") >= 0
     batteryCritical: batteryCriticalState && batteryCriticalState.value === true
     disconnected: connectedState && connectedState.value === false
     signalStrength: signalStrengthState ? signalStrengthState.value : -1
-    setupStatus: thing.setupStatus
+    setupStatus: thing ? thing.setupStatus : Thing.ThingSetupStatusNone
     updateStatus: updateStatusState && updateStatusState.value !== "idle"
 
     backgroundImage: artworkState && artworkState.value.length > 0 ? artworkState.value : ""
 
     property Thing thing: null
     property alias device: root.thing
-    readonly property State connectedState: thing.stateByName("connected")
-    readonly property State signalStrengthState: thing.stateByName("signalStrength")
-    readonly property State batteryCriticalState: thing.stateByName("batteryCritical")
-    readonly property State artworkState: thing.stateByName("artwork")
-    readonly property State updateStatusState: thing.stateByName("updateStatus")
+    readonly property State connectedState: thing ? thing.stateByName("connected") : null
+    readonly property State signalStrengthState: thing ? thing.stateByName("signalStrength") : null
+    readonly property State batteryCriticalState: thing ? thing.stateByName("batteryCritical") : null
+    readonly property State artworkState: thing ? thing.stateByName("artwork") : null
+    readonly property State updateStatusState: thing ? thing.stateByName("updateStatus") : null
 
     contentItem: Loader {
         id: loader
         anchors.fill: parent
         sourceComponent: {
+            if (!root.thing) {
+                return null
+            }
+
             for (var i = 0; i < root.thing.thingClass.interfaces.length; i++) {
                 switch (root.thing.thingClass.interfaces[i]) {
                 case "closable":

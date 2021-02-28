@@ -51,7 +51,7 @@ SettingsPageBase {
 
     ThingInfoPane {
         id: infoPane
-        anchors { left: parent.left; top: parent.top; right: parent.right }
+        Layout.fillWidth: true
         thing: root.thing
     }
 

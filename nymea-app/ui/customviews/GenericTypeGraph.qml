@@ -48,16 +48,16 @@ Item {
     property string iconSource: ""
     property alias title: titleLabel.text
 
-    readonly property var valueState: thing.states.getState(stateType.id)
-    readonly property bool hasConnectable: thing.thingClass.interfaces.indexOf("connectable") >= 0
+    readonly property State valueState: thing && stateType ? thing.states.getState(stateType.id) : null
     readonly property StateType connectedStateType: hasConnectable ? thing.thingClass.stateTypes.findByName("connected") : null
+    readonly property bool hasConnectable: connectedStateType != null
 
 
     LogsModelNg {
         id: logsModelNg
-        engine: _engine
-        thingId: root.thing.id
-        typeIds: [root.stateType.id]
+        engine: root.thing ? _engine : null
+        thingId: root.thing ? root.thing.id : ""
+        typeIds: root.stateType ? [root.stateType.id] : []
         live: true
         graphSeries: lineSeries1
         viewStartTime: xAxis.min
@@ -66,7 +66,7 @@ Item {
     LogsModelNg {
         id: connectedLogsModel
         engine: root.hasConnectable ? _engine : null // don't even try to poll if we don't have a connectable interface
-        thingId: root.thing.id
+        thingId: root.thing ? root.thing.id : ""
         typeIds: root.hasConnectable ? [root.connectedStateType.id] : []
         live: true
         graphSeries: connectedLineSeries
@@ -78,8 +78,8 @@ Item {
         anchors.fill: parent
         margins.top: Style.iconSize + app.margins
         margins.bottom: app.margins / 2
-        margins.left: 0
-        margins.right: 0
+        margins.left: Style.smallMargins
+        margins.right: Style.smallMargins
         backgroundColor: Style.tileBackgroundColor
         backgroundRoundness: Style.cornerRadius
         legend.visible: false
@@ -104,6 +104,7 @@ Item {
             Label {
                 id: titleLabel
                 Layout.fillWidth: true
+                elide: Text.ElideRight
                 text: root.stateType.type.toLowerCase() === "bool"
                        ? root.stateType.displayName
                        : 1.0 * Math.round(Types.toUiValue(root.valueState.value, root.stateType.unit) * Math.pow(10, root.roundTo)) / Math.pow(10, root.roundTo) + " " + Types.toUiUnit(root.stateType.unit)
@@ -118,9 +119,9 @@ Item {
             }
             HeaderButton {
                 imageSource: "../images/zoom-in.svg"
-                enabled: xAxis.timeDiff > (60 * 30)
+                enabled: xAxis.timeDiff > (60 * 5)
                 onClicked: {
-                    var newTime = new Date(Math.min(xAxis.min.getTime() + (xAxis.timeDiff * 1000 / 4), xAxis.max.getTime() - (1000 * 60 * 30)))
+                    var newTime = new Date(Math.min(xAxis.min.getTime() + (xAxis.timeDiff * 1000 / 4), xAxis.max.getTime() - (1000 * 60 * 5)))
                     xAxis.min = newTime;
                 }
             }
@@ -129,27 +130,25 @@ Item {
         ValueAxis {
             id: yAxis
             max: {
-                switch (root.stateType.type.toLowerCase()) {
-                case "bool":
+                if (root.stateType && root.stateType.type.toLowerCase() == "bool") {
                     return 1;
-                default:
+                } else {
                     Math.ceil(logsModelNg.maxValue + Math.abs(logsModelNg.maxValue * .05))
                 }
             }
             min: Math.floor(logsModelNg.minValue - Math.abs(logsModelNg.minValue * .05))
             //                onMinChanged: applyNiceNumbers();
             //                onMaxChanged: applyNiceNumbers();
-            labelsFont.pixelSize: app.smallFont
+            labelsFont: Style.smallFont
             labelFormat: {
-                switch (root.stateType.type.toLowerCase()) {
-                case "bool":
+                if (root.stateType && root.stateType.type.toLowerCase() == "bool") {
                     return "x";
-                default:
+                } else {
                     return "%d";
                 }
             }
             labelsColor: Style.foregroundColor
-            tickCount: root.stateType.type.toLowerCase() === "bool" ? 2 : chartView.height / 40
+            tickCount: root.stateType && root.stateType.type.toLowerCase() === "bool" ? 2 : chartView.height / 40
             color: Qt.rgba(Style.foregroundColor.r, Style.foregroundColor.g, Style.foregroundColor.b, .2)
             gridLineColor: color
         }
@@ -166,7 +165,7 @@ Item {
             gridVisible: false
             color: Qt.rgba(Style.foregroundColor.r, Style.foregroundColor.g, Style.foregroundColor.b, .2)
             tickCount: chartView.width / 70
-            labelsFont.pixelSize: app.smallFont
+            labelsFont: Style.smallFont
             labelsColor: Style.foregroundColor
             property int timeDiff: (xAxis.max.getTime() - xAxis.min.getTime()) / 1000
 
@@ -265,9 +264,9 @@ Item {
             id: mainSeries
             axisX: xAxis
             axisY: yAxis
-            name: root.stateType.displayName
+            name: root.stateType ? root.stateType.displayName : ""
             borderColor: root.color
-            borderWidth: 4
+            borderWidth: 2
             lowerSeries: LineSeries {
                 id: lineSeries0
                 XYPoint { x: xAxis.max.getTime(); y: 0 }
@@ -347,7 +346,7 @@ Item {
             borderColor: root.color
             axisX: xAxis
             axisY: yAxis
-            pointLabelsVisible: root.stateType.type.toLowerCase() !== "bool"
+            pointLabelsVisible: root.stateType && root.stateType.type.toLowerCase() !== "bool"
             pointLabelsColor: Style.foregroundColor
             pointLabelsFont.pixelSize: app.smallFont
             pointLabelsFormat: "@yPoint"

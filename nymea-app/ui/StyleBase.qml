@@ -4,7 +4,7 @@ Item {
     property color backgroundColor: "#fafafa"
     property color foregroundColor: "#202020"
 
-    property color accentColor: "#ff57baae"
+    property color accentColor: "#57baae"
     property color iconColor: "#808080"
 
     property color headerBackgroundColor: "#ffffff"
@@ -91,6 +91,6 @@ Item {
         "currentPower": "deepskyblue",
     }
 
-    readonly property color red: "#ad4754"
+    readonly property color red: "#952727"
     readonly property color white: "white"
 }

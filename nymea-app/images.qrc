@@ -157,7 +157,7 @@
         <file>ui/images/lock-closed.svg</file>
         <file>ui/images/lock-open.svg</file>
         <file>ui/images/system-update.svg</file>
-        <file>ui/images/folder-symbolic.svg</file>
+        <file>ui/images/folder.svg</file>
         <file>ui/images/browser/BrowserIconFile.svg</file>
         <file>ui/images/browser/BrowserIconFolder.svg</file>
         <file>ui/images/browser/MediaBrowserIconSpotify.svg</file>
@@ -189,7 +189,8 @@
         <file>ui/images/browser/MediaBrowserIconNapster.svg</file>
         <file>ui/images/browser/MediaBrowserIconSoundCloud.svg</file>
         <file>ui/images/browser/MediaBrowserIconDeezer.svg</file>
-        <file>ui/images/view-grid-symbolic.svg</file>
+        <file>ui/images/groups.svg</file>
+        <file>ui/images/dashboard.svg</file>
         <file>ui/images/script.svg</file>
         <file>ui/images/save.svg</file>
         <file>ui/images/edit-clear.svg</file>
@@ -257,5 +258,6 @@
         <file>ui/images/zigbee/NXP.svg</file>
         <file>ui/images/nymea-splash.svg</file>
         <file>ui/images/cleaning-robot.svg</file>
+        <file>ui/images/chart.svg</file>
     </qresource>
 </RCC>

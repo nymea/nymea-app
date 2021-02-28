@@ -129,6 +129,7 @@
 #include "zigbee/zigbeenetworks.h"
 #include "applogcontroller.h"
 #include "tagwatcher.h"
+#include "appdata.h"
 
 #include <QtQml/qqml.h>
 
@@ -337,6 +338,8 @@ void registerQmlTypes() {
     qmlRegisterUncreatableType<IOConnection>(uri, 1, 0, "IOConnection", "Get it from IOConnections");
     qmlRegisterType<IOInputConnectionWatcher>(uri, 1, 0, "IOInputConnectionWatcher");
     qmlRegisterType<IOOutputConnectionWatcher>(uri, 1, 0, "IOOutputConnectionWatcher");
+
+    qmlRegisterType<AppData>(uri, 1, 0, "AppData");
 
     qmlRegisterType<SortFilterProxyModel>(uri, 1, 0, "SortFilterProxyModel");
 }

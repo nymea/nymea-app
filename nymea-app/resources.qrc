@@ -235,5 +235,16 @@
         <file>ui/appsettings/LoggingCategories.qml</file>
         <file>ui/ConfigurationBase.qml</file>
         <file>ui/devicepages/CleaningRobotThingPage.qml</file>
+        <file>ui/mainviews/DashboardView.qml</file>
+        <file>ui/mainviews/dashboard/DashboardThingDelegate.qml</file>
+        <file>ui/mainviews/dashboard/DashboardFolderDelegate.qml</file>
+        <file>ui/mainviews/dashboard/Dashboard.qml</file>
+        <file>ui/mainviews/dashboard/DashboardPage.qml</file>
+        <file>ui/mainviews/dashboard/DashboardDelegateBase.qml</file>
+        <file>ui/mainviews/dashboard/DashboardAddWizard.qml</file>
+        <file>ui/mainviews/dashboard/DashboardGraphDelegate.qml</file>
+        <file>ui/mainviews/dashboard/DashboardSceneDelegate.qml</file>
+        <file>ui/mainviews/dashboard/DashboardWebViewDelegate.qml</file>
+        <file>ui/components/SelectionTabs.qml</file>
     </qresource>
 </RCC>

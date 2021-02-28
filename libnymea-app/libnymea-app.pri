@@ -20,6 +20,7 @@ INCLUDEPATH += \
     $$top_srcdir/QtZeroConf
 
 SOURCES += \
+    $$PWD/appdata.cpp \
     $$PWD/models/scriptsproxymodel.cpp \
     $$PWD/tagwatcher.cpp \
     $${PWD}/logging.cpp \
@@ -167,6 +168,7 @@ SOURCES += \
 
 
 HEADERS += \
+    $$PWD/appdata.h \
     $$PWD/models/scriptsproxymodel.h \
     $$PWD/tagwatcher.h \
     $${PWD}/logging.h \
