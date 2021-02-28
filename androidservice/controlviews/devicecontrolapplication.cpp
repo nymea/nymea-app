@@ -120,7 +120,7 @@ void DeviceControlApplication::handleNdefMessage(QNdefMessage message, QNearFiel
     connectToNymea(nymeaId);
     m_qmlEngine->rootContext()->setContextProperty("controlledThingId", thingId);
 
-    connect(m_engine->thingManager(), &DeviceManager::fetchingDataChanged, [this](){
+    connect(m_engine->thingManager(), &ThingManager::fetchingDataChanged, [this](){
         if (m_engine->jsonRpcClient()->connected() && !m_engine->thingManager()->fetchingData()) {
             qDebug() << "Ready to process commands";
             runNfcAction();
@@ -160,7 +160,7 @@ void DeviceControlApplication::runNfcAction()
     }
 
     QUuid thingId = QUuid(QUrlQuery(url).queryItemValue("t"));
-    Device *thing = m_engine->thingManager()->things()->getThing(thingId);
+    Thing *thing = m_engine->thingManager()->things()->getThing(thingId);
     if (!thing) {
         qDebug() << "Thing" << thingId.toString() << "from" << url.toString() << "doesn't exist on nymea host" << nymeaId.toString();
         return;
