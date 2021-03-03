@@ -380,20 +380,6 @@
 </context>
 <context>
     <name>CloudLoginPage</name>
-    <message numerus="yes">
-        <source>There are %n boxes connected to your cloud</source>
-        <translation type="obsolete">
-            <numerusform>There is %n box connected to your cloud.</numerusform>
-            <numerusform>There are %n boxes connected to your cloud.</numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>There are %n boxes connected to your cloud.</source>
-        <translation type="vanished">
-            <numerusform>There is %n box connected to your cloud.</numerusform>
-            <numerusform>There are %n boxes connected to your cloud.</numerusform>
-        </translation>
-    </message>
     <message>
         <source>Sorry, an error happened removing the account. Please try again later.</source>
         <translation type="unfinished"></translation>
@@ -746,22 +732,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Manual connection</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Wireless setup</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Demo mode</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>App settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Oh, look!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1094,65 +1064,6 @@
     </message>
     <message>
         <source>Filter by</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>DevicePageBase</name>
-    <message>
-        <source>Magic</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Mark as favorite</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Remove from favorites</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Thing is not connected!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Thing runs out of battery!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Details</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Logs</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Grouping</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>New group</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Groups for %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Thing is being set up...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Thing setup failed!</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1674,13 +1585,6 @@
     </message>
 </context>
 <context>
-    <name>FancyHeader</name>
-    <message>
-        <source>Menu</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>FavoritesView</name>
     <message>
         <source>There are no favorite things yet.</source>
@@ -1828,6 +1732,13 @@ Please try again.</source>
     </message>
     <message>
         <source>Fingerprint</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>GarageThingListPage</name>
+    <message>
+        <source>Garage doors</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2037,13 +1948,6 @@ Please try again.</source>
     </message>
 </context>
 <context>
-    <name>HeatingDevicePage</name>
-    <message>
-        <source>Boost</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>Imprint</name>
     <message>
         <source>Developer options are now enabled. If you have found this by accident, it is most likely not of any use for you. It will just enable some nerdy developer gibberish in the app. Tap the icon another 10 times to disable it again.</source>
@@ -2106,14 +2010,6 @@ Please try again.</source>
     </message>
     <message>
         <source>%1 on</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>All closed</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 open</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2528,10 +2424,6 @@ Please try again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>EV chargers</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Maximum charging current</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2609,10 +2501,6 @@ Please try again.</source>
     </message>
     <message>
         <source>Total energy produced changed</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Volume control</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2932,10 +2820,6 @@ Please try again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Media controllers with seeking</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Navigation pad with menu</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2944,7 +2828,15 @@ Please try again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Shuffle and repeat controllers</source>
+        <source>Water sensors</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Water detected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Water detected changed</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3307,7 +3199,19 @@ Please try again.</source>
     </message>
 </context>
 <context>
-    <name>MainPage</name>
+    <name>MainMenu</name>
+    <message>
+        <source>Wireless setup</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Manual connection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Demo mode</source>
+        <translation type="unfinished"></translation>
+    </message>
     <message>
         <source>Configure things</source>
         <translation type="unfinished"></translation>
@@ -3317,9 +3221,44 @@ Please try again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Configure main view</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>App settings</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>System settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Help</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Forum</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Telegram</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Discord</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Twitter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Facebook</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>MainPage</name>
     <message>
         <source>Favorites</source>
         <translation type="unfinished"></translation>
@@ -3358,10 +3297,6 @@ Please try again.</source>
             <numerusform>%n system update available</numerusform>
             <numerusform>%n system updates available</numerusform>
         </translation>
-    </message>
-    <message>
-        <source>System settings</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Groups</source>
@@ -3428,6 +3363,13 @@ Please try again.</source>
     </message>
 </context>
 <context>
+    <name>MediaBrowser</name>
+    <message>
+        <source>Sorry. An error happened launching the item. (Error code: %1)</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>MediaDeviceListPage</name>
     <message>
         <source>Media</source>
@@ -3439,9 +3381,17 @@ Please try again.</source>
     </message>
 </context>
 <context>
-    <name>MediaDevicePage</name>
+    <name>MediaPlayer</name>
     <message>
-        <source>Error: %1</source>
+        <source>No playback</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select input</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Equalizer preset</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3864,22 +3814,6 @@ Please try again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Send a notification</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Send now</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Sent notifications:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Notification details</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3887,23 +3821,24 @@ Please try again.</source>
         <source>Date sent</source>
         <translation type="unfinished"></translation>
     </message>
-</context>
-<context>
-    <name>NotificationsView</name>
     <message>
-        <source>Send a notification now:</source>
+        <source>No messages sent yet.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Title</source>
+        <source>Sent messages will appear here.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Text</source>
+        <source>Sending failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Send</source>
+        <source>Resend</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4119,6 +4054,21 @@ Please try again.</source>
         <extracomment>Select ...</extracomment>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Thermostats</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Barcode scanners</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>NymeaItemDelegate</name>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>NymeaSwipeDelegate</name>
@@ -4192,7 +4142,7 @@ Please try again.</source>
 <context>
     <name>PluginParamsPage</name>
     <message>
-        <source>%1 settings</source>
+        <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4203,7 +4153,7 @@ Please try again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>This list shows the list of installed plugins on this %1 system.</source>
+        <source>Installed integration plugins</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4234,7 +4184,7 @@ Please try again.</source>
     </message>
 </context>
 <context>
-    <name>RemoveDeviceMethodDialog</name>
+    <name>RemoveThingMethodDialog</name>
     <message>
         <source>This thing is currently used in one or more rules:</source>
         <translation type="unfinished"></translation>
@@ -4379,6 +4329,14 @@ Please try again.</source>
         <source>Console</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>An autosaved version of this script has been loaded. Deploy to store this version or reload to restore the deployed version.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reload</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ScriptsPage</name>
@@ -4400,61 +4358,6 @@ Please try again.</source>
     </message>
     <message>
         <source>Add script</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>SelectActionPage</name>
-    <message>
-        <source>Switch lights...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Control media playback...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Mute media playback...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Notify me...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Manually configure an action...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Select device</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Select action</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>params</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Switch lights</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Set selected lights power to</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Send notification</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Notification text</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4561,6 +4464,38 @@ Please try again.</source>
         <source>Sunset:</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Presence</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Vacant</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Nighttime</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Closed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Wet</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dry</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Daytime</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SensorsDeviceListPage</name>
@@ -4569,11 +4504,47 @@ Please try again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>is closed</source>
+        <source>Heating</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>is open</source>
+        <source>Closed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Presence</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Vacant</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Daytime</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Nighttime</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Wet</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dry</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>On</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Off</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4718,6 +4689,14 @@ Please try again.</source>
         <source>Configure who can log in</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>ZigBee</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Configure ZigBee networks</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SetupWizard</name>
@@ -4840,6 +4819,13 @@ Please try again.</source>
     <name>SmartMeterDeviceListPage</name>
     <message>
         <source>Smart meters</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SmartMeterDevicePage</name>
+    <message>
+        <source>Total energy consumption</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5000,6 +4986,13 @@ Do you want to proceed?</source>
     </message>
 </context>
 <context>
+    <name>ThermostatDevicePage</name>
+    <message>
+        <source>Boost</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ThingClassDetailsPage</name>
     <message>
         <source>Type</source>
@@ -5027,6 +5020,95 @@ Do you want to proceed?</source>
     </message>
     <message>
         <source>Actions</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ThingContextMenu</name>
+    <message>
+        <source>Magic</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Details</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Logs</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Mark as favorite</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove from favorites</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Grouping</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Write NFC tag</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Groups for %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New group</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ThingInfoPane</name>
+    <message>
+        <source>Thing is being set up...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Thing setup failed!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Thing is not connected!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Update available!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Updating...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Thing runs out of battery!</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ThingStatusIcons</name>
+    <message>
+        <source>An update for %1 is available. Do you want to start the update now?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current version: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Available version: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Update</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5279,41 +5361,6 @@ Do you want to proceed?</source>
     </message>
 </context>
 <context>
-    <name>WirelessSetupManager</name>
-    <message>
-        <source>Invalid value.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>There is no networkmanager available on the device.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>There is no wireless device available on the device.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Invalid command.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Invalid parameters.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The wireless networking is disabled on the device.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The networking is disabled on the device.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Unknown error occured.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>WirelessSetupPage</name>
     <message>
         <source>Wireless network setup</source>
@@ -5341,6 +5388,237 @@ Do you want to proceed?</source>
     </message>
     <message>
         <source>Connect to %1:core</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>WriteNfcTagPage</name>
+    <message>
+        <source>Write NFC tag</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tap an NFC tag to link it to %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Writing NFC tag...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>NFC tag linked to %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed linking the NFC tag to %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Required tag size: %1 bytes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add action</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ZigbeeAddNetworkPage</name>
+    <message>
+        <source>The selected adapter is not available or the selected serial port configration is incorrect.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The selected adapter is already in use.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hardware not available</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No ZigBee adapters or serial ports are available on this system. Connect a ZigBee adapter via USB or UART serial port.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Available ZigBee adapters</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please select the ZigBee adapter on which the new network will be created.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Available serial ports</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please verify that the ZigBee adapter is properly connected to a serial port and select the appropriate port.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Serial port options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please select the serial port options for using the ZigBee adapter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Adapter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Baud rate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add a new ZigBee network</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ZigbeeNetworkInfoPage</name>
+    <message>
+        <source>Network settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hardware information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>MAC address:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Serial port</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Baud rate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Controller backend</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Controller firmware version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Manage network</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove network</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Factory reset controller</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ZigbeeNetworkPage</name>
+    <message>
+        <source>Network</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Network information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Network state</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The network is online</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The network is offline</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The network is starting...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The controller is currently installing an update</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The network is in an error state.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Channel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Network PAN ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Network control</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The network is open</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The network is closed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Devices can join this network</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Devices are not allowed to join this network</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Extend network open duration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open network for new ZigBee devices</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Close network</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ZigbeeSettingsPage</name>
+    <message>
+        <source>ZigBee</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add ZigBee network</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ZigBee networks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There are no ZigBee networks set up yet. In order to use ZigBee, create a ZigBee network.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add a ZigBee network</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

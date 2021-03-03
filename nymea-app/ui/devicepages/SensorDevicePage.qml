@@ -120,7 +120,7 @@ DevicePageBase {
                         case "presencesensor":
                             return graph.state.value === true ? qsTr("Presence") : qsTr("Vacant")
                         case "daylightsensor":
-                            return graph.state.value === true ? qsTr("Daytimet") : qsTr("Nighttime")
+                            return graph.state.value === true ? qsTr("Daytime") : qsTr("Nighttime")
                         case "closablesensor":
                             return graph.state.value === true ? qsTr("Closed") : qsTr("Open")
                         case "watersensor":
