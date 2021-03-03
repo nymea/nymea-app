@@ -832,19 +832,19 @@
     </message>
     <message>
         <source>Manual connection</source>
-        <translation>수동 연결</translation>
+        <translation type="vanished">수동 연결</translation>
     </message>
     <message>
         <source>Wireless setup</source>
-        <translation>무선 설정</translation>
+        <translation type="vanished">무선 설정</translation>
     </message>
     <message>
         <source>Demo mode</source>
-        <translation>시범 구성(데모 모드)</translation>
+        <translation type="vanished">시범 구성(데모 모드)</translation>
     </message>
     <message>
         <source>App settings</source>
-        <translation>앱 설정</translation>
+        <translation type="vanished">앱 설정</translation>
     </message>
     <message>
         <source>Oh, look!</source>
@@ -1194,7 +1194,7 @@
     <name>DevicePageBase</name>
     <message>
         <source>Magic</source>
-        <translation>마술</translation>
+        <translation type="vanished">마술</translation>
     </message>
     <message>
         <source>Thing details</source>
@@ -1206,55 +1206,27 @@
     </message>
     <message>
         <source>Mark as favorite</source>
-        <translation>즐겨찾기로 표시</translation>
+        <translation type="vanished">즐겨찾기로 표시</translation>
     </message>
     <message>
         <source>Remove from favorites</source>
-        <translation>즐겨찾기에서 제거</translation>
+        <translation type="vanished">즐겨찾기에서 제거</translation>
     </message>
     <message>
         <source>Thing is not connected!</source>
-        <translation>연결되지 않았어요!</translation>
+        <translation type="vanished">연결되지 않았어요!</translation>
     </message>
     <message>
         <source>Thing runs out of battery!</source>
-        <translation>배터리가 다 됐네요!</translation>
-    </message>
-    <message>
-        <source>Details</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">배터리가 다 됐네요!</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation type="unfinished">설정</translation>
-    </message>
-    <message>
-        <source>Logs</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Grouping</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>New group</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">설정</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished">확인</translation>
-    </message>
-    <message>
-        <source>Groups for %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Thing is being set up...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Thing setup failed!</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">확인</translation>
     </message>
 </context>
 <context>
@@ -1832,7 +1804,7 @@
     <name>FancyHeader</name>
     <message>
         <source>Menu</source>
-        <translation>메뉴</translation>
+        <translation type="vanished">메뉴</translation>
     </message>
 </context>
 <context>
@@ -1992,6 +1964,13 @@ Please try again.</source>
     <message>
         <source>Garage gates</source>
         <translation type="vanished">차고 문</translation>
+    </message>
+</context>
+<context>
+    <name>GarageThingListPage</name>
+    <message>
+        <source>Garage doors</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2244,7 +2223,7 @@ Please try again.</source>
     <name>HeatingDevicePage</name>
     <message>
         <source>Boost</source>
-        <translation>증가</translation>
+        <translation type="vanished">증가</translation>
     </message>
 </context>
 <context>
@@ -2330,11 +2309,11 @@ Please try again.</source>
     </message>
     <message>
         <source>All closed</source>
-        <translation type="unfinished">모두 닫힘</translation>
+        <translation type="obsolete">모두 닫힘</translation>
     </message>
     <message>
         <source>%1 open</source>
-        <translation type="unfinished">%1 열림</translation>
+        <translation type="obsolete">%1 열림</translation>
     </message>
 </context>
 <context>
@@ -2764,10 +2743,6 @@ Please try again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>EV chargers</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Maximum charging current</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2845,10 +2820,6 @@ Please try again.</source>
     </message>
     <message>
         <source>Total energy produced changed</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Volume control</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3168,10 +3139,6 @@ Please try again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Media controllers with seeking</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Navigation pad with menu</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3180,7 +3147,15 @@ Please try again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Shuffle and repeat controllers</source>
+        <source>Water sensors</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Water detected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Water detected changed</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3546,18 +3521,77 @@ Please try again.</source>
     </message>
 </context>
 <context>
-    <name>MainPage</name>
+    <name>MainMenu</name>
+    <message>
+        <source>Wireless setup</source>
+        <translation type="unfinished">무선 설정</translation>
+    </message>
+    <message>
+        <source>Manual connection</source>
+        <translation type="unfinished">수동 연결</translation>
+    </message>
+    <message>
+        <source>Demo mode</source>
+        <translation type="unfinished">시범 구성(데모 모드)</translation>
+    </message>
     <message>
         <source>Configure things</source>
-        <translation>사물(장치) 구성</translation>
+        <translation type="unfinished">사물(장치) 구성</translation>
     </message>
     <message>
         <source>Magic</source>
-        <translation>마법사</translation>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Configure main view</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>App settings</source>
-        <translation>앱 설정</translation>
+        <translation type="unfinished">앱 설정</translation>
+    </message>
+    <message>
+        <source>System settings</source>
+        <translation type="unfinished">시스템 설정</translation>
+    </message>
+    <message>
+        <source>Help</source>
+        <translation type="unfinished">도움</translation>
+    </message>
+    <message>
+        <source>Forum</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Telegram</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Discord</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Twitter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Facebook</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>MainPage</name>
+    <message>
+        <source>Configure things</source>
+        <translation type="vanished">사물(장치) 구성</translation>
+    </message>
+    <message>
+        <source>Magic</source>
+        <translation type="vanished">마법사</translation>
+    </message>
+    <message>
+        <source>App settings</source>
+        <translation type="vanished">앱 설정</translation>
     </message>
     <message>
         <source>Favorites</source>
@@ -3651,7 +3685,7 @@ Please try again.</source>
     </message>
     <message>
         <source>System settings</source>
-        <translation>시스템 설정</translation>
+        <translation type="vanished">시스템 설정</translation>
     </message>
     <message>
         <source>In order for your %1 system to be useful, go ahead and add some things.</source>
@@ -3722,6 +3756,13 @@ Please try again.</source>
     </message>
 </context>
 <context>
+    <name>MediaBrowser</name>
+    <message>
+        <source>Sorry. An error happened launching the item. (Error code: %1)</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>MediaDeviceListPage</name>
     <message>
         <source>Media</source>
@@ -3736,7 +3777,22 @@ Please try again.</source>
     <name>MediaDevicePage</name>
     <message>
         <source>Error: %1</source>
-        <translation>오류: %1</translation>
+        <translation type="vanished">오류: %1</translation>
+    </message>
+</context>
+<context>
+    <name>MediaPlayer</name>
+    <message>
+        <source>No playback</source>
+        <translation type="unfinished">재생 안 함</translation>
+    </message>
+    <message>
+        <source>Select input</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Equalizer preset</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4163,19 +4219,19 @@ Please try again.</source>
     </message>
     <message>
         <source>Send a notification</source>
-        <translation>알림 보내기</translation>
+        <translation type="vanished">알림 보내기</translation>
     </message>
     <message>
         <source>Send now</source>
-        <translation>보내기</translation>
+        <translation type="vanished">보내기</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>취소</translation>
+        <translation type="vanished">취소</translation>
     </message>
     <message>
         <source>Sent notifications:</source>
-        <translation>보낸 문자:</translation>
+        <translation type="vanished">보낸 문자:</translation>
     </message>
     <message>
         <source>Notification details</source>
@@ -4185,24 +4241,44 @@ Please try again.</source>
         <source>Date sent</source>
         <translation>보낸 날짜</translation>
     </message>
+    <message>
+        <source>No messages sent yet.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sent messages will appear here.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sending failed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Resend</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation type="unfinished">닫기</translation>
+    </message>
 </context>
 <context>
     <name>NotificationsView</name>
     <message>
         <source>Send a notification now:</source>
-        <translation>지금 알림 보내기:</translation>
+        <translation type="vanished">지금 알림 보내기:</translation>
     </message>
     <message>
         <source>Title</source>
-        <translation>제목</translation>
+        <translation type="vanished">제목</translation>
     </message>
     <message>
         <source>Text</source>
-        <translation>내용</translation>
+        <translation type="vanished">내용</translation>
     </message>
     <message>
         <source>Send</source>
-        <translation>보내기</translation>
+        <translation type="vanished">보내기</translation>
     </message>
 </context>
 <context>
@@ -4425,6 +4501,14 @@ Please try again.</source>
         <extracomment>Select ...</extracomment>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Thermostats</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Barcode scanners</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>NymeaConnection</name>
@@ -4447,6 +4531,13 @@ Please try again.</source>
     <message>
         <source>Country:</source>
         <translation type="vanished">국가:</translation>
+    </message>
+</context>
+<context>
+    <name>NymeaItemDelegate</name>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4522,7 +4613,11 @@ Please try again.</source>
     <name>PluginParamsPage</name>
     <message>
         <source>%1 settings</source>
-        <translation>%1 설정</translation>
+        <translation type="vanished">%1 설정</translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation type="unfinished">설정</translation>
     </message>
 </context>
 <context>
@@ -4533,7 +4628,11 @@ Please try again.</source>
     </message>
     <message>
         <source>This list shows the list of installed plugins on this %1 system.</source>
-        <translation>이 목록은 이 %1 시스템에 설치된 플러그인 목록을 보여줍니다.</translation>
+        <translation type="vanished">이 목록은 이 %1 시스템에 설치된 플러그인 목록을 보여줍니다.</translation>
+    </message>
+    <message>
+        <source>Installed integration plugins</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4566,19 +4665,38 @@ Please try again.</source>
     <name>RemoveDeviceMethodDialog</name>
     <message>
         <source>This thing is currently used in one or more rules:</source>
-        <translation>이것은 현재 하나 이상의 규칙에서 사용되고 있습니다:</translation>
+        <translation type="vanished">이것은 현재 하나 이상의 규칙에서 사용되고 있습니다:</translation>
     </message>
     <message>
         <source>Remove all those rules</source>
-        <translation>모든 규칙 제거</translation>
+        <translation type="vanished">모든 규칙 제거</translation>
     </message>
     <message>
         <source>Update rules, removing this thing</source>
-        <translation>이 사물(장치)를 제거하고 규칙 업데이트</translation>
+        <translation type="vanished">이 사물(장치)를 제거하고 규칙 업데이트</translation>
     </message>
     <message>
         <source>Don&apos;t remove this thing</source>
-        <translation>이 사물(장치)을 제거하지 마십시오</translation>
+        <translation type="vanished">이 사물(장치)을 제거하지 마십시오</translation>
+    </message>
+</context>
+<context>
+    <name>RemoveThingMethodDialog</name>
+    <message>
+        <source>This thing is currently used in one or more rules:</source>
+        <translation type="unfinished">이것은 현재 하나 이상의 규칙에서 사용되고 있습니다:</translation>
+    </message>
+    <message>
+        <source>Remove all those rules</source>
+        <translation type="unfinished">모든 규칙 제거</translation>
+    </message>
+    <message>
+        <source>Update rules, removing this thing</source>
+        <translation type="unfinished">이 사물(장치)를 제거하고 규칙 업데이트</translation>
+    </message>
+    <message>
+        <source>Don&apos;t remove this thing</source>
+        <translation type="unfinished">이 사물(장치)을 제거하지 마십시오</translation>
     </message>
 </context>
 <context>
@@ -4724,6 +4842,14 @@ Please try again.</source>
         <source>Console</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>An autosaved version of this script has been loaded. Deploy to store this version or reload to restore the deployed version.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reload</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ScriptsPage</name>
@@ -4752,55 +4878,55 @@ Please try again.</source>
     <name>SelectActionPage</name>
     <message>
         <source>Switch lights...</source>
-        <translation>조명 스위치...</translation>
+        <translation type="vanished">조명 스위치...</translation>
     </message>
     <message>
         <source>Control media playback...</source>
-        <translation>미디어 재생 제어...</translation>
+        <translation type="vanished">미디어 재생 제어...</translation>
     </message>
     <message>
         <source>Mute media playback...</source>
-        <translation>미디어 재생 음소거...</translation>
+        <translation type="vanished">미디어 재생 음소거...</translation>
     </message>
     <message>
         <source>Notify me...</source>
-        <translation>알림...</translation>
+        <translation type="vanished">알림...</translation>
     </message>
     <message>
         <source>Manually configure an action...</source>
-        <translation>수동으로 작업 구성...</translation>
+        <translation type="vanished">수동으로 작업 구성...</translation>
     </message>
     <message>
         <source>Select device</source>
-        <translation>장치 선택</translation>
+        <translation type="vanished">장치 선택</translation>
     </message>
     <message>
         <source>Select action</source>
-        <translation>작업 선택</translation>
+        <translation type="vanished">작업 선택</translation>
     </message>
     <message>
         <source>params</source>
-        <translation>매개 변수</translation>
+        <translation type="vanished">매개 변수</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation>확인</translation>
+        <translation type="vanished">확인</translation>
     </message>
     <message>
         <source>Switch lights</source>
-        <translation>조명 스위치</translation>
+        <translation type="vanished">조명 스위치</translation>
     </message>
     <message>
         <source>Set selected lights power to</source>
-        <translation>선택한 조명 전원을 다음으로 설정</translation>
+        <translation type="vanished">선택한 조명 전원을 다음으로 설정</translation>
     </message>
     <message>
         <source>Send notification</source>
-        <translation>알림 보내기</translation>
+        <translation type="vanished">알림 보내기</translation>
     </message>
     <message>
         <source>Notification text</source>
-        <translation>알림 내용</translation>
+        <translation type="vanished">알림 내용</translation>
     </message>
 </context>
 <context>
@@ -4918,6 +5044,38 @@ Please try again.</source>
         <source>Sunset:</source>
         <translation type="unfinished">일몰:</translation>
     </message>
+    <message>
+        <source>Presence</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Vacant</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Daytimet</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Nighttime</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Closed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open</source>
+        <translation type="unfinished">열기</translation>
+    </message>
+    <message>
+        <source>Wet</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dry</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SensorDevicePagePost110</name>
@@ -4942,11 +5100,55 @@ Please try again.</source>
     </message>
     <message>
         <source>is closed</source>
-        <translation>닫힘</translation>
+        <translation type="vanished">닫힘</translation>
     </message>
     <message>
         <source>is open</source>
-        <translation>열림</translation>
+        <translation type="vanished">열림</translation>
+    </message>
+    <message>
+        <source>Heating</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Closed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open</source>
+        <translation type="unfinished">열기</translation>
+    </message>
+    <message>
+        <source>Presence</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Vacant</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Daytime</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Nighttime</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Wet</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dry</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>On</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Off</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5090,6 +5292,14 @@ Please try again.</source>
         <source>Configure who can log in</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>ZigBee</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Configure ZigBee networks</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SetupWizard</name>
@@ -5217,6 +5427,13 @@ Please try again.</source>
     <message>
         <source>Smart meters</source>
         <translation>스마트 미터(측정기)</translation>
+    </message>
+</context>
+<context>
+    <name>SmartMeterDevicePage</name>
+    <message>
+        <source>Total energy consumption</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5376,6 +5593,13 @@ Do you want to proceed?</source>
     </message>
 </context>
 <context>
+    <name>ThermostatDevicePage</name>
+    <message>
+        <source>Boost</source>
+        <translation type="unfinished">증가</translation>
+    </message>
+</context>
+<context>
     <name>ThingClassDetailsPage</name>
     <message>
         <source>Type</source>
@@ -5404,6 +5628,95 @@ Do you want to proceed?</source>
     <message>
         <source>Actions</source>
         <translation type="unfinished">작동(조치)</translation>
+    </message>
+</context>
+<context>
+    <name>ThingContextMenu</name>
+    <message>
+        <source>Magic</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Details</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Logs</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Mark as favorite</source>
+        <translation type="unfinished">즐겨찾기로 표시</translation>
+    </message>
+    <message>
+        <source>Remove from favorites</source>
+        <translation type="unfinished">즐겨찾기에서 제거</translation>
+    </message>
+    <message>
+        <source>Grouping</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Write NFC tag</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Groups for %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New group</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation type="unfinished">확인</translation>
+    </message>
+</context>
+<context>
+    <name>ThingInfoPane</name>
+    <message>
+        <source>Thing is being set up...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Thing setup failed!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Thing is not connected!</source>
+        <translation type="unfinished">연결되지 않았어요!</translation>
+    </message>
+    <message>
+        <source>Update available!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Updating...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Thing runs out of battery!</source>
+        <translation type="unfinished">배터리가 다 됐네요!</translation>
+    </message>
+</context>
+<context>
+    <name>ThingStatusIcons</name>
+    <message>
+        <source>An update for %1 is available. Do you want to start the update now?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current version: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Available version: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Update</source>
+        <translation type="unfinished">업데이트</translation>
     </message>
 </context>
 <context>
@@ -5658,35 +5971,35 @@ Do you want to proceed?</source>
     <name>WirelessSetupManager</name>
     <message>
         <source>Invalid value.</source>
-        <translation>유효하지 않은 값.</translation>
+        <translation type="vanished">유효하지 않은 값.</translation>
     </message>
     <message>
         <source>There is no networkmanager available on the device.</source>
-        <translation>장치에는 네트워크 관리자가 없습니다.</translation>
+        <translation type="vanished">장치에는 네트워크 관리자가 없습니다.</translation>
     </message>
     <message>
         <source>There is no wireless device available on the device.</source>
-        <translation>이 장치에는 사용할 수 있는 무선 장치가 없습니다.</translation>
+        <translation type="vanished">이 장치에는 사용할 수 있는 무선 장치가 없습니다.</translation>
     </message>
     <message>
         <source>Invalid command.</source>
-        <translation>유효하지 않은 명령.</translation>
+        <translation type="vanished">유효하지 않은 명령.</translation>
     </message>
     <message>
         <source>Invalid parameters.</source>
-        <translation>유효하지 않은 매개 변수.</translation>
+        <translation type="vanished">유효하지 않은 매개 변수.</translation>
     </message>
     <message>
         <source>The wireless networking is disabled on the device.</source>
-        <translation>무선 네트워킹이 장치에서 비활성화 되어 있습니다.</translation>
+        <translation type="vanished">무선 네트워킹이 장치에서 비활성화 되어 있습니다.</translation>
     </message>
     <message>
         <source>The networking is disabled on the device.</source>
-        <translation>장치에서 네트워킹이 불가능 합니다.</translation>
+        <translation type="vanished">장치에서 네트워킹이 불가능 합니다.</translation>
     </message>
     <message>
         <source>Unknown error occured.</source>
-        <translation>알 수 없는 오류가 발생했습니다.</translation>
+        <translation type="vanished">알 수 없는 오류가 발생했습니다.</translation>
     </message>
 </context>
 <context>
@@ -5718,6 +6031,237 @@ Do you want to proceed?</source>
     <message>
         <source>Connect to %1:core</source>
         <translation>%1:코어에 연결</translation>
+    </message>
+</context>
+<context>
+    <name>WriteNfcTagPage</name>
+    <message>
+        <source>Write NFC tag</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tap an NFC tag to link it to %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Writing NFC tag...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>NFC tag linked to %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed linking the NFC tag to %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Required tag size: %1 bytes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add action</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ZigbeeAddNetworkPage</name>
+    <message>
+        <source>Add a new Zigbee network</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The selected adapter is not available or the selected serial port configration is incorrect.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The selected adapter is already in use.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hardware not available</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No ZigBee adapters or serial ports are available on this system. Connect a ZigBee adapter via USB or UART serial port.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Available ZigBee adapters</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please select the ZigBee adapter on which the new network will be created.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Available serial ports</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please verify that the ZigBee adapter is properly connected to a serial port and select the appropriate port.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Serial port options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please select the serial port options for using the ZigBee adapter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Adapter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Baud rate</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ZigbeeNetworkInfoPage</name>
+    <message>
+        <source>Network settings</source>
+        <translation type="unfinished">네트워크 설정</translation>
+    </message>
+    <message>
+        <source>Hardware information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>MAC address:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Serial port</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Baud rate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Controller backend</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Controller firmware version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Manage network</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove network</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Factory reset controller</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ZigbeeNetworkPage</name>
+    <message>
+        <source>Network</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation type="unfinished">설정</translation>
+    </message>
+    <message>
+        <source>Network information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Network state</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The network is online</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The network is offline</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The network is starting...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The controller is currently installing an update</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The network is in an error state.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Channel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Network PAN ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Network control</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The network is open</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The network is closed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Devices can join this network</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Devices are not allowed to join this network</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Extend network open duration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open network for new ZigBee devices</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Close network</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ZigbeeSettingsPage</name>
+    <message>
+        <source>ZigBee</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add ZigBee network</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ZigBee networks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There are no ZigBee networks set up yet. In order to use ZigBee, create a ZigBee network.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add a ZigBee network</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
