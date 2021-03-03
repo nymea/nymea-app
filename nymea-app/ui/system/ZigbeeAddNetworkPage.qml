@@ -37,7 +37,7 @@ import "../components"
 
 SettingsPageBase {
     id: root
-    title: qsTr("Add a new Zigbee network")
+    title: qsTr("Add a new ZigBee network")
     busy: d.pendingCommandId != -1
 
     property ZigbeeManager zigbeeManager: null

@@ -380,13 +380,6 @@
 </context>
 <context>
     <name>CloudLoginPage</name>
-    <message numerus="yes">
-        <source>There are %n boxes connected to your cloud</source>
-        <translation type="obsolete">
-            <numerusform>There is %n box connected to your cloud.</numerusform>
-            <numerusform>There are %n boxes connected to your cloud.</numerusform>
-        </translation>
-    </message>
     <message>
         <source>Sorry, an error happened removing the account. Please try again later.</source>
         <translation></translation>
@@ -737,22 +730,6 @@
     <message>
         <source>Connect %1</source>
         <translation>Connetti %1</translation>
-    </message>
-    <message>
-        <source>Manual connection</source>
-        <translation type="vanished">Connessione manuale</translation>
-    </message>
-    <message>
-        <source>Wireless setup</source>
-        <translation type="vanished">Configurazione wireless</translation>
-    </message>
-    <message>
-        <source>Demo mode</source>
-        <translation type="vanished">Modalità demo</translation>
-    </message>
-    <message>
-        <source>App settings</source>
-        <translation type="vanished">Impostazioni app</translation>
     </message>
     <message>
         <source>Oh, look!</source>
@@ -3295,14 +3272,6 @@ Please try again.</source>
         <translation></translation>
     </message>
     <message>
-        <source>My favorites</source>
-        <translation type="vanished">Preferiti</translation>
-    </message>
-    <message>
-        <source>Welcome to %1!</source>
-        <translation type="vanished">Benvenuto in %1!</translation>
-    </message>
-    <message>
         <source>Loading data...</source>
         <translation></translation>
     </message>
@@ -3330,20 +3299,8 @@ Please try again.</source>
         </translation>
     </message>
     <message>
-        <source>System settings</source>
-        <translation type="vanished">Impostazioni di sistema</translation>
-    </message>
-    <message>
         <source>Groups</source>
         <translation></translation>
-    </message>
-    <message>
-        <source>My groups</source>
-        <translation type="vanished">I miei gruppi</translation>
-    </message>
-    <message>
-        <source>There are no groups set up yet.</source>
-        <translation type="vanished">Non ci sono gruppi già impostati.</translation>
     </message>
     <message>
         <source>Garages</source>
@@ -4516,10 +4473,6 @@ Please try again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Daytimet</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Nighttime</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4537,6 +4490,10 @@ Please try again.</source>
     </message>
     <message>
         <source>Dry</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Daytime</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5404,41 +5361,6 @@ Do you want to proceed?</source>
     </message>
 </context>
 <context>
-    <name>WirelessSetupManager</name>
-    <message>
-        <source>Invalid value.</source>
-        <translation type="vanished">Valore non valido.</translation>
-    </message>
-    <message>
-        <source>There is no networkmanager available on the device.</source>
-        <translation type="vanished">Non c&apos;é alcun gestore di rete disponibile sul dispositivo.</translation>
-    </message>
-    <message>
-        <source>There is no wireless device available on the device.</source>
-        <translation type="vanished">Non c&apos;é alcun dispositivo wireless disponibile.</translation>
-    </message>
-    <message>
-        <source>Invalid command.</source>
-        <translation type="vanished">Comando non valido.</translation>
-    </message>
-    <message>
-        <source>Invalid parameters.</source>
-        <translation type="vanished">Parametri non validi.</translation>
-    </message>
-    <message>
-        <source>The wireless networking is disabled on the device.</source>
-        <translation type="vanished">La connettività wireless è disabilitata sul dispositivo.</translation>
-    </message>
-    <message>
-        <source>The networking is disabled on the device.</source>
-        <translation type="vanished">La connettività è disabilitata sul dispositivo.</translation>
-    </message>
-    <message>
-        <source>Unknown error occured.</source>
-        <translation type="vanished">Errore sconosciuto.</translation>
-    </message>
-</context>
-<context>
     <name>WirelessSetupPage</name>
     <message>
         <source>Wireless network setup</source>
@@ -5503,10 +5425,6 @@ Do you want to proceed?</source>
 <context>
     <name>ZigbeeAddNetworkPage</name>
     <message>
-        <source>Add a new Zigbee network</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>The selected adapter is not available or the selected serial port configration is incorrect.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5552,6 +5470,10 @@ Do you want to proceed?</source>
     </message>
     <message>
         <source>Baud rate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add a new ZigBee network</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

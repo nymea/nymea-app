@@ -380,20 +380,6 @@
 </context>
 <context>
     <name>CloudLoginPage</name>
-    <message numerus="yes">
-        <source>There are %n boxes connected to your cloud</source>
-        <translation type="obsolete">
-            <numerusform>There is %n box connected to your cloud.</numerusform>
-            <numerusform>There are %n boxes connected to your cloud.</numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>There are %n boxes connected to your cloud.</source>
-        <translation type="vanished">
-            <numerusform>There is %n box connected to your cloud.</numerusform>
-            <numerusform>There are %n boxes connected to your cloud.</numerusform>
-        </translation>
-    </message>
     <message>
         <source>Sorry, an error happened removing the account. Please try again later.</source>
         <translation type="unfinished"></translation>
@@ -4487,10 +4473,6 @@ Please try again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Daytimet</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Nighttime</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4508,6 +4490,10 @@ Please try again.</source>
     </message>
     <message>
         <source>Dry</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Daytime</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5439,10 +5425,6 @@ Do you want to proceed?</source>
 <context>
     <name>ZigbeeAddNetworkPage</name>
     <message>
-        <source>Add a new Zigbee network</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>The selected adapter is not available or the selected serial port configration is incorrect.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5488,6 +5470,10 @@ Do you want to proceed?</source>
     </message>
     <message>
         <source>Baud rate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add a new ZigBee network</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
