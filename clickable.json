@@ -1,5 +1,5 @@
 {
-  "template": "qmake",
+  "builder": "qmake",
   "kill": "nymea-app",
   "build_args": "CONFIG+=ubports",
   "dependencies_target": [
