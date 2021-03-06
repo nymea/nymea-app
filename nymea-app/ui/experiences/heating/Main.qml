@@ -44,11 +44,11 @@ Item {
     readonly property Thing duwWpDevice: duwWpFilterModel.count > 0 ? duwWpFilterModel.get(0) : null
     readonly property Thing duwLuDevice: duwLuFilterModel.count > 0 ? duwLuFilterModel.get(0) : null
 
-    readonly property State temperatureState: duwWpDevice ? duwWpDevice.states.getState(duwWpDevice.deviceClass.stateTypes.findByName("temperature").id) : null
-    readonly property State targetTemperatureState: duwWpDevice ? duwWpDevice.states.getState(duwWpDevice.deviceClass.stateTypes.findByName("targetTemperature").id) : null
-    readonly property State co2LevelState: duwLuDevice ? duwLuDevice.states.getState(duwLuDevice.deviceClass.stateTypes.findByName("co2").id) : null
-    readonly property State ventilationModeState: duwLuDevice ? duwLuDevice.states.getState(duwLuDevice.deviceClass.stateTypes.findByName("ventilationMode").id) : null
-    readonly property State ventilationLevelState: duwLuDevice ? duwLuDevice.states.getState(duwLuDevice.deviceClass.stateTypes.findByName("activeVentilationLevel").id) : null
+    readonly property State temperatureState: duwWpDevice ? duwWpDevice.states.getState(duwWpDevice.thingClass.stateTypes.findByName("temperature").id) : null
+    readonly property State targetTemperatureState: duwWpDevice ? duwWpDevice.states.getState(duwWpDevice.thingClass.stateTypes.findByName("targetTemperature").id) : null
+    readonly property State co2LevelState: duwLuDevice ? duwLuDevice.states.getState(duwLuDevice.thingClass.stateTypes.findByName("co2").id) : null
+    readonly property State ventilationModeState: duwLuDevice ? duwLuDevice.states.getState(duwLuDevice.thingClass.stateTypes.findByName("ventilationMode").id) : null
+    readonly property State ventilationLevelState: duwLuDevice ? duwLuDevice.states.getState(duwLuDevice.thingClass.stateTypes.findByName("activeVentilationLevel").id) : null
 
     function ventilationModeToSliderValue(ventilationMode) {
         switch (ventilationMode) {

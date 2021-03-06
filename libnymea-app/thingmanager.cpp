@@ -87,22 +87,12 @@ Plugins *ThingManager::plugins() const
     return m_plugins;
 }
 
-Things *ThingManager::devices() const
-{
-    return m_things;
-}
-
 Things *ThingManager::things() const
 {
     return m_things;
 }
 
 ThingClasses *ThingManager::thingClasses() const
-{
-    return m_thingClasses;
-}
-
-ThingClasses *ThingManager::deviceClasses() const
 {
     return m_thingClasses;
 }
@@ -241,9 +231,9 @@ void ThingManager::getVendorsResponse(int /*commandId*/, const QVariantMap &para
 void ThingManager::getThingClassesResponse(int /*commandId*/, const QVariantMap &params)
 {
     if (params.keys().contains("thingClasses")) {
-        QVariantList deviceClassList = params.value("thingClasses").toList();
-        foreach (QVariant deviceClassVariant, deviceClassList) {
-            ThingClass *thingClass = unpackThingClass(deviceClassVariant.toMap());
+        QVariantList thingClassList = params.value("thingClasses").toList();
+        foreach (QVariant thingClassVariant, thingClassList) {
+            ThingClass *thingClass = unpackThingClass(thingClassVariant.toMap());
             m_thingClasses->addThingClass(thingClass);
         }
     }
@@ -325,7 +315,7 @@ void ThingManager::getThingsResponse(int /*commandId*/, const QVariantMap &param
                 thing->setStateValue(stateTypeId, value);
 //                qDebug() << "Set thing state value:" << thing->stateValue(stateTypeId) << value;
             }
-            devices()->addThing(thing);
+            things()->addThing(thing);
         }
     }
     qDebug() << "Initializing thing manager took" << m_connectionBenchmark.msecsTo(QDateTime::currentDateTime()) << "ms";
@@ -422,7 +412,7 @@ int ThingManager::savePluginConfig(const QUuid &pluginId)
 
 ThingGroup *ThingManager::createGroup(Interface *interface, ThingsProxy *things)
 {
-    ThingGroup* group = new ThingGroup(this, interface->createDeviceClass(), things, this);
+    ThingGroup* group = new ThingGroup(this, interface->createThingClass(), things, this);
     group->setSetupStatus(Thing::ThingSetupStatusComplete, QString());
     return group;
 }

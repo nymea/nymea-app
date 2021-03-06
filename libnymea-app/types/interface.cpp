@@ -71,7 +71,7 @@ ActionTypes* Interface::actionTypes() const
     return m_actionTypes;
 }
 
-ThingClass *Interface::createDeviceClass()
+ThingClass *Interface::createThingClass()
 {
     ThingClass* dc = new ThingClass();
     dc->setName(m_name);

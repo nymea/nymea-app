@@ -55,9 +55,7 @@ class ThingManager : public JsonHandler
     Q_PROPERTY(Vendors* vendors READ vendors CONSTANT)
     Q_PROPERTY(Plugins* plugins READ plugins CONSTANT)
     Q_PROPERTY(Things* things READ things CONSTANT)
-    Q_PROPERTY(Things* devices READ devices CONSTANT)
     Q_PROPERTY(ThingClasses* thingClasses READ thingClasses CONSTANT)
-    Q_PROPERTY(ThingClasses* deviceClasses READ thingClasses CONSTANT)
     Q_PROPERTY(IOConnections* ioConnections READ ioConnections CONSTANT)
 
     Q_PROPERTY(bool fetchingData READ fetchingData NOTIFY fetchingDataChanged)
@@ -80,10 +78,8 @@ public:
 
     Vendors* vendors() const;
     Plugins* plugins() const;
-    Things* devices() const;
     Things* things() const;
     ThingClasses* thingClasses() const;
-    ThingClasses* deviceClasses() const;
     IOConnections* ioConnections() const;
 
     bool fetchingData() const;
@@ -158,7 +154,7 @@ signals:
 private:
     static Vendor *unpackVendor(const QVariantMap &vendorMap);
     static Plugin *unpackPlugin(const QVariantMap &pluginMap, QObject *parent);
-    static ThingClass *unpackThingClass(const QVariantMap &deviceClassMap);
+    static ThingClass *unpackThingClass(const QVariantMap &thingClassMap);
     static void unpackParam(const QVariantMap &paramMap, Param *param);
     static ParamType *unpackParamType(const QVariantMap &paramTypeMap, QObject *parent);
     static StateType *unpackStateType(const QVariantMap &stateTypeMap, QObject *parent);

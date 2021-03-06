@@ -56,7 +56,7 @@ public:
     StateTypes* stateTypes() const;
     ActionTypes* actionTypes() const;
 
-    ThingClass* createDeviceClass();
+    ThingClass* createThingClass();
 
 private:
     QString m_name;

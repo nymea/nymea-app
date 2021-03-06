@@ -28,8 +28,8 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef DEVICECLASSMODEL_H
-#define DEVICECLASSMODEL_H
+#ifndef THINGCLASSES_H
+#define THINGCLASSES_H
 
 #include <QAbstractListModel>
 
@@ -60,7 +60,6 @@ public:
     Q_INVOKABLE int count() const;
     Q_INVOKABLE ThingClass *get(int index) const;
     Q_INVOKABLE ThingClass *getThingClass(QUuid thingClassId) const;
-    Q_INVOKABLE ThingClass *getDeviceClass(QUuid thingClassId) const;
 
     void addThingClass(ThingClass *thingClass);
 
@@ -77,4 +76,4 @@ private:
 
 };
 
-#endif // DEVICECLASSMODEL_H
+#endif // THINGCLASSES_H

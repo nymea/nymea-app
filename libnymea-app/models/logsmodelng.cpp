@@ -450,7 +450,7 @@ void LogsModelNg::newLogEntryReceived(const QVariantMap &data)
     m_list.prepend(entry);
     if (m_graphSeries) {
 
-        Thing *dev = m_engine->thingManager()->devices()->getThing(entry->thingId());
+        Thing *dev = m_engine->thingManager()->things()->getThing(entry->thingId());
 
         StateType *entryStateType = dev->thingClass()->stateTypes()->getStateType(entry->typeId());
 

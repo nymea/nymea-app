@@ -217,15 +217,15 @@ MainPageTile {
 
             property int currentDeviceIndex: 0
             readonly property Thing currentDevice: thingsProxy.get(currentDeviceIndex)
-            readonly property StateType playbackStateType: currentDevice.deviceClass.stateTypes.findByName("playbackStatus")
+            readonly property StateType playbackStateType: currentDevice.thingClass.stateTypes.findByName("playbackStatus")
             readonly property State playbackState: currentDevice.states.getState(playbackStateType.id)
-            readonly property StateType artworkStateType: currentDevice.deviceClass.stateTypes.findByName("artwork")
+            readonly property StateType artworkStateType: currentDevice.thingClass.stateTypes.findByName("artwork")
             readonly property State artworkState: artworkStateType ? currentDevice.states.getState(artworkStateType.id) : null
 
             Component.onCompleted: {
                 for (var i = 0; i < thingsProxy.count; i++) {
                     var d = thingsProxy.get(i);
-                    var st = d.deviceClass.stateTypes.findByName("playbackStatus")
+                    var st = d.thingClass.stateTypes.findByName("playbackStatus")
                     var s = d.states.getState(st.id)
                     s.valueChanged.connect(function() {inlineMediaControl.updateTile()})
                 }
@@ -237,7 +237,7 @@ MainPageTile {
                 var pausedIndex = -1;
                 for (var i = 0; i < thingsProxy.count; i++) {
                     var d = thingsProxy.get(i);
-                    var st = d.deviceClass.stateTypes.findByName("playbackStatus");
+                    var st = d.thingClass.stateTypes.findByName("playbackStatus");
                     if (!st) continue;
                     var s = d.states.getState(st.id);
                     if (playingIndex === -1 && s.value === "Playing") {

@@ -45,7 +45,6 @@ public:
         RoleName,
         RoleId,
         RoleParentId,
-        RoleDeviceClass,
         RoleThingClass,
         RoleSetupStatus,
         RoleSetupDisplayMessage,

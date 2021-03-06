@@ -96,11 +96,6 @@ ThingClass *ThingClasses::getThingClass(QUuid thingClassId) const
     return nullptr;
 }
 
-ThingClass *ThingClasses::getDeviceClass(QUuid thingClassId) const
-{
-    return getThingClass(thingClassId);
-}
-
 void ThingClasses::addThingClass(ThingClass *thingClass)
 {
     thingClass->setParent(this);

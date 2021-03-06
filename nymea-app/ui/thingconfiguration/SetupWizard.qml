@@ -44,7 +44,6 @@ Page {
 
     // Optional: If set, it will be reconfigred, otherwise a new one will be created
     property Thing thing: null
-    property alias device: root.thing // Transitional, use thing instead
 
     signal done();
 
@@ -89,14 +88,14 @@ Page {
             }
         } else if (root.thingClass.createMethods.indexOf("CreateMethodUser") !== -1) {
             print("CreateMethodUser")
-            // Setting up a new device
+            // Setting up a new thing
             if (!root.thing) {
                 print("New thing setup")
                 internalPageStack.push(paramsPage)
 
             // Reconfigure
             } else if (root.thing) {
-                print("Existing device")
+                print("Existing thing")
                 // There are params. Open params page in any case
                 if (root.thingClass.paramTypes.count > 0) {
                     print("Params:", root.thingClass.paramTypes.count)

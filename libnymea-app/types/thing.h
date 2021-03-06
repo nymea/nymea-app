@@ -45,7 +45,6 @@ class Thing : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QUuid id READ id CONSTANT)
-    Q_PROPERTY(QUuid deviceClassId READ deviceClassId CONSTANT)
     Q_PROPERTY(QUuid thingClassId READ thingClassId CONSTANT)
     Q_PROPERTY(QUuid parentId READ parentId CONSTANT)
     Q_PROPERTY(bool isChild READ isChild CONSTANT)
@@ -55,7 +54,6 @@ class Thing : public QObject
     Q_PROPERTY(Params *params READ params NOTIFY paramsChanged)
     Q_PROPERTY(Params *settings READ settings NOTIFY settingsChanged)
     Q_PROPERTY(States *states READ states NOTIFY statesChanged)
-    Q_PROPERTY(ThingClass *deviceClass READ thingClass CONSTANT)
     Q_PROPERTY(ThingClass *thingClass READ thingClass CONSTANT)
 
 public:
@@ -106,7 +104,6 @@ public:
     QString name() const;
     void setName(const QString &name);
 
-    QUuid deviceClassId() const;
     QUuid thingClassId() const;
     QUuid parentId() const;
     bool isChild() const;

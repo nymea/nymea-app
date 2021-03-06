@@ -78,7 +78,6 @@ QVariant Things::data(const QModelIndex &index, int role) const
         return thing->name();
     case RoleId:
         return thing->id().toString();
-    case RoleDeviceClass:
     case RoleThingClass:
         return thing->thingClassId().toString();
     case RoleParentId:
@@ -145,7 +144,6 @@ QHash<int, QByteArray> Things::roleNames() const
     QHash<int, QByteArray> roles;
     roles[RoleName] = "name";
     roles[RoleId] = "id";
-    roles[RoleDeviceClass] = "deviceClassId";
     roles[RoleThingClass] = "thingClassId";
     roles[RoleParentId] = "parentId";
     roles[RoleSetupStatus] = "setupStatus";

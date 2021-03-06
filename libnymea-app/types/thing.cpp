@@ -69,11 +69,6 @@ void Thing::setId(const QUuid &id)
     m_id = id;
 }
 
-QUuid Thing::deviceClassId() const
-{
-    return m_thingClass->id();
-}
-
 QUuid Thing::thingClassId() const
 {
     return m_thingClass->id();

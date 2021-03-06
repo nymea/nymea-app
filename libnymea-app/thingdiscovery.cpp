@@ -69,7 +69,7 @@ QHash<int, QByteArray> ThingDiscovery::roleNames() const
     return roles;
 }
 
-void ThingDiscovery::discoverThings(const QUuid &deviceClassId, const QVariantList &discoveryParams)
+void ThingDiscovery::discoverThings(const QUuid &thingClassId, const QVariantList &discoveryParams)
 {
     if (m_busy) {
         qWarning() << "Busy... not restarting discovery";
@@ -81,20 +81,20 @@ void ThingDiscovery::discoverThings(const QUuid &deviceClassId, const QVariantLi
     emit countChanged();
 
     if (!m_engine) {
-        qWarning() << "Cannot discover devices. No Engine set";
+        qWarning() << "Cannot discover things. No Engine set";
         return;
     }
     if (!m_engine->jsonRpcClient()->connected()) {
-        qWarning() << "Cannot discover devices. Not connected.";
+        qWarning() << "Cannot discover things. Not connected.";
         return;
     }
 
     QVariantMap params;
-    params.insert("deviceClassId", deviceClassId.toString());
+    params.insert("thingClassId", thingClassId.toString());
     if (!discoveryParams.isEmpty()) {
         params.insert("discoveryParams", discoveryParams);
     }
-    m_engine->jsonRpcClient()->sendCommand("Devices.GetDiscoveredDevices", params, this, "discoverThingsResponse");
+    m_engine->jsonRpcClient()->sendCommand("Integrations.DiscoverThings", params, this, "discoverThingsResponse");
     m_busy = true;
     m_displayMessage.clear();
     emit busyChanged();

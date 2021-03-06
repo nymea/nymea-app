@@ -263,7 +263,7 @@ QDebug operator <<(QDebug &dbg, Rule *rule)
         RuleAction *ra = rule->actions()->get(i);
         dbg << " " << i << ":";
         if (!ra->thingId().isNull() && !ra->actionTypeId().isNull()) {
-            dbg << "Device ID:" << ra->thingId() << "Action Type ID:" << ra->actionTypeId() << endl;
+            dbg << "Thing ID:" << ra->thingId() << "Action Type ID:" << ra->actionTypeId() << endl;
         } else {
             dbg << "Interface Name:" << ra->interfaceName() << "Action Name:" << ra->interfaceAction() << endl;
         }
@@ -284,7 +284,7 @@ QDebug operator <<(QDebug &dbg, Rule *rule)
         RuleAction *ra = rule->exitActions()->get(i);
         dbg << " " << i << ":";
         if (!ra->thingId().isNull() && !ra->actionTypeId().isNull()) {
-            dbg << "Device ID:" << ra->thingId() << "Action Type ID:" << ra->actionTypeId() << endl;;
+            dbg << "Thing ID:" << ra->thingId() << "Action Type ID:" << ra->actionTypeId() << endl;;
         } else {
             dbg << "Interface Name:" << ra->interfaceName() << "Action Name:" << ra->interfaceAction() << endl;;
         }
@@ -306,7 +306,7 @@ QDebug printStateEvaluator(QDebug &dbg, StateEvaluator *stateEvaluator, int inde
         for (int i = 0; i < indentLevel; i++) { dbg << " "; }
         dbg << "State Descriptor:";
         if (!stateEvaluator->stateDescriptor()->thingId().isNull() && !stateEvaluator->stateDescriptor()->stateTypeId().isNull()) {
-            dbg << "Device ID:" << stateEvaluator->stateDescriptor()->thingId().toString() << "State Type ID:" << stateEvaluator->stateDescriptor()->stateTypeId().toString();
+            dbg << "Thing ID:" << stateEvaluator->stateDescriptor()->thingId().toString() << "State Type ID:" << stateEvaluator->stateDescriptor()->stateTypeId().toString();
         } else {
             dbg << "Interface name:" << stateEvaluator->stateDescriptor()->interfaceName() << "State Name:" << stateEvaluator->stateDescriptor()->interfaceState();
         }
