@@ -96,5 +96,5 @@ parts:
       - qtvirtualkeyboard-plugin
       - qtwayland5
     override-build: |
-      snapcraftctl set-version $( git -C ${SNAPCRAFT_PART_SRC} describe --tags )
+      snapcraftctl set-version $( head -n 1 ${SNAPCRAFT_PART_SRC}/version.txt )
       snapcraftctl build
