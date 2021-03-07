@@ -319,7 +319,7 @@ SettingsPageBase {
         Layout.fillWidth: true
         Layout.leftMargin: app.margins
         Layout.rightMargin: app.margins
-        text: qsTr("No wired network interfaces available")
+        text: qsTr("No wireless network interfaces available")
         wrapMode: Text.WordWrap
         visible: networkManager.available && networkManager.wirelessNetworkDevices.count == 0
     }
