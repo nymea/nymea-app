@@ -1,3 +1,17 @@
+nymea-app (1.0.280) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix snap version
+  * Cleanup legacy
+  * Update clickable file for newer clickable version
+  * Fix message when there are no wireless interfaces
+
+  [ Michał Sawicz ]
+  * [snap] add daemon mode
+  * [snap] refresh and add GitHub workflow
+
+ -- Jenkins <jenkins@nymea.io>  Sun, 07 Mar 2021 12:29:10 +0100
+
 nymea-app (1.0.279) bionic; urgency=medium
 
   [ Michael Zanetti ]
