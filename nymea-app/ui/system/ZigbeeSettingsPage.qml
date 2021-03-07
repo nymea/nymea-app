@@ -54,51 +54,164 @@ SettingsPageBase {
         engine: _engine
     }
 
-    // Disabled for now, the Resources API won't make it in time
-//    SettingsPageSectionHeader {
-//        text: qsTr("General")
-//    }
-
-//    NymeaSwipeDelegate {
-//        Layout.fillWidth: true
-//        text: qsTr("Zigbee enabled")
-//        subText: qsTr("Enable or disable Zigbee altogether")
-//        prominentSubText: false
-//        progressive: false
-//        additionalItem: Switch {
-//            anchors.centerIn: parent
-//        }
-//    }
-
-    SettingsPageSectionHeader {
-        text: qsTr("ZigBee networks")
-    }
-
-    Label {
+    Item {
         Layout.fillWidth: true
-        Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
-        wrapMode: Text.WordWrap
-        text: qsTr("There are no ZigBee networks set up yet. In order to use ZigBee, create a ZigBee network.")
+        Layout.preferredHeight: root.height
         visible: zigbeeManager.networks.count == 0
-    }
 
-    Repeater {
-        model: zigbeeManager.networks
-        delegate: NymeaSwipeDelegate {
-            Layout.fillWidth: true
-            property var network: zigbeeManager.networks.get(index)
-            iconName: "../images/zigbee.svg"
-            text: model.backend + " - " + model.macAddress
-            subText: model.serialPort  + " - " + model.firmwareVersion
-            onClicked: pageStack.push(Qt.resolvedUrl("ZigbeeNetworkPage.qml"), { zigbeeManager: zigbeeManager, network: network })
+        EmptyViewPlaceholder {
+            width: parent.width - app.margins * 2
+            anchors.centerIn: parent
+            title: qsTr("ZigBee")
+            text: qsTr("There are no ZigBee networks set up yet. In order to use ZigBee, create a ZigBee network.")
+            imageSource: "/ui/images/zigbee.svg"
+            buttonText: qsTr("Add network")
+            onButtonClicked: {
+                pageStack.push(Qt.resolvedUrl("ZigbeeAddNetworkPage.qml"), {zigbeeManager: zigbeeManager})
+            }
         }
     }
 
-    Button {
-        Layout.fillWidth: true
-        Layout.margins: app.margins
-        text: qsTr("Add a ZigBee network")
-        onClicked: pageStack.push(Qt.resolvedUrl("ZigbeeAddNetworkPage.qml"), {zigbeeManager: zigbeeManager})
+
+    ColumnLayout {
+        Layout.margins: app.margins / 2
+        Repeater {
+            model: zigbeeManager.networks
+            delegate: BigTile {
+                Layout.fillWidth: true
+                interactive: false
+
+                contentItem: ColumnLayout {
+                    spacing: app.margins
+                    RowLayout {
+                        ColorIcon {
+                            name: "/ui/images/zigbee/" + model.backend + ".svg"
+                            Layout.preferredWidth: app.iconSize
+                            Layout.preferredHeight: app.iconSize
+                        }
+
+                        Label {
+                            Layout.fillWidth: true
+                            text: model.backend
+                            font.pixelSize: app.largeFont
+                        }
+
+                        ProgressButton {
+                            Layout.preferredWidth: app.iconSize
+                            Layout.preferredHeight: app.iconSize
+                            imageSource: "/ui/images/configure.svg"
+                            longpressEnabled: false
+                            onClicked: pageStack.push(Qt.resolvedUrl("ZigbeeNetworkPage.qml"), { zigbeeManager: zigbeeManager, network: zigbeeManager.networks.get(index) })
+                        }
+                    }
+                    RowLayout {
+                        Label {
+                            Layout.fillWidth: true
+                            text: qsTr("Network state:")
+                        }
+                        Label {
+                            text: {
+                                switch (model.networkState) {
+                                case ZigbeeNetwork.ZigbeeNetworkStateOnline:
+                                    return qsTr("Online")
+                                case ZigbeeNetwork.ZigbeeNetworkStateOffline:
+                                    return qsTr("Offline")
+                                case ZigbeeNetwork.ZigbeeNetworkStateStarting:
+                                    return qsTr("Starting")
+                                case ZigbeeNetwork.ZigbeeNetworkStateUpdating:
+                                    return qsTr("Updating")
+                                case ZigbeeNetwork.ZigbeeNetworkStateError:
+                                    return qsTr("Error")
+                                }
+                            }
+                        }
+
+                        Led {
+                            Layout.preferredHeight: app.iconSize
+                            Layout.preferredWidth: app.iconSize
+                            state: {
+                                switch (model.networkState) {
+                                case ZigbeeNetwork.ZigbeeNetworkStateOnline:
+                                    return "on"
+                                case ZigbeeNetwork.ZigbeeNetworkStateOffline:
+                                    return "off"
+                                case ZigbeeNetwork.ZigbeeNetworkStateStarting:
+                                    return "orange"
+                                case ZigbeeNetwork.ZigbeeNetworkStateUpdating:
+                                    return "orange"
+                                case ZigbeeNetwork.ZigbeeNetworkStateError:
+                                    return "red"
+                                }
+                            }
+                        }
+                    }
+
+                    RowLayout {
+                        Label {
+                            Layout.fillWidth: true
+                            text: qsTr("Network joining:")
+                        }
+                        Label {
+                            text: model.permitJoiningEnabled ? qsTr("Open for %0 s").arg(model.permitJoiningRemaining) : qsTr("Closed")
+                        }
+                        ColorIcon {
+                            Layout.preferredHeight: app.iconSize
+                            Layout.preferredWidth: app.iconSize
+                            name: model.permitJoiningEnabled ? "/ui/images/lock-open.svg" : "/ui/images/lock-closed.svg"
+                            visible: !model.permitJoiningEnabled
+                        }
+                        Canvas {
+                            id: canvas
+                            Layout.preferredHeight: app.iconSize
+                            Layout.preferredWidth: app.iconSize
+                            rotation: -90
+                            visible: model.permitJoiningEnabled
+
+                            property real progress: model.permitJoiningRemaining / model.permitJoiningDuration
+                            onProgressChanged: {
+                                canvas.requestPaint()
+                            }
+
+                            onPaint: {
+                                var ctx = canvas.getContext("2d");
+                                ctx.save();
+                                ctx.reset();
+                                var data = [1 - progress, progress];
+                                var myTotal = 0;
+
+                                for(var e = 0; e < data.length; e++) {
+                                    myTotal += data[e];
+                                }
+
+                                ctx.fillStyle = Style.accentColor
+                                ctx.strokeStyle = Style.accentColor
+                                ctx.lineWidth = 1;
+
+                                ctx.beginPath();
+                                ctx.moveTo(canvas.width/2,canvas.height/2);
+                                ctx.arc(canvas.width/2,canvas.height/2,canvas.height/2,0,(Math.PI*2*((1-progress)/myTotal)),false);
+                                ctx.lineTo(canvas.width/2,canvas.height/2);
+                                ctx.fill();
+                                ctx.closePath();
+                                ctx.beginPath();
+                                ctx.arc(canvas.width/2,canvas.height/2,canvas.height/2 - 1,0,Math.PI*2,false);
+                                ctx.closePath();
+                                ctx.stroke();
+
+                                ctx.restore();
+                            }
+                        }
+                    }
+
+                    Button {
+                        Layout.fillWidth: true
+                        text: model.permitJoiningEnabled ? qsTr("Extend open duration") : qsTr("Open for new devices")
+                        enabled: model.networkState === ZigbeeNetwork.ZigbeeNetworkStateOnline
+                        onClicked: zigbeeManager.setPermitJoin(model.networkUuid)
+                    }
+                }
+            }
+        }
     }
 }
 

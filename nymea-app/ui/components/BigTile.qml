@@ -18,6 +18,8 @@ Item {
     property alias topPadding: content.topPadding
     property alias bottomPadding: content.bottomPadding
 
+    property bool interactive: true
+
     signal clicked();
     signal pressAndHold();
 
@@ -98,7 +100,12 @@ Item {
             Layout.fillWidth: true
             height: contentItem.implicitHeight
             onClicked: root.clicked()
-            onPressAndHold: root.pressAndHold()
+            hoverEnabled: root.interactive
+            onPressAndHold: {
+                if (root.interactive) {
+                    root.pressAndHold()
+                }
+            }
         }
     }
 }

@@ -254,5 +254,7 @@
         <file>ui/images/thermostat/cooling.svg</file>
         <file>ui/images/thermostat/heating.svg</file>
         <file>ui/images/sensors/water.svg</file>
+        <file>ui/images/zigbee/deCONZ.svg</file>
+        <file>ui/images/zigbee/NXP.svg</file>
     </qresource>
 </RCC>

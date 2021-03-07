@@ -42,15 +42,10 @@ SettingsPageBase {
     property ZigbeeNetwork network: null
 
     header: NymeaHeader {
-        text: qsTr("Network") + " " + root.network.macAddress
+        text: qsTr("ZigBee network settings")
         backButtonVisible: true
         onBackPressed: pageStack.pop()
 
-        HeaderButton {
-            text: qsTr("Settings")
-            imageSource: "../images/settings.svg"
-            onClicked: pageStack.push(Qt.resolvedUrl("ZigbeeNetworkInfoPage.qml"), { network: root.network, zigbeeManager: root.zigbeeManager })
-        }
     }
 
     SettingsPageSectionHeader {
@@ -93,46 +88,74 @@ SettingsPageBase {
     }
 
     SettingsPageSectionHeader {
-        text: qsTr("Network control")
+        text: qsTr("Hardware information")
     }
 
     NymeaSwipeDelegate {
         Layout.fillWidth: true
-        text: root.network.permitJoiningEnabled ? qsTr("The network is open") : qsTr("The network is closed")
-        subText: root.network.permitJoiningEnabled ? qsTr("Devices can join this network") : qsTr("Devices are not allowed to join this network")
+        text: qsTr("MAC address:")
+        subText: root.network.macAddress
         progressive: false
         prominentSubText: false
     }
 
-    ColumnLayout {
-
-        ProgressBar {
-            Layout.fillWidth: true
-            Layout.leftMargin: app.margins
-            Layout.rightMargin: app.margins
-            visible: root.network.permitJoiningEnabled
-            from: root.network.permitJoiningDuration
-            to: 0
-            value: root.network.permitJoiningRemaining
-        }
-
-        Button {
-            Layout.fillWidth: true
-            Layout.leftMargin: app.margins
-            Layout.rightMargin: app.margins
-            enabled: network.networkState === ZigbeeNetwork.ZigbeeNetworkStateOnline
-            text: root.network.permitJoiningEnabled ? qsTr("Extend network open duration") : qsTr("Open network for new ZigBee devices")
-            onClicked: root.zigbeeManager.setPermitJoin(root.network.networkUuid)
-        }
-
-        Button {
-            Layout.fillWidth: true
-            Layout.leftMargin: app.margins
-            Layout.rightMargin: app.margins
-            visible: network.networkState === ZigbeeNetwork.ZigbeeNetworkStateOnline && root.network.permitJoiningEnabled
-            text: qsTr("Close network")
-            onClicked: root.zigbeeManager.setPermitJoin(root.network.networkUuid, 0)
-        }
+    NymeaSwipeDelegate {
+        Layout.fillWidth: true
+        text: qsTr("Serial port")
+        subText: root.network.serialPort
+        progressive: false
+        prominentSubText: false
     }
 
+    NymeaSwipeDelegate {
+        Layout.fillWidth: true
+        text: qsTr("Baud rate")
+        subText: root.network.baudRate
+        progressive: false
+        prominentSubText: false
+    }
+
+    NymeaSwipeDelegate {
+        Layout.fillWidth: true
+        text: qsTr("Controller backend")
+        subText: root.network.backend
+        progressive: false
+        prominentSubText: false
+    }
+
+    NymeaSwipeDelegate {
+        Layout.fillWidth: true
+        text: qsTr("Controller firmware version")
+        subText: root.network.firmwareVersion
+        progressive: false
+        prominentSubText: false
+    }
+
+    SettingsPageSectionHeader {
+        text: qsTr("Manage network")
+    }
+
+    ColumnLayout {
+
+        Button {
+            Layout.fillWidth: true
+            Layout.leftMargin: app.margins
+            Layout.rightMargin: app.margins
+            text: qsTr("Remove network")
+            onClicked: {
+                root.zigbeeManager.removeNetwork(root.network.networkUuid)
+                pageStack.pop()
+            }
+        }
+
+        Button {
+            Layout.fillWidth: true
+            Layout.leftMargin: app.margins
+            Layout.rightMargin: app.margins
+            text: qsTr("Factory reset controller")
+            onClicked: {
+                root.zigbeeManager.factoryResetNetwork(root.network.networkUuid)
+            }
+        }
+    }
 }
