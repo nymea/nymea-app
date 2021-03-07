@@ -113,13 +113,13 @@ bool RulesFilterModel::filterAcceptsRow(int source_row, const QModelIndex &sourc
                 break;
             }
         }
-        if (!found && rule->stateEvaluator() && rule->stateEvaluator()->containsDevice(m_filterThingId)) {
+        if (!found && rule->stateEvaluator() && rule->stateEvaluator()->containsThing(m_filterThingId)) {
             found = true;
         }
         if (!found) {
             for (int i = 0; i < rule->actions()->rowCount(); i++) {
                 RuleAction *ra = rule->actions()->get(i);
-                if (ra->deviceId() == m_filterThingId) {
+                if (ra->thingId() == m_filterThingId) {
                     found = true;
                     break;
                 }
@@ -128,7 +128,7 @@ bool RulesFilterModel::filterAcceptsRow(int source_row, const QModelIndex &sourc
         if (!found) {
             for (int i = 0; i < rule->exitActions()->rowCount(); i++) {
                 RuleAction *ra = rule->exitActions()->get(i);
-                if (ra->deviceId() == m_filterThingId) {
+                if (ra->thingId() == m_filterThingId) {
                     found = true;
                     break;
                 }

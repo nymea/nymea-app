@@ -64,10 +64,10 @@ MainViewBase {
             id: delegateRoot
             width: gridView.cellWidth
             height: gridView.cellHeight
-            device: engine.deviceManager.devices.getDevice(deviceId)
-            visible: thingId !== fakeDragItem.deviceId
+            thing: engine.thingManager.things.getThing(thingId)
+            visible: thingId !== fakeDragItem.thingId
 
-            onClicked: pageStack.push(Qt.resolvedUrl("../devicepages/" + NymeaUtils.interfaceListToDevicePage(deviceClass.interfaces)), {device: device})
+            onClicked: pageStack.push(Qt.resolvedUrl("../devicepages/" + NymeaUtils.interfaceListToDevicePage(thing.thingClass.interfaces)), {thing: thing})
 
             onPressAndHold: root.editMode = true
 
@@ -79,8 +79,6 @@ MainViewBase {
                 NumberAnimation { from: 3; to: -3; target: delegateRoot; duration: 150; property: "rotation" }
                 NumberAnimation { from: -3; to: 0; target: delegateRoot; duration: 75; property: "rotation" }
             }
-
-
         }
 
         MouseArea {
@@ -100,7 +98,7 @@ MainViewBase {
                 fakeDragItem.text = item.text
                 fakeDragItem.iconName = item.iconName
                 fakeDragItem.iconColor = item.iconColor;
-                fakeDragItem.deviceId = item.device.id
+                fakeDragItem.thingId = item.thing.id
                 fakeDragItem.batteryCritical = item.batteryCritical
                 fakeDragItem.disconnected = item.disconnected
                 drag.target = fakeDragItem
@@ -108,7 +106,7 @@ MainViewBase {
             onReleased: {
                 drag.target = null
                 draggedItem = null
-                fakeDragItem.deviceId = ""
+                fakeDragItem.thingId = ""
             }
 
             onClicked: {
@@ -121,8 +119,8 @@ MainViewBase {
             width: gridView.cellWidth
             height: gridView.cellHeight
             Drag.active: dragArea.drag.active
-            visible: deviceId !== ""
-            property var deviceId: ""
+            visible: thingId !== ""
+            property var thingId: ""
         }
 
         DropArea {
@@ -172,13 +170,13 @@ MainViewBase {
     EmptyViewPlaceholder {
         anchors { left: parent.left; right: parent.right; margins: app.margins }
         anchors.verticalCenter: parent.verticalCenter
-        visible: gridView.count === 0 && !engine.deviceManager.fetchingData
+        visible: gridView.count === 0 && !engine.thingManager.fetchingData
         title: qsTr("There are no favorite things yet.")
-        text: engine.deviceManager.devices.count === 0 ?
+        text: engine.thingManager.things.count === 0 ?
                   qsTr("It appears there are no things set up either yet. In order to use favorites you need to add some things first.") :
                   qsTr("Favorites allow you to keep track of your most important things when you have lots of them. Watch out for the star when interacting with things and use it to mark them as your favorites.")
         imageSource: "../images/starred.svg"
-        buttonVisible: engine.deviceManager.devices.count === 0
+        buttonVisible: engine.thingManager.things.count === 0
         buttonText: qsTr("Add things")
         onButtonClicked: pageStack.push(Qt.resolvedUrl("../thingconfiguration/NewThingPage.qml"))
     }

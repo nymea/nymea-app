@@ -1,6 +1,6 @@
 #include "androidbinder.h"
 #include "engine.h"
-#include "types/device.h"
+#include "types/thing.h"
 
 #include <QDebug>
 #include <QAndroidParcel>
@@ -54,7 +54,7 @@ bool AndroidBinder::onTransact(int code, const QAndroidParcel &data, const QAndr
         }
         QVariantList thingsList;
         for (int i = 0; i < engine->thingManager()->things()->rowCount(); i++) {
-            Device *thing = engine->thingManager()->things()->get(i);
+            Thing *thing = engine->thingManager()->things()->get(i);
             QVariantMap thingMap;
             thingMap.insert("id", thing->id());
             thingMap.insert("name", thing->name());

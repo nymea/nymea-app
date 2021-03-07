@@ -28,52 +28,9 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef DEVICECLASSMODEL_H
-#define DEVICECLASSMODEL_H
+import QtQuick 2.9
 
-#include <QAbstractListModel>
-
-#include "types/deviceclass.h"
-
-class DeviceClasses : public QAbstractListModel
-{
-    Q_OBJECT
-    Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
-public:
-    enum Role {
-        RoleId,
-        RoleName,
-        RoleDisplayName,
-        RolePluginId,
-        RoleVendorId,
-        RoleInterfaces,
-        RoleBaseInterface
-    };
-
-    explicit DeviceClasses(QObject *parent = nullptr);
-
-    QList<DeviceClass *> deviceClasses();
-
-    int rowCount(const QModelIndex & parent = QModelIndex()) const;
-    QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;
-
-    Q_INVOKABLE int count() const;
-    Q_INVOKABLE DeviceClass *get(int index) const;
-    Q_INVOKABLE DeviceClass *getDeviceClass(QUuid deviceClassId) const;
-
-    void addDeviceClass(DeviceClass *deviceClass);
-
-    void clearModel();
-
-signals:
-    void countChanged();
-
-protected:
-    QHash<int, QByteArray> roleNames() const;
-
-private:
-    QList<DeviceClass *> m_deviceClasses;
-
-};
-
-#endif // DEVICECLASSMODEL_H
+ClosablesThingsListPage {
+    title: qsTr("Blinds")
+    iconBasename: "../images/shutter/shutter"
+}

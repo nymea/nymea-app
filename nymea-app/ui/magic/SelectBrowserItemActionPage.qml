@@ -37,7 +37,7 @@ import "../delegates"
 Page {
     id: root
 
-    property Device device: null
+    property Thing thing: null
     property string itemId: ""
 
     signal selected(string selectedItemId)
@@ -48,7 +48,7 @@ Page {
     }
 
     Component.onCompleted: {
-        listView.model = engine.deviceManager.browseDevice(root.device.id, root.itemId)
+        listView.model = engine.thingManager.browseThing(root.thing.id, root.itemId)
     }
 
     ListView {
@@ -64,12 +64,12 @@ Page {
 
         delegate: BrowserItemDelegate {
             width: parent.width
-            device: root.device
+            thing: root.thing
             secondaryIconName: "" // We don't support BrowserItemActions in rules yet
 
             onClicked: {
                 if (model.browsable) {
-                    var page = pageStack.push(Qt.resolvedUrl("SelectBrowserItemActionPage.qml"), {device: root.device, itemId: model.id});
+                    var page = pageStack.push(Qt.resolvedUrl("SelectBrowserItemActionPage.qml"), {thing: root.thing, itemId: model.id});
                     page.selected.connect(function(selectedItemId) {
                         pageStack.pop();
                         root.selected(selectedItemId);

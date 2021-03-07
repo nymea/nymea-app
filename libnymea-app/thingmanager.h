@@ -28,14 +28,14 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef DEVICEMANAGER_H
-#define DEVICEMANAGER_H
+#ifndef THINGMANAGER_H
+#define THINGMANAGER_H
 
 #include <QObject>
 
 #include "types/vendors.h"
-#include "devices.h"
-#include "deviceclasses.h"
+#include "things.h"
+#include "thingclasses.h"
 #include "interfacesmodel.h"
 #include "types/plugins.h"
 #include "jsonrpc/jsonhandler.h"
@@ -49,14 +49,13 @@ class IOConnections;
 class EventHandler;
 class IntegrationsHandler;
 
-class DeviceManager : public JsonHandler
+class ThingManager : public JsonHandler
 {
     Q_OBJECT
     Q_PROPERTY(Vendors* vendors READ vendors CONSTANT)
     Q_PROPERTY(Plugins* plugins READ plugins CONSTANT)
-    Q_PROPERTY(Devices* things READ things CONSTANT)
-    Q_PROPERTY(Devices* devices READ devices CONSTANT)
-    Q_PROPERTY(DeviceClasses* deviceClasses READ deviceClasses CONSTANT)
+    Q_PROPERTY(Things* things READ things CONSTANT)
+    Q_PROPERTY(ThingClasses* thingClasses READ thingClasses CONSTANT)
     Q_PROPERTY(IOConnections* ioConnections READ ioConnections CONSTANT)
 
     Q_PROPERTY(bool fetchingData READ fetchingData NOTIFY fetchingDataChanged)
@@ -70,7 +69,7 @@ public:
     };
     Q_ENUM(RemovePolicy)
 
-    explicit DeviceManager(JsonRpcClient *jsonclient, QObject *parent = nullptr);
+    explicit ThingManager(JsonRpcClient *jsonclient, QObject *parent = nullptr);
 
     void clear();
     void init();
@@ -79,33 +78,30 @@ public:
 
     Vendors* vendors() const;
     Plugins* plugins() const;
-    Devices* devices() const;
-    Devices* things() const;
-    DeviceClasses* deviceClasses() const;
-    DeviceClasses* thingClasses() const;
+    Things* things() const;
+    ThingClasses* thingClasses() const;
     IOConnections* ioConnections() const;
 
     bool fetchingData() const;
 
-    Q_INVOKABLE int addDevice(const QUuid &deviceClassId, const QString &name, const QVariantList &deviceParams);
-    // param deviceClassId is deprecated and should be removed when minimum JSONRPC version is 3.1
-    Q_INVOKABLE int addDiscoveredDevice(const QUuid &deviceClassId, const QUuid &deviceDescriptorId, const QString &name, const QVariantList &deviceParams);
-    Q_INVOKABLE int pairDevice(const QUuid &deviceClassId, const QVariantList &deviceParams, const QString &name);
-    // param deviceClassId is deprecated and should be removed when minimum JSONRPC version is 3.1
-    Q_INVOKABLE int pairDiscoveredDevice(const QUuid &deviceClassId, const QUuid &deviceDescriptorId, const QVariantList &deviceParams, const QString &name);
-    Q_INVOKABLE int rePairDevice(const QUuid &deviceId, const QVariantList &deviceParams, const QString &name = QString());
+    Q_INVOKABLE int addThing(const QUuid &thingClassId, const QString &name, const QVariantList &thingParams);
+    // Param thingClassId is deprecated as of jsonrpc 5.4
+    Q_INVOKABLE int addDiscoveredThing(const QUuid &thingClassId, const QUuid &thingDescriptorId, const QString &name, const QVariantList &thingParams);
+    Q_INVOKABLE int pairThing(const QUuid &thingClassId, const QVariantList &thingParams, const QString &name);
+    Q_INVOKABLE int pairDiscoveredThing(const QUuid &thingDescriptorId, const QVariantList &thingParams, const QString &name);
+    Q_INVOKABLE int rePairThing(const QUuid &thingId, const QVariantList &thingParams, const QString &name = QString());
     Q_INVOKABLE int confirmPairing(const QUuid &pairingTransactionId, const QString &secret = QString(), const QString &username = QString());
     Q_INVOKABLE int removeThing(const QUuid &thingId, RemovePolicy policy = RemovePolicyNone);
     Q_INVOKABLE int editThing(const QUuid &thingId, const QString &name);
-    Q_INVOKABLE int setDeviceSettings(const QUuid &deviceId, const QVariantList &settings);
-    Q_INVOKABLE int reconfigureDevice(const QUuid &deviceId, const QVariantList &deviceParams);
-    Q_INVOKABLE int reconfigureDiscoveredDevice(const QUuid &deviceId, const QUuid &deviceDescriptorId, const QVariantList &paramOverride);
-    Q_INVOKABLE int executeAction(const QUuid &deviceId, const QUuid &actionTypeId, const QVariantList &params = QVariantList());
-    Q_INVOKABLE BrowserItems* browseDevice(const QUuid &deviceId, const QString &itemId = QString());
+    Q_INVOKABLE int setThingSettings(const QUuid &thingId, const QVariantList &settings);
+    Q_INVOKABLE int reconfigureThing(const QUuid &thingId, const QVariantList &thingParams);
+    Q_INVOKABLE int reconfigureDiscoveredThing(const QUuid &thingDescriptorId, const QVariantList &paramOverride);
+    Q_INVOKABLE int executeAction(const QUuid &thingId, const QUuid &actionTypeId, const QVariantList &params = QVariantList());
+    Q_INVOKABLE BrowserItems* browseThing(const QUuid &thingId, const QString &itemId = QString());
     Q_INVOKABLE void refreshBrowserItems(BrowserItems *browserItems);
-    Q_INVOKABLE BrowserItem* browserItem(const QUuid &deviceId, const QString &itemId);
-    Q_INVOKABLE int executeBrowserItem(const QUuid &deviceId, const QString &itemId);
-    Q_INVOKABLE int executeBrowserItemAction(const QUuid &deviceId, const QString &itemId, const QUuid &actionTypeId, const QVariantList &params = QVariantList());
+    Q_INVOKABLE BrowserItem* browserItem(const QUuid &thingId, const QString &itemId);
+    Q_INVOKABLE int executeBrowserItem(const QUuid &thingId, const QString &itemId);
+    Q_INVOKABLE int executeBrowserItemAction(const QUuid &thingId, const QString &itemId, const QUuid &actionTypeId, const QVariantList &params = QVariantList());
 
     Q_INVOKABLE int connectIO(const QUuid &inputThingId, const QUuid &inputStateTypeId, const QUuid &outputThingId, const QUuid &outputStateTypeId, bool inverted);
     Q_INVOKABLE int disconnectIO(const QUuid &ioConnectionId);
@@ -113,19 +109,19 @@ public:
 private:
     Q_INVOKABLE void notificationReceived(const QVariantMap &data);
     Q_INVOKABLE void getVendorsResponse(int commandId, const QVariantMap &params);
-    Q_INVOKABLE void getSupportedDevicesResponse(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void getThingClassesResponse(int commandId, const QVariantMap &params);
     Q_INVOKABLE void getPluginsResponse(int commandId, const QVariantMap &params);
     Q_INVOKABLE void getPluginConfigResponse(int commandId, const QVariantMap &params);
-    Q_INVOKABLE void getConfiguredDevicesResponse(int commandId, const QVariantMap &params);
-    Q_INVOKABLE void addDeviceResponse(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void getThingsResponse(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void addThingResponse(int commandId, const QVariantMap &params);
     Q_INVOKABLE void removeThingResponse(int commandId, const QVariantMap &params);
-    Q_INVOKABLE void pairDeviceResponse(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void pairThingResponse(int commandId, const QVariantMap &params);
     Q_INVOKABLE void confirmPairingResponse(int commandId, const QVariantMap &params);
     Q_INVOKABLE void setPluginConfigResponse(int commandId, const QVariantMap &params);
     Q_INVOKABLE void editThingResponse(int commandId, const QVariantMap &params);
     Q_INVOKABLE void executeActionResponse(int commandId, const QVariantMap &params);
-    Q_INVOKABLE void reconfigureDeviceResponse(int commandId, const QVariantMap &params);
-    Q_INVOKABLE void browseDeviceResponse(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void reconfigureThingResponse(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void browseThingResponse(int commandId, const QVariantMap &params);
     Q_INVOKABLE void browserItemResponse(int commandId, const QVariantMap &params);
     Q_INVOKABLE void executeBrowserItemResponse(int commandId, const QVariantMap &params);
     Q_INVOKABLE void executeBrowserItemActionResponse(int commandId, const QVariantMap &params);
@@ -136,30 +132,48 @@ private:
 public slots:
     int savePluginConfig(const QUuid &pluginId);
 
-    ThingGroup* createGroup(Interface *interface, DevicesProxy *things);
+    ThingGroup* createGroup(Interface *interface, ThingsProxy *things);
 
 signals:
-    void pairDeviceReply(int commandId, const QVariantMap &params);
-    void confirmPairingReply(int commandId, const QVariantMap &params);
-    void addDeviceReply(int commandId, const QVariantMap &params);
-    void removeThingReply(int commandId, const QVariantMap &params);
-    void savePluginConfigReply(int commandId, const QVariantMap &params);
-    void editThingReply(int commandId, const QVariantMap &params);
-    void reconfigureDeviceReply(int commandId, const QVariantMap &params);
-    void executeActionReply(int commandId, const QVariantMap &params);
-    void executeBrowserItemReply(int commandId, const QVariantMap &params);
-    void executeBrowserItemActionReply(int commandId, const QVariantMap &params);
+    void addThingReply(int commandId, Thing::ThingError thingError, const QUuid &thingId, const QString &displayMessage);
+    void pairThingReply(int commandId, Thing::ThingError thingError, const QUuid &pairingTransactionId, const QString &setupMethod, const QString &displayMessage, const QString &oAuthUrl);
+    void confirmPairingReply(int commandId, Thing::ThingError thingError, const QUuid &thingId, const QString &displayMessage);
+    void removeThingReply(int commandId, Thing::ThingError thingError, const QStringList ruleIds);
+    void savePluginConfigReply(int commandId, Thing::ThingError thingError);
+    void editThingReply(int commandId, Thing::ThingError thingError);
+    void reconfigureThingReply(int commandId, Thing::ThingError thingError, const QString &displayMessage);
+    void executeActionReply(int commandId, Thing::ThingError thingError, const QString &displayMessage);
+    void executeBrowserItemReply(int commandId, Thing::ThingError thingError, const QString &displayMessage);
+    void executeBrowserItemActionReply(int commandId, Thing::ThingError thingError, const QString &displayMessage);
     void fetchingDataChanged();
-    void notificationReceived(const QString &deviceId, const QString &eventTypeId, const QVariantList &params);
+    void notificationReceived(const QString &thingId, const QString &eventTypeId, const QVariantList &params);
 
-    void eventTriggered(const QUuid &deviceId, const QUuid &eventTypeId, const QVariantMap params);
-    void thingStateChanged(const QUuid &deviceId, const QUuid &stateTypeId, const QVariant &value);
+    void eventTriggered(const QUuid &thingId, const QUuid &eventTypeId, const QVariantMap params);
+    void thingStateChanged(const QUuid &thingId, const QUuid &stateTypeId, const QVariant &value);
+
+private:
+    static Vendor *unpackVendor(const QVariantMap &vendorMap);
+    static Plugin *unpackPlugin(const QVariantMap &pluginMap, QObject *parent);
+    static ThingClass *unpackThingClass(const QVariantMap &thingClassMap);
+    static void unpackParam(const QVariantMap &paramMap, Param *param);
+    static ParamType *unpackParamType(const QVariantMap &paramTypeMap, QObject *parent);
+    static StateType *unpackStateType(const QVariantMap &stateTypeMap, QObject *parent);
+    static EventType *unpackEventType(const QVariantMap &eventTypeMap, QObject *parent);
+    static ActionType *unpackActionType(const QVariantMap &actionTypeMap, QObject *parent);
+    static Thing *unpackThing(ThingManager *thingManager, const QVariantMap &thingMap, ThingClasses *thingClasses, Thing *oldThing = nullptr);
+
+    static QVariantMap packParam(Param *param);
+
+    static Thing::ThingError errorFromString(const QByteArray &thingErrorString);
+    static ThingClass::SetupMethod stringToSetupMethod(const QString &setupMethodString);
+    static QPair<Types::Unit, QString> stringToUnit(const QString &unitString);
+    static Types::InputType stringToInputType(const QString &inputTypeString);
 
 private:
     Vendors *m_vendors;
     Plugins *m_plugins;
-    Devices *m_devices;
-    DeviceClasses *m_thingClasses;
+    Things *m_things;
+    ThingClasses *m_thingClasses;
     IOConnections *m_ioConnections;
 
     bool m_fetchingData = false;
@@ -218,4 +232,4 @@ private:
     }
 };
 
-#endif // DEVICEMANAGER_H
+#endif // THINGMANAGER_H

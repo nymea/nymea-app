@@ -48,7 +48,6 @@ QVariant Tags::data(const QModelIndex &index, int role) const
 {
     switch (role) {
     case RoleThingId:
-    case RoleDeviceId:
         return m_list.at(index.row())->thingId();
     case RoleRuleId:
         return m_list.at(index.row())->ruleId();
@@ -64,7 +63,6 @@ QHash<int, QByteArray> Tags::roleNames() const
 {
     QHash<int, QByteArray> roles;
     roles.insert(RoleThingId, "thingId");
-    roles.insert(RoleDeviceId, "deviceId");
     roles.insert(RoleRuleId, "ruleId");
     roles.insert(RoleTagId, "tagId");
     roles.insert(RoleValue, "value");
@@ -127,11 +125,6 @@ Tag *Tags::findThingTag(const QUuid &thingId, const QString &tagId) const
         }
     }
     return nullptr;
-}
-
-Tag *Tags::findDeviceTag(const QUuid &deviceId, const QString &tagId) const
-{
-    return findThingTag(deviceId, tagId);
 }
 
 Tag *Tags::findRuleTag(const QString &ruleId, const QString &tagId) const

@@ -28,8 +28,8 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef DEVICE_H
-#define DEVICE_H
+#ifndef THING_H
+#define THING_H
 
 #include <QObject>
 #include <QUuid>
@@ -38,16 +38,15 @@
 #include "states.h"
 #include "statesproxy.h"
 
-class DeviceClass;
-class DeviceManager;
+class ThingClass;
+class ThingManager;
 
-class Device : public QObject
+class Thing : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QUuid id READ id CONSTANT)
-    Q_PROPERTY(QUuid deviceClassId READ deviceClassId CONSTANT)
     Q_PROPERTY(QUuid thingClassId READ thingClassId CONSTANT)
-    Q_PROPERTY(QUuid parentDeviceId READ parentDeviceId CONSTANT)
+    Q_PROPERTY(QUuid parentId READ parentId CONSTANT)
     Q_PROPERTY(bool isChild READ isChild CONSTANT)
     Q_PROPERTY(QString name READ name NOTIFY nameChanged)
     Q_PROPERTY(ThingSetupStatus setupStatus READ setupStatus NOTIFY setupStatusChanged)
@@ -55,8 +54,7 @@ class Device : public QObject
     Q_PROPERTY(Params *params READ params NOTIFY paramsChanged)
     Q_PROPERTY(Params *settings READ settings NOTIFY settingsChanged)
     Q_PROPERTY(States *states READ states NOTIFY statesChanged)
-    Q_PROPERTY(DeviceClass *deviceClass READ thingClass CONSTANT)
-    Q_PROPERTY(DeviceClass *thingClass READ thingClass CONSTANT)
+    Q_PROPERTY(ThingClass *thingClass READ thingClass CONSTANT)
 
 public:
     enum ThingSetupStatus {
@@ -67,7 +65,38 @@ public:
     };
     Q_ENUM(ThingSetupStatus)
 
-    explicit Device(DeviceManager *thingManager, DeviceClass *thingClass, const QUuid &parentId = QUuid(), QObject *parent = nullptr);
+    enum ThingError {
+        ThingErrorNoError,
+        ThingErrorPluginNotFound,
+        ThingErrorVendorNotFound,
+        ThingErrorThingNotFound,
+        ThingErrorThingClassNotFound,
+        ThingErrorActionTypeNotFound,
+        ThingErrorStateTypeNotFound,
+        ThingErrorEventTypeNotFound,
+        ThingErrorThingDescriptorNotFound,
+        ThingErrorMissingParameter,
+        ThingErrorInvalidParameter,
+        ThingErrorSetupFailed,
+        ThingErrorDuplicateUuid,
+        ThingErrorCreationMethodNotSupported,
+        ThingErrorSetupMethodNotSupported,
+        ThingErrorHardwareNotAvailable,
+        ThingErrorHardwareFailure,
+        ThingErrorAuthenticationFailure,
+        ThingErrorThingInUse,
+        ThingErrorThingInRule,
+        ThingErrorThingIsChild,
+        ThingErrorPairingTransactionIdNotFound,
+        ThingErrorParameterNotWritable,
+        ThingErrorItemNotFound,
+        ThingErrorItemNotExecutable,
+        ThingErrorUnsupportedFeature,
+        ThingErrorTimeout,
+    };
+    Q_ENUM(ThingError)
+
+    explicit Thing(ThingManager *thingManager, ThingClass *thingClass, const QUuid &parentId = QUuid(), QObject *parent = nullptr);
 
     QUuid id() const;
     void setId(const QUuid &id);
@@ -75,14 +104,13 @@ public:
     QString name() const;
     void setName(const QString &name);
 
-    QUuid deviceClassId() const;
     QUuid thingClassId() const;
-    QUuid parentDeviceId() const;
+    QUuid parentId() const;
     bool isChild() const;
 
-    Device::ThingSetupStatus setupStatus() const;
+    Thing::ThingSetupStatus setupStatus() const;
     QString setupDisplayMessage() const;
-    void setSetupStatus(Device::ThingSetupStatus setupStatus, const QString &displayMessage);
+    void setSetupStatus(Thing::ThingSetupStatus setupStatus, const QString &displayMessage);
 
     Params *params() const;
     void setParams(Params *params);
@@ -94,7 +122,7 @@ public:
     void setStates(States *states);
     void setStateValue(const QUuid &stateTypeId, const QVariant &value);
 
-    DeviceClass *thingClass() const;
+    ThingClass *thingClass() const;
 
     Q_INVOKABLE bool hasState(const QUuid &stateTypeId) const;
     Q_INVOKABLE State *state(const QUuid &stateTypeId) const;
@@ -115,10 +143,10 @@ signals:
     void eventTriggered(const QUuid &eventTypeId, const QVariantMap &params);
 
 signals:
-    void executeActionReply(int commandId, const QVariantMap &params);
+    void executeActionReply(int commandId, Thing::ThingError thingError, const QString &displayMessage);
 
 protected:
-    DeviceManager *m_thingManager = nullptr;
+    ThingManager *m_thingManager = nullptr;
     QString m_name;
     QUuid m_id;
     QUuid m_parentId;
@@ -127,11 +155,12 @@ protected:
     Params *m_params = nullptr;
     Params *m_settings = nullptr;
     States *m_states = nullptr;
-    DeviceClass *m_thingClass = nullptr;
+    ThingClass *m_thingClass = nullptr;
 
     QList<int> m_pendingActions;
 };
+Q_DECLARE_METATYPE(Thing::ThingError)
 
-QDebug operator<<(QDebug &dbg, Device* thing);
+QDebug operator<<(QDebug &dbg, Thing* thing);
 
-#endif // DEVICE_H
+#endif // THING_H

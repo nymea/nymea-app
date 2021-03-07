@@ -28,10 +28,30 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.9
+import QtQuick 2.5
+import QtQuick.Controls 2.1
+import QtQuick.Controls.Material 2.1
+import QtQuick.Layouts 1.1
+import Nymea 1.0
+import "../components"
 
-ClosablesDeviceListPage {
-    title: qsTr("Awnings")
-    iconBasename: "../images/awning/awning"
-    invertControls: true
+Page {
+    id: root
+
+    property alias shownInterfaces: thingsProxyInternal.shownInterfaces
+    property alias hiddenInterfaces: thingsProxyInternal.hiddenInterfaces
+    property alias filterTagId: thingsProxyInternal.filterTagId
+
+    property ThingsProxy thingsProxy: thingsProxyInternal
+
+    function enterPage(index) {
+        var thing = thingsProxy.get(index);
+        var page = NymeaUtils.interfaceListToDevicePage(root.shownInterfaces);
+        pageStack.push(Qt.resolvedUrl("../devicepages/" + page), {thing: thingsProxy.get(index)})
+    }
+
+    ThingsProxy {
+        id: thingsProxyInternal
+        engine: _engine
+    }
 }

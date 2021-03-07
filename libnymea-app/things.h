@@ -28,15 +28,15 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef DEVICES_H
-#define DEVICES_H
+#ifndef THINGS_H
+#define THINGS_H
 
 #include <QAbstractListModel>
 
-#include "types/device.h"
-#include "types/deviceclass.h"
+#include "types/thing.h"
+#include "types/thingclass.h"
 
-class Devices : public QAbstractListModel
+class Things : public QAbstractListModel
 {
     Q_OBJECT
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
@@ -44,8 +44,7 @@ public:
     enum Roles {
         RoleName,
         RoleId,
-        RoleParentDeviceId,
-        RoleDeviceClass,
+        RoleParentId,
         RoleThingClass,
         RoleSetupStatus,
         RoleSetupDisplayMessage,
@@ -54,33 +53,32 @@ public:
     };
     Q_ENUM(Roles)
 
-    explicit Devices(QObject *parent = nullptr);
+    explicit Things(QObject *parent = nullptr);
 
-    QList<Device *> devices();
+    QList<Thing *> devices();
 
-    Q_INVOKABLE Device *get(int index) const;
-    Q_INVOKABLE Device *getThing(const QUuid &thingId) const;
-    Q_INVOKABLE Device *getDevice(const QUuid &deviceId) const;
+    Q_INVOKABLE Thing *get(int index) const;
+    Q_INVOKABLE Thing *getThing(const QUuid &thingId) const;
 
-    int rowCount(const QModelIndex & parent = QModelIndex()) const;
-    QVariant data(const QModelIndex & index, int role = RoleName) const;
+    int rowCount(const QModelIndex & parent = QModelIndex()) const override;
+    QVariant data(const QModelIndex & index, int role = RoleName) const override;
 
-    void addDevice(Device *device);
-    void removeThing(Device *thing);
+    void addThing(Thing *thing);
+    void removeThing(Thing *thing);
 
     void clearModel();
 
 protected:
-    QHash<int, QByteArray> roleNames() const;
+    QHash<int, QByteArray> roleNames() const override;
 
 signals:
     void countChanged();
-    void thingAdded(Device *device);
-    void thingRemoved(Device *device);
+    void thingAdded(Thing *device);
+    void thingRemoved(Thing *device);
 
 private:
-    QList<Device *> m_things;
+    QList<Thing *> m_things;
 
 };
 
-#endif // DEVICES_H
+#endif // THINGS_H

@@ -35,7 +35,7 @@ import Nymea 1.0
 import "../components"
 import "../customviews"
 
-DevicePageBase {
+ThingPageBase {
     id: root
 
     GenericTypeLogView {
@@ -46,9 +46,9 @@ DevicePageBase {
         LogsModelNg {
             id: logsModelNg
             engine: _engine
-            deviceId: root.device.id
+            thingId: root.thing.id
             live: true
-            typeIds: [root.deviceClass.eventTypes.findByName("triggered").id];
+            typeIds: [root.thing.thingClass.eventTypes.findByName("triggered").id];
         }
 
 //        delegate: NymeaSwipeDelegate {
@@ -72,17 +72,17 @@ DevicePageBase {
             var typeId = logView.logsModel.get(index).typeId
             var rule = engine.ruleManager.createNewRule();
             var eventDescriptor = rule.eventDescriptors.createNewEventDescriptor();
-            eventDescriptor.deviceId = device.id;
-            var eventType = root.deviceClass.eventTypes.getEventType(typeId);
+            eventDescriptor.thingId = thing.id;
+            var eventType = root.thing.thingClass.eventTypes.getEventType(typeId);
             eventDescriptor.eventTypeId = eventType.id;
-            rule.name = root.device.name + " - " + eventType.displayName;
+            rule.name = root.thing.name + " - " + eventType.displayName;
             if (eventType.paramTypes.count === 1) {
                 var paramType = eventType.paramTypes.get(0);
                 eventDescriptor.paramDescriptors.setParamDescriptor(paramType.id, value, ParamDescriptor.ValueOperatorEquals);
                 rule.eventDescriptors.addEventDescriptor(eventDescriptor);
                 rule.name = rule.name + " - " + value
             }
-            var rulePage = pageStack.push(Qt.resolvedUrl("../magic/DeviceRulesPage.qml"), {device: root.device});
+            var rulePage = pageStack.push(Qt.resolvedUrl("../magic/ThingRulesPage.qml"), {thing: root.thing});
             rulePage.addRule(rule);
         }
     }

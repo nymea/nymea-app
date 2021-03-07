@@ -41,14 +41,14 @@ Item {
     readonly property string title: qsTr("Celsi°s")
     readonly property string icon: Qt.resolvedUrl("qrc:/ui/images/radiator.svg")
 
-    readonly property Device duwWpDevice: duwWpFilterModel.count > 0 ? duwWpFilterModel.get(0) : null
-    readonly property Device duwLuDevice: duwLuFilterModel.count > 0 ? duwLuFilterModel.get(0) : null
+    readonly property Thing duwWpDevice: duwWpFilterModel.count > 0 ? duwWpFilterModel.get(0) : null
+    readonly property Thing duwLuDevice: duwLuFilterModel.count > 0 ? duwLuFilterModel.get(0) : null
 
-    readonly property State temperatureState: duwWpDevice ? duwWpDevice.states.getState(duwWpDevice.deviceClass.stateTypes.findByName("temperature").id) : null
-    readonly property State targetTemperatureState: duwWpDevice ? duwWpDevice.states.getState(duwWpDevice.deviceClass.stateTypes.findByName("targetTemperature").id) : null
-    readonly property State co2LevelState: duwLuDevice ? duwLuDevice.states.getState(duwLuDevice.deviceClass.stateTypes.findByName("co2").id) : null
-    readonly property State ventilationModeState: duwLuDevice ? duwLuDevice.states.getState(duwLuDevice.deviceClass.stateTypes.findByName("ventilationMode").id) : null
-    readonly property State ventilationLevelState: duwLuDevice ? duwLuDevice.states.getState(duwLuDevice.deviceClass.stateTypes.findByName("activeVentilationLevel").id) : null
+    readonly property State temperatureState: duwWpDevice ? duwWpDevice.states.getState(duwWpDevice.thingClass.stateTypes.findByName("temperature").id) : null
+    readonly property State targetTemperatureState: duwWpDevice ? duwWpDevice.states.getState(duwWpDevice.thingClass.stateTypes.findByName("targetTemperature").id) : null
+    readonly property State co2LevelState: duwLuDevice ? duwLuDevice.states.getState(duwLuDevice.thingClass.stateTypes.findByName("co2").id) : null
+    readonly property State ventilationModeState: duwLuDevice ? duwLuDevice.states.getState(duwLuDevice.thingClass.stateTypes.findByName("ventilationMode").id) : null
+    readonly property State ventilationLevelState: duwLuDevice ? duwLuDevice.states.getState(duwLuDevice.thingClass.stateTypes.findByName("activeVentilationLevel").id) : null
 
     function ventilationModeToSliderValue(ventilationMode) {
         switch (ventilationMode) {
@@ -97,7 +97,7 @@ Item {
         param["paramTypeId"] = root.ventilationModeState.stateTypeId
         param["value"] = root.uiModeToVentilationMode(uiModeIndex, sliderIndex)
         params.push(param)
-        engine.deviceManager.executeAction(root.duwLuDevice.id, root.ventilationModeState.stateTypeId, params)
+        engine.thingManager.executeAction(root.duwLuDevice.id, root.ventilationModeState.stateTypeId, params)
     }
 
     function setTargetTemp(targetTemp) {
@@ -112,12 +112,12 @@ Item {
         param["paramTypeId"] = root.targetTemperatureState.stateTypeId
         param["value"] = targetTemp
         params.push(param)
-        d.pendingCallId = engine.deviceManager.executeAction(root.duwWpDevice.id, root.targetTemperatureState.stateTypeId, params)
+        d.pendingCallId = engine.thingManager.executeAction(root.duwWpDevice.id, root.targetTemperatureState.stateTypeId, params)
         d.setTempPending = false;
     }
 
     Connections {
-        target: engine.deviceManager
+        target: engine.thingManager
         onExecuteActionReply: {
             print("executeActionReply:", commandId)
             if (commandId === d.pendingCallId) {
@@ -136,16 +136,16 @@ Item {
         property real queuedTargetTemp: 0
     }
 
-    DevicesProxy {
+    ThingsProxy {
         id: duwWpFilterModel
         engine: _engine
-        filterDeviceClassId: "e548f962-92db-4110-8279-10fbcde35f93"
+        filterThingClassId: "e548f962-92db-4110-8279-10fbcde35f93"
     }
 
-    DevicesProxy {
+    ThingsProxy {
         id: duwLuFilterModel
         engine: _engine
-        filterDeviceClassId: "0de8e21e-392a-4790-a78a-b1a7eaa7571b"
+        filterThingClassId: "0de8e21e-392a-4790-a78a-b1a7eaa7571b"
     }
 
     EmptyViewPlaceholder {
@@ -155,7 +155,7 @@ Item {
         imageSource: "qrc:/ui/images/radiator.svg"
         buttonVisible: false
         buttonText: qsTr("Set up now")
-        visible: duwWpFilterModel.count === 0 && !engine.deviceManager.fetchingData
+        visible: duwWpFilterModel.count === 0 && !engine.thingManager.fetchingData
     }
 
 
@@ -244,7 +244,7 @@ Item {
                     name: "qrc:/ui/images/magic.svg"
                     MouseArea {
                         anchors.fill: parent
-                        onClicked: pageStack.push("qrc:/ui/magic/DeviceRulesPage.qml", {device: root.duwWpDevice})
+                        onClicked: pageStack.push("qrc:/ui/magic/ThingRulesPage.qml", {thing: root.duwWpDevice})
                     }
                 }
                 Label {

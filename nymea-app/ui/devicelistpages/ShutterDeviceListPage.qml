@@ -30,7 +30,7 @@
 
 import QtQuick 2.9
 
-ClosablesDeviceListPage {
+ClosablesThingsListPage {
     title: qsTr("Shutters")
     iconBasename: "../images/shutter/shutter"
 }

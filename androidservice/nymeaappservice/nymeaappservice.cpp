@@ -42,7 +42,7 @@ NymeaAppService::NymeaAppService(int argc, char **argv):
         m_engines.insert(host->uuid(), engine);
 
 
-        QObject::connect(engine->thingManager(), &DeviceManager::thingStateChanged, [=](const QUuid &thingId, const QUuid &stateTypeId, const QVariant &value){
+        QObject::connect(engine->thingManager(), &ThingManager::thingStateChanged, [=](const QUuid &thingId, const QUuid &stateTypeId, const QVariant &value){
             QVariantMap params;
             params.insert("nymeaId", engine->jsonRpcClient()->currentHost()->uuid());
             params.insert("thingId", thingId);
@@ -51,7 +51,7 @@ NymeaAppService::NymeaAppService(int argc, char **argv):
             sendNotification("ThingStateChanged", params);
         });
 
-        connect(engine->thingManager(), &DeviceManager::fetchingDataChanged, [=]() {
+        connect(engine->thingManager(), &ThingManager::fetchingDataChanged, [=]() {
             qDebug() << "Fetching data changed";
             QVariantMap params;
             params.insert("nymeaId", engine->jsonRpcClient()->currentHost()->uuid());

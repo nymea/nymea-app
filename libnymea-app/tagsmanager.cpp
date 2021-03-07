@@ -72,7 +72,7 @@ int TagsManager::tagThing(const QString &thingId, const QString &tagId, const QS
 {
     QVariantMap params;
     QVariantMap tag;
-    tag.insert("deviceId", thingId);
+    tag.insert("thingId", thingId);
     tag.insert("appId", "nymea:app");
     tag.insert("tagId", tagId);
     tag.insert("value", value);
@@ -84,7 +84,7 @@ int TagsManager::untagThing(const QString &thingId, const QString &tagId)
 {
     QVariantMap params;
     QVariantMap tag;
-    tag.insert("deviceId", thingId);
+    tag.insert("thingId", thingId);
     tag.insert("appId", "nymea:app");
     tag.insert("tagId", tagId);
     params.insert("tag", tag);
@@ -133,12 +133,7 @@ void TagsManager::handleTagsNotification(const QVariantMap &params)
     } else if (notification == "Tags.TagRemoved") {
         for (int i = 0; i < m_tags->rowCount(); i++) {
             Tag* tag = m_tags->get(i);
-            QUuid thingId;
-            if (m_jsonClient->ensureServerVersion("5.0")) {
-                thingId = tagMap.value("thingId").toUuid();
-            } else {
-                thingId = tagMap.value("deviceId").toUuid();
-            }
+            QUuid thingId = tagMap.value("thingId").toUuid();
             QUuid ruleId = tagMap.value("ruleId").toUuid();
             QString tagId = tagMap.value("tagId").toString();
             if (thingId == tag->thingId() && ruleId == tag->ruleId() && tagId == tag->tagId()) {
@@ -149,12 +144,7 @@ void TagsManager::handleTagsNotification(const QVariantMap &params)
     } else if (notification == "Tags.TagValueChanged") {
         for (int i = 0; i < m_tags->rowCount(); i++) {
             Tag* tag = m_tags->get(i);
-            QUuid thingId;
-            if (m_jsonClient->ensureServerVersion("5.0")) {
-                thingId = tagMap.value("thingId").toUuid();
-            } else {
-                thingId = tagMap.value("deviceId").toUuid();
-            }
+            QUuid thingId = tagMap.value("thingId").toUuid();
             QUuid ruleId = tagMap.value("ruleId").toUuid();
             QString tagId = tagMap.value("tagId").toString();
             if (thingId == tag->thingId() && ruleId == tag->ruleId() && tagId == tag->tagId()) {
@@ -191,12 +181,7 @@ void TagsManager::removeTagReply(int commandId, const QVariantMap &params)
 
 Tag* TagsManager::unpackTag(const QVariantMap &tagMap)
 {
-    QString thingId;
-    if (m_jsonClient->ensureServerVersion("5.0")) {
-        thingId = tagMap.value("thingId").toString();
-    } else {
-        thingId = tagMap.value("deviceId").toString();
-    }
+    QString thingId = tagMap.value("thingId").toString();
     QString ruleId = tagMap.value("ruleId").toString();
     QString tagId = tagMap.value("tagId").toString();
     QString value = tagMap.value("value").toString();
@@ -208,7 +193,7 @@ Tag* TagsManager::unpackTag(const QVariantMap &tagMap)
         tag = new Tag(tagId, value);
         tag->setRuleId(ruleId);
     } else {
-        qWarning() << "Invalid tag. Neither deviceId nor ruleId are set. Skipping...";
+        qWarning() << "Invalid tag. Neither thingId nor ruleId are set. Skipping...";
         tag->deleteLater();
         return nullptr;
     }

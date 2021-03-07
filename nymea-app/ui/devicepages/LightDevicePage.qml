@@ -36,24 +36,19 @@ import Nymea 1.0
 import QtGraphicalEffects 1.0
 import "../components"
 
-DevicePageBase {
+ThingPageBase {
     id: root
 
-    readonly property var powerStateType: deviceClass.stateTypes.findByName("power")
-    readonly property var powerState: device.states.getState(powerStateType.id)
-    readonly property var powerActionType: deviceClass.actionTypes.findByName("power");
+    readonly property State powerState: thing.stateByName("power")
 
-    readonly property var brightnessStateType: deviceClass.stateTypes.findByName("brightness")
-    readonly property var brightnessState: brightnessStateType ? device.states.getState(brightnessStateType.id) : null
-    readonly property var brightnessActionType: deviceClass.actionTypes.findByName("brightness");
+    readonly property State brightnessState: thing.stateByName("brightness")
+    readonly property ActionType brightnessActionType: thingClass.actionTypes.findByName("brightness");
 
-    readonly property var colorStateType: deviceClass.stateTypes.findByName("color")
-    readonly property var colorState: colorStateType ? device.states.getState(colorStateType.id) : null
-    readonly property var colorActionType: deviceClass.actionTypes.findByName("color")
+    readonly property State colorState: thing.stateByName("color")
 
-    readonly property var ctStateType: deviceClass.stateTypes.findByName("colorTemperature")
-    readonly property var ctState: ctStateType ? device.states.getState(ctStateType.id) : null
-    readonly property var ctActionType: deviceClass.actionTypes.findByName("colorTemperature")
+    readonly property StateType ctStateType: thingClass.stateTypes.findByName("colorTemperature")
+    readonly property State ctState: thing.stateByName("colorTemperature")
+    readonly property ActionType ctActionType: thingClass.actionTypes.findByName("colorTemperature")
 
     readonly property int statesCount: (powerState !== null ? 1 : 0) +
                                        (brightnessState !== null ? 1 : 0) +

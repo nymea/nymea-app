@@ -28,27 +28,27 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef DEVICESPROXY_H
-#define DEVICESPROXY_H
+#ifndef THINGSPROXY_H
+#define THINGSPROXY_H
 
 #include <QUuid>
 #include <QObject>
 #include <QSortFilterProxyModel>
 
-#include "devices.h"
+#include "things.h"
 
 class Engine;
 
-class DevicesProxy : public QSortFilterProxyModel
+class ThingsProxy : public QSortFilterProxyModel
 {
     Q_OBJECT
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
     Q_PROPERTY(Engine* engine READ engine WRITE setEngine NOTIFY engineChanged)
-    Q_PROPERTY(DevicesProxy *parentProxy READ parentProxy WRITE setParentProxy NOTIFY parentProxyChanged)
+    Q_PROPERTY(ThingsProxy *parentProxy READ parentProxy WRITE setParentProxy NOTIFY parentProxyChanged)
     Q_PROPERTY(QString filterTagId READ filterTagId WRITE setFilterTagId NOTIFY filterTagIdChanged)
     Q_PROPERTY(QString filterTagValue READ filterTagValue WRITE setFilterTagValue NOTIFY filterTagValueChanged)
-    Q_PROPERTY(QString filterDeviceClassId READ filterDeviceClassId WRITE setFilterDeviceClassId NOTIFY filterDeviceClassIdChanged)
-    Q_PROPERTY(QString filterDeviceId READ filterDeviceId WRITE setFilterDeviceId NOTIFY filterDeviceIdChanged)
+    Q_PROPERTY(QString filterThingClassId READ filterThingClassId WRITE setFilterThingClassId NOTIFY filterThingClassIdChanged)
+    Q_PROPERTY(QString filterThingId READ filterThingId WRITE setFilterThingId NOTIFY filterThingIdChanged)
     Q_PROPERTY(QStringList shownInterfaces READ shownInterfaces WRITE setShownInterfaces NOTIFY shownInterfacesChanged)
     Q_PROPERTY(QStringList hiddenInterfaces READ hiddenInterfaces WRITE setHiddenInterfaces NOTIFY hiddenInterfacesChanged)
     Q_PROPERTY(QString nameFilter READ nameFilter WRITE setNameFilter NOTIFY nameFilterChanged)
@@ -76,13 +76,13 @@ class DevicesProxy : public QSortFilterProxyModel
     Q_PROPERTY(bool groupByInterface READ groupByInterface WRITE setGroupByInterface NOTIFY groupByInterfaceChanged)
 
 public:
-    explicit DevicesProxy(QObject *parent = nullptr);
+    explicit ThingsProxy(QObject *parent = nullptr);
 
     Engine *engine() const;
     void setEngine(Engine *engine);
 
-    DevicesProxy *parentProxy() const;
-    void setParentProxy(DevicesProxy *parentProxy);
+    ThingsProxy *parentProxy() const;
+    void setParentProxy(ThingsProxy *parentProxy);
 
     QString filterTagId() const;
     void setFilterTagId(const QString &filterTag);
@@ -90,11 +90,11 @@ public:
     QString filterTagValue() const;
     void setFilterTagValue(const QString &tagValue);
 
-    QString filterDeviceClassId() const;
-    void setFilterDeviceClassId(const QString &filterDeviceClassId);
+    QString filterThingClassId() const;
+    void setFilterThingClassId(const QString &filterThingClassId);
 
-    QString filterDeviceId() const;
-    void setFilterDeviceId(const QString &filterDeviceId);
+    QString filterThingId() const;
+    void setFilterThingId(const QString &filterThingId);
 
     QStringList shownInterfaces() const;
     void setShownInterfaces(const QStringList &shownInterfaces);
@@ -141,17 +141,16 @@ public:
     bool groupByInterface() const;
     void setGroupByInterface(bool groupByInterface);
 
-    Q_INVOKABLE Device *get(int index) const;
-    Q_INVOKABLE Device *getDevice(const QUuid &deviceId) const;
-    Q_INVOKABLE Device *getThing(const QUuid &thingId) const;
+    Q_INVOKABLE Thing *get(int index) const;
+    Q_INVOKABLE Thing *getThing(const QUuid &thingId) const;
 
 signals:
     void engineChanged();
     void parentProxyChanged();
     void filterTagIdChanged();
     void filterTagValueChanged();
-    void filterDeviceClassIdChanged();
-    void filterDeviceIdChanged();
+    void filterThingClassIdChanged();
+    void filterThingIdChanged();
     void shownInterfacesChanged();
     void hiddenInterfacesChanged();
     void nameFilterChanged();
@@ -170,14 +169,14 @@ signals:
     void countChanged();
 
 private:
-    Device *getInternal(int source_index) const;
+    Thing *getInternal(int source_index) const;
 
     Engine *m_engine = nullptr;
-    DevicesProxy *m_parentProxy = nullptr;
+    ThingsProxy *m_parentProxy = nullptr;
     QString m_filterTagId;
     QString m_filterTagValue;
-    QString m_filterDeviceClassId;
-    QString m_filterDeviceId;
+    QString m_filterThingClassId;
+    QString m_filterThingId;
     QStringList m_shownInterfaces;
     QStringList m_hiddenInterfaces;
     QString m_nameFilter;
@@ -203,4 +202,4 @@ protected:
     bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const override;
 };
 
-#endif // DEVICESPROXY_H
+#endif // THINGSPROXY_H

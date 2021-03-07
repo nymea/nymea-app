@@ -47,7 +47,7 @@ ApplicationWindow {
     ThingsProxy {
         id: thingProxy
         engine: _engine
-        filterDeviceId: controlledThingId
+        filterThingId: controlledThingId
     }
 
     property Thing controlledThing: engine.thingManager.fetchingData ? null : engine.thingManager.things.getThing(controlledThingId)

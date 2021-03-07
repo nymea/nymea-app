@@ -28,26 +28,26 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include "deviceclassesproxy.h"
+#include "thingclassesproxy.h"
 
 #include <QDebug>
 
-DeviceClassesProxy::DeviceClassesProxy(QObject *parent) :
+ThingClassesProxy::ThingClassesProxy(QObject *parent) :
     QSortFilterProxyModel(parent)
 {
-    setSortRole(DeviceClasses::RoleDisplayName);
+    setSortRole(ThingClasses::RoleDisplayName);
 }
 
-Engine *DeviceClassesProxy::engine() const
+Engine *ThingClassesProxy::engine() const
 {
     return m_engine;
 }
 
-void DeviceClassesProxy::setEngine(Engine *engine)
+void ThingClassesProxy::setEngine(Engine *engine)
 {
     if (m_engine != engine) {
         m_engine = engine;
-        setSourceModel(engine->deviceManager()->deviceClasses());
+        setSourceModel(engine->thingManager()->thingClasses());
         emit engineChanged();
         emit countChanged();
         sort(0);
@@ -55,12 +55,12 @@ void DeviceClassesProxy::setEngine(Engine *engine)
 }
 
 
-QString DeviceClassesProxy::filterInterface() const
+QString ThingClassesProxy::filterInterface() const
 {
     return m_filterInterface;
 }
 
-void DeviceClassesProxy::setFilterInterface(const QString &filterInterface)
+void ThingClassesProxy::setFilterInterface(const QString &filterInterface)
 {
     if (m_filterInterface != filterInterface) {
         m_filterInterface = filterInterface;
@@ -70,12 +70,12 @@ void DeviceClassesProxy::setFilterInterface(const QString &filterInterface)
     }
 }
 
-QString DeviceClassesProxy::filterDisplayName() const
+QString ThingClassesProxy::filterDisplayName() const
 {
     return m_filterDisplayName;
 }
 
-void DeviceClassesProxy::setFilterDisplayName(const QString &filter)
+void ThingClassesProxy::setFilterDisplayName(const QString &filter)
 {
     if (m_filterDisplayName != filter) {
         m_filterDisplayName = filter;
@@ -85,12 +85,12 @@ void DeviceClassesProxy::setFilterDisplayName(const QString &filter)
     }
 }
 
-QUuid DeviceClassesProxy::filterVendorId() const
+QUuid ThingClassesProxy::filterVendorId() const
 {
     return m_filterVendorId;
 }
 
-void DeviceClassesProxy::setFilterVendorId(const QUuid &filterVendorId)
+void ThingClassesProxy::setFilterVendorId(const QUuid &filterVendorId)
 {
     if (m_filterVendorId != filterVendorId) {
         m_filterVendorId = filterVendorId;
@@ -100,12 +100,12 @@ void DeviceClassesProxy::setFilterVendorId(const QUuid &filterVendorId)
     }
 }
 
-QString DeviceClassesProxy::filterVendorName() const
+QString ThingClassesProxy::filterVendorName() const
 {
     return m_filterVendorName;
 }
 
-void DeviceClassesProxy::setFilterVendorName(const QString &filterVendorName)
+void ThingClassesProxy::setFilterVendorName(const QString &filterVendorName)
 {
     if (m_filterVendorName != filterVendorName) {
         m_filterVendorName = filterVendorName;
@@ -115,12 +115,12 @@ void DeviceClassesProxy::setFilterVendorName(const QString &filterVendorName)
     }
 }
 
-QString DeviceClassesProxy::filterString() const
+QString ThingClassesProxy::filterString() const
 {
     return m_filterString;
 }
 
-void DeviceClassesProxy::setFilterString(const QString &filterString)
+void ThingClassesProxy::setFilterString(const QString &filterString)
 {
     if (m_filterString != filterString) {
         m_filterString = filterString;
@@ -130,12 +130,12 @@ void DeviceClassesProxy::setFilterString(const QString &filterString)
     }
 }
 
-bool DeviceClassesProxy::groupByInterface() const
+bool ThingClassesProxy::groupByInterface() const
 {
     return m_groupByInterface;
 }
 
-void DeviceClassesProxy::setGroupByInterface(bool groupByInterface)
+void ThingClassesProxy::setGroupByInterface(bool groupByInterface)
 {
     if (m_groupByInterface != groupByInterface) {
         m_groupByInterface = groupByInterface;
@@ -144,13 +144,13 @@ void DeviceClassesProxy::setGroupByInterface(bool groupByInterface)
     }
 }
 
-DeviceClass *DeviceClassesProxy::get(int index) const
+ThingClass *ThingClassesProxy::get(int index) const
 {
-    return m_engine->deviceManager()->deviceClasses()->get(mapToSource(this->index(index, 0)).row());
+    return m_engine->thingManager()->thingClasses()->get(mapToSource(this->index(index, 0)).row());
 }
 
 
-void DeviceClassesProxy::resetFilter()
+void ThingClassesProxy::resetFilter()
 {
     m_filterVendorId = QUuid();
     m_filterInterface.clear();
@@ -160,31 +160,31 @@ void DeviceClassesProxy::resetFilter()
     emit countChanged();
 }
 
-bool DeviceClassesProxy::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const
+bool ThingClassesProxy::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const
 {
     Q_UNUSED(sourceParent)
 
-    DeviceClass *deviceClass = m_engine->deviceManager()->deviceClasses()->get(sourceRow);
+    ThingClass *thingClass = m_engine->thingManager()->thingClasses()->get(sourceRow);
 
-    // filter auto devices
-    if (deviceClass->createMethods().count() == 1 && deviceClass->createMethods().contains("CreateMethodAuto"))
+    // filter auto things
+    if (thingClass->createMethods().count() == 1 && thingClass->createMethods().contains("CreateMethodAuto"))
         return false;
 
-    if (!m_filterVendorId.isNull() && deviceClass->vendorId() != m_filterVendorId)
+    if (!m_filterVendorId.isNull() && thingClass->vendorId() != m_filterVendorId)
         return false;
 
-    if (!m_filterInterface.isEmpty() && !deviceClass->interfaces().contains(m_filterInterface)) {
+    if (!m_filterInterface.isEmpty() && !thingClass->interfaces().contains(m_filterInterface)) {
         return false;
     }
 
-    if (!m_filterDisplayName.isEmpty() && !deviceClass->displayName().toLower().contains(m_filterDisplayName.toLower())) {
+    if (!m_filterDisplayName.isEmpty() && !thingClass->displayName().toLower().contains(m_filterDisplayName.toLower())) {
         return false;
     }
 
     if (!m_filterVendorName.isEmpty()) {
-        Vendor *vendor = m_engine->deviceManager()->vendors()->getVendor(deviceClass->vendorId());
+        Vendor *vendor = m_engine->thingManager()->vendors()->getVendor(thingClass->vendorId());
         if (!vendor) {
-            qWarning() << "Invalid vendor for deviceClass:" << deviceClass->name() << deviceClass->vendorId();
+            qWarning() << "Invalid vendor for thingClass:" << thingClass->name() << thingClass->vendorId();
             return false;
         }
         if (!vendor->displayName().toLower().contains(m_filterVendorName.toLower())) {
@@ -193,12 +193,12 @@ bool DeviceClassesProxy::filterAcceptsRow(int sourceRow, const QModelIndex &sour
     }
 
     if (!m_filterString.isEmpty()) {
-        Vendor *vendor = m_engine->deviceManager()->vendors()->getVendor(deviceClass->vendorId());
+        Vendor *vendor = m_engine->thingManager()->vendors()->getVendor(thingClass->vendorId());
         if (!vendor) {
-            qWarning() << "Invalid vendor for deviceClass:" << deviceClass->name() << deviceClass->vendorId();
+            qWarning() << "Invalid vendor for thingClass:" << thingClass->name() << thingClass->vendorId();
             return false;
         }
-        if (!vendor->displayName().toLower().contains(m_filterString.toLower()) && !deviceClass->displayName().toLower().contains(m_filterString.toLower())) {
+        if (!vendor->displayName().toLower().contains(m_filterString.toLower()) && !thingClass->displayName().toLower().contains(m_filterString.toLower())) {
             return false;
         }
     }
@@ -206,17 +206,17 @@ bool DeviceClassesProxy::filterAcceptsRow(int sourceRow, const QModelIndex &sour
     return true;
 }
 
-bool DeviceClassesProxy::lessThan(const QModelIndex &left, const QModelIndex &right) const
+bool ThingClassesProxy::lessThan(const QModelIndex &left, const QModelIndex &right) const
 {
     if (m_groupByInterface) {
-        QString leftBaseInterface = sourceModel()->data(left, DeviceClasses::RoleBaseInterface).toString();
-        QString rightBaseInterface = sourceModel()->data(right, DeviceClasses::RoleBaseInterface).toString();
+        QString leftBaseInterface = sourceModel()->data(left, ThingClasses::RoleBaseInterface).toString();
+        QString rightBaseInterface = sourceModel()->data(right, ThingClasses::RoleBaseInterface).toString();
         if (leftBaseInterface != rightBaseInterface) {
             return QString::localeAwareCompare(leftBaseInterface, rightBaseInterface) < 0;
         }
     }
-    QString leftName = sourceModel()->data(left, DeviceClasses::RoleDisplayName).toString();
-    QString rightName = sourceModel()->data(right, DeviceClasses::RoleDisplayName).toString();
+    QString leftName = sourceModel()->data(left, ThingClasses::RoleDisplayName).toString();
+    QString rightName = sourceModel()->data(right, ThingClasses::RoleDisplayName).toString();
 
     return QString::localeAwareCompare(leftName, rightName) < 0;
 }

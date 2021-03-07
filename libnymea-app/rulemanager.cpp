@@ -31,7 +31,6 @@
 #include "rulemanager.h"
 
 #include "jsonrpc/jsonrpcclient.h"
-#include "jsonrpc/jsontypes.h"
 #include "types/rule.h"
 #include "types/eventdescriptor.h"
 #include "types/eventdescriptors.h"
@@ -50,6 +49,7 @@
 #include "types/calendaritem.h"
 
 #include <QMetaEnum>
+#include <QJsonDocument>
 
 RuleManager::RuleManager(JsonRpcClient* jsonClient, QObject *parent) :
     JsonHandler(parent),
@@ -246,11 +246,7 @@ void RuleManager::parseEventDescriptors(const QVariantList &eventDescriptorList,
 {
     foreach (const QVariant &eventDescriptorVariant, eventDescriptorList) {
         EventDescriptor *eventDescriptor = new EventDescriptor(rule);
-        if (m_jsonClient->ensureServerVersion("5.0")) {
-            eventDescriptor->setThingId(eventDescriptorVariant.toMap().value("thingId").toString());
-        } else {
-            eventDescriptor->setThingId(eventDescriptorVariant.toMap().value("deviceId").toString());
-        }
+        eventDescriptor->setThingId(eventDescriptorVariant.toMap().value("thingId").toString());
         eventDescriptor->setEventTypeId(eventDescriptorVariant.toMap().value("eventTypeId").toString());
         eventDescriptor->setInterfaceName(eventDescriptorVariant.toMap().value("interface").toString());
         eventDescriptor->setInterfaceEvent(eventDescriptorVariant.toMap().value("interfaceEvent").toString());
@@ -263,7 +259,7 @@ void RuleManager::parseEventDescriptors(const QVariantList &eventDescriptorList,
             paramDescriptor->setOperatorType((ParamDescriptor::ValueOperator)operatorEnum.keyToValue(paramDescriptorVariant.toMap().value("operator").toString().toLocal8Bit()));
             eventDescriptor->paramDescriptors()->addParamDescriptor(paramDescriptor);
         }
-        //        qDebug() << "Adding eventdescriptor" << eventDescriptor->deviceId() << eventDescriptor->eventTypeId();
+        //        qDebug() << "Adding eventdescriptor" << eventDescriptor->thingId() << eventDescriptor->eventTypeId();
         rule->eventDescriptors()->addEventDescriptor(eventDescriptor);
     }
 }
@@ -280,8 +276,8 @@ StateEvaluator *RuleManager::parseStateEvaluator(const QVariantMap &stateEvaluat
     StateDescriptor::ValueOperator op = (StateDescriptor::ValueOperator)operatorEnum.keyToValue(sdMap.value("operator").toByteArray());
 
     StateDescriptor *sd = nullptr;
-    if (sdMap.contains("deviceId") && sdMap.contains("stateTypeId")) {
-        sd = new StateDescriptor(sdMap.value("deviceId").toUuid(), sdMap.value("stateTypeId").toUuid(), op, sdMap.value("value"), stateEvaluator);
+    if (sdMap.contains("thingId") && sdMap.contains("stateTypeId")) {
+        sd = new StateDescriptor(sdMap.value("thingId").toUuid(), sdMap.value("stateTypeId").toUuid(), op, sdMap.value("value"), stateEvaluator);
     } else {
         sd = new StateDescriptor(sdMap.value("interface").toString(), sdMap.value("interfaceState").toString(), op, sdMap.value("value"), stateEvaluator);
     }
@@ -315,11 +311,11 @@ void RuleManager::parseRuleExitActions(const QVariantList &ruleActions, Rule *ru
 RuleAction *RuleManager::parseRuleAction(const QVariantMap &ruleAction)
 {
     RuleAction *ret = new RuleAction();
-    if (ruleAction.contains("deviceId") && ruleAction.contains("actionTypeId")) {
-        ret->setDeviceId(ruleAction.value("deviceId").toUuid());
+    if (ruleAction.contains("thingId") && ruleAction.contains("actionTypeId")) {
+        ret->setThingId(ruleAction.value("thingId").toUuid());
         ret->setActionTypeId(ruleAction.value("actionTypeId").toUuid());
-    } else if (ruleAction.contains("deviceId") && ruleAction.contains("browserItemId")) {
-        ret->setDeviceId(ruleAction.value("deviceId").toUuid());
+    } else if (ruleAction.contains("thingId") && ruleAction.contains("browserItemId")) {
+        ret->setThingId(ruleAction.value("thingId").toUuid());
         ret->setBrowserItemId(ruleAction.value("browserItemId").toString());
     } else {
         ret->setInterfaceName(ruleAction.value("interface").toString());
@@ -332,7 +328,7 @@ RuleAction *RuleManager::parseRuleAction(const QVariantMap &ruleAction)
         param->setValue(ruleActionParamVariant.toMap().value("value"));
         param->setEventTypeId(ruleActionParamVariant.toMap().value("eventTypeId").toString());
         param->setEventParamTypeId(ruleActionParamVariant.toMap().value("eventParamTypeId").toString());
-        param->setStateDeviceId(ruleActionParamVariant.toMap().value("stateDeviceId").toString());
+        param->setStateThingId(ruleActionParamVariant.toMap().value("stateThingId").toString());
         param->setStateTypeId(ruleActionParamVariant.toMap().value("stateTypeId").toString());
         ret->ruleActionParams()->addRuleActionParam(param);
     }
@@ -415,11 +411,7 @@ QVariantList RuleManager::packEventDescriptors(EventDescriptors *eventDescriptor
         EventDescriptor* eventDescriptor = eventDescriptors->get(i);
         if (!eventDescriptor->thingId().isNull() && !eventDescriptor->eventTypeId().isNull()) {
             eventDescriptorMap.insert("eventTypeId", eventDescriptor->eventTypeId());
-            if (m_jsonClient->ensureServerVersion("5.0")) {
-                eventDescriptorMap.insert("thingId", eventDescriptor->thingId());
-            } else {
-                eventDescriptorMap.insert("deviceId", eventDescriptor->thingId());
-            }
+            eventDescriptorMap.insert("thingId", eventDescriptor->thingId());
         } else {
             eventDescriptorMap.insert("interface", eventDescriptor->interfaceName());
             eventDescriptorMap.insert("interfaceEvent", eventDescriptor->interfaceEvent());
@@ -512,11 +504,11 @@ QVariantList RuleManager::packRuleActions(RuleActions *ruleActions)
     for (int i = 0; i < ruleActions->rowCount(); i++) {
         QVariantMap ruleAction;
         RuleAction *ra = ruleActions->get(i);
-        if (!ra->actionTypeId().isNull() && !ra->deviceId().isNull()) {
-            ruleAction.insert("deviceId", ra->deviceId());
+        if (!ra->actionTypeId().isNull() && !ra->thingId().isNull()) {
+            ruleAction.insert("thingId", ra->thingId());
             ruleAction.insert("actionTypeId", ra->actionTypeId());
-        } else if (!ra->deviceId().isNull() && !ra->browserItemId().isEmpty()) {
-            ruleAction.insert("deviceId", ra->deviceId());
+        } else if (!ra->thingId().isNull() && !ra->browserItemId().isEmpty()) {
+            ruleAction.insert("thingId", ra->thingId());
             ruleAction.insert("browserItemId", ra->browserItemId());
         } else {
             ruleAction.insert("interface", ra->interfaceName());
@@ -538,7 +530,7 @@ QVariantList RuleManager::packRuleActions(RuleActions *ruleActions)
                     ruleActionParam.insert("eventTypeId", rap->eventTypeId());
                     ruleActionParam.insert("eventParamTypeId", rap->eventParamTypeId());
                 } else {
-                    ruleActionParam.insert("stateDeviceId", rap->stateDeviceId());
+                    ruleActionParam.insert("stateThingId", rap->stateThingId());
                     ruleActionParam.insert("stateTypeId", rap->stateTypeId());
                 }
                 ruleActionParams.append(ruleActionParam);
@@ -557,8 +549,8 @@ QVariantMap RuleManager::packStateEvaluator(StateEvaluator *stateEvaluator)
     QMetaEnum stateOperatorEnum = QMetaEnum::fromType<StateEvaluator::StateOperator>();
     ret.insert("operator", stateOperatorEnum.valueToKey(stateEvaluator->stateOperator()));
     QVariantMap stateDescriptor;
-    if (!stateEvaluator->stateDescriptor()->deviceId().isNull() && !stateEvaluator->stateDescriptor()->stateTypeId().isNull()) {
-        stateDescriptor.insert("deviceId", stateEvaluator->stateDescriptor()->deviceId());
+    if (!stateEvaluator->stateDescriptor()->thingId().isNull() && !stateEvaluator->stateDescriptor()->stateTypeId().isNull()) {
+        stateDescriptor.insert("thingId", stateEvaluator->stateDescriptor()->thingId());
         stateDescriptor.insert("stateTypeId", stateEvaluator->stateDescriptor()->stateTypeId());
     } else {
         stateDescriptor.insert("interface", stateEvaluator->stateDescriptor()->interfaceName());

@@ -28,93 +28,93 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include "deviceclasses.h"
+#include "thingclasses.h"
 
 #include <QDebug>
 
-DeviceClasses::DeviceClasses(QObject *parent) :
+ThingClasses::ThingClasses(QObject *parent) :
     QAbstractListModel(parent)
 {
 }
 
-QList<DeviceClass *> DeviceClasses::deviceClasses()
+QList<ThingClass *> ThingClasses::thingClasses()
 {
-    return m_deviceClasses;
+    return m_thingClasses;
 }
 
-int DeviceClasses::rowCount(const QModelIndex &parent) const
+int ThingClasses::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_deviceClasses.count();
+    return m_thingClasses.count();
 }
 
-QVariant DeviceClasses::data(const QModelIndex &index, int role) const
+QVariant ThingClasses::data(const QModelIndex &index, int role) const
 {
-    if (index.row() < 0 || index.row() >= m_deviceClasses.count())
+    if (index.row() < 0 || index.row() >= m_thingClasses.count())
         return QVariant();
 
-    DeviceClass *deviceClass = m_deviceClasses.at(index.row());
+    ThingClass *thingClass = m_thingClasses.at(index.row());
     switch (role) {
     case RoleId:
-        return deviceClass->id().toString();
+        return thingClass->id().toString();
     case RoleName:
-        return deviceClass->name();
+        return thingClass->name();
     case RoleDisplayName:
-        return deviceClass->displayName();
+        return thingClass->displayName();
     case RolePluginId:
-        return deviceClass->pluginId().toString();
+        return thingClass->pluginId().toString();
     case RoleVendorId:
-        return deviceClass->vendorId().toString();
+        return thingClass->vendorId().toString();
     case RoleInterfaces:
-        return deviceClass->interfaces();
+        return thingClass->interfaces();
     case RoleBaseInterface:
-        return deviceClass->baseInterface();
+        return thingClass->baseInterface();
     }
     return QVariant();
 }
 
-int DeviceClasses::count() const
+int ThingClasses::count() const
 {
-    return m_deviceClasses.count();
+    return m_thingClasses.count();
 }
 
-DeviceClass *DeviceClasses::get(int index) const
+ThingClass *ThingClasses::get(int index) const
 {
-    if (index < 0 || index >= m_deviceClasses.count()) {
+    if (index < 0 || index >= m_thingClasses.count()) {
         return nullptr;
     }
-    return m_deviceClasses.at(index);
+    return m_thingClasses.at(index);
 }
 
-DeviceClass *DeviceClasses::getDeviceClass(QUuid deviceClassId) const
+ThingClass *ThingClasses::getThingClass(QUuid thingClassId) const
 {
-    foreach (DeviceClass *deviceClass, m_deviceClasses) {
-        if (deviceClass->id() == deviceClassId) {
-            return deviceClass;
+    foreach (ThingClass *thingClass, m_thingClasses) {
+        if (thingClass->id() == thingClassId) {
+            return thingClass;
         }
     }
     return nullptr;
 }
 
-void DeviceClasses::addDeviceClass(DeviceClass *deviceClass)
+void ThingClasses::addThingClass(ThingClass *thingClass)
 {
-    beginInsertRows(QModelIndex(), m_deviceClasses.count(), m_deviceClasses.count());
-    //qDebug() << "DeviceClasses: loaded deviceClass" << deviceClass->name();
-    m_deviceClasses.append(deviceClass);
+    thingClass->setParent(this);
+    beginInsertRows(QModelIndex(), m_thingClasses.count(), m_thingClasses.count());
+    m_thingClasses.append(thingClass);
     endInsertRows();
     emit countChanged();
 }
 
-void DeviceClasses::clearModel()
+void ThingClasses::clearModel()
 {
     beginResetModel();
-    qDeleteAll(m_deviceClasses);
-    m_deviceClasses.clear();
+    qDeleteAll(m_thingClasses);
+    m_thingClasses.clear();
     endResetModel();
     emit countChanged();
 }
 
-QHash<int, QByteArray> DeviceClasses::roleNames() const
+QHash<int, QByteArray> ThingClasses::roleNames() const
 {
     QHash<int, QByteArray> roles;
     roles[RoleId] = "id";

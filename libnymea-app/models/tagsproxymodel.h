@@ -44,7 +44,6 @@ class TagsProxyModel : public QSortFilterProxyModel
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
     Q_PROPERTY(QString filterTagId READ filterTagId WRITE setFilterTagId NOTIFY filterTagIdChanged)
     Q_PROPERTY(QUuid filterThingId READ filterThingId WRITE setFilterThingId NOTIFY filterThingIdChanged)
-    Q_PROPERTY(QUuid filterDeviceId READ filterThingId WRITE setFilterThingId NOTIFY filterThingIdChanged)
     Q_PROPERTY(QUuid filterRuleId READ filterRuleId WRITE setFilterRuleId NOTIFY filterRuleIdChanged)
     Q_PROPERTY(QString filterValue READ filterValue WRITE setFilterValue NOTIFY filterValueChanged)
 

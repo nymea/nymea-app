@@ -106,7 +106,6 @@ Page {
             Pane {
                 Layout.fillWidth: true
                 Material.elevation: layout.isGrid ? 1 : 0
-                visible: engine.jsonRpcClient.ensureServerVersion("1.9")
 
                 padding: 0
                 NymeaSwipeDelegate {

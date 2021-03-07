@@ -262,8 +262,8 @@ QDebug operator <<(QDebug &dbg, Rule *rule)
     for (int i = 0; i < rule->actions()->rowCount(); i++) {
         RuleAction *ra = rule->actions()->get(i);
         dbg << " " << i << ":";
-        if (!ra->deviceId().isNull() && !ra->actionTypeId().isNull()) {
-            dbg << "Device ID:" << ra->deviceId() << "Action Type ID:" << ra->actionTypeId() << endl;
+        if (!ra->thingId().isNull() && !ra->actionTypeId().isNull()) {
+            dbg << "Thing ID:" << ra->thingId() << "Action Type ID:" << ra->actionTypeId() << endl;
         } else {
             dbg << "Interface Name:" << ra->interfaceName() << "Action Name:" << ra->interfaceAction() << endl;
         }
@@ -283,8 +283,8 @@ QDebug operator <<(QDebug &dbg, Rule *rule)
     for (int i = 0; i < rule->exitActions()->rowCount(); i++) {
         RuleAction *ra = rule->exitActions()->get(i);
         dbg << " " << i << ":";
-        if (!ra->deviceId().isNull() && !ra->actionTypeId().isNull()) {
-            dbg << "Device ID:" << ra->deviceId() << "Action Type ID:" << ra->actionTypeId() << endl;;
+        if (!ra->thingId().isNull() && !ra->actionTypeId().isNull()) {
+            dbg << "Thing ID:" << ra->thingId() << "Action Type ID:" << ra->actionTypeId() << endl;;
         } else {
             dbg << "Interface Name:" << ra->interfaceName() << "Action Name:" << ra->interfaceAction() << endl;;
         }
@@ -305,8 +305,8 @@ QDebug printStateEvaluator(QDebug &dbg, StateEvaluator *stateEvaluator, int inde
     if (stateEvaluator->stateDescriptor()) {
         for (int i = 0; i < indentLevel; i++) { dbg << " "; }
         dbg << "State Descriptor:";
-        if (!stateEvaluator->stateDescriptor()->deviceId().isNull() && !stateEvaluator->stateDescriptor()->stateTypeId().isNull()) {
-            dbg << "Device ID:" << stateEvaluator->stateDescriptor()->deviceId().toString() << "State Type ID:" << stateEvaluator->stateDescriptor()->stateTypeId().toString();
+        if (!stateEvaluator->stateDescriptor()->thingId().isNull() && !stateEvaluator->stateDescriptor()->stateTypeId().isNull()) {
+            dbg << "Thing ID:" << stateEvaluator->stateDescriptor()->thingId().toString() << "State Type ID:" << stateEvaluator->stateDescriptor()->stateTypeId().toString();
         } else {
             dbg << "Interface name:" << stateEvaluator->stateDescriptor()->interfaceName() << "State Name:" << stateEvaluator->stateDescriptor()->interfaceState();
         }

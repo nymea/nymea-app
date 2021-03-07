@@ -35,12 +35,11 @@ import QtQuick.Controls.Material 2.1
 import Nymea 1.0
 import "../components"
 
-DevicePageBase {
+ThingPageBase {
     id: root
 
-    readonly property var powerStateType: deviceClass.stateTypes.findByName("power")
-    readonly property var powerState: device.states.getState(powerStateType.id)
-    readonly property var powerActionType: deviceClass.actionTypes.findByName("power");
+    readonly property State powerState: thing.stateByName("power")
+    readonly property StateType powerActionType: thing.thingClass.actionTypes.findByName("power");
 
     GridLayout {
         anchors.fill: parent
@@ -96,7 +95,7 @@ DevicePageBase {
                     param["paramTypeId"] = root.powerActionType.paramTypes.get(0).id;
                     param["value"] = !root.powerState.value;
                     params.push(param)
-                    engine.deviceManager.executeAction(root.device.id, root.powerStateType.id, params);
+                    engine.thingManager.executeAction(root.thing.id, root.powerActionType.id, params);
                 }
             }
         }

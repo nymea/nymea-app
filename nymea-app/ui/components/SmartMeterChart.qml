@@ -99,7 +99,7 @@ ChartView {
 
         onClicked: {
             print("clicked slice", slice, d.sliceMap[slice], meters.get(d.sliceMap[slice]))
-            pageStack.push("../devicepages/SmartMeterDevicePage.qml", {device: meters.get(d.sliceMap[slice])})
+            pageStack.push("../devicepages/SmartMeterDevicePage.qml", {thing: meters.get(d.sliceMap[slice])})
         }
     }
 

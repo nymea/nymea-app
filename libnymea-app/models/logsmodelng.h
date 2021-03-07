@@ -49,7 +49,6 @@ class LogsModelNg : public QAbstractListModel, public QQmlParserStatus
     Q_PROPERTY(bool live READ live WRITE setLive NOTIFY liveChanged)
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
     Q_PROPERTY(QUuid thingId READ thingId WRITE setThingId NOTIFY thingIdChanged)
-    Q_PROPERTY(QUuid deviceId READ thingId WRITE setThingId NOTIFY thingIdChanged)
     Q_PROPERTY(QStringList typeIds READ typeIds WRITE setTypeIds NOTIFY typeIdsChanged)
     Q_PROPERTY(QDateTime startTime READ startTime WRITE setStartTime NOTIFY startTimeChanged)
     Q_PROPERTY(QDateTime endTime READ endTime WRITE setEndTime NOTIFY endTimeChanged)
@@ -64,7 +63,6 @@ public:
         RoleTimestamp,
         RoleValue,
         RoleThingId,
-        RoleDeviceId, // < JSONRPC 5.0
         RoleTypeId,
         RoleSource,
         RoleLoggingEventType

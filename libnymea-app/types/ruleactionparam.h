@@ -43,7 +43,7 @@ class RuleActionParam : public Param
     Q_PROPERTY(QString paramName READ paramName WRITE setParamName NOTIFY paramNameChanged)
     Q_PROPERTY(QString eventTypeId READ eventTypeId WRITE setEventTypeId NOTIFY eventTypeIdChanged)
     Q_PROPERTY(QString eventParamTypeId READ eventParamTypeId WRITE setEventParamTypeId NOTIFY eventParamTypeIdChanged)
-    Q_PROPERTY(QString stateDeviceId READ stateDeviceId WRITE setStateDeviceId NOTIFY stateDeviceIdChanged)
+    Q_PROPERTY(QString stateThingId READ stateThingId WRITE setStateThingId NOTIFY stateThingIdChanged)
     Q_PROPERTY(QString stateTypeId READ stateTypeId WRITE setStateTypeId NOTIFY stateTypeIdChanged)
 
     Q_PROPERTY(bool isValueBased READ isValueBased NOTIFY isValueBasedChanged)
@@ -63,8 +63,8 @@ public:
     QString eventParamTypeId() const;
     void setEventParamTypeId(const QString &eventParamTypeId);
 
-    QString stateDeviceId() const;
-    void setStateDeviceId(const QString &stateDeviceId);
+    QString stateThingId() const;
+    void setStateThingId(const QString &stateThingId);
 
     QString stateTypeId() const;
     void setStateTypeId(const QString &stateTypeId);
@@ -79,7 +79,7 @@ signals:
     void paramNameChanged();
     void eventTypeIdChanged();
     void eventParamTypeIdChanged();
-    void stateDeviceIdChanged();
+    void stateThingIdChanged();
     void stateTypeIdChanged();
 
     void isValueBasedChanged();
@@ -90,7 +90,7 @@ protected:
     QString m_paramName;
     QString m_eventTypeId;
     QString m_eventParamTypeId;
-    QString m_stateDeviceId;
+    QString m_stateThingId;
     QString m_stateTypeId;
 };
 

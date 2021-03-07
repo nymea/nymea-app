@@ -28,18 +28,18 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef DEVICECLASSFILERMODEL_H
-#define DEVICECLASSFILERMODEL_H
+#ifndef THINGCLASSESPROXY_H
+#define THINGCLASSESPROXY_H
 
 #include <QUuid>
 #include <QObject>
 #include <QSortFilterProxyModel>
 
 #include "engine.h"
-#include "deviceclasses.h"
-#include "types/deviceclass.h"
+#include "thingclasses.h"
+#include "types/thingclass.h"
 
-class DeviceClassesProxy : public QSortFilterProxyModel
+class ThingClassesProxy : public QSortFilterProxyModel
 {
     Q_OBJECT
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
@@ -50,13 +50,13 @@ class DeviceClassesProxy : public QSortFilterProxyModel
     Q_PROPERTY(QUuid filterVendorId READ filterVendorId WRITE setFilterVendorId NOTIFY filterVendorIdChanged)
     Q_PROPERTY(QString filterVendorName READ filterVendorName WRITE setFilterVendorName NOTIFY filterVendorNameChanged)
 
-    // Filters by deviceClass' displayName or vendor's displayName
+    // Filters by thingClass' displayName or vendor's displayName
     Q_PROPERTY(QString filterString READ filterString WRITE setFilterString NOTIFY filterStringChanged)
 
     Q_PROPERTY(bool groupByInterface READ groupByInterface WRITE setGroupByInterface NOTIFY groupByInterfaceChanged)
 
 public:
-    explicit DeviceClassesProxy(QObject *parent = nullptr);
+    explicit ThingClassesProxy(QObject *parent = nullptr);
 
     Engine *engine() const;
     void setEngine(Engine *engine);
@@ -79,7 +79,7 @@ public:
     bool groupByInterface() const;
     void setGroupByInterface(bool groupByInterface);
 
-    Q_INVOKABLE DeviceClass *get(int index) const;
+    Q_INVOKABLE ThingClass *get(int index) const;
 
     Q_INVOKABLE void resetFilter();
 
@@ -107,4 +107,4 @@ private:
     bool m_groupByInterface = false;
 };
 
-#endif // DEVICECLASSFILERMODEL_H
+#endif // THINGCLASSESPROXY_H

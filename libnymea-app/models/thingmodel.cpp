@@ -28,22 +28,22 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include "devicemodel.h"
+#include "thingmodel.h"
 
 #include "types/statetype.h"
 
-DeviceModel::DeviceModel(QObject *parent) : QAbstractListModel(parent)
+ThingModel::ThingModel(QObject *parent) : QAbstractListModel(parent)
 {
 
 }
 
-int DeviceModel::rowCount(const QModelIndex &parent) const
+int ThingModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
     return m_list.count();
 }
 
-QVariant DeviceModel::data(const QModelIndex &index, int role) const
+QVariant ThingModel::data(const QModelIndex &index, int role) const
 {
     if (role == RoleId) {
         return m_list.at(index.row());
@@ -83,7 +83,7 @@ QVariant DeviceModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-QHash<int, QByteArray> DeviceModel::roleNames() const
+QHash<int, QByteArray> ThingModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
     roles.insert(RoleId, "id");
@@ -93,7 +93,7 @@ QHash<int, QByteArray> DeviceModel::roleNames() const
     return roles;
 }
 
-QVariant DeviceModel::getData(int index, int role) const
+QVariant ThingModel::getData(int index, int role) const
 {
     if (index < 0 || index >= m_list.count()) {
         return QVariant();
@@ -101,26 +101,26 @@ QVariant DeviceModel::getData(int index, int role) const
     return data(this->index(index), role);
 }
 
-Device *DeviceModel::device() const
+Thing *ThingModel::thing() const
 {
     return m_device;
 }
 
-void DeviceModel::setDevice(Device *device)
+void ThingModel::setThing(Thing *device)
 {
     if (m_device != device) {
         m_device = device;
-        emit deviceChanged();
+        emit thingChanged();
         updateList();
     }
 }
 
-bool DeviceModel::showStates() const
+bool ThingModel::showStates() const
 {
     return m_showStates;
 }
 
-void DeviceModel::setShowStates(bool showStates)
+void ThingModel::setShowStates(bool showStates)
 {
     if (m_showStates != showStates) {
         m_showStates = showStates;
@@ -129,12 +129,12 @@ void DeviceModel::setShowStates(bool showStates)
     }
 }
 
-bool DeviceModel::showActions() const
+bool ThingModel::showActions() const
 {
     return m_showActions;
 }
 
-void DeviceModel::setShowActions(bool showActions)
+void ThingModel::setShowActions(bool showActions)
 {
     if (m_showActions != showActions) {
         m_showActions = showActions;
@@ -143,12 +143,12 @@ void DeviceModel::setShowActions(bool showActions)
     }
 }
 
-bool DeviceModel::showEvents() const
+bool ThingModel::showEvents() const
 {
     return m_showEvents;
 }
 
-void DeviceModel::setShowEvents(bool showEvents)
+void ThingModel::setShowEvents(bool showEvents)
 {
     if (m_showEvents != showEvents) {
         m_showEvents = showEvents;
@@ -157,7 +157,7 @@ void DeviceModel::setShowEvents(bool showEvents)
     }
 }
 
-void DeviceModel::updateList()
+void ThingModel::updateList()
 {
     if (!m_device) {
         beginResetModel();

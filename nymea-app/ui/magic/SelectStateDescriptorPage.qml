@@ -37,11 +37,10 @@ Page {
     id: root
     property alias text: header.text
 
-    // a ruleAction object needs to be set and prefilled with either deviceId or interfaceName
+    // a ruleAction object needs to be set and prefilled with either thingId or interfaceName
     property var stateDescriptor: null
 
-    readonly property var device: stateDescriptor && stateDescriptor.deviceId ? engine.deviceManager.devices.getDevice(stateDescriptor.deviceId) : null
-    readonly property var deviceClass: device ? engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
+    readonly property Thing thing: stateDescriptor && stateDescriptor.thingId ? engine.thingManager.things.getThing(stateDescriptor.thingId) : null
 
     signal backPressed();
     signal done();
@@ -71,16 +70,16 @@ Page {
     function buildInterface() {
         print("building interface:", header.interfacesMode, root.stateDescriptor, root.stateDescriptor.interfaceName)
         if (header.interfacesMode) {
-            if (root.device) {
+            if (root.thing) {
                 generatedModel.clear();
                 for (var i = 0; i < Interfaces.count; i++) {
                     var iface = Interfaces.get(i);
-                    if (root.deviceClass.interfaces.indexOf(iface.name) >= 0) {
-                        print("root has device class:", iface.name, iface.stateTypes.count)
+                    if (root.thing.thingClass.interfaces.indexOf(iface.name) >= 0) {
+                        print("root has thing class:", iface.name, iface.stateTypes.count)
                         for (var j = 0; j < iface.stateTypes.count; j++) {
                             var ifaceSt = iface.stateTypes.get(j);
                             print("ifaceSt:", ifaceSt, j, iface.stateTypes.count)
-                            var dcSt = root.deviceClass.stateTypes.findByName(ifaceSt.name)
+                            var dcSt = root.thing.thingClass.stateTypes.findByName(ifaceSt.name)
                             print("adding:", ifaceSt.displayName, dcSt.id)
                             generatedModel.append({displayName: ifaceSt.displayName, stateTypeId: dcSt.id})
                         }
@@ -90,11 +89,11 @@ Page {
             } else if (root.stateDescriptor.interfaceName !== "") {
                 listView.model = Interfaces.findByName(root.stateDescriptor.interfaceName).stateTypes
             } else {
-                console.warn("You need to set device or interfaceName");
+                console.warn("You need to set thing or interfaceName");
             }
         } else {
-            if (root.device) {
-                listView.model = deviceClass.stateTypes;
+            if (root.thing) {
+                listView.model = thingClass.stateTypes;
             }
         }
     }
@@ -108,10 +107,10 @@ Page {
             width: parent.width
             onClicked: {
                 if (header.interfacesMode) {
-                    if (root.device) {
+                    if (root.thing) {
                         print("selected:", model.stateTypeId)
                         root.stateDescriptor.stateTypeId = model.stateTypeId;
-                        var stateType = root.deviceClass.stateTypes.getStateType(model.stateTypeId)
+                        var stateType = root.thing.thingClass.stateTypes.getStateType(model.stateTypeId)
                         var paramsPage = pageStack.push(Qt.resolvedUrl("SelectStateDescriptorParamsPage.qml"), {stateDescriptor: root.stateDescriptor})
                         paramsPage.onBackPressed.connect(function() {pageStack.pop()});
                         paramsPage.onCompleted.connect(function() {
@@ -127,11 +126,11 @@ Page {
                             root.done();
                         })
                     } else {
-                        console.warn("Neither deviceId not interfaceName set. Cannot continue...");
+                        console.warn("Neither thingId not interfaceName set. Cannot continue...");
                     }
                 } else {
-                    if (root.device) {
-                        var stateType = root.deviceClass.stateTypes.getStateType(model.id);
+                    if (root.thing) {
+                        var stateType = root.thingClass.stateTypes.getStateType(model.id);
                         root.stateDescriptor.stateTypeId = model.id;
                         var paramsPage = pageStack.push(Qt.resolvedUrl("SelectStateDescriptorParamsPage.qml"), {stateDescriptor: root.stateDescriptor})
                         paramsPage.onBackPressed.connect(function() {pageStack.pop()});

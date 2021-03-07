@@ -87,16 +87,16 @@ void RuleActionParam::setEventParamTypeId(const QString &eventParamTypeId)
     }
 }
 
-QString RuleActionParam::stateDeviceId() const
+QString RuleActionParam::stateThingId() const
 {
-    return m_stateDeviceId;
+    return m_stateThingId;
 }
 
-void RuleActionParam::setStateDeviceId(const QString &stateDeviceId)
+void RuleActionParam::setStateThingId(const QString &stateThingId)
 {
-    if (m_stateDeviceId != stateDeviceId) {
-        m_stateDeviceId = stateDeviceId;
-        emit stateDeviceIdChanged();
+    if (m_stateThingId != stateThingId) {
+        m_stateThingId = stateThingId;
+        emit stateThingIdChanged();
         emit isStateValueBasedChanged();
     }
 }
@@ -127,7 +127,7 @@ bool RuleActionParam::isEventParamBased() const
 
 bool RuleActionParam::isStateValueBased() const
 {
-    return !m_stateDeviceId.isNull() && !m_stateTypeId.isNull();
+    return !m_stateThingId.isNull() && !m_stateTypeId.isNull();
 }
 
 RuleActionParam *RuleActionParam::clone() const
@@ -138,7 +138,7 @@ RuleActionParam *RuleActionParam::clone() const
     ret->setValue(value());
     ret->setEventTypeId(eventTypeId());
     ret->setEventParamTypeId(eventParamTypeId());
-    ret->setStateDeviceId(stateDeviceId());
+    ret->setStateThingId(stateThingId());
     ret->setStateTypeId(stateTypeId());
     return ret;
 }
@@ -151,7 +151,7 @@ bool RuleActionParam::operator==(RuleActionParam *other) const
     COMPARE(m_paramName, other->paramName());
     COMPARE(m_eventTypeId, other->eventTypeId());
     COMPARE(m_eventParamTypeId, other->eventParamTypeId());
-    COMPARE(m_stateDeviceId, other->stateDeviceId());
+    COMPARE(m_stateThingId, other->stateThingId());
     COMPARE(m_stateTypeId, other->stateTypeId());
     COMPARE(m_value, other->value());
     return true;

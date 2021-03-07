@@ -31,7 +31,7 @@
 #include "interfacesmodel.h"
 
 #include "engine.h"
-#include "devicesproxy.h"
+#include "thingsproxy.h"
 
 InterfacesModel::InterfacesModel(QObject *parent):
     QAbstractListModel(parent)
@@ -77,7 +77,7 @@ void InterfacesModel::setEngine(Engine *engine)
         m_engine = engine;
         emit engineChanged();
 
-        m_thingClassesCountChangedConnection = connect(engine->deviceManager()->deviceClasses(), &DeviceClasses::countChanged, this, [this]() {
+        m_thingClassesCountChangedConnection = connect(engine->thingManager()->thingClasses(), &ThingClasses::countChanged, this, [this]() {
             syncInterfaces();
         });
 
@@ -85,12 +85,12 @@ void InterfacesModel::setEngine(Engine *engine)
     }
 }
 
-DevicesProxy *InterfacesModel::things() const
+ThingsProxy *InterfacesModel::things() const
 {
     return m_thingsProxy;
 }
 
-void InterfacesModel::setThings(DevicesProxy *things)
+void InterfacesModel::setThings(ThingsProxy *things)
 {
     if (m_thingsProxy != things) {
         if (m_thingsProxy) {
@@ -100,7 +100,7 @@ void InterfacesModel::setThings(DevicesProxy *things)
         m_thingsProxy = things;
         emit thingsChanged();
 
-        m_thingsCountChangedConnection = connect(things, &DevicesProxy::countChanged, this, [this]() {
+        m_thingsCountChangedConnection = connect(things, &ThingsProxy::countChanged, this, [this]() {
             syncInterfaces();
         });
         syncInterfaces();
@@ -149,20 +149,20 @@ void InterfacesModel::syncInterfaces()
     if (!m_engine) {
         return;
     }
-    QList<DeviceClass*> deviceClasses;
+    QList<ThingClass*> thingClasses;
     if (m_thingsProxy) {
         for (int i = 0; i < m_thingsProxy->rowCount(); i++) {
-            deviceClasses << m_engine->deviceManager()->deviceClasses()->getDeviceClass(m_thingsProxy->get(i)->deviceClassId());
+            thingClasses << m_engine->thingManager()->thingClasses()->getThingClass(m_thingsProxy->get(i)->thingClassId());
         }
     } else {
-        for (int i = 0; i < m_engine->deviceManager()->deviceClasses()->rowCount(); i++) {
-            deviceClasses << m_engine->deviceManager()->deviceClasses()->get(i);
+        for (int i = 0; i < m_engine->thingManager()->thingClasses()->rowCount(); i++) {
+            thingClasses << m_engine->thingManager()->thingClasses()->get(i);
         }
     }
 
     QStringList interfacesInSource;
-    foreach (DeviceClass *dc, deviceClasses) {
-//        qDebug() << "device" <<dc->name() << "has interfaces" << dc->interfaces();
+    foreach (ThingClass *dc, thingClasses) {
+//        qDebug() << "thing" <<dc->name() << "has interfaces" << dc->interfaces();
 
         bool isInShownIfaces = false;
         foreach (const QString &interface, dc->interfaces()) {
@@ -227,7 +227,7 @@ void InterfacesSortModel::setInterfacesModel(InterfacesModel *interfacesModel)
         m_interfacesModel = interfacesModel;
         setSourceModel(interfacesModel);
         connect(interfacesModel, &InterfacesModel::countChanged, this, &InterfacesSortModel::countChanged);
-        setSortRole(Devices::RoleName);
+        setSortRole(Things::RoleName);
         sort(0);
         emit interfacesModelChanged();
     }

@@ -40,7 +40,6 @@ class EventDescriptor : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QUuid thingId READ thingId WRITE setThingId NOTIFY thingIdChanged)
-    Q_PROPERTY(QUuid deviceId READ thingId WRITE setThingId NOTIFY thingIdChanged)
     Q_PROPERTY(QUuid eventTypeId READ eventTypeId WRITE setEventTypeId NOTIFY eventTypeIdChanged)
 
     Q_PROPERTY(QString interfaceName READ interfaceName WRITE setInterfaceName NOTIFY interfaceNameChanged)

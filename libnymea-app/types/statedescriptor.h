@@ -38,7 +38,7 @@
 class StateDescriptor : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QUuid deviceId READ deviceId WRITE setDeviceId NOTIFY deviceIdChanged)
+    Q_PROPERTY(QUuid thingId READ thingId WRITE setThingId NOTIFY thingIdChanged)
     Q_PROPERTY(QUuid stateTypeId READ stateTypeId WRITE setStateTypeId NOTIFY stateTypeIdChanged)
     Q_PROPERTY(QString interfaceName READ interfaceName WRITE setInterfaceName NOTIFY interfaceNameChanged)
     Q_PROPERTY(QString interfaceState READ interfaceState WRITE setInterfaceState NOTIFY interfaceStateChanged)
@@ -56,12 +56,12 @@ public:
     };
     Q_ENUM(ValueOperator)
 
-    explicit StateDescriptor(const QUuid &deviceId, const QUuid &stateTypeId, ValueOperator valueOperator, const QVariant &value, QObject *parent = nullptr);
+    explicit StateDescriptor(const QUuid &thingId, const QUuid &stateTypeId, ValueOperator valueOperator, const QVariant &value, QObject *parent = nullptr);
     explicit StateDescriptor(const QString &interfaceName, const QString &interfaceState, ValueOperator valueOperator, const QVariant &value, QObject *parent = nullptr);
     StateDescriptor(QObject *parent = nullptr);
 
-    QUuid deviceId() const;
-    void setDeviceId(const QUuid &deviceId);
+    QUuid thingId() const;
+    void setThingId(const QUuid &thingId);
 
     QUuid stateTypeId() const;
     void setStateTypeId(const QUuid &stateTypeId);
@@ -82,7 +82,7 @@ public:
     bool operator==(StateDescriptor *other) const;
 
 signals:
-    void deviceIdChanged();
+    void thingIdChanged();
     void stateTypeIdChanged();
     void interfaceNameChanged();
     void interfaceStateChanged();
@@ -90,7 +90,7 @@ signals:
     void valueChanged();
 
 private:
-    QUuid m_deviceId;
+    QUuid m_thingId;
     QUuid m_stateTypeId;
     QString m_interfaceName;
     QString m_interfaceState;

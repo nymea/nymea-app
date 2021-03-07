@@ -46,8 +46,8 @@ Page {
 
     property string groupTag
 
-    DevicesProxy {
-        id: devicesInGroup
+    ThingsProxy {
+        id: thingsInGroup
         engine: _engine
         filterTagId: root.groupTag
     }
@@ -60,7 +60,7 @@ Page {
         model: InterfacesSortModel {
             interfacesModel: InterfacesModel {
                 engine: _engine
-                things: devicesInGroup
+                things: thingsInGroup
                 shownInterfaces: app.supportedInterfaces
                 showUncategorized: true
             }

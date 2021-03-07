@@ -35,7 +35,7 @@ import Nymea 1.0
 import "../components"
 import "../customviews"
 
-DevicePageBase {
+ThingPageBase {
     id: root
 
     Flickable {
@@ -58,7 +58,7 @@ DevicePageBase {
                     Component.onCompleted: {
                         var supportedInterfaces = ["temperaturesensor", "humiditysensor", "pressuresensor", "moisturesensor", "lightsensor", "conductivitysensor", "noisesensor", "co2sensor", "presencesensor", "daylightsensor", "closablesensor", "watersensor"]
                         for (var i = 0; i < supportedInterfaces.length; i++) {
-                            if (root.deviceClass.interfaces.indexOf(supportedInterfaces[i]) >= 0) {
+                            if (root.thingClass.interfaces.indexOf(supportedInterfaces[i]) >= 0) {
                                 append({name: supportedInterfaces[i]});
                             }
                         }
@@ -70,7 +70,7 @@ DevicePageBase {
                     Layout.fillWidth: true
                     Layout.preferredHeight: item.implicitHeight
 
-                    property StateType stateType: root.deviceClass.stateTypes.findByName(interfaceStateMap[modelData])
+                    property StateType stateType: root.thingClass.stateTypes.findByName(interfaceStateMap[modelData])
                     property State state: root.thing.stateByName(interfaceStateMap[modelData])
                     property string interfaceName: modelData
 
@@ -103,7 +103,7 @@ DevicePageBase {
 
             GenericTypeGraph {
                 id: graph
-                device: root.device
+                thing: root.thing
                 color: app.interfaceToColor(interfaceName)
                 iconSource: app.interfaceToIcon(interfaceName)
                 implicitHeight: width * .6
@@ -151,7 +151,7 @@ DevicePageBase {
                         name: {
                             switch (boolView.interfaceName) {
                             case "closablesensor":
-                                return device.states.getState(boolView.stateType.id).value === true ? Qt.resolvedUrl("../images/lock-closed.svg") : Qt.resolvedUrl("../images/lock-open.svg")
+                                return thing.states.getState(boolView.stateType.id).value === true ? Qt.resolvedUrl("../images/lock-closed.svg") : Qt.resolvedUrl("../images/lock-open.svg")
                             default:
                                 return app.interfaceToIcon(boolView.interfaceName)
                             }
@@ -159,9 +159,9 @@ DevicePageBase {
                         color: {
                             switch (boolView.interfaceName) {
                             case "closablesensor":
-                                return device.states.getState(boolView.stateType.id).value === true ? "green" : "red"
+                                return thing.states.getState(boolView.stateType.id).value === true ? "green" : "red"
                             default:
-                                device.states.getState(boolView.stateType.id).value === true ? app.interfaceToColor(boolView.interfaceName) : Style.iconColor
+                                thing.states.getState(boolView.stateType.id).value === true ? app.interfaceToColor(boolView.interfaceName) : Style.iconColor
                             }
                         }
                     }
@@ -173,8 +173,8 @@ DevicePageBase {
                 RowLayout {
                     Layout.fillWidth: false
                     Layout.alignment: Qt.AlignHCenter
-                    property StateType lastSeenStateType: root.deviceClass.stateTypes.findByName("lastSeenTime")
-                    property State lastSeenState: lastSeenStateType ? root.device.states.getState(lastSeenStateType.id) : null
+                    property StateType lastSeenStateType: root.thingClass.stateTypes.findByName("lastSeenTime")
+                    property State lastSeenState: lastSeenStateType ? root.thing.states.getState(lastSeenStateType.id) : null
                     visible: lastSeenStateType !== null
                     Label {
                         text: qsTr("Last seen:")
@@ -187,8 +187,8 @@ DevicePageBase {
                 RowLayout {
                     Layout.fillWidth: false
                     Layout.alignment: Qt.AlignHCenter
-                    property StateType sunriseStateType: root.deviceClass.stateTypes.findByName("sunriseTime")
-                    property State sunriseState: sunriseStateType ? root.device.states.getState(sunriseStateType.id) : null
+                    property StateType sunriseStateType: root.thingClass.stateTypes.findByName("sunriseTime")
+                    property State sunriseState: sunriseStateType ? root.thing.states.getState(sunriseStateType.id) : null
                     visible: sunriseStateType !== null
                     Label {
                         text: qsTr("Sunrise:")
@@ -201,8 +201,8 @@ DevicePageBase {
                 RowLayout {
                     Layout.fillWidth: false
                     Layout.alignment: Qt.AlignHCenter
-                    property StateType sunsetStateType: root.deviceClass.stateTypes.findByName("sunsetTime")
-                    property State sunsetState: sunsetStateType ? root.device.states.getState(sunsetStateType.id) : null
+                    property StateType sunsetStateType: root.thingClass.stateTypes.findByName("sunsetTime")
+                    property State sunsetState: sunsetStateType ? root.thing.states.getState(sunsetStateType.id) : null
                     visible: sunsetStateType !== null
                     Label {
                         text: qsTr("Sunset:")

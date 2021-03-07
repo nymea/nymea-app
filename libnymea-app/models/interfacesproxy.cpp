@@ -32,10 +32,10 @@
 
 #include "types/interface.h"
 #include "types/interfaces.h"
-#include "types/device.h"
+#include "types/thing.h"
 
-#include "devices.h"
-#include "devicesproxy.h"
+#include "things.h"
+#include "thingsproxy.h"
 
 InterfacesProxy::InterfacesProxy(QObject *parent): QSortFilterProxyModel(parent)
 {
@@ -102,9 +102,9 @@ bool InterfacesProxy::filterAcceptsRow(int source_row, const QModelIndex &source
         // TODO: This could be improved *a lot* by caching interfaces in the devices model...
         bool found = false;
         for (int i = 0; i < m_thingsFilter->rowCount(); i++) {
-            Device *d = m_thingsFilter->get(i);
+            Thing *d = m_thingsFilter->get(i);
             if (!d->thingClass()) {
-                qWarning() << "Cannot find DeviceClass for device:" << d->id() << d->name();
+                qWarning() << "Cannot find ThingClass for thing:" << d->id() << d->name();
                 return false;
             }
             if (d->thingClass()->interfaces().contains(interfaceName)) {
@@ -120,7 +120,7 @@ bool InterfacesProxy::filterAcceptsRow(int source_row, const QModelIndex &source
         // TODO: This could be improved *a lot* by caching interfaces in the devices model...
         bool found = false;
         for (int i = 0; i < m_thingsProxyFilter->rowCount(); i++) {
-            Device *d = m_thingsProxyFilter->get(i);
+            Thing *d = m_thingsProxyFilter->get(i);
             if (!d->thingClass()) {
                 qWarning() << "Cannot find ThingClass for thing:" << d->id() << d->name();
                 return false;

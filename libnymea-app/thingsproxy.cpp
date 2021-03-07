@@ -28,26 +28,26 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include "devicesproxy.h"
+#include "thingsproxy.h"
 #include "engine.h"
 #include "tagsmanager.h"
 #include "types/tag.h"
 
-DevicesProxy::DevicesProxy(QObject *parent) :
+ThingsProxy::ThingsProxy(QObject *parent) :
     QSortFilterProxyModel(parent)
 {
 }
 
-Engine *DevicesProxy::engine() const
+Engine *ThingsProxy::engine() const
 {
     return m_engine;
 }
 
-void DevicesProxy::setEngine(Engine *engine)
+void ThingsProxy::setEngine(Engine *engine)
 {
     if (m_engine != engine) {
         if (m_engine) {
-            disconnect(m_engine->tagsManager()->tags(), &Tags::countChanged, this, &DevicesProxy::invalidateFilter);
+            disconnect(m_engine->tagsManager()->tags(), &Tags::countChanged, this, &ThingsProxy::invalidateFilter);
         }
         m_engine = engine;
         emit engineChanged();
@@ -55,12 +55,12 @@ void DevicesProxy::setEngine(Engine *engine)
             return;
         }
 
-        connect(m_engine->tagsManager()->tags(), &Tags::countChanged, this, &DevicesProxy::invalidateFilter);
+        connect(m_engine->tagsManager()->tags(), &Tags::countChanged, this, &ThingsProxy::invalidateFilter);
 
         if (!sourceModel()) {
-            setSourceModel(m_engine->deviceManager()->devices());
+            setSourceModel(m_engine->thingManager()->things());
 
-            setSortRole(Devices::RoleName);
+            setSortRole(Things::RoleName);
             sort(0);
             connect(sourceModel(), SIGNAL(countChanged()), this, SIGNAL(countChanged()));
             connect(sourceModel(), &QAbstractItemModel::dataChanged, this, [this]() {
@@ -72,12 +72,12 @@ void DevicesProxy::setEngine(Engine *engine)
     }
 }
 
-DevicesProxy *DevicesProxy::parentProxy() const
+ThingsProxy *ThingsProxy::parentProxy() const
 {
     return m_parentProxy;
 }
 
-void DevicesProxy::setParentProxy(DevicesProxy *parentProxy)
+void ThingsProxy::setParentProxy(ThingsProxy *parentProxy)
 {
     if (m_parentProxy != parentProxy) {
         m_parentProxy = parentProxy;
@@ -86,7 +86,7 @@ void DevicesProxy::setParentProxy(DevicesProxy *parentProxy)
         if (!m_engine) {
             return;
         }
-        setSortRole(Devices::RoleName);
+        setSortRole(Things::RoleName);
         sort(0);
         connect(m_parentProxy, SIGNAL(countChanged()), this, SIGNAL(countChanged()));
         connect(m_parentProxy, &QAbstractItemModel::dataChanged, this, [this]() {
@@ -105,12 +105,12 @@ void DevicesProxy::setParentProxy(DevicesProxy *parentProxy)
     }
 }
 
-QString DevicesProxy::filterTagId() const
+QString ThingsProxy::filterTagId() const
 {
     return m_filterTagId;
 }
 
-void DevicesProxy::setFilterTagId(const QString &filterTag)
+void ThingsProxy::setFilterTagId(const QString &filterTag)
 {
     if (m_filterTagId != filterTag) {
         m_filterTagId = filterTag;
@@ -120,12 +120,12 @@ void DevicesProxy::setFilterTagId(const QString &filterTag)
     }
 }
 
-QString DevicesProxy::filterTagValue() const
+QString ThingsProxy::filterTagValue() const
 {
     return m_filterTagValue;
 }
 
-void DevicesProxy::setFilterTagValue(const QString &tagValue)
+void ThingsProxy::setFilterTagValue(const QString &tagValue)
 {
     if (m_filterTagValue != tagValue) {
         m_filterTagValue = tagValue;
@@ -135,42 +135,42 @@ void DevicesProxy::setFilterTagValue(const QString &tagValue)
     }
 }
 
-QString DevicesProxy::filterDeviceClassId() const
+QString ThingsProxy::filterThingClassId() const
 {
-    return m_filterDeviceClassId;
+    return m_filterThingClassId;
 }
 
-void DevicesProxy::setFilterDeviceClassId(const QString &filterDeviceClassId)
+void ThingsProxy::setFilterThingClassId(const QString &filterThingClassId)
 {
-    if (m_filterDeviceClassId != filterDeviceClassId) {
-        m_filterDeviceClassId = filterDeviceClassId;
-        emit filterDeviceClassIdChanged();
+    if (m_filterThingClassId != filterThingClassId) {
+        m_filterThingClassId = filterThingClassId;
+        emit filterThingClassIdChanged();
         invalidateFilter();
         emit countChanged();
     }
 }
 
-QString DevicesProxy::filterDeviceId() const
+QString ThingsProxy::filterThingId() const
 {
-    return m_filterDeviceId;
+    return m_filterThingId;
 }
 
-void DevicesProxy::setFilterDeviceId(const QString &filterDeviceId)
+void ThingsProxy::setFilterThingId(const QString &filterThingId)
 {
-    if (m_filterDeviceId != filterDeviceId) {
-        m_filterDeviceId = filterDeviceId;
-        emit filterDeviceIdChanged();
+    if (m_filterThingId != filterThingId) {
+        m_filterThingId = filterThingId;
+        emit filterThingIdChanged();
         invalidateFilter();
         emit countChanged();
     }
 }
 
-QStringList DevicesProxy::shownInterfaces() const
+QStringList ThingsProxy::shownInterfaces() const
 {
     return m_shownInterfaces;
 }
 
-void DevicesProxy::setShownInterfaces(const QStringList &shownInterfaces)
+void ThingsProxy::setShownInterfaces(const QStringList &shownInterfaces)
 {
     if (m_shownInterfaces != shownInterfaces) {
         m_shownInterfaces = shownInterfaces;
@@ -180,12 +180,12 @@ void DevicesProxy::setShownInterfaces(const QStringList &shownInterfaces)
     }
 }
 
-QStringList DevicesProxy::hiddenInterfaces() const
+QStringList ThingsProxy::hiddenInterfaces() const
 {
     return m_hiddenInterfaces;
 }
 
-void DevicesProxy::setHiddenInterfaces(const QStringList &hiddenInterfaces)
+void ThingsProxy::setHiddenInterfaces(const QStringList &hiddenInterfaces)
 {
     if (m_hiddenInterfaces != hiddenInterfaces) {
         m_hiddenInterfaces = hiddenInterfaces;
@@ -195,12 +195,12 @@ void DevicesProxy::setHiddenInterfaces(const QStringList &hiddenInterfaces)
     }
 }
 
-QString DevicesProxy::nameFilter() const
+QString ThingsProxy::nameFilter() const
 {
     return m_nameFilter;
 }
 
-void DevicesProxy::setNameFilter(const QString &nameFilter)
+void ThingsProxy::setNameFilter(const QString &nameFilter)
 {
     if (m_nameFilter != nameFilter) {
         m_nameFilter = nameFilter;
@@ -210,12 +210,12 @@ void DevicesProxy::setNameFilter(const QString &nameFilter)
     }
 }
 
-QString DevicesProxy::requiredEventName() const
+QString ThingsProxy::requiredEventName() const
 {
     return m_requiredEventName;
 }
 
-void DevicesProxy::setRequiredEventName(const QString &requiredEventName)
+void ThingsProxy::setRequiredEventName(const QString &requiredEventName)
 {
     if (m_requiredEventName != requiredEventName) {
         m_requiredEventName = requiredEventName;
@@ -225,12 +225,12 @@ void DevicesProxy::setRequiredEventName(const QString &requiredEventName)
     }
 }
 
-QString DevicesProxy::requiredStateName() const
+QString ThingsProxy::requiredStateName() const
 {
     return m_requiredStateName;
 }
 
-void DevicesProxy::setRequiredStateName(const QString &requiredStateName)
+void ThingsProxy::setRequiredStateName(const QString &requiredStateName)
 {
     if (m_requiredStateName != requiredStateName) {
         m_requiredStateName = requiredStateName;
@@ -240,12 +240,12 @@ void DevicesProxy::setRequiredStateName(const QString &requiredStateName)
     }
 }
 
-QString DevicesProxy::requiredActionName() const
+QString ThingsProxy::requiredActionName() const
 {
     return m_requiredActionName;
 }
 
-void DevicesProxy::setRequiredActionName(const QString &requiredActionName)
+void ThingsProxy::setRequiredActionName(const QString &requiredActionName)
 {
     if (m_requiredActionName != requiredActionName) {
         m_requiredActionName = requiredActionName;
@@ -255,12 +255,12 @@ void DevicesProxy::setRequiredActionName(const QString &requiredActionName)
     }
 }
 
-bool DevicesProxy::showDigitalInputs() const
+bool ThingsProxy::showDigitalInputs() const
 {
     return m_showDigitalInputs;
 }
 
-void DevicesProxy::setShowDigitalInputs(bool showDigitalInputs)
+void ThingsProxy::setShowDigitalInputs(bool showDigitalInputs)
 {
     if (m_showDigitalInputs != showDigitalInputs) {
         m_showDigitalInputs = showDigitalInputs;
@@ -270,12 +270,12 @@ void DevicesProxy::setShowDigitalInputs(bool showDigitalInputs)
     }
 }
 
-bool DevicesProxy::showDigitalOutputs() const
+bool ThingsProxy::showDigitalOutputs() const
 {
     return m_showDigitalOutputs;
 }
 
-void DevicesProxy::setShowDigitalOutputs(bool showDigitalOutputs)
+void ThingsProxy::setShowDigitalOutputs(bool showDigitalOutputs)
 {
     if (m_showDigitalOutputs != showDigitalOutputs) {
         m_showDigitalOutputs = showDigitalOutputs;
@@ -285,12 +285,12 @@ void DevicesProxy::setShowDigitalOutputs(bool showDigitalOutputs)
     }
 }
 
-bool DevicesProxy::showAnalogInputs() const
+bool ThingsProxy::showAnalogInputs() const
 {
     return m_showAnalogInputs;
 }
 
-void DevicesProxy::setShowAnalogInputs(bool showAnalogInputs)
+void ThingsProxy::setShowAnalogInputs(bool showAnalogInputs)
 {
     if (m_showAnalogInputs != showAnalogInputs) {
         m_showAnalogInputs = showAnalogInputs;
@@ -300,12 +300,12 @@ void DevicesProxy::setShowAnalogInputs(bool showAnalogInputs)
     }
 }
 
-bool DevicesProxy::showAnalogOutputs() const
+bool ThingsProxy::showAnalogOutputs() const
 {
     return m_showDigitalOutputs;
 }
 
-void DevicesProxy::setShowAnalogOutputs(bool showAnalogOutputs)
+void ThingsProxy::setShowAnalogOutputs(bool showAnalogOutputs)
 {
     if (m_showAnalogOutputs != showAnalogOutputs) {
         m_showAnalogOutputs = showAnalogOutputs;
@@ -315,12 +315,12 @@ void DevicesProxy::setShowAnalogOutputs(bool showAnalogOutputs)
     }
 }
 
-bool DevicesProxy::filterBatteryCritical() const
+bool ThingsProxy::filterBatteryCritical() const
 {
     return m_filterBatteryCritical;
 }
 
-void DevicesProxy::setFilterBatteryCritical(bool filterBatteryCritical)
+void ThingsProxy::setFilterBatteryCritical(bool filterBatteryCritical)
 {
     if (m_filterBatteryCritical != filterBatteryCritical) {
         m_filterBatteryCritical = filterBatteryCritical;
@@ -330,12 +330,12 @@ void DevicesProxy::setFilterBatteryCritical(bool filterBatteryCritical)
     }
 }
 
-bool DevicesProxy::filterDisconnected() const
+bool ThingsProxy::filterDisconnected() const
 {
     return m_filterDisconnected;
 }
 
-void DevicesProxy::setFilterDisconnected(bool filterDisconnected)
+void ThingsProxy::setFilterDisconnected(bool filterDisconnected)
 {
     if (m_filterDisconnected != filterDisconnected) {
         m_filterDisconnected = filterDisconnected;
@@ -345,12 +345,12 @@ void DevicesProxy::setFilterDisconnected(bool filterDisconnected)
     }
 }
 
-bool DevicesProxy::filterSetupFailed() const
+bool ThingsProxy::filterSetupFailed() const
 {
     return m_filterSetupFailed;
 }
 
-void DevicesProxy::setFilterSetupFailed(bool filterSetupFailed)
+void ThingsProxy::setFilterSetupFailed(bool filterSetupFailed)
 {
     if (m_filterSetupFailed != filterSetupFailed) {
         m_filterSetupFailed = filterSetupFailed;
@@ -360,12 +360,12 @@ void DevicesProxy::setFilterSetupFailed(bool filterSetupFailed)
     }
 }
 
-bool DevicesProxy::filterUpdates() const
+bool ThingsProxy::filterUpdates() const
 {
     return m_filterUpdates;
 }
 
-void DevicesProxy::setFilterUpdates(bool filterUpdates)
+void ThingsProxy::setFilterUpdates(bool filterUpdates)
 {
     if (m_filterUpdates != filterUpdates) {
         m_filterUpdates = filterUpdates;
@@ -375,12 +375,12 @@ void DevicesProxy::setFilterUpdates(bool filterUpdates)
     }
 }
 
-bool DevicesProxy::groupByInterface() const
+bool ThingsProxy::groupByInterface() const
 {
     return m_groupByInterface;
 }
 
-void DevicesProxy::setGroupByInterface(bool groupByInterface)
+void ThingsProxy::setGroupByInterface(bool groupByInterface)
 {
     if (m_groupByInterface != groupByInterface) {
         m_groupByInterface = groupByInterface;
@@ -390,70 +390,65 @@ void DevicesProxy::setGroupByInterface(bool groupByInterface)
     }
 }
 
-Device *DevicesProxy::get(int index) const
+Thing *ThingsProxy::get(int index) const
 {
     return getInternal(mapToSource(this->index(index, 0)).row());
 }
 
-Device *DevicesProxy::getDevice(const QUuid &deviceId) const
+Thing *ThingsProxy::getThing(const QUuid &thingId) const
 {
-    return getThing(deviceId);
-}
-
-Device *DevicesProxy::getThing(const QUuid &thingId) const
-{
-    Devices *d = qobject_cast<Devices*>(sourceModel());
+    Things *d = qobject_cast<Things*>(sourceModel());
     if (d) {
         return d->getThing(thingId);
     }
-    DevicesProxy *dp = qobject_cast<DevicesProxy*>(sourceModel());
+    ThingsProxy *dp = qobject_cast<ThingsProxy*>(sourceModel());
     if (dp) {
         return dp->getThing(thingId);
     }
     return nullptr;
 }
 
-Device *DevicesProxy::getInternal(int source_index) const
+Thing *ThingsProxy::getInternal(int source_index) const
 {
-    Devices* d = qobject_cast<Devices*>(sourceModel());
+    Things* d = qobject_cast<Things*>(sourceModel());
     if (d) {
         return d->get(source_index);
     }
-    DevicesProxy *dp = qobject_cast<DevicesProxy*>(sourceModel());
+    ThingsProxy *dp = qobject_cast<ThingsProxy*>(sourceModel());
     if (dp) {
         return dp->get(source_index);
     }
     return nullptr;
 }
 
-bool DevicesProxy::lessThan(const QModelIndex &left, const QModelIndex &right) const
+bool ThingsProxy::lessThan(const QModelIndex &left, const QModelIndex &right) const
 {
     if (m_groupByInterface) {
-        QString leftBaseInterface = sourceModel()->data(left, Devices::RoleBaseInterface).toString();
-        QString rightBaseInterface = sourceModel()->data(right, Devices::RoleBaseInterface).toString();
+        QString leftBaseInterface = sourceModel()->data(left, Things::RoleBaseInterface).toString();
+        QString rightBaseInterface = sourceModel()->data(right, Things::RoleBaseInterface).toString();
         if (leftBaseInterface != rightBaseInterface) {
             return QString::localeAwareCompare(leftBaseInterface, rightBaseInterface) < 0;
         }
     }
-    QString leftName = sourceModel()->data(left, Devices::RoleName).toString();
-    QString rightName = sourceModel()->data(right, Devices::RoleName).toString();
+    QString leftName = sourceModel()->data(left, Things::RoleName).toString();
+    QString rightName = sourceModel()->data(right, Things::RoleName).toString();
 
     int comparison = QString::localeAwareCompare(leftName, rightName);
     if (comparison == 0) {
         // If there are 2 identically named things we don't want undefined behavor as it may cause items
         // to reorder randomly. Use something static like thingId as fallback
-        QString leftThingId = sourceModel()->data(left, Devices::RoleId).toString();
-        QString rightThingId = sourceModel()->data(right, Devices::RoleId).toString();
+        QString leftThingId = sourceModel()->data(left, Things::RoleId).toString();
+        QString rightThingId = sourceModel()->data(right, Things::RoleId).toString();
         comparison = QString::localeAwareCompare(leftThingId, rightThingId);
     }
     return comparison < 0;
 }
 
-bool DevicesProxy::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
+bool ThingsProxy::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
 {
-    Device *device = getInternal(source_row);
+    Thing *thing = getInternal(source_row);
     if (!m_filterTagId.isEmpty()) {
-        Tag *tag = m_engine->tagsManager()->tags()->findDeviceTag(device->id().toString(), m_filterTagId);
+        Tag *tag = m_engine->tagsManager()->tags()->findThingTag(thing->id().toString(), m_filterTagId);
         if (!tag) {
             return false;
         }
@@ -461,22 +456,22 @@ bool DevicesProxy::filterAcceptsRow(int source_row, const QModelIndex &source_pa
             return false;
         }
     }
-    if (!m_filterDeviceClassId.isEmpty()) {
-        if (device->deviceClassId() != QUuid(m_filterDeviceClassId)) {
+    if (!m_filterThingClassId.isEmpty()) {
+        if (thing->thingClassId() != QUuid(m_filterThingClassId)) {
             return false;
         }
     }
-    if (!m_filterDeviceId.isEmpty()) {
-        if (device->id() != QUuid(m_filterDeviceId)) {
+    if (!m_filterThingId.isEmpty()) {
+        if (thing->id() != QUuid(m_filterThingId)) {
             return false;
         }
     }
-    DeviceClass *deviceClass = m_engine->deviceManager()->deviceClasses()->getDeviceClass(device->deviceClassId());
-//    qDebug() << "Checking device" << deviceClass->name() << deviceClass->interfaces();
+    ThingClass *thingClass = m_engine->thingManager()->thingClasses()->getThingClass(thing->thingClassId());
+//    qDebug() << "Checking thing" << thingClass->name() << thingClass->interfaces();
     if (!m_shownInterfaces.isEmpty()) {
         bool foundMatch = false;
         foreach (const QString &filterInterface, m_shownInterfaces) {
-            if (deviceClass->interfaces().contains(filterInterface)) {
+            if (thingClass->interfaces().contains(filterInterface)) {
                 foundMatch = true;
                 continue;
             }
@@ -488,72 +483,72 @@ bool DevicesProxy::filterAcceptsRow(int source_row, const QModelIndex &source_pa
 
     if (!m_hiddenInterfaces.isEmpty()) {
         foreach (const QString &filterInterface, m_hiddenInterfaces) {
-            if (deviceClass->interfaces().contains(filterInterface)) {
+            if (thingClass->interfaces().contains(filterInterface)) {
                 return false;
             }
         }
     }
 
     if (m_showDigitalInputs || m_showDigitalOutputs || m_showAnalogInputs || m_showAnalogOutputs) {
-        if (m_showDigitalInputs && deviceClass->stateTypes()->ioStateTypes(Types::IOTypeDigitalInput).isEmpty()) {
+        if (m_showDigitalInputs && thingClass->stateTypes()->ioStateTypes(Types::IOTypeDigitalInput).isEmpty()) {
             return false;
         }
-        if (m_showDigitalOutputs && deviceClass->stateTypes()->ioStateTypes(Types::IOTypeDigitalOutput).isEmpty()) {
+        if (m_showDigitalOutputs && thingClass->stateTypes()->ioStateTypes(Types::IOTypeDigitalOutput).isEmpty()) {
             return false;
         }
-        if (m_showAnalogInputs && deviceClass->stateTypes()->ioStateTypes(Types::IOTypeAnalogInput).isEmpty()) {
+        if (m_showAnalogInputs && thingClass->stateTypes()->ioStateTypes(Types::IOTypeAnalogInput).isEmpty()) {
             return false;
         }
-        if (m_showAnalogOutputs && deviceClass->stateTypes()->ioStateTypes(Types::IOTypeAnalogOutput).isEmpty()) {
+        if (m_showAnalogOutputs && thingClass->stateTypes()->ioStateTypes(Types::IOTypeAnalogOutput).isEmpty()) {
             return false;
         }
     }
 
     if (m_filterBatteryCritical) {
-        if (!deviceClass->interfaces().contains("battery") || device->stateValue(deviceClass->stateTypes()->findByName("batteryCritical")->id()).toBool() == false) {
+        if (!thingClass->interfaces().contains("battery") || thing->stateValue(thingClass->stateTypes()->findByName("batteryCritical")->id()).toBool() == false) {
             return false;
         }
     }
 
     if (m_filterDisconnected) {
-        if (!deviceClass->interfaces().contains("connectable") || device->stateValue(deviceClass->stateTypes()->findByName("connected")->id()).toBool() == true) {
+        if (!thingClass->interfaces().contains("connectable") || thing->stateValue(thingClass->stateTypes()->findByName("connected")->id()).toBool() == true) {
             return false;
         }
     }
 
     if (m_filterSetupFailed) {
-        if (device->setupStatus() != Device::ThingSetupStatusFailed) {
+        if (thing->setupStatus() != Thing::ThingSetupStatusFailed) {
             return false;
         }
     }
 
     if (m_filterUpdates) {
-        if (!deviceClass->interfaces().contains("update")) {
+        if (!thingClass->interfaces().contains("update")) {
             return false;
         }
-        if (device->stateValue(deviceClass->stateTypes()->findByName("updateStatus")->id()).toString() == "idle") {
+        if (thing->stateValue(thingClass->stateTypes()->findByName("updateStatus")->id()).toString() == "idle") {
             return false;
         }
     }
 
     if (!m_nameFilter.isEmpty()) {
-        if (!device->name().toLower().contains(m_nameFilter.toLower().trimmed())) {
+        if (!thing->name().toLower().contains(m_nameFilter.toLower().trimmed())) {
             return false;
         }
     }
 
     if (!m_requiredEventName.isEmpty()) {
-        if (!device->thingClass()->eventTypes()->findByName(m_requiredEventName)) {
+        if (!thing->thingClass()->eventTypes()->findByName(m_requiredEventName)) {
             return false;
         }
     }
     if (!m_requiredStateName.isEmpty()) {
-        if (!device->thingClass()->stateTypes()->findByName(m_requiredStateName)) {
+        if (!thing->thingClass()->stateTypes()->findByName(m_requiredStateName)) {
             return false;
         }
     }
     if (!m_requiredActionName.isEmpty()) {
-        if (!device->thingClass()->actionTypes()->findByName(m_requiredActionName)) {
+        if (!thing->thingClass()->actionTypes()->findByName(m_requiredActionName)) {
             return false;
         }
     }

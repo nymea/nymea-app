@@ -28,96 +28,96 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include "deviceclass.h"
+#include "thingclass.h"
 
 #include <QDebug>
 
-DeviceClass::DeviceClass(QObject *parent) :
+ThingClass::ThingClass(QObject *parent) :
     QObject(parent)
 {
 }
 
-QUuid DeviceClass::id() const
+QUuid ThingClass::id() const
 {
     return m_id;
 }
 
-void DeviceClass::setId(const QUuid &id)
+void ThingClass::setId(const QUuid &id)
 {
     m_id = id;
 }
 
-QUuid DeviceClass::vendorId() const
+QUuid ThingClass::vendorId() const
 {
     return m_vendorId;
 }
 
-void DeviceClass::setVendorId(const QUuid &vendorId)
+void ThingClass::setVendorId(const QUuid &vendorId)
 {
     m_vendorId = vendorId;
 }
 
-QUuid DeviceClass::pluginId() const
+QUuid ThingClass::pluginId() const
 {
     return m_pluginId;
 }
 
-void DeviceClass::setPluginId(const QUuid &pluginId)
+void ThingClass::setPluginId(const QUuid &pluginId)
 {
     m_pluginId = pluginId;
 }
 
-QString DeviceClass::name() const
+QString ThingClass::name() const
 {
     return m_name;
 }
 
-void DeviceClass::setName(const QString &name)
+void ThingClass::setName(const QString &name)
 {
     m_name = name;
 }
 
-QString DeviceClass::displayName() const
+QString ThingClass::displayName() const
 {
     return m_displayName;
 }
 
-void DeviceClass::setDisplayName(const QString &displayName)
+void ThingClass::setDisplayName(const QString &displayName)
 {
     m_displayName = displayName;
 }
 
-QStringList DeviceClass::createMethods() const
+QStringList ThingClass::createMethods() const
 {
     return m_createMethods;
 }
 
-void DeviceClass::setCreateMethods(const QStringList &createMethods)
+void ThingClass::setCreateMethods(const QStringList &createMethods)
 {
     m_createMethods = createMethods;
 }
 
-DeviceClass::SetupMethod DeviceClass::setupMethod() const
+ThingClass::SetupMethod ThingClass::setupMethod() const
 {
     return m_setupMethod;
 }
 
-void DeviceClass::setSetupMethod(DeviceClass::SetupMethod setupMethod)
+void ThingClass::setSetupMethod(ThingClass::SetupMethod setupMethod)
 {
     m_setupMethod = setupMethod;
 }
 
-QStringList DeviceClass::interfaces() const
+QStringList ThingClass::interfaces() const
 {
     return m_interfaces;
 }
 
-void DeviceClass::setInterfaces(const QStringList &interfaces)
+void ThingClass::setInterfaces(const QStringList &interfaces)
 {
     m_interfaces = interfaces;
 }
 
-QString DeviceClass::baseInterface() const
+QString ThingClass::baseInterface() const
 {
     foreach (const QString &interface, m_interfaces) {
         if (interface == "gateway") {
@@ -181,22 +181,22 @@ QString DeviceClass::baseInterface() const
     return "uncategorized";
 }
 
-bool DeviceClass::browsable() const
+bool ThingClass::browsable() const
 {
     return m_browsable;
 }
 
-void DeviceClass::setBrowsable(bool browsable)
+void ThingClass::setBrowsable(bool browsable)
 {
     m_browsable = browsable;
 }
 
-ParamTypes *DeviceClass::paramTypes() const
+ParamTypes *ThingClass::paramTypes() const
 {
     return m_paramTypes;
 }
 
-void DeviceClass::setParamTypes(ParamTypes *paramTypes)
+void ThingClass::setParamTypes(ParamTypes *paramTypes)
 {
     if (m_paramTypes) {
         m_paramTypes->deleteLater();
@@ -205,12 +205,12 @@ void DeviceClass::setParamTypes(ParamTypes *paramTypes)
     emit paramTypesChanged();
 }
 
-ParamTypes *DeviceClass::settingsTypes() const
+ParamTypes *ThingClass::settingsTypes() const
 {
     return m_settingsTypes;
 }
 
-void DeviceClass::setSettingsTypes(ParamTypes *settingsTypes)
+void ThingClass::setSettingsTypes(ParamTypes *settingsTypes)
 {
     if (m_settingsTypes) {
         m_settingsTypes->deleteLater();
@@ -219,12 +219,12 @@ void DeviceClass::setSettingsTypes(ParamTypes *settingsTypes)
     emit settingsTypesChanged();
 }
 
-ParamTypes *DeviceClass::discoveryParamTypes() const
+ParamTypes *ThingClass::discoveryParamTypes() const
 {
     return m_discoveryParamTypes;
 }
 
-void DeviceClass::setDiscoveryParamTypes(ParamTypes *paramTypes)
+void ThingClass::setDiscoveryParamTypes(ParamTypes *paramTypes)
 {
     if (m_discoveryParamTypes) {
         m_discoveryParamTypes->deleteLater();
@@ -233,12 +233,12 @@ void DeviceClass::setDiscoveryParamTypes(ParamTypes *paramTypes)
     emit discoveryParamTypesChanged();
 }
 
-StateTypes *DeviceClass::stateTypes() const
+StateTypes *ThingClass::stateTypes() const
 {
     return m_stateTypes;
 }
 
-void DeviceClass::setStateTypes(StateTypes *stateTypes)
+void ThingClass::setStateTypes(StateTypes *stateTypes)
 {
     if (m_stateTypes) {
         m_stateTypes->deleteLater();
@@ -247,12 +247,12 @@ void DeviceClass::setStateTypes(StateTypes *stateTypes)
     emit stateTypesChanged();
 }
 
-EventTypes *DeviceClass::eventTypes() const
+EventTypes *ThingClass::eventTypes() const
 {
     return m_eventTypes;
 }
 
-void DeviceClass::setEventTypes(EventTypes *eventTypes)
+void ThingClass::setEventTypes(EventTypes *eventTypes)
 {
     if (m_eventTypes) {
         m_eventTypes->deleteLater();
@@ -261,12 +261,12 @@ void DeviceClass::setEventTypes(EventTypes *eventTypes)
     emit eventTypesChanged();
 }
 
-ActionTypes *DeviceClass::actionTypes() const
+ActionTypes *ThingClass::actionTypes() const
 {
     return m_actionTypes;
 }
 
-void DeviceClass::setActionTypes(ActionTypes *actionTypes)
+void ThingClass::setActionTypes(ActionTypes *actionTypes)
 {
     if (m_actionTypes) {
         m_actionTypes->deleteLater();
@@ -275,12 +275,12 @@ void DeviceClass::setActionTypes(ActionTypes *actionTypes)
     emit actionTypesChanged();
 }
 
-ActionTypes *DeviceClass::browserItemActionTypes() const
+ActionTypes *ThingClass::browserItemActionTypes() const
 {
     return m_browserItemActionTypes;
 }
 
-void DeviceClass::setBrowserItemActionTypes(ActionTypes *browserActionTypes)
+void ThingClass::setBrowserItemActionTypes(ActionTypes *browserActionTypes)
 {
     if (m_browserItemActionTypes) {
         m_browserItemActionTypes->deleteLater();
@@ -289,7 +289,7 @@ void DeviceClass::setBrowserItemActionTypes(ActionTypes *browserActionTypes)
     emit browserItemActionTypesChanged();
 }
 
-bool DeviceClass::hasActionType(const QString &actionTypeId)
+bool ThingClass::hasActionType(const QString &actionTypeId)
 {
     foreach (ActionType *actionType, m_actionTypes->actionTypes()) {
         if (actionType->id() == actionTypeId) {

@@ -41,7 +41,7 @@ MainViewBase {
 
     readonly property bool landscape: width > height
 
-    DevicesProxy {
+    ThingsProxy {
         id: garagesFilterModel
         engine: _engine
         shownInterfaces: ["garagedoor", "garagegate"]

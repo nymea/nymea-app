@@ -35,7 +35,7 @@ import Nymea 1.0
 import "../components"
 import "../customviews"
 
-DevicePageBase {
+ThingPageBase {
     id: root
 
     Flickable {
@@ -59,29 +59,29 @@ DevicePageBase {
 
                 GenericTypeGraph {
                     Layout.fillWidth: true
-                    device: root.device
-                    stateType: root.deviceClass.stateTypes.findByName("temperature")
+                    thing: root.thing
+                    stateType: root.thingClass.stateTypes.findByName("temperature")
                     iconSource: app.interfaceToIcon("temperaturesensor")
                     color: app.interfaceToColor("temperaturesensor")
                 }
                 GenericTypeGraph {
                     Layout.fillWidth: true
-                    device: root.device
-                    stateType: root.deviceClass.stateTypes.findByName("humidity")
+                    thing: root.thing
+                    stateType: root.thingClass.stateTypes.findByName("humidity")
                     iconSource: app.interfaceToIcon("humiditysensor")
                     color: app.interfaceToColor("humiditysensor")
                 }
                 GenericTypeGraph {
                     Layout.fillWidth: true
-                    device: root.device
-                    stateType: root.deviceClass.stateTypes.findByName("pressure")
+                    thing: root.thing
+                    stateType: root.thingClass.stateTypes.findByName("pressure")
                     iconSource: app.interfaceToIcon("pressuresensor")
                     color: app.interfaceToColor("pressuresensor")
                 }
                 GenericTypeGraph {
                     Layout.fillWidth: true
-                    device: root.device
-                    stateType: root.deviceClass.stateTypes.findByName("windSpeed")
+                    thing: root.thing
+                    stateType: root.thingClass.stateTypes.findByName("windSpeed")
                     iconSource: app.interfaceToIcon("windspeedsensor")
                     color: app.interfaceToColor("windspeedsensor")
                 }

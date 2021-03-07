@@ -38,9 +38,8 @@ ItemDelegate {
 
     id: root
     property var stateEvaluator: null
-    readonly property var device: stateEvaluator ? engine.deviceManager.devices.getDevice(stateEvaluator.stateDescriptor.deviceId) : null
-    readonly property var deviceClass: device ? engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
-    readonly property var stateType: deviceClass ? deviceClass.stateTypes.getStateType(stateEvaluator.stateDescriptor.stateTypeId) : null
+    readonly property Thing thing: stateEvaluator ? engine.thingManager.things.getThing(stateEvaluator.stateDescriptor.thingId) : null
+    readonly property StateType stateType: thing ? thing.thingClass.stateTypes.getStateType(stateEvaluator.stateDescriptor.stateTypeId) : null
 
     property bool canDelete: true
     signal deleteClicked()
@@ -54,13 +53,13 @@ ItemDelegate {
         page.backPressed.connect(function() {
             pageStack.pop()
         })
-        page.thingSelected.connect(function(device) {
+        page.thingSelected.connect(function(thing) {
             root.stateEvaluator.stateDescriptor.interfaceName = "";
-            root.stateEvaluator.stateDescriptor.deviceId = device.id;
+            root.stateEvaluator.stateDescriptor.thingId = thing.id;
             selectStateDescriptorData()
         });
         page.interfaceSelected.connect(function(interfaceName) {
-            root.stateEvaluator.stateDescriptor.deviceId = "";
+            root.stateEvaluator.stateDescriptor.thingId = "";
             root.stateEvaluator.stateDescriptor.interfaceName = interfaceName;
             selectStateDescriptorData();
         });

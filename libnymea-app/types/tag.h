@@ -38,7 +38,6 @@ class Tag : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QUuid thingId READ thingId CONSTANT)
-    Q_PROPERTY(QUuid deviceId READ thingId CONSTANT)
     Q_PROPERTY(QUuid ruleId READ ruleId CONSTANT)
     Q_PROPERTY(QString tagId READ tagId CONSTANT)
     Q_PROPERTY(QString value READ value NOTIFY valueChanged)

@@ -36,7 +36,7 @@ import Nymea 1.0
 import QtGraphicalEffects 1.0
 import "../components"
 
-DeviceListPageBase {
+ThingsListPageBase {
     id: root
 
     header: NymeaHeader {

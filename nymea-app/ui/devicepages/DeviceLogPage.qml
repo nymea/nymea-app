@@ -58,20 +58,20 @@ Page {
     LogsModelNg {
         id: logsModelNg
         engine: _engine
-        deviceId: root.thing.id
+        thingId: root.thing.id
         typeIds: root.filterTypeIds.length > 0
                  ? root.filterTypeIds
                  : filterEnabled
-                   ? [filterDeviceModel.getData(filterComboBox.currentIndex, DeviceModel.RoleId)]
+                   ? [filterDeviceModel.getData(filterComboBox.currentIndex, ThingModel.RoleId)]
                    : []
         live: true
 
         property bool filterEnabled: false
     }
 
-    DeviceModel {
+    ThingModel {
         id: filterDeviceModel
-        device: root.thing
+        thing: root.thing
     }
 
     Pane {
@@ -126,9 +126,8 @@ Page {
             case "uint":
             case "int":
             case "double":
-                return true;
             case "bool":
-                return engine.jsonRpcClient.ensureServerVersion("1.10")
+                return true;
             }
             print("not showing graph for", stateType.type)
             return false;
@@ -143,7 +142,7 @@ Page {
             }
 
             var source = Qt.resolvedUrl("../customviews/GenericTypeGraph.qml");
-            setSource(source, {device: root.thing, stateType: stateType})
+            setSource(source, {thing: root.thing, stateType: stateType})
         }
     }
 

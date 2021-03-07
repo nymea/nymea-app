@@ -47,26 +47,26 @@ MainPageTile {
     updateStatus: thingsSubProxyUpdates.count > 0
 
     property Interface iface: null
-    property alias filterTagId: devicesProxy.filterTagId
+    property alias filterTagId: thingsProxy.filterTagId
 
     backgroundImage: inlineControlLoader.item && inlineControlLoader.item.hasOwnProperty("backgroundImage") ? inlineControlLoader.item.backgroundImage : ""
 
     onClicked: {
         var page;
         // Only one item? Go streight to the thing page
-        if (devicesProxy.count === 1) {
+        if (thingsProxy.count === 1) {
             if (!iface) {
                 page = "GenericDevicePage.qml";
             } else {
                 page = NymeaUtils.interfaceListToDevicePage([iface.name]);
             }
-            pageStack.push(Qt.resolvedUrl("../devicepages/" + page), {thing: devicesProxy.get(0)})
+            pageStack.push(Qt.resolvedUrl("../devicepages/" + page), {thing: thingsProxy.get(0)})
             return;
         }
 
         // No (supported by app) interfaces at all? Open generic list
         if (!iface) {
-            page = "GenericDeviceListPage.qml"
+            page = "GenericThingsListPage.qml"
             pageStack.push(Qt.resolvedUrl("../devicelistpages/" + page), {hiddenInterfaces: app.supportedInterfaces, filterTagId: root.filterTagId})
             return;
         }
@@ -81,22 +81,22 @@ MainPageTile {
             page = "WeatherDeviceListPage.qml"
             break;
         case "light":
-            page = "LightsDeviceListPage.qml"
+            page = "LightThingsListPage.qml"
             break;
         case "smartmeter":
             page ="SmartMeterDeviceListPage.qml";
             break;
         case "garagegate": // Deprecated, might not inherit garagedoor in old versions
         case "garagedoor":
-            page = "GarageThingListPage.qml";
+            page = "GarageThingsListPage.qml";
             break;
         case "awning":
         case "extendedAwning":
-            page = "AwningDeviceListPage.qml";
+            page = "AwningThingsListPage.qml";
             break;
         case "blind":
         case "extendedBlind":
-            page = "ShutterDeviceListPage.qml";
+            page = "BlindThingsListPage.qml";
             break;
         case "shutter":
         case "extendedShutter":
@@ -109,46 +109,46 @@ MainPageTile {
             page = "MediaDeviceListPage.qml";
             break;
         default:
-            page = "GenericDeviceListPage.qml"
+            page = "GenericThingsListPage.qml"
         }
         print("entering for shown interfaces:", iface.name)
         pageStack.push(Qt.resolvedUrl("../devicelistpages/" + page), {shownInterfaces: [iface.name], filterTagId: root.filterTagId})
     }
 
-    DevicesProxy {
-        id: devicesProxy
+    ThingsProxy {
+        id: thingsProxy
         engine: _engine
         shownInterfaces: iface ? [iface.name] : []
         hiddenInterfaces: iface ? [] : app.supportedInterfaces
     }
 
-    DevicesProxy {
+    ThingsProxy {
         id: devicesSubProxyConnectables
         engine: _engine
-        parentProxy: devicesProxy
+        parentProxy: thingsProxy
         filterDisconnected: true
     }
-    DevicesProxy {
+    ThingsProxy {
         id: devicesSubProxyBattery
         engine: _engine
-        parentProxy: devicesProxy
+        parentProxy: thingsProxy
         filterBatteryCritical: true
     }
-    DevicesProxy {
+    ThingsProxy {
         id: thingsSubProxySetupFailure
         engine: _engine
-        parentProxy: devicesProxy
+        parentProxy: thingsProxy
         filterSetupFailed: true
     }
     ThingsProxy {
         id: thingsSubProxyUpdates
         engine: _engine
-        parentProxy: devicesProxy
+        parentProxy: thingsProxy
         filterUpdates: true
     }
 
     property int currentDeviceIndex: 0
-    readonly property Device currentDevice: devicesProxy.get(currentDeviceIndex)
+    readonly property Thing currentDevice: thingsProxy.get(currentDeviceIndex)
 
     contentItem: Loader {
         id: inlineControlLoader
@@ -200,7 +200,7 @@ MainPageTile {
             onClicked: {
                 switch (iface.name) {
                 case "light":
-                    var group = engine.thingManager.createGroup(Interfaces.findByName("colorlight"), devicesProxy);
+                    var group = engine.thingManager.createGroup(Interfaces.findByName("colorlight"), thingsProxy);
                     print("opening lights page for group", group)
                     pageStack.push("../devicepages/LightDevicePage.qml", {thing: group})
                 }
@@ -216,16 +216,16 @@ MainPageTile {
             property string backgroundImage: artworkState ? artworkState.value : ""
 
             property int currentDeviceIndex: 0
-            readonly property Device currentDevice: devicesProxy.get(currentDeviceIndex)
-            readonly property StateType playbackStateType: currentDevice.deviceClass.stateTypes.findByName("playbackStatus")
+            readonly property Thing currentDevice: thingsProxy.get(currentDeviceIndex)
+            readonly property StateType playbackStateType: currentDevice.thingClass.stateTypes.findByName("playbackStatus")
             readonly property State playbackState: currentDevice.states.getState(playbackStateType.id)
-            readonly property StateType artworkStateType: currentDevice.deviceClass.stateTypes.findByName("artwork")
+            readonly property StateType artworkStateType: currentDevice.thingClass.stateTypes.findByName("artwork")
             readonly property State artworkState: artworkStateType ? currentDevice.states.getState(artworkStateType.id) : null
 
             Component.onCompleted: {
-                for (var i = 0; i < devicesProxy.count; i++) {
-                    var d = devicesProxy.get(i);
-                    var st = d.deviceClass.stateTypes.findByName("playbackStatus")
+                for (var i = 0; i < thingsProxy.count; i++) {
+                    var d = thingsProxy.get(i);
+                    var st = d.thingClass.stateTypes.findByName("playbackStatus")
                     var s = d.states.getState(st.id)
                     s.valueChanged.connect(function() {inlineMediaControl.updateTile()})
                 }
@@ -235,9 +235,9 @@ MainPageTile {
             function updateTile() {
                 var playingIndex = -1;
                 var pausedIndex = -1;
-                for (var i = 0; i < devicesProxy.count; i++) {
-                    var d = devicesProxy.get(i);
-                    var st = d.deviceClass.stateTypes.findByName("playbackStatus");
+                for (var i = 0; i < thingsProxy.count; i++) {
+                    var d = thingsProxy.get(i);
+                    var st = d.thingClass.stateTypes.findByName("playbackStatus");
                     if (!st) continue;
                     var s = d.states.getState(st.id);
                     if (playingIndex === -1 && s.value === "Playing") {
@@ -275,17 +275,15 @@ MainPageTile {
                 text: {
                     switch (iface.name) {
                     case "media":
-                        return devicesProxy.get(0).name;
+                        return thingsProxy.get(0).name;
                     case "light":
                     case "irrigation":
                     case "ventilation":
                     case "powersocket":
                         var count = 0;
-                        for (var i = 0; i < devicesProxy.count; i++) {
-                            var device = devicesProxy.get(i);
-                            var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
-                            var stateType = deviceClass.stateTypes.findByName("power")
-                            if (device.states.getState(stateType.id).value === true) {
+                        for (var i = 0; i < thingsProxy.count; i++) {
+                            var thing = thingsProxy.get(i);
+                            if (thing.stateByName("power").value === true) {
                                 count++;
                             }
                         }
@@ -298,7 +296,7 @@ MainPageTile {
                     case "shutter":
                     case "extendedshutter":
                         return ""
-                        //                        return qsTr("%1 installed").arg(devicesProxy.count)
+                        //                        return qsTr("%1 installed").arg(thingsProxy.count)
                     }
                     console.warn("InterfaceTile, inlineButtonControl: Unhandled interface", model.name)
                 }
@@ -318,7 +316,7 @@ MainPageTile {
                     case "ventilation":
                         return ""
                     case "garagedoor":
-                        var dev = devicesProxy.get(0)
+                        var dev = thingsProxy.get(0)
                         if (dev.thingClass.interfaces.indexOf("simplegaragedoor") >= 0
                                 || dev.thingClass.interfaces.indexOf("statefulgaragedoor") >= 0
                                 || dev.thingClass.interfaces.indexOf("extendedstatefulgaragedoor") >= 0
@@ -347,15 +345,15 @@ MainPageTile {
                     case "ventilation":
                         break;
                     case "garagedoor":
-                        for (var i = 0; i < devicesProxy.count; i++) {
-                            var thing = devicesProxy.get(i);
+                        for (var i = 0; i < thingsProxy.count; i++) {
+                            var thing = thingsProxy.get(i);
                             if (thing.thingClass.interfaces.indexOf("simplegaragedoor") >= 0
                                     || thing.thingClass.interfaces.indexOf("statefulgaragedoor") >= 0
                                     || thing.thingClass.interfaces.indexOf("extendedstatefulgaragedoor") >= 0
                                     || thing.thingClass.interfaces.indexOf("garagegate") >= 0) {
 
                                 var actionType = thing.thingClass.actionTypes.findByName("open");
-                                engine.deviceManager.executeAction(thing.id, actionType.id)
+                                engine.thingManager.executeAction(thing.id, actionType.id)
                             }
                         }
                         break;
@@ -366,11 +364,10 @@ MainPageTile {
                     case "awning":
                     case "extendedawning":
                     case "simpleclosable":
-                        for (var i = 0; i < devicesProxy.count; i++) {
-                            var device = devicesProxy.get(i);
-                            var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
-                            var actionType = deviceClass.actionTypes.findByName("open");
-                            engine.deviceManager.executeAction(device.id, actionType.id)
+                        for (var i = 0; i < thingsProxy.count; i++) {
+                            var thing = thingsProxy.get(i);
+                            var actionType = thing.thingClass.actionTypes.findByName("open");
+                            engine.thingManager.executeAction(device.id, actionType.id)
                         }
                         break;
                     default:
@@ -393,7 +390,7 @@ MainPageTile {
                     case "ventilation":
                         return ""
                     case "garagedoor":
-                        var dev = devicesProxy.get(0)
+                        var dev = thingsProxy.get(0)
                         if (dev.thingClass.interfaces.indexOf("simplegaragedoor") >= 0
                                 || dev.thingClass.interfaces.indexOf("statefulgaragedoor") >= 0
                                 || dev.thingClass.interfaces.indexOf("extendedstatefulgaragedoor") >= 0
@@ -422,8 +419,8 @@ MainPageTile {
                     case "ventilation":
                         break;
                     case "garagedoor":
-                        for (var i = 0; i < devicesProxy.count; i++) {
-                            var thing = devicesProxy.get(i);
+                        for (var i = 0; i < thingsProxy.count; i++) {
+                            var thing = thingsProxy.get(i);
                             if (thing.thingClass.interfaces.indexOf("simplegaragedoor") >= 0
                                     || thing.thingClass.interfaces.indexOf("statefulgaragedoor") >= 0
                                     || thing.thingClass.interfaces.indexOf("extendedstatefulgaragedoor") >= 0
@@ -441,11 +438,10 @@ MainPageTile {
                     case "awning":
                     case "extendedawning":
                     case "simpleclosable":
-                        for (var i = 0; i < devicesProxy.count; i++) {
-                            var device = devicesProxy.get(i);
-                            var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
-                            var actionType = deviceClass.actionTypes.findByName("stop");
-                            engine.deviceManager.executeAction(device.id, actionType.id)
+                        for (var i = 0; i < thingsProxy.count; i++) {
+                            var thing = thingsProxy.get(i);
+                            var actionType = thing.thingClass.actionTypes.findByName("stop");
+                            engine.thingManager.executeAction(device.id, actionType.id)
                         }
                         break;
                     default:
@@ -461,9 +457,8 @@ MainPageTile {
                 imageSource: {
                     switch (iface.name) {
                     case "media":
-                        var device = devicesProxy.get(0)
-                        var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
-                        var stateType = deviceClass.stateTypes.findByName("playbackStatus");
+                        var thing = thingsProxy.get(0)
+                        var stateType = thing.thingClass.stateTypes.findByName("playbackStatus");
                         var state = device.states.getState(stateType.id)
                         return state.value === "Playing" ? "../images/media-playback-pause.svg" :
                                                            state.value === "Paused" ? "../images/media-playback-start.svg" :
@@ -474,7 +469,7 @@ MainPageTile {
                     case "ventilation":
                         return "../images/system-shutdown.svg"
                     case "garagedoor":
-                        var dev = devicesProxy.get(0)
+                        var dev = thingsProxy.get(0)
                         if (dev.thingClass.interfaces.indexOf("simplegaragedoor") >= 0
                                 || dev.thingClass.interfaces.indexOf("statefulgaragedoor") >= 0
                                 || dev.thingClass.interfaces.indexOf("extendedstatefulgaragedoor") >= 0
@@ -504,32 +499,29 @@ MainPageTile {
                     case "irrigation":
                     case "ventilation":
                         var allOff = true;
-                        for (var i = 0; i < devicesProxy.count; i++) {
-                            var device = devicesProxy.get(i);
-                            if (device.states.getState(device.deviceClass.stateTypes.findByName("power").id).value === true) {
+                        for (var i = 0; i < thingsProxy.count; i++) {
+                            var thing = thingsProxy.get(i);
+                            if (thing.stateByName("power").value === true) {
                                 allOff = false;
                                 break;
                             }
                         }
 
-                        for (var i = 0; i < devicesProxy.count; i++) {
-                            var device = devicesProxy.get(i);
-                            var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
-                            var actionType = deviceClass.actionTypes.findByName("power");
+                        for (var i = 0; i < thingsProxy.count; i++) {
+                            var thing = thingsProxy.get(i);
+                            var actionType = thing.thingClass.actionTypes.findByName("power");
 
                             var params = [];
                             var param1 = {};
                             param1["paramTypeId"] = actionType.paramTypes.get(0).id;
                             param1["value"] = allOff ? true : false;
                             params.push(param1)
-                            engine.deviceManager.executeAction(device.id, actionType.id, params)
+                            engine.thingManager.executeAction(thing.id, actionType.id, params)
                         }
                         break;
                     case "media":
-                        var device = devicesProxy.get(0)
-                        var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
-                        var stateType = deviceClass.stateTypes.findByName("playbackStatus");
-                        var state = device.states.getState(stateType.id)
+                        var thing = thingsProxy.get(0)
+                        var state = thing.stateByName("playbackStatus")
 
                         var actionName
                         switch (state.value) {
@@ -540,25 +532,25 @@ MainPageTile {
                             actionName = "play";
                             break;
                         }
-                        var actionTypeId = deviceClass.actionTypes.findByName(actionName).id;
+                        var actionTypeId = thing.thingClass.actionTypes.findByName(actionName).id;
 
-                        print("executing", device, device.id, actionTypeId, actionName, deviceClass.actionTypes)
+                        print("executing", thing, thing.id, actionTypeId, actionName, thing.thingClass.actionTypes)
 
-                        engine.deviceManager.executeAction(device.id, actionTypeId)
+                        engine.thingManager.executeAction(thing.id, actionTypeId)
                     case "garagedoor":
-                        for (var i = 0; i < devicesProxy.count; i++) {
-                            var thing = devicesProxy.get(i);
+                        for (var i = 0; i < thingsProxy.count; i++) {
+                            var thing = thingsProxy.get(i);
                             if (thing.thingClass.interfaces.indexOf("simplegaragedoor") >= 0
                                     || thing.thingClass.interfaces.indexOf("statefulgaragedoor") >= 0
                                     || thing.thingClass.interfaces.indexOf("extendedstatefulgaragedoor") >= 0
                                     || thing.thingClass.interfaces.indexOf("garagegate") >= 0) {
 
                                 var actionType = thing.thingClass.actionTypes.findByName("close");
-                                engine.deviceManager.executeAction(thing.id, actionType.id)
+                                engine.thingManager.executeAction(thing.id, actionType.id)
                             }
                             if (thing.thingClass.interfaces.indexOf("impulsegaragedoor") >= 0) {
                                 var actionType = thing.thingClass.actionTypes.findByName("triggerImpulse");
-                                engine.deviceManager.executeAction(thing.id, actionType.id)
+                                engine.thingManager.executeAction(thing.id, actionType.id)
                             }
                         }
                         break;
@@ -569,11 +561,10 @@ MainPageTile {
                     case "awning":
                     case "extendedawning":
                     case "simpleclosable":
-                        for (var i = 0; i < devicesProxy.count; i++) {
-                            var device = devicesProxy.get(i);
-                            var deviceClass = engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId);
-                            var actionType = deviceClass.actionTypes.findByName("close");
-                            engine.deviceManager.executeAction(device.id, actionType.id)
+                        for (var i = 0; i < thingsProxy.count; i++) {
+                            var thing = thingsProxy.get(i);
+                            var actionType = thing.thingClass.actionTypes.findByName("close");
+                            engine.thingManager.executeAction(thing.id, actionType.id)
                         }
 
                     default:
@@ -591,11 +582,10 @@ MainPageTile {
         ColumnLayout {
             spacing: 0
 
-            property var device: devicesProxy.get(0)
-            property var deviceClass: device ? engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId) : null
+            property Thing thing: thingsProxy.get(0)
 
             Label {
-                text: parent.device.name
+                text: parent.thing.name
                 font.pixelSize: app.smallFont
                 Layout.fillWidth: true
                 elide: Text.ElideRight
@@ -609,10 +599,9 @@ MainPageTile {
             id: sensorsRoot
             property int currentDevice: 0
 
-            property Device device: devicesProxy.get(currentDevice)
-            property DeviceClass deviceClass: device ? device.deviceClass : null
+            property Thing thing: thingsProxy.get(currentDevice)
 
-            property var shownSensors: findSensors(deviceClass)
+            property var shownSensors: findSensors(thing.thingClass)
             property int currentSensor: 0
 
             ListModel {
@@ -636,10 +625,10 @@ MainPageTile {
                 ListElement { ifaceName: "heating"; stateName: "power" }
                 ListElement { ifaceName: "extendedHeating"; stateName: "percentage" }
             }
-            function findSensors(deviceClass) {
+            function findSensors(thingClass) {
                 var ret = []
                 for (var i = 0; i < supportedSensors.count; i++) {
-                    if (deviceClass.interfaces.indexOf(supportedSensors.get(i).ifaceName) >= 0) {
+                    if (thingClass.interfaces.indexOf(supportedSensors.get(i).ifaceName) >= 0) {
                         ret.push({ifaceName: supportedSensors.get(i).ifaceName, stateName: supportedSensors.get(i).stateName})
                     }
                 }
@@ -647,13 +636,13 @@ MainPageTile {
             }
 
             property StateType shownStateType: shownSensors.length > currentSensor && currentSensor >= 0
-                                               ? deviceClass.stateTypes.findByName(shownSensors[currentSensor].stateName)
+                                               ? thing.thingClass.stateTypes.findByName(shownSensors[currentSensor].stateName)
                                                : null
 
             function nextSensor() {
                 var newSensorIndex = sensorsRoot.currentSensor + 1;
                 if (newSensorIndex > sensorsRoot.shownSensors.length - 1) {
-                    var newDeviceIndex = (sensorsRoot.currentDevice + 1) % devicesProxy.count;
+                    var newDeviceIndex = (sensorsRoot.currentDevice + 1) % thingsProxy.count;
                     newSensorIndex = 0;
                     sensorsRoot.currentDevice = newDeviceIndex;
                 }
@@ -675,7 +664,7 @@ MainPageTile {
                 id: timer
                 interval: 10000
                 repeat: true
-                running: sensorsRoot.shownSensors.length > 1 || devicesProxy.count > 1
+                running: sensorsRoot.shownSensors.length > 1 || thingsProxy.count > 1
                 onTriggered: nextSensorAnimation.start()
             }
 
@@ -693,7 +682,7 @@ MainPageTile {
 
                 ColumnLayout {
                     Label {
-                        text: sensorsRoot.device.name
+                        text: sensorsRoot.thing.name
                         font.pixelSize: app.smallFont
                         Layout.fillWidth: true
                         elide: Text.ElideRight
@@ -701,7 +690,7 @@ MainPageTile {
 
                     Label {
                         text: sensorsRoot.shownStateType
-                              ? (Math.round(Types.toUiValue(sensorsRoot.device.states.getState(sensorsRoot.shownStateType.id).value, sensorsRoot.shownStateType.unit) * 100) / 100) + " " + Types.toUiUnit(sensorsRoot.shownStateType.unit)
+                              ? (Math.round(Types.toUiValue(sensorsRoot.thing.states.getState(sensorsRoot.shownStateType.id).value, sensorsRoot.shownStateType.unit) * 100) / 100) + " " + Types.toUiUnit(sensorsRoot.shownStateType.unit)
                               : ""
                         font.pixelSize: app.smallFont
                         Layout.fillWidth: true
@@ -711,7 +700,7 @@ MainPageTile {
                     Led {
                         Layout.preferredHeight: app.iconSize * .5
                         Layout.preferredWidth: height
-                        state: visible && sensorsRoot.device.states.getState(sensorsRoot.shownStateType.id).value === true ? "on" : "off"
+                        state: visible && sensorsRoot.thing.states.getState(sensorsRoot.shownStateType.id).value === true ? "on" : "off"
                         visible: sensorsRoot.shownStateType && sensorsRoot.shownStateType.type.toLowerCase() === "bool"
                     }
                 }

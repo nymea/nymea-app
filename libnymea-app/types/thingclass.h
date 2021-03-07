@@ -28,8 +28,8 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef DEVICECLASS_H
-#define DEVICECLASS_H
+#ifndef THINGCLASS_H
+#define THINGCLASS_H
 
 #include <QObject>
 #include <QUuid>
@@ -41,7 +41,7 @@
 #include "eventtypes.h"
 #include "actiontypes.h"
 
-class DeviceClass : public QObject
+class ThingClass : public QObject
 {
     Q_OBJECT
 
@@ -74,7 +74,7 @@ public:
     };
     Q_ENUM(SetupMethod)
 
-    DeviceClass(QObject *parent = nullptr);
+    ThingClass(QObject *parent = nullptr);
 
     QString name() const;
     void setName(const QString &name);
@@ -156,4 +156,4 @@ private:
     ActionTypes *m_actionTypes = nullptr;
     ActionTypes *m_browserItemActionTypes = nullptr;
 };
-#endif // DEVICECLASS_H
+#endif // THINGCLASS_H

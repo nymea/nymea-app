@@ -41,7 +41,6 @@ class LogEntry : public QObject
     Q_OBJECT
     Q_PROPERTY(QVariant value READ value CONSTANT)
     Q_PROPERTY(QUuid thingId READ thingId CONSTANT)
-    Q_PROPERTY(QUuid deviceId READ thingId CONSTANT)
     Q_PROPERTY(QUuid typeId READ typeId CONSTANT)
     Q_PROPERTY(LoggingSource source READ source CONSTANT)
     Q_PROPERTY(LoggingEventType loggingEventType READ loggingEventType CONSTANT)

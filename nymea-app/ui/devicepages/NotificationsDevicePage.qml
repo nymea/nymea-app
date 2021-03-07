@@ -35,7 +35,7 @@ import Nymea 1.0
 import "../components"
 import "../customviews"
 
-DevicePageBase {
+ThingPageBase {
     id: root
 
     QtObject {
@@ -54,7 +54,7 @@ DevicePageBase {
 
     function sendMessage(title, text) {
         print("sending message", title, text)
-        var actionType = root.deviceClass.actionTypes.findByName("notify")
+        var actionType = root.thing.thingClass.actionTypes.findByName("notify")
         var params = []
         var titleParam = {}
         titleParam["paramTypeId"] = actionType.paramTypes.findByName("title").id
@@ -64,7 +64,7 @@ DevicePageBase {
         bodyParam["paramTypeId"] = actionType.paramTypes.findByName("body").id
         bodyParam["value"] = text
         params.push(bodyParam)
-        d.pendingAction = engine.deviceManager.executeAction(root.device.id, actionType.id, params)
+        d.pendingAction = engine.thingManager.executeAction(root.thing.id, actionType.id, params)
         titleTextField.clear();
         bodyTextField.clear();
     }
@@ -143,10 +143,10 @@ DevicePageBase {
 
             model: LogsModel {
                 id: logsModel
-                thingId: root.device.id
+                thingId: root.thing.id
                 engine: _engine
                 live: true
-                typeIds: [root.deviceClass.actionTypes.findByName("notify").id];
+                typeIds: [root.thing.thingClass.actionTypes.findByName("notify").id];
             }
 
             delegate: BigTile {

@@ -38,14 +38,14 @@ Page {
     id: root
 
     property Rule rule: null
-    property Device initialDeviceToBeAdded: null
+    property Thing initialDeviceToBeAdded: null
 
     property bool busy: false
 
     readonly property bool isEventBased: rule.eventDescriptors.count > 0 || rule.timeDescriptor.timeEventItems.count > 0
     readonly property bool isStateBased: (rule.stateEvaluator !== null || rule.timeDescriptor.calendarItems.count > 0)
     readonly property bool actionsVisible: true
-    readonly property bool exitActionsVisible: engine.jsonRpcClient.ensureServerVersion("1.7") && isStateBased
+    readonly property bool exitActionsVisible: isStateBased
     readonly property bool hasActions: rule.actions.count > 0
     readonly property bool hasExitActions: rule.exitActions.count > 0
     readonly property bool isEmpty: !isEventBased && !isStateBased && !hasActions
@@ -84,9 +84,9 @@ Page {
         page.onBackPressed.connect(function() {
             pageStack.pop();
         });
-        page.onThingSelected.connect(function(device) {
+        page.onThingSelected.connect(function(thing) {
             var eventDescriptor = root.rule.eventDescriptors.createNewEventDescriptor();
-            eventDescriptor.deviceId = device.id;
+            eventDescriptor.thingId = thing.id;
             selectEventDescriptorData(eventDescriptor);
         })
         page.onInterfaceSelected.connect(function(interfaceName) {
@@ -158,15 +158,15 @@ Page {
             stateEvaluator.stateDescriptor.interfaceName = interfaceName;
             selectStateDescriptorData(stateEvaluator)
         });
-        page.thingSelected.connect(function(device) {
+        page.thingSelected.connect(function(thing) {
             var stateEvaluator = root.rule.createStateEvaluator();
-            stateEvaluator.stateDescriptor.deviceId = device.id
+            stateEvaluator.stateDescriptor.thingId = thing.id
             selectStateDescriptorData(stateEvaluator)
         })
     }
 
     function selectStateDescriptorData(stateEvaluator) {
-        print("Selecting stateDescriptorData for", stateEvaluator.stateDescriptor.deviceId, stateEvaluator.stateDescriptor.interfaceName)
+        print("Selecting stateDescriptorData for", stateEvaluator.stateDescriptor.thingId, stateEvaluator.stateDescriptor.interfaceName)
         var statePage = pageStack.push(Qt.resolvedUrl("SelectStateDescriptorPage.qml"), {text: "Select state", stateDescriptor: stateEvaluator.stateDescriptor})
         statePage.backPressed.connect(function() {
             statePage.StackView.onRemoved.connect(function() {
@@ -198,9 +198,9 @@ Page {
         page.onBackPressed.connect(function() {
             pageStack.pop();
         })
-        page.onThingSelected.connect(function(device) {
+        page.onThingSelected.connect(function(thing) {
             var ruleAction = root.rule.actions.createNewRuleAction();
-            ruleAction.deviceId = device.id;
+            ruleAction.thingId = thing.id;
             selectRuleActionData(root.rule.actions, ruleAction)
         })
         page.onInterfaceSelected.connect(function(interfaceName) {
@@ -222,9 +222,9 @@ Page {
         page.onBackPressed.connect(function() {
             pageStack.pop();
         })
-        page.onThingSelected.connect(function(device) {
+        page.onThingSelected.connect(function(thing) {
             var ruleAction = root.rule.exitActions.createNewRuleAction();
-            ruleAction.deviceId = device.id;
+            ruleAction.thingId = thing.id;
             selectRuleActionData(root.rule.exitActions, ruleAction)
         })
         page.onInterfaceSelected.connect(function(interfaceName) {
@@ -258,7 +258,7 @@ Page {
         }
         if (root.initialDeviceToBeAdded !== null) {
             var ruleAction = root.rule.actions.createNewRuleAction();
-            ruleAction.deviceId = root.initialDeviceToBeAdded.id;
+            ruleAction.thingId = root.initialDeviceToBeAdded.id;
             root.initialDeviceToBeAdded = null;
             selectRuleActionData(root.rule.actions, ruleAction)
         } else {
@@ -380,7 +380,7 @@ Page {
                     columnSpacing: app.margins
                     rowSpacing: app.margins
                     Layout.preferredHeight: opacity > 0 ? implicitHeight : 0
-                    opacity: engine.jsonRpcClient.ensureServerVersion(1.6) && ruleSettings.showDetails && root.rule.executable ? 1 : 0
+                    opacity: ruleSettings.showDetails && root.rule.executable ? 1 : 0
                     Behavior on Layout.preferredHeight { NumberAnimation { duration: 200; easing.type: Easing.InOutQuad} }
                     Behavior on opacity { NumberAnimation {duration: 200; easing.type: Easing.InOutQuad } }
 
@@ -504,7 +504,7 @@ Page {
                 onClicked: {
                     if (root.initialDeviceToBeAdded !== null) {
                         var eventDescriptor = root.rule.eventDescriptors.createNewEventDescriptor();
-                        eventDescriptor.deviceId = root.initialDeviceToBeAdded.id;
+                        eventDescriptor.thingId = root.initialDeviceToBeAdded.id;
                         root.initialDeviceToBeAdded = null;
                         selectEventDescriptorData(eventDescriptor);
                     } else if (root.rule.timeDescriptor.calendarItems.count > 0) {
@@ -599,7 +599,7 @@ Page {
                 onClicked: {
                     if (root.initialDeviceToBeAdded !== null) {
                         var stateEvaluator = root.rule.createStateEvaluator();
-                        stateEvaluator.stateDescriptor.deviceId = root.initialDeviceToBeAdded.id
+                        stateEvaluator.stateDescriptor.thingId = root.initialDeviceToBeAdded.id
                         root.initialDeviceToBeAdded = null;
                         selectStateDescriptorData(stateEvaluator)
                     } else if (root.rule.timeDescriptor.timeEventItems.count > 0) {

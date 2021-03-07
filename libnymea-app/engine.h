@@ -33,7 +33,7 @@
 
 #include <QObject>
 
-#include "devicemanager.h"
+#include "thingmanager.h"
 #include "connection/nymeatransportinterface.h"
 #include "jsonrpc/jsonrpcclient.h"
 #include "wifisetup/bluetoothdiscovery.h"
@@ -49,8 +49,7 @@ class NetworkManager;
 class Engine : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(DeviceManager* deviceManager READ deviceManager CONSTANT)
-    Q_PROPERTY(DeviceManager* thingManager READ thingManager CONSTANT)
+    Q_PROPERTY(ThingManager* thingManager READ thingManager CONSTANT)
     Q_PROPERTY(RuleManager* ruleManager READ ruleManager CONSTANT)
     Q_PROPERTY(ScriptManager* scriptManager READ scriptManager CONSTANT)
     Q_PROPERTY(TagsManager* tagsManager READ tagsManager CONSTANT)
@@ -61,8 +60,7 @@ class Engine : public QObject
 public:
     explicit Engine(QObject *parent = nullptr);
 
-    DeviceManager *deviceManager() const;
-    DeviceManager *thingManager() const;
+    ThingManager *thingManager() const;
     RuleManager *ruleManager() const;
     ScriptManager *scriptManager() const;
     TagsManager *tagsManager() const;
@@ -75,7 +73,7 @@ public:
 
 private:
     JsonRpcClient *m_jsonRpcClient;
-    DeviceManager *m_thingManager;
+    ThingManager *m_thingManager;
     RuleManager *m_ruleManager;
     ScriptManager *m_scriptManager;
     LogManager *m_logManager;
@@ -85,7 +83,7 @@ private:
 
 private slots:
     void onConnectedChanged();
-    void onDeviceManagerFetchingChanged();
+    void onThingManagerFetchingChanged();
 
 };
 

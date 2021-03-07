@@ -36,7 +36,7 @@
 class EventTypes;
 class StateTypes;
 class ActionTypes;
-class DeviceClass;
+class ThingClass;
 
 class Interface : public QObject
 {
@@ -56,7 +56,7 @@ public:
     StateTypes* stateTypes() const;
     ActionTypes* actionTypes() const;
 
-    DeviceClass* createDeviceClass();
+    ThingClass* createThingClass();
 
 private:
     QString m_name;

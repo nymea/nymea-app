@@ -5,7 +5,7 @@
 #include <QNearFieldManager>
 #include <QNdefMessage>
 
-#include "types/device.h"
+#include "types/thing.h"
 #include "engine.h"
 #include "types/ruleactions.h"
 
@@ -14,7 +14,7 @@ class NfcThingActionWriter : public QObject
     Q_OBJECT
     Q_PROPERTY(bool isAvailable READ isAvailable CONSTANT)
     Q_PROPERTY(Engine *engine READ engine WRITE setEngine NOTIFY engineChanged)
-    Q_PROPERTY(Device *thing READ thing WRITE setThing NOTIFY thingChanged)
+    Q_PROPERTY(Thing *thing READ thing WRITE setThing NOTIFY thingChanged)
     Q_PROPERTY(RuleActions *actions READ actions CONSTANT)
     Q_PROPERTY(int messageSize READ messageSize NOTIFY messageSizeChanged)
     Q_PROPERTY(TagStatus status READ status NOTIFY statusChanged)
@@ -39,8 +39,8 @@ public:
     Engine *engine() const;
     void setEngine(Engine *engine);
 
-    Device *thing() const;
-    void setThing(Device *thing);
+    Thing *thing() const;
+    void setThing(Thing *thing);
 
     RuleActions *actions() const;
 
@@ -64,7 +64,7 @@ private slots:
 private:
     QNearFieldManager *m_manager = nullptr;
     Engine *m_engine = nullptr;
-    Device *m_thing = nullptr;
+    Thing *m_thing = nullptr;
     RuleActions* m_actions;
 
     TagStatus m_status = TagStatusWaiting;

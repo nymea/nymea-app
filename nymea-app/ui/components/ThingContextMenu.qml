@@ -22,21 +22,19 @@ AutoSizeMenu {
             root.addItem(menuEntryComponent.createObject(root, {text: qsTr("Logs"), iconSource: "../images/logs.svg", functionName: "openThingLogPage"}))
         }
 
-        if (engine.jsonRpcClient.ensureServerVersion("1.6")) {
-            root.addItem(menuEntryComponent.createObject(root,
-                {
-                    text: Qt.binding(function() { return favoritesProxy.count === 0 ? qsTr("Mark as favorite") : qsTr("Remove from favorites")}),
-                    iconSource: Qt.binding(function() { return favoritesProxy.count === 0 ? "../images/starred.svg" : "../images/non-starred.svg"}),
-                    functionName: "toggleFavorite"
-                }))
+        root.addItem(menuEntryComponent.createObject(root,
+            {
+                text: Qt.binding(function() { return favoritesProxy.count === 0 ? qsTr("Mark as favorite") : qsTr("Remove from favorites")}),
+                iconSource: Qt.binding(function() { return favoritesProxy.count === 0 ? "../images/starred.svg" : "../images/non-starred.svg"}),
+                functionName: "toggleFavorite"
+            }))
 
-            root.addItem(menuEntryComponent.createObject(root,
-                {
-                    text: qsTr("Grouping"),
-                    iconSource: "../images/view-grid-symbolic.svg",
-                    functionName: "addToGroup"
-                }))
-        }
+        root.addItem(menuEntryComponent.createObject(root,
+            {
+                text: qsTr("Grouping"),
+                iconSource: "../images/view-grid-symbolic.svg",
+                functionName: "addToGroup"
+            }))
 
         print("*** creating menu")
         print("NFC", NfcHelper.isAvailable)
@@ -52,7 +50,7 @@ AutoSizeMenu {
     }
 
     function openThingMagicPage() {
-        pageStack.push(Qt.resolvedUrl("../magic/DeviceRulesPage.qml"), {thing: root.thing})
+        pageStack.push(Qt.resolvedUrl("../magic/ThingRulesPage.qml"), {thing: root.thing})
     }
     function openGenericThingPage() {
         pageStack.push(Qt.resolvedUrl("../devicepages/GenericDevicePage.qml"), {thing: root.thing})
@@ -84,7 +82,7 @@ AutoSizeMenu {
     TagsProxyModel {
         id: favoritesProxy
         tags: engine.tagsManager.tags
-        filterDeviceId: root.thing.id
+        filterThingId: root.thing.id
         filterTagId: "favorites"
     }
 
@@ -155,7 +153,7 @@ AutoSizeMenu {
                         id: innerProxy
                         engine: _engine
                         filterTagId: model.tagId
-                        filterDeviceId: root.thing.id
+                        filterThingId: root.thing.id
                     }
                 }
             }

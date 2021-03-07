@@ -42,7 +42,7 @@
 #include "types/ruleactionparam.h"
 #include "types/ruleactionparams.h"
 #include "types/repeatingoption.h"
-#include "devicesproxy.h"
+#include "thingsproxy.h"
 
 #include <QDebug>
 #include <QDir>
@@ -297,7 +297,7 @@ bool RuleTemplatesFilterModel::filterAcceptsRow(int source_row, const QModelInde
 
 
     // Make sure we have all the things to satisfy all of the templates events/states/actions
-    if (m_filterDevicesProxy && !thingsSatisfyRuleTemplate(t, m_filterDevicesProxy)) {
+    if (m_filterThingsProxy && !thingsSatisfyRuleTemplate(t, m_filterThingsProxy)) {
         qDebug() << "Filtering out" << t->description() << "because required no thing in the provided filter proxy satisfies definitions";
         return false;
     }
@@ -330,7 +330,7 @@ bool RuleTemplatesFilterModel::stateEvaluatorTemplateContainsInterface(StateEval
     return false;
 }
 
-bool RuleTemplatesFilterModel::thingsSatisfyRuleTemplate(RuleTemplate *ruleTemplate, DevicesProxy *things) const
+bool RuleTemplatesFilterModel::thingsSatisfyRuleTemplate(RuleTemplate *ruleTemplate, ThingsProxy *things) const
 {
     // For improved performance it would be better to just cycle things once and flag satisfied states/events/actions
     // instead of looping over all things for every entry, but for the amount of templates we have right now
@@ -340,7 +340,7 @@ bool RuleTemplatesFilterModel::thingsSatisfyRuleTemplate(RuleTemplate *ruleTempl
     foreach (const QString &interfaceName, ruleTemplate->interfaces()) {
         bool haveThing = false;
         for (int i = 0; i < things->rowCount(); i++) {
-            Device *thing = things->get(i);
+            Thing *thing = things->get(i);
             if (thing->thingClass()->interfaces().contains(interfaceName)) {
                 haveThing = true;
                 break;
@@ -357,7 +357,7 @@ bool RuleTemplatesFilterModel::thingsSatisfyRuleTemplate(RuleTemplate *ruleTempl
         EventDescriptorTemplate *eventDescriptorTemplate = ruleTemplate->eventDescriptorTemplates()->get(i);
         bool haveThing = false;
         for (int j = 0; j < things->rowCount(); j++) {
-            Device *thing = things->get(j);
+            Thing *thing = things->get(j);
             if (thing->thingClass()->eventTypes()->findByName(eventDescriptorTemplate->eventName())) {
                 haveThing = true;
                 break;
@@ -378,7 +378,7 @@ bool RuleTemplatesFilterModel::thingsSatisfyRuleTemplate(RuleTemplate *ruleTempl
         RuleActionTemplate *ruleActionTemplate = ruleTemplate->ruleActionTemplates()->get(i);
         bool haveThing = false;
         for (int j = 0; j < things->rowCount(); j++) {
-            Device *thing = things->get(j);
+            Thing *thing = things->get(j);
             if (thing->thingClass()->actionTypes()->findByName(ruleActionTemplate->actionName())) {
                 haveThing = true;
                 break;
@@ -394,7 +394,7 @@ bool RuleTemplatesFilterModel::thingsSatisfyRuleTemplate(RuleTemplate *ruleTempl
         RuleActionTemplate *ruleExitActionTemplate = ruleTemplate->ruleExitActionTemplates()->get(i);
         bool haveThing = false;
         for (int j = 0; j < things->rowCount(); j++) {
-            Device *thing = things->get(j);
+            Thing *thing = things->get(j);
             if (thing->thingClass()->actionTypes()->findByName(ruleExitActionTemplate->actionName())) {
                 haveThing = true;
                 break;
@@ -409,12 +409,12 @@ bool RuleTemplatesFilterModel::thingsSatisfyRuleTemplate(RuleTemplate *ruleTempl
     return true;
 }
 
-bool RuleTemplatesFilterModel::thingsSatisfyStateEvaluatorTemplate(StateEvaluatorTemplate *stateEvaluatorTemplate, DevicesProxy *things) const
+bool RuleTemplatesFilterModel::thingsSatisfyStateEvaluatorTemplate(StateEvaluatorTemplate *stateEvaluatorTemplate, ThingsProxy *things) const
 {
     if (stateEvaluatorTemplate->stateDescriptorTemplate()) {
         bool haveThing = false;
         for (int i = 0; i < things->rowCount(); i++) {
-            Device *thing = things->get(i);
+            Thing *thing = things->get(i);
             if (thing->thingClass()->stateTypes()->findByName(stateEvaluatorTemplate->stateDescriptorTemplate()->stateName())) {
                 haveThing = true;
                 break;

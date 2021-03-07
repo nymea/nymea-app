@@ -39,9 +39,6 @@ Page {
     property Thing thing: null
     readonly property ThingClass thingClass: thing.thingClass
 
-    property alias device: root.thing
-    property alias deviceClass: root.thingClass
-
     property bool showLogsButton: true
     property bool showDetailsButton: true
     property bool showBrowserButton: true
@@ -64,7 +61,7 @@ Page {
             imageSource: "../images/folder-symbolic.svg"
             visible: root.thingClass.browsable && root.showBrowserButton
             onClicked: {
-                pageStack.push(Qt.resolvedUrl("DeviceBrowserPage.qml"), {device: root.device})
+                pageStack.push(Qt.resolvedUrl("DeviceBrowserPage.qml"), {thing: root.thing})
             }
         }
 
@@ -83,10 +80,10 @@ Page {
     }
 
     Connections {
-        target: engine.deviceManager.devices
+        target: engine.thingManager.things
         onThingRemoved:{
-            if (device == root.device) {
-                print("Device destroyed")
+            if (thing == root.thing) {
+                print("Thing destroyed")
                 pageStack.pop()
             }
         }

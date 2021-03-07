@@ -35,7 +35,7 @@ import QtQuick.Layouts 1.1
 import Nymea 1.0
 import "../components"
 
-DeviceListPageBase {
+ThingsListPageBase {
     id: root
 
     header: NymeaHeader {

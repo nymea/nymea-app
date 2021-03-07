@@ -644,13 +644,19 @@ void JsonRpcClient::helloReply(int /*commandId*/, const QVariantMap &params)
 
     qDebug() << "Handshake reply:" << "Protocol version:" << protoVersionString << "InitRequired:" << m_initialSetupRequired << "AuthRequired:" << m_authenticationRequired << "PushButtonAvailable:" << m_pushButtonAuthAvailable;;
 
-    QVersionNumber minimumRequiredVersion = QVersionNumber(1, 10);
+    QVersionNumber minimumRequiredVersion = QVersionNumber(5, 0);
+    QVersionNumber maximumMajorVersion = QVersionNumber(5);
     if (m_jsonRpcVersion < minimumRequiredVersion) {
         qWarning() << "Nymea core doesn't support minimum required version. Required:" << minimumRequiredVersion << "Found:" << m_jsonRpcVersion;
-        m_connection->disconnect();
-        emit invalidProtocolVersion(m_jsonRpcVersion.toString(), minimumRequiredVersion.toString());
+        emit invalidMinimumVersion(m_jsonRpcVersion.toString(), minimumRequiredVersion.toString());
         return;
     }
+    if (m_jsonRpcVersion.majorVersion() > maximumMajorVersion.majorVersion()) {
+        qWarning() << "Nymea core has breaking API changes not supported by this app version. Core major version:" << m_jsonRpcVersion.majorVersion() << "Maximum supported major version:" << maximumMajorVersion.majorVersion();
+        emit invalidMaximumVersion(m_jsonRpcVersion.toString(), QString("%1.x").arg(maximumMajorVersion.majorVersion()));
+        return;
+    }
+
 
     // Verify SSL certificate
     if (m_connection->isEncrypted()) {

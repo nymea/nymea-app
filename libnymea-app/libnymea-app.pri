@@ -43,8 +43,8 @@ SOURCES += \
     $${PWD}/types/types.cpp \
     $${PWD}/types/vendor.cpp \
     $${PWD}/types/vendors.cpp \
-    $${PWD}/types/deviceclass.cpp \
-    $${PWD}/types/device.cpp \
+    $${PWD}/types/thingclass.cpp \
+    $${PWD}/types/thing.cpp \
     $${PWD}/types/param.cpp \
     $${PWD}/types/params.cpp \
     $${PWD}/types/paramtype.cpp \
@@ -105,14 +105,13 @@ SOURCES += \
     $${PWD}/connection/discovery/upnpdiscovery.cpp \
     $${PWD}/connection/discovery/zeroconfdiscovery.cpp \
     $${PWD}/connection/discovery/bluetoothservicediscovery.cpp \
-    $${PWD}/devicemanager.cpp \
-    $${PWD}/jsonrpc/jsontypes.cpp \
+    $${PWD}/thingmanager.cpp \
     $${PWD}/jsonrpc/jsonrpcclient.cpp \
     $${PWD}/jsonrpc/jsonhandler.cpp \
-    $${PWD}/devices.cpp \
-    $${PWD}/devicesproxy.cpp \
-    $${PWD}/deviceclasses.cpp \
-    $${PWD}/deviceclassesproxy.cpp \
+    $${PWD}/things.cpp \
+    $${PWD}/thingsproxy.cpp \
+    $${PWD}/thingclasses.cpp \
+    $${PWD}/thingclassesproxy.cpp \
     $${PWD}/thingdiscovery.cpp \
     $${PWD}/models/packagesfiltermodel.cpp \
     $${PWD}/models/taglistmodel.cpp \
@@ -151,7 +150,7 @@ SOURCES += \
     $${PWD}/configuration/nymeaconfiguration.cpp \
     $${PWD}/configuration/mqttpolicy.cpp \
     $${PWD}/configuration/mqttpolicies.cpp \
-    $${PWD}/models/devicemodel.cpp \
+    $${PWD}/models/thingmodel.cpp \
     $${PWD}/system/systemcontroller.cpp \
     $${PWD}/thinggroup.cpp \
     $${PWD}/zigbee/zigbeeadapters.cpp \
@@ -187,8 +186,8 @@ HEADERS += \
     $${PWD}/types/types.h \
     $${PWD}/types/vendor.h \
     $${PWD}/types/vendors.h \
-    $${PWD}/types/deviceclass.h \
-    $${PWD}/types/device.h \
+    $${PWD}/types/thingclass.h \
+    $${PWD}/types/thing.h \
     $${PWD}/types/param.h \
     $${PWD}/types/params.h \
     $${PWD}/types/paramtype.h \
@@ -250,14 +249,13 @@ HEADERS += \
     $${PWD}/connection/discovery/upnpdiscovery.h \
     $${PWD}/connection/discovery/zeroconfdiscovery.h \
     $${PWD}/connection/discovery/bluetoothservicediscovery.h \
-    $${PWD}/devicemanager.h \
-    $${PWD}/jsonrpc/jsontypes.h \
+    $${PWD}/thingmanager.h \
     $${PWD}/jsonrpc/jsonrpcclient.h \
     $${PWD}/jsonrpc/jsonhandler.h \
-    $${PWD}/devices.h \
-    $${PWD}/devicesproxy.h \
-    $${PWD}/deviceclasses.h \
-    $${PWD}/deviceclassesproxy.h \
+    $${PWD}/things.h \
+    $${PWD}/thingsproxy.h \
+    $${PWD}/thingclasses.h \
+    $${PWD}/thingclassesproxy.h \
     $${PWD}/thingdiscovery.h \
     $${PWD}/models/packagesfiltermodel.h \
     $${PWD}/models/taglistmodel.h \
@@ -296,7 +294,7 @@ HEADERS += \
     $${PWD}/configuration/nymeaconfiguration.h \
     $${PWD}/configuration/mqttpolicy.h \
     $${PWD}/configuration/mqttpolicies.h \
-    $${PWD}/models/devicemodel.h \
+    $${PWD}/models/thingmodel.h \
     $${PWD}/system/systemcontroller.h \
     $${PWD}/thinggroup.h \
     $${PWD}/zigbee/zigbeeadapters.h \

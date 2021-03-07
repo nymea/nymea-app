@@ -38,7 +38,7 @@ import "../components"
 import "../customviews"
 import "../delegates"
 
-DevicePageBase {
+ThingPageBase {
     id: root
     showBrowserButton: false
 

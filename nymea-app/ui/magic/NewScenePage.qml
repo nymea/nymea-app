@@ -50,7 +50,7 @@ Page {
         model: RuleTemplatesFilterModel {
 
             ruleTemplates: RuleTemplates {}
-            filterByDevices: DevicesProxy {
+            filterByThings: ThingsProxy {
                 engine: _engine
             }
 

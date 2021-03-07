@@ -38,7 +38,7 @@
 #include "statetype.h"
 #include "statetypes.h"
 
-#include "device.h"
+#include "thing.h"
 
 #include "paramtypes.h"
 

@@ -38,23 +38,24 @@ import "../delegates"
 Page {
     id: root
     header: NymeaHeader {
-        text: qsTr("Browse %1").arg(root.device.name)
+        text: qsTr("Browse %1").arg(root.thing.name)
         onBackPressed: pageStack.pop()
     }
-    property Device device: null
+    property Thing thing: null
+    property alias device: root.thing
     property string nodeId: ""
 
     Component.onCompleted: {
-        d.model = engine.deviceManager.browseDevice(root.device.id, root.nodeId);
+        d.model = engine.thingManager.browseThing(root.thing.id, root.nodeId);
     }
 
     function executeBrowserItem(itemId) {
         d.pendingItemId = itemId
-        d.pendingBrowserItemId = engine.deviceManager.executeBrowserItem(root.device.id, itemId)
+        d.pendingBrowserItemId = engine.thingManager.executeBrowserItem(root.thing.id, itemId)
     }
     function executeBrowserItemAction(itemId, actionTypeId, params) {
         d.pendingItemId = itemId
-        d.pendingBrowserItemId = engine.deviceManager.executeBrowserItemAction(root.device.id, itemId, actionTypeId, params)
+        d.pendingBrowserItemId = engine.thingManager.executeBrowserItemAction(root.thing.id, itemId, actionTypeId, params)
     }
 
     QtObject {
@@ -65,23 +66,23 @@ Page {
     }
 
     Connections {
-        target: engine.deviceManager
-        onExecuteBrowserItemReply: actionExecuted(commandId, params)
-        onExecuteBrowserItemActionReply: actionExecuted(commandId, params)
+        target: engine.thingManager
+        onExecuteBrowserItemReply: actionExecuted(commandId, thingError, displayMessage)
+        onExecuteBrowserItemActionReply: actionExecuted(commandId, thingError, displayMessage)
     }
-    function actionExecuted(commandId, params) {
+    function actionExecuted(commandId, thingError, displayMessage) {
         if (commandId === d.pendingBrowserItemId) {
             d.pendingBrowserItemId = -1;
             d.pendingItemId = ""
-            if (params.thinggError !== "ThingErrorNoError") {
-                if (params.displayMessage.length > 0) {
-                    header.showInfo(qsTr("Error: %1").arg(params.displayMessage), true)
+            if (thingError !== Thing.ThingErrorNoError) {
+                if (displayMessage.length > 0) {
+                    header.showInfo(qsTr("Error: %1").arg(displayMessage), true)
                 } else {
-                    header.showInfo(qsTr("Error: %1").arg(params.thingError), true)
+                    header.showInfo(qsTr("Error: %1").arg(thingError), true)
                 }
             }
         }
-        engine.deviceManager.refreshBrowserItems(d.model)
+        engine.thingManager.refreshBrowserItems(d.model)
     }
 
     ListView {
@@ -93,14 +94,14 @@ Page {
         delegate: BrowserItemDelegate {
             id: delegate
             busy: d.pendingItemId === model.id
-            device: root.device
+            thing: root.thing
 
             onClicked: {
                 print("clicked:", model.id)
                 if (model.executable) {
                     root.executeBrowserItem(model.id)
                 } else if (model.browsable) {
-                    pageStack.push(Qt.resolvedUrl("DeviceBrowserPage.qml"), {device: root.device, nodeId: model.id})
+                    pageStack.push(Qt.resolvedUrl("DeviceBrowserPage.qml"), {thing: root.thing, nodeId: model.id})
                 }
             }
 

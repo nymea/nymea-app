@@ -28,21 +28,21 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef DEVICEMODEL_H
-#define DEVICEMODEL_H
+#ifndef THINGMODEL_H
+#define THINGMODEL_H
 
 #include <QObject>
 
-#include "types/device.h"
-#include "types/deviceclass.h"
+#include "types/thing.h"
+#include "types/thingclass.h"
 
-class DeviceModel : public QAbstractListModel
+class ThingModel : public QAbstractListModel
 {
     Q_OBJECT
 
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
 
-    Q_PROPERTY(Device* device READ device WRITE setDevice NOTIFY deviceChanged)
+    Q_PROPERTY(Thing* thing READ thing WRITE setThing NOTIFY thingChanged)
 
     Q_PROPERTY(bool showStates READ showStates WRITE setShowStates NOTIFY showStatesChanged)
     Q_PROPERTY(bool showActions READ showActions WRITE setShowActions NOTIFY showActionsChanged)
@@ -63,15 +63,15 @@ public:
     };
     Q_ENUM(Type)
 
-    explicit DeviceModel(QObject *parent = nullptr);
+    explicit ThingModel(QObject *parent = nullptr);
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role) const override;
     QHash<int, QByteArray> roleNames() const override;
     Q_INVOKABLE QVariant getData(int index, int role) const;
 
-    Device* device() const;
-    void setDevice(Device *device);
+    Thing* thing() const;
+    void setThing(Thing *device);
 
     bool showStates() const;
     void setShowStates(bool showStates);
@@ -83,7 +83,7 @@ public:
     void setShowEvents(bool showEvents);
 
 signals:
-    void deviceChanged();
+    void thingChanged();
 
     void countChanged();
 
@@ -95,7 +95,7 @@ private:
     void updateList();
 
 private:
-    Device *m_device = nullptr;
+    Thing *m_device = nullptr;
 
     bool m_showStates = true;
     bool m_showActions = true;
@@ -104,4 +104,4 @@ private:
     QList<QUuid> m_list;
 };
 
-#endif // DEVICEMODEL_H
+#endif // THINGMODEL_H

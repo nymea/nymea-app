@@ -39,11 +39,11 @@ import "../customviews"
 Item {
     id: root
 
-    property Device thing: null
-    readonly property DeviceClass thingClass: thing.deviceClass
+    property Thing thing: null
+    readonly property ThingClass thingClass: thing.thingClass
 
     readonly property string type: "shutter"
-    readonly property bool isExtended: thing.deviceClass.interfaces.indexOf("extendedclosable") >= 0
+    readonly property bool isExtended: thing.thingClass.interfaces.indexOf("extendedclosable") >= 0
 
     readonly property State movingState: isExtended ? thing.states.getState(thingClass.stateTypes.findByName("moving").id) : 0
     readonly property State percentageState: isExtended ? thing.states.getState(thingClass.stateTypes.findByName("percentage").id) : 0
@@ -155,7 +155,7 @@ Item {
                     percentageParam["value"] = percentage
                     params.push(percentageParam);
                     print("executing", percentage)
-                    engine.deviceManager.executeAction(root.thing.id, actionType.id, params);
+                    engine.thingManager.executeAction(root.thing.id, actionType.id, params);
 
                 }
             }

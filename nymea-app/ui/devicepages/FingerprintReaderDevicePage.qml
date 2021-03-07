@@ -35,14 +35,13 @@ import Nymea 1.0
 import "../components"
 import "../customviews"
 
-DevicePageBase {
+ThingPageBase {
     id: root
 
-    readonly property var usersStateType: deviceClass.stateTypes.findByName("users")
-    readonly property var usersState: device.states.getState(usersStateType.id)
+    readonly property State usersState: thing.stateByName("users")
 
-    readonly property var accessGrantedEventType: deviceClass.eventTypes.findByName("accessGranted")
-    readonly property var accessDeniedEventType: deviceClass.eventTypes.findByName("accessDenied")
+    readonly property EventType accessGrantedEventType: thing.thingClass.eventTypes.findByName("accessGranted")
+    readonly property EventType accessDeniedEventType: thing.thingClass.eventTypes.findByName("accessDenied")
 
     ColumnLayout {
         anchors.fill: parent
@@ -70,7 +69,7 @@ DevicePageBase {
 
             logsModel: LogsModel {
                 id: logsModel
-                thingId: root.device.id
+                thingId: root.thing.id
                 engine: _engine
                 live: true
                 typeIds: [root.accessGrantedEventType.id, root.accessDeniedEventType.id];
@@ -136,13 +135,13 @@ DevicePageBase {
                         }
 
                         onDeleteClicked: {
-                            var actionType = root.deviceClass.actionTypes.findByName("removeUser")
+                            var actionType = root.thing.thingClass.actionTypes.findByName("removeUser")
                             var params = []
                             var titleParam = {}
                             titleParam["paramTypeId"] = actionType.paramTypes.findByName("userId").id
                             titleParam["value"] = modelData
                             params.push(titleParam)
-                            engine.deviceManager.executeAction(root.device.id, actionType.id, params)
+                            engine.thingManager.executeAction(root.thing.id, actionType.id, params)
                         }
                     }
 
@@ -189,10 +188,9 @@ DevicePageBase {
             property bool error: false
 
             Connections {
-                target: engine.deviceManager
+                target: engine.thingManager
                 onExecuteActionReply: {
-                    print("Execute action reply:", JSON.stringify(params));
-                    addUserPage.error = params["deviceError"] !== "DeviceErrorNoError"
+                    addUserPage.error = thingError !== Thing.ThingErrorNoError
                     var masks =[]
                     masks.push({x: 0, y: 0, width: 1, height: 1});
                     addUserPage.done = true
@@ -250,7 +248,7 @@ DevicePageBase {
                                 text: qsTr("Add user")
                                 Layout.fillWidth: true
                                 onClicked: {
-                                    var actionType = root.deviceClass.actionTypes.findByName("addUser")
+                                    var actionType = root.thing.thingClass.actionTypes.findByName("addUser")
                                     var params = []
                                     var titleParam = {}
                                     titleParam["paramTypeId"] = actionType.paramTypes.findByName("userId").id
@@ -260,7 +258,7 @@ DevicePageBase {
                                     fingerParam["paramTypeId"] = actionType.paramTypes.findByName("finger").id
                                     fingerParam["value"] = fingerComboBox.model.get(fingerComboBox.currentIndex).enumValue
                                     params.push(fingerParam)
-                                    engine.deviceManager.executeAction(root.device.id, actionType.id, params)
+                                    engine.thingManager.executeAction(root.thing.id, actionType.id, params)
                                     addUserSwipeView.currentIndex++
                                 }
                             }

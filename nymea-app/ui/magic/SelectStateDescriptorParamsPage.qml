@@ -37,12 +37,12 @@ import Nymea 1.0
 
 Page {
     id: root
-    // Needs to be set and filled in with deviceId and eventTypeId
+    // Needs to be set and filled in with thingId and eventTypeId
     property var stateDescriptor: null
 
-    readonly property var device: stateDescriptor && stateDescriptor.deviceId ? engine.deviceManager.devices.getDevice(stateDescriptor.deviceId) : null
+    readonly property Thing thing: stateDescriptor && stateDescriptor.thingId ? engine.thingManager.things.getThing(stateDescriptor.thingId) : null
     readonly property var iface: stateDescriptor && stateDescriptor.interfaceName ? Interfaces.findByName(stateDescriptor.interfaceName) : null
-    readonly property var stateType: device ? engine.deviceManager.deviceClasses.getDeviceClass(device.deviceClassId).stateTypes.getStateType(stateDescriptor.stateTypeId)
+    readonly property var stateType: thing ? thing.thingClass.stateTypes.getStateType(stateDescriptor.stateTypeId)
                                               : iface ? iface.stateTypes.findByName(stateDescriptor.interfaceState) : null
 
     signal backPressed();

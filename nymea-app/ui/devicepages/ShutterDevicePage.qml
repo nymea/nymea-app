@@ -37,19 +37,18 @@ import Nymea 1.0
 import "../components"
 import "../customviews"
 
-DevicePageBase {
+ThingPageBase {
     id: root
 
     readonly property bool landscape: width > height * 1.5
-    readonly property bool isExtended: deviceClass.interfaces.indexOf("extendedclosable") >= 0
-    readonly property bool isVenetian: deviceClass.interfaces.indexOf("venetianblind") >= 0
+    readonly property bool isExtended: thing.thingClass.interfaces.indexOf("extendedclosable") >= 0
+    readonly property bool isVenetian: thing.thingClass.interfaces.indexOf("venetianblind") >= 0
 
-    readonly property StateType movingStateType: isExtended ? deviceClass.stateTypes.findByName("moving") : null
-    readonly property StateType angleStateType: isVenetian ? deviceClass.stateTypes.findByName("angle") : null
+    readonly property StateType angleStateType: isVenetian ? thing.thingClass.stateTypes.findByName("angle") : null
 
-    readonly property State movingState: isExtended ? device.states.getState(movingStateType.id) : null
-    readonly property State percentageState: isExtended ? device.states.getState(deviceClass.stateTypes.findByName("percentage").id) : null
-    readonly property State angleState: isVenetian ? device.states.getState(angleStateType.id) : null
+    readonly property State movingState: thing.stateByName("moving")
+    readonly property State percentageState: thing.stateByName("percentage")
+    readonly property State angleState: isVenetian ? thing.states.getState(angleStateType.id) : null
 
 
     readonly property bool moving: movingState ? movingState.value === true : false
@@ -82,7 +81,7 @@ DevicePageBase {
             ClosablesControlLarge {
                 anchors { left: parent.left; top: parent.top; bottom: parent.bottom; }
                 width: height
-                thing: root.device
+                thing: root.thing
 
                 ClosableArrowAnimation {
                     id: arrowAnimation
@@ -256,13 +255,13 @@ DevicePageBase {
                                 angleMovable.angle = targetAngle
 
 
-                                var actionType = root.deviceClass.actionTypes.findByName("angle");
+                                var actionType = root.thing.thingClass.actionTypes.findByName("angle");
                                 var params = [];
                                 var percentageParam = {}
                                 percentageParam["paramTypeId"] = actionType.paramTypes.findByName("angle").id;
                                 percentageParam["value"] = targetAngle
                                 params.push(percentageParam);
-                                engine.deviceManager.executeAction(root.device.id, actionType.id, params);
+                                engine.thingManager.executeAction(root.thing.id, actionType.id, params);
 
                             }
                         }
@@ -286,7 +285,7 @@ DevicePageBase {
 
             ShutterControls {
                 id: shutterControls
-                device: root.device
+                thing: root.thing
                 width: parent.width
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.verticalCenter: parent.verticalCenter

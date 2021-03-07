@@ -43,7 +43,7 @@ MainViewBase {
         id: mainModel
         interfacesModel: InterfacesModel {
             engine: _engine
-            things: DevicesProxy {
+            things: ThingsProxy {
                 engine: _engine
             }
             shownInterfaces: app.supportedInterfaces
@@ -72,7 +72,7 @@ MainViewBase {
     EmptyViewPlaceholder {
         anchors { left: parent.left; right: parent.right; margins: app.margins }
         anchors.verticalCenter: parent.verticalCenter
-        visible: engine.deviceManager.devices.count === 0 && !engine.deviceManager.fetchingData
+        visible: engine.thingManager.things.count === 0 && !engine.thingManager.fetchingData
         title: qsTr("Welcome to %1!").arg(app.systemName)
         // Have that split in 2 because we need those strings separated in EditDevicesPage too and don't want translators to do them twice
         text: qsTr("There are no things set up yet.") + "\n" + qsTr("In order for your %1 system to be useful, go ahead and add some things.").arg(app.systemName)

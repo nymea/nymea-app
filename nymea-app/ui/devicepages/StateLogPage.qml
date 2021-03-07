@@ -39,16 +39,15 @@ import "../customviews"
 Page {
     id: root
 
-    property var device: null
-    property var stateType: null
+    property Thing thing: null
+    property StateType stateType: null
 
     readonly property bool canShowGraph: {
         switch (root.stateType.type) {
         case "Int":
         case "Double":
-            return true;
         case "Bool":
-            return engine.jsonRpcClient.ensureServerVersion("1.10")
+            return true;
         }
         print("not showing graph for", root.stateType.type)
         return false;
@@ -62,7 +61,7 @@ Page {
     LogsModelNg {
         id: logsModelNg
         engine: _engine
-        deviceId: root.device.id
+        thingId: root.thing.id
         typeIds: [root.stateType.id]
         live: true
     }
@@ -94,21 +93,21 @@ Page {
                 width: swipeView.width
                 height: swipeView.height
 
-                logsModel: engine.jsonRpcClient.ensureServerVersion("1.10") ? logsModelNg : logsModel
+                logsModel: logsModelNg
 
                 onAddRuleClicked: {
                     var value = logView.logsModel.get(index).value
                     var typeId = logView.logsModel.get(index).typeId
                     var rule = engine.ruleManager.createNewRule();
                     var stateEvaluator = rule.createStateEvaluator();
-                    stateEvaluator.stateDescriptor.deviceId = device.id;
+                    stateEvaluator.stateDescriptor.thingId = thing.id;
                     stateEvaluator.stateDescriptor.stateTypeId = typeId;
                     stateEvaluator.stateDescriptor.value = value;
                     stateEvaluator.stateDescriptor.valueOperator = StateDescriptor.ValueOperatorEquals;
                     rule.setStateEvaluator(stateEvaluator);
-                    rule.name = root.device.name + " - " + stateType.displayName + " = " + value;
+                    rule.name = root.thing.name + " - " + stateType.displayName + " = " + value;
 
-                    var rulePage = pageStack.push(Qt.resolvedUrl("../magic/DeviceRulesPage.qml"), {device: root.device});
+                    var rulePage = pageStack.push(Qt.resolvedUrl("../magic/ThingRulesPage.qml"), {thing: root.thing});
                     rulePage.addRule(rule);
                 }
             }
@@ -119,12 +118,8 @@ Page {
                 height: swipeView.height
                 Component.onCompleted: {
                     var source;
-                    if (engine.jsonRpcClient.ensureServerVersion("1.10")) {
-                        source = Qt.resolvedUrl("../customviews/GenericTypeGraph.qml");
-                    } else {
-                        source = Qt.resolvedUrl("../customviews/GenericTypeGraphPre110.qml");
-                    }
-                    setSource(source, {device: root.device, stateType: root.stateType})
+                    source = Qt.resolvedUrl("../customviews/GenericTypeGraph.qml");
+                    setSource(source, {thing: root.thing, stateType: root.stateType})
                 }
             }
         }

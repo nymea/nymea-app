@@ -48,19 +48,19 @@ SettingsPageBase {
         HeaderButton {
             imageSource: "../images/tick.svg"
             onClicked: {
-                engine.deviceManager.savePluginConfig(root.plugin.pluginId)
+                engine.thingManager.savePluginConfig(root.plugin.pluginId)
             }
         }
     }
 
     Connections {
-        target: engine.deviceManager
+        target: engine.thingManager
         onSavePluginConfigReply: {
-            if (params.deviceError === "DeviceErrorNoError") {
+            if (thingError === Thing.ThingErrorNoError) {
                 pageStack.pop();
             } else {
-                console.warn("Error saving plugin params:", JSON.stringify(params))
-                var dialog = errorDialog.createObject(root, {errorCode: params.deviceError});
+                console.warn("Error saving plugin params:", thingError)
+                var dialog = errorDialog.createObject(root, {error: thingError});
                 dialog.open();
             }
         }
