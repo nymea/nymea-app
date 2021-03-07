@@ -1,5 +1,4 @@
 name: nymea-app
-version: developer-build
 summary: Control app for nymea
 description: | 
   The nymea daemon is a plugin based IoT (Internet of Things) server. 
@@ -9,12 +8,19 @@ description: |
   scenes and behaviors for your environment.
 
 grade: stable
-base: core18
+base: core20
 confinement: strict
+adopt-info: nymea-app
+
+architectures:
+- build-on: amd64
+- build-on: arm64
+- build-on: armhf
 
 apps:
   nymea-app:
-    command: desktop-launch nymea-app
+    command-chain: [ bin/desktop-launch ]
+    command: usr/bin/nymea-app
     desktop: usr/share/applications/nymea-app.desktop
     plugs:
     - avahi-observe
@@ -55,7 +61,6 @@ parts:
     plugin: qmake
     source: .
     after: [desktop-qt5]
-    project-files: [ nymea-app.pro ]
     build-packages:
       - execstack
       - qt5-default
@@ -90,3 +95,6 @@ parts:
       - libavahi-common3
       - qtvirtualkeyboard-plugin
       - qtwayland5
+    override-build: |
+      snapcraftctl set-version $( head -n 1 ${SNAPCRAFT_PART_SRC}/version.txt )
+      snapcraftctl build
