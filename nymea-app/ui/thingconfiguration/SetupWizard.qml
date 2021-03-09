@@ -570,23 +570,40 @@ Page {
 
                 Component.onCompleted: {
                     // This might fail if qml-module-qtwebview isn't around
-                    Qt.createQmlObject(webViewString, webViewContainer);
+                    var webView = Qt.createQmlObject(webViewString, webViewContainer);
+                    print("created webView", webView)
                 }
 
                 property string webViewString:
                     '
                     import QtQuick 2.8;
                     import QtWebView 1.1;
-                    WebView {
-                        id: oAuthWebView
-                        anchors.fill: parent
-                        url: oAuthPage.oAuthUrl
+                    import QtQuick.Controls 2.9
+                    import Nymea 1.0;
 
-                        onUrlChanged: {
-                            print("OAUTH URL changed", url)
-                            if (url.toString().indexOf("https://127.0.0.1") == 0) {
-                                print("Redirect URL detected!");
-                                engine.thingManager.confirmPairing(d.pairingTransactionId, url)
+                    Rectangle {
+                        anchors.fill: parent
+                        color: Style.backgroundColor
+
+                        BusyIndicator {
+                            id: busyIndicator
+                            anchors.centerIn: parent
+                            running: oAuthWebView.loading
+                        }
+
+                        WebView {
+                            id: oAuthWebView
+                            anchors.fill: parent
+                            url: oAuthPage.oAuthUrl
+
+                            onUrlChanged: {
+                                print("OAUTH URL changed", url)
+                                if (url.toString().indexOf("https://127.0.0.1") == 0) {
+                                    print("Redirect URL detected!");
+                                    engine.thingManager.confirmPairing(d.pairingTransactionId, url)
+                                    busyIndicator.running = true
+                                    oAuthWebView.visible = false
+                                }
                             }
                         }
                     }
