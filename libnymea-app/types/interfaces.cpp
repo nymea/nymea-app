@@ -76,9 +76,10 @@ Interfaces::Interfaces(QObject *parent) : QAbstractListModel(parent)
 
     addInterface("battery", tr("Battery powered devices"));
     addStateType("battery", "batteryCritical", QVariant::Bool, false, tr("Battery level is critical"), tr("Battery level entered critical state"));
-
-    addInterface("batterylevel", tr("Battery powered devices"), {"battery"});
-    addStateType("batterylevel", "batteryLevel", QVariant::Int, false, tr("Battery level"), tr("Battery level changed"), QString(), 0, 100);
+    addStateType("battery", "batteryLevel", QVariant::Int, false, tr("Battery level"), tr("Battery level changed"), QString(), 0, 100);
+    addStateType("battery", "charging", QVariant::Bool, false, tr("Charging"), tr("Charging started or stopped"));
+    addStateType("battery", "discharging", QVariant::Bool, false, tr("Discharging"), tr("Discharging started or stopped"));
+    addStateType("battery", "pluggedIn", QVariant::Bool, false, tr("Plugged in"), tr("Plugged in or out"));
 
     addInterface("blind", tr("Blinds"), {"closable"});
 
