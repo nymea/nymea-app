@@ -1,3 +1,12 @@
+nymea-app (1.0.282) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Remove some noisy debug prints
+  * Keep more logs
+  * Fix visual glitches in OAuth flow
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 11 Mar 2021 23:24:58 +0100
+
 nymea-app (1.0.281) bionic; urgency=medium
 
   [ Michael Zanetti ]
