@@ -285,7 +285,7 @@ void ThingManager::getPluginConfigResponse(int /*commandId*/, const QVariantMap 
 
 void ThingManager::getThingsResponse(int /*commandId*/, const QVariantMap &params)
 {
-    qDebug() << "Things received:" << params;
+//    qDebug() << "Things received:" << params;
     if (params.keys().contains("things")) {
         QVariantList thingsList = params.value("things").toList();
         foreach (QVariant thingVariant, thingsList) {
