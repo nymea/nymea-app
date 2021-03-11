@@ -165,7 +165,7 @@ void JsonRpcClient::getCloudConnectionStatus()
 
 void JsonRpcClient::setNotificationsEnabledResponse(int /*commandId*/, const QVariantMap &params)
 {
-    qDebug() << "Notifications enabled:" << params;
+//    qDebug() << "Notifications enabled:" << params;
 
     if (!m_connected) {
         m_connected = true;
@@ -694,7 +694,7 @@ void JsonRpcClient::helloReply(int /*commandId*/, const QVariantMap &params)
     foreach (const QVariant &cacheHash, cacheHashes) {
         m_cacheHashes.insert(cacheHash.toMap().value("method").toString(), cacheHash.toMap().value("hash").toString());
     }
-    qDebug() << "Caches:" << m_cacheHashes;
+//    qDebug() << "Caches:" << m_cacheHashes;
 
     emit handshakeReceived();
 
