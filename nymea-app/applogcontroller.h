@@ -42,6 +42,7 @@ class AppLogController : public QAbstractListModel
     Q_OBJECT
     Q_PROPERTY(bool canWriteLogs READ canWriteLogs CONSTANT)
     Q_PROPERTY(bool enabled READ enabled WRITE setEnabled NOTIFY enabledChanged)
+    Q_PROPERTY(QString logFile READ logFile CONSTANT)
 
 public:
     enum Type {
@@ -70,6 +71,8 @@ public:
 
 
     Q_INVOKABLE void toClipboard();
+
+    QString logFile() const;
 
 signals:
     void enabledChanged();
