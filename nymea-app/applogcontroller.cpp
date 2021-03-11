@@ -64,6 +64,7 @@ AppLogController::AppLogController(QObject *parent) : QAbstractListModel(parent)
     QString fileName = path + "/nymea-app.log";
     m_logFile.setFileName(fileName);
 
+    QByteArray oldContent;
     if (QFile::exists(fileName)) {
         if (QFile::exists(fileName + ".old")) {
             QFile::remove(fileName + ".old");
@@ -71,13 +72,18 @@ AppLogController::AppLogController(QObject *parent) : QAbstractListModel(parent)
         QFile::rename(fileName, fileName + ".old");
         QFile oldFile(fileName + ".old");
         if (oldFile.open(QFile::ReadOnly)) {
-            m_buffer.append(QString(oldFile.readAll()).split('\n'));
+            oldFile.seek(qMax((long long)0, oldFile.size() - 1024 * 1024));
+            oldContent = oldFile.readAll();
+            oldFile.close();
+
+            m_buffer.append(QString(oldContent).split('\n'));
             for (int i = 0; i < m_buffer.count(); i++) {
                 m_types.append(TypeInfo);
             }
             m_types.append(TypeWarning);
             m_buffer.append("**** App restart ****");
-            oldFile.close();
+
+            oldContent.append("\n\n**** App restart ****\n\n");
         }
     }
     QDir dir(path);
@@ -93,6 +99,8 @@ AppLogController::AppLogController(QObject *parent) : QAbstractListModel(parent)
         return;
     }
     qDebug() << "App log opened at" << fileName;
+    m_logFile.write(oldContent);
+
 
     if (enabled()) {
         activate();
@@ -162,6 +170,11 @@ void AppLogController::toClipboard()
     m_logFile.seek(0);
     QByteArray completeLog = m_logFile.readAll();
     QGuiApplication::clipboard()->setText(completeLog);
+}
+
+QString AppLogController::logFile() const
+{
+    return m_logFile.fileName();
 }
 
 void AppLogController::logMessageHandler(QtMsgType type, const QMessageLogContext &context, const QString &message)
