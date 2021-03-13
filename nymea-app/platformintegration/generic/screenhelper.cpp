@@ -36,32 +36,35 @@
 #include <QSettings>
 #include <QFileInfo>
 #include <QDir>
+#include <QLoggingCategory>
+
+Q_DECLARE_LOGGING_CATEGORY(dcPlatformIntegration)
 
 ScreenHelper::ScreenHelper(QObject *parent) : QObject(parent)
 {
     // Try generic backlight
     QDir backlightDir("/sys/class/backlight");
     foreach (const QFileInfo &fi, backlightDir.entryInfoList({"*_backlight"}, QDir::Dirs)) {
-        qDebug() << "Checking backlight directory:" << fi.absoluteFilePath();
+        qCDebug(dcPlatformIntegration()) << "Checking backlight directory:" << fi.absoluteFilePath();
         m_powerFile.setFileName(fi.absoluteFilePath() + "/bl_power");
         m_brightnessFile.setFileName(fi.absoluteFilePath() + "/brightness");
         if (!m_powerFile.open(QFile::ReadWrite | QFile::Text)) {
-            qWarning() << "Cannot open" << m_powerFile.fileName() << "for writing";
+            qCDebug(dcPlatformIntegration()) << "Cannot open" << m_powerFile.fileName() << "for writing";
             continue;
         }
         if (!m_brightnessFile.open(QFile::ReadWrite | QFile::Text)) {
-            qWarning() << "Cannot open" << m_brightnessFile.fileName() << "for writing";
+            qCDebug(dcPlatformIntegration()) << "Cannot open" << m_brightnessFile.fileName() << "for writing";
             continue;
         }
         QFile maxBrightnessFile(fi.absoluteFilePath() + "/max_brightness");
         if (!maxBrightnessFile.open(QFile::ReadOnly)) {
-            qWarning() << "Cannot open" << m_brightnessFile.fileName() << "for reading";
+            qCDebug(dcPlatformIntegration()) << "Cannot open" << m_brightnessFile.fileName() << "for reading";
             continue;
         }
         bool ok;
         m_maxBrightness = maxBrightnessFile.readLine().trimmed().toInt(&ok);
         if (!ok) {
-            qWarning() << "Error reading max brightness value from" << maxBrightnessFile.fileName();
+            qCDebug(dcPlatformIntegration()) << "Error reading max brightness value from" << maxBrightnessFile.fileName();
             m_maxBrightness = -1;
             continue;
         }
@@ -70,15 +73,15 @@ ScreenHelper::ScreenHelper(QObject *parent) : QObject(parent)
     }
 
     if (!m_powerFile.isOpen() || !m_brightnessFile.isOpen()) {
-        qWarning() << "No backlight support on this platform";
+        qCInfo(dcPlatformIntegration()) << "No backlight support on this platform";
         return;
     }
-    qDebug() << "Backlight control enabled on" << m_powerFile.fileName();
+    qCInfo(dcPlatformIntegration()) << "Backlight control enabled on" << m_powerFile.fileName();
 
     bool ok;
     int currentBrightness = m_brightnessFile.readLine().trimmed().toInt(&ok);
     m_currentBrightness = currentBrightness * 100 / m_maxBrightness;
-    qDebug().nospace() << "Brigness: Absolute: " << currentBrightness << "/" << m_maxBrightness << " Percentage:" << m_currentBrightness;
+    qCInfo(dcPlatformIntegration()).nospace() << "Brigness: Absolute: " << currentBrightness << "/" << m_maxBrightness << " Percentage:" << m_currentBrightness;
 
     screenOn();
 
@@ -190,20 +193,20 @@ bool ScreenHelper::eventFilter(QObject *watched, QEvent *event)
 
 void ScreenHelper::screenOn()
 {
-    qDebug() << "Turning screen on";
+    qCInfo(dcPlatformIntegration()) << "Turning screen on";
     int ret = m_powerFile.write("0\n");
     m_powerFile.flush();
     if (ret < 0) {
-        qWarning() << "Failed to power on screen";
+        qCWarning(dcPlatformIntegration()) << "Failed to power on screen";
     }
 }
 
 void ScreenHelper::screenOff()
 {
-    qDebug() << "Turning screen off";
+    qCInfo(dcPlatformIntegration()) << "Turning screen off";
     int ret = m_powerFile.write("1\n");
     m_powerFile.flush();
     if (ret < 0) {
-        qWarning() << "Failed to power off screen";
+        qCWarning(dcPlatformIntegration()) << "Failed to power off screen";
     }
 }

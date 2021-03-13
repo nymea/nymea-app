@@ -42,12 +42,15 @@
 
 #include "stylecontroller.h"
 #include "pushnotifications.h"
-#include "applogcontroller.h"
 #include "ruletemplates/messages.h"
 #include "nfchelper.h"
 #include "nfcthingactionwriter.h"
 #include "platformhelper.h"
 
+#include "logging.h"
+
+NYMEA_LOGGING_CATEGORY(dcApplication, "Application")
+NYMEA_LOGGING_CATEGORY(qml, "qml")
 
 int main(int argc, char *argv[])
 {
@@ -94,15 +97,15 @@ int main(int argc, char *argv[])
     qtTranslator.load("qt_" + QLocale::system().name(), QLibraryInfo::location(QLibraryInfo::TranslationsPath));
     application.installTranslator(&qtTranslator);
 
-    qDebug() << "nymea:app" << APP_VERSION << "running on" << QSysInfo::machineHostName() << QSysInfo::prettyProductName() << QSysInfo::productType() << QSysInfo::productVersion();
-    qDebug() << "Locale info:" << QLocale() << QLocale().name() << QLocale().language() << QLocale().system();
+    qCInfo(dcApplication()) << "nymea:app" << APP_VERSION << "running on" << QSysInfo::machineHostName() << QSysInfo::prettyProductName() << QSysInfo::productType() << QSysInfo::productVersion();
+    qCInfo(dcApplication()) << "Locale info:" << QLocale() << QLocale().name() << QLocale().language() << QLocale().system();
 
     QTranslator appTranslator;
     bool translationResult = appTranslator.load("nymea-app-" + QLocale().name(), ":/translations/");
     if (translationResult) {
-        qDebug() << "Loaded translation for locale" << QLocale();
+        qCDebug(dcApplication()) << "Loaded translation for locale" << QLocale();
     } else {
-        qWarning() << "Failed to load translations for locale" << QLocale();
+        qCInfo(dcApplication()) << "Failed to load translations for locale" << QLocale();
     }
     application.installTranslator(&appTranslator);
 
@@ -116,7 +119,7 @@ int main(int argc, char *argv[])
 #else
     StyleController styleController(parser.value(defaultStyleOption));
     if (parser.isSet(styleOption)) {
-        qDebug() << "Setting style to" << parser.value(styleOption);
+        qCInfo(dcApplication()) << "Setting style to" << parser.value(styleOption);
         styleController.lockToStyle(parser.value(styleOption));
     }
 #endif
@@ -128,7 +131,7 @@ int main(int argc, char *argv[])
         QFontDatabase::addApplicationFont(fi.absoluteFilePath());
     }
     foreach (const QFileInfo &fi, QDir(":/styles/" + styleController.currentStyle() + "/fonts/").entryInfoList()) {
-        qDebug() << "Adding style font:" << fi.absoluteFilePath();
+        qCDebug(dcApplication()) << "Adding style font:" << fi.absoluteFilePath();
         QFontDatabase::addApplicationFont(fi.absoluteFilePath());
     }
 
@@ -141,7 +144,6 @@ int main(int argc, char *argv[])
     qmlRegisterType<NfcThingActionWriter>("Nymea", 1, 0, "NfcThingActionWriter");
 
     qmlRegisterSingletonType<PushNotifications>("Nymea", 1, 0, "PushNotifications", PushNotifications::pushNotificationsProvider);
-    qmlRegisterSingletonType<AppLogController>("Nymea", 1, 0, "AppLogController", AppLogController::appLogControllerProvider);
     qmlRegisterSingletonType(QUrl("qrc:///ui/utils/NymeaUtils.qml"), "Nymea", 1, 0, "NymeaUtils" );
 
     engine->rootContext()->setContextProperty("appVersion", APP_VERSION);

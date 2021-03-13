@@ -24,7 +24,6 @@ HEADERS += \
     pushnotifications.h \
     platformhelper.h \
     platformintegration/generic/platformhelpergeneric.h \
-    applogcontroller.h \
     ruletemplates/messages.h
 
 SOURCES += main.cpp \
@@ -37,7 +36,6 @@ SOURCES += main.cpp \
     pushnotifications.cpp \
     platformhelper.cpp \
     platformintegration/generic/platformhelpergeneric.cpp \
-    applogcontroller.cpp
 
 RESOURCES += resources.qrc \
     ruletemplates.qrc \

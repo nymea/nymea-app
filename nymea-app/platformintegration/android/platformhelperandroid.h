@@ -62,6 +62,8 @@ public:
     void setTopPanelTheme(Theme theme);
     void setBottomPanelColor(const QColor &color) override;
 
+    void shareFile(const QString &fileName) override;
+
 private:
     static void permissionRequestFinished(const QtAndroid::PermissionResultMap &);
 };

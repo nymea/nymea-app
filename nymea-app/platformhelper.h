@@ -91,6 +91,8 @@ public:
     Q_INVOKABLE virtual void toClipBoard(const QString &text);
     Q_INVOKABLE virtual QString fromClipBoard();
 
+    Q_INVOKABLE virtual void shareFile(const QString &fileName);
+
     static QObject *platformHelperProvider(QQmlEngine *engine, QJSEngine *scriptEngine);
 signals:
     void permissionsRequestFinished();

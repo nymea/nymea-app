@@ -33,6 +33,9 @@
 #include <QUuid>
 
 #include "../nymeahost.h"
+#include "logging.h"
+
+NYMEA_LOGGING_CATEGORY(dcZeroConf, "ZeroConf")
 
 ZeroconfDiscovery::ZeroconfDiscovery(NymeaHosts *nymeaHosts, QObject *parent) :
     QObject(parent),
@@ -50,9 +53,9 @@ ZeroconfDiscovery::ZeroconfDiscovery(NymeaHosts *nymeaHosts, QObject *parent) :
 
     if (m_zeroconfJsonRPC->isValid()) {
         m_zeroconfJsonRPC->startBrowser("_jsonrpc._tcp", QAbstractSocket::IPv4Protocol);
-        qDebug() << "ZeroConf: Created service browser for _jsonrpc._tcp:" << m_zeroconfJsonRPC->browserExists();
+        qCInfo(dcZeroConf()) << "Created service browser for _jsonrpc._tcp:" << m_zeroconfJsonRPC->browserExists();
     } else {
-        qWarning() << "Zeroconf init failed for _jsonprc._tcp";
+        qCWarning(dcZeroConf()) << "Failed to initialize service broeser for _jsonprc._tcp";
     }
 
     m_zeroconfWebSocket = new QZeroConf(this);
@@ -61,19 +64,19 @@ ZeroconfDiscovery::ZeroconfDiscovery(NymeaHosts *nymeaHosts, QObject *parent) :
     connect(m_zeroconfWebSocket, &QZeroConf::serviceRemoved, this, &ZeroconfDiscovery::serviceEntryRemoved);
     if (m_zeroconfWebSocket->isValid()) {
         m_zeroconfWebSocket->startBrowser("_ws._tcp", QAbstractSocket::IPv4Protocol);
-        qDebug() << "ZeroConf: Created service browser for _ws._tcp:" << m_zeroconfWebSocket->browserExists();
+        qCInfo(dcZeroConf()) << "Created service browser for _ws._tcp:" << m_zeroconfWebSocket->browserExists();
     } else {
-        qWarning() << "Zeroconf init failed for _ws._tcp";
+        qCWarning(dcZeroConf()) << "Failed to initialize service browserr for _ws._tcp";
     }
 
 #else
-    qDebug() << "Zeroconf support not compiled in. Zeroconf will not be available.";
+    qCInfo(dcZeroConf()) << "Zeroconf support not compiled in. Zeroconf will not be available.";
 #endif
 }
 
 ZeroconfDiscovery::~ZeroconfDiscovery()
 {
-    qDebug() << "ZeroConf: Shutting down service browsers";
+    qCInfo(dcZeroConf()) << "Shutting down service browsers";
 }
 
 bool ZeroconfDiscovery::available() const
@@ -95,21 +98,21 @@ void ZeroconfDiscovery::serviceEntryAdded(const QZeroConfService &entry)
 {
     if (!entry->name().startsWith("nymea")) {
         // Skip non-nymea services altogether
-        qDebug() << "Skipping Avahi entry:" << entry << entry->ip() << entry->txt() << entry->type();
+        qCDebug(dcZeroConf()) << "Skipping service entry:" << entry << entry->ip() << entry->txt() << entry->type();
         return;
     }
     if (entry->ip().isNull()) {
         // Skip entries that don't have an ip address at all for some reason
-        qDebug() << "Skipping Avahi entry:" << entry << entry->ip() << entry->txt() << entry->type();
+        qCDebug(dcZeroConf()) << "Skipping service entry:" << entry << entry->ip() << entry->txt() << entry->type();
         return;
     }
     if (entry->ip().toString().startsWith("fe80")) {
         // Skip link-local-IPv6 results
-        qDebug() << "Skipping Avahi entry:" << entry << entry->ip() << entry->txt() << entry->type();
+        qCDebug(dcZeroConf()) << "Skipping service entry:" << entry << entry->ip() << entry->txt() << entry->type();
         return;
     }
 
-//    qDebug() << "zeroconf service discovered" << entry->type() << entry->name() << " IP:" << entry->ip().toString() << entry->txt();
+    qCDebug(dcZeroConf()) << "Service discovered" << entry->type() << entry->name() << " IP:" << entry->ip().toString() << entry->txt();
 
     QString uuid;
     bool sslEnabled = false;
@@ -130,14 +133,14 @@ void ZeroconfDiscovery::serviceEntryAdded(const QZeroConfService &entry)
             version = txtRecord.second;
         }
     }
-//    qDebug() << "avahi service entry added" << serverName << uuid << sslEnabled;
+    qCDebug(dcZeroConf()) << "Service entry added" << serverName << uuid << sslEnabled;
 
 
     NymeaHost* host = m_nymeaHosts->find(uuid);
     if (!host) {
         host = new NymeaHost(m_nymeaHosts);
         host->setUuid(uuid);
-        qDebug() << "ZeroConf: Adding new host:" << serverName << uuid;
+        qCInfo(dcZeroConf()) << "Adding new host:" << serverName << uuid;
         m_nymeaHosts->addHost(host);
     }
     host->setName(serverName);
@@ -153,14 +156,14 @@ void ZeroconfDiscovery::serviceEntryAdded(const QZeroConfService &entry)
     url.setPort(entry->port());
     Connection *connection = host->connections()->find(url);
     if (!connection) {
-        qDebug() << "Zeroconf: Adding new connection to host:" << host->name() << url.toString();
+        qCInfo(dcZeroConf()) << "Adding new connection to host:" << host->name() << url.toString();
         QString displayName = QString("%1:%2").arg(url.host()).arg(url.port());
         Connection::BearerType bearerType = QHostAddress(url.host()).isLoopback() ? Connection::BearerTypeLoopback : Connection::BearerTypeLan;
         connection = new Connection(url, bearerType, sslEnabled, displayName);
         connection->setOnline(true);
         host->connections()->addConnection(connection);
     } else {
-        qDebug() << "Zeroconf: Setting connection online:" << host->name() << url.toString();
+        qCInfo(dcZeroConf()) << "Setting connection online:" << host->name() << url.toString();
         connection->setOnline(true);
     }
 }
@@ -191,7 +194,7 @@ void ZeroconfDiscovery::serviceEntryRemoved(const QZeroConfService &entry)
         }
     }
 
-//    qDebug() << "Zeroconf: Service entry removed" << entry->name();
+    qCDebug(dcZeroConf()) << "Service entry removed" << entry->name();
 
     NymeaHost* host = m_nymeaHosts->find(uuid);
     if (!host) {
@@ -213,7 +216,7 @@ void ZeroconfDiscovery::serviceEntryRemoved(const QZeroConfService &entry)
         return;
     }
 
-    qDebug() << "Zeroconf: Setting connection offline:" << host->name() << url.toString();
+    qCInfo(dcZeroConf()) << "Setting connection offline:" << host->name() << url.toString();
     connection->setOnline(false);
 }
 #endif

@@ -20,7 +20,9 @@ INCLUDEPATH += \
     $$top_srcdir/QtZeroConf
 
 SOURCES += \
-    $$PWD/wifisetup/btwifisetup.cpp \
+    $${PWD}/logging.cpp \
+    $${PWD}/applogcontroller.cpp \
+    $${PWD}/wifisetup/btwifisetup.cpp \
     $${PWD}/configuration/networkmanager.cpp \
     $${PWD}/engine.cpp \
     $${PWD}/models/barseriesadapter.cpp \
@@ -163,7 +165,9 @@ SOURCES += \
 
 
 HEADERS += \
-    $$PWD/wifisetup/btwifisetup.h \
+    $${PWD}/logging.h \
+    $${PWD}/applogcontroller.h \
+    $${PWD}/wifisetup/btwifisetup.h \
     $${PWD}/configuration/networkmanager.h \
     $${PWD}/engine.h \
     $${PWD}/models/barseriesadapter.h \

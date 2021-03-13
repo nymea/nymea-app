@@ -30,6 +30,10 @@
 
 #include "platformhelpergeneric.h"
 
+#include "logging.h"
+
+Q_DECLARE_LOGGING_CATEGORY(dcPlatformIntergration)
+
 PlatformHelperGeneric::PlatformHelperGeneric(QObject *parent) : PlatformHelper(parent)
 {
     m_piHelper = new ScreenHelper(this);

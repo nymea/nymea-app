@@ -41,6 +41,9 @@
 #include <QStandardPaths>
 #include <QJsonDocument>
 
+#include "logging.h"
+NYMEA_LOGGING_CATEGORY(dcThingManager, "ThingManager")
+
 ThingManager::ThingManager(JsonRpcClient* jsonclient, QObject *parent) :
     JsonHandler(parent),
     m_vendors(new Vendors(this)),
@@ -122,7 +125,9 @@ void ThingManager::notificationReceived(const QVariantMap &data)
     if (notification == "Integrations.StateChanged") {
         Thing *thing = m_things->getThing(data.value("params").toMap().value("thingId").toUuid());
         if (!thing) {
-            qWarning() << "Thing state change notification received for an unknown thing";
+            if (!m_fetchingData) {
+                qCWarning(dcThingManager()) << "Thing state change notification received for an unknown thing";
+            }
             return;
         }
         QUuid stateTypeId = data.value("params").toMap().value("stateTypeId").toUuid();
@@ -188,7 +193,9 @@ void ThingManager::notificationReceived(const QVariantMap &data)
 
         Thing *thing = m_things->getThing(thingId);
         if (!thing) {
-            qWarning() << "received an event from a thing we don't know..." << thingId << qUtf8Printable(QJsonDocument::fromVariant(data).toJson());
+            if (!m_fetchingData) {
+                qCWarning(dcThingManager()) << "received an event from a thing we don't know..." << thingId << qUtf8Printable(QJsonDocument::fromVariant(data).toJson());
+            }
             return;
         }
 //        qDebug() << "Event received" << thingId.toString() << eventTypeId.toString() << qUtf8Printable(QJsonDocument::fromVariant(event).toJson());

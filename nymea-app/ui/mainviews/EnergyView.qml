@@ -182,9 +182,9 @@ MainViewBase {
 
                 ValueAxis {
                     id: yAxis
-                    readonly property XYSeriesAdapter adapter: consumersRepeater.itemAt(consumersRepeater.count - 1).adapter;
-                    max: Math.ceil(Math.max(adapter.maxValue * 0.95, adapter.maxValue * 1.05))
-                    min: Math.floor(Math.min(adapter.minValue * 0.95, adapter.minValue * 1.05))
+                    readonly property XYSeriesAdapter adapter: consumersRepeater.count > 0 ? consumersRepeater.itemAt(consumersRepeater.count - 1).adapter : null
+                    max: adapter ? Math.ceil(Math.max(adapter.maxValue * 0.95, adapter.maxValue * 1.05)) : 1
+                    min: adapter ? Math.floor(Math.min(adapter.minValue * 0.95, adapter.minValue * 1.05)) : 0
                     // This seems to crash occationally
 //                    onMinChanged: applyNiceNumbers();
 //                    onMaxChanged: applyNiceNumbers();

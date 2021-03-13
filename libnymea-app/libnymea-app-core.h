@@ -126,6 +126,7 @@
 #include "zigbee/zigbeeadaptersproxy.h"
 #include "zigbee/zigbeenetwork.h"
 #include "zigbee/zigbeenetworks.h"
+#include "applogcontroller.h"
 
 #include <QtQml/qqml.h>
 
@@ -157,6 +158,9 @@ void registerQmlTypes() {
     const char uri[] = "Nymea";
 
     qmlRegisterType<Engine>(uri, 1, 0, "Engine");
+
+    qmlRegisterSingletonType<AppLogController>("Nymea", 1, 0, "AppLogController", AppLogController::appLogControllerProvider);
+    qmlRegisterType<LogMessages>("Nymea", 1, 0, "LogMessages");
 
     qmlRegisterUncreatableType<ThingManager>(uri, 1, 0, "ThingManager", "Can't create this in QML. Get it from the Engine.");
     qmlRegisterUncreatableType<JsonRpcClient>(uri, 1, 0, "JsonRpcClient", "Can't create this in QML. Get it from the Engine.");
