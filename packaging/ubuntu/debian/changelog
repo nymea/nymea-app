@@ -1,3 +1,10 @@
+nymea-app (1.0.284) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix discovery
+
+ -- Jenkins <jenkins@nymea.io>  Sun, 14 Mar 2021 15:35:19 +0100
+
 nymea-app (1.0.283) bionic; urgency=medium
 
   [ Michael Zanetti ]
