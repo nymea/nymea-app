@@ -133,21 +133,21 @@ QString ThingDiscovery::displayMessage() const
 
 void ThingDiscovery::discoverThingsResponse(int /*commandId*/, const QVariantMap &params)
 {
-    qDebug() << "response received" << params;
-    QVariantList descriptors = params.value("deviceDescriptors").toList();
+    qDebug() << "Discovery response received" << params;
+    QVariantList descriptors = params.value("thingDescriptors").toList();
     foreach (const QVariant &descriptorVariant, descriptors) {
-        qDebug() << "Found device. Descriptor:" << descriptorVariant;
         if (!contains(descriptorVariant.toMap().value("id").toUuid())) {
             beginInsertRows(QModelIndex(), m_foundThings.count(), m_foundThings.count());
             ThingDescriptor *descriptor = new ThingDescriptor(descriptorVariant.toMap().value("id").toUuid(),
                                                    descriptorVariant.toMap().value("thingId").toString(),
                                                    descriptorVariant.toMap().value("title").toString(),
                                                    descriptorVariant.toMap().value("description").toString());
-            foreach (const QVariant &paramVariant, descriptorVariant.toMap().value("deviceParams").toList()) {
+            foreach (const QVariant &paramVariant, descriptorVariant.toMap().value("thingParams").toList()) {
                 qDebug() << "Adding param:" << paramVariant.toMap().value("paramTypeId").toString() << paramVariant.toMap().value("value");
                 Param* p = new Param(paramVariant.toMap().value("paramTypeId").toString(), paramVariant.toMap().value("value"));
                 descriptor->params()->addParam(p);
             }
+            qDebug() << "Found thing. Descriptor:" << descriptor->name() << descriptor->id();
             m_foundThings.append(descriptor);
             endInsertRows();
             emit countChanged();
