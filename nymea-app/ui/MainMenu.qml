@@ -53,7 +53,7 @@ Drawer {
                         }
                         Label {
                             Layout.fillWidth: true
-                            text: root.currentEngine.jsonRpcClient.currentConnection.url
+                            text: root.currentEngine.jsonRpcClient.currentConnection ? root.currentEngine.jsonRpcClient.currentConnection.url : ""
                             font.pixelSize: app.extraSmallFont
                             enabled: false
                         }

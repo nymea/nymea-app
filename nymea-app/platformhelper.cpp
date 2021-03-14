@@ -32,6 +32,8 @@
 
 #include <QApplication>
 #include <QClipboard>
+#include <QDesktopServices>
+#include <QUrl>
 
 #if defined Q_OS_ANDROID
 #include <QtAndroidExtras/QtAndroid>
@@ -43,6 +45,9 @@
 #else
 #include "platformintegration/generic/platformhelpergeneric.h"
 #endif
+
+#include "logging.h"
+NYMEA_LOGGING_CATEGORY(dcPlatformIntegration, "PlatformIntegration")
 
 PlatformHelper* PlatformHelper::s_instance = nullptr;
 
@@ -181,6 +186,11 @@ void PlatformHelper::toClipBoard(const QString &text)
 QString PlatformHelper::fromClipBoard()
 {
     return QApplication::clipboard()->text();
+}
+
+void PlatformHelper::shareFile(const QString &fileName)
+{
+    QDesktopServices::openUrl(QUrl(fileName));
 }
 
 QObject *PlatformHelper::platformHelperProvider(QQmlEngine *engine, QJSEngine *scriptEngine)

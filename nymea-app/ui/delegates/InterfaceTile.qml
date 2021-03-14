@@ -158,6 +158,10 @@ MainPageTile {
             rightMargin: app.margins / 2
         }
         sourceComponent: {
+            if (!root.iface) {
+                return ""
+            }
+
             switch (iface.name) {
             case "sensor":
             case "weather":

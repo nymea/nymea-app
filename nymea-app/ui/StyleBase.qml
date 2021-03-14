@@ -17,9 +17,38 @@ Item {
     property color tileOverlayIconColor: iconColor
     property int tileRadius: 6
 
+    readonly property int smallMargins: 8
+    readonly property int margins: 16
+
+    readonly property int smallDelegateHeight: 50
+    readonly property int delegateHeight: 60
 
     // Note: Font files need to be provided in a "fonts" folder in the style
     property string fontFamily: "Ubuntu"
+
+
+    // Fonts
+    readonly property font extraSmallFont: Qt.font({
+        family: "Ubuntu",
+        pixelSize: 10
+    })
+    readonly property font smallFont: Qt.font({
+        family: "Ubuntu",
+        pixelSize: 13
+    })
+    readonly property font font: Qt.font({
+        family: "Ubuntu",
+        pixelSize: 16
+    })
+    readonly property font largeFont: Qt.font({
+        family: "Ubuntu",
+        pixelSize: 20
+    })
+    readonly property font hugeFont: Qt.font({
+        family: "Ubuntu",
+        pixelSize: 40
+    })
+
 
     // Icon/graph colors for various interfaces
     property var interfaceColors: {

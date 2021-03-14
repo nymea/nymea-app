@@ -42,21 +42,25 @@ SettingsPageBase {
         text: qsTr("Logging")
     }
 
-    CheckDelegate {
-        text: qsTr("Enable app logging")
-        enabled: AppLogController.canWriteLogs
+    SwitchDelegate {
+        text: qsTr("Application logs enabled")
         checked: AppLogController.enabled
-        onCheckedChanged: AppLogController.enabled = checked;
+        onCheckedChanged: AppLogController.enabled = checked
         Layout.fillWidth: true
     }
 
-    NymeaSwipeDelegate {
+    NymeaItemDelegate {
         Layout.fillWidth: true
-        text: qsTr("View log")
+        text: qsTr("View live log")
         onClicked: pageStack.push(Qt.resolvedUrl("../appsettings/AppLogPage.qml"))
-        enabled: AppLogController.enabled
+        visible: AppLogController.enabled
     }
 
+    NymeaItemDelegate {
+        Layout.fillWidth: true
+        text: qsTr("Configure logging categories")
+        onClicked: pageStack.push(Qt.resolvedUrl("../appsettings/LoggingCategories.qml"))
+    }
 
     SettingsPageSectionHeader {
         text: qsTr("Advanced options")

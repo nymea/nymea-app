@@ -110,6 +110,12 @@ ApplicationWindow {
         value: settings.units === "metric" ? Types.UnitSystemMetric : Types.UnitSystemImperial
     }
 
+    Binding {
+        target: AWSClient
+        property: "config"
+        value: "cloudEnvironment" in app ? app.cloudEnvironment : settings.cloudEnvironment
+    }
+
     property alias mainMenu: m
     MainMenu {
         id: m

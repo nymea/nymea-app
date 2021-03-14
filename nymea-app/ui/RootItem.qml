@@ -158,12 +158,6 @@ Item {
 //                    onConnectionTabIndexChanged: tabSettings.lastConnectedHost = engine.jsonRpcClient.url
 
                     Binding {
-                        target: AWSClient
-                        property: "config"
-                        value: "cloudEnvironment" in app ? app.cloudEnvironment : settings.cloudEnvironment
-                    }
-
-                    Binding {
                         target: nymeaDiscovery
                         property: "discovering"
                         value: engine.jsonRpcClient.currentHost === null
@@ -469,6 +463,7 @@ Item {
         }
 
         RowLayout {
+            Layout.fillWidth: true
             visible: settings.showConnectionTabs
             spacing: 0
 
@@ -477,6 +472,7 @@ Item {
                 Layout.fillWidth: true
                 Material.elevation: 2
                 position: TabBar.Footer
+                property int tabWidth: Math.max(150, root.width / tabModel.count)
 
                 Repeater {
                     model: tabModel.count
@@ -486,7 +482,7 @@ Item {
                         property var engine: mainRepeater.itemAt(index)._engine
                         property string serverName: engine.nymeaConfiguration.serverName
                         Material.elevation: index
-                        width: Math.max(150, tabbar.width / tabModel.count)
+                        width: tabbar.tabWidth
 
                         Rectangle {
                             anchors.fill: parent

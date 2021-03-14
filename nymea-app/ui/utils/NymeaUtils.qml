@@ -1,6 +1,5 @@
 pragma Singleton
 import QtQuick 2.9
-import Nymea 1.0
 
 Item {
     id: root

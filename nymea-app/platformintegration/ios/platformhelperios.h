@@ -57,6 +57,8 @@ public:
     void setTopPanelColor(const QColor &color) override;
     void setBottomPanelColor(const QColor &color) override;
 
+    void shareFile(const QString &fileName) override;
+
 private:
     // defined in platformhelperios.mm
     QString readKeyChainEntry(const QString &service, const QString &key);

@@ -35,6 +35,10 @@
 #include <QXmlStreamReader>
 #include <QNetworkInterface>
 
+#include "logging.h"
+
+NYMEA_LOGGING_CATEGORY(dcUPnP, "UPnP")
+
 UpnpDiscovery::UpnpDiscovery(NymeaHosts *nymeaHosts, QObject *parent) :
     QObject(parent),
     m_nymeaHosts(nymeaHosts)
@@ -61,10 +65,10 @@ UpnpDiscovery::UpnpDiscovery(NymeaHosts *nymeaHosts, QObject *parent) :
                 }
                 if (port == 65535 || socket->state() != QUdpSocket::BoundState) {
                     socket->deleteLater();
-                    qWarning() << "UPnP: Discovery could not bind to interface" << netAddressEntry.ip();
+                    qCWarning(dcUPnP()) << "Discovery could not bind to interface" << netAddressEntry.ip();
                     continue;
                 }
-                qDebug() << "UPnP: Discovering on" << netAddressEntry.ip() << port;
+                qCInfo(dcUPnP()) << "Discovering on" << netAddressEntry.ip() << port;
                 m_sockets.append(socket);
                 connect(socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(error(QAbstractSocket::SocketError)));
                 connect(socket, &QUdpSocket::readyRead, this, &UpnpDiscovery::readData);
@@ -86,11 +90,11 @@ bool UpnpDiscovery::available() const
 void UpnpDiscovery::discover()
 {
     if (!available()) {
-        qWarning() << "UPnP: UPnP not available. Discovery not started.";
+        qCWarning(dcUPnP()) << "UPnP not available. Discovery not started.";
         return;
     }
 
-    qDebug() << "UPNP: Discovery started...";
+    qCInfo(dcUPnP()) << "Discovery started...";
     m_repeatTimer.start();
     m_foundDevices.clear();
     writeDiscoveryPacket();
@@ -99,7 +103,7 @@ void UpnpDiscovery::discover()
 
 void UpnpDiscovery::stopDiscovery()
 {
-    qDebug() << "UPNP: Discovery stopped.";
+    qCInfo(dcUPnP()) << "Discovery stopped.";
     m_repeatTimer.stop();
     emit discoveringChanged();
 }
@@ -112,13 +116,13 @@ void UpnpDiscovery::writeDiscoveryPacket()
                                               "MX:2\r\n"
                                               "ST: ssdp:all\r\n\r\n");
 
-//    qDebug() << "sending discovery package";
+    qCDebug(dcUPnP()) << "sending discovery package";
     foreach (QUdpSocket* socket, m_sockets) {
         qint64 ret = socket->writeDatagram(ssdpSearchMessage, QHostAddress("239.255.255.250"), 1900);
         if (ret != ssdpSearchMessage.length()) {
-            qWarning() << "UPnP: Error sending SSDP query on socket" << socket->localAddress();
+            // Leaving a debug message because this happens on many platforms and spams logs.
+            qCDebug(dcUPnP()) << "Error sending SSDP query on socket" << socket->localAddress();
         }
-
     }
 }
 
@@ -140,7 +144,7 @@ void UpnpDiscovery::readData()
         data.resize(socket->pendingDatagramSize());
         socket->readDatagram(data.data(), data.size(), &hostAddress, &port);
 
-//        qDebug() << "Received UPnP datagram:" << data;
+        qCDebug(dcUPnP()) << "Received UPnP datagram:" << data;
 
         // if the data contains the HTTP OK header...
         if (data.contains("HTTP/1.1 200 OK")) {
@@ -168,7 +172,7 @@ void UpnpDiscovery::readData()
 
             if (!m_foundDevices.contains(location) && isNymea) {
                 m_foundDevices.append(location);
-    //            qDebug() << "Getting server data from:" << location;
+                qCDebug(dcUPnP()) << "Getting server data from:" << location;
                 QNetworkReply *reply = m_networkAccessManager->get(QNetworkRequest(location));
                 connect(reply, &QNetworkReply::sslErrors, [reply](const QList<QSslError> &errors){
                     reply->ignoreSslErrors(errors);
@@ -186,7 +190,7 @@ void UpnpDiscovery::networkReplyFinished(QNetworkReply *reply)
 
     int status = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
     if (reply->error() != QNetworkReply::NoError || status != 200) {
-        qWarning() << "UPnP: Error fetching discovery data:" << status << reply->error() << reply->errorString();
+        qCWarning(dcUPnP()) << "UPnP: Error fetching discovery data:" << status << reply->error() << reply->errorString();
         return;
     }
 
@@ -244,13 +248,13 @@ void UpnpDiscovery::networkReplyFinished(QNetworkReply *reply)
         }
     }
 
-    qDebug() << "UPnP: Discovered device" << name << discoveredAddress << version << connections /*<< data*/;
+    qCDebug(dcUPnP()) << "Discovered device" << name << discoveredAddress << version << connections /*<< data*/;
 
     NymeaHost* device = m_nymeaHosts->find(uuid);
     if (!device) {
         device = new NymeaHost(m_nymeaHosts);
         device->setUuid(uuid);
-        qDebug() << "UPnP: Adding new host to model";
+        qCInfo(dcUPnP()) << "Adding new host to model" << device->name() << device->uuid();
         m_nymeaHosts->addHost(device);
     }
     device->setName(name);
@@ -258,7 +262,7 @@ void UpnpDiscovery::networkReplyFinished(QNetworkReply *reply)
     foreach (const QUrl &url, connections) {
         Connection *connection = device->connections()->find(url);
         if (!connection) {
-            qDebug() << "UPnP: Adding new connection to host:" << device->name() << url;
+            qCInfo(dcUPnP()) << "Adding new connection to host:" << device->name() << url;
             bool sslEnabled = url.scheme() == "nymeas" || url.scheme() == "wss";
             QString displayName = QString("%1:%2").arg(url.host()).arg(url.port());
             Connection::BearerType bearerType = QHostAddress(url.host()).isLoopback() ? Connection::BearerTypeLoopback : Connection::BearerTypeLan;
@@ -266,7 +270,7 @@ void UpnpDiscovery::networkReplyFinished(QNetworkReply *reply)
             connection->setOnline(true);
             device->connections()->addConnection(connection);
         } else {
-            qDebug() << "UPnP: Setting connection online:" << device->name() << url.toString();
+            qCInfo(dcUPnP()) << "Setting connection online:" << device->name() << url.toString();
             connection->setOnline(true);
         }
     }

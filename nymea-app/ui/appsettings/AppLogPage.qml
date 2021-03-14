@@ -36,12 +36,15 @@ import "../components"
 
 Page {
     header: NymeaHeader {
-        text: qsTr("App log")
+        text: qsTr("Application logs")
         backButtonVisible: true
         onBackPressed: pageStack.pop()
         HeaderButton {
-            imageSource: "../images/edit-copy.svg"
-            onClicked: AppLogController.toClipboard()
+            imageSource: "../images/state-out.svg"
+            onClicked: {
+                var exportedFile = AppLogController.exportLogs()
+                PlatformHelper.shareFile(exportedFile)
+            }
         }
     }
 
@@ -51,14 +54,29 @@ Page {
 
         ScrollBar.vertical: ScrollBar {}
 
-        model: AppLogController
-        delegate: Text {
+        model: LogMessages {
+
+        }
+
+        delegate: Label {
             width: listView.width
             maximumLineCount: 2
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             text: model.text
-            color: model.type === AppLogController.TypeWarning ? "red" : Style.foregroundColor
-            font.pixelSize: app.smallFont
+            color: {
+                switch (model.level) {
+                case AppLogController.LogLevelCritical:
+                    return "red";
+                case AppLogController.LogLevelWarning:
+                    return "orange";
+                case AppLogController.LogLevelInfo:
+                    return Style.foregroundColor;
+                case AppLogController.LogLevelDebug:
+                    return Qt.tint(Style.foregroundColor, Qt.rgba(Style.backgroundColor.r, Style.backgroundColor.g, Style.backgroundColor.b, .4))
+
+                }
+            }
+            font: Style.smallFont
         }
     }
 }

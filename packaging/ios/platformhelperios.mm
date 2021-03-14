@@ -128,3 +128,11 @@ void PlatformHelperIOS::setBottomPanelColorInternal(const QColor &color)
     app.windows.firstObject.backgroundColor = [UIColor colorWithRed:color.redF() green:color.greenF() blue:color.blueF() alpha:color.alphaF()];
 }
 
+void PlatformHelperIOS::shareFile(const QString &fileName)
+{
+    UIActivityViewController *activityController = [[UIActivityViewController alloc] initWithActivityItems:@[[NSURL fileURLWithPath:fileName.toNSString()]] applicationActivities:nil];
+    UIViewController *qtController = [[UIApplication sharedApplication].keyWindow rootViewController];
+    [qtController presentViewController:activityController animated:YES completion:nil];
+}
+
+

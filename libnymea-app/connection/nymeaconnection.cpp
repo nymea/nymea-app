@@ -44,6 +44,9 @@
 #include <QGuiApplication>
 
 #include "nymeatransportinterface.h"
+#include "logging.h"
+
+NYMEA_LOGGING_CATEGORY(dcNymeaConnection, "NymeaConnection")
 
 NymeaConnection::NymeaConnection(QObject *parent) : QObject(parent)
 {
@@ -51,18 +54,18 @@ NymeaConnection::NymeaConnection(QObject *parent) : QObject(parent)
 
     QObject::connect(m_networkConfigManager, &QNetworkConfigurationManager::configurationAdded, this, [this](const QNetworkConfiguration &config){
         Q_UNUSED(config)
-//        qDebug() << "Network configuration added:" << config.name() << config.bearerTypeName() << config.purpose();
+        qCDebug(dcNymeaConnection()) << "Network configuration added:" << config.name() << config.bearerTypeName() << config.purpose();
         updateActiveBearers();
     });
     QObject::connect(m_networkConfigManager, &QNetworkConfigurationManager::configurationRemoved, this, [this](const QNetworkConfiguration &config){
         Q_UNUSED(config)
-//        qDebug() << "Network configuration removed:" << config.name() << config.bearerTypeName() << config.purpose();
+        qCDebug(dcNymeaConnection()) << "Network configuration removed:" << config.name() << config.bearerTypeName() << config.purpose();
         updateActiveBearers();
     });
 
     QGuiApplication *app = static_cast<QGuiApplication*>(QGuiApplication::instance());
-    QObject::connect(app, &QGuiApplication::applicationStateChanged, this, [this](Qt::ApplicationState /*state*/) {
-//        qDebug() << "Application state changed to:" << state;
+    QObject::connect(app, &QGuiApplication::applicationStateChanged, this, [this](Qt::ApplicationState state) {
+        qCDebug(dcNymeaConnection()) << "Application state changed to:" << state;
         updateActiveBearers();
     });
 
@@ -116,11 +119,11 @@ void NymeaConnection::setCurrentHost(NymeaHost *host)
     emit currentHostChanged();
 
     if (!m_currentHost) {
-        qDebug() << "No current host.";
+        qCInfo(dcNymeaConnection()) << "Current host cleared. Not connecting.";
         return;
     }
 
-    qDebug() << "Nymea host is" << m_currentHost->name() << m_currentHost->uuid();
+    qCInfo(dcNymeaConnection()) << "Nymea host set to:" << m_currentHost->name() << m_currentHost->uuid();
 
     connect(m_currentHost, &NymeaHost::connectionChanged, this, &NymeaConnection::hostConnectionsUpdated);
 
@@ -132,9 +135,6 @@ void NymeaConnection::setCurrentHost(NymeaHost *host)
 
 Connection *NymeaConnection::currentConnection() const
 {
-    qDebug() << "Current connection:" << m_currentHost << m_currentTransport << m_transportCandidates.count();
-    qDebug() << m_transportCandidates.keys();
-    qDebug() << m_transportCandidates.value(m_currentTransport);
     if (!m_currentHost || !m_currentTransport) {
         return nullptr;
     }
@@ -143,11 +143,10 @@ Connection *NymeaConnection::currentConnection() const
 
 void NymeaConnection::sendData(const QByteArray &data)
 {
-//    qDebug() << "sending data:" << data;
     if (connected()) {
         m_currentTransport->sendData(data);
     } else {
-        qWarning() << "Connection: Not connected. Cannot send.";
+        qCWarning(dcNymeaConnection()) << "Connection: Not connected. Cannot send.";
     }
 }
 
@@ -155,19 +154,19 @@ void NymeaConnection::onSslErrors(const QList<QSslError> &errors)
 {
     NymeaTransportInterface *transport = qobject_cast<NymeaTransportInterface*>(sender());
 
-    qDebug() << "SSL errors for url:" << transport->url();
+    qCDebug(dcNymeaConnection()) << "SSL errors for url:" << transport->url();
     QList<QSslError> ignoredErrors;
     foreach (const QSslError &error, errors) {
         qDebug() << error.errorString();
         if (error.error() == QSslError::HostNameMismatch) {
-            qDebug() << "Ignoring host mismatch on certificate.";
+            qCInfo(dcNymeaConnection()) << "Ignoring host mismatch on certificate.";
             ignoredErrors.append(error);
         } else if (error.error() == QSslError::SelfSignedCertificate || error.error() == QSslError::CertificateUntrusted) {
-            qDebug() << "Ignoring self signed certificate.";
+            qCInfo(dcNymeaConnection()) << "Ignoring self signed certificate.";
             ignoredErrors.append(error);
         } else {
             // Reject the connection on all other errors...
-            qDebug() << "SSL Error:" << error.errorString() << error.certificate();
+            qCritical(dcNymeaConnection()) << "SSL Error:" << error.errorString() << error.certificate();
         }
     }
     if (ignoredErrors == errors) {
@@ -213,7 +212,7 @@ void NymeaConnection::onError(QAbstractSocket::SocketError error)
     }
 
     if (transport == m_currentTransport) {
-        qDebug() << "Current transport failed:" << error;
+        qCCritical(dcNymeaConnection()) << "Current transport failed:" << error;
         // The current transport failed, forward the error
         m_connectionStatus = errorStatus;
         emit connectionStatusChanged();
@@ -226,9 +225,9 @@ void NymeaConnection::onError(QAbstractSocket::SocketError error)
             m_transportCandidates.remove(transport);
             transport->deleteLater();
         }
-        qDebug() << "A transport error happened for" << transport->url() << error << "(Still trying on" << m_transportCandidates.count() << "connections)";
+        qCWarning(dcNymeaConnection()) << "A transport error happened for" << transport->url() << error << "(Still trying on" << m_transportCandidates.count() << "connections)";
         foreach (Connection *c, m_transportCandidates) {
-            qDebug() << "Connection candidate:" << c->url();
+            qCDebug(dcNymeaConnection()) << "Connection candidate:" << c->url();
         }
         if (m_transportCandidates.isEmpty()) {
             m_connectionStatus = errorStatus;
@@ -237,6 +236,7 @@ void NymeaConnection::onError(QAbstractSocket::SocketError error)
             if (m_connectionStatus != ConnectionStatusSslUntrusted) {
                 QTimer::singleShot(1000, this, [this](){
                     if (m_currentHost) {
+                        qCInfo(dcNymeaConnection()) << "Reconnecting...";
                         connectInternal(m_currentHost);
                     }
                 });
@@ -250,20 +250,18 @@ void NymeaConnection::onConnected()
     NymeaTransportInterface* newTransport = qobject_cast<NymeaTransportInterface*>(sender());
     if (!m_currentTransport) {
         m_currentTransport = newTransport;
-        qDebug() << "NymeaConnection: Connected to" << m_currentHost->name() << "via" << m_currentTransport->url() << m_currentTransport->isEncrypted();
+        qCInfo(dcNymeaConnection()) << "Connected to" << m_currentHost->name() << "via" << m_currentTransport->url() << m_currentTransport->isEncrypted();
         emit currentConnectionChanged();
         emit connectedChanged(true);
         return;
     }
 
     if (m_currentTransport != newTransport) {
-        qDebug() << "Alternative connection established:" << newTransport->url();
-
         // In theory, we could roam from one connection to another.
         // However, in practice it turns out there are too many issues for this to be reliable
         // So lets just tear down any alternative connection that comes up again.
 
-        qDebug() << "Dropping alternative connection again...";
+        qCInfo(dcNymeaConnection()) << "Dropping successfully established alternative connection to" << newTransport->url() << "again...";
         m_transportCandidates.remove(newTransport);
         newTransport->deleteLater();
 
@@ -288,23 +286,24 @@ void NymeaConnection::onDisconnected()
 {
     NymeaTransportInterface* t = qobject_cast<NymeaTransportInterface*>(sender());
     if (m_currentTransport != t) {
-        qWarning() << "NymeaConnection: An inactive transport for url" << t->url() << "disconnected... Cleaning up...";
+        qCDebug(dcNymeaConnection()) << "An inactive transport for url" << t->url() << "disconnected... Cleaning up...";
         if (m_transportCandidates.contains(t)) {
             m_transportCandidates.remove(t);
         }
         t->deleteLater();
 
+        qCInfo(dcNymeaConnection()) << "Current transport:" << m_currentTransport << "Remaining connections:" << m_transportCandidates.count() << "Current host:" << m_currentHost;
+
         if (!m_currentTransport && m_transportCandidates.isEmpty()) {
-            qDebug() << "Last connection dropped.";
+            qCWarning(dcNymeaConnection()) << "Last connection dropped.";
             QTimer::singleShot(1000, this, [this](){
                 if (m_currentHost && m_connectionStatus != ConnectionStatusSslUntrusted) {
-                    qDebug() << "Trying to reconnect..";
+                    qCInfo(dcNymeaConnection()) << "Trying to reconnect..";
                     connectInternal(m_currentHost);
                 }
             });
         }
 
-        qDebug() << "Current transport:" << m_currentTransport << "Remaining connections:" << m_transportCandidates.count() << "Current host:" << m_currentHost;
         return;
     }
     m_transportCandidates.remove(m_currentTransport);
@@ -313,7 +312,7 @@ void NymeaConnection::onDisconnected()
 
     foreach (NymeaTransportInterface *candidate, m_transportCandidates.keys()) {
         if (candidate->connectionState() == NymeaTransportInterface::ConnectionStateConnected) {
-            qDebug() << "Alternative connection is still up. Roaming to:" << candidate->url();
+            qCInfo(dcNymeaConnection()) << "Alternative connection is still up. Roaming to:" << candidate->url();
             m_currentTransport = candidate;
             break;
         }
@@ -322,7 +321,7 @@ void NymeaConnection::onDisconnected()
     emit currentConnectionChanged();
 
     if (!m_currentTransport) {
-        qDebug() << "NymeaConnection: disconnected.";
+        qCInfo(dcNymeaConnection()) << "Disconnected.";
         emit connectedChanged(false);
     }
 
@@ -334,6 +333,7 @@ void NymeaConnection::onDisconnected()
     if (m_connectionStatus != ConnectionStatusSslUntrusted) {
         QTimer::singleShot(1000, this, [this](){
             if (m_currentHost) {
+                qCInfo(dcNymeaConnection()) << "Trying to reconnect after disconnect...";
                 connectInternal(m_currentHost);
             }
         });
@@ -344,9 +344,9 @@ void NymeaConnection::updateActiveBearers()
 {
     NymeaConnection::BearerTypes availableBearerTypes;
     QList<QNetworkConfiguration> configs = m_networkConfigManager->allConfigurations(QNetworkConfiguration::Active);
-//    qDebug() << "Network configuations:" << configs.count();
+    qCDebug(dcNymeaConnection()) << "Network configuations:" << configs.count();
     foreach (const QNetworkConfiguration &config, configs) {
-//        qDebug() << "Active network config:" << config.name() << config.bearerTypeFamily() << config.bearerTypeName();
+        qCDebug(dcNymeaConnection()) << "Active network config:" << config.name() << config.bearerTypeFamily() << config.bearerTypeName();
 
         // NOTE: iOS doesn't correctly report bearer types. It'll be Unknown all the time. Let's hardcode it to WiFi for that...
 #if defined(Q_OS_IOS)
@@ -357,27 +357,27 @@ void NymeaConnection::updateActiveBearers()
     }
     if (availableBearerTypes == NymeaConnection::BearerTypeNone) {
         // This is just debug info... On some platform bearer management seems a bit broken, so let's get some infos right away...
-        qDebug() << "No active bearer available. Inactive bearers are:";
+        qCDebug(dcNymeaConnection()) << "No active bearer available. Inactive bearers are:";
         QList<QNetworkConfiguration> configs = m_networkConfigManager->allConfigurations();
         foreach (const QNetworkConfiguration &config, configs) {
-            qDebug() << "Inactive network config:" << config.name() << config.bearerTypeFamily() << config.bearerTypeName();
+            qCDebug(dcNymeaConnection()) << "Inactive network config:" << config.name() << config.bearerTypeFamily() << config.bearerTypeName();
         }
 
-        qWarning() << "Updating network manager";
+        qCDebug(dcNymeaConnection()) << "Updating network manager";
         m_networkConfigManager->updateConfigurations();
     }
 
     if (m_availableBearerTypes != availableBearerTypes) {
-//        qDebug() << "Available Bearer Types changed:" << availableBearerTypes;
+        qCInfo(dcNymeaConnection()) << "Available Bearer Types changed to:" << availableBearerTypes;
         m_availableBearerTypes = availableBearerTypes;
         emit availableBearerTypesChanged();
     } else {
-//        qDebug() << "Available Bearer Types:" << availableBearerTypes;
+        qCDebug(dcNymeaConnection()) << "Available Bearer Types:" << availableBearerTypes;
     }
 
     if (!m_currentHost) {
         // No host set... Nothing to do...
-        qDebug() << "No current host... Nothing to do...";
+        qCInfo(dcNymeaConnection()) << "No current host... Nothing to do...";
         return;
     }
 
@@ -392,14 +392,17 @@ void NymeaConnection::updateActiveBearers()
 
     if (!m_currentTransport) {
         // There's a host but no connection. Try connecting now...
-        qDebug() << "There's a host but no connection. Trying to connect now...";
+        qCInfo(dcNymeaConnection()) << "There's a host but no connection. Trying to connect now...";
         connectInternal(m_currentHost);
     }
 }
 
 void NymeaConnection::hostConnectionsUpdated()
 {
-    connectInternal(m_currentHost);
+    if (!m_currentTransport) {
+        qCInfo(dcNymeaConnection()) << "Possible connections for host" << m_currentHost->name() << "updated.";
+        connectInternal(m_currentHost);
+    }
 }
 
 void NymeaConnection::registerTransport(NymeaTransportInterfaceFactory *transportFactory)
@@ -418,10 +421,10 @@ void NymeaConnection::connectToHost(NymeaHost *nymeaHost, Connection *connection
     m_preferredConnection = nullptr;
     if (connection) {
         if (nymeaHost->connections()->find(connection->url())) {
-            qDebug() << "Setting preferred connection to" << connection->url();
+            qCInfo(dcNymeaConnection()) << "Setting preferred connection to" << connection->url();
             m_preferredConnection = connection;
         } else {
-            qWarning() << "Connection" << connection << "is not a candidate for" << nymeaHost->name() << "Not setting preferred connection.";
+            qCWarning(dcNymeaConnection()) << "Connection" << connection << "is not a candidate for" << nymeaHost->name() << "Not setting preferred connection.";
         }
     }
 
@@ -432,47 +435,48 @@ void NymeaConnection::connectInternal(NymeaHost *host)
 {
     if (m_preferredConnection) {
         if (isConnectionBearerAvailable(m_preferredConnection->bearerType())) {
-            qDebug() << "Preferred connection is set. Using" << m_preferredConnection->url();
+            qCInfo(dcNymeaConnection()) << "Preferred connection is set. Using" << m_preferredConnection->url();
             connectInternal(m_preferredConnection);
             return;
         }
-        qDebug() << "Preferred connection set but no bearer available for it.";
+        qCWarning(dcNymeaConnection()) << "Preferred connection set but no bearer available for it.";
     }
 
     Connection *loopbackConnection = host->connections()->bestMatch(Connection::BearerTypeLoopback);
     if (loopbackConnection) {
-        qDebug() << "Best candidate Loopback connection:" << loopbackConnection->url();
+        qCDebug(dcNymeaConnection()) << "Best candidate Loopback connection:" << loopbackConnection->url();
         connectInternal(loopbackConnection);
 
     } else if (m_availableBearerTypes.testFlag(NymeaConnection::BearerTypeWiFi)
             || m_availableBearerTypes.testFlag(NymeaConnection::BearerTypeEthernet)) {
         Connection* lanConnection = host->connections()->bestMatch(Connection::BearerTypeLan | Connection::BearerTypeWan);
         if (lanConnection) {
-            qDebug() << "Best candidate LAN/WAN connection:" << lanConnection->url();
+            qCDebug(dcNymeaConnection()) << "Best candidate LAN/WAN connection:" << lanConnection->url();
             connectInternal(lanConnection);
         } else {
-            qDebug() << "No available LAN/WAN connection to" << host->name();
+            qCDebug(dcNymeaConnection()) << "No available LAN/WAN connection to" << host->name();
         }
 
     } else if (m_availableBearerTypes.testFlag(NymeaConnection::BearerTypeMobileData)) {
         Connection* wanConnection = host->connections()->bestMatch(Connection::BearerTypeWan);
         if (wanConnection) {
-            qDebug() << "Best candidate WAN connection:" << wanConnection->url();
+            qCDebug(dcNymeaConnection()) << "Best candidate WAN connection:" << wanConnection->url();
             connectInternal(wanConnection);
         } else {
-            qDebug() << "No available WAN connection to" << host->name();
+            qCDebug(dcNymeaConnection()) << "No available WAN connection to" << host->name();
         }
     }
 
     Connection* cloudConnection = host->connections()->bestMatch(Connection::BearerTypeCloud);
     if (cloudConnection) {
-        qDebug() << "Best candidate Cloud connection:" << cloudConnection->url();
+        qCDebug(dcNymeaConnection()) << "Best candidate Cloud connection:" << cloudConnection->url();
         connectInternal(cloudConnection);
     } else {
-        qDebug() << "No available Cloud connection to" << host->name();
+        qCDebug(dcNymeaConnection()) << "No available Cloud connection to" << host->name();
     }
 
     if (m_transportCandidates.isEmpty()) {
+        qCWarning(dcNymeaConnection()) << "No available bearers available for host:" << host->name() << host->uuid();
         m_connectionStatus = ConnectionStatusNoBearerAvailable;
     } else {
         m_connectionStatus = ConnectionStatusConnecting;
@@ -483,12 +487,12 @@ void NymeaConnection::connectInternal(NymeaHost *host)
 bool NymeaConnection::connectInternal(Connection *connection)
 {
     if (!m_transportFactories.contains(connection->url().scheme())) {
-        qWarning() << "Cannot connect to urls of scheme" << connection->url().scheme() << "Supported schemes are" << m_transportFactories.keys();
+        qCCritical(dcNymeaConnection()) << "Cannot connect to urls of scheme" << connection->url().scheme() << "Supported schemes are" << m_transportFactories.keys();
         return false;
     }
 
     if (m_transportCandidates.values().contains(connection)) {
-        qDebug() << "Already have a connection (or connection attempt) for" << connection->url();
+        qCInfo(dcNymeaConnection()) << "Already have a connection (or connection attempt) for" << connection->url();
         return false;
     }
 
@@ -511,7 +515,7 @@ bool NymeaConnection::connectInternal(Connection *connection)
 //    }
 
     m_transportCandidates.insert(newTransport, connection);
-    qDebug() << "Connecting to:" << connection->url() << newTransport << m_transportCandidates.value(newTransport);
+    qCInfo(dcNymeaConnection()) << "Connecting to:" << connection->url() << newTransport << m_transportCandidates.value(newTransport);
     return newTransport->connect(connection->url());
 }
 
@@ -519,6 +523,7 @@ NymeaConnection::BearerType NymeaConnection::qBearerTypeToNymeaBearerType(QNetwo
 {
     switch (type) {
     case QNetworkConfiguration::BearerUnknown:
+        // Unable to determine the connection type. Assume it's something we can establish any connection type on
         return BearerTypeAll;
     case QNetworkConfiguration::BearerEthernet:
         return BearerTypeEthernet;

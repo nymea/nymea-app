@@ -175,7 +175,14 @@ void PlatformHelperAndroid::setBottomPanelColor(const QColor &color)
     PlatformHelper::setBottomPanelColor(color);
 
     if (QtAndroid::androidSdkVersion() < 21)
-            return;
+        return;
+}
+
+void PlatformHelperAndroid::shareFile(const QString &fileName)
+{
+    QtAndroid::androidActivity().callMethod<void>("shareFile", "(Ljava/lang/String;)V",
+                                                  QAndroidJniObject::fromString(fileName).object<jstring>()
+                                                  );
 }
 
 void PlatformHelperAndroid::permissionRequestFinished(const QtAndroid::PermissionResultMap &result)

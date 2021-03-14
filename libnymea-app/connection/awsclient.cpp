@@ -41,8 +41,11 @@
 #include <QPointer>
 
 #include "sigv4utils.h"
+#include "logging.h"
 
 AWSClient* AWSClient::s_instance = nullptr;
+
+NYMEA_LOGGING_CATEGORY(dcCloud, "Cloud")
 
 // This is Symantec's root CA certificate and most platforms should
 // have this in their certificate storage already, but as we can't
@@ -187,11 +190,11 @@ bool AWSClient::confirmationPending() const
 void AWSClient::login(const QString &username, const QString &password)
 {
     if (m_usedConfig.isEmpty()) {
-        qDebug() << "AWS config not set. Not logging in.";
+        qCInfo(dcCloud()) << "AWS config not set. Not logging in.";
         return;
     }
     if (m_loginInProgress) {
-        qWarning() << "Login already pending...";
+        qCDebug(dcCloud()) << "Login already pending...";
         return;
     }
     m_loginInProgress = true;
@@ -229,7 +232,7 @@ void AWSClient::login(const QString &username, const QString &password)
     QJsonDocument jsonDoc = QJsonDocument::fromVariant(params);
     QByteArray payload = jsonDoc.toJson(QJsonDocument::Compact);
 
-    qDebug() << "Logging in to AWS as user:" << username << "with config" << m_usedConfig;
+    qCInfo(dcCloud()) << "Logging in to AWS as user:" << username << "with config" << m_usedConfig;
 
     QNetworkReply *reply = m_nam->post(request, payload);
     connect(reply, &QNetworkReply::finished, this, [this, reply, username, password]() {
@@ -237,18 +240,18 @@ void AWSClient::login(const QString &username, const QString &password)
         m_loginInProgress = false;
         if (reply->error() != QNetworkReply::NoError) {
             if (reply->error() == QNetworkReply::HostNotFoundError) {
-                qDebug() << "Error logging in to aws due to network connection.";
+                qCWarning(dcCloud()) << "Error logging in to aws due to network connection.";
                 emit loginResult(LoginErrorNetworkError);
                 return;
             }
             if (reply->error() == QNetworkReply::ProtocolInvalidOperationError) {
-                qWarning() << "Looks like a wrong password.";
+                qCWarning(dcCloud()) << "Looks like a wrong password.";
                 m_username.clear();
                 m_password.clear();
                 emit loginResult(LoginErrorInvalidUserOrPass);
                 return;
             }
-            qWarning() << "Error logging in to aws. Error:" << reply->error() << reply->errorString();
+            qCWarning(dcCloud()) << "Error logging in to aws. Error:" << reply->error() << reply->errorString();
             emit loginResult(LoginErrorUnknownError);
             return;
         }
@@ -256,7 +259,7 @@ void AWSClient::login(const QString &username, const QString &password)
         QJsonParseError error;
         QJsonDocument jsonDoc = QJsonDocument::fromJson(data, &error);
         if (error.error != QJsonParseError::NoError) {
-            qWarning() << "Failed to parse AWS login response" << error.errorString();
+            qCWarning(dcCloud()) << "Failed to parse AWS login response" << error.errorString();
             m_username.clear();
             m_password.clear();
             emit loginResult(LoginErrorUnknownError);
@@ -272,7 +275,7 @@ void AWSClient::login(const QString &username, const QString &password)
 //        qDebug() << "AWS ID token" << m_idToken;
         QList<QByteArray> jwtParts = m_idToken.split('.');
         if (jwtParts.count() != 3) {
-            qWarning() << "Error: JWT token doesn't have 3 parts. Cannot retrieve AWS Cognito ID.";
+            qCWarning(dcCloud()) << "Error: JWT token doesn't have 3 parts. Cannot retrieve AWS Cognito ID.";
             return;
         }
 //        qDebug() << "decoded header:" << QByteArray::fromBase64(jwtParts.at(0));
@@ -331,13 +334,13 @@ void AWSClient::signup(const QString &username, const QString &password)
     QJsonDocument jsonDoc = QJsonDocument::fromVariant(params);
     QByteArray payload = jsonDoc.toJson(QJsonDocument::Compact);
 
-    qDebug() << "Signing up to AWS as user:" << username << payload;
+    qCInfo(dcCloud()) << "Signing up to AWS as user:" << username << payload;
 
     QNetworkReply *reply = m_nam->post(request, payload);
     connect(reply, &QNetworkReply::finished, this, [this, reply]() {
         QByteArray data = reply->readAll();
         reply->deleteLater();
-        qDebug() << "AWS signup reply:" << data;
+        qCDebug(dcCloud()) << "AWS signup reply:" << data;
 
         if (reply->error() == QNetworkReply::ProtocolInvalidOperationError) {
             emit signupResult(LoginErrorInvalidUserOrPass);
@@ -345,7 +348,7 @@ void AWSClient::signup(const QString &username, const QString &password)
         }
 
         if (reply->error() != QNetworkReply::NoError) {
-            qWarning() << "Error signing up to aws:" << reply->error() << reply->errorString();
+            qCWarning(dcCloud()) << "Error signing up to aws:" << reply->error() << reply->errorString();
             m_username.clear();
             m_password.clear();
             emit signupResult(LoginErrorUnknownError);
@@ -382,13 +385,13 @@ void AWSClient::confirmRegistration(const QString &code)
     QJsonDocument jsonDoc = QJsonDocument::fromVariant(params);
     QByteArray payload = jsonDoc.toJson(QJsonDocument::Compact);
 
-    qDebug() << "Confirming registration for user:" << m_username;
+    qCInfo(dcCloud()) << "Confirming registration for user:" << m_username;
 
     QNetworkReply *reply = m_nam->post(request, payload);
     connect(reply, &QNetworkReply::finished, this, [this, reply]() {
         QByteArray data = reply->readAll();
         reply->deleteLater();
-        qDebug() << "AWS signup reply:" << data;
+        qCDebug(dcCloud()) << "AWS signup reply:" << data;
 
         if (reply->error() == QNetworkReply::ProtocolInvalidOperationError) {
             QJsonParseError error;
@@ -405,7 +408,7 @@ void AWSClient::confirmRegistration(const QString &code)
         }
 
         if (reply->error() != QNetworkReply::NoError) {
-            qWarning() << "Error confirming registration:" << reply->error() << reply->errorString();
+            qCWarning(dcCloud()) << "Error confirming registration:" << reply->error() << reply->errorString();
             emit confirmationResult(LoginErrorUnknownError);
             return;
         }
@@ -440,7 +443,7 @@ void AWSClient::forgotPassword(const QString &username)
     QJsonDocument jsonDoc = QJsonDocument::fromVariant(params);
     QByteArray payload = jsonDoc.toJson(QJsonDocument::Compact);
 
-    qDebug() << "Forgot password for user:" << username << payload;
+    qCInfo(dcCloud()) << "Forgot password for user:" << username << payload;
 
     QNetworkReply *reply = m_nam->post(request, payload);
     connect(reply, &QNetworkReply::finished, this, [this, reply]() {
@@ -456,12 +459,12 @@ void AWSClient::forgotPassword(const QString &username)
         }
 
         if (reply->error() != QNetworkReply::NoError) {
-            qWarning() << "Error calling ForgotPassword:" << reply->error() << reply->errorString() << data;
+            qCWarning(dcCloud()) << "Error calling ForgotPassword:" << reply->error() << reply->errorString() << data;
             emit forgotPasswordResult(LoginErrorUnknownError);
             return;
         }
 
-        qDebug() << "AWS forgotPassword success:" << data;
+        qCInfo(dcCloud()) << "AWS forgotPassword success:" << data;
         emit forgotPasswordResult(LoginErrorNoError);
 
     });
@@ -491,7 +494,8 @@ void AWSClient::confirmForgotPassword(const QString &username, const QString &co
     QJsonDocument jsonDoc = QJsonDocument::fromVariant(params);
     QByteArray payload = jsonDoc.toJson(QJsonDocument::Compact);
 
-    qDebug() << "ConfirmForgotPassword for user:" << username << payload;
+    qCInfo(dcCloud()) << "Resetting password for user:" << username;
+    qCDebug(dcCloud()) << "Reset password payload:" << payload;
 
     QNetworkReply *reply = m_nam->post(request, payload);
     connect(reply, &QNetworkReply::finished, this, [this, reply]() {
@@ -499,12 +503,12 @@ void AWSClient::confirmForgotPassword(const QString &username, const QString &co
         reply->deleteLater();
 
         if (reply->error() != QNetworkReply::NoError) {
-            qWarning() << "Error calling ConfirmForgotPassword:" << reply->error() << reply->errorString() << data;
+            qCWarning(dcCloud()) << "Error calling ConfirmForgotPassword:" << reply->error() << reply->errorString() << data;
             emit confirmForgotPasswordResult(LoginErrorUnknownError);
             return;
         }
 
-        qDebug() << "AWS ConfirmForgotPassword success:" << data;
+        qCInfo(dcCloud()) << "Password reset successfully.";
         emit confirmForgotPasswordResult(LoginErrorNoError);
 
     });
@@ -513,26 +517,26 @@ void AWSClient::confirmForgotPassword(const QString &username, const QString &co
 void AWSClient::deleteAccount()
 {
     if (!isLoggedIn()) {
-        qWarning() << "Not logged in at AWS. Can't delete account";
+        qCWarning(dcCloud()) << "Not logged in at AWS. Can't delete account";
         return;
     }
     if (tokensExpired()) {
-        qDebug() << "Cannot unpair device. Need to refresh our tokens";
+        qCInfo(dcCloud()) << "Cannot unpair device. Need to refresh our tokens";
         refreshAccessToken();
         QueuedCall::enqueue(m_callQueue, QueuedCall("deleteAccount"));
         return;
     }
-    qDebug() << "Deleting account";
+    qCInfo(dcCloud()) << "Deleting account";
 
     QUrl url(QString("https://%1/users/profiles/%2").arg(m_configs.value(m_usedConfig).apiEndpoint).arg(m_userId));
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setRawHeader("x-api-idToken", m_idToken);
 
-    qDebug() << "DELETE" << url.toString();
-    qDebug() << "HEADERS:";
+    qCDebug(dcCloud()) << "DELETE" << url.toString();
+    qCDebug(dcCloud()) << "HEADERS:";
     foreach (const QByteArray &hdr, request.rawHeaderList()) {
-        qDebug() << hdr << ":" << request.rawHeader(hdr);
+        qCDebug(dcCloud()) << hdr << ":" << request.rawHeader(hdr);
     }
 
     QNetworkReply *reply = m_nam->deleteResource(request);
@@ -540,36 +544,36 @@ void AWSClient::deleteAccount()
         reply->deleteLater();
         QByteArray data = reply->readAll();
         if (reply->error() != QNetworkReply::NoError) {
-            qWarning() << "Error deleting cloud user account:" << reply->error() << reply->errorString() << qUtf8Printable(data);
+            qCWarning(dcCloud()) << "Error deleting cloud user account:" << reply->error() << reply->errorString() << qUtf8Printable(data);
             emit deleteAccountResult(LoginErrorUnknownError);
             return;
         }
         QJsonParseError error;
         QJsonDocument jsonDoc = QJsonDocument::fromJson(data, &error);
         if (error.error != QJsonParseError::NoError) {
-            qWarning() << "Failed to parse JSON from server" << error.errorString() << qUtf8Printable(data);
+            qCWarning(dcCloud()) << "Failed to parse JSON from server" << error.errorString() << qUtf8Printable(data);
             emit deleteAccountResult(LoginErrorUnknownError);
             return;
         }
         emit deleteAccountResult(LoginErrorNoError);
         logout();
-        qDebug() << "Account deleted" << data;
+        qCInfo(dcCloud()) << "Account deleted" << data;
     });
 }
 
 void AWSClient::unpairDevice(const QString &coreId)
 {
     if (!isLoggedIn()) {
-        qWarning() << "Not logged in at AWS. Can't unpair device";
+        qCWarning(dcCloud()) << "Not logged in at AWS. Can't unpair device";
         return;
     }
     if (tokensExpired()) {
-        qDebug() << "Cannot unpair device. Need to refresh our tokens";
+        qCInfo(dcCloud()) << "Cannot unpair device. Need to refresh our tokens";
         refreshAccessToken();
         QueuedCall::enqueue(m_callQueue, QueuedCall("unpairDevice", coreId));
         return;
     }
-    qDebug() << "unpairing device";
+    qCInfo(dcCloud()) << "Unpairing device" << coreId << "from user" << m_username;
     QUrl url(QString("https://%1/users/devices/%2").arg(m_configs.value(m_usedConfig).apiEndpoint).arg(coreId));
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
@@ -591,7 +595,7 @@ void AWSClient::unpairDevice(const QString &coreId)
             qWarning() << "Failed to parse JSON from server" << error.errorString() << qUtf8Printable(data);
             return;
         }
-        qDebug() << "Device unpaired" << data;
+        qCInfo(dcCloud()) << "Device" << coreId << "unpaired from user" << m_username;
         m_devices->remove(coreId);
 
     });
@@ -628,19 +632,19 @@ void AWSClient::getId()
     connect(reply, &QNetworkReply::finished, this, [this, reply]() {
         reply->deleteLater();
         if (reply->error() != QNetworkReply::NoError) {
-            qWarning() << "Error calling GetId" << reply->error() << reply->errorString();
+            qCWarning(dcCloud()) << "Error calling GetId" << reply->error() << reply->errorString();
             return;
         }
         QByteArray data = reply->readAll();
         QJsonParseError error;
         QJsonDocument jsonDoc = QJsonDocument::fromJson(data, &error);
         if (error.error != QJsonParseError::NoError) {
-            qWarning() << "Error parsing json reply for GetId" << error.errorString();
+            qCWarning(dcCloud()) << "Error parsing json reply for GetId" << error.errorString();
             return;
         }
         m_identityId = jsonDoc.toVariant().toMap().value("IdentityId").toByteArray();
 
-//        qDebug() << "Received cognito identity id" << m_identityId;// << qUtf8Printable(data);
+        qCDebug(dcCloud()) << "Received cognito identity id" << m_identityId;// << qUtf8Printable(data);
         getCredentialsForIdentity(m_identityId);
 
     });
@@ -649,11 +653,11 @@ void AWSClient::getId()
 void AWSClient::registerPushNotificationEndpoint(const QString &registrationId, const QString &deviceDisplayName, const QString mobileDeviceId, const QString &mobileDeviceManufacturer, const QString &mobileDeviceModel)
 {
     if (!isLoggedIn()) {
-        qWarning() << "Not logged in at AWS. Can't register push endpoint";
+        qCWarning(dcCloud()) << "Not logged in at AWS. Can't register push endpoint";
         return;
     }
     if (tokensExpired()) {
-        qDebug() << "Cannot register push endpoint. Need to refresh our tokens";
+        qCInfo(dcCloud()) << "Cannot register push endpoint. Need to refresh our tokens";
         QueuedCall::enqueue(m_callQueue, QueuedCall("registerPushNotificationEndpoint", registrationId, deviceDisplayName, mobileDeviceId, mobileDeviceManufacturer, mobileDeviceModel));
         refreshAccessToken();
         return;
@@ -681,7 +685,7 @@ void AWSClient::registerPushNotificationEndpoint(const QString &registrationId, 
 
     QJsonDocument jsonDoc = QJsonDocument::fromVariant(payload);
 
-    qDebug() << "Registering push notification endpoint" << qUtf8Printable(QJsonDocument::fromVariant(payload).toJson());
+    qCInfo(dcCloud()) << "Registering push notification endpoint" << qUtf8Printable(QJsonDocument::fromVariant(payload).toJson());
 //    qDebug() << "POST" << url.toString();
 //    qDebug() << "HEADERS:";
 //    foreach (const QByteArray &hdr, request.rawHeaderList()) {
@@ -694,10 +698,10 @@ void AWSClient::registerPushNotificationEndpoint(const QString &registrationId, 
         reply->deleteLater();
         QByteArray data = reply->readAll();
         if (reply->error() != QNetworkReply::NoError) {
-            qWarning() << "Error registering push notification endpoint:" << reply->error() << reply->errorString() << qUtf8Printable(data);
+            qCWarning(dcCloud()) << "Error registering push notification endpoint:" << reply->error() << reply->errorString() << qUtf8Printable(data);
             return;
         }
-        qDebug() << "Push notification endpoint registered" << data;
+        qCInfo(dcCloud()) << "Push notification endpoint registered" << data;
     });
 
 }
@@ -722,27 +726,27 @@ void AWSClient::fetchCertificate(const QString &uuid, std::function<void(const Q
     request.setRawHeader("X-api-deviceId", fixedUuid.toUtf8());
     request.setRawHeader("X-api-serialId", "69696969");
     QNetworkReply *reply = m_nam->get(request);
-    qDebug() << "Fetching certificate for vendor:" << m_configs.value(m_usedConfig).certificateVendorId << "device id:" << fixedUuid;
+    qCInfo(dcCloud()) << "Fetching certificate for vendor:" << m_configs.value(m_usedConfig).certificateVendorId << "device id:" << fixedUuid;
     connect(reply, &QNetworkReply::finished, this, [this, reply, callback]() {
         reply->deleteLater();
         QByteArray data = reply->readAll();
         if (reply->error() != QNetworkReply::NoError) {
-            qWarning() << "Error deploying certificate" << data;
+            qCWarning(dcCloud()) << "Error deploying certificate" << data;
             return;
         }
         QJsonParseError error;
         QJsonDocument jsonDoc = QJsonDocument::fromJson(data, &error);
         if (error.error != QJsonParseError::NoError) {
-            qWarning() << "Error parsing certificate json" << data;
+            qCWarning(dcCloud()) << "Error parsing certificate json" << data;
             return;
         }
 
         QByteArray certificate = jsonDoc.toVariant().toMap().value("certificatePem").toByteArray();
         QByteArray publicKey = jsonDoc.toVariant().toMap().value("keyPair").toMap().value("PublicKey").toByteArray();
         QByteArray privateKey = jsonDoc.toVariant().toMap().value("keyPair").toMap().value("PrivateKey").toByteArray();
-        qDebug() << "Certificate received" << certificate;
-        qDebug() << "Public key" << publicKey;
-        qDebug() << "Private key" << privateKey;
+        qCDebug(dcCloud()) << "Certificate received" << certificate;
+        qCDebug(dcCloud()) << "Public key" << publicKey;
+        qCDebug(dcCloud()) << "Private key" << privateKey;
         callback(rootCA, certificate, publicKey, privateKey, m_configs.value(m_usedConfig).mqttEndpoint);
     });
 
@@ -769,10 +773,10 @@ void AWSClient::setConfig(const QString &config)
 
     if (m_usedConfig != fixedConfig) {
         if (!m_configs.contains(fixedConfig)) {
-            qWarning() << "AWS: Config" << fixedConfig << "not known. Not switching AWS config";
+            qCWarning(dcCloud()) << "AWS: Config" << fixedConfig << "not known. Not switching AWS config";
             return;
         }
-        qDebug() << "Setting AWS configuration to" << fixedConfig;
+        qCInfo(dcCloud()) << "Setting AWS configuration to" << fixedConfig;
         m_usedConfig = fixedConfig;
         emit configChanged();
     }
@@ -814,7 +818,7 @@ void AWSClient::getCredentialsForIdentity(const QString &identityId)
     connect(reply, &QNetworkReply::finished, this, [this, reply]() {
         reply->deleteLater();
         if (reply->error() != QNetworkReply::NoError) {
-            qWarning() << "Error calling GetCredentialsForIdentity" << reply->errorString();
+            qCWarning(dcCloud()) << "Error calling GetCredentialsForIdentity" << reply->errorString();
             emit loginResult(LoginErrorUnknownError);
             return;
         }
@@ -822,7 +826,7 @@ void AWSClient::getCredentialsForIdentity(const QString &identityId)
         QJsonParseError error;
         QJsonDocument jsonDoc = QJsonDocument::fromJson(data, &error);
         if (error.error != QJsonParseError::NoError) {
-            qWarning() << "Error parsing JSON reply from GetCredentialsForIdentity" << error.errorString();
+            qCWarning(dcCloud()) << "Error parsing JSON reply from GetCredentialsForIdentity" << error.errorString();
             emit loginResult(LoginErrorUnknownError);
             return;
         }
@@ -832,14 +836,11 @@ void AWSClient::getCredentialsForIdentity(const QString &identityId)
         m_secretKey = credentialsMap.value("SecretKey").toByteArray();
         m_sessionToken = credentialsMap.value("SessionToken").toByteArray();
         m_sessionTokenExpiry = QDateTime::fromSecsSinceEpoch(credentialsMap.value("Expiration").toLongLong());
-        qDebug() << "AWS Credentials for Identity received.";// << data;
 
-        qDebug() << "AWS login successful. Userid:" << m_userId;
+        qCInfo(dcCloud()) << "AWS login successful. Userid:" << m_userId;
 
 
         QSettings settings;
-        qDebug() << "settings has:" << settings.childGroups();
-
         bool newLogin = !settings.childGroups().contains("cloud");
 
         settings.remove("cloud");
@@ -860,7 +861,7 @@ void AWSClient::getCredentialsForIdentity(const QString &identityId)
         emit loginResult(LoginErrorNoError);
 
         if (newLogin) {
-            qDebug() << "new login!";
+            qCInfo(dcCloud()) << "New login!";
             emit isLoggedInChanged();
         }
 
@@ -890,11 +891,11 @@ bool AWSClient::tokensExpired() const
 bool AWSClient::postToMQTT(const QString &coreId, const QString &nonce, QObject* sender, std::function<void (bool)> callback)
 {
     if (!isLoggedIn()) {
-        qWarning() << "Cannot post to MQTT. Not logged in to AWS";
+        qCWarning(dcCloud()) << "Cannot post to MQTT. Not logged in to AWS";
         return false;
     }
     if (tokensExpired()) {
-        qDebug() << "Cannot post to MQTT. Need to refresh the tokens first";
+        qCDebug(dcCloud()) << "Cannot post to MQTT. Need to refresh the tokens first";
         refreshAccessToken();
         QueuedCall::enqueue(m_callQueue, QueuedCall("postToMQTT", coreId, nonce, sender, callback));
         return true; // So far it looks we're doing ok... let's return true
@@ -929,7 +930,7 @@ bool AWSClient::postToMQTT(const QString &coreId, const QString &nonce, QObject*
     // Workaround MQTT broker url weirdness as described above
     request.setUrl("https://" + m_configs.value(m_usedConfig).mqttEndpoint + path1);
 
-    qDebug() << "Posting to MQTT:" << request.url().toString();
+    qCDebug(dcCloud()) << "Posting to MQTT:" << request.url().toString();
 //    qDebug() << "HEADERS:";
 //    foreach (const QByteArray &headerName, request.rawHeaderList()) {
 //        qDebug() << headerName << ":" << request.rawHeader(headerName);
@@ -948,23 +949,23 @@ bool AWSClient::postToMQTT(const QString &coreId, const QString &nonce, QObject*
         QByteArray data = reply->readAll();
 //        qDebug() << "MQTT post reply" << data;
         if (senderWatcher.isNull()) {
-            qDebug() << "Request object disappeared. Discarding MQTT reply...";
+            qCDebug(dcCloud()) << "Request object disappeared. Discarding MQTT reply...";
             return;
         }
         if (reply->error() != QNetworkReply::NoError) {
-            qWarning() << "MQTT Network reply error" << reply->error() << reply->errorString();
+            qCWarning(dcCloud()) << "MQTT Network reply error" << reply->error() << reply->errorString();
             callback(false);
             return;
         }
         QJsonParseError error;
         QJsonDocument jsonDoc = QJsonDocument::fromJson(data, &error);
         if (error.error != QJsonParseError::NoError) {
-            qWarning() << "Failed to parse MQTT reply" << error.error << error.errorString() << data;
+            qCWarning(dcCloud()) << "Failed to parse MQTT reply" << error.error << error.errorString() << data;
             callback(false);
             return;
         }
         if (jsonDoc.toVariant().toMap().value("message").toString() != "OK") {
-            qWarning() << "Something went wrong posting to MQTT:" << jsonDoc.toVariant().toMap().value("message").toString();
+            qCWarning(dcCloud()) << "Something went wrong posting to MQTT:" << jsonDoc.toVariant().toMap().value("message").toString();
             callback(false);
             return;
         }
@@ -976,18 +977,22 @@ bool AWSClient::postToMQTT(const QString &coreId, const QString &nonce, QObject*
 
 void AWSClient::fetchDevices()
 {
+    if (m_usedConfig.isEmpty()) {
+        qCWarning(dcCloud()) << "Cloud environment not set. Not fetching cloud devices";
+        return;
+    }
     if (!isLoggedIn()) {
-        qWarning() << "Not logged in at AWS. Can't fetch paired devices";
+        qCWarning(dcCloud()) << "Not logged in at AWS. Can't fetch paired devices";
         return;
     }
     if (tokensExpired()) {
-        qDebug() << "Cannot fetch devices. Need to refresh our tokens";
+        qCDebug(dcCloud()) << "Cannot fetch devices. Need to refresh our tokens";
         refreshAccessToken();
         QueuedCall::enqueue(m_callQueue, QueuedCall("fetchDevices"));
         return;
     }
-//    qDebug() << "Fetching cloud devices";
     QUrl url(QString("https://%1/users/devices").arg(m_configs.value(m_usedConfig).apiEndpoint));
+    qCDebug(dcCloud()) << "Fetching cloud devices" << url.toString();
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setRawHeader("x-api-idToken", m_idToken);
@@ -999,13 +1004,13 @@ void AWSClient::fetchDevices()
         m_devices->setBusy(false);
         QByteArray data = reply->readAll();
         if (reply->error() != QNetworkReply::NoError) {
-            qWarning() << "Error fetching cloud devices:" << reply->error() << reply->errorString() << qUtf8Printable(data);
+            qCWarning(dcCloud()) << "Error fetching cloud devices:" << reply->error() << reply->errorString() << qUtf8Printable(data);
             return;
         }
         QJsonParseError error;
         QJsonDocument jsonDoc = QJsonDocument::fromJson(data, &error);
         if (error.error != QJsonParseError::NoError) {
-            qWarning() << "Failed to parse JSON from server" << error.errorString() << qUtf8Printable(data);
+            qCWarning(dcCloud()) << "Failed to parse JSON from server" << error.errorString() << qUtf8Printable(data);
             return;
         }
         QList<QUuid> actualDevices;
@@ -1013,7 +1018,7 @@ void AWSClient::fetchDevices()
             QString deviceId = entry.toMap().value("deviceId").toString();
             QString name = entry.toMap().value("name").toString();
             bool online = entry.toMap().value("online").toBool();
-            qDebug() << "Have cloud device:" << deviceId << name << "online:" << online;
+            qCDebug(dcCloud()) << "Have cloud device:" << deviceId << name << "online:" << online;
 
             AWSDevice *d = m_devices->getDevice(deviceId);
             if (!d) {
@@ -1044,7 +1049,7 @@ void AWSClient::fetchDevices()
 void AWSClient::refreshAccessToken()
 {
     if (!isLoggedIn()) {
-        qDebug() << "Cannot refresh tokens. Not logged in to AWS";
+        qCWarning(dcCloud()) << "Cannot refresh tokens. Not logged in to AWS";
         return;
     }
 
@@ -1111,7 +1116,7 @@ void AWSClient::refreshAccessToken()
 //        settings.setValue("idToken", m_idToken);
 //        settings.setValue("refreshToken", m_refreshToken);
 
-        qDebug() << "AWS login successful" << qUtf8Printable(jsonDoc.toJson(QJsonDocument::Indented));
+        qCInfo(dcCloud()) << "AWS login successful" << qUtf8Printable(jsonDoc.toJson(QJsonDocument::Indented));
         emit isLoggedInChanged();
 
     });
@@ -1217,7 +1222,7 @@ void AWSDevices::remove(const QString &uuid)
         }
     }
     if (idx == -1) {
-        qWarning() << "Cannot remove AWS with id" << uuid << "as there is no such device";
+        qCWarning(dcCloud()) << "Cannot remove AWS with id" << uuid << "as there is no such device";
         return;
     }
     beginRemoveRows(QModelIndex(), idx, idx);
