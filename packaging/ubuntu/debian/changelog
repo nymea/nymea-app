@@ -1,3 +1,11 @@
+nymea-app (1.0.283) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Update battery interface
+  * Move AppLogController to libnymea-app
+
+ -- Jenkins <jenkins@nymea.io>  Sun, 14 Mar 2021 01:19:30 +0100
+
 nymea-app (1.0.282) bionic; urgency=medium
 
   [ Michael Zanetti ]
