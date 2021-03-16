@@ -148,6 +148,8 @@ void AppLogController::setLogLevel(const QString &category, AppLogController::Lo
     settings.endGroup();
 
     emit categoryChanged(category, logLevel);
+
+    updateFilters();
 }
 
 QString AppLogController::logPath() const
@@ -376,5 +378,10 @@ QHash<int, QByteArray> LoggingCategories::roleNames() const
     roles.insert(RoleName, "name");
     roles.insert(RoleLevel, "logLevel");
     return roles;
+}
+
+QVariant LoggingCategories::data(int index, const QString &role)
+{
+    return data(this->index(index), roleNames().key(role.toUtf8()));
 }
 
