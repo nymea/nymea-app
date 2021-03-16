@@ -1,3 +1,11 @@
+nymea-app (1.0.285) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix thing discovery params
+  * Fix a crash that could happen when destroying LogsModel
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 16 Mar 2021 19:07:59 +0100
+
 nymea-app (1.0.284) bionic; urgency=medium
 
   [ Michael Zanetti ]
