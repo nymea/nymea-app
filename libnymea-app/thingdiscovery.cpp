@@ -142,7 +142,14 @@ void ThingDiscovery::discoverThingsResponse(int /*commandId*/, const QVariantMap
                                                    descriptorVariant.toMap().value("thingId").toString(),
                                                    descriptorVariant.toMap().value("title").toString(),
                                                    descriptorVariant.toMap().value("description").toString());
-            foreach (const QVariant &paramVariant, descriptorVariant.toMap().value("thingParams").toList()) {
+            // Work around a bug in nymea:core which didn't properly update deviceParams in the device->things transition
+            QVariantList paramList;
+            if (descriptorVariant.toMap().contains("params")) {
+                paramList = descriptorVariant.toMap().value("params").toList();
+            } else {
+                paramList = descriptorVariant.toMap().value("deviceParams").toList();
+            }
+            foreach (const QVariant &paramVariant, paramList) {
                 qDebug() << "Adding param:" << paramVariant.toMap().value("paramTypeId").toString() << paramVariant.toMap().value("value");
                 Param* p = new Param(paramVariant.toMap().value("paramTypeId").toString(), paramVariant.toMap().value("value"));
                 descriptor->params()->addParam(p);
