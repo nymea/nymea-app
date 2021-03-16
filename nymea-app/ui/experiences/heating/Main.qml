@@ -139,13 +139,13 @@ Item {
     ThingsProxy {
         id: duwWpFilterModel
         engine: _engine
-        filterThingClassId: "e548f962-92db-4110-8279-10fbcde35f93"
+        shownThingClassIds: ["e548f962-92db-4110-8279-10fbcde35f93"]
     }
 
     ThingsProxy {
         id: duwLuFilterModel
         engine: _engine
-        filterThingClassId: "0de8e21e-392a-4790-a78a-b1a7eaa7571b"
+        shownThingClassIds: ["0de8e21e-392a-4790-a78a-b1a7eaa7571b"]
     }
 
     EmptyViewPlaceholder {

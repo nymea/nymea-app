@@ -47,11 +47,13 @@ class ThingsProxy : public QSortFilterProxyModel
     Q_PROPERTY(ThingsProxy *parentProxy READ parentProxy WRITE setParentProxy NOTIFY parentProxyChanged)
     Q_PROPERTY(QString filterTagId READ filterTagId WRITE setFilterTagId NOTIFY filterTagIdChanged)
     Q_PROPERTY(QString filterTagValue READ filterTagValue WRITE setFilterTagValue NOTIFY filterTagValueChanged)
-    Q_PROPERTY(QString filterThingClassId READ filterThingClassId WRITE setFilterThingClassId NOTIFY filterThingClassIdChanged)
     Q_PROPERTY(QString filterThingId READ filterThingId WRITE setFilterThingId NOTIFY filterThingIdChanged)
     Q_PROPERTY(QStringList shownInterfaces READ shownInterfaces WRITE setShownInterfaces NOTIFY shownInterfacesChanged)
     Q_PROPERTY(QStringList hiddenInterfaces READ hiddenInterfaces WRITE setHiddenInterfaces NOTIFY hiddenInterfacesChanged)
     Q_PROPERTY(QString nameFilter READ nameFilter WRITE setNameFilter NOTIFY nameFilterChanged)
+
+    Q_PROPERTY(QList<QUuid> shownThingClassIds READ shownThingClassIds WRITE setShownThingClassIds NOTIFY shownThingClassIdsChanged)
+    Q_PROPERTY(QList<QUuid> hiddenThingClassIds READ hiddenThingClassIds WRITE setHiddenThingClassIds NOTIFY hiddenThingClassIdsChanged)
 
     Q_PROPERTY(QString requiredEventName READ requiredEventName WRITE setRequiredEventName NOTIFY requiredEventNameChanged)
     Q_PROPERTY(QString requiredStateName READ requiredStateName WRITE setRequiredStateName NOTIFY requiredStateNameChanged)
@@ -90,9 +92,6 @@ public:
     QString filterTagValue() const;
     void setFilterTagValue(const QString &tagValue);
 
-    QString filterThingClassId() const;
-    void setFilterThingClassId(const QString &filterThingClassId);
-
     QString filterThingId() const;
     void setFilterThingId(const QString &filterThingId);
 
@@ -104,6 +103,12 @@ public:
 
     QString nameFilter() const;
     void setNameFilter(const QString &nameFilter);
+
+    QList<QUuid> shownThingClassIds() const;
+    void setShownThingClassIds(const QList<QUuid> &shownThingClassIds);
+
+    QList<QUuid> hiddenThingClassIds() const;
+    void setHiddenThingClassIds(const QList<QUuid> &hiddenThingClassIds);
 
     QString requiredEventName() const;
     void setRequiredEventName(const QString &requiredEventName);
@@ -149,11 +154,12 @@ signals:
     void parentProxyChanged();
     void filterTagIdChanged();
     void filterTagValueChanged();
-    void filterThingClassIdChanged();
     void filterThingIdChanged();
     void shownInterfacesChanged();
     void hiddenInterfacesChanged();
     void nameFilterChanged();
+    void shownThingClassIdsChanged();
+    void hiddenThingClassIdsChanged();
     void requiredEventNameChanged();
     void requiredStateNameChanged();
     void requiredActionNameChanged();
@@ -175,11 +181,12 @@ private:
     ThingsProxy *m_parentProxy = nullptr;
     QString m_filterTagId;
     QString m_filterTagValue;
-    QString m_filterThingClassId;
     QString m_filterThingId;
     QStringList m_shownInterfaces;
     QStringList m_hiddenInterfaces;
     QString m_nameFilter;
+    QList<QUuid> m_shownThingClassIds;
+    QList<QUuid> m_hiddenThingClassIds;
 
     QString m_requiredEventName;
     QString m_requiredStateName;

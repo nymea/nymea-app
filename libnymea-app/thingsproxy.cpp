@@ -135,21 +135,6 @@ void ThingsProxy::setFilterTagValue(const QString &tagValue)
     }
 }
 
-QString ThingsProxy::filterThingClassId() const
-{
-    return m_filterThingClassId;
-}
-
-void ThingsProxy::setFilterThingClassId(const QString &filterThingClassId)
-{
-    if (m_filterThingClassId != filterThingClassId) {
-        m_filterThingClassId = filterThingClassId;
-        emit filterThingClassIdChanged();
-        invalidateFilter();
-        emit countChanged();
-    }
-}
-
 QString ThingsProxy::filterThingId() const
 {
     return m_filterThingId;
@@ -205,6 +190,37 @@ void ThingsProxy::setNameFilter(const QString &nameFilter)
     if (m_nameFilter != nameFilter) {
         m_nameFilter = nameFilter;
         emit nameFilterChanged();
+        invalidateFilter();
+        emit countChanged();
+    }
+}
+
+QList<QUuid> ThingsProxy::shownThingClassIds() const
+{
+    return m_shownThingClassIds;
+}
+
+void ThingsProxy::setShownThingClassIds(const QList<QUuid> &shownThingClassIds)
+{
+    if (m_shownThingClassIds != shownThingClassIds) {
+        m_shownThingClassIds = shownThingClassIds;
+        emit shownThingClassIdsChanged();
+        invalidateFilter();
+        emit countChanged();
+    }
+}
+
+QList<QUuid> ThingsProxy::hiddenThingClassIds() const
+{
+    return m_hiddenThingClassIds;
+}
+
+void ThingsProxy::setHiddenThingClassIds(const QList<QUuid> &hiddenThingClassIds)
+{
+    qCritical() << "SetHiddenThingClassIds" << hiddenThingClassIds;
+    if (m_hiddenThingClassIds != hiddenThingClassIds) {
+        m_hiddenThingClassIds = hiddenThingClassIds;
+        emit hiddenThingClassIdsChanged();
         invalidateFilter();
         emit countChanged();
     }
@@ -456,11 +472,6 @@ bool ThingsProxy::filterAcceptsRow(int source_row, const QModelIndex &source_par
             return false;
         }
     }
-    if (!m_filterThingClassId.isEmpty()) {
-        if (thing->thingClassId() != QUuid(m_filterThingClassId)) {
-            return false;
-        }
-    }
     if (!m_filterThingId.isEmpty()) {
         if (thing->id() != QUuid(m_filterThingId)) {
             return false;
@@ -487,6 +498,16 @@ bool ThingsProxy::filterAcceptsRow(int source_row, const QModelIndex &source_par
                 return false;
             }
         }
+    }
+
+    if (!m_shownThingClassIds.isEmpty()) {
+        if (!m_shownThingClassIds.contains(thing->thingClassId())) {
+            return false;
+        }
+    }
+
+    if (m_hiddenThingClassIds.contains(thing->thingClassId())) {
+        return false;
     }
 
     if (m_showDigitalInputs || m_showDigitalOutputs || m_showAnalogInputs || m_showAnalogOutputs) {
