@@ -135,6 +135,7 @@ private:
 class LoggingCategories: public QAbstractListModel
 {
     Q_OBJECT
+    Q_PROPERTY(int count READ rowCount CONSTANT)
 
 public:
     enum Roles {
@@ -145,9 +146,11 @@ public:
 
     LoggingCategories(AppLogController *parent);
 
-    int rowCount(const QModelIndex &parent) const override;
+    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role) const override;
     QHash<int, QByteArray> roleNames() const override;
+
+    Q_INVOKABLE QVariant data(int index, const QString &role);
 
 private:
     AppLogController *m_controller = nullptr;
