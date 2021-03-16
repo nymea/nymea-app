@@ -318,7 +318,7 @@ Item {
                                                     { "paramTypeId": tokenParam.paramTypeId, "value": PushNotifications.coreToken }
                                                 ];
                                         print("Reconfiguring PushNotifications for", thing.name)
-                                        engine.thingManager.reconfigureDevice(thing.id, params);
+                                        engine.thingManager.reconfigureThing(thing.id, params);
                                     } else {
                                         print("Push notifications don't need to be updated. Token is valid.")
                                     }

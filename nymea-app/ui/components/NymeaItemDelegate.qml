@@ -41,6 +41,7 @@ import Nymea 1.0
 
 ItemDelegate {
     id: root
+    implicitHeight: Style.smallDelegateHeight
 
     property string subText
     property bool progressive: true

@@ -5,7 +5,7 @@ QT += core androidextras
 QT += network qml quick quickcontrols2 svg websockets bluetooth charts nfc
 
 include(../config.pri)
-include(../android_openssl/openssl.pri)
+include(../3rdParty/android/android_openssl/openssl.pri)
 
 
 INCLUDEPATH += $$top_srcdir/libnymea-app/
