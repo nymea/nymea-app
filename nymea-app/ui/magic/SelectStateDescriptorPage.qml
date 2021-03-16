@@ -93,7 +93,7 @@ Page {
             }
         } else {
             if (root.thing) {
-                listView.model = thingClass.stateTypes;
+                listView.model = root.thing.thingClass.stateTypes;
             }
         }
     }
@@ -130,7 +130,7 @@ Page {
                     }
                 } else {
                     if (root.thing) {
-                        var stateType = root.thingClass.stateTypes.getStateType(model.id);
+                        var stateType = root.thing.thingClass.stateTypes.getStateType(model.id);
                         root.stateDescriptor.stateTypeId = model.id;
                         var paramsPage = pageStack.push(Qt.resolvedUrl("SelectStateDescriptorParamsPage.qml"), {stateDescriptor: root.stateDescriptor})
                         paramsPage.onBackPressed.connect(function() {pageStack.pop()});
