@@ -51,8 +51,13 @@ Engine *LogsModel::engine() const
 void LogsModel::setEngine(Engine *engine)
 {
     if (m_engine != engine) {
+        if (m_engine) {
+            disconnect(m_engine->logManager(), &LogManager::logEntryReceived, this, &LogsModel::newLogEntryReceived);
+        }
         m_engine = engine;
-        connect(engine->logManager(), &LogManager::logEntryReceived, this, &LogsModel::newLogEntryReceived);
+        if (m_engine) {
+            connect(engine->logManager(), &LogManager::logEntryReceived, this, &LogsModel::newLogEntryReceived);
+        }
         emit engineChanged();
     }
 }
