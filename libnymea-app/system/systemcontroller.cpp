@@ -59,6 +59,11 @@ void SystemController::init()
         m_updateManagementAvailable = false;
         m_timeManagementAvailable = false;
     }
+    if (m_jsonRpcClient->ensureServerVersion("5.5")) {
+        m_jsonRpcClient->sendCommand("System.GetSystemInfo", this, "getSystemInfoResponse");
+    } else {
+        m_deviceSerialNumber.clear();
+    }
 }
 
 QString SystemController::nameSpace() const
@@ -203,6 +208,11 @@ int SystemController::setAutomaticTime(bool automaticTime)
     return m_jsonRpcClient->sendCommand("System.SetTime", params, this, "setTimeResponse");
 }
 
+QString SystemController::deviceSerialNumber() const
+{
+    return m_deviceSerialNumber;
+}
+
 void SystemController::getCapabilitiesResponse(int /*commandId*/, const QVariantMap &data)
 {
     m_powerManagementAvailable = data.value("powerManagement").toBool();
@@ -316,6 +326,13 @@ void SystemController::shutdownResponse(int commandId, const QVariantMap &params
 {
     bool success = params.value("success").toBool();
     emit shutdownReply(commandId, success);
+}
+
+void SystemController::getSystemInfoResponse(int commandId, const QVariantMap &params)
+{
+    Q_UNUSED(commandId)
+    m_deviceSerialNumber = params.value("deviceSerialNumber").toString();
+    emit deviceSerialNumberChanged();
 }
 
 void SystemController::notificationReceived(const QVariantMap &data)

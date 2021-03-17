@@ -37,6 +37,7 @@ import Nymea 1.0
 SwipeDelegate {
     id: root
     implicitWidth: 200
+    implicitHeight: Style.smallDelegateHeight
 
     property string subText
     property bool progressive: true

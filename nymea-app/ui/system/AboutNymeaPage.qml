@@ -81,5 +81,13 @@ SettingsPageBase {
             progressive: false
             prominentSubText: false
         }
+        NymeaSwipeDelegate {
+            Layout.fillWidth: true
+            text: qsTr("Device serial number")
+            subText: engine.systemController.deviceSerialNumber
+            visible: engine.systemController.deviceSerialNumber.length > 0
+            progressive: false
+            prominentSubText: false
+        }
     }
 }
