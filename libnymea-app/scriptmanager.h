@@ -41,11 +41,13 @@ class ScriptManager : public JsonHandler
 {
     Q_OBJECT
     Q_PROPERTY(Scripts* scripts READ scripts CONSTANT)
+    Q_PROPERTY(bool fetchingData READ fetchingData NOTIFY fetchingDataChanged)
 
 public:
     explicit ScriptManager(JsonRpcClient* jsonClient, QObject *parent = nullptr);
 
     void init();
+    bool fetchingData() const;
 
     QString nameSpace() const override;
 
@@ -66,6 +68,7 @@ signals:
     void fetchScriptReply(int id, const QString &scriptError, const QString &content);
 
     void scriptMessage(const QUuid &scriptId, const QString &type, const QString &message);
+    void fetchingDataChanged();
 
 private slots:
     void onScriptsFetched(int commandId, const QVariantMap &params);
@@ -79,6 +82,7 @@ private slots:
 private:
     JsonRpcClient* m_client = nullptr;
     Scripts *m_scripts = nullptr;
+    bool m_fetchingData = false;
 };
 
 #endif // SCRIPTMANAGER_H

@@ -111,6 +111,7 @@
 #include "types/script.h"
 #include "types/scripts.h"
 #include "types/types.h"
+#include "models/scriptsproxymodel.h"
 #include "usermanager.h"
 #include "types/tokeninfos.h"
 #include "types/tokeninfo.h"
@@ -319,6 +320,7 @@ void registerQmlTypes() {
     qmlRegisterUncreatableType<ScriptManager>(uri, 1, 0, "ScriptManager", "Get it from Engine");
     qmlRegisterUncreatableType<Scripts>(uri, 1, 0, "Scripts", "Getit from ScriptManager");
     qmlRegisterUncreatableType<Script>(uri, 1, 0, "Script", "Getit from Scripts");
+    qmlRegisterType<ScriptsProxyModel>(uri, 1, 0, "ScriptsProxyModel");
     qmlRegisterType<ScriptSyntaxHighlighter>(uri, 1, 0, "ScriptSyntaxHighlighter");
     qmlRegisterType<CodeCompletion>(uri, 1, 0, "CodeCompletion");
     qmlRegisterUncreatableType<CompletionProxyModel>(uri, 1, 0, "CompletionModel", "Get it from ScriptSyntaxHighlighter");

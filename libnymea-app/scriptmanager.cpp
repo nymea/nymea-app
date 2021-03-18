@@ -33,6 +33,9 @@
 #include "types/script.h"
 #include "types/scripts.h"
 
+#include "logging.h"
+NYMEA_LOGGING_CATEGORY(dcScriptManager, "Scripts")
+
 ScriptManager::ScriptManager(JsonRpcClient *jsonClient, QObject *parent):
     JsonHandler(parent),
     m_client(jsonClient)
@@ -46,6 +49,13 @@ void ScriptManager::init()
 {
     m_scripts->clear();
     m_client->sendCommand("Scripts.GetScripts", QVariantMap(), this, "onScriptsFetched");
+    m_fetchingData = true;
+    emit fetchingDataChanged();
+}
+
+bool ScriptManager::fetchingData() const
+{
+    return m_fetchingData;
 }
 
 QString ScriptManager::nameSpace() const
@@ -98,12 +108,15 @@ int ScriptManager::fetchScript(const QUuid &id)
 
 void ScriptManager::onScriptsFetched(int /*commandId*/, const QVariantMap &params)
 {
+    qCDebug(dcScriptManager()) << "Scripts fetched";
     foreach (const QVariant &variant, params.value("scripts").toList()) {
         QUuid id = variant.toMap().value("id").toUuid();
         Script *script = new Script(id);
         script->setName(variant.toMap().value("name").toString());
         m_scripts->addScript(script);
     }
+    m_fetchingData = false;
+    emit fetchingDataChanged();
 }
 
 void ScriptManager::onScriptFetched(int commandId, const QVariantMap &params)

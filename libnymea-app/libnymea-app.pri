@@ -20,6 +20,7 @@ INCLUDEPATH += \
     $$top_srcdir/QtZeroConf
 
 SOURCES += \
+    $$PWD/models/scriptsproxymodel.cpp \
     $${PWD}/logging.cpp \
     $${PWD}/applogcontroller.cpp \
     $${PWD}/wifisetup/btwifisetup.cpp \
@@ -165,6 +166,7 @@ SOURCES += \
 
 
 HEADERS += \
+    $$PWD/models/scriptsproxymodel.h \
     $${PWD}/logging.h \
     $${PWD}/applogcontroller.h \
     $${PWD}/wifisetup/btwifisetup.h \
