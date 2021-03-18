@@ -44,7 +44,7 @@ Description: A client app for nymea
  This package will install nymea:app, the client app 
  and main user interface for nymea:core.
 
-Package: nymea-app-kiosk
+Package: nymea-app-kiosk-x11
 Architecture: any
 Section: shells
 Multi-Arch: same
@@ -54,5 +54,16 @@ Depends: nymea-app,
          qtvirtualkeyboard-plugin,
          xinit,
 Provides: lightdm-greeter
+Conflicts: nymea-app-kiosk-wayland
 Description: Run nymea:app in kiosk mode
- This package will install nymea:app in kiosk mode on your machine.
+ This package will install nymea:app in kiosk mode on your machine (using X11 and lightdm).
+
+Package: nymea-app-kiosk-wayland
+Architecture: any
+Section: shells
+Multi-Arch: same
+Depends: nymea-app,
+         qtvirtualkeyboard-plugin,
+Conflicts: nymea-app-kiosk-x11
+Description: Run nymea:app in kiosk mode
+ This package will install nymea:app in kiosk mode on your machine (using wayland).

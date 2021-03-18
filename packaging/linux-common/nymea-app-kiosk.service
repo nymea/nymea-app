@@ -1,0 +1,20 @@
+[Unit]
+Description=nymea app kiosk
+After=systemd-user-sessions.service
+
+# replaces plymouth-quit since lightdm quits plymouth on its own
+Conflicts=plymouth-quit.service
+After=plymouth-quit.service
+
+# lightdm takes responsibility for stopping plymouth, so if it fails
+# for any reason, make sure plymouth still stops
+OnFailure=plymouth-quit.service
+
+[Service]
+# temporary safety check until all DMs are converted to correct
+# display-manager.service symlink handling
+Environment=QT_QPA_EGLFS_ALWAYS_SET_MODE=1 QT_QPA_PLATFORM=eglfs
+ExecStart=/usr/bin/nymea-app-kiosk-wrapper
+Restart=always
+User=nymea
+Group=nymea
