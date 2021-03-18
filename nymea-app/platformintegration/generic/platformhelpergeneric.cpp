@@ -32,7 +32,11 @@
 
 #include "logging.h"
 
-Q_DECLARE_LOGGING_CATEGORY(dcPlatformIntergration)
+extern "C" {
+#include <ply-boot-client.h>
+}
+
+Q_DECLARE_LOGGING_CATEGORY(dcPlatformIntegration)
 
 PlatformHelperGeneric::PlatformHelperGeneric(QObject *parent) : PlatformHelper(parent)
 {
@@ -68,4 +72,20 @@ void PlatformHelperGeneric::setScreenBrightness(int percent)
         m_piHelper->setScreenBrightness(percent);
         emit screenTimeoutChanged();
     }
+}
+
+void PlatformHelperGeneric::hideSplashScreen()
+{
+    ply_event_loop_t *loop = ply_event_loop_new();
+    ply_boot_client_t *client = ply_boot_client_new();
+    bool status = ply_boot_client_connect(client, [] (void* data, ply_boot_client_t *) -> void {
+        PlatformHelperGeneric *thiz = reinterpret_cast<PlatformHelperGeneric*>(data);
+//        ply_event_loop_exit(this.loop, 0);
+//                                 ply_boot_client_free(client);
+        }, this);
+    if (!status) {
+        qCCritical(dcPlatformIntegration()) << "Cannot deactivate splash screen";
+    }
+    ply_boot_client_attach_to_event_loop(client, loop);
+    ply_boot_client_tell_daemon_to_deactivate(client, nullptr, nullptr, nullptr);
 }

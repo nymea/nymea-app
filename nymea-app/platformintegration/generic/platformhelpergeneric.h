@@ -47,6 +47,7 @@ public:
     virtual int screenBrightness() const override;
     virtual void setScreenBrightness(int percent) override;
 
+    virtual void hideSplashScreen() override;
 private:
     ScreenHelper *m_piHelper = nullptr;
 };
