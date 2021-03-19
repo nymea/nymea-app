@@ -57,6 +57,8 @@ class SystemController : public JsonHandler
     Q_PROPERTY(bool automaticTimeAvailable READ automaticTimeAvailable NOTIFY automaticTimeAvailableChanged)
     Q_PROPERTY(bool automaticTime READ automaticTime WRITE setAutomaticTime NOTIFY automaticTimeChanged)
 
+    Q_PROPERTY(QString deviceSerialNumber READ deviceSerialNumber NOTIFY deviceSerialNumberChanged)
+
 public:
     explicit SystemController(JsonRpcClient *jsonRpcClient, QObject *parent = nullptr);
 
@@ -88,6 +90,8 @@ public:
     bool automaticTime() const;
     int setAutomaticTime(bool automaticTime);
 
+    QString deviceSerialNumber() const;
+
 signals:
     void powerManagementAvailableChanged();
     void updateManagementAvailableChanged();
@@ -99,6 +103,7 @@ signals:
     void serverTimeZoneChanged();
     void automaticTimeAvailableChanged();
     void automaticTimeChanged();
+    void deviceSerialNumberChanged();
 
     void restartReply(int id, bool success);
     void rebootReply(int id, bool success);
@@ -116,6 +121,7 @@ private slots:
     void restartResponse(int commandId, const QVariantMap &params);
     void rebootResponse(int commandId, const QVariantMap &params);
     void shutdownResponse(int commandId, const QVariantMap &params);
+    void getSystemInfoResponse(int commandId, const QVariantMap &params);
 
     void notificationReceived(const QVariantMap &data);
 
@@ -140,6 +146,8 @@ private:
     QStringList m_timeZones;
     bool m_automaticTimeAvailable = false;
     bool m_automaticTime = false;
+
+    QString m_deviceSerialNumber;
 };
 
 #endif // SYSTEMCONTROLLER_H
