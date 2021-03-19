@@ -13,6 +13,7 @@ win32:CXX_FLAGS += /w
 
 linux:!android:!nozeroconf:LIBS += -lavahi-client -lavahi-common
 PRE_TARGETDEPS += ../libnymea-app
+linux:!android:PRE_TARGETDEPS += $$top_builddir/libnymea-app/libnymea-app.a
 
 HEADERS += \
     mainmenumodel.h \
@@ -61,6 +62,7 @@ android {
 
     # https://bugreports.qt.io/browse/QTBUG-83165
     LIBS += -L$${top_builddir}/libnymea-app/$${ANDROID_TARGET_ARCH}
+    PRE_TARGETDEPS += $$top_builddir/libnymea-app/$${ANDROID_TARGET_ARCH}/libnymea-app.a
 
     DISTFILES += \
         $$ANDROID_PACKAGE_SOURCE_DIR/AndroidManifest.xml \

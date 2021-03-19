@@ -229,6 +229,8 @@ void AppLogController::updateFilters()
         loggingRules << QString("%1.info=%2").arg(category).arg(level >= LogLevelInfo ? "true" : "false");
         loggingRules << QString("%1.warn=%2").arg(category).arg(level >= LogLevelWarning ? "true" : "false");
     }
+    loggingRules << "qt.qml.connections.warning=false";
+
     QLoggingCategory::setFilterRules(loggingRules.join('\n'));
 }
 

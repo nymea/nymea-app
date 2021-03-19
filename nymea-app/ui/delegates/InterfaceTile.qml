@@ -159,7 +159,7 @@ MainPageTile {
         }
         sourceComponent: {
             if (!root.iface) {
-                return ""
+                return null
             }
 
             switch (iface.name) {
