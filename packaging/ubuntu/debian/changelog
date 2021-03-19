@@ -1,3 +1,12 @@
+nymea-app (1.0.287) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add ScriptProxyModel
+  * Add device serial api
+  * Fix refreshing the push token
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 19 Mar 2021 14:39:37 +0100
+
 nymea-app (1.0.286) bionic; urgency=medium
 
   [ Michael Zanetti ]
