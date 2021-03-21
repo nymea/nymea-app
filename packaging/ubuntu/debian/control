@@ -77,7 +77,7 @@ Package: nymea-splashscreen
 Architecture: any
 Section: shells
 Multi-Arch: same
-Depends: plymouth,
+Depends: fbi,
 Description: A nymea branded fbi splash theme
  This package will install a nymea branded boot splash using fbi.
 

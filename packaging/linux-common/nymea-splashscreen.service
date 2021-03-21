@@ -1,10 +1,11 @@
 [Unit]
-Description=nymea sSplash screen
+Description=nymea splash screen
 DefaultDependencies=no
 After=local-fs.target
+ConditionKernelCommandLine=!nosplash
 
 [Service]
-ExecStart=/usr/bin/fbi --noverbose -d /dev/fb0 -a /usr/share/nymea-splashscreen/nymea-splash-horizontal.jpg -fitwidth
+ExecStart=/usr/bin/fbi --noverbose -d /dev/fb0 -a /usr/share/nymea-splashscreen/nymea-splash-horizontal.png -fitwidth
 StandardInput=tty
 StandardOutput=tty
 #TTYPath=/dev/tty1
