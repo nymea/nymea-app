@@ -35,10 +35,6 @@
 #include "platformhelper.h"
 #include "screenhelper.h"
 
-extern "C" {
-#include <ply-boot-client.h>
-}
-
 class PlatformHelperGeneric : public PlatformHelper
 {
     Q_OBJECT
@@ -51,10 +47,7 @@ public:
     virtual int screenBrightness() const override;
     virtual void setScreenBrightness(int percent) override;
 private:
-    ScreenHelper *m_piHelper = nullptr;
-
-    ply_event_loop_t *m_plyLoop = nullptr;
-    ply_boot_client_t *m_plyClient = nullptr;
+    ScreenHelper *m_screenHelper = nullptr;
 };
 
 #endif // PLATFORMHELPERGENERIC_H
