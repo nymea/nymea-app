@@ -1,3 +1,11 @@
+nymea-app (1.0.289) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix splash screen
+  * Improve screen brightness control
+
+ -- Jenkins <jenkins@nymea.io>  Sun, 21 Mar 2021 19:52:14 +0100
+
 nymea-app (1.0.288) bionic; urgency=medium
 
   [ Michael Zanetti ]
