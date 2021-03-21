@@ -88,6 +88,8 @@ int main(int argc, char *argv[])
     parser.addOption(defaultViewsOption);
     QCommandLineOption kioskOption = QCommandLineOption({"k", "kiosk"}, "Start the application in kiosk mode.");
     parser.addOption(kioskOption);
+    QCommandLineOption splashOption = QCommandLineOption({"p", "splash"}, "Show a splash screen on startup.");
+    parser.addOption(splashOption);
     parser.process(application);
 
     // Initialize app log controller as early as possible, but after setting app name etc
@@ -152,6 +154,7 @@ int main(int argc, char *argv[])
 
     engine->rootContext()->setContextProperty("defaultMainViewFilter", parser.value(defaultViewsOption));
     engine->rootContext()->setContextProperty("kioskMode", parser.isSet(kioskOption));
+    engine->rootContext()->setContextProperty("showSplash", parser.isSet(splashOption));
     engine->rootContext()->setContextProperty("autoConnectHost", parser.value(connectOption));
 
     engine->rootContext()->setContextProperty("systemProductType", QSysInfo::productType());

@@ -556,4 +556,19 @@ ApplicationWindow {
         z: 1
         anchors { left: parent.left; bottom: parent.bottom; right: parent.right }
     }
+
+    Image {
+        id: splashScreen
+        parent: overlay
+        source: "/ui/images/nymea-splash-horizontal.svg"
+        anchors.fill: parent
+        fillMode: Image.PreserveAspectCrop
+        opacity: PlatformHelper.splashVisible ? 1 : 0
+        Behavior on opacity { NumberAnimation {duration: 300 }}
+        visible: showSplash && opacity > 0
+        antialiasing: true
+        smooth: true
+        sourceSize.width: Math.max(width, height)
+        sourceSize.height: sourceSize.width
+    }
 }

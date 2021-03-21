@@ -47,6 +47,7 @@ class PlatformHelper : public QObject
     Q_PROPERTY(QString deviceModel READ deviceModel CONSTANT)
     Q_PROPERTY(QString deviceManufacturer READ deviceManufacturer CONSTANT)
     Q_PROPERTY(QString machineHostname READ machineHostname CONSTANT)
+    Q_PROPERTY(bool splashVisible READ splashVisible WRITE setSplashVisible NOTIFY splashVisibleChanged)
     Q_PROPERTY(bool canControlScreen READ canControlScreen CONSTANT)
     Q_PROPERTY(int screenTimeout READ screenTimeout WRITE setScreenTimeout NOTIFY screenTimeoutChanged)
     Q_PROPERTY(int screenBrightness READ screenBrightness WRITE setScreenBrightness NOTIFY screenBrightnessChanged)
@@ -85,7 +86,11 @@ public:
     virtual QColor bottomPanelColor() const;
     virtual void setBottomPanelColor(const QColor &color);
 
+    virtual bool splashVisible() const;
+    virtual void setSplashVisible(bool splashVisible);
     Q_INVOKABLE virtual void hideSplashScreen();
+
+
     Q_INVOKABLE virtual void vibrate(HapticsFeedback feedbackType);
 
     Q_INVOKABLE virtual void toClipBoard(const QString &text);
@@ -100,6 +105,7 @@ signals:
     void screenBrightnessChanged();
     void topPanelColorChanged();
     void bottomPanelColorChanged();
+    void splashVisibleChanged();
 
 protected:
     explicit PlatformHelper(QObject *parent = nullptr);
@@ -109,6 +115,8 @@ private:
 
     QColor m_topPanelColor = QColor("black");
     QColor m_bottomPanelColor = QColor("black");
+
+    bool m_splashVisible = true;
 };
 
 #endif // PLATFORMHELPER_H

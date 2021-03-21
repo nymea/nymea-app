@@ -65,6 +65,19 @@ Section: shells
 Multi-Arch: same
 Depends: nymea-app,
          qtvirtualkeyboard-plugin,
-Conflicts: nymea-app-kiosk-x11
+Conflicts: nymea-app-kiosk-x11,
+           lightdm
+Replaces: nymea-app-kiosk
+Provides: nymea-app-kiosk
 Description: Run nymea:app in kiosk mode
  This package will install nymea:app in kiosk mode on your machine (using wayland).
+
+
+Package: nymea-splashscreen
+Architecture: any
+Section: shells
+Multi-Arch: same
+Depends: plymouth,
+Description: A nymea branded fbi splash theme
+ This package will install a nymea branded boot splash using fbi.
+

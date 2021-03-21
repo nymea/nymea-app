@@ -1,5 +1,5 @@
 #!/bin/sh
 export QT_IM_MODULE=qtvirtualkeyboard
 while [ true ]; do
-  /usr/bin/nymea-app --kiosk --connect nymeas://127.0.0.1:2222
+  /usr/bin/nymea-app --kiosk --splash --connect nymeas://127.0.0.1:2222
 done
