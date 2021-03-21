@@ -53,9 +53,13 @@ public:
 private slots:
     void screenOn();
     void screenOff();
+    void dimScreen();
+
+    void applyBrightness(int percent);
 
 private:
     QTimer m_screenOffTimer;
+    QTimer m_screenDimTimer;
     QFile m_powerFile;
     QFile m_brightnessFile;
 
