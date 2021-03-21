@@ -1,0 +1,13 @@
+[Unit]
+Description=nymea sSplash screen
+DefaultDependencies=no
+After=local-fs.target
+
+[Service]
+ExecStart=/usr/bin/fbi --noverbose -d /dev/fb0 -a /usr/share/nymea-splashscreen/nymea-splash-horizontal.jpg -fitwidth
+StandardInput=tty
+StandardOutput=tty
+#TTYPath=/dev/tty1
+
+[Install]
+WantedBy=sysinit.target

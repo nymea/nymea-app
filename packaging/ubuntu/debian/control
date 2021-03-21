@@ -17,6 +17,7 @@ Build-Depends: debhelper (>= 9.0.0),
                qtconnectivity5-dev,
                qtdeclarative5-dev,
                qtquickcontrols2-5-dev,
+               libplymouth-dev,
 
 Package: nymea-app
 Architecture: any
@@ -44,7 +45,7 @@ Description: A client app for nymea
  This package will install nymea:app, the client app 
  and main user interface for nymea:core.
 
-Package: nymea-app-kiosk
+Package: nymea-app-kiosk-x11
 Architecture: any
 Section: shells
 Multi-Arch: same
@@ -54,5 +55,29 @@ Depends: nymea-app,
          qtvirtualkeyboard-plugin,
          xinit,
 Provides: lightdm-greeter
+Conflicts: nymea-app-kiosk-wayland
 Description: Run nymea:app in kiosk mode
- This package will install nymea:app in kiosk mode on your machine.
+ This package will install nymea:app in kiosk mode on your machine (using X11 and lightdm).
+
+Package: nymea-app-kiosk-wayland
+Architecture: any
+Section: shells
+Multi-Arch: same
+Depends: nymea-app,
+         qtvirtualkeyboard-plugin,
+Conflicts: nymea-app-kiosk-x11,
+           lightdm
+Replaces: nymea-app-kiosk
+Provides: nymea-app-kiosk
+Description: Run nymea:app in kiosk mode
+ This package will install nymea:app in kiosk mode on your machine (using wayland).
+
+
+Package: nymea-splashscreen
+Architecture: any
+Section: shells
+Multi-Arch: same
+Depends: plymouth,
+Description: A nymea branded fbi splash theme
+ This package will install a nymea branded boot splash using fbi.
+

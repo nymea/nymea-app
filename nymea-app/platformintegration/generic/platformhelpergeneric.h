@@ -46,9 +46,8 @@ public:
     virtual void setScreenTimeout(int timeout) override;
     virtual int screenBrightness() const override;
     virtual void setScreenBrightness(int percent) override;
-
 private:
-    ScreenHelper *m_piHelper = nullptr;
+    ScreenHelper *m_screenHelper = nullptr;
 };
 
 #endif // PLATFORMHELPERGENERIC_H

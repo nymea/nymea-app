@@ -84,7 +84,7 @@ void PlatformHelper::requestPermissions()
 
 void PlatformHelper::hideSplashScreen()
 {
-    // No splash screen by default...
+    setSplashVisible(false);
 }
 
 
@@ -170,6 +170,19 @@ void PlatformHelper::setBottomPanelColor(const QColor &color)
     if (m_bottomPanelColor != color) {
         m_bottomPanelColor = color;
         emit bottomPanelColorChanged();
+    }
+}
+
+bool PlatformHelper::splashVisible() const
+{
+    return m_splashVisible;
+}
+
+void PlatformHelper::setSplashVisible(bool splashVisible)
+{
+    if (m_splashVisible != splashVisible) {
+        m_splashVisible = splashVisible;
+        emit splashVisibleChanged();
     }
 }
 

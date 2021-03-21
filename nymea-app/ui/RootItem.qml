@@ -236,7 +236,6 @@ Item {
 
                         if (engine.jsonRpcClient.connected) {
                             pageStack.push(Qt.resolvedUrl("MainPage.qml"))
-                            PlatformHelper.hideSplashScreen();
                             return;
                         }
 
@@ -414,6 +413,7 @@ Item {
                             if (!engine.thingManager.fetchingData) {
                                 updatePushNotificationThings()
                             }
+                            PlatformHelper.hideSplashScreen();
                         }
                     }
 

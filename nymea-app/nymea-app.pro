@@ -2,6 +2,8 @@ TEMPLATE=app
 TARGET=nymea-app
 include(../config.pri)
 
+CONFIG += link_pkgconfig
+
 QT += network qml quick quickcontrols2 svg websockets bluetooth charts gui-private nfc
 
 INCLUDEPATH += $$top_srcdir/libnymea-app
@@ -51,6 +53,10 @@ RESOURCES += resources.qrc \
 
 win32 {
     QT += webview
+}
+
+linux:!android: {
+    PKGCONFIG += ply-boot-client
 }
 
 android {
@@ -183,12 +189,4 @@ BR=$$BRANDING
 
 target.path = /usr/bin
 INSTALLS += target
-
-ANDROID_ABIS = armeabi-v7a arm64-v8a
-
-contains(ANDROID_TARGET_ARCH,) {
-    ANDROID_ABIS = \
-        armeabi-v7a \
-        arm64-v8a
-}
 

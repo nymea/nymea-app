@@ -32,40 +32,43 @@
 
 #include "logging.h"
 
-Q_DECLARE_LOGGING_CATEGORY(dcPlatformIntergration)
+
+Q_DECLARE_LOGGING_CATEGORY(dcPlatformIntegration)
+
+#include <QProcess>
 
 PlatformHelperGeneric::PlatformHelperGeneric(QObject *parent) : PlatformHelper(parent)
 {
-    m_piHelper = new ScreenHelper(this);
+    m_screenHelper = new ScreenHelper(this);
 }
 
 bool PlatformHelperGeneric::canControlScreen() const
 {
-    return m_piHelper->active();
+    return m_screenHelper->active();
 }
 
 int PlatformHelperGeneric::screenTimeout() const
 {
-    return m_piHelper->screenTimeout();
+    return m_screenHelper->screenTimeout();
 }
 
 void PlatformHelperGeneric::setScreenTimeout(int timeout)
 {
-    if (m_piHelper->screenTimeout() != timeout) {
-        m_piHelper->setScreenTimeout(timeout);
+    if (m_screenHelper->screenTimeout() != timeout) {
+        m_screenHelper->setScreenTimeout(timeout);
         emit screenTimeoutChanged();
     }
 }
 
 int PlatformHelperGeneric::screenBrightness() const
 {
-    return m_piHelper->screenBrightness();
+    return m_screenHelper->screenBrightness();
 }
 
 void PlatformHelperGeneric::setScreenBrightness(int percent)
 {
-    if (m_piHelper->screenBrightness() != percent) {
-        m_piHelper->setScreenBrightness(percent);
+    if (m_screenHelper->screenBrightness() != percent) {
+        m_screenHelper->setScreenBrightness(percent);
         emit screenTimeoutChanged();
     }
 }
