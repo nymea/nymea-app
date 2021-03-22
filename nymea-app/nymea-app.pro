@@ -155,7 +155,8 @@ ios: {
                    ../packaging/ios/GoogleService-Info.plist
 
     ios_icon_files.files += $$files(../packaging/ios/AppIcons.xcassets/AppIcon.appiconset/AppIcon*.png)
-    ios_launch_images.files += $$files(../packaging/ios/LaunchImage*.png) ../packaging/ios/LaunchScreen1.xib
+    ios_launch_images.files += $$files(../packaging/ios/AppIcons.xcassets/LaunchScreen.imageset/*.png) \
+                               ../packaging/ios/NymeaLaunchScreen.storyboard
     QMAKE_BUNDLE_DATA += ios_icon_files ios_launch_images
 
     IOS_DEVELOPMENT_TEAM.name = DEVELOPMENT_TEAM

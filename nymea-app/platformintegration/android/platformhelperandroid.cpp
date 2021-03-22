@@ -42,8 +42,28 @@
 // View
 #define SYSTEM_UI_FLAG_LIGHT_STATUS_BAR 0x00002000
 
+static PlatformHelperAndroid *m_instance = nullptr;
 
-static PlatformHelperAndroid *m_instance;
+static JNINativeMethod methods[] = {
+    { "darkModeEnabledChangedJNI", "()V", (void *)PlatformHelperAndroid::darkModeEnabledChangedJNI },
+};
+
+JNIEXPORT jint JNI_OnLoad(JavaVM* vm, void* /*reserved*/)
+{
+    JNIEnv* env;
+    if (vm->GetEnv(reinterpret_cast<void**>(&env), JNI_VERSION_1_6) != JNI_OK) {
+        return JNI_ERR;
+    }
+
+    jclass javaClass = env->FindClass("io/guh/nymeaapp/NymeaAppActivity");
+    if (!javaClass)
+        return JNI_ERR;
+
+    if (env->RegisterNatives(javaClass, methods, sizeof(methods) / sizeof(methods[0])) < 0) {
+        return JNI_ERR;
+    }
+    return JNI_VERSION_1_6;
+}
 
 static QAndroidJniObject getAndroidWindow()
 {
@@ -54,6 +74,7 @@ static QAndroidJniObject getAndroidWindow()
 PlatformHelperAndroid::PlatformHelperAndroid(QObject *parent) : PlatformHelper(parent)
 {
     m_instance = this;
+
 }
 
 void PlatformHelperAndroid::requestPermissions()
@@ -178,6 +199,11 @@ void PlatformHelperAndroid::setBottomPanelColor(const QColor &color)
         return;
 }
 
+bool PlatformHelperAndroid::darkModeEnabled() const
+{
+    return QtAndroid::androidActivity().callMethod<jboolean>("darkModeEnabled");
+}
+
 void PlatformHelperAndroid::shareFile(const QString &fileName)
 {
     QtAndroid::androidActivity().callMethod<void>("shareFile", "(Ljava/lang/String;)V",
@@ -191,6 +217,13 @@ void PlatformHelperAndroid::permissionRequestFinished(const QtAndroid::Permissio
         qDebug() << "Permission result:" << key << static_cast<int>(result.value(key));
     }
     emit m_instance->permissionsRequestFinished();
+}
+
+void PlatformHelperAndroid::darkModeEnabledChangedJNI()
+{
+    if (m_instance) {
+        emit m_instance->darkModeEnabledChanged();
+    }
 }
 
 void PlatformHelperAndroid::setTopPanelTheme(PlatformHelperAndroid::Theme theme)

@@ -128,6 +128,14 @@ void PlatformHelperIOS::setBottomPanelColorInternal(const QColor &color)
     app.windows.firstObject.backgroundColor = [UIColor colorWithRed:color.redF() green:color.greenF() blue:color.blueF() alpha:color.alphaF()];
 }
 
+bool PlatformHelperIOS::darkModeEnabled() const
+{
+    if (@available(iOS 12.0, *)) {
+        return UIScreen.mainScreen.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark;
+    }
+    return false;
+}
+
 void PlatformHelperIOS::shareFile(const QString &fileName)
 {
     UIActivityViewController *activityController = [[UIActivityViewController alloc] initWithActivityItems:@[[NSURL fileURLWithPath:fileName.toNSString()]] applicationActivities:nil];
