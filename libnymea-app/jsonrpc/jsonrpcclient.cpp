@@ -156,6 +156,13 @@ void JsonRpcClient::acceptCertificate(const QString &serverUuid, const QByteArra
     storePem(serverUuid, pem);
 }
 
+bool JsonRpcClient::tokenExists(const QString &serverUuid) const
+{
+    QSettings settings;
+    settings.beginGroup("jsonTokens");
+    return settings.contains(QUuid(serverUuid).toString());
+}
+
 void JsonRpcClient::getCloudConnectionStatus()
 {
     JsonRpcReply *reply = createReply("JSONRPC.IsCloudConnected", QVariantMap(), this, "isCloudConnectedReply");

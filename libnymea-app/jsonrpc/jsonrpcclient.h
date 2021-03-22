@@ -106,6 +106,7 @@ public:
     Q_INVOKABLE void connectToHost(NymeaHost *host, Connection *connection = nullptr);
     Q_INVOKABLE void disconnectFromHost();
     Q_INVOKABLE void acceptCertificate(const QString &serverUuid, const QByteArray &pem);
+    Q_INVOKABLE bool tokenExists(const QString &serverUuid) const;
 
     Q_INVOKABLE bool ensureServerVersion(const QString &jsonRpcVersion);
 
