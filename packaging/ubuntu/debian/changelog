@@ -1,3 +1,12 @@
+nymea-app (1.0.291) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add a method to allow checking if a token exists for a particular
+    host
+  * Dont hide splash if autoconnecting
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 22 Mar 2021 20:06:29 +0100
+
 nymea-app (1.0.290) bionic; urgency=medium
 
   [ Michael Zanetti ]
