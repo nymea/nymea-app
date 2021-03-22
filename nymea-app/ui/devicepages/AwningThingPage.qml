@@ -68,14 +68,14 @@ ThingPageBase {
             property int minimumWidth: app.iconSize * 2.7 * 3
             property int minimumHeight: app.iconSize * 4.5
 
-            Column {
+            ColumnLayout {
                 anchors.centerIn: parent
                 width: parent.width
                 spacing: app.margins
 
                 Slider {
                     id: percentageSlider
-                    width: parent.width
+                    Layout.fillWidth: true
                     from: 0
                     to: 100
                     stepSize: 1
@@ -108,8 +108,7 @@ ThingPageBase {
                     id: shutterControls
                     thing: root.thing
                     invert: true
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    spacing: (parent.width - app.iconSize*2*children.length) / (children.length - 1)
+                    Layout.fillWidth: true
                 }
             }
         }
