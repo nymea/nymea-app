@@ -184,9 +184,12 @@ Item {
                         } else if (autoConnectHost.length > 0) {
                             var host = nymeaDiscovery.nymeaHosts.createLanHost(app.systemName, autoConnectHost);
                             engine.jsonRpcClient.connectToHost(host)
+                        } else {
+                            // Only hide the splash right away if we're not trying to connect to something
+                            // If it's not hidden here it will be hidden in 3 seconds or when the connection is up, whichever comes first
+                            PlatformHelper.hideSplashScreen();
                         }
 
-                        PlatformHelper.hideSplashScreen();
                         pageStack.push(Qt.resolvedUrl("connection/ConnectPage.qml"), StackView.Immediate)
                     }
 
