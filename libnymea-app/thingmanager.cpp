@@ -143,11 +143,13 @@ void ThingManager::notificationReceived(const QVariantMap &data)
         }
         ThingClass *thingClass = thingClasses()->getThingClass(thing->thingClassId());
         if (!thingClass) {
-            qWarning() << "Skipping invalid thing. Don't have a thing class for it";
+            qCWarning(dcThingManager()) << "Skipping invalid thing. Don't have a thing class for it";
             delete thing;
             return;
         }
+        qCInfo(dcThingManager()) << "A new thing has been added" << thing->name() << thing->id().toString();
         m_things->addThing(thing);
+        emit thingAdded(thing);
     } else if (notification == "Integrations.ThingRemoved") {
         QUuid thingId = data.value("params").toMap().value("thingId").toUuid();
 //        qDebug() << "JsonRpc: Notification: Thing removed" << thingId.toString();
@@ -157,6 +159,7 @@ void ThingManager::notificationReceived(const QVariantMap &data)
             return;
         }
         m_things->removeThing(thing);
+        emit thingRemoved(thing);
         thing->deleteLater();
     } else if (notification == "Integrations.ThingChanged") {
         QUuid thingId = data.value("params").toMap().value("thing").toMap().value("id").toUuid();
@@ -349,7 +352,7 @@ void ThingManager::addThingResponse(int commandId, const QVariantMap &params)
             return;
         }
 
-        qDebug() << "Thing added" << thing->id().toString();
+        qCInfo(dcThingManager()) << "Thing successfully added" << thing->name() << thing->id().toString();
         m_things->addThing(thing);
     }
 }

@@ -151,6 +151,9 @@ signals:
     void eventTriggered(const QUuid &thingId, const QUuid &eventTypeId, const QVariantMap params);
     void thingStateChanged(const QUuid &thingId, const QUuid &stateTypeId, const QVariant &value);
 
+    void thingAdded(Thing *thing);
+    void thingRemoved(Thing *thing);
+
 private:
     static Vendor *unpackVendor(const QVariantMap &vendorMap);
     static Plugin *unpackPlugin(const QVariantMap &pluginMap, QObject *parent);
