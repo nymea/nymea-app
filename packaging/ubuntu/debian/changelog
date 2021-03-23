@@ -1,3 +1,10 @@
+nymea-app (1.0.292) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add signals for thing added and removed
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 23 Mar 2021 15:47:42 +0100
+
 nymea-app (1.0.291) bionic; urgency=medium
 
   [ Michael Zanetti ]
