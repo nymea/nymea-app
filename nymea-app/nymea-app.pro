@@ -153,7 +153,7 @@ ios: {
                    ../packaging/ios/pushnotifications.entitlements \
                    ../packaging/ios/GoogleService-Info.plist
 
-    QMAKE_ASSET_CATALOGS += ../packaging/ios/AppIcons.xcassets
+    QMAKE_ASSET_CATALOGS += ../packaging/ios/Assets.xcassets
 
     ios_launch_images.files += ../packaging/ios/NymeaLaunchScreen.storyboard
     QMAKE_BUNDLE_DATA += ios_launch_images
