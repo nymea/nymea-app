@@ -1,3 +1,10 @@
+nymea-app (1.0.294) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix event params in eventTriggered signal
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 24 Mar 2021 20:15:41 +0100
+
 nymea-app (1.0.293) bionic; urgency=medium
 
   [ Michael Zanetti ]
