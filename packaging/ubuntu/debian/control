@@ -17,7 +17,6 @@ Build-Depends: debhelper (>= 9.0.0),
                qtconnectivity5-dev,
                qtdeclarative5-dev,
                qtquickcontrols2-5-dev,
-               libplymouth-dev,
 
 Package: nymea-app
 Architecture: any

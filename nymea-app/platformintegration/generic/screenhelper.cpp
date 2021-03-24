@@ -87,7 +87,15 @@ ScreenHelper::ScreenHelper(QObject *parent) : QObject(parent)
 
     foreach (QWindow *w, qApp->topLevelWindows()) {
         w->installEventFilter(this);
+        m_watchedWindows.append(w);
     }
+
+    connect(qApp, &QGuiApplication::focusWindowChanged, this, [=](QWindow *w){
+        if (!m_watchedWindows.contains(w)) {
+            w->installEventFilter(this);
+            m_watchedWindows.append(w);
+        }
+    });
 
     QSettings settings;
 
@@ -122,6 +130,7 @@ int ScreenHelper::screenTimeout() const
 
 void ScreenHelper::setScreenTimeout(int timeout)
 {
+    qCInfo(dcPlatformIntegration()) << "Set screen timeout to" << timeout << "ms";
     m_screenDimTimer.setInterval(timeout);
     QSettings settings;
     settings.setValue("screenOffTimeout", timeout);

@@ -35,6 +35,8 @@
 #include <QTimer>
 #include <QFile>
 
+class QWindow;
+
 class ScreenHelper : public QObject
 {
     Q_OBJECT
@@ -62,6 +64,8 @@ private:
     QTimer m_screenDimTimer;
     QFile m_powerFile;
     QFile m_brightnessFile;
+
+    QList<QWindow*> m_watchedWindows;
 
     bool m_cursorHidden = false;
 

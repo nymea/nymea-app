@@ -55,10 +55,6 @@ win32 {
     QT += webview
 }
 
-linux:!android: {
-    PKGCONFIG += ply-boot-client
-}
-
 android {
     include(../3rdParty/android/android_openssl/openssl.pri)
 
