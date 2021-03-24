@@ -140,7 +140,7 @@ signals:
     void paramsChanged();
     void settingsChanged();
     void statesChanged();
-    void eventTriggered(const QUuid &eventTypeId, const QVariantMap &params);
+    void eventTriggered(const QUuid &eventTypeId, const QVariantList &params);
 
 signals:
     void executeActionReply(int commandId, Thing::ThingError thingError, const QString &displayMessage);
