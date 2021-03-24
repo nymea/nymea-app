@@ -57,6 +57,8 @@ public:
     void setTopPanelColor(const QColor &color) override;
     void setBottomPanelColor(const QColor &color) override;
 
+    bool darkModeEnabled() const override;
+
     void shareFile(const QString &fileName) override;
 
 private:

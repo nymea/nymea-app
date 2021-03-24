@@ -6,7 +6,7 @@ ConditionKernelCommandLine=!nosplash
 ConditionKernelCommandLine=splash
 
 [Service]
-ExecStart=/usr/bin/fbi --noverbose -d /dev/fb0 -a /usr/share/nymea-splashscreen/nymea-splash-horizontal.png -fitwidth
+ExecStart=/usr/bin/fbi --noverbose -d /dev/fb0 -a /usr/share/nymea-splashscreen/nymea-splash.png -fitwidth
 StandardInput=tty
 StandardOutput=tty
 #TTYPath=/dev/tty1

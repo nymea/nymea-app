@@ -81,7 +81,6 @@ int main(int argc, char *argv[])
     QCommandLineOption styleOption = QCommandLineOption({"s", "style"}, "Override the style. Style in settings will be disabled.", "style");
     parser.addOption(styleOption);
     QCommandLineOption defaultStyleOption = QCommandLineOption({"d", "default-style"}, "The default style to be used if there is no style explicitly selected by the user yet.", "style");
-    defaultStyleOption.setDefaultValue("light");
     parser.addOption(defaultStyleOption);
 #endif
     QCommandLineOption defaultViewsOption = QCommandLineOption({"v", "default-views"}, "The main views enabled by default if there is no configuration done by the user and the style doesn't dictate them, comma separated.", "mainviews");
@@ -119,9 +118,17 @@ int main(int argc, char *argv[])
     StyleController styleController(BRANDING);
     styleController.lockToStyle(BRANDING);
 #else
-    StyleController styleController(parser.value(defaultStyleOption));
+    QString defaultStyle;
+    if (parser.isSet(defaultStyleOption)) {
+        defaultStyle = parser.value(defaultStyleOption);
+    } else if (PlatformHelper::instance()->darkModeEnabled()) {
+        defaultStyle = "dark";
+    } else {
+        defaultStyle = "light";
+    }
+    StyleController styleController(defaultStyle);
     if (parser.isSet(styleOption)) {
-        qCInfo(dcApplication()) << "Setting style to" << parser.value(styleOption);
+        qCInfo(dcApplication()) << "Setting style to" << defaultStyle;
         styleController.lockToStyle(parser.value(styleOption));
     }
 #endif

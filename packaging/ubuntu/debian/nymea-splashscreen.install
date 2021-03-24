@@ -1,2 +1,2 @@
 packaging/linux-common/nymea-splashscreen.service /lib/systemd/system/
-packaging/linux-common/nymea-splash-horizontal.png /usr/share/nymea-splashscreen/
+packaging/linux-common/nymea-splash.png /usr/share/nymea-splashscreen/

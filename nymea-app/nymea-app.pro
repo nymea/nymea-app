@@ -55,10 +55,6 @@ win32 {
     QT += webview
 }
 
-linux:!android: {
-    PKGCONFIG += ply-boot-client
-}
-
 android {
     include(../3rdParty/android/android_openssl/openssl.pri)
 
@@ -145,7 +141,6 @@ ios: {
     QMAKE_BUNDLE = nymeaApp
     # Configure generated xcode project to have our bundle id
     xcode_product_bundle_identifier_setting.value = $${QMAKE_TARGET_BUNDLE_PREFIX}.$${QMAKE_BUNDLE}
-    QMAKE_ASSET_CATALOGS += ../packaging/ios/AppIcons.xcassets
     plist.input = ../packaging/ios/Info.plist.in
     plist.output = $$OUT_PWD/Info.plist
     QMAKE_SUBSTITUTES += plist
@@ -154,9 +149,10 @@ ios: {
                    ../packaging/ios/pushnotifications.entitlements \
                    ../packaging/ios/GoogleService-Info.plist
 
-    ios_icon_files.files += $$files(../packaging/ios/AppIcons.xcassets/AppIcon.appiconset/AppIcon*.png)
-    ios_launch_images.files += $$files(../packaging/ios/LaunchImage*.png) ../packaging/ios/LaunchScreen1.xib
-    QMAKE_BUNDLE_DATA += ios_icon_files ios_launch_images
+    QMAKE_ASSET_CATALOGS += ../packaging/ios/Assets.xcassets
+
+    ios_launch_images.files += ../packaging/ios/NymeaLaunchScreen.storyboard
+    QMAKE_BUNDLE_DATA += ios_launch_images
 
     IOS_DEVELOPMENT_TEAM.name = DEVELOPMENT_TEAM
     IOS_DEVELOPMENT_TEAM.value = Z45PLKLTHM

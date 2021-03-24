@@ -173,6 +173,11 @@ void PlatformHelper::setBottomPanelColor(const QColor &color)
     }
 }
 
+bool PlatformHelper::darkModeEnabled() const
+{
+    return false;
+}
+
 bool PlatformHelper::splashVisible() const
 {
     return m_splashVisible;

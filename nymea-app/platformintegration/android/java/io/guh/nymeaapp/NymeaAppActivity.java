@@ -12,17 +12,27 @@ import android.provider.Settings.Secure;
 import android.os.Vibrator;
 import android.net.Uri;
 import android.support.v4.content.FileProvider;
+import android.content.res.Configuration;
 
 public class NymeaAppActivity extends org.qtproject.qt5.android.bindings.QtActivity
 {
     private static final String TAG = "nymea-app: NymeaAppActivity";
     private static Context context = null;
 
+    private static native void darkModeEnabledChangedJNI();
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.context = getApplicationContext();
     }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        NymeaAppActivity.darkModeEnabledChangedJNI();
+    }
+
 
     public static Context getAppContext() {
         return NymeaAppActivity.context;
@@ -65,5 +75,9 @@ public class NymeaAppActivity extends org.qtproject.qt5.android.bindings.QtActiv
         } else {
             Log.d(TAG, "Intent not resolved");
         }
+    }
+
+    public boolean nightModeEnabled() {
+        return (getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES;
     }
 }

@@ -53,6 +53,7 @@ class PlatformHelper : public QObject
     Q_PROPERTY(int screenBrightness READ screenBrightness WRITE setScreenBrightness NOTIFY screenBrightnessChanged)
     Q_PROPERTY(QColor topPanelColor READ topPanelColor WRITE setTopPanelColor NOTIFY topPanelColorChanged)
     Q_PROPERTY(QColor bottomPanelColor READ bottomPanelColor WRITE setBottomPanelColor NOTIFY bottomPanelColorChanged)
+    Q_PROPERTY(bool darkModeEnabled READ darkModeEnabled NOTIFY darkModeEnabledChanged)
 
 public:
     enum HapticsFeedback {
@@ -86,6 +87,8 @@ public:
     virtual QColor bottomPanelColor() const;
     virtual void setBottomPanelColor(const QColor &color);
 
+    virtual bool darkModeEnabled() const;
+
     virtual bool splashVisible() const;
     virtual void setSplashVisible(bool splashVisible);
     Q_INVOKABLE virtual void hideSplashScreen();
@@ -105,6 +108,7 @@ signals:
     void screenBrightnessChanged();
     void topPanelColorChanged();
     void bottomPanelColorChanged();
+    void darkModeEnabledChanged();
     void splashVisibleChanged();
 
 protected:
