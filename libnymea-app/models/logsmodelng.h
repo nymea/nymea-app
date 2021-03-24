@@ -44,6 +44,7 @@ class Engine;
 class LogsModelNg : public QAbstractListModel, public QQmlParserStatus
 {
     Q_OBJECT
+    Q_INTERFACES(QQmlParserStatus)
     Q_PROPERTY(Engine* engine READ engine WRITE setEngine NOTIFY engineChanged)
     Q_PROPERTY(bool busy READ busy NOTIFY busyChanged)
     Q_PROPERTY(bool live READ live WRITE setLive NOTIFY liveChanged)

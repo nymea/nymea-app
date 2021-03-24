@@ -3,10 +3,9 @@
 
 #include <QObject>
 #include <QUuid>
-#include <QQmlParserStatus>
 #include <QFile>
 
-class ScriptAutoSaver : public QObject, public QQmlParserStatus
+class ScriptAutoSaver : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QUuid scriptId READ scriptId WRITE setScriptId NOTIFY scriptIdChanged)
@@ -17,10 +16,7 @@ class ScriptAutoSaver : public QObject, public QQmlParserStatus
 
 public:
     explicit ScriptAutoSaver(QObject *parent = nullptr);
-    ~ScriptAutoSaver();
-
-    void classBegin() override;
-    void componentComplete() override;
+    ~ScriptAutoSaver() override;
 
     bool available() const;
 
