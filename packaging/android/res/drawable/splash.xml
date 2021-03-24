@@ -5,6 +5,6 @@
             <solid android:color="#ffffff"/>
         </shape>
     </item>
-    <item android:drawable="@mipmap/nymea_splash_horizontal"
+    <item android:drawable="@mipmap/nymea_splash"
         android:gravity="center" />
 </layer-list>

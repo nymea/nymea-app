@@ -19,7 +19,7 @@ public class NymeaAppActivity extends org.qtproject.qt5.android.bindings.QtActiv
     private static final String TAG = "nymea-app: NymeaAppActivity";
     private static Context context = null;
 
-    private static native void nightModeEnabledChangedJNI();
+    private static native void darkModeEnabledChangedJNI();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -30,7 +30,7 @@ public class NymeaAppActivity extends org.qtproject.qt5.android.bindings.QtActiv
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        NymeaAppActivity.nightModeEnabledChangedJNI();
+        NymeaAppActivity.darkModeEnabledChangedJNI();
     }
 
 

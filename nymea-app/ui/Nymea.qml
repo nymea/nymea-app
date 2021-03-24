@@ -560,7 +560,7 @@ ApplicationWindow {
     Image {
         id: splashScreen
         parent: overlay
-        source: "/ui/images/nymea-splash-horizontal.svg"
+        source: "/ui/images/nymea-splash.svg"
         anchors.fill: parent
         fillMode: Image.PreserveAspectCrop
         opacity: PlatformHelper.splashVisible ? 1 : 0

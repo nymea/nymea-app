@@ -1,240 +1,266 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   version="1.1"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="500"
+   height="500"
    id="svg2"
-   height="256"
-   width="256">
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="nymea-logo.svg"
+   inkscape:export-xdpi="92.160004"
+   inkscape:export-ydpi="92.160004">
   <defs
      id="defs4">
     <linearGradient
-       y2="262.58051"
-       x2="441.68719"
-       y1="171.88429"
+       id="SVGID_1_"
+       gradientUnits="userSpaceOnUse"
        x1="369.02579"
-       gradientUnits="userSpaceOnUse"
-       id="SVGID_1_">
+       y1="171.88429"
+       x2="441.68719"
+       y2="262.58051">
       <stop
-         id="stop46"
+         offset="0.1296"
          style="stop-color:#7CC099"
-         offset="0.1296" />
+         id="stop46" />
       <stop
-         id="stop48"
+         offset="0.3785"
          style="stop-color:#6FB594"
-         offset="0.3785" />
+         id="stop48" />
       <stop
-         id="stop50"
+         offset="0.835"
          style="stop-color:#4E9688"
-         offset="0.835" />
+         id="stop50" />
       <stop
-         id="stop52"
+         offset="1"
          style="stop-color:#408A83"
-         offset="1" />
+         id="stop52" />
     </linearGradient>
     <linearGradient
-       gradientTransform="matrix(0.9669,0.2553,-0.2553,0.9669,-399.6603,-163.1002)"
-       y2="154.45329"
-       x2="918.56207"
-       y1="154.45329"
+       id="SVGID_2_"
+       gradientUnits="userSpaceOnUse"
        x1="936.13898"
-       gradientUnits="userSpaceOnUse"
-       id="SVGID_2_">
+       y1="154.45329"
+       x2="918.56207"
+       y2="154.45329"
+       gradientTransform="matrix(0.9669,0.2553,-0.2553,0.9669,-399.6603,-163.1002)">
       <stop
-         id="stop61"
+         offset="0"
          style="stop-color:#DBE6E0"
-         offset="0" />
+         id="stop61" />
       <stop
-         id="stop63"
+         offset="1"
          style="stop-color:#BCDED3"
-         offset="1" />
+         id="stop63" />
     </linearGradient>
     <linearGradient
-       y2="243.37801"
-       x2="442.73761"
-       y1="201.9489"
+       id="SVGID_3_"
+       gradientUnits="userSpaceOnUse"
        x1="451.01599"
-       gradientUnits="userSpaceOnUse"
-       id="SVGID_3_">
+       y1="201.9489"
+       x2="442.73761"
+       y2="243.37801">
       <stop
-         id="stop72"
+         offset="0"
          style="stop-color:#7CC099"
-         offset="0" />
+         id="stop72" />
       <stop
-         id="stop74"
+         offset="0.2568"
          style="stop-color:#78BC98"
-         offset="0.2568" />
+         id="stop74" />
       <stop
-         id="stop76"
+         offset="0.5165"
          style="stop-color:#6CB193"
-         offset="0.5165" />
+         id="stop76" />
       <stop
-         id="stop78"
+         offset="0.7767"
          style="stop-color:#589F8C"
-         offset="0.7767" />
+         id="stop78" />
       <stop
-         id="stop80"
+         offset="1"
          style="stop-color:#408A83"
-         offset="1" />
+         id="stop80" />
     </linearGradient>
     <linearGradient
-       y2="234.5722"
-       x2="457.47629"
-       y1="234.5722"
+       id="SVGID_4_"
+       gradientUnits="userSpaceOnUse"
        x1="457.62369"
-       gradientUnits="userSpaceOnUse"
-       id="SVGID_4_">
+       y1="234.5722"
+       x2="457.47629"
+       y2="234.5722">
       <stop
-         id="stop87"
+         offset="0"
          style="stop-color:#DBE6E0"
-         offset="0" />
+         id="stop87" />
       <stop
-         id="stop89"
+         offset="1"
          style="stop-color:#BCDED3"
-         offset="1" />
+         id="stop89" />
     </linearGradient>
     <linearGradient
-       y2="223.4929"
-       x2="457.62369"
-       y1="223.4929"
+       id="SVGID_5_"
+       gradientUnits="userSpaceOnUse"
        x1="467.88159"
-       gradientUnits="userSpaceOnUse"
-       id="SVGID_5_">
+       y1="223.4929"
+       x2="457.62369"
+       y2="223.4929">
       <stop
-         id="stop96"
+         offset="0"
          style="stop-color:#DBE6E0"
-         offset="0" />
+         id="stop96" />
       <stop
-         id="stop98"
+         offset="1"
          style="stop-color:#BCDED3"
-         offset="1" />
+         id="stop98" />
     </linearGradient>
     <linearGradient
-       y2="235.823"
-       x2="452.43719"
-       y1="235.823"
+       id="SVGID_6_"
+       gradientUnits="userSpaceOnUse"
        x1="457.47629"
-       gradientUnits="userSpaceOnUse"
-       id="SVGID_6_">
+       y1="235.823"
+       x2="452.43719"
+       y2="235.823">
       <stop
-         id="stop105"
+         offset="0"
          style="stop-color:#DBE6E0"
-         offset="0" />
+         id="stop105" />
       <stop
-         id="stop107"
+         offset="1"
          style="stop-color:#BCDED3"
-         offset="1" />
+         id="stop107" />
     </linearGradient>
     <linearGradient
-       y2="227.27921"
-       x2="460.47461"
-       y1="227.27921"
+       id="SVGID_7_"
+       gradientUnits="userSpaceOnUse"
        x1="452.19159"
-       gradientUnits="userSpaceOnUse"
-       id="SVGID_7_">
+       y1="227.27921"
+       x2="460.47461"
+       y2="227.27921">
       <stop
-         id="stop112"
+         offset="0"
          style="stop-color:#6AA583"
-         offset="0" />
+         id="stop112" />
       <stop
-         id="stop114"
+         offset="1"
          style="stop-color:#4C9E96"
-         offset="1" />
+         id="stop114" />
     </linearGradient>
     <linearGradient
-       gradientTransform="matrix(0.9997,0.0227,-0.0227,0.9997,-36.4014,-7.9207)"
-       y2="283.95389"
-       x2="455.23529"
-       y1="268.90411"
+       id="SVGID_8_"
+       gradientUnits="userSpaceOnUse"
        x1="473.17111"
-       gradientUnits="userSpaceOnUse"
-       id="SVGID_8_">
+       y1="268.90411"
+       x2="455.23529"
+       y2="283.95389"
+       gradientTransform="matrix(0.9997,0.0227,-0.0227,0.9997,-36.4014,-7.9207)">
       <stop
-         id="stop119"
+         offset="0"
          style="stop-color:#7CC099"
-         offset="0" />
+         id="stop119" />
       <stop
-         id="stop121"
+         offset="1"
          style="stop-color:#57BAAE"
-         offset="1" />
+         id="stop121" />
     </linearGradient>
     <linearGradient
-       gradientTransform="matrix(0.9997,0.0227,-0.0227,0.9997,-36.4014,-7.9207)"
-       y2="274.66199"
-       x2="470.95151"
-       y1="274.66199"
+       id="SVGID_9_"
+       gradientUnits="userSpaceOnUse"
        x1="447.13129"
-       gradientUnits="userSpaceOnUse"
-       id="SVGID_9_">
+       y1="274.66199"
+       x2="470.95151"
+       y2="274.66199"
+       gradientTransform="matrix(0.9997,0.0227,-0.0227,0.9997,-36.4014,-7.9207)">
       <stop
-         id="stop126"
+         offset="0"
          style="stop-color:#7CC099"
-         offset="0" />
+         id="stop126" />
       <stop
-         id="stop128"
+         offset="0.2327"
          style="stop-color:#76BA97"
-         offset="0.2327" />
+         id="stop128" />
       <stop
-         id="stop130"
+         offset="0.5485"
          style="stop-color:#65AB90"
-         offset="0.5485" />
+         id="stop130" />
       <stop
-         id="stop132"
+         offset="0.9106"
          style="stop-color:#489186"
-         offset="0.9106" />
+         id="stop132" />
       <stop
-         id="stop134"
+         offset="1"
          style="stop-color:#408A83"
-         offset="1" />
+         id="stop134" />
     </linearGradient>
     <linearGradient
-       y2="252.7919"
-       x2="422.0509"
-       y1="260.93829"
+       id="SVGID_10_"
+       gradientUnits="userSpaceOnUse"
        x1="415.2153"
-       gradientUnits="userSpaceOnUse"
-       id="SVGID_10_">
+       y1="260.93829"
+       x2="422.0509"
+       y2="252.7919">
       <stop
-         id="stop141"
+         offset="0"
          style="stop-color:#4C9E96"
-         offset="0" />
+         id="stop141" />
       <stop
-         id="stop143"
+         offset="0.4859"
          style="stop-color:#489790"
-         offset="0.4859" />
+         id="stop143" />
       <stop
-         id="stop145"
+         offset="1"
          style="stop-color:#408A83"
-         offset="1" />
+         id="stop145" />
     </linearGradient>
     <linearGradient
-       y2="239.4308"
-       x2="393.7475"
-       y1="203.1666"
-       x1="425.60641"
+       id="SVGID_11_"
        gradientUnits="userSpaceOnUse"
-       id="SVGID_11_">
+       x1="425.60641"
+       y1="203.1666"
+       x2="393.7475"
+       y2="239.4308">
       <stop
-         id="stop152"
+         offset="0"
          style="stop-color:#7CC099"
-         offset="0" />
+         id="stop152" />
       <stop
-         id="stop154"
+         offset="0.3183"
          style="stop-color:#77BF9C"
-         offset="0.3183" />
+         id="stop154" />
       <stop
-         id="stop156"
+         offset="0.6757"
          style="stop-color:#6ABDA3"
-         offset="0.6757" />
+         id="stop156" />
       <stop
-         id="stop158"
+         offset="1"
          style="stop-color:#57BAAE"
-         offset="1" />
+         id="stop158" />
     </linearGradient>
   </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.979899"
+     inkscape:cx="-124.12599"
+     inkscape:cy="202.52602"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="2880"
+     inkscape:window-height="1752"
+     inkscape:window-x="0"
+     inkscape:window-y="48"
+     inkscape:window-maximized="1" />
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -248,307 +274,320 @@
     </rdf:RDF>
   </metadata>
   <g
-     transform="translate(-143.41788,-709.27353)"
-     id="layer1">
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-552.36215)">
     <g
-       id="g41"
-       transform="matrix(1.4440786,0,0,1.4440786,-333.76137,493.00519)">
+       transform="matrix(2.2038606,0,0,2.2038606,-672.50331,283.61944)"
+       id="g41">
       <g
          id="g43">
         <linearGradient
-           y2="262.58051"
-           x2="441.68719"
-           y1="171.88429"
-           x1="369.02579"
+           id="linearGradient3548"
            gradientUnits="userSpaceOnUse"
-           id="linearGradient3548">
+           x1="369.02579"
+           y1="171.88429"
+           x2="441.68719"
+           y2="262.58051">
           <stop
-             id="stop3550"
+             offset="0.1296"
              style="stop-color:#7CC099"
-             offset="0.1296" />
+             id="stop3550" />
           <stop
-             id="stop3552"
+             offset="0.3785"
              style="stop-color:#6FB594"
-             offset="0.3785" />
+             id="stop3552" />
           <stop
-             id="stop3554"
+             offset="0.835"
              style="stop-color:#4E9688"
-             offset="0.835" />
+             id="stop3554" />
           <stop
-             id="stop3556"
+             offset="1"
              style="stop-color:#408A83"
-             offset="1" />
+             id="stop3556" />
         </linearGradient>
         <path
-           id="path54"
+           style="fill:url(#SVGID_1_)"
+           inkscape:connector-curvature="0"
            d="m 433.7,212.6 c -5.9,-10.1 -19,-17.9 -27.5,-21 -8.5,-3.2 -18,-10.1 -18,-10.1 -7.5,-5 -9.7,-9 -13.7,-14 -1.2,2.6 -2.2,5.8 -3,9.6 1.8,3.1 8.7,13.4 28.1,21.5 1.7,0.7 6.9,2.8 7,2.9 l 6.5,2.6 -6.7,-1.9 c -0.2,-0.1 -5.5,-1.6 -7.3,-2.2 -17.3,-6.3 -25,-15.1 -28,-19.9 -0.8,4.9 -1.1,10.6 -0.7,16.5 5.2,4.7 14,11 26.9,15.4 0.9,0.3 3.6,1.3 3.6,1.3 l 3.4,1.2 -3.5,-0.5 c -0.1,0 -3,-0.4 -4,-0.6 -12.1,-2.9 -20.5,-8.4 -26.1,-13.3 0.5,4.3 1.4,8.6 2.8,13 0.3,1 0.7,2.1 1.1,3 4.4,2 9.6,3.9 15.4,5.2 1.1,0.2 4.3,1.1 4.3,1.1 l 3.8,1 -4,-0.2 c -0.1,0 -3.4,-0.2 -4.5,-0.4 -5.1,-0.7 -9.8,-2 -13.9,-3.6 6.6,13.7 18.8,21.4 35.2,27.5 18.7,7 19.4,25 19.4,25 0,0 5.1,-3.8 9.6,-18.4 5.1,-16.2 -0.3,-30.6 -6.2,-40.7 z"
-           style="fill:url(#SVGID_1_)" />
+           id="path54" />
       </g>
       <g
          id="g56">
         <g
            id="g58">
           <linearGradient
-             gradientTransform="matrix(0.9669,0.2553,-0.2553,0.9669,-399.6603,-163.1002)"
-             y2="154.45329"
-             x2="918.56207"
-             y1="154.45329"
-             x1="936.13898"
+             id="linearGradient3561"
              gradientUnits="userSpaceOnUse"
-             id="linearGradient3561">
+             x1="936.13898"
+             y1="154.45329"
+             x2="918.56207"
+             y2="154.45329"
+             gradientTransform="matrix(0.9669,0.2553,-0.2553,0.9669,-399.6603,-163.1002)">
             <stop
-               id="stop3563"
+               offset="0"
                style="stop-color:#DBE6E0"
-               offset="0" />
+               id="stop3563" />
             <stop
-               id="stop3565"
+               offset="1"
                style="stop-color:#BCDED3"
-               offset="1" />
+               id="stop3565" />
           </linearGradient>
           <path
-             id="path65"
+             style="fill:url(#SVGID_2_)"
+             inkscape:connector-curvature="0"
              d="m 458.6,233.8 c 4.9,-3.6 6.9,-7.8 8.5,-12.5 0.7,-2.1 1.3,-5 0.3,-8.1 -0.8,-2.5 -6.5,-6.2 -11.2,-4.7 -5.1,1.7 -6.1,8.1 -6.5,10.9 -0.6,4.3 0.4,10.9 2.8,17.6 -0.1,0 2.1,-0.2 6.1,-3.2 z"
-             style="fill:url(#SVGID_2_)" />
+             id="path65" />
         </g>
         <g
            id="g67">
           <g
              id="g69">
             <linearGradient
-               y2="243.37801"
-               x2="442.73761"
-               y1="201.9489"
-               x1="451.01599"
+               id="linearGradient3570"
                gradientUnits="userSpaceOnUse"
-               id="linearGradient3570">
+               x1="451.01599"
+               y1="201.9489"
+               x2="442.73761"
+               y2="243.37801">
               <stop
-                 id="stop3572"
+                 offset="0"
                  style="stop-color:#7CC099"
-                 offset="0" />
+                 id="stop3572" />
               <stop
-                 id="stop3574"
+                 offset="0.2568"
                  style="stop-color:#78BC98"
-                 offset="0.2568" />
+                 id="stop3574" />
               <stop
-                 id="stop3576"
+                 offset="0.5165"
                  style="stop-color:#6CB193"
-                 offset="0.5165" />
+                 id="stop3576" />
               <stop
-                 id="stop3578"
+                 offset="0.7767"
                  style="stop-color:#589F8C"
-                 offset="0.7767" />
+                 id="stop3578" />
               <stop
-                 id="stop3580"
+                 offset="1"
                  style="stop-color:#408A83"
-                 offset="1" />
+                 id="stop3580" />
             </linearGradient>
             <path
-               id="path82"
+               style="fill:url(#SVGID_3_)"
+               inkscape:connector-curvature="0"
                d="m 449.7,219.4 c 0.4,-2.8 1.4,-9.2 6.5,-10.9 4.2,-1.4 9.3,1.5 10.8,3.9 -1.5,-3.9 -5.6,-6.6 -9,-8.3 -4.8,-2.5 -10.8,-2.9 -15.7,-1.7 -4.6,1.1 -7,3.6 -10.9,6.9 0.8,1.1 1.6,2.2 2.2,3.3 4.6,8 9,18.6 8.2,30.6 3,-5 9.7,-6.1 10.6,-6.2 -2.4,-6.6 -3.4,-13.3 -2.7,-17.6 z"
-               style="fill:url(#SVGID_3_)" />
+               id="path82" />
           </g>
           <g
              id="g84">
             <linearGradient
-               y2="234.5722"
-               x2="457.47629"
-               y1="234.5722"
-               x1="457.62369"
+               id="linearGradient3584"
                gradientUnits="userSpaceOnUse"
-               id="linearGradient3584">
+               x1="457.62369"
+               y1="234.5722"
+               x2="457.47629"
+               y2="234.5722">
               <stop
-                 id="stop3586"
+                 offset="0"
                  style="stop-color:#DBE6E0"
-                 offset="0" />
+                 id="stop3586" />
               <stop
-                 id="stop3588"
+                 offset="1"
                  style="stop-color:#BCDED3"
-                 offset="1" />
+                 id="stop3588" />
             </linearGradient>
             <path
-               id="path91"
+               style="fill:url(#SVGID_4_)"
+               inkscape:connector-curvature="0"
                d="m 457.6,234.5 c -0.1,0 -0.1,0.1 -0.1,0.1 0,0 0.1,0 0.1,-0.1 z"
-               style="fill:url(#SVGID_4_)" />
+               id="path91" />
           </g>
           <g
              id="g93">
             <linearGradient
-               y2="223.4929"
-               x2="457.62369"
-               y1="223.4929"
-               x1="467.88159"
+               id="linearGradient3592"
                gradientUnits="userSpaceOnUse"
-               id="linearGradient3592">
+               x1="467.88159"
+               y1="223.4929"
+               x2="457.62369"
+               y2="223.4929">
               <stop
-                 id="stop3594"
+                 offset="0"
                  style="stop-color:#DBE6E0"
-                 offset="0" />
+                 id="stop3594" />
               <stop
-                 id="stop3596"
+                 offset="1"
                  style="stop-color:#BCDED3"
-                 offset="1" />
+                 id="stop3596" />
             </linearGradient>
             <path
-               id="path100"
+               style="fill:url(#SVGID_5_)"
+               inkscape:connector-curvature="0"
                d="m 467.4,213.2 c -0.1,-0.2 -0.2,-0.5 -0.4,-0.8 0.7,1.7 0.8,3.7 0.1,5.9 -1.5,4.9 -1.8,7.1 -6.1,12.9 -1,1.3 -2.2,2.4 -3.4,3.2 0.3,-0.2 0.6,-0.4 1,-0.7 4.9,-3.6 6.9,-7.8 8.5,-12.5 0.7,-2 1.2,-4.9 0.3,-8 z"
-               style="fill:url(#SVGID_5_)" />
+               id="path100" />
           </g>
           <g
              id="g102">
             <linearGradient
-               y2="235.823"
-               x2="452.43719"
-               y1="235.823"
-               x1="457.47629"
+               id="linearGradient3600"
                gradientUnits="userSpaceOnUse"
-               id="linearGradient3600">
+               x1="457.47629"
+               y1="235.823"
+               x2="452.43719"
+               y2="235.823">
               <stop
-                 id="stop3602"
+                 offset="0"
                  style="stop-color:#DBE6E0"
-                 offset="0" />
+                 id="stop3602" />
               <stop
-                 id="stop3604"
+                 offset="1"
                  style="stop-color:#BCDED3"
-                 offset="1" />
+                 id="stop3604" />
             </linearGradient>
             <path
-               id="path109"
+               style="fill:url(#SVGID_6_)"
+               inkscape:connector-curvature="0"
                d="m 452.4,237 c 0,0 0,0 0,0 0,0 1.8,-0.2 5,-2.4 -2.5,1.7 -4.9,2.4 -4.9,2.4 0,0 0,0 -0.1,0 z"
-               style="fill:url(#SVGID_6_)" />
+               id="path109" />
           </g>
         </g>
         <linearGradient
-           y2="227.27921"
-           x2="460.47461"
-           y1="227.27921"
-           x1="452.19159"
+           id="linearGradient3607"
            gradientUnits="userSpaceOnUse"
-           id="linearGradient3607">
+           x1="452.19159"
+           y1="227.27921"
+           x2="460.47461"
+           y2="227.27921">
           <stop
-             id="stop3609"
+             offset="0"
              style="stop-color:#6AA583"
-             offset="0" />
+             id="stop3609" />
           <stop
-             id="stop3611"
+             offset="1"
              style="stop-color:#4C9E96"
-             offset="1" />
+             id="stop3611" />
         </linearGradient>
         <path
-           id="path116"
+           style="fill:url(#SVGID_7_)"
+           inkscape:connector-curvature="0"
            d="m 458.2,217.6 c -1,-0.3 -2,0 -2.8,0.6 -0.2,0.3 -0.3,0.6 -0.4,0.9 -0.4,1.6 0.5,3.3 2.2,3.7 0.7,0.2 1.3,0.1 1.9,-0.1 -0.9,6.9 -5.9,12.4 -6.9,13.5 0.1,0.4 0.2,0.5 0.2,0.7 0.3,0 0.4,-0.1 0.9,-0.2 1.7,-1.9 6.7,-7.9 7,-15.5 0.5,-1.5 -0.5,-3.1 -2.1,-3.6 z"
-           style="fill:url(#SVGID_7_)" />
+           id="path116" />
       </g>
       <linearGradient
-         gradientTransform="matrix(0.9997,0.0227,-0.0227,0.9997,-36.4014,-7.9207)"
-         y2="283.95389"
-         x2="455.23529"
-         y1="268.90411"
+         id="linearGradient3614"
+         gradientUnits="userSpaceOnUse"
          x1="473.17111"
-         gradientUnits="userSpaceOnUse"
-         id="linearGradient3614">
+         y1="268.90411"
+         x2="455.23529"
+         y2="283.95389"
+         gradientTransform="matrix(0.9997,0.0227,-0.0227,0.9997,-36.4014,-7.9207)">
         <stop
-           id="stop3616"
+           offset="0"
            style="stop-color:#7CC099"
-           offset="0" />
+           id="stop3616" />
         <stop
-           id="stop3618"
+           offset="1"
            style="stop-color:#57BAAE"
-           offset="1" />
+           id="stop3618" />
       </linearGradient>
       <path
-         id="path123"
+         style="fill:url(#SVGID_8_)"
+         inkscape:connector-curvature="0"
          d="m 405.5,261.4 c 1.5,12.7 7.5,31.7 27.8,47.9 0,0 10.1,-15.4 0.4,-32.5 -9.7,-17.1 -23.8,-22.7 -28.8,-24.5 -0.2,3.6 0.4,6.8 0.6,9.1 z"
-         style="fill:url(#SVGID_8_)" />
+         id="path123" />
       <linearGradient
-         gradientTransform="matrix(0.9997,0.0227,-0.0227,0.9997,-36.4014,-7.9207)"
-         y2="274.66199"
-         x2="470.95151"
-         y1="274.66199"
-         x1="447.13129"
+         id="linearGradient3621"
          gradientUnits="userSpaceOnUse"
-         id="linearGradient3621">
+         x1="447.13129"
+         y1="274.66199"
+         x2="470.95151"
+         y2="274.66199"
+         gradientTransform="matrix(0.9997,0.0227,-0.0227,0.9997,-36.4014,-7.9207)">
         <stop
-           id="stop3623"
+           offset="0"
            style="stop-color:#7CC099"
-           offset="0" />
+           id="stop3623" />
         <stop
-           id="stop3625"
+           offset="0.2327"
            style="stop-color:#76BA97"
-           offset="0.2327" />
+           id="stop3625" />
         <stop
-           id="stop3627"
+           offset="0.5485"
            style="stop-color:#65AB90"
-           offset="0.5485" />
+           id="stop3627" />
         <stop
-           id="stop3629"
+           offset="0.9106"
            style="stop-color:#489186"
-           offset="0.9106" />
+           id="stop3629" />
         <stop
-           id="stop3631"
+           offset="1"
            style="stop-color:#408A83"
-           offset="1" />
+           id="stop3631" />
       </linearGradient>
       <path
-         id="path136"
+         style="fill:url(#SVGID_9_)"
+         inkscape:connector-curvature="0"
          d="m 423.7,272.8 c -5.7,-10 -12.8,-16.8 -18.8,-20.5 -0.1,3.2 0.4,7 0.6,9.1 1.2,10.8 5.8,26.1 19.6,40.4 2.4,-5.5 5.5,-16.8 -1.4,-29 z"
-         style="fill:url(#SVGID_9_)" />
+         id="path136" />
       <g
          id="g138">
         <linearGradient
-           y2="252.7919"
-           x2="422.0509"
-           y1="260.93829"
-           x1="415.2153"
+           id="linearGradient3635"
            gradientUnits="userSpaceOnUse"
-           id="linearGradient3635">
+           x1="415.2153"
+           y1="260.93829"
+           x2="422.0509"
+           y2="252.7919">
           <stop
-             id="stop3637"
+             offset="0"
              style="stop-color:#4C9E96"
-             offset="0" />
+             id="stop3637" />
           <stop
-             id="stop3639"
+             offset="0.4859"
              style="stop-color:#489790"
-             offset="0.4859" />
+             id="stop3639" />
           <stop
-             id="stop3641"
+             offset="1"
              style="stop-color:#408A83"
-             offset="1" />
+             id="stop3641" />
         </linearGradient>
         <path
-           id="path147"
+           style="fill:url(#SVGID_10_)"
+           inkscape:connector-curvature="0"
            d="m 411.9,246.7 c -2,-0.8 -4.9,-1.6 -6.8,-2.4 -0.3,2.5 -0.2,5.1 -0.2,8.1 4.4,1.6 16.1,6.2 25.5,19.3 0,-0.1 0,-0.2 0,-0.3 -0.2,-2.3 -1.1,-18.3 -18.5,-24.7 z"
-           style="fill:url(#SVGID_10_)" />
+           id="path147" />
       </g>
       <g
          id="g149">
         <linearGradient
-           y2="239.4308"
-           x2="393.7475"
-           y1="203.1666"
-           x1="425.60641"
+           id="linearGradient3645"
            gradientUnits="userSpaceOnUse"
-           id="linearGradient3645">
+           x1="425.60641"
+           y1="203.1666"
+           x2="393.7475"
+           y2="239.4308">
           <stop
-             id="stop3647"
+             offset="0"
              style="stop-color:#7CC099"
-             offset="0" />
+             id="stop3647" />
           <stop
-             id="stop3649"
+             offset="0.3183"
              style="stop-color:#77BF9C"
-             offset="0.3183" />
+             id="stop3649" />
           <stop
-             id="stop3651"
+             offset="0.6757"
              style="stop-color:#6ABDA3"
-             offset="0.6757" />
+             id="stop3651" />
           <stop
-             id="stop3653"
+             offset="1"
              style="stop-color:#57BAAE"
-             offset="1" />
+             id="stop3653" />
         </linearGradient>
         <path
-           id="path160"
+           style="fill:url(#SVGID_11_)"
+           inkscape:connector-curvature="0"
            d="m 433.7,212.6 c -5.9,-10.1 -19,-17.9 -27.5,-21 -8.5,-3.2 -18,-10.1 -18,-10.1 -2.1,-1.4 -3.8,-2.7 -5.2,-4 -0.4,3.6 -0.6,7.5 -0.4,11.6 4.2,3.2 9.7,6.5 16.9,9.5 1.7,0.7 6.9,2.8 7,2.9 l 6.5,2.6 -6.7,-1.9 c -0.2,-0.1 -5.5,-1.6 -7.3,-2.2 -6.8,-2.5 -12.1,-5.3 -16.2,-8.2 0.4,5 1.3,10.1 2.9,15.2 3.4,1.8 7.2,3.4 11.6,4.9 0.9,0.3 3.6,1.3 3.6,1.3 l 3.4,1.2 -3.5,-0.5 c -0.1,0 -3,-0.4 -4,-0.6 -3.7,-0.9 -7,-2 -10,-3.3 1.9,4.8 4.4,8.8 7.4,12.3 0.1,0 0.1,0 0.1,0 l 3.8,1 -3.2,-0.2 c 6.9,7.7 16.3,13.3 26.3,21.3 13.5,10.8 9.2,27.2 9.2,27.2 0,0 0.8,-0.6 1.5,-1.5 1.8,-2.1 5.1,-7 8.1,-16.9 5,-16.1 -0.4,-30.5 -6.3,-40.6 z"
-           style="fill:url(#SVGID_11_)" />
+           id="path160" />
       </g>
     </g>
   </g>
