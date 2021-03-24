@@ -26,8 +26,8 @@ public:
 
     void setSortOrder(Qt::SortOrder sortOrder);
 
-    Q_INVOKABLE QVariant data(int row, const QString &role) const;
-    Q_INVOKABLE int mapToSource(int index) const;
+    Q_INVOKABLE QVariant modelData(int row, const QString &role) const;
+    Q_INVOKABLE int mapToSourceIndex(int index) const;
 
 signals:
     void filterRoleNameChanged();

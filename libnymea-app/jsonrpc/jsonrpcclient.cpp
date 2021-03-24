@@ -49,6 +49,9 @@
 #include <QDir>
 #include <QStandardPaths>
 
+#include "logging.h"
+NYMEA_LOGGING_CATEGORY(dcJsonRpc, "JsonRpc")
+
 JsonRpcClient::JsonRpcClient(QObject *parent) :
     JsonHandler(parent),
     m_id(0)
@@ -170,9 +173,9 @@ void JsonRpcClient::getCloudConnectionStatus()
     sendRequest(reply->requestMap());
 }
 
-void JsonRpcClient::setNotificationsEnabledResponse(int /*commandId*/, const QVariantMap &params)
+void JsonRpcClient::setNotificationsEnabledResponse(int commandId, const QVariantMap &params)
 {
-//    qDebug() << "Notifications enabled:" << params;
+    qCDebug(dcJsonRpc()) << "Notification configuration response:" << commandId << qUtf8Printable(QJsonDocument::fromVariant(params).toJson());
 
     if (!m_connected) {
         m_connected = true;

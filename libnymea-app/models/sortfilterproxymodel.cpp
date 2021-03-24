@@ -62,13 +62,13 @@ void SortFilterProxyModel::setSortOrder(Qt::SortOrder sortOrder)
     emit sortOrderChanged();
 }
 
-QVariant SortFilterProxyModel::data(int row, const QString &role) const
+QVariant SortFilterProxyModel::modelData(int row, const QString &role) const
 {
     int roleId = roleNames().key(role.toUtf8());
     return QSortFilterProxyModel::data(index(row, 0), roleId);
 }
 
-int SortFilterProxyModel::mapToSource(int index) const
+int SortFilterProxyModel::mapToSourceIndex(int index) const
 {
     return QSortFilterProxyModel::mapToSource(this->index(index, 0)).row();
 }
