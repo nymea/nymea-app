@@ -1,5 +1,4 @@
 {
-    "template": "unconfined",
-    "policy_groups": ["networking"],
+    "policy_groups": ["networking", "connectivity", "bluetooth"],
     "policy_version": 16.04
 }
