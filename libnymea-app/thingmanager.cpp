@@ -201,8 +201,8 @@ void ThingManager::notificationReceived(const QVariantMap &data)
             }
             return;
         }
-//        qDebug() << "Event received" << thingId.toString() << eventTypeId.toString() << qUtf8Printable(QJsonDocument::fromVariant(event).toJson());
-        thing->eventTriggered(eventTypeId.toString(), event.value("params").toMap());
+        qCDebug(dcThingManager) << "Event received" << thingId.toString() << eventTypeId.toString() << qUtf8Printable(QJsonDocument::fromVariant(event).toJson());
+        thing->eventTriggered(eventTypeId.toString(), event.value("params").toList());
     } else if (notification == "Integrations.IOConnectionAdded") {
         QVariantMap connectionMap = data.value("params").toMap().value("ioConnection").toMap();
         QUuid id = connectionMap.value("id").toUuid();
