@@ -33,6 +33,9 @@
 #include "tagsmanager.h"
 #include "types/tag.h"
 
+#include <QLoggingCategory>
+Q_DECLARE_LOGGING_CATEGORY(dcTags)
+
 TagsProxyModel::TagsProxyModel(QObject *parent) : QSortFilterProxyModel(parent)
 {
 }
@@ -49,6 +52,9 @@ void TagsProxyModel::setTags(Tags *tags)
         setSourceModel(tags);
         connect(tags, &Tags::countChanged, this, [=](){
             invalidateFilter();
+            emit countChanged();
+        }, Qt::QueuedConnection);
+        connect(tags, &Tags::dataChanged, this, [=](){
             emit countChanged();
         }, Qt::QueuedConnection);
         setSortRole(Tags::RoleValue);
@@ -141,6 +147,8 @@ bool TagsProxyModel::filterAcceptsRow(int source_row, const QModelIndex &source_
 {
     Q_UNUSED(source_parent)
     Tag *tag = m_tags->get(source_row);
+    qCDebug(dcTags) << "Filtering tag. ID:" << tag->tagId() << "Thing:" << tag->thingId() << "Value:" << tag->value();
+    qCDebug(dcTags) << "Filter: ID:" << m_filterTagId << "Thing:" << m_filterThingId << "value:" << m_filterValue;
     if (!m_filterTagId.isEmpty()) {
         QRegExp exp(m_filterTagId);
         if (!exp.exactMatch(tag->tagId())) {
@@ -158,11 +166,11 @@ bool TagsProxyModel::filterAcceptsRow(int source_row, const QModelIndex &source_
         }
     }
     if (!m_filterValue.isEmpty()) {
-        qDebug() << "**************************************************************" << tag->value() << m_filterValue;
         if (tag->value() != m_filterValue) {
             return false;
         }
     }
+    qCDebug(dcTags) << "Accepted!";
     return true;
 }
 
