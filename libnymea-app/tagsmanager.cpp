@@ -32,6 +32,11 @@
 #include "types/tag.h"
 #include "engine.h"
 
+#include <QJsonDocument>
+
+#include "logging.h"
+NYMEA_LOGGING_CATEGORY(dcTags, "Tags")
+
 TagsManager::TagsManager(JsonRpcClient *jsonClient, QObject *parent):
     JsonHandler(parent),
     m_jsonClient(jsonClient),
@@ -116,7 +121,7 @@ int TagsManager::untagRule(const QString &ruleId, const QString &tagId)
 
 void TagsManager::handleTagsNotification(const QVariantMap &params)
 {
-    qDebug() << "Have tags notification" << params;
+    qCDebug(dcTags()) << "Tags notification:" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson());
 
     QVariantMap tagMap = params.value("params").toMap().value("tag").toMap();
     if (tagMap.value("appId").toString() != "nymea:app") {
@@ -171,12 +176,12 @@ void TagsManager::getTagsReply(int /*commandId*/, const QVariantMap &params)
 
 void TagsManager::addTagReply(int commandId, const QVariantMap &params)
 {
-    qDebug() << "AddTag reply" << commandId << params;
+    qCDebug(dcTags()) << "AddTag reply" << commandId << params;
 }
 
 void TagsManager::removeTagReply(int commandId, const QVariantMap &params)
 {
-    qDebug() << "RemoveTag reply" << commandId << params;
+    qCDebug(dcTags()) << "RemoveTag reply" << commandId << params;
 }
 
 Tag* TagsManager::unpackTag(const QVariantMap &tagMap)
@@ -193,7 +198,7 @@ Tag* TagsManager::unpackTag(const QVariantMap &tagMap)
         tag = new Tag(tagId, value);
         tag->setRuleId(ruleId);
     } else {
-        qWarning() << "Invalid tag. Neither thingId nor ruleId are set. Skipping...";
+        qCWarning(dcTags()) << "Invalid tag. Neither thingId nor ruleId are set. Skipping...";
         tag->deleteLater();
         return nullptr;
     }

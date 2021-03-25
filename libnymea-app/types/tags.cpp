@@ -33,6 +33,10 @@
 
 #include <QDebug>
 
+#include <QLoggingCategory>
+Q_DECLARE_LOGGING_CATEGORY(dcTags)
+
+
 Tags::Tags(QObject *parent) : QAbstractListModel(parent)
 {
 
@@ -148,7 +152,7 @@ void Tags::clear()
 
 void Tags::tagValueChanged()
 {
-    qDebug() << "Tag value in mode changed";
+    qCInfo(dcTags) << "Tag value in model changed";
     Tag *tag = static_cast<Tag*>(sender());
     int idx = m_list.indexOf(tag);
     emit dataChanged(index(idx, 0), index(idx, 0), {RoleValue});
