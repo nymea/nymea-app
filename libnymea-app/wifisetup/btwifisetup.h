@@ -124,6 +124,7 @@ public:
 
 
     explicit BtWiFiSetup(QObject *parent = nullptr);
+    ~BtWiFiSetup() override;
 
     Q_INVOKABLE void connectToDevice(const BluetoothDeviceInfo *device);
     Q_INVOKABLE void disconnectFromDevice();
