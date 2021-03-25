@@ -272,6 +272,7 @@ void Connection::setOnline(bool online)
 {
     if (m_online != online) {
         m_online = online;
+        m_lastSeen = QDateTime::currentDateTime();
         emit onlineChanged();
         emit priorityChanged();
     }
@@ -282,6 +283,7 @@ int Connection::priority() const
     int prio = 0;
     if (m_online) {
         prio += 1000;
+        prio -= qMin(500, (int)m_lastSeen.secsTo(QDateTime::currentDateTime()));
     }
 
     switch(m_bearerType) {

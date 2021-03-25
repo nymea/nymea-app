@@ -38,6 +38,7 @@
 #include <QBluetoothAddress>
 #include <QObject>
 #include <QAbstractListModel>
+#include <QDateTime>
 
 class Connection: public QObject {
     Q_OBJECT
@@ -87,6 +88,7 @@ private:
     bool m_secure = false;
     QString m_displayName;
     bool m_online = false;
+    QDateTime m_lastSeen;
 };
 
 class Connections: public QAbstractListModel
