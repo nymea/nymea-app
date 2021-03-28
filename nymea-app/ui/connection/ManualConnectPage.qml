@@ -124,7 +124,7 @@ Page {
                 }
 
                 print("Try to connect ", rpcUrl)
-                var host = nymeaDiscovery.nymeaHosts.createLanHost("Manual connection", rpcUrl);
+                var host = nymeaDiscovery.nymeaHosts.createWanHost("Manual connection", rpcUrl);
                 engine.jsonRpcClient.connectToHost(host)
             }
         }
