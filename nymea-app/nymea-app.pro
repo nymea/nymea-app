@@ -66,6 +66,8 @@ android {
     LIBS += -L$${top_builddir}/libnymea-app/$${ANDROID_TARGET_ARCH}
     PRE_TARGETDEPS += $$top_builddir/libnymea-app/$${ANDROID_TARGET_ARCH}/libnymea-app.a
 
+    QMAKE_POST_LINK += $$QMAKE_COPY $$shell_path($$top_srcdir/version.txt) $$shell_path($$top_builddir/)
+
     DISTFILES += \
         $$ANDROID_PACKAGE_SOURCE_DIR/AndroidManifest.xml \
         $$ANDROID_PACKAGE_SOURCE_DIR/google-services.json \

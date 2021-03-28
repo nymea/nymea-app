@@ -21,8 +21,6 @@ linux:!android {
 android: {
     QMAKE_CXXFLAGS += -Wno-deprecated-declarations
 
-    QMAKE_POST_LINK += $$QMAKE_COPY $$shell_path($$top_srcdir/version.txt) $$shell_path($$top_builddir/)
-
     !equals(OVERLAY_PATH, ""):!equals(BRANDING, "") {
         ANDROID_PACKAGE_SOURCE_DIR = $${OVERLAY_PATH}/packaging/android_$$BRANDING
     } else {
