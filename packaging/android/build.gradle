@@ -28,7 +28,7 @@ allprojects {
             url "https://maven.google.com"
         }
         flatDir {
-            dirs "/opt/firebase_cpp_sdk/libs/android"
+            dirs nymeaAppRoot + "/3rdParty/android/firebase_cpp_sdk/libs/android/"
         }
     }
 }
