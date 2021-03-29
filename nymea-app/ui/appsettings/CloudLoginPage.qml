@@ -36,7 +36,7 @@ import "../components"
 
 SettingsPageBase {
     id: root
-    title: qsTr("%1 cloud login").arg(app.appName)
+    title: qsTr("%1 cloud login").arg(Configuration.appName)
 
     Component.onCompleted: {
         if (AWSClient.isLoggedIn) {
@@ -91,7 +91,7 @@ SettingsPageBase {
 
         RowLayout {
             SettingsPageSectionHeader {
-                text: qsTr("Connected %1:core systems").arg(app.systemName)
+                text: qsTr("Connected %1 systems").arg(Configuration.systemName)
             }
             BusyIndicator {
                 running: AWSClient.awsDevices.busy
@@ -107,8 +107,8 @@ SettingsPageBase {
             Layout.rightMargin: app.margins
             wrapMode: Text.WordWrap
             text: AWSClient.awsDevices.count === 0 ?
-                      qsTr("There are no %1:core systems connected to your cloud yet.").arg(app.systemName) :
-                      qsTr("There are %n %1:core systems connected to your cloud.", "", AWSClient.awsDevices.count).arg(app.systemName)
+                      qsTr("There are no %1 systems connected to your cloud yet.").arg(Configuration.systemName) :
+                      qsTr("There are %n %1 systems connected to your cloud.", "", AWSClient.awsDevices.count).arg(Configuration.systemName)
         }
 
         Repeater {
@@ -151,7 +151,7 @@ SettingsPageBase {
             Layout.fillWidth: true
             Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.topMargin: app.margins
             wrapMode: Text.WordWrap
-            text: qsTr("Log %1 in to %2:cloud in order to connect to %2:core systems from anywhere and receive push notifications from %2:core systems.").arg(app.appName).arg(app.systemName)
+            text: qsTr("Log %1 in to %2:cloud in order to connect to %2:core systems from anywhere and receive push notifications from %2:core systems.").arg(Configuration.appName).arg(Configuration.systemName)
         }
         Label {
             Layout.fillWidth: true
@@ -283,7 +283,7 @@ SettingsPageBase {
 
 
             SettingsPageSectionHeader {
-                text: qsTr("Welcome to %1:cloud.").arg(app.systemName)
+                text: qsTr("Welcome to %1:cloud.").arg(Configuration.systemName)
             }
 
             Label {
@@ -302,7 +302,7 @@ SettingsPageBase {
                 Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.topMargin: app.margins
                 wrapMode: Text.WordWrap
                 font.pixelSize: app.smallFont
-                text: qsTr("See our <a href=\"%1\">privacy policy</a> to find out what information is processed. By signing up to %2:cloud you accept those terms and conditions.").arg(app.privacyPolicyUrl).arg(app.systemName)
+                text: qsTr("See our <a href=\"%1\">privacy policy</a> to find out what information is processed. By signing up to %2:cloud you accept those terms and conditions.").arg(app.privacyPolicyUrl).arg(Configuration.systemName)
                 onLinkActivated: {
                     Qt.openUrlExternally(link)
                 }
@@ -559,7 +559,7 @@ SettingsPageBase {
         MeaDialog {
             id: logoutDialog
             title: qsTr("Goodbye")
-            text: qsTr("Sorry to see you go. If you log out you won't be able to connect to %1:core systems remotely any more. However, you can come back any time, we'll keep your user account. If you whish to completely delete your account and all the data associated with it, check the box below before hitting ok. If you decide to delete your account, all your personal information will be removed from %1:cloud and cannot be restored.").arg(app.systemName)
+            text: qsTr("Sorry to see you go. If you log out you won't be able to connect to %1 systems remotely any more. However, you can come back any time, we'll keep your user account. If you whish to completely delete your account and all the data associated with it, check the box below before hitting ok. If you decide to delete your account, all your personal information will be removed from %1:cloud and cannot be restored.").arg(Configuration.systemName)
             headerIcon: "../images/dialog-warning-symbolic.svg"
             standardButtons: Dialog.Cancel | Dialog.Ok
 

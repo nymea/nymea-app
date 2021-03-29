@@ -49,7 +49,7 @@ Drawer {
                     ColumnLayout {
                         Label {
                             Layout.fillWidth: true
-                            text: root.currentEngine && root.currentEngine.jsonRpcClient.currentHost ? root.currentEngine.jsonRpcClient.currentHost.name : app.systemName
+                            text: root.currentEngine && root.currentEngine.jsonRpcClient.currentHost ? root.currentEngine.jsonRpcClient.currentHost.name : Configuration.systemName
                         }
                         Label {
                             Layout.fillWidth: true

@@ -158,7 +158,7 @@ Page {
                             enabled: !engine.systemController.updateManagementBusy
                             onClicked: {
                                 var dialog = Qt.createComponent(Qt.resolvedUrl("../components/MeaDialog.qml"));
-                                var text = qsTr("This will start a system update. Note that the update might take several minutes and your %1:core might not be functioning properly during this time and restart during the process.\nDo you want to proceed?").arg(app.systemName)
+                                var text = qsTr("This will start a system update. Note that the update might take several minutes and your %1 system might not be functioning properly during this time and restart during the process.\nDo you want to proceed?").arg(Configuration.systemName)
                                 var popup = dialog.createObject(app,
                                                                 {
                                                                     headerIcon: "../images/system-update.svg",
@@ -232,7 +232,7 @@ Page {
                     onClicked: {
                         if (checked) {
                             var dialog = Qt.createComponent(Qt.resolvedUrl("../components/MeaDialog.qml"));
-                            var text = qsTr("Enabling additional software sources allows to install unreleased %1:core packages.\nThis can potentially break your system and lead to problems.\nPlease only use this if you are sure you want this and consider reporting the issues you find when testing unreleased channels.").arg(app.systemName)
+                            var text = qsTr("Enabling additional software sources allows to install unreleased %1 packages.\nThis can potentially break your system and lead to problems.\nPlease only use this if you are sure you want this and consider reporting the issues you find when testing unreleased channels.").arg(Configuration.systemName)
                             var popup = dialog.createObject(app,
                                                             {
                                                                 headerIcon: "../images/dialog-warning-symbolic.svg",
@@ -358,7 +358,7 @@ Page {
                     text: packageDetailsPage.pkg.updateAvailable ? qsTr("Update") : qsTr("Install")
                     onClicked: {
                         var dialog = Qt.createComponent(Qt.resolvedUrl("../components/MeaDialog.qml"));
-                        var text = qsTr("This will start a system update. Note that the update might take several minutes and your %1:core might not be functioning properly or restart during this time.").arg(app.systemName)
+                        var text = qsTr("This will start a system update. Note that the update might take several minutes and your %1 might not be functioning properly or restart during this time.").arg(Configuration.systemName)
                                 + "\n\n"
                                 + qsTr("\nDo you want to proceed?")
                         var popup = dialog.createObject(app,
@@ -382,7 +382,7 @@ Page {
                     visible: packageDetailsPage.pkg.canRemove
                     onClicked: {
                         var dialog = Qt.createComponent(Qt.resolvedUrl("../components/MeaDialog.qml"));
-                        var text = qsTr("This will start a system update. Note that the update might take several minutes and your %1:core might not be functioning properly during this time and restart during the process.\nDo you want to proceed?").arg(app.systemName)
+                        var text = qsTr("This will start a system update. Note that the update might take several minutes and your %1 system might not be functioning properly during this time and restart during the process.\nDo you want to proceed?").arg(Configuration.systemName)
                         var popup = dialog.createObject(app,
                                                         {
                                                             headerIcon: "../images/system-update.svg",

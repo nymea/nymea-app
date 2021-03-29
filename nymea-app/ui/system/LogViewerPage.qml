@@ -133,7 +133,7 @@ Page {
                         Label {
                             Layout.fillWidth: true
                             text: model.source === LogEntry.LoggingSourceSystem ?
-                                      qsTr("%1 Server").arg(app.systemName)
+                                      qsTr("%1 Server").arg(Configuration.systemName)
                                     : model.source === LogEntry.LoggingSourceRules ?
                                           engine.ruleManager.rules.getRule(model.typeId).name
                                         : delegate.thing.name

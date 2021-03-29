@@ -70,19 +70,19 @@ int main(int argc, char *argv[])
                                      );
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication application(argc, argv);
-    application.setApplicationName("nymea-app");
-    application.setOrganizationName("nymea");
+
+    QSettings config(":/config.txt", QSettings::IniFormat);
+    application.setApplicationName(config.value("app").toString());
+    application.setOrganizationName(config.value("organisation").toString());
 
     QCommandLineParser parser;
     parser.addHelpOption();
     QCommandLineOption connectOption = QCommandLineOption({"c", "connect"}, "Connect to nymea:core without discovery.", "host");
     parser.addOption(connectOption);
-#ifndef BRANDING
     QCommandLineOption styleOption = QCommandLineOption({"s", "style"}, "Override the style. Style in settings will be disabled.", "style");
     parser.addOption(styleOption);
     QCommandLineOption defaultStyleOption = QCommandLineOption({"d", "default-style"}, "The default style to be used if there is no style explicitly selected by the user yet.", "style");
     parser.addOption(defaultStyleOption);
-#endif
     QCommandLineOption defaultViewsOption = QCommandLineOption({"v", "default-views"}, "The main views enabled by default if there is no configuration done by the user and the style doesn't dictate them, comma separated.", "mainviews");
     parser.addOption(defaultViewsOption);
     QCommandLineOption kioskOption = QCommandLineOption({"k", "kiosk"}, "Start the application in kiosk mode.");
@@ -98,7 +98,7 @@ int main(int argc, char *argv[])
     qtTranslator.load("qt_" + QLocale::system().name(), QLibraryInfo::location(QLibraryInfo::TranslationsPath));
     application.installTranslator(&qtTranslator);
 
-    qCInfo(dcApplication()) << "nymea:app" << APP_VERSION << "running on" << QSysInfo::machineHostName() << QSysInfo::prettyProductName() << QSysInfo::productType() << QSysInfo::productVersion();
+    qCInfo(dcApplication()) << application.applicationName() << APP_VERSION << "running on" << QSysInfo::machineHostName() << QSysInfo::prettyProductName() << QSysInfo::productType() << QSysInfo::productVersion();
     qCInfo(dcApplication()) << "Locale info:" << QLocale() << QLocale().name() << QLocale().language() << QLocale().system();
 
     QTranslator appTranslator;
@@ -114,10 +114,6 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine *engine = new QQmlApplicationEngine();
 
-#if defined BRANDING
-    StyleController styleController(BRANDING);
-    styleController.lockToStyle(BRANDING);
-#else
     QString defaultStyle;
     if (parser.isSet(defaultStyleOption)) {
         defaultStyle = parser.value(defaultStyleOption);
@@ -131,7 +127,6 @@ int main(int argc, char *argv[])
         qCInfo(dcApplication()) << "Setting style to" << defaultStyle;
         styleController.lockToStyle(parser.value(styleOption));
     }
-#endif
 
     QQmlFileSelector *styleSelector = new QQmlFileSelector(engine);
     styleSelector->setExtraSelectors({styleController.currentStyle()});
@@ -145,6 +140,7 @@ int main(int argc, char *argv[])
     }
 
     qmlRegisterSingletonType(QUrl("qrc:///styles/" + styleController.currentStyle() + "/Style.qml"), "Nymea", 1, 0, "Style" );
+    qmlRegisterSingletonType(QUrl("qrc:///ui/Configuration.qml"), "Nymea", 1, 0, "Configuration");
 
     engine->rootContext()->setContextProperty("styleController", &styleController);
 

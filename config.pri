@@ -21,11 +21,12 @@ linux:!android {
 android: {
     QMAKE_CXXFLAGS += -Wno-deprecated-declarations
 
-    !equals(OVERLAY_PATH, ""):!equals(BRANDING, "") {
-        ANDROID_PACKAGE_SOURCE_DIR = $${OVERLAY_PATH}/packaging/android_$$BRANDING
-    } else {
+    equals(OVERLAY_PATH, "") {
         ANDROID_PACKAGE_SOURCE_DIR = $${top_srcdir}/packaging/android
+    } else {
+        ANDROID_PACKAGE_SOURCE_DIR = $${OVERLAY_PATH}/packaging/android
     }
+    message("Android package directory: $${ANDROID_PACKAGE_SOURCE_DIR}")
 
     !no-firebase:DEFINES+=WITH_FIREBASE
 }

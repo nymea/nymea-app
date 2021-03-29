@@ -216,7 +216,7 @@ SettingsPageBase {
             onClicked: {
                 if (!checked) {
                     var dialog = Qt.createComponent(Qt.resolvedUrl("../components/MeaDialog.qml"));
-                    var text = qsTr("Disabling networking will disconnect all connected clients. Be aware that you will not be able to interact remotely with this %1 system any more. Do not proceed unless you know what your are doing.").arg(app.systemName)
+                    var text = qsTr("Disabling networking will disconnect all connected clients. Be aware that you will not be able to interact remotely with this %1 system any more. Do not proceed unless you know what your are doing.").arg(Configuration.systemName)
                             + "\n\n"
                             + qsTr("Do you want to proceed?")
                     var popup = dialog.createObject(app,
@@ -291,7 +291,7 @@ SettingsPageBase {
             onClicked: {
                 if (!checked) {
                     var dialog = Qt.createComponent(Qt.resolvedUrl("../components/MeaDialog.qml"));
-                    var text = qsTr("Disabling WiFi will disconnect all clients connected via WiFi. Be aware that you will not be able to interact remotely with this %1 system any more unless a LAN cable is connected.").arg(app.systemName)
+                    var text = qsTr("Disabling WiFi will disconnect all clients connected via WiFi. Be aware that you will not be able to interact remotely with this %1 system any more unless a LAN cable is connected.").arg(Configuration.systemName)
                             + "\n\n"
                             + qsTr("Do you want to proceed?")
                     var popup = dialog.createObject(app,

@@ -46,7 +46,7 @@ ApplicationWindow {
     minimumHeight: 480
     visibility: kioskMode ? ApplicationWindow.FullScreen : settings.viewMode
     color: Material.background
-    title: app.appName
+    title: Configuration.appName
 
     Material.theme: NymeaUtils.isDark(Style.backgroundColor) ? Material.Dark : Material.Light
     Material.background: Style.backgroundColor
@@ -58,9 +58,6 @@ ApplicationWindow {
     font.weight: Font.Normal
     font.capitalization: Font.MixedCase
     font.family: Style.fontFamily
-
-    property string appName: "appBranding" in app ? app.appBranding : "nymea:app"
-    property string systemName: "coreBranding" in app ? app.coreBranding : "nymea"
 
     property int margins: 16
     property int bigMargins: 20

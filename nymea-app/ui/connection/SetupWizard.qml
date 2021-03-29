@@ -47,8 +47,8 @@ Page {
     EmptyViewPlaceholder {
         anchors.centerIn: parent
         width: parent.width - app.margins * 2
-        title: qsTr("Welcome to %1!").arg(app.systemName)
-        text: qsTr("This %1 system has not been set up yet. This wizard will guide you through a few simple steps to set it up.").arg(app.systemName)
+        title: qsTr("Welcome to %1!").arg(Configuration.systemName)
+        text: qsTr("This %1 system has not been set up yet. This wizard will guide you through a few simple steps to set it up.").arg(Configuration.systemName)
         imageSource: "qrc:/styles/%1/logo.svg".arg(styleController.currentStyle)
         buttonText: qsTr("Next")
         onButtonClicked: {

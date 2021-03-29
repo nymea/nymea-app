@@ -44,11 +44,12 @@ RESOURCES += resources.qrc \
     ruletemplates.qrc \
     images.qrc \
     translations.qrc \
-    styles.qrc
 
 !equals(OVERLAY_PATH, "") {
     message("Resource overlay enabled. Will be using overlay from $${OVERLAY_PATH}")
     RESOURCES += $${OVERLAY_PATH}/overlay.qrc
+} else {
+    RESOURCES += styles.qrc
 }
 
 win32 {
@@ -178,7 +179,7 @@ ubports: {
 
 BR=$$BRANDING
 !equals(BR, "") {
-    message("Branding the style to: $${BR}")
+    message("Branding the to: $${BR}")
     DEFINES += BRANDING=\\\"$${BR}\\\"
     win32:RCC_ICONS += ../packaging/windows_$${BR}/packages/io.guh.$${BR}/meta/logo.ico
 } else {

@@ -36,13 +36,13 @@ import "../components"
 
 SettingsPageBase {
     id: root
-    title: qsTr("About %1:core").arg(app.systemName)
+    title: qsTr("About %1").arg(Configuration.systemName)
 
 
     Imprint {
         id: imprint
         Layout.fillWidth: true
-        title: qsTr("%1:core").arg(app.systemName)
+        title: qsTr("%1").arg(Configuration.systemName)
         githubLink: "https://github.com/nymea/nymea"
 
         NymeaSwipeDelegate {

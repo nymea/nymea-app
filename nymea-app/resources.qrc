@@ -233,5 +233,6 @@
         <file>ui/devicepages/ThermostatDevicePage.qml</file>
         <file>ui/components/BigThingTile.qml</file>
         <file>ui/appsettings/LoggingCategories.qml</file>
+        <file>ui/ConfigurationBase.qml</file>
     </qresource>
 </RCC>

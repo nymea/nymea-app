@@ -120,7 +120,7 @@ Page {
             Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
             wrapMode: Text.WordWrap
             text: root.wifiSetup.currentConnection
-                  ? qsTr("Your %1:core is connected to %2").arg(app.systemName).arg(root.wifiSetup.currentConnection.ssid)
+                  ? qsTr("Your %1 system is connected to %2").arg(Configuration.systemName).arg(root.wifiSetup.currentConnection.ssid)
                   : ""
         }
 
@@ -137,7 +137,7 @@ Page {
             spacing: app.margins
             Label {
                 Layout.fillWidth: true
-                text: qsTr("Waiting for the %1:core to appear in your network.").arg(app.systemName)
+                text: qsTr("Waiting for the %1 to appear in your network.").arg(Configuration.systemName)
                 wrapMode: Text.WordWrap
             }
             BusyIndicator { }
@@ -148,7 +148,7 @@ Page {
             visible: host !== null
             Layout.fillWidth: true
             Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
-            text: qsTr("Connect to %1:core").arg(app.systemName)
+            text: qsTr("Connect to %1").arg(Configuration.systemName)
             property NymeaHost host: null
             onClicked: {
                 print("connecting to", host)

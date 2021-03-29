@@ -116,7 +116,7 @@ Page {
             Layout.margins: app.margins
             Label {
                 Layout.fillWidth: true
-                text: qsTr("Searching for %1:core systems.").arg(app.systemName)
+                text: qsTr("Searching for %1 systems.").arg(Configuration.systemName)
                 wrapMode: Text.WordWrap
             }
             BusyIndicator {
@@ -157,7 +157,7 @@ Page {
                 wrapMode: Text.WordWrap
                 maximumLineCount: 2
                 elide: Text.ElideRight
-                text: qsTr("Troubles finding your %1:core?").arg(app.systemName)
+                text: qsTr("Troubles finding your %1 system?").arg(Configuration.systemName)
             }
             Button {
                 text: qsTr("Help")
@@ -246,7 +246,7 @@ Page {
                         Layout.leftMargin: app.margins
                         Layout.rightMargin: app.margins
                         wrapMode: Text.WordWrap
-                        text: qsTr("If you have a %1 box, plug it into a power socket and wait for it to be booted. Once the LED pulses slowly, press the button for 3 seconds until the LED changes.").arg(app.systemName)
+                        text: qsTr("If you have a %1 box, plug it into a power socket and wait for it to be booted. Once the LED pulses slowly, press the button for 3 seconds until the LED changes.").arg(Configuration.systemName)
                     }
                     Image {
                         Layout.preferredWidth: app.iconSize * 5

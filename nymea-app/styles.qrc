@@ -31,5 +31,7 @@
         <file>styles/energize/logo-wide.svg</file>
         <file>styles/lime/logo-wide.svg</file>
         <file>styles/noir/logo-wide.svg</file>
+        <file>ui/Configuration.qml</file>
+        <file>config.txt</file>
     </qresource>
 </RCC>

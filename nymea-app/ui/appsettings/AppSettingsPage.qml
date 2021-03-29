@@ -77,7 +77,7 @@ Page {
                 NymeaSwipeDelegate {
                     width: parent.width
                     text: qsTr("Cloud login")
-                    subText: qsTr("Log into %1:cloud and manage connected %1:core systems").arg(app.systemName)
+                    subText: qsTr("Log into %1:cloud and manage connected %1 systems").arg(Configuration.systemName)
                     iconName: "../images/connections/cloud.svg"
                     prominentSubText: false
                     wrapTexts: false
@@ -104,7 +104,7 @@ Page {
                 padding: 0
                 NymeaSwipeDelegate {
                     width: parent.width
-                    text: qsTr("About %1").arg(app.appName)
+                    text: qsTr("About %1").arg(Configuration.appName)
                     subText: qsTr("Find app versions and licence information")
                     iconName: "../images/info.svg"
                     prominentSubText: false

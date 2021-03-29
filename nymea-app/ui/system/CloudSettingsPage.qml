@@ -36,7 +36,7 @@ import "../components"
 
 SettingsPageBase {
     id: root
-    title: qsTr("%1:core cloud settings").arg(app.systemName)
+    title: qsTr("%1 cloud settings").arg(Configuration.systemName)
 
     Item {
         id: d
@@ -64,7 +64,7 @@ SettingsPageBase {
         Layout.fillWidth: true
         Layout.leftMargin: app.margins
         Layout.rightMargin: app.margins
-        text: qsTr("Connect %1:core to %1:cloud in order to access it from anywhere and send push notifications from %1:core to %2.").arg(app.systemName).arg(app.appName)
+        text: qsTr("Connect %1 to %1:cloud in order to access it from anywhere.").arg(Configuration.systemName).arg(Configuration.appName)
         wrapMode: Text.WordWrap
     }
 
@@ -107,16 +107,16 @@ SettingsPageBase {
             text: {
                 switch (engine.jsonRpcClient.cloudConnectionState) {
                 case JsonRpcClient.CloudConnectionStateDisabled:
-                    return qsTr("This box is not connected to %1:cloud").arg(app.systemName)
+                    return qsTr("This box is not connected to %1:cloud").arg(Configuration.systemName)
                 case JsonRpcClient.CloudConnectionStateUnconfigured:
                     if (d.deploymentStarted) {
-                        return qsTr("Registering box in %1:cloud...").arg(app.systemName)
+                        return qsTr("Registering box in %1:cloud...").arg(Configuration.systemName)
                     }
-                    return qsTr("This box is not configured to connect to %1:cloud.").arg(app.systemName);
+                    return qsTr("This box is not configured to connect to %1:cloud.").arg(Configuration.systemName);
                 case JsonRpcClient.CloudConnectionStateConnecting:
-                    return qsTr("Connecting the box to %1:cloud...").arg(app.systemName);
+                    return qsTr("Connecting the box to %1:cloud...").arg(Configuration.systemName);
                 case JsonRpcClient.CloudConnectionStateConnected:
-                    return qsTr("The box is connected to %1:cloud.").arg(app.systemName);
+                    return qsTr("The box is connected to %1:cloud.").arg(Configuration.systemName);
                 }
                 return engine.jsonRpcClient.cloudConnectionState
             }
@@ -132,7 +132,7 @@ SettingsPageBase {
         Layout.fillWidth: true
         Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
         visible: engine.jsonRpcClient.cloudConnectionState === JsonRpcClient.CloudConnectionStateUnconfigured && !d.deploymentStarted
-        text: qsTr("This box is not configured to access the %1:cloud. In order for a box to connect to %1:cloud it needs to be registered first.").arg(app.systemName)
+        text: qsTr("This box is not configured to access the %1:cloud. In order for a box to connect to %1:cloud it needs to be registered first.").arg(Configuration.systemName)
         wrapMode: Text.WordWrap
     }
 
@@ -160,13 +160,13 @@ SettingsPageBase {
         Layout.leftMargin: app.margins
         Layout.rightMargin: app.margins
         wrapMode: Text.WordWrap
-        text: qsTr("In order to remotely connect to this %1:core, %2 needs to be logged into %1:cloud as well.").arg(app.systemName).arg(app.appName)
+        text: qsTr("In order to remotely connect to this %1 system, %2 needs to be logged into %1:cloud as well.").arg(Configuration.systemName).arg(Configuration.appName)
     }
 
     NymeaSwipeDelegate {
         Layout.fillWidth: true
         text: qsTr("Go to app settings")
-        subText: qsTr("Set up cloud connection for %1").arg(app.appName)
+        subText: qsTr("Set up cloud connection for %1").arg(Configuration.appName)
         prominentSubText: false
         onClicked: {
             pageStack.push(Qt.resolvedUrl("../appsettings/CloudLoginPage.qml"))
