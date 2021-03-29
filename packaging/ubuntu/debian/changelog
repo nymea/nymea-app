@@ -1,3 +1,11 @@
+nymea-app (1.0.296) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix bearer for manual connection
+  * Fix firebase path
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 29 Mar 2021 13:01:47 +0200
+
 nymea-app (1.0.295) bionic; urgency=medium
 
   [ Michael Zanetti ]
