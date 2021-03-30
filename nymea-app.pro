@@ -12,19 +12,18 @@ withtests: {
     tests.depends = libnymea-app
 }
 
-# Building a Windows installer:
-# Make sure your environment has the toolchain you want (e.g. msvc17 64 bit) by executing the command:
-# $ call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat"
-# $ make wininstaller
-wininstaller.depends = nymea-app
 equals(OVERLAY_PATH, "") {
     PACKAGE_BASE_DIR = $$shell_path($$PWD)\packaging
 } else {
     PACKAGE_BASE_DIR = $${OVERLAY_PATH}\packaging
 }
 
+# Building a Windows installer:
+# Make sure your environment has the toolchain you want (e.g. msvc17 64 bit) by executing the command:
+# $ call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat"
+# $ make wininstaller
+wininstaller.depends = nymea-app
 PACKAGE_DIR = $${PACKAGE_BASE_DIR}\windows
-
 OLDSTRING="<Version>.*</Version>"
 NEWSTRING="<Version>$${APP_VERSION}</Version>"
 wininstaller.commands += @powershell -Command \"(gc $${PACKAGE_DIR}\packages\\$${PACKAGE_URN}\meta\package.xml) -replace \'$${OLDSTRING}\',\'$${NEWSTRING}\' | sc $${PACKAGE_DIR}\packages\\$${PACKAGE_URN}\meta\package.xml\" &&
@@ -69,11 +68,11 @@ QMAKE_EXTRA_TARGETS += osxinstaller
 
 # Generic linux desktop
 linux:!android: {
-desktopfile.files = packaging/linux-common/nymea-app.desktop
-desktopfile.path = /usr/share/applications/
-icons.files = packaging/linux-common/icons/
-icons.path = /usr/share/
-INSTALLS += desktopfile icons
+    desktopfile.files = $${PACKAGE_BASE_DIR}/linux-common/$${APPLICATION_NAME}.desktop
+    desktopfile.path = /usr/share/applications/
+    icons.files = $${PACKAGE_BASE_DIR}/linux-common/icons/
+    icons.path = /usr/share/
+    INSTALLS += desktopfile icons
 }
 
 android: {
@@ -90,9 +89,9 @@ android: {
 
 # Linux desktop (snap package)
 snap: {
-desktopfile.files = packaging/linux/nymea-app.desktop
-desktopfile.path = /usr/share/applications/
-INSTALLS += desktopfile
+    desktopfile.files = $${PACKAGE_BASE_DIR}/linux/$${APPLICATION_NAME}.desktop
+    desktopfile.path = /usr/share/applications/
+    INSTALLS += desktopfile
 }
 
 ubports: {
