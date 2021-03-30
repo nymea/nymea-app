@@ -1,5 +1,5 @@
 APPLICATION_NAME="nymea-app"
 ORGANISATION_NAME="nymea"
 
-PACKAGE_URN=com.consolinno.energy
-PACKAGE_NAME=consolinno-energy
+PACKAGE_URN=io.nymea.nymeaapp
+PACKAGE_NAME=nymea-app
