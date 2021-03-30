@@ -22,24 +22,16 @@ equals(OVERLAY_PATH, "") {
 } else {
     PACKAGE_BASE_DIR = $${OVERLAY_PATH}\packaging
 }
-equals(BRANDING, "") {
-    APP_NAME = nymea-app
-    PACKAGE_URN = io.nymea.nymeaapp
-    PACKAGE_NAME = nymea-app-win-installer
-    PACKAGE_DIR = $${PACKAGE_BASE_DIR}\windows
-} else {
-    APP_NAME = $${BRANDING}
-    PACKAGE_URN = io.nymea.$${APP_NAME}
-    PACKAGE_NAME = $${BRANDING}-win-installer
-    PACKAGE_DIR = $${PACKAGE_BASE_DIR}\windows_$${APP_NAME}
-}
+
+PACKAGE_DIR = $${PACKAGE_BASE_DIR}\windows
+
 OLDSTRING="<Version>.*</Version>"
 NEWSTRING="<Version>$${APP_VERSION}</Version>"
 wininstaller.commands += @powershell -Command \"(gc $${PACKAGE_DIR}\packages\\$${PACKAGE_URN}\meta\package.xml) -replace \'$${OLDSTRING}\',\'$${NEWSTRING}\' | sc $${PACKAGE_DIR}\packages\\$${PACKAGE_URN}\meta\package.xml\" &&
 wininstaller.commands += rmdir /S /Q $${PACKAGE_DIR}\packages\\$${PACKAGE_URN}\data & mkdir $${PACKAGE_DIR}\packages\\$${PACKAGE_URN}\data &&
 wininstaller.commands += copy $${PACKAGE_DIR}\packages\\$${PACKAGE_URN}\meta\logo.ico $${PACKAGE_DIR}\packages\\$${PACKAGE_URN}\data\logo.ico &&
-CONFIG(debug,debug|release):wininstaller.commands += copy nymea-app\debug\nymea-app.exe $${PACKAGE_DIR}\packages\\$${PACKAGE_URN}\data\\$${APP_NAME}.exe &&
-CONFIG(release,debug|release):wininstaller.commands += copy nymea-app\release\nymea-app.exe $${PACKAGE_DIR}\packages\\$${PACKAGE_URN}\data\\$${APP_NAME}.exe &&
+CONFIG(debug,debug|release):wininstaller.commands += copy nymea-app\debug\nymea-app.exe $${PACKAGE_DIR}\packages\\$${PACKAGE_URN}\data\\$${APPLICATION_NAME}.exe &&
+CONFIG(release,debug|release):wininstaller.commands += copy nymea-app\release\nymea-app.exe $${PACKAGE_DIR}\packages\\$${PACKAGE_URN}\data\\$${APPLICATION_NAME}.exe &&
 wininstaller.commands += copy \"$${top_srcdir}\"\3rdParty\windows\windows_openssl\*.dll $${PACKAGE_DIR}\packages\\$${PACKAGE_URN}\data &&
 wininstaller.commands += windeployqt --compiler-runtime --qmldir \"$${top_srcdir}\"\nymea-app\ui $${PACKAGE_DIR}\packages\\$${PACKAGE_URN}\data\ &&
 wininstaller.commands += binarycreator -c $${PACKAGE_DIR}\config\config.xml -p $${PACKAGE_DIR}\packages\ $${PACKAGE_NAME}-$${APP_VERSION}
