@@ -34,7 +34,7 @@ CONFIG(debug,debug|release):wininstaller.commands += copy nymea-app\debug\\$${AP
 CONFIG(release,debug|release):wininstaller.commands += copy nymea-app\release\\$${APPLICATION_NAME}.exe $${PACKAGE_DIR}\packages\\$${PACKAGE_URN}\data\\$${APPLICATION_NAME}.exe &&
 wininstaller.commands += copy \"$${top_srcdir}\"\3rdParty\windows\windows_openssl\*.dll $${PACKAGE_DIR}\packages\\$${PACKAGE_URN}\data &&
 wininstaller.commands += windeployqt --compiler-runtime --qmldir \"$${top_srcdir}\"\nymea-app\ui $${PACKAGE_DIR}\packages\\$${PACKAGE_URN}\data\ &&
-wininstaller.commands += binarycreator -c $${PACKAGE_DIR}\config\config.xml -p $${PACKAGE_DIR}\packages\ $${PACKAGE_NAME}-$${APP_VERSION}
+wininstaller.commands += binarycreator -c $${PACKAGE_DIR}\config\config.xml -p $${PACKAGE_DIR}\packages\ $${PACKAGE_NAME}-installer-$${APP_VERSION}
 win32:message("Windows installer package directory: $${PACKAGE_DIR}")
 QMAKE_EXTRA_TARGETS += wininstaller
 
