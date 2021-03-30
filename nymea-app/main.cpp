@@ -46,6 +46,7 @@
 #include "nfchelper.h"
 #include "nfcthingactionwriter.h"
 #include "platformhelper.h"
+#include "../config.h"
 
 #include "logging.h"
 
@@ -71,9 +72,8 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication application(argc, argv);
 
-    QSettings config(":/config.txt", QSettings::IniFormat);
-    application.setApplicationName(config.value("app").toString());
-    application.setOrganizationName(config.value("organisation").toString());
+    application.setApplicationName(APPLICATION_NAME);
+    application.setOrganizationName(ORGANISATION_NAME);
 
     QCommandLineParser parser;
     parser.addHelpOption();

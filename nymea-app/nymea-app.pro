@@ -1,6 +1,7 @@
 TEMPLATE=app
-TARGET=nymea-app
-include(../config.pri)
+include(../shared.pri)
+
+TARGET=$${APPLICATION_NAME}
 
 CONFIG += link_pkgconfig
 
@@ -50,10 +51,6 @@ RESOURCES += resources.qrc \
     RESOURCES += $${OVERLAY_PATH}/overlay.qrc
 } else {
     RESOURCES += styles.qrc
-}
-
-win32 {
-    QT += webview
 }
 
 android {
@@ -117,13 +114,6 @@ ios: {
     OBJECTIVE_SOURCES += $$PWD/../packaging/ios/platformhelperios.mm \
                          $$PWD/../packaging/ios/pushnotifications.mm \
 
-# Firebase CPP SDK
-#    QMAKE_LFLAGS += -ObjC $(inherited)
-#    INCLUDEPATH += /Users/micha/Downloads/firebase_cpp_sdk/include/
-#    LIBS += -F/Users/micha/Downloads/firebase_cpp_sdk/libs/ios/arm64/
-#    LIBS += -ObjC -L/Users/micha/Downloads/firebase_cpp_sdk/libs/ios/arm64/ -lfirebase_messaging -lfirebase_app
-#    LIBS += -framework "FirebaseCore"
-
     # Add Firebase SDK
     QMAKE_LFLAGS += -ObjC $(inherited)
     firebase_files.files += $$files(../packaging/ios/GoogleService-Info.plist)
@@ -177,13 +167,13 @@ ubports: {
     SOURCES += platformintegration/ubports/pushclient.cpp
 }
 
-BR=$$BRANDING
-!equals(BR, "") {
-    message("Branding the to: $${BR}")
-    DEFINES += BRANDING=\\\"$${BR}\\\"
-    win32:RCC_ICONS += ../packaging/windows_$${BR}/packages/io.guh.$${BR}/meta/logo.ico
-} else {
-    win32:RCC_ICONS += ../packaging/windows/packages/io.guh.nymeaapp/meta/logo.ico
+win32 {
+    QT += webview
+    equals(OVERLAY_PATH, "") {
+        win32:RCC_ICONS += ../packaging/windows/packages/io.nymea.nymeaapp/meta/logo.ico
+    } else {
+        win32:RCC_ICONS += $${OVERLAY_PATH}/packaging/windows/packages/io.guh.$${BR}/meta/logo.ico
+    }
 }
 
 target.path = /usr/bin

@@ -1,6 +1,8 @@
-include(config.pri)
-message("APP_VERSION: $${APP_VERSION} ($${APP_REVISION})")
 TEMPLATE=subdirs
+
+include(shared.pri)
+message("APP_VERSION: $${APP_VERSION} ($${APP_REVISION})")
+
 
 SUBDIRS = libnymea-app nymea-app
 nymea-app.depends = libnymea-app
@@ -15,10 +17,10 @@ withtests: {
 # $ call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat"
 # $ make wininstaller
 wininstaller.depends = nymea-app
-!equals(OVERLAY_PATH, "") {
-    PACKAGE_BASE_DIR = $${OVERLAY_PATH}\packaging
-} else {
+equals(OVERLAY_PATH, "") {
     PACKAGE_BASE_DIR = $$shell_path($$PWD)\packaging
+} else {
+    PACKAGE_BASE_DIR = $${OVERLAY_PATH}\packaging
 }
 equals(BRANDING, "") {
     APP_NAME = nymea-app

@@ -3,11 +3,19 @@ CONFIG += c++11
 top_srcdir=$$PWD
 top_builddir=$$shadowed($$PWD)
 
+# Read version info from version.txt
 VERSION_INFO=$$cat(version.txt)
 APP_VERSION=$$member(VERSION_INFO, 0)
 APP_REVISION=$$member(VERSION_INFO, 1)
 
-DEFINES+=APP_VERSION=\\\"$${APP_VERSION}\\\"
+equals(OVERLAY_PATH, "") {
+    include(config.pri)
+} else {
+    include($${OVERLAY_PATH}/config.pri)
+}
+
+QMAKE_SUBSTITUTES += $${top_srcdir}/config.h.in
+INCLUDEPATH += $${top_builddir}
 
 # We want -Wall to keep the code clean and tidy, however:
 # On Windows, -Wall goes mental, so not using it there

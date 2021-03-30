@@ -2,7 +2,7 @@ TARGET = nymea-app
 TEMPLATE = lib
 CONFIG += staticlib
 
-include(../config.pri)
+include(../shared.pri)
 include(libnymea-app.pri)
 
 LIBS += -lssl -lcrypto
