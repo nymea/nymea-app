@@ -1,0 +1,2 @@
+APPLICATION_NAME="nymea-app"
+ORGANISATION_NAME="nymea"
