@@ -70,6 +70,15 @@ NymeaConnection::NymeaConnection(QObject *parent) : QObject(parent)
     });
 
     updateActiveBearers();
+
+    m_reconnectTimer.setInterval(1000);
+    m_reconnectTimer.setSingleShot(true);
+    connect(&m_reconnectTimer, &QTimer::timeout, this, [this](){
+        if (m_currentHost) {
+            qCInfo(dcNymeaConnection()) << "Reconnecting...";
+            connectInternal(m_currentHost);
+        }
+    });
 }
 
 NymeaConnection::BearerTypes NymeaConnection::availableBearerTypes() const
@@ -234,12 +243,7 @@ void NymeaConnection::onError(QAbstractSocket::SocketError error)
             emit connectionStatusChanged();
 
             if (m_connectionStatus != ConnectionStatusSslUntrusted) {
-                QTimer::singleShot(1000, this, [this](){
-                    if (m_currentHost) {
-                        qCInfo(dcNymeaConnection()) << "Reconnecting...";
-                        connectInternal(m_currentHost);
-                    }
-                });
+                m_reconnectTimer.start();
             }
         }
     }

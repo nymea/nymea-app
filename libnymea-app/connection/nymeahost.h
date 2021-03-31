@@ -137,6 +137,7 @@ class NymeaHost: public QObject
     Q_PROPERTY(QString name READ name NOTIFY nameChanged)
     Q_PROPERTY(QString version READ version NOTIFY versionChanged)
     Q_PROPERTY(Connections* connections READ connections CONSTANT)
+    Q_PROPERTY(bool online READ online NOTIFY onlineChanged)
 
 public:
     explicit NymeaHost(QObject *parent = nullptr);
@@ -153,16 +154,23 @@ public:
 
     Connections *connections() const;
 
+    bool online() const;
+
 signals:
     void nameChanged();
     void versionChanged();
     void connectionChanged();
+    void onlineChanged();
+
+private:
+    void syncOnlineState();
 
 private:
     QUuid m_uuid;
     QString m_name;
     QString m_version;
     Connections *m_connections = nullptr;
+    bool m_online = false;
 };
 
 #endif // NYMEAHOST_H

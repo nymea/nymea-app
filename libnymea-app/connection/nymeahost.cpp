@@ -38,12 +38,15 @@ NymeaHost::NymeaHost(QObject *parent):
 {
     connect(m_connections, &Connections::dataChanged, this, [this](const QModelIndex &, const QModelIndex &, const QVector<int>){
         emit connectionChanged();
+        syncOnlineState();
     });
     connect(m_connections, &Connections::connectionAdded, this, [this](Connection*){
         emit connectionChanged();
+        syncOnlineState();
     });
     connect(m_connections, &Connections::connectionRemoved, this, [this](Connection*){
         emit connectionChanged();
+        syncOnlineState();
     });
 }
 
@@ -91,6 +94,28 @@ void NymeaHost::setVersion(const QString &version)
 Connections* NymeaHost::connections() const
 {
     return m_connections;
+}
+
+bool NymeaHost::online() const
+{
+    return m_online;
+}
+
+void NymeaHost::syncOnlineState()
+{
+    for (int i = 0; i < m_connections->rowCount(); i++) {
+        if (m_connections->get(i)->online()) {
+            if (!m_online) {
+                m_online = true;
+                emit onlineChanged();
+            }
+            return;
+        }
+    }
+    if (m_online) {
+        m_online = false;
+        emit onlineChanged();
+    }
 }
 
 Connections::Connections(QObject *parent):

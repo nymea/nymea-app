@@ -37,7 +37,7 @@
 #include <QAbstractSocket>
 #include <QUrl>
 #include <QNetworkConfigurationManager>
-
+#include <QTimer>
 
 #include "nymeahost.h"
 
@@ -139,6 +139,8 @@ private:
     NymeaTransportInterface *m_currentTransport = nullptr;
     NymeaHost *m_currentHost = nullptr;
     Connection *m_preferredConnection = nullptr;
+
+    QTimer m_reconnectTimer;
 };
 
 #endif // NYMEACONNECTION_H
