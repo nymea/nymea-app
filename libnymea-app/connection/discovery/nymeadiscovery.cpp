@@ -42,6 +42,9 @@
 #include <QNetworkConfigurationManager>
 #include <QNetworkSession>
 
+#include "logging.h"
+NYMEA_LOGGING_CATEGORY(dcDiscovery, "Discovery")
+
 NymeaDiscovery::NymeaDiscovery(QObject *parent) : QObject(parent)
 {
     m_nymeaHosts = new NymeaHosts(this);
@@ -231,11 +234,10 @@ void NymeaDiscovery::syncCloudDevices()
     for (int i = 0; i < m_awsClient->awsDevices()->rowCount(); i++) {
         AWSDevice *d = m_awsClient->awsDevices()->get(i);
         NymeaHost *host = m_nymeaHosts->find(d->id());
-        if (!host) {
+        bool alreayAdded = host != nullptr;
+        if (!alreayAdded) {
             host = new NymeaHost();
             host->setUuid(d->id());
-            qDebug() << "CloudDiscovery: Adding new host:" << host->name() << host->uuid().toString();
-            m_nymeaHosts->addHost(host);
         }
         host->setName(d->name());
         QUrl url;
@@ -244,10 +246,14 @@ void NymeaDiscovery::syncCloudDevices()
         Connection *conn = host->connections()->find(url);
         if (!conn) {
             conn = new Connection(url, Connection::BearerTypeCloud, true, d->id());
-            qDebug() << "CloudDiscovery: Adding new connection to host:" << host->name() << conn->url().toString();
+            qCDebug(dcDiscovery) << "Adding new connection to host:" << host->name() << conn->url().toString();
             host->connections()->addConnection(conn);
         }
         conn->setOnline(d->online());
+        if (!alreayAdded) {
+            qCDebug(dcDiscovery) << "Adding new host:" << d->name() << d->id();
+            m_nymeaHosts->addHost(host);
+        }
     }
 
     QList<NymeaHost*> hostsToRemove;
@@ -283,7 +289,7 @@ void NymeaDiscovery::loadFromDisk()
             host->setUuid(QUuid(serverUuid));
             m_nymeaHosts->addHost(host);
         }
-        qDebug() << "Loaded Host from cache" << host->name() << host->uuid();
+        qCDebug(dcDiscovery()) << "Loaded Host from cache" << host->name() << host->uuid();
         foreach (const QString &group, settings.childGroups()) {
             settings.beginGroup(group);
             QString url = settings.value("url").toString();
@@ -294,7 +300,7 @@ void NymeaDiscovery::loadFromDisk()
                 QString displayName = settings.value("displayName").toString();
                 connection = new Connection(url, bearerType, secure, displayName, host);
                 host->connections()->addConnection(connection);
-                qDebug() << "|- Connection:" << group << connection->url() << connection->bearerType() << "secure:" << connection->secure();
+                qCDebug(dcDiscovery()) << "|- Connection:" << group << connection->url() << connection->bearerType() << "secure:" << connection->secure();
             }
             settings.endGroup();
         }
