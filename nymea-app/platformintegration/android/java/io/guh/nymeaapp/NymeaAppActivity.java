@@ -77,7 +77,7 @@ public class NymeaAppActivity extends org.qtproject.qt5.android.bindings.QtActiv
         }
     }
 
-    public boolean nightModeEnabled() {
+    public boolean darkModeEnabled() {
         return (getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES;
     }
 }

@@ -80,7 +80,7 @@ Rectangle {
         Label {
             Layout.fillWidth: true
             Layout.margins: app.margins * 2
-            text: qsTr("The system may restart in order to complete the update. %1:app will reconnect automatically after the update.").arg(app.systemName)
+            text: qsTr("The system may restart in order to complete the update. %1:app will reconnect automatically after the update.").arg(Configuration.systemName)
             horizontalAlignment: Text.AlignHCenter
             wrapMode: Text.WordWrap
             font.pixelSize: app.smallFont

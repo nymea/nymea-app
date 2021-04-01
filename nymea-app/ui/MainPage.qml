@@ -99,8 +99,8 @@ Page {
         // 2. Style mainViewsFilter as that comes with branding (for now, if a style defines main views, all of them are active by default)
         // 3. Command line args
         // 4. Just show "things" alone by default
-        property var filterList: app.hasOwnProperty("mainViewsFilter") ?
-                                     app.mainViewsFilter
+        property var filterList: Configuration.hasOwnProperty("mainViewsFilter") ?
+                                     Configuration.mainViewsFilter
                                    : defaultMainViewFilter.length > 0 ?
                                          defaultMainViewFilter.split(',')
                                        : ["things"]
@@ -109,7 +109,6 @@ Page {
 
     ListModel {
         id: mainMenuBaseModel
-        // TODO: Should read this from disk somehow maybe?
         ListElement { name: "things"; source: "ThingsView"; displayName: qsTr("Things"); icon: "things" }
         ListElement { name: "favorites"; source: "FavoritesView"; displayName: qsTr("Favorites"); icon: "starred" }
         ListElement { name: "groups"; source: "GroupsView"; displayName: qsTr("Groups"); icon: "view-grid-symbolic" }
@@ -129,9 +128,9 @@ Page {
             var newItems = 0
 
             // Add extra views first to make them appear first in the list unless the config says otherwise
-            if (app.hasOwnProperty("additionalMainViews")) {
-                for (var i = 0; i < app.additionalMainViews.count; i++) {
-                    var item = app.additionalMainViews.get(i);
+            if (Configuration.hasOwnProperty("additionalMainViews")) {
+                for (var i = 0; i < Configuration.additionalMainViews.count; i++) {
+                    var item = Configuration.additionalMainViews.get(i);
                     var idx = mainViewSettings.sortOrder.indexOf(item.name);
                     if (idx === -1) {
                         newList[newItems++] = item;
@@ -153,7 +152,7 @@ Page {
             }
             clear();
 
-            var brandingFilter = app.hasOwnProperty("mainViewsFilter") ? app.mainViewsFilter : []
+            var brandingFilter = Configuration.hasOwnProperty("mainViewsFilter") ? Configuration.mainViewsFilter : []
 
             for (idx in configList) {
                 item = configList[idx];

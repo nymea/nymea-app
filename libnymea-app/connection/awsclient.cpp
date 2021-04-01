@@ -42,6 +42,7 @@
 
 #include "sigv4utils.h"
 #include "logging.h"
+#include "config.h"
 
 AWSClient* AWSClient::s_instance = nullptr;
 

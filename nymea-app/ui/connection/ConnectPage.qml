@@ -49,7 +49,7 @@ Page {
 
             Label {
                 Layout.fillWidth: true
-                text: qsTr("Connect %1").arg(app.systemName)
+                text: qsTr("Connect %1").arg(Configuration.systemName)
             }
         }
     }
@@ -117,9 +117,9 @@ Page {
             Label {
                 Layout.fillWidth: true
                 text: root.haveHosts ?
-                          qsTr("There are %1 %2:cores in your network! Which one would you like to use?").arg(hostsProxy.count).arg(app.systemName)
-                        : startupTimer.running ? qsTr("We haven't found a %1:core in your network yet.").arg(app.systemName)
-                                               : qsTr("There doesn't seem to be a %1:core installed in your network. Please make sure your %1:core system is correctly set up and connected.").arg(app.systemName)
+                          qsTr("There are %n %1 systems in your network! Which one would you like to use?", "", hostsProxy.count).arg(Configuration.systemName)
+                        : startupTimer.running ? qsTr("We haven't found a %1 system in your network yet.").arg(Configuration.systemName)
+                                               : qsTr("There doesn't seem to be a %1 system installed in your network. Please make sure your %1 system is correctly set up and connected.").arg(Configuration.systemName)
                 wrapMode: Text.WordWrap
             }
         }
@@ -203,7 +203,7 @@ Page {
                 visible: !root.haveHosts
 
                 Label {
-                    text: qsTr("Searching for %1:core systems...").arg(app.systemName)
+                    text: qsTr("Searching for %1 systems...").arg(Configuration.systemName)
                 }
 
                 BusyIndicator {
@@ -221,7 +221,7 @@ Page {
             Layout.rightMargin: app.margins
             wrapMode: Text.WordWrap
             visible: nymeaDiscovery.nymeaHosts.count === 0
-            text: qsTr("Do you have a %1:core but it's not connected to your network yet? Use the wireless setup to connect it!").arg(app.systemName)
+            text: qsTr("Do you have a %1 system but it's not connected to your network yet? Use the wireless setup to connect it!").arg(Configuration.systemName)
         }
         Button {
             Layout.fillWidth: true

@@ -4,7 +4,7 @@ CONFIG += dll
 QT += core androidextras
 QT += network qml quick quickcontrols2 svg websockets bluetooth charts nfc
 
-include(../config.pri)
+include(../shared.pri)
 include(../3rdParty/android/android_openssl/openssl.pri)
 
 

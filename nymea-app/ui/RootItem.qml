@@ -182,7 +182,7 @@ Item {
                             }
                             print("Warning: There is a last connected host but UUID is unknown to discovery...")
                         } else if (autoConnectHost.length > 0) {
-                            var host = nymeaDiscovery.nymeaHosts.createLanHost(app.systemName, autoConnectHost);
+                            var host = nymeaDiscovery.nymeaHosts.createLanHost(Configuration.systemName, autoConnectHost);
                             engine.jsonRpcClient.connectToHost(host)
                         } else {
                             // Only hide the splash right away if we're not trying to connect to something
@@ -445,8 +445,8 @@ Item {
                                 }
                                 Label {
                                     text: popup.minVersion != ""
-                                          ? qsTr("The version of the %1:core you are trying to connect to is too old. This app requires at least version %2 but this %1:core only supports %3. Please update your %1:core system.").arg(app.systemName).arg(popup.minVersion).arg(popup.actualVersion)
-                                          : qsTr("The version of the %1:core you are trying to connect to is too new. This app supports only up to version %2 but this %1:core provides %3. Please update %1:app.").arg(app.systemName).arg(popup.maxVersion).arg(popup.actualVersion)
+                                          ? qsTr("The version of the %1 system you are trying to connect to is too old. This app requires at least version %2 but this %1 system only supports %3. Please update your %1 system.").arg(Configuration.systemName).arg(popup.minVersion).arg(popup.actualVersion)
+                                          : qsTr("The version of the %1 system you are trying to connect to is too new. This app supports only up to version %2 but this %1 system provides %3. Please update %4.").arg(Configuration.systemName).arg(popup.maxVersion).arg(popup.actualVersion).arg(Configuration.appName)
                                     wrapMode: Text.WordWrap
                                     Layout.fillWidth: true
                                 }

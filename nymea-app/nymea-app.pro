@@ -1,6 +1,7 @@
 TEMPLATE=app
-TARGET=nymea-app
-include(../config.pri)
+include(../shared.pri)
+
+TARGET=$${APPLICATION_NAME}
 
 CONFIG += link_pkgconfig
 
@@ -44,15 +45,12 @@ RESOURCES += resources.qrc \
     ruletemplates.qrc \
     images.qrc \
     translations.qrc \
-    styles.qrc
 
 !equals(OVERLAY_PATH, "") {
     message("Resource overlay enabled. Will be using overlay from $${OVERLAY_PATH}")
     RESOURCES += $${OVERLAY_PATH}/overlay.qrc
-}
-
-win32 {
-    QT += webview
+} else {
+    RESOURCES += styles.qrc
 }
 
 android {
@@ -94,17 +92,17 @@ macx: {
     QMAKE_TARGET_BUNDLE_PREFIX = io.nymea
     QMAKE_BUNDLE = nymeaApp.mac
 
-    plist.input = ../packaging/osx/Info.plist.in
+    plist.input = $${MACX_PACKAGE_DIR}/Info.plist.in
     plist.output = $$OUT_PWD/Info.plist
     QMAKE_SUBSTITUTES += plist
     QMAKE_INFO_PLIST = $$OUT_PWD/Info.plist
-    OTHER_FILES += ../packaging/osx/Info.plist.in \
-                   ../packaging/osx/nymea-app.entitlements
+    OTHER_FILES += $${MACX_PACKAGE_DIR}/Info.plist.in \
+                   $${MACX_PACKAGE_DIR}/$${APPLICATION_NAME}.entitlements
 
-    ICON = ../packaging/osx/AppIcon.icns
+    ICON = $${MACX_PACKAGE_DIR}/AppIcon.icns
 
     OSX_ENTITLEMENTS.name = CODE_SIGN_ENTITLEMENTS
-    OSX_ENTITLEMENTS.value = $$files($$PWD/../packaging/ios/nymea-app.entitlements)
+    OSX_ENTITLEMENTS.value = $$files($${MACX_PACKAGE_DIR}/$${APPLICATION_NAME}.entitlements)
     QMAKE_MAC_XCODE_SETTINGS += OSX_ENTITLEMENTS
 }
 
@@ -115,13 +113,6 @@ ios: {
     SOURCES += platformintegration/ios/platformhelperios.cpp
     OBJECTIVE_SOURCES += $$PWD/../packaging/ios/platformhelperios.mm \
                          $$PWD/../packaging/ios/pushnotifications.mm \
-
-# Firebase CPP SDK
-#    QMAKE_LFLAGS += -ObjC $(inherited)
-#    INCLUDEPATH += /Users/micha/Downloads/firebase_cpp_sdk/include/
-#    LIBS += -F/Users/micha/Downloads/firebase_cpp_sdk/libs/ios/arm64/
-#    LIBS += -ObjC -L/Users/micha/Downloads/firebase_cpp_sdk/libs/ios/arm64/ -lfirebase_messaging -lfirebase_app
-#    LIBS += -framework "FirebaseCore"
 
     # Add Firebase SDK
     QMAKE_LFLAGS += -ObjC $(inherited)
@@ -176,13 +167,13 @@ ubports: {
     SOURCES += platformintegration/ubports/pushclient.cpp
 }
 
-BR=$$BRANDING
-!equals(BR, "") {
-    message("Branding the style to: $${BR}")
-    DEFINES += BRANDING=\\\"$${BR}\\\"
-    win32:RCC_ICONS += ../packaging/windows_$${BR}/packages/io.guh.$${BR}/meta/logo.ico
-} else {
-    win32:RCC_ICONS += ../packaging/windows/packages/io.guh.nymeaapp/meta/logo.ico
+win32 {
+    QT += webview
+    equals(OVERLAY_PATH, "") {
+        win32:RCC_ICONS += ../packaging/windows/packages/io.nymea.nymeaapp/meta/logo.ico
+    } else {
+        win32:RCC_ICONS += $${OVERLAY_PATH}/packaging/windows/packages/io.guh.$${BR}/meta/logo.ico
+    }
 }
 
 target.path = /usr/bin

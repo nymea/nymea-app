@@ -95,17 +95,17 @@ Page {
                     errorMessage = qsTr("It seems you're not connected to the network.");
                     break;
                 case NymeaConnection.ConnectionStatusHostNotFound:
-                    errorMessage = qsTr("%1:core could not be found on this address. Please make sure you entered the address correctly and that the system is powered on.").arg(app.systemName);
+                    errorMessage = qsTr("%1 could not be found on this address. Please make sure you entered the address correctly and that the system is powered on.").arg(Configuration.systemName);
                     break;
                 case NymeaConnection.ConnectionStatusConnectionRefused:
-                    errorMessage = qsTr("The host has rejected our connection. This probably means that %1 is not running on this host. Perhaps it's restarting?").arg(app.systemName);
+                    errorMessage = qsTr("The host has rejected our connection. This probably means that %1 is not running on this host. Perhaps it's restarting?").arg(Configuration.systemName);
                     break;
                 case NymeaConnection.ConnectionStatusRemoteHostClosed:
-                    errorMessage = qsTr("%1:core has closed the connection. This probably means it has been turned off or restarted.").arg(app.systemName);
+                    errorMessage = qsTr("%1 has closed the connection. This probably means it has been turned off or restarted.").arg(Configuration.systemName);
                     break;
 
                 case NymeaConnection.ConnectionStatusTimeout:
-                    errorMessage = qsTr("%1:core did not respond. Please make sure your network connection works properly").arg(app.systemName);
+                    errorMessage = qsTr("%1 did not respond. Please make sure your network connection works properly").arg(Configuration.systemName);
                     break;
                 case NymeaConnection.ConnectionStatusSslError:
                     errorMessage = qsTr("An unrecovareable SSL Error happened. Please make sure certificates are installed correctly.");
