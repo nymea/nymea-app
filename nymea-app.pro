@@ -42,19 +42,15 @@ QMAKE_EXTRA_TARGETS += wininstaller
 osxbundle.depends = nymea-app
 osxbundle.commands += cd nymea-app && rm -f ../*.dmg ../*pkg *.dmg || true &&
 osxbundle.commands += hdiutil eject /Volumes/$${APPLICATION_NAME} || true &&
-osxbundle.commands += echo "Creating bundle" &&
 osxbundle.commands += macdeployqt $${APPLICATION_NAME}.app -appstore-compliant -qmldir=$$top_srcdir/nymea-app/ui -dmg &&
-osxbundle.commands += echo "Removing QtWebEngineCore from bundle" &&
 osxbundle.commands += rm -r $${APPLICATION_NAME}.app/Contents/Frameworks/QtWebEngineCore.framework &&
-osxbundle.commands += echo "Signing application bundle" &&
 osxbundle.commands += codesign -s \"3rd Party Mac Developer Application\" --entitlements $${MACX_PACKAGE_DIR}/$${APPLICATION_NAME}.entitlements --deep $${APPLICATION_NAME}.app &&
-osxbundle.commands += echo "converting to writable bundle" &&
 osxbundle.commands += hdiutil convert $${APPLICATION_NAME}.dmg -format UDRW -o $${APPLICATION_NAME}_writable.dmg &&
 osxbundle.commands += hdiutil attach -readwrite -noverify $${APPLICATION_NAME}_writable.dmg && sleep 2 &&
 osxbundle.commands += tar -xpf $${MACX_PACKAGE_DIR}/template.tar -C /Volumes/$${APPLICATION_NAME}/ &&
 osxbundle.commands += hdiutil eject /Volumes/$${APPLICATION_NAME} &&
 osxbundle.commands += hdiutil convert $${APPLICATION_NAME}_writable.dmg -format UDRO -o ../$${APPLICATION_NAME}-osx-bundle-$${APP_VERSION}.dmg &&
-osxbundle.commands += rm $${APPLICATION_NAME}.dmg #$${APPLICATION_NAME}_writable.dmg
+osxbundle.commands += rm $${APPLICATION_NAME}.dmg $${APPLICATION_NAME}_writable.dmg
 QMAKE_EXTRA_TARGETS += osxbundle
 
 # Create a .pkg osx installer.
