@@ -56,8 +56,8 @@ QMAKE_EXTRA_TARGETS += osxbundle
 # Create a .pkg osx installer.
 osxinstaller.depends = osxbundle
 osxinstaller.commands += cd nymea-app &&
-osxinstaller.commands += productbuild --component nymea-app.app /Applications ../nymea-app-$${APP_VERSION}.pkg && cd .. &&
-osxinstaller.commands += productsign -s \"3rd Party Mac Developer Installer\" nymea-app-$${APP_VERSION}.pkg nymea-app-signed-$${APP_VERSION}.pkg
+osxinstaller.commands += productbuild --component $${APPLICATION_NAME}.app /Applications ../$${APPLICATION_NAME}-$${APP_VERSION}.pkg && cd .. &&
+osxinstaller.commands += productsign -s \"3rd Party Mac Developer Installer\" $${APPLICATION_NAME}-$${APP_VERSION}.pkg $${APPLICATION_NAME}-signed-$${APP_VERSION}.pkg
 QMAKE_EXTRA_TARGETS += osxinstaller
 
 # Generic linux desktop
