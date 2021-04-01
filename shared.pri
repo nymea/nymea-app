@@ -21,6 +21,12 @@ INCLUDEPATH += $${top_builddir}
 # On Windows, -Wall goes mental, so not using it there
 !win32:QMAKE_CXXFLAGS += -Wall
 
+equals(OVERLAY_PATH, "") {
+    PACKAGE_BASE_DIR = $$shell_path($$PWD/packaging)
+} else {
+    PACKAGE_BASE_DIR = $$shell_path($${OVERLAY_PATH}/packaging)
+}
+
 # As of Qt 5.15, lots of things are deprecated inside Qt in preparation for Qt6 but no replacement to actually fix those yet.
 linux:!android {
     QMAKE_CXXFLAGS += -Wno-deprecated-declarations -Wno-deprecated-copy
@@ -29,11 +35,7 @@ linux:!android {
 android: {
     QMAKE_CXXFLAGS += -Wno-deprecated-declarations
 
-    equals(OVERLAY_PATH, "") {
-        ANDROID_PACKAGE_SOURCE_DIR = $${top_srcdir}/packaging/android
-    } else {
-        ANDROID_PACKAGE_SOURCE_DIR = $${OVERLAY_PATH}/packaging/android
-    }
+    ANDROID_PACKAGE_SOURCE_DIR = $${PACKAGE_BASE_DIR}/android
     message("Android package directory: $${ANDROID_PACKAGE_SOURCE_DIR}")
 
     !no-firebase:DEFINES+=WITH_FIREBASE
@@ -41,4 +43,12 @@ android: {
 
 ios: {
     !no-firebase:DEFINES+=WITH_FIREBASE
+}
+
+macx: {
+    MACX_PACKAGE_DIR = $${PACKAGE_BASE_DIR}/osx/
+}
+
+win32: {
+    WIN_PACKAGE_DIR = $${PACKAGE_BASE_DIR}\windows
 }

@@ -92,17 +92,17 @@ macx: {
     QMAKE_TARGET_BUNDLE_PREFIX = io.nymea
     QMAKE_BUNDLE = nymeaApp.mac
 
-    plist.input = ../packaging/osx/Info.plist.in
+    plist.input = $${MACX_PACKAGE_DIR}/Info.plist.in
     plist.output = $$OUT_PWD/Info.plist
     QMAKE_SUBSTITUTES += plist
     QMAKE_INFO_PLIST = $$OUT_PWD/Info.plist
-    OTHER_FILES += ../packaging/osx/Info.plist.in \
-                   ../packaging/osx/nymea-app.entitlements
+    OTHER_FILES += $${MACX_PACKAGE_DIR}/Info.plist.in \
+                   $${MACX_PACKAGE_DIR}/$${APPLICATION_NAME}.entitlements
 
-    ICON = ../packaging/osx/AppIcon.icns
+    ICON = $${MACX_PACKAGE_DIR}/AppIcon.icns
 
     OSX_ENTITLEMENTS.name = CODE_SIGN_ENTITLEMENTS
-    OSX_ENTITLEMENTS.value = $$files($$PWD/../packaging/ios/nymea-app.entitlements)
+    OSX_ENTITLEMENTS.value = $$files($${MACX_PACKAGE_DIR}/$${APPLICATION_NAME}.entitlements)
     QMAKE_MAC_XCODE_SETTINGS += OSX_ENTITLEMENTS
 }
 

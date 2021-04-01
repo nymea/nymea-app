@@ -12,29 +12,24 @@ withtests: {
     tests.depends = libnymea-app
 }
 
-equals(OVERLAY_PATH, "") {
-    PACKAGE_BASE_DIR = $$shell_path($$PWD)\packaging
-} else {
-    PACKAGE_BASE_DIR = $${OVERLAY_PATH}\packaging
-}
-
 # Building a Windows installer:
 # Make sure your environment has the toolchain you want (e.g. msvc17 64 bit) by executing the command:
 # $ call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat"
 # $ make wininstaller
 wininstaller.depends = nymea-app
-PACKAGE_DIR = $${PACKAGE_BASE_DIR}\windows
+
+
 OLDSTRING="<Version>.*</Version>"
 NEWSTRING="<Version>$${APP_VERSION}</Version>"
-wininstaller.commands += @powershell -Command \"(gc $${PACKAGE_DIR}\packages\\$${PACKAGE_URN}\meta\package.xml) -replace \'$${OLDSTRING}\',\'$${NEWSTRING}\' | sc $${PACKAGE_DIR}\packages\\$${PACKAGE_URN}\meta\package.xml\" &&
-wininstaller.commands += rmdir /S /Q $${PACKAGE_DIR}\packages\\$${PACKAGE_URN}\data & mkdir $${PACKAGE_DIR}\packages\\$${PACKAGE_URN}\data &&
-wininstaller.commands += copy $${PACKAGE_DIR}\packages\\$${PACKAGE_URN}\meta\logo.ico $${PACKAGE_DIR}\packages\\$${PACKAGE_URN}\data\logo.ico &&
-CONFIG(debug,debug|release):wininstaller.commands += copy nymea-app\debug\\$${APPLICATION_NAME}.exe $${PACKAGE_DIR}\packages\\$${PACKAGE_URN}\data\\$${APPLICATION_NAME}.exe &&
-CONFIG(release,debug|release):wininstaller.commands += copy nymea-app\release\\$${APPLICATION_NAME}.exe $${PACKAGE_DIR}\packages\\$${PACKAGE_URN}\data\\$${APPLICATION_NAME}.exe &&
-wininstaller.commands += copy \"$${top_srcdir}\"\3rdParty\windows\windows_openssl\*.dll $${PACKAGE_DIR}\packages\\$${PACKAGE_URN}\data &&
-wininstaller.commands += windeployqt --compiler-runtime --qmldir \"$${top_srcdir}\"\nymea-app\ui $${PACKAGE_DIR}\packages\\$${PACKAGE_URN}\data\ &&
-wininstaller.commands += binarycreator -c $${PACKAGE_DIR}\config\config.xml -p $${PACKAGE_DIR}\packages\ $${PACKAGE_NAME}-installer-$${APP_VERSION}
-win32:message("Windows installer package directory: $${PACKAGE_DIR}")
+wininstaller.commands += @powershell -Command \"(gc $${WIN_PACKAGE_DIR}\packages\\$${PACKAGE_URN}\meta\package.xml) -replace \'$${OLDSTRING}\',\'$${NEWSTRING}\' | sc $${WIN_PACKAGE_DIR}\packages\\$${PACKAGE_URN}\meta\package.xml\" &&
+wininstaller.commands += rmdir /S /Q $${WIN_PACKAGE_DIR}\packages\\$${WIN_PACKAGE_URN}\data & mkdir $${WIN_PACKAGE_DIR}\packages\\$${PACKAGE_URN}\data &&
+wininstaller.commands += copy $${WIN_PACKAGE_DIR}\packages\\$${PACKAGE_URN}\meta\logo.ico $${WIN_PACKAGE_DIR}\packages\\$${PACKAGE_URN}\data\logo.ico &&
+CONFIG(debug,debug|release):wininstaller.commands += copy nymea-app\debug\\$${APPLICATION_NAME}.exe $${WIN_PACKAGE_DIR}\packages\\$${PACKAGE_URN}\data\\$${APPLICATION_NAME}.exe &&
+CONFIG(release,debug|release):wininstaller.commands += copy nymea-app\release\\$${APPLICATION_NAME}.exe $${WIN_PACKAGE_DIR}\packages\\$${PACKAGE_URN}\data\\$${APPLICATION_NAME}.exe &&
+wininstaller.commands += copy \"$${top_srcdir}\"\3rdParty\windows\windows_openssl\*.dll $${WIN_PACKAGE_DIR}\packages\\$${PACKAGE_URN}\data &&
+wininstaller.commands += windeployqt --compiler-runtime --qmldir \"$${top_srcdir}\"\nymea-app\ui $${WIN_PACKAGE_DIR}\packages\\$${WIN_PACKAGE_URN}\data\ &&
+wininstaller.commands += binarycreator -c $${WIN_PACKAGE_DIR}\config\config.xml -p $${WIN_PACKAGE_DIR}\packages\ $${PACKAGE_NAME}-$${APP_VERSION}
+win32:message("Windows installer package directory: $${WIN_PACKAGE_DIR}")
 QMAKE_EXTRA_TARGETS += wininstaller
 
 
@@ -46,17 +41,20 @@ QMAKE_EXTRA_TARGETS += wininstaller
 # and we're using the WebView instead anyways. (IMHO a bug that macdeployqt -appstore-compliant even adds it)
 osxbundle.depends = nymea-app
 osxbundle.commands += cd nymea-app && rm -f ../*.dmg ../*pkg *.dmg || true &&
-osxbundle.commands += hdiutil eject /Volumes/nymea-app || true &&
-osxbundle.commands += macdeployqt nymea-app.app -appstore-compliant -qmldir=$$top_srcdir/nymea-app/ui -dmg &&
-osxbundle.commands += rm -r nymea-app.app/Contents/Frameworks/QtWebEngineCore.framework &&
-osxbundle.commands += codesign -s \"3rd Party Mac Developer Application\" --entitlements $$top_srcdir/packaging/osx/nymea-app.entitlements --deep nymea-app.app &&
-osxbundle.commands += hdiutil convert nymea-app.dmg -format UDRW -o nymea-app_writable.dmg &&
-osxbundle.commands += hdiutil attach -readwrite -noverify nymea-app_writable.dmg && sleep 2 &&
-osxbundle.commands += mv /Volumes/nymea-app/nymea-app.app /Volumes/nymea-app/nymea\:app.app &&
-osxbundle.commands += tar -xpf $$top_srcdir/packaging/osx/template.tar -C /Volumes/nymea-app/ &&
-osxbundle.commands += hdiutil eject /Volumes/nymea-app &&
-osxbundle.commands += hdiutil convert nymea-app_writable.dmg -format UDRO -o ../nymea-app-osx-bundle-$${APP_VERSION}.dmg &&
-osxbundle.commands += rm nymea-app.dmg nymea-app_writable.dmg
+osxbundle.commands += hdiutil eject /Volumes/$${APPLICATION_NAME} || true &&
+osxbundle.commands += echo "Creating bundle" &&
+osxbundle.commands += macdeployqt $${APPLICATION_NAME}.app -appstore-compliant -qmldir=$$top_srcdir/nymea-app/ui -dmg &&
+osxbundle.commands += echo "Removing QtWebEngineCore from bundle" &&
+osxbundle.commands += rm -r $${APPLICATION_NAME}.app/Contents/Frameworks/QtWebEngineCore.framework &&
+osxbundle.commands += echo "Signing application bundle" &&
+osxbundle.commands += codesign -s \"3rd Party Mac Developer Application\" --entitlements $${MACX_PACKAGE_DIR}/$${APPLICATION_NAME}.entitlements --deep $${APPLICATION_NAME}.app &&
+osxbundle.commands += echo "converting to writable bundle" &&
+osxbundle.commands += hdiutil convert $${APPLICATION_NAME}.dmg -format UDRW -o $${APPLICATION_NAME}_writable.dmg &&
+osxbundle.commands += hdiutil attach -readwrite -noverify $${APPLICATION_NAME}_writable.dmg && sleep 2 &&
+osxbundle.commands += tar -xpf $${MACX_PACKAGE_DIR}/template.tar -C /Volumes/$${APPLICATION_NAME}/ &&
+osxbundle.commands += hdiutil eject /Volumes/$${APPLICATION_NAME} &&
+osxbundle.commands += hdiutil convert $${APPLICATION_NAME}_writable.dmg -format UDRO -o ../$${APPLICATION_NAME}-osx-bundle-$${APP_VERSION}.dmg &&
+osxbundle.commands += rm $${APPLICATION_NAME}.dmg #$${APPLICATION_NAME}_writable.dmg
 QMAKE_EXTRA_TARGETS += osxbundle
 
 # Create a .pkg osx installer.
