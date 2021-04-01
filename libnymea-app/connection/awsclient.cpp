@@ -930,16 +930,16 @@ bool AWSClient::postToMQTT(const QString &coreId, const QString &nonce, QObject*
     // Workaround MQTT broker url weirdness as described above
     request.setUrl("https://" + m_configs.value(m_usedConfig).mqttEndpoint + path1);
 
-    qCDebug(dcCloud()) << "Posting to MQTT:" << request.url().toString();
-//    qDebug() << "HEADERS:";
+    qCInfo(dcCloud) << "Posting to MQTT:" << request.url().toString();
+//    qCDebug(dcCloud) << "HEADERS:";
 //    foreach (const QByteArray &headerName, request.rawHeaderList()) {
-//        qDebug() << headerName << ":" << request.rawHeader(headerName);
+//        qCDebug(dcCloud) << headerName << ":" << request.rawHeader(headerName);
 //    }
-//    qDebug() << "Payload:" << payload;
+    qCDebug(dcCloud) << "Payload:" << payload;
     QNetworkReply *reply = m_nam->post(request, payload);
     QTimer::singleShot(5000, reply, [reply, senderWatcher, callback](){
         reply->deleteLater();
-        qWarning() << "Timeout posting to MQTT";
+        qCWarning(dcCloud) << "Timeout posting to MQTT";
         if (senderWatcher) {
             callback(false);
         }
@@ -953,14 +953,14 @@ bool AWSClient::postToMQTT(const QString &coreId, const QString &nonce, QObject*
             return;
         }
         if (reply->error() != QNetworkReply::NoError) {
-            qCWarning(dcCloud()) << "MQTT Network reply error" << reply->error() << reply->errorString();
+            qCWarning(dcCloud()) << "MQTT Network reply error" << reply->error() << reply->errorString() << qUtf8Printable(data);
             callback(false);
             return;
         }
         QJsonParseError error;
         QJsonDocument jsonDoc = QJsonDocument::fromJson(data, &error);
         if (error.error != QJsonParseError::NoError) {
-            qCWarning(dcCloud()) << "Failed to parse MQTT reply" << error.error << error.errorString() << data;
+            qCWarning(dcCloud()) << "Failed to parse MQTT reply" << error.error << error.errorString() << qUtf8Printable(data);
             callback(false);
             return;
         }
@@ -1005,6 +1005,11 @@ void AWSClient::fetchDevices()
         QByteArray data = reply->readAll();
         if (reply->error() != QNetworkReply::NoError) {
             qCWarning(dcCloud()) << "Error fetching cloud devices:" << reply->error() << reply->errorString() << qUtf8Printable(data);
+            if (reply->error() == QNetworkReply::AuthenticationRequiredError) {
+                qCInfo(dcCloud()) << "Trying to refresh access token";
+                refreshAccessToken();
+                QueuedCall::enqueue(m_callQueue, QueuedCall("fetchDevices"));
+            }
             return;
         }
         QJsonParseError error;
