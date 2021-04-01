@@ -16,21 +16,22 @@ withtests: {
 # Make sure your environment has the toolchain you want (e.g. msvc17 64 bit) by executing the command:
 # $ call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat"
 # $ make wininstaller
-wininstaller.depends = nymea-app
+win32: {
+    wininstaller.depends = nymea-app
 
-
-OLDSTRING="<Version>.*</Version>"
-NEWSTRING="<Version>$${APP_VERSION}</Version>"
-wininstaller.commands += @powershell -Command \"(gc $${WIN_PACKAGE_DIR}\packages\\$${PACKAGE_URN}\meta\package.xml) -replace \'$${OLDSTRING}\',\'$${NEWSTRING}\' | sc $${WIN_PACKAGE_DIR}\packages\\$${PACKAGE_URN}\meta\package.xml\" &&
-wininstaller.commands += rmdir /S /Q $${WIN_PACKAGE_DIR}\packages\\$${PACKAGE_URN}\data & mkdir $${WIN_PACKAGE_DIR}\packages\\$${PACKAGE_URN}\data &&
-wininstaller.commands += copy $${WIN_PACKAGE_DIR}\packages\\$${PACKAGE_URN}\meta\logo.ico $${WIN_PACKAGE_DIR}\packages\\$${PACKAGE_URN}\data\logo.ico &&
-CONFIG(debug,debug|release):wininstaller.commands += copy nymea-app\debug\\$${APPLICATION_NAME}.exe $${WIN_PACKAGE_DIR}\packages\\$${PACKAGE_URN}\data\\$${APPLICATION_NAME}.exe &&
-CONFIG(release,debug|release):wininstaller.commands += copy nymea-app\release\\$${APPLICATION_NAME}.exe $${WIN_PACKAGE_DIR}\packages\\$${PACKAGE_URN}\data\\$${APPLICATION_NAME}.exe &&
-wininstaller.commands += copy \"$${top_srcdir}\"\3rdParty\windows\windows_openssl\*.dll $${WIN_PACKAGE_DIR}\packages\\$${PACKAGE_URN}\data &&
-wininstaller.commands += windeployqt --compiler-runtime --qmldir \"$${top_srcdir}\"\nymea-app\ui $${WIN_PACKAGE_DIR}\packages\\$${PACKAGE_URN}\data\ &&
-wininstaller.commands += binarycreator -c $${WIN_PACKAGE_DIR}\config\config.xml -p $${WIN_PACKAGE_DIR}\packages\ $${PACKAGE_NAME}-$${APP_VERSION}
-win32:message("Windows installer package directory: $${WIN_PACKAGE_DIR}")
-QMAKE_EXTRA_TARGETS += wininstaller
+    OLDSTRING="<Version>.*</Version>"
+    NEWSTRING="<Version>$${APP_VERSION}</Version>"
+    wininstaller.commands += @powershell -Command \"(gc $${WIN_PACKAGE_DIR}\packages\\$${PACKAGE_URN}\meta\package.xml) -replace \'$${OLDSTRING}\',\'$${NEWSTRING}\' | sc $${WIN_PACKAGE_DIR}\packages\\$${PACKAGE_URN}\meta\package.xml\" &&
+    wininstaller.commands += rmdir /S /Q $${WIN_PACKAGE_DIR}\packages\\$${PACKAGE_URN}\data & mkdir $${WIN_PACKAGE_DIR}\packages\\$${PACKAGE_URN}\data &&
+    wininstaller.commands += copy $${WIN_PACKAGE_DIR}\packages\\$${PACKAGE_URN}\meta\logo.ico $${WIN_PACKAGE_DIR}\packages\\$${PACKAGE_URN}\data\logo.ico &&
+    CONFIG(debug,debug|release):wininstaller.commands += copy nymea-app\debug\\$${APPLICATION_NAME}.exe $${WIN_PACKAGE_DIR}\packages\\$${PACKAGE_URN}\data\\$${APPLICATION_NAME}.exe &&
+    CONFIG(release,debug|release):wininstaller.commands += copy nymea-app\release\\$${APPLICATION_NAME}.exe $${WIN_PACKAGE_DIR}\packages\\$${PACKAGE_URN}\data\\$${APPLICATION_NAME}.exe &&
+    wininstaller.commands += copy \"$${top_srcdir}\"\3rdParty\windows\windows_openssl\*.dll $${WIN_PACKAGE_DIR}\packages\\$${PACKAGE_URN}\data &&
+    wininstaller.commands += windeployqt --compiler-runtime --qmldir \"$${top_srcdir}\"\nymea-app\ui $${WIN_PACKAGE_DIR}\packages\\$${PACKAGE_URN}\data\ &&
+    wininstaller.commands += binarycreator -c $${WIN_PACKAGE_DIR}\config\config.xml -p $${WIN_PACKAGE_DIR}\packages\ $${PACKAGE_NAME}-$${APP_VERSION}
+    message("Windows installer package directory: $${WIN_PACKAGE_DIR}")
+    QMAKE_EXTRA_TARGETS += wininstaller
+}
 
 
 
