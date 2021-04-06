@@ -174,6 +174,9 @@ QStringList AppLogController::logFiles() const
 
 QString AppLogController::exportLogs()
 {
+    if (m_logFile.isOpen()) {
+        m_logFile.flush();
+    }
     QFile f(logPath() + "/" + QGuiApplication::applicationName() + "-logs.txt");
     if (!f.open(QFile::WriteOnly)) {
         return QString();
@@ -183,6 +186,7 @@ QString AppLogController::exportLogs()
         if (!l.open(QFile::ReadOnly)) {
             continue;
         }
+        l.seek(0);
         f.write("\n******** App start ********\n");
         f.write(logFile.toUtf8() + "\n");
         f.write(l.readAll());
