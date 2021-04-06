@@ -1,3 +1,10 @@
+nymea-app (1.0.298) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix log exporting
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 06 Apr 2021 13:13:07 +0200
+
 nymea-app (1.0.297) bionic; urgency=medium
 
   [ Michael Zanetti ]
