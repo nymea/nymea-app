@@ -1,3 +1,10 @@
+nymea-app (1.0.299) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix windows package
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 07 Apr 2021 20:41:24 +0200
+
 nymea-app (1.0.298) bionic; urgency=medium
 
   [ Michael Zanetti ]
