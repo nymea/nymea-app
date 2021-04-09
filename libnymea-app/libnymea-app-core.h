@@ -128,6 +128,7 @@
 #include "zigbee/zigbeenetwork.h"
 #include "zigbee/zigbeenetworks.h"
 #include "applogcontroller.h"
+#include "tagwatcher.h"
 
 #include <QtQml/qqml.h>
 
@@ -266,6 +267,7 @@ void registerQmlTypes() {
     qmlRegisterType<TagsProxyModel>(uri, 1, 0, "TagsProxyModel");
     qmlRegisterType<TagListModel>(uri, 1, 0, "TagListModel");
     qmlRegisterType<TagListProxyModel>(uri, 1, 0, "TagListProxyModel");
+    qmlRegisterType<TagWatcher>(uri, 1, 0, "TagWatcher");
 
     qmlRegisterType<BtWiFiSetup>(uri, 1, 0, "BtWiFiSetup");
     qmlRegisterType<BluetoothDiscovery>(uri, 1, 0, "BluetoothDiscovery");

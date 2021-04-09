@@ -21,6 +21,7 @@ INCLUDEPATH += \
 
 SOURCES += \
     $$PWD/models/scriptsproxymodel.cpp \
+    $$PWD/tagwatcher.cpp \
     $${PWD}/logging.cpp \
     $${PWD}/applogcontroller.cpp \
     $${PWD}/wifisetup/btwifisetup.cpp \
@@ -167,6 +168,7 @@ SOURCES += \
 
 HEADERS += \
     $$PWD/models/scriptsproxymodel.h \
+    $$PWD/tagwatcher.h \
     $${PWD}/logging.h \
     $${PWD}/applogcontroller.h \
     $${PWD}/wifisetup/btwifisetup.h \

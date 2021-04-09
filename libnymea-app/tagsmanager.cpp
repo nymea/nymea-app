@@ -34,9 +34,6 @@
 
 #include <QJsonDocument>
 
-#include "logging.h"
-NYMEA_LOGGING_CATEGORY(dcTags, "Tags")
-
 TagsManager::TagsManager(JsonRpcClient *jsonClient, QObject *parent):
     JsonHandler(parent),
     m_jsonClient(jsonClient),

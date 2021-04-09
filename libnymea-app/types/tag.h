@@ -33,6 +33,9 @@
 
 #include <QObject>
 #include <QUuid>
+#include <QLoggingCategory>
+
+Q_DECLARE_LOGGING_CATEGORY(dcTags)
 
 class Tag : public QObject
 {

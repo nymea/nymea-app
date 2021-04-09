@@ -32,6 +32,9 @@
 
 #include <QDebug>
 
+#include "logging.h"
+NYMEA_LOGGING_CATEGORY(dcTags, "Tags")
+
 Tag::Tag(const QString &tagId, const QString &value, QObject *parent):
     QObject(parent),
     m_tagId(tagId),
