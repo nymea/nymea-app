@@ -1,3 +1,11 @@
+nymea-app (1.0.300) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Added a TagWatcher component
+  * Convert some old debug prints to new ones
+
+ -- Jenkins <jenkins@nymea.io>  Sat, 10 Apr 2021 00:29:31 +0200
+
 nymea-app (1.0.299) bionic; urgency=medium
 
   [ Michael Zanetti ]
