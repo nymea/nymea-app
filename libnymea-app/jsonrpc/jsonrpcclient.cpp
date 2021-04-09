@@ -524,7 +524,7 @@ void JsonRpcClient::onInterfaceConnectedChanged(bool connected)
 {
 
     if (!connected) {
-        qDebug() << "JsonRpcClient: Transport disconnected.";
+        qCDebug(dcJsonRpc()) << "JsonRpcClient: Transport disconnected.";
         m_initialSetupRequired = false;
         m_authenticationRequired = false;
         m_authenticated = false;
@@ -535,7 +535,7 @@ void JsonRpcClient::onInterfaceConnectedChanged(bool connected)
             emit connectedChanged(false);
         }
     } else {
-        qDebug() << "JsonRpcClient: Transport connected. Starting handshake.";
+        qCInfo(dcJsonRpc()) << "JsonRpcClient: Transport connected. Starting handshake.";
         // Clear anything that might be left in the buffer from a previous connection.
         m_receiveBuffer.clear();
         QVariantMap params;
@@ -652,17 +652,17 @@ void JsonRpcClient::helloReply(int /*commandId*/, const QVariantMap &params)
 
     m_jsonRpcVersion = QVersionNumber::fromString(protoVersionString);
 
-    qDebug() << "Handshake reply:" << "Protocol version:" << protoVersionString << "InitRequired:" << m_initialSetupRequired << "AuthRequired:" << m_authenticationRequired << "PushButtonAvailable:" << m_pushButtonAuthAvailable;;
+    qCInfo(dcJsonRpc()) << "Handshake reply:" << "Protocol version:" << protoVersionString << "InitRequired:" << m_initialSetupRequired << "AuthRequired:" << m_authenticationRequired << "PushButtonAvailable:" << m_pushButtonAuthAvailable;;
 
     QVersionNumber minimumRequiredVersion = QVersionNumber(5, 0);
     QVersionNumber maximumMajorVersion = QVersionNumber(5);
     if (m_jsonRpcVersion < minimumRequiredVersion) {
-        qWarning() << "Nymea core doesn't support minimum required version. Required:" << minimumRequiredVersion << "Found:" << m_jsonRpcVersion;
+        qCWarning(dcJsonRpc()) << "Nymea core doesn't support minimum required version. Required:" << minimumRequiredVersion << "Found:" << m_jsonRpcVersion;
         emit invalidMinimumVersion(m_jsonRpcVersion.toString(), minimumRequiredVersion.toString());
         return;
     }
     if (m_jsonRpcVersion.majorVersion() > maximumMajorVersion.majorVersion()) {
-        qWarning() << "Nymea core has breaking API changes not supported by this app version. Core major version:" << m_jsonRpcVersion.majorVersion() << "Maximum supported major version:" << maximumMajorVersion.majorVersion();
+        qCWarning(dcJsonRpc()) << "Nymea core has breaking API changes not supported by this app version. Core major version:" << m_jsonRpcVersion.majorVersion() << "Maximum supported major version:" << maximumMajorVersion.majorVersion();
         emit invalidMaximumVersion(m_jsonRpcVersion.toString(), QString("%1.x").arg(maximumMajorVersion.majorVersion()));
         return;
     }
@@ -673,7 +673,7 @@ void JsonRpcClient::helloReply(int /*commandId*/, const QVariantMap &params)
         QByteArray oldPem;
         QSslCertificate certificate = m_connection->sslCertificate();
         if (!loadPem(m_serverUuid, oldPem)) {
-            qDebug() << "No SSL certificate for this host stored. Accepting and pinning new certificate.";
+            qCInfo(dcJsonRpc()) << "No SSL certificate for this host stored. Accepting and pinning new certificate.";
             // No certificate yet! Inform ui about it.
             emit newSslCertificate();
             storePem(m_serverUuid, m_connection->sslCertificate().toPem());
@@ -681,9 +681,9 @@ void JsonRpcClient::helloReply(int /*commandId*/, const QVariantMap &params)
             // We have a certificate pinned already. Check if it's the same
             if (certificate.toPem() != oldPem) {
                 // Uh oh, the certificate has changed
-                qWarning() << "This connections certificate has changed!";
-                qWarning() << "Old PEM:" << oldPem;
-                qWarning() << "New PEM:" << certificate.toPem();
+                qCWarning(dcJsonRpc()) << "This connections certificate has changed!";
+                qCWarning(dcJsonRpc()) << "Old PEM:" << oldPem;
+                qCWarning(dcJsonRpc()) << "New PEM:" << certificate.toPem();
 
                 // Extract certificate info before disconnecting.
                 QVariantMap issuerInfo = certificateIssuerInfo();
@@ -694,12 +694,12 @@ void JsonRpcClient::helloReply(int /*commandId*/, const QVariantMap &params)
                 emit verifyConnectionCertificate(m_serverUuid, issuerInfo, certificate.toPem());
                 return;
             }
-            qDebug() << "This connections certificate is trusted.";
+            qCInfo(dcJsonRpc()) << "This connections certificate is trusted.";
         }
     }
 
     m_cacheHashes.clear();
-    qDebug() << "Hello reply:" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson());
+    qCDebug(dcJsonRpc()) << "Hello reply:" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson());
     QVariantList cacheHashes = params.value("cacheHashes").toList();
     foreach (const QVariant &cacheHash, cacheHashes) {
         m_cacheHashes.insert(cacheHash.toMap().value("method").toString(), cacheHash.toMap().value("hash").toString());
@@ -709,11 +709,12 @@ void JsonRpcClient::helloReply(int /*commandId*/, const QVariantMap &params)
     emit handshakeReceived();
 
     if (m_connection->currentHost()->uuid().isNull()) {
-        qDebug() << "Updating Server UUID in connection:" << m_connection->currentHost()->uuid().toString() << "->" << m_serverUuid;
+        qCDebug(dcJsonRpc()) << "Updating Server UUID in connection:" << m_connection->currentHost()->uuid().toString() << "->" << m_serverUuid;
         m_connection->currentHost()->setUuid(m_serverUuid);
     }
 
     if (m_initialSetupRequired) {
+        qCInfo(dcJsonRpc()) << "Initial setup is required for this nymea instance!";
         emit initialSetupRequiredChanged();
         return;
     }
@@ -730,6 +731,7 @@ void JsonRpcClient::helloReply(int /*commandId*/, const QVariantMap &params)
         }
 
         m_authenticated = true;
+        qCInfo(dcJsonRpc()) << "Authenticated to nymea instance.";
         emit authenticatedChanged();
     }
 
