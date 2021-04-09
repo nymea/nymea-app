@@ -130,6 +130,36 @@ void ThingClassesProxy::setFilterString(const QString &filterString)
     }
 }
 
+QList<QUuid> ThingClassesProxy::shownThingClassIds() const
+{
+    return m_shownThingClassIds;
+}
+
+void ThingClassesProxy::setShownThingClassIds(const QList<QUuid> &shownThingClassIds)
+{
+    if (m_shownThingClassIds != shownThingClassIds) {
+        m_shownThingClassIds = shownThingClassIds;
+        emit shownThingClassIdsChanged();
+        invalidateFilter();
+        emit countChanged();
+    }
+}
+
+QList<QUuid> ThingClassesProxy::hiddenThingClassIds() const
+{
+    return m_hiddenThingClassIds;
+}
+
+void ThingClassesProxy::setHiddenThingClassIds(const QList<QUuid> &hiddenThingClassIds)
+{
+    if (m_hiddenThingClassIds != hiddenThingClassIds) {
+        m_hiddenThingClassIds = hiddenThingClassIds;
+        emit hiddenThingClassIdsChanged();
+        invalidateFilter();
+        emit countChanged();
+    }
+}
+
 bool ThingClassesProxy::groupByInterface() const
 {
     return m_groupByInterface;
@@ -190,6 +220,14 @@ bool ThingClassesProxy::filterAcceptsRow(int sourceRow, const QModelIndex &sourc
         if (!vendor->displayName().toLower().contains(m_filterVendorName.toLower())) {
             return false;
         }
+    }
+
+    if (!m_shownThingClassIds.isEmpty() && !m_shownThingClassIds.contains(thingClass->id())) {
+        return false;
+    }
+
+    if (!m_hiddenThingClassIds.isEmpty() && m_hiddenThingClassIds.contains(thingClass->id())) {
+        return false;
     }
 
     if (!m_filterString.isEmpty()) {

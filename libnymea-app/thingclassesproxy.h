@@ -50,6 +50,9 @@ class ThingClassesProxy : public QSortFilterProxyModel
     Q_PROPERTY(QUuid filterVendorId READ filterVendorId WRITE setFilterVendorId NOTIFY filterVendorIdChanged)
     Q_PROPERTY(QString filterVendorName READ filterVendorName WRITE setFilterVendorName NOTIFY filterVendorNameChanged)
 
+    Q_PROPERTY(QList<QUuid> shownThingClassIds READ shownThingClassIds WRITE setShownThingClassIds NOTIFY shownThingClassIdsChanged)
+    Q_PROPERTY(QList<QUuid> hiddenThingClassIds READ hiddenThingClassIds WRITE setHiddenThingClassIds NOTIFY hiddenThingClassIdsChanged)
+
     // Filters by thingClass' displayName or vendor's displayName
     Q_PROPERTY(QString filterString READ filterString WRITE setFilterString NOTIFY filterStringChanged)
 
@@ -76,6 +79,12 @@ public:
     QString filterString() const;
     void setFilterString(const QString &filterString);
 
+    QList<QUuid> shownThingClassIds() const;
+    void setShownThingClassIds(const QList<QUuid> &shownThingClassIds);
+
+    QList<QUuid> hiddenThingClassIds() const;
+    void setHiddenThingClassIds(const QList<QUuid> &hiddenThingClassIds);
+
     bool groupByInterface() const;
     void setGroupByInterface(bool groupByInterface);
 
@@ -90,6 +99,8 @@ signals:
     void filterVendorIdChanged();
     void filterVendorNameChanged();
     void filterStringChanged();
+    void shownThingClassIdsChanged();
+    void hiddenThingClassIdsChanged();
     void groupByInterfaceChanged();
     void countChanged();
 
@@ -103,6 +114,8 @@ private:
     QString m_filterDisplayName;
     QUuid m_filterVendorId;
     QString m_filterVendorName;
+    QList<QUuid> m_hiddenThingClassIds;
+    QList<QUuid> m_shownThingClassIds;
     QString m_filterString;
     bool m_groupByInterface = false;
 };
