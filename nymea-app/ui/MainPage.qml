@@ -613,8 +613,8 @@ Page {
                     }
                 }
                 ColorIcon {
-                    Layout.preferredHeight: app.iconSize
-                    Layout.preferredWidth: app.iconSize
+                    Layout.preferredHeight: Style.iconSize
+                    Layout.preferredWidth: Style.iconSize
                     name: engine.jsonRpcClient.currentConnection.secure ? "../images/lock-closed.svg" : "../images/lock-open.svg"
                     MouseArea {
                         anchors.fill: parent

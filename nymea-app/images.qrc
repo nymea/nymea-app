@@ -79,7 +79,6 @@
         <file>ui/images/filters.svg</file>
         <file>ui/images/find.svg</file>
         <file>ui/images/fingerprint.svg</file>
-        <file>ui/images/go-down.svg</file>
         <file>ui/images/nymea-logo.svg</file>
         <file>ui/images/info.svg</file>
         <file>ui/images/light-off.svg</file>
@@ -257,5 +256,6 @@
         <file>ui/images/zigbee/deCONZ.svg</file>
         <file>ui/images/zigbee/NXP.svg</file>
         <file>ui/images/nymea-splash.svg</file>
+        <file>ui/images/cleaning-robot.svg</file>
     </qresource>
 </RCC>

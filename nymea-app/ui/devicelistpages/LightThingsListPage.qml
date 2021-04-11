@@ -136,8 +136,8 @@ ThingsListPageBase {
 
                                 ColorIcon {
                                     id: lightIcon
-                                    Layout.preferredHeight: app.iconSize
-                                    Layout.preferredWidth: app.iconSize
+                                    Layout.preferredHeight: Style.iconSize
+                                    Layout.preferredWidth: Style.iconSize
                                     name: itemDelegate.powerState.value === true ? "../images/light-on.svg" : "../images/light-off.svg"
                                     color: itemDelegate.powerState.value === true ? Style.accentColor : Style.iconColor
                                     Binding {

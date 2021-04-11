@@ -49,7 +49,7 @@ Rectangle {
         width: parent.width
 
         ColorIcon {
-            height: app.iconSize * 3
+            height: Style.iconSize * 3
             width: height
             Layout.alignment: Qt.AlignHCenter
             name: Qt.resolvedUrl("../images/system-update.svg")

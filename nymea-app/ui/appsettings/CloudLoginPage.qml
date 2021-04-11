@@ -95,7 +95,7 @@ SettingsPageBase {
             }
             BusyIndicator {
                 running: AWSClient.awsDevices.busy
-                height: app.iconSize
+                height: Style.iconSize
                 width: height
             }
         }

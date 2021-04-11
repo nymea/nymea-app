@@ -64,11 +64,11 @@ ColumnLayout {
     }
     Image {
         id: image
-        Layout.preferredWidth: app.iconSize * 5
+        Layout.preferredWidth: Style.iconSize * 5
         Layout.preferredHeight: width
         Layout.alignment: Qt.AlignHCenter
-        sourceSize.width: app.iconSize * 5
-        sourceSize.height: app.iconSize * 5
+        sourceSize.width: Style.iconSize * 5
+        sourceSize.height: Style.iconSize * 5
         MouseArea {
             anchors.fill: parent
             onClicked: root.imageClicked();

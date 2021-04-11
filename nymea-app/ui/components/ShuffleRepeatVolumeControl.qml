@@ -47,7 +47,7 @@ RowLayout {
     property State muteState: thing.stateByName("mute")
 
     Item {
-        Layout.preferredHeight: app.iconSize
+        Layout.preferredHeight: Style.iconSize
         Layout.fillWidth: true
         visible: root.repeatState !== null
 
@@ -68,7 +68,7 @@ RowLayout {
     }
 
     Item {
-        Layout.preferredHeight: app.iconSize
+        Layout.preferredHeight: Style.iconSize
         Layout.fillWidth: true
         visible: root.shuffleState !== null
 

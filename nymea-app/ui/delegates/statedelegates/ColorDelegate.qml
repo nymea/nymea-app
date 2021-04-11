@@ -37,8 +37,8 @@ import "../../components"
 
 Item {
     id: colorComponentItem
-    implicitWidth: app.iconSize * 2
-    implicitHeight: app.iconSize
+    implicitWidth: Style.iconSize * 2
+    implicitHeight: Style.iconSize
     property bool writable: false
     property var value
     signal changed(var value)

@@ -55,11 +55,11 @@ Dialog {
         ThinDivider {}
         ListView {
             Layout.fillWidth: true
-            Layout.preferredHeight: app.iconSize * Math.min(count, 5)
+            Layout.preferredHeight: Style.iconSize * Math.min(count, 5)
             model: rulesList
             interactive: contentHeight > height
             delegate: Label {
-                height: app.iconSize
+                height: Style.iconSize
                 width: parent.width
                 elide: Text.ElideRight
                 text: engine.ruleManager.rules.getRule(modelData).name

@@ -82,7 +82,7 @@ Page {
                 spacing: app.margins * 2
 
                 ColorIcon {
-                    Layout.preferredHeight: app.iconSize * 4
+                    Layout.preferredHeight: Style.iconSize * 4
                     Layout.preferredWidth: height
                     Layout.alignment: Qt.AlignHCenter
                     name: "../images/system-update.svg"
@@ -124,7 +124,7 @@ Page {
                 spacing: app.margins
 
                 ColorIcon {
-                    Layout.preferredHeight: app.iconSize * 2
+                    Layout.preferredHeight: Style.iconSize * 2
                     Layout.preferredWidth: height
                     name: "../images/system-update.svg"
                     color: Style.accentColor
@@ -316,8 +316,8 @@ Page {
                     Layout.margins: app.margins
                     spacing: app.margins
                     ColorIcon {
-                        Layout.preferredHeight: app.iconSize * 2
-                        Layout.preferredWidth: app.iconSize * 2
+                        Layout.preferredHeight: Style.iconSize * 2
+                        Layout.preferredWidth: Style.iconSize * 2
                         name: "../images/plugin.svg"
                         color: Style.accentColor
                     }

@@ -69,7 +69,7 @@ Dialog {
             spacing: app.margins
             ColorIcon {
                 id: headerColorIcon
-                Layout.preferredHeight: app.hugeIconSize
+                Layout.preferredHeight: Style.hugeIconSize
                 Layout.preferredWidth: height
                 color: Style.accentColor
                 visible: name.length > 0

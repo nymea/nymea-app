@@ -118,8 +118,8 @@ ThingsListPageBase {
                         spacing: app.margins
 
                         ColorIcon {
-                            Layout.preferredHeight: app.iconSize
-                            Layout.preferredWidth: app.iconSize
+                            Layout.preferredHeight: Style.iconSize
+                            Layout.preferredWidth: Style.iconSize
                             color: itemDelegate.movingState && itemDelegate.movingState.value === true
                                    ? Style.accentColor
                                    : Style.iconColor

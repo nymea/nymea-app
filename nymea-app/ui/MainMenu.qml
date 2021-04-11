@@ -38,9 +38,9 @@ Drawer {
                 spacing: app.margins
 
                 Image {
-                    Layout.preferredHeight: app.hugeIconSize
+                    Layout.preferredHeight: Style.hugeIconSize
                     // w : h = ss.w : ss.h
-                    Layout.preferredWidth: app.hugeIconSize * sourceSize.width / sourceSize.height
+                    Layout.preferredWidth: Style.hugeIconSize * sourceSize.width / sourceSize.height
                     source: "qrc:/styles/%1/logo-wide.svg".arg(styleController.currentStyle)
                 }
 

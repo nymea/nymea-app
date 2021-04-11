@@ -65,16 +65,16 @@ Item {
             KeypadButton {
                 id: backButton
                 anchors { left: parent.left; top: parent.top; margins: parent.width * .1 }
-                height: app.iconSize
-                width: app.iconSize
+                height: Style.iconSize
+                width: Style.iconSize
                 imageSource: "../images/back.svg"
                 Item { id: backButtonArea; anchors.centerIn: parent; width: pane.width / 4; height: width; rotation: 45; }
             }
             KeypadButton {
                 id: menuButton
                 anchors { right: parent.right; top: parent.top; margins: parent.width * .1 }
-                height: app.iconSize
-                width: app.iconSize
+                height: Style.iconSize
+                width: Style.iconSize
                 visible: root.thing.thingClass.interfaces.indexOf("extendednavigationpad") >= 0
                 imageSource: "../images/navigation-menu.svg"
                 Item { id: menuButtonArea; anchors.centerIn: parent; width: pane.width / 4; height: width; rotation: 45 }
@@ -82,8 +82,8 @@ Item {
             KeypadButton {
                 id: homeButton
                 anchors { left: parent.left; bottom: parent.bottom; margins: parent.width * .1 }
-                height: app.iconSize
-                width: app.iconSize
+                height: Style.iconSize
+                width: Style.iconSize
                 imageSource: "../images/home.svg"
                 visible: root.thing.thingClass.interfaces.indexOf("extendednavigationpad") >= 0
                 Item { id: homeButtonArea; anchors.centerIn: parent; width: pane.width / 4; height: width; rotation: 45 }
@@ -91,8 +91,8 @@ Item {
             KeypadButton {
                 id: infoButton
                 anchors { right: parent.right; bottom: parent.bottom; margins: parent.width * .1 }
-                height: app.iconSize
-                width: app.iconSize
+                height: Style.iconSize
+                width: Style.iconSize
                 imageSource: "../images/info.svg"
                 visible: root.thing.thingClass.interfaces.indexOf("extendednavigationpad") >= 0
                 Item { id: infoButtonArea; anchors.centerIn: parent; width: pane.width / 4; height: width; rotation: 45 }
@@ -100,8 +100,8 @@ Item {
             Rectangle {
                 id: enterButton
                 anchors.centerIn: parent
-                height: app.iconSize
-                width: app.iconSize
+                height: Style.iconSize
+                width: Style.iconSize
                 radius: width / 2
                 border.color: t.running ? Style.accentColor : "#808080"
                 Behavior on border.color { ColorAnimation { duration: 200 } }
@@ -123,7 +123,7 @@ Item {
 
                 Column {
                     height: parent.height * .8
-                    width: app.iconSize
+                    width: Style.iconSize
                     anchors.centerIn: parent
                     rotation: index * 90
 
@@ -161,7 +161,7 @@ Item {
                         id: childRepeater
                         model: 3
                         KeypadButton {
-                            height: app.iconSize
+                            height: Style.iconSize
                             width: height
                             imageSource: "../images/up.svg"
                         }

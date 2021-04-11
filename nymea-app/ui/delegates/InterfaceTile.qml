@@ -269,6 +269,7 @@ MainPageTile {
 
         RowLayout {
             Layout.fillWidth: true
+            spacing: 0
 
             Item { Layout.fillWidth: true; Layout.fillHeight: true }
 
@@ -678,8 +679,8 @@ MainPageTile {
                 spacing: app.margins / 2
 
                 ColorIcon {
-                    Layout.preferredHeight: app.iconSize
-                    Layout.preferredWidth: app.iconSize
+                    Layout.preferredHeight: Style.iconSize
+                    Layout.preferredWidth: Style.iconSize
                     name: sensorsRoot.currentSensor >= 0 && sensorsRoot.shownSensors.length > sensorsRoot.currentSensor ? app.interfaceToIcon(sensorsRoot.shownSensors[sensorsRoot.currentSensor].ifaceName) : ""
                     color: sensorsRoot.currentSensor >= 0 && sensorsRoot.shownSensors.length > sensorsRoot.currentSensor ? app.interfaceToColor(sensorsRoot.shownSensors[sensorsRoot.currentSensor].ifaceName) : Style.iconColor
                 }
@@ -702,7 +703,7 @@ MainPageTile {
                         elide: Text.ElideRight
                     }
                     Led {
-                        Layout.preferredHeight: app.iconSize * .5
+                        Layout.preferredHeight: Style.iconSize * .5
                         Layout.preferredWidth: height
                         state: visible && sensorsRoot.thing.states.getState(sensorsRoot.shownStateType.id).value === true ? "on" : "off"
                         visible: sensorsRoot.shownStateType && sensorsRoot.shownStateType.type.toLowerCase() === "bool"

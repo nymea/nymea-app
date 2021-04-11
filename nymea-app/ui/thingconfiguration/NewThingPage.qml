@@ -121,8 +121,8 @@ Page {
                 }
 
                 Item {
-                    Layout.preferredHeight: app.iconSize
-                    Layout.minimumWidth: app.iconSize
+                    Layout.preferredHeight: Style.iconSize
+                    Layout.minimumWidth: Style.iconSize
 
                     ColorIcon {
                         height: parent.height

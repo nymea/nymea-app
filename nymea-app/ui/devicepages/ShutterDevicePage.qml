@@ -173,14 +173,14 @@ ThingPageBase {
                             visible: false
                             ColorIcon {
                                 anchors { horizontalCenter: parent.horizontalCenter; top: parent.top; topMargin: app.margins }
-                                height: app.iconSize
-                                width: app.iconSize
+                                height: Style.iconSize
+                                width: Style.iconSize
                                 name: "../images/up.svg"
                             }
                             ColorIcon {
                                 anchors { horizontalCenter: parent.horizontalCenter; bottom: parent.bottom; bottomMargin: app.margins }
-                                height: app.iconSize
-                                width: app.iconSize
+                                height: Style.iconSize
+                                width: Style.iconSize
                                 name: "../images/down.svg"
                             }
                             Rectangle {
@@ -280,8 +280,8 @@ ThingPageBase {
             Layout.margins: app.margins * 2
             Layout.alignment: Qt.AlignHCenter
             Layout.fillHeight: true
-            property int minimumHeight: app.iconSize * 2.5
-            property int minimumWidth: app.iconSize * 2.5 * 3
+            property int minimumHeight: Style.iconSize * 2.5
+            property int minimumWidth: Style.iconSize * 2.5 * 3
 
             ShutterControls {
                 id: shutterControls
@@ -289,7 +289,9 @@ ThingPageBase {
                 width: parent.width
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.verticalCenter: parent.verticalCenter
-                spacing: (width - app.iconSize*2*children.length) / (children.length - 1)
+                size: Style.bigIconSize
+                backgroundEnabled: true
+                spacing: (width - Style.iconSize*2*children.length) / (children.length - 1)
 
                 property int count: children.length
 

@@ -54,7 +54,7 @@ Dialog {
             Layout.fillWidth: true
             spacing: app.margins
             ColorIcon {
-                Layout.preferredHeight: app.iconSize * 2
+                Layout.preferredHeight: Style.iconSize * 2
                 Layout.preferredWidth: height
                 name: "../images/lock-closed.svg"
                 color: Style.accentColor

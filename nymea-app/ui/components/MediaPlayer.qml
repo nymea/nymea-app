@@ -165,8 +165,6 @@ Item {
                 }
             }
             ProgressButton {
-                Layout.preferredHeight: app.iconSize
-                Layout.preferredWidth: app.iconSize
                 longpressEnabled: false
                 imageSource: "../images/like.svg"
                 visible: root.likeState !== null
@@ -225,10 +223,7 @@ Item {
         }
 
         RowLayout {
-            spacing: app.margins
             ProgressButton {
-                Layout.preferredHeight: app.iconSize
-                Layout.preferredWidth: app.iconSize
                 longpressEnabled: false
                 visible: root.thing.thingClass.browsable
                 imageSource: "../images/folder-symbolic.svg"
@@ -240,18 +235,15 @@ Item {
                 }
             }
             ProgressButton {
-                Layout.preferredHeight: app.iconSize
-                Layout.preferredWidth: app.iconSize
                 longpressEnabled: false
                 visible: root.hasNavigationPatd
                 imageSource: "../images/navigationpad.svg"
                 onClicked: pageStack.push(navigationPadPage)
             }
             RowLayout {
+                spacing: 0
                 ProgressButton {
                     id: inputSourceButton
-                    Layout.preferredHeight: app.iconSize
-                    Layout.preferredWidth: app.iconSize
                     longpressEnabled: false
                     visible: root.inputSourceState !== null
                     imageSource: "../images/state-in.svg"
@@ -270,9 +262,8 @@ Item {
                 }
             }
             ColorIcon {
-                Layout.preferredHeight: app.iconSize
-                Layout.preferredWidth: app.iconSize * 3
                 visible: root.ambeoModeState !== null
+                Layout.preferredWidth: Style.iconSize * 3
                 name: "../images/media/ambeo.svg"
                 color: root.ambeoModeState && root.ambeoModeState.value !== "Off" ? Style.accentColor : Style.iconColor
                 MouseArea {
@@ -284,8 +275,6 @@ Item {
                 }
             }
             ProgressButton {
-                Layout.preferredHeight: app.iconSize
-                Layout.preferredWidth: app.iconSize
                 longpressEnabled: false
                 visible: root.nightModeState !== null
                 imageSource: "../images/weathericons/weather-clear-night.svg"
@@ -293,8 +282,6 @@ Item {
                 onClicked: d.pendingCallId = engine.thingManager.executeAction(root.thing.id, root.nightModeState.stateTypeId, [{paramTypeId: root.nightModeState.stateTypeId, value: !root.nightModeState.value}])
             }
             ProgressButton {
-                Layout.preferredHeight: app.iconSize
-                Layout.preferredWidth: app.iconSize
                 longpressEnabled: false
                 visible: root.equalizerPresetState !== null
                 imageSource: "../images/media/equalizer.svg"
@@ -305,8 +292,6 @@ Item {
             }
             ProgressButton {
                 id: volumeButton
-                Layout.preferredHeight: app.iconSize
-                Layout.preferredWidth: app.iconSize
                 visible: root.hasVolumeControl
                 longpressEnabled: false
                 imageSource: root.muteState && root.muteState.value === true ?
@@ -394,7 +379,7 @@ Item {
 
                 NavigationPad { Layout.fillWidth: true; Layout.fillHeight: true; thing: root.thing }
                 MediaControls { Layout.fillWidth: true; thing: root.thing }
-                ShuffleRepeatVolumeControl { Layout.fillWidth: true; Layout.fillHeight: false; Layout.preferredHeight: app.iconSize; thing: root.thing }
+                ShuffleRepeatVolumeControl { Layout.fillWidth: true; Layout.fillHeight: false; Layout.preferredHeight: Style.iconSize; thing: root.thing }
             }
         }
     }
@@ -545,8 +530,8 @@ Item {
             id: ambeoModeDialog
             standardButtons: Dialog.NoButton
             ColorIcon {
-                Layout.preferredHeight: app.hugeIconSize
-                Layout.preferredWidth: app.hugeIconSize * 3
+                Layout.preferredHeight: Style.hugeIconSize
+                Layout.preferredWidth: Style.hugeIconSize * 3
                 Layout.alignment: Qt.AlignHCenter
                 name: "../images/media/ambeo.svg"
                 color: Style.accentColor

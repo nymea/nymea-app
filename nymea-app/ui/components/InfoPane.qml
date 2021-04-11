@@ -2,6 +2,7 @@ import QtQuick 2.0
 import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.2
 import QtQuick.Layouts 1.2
+import Nymea 1.0
 
 InfoPaneBase {
     id: root
@@ -30,7 +31,7 @@ InfoPaneBase {
         }
         ColorIcon {
             id: icon
-            Layout.preferredHeight: app.smallIconSize
+            Layout.preferredHeight: Style.smallIconSize
             Layout.preferredWidth: height
             color: root.textColor
             visible: name.length > 0

@@ -36,12 +36,15 @@ import Nymea 1.0
 
 RowLayout {
     id: root
+    spacing: 0
 
     property Thing thing: null
     readonly property State openState: thing.stateByName("state")
     readonly property bool canStop: thing && thing.thingClass.actionTypes.findByName("stop")
 
     property bool invert: false
+    property bool backgroundEnabled: false
+    property int size: Style.iconSize
 
     signal activated(string button);
 
@@ -50,6 +53,8 @@ RowLayout {
     ProgressButton {
         longpressEnabled: false
         imageSource: root.invert ? "../images/down.svg" : "../images/up.svg"
+        mode: root.backgroundEnabled ? "normal" : "transparent"
+        size: root.size
         color: root.openState && root.openState.value === "opening" ? Material.accent : Style.iconColor
         onClicked: {
             engine.thingManager.executeAction(root.thing.id, root.thing.thingClass.actionTypes.findByName("open").id)
@@ -62,6 +67,8 @@ RowLayout {
     ProgressButton {
         visible: root.canStop
         longpressEnabled: false
+        mode: root.backgroundEnabled ? "normal" : "transparent"
+        size: root.size
         imageSource: "../images/media-playback-stop.svg"
         onClicked: {
             engine.thingManager.executeAction(root.thing.id, root.thing.thingClass.actionTypes.findByName("stop").id)
@@ -74,6 +81,8 @@ RowLayout {
     ProgressButton {
         imageSource: root.invert ? "../images/up.svg" : "../images/down.svg"
         longpressEnabled: false
+        mode: root.backgroundEnabled ? "normal" : "transparent"
+        size: root.size
         color: root.openState && root.openState.value === "closing" ? Material.accent : Style.iconColor
         onClicked: {
             engine.thingManager.executeAction(root.thing.id, root.thing.thingClass.actionTypes.findByName("close").id)

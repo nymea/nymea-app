@@ -54,7 +54,7 @@ Item {
 
             Image {
                 id: logo
-                Layout.preferredHeight: app.iconSize * 2
+                Layout.preferredHeight: Style.iconSize * 2
                 Layout.preferredWidth: height
                 fillMode: Image.PreserveAspectFit
                 source: "qrc:/styles/%1/logo.svg".arg(styleController.currentStyle)
@@ -193,12 +193,12 @@ Item {
             spacing: app.margins
 
             Image {
-                Layout.preferredHeight: app.iconSize * 2
+                Layout.preferredHeight: Style.iconSize * 2
                 Layout.preferredWidth: height
                 fillMode: Image.PreserveAspectFit
                 source: "qrc:/ui/images/Built_with_Qt_RGB_logo_vertical.svg"
-                sourceSize.width: app.iconSize * 2
-                sourceSize.height: app.iconSize * 2
+                sourceSize.width: Style.iconSize * 2
+                sourceSize.height: Style.iconSize * 2
             }
 
             Label {

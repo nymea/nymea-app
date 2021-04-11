@@ -41,8 +41,8 @@ ColumnLayout {
     RowLayout {
         Layout.fillWidth: true
         ColorIcon {
-            Layout.preferredHeight: app.iconSize
-            Layout.preferredWidth: app.iconSize
+            Layout.preferredHeight: Style.iconSize
+            Layout.preferredWidth: Style.iconSize
             name: "../images/back.svg"
             MouseArea {
                 anchors.fill: parent
@@ -59,8 +59,8 @@ ColumnLayout {
             horizontalAlignment: Text.AlignHCenter
         }
         ColorIcon {
-            Layout.preferredHeight: app.iconSize
-            Layout.preferredWidth: app.iconSize
+            Layout.preferredHeight: Style.iconSize
+            Layout.preferredWidth: Style.iconSize
             name: "../images/next.svg"
             MouseArea {
                 anchors.fill: parent

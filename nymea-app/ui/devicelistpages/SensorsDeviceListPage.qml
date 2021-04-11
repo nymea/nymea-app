@@ -97,7 +97,7 @@ ThingsListPageBase {
                                 property State stateValue: stateType ? itemDelegate.thing.states.getState(stateType.id) : null
 
                                 ColorIcon {
-                                    Layout.preferredHeight: app.iconSize
+                                    Layout.preferredHeight: Style.iconSize
                                     Layout.preferredWidth: height
                                     Layout.alignment: Qt.AlignVCenter
                                     color: {

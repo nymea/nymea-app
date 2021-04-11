@@ -60,7 +60,7 @@ SwipeDelegate {
         RowLayout {
             Layout.fillWidth: true
             ColorIcon {
-                Layout.preferredHeight: childEvaluatorsRepeater.count > 0 ? app.iconSize * .6 : app.iconSize
+                Layout.preferredHeight: childEvaluatorsRepeater.count > 0 ? Style.iconSize * .6 : Style.iconSize
                 Layout.preferredWidth: height
                 name: root.stateEvaluator && root.stateEvaluator.stateDescriptor.interfaceName.length === 0 ? "../images/state.svg" : "../images/state-interface.svg"
                 color: Style.accentColor
@@ -129,7 +129,7 @@ SwipeDelegate {
                                                                 : null
 
                 ColorIcon {
-                    Layout.preferredHeight: app.iconSize * .6
+                    Layout.preferredHeight: Style.iconSize * .6
                     Layout.preferredWidth: height
                     name: childEvaluatorDelegate.stateDescriptor.interfaceName.length === 0 ? "../images/state.svg" : "../images/state-interface.svg"
                     color: Style.accentColor

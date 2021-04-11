@@ -34,15 +34,21 @@ import Nymea 1.0
 
 Item {
     id: root
-    implicitHeight: app.iconSize
-    implicitWidth: app.iconSize
+    implicitHeight: size + Style.smallMargins * 2
+    implicitWidth: size + Style.smallMargins * 2
+
+    // FIXME: enums not available in < 5.10
+    property string mode: "transparent" // "normal" "highlight" "destructive" "transparent"
 
     property string imageSource
     property string longpressImageSource: imageSource
     property bool repeat: false
     property alias color: icon.color
+    property alias backgroundColor: background.color
 
     property bool longpressEnabled: true
+
+    property int size: Style.iconSize
 
     signal clicked();
     signal longpressed();
@@ -50,7 +56,6 @@ Item {
     MouseArea {
         id: buttonDelegate
         anchors.fill: parent
-        anchors.margins: -app.margins / 2
         hoverEnabled: true
 
         property bool longpressed: false
@@ -75,7 +80,6 @@ Item {
             }
             buttonDelegate.longpressed = false
         }
-
     }
 
     NumberAnimation {
@@ -98,20 +102,36 @@ Item {
     }
 
     Rectangle {
+        id: background
         anchors.fill: parent
-        anchors.margins: -app.margins / 2
         radius: width / 2
-        color: Style.foregroundColor
-        opacity: buttonDelegate.pressed || buttonDelegate.containsMouse ? .08 : 0
-        Behavior on opacity {
-            NumberAnimation { duration: 200 }
+        color: {
+            switch (root.mode) {
+            case "highlight":
+                return Style.accentColor;
+            case "destructive":
+                return Style.red;
+            case "normal":
+                return Style.tileOverlayColor;
+            default:
+                return "transparent"
+            }
+        }
+
+        Rectangle {
+            anchors.fill: parent
+            radius: width / 2
+            color: Style.foregroundColor
+            opacity: buttonDelegate.pressed || buttonDelegate.containsMouse ? .08 : 0
+            Behavior on opacity {
+                NumberAnimation { duration: 200 }
+            }
         }
     }
 
     Canvas {
         id: canvas
         anchors.fill: parent
-        anchors.margins: -app.margins / 2
 
         property real progress: 0
         property bool inverted: false
@@ -154,7 +174,20 @@ Item {
     ColorIcon {
         id: icon
         anchors.fill: parent
+        anchors.margins: Style.smallMargins
         name: buttonDelegate.longpressed ? root.longpressImageSource : root.imageSource
+        color: {
+            switch (root.mode) {
+            case "highlight":
+                return Style.white;
+            case "destructive":
+                return Style.white;
+            case "normal":
+                return Style.iconColor;
+            default:
+                return Style.iconColor
+            }
+        }
     }
 }
 

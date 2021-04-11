@@ -43,7 +43,7 @@ Page {
 
     ColorIcon {
         anchors { top: parent.top; right: parent.right; margins: app.margins }
-        height: app.iconSize
+        height: Style.iconSize
         width: height
         name: "../images/logs.svg"
         visible: settings.showHiddenOptions && AppLogController.enabled

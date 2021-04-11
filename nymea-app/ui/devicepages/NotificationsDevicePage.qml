@@ -89,7 +89,7 @@ ThingPageBase {
                 }
 
                 ScrollView {
-                    Layout.preferredWidth: inputPane.width - app.iconSize - inputPane.spacing
+                    Layout.preferredWidth: inputPane.width - Style.iconSize - inputPane.spacing
                     Layout.maximumHeight: content.height - y - app.margins
                     contentWidth: width
 
@@ -103,12 +103,12 @@ ThingPageBase {
 
             Item {
                 id: sendButton
-                Layout.preferredWidth: app.iconSize
+                Layout.preferredWidth: Style.iconSize
                 Layout.preferredHeight: inputColumn.height
                 ColorIcon {
                     anchors { horizontalCenter: parent.horizontalCenter; bottom: parent.bottom; margins: app.margins }
-                    height: app.iconSize
-                    width: app.iconSize
+                    height: Style.iconSize
+                    width: Style.iconSize
                     name: "../images/send.svg"
                     color: titleTextField.displayText.length > 0 ? Style.accentColor : Style.iconColor
                     visible: d.pendingAction == -1
@@ -189,8 +189,8 @@ ThingPageBase {
                                     font.pixelSize: app.extraSmallFont
                                 }
                                 ColorIcon {
-                                    Layout.preferredWidth: app.smallIconSize
-                                    Layout.preferredHeight: app.smallIconSize
+                                    Layout.preferredWidth: Style.smallIconSize
+                                    Layout.preferredHeight: Style.smallIconSize
                                     name: "../images/dialog-warning-symbolic.svg"
                                     color: "red"
                                     visible: model.errorCode !== ""
@@ -256,8 +256,8 @@ ThingPageBase {
                     }
                 }
                 ColorIcon {
-                    Layout.preferredWidth: app.largeIconSize
-                    Layout.preferredHeight: app.largeIconSize
+                    Layout.preferredWidth: Style.largeIconSize
+                    Layout.preferredHeight: Style.largeIconSize
                     name: "../images/dialog-warning-symbolic.svg"
                     color: "red"
                     visible: detailsDialog.errorCode !== ""

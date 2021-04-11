@@ -53,7 +53,7 @@ ItemDelegate {
 
     property string iconName
     property string thumbnail
-    property int iconSize: app.iconSize
+    property int iconSize: Style.iconSize
     property color iconColor: Style.accentColor
     property alias secondaryIconName: secondaryIcon.name
     property alias secondaryIconColor: secondaryIcon.color
@@ -154,7 +154,7 @@ ItemDelegate {
 
         ColorIcon {
             id: secondaryIcon
-            Layout.preferredHeight: app.smallIconSize
+            Layout.preferredHeight: Style.smallIconSize
             Layout.preferredWidth: height
             visible: name.length > 0
             MouseArea {
@@ -168,7 +168,7 @@ ItemDelegate {
 
         ColorIcon {
             id: tertiaryIcon
-            Layout.preferredHeight: app.smallIconSize
+            Layout.preferredHeight: Style.smallIconSize
             Layout.preferredWidth: height
             visible: name.length > 0
             MouseArea {
@@ -182,7 +182,7 @@ ItemDelegate {
 
         ColorIcon {
             id: progressionIcon
-            Layout.preferredHeight: app.smallIconSize
+            Layout.preferredHeight: Style.smallIconSize
             Layout.preferredWidth: height
             name: "../images/next.svg"
             visible: root.progressive

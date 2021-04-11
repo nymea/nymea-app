@@ -128,7 +128,7 @@ SettingsPageBase {
                 property bool hiddenPassword: true
             }
             ColorIcon {
-                Layout.preferredHeight: app.iconSize
+                Layout.preferredHeight: Style.iconSize
                 Layout.preferredWidth: height
                 name: "../images/eye.svg"
                 color: passwordTextField.hiddenPassword ? Style.iconColor : Style.accentColor

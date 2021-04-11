@@ -101,8 +101,8 @@ ThingPageBase {
                     }
 
                     ColorIcon {
-                        Layout.preferredHeight: app.iconSize
-                        Layout.preferredWidth: app.iconSize
+                        Layout.preferredHeight: Style.iconSize
+                        Layout.preferredWidth: Style.iconSize
                         name: "../images/alarm-clock.svg"
                         color: Style.accentColor
                     }

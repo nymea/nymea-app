@@ -164,7 +164,7 @@ Item {
     }
 
     ColorIcon {
-        width: app.largeIconSize
+        width: Style.largeIconSize
         height: width
         anchors { bottom: canvas.bottom; horizontalCenter: canvas.horizontalCenter }
         name: root.heatingOnState && root.heatingOnState.value === true

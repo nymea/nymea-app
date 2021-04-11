@@ -234,5 +234,6 @@
         <file>ui/components/BigThingTile.qml</file>
         <file>ui/appsettings/LoggingCategories.qml</file>
         <file>ui/ConfigurationBase.qml</file>
+        <file>ui/devicepages/CleaningRobotThingPage.qml</file>
     </qresource>
 </RCC>

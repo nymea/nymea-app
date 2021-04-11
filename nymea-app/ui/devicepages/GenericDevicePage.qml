@@ -384,7 +384,7 @@ ThingPageBase {
             Item {
                 Layout.preferredHeight: preferredSize
                 Layout.preferredWidth: preferredSize
-                property int preferredSize: actionDelegate.pendingActionId !== -1 || pendingTimer.running ? app.iconSize : 0
+                property int preferredSize: actionDelegate.pendingActionId !== -1 || pendingTimer.running ? Style.iconSize : 0
                 Behavior on preferredSize { NumberAnimation { duration: 100 } }
 
                 BusyIndicator {
@@ -415,7 +415,7 @@ ThingPageBase {
             }
             Rectangle {
                 id: flashlight
-                Layout.preferredHeight: app.iconSize * .8
+                Layout.preferredHeight: Style.iconSize * .8
                 Layout.preferredWidth: height
                 color: "lightgray"
                 radius: width / 2

@@ -19,7 +19,7 @@ RowLayout {
 
     UpdateStatusIcon {
         id: updateStatusIcon
-        Layout.preferredHeight: app.smallIconSize
+        Layout.preferredHeight: Style.smallIconSize
         Layout.preferredWidth: height
         thing: root.thing
         visible: setupStatusIcon.setupStatus == Thing.ThingSetupStatusComplete && connectionStatusIcon.isConnected && (updateAvailable || updateRunning)
@@ -57,7 +57,7 @@ RowLayout {
     }
     BatteryStatusIcon {
         id: batteryStatusIcon
-        Layout.preferredHeight: app.smallIconSize
+        Layout.preferredHeight: Style.smallIconSize
         Layout.preferredWidth: height
         thing: root.thing
         visible: root.thing.setupStatus == Thing.ThingSetupStatusComplete && (hasBatteryLevel || isCritical)
@@ -86,7 +86,7 @@ RowLayout {
     }
     ConnectionStatusIcon {
         id: connectionStatusIcon
-        Layout.preferredHeight: app.smallIconSize
+        Layout.preferredHeight: Style.smallIconSize
         Layout.preferredWidth: height
         thing: root.thing
         visible: root.thing.setupStatus == Thing.ThingSetupStatusComplete && (hasSignalStrength || !isConnected)
@@ -115,7 +115,7 @@ RowLayout {
     }
     SetupStatusIcon {
         id: setupStatusIcon
-        Layout.preferredHeight: app.smallIconSize
+        Layout.preferredHeight: Style.smallIconSize
         Layout.preferredWidth: height
         thing: root.thing
         visible: setupFailed || setupInProgress

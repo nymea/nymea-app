@@ -109,7 +109,7 @@ Page {
         anchors { left: parent.left; top: parent.top; right: parent.right }
         spacing: app.margins
         ColorIcon {
-            Layout.preferredHeight: app.iconSize * 2
+            Layout.preferredHeight: Style.iconSize * 2
             Layout.preferredWidth: height
             Layout.alignment: Qt.AlignCenter
             name: "../images/tick.svg"

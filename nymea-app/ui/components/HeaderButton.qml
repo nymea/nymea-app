@@ -30,14 +30,15 @@
 
 import QtQuick 2.5
 import QtQuick.Controls 2.1
+import Nymea 1.0
 
 ToolButton {
     property alias imageSource: image.name
     property alias color: image.color
 
     contentItem: Item {
-        height: app.iconSize
-        width: app.iconSize
+        height: Style.iconSize
+        width: Style.iconSize
         ColorIcon {
             id: image
             anchors.fill: parent

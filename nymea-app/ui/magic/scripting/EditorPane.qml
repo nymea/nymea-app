@@ -106,7 +106,7 @@ Item {
                 name: "../images/edit-clear.svg"
                 enabled: contentContainer.data[panelTabs.currentIndex].clearEnabled
                 color: enabled ? Style.accentColor : Style.iconColor
-                Layout.preferredHeight: app.iconSize  / 2
+                Layout.preferredHeight: Style.iconSize  / 2
                 Layout.preferredWidth: height
                 MouseArea {
                     anchors.fill: parent
@@ -117,7 +117,7 @@ Item {
 
             ColorIcon {
                 name: pane.shown ? "../images/down.svg" : "../images/up.svg"
-                Layout.preferredHeight: app.iconSize  / 2
+                Layout.preferredHeight: Style.iconSize  / 2
                 Layout.preferredWidth: height
                 color: Style.accentColor
                 MouseArea {

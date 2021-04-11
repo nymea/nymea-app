@@ -64,8 +64,8 @@ ThingPageBase {
 
                 contentItem: RowLayout {
                     ColorIcon {
-                        Layout.preferredHeight: app.iconSize
-                        Layout.preferredWidth: app.iconSize
+                        Layout.preferredHeight: Style.iconSize
+                        Layout.preferredWidth: Style.iconSize
                         name: app.stateIcon("totalEnergyConsumed")
                         color: app.stateColor("totalEnergyConsumed")
                     }
@@ -76,8 +76,8 @@ ThingPageBase {
                         font.pixelSize: app.largeFont
                     }
                     ColorIcon {
-                        Layout.preferredHeight: app.iconSize
-                        Layout.preferredWidth: app.iconSize
+                        Layout.preferredHeight: Style.iconSize
+                        Layout.preferredWidth: Style.iconSize
                         name: app.stateIcon("totalEnergyProduced")
                         color: app.stateColor("totalEnergyProduced")
                         visible: root.totalEnergyProducedState !== null

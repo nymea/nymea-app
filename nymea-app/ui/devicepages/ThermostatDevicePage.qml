@@ -77,8 +77,8 @@ ThingPageBase {
                 anchors.centerIn: parent
                 spacing: app.margins / 2
                 ColorIcon {
-                    height: app.iconSize
-                    width: app.iconSize
+                    height: Style.iconSize
+                    width: Style.iconSize
                     name: "../images/sensors/temperature.svg"
                     color: root.boostStateType && root.boostState.value === true ? "red" : Style.iconColor
                 }
