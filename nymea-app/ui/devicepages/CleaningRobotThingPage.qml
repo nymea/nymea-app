@@ -239,7 +239,7 @@ ThingPageBase {
                 size: Style.bigIconSize
                 imageSource: root.robotState.value === "cleaning" ? "../images/media-playback-pause.svg" : "../images/media-playback-start.svg"
                 onClicked: {
-                    if (root.robotState.value === "cleaning") {
+                    if (root.robotState.value === "cleaning" || root.robotState.value === "paused") {
                         engine.thingManager.executeAction(root.thing.id, root.thing.thingClass.actionTypes.findByName("pauseCleaning").id)
                     } else {
                         engine.thingManager.executeAction(root.thing.id, root.thing.thingClass.actionTypes.findByName("startCleaning").id)
@@ -380,11 +380,10 @@ ThingPageBase {
                                     ctx.fillStyle = Qt.rgba(1, 0, 0, 1);
                                     ctx.lineWidth = canvas.penWidth
 
-                                    console.warn("Boundaries")
                                     for (var i = 0; i < mapView.boundaries.count; i++) {
                                         var boundary = mapView.boundaries.get(i)
                                         var boundaryData = JSON.parse(boundary.description)
-                                        console.warn("Boundary:", boundary.id, boundary.description)
+//                                        console.warn("Boundary:", boundary.id, boundary.description)
 
                                         var color = Qt.lighter(boundaryData["color"], 1)
                                         ctx.strokeStyle = color
@@ -401,6 +400,52 @@ ThingPageBase {
                                         ctx.fill();
                                     }
                                 }
+                                Repeater {
+                                    model: mapView.boundaries
+                                    delegate: ProgressButton {
+                                        mode: "highlight"
+                                        imageSource: "../images/media-playback-start.svg"
+                                        size: Style.smallIconSize
+                                        property BrowserItem boundary: mapView.boundaries.get(index)
+                                        property var center: {
+                                            var boundaryData = JSON.parse(boundary.description)
+                                            if (!boundaryData) {
+                                                return Qt.point(0, 0)
+                                            }
+                                            var x = 0
+                                            var y = 0
+                                            for (var i = 0; i < boundaryData["vertices"].length; i++) {
+                                                var point = boundaryData["vertices"][i];
+                                                x += boundaryData["vertices"][i][0] * canvas.width
+                                                y += boundaryData["vertices"][i][1] * canvas.height
+                                            }
+                                            x /= boundaryData["vertices"].length
+                                            y /= boundaryData["vertices"].length
+                                            print("button center:", x, y)
+                                            return Qt.point(x, y)
+                                        }
+
+                                        x: center.x - width / 2
+                                        y: center.y - height / 2
+
+                                        onClicked: {
+                                            var params = []
+                                            var zoneParam = {}
+                                            var actionType = root.thing.thingClass.actionTypes.findByName("startCleaning")
+                                            var paramType = actionType.paramTypes.findByName("zone");
+                                            print("boundary:", boundary, actionType, paramType)
+                                            zoneParam["paramTypeId"] = paramType.id
+                                            zoneParam["value"] = boundary.id
+                                            params.push(zoneParam)
+                                            engine.thingManager.executeAction(root.thing.id, root.thing.thingClass.actionTypes.findByName("startCleaning").id, params)
+                                        }
+                                    }
+                                }
+                            }
+
+                            BusyIndicator {
+                                anchors.centerIn: parent
+                                visible: mapView.boundaries.busy || mapImage.status == Image.Loading
                             }
                         }
                     }
