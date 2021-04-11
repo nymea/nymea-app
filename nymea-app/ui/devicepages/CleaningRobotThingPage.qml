@@ -38,9 +38,11 @@ import "../customviews"
 
 ThingPageBase {
     id: root
+    showBrowserButton: false
+
 
     readonly property State robotState: thing.stateByName("robotState")
-    showBrowserButton: false
+    readonly property State errorMessageState: thing.stateByName("errorMessage")
 
     GridLayout {
         anchors.fill: parent
@@ -48,7 +50,7 @@ ThingPageBase {
 
         Item {
             Layout.preferredWidth: app.landscape ?
-                                       Math.min(parent.width, parent.height)
+                                       Math.min(parent.width - controlsContainer.minimumWidth, parent.height)
                                      : Math.min(Math.min(500, parent.width), parent.height)
             Layout.preferredHeight: width
             Layout.alignment: Qt.AlignHCenter
@@ -80,7 +82,11 @@ ThingPageBase {
                     name: "../images/cleaning-robot.svg"
                     x: robotArea.robotX - (width / 2)
                     y: robotArea.robotY - (height / 2)
-                    color: root.robotState.value == "cleaning" ? Style.accentColor : Style.iconColor
+                    color: root.robotState.value == "cleaning"
+                           ? Style.accentColor
+                           : root.robotState.value === "error"
+                             ? Style.red
+                             : Style.iconColor
 
                     property int pixelsPerSecond: 30
 
@@ -220,63 +226,75 @@ ThingPageBase {
         }
 
 
-
-        RowLayout {
-            id: controlsContainer
+        ColumnLayout {
             Layout.fillWidth: true
             Layout.fillHeight: true
-            Layout.margins: app.margins * 2
-            property int minimumWidth: Style.iconSize * 2.7 * 3
-            property int minimumHeight: Style.iconSize * 4.5
 
-            Item {
+            Label {
                 Layout.fillWidth: true
+                Layout.margins: Style.margins
+                wrapMode: Text.WordWrap
+                horizontalAlignment: Text.AlignHCenter
+                visible: root.errorMessageState != null && root.robotState.value === "error"
+                text: root.errorMessageState ? root.errorMessageState.value : ""
             }
 
-            ProgressButton {
-                longpressEnabled: false
-                mode: root.robotState.value === "cleaning" ? "normal" : "highlight"
-                size: Style.bigIconSize
-                imageSource: root.robotState.value === "cleaning" ? "../images/media-playback-pause.svg" : "../images/media-playback-start.svg"
-                onClicked: {
-                    if (root.robotState.value === "cleaning" || root.robotState.value === "paused") {
-                        engine.thingManager.executeAction(root.thing.id, root.thing.thingClass.actionTypes.findByName("pauseCleaning").id)
-                    } else {
-                        engine.thingManager.executeAction(root.thing.id, root.thing.thingClass.actionTypes.findByName("startCleaning").id)
+            RowLayout {
+                id: controlsContainer
+                Layout.margins: app.margins * 2
+                property int minimumWidth: Style.iconSize * 2.7 * 3
+                property int minimumHeight: Style.iconSize * 4.5
+
+                Item {
+                    Layout.fillWidth: true
+                }
+
+                ProgressButton {
+                    longpressEnabled: false
+                    mode: root.robotState.value === "cleaning" ? "normal" : "highlight"
+                    size: Style.bigIconSize
+                    imageSource: root.robotState.value === "cleaning" ? "../images/media-playback-pause.svg" : "../images/media-playback-start.svg"
+                    onClicked: {
+                        if (root.robotState.value === "cleaning" || root.robotState.value === "paused") {
+                            engine.thingManager.executeAction(root.thing.id, root.thing.thingClass.actionTypes.findByName("pauseCleaning").id)
+                        } else {
+                            engine.thingManager.executeAction(root.thing.id, root.thing.thingClass.actionTypes.findByName("startCleaning").id)
+                        }
                     }
                 }
-            }
-            Item {
-                Layout.fillWidth: true
-            }
+                Item {
+                    Layout.fillWidth: true
+                }
 
-            ProgressButton {
-                longpressEnabled: false
-                imageSource: "../images/media-playback-stop.svg"
-                size: Style.bigIconSize
-                mode: "destructive"
-                onClicked: {
-                    engine.thingManager.executeAction(root.thing.id, root.thing.thingClass.actionTypes.findByName("returnToBase").id)
+                ProgressButton {
+                    longpressEnabled: false
+                    imageSource: "../images/media-playback-stop.svg"
+                    size: Style.bigIconSize
+                    mode: "destructive"
+                    onClicked: {
+                        engine.thingManager.executeAction(root.thing.id, root.thing.thingClass.actionTypes.findByName("returnToBase").id)
+                    }
                 }
-            }
-            Item {
-                Layout.fillWidth: true
-            }
-            ProgressButton {
-                longpressEnabled: false
-                imageSource: "../images/view-grid-symbolic.svg"
-                mode: "normal"
-                size: Style.bigIconSize
-                visible: root.thing.thingClass.browsable
-                onClicked: {
-                    pageStack.push(mapPageComponent)
+                Item {
+                    Layout.fillWidth: true
                 }
-            }
-            Item {
-                Layout.fillWidth: true
-                visible: root.thing.thingClass.browsable
+                ProgressButton {
+                    longpressEnabled: false
+                    imageSource: "../images/view-grid-symbolic.svg"
+                    mode: "normal"
+                    size: Style.bigIconSize
+                    visible: root.thing.thingClass.browsable
+                    onClicked: {
+                        pageStack.push(mapPageComponent)
+                    }
+                }
+                Item {
+                    Layout.fillWidth: true
+                    visible: root.thing.thingClass.browsable
+                }
             }
         }
+
     }
 
     Component {
@@ -429,15 +447,7 @@ ThingPageBase {
                                         y: center.y - height / 2
 
                                         onClicked: {
-                                            var params = []
-                                            var zoneParam = {}
-                                            var actionType = root.thing.thingClass.actionTypes.findByName("startCleaning")
-                                            var paramType = actionType.paramTypes.findByName("zone");
-                                            print("boundary:", boundary, actionType, paramType)
-                                            zoneParam["paramTypeId"] = paramType.id
-                                            zoneParam["value"] = boundary.id
-                                            params.push(zoneParam)
-                                            engine.thingManager.executeAction(root.thing.id, root.thing.thingClass.actionTypes.findByName("startCleaning").id, params)
+                                            engine.thingManager.executeBrowserItem(root.thing.id, boundary.id)
                                         }
                                     }
                                 }
