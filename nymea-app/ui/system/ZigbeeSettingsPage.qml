@@ -97,8 +97,7 @@ SettingsPageBase {
                         }
 
                         ProgressButton {
-                            Layout.preferredWidth: Style.iconSize
-                            Layout.preferredHeight: Style.iconSize
+                            size: Style.iconSize
                             imageSource: "/ui/images/configure.svg"
                             longpressEnabled: false
                             onClicked: pageStack.push(Qt.resolvedUrl("ZigbeeNetworkPage.qml"), { zigbeeManager: zigbeeManager, network: zigbeeManager.networks.get(index) })
