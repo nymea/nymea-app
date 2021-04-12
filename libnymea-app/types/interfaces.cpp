@@ -89,7 +89,11 @@ Interfaces::Interfaces(QObject *parent) : QAbstractListModel(parent)
     addInterface("sensor", tr("Sensors"));
 
     addInterface("cleaningrobot", tr("Cleaning robots"));
-    addStateType("cleaningrobot", "state", QVariant::String, false, tr("Cleaning state"), tr("Cleaning state changed"));
+    addStateType("cleaningrobot", "robotState", QVariant::String, false, tr("Robot state"), tr("Robot state changed"));
+    addActionType("cleaningrobot", "startCleaning", tr("Start cleaning"), new ParamTypes());
+    addActionType("cleaningrobot", "stopCleaning", tr("Stop cleaning"), new ParamTypes());
+    addActionType("cleaningrobot", "pauseCleaning", tr("Pause cleaning"), new ParamTypes());
+    addActionType("cleaningrobot", "returnToBase", tr("Return to base"), new ParamTypes());
 
     addInterface("closablesensor", tr("Closable sensors"), {"sensor"});
     addStateType("closablesensor", "closed", QVariant::Bool, false, tr("Closed"), tr("Opened or closed"));

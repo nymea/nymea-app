@@ -190,6 +190,7 @@ MainPageTile {
             case "powersocket":
             case "irrigation":
             case "ventilation":
+            case "cleaningrobot":
                 return buttonComponent
             case "media":
                 return mediaControlComponent
@@ -271,7 +272,10 @@ MainPageTile {
             Layout.fillWidth: true
             spacing: 0
 
-            Item { Layout.fillWidth: true; Layout.fillHeight: true }
+            Item {
+                Layout.fillWidth: true; Layout.fillHeight: true
+                visible: label.visible || firstButton.visible
+            }
 
             Label {
                 id: label
@@ -310,6 +314,7 @@ MainPageTile {
             }
 
             ProgressButton {
+                id: firstButton
                 longpressEnabled: false
                 visible: imageSource.length > 0
                 color: Style.tileOverlayIconColor
@@ -336,6 +341,10 @@ MainPageTile {
                     case "shutter":
                     case "extendedshutter":
                         return "../images/up.svg"
+                    case "cleaningrobot":
+                        var thing = thingsProxy.get(0)
+                        var robotState = thing.stateByName("robotState")
+                        return robotState.value == "cleaning" ? "../images/media-playback-pause.svg" : "../images/media-playback-start.svg"
                     default:
                         console.warn("InterfaceTile", "inlineButtonControl image: Unhandled interface", iface.name)
                     }
@@ -375,15 +384,28 @@ MainPageTile {
                             engine.thingManager.executeAction(device.id, actionType.id)
                         }
                         break;
+                    case "cleaningrobot":
+                        var thing = thingsProxy.get(0)
+                        var robotState = thing.stateByName("robotState")
+                        if (robotState.value === "cleaning" || robotState.value === "paused") {
+                            engine.thingManager.executeAction(thing.id, thing.thingClass.actionTypes.findByName("pauseCleaning").id)
+                        } else {
+                            engine.thingManager.executeAction(thing.id, thing.thingClass.actionTypes.findByName("startCleaning").id)
+                        }
+                        break;
                     default:
                         console.warn("InterfaceTile:", "inlineButtonControl clicked: Unhandled interface", iface.name)
                     }
                 }
             }
 
-            Item { Layout.fillWidth: true; Layout.fillHeight: true }
+            Item {
+                Layout.fillWidth: true; Layout.fillHeight: true
+                visible: secondButton.visible
+            }
 
             ProgressButton {
+                id: secondButton
                 longpressEnabled: false
                 visible: imageSource.length > 0
                 color: Style.tileOverlayIconColor
@@ -409,6 +431,7 @@ MainPageTile {
                     case "extendedblind":
                     case "extendedawning":
                     case "extendedshutter":
+                    case "cleaningrobot":
                         return "../images/media-playback-stop.svg"
                     default:
                         console.warn("InterfaceTile, inlineButtonControl image: Unhandled interface", iface.name)
@@ -449,15 +472,24 @@ MainPageTile {
                             engine.thingManager.executeAction(device.id, actionType.id)
                         }
                         break;
+                    case "cleaningrobot":
+                        var thing = thingsProxy.get(0)
+                        engine.thingManager.executeAction(thing.id, thing.thingClass.actionTypes.findByName("stopCleaning").id)
+                        break;
                     default:
                         console.warn("InterfaceTile, inlineButtonControl clicked: Unhandled interface", iface.name)
                     }
                 }
             }
-            Item { Layout.fillWidth: true; Layout.fillHeight: true }
+            Item {
+                Layout.fillWidth: true; Layout.fillHeight: true
+                visible: thirdButton.visible
+            }
 
             ProgressButton {
+                id: thirdButton
                 longpressEnabled: false
+                visible: imageSource.length > 0
                 color: Style.tileOverlayIconColor
                 imageSource: {
                     switch (iface.name) {
@@ -571,6 +603,8 @@ MainPageTile {
                             var actionType = thing.thingClass.actionTypes.findByName("close");
                             engine.thingManager.executeAction(thing.id, actionType.id)
                         }
+                    case "cleaningrobot":
+
 
                     default:
                         console.warn("InterfaceTile, inlineButtonControl clicked: Unhandled interface", iface.name)

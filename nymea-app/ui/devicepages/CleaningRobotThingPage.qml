@@ -70,6 +70,7 @@ ThingPageBase {
                 Timer {
                     interval: 500
                     running: true
+                    repeat: false
                     onTriggered: {
                         robotArea.initialized = true;
                         robot.evaluateState()
@@ -115,7 +116,7 @@ ThingPageBase {
                             }
                             return
                         case "docked":
-                            if (robotArea.robotX != robotArea.radius || robotArea.robotY != robotArea.radius) {
+                            if (Math.abs(robotArea.robotX - robotArea.radius) > 2 || Math.abs(robotArea.robotY - robotArea.radius) > 2 || robot.rotation != 0) {
                                 robot.travel(true)
                             }
                             return
@@ -133,6 +134,7 @@ ThingPageBase {
                     }
 
                     function travel(toHome) {
+                        print("robot traveling")
                         var areaWidth = robotArea.width;
                         var radius = areaWidth / 2
 
@@ -159,7 +161,7 @@ ThingPageBase {
                                 var toXCentered = toX - centerX
                                 var toYCentered = toY - centerY
                                 distanceToCenter = Math.abs(Math.sqrt(Math.pow(toXCentered, 2) + Math.pow(toYCentered, 2)))
-                                print("new pos:", toX, toY, "to center:", toXCentered, toYCentered, "radius:", radius, "distance to center", distanceToCenter)
+//                                print("new pos:", toX, toY, "to center:", toXCentered, toYCentered, "radius:", radius, "distance to center", distanceToCenter)
                             } while (distanceToCenter > (radius - robot.width / 2))
                         }
 
@@ -176,8 +178,11 @@ ThingPageBase {
                         travelYAnimation.duration = travelDuration
 
                         rotationAnimation.from = robot.rotation
-                        rotationAnimation.to = robot.getAngleDegrees(fromX, fromY, toX, toY)
-                        print(":", fromX, fromY, toX, toY, rotationAnimation.to, "__", robotArea.robotX)
+                        if (Math.abs(fromX - toX) <= 1 && Math.abs(fromY - toY) <= 1) {
+                            rotationAnimation.to = 0;
+                        } else {
+                            rotationAnimation.to = robot.getAngleDegrees(fromX, fromY, toX, toY)
+                        }
                         travelAnimation.start()
                     }
 
