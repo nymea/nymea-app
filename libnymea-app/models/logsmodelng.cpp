@@ -38,6 +38,9 @@
 #include "types/logentry.h"
 #include "logmanager.h"
 
+#include "logging.h"
+NYMEA_LOGGING_CATEGORY(dcLogEngine, "LogEngine")
+
 LogsModelNg::LogsModelNg(QObject *parent) : QAbstractListModel(parent)
 {
 
@@ -439,7 +442,6 @@ void LogsModelNg::newLogEntryReceived(const QVariantMap &data)
         return;
     }
 
-    beginInsertRows(QModelIndex(), 0, 0);
     QDateTime timeStamp = QDateTime::fromMSecsSinceEpoch(entryMap.value("timestamp").toLongLong());
     QMetaEnum sourceEnum = QMetaEnum::fromType<LogEntry::LoggingSource>();
     LogEntry::LoggingSource loggingSource = static_cast<LogEntry::LoggingSource>(sourceEnum.keyToValue(entryMap.value("source").toByteArray()));
@@ -447,10 +449,17 @@ void LogsModelNg::newLogEntryReceived(const QVariantMap &data)
     LogEntry::LoggingEventType loggingEventType = static_cast<LogEntry::LoggingEventType>(loggingEventTypeEnum.keyToValue(entryMap.value("eventType").toByteArray()));
     QVariant value = loggingEventType == LogEntry::LoggingEventTypeActiveChange ? entryMap.value("active").toBool() : entryMap.value("value");
     LogEntry *entry = new LogEntry(timeStamp, value, thingId, typeId, loggingSource, loggingEventType, entryMap.value("errorCode").toString(), this);
+
+    Thing *dev = m_engine->thingManager()->things()->getThing(entry->thingId());
+    if (!dev) {
+        delete entry;
+        qCWarning(dcLogEngine) << "Received a log entry for a thing we don't know. Discarding.";
+        return;
+    }
+
+    beginInsertRows(QModelIndex(), 0, 0);
     m_list.prepend(entry);
     if (m_graphSeries) {
-
-        Thing *dev = m_engine->thingManager()->things()->getThing(entry->thingId());
 
         StateType *entryStateType = dev->thingClass()->stateTypes()->getStateType(entry->typeId());
 
