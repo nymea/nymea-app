@@ -142,11 +142,11 @@ ThingPageBase {
                 Item {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
-                    Layout.minimumWidth: app.iconSize * 5
+                    Layout.minimumWidth: Style.iconSize * 5
                     Layout.rowSpan: app.landscape ? 5 : 1
                     ColorIcon {
                         anchors.centerIn: parent
-                        height: app.iconSize * 4
+                        height: Style.iconSize * 4
                         width: height
                         name: {
                             switch (boolView.interfaceName) {

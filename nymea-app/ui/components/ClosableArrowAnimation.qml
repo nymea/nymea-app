@@ -33,7 +33,7 @@ import Nymea 1.0
 
 Item {
     id: arrows
-    width: app.iconSize * 2
+    width: Style.iconSize * 2
     height: parent.height * .6
     clip: true
     visible: state !== ""
@@ -56,8 +56,8 @@ Item {
         property: "y"
         duration: 500
         easing.type: Easing.Linear
-        from: arrows.up ? app.iconSize : -app.iconSize
-        to: arrows.up ? -app.iconSize : app.iconSize
+        from: arrows.up ? Style.iconSize : -Style.iconSize
+        to: arrows.up ? -Style.iconSize : Style.iconSize
         loops: Animation.Infinite
         running: arrows.animationHack && (arrows.state === "opening" || arrows.state === "closing")
     }
@@ -67,7 +67,7 @@ Item {
         width: parent.width
 
         Repeater {
-            model: arrows.height / app.iconSize + 1
+            model: arrows.height / Style.iconSize + 1
             ColorIcon {
                 name: arrows.up ? "../images/up.svg" : "../images/down.svg"
                 width: parent.width

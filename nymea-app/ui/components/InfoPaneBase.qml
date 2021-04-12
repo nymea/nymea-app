@@ -31,7 +31,7 @@ Item {
 
     Pane {
         anchors { left: parent.left; bottom: parent.bottom; right: parent.right }
-        Material.elevation: 2
+//        Material.elevation: 2
         leftPadding: 0
         rightPadding: 0
         bottomPadding: 0

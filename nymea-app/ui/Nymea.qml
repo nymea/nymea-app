@@ -68,11 +68,6 @@ ApplicationWindow {
     property int largeFont: 20
     property int hugeFont: 40
 
-    property int smallIconSize: 16
-    property int iconSize: 24
-    property int largeIconSize: 40
-    property int hugeIconSize: 64
-
     property int delegateHeight: 60
 
     readonly property bool landscape: app.width > app.height
@@ -148,6 +143,7 @@ ApplicationWindow {
         "awning",
         "shutter",
         "blind",
+        "cleaningrobot",
         "garagedoor",
         "powersocket",
         "thermostat",
@@ -242,6 +238,8 @@ ApplicationWindow {
             return qsTr("Ventilation")
         case "barcodescanner":
             return qsTr("Barcode scanners");
+        case "cleaningrobot":
+            return qsTr("Cleaning robots")
         case "uncategorized":
             return qsTr("Uncategorized")
         default:
@@ -383,6 +381,8 @@ ApplicationWindow {
             return Qt.resolvedUrl("images/notification.svg")
         case "barcodescanner":
             return Qt.resolvedUrl("images/qrcode.svg")
+        case "cleaningrobot":
+            return Qt.resolvedUrl("images/cleaning-robot.svg")
         default:
             console.warn("InterfaceToIcon: Unhandled interface", name)
         }

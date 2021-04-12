@@ -109,7 +109,7 @@ MainPageTile {
             }
 
             ItemDelegate {
-                Layout.preferredWidth: app.iconSize
+                Layout.preferredWidth: Style.iconSize
                 Layout.preferredHeight: width
                 Layout.rightMargin: app.margins / 2
                 Layout.alignment: Qt.AlignVCenter
@@ -213,7 +213,7 @@ MainPageTile {
 
             Item { Layout.fillHeight: true; Layout.fillWidth: true }
             ColorIcon {
-                Layout.preferredWidth: app.iconSize
+                Layout.preferredWidth: Style.iconSize
                 Layout.preferredHeight: width
                 Layout.alignment: Qt.AlignVCenter
                 color: app.interfaceToColor(sensorsRoot.shownInterfaces[sensorsRoot.currentStateIndex].iface)

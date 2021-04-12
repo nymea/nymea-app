@@ -46,7 +46,7 @@ Item {
         Layout.alignment: Qt.AlignCenter
 
         Item {
-            Layout.preferredWidth: Math.max(app.iconSize * 4, parent.width / 5)
+            Layout.preferredWidth: Math.max(Style.iconSize * 4, parent.width / 5)
             Layout.preferredHeight: width
             Layout.topMargin: app.margins
             Layout.bottomMargin: app.landscape ? app.margins : 0

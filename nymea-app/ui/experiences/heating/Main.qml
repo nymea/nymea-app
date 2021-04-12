@@ -178,8 +178,8 @@ Item {
                 RowLayout {
                     spacing: app.margins
                     ColorIcon {
-                        Layout.preferredHeight: app.iconSize
-                        Layout.preferredWidth: app.iconSize
+                        Layout.preferredHeight: Style.iconSize
+                        Layout.preferredWidth: Style.iconSize
                         name: "qrc:/ui/images/weathericons/wind.svg"
                         color: Style.accentColor
                     }
@@ -206,8 +206,8 @@ Item {
 
                 RowLayout {
                     ColorIcon {
-                        Layout.preferredHeight: app.iconSize
-                        Layout.preferredWidth: app.iconSize
+                        Layout.preferredHeight: Style.iconSize
+                        Layout.preferredWidth: Style.iconSize
                         name: "qrc:/ui/images/sensors/temperature.svg"
                         color: Style.accentColor
                     }
@@ -237,7 +237,7 @@ Item {
                 Layout.fillWidth: false
                 Layout.bottomMargin: app.margins
                 ColorIcon {
-                    Layout.preferredHeight: app.iconSize //* 1.5
+                    Layout.preferredHeight: Style.iconSize //* 1.5
                     Layout.preferredWidth: height
                     Layout.alignment: Qt.AlignHCenter
                     color: Style.accentColor
@@ -261,8 +261,8 @@ Item {
                     Layout.rightMargin: parent.width * .2
                     spacing: app.margins
                     ColorIcon {
-                        Layout.preferredHeight: app.iconSize
-                        Layout.preferredWidth: app.iconSize
+                        Layout.preferredHeight: Style.iconSize
+                        Layout.preferredWidth: Style.iconSize
                         color: Style.accentColor
                         name: "qrc:/ui/images/ventilation.svg"
                         PropertyAnimation on rotation {
@@ -282,7 +282,7 @@ Item {
 
                     RowLayout {
                         Layout.fillWidth: true
-                        Layout.maximumHeight: app.iconSize
+                        Layout.maximumHeight: Style.iconSize
                         spacing: 0
 
                         Repeater {
@@ -334,7 +334,7 @@ Item {
 
 //            ProgressButton {
 //                imageSource: "qrc:/ui/images/system-shutdown.svg"
-//                Layout.preferredHeight: app.iconSize * 1.5
+//                Layout.preferredHeight: Style.iconSize * 1.5
 //                Layout.preferredWidth: height
 //                Layout.alignment: Qt.AlignHCenter
 //            }

@@ -291,7 +291,7 @@ Page {
                     anchors { left: parent.left; right: parent.right; top: parent.top; margins: app.margins }
                     spacing: app.margins
                     ColorIcon {
-                        Layout.preferredHeight: app.iconSize * 2
+                        Layout.preferredHeight: Style.iconSize * 2
                         Layout.preferredWidth: height
                         name: "../images/info.svg"
                         color: Style.accentColor

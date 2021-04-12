@@ -59,6 +59,8 @@ Item {
             page = "VentilationDevicePage.qml";
         } else if (interfaceList.indexOf("barcodescanner") >= 0) {
             page = "BarcodeScannerThingPage.qml";
+        } else if (interfaceList.indexOf("cleaningrobot") >= 0) {
+            page = "CleaningRobotThingPage.qml";
         } else {
             page = "GenericDevicePage.qml";
         }

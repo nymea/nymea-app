@@ -90,8 +90,8 @@ SettingsPageBase {
         visible: root.zigbeeManager.adapters.count == 0
         spacing: app.margins
         ColorIcon {
-            Layout.preferredHeight: app.iconSize
-            Layout.preferredWidth: app.iconSize
+            Layout.preferredHeight: Style.iconSize
+            Layout.preferredWidth: Style.iconSize
             name: "../images/connections/network-wifi-offline.svg"
         }
         Label {

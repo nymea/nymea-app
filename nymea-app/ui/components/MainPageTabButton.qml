@@ -55,8 +55,8 @@ TabButton {
             verticalItemAlignment: Grid.AlignVCenter
 
             ColorIcon {
-                width: app.iconSize
-                height: app.iconSize
+                width: Style.iconSize
+                height: Style.iconSize
                 name: root.iconSource
                 color: root.checked ? Style.accentColor : Style.iconColor
             }

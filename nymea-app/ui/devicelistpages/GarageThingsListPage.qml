@@ -30,21 +30,27 @@
 
 import QtQuick 2.5
 import QtQuick.Controls 2.1
-import QtQuick.Controls.Material 2.1
 import QtQuick.Layouts 1.1
-import QtGraphicalEffects 1.0
 import Nymea 1.0
 import "../components"
+import "../delegates"
 
 ThingsListPageBase {
     id: root
 
-    property string iconBasename: "../images/garage/garage"
-
     header: NymeaHeader {
-        id: header
-        onBackPressed: pageStack.pop()
-        text: qsTr("Garage doors")
+        text: {
+            if (root.shownInterfaces.length === 1) {
+                return qsTr("My %1").arg(app.interfaceToString(root.shownInterfaces[0]))
+            } else if (root.shownInterfaces.length > 1 || root.hiddenInterfaces.length > 0) {
+                return qsTr("My things")
+            }
+            return qsTr("All my things")
+        }
+
+        onBackPressed: {
+            pageStack.pop()
+        }
     }
 
     Flickable {
@@ -78,23 +84,17 @@ ThingsListPageBase {
                         }
                     }
 
-                    property State movingState: thing.stateByName("moving")
-                    property State percentageState: thing.stateByName("percentage")
-
-                    readonly property bool isImpulseBased: thing.thingClass.interfaces.indexOf("impulsegaragedoor") >= 0
+                    property State connectedState: thing.stateByName("connected")
+                    property State powerState: thing.stateByName("power")
 
                     contentItem: RowLayout {
                         spacing: app.margins
 
                         ColorIcon {
-                            Layout.preferredHeight: app.iconSize
-                            Layout.preferredWidth: app.iconSize
-                            color: itemDelegate.movingState && itemDelegate.movingState.value === true
-                                   ? Style.accentColor
-                                   : Style.iconColor
-                            name: itemDelegate.percentageState
-                                  ? root.iconBasename + "-" + app.pad(Math.round(itemDelegate.percentageState.value / 10) * 10, 3) + ".svg"
-                                  : root.iconBasename + "-050.svg"
+                            Layout.preferredHeight: Style.iconSize
+                            Layout.preferredWidth: Style.iconSize
+                            name: app.interfacesToIcon(itemDelegate.thing.thingClass.interfaces)
+                            color: itemDelegate.powerState && itemDelegate.powerState.value === true ? Style.accentColor : Style.iconColor
                         }
 
                         Label {
@@ -106,29 +106,6 @@ ThingsListPageBase {
 
                         ThingStatusIcons {
                             thing: itemDelegate.thing
-                        }
-
-                        ShutterControls {
-                            id: shutterControls
-                            Layout.fillWidth: false
-                            height: parent.height
-                            thing: itemDelegate.thing
-                            invert: root.invertControls
-                            visible: !itemDelegate.isImpulseBased
-                            enabled: itemDelegate.isEnabled
-                        }
-                        ProgressButton {
-                            Layout.preferredHeight: app.iconSize
-                            Layout.preferredWidth: height
-                            longpressEnabled: false
-                            imageSource: "../images/closable-move.svg"
-                            visible: itemDelegate.isImpulseBased
-                            enabled: itemDelegate.isEnabled
-                            onClicked: {
-                                var actionTypeId = itemDelegate.thing.thingClass.actionTypes.findByName("triggerImpulse").id
-                                print("Triggering impulse", actionTypeId)
-                                engine.thingManager.executeAction(itemDelegate.thing.id, actionTypeId)
-                            }
                         }
                     }
                 }

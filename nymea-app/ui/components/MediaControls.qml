@@ -36,7 +36,8 @@ import Nymea 1.0
 
 RowLayout {
     id: root
-    implicitHeight: app.iconSize * (showExtendedControls ? 2 : 1) + app.margins
+    implicitHeight: Style.iconSize * (showExtendedControls ? 2 : 1) + app.margins
+    spacing: 0
 
     property Thing thing: null
 
@@ -58,8 +59,6 @@ RowLayout {
     }
 
     ProgressButton {
-        Layout.preferredHeight: app.iconSize
-        Layout.preferredWidth: height
         imageSource: "../images/media-playlist-shuffle.svg"
         longpressEnabled: false
         enabled: root.shuffleState !== null
@@ -78,8 +77,7 @@ RowLayout {
 
     Item { Layout.fillWidth: true }
     ProgressButton {
-        Layout.preferredHeight: app.iconSize * (root.showExtendedControls ? 1.5 : 1)
-        Layout.preferredWidth: height
+        size: Style.iconSize * (root.showExtendedControls ? 1.5 : 1)
         imageSource: "../images/media-skip-backward.svg"
         longpressImageSource: "../images/media-seek-backward.svg"
         longpressEnabled: root.thing.thingClass.actionTypes.findByName("fastRewind") !== null
@@ -97,8 +95,7 @@ RowLayout {
     }
     Item { Layout.fillWidth: true }
     ProgressButton {
-        Layout.preferredHeight: app.iconSize * (root.showExtendedControls ? 2 : 1)
-        Layout.preferredWidth: height
+        size: Style.iconSize * (root.showExtendedControls ? 2 : 1)
         imageSource: root.playbackState && root.playbackState.value === "Playing" ? "../images/media-playback-pause.svg" : "../images/media-playback-start.svg"
         longpressImageSource: "../images/media-playback-stop.svg"
         longpressEnabled: root.playbackState && root.playbackState.value !== "Stopped"
@@ -118,8 +115,7 @@ RowLayout {
     }
     Item { Layout.fillWidth: true }
     ProgressButton {
-        Layout.preferredHeight: app.iconSize * (root.showExtendedControls ? 1.5 : 1)
-        Layout.preferredWidth: height
+        size: Style.iconSize * (root.showExtendedControls ? 1.5 : 1)
         imageSource: "../images/media-skip-forward.svg"
         longpressImageSource: "../images/media-seek-forward.svg"
         longpressEnabled: root.thing.thingClass.actionTypes.findByName("fastForward") !== null
@@ -137,8 +133,7 @@ RowLayout {
     Item { Layout.fillWidth: true }
 
     ProgressButton {
-        Layout.preferredHeight: app.iconSize
-        Layout.preferredWidth: height
+        size: Style.iconSize
         imageSource: root.repeatState.value === "One" ? "../images/media-playlist-repeat-one.svg" : "../images/media-playlist-repeat.svg"
         color: root.repeatState.value === "None" ? root.iconColor : Style.accentColor
         longpressEnabled: false

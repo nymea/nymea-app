@@ -110,8 +110,8 @@ ColumnLayout {
 
         }
         ColorIcon {
-            Layout.preferredHeight: app.iconSize
-            Layout.preferredWidth: app.iconSize
+            Layout.preferredHeight: Style.iconSize
+            Layout.preferredWidth: Style.iconSize
             name: "../images/eye.svg"
             color: root.hiddenPassword ? Style.iconColor : Style.accentColor
             MouseArea {

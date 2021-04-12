@@ -137,8 +137,8 @@ SettingsPageBase {
         visible: !networkManager.available && !networkManager.loading
         spacing: app.margins
         ColorIcon {
-            Layout.preferredHeight: app.iconSize
-            Layout.preferredWidth: app.iconSize
+            Layout.preferredHeight: Style.iconSize
+            Layout.preferredWidth: Style.iconSize
             name: "../images/connections/network-wired-disabled.svg"
         }
         Label {
@@ -491,8 +491,8 @@ SettingsPageBase {
                 }
 
                 ColorIcon {
-                    Layout.preferredHeight: app.iconSize
-                    Layout.preferredWidth: app.iconSize
+                    Layout.preferredHeight: Style.iconSize
+                    Layout.preferredWidth: Style.iconSize
                     name: "../images/eye.svg"
                     color: passwordTextField.showPassword ? Style.accentColor : Style.iconColor
                     MouseArea {

@@ -33,7 +33,7 @@ import Nymea 1.0
 
 Item {
     id: root
-    implicitHeight: app.iconSize * .8
+    implicitHeight: Style.iconSize * .8
     implicitWidth: height
 
     // TODO: Convert to enum once we have Qt 5.10

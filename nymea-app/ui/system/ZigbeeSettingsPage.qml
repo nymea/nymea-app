@@ -86,8 +86,8 @@ SettingsPageBase {
                     RowLayout {
                         ColorIcon {
                             name: "/ui/images/zigbee/" + model.backend + ".svg"
-                            Layout.preferredWidth: app.iconSize
-                            Layout.preferredHeight: app.iconSize
+                            Layout.preferredWidth: Style.iconSize
+                            Layout.preferredHeight: Style.iconSize
                         }
 
                         Label {
@@ -97,8 +97,7 @@ SettingsPageBase {
                         }
 
                         ProgressButton {
-                            Layout.preferredWidth: app.iconSize
-                            Layout.preferredHeight: app.iconSize
+                            size: Style.iconSize
                             imageSource: "/ui/images/configure.svg"
                             longpressEnabled: false
                             onClicked: pageStack.push(Qt.resolvedUrl("ZigbeeNetworkPage.qml"), { zigbeeManager: zigbeeManager, network: zigbeeManager.networks.get(index) })
@@ -127,8 +126,8 @@ SettingsPageBase {
                         }
 
                         Led {
-                            Layout.preferredHeight: app.iconSize
-                            Layout.preferredWidth: app.iconSize
+                            Layout.preferredHeight: Style.iconSize
+                            Layout.preferredWidth: Style.iconSize
                             state: {
                                 switch (model.networkState) {
                                 case ZigbeeNetwork.ZigbeeNetworkStateOnline:
@@ -155,15 +154,15 @@ SettingsPageBase {
                             text: model.permitJoiningEnabled ? qsTr("Open for %0 s").arg(model.permitJoiningRemaining) : qsTr("Closed")
                         }
                         ColorIcon {
-                            Layout.preferredHeight: app.iconSize
-                            Layout.preferredWidth: app.iconSize
+                            Layout.preferredHeight: Style.iconSize
+                            Layout.preferredWidth: Style.iconSize
                             name: model.permitJoiningEnabled ? "/ui/images/lock-open.svg" : "/ui/images/lock-closed.svg"
                             visible: !model.permitJoiningEnabled
                         }
                         Canvas {
                             id: canvas
-                            Layout.preferredHeight: app.iconSize
-                            Layout.preferredWidth: app.iconSize
+                            Layout.preferredHeight: Style.iconSize
+                            Layout.preferredWidth: Style.iconSize
                             rotation: -90
                             visible: model.permitJoiningEnabled
 

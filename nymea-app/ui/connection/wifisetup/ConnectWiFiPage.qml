@@ -184,8 +184,8 @@ Page {
                     }
 
                     ColorIcon {
-                        Layout.preferredHeight: app.iconSize
-                        Layout.preferredWidth: app.iconSize
+                        Layout.preferredHeight: Style.iconSize
+                        Layout.preferredWidth: Style.iconSize
                         name: "../images/eye.svg"
                         color: passwordTextField.showPassword ? Style.accentColor : Style.iconColor
                         MouseArea {

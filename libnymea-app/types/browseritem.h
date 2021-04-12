@@ -37,7 +37,7 @@
 class BrowserItem : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QUuid id READ id CONSTANT)
+    Q_PROPERTY(QString id READ id CONSTANT)
     Q_PROPERTY(QString displayName READ displayName NOTIFY displayNameChanged)
     Q_PROPERTY(QString description READ description NOTIFY descriptionChanged)
     Q_PROPERTY(QString icon READ icon NOTIFY iconChanged)

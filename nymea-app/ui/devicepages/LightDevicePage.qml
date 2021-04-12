@@ -80,12 +80,12 @@ ThingPageBase {
                     ListElement { name: "relax"; ct: "95" ; bri: 55; color: "#ffaf2a"}
                 }
                 delegate: Item {
-                    Layout.preferredWidth: app.hugeIconSize
-                    Layout.preferredHeight: app.hugeIconSize
+                    Layout.preferredWidth: Style.hugeIconSize
+                    Layout.preferredHeight: Style.hugeIconSize
                     Layout.fillWidth: true
                     Layout.fillHeight: app.landscape
                     ItemDelegate {
-                        height: app.hugeIconSize
+                        height: Style.hugeIconSize
                         width: height
                         anchors.centerIn: parent
 
@@ -155,14 +155,14 @@ ThingPageBase {
             columns: (app.landscape && (root.colorState !== null && root.ctState !== null))
                      || (!app.landscape && (root.colorState === null && root.ctState === null)) ? 1 : 2
             Rectangle {
-                Layout.preferredWidth: app.hugeIconSize
+                Layout.preferredWidth: Style.hugeIconSize
                 Layout.preferredHeight: width
                 radius: Style.tileRadius
                 color: root.colorState ? root.colorState.value : "red"
 //                color: Qt.tint(Style.backgroundColor, Qt.rgba(Style.foregroundColor.r, Style.foregroundColor.g, Style.foregroundColor.b, 0.1))
                 ColorIcon {
                     anchors.centerIn: parent
-                    height: app.largeIconSize
+                    height: Style.bigIconSize
                     width: height
                     name: root.powerState.value === true ? "../images/light-on.svg" : "../images/light-off.svg"
                     color: root.colorState ?

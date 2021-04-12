@@ -35,8 +35,8 @@ import "../utils"
 
 Item {
     id: root
-    implicitWidth: orientation == Qt.Horizontal ? 300 : app.hugeIconSize
-    implicitHeight: orientation == Qt.Horizontal ? app.hugeIconSize : 300
+    implicitWidth: orientation == Qt.Horizontal ? 300 : Style.hugeIconSize
+    implicitHeight: orientation == Qt.Horizontal ? Style.hugeIconSize : 300
 
     property Thing thing: null
 

@@ -90,18 +90,18 @@ Page {
 
             Item {
                 Layout.fillWidth: true
-                Layout.preferredHeight: app.iconSize * 8
+                Layout.preferredHeight: Style.iconSize * 8
 
                 SequentialAnimation {
                     loops: Animation.Infinite
                     running: true
 
-                    PropertyAction { target: phoneIcon; property: "anchors.horizontalCenterOffset"; value: app.iconSize * 2 }
+                    PropertyAction { target: phoneIcon; property: "anchors.horizontalCenterOffset"; value: Style.iconSize * 2 }
                     PropertyAction { target: phoneIcon; property: "scale"; value: 1.3 }
                     NumberAnimation { target: phoneIcon; property: "opacity"; duration: 500; to: 1 }
                     PauseAnimation { duration: 500 }
                     ParallelAnimation {
-                        NumberAnimation { target: phoneIcon; property: "anchors.horizontalCenterOffset"; from: app.iconSize * 2; to: -app.iconSize * 2; duration: 1500; easing.type: Easing.OutQuad }
+                        NumberAnimation { target: phoneIcon; property: "anchors.horizontalCenterOffset"; from: Style.iconSize * 2; to: -Style.iconSize * 2; duration: 1500; easing.type: Easing.OutQuad }
                         NumberAnimation { target: phoneIcon; property: "scale"; duration: 1500; from: 1.3; to: 1; easing.type: Easing.InOutQuad }
                     }
                     PauseAnimation { duration: 500 }
@@ -113,20 +113,20 @@ Page {
                 ColorIcon {
                     id: nfcIcon
                     name: "../images/nfc.svg"
-                    height: app.iconSize * 2
-                    width: app.iconSize * 2
+                    height: Style.iconSize * 2
+                    width: Style.iconSize * 2
                     anchors.centerIn: parent
-                    anchors.horizontalCenterOffset: - app.iconSize * 2
+                    anchors.horizontalCenterOffset: - Style.iconSize * 2
                     visible: nfcWriter.status == NfcThingActionWriter.TagStatusWaiting
                 }
 
                 Item {
                     id: phoneIcon
-                    height: app.iconSize * 5
-                    width: app.iconSize * 5
+                    height: Style.iconSize * 5
+                    width: Style.iconSize * 5
                     scale: 1.5
                     anchors.centerIn: parent
-                    anchors.horizontalCenterOffset: app.iconSize * 2
+                    anchors.horizontalCenterOffset: Style.iconSize * 2
                     visible: nfcWriter.status == NfcThingActionWriter.TagStatusWaiting
 
                     Rectangle {
@@ -147,8 +147,8 @@ Page {
                 Rectangle {
                     id: tick
                     anchors.centerIn: parent
-                    height: app.iconSize * 6
-                    width: app.iconSize * 6
+                    height: Style.iconSize * 6
+                    width: Style.iconSize * 6
                     radius: width / 2
                     color: Style.backgroundColor
                     border.width: 4
@@ -173,8 +173,8 @@ Page {
                         ColorIcon {
                             x: (tick.width - width) / 2
                             y: (tick.height - height) / 2
-                            height: app.iconSize * 4
-                            width: app.iconSize * 4
+                            height: Style.iconSize * 4
+                            width: Style.iconSize * 4
                             name: nfcWriter.status == NfcThingActionWriter.TagStatusFailed ? "../images/close.svg" : "../images/tick.svg"
                             color: nfcWriter.status == NfcThingActionWriter.TagStatusFailed ? "red" : "green"
                         }

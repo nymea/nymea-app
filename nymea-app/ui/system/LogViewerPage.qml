@@ -42,7 +42,7 @@ Page {
         onBackPressed: pageStack.pop()
 
         HeaderButton {
-            imageSource: "../images/go-down.svg"
+            imageSource: "../images/down.svg"
             color: root.autoScroll ? Style.accentColor : Style.iconColor
             onClicked: {
                 listView.positionViewAtEnd();
@@ -96,7 +96,7 @@ Page {
                 id: contentColumn
                 anchors { left: parent.left; right: parent.right; margins: app.margins / 2 }
                 ColorIcon {
-                    Layout.preferredWidth: app.iconSize
+                    Layout.preferredWidth: Style.iconSize
                     Layout.preferredHeight: width
                     Layout.alignment: Qt.AlignVCenter
                     color: {

@@ -168,7 +168,7 @@ Page {
 
             contentItem: RowLayout {
                 ColorIcon {
-                    Layout.preferredWidth: app.iconSize
+                    Layout.preferredWidth: Style.iconSize
                     Layout.preferredHeight: width
                     Layout.alignment: Qt.AlignVCenter
                     color: {

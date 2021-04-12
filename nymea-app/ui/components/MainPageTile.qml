@@ -132,7 +132,7 @@ Item {
                     ColorIcon {
                         id: colorIcon
                         anchors.centerIn: parent
-                        height: app.largeIconSize
+                        height: Style.largeIconSize
                         width: height
                         ColorIcon {
                             id: fallbackIcon
@@ -169,7 +169,7 @@ Item {
     Item {
         id: innerContent
         anchors { left: parent.left; bottom: parent.bottom; right: parent.right; margins: app.margins / 2 }
-        height: app.iconSize + app.margins * 2
+        height: Style.iconSize + app.margins * 2
         Material.foreground: Style.tileOverlayForegroundColor
 
         MouseArea {
@@ -181,7 +181,7 @@ Item {
         id: quickAlertPane
         anchors { top: parent.top; right: parent.right; margins: app.margins }
         ColorIcon {
-            height: app.smallIconSize
+            height: Style.smallIconSize
             width: height
             name: "../images/system-update.svg"
             color: Style.accentColor
@@ -189,21 +189,21 @@ Item {
         }
 
         ColorIcon {
-            height: app.smallIconSize
+            height: Style.smallIconSize
             width: height
             name: root.isWireless ? "../images/connections/nm-signal-00.svg" : "../images/connections/network-wired-offline.svg"
             color: root.disconnected ? "red" : "orange"
             visible: root.setupStatus == Thing.ThingSetupStatusComplete && (root.disconnected || (root.isWireless && root.signalStrength < 20 && root.signalStrength >= 0))
         }
         ColorIcon {
-            height: app.smallIconSize
+            height: Style.smallIconSize
             width: height
             name: root.setupStatus === Thing.ThingSetupStatusFailed ? "../images/dialog-warning-symbolic.svg" : "../images/settings.svg"
             color: root.setupStatus === Thing.ThingSetupStatusFailed ? "red" : Style.tileForegroundColor
             visible: root.setupStatus === Thing.ThingSetupStatusFailed || root.setupStatus === Thing.ThingSetupStatusInProgress
         }
         ColorIcon {
-            height: app.smallIconSize
+            height: Style.smallIconSize
             width: height
             name: "../images/battery/battery-010.svg"
             visible: root.setupStatus == Thing.ThingSetupStatusComplete && root.batteryCritical

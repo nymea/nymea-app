@@ -75,7 +75,7 @@ Page {
         }
 
         Image {
-            Layout.preferredWidth: app.iconSize * 6
+            Layout.preferredWidth: Style.iconSize * 6
             Layout.preferredHeight: width
             source: "images/nymea-box-setup.svg"
             Layout.alignment: Qt.AlignHCenter

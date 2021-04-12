@@ -224,7 +224,7 @@ Page {
                         text: qsTr("After having installed the nymea community image to your Raspberry Pi, all you need to do is to plug it into a power socket. Note that the Wireless setup will only be available if the Raspberry Pi is not connected to a wired network.")
                     }
                     Image {
-                        Layout.preferredWidth: app.iconSize * 8
+                        Layout.preferredWidth: Style.iconSize * 8
                         Layout.preferredHeight: width * 540 / 800
                         sourceSize.width: 800
                         sourceSize.height: 540
@@ -249,7 +249,7 @@ Page {
                         text: qsTr("If you have a %1 box, plug it into a power socket and wait for it to be booted. Once the LED pulses slowly, press the button for 3 seconds until the LED changes.").arg(Configuration.systemName)
                     }
                     Image {
-                        Layout.preferredWidth: app.iconSize * 5
+                        Layout.preferredWidth: Style.iconSize * 5
                         Layout.preferredHeight: width
                         Layout.bottomMargin: app.margins
                         sourceSize.width: width

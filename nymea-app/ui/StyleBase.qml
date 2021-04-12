@@ -19,9 +19,17 @@ Item {
 
     readonly property int smallMargins: 8
     readonly property int margins: 16
+    readonly property int bigMargins: 32
+    readonly property int hugeMargins: 64
 
     readonly property int smallDelegateHeight: 50
     readonly property int delegateHeight: 60
+
+    readonly property int smallIconSize: 16
+    readonly property int iconSize: 24
+    readonly property int bigIconSize: 32
+    readonly property int largeIconSize: 40
+    readonly property int hugeIconSize: 64
 
     // Note: Font files need to be provided in a "fonts" folder in the style
     property string fontFamily: "Ubuntu"
@@ -80,4 +88,7 @@ Item {
         "totalEnergyProduced": "lightgreen",
         "currentPower": "deepskyblue",
     }
+
+    readonly property color red: "#ad4754"
+    readonly property color white: "white"
 }

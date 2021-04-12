@@ -37,7 +37,7 @@ ApplicationWindow {
 
     property int smallIconSize: 16
     property int iconSize: 24
-    property int largeIconSize: 40
+    property int bigIconSize: 40
     property int hugeIconSize: 64
 
     property int delegateHeight: 60

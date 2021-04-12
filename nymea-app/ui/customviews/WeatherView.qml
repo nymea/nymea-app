@@ -61,7 +61,7 @@ Item {
             Layout.fillWidth: true
             Layout.preferredHeight: mainImageSize
 
-            property int mainImageSize: app.iconSize * 2
+            property int mainImageSize: Style.iconSize * 2
 
             Item {
                 Layout.fillWidth: true
@@ -72,7 +72,7 @@ Item {
                     columns: 2
                     ColorIcon {
                         name: "../images/sensors/temperature.svg"
-                        Layout.preferredWidth: app.iconSize
+                        Layout.preferredWidth: Style.iconSize
                         Layout.preferredHeight: width
                         color: app.interfaceToColor("temperaturesensor")
                     }
@@ -83,7 +83,7 @@ Item {
                     }
                     ColorIcon {
                         name: "../images/weathericons/humidity.svg"
-                        Layout.preferredWidth: app.iconSize
+                        Layout.preferredWidth: Style.iconSize
                         Layout.preferredHeight: width
                         color: app.interfaceToColor("humiditysensor")
                     }
@@ -111,7 +111,7 @@ Item {
                     anchors.centerIn: parent
                     ColorIcon {
                         name: "../images/sensors/pressure.svg"
-                        width: app.iconSize
+                        width: Style.iconSize
                         height: width
                         color: app.interfaceToColor("pressuresensor")
                     }
@@ -121,7 +121,7 @@ Item {
                     }
                     ColorIcon {
                         name: "../images/weathericons/wind.svg"
-                        width: app.iconSize
+                        width: Style.iconSize
                         height: width
                         color: app.interfaceToColor("windspeedsensor")
                     }

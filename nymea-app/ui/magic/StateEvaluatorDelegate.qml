@@ -157,7 +157,7 @@ ItemDelegate {
                         iconName: model.iconName
                         text: model.text
                         progressive: true
-                        iconSize: app.iconSize * 2
+                        iconSize: Style.iconSize * 2
 
                         onClicked: {
                             root[model.method]()

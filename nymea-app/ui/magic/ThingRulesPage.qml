@@ -189,7 +189,7 @@ Page {
         }
 
         AbstractButton {
-            height: app.iconSize * 4
+            height: Style.iconSize * 4
             width: height
             anchors.horizontalCenter: parent.horizontalCenter
 

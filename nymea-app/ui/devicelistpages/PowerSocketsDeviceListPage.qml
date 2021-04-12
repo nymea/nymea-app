@@ -85,8 +85,8 @@ ThingsListPageBase {
                         spacing: app.margins
 
                         ColorIcon {
-                            Layout.preferredHeight: app.iconSize
-                            Layout.preferredWidth: app.iconSize
+                            Layout.preferredHeight: Style.iconSize
+                            Layout.preferredWidth: Style.iconSize
                             name: app.interfaceToIcon("powersocket")
                             color: itemDelegate.powerState.value === true ? Style.accentColor : Style.iconColor
                         }

@@ -160,7 +160,7 @@ ThingPageBase {
             Layout.preferredHeight: app.landscape ? parent.height : parent.height *.4
 
             AbstractButton {
-                height: Math.min(Math.min(parent.height, parent.width), app.iconSize * 5)
+                height: Math.min(Math.min(parent.height, parent.width), Style.iconSize * 5)
                 width: height
                 anchors.centerIn: parent
                 Rectangle {

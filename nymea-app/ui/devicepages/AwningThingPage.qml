@@ -48,25 +48,29 @@ ThingPageBase {
         anchors.fill: parent
         columns: root.landscape ? 2 : 1
 
-        ColorIcon {
+        Item {
             id: shutterImage
             Layout.preferredWidth: root.landscape ?
-                                       Math.min(parent.width - shutterControlsContainer.minimumWidth, parent.height) - app.margins
+                                       Math.min(parent.width - shutterControlsContainer.minimumWidth, parent.height)
                                      : Math.min(Math.min(500, parent.width), parent.height - shutterControlsContainer.minimumHeight)
             Layout.preferredHeight: width
-            Layout.alignment: Qt.AlignHCenter
-            name: "../images/awning/awning-" + app.pad(Math.round(root.percentageState.value / 10) * 10, 3) + ".svg"
-            visible: isExtended
-        }
 
+            ColorIcon {
+                anchors.centerIn: parent
+                size: Math.min(parent.height, parent.width) - Style.hugeMargins * 2
+                name: root.isExtended ?
+                          "../images/awning/awning-" + app.pad(Math.round(root.percentageState.value / 10) * 10, 3) + ".svg"
+                        : "../images/awning/awning-100.svg"
+            }
+        }
 
         Item {
             id: shutterControlsContainer
             Layout.fillWidth: true
             Layout.fillHeight: true
             Layout.margins: app.margins * 2
-            property int minimumWidth: app.iconSize * 2.7 * 3
-            property int minimumHeight: app.iconSize * 4.5
+            property int minimumWidth: Style.iconSize * 2.7 * 3
+            property int minimumHeight: Style.iconSize * 4.5
 
             ColumnLayout {
                 anchors.centerIn: parent
@@ -107,6 +111,8 @@ ThingPageBase {
                 ShutterControls {
                     id: shutterControls
                     thing: root.thing
+                    size: Style.bigIconSize
+                    backgroundEnabled: true
                     invert: true
                     Layout.fillWidth: true
                 }

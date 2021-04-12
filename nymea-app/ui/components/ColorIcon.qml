@@ -35,10 +35,13 @@ import Nymea 1.0
 
 Item {
     id: icon
+    width: size
+    height: size
 
     property string name
     property alias color: colorizedImage.outColor
     property int margins: 0
+    property int size: Style.iconSize
 
     property alias status: image.status
 

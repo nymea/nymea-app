@@ -119,7 +119,7 @@ Item {
                 anchors { left: parent.left; top: parent.top; right: parent.right; leftMargin: app.margins; rightMargin: app.margins }
                 Item {
                     Layout.fillWidth: true
-                    height: app.iconSize
+                    height: Style.iconSize
                 }
 
                 Label {
@@ -129,7 +129,7 @@ Item {
                 }
 
                 ColorIcon {
-                    height: app.iconSize / 2
+                    height: Style.iconSize / 2
                     width: height
                     visible: true
                     color: "white"

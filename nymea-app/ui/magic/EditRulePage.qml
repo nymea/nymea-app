@@ -328,8 +328,8 @@ Page {
 
                     ColorIcon {
                         name: "../images/settings.svg"
-                        Layout.preferredHeight: app.iconSize
-                        Layout.preferredWidth: app.iconSize
+                        Layout.preferredHeight: Style.iconSize
+                        Layout.preferredWidth: Style.iconSize
                         MouseArea {
                             anchors.fill: parent
                             onClicked: ruleSettings.showDetails = !ruleSettings.showDetails
@@ -376,7 +376,7 @@ Page {
                 GridLayout {
                     id: colorsGrid
                     Layout.fillWidth: true
-                    columns: (root.width / 10 < app.iconSize + app.margins) ? 5 : 10
+                    columns: (root.width / 10 < Style.iconSize + app.margins) ? 5 : 10
                     columnSpacing: app.margins
                     rowSpacing: app.margins
                     Layout.preferredHeight: opacity > 0 ? implicitHeight : 0
@@ -389,7 +389,7 @@ Page {
 
                         delegate: Item {
                             Layout.fillWidth: true
-                            Layout.preferredHeight: app.iconSize + app.margins
+                            Layout.preferredHeight: Style.iconSize + app.margins
                             Rectangle {
                                 height: parent.height
                                 width: height
@@ -407,8 +407,8 @@ Page {
                             }
 
                             ColorIcon {
-                                height: app.iconSize
-                                width: app.iconSize
+                                height: Style.iconSize
+                                width: Style.iconSize
                                 color: modelData
                                 name: "../images/" + (root.ruleIcon ? root.ruleIcon : "slideshow") + ".svg"
                                 anchors.centerIn: parent
@@ -419,7 +419,7 @@ Page {
                         model: ["light-on", "light-off", "alarm-clock", "media-playback-start", "connections/network-secure", "notification", "sensors", "shutter/shutter-050", "attention", "eye"]
                         delegate: Item {
                             Layout.fillWidth: true
-                            Layout.preferredHeight: app.iconSize + app.margins
+                            Layout.preferredHeight: Style.iconSize + app.margins
                             Rectangle {
                                 height: parent.height
                                 width: height
@@ -437,8 +437,8 @@ Page {
                             }
 
                             ColorIcon {
-                                height: app.iconSize
-                                width: app.iconSize
+                                height: Style.iconSize
+                                width: Style.iconSize
                                 color: root.ruleColor
                                 name: "../images/" + modelData + ".svg"
                                 anchors.centerIn: parent
@@ -755,7 +755,7 @@ Page {
                         iconName: model.iconName
                         text: model.text
                         progressive: true
-                        iconSize: app.iconSize * 2
+                        iconSize: Style.iconSize * 2
                         visible: engine.jsonRpcClient.ensureServerVersion(model.minimumJsonRpcVersion)
 
                         onClicked: {
@@ -805,7 +805,7 @@ Page {
                         iconName: model.iconName
                         text: model.text
                         progressive: true
-                        iconSize: app.iconSize * 2
+                        iconSize: Style.iconSize * 2
                         visible: engine.jsonRpcClient.ensureServerVersion(model.minimumJsonRpcVersion)
 
                         onClicked: {
@@ -868,7 +868,7 @@ Page {
                         iconName: model.iconName
                         text: model.text
                         progressive: true
-                        iconSize: app.iconSize * 2
+                        iconSize: Style.iconSize * 2
                         visible: ruleActionQuestionPage.exitAction === model.isExitAction && engine.jsonRpcClient.ensureServerVersion(model.minimumJsonRpcVersion)
 
                         onClicked: {

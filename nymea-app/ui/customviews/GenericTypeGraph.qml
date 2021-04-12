@@ -76,7 +76,7 @@ Item {
     ChartView {
         id: chartView
         anchors.fill: parent
-        margins.top: app.iconSize + app.margins
+        margins.top: Style.iconSize + app.margins
         margins.bottom: app.margins / 2
         margins.left: 0
         margins.right: 0
@@ -95,8 +95,8 @@ Item {
             anchors { left: parent.left; top: parent.top; right: parent.right; topMargin: app.margins / 2; leftMargin: app.margins * 1.5; rightMargin: app.margins }
 
             ColorIcon {
-                Layout.preferredHeight: app.iconSize
-                Layout.preferredWidth: app.iconSize
+                Layout.preferredHeight: Style.iconSize
+                Layout.preferredWidth: Style.iconSize
                 name: root.iconSource
                 visible: root.iconSource.length > 0
                 color: root.color
