@@ -47,6 +47,9 @@
 #include "types/repeatingoption.h"
 #include "types/calendaritems.h"
 #include "types/calendaritem.h"
+#include "logging.h"
+
+NYMEA_LOGGING_CATEGORY(dcRuleManager, "RuleManager")
 
 #include <QMetaEnum>
 #include <QJsonDocument>
@@ -92,7 +95,7 @@ int RuleManager::addRule(const QVariantMap params)
 int RuleManager::addRule(Rule *rule)
 {
     QVariantMap params = packRule(rule);
-    qDebug() << "packed rule:" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson(QJsonDocument::Indented));
+    qCDebug(dcRuleManager) << "packed rule:" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson(QJsonDocument::Indented));
     return m_jsonClient->sendCommand("Rules.AddRule", params, this, "onAddRuleReply");
 }
 

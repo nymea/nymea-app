@@ -70,7 +70,7 @@ private:
     public:
         QDateTime timestamp; // The timestamp where this sample *ends*
         QList<LogEntry*> entries; // all log entries in this sample, that is, from timestamp - m_sampleRate
-        LogEntry *last = nullptr;
+        LogEntry *startingPoint = nullptr; // the starting point for the same. Normally the last entry of the previous sample
     };
     LogsModel* m_model = nullptr;
     QtCharts::QXYSeries* m_series = nullptr;

@@ -627,8 +627,8 @@ void AWSClient::getId()
     QJsonDocument jsonDoc = QJsonDocument::fromVariant(params);
     QByteArray payload = jsonDoc.toJson(QJsonDocument::Compact);
 
-//    qDebug() << "Posting:" << request.url().toString();
-//    qDebug() << "Payload:" << payload;
+    qCDebug(dcCloud()) << "Posting:" << request.url().toString();
+    qDebug(dcCloud()) << "Payload:" << payload;
     QNetworkReply *reply = m_nam->post(request, payload);
     connect(reply, &QNetworkReply::finished, this, [this, reply]() {
         reply->deleteLater();
