@@ -97,6 +97,7 @@ public:
     void setViewStartTime(const QDateTime &viewStartTime);
 
     Q_INVOKABLE LogEntry* get(int index) const;
+    Q_INVOKABLE LogEntry* findClosest(const QDateTime &dateTime);
 
 
 signals:

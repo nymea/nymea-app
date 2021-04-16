@@ -50,12 +50,12 @@ void XYSeriesAdapter::setBaseSeries(QtCharts::QXYSeries *series)
                 m_series->replace(index, m_series->at(index).x(), value);
                 if (value < m_minValue) {
                     m_minValue = value;
-                    qDebug() << "New min:" << m_minValue;
+//                    qDebug() << "New min:" << m_minValue;
                     emit minValueChanged();
                 }
                 if (value > m_maxValue) {
                     m_maxValue = value;
-                    qDebug() << "New max:" << m_maxValue;
+//                    qDebug() << "New max:" << m_maxValue;
                     emit maxValueChanged();
                 }
             }
@@ -66,12 +66,12 @@ void XYSeriesAdapter::setBaseSeries(QtCharts::QXYSeries *series)
                 m_series->replace(index, m_series->at(index).x(), value);
                 if (value < m_minValue) {
                     m_minValue = value;
-                    qDebug() << "New min:" << m_minValue;
+//                    qDebug() << "New min:" << m_minValue;
                     emit minValueChanged();
                 }
                 if (value > m_maxValue) {
                     m_maxValue = value;
-                    qDebug() << "New max:" << m_maxValue;
+//                    qDebug() << "New max:" << m_maxValue;
                     emit maxValueChanged();
                 }
             }
@@ -117,6 +117,7 @@ qreal XYSeriesAdapter::minValue() const
 
 void XYSeriesAdapter::ensureSamples(const QDateTime &from, const QDateTime &to)
 {
+//    qWarning() << "Ensuring samples:" << from.toString("yyyy-MM-dd hh:mm:ss") << to.toString("yyyy-MM-dd hh:mm:ss");
     if (!m_series) {
         return;
     }
@@ -153,6 +154,7 @@ void XYSeriesAdapter::logEntryAdded(LogEntry *entry)
         return;
     }
 
+
     ensureSamples(entry->timestamp(), entry->timestamp());
 
     int idx = entry->timestamp().secsTo(m_newestSample) / m_sampleRate;
@@ -161,19 +163,12 @@ void XYSeriesAdapter::logEntryAdded(LogEntry *entry)
         return;
     }
     Sample *sample = m_samples.at(static_cast<int>(idx));
+    LogEntry *oldLast = sample->entries.count() > 0 ? sample->entries.last() : nullptr;
     sample->entries.append(entry);
-    for (int i = idx; i > 0; i--) {
-        Sample *nextSample = m_samples.at(i);
-        if (!nextSample->last) {
-            nextSample->last = entry;
-            m_series->replace(i, nextSample->timestamp.toMSecsSinceEpoch(), calculateSampleValue(i));
-        } else {
-            break;
-        }
-    }
 
     qreal value = calculateSampleValue(idx);
     m_series->replace(idx, sample->timestamp.toMSecsSinceEpoch(), value);
+//    qWarning() << "sample value added" << idx << entry->timestamp().time().toString("hh:mm:ss") << value;
 
     if (value < m_minValue) {
         m_minValue = value;
@@ -185,6 +180,20 @@ void XYSeriesAdapter::logEntryAdded(LogEntry *entry)
 //        qDebug() << "New max:" << m_maxValue;
         emit maxValueChanged();
     }
+
+    // check if we need to update more samples
+    for (int i = idx - 1; i >= 0; i--) {
+        Sample *nextSample = m_samples.at(i);
+        if (nextSample->startingPoint == oldLast) {
+            nextSample->startingPoint = entry;
+            qreal value = calculateSampleValue(i);
+//            qWarning() << "Updating" << i << value;
+            m_series->replace(i, nextSample->timestamp.toMSecsSinceEpoch(), value);
+
+        } else {
+            break;
+        }
+    }
 }
 
 qreal XYSeriesAdapter::calculateSampleValue(int index)
@@ -192,13 +201,11 @@ qreal XYSeriesAdapter::calculateSampleValue(int index)
     Sample *sample = m_samples.at(index);
     qreal value = 0;
     int count = 0;
-    if (m_samples.length() > index + 1) {
-        Sample *previousSample = m_samples.at(static_cast<int>(index) + 1);
-        if (previousSample->last) {
-            value = previousSample->last->value().toDouble();
-            count++;
-        }
+    if (sample->startingPoint) {
+        value = sample->startingPoint->value().toDouble();
+        count++;
     }
+
     foreach (LogEntry *entry, sample->entries) {
         value += entry->value().toDouble();
         count++;

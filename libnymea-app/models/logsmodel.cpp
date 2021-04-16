@@ -211,6 +211,44 @@ LogEntry *LogsModel::get(int index) const
     return nullptr;
 }
 
+LogEntry *LogsModel::findClosest(const QDateTime &dateTime)
+{
+//    qWarning() << "********************Finding closest for:" << dateTime.time().toString();
+    int newest = 0;
+    int oldest = m_list.count() - 1;
+    LogEntry *entry = nullptr;
+    int step = 0;
+    while (oldest > newest && step < m_list.count()) {
+        LogEntry *oldestEntry = m_list.at(oldest);
+        LogEntry *newestEntry = m_list.at(newest);
+        int middle = (oldest - newest) / 2 + newest;
+        LogEntry *middleEntry = m_list.at(middle);
+//        qWarning() << "Oldest:" << oldestEntry->timestamp().time().toString() << "Middle:" << middleEntry->timestamp().time().toString() << "Newest:" << newestEntry->timestamp().time().toString() << ":" << (oldest - newest);
+        if (dateTime <= oldestEntry->timestamp()) {
+            return oldestEntry;
+        }
+        if (dateTime >= newestEntry->timestamp()) {
+            return newestEntry;
+        }
+
+        if (dateTime == middleEntry->timestamp()) {
+            return middleEntry;
+        }
+
+        if (dateTime < middleEntry->timestamp()) {
+            newest = middle;
+        } else {
+            oldest = middle;
+        }
+
+        if (oldest - newest == 1) {
+            return newestEntry;
+        }
+        step++;
+    }
+    return entry;
+}
+
 void LogsModel::logsReply(int /*commandId*/, const QVariantMap &data)
 {
     int offset = data.value("offset").toInt();
