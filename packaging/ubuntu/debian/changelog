@@ -1,3 +1,10 @@
+nymea-app (1.0.303) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * some fixes in the graph series adapter
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 16 Apr 2021 17:49:52 +0200
+
 nymea-app (1.0.302) bionic; urgency=medium
 
   [ Michael Zanetti ]
