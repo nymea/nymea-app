@@ -121,6 +121,7 @@ int ThingManager::addThing(const QUuid &thingClassId, const QString &name, const
 
 void ThingManager::notificationReceived(const QVariantMap &data)
 {
+    qCDebug(dcThingManager()) << "ThingManager notifications received:" << qUtf8Printable(QJsonDocument::fromVariant(data).toJson());
     QString notification = data.value("notification").toString();
     if (notification == "Integrations.StateChanged") {
         Thing *thing = m_things->getThing(data.value("params").toMap().value("thingId").toUuid());
@@ -163,7 +164,7 @@ void ThingManager::notificationReceived(const QVariantMap &data)
         thing->deleteLater();
     } else if (notification == "Integrations.ThingChanged") {
         QUuid thingId = data.value("params").toMap().value("thing").toMap().value("id").toUuid();
-//        qDebug() << "Thing changed notification" << thingId << data.value("params").toMap();
+        qCDebug(dcThingManager()) << "Thing changed notification" << thingId << data.value("params").toMap();
         Thing *oldThing = m_things->getThing(thingId);
         if (!oldThing) {
             qWarning() << "Received a thing changed notification for a thing we don't know";
