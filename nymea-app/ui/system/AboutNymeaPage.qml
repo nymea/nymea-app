@@ -42,7 +42,7 @@ SettingsPageBase {
     Imprint {
         id: imprint
         Layout.fillWidth: true
-        title: qsTr("%1").arg(Configuration.systemName)
+        title: Configuration.systemName
         githubLink: "https://github.com/nymea/nymea"
 
         NymeaSwipeDelegate {

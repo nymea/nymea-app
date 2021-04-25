@@ -4,14 +4,6 @@
 <context>
     <name>AboutNymeaPage</name>
     <message>
-        <source>About %1:core</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>%1:core</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Connection:</source>
         <translation></translation>
     </message>
@@ -34,6 +26,14 @@
     <message>
         <source>Built with %1</source>
         <translation></translation>
+    </message>
+    <message>
+        <source>About %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Device serial number</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -78,8 +78,8 @@
 <context>
     <name>AppLogPage</name>
     <message>
-        <source>App log</source>
-        <translation></translation>
+        <source>Application logs</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -113,19 +113,19 @@
         <translation></translation>
     </message>
     <message>
-        <source>Log into %1:cloud and manage connected %1:core systems</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Access tools for debugging and error reporting</source>
         <translation></translation>
     </message>
+    <message>
+        <source>Log into %1:cloud and manage connected %1 systems</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
-    <name>AwningDeviceListPage</name>
+    <name>AwningThingsListPage</name>
     <message>
         <source>Awnings</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -144,10 +144,10 @@
     </message>
 </context>
 <context>
-    <name>BlindDeviceListPage</name>
+    <name>BlindThingsListPage</name>
     <message>
         <source>Blinds</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -220,16 +220,16 @@
         <translation></translation>
     </message>
     <message>
-        <source>Searching for %1:core systems.</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Troubles finding your %1:core?</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>%1 box</source>
         <translation></translation>
+    </message>
+    <message>
+        <source>Searching for %1 systems.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Troubles finding your %1 system?</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -271,14 +271,14 @@
     </message>
 </context>
 <context>
-    <name>ButtonDevicePage</name>
+    <name>ButtonThingPage</name>
     <message>
         <source>This switch has not been used yet.</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Press a button on the switch to see logs appearing here.</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -513,21 +513,6 @@
         <translation></translation>
     </message>
     <message>
-        <source>There are no %1:core systems connected to your cloud yet.</source>
-        <translation></translation>
-    </message>
-    <message numerus="yes">
-        <source>There are %n %1:core systems connected to your cloud.</source>
-        <translation>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message>
-        <source>Sorry to see you go. If you log out you won&apos;t be able to connect to %1:core systems remotely any more. However, you can come back any time, we&apos;ll keep your user account. If you whish to completely delete your account and all the data associated with it, check the box below before hitting ok. If you decide to delete your account, all your personal information will be removed from %1:cloud and cannot be restored.</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Failed to connect to the login server. Please mase sure your network connection is working.</source>
         <translation></translation>
     </message>
@@ -544,12 +529,27 @@
         <translation></translation>
     </message>
     <message>
-        <source>Connected %1:core systems</source>
+        <source>Log %1 in to %2:cloud in order to connect to %2:core systems from anywhere and receive push notifications from %2:core systems.</source>
         <translation></translation>
     </message>
     <message>
-        <source>Log %1 in to %2:cloud in order to connect to %2:core systems from anywhere and receive push notifications from %2:core systems.</source>
-        <translation></translation>
+        <source>Connected %1 systems</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There are no %1 systems connected to your cloud yet.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message numerus="yes">
+        <source>There are %n %1 systems connected to your cloud.</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message>
+        <source>Sorry to see you go. If you log out you won&apos;t be able to connect to %1 systems remotely any more. However, you can come back any time, we&apos;ll keep your user account. If you whish to completely delete your account and all the data associated with it, check the box below before hitting ok. If you decide to delete your account, all your personal information will be removed from %1:cloud and cannot be restored.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -591,15 +591,7 @@
         <translation></translation>
     </message>
     <message>
-        <source>%1:core cloud settings</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Cloud connection</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Connect %1:core to %1:cloud in order to access it from anywhere and send push notifications from %1:core to %2.</source>
         <translation></translation>
     </message>
     <message>
@@ -611,16 +603,24 @@
         <translation></translation>
     </message>
     <message>
-        <source>In order to remotely connect to this %1:core, %2 needs to be logged into %1:cloud as well.</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Go to app settings</source>
         <translation></translation>
     </message>
     <message>
         <source>Set up cloud connection for %1</source>
         <translation></translation>
+    </message>
+    <message>
+        <source>%1 cloud settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connect %1 to %1:cloud in order to access it from anywhere.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>In order to remotely connect to this %1 system, %2 needs to be logged into %1:cloud as well.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -768,28 +768,31 @@
         <translation></translation>
     </message>
     <message>
-        <source>There are %1 %2:cores in your network! Which one would you like to use?</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>We haven&apos;t found a %1:core in your network yet.</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>There doesn&apos;t seem to be a %1:core installed in your network. Please make sure your %1:core system is correctly set up and connected.</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Searching for %1:core systems...</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Do you have a %1:core but it&apos;s not connected to your network yet? Use the wireless setup to connect it!</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Info</source>
         <translation></translation>
+    </message>
+    <message numerus="yes">
+        <source>There are %n %1 systems in your network! Which one would you like to use?</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message>
+        <source>We haven&apos;t found a %1 system in your network yet.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There doesn&apos;t seem to be a %1 system installed in your network. Please make sure your %1 system is correctly set up and connected.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Searching for %1 systems...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Do you have a %1 system but it&apos;s not connected to your network yet? Use the wireless setup to connect it!</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -815,12 +818,12 @@
         <translation></translation>
     </message>
     <message>
-        <source>Connecting the %1:core to %2</source>
+        <source>Hidden Network</source>
         <translation></translation>
     </message>
     <message>
-        <source>Hidden Network</source>
-        <translation></translation>
+        <source>Connecting %1 to %2</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -842,14 +845,6 @@
         <translation></translation>
     </message>
     <message>
-        <source>%1:core has closed the connection. This probably means it has been turned off or restarted.</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>%1:core did not respond. Please make sure your network connection works properly</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>An unrecovareable SSL Error happened. Please make sure certificates are installed correctly.</source>
         <translation></translation>
     </message>
@@ -862,12 +857,20 @@
         <translation></translation>
     </message>
     <message>
-        <source>%1:core could not be found on this address. Please make sure you entered the address correctly and that the system is powered on.</source>
+        <source>An unknown error happened. We&apos;re very sorry for that. (Error code: %1)</source>
         <translation></translation>
     </message>
     <message>
-        <source>An unknown error happened. We&apos;re very sorry for that. (Error code: %1)</source>
-        <translation></translation>
+        <source>%1 could not be found on this address. Please make sure you entered the address correctly and that the system is powered on.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 has closed the connection. This probably means it has been turned off or restarted.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 did not respond. Please make sure your network connection works properly</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -998,20 +1001,24 @@
         <translation></translation>
     </message>
     <message>
-        <source>Enable app logging</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>View log</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Logging</source>
         <translation></translation>
     </message>
     <message>
         <source>Advanced options</source>
         <translation></translation>
+    </message>
+    <message>
+        <source>Application logs enabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>View live log</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Configure logging categories</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1064,21 +1071,6 @@
     </message>
     <message>
         <source>Filter by</source>
-        <translation></translation>
-    </message>
-</context>
-<context>
-    <name>DeviceRulesPage</name>
-    <message>
-        <source>Magic involving %1</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>There&apos;s no magic involving %1.</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Add some using the wizard stick!</source>
         <translation></translation>
     </message>
 </context>
@@ -1736,9 +1728,17 @@ Please try again.</source>
     </message>
 </context>
 <context>
-    <name>GarageThingListPage</name>
+    <name>GarageThingsListPage</name>
     <message>
-        <source>Garage doors</source>
+        <source>My %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>My things</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All my things</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1772,14 +1772,6 @@ Please try again.</source>
         <translation></translation>
     </message>
     <message>
-        <source>Are you sure you want to reboot your %1:core sytem now?</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Are you sure you want to shut down your %1:core sytem now?</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>General settings</source>
         <translation></translation>
     </message>
@@ -1808,35 +1800,28 @@ Please try again.</source>
         <translation></translation>
     </message>
     <message>
-        <source>Restart %1:core</source>
-        <translation></translation>
+        <source>Restart %1</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Are you sure you want to restart %1:core now?</source>
-        <translation></translation>
+        <source>Are you sure you want to restart %1 now?</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Reboot %1:core system</source>
-        <translation></translation>
+        <source>Reboot %1 system</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Shut down %1:core system</source>
-        <translation></translation>
-    </message>
-</context>
-<context>
-    <name>GenericDeviceListPage</name>
-    <message>
-        <source>My %1</source>
-        <translation></translation>
+        <source>Are you sure you want to reboot your %1 sytem now?</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>My things</source>
-        <translation></translation>
+        <source>Shut down %1 system</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>All my things</source>
-        <translation></translation>
+        <source>Are you sure you want to shut down your %1 sytem now?</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1860,6 +1845,21 @@ Please try again.</source>
     <message>
         <source>OK</source>
         <translation></translation>
+    </message>
+</context>
+<context>
+    <name>GenericThingsListPage</name>
+    <message>
+        <source>My %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>My things</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All my things</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1934,10 +1934,6 @@ Please try again.</source>
 </context>
 <context>
     <name>GroupsView</name>
-    <message>
-        <source>Lighting</source>
-        <translation></translation>
-    </message>
     <message>
         <source>There are no groups set up yet.</source>
         <translation type="unfinished"></translation>
@@ -2839,6 +2835,54 @@ Please try again.</source>
         <source>Water detected changed</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Charging started or stopped</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Discharging</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Discharging started or stopped</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Plugged in</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Plugged in or out</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cleaning robots</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Robot state</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Robot state changed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start cleaning</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Stop cleaning</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pause cleaning</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Return to base</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>IrrigationDevicePage</name>
@@ -2961,10 +3005,10 @@ Please try again.</source>
     </message>
 </context>
 <context>
-    <name>LightsDeviceListPage</name>
+    <name>LightThingsListPage</name>
     <message>
         <source>Lights</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3007,6 +3051,29 @@ Please try again.</source>
     </message>
 </context>
 <context>
+    <name>LoggingCategories</name>
+    <message>
+        <source>Logging categories</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Critical</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Warning</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Debug</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>LoginPage</name>
     <message>
         <source>Welcome to %1!</source>
@@ -3045,12 +3112,12 @@ Please try again.</source>
         <translation></translation>
     </message>
     <message>
-        <source>An error happened with the user storage. Please make sure your %1:core system is installed correctly.</source>
+        <source>In order to use your %1 system, please enter your email address and set a password for it.</source>
         <translation></translation>
     </message>
     <message>
-        <source>In order to use your %1 system, please enter your email address and set a password for it.</source>
-        <translation></translation>
+        <source>An error happened with the user storage. Please make sure your %1 system is installed correctly.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3754,6 +3821,10 @@ Please try again.</source>
         <source>WiFi frequency</source>
         <translation></translation>
     </message>
+    <message>
+        <source>No wireless network interfaces available</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>NewMagicPage</name>
@@ -4062,6 +4133,10 @@ Please try again.</source>
         <source>Barcode scanners</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Cleaning robots</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>NymeaItemDelegate</name>
@@ -4217,8 +4292,12 @@ Please try again.</source>
         <translation></translation>
     </message>
     <message>
-        <source>Sorry, the version of the %1:core you are trying to connect to is too old. This app requires at least version %2 but this %1:core only supports %3</source>
-        <translation></translation>
+        <source>The version of the %1 system you are trying to connect to is too old. This app requires at least version %2 but this %1 system only supports %3. Please update your %1 system.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The version of the %1 system you are trying to connect to is too new. This app supports only up to version %2 but this %1 system provides %3. Please update %4.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4646,19 +4725,11 @@ Please try again.</source>
         <translation></translation>
     </message>
     <message>
-        <source>About %1:core</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Find server UUID and versions</source>
         <translation></translation>
     </message>
     <message>
         <source>System update</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Update your %1:core system</source>
         <translation></translation>
     </message>
     <message>
@@ -4671,10 +4742,6 @@ Please try again.</source>
     </message>
     <message>
         <source>Configure the system&apos;s network connection</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Connect this %1:core to %1:cloud</source>
         <translation></translation>
     </message>
     <message>
@@ -4695,6 +4762,18 @@ Please try again.</source>
     </message>
     <message>
         <source>Configure ZigBee networks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connect this %1 system to %1:cloud</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Update your %1 system</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>About %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4886,18 +4965,7 @@ Please try again.</source>
         <translation></translation>
     </message>
     <message>
-        <source>This will start a system update. Note that the update might take several minutes and your %1:core might not be functioning properly during this time and restart during the process.
-Do you want to proceed?</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Configure update sources</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Enabling additional software sources allows to install unreleased %1:core packages.
-This can potentially break your system and lead to problems.
-Please only use this if you are sure you want this and consider reporting the issues you find when testing unreleased channels.</source>
         <translation></translation>
     </message>
     <message>
@@ -4972,10 +5040,6 @@ Please only use this if you are sure you want this and consider reporting the is
         <translation></translation>
     </message>
     <message>
-        <source>This will start a system update. Note that the update might take several minutes and your %1:core might not be functioning properly or restart during this time.</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>
 Do you want to proceed?</source>
         <translation></translation>
@@ -4983,6 +5047,21 @@ Do you want to proceed?</source>
     <message>
         <source>Failure adding repository.</source>
         <translation></translation>
+    </message>
+    <message>
+        <source>This will start a system update. Note that the update might take several minutes and your %1 system might not be functioning properly during this time and restart during the process.
+Do you want to proceed?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enabling additional software sources allows to install unreleased %1 packages.
+This can potentially break your system and lead to problems.
+Please only use this if you are sure you want this and consider reporting the issues you find when testing unreleased channels.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This will start a system update. Note that the update might take several minutes and your %1 might not be functioning properly or restart during this time.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5090,6 +5169,21 @@ Do you want to proceed?</source>
     </message>
     <message>
         <source>Thing runs out of battery!</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ThingRulesPage</name>
+    <message>
+        <source>Magic involving %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There&apos;s no magic involving %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add some using the wizard stick!</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5379,16 +5473,16 @@ Do you want to proceed?</source>
         <translation></translation>
     </message>
     <message>
-        <source>Your %1:core is connected to %2</source>
-        <translation></translation>
+        <source>Your %1 system is connected to %2</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Waiting for the %1:core to appear in your network.</source>
-        <translation></translation>
+        <source>Waiting for the %1 to appear in your network.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Connect to %1:core</source>
-        <translation></translation>
+        <source>Connect to %1</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5478,9 +5572,45 @@ Do you want to proceed?</source>
     </message>
 </context>
 <context>
-    <name>ZigbeeNetworkInfoPage</name>
+    <name>ZigbeeNetworkPage</name>
     <message>
-        <source>Network settings</source>
+        <source>Network information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Network state</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The network is online</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The network is offline</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The network is starting...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The controller is currently installing an update</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The network is in an error state.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Channel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Network PAN ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ZigBee network settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -5521,85 +5651,6 @@ Do you want to proceed?</source>
     </message>
 </context>
 <context>
-    <name>ZigbeeNetworkPage</name>
-    <message>
-        <source>Network</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Network information</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Network state</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The network is online</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The network is offline</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The network is starting...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The controller is currently installing an update</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The network is in an error state.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Channel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Network PAN ID</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Network control</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The network is open</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The network is closed</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Devices can join this network</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Devices are not allowed to join this network</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Extend network open duration</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Open network for new ZigBee devices</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Close network</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>ZigbeeSettingsPage</name>
     <message>
         <source>ZigBee</source>
@@ -5610,15 +5661,55 @@ Do you want to proceed?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>ZigBee networks</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>There are no ZigBee networks set up yet. In order to use ZigBee, create a ZigBee network.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Add a ZigBee network</source>
+        <source>Add network</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Network state:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Online</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Offline</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Starting</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Updating</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open for %0 s</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Closed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Extend open duration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open for new devices</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Permit new devices:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

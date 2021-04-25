@@ -12,14 +12,6 @@
         <translation>Server Version:</translation>
     </message>
     <message>
-        <source>About %1:core</source>
-        <translation>Über %1:core</translation>
-    </message>
-    <message>
-        <source>%1:core</source>
-        <translation>%1:core</translation>
-    </message>
-    <message>
         <source>Connection:</source>
         <translation>Verbindung:</translation>
     </message>
@@ -34,6 +26,14 @@
     <message>
         <source>Built with %1</source>
         <translation>Erstellt mit %1</translation>
+    </message>
+    <message>
+        <source>About %1</source>
+        <translation>Über %1</translation>
+    </message>
+    <message>
+        <source>Device serial number</source>
+        <translation>Seriennummer des Geräts</translation>
     </message>
 </context>
 <context>
@@ -78,8 +78,8 @@
 <context>
     <name>AppLogPage</name>
     <message>
-        <source>App log</source>
-        <translation>App Logs</translation>
+        <source>Application logs</source>
+        <translation>Anwendungsprotokoll</translation>
     </message>
 </context>
 <context>
@@ -113,16 +113,16 @@
         <translation>Finde App Versionen und Lizenzinformationen</translation>
     </message>
     <message>
-        <source>Log into %1:cloud and manage connected %1:core systems</source>
-        <translation>Melde dich bei %1:cloud an und verwalte deine verbundenen %1:core Systeme</translation>
-    </message>
-    <message>
         <source>Access tools for debugging and error reporting</source>
         <translation>Greife auf Werkzeuge und Fehleranalyse-Werkzeuge zu</translation>
     </message>
+    <message>
+        <source>Log into %1:cloud and manage connected %1 systems</source>
+        <translation>Logge Dich in %1:cloud ein und Verwalte verbunde %1 systeme</translation>
+    </message>
 </context>
 <context>
-    <name>AwningDeviceListPage</name>
+    <name>AwningThingsListPage</name>
     <message>
         <source>Awnings</source>
         <translation>Markisen</translation>
@@ -144,7 +144,7 @@
     </message>
 </context>
 <context>
-    <name>BlindDeviceListPage</name>
+    <name>BlindThingsListPage</name>
     <message>
         <source>Blinds</source>
         <translation>Sichtschutz</translation>
@@ -220,16 +220,16 @@
         <translation>Verbinde zu %1</translation>
     </message>
     <message>
-        <source>Searching for %1:core systems.</source>
-        <translation>Suche %1:core Systemen.</translation>
-    </message>
-    <message>
-        <source>Troubles finding your %1:core?</source>
-        <translation>Probleme dein %1:core zu finden?</translation>
-    </message>
-    <message>
         <source>%1 box</source>
         <translation>%1 Box</translation>
+    </message>
+    <message>
+        <source>Searching for %1 systems.</source>
+        <translation>Suche nach %1 systemen.</translation>
+    </message>
+    <message>
+        <source>Troubles finding your %1 system?</source>
+        <translation>Probleme Dein %1 system zu finden?</translation>
     </message>
 </context>
 <context>
@@ -271,7 +271,7 @@
     </message>
 </context>
 <context>
-    <name>ButtonDevicePage</name>
+    <name>ButtonThingPage</name>
     <message>
         <source>This switch has not been used yet.</source>
         <translation>Dieser Schalter wurde noch nicht benutzt.</translation>
@@ -513,21 +513,6 @@
         <translation>Bitte lese unsere &lt;a href=&quot;%1&quot;&gt;Datenschutzerklärung&lt;/a&gt; um herauszufinden welche Informationen verarbeitet werden. Wenn du dich bei %2:cloud registrierst, erklärst Du Dich damit einverstanden.</translation>
     </message>
     <message>
-        <source>There are no %1:core systems connected to your cloud yet.</source>
-        <translation>Es sind noch keine %1:core Systeme mit Deiner cloud verbunden.</translation>
-    </message>
-    <message numerus="yes">
-        <source>There are %n %1:core systems connected to your cloud.</source>
-        <translation>
-            <numerusform>Es ist ein %1:core System mit Deiner cloud verbunden.</numerusform>
-            <numerusform>Es sind %n %1:core Systeme mit Deiner cloud verbunden.</numerusform>
-        </translation>
-    </message>
-    <message>
-        <source>Sorry to see you go. If you log out you won&apos;t be able to connect to %1:core systems remotely any more. However, you can come back any time, we&apos;ll keep your user account. If you whish to completely delete your account and all the data associated with it, check the box below before hitting ok. If you decide to delete your account, all your personal information will be removed from %1:cloud and cannot be restored.</source>
-        <translation>Schade, dass Du gehst. Wenn Du Dich abmeldest wird es nicht mehr möglich seine über das Internet zu %1:core Systemen zu verbinden. Du kannst jedoch jederzeit zurück kommen, wir bewahren Dein Konto für Dich auf. Wenn du das Konto und sämgliche dazu gehörigen Daten ganz löschen möchtest, aktiviere bitte das Häkchen weiter unten bevor Du fortfährst. Wenn Du das Konto löschst werden alle Deine personenbezogenen Daten von %1:cloud entfernt und das Konto kann nicht wiederhergestellt werden.</translation>
-    </message>
-    <message>
         <source>Failed to connect to the login server. Please mase sure your network connection is working.</source>
         <translation>Fehler beim verbinden zum Login-Server. Bitte stelle sicher, dass Deine Netzwerkverbindung funktioniert.</translation>
     </message>
@@ -544,12 +529,27 @@
         <translation>Anmelden</translation>
     </message>
     <message>
-        <source>Connected %1:core systems</source>
-        <translation>Verbundene %1:core Systeme</translation>
-    </message>
-    <message>
         <source>Log %1 in to %2:cloud in order to connect to %2:core systems from anywhere and receive push notifications from %2:core systems.</source>
         <translation>Melde %1 in %2:cloud an um Dich aus der Ferne zu Deinem %2:core System zu verbinden und Push Nachrichten von %2:core Systemen zu empfangen.</translation>
+    </message>
+    <message>
+        <source>Connected %1 systems</source>
+        <translation>Verbundene %1 systeme</translation>
+    </message>
+    <message>
+        <source>There are no %1 systems connected to your cloud yet.</source>
+        <translation>Es sind noch keine %1 systeme mit deiner Cloud verbunden.</translation>
+    </message>
+    <message numerus="yes">
+        <source>There are %n %1 systems connected to your cloud.</source>
+        <translation>
+            <numerusform>Es ist %n %1 System mit Deiner Cloud verbunden.</numerusform>
+            <numerusform>Es sind %n %1 Systeme mit Deiner Cloud verbunden.</numerusform>
+        </translation>
+    </message>
+    <message>
+        <source>Sorry to see you go. If you log out you won&apos;t be able to connect to %1 systems remotely any more. However, you can come back any time, we&apos;ll keep your user account. If you whish to completely delete your account and all the data associated with it, check the box below before hitting ok. If you decide to delete your account, all your personal information will be removed from %1:cloud and cannot be restored.</source>
+        <translation>Schade, dass Du dich abmeldest. Nach der Abmeldung kannst Du dich nicht mehr aus der Ferne zu %1 Systemen verbinden. Du kannst jederzeit wieder zurück kommen, wir behalten dein Konto. Wenn Du das Konto und alle dazugehörigen Daten vollständig aus der Cloud entfernen möchtest, markiere die Box unten bevor Du mit OK bestätigst. Wenn Du Dich entscheidest Dein Konto zu löschen, werden alle Deine persönglichen Daten aus der Cloud entfernt und können nicht wiederhergestellt werden.</translation>
     </message>
 </context>
 <context>
@@ -591,16 +591,8 @@
         <translation>Bei Cloud einloggen</translation>
     </message>
     <message>
-        <source>%1:core cloud settings</source>
-        <translation>%1:core Cloud-Einstellungen</translation>
-    </message>
-    <message>
         <source>Cloud connection</source>
         <translation>Cloud Verbindung</translation>
-    </message>
-    <message>
-        <source>Connect %1:core to %1:cloud in order to access it from anywhere and send push notifications from %1:core to %2.</source>
-        <translation>Verbinde %1:core zu %1:cloud um Dich aus der Ferne anzumelden und Push Nachrichten von %1:core zu %2 zu senden.</translation>
     </message>
     <message>
         <source>Status</source>
@@ -611,16 +603,24 @@
         <translation>Fernverbindung</translation>
     </message>
     <message>
-        <source>In order to remotely connect to this %1:core, %2 needs to be logged into %1:cloud as well.</source>
-        <translation>Um Dich aus der Ferne zu diesem %1:core zu verbinden, muss %2 in %1:cloud eingeloggt sein.</translation>
-    </message>
-    <message>
         <source>Go to app settings</source>
         <translation>Gehe zu App-Einstellungen</translation>
     </message>
     <message>
         <source>Set up cloud connection for %1</source>
         <translation>Cloud-Verbindung für %1 einrichten</translation>
+    </message>
+    <message>
+        <source>%1 cloud settings</source>
+        <translation>%1 Cloud-Einstellungen</translation>
+    </message>
+    <message>
+        <source>Connect %1 to %1:cloud in order to access it from anywhere.</source>
+        <translation>Verbinde %1 mit %1:cloud um aus der Ferne darauf zuzugreifen.</translation>
+    </message>
+    <message>
+        <source>In order to remotely connect to this %1 system, %2 needs to be logged into %1:cloud as well.</source>
+        <translation>Um aus der Ferne auf dieses %1 System zuzugreifen, muss Du dich auch mit %2 in %1:cloud anmelden.</translation>
     </message>
 </context>
 <context>
@@ -768,28 +768,31 @@
         <translation>Cloud Login</translation>
     </message>
     <message>
-        <source>There are %1 %2:cores in your network! Which one would you like to use?</source>
-        <translation>Es befinden sich %1 %2:core Systeme in deinem Netzwerk! Welches möchtest Du benutzen?</translation>
-    </message>
-    <message>
-        <source>We haven&apos;t found a %1:core in your network yet.</source>
-        <translation>Wir haben noch keinen %1:core in Deinem Netzwerk gefunden.</translation>
-    </message>
-    <message>
-        <source>There doesn&apos;t seem to be a %1:core installed in your network. Please make sure your %1:core system is correctly set up and connected.</source>
-        <translation>Es scheint als sei kein %1:core in Deinem Netzwerk installiert. Bitte stelle sicher, dass dein %1:core System korrekt angeschlossen und verbunden ist.</translation>
-    </message>
-    <message>
-        <source>Searching for %1:core systems...</source>
-        <translation>Suche nach %1:core Systemen...</translation>
-    </message>
-    <message>
-        <source>Do you have a %1:core but it&apos;s not connected to your network yet? Use the wireless setup to connect it!</source>
-        <translation>Hast Du bereits ein %1:core aber es ist noch nicht mit Deinem Netzwerk verbunden? Benutze das Kabellose Setup um eine WLAN-Verbindung herzustellen!</translation>
-    </message>
-    <message>
         <source>Info</source>
         <translation>Information</translation>
+    </message>
+    <message numerus="yes">
+        <source>There are %n %1 systems in your network! Which one would you like to use?</source>
+        <translation>
+            <numerusform>Es befindet sich %n %1 System in Deinem Netzwerk.</numerusform>
+            <numerusform>Es befinden sich %n %1 Systeme in Deinem Netzwerk. Auf welches möchtest Du zugreifen?</numerusform>
+        </translation>
+    </message>
+    <message>
+        <source>We haven&apos;t found a %1 system in your network yet.</source>
+        <translation>Wir konnten kein %1 System in Deinem Netzwerk finden.</translation>
+    </message>
+    <message>
+        <source>There doesn&apos;t seem to be a %1 system installed in your network. Please make sure your %1 system is correctly set up and connected.</source>
+        <translation>Es scheint kein %1 System in Deinem Netzwerk installiert zu sein Bitte stelle sicher, dass Dein %1 System korrekt installiert und verbunden ist.</translation>
+    </message>
+    <message>
+        <source>Searching for %1 systems...</source>
+        <translation>Suche nach %1 Systemen...</translation>
+    </message>
+    <message>
+        <source>Do you have a %1 system but it&apos;s not connected to your network yet? Use the wireless setup to connect it!</source>
+        <translation>Hast Du bereits ein %1 System aber es ist noch nicht mit Deinem Netzwerk verbunden? Benutze die Kabellose Einrichtung um es zu verbinden.</translation>
     </message>
 </context>
 <context>
@@ -815,12 +818,12 @@
         <translation>OK</translation>
     </message>
     <message>
-        <source>Connecting the %1:core to %2</source>
-        <translation>Verbinde %1:core mit %2</translation>
-    </message>
-    <message>
         <source>Hidden Network</source>
         <translation>Verstecktes Netzwerk</translation>
+    </message>
+    <message>
+        <source>Connecting %1 to %2</source>
+        <translation>Verbinde %1 mit %2</translation>
     </message>
 </context>
 <context>
@@ -846,14 +849,6 @@
         <translation>Der Zielrechner hat unsere Verbindung abgelehnt. Das bedeutet wahrscheinlich, dass %1 nicht auf diesem System läuft. Startet es vielleicht gerade neu?</translation>
     </message>
     <message>
-        <source>%1:core has closed the connection. This probably means it has been turned off or restarted.</source>
-        <translation>%1:core hat die Verbindung getrennt. Dies bedeutet wahrscheinlich, dass die Box heruntergefahren oder neu gestartet wurde.</translation>
-    </message>
-    <message>
-        <source>%1:core did not respond. Please make sure your network connection works properly</source>
-        <translation>%1:core antwortet nicht. Bitte stelle sicher, dass dein Netzwerk funktionstüchtig ist</translation>
-    </message>
-    <message>
         <source>An unrecovareable SSL Error happened. Please make sure certificates are installed correctly.</source>
         <translation>Ein unbekannter SSL Fehler ist aufgetreten. Bitte stelle sicher, dass die Zertifikate korrekt installiert sind.</translation>
     </message>
@@ -862,12 +857,20 @@
         <translation>Das SSL Zertifikat ist nicht vertrauenswürdig.</translation>
     </message>
     <message>
-        <source>%1:core could not be found on this address. Please make sure you entered the address correctly and that the system is powered on.</source>
-        <translation>%1:core konnte unter dieser Addresse nicht erreicht werden. Bitte stelle sicher, dass Du die Adresse richtig eingegeben hast und das System eingeschaltet ist.</translation>
-    </message>
-    <message>
         <source>An unknown error happened. We&apos;re very sorry for that. (Error code: %1)</source>
         <translation>Ein unbekannter Fehler ist aufgetreten. Dies tut uns leid. (Fehlercode: %1)</translation>
+    </message>
+    <message>
+        <source>%1 could not be found on this address. Please make sure you entered the address correctly and that the system is powered on.</source>
+        <translation>%1 wurde nicht an dieser Adresse gefunden. Bitte stelle sicher, dass Du die Adresse richtig eingegeben hast und das System eingeschaltet ist.</translation>
+    </message>
+    <message>
+        <source>%1 has closed the connection. This probably means it has been turned off or restarted.</source>
+        <translation>%1 hat die Verbindung getrennt. Das bedeutet wahrscheinlich, dass es heruntergefahren oder neu gestartet wurde.</translation>
+    </message>
+    <message>
+        <source>%1 did not respond. Please make sure your network connection works properly</source>
+        <translation>%1 antwortet nicht. Bitte stelle sicher, dass Deine Netzwerkverbindung funktioniert</translation>
     </message>
 </context>
 <context>
@@ -998,20 +1001,24 @@
         <translation>Cloud Umgebung</translation>
     </message>
     <message>
-        <source>Enable app logging</source>
-        <translation>App Logs aktivieren</translation>
-    </message>
-    <message>
-        <source>View log</source>
-        <translation>Log anzeigen</translation>
-    </message>
-    <message>
         <source>Logging</source>
         <translation>Protokoll</translation>
     </message>
     <message>
         <source>Advanced options</source>
         <translation>Erweiterte Einstellungen</translation>
+    </message>
+    <message>
+        <source>Application logs enabled</source>
+        <translation>Anwendungsprotokoll aktiviert</translation>
+    </message>
+    <message>
+        <source>View live log</source>
+        <translation>Anwendungsprozokoll zeigen</translation>
+    </message>
+    <message>
+        <source>Configure logging categories</source>
+        <translation>Protokollkategorien einrichten</translation>
     </message>
 </context>
 <context>
@@ -1065,21 +1072,6 @@
     <message>
         <source>Filter by</source>
         <translation>Filtern nach</translation>
-    </message>
-</context>
-<context>
-    <name>DeviceRulesPage</name>
-    <message>
-        <source>Magic involving %1</source>
-        <translation>Magie mit %1</translation>
-    </message>
-    <message>
-        <source>There&apos;s no magic involving %1.</source>
-        <translation>Es gibt noch keine Magie mit %1.</translation>
-    </message>
-    <message>
-        <source>Add some using the wizard stick!</source>
-        <translation>Fügen Sie welche mit dem Zauberstab hinzu!</translation>
     </message>
 </context>
 <context>
@@ -1743,10 +1735,18 @@ Bitte versuche es erneut.</translation>
     </message>
 </context>
 <context>
-    <name>GarageThingListPage</name>
+    <name>GarageThingsListPage</name>
     <message>
-        <source>Garage doors</source>
-        <translation>Garagentore</translation>
+        <source>My %1</source>
+        <translation>Meine %1</translation>
+    </message>
+    <message>
+        <source>My things</source>
+        <translation>Meine &quot;Things&quot;</translation>
+    </message>
+    <message>
+        <source>All my things</source>
+        <translation>Alle meine &quot;Things&quot;</translation>
     </message>
 </context>
 <context>
@@ -1779,14 +1779,6 @@ Bitte versuche es erneut.</translation>
         <translation>Zeitzone</translation>
     </message>
     <message>
-        <source>Are you sure you want to reboot your %1:core sytem now?</source>
-        <translation>Bist Du sicher, dass du dein %1:core System jetzt neu starten möchtest?</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to shut down your %1:core sytem now?</source>
-        <translation>Bist Du sicher, dass Du Dein %1:core system jetzt ausschalten möchtest?</translation>
-    </message>
-    <message>
         <source>General settings</source>
         <translation>Generelle Einstellungen</translation>
     </message>
@@ -1815,35 +1807,28 @@ Bitte versuche es erneut.</translation>
         <translation>System</translation>
     </message>
     <message>
-        <source>Restart %1:core</source>
-        <translation>%1:core neu starten</translation>
+        <source>Restart %1</source>
+        <translation>%1 neu starten</translation>
     </message>
     <message>
-        <source>Are you sure you want to restart %1:core now?</source>
-        <translation>Bist du sicher, dass du %1:core jetzt neu starten möchtest?</translation>
+        <source>Are you sure you want to restart %1 now?</source>
+        <translation>Bist Du sicher, dass Du %1 jetzt neu starten möchtest?</translation>
     </message>
     <message>
-        <source>Reboot %1:core system</source>
-        <translation>%1:core System rebooten</translation>
+        <source>Reboot %1 system</source>
+        <translation>%1 System neu starten</translation>
     </message>
     <message>
-        <source>Shut down %1:core system</source>
-        <translation>Das %1:core System herunterfahren</translation>
-    </message>
-</context>
-<context>
-    <name>GenericDeviceListPage</name>
-    <message>
-        <source>All my things</source>
-        <translation>Alle meine &quot;Things&quot;</translation>
+        <source>Are you sure you want to reboot your %1 sytem now?</source>
+        <translation>Bist Du sicher, dass Du das %1 System jetzt neu starten möchtest?</translation>
     </message>
     <message>
-        <source>My things</source>
-        <translation>Meine &quot;Things&quot;</translation>
+        <source>Shut down %1 system</source>
+        <translation>%1 System herunterfahren</translation>
     </message>
     <message>
-        <source>My %1</source>
-        <translation>Meine %1</translation>
+        <source>Are you sure you want to shut down your %1 sytem now?</source>
+        <translation>Bist Du sicher, dass Du dein %1 System jetzt herunterfahren möchtest?</translation>
     </message>
 </context>
 <context>
@@ -1867,6 +1852,21 @@ Bitte versuche es erneut.</translation>
     <message>
         <source>OK</source>
         <translation>OK</translation>
+    </message>
+</context>
+<context>
+    <name>GenericThingsListPage</name>
+    <message>
+        <source>My %1</source>
+        <translation>Meine %1</translation>
+    </message>
+    <message>
+        <source>My things</source>
+        <translation>Meine &quot;Things&quot;</translation>
+    </message>
+    <message>
+        <source>All my things</source>
+        <translation>Alle meine &quot;Things&quot;</translation>
     </message>
 </context>
 <context>
@@ -1941,10 +1941,6 @@ Bitte versuche es erneut.</translation>
 </context>
 <context>
     <name>GroupsView</name>
-    <message>
-        <source>Lighting</source>
-        <translation>Beleuchtung</translation>
-    </message>
     <message>
         <source>There are no groups set up yet.</source>
         <translation>Es sind noch keine Gruppen eingerichtet.</translation>
@@ -2846,6 +2842,54 @@ Bitte versuche es erneut.</translation>
         <source>Water detected changed</source>
         <translation>Wasser erkannt geändert</translation>
     </message>
+    <message>
+        <source>Charging started or stopped</source>
+        <translation>Laden wurde gestartet oder gestoppt</translation>
+    </message>
+    <message>
+        <source>Discharging</source>
+        <translation>Entladen</translation>
+    </message>
+    <message>
+        <source>Discharging started or stopped</source>
+        <translation>Entladen wurde gestartet oder gestoppt</translation>
+    </message>
+    <message>
+        <source>Plugged in</source>
+        <translation>Eingesteckt</translation>
+    </message>
+    <message>
+        <source>Plugged in or out</source>
+        <translation>Ein- oder ausgesteckt</translation>
+    </message>
+    <message>
+        <source>Cleaning robots</source>
+        <translation>Putzroboter</translation>
+    </message>
+    <message>
+        <source>Robot state</source>
+        <translation>Roboterzustand</translation>
+    </message>
+    <message>
+        <source>Robot state changed</source>
+        <translation>Roboterzustand geändert</translation>
+    </message>
+    <message>
+        <source>Start cleaning</source>
+        <translation>Putzvorgang starten</translation>
+    </message>
+    <message>
+        <source>Stop cleaning</source>
+        <translation>Putzvorgang stoppen</translation>
+    </message>
+    <message>
+        <source>Pause cleaning</source>
+        <translation>Putzvorgang pausieren</translation>
+    </message>
+    <message>
+        <source>Return to base</source>
+        <translation>Zurück zur Basisstation</translation>
+    </message>
 </context>
 <context>
     <name>IrrigationDevicePage</name>
@@ -2968,10 +3012,10 @@ Bitte versuche es erneut.</translation>
     </message>
 </context>
 <context>
-    <name>LightsDeviceListPage</name>
+    <name>LightThingsListPage</name>
     <message>
         <source>Lights</source>
-        <translation>Lichter</translation>
+        <translation>Beleuchtung</translation>
     </message>
 </context>
 <context>
@@ -3014,6 +3058,29 @@ Bitte versuche es erneut.</translation>
     </message>
 </context>
 <context>
+    <name>LoggingCategories</name>
+    <message>
+        <source>Logging categories</source>
+        <translation>Protokollkategorien</translation>
+    </message>
+    <message>
+        <source>Critical</source>
+        <translation>Kritisch</translation>
+    </message>
+    <message>
+        <source>Warning</source>
+        <translation>Warnung</translation>
+    </message>
+    <message>
+        <source>Info</source>
+        <translation>Information</translation>
+    </message>
+    <message>
+        <source>Debug</source>
+        <translation>Fehlersuche</translation>
+    </message>
+</context>
+<context>
     <name>LoginPage</name>
     <message>
         <source>Welcome to %1!</source>
@@ -3052,12 +3119,12 @@ Bitte versuche es erneut.</translation>
         <translation>Die eingegebene E-Mail Adresse ist bereits in Benutzung.</translation>
     </message>
     <message>
-        <source>An error happened with the user storage. Please make sure your %1:core system is installed correctly.</source>
-        <translation>Beim Speichern der Einstellungen ist ein Fehler aufgetreten. Bitte stelle sicher, dass Du Dein %1:core System korrekt installiert hast.</translation>
-    </message>
-    <message>
         <source>In order to use your %1 system, please enter your email address and set a password for it.</source>
         <translation>Um dein %1 System zu nutzen, gib bitte Deine E-Mail Adresse ein und wähle ein Passwort dafür.</translation>
+    </message>
+    <message>
+        <source>An error happened with the user storage. Please make sure your %1 system is installed correctly.</source>
+        <translation>In der Benutzerverwaltung ist ein Fehler aufgetreten. Bitte stelle sicher, dass Dein %1 System korrekt installiert ist.</translation>
     </message>
 </context>
 <context>
@@ -3761,6 +3828,10 @@ Bitte versuche es erneut.</translation>
         <source>WiFi frequency</source>
         <translation>Funkfrequenz</translation>
     </message>
+    <message>
+        <source>No wireless network interfaces available</source>
+        <translation>Keine Schnittstellen für Funknetzwerke verfügbar</translation>
+    </message>
 </context>
 <context>
     <name>NewMagicPage</name>
@@ -4069,6 +4140,10 @@ Bitte versuche es erneut.</translation>
         <source>Barcode scanners</source>
         <translation>Barcode-Scanner</translation>
     </message>
+    <message>
+        <source>Cleaning robots</source>
+        <translation>Putzroboter</translation>
+    </message>
 </context>
 <context>
     <name>NymeaItemDelegate</name>
@@ -4224,8 +4299,12 @@ Bitte versuche es erneut.</translation>
         <translation>Neue Verbindung</translation>
     </message>
     <message>
-        <source>Sorry, the version of the %1:core you are trying to connect to is too old. This app requires at least version %2 but this %1:core only supports %3</source>
-        <translation>Entschuldigung, die Version dieses %1:core Systems ist zu alt. Diese App benötigt mindestens Version %2 aber dieser %1:core unterstützt lediglich %3</translation>
+        <source>The version of the %1 system you are trying to connect to is too old. This app requires at least version %2 but this %1 system only supports %3. Please update your %1 system.</source>
+        <translation>Die Version dieses %1 Systems ist zu alt. Diese Anwendung benötigt mindestens Version %2, das %1 System unterstützt jedoch lediglich Version %3. Bitte update Dein %1 System.</translation>
+    </message>
+    <message>
+        <source>The version of the %1 system you are trying to connect to is too new. This app supports only up to version %2 but this %1 system provides %3. Please update %4.</source>
+        <translation>Die Version dieses %1 Systems ist zu neu. Diese Anwendung unterstützt bis Version %2, dieses %1 System basiert jedoch auf Version %3. Bitte update %4.</translation>
     </message>
 </context>
 <context>
@@ -4613,10 +4692,6 @@ Bitte versuche es erneut.</translation>
         <translation>Cloud</translation>
     </message>
     <message>
-        <source>About %1:core</source>
-        <translation>Über %1:core</translation>
-    </message>
-    <message>
         <source>General</source>
         <translation>Allgemein</translation>
     </message>
@@ -4669,20 +4744,12 @@ Bitte versuche es erneut.</translation>
         <translation>System-Aktualisierung</translation>
     </message>
     <message>
-        <source>Update your %1:core system</source>
-        <translation>Aktualisiere dein %1:core system</translation>
-    </message>
-    <message>
         <source>Networking</source>
         <translation>Netzwerk</translation>
     </message>
     <message>
         <source>Configure the system&apos;s network connection</source>
         <translation>Richte das Netzwerk dieses Systems ein</translation>
-    </message>
-    <message>
-        <source>Connect this %1:core to %1:cloud</source>
-        <translation>Verbinde diesen %1:core mit %1:cloud</translation>
     </message>
     <message>
         <source>Configure how clients interact with this system</source>
@@ -4703,6 +4770,18 @@ Bitte versuche es erneut.</translation>
     <message>
         <source>Configure ZigBee networks</source>
         <translation>ZigBee-Netzwerke einrichten</translation>
+    </message>
+    <message>
+        <source>Connect this %1 system to %1:cloud</source>
+        <translation>Verbinde dieses %1 System mit %1:cloud</translation>
+    </message>
+    <message>
+        <source>Update your %1 system</source>
+        <translation>Update Dein %1 System</translation>
+    </message>
+    <message>
+        <source>About %1</source>
+        <translation>Über %1</translation>
     </message>
 </context>
 <context>
@@ -4893,22 +4972,8 @@ Bitte versuche es erneut.</translation>
         <translation>Alle aktualisieren</translation>
     </message>
     <message>
-        <source>This will start a system update. Note that the update might take several minutes and your %1:core might not be functioning properly during this time and restart during the process.
-Do you want to proceed?</source>
-        <translation>Diese Aktion wird eine System-Aktualisierung starten. Bitte beachte, dass die Aktualisierung mehrere Minuten in Anspruch nehmen kann und dein %1:core während dieser Zeit möglicherweise nicht ordungsgemäß funktioniert.
-Möchtest du fortfahren?</translation>
-    </message>
-    <message>
         <source>Configure update sources</source>
         <translation>Quellen für die Aktualisierung einrichten</translation>
-    </message>
-    <message>
-        <source>Enabling additional software sources allows to install unreleased %1:core packages.
-This can potentially break your system and lead to problems.
-Please only use this if you are sure you want this and consider reporting the issues you find when testing unreleased channels.</source>
-        <translation>Zusätzliche Software-Quellen erlauben es unveröffentlichte Testversionen von %1:core Paketen zu installieren.
-Dies könnte möglicherweise die Funktionalität deines Systems beeinträchtigen und zu Problemen führen.
-Bitte benutze diese Option nur wenn du sicher bist, dass du das Risiko eingehen möchtest. Sollten beim benutzen von Testversionen Probleme auftreten, möchten wir dich bitten diese an uns zu berichten.</translation>
     </message>
     <message>
         <source>Enable package source</source>
@@ -4982,10 +5047,6 @@ Bitte benutze diese Option nur wenn du sicher bist, dass du das Risiko eingehen 
         <translation>Nicht installiert</translation>
     </message>
     <message>
-        <source>This will start a system update. Note that the update might take several minutes and your %1:core might not be functioning properly or restart during this time.</source>
-        <translation>Dies wird eine System-Aktualisierung starten. Bitte beachte, dass die Aktualisierung mehrere Minuten in Anspruch nehmen kann und Dein %1:core während dieser Zeit möglicherweise nicht ohne Einschränkungen funktioniert.</translation>
-    </message>
-    <message>
         <source>
 Do you want to proceed?</source>
         <translation>
@@ -4994,6 +5055,24 @@ Möchtest Du fortfahren?</translation>
     <message>
         <source>Failure adding repository.</source>
         <translation>Fehler beim Hinzufügen der Paketquelle.</translation>
+    </message>
+    <message>
+        <source>This will start a system update. Note that the update might take several minutes and your %1 system might not be functioning properly during this time and restart during the process.
+Do you want to proceed?</source>
+        <translation>Diese Aktion wird ein System-Update starten. Dies kann mehrere Miuten dauern und Dein %1 System könnte in dieser Zeit gegebenenfalls nicht ordungsgemäß funktionieren.
+Möchtest Du fortfahren?</translation>
+    </message>
+    <message>
+        <source>Enabling additional software sources allows to install unreleased %1 packages.
+This can potentially break your system and lead to problems.
+Please only use this if you are sure you want this and consider reporting the issues you find when testing unreleased channels.</source>
+        <translation>Das Aktivieren zusätzlicher Software-Quellen erlaubt das Installieren von %1 Vorschauversionen.
+Dies kann unter Umständen Deine Installation beschädigen und zu Problemen füren.
+Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du möchtest und hilf uns Fehler zu finden indem Du uns darüber informierst.</translation>
+    </message>
+    <message>
+        <source>This will start a system update. Note that the update might take several minutes and your %1 might not be functioning properly or restart during this time.</source>
+        <translation>Diese Aktion wird ein System-Update starten. Dies kann mehrere Miuten dauern und Dein %1 System könnte in dieser Zeit gegebenenfalls nicht ordungsgemäß funktionieren.</translation>
     </message>
 </context>
 <context>
@@ -5102,6 +5181,21 @@ Möchtest Du fortfahren?</translation>
     <message>
         <source>Thing runs out of battery!</source>
         <translation>Die Batterie neigt sich dem Ende zu!</translation>
+    </message>
+</context>
+<context>
+    <name>ThingRulesPage</name>
+    <message>
+        <source>Magic involving %1</source>
+        <translation>Magie mit %1</translation>
+    </message>
+    <message>
+        <source>There&apos;s no magic involving %1.</source>
+        <translation>Es gibt noch keine Magie mit %1.</translation>
+    </message>
+    <message>
+        <source>Add some using the wizard stick!</source>
+        <translation>Fügen Sie welche mit dem Zauberstab hinzu!</translation>
     </message>
 </context>
 <context>
@@ -5390,16 +5484,16 @@ Möchtest Du fortfahren?</translation>
         <translation>Schnurlose Einrichtung beenden</translation>
     </message>
     <message>
-        <source>Your %1:core is connected to %2</source>
-        <translation>Dein %1:core ist mit %2 verbunden</translation>
+        <source>Your %1 system is connected to %2</source>
+        <translation>Dein %1 System ist mit %2 verbunden</translation>
     </message>
     <message>
-        <source>Waiting for the %1:core to appear in your network.</source>
-        <translation>Warte bis %1:core in Deinem Netzwerk auftaucht.</translation>
+        <source>Waiting for the %1 to appear in your network.</source>
+        <translation>Warte bis %1 im Netzwerk auftaucht.</translation>
     </message>
     <message>
-        <source>Connect to %1:core</source>
-        <translation>Verbinde zu %1:core</translation>
+        <source>Connect to %1</source>
+        <translation>Verbinde zu %1</translation>
     </message>
 </context>
 <context>
@@ -5489,10 +5583,46 @@ Möchtest Du fortfahren?</translation>
     </message>
 </context>
 <context>
-    <name>ZigbeeNetworkInfoPage</name>
+    <name>ZigbeeNetworkPage</name>
     <message>
-        <source>Network settings</source>
-        <translation>Netzwerkeinstellungen</translation>
+        <source>Network information</source>
+        <translation>Netzwerkinformation</translation>
+    </message>
+    <message>
+        <source>Network state</source>
+        <translation>Netzwerk-Status</translation>
+    </message>
+    <message>
+        <source>The network is online</source>
+        <translation>Das Netzwerk ist online</translation>
+    </message>
+    <message>
+        <source>The network is offline</source>
+        <translation>Das Netzwerk ist offline</translation>
+    </message>
+    <message>
+        <source>The network is starting...</source>
+        <translation>Das Netzwerk startet...</translation>
+    </message>
+    <message>
+        <source>The controller is currently installing an update</source>
+        <translation>Ein Update wird auf dem Adapter installiert</translation>
+    </message>
+    <message>
+        <source>The network is in an error state.</source>
+        <translation>Das Netzwerk ist in einem fehlerhaften Zustand.</translation>
+    </message>
+    <message>
+        <source>Channel</source>
+        <translation>Kanal</translation>
+    </message>
+    <message>
+        <source>Network PAN ID</source>
+        <translation>Netzwerk PAN ID</translation>
+    </message>
+    <message>
+        <source>ZigBee network settings</source>
+        <translation>ZigBee Netzwerkeinstellungen</translation>
     </message>
     <message>
         <source>Hardware information</source>
@@ -5532,105 +5662,66 @@ Möchtest Du fortfahren?</translation>
     </message>
 </context>
 <context>
-    <name>ZigbeeNetworkPage</name>
-    <message>
-        <source>Network</source>
-        <translation>Netzwerk</translation>
-    </message>
-    <message>
-        <source>Settings</source>
-        <translation>Einstellungen</translation>
-    </message>
-    <message>
-        <source>Network information</source>
-        <translation>Netzwerkinformation</translation>
-    </message>
-    <message>
-        <source>Network state</source>
-        <translation>Netzwerk-Status</translation>
-    </message>
-    <message>
-        <source>The network is online</source>
-        <translation>Das Netzwerk ist online</translation>
-    </message>
-    <message>
-        <source>The network is offline</source>
-        <translation>Das Netzwerk ist offline</translation>
-    </message>
-    <message>
-        <source>The network is starting...</source>
-        <translation>Das Netzwerk startet...</translation>
-    </message>
-    <message>
-        <source>The controller is currently installing an update</source>
-        <translation>Ein Update wird auf dem Adapter installiert</translation>
-    </message>
-    <message>
-        <source>The network is in an error state.</source>
-        <translation>Das Netzwerk ist in einem fehlerhaften Zustand</translation>
-    </message>
-    <message>
-        <source>Channel</source>
-        <translation>Kanal</translation>
-    </message>
-    <message>
-        <source>Network PAN ID</source>
-        <translation>Netzwerk PAN ID</translation>
-    </message>
-    <message>
-        <source>Network control</source>
-        <translation type="unfinished">Netzwerk</translation>
-    </message>
-    <message>
-        <source>The network is open</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The network is closed</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Devices can join this network</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Devices are not allowed to join this network</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Extend network open duration</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Open network for new ZigBee devices</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Close network</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>ZigbeeSettingsPage</name>
     <message>
         <source>ZigBee</source>
-        <translation type="unfinished">ZigBee</translation>
+        <translation>ZigBee</translation>
     </message>
     <message>
         <source>Add ZigBee network</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>ZigBee networks</source>
-        <translation type="unfinished"></translation>
+        <translation>ZigBee Netzwerk hinzufügen</translation>
     </message>
     <message>
         <source>There are no ZigBee networks set up yet. In order to use ZigBee, create a ZigBee network.</source>
-        <translation type="unfinished"></translation>
+        <translation>Es sind noch keine ZigBee Netzwerke eingerichtet. Um ZigBee zu benutzen, erstelle zuerst ein ZigBee Netzwerk.</translation>
     </message>
     <message>
-        <source>Add a ZigBee network</source>
-        <translation type="unfinished"></translation>
+        <source>Add network</source>
+        <translation>Netzwerk hinzufügen</translation>
+    </message>
+    <message>
+        <source>Network state:</source>
+        <translation>Netzwerkstatus:</translation>
+    </message>
+    <message>
+        <source>Online</source>
+        <translation>Online</translation>
+    </message>
+    <message>
+        <source>Offline</source>
+        <translation>Offline</translation>
+    </message>
+    <message>
+        <source>Starting</source>
+        <translation>Wird gestartet</translation>
+    </message>
+    <message>
+        <source>Updating</source>
+        <translation>Wird upgedated</translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation>Fehler</translation>
+    </message>
+    <message>
+        <source>Open for %0 s</source>
+        <translation>Für %0 s öffnen</translation>
+    </message>
+    <message>
+        <source>Closed</source>
+        <translation>Geschlossen Geschlossen</translation>
+    </message>
+    <message>
+        <source>Extend open duration</source>
+        <translation>Öffnungszeit verängern</translation>
+    </message>
+    <message>
+        <source>Open for new devices</source>
+        <translation>Für neue Geräte öffnen</translation>
+    </message>
+    <message>
+        <source>Permit new devices:</source>
+        <translation>Erlaube neue Geräte:</translation>
     </message>
 </context>
 <context>
