@@ -63,9 +63,9 @@ public:
     SerialPorts *serialPorts() const;
     ModbusRtuMasters *modbusRtuMasters() const;
 
-    Q_INVOKABLE int addModbusRtuMaster(const QString &serialPort, qint32 baudrate, SerialPort::SerialPortParity parity, SerialPort::SerialPortDataBits dataBits, SerialPort::SerialPortStopBits stopBits);
+    Q_INVOKABLE int addModbusRtuMaster(const QString &serialPort, qint32 baudrate, SerialPort::SerialPortParity parity, SerialPort::SerialPortDataBits dataBits, SerialPort::SerialPortStopBits stopBits, int numberOfRetries, int timeout);
     Q_INVOKABLE int removeModbusRtuMaster(const QUuid &modbusUuid);
-    Q_INVOKABLE int reconfigureModbusRtuMaster(const QUuid &modbusUuid, const QString &serialPort, qint32 baudrate, SerialPort::SerialPortParity parity, SerialPort::SerialPortDataBits dataBits, SerialPort::SerialPortStopBits stopBits);
+    Q_INVOKABLE int reconfigureModbusRtuMaster(const QUuid &modbusUuid, const QString &serialPort, qint32 baudrate, SerialPort::SerialPortParity parity, SerialPort::SerialPortDataBits dataBits, SerialPort::SerialPortStopBits stopBits, int numberOfRetries, int timeout);
 
 signals:
     void engineChanged();

@@ -49,6 +49,8 @@ public:
         RoleParity,
         RoleDataBits,
         RoleStopBits,
+        RoleNumberOfRetries,
+        RoleTimeout,
         RoleConnected
     };
     Q_ENUM(Roles)

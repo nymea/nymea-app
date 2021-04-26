@@ -81,6 +81,9 @@ SettingsPageBase {
             case "ModbusRtuErrorConnectionFailed":
                 props.text = qsTr("Unable to connect to the modbus RTU master.\n\nMaybe the hardware is already in use.");
                 break;
+            case "ModbusRtuInvalidTimeoutValue":
+                props.text = qsTr("The specified timeout value is not valid.\n\nPlease use a timeout value bigger or equal to 10 ms.");
+                break;
             default:
                 props.errorCode = error;
             }
@@ -344,6 +347,22 @@ SettingsPageBase {
                 Layout.fillWidth: true
                 text: qsTr("Stop bits")
                 subText: modbusRtuMaster ? serialPortStopBitsModel.getText(modbusRtuMaster.stopBits) : ""
+                progressive: false
+                prominentSubText: false
+            }
+
+            NymeaSwipeDelegate {
+                Layout.fillWidth: true
+                text: qsTr("Number of request retries")
+                subText: modbusRtuMaster ? modbusRtuMaster.numberOfRetries : ""
+                progressive: false
+                prominentSubText: false
+            }
+
+            NymeaSwipeDelegate {
+                Layout.fillWidth: true
+                text: qsTr("Request timeout")
+                subText: modbusRtuMaster ? modbusRtuMaster.timeout + " ms" : ""
                 progressive: false
                 prominentSubText: false
             }

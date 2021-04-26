@@ -93,8 +93,8 @@ SettingsPageBase {
                 id: d
                 property int pendingCommandId: -1
 
-                function addModbusRtuMaster(serialPort, baudRate, parity, dataBits, stopBits) {
-                    d.pendingCommandId = root.modbusRtuManager.addModbusRtuMaster(serialPort, baudRate, parity, dataBits, stopBits)
+                function addModbusRtuMaster(serialPort, baudRate, parity, dataBits, stopBits, numberOfRetries, timeout) {
+                    d.pendingCommandId = root.modbusRtuManager.addModbusRtuMaster(serialPort, baudRate, parity, dataBits, stopBits, numberOfRetries, timeout)
                 }
             }
 
@@ -228,6 +228,36 @@ SettingsPageBase {
                 }
             }
 
+            RowLayout {
+                Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
+
+                Label {
+                    text: qsTr("Number of request retries:")
+                    Layout.fillWidth: true
+                }
+                TextField {
+                    id: numberOfRetriesText
+                    inputMethodHints: Qt.ImhDigitsOnly
+                    text: "3"
+                    validator: IntValidator { bottom: 0; top: 100 }
+                }
+            }
+
+            RowLayout {
+                Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
+
+                Label {
+                    text: qsTr("Request timeout [ms]:")
+                    Layout.fillWidth: true
+                }
+                TextField {
+                    id: timeoutText
+                    inputMethodHints: Qt.ImhDigitsOnly
+                    text: "100"
+                    validator: IntValidator { bottom: 10; top: 100000 }
+                }
+            }
+
             Button {
                 Layout.fillWidth: true
                 Layout.leftMargin: app.margins
@@ -239,9 +269,12 @@ SettingsPageBase {
                     var parity = serialPortParityModel.get(parityComboBox.currentIndex).value
                     var dataBits = serialPortDataBitsModel.get(dataBitsComboBox.currentIndex).value
                     var stopBits = serialPortStopBitsModel.get(stopBitsComboBox.currentIndex).value
-                    console.log("Adding modbus RTU with", serialPort.systemLocation, baudrate, parity, dataBits, stopBits)
+                    var numberOfRetries = numberOfRetriesText.text
+                    var timeout = timeoutText.text
 
-                    d.addModbusRtuMaster(serialPort.systemLocation, baudrate, parity, dataBits, stopBits)
+                    console.log("Adding modbus RTU with", serialPort.systemLocation, baudrate, parity, dataBits, stopBits, numberOfRetries, timeout)
+
+                    d.addModbusRtuMaster(serialPort.systemLocation, baudrate, parity, dataBits, stopBits, numberOfRetries, timeout)
                 }
             }
         }

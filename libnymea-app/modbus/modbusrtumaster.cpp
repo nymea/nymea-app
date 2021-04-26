@@ -115,6 +115,34 @@ void ModbusRtuMaster::setStopBits(SerialPort::SerialPortStopBits stopBits)
     emit stopBitsChanged(m_stopBits);
 }
 
+uint ModbusRtuMaster::numberOfRetries() const
+{
+    return m_numberOfRetries;
+}
+
+void ModbusRtuMaster::setNumberOfRetries(uint numberOfRetries)
+{
+    if (m_numberOfRetries == numberOfRetries)
+        return;
+
+    m_numberOfRetries = numberOfRetries;
+    emit numberOfRetriesChanged(m_numberOfRetries);
+}
+
+uint ModbusRtuMaster::timeout() const
+{
+    return m_timeout;
+}
+
+void ModbusRtuMaster::setTimeout(uint timeout)
+{
+    if (m_timeout == timeout)
+        return;
+
+    m_timeout = timeout;
+    emit timeoutChanged(m_timeout);
+}
+
 bool ModbusRtuMaster::connected() const
 {
     return m_connected;

@@ -61,6 +61,10 @@ QVariant ModbusRtuMasters::data(const QModelIndex &index, int role) const
         return m_modbusRtuMasters.at(index.row())->dataBits();
     case RoleStopBits:
         return m_modbusRtuMasters.at(index.row())->stopBits();
+    case RoleNumberOfRetries:
+        return m_modbusRtuMasters.at(index.row())->numberOfRetries();
+    case RoleTimeout:
+        return m_modbusRtuMasters.at(index.row())->timeout();
     case RoleConnected:
         return m_modbusRtuMasters.at(index.row())->connected();
     }
@@ -76,6 +80,8 @@ QHash<int, QByteArray> ModbusRtuMasters::roleNames() const
     roles.insert(RoleParity, "parity");
     roles.insert(RoleDataBits, "dataBits");
     roles.insert(RoleStopBits, "stopBits");
+    roles.insert(RoleNumberOfRetries, "numberOfRetries");
+    roles.insert(RoleTimeout, "timeout");
     roles.insert(RoleConnected, "connected");
     return roles;
 }
@@ -112,6 +118,19 @@ void ModbusRtuMasters::addModbusRtuMaster(ModbusRtuMaster *modbusRtuMaster)
         Q_UNUSED(stopBites)
         QModelIndex idx = index(m_modbusRtuMasters.indexOf(modbusRtuMaster), 0);
         emit dataChanged(idx, idx, {RoleStopBits});
+    });
+
+    connect(modbusRtuMaster, &ModbusRtuMaster::numberOfRetriesChanged, this, [=](uint numberOfRetries) {
+        Q_UNUSED(numberOfRetries)
+        QModelIndex idx = index(m_modbusRtuMasters.indexOf(modbusRtuMaster), 0);
+        emit dataChanged(idx, idx, {RoleNumberOfRetries});
+    });
+
+
+    connect(modbusRtuMaster, &ModbusRtuMaster::timeoutChanged, this, [=](uint timeout) {
+        Q_UNUSED(timeout)
+        QModelIndex idx = index(m_modbusRtuMasters.indexOf(modbusRtuMaster), 0);
+        emit dataChanged(idx, idx, {RoleTimeout});
     });
 
     connect(modbusRtuMaster, &ModbusRtuMaster::connectedChanged, this, [=](bool connected) {

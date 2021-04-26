@@ -40,6 +40,7 @@ SettingsPageBase {
 
     property ModbusRtuManager modbusRtuManager
     property ModbusRtuMaster modbusRtuMaster
+
     property ListModel serialPortBaudrateModel
     property ListModel serialPortParityModel
     property ListModel serialPortDataBitsModel
@@ -70,7 +71,10 @@ SettingsPageBase {
             iconName: "../images/stock_usb.svg"
             text:  model.description + (model.manufacturer === "" ? "" : " - " + model.manufacturer)
             subText: model.systemLocation + (model.serialNumber === "" ? "" : " - " + model.serialNumber)
-            onClicked: pageStack.push(reconfigureNewModbusRtuMasterPage, { modbusRtuManager: modbusRtuManager, serialPort: modbusRtuManager.serialPorts.get(index), modbusRtuMaster: modbusRtuMaster })
+            onClicked: pageStack.push(reconfigureNewModbusRtuMasterPage, {
+                                          modbusRtuManager: modbusRtuManager,
+                                          serialPort: modbusRtuManager.serialPorts.get(index),
+                                          modbusRtuMaster: modbusRtuMaster })
         }
     }
 
@@ -96,8 +100,8 @@ SettingsPageBase {
                 id: d
                 property int pendingCommandId: -1
 
-                function reconfigureModbusRtuMaster(modbusUuid, serialPort, baudRate, parity, dataBits, stopBits) {
-                    d.pendingCommandId = root.modbusRtuManager.reconfigureModbusRtuMaster(modbusUuid, serialPort, baudRate, parity, dataBits, stopBits)
+                function reconfigureModbusRtuMaster(modbusUuid, serialPort, baudRate, parity, dataBits, stopBits, numberOfRetries, timeout) {
+                    d.pendingCommandId = root.modbusRtuManager.reconfigureModbusRtuMaster(modbusUuid, serialPort, baudRate, parity, dataBits, stopBits, numberOfRetries, timeout)
                 }
             }
 
@@ -263,6 +267,44 @@ SettingsPageBase {
                 }
             }
 
+            RowLayout {
+                Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
+
+                Label {
+                    text: qsTr("Number of request retries:")
+                    Layout.fillWidth: true
+                }
+                TextField {
+                    id: numberOfRetriesText
+                    inputMethodHints: Qt.ImhDigitsOnly
+                    text: "3"
+                    validator: IntValidator { bottom: 0; top: 100 }
+                    Component.onCompleted: {
+                        numberOfRetriesText.text = modbusRtuMaster.numberOfRetries
+                    }
+                }
+            }
+
+            RowLayout {
+                Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
+
+                Label {
+                    text: qsTr("Request timeout [ms]:")
+                    Layout.fillWidth: true
+                }
+
+                TextField {
+                    id: timeoutText
+                    inputMethodHints: Qt.ImhDigitsOnly
+                    text: "100"
+                    validator: IntValidator { bottom: 10; top: 100000 }
+                    Component.onCompleted: {
+                        timeoutText.text = modbusRtuMaster.timeout
+                    }
+                }
+            }
+
+
             Button {
                 Layout.fillWidth: true
                 Layout.leftMargin: app.margins
@@ -274,9 +316,11 @@ SettingsPageBase {
                     var parity = serialPortParityModel.get(parityComboBox.currentIndex).value
                     var dataBits = serialPortDataBitsModel.get(dataBitsComboBox.currentIndex).value
                     var stopBits = serialPortStopBitsModel.get(stopBitsComboBox.currentIndex).value
+                    var numberOfRetries = numberOfRetriesText.text
+                    var timeout = timeoutText.text
 
-                    console.log("Reconfigure modbus RTU", modbusRtuMaster.modbusUuid, "with", serialPort.systemLocation, baudrate, parity, dataBits, stopBits)
-                    d.reconfigureModbusRtuMaster(modbusRtuMaster.modbusUuid, serialPort.systemLocation, baudrate, parity, dataBits, stopBits)
+                    console.log("Reconfigure modbus RTU", modbusRtuMaster.modbusUuid, "with", serialPort.systemLocation, baudrate, parity, dataBits, stopBits, numberOfRetries, timeout)
+                    d.reconfigureModbusRtuMaster(modbusRtuMaster.modbusUuid, serialPort.systemLocation, baudrate, parity, dataBits, stopBits, numberOfRetries, timeout)
                 }
             }
         }

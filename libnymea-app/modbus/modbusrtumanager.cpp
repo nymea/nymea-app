@@ -96,7 +96,7 @@ ModbusRtuMasters *ModbusRtuManager::modbusRtuMasters() const
     return m_modbusRtuMasters;
 }
 
-int ModbusRtuManager::addModbusRtuMaster(const QString &serialPort, qint32 baudrate, SerialPort::SerialPortParity parity, SerialPort::SerialPortDataBits dataBits, SerialPort::SerialPortStopBits stopBits)
+int ModbusRtuManager::addModbusRtuMaster(const QString &serialPort, qint32 baudrate, SerialPort::SerialPortParity parity, SerialPort::SerialPortDataBits dataBits, SerialPort::SerialPortStopBits stopBits, int numberOfRetries, int timeout)
 {
     QVariantMap params;
     params.insert("serialPort", serialPort);
@@ -104,6 +104,9 @@ int ModbusRtuManager::addModbusRtuMaster(const QString &serialPort, qint32 baudr
     params.insert("parity", QMetaEnum::fromType<SerialPort::SerialPortParity>().valueToKey(parity));
     params.insert("dataBits", QMetaEnum::fromType<SerialPort::SerialPortDataBits>().valueToKey(dataBits));
     params.insert("stopBits", QMetaEnum::fromType<SerialPort::SerialPortStopBits>().valueToKey(stopBits));
+    params.insert("numberOfRetries", numberOfRetries);
+    params.insert("timeout", timeout);
+
     return m_engine->jsonRpcClient()->sendCommand("ModbusRtu.AddModbusRtuMaster", params, this, "addModbusRtuMasterResponse");
 }
 
@@ -114,7 +117,7 @@ int ModbusRtuManager::removeModbusRtuMaster(const QUuid &modbusUuid)
     return m_engine->jsonRpcClient()->sendCommand("ModbusRtu.RemoveModbusRtuMaster", params, this, "removeModbusRtuMasterResponse");
 }
 
-int ModbusRtuManager::reconfigureModbusRtuMaster(const QUuid &modbusUuid, const QString &serialPort, qint32 baudrate, SerialPort::SerialPortParity parity, SerialPort::SerialPortDataBits dataBits, SerialPort::SerialPortStopBits stopBits)
+int ModbusRtuManager::reconfigureModbusRtuMaster(const QUuid &modbusUuid, const QString &serialPort, qint32 baudrate, SerialPort::SerialPortParity parity, SerialPort::SerialPortDataBits dataBits, SerialPort::SerialPortStopBits stopBits, int numberOfRetries, int timeout)
 {
     QVariantMap params;
     params.insert("modbusUuid", modbusUuid);
@@ -123,6 +126,9 @@ int ModbusRtuManager::reconfigureModbusRtuMaster(const QUuid &modbusUuid, const 
     params.insert("parity", QMetaEnum::fromType<SerialPort::SerialPortParity>().valueToKey(parity));
     params.insert("dataBits", QMetaEnum::fromType<SerialPort::SerialPortDataBits>().valueToKey(dataBits));
     params.insert("stopBits", QMetaEnum::fromType<SerialPort::SerialPortStopBits>().valueToKey(stopBits));
+    params.insert("numberOfRetries", numberOfRetries);
+    params.insert("timeout", timeout);
+
     return m_engine->jsonRpcClient()->sendCommand("ModbusRtu.ReconfigureModbusRtuMaster", params, this, "reconfigureModbusRtuMasterResponse");
 }
 
@@ -145,6 +151,8 @@ ModbusRtuMaster *ModbusRtuManager::unpackModbusRtuMaster(const QVariantMap &modb
     modbusMaster->setParity(SerialPort::stringToSerialPortParity(modbusRtuMasterMap.value("parity").toString()));
     modbusMaster->setStopBits(SerialPort::stringToSerialPortStopBits(modbusRtuMasterMap.value("stopBits").toString()));
     modbusMaster->setDataBits(SerialPort::stringToSerialPortDataBits(modbusRtuMasterMap.value("dataBits").toString()));
+    modbusMaster->setNumberOfRetries(modbusRtuMasterMap.value("numberOfRetries").toUInt());
+    modbusMaster->setTimeout(modbusRtuMasterMap.value("timeout").toUInt());
     return modbusMaster;
 }
 
@@ -195,9 +203,10 @@ void ModbusRtuManager::notificationReceived(const QVariantMap &notification)
         currentModbusRtuMaster->setParity(modbusRtuMaster->parity());
         currentModbusRtuMaster->setDataBits(modbusRtuMaster->dataBits());
         currentModbusRtuMaster->setStopBits(modbusRtuMaster->stopBits());
+        currentModbusRtuMaster->setNumberOfRetries(modbusRtuMaster->numberOfRetries());
+        currentModbusRtuMaster->setTimeout(modbusRtuMaster->timeout());
         currentModbusRtuMaster->setConnected(modbusRtuMaster->connected());
         modbusRtuMaster->deleteLater();
-
         return;
     }
 }

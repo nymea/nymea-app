@@ -45,6 +45,8 @@ class ModbusRtuMaster : public QObject
     Q_PROPERTY(SerialPort::SerialPortParity parity READ parity NOTIFY parityChanged)
     Q_PROPERTY(SerialPort::SerialPortDataBits dataBits READ dataBits NOTIFY dataBitsChanged)
     Q_PROPERTY(SerialPort::SerialPortStopBits stopBits READ stopBits NOTIFY stopBitsChanged)
+    Q_PROPERTY(uint numberOfRetries READ numberOfRetries WRITE setNumberOfRetries NOTIFY numberOfRetriesChanged)
+    Q_PROPERTY(uint timeout READ timeout WRITE setTimeout NOTIFY timeoutChanged)
     Q_PROPERTY(bool connected READ connected NOTIFY connectedChanged)
 
 public:
@@ -68,6 +70,12 @@ public:
     SerialPort::SerialPortStopBits stopBits() const;
     void setStopBits(SerialPort::SerialPortStopBits stopBits);
 
+    uint numberOfRetries() const;
+    void setNumberOfRetries(uint numberOfRetries);
+
+    uint timeout() const;
+    void setTimeout(uint timeout);
+
     bool connected() const;
     void setConnected(bool connected);
 
@@ -78,6 +86,8 @@ signals:
     void parityChanged(SerialPort::SerialPortParity parity);
     void dataBitsChanged(SerialPort::SerialPortDataBits dataBits);
     void stopBitsChanged(SerialPort::SerialPortStopBits stopBits);
+    void numberOfRetriesChanged(uint numberOfRetries);
+    void timeoutChanged(uint timeout);
 
 private:
     QUuid m_modbusUuid;
@@ -86,6 +96,8 @@ private:
     SerialPort::SerialPortParity m_parity;
     SerialPort::SerialPortDataBits m_dataBits;
     SerialPort::SerialPortStopBits m_stopBits;
+    uint m_numberOfRetries = 3;
+    uint m_timeout = 100;
     bool m_connected = false;
 
 };
