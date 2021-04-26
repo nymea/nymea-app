@@ -23,6 +23,7 @@ SOURCES += \
     $$PWD/appdata.cpp \
     $$PWD/models/scriptsproxymodel.cpp \
     $$PWD/tagwatcher.cpp \
+    $$PWD/zigbee/zigbeenode.cpp \
     $${PWD}/logging.cpp \
     $${PWD}/applogcontroller.cpp \
     $${PWD}/wifisetup/btwifisetup.cpp \
@@ -177,6 +178,7 @@ HEADERS += \
     $$PWD/appdata.h \
     $$PWD/models/scriptsproxymodel.h \
     $$PWD/tagwatcher.h \
+    $$PWD/zigbee/zigbeenode.h \
     $${PWD}/logging.h \
     $${PWD}/applogcontroller.h \
     $${PWD}/wifisetup/btwifisetup.h \
