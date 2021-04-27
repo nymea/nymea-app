@@ -60,12 +60,13 @@ Item {
         RowLayout {
             Layout.fillWidth: true
             Layout.preferredHeight: mainImageSize
+            spacing: Style.margins
 
             property int mainImageSize: Style.iconSize * 2
 
             Item {
                 Layout.fillWidth: true
-                Layout.preferredWidth: (parent.width - parent.mainImageSize) / 2
+                Layout.preferredWidth: (parent.width - parent.mainImageSize) / 2 - Style.margins
 
                 GridLayout {
                     anchors.centerIn: parent
@@ -105,7 +106,7 @@ Item {
 
             Item {
                 Layout.fillWidth: true
-                Layout.preferredWidth: (parent.width - parent.mainImageSize) / 2
+                Layout.preferredWidth: (parent.width - parent.mainImageSize) / 2 - Style.margins
                 GridLayout {
                     columns: 2
                     anchors.centerIn: parent
