@@ -148,7 +148,7 @@ SettingsPageBase {
                     RowLayout {
                         Label {
                             Layout.fillWidth: true
-                            text: qsTr("Network joining:")
+                            text: qsTr("Permit new devices:")
                         }
                         Label {
                             text: model.permitJoiningEnabled ? qsTr("Open for %0 s").arg(model.permitJoiningRemaining) : qsTr("Closed")

@@ -4,14 +4,6 @@
 <context>
     <name>AboutNymeaPage</name>
     <message>
-        <source>About %1:core</source>
-        <translation>%1:코어에 대하여</translation>
-    </message>
-    <message>
-        <source>%1:core</source>
-        <translation>%1:코어</translation>
-    </message>
-    <message>
         <source>Connection:</source>
         <translation>연결:</translation>
     </message>
@@ -33,6 +25,14 @@
     </message>
     <message>
         <source>Built with %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>About %1</source>
+        <translation type="unfinished">%1에 대하여</translation>
+    </message>
+    <message>
+        <source>Device serial number</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -78,8 +78,8 @@
 <context>
     <name>AppLogPage</name>
     <message>
-        <source>App log</source>
-        <translation>App 로그</translation>
+        <source>Application logs</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -113,19 +113,19 @@
         <translation>앱 버전 및 라이센스 정보 찾기</translation>
     </message>
     <message>
-        <source>Log into %1:cloud and manage connected %1:core systems</source>
-        <translation>% 1 : cloud에 로그인하고 연결된 % 1 : core 시스템을 관리하십시오</translation>
-    </message>
-    <message>
         <source>Access tools for debugging and error reporting</source>
         <translation type="unfinished">디버깅 및 오류 보고를 위한 액세스 도구</translation>
     </message>
+    <message>
+        <source>Log into %1:cloud and manage connected %1 systems</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
-    <name>AwningDeviceListPage</name>
+    <name>AwningThingsListPage</name>
     <message>
         <source>Awnings</source>
-        <translation>차양막</translation>
+        <translation type="unfinished">차양막</translation>
     </message>
 </context>
 <context>
@@ -144,10 +144,10 @@
     </message>
 </context>
 <context>
-    <name>BlindDeviceListPage</name>
+    <name>BlindThingsListPage</name>
     <message>
         <source>Blinds</source>
-        <translation>블라인드</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -220,16 +220,16 @@
         <translation>%1에 연결 중</translation>
     </message>
     <message>
-        <source>Searching for %1:core systems.</source>
-        <translation>%1: 코어 시스템을 검색하는 중입니다.</translation>
-    </message>
-    <message>
-        <source>Troubles finding your %1:core?</source>
-        <translation>%1:코어를 찾는 데 문제가 있습니까?</translation>
-    </message>
-    <message>
         <source>%1 box</source>
         <translation>%1 상자(장치)</translation>
+    </message>
+    <message>
+        <source>Searching for %1 systems.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Troubles finding your %1 system?</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -271,7 +271,7 @@
     </message>
 </context>
 <context>
-    <name>ButtonDevicePage</name>
+    <name>ButtonThingPage</name>
     <message>
         <source>This switch has not been used yet.</source>
         <translation type="unfinished"></translation>
@@ -513,20 +513,6 @@
         <translation>새 암호 설정:</translation>
     </message>
     <message>
-        <source>There are no %1:core systems connected to your cloud yet.</source>
-        <translation>아직 클라우드에 연결된 %1: 코어 시스템이 없습니다.</translation>
-    </message>
-    <message numerus="yes">
-        <source>There are %n %1:core systems connected to your cloud.</source>
-        <translation>
-            <numerusform>%n %1:코어 시스템이 클라우드에 연결되어 있습니다.</numerusform>
-        </translation>
-    </message>
-    <message>
-        <source>Sorry to see you go. If you log out you won&apos;t be able to connect to %1:core systems remotely any more. However, you can come back any time, we&apos;ll keep your user account. If you whish to completely delete your account and all the data associated with it, check the box below before hitting ok. If you decide to delete your account, all your personal information will be removed from %1:cloud and cannot be restored.</source>
-        <translation>아쉽군요.  로그아웃하면 더 이상 원격으로 %1:코어 시스템에 연결할 수 없습니다. 하지만 언제든지 돌아올 수 있어요, 사용자 계정은 안전하게 보관 됩니다. 계정 및 관련된 모든 데이터를 완전히 삭제하려면 확인을 누르기 전에 아래의 확인란을 선택하십시오. 계정을 삭제하기로 결정하면 모든 개인 정보가 %1:클라우드에서 제거되므로 복원할 수 없습니다.</translation>
-    </message>
-    <message>
         <source>Failed to connect to the login server. Please mase sure your network connection is working.</source>
         <translation>로그인 서버에 연결하지 못했습니다. 네트워크 연결이 작동하는지 확인하십시오.</translation>
     </message>
@@ -543,11 +529,25 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Connected %1:core systems</source>
+        <source>Log %1 in to %2:cloud in order to connect to %2:core systems from anywhere and receive push notifications from %2:core systems.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Log %1 in to %2:cloud in order to connect to %2:core systems from anywhere and receive push notifications from %2:core systems.</source>
+        <source>Connected %1 systems</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There are no %1 systems connected to your cloud yet.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message numerus="yes">
+        <source>There are %n %1 systems connected to your cloud.</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message>
+        <source>Sorry to see you go. If you log out you won&apos;t be able to connect to %1 systems remotely any more. However, you can come back any time, we&apos;ll keep your user account. If you whish to completely delete your account and all the data associated with it, check the box below before hitting ok. If you decide to delete your account, all your personal information will be removed from %1:cloud and cannot be restored.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -590,15 +590,7 @@
         <translation>클라우드에 로그인</translation>
     </message>
     <message>
-        <source>%1:core cloud settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Cloud connection</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Connect %1:core to %1:cloud in order to access it from anywhere and send push notifications from %1:core to %2.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -610,15 +602,23 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>In order to remotely connect to this %1:core, %2 needs to be logged into %1:cloud as well.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Go to app settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Set up cloud connection for %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 cloud settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connect %1 to %1:cloud in order to access it from anywhere.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>In order to remotely connect to this %1 system, %2 needs to be logged into %1:cloud as well.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -767,27 +767,29 @@
         <translation>사용 가능한 연결</translation>
     </message>
     <message>
-        <source>There are %1 %2:cores in your network! Which one would you like to use?</source>
-        <translation>네트워크에 %1 %2:코어가 있음! 어떤 것을 사용하시겠습니까?</translation>
-    </message>
-    <message>
-        <source>We haven&apos;t found a %1:core in your network yet.</source>
-        <translation>아직 네트워크에서 %1:코어를 찾지 못했습니다.</translation>
-    </message>
-    <message>
-        <source>There doesn&apos;t seem to be a %1:core installed in your network. Please make sure your %1:core system is correctly set up and connected.</source>
-        <translation>네트워크에 %1:코어가 설치되어 있지 않은 것 같습니다. %1:코어 시스템이 올바르게 설정 및 연결 되었는지 확인하십시오.</translation>
-    </message>
-    <message>
-        <source>Searching for %1:core systems...</source>
-        <translation>%1: 코어 시스템을 검색하는 중...</translation>
-    </message>
-    <message>
-        <source>Do you have a %1:core but it&apos;s not connected to your network yet? Use the wireless setup to connect it!</source>
-        <translation>%1:코어가 있지만 아직 네트워크에 연결되어 있지 않으십니까? 무선 설정을 사용하여 연결하십시오!</translation>
-    </message>
-    <message>
         <source>Info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message numerus="yes">
+        <source>There are %n %1 systems in your network! Which one would you like to use?</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message>
+        <source>We haven&apos;t found a %1 system in your network yet.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There doesn&apos;t seem to be a %1 system installed in your network. Please make sure your %1 system is correctly set up and connected.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Searching for %1 systems...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Do you have a %1 system but it&apos;s not connected to your network yet? Use the wireless setup to connect it!</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -814,11 +816,11 @@
         <translation>확인</translation>
     </message>
     <message>
-        <source>Connecting the %1:core to %2</source>
-        <translation>%1:코어를 %2에 연결</translation>
+        <source>Hidden Network</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Hidden Network</source>
+        <source>Connecting %1 to %2</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -841,14 +843,6 @@
         <translation>호스트가 연결을 거부했습니다. 이것은 아마도 %1이 이 호스트에서 실행되고 있지 않음을 의미합니다. 시스템을 다시 시작 하시겠습니까?</translation>
     </message>
     <message>
-        <source>%1:core has closed the connection. This probably means it has been turned off or restarted.</source>
-        <translation>%1:코어가 연결을 닫았습니다. 이것은 아마도 그것이 꺼졌거나 다시 시작되었다는 것을 의미합니다.</translation>
-    </message>
-    <message>
-        <source>%1:core did not respond. Please make sure your network connection works properly</source>
-        <translation>%1:코어가 응답하지 않습니다. 네트워크가 연결 되고 제대로 작동하는지 확인하십시오</translation>
-    </message>
-    <message>
         <source>An unrecovareable SSL Error happened. Please make sure certificates are installed correctly.</source>
         <translation>복구할 수 없는 SSL 오류가 발생함. 인증서가 올바르게 설치되었는지 확인하십시오.</translation>
     </message>
@@ -861,11 +855,19 @@
         <translation>취소</translation>
     </message>
     <message>
-        <source>%1:core could not be found on this address. Please make sure you entered the address correctly and that the system is powered on.</source>
-        <translation>%1:코어를 이 주소에서 찾을 수 없음. 주소를 올바르게 입력하고 시스템 전원이 켜져 있는지 확인하십시오.</translation>
+        <source>An unknown error happened. We&apos;re very sorry for that. (Error code: %1)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>An unknown error happened. We&apos;re very sorry for that. (Error code: %1)</source>
+        <source>%1 could not be found on this address. Please make sure you entered the address correctly and that the system is powered on.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 has closed the connection. This probably means it has been turned off or restarted.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 did not respond. Please make sure your network connection works properly</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -997,19 +999,23 @@
         <translation>클라우드 환경</translation>
     </message>
     <message>
-        <source>Enable app logging</source>
-        <translation>앱 로깅 사용</translation>
-    </message>
-    <message>
-        <source>View log</source>
-        <translation>로그 보기</translation>
-    </message>
-    <message>
         <source>Logging</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Advanced options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Application logs enabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>View live log</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Configure logging categories</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1064,21 +1070,6 @@
     <message>
         <source>Filter by</source>
         <translation>필터 기준</translation>
-    </message>
-</context>
-<context>
-    <name>DeviceRulesPage</name>
-    <message>
-        <source>Magic involving %1</source>
-        <translation>%1 관련 마법</translation>
-    </message>
-    <message>
-        <source>There&apos;s no magic involving %1.</source>
-        <translation>%1과 관련된 마법은 없습니다.</translation>
-    </message>
-    <message>
-        <source>Add some using the wizard stick!</source>
-        <translation>마법사 스틱을 사용하여 추가!</translation>
     </message>
 </context>
 <context>
@@ -1735,10 +1726,18 @@ Please try again.</source>
     </message>
 </context>
 <context>
-    <name>GarageThingListPage</name>
+    <name>GarageThingsListPage</name>
     <message>
-        <source>Garage doors</source>
-        <translation type="unfinished"></translation>
+        <source>My %1</source>
+        <translation type="unfinished">소켓 %1</translation>
+    </message>
+    <message>
+        <source>My things</source>
+        <translation type="unfinished">사물(장치)들</translation>
+    </message>
+    <message>
+        <source>All my things</source>
+        <translation type="unfinished">모든 사물(장치)</translation>
     </message>
 </context>
 <context>
@@ -1771,14 +1770,6 @@ Please try again.</source>
         <translation>시간대</translation>
     </message>
     <message>
-        <source>Are you sure you want to reboot your %1:core sytem now?</source>
-        <translation>지금 %1:core systemtem을 재부팅하시겠습니까?</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to shut down your %1:core sytem now?</source>
-        <translation>지금 %1:core systemtem을 종료하시겠습니까?</translation>
-    </message>
-    <message>
         <source>General settings</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1807,35 +1798,28 @@ Please try again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Restart %1:core</source>
+        <source>Restart %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Are you sure you want to restart %1:core now?</source>
+        <source>Are you sure you want to restart %1 now?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Reboot %1:core system</source>
+        <source>Reboot %1 system</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Shut down %1:core system</source>
+        <source>Are you sure you want to reboot your %1 sytem now?</source>
         <translation type="unfinished"></translation>
     </message>
-</context>
-<context>
-    <name>GenericDeviceListPage</name>
     <message>
-        <source>My %1</source>
-        <translation></translation>
+        <source>Shut down %1 system</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>My things</source>
-        <translation>사물(장치)들</translation>
-    </message>
-    <message>
-        <source>All my things</source>
-        <translation>모든 사물(장치)</translation>
+        <source>Are you sure you want to shut down your %1 sytem now?</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1859,6 +1843,21 @@ Please try again.</source>
     <message>
         <source>OK</source>
         <translation></translation>
+    </message>
+</context>
+<context>
+    <name>GenericThingsListPage</name>
+    <message>
+        <source>My %1</source>
+        <translation type="unfinished">소켓 %1</translation>
+    </message>
+    <message>
+        <source>My things</source>
+        <translation type="unfinished">사물(장치)들</translation>
+    </message>
+    <message>
+        <source>All my things</source>
+        <translation type="unfinished">모든 사물(장치)</translation>
     </message>
 </context>
 <context>
@@ -1926,10 +1925,6 @@ Please try again.</source>
 </context>
 <context>
     <name>GroupsView</name>
-    <message>
-        <source>Lighting</source>
-        <translation type="unfinished">전등(조명)</translation>
-    </message>
     <message>
         <source>There are no groups set up yet.</source>
         <translation type="unfinished"></translation>
@@ -2831,6 +2826,54 @@ Please try again.</source>
         <source>Water detected changed</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Charging started or stopped</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Discharging</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Discharging started or stopped</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Plugged in</source>
+        <translation type="unfinished">연결됨</translation>
+    </message>
+    <message>
+        <source>Plugged in or out</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cleaning robots</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Robot state</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Robot state changed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start cleaning</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Stop cleaning</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pause cleaning</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Return to base</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>IrrigationDevicePage</name>
@@ -2944,10 +2987,10 @@ Please try again.</source>
     </message>
 </context>
 <context>
-    <name>LightsDeviceListPage</name>
+    <name>LightThingsListPage</name>
     <message>
         <source>Lights</source>
-        <translation>전등(조명등)</translation>
+        <translation type="unfinished">전등</translation>
     </message>
 </context>
 <context>
@@ -2990,6 +3033,29 @@ Please try again.</source>
     </message>
 </context>
 <context>
+    <name>LoggingCategories</name>
+    <message>
+        <source>Logging categories</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Critical</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Warning</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Debug</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>LoginPage</name>
     <message>
         <source>Welcome to %1!</source>
@@ -3028,12 +3094,12 @@ Please try again.</source>
         <translation>확인</translation>
     </message>
     <message>
-        <source>An error happened with the user storage. Please make sure your %1:core system is installed correctly.</source>
-        <translation>사용자 저장소에 오류가 발생함. %1:코어 시스템이 올바르게 설치되었는지 확인하십시오.</translation>
-    </message>
-    <message>
         <source>In order to use your %1 system, please enter your email address and set a password for it.</source>
         <translation>%1 시스템을 사용하려면 이메일 주소를 입력하고 암호를 설정하십시오.</translation>
+    </message>
+    <message>
+        <source>An error happened with the user storage. Please make sure your %1 system is installed correctly.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3736,6 +3802,10 @@ Please try again.</source>
         <source>WiFi frequency</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>No wireless network interfaces available</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>NewMagicPage</name>
@@ -4044,6 +4114,10 @@ Please try again.</source>
         <source>Barcode scanners</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Cleaning robots</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>NymeaItemDelegate</name>
@@ -4199,8 +4273,12 @@ Please try again.</source>
         <translation>새 연결</translation>
     </message>
     <message>
-        <source>Sorry, the version of the %1:core you are trying to connect to is too old. This app requires at least version %2 but this %1:core only supports %3</source>
-        <translation>죄송합니다, 연결하려는 %1:코어의 버전이 너무 오래됨. 이 앱은 %2 버전 이상이 필요하지만 이 %1: 코어는 %3만 지원합니다</translation>
+        <source>The version of the %1 system you are trying to connect to is too old. This app requires at least version %2 but this %1 system only supports %3. Please update your %1 system.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The version of the %1 system you are trying to connect to is too new. This app supports only up to version %2 but this %1 system provides %3. Please update %4.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4628,20 +4706,12 @@ Please try again.</source>
         <translation>디버깅 및 오류 보고를 위한 액세스 도구</translation>
     </message>
     <message>
-        <source>About %1:core</source>
-        <translation>%1:코어에 대하여</translation>
-    </message>
-    <message>
         <source>Find server UUID and versions</source>
         <translation>서버 UUID 및 버전 찾기</translation>
     </message>
     <message>
         <source>System update</source>
         <translation>시스템 업데이트</translation>
-    </message>
-    <message>
-        <source>Update your %1:core system</source>
-        <translation>%1: 코어 시스템 업데이트</translation>
     </message>
     <message>
         <source>System settings</source>
@@ -4654,10 +4724,6 @@ Please try again.</source>
     <message>
         <source>Configure the system&apos;s network connection</source>
         <translation>시스템의 네트워크 연결 구성</translation>
-    </message>
-    <message>
-        <source>Connect this %1:core to %1:cloud</source>
-        <translation>이 %1:코어를 %1:클라우드에 연결하십시오</translation>
     </message>
     <message>
         <source>Configure how clients interact with this system</source>
@@ -4678,6 +4744,18 @@ Please try again.</source>
     <message>
         <source>Configure ZigBee networks</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connect this %1 system to %1:cloud</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Update your %1 system</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>About %1</source>
+        <translation type="unfinished">%1에 대하여</translation>
     </message>
 </context>
 <context>
@@ -4868,19 +4946,8 @@ Please try again.</source>
         <translation>모두 업데이트</translation>
     </message>
     <message>
-        <source>This will start a system update. Note that the update might take several minutes and your %1:core might not be functioning properly during this time and restart during the process.
-Do you want to proceed?</source>
-        <translation>시스템 업데이트가 시작됩니다. 업데이트에는 몇 분이 걸릴 수 있으며이 시간 동안 % 1 : core가 제대로 작동하지 않고 프로세스 중에 다시 시작될 수 있습니다. 진행 하시겠습니까?</translation>
-    </message>
-    <message>
         <source>Configure update sources</source>
         <translation>업데이트 소스 구성</translation>
-    </message>
-    <message>
-        <source>Enabling additional software sources allows to install unreleased %1:core packages.
-This can potentially break your system and lead to problems.
-Please only use this if you are sure you want this and consider reporting the issues you find when testing unreleased channels.</source>
-        <translation>추가 소프트웨어 소스를 사용하면 릴리스 되지 않은 % 1 : core 패키지를 설치할 수 있습니다. 잠재적으로 시스템이 손상되어 문제가 발생할 수 있습니다. 원하는 경우에만 사용하고 출시되지 않은 채널을 테스트 할 때 발견 된 문제를  알려 주세요.</translation>
     </message>
     <message>
         <source>Enable package source</source>
@@ -4953,10 +5020,6 @@ Please only use this if you are sure you want this and consider reporting the is
         <translation>설치되지 않음</translation>
     </message>
     <message>
-        <source>This will start a system update. Note that the update might take several minutes and your %1:core might not be functioning properly or restart during this time.</source>
-        <translation>시스템 업데이트가 시작됩니다. 업데이트하는 데 몇 분이 걸릴 수 있으며 이 시간 동안 % 1 : core가 제대로 작동하지 않거나 다시 시작될 수 있습니다.</translation>
-    </message>
-    <message>
         <source>
 Do you want to proceed?</source>
         <translation>
@@ -4964,6 +5027,21 @@ Do you want to proceed?</source>
     </message>
     <message>
         <source>Failure adding repository.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This will start a system update. Note that the update might take several minutes and your %1 system might not be functioning properly during this time and restart during the process.
+Do you want to proceed?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enabling additional software sources allows to install unreleased %1 packages.
+This can potentially break your system and lead to problems.
+Please only use this if you are sure you want this and consider reporting the issues you find when testing unreleased channels.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This will start a system update. Note that the update might take several minutes and your %1 might not be functioning properly or restart during this time.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5073,6 +5151,21 @@ Do you want to proceed?</source>
     <message>
         <source>Thing runs out of battery!</source>
         <translation type="unfinished">배터리가 다 됐네요!</translation>
+    </message>
+</context>
+<context>
+    <name>ThingRulesPage</name>
+    <message>
+        <source>Magic involving %1</source>
+        <translation type="unfinished">%1 관련 마법</translation>
+    </message>
+    <message>
+        <source>There&apos;s no magic involving %1.</source>
+        <translation type="unfinished">%1과 관련된 마법은 없습니다.</translation>
+    </message>
+    <message>
+        <source>Add some using the wizard stick!</source>
+        <translation type="unfinished">마법사 스틱을 사용하여 추가!</translation>
     </message>
 </context>
 <context>
@@ -5361,16 +5454,16 @@ Do you want to proceed?</source>
         <translation>무선 설정 닫기</translation>
     </message>
     <message>
-        <source>Your %1:core is connected to %2</source>
-        <translation>%1:코어가 %2에 연결됨</translation>
+        <source>Your %1 system is connected to %2</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Waiting for the %1:core to appear in your network.</source>
-        <translation>%1:코어가 네트워크에 나타날 때까지 대기 중.</translation>
+        <source>Waiting for the %1 to appear in your network.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Connect to %1:core</source>
-        <translation>%1:코어에 연결</translation>
+        <source>Connect to %1</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5460,10 +5553,46 @@ Do you want to proceed?</source>
     </message>
 </context>
 <context>
-    <name>ZigbeeNetworkInfoPage</name>
+    <name>ZigbeeNetworkPage</name>
     <message>
-        <source>Network settings</source>
-        <translation type="unfinished">네트워크 설정</translation>
+        <source>Network information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Network state</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The network is online</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The network is offline</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The network is starting...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The controller is currently installing an update</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The network is in an error state.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Channel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Network PAN ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ZigBee network settings</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Hardware information</source>
@@ -5503,85 +5632,6 @@ Do you want to proceed?</source>
     </message>
 </context>
 <context>
-    <name>ZigbeeNetworkPage</name>
-    <message>
-        <source>Network</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Settings</source>
-        <translation type="unfinished">설정</translation>
-    </message>
-    <message>
-        <source>Network information</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Network state</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The network is online</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The network is offline</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The network is starting...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The controller is currently installing an update</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The network is in an error state.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Channel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Network PAN ID</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Network control</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The network is open</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The network is closed</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Devices can join this network</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Devices are not allowed to join this network</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Extend network open duration</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Open network for new ZigBee devices</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Close network</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>ZigbeeSettingsPage</name>
     <message>
         <source>ZigBee</source>
@@ -5592,15 +5642,55 @@ Do you want to proceed?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>ZigBee networks</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>There are no ZigBee networks set up yet. In order to use ZigBee, create a ZigBee network.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Add a ZigBee network</source>
+        <source>Add network</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Network state:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Online</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Offline</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Starting</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Updating</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open for %0 s</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Closed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Extend open duration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open for new devices</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Permit new devices:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
