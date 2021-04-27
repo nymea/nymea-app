@@ -1,3 +1,12 @@
+nymea-app (1.0.304) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix a crash in the weather view
+  * Update translations
+  * Improve some debug prints in nymeaconfiguration
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 27 Apr 2021 15:20:34 +0200
+
 nymea-app (1.0.303) bionic; urgency=medium
 
   [ Michael Zanetti ]
