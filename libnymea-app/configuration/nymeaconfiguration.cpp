@@ -38,6 +38,10 @@
 #include "jsonrpc/jsonrpcclient.h"
 
 #include <QUuid>
+#include <QJsonDocument>
+
+#include "logging.h"
+NYMEA_LOGGING_CATEGORY(dcNymeaConfiguration, "NymeaConfiguration")
 
 NymeaConfiguration::NymeaConfiguration(JsonRpcClient *client, QObject *parent):
     JsonHandler(parent),
@@ -396,16 +400,16 @@ void NymeaConfiguration::notificationReceived(const QVariantMap &notification)
     QString notif = notification.value("notification").toString();
     if (notif == "Configuration.BasicConfigurationChanged") {
         QVariantMap params = notification.value("params").toMap().value("basicConfiguration").toMap();
-        qDebug() << "notif" << params;
         m_debugServerEnabled = params.value("debugServerEnabled").toBool();
         emit debugServerEnabledChanged();
         m_serverName = params.value("serverName").toString();
         emit serverNameChanged();
+        qCDebug(dcNymeaConfiguration()) << "Basic configuration changed. Server name:" << m_serverName << "Debug server enabled:" << m_debugServerEnabled;
         return;
     }
     if (notif == "Configuration.CloudConfigurationChanged") {
         QVariantMap params = notification.value("params").toMap().value("cloudConfiguration").toMap();
-        qDebug() << "notif" << params;
+        qCDebug(dcNymeaConfiguration()) << "Cloud coniguration changed" << params;
         m_cloudEnabled = params.value("enabled").toBool();
         emit cloudEnabledChanged();
         return;
@@ -493,17 +497,19 @@ void NymeaConfiguration::notificationReceived(const QVariantMap &notification)
         policy->setPassword(policyMap.value("password").toString());
         policy->setAllowedPublishTopicFilters(policyMap.value("allowedPublishTopicFilters").toStringList());
         policy->setAllowedSubscribeTopicFilters(policyMap.value("allowedSubscribeTopicFilters").toStringList());
-        qDebug() << "MQTT policy added" << policy->clientId() << policy->username() << policy->password();
+        qCDebug(dcNymeaConfiguration()) << "MQTT policy changed" << policy->clientId() << policy->username() << policy->password();
         return;
     }
     if (notif == "Configuration.MqttPolicyRemoved") {
         MqttPolicy* policy = m_mqttPolicies->getPolicy(notification.value("params").toMap().value("clientId").toString());
         if (!policy) {
-            qWarning() << "Reveived a policy removed notification for apolicy we don't know";
+            qCWarning(dcNymeaConfiguration()) << "Reveived a policy removed notification for apolicy we don't know";
             return;
         }
+        qCDebug(dcNymeaConfiguration()) << "MQTT policy removed" << policy->clientId() << policy->username() << policy->password();
         m_mqttPolicies->removePolicy(policy);
+        return;
     }
 
-    qDebug() << "Unhandled Configuration notification" << notif << notification;
+    qCWarning(dcNymeaConfiguration) << "Unhandled Configuration notification" << qUtf8Printable(QJsonDocument::fromVariant(notification).toJson());
 }
