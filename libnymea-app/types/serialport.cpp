@@ -94,7 +94,7 @@ SerialPort::SerialPortDataBits SerialPort::stringToSerialPortDataBits(const QStr
     } else if (dataBitsString == "SerialPortDataBitsData7") {
         return SerialPort::SerialPortDataBitsData7;
     } else if (dataBitsString == "SerialPortDataBitsData8") {
-        return SerialPort::SerialPortDataBitsData7;
+        return SerialPort::SerialPortDataBitsData8;
     }
 
     return SerialPort::SerialPortDataBitsUnknownDataBits;

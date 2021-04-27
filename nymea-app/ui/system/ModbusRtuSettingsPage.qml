@@ -51,8 +51,7 @@ SettingsPageBase {
                                           serialPortBaudrateModel: serialPortBaudrateModel,
                                           serialPortParityModel: serialPortParityModel,
                                           serialPortDataBitsModel: serialPortDataBitsModel,
-                                          serialPortStopBitsModel: serialPortStopBitsModel
-                                      })
+                                          serialPortStopBitsModel: serialPortStopBitsModel })
             enabled: modbusRtuManager.supported
         }
     }
@@ -285,7 +284,7 @@ SettingsPageBase {
                         d.pendingCommandId = -1
                         if (modbusRtuManager.handleModbusError(error)) {
                             // FIXME: the page does not work if I pop the page here
-                            //pageStack.pop()
+                            pageStack.pop()
                         }
                     }
                 }
@@ -293,6 +292,29 @@ SettingsPageBase {
 
             SettingsPageSectionHeader {
                 text: qsTr("Information")
+            }
+
+//            RowLayout {
+//                Layout.fillWidth: true
+
+//                Led {
+//                    Layout.preferredHeight: Style.iconSize
+//                    Layout.preferredWidth: Style.iconSize
+//                    state: modbusRtuMaster ? (modbusRtuMaster.connected ? "on" : "red") : "red"
+//                }
+
+//                Label {
+//                    Layout.fillWidth: true
+//                    text: modbusRtuMaster ? (modbusRtuMaster.connected ? qsTr("Connected") : qsTr("Disconnected")) : qsTr("Disconnected")
+//                }
+//            }
+
+            NymeaSwipeDelegate {
+                Layout.fillWidth: true
+                text: qsTr("Connection status")
+                subText: modbusRtuMaster && modbusRtuMaster.connected ? qsTr("Connected") : qsTr("Disconnected")
+                progressive: false
+                prominentSubText: false
             }
 
             NymeaSwipeDelegate {
@@ -307,14 +329,6 @@ SettingsPageBase {
                 Layout.fillWidth: true
                 text: qsTr("System location")
                 subText: modbusRtuMaster ? modbusRtuMaster.serialPort : ""
-                progressive: false
-                prominentSubText: false
-            }
-
-            NymeaSwipeDelegate {
-                Layout.fillWidth: true
-                text: qsTr("Connection status")
-                subText: modbusRtuMaster && modbusRtuMaster.connected ? qsTr("Connected") : qsTr("Disconnected")
                 progressive: false
                 prominentSubText: false
             }
