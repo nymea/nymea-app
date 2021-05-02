@@ -414,15 +414,15 @@
     </message>
     <message>
         <source>Failed to log in. Please try again. Do you perhaps have &lt;a href=&quot;#&quot;&gt;forgotten your password?&lt;/a&gt;</source>
-        <translation>Giriş yapılamadı. Lütfen tekrar deneyin. Belki &lt;a href=&quot;#&quot;&gt; şifrenizi unuttunuz mu? &lt;/a&gt; 2</translation>
+        <translation>Giriş yapılamadı. Lütfen tekrar deneyin. Belki &lt;a href=&quot;#&quot;&gt; şifrenizi unuttunuz mu? &lt;/a&gt;</translation>
     </message>
     <message>
         <source>Don&apos;t have a user yet?</source>
-        <translation></translation>
+        <translation>Henüz bir kullanıcınız yok mu?</translation>
     </message>
     <message>
         <source>Sign Up</source>
-        <translation></translation>
+        <translation>Sign up</translation>
     </message>
     <message>
         <source>Sign up</source>
