@@ -9,7 +9,7 @@
     </message>
     <message>
         <source>%1:core</source>
-        <translation></translation>
+        <translation>Hakkında %1:core</translation>
     </message>
     <message>
         <source>Connection:</source>
@@ -502,36 +502,36 @@
     </message>
     <message>
         <source>Enter the confirmation code you&apos;ve received and a new password for your user %1.</source>
-        <translation></translation>
+        <translation>Aldığınız onay kodunu ve %1 kullanıcınız için yeni bir şifre girin.</translation>
     </message>
     <message>
         <source>Confirmation code:</source>
-        <translation></translation>
+        <translation>Onay kodu:</translation>
     </message>
     <message>
         <source>Pick a new password:</source>
-        <translation></translation>
+        <translation>Yeni bir şifre seçin:</translation>
     </message>
     <message>
         <source>There are no %1:core systems connected to your cloud yet.</source>
-        <translation></translation>
+        <translation>Henüz bulutunuza bağlı %1:core sistem yok.</translation>
     </message>
     <message numerus="yes">
         <source>There are %n %1:core systems connected to your cloud.</source>
-        <translation><numerusform></numerusform>
-        <numerusform></numerusform>
+        <translation><numerusform>Bulutunuza bağlı %n %1:core sistemler var.</numerusform>
+        <numerusform>Bulutunuza bağlı %n %1:core sistemler var.</numerusform>
         </translation></message>
     <message>
         <source>Sorry to see you go. If you log out you won&apos;t be able to connect to %1:core systems remotely any more. However, you can come back any time, we&apos;ll keep your user account. If you whish to completely delete your account and all the data associated with it, check the box below before hitting ok. If you decide to delete your account, all your personal information will be removed from %1:cloud and cannot be restored.</source>
-        <translation></translation>
+        <translation>Gittiğini görmek üzücü. Oturumu kapatırsanız, artık %1:core sistemlerine uzaktan bağlanamayacaksınız. Ancak istediğiniz zaman geri dönebilirsiniz, kullanıcı hesabınız bizde kalacaktır. Hesabınızı ve onunla ilişkili tüm verileri tamamen silmek isterseniz, ok&apos;a basmadan önce aşağıdaki kutuyu işaretleyin. Hesabınızı silmeye karar verirseniz, tüm kişisel bilgileriniz %1:cloud kaldırılacak ve geri yüklenemeyecektir.</translation>
     </message>
     <message>
         <source>Failed to connect to the login server. Please mase sure your network connection is working.</source>
-        <translation></translation>
+        <translation>Giriş sunucusuna bağlanılamadı. Lütfen ağ bağlantınızın çalıştığından emin olun.</translation>
     </message>
     <message>
         <source>An unexpected error happened. Please report this isse. Error code: %1</source>
-        <translation></translation>
+        <translation>Beklenmeyen bir hata oldu. Lütfen bunu bildirin. Hata kodu:%1</translation>
     </message>
     <message>
         <source>%1 cloud login</source>
