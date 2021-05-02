@@ -341,14 +341,14 @@
     </message>
     <message>
         <source>every year</source>
-        <translation>Her yıl</translation>
+        <translation>her yıl</translation>
     </message>
 </context>
 <context>
     <name>CertificateDialog</name>
     <message>
         <source>Certificate information</source>
-        <translation></translation>
+        <translation>Sertifika bilgisi</translation>
     </message>
     <message>
         <source>nymea UUID:</source>
@@ -356,65 +356,65 @@
     </message>
     <message>
         <source>Organisation:</source>
-        <translation></translation>
+        <translation>Organizasyon:</translation>
     </message>
     <message>
         <source>Common name:</source>
-        <translation></translation>
+        <translation>Genel isim:</translation>
     </message>
     <message>
         <source>Fingerprint:</source>
-        <translation></translation>
+        <translation>Parmak izi:</translation>
     </message>
 </context>
 <context>
     <name>CertificateErrorDialog</name>
     <message>
         <source>Insecure connection</source>
-        <translation></translation>
+        <translation>Güvensiz bağlantı</translation>
     </message>
     <message>
         <source>The certificate for this %1 system has changed. This could be because the configuration has been changed, but could also mean the system has been compromised. Do you want to accept the new certificate?</source>
-        <translation></translation>
+        <translation>Bu %1 sisteminin sertifikası değişti. Bunun nedeni yapılandırmanın değiştirilmiş olması olabilir, ancak sistemin tehlikeye atıldığı anlamına da gelebilir. Yeni sertifikayı kabul etmek istiyor musunuz?</translation>
     </message>
 </context>
 <context>
     <name>CloudLoginPage</name>
     <message>
         <source>Sorry, an error happened removing the account. Please try again later.</source>
-        <translation></translation>
+        <translation>Üzgünüz, hesabı kaldırırken bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.</translation>
     </message>
     <message>
         <source>Logged in as %1</source>
-        <translation></translation>
+        <translation>%1 olarak giriş yaptınız</translation>
     </message>
     <message>
         <source>Log out</source>
-        <translation></translation>
+        <translation>Çıkış</translation>
     </message>
     <message>
         <source>Goodbye</source>
-        <translation></translation>
+        <translation>Gülegüle</translation>
     </message>
     <message>
         <source>Delete my account</source>
-        <translation></translation>
+        <translation>Hesabımı sil</translation>
     </message>
     <message>
         <source>See our &lt;a href=&quot;%1&quot;&gt;privacy policy&lt;/a&gt; to find out what information is processed.</source>
-        <translation></translation>
+        <translation>Hangi bilgilerin işlendiğini öğrenmek için &lt;a href=&quot;%1&quot;&gt; gizlilik politikamıza &lt;/a&gt; bakın.</translation>
     </message>
     <message>
         <source>Password</source>
-        <translation></translation>
+        <translation>Şifre</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation></translation>
+        <translation>Tamam</translation>
     </message>
     <message>
         <source>Failed to log in. Please try again. Do you perhaps have &lt;a href=&quot;#&quot;&gt;forgotten your password?&lt;/a&gt;</source>
-        <translation></translation>
+        <translation>Giriş yapılamadı. Lütfen tekrar deneyin. Belki &lt;a href=&quot;#&quot;&gt; şifrenizi unuttunuz mu? &lt;/a&gt; 2</translation>
     </message>
     <message>
         <source>Don&apos;t have a user yet?</source>
