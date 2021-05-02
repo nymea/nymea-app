@@ -422,83 +422,83 @@
     </message>
     <message>
         <source>Sign Up</source>
-        <translation>Sign up</translation>
+        <translation>Kaydol</translation>
     </message>
     <message>
         <source>Sign up</source>
-        <translation></translation>
+        <translation>Kaydol</translation>
     </message>
     <message>
         <source>Welcome to %1:cloud.</source>
-        <translation></translation>
+        <translation>%1:cloud&apos;a hoş geldiniz.</translation>
     </message>
     <message>
         <source>Please enter your email address and pick a password in order to create a new account.</source>
-        <translation></translation>
+        <translation>Yeni bir hesap oluşturmak için lütfen e-posta adresinizi girin ve bir şifre seçin.</translation>
     </message>
     <message>
         <source>See our &lt;a href=&quot;%1&quot;&gt;privacy policy&lt;/a&gt; to find out what information is processed. By signing up to %2:cloud you accept those terms and conditions.</source>
-        <translation></translation>
+        <translation>Hangi bilgilerin işlendiğini öğrenmek için &lt;a href=&quot;%1&quot;&gt; gizlilik politikamıza &lt;/a&gt; bakın. %2:cloud&apos;a kaydolarak bu hüküm ve koşulları kabul etmiş olursunuz.</translation>
     </message>
     <message>
         <source>The given username or password are not valid.</source>
-        <translation></translation>
+        <translation>Verilen kullanıcı adı veya şifre geçerli değil.</translation>
     </message>
     <message>
         <source>Uh oh, something went wrong. Please try again.</source>
-        <translation></translation>
+        <translation>Maalesef bir şeyler ters gitti. Lütfen tekrar deneyin.</translation>
     </message>
     <message>
         <source>Confirm account</source>
-        <translation></translation>
+        <translation>Hesabı Onaylayın</translation>
     </message>
     <message>
         <source>Thanks for signing up. We will send you an email with a confirmation code. Please enter that code in the field below.</source>
-        <translation></translation>
+        <translation>Üye olduğunuz için teşekkürler. Size onay kodunu içeren bir e-posta göndereceğiz. Lütfen bu kodu aşağıdaki alana girin.</translation>
     </message>
     <message>
         <source>The given user already exists. Did you forget the password?</source>
-        <translation></translation>
+        <translation>Verilen kullanıcı zaten var. Parolayı unuttunuz mu?</translation>
     </message>
     <message>
         <source>That wasn&apos;t the right code. Please try again.</source>
-        <translation></translation>
+        <translation>Doğru kod bu değildi. Lütfen tekrar deneyin.</translation>
     </message>
     <message>
         <source>Reset password</source>
-        <translation></translation>
+        <translation>Şifreyi yenile</translation>
     </message>
     <message>
         <source>Sorry, this wasn&apos;t right. Did you misspell the email address?</source>
-        <translation></translation>
+        <translation>Üzgünüm, bu doğru değildi. E-posta adresini yanlış mı yazdınız?</translation>
     </message>
     <message>
         <source>Sorry, there were too many attempts. Please try again after some time.</source>
-        <translation></translation>
+        <translation>Üzgünüz, çok fazla deneme yapıldı. Lütfen bir süre sonra tekrar deneyin.</translation>
     </message>
     <message>
         <source>Password forgotten?</source>
-        <translation></translation>
+        <translation>Şifrenizi mi unuttunuz?</translation>
     </message>
     <message>
         <source>No problem. Enter your email address here and we&apos;ll send you a confirmation code to change your password.</source>
-        <translation></translation>
+        <translation>Sorun değil. Buraya e-posta adresinizi girin, şifrenizi değiştirmek için size bir onay kodu göndereceğiz.</translation>
     </message>
     <message>
         <source>Sorry, couldn&apos;t reset your password. Did you enter the wrong confirmation code?</source>
-        <translation></translation>
+        <translation>Üzgünüz, şifrenizi sıfırlayamadık. Yanlış doğrulama kodunu mu girdiniz?</translation>
     </message>
     <message>
         <source>Yay!</source>
-        <translation></translation>
+        <translation>Yaşasın!</translation>
     </message>
     <message>
         <source>Your password has been reset.</source>
-        <translation></translation>
+        <translation>Şifreniz sıfırlandı.</translation>
     </message>
     <message>
         <source>Check your email!</source>
-        <translation></translation>
+        <translation>E-postanı kontrol et!</translation>
     </message>
     <message>
         <source>Enter the confirmation code you&apos;ve received and a new password for your user %1.</source>
@@ -5820,7 +5820,7 @@ Do you want to proceed?</source>
     <name>ruleNameTemplate for thermostattemplates</name>
     <message>
         <source>Set temperature while I&apos;m home</source>
-        <translation></translation>
+        <translation>Ben evdeyken sıcaklığı ayarla</translation>
     </message>
 </context>
 </TS>
