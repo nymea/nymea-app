@@ -5,7 +5,7 @@
     <name>AboutNymeaPage</name>
     <message>
         <source>About %1:core</source>
-        <translation></translation>
+        <translation>Hakkında %1:core</translation>
     </message>
     <message>
         <source>%1:core</source>
@@ -13,58 +13,58 @@
     </message>
     <message>
         <source>Connection:</source>
-        <translation></translation>
+        <translation>Bağlantı:</translation>
     </message>
     <message>
         <source>Server UUID:</source>
-        <translation></translation>
+        <translation>Sunucu UUID:</translation>
     </message>
     <message>
         <source>Server version:</source>
-        <translation></translation>
+        <translation>Sunucu versiyon:</translation>
     </message>
     <message>
         <source>JSON-RPC version:</source>
-        <translation></translation>
+        <translation>JSON-RPC versiyon:</translation>
     </message>
     <message>
         <source>Qt version:</source>
-        <translation></translation>
+        <translation>Qt versiyon:</translation>
     </message>
     <message>
         <source>Built with %1</source>
-        <translation></translation>
+        <translation>% 1 ile oluşturuldu</translation>
     </message>
 </context>
 <context>
     <name>AboutPage</name>
     <message>
         <source>About %1</source>
-        <translation></translation>
+        <translation>Hakkında %1</translation>
     </message>
     <message>
         <source>App version:</source>
-        <translation></translation>
+        <translation>Uygulama versiyon:</translation>
     </message>
     <message>
         <source>Qt version:</source>
-        <translation></translation>
+        <translation>Qt versiyon:</translation>
     </message>
     <message>
         <source>Built with %1</source>
-        <translation></translation>
+        <translation>% 1 ile oluşturuldu</translation>
     </message>
     <message>
         <source>Suru icons by Ubuntu</source>
-        <translation></translation>
+        <translation>Ubuntu&apos;dan Suru simgeleri</translation>
     </message>
     <message>
         <source>Ubuntu font by Ubuntu</source>
-        <translation></translation>
+        <translation>Ubuntu&apos;dan Ubuntu yazı tipi</translation>
     </message>
     <message>
         <source>QtZeroConf library by Jonathan Bagg</source>
-        <translation></translation>
+        <translation>QtZeroConf kütüphanesi, Jonathan Bagg</translation>
     </message>
     <message>
         <source>OpenSSL libraries by Eric Young</source>
@@ -79,153 +79,153 @@
     <name>AppLogPage</name>
     <message>
         <source>App log</source>
-        <translation></translation>
+        <translation>Uygulama günlüğü</translation>
     </message>
 </context>
 <context>
     <name>AppSettingsPage</name>
     <message>
         <source>App Settings</source>
-        <translation></translation>
+        <translation>Uygulama Ayarları</translation>
     </message>
     <message>
         <source>Look &amp; feel</source>
-        <translation></translation>
+        <translation>Görünüm &amp; Hisler</translation>
     </message>
     <message>
         <source>Customize the app&apos;s look and behavior</source>
-        <translation></translation>
+        <translation>Uygulamanın görünümünü ve davranışını özelleştirin</translation>
     </message>
     <message>
         <source>Cloud login</source>
-        <translation></translation>
+        <translation>Bulut giriş</translation>
     </message>
     <message>
         <source>Developer options</source>
-        <translation></translation>
+        <translation>Geliştirmeci özellikleri</translation>
     </message>
     <message>
         <source>About %1</source>
-        <translation></translation>
+        <translation>Hakkında %1</translation>
     </message>
     <message>
         <source>Find app versions and licence information</source>
-        <translation></translation>
+        <translation>Uygulama sürümlerini ve lisans bilgilerini bulun</translation>
     </message>
     <message>
         <source>Log into %1:cloud and manage connected %1:core systems</source>
-        <translation></translation>
+        <translation>%1: bulutta oturum açın ve bağlı %1: çekirdek sistemleri yönetin</translation>
     </message>
     <message>
         <source>Access tools for debugging and error reporting</source>
-        <translation></translation>
+        <translation>Hata ayıklama ve hata raporlama için erişim araçları</translation>
     </message>
 </context>
 <context>
     <name>AwningDeviceListPage</name>
     <message>
         <source>Awnings</source>
-        <translation></translation>
+        <translation>Tenteler</translation>
     </message>
 </context>
 <context>
     <name>BarcodeScannerThingPage</name>
     <message>
         <source>No codes have been scanned yet.</source>
-        <translation></translation>
+        <translation>Henüz hiçbir kod taranmadı.</translation>
     </message>
     <message>
         <source>Scan a code to see it appearing here.</source>
-        <translation></translation>
+        <translation>Burada göründüğünü görmek için bir kodu tarayın.</translation>
     </message>
     <message>
         <source>Last scan</source>
-        <translation></translation>
+        <translation>Son tarama</translation>
     </message>
 </context>
 <context>
     <name>BlindDeviceListPage</name>
     <message>
         <source>Blinds</source>
-        <translation></translation>
+        <translation>Panjur</translation>
     </message>
 </context>
 <context>
     <name>BluetoothDevice</name>
     <message>
         <source>Connecting to %1...</source>
-        <translation></translation>
+        <translation>%1 ile bağlantı kuruluyor...</translation>
     </message>
     <message>
         <source>Connected to %1</source>
-        <translation></translation>
+        <translation>%1 ile bağlantı kuruldu</translation>
     </message>
     <message>
         <source>Disconnecting from %1...</source>
-        <translation></translation>
+        <translation>%1 bağlantısı kesiliyor...</translation>
     </message>
     <message>
         <source>Discovering services of %1...</source>
-        <translation></translation>
+        <translation>%1 servisleri aranıyor...</translation>
     </message>
     <message>
         <source>%1 connected and discovered.</source>
-        <translation></translation>
+        <translation>%1 bağlandı ve tarandı.</translation>
     </message>
     <message>
         <source>%1 disconnected.</source>
-        <translation></translation>
+        <translation>%1 bağlantısı kesildi.</translation>
     </message>
 </context>
 <context>
     <name>BluetoothDiscoveryPage</name>
     <message>
         <source>Wireless Box setup</source>
-        <translation></translation>
+        <translation>Wireless Box kurulmu</translation>
     </message>
     <message>
         <source>Help</source>
-        <translation></translation>
+        <translation>Yardım</translation>
     </message>
     <message>
         <source>Uh oh</source>
-        <translation></translation>
+        <translation>Ah vah tüh</translation>
     </message>
     <message>
         <source>Bluetooth doesn&apos;t seem to be available on this device. The wireless network setup requires a working Bluetooth connection.</source>
-        <translation></translation>
+        <translation>Bu cihazda Bluetooth yok gibi görünüyor. Kablosuz ağ kurulumu, çalışan bir Bluetooth bağlantısı gerektirir.</translation>
     </message>
     <message>
         <source>Bluetooth seems to be disabled. Please enable Bluetooth on your device in order to use the wireless network setup.</source>
-        <translation></translation>
+        <translation>Bluetooth devre dışı görünüyor. Kablosuz ağ kurulumunu kullanmak için lütfen cihazınızda Bluetooth&apos;u etkinleştirin.</translation>
     </message>
     <message>
         <source>Wireless setup help</source>
-        <translation></translation>
+        <translation>Wireless kurulum yardımı</translation>
     </message>
     <message>
         <source>After having installed the nymea community image to your Raspberry Pi, all you need to do is to plug it into a power socket. Note that the Wireless setup will only be available if the Raspberry Pi is not connected to a wired network.</source>
-        <translation></translation>
+        <translation>Nymea topluluk imajını Raspberry Pi&apos;nize yükledikten sonra, yapmanız gereken tek şey onu bir elektrik prizine takmaktır. Kablosuz kurulumun yalnızca Raspberry Pi&apos;nin kablolu bir ağa bağlı olmaması durumunda kullanılabileceğini unutmayın.</translation>
     </message>
     <message>
         <source>If you have a %1 box, plug it into a power socket and wait for it to be booted. Once the LED pulses slowly, press the button for 3 seconds until the LED changes.</source>
-        <translation></translation>
+        <translation>Bir %1 kutunuz varsa, onu bir elektrik prizine takın ve önyüklenmesini bekleyin. LED yavaşça yanıp söndüğünde, LED değişene kadar düğmeye 3 saniye basın.</translation>
     </message>
     <message>
         <source>Connecting...</source>
-        <translation></translation>
+        <translation>Bağlanıyor...</translation>
     </message>
     <message>
         <source>Connecting to %1</source>
-        <translation></translation>
+        <translation>%1 ile bağlantı kuruluyor</translation>
     </message>
     <message>
         <source>Searching for %1:core systems.</source>
-        <translation></translation>
+        <translation>%1:core sistemler aranıyor.</translation>
     </message>
     <message>
         <source>Troubles finding your %1:core?</source>
-        <translation></translation>
+        <translation>%1:core&apos;unuzu bulmakta sorun mu yaşıyorsunuz?</translation>
     </message>
     <message>
         <source>%1 box</source>
@@ -236,112 +236,112 @@
     <name>BoxInfoPage</name>
     <message>
         <source>Box information</source>
-        <translation></translation>
+        <translation>Box bilgisi</translation>
     </message>
     <message>
         <source>System UUID</source>
-        <translation></translation>
+        <translation>Sistem UUID</translation>
     </message>
     <message>
         <source>Manufacturer</source>
-        <translation></translation>
+        <translation>Üretici</translation>
     </message>
     <message>
         <source>Software revision</source>
-        <translation></translation>
+        <translation>Yazılım revizyonu</translation>
     </message>
     <message>
         <source>Firmware revision</source>
-        <translation></translation>
+        <translation>Firmware revizyonu</translation>
     </message>
     <message>
         <source>Hardware revision</source>
-        <translation></translation>
+        <translation>Donanım revizyonu</translation>
     </message>
 </context>
 <context>
     <name>BrowserContextMenu</name>
     <message>
         <source>Cancel</source>
-        <translation></translation>
+        <translation>İptal</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation></translation>
+        <translation>Tamam</translation>
     </message>
 </context>
 <context>
     <name>ButtonDevicePage</name>
     <message>
         <source>This switch has not been used yet.</source>
-        <translation></translation>
+        <translation>Bu anahtar henüz kullanılmadı.</translation>
     </message>
     <message>
         <source>Press a button on the switch to see logs appearing here.</source>
-        <translation></translation>
+        <translation>Burada görünen günlükleri görmek için anahtardaki bir düğmeye basın.</translation>
     </message>
 </context>
 <context>
     <name>CalendarItemDelegate</name>
     <message>
         <source>From %1 to %2</source>
-        <translation></translation>
+        <translation>%1 den %2 ye</translation>
     </message>
     <message>
         <source>repeated %3</source>
-        <translation></translation>
+        <translation>tekrarlanan %3</translation>
     </message>
     <message>
         <source>never</source>
-        <translation></translation>
+        <translation>asla</translation>
     </message>
     <message>
         <source>hourly</source>
-        <translation></translation>
+        <translation>saatlik</translation>
     </message>
     <message>
         <source>daily</source>
-        <translation></translation>
+        <translation>günlük</translation>
     </message>
     <message>
         <source>Mon</source>
-        <translation></translation>
+        <translation>Pzt</translation>
     </message>
     <message>
         <source>Tue</source>
-        <translation></translation>
+        <translation>Salı</translation>
     </message>
     <message>
         <source>Wed</source>
-        <translation></translation>
+        <translation>Çrş</translation>
     </message>
     <message>
         <source>Thu</source>
-        <translation></translation>
+        <translation>Prş</translation>
     </message>
     <message>
         <source>Fri</source>
-        <translation></translation>
+        <translation>Cuma</translation>
     </message>
     <message>
         <source>Sat</source>
-        <translation></translation>
+        <translation>Cmrtsi</translation>
     </message>
     <message>
         <source>Sun</source>
-        <translation></translation>
+        <translation>Pazar</translation>
     </message>
     <message>
         <source>weekly on %1</source>
-        <translation></translation>
+        <translation>Haftalık %1</translation>
     </message>
     <message>
         <source>monthly on the %1</source>
-        <translation></translation>
+        <translation>Aylık %1</translation>
     </message>
     <message>
         <source>every year</source>
-        <translation></translation>
+        <translation>Her yıl</translation>
     </message>
 </context>
 <context>
