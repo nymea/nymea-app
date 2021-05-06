@@ -289,6 +289,7 @@ void NymeaConnection::onConnected()
 void NymeaConnection::onDisconnected()
 {
     NymeaTransportInterface* t = qobject_cast<NymeaTransportInterface*>(sender());
+    qCInfo(dcNymeaConnection()) << "Disconnected from" << t->url().toString();
     if (m_currentTransport != t) {
         qCDebug(dcNymeaConnection()) << "An inactive transport for url" << t->url() << "disconnected... Cleaning up...";
         if (m_transportCandidates.contains(t)) {

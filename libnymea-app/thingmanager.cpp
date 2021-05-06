@@ -394,7 +394,7 @@ void ThingManager::editThingResponse(int commandId, const QVariantMap &params)
 
 void ThingManager::executeActionResponse(int commandId, const QVariantMap &params)
 {
-    qDebug() << "Execute Action response" << params;
+    qCDebug(dcThingManager()) << "Execute Action response" << params;
     emit executeActionReply(commandId, errorFromString(params.value("thingError").toByteArray()), params.value("displayMessage").toString());
 }
 
@@ -536,6 +536,7 @@ int ThingManager::executeAction(const QUuid &thingId, const QUuid &actionTypeId,
         p.insert("params", params);
     }
 
+    qCDebug(dcThingManager()) << "Executing action" << thingId << actionTypeId;
     return m_jsonClient->sendCommand("Integrations.ExecuteAction", p, this, "executeActionResponse");
 }
 
