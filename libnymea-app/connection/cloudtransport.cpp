@@ -36,6 +36,7 @@
 #include <QUrlQuery>
 #include <QHostInfo>
 #include <QPointer>
+#include <QCoreApplication>
 
 using namespace remoteproxyclient;
 
@@ -43,7 +44,7 @@ CloudTransport::CloudTransport(AWSClient *awsClient, QObject *parent):
     NymeaTransportInterface(parent),
     m_awsClient(awsClient)
 {
-    m_remoteproxyConnection = new RemoteProxyConnection(QUuid::createUuid(), "nymea:app", this);
+    m_remoteproxyConnection = new RemoteProxyConnection(QUuid::createUuid(), qApp->applicationName(), this);
 
     QObject::connect(m_remoteproxyConnection, &RemoteProxyConnection::remoteConnectionEstablished, this,[this]() {
         qDebug() << "CloudTransport: Remote connection established.";

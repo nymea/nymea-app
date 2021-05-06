@@ -948,7 +948,7 @@ bool AWSClient::postToMQTT(const QString &coreId, const QString &nonce, QObject*
     connect(reply, &QNetworkReply::finished, this, [reply, senderWatcher, callback]() {
         reply->deleteLater();
         QByteArray data = reply->readAll();
-//        qDebug() << "MQTT post reply" << data;
+        qCDebug(dcCloud()) << "MQTT post reply" << data;
         if (senderWatcher.isNull()) {
             qCDebug(dcCloud()) << "Request object disappeared. Discarding MQTT reply...";
             return;
