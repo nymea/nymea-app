@@ -1,6 +1,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 *
-* Copyright 2013 - 2020, nymea GmbH
+* Copyright 2013 - 2021, nymea GmbH
 * Contact: contact@nymea.io
 *
 * This file is part of nymea.
@@ -42,120 +42,347 @@ SettingsPageBase {
     property ZigbeeNetwork network: null
 
     header: NymeaHeader {
-        text: qsTr("ZigBee network settings")
+        text: qsTr("ZigBee network")
         backButtonVisible: true
         onBackPressed: pageStack.pop()
 
+        HeaderButton {
+            imageSource: "/ui/images/configure.svg"
+            text: qsTr("Network settings")
+            onClicked: pageStack.push(Qt.resolvedUrl("ZigbeeNetworkSettingsPage.qml"), { zigbeeManager: zigbeeManager, network: network })
+        }
+    }
+
+    busy: d.pendingCommandId != -1
+    QtObject {
+        id: d
+        property int pendingCommandId: -1
+        function removeNode(networkUuid, ieeeAddress) {
+            d.pendingCommandId = root.zigbeeManager.removeNode(networkUuid, ieeeAddress)
+        }
+    }
+
+    Connections {
+        target: root.zigbeeManager
+        onRemoveNodeReply: {
+            if (commandId == d.pendingCommandId) {
+                d.pendingCommandId = -1
+                var props = {};
+                switch (error) {
+                case "ZigbeeErrorNoError":
+                    return;
+                case "ZigbeeErrorAdapterNotAvailable":
+                    props.text = qsTr("The selected adapter is not available or the selected serial port configration is incorrect.");
+                    break;
+                case "ZigbeeErrorAdapterAlreadyInUse":
+                    props.text = qsTr("The selected adapter is already in use.");
+                    break;
+                default:
+                    props.errorCode = error;
+                }
+                var comp = Qt.createComponent("../components/ErrorDialog.qml")
+                var popup = comp.createObject(app, props)
+                popup.open();
+            }
+        }
     }
 
     SettingsPageSectionHeader {
-        text: qsTr("Network information")
+        text: qsTr("Network")
     }
 
-    NymeaSwipeDelegate {
+    RowLayout {
         Layout.fillWidth: true
-        text: qsTr("Network state")
-        subText: {
-            switch (root.network.networkState) {
-            case ZigbeeNetwork.ZigbeeNetworkStateOnline:
-                return qsTr("The network is online")
-            case ZigbeeNetwork.ZigbeeNetworkStateOffline:
-                return qsTr("The network is offline")
-            case ZigbeeNetwork.ZigbeeNetworkStateStarting:
-                return qsTr("The network is starting...")
-            case ZigbeeNetwork.ZigbeeNetworkStateUpdating:
-                return qsTr("The controller is currently installing an update")
-            case ZigbeeNetwork.ZigbeeNetworkStateError:
-                return qsTr("The network is in an error state.")
+        Layout.leftMargin: app.margins
+        Layout.rightMargin: app.margins
+
+        Label {
+            //Layout.fillWidth: true
+            text: {
+                switch (network.networkState) {
+                case ZigbeeNetwork.ZigbeeNetworkStateOnline:
+                    return qsTr("Online")
+                case ZigbeeNetwork.ZigbeeNetworkStateOffline:
+                    return qsTr("Offline")
+                case ZigbeeNetwork.ZigbeeNetworkStateStarting:
+                    return qsTr("Starting")
+                case ZigbeeNetwork.ZigbeeNetworkStateUpdating:
+                    return qsTr("Updating")
+                case ZigbeeNetwork.ZigbeeNetworkStateError:
+                    return qsTr("Error")
+                }
             }
         }
 
-        progressive: false
+        Led {
+            Layout.preferredHeight: Style.iconSize
+            Layout.preferredWidth: Style.iconSize
+            state: {
+                switch (network.networkState) {
+                case ZigbeeNetwork.ZigbeeNetworkStateOnline:
+                    return "on"
+                case ZigbeeNetwork.ZigbeeNetworkStateOffline:
+                    return "off"
+                case ZigbeeNetwork.ZigbeeNetworkStateStarting:
+                    return "orange"
+                case ZigbeeNetwork.ZigbeeNetworkStateUpdating:
+                    return "orange"
+                case ZigbeeNetwork.ZigbeeNetworkStateError:
+                    return "red"
+                }
+            }
+        }
     }
 
-    NymeaSwipeDelegate {
+    Label {
         Layout.fillWidth: true
-        text: qsTr("Channel")
-        subText: root.network.channel
-        progressive: false
+        Layout.leftMargin: app.margins
+        Layout.rightMargin: app.margins
+        text: qsTr("Channel") + ": " + network.channel
     }
 
-    NymeaSwipeDelegate {
+    RowLayout {
         Layout.fillWidth: true
-        text: qsTr("Network PAN ID")
-        subText: root.network.panId
-        progressive: false
-    }
+        Layout.leftMargin: app.margins
+        Layout.rightMargin: app.margins
 
-    SettingsPageSectionHeader {
-        text: qsTr("Hardware information")
-    }
-
-    NymeaSwipeDelegate {
-        Layout.fillWidth: true
-        text: qsTr("MAC address:")
-        subText: root.network.macAddress
-        progressive: false
-        prominentSubText: false
-    }
-
-    NymeaSwipeDelegate {
-        Layout.fillWidth: true
-        text: qsTr("Serial port")
-        subText: root.network.serialPort
-        progressive: false
-        prominentSubText: false
-    }
-
-    NymeaSwipeDelegate {
-        Layout.fillWidth: true
-        text: qsTr("Baud rate")
-        subText: root.network.baudRate
-        progressive: false
-        prominentSubText: false
-    }
-
-    NymeaSwipeDelegate {
-        Layout.fillWidth: true
-        text: qsTr("Controller backend")
-        subText: root.network.backend
-        progressive: false
-        prominentSubText: false
-    }
-
-    NymeaSwipeDelegate {
-        Layout.fillWidth: true
-        text: qsTr("Controller firmware version")
-        subText: root.network.firmwareVersion
-        progressive: false
-        prominentSubText: false
-    }
-
-    SettingsPageSectionHeader {
-        text: qsTr("Manage network")
-    }
-
-    ColumnLayout {
-
-        Button {
+        Label {
             Layout.fillWidth: true
-            Layout.leftMargin: app.margins
-            Layout.rightMargin: app.margins
-            text: qsTr("Remove network")
-            onClicked: {
-                root.zigbeeManager.removeNetwork(root.network.networkUuid)
-                pageStack.pop()
+            text: qsTr("Permit new devices:")
+        }
+        Label {
+            text: network.permitJoiningEnabled ? qsTr("Open for %0 s").arg(network.permitJoiningRemaining) : qsTr("Closed")
+        }
+        ColorIcon {
+            Layout.preferredHeight: Style.iconSize
+            Layout.preferredWidth: Style.iconSize
+            name: network.permitJoiningEnabled ? "/ui/images/lock-open.svg" : "/ui/images/lock-closed.svg"
+            visible: !network.permitJoiningEnabled
+        }
+        Canvas {
+            id: canvas
+            Layout.preferredHeight: Style.iconSize
+            Layout.preferredWidth: Style.iconSize
+            rotation: -90
+            visible: network.permitJoiningEnabled
+
+            property real progress: network.permitJoiningRemaining / network.permitJoiningDuration
+            onProgressChanged: {
+                canvas.requestPaint()
+            }
+
+            onPaint: {
+                var ctx = canvas.getContext("2d");
+                ctx.save();
+                ctx.reset();
+                var data = [1 - progress, progress];
+                var myTotal = 0;
+
+                for(var e = 0; e < data.length; e++) {
+                    myTotal += data[e];
+                }
+
+                ctx.fillStyle = Style.accentColor
+                ctx.strokeStyle = Style.accentColor
+                ctx.lineWidth = 1;
+
+                ctx.beginPath();
+                ctx.moveTo(canvas.width/2,canvas.height/2);
+                ctx.arc(canvas.width/2,canvas.height/2,canvas.height/2,0,(Math.PI*2*((1-progress)/myTotal)),false);
+                ctx.lineTo(canvas.width/2,canvas.height/2);
+                ctx.fill();
+                ctx.closePath();
+                ctx.beginPath();
+                ctx.arc(canvas.width/2,canvas.height/2,canvas.height/2 - 1,0,Math.PI*2,false);
+                ctx.closePath();
+                ctx.stroke();
+
+                ctx.restore();
+            }
+        }
+    }
+
+    Button {
+        Layout.fillWidth: true
+        Layout.leftMargin: app.margins
+        Layout.rightMargin: app.margins
+
+        text: network.permitJoiningEnabled ? qsTr("Extend open duration") : qsTr("Open for new devices")
+        enabled: network.networkState === ZigbeeNetwork.ZigbeeNetworkStateOnline
+        onClicked: zigbeeManager.setPermitJoin(network.networkUuid)
+    }
+
+
+    SettingsPageSectionHeader {
+        text: qsTr("Zigbee nodes")
+    }
+
+    Repeater {
+        id: zigbeeNodeRepeater
+        model: ZigbeeNodesProxy {
+            id: zigbeeNodesProxy
+            zigbeeNodes: root.network.nodes
+        }
+
+        delegate: BigTile {
+
+            property ZigbeeNode node: root.network.nodes.get(index)
+
+            Layout.fillWidth: true
+            interactive: false
+
+            contentItem: ColumnLayout {
+                spacing: app.margins
+
+                Loader {
+                    id: nodeTypeLoader
+                    Layout.fillWidth: true
+                    sourceComponent: node.type === ZigbeeNode.ZigbeeNodeTypeCoordinator ? coordinatorComponent : deviceComponent
+                }
+
+                Component {
+                    id: coordinatorComponent
+                    ColumnLayout {
+                        RowLayout {
+                            Led {
+                                Layout.preferredHeight: Style.iconSize
+                                Layout.preferredWidth: Style.iconSize
+                                state: {
+                                    switch (network.networkState) {
+                                    case ZigbeeNetwork.ZigbeeNetworkStateOnline:
+                                        return "on"
+                                    case ZigbeeNetwork.ZigbeeNetworkStateOffline:
+                                        return "off"
+                                    case ZigbeeNetwork.ZigbeeNetworkStateStarting:
+                                        return "orange"
+                                    case ZigbeeNetwork.ZigbeeNetworkStateUpdating:
+                                        return "orange"
+                                    case ZigbeeNetwork.ZigbeeNetworkStateError:
+                                        return "red"
+                                    }
+                                }
+                            }
+
+                            Label {
+                                Layout.fillWidth: true
+                                text: qsTr("Coordinator")
+                            }
+                        }
+
+                        Label { text: network.backend }
+                        Label {
+                            visible: node.version !== ""
+                            text: qsTr("Version") + ": " + network.firmwareVersion
+                        }
+                        Label {
+                            text: qsTr("IEEE address") + ": " + node.ieeeAddress
+                        }
+                        Label {
+                            text: qsTr("Network address") +  ": 0x" + (node.networkAddress + Math.pow(16, 4)).toString(16).slice(-4).toUpperCase();
+                        }
+                    }
+                }
+
+                Component {
+                    id: deviceComponent
+
+                    ColumnLayout {
+                        RowLayout {
+                            Led {
+                                id: reachableLed
+                                Layout.preferredHeight: Style.iconSize
+                                Layout.preferredWidth: Style.iconSize
+                                state: node.reachable ? "on" : "red"
+                            }
+
+                            Connections {
+                                target: node
+                                onLastSeenChanged: {
+                                    communicationIndicatorLed.state = "on"
+                                    communicationIndicatorLedTimer.start()
+                                }
+                            }
+
+                            Timer {
+                                id: communicationIndicatorLedTimer
+                                interval: 200
+                                repeat: false
+                                onTriggered: communicationIndicatorLed.state = "off"
+                            }
+
+                            Led {
+                                id: communicationIndicatorLed
+                                Layout.preferredHeight: Style.iconSize
+                                Layout.preferredWidth: Style.iconSize
+                                state: "off"
+                            }
+
+                            BusyIndicator {
+                                Layout.preferredHeight: Style.iconSize
+                                Layout.preferredWidth: Style.iconSize
+                                running: visible
+                                visible: node.state !== ZigbeeNode.ZigbeeNodeStateInitialized
+                            }
+
+                            Label {
+                                Layout.fillWidth: true
+                                text: node.type === ZigbeeNode.ZigbeeNodeTypeRouter ? qsTr("Router") : qsTr("End device")
+                            }
+
+                            Loader {
+                                id: iconLoader
+                                Layout.preferredHeight: Style.iconSize
+                                Layout.preferredWidth: Style.iconSize
+                                active: !node.rxOnWhenIdle
+                                sourceComponent: sleepyDeviceComponent
+                            }
+
+                            Component {
+                                id: sleepyDeviceComponent
+                                ColorIcon {
+                                    name: "/ui/images/system-suspend.svg"
+                                }
+                            }
+                        }
+
+                        Label {
+                            text: node.manufacturer + " - " + node.model
+                        }
+
+                        Label {
+                            visible: node.version !== ""
+                            text: qsTr("Version") + ": " + node.version
+                        }
+
+                        Label {
+                            text: qsTr("IEEE address") + ": " + node.ieeeAddress
+                        }
+
+                        Label {
+                            text: qsTr("Network address") +  ": 0x" + (node.networkAddress + Math.pow(16, 4)).toString(16).slice(-4).toUpperCase();
+                        }
+
+                        Label {
+                            text:  qsTr("Signal strength") + ": " + Math.round(node.lqi * 100.0 / 255.0) + "%"
+                        }
+
+                        Button {
+                            id: removeNodeButton
+                            text: qsTr("Remove node")
+                            onClicked: d.removeNode(network.networkUuid, node.ieeeAddress)
+                        }
+                    }
+                }
             }
         }
 
-        Button {
-            Layout.fillWidth: true
-            Layout.leftMargin: app.margins
-            Layout.rightMargin: app.margins
-            text: qsTr("Factory reset controller")
-            onClicked: {
-                root.zigbeeManager.factoryResetNetwork(root.network.networkUuid)
-            }
-        }
+
+        //        NymeaSwipeDelegate {
+        //            Layout.fillWidth: true
+        //            iconName: "../images/zigbee.svg"
+        //            text: node.manufacturer + " - " + node.model + " - " + node.version
+        //            subText: node.ieeeAddress + " " + node.networkAddress
+        //        }
+
     }
 }

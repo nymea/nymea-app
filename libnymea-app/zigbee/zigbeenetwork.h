@@ -35,6 +35,7 @@
 #include <QObject>
 #include <QTimer>
 
+#include "zigbeenodes.h"
 #include "zigbeeadapter.h"
 
 class ZigbeeNetwork : public QObject
@@ -54,6 +55,7 @@ class ZigbeeNetwork : public QObject
     Q_PROPERTY(uint permitJoiningRemaining READ permitJoiningRemaining NOTIFY permitJoiningRemainingChanged)
     Q_PROPERTY(QString backend READ backend NOTIFY backendChanged)
     Q_PROPERTY(ZigbeeNetworkState networkState READ networkState NOTIFY networkStateChanged)
+    Q_PROPERTY(ZigbeeNodes *nodes READ nodes CONSTANT)
 
     // Internal properties
 
@@ -68,6 +70,8 @@ public:
     Q_ENUM(ZigbeeNetworkState)
 
     explicit ZigbeeNetwork(QObject *parent = nullptr);
+
+    ZigbeeNodes *nodes() const;
 
     QUuid networkUuid() const;
     void setNetworkUuid(const QUuid &networkUuid);
@@ -144,6 +148,8 @@ private:
     uint m_permitJoiningRemaining;
     QString m_backend;
     ZigbeeNetworkState m_networkState;
+
+    ZigbeeNodes *m_nodes = nullptr;
 
     QTimer *m_permitJoinTimer = nullptr;
 };

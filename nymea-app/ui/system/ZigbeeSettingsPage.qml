@@ -81,8 +81,11 @@ SettingsPageBase {
                 Layout.fillWidth: true
                 interactive: false
 
+                onClicked: pageStack.push(Qt.resolvedUrl("ZigbeeNetworkPage.qml"), { zigbeeManager: zigbeeManager, network: zigbeeManager.networks.get(index) })
+
                 contentItem: ColumnLayout {
                     spacing: app.margins
+
                     RowLayout {
                         ColorIcon {
                             name: "/ui/images/zigbee/" + model.backend + ".svg"
@@ -95,14 +98,8 @@ SettingsPageBase {
                             text: model.backend
                             font.pixelSize: app.largeFont
                         }
-
-                        ProgressButton {
-                            size: Style.iconSize
-                            imageSource: "/ui/images/configure.svg"
-                            longpressEnabled: false
-                            onClicked: pageStack.push(Qt.resolvedUrl("ZigbeeNetworkPage.qml"), { zigbeeManager: zigbeeManager, network: zigbeeManager.networks.get(index) })
-                        }
                     }
+
                     RowLayout {
                         Label {
                             Layout.fillWidth: true
@@ -148,65 +145,21 @@ SettingsPageBase {
                     RowLayout {
                         Label {
                             Layout.fillWidth: true
-                            text: qsTr("Permit new devices:")
+                            text: qsTr("MAC address:")
                         }
                         Label {
-                            text: model.permitJoiningEnabled ? qsTr("Open for %0 s").arg(model.permitJoiningRemaining) : qsTr("Closed")
-                        }
-                        ColorIcon {
-                            Layout.preferredHeight: Style.iconSize
-                            Layout.preferredWidth: Style.iconSize
-                            name: model.permitJoiningEnabled ? "/ui/images/lock-open.svg" : "/ui/images/lock-closed.svg"
-                            visible: !model.permitJoiningEnabled
-                        }
-                        Canvas {
-                            id: canvas
-                            Layout.preferredHeight: Style.iconSize
-                            Layout.preferredWidth: Style.iconSize
-                            rotation: -90
-                            visible: model.permitJoiningEnabled
-
-                            property real progress: model.permitJoiningRemaining / model.permitJoiningDuration
-                            onProgressChanged: {
-                                canvas.requestPaint()
-                            }
-
-                            onPaint: {
-                                var ctx = canvas.getContext("2d");
-                                ctx.save();
-                                ctx.reset();
-                                var data = [1 - progress, progress];
-                                var myTotal = 0;
-
-                                for(var e = 0; e < data.length; e++) {
-                                    myTotal += data[e];
-                                }
-
-                                ctx.fillStyle = Style.accentColor
-                                ctx.strokeStyle = Style.accentColor
-                                ctx.lineWidth = 1;
-
-                                ctx.beginPath();
-                                ctx.moveTo(canvas.width/2,canvas.height/2);
-                                ctx.arc(canvas.width/2,canvas.height/2,canvas.height/2,0,(Math.PI*2*((1-progress)/myTotal)),false);
-                                ctx.lineTo(canvas.width/2,canvas.height/2);
-                                ctx.fill();
-                                ctx.closePath();
-                                ctx.beginPath();
-                                ctx.arc(canvas.width/2,canvas.height/2,canvas.height/2 - 1,0,Math.PI*2,false);
-                                ctx.closePath();
-                                ctx.stroke();
-
-                                ctx.restore();
-                            }
+                            text: model.macAddress
                         }
                     }
 
-                    Button {
-                        Layout.fillWidth: true
-                        text: model.permitJoiningEnabled ? qsTr("Extend open duration") : qsTr("Open for new devices")
-                        enabled: model.networkState === ZigbeeNetwork.ZigbeeNetworkStateOnline
-                        onClicked: zigbeeManager.setPermitJoin(model.networkUuid)
+                    RowLayout {
+                        Label {
+                            Layout.fillWidth: true
+                            text: qsTr("Firmware version:")
+                        }
+                        Label {
+                            text: model.firmwareVersion
+                        }
                     }
                 }
             }

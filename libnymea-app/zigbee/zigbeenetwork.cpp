@@ -30,18 +30,25 @@
 
 #include "zigbeenetwork.h"
 
-ZigbeeNetwork::ZigbeeNetwork(QObject *parent) : QObject(parent)
+ZigbeeNetwork::ZigbeeNetwork(QObject *parent) :
+    QObject(parent),
+    m_nodes(new ZigbeeNodes(this))
 {
     m_permitJoinTimer = new QTimer(this);
     m_permitJoinTimer->setInterval(1000);
     m_permitJoinTimer->setSingleShot(true);
     connect(m_permitJoinTimer, &QTimer::timeout, this, [this](){
-
         setPermitJoiningRemaining(m_permitJoiningRemaining - 1);
         if (m_permitJoiningRemaining <= 0) {
             m_permitJoinTimer->stop();
         }
     });
+}
+
+
+ZigbeeNodes *ZigbeeNetwork::nodes() const
+{
+    return m_nodes;
 }
 
 QUuid ZigbeeNetwork::networkUuid() const

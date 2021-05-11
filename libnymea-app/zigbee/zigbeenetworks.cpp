@@ -92,7 +92,6 @@ QHash<int, QByteArray> ZigbeeNetworks::roleNames() const
     roles.insert(RoleBackend, "backend");
     roles.insert(RoleNetworkState, "networkState");
     return roles;
-
 }
 
 void ZigbeeNetworks::addNetwork(ZigbeeNetwork *network)

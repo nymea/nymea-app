@@ -262,5 +262,6 @@
         <file>ui/images/modbus.svg</file>
         <file>ui/images/setupwizard/wired-connection.svg</file>
         <file>ui/images/setupwizard/wireless-connection.svg</file>
+        <file>ui/images/system-suspend.svg</file>
     </qresource>
 </RCC>

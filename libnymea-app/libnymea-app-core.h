@@ -127,6 +127,8 @@
 #include "zigbee/zigbeeadaptersproxy.h"
 #include "zigbee/zigbeenetwork.h"
 #include "zigbee/zigbeenetworks.h"
+#include "zigbee/zigbeenodes.h"
+#include "zigbee/zigbeenodesproxy.h"
 #include "applogcontroller.h"
 #include "tagwatcher.h"
 #include "appdata.h"
@@ -314,6 +316,9 @@ void registerQmlTypes() {
     qmlRegisterType<ZigbeeAdaptersProxy>(uri, 1, 0, "ZigbeeAdaptersProxy");
     qmlRegisterUncreatableType<ZigbeeNetwork>(uri, 1, 0, "ZigbeeNetwork", "Get it from the ZigbeeManager");
     qmlRegisterUncreatableType<ZigbeeNetworks>(uri, 1, 0, "ZigbeeNetworks", "Get it from the ZigbeeManager");
+    qmlRegisterUncreatableType<ZigbeeNode>(uri, 1, 0, "ZigbeeNode", "Get it from the ZigbeeNodes");
+    qmlRegisterUncreatableType<ZigbeeNodes>(uri, 1, 0, "ZigbeeNodes", "Get it from the ZigbeeNetwork");
+    qmlRegisterType<ZigbeeNodesProxy>(uri, 1, 0, "ZigbeeNodesProxy");
 
     qmlRegisterType<ModbusRtuManager>(uri, 1, 0, "ModbusRtuManager");
     qmlRegisterUncreatableType<ModbusRtuMaster>(uri, 1, 0, "ModbusRtuMaster", "Get it from the ModbusRtuMasters");

@@ -1,0 +1,76 @@
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*
+* Copyright 2013 - 2021, nymea GmbH
+* Contact: contact@nymea.io
+*
+* This file is part of nymea.
+* This project including source code and documentation is protected by
+* copyright law, and remains the property of nymea GmbH. All rights, including
+* reproduction, publication, editing and translation, are reserved. The use of
+* this project is subject to the terms of a license agreement to be concluded
+* with nymea GmbH in accordance with the terms of use of nymea GmbH, available
+* under https://nymea.io/license
+*
+* GNU General Public License Usage
+* Alternatively, this project may be redistributed and/or modified under the
+* terms of the GNU General Public License as published by the Free Software
+* Foundation, GNU version 3. This project is distributed in the hope that it
+* will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+* of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+* Public License for more details.
+*
+* You should have received a copy of the GNU General Public License along with
+* this project. If not, see <https://www.gnu.org/licenses/>.
+*
+* For any further details and any questions please contact us under
+* contact@nymea.io or see our FAQ/Licensing Information on
+* https://nymea.io/license/faq
+*
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+#include "zigbeenodesproxy.h"
+#include "zigbeenode.h"
+#include "zigbeenodes.h"
+
+#include <QDebug>
+
+ZigbeeNodesProxy::ZigbeeNodesProxy(QObject *parent) :
+    QSortFilterProxyModel(parent)
+{
+
+}
+
+ZigbeeNodes *ZigbeeNodesProxy::zigbeeNodes() const
+{
+    return m_zigbeeNodes;
+}
+
+void ZigbeeNodesProxy::setZigbeeNodes(ZigbeeNodes *zigbeeNodes)
+{
+    if (m_zigbeeNodes == zigbeeNodes)
+        return;
+
+    m_zigbeeNodes = zigbeeNodes;
+    emit zigbeeNodesChanged(m_zigbeeNodes);
+
+    qWarning() << "Set nodes to proxy" << m_zigbeeNodes->rowCount();
+
+    connect(m_zigbeeNodes, &ZigbeeNodes::countChanged, this, [this](){
+        emit countChanged();
+    });
+
+    setSourceModel(m_zigbeeNodes);
+    setSortRole(ZigbeeNodes::RoleNetworkAddress);
+    sort(0, Qt::DescendingOrder);
+    invalidateFilter();
+
+    emit countChanged();
+}
+
+ZigbeeNode *ZigbeeNodesProxy::get(int index) const
+{
+    if (index >= 0 && index < m_zigbeeNodes->rowCount()) {
+        return m_zigbeeNodes->get(mapToSource(this->index(index, 0)).row());
+    }
+    return nullptr;
+}

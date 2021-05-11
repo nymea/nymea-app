@@ -35,11 +35,13 @@
 #include "zigbeeadapter.h"
 #include "jsonrpc/jsonhandler.h"
 
+class Engine;
 class JsonRpcClient;
 class ZigbeeAdapters;
 class ZigbeeNetwork;
 class ZigbeeNetworks;
-class Engine;
+class ZigbeeNode;
+class ZigbeeNodes;
 
 class ZigbeeManager : public JsonHandler
 {
@@ -63,15 +65,19 @@ public:
     ZigbeeAdapters *adapters() const;
     ZigbeeNetworks *networks() const;
 
+    // Network
     Q_INVOKABLE int addNetwork(const QString &serialPort, uint baudRate, const QString &backend);
     Q_INVOKABLE void removeNetwork(const QUuid &networkUuid);
     Q_INVOKABLE void setPermitJoin(const QUuid &networkUuid, uint duration = 120);
     Q_INVOKABLE void factoryResetNetwork(const QUuid &networkUuid);
+    Q_INVOKABLE void getNodes(const QUuid &networkUuid);
+    Q_INVOKABLE int removeNode(const QUuid &networkUuid, const QString &ieeeAddress);
 
 signals:
     void engineChanged();
     void availableBackendsChanged();
     void addNetworkReply(int commandId, const QString &error, const QUuid &networkUuid);
+    void removeNodeReply(int commandId, const QString &error);
 
 private:
     void init();
@@ -85,6 +91,9 @@ private:
     Q_INVOKABLE void setPermitJoinResponse(int commandId, const QVariantMap &params);
     Q_INVOKABLE void factoryResetNetworkResponse(int commandId, const QVariantMap &params);
 
+    Q_INVOKABLE void getNodesResponse(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void removeNodeResponse(int commandId, const QVariantMap &params);
+
     Q_INVOKABLE void notificationReceived(const QVariantMap &notification);
 
 private:
@@ -95,8 +104,9 @@ private:
 
     ZigbeeAdapter *unpackAdapter(const QVariantMap &adapterMap);
     ZigbeeNetwork *unpackNetwork(const QVariantMap &networkMap);
+    ZigbeeNode *unpackNode(const QVariantMap &nodeMap);
     void fillNetworkData(ZigbeeNetwork *network, const QVariantMap &networkMap);
-
+    void addOrUpdateNode(ZigbeeNetwork *network, const QVariantMap &nodeMap);
 };
 
 #endif // ZIGBEEMANAGER_H
