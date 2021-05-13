@@ -52,7 +52,6 @@ SettingsPageBase {
         }
     }
 
-
     Connections {
         target: root.zigbeeManager
         onAddNetworkReply: {

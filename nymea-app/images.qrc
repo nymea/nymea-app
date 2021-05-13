@@ -263,5 +263,7 @@
         <file>ui/images/setupwizard/wired-connection.svg</file>
         <file>ui/images/setupwizard/wireless-connection.svg</file>
         <file>ui/images/system-suspend.svg</file>
+        <file>ui/images/zigbee-enddevice.svg</file>
+        <file>ui/images/zigbee-router.svg</file>
     </qresource>
 </RCC>

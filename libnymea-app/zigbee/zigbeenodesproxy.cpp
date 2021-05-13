@@ -56,13 +56,15 @@ void ZigbeeNodesProxy::setZigbeeNodes(ZigbeeNodes *zigbeeNodes)
     qWarning() << "Set nodes to proxy" << m_zigbeeNodes->rowCount();
 
     connect(m_zigbeeNodes, &ZigbeeNodes::countChanged, this, [this](){
+        sort(0, Qt::AscendingOrder);
         emit countChanged();
     });
 
     setSourceModel(m_zigbeeNodes);
+
+    // Sort by network address so the coordinator will always be on the top
     setSortRole(ZigbeeNodes::RoleNetworkAddress);
-    sort(0, Qt::DescendingOrder);
-    invalidateFilter();
+    sort(0, Qt::AscendingOrder);
 
     emit countChanged();
 }

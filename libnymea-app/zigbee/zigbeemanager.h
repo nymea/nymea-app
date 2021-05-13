@@ -105,6 +105,7 @@ private:
     ZigbeeAdapter *unpackAdapter(const QVariantMap &adapterMap);
     ZigbeeNetwork *unpackNetwork(const QVariantMap &networkMap);
     ZigbeeNode *unpackNode(const QVariantMap &nodeMap);
+
     void fillNetworkData(ZigbeeNetwork *network, const QVariantMap &networkMap);
     void addOrUpdateNode(ZigbeeNetwork *network, const QVariantMap &nodeMap);
 };

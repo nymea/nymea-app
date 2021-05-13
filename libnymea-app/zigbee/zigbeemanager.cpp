@@ -30,7 +30,10 @@
 
 #include "zigbeemanager.h"
 
+#include <QMetaEnum>
+
 #include "engine.h"
+#include "logging.h"
 #include "jsonrpc/jsonrpcclient.h"
 #include "zigbee/zigbeeadapter.h"
 #include "zigbee/zigbeeadapters.h"
@@ -39,9 +42,6 @@
 #include "zigbee/zigbeenode.h"
 #include "zigbee/zigbeenodes.h"
 
-#include <QMetaEnum>
-
-#include "logging.h"
 NYMEA_LOGGING_CATEGORY(dcZigbee, "Zigbee")
 
 ZigbeeManager::ZigbeeManager(QObject *parent) :
