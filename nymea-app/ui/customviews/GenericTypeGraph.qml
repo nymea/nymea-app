@@ -81,7 +81,7 @@ Item {
         margins.left: 0
         margins.right: 0
         backgroundColor: Style.tileBackgroundColor
-        backgroundRoundness: Style.tileRadius
+        backgroundRoundness: Style.cornerRadius
         legend.visible: false
         legend.labelColor: Style.foregroundColor
 

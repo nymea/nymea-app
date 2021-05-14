@@ -75,13 +75,13 @@ T.Button {
     // TODO: Add a proper ripple/ink effect for mouse/touch input and focus state
     background: Rectangle {
         implicitWidth: 64
-        implicitHeight: 40
+        implicitHeight: Style.smallDelegateHeight
 
         // external vertical padding is 6 (to increase touch area)
         y: 6
         width: parent.width
         height: parent.height - 12
-        radius: height / 2
+        radius: Style.smallCornerRadius
         color: !control.enabled ? control.Material.buttonDisabledColor :
                 control.highlighted ? control.Material.highlightedButtonColor : control.Material.accentColor
 

@@ -38,7 +38,7 @@ import Nymea 1.0
 ChartView {
     id: chart
     backgroundColor: Style.tileBackgroundColor
-    backgroundRoundness: Style.tileRadius
+    backgroundRoundness: Style.cornerRadius
     theme: ChartView.ChartThemeLight
     legend.labelColor: Style.foregroundColor
     legend.font.pixelSize: app.smallFont

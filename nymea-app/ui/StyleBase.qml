@@ -15,7 +15,9 @@ Item {
     property color tileOverlayColor: Qt.tint(backgroundColor, Qt.rgba(foregroundColor.r, foregroundColor.g, foregroundColor.b, 0.1))
     property color tileOverlayForegroundColor: foregroundColor
     property color tileOverlayIconColor: iconColor
-    property int tileRadius: 6
+
+    property int cornerRadius: 6
+    property int smallCornerRadius: 4
 
     readonly property int smallMargins: 8
     readonly property int margins: 16

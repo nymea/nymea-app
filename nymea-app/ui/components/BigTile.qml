@@ -66,7 +66,7 @@ Item {
         id: background
         anchors.fill: parent
         anchors.margins: app.margins / 2
-        radius: Style.tileRadius
+        radius: Style.cornerRadius
 
         gradient: Gradient {
             GradientStop {

@@ -70,7 +70,7 @@ Item {
             }
         }
 
-        radius: Style.tileRadius
+        radius: Style.cornerRadius
     }
 
     Image {
