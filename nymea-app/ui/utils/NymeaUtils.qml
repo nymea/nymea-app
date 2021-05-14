@@ -1,5 +1,6 @@
 pragma Singleton
 import QtQuick 2.9
+import Nymea 1.0
 
 Item {
     id: root
@@ -88,7 +89,6 @@ Item {
         return ((r * 299 + g * 587 + b * 114) / 1000) < 128
     }
 
-
     property var namedIcons: {
         "dashboard": "/ui/images/dashboard.svg",
         "group": "/ui/images/groups.svg",
@@ -134,4 +134,15 @@ Item {
         return namedIcons[name]
     }
 
+    property ListModel scopesModel: ListModel {
+        ListElement { text: qsTr("Admin"); scope: UserInfo.PermissionScopeAdmin; resetOnUnset: UserInfo.PermissionScopeNone }
+        ListElement { text: qsTr("Control things"); scope: UserInfo.PermissionScopeControlThings; resetOnUnset: UserInfo.PermissionScopeNone }
+        ListElement { text: qsTr("Configure things"); scope: UserInfo.PermissionScopeConfigureThings; resetOnUnset: UserInfo.PermissionScopeControlThings }
+        ListElement { text: qsTr("Execute magic"); scope: UserInfo.PermissionScopeExecuteRules; resetOnUnset: UserInfo.PermissionScopeNone  }
+        ListElement { text: qsTr("Configure magic"); scope: UserInfo.PermissionScopeConfigureRules; resetOnUnset: UserInfo.PermissionScopeExecuteRules }
+    }
+
+    function hasPermissionScope(engine, requestedScope) {
+        return (engine.jsonRpcClient.permissions & requestedScope) === requestedScope;
+    }
 }

@@ -411,8 +411,8 @@ Item {
                                 }
                                 Label {
                                     text: popup.minVersion != ""
-                                          ? qsTr("The version of the %1 system you are trying to connect to is too old. This app requires at least version %2 but this %1 system only supports %3. Please update your %1 system.").arg(Configuration.systemName).arg(popup.minVersion).arg(popup.actualVersion)
-                                          : qsTr("The version of the %1 system you are trying to connect to is too new. This app supports only up to version %2 but this %1 system provides %3. Please update %4.").arg(Configuration.systemName).arg(popup.maxVersion).arg(popup.actualVersion).arg(Configuration.appName)
+                                          ? qsTr("The version of the %1 system you are trying to connect to is too old. This app requires at least API version %2 but this %1 system only supports API version %3. Please update your %1 system.").arg(Configuration.systemName).arg(popup.minVersion).arg(popup.actualVersion)
+                                          : qsTr("The version of the %1 system you are trying to connect to is too new. This app supports only up to API version %2 but this %1 system provides API version %3. Please update %4.").arg(Configuration.systemName).arg(popup.maxVersion).arg(popup.actualVersion).arg(Configuration.appName)
                                     wrapMode: Text.WordWrap
                                     Layout.fillWidth: true
                                 }

@@ -272,5 +272,6 @@
         <file>ui/mainviews/energy/EnergySettingsPage.qml</file>
         <file>ui/mainviews/energy/ConsumersPieChart.qml</file>
         <file>ui/components/NymeaToolTip.qml</file>
+        <file>ui/components/SettingsTile.qml</file>
     </qresource>
 </RCC>

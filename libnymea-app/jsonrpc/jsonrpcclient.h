@@ -37,6 +37,7 @@
 #include <QVersionNumber>
 
 #include "connection/nymeaconnection.h"
+#include "types/userinfo.h"
 
 class JsonRpcReply;
 class Param;
@@ -63,6 +64,7 @@ class JsonRpcClient : public QObject
     Q_PROPERTY(QString serverQtBuildVersion READ serverQtBuildVersion NOTIFY serverQtVersionChanged)
     Q_PROPERTY(QVariantMap certificateIssuerInfo READ certificateIssuerInfo NOTIFY currentConnectionChanged)
     Q_PROPERTY(QVariantMap experiences READ experiences NOTIFY currentConnectionChanged)
+    Q_PROPERTY(UserInfo::PermissionScopes permissions READ permissions NOTIFY permissionsChanged)
 
 public:
     enum CloudConnectionState {
@@ -94,6 +96,9 @@ public:
     CloudConnectionState cloudConnectionState() const;
     void deployCertificate(const QByteArray &rootCA, const QByteArray &certificate, const QByteArray &publicKey, const QByteArray &privateKey, const QString &endpoint);
     QHash<QString, QString> cacheHashes() const;
+    // Note: This does not reflect the actual permission scopes of the user but is translated to effective permissions
+    // That, is, if the user has the admin permission, all of the other scopes will be set too even if they might not be explicitly set
+    UserInfo::PermissionScopes permissions() const;
 
     QString serverVersion() const;
     QString jsonRpcVersion() const;
@@ -140,6 +145,7 @@ signals:
     void cloudConnectionStateChanged();
     void serverQtVersionChanged();
     void serverNameChanged();
+    void permissionsChanged();
 
     void responseReceived(const int &commandId, const QVariantMap &response);
 
@@ -175,6 +181,8 @@ private:
     QByteArray m_receiveBuffer;
     QHash<QString, QString> m_cacheHashes;
     QVariantMap m_experiences;
+    UserInfo::PermissionScopes m_permissionScopes = UserInfo::PermissionScopeNone;
+    QString m_username;
 
     void setNotificationsEnabled();
     void getCloudConnectionStatus();

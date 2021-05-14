@@ -50,68 +50,39 @@ Page {
 
         GridLayout {
             id: layout
-            property bool isGrid: columns > 1
-            anchors { left: parent.left; top: parent.top; right: parent.right; margins: isGrid ? app.margins : 0 }
+            anchors { left: parent.left; top: parent.top; right: parent.right; margins: Style.smallMargins }
             columns: Math.max(1, Math.floor(parent.width / 300))
-            rowSpacing: isGrid ? app.margins : 0
-            columnSpacing: isGrid ? app.margins : 0
+            rowSpacing: 0
+            columnSpacing: 0
 
-            Pane {
+            SettingsTile {
                 Layout.fillWidth: true
-                Material.elevation: layout.isGrid ? 1 : 0
-                padding: 0
-                NymeaSwipeDelegate {
-                    width: parent.width
-                    text: qsTr("Look & feel")
-                    subText: qsTr("Customize the app's look and behavior")
-                    iconName: "../images/preferences-look-and-feel.svg"
-                    prominentSubText: false
-                    wrapTexts: false
-                    onClicked: pageStack.push(Qt.resolvedUrl("LookAndFeelSettingsPage.qml"))
-                }
+                text: qsTr("Look & feel")
+                subText: qsTr("Customize the app's look and behavior")
+                iconSource: "../images/preferences-look-and-feel.svg"
+                onClicked: pageStack.push(Qt.resolvedUrl("LookAndFeelSettingsPage.qml"))
             }
 
-            Pane {
+            SettingsTile {
                 Layout.fillWidth: true
-                Material.elevation: layout.isGrid ? 1 : 0
-                padding: 0
-                NymeaSwipeDelegate {
-                    width: parent.width
-                    text: qsTr("Cloud login")
-                    subText: qsTr("Log into %1:cloud and manage connected %1 systems").arg(Configuration.systemName)
-                    iconName: "../images/connections/cloud.svg"
-                    prominentSubText: false
-                    wrapTexts: false
-                    onClicked: pageStack.push(Qt.resolvedUrl("CloudLoginPage.qml"))
-                }
+                text: qsTr("Cloud login")
+                subText: qsTr("Log into %1:cloud and manage connected %1 systems").arg(Configuration.systemName)
+                iconSource: "../images/connections/cloud.svg"
+                onClicked: pageStack.push(Qt.resolvedUrl("CloudLoginPage.qml"))
             }
-            Pane {
+            SettingsTile {
                 Layout.fillWidth: true
-                Material.elevation: layout.isGrid ? 1 : 0
-                padding: 0
-                NymeaSwipeDelegate {
-                    width: parent.width
-                    text: qsTr("Developer options")
-                    subText: qsTr("Access tools for debugging and error reporting")
-                    iconName: "../images/sdk.svg"
-                    prominentSubText: false
-                    wrapTexts: false
-                    onClicked: pageStack.push(Qt.resolvedUrl("DeveloperOptionsPage.qml"))
-                }
+                text: qsTr("Developer options")
+                subText: qsTr("Access tools for debugging and error reporting")
+                iconSource: "../images/sdk.svg"
+                onClicked: pageStack.push(Qt.resolvedUrl("DeveloperOptionsPage.qml"))
             }
-            Pane {
+            SettingsTile {
                 Layout.fillWidth: true
-                Material.elevation: layout.isGrid ? 1 : 0
-                padding: 0
-                NymeaSwipeDelegate {
-                    width: parent.width
-                    text: qsTr("About %1").arg(Configuration.appName)
-                    subText: qsTr("Find app versions and licence information")
-                    iconName: "../images/info.svg"
-                    prominentSubText: false
-                    wrapTexts: false
-                    onClicked: pageStack.push(Qt.resolvedUrl("AboutPage.qml"))
-                }
+                text: qsTr("About %1").arg(Configuration.appName)
+                subText: qsTr("Find app versions and licence information")
+                iconSource: "../images/info.svg"
+                onClicked: pageStack.push(Qt.resolvedUrl("AboutPage.qml"))
             }
         }
     }

@@ -33,6 +33,7 @@ import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.2
 import QtQuick.Layouts 1.3
 import Nymea 1.0
+import Qt.labs.settings 1.1
 import "../components"
 
 Page {
@@ -281,7 +282,7 @@ Page {
 
             standardButtons: Dialog.Ok
 
-            property var nymeaHost: null
+            property NymeaHost nymeaHost: null
 
             header: Item {
                 implicitHeight: headerRow.height + app.margins * 2
@@ -341,6 +342,18 @@ Page {
                 Label {
                     Layout.columnSpan: 2
                     text: qsTr("Available connections")
+                }
+
+                Button {
+                    Layout.fillWidth: true
+                    text: qsTr("Logout")
+                    onClicked: tokenSettings.setValue(dialog.nymeaHost.uuid, "")
+                    visible: tokenSettings.value(dialog.nymeaHost.uuid) !== ""
+
+                    Settings {
+                        id: tokenSettings
+                        category: "jsonTokens"
+                    }
                 }
 
                 Flickable {
