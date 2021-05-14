@@ -13,7 +13,7 @@ SettingsPageBase {
         id: userManager
         engine: _engine
 
-        onChangePasswordResponse: {
+        onChangePasswordReply: {
             if (error != UserManager.UserErrorNoError) {
                 var component = Qt.createComponent("../components/ErrorDialog.qml")
                 var text;
@@ -64,23 +64,31 @@ SettingsPageBase {
     }
 
     SettingsPageSectionHeader {
-        text: qsTr("Devices / Apps accessing nymea:core")
+        text: qsTr("Device access")
     }
 
-    Repeater {
-        model: userManager.tokenInfos
+    Button {
+        Layout.fillWidth: true
+        Layout.leftMargin: Style.margins
+        Layout.rightMargin: Style.margins
+        text: qsTr("Manage authorized devices")
+        onClicked: {
+            pageStack.push(manageTokensComponent)
+        }
+    }
 
-        delegate: NymeaSwipeDelegate {
-            Layout.fillWidth: true
-            text: model.deviceName
-            subText: qsTr("Created on %1").arg(Qt.formatDateTime(model.creationTime, Qt.DefaultLocaleShortDate))
-            prominentSubText: false
-            progressive: false
-            canDelete: true
+    SettingsPageSectionHeader {
+        text: qsTr("Admin")
+        visible: userManager.userInfo.scopes & UserInfo.ScopeAdmin
+    }
 
-            onDeleteClicked: {
-                userManager.removeToken(model.id)
-            }
+    Button {
+        Layout.fillWidth: true
+        Layout.leftMargin: Style.margins
+        Layout.rightMargin: Style.margins
+        text: qsTr("Manage users")
+        onClicked: {
+            pageStack.push(manageUsersComponent)
         }
     }
 
@@ -127,6 +135,171 @@ SettingsPageBase {
                     changePasswordPage.confirmed(passwordTextField.password)
                     pageStack.pop();
                 }
+            }
+        }
+    }
+
+    Component {
+        id: manageTokensComponent
+        SettingsPageBase {
+            id: manageTokensPage
+            title: qsTr("Device access")
+
+            SettingsPageSectionHeader {
+                text: qsTr("Devices / Apps accessing %1").arg(Configuration.systemName)
+            }
+
+            Repeater {
+                model: userManager.tokenInfos
+
+                delegate: NymeaSwipeDelegate {
+                    Layout.fillWidth: true
+                    text: model.deviceName
+                    subText: qsTr("Created on %1").arg(Qt.formatDateTime(model.creationTime, Qt.DefaultLocaleShortDate))
+                    prominentSubText: false
+                    progressive: false
+                    canDelete: true
+
+                    onDeleteClicked: {
+                        userManager.removeToken(model.id)
+                    }
+                }
+            }
+        }
+    }
+
+    Component {
+        id: manageUsersComponent
+        SettingsPageBase {
+            id: manageUsersPage
+
+            header: NymeaHeader {
+                text: qsTr("Users")
+                onBackPressed: pageStack.pop()
+
+                HeaderButton {
+                    imageSource: Qt.resolvedUrl("../images/add.svg")
+                    onClicked: {
+                        pageStack.push(addUserComponent)
+                    }
+                }
+            }
+
+            SettingsPageSectionHeader {
+                text: qsTr("Manage users for this %1 system").arg(Configuration.systemName)
+            }
+
+            Repeater {
+                model: userManager.users
+                delegate: NymeaSwipeDelegate {
+                    Layout.fillWidth: true
+                    text: model.username
+//                    subText: model.scopes
+                    canDelete: true
+                    onClicked: {
+                        pageStack.push(userDetailsComponent, {userInfo: userManager.users.get(index)})
+                    }
+
+                    onDeleteClicked: {
+                        userManager.removeUser(model.username)
+                    }
+                }
+            }
+        }
+    }
+
+    Component {
+        id: userDetailsComponent
+        SettingsPageBase {
+            id: userDetailsPage
+            title: qsTr("Manage user")
+
+            property UserInfo userInfo: null
+
+            SettingsPageSectionHeader {
+                text: qsTr("User info")
+            }
+
+            NymeaItemDelegate {
+                Layout.fillWidth: true
+                text: userDetailsPage.userInfo.username
+                progressive: false
+            }
+
+            SettingsPageSectionHeader {
+                text: qsTr("Permissions")
+            }
+
+            Repeater {
+                model: NymeaUtils.scopesModel
+
+                delegate: CheckDelegate {
+                    Layout.fillWidth: true
+                    text: model.text
+                    checked: (userDetailsPage.userInfo.scopes & model.scope) === model.scope
+                    enabled: model.scope === UserInfo.ScopeAdmin ||
+                             (userDetailsPage.userInfo.scopes & UserInfo.ScopeAdmin) == 0
+                    onClicked: {
+                        print("scopes:", userDetailsPage.userInfo.scopes)
+                        var scopes = userDetailsPage.userInfo.scopes
+                        if (checked) {
+                            scopes |= model.scope
+                        } else {
+                            scopes &= ~model.scope
+                            scopes |= model.resetOnUnset
+                        }
+                        userManager.setUserScopes(userDetailsPage.userInfo.username, scopes)
+                    }
+                }
+            }
+
+            SettingsPageSectionHeader {
+                text: qsTr("Remove")
+            }
+
+            Button {
+                Layout.fillWidth: true
+                Layout.leftMargin: Style.margins
+                Layout.rightMargin: Style.margins
+                text: qsTr("Remove this user")
+                onClicked: {
+                    userManager.removeUser(userDetailsPage.userInfo.username)
+                }
+            }
+        }
+    }
+
+    Component {
+        id: addUserComponent
+
+        SettingsPageBase {
+            id: createUserPage
+            title: qsTr("Add a user")
+
+            SettingsPageSectionHeader {
+                text: qsTr("Login information")
+            }
+
+            TextField {
+                id: usernameTextField
+                Layout.fillWidth: true
+                placeholderText: qsTr("Username")
+            }
+            PasswordTextField {
+                id: passwordTextField
+                Layout.fillWidth: true
+
+            }
+
+            SettingsPageSectionHeader {
+                text: qsTr("Permissions")
+            }
+
+
+
+            Button {
+                text: qsTr("Create new user")
+                onClicked: userManager.createUser(usernameTextField.text, passwordTextField.password)
             }
         }
     }

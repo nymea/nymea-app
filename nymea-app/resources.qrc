@@ -249,5 +249,6 @@
         <file>ui/system/ModbusRtuSettingsPage.qml</file>
         <file>ui/system/ModbusRtuAddMasterPage.qml</file>
         <file>ui/system/ModbusRtuReconfigureMasterPage.qml</file>
+        <file>ui/components/SettingsTile.qml</file>
     </qresource>
 </RCC>

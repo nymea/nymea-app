@@ -327,6 +327,11 @@ QHash<QString, QString> JsonRpcClient::cacheHashes() const
     return m_cacheHashes;
 }
 
+UserInfo::PermissionScopes JsonRpcClient::permissions() const
+{
+    return m_permissionScopes;
+}
+
 QString JsonRpcClient::serverVersion() const
 {
     return m_serverVersion;
@@ -412,6 +417,8 @@ void JsonRpcClient::processAuthenticate(int /*commandId*/, const QVariantMap &da
     if (data.value("success").toBool()) {
         qDebug() << "authentication successful";
         m_token = data.value("token").toByteArray();
+        m_username = data.value("username").toString();
+        m_permissionScopes = UserInfo::listToScopes(data.value("scopes").toStringList());
         QSettings settings;
         settings.beginGroup("jsonTokens");
         settings.setValue(m_serverUuid, m_token);
@@ -419,7 +426,7 @@ void JsonRpcClient::processAuthenticate(int /*commandId*/, const QVariantMap &da
         emit authenticationRequiredChanged();
 
         m_authenticated = true;
-        emit authenticated();
+        emit authenticatedChanged();
 
         setNotificationsEnabled();
     } else {
@@ -471,6 +478,11 @@ void JsonRpcClient::setNotificationsEnabled()
 
     if (!m_connection->connected()) {
         return;
+    }
+
+    // We always want the Users notification to check for changed permissions
+    if (!namespaces.contains("Users")) {
+        namespaces.append("Users");
     }
 
     QVariantMap params;
@@ -538,6 +550,14 @@ void JsonRpcClient::onInterfaceConnectedChanged(bool connected)
         qCInfo(dcJsonRpc()) << "JsonRpcClient: Transport connected. Starting handshake.";
         // Clear anything that might be left in the buffer from a previous connection.
         m_receiveBuffer.clear();
+
+        // Load token for this host
+        QSettings settings;
+        settings.beginGroup("jsonTokens");
+        m_token = settings.value(currentHost()->uuid().toString()).toByteArray();
+        settings.endGroup();
+
+
         QVariantMap params;
         params.insert("locale", QLocale().name());
         sendCommand("JSONRPC.Hello", params, this, "helloReply");
@@ -569,7 +589,17 @@ void JsonRpcClient::dataReceived(const QByteArray &data)
 
     // check if this is a notification
     if (dataMap.contains("notification")) {
-        //        qDebug() << "Incoming notification:" << jsonDoc.toJson();
+        qCDebug(dcJsonRpc()) << "Incoming notification:" << qUtf8Printable(jsonDoc.toJson());
+        // Check if our permissions changed
+        if (dataMap.value("notification").toString() == "Users.UserChanged") {
+            QVariantMap userMap = dataMap.value("params").toMap().value("userInfo").toMap();
+            if (userMap.value("username").toString() == m_username) {
+                m_permissionScopes = UserInfo::listToScopes(userMap.value("scopes").toStringList());
+                qCritical() << "Permissions changed for" << userMap.value("username") << userMap.value("scopes").toStringList().join(",") << m_permissionScopes;
+                qCritical() << "***" << (m_permissionScopes & UserInfo::PermissionScopeConfigureThings);
+                emit permissionsChanged();
+            }
+        }
         QStringList notification = dataMap.value("notification").toString().split(".");
         QString nameSpace = notification.first();
         foreach (JsonHandler *handler, m_notificationHandlers.values(nameSpace)) {
@@ -652,7 +682,7 @@ void JsonRpcClient::helloReply(int /*commandId*/, const QVariantMap &params)
 
     m_jsonRpcVersion = QVersionNumber::fromString(protoVersionString);
 
-    qCInfo(dcJsonRpc()) << "Handshake reply:" << "Protocol version:" << protoVersionString << "InitRequired:" << m_initialSetupRequired << "AuthRequired:" << m_authenticationRequired << "PushButtonAvailable:" << m_pushButtonAuthAvailable;;
+    qCInfo(dcJsonRpc()) << "Handshake reply:" << "Protocol version:" << protoVersionString << "InitRequired:" << m_initialSetupRequired << "AuthRequired:" << m_authenticationRequired << "PushButtonAvailable:" << m_pushButtonAuthAvailable;
 
     QVersionNumber minimumRequiredVersion = QVersionNumber(5, 0);
     QVersionNumber maximumMajorVersion = QVersionNumber(5);
@@ -706,6 +736,11 @@ void JsonRpcClient::helloReply(int /*commandId*/, const QVariantMap &params)
     }
 //    qDebug() << "Caches:" << m_cacheHashes;
 
+    m_permissionScopes = UserInfo::listToScopes(params.value("permissionScopes").toStringList());
+    m_username = params.value("username").toString();
+    qCInfo(dcJsonRpc()) << "User:" << m_username << "Permissions:" << UserInfo::scopesToList(m_permissionScopes);
+    emit permissionsChanged();
+
     emit handshakeReceived();
 
     if (m_connection->currentHost()->uuid().isNull()) {
@@ -720,6 +755,7 @@ void JsonRpcClient::helloReply(int /*commandId*/, const QVariantMap &params)
     }
 
     if (m_authenticationRequired) {
+        // Reload the token, now that we're certain about the server uuid.
         QSettings settings;
         settings.beginGroup("jsonTokens");
         m_token = settings.value(m_serverUuid).toByteArray();

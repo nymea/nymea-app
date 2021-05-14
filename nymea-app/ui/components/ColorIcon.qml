@@ -38,7 +38,8 @@ Item {
     width: size
     height: size
 
-    property string name
+    property alias name: icon.source
+    property string source
     property alias color: colorizedImage.outColor
     property int margins: 0
     property int size: Style.iconSize
@@ -49,9 +50,9 @@ Item {
         id: image
         anchors.fill: parent
         anchors.margins: parent ? parent.margins : 0
-        source: width > 0 && height > 0 && icon.name ?
-                    icon.name.endsWith(".svg") ? icon.name
-                                               : "qrc:/ui/images/" + icon.name + ".svg"
+        source: width > 0 && height > 0 && icon.source ?
+                    icon.source.endsWith(".svg") ? icon.source
+                                               : "qrc:/ui/images/" + icon.source + ".svg"
                                                  : ""
         sourceSize {
             width: width

@@ -122,7 +122,8 @@ Drawer {
                     Layout.fillWidth: true
                     text: qsTr("Configure things")
                     iconName: "../images/things.svg"
-                    visible: root.currentEngine && root.currentEngine.jsonRpcClient.currentHost
+                    visible: root.currentEngine && root.currentEngine.jsonRpcClient.currentHost &&
+                             NymeaUtils.hasPermissionScope(root.currentEngine, UserInfo.PermissionScopeConfigureThings)
                     progressive: false
                     onClicked: {
                         root.openThingSettings()
@@ -134,7 +135,8 @@ Drawer {
                     text: qsTr("Magic")
                     iconName: "../images/magic.svg"
                     progressive: false
-                    visible: root.currentEngine && root.currentEngine.jsonRpcClient.currentHost
+                    visible: root.currentEngine && root.currentEngine.jsonRpcClient.currentHost &&
+                             NymeaUtils.hasPermissionScope(root.currentEngine, UserInfo.PermissionScopeConfigureRules)
                     onClicked: {
                         root.openMagicSettings();
                         root.close();

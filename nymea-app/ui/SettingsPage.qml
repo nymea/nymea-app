@@ -45,243 +45,141 @@ Page {
 
     Flickable {
         anchors.fill: parent
-        contentHeight: layout.implicitHeight + (layout.isGrid ? app.margins * 2 : 0)
+        contentHeight: layout.implicitHeight + app.margins
 
         GridLayout {
             id: layout
             property bool isGrid: columns > 1
-            anchors { left: parent.left; top: parent.top; right: parent.right; margins: isGrid ? app.margins : 0 }
+            anchors { left: parent.left; top: parent.top; right: parent.right; margins: Style.smallMargins }
             columns: Math.max(1, Math.floor(parent.width / 300))
-            rowSpacing: isGrid ? app.margins : 0
-            columnSpacing: isGrid ? app.margins : 0
+            rowSpacing: 0
+            columnSpacing: 0
 
-            Pane {
+            SettingsTile {
                 Layout.fillWidth: true
-                Material.elevation: layout.isGrid ? 1 : 0
-                padding: 0
-                NymeaSwipeDelegate {
-                    width: parent.width
-                    iconName: "../images/configure.svg"
-                    text: qsTr("General")
-                    subText: qsTr("Change system name and time zone")
-                    prominentSubText: false
-                    wrapTexts: false
-                    onClicked: pageStack.push(Qt.resolvedUrl("system/GeneralSettingsPage.qml"))
-                }
+                iconSource: "../images/configure.svg"
+                text: qsTr("General")
+                subText: qsTr("Change system name and time zone")
+                visible: NymeaUtils.hasPermissionScope(engine, UserInfo.PermissionScopeAdmin)
+                onClicked: pageStack.push(Qt.resolvedUrl("system/GeneralSettingsPage.qml"))
             }
 
-            Pane {
+            SettingsTile {
                 Layout.fillWidth: true
-                Material.elevation: layout.isGrid ? 1 : 0
-                padding: 0
                 visible: engine.jsonRpcClient.ensureServerVersion("4.2")
                          && engine.jsonRpcClient.authenticated
-                NymeaSwipeDelegate {
-                    width: parent.width
-                    iconName: "../images/account.svg"
-                    text: qsTr("User settings")
-                    subText: qsTr("Configure who can log in")
-                    prominentSubText: false
-                    wrapTexts: false
-                    onClicked: pageStack.push(Qt.resolvedUrl("system/UsersSettingsPage.qml"))
-                }
+                iconSource: "../images/account.svg"
+                text: qsTr("User settings")
+                subText: qsTr("Configure who can log in")
+                onClicked: pageStack.push(Qt.resolvedUrl("system/UsersSettingsPage.qml"))
             }
 
-            Pane {
+            SettingsTile {
                 Layout.fillWidth: true
-                Material.elevation: layout.isGrid ? 1 : 0
-
-                padding: 0
-                NymeaSwipeDelegate {
-                    width: parent.width
-                    iconName: "../images/connections/network-wifi.svg"
-                    text: qsTr("Networking")
-                    subText: qsTr("Configure the system's network connection")
-                    prominentSubText: false
-                    wrapTexts: false
-                    onClicked: pageStack.push(Qt.resolvedUrl("system/NetworkSettingsPage.qml"))
-                }
+                iconSource: "../images/connections/network-wifi.svg"
+                text: qsTr("Networking")
+                subText: qsTr("Configure the system's network connection")
+                visible: NymeaUtils.hasPermissionScope(engine, UserInfo.PermissionScopeAdmin)
+                onClicked: pageStack.push(Qt.resolvedUrl("system/NetworkSettingsPage.qml"))
             }
 
-            Pane {
+            SettingsTile {
                 Layout.fillWidth: true
-                Material.elevation: layout.isGrid ? 1 : 0
-
-                padding: 0
-                NymeaSwipeDelegate {
-                    width: parent.width
-                    iconName: "../images/connections/cloud.svg"
-                    text: qsTr("Cloud")
-                    subText: qsTr("Connect this %1 system to %1:cloud").arg(Configuration.systemName)
-                    prominentSubText: false
-                    wrapTexts: false
-                    onClicked: pageStack.push(Qt.resolvedUrl("system/CloudSettingsPage.qml"))
-                }
+                iconSource: "../images/connections/cloud.svg"
+                text: qsTr("Cloud")
+                subText: qsTr("Connect this %1 system to %1:cloud").arg(Configuration.systemName)
+                visible: NymeaUtils.hasPermissionScope(engine, UserInfo.PermissionScopeAdmin)
+                onClicked: pageStack.push(Qt.resolvedUrl("system/CloudSettingsPage.qml"))
             }
 
-            Pane {
+            SettingsTile {
                 Layout.fillWidth: true
-                Material.elevation: layout.isGrid ? 1 : 0
-
-                padding: 0
-                NymeaSwipeDelegate {
-                    width: parent.width
-                    iconName: "../images/connections/network-vpn.svg"
-                    text: qsTr("API interfaces")
-                    prominentSubText: false
-                    wrapTexts: false
-                    subText: qsTr("Configure how clients interact with this system")
-                    onClicked: pageStack.push(Qt.resolvedUrl("system/ConnectionInterfacesPage.qml"))
-                }
+                iconSource: "../images/connections/network-vpn.svg"
+                text: qsTr("API interfaces")
+                subText: qsTr("Configure how clients interact with this system")
+                visible: NymeaUtils.hasPermissionScope(engine, UserInfo.PermissionScopeAdmin)
+                onClicked: pageStack.push(Qt.resolvedUrl("system/ConnectionInterfacesPage.qml"))
             }
 
-            Pane {
+            SettingsTile {
                 Layout.fillWidth: true
-                Material.elevation: layout.isGrid ? 1 : 0
-                visible: engine.jsonRpcClient.ensureServerVersion("1.11")
-
-                padding: 0
-                NymeaSwipeDelegate {
-                    width: parent.width
-                    iconName: "../images/mqtt.svg"
-                    text: qsTr("MQTT broker")
-                    subText: qsTr("Configure the MQTT broker")
-                    prominentSubText: false
-                    wrapTexts: false
-                    onClicked: pageStack.push(Qt.resolvedUrl("system/MqttBrokerSettingsPage.qml"))
-                }
+                iconSource: "../images/mqtt.svg"
+                text: qsTr("MQTT broker")
+                subText: qsTr("Configure the MQTT broker")
+                visible: NymeaUtils.hasPermissionScope(engine, UserInfo.PermissionScopeAdmin)
+                onClicked: pageStack.push(Qt.resolvedUrl("system/MqttBrokerSettingsPage.qml"))
             }
 
-            Pane {
+            SettingsTile {
                 Layout.fillWidth: true
-                Material.elevation: layout.isGrid ? 1 : 0
-
-                padding: 0
-                NymeaSwipeDelegate {
-                    width: parent.width
-                    iconName: "../images/stock_website.svg"
-                    text: qsTr("Web server")
-                    subText: qsTr("Configure the web server")
-                    prominentSubText: false
-                    wrapTexts: false
-                    onClicked: pageStack.push(Qt.resolvedUrl("system/WebServerSettingsPage.qml"))
-                }
-
+                iconSource: "../images/stock_website.svg"
+                text: qsTr("Web server")
+                subText: qsTr("Configure the web server")
+                onClicked: pageStack.push(Qt.resolvedUrl("system/WebServerSettingsPage.qml"))
             }
 
-            Pane {
+
+            SettingsTile {
                 Layout.fillWidth: true
-                Material.elevation: layout.isGrid ? 1 : 0
                 visible: engine.jsonRpcClient.ensureServerVersion("5.3")
-
-                padding: 0
-                NymeaSwipeDelegate {
-                    width: parent.width
-                    iconName: "../images/zigbee.svg"
-                    text: qsTr("ZigBee")
-                    subText: qsTr("Configure ZigBee networks")
-                    prominentSubText: false
-                    wrapTexts: false
-                    onClicked: pageStack.push(Qt.resolvedUrl("system/ZigbeeSettingsPage.qml"))
-                }
+                iconSource: "../images/zigbee.svg"
+                text: qsTr("ZigBee")
+                subText: qsTr("Configure ZigBee networks")
+                onClicked: pageStack.push(Qt.resolvedUrl("system/ZigbeeSettingsPage.qml"))
             }
 
-            Pane {
+            SettingsTile {
                 Layout.fillWidth: true
-                Material.elevation: layout.isGrid ? 1 : 0
                 visible: engine.jsonRpcClient.ensureServerVersion("5.6")
-
-                padding: 0
-                NymeaSwipeDelegate {
-                    width: parent.width
-                    iconName: "../images/modbus.svg"
-                    text: qsTr("Modbus RTU")
-                    subText: qsTr("Configure Modbus RTU master interfaces")
-                    prominentSubText: false
-                    wrapTexts: false
-                    onClicked: pageStack.push(Qt.resolvedUrl("system/ModbusRtuSettingsPage.qml"))
-                }
+                iconSource: "../images/modbus.svg"
+                text: qsTr("Modbus RTU")
+                subText: qsTr("Configure Modbus RTU master interfaces")
+                onClicked: pageStack.push(Qt.resolvedUrl("system/ModbusRtuSettingsPage.qml"))
             }
 
-            Pane {
+            SettingsTile {
                 Layout.fillWidth: true
-                Material.elevation: layout.isGrid ? 1 : 0
-
-                padding: 0
-                NymeaSwipeDelegate {
-                    width: parent.width
-                    iconName: "../images/plugin.svg"
-                    text: qsTr("Plugins")
-                    subText: qsTr("List and cofigure installed plugins")
-                    prominentSubText: false
-                    wrapTexts: false
-                    onClicked:pageStack.push(Qt.resolvedUrl("system/PluginsPage.qml"))
-                }
+                iconSource: "../images/plugin.svg"
+                text: qsTr("Plugins")
+                subText: qsTr("List and cofigure installed plugins")
+                visible: NymeaUtils.hasPermissionScope(engine, UserInfo.PermissionScopeAdmin)
+                onClicked:pageStack.push(Qt.resolvedUrl("system/PluginsPage.qml"))
             }
 
-            Pane {
+            SettingsTile {
                 Layout.fillWidth: true
-                Material.elevation: layout.isGrid ? 1 : 0
-
-                padding: 0
-                NymeaSwipeDelegate {
-                    width: parent.width
-                    iconName: "../images/sdk.svg"
-                    text: qsTr("Developer tools")
-                    subText: qsTr("Access tools for debugging and error reporting")
-                    prominentSubText: false
-                    wrapTexts: false
-                    onClicked: pageStack.push(Qt.resolvedUrl("system/DeveloperTools.qml"))
-                }
+                iconSource: "../images/sdk.svg"
+                text: qsTr("Developer tools")
+                subText: qsTr("Access tools for debugging and error reporting")
+                visible: NymeaUtils.hasPermissionScope(engine, UserInfo.PermissionScopeAdmin)
+                onClicked: pageStack.push(Qt.resolvedUrl("system/DeveloperTools.qml"))
             }
 
-            Pane {
+            SettingsTile {
                 Layout.fillWidth: true
-                Material.elevation: layout.isGrid ? 1 : 0
-                visible: engine.jsonRpcClient.ensureServerVersion("2.1") && engine.systemController.updateManagementAvailable
-
-                padding: 0
-                NymeaSwipeDelegate {
-                    width: parent.width
-                    iconName: "../images/system-update.svg"
-                    text: qsTr("System update")
-                    subText: qsTr("Update your %1 system").arg(Configuration.systemName)
-                    prominentSubText: false
-                    wrapTexts: false
-                    onClicked: pageStack.push(Qt.resolvedUrl("system/SystemUpdatePage.qml"))
-                }
+                visible: engine.systemController.updateManagementAvailable &&
+                         NymeaUtils.hasPermissionScope(engine, UserInfo.PermissionScopeAdmin)
+                iconSource: "../images/system-update.svg"
+                text: qsTr("System update")
+                subText: qsTr("Update your %1 system").arg(Configuration.systemName)
+                onClicked: pageStack.push(Qt.resolvedUrl("system/SystemUpdatePage.qml"))
             }
 
-            Pane {
+            SettingsTile {
                 Layout.fillWidth: true
-                Material.elevation: layout.isGrid ? 1 : 0
-
-                padding: 0
-                NymeaSwipeDelegate {
-                    width: parent.width
-                    iconName: "../images/logs.svg"
-                    text: qsTr("Log viewer")
-                    subText: qsTr("View system log")
-                    prominentSubText: false
-                    wrapTexts: false
-                    onClicked: pageStack.push(Qt.resolvedUrl("system/LogViewerPage.qml"))
-                }
+                iconSource: "../images/logs.svg"
+                text: qsTr("Log viewer")
+                subText: qsTr("View system log")
+                visible: NymeaUtils.hasPermissionScope(engine, UserInfo.PermissionScopeAdmin)
+                onClicked: pageStack.push(Qt.resolvedUrl("system/LogViewerPage.qml"))
             }
 
-            Pane {
+            SettingsTile {
                 Layout.fillWidth: true
-                Material.elevation: layout.isGrid ? 1 : 0
-
-                padding: 0
-                NymeaSwipeDelegate {
-                    width: parent.width
-                    iconName: "../images/info.svg"
-                    text: qsTr("About %1").arg(Configuration.systemName)
-                    subText: qsTr("Find server UUID and versions")
-                    prominentSubText: false
-                    wrapTexts: false
-                    onClicked: pageStack.push(Qt.resolvedUrl("system/AboutNymeaPage.qml"))
-                }
+                iconSource: "../images/info.svg"
+                text: qsTr("About %1").arg(Configuration.systemName)
+                subText: qsTr("Find server UUID and versions")
+                onClicked: pageStack.push(Qt.resolvedUrl("system/AboutNymeaPage.qml"))
             }
         }
     }
