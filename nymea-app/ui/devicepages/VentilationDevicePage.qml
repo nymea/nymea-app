@@ -39,7 +39,7 @@ ThingPageBase {
     id: root
 
     readonly property State powerState: thing.stateByName("power")
-    readonly property StateType powerActionType: thing.thingClass.actionTypes.findByName("power");
+    readonly property ActionType powerActionType: thing.thingClass.actionTypes.findByName("power");
 
     GridLayout {
         anchors.fill: parent
