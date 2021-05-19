@@ -1,3 +1,10 @@
+nymea-app (1.0.307) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix an issue when disabling screen dimming
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 20 May 2021 00:07:11 +0200
+
 nymea-app (1.0.306) bionic; urgency=medium
 
   [ Michael Zanetti ]
