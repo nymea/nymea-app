@@ -138,6 +138,7 @@ void ScreenHelper::setScreenTimeout(int timeout)
         m_screenDimTimer.start();
     } else {
         m_screenDimTimer.stop();
+        screenOn();
     }
 }
 
@@ -156,7 +157,7 @@ void ScreenHelper::setScreenBrightness(int percent)
 
 bool ScreenHelper::eventFilter(QObject *watched, QEvent *event)
 {
-    if (m_screenOffTimer.interval() == 0) {
+    if (m_screenDimTimer.interval() == 0) {
         return QObject::eventFilter(watched, event);
     }
 
