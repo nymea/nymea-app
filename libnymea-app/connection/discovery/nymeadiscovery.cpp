@@ -105,21 +105,13 @@ void NymeaDiscovery::setDiscovering(bool discovering)
             m_awsClient->fetchDevices();
         }
     } else {
-        if (m_zeroConf) {
-            m_zeroConf->deleteLater();
-            m_zeroConf = nullptr;
-        }
 
         if (m_upnp) {
             m_upnp->stopDiscovery();
-            m_upnp->deleteLater();
-            m_upnp = nullptr;
         }
 
         if (m_bluetooth) {
             m_bluetooth->stopDiscovery();
-            m_bluetooth->deleteLater();
-            m_bluetooth = nullptr;
         }
 
         m_cloudPollTimer.stop();
