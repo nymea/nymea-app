@@ -123,7 +123,7 @@ ThingsListPageBase {
                         color: itemDelegate.tileColored ? itemDelegate.colorState.value : "#00000000"
                         implicitHeight: contentColumn.implicitHeight
                         Behavior on implicitHeight { NumberAnimation { duration: 100 } }
-                        radius: Style.tileRadius
+                        radius: Style.cornerRadius
 
                         ColumnLayout {
                             id: contentColumn
@@ -253,7 +253,7 @@ ThingsListPageBase {
                                 Layout.fillWidth: true
                                 Layout.preferredHeight: 12
                                 visible: itemDelegate.powerState.value === true && itemDelegate.brightnessState != null
-                                radius: Style.tileRadius
+                                radius: Style.cornerRadius
                                 color: Style.tileOverlayColor
                                 enabled: itemDelegate.isEnabled
 

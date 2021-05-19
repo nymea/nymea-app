@@ -55,7 +55,7 @@ Item {
     Rectangle {
         id: clipRect
         anchors.fill: parent
-        radius: Style.tileRadius
+        radius: Style.cornerRadius
         color: Style.tileOverlayColor
     }
 

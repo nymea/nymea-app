@@ -195,7 +195,7 @@ ThingPageBase {
                         Rectangle {
                             id: mask
                             anchors.fill: parent
-                            radius: Style.tileRadius
+                            radius: Style.cornerRadius
                             color: "blue"
                             visible: false
                         }

@@ -80,7 +80,7 @@ T.Button {
         y: 6
         width: parent.width
         height: parent.height - 12
-        radius: height / 2
+        radius: Style.smallCornerRadius
         color: !control.enabled ? control.Material.buttonDisabledColor :
                 control.highlighted ? control.Material.highlightedButtonColor : control.Material.accentColor
 

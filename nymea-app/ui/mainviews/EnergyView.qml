@@ -83,7 +83,7 @@ MainViewBase {
                 legend.font.pixelSize: app.smallFont
                 legend.visible: false
                 backgroundColor: Style.tileBackgroundColor
-                backgroundRoundness: Style.tileRadius
+                backgroundRoundness: Style.cornerRadius
                 titleColor: Style.foregroundColor
                 title: qsTr("Power usage history")
 
@@ -359,7 +359,7 @@ MainViewBase {
                 Layout.fillWidth: true
                 Layout.preferredHeight: width * .7
                 backgroundColor: Style.tileBackgroundColor
-                backgroundRoundness: Style.tileRadius
+                backgroundRoundness: Style.cornerRadius
                 meters: producers
                 title: qsTr("Total produced energy")
                 visible: producers.count > 0

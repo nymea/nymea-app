@@ -150,7 +150,7 @@ ThingsListPageBase {
                                 anchors.centerIn: parent
                                 height: parent.width
                                 width: parent.height
-                                radius: Style.tileRadius
+                                radius: Style.cornerRadius
                                 gradient: Gradient {
                                     GradientStop { position: 0; color: "#00FF0000" }
                                     GradientStop { position: 0.2; color: "#15FF0000" }

@@ -96,7 +96,7 @@ ThingPageBase {
 
                         contentItem: Rectangle {
                             color: model.color
-                            radius: Style.tileRadius
+                            radius: Style.cornerRadius
 
                             ColorIcon {
                                 anchors.fill: parent
@@ -157,7 +157,7 @@ ThingPageBase {
             Rectangle {
                 Layout.preferredWidth: Style.hugeIconSize
                 Layout.preferredHeight: width
-                radius: Style.tileRadius
+                radius: Style.cornerRadius
                 color: root.colorState ? root.colorState.value : "red"
 //                color: Qt.tint(Style.backgroundColor, Qt.rgba(Style.foregroundColor.r, Style.foregroundColor.g, Style.foregroundColor.b, 0.1))
                 ColorIcon {
