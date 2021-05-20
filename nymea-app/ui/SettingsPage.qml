@@ -115,25 +115,26 @@ Page {
                 iconSource: "../images/stock_website.svg"
                 text: qsTr("Web server")
                 subText: qsTr("Configure the web server")
+                visible: NymeaUtils.hasPermissionScope(engine, UserInfo.PermissionScopeAdmin)
                 onClicked: pageStack.push(Qt.resolvedUrl("system/WebServerSettingsPage.qml"))
             }
 
 
             SettingsTile {
                 Layout.fillWidth: true
-                visible: engine.jsonRpcClient.ensureServerVersion("5.3")
                 iconSource: "../images/zigbee.svg"
                 text: qsTr("ZigBee")
                 subText: qsTr("Configure ZigBee networks")
+                visible: engine.jsonRpcClient.ensureServerVersion("5.3") && NymeaUtils.hasPermissionScope(engine, UserInfo.PermissionScopeAdmin)
                 onClicked: pageStack.push(Qt.resolvedUrl("system/ZigbeeSettingsPage.qml"))
             }
 
             SettingsTile {
                 Layout.fillWidth: true
-                visible: engine.jsonRpcClient.ensureServerVersion("5.6")
                 iconSource: "../images/modbus.svg"
                 text: qsTr("Modbus RTU")
                 subText: qsTr("Configure Modbus RTU master interfaces")
+                visible: engine.jsonRpcClient.ensureServerVersion("5.6") && NymeaUtils.hasPermissionScope(engine, UserInfo.PermissionScopeAdmin)
                 onClicked: pageStack.push(Qt.resolvedUrl("system/ModbusRtuSettingsPage.qml"))
             }
 

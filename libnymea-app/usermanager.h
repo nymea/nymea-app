@@ -47,7 +47,7 @@ public:
 
     QString nameSpace() const override;
 
-    Q_INVOKABLE int createUser(const QString &username, const QString &password);
+    Q_INVOKABLE int createUser(const QString &username, const QString &password, UserInfo::PermissionScopes scopes = UserInfo::PermissionScopeAdmin);
     Q_INVOKABLE int changePassword(const QString &newPassword);
     Q_INVOKABLE int removeToken(const QUuid &id);
     Q_INVOKABLE int removeUser(const QString &username);

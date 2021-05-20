@@ -79,7 +79,7 @@ SettingsPageBase {
 
     SettingsPageSectionHeader {
         text: qsTr("Admin")
-        visible: userManager.userInfo.scopes & UserInfo.ScopeAdmin
+        visible: userManager.userInfo.scopes & UserInfo.PermissionScopeAdmin
     }
 
     Button {
@@ -87,6 +87,7 @@ SettingsPageBase {
         Layout.leftMargin: Style.margins
         Layout.rightMargin: Style.margins
         text: qsTr("Manage users")
+        visible: userManager.userInfo.scopes & UserInfo.PermissionScopeAdmin
         onClicked: {
             pageStack.push(manageUsersComponent)
         }
@@ -194,7 +195,9 @@ SettingsPageBase {
                 delegate: NymeaSwipeDelegate {
                     Layout.fillWidth: true
                     text: model.username
-//                    subText: model.scopes
+                    iconName: "/ui/images/account.svg"
+                    iconColor: userManager.userInfo.scopes & UserInfo.PermissionScopeAdmin ? Style.accentColor : Style.iconColor
+
                     canDelete: true
                     onClicked: {
                         pageStack.push(userDetailsComponent, {userInfo: userManager.users.get(index)})
@@ -276,6 +279,8 @@ SettingsPageBase {
             id: createUserPage
             title: qsTr("Add a user")
 
+            property var permissionScopes: UserInfo.PermissionScopeNone
+
             SettingsPageSectionHeader {
                 text: qsTr("Login information")
             }
@@ -283,12 +288,16 @@ SettingsPageBase {
             TextField {
                 id: usernameTextField
                 Layout.fillWidth: true
+                Layout.leftMargin: Style.margins
+                Layout.rightMargin: Style.margins
                 placeholderText: qsTr("Username")
+                inputMethodHints: Qt.ImhEmailCharactersOnly | Qt.ImhNoAutoUppercase
             }
             PasswordTextField {
                 id: passwordTextField
                 Layout.fillWidth: true
-
+                Layout.leftMargin: Style.margins
+                Layout.rightMargin: Style.margins
             }
 
             SettingsPageSectionHeader {
@@ -296,10 +305,36 @@ SettingsPageBase {
             }
 
 
+            Repeater {
+                id: scopesRepeater
+                model: NymeaUtils.scopesModel
+
+                delegate: CheckDelegate {
+                    Layout.fillWidth: true
+                    text: model.text
+                    checked: (createUserPage.permissionScopes & model.scope) === model.scope
+                    onClicked: {
+                        var scopes = createUserPage.permissionScopes
+                        if (checked) {
+                            scopes |= model.scope
+                        } else {
+                            scopes &= ~model.scope
+                            scopes |= model.resetOnUnset
+                        }
+                        createUserPage.permissionScopes = scopes
+                    }
+                }
+            }
 
             Button {
                 text: qsTr("Create new user")
-                onClicked: userManager.createUser(usernameTextField.text, passwordTextField.password)
+                Layout.fillWidth: true
+                Layout.leftMargin: Style.margins
+                Layout.rightMargin: Style.margins
+                enabled: usernameTextField.displayText.length > 3 && passwordTextField.isValid
+                onClicked: {
+                    userManager.createUser(usernameTextField.displayText, passwordTextField.password, createUserPage.permissionScopes)
+                }
             }
         }
     }

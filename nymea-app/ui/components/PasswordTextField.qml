@@ -39,7 +39,7 @@ ColumnLayout {
     property bool signup: true
 
     // Only used when signup is true
-    property int minPasswordLength: 12
+    property int minPasswordLength: 8
     property bool requireSpecialChar: true
     property bool requireNumber: true
     property bool requireUpperCaseLetter: true

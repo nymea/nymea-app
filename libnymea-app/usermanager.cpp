@@ -75,11 +75,14 @@ QString UserManager::nameSpace() const
     return "Users";
 }
 
-int UserManager::createUser(const QString &username, const QString &password)
+int UserManager::createUser(const QString &username, const QString &password, UserInfo::PermissionScopes scopes)
 {
     QVariantMap params;
     params.insert("username", username);
     params.insert("password", password);
+    if (m_engine->jsonRpcClient()->ensureServerVersion("5.6")) {
+        params.insert("scopes", UserInfo::scopesToList(scopes));
+    }
     return m_engine->jsonRpcClient()->sendCommand("Users.CreateUser", params, this, "createUserResponse");
 }
 

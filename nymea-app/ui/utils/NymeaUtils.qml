@@ -139,6 +139,9 @@ Item {
     }
 
     function hasPermissionScope(engine, requestedScope) {
-        return (engine.jsonRpcClient.permissions & requestedScope) === requestedScope;
+        if (engine.jsonRpcClient.ensureServerVersion("5.6")) {
+            return (engine.jsonRpcClient.permissions & requestedScope) === requestedScope;
+        }
+        return UserInfo.PermissionScopeAdmin
     }
 }

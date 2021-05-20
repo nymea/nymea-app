@@ -123,8 +123,8 @@ Page {
                 TextField {
                     id: usernameTextField
                     Layout.fillWidth: true
-                    inputMethodHints: Qt.ImhEmailCharactersOnly
-                    placeholderText: "john.smith@cooldomain.com"
+                    inputMethodHints: Qt.ImhEmailCharactersOnly | Qt.ImhNoAutoUppercase
+//                    placeholderText: "john.smith@cooldomain.com"
                 }
                 Label {
                     Layout.fillWidth: true
