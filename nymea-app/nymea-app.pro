@@ -111,12 +111,12 @@ ios: {
     QT += webview
     HEADERS += platformintegration/ios/platformhelperios.h
     SOURCES += platformintegration/ios/platformhelperios.cpp
-    OBJECTIVE_SOURCES += $$PWD/../packaging/ios/platformhelperios.mm \
-                         $$PWD/../packaging/ios/pushnotifications.mm \
+    OBJECTIVE_SOURCES += $${IOS_PACKAGE_DIR}/platformhelperios.mm \
+                         $${IOS_PACKAGE_DIR}/pushnotifications.mm \
 
     # Add Firebase SDK
     QMAKE_LFLAGS += -ObjC $(inherited)
-    firebase_files.files += $$files(../packaging/ios/GoogleService-Info.plist)
+    firebase_files.files += $$files($${IOS_PACKAGE_DIR}/GoogleService-Info.plist)
     QMAKE_BUNDLE_DATA += firebase_files
     INCLUDEPATH += ../3rdParty/ios/
     LIBS += -F$$PWD/../3rdParty/ios/Firebase/FirebaseAnalytics/ \
@@ -130,21 +130,19 @@ ios: {
             -framework "PromisesObjC" \
 
 
-    QMAKE_TARGET_BUNDLE_PREFIX = io.guh
-    QMAKE_BUNDLE = nymeaApp
     # Configure generated xcode project to have our bundle id
-    xcode_product_bundle_identifier_setting.value = $${QMAKE_TARGET_BUNDLE_PREFIX}.$${QMAKE_BUNDLE}
-    plist.input = ../packaging/ios/Info.plist.in
+    xcode_product_bundle_identifier_setting.value = $${IOS_BUNDLE_ID}
+    plist.input = $${IOS_PACKAGE_DIR}/Info.plist.in
     plist.output = $$OUT_PWD/Info.plist
     QMAKE_SUBSTITUTES += plist
     QMAKE_INFO_PLIST = $$OUT_PWD/Info.plist
-    OTHER_FILES += ../packaging/ios/Info.plist.in \
-                   ../packaging/ios/pushnotifications.entitlements \
-                   ../packaging/ios/GoogleService-Info.plist
+    OTHER_FILES += $${IOS_PACKAGE_DIR}/Info.plist.in \
+                   $${IOS_PACKAGE_DIR}/pushnotifications.entitlements \
+                   $${IOS_PACKAGE_DIR}/GoogleService-Info.plist
 
-    QMAKE_ASSET_CATALOGS += ../packaging/ios/Assets.xcassets
+    QMAKE_ASSET_CATALOGS += $${IOS_PACKAGE_DIR}/Assets.xcassets
 
-    ios_launch_images.files += ../packaging/ios/NymeaLaunchScreen.storyboard
+    ios_launch_images.files += $${IOS_PACKAGE_DIR}/NymeaLaunchScreen.storyboard
     QMAKE_BUNDLE_DATA += ios_launch_images
 
     IOS_DEVELOPMENT_TEAM.name = DEVELOPMENT_TEAM
@@ -152,7 +150,7 @@ ios: {
     QMAKE_MAC_XCODE_SETTINGS += IOS_DEVELOPMENT_TEAM
 
     IOS_ENTITLEMENTS.name = CODE_SIGN_ENTITLEMENTS
-    IOS_ENTITLEMENTS.value = $$files($$PWD/../packaging/ios/pushnotifications.entitlements)
+    IOS_ENTITLEMENTS.value = $$files($${IOS_PACKAGE_DIR}/pushnotifications.entitlements)
     QMAKE_MAC_XCODE_SETTINGS += IOS_ENTITLEMENTS
 }
 
