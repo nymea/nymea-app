@@ -358,16 +358,12 @@ ApplicationWindow {
             return Qt.resolvedUrl("images/ev-charger.svg")
         case "doorbell":
             return Qt.resolvedUrl("images/notification.svg")
-        case "connectable":
-            return Qt.resolvedUrl("images/stock_link.svg")
         case "irrigation":
             return Qt.resolvedUrl("images/irrigation.svg")
         case "ventilation":
             return Qt.resolvedUrl("images/ventilation.svg")
         case "power":
             return Qt.resolvedUrl("images/system-shutdown.svg")
-        case "account":
-            return Qt.resolvedUrl("images/account.svg")
         case "smartlock":
             return Qt.resolvedUrl("images/smartlock.svg")
         case "navigationpad":
@@ -383,6 +379,12 @@ ApplicationWindow {
             return Qt.resolvedUrl("images/qrcode.svg")
         case "cleaningrobot":
             return Qt.resolvedUrl("images/cleaning-robot.svg")
+        case "account":
+            return Qt.resolvedUrl("images/account.svg")
+        case "wirelessconnectable":
+            return Qt.resolvedUrl("images/connections/network-wifi.svg")
+        case "connectable":
+            return Qt.resolvedUrl("images/stock_link.svg")
         default:
             console.warn("InterfaceToIcon: Unhandled interface", name)
         }

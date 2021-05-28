@@ -154,6 +154,7 @@ ItemDelegate {
                     }
                     delegate: NymeaSwipeDelegate {
                         Layout.fillWidth: true
+                        Layout.preferredHeight: Style.largeDelegateHeight
                         iconName: model.iconName
                         text: model.text
                         progressive: true

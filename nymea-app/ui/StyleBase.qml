@@ -26,6 +26,7 @@ Item {
 
     readonly property int smallDelegateHeight: 50
     readonly property int delegateHeight: 60
+    readonly property int largeDelegateHeight: 80
 
     readonly property int smallIconSize: 16
     readonly property int iconSize: 24
