@@ -3,3 +3,6 @@ ORGANISATION_NAME="nymea"
 
 PACKAGE_URN=io.nymea.nymeaapp
 PACKAGE_NAME=nymea-app
+
+IOS_BUNDLE_PREFIX=io.guh
+IOS_BUNDLE_NAME=nymeaApp

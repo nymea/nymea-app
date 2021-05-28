@@ -130,10 +130,9 @@ ios: {
             -framework "PromisesObjC" \
 
 
-    QMAKE_TARGET_BUNDLE_PREFIX = io.guh
-    QMAKE_BUNDLE = nymeaApp
     # Configure generated xcode project to have our bundle id
-    xcode_product_bundle_identifier_setting.value = $${QMAKE_TARGET_BUNDLE_PREFIX}.$${QMAKE_BUNDLE}
+    QMAKE_TARGET_BUNDLE_PREFIX=$${IOS_BUNDLE_PREFIX}
+    QMAKE_BUNDLE=$${IOS_BUNDLE_NAME}
     plist.input = $${IOS_PACKAGE_DIR}/Info.plist.in
     plist.output = $$OUT_PWD/Info.plist
     QMAKE_SUBSTITUTES += plist
