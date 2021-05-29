@@ -43,6 +43,7 @@ android: {
 
 ios: {
     !no-firebase:DEFINES+=WITH_FIREBASE
+    IOS_PACKAGE_DIR = $${PACKAGE_BASE_DIR}/ios/
 }
 
 macx: {
