@@ -1,3 +1,11 @@
+nymea-app (1.0.308) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix height of thing/interface/time selection in rule creation
+  * Add overlay support to iOS build
+
+ -- Jenkins <jenkins@nymea.io>  Sat, 29 May 2021 17:13:33 +0200
+
 nymea-app (1.0.307) bionic; urgency=medium
 
   [ Michael Zanetti ]
