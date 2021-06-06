@@ -1,3 +1,10 @@
+nymea-app (1.0.309) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add a Dashboard main view
+
+ -- Jenkins <jenkins@nymea.io>  Sun, 06 Jun 2021 23:27:36 +0200
+
 nymea-app (1.0.308) bionic; urgency=medium
 
   [ Michael Zanetti ]
