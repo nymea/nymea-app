@@ -32,21 +32,29 @@ import QtQuick 2.8
 import QtQuick.Controls 2.1
 import QtQuick.Controls.Material 2.1
 import QtQuick.Layouts 1.2
+import QtCharts 2.2
 import Nymea 1.0
-import "../components"
-import "../delegates"
+import "../../components"
+import "../../delegates"
 
 Item {
     id: root
 
-    property string title: ""
+    property alias contentItem: contentContainer.children
 
-    property var headerButtons: []
+    property bool configurable: false
+    function configure() {
+        console.warn("Dashboard item claims to be configurable but doesn't implement configure() function")
+    }
+    signal openDialog(var dialogComponent);
 
-    // Prevent scroll events to swipe left/right in case they fall through the grid
-    MouseArea {
+    property bool editMode: false
+
+    property int topClip: 0
+    property int bottomClip: 0
+
+    Item {
+        id: contentContainer
         anchors.fill: parent
-        preventStealing: true
-        onWheel: wheel.accepted = true
     }
 }

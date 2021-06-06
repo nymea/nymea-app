@@ -226,7 +226,7 @@ Item {
             ProgressButton {
                 longpressEnabled: false
                 visible: root.thing.thingClass.browsable
-                imageSource: "../images/folder-symbolic.svg"
+                imageSource: "../images/folder.svg"
                 onClicked: {
                     if (!d.browser) {
                         d.browser = browserPage.createObject(root, {x: 0, y: root.height})

@@ -32,21 +32,32 @@ import QtQuick 2.8
 import QtQuick.Controls 2.1
 import QtQuick.Controls.Material 2.1
 import QtQuick.Layouts 1.2
+import QtCharts 2.2
 import Nymea 1.0
-import "../components"
-import "../delegates"
+import "../../components"
+import "../../customviews"
 
-Item {
+DashboardDelegateBase {
     id: root
+    property DashboardGraphItem item: null
 
-    property string title: ""
+    readonly property Thing thing: engine.thingManager.fetchingData ? null : engine.thingManager.things.getThing(item.thingId)
+    readonly property StateType stateType: thing ? thing.thingClass.stateTypes.getStateType(item.stateTypeId) : null
+    readonly property State state: thing ? thing.states.getState(item.stateTypeId) : null
 
-    property var headerButtons: []
+    contentItem: GenericTypeGraph {
+        id: graph
+        width: root.width
+        height: root.height
+        title: root.state && root.stateType ? root.thing.name + " " + Types.toUiValue(root.state.value, root.stateType.unit) + Types.toUiUnit(root.stateType.unit) : ""
 
-    // Prevent scroll events to swipe left/right in case they fall through the grid
-    MouseArea {
-        anchors.fill: parent
-        preventStealing: true
-        onWheel: wheel.accepted = true
+        thing: root.thing
+        color: "blue"//app.interfaceToColor(interfaceName)
+        iconSource: ""// app.interfaceToIcon(interfaceName)
+        implicitHeight: width * .6
+//        property string interfaceName: parent.interfaceName
+        stateType: root.stateType
+        property State state: root.state
     }
 }
+

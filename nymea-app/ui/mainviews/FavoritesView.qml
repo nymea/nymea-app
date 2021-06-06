@@ -60,24 +60,85 @@ MainViewBase {
         moveDisplaced: Transition { NumberAnimation { properties: "x,y"; duration: 150; easing.type: Easing.InOutQuad } }
 
         model: tagsProxy
-        delegate: ThingTile {
+        delegate: Item {
             id: delegateRoot
             width: gridView.cellWidth
             height: gridView.cellHeight
-            thing: engine.thingManager.things.getThing(thingId)
-            visible: thingId !== fakeDragItem.thingId
 
-            onClicked: pageStack.push(Qt.resolvedUrl("../devicepages/" + NymeaUtils.interfaceListToDevicePage(thing.thingClass.interfaces)), {thing: thing})
+            property Thing thing: engine.thingManager.things.getThing(thingId)
 
-            onPressAndHold: root.editMode = true
+            property alias tile: thingTile
 
-            SequentialAnimation {
-                loops: Animation.Infinite
-                running: root.editMode
-                alwaysRunToEnd: true
-                NumberAnimation { from: 0; to: 3; target: delegateRoot; duration: 75; property: "rotation" }
-                NumberAnimation { from: 3; to: -3; target: delegateRoot; duration: 150; property: "rotation" }
-                NumberAnimation { from: -3; to: 0; target: delegateRoot; duration: 75; property: "rotation" }
+            ThingTile {
+                id: thingTile
+                anchors.fill: parent
+                thing: delegateRoot.thing
+                enabled: !root.editMode
+                onClicked: pageStack.push(Qt.resolvedUrl("../devicepages/" + NymeaUtils.interfaceListToDevicePage(thing.thingClass.interfaces)), {thing: thing})
+                onPressAndHold: root.editMode = true
+                opacity: dragArea.fakeDragItem !== null && delegateRoot.thing === dragArea.fakeDragItem.thing ? .3 : 1
+            }
+
+            Rectangle {
+                anchors.fill: parent
+                anchors.margins: Style.smallMargins
+                color: "transparent"
+                border.color: Style.accentColor
+                border.width: 4
+                radius: Style.cornerRadius
+                visible: dragArea.fakeDragItem !== null && delegateRoot.thing === dragArea.fakeDragItem.thing
+            }
+
+            Rectangle {
+                z: 2
+                anchors.fill: parent
+                anchors.margins: Style.smallMargins
+                visible: opacity > 0
+                radius: Style.cornerRadius
+                color: Qt.rgba(Style.backgroundColor.r, Style.backgroundColor.g, Style.backgroundColor.b, .5)
+                opacity: root.editMode ? 1 : 0
+                Behavior on opacity { NumberAnimation { duration: 200 } }
+
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: root.editMode = false
+                }
+
+                Rectangle {
+                    anchors {
+                        left: parent.left; top: parent.top;
+                        margins: Style.smallMargins
+                    }
+                    height: Style.largeIconSize
+                    width: Style.largeIconSize
+                    color: Style.red
+                    radius: Style.cornerRadius
+                    opacity: dragArea.fakeDragItem == null
+                    Rectangle {
+                        anchors.fill: parent
+                        radius: Style.cornerRadius
+                        color: Style.foregroundColor
+                        opacity: deleteMouseArea.pressed || deleteMouseArea.containsMouse ? .08 : 0
+                        Behavior on opacity {
+                            NumberAnimation { duration: 200 }
+                        }
+                    }
+                    ColorIcon {
+                        name: "/ui/images/delete.svg"
+                        size: Style.iconSize
+                        anchors.centerIn: parent
+                        color: Style.white
+                    }
+                    MouseArea {
+                        id: deleteMouseArea
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        onClicked: {
+                            print("delete clicked")
+                            engine.tagsManager.untagThing(model.thingId, "favorites")
+                        }
+                    }
+                }
             }
         }
 
@@ -88,40 +149,53 @@ MainViewBase {
             propagateComposedEvents: true
             property var dragOffset: ({})
             property var draggedItem: null
+            property var fakeDragItem: null
 
-            onPressed: {
-                var item = gridView.itemAt(mouseX, mouseY)
+            onPressAndHold: {
+                var gridViewCoords = mapToItem(gridView.contentItem, mouseX, mouseY)
+                var item = gridView.itemAt(gridViewCoords.x, gridViewCoords.y);
                 draggedItem = item;
                 dragOffset = mapToItem(item, mouseX, mouseY)
-                fakeDragItem.x = mouseX - dragOffset.x;
-                fakeDragItem.y = mouseY - dragOffset.y;
-                fakeDragItem.text = item.text
-                fakeDragItem.iconName = item.iconName
-                fakeDragItem.iconColor = item.iconColor;
-                fakeDragItem.thingId = item.thing.id
-                fakeDragItem.batteryCritical = item.batteryCritical
-                fakeDragItem.disconnected = item.disconnected
+
+                dragArea.fakeDragItem = dragItemComponent.createObject(dragArea, {
+                                                                           x: mouseX - dragOffset.x,
+                                                                           y: mouseY - dragOffset.y,
+                                                                           thing: draggedItem.thing
+                                                                       })
+
                 drag.target = fakeDragItem
             }
             onReleased: {
-                drag.target = null
-                draggedItem = null
-                fakeDragItem.thingId = ""
+                if (drag.target) {
+                    drag.target = null
+                    dragArea.fakeDragItem.destroy()
+                    dragArea.fakeDragItem = null
+                    dragArea.draggedItem = null
+                }
             }
 
             onClicked: {
-                root.editMode = false
+                var gridViewCoords = mapToItem(gridView.contentItem, mouseX, mouseY)
+                var itemUnderMouse = gridView.itemAt(gridViewCoords.x, gridViewCoords.y);
+                if (itemUnderMouse !== null) {
+                    mouse.accepted = false
+                } else {
+                    root.editMode = false
+                }
             }
         }
 
-        MainPageTile {
-            id: fakeDragItem
-            width: gridView.cellWidth
-            height: gridView.cellHeight
-            Drag.active: dragArea.drag.active
-            visible: thingId !== ""
-            property var thingId: ""
+        Component {
+            id: dragItemComponent
+
+            ThingTile {
+                id: fakeDragItem
+                width: gridView.cellWidth
+                height: gridView.cellHeight
+                Drag.active: dragArea.drag.active
+            }
         }
+
 
         DropArea {
             id: dropArea
@@ -130,14 +204,31 @@ MainViewBase {
             property int from: -1
             property int to: -1
 
+            property int pendingCommand: -1
+            Connections {
+                target: engine.tagsManager
+                onAddTagReply: {
+                    if (commandId == dropArea.pendingCommand) {
+                        dropArea.pendingCommand = -1
+                    }
+                }
+            }
+
             onEntered: {
-                var index = gridView.indexAt(drag.x + dragArea.dragOffset.x, drag.y + dragArea.dragOffset.y);
+                var gridViewCoords = mapToItem(gridView.contentItem, drag.x, drag.y)
+                var index = gridView.indexAt(gridViewCoords.x + dragArea.dragOffset.x, gridViewCoords.y + dragArea.dragOffset.y);
                 from = index;
                 to = index;
             }
 
             onPositionChanged: {
-                var index = gridView.indexAt(drag.x + dragArea.dragOffset.x, drag.y + dragArea.dragOffset.y);
+                if (dropArea.pendingCommand != -1) {
+                    // busy
+                    return
+                }
+
+                var gridViewCoords = mapToItem(gridView.contentItem, drag.x, drag.y)
+                var index = gridView.indexAt(gridViewCoords.x + dragArea.dragOffset.x, gridViewCoords.y + dragArea.dragOffset.y);
                 if (to !== index && from !== index && index >= 0 && index <= tagsProxy.count) {
                     to = index;
                     print("should move", from, "to", to)
@@ -159,7 +250,7 @@ MainViewBase {
                         }
 
                         var tag = tagsProxy.get(i);
-                        engine.tagsManager.tagThing(tag.thingId, tag.tagId, newIdx);
+                        dropArea.pendingCommand = engine.tagsManager.tagThing(tag.thingId, tag.tagId, newIdx);
                     }
                     from = index;
                 }
@@ -168,7 +259,7 @@ MainViewBase {
     }
 
     EmptyViewPlaceholder {
-        anchors { left: parent.left; right: parent.right; margins: app.margins }
+        anchors { left: parent.left; right: parent.right; margins: Style.margins }
         anchors.verticalCenter: parent.verticalCenter
         visible: gridView.count === 0 && !engine.thingManager.fetchingData
         title: qsTr("There are no favorite things yet.")

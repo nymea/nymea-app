@@ -70,7 +70,18 @@ Page {
                            qsTr("Configure main view")
                          : swipeView.currentItem.item.title.length > 0 ? swipeView.currentItem.item.title : filteredContentModel.modelData(swipeView.currentIndex, "displayName")
             }
+
+            Repeater {
+                model: swipeView.currentItem.item.hasOwnProperty("headerButtons") ? swipeView.currentItem.item.headerButtons : 0
+                delegate: HeaderButton {
+                    imageSource: swipeView.currentItem.item.headerButtons[index].iconSource
+                    onClicked: swipeView.currentItem.item.headerButtons[index].trigger()
+                    visible: swipeView.currentItem.item.headerButtons[index].visible
+                    color: swipeView.currentItem.item.headerButtons[index].color
+                }
+            }
         }
+
     }
 
     Connections {
@@ -109,13 +120,14 @@ Page {
 
     ListModel {
         id: mainMenuBaseModel
-        ListElement { name: "things"; source: "ThingsView"; displayName: qsTr("Things"); icon: "things" }
-        ListElement { name: "favorites"; source: "FavoritesView"; displayName: qsTr("Favorites"); icon: "starred" }
-        ListElement { name: "groups"; source: "GroupsView"; displayName: qsTr("Groups"); icon: "view-grid-symbolic" }
-        ListElement { name: "scenes"; source: "ScenesView"; displayName: qsTr("Scenes"); icon: "slideshow" }
-        ListElement { name: "garages"; source: "GaragesView"; displayName: qsTr("Garages"); icon: "garage/garage-100" }
-        ListElement { name: "energy"; source: "EnergyView"; displayName: qsTr("Energy"); icon: "smartmeter" }
-        ListElement { name: "media"; source: "MediaView"; displayName: qsTr("Media"); icon: "media" }
+        ListElement { name: "things"; source: "ThingsView"; displayName: qsTr("Things"); icon: "things"; minVersion: "0.0" }
+        ListElement { name: "favorites"; source: "FavoritesView"; displayName: qsTr("Favorites"); icon: "starred"; minVersion: "2.0" }
+        ListElement { name: "groups"; source: "GroupsView"; displayName: qsTr("Groups"); icon: "groups"; minVersion: "2.0" }
+        ListElement { name: "scenes"; source: "ScenesView"; displayName: qsTr("Scenes"); icon: "slideshow"; minVersion: "2.0" }
+        ListElement { name: "garages"; source: "GaragesView"; displayName: qsTr("Garages"); icon: "garage/garage-100"; minVersion: "2.0" }
+        ListElement { name: "energy"; source: "EnergyView"; displayName: qsTr("Energy"); icon: "smartmeter"; minVersion: "2.0" }
+        ListElement { name: "media"; source: "MediaView"; displayName: qsTr("Media"); icon: "media"; minVersion: "2.0" }
+        ListElement { name: "dashboard"; source: "DashboardView"; displayName: qsTr("Dashboard"); icon: "dashboard"; minVersion: "5.5" }
     }
 
     ListModel {
@@ -143,6 +155,11 @@ Page {
 
             for (var i = 0; i < mainMenuBaseModel.count; i++) {
                 var item = mainMenuBaseModel.get(i);
+                if (!engine.jsonRpcClient.ensureServerVersion(item.minVersion)) {
+                    console.log("Skipping main view", item.name, "as the minimum required server version isn't met:", engine.jsonRpcClient.jsonRpcVersion, "<", item.minVersion)
+                    continue;
+                }
+
                 var idx = mainViewSettings.sortOrder.indexOf(item.name);
                 if (idx === -1) {
                     newList[newItems++] = item;
@@ -340,14 +357,14 @@ Page {
                 id: configListView
                 model: mainMenuModel
                 width: parent.width
-                height: parent.height / 2.5
+                height: parent.height / 3
                 anchors.centerIn: parent
                 orientation: ListView.Horizontal
                 moveDisplaced: Transition {
                     NumberAnimation { properties: "x,y"; duration: 200 }
                 }
 
-                property int delegateWidth: width / 2.5
+                property int delegateWidth: width / 3
 
                 property bool dragging: draggingIndex >= 0
                 property int draggingIndex : -1
@@ -433,50 +450,35 @@ Page {
                     }
                 }
 
-                delegate: Item {
+                delegate: BigTile {
                     id: configDelegate
                     width: configListView.delegateWidth
                     height: configListView.height
                     property bool isEnabled: mainViewSettings.filterList.indexOf(model.name) >= 0
                     visible: configListView.draggingIndex !== index
 
-                    Pane {
-                        anchors.fill: parent
-                        anchors.margins: app.margins / 2
-                        Material.elevation: 2
+                    leftPadding: 0
+                    rightPadding: 0
+                    topPadding: 0
+                    bottomPadding: 0
 
-                        leftPadding: 0
-                        rightPadding: 0
-                        topPadding: 0
-                        bottomPadding: 0
+                    header: RowLayout {
+                        id: headerRow
+                        Label {
+                            text: model.displayName
+                        }
+                    }
 
-                        contentItem: ItemDelegate {
-                            anchors.fill: parent
+                    contentItem: Item {
+                        Layout.fillWidth: true
+                        implicitHeight: configListView.height - headerRow.height - Style.margins * 2
 
-                            padding: app.margins * 2
-                            contentItem: GridLayout {
-                                columns: 1
-
-                                Item {
-                                    Layout.fillWidth: true
-                                    Layout.fillHeight: true
-                                    ColorIcon {
-                                        anchors.centerIn: parent
-                                        width: Math.min(parent.width, parent.height) * .8
-                                        height: width
-                                        name: Qt.resolvedUrl("images/" + model.icon + ".svg")
-                                        color: configDelegate.isEnabled ? Style.accentColor : Style.iconColor
-                                    }
-                                }
-
-
-                                Label {
-                                    text: model.displayName
-                                    Layout.fillWidth: true
-                                    horizontalAlignment: Text.AlignHCenter
-                                    font.pixelSize: app.largeFont
-                                }
-                            }
+                        ColorIcon {
+                            anchors.centerIn: parent
+                            width: Math.min(parent.width, parent.height) * .6
+                            height: width
+                            name: Qt.resolvedUrl("images/" + model.icon + ".svg")
+                            color: configDelegate.isEnabled ? Style.accentColor : Style.iconColor
                         }
                     }
                 }
@@ -500,13 +502,14 @@ Page {
                         target: dndItem
                         property: "scale"
                         from: 1
-                        to: 0.9
+                        to: 0.95
                         duration: 200
                     }
 
-                    Pane {
+                    BigTile {
+                        id: dndTile
                         anchors.fill: parent
-                        anchors.margins: app.margins / 2
+//                        anchors.margins: app.margins / 2
                         Material.elevation: 2
 
                         leftPadding: 0
@@ -514,32 +517,22 @@ Page {
                         topPadding: 0
                         bottomPadding: 0
 
-                        contentItem: ItemDelegate {
-                            anchors.fill: parent
+                        header: RowLayout {
+                            Label {
+                                text: dndItem.displayName
+                            }
+                        }
 
-                            padding: app.margins * 2
-                            contentItem: GridLayout {
-                                columns: 1
+                        contentItem: Item {
+                            Layout.fillWidth: true
+                            implicitHeight: configListView.height - header.height
 
-                                Item {
-                                    Layout.fillWidth: true
-                                    Layout.fillHeight: true
-                                    ColorIcon {
-                                        anchors.centerIn: parent
-                                        width: Math.min(parent.width, parent.height) * .8
-                                        height: width
-                                        name: Qt.resolvedUrl("images/" + dndItem.icon + ".svg")
-                                        color: dndItem.isEnabled ? Style.accentColor : Style.iconColor
-                                    }
-                                }
-
-
-                                Label {
-                                    text: dndItem.displayName
-                                    Layout.fillWidth: true
-                                    horizontalAlignment: Text.AlignHCenter
-                                    font.pixelSize: app.largeFont
-                                }
+                            ColorIcon {
+                                anchors.centerIn: parent
+                                width: Math.min(parent.width, parent.height) * .6
+                                height: width
+                                name: Qt.resolvedUrl("images/" + dndItem.icon + ".svg")
+                                color: dndItem.isEnabled ? Style.accentColor : Style.iconColor
                             }
                         }
                     }

@@ -43,6 +43,14 @@ class TagsManager : public JsonHandler
     Q_PROPERTY(bool busy READ busy NOTIFY busyChanged)
 
 public:
+    enum TagError {
+        TagErrorNoError,
+        TagErrorThingNotFound,
+        TagErrorRuleNotFound,
+        TagErrorTagNotFound
+    };
+    Q_ENUM(TagError)
+
     explicit TagsManager(JsonRpcClient *jsonClient, QObject *parent = nullptr);
     QString nameSpace() const override;
 
@@ -59,12 +67,14 @@ public:
 
 signals:
     void busyChanged();
+    void addTagReply(int commandId, TagError error);
+    void removeTagReply(int commandId, TagError error);
 
 private slots:
     void handleTagsNotification(const QVariantMap &params);
-    void getTagsReply(int commandId, const QVariantMap &params);
-    void addTagReply(int commandId, const QVariantMap &params);
-    void removeTagReply(int commandId, const QVariantMap &params);
+    void getTagsResponse(int commandId, const QVariantMap &params);
+    void addTagResponse(int commandId, const QVariantMap &params);
+    void removeTagResponse(int commandId, const QVariantMap &params);
 
 private:
     Tag *unpackTag(const QVariantMap &tagMap);

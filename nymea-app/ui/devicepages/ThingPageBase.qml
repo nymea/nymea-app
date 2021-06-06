@@ -58,7 +58,7 @@ Page {
         }
 
         HeaderButton {
-            imageSource: "../images/folder-symbolic.svg"
+            imageSource: "../images/folder.svg"
             visible: root.thingClass.browsable && root.showBrowserButton
             onClicked: {
                 pageStack.push(Qt.resolvedUrl("DeviceBrowserPage.qml"), {thing: root.thing})

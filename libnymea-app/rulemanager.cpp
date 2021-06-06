@@ -74,7 +74,14 @@ void RuleManager::clear()
 
 void RuleManager::init()
 {
+    m_fetchingData = true;
+    emit fetchingDataChanged();
     m_jsonClient->sendCommand("Rules.GetRules", this, "getRulesReply");
+}
+
+bool RuleManager::fetchingData() const
+{
+    return m_fetchingData;
 }
 
 Rules *RuleManager::rules() const
@@ -176,6 +183,8 @@ void RuleManager::getRulesReply(int /*commandId*/, const QVariantMap &params)
         requestParams.insert("ruleId", rule->id());
         m_jsonClient->sendCommand("Rules.GetRuleDetails", requestParams, this, "getRuleDetailsReply");
     }
+    m_fetchingData = false;
+    emit fetchingDataChanged();
 }
 
 void RuleManager::getRuleDetailsReply(int commandId, const QVariantMap &params)

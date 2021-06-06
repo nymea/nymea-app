@@ -10,6 +10,7 @@ Item {
 
     property alias header: headerContainer.children
     property alias contentItem: content.contentItem
+    property int contentHeight: root.height - headerContainer.height - content.topPadding - content.bottomPadding
 
     property alias showHeader: headerContainer.visible
 

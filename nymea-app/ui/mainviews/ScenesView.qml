@@ -59,7 +59,7 @@ MainViewBase {
             iconName: iconTag ? "../images/" + iconTag.value + ".svg" : "../images/slideshow.svg";
             fallbackIconName: "../images/slideshow.svg"
             iconColor: colorTag && colorTag.value.length > 0 ? colorTag.value : Style.accentColor;
-            text: model.name.toUpperCase()
+            lowerText: model.name
 
             property var colorTag: engine.tagsManager.tags.findRuleTag(model.id, "color")
             property var iconTag: engine.tagsManager.tags.findRuleTag(model.id, "icon")

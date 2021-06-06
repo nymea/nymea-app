@@ -285,7 +285,7 @@ ThingPageBase {
                 }
                 ProgressButton {
                     longpressEnabled: false
-                    imageSource: "../images/view-grid-symbolic.svg"
+                    imageSource: "../images/groups.svg"
                     mode: "normal"
                     size: Style.bigIconSize
                     visible: root.thing.thingClass.browsable

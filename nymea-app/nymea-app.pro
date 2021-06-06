@@ -19,7 +19,10 @@ PRE_TARGETDEPS += ../libnymea-app
 linux:!android:PRE_TARGETDEPS += $$top_builddir/libnymea-app/libnymea-app.a
 
 HEADERS += \
+    dashboard/dashboarditem.h \
+    dashboard/dashboardmodel.h \
     mainmenumodel.h \
+    mouseobserver.h \
     nfchelper.h \
     nfcthingactionwriter.h \
     platformintegration/generic/screenhelper.h \
@@ -31,7 +34,10 @@ HEADERS += \
     ruletemplates/messages.h
 
 SOURCES += main.cpp \
+    dashboard/dashboarditem.cpp \
+    dashboard/dashboardmodel.cpp \
     mainmenumodel.cpp \
+    mouseobserver.cpp \
     nfchelper.cpp \
     nfcthingactionwriter.cpp \
     platformintegration/generic/screenhelper.cpp \
@@ -113,6 +119,8 @@ ios: {
     SOURCES += platformintegration/ios/platformhelperios.cpp
     OBJECTIVE_SOURCES += $${IOS_PACKAGE_DIR}/platformhelperios.mm \
                          $${IOS_PACKAGE_DIR}/pushnotifications.mm \
+
+    OTHER_FILES += $${OBJECTIVE_SOURCES}
 
     # Add Firebase SDK
     QMAKE_LFLAGS += -ObjC $(inherited)

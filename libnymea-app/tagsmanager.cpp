@@ -33,6 +33,7 @@
 #include "engine.h"
 
 #include <QJsonDocument>
+#include <QMetaEnum>
 
 TagsManager::TagsManager(JsonRpcClient *jsonClient, QObject *parent):
     JsonHandler(parent),
@@ -52,7 +53,7 @@ void TagsManager::init()
     m_busy = true;
     emit busyChanged();
     m_tags->clear();
-    m_jsonClient->sendCommand("Tags.GetTags", this, "getTagsReply");
+    m_jsonClient->sendCommand("Tags.GetTags", this, "getTagsResponse");
 }
 
 void TagsManager::clear()
@@ -79,7 +80,7 @@ int TagsManager::tagThing(const QString &thingId, const QString &tagId, const QS
     tag.insert("tagId", tagId);
     tag.insert("value", value);
     params.insert("tag", tag);
-    return m_jsonClient->sendCommand("Tags.AddTag", params, this, "addTagReply");
+    return m_jsonClient->sendCommand("Tags.AddTag", params, this, "addTagResponse");
 }
 
 int TagsManager::untagThing(const QString &thingId, const QString &tagId)
@@ -90,7 +91,7 @@ int TagsManager::untagThing(const QString &thingId, const QString &tagId)
     tag.insert("appId", "nymea:app");
     tag.insert("tagId", tagId);
     params.insert("tag", tag);
-    return m_jsonClient->sendCommand("Tags.RemoveTag", params, this, "removeTagReply");
+    return m_jsonClient->sendCommand("Tags.RemoveTag", params, this, "removeTagResponse");
 }
 
 int TagsManager::tagRule(const QString &ruleId, const QString &tagId, const QString &value)
@@ -102,7 +103,7 @@ int TagsManager::tagRule(const QString &ruleId, const QString &tagId, const QStr
     tag.insert("tagId", tagId);
     tag.insert("value", value);
     params.insert("tag", tag);
-    return m_jsonClient->sendCommand("Tags.AddTag", params, this, "addTagReply");
+    return m_jsonClient->sendCommand("Tags.AddTag", params, this, "addTagResponse");
 }
 
 int TagsManager::untagRule(const QString &ruleId, const QString &tagId)
@@ -113,7 +114,7 @@ int TagsManager::untagRule(const QString &ruleId, const QString &tagId)
     tag.insert("appId", "nymea:app");
     tag.insert("tagId", tagId);
     params.insert("tag", tag);
-    return m_jsonClient->sendCommand("Tags.RemoveTag", params, this, "removeTagReply");
+    return m_jsonClient->sendCommand("Tags.RemoveTag", params, this, "removeTagResponse");
 }
 
 void TagsManager::handleTagsNotification(const QVariantMap &params)
@@ -156,7 +157,7 @@ void TagsManager::handleTagsNotification(const QVariantMap &params)
     }
 }
 
-void TagsManager::getTagsReply(int /*commandId*/, const QVariantMap &params)
+void TagsManager::getTagsResponse(int /*commandId*/, const QVariantMap &params)
 {
     QList<Tag*> tags;
     foreach (const QVariant &tagVariant, params.value("tags").toList()) {
@@ -171,14 +172,18 @@ void TagsManager::getTagsReply(int /*commandId*/, const QVariantMap &params)
     emit busyChanged();
 }
 
-void TagsManager::addTagReply(int commandId, const QVariantMap &params)
+void TagsManager::addTagResponse(int commandId, const QVariantMap &params)
 {
     qCDebug(dcTags()) << "AddTag reply" << commandId << params;
+    QMetaEnum metaEnum = QMetaEnum::fromType<TagsManager::TagError>();
+    emit addTagReply(commandId, static_cast<TagsManager::TagError>(metaEnum.keyToValue(params.value("params").toMap().value("error").toByteArray())));
 }
 
-void TagsManager::removeTagReply(int commandId, const QVariantMap &params)
+void TagsManager::removeTagResponse(int commandId, const QVariantMap &params)
 {
     qCDebug(dcTags()) << "RemoveTag reply" << commandId << params;
+    QMetaEnum metaEnum = QMetaEnum::fromType<TagsManager::TagError>();
+    emit removeTagReply(commandId, static_cast<TagsManager::TagError>(metaEnum.keyToValue(params.value("params").toMap().value("error").toByteArray())));
 }
 
 Tag* TagsManager::unpackTag(const QVariantMap &tagMap)

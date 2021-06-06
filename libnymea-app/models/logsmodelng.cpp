@@ -287,6 +287,10 @@ void LogsModelNg::logsReply(int commandId, const QVariantMap &data)
         }
 
         StateType *entryStateType = thing->thingClass()->stateTypes()->getStateType(entry->typeId());
+        if (!entryStateType) {
+            qWarning() << "StateType" << entry->typeId() << "not found on thing" << thing->name();
+            continue;
+        }
 
         if (m_graphSeries) {
             if (entryStateType->type().toLower() == "bool") {
