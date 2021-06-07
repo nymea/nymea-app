@@ -42,6 +42,8 @@ MeaDialog {
 
     title: qsTr("Add item")
     standardButtons: Dialog.NoButton
+    width: Math.min(parent.width, 400)
+    closePolicy: Popup.CloseOnEscape
 
     property DashboardModel dashboardModel: null
     property int index: 0
@@ -92,7 +94,6 @@ MeaDialog {
                 Layout.fillWidth: true
                 text: qsTr("Web view")
                 iconName: "stock_website"
-                visible: Qt.platform.os != "android"
                 onClicked: {
                     internalPageStack.push(addWebViewComponent)
                 }
@@ -104,6 +105,8 @@ MeaDialog {
             id: addThingSelectionComponent
             ColumnLayout {
                 RowLayout {
+                    Layout.leftMargin: Style.margins
+                    Layout.rightMargin: Style.margins
                     ColorIcon {
                         name: "/ui/images/find.svg"
                     }
@@ -197,6 +200,8 @@ MeaDialog {
             id: addGraphSelectThingComponent
             ColumnLayout {
                 RowLayout {
+                    Layout.leftMargin: Style.margins
+                    Layout.rightMargin: Style.margins
                     ColorIcon {
                         name: "/ui/images/find.svg"
                     }
@@ -293,78 +298,87 @@ MeaDialog {
 
         Component {
             id: addWebViewComponent
-            ColumnLayout {
+            Flickable {
                 property bool needsOkButton: true
                 property bool okButtonEnabled: urlTextField.displayText.length > 0
+                implicitHeight: webViewColumn.implicitHeight
+                contentHeight: webViewColumn.height
 
-                Connections {
-                    target: okButton
-                    onClicked: {
-                        root.dashboardModel.addWebViewItem(urlTextField.text, columnsTabs.currentValue, rowsTabs.currentValue, interactiveSwitch.checked, root.index)
-                        root.close();
+                ColumnLayout {
+                    id: webViewColumn
+                    width: parent.width
+
+                    Connections {
+                        target: okButton
+                        onClicked: {
+                            root.dashboardModel.addWebViewItem(urlTextField.text, columnsTabs.currentValue, rowsTabs.currentValue, interactiveSwitch.checked, root.index)
+                            root.close();
+                        }
                     }
-                }
 
-                SettingsPageSectionHeader {
-                    Layout.fillWidth: true
-                    text: qsTr("Location")
-                }
-
-                TextField {
-                    id: urlTextField
-                    Layout.fillWidth: true
-                    Layout.leftMargin: Style.margins
-                    Layout.rightMargin: Style.margins
-                    placeholderText: qsTr("Enter a URL")
-                    text: "https://"
-                }
-
-                SettingsPageSectionHeader {
-                    Layout.fillWidth: true
-                    text: qsTr("Size")
-                }
-
-                GridLayout {
-                    columns: width > 300 ? 2 : 1
-                    Layout.fillWidth: true
-                    Layout.leftMargin: Style.margins
-                    Layout.rightMargin: Style.margins
-                    columnSpacing: Style.smallMargins
-                    rowSpacing: Style.smallMargins
-                    Label {
-                        text: qsTr("Columns")
-                    }
-                    SelectionTabs {
-                        id: columnsTabs
+                    SettingsPageSectionHeader {
                         Layout.fillWidth: true
-                        model: [1, 2, 3, 4, 5, 6]
-                        currentIndex: root.item.columnSpan - 1
+                        text: qsTr("Location")
                     }
-                    Label {
-                        text: qsTr("Rows")
-                    }
-                    SelectionTabs {
-                        id: rowsTabs
+
+                    TextField {
+                        id: urlTextField
                         Layout.fillWidth: true
-                        model: [1, 2, 3, 4, 5, 6]
-                        currentIndex: root.item.rowSpan - 1
+                        Layout.leftMargin: Style.margins
+                        Layout.rightMargin: Style.margins
+                        placeholderText: qsTr("Enter a URL")
+                        text: "https://"
+                        inputMethodHints: Qt.ImhNoAutoUppercase
                     }
-                }
 
-                SettingsPageSectionHeader {
-                    Layout.fillWidth: true
-                    text: qsTr("Behavior")
-                    visible: ["android", "ios"].indexOf(Qt.platform.os) < 0
-                }
+                    SettingsPageSectionHeader {
+                        Layout.fillWidth: true
+                        text: qsTr("Size")
+                    }
 
-                SwitchDelegate {
-                    id: interactiveSwitch
-                    Layout.fillWidth: true
-                    checked: root.item.interactive
-                    text: qsTr("Interactive")
-                    visible: ["android", "ios"].indexOf(Qt.platform.os) < 0
+                    GridLayout {
+                        columns: width > 300 ? 2 : 1
+                        Layout.fillWidth: true
+                        Layout.leftMargin: Style.margins
+                        Layout.rightMargin: Style.margins
+                        columnSpacing: Style.smallMargins
+                        rowSpacing: Style.smallMargins
+                        Label {
+                            text: qsTr("Columns")
+                        }
+                        SelectionTabs {
+                            id: columnsTabs
+                            Layout.fillWidth: true
+                            model: [1, 2, 3, 4, 5, 6]
+                            currentIndex: root.item.columnSpan - 1
+                        }
+                        Label {
+                            text: qsTr("Rows")
+                        }
+                        SelectionTabs {
+                            id: rowsTabs
+                            Layout.fillWidth: true
+                            model: [1, 2, 3, 4, 5, 6]
+                            currentIndex: root.item.rowSpan - 1
+                        }
+                    }
+
+                    SettingsPageSectionHeader {
+                        Layout.fillWidth: true
+                        text: qsTr("Behavior")
+                        visible: ["android", "ios"].indexOf(Qt.platform.os) < 0
+                    }
+
+                    SwitchDelegate {
+                        id: interactiveSwitch
+                        Layout.fillWidth: true
+                        checked: root.item.interactive
+                        text: qsTr("Interactive")
+                        visible: ["android", "ios"].indexOf(Qt.platform.os) < 0
+                    }
                 }
             }
+
         }
     }
 

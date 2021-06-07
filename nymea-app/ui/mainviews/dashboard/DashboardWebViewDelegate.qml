@@ -55,9 +55,19 @@ DashboardDelegateBase {
 
         Component.onCompleted: {
             // This might fail if qml-module-qtwebview isn't around
-            var webView = Qt.createQmlObject(webViewString, webViewContainer);
-            print("created webView", webView)
+            try {
+                var webView = Qt.createQmlObject(webViewString, webViewContainer);
+                print("created webView", webView)
+            } catch(e) {
+                console.warn("Error creating webview")
+                errorLabel.visible = true
+            }
         }
+
+        property bool needsHack: ["android", "ios"].indexOf(Qt.platform.os) >= 0
+        property bool webViewVisible: !needsHack ||
+                     (!app.mainMenu.visible && !root.editMode && root.topClip < root.height && root.bottomClip < height && !pageStack.busy)
+
         property string webViewString:
             '
             import QtQuick 2.8;
@@ -67,18 +77,29 @@ DashboardDelegateBase {
             WebView {
                 id: webView
                 anchors.fill: parent
-anchors.bottomMargin: root.bottomClip + Style.smallMargins
-anchors.topMargin: root.topClip + Style.smallMargins    
-                anchors.margins: Style.smallMargins
+                anchors.bottomMargin: root.bottomClip + Style.smallMargins
+                anchors.topMargin: root.topClip + Style.smallMargins
                 url: root.item.url
                 enabled: root.item.interactive
-                visible: !app.mainMenu.visible && !root.editMode && root.topClip < root.height && root.bottomClip < height
+                visible: delegateRoot.webViewVisible
             }
             '
 
         Item {
             id: webViewContainer
             anchors.fill: parent
+            anchors.margins: Style.smallMargins
+
+            Label {
+                id: errorLabel
+                visible: false
+                anchors.centerIn: parent
+                width: parent.width - Style.margins * 2
+                horizontalAlignment: Text.AlignHCenter
+
+                text: qsTr("Web view is not supported on this platform.")
+                wrapMode: Text.WordWrap
+            }
         }
 
         Rectangle {
@@ -86,6 +107,7 @@ anchors.topMargin: root.topClip + Style.smallMargins
             anchors.fill: parent
             anchors.margins: Style.smallMargins
             radius: Style.cornerRadius
+            color: Style.tileBackgroundColor
         }
 
         OpacityMask {
@@ -97,6 +119,30 @@ anchors.topMargin: root.topClip + Style.smallMargins
                 hideSource: true
             }
             maskSource: mask
+        }
+
+        ColumnLayout {
+            anchors.centerIn: parent
+            width: delegateRoot.width - Style.margins * 2
+            spacing: Style.margins
+            visible: !parent.webViewVisible
+
+            ColorIcon {
+                anchors.horizontalCenter: parent.horizontalCenter
+                size: Style.largeIconSize
+                name: "stock_website"
+                color: Style.accentColor
+            }
+
+            Label {
+                Layout.fillWidth: true
+                text: root.item.url
+                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                font.pixelSize: app.smallFont
+                horizontalAlignment: Text.AlignHCenter
+                maximumLineCount: 5
+                elide: Text.ElideRight
+            }
         }
     }
 
