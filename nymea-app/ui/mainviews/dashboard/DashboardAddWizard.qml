@@ -92,7 +92,6 @@ MeaDialog {
                 Layout.fillWidth: true
                 text: qsTr("Web view")
                 iconName: "stock_website"
-                visible: Qt.platform.os != "android"
                 onClicked: {
                     internalPageStack.push(addWebViewComponent)
                 }
