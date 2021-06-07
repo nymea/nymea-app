@@ -155,6 +155,23 @@ Page {
             Pane {
                 Layout.fillWidth: true
                 Material.elevation: layout.isGrid ? 1 : 0
+
+                padding: 0
+                NymeaSwipeDelegate {
+                    width: parent.width
+                    iconName: "../images/stock_website.svg"
+                    text: qsTr("Web server")
+                    subText: qsTr("Configure the web server")
+                    prominentSubText: false
+                    wrapTexts: false
+                    onClicked: pageStack.push(Qt.resolvedUrl("system/WebServerSettingsPage.qml"))
+                }
+
+            }
+
+            Pane {
+                Layout.fillWidth: true
+                Material.elevation: layout.isGrid ? 1 : 0
                 visible: engine.jsonRpcClient.ensureServerVersion("5.3")
 
                 padding: 0
@@ -172,18 +189,18 @@ Page {
             Pane {
                 Layout.fillWidth: true
                 Material.elevation: layout.isGrid ? 1 : 0
+                visible: engine.jsonRpcClient.ensureServerVersion("5.6")
 
                 padding: 0
                 NymeaSwipeDelegate {
                     width: parent.width
-                    iconName: "../images/stock_website.svg"
-                    text: qsTr("Web server")
-                    subText: qsTr("Configure the web server")
+                    iconName: "../images/modbus.svg"
+                    text: qsTr("Modbus RTU")
+                    subText: qsTr("Configure Modbus RTU master interfaces")
                     prominentSubText: false
                     wrapTexts: false
-                    onClicked: pageStack.push(Qt.resolvedUrl("system/WebServerSettingsPage.qml"))
+                    onClicked: pageStack.push(Qt.resolvedUrl("system/ModbusRtuSettingsPage.qml"))
                 }
-
             }
 
             Pane {

@@ -259,5 +259,6 @@
         <file>ui/images/nymea-splash.svg</file>
         <file>ui/images/cleaning-robot.svg</file>
         <file>ui/images/chart.svg</file>
+        <file>ui/images/modbus.svg</file>
     </qresource>
 </RCC>
