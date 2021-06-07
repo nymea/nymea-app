@@ -48,6 +48,9 @@ Item {
             index = root.model.count
         }
         var addComponent = Qt.createComponent(Qt.resolvedUrl("DashboardAddWizard.qml"))
+        if (addComponent.status === Component.Error) {
+            console.warn(addComponent.errorString())
+        }
         var popup = addComponent.createObject(root, {dashboardModel: root.model, index: index})
         popup.open()
     }
