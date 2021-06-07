@@ -155,23 +155,6 @@ Page {
             Pane {
                 Layout.fillWidth: true
                 Material.elevation: layout.isGrid ? 1 : 0
-                visible: engine.jsonRpcClient.ensureServerVersion("5.3")
-
-                padding: 0
-                NymeaSwipeDelegate {
-                    width: parent.width
-                    iconName: "../images/zigbee.svg"
-                    text: qsTr("ZigBee")
-                    subText: qsTr("Configure ZigBee networks")
-                    prominentSubText: false
-                    wrapTexts: false
-                    onClicked: pageStack.push(Qt.resolvedUrl("system/ZigbeeSettingsPage.qml"))
-                }
-            }
-
-            Pane {
-                Layout.fillWidth: true
-                Material.elevation: layout.isGrid ? 1 : 0
 
                 padding: 0
                 NymeaSwipeDelegate {
@@ -189,7 +172,24 @@ Page {
             Pane {
                 Layout.fillWidth: true
                 Material.elevation: layout.isGrid ? 1 : 0
-                visible: engine.jsonRpcClient.ensureServerVersion("5.4")
+                visible: engine.jsonRpcClient.ensureServerVersion("5.3")
+
+                padding: 0
+                NymeaSwipeDelegate {
+                    width: parent.width
+                    iconName: "../images/zigbee.svg"
+                    text: qsTr("ZigBee")
+                    subText: qsTr("Configure ZigBee networks")
+                    prominentSubText: false
+                    wrapTexts: false
+                    onClicked: pageStack.push(Qt.resolvedUrl("system/ZigbeeSettingsPage.qml"))
+                }
+            }
+
+            Pane {
+                Layout.fillWidth: true
+                Material.elevation: layout.isGrid ? 1 : 0
+                visible: engine.jsonRpcClient.ensureServerVersion("5.6")
 
                 padding: 0
                 NymeaSwipeDelegate {

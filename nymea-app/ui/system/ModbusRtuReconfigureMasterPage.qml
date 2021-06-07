@@ -141,7 +141,7 @@ SettingsPageBase {
             NymeaSwipeDelegate {
                 Layout.fillWidth: true
                 text: qsTr("Description")
-                subText: serialPort.description
+                subText: serialPort.description.length > 0 ? serialPort.description : qsTr("Unknown")
                 progressive: false
                 prominentSubText: false
             }
