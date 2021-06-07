@@ -1,3 +1,13 @@
+nymea-app (1.0.311) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Some fixes in the Dashboard
+
+  [ Simon Stürz ]
+  * Add support for the Modbus RTU hardware resource
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 07 Jun 2021 22:38:41 +0200
+
 nymea-app (1.0.310) bionic; urgency=medium
 
   [ Michael Zanetti ]
