@@ -76,7 +76,7 @@ void RuleManager::init()
 {
     m_fetchingData = true;
     emit fetchingDataChanged();
-    m_jsonClient->sendCommand("Rules.GetRules", this, "getRulesReply");
+    m_jsonClient->sendCommand("Rules.GetRules", this, "getRulesResponse");
 }
 
 bool RuleManager::fetchingData() const
@@ -96,44 +96,44 @@ Rule *RuleManager::createNewRule()
 
 int RuleManager::addRule(const QVariantMap params)
 {
-    return m_jsonClient->sendCommand("Rules.AddRule", params, this, "onAddRuleReply");
+    return m_jsonClient->sendCommand("Rules.AddRule", params, this, "addRuleResponse");
 }
 
 int RuleManager::addRule(Rule *rule)
 {
     QVariantMap params = packRule(rule);
     qCDebug(dcRuleManager) << "packed rule:" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson(QJsonDocument::Indented));
-    return m_jsonClient->sendCommand("Rules.AddRule", params, this, "onAddRuleReply");
+    return m_jsonClient->sendCommand("Rules.AddRule", params, this, "addRuleResponse");
 }
 
 int RuleManager::removeRule(const QUuid &ruleId)
 {
     QVariantMap params;
     params.insert("ruleId", ruleId);
-    return m_jsonClient->sendCommand("Rules.RemoveRule", params, this, "removeRuleReply");
+    return m_jsonClient->sendCommand("Rules.RemoveRule", params, this, "removeRuleResponse");
 }
 
 int RuleManager::editRule(Rule *rule)
 {
     QVariantMap params = packRule(rule);
-    qWarning() << "Packed rule:" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson(QJsonDocument::Indented));
-    return m_jsonClient->sendCommand("Rules.EditRule", params, this, "onEditRuleReply");
+    qCDebug(dcRuleManager) << "Packed rule:" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson(QJsonDocument::Indented));
+    return m_jsonClient->sendCommand("Rules.EditRule", params, this, "editRuleResponse");
 }
 
 int RuleManager::executeActions(const QString &ruleId)
 {
     QVariantMap params;
     params.insert("ruleId", ruleId);
-    return m_jsonClient->sendCommand("Rules.ExecuteActions", params, this, "onExecuteRuleActionsReply");
+    return m_jsonClient->sendCommand("Rules.ExecuteActions", params, this, "executeRuleActionsResponse");
 }
 
 void RuleManager::handleRulesNotification(const QVariantMap &params)
 {
-    qDebug() << "Rules notification received:" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson(QJsonDocument::Indented));
+    qCDebug(dcRuleManager) << "Rules notification received:" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson(QJsonDocument::Indented));
     if (params.value("notification").toString() == "Rules.RuleAdded") {
         QVariantMap ruleMap = params.value("params").toMap().value("rule").toMap();
         Rule *rule = parseRule(ruleMap);
-        qDebug() << "Rule added:" << rule;
+        qCDebug(dcRuleManager) << "Rule added:" << rule;
         m_rules->insert(rule);
     } else if (params.value("notification").toString() == "Rules.RuleRemoved") {
         QUuid ruleId = params.value("params").toMap().value("ruleId").toUuid();
@@ -143,26 +143,26 @@ void RuleManager::handleRulesNotification(const QVariantMap &params)
         QUuid ruleId = ruleMap.value("id").toUuid();
         Rule *rule = m_rules->getRule(ruleId);
         if (!rule) {
-            qWarning() << "Got a rule update notification for a rule we don't know" << ruleId;
+            qCWarning(dcRuleManager) << "Got a rule update notification for a rule we don't know" << ruleId;
             return;
         }
         m_rules->remove(ruleId);
         Rule *newRule = parseRule(ruleMap);
         m_rules->insert(newRule);
-        qDebug() << "Rule changed:" << newRule;
+        qCDebug(dcRuleManager) << "Rule changed:" << newRule;
     } else if (params.value("notification").toString() == "Rules.RuleActiveChanged") {
         Rule *rule = m_rules->getRule(params.value("params").toMap().value("ruleId").toUuid());
         if (!rule) {
-            qWarning() << "Got a rule active notification for a rule we don't know";
+            qCWarning(dcRuleManager) << "Got a rule active notification for a rule we don't know";
             return;
         }
         rule->setActive(params.value("params").toMap().value("active").toBool());
     } else {
-        qWarning() << "Unhandled rule notification" << params;
+        qCWarning(dcRuleManager) << "Unhandled rule notification" << params;
     }
 }
 
-void RuleManager::getRulesReply(int /*commandId*/, const QVariantMap &params)
+void RuleManager::getRulesResponse(int /*commandId*/, const QVariantMap &params)
 {
     //    qDebug() << "Get Rules reply" << params;
     foreach (const QVariant &ruleDescriptionVariant, params.value("ruleDescriptions").toList()) {
@@ -181,19 +181,19 @@ void RuleManager::getRulesReply(int /*commandId*/, const QVariantMap &params)
 
         QVariantMap requestParams;
         requestParams.insert("ruleId", rule->id());
-        m_jsonClient->sendCommand("Rules.GetRuleDetails", requestParams, this, "getRuleDetailsReply");
+        m_jsonClient->sendCommand("Rules.GetRuleDetails", requestParams, this, "getRuleDetailsResponse");
     }
     m_fetchingData = false;
     emit fetchingDataChanged();
 }
 
-void RuleManager::getRuleDetailsReply(int commandId, const QVariantMap &params)
+void RuleManager::getRuleDetailsResponse(int commandId, const QVariantMap &params)
 {
     Q_UNUSED(commandId)
     QVariantMap ruleMap = params.value("rule").toMap();
     Rule* rule = m_rules->getRule(ruleMap.value("id").toUuid());
     if (!rule) {
-        qWarning() << "Got rule details for a rule we don't know";
+        qCWarning(dcRuleManager) << "Got rule details for a rule we don't know";
         return;
     }
     parseEventDescriptors(ruleMap.value("eventDescriptors").toList(), rule);
@@ -205,33 +205,40 @@ void RuleManager::getRuleDetailsReply(int commandId, const QVariantMap &params)
     //    qDebug() << "Rule JSON:" << qUtf8Printable(QJsonDocument::fromVariant(ruleMap).toJson());
 }
 
-void RuleManager::onAddRuleReply(int commandId, const QVariantMap &params)
+void RuleManager::addRuleResponse(int commandId, const QVariantMap &params)
 {
     if (params.value("ruleError").toString() != "RuleErrorNoError") {
-        qWarning() << "Failed to add rule:" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson());
+        qCWarning(dcRuleManager) << "Failed to add rule:" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson());
     } else {
-        qDebug() << "Rule added successfully. Rule ID:" << params.value("ruleId").toString();
+        qCDebug(dcRuleManager) << "Rule added successfully. Rule ID:" << params.value("ruleId").toString();
     }
-    emit addRuleReply(commandId, params.value("ruleError").toString(), params.value("ruleId").toString());
+    QMetaEnum metaEnum = QMetaEnum::fromType<RuleError>();
+    RuleError ruleError = static_cast<RuleError>(metaEnum.keyToValue(params.value("ruleError").toByteArray()));
+    emit addRuleReply(commandId, ruleError, params.value("ruleId").toUuid());
 }
 
-void RuleManager::removeRuleReply(int commandId, const QVariantMap &params)
+void RuleManager::removeRuleResponse(int commandId, const QVariantMap &params)
 {
-    qDebug() << "Have remove rule reply" << commandId << params;
-
+    qCDebug(dcRuleManager) << "Have remove rule reply" << commandId << params;
+    QMetaEnum metaEnum = QMetaEnum::fromType<RuleError>();
+    RuleError ruleError = static_cast<RuleError>(metaEnum.keyToValue(params.value("ruleError").toByteArray()));
+    qCritical() << "DAFUQQQ" << commandId << ruleError;
+    emit removeRuleReply(commandId, ruleError);
 }
 
-void RuleManager::onEditRuleReply(int commandId, const QVariantMap &params)
+void RuleManager::editRuleResponse(int commandId, const QVariantMap &params)
 {
     if (params.value("ruleError").toString() != "RuleErrorNoError") {
-        qDebug() << "Bad rule:" << params.value("ruleError").toString();
+        qCDebug(dcRuleManager) << "Bad rule:" << params.value("ruleError").toString();
     }
-    emit editRuleReply(commandId, params.value("ruleError").toString());
+    QMetaEnum metaEnum = QMetaEnum::fromType<RuleError>();
+    RuleError ruleError = static_cast<RuleError>(metaEnum.keyToValue(params.value("ruleError").toByteArray()));
+    emit editRuleReply(commandId, ruleError);
 }
 
-void RuleManager::onExecuteRuleActionsReply(int commandId, const QVariantMap &params)
+void RuleManager::executeRuleActionsResponse(int commandId, const QVariantMap &params)
 {
-    qDebug() << "Execute rule actions reply:" << commandId << params;
+    qCDebug(dcRuleManager) << "Execute rule actions reply:" << commandId << params;
 }
 
 Rule *RuleManager::parseRule(const QVariantMap &ruleMap)

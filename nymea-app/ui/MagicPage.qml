@@ -102,7 +102,7 @@ Page {
     Connections {
         target: engine.ruleManager
         onAddRuleReply: {
-            if (ruleError == "RuleErrorNoError") {
+            if (ruleError == RuleManager.RuleErrorNoError) {
 //                print("should tag rule now:", d.editRulePage.rule.id, d.editRulePage.ruleIcon, d.editRulePage.ruleColor)
 //                engine.tagsManager.tagRule(ruleId, "color", d.editRulePage.ruleColor)
 //                engine.tagsManager.tagRule(ruleId, "icon", d.editRulePage.ruleIcon)
@@ -115,7 +115,7 @@ Page {
         }
 
         onEditRuleReply: {
-            if (ruleError == "RuleErrorNoError") {
+            if (ruleError == RuleManager.RuleErrorNoError) {
 //                print("should tag rule now:", d.editRulePage.ruleIcon, d.editRulePage.ruleColor)
                 engine.tagsManager.tagRule(d.editRulePage.rule.id, "color", d.editRulePage.ruleColor)
                 engine.tagsManager.tagRule(d.editRulePage.rule.id, "icon", d.editRulePage.ruleIcon)

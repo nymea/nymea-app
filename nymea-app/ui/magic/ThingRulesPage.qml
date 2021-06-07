@@ -105,7 +105,7 @@ Page {
     Connections {
         target: engine.ruleManager
         onAddRuleReply: {
-            if (ruleError == "RuleErrorNoError") {
+            if (ruleError == RuleManager.RuleErrorNoError) {
                 pageStack.pop(root);
             } else {
                 var errorDialog = Qt.createComponent(Qt.resolvedUrl("../components/ErrorDialog.qml"));
@@ -116,7 +116,7 @@ Page {
         }
 
         onEditRuleReply: {
-            if (ruleError == "RuleErrorNoError") {
+            if (ruleError == RuleManager.RuleErrorNoError) {
                 pageStack.pop(root);
             } else {
                 var errorDialog = Qt.createComponent(Qt.resolvedUrl("../components/ErrorDialog.qml"));

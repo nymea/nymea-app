@@ -53,6 +53,33 @@ class RuleManager : public JsonHandler
     Q_PROPERTY(bool fetchingData READ fetchingData NOTIFY fetchingDataChanged)
 
 public:
+
+    enum RuleError {
+        RuleErrorNoError,
+        RuleErrorInvalidRuleId,
+        RuleErrorRuleNotFound,
+        RuleErrorThingNotFound,
+        RuleErrorEventTypeNotFound,
+        RuleErrorStateTypeNotFound,
+        RuleErrorActionTypeNotFound,
+        RuleErrorInvalidParameter,
+        RuleErrorInvalidRuleFormat,
+        RuleErrorMissingParameter,
+        RuleErrorInvalidRuleActionParameter,
+        RuleErrorInvalidStateEvaluatorValue,
+        RuleErrorTypesNotMatching,
+        RuleErrorNotExecutable,
+        RuleErrorInvalidTimeDescriptor,
+        RuleErrorInvalidRepeatingOption,
+        RuleErrorInvalidCalendarItem,
+        RuleErrorInvalidTimeEventItem,
+        RuleErrorContainsEventBasesAction,
+        RuleErrorNoExitActions,
+        RuleErrorInterfaceNotFound
+    };
+    Q_ENUM(RuleError)
+
+
     explicit RuleManager(JsonRpcClient *jsonClient, QObject *parent = nullptr);
 
     QString nameSpace() const override;
@@ -71,14 +98,20 @@ public:
     Q_INVOKABLE int editRule(Rule *rule);
     Q_INVOKABLE int executeActions(const QString &ruleId);
 
+signals:
+    void addRuleReply(int commandId, RuleError ruleError, const QUuid &ruleId);
+    void editRuleReply(int commandId, RuleError ruleError);
+    void removeRuleReply(int commandId, RuleError ruleError);
+    void fetchingDataChanged();
+
 private slots:
     void handleRulesNotification(const QVariantMap &params);
-    void getRulesReply(int commandId, const QVariantMap &params);
-    void getRuleDetailsReply(int commandId, const QVariantMap &params);
-    void onAddRuleReply(int commandId, const QVariantMap &params);
-    void removeRuleReply(int commandId, const QVariantMap &params);
-    void onEditRuleReply(int commandId, const QVariantMap &params);
-    void onExecuteRuleActionsReply(int commandId, const QVariantMap &params);
+    void getRulesResponse(int commandId, const QVariantMap &params);
+    void getRuleDetailsResponse(int commandId, const QVariantMap &params);
+    void addRuleResponse(int commandId, const QVariantMap &params);
+    void removeRuleResponse(int commandId, const QVariantMap &params);
+    void editRuleResponse(int commandId, const QVariantMap &params);
+    void executeRuleActionsResponse(int commandId, const QVariantMap &params);
 
 private:
     Rule *parseRule(const QVariantMap &ruleMap);
@@ -97,11 +130,6 @@ private:
     QVariantMap packRepeatingOption(RepeatingOption *repeatingOption);
     QVariantList packRuleActions(RuleActions *ruleActions);
     QVariantMap packStateEvaluator(StateEvaluator *stateEvaluator);
-
-signals:
-    void addRuleReply(int commandId, const QString &ruleError, const QString &ruleId);
-    void editRuleReply(int commandId, const QString &ruleError);
-    void fetchingDataChanged();
 
 private:
     JsonRpcClient *m_jsonClient;

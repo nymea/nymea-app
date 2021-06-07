@@ -111,7 +111,7 @@ ThingPageBase {
         onAddRuleReply: {
             if (commandId == d.pendingRuleCreationId) {
                 d.pendingRuleCreationId = -1
-                if (ruleError != "RuleErrorNoError") {
+                if (ruleError != RuleManager.RuleErrorNoError) {
                     var comp = Qt.createComponent("../components/ErrorDialog.qml")
                     var popup = comp.createObject(app, {errorCode: ruleError})
                     popup.open();
