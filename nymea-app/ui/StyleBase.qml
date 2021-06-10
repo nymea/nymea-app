@@ -51,13 +51,17 @@ Item {
         family: "Ubuntu",
         pixelSize: 16
     })
-    readonly property font largeFont: Qt.font({
+    readonly property font bigFont: Qt.font({
         family: "Ubuntu",
         pixelSize: 20
     })
+    readonly property font largeFont: Qt.font({
+        family: "Ubuntu",
+        pixelSize: 32
+    })
     readonly property font hugeFont: Qt.font({
         family: "Ubuntu",
-        pixelSize: 40
+        pixelSize: 46
     })
 
 

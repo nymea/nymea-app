@@ -260,5 +260,7 @@
         <file>ui/images/cleaning-robot.svg</file>
         <file>ui/images/chart.svg</file>
         <file>ui/images/modbus.svg</file>
+        <file>ui/images/setupwizard/wired-connection.svg</file>
+        <file>ui/images/setupwizard/wireless-connection.svg</file>
     </qresource>
 </RCC>

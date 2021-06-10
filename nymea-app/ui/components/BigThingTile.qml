@@ -17,7 +17,7 @@ BigTile {
         var contextMenu = contextMenuComponent.createObject(root, { thing: root.thing })
         contextMenu.x = Qt.binding(function() { return (root.width - contextMenu.width) / 2 })
         contextMenu.open()
-    }
+    }    
 
     header: RowLayout {
         id: headerRow

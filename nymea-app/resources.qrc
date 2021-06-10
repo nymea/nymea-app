@@ -249,5 +249,7 @@
         <file>ui/system/ModbusRtuSettingsPage.qml</file>
         <file>ui/system/ModbusRtuAddMasterPage.qml</file>
         <file>ui/system/ModbusRtuReconfigureMasterPage.qml</file>
+        <file>ui/connection/NewConnectionWizard.qml</file>
+        <file>ui/components/WizardPageBase.qml</file>
     </qresource>
 </RCC>

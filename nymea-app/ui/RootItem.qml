@@ -184,13 +184,14 @@ Item {
                         } else if (autoConnectHost.length > 0) {
                             var host = nymeaDiscovery.nymeaHosts.createLanHost(Configuration.systemName, autoConnectHost);
                             engine.jsonRpcClient.connectToHost(host)
+                            return;
                         } else {
                             // Only hide the splash right away if we're not trying to connect to something
                             // If it's not hidden here it will be hidden in 3 seconds or when the connection is up, whichever comes first
                             PlatformHelper.hideSplashScreen();
                         }
 
-                        pageStack.push(Qt.resolvedUrl("connection/ConnectPage.qml"), StackView.Immediate)
+                        pageStack.push(Qt.resolvedUrl("connection/NewConnectionWizard.qml"), StackView.Immediate)
                     }
 
                     Timer { running: true; repeat: false; interval: 3000; onTriggered: PlatformHelper.hideSplashScreen(); }
@@ -200,7 +201,8 @@ Item {
                         pageStack.clear()
                         if (!engine.jsonRpcClient.currentHost) {
                             print("pushing ConnectPage")
-                            pageStack.push(Qt.resolvedUrl("connection/ConnectPage.qml"))
+                            tabSettings.lastConnectedHost = ""
+                            pageStack.push(Qt.resolvedUrl("connection/NewConnectionWizard.qml"))
                             PlatformHelper.hideSplashScreen();
                             return;
                         }
@@ -475,7 +477,6 @@ Item {
                 Layout.fillWidth: true
                 Material.elevation: 2
                 position: TabBar.Footer
-                property int tabWidth: Math.max(150, root.width / tabModel.count)
 
                 Repeater {
                     model: tabModel.count
@@ -485,7 +486,7 @@ Item {
                         property var engine: mainRepeater.itemAt(index)._engine
                         property string serverName: engine.nymeaConfiguration.serverName
                         Material.elevation: index
-                        width: tabbar.tabWidth
+                        width: Math.max(150, tabbar.width / tabModel.count)
 
                         Rectangle {
                             anchors.fill: parent

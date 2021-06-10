@@ -62,6 +62,13 @@ ThingPageBase {
                     text: qsTr("Total energy consumption")
                 }
 
+                onPressAndHold: {
+                    var contextMenuComponent = Qt.createComponent("../components/ThingContextMenu.qml");
+                    var contextMenu = contextMenuComponent.createObject(root, { thing: root.thing })
+                    contextMenu.x = Qt.binding(function() { return (root.width - contextMenu.width) / 2 })
+                    contextMenu.open()
+                }
+
                 contentItem: RowLayout {
                     ColorIcon {
                         Layout.preferredHeight: Style.iconSize
