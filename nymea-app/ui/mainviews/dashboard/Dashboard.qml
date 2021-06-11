@@ -129,13 +129,11 @@ Item {
                         target: loader.item
                         property: "bottomClip"
                         value: loader.bottomClip
-                        when: ["android", "ios"].indexOf(Qt.platform.os) >= 0
                     }
                     Binding {
                         target: loader.item
                         property: "topClip"
                         value: loader.topClip
-                        when: ["android", "ios"].indexOf(Qt.platform.os) >= 0
                     }
                     Connections {
                         target: loader.item
