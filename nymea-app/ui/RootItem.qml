@@ -191,7 +191,7 @@ Item {
                             PlatformHelper.hideSplashScreen();
                         }
 
-                        pageStack.push(Qt.resolvedUrl("connection/NewConnectionWizard.qml"), StackView.Immediate)
+                        pageStack.push(Configuration.connectionWizard, StackView.Immediate)
                     }
 
                     Timer { running: true; repeat: false; interval: 3000; onTriggered: PlatformHelper.hideSplashScreen(); }
@@ -202,7 +202,7 @@ Item {
                         if (!engine.jsonRpcClient.currentHost) {
                             print("pushing ConnectPage")
                             tabSettings.lastConnectedHost = ""
-                            pageStack.push(Qt.resolvedUrl("connection/NewConnectionWizard.qml"))
+                            pageStack.push(Configuration.connectionWizard)
                             PlatformHelper.hideSplashScreen();
                             return;
                         }

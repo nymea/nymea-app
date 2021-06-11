@@ -39,7 +39,6 @@ Page {
             Layout.fillWidth: true
             Layout.margins: Style.margins
             wrapMode: Text.WordWrap
-            text: qsTr("This wizard will guide you through the process of setting up a new nymea system.")
             horizontalAlignment: Text.AlignHCenter
         }
 
