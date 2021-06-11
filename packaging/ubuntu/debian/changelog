@@ -1,3 +1,10 @@
+nymea-app (1.0.313) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Allow overriding the connect wizard by the overlay
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 11 Jun 2021 16:18:36 +0200
+
 nymea-app (1.0.312) bionic; urgency=medium
 
   [ Michael Zanetti ]
