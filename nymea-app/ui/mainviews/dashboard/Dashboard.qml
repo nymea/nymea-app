@@ -426,7 +426,7 @@ Item {
     EmptyViewPlaceholder {
         anchors { left: parent.left; right: parent.right; margins: Style.margins }
         anchors.verticalCenter: parent.verticalCenter
-        visible: root.model.count === 0 && !root.editMode
+        visible: !engine.thingManager.fetchingData && root.model.count === 0 && !root.editMode
         title: qsTr("Dashboard is empty")
         text: qsTr("Start with adding a new item to this dashboard.")
         buttonText: qsTr("Add item")
