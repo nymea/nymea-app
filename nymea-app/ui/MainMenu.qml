@@ -39,8 +39,7 @@ Drawer {
 
                 Image {
                     Layout.preferredHeight: Style.hugeIconSize
-                    // w : h = ss.w : ss.h
-                    Layout.preferredWidth: Style.hugeIconSize * sourceSize.width / sourceSize.height
+                    sourceSize.height: Style.hugeIconSize
                     source: "qrc:/styles/%1/logo-wide.svg".arg(styleController.currentStyle)
                 }
 
