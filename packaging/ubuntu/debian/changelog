@@ -1,3 +1,10 @@
+nymea-app (1.0.314) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix icon sizing in main menu
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 15 Jun 2021 23:02:39 +0200
+
 nymea-app (1.0.313) bionic; urgency=medium
 
   [ Michael Zanetti ]
