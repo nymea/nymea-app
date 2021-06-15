@@ -1,3 +1,10 @@
+nymea-app (1.0.315) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix visual glitch while loading the dashboard
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 16 Jun 2021 01:03:43 +0200
+
 nymea-app (1.0.314) bionic; urgency=medium
 
   [ Michael Zanetti ]
