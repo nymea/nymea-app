@@ -62,7 +62,7 @@ Item {
         } else if (interfaceList.indexOf("irrigation") >= 0) {
             page = "IrrigationDevicePage.qml";
         } else if (interfaceList.indexOf("ventilation") >= 0) {
-            page = "VentilationDevicePage.qml";
+            page = "VentilationThingPage.qml";
         } else if (interfaceList.indexOf("barcodescanner") >= 0) {
             page = "BarcodeScannerThingPage.qml";
         } else if (interfaceList.indexOf("cleaningrobot") >= 0) {
