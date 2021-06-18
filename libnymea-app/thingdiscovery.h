@@ -39,14 +39,16 @@
 class ThingDescriptor: public QObject {
     Q_OBJECT
     Q_PROPERTY(QUuid id READ id CONSTANT)
+    Q_PROPERTY(QUuid thingClassId READ thingClassId CONSTANT)
     Q_PROPERTY(QUuid thingId READ thingId CONSTANT)
     Q_PROPERTY(QString name READ name CONSTANT)
     Q_PROPERTY(QString description READ description CONSTANT)
     Q_PROPERTY(Params* params READ params CONSTANT)
 public:
-    ThingDescriptor(const QUuid &id, const QUuid &thingId, const QString &name, const QString &description, QObject *parent = nullptr);
+    ThingDescriptor(const QUuid &id, const QUuid &thingClassId, const QUuid &thingId, const QString &name, const QString &description, QObject *parent = nullptr);
 
     QUuid id() const;
+    QUuid thingClassId() const;
     QUuid thingId() const;
     QString name() const;
     QString description() const;
@@ -54,6 +56,7 @@ public:
 
 private:
     QUuid m_id;
+    QUuid m_thingClassId;
     QUuid m_thingId;
     QString m_name;
     QString m_description;
@@ -83,6 +86,7 @@ public:
 
 
     Q_INVOKABLE void discoverThings(const QUuid &thingClassId, const QVariantList &discoveryParams = {});
+    Q_INVOKABLE void discoverThingsByInterface(const QString &interfaceName);
 
     Q_INVOKABLE ThingDescriptor* get(int index) const;
 
@@ -93,6 +97,8 @@ public:
     QString displayMessage() const;
 
 private slots:
+    void discoverThingsInternal(const QUuid &thingClassId, const QVariantList &discoveryParams = {});
+
     void discoverThingsResponse(int commandId, const QVariantMap &params);
 
 signals:
@@ -102,8 +108,8 @@ signals:
 
 private:
     Engine *m_engine = nullptr;
-    bool m_busy = false;
     QString m_displayMessage;
+    QList<int> m_pendingRequests;
 
     bool contains(const QUuid &deviceDescriptorId) const;
     QList<ThingDescriptor*> m_foundThings;
