@@ -148,7 +148,10 @@ Page {
 
     Connections {
         target: engine.scriptManager
-        onAddScriptReply: deployReply(id, scriptError, errors)
+        onAddScriptReply: {
+            deployReply(id, scriptError, errors)
+            d.scriptId = scriptId;
+        }
         onEditScriptReply: deployReply(id, scriptError, errors)
         function deployReply(id, scriptError, errors) {
             if (id === d.callId) {
@@ -186,6 +189,7 @@ Page {
         }
 
         onScriptMessage: {
+            print("scriptMessage:", scriptId, d.scriptId)
             if (scriptId !== d.scriptId) {
                 return;
             }
