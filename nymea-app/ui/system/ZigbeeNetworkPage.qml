@@ -246,220 +246,174 @@ SettingsPageBase {
 
         delegate: BigTile {
             Layout.fillWidth: true
+            Layout.leftMargin: Style.smallMargins
+            Layout.rightMargin: Style.smallMargins
             interactive: false
 
-            property ZigbeeNode node: zigbeeNodesProxy.get(index)
+            readonly property ZigbeeNode node: zigbeeNodesProxy.get(index)
 
-            contentItem: ColumnLayout {
-                spacing: app.margins
-
-                Loader {
-                    id: nodeTypeLoader
-                    Layout.fillWidth: true
-                    sourceComponent: node ? (node.type === ZigbeeNode.ZigbeeNodeTypeCoordinator ? zigbeeCoordinatorComponent : zigbeeDeviceComponent) : null
+            header: RowLayout {
+                width: parent.width
+                ColorIcon {
+                    Layout.preferredHeight: Style.smallIconSize
+                    Layout.preferredWidth: Style.smallIconSize
+                    name: !node || node.type === ZigbeeNode.ZigbeeNodeTypeCoordinator
+                          ? "/ui/images/zigbee.svg"
+                          : node.type === ZigbeeNode.ZigbeeNodeTypeRouter
+                            ? "/ui/images/zigbee-router.svg"
+                            : "/ui/images/zigbee-enddevice.svg"
                 }
 
-                Component {
-                    id: zigbeeCoordinatorComponent
-                    ColumnLayout {
-                        RowLayout {
+                Led {
+                    Layout.preferredHeight: Style.smallIconSize
+                    Layout.preferredWidth: Style.smallIconSize
+                    state: {
+                        if (!node) {
+                            return "off"
+                        }
 
-                            ColorIcon {
-                                id: coordinatorIcon
-                                Layout.preferredHeight: Style.iconSize
-                                Layout.preferredWidth: Style.iconSize
-                                name: "/ui/images/zigbee.svg"
-                            }
-
-                            Led {
-                                Layout.preferredHeight: Style.iconSize
-                                Layout.preferredWidth: Style.iconSize
-                                state: {
-                                    switch (network.networkState) {
-                                    case ZigbeeNetwork.ZigbeeNetworkStateOnline:
-                                        return "on"
-                                    case ZigbeeNetwork.ZigbeeNetworkStateOffline:
-                                        return "off"
-                                    case ZigbeeNetwork.ZigbeeNetworkStateStarting:
-                                        return "orange"
-                                    case ZigbeeNetwork.ZigbeeNetworkStateUpdating:
-                                        return "orange"
-                                    case ZigbeeNetwork.ZigbeeNetworkStateError:
-                                        return "red"
-                                    }
-                                }
-                            }
-
-                            Label {
-                                Layout.fillWidth: true
-                                text: network.backend + " " + qsTr("network coordinator")
+                        if (node.type === ZigbeeNode.ZigbeeNodeTypeCoordinator) {
+                            switch (network.networkState) {
+                            case ZigbeeNetwork.ZigbeeNetworkStateOnline:
+                                return "on"
+                            case ZigbeeNetwork.ZigbeeNetworkStateOffline:
+                                return "off"
+                            case ZigbeeNetwork.ZigbeeNetworkStateStarting:
+                                return "orange"
+                            case ZigbeeNetwork.ZigbeeNetworkStateUpdating:
+                                return "orange"
+                            case ZigbeeNetwork.ZigbeeNetworkStateError:
+                                return "red"
                             }
                         }
 
-                        Label {
-                            visible: node.version !== ""
-                            text: qsTr("Version") + ": " + network.firmwareVersion
+                        if (node.state !== ZigbeeNode.ZigbeeNodeStateInitialized) {
+                            return "orange"
                         }
 
-                        Label {
-                            text: qsTr("IEEE address") + ": " + node.ieeeAddress
-                        }
-
-                        Label {
-                            text: qsTr("Network address") +  ": 0x" + (node.networkAddress + Math.pow(16, 4)).toString(16).slice(-4).toUpperCase();
+                        if (node.reachable) {
+                            return "on"
+                        } else {
+                            return "red"
                         }
                     }
                 }
 
-                Component {
-                    id: zigbeeDeviceComponent
 
-                    ColumnLayout {
-                        RowLayout {
-                            id: nodeHeaderRowLayout
-                            ColorIcon {
-                                id: deviceTypeIcon
-                                Layout.preferredHeight: Style.iconSize
-                                Layout.preferredWidth: Style.iconSize
-                                name: node ? (node.type === ZigbeeNode.ZigbeeNodeTypeRouter ? "/ui/images/zigbee-router.svg" : "/ui/images/zigbee-enddevice.svg") : "/ui/images/zigbee-enddevice.svg"
-                            }
+                Label {
+                    Layout.fillWidth: true
+                    text: node.type === ZigbeeNode.ZigbeeNodeTypeCoordinator
+                          ? network.backend + " " + qsTr("network coordinator")
+                          : node ? node.model : ""
+                    elide: Text.ElideRight
+                }
 
-                            Led {
-                                id: reachableLed
-                                Layout.preferredHeight: Style.iconSize
-                                Layout.preferredWidth: Style.iconSize
-                                state: {
-                                    if (!node)
-                                        return "off"
+                BusyIndicator {
+                    Layout.preferredHeight: Style.smallIconSize
+                    Layout.preferredWidth: Style.smallIconSize
+                    running: visible
+                    visible: node && node.state !== ZigbeeNode.ZigbeeNodeStateInitialized
+                }
 
-                                    if (node.state !== ZigbeeNode.ZigbeeNodeStateInitialized) {
-                                        return "orange"
-                                    }
+                Label {
+                    text: signalStrengthIcon.signalStrength + "%"
+                    font: Style.smallFont
+                    visible: node && node.type !== ZigbeeNode.ZigbeeNodeTypeCoordinator
+                }
 
-                                    if (node.reachable) {
-                                        return "on"
-                                    } else {
-                                        return "red"
-                                    }
-                                }
-                            }
+                ColorIcon {
+                    id: signalStrengthIcon
+                    Layout.preferredHeight: Style.smallIconSize
+                    Layout.preferredWidth: Style.smallIconSize
+                    visible: node && node.type !== ZigbeeNode.ZigbeeNodeTypeCoordinator
 
-                            Connections {
-                                target: node
-                                onLastSeenChanged: {
-                                    communicationIndicatorLed.state = "on"
-                                    communicationIndicatorLedTimer.start()
-                                }
-                            }
+                    property int signalStrength: node ? Math.round(node.lqi * 100.0 / 255.0) : 0
 
-                            Timer {
-                                id: communicationIndicatorLedTimer
-                                interval: 200
-                                repeat: false
-                                onTriggered: communicationIndicatorLed.state = "off"
-                            }
+                    name: {
+                        if (!node || !node.reachable)
+                            return "/ui/images/connections/nm-signal-00.svg"
 
-                            Led {
-                                id: communicationIndicatorLed
-                                Layout.preferredHeight: Style.iconSize
-                                Layout.preferredWidth: Style.iconSize
-                                state: "off"
-                            }
+                        if (signalStrength <= 25)
+                            return "/ui/images/connections/nm-signal-25.svg"
 
-                            BusyIndicator {
-                                Layout.preferredHeight: Style.iconSize
-                                Layout.preferredWidth: Style.iconSize
-                                running: visible
-                                visible: node ? node.state !== ZigbeeNode.ZigbeeNodeStateInitialized : false
-                            }
+                        if (signalStrength <= 50)
+                            return "/ui/images/connections/nm-signal-50.svg"
 
-                            Label {
-                                Layout.fillWidth: true
-                                text: node ? node.model : ""
-                            }
+                        if (signalStrength <= 75)
+                            return "/ui/images/connections/nm-signal-75.svg"
 
-                            Label {
-                                text: signalStrengthIcon.signalStrength + "%"
-                            }
+                        if (signalStrength <= 100)
+                            return "/ui/images/connections/nm-signal-100.svg"
+                    }
+                }
 
-                            ColorIcon {
-                                id: signalStrengthIcon
-                                Layout.preferredHeight: Style.iconSize
-                                Layout.preferredWidth: Style.iconSize
+                ColorIcon {
+                    id: sleepyIconLoader
+                    Layout.preferredHeight: Style.smallIconSize
+                    Layout.preferredWidth: Style.smallIconSize
+                    visible: node && !node.rxOnWhenIdle
+                    name: "/ui/images/system-suspend.svg"
+                }
 
-                                property int signalStrength: node ? Math.round(node.lqi * 100.0 / 255.0) : 0
+                Led {
+                    id: communicationIndicatorLed
+                    Layout.preferredWidth: Style.smallIconSize
+                    Layout.preferredHeight: Style.smallIconSize
+                    state: "off"
 
-                                name: {
-                                    if (!node || !node.reachable)
-                                        return "/ui/images/connections/nm-signal-00.svg"
-
-                                    if (signalStrength <= 25)
-                                        return "/ui/images/connections/nm-signal-25.svg"
-
-                                    if (signalStrength <= 50)
-                                        return "/ui/images/connections/nm-signal-50.svg"
-
-                                    if (signalStrength <= 75)
-                                        return "/ui/images/connections/nm-signal-75.svg"
-
-                                    if (signalStrength <= 100)
-                                        return "/ui/images/connections/nm-signal-100.svg"
-                                }
-                            }
-
-                            Loader {
-                                id: sleepyIconLoader
-                                Layout.preferredHeight: Style.iconSize
-                                Layout.preferredWidth: Style.iconSize
-                                active: node ? !node.rxOnWhenIdle : false
-                                visible: active
-                                sourceComponent: sleepyDeviceComponent
-                            }
-
-                            Component {
-                                id: sleepyDeviceComponent
-                                ColorIcon {
-                                    name: "/ui/images/system-suspend.svg"
-                                }
-                            }
+                    Connections {
+                        target: node
+                        onLastSeenChanged: {
+                            communicationIndicatorLed.state = "on"
+                            communicationIndicatorLedTimer.start()
                         }
+                    }
 
-                        RowLayout {
-                            id: nodeDescriptionRow
-                            ColumnLayout {
-                                Layout.fillWidth: true
+                    Timer {
+                        id: communicationIndicatorLedTimer
+                        interval: 200
+                        repeat: false
+                        onTriggered: communicationIndicatorLed.state = "off"
+                    }
+                }
+            }
 
-                                Label {
-                                    text: node ? node.manufacturer + (node.version !== "" ? " (" +  node.version + ")" : "") : ""
-                                }
+            contentItem: ColumnLayout {
+                Label {
+                    Layout.fillWidth: true
+                    elide: Text.ElideRight
+                    visible: node && node.type !== ZigbeeNode.ZigbeeNodeTypeCoordinator
+                    text: node.manufacturer
+                }
 
-                                Label {
-                                    text: qsTr("IEEE address") + ": " + (node ? node.ieeeAddress : "")
-                                }
+                Label {
+                    Layout.fillWidth: true
+                    elide: Text.ElideRight
+                    visible: node && (node.type === ZigbeeNode.ZigbeeNodeTypeCoordinator || node.version !== "")
+                    text: qsTr("Version") + ": " + (node.type === ZigbeeNode.ZigbeeNodeTypeCoordinator ? network.firmwareVersion : node.version)
+                }
 
-                                Label {
-                                    Layout.fillWidth: true
-                                    text: qsTr("Network address") + (node ?  ": 0x" + (node.networkAddress + Math.pow(16, 4)).toString(16).slice(-4).toUpperCase() : "")
-                                }
-                            }
+                Label {
+                    Layout.fillWidth: true
+                    text: qsTr("IEEE address") + ": " + node.ieeeAddress
+                    elide: Text.ElideRight
+                }
 
-                            ColumnLayout {
-                                Item {
-                                    // Spacing item
-                                    Layout.fillHeight: true
-                                }
+                Label {
+                    Layout.fillWidth: true
+                    text: qsTr("Network address") +  ": 0x" + (node.networkAddress + Math.pow(16, 4)).toString(16).slice(-4).toUpperCase();
+                    elide: Text.ElideRight
+                }
 
-                                ProgressButton {
-                                    size: Style.iconSize
-                                    imageSource: "/ui/images/delete.svg"
-                                    longpressEnabled: false
-                                    onClicked: {
-                                        var dialog = removeZigbeeNodeDialogComponent.createObject(app, {zigbeeNode: node})
-                                        dialog.open()
-                                    }
-                                }
-                            }
-                        }
+                Button {
+//                    size: Style.iconSize
+                    visible: node && node.type !== ZigbeeNode.ZigbeeNodeTypeCoordinator
+//                    imageSource: "/ui/images/delete.svg"
+                    text: qsTr("Remove")
+                    Layout.alignment: Qt.AlignRight
+                    onClicked: {
+                        var dialog = removeZigbeeNodeDialogComponent.createObject(app, {zigbeeNode: node})
+                        dialog.open()
                     }
                 }
             }

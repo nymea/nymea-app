@@ -83,22 +83,23 @@ SettingsPageBase {
 
                 onClicked: pageStack.push(Qt.resolvedUrl("ZigbeeNetworkPage.qml"), { zigbeeManager: zigbeeManager, network: zigbeeManager.networks.get(index) })
 
+                header: RowLayout {
+                    ColorIcon {
+                        name: "/ui/images/zigbee/" + model.backend + ".svg"
+                        Layout.preferredWidth: Style.iconSize
+                        Layout.preferredHeight: Style.iconSize
+                    }
+
+                    Label {
+                        Layout.fillWidth: true
+                        text: model.backend
+                        font.pixelSize: app.largeFont
+                    }
+                }
+
                 contentItem: ColumnLayout {
                     spacing: app.margins
 
-                    RowLayout {
-                        ColorIcon {
-                            name: "/ui/images/zigbee/" + model.backend + ".svg"
-                            Layout.preferredWidth: Style.iconSize
-                            Layout.preferredHeight: Style.iconSize
-                        }
-
-                        Label {
-                            Layout.fillWidth: true
-                            text: model.backend
-                            font.pixelSize: app.largeFont
-                        }
-                    }
 
                     RowLayout {
                         Label {
