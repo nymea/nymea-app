@@ -1,3 +1,10 @@
+nymea-app (1.0.317) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Zigbee node management and JSON RPC API implementation
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 28 Jun 2021 22:54:23 +0200
+
 nymea-app (1.0.316) bionic; urgency=medium
 
   [ Michael Zanetti ]
