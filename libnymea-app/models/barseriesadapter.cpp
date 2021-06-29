@@ -1,5 +1,7 @@
 #include "barseriesadapter.h"
 
+#include <QDebug>
+
 BarSeriesAdapter::BarSeriesAdapter(QObject *parent) : QObject(parent)
 {
 

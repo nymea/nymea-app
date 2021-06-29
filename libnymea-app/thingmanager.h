@@ -38,7 +38,6 @@
 #include "thingclasses.h"
 #include "interfacesmodel.h"
 #include "types/plugins.h"
-#include "jsonrpc/jsonhandler.h"
 #include "jsonrpc/jsonrpcclient.h"
 
 class BrowserItem;
@@ -47,9 +46,8 @@ class ThingGroup;
 class Interface;
 class IOConnections;
 class EventHandler;
-class IntegrationsHandler;
 
-class ThingManager : public JsonHandler
+class ThingManager : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(Vendors* vendors READ vendors CONSTANT)
@@ -73,8 +71,6 @@ public:
 
     void clear();
     void init();
-
-    QString nameSpace() const override;
 
     Vendors* vendors() const;
     Plugins* plugins() const;
@@ -189,50 +185,6 @@ private:
     QHash<int, QPointer<BrowserItem> > m_browserDetailsRequests;
 
     QDateTime m_connectionBenchmark;
-
-    // Deprecated stuff for nymea < 0.17 (JSONRPC < 4.0)
-    EventHandler *m_eventHandler = nullptr;
-    // Register notifications for new stuff that's only available in the Integrations namespace for now
-    IntegrationsHandler *m_integrationsHandler = nullptr;
-
-};
-
-// TODO: This is deprecated in nymea now (JSONRPC 4.0/nymea 0.17). Keeping it for a bit for backwards compatibility
-class EventHandler: public JsonHandler {
-    Q_OBJECT
-
-public:
-    EventHandler(QObject *parent = nullptr): JsonHandler(parent) {}
-    QString nameSpace() const override {
-        return "Events";
-    }
-
-signals:
-    void eventReceived(const QVariantMap &event);
-
-private:
-    Q_INVOKABLE void notificationReceived(const QVariantMap &data) {
-        emit eventReceived(data.value("params").toMap().value("event").toMap());
-    }
-
-};
-
-class IntegrationsHandler: public JsonHandler {
-    Q_OBJECT
-
-public:
-    IntegrationsHandler(QObject *parent = nullptr): JsonHandler(parent) {}
-    QString nameSpace() const override {
-        return "Integrations";
-    }
-
-signals:
-    void onNotificationReceived(const QVariantMap &data);
-
-private:
-    Q_INVOKABLE void notificationReceived(const QVariantMap &data) {
-        emit onNotificationReceived(data);
-    }
 };
 
 #endif // THINGMANAGER_H

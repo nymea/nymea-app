@@ -121,7 +121,6 @@ SOURCES += \
     $${PWD}/connection/discovery/bluetoothservicediscovery.cpp \
     $${PWD}/thingmanager.cpp \
     $${PWD}/jsonrpc/jsonrpcclient.cpp \
-    $${PWD}/jsonrpc/jsonhandler.cpp \
     $${PWD}/things.cpp \
     $${PWD}/thingsproxy.cpp \
     $${PWD}/thingclasses.cpp \
@@ -279,7 +278,6 @@ HEADERS += \
     $${PWD}/connection/discovery/bluetoothservicediscovery.h \
     $${PWD}/thingmanager.h \
     $${PWD}/jsonrpc/jsonrpcclient.h \
-    $${PWD}/jsonrpc/jsonhandler.h \
     $${PWD}/things.h \
     $${PWD}/thingsproxy.h \
     $${PWD}/thingclasses.h \

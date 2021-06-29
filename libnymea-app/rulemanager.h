@@ -34,7 +34,6 @@
 #include <QObject>
 
 #include "types/rules.h"
-#include "jsonrpc/jsonhandler.h"
 
 class JsonRpcClient;
 class EventDescriptors;
@@ -46,7 +45,7 @@ class StateEvaluator;
 class RuleAction;
 class RuleActions;
 
-class RuleManager : public JsonHandler
+class RuleManager : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(Rules* rules READ rules CONSTANT)
@@ -81,8 +80,6 @@ public:
 
 
     explicit RuleManager(JsonRpcClient *jsonClient, QObject *parent = nullptr);
-
-    QString nameSpace() const override;
 
     void clear();
     void init();

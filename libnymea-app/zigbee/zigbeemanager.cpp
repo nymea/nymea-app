@@ -45,7 +45,7 @@
 NYMEA_LOGGING_CATEGORY(dcZigbee, "Zigbee")
 
 ZigbeeManager::ZigbeeManager(QObject *parent) :
-    JsonHandler(parent),
+    QObject(parent),
     m_adapters(new ZigbeeAdapters(this)),
     m_networks(new ZigbeeNetworks(this))
 {
@@ -57,11 +57,6 @@ ZigbeeManager::~ZigbeeManager()
     if (m_engine) {
         m_engine->jsonRpcClient()->unregisterNotificationHandler(this);
     }
-}
-
-QString ZigbeeManager::nameSpace() const
-{
-    return "Zigbee";
 }
 
 void ZigbeeManager::setEngine(Engine *engine)
@@ -153,7 +148,7 @@ void ZigbeeManager::init()
     m_networks->clear();
     m_availableBackends.clear();
 
-    m_engine->jsonRpcClient()->registerNotificationHandler(this, "notificationReceived");
+    m_engine->jsonRpcClient()->registerNotificationHandler(this, "Zigbee", "notificationReceived");
 
     m_engine->jsonRpcClient()->sendCommand("Zigbee.GetAvailableBackends", this, "getAvailableBackendsResponse");
     m_engine->jsonRpcClient()->sendCommand("Zigbee.GetAdapters", this, "getAdaptersResponse");

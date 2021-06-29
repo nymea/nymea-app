@@ -41,7 +41,7 @@
 #include <QJsonDocument>
 
 NetworkManager::NetworkManager(QObject *parent):
-    JsonHandler(parent),
+    QObject(parent),
     m_wiredNetworkDevices(new WiredNetworkDevices(this)),
     m_wirelessNetworkDevices(new WirelessNetworkDevices(this))
 {
@@ -64,7 +64,7 @@ void NetworkManager::setEngine(Engine *engine)
     m_engine = engine;
     emit engineChanged();
 
-    m_engine->jsonRpcClient()->registerNotificationHandler(this, "notificationReceived");
+    m_engine->jsonRpcClient()->registerNotificationHandler(this, "NetworkManager", "notificationReceived");
     init();
 
     connect(m_engine->jsonRpcClient(), &JsonRpcClient::connectedChanged, this, &NetworkManager::init);
@@ -78,11 +78,6 @@ Engine *NetworkManager::engine() const
 bool NetworkManager::loading()
 {
     return m_loading;
-}
-
-QString NetworkManager::nameSpace() const
-{
-    return "NetworkManager";
 }
 
 void NetworkManager::init()

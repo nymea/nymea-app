@@ -1,14 +1,13 @@
 #ifndef APPDATA_H
 #define APPDATA_H
 
-#include "jsonrpc/jsonhandler.h"
-
 #include <QQmlParserStatus>
 #include <QTimer>
+#include <QHash>
 
 class Engine;
 
-class AppData : public JsonHandler, public QQmlParserStatus
+class AppData : public QObject, public QQmlParserStatus
 {
     Q_OBJECT
     Q_INTERFACES(QQmlParserStatus)
@@ -21,8 +20,6 @@ public:
 
     void classBegin() override;
     void componentComplete() override;
-
-    QString nameSpace() const override;
 
     Engine *engine() const;
     void setEngine(Engine *engine);

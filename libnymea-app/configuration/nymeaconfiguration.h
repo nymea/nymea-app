@@ -33,8 +33,6 @@
 
 #include <QObject>
 
-#include "jsonrpc/jsonhandler.h"
-
 class JsonRpcClient;
 class ServerConfiguration;
 class ServerConfigurations;
@@ -43,7 +41,7 @@ class WebServerConfigurations;
 class MqttPolicy;
 class MqttPolicies;
 
-class NymeaConfiguration : public JsonHandler
+class NymeaConfiguration : public QObject
 {
     Q_OBJECT
 
@@ -61,8 +59,6 @@ class NymeaConfiguration : public JsonHandler
 
 public:
     explicit NymeaConfiguration(JsonRpcClient* client, QObject *parent = nullptr);
-
-    QString nameSpace() const override;
 
     QString serverName() const;
     void setServerName(const QString &serverName);

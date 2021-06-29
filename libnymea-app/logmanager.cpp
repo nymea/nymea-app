@@ -33,15 +33,10 @@
 #include "engine.h"
 
 LogManager::LogManager(JsonRpcClient *jsonClient, QObject *parent) :
-    JsonHandler(parent),
+    QObject(parent),
     m_client(jsonClient)
 {
-    m_client->registerNotificationHandler(this, "notificationReceived");
-}
-
-QString LogManager::nameSpace() const
-{
-    return "Logging";
+    m_client->registerNotificationHandler(this, "Logging", "notificationReceived");
 }
 
 void LogManager::notificationReceived(const QVariantMap &data)

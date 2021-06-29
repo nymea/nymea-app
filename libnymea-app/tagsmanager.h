@@ -31,12 +31,11 @@
 #ifndef TAGSMANAGER_H
 #define TAGSMANAGER_H
 
-#include "jsonrpc/jsonhandler.h"
 #include "jsonrpc/jsonrpcclient.h"
 
 #include "types/tags.h"
 
-class TagsManager : public JsonHandler
+class TagsManager : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(Tags* tags READ tags CONSTANT)
@@ -52,7 +51,6 @@ public:
     Q_ENUM(TagError)
 
     explicit TagsManager(JsonRpcClient *jsonClient, QObject *parent = nullptr);
-    QString nameSpace() const override;
 
     void init();
     void clear();

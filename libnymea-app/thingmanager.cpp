@@ -45,7 +45,7 @@
 NYMEA_LOGGING_CATEGORY(dcThingManager, "ThingManager")
 
 ThingManager::ThingManager(JsonRpcClient* jsonclient, QObject *parent) :
-    JsonHandler(parent),
+    QObject(parent),
     m_vendors(new Vendors(this)),
     m_plugins(new Plugins(this)),
     m_things(new Things(this)),
@@ -53,7 +53,7 @@ ThingManager::ThingManager(JsonRpcClient* jsonclient, QObject *parent) :
     m_ioConnections(new IOConnections(this)),
     m_jsonClient(jsonclient)
 {
-    m_jsonClient->registerNotificationHandler(this, "notificationReceived");
+    m_jsonClient->registerNotificationHandler(this, "Integrations", "notificationReceived");
 }
 
 void ThingManager::clear()
@@ -73,11 +73,6 @@ void ThingManager::init()
     emit fetchingDataChanged();
 
     m_jsonClient->sendCommand("Integrations.GetThingClasses", this, "getThingClassesResponse");
-}
-
-QString ThingManager::nameSpace() const
-{
-    return "Integrations";
 }
 
 Vendors *ThingManager::vendors() const

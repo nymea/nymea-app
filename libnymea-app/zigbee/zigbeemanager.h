@@ -33,7 +33,6 @@
 
 #include <QObject>
 #include "zigbeeadapter.h"
-#include "jsonrpc/jsonhandler.h"
 
 class Engine;
 class JsonRpcClient;
@@ -43,7 +42,7 @@ class ZigbeeNetworks;
 class ZigbeeNode;
 class ZigbeeNodes;
 
-class ZigbeeManager : public JsonHandler
+class ZigbeeManager : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(Engine* engine READ engine WRITE setEngine NOTIFY engineChanged)
@@ -55,8 +54,6 @@ class ZigbeeManager : public JsonHandler
 public:
     explicit ZigbeeManager(QObject *parent = nullptr);
     ~ZigbeeManager();
-
-    QString nameSpace() const override;
 
     void setEngine(Engine *engine);
     Engine *engine() const;

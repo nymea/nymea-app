@@ -38,7 +38,7 @@
 class Repositories;
 class Packages;
 
-class SystemController : public JsonHandler
+class SystemController : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(bool powerManagementAvailable READ powerManagementAvailable NOTIFY powerManagementAvailableChanged)
@@ -63,7 +63,6 @@ public:
     explicit SystemController(JsonRpcClient *jsonRpcClient, QObject *parent = nullptr);
 
     void init();
-    QString nameSpace() const override;
 
     bool powerManagementAvailable() const;
     Q_INVOKABLE int restart();

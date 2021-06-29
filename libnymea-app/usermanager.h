@@ -9,7 +9,7 @@
 #include "types/tokeninfos.h"
 #include "types/userinfo.h"
 
-class UserManager: public JsonHandler
+class UserManager: public QObject
 {
     Q_OBJECT
     Q_PROPERTY(Engine* engine READ engine WRITE setEngine NOTIFY engineChanged)
@@ -39,8 +39,6 @@ public:
 
     UserInfo* userInfo() const;
     TokenInfos* tokenInfos() const;
-
-    QString nameSpace() const override;
 
     Q_INVOKABLE int changePassword(const QString &newPassword);
     Q_INVOKABLE int removeToken(const QUuid &id);

@@ -34,14 +34,13 @@
 #include <QObject>
 
 #include "types/serialports.h"
-#include "jsonrpc/jsonhandler.h"
 
 class Engine;
 class JsonRpcClient;
 class ModbusRtuMaster;
 class ModbusRtuMasters;
 
-class ModbusRtuManager : public JsonHandler
+class ModbusRtuManager : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(Engine *engine READ engine WRITE setEngine NOTIFY engineChanged)
@@ -52,8 +51,6 @@ class ModbusRtuManager : public JsonHandler
 public:
     explicit ModbusRtuManager(QObject *parent = nullptr);
     ~ModbusRtuManager();
-
-    QString nameSpace() const override;
 
     Engine *engine() const;
     void setEngine(Engine *engine);

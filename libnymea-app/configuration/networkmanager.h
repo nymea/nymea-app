@@ -34,14 +34,12 @@
 #include <QObject>
 #include <QHash>
 
-#include "jsonrpc/jsonhandler.h"
-
 class Engine;
 class NetworkDevices;
 class WiredNetworkDevices;
 class WirelessNetworkDevices;
 
-class NetworkManager : public JsonHandler
+class NetworkManager : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(Engine *engine READ engine WRITE setEngine NOTIFY engineChanged)
@@ -76,8 +74,6 @@ public:
     Engine *engine() const;
 
     bool loading();
-
-    QString nameSpace() const override;
 
     bool available() const;
     NetworkManagerState state() const;

@@ -55,16 +55,11 @@ NYMEA_LOGGING_CATEGORY(dcRuleManager, "RuleManager")
 #include <QJsonDocument>
 
 RuleManager::RuleManager(JsonRpcClient* jsonClient, QObject *parent) :
-    JsonHandler(parent),
+    QObject(parent),
     m_jsonClient(jsonClient),
     m_rules(new Rules(this))
 {
-    m_jsonClient->registerNotificationHandler(this, "handleRulesNotification");
-}
-
-QString RuleManager::nameSpace() const
-{
-    return "Rules";
+    m_jsonClient->registerNotificationHandler(this, "Rules", "handleRulesNotification");
 }
 
 void RuleManager::clear()

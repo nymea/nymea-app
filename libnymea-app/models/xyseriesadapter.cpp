@@ -1,5 +1,7 @@
 #include "xyseriesadapter.h"
 
+#include <QDebug>
+
 XYSeriesAdapter::XYSeriesAdapter(QObject *parent) : QObject(parent)
 {
 

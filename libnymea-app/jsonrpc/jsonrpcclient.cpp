@@ -53,7 +53,7 @@
 NYMEA_LOGGING_CATEGORY(dcJsonRpc, "JsonRpc")
 
 JsonRpcClient::JsonRpcClient(QObject *parent) :
-    JsonHandler(parent),
+    QObject(parent),
     m_id(0)
 {
     m_connection = new NymeaConnection(this);
@@ -69,28 +69,25 @@ JsonRpcClient::JsonRpcClient(QObject *parent) :
     connect(m_connection, &NymeaConnection::currentConnectionChanged, this, &JsonRpcClient:: currentConnectionChanged);
     connect(m_connection, &NymeaConnection::dataAvailable, this, &JsonRpcClient::dataReceived);
 
-    registerNotificationHandler(this, "notificationReceived");
+    registerNotificationHandler(this, QStringLiteral("JSONRPC"), "notificationReceived");
 }
 
-QString JsonRpcClient::nameSpace() const
-{
-    return QStringLiteral("JSONRPC");
-}
-
-void JsonRpcClient::registerNotificationHandler(JsonHandler *handler, const QString &method)
+void JsonRpcClient::registerNotificationHandler(QObject *handler, const QString &nameSpace, const QString &method)
 {
     if (m_notificationHandlerMethods.contains(handler)) {
         qWarning() << "Notification handler" << handler << " already registered";
         return;
     }
-    m_notificationHandlers.insert(handler->nameSpace(), handler);
+    m_notificationHandlers.insert(nameSpace, handler);
     m_notificationHandlerMethods.insert(handler, method);
     setNotificationsEnabled();
 }
 
-void JsonRpcClient::unregisterNotificationHandler(JsonHandler *handler)
+void JsonRpcClient::unregisterNotificationHandler(QObject *handler)
 {
-    m_notificationHandlers.remove(handler->nameSpace(), handler);
+    foreach (const QString nameSpace, m_notificationHandlers.keys(handler)) {
+        m_notificationHandlers.remove(nameSpace, handler);
+    }
     m_notificationHandlerMethods.remove(handler);
     setNotificationsEnabled();
 }
@@ -358,6 +355,11 @@ QString JsonRpcClient::serverQtBuildVersion()
     return m_serverQtBuildVersion;
 }
 
+QVariantMap JsonRpcClient::experiences() const
+{
+    return m_experiences;
+}
+
 int JsonRpcClient::createUser(const QString &username, const QString &password)
 {
     QVariantMap params;
@@ -572,7 +574,7 @@ void JsonRpcClient::dataReceived(const QByteArray &data)
         //        qDebug() << "Incoming notification:" << jsonDoc.toJson();
         QStringList notification = dataMap.value("notification").toString().split(".");
         QString nameSpace = notification.first();
-        foreach (JsonHandler *handler, m_notificationHandlers.values(nameSpace)) {
+        foreach (QObject *handler, m_notificationHandlers.values(nameSpace)) {
             QMetaObject::invokeMethod(handler, m_notificationHandlerMethods.value(handler).toLatin1().data(), Q_ARG(QVariantMap, dataMap));
         }
         return;
@@ -644,6 +646,10 @@ void JsonRpcClient::helloReply(int /*commandId*/, const QVariantMap &params)
 
     m_serverUuid = params.value("uuid").toString();
     m_serverVersion = params.value("version").toString();
+    m_experiences.clear();
+    foreach (const QVariant &experience, params.value("experiences").toList()) {
+        m_experiences.insert(experience.toMap().value("name").toString(), experience.toMap().value("version").toString());
+    }
 
     QString protoVersionString = params.value("protocol version").toString();
     if (!protoVersionString.contains('.')) {
