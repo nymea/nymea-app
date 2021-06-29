@@ -1,3 +1,10 @@
+nymea-app (1.0.318) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Some fixes in the wizard
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 29 Jun 2021 10:40:00 +0200
+
 nymea-app (1.0.317) bionic; urgency=medium
 
   [ Simon Stürz ]
