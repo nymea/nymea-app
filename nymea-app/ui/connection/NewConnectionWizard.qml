@@ -1,5 +1,5 @@
-import QtQuick 2.9
-import QtQuick.Controls 2.9
+import QtQuick 2.3
+import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.2
 import "../components"
 import Nymea 1.0
@@ -20,27 +20,31 @@ WizardPageBase {
 
     content: ColumnLayout {
         anchors.fill: parent
-        anchors.margins: Style.margins
+        anchors.leftMargin: Style.margins
+        anchors.rightMargin: Style.margins
 
-        ColumnLayout {
-            Layout.fillHeight: false
+        Item {
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            Layout.preferredHeight: Style.hugeIconSize * 2
             ColorIcon {
-                size: Style.hugeIconSize * 3
+                anchors.centerIn: parent
+                size: Math.min(parent.width, parent.height, Style.hugeIconSize * 2)
                 name: "nymea-logo"
-                Layout.alignment: Qt.AlignHCenter
-            }
-
-            Label {
-                Layout.fillWidth: true
-                horizontalAlignment: Text.AlignHCenter
-                text: "nymea"
-                font: Style.hugeFont
             }
         }
 
+        Label {
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            horizontalAlignment: Text.AlignHCenter
+            text: "nymea"
+            font: Style.hugeFont
+        }
 
         Label {
             Layout.fillWidth: true
+            Layout.fillHeight: true
             wrapMode: Text.WordWrap
             font: Style.smallFont
             text: qsTr("In order to use nymea, you will need to install nymea:core on a computer in your network. This can be a Raspberry Pi or any generic Linux computer.")
@@ -48,6 +52,7 @@ WizardPageBase {
         }
         Label {
             Layout.fillWidth: true
+            Layout.fillHeight: true
             wrapMode: Text.WordWrap
             font: Style.smallFont
             text: qsTr("Please follow the installation instructions on %1 to install a nymea system.").arg('<a href="https://nymea.io/documentation/users/installation/core">nymea.io</a>')
