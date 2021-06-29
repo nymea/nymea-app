@@ -53,6 +53,10 @@
 
 #include "logging.h"
 
+#ifdef OVERLAY_QMLTYPES
+#include OVERLAY_QMLTYPES
+#endif
+
 NYMEA_LOGGING_CATEGORY(dcApplication, "Application")
 NYMEA_LOGGING_CATEGORY(qml, "qml")
 
@@ -163,6 +167,10 @@ int main(int argc, char *argv[])
     qmlRegisterUncreatableType<DashboardWebViewItem>("Nymea", 1, 0, "DashboardWebViewItem", "");
 
     qmlRegisterType<MouseObserver>("Nymea", 1, 0, "MouseObserver");
+
+#ifdef OVERLAY_QMLTYPES
+    registerOverlayTypes("Nymea", 1, 0);
+#endif
 
     engine->rootContext()->setContextProperty("appVersion", APP_VERSION);
     engine->rootContext()->setContextProperty("qtBuildVersion", QT_VERSION_STR);
