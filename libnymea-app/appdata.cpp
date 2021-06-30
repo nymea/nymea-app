@@ -8,7 +8,7 @@
 #include "logging.h"
 NYMEA_LOGGING_CATEGORY(dcAppData, "AppData")
 
-AppData::AppData(QObject *parent) : JsonHandler(parent)
+AppData::AppData(QObject *parent) : QObject(parent)
 {
     m_syncTimer.setSingleShot(true);
     connect(&m_syncTimer, &QTimer::timeout, this, &AppData::store);
@@ -43,11 +43,6 @@ void AppData::componentComplete()
     load();
 }
 
-QString AppData::nameSpace() const
-{
-    return "AppData";
-}
-
 Engine *AppData::engine() const
 {
     return m_engine;
@@ -66,7 +61,7 @@ void AppData::setEngine(Engine *engine)
     m_engine = engine;
 
     if (m_engine) {
-        m_engine->jsonRpcClient()->registerNotificationHandler(this, "notificationReceived");
+        m_engine->jsonRpcClient()->registerNotificationHandler(this, "AppData", "notificationReceived");
     }
     emit engineChanged();
 }

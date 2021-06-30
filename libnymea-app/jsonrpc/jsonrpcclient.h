@@ -37,13 +37,12 @@
 #include <QVersionNumber>
 
 #include "connection/nymeaconnection.h"
-#include "jsonhandler.h"
 
 class JsonRpcReply;
 class Param;
 class Params;
 
-class JsonRpcClient : public JsonHandler
+class JsonRpcClient : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(NymeaConnection::BearerTypes availableBearerTypes READ availableBearerTypes NOTIFY availableBearerTypesChanged)
@@ -62,6 +61,7 @@ class JsonRpcClient : public JsonHandler
     Q_PROPERTY(QString serverQtVersion READ serverQtVersion NOTIFY serverQtVersionChanged)
     Q_PROPERTY(QString serverQtBuildVersion READ serverQtBuildVersion NOTIFY serverQtVersionChanged)
     Q_PROPERTY(QVariantMap certificateIssuerInfo READ certificateIssuerInfo NOTIFY currentConnectionChanged)
+    Q_PROPERTY(QVariantMap experiences READ experiences NOTIFY currentConnectionChanged)
 
 public:
     enum CloudConnectionState {
@@ -74,10 +74,8 @@ public:
 
     explicit JsonRpcClient(QObject *parent = nullptr);
 
-    QString nameSpace() const override;
-
-    void registerNotificationHandler(JsonHandler *handler, const QString &method);
-    void unregisterNotificationHandler(JsonHandler *handler);
+    void registerNotificationHandler(QObject *handler, const QString &nameSpace, const QString &method);
+    void unregisterNotificationHandler(QObject *handler);
 
     int sendCommand(const QString &method, const QVariantMap &params, QObject *caller = nullptr, const QString &callbackMethod = QString());
     int sendCommand(const QString &method, QObject *caller = nullptr, const QString &callbackMethod = QString());
@@ -101,6 +99,7 @@ public:
     QString serverUuid() const;
     QString serverQtVersion();
     QString serverQtBuildVersion();
+    QVariantMap experiences() const;
 
     // ui methods
     Q_INVOKABLE void connectToHost(NymeaHost *host, Connection *connection = nullptr);
@@ -150,8 +149,8 @@ private slots:
 private:
     int m_id;
     // < namespace, method> >
-    QHash<JsonHandler*, QString> m_notificationHandlerMethods;
-    QMultiHash<QString, JsonHandler*> m_notificationHandlers;
+    QHash<QObject*, QString> m_notificationHandlerMethods;
+    QMultiHash<QString, QObject*> m_notificationHandlers;
     QHash<int, JsonRpcReply *> m_replies;
     NymeaConnection *m_connection = nullptr;
 
@@ -172,6 +171,7 @@ private:
     QByteArray m_token;
     QByteArray m_receiveBuffer;
     QHash<QString, QString> m_cacheHashes;
+    QVariantMap m_experiences;
 
     void setNotificationsEnabled();
     void getCloudConnectionStatus();

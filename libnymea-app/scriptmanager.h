@@ -37,7 +37,7 @@
 
 class Scripts;
 
-class ScriptManager : public JsonHandler
+class ScriptManager : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(Scripts* scripts READ scripts CONSTANT)
@@ -48,8 +48,6 @@ public:
 
     void init();
     bool fetchingData() const;
-
-    QString nameSpace() const override;
 
     Scripts *scripts() const;
 

@@ -36,16 +36,11 @@
 #include <QMetaEnum>
 
 TagsManager::TagsManager(JsonRpcClient *jsonClient, QObject *parent):
-    JsonHandler(parent),
+    QObject(parent),
     m_jsonClient(jsonClient),
     m_tags(new Tags(this))
 {
-    jsonClient->registerNotificationHandler(this, "handleTagsNotification");
-}
-
-QString TagsManager::nameSpace() const
-{
-    return "Tags";
+    jsonClient->registerNotificationHandler(this, "Tags", "handleTagsNotification");
 }
 
 void TagsManager::init()

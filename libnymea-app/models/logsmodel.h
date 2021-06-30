@@ -34,7 +34,6 @@
 #include <QAbstractListModel>
 #include <QQmlParserStatus>
 
-#include "jsonrpc/jsonhandler.h"
 #include "types/logentry.h"
 
 class Engine;

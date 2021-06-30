@@ -5,7 +5,7 @@
 #include <QMetaEnum>
 
 UserManager::UserManager(QObject *parent):
-    JsonHandler(parent)
+    QObject(parent)
 {
     m_userInfo = new UserInfo(this);
     m_tokenInfos = new TokenInfos(this);
@@ -20,7 +20,7 @@ void UserManager::setEngine(Engine *engine)
 {
     if (m_engine != engine) {
         m_engine = engine;
-        m_engine->jsonRpcClient()->registerNotificationHandler(this, "notificationReceived");
+        m_engine->jsonRpcClient()->registerNotificationHandler(this, "Users", "notificationReceived");
         emit engineChanged();
 
         m_loading = true;
@@ -44,11 +44,6 @@ UserInfo *UserManager::userInfo() const
 TokenInfos *UserManager::tokenInfos() const
 {
     return m_tokenInfos;
-}
-
-QString UserManager::nameSpace() const
-{
-    return "Users";
 }
 
 int UserManager::changePassword(const QString &newPassword)

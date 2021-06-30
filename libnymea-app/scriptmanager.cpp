@@ -37,12 +37,12 @@
 NYMEA_LOGGING_CATEGORY(dcScriptManager, "Scripts")
 
 ScriptManager::ScriptManager(JsonRpcClient *jsonClient, QObject *parent):
-    JsonHandler(parent),
+    QObject(parent),
     m_client(jsonClient)
 {
     m_scripts = new Scripts(this);
 
-    m_client->registerNotificationHandler(this, "onNotificationReceived");
+    m_client->registerNotificationHandler(this, "Scripts", "onNotificationReceived");
 }
 
 void ScriptManager::init()
@@ -56,11 +56,6 @@ void ScriptManager::init()
 bool ScriptManager::fetchingData() const
 {
     return m_fetchingData;
-}
-
-QString ScriptManager::nameSpace() const
-{
-    return "Scripts";
 }
 
 Scripts *ScriptManager::scripts() const
@@ -155,7 +150,7 @@ void ScriptManager::onScriptRemoved(int commandId, const QVariantMap &params)
 
 void ScriptManager::onNotificationReceived(const QVariantMap &params)
 {
-    qDebug() << "noticication" << params.value("notification").toString();
+    qCDebug(dcScriptManager()) << "noticication" << params.value("notification").toString();
     if (params.value("notification").toString() == "Scripts.ScriptLogMessage") {
         emit scriptMessage(params.value("params").toMap().value("scriptId").toUuid(),
                            params.value("params").toMap().value("type").toString(),
@@ -181,6 +176,6 @@ void ScriptManager::onNotificationReceived(const QVariantMap &params)
     }
 
     else {
-        qWarning() << "Unhandled notification" << params.value("notification").toString();
+        qCWarning(dcScriptManager()) << "Unhandled notification" << params.value("notification").toString();
     }
 }

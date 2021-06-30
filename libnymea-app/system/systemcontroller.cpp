@@ -38,10 +38,10 @@
 #include <QTimeZone>
 
 SystemController::SystemController(JsonRpcClient *jsonRpcClient, QObject *parent):
-    JsonHandler(parent),
+    QObject(parent),
     m_jsonRpcClient(jsonRpcClient)
 {
-    m_jsonRpcClient->registerNotificationHandler(this, "notificationReceived");
+    m_jsonRpcClient->registerNotificationHandler(this, "System", "notificationReceived");
     m_packages = new Packages(this);
     m_repositories = new Repositories(this);
 
@@ -64,11 +64,6 @@ void SystemController::init()
     } else {
         m_deviceSerialNumber.clear();
     }
-}
-
-QString SystemController::nameSpace() const
-{
-    return "System";
 }
 
 bool SystemController::powerManagementAvailable() const

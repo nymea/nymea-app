@@ -33,17 +33,13 @@
 
 #include <QObject>
 
-#include "jsonrpc/jsonhandler.h"
-
 class JsonRpcClient;
 
-class LogManager : public JsonHandler
+class LogManager : public QObject
 {
     Q_OBJECT
 public:
     explicit LogManager(JsonRpcClient *jsonClient, QObject *parent = nullptr);
-
-    QString nameSpace() const override;
 
 signals:
     void logEntryReceived(const QVariantMap &data);

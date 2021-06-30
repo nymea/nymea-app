@@ -38,7 +38,7 @@
 #include <QMetaEnum>
 
 ModbusRtuManager::ModbusRtuManager(QObject *parent) :
-    JsonHandler(parent),
+    QObject(parent),
     m_serialPorts(new SerialPorts(this)),
     m_modbusRtuMasters(new ModbusRtuMasters(this))
 {
@@ -52,11 +52,6 @@ ModbusRtuManager::~ModbusRtuManager()
     if (m_engine) {
         m_engine->jsonRpcClient()->unregisterNotificationHandler(this);
     }
-}
-
-QString ModbusRtuManager::nameSpace() const
-{
-    return "ModbusRtu";
 }
 
 Engine *ModbusRtuManager::engine() const
@@ -137,7 +132,7 @@ void ModbusRtuManager::init()
     m_serialPorts->clear();
     m_modbusRtuMasters->clear();
 
-    m_engine->jsonRpcClient()->registerNotificationHandler(this, "notificationReceived");
+    m_engine->jsonRpcClient()->registerNotificationHandler(this, "ModbusRtu", "notificationReceived");
     m_engine->jsonRpcClient()->sendCommand("ModbusRtu.GetModbusRtuMasters", this, "getModbusRtuMastersResponse");
 }
 

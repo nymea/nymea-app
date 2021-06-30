@@ -44,7 +44,7 @@
 NYMEA_LOGGING_CATEGORY(dcNymeaConfiguration, "NymeaConfiguration")
 
 NymeaConfiguration::NymeaConfiguration(JsonRpcClient *client, QObject *parent):
-    JsonHandler(parent),
+    QObject(parent),
     m_client(client),
     m_tcpServerConfigurations(new ServerConfigurations(this)),
     m_webSocketServerConfigurations(new ServerConfigurations(this)),
@@ -52,12 +52,7 @@ NymeaConfiguration::NymeaConfiguration(JsonRpcClient *client, QObject *parent):
     m_mqttServerConfigurations(new ServerConfigurations(this)),
     m_mqttPolicies(new MqttPolicies(this))
 {
-    client->registerNotificationHandler(this, "notificationReceived");
-}
-
-QString NymeaConfiguration::nameSpace() const
-{
-    return "Configuration";
+    client->registerNotificationHandler(this, "Configuration", "notificationReceived");
 }
 
 void NymeaConfiguration::init()
