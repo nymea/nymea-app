@@ -1,3 +1,11 @@
+nymea-app (1.0.319) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix some imports that would prevent it from working on Qt 5.9
+  * Simplify json notification api
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 01 Jul 2021 01:17:32 +0200
+
 nymea-app (1.0.318) bionic; urgency=medium
 
   [ Michael Zanetti ]
