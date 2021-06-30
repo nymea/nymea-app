@@ -578,7 +578,7 @@ Page {
                     '
                     import QtQuick 2.8;
                     import QtWebView 1.1;
-                    import QtQuick.Controls 2.9
+                    import QtQuick.Controls 2.2
                     import Nymea 1.0;
 
                     Rectangle {

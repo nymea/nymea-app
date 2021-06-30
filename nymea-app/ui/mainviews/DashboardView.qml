@@ -34,7 +34,7 @@ import QtQuick.Controls.Material 2.1
 import QtQuick.Layouts 1.2
 import QtCharts 2.2
 import Nymea 1.0
-import Qt.labs.settings 1.1
+import Qt.labs.settings 1.0
 import "../components"
 import "dashboard"
 
