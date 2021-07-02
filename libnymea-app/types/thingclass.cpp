@@ -177,6 +177,9 @@ QString ThingClass::baseInterface() const
         if (interface == "barcodescanner") {
             return "barcodescanner";
         }
+        if (interface == "account") {
+            return "account";
+        }
     }
     return "uncategorized";
 }
