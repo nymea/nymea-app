@@ -106,7 +106,7 @@
     </message>
     <message>
         <source>Customize the app&apos;s look and behavior</source>
-        <translation>Passe das Aussehen und Verhalten der App an</translation>
+        <translation>Aussehen und Verhalten der App anpassen</translation>
     </message>
     <message>
         <source>Find app versions and licence information</source>
@@ -118,7 +118,7 @@
     </message>
     <message>
         <source>Log into %1:cloud and manage connected %1 systems</source>
-        <translation>Logge Dich in %1:cloud ein und Verwalte verbunde %1 systeme</translation>
+        <translation>Logge Dich in %1:cloud ein und Verwalte verbundene %1 systeme</translation>
     </message>
 </context>
 <context>
@@ -375,7 +375,7 @@
     </message>
     <message>
         <source>The certificate for this %1 system has changed. This could be because the configuration has been changed, but could also mean the system has been compromised. Do you want to accept the new certificate?</source>
-        <translation>Das Zeritifikat für dieses %1 system hat sich geändert. Dies könnte durch eine Änderrung der Konfiguration verursacht worden sein, könnte jedoch auch darauf hindeuten, dass das System kompromittiert wurde. Möchtest du diesem Zertifikat vertrauen?</translation>
+        <translation>Das Zeritifikat für dieses %1 system hat sich geändert. Dies könnte durch eine Änderung der Konfiguration verursacht worden sein, aber auch darauf hindeuten, dass das System kompromittiert wurde. Möchtest du diesem Zertifikat vertrauen?</translation>
     </message>
 </context>
 <context>
