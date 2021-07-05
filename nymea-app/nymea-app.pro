@@ -19,9 +19,9 @@ PRE_TARGETDEPS += ../libnymea-app
 linux:!android:PRE_TARGETDEPS += $$top_builddir/libnymea-app/libnymea-app.a
 
 HEADERS += \
+    configuredhostsmodel.h \
     dashboard/dashboarditem.h \
     dashboard/dashboardmodel.h \
-    mainmenumodel.h \
     mouseobserver.h \
     nfchelper.h \
     nfcthingactionwriter.h \
@@ -34,9 +34,9 @@ HEADERS += \
     ruletemplates/messages.h
 
 SOURCES += main.cpp \
+    configuredhostsmodel.cpp \
     dashboard/dashboarditem.cpp \
     dashboard/dashboardmodel.cpp \
-    mainmenumodel.cpp \
     mouseobserver.cpp \
     nfchelper.cpp \
     nfcthingactionwriter.cpp \

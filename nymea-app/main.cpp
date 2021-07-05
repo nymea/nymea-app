@@ -49,6 +49,7 @@
 #include "dashboard/dashboardmodel.h"
 #include "dashboard/dashboarditem.h"
 #include "mouseobserver.h"
+#include "configuredhostsmodel.h"
 #include "../config.h"
 
 #include "logging.h"
@@ -167,6 +168,10 @@ int main(int argc, char *argv[])
     qmlRegisterUncreatableType<DashboardWebViewItem>("Nymea", 1, 0, "DashboardWebViewItem", "");
 
     qmlRegisterType<MouseObserver>("Nymea", 1, 0, "MouseObserver");
+
+    qmlRegisterType<ConfiguredHostsModel>("Nymea", 1, 0, "ConfiguredHostsModel");
+    qmlRegisterType<ConfiguredHostsProxyModel>("Nymea", 1, 0, "ConfiguredHostsProxyModel");
+    qmlRegisterUncreatableType<ConfiguredHost>("Nymea", 1, 0, "ConfiguredHost", "Get them from ConfiguredHostsModel");
 
 #ifdef OVERLAY_QMLTYPES
     registerOverlayTypes("Nymea", 1, 0);

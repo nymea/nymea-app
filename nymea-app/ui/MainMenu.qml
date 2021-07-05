@@ -7,7 +7,8 @@ import Nymea 1.0
 Drawer {
     id: root
 
-    property Engine currentEngine: null
+    property ConfiguredHostsModel configuredHosts: null
+    readonly property Engine currentEngine: configuredHosts.get(configuredHosts.currentIndex).engine
 
     signal openThingSettings();
     signal openMagicSettings();
@@ -17,12 +18,12 @@ Drawer {
 
     signal startWirelessSetup();
     signal startManualConnection();
-    signal startDemoMode();
 
     background: Rectangle {
         color: Style.backgroundColor
     }
 
+    onClosed: topSectionLayout.configureConnections = false;
 
     ColumnLayout {
         anchors.fill: parent
@@ -30,38 +31,88 @@ Drawer {
 
         Rectangle {
             Layout.fillWidth: true
-            Layout.preferredHeight: topSectionLayout.implicitHeight + app.margins * 2
+            Layout.preferredHeight: topSectionLayout.implicitHeight
             color: Qt.tint(Style.backgroundColor, Qt.rgba(Style.foregroundColor.r, Style.foregroundColor.g, Style.foregroundColor.b, 0.05))
+
             ColumnLayout {
                 id: topSectionLayout
-                anchors { left: parent.left; top: parent.top; right: parent.right; margins: app.margins }
-                spacing: app.margins
+                anchors { left: parent.left; top: parent.top; right: parent.right }
+                spacing: 0
 
-                Image {
-                    Layout.preferredHeight: Style.hugeIconSize
-                    sourceSize.height: Style.hugeIconSize
-                    source: "qrc:/styles/%1/logo-wide.svg".arg(styleController.currentStyle)
-                }
+                property bool configureConnections: false
 
                 RowLayout {
-                    visible: root.currentEngine && root.currentEngine.jsonRpcClient.currentHost
-                    ColumnLayout {
-                        Label {
-                            Layout.fillWidth: true
-                            text: root.currentEngine && root.currentEngine.jsonRpcClient.currentHost ? root.currentEngine.jsonRpcClient.currentHost.name : Configuration.systemName
-                        }
-                        Label {
-                            Layout.fillWidth: true
-                            text: root.currentEngine.jsonRpcClient.currentConnection ? root.currentEngine.jsonRpcClient.currentConnection.url : ""
-                            font.pixelSize: app.extraSmallFont
-                            enabled: false
-                        }
+                    Layout.margins: Style.margins
+                    Image {
+                        Layout.preferredHeight: Style.hugeIconSize
+                        sourceSize.height: Style.hugeIconSize
+                        Layout.fillWidth: true
+                        fillMode: Image.PreserveAspectFit
+                        horizontalAlignment: Image.AlignLeft
+                        source: "qrc:/styles/%1/logo-wide.svg".arg(styleController.currentStyle)
                     }
                     ProgressButton {
+                        imageSource: "/ui/images/configure.svg"
                         longpressEnabled: false
-                        imageSource: "../images/close.svg"
+                        Layout.alignment: Qt.AlignBottom
+                        color: topSectionLayout.configureConnections ? Style.accentColor : Style.iconColor
                         onClicked: {
-                            root.currentEngine.jsonRpcClient.disconnectFromHost();
+                            topSectionLayout.configureConnections = !topSectionLayout.configureConnections
+                        }
+                    }
+                }
+
+
+                Repeater {
+                    model: root.configuredHosts
+                    delegate: NymeaItemDelegate {
+
+                        readonly property ConfiguredHost configuredHost: root.configuredHosts.get(index)
+
+                        Layout.fillWidth: true
+                        text: model.name.length > 0 ? model.name : qsTr("New connection")
+                        subText: configuredHost.engine.jsonRpcClient.currentConnection ? configuredHost.engine.jsonRpcClient.currentConnection.url : ""
+                        prominentSubText: false
+                        progressive: false
+                        additionalItem: RowLayout {
+                            anchors.verticalCenter: parent.verticalCenter
+                            Rectangle {
+                                height: Style.smallIconSize
+                                width: height
+                                radius: height / 2
+                                color: Style.accentColor
+                                Layout.alignment: Qt.AlignVCenter
+                                visible: index === configuredHostsModel.currentIndex && !topSectionLayout.configureConnections
+                            }
+                            ProgressButton {
+                                imageSource: "/ui/images/close.svg"
+                                visible: topSectionLayout.configureConnections
+                                longpressEnabled: false
+                                onClicked: {
+                                    configuredHostsModel.removeHost(index)
+                                }
+                            }
+                        }
+                        onClicked: {
+                            configuredHostsModel.currentIndex = index
+                            root.close()
+                        }
+                    }
+                }
+
+                Item {
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: topSectionLayout.configureConnections ? childrenRect.height : 0
+                    Behavior on Layout.preferredHeight { NumberAnimation { duration: Style.animationDuration; easing.type: Easing.InOutQuad }}
+                    clip: true
+                    NymeaItemDelegate {
+                        width: parent.width
+                        text: qsTr("Set up another...")
+                        iconName: "add"
+                        progressive: false
+                        onClicked: {
+                            var host = configuredHostsModel.createHost()
+                            configuredHostsModel.currentIndex = configuredHosts.indexOf(host)
                             root.close();
                         }
                     }
@@ -82,40 +133,6 @@ Drawer {
                 id: contentColumn
                 width: parent.width
                 spacing: 0
-
-                NymeaItemDelegate {
-                    Layout.fillWidth: true
-                    text: qsTr("Wireless setup")
-                    iconName: "../images/connections/bluetooth.svg"
-                    progressive: false
-                    visible: root.currentEngine && root.currentEngine.jsonRpcClient.currentHost == null
-                    onClicked: {
-                        root.startWirelessSetup();
-                        root.close();
-                    }
-                }
-                NymeaItemDelegate {
-                    Layout.fillWidth: true
-                    text: qsTr("Manual connection")
-                    iconName: "../images/connections/network-vpn.svg"
-                    progressive: false
-                    visible: root.currentEngine && root.currentEngine.jsonRpcClient.currentHost == null
-                    onClicked: {
-                        root.startManualConnection();
-                        root.close();
-                    }
-                }
-                NymeaItemDelegate {
-                    Layout.fillWidth: true
-                    text: qsTr("Demo mode")
-                    iconName: "../images/private-browsing.svg"
-                    progressive: false
-                    visible: root.currentEngine && root.currentEngine.jsonRpcClient.currentHost == null
-                    onClicked: {
-                        root.startDemoMode();
-                        root.close();
-                    }
-                }
 
                 NymeaItemDelegate {
                     Layout.fillWidth: true

@@ -40,8 +40,6 @@ import "connection"
 Item {
     id: root
 
-    readonly property Engine currentEngine: swipeView.currentItem ? swipeView.currentItem.engine : null
-
     function handleAndroidBackButton() {
         return swipeView.currentItem.handleAndroidBackButton()
     }
@@ -77,53 +75,6 @@ Item {
         swipeView.currentItem.pageStack.currentItem.configureViews()
     }
 
-    function startManualConnection() {
-        d.pushSettingsPage("connection/ManualConnectPage.qml")
-    }
-    function startWirelessSetup() {
-        d.pushSettingsPage("connection/wifisetup/BluetoothDiscoveryPage.qml");
-    }
-    function startDemoMode() {
-        var host = nymeaDiscovery.nymeaHosts.createWanHost("Demo server", "nymea://nymea.nymea.io:2222")
-        root.currentEngine.jsonRpcClient.connectToHost(host)
-    }
-
-    ListModel {
-        id: tabModel
-
-        Component.onCompleted: {
-            for (var i = 0; i < settings.tabCount; i++) {
-                tabModel.append({})
-            }
-        }
-
-        function addTab() {
-            tabModel.append({})
-            settings.tabCount++;
-            swipeView.currentIndex = settings.tabCount - 1
-            tabbar.currentIndex = swipeView.currentIndex
-        }
-        function removeTab(index) {
-            if (swipeView.currentIndex === index) {
-                if (swipeView.currentIndex > 0) {
-                    swipeView.currentIndex--;
-                } else {
-                    swipeView.currentIndex++;
-                }
-            }
-
-            remove(index);
-            settings.tabCount--;
-            tabbar.currentIndex = swipeView.currentIndex
-            orphanedSettings.lastConnectedHost = ""
-        }
-    }
-    Settings {
-        id: orphanedSettings
-        category: "tabSettings" + tabModel.count
-        property string lastConnectedHost
-    }
-
     ColumnLayout {
         anchors.fill: parent
         spacing: 0
@@ -133,29 +84,26 @@ Item {
             Layout.fillHeight: true
             Layout.fillWidth: true
             interactive: false
+            currentIndex: configuredHostsModel.currentIndex
 
             Repeater {
                 id: mainRepeater
-                model: tabModel
+                model: configuredHostsModel
 
                 delegate: Item {
                     height: swipeView.height
                     width: swipeView.width
                     clip: true
 
+                    readonly property ConfiguredHost configuredHost: configuredHostsModel.get(index)
+
                     property var tabSettings: Settings {
                         category: "tabSettings" + index
-                        property string lastConnectedHost
                         property int currentMainViewIndex: -1
                     }
 
-                    Engine {
-                        id: engineObject
-                    }
-                    readonly property Engine engine: engineObject
-                    readonly property Engine _engine: engineObject // In case a child cannot use "engine"
-                    property int connectionTabIndex: index
-//                    onConnectionTabIndexChanged: tabSettings.lastConnectedHost = engine.jsonRpcClient.url
+                    readonly property Engine engine: configuredHost.engine
+                    readonly property Engine _engine: configuredHost.engine // In case a child cannot use "engine"
 
                     Binding {
                         target: nymeaDiscovery
@@ -173,9 +121,9 @@ Item {
 
                     Component.onCompleted: {
                         setupPushNotifications();
-                        if (tabSettings.lastConnectedHost.length > 0) {
-                            print("Last connected host was", tabSettings.lastConnectedHost)
-                            var cachedHost = nymeaDiscovery.nymeaHosts.find(tabSettings.lastConnectedHost);
+                        if (configuredHost.uuid.toString() !== "{00000000-0000-0000-0000-000000000000}") {
+                            print("Configured host id is", configuredHost.uuid)
+                            var cachedHost = nymeaDiscovery.nymeaHosts.find(configuredHost.uuid);
                             if (cachedHost) {
                                 engine.jsonRpcClient.connectToHost(cachedHost)
                                 return;
@@ -201,7 +149,6 @@ Item {
                         pageStack.clear()
                         if (!engine.jsonRpcClient.currentHost) {
                             print("pushing ConnectPage")
-                            tabSettings.lastConnectedHost = ""
                             pageStack.push(Configuration.connectionWizard)
                             PlatformHelper.hideSplashScreen();
                             return;
@@ -213,7 +160,7 @@ Item {
                                 print("opening push button auth")
                                 var page = pageStack.push(Qt.resolvedUrl("PushButtonAuthPage.qml"))
                                 page.backPressed.connect(function() {
-                                    tabSettings.lastConnectedHost = "";
+//                                    tabSettings.lastConnectedHost = "";
                                     engine.jsonRpcClient.disconnectFromHost();
                                     init();
                                 })
@@ -222,7 +169,7 @@ Item {
                                 if (engine.jsonRpcClient.initialSetupRequired) {
                                     var page = pageStack.push(Qt.resolvedUrl("connection/SetupWizard.qml"));
                                     page.backPressed.connect(function() {
-                                        tabSettings.lastConnectedHost = "";
+//                                        tabSettings.lastConnectedHost = "";
                                         engine.jsonRpcClient.disconnectFromHost()
                                         init();
                                     })
@@ -231,7 +178,7 @@ Item {
 
                                 var page = pageStack.push(Qt.resolvedUrl("connection/LoginPage.qml"));
                                 page.backPressed.connect(function() {
-                                    tabSettings.lastConnectedHost = "";
+//                                    tabSettings.lastConnectedHost = "";
                                     engine.jsonRpcClient.disconnectFromHost()
                                     init();
                                 })
@@ -240,6 +187,7 @@ Item {
                         }
 
                         if (engine.jsonRpcClient.connected) {
+                            print("Connected to", engine.jsonRpcClient.currentHost.uuid, engine.jsonRpcClient.currentHost.name)
                             pageStack.push(Qt.resolvedUrl("MainPage.qml"))
                             return;
                         }
@@ -350,7 +298,8 @@ Item {
                             print("json client connected changed", engine.jsonRpcClient.connected)
                             if (engine.jsonRpcClient.connected) {
                                 nymeaDiscovery.cacheHost(engine.jsonRpcClient.currentHost)
-                                tabSettings.lastConnectedHost = engine.jsonRpcClient.serverUuid
+                                configuredHost.uuid = engine.jsonRpcClient.serverUuid
+//                                tabSettings.lastConnectedHost = engine.jsonRpcClient.serverUuid
                             }
                             init();
                         }
@@ -369,14 +318,14 @@ Item {
                             popup.actualVersion = actualVersion;
                             popup.minVersion = minVersion;
                             popup.open()
-                            tabSettings.lastConnectedHost = ""
+//                            tabSettings.lastConnectedHost = ""
                         }
                         onInvalidMaximumVersion: {
                             var popup = invalidVersionComponent.createObject(app.contentItem);
                             popup.actualVersion = actualVersion;
                             popup.maxVersion = maxVersion;
                             popup.open()
-                            tabSettings.lastConnectedHost = ""
+//                            tabSettings.lastConnectedHost = ""
                         }
                     }
 
@@ -477,16 +426,16 @@ Item {
                 Layout.fillWidth: true
                 Material.elevation: 2
                 position: TabBar.Footer
+                currentIndex: configuredHostsModel.currentIndex
 
                 Repeater {
-                    model: tabModel.count
+                    model: configuredHostsModel
 
                     delegate: TabButton {
                         id: hostTabButton
-                        property var engine: mainRepeater.itemAt(index)._engine
-                        property string serverName: engine.nymeaConfiguration.serverName
+                        readonly property ConfiguredHost configuredHost: configuredHostsModel.get(index)
                         Material.elevation: index
-                        width: Math.max(150, tabbar.width / tabModel.count)
+                        width: Math.max(150, tabbar.width / configuredHostsModel.count)
 
                         Rectangle {
                             anchors.fill: parent
@@ -494,46 +443,16 @@ Item {
                             opacity: 0.06
                         }
 
-                        contentItem: RowLayout {
-                            Label {
-                                Layout.fillWidth: true
-                                text: hostTabButton.serverName !== "" ? hostTabButton.serverName : qsTr("New connection")
-                                elide: Text.ElideRight
-                            }
-                            ColorIcon {
-                                Layout.fillHeight: true
-                                Layout.preferredWidth: height
-                                visible: tabModel.count > 1
-                                name: "../images/close.svg"
-                                MouseArea {
-                                    anchors.fill: parent
-                                    onClicked: tabModel.removeTab(index)
-                                }
-                            }
+                        contentItem: Label {
+                            Layout.fillWidth: true
+                            text: hostTabButton.configuredHost.name !== "" ? hostTabButton.configuredHost.name : qsTr("New connection")
+                            verticalAlignment: Text.AlignVCenter
+                            elide: Text.ElideRight
                         }
 
                         onClicked: {
-                            swipeView.currentIndex = index
+                            configuredHostsModel.currentIndex = index
                         }
-                    }
-                }
-            }
-
-            Pane {
-                Layout.preferredHeight: tabbar.height
-                Layout.preferredWidth: height
-                Material.elevation: 2
-                padding: 0
-
-                TabButton {
-                    anchors.fill: parent
-                    contentItem: ColorIcon {
-                        height: parent.height
-                        width: parent.width
-                        name: "../images/tab-new.svg"
-                    }
-                    onClicked: {
-                        tabModel.addTab()
                     }
                 }
             }

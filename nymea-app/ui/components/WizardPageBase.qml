@@ -25,14 +25,27 @@ Page {
         anchors.fill: parent
         spacing: Style.margins
 
-        Label {
-            id: titleLabel
-            Layout.fillWidth: true
-            Layout.margins: Style.margins
-            text: root.title
-            font: Style.largeFont
-            horizontalAlignment: Text.AlignHCenter
+        RowLayout {
+            ProgressButton {
+                imageSource: "/ui/images/navigation-menu.svg"
+                longpressEnabled: false
+                onClicked: mainMenu.open()
+            }
+
+            Label {
+                id: titleLabel
+                Layout.fillWidth: true
+                Layout.margins: Style.margins
+                text: root.title
+                font: Style.largeFont
+                horizontalAlignment: Text.AlignHCenter
+            }
+            Item {
+                Layout.preferredHeight: Style.iconSize + Style.smallMargins * 2
+                Layout.preferredWidth: Style.iconSize + Style.smallMargins * 2
+            }
         }
+
 
         Label {
             id: textLabel

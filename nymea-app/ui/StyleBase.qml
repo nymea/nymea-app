@@ -98,4 +98,8 @@ Item {
 
     readonly property color red: "#952727"
     readonly property color white: "white"
+
+    readonly property int fastAnimationDuration: 100
+    readonly property int animationDuration: 150
+    readonly property int slowAnimationDuration: 300
 }

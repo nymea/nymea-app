@@ -58,6 +58,7 @@ class JsonRpcClient : public QObject
     Q_PROPERTY(QString serverVersion READ serverVersion NOTIFY handshakeReceived)
     Q_PROPERTY(QString jsonRpcVersion READ jsonRpcVersion NOTIFY handshakeReceived)
     Q_PROPERTY(QString serverUuid READ serverUuid NOTIFY handshakeReceived)
+    Q_PROPERTY(QString serverName READ serverName NOTIFY serverNameChanged)
     Q_PROPERTY(QString serverQtVersion READ serverQtVersion NOTIFY serverQtVersionChanged)
     Q_PROPERTY(QString serverQtBuildVersion READ serverQtBuildVersion NOTIFY serverQtVersionChanged)
     Q_PROPERTY(QVariantMap certificateIssuerInfo READ certificateIssuerInfo NOTIFY currentConnectionChanged)
@@ -97,6 +98,7 @@ public:
     QString serverVersion() const;
     QString jsonRpcVersion() const;
     QString serverUuid() const;
+    QString serverName() const;
     QString serverQtVersion();
     QString serverQtBuildVersion();
     QVariantMap experiences() const;
@@ -137,6 +139,7 @@ signals:
     void createUserFailed(const QString &error);
     void cloudConnectionStateChanged();
     void serverQtVersionChanged();
+    void serverNameChanged();
 
     void responseReceived(const int &commandId, const QVariantMap &response);
 

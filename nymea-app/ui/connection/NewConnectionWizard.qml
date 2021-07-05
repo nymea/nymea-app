@@ -146,7 +146,8 @@ WizardPageBase {
         WizardPageBase {
             title: qsTr("Connection")
             text: qsTr("Connecting to the nymea system.")
-            showNextButton: false
+            nextButtonText: qsTr("Manual connection")
+            onNext: pageStack.push(manualConnectionComponent)
 
             onBack: pageStack.pop()
 
@@ -242,6 +243,95 @@ WizardPageBase {
                                 }
                             }
                         ]
+                    }
+                }
+            }
+        }
+    }
+
+    Component {
+        id: manualConnectionComponent
+        WizardPageBase {
+            title: qsTr("Manual connection")
+            text: qsTr("Please enter the connection information for your nymea system")
+            onBack: pageStack.pop()
+
+            onNext: {
+                var rpcUrl
+                var hostAddress
+                var port
+
+                // Set default to placeholder
+                if (addressTextInput.text === "") {
+                    hostAddress = addressTextInput.placeholderText
+                } else {
+                    hostAddress = addressTextInput.text
+                }
+
+                if (portTextInput.text === "") {
+                    port = portTextInput.placeholderText
+                } else {
+                    port = portTextInput.text
+                }
+
+                if (connectionTypeComboBox.currentIndex == 0) {
+                    if (secureCheckBox.checked) {
+                        rpcUrl = "nymeas://" + hostAddress + ":" + port
+                    } else {
+                        rpcUrl = "nymea://" + hostAddress + ":" + port
+                    }
+                } else if (connectionTypeComboBox.currentIndex == 1) {
+                    if (secureCheckBox.checked) {
+                        rpcUrl = "wss://" + hostAddress + ":" + port
+                    } else {
+                        rpcUrl = "ws://" + hostAddress + ":" + port
+                    }
+                }
+
+                print("Try to connect ", rpcUrl)
+                var host = nymeaDiscovery.nymeaHosts.createWanHost("Manual connection", rpcUrl);
+                engine.jsonRpcClient.connectToHost(host)
+            }
+
+            content: ColumnLayout {
+                anchors.fill: parent
+                anchors.margins: Style.margins
+                GridLayout {
+                    columns: 2
+
+                    Label {
+                        text: qsTr("Protocol")
+                    }
+
+                    ComboBox {
+                        id: connectionTypeComboBox
+                        Layout.fillWidth: true
+                        model: [ qsTr("TCP"), qsTr("Websocket") ]
+                    }
+
+                    Label { text: qsTr("Address:") }
+                    TextField {
+                        id: addressTextInput
+                        objectName: "addressTextInput"
+                        Layout.fillWidth: true
+                        placeholderText: "127.0.0.1"
+                    }
+
+                    Label { text: qsTr("Port:") }
+                    TextField {
+                        id: portTextInput
+                        Layout.fillWidth: true
+                        placeholderText: connectionTypeComboBox.currentIndex === 0 ? "2222" : "4444"
+                        validator: IntValidator{bottom: 1; top: 65535;}
+                    }
+
+                    Label {
+                        Layout.fillWidth: true
+                        text: qsTr("Encrypted connection:")
+                    }
+                    CheckBox {
+                        id: secureCheckBox
+                        checked: true
                     }
                 }
             }

@@ -142,7 +142,14 @@ NymeaConnection::ConnectionStatus JsonRpcClient::connectionStatus() const
 
 void JsonRpcClient::connectToHost(NymeaHost *host, Connection *connection)
 {
+    if (m_connection->currentHost()) {
+        disconnect(m_connection->currentHost(), &NymeaHost::nameChanged, this, &JsonRpcClient::serverNameChanged);
+    }
+
     m_connection->connectToHost(host, connection);
+
+    connect(host, &NymeaHost::nameChanged, this, &JsonRpcClient::serverNameChanged);
+    emit serverNameChanged();
 }
 
 void JsonRpcClient::disconnectFromHost()
@@ -337,6 +344,11 @@ QString JsonRpcClient::jsonRpcVersion() const
 QString JsonRpcClient::serverUuid() const
 {
     return m_serverUuid;
+}
+
+QString JsonRpcClient::serverName() const
+{
+    return m_connection->currentHost() ? m_connection->currentHost()->name() : "";
 }
 
 QString JsonRpcClient::serverQtVersion()
