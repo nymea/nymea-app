@@ -32,6 +32,10 @@
 
 #include "engine.h"
 
+#include <QLoggingCategory>
+
+Q_DECLARE_LOGGING_CATEGORY(dcThingManager)
+
 ThingDiscovery::ThingDiscovery(QObject *parent) :
     QAbstractListModel(parent)
 {
@@ -71,31 +75,49 @@ QHash<int, QByteArray> ThingDiscovery::roleNames() const
 
 void ThingDiscovery::discoverThings(const QUuid &thingClassId, const QVariantList &discoveryParams)
 {
-    if (m_busy) {
-        qWarning() << "Busy... not restarting discovery";
-        return;
-    }
     beginResetModel();
     m_foundThings.clear();
     endResetModel();
     emit countChanged();
 
     if (!m_engine) {
-        qWarning() << "Cannot discover things. No Engine set";
+        qCWarning(dcThingManager()) << "Cannot discover things. No Engine set";
         return;
     }
     if (!m_engine->jsonRpcClient()->connected()) {
-        qWarning() << "Cannot discover things. Not connected.";
+        qCWarning(dcThingManager()) << "Cannot discover things. Not connected.";
         return;
     }
 
-    QVariantMap params;
-    params.insert("thingClassId", thingClassId.toString());
-    if (!discoveryParams.isEmpty()) {
-        params.insert("discoveryParams", discoveryParams);
+    discoverThingsInternal(thingClassId, discoveryParams);
+    m_displayMessage.clear();
+    emit busyChanged();
+}
+
+void ThingDiscovery::discoverThingsByInterface(const QString &interfaceName)
+{
+    beginResetModel();
+    m_foundThings.clear();
+    endResetModel();
+    emit countChanged();
+
+    if (!m_engine) {
+        qCWarning(dcThingManager()) << "Cannot discover things. No Engine set";
+        return;
     }
-    m_engine->jsonRpcClient()->sendCommand("Integrations.DiscoverThings", params, this, "discoverThingsResponse");
-    m_busy = true;
+    if (!m_engine->jsonRpcClient()->connected()) {
+        qCWarning(dcThingManager()) << "Cannot discover things. Not connected.";
+        return;
+    }
+
+    for (int i = 0; i < m_engine->thingManager()->thingClasses()->rowCount(); i++) {
+        ThingClass *thingClass = m_engine->thingManager()->thingClasses()->get(i);
+        if (!thingClass->interfaces().contains(interfaceName)) {
+            continue;
+        }
+        discoverThingsInternal(thingClass->id());
+    }
+
     m_displayMessage.clear();
     emit busyChanged();
 }
@@ -123,7 +145,7 @@ void ThingDiscovery::setEngine(Engine *engine)
 
 bool ThingDiscovery::busy() const
 {
-    return m_busy;
+    return !m_pendingRequests.isEmpty();
 }
 
 QString ThingDiscovery::displayMessage() const
@@ -131,14 +153,27 @@ QString ThingDiscovery::displayMessage() const
     return m_displayMessage;
 }
 
-void ThingDiscovery::discoverThingsResponse(int /*commandId*/, const QVariantMap &params)
+void ThingDiscovery::discoverThingsInternal(const QUuid &thingClassId, const QVariantList &discoveryParams)
 {
-    qDebug() << "Discovery response received" << params;
+    qCDebug(dcThingManager()) << "Starting thing discovery for thing class" << m_engine->thingManager()->thingClasses()->getThingClass(thingClassId)->name() << thingClassId;
+    QVariantMap params;
+    params.insert("thingClassId", thingClassId.toString());
+    if (!discoveryParams.isEmpty()) {
+        params.insert("discoveryParams", discoveryParams);
+    }
+    int commandId = m_engine->jsonRpcClient()->sendCommand("Integrations.DiscoverThings", params, this, "discoverThingsResponse");
+    m_pendingRequests.append(commandId);
+}
+
+void ThingDiscovery::discoverThingsResponse(int commandId, const QVariantMap &params)
+{
+    qCDebug(dcThingManager) << "Discovery response received" << params;
     QVariantList descriptors = params.value("thingDescriptors").toList();
     foreach (const QVariant &descriptorVariant, descriptors) {
         if (!contains(descriptorVariant.toMap().value("id").toUuid())) {
             beginInsertRows(QModelIndex(), m_foundThings.count(), m_foundThings.count());
             ThingDescriptor *descriptor = new ThingDescriptor(descriptorVariant.toMap().value("id").toUuid(),
+                                                              descriptorVariant.toMap().value("thingClassId").toUuid(), // Note: This will only be provided as of nymea 0.28!
                                                    descriptorVariant.toMap().value("thingId").toString(),
                                                    descriptorVariant.toMap().value("title").toString(),
                                                    descriptorVariant.toMap().value("description").toString());
@@ -154,16 +189,20 @@ void ThingDiscovery::discoverThingsResponse(int /*commandId*/, const QVariantMap
                 Param* p = new Param(paramVariant.toMap().value("paramTypeId").toString(), paramVariant.toMap().value("value"));
                 descriptor->params()->addParam(p);
             }
-            qDebug() << "Found thing. Descriptor:" << descriptor->name() << descriptor->id();
+            qCDebug(dcThingManager()) << "Found thing. Descriptor:" << descriptor->name() << descriptor->id();
             m_foundThings.append(descriptor);
             endInsertRows();
             emit countChanged();
         }
     }
 
+    // Note: in case of multiple discoveries we'll just overwrite the message... Not ideal but multiple error messages from different plugins
+    // wouldn't be of much use to the user anyways.
     m_displayMessage = params.value("displayMessage").toString();
-    m_busy = false;
-    emit busyChanged();
+    m_pendingRequests.removeAll(commandId);
+    if (m_pendingRequests.isEmpty()) {
+        emit busyChanged();
+    }
 }
 
 bool ThingDiscovery::contains(const QUuid &deviceDescriptorId) const
@@ -176,9 +215,10 @@ bool ThingDiscovery::contains(const QUuid &deviceDescriptorId) const
     return false;
 }
 
-ThingDescriptor::ThingDescriptor(const QUuid &id, const QUuid &thingId, const QString &name, const QString &description, QObject *parent):
+ThingDescriptor::ThingDescriptor(const QUuid &id, const QUuid &thingClassId, const QUuid &thingId, const QString &name, const QString &description, QObject *parent):
     QObject(parent),
     m_id(id),
+    m_thingClassId(thingClassId),
     m_thingId(thingId),
     m_name(name),
     m_description(description),
@@ -190,6 +230,11 @@ ThingDescriptor::ThingDescriptor(const QUuid &id, const QUuid &thingId, const QS
 QUuid ThingDescriptor::id() const
 {
     return m_id;
+}
+
+QUuid ThingDescriptor::thingClassId() const
+{
+    return m_thingClassId;
 }
 
 QUuid ThingDescriptor::thingId() const
