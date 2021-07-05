@@ -1,3 +1,11 @@
+nymea-app (1.0.322) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Allow including cpp sources in the overlay
+  * Allow running discoveries by interface
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 05 Jul 2021 16:50:22 +0200
+
 nymea-app (1.0.321) bionic; urgency=medium
 
   [ Michael Zanetti ]
