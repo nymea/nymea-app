@@ -23,10 +23,11 @@ NymeaAppService::NymeaAppService(int argc, char **argv):
     AWSClient::instance()->setConfig(settings.value("cloudEnvironment").toString());
     discovery->setAwsClient(AWSClient::instance());
 
-
-    for (int i = 0; i < 5; i++) {
-        settings.beginGroup(QString("tabSettings%1").arg(i));
-        QUuid lastConnected = settings.value("lastConnectedHost").toUuid();
+    settings.beginGroup("ConfiguredHosts");
+    foreach (const QString &childGroup, settings.childGroups()) {
+        settings.beginGroup(childGroup);
+        QUuid lastConnected = settings.value("uuid").toUuid();
+        QString cachedName = settings.value("cachedName").toString();
         settings.endGroup();
 
         if (lastConnected.isNull()) {
@@ -60,6 +61,7 @@ NymeaAppService::NymeaAppService(int argc, char **argv):
             sendNotification("ReadyStateChanged", params);
         });
     }
+    settings.endGroup();
 
     qDebug() << "NymeaAppService started.";
 

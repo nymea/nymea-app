@@ -570,6 +570,6 @@ ApplicationWindow {
         antialiasing: true
         smooth: true
         sourceSize.width: Math.max(width, height)
-        sourceSize.height: sourceSize.width
+        sourceSize.height: Math.max(width, height)
     }
 }

@@ -41,18 +41,18 @@ Page {
 
     signal cancel()
 
-    ColorIcon {
-        anchors { top: parent.top; right: parent.right; margins: app.margins }
-        height: Style.iconSize
-        width: height
-        name: "../images/logs.svg"
+    ProgressButton {
+        anchors { top: parent.top; left: parent.left; margins: Style.margins }
+        imageSource: "/ui/images/navigation-menu.svg"
+        longpressEnabled: false
+        onClicked: mainMenu.open()
+    }
+
+    ProgressButton {
+        anchors { top: parent.top; right: parent.right; margins: Style.margins }
+        imageSource: "/ui/images/logs.svg"
         visible: settings.showHiddenOptions && AppLogController.enabled
-        MouseArea {
-            anchors.fill: parent
-            onClicked: {
-                onClicked: pageStack.push(Qt.resolvedUrl("../appsettings/AppLogPage.qml"))
-            }
-        }
+        onClicked: pageStack.push(Qt.resolvedUrl("../appsettings/AppLogPage.qml"))
     }
 
     ColumnLayout {
@@ -125,10 +125,10 @@ Page {
         }
     }
 
-    Button {
-        text: qsTr("Cancel")
-        anchors { left: parent.left; bottom: parent.bottom; right: parent.right }
-        anchors.margins: app.margins
-        onClicked: root.cancel()
-    }
+//    Button {
+//        text: qsTr("Cancel")
+//        anchors { left: parent.left; bottom: parent.bottom; right: parent.right }
+//        anchors.margins: app.margins
+//        onClicked: root.cancel()
+//    }
 }

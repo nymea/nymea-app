@@ -212,7 +212,7 @@ public class NymeaAppServiceConnection implements ServiceConnection {
             m_service.transact(1, parcel, retParcel, 0);
             thingsList = retParcel.readString();
         } catch (Exception e) {
-            Log.d(TAG, "Error fetching things from NymeaAppService");
+            Log.d(TAG, "Error fetching things from NymeaAppService: " + e.toString());
             onError();
             return;
         }
