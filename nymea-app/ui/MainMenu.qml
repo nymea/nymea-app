@@ -8,7 +8,7 @@ Drawer {
     id: root
 
     property ConfiguredHostsModel configuredHosts: null
-    readonly property Engine currentEngine: configuredHosts.get(configuredHosts.currentIndex).engine
+    readonly property Engine currentEngine: configuredHosts.count > 0 ? configuredHosts.get(configuredHosts.currentIndex).engine : null
 
     signal openThingSettings();
     signal openMagicSettings();

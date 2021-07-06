@@ -120,6 +120,11 @@ void ConfiguredHostsModel::removeHost(int index)
     if (m_list.isEmpty()) {
         createHost();
     }
+
+    if (m_currentIndex >= m_list.count()) {
+        m_currentIndex = m_list.count() - 1;
+        emit currentIndexChanged();
+    }
 }
 
 int ConfiguredHostsModel::indexOf(ConfiguredHost *host) const
