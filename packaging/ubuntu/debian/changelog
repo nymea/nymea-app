@@ -1,3 +1,10 @@
+nymea-app (1.0.323) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Adjust main menu to fit better with new connection setup
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 06 Jul 2021 12:34:32 +0200
+
 nymea-app (1.0.322) bionic; urgency=medium
 
   [ Michael Zanetti ]
