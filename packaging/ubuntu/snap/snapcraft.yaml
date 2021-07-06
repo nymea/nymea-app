@@ -17,6 +17,11 @@ architectures:
 - build-on: arm64
 - build-on: armhf
 
+# Required for QtWebEngine
+layout:
+  /usr/share/qt5:
+    bind: $SNAP/usr/share/qt5
+
 apps:
   daemon:
     daemon: simple
@@ -113,6 +118,7 @@ parts:
       - qml-module-qtquick-controls2
       - qml-module-qtquick-layouts
       - qml-module-qtquick-window2
+      - qml-module-qtwebview
       - qml-module-qt-labs-calendar
       - qml-module-qt-labs-settings
       - qml-module-qt-labs-folderlistmodel

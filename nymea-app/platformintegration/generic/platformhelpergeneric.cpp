@@ -36,9 +36,11 @@
 Q_DECLARE_LOGGING_CATEGORY(dcPlatformIntegration)
 
 #include <QProcess>
+#include <QtWebView>
 
 PlatformHelperGeneric::PlatformHelperGeneric(QObject *parent) : PlatformHelper(parent)
 {
+    QtWebView::initialize();
     m_screenHelper = new ScreenHelper(this);
 }
 
