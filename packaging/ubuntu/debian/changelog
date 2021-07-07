@@ -1,3 +1,11 @@
+nymea-app (1.0.324) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix the current index when removing a configured host
+  * Make the webview work in the snap package
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 07 Jul 2021 19:03:47 +0200
+
 nymea-app (1.0.323) bionic; urgency=medium
 
   [ Michael Zanetti ]
