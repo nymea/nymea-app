@@ -6,6 +6,7 @@ TARGET=$${APPLICATION_NAME}
 CONFIG += link_pkgconfig
 
 QT += network qml quick quickcontrols2 svg websockets bluetooth charts gui-private nfc
+!ubports: QT += webview
 
 INCLUDEPATH += $$top_srcdir/libnymea-app
 LIBS += -L$$top_builddir/libnymea-app/ -lnymea-app
@@ -26,11 +27,9 @@ HEADERS += \
     nfchelper.h \
     nfcthingactionwriter.h \
     platformintegration/generic/screenhelper.h \
-    platformintegration/ubports/platformhelperubports.h \
     stylecontroller.h \
     pushnotifications.h \
     platformhelper.h \
-    platformintegration/generic/platformhelpergeneric.h \
     ruletemplates/messages.h
 
 SOURCES += main.cpp \
@@ -40,17 +39,21 @@ SOURCES += main.cpp \
     mouseobserver.cpp \
     nfchelper.cpp \
     nfcthingactionwriter.cpp \
-    platformintegration/generic/screenhelper.cpp \
-    platformintegration/ubports/platformhelperubports.cpp \
     stylecontroller.cpp \
     pushnotifications.cpp \
     platformhelper.cpp \
-    platformintegration/generic/platformhelpergeneric.cpp \
+    platformintegration/generic/screenhelper.cpp
 
 RESOURCES += resources.qrc \
     ruletemplates.qrc \
     images.qrc \
     translations.qrc \
+
+linux:!android:!ubports: {
+    HEADERS += platformintegration/generic/platformhelpergeneric.h
+    SOURCES += platformintegration/generic/platformhelpergeneric.cpp
+}
+
 
 !equals(OVERLAY_PATH, "") {
     message("Resource overlay enabled. Will be using overlay from $${OVERLAY_PATH}")
@@ -68,7 +71,7 @@ RESOURCES += resources.qrc \
 android {
     include(../3rdParty/android/android_openssl/openssl.pri)
 
-    QT += androidextras webview
+    QT += androidextras
     HEADERS += platformintegration/android/platformhelperandroid.h
     SOURCES += platformintegration/android/platformhelperandroid.cpp
 
@@ -98,7 +101,9 @@ android {
 }
 
 macx: {
-    QT += webview
+    HEADERS += platformintegration/generic/platformhelpergeneric.h
+    SOURCES += platformintegration/generic/platformhelpergeneric.cpp
+
     PRODUCT_NAME=$$TARGET
 
     QMAKE_TARGET_BUNDLE_PREFIX = io.nymea
@@ -120,7 +125,6 @@ macx: {
 
 ios: {
     message("iOS build")
-    QT += webview
     HEADERS += platformintegration/ios/platformhelperios.h
     SOURCES += platformintegration/ios/platformhelperios.cpp
     OBJECTIVE_SOURCES += $${IOS_PACKAGE_DIR}/platformhelperios.mm \
@@ -175,13 +179,17 @@ ubports: {
     CONFIG += link_pkgconfig
     PKGCONFIG += connectivity-qt1
 
-    HEADERS += platformintegration/ubports/pushclient.h
+    HEADERS += platformintegration/ubports/pushclient.h \
+               platformintegration/ubports/platformhelperubports.h \
 
-    SOURCES += platformintegration/ubports/pushclient.cpp
+    SOURCES += platformintegration/ubports/pushclient.cpp \
+               platformintegration/ubports/platformhelperubports.cpp \
 }
 
 win32 {
-    QT += webview
+    HEADERS += platformintegration/generic/platformhelpergeneric.h
+    SOURCES += platformintegration/generic/platformhelpergeneric.cpp
+
     equals(OVERLAY_PATH, "") {
         win32:RCC_ICONS += ../packaging/windows/packages/io.nymea.nymeaapp/meta/logo.ico
     } else {
