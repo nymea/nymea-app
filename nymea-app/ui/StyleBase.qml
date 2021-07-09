@@ -87,7 +87,9 @@ Item {
         "irrigation": "lightblue",
         "windspeedsensor": "blue",
         "ventilation": "lightblue",
-        "watersensor": "aqua"
+        "watersensor": "aqua",
+        "phsensor": "green",
+        "o2sensor": "lightblue"
     }
 
     property var stateColors: {

@@ -86,6 +86,9 @@ ThingsListPageBase {
                                 ListElement { interfaceName: "heating"; stateName: "power" }
                                 ListElement { interfaceName: "thermostat"; stateName: "targetTemperature" }
                                 ListElement { interfaceName: "watersensor"; stateName: "waterDetected" }
+                                ListElement { interfaceName: "o2sensor"; stateName: "o2saturation" }
+                                ListElement { interfaceName: "phsensor"; stateName: "ph" }
+                                ListElement { interfaceName: "orpsensor"; stateName: "orp" }
                             }
 
                             delegate: RowLayout {
@@ -113,7 +116,7 @@ ThingsListPageBase {
                                         case "closablesensor":
                                             return sensorValueDelegate.stateValue && sensorValueDelegate.stateValue.value === true ? Qt.resolvedUrl("../images/lock-closed.svg") : Qt.resolvedUrl("../images/lock-open.svg");
                                         default:
-                                            return app.interfaceToIcon(model.interfaceName)
+                                            return app.interfacesToIcon([model.interfaceName, "sensor"])
                                         }
                                     }
                                 }
