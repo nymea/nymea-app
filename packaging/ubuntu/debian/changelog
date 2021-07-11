@@ -1,3 +1,11 @@
+nymea-app (1.0.325) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix an issue when editing rule action params
+  * Added support for O2, ORP and PH sensors
+
+ -- Jenkins <jenkins@nymea.io>  Sun, 11 Jul 2021 22:13:41 +0200
+
 nymea-app (1.0.324) bionic; urgency=medium
 
   [ Michael Zanetti ]
