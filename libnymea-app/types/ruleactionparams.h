@@ -64,6 +64,7 @@ public:
     Q_INVOKABLE void setRuleActionParamStateByName(const QString &paramName, const QString &stateThingId, const QString &stateTypeId);
 
     Q_INVOKABLE RuleActionParam* get(int index) const;
+    Q_INVOKABLE RuleActionParam* getParam(const QUuid &paramTypeId);
 
     Q_INVOKABLE bool hasRuleActionParam(const QString &paramTypeId) const;
 

@@ -125,7 +125,7 @@ Page {
                                 paramType: root.actionType.paramTypes.get(index)
                                 enabled: staticParamRadioButton.checked
                                 nameVisible: false
-                                value: root.ruleAction.ruleActionParams.get(index).value
+                                value: root.ruleAction.ruleActionParams.getParam(root.actionType.paramTypes.get(index).id).value
                                 visible: staticParamRadioButton.checked
                                 placeholderText: qsTr("Insert value here")
                             }

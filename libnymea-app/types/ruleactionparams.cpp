@@ -181,6 +181,16 @@ RuleActionParam *RuleActionParams::get(int index) const
     return m_list.at(index);
 }
 
+RuleActionParam *RuleActionParams::getParam(const QUuid &paramTypeId)
+{
+    for (int i = 0; i < m_list.count(); i++) {
+        if (m_list.at(i)->paramTypeId() == paramTypeId) {
+            return m_list.at(i);
+        }
+    }
+    return nullptr;
+}
+
 bool RuleActionParams::hasRuleActionParam(const QString &paramTypeId) const
 {
     for (int i = 0; i < m_list.count(); i++) {
