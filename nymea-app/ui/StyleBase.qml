@@ -89,7 +89,8 @@ Item {
         "ventilation": "lightblue",
         "watersensor": "aqua",
         "phsensor": "green",
-        "o2sensor": "lightblue"
+        "o2sensor": "lightblue",
+        "orpsensor": "yellow"
     }
 
     property var stateColors: {

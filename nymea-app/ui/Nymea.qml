@@ -301,6 +301,8 @@ ApplicationWindow {
             return Qt.resolvedUrl("images/sensors/o2.svg")
         case "phsensor":
             return Qt.resolvedUrl("images/sensors/ph.svg")
+        case "orpsensor":
+            return Qt.resolvedUrl("images/sensors/orp.svg")
         case "media":
         case "mediacontroller":
         case "mediaplayer":

@@ -267,5 +267,6 @@
         <file>ui/images/zigbee-router.svg</file>
         <file>ui/images/sensors/o2.svg</file>
         <file>ui/images/sensors/ph.svg</file>
+        <file>ui/images/sensors/orp.svg</file>
     </qresource>
 </RCC>

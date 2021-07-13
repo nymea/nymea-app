@@ -192,6 +192,15 @@ MainPageTile {
                 if (thing.thingClass.interfaces.indexOf("presencesensor") >= 0) {
                     tmp.push({iface: "presencesensor", state: "isPresent"});
                 }
+                if (thing.thingClass.interfaces.indexOf("phsensor") >= 0) {
+                    tmp.push({iface: "phsensor", state: "ph"})
+                }
+                if (thing.thingClass.interfaces.indexOf("orpsensor") >= 0) {
+                    tmp.push({iface: "orpsensor", state: "orp"})
+                }
+                if (thing.thingClass.interfaces.indexOf("o2sensor") >= 0) {
+                    tmp.push({iface: "o2sensor", state: "o2saturation"})
+                }
 
                 if (thing.thingClass.interfaces.indexOf("weather") >= 0) {
                     tmp.push({iface: "temperaturesensor", state: "temperature"});
@@ -235,6 +244,7 @@ MainPageTile {
                     horizontalAlignment: Text.AlignRight
                     text: Types.toUiUnit(sensorsRoot.currentStateType.unit)
                     font.pixelSize: app.smallFont
+                    visible: text !== ""
                 }
                 Label {
                     Layout.fillWidth: true

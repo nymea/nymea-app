@@ -191,6 +191,7 @@ MainPageTile {
             case "irrigation":
             case "ventilation":
             case "cleaningrobot":
+            case "evcharger":
                 return buttonComponent
             case "media":
                 return mediaControlComponent
@@ -289,6 +290,7 @@ MainPageTile {
                     case "irrigation":
                     case "ventilation":
                     case "powersocket":
+                    case "evcharger":
                         var count = 0;
                         for (var i = 0; i < thingsProxy.count; i++) {
                             var thing = thingsProxy.get(i);
@@ -307,7 +309,7 @@ MainPageTile {
                         return ""
                         //                        return qsTr("%1 installed").arg(thingsProxy.count)
                     }
-                    console.warn("InterfaceTile, inlineButtonControl: Unhandled interface", model.name)
+                    console.warn("InterfaceTile, inlineButtonControl 1: Unhandled interface", model.name)
                 }
                 font.pixelSize: app.smallFont
                 elide: Text.ElideRight
@@ -346,7 +348,7 @@ MainPageTile {
                         var robotState = thing.stateByName("robotState")
                         return robotState.value == "cleaning" ? "../images/media-playback-pause.svg" : "../images/media-playback-start.svg"
                     default:
-                        console.warn("InterfaceTile", "inlineButtonControl image: Unhandled interface", iface.name)
+                        console.warn("InterfaceTile", "inlineButtonControl 1 image: Unhandled interface", iface.name)
                     }
                     return ""
                 }
@@ -394,7 +396,7 @@ MainPageTile {
                         }
                         break;
                     default:
-                        console.warn("InterfaceTile:", "inlineButtonControl clicked: Unhandled interface", iface.name)
+                        console.warn("InterfaceTile:", "inlineButtonControl 1 clicked: Unhandled interface", iface.name)
                     }
                 }
             }
@@ -434,7 +436,7 @@ MainPageTile {
                     case "cleaningrobot":
                         return "../images/media-playback-stop.svg"
                     default:
-                        console.warn("InterfaceTile, inlineButtonControl image: Unhandled interface", iface.name)
+                        console.warn("InterfaceTile, inlineButtonControl 2 image: Unhandled interface", iface.name)
                     }
                     return "";
                 }
@@ -445,6 +447,7 @@ MainPageTile {
                     case "media":
                     case "irrigation":
                     case "ventilation":
+                    case "evcharger":
                         break;
                     case "garagedoor":
                         for (var i = 0; i < thingsProxy.count; i++) {
@@ -477,7 +480,7 @@ MainPageTile {
                         engine.thingManager.executeAction(thing.id, thing.thingClass.actionTypes.findByName("stopCleaning").id)
                         break;
                     default:
-                        console.warn("InterfaceTile, inlineButtonControl clicked: Unhandled interface", iface.name)
+                        console.warn("InterfaceTile, inlineButtonControl 2 clicked: Unhandled interface", iface.name)
                     }
                 }
             }
@@ -504,6 +507,7 @@ MainPageTile {
                     case "powersocket":
                     case "irrigation":
                     case "ventilation":
+                    case "evcharger":
                         return "../images/system-shutdown.svg"
                     case "garagedoor":
                         var dev = thingsProxy.get(0)
@@ -525,7 +529,7 @@ MainPageTile {
                     case "extendedshutter":
                         return "../images/down.svg"
                     default:
-                        console.warn("InterfaceTile, inlineButtonControl image: Unhandled interface", iface.name)
+                        console.warn("InterfaceTile, inlineButtonControl 3 image: Unhandled interface", iface.name)
                     }
                 }
 
@@ -535,6 +539,7 @@ MainPageTile {
                     case "powersocket":
                     case "irrigation":
                     case "ventilation":
+                    case "evcharger":
                         var allOff = true;
                         for (var i = 0; i < thingsProxy.count; i++) {
                             var thing = thingsProxy.get(i);
@@ -607,7 +612,7 @@ MainPageTile {
 
 
                     default:
-                        console.warn("InterfaceTile, inlineButtonControl clicked: Unhandled interface", iface.name)
+                        console.warn("InterfaceTile, inlineButtonControl 3 clicked: Unhandled interface", iface.name)
                     }
                 }
             }
@@ -663,6 +668,9 @@ MainPageTile {
                 ListElement { ifaceName: "thermostat"; stateName: "targetTemperature" }
                 ListElement { ifaceName: "heating"; stateName: "power" }
                 ListElement { ifaceName: "extendedHeating"; stateName: "percentage" }
+                ListElement { ifaceName: "o2sensor"; stateName: "o2saturation" }
+                ListElement { ifaceName: "orpsensor"; stateName: "orp" }
+                ListElement { ifaceName: "phsensor"; stateName: "ph" }
             }
             function findSensors(thingClass) {
                 var ret = []
