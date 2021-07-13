@@ -1,3 +1,10 @@
+nymea-app (1.0.326) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add some more sensor support to inlinecontrols
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 13 Jul 2021 11:33:33 +0200
+
 nymea-app (1.0.325) bionic; urgency=medium
 
   [ Michael Zanetti ]
