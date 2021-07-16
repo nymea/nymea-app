@@ -79,6 +79,8 @@ MainPageTile {
                     return sensorsComponent;
                 case "smartmeter":
                     return sensorsComponent;
+                case "cleaningrobot":
+                    return buttonComponent;
                 }
             }
         }
@@ -282,5 +284,12 @@ MainPageTile {
     Component {
         id: mediaComponent
         MediaControls {}
+    }
+
+    Component {
+        id: buttonComponent
+        ButtonControls {
+            iface: root.thing.thingClass.interfaces[0]
+        }
     }
 }
