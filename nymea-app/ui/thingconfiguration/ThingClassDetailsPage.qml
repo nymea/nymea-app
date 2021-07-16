@@ -61,6 +61,20 @@ SettingsPageBase {
     }
 
     SettingsPageSectionHeader {
+        text: qsTr("Interfaces")
+    }
+
+    Repeater {
+        model: root.thingClass.interfaces
+        delegate: Label {
+            Layout.fillWidth: true
+            Layout.leftMargin: Style.margins
+            Layout.rightMargin: Style.margins
+            text: modelData
+        }
+    }
+
+    SettingsPageSectionHeader {
         text: qsTr("Parameters")
         visible: root.thingClass.paramTypes.count > 0
     }
