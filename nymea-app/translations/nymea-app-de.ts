@@ -2476,7 +2476,7 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Smart meter</source>
-        <translation>Intelligener Stromzähler</translation>
+        <translation>Intelligenter Stromzähler</translation>
     </message>
     <message>
         <source>Smart meters</source>
