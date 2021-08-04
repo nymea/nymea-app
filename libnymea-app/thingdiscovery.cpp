@@ -176,7 +176,7 @@ void ThingDiscovery::discoverThingsResponse(int commandId, const QVariantMap &pa
                                                               descriptorVariant.toMap().value("thingClassId").toUuid(), // Note: This will only be provided as of nymea 0.28!
                                                    descriptorVariant.toMap().value("thingId").toString(),
                                                    descriptorVariant.toMap().value("title").toString(),
-                                                   descriptorVariant.toMap().value("description").toString());
+                                                   descriptorVariant.toMap().value("description").toString(), this);
             // Work around a bug in nymea:core which didn't properly update deviceParams in the device->things transition
             QVariantList paramList;
             if (descriptorVariant.toMap().contains("params")) {
