@@ -1,3 +1,12 @@
+nymea-app (1.0.327) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Update to latest bt discovery code
+  * Update translations
+  * Show interfaces in thing classs details
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 04 Aug 2021 14:28:38 +0200
+
 nymea-app (1.0.326) bionic; urgency=medium
 
   [ Michael Zanetti ]
