@@ -46,6 +46,14 @@ Page {
         discoveryEnabled: pageStack.currentItem === root
     }
 
+    BluetoothDeviceInfosProxy {
+        id: deviceInfosProxy
+        model: bluetoothDiscovery.deviceInfos
+        filterForLowEnergy: true
+        filterForServiceUUID: "e081fec0-f757-4449-b9c9-bfa83133f7fc"
+        nameWhitelist: ["BT WLAN setup"]
+    }
+
     BtWiFiSetup {
         id: wifiSetup
 
@@ -129,7 +137,7 @@ Page {
             Layout.fillWidth: true
             Layout.fillHeight: true
 
-            model: bluetoothDiscovery.deviceInfos
+            model: deviceInfosProxy
             clip: true
 
             delegate: NymeaSwipeDelegate {
@@ -139,7 +147,7 @@ Page {
                 subText: model.address
 
                 onClicked: {
-                    root.connectDevice(bluetoothDiscovery.deviceInfos.get(index))
+                    root.connectDevice(deviceInfosProxy.get(index))
                 }
             }
         }

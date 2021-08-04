@@ -447,11 +447,17 @@ WizardPageBase {
 
             content: ListView {
                 anchors.fill: parent
-                model: bluetoothDiscovery.deviceInfos
+                model: BluetoothDeviceInfosProxy {
+                    id: deviceInfosProxy
+                    model: bluetoothDiscovery.deviceInfos
+                    filterForLowEnergy: true
+                    filterForServiceUUID: "e081fec0-f757-4449-b9c9-bfa83133f7fc"
+                    nameWhitelist: ["BT WLAN setup"]
+                }
 
                 BusyIndicator {
                     anchors.centerIn: parent
-                    visible: bluetoothDiscovery.discovering && bluetoothDiscovery.deviceInfos.count == 0
+                    visible: bluetoothDiscovery.discovering && deviceInfosProxy.count == 0
                 }
 
                 delegate: NymeaSwipeDelegate {
@@ -461,7 +467,7 @@ WizardPageBase {
                     subText: model.address
 
                     onClicked: {
-                        wifiSetup.connectToDevice(bluetoothDiscovery.deviceInfos.get(index))
+                        wifiSetup.connectToDevice(deviceInfosProxy.get(index))
                         pageStack.push(wirelessBluetoothConnectingComponent)
                     }
                 }

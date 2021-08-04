@@ -175,19 +175,6 @@ void BluetoothDiscovery::onBluetoothHostModeChanged(const QBluetoothLocalDevice:
 
 void BluetoothDiscovery::deviceDiscovered(const QBluetoothDeviceInfo &deviceInfo)
 {
-    if (!deviceInfo.isValid()
-            || !deviceInfo.coreConfigurations().testFlag(QBluetoothDeviceInfo::LowEnergyCoreConfiguration)
-            || deviceInfo.name().isEmpty()) {
-        return;
-    }
-
-    // Only show devices that either list the wifi service uuid or are called BT WLAN setup (for legacy reasons)
-    static QBluetoothUuid wifiServiceUuid = QBluetoothUuid(QUuid("e081fec0-f757-4449-b9c9-bfa83133f7fc"));
-    if (!deviceInfo.serviceUuids().contains(wifiServiceUuid) && deviceInfo.name() != "BT WLAN setup") {
-        qDebug() << "Skipping device" << deviceInfo.name() << deviceInfo.serviceUuids();
-        return;
-    }
-
     foreach (BluetoothDeviceInfo *di, m_deviceInfos->deviceInfos()) {
         if (di->address() == deviceInfo.address().toString()) {
             di->setBluetoothDeviceInfo(deviceInfo);
@@ -197,7 +184,7 @@ void BluetoothDiscovery::deviceDiscovered(const QBluetoothDeviceInfo &deviceInfo
 
 
     BluetoothDeviceInfo *deviceInformation = new BluetoothDeviceInfo(deviceInfo);
-//    qDebug() << "BluetoothDiscovery: [+]" << deviceInformation->name() << "(" << deviceInformation->address() << ")" << (isLowEnergy ? "LE" : "") << deviceInfo.majorDeviceClass() << deviceInfo.minorDeviceClass() << deviceInfo.serviceClasses();
+    qDebug() << "BluetoothDiscovery: [+]" << deviceInformation->name() << "(" << deviceInformation->address() << ")" << (deviceInformation->isLowEnergy() ? "LE" : "") << deviceInfo.serviceUuids();
     m_deviceInfos->addBluetoothDeviceInfo(deviceInformation);
 }
 
