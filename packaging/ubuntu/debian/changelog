@@ -1,3 +1,10 @@
+nymea-app (1.0.328) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix parenting of ThingDescriptors
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 05 Aug 2021 13:36:48 +0200
+
 nymea-app (1.0.327) bionic; urgency=medium
 
   [ Michael Zanetti ]
