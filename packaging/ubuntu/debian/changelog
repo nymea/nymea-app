@@ -1,3 +1,11 @@
+nymea-app (1.0.330) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix translations generating in deb packages
+  * Fix smartmeter interfaces
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 06 Aug 2021 14:50:28 +0200
+
 nymea-app (1.0.329) bionic; urgency=medium
 
   [ Michael Zanetti ]
