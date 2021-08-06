@@ -102,6 +102,8 @@ int main(int argc, char *argv[])
     // Initialize app log controller as early as possible, but after setting app name etc
     AppLogController::instance();
 
+    qCDebug(dcApplication()) << "*** nymea:app starting ***" << QDateTime::currentDateTime().toString();
+
     QTranslator qtTranslator;    
     qtTranslator.load("qt_" + QLocale::system().name(), QLibraryInfo::location(QLibraryInfo::TranslationsPath));
     application.installTranslator(&qtTranslator);
