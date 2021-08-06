@@ -1,3 +1,11 @@
+nymea-app (1.0.331) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add startup time to logs
+  * Adjust logging category for bluetooth discovery
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 06 Aug 2021 19:45:24 +0200
+
 nymea-app (1.0.330) bionic; urgency=medium
 
   [ Michael Zanetti ]
