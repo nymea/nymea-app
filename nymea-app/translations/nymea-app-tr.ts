@@ -134,7 +134,7 @@
     </message>
     <message>
         <source>Log into %1:cloud and manage connected %1 systems</source>
-        <translation type="unfinished"></translation>
+        <translation>%1:bulutta oturum açın ve bağlı %1 sistemlerini yönetin</translation>
     </message>
 </context>
 <context>
@@ -211,7 +211,7 @@
     <name>BluetoothDiscoveryPage</name>
     <message>
         <source>Wireless Box setup</source>
-        <translation>Wireless Box kurulmu</translation>
+        <translation>Kablosuz Kutu kurulumu</translation>
     </message>
     <message>
         <source>Help</source>
@@ -231,7 +231,7 @@
     </message>
     <message>
         <source>Wireless setup help</source>
-        <translation>Wireless kurulum yardımı</translation>
+        <translation>Kablosuz kurulum yardımı</translation>
     </message>
     <message>
         <source>After having installed the nymea community image to your Raspberry Pi, all you need to do is to plug it into a power socket. Note that the Wireless setup will only be available if the Raspberry Pi is not connected to a wired network.</source>
@@ -259,15 +259,15 @@
     </message>
     <message>
         <source>%1 box</source>
-        <translation></translation>
+        <translation>%1 Kutu</translation>
     </message>
     <message>
         <source>Searching for %1 systems.</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 sistem aranıyor.</translation>
     </message>
     <message>
         <source>Troubles finding your %1 system?</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 sisteminizi bulmakta sorun mu yaşıyorsunuz?</translation>
     </message>
 </context>
 <context>
@@ -475,7 +475,7 @@
     </message>
     <message>
         <source>Sign up</source>
-        <translation>Kaydol</translation>
+        <translation>Kayıt ol</translation>
     </message>
     <message>
         <source>Welcome to %1:cloud.</source>
@@ -507,7 +507,7 @@
     </message>
     <message>
         <source>The given user already exists. Did you forget the password?</source>
-        <translation>Verilen kullanıcı zaten var. Parolayı unuttunuz mu?</translation>
+        <translation>Belirtilen kullanıcı zaten var. Parolayı unuttunuz mu?</translation>
     </message>
     <message>
         <source>That wasn&apos;t the right code. Please try again.</source>
@@ -567,10 +567,9 @@
     </message>
     <message numerus="yes">
         <source>There are %n %1:core systems connected to your cloud.</source>
-        <translation type="vanished">
-            <numerusform>Bulutunuza bağlı %n %1:core sistemler var.</numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>Bulutunuza bağlı %n %1:core sistemler var.</numerusform>
+        <numerusform>Bulutunuza bağlı %n %1:core sistem var.</numerusform>
+        </translation></message>
     <message>
         <source>Sorry to see you go. If you log out you won&apos;t be able to connect to %1:core systems remotely any more. However, you can come back any time, we&apos;ll keep your user account. If you whish to completely delete your account and all the data associated with it, check the box below before hitting ok. If you decide to delete your account, all your personal information will be removed from %1:cloud and cannot be restored.</source>
         <translation type="vanished">Gittiğini görmek üzücü. Oturumu kapatırsanız, artık %1:core sistemlerine uzaktan bağlanamayacaksınız. Ancak istediğiniz zaman geri dönebilirsiniz, kullanıcı hesabınız bizde kalacaktır. Hesabınızı ve onunla ilişkili tüm verileri tamamen silmek isterseniz, ok&apos;a basmadan önce aşağıdaki kutuyu işaretleyin. Hesabınızı silmeye karar verirseniz, tüm kişisel bilgileriniz %1:cloud kaldırılacak ve geri yüklenemeyecektir.</translation>
@@ -585,30 +584,29 @@
     </message>
     <message>
         <source>%1 cloud login</source>
-        <translation></translation>
+        <translation>%1 bulut girişi</translation>
     </message>
     <message>
         <source>Login</source>
-        <translation></translation>
+        <translation>Giriş</translation>
     </message>
     <message>
         <source>Log %1 in to %2:cloud in order to connect to %2:core systems from anywhere and receive push notifications from %2:core systems.</source>
-        <translation></translation>
+        <translation>%2:core sistemlere herhangi bir yerden bağlanmak ve %2:core sistemlerinden anında iletme bildirimleri almak için %1&apos;i %2:cloud&apos;da oturum açın.</translation>
     </message>
     <message>
         <source>Connected %1 systems</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 sistem bağlandı</translation>
     </message>
     <message>
         <source>There are no %1 systems connected to your cloud yet.</source>
-        <translation type="unfinished"></translation>
+        <translation>Henüz bulutunuza bağlı %1 sistem yok.</translation>
     </message>
     <message numerus="yes">
         <source>There are %n %1 systems connected to your cloud.</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>Bulutunuza bağlı %n %1 sistem var.</numerusform>
+        <numerusform>Bulutunuza bağlı %n %1 sistem var.</numerusform>
+        </translation></message>
     <message>
         <source>Sorry to see you go. If you log out you won&apos;t be able to connect to %1 systems remotely any more. However, you can come back any time, we&apos;ll keep your user account. If you whish to completely delete your account and all the data associated with it, check the box below before hitting ok. If you decide to delete your account, all your personal information will be removed from %1:cloud and cannot be restored.</source>
         <translation type="unfinished"></translation>
