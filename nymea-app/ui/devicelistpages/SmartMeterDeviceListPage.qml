@@ -74,26 +74,20 @@ ThingsListPageBase {
                         Repeater {
                             model: ListModel {
                                 Component.onCompleted: {
-                                    if (itemDelegate.thing.thingClass.interfaces.indexOf("smartmeterproducer") >= 0) {
-                                        append( {interfaceName: "smartmeterproducer", stateName: "totalEnergyProduced" })
+                                    if (itemDelegate.thing.thingClass.stateTypes.findByName("totalEnergyConsumed") !== null) {
+                                        append( {stateName: "totalEnergyConsumed" })
                                     }
-                                    if (itemDelegate.thing.thingClass.interfaces.indexOf("smartmeterconsumer") >= 0) {
-                                        append( {interfaceName: "smartmeterconsumer", stateName: "totalEnergyConsumed" })
+                                    if (itemDelegate.thing.thingClass.stateTypes.findByName("totalEnergyProduced") !== null) {
+                                        append( {stateName: "totalEnergyProduced" })
                                     }
-                                    var added = false;
-                                    if (itemDelegate.thing.thingClass.interfaces.indexOf("extendedsmartmeterproducer") >= 0) {
-                                        append({interfaceName: "extendedsmartmeterconsumer", stateName: "currentPower"});
-                                        added = true;
-                                    }
-                                    if (!added && itemDelegate.thing.thingClass.interfaces.indexOf("extendedsmartmeterconsumer") >= 0) {
-                                        append({interfaceName: "extendedsmartmeterconsumer", stateName: "currentPower"});
+                                    if (itemDelegate.thing.thingClass.stateTypes.findByName("currentPower") !== null) {
+                                        append({stateName: "currentPower"});
                                     }
                                 }
                             }
 
                             delegate: RowLayout {
                                 id: sensorValueDelegate
-                                visible: itemDelegate.thing.thingClass.interfaces.indexOf(model.interfaceName) >= 0
                                 Layout.preferredWidth: contentItem.width / dataGrid.columns
 
                                 property StateType stateType: itemDelegate.thing.thingClass.stateTypes.findByName(model.stateName)

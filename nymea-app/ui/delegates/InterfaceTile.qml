@@ -665,6 +665,7 @@ MainPageTile {
                 ListElement { ifaceName: "noisesensor"; stateName: "noise" }
                 ListElement { ifaceName: "smartmeterconsumer"; stateName: "totalEnergyConsumed" }
                 ListElement { ifaceName: "smartmeterproducer"; stateName: "totalEnergyProduced" }
+                ListElement { ifaceName: "energymeter"; stateName: "currentPower" }
                 ListElement { ifaceName: "thermostat"; stateName: "targetTemperature" }
                 ListElement { ifaceName: "heating"; stateName: "power" }
                 ListElement { ifaceName: "extendedHeating"; stateName: "percentage" }

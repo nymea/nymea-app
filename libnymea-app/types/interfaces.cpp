@@ -170,16 +170,17 @@ Interfaces::Interfaces(QObject *parent) : QAbstractListModel(parent)
     addInterface("smartmeter", tr("Smart meter"));
 
     addInterface("smartmeterconsumer", tr("Smart meters"), {"smartmeter"});
-    addStateType("smartmeterconsumer", "totalEnergyConsumed", QVariant::Double, false, tr("Total energy consumed"), tr("Total energy consumed changed"));
-
-    addInterface("extendedsmartmeterconsumer", tr("Smart meters"), {"smartmeterconsumer"});
-    addStateType("extendedsmartmeterconsumer", "currentPower", QVariant::Double, false, tr("Current power"), tr("Current power changed"));
+    addStateType("smartmeterconsumer", "totalEnergyConsumed", QVariant::Double, false, tr("Total energy consumed"), tr("Total consumed energy changed"));
+    addStateType("smartmeterconsumer", "currentPower", QVariant::Double, false, tr("Current power"), tr("Current power changed"));
 
     addInterface("smartmeterproducer", tr("Smart meters"), {"smartmeter"});
-    addStateType("smartmeterproducer", "totalEnergyProduced", QVariant::Double, false, tr("Total energy producedd"), tr("Total energy produced changed"));
+    addStateType("smartmeterproducer", "totalEnergyProduced", QVariant::Double, false, tr("Total energy produced"), tr("Total produced energy changed"));
+    addStateType("smartmeterproducer", "currentPower", QVariant::Double, false, tr("Current power"), tr("Current power changed"));
 
-    addInterface("extendedsmartmeterproducer", tr("Smart meters"), {"smartmeterproducer"});
-    addStateType("extendedsmartmeterproducer", "currentPower", QVariant::Double, false, tr("Current power"), tr("Current power changed"));
+    addInterface("energymeter", tr("Smart meters"), {"smartmeter"});
+    addStateType("energymeter", "totalEnergyConsumed", QVariant::Double, false, tr("Total energy consumed"), tr("Total consumed energy changed"));
+    addStateType("energymeter", "totalEnergyProduced", QVariant::Double, false, tr("Total energy produced"), tr("Total produced energy changed"));
+    addStateType("energymeter", "currentPower", QVariant::Double, false, tr("Current power"), tr("Current power changed"));
 
     addInterface("useraccesscontrol", tr("User access control systems"), {"accesscontrol"});
     addStateType("useraccesscontrol", "users", QVariant::StringList, false, tr("Users"), tr("Users changed"));
