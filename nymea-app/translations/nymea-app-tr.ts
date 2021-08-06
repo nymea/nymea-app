@@ -41,7 +41,7 @@
     </message>
     <message>
         <source>Device serial number</source>
-        <translation type="unfinished"></translation>
+        <translation>Cihaz seri numarası</translation>
     </message>
 </context>
 <context>
@@ -76,11 +76,11 @@
     </message>
     <message>
         <source>OpenSSL libraries by Eric Young</source>
-        <translation></translation>
+        <translation type="unfinished">Eric Young tarafından OpenSSL kütüphaneleri</translation>
     </message>
     <message>
         <source>Oswald font by The Oswald Project</source>
-        <translation></translation>
+        <translation>Oswald yazı tipi by The Oswald Project</translation>
     </message>
 </context>
 <context>
@@ -91,7 +91,7 @@
     </message>
     <message>
         <source>Application logs</source>
-        <translation type="unfinished"></translation>
+        <translation>Uygulama günlükleri</translation>
     </message>
 </context>
 <context>
