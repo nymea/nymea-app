@@ -1,3 +1,10 @@
+nymea-app (1.0.329) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix generating translations in deb package build
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 06 Aug 2021 13:39:36 +0200
+
 nymea-app (1.0.328) bionic; urgency=medium
 
   [ Michael Zanetti ]
