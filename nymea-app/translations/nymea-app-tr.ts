@@ -605,443 +605,442 @@
     <message numerus="yes">
         <source>There are %n %1 systems connected to your cloud.</source>
         <translation><numerusform>Bulutunuza bağlı %n %1 sistem var.</numerusform>
-        <numerusform>Bulutunuza bağlı %n %1 sistem var.</numerusform>
+        <numerusform>Bulutunuza bağlı %n %1 sistem var..</numerusform>
         </translation></message>
     <message>
         <source>Sorry to see you go. If you log out you won&apos;t be able to connect to %1 systems remotely any more. However, you can come back any time, we&apos;ll keep your user account. If you whish to completely delete your account and all the data associated with it, check the box below before hitting ok. If you decide to delete your account, all your personal information will be removed from %1:cloud and cannot be restored.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Gittiğini görmek üzücü. Oturumu kapatırsanız, artık %1 sistemlerine uzaktan bağlanamayacaksınız. Ancak, istediğiniz zaman geri dönebilirsiniz, kullanıcı hesabınızı saklayacağız. Hesabınızı ve onunla ilişkili tüm verileri tamamen silmek istiyorsanız, tamam&apos;a basmadan önce aşağıdaki kutuyu işaretleyin. Hesabınızı silmeye karar verirseniz, tüm kişisel bilgileriniz %1:cloud&apos;dan kaldırılır ve geri yüklenemez.</translation>
     </message>
 </context>
 <context>
     <name>CloudSettingsPage</name>
     <message>
         <source>Cloud connection enabled</source>
-        <translation></translation>
+        <translation>Bulut bağlantısı etkinleştirildi</translation>
     </message>
     <message>
         <source>This box is not connected to %1:cloud</source>
-        <translation></translation>
+        <translation>Bu kutu %1:bulut&apos;a bağlı değil</translation>
     </message>
     <message>
         <source>Registering box in %1:cloud...</source>
-        <translation></translation>
+        <translation>%1:buluttaki kutu kaydediliyor...</translation>
     </message>
     <message>
         <source>This box is not configured to connect to %1:cloud.</source>
-        <translation></translation>
+        <translation>Bu kutu %1:cloud&apos;a bağlanacak şekilde yapılandırılmamış.</translation>
     </message>
     <message>
         <source>Connecting the box to %1:cloud...</source>
-        <translation></translation>
+        <translation>Kutu %1:bulut&apos;a bağlanıyor...</translation>
     </message>
     <message>
         <source>The box is connected to %1:cloud.</source>
-        <translation></translation>
+        <translation>Kutu %1:bulut&apos;a bağlı.</translation>
     </message>
     <message>
         <source>This box is not configured to access the %1:cloud. In order for a box to connect to %1:cloud it needs to be registered first.</source>
-        <translation></translation>
+        <translation>Bu kutu %1:bulutuna erişmek için yapılandırılmamış. Bir kutunun %1:cloud&apos;a bağlanabilmesi için önce kaydedilmesi gerekir.</translation>
     </message>
     <message>
         <source>Register box</source>
-        <translation></translation>
+        <translation>Kayıt kutusu</translation>
     </message>
     <message>
         <source>Log in to cloud</source>
-        <translation></translation>
+        <translation>Bulutta oturum açın</translation>
     </message>
     <message>
         <source>Cloud connection</source>
-        <translation></translation>
+        <translation>Bulut bağlantısı</translation>
     </message>
     <message>
         <source>Status</source>
-        <translation></translation>
+        <translation>Durum</translation>
     </message>
     <message>
         <source>Remote connection</source>
-        <translation></translation>
+        <translation>Uzak bağlantı</translation>
     </message>
     <message>
         <source>Go to app settings</source>
-        <translation></translation>
+        <translation>Uygulama ayarlarına git</translation>
     </message>
     <message>
         <source>Set up cloud connection for %1</source>
-        <translation></translation>
+        <translation>%1 için bulut bağlantısı kurun</translation>
     </message>
     <message>
         <source>%1 cloud settings</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 bulut ayarları</translation>
     </message>
     <message>
         <source>Connect %1 to %1:cloud in order to access it from anywhere.</source>
-        <translation type="unfinished"></translation>
+        <translation>Her yerden erişmek için %1&apos;i %1:bulut&apos;a bağlayın.</translation>
     </message>
     <message>
         <source>In order to remotely connect to this %1 system, %2 needs to be logged into %1:cloud as well.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bu %1 sistemine uzaktan bağlanmak için %2&apos;nin de %1:cloud&apos;da oturum açması gerekir.</translation>
     </message>
 </context>
 <context>
     <name>ComposeEventDescriptorPage</name>
     <message>
         <source>Select event</source>
-        <translation></translation>
+        <translation>Etkinlik seç</translation>
     </message>
     <message>
         <source>A specific thing</source>
-        <translation></translation>
+        <translation>Belirli bir şey</translation>
     </message>
     <message>
         <source>A group of things</source>
-        <translation></translation>
+        <translation>Bir grup şey</translation>
     </message>
 </context>
 <context>
     <name>ConfigureThingPage</name>
     <message>
         <source>Vendor:</source>
-        <translation></translation>
+        <translation type="unfinished">SATICI:</translation>
     </message>
     <message>
         <source>Apply</source>
-        <translation></translation>
+        <translation>Uygulamak</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation></translation>
+        <translation>Yeniden isimlendir</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation></translation>
+        <translation>Sil</translation>
     </message>
     <message>
         <source>Reconfigure</source>
-        <translation></translation>
+        <translation>yeniden yapılandır</translation>
     </message>
     <message>
         <source>Information</source>
-        <translation></translation>
+        <translation>Bilgi</translation>
     </message>
     <message>
         <source>Parameters</source>
-        <translation></translation>
+        <translation>parametreler</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation></translation>
+        <translation>Ayarlar</translation>
     </message>
     <message>
         <source>Type:</source>
-        <translation></translation>
+        <translation>Tip:</translation>
     </message>
     <message>
         <source>ID:</source>
-        <translation></translation>
+        <translation>Kimlik:</translation>
     </message>
     <message>
         <source>ID copied to clipboard</source>
-        <translation></translation>
+        <translation>Kimlik panoya kopyalandı</translation>
     </message>
     <message>
         <source>Thing class</source>
-        <translation></translation>
+        <translation>şey sınıfı</translation>
     </message>
     <message>
         <source>View the type definition for this thing</source>
-        <translation></translation>
+        <translation>Bu şey için tür tanımını görüntüleyin</translation>
     </message>
     <message>
         <source>Input/Output Connections</source>
-        <translation></translation>
+        <translation>Giriş/Çıkış Bağlantıları</translation>
     </message>
     <message>
         <source>Not connected</source>
-        <translation></translation>
+        <translation>Bağlı değil</translation>
     </message>
     <message>
         <source>Connect Inputs/Outputs</source>
-        <translation></translation>
+        <translation>Girişleri/Çıkışları Bağlayın</translation>
     </message>
     <message>
         <source>Connect &quot;%1&quot; to:</source>
-        <translation></translation>
+        <translation>&quot;%1&quot;i şuraya bağlayın:</translation>
     </message>
     <message>
         <source>Inverted</source>
-        <translation></translation>
+        <translation>ters</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation></translation>
+        <translation>İptal</translation>
     </message>
     <message>
         <source>Disconnect</source>
-        <translation></translation>
+        <translation>Bağlantıyı kes</translation>
     </message>
     <message>
         <source>Connect</source>
-        <translation></translation>
+        <translation>Bağlan</translation>
     </message>
 </context>
 <context>
     <name>ConnectPage</name>
     <message>
         <source>Connect %1</source>
-        <translation></translation>
+        <translation>%1&apos;i bağla</translation>
     </message>
     <message>
         <source>Oh, look!</source>
-        <translation></translation>
+        <translation>Oh bak!</translation>
     </message>
     <message>
         <source>Just a moment...</source>
-        <translation></translation>
+        <translation>Bir dakika...</translation>
     </message>
     <message>
         <source>Uh oh</source>
-        <translation></translation>
+        <translation>Ah vah</translation>
     </message>
     <message>
         <source>Start wireless setup</source>
-        <translation></translation>
+        <translation>Kablosuz kurulumu başlat</translation>
     </message>
     <message>
         <source>Cloud login</source>
-        <translation></translation>
+        <translation>Bulut girişi</translation>
     </message>
     <message>
         <source>Demo mode (online)</source>
-        <translation></translation>
+        <translation>Demo modu (çevrimiçi)</translation>
     </message>
     <message>
         <source>Not the ones you&apos;re looking for? We&apos;re looking for more!</source>
-        <translation></translation>
+        <translation>Aradığınız kişiler değil mi? Daha fazlasını arıyoruz!</translation>
     </message>
     <message>
         <source>Box information</source>
-        <translation></translation>
+        <translation>Kutu bilgisi</translation>
     </message>
     <message>
         <source>Available connections</source>
-        <translation></translation>
+        <translation>Mevcut bağlantılar</translation>
     </message>
     <message>
         <source>Info</source>
-        <translation></translation>
+        <translation>Bilgi</translation>
     </message>
     <message numerus="yes">
         <source>There are %n %1 systems in your network! Which one would you like to use?</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>Ağınızda %n %1 sistem var! Hangisini kullanmak istersin?</numerusform>
+        <numerusform>Ağınızda %n %1 birden fazla sistem var! Hangisini kullanmak istersin?</numerusform>
+        </translation></message>
     <message>
         <source>We haven&apos;t found a %1 system in your network yet.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ağınızda henüz %1 sistemi bulamadık.</translation>
     </message>
     <message>
         <source>There doesn&apos;t seem to be a %1 system installed in your network. Please make sure your %1 system is correctly set up and connected.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ağınızda kurulu bir %1 sistemi yok gibi görünüyor. Lütfen %1 sisteminizin doğru şekilde kurulduğundan ve bağlandığından emin olun.</translation>
     </message>
     <message>
         <source>Searching for %1 systems...</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 sistem aranıyor...</translation>
     </message>
     <message>
         <source>Do you have a %1 system but it&apos;s not connected to your network yet? Use the wireless setup to connect it!</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 sisteminiz var ama henüz ağınıza bağlı değil mi? Bağlamak için kablosuz kurulumu kullanın!</translation>
     </message>
 </context>
 <context>
     <name>ConnectWiFiPage</name>
     <message>
         <source>Select wireless network</source>
-        <translation></translation>
+        <translation>Kablosuz ağ seçin</translation>
     </message>
     <message>
         <source>Authenticate</source>
-        <translation></translation>
+        <translation>Kimlik doğrulama</translation>
     </message>
     <message>
         <source>Enter the password for %1</source>
-        <translation></translation>
+        <translation>%1 için parolayı girin</translation>
     </message>
     <message>
         <source>Sorry, the password is wrong. Please try again.</source>
-        <translation></translation>
+        <translation>Üzgünüm, şifre yanlış. Lütfen tekrar deneyin.</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation></translation>
+        <translation>Tamam</translation>
     </message>
     <message>
         <source>Hidden Network</source>
-        <translation></translation>
+        <translation>Gizli Ağ</translation>
     </message>
     <message>
         <source>Connecting %1 to %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 ile %2 arasında bağlantı kuruluyor</translation>
     </message>
 </context>
 <context>
     <name>ConnectingPage</name>
     <message>
         <source>Connecting...</source>
-        <translation></translation>
+        <translation>Bağlanıyor...</translation>
     </message>
     <message>
         <source>The network connection failed.</source>
-        <translation></translation>
+        <translation>Ağ bağlantısı başarısız oldu.</translation>
     </message>
     <message>
         <source>It seems you&apos;re not connected to the network.</source>
-        <translation></translation>
+        <translation>Görünüşe göre ağa bağlı değilsin.</translation>
     </message>
     <message>
         <source>The host has rejected our connection. This probably means that %1 is not running on this host. Perhaps it&apos;s restarting?</source>
-        <translation></translation>
+        <translation>Ev sahibi bağlantımızı reddetti. Bu muhtemelen %1&apos;in bu ana bilgisayarda çalışmadığı anlamına gelir. Belki yeniden başlıyor?</translation>
     </message>
     <message>
         <source>An unrecovareable SSL Error happened. Please make sure certificates are installed correctly.</source>
-        <translation></translation>
+        <translation>Düzeltilemeyen bir SSL Hatası oluştu. Lütfen sertifikaların doğru şekilde yüklendiğinden emin olun.</translation>
     </message>
     <message>
         <source>The SSL Certificate is not trusted.</source>
-        <translation></translation>
+        <translation>Güvenilmeyen SSL Sertifikası</translation>
     </message>
     <message>
         <source>An unknown error happened. We&apos;re very sorry for that. (Error code: %1)</source>
-        <translation></translation>
+        <translation>Bilinmeyen bir hata oluştu. Bunun için çok üzgünüz. (Hata kodu: %1)</translation>
     </message>
     <message>
         <source>%1 could not be found on this address. Please make sure you entered the address correctly and that the system is powered on.</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 bu adreste bulunamadı. Lütfen adresi doğru girdiğinizden ve sistemin açık olduğundan emin olun.</translation>
     </message>
     <message>
         <source>%1 has closed the connection. This probably means it has been turned off or restarted.</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 bağlantıyı kapattı. Bu muhtemelen kapatıldığı veya yeniden başlatıldığı anlamına gelir.</translation>
     </message>
     <message>
         <source>%1 did not respond. Please make sure your network connection works properly</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 yanıt vermedi. Lütfen ağ bağlantınızın düzgün çalıştığından emin olun</translation>
     </message>
 </context>
 <context>
     <name>ConnectionInterfaceDelegate</name>
     <message>
         <source>Interface: %1</source>
-        <translation></translation>
+        <translation>Arayüz: %1</translation>
     </message>
     <message>
         <source>Any</source>
-        <translation></translation>
+        <translation>Herhangi</translation>
     </message>
     <message>
         <source>localhost</source>
-        <translation></translation>
+        <translation>yerel ana bilgisayar</translation>
     </message>
     <message>
         <source>Port: %1</source>
-        <translation></translation>
+        <translation>Bağlantı Noktası: %1</translation>
     </message>
 </context>
 <context>
     <name>ConnectionInterfacesPage</name>
     <message>
         <source>Connection interfaces</source>
-        <translation></translation>
+        <translation>Bağlantı arayüzleri</translation>
     </message>
     <message>
         <source>TCP server interfaces</source>
-        <translation></translation>
+        <translation>TCP sunucu arayüzleri</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation></translation>
+        <translation>Ekle</translation>
     </message>
     <message>
         <source>WebSocket server interfaces</source>
-        <translation></translation>
+        <translation>WebSocket sunucu arayüzleri</translation>
     </message>
 </context>
 <context>
     <name>Dashboard</name>
     <message>
         <source>Dashboard is empty</source>
-        <translation type="unfinished"></translation>
+        <translation>Pano boş</translation>
     </message>
     <message>
         <source>Start with adding a new item to this dashboard.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bu panoya yeni bir öğe ekleyerek başlayın.</translation>
     </message>
     <message>
         <source>Add item</source>
-        <translation type="unfinished"></translation>
+        <translation>Öğe ekle</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>Kaldırmak</translation>
     </message>
 </context>
 <context>
     <name>DashboardAddWizard</name>
     <message>
         <source>Add item</source>
-        <translation type="unfinished"></translation>
+        <translation>Öğe ekle</translation>
     </message>
     <message>
         <source>Thing</source>
-        <translation type="unfinished"></translation>
+        <translation>Şey</translation>
     </message>
     <message>
         <source>Folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Dosya</translation>
     </message>
     <message>
         <source>Chart</source>
-        <translation type="unfinished"></translation>
+        <translation>Çizelge</translation>
     </message>
     <message>
         <source>Scene</source>
-        <translation type="unfinished"></translation>
+        <translation>sahne</translation>
     </message>
     <message>
         <source>Web view</source>
-        <translation type="unfinished"></translation>
+        <translation>Web görünümü</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>İsim</translation>
     </message>
     <message>
         <source>Location</source>
-        <translation type="unfinished"></translation>
+        <translation>Konum</translation>
     </message>
     <message>
         <source>Enter a URL</source>
-        <translation type="unfinished"></translation>
+        <translation>URL girin</translation>
     </message>
     <message>
         <source>Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Boyut</translation>
     </message>
     <message>
         <source>Columns</source>
-        <translation type="unfinished"></translation>
+        <translation>Sütunlar</translation>
     </message>
     <message>
         <source>Rows</source>
-        <translation type="unfinished"></translation>
+        <translation>Satırlar</translation>
     </message>
     <message>
         <source>Behavior</source>
-        <translation type="unfinished"></translation>
+        <translation>Davranış</translation>
     </message>
     <message>
         <source>Interactive</source>
-        <translation type="unfinished"></translation>
+        <translation>Etkileşimli</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -1049,7 +1048,7 @@
     </message>
     <message>
         <source>Back</source>
-        <translation type="unfinished"></translation>
+        <translation>Geri</translation>
     </message>
     <message>
         <source>OK</source>
@@ -1060,373 +1059,376 @@
     <name>DashboardFolderDelegate</name>
     <message>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>İsim</translation>
     </message>
 </context>
 <context>
     <name>DashboardWebViewDelegate</name>
     <message>
         <source>Web view is not supported on this platform.</source>
-        <translation type="unfinished"></translation>
+        <translation>Web görünümü bu platformda desteklenmiyor.</translation>
     </message>
     <message>
         <source>Location</source>
-        <translation type="unfinished"></translation>
+        <translation>Konum</translation>
     </message>
     <message>
         <source>Enter a URL</source>
-        <translation type="unfinished"></translation>
+        <translation>URL girin</translation>
     </message>
     <message>
         <source>Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Boyut</translation>
     </message>
     <message>
         <source>Columns</source>
-        <translation type="unfinished"></translation>
+        <translation>Sütunlar</translation>
     </message>
     <message>
         <source>Rows</source>
-        <translation type="unfinished"></translation>
+        <translation>Satırlar</translation>
     </message>
     <message>
         <source>Behavior</source>
-        <translation type="unfinished"></translation>
+        <translation>Davranış</translation>
     </message>
     <message>
         <source>Interactive</source>
-        <translation type="unfinished"></translation>
+        <translation>Etkileşimli</translation>
     </message>
 </context>
 <context>
     <name>DatePicker</name>
     <message>
         <source>January</source>
-        <translation></translation>
+        <translation>Ocak</translation>
     </message>
     <message>
         <source>February</source>
-        <translation></translation>
+        <translation>Şubat</translation>
     </message>
     <message>
         <source>March</source>
-        <translation></translation>
+        <translation>Mart</translation>
     </message>
     <message>
         <source>April</source>
-        <translation></translation>
+        <translation>Nisan</translation>
     </message>
     <message>
         <source>May</source>
-        <translation></translation>
+        <translation>Mayıs</translation>
     </message>
     <message>
         <source>June</source>
-        <translation></translation>
+        <translation>Haziran</translation>
     </message>
     <message>
         <source>July</source>
-        <translation></translation>
+        <translation>Temmuz</translation>
     </message>
     <message>
         <source>August</source>
-        <translation></translation>
+        <translation>Ağustos</translation>
     </message>
     <message>
         <source>September</source>
-        <translation></translation>
+        <translation>Eylül</translation>
     </message>
     <message>
         <source>October</source>
-        <translation></translation>
+        <translation>Ekim</translation>
     </message>
     <message>
         <source>November</source>
-        <translation></translation>
+        <translation>Kasım</translation>
     </message>
     <message>
         <source>December</source>
-        <translation></translation>
+        <translation>Aralık</translation>
     </message>
     <message>
         <source>Mon</source>
-        <translation></translation>
+        <translation>Pazartesi</translation>
     </message>
     <message>
         <source>Tue</source>
-        <translation></translation>
+        <translation>salı</translation>
     </message>
     <message>
         <source>Wed</source>
-        <translation></translation>
+        <translation>Çarşamba</translation>
     </message>
     <message>
         <source>Thu</source>
-        <translation></translation>
+        <translation>Perşembe</translation>
     </message>
     <message>
         <source>Fri</source>
-        <translation></translation>
+        <translation>Cuma</translation>
     </message>
     <message>
         <source>Sat</source>
-        <translation></translation>
+        <translation>Cumartesi</translation>
     </message>
     <message>
         <source>Sun</source>
-        <translation></translation>
+        <translation>Pazar</translation>
     </message>
 </context>
 <context>
     <name>DeveloperOptionsPage</name>
     <message>
         <source>Developer options</source>
-        <translation></translation>
+        <translation>Geliştirici Seçenekleri</translation>
     </message>
     <message>
         <source>Cloud environment</source>
-        <translation></translation>
+        <translation>Bulut ortamı</translation>
     </message>
     <message>
         <source>Logging</source>
-        <translation></translation>
+        <translation type="unfinished">Günlük</translation>
     </message>
     <message>
         <source>Advanced options</source>
-        <translation></translation>
+        <translation>Gelişmiş seçenekler</translation>
     </message>
     <message>
         <source>Application logs enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Uygulama günlükleri etkinleştirildi</translation>
     </message>
     <message>
         <source>View live log</source>
-        <translation type="unfinished"></translation>
+        <translation>Canlı günlüğü görüntüle</translation>
     </message>
     <message>
         <source>Configure logging categories</source>
-        <translation type="unfinished"></translation>
+        <translation>Günlük kategorilerini yapılandırın</translation>
     </message>
 </context>
 <context>
     <name>DeveloperTools</name>
     <message>
         <source>Developer tools</source>
-        <translation></translation>
+        <translation>Geliştirici araçları</translation>
     </message>
     <message>
         <source>Debug server enabled</source>
-        <translation></translation>
+        <translation>Hata ayıklama sunucusu etkinleştirildi</translation>
     </message>
     <message>
         <source>In order to access the debug interface, please enable the web server.</source>
-        <translation></translation>
+        <translation>Hata ayıklama arabirimine erişmek için lütfen web sunucusunu etkinleştirin.</translation>
     </message>
     <message>
         <source>The web server cannot be reached on %1.</source>
-        <translation></translation>
+        <translation>Web sunucusuna %1 üzerinden ulaşılamıyor.</translation>
     </message>
     <message>
         <source>Please enable the web server to be accessed on this address.</source>
-        <translation></translation>
+        <translation>Lütfen bu adresten erişilebilecek web sunucusunu etkinleştirin.</translation>
     </message>
     <message>
         <source>Open debug interface</source>
-        <translation></translation>
+        <translation>Hata ayıklama arayüzünü aç</translation>
     </message>
     <message>
         <source>Debug server</source>
-        <translation></translation>
+        <translation>Hata ayıklama sunucusu</translation>
     </message>
 </context>
 <context>
     <name>DeviceBrowserPage</name>
     <message>
         <source>Browse %1</source>
-        <translation></translation>
+        <translation>%1 &apos; e Gözat</translation>
     </message>
     <message>
         <source>Error: %1</source>
-        <translation></translation>
+        <translation>Hata: %1</translation>
     </message>
 </context>
 <context>
     <name>DeviceLogPage</name>
     <message>
         <source>History for %1</source>
-        <translation></translation>
+        <translation>%1 için geçmiş</translation>
     </message>
     <message>
         <source>Filter by</source>
-        <translation></translation>
+        <translation>Tarafından filtre</translation>
     </message>
 </context>
 <context>
     <name>DoorbellDevicePage</name>
     <message>
         <source>History</source>
-        <translation></translation>
+        <translation>Tarih</translation>
     </message>
 </context>
 <context>
     <name>EditCalendarItemPage</name>
     <message>
         <source>Pick a time frame</source>
-        <translation></translation>
+        <translation>Bir zaman aralığı seçin</translation>
     </message>
     <message>
         <source>From</source>
-        <translation></translation>
+        <translation>İtibaren</translation>
     </message>
     <message>
         <source>Jan</source>
-        <translation></translation>
+        <translation>Ocak</translation>
     </message>
     <message>
         <source>Feb</source>
-        <translation></translation>
+        <translation>Şubat</translation>
     </message>
     <message>
         <source>Mar</source>
-        <translation></translation>
+        <translation>Mart</translation>
     </message>
     <message>
         <source>Apr</source>
-        <translation></translation>
+        <translation>Nisan</translation>
     </message>
     <message>
         <source>May</source>
-        <translation></translation>
+        <translation>Mayıs</translation>
     </message>
     <message>
         <source>Jun</source>
-        <translation></translation>
+        <translation>Haziran</translation>
     </message>
     <message>
         <source>Jul</source>
-        <translation></translation>
+        <translation>Temmuz</translation>
     </message>
     <message>
         <source>Aug</source>
-        <translation></translation>
+        <translation>Ağustos</translation>
     </message>
     <message>
         <source>Sep</source>
-        <translation></translation>
+        <translation>Eylul</translation>
     </message>
     <message>
         <source>Oct</source>
-        <translation></translation>
+        <translation>Ekim</translation>
     </message>
     <message>
         <source>Nov</source>
-        <translation></translation>
+        <translation>Kasım</translation>
     </message>
     <message>
         <source>Dez</source>
-        <translation></translation>
+        <translation type="unfinished">Dez</translation>
     </message>
     <message>
         <source>To</source>
-        <translation></translation>
+        <translation>-e doğru</translation>
     </message>
     <message>
         <source>Repeat</source>
-        <translation></translation>
+        <translation>Tekrar et</translation>
     </message>
     <message>
         <source>never</source>
-        <translation></translation>
+        <translation>Asla</translation>
     </message>
     <message>
         <source>hourly</source>
-        <translation></translation>
+        <translation>saatlik</translation>
     </message>
     <message>
         <source>daily</source>
-        <translation></translation>
+        <translation>Günlük</translation>
     </message>
     <message>
         <source>weekly</source>
-        <translation></translation>
+        <translation>haftalık</translation>
     </message>
     <message>
         <source>monthly</source>
-        <translation></translation>
+        <translation>aylık</translation>
     </message>
     <message>
         <source>yearly</source>
-        <translation></translation>
+        <translation>yıllık</translation>
     </message>
     <message>
         <source>Weekdays</source>
-        <translation></translation>
+        <translation>Hafta içi</translation>
     </message>
     <message>
         <source>Day of month</source>
-        <translation></translation>
+        <translation>Ayın günü</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation></translation>
+        <translation>Tamam</translation>
     </message>
 </context>
 <context>
     <name>EditRulePage</name>
     <message>
         <source>Add new magic</source>
-        <translation></translation>
+        <translation>Yeni sihir ekle</translation>
     </message>
     <message>
         <source>Edit %1</source>
-        <translation></translation>
+        <translation>%1&apos;i düzenle</translation>
     </message>
     <message>
         <source>Cancel?</source>
-        <translation></translation>
+        <translation>İptal?</translation>
     </message>
     <message>
         <source>Any changes to the rule will be lost.</source>
-        <translation></translation>
+        <translation>Kuraldaki herhangi bir değişiklik kaybolacaktır.</translation>
     </message>
     <message>
         <source>Name:</source>
-        <translation></translation>
+        <translation>İsim:</translation>
     </message>
     <message>
         <source>This rule is enabled</source>
-        <translation></translation>
+        <translation>Bu kural etkinleştirildi</translation>
     </message>
     <message>
         <source>Execute actions when something happens.</source>
-        <translation></translation>
+        <translation>Bir şey olduğunda eylemleri yürütün.</translation>
     </message>
     <message>
         <source>When any of these events happen...</source>
-        <translation></translation>
+        <translation>Bu olaylardan herhangi biri gerçekleştiğinde...</translation>
     </message>
     <message>
         <source>Examples:
 • When a button is pressed...
 • When the temperature changes...
 • At 7 am...</source>
-        <translation></translation>
+        <translation>Örnekler:
+• Bir düğmeye basıldığında...
+• Sıcaklık değiştiğinde...
+• Sabah 7 de...</translation>
     </message>
     <message>
         <source>Configure...</source>
-        <translation></translation>
+        <translation>Yapılandır...</translation>
     </message>
     <message>
         <source>Add another...</source>
-        <translation></translation>
+        <translation>Başka birtane ekle...</translation>
     </message>
     <message>
         <source>Do something while a condition is met.</source>
-        <translation></translation>
+        <translation>Bir koşul yerine getirilirken bir şeyler yapın.</translation>
     </message>
     <message>
         <source>...but only if those conditions are met...</source>
-        <translation></translation>
+        <translation>...ama sadece bu şartlar yerine getirilirse...</translation>
     </message>
     <message>
         <source>When this condition...</source>
