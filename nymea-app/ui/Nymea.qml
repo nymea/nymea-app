@@ -353,9 +353,9 @@ ApplicationWindow {
         case "smartmeter":
         case "smartmeterconsumer":
         case "smartmeterproducer":
-        case "extendedsmartmeterconsumer":
-        case "extendedsmartmeterproducer":
             return Qt.resolvedUrl("images/smartmeter.svg")
+        case "energymeter":
+            return Qt.resolvedUrl("images/energy.svg")
         case "heating":
             return Qt.resolvedUrl("images/thermostat/heating.svg")
         case "cooling":
