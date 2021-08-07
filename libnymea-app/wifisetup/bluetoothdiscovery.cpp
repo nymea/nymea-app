@@ -178,6 +178,7 @@ void BluetoothDiscovery::onBluetoothHostModeChanged(const QBluetoothLocalDevice:
 
 void BluetoothDiscovery::deviceDiscovered(const QBluetoothDeviceInfo &deviceInfo)
 {
+    qCDebug(dcBtWiFiSetup()) << "BluetoothDiscovery: Device discovered:" << deviceInfo.address().toString() << deviceInfo.deviceUuid();
     foreach (BluetoothDeviceInfo *di, m_deviceInfos->deviceInfos()) {
         if (di->address() == deviceInfo.address().toString()) {
             di->setBluetoothDeviceInfo(deviceInfo);
