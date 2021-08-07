@@ -1424,7 +1424,7 @@
     </message>
     <message>
         <source>Do something while a condition is met.</source>
-        <translation>Bir koşul yerine getirilirken bir şeyler yapın.</translation>
+        <translation>Bir şart yerine getirilirken bir şeyler yapın.</translation>
     </message>
     <message>
         <source>...but only if those conditions are met...</source>
@@ -1432,219 +1432,222 @@
     </message>
     <message>
         <source>When this condition...</source>
-        <translation></translation>
+        <translation>Bu durum ne zaman...</translation>
     </message>
     <message>
         <source>Examples:
 • While I&apos;m at home...
 • When the temperature is below 0...
 • Between 9 am and 6 pm...</source>
-        <translation></translation>
+        <translation>Örnekler:
+• Ben evdeyken...
+• Sıcaklık 0&apos;ın altına düştüğünde...
+• sabah 9 ile akşam 6 arası...</translation>
     </message>
     <message>
         <source>When time is in...</source>
-        <translation></translation>
+        <translation>Zaman geldiğinde...</translation>
     </message>
     <message>
         <source>...during this time...</source>
-        <translation></translation>
+        <translation>...Bu süre içinde...</translation>
     </message>
     <message>
         <source>Create a scene.</source>
-        <translation></translation>
+        <translation>Bir sahne oluşturun.</translation>
     </message>
     <message>
         <source>...come true, execute those actions:</source>
-        <translation></translation>
+        <translation>...doğrulandığında, şu eylemleri gerçekleştirin:</translation>
     </message>
     <message>
         <source>...execute those actions:</source>
-        <translation></translation>
+        <translation>...şu eylemleri gerçekleştirin:</translation>
     </message>
     <message>
         <source>Just pick some actions which will be executed when the scene is activated. Scenes are like any other magic except they can also be activated manually.</source>
-        <translation></translation>
+        <translation>Sadece sahne etkinleştirildiğinde yürütülecek bazı eylemleri seçin. Sahneler, manuel olarak da etkinleştirilebilmeleri dışında diğer sihir gibidir.</translation>
     </message>
     <message>
         <source>Add an action...</source>
-        <translation></translation>
+        <translation>Eylem ekle...</translation>
     </message>
     <message>
         <source>Add another action...</source>
-        <translation></translation>
+        <translation>Başka bir işlem ekle...</translation>
     </message>
     <message>
         <source>If the condition isn&apos;t met, execute those actions instead:</source>
-        <translation></translation>
+        <translation>Koşul karşılanmazsa, bunun yerine şu eylemleri gerçekleştirin:</translation>
     </message>
     <message>
         <source>Add event</source>
-        <translation></translation>
+        <translation>Etkinlik ekle</translation>
     </message>
     <message>
         <source>When one of my things triggers an event</source>
-        <translation></translation>
+        <translation>Eşyalarımdan biri bir olayı tetiklediğinde</translation>
     </message>
     <message>
         <source>When a thing of a given type triggers an event</source>
-        <translation></translation>
+        <translation>Belirli bir türde bir şey bir olayı tetiklediğinde</translation>
     </message>
     <message>
         <source>At a particular time or date</source>
-        <translation></translation>
+        <translation>Belirli bir saat veya tarihte</translation>
     </message>
     <message>
         <source>Add condition...</source>
-        <translation></translation>
+        <translation>Koşul ekle...</translation>
     </message>
     <message>
         <source>When one of my things is in a certain state</source>
-        <translation></translation>
+        <translation>Eşyalarımdan biri belli bir durumdayken</translation>
     </message>
     <message>
         <source>When a thing of a given type enters a state</source>
-        <translation></translation>
+        <translation>Belirli bir türden bir şey bir duruma girdiğinde</translation>
     </message>
     <message>
         <source>During a given time</source>
-        <translation></translation>
+        <translation>Belirli bir süre boyunca</translation>
     </message>
     <message>
         <source>Add action...</source>
-        <translation></translation>
+        <translation>Eylem ekle...</translation>
     </message>
     <message>
         <source>Execute an action on one of my things</source>
-        <translation></translation>
+        <translation>Öğelerimden birinde bir eylem yürüt</translation>
     </message>
     <message>
         <source>Execute an action on an entire kind of things</source>
-        <translation></translation>
+        <translation>Her türlü şey üzerinde bir eylem yürütün</translation>
     </message>
     <message>
         <source>This is a scene</source>
-        <translation></translation>
+        <translation>Bu bir sahne</translation>
     </message>
     <message>
         <source>Execute those actions:</source>
-        <translation></translation>
+        <translation>Şu eylemleri yürütün:</translation>
     </message>
     <message>
         <source>When the condition isn&apos;t met any more, execute those actions:</source>
-        <translation></translation>
+        <translation>Koşul artık karşılanmadığında şu eylemleri gerçekleştirin:</translation>
     </message>
 </context>
 <context>
     <name>EditStateEvaluatorPage</name>
     <message>
         <source>Conditions</source>
-        <translation></translation>
+        <translation>Koşullar</translation>
     </message>
 </context>
 <context>
     <name>EditThingsPage</name>
     <message>
         <source>Configure Things</source>
-        <translation></translation>
+        <translation>Şeyleri Yapılandır</translation>
     </message>
     <message>
         <source>There are no things set up yet.</source>
-        <translation></translation>
+        <translation>Henüz ayarlanmış bir şey yok.</translation>
     </message>
     <message>
         <source>Add a thing</source>
-        <translation></translation>
+        <translation>Bir şey ekle</translation>
     </message>
     <message>
         <source>In order for your %1 system to be useful, go ahead and add some things.</source>
-        <translation></translation>
+        <translation>%1 sisteminizin kullanışlı olması için devam edin ve bazı şeyler ekleyin.</translation>
     </message>
 </context>
 <context>
     <name>EditTimeEventItemPage</name>
     <message>
         <source>Pick a time</source>
-        <translation></translation>
+        <translation>Bir zaman seçin</translation>
     </message>
     <message>
         <source>Time</source>
-        <translation></translation>
+        <translation>zaman</translation>
     </message>
     <message>
         <source>Repeat</source>
-        <translation></translation>
+        <translation>Tekrar et</translation>
     </message>
     <message>
         <source>never</source>
-        <translation></translation>
+        <translation>asla</translation>
     </message>
     <message>
         <source>hourly</source>
-        <translation></translation>
+        <translation>saatlik</translation>
     </message>
     <message>
         <source>daily</source>
-        <translation></translation>
+        <translation>günlük</translation>
     </message>
     <message>
         <source>weekly</source>
-        <translation></translation>
+        <translation>haftalık</translation>
     </message>
     <message>
         <source>monthly</source>
-        <translation></translation>
+        <translation>aylık</translation>
     </message>
     <message>
         <source>yearly</source>
-        <translation></translation>
+        <translation>yıllık</translation>
     </message>
     <message>
         <source>Date</source>
-        <translation></translation>
+        <translation>Tarih</translation>
     </message>
     <message>
         <source>Jan</source>
-        <translation></translation>
+        <translation>Ocak</translation>
     </message>
     <message>
         <source>Feb</source>
-        <translation></translation>
+        <translation>Şubat</translation>
     </message>
     <message>
         <source>Mar</source>
-        <translation></translation>
+        <translation>Mart</translation>
     </message>
     <message>
         <source>Apr</source>
-        <translation></translation>
+        <translation>Nisan</translation>
     </message>
     <message>
         <source>May</source>
-        <translation></translation>
+        <translation>Mayıs</translation>
     </message>
     <message>
         <source>Jun</source>
-        <translation></translation>
+        <translation>Haziran</translation>
     </message>
     <message>
         <source>Jul</source>
-        <translation></translation>
+        <translation>Temmuz</translation>
     </message>
     <message>
         <source>Aug</source>
-        <translation></translation>
+        <translation>ağustos</translation>
     </message>
     <message>
         <source>Sep</source>
-        <translation></translation>
+        <translation>Eylül</translation>
     </message>
     <message>
         <source>Oct</source>
-        <translation></translation>
+        <translation>Ekim</translation>
     </message>
     <message>
         <source>Nov</source>
-        <translation></translation>
+        <translation>kasım</translation>
     </message>
     <message>
         <source>Dez</source>
