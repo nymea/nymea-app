@@ -1943,175 +1943,168 @@ Please try again.</source>
     </message>
     <message>
         <source>OK</source>
-        <translation></translation>
+        <translation>tamam</translation>
     </message>
     <message>
         <source>Time zone</source>
-        <translation></translation>
+        <translation>Saat dilimi</translation>
     </message>
     <message>
         <source>General settings</source>
-        <translation></translation>
+        <translation>Genel Ayarlar</translation>
     </message>
     <message>
         <source>Set date and time automatically</source>
-        <translation></translation>
+        <translation>Tarih ve saati otomatik olarak ayarla</translation>
     </message>
     <message>
         <source>Date</source>
-        <translation></translation>
+        <translation>Tarih</translation>
     </message>
     <message>
         <source>Time</source>
-        <translation></translation>
+        <translation>Zaman</translation>
     </message>
     <message>
         <source>General</source>
-        <translation></translation>
+        <translation>Genel</translation>
     </message>
     <message>
         <source>Date and time</source>
-        <translation></translation>
+        <translation>Tarih ve saat</translation>
     </message>
     <message>
         <source>System</source>
-        <translation></translation>
+        <translation>sistem</translation>
     </message>
     <message>
         <source>Restart %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1&apos;i yeniden başlat</translation>
     </message>
     <message>
         <source>Are you sure you want to restart %1 now?</source>
-        <translation type="unfinished"></translation>
+        <translation>%1&apos;i şimdi yeniden başlatmak istediğinizden emin misiniz?</translation>
     </message>
     <message>
         <source>Reboot %1 system</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 sistemini yeniden başlat</translation>
     </message>
     <message>
         <source>Are you sure you want to reboot your %1 sytem now?</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 sisteminizi şimdi yeniden başlatmak istediğinizden emin misiniz?</translation>
     </message>
     <message>
         <source>Shut down %1 system</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 sistemi kapat</translation>
     </message>
     <message>
         <source>Are you sure you want to shut down your %1 sytem now?</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 sisteminizi şimdi kapatmak istediğinizden emin misiniz?</translation>
     </message>
 </context>
 <context>
     <name>GenericDevicePage</name>
     <message>
         <source>States</source>
-        <translation></translation>
+        <translation>Devletler</translation>
     </message>
     <message>
         <source>Actions</source>
-        <translation></translation>
+        <translation>Hareketler</translation>
     </message>
     <message>
         <source>Events</source>
-        <translation></translation>
+        <translation>Olaylar</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation></translation>
+        <translation>İptal</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation></translation>
+        <translation>tamam</translation>
     </message>
 </context>
 <context>
     <name>GenericThingsListPage</name>
     <message>
         <source>My %1</source>
-        <translation type="unfinished"></translation>
+        <translation>benim %1</translation>
     </message>
     <message>
         <source>My things</source>
-        <translation type="unfinished"></translation>
+        <translation>Eşyalarım</translation>
     </message>
     <message>
         <source>All my things</source>
-        <translation type="unfinished"></translation>
+        <translation>tüm eşyalarım</translation>
     </message>
 </context>
 <context>
     <name>GenericTypeGraph</name>
     <message>
         <source>Not connected</source>
-        <translation></translation>
+        <translation>Bağlı değil</translation>
     </message>
     <message numerus="yes">
         <source>%n seconds</source>
-        <translation>
-            <numerusform></numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%n saniye</numerusform>
+        <numerusform>%n saniyeler</numerusform>
+        </translation></message>
     <message numerus="yes">
         <source>%n minutes</source>
-        <translation>
-            <numerusform></numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%n dakika</numerusform>
+        <numerusform>%n dakikalar</numerusform>
+        </translation></message>
     <message numerus="yes">
         <source>%n hours</source>
-        <translation>
-            <numerusform></numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%n saat</numerusform>
+        <numerusform>%n saatler</numerusform>
+        </translation></message>
     <message numerus="yes">
         <source>%n days</source>
-        <translation>
-            <numerusform></numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%n gün</numerusform>
+        <numerusform>%n günler</numerusform>
+        </translation></message>
     <message numerus="yes">
         <source>%n weeks</source>
-        <translation>
-            <numerusform></numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%n hafta</numerusform>
+        <numerusform>%n haftalar</numerusform>
+        </translation></message>
     <message numerus="yes">
         <source>%n months</source>
-        <translation>
-            <numerusform></numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%n ay</numerusform>
+        <numerusform>%n aylar</numerusform>
+        </translation></message>
     <message numerus="yes">
         <source>%n years</source>
-        <translation>
-            <numerusform></numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%n yıl</numerusform>
+        <numerusform>%n yıllar</numerusform>
+        </translation></message>
 </context>
 <context>
     <name>GenericTypeLogView</name>
     <message>
         <source>Magic</source>
-        <translation></translation>
+        <translation>sihir</translation>
     </message>
 </context>
 <context>
     <name>Graph</name>
     <message>
         <source>Sorry, there isn&apos;t enough data to display a graph here yet!</source>
-        <translation></translation>
+        <translation>Üzgünüz, henüz burada bir grafik görüntülemek için yeterli veri yok!</translation>
     </message>
 </context>
 <context>
     <name>GroupsView</name>
     <message>
         <source>There are no groups set up yet.</source>
-        <translation></translation>
+        <translation>Henüz oluşturulmuş bir grup yok.</translation>
     </message>
     <message>
         <source>Grouping things can be useful to control multiple devices at once, for example an entire room. Watch out for the group symbol when interacting with things and use it to add them to groups.</source>
-        <translation></translation>
+        <translation>Bir şeyleri gruplamak, aynı anda birden fazla cihazı, örneğin bir odanın tamamını kontrol etmek için faydalı olabilir. Nesnelerle etkileşim kurarken grup sembolüne dikkat edin ve bunları gruplara eklemek için kullanın.</translation>
     </message>
 </context>
 <context>
