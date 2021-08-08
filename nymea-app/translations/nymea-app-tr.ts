@@ -2111,421 +2111,421 @@ Please try again.</source>
     <name>Imprint</name>
     <message>
         <source>Developer options are now enabled. If you have found this by accident, it is most likely not of any use for you. It will just enable some nerdy developer gibberish in the app. Tap the icon another 10 times to disable it again.</source>
-        <translation></translation>
+        <translation>Geliştirici seçenekleri artık etkinleştirildi. Bunu tesadüfen bulduysanız, büyük olasılıkla sizin için hiçbir faydası yoktur. Sadece uygulamada bazı inek geliştiricilerin anlamsız konuşmalarını etkinleştirecek. Tekrar devre dışı bırakmak için simgeye 10 kez daha dokunun.</translation>
     </message>
     <message>
         <source>Developer options are now disabled.</source>
-        <translation></translation>
+        <translation>Geliştirici seçenekleri artık devre dışı.</translation>
     </message>
     <message>
         <source>Howdy cowboy!</source>
-        <translation></translation>
+        <translation>Merhaba kovboy!</translation>
     </message>
     <message>
         <source>Visit the nymea website</source>
-        <translation></translation>
+        <translation>nymea&apos;nin web sitesini ziyaret edin</translation>
     </message>
     <message>
         <source>Visit GitHub page</source>
-        <translation></translation>
+        <translation>GitHub sayfasını ziyaret edin</translation>
     </message>
     <message>
         <source>View privacy policy</source>
-        <translation></translation>
+        <translation>Gizlilik politikasını görüntüle</translation>
     </message>
     <message>
         <source>Qt is a registered trademark of The Qt Company Ltd. and its subsidiaries.</source>
-        <translation></translation>
+        <translation>Qt, The Qt Company Ltd. ve yan kuruluşlarının tescilli ticari markasıdır.</translation>
     </message>
     <message>
         <source>Visit the Qt website</source>
-        <translation></translation>
+        <translation>Qt&apos;nin web sitesini ziyaret edin</translation>
     </message>
     <message>
         <source>nymea is a registered trademark of nymea GmbH.</source>
-        <translation></translation>
+        <translation>nymea, nymea GmbH&apos;nin tescilli ticari markasıdır.</translation>
     </message>
     <message>
         <source>Licensed under the terms of the GNU General Public License, version 3. Please visit the GitHub page for source code and build instructions.</source>
-        <translation></translation>
+        <translation>GNU Genel Kamu Lisansı, sürüm 3 koşulları altında lisanslanmıştır. Kaynak kodu ve yapım talimatları için lütfen GitHub sayfasını ziyaret edin.</translation>
     </message>
     <message>
         <source>Software license</source>
-        <translation></translation>
+        <translation>Yazılım lisansı</translation>
     </message>
     <message>
         <source>Additional software licenses</source>
-        <translation></translation>
+        <translation>Ek yazılım lisansları</translation>
     </message>
 </context>
 <context>
     <name>InterfaceTile</name>
     <message>
         <source>uncategorized</source>
-        <translation></translation>
+        <translation>kategorize edilmemiş</translation>
     </message>
     <message>
         <source>All off</source>
-        <translation></translation>
+        <translation>hepsi kapalı</translation>
     </message>
     <message>
         <source>%1 on</source>
-        <translation></translation>
+        <translation>%1 açık</translation>
     </message>
 </context>
 <context>
     <name>Interfaces</name>
     <message>
         <source>Battery powered devices</source>
-        <translation></translation>
+        <translation>Pille çalışan cihazlar</translation>
     </message>
     <message>
         <source>Battery level is critical</source>
-        <translation></translation>
+        <translation>Pil seviyesi kritik</translation>
     </message>
     <message>
         <source>Battery level entered critical state</source>
-        <translation></translation>
+        <translation>Pil seviyesi kritik duruma girdi</translation>
     </message>
     <message>
         <source>Notification services</source>
-        <translation></translation>
+        <translation>Bildirim hizmetleri</translation>
     </message>
     <message>
         <source>Title</source>
-        <translation></translation>
+        <translation>Başlık</translation>
     </message>
     <message>
         <source>Message body</source>
-        <translation></translation>
+        <translation>Mesaj gövdesi</translation>
     </message>
     <message>
         <source>Send notification</source>
-        <translation></translation>
+        <translation>Bildirim gönder</translation>
     </message>
     <message>
         <source>Lights</source>
-        <translation></translation>
+        <translation>Işıklar</translation>
     </message>
     <message>
         <source>Light is turned on</source>
-        <translation></translation>
+        <translation>Işık açıldı</translation>
     </message>
     <message>
         <source>A light is turned on or off</source>
-        <translation></translation>
+        <translation>Bir ışık açılır veya kapanır</translation>
     </message>
     <message>
         <source>Turn lights on or off</source>
-        <translation></translation>
+        <translation>Işıkları aç veya kapat</translation>
     </message>
     <message>
         <source>Temperature sensors</source>
-        <translation></translation>
+        <translation>Sıcaklık sensörleri</translation>
     </message>
     <message>
         <source>Temperature</source>
-        <translation></translation>
+        <translation>Hava sıcaklığı</translation>
     </message>
     <message>
         <source>Temperature has changed</source>
-        <translation></translation>
+        <translation>Sıcaklık değişti</translation>
     </message>
     <message>
         <source>Closable things</source>
-        <translation></translation>
+        <translation>kapatılabilir şeyler</translation>
     </message>
     <message>
         <source>Powered things</source>
-        <translation></translation>
+        <translation>Güçlü şeyler</translation>
     </message>
     <message>
         <source>Thing is turned on</source>
-        <translation></translation>
+        <translation type="unfinished">şey devre açık</translation>
     </message>
     <message>
         <source>A thing is turned on or off</source>
-        <translation></translation>
+        <translation>Bir şey açık veya kapalı</translation>
     </message>
     <message>
         <source>Turn things on or off</source>
-        <translation></translation>
+        <translation>Şeyleri aç veya kapat</translation>
     </message>
     <message>
         <source>Dimmable lights</source>
-        <translation></translation>
+        <translation>Kısılabilir ışıklar</translation>
     </message>
     <message>
         <source>Light&apos;s brightness is</source>
-        <translation></translation>
+        <translation>Işığın parlaklığı</translation>
     </message>
     <message>
         <source>A light&apos;s brightness has changed</source>
-        <translation></translation>
+        <translation>Bir ışığın parlaklığı değişti</translation>
     </message>
     <message>
         <source>Set lights brightness</source>
-        <translation></translation>
+        <translation>Işık parlaklığını ayarla</translation>
     </message>
     <message>
         <source>Close</source>
-        <translation></translation>
+        <translation>kapalı</translation>
     </message>
     <message>
         <source>Presence sensors</source>
-        <translation></translation>
+        <translation>Varlık sensörleri</translation>
     </message>
     <message>
         <source>Is present</source>
-        <translation></translation>
+        <translation>mevcut</translation>
     </message>
     <message>
         <source>Presence changed</source>
-        <translation></translation>
+        <translation>Durum değişti</translation>
     </message>
     <message>
         <source>Blinds</source>
-        <translation></translation>
+        <translation>panjur</translation>
     </message>
     <message>
         <source>Open</source>
-        <translation></translation>
+        <translation>Açık</translation>
     </message>
     <message>
         <source>Awnings</source>
-        <translation></translation>
+        <translation>Tenteler</translation>
     </message>
     <message>
         <source>Shutters</source>
-        <translation></translation>
+        <translation>panjurlar</translation>
     </message>
     <message>
         <source>Humidity sensors</source>
-        <translation></translation>
+        <translation>Nem sensörleri</translation>
     </message>
     <message>
         <source>Humidity</source>
-        <translation></translation>
+        <translation>Nem</translation>
     </message>
     <message>
         <source>Humidity changed</source>
-        <translation></translation>
+        <translation>Nem değişti</translation>
     </message>
     <message>
         <source>Daylight sensors</source>
-        <translation></translation>
+        <translation>Gün ışığı sensörleri</translation>
     </message>
     <message>
         <source>Daylight</source>
-        <translation></translation>
+        <translation>gün ışığı</translation>
     </message>
     <message>
         <source>Daylight changed</source>
-        <translation></translation>
+        <translation>Gün ışığı değişti</translation>
     </message>
     <message>
         <source>EV charger</source>
-        <translation></translation>
+        <translation>EV şarj cihazı</translation>
     </message>
     <message>
         <source>Charging</source>
-        <translation></translation>
+        <translation>Doluyor</translation>
     </message>
     <message>
         <source>Charging changed</source>
-        <translation></translation>
+        <translation>Şarj değişti</translation>
     </message>
     <message>
         <source>Enable charging</source>
-        <translation></translation>
+        <translation>Şarjı etkinleştir</translation>
     </message>
     <message>
         <source>Speakers</source>
-        <translation></translation>
+        <translation>Hoparlörler</translation>
     </message>
     <message>
         <source>Increase volume</source>
-        <translation></translation>
+        <translation>Sesi arttır</translation>
     </message>
     <message>
         <source>Decrease volume</source>
-        <translation></translation>
+        <translation>Sesi azalt</translation>
     </message>
     <message>
         <source>Gateways</source>
-        <translation></translation>
+        <translation>ağ geçitleri</translation>
     </message>
     <message>
         <source>Connected</source>
-        <translation></translation>
+        <translation>bağlı</translation>
     </message>
     <message>
         <source>Connected changed</source>
-        <translation></translation>
+        <translation>Bağlandı değişti</translation>
     </message>
     <message>
         <source>Heatings</source>
-        <translation></translation>
+        <translation>Isıtmalar</translation>
     </message>
     <message>
         <source>Heating enabled</source>
-        <translation></translation>
+        <translation>Isıtma etkin</translation>
     </message>
     <message>
         <source>Heating enabled changed</source>
-        <translation></translation>
+        <translation>Isıtma etkin değiştirildi</translation>
     </message>
     <message>
         <source>Enable heating</source>
-        <translation></translation>
+        <translation>Isıtmayı etkinleştir</translation>
     </message>
     <message>
         <source>Media players</source>
-        <translation></translation>
+        <translation>Medya oynatıcılar</translation>
     </message>
     <message>
         <source>Playback status</source>
-        <translation></translation>
+        <translation>oynatma durumu</translation>
     </message>
     <message>
         <source>Playback status changed</source>
-        <translation></translation>
+        <translation>Oynatma durumu değişti</translation>
     </message>
     <message>
         <source>Set playback status</source>
-        <translation></translation>
+        <translation>Oynatma durumunu ayarla</translation>
     </message>
     <message>
         <source>Light intensity</source>
-        <translation></translation>
+        <translation>Işık şiddeti</translation>
     </message>
     <message>
         <source>Light intensity changed</source>
-        <translation></translation>
+        <translation>Işık yoğunluğu değişti</translation>
     </message>
     <message>
         <source>Media controllers</source>
-        <translation></translation>
+        <translation>Medya denetleyicileri</translation>
     </message>
     <message>
         <source>Start playback</source>
-        <translation></translation>
+        <translation>Oynatmayı başlat</translation>
     </message>
     <message>
         <source>Stop playback</source>
-        <translation></translation>
+        <translation>Oynatmayı durdur</translation>
     </message>
     <message>
         <source>Pause playback</source>
-        <translation></translation>
+        <translation>Oynatmayı duraklat</translation>
     </message>
     <message>
         <source>Skip back</source>
-        <translation></translation>
+        <translation>Geriye Atla</translation>
     </message>
     <message>
         <source>Skip next</source>
-        <translation></translation>
+        <translation>Bir sonraki</translation>
     </message>
     <message>
         <source>Access control systems</source>
-        <translation></translation>
+        <translation>Erişim kontrol sistemleri</translation>
     </message>
     <message>
         <source>Access granted</source>
-        <translation></translation>
+        <translation>Erişim izni</translation>
     </message>
     <message>
         <source>Access denied</source>
-        <translation></translation>
+        <translation>Erişim reddedildi</translation>
     </message>
     <message>
         <source>Connectable things</source>
-        <translation></translation>
+        <translation>Bağlanabilir şeyler</translation>
     </message>
     <message>
         <source>Accounts</source>
-        <translation></translation>
+        <translation>Hesaplar</translation>
     </message>
     <message>
         <source>User is logged in</source>
-        <translation></translation>
+        <translation>Kullanıcı giriş yaptı</translation>
     </message>
     <message>
         <source>User login changed</source>
-        <translation></translation>
+        <translation>Kullanıcı girişi değişti</translation>
     </message>
     <message>
         <source>Alert</source>
-        <translation></translation>
+        <translation>Uyarı</translation>
     </message>
     <message>
         <source>Simple closables</source>
-        <translation></translation>
+        <translation>Basit kapatılabilirler</translation>
     </message>
     <message>
         <source>Closables</source>
-        <translation></translation>
+        <translation>kapatılabilir</translation>
     </message>
     <message>
         <source>Stop</source>
-        <translation></translation>
+        <translation>Durdur</translation>
     </message>
     <message>
         <source>Barcode scanners</source>
-        <translation></translation>
+        <translation>Barkod tarayıcılar</translation>
     </message>
     <message>
         <source>Content</source>
-        <translation></translation>
+        <translation>İçerik</translation>
     </message>
     <message>
         <source>Code scanned</source>
-        <translation></translation>
+        <translation>Kod tarandı</translation>
     </message>
     <message>
         <source>Battery level</source>
-        <translation></translation>
+        <translation>Pil seviyesi</translation>
     </message>
     <message>
         <source>Battery level changed</source>
-        <translation></translation>
+        <translation>Pil seviyesi değişti</translation>
     </message>
     <message>
         <source>Switches</source>
-        <translation></translation>
+        <translation>Anahtarlar</translation>
     </message>
     <message>
         <source>Button pressed</source>
-        <translation></translation>
+        <translation>Düğmeye basıldı</translation>
     </message>
     <message>
         <source>Closable sensors</source>
-        <translation></translation>
+        <translation>Kapatılabilir sensörler</translation>
     </message>
     <message>
         <source>Closed</source>
-        <translation></translation>
+        <translation>Kapalı</translation>
     </message>
     <message>
         <source>Opened or closed</source>
-        <translation></translation>
+        <translation>Açık veya kapalı</translation>
     </message>
     <message>
         <source>CO2 sensor</source>
-        <translation></translation>
+        <translation>CO2 sensörü</translation>
     </message>
     <message>
         <source>CO2 level</source>
-        <translation></translation>
+        <translation>CO2 seviyesi</translation>
     </message>
     <message>
         <source>CO2 level changed</source>
-        <translation></translation>
+        <translation>CO2 seviyesi değişti</translation>
     </message>
     <message>
         <source>Color temperature light</source>
-        <translation></translation>
+        <translation>Renk sıcaklığı ışığı</translation>
     </message>
     <message>
         <source>Lights color temperature is</source>
