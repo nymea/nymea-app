@@ -1651,103 +1651,96 @@
     </message>
     <message>
         <source>Dez</source>
-        <translation></translation>
+        <translation type="unfinished">On</translation>
     </message>
     <message>
         <source>Weekdays</source>
-        <translation></translation>
+        <translation>Hafta içi</translation>
     </message>
     <message>
         <source>Day of month</source>
-        <translation></translation>
+        <translation>Ayın günü</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation></translation>
+        <translation>tamam</translation>
     </message>
 </context>
 <context>
     <name>EnergyView</name>
     <message>
         <source>Total consumed energy</source>
-        <translation></translation>
+        <translation>Toplam tüketilen enerji</translation>
     </message>
     <message>
         <source>Power usage history</source>
-        <translation></translation>
+        <translation>Güç kullanım geçmişi</translation>
     </message>
     <message>
         <source>Total produced energy</source>
-        <translation></translation>
+        <translation>Toplam üretilen enerji</translation>
     </message>
     <message>
         <source>There are no energy meters installed.</source>
-        <translation></translation>
+        <translation>Kurulu enerji sayaçları yok.</translation>
     </message>
     <message>
         <source>To get an overview of your current energy usage, install some energy meters.</source>
-        <translation></translation>
+        <translation>Mevcut enerji kullanımınız hakkında bir genel bakış elde etmek için bazı enerji sayaçları kurun.</translation>
     </message>
     <message>
         <source>Add things</source>
-        <translation></translation>
+        <translation>Bir şeyler ekle</translation>
     </message>
     <message numerus="yes">
         <source>%n seconds</source>
-        <translation>
-            <numerusform></numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%n saniye</numerusform>
+        <numerusform>%n saniyeler</numerusform>
+        </translation></message>
     <message numerus="yes">
         <source>%n minutes</source>
-        <translation>
-            <numerusform></numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%n dakika</numerusform>
+        <numerusform>%n dakikalar</numerusform>
+        </translation></message>
     <message numerus="yes">
         <source>%n hours</source>
-        <translation>
-            <numerusform></numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%n saat</numerusform>
+        <numerusform>%n saatler</numerusform>
+        </translation></message>
     <message numerus="yes">
         <source>%n days</source>
-        <translation>
-            <numerusform></numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%n gün</numerusform>
+        <numerusform>%n günler</numerusform>
+        </translation></message>
     <message numerus="yes">
         <source>%n weeks</source>
-        <translation>
-            <numerusform></numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%n hafta</numerusform>
+        <numerusform>%n haftalar</numerusform>
+        </translation></message>
     <message numerus="yes">
         <source>%n months</source>
-        <translation>
-            <numerusform></numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%n ay</numerusform>
+        <numerusform>%n aylar</numerusform>
+        </translation></message>
     <message numerus="yes">
         <source>%n years</source>
-        <translation>
-            <numerusform></numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%n yıl</numerusform>
+        <numerusform>%n yıllar</numerusform>
+        </translation></message>
 </context>
 <context>
     <name>ErrorDialog</name>
     <message>
         <source>Oh snap!</source>
-        <translation></translation>
+        <translation>oh çabuk</translation>
     </message>
     <message>
         <source>An unexpected error happened. We&apos;re sorry for that.</source>
-        <translation></translation>
+        <translation>Beklenmeyen bir hata oluştu. Bunun için üzgünüz.</translation>
     </message>
     <message>
         <source>Error code: %1</source>
-        <translation></translation>
+        <translation>Hata kodu: %1</translation>
     </message>
 </context>
 <context>
@@ -1758,195 +1751,195 @@
     </message>
     <message>
         <source>anytime</source>
-        <translation></translation>
+        <translation>her zaman</translation>
     </message>
 </context>
 <context>
     <name>FavoritesView</name>
     <message>
         <source>There are no favorite things yet.</source>
-        <translation></translation>
+        <translation>Henüz favori bir şey yok.</translation>
     </message>
     <message>
         <source>It appears there are no things set up either yet. In order to use favorites you need to add some things first.</source>
-        <translation></translation>
+        <translation>Henüz ayarlanmış bir şey yok gibi görünüyor. Favorileri kullanmak için önce bazı şeyler eklemeniz gerekir.</translation>
     </message>
     <message>
         <source>Favorites allow you to keep track of your most important things when you have lots of them. Watch out for the star when interacting with things and use it to mark them as your favorites.</source>
-        <translation></translation>
+        <translation>Sık Kullanılanlar, en önemli şeylerinizi çok sayıdayken takip etmenize olanak tanır. Bir şeylerle etkileşime girerken yıldıza dikkat edin ve onu favorileriniz olarak işaretlemek için kullanın.</translation>
     </message>
     <message>
         <source>Add things</source>
-        <translation></translation>
+        <translation>Bir şeyler ekle</translation>
     </message>
 </context>
 <context>
     <name>FingerprintReaderDevicePage</name>
     <message>
         <source>Manage access</source>
-        <translation></translation>
+        <translation>Erişimi yönet</translation>
     </message>
     <message>
         <source>Access log:</source>
-        <translation></translation>
+        <translation>Erişim günlüğü:</translation>
     </message>
     <message>
         <source>Access granted for user %1</source>
-        <translation></translation>
+        <translation>%1 kullanıcısına erişim izni verild</translation>
     </message>
     <message>
         <source>Access denied</source>
-        <translation></translation>
+        <translation>Erişim reddedildi</translation>
     </message>
     <message>
         <source>Manage users</source>
-        <translation></translation>
+        <translation>Kullanıcıları Yönet</translation>
     </message>
     <message>
         <source>There are no fingerprints registered with this lock</source>
-        <translation></translation>
+        <translation>Bu kilitte kayıtlı parmak izi yok</translation>
     </message>
     <message>
         <source>The following users have valid fingerprints for this lock</source>
-        <translation></translation>
+        <translation>Aşağıdaki kullanıcıların bu kilit için geçerli parmak izleri var</translation>
     </message>
     <message>
         <source>Add a fingerprint</source>
-        <translation></translation>
+        <translation>Parmak izi ekle</translation>
     </message>
     <message>
         <source>Add a new fingerprint</source>
-        <translation></translation>
+        <translation>Yeni bir parmak izi ekle</translation>
     </message>
     <message>
         <source>Username</source>
-        <translation></translation>
+        <translation>Kullanıcı adı</translation>
     </message>
     <message>
         <source>Finger</source>
-        <translation></translation>
+        <translation>Parmak</translation>
     </message>
     <message>
         <source>Left thumb</source>
-        <translation></translation>
+        <translation>Sol baş parmak</translation>
     </message>
     <message>
         <source>Left index finger</source>
-        <translation></translation>
+        <translation>Sol işaret parmağı</translation>
     </message>
     <message>
         <source>Left middle finger</source>
-        <translation></translation>
+        <translation>Sol orta parmak</translation>
     </message>
     <message>
         <source>Left ring finger</source>
-        <translation></translation>
+        <translation>Sol yüzük parmağı</translation>
     </message>
     <message>
         <source>Left pinky finger</source>
-        <translation></translation>
+        <translation>Sol serçe parmak</translation>
     </message>
     <message>
         <source>Right thumb</source>
-        <translation></translation>
+        <translation>Sağ başparmak</translation>
     </message>
     <message>
         <source>Right index finger</source>
-        <translation></translation>
+        <translation>Sağ işaret parmağı</translation>
     </message>
     <message>
         <source>Right middle finger</source>
-        <translation></translation>
+        <translation>Sağ orta parmak</translation>
     </message>
     <message>
         <source>Right ring finger</source>
-        <translation></translation>
+        <translation>Sağ yüzük parmağı</translation>
     </message>
     <message>
         <source>Right pinky finger</source>
-        <translation></translation>
+        <translation>Sağ serçe parmak</translation>
     </message>
     <message>
         <source>Add user</source>
-        <translation></translation>
+        <translation>Kullanıcı Ekle</translation>
     </message>
     <message>
         <source>Please scan the fingerprint now</source>
-        <translation></translation>
+        <translation>Lütfen şimdi parmak izini tarayın</translation>
     </message>
     <message>
         <source>Uh oh</source>
-        <translation></translation>
+        <translation>ah ah</translation>
     </message>
     <message>
         <source>All done!</source>
-        <translation></translation>
+        <translation>Hepsi tamam!</translation>
     </message>
     <message>
         <source>Fingerprint could not be read.
 Please try again.</source>
-        <translation></translation>
+        <translation>Parmak izi okunamadı. Lütfen tekrar deneyin.</translation>
     </message>
     <message>
         <source>Fingerprint added!</source>
-        <translation></translation>
+        <translation>Parmak izi eklendi!</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation></translation>
+        <translation>Tamam</translation>
     </message>
     <message>
         <source>Access request details</source>
-        <translation></translation>
+        <translation>Erişim isteği ayrıntıları</translation>
     </message>
     <message>
         <source>Date/Time</source>
-        <translation></translation>
+        <translation>Tarih/Saat</translation>
     </message>
     <message>
         <source>User</source>
-        <translation></translation>
+        <translation>kullanıcı</translation>
     </message>
     <message>
         <source>Fingerprint</source>
-        <translation></translation>
+        <translation>Parmak izi</translation>
     </message>
 </context>
 <context>
     <name>GarageThingsListPage</name>
     <message>
         <source>My %1</source>
-        <translation type="unfinished"></translation>
+        <translation>benim %1</translation>
     </message>
     <message>
         <source>My things</source>
-        <translation type="unfinished"></translation>
+        <translation>Eşyalarım</translation>
     </message>
     <message>
         <source>All my things</source>
-        <translation type="unfinished"></translation>
+        <translation>tüm eşyalarım</translation>
     </message>
 </context>
 <context>
     <name>GaragesView</name>
     <message>
         <source>There are no garage doors set up yet.</source>
-        <translation></translation>
+        <translation>Henüz kurulmuş bir garaj kapısı yok.</translation>
     </message>
     <message>
         <source>Connect your garage doors in order to control them from here.</source>
-        <translation></translation>
+        <translation>Garaj kapılarınızı buradan kontrol edebilmek için birbirine bağlayın.</translation>
     </message>
     <message>
         <source>Add things</source>
-        <translation></translation>
+        <translation>Bir şeyler ekle</translation>
     </message>
 </context>
 <context>
     <name>GeneralSettingsPage</name>
     <message>
         <source>Name</source>
-        <translation></translation>
+        <translation>İsim</translation>
     </message>
     <message>
         <source>OK</source>
