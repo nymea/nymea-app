@@ -180,12 +180,11 @@ void BluetoothDiscovery::deviceDiscovered(const QBluetoothDeviceInfo &deviceInfo
 {
     qCDebug(dcBtWiFiSetup()) << "BluetoothDiscovery: Device discovered:" << deviceInfo.address().toString() << deviceInfo.deviceUuid();
     foreach (BluetoothDeviceInfo *di, m_deviceInfos->deviceInfos()) {
-        if (di->address() == deviceInfo.address().toString()) {
+        if (di->bluetoothDeviceInfo().deviceUuid() == deviceInfo.deviceUuid()) {
             di->setBluetoothDeviceInfo(deviceInfo);
             return;
         }
     }
-
 
     BluetoothDeviceInfo *deviceInformation = new BluetoothDeviceInfo(deviceInfo);
     qCDebug(dcBtWiFiSetup) << "BluetoothDiscovery: [+]" << deviceInformation->name() << "(" << deviceInformation->address() << ")" << (deviceInformation->isLowEnergy() ? "LE" : "") << deviceInfo.serviceUuids();
