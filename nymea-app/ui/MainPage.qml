@@ -44,7 +44,14 @@ Page {
     id: root
 
     function configureViews() {
+        if (Configuration.hasOwnProperty("mainViewsFilter")) {
+            console.warn("Main views configuration is disabled by app configuration")
+            return
+        }
+
+        PlatformHelper.vibrate(PlatformHelper.HapticsFeedbackSelection)
         d.configOverlay = configComponent.createObject(contentContainer)
+        mainHeader.menuOpen = false;
     }
 
     header: ToolBar {
@@ -287,9 +294,7 @@ Page {
                     iconSource: "../images/" + model.icon + ".svg"
 
                     onPressAndHold: {
-                        PlatformHelper.vibrate(PlatformHelper.HapticsFeedbackSelection)
-                        d.configOverlay = configComponent.createObject(contentContainer)
-                        mainHeader.menuOpen = false;
+                        root.configureViews();
                     }
                 }
             }
@@ -464,8 +469,11 @@ Page {
 
                     header: RowLayout {
                         id: headerRow
+                        width: parent.width
                         Label {
                             text: model.displayName
+                            Layout.fillWidth: true
+                            elide: Text.ElideRight
                         }
                     }
 
