@@ -16,5 +16,8 @@ QString PlatformHelperUBPorts::platform() const
 QString PlatformHelperUBPorts::deviceSerial() const
 {
     QSettings s;
-    return s.value("deviceSerial", QUuid::createUuid()).toString();
+    if (!s.contains("deviceSerial")) {
+        s.setValue("deviceSerial", QUuid::createUuid());
+    }
+    return s.value("deviceSerial").toString();
 }
