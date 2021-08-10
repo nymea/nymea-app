@@ -176,6 +176,9 @@ void ThingClassesProxy::setGroupByInterface(bool groupByInterface)
 
 ThingClass *ThingClassesProxy::get(int index) const
 {
+    if (!m_engine) {
+        return nullptr;
+    }
     return m_engine->thingManager()->thingClasses()->get(mapToSource(this->index(index, 0)).row());
 }
 
