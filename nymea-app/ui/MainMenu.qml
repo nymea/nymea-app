@@ -161,7 +161,8 @@ Drawer {
                     text: qsTr("Configure main view")
                     iconName: "../images/configure.svg"
                     progressive: false
-                    visible: root.currentEngine && root.currentEngine.jsonRpcClient.currentHost
+                    visible: root.currentEngine && root.currentEngine.jsonRpcClient.currentHost &&
+                             !Configuration.hasOwnProperty("mainViewsFilter")
                     onClicked: {
                         root.configureMainView();
                         root.close();
