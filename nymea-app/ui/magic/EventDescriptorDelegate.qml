@@ -96,7 +96,7 @@ NymeaSwipeDelegate {
                 ret += " " + qsTr("and %1 %2 %3")
                 .arg(paramType.displayName)
                 .arg(operatorString)
-                .arg(model.value)
+                .arg(paramDescriptor.value)
             }
         }
 
