@@ -17,8 +17,8 @@ ConfiguredHostsModel::ConfiguredHostsModel(QObject *parent) : QAbstractListModel
         host->setName(cachedName);
         addHost(host);
         settings.endGroup();
-        m_currentIndex = settings.value("currentIndex", 0).toInt();
     }
+    m_currentIndex = settings.value("currentIndex", 0).toInt();
     settings.endGroup();
 
     // If there aren't any in the config, try migrating settings from old tab model
@@ -41,6 +41,11 @@ ConfiguredHostsModel::ConfiguredHostsModel(QObject *parent) : QAbstractListModel
     // There must be always 1 at least
     if (m_list.isEmpty()) {
         createHost();
+    }
+
+    // Make sure the currentIndex from the config isn't out of place
+    if (m_currentIndex >= m_list.count()) {
+        m_currentIndex = m_list.count()-1;
     }
 }
 
