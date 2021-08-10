@@ -26,6 +26,7 @@ Page {
         spacing: Style.margins
 
         RowLayout {
+            Layout.margins: Style.margins
             ProgressButton {
                 imageSource: "/ui/images/navigation-menu.svg"
                 longpressEnabled: false
@@ -35,7 +36,6 @@ Page {
             Label {
                 id: titleLabel
                 Layout.fillWidth: true
-                Layout.margins: Style.margins
                 text: root.title
                 font: Style.largeFont
                 horizontalAlignment: Text.AlignHCenter
