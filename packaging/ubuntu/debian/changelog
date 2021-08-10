@@ -1,3 +1,13 @@
+nymea-app (1.0.334) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix value display for event descriptors with multiple params
+  * Fix a possible crash in ThingClassesProxy
+  * Persist generated device serial on Ubuntu Phone
+  * Disable main view configuration with branding
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 10 Aug 2021 23:18:08 +0200
+
 nymea-app (1.0.333) bionic; urgency=medium
 
   [ Michael Zanetti ]
