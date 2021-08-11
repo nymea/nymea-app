@@ -95,7 +95,14 @@ android {
         abortOnError false
     }
 
+    // Do not compress Qt binary resources file
+    aaptOptions {
+        noCompress 'rcc'
+    }
+
     defaultConfig {
         resConfigs "en", "de", "ko", "it", "nl", "es"
+        minSdkVersion = qtMinSdkVersion
+        targetSdkVersion = qtTargetSdkVersion
     }
 }
