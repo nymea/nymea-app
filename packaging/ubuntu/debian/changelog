@@ -1,3 +1,12 @@
+nymea-app (1.0.335) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Bump Android API target level to 30
+  * Fix current index in main menu after a setup is aborted
+  * Fix button margins in wizard pages
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 11 Aug 2021 21:44:28 +0200
+
 nymea-app (1.0.334) bionic; urgency=medium
 
   [ Michael Zanetti ]
