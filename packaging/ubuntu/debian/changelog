@@ -1,3 +1,10 @@
+nymea-app (1.0.336) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Move ConnectionInfoDialog to be a component
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 12 Aug 2021 13:58:08 +0200
+
 nymea-app (1.0.335) bionic; urgency=medium
 
   [ Michael Zanetti ]
