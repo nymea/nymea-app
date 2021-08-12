@@ -252,5 +252,6 @@
         <file>ui/connection/NewConnectionWizard.qml</file>
         <file>ui/components/WizardPageBase.qml</file>
         <file>ui/system/ZigbeeNetworkPage.qml</file>
+        <file>ui/components/ConnectionInfoDialog.qml</file>
     </qresource>
 </RCC>
