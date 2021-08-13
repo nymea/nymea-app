@@ -198,6 +198,7 @@ Drawer {
                     iconName: "../images/help.svg"
                     progressive: false
                     onClicked: Qt.openUrlExternally("https://nymea.io/documentation/users/usage/first-steps")
+                    visible: Configuration.showCommunityLinks
                 }
                 NymeaItemDelegate {
                     Layout.fillWidth: true
@@ -205,6 +206,7 @@ Drawer {
                     iconName: "../images/discourse.svg"
                     progressive: false
                     onClicked: Qt.openUrlExternally("https://forum.nymea.io")
+                    visible: Configuration.showCommunityLinks
                 }
                 NymeaItemDelegate {
                     Layout.fillWidth: true
@@ -212,6 +214,7 @@ Drawer {
                     iconName: "../images/telegram.svg"
                     progressive: false
                     onClicked: Qt.openUrlExternally("https://t.me/nymeacommunity")
+                    visible: Configuration.showCommunityLinks
                 }
                 NymeaItemDelegate {
                     Layout.fillWidth: true
@@ -219,6 +222,7 @@ Drawer {
                     iconName: "../images/discord.svg"
                     progressive: false
                     onClicked: Qt.openUrlExternally("https://discord.gg/tX9YCpD")
+                    visible: Configuration.showCommunityLinks
                 }
                 NymeaItemDelegate {
                     Layout.fillWidth: true
@@ -226,6 +230,7 @@ Drawer {
                     iconName: "../images/twitter.svg"
                     progressive: false
                     onClicked: Qt.openUrlExternally("https://twitter.com/nymea_io")
+                    visible: Configuration.showCommunityLinks
                 }
                 NymeaItemDelegate {
                     Layout.fillWidth: true
@@ -233,6 +238,7 @@ Drawer {
                     iconName: "../images/facebook.svg"
                     progressive: false
                     onClicked: Qt.openUrlExternally("https://m.facebook.com/groups/nymea")
+                    visible: Configuration.showCommunityLinks
                 }
             }
         }

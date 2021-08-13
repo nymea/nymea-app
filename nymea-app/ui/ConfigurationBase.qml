@@ -5,4 +5,6 @@ Item {
     property string appName: "nymea:app"
 
     property string connectionWizard: "/ui/connection/NewConnectionWizard.qml"
+
+    property bool showCommunityLinks: false
 }
