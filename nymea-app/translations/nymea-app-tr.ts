@@ -2525,926 +2525,917 @@ Please try again.</source>
     </message>
     <message>
         <source>Color temperature light</source>
-        <translation>Renk sıcaklığı ışığı</translation>
+        <translation>Işık renk sıcaklığı</translation>
     </message>
     <message>
         <source>Lights color temperature is</source>
-        <translation></translation>
+        <translation>Işıkların renk sıcaklığı</translation>
     </message>
     <message>
         <source>A lights color temperature has changed</source>
-        <translation></translation>
+        <translation>Bir ışık renk sıcaklığı değişti</translation>
     </message>
     <message>
         <source>Set lights color temperature</source>
-        <translation></translation>
+        <translation>Işıkların renk sıcaklığını ayarla</translation>
     </message>
     <message>
         <source>Color lights</source>
-        <translation></translation>
+        <translation>Renkli ışıklar</translation>
     </message>
     <message>
         <source>Light&apos;s color is</source>
-        <translation></translation>
+        <translation>Işığın rengi</translation>
     </message>
     <message>
         <source>A light&apos;s color has changed</source>
-        <translation></translation>
+        <translation>Bir ışığın rengi değişti</translation>
     </message>
     <message>
         <source>Set lights color</source>
-        <translation></translation>
+        <translation>Işık rengini ayarla</translation>
     </message>
     <message>
         <source>Conductivity sensors</source>
-        <translation></translation>
+        <translation>İletkenlik sensörleri</translation>
     </message>
     <message>
         <source>Conductivity</source>
-        <translation></translation>
+        <translation>İletkenlik</translation>
     </message>
     <message>
         <source>Conductivity changed</source>
-        <translation></translation>
+        <translation>İletkenlik değişti</translation>
     </message>
     <message>
         <source>Doorbells</source>
-        <translation></translation>
+        <translation>kapı zilleri</translation>
     </message>
     <message>
         <source>Doorbell pressed</source>
-        <translation></translation>
+        <translation>kapı zili basıldı</translation>
     </message>
     <message>
         <source>Moving</source>
-        <translation></translation>
+        <translation>Hareketli</translation>
     </message>
     <message>
         <source>Moving changed</source>
-        <translation></translation>
+        <translation>Taşınma değişti</translation>
     </message>
     <message>
         <source>Maximum charging current</source>
-        <translation></translation>
+        <translation>Maksimum şarj akımı</translation>
     </message>
     <message>
         <source>Maximum charging current changed</source>
-        <translation></translation>
+        <translation>Maksimum şarj akımı değişti</translation>
     </message>
     <message>
         <source>Set maximum charging current</source>
-        <translation></translation>
+        <translation>Maksimum şarj akımını ayarlayın</translation>
     </message>
     <message>
         <source>Percentage</source>
-        <translation></translation>
+        <translation>Yüzde</translation>
     </message>
     <message>
         <source>Percentage changed</source>
-        <translation></translation>
+        <translation>Yüzde değişti</translation>
     </message>
     <message>
         <source>Set percentage</source>
-        <translation></translation>
+        <translation>Yüzde ayarla</translation>
     </message>
     <message>
         <source>Media</source>
-        <translation></translation>
+        <translation>medya</translation>
     </message>
     <message>
         <source>Fast forward</source>
-        <translation></translation>
+        <translation>İleri sar</translation>
     </message>
     <message>
         <source>Fast rewind</source>
-        <translation></translation>
+        <translation>Hızlı geri sarma</translation>
     </message>
     <message>
         <source>Navigation pad</source>
-        <translation></translation>
+        <translation>Gezinti pedi</translation>
     </message>
     <message>
         <source>To</source>
-        <translation></translation>
+        <translation>ile</translation>
     </message>
     <message>
         <source>Navigate</source>
-        <translation></translation>
+        <translation>Gezin</translation>
     </message>
     <message>
         <source>Smart meter</source>
-        <translation></translation>
+        <translation>Akıllı sayaç</translation>
     </message>
     <message>
         <source>Smart meters</source>
-        <translation></translation>
+        <translation>Akıllı sayaçlar</translation>
     </message>
     <message>
         <source>Total energy consumed</source>
-        <translation></translation>
+        <translation>Tüketilen toplam enerji</translation>
     </message>
     <message>
         <source>Total energy consumed changed</source>
-        <translation></translation>
+        <translation>Tüketilen toplam enerji değişti</translation>
     </message>
     <message>
         <source>Current power</source>
-        <translation></translation>
+        <translation>Mevcut güç</translation>
     </message>
     <message>
         <source>Current power changed</source>
-        <translation></translation>
+        <translation>Mevcut güç değişti</translation>
     </message>
     <message>
         <source>Total energy producedd</source>
-        <translation></translation>
+        <translation>Üretilen toplam enerji</translation>
     </message>
     <message>
         <source>Total energy produced changed</source>
-        <translation></translation>
+        <translation>Üretilen toplam enerji değişti</translation>
     </message>
     <message>
         <source>Mute</source>
-        <translation></translation>
+        <translation>sessiz</translation>
     </message>
     <message>
         <source>Muted</source>
-        <translation></translation>
+        <translation>sessiz</translation>
     </message>
     <message>
         <source>Volume</source>
-        <translation></translation>
+        <translation>Ses</translation>
     </message>
     <message>
         <source>Volume changed</source>
-        <translation></translation>
+        <translation>Ses seviyesi değişti</translation>
     </message>
     <message>
         <source>Set volume</source>
-        <translation></translation>
+        <translation>Ses seviyesini ayarla</translation>
     </message>
     <message>
         <source>User access control systems</source>
-        <translation></translation>
+        <translation>Kullanıcı erişim kontrol sistemleri</translation>
     </message>
     <message>
         <source>Users</source>
-        <translation></translation>
+        <translation>Kullanıcılar</translation>
     </message>
     <message>
         <source>Users changed</source>
-        <translation></translation>
+        <translation>Kullanıcılar değişti</translation>
     </message>
     <message>
         <source>User</source>
-        <translation></translation>
+        <translation>kullanıcı</translation>
     </message>
     <message>
         <source>Add user</source>
-        <translation></translation>
+        <translation>Kullanıcı Ekle</translation>
     </message>
     <message>
         <source>Remove user</source>
-        <translation></translation>
+        <translation>Kullanıcıyı kaldır</translation>
     </message>
     <message>
         <source>Fingerprint readers</source>
-        <translation></translation>
+        <translation>Parmak izi okuyucular</translation>
     </message>
     <message>
         <source>Finger</source>
-        <translation></translation>
+        <translation>Parmak</translation>
     </message>
     <message>
         <source>Garage doors</source>
-        <translation></translation>
+        <translation>Garaj kapıları</translation>
     </message>
     <message>
         <source>State</source>
-        <translation></translation>
+        <translation>Durum</translation>
     </message>
     <message>
         <source>State changed</source>
-        <translation></translation>
+        <translation>Durum değişti</translation>
     </message>
     <message>
         <source>Intermediate position</source>
-        <translation></translation>
+        <translation>orta pozisyon</translation>
     </message>
     <message>
         <source>Intermediate position changed</source>
-        <translation></translation>
+        <translation>Ara pozisyon değişti</translation>
     </message>
     <message>
         <source>Incoming events</source>
-        <translation></translation>
+        <translation>Gelen olaylar</translation>
     </message>
     <message>
         <source>Triggered</source>
-        <translation></translation>
+        <translation>tetiklendi</translation>
     </message>
     <message>
         <source>Light sensors</source>
-        <translation></translation>
+        <translation>Işık sensörleri</translation>
     </message>
     <message>
         <source>Buttons</source>
-        <translation></translation>
+        <translation>Düğmeler</translation>
     </message>
     <message>
         <source>Long pressed</source>
-        <translation></translation>
+        <translation>Uzun basıldığında</translation>
     </message>
     <message>
         <source>Media sources</source>
-        <translation></translation>
+        <translation>Medya kaynakları</translation>
     </message>
     <message>
         <source>Title changed</source>
-        <translation></translation>
+        <translation>Başlık değiştirildi</translation>
     </message>
     <message>
         <source>Artist</source>
-        <translation></translation>
+        <translation>Sanatçı</translation>
     </message>
     <message>
         <source>Artist changed</source>
-        <translation></translation>
+        <translation>Sanatçı değişti</translation>
     </message>
     <message>
         <source>Collection</source>
-        <translation></translation>
+        <translation>koleksiyon</translation>
     </message>
     <message>
         <source>Collection changed</source>
-        <translation></translation>
+        <translation>Koleksiyon değişti</translation>
     </message>
     <message>
         <source>Artwork</source>
-        <translation></translation>
+        <translation>sanat eseri</translation>
     </message>
     <message>
         <source>Artwork changed</source>
-        <translation></translation>
+        <translation>Sanat eseri değişti</translation>
     </message>
     <message>
         <source>Moisture sensors</source>
-        <translation></translation>
+        <translation>Nem sensörleri</translation>
     </message>
     <message>
         <source>Moisture</source>
-        <translation></translation>
+        <translation>Nem</translation>
     </message>
     <message>
         <source>Moisture changed</source>
-        <translation></translation>
+        <translation>Nem değişti</translation>
     </message>
     <message>
         <source>Button name</source>
-        <translation></translation>
+        <translation>Düğme adı</translation>
     </message>
     <message>
         <source>Pressed</source>
-        <translation></translation>
+        <translation>preslenmiş</translation>
     </message>
     <message>
         <source>Noise sensors</source>
-        <translation></translation>
+        <translation>Gürültü sensörleri</translation>
     </message>
     <message>
         <source>Noise level</source>
-        <translation></translation>
+        <translation>Gürültü seviyesi</translation>
     </message>
     <message>
         <source>Noise level changed</source>
-        <translation></translation>
+        <translation>Gürültü seviyesi değişti</translation>
     </message>
     <message>
         <source>Outgoing events</source>
-        <translation></translation>
+        <translation>Giden olaylar</translation>
     </message>
     <message>
         <source>Trigger</source>
-        <translation></translation>
+        <translation>Tetiklemek</translation>
     </message>
     <message>
         <source>Power sockets</source>
-        <translation></translation>
+        <translation>Güç prizleri</translation>
     </message>
     <message>
         <source>Powered</source>
-        <translation></translation>
+        <translation>Güçlendirilmiş</translation>
     </message>
     <message>
         <source>Turned on/off</source>
-        <translation></translation>
+        <translation>Açık/kapalı</translation>
     </message>
     <message>
         <source>Turn on/off</source>
-        <translation></translation>
+        <translation>Açmak / kapamak</translation>
     </message>
     <message>
         <source>Power switches</source>
-        <translation></translation>
+        <translation>Güç anahtarları</translation>
     </message>
     <message>
         <source>Pressure sensors</source>
-        <translation></translation>
+        <translation>Basınç sensörleri</translation>
     </message>
     <message>
         <source>Pressure</source>
-        <translation></translation>
+        <translation>Basınç</translation>
     </message>
     <message>
         <source>Pressure changed</source>
-        <translation></translation>
+        <translation>Basınç değişti</translation>
     </message>
     <message>
         <source>Shuffle</source>
-        <translation></translation>
+        <translation>Karıştır</translation>
     </message>
     <message>
         <source>Shuffle changed</source>
-        <translation></translation>
+        <translation>Karışık değiştirildi</translation>
     </message>
     <message>
         <source>Set shuffle</source>
-        <translation></translation>
+        <translation>Karıştırmayı ayarla</translation>
     </message>
     <message>
         <source>Repeat</source>
-        <translation></translation>
+        <translation>Tekrar et</translation>
     </message>
     <message>
         <source>Repeat changed</source>
-        <translation></translation>
+        <translation>Tekrar değişti</translation>
     </message>
     <message>
         <source>Set repeat</source>
-        <translation></translation>
+        <translation>Tekrarlamayı ayarla</translation>
     </message>
     <message>
         <source>Smart locks</source>
-        <translation></translation>
+        <translation>Akıllı kilitler</translation>
     </message>
     <message>
         <source>Unlatch</source>
-        <translation></translation>
+        <translation>mandalı aç</translation>
     </message>
     <message>
         <source>Thermostats</source>
-        <translation></translation>
+        <translation>termostatlar</translation>
     </message>
     <message>
         <source>Target temperature</source>
-        <translation></translation>
+        <translation>Hedef sıcaklık</translation>
     </message>
     <message>
         <source>Target temperature changed</source>
-        <translation></translation>
+        <translation>Hedef sıcaklık değişti</translation>
     </message>
     <message>
         <source>Set target temperature</source>
-        <translation></translation>
+        <translation>Hedef sıcaklığı ayarla</translation>
     </message>
     <message>
         <source>Weather</source>
-        <translation></translation>
+        <translation>Hava Durumu</translation>
     </message>
     <message>
         <source>Weather description</source>
-        <translation></translation>
+        <translation>Hava durumu açıklaması</translation>
     </message>
     <message>
         <source>Weather description changed</source>
-        <translation></translation>
+        <translation>Hava durumu açıklaması değişti</translation>
     </message>
     <message>
         <source>Weather condition</source>
-        <translation></translation>
+        <translation>Hava Durumu</translation>
     </message>
     <message>
         <source>Weather condition changed</source>
-        <translation></translation>
+        <translation>Hava durumu değişti</translation>
     </message>
     <message>
         <source>Temperature changed</source>
-        <translation></translation>
+        <translation>Sıcaklık değişti</translation>
     </message>
     <message>
         <source>Wind speed changed</source>
-        <translation></translation>
+        <translation>Rüzgar hızı değişti</translation>
     </message>
     <message>
         <source>Wind direction</source>
-        <translation></translation>
+        <translation>Rüzgar yönü</translation>
     </message>
     <message>
         <source>Wind direction changed</source>
-        <translation></translation>
+        <translation>Rüzgar yönü değişti</translation>
     </message>
     <message>
         <source>Wind speed sensors</source>
-        <translation></translation>
+        <translation>Rüzgar hızı sensörleri</translation>
     </message>
     <message>
         <source>Wind speed</source>
-        <translation></translation>
+        <translation>Rüzgar hızı</translation>
     </message>
     <message>
         <source>Wireless devices</source>
-        <translation></translation>
+        <translation>Kablosuz cihazlar</translation>
     </message>
     <message>
         <source>Signal strength</source>
-        <translation></translation>
+        <translation>Sinyal gücü</translation>
     </message>
     <message>
         <source>Signal strength changed</source>
-        <translation></translation>
+        <translation>Sinyal gücü değişti</translation>
     </message>
     <message>
         <source>Sensors</source>
-        <translation></translation>
+        <translation>Sensörler</translation>
     </message>
     <message>
         <source>Heating</source>
-        <translation></translation>
+        <translation>Isıtma</translation>
     </message>
     <message>
         <source>Irrigation</source>
-        <translation></translation>
+        <translation>Sulama</translation>
     </message>
     <message>
         <source>Ventilation</source>
-        <translation></translation>
+        <translation>Havalandırma</translation>
     </message>
     <message>
         <source>Navigation pad with menu</source>
-        <translation></translation>
+        <translation>Menü ile gezinme pedi</translation>
     </message>
     <message>
         <source>Operate</source>
-        <translation></translation>
+        <translation>işletmek</translation>
     </message>
     <message>
         <source>Water sensors</source>
-        <translation></translation>
+        <translation>Su sensörleri</translation>
     </message>
     <message>
         <source>Water detected</source>
-        <translation></translation>
+        <translation>Su tespit edildi</translation>
     </message>
     <message>
         <source>Water detected changed</source>
-        <translation></translation>
+        <translation>Su tespiti değişti</translation>
     </message>
     <message>
         <source>Charging started or stopped</source>
-        <translation type="unfinished"></translation>
+        <translation>Şarj başladı veya durduruldu</translation>
     </message>
     <message>
         <source>Discharging</source>
-        <translation type="unfinished"></translation>
+        <translation>boşaltma</translation>
     </message>
     <message>
         <source>Discharging started or stopped</source>
-        <translation type="unfinished"></translation>
+        <translation>Boşaltma başlatıldı veya durduruldu</translation>
     </message>
     <message>
         <source>Plugged in</source>
-        <translation type="unfinished"></translation>
+        <translation>Fişe takılı</translation>
     </message>
     <message>
         <source>Plugged in or out</source>
-        <translation type="unfinished"></translation>
+        <translation>Takılı veya çıktı</translation>
     </message>
     <message>
         <source>Cleaning robots</source>
-        <translation type="unfinished"></translation>
+        <translation>temizlik robotları</translation>
     </message>
     <message>
         <source>Robot state</source>
-        <translation type="unfinished"></translation>
+        <translation>robot durumu</translation>
     </message>
     <message>
         <source>Robot state changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Robot durumu değişti</translation>
     </message>
     <message>
         <source>Start cleaning</source>
-        <translation type="unfinished"></translation>
+        <translation>Temizlemeye başla</translation>
     </message>
     <message>
         <source>Stop cleaning</source>
-        <translation type="unfinished"></translation>
+        <translation>Temizlemeyi durdur</translation>
     </message>
     <message>
         <source>Pause cleaning</source>
-        <translation type="unfinished"></translation>
+        <translation>Temizlemeyi duraklat</translation>
     </message>
     <message>
         <source>Return to base</source>
-        <translation type="unfinished"></translation>
+        <translation>Üsse geri dön</translation>
     </message>
 </context>
 <context>
     <name>IrrigationDevicePage</name>
     <message>
         <source>Turn %1 off at %2</source>
-        <translation></translation>
+        <translation>%1&apos;i %2&apos;de kapat</translation>
     </message>
     <message>
         <source>Watering since</source>
-        <translation></translation>
+        <translation>beri sulama</translation>
     </message>
     <message>
         <source>Last watering</source>
-        <translation></translation>
+        <translation>Son sulama</translation>
     </message>
     <message>
         <source>This irrigation has not been used yet</source>
-        <translation></translation>
+        <translation>Bu sulama henüz kullanılmadı</translation>
     </message>
     <message numerus="yes">
         <source>%n minute(s)</source>
-        <translation>
-            <numerusform></numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%n dakikalar</numerusform>
+        <numerusform>%n dakika</numerusform>
+        </translation></message>
     <message numerus="yes">
         <source>%n hour(s)</source>
-        <translation>
-            <numerusform></numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%n saatler</numerusform>
+        <numerusform>%n saat</numerusform>
+        </translation></message>
     <message numerus="yes">
         <source>%n day(s)</source>
-        <translation>
-            <numerusform></numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%n günler</numerusform>
+        <numerusform>%n gün</numerusform>
+        </translation></message>
     <message numerus="yes">
         <source>%n minute(s) ago</source>
-        <translation>
-            <numerusform></numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%n dakikalar önce</numerusform>
+        <numerusform>%n dakika önce</numerusform>
+        </translation></message>
     <message numerus="yes">
         <source>%n hour(s) ago</source>
-        <translation>
-            <numerusform></numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%n saatler önce</numerusform>
+        <numerusform>%n saat önce</numerusform>
+        </translation></message>
     <message numerus="yes">
         <source>%n day(s) ago</source>
-        <translation>
-            <numerusform></numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%n günler önce</numerusform>
+        <numerusform>%n gün önce</numerusform>
+        </translation></message>
     <message>
         <source>Watering until</source>
         <extracomment>Irrigation will be turned of at, e.g. 09:00</extracomment>
-        <translation></translation>
+        <translation type="unfinished">kadar sulama</translation>
     </message>
     <message>
         <source>Turn off in</source>
         <extracomment>Turn on irrigation for, e.g. 5 minutes</extracomment>
-        <translation></translation>
+        <translation type="unfinished">kapat</translation>
     </message>
     <message>
         <source>Water for</source>
-        <translation></translation>
+        <translation>için su</translation>
     </message>
     <message>
         <source>1 minute</source>
-        <translation></translation>
+        <translation>1 dakika</translation>
     </message>
     <message>
         <source>2 minutes</source>
-        <translation></translation>
+        <translation>2 dakika</translation>
     </message>
     <message>
         <source>5 minutes</source>
-        <translation></translation>
+        <translation>5 dakika</translation>
     </message>
     <message>
         <source>15 minutes</source>
-        <translation></translation>
+        <translation>15 dakika</translation>
     </message>
     <message>
         <source>30 minutes</source>
-        <translation></translation>
+        <translation>30 dakika</translation>
     </message>
     <message>
         <source>1 hour</source>
-        <translation></translation>
+        <translation>1 saat</translation>
     </message>
     <message numerus="yes">
         <source>%n minute(s) left</source>
-        <translation>
-            <numerusform></numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%n dakikalar kaldı</numerusform>
+        <numerusform>%n dakika kaldı</numerusform>
+        </translation></message>
     <message numerus="yes">
         <source>%n hour(s) left</source>
-        <translation>
-            <numerusform></numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%n saatler kaldı</numerusform>
+        <numerusform>%n saat kaldı</numerusform>
+        </translation></message>
     <message numerus="yes">
         <source>%n day(s) left</source>
-        <translation>
-            <numerusform></numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%n günler kaldı</numerusform>
+        <numerusform>%n gün kaldı</numerusform>
+        </translation></message>
 </context>
 <context>
     <name>LightThingsListPage</name>
     <message>
         <source>Lights</source>
-        <translation type="unfinished"></translation>
+        <translation>Işıklar</translation>
     </message>
 </context>
 <context>
     <name>LogViewerPage</name>
     <message>
         <source>Log viewer</source>
-        <translation></translation>
+        <translation>Günlük görüntüleyici</translation>
     </message>
     <message>
         <source>%1 Server</source>
-        <translation></translation>
+        <translation>%1 Sunucu</translation>
     </message>
     <message>
         <source>System started</source>
-        <translation></translation>
+        <translation>Sistem başlatıldı</translation>
     </message>
     <message>
         <source>Rule triggered</source>
-        <translation></translation>
+        <translation>Kural tetiklendi</translation>
     </message>
     <message>
         <source>Actions executed</source>
-        <translation></translation>
+        <translation>Yürütülen eylemler</translation>
     </message>
     <message>
         <source>Rule active</source>
-        <translation></translation>
+        <translation>Kural etkin</translation>
     </message>
     <message>
         <source>Rule inactive</source>
-        <translation></translation>
+        <translation>Kural etkin değil</translation>
     </message>
     <message>
         <source>Exit actions executed</source>
-        <translation></translation>
+        <translation>Yürütülen çıkış işlemleri</translation>
     </message>
     <message>
         <source>Enabled changed</source>
-        <translation></translation>
+        <translation>Etkin değiştirildi</translation>
     </message>
 </context>
 <context>
     <name>LoggingCategories</name>
     <message>
         <source>Logging categories</source>
-        <translation type="unfinished"></translation>
+        <translation>Günlüğe kaydetme kategorileri</translation>
     </message>
     <message>
         <source>Critical</source>
-        <translation type="unfinished"></translation>
+        <translation>kritik</translation>
     </message>
     <message>
         <source>Warning</source>
-        <translation type="unfinished"></translation>
+        <translation>Uyarı</translation>
     </message>
     <message>
         <source>Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Bilgi</translation>
     </message>
     <message>
         <source>Debug</source>
-        <translation type="unfinished"></translation>
+        <translation>hata ayıklama</translation>
     </message>
 </context>
 <context>
     <name>LoginPage</name>
     <message>
         <source>Welcome to %1!</source>
-        <translation></translation>
+        <translation>%1&apos;e hoş geldiniz!</translation>
     </message>
     <message>
         <source>Sorry, that wasn&apos;t right. Try again please.</source>
-        <translation></translation>
+        <translation>Üzgünüm, bu doğru değildi. Lütfen tekrar deneyiniz.</translation>
     </message>
     <message>
         <source>The email you&apos;ve entered isn&apos;t valid.</source>
-        <translation></translation>
+        <translation>Girdiğiniz e-posta geçerli değil.</translation>
     </message>
     <message>
         <source>The email you&apos;ve entered is already used.</source>
-        <translation></translation>
+        <translation>Girdiğiniz e-posta zaten kullanılıyor.</translation>
     </message>
     <message>
         <source>The password you&apos;ve chose is too weak.</source>
-        <translation></translation>
+        <translation>Seçtiğiniz şifre çok zayıf.</translation>
     </message>
     <message>
         <source>In order to use your %1 system, please log in.</source>
-        <translation></translation>
+        <translation>%1 sisteminizi kullanmak için lütfen giriş yapınız.</translation>
     </message>
     <message>
         <source>Your e-mail address:</source>
-        <translation></translation>
+        <translation>E-posta adresinizi :</translation>
     </message>
     <message>
         <source>Password:</source>
-        <translation></translation>
+        <translation>Şifre:</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation></translation>
+        <translation>tamam</translation>
     </message>
     <message>
         <source>In order to use your %1 system, please enter your email address and set a password for it.</source>
-        <translation></translation>
+        <translation>%1 sisteminizi kullanmak için lütfen e-posta adresinizi girin ve bunun için bir şifre belirleyin.</translation>
     </message>
     <message>
         <source>An error happened with the user storage. Please make sure your %1 system is installed correctly.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcı depolama alanında bir hata oluştu. Lütfen %1 sisteminizin doğru kurulduğundan emin olun.</translation>
     </message>
 </context>
 <context>
     <name>LookAndFeelSettingsPage</name>
     <message>
         <source>Look and feel</source>
-        <translation></translation>
+        <translation>Bak ve hisset</translation>
     </message>
     <message>
         <source>View mode</source>
-        <translation></translation>
+        <translation>Görünüm modu</translation>
     </message>
     <message>
         <source>Windowed</source>
-        <translation></translation>
+        <translation>Pencereli</translation>
     </message>
     <message>
         <source>Maximized</source>
-        <translation></translation>
+        <translation>Maksimize</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation></translation>
+        <translation>Tam ekran</translation>
     </message>
     <message>
         <source>Return to home on idle</source>
-        <translation></translation>
+        <translation>Boştayken eve dön</translation>
     </message>
     <message>
         <source>Show connection tabs</source>
-        <translation></translation>
+        <translation>Bağlantı sekmelerini göster</translation>
     </message>
     <message>
         <source>Style changed</source>
-        <translation></translation>
+        <translation>Stil değişti</translation>
     </message>
     <message>
         <source>The application needs to be restarted for style changes to take effect.</source>
-        <translation></translation>
+        <translation>Stil değişikliklerinin etkili olması için uygulamanın yeniden başlatılması gerekir.</translation>
     </message>
     <message>
         <source>Turn screen off when idle</source>
-        <translation></translation>
+        <translation>Boştayken ekranı kapat</translation>
     </message>
     <message>
         <source>Screen off timeout</source>
-        <translation></translation>
+        <translation>Ekran kapanma zaman aşımı</translation>
     </message>
     <message>
         <source>seconds</source>
-        <translation></translation>
+        <translation>saniye</translation>
     </message>
     <message>
         <source>Screen brightness</source>
-        <translation></translation>
+        <translation>Ekran parlaklığı</translation>
     </message>
     <message>
         <source>Automatic</source>
-        <translation></translation>
+        <translation>Otomatik</translation>
     </message>
     <message>
         <source>Unit system</source>
-        <translation></translation>
+        <translation>Ölçü sistemi</translation>
     </message>
     <message>
         <source>Metric</source>
-        <translation></translation>
+        <translation>Metrik</translation>
     </message>
     <message>
         <source>Imperial</source>
-        <translation></translation>
+        <translation>imparator</translation>
     </message>
     <message>
         <source>Appearance</source>
-        <translation></translation>
+        <translation>Görünüm</translation>
     </message>
     <message>
         <source>Regional</source>
-        <translation></translation>
+        <translation>Bölgesel</translation>
     </message>
     <message>
         <source>Behavior</source>
-        <translation></translation>
+        <translation>Davranış</translation>
     </message>
 </context>
 <context>
     <name>MagicPage</name>
     <message>
         <source>Magic</source>
-        <translation></translation>
+        <translation>sihir</translation>
     </message>
     <message>
         <source>There is no magic set up yet.</source>
-        <translation></translation>
+        <translation>Henüz bir sihir ayarlanmadı.</translation>
     </message>
     <message>
         <source>Use magic to make your things smart! In a few easy steps you&apos;ll have your things wired up and work for you.</source>
-        <translation></translation>
+        <translation>Eşyalarınızı akıllı hale getirmek için sihir kullanın! Birkaç kolay adımda eşyalarınızı bağlayacak ve işinize yarayacaktır.</translation>
     </message>
     <message>
         <source>Add some magic</source>
-        <translation></translation>
+        <translation>Biraz sihir ekle</translation>
     </message>
 </context>
 <context>
     <name>Main</name>
     <message>
         <source>Set up now</source>
-        <translation></translation>
+        <translation>Şimdi kur</translation>
     </message>
     <message>
         <source>Celsi°s</source>
-        <translation></translation>
+        <translation>Santigrat ° s</translation>
     </message>
     <message>
         <source>There is no drexel und weiss heating system set up yet.</source>
-        <translation></translation>
+        <translation>Henüz kurulmuş bir drexel und weiss ısıtma sistemi bulunmamaktadır.</translation>
     </message>
     <message>
         <source>Current air quality</source>
-        <translation></translation>
+        <translation>Mevcut hava kalitesi</translation>
     </message>
     <message>
         <source>Current temperature</source>
-        <translation></translation>
+        <translation>Şuanki sıcaklık</translation>
     </message>
     <message>
         <source>Temperature, °C</source>
-        <translation></translation>
+        <translation>Sıcaklık, °C</translation>
     </message>
     <message>
         <source>Automate this thing</source>
-        <translation></translation>
+        <translation>Bu şeyi otomatikleştir</translation>
     </message>
     <message>
         <source>Auto</source>
-        <translation></translation>
+        <translation>Oto</translation>
     </message>
     <message>
         <source>Party</source>
-        <translation></translation>
+        <translation>Parti</translation>
     </message>
     <message>
         <source>Manual</source>
-        <translation></translation>
+        <translation>Manuel</translation>
     </message>
 </context>
 <context>
     <name>MainMenu</name>
     <message>
         <source>Configure things</source>
-        <translation></translation>
+        <translation>Şeyleri yapılandırın</translation>
     </message>
     <message>
         <source>Magic</source>
-        <translation></translation>
+        <translation>sihir</translation>
     </message>
     <message>
         <source>Configure main view</source>
-        <translation></translation>
+        <translation>Ana görünümü yapılandır</translation>
     </message>
     <message>
         <source>App settings</source>
-        <translation></translation>
+        <translation>Uygulama ayarları</translation>
     </message>
     <message>
         <source>System settings</source>
-        <translation></translation>
+        <translation>Sistem ayarları</translation>
     </message>
     <message>
         <source>Help</source>
-        <translation></translation>
+        <translation>Yardım</translation>
     </message>
     <message>
         <source>Forum</source>
@@ -3456,7 +3447,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Discord</source>
-        <translation></translation>
+        <translation>anlaşmazlık</translation>
     </message>
     <message>
         <source>Twitter</source>
@@ -3468,7 +3459,7 @@ Please try again.</source>
     </message>
     <message>
         <source>New connection</source>
-        <translation type="unfinished"></translation>
+        <translation>Yeni bağlantı</translation>
     </message>
     <message>
         <source>Set up another...</source>
