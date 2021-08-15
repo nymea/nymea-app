@@ -3463,91 +3463,90 @@ Please try again.</source>
     </message>
     <message>
         <source>Set up another...</source>
-        <translation type="unfinished"></translation>
+        <translation>Başka bir tane ayarla...</translation>
     </message>
 </context>
 <context>
     <name>MainPage</name>
     <message>
         <source>Favorites</source>
-        <translation></translation>
+        <translation>Favoriler</translation>
     </message>
     <message>
         <source>Things</source>
-        <translation></translation>
+        <translation>Bir şeyler</translation>
     </message>
     <message>
         <source>Scenes</source>
-        <translation></translation>
+        <translation>sahneler</translation>
     </message>
     <message>
         <source>Loading data...</source>
-        <translation></translation>
+        <translation>Veri yükleniyor...</translation>
     </message>
     <message>
         <source>Connected to</source>
-        <translation></translation>
+        <translation>Bağlı</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation></translation>
+        <translation>tamam</translation>
     </message>
     <message>
         <source>Disconnect</source>
-        <translation></translation>
+        <translation>bağlantıyı kes</translation>
     </message>
     <message>
         <source>System update in progress...</source>
-        <translation></translation>
+        <translation>Sistem güncellemesi devam ediyor...</translation>
     </message>
     <message numerus="yes">
         <source>%n system update(s) available</source>
-        <translation>
-            <numerusform></numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%n sistem güncellemeleri mevcut</numerusform>
+        <numerusform>%n sistem güncellemesi mevcut</numerusform>
+        </translation></message>
     <message>
         <source>Groups</source>
-        <translation></translation>
+        <translation>Gruplar</translation>
     </message>
     <message>
         <source>Garages</source>
-        <translation></translation>
+        <translation>Garajlar</translation>
     </message>
     <message>
         <source>Energy</source>
-        <translation></translation>
+        <translation>Enerji</translation>
     </message>
     <message>
         <source>Media</source>
-        <translation></translation>
+        <translation>medya</translation>
     </message>
     <message>
         <source>Done</source>
-        <translation></translation>
+        <translation>Tamamlandı</translation>
     </message>
     <message>
         <source>Configure</source>
-        <translation></translation>
+        <translation>Yapılandır</translation>
     </message>
     <message>
         <source>Configure main view</source>
-        <translation></translation>
+        <translation>Ana görünümü yapılandır</translation>
     </message>
     <message>
         <source>Dashboard</source>
-        <translation type="unfinished"></translation>
+        <translation>Gösterge Paneli</translation>
     </message>
 </context>
 <context>
     <name>ManualConnectPage</name>
     <message>
         <source>Manual connection</source>
-        <translation></translation>
+        <translation>Manuel bağlantı</translation>
     </message>
     <message>
         <source>Protocol</source>
-        <translation></translation>
+        <translation>Protokol</translation>
     </message>
     <message>
         <source>TCP</source>
@@ -3555,11 +3554,11 @@ Please try again.</source>
     </message>
     <message>
         <source>Websocket</source>
-        <translation></translation>
+        <translation>Web yuvası</translation>
     </message>
     <message>
         <source>Address:</source>
-        <translation></translation>
+        <translation>Adres:</translation>
     </message>
     <message>
         <source>Port:</source>
@@ -3567,224 +3566,224 @@ Please try again.</source>
     </message>
     <message>
         <source>Encrypted connection:</source>
-        <translation></translation>
+        <translation>Şifreli bağlantı:</translation>
     </message>
     <message>
         <source>Connect</source>
-        <translation></translation>
+        <translation>Bağlamak</translation>
     </message>
 </context>
 <context>
     <name>MediaBrowser</name>
     <message>
         <source>Sorry. An error happened launching the item. (Error code: %1)</source>
-        <translation></translation>
+        <translation>Afedersiniz. Öğe başlatılırken bir hata oluştu. (Hata kodu: %1)</translation>
     </message>
 </context>
 <context>
     <name>MediaDeviceListPage</name>
     <message>
         <source>Media</source>
-        <translation></translation>
+        <translation>medya</translation>
     </message>
     <message>
         <source>No playback</source>
-        <translation></translation>
+        <translation>Oynatma yok</translation>
     </message>
 </context>
 <context>
     <name>MediaPlayer</name>
     <message>
         <source>No playback</source>
-        <translation></translation>
+        <translation>Oynatma yok</translation>
     </message>
     <message>
         <source>Select input</source>
-        <translation></translation>
+        <translation>Giriş seç</translation>
     </message>
     <message>
         <source>Equalizer preset</source>
-        <translation></translation>
+        <translation>Ekolayzer ön ayarı</translation>
     </message>
 </context>
 <context>
     <name>MediaView</name>
     <message>
         <source>There are no media players set up.</source>
-        <translation></translation>
+        <translation>Ayarlanmış medya oynatıcı yok.</translation>
     </message>
     <message>
         <source>Connect your media players in order to control them from here.</source>
-        <translation></translation>
+        <translation>Medya oynatıcılarınızı buradan kontrol etmek için bağlayın.</translation>
     </message>
     <message>
         <source>Add things</source>
-        <translation></translation>
+        <translation>Bir şeyler ekle</translation>
     </message>
 </context>
 <context>
     <name>ModbusRtuAddMasterPage</name>
     <message>
         <source>Add a new Modbus RTU master</source>
-        <translation type="unfinished"></translation>
+        <translation>Yeni bir Modbus RTU master ekleyin</translation>
     </message>
     <message>
         <source>Serial ports</source>
-        <translation type="unfinished"></translation>
+        <translation>Seri bağlantı girişleri</translation>
     </message>
     <message>
         <source>Please select one of the following serial ports detected on the system.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lütfen sistemde algılanan aşağıdaki seri bağlantı noktalarından birini seçin.</translation>
     </message>
     <message>
         <source>There are no serial ports available.
 
 Please make sure the modbus RTU interface is connected to the system.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanılabilir seri bağlantı noktası yok. Lütfen modbus RTU arayüzünün sisteme bağlı olduğundan emin olun.</translation>
     </message>
     <message>
         <source>Configure modbus RTU master</source>
-        <translation type="unfinished"></translation>
+        <translation>Modbus RTU master&apos;ı yapılandırın</translation>
     </message>
     <message>
         <source>Serial port</source>
-        <translation type="unfinished"></translation>
+        <translation>Seri port</translation>
     </message>
     <message>
         <source>System location</source>
-        <translation type="unfinished"></translation>
+        <translation>Sistem konumu</translation>
     </message>
     <message>
         <source>Description</source>
-        <translation type="unfinished"></translation>
+        <translation>tanımlama</translation>
     </message>
     <message>
         <source>Manufacturer</source>
-        <translation type="unfinished">Üretici</translation>
+        <translation>Üretici firma</translation>
     </message>
     <message>
         <source>Serialnumber</source>
-        <translation type="unfinished"></translation>
+        <translation>Seri numarası</translation>
     </message>
     <message>
         <source>Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Yapılandırma</translation>
     </message>
     <message>
         <source>Baud rate</source>
-        <translation type="unfinished"></translation>
+        <translation>Baud hızı</translation>
     </message>
     <message>
         <source>Parity</source>
-        <translation type="unfinished"></translation>
+        <translation>parite</translation>
     </message>
     <message>
         <source>Data bits</source>
-        <translation type="unfinished"></translation>
+        <translation>Veri bitleri</translation>
     </message>
     <message>
         <source>Stop bits</source>
-        <translation type="unfinished"></translation>
+        <translation>Bitleri durdur</translation>
     </message>
     <message>
         <source>Number of request retries:</source>
-        <translation type="unfinished"></translation>
+        <translation>İstek yeniden deneme sayısı:</translation>
     </message>
     <message>
         <source>Request timeout [ms]:</source>
-        <translation type="unfinished"></translation>
+        <translation>İstek zaman aşımı [ms]:</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation type="unfinished"></translation>
+        <translation>Ekle</translation>
     </message>
 </context>
 <context>
     <name>ModbusRtuReconfigureMasterPage</name>
     <message>
         <source>Reconfigure modbus RTU master</source>
-        <translation type="unfinished"></translation>
+        <translation>Modbus RTU master&apos;ı yeniden yapılandırın</translation>
     </message>
     <message>
         <source>Serial ports</source>
-        <translation type="unfinished"></translation>
+        <translation>Seri bağlantı girişleri</translation>
     </message>
     <message>
         <source>Please select one of the following serial ports detected on the system.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lütfen sistemde algılanan aşağıdaki seri bağlantı noktalarından birini seçin.</translation>
     </message>
     <message>
         <source>There are no serial ports available.
 
 Please make sure the modbus RTU interface is connected to the system.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanılabilir seri bağlantı noktası yok. Lütfen modbus RTU arayüzünün sisteme bağlı olduğundan emin olun.</translation>
     </message>
     <message>
         <source>UUID</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">UUID</translation>
     </message>
     <message>
         <source>Serial port</source>
-        <translation type="unfinished"></translation>
+        <translation>Seri port</translation>
     </message>
     <message>
         <source>System location</source>
-        <translation type="unfinished"></translation>
+        <translation>Sistem konumu</translation>
     </message>
     <message>
         <source>Description</source>
-        <translation type="unfinished"></translation>
+        <translation>Tanım</translation>
     </message>
     <message>
         <source>Unknown</source>
-        <translation type="unfinished"></translation>
+        <translation>Bilinmeyen</translation>
     </message>
     <message>
         <source>Manufacturer</source>
-        <translation type="unfinished">Üretici</translation>
+        <translation>Üretici firma</translation>
     </message>
     <message>
         <source>Serialnumber</source>
-        <translation type="unfinished"></translation>
+        <translation>Seri numarası</translation>
     </message>
     <message>
         <source>Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Yapılandırma</translation>
     </message>
     <message>
         <source>Baud rate</source>
-        <translation type="unfinished"></translation>
+        <translation>Baud hızı</translation>
     </message>
     <message>
         <source>Parity</source>
-        <translation type="unfinished"></translation>
+        <translation>parite</translation>
     </message>
     <message>
         <source>Data bits</source>
-        <translation type="unfinished"></translation>
+        <translation>Veri bitleri</translation>
     </message>
     <message>
         <source>Stop bits</source>
-        <translation type="unfinished"></translation>
+        <translation>Bitleri durdur</translation>
     </message>
     <message>
         <source>Number of request retries:</source>
-        <translation type="unfinished"></translation>
+        <translation>İstek yeniden deneme sayısı:</translation>
     </message>
     <message>
         <source>Request timeout [ms]:</source>
-        <translation type="unfinished"></translation>
+        <translation>İstek zaman aşımı [ms]:</translation>
     </message>
     <message>
         <source>Apply</source>
-        <translation type="unfinished"></translation>
+        <translation>Uygula</translation>
     </message>
 </context>
 <context>
     <name>ModbusRtuSettingsPage</name>
     <message>
         <source>Modbus RTU</source>
-        <translation type="unfinished"></translation>
+        <translation>Modbus RTU</translation>
     </message>
     <message>
         <source>Add Modbus RTU master</source>
