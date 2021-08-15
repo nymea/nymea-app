@@ -3447,7 +3447,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Discord</source>
-        <translation>anlaşmazlık</translation>
+        <translation>Discord</translation>
     </message>
     <message>
         <source>Twitter</source>
