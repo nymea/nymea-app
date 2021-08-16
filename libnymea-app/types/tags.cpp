@@ -125,7 +125,7 @@ Tag *Tags::findThingTag(const QUuid &thingId, const QString &tagId) const
     return nullptr;
 }
 
-Tag *Tags::findRuleTag(const QString &ruleId, const QString &tagId) const
+Tag *Tags::findRuleTag(const QUuid &ruleId, const QString &tagId) const
 {
     foreach (Tag *tag, m_list) {
         if (tag->ruleId() == ruleId && tag->tagId() == tagId) {

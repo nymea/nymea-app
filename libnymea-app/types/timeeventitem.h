@@ -29,7 +29,7 @@
 #include <QDateTime>
 #include <QTime>
 
-class RepeatingOption;
+#include "repeatingoption.h"
 
 class TimeEventItem : public QObject
 {

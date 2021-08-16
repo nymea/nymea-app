@@ -28,8 +28,8 @@
 #include <QObject>
 #include <QUuid>
 #include <QUrl>
+#include "dashboardmodel.h"
 
-class DashboardModel;
 
 class DashboardItem : public QObject
 {

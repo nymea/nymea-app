@@ -103,7 +103,7 @@ void RuleActionParams::setRuleActionParamByName(const QString &paramName, const 
     addRuleActionParam(rap);
 }
 
-void RuleActionParams::setRuleActionParamEvent(const QString &paramTypeId, const QString &eventTypeId, const QString &eventParamTypeId)
+void RuleActionParams::setRuleActionParamEvent(const QUuid &paramTypeId, const QString &eventTypeId, const QString &eventParamTypeId)
 {
     foreach (RuleActionParam *rap, m_list) {
         if (rap->paramTypeId() == paramTypeId) {
@@ -135,7 +135,7 @@ void RuleActionParams::setRuleActionParamEventByName(const QString &paramName, c
     addRuleActionParam(rap);
 }
 
-void RuleActionParams::setRuleActionParamState(const QString &paramTypeId, const QString &stateThingId, const QString &stateTypeId)
+void RuleActionParams::setRuleActionParamState(const QUuid &paramTypeId, const QString &stateThingId, const QString &stateTypeId)
 {
     foreach (RuleActionParam *rap, m_list) {
         if (rap->paramTypeId() == paramTypeId) {
@@ -185,7 +185,7 @@ RuleActionParam *RuleActionParams::getParam(const QUuid &paramTypeId)
     return nullptr;
 }
 
-bool RuleActionParams::hasRuleActionParam(const QString &paramTypeId) const
+bool RuleActionParams::hasRuleActionParam(const QUuid &paramTypeId) const
 {
     for (int i = 0; i < m_list.count(); i++) {
         if (m_list.at(i)->paramTypeId() == paramTypeId) {

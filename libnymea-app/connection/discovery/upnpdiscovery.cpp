@@ -28,7 +28,7 @@
 #include <QUrl>
 #include <QXmlStreamReader>
 #include <QNetworkInterface>
-#include <QNetworkConfigurationManager>
+//#include <QNetworkConfigurationManager>
 
 #include "logging.h"
 
@@ -38,16 +38,16 @@ UpnpDiscovery::UpnpDiscovery(NymeaHosts *nymeaHosts, QObject *parent) :
     QObject(parent),
     m_nymeaHosts(nymeaHosts)
 {
-    m_networkConfigurationManager = new QNetworkConfigurationManager(this);
+//    m_networkConfigurationManager = new QNetworkConfigurationManager(this);
     m_networkAccessManager = new QNetworkAccessManager(this);
     connect(m_networkAccessManager, &QNetworkAccessManager::finished, this, &UpnpDiscovery::networkReplyFinished);
 
     m_repeatTimer.setInterval(500);
     connect(&m_repeatTimer, &QTimer::timeout, this, &UpnpDiscovery::writeDiscoveryPacket);
 
-    connect(m_networkConfigurationManager, &QNetworkConfigurationManager::configurationAdded, this, &UpnpDiscovery::updateInterfaces);
-    connect(m_networkConfigurationManager, &QNetworkConfigurationManager::configurationChanged, this, &UpnpDiscovery::updateInterfaces);
-    connect(m_networkConfigurationManager, &QNetworkConfigurationManager::configurationRemoved, this, &UpnpDiscovery::updateInterfaces);
+//    connect(m_networkConfigurationManager, &QNetworkConfigurationManager::configurationAdded, this, &UpnpDiscovery::updateInterfaces);
+//    connect(m_networkConfigurationManager, &QNetworkConfigurationManager::configurationChanged, this, &UpnpDiscovery::updateInterfaces);
+//    connect(m_networkConfigurationManager, &QNetworkConfigurationManager::configurationRemoved, this, &UpnpDiscovery::updateInterfaces);
 
     updateInterfaces();
 }
@@ -259,14 +259,14 @@ void UpnpDiscovery::networkReplyFinished(QNetworkReply *reply)
                 }
             }
 
-            if (xml.name() == "friendlyName") {
+            if (xml.name() == QStringLiteral("friendlyName")) {
                 name = xml.readElementText();
             }
-            if (xml.name() == "modelNumber") {
+            if (xml.name() == QStringLiteral("modelNumber")) {
                 version = xml.readElementText();
             }
-            if (xml.name() == "UDN") {
-                uuid = xml.readElementText().split(':').last();
+            if (xml.name() == QStringLiteral("UDN")) {
+                uuid = QUuid(xml.readElementText().split(':').last());
             }
         }
     }

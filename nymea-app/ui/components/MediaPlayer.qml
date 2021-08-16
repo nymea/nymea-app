@@ -29,6 +29,7 @@ import QtQuick.Layouts 1.2
 import Nymea 1.0
 import NymeaApp.Utils 1.0
 import QtGraphicalEffects 1.0
+import Qt5Compat.GraphicalEffects
 import "../delegates"
 import "../utils"
 

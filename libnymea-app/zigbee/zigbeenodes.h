@@ -78,4 +78,6 @@ protected:
 
 };
 
+Q_DECLARE_METATYPE(ZigbeeNodes*)
+
 #endif // ZIGBEENODES_H

@@ -144,8 +144,8 @@ bool TagsProxyModel::filterAcceptsRow(int source_row, const QModelIndex &source_
     qCDebug(dcTags) << "Filtering tag. ID:" << tag->tagId() << "Thing:" << tag->thingId() << "Value:" << tag->value();
     qCDebug(dcTags) << "Filter: ID:" << m_filterTagId << "Thing:" << m_filterThingId << "value:" << m_filterValue;
     if (!m_filterTagId.isEmpty()) {
-        QRegExp exp(m_filterTagId);
-        if (!exp.exactMatch(tag->tagId())) {
+        QRegularExpression exp(m_filterTagId);
+        if (exp.match(tag->tagId()).hasMatch()) {
             return false;
         }
     }

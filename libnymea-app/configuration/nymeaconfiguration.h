@@ -27,6 +27,9 @@
 
 #include <QObject>
 
+#include "serverconfigurations.h"
+#include "mqttpolicies.h"
+
 class JsonRpcClient;
 class ServerConfiguration;
 class ServerConfigurations;
@@ -35,7 +38,6 @@ class WebServerConfigurations;
 class TunnelProxyServerConfiguration;
 class TunnelProxyServerConfigurations;
 class MqttPolicy;
-class MqttPolicies;
 
 class NymeaConfiguration : public QObject
 {

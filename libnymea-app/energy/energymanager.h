@@ -28,7 +28,7 @@
 #include <QObject>
 #include <QUuid>
 
-class Engine;
+#include "engine.h"
 
 class EnergyManager : public QObject
 {

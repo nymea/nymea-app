@@ -30,8 +30,8 @@
 #include <QUuid>
 
 #include "connection/nymeahost.h"
+#include "connection/nymeahosts.h"
 
-class NymeaHosts;
 class UpnpDiscovery;
 class ZeroconfDiscovery;
 class BluetoothServiceDiscovery;

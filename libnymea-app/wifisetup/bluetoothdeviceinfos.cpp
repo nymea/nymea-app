@@ -176,8 +176,8 @@ QString BluetoothDeviceInfosProxy::filterForServiceUUID() const
 
 void BluetoothDeviceInfosProxy::setFilterForServiceUUID(const QString &filterForServiceUUID)
 {
-    if (m_filterForServiceUUID != filterForServiceUUID) {
-        m_filterForServiceUUID = filterForServiceUUID;
+    if (m_filterForServiceUUID != QBluetoothUuid(filterForServiceUUID)) {
+        m_filterForServiceUUID = QBluetoothUuid(filterForServiceUUID);
         emit filterForServiceUUIDChanged();
         invalidateFilter();
         emit countChanged();

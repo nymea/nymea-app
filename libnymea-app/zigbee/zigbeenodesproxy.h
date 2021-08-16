@@ -29,7 +29,7 @@
 #include <QSortFilterProxyModel>
 
 #include "zigbeenode.h"
-class ZigbeeNodes;
+#include "zigbeenodes.h"
 
 class ZigbeeNodesProxy : public QSortFilterProxyModel
 {

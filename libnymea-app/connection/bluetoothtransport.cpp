@@ -70,10 +70,10 @@ void BluetoothTransport::disconnect()
 NymeaTransportInterface::ConnectionState BluetoothTransport::connectionState() const
 {
     switch (m_socket->state()) {
-    case QBluetoothSocket::ConnectedState:
+    case QBluetoothSocket::SocketState::ConnectedState:
         return NymeaTransportInterface::ConnectionStateConnected;
-    case QBluetoothSocket::ConnectingState:
-    case QBluetoothSocket::ServiceLookupState:
+    case QBluetoothSocket::SocketState::ConnectingState:
+    case QBluetoothSocket::SocketState::ServiceLookupState:
         return NymeaTransportInterface::ConnectionStateConnecting;
     default:
         return NymeaTransportInterface::ConnectionStateDisconnected;

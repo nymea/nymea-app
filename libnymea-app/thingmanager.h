@@ -30,16 +30,16 @@
 #include "types/vendors.h"
 #include "things.h"
 #include "thingclasses.h"
-#include "interfacesmodel.h"
 #include "types/plugins.h"
 #include "jsonrpc/jsonrpcclient.h"
+#include "types/ioconnections.h"
 
 class BrowserItem;
 class BrowserItems;
 class ThingGroup;
 class Interface;
-class IOConnections;
 class EventHandler;
+class ThingsProxy;
 
 class ThingManager : public QObject
 {

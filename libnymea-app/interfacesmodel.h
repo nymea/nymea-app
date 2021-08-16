@@ -29,9 +29,8 @@
 #include <QAbstractListModel>
 
 #include "things.h"
-
-class Engine;
-class ThingsProxy;
+#include "engine.h"
+#include "thingsproxy.h"
 
 class InterfacesModel : public QAbstractListModel
 {

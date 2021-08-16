@@ -191,21 +191,21 @@ void CodeCompletion::update()
 
     QList<CompletionModel::Entry> entries;
 
-    QRegExp thingIdExp(".*thingId: \"[a-zA-ZÀ-ž0-9- ]*");
-    if (thingIdExp.exactMatch(blockText)) {
+    QRegularExpression thingIdExp(".*thingId: \"[a-zA-ZÀ-ž0-9- ]*");
+    if (thingIdExp.match(blockText).hasMatch()) {
         for (int i = 0; i < m_engine->thingManager()->things()->rowCount(); i++) {
             Thing *thing = m_engine->thingManager()->things()->get(i);
             entries.append(CompletionModel::Entry(thing->id().toString() + "\" // " + thing->name(), thing->name(), "thing", thing->thingClass()->interfaces().join(",")));
         }
-        blockText.remove(QRegExp(".*thingId: \""));
+        blockText.remove(QRegularExpression(".*thingId: \""));
         m_model->update(entries);
         m_proxy->setFilter(blockText, false);
         emit hint();
         return;
     }
 
-    QRegExp stateTypeIdExp(".*stateTypeId: \"[a-zA-Z0-9-]*");
-    if (stateTypeIdExp.exactMatch(blockText)) {
+    QRegularExpression stateTypeIdExp(".*stateTypeId: \"[a-zA-Z0-9-]*");
+    if (stateTypeIdExp.match(blockText).hasMatch()) {
         BlockInfo info = getBlockInfo(m_cursor.position());
         QString thingId;
         if (!info.properties.contains("thingId")) {
@@ -214,7 +214,7 @@ void CodeCompletion::update()
         thingId = info.properties.value("thingId");
 
         qDebug() << "selected thingId" << thingId;
-        Thing *thing = m_engine->thingManager()->things()->getThing(thingId);
+        Thing *thing = m_engine->thingManager()->things()->getThing(QUuid(thingId));
         if (!thing) {
             return;
         }
@@ -223,16 +223,16 @@ void CodeCompletion::update()
             StateType *stateType = thing->thingClass()->stateTypes()->get(i);
             entries.append(CompletionModel::Entry(stateType->id().toString() + "\" // " + stateType->name(), stateType->name(), "stateType"));
         }
-        blockText.remove(QRegExp(".*stateTypeId: \""));
+        blockText.remove(QRegularExpression(".*stateTypeId: \""));
         m_model->update(entries);
         m_proxy->setFilter(blockText);
         emit hint();
         return;
     }
 
-    QRegExp stateNameExp(".*stateName: \"[a-zA-Z0-9-]*");
+    QRegularExpression stateNameExp(".*stateName: \"[a-zA-Z0-9-]*");
 //    qDebug() << "block text" << blockText << stateNameExp.exactMatch(blockText);
-    if (stateNameExp.exactMatch(blockText)) {
+    if (stateNameExp.match(blockText).hasMatch()) {
         BlockInfo info = getBlockInfo(m_cursor.position());
         qDebug() << "stateName block info" << info.name << info.properties;
         QString thingId;
@@ -258,20 +258,28 @@ void CodeCompletion::update()
         } else {
             return;
         }
-        for (int i = 0; i < stateTypes->rowCount(); i++) {
-            StateType *stateType = stateTypes->get(i);
+        thingId = info.properties.value("thingId");
+
+        qDebug() << "selected thingId" << thingId;
+        Thing *thing = m_engine->thingManager()->things()->getThing(QUuid(thingId));
+        if (!thing) {
+            return;
+        }
+        qDebug() << "Thing is" << thing->name();
+
+        for (int i = 0; i < thing->thingClass()->stateTypes()->rowCount(); i++) {
+            StateType *stateType = thing->thingClass()->stateTypes()->get(i);
             entries.append(CompletionModel::Entry(stateType->name() + "\"", stateType->name(), "stateType"));
         }
-
-        blockText.remove(QRegExp(".*stateName: \""));
+        blockText.remove(QRegularExpression(".*stateName: \""));
         m_model->update(entries);
         m_proxy->setFilter(blockText);
         emit hint();
         return;
     }
 
-    QRegExp actionTypeIdExp(".*actionTypeId: \"[a-zA-Z0-9-]*");
-    if (actionTypeIdExp.exactMatch(blockText)) {
+    QRegularExpression actionTypeIdExp(".*actionTypeId: \"[a-zA-Z0-9-]*");
+    if (actionTypeIdExp.match(blockText).hasMatch()) {
         BlockInfo info = getBlockInfo(m_cursor.position());
         QString thingId;
         if (!info.properties.contains("thingId")) {
@@ -280,7 +288,7 @@ void CodeCompletion::update()
         thingId = info.properties.value("thingId");
 
         qDebug() << "selected thingId" << thingId;
-        Thing *thing = m_engine->thingManager()->things()->getThing(thingId);
+        Thing *thing = m_engine->thingManager()->things()->getThing(QUuid(thingId));
         if (!thing) {
             return;
         }
@@ -289,15 +297,15 @@ void CodeCompletion::update()
             ActionType *actionType = thing->thingClass()->actionTypes()->get(i);
             entries.append(CompletionModel::Entry(actionType->id().toString() + "\" // " + actionType->name(), actionType->name(), "actionType"));
         }
-        blockText.remove(QRegExp(".*actionTypeId: \""));
+        blockText.remove(QRegularExpression(".*actionTypeId: \""));
         m_model->update(entries);
         m_proxy->setFilter(blockText);
         emit hint();
         return;
     }
 
-    QRegExp actionNameExp(".*actionName: \"[a-zA-Z0-9-]*");
-    if (actionNameExp.exactMatch(blockText)) {
+    QRegularExpression actionNameExp(".*actionName: \"[a-zA-Z0-9-]*");
+    if (actionNameExp.match(blockText).hasMatch()) {
         BlockInfo info = getBlockInfo(m_cursor.position());
 
         Interfaces ifaces;
@@ -306,7 +314,7 @@ void CodeCompletion::update()
         if (info.properties.contains("thingId")) {
             QString thingId = info.properties.value("thingId");
             qDebug() << "selected thingId" << thingId;
-            Thing *thing = m_engine->thingManager()->things()->getThing(thingId);
+            Thing *thing = m_engine->thingManager()->things()->getThing(QUuid(thingId));
             if (!thing) {
                 return;
             }
@@ -327,15 +335,15 @@ void CodeCompletion::update()
             entries.append(CompletionModel::Entry(actionType->name() + "\"", actionType->name(), "actionType"));
         }
 
-        blockText.remove(QRegExp(".*actionName: \""));
+        blockText.remove(QRegularExpression(".*actionName: \""));
         m_model->update(entries);
         m_proxy->setFilter(blockText);
         emit hint();
         return;
     }
 
-    QRegExp eventTypeIdExp(".*eventTypeId: \"[a-zA-Z0-9-]*");
-    if (eventTypeIdExp.exactMatch(blockText)) {
+    QRegularExpression eventTypeIdExp(".*eventTypeId: \"[a-zA-Z0-9-]*");
+    if (eventTypeIdExp.match(blockText).hasMatch()) {
         BlockInfo info = getBlockInfo(m_cursor.position());
         QString thingId;
         if (!info.properties.contains("thingId")) {
@@ -344,7 +352,7 @@ void CodeCompletion::update()
         thingId = info.properties.value("thingId");
 
         qDebug() << "selected thingId" << thingId;
-        Thing *thing= m_engine->thingManager()->things()->getThing(thingId);
+        Thing *thing= m_engine->thingManager()->things()->getThing(QUuid(thingId));
         if (!thing) {
             return;
         }
@@ -353,21 +361,21 @@ void CodeCompletion::update()
             EventType *eventType = thing->thingClass()->eventTypes()->get(i);
             entries.append(CompletionModel::Entry(eventType->id().toString() + "\" // " + eventType->name(), eventType->name(), "eventType"));
         }
-        blockText.remove(QRegExp(".*eventTypeId: \""));
+        blockText.remove(QRegularExpression(".*eventTypeId: \""));
         m_model->update(entries);
         m_proxy->setFilter(blockText);
         emit hint();
         return;
     }
 
-    QRegExp eventNameExp(".*eventName: \"[a-zA-Z0-9-]*");
-    if (eventNameExp.exactMatch(blockText)) {
+    QRegularExpression eventNameExp(".*eventName: \"[a-zA-Z0-9-]*");
+    if (eventNameExp.match(blockText).hasMatch()) {
         BlockInfo info = getBlockInfo(m_cursor.position());
         Interfaces ifaces;
         EventTypes *eventTypes = nullptr;
         if (info.properties.contains("thingId")) {
             QString thingId = info.properties.value("thingId");
-            Thing *thing = m_engine->thingManager()->things()->getThing(thingId);
+            Thing *thing = m_engine->thingManager()->things()->getThing(QUuid(thingId));
             if (!thing) {
                 return;
             }
@@ -388,15 +396,15 @@ void CodeCompletion::update()
             EventType *eventType = eventTypes->get(i);
             entries.append(CompletionModel::Entry(eventType->name() + "\"", eventType->name(), "eventType"));
         }
-        blockText.remove(QRegExp(".*eventName: \""));
+        blockText.remove(QRegularExpression(".*eventName: \""));
         m_model->update(entries);
         m_proxy->setFilter(blockText);
         emit hint();
         return;
     }
 
-    QRegExp interfaceNameExp(".*(interfaceName|filterInterface): \"[a-zA-Z]*");
-    if (interfaceNameExp.exactMatch(blockText)) {
+    QRegularExpression interfaceNameExp(".*interfaceName: \"[a-zA-Z]*");
+    if (interfaceNameExp.match(blockText).hasMatch()) {
         BlockInfo info = getBlockInfo(m_cursor.position());
 
         Interfaces ifaces;
@@ -405,22 +413,22 @@ void CodeCompletion::update()
             entries.append(CompletionModel::Entry(iface->name() + "\"", iface->name(), "interface", iface->name()));
         }
         m_model->update(entries);
-        blockText.remove(QRegExp(".*(interfaceName|filterInterface): \""));
+        blockText.remove(QRegularExpression(".*interfaceName: \""));
         m_proxy->setFilter(blockText);
         emit hint();
         return;
     }
 
-    QRegExp importExp("imp(o|or)?");
-    if (importExp.exactMatch(blockText)) {
+    QRegularExpression importExp("imp(o|or)?");
+    if (importExp.match(blockText).hasMatch()) {
         entries.append(CompletionModel::Entry("import ", "import", "keyword", ""));
         m_model->update(entries);
         m_proxy->setFilter(blockText);
         return;
     }
 
-    QRegExp importExp2("import [a-zA-Z]*");
-    if (importExp2.exactMatch(blockText)) {
+    QRegularExpression importExp2("import [a-zA-Z]*");
+    if (importExp2.match(blockText).hasMatch()) {
         entries.append(CompletionModel::Entry("QtQuick 2.0"));
         entries.append(CompletionModel::Entry("nymea 1.0"));
         m_model->update(entries);
@@ -429,8 +437,8 @@ void CodeCompletion::update()
         return;
     }
 
-    QRegExp rValueExp(" *[\\.a-zA-Z0-0]+[^id]:[ a-zA-Z0-0]*");
-    if (rValueExp.exactMatch(blockText)) {
+    QRegularExpression rValueExp(" *[\\.a-zA-Z0-0]+[^id]:[ a-zA-Z0-0]*");
+    if (rValueExp.match(blockText).hasMatch()) {
         QTextCursor tmp = m_cursor;
         tmp.movePosition(QTextCursor::StartOfWord, QTextCursor::KeepAnchor);
         QString word = tmp.selectedText();
@@ -458,10 +466,10 @@ void CodeCompletion::update()
         return;
     }
 
-    QRegExp dotExp(".*[a-zA-Z0-9]+\\.[a-zA-Z0-9]*");
-    if (dotExp.exactMatch(blockText)) {
+    QRegularExpression dotExp(".*[a-zA-Z0-9]+\\.[a-zA-Z0-9]*");
+    if (dotExp.match(blockText).hasMatch()) {
         QString id = blockText;
-        id.remove(QRegExp(".* ")).remove(QRegExp("\\.[a-zA-Z0-9]*"));
+        id.remove(QRegularExpression(".* ")).remove(QRegularExpression("\\.[a-zA-Z0-9]*"));
         QString type = getIdTypes().value(id);
         int blockPosition = getBlockPosition(id);
         BlockInfo blockInfo = getBlockInfo(blockPosition);
@@ -497,7 +505,7 @@ void CodeCompletion::update()
                         if (d) {
                             ActionType *at = nullptr;
                             if (blockInfo.properties.contains("actionTypeId")) {
-                                at = d->thingClass()->actionTypes()->getActionType(blockInfo.properties.value("actionTypeId"));
+                                at = d->thingClass()->actionTypes()->getActionType(QUuid(blockInfo.properties.value("actionTypeId")));
                             } else if (blockInfo.properties.contains("actionName")) {
                                 at = d->thingClass()->actionTypes()->findByName(blockInfo.properties.value("actionName"));
                             }
@@ -542,7 +550,7 @@ void CodeCompletion::update()
             entries.append(CompletionModel::Entry(method + "(", method, "method", "", ")"));
         }
         m_model->update(entries);
-        m_proxy->setFilter(blockText.remove(QRegExp(".*\\.")));
+        m_proxy->setFilter(blockText.remove(QRegularExpression(".*\\.")));
         return;
     }
 
@@ -564,8 +572,8 @@ void CodeCompletion::update()
     if (isImperative) {
 //        qDebug() << "Is imperative!";
         // Starting a new expression?
-        QRegExp newExpressionExp("(.*; [a-zA-Z0-9]*| *[a-zA-Z0-9]*)");
-        if (newExpressionExp.exactMatch(blockText)) {
+        QRegularExpression newExpressionExp("(.*; [a-zA-Z0-9]*| *[a-zA-Z0-9]*)");
+        if (newExpressionExp.match(blockText).hasMatch()) {
             // Add generic qml syntax
             foreach (const QString &s, m_genericJsSyntax.keys()) {
                 entries.append(CompletionModel::Entry(m_genericJsSyntax.value(s), s, "keyword", ""));
@@ -579,12 +587,12 @@ void CodeCompletion::update()
         }
 
         m_model->update(entries);
-        m_proxy->setFilter(blockText.remove(QRegExp(".* ")));
+        m_proxy->setFilter(blockText.remove(QRegularExpression(".* ")));
         return;
     }
 
-    QRegExp lValueStartExp(" *[a-zA-Z0-9]*");
-    if (lValueStartExp.exactMatch(blockText)) {
+    QRegularExpression lValueStartExp(" *[a-zA-Z0-9]*");
+    if (lValueStartExp.match(blockText).hasMatch()) {
         BlockInfo blockInfo = getBlockInfo(m_cursor.position());
 
         // If we're inside a class, add properties
@@ -617,7 +625,7 @@ void CodeCompletion::update()
         }
 
         m_model->update(entries);
-        blockText.remove(QRegExp(".* "));
+        blockText.remove(QRegularExpression(".* "));
         m_proxy->setFilter(blockText);
 //        qDebug() << "Model has" << m_model->rowCount() << "Filtered:" << m_proxy->rowCount() << "filter:" << blockText;
         return;
@@ -658,9 +666,9 @@ CodeCompletion::BlockInfo CodeCompletion::getBlockInfo(int position) const
 //    qDebug() << "Block start:" << info.start << "end:" << info.end;
 
     info.name = blockStart.block().text();
-    info.name.remove(QRegExp(" *\\{ *"));
+    info.name.remove(QRegularExpression(" *\\{ *"));
     while (info.name.contains(" ")) {
-        info.name.remove(QRegExp(".* "));
+        info.name.remove(QRegularExpression(".* "));
     }
 
     int childBlocks = 0;
@@ -760,7 +768,7 @@ int CodeCompletion::openingBlocksBefore(int position) const
     QTextCursor tmp = m_cursor;
     tmp.setPosition(position);
     do {
-        tmp = m_document->textDocument()->find(QRegExp("[{}]"), tmp, QTextDocument::FindBackward);
+        tmp = m_document->textDocument()->find(QRegularExpression("[{}]"), tmp, QTextDocument::FindBackward);
         if (tmp.selectedText() == "{")
             opening++;
         if (tmp.selectedText() == "}")
@@ -777,7 +785,7 @@ int CodeCompletion::closingBlocksAfter(int position) const
     QTextCursor tmp = m_cursor;
     tmp.setPosition(position);
     do {
-        tmp = m_document->textDocument()->find(QRegExp("[{}]"), tmp);
+        tmp = m_document->textDocument()->find(QRegularExpression("[{}]"), tmp);
         if (tmp.selectedText() == "{")
             opening++;
         if (tmp.selectedText() == "}")
@@ -802,8 +810,8 @@ void CodeCompletion::complete(int index)
     QTextCursor tmp = m_cursor;
     tmp.movePosition(QTextCursor::StartOfBlock, QTextCursor::KeepAnchor);
     QString blockText = tmp.selectedText();
-    QRegExp thingIdExp(".*thingId: \"[a-zA-ZÀ-ž0-9- ]*");
-    if (thingIdExp.exactMatch(blockText)) {
+    QRegularExpression thingIdExp(".*thingId: \"[a-zA-ZÀ-ž0-9- ]*");
+    if (thingIdExp.match(blockText).hasMatch()) {
         QTextCursor tmp = m_document->textDocument()->find("\"", m_cursor.position(), QTextDocument::FindBackward);
         m_cursor.movePosition(QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor, m_cursor.position() - tmp.position());
         m_cursor.removeSelectedText();
@@ -827,7 +835,7 @@ void CodeCompletion::newLine()
     }
 
     QString trimmedLine = line;
-    trimmedLine.remove(QRegExp("^[ ]+"));
+    trimmedLine.remove(QRegularExpression("^[ ]+"));
     int indent = line.length() - trimmedLine.length();
 
     m_cursor.insertText(QString("\n").leftJustified(indent + 1, ' '));
@@ -926,7 +934,7 @@ void CodeCompletion::toggleComment(int from, int to)
 
     bool allLinesHaveComments = true;
     do {
-        QTextCursor nextComment = m_document->textDocument()->find(QRegExp("^[ ]*//"), tmp.position());
+        QTextCursor nextComment = m_document->textDocument()->find(QRegularExpression("^[ ]*//"), tmp.position());
         nextComment.movePosition(QTextCursor::StartOfLine);
         bool lineHasComment = tmp.position() == nextComment.position();
         allLinesHaveComments &= lineHasComment;
@@ -939,7 +947,7 @@ void CodeCompletion::toggleComment(int from, int to)
     tmp.movePosition(QTextCursor::StartOfLine);
     do {
         if (allLinesHaveComments) {
-            QTextCursor nextComment = m_document->textDocument()->find(QRegExp("//"), tmp.position());
+            QTextCursor nextComment = m_document->textDocument()->find(QRegularExpression("//"), tmp.position());
             nextComment.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor, 2);
             nextComment.removeSelectedText();
             nextComment.insertText("  ");
@@ -970,7 +978,7 @@ void CodeCompletion::moveCursor(CodeCompletion::MoveOperation moveOperation, int
         return;
     case MoveOperationPreviousWord: {
         // We're not using the cursors next/previos word because we want camelCase word fragments
-        QTextCursor tmp = m_document->textDocument()->find(QRegExp("[A-Z\\.:\"'\\(\\)\\[\\]^ ]"), m_cursor.position() - 1, QTextDocument::FindBackward);
+        QTextCursor tmp = m_document->textDocument()->find(QRegularExpression("[A-Z\\.:\"'\\(\\)\\[\\]^ ]"), m_cursor.position() - 1, QTextDocument::FindBackward);
         qWarning() << "found at" << tmp.position() << "starting at" << m_cursor.position();
         m_cursor.setPosition(tmp.position());
         emit cursorPositionChanged();
@@ -978,7 +986,7 @@ void CodeCompletion::moveCursor(CodeCompletion::MoveOperation moveOperation, int
     }
     case MoveOperationNextWord: {
         // We're not using the cursors next/previos word because we want camelCase word fragments
-        QTextCursor tmp = m_document->textDocument()->find(QRegExp("[A-Z\\.:\"'\\(\\)\\[\\]$ ]"), m_cursor.position() + 1);
+        QTextCursor tmp = m_document->textDocument()->find(QRegularExpression("[A-Z\\.:\"'\\(\\)\\[\\]$ ]"), m_cursor.position() + 1);
         m_cursor.setPosition(tmp.position() - 1);
         emit cursorPositionChanged();
         return;

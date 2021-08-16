@@ -28,6 +28,7 @@
 #include "engine.h"
 #include "connection/nymeahosts.h"
 #include "connection/nymeahost.h"
+#include "models/nymeahostsfiltermodel.h"
 #include "connection/discovery/nymeadiscovery.h"
 #include "vendorsproxy.h"
 #include "thingclassesproxy.h"

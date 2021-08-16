@@ -48,5 +48,9 @@ QObject *NfcHelper::nfcHelperProvider(QQmlEngine */*engine*/, QJSEngine */*scrip
 bool NfcHelper::isAvailable() const
 {
     QNearFieldManager manager;
+#if  QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     return manager.isAvailable();
+#else
+    return manager.isEnabled();
+#endif
 }

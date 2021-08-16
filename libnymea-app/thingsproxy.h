@@ -29,9 +29,8 @@
 #include <QObject>
 #include <QSortFilterProxyModel>
 
+#include "engine.h"
 #include "things.h"
-
-class Engine;
 
 class ThingsProxy : public QSortFilterProxyModel
 {

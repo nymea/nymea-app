@@ -26,7 +26,7 @@ import QtQuick 2.8
 import QtQuick.Controls 2.1
 import QtQuick.Controls.Material 2.1
 import QtQuick.Layouts 1.2
-import QtGraphicalEffects 1.0
+import Qt5Compat.GraphicalEffects
 import QtCharts 2.2
 import Nymea 1.0
 import "../components"

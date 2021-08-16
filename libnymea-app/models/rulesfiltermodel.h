@@ -28,8 +28,7 @@
 #include <QSortFilterProxyModel>
 #include <QUuid>
 
-class Rules;
-class Rule;
+#include "types/rules.h"
 
 class RulesFilterModel : public QSortFilterProxyModel
 {

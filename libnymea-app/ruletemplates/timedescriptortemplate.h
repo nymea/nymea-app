@@ -27,8 +27,8 @@
 
 #include <QObject>
 
-class CalendarItemTemplates;
-class TimeEventItemTemplates;
+#include "calendaritemtemplate.h"
+#include "timeeventitemtemplate.h"
 
 class TimeDescriptorTemplate : public QObject
 {

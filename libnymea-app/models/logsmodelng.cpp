@@ -194,12 +194,12 @@ void LogsModelNg::setEndTime(const QDateTime &endTime)
     }
 }
 
-QtCharts::QXYSeries *LogsModelNg::graphSeries() const
+QXYSeries *LogsModelNg::graphSeries() const
 {
     return m_graphSeries;
 }
 
-void LogsModelNg::setGraphSeries(QtCharts::QXYSeries *graphSeries)
+void LogsModelNg::setGraphSeries(QXYSeries *graphSeries)
 {
     m_graphSeries = graphSeries;
 }
@@ -315,8 +315,8 @@ void LogsModelNg::logsReply(int commandId, const QVariantMap &data)
     foreach (const QVariant &logEntryVariant, logEntries) {
         QVariantMap entryMap = logEntryVariant.toMap();
         QDateTime timeStamp = QDateTime::fromMSecsSinceEpoch(entryMap.value("timestamp").toLongLong());
-        QString thingId = entryMap.value("thingId").toString();
-        QString typeId = entryMap.value("typeId").toString();
+        QUuid thingId = entryMap.value("thingId").toUuid();
+        QUuid typeId = entryMap.value("typeId").toUuid();
         QMetaEnum sourceEnum = QMetaEnum::fromType<LogEntry::LoggingSource>();
         LogEntry::LoggingSource loggingSource = static_cast<LogEntry::LoggingSource>(sourceEnum.keyToValue(entryMap.value("source").toByteArray()));
         QMetaEnum loggingEventTypeEnum = QMetaEnum::fromType<LogEntry::LoggingEventType>();
@@ -382,10 +382,10 @@ void LogsModelNg::logsReply(int commandId, const QVariantMap &data)
                 }
 
                 // Adjust min/max
-                if (!newMin.isValid() || newMin > entry->value()) {
+                if (!newMin.isValid() || newMin.toDouble() > entry->value().toDouble()) {
                     newMin = 0;
                 }
-                if (!newMax.isValid() || newMax < entry->value()) {
+                if (!newMax.isValid() || newMax .toDouble() < entry->value().toDouble()) {
                     newMax = 1;
                 }
 
@@ -401,10 +401,10 @@ void LogsModelNg::logsReply(int commandId, const QVariantMap &data)
                 m_graphSeries->append(QPointF(entry->timestamp().toMSecsSinceEpoch(), value.toReal()));
 
                 // Adjust min/max
-                if (!newMin.isValid() || newMin > value) {
+                if (!newMin.isValid() || newMin.toDouble() > value.toDouble()) {
                     newMin = value.toReal();
                 }
-                if (!newMax.isValid() || newMax < value) {
+                if (!newMax.isValid() || newMax.toDouble() < value.toDouble()) {
                     newMax = value.toReal();
                 }
             }
@@ -566,11 +566,11 @@ void LogsModelNg::newLogEntryReceived(const QVariantMap &data)
         }
 
 
-        if (m_minValue > entry->value().toReal()) {
+        if (m_minValue.toReal() > entry->value().toReal()) {
             m_minValue = entry->value().toReal();
             emit minValueChanged();
         }
-        if (m_maxValue < entry->value().toReal()) {
+        if (m_maxValue.toReal() < entry->value().toReal()) {
             m_maxValue = entry->value().toReal();
             emit maxValueChanged();
         }

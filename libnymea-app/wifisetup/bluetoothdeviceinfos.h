@@ -29,6 +29,7 @@
 #include <QAbstractListModel>
 #include <QSortFilterProxyModel>
 #include <QUuid>
+#include <QBluetoothUuid>
 
 #include "bluetoothdeviceinfo.h"
 
@@ -115,7 +116,7 @@ private:
     BluetoothDeviceInfos *m_model = nullptr;
     QStringList m_nameWhitelist;
     bool m_filterForLowEnergy = false;
-    QUuid m_filterForServiceUUID;
+    QBluetoothUuid m_filterForServiceUUID;
     QString m_filterForName;
 };
 

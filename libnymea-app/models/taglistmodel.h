@@ -28,7 +28,7 @@
 #include <QAbstractListModel>
 #include <QSortFilterProxyModel>
 
-class TagsProxyModel;
+#include "tagsproxymodel.h"
 class Tag;
 
 class TagListModel : public QAbstractListModel

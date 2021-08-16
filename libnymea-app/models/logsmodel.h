@@ -29,11 +29,10 @@
 #include <QQmlParserStatus>
 
 #include "types/logentry.h"
+#include "engine.h"
 
 #include <QLoggingCategory>
 Q_DECLARE_LOGGING_CATEGORY(dcLogEngine)
-
-class Engine;
 
 class LogsModel : public QAbstractListModel, public QQmlParserStatus
 {

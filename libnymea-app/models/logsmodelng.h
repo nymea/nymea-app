@@ -32,8 +32,13 @@
 #include <QUuid>
 #include <QQmlParserStatus>
 
+#include "engine.h"
+
 class LogEntry;
-class Engine;
+
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+using namespace QtCharts;
+#endif
 
 class LogsModelNg : public QAbstractListModel, public QQmlParserStatus
 {
@@ -50,7 +55,7 @@ class LogsModelNg : public QAbstractListModel, public QQmlParserStatus
     Q_PROPERTY(QVariant minValue READ minValue NOTIFY minValueChanged)
     Q_PROPERTY(QVariant maxValue READ maxValue NOTIFY maxValueChanged)
 
-    Q_PROPERTY(QtCharts::QXYSeries *graphSeries READ graphSeries WRITE setGraphSeries NOTIFY graphSeriesChanged)
+    Q_PROPERTY(QXYSeries *graphSeries READ graphSeries WRITE setGraphSeries NOTIFY graphSeriesChanged)
     Q_PROPERTY(QDateTime viewStartTime READ viewStartTime WRITE setViewStartTime NOTIFY viewStartTimeChanged)
 
 public:
@@ -91,8 +96,8 @@ public:
     QDateTime endTime() const;
     void setEndTime(const QDateTime &endTime);
 
-    QtCharts::QXYSeries *graphSeries() const;
-    void setGraphSeries(QtCharts::QXYSeries *lineSeries);
+    QXYSeries *graphSeries() const;
+    void setGraphSeries(QXYSeries *lineSeries);
 
     QDateTime viewStartTime() const;
     void setViewStartTime(const QDateTime &viewStartTime);
@@ -142,7 +147,7 @@ private:
     QVariant m_maxValue;
     bool m_ready = false;
 
-    QtCharts::QXYSeries *m_graphSeries = nullptr;
+    QXYSeries *m_graphSeries = nullptr;
 
     QList<QPair<QDateTime, bool> > m_fetchedPeriods;
 };

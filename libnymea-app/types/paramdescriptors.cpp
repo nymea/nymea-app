@@ -82,7 +82,7 @@ void ParamDescriptors::addParamDescriptor(ParamDescriptor *paramDescriptor)
     emit countChanged();
 }
 
-void ParamDescriptors::setParamDescriptor(const QString &paramTypeId, const QVariant &value, ValueOperator operatorType)
+void ParamDescriptors::setParamDescriptor(const QUuid &paramTypeId, const QVariant &value, ValueOperator operatorType)
 {
     foreach (ParamDescriptor* paramDescriptor, m_list) {
         if (paramDescriptor->paramTypeId() == paramTypeId) {
@@ -125,7 +125,7 @@ void ParamDescriptors::clear()
     emit countChanged();
 }
 
-ParamDescriptor *ParamDescriptors::getParamDescriptor(const QString &paramTypeId) const
+ParamDescriptor *ParamDescriptors::getParamDescriptor(const QUuid &paramTypeId) const
 {
     qDebug() << "getParamDescriptor" << paramTypeId;
     for (int i = 0; i < m_list.count(); i++) {

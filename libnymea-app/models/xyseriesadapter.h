@@ -30,12 +30,16 @@
 #include <QObject>
 #include <QXYSeries>
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0 ,0)
+using namespace QtCharts;
+#endif
+
 class XYSeriesAdapter : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(LogsModel* logsModel READ logsModel WRITE setLogsModel NOTIFY logsModelChanged)
-    Q_PROPERTY(QtCharts::QXYSeries* xySeries READ xySeries WRITE setXySeries NOTIFY xySeriesChanged)
-    Q_PROPERTY(QtCharts::QXYSeries* baseSeries READ baseSeries WRITE setBaseSeries NOTIFY baseSeriesChanged)
+    Q_PROPERTY(QXYSeries* xySeries READ xySeries WRITE setXySeries NOTIFY xySeriesChanged)
+    Q_PROPERTY(QXYSeries* baseSeries READ baseSeries WRITE setBaseSeries NOTIFY baseSeriesChanged)
 
     Q_PROPERTY(SampleRate sampleRate READ sampleRate WRITE setSampleRate NOTIFY sampleRateChanged)
     Q_PROPERTY(bool smooth READ smooth WRITE setSmooth NOTIFY smoothChanged)
@@ -59,11 +63,11 @@ public:
     LogsModel* logsModel() const;
     void setLogsModel(LogsModel *logsModel);
 
-    QtCharts::QXYSeries* xySeries() const;
-    void setXySeries(QtCharts::QXYSeries *series);
+    QXYSeries* xySeries() const;
+    void setXySeries(QXYSeries *series);
 
-    QtCharts::QXYSeries* baseSeries() const;
-    void setBaseSeries(QtCharts::QXYSeries *series);
+    QXYSeries* baseSeries() const;
+    void setBaseSeries(QXYSeries *series);
 
     SampleRate sampleRate() const;
     void setSampleRate(SampleRate sampleRate);
@@ -103,8 +107,8 @@ private:
         LogEntry *startingPoint = nullptr; // the starting point for the sample. Normally the last entry of the previous sample
     };
     LogsModel* m_model = nullptr;
-    QtCharts::QXYSeries* m_series = nullptr;
-    QtCharts::QXYSeries* m_baseSeries = nullptr;
+    QXYSeries* m_series = nullptr;
+    QXYSeries* m_baseSeries = nullptr;
     SampleRate m_sampleRate = SampleRateSecond;
     bool m_smooth = true;
     bool m_inverted = false;
