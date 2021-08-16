@@ -188,7 +188,7 @@ void ThingDiscovery::discoverThingsResponse(int commandId, const QVariantMap &pa
             beginInsertRows(QModelIndex(), m_foundThings.count(), m_foundThings.count());
             ThingDescriptor *descriptor = new ThingDescriptor(descriptorVariant.toMap().value("id").toUuid(),
                                                               descriptorVariant.toMap().value("thingClassId").toUuid(), // Note: This will only be provided as of nymea 0.28!
-                                                   descriptorVariant.toMap().value("thingId").toString(),
+                                                   descriptorVariant.toMap().value("thingId").toUuid(),
                                                    descriptorVariant.toMap().value("title").toString(),
                                                    descriptorVariant.toMap().value("description").toString(), this);
             // Work around a bug in nymea:core which didn't properly update deviceParams in the device->things transition
@@ -200,7 +200,7 @@ void ThingDiscovery::discoverThingsResponse(int commandId, const QVariantMap &pa
             }
             foreach (const QVariant &paramVariant, paramList) {
                 qDebug() << "Adding param:" << paramVariant.toMap().value("paramTypeId").toString() << paramVariant.toMap().value("value");
-                Param* p = new Param(paramVariant.toMap().value("paramTypeId").toString(), paramVariant.toMap().value("value"));
+                Param* p = new Param(paramVariant.toMap().value("paramTypeId").toUuid(), paramVariant.toMap().value("value"));
                 descriptor->params()->addParam(p);
             }
             qCInfo(dcThingManager()) << "Found thing. Descriptor:" << descriptor->name() << descriptor->id();

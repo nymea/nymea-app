@@ -75,8 +75,12 @@ void BtWiFiSetup::connectToDevice(const BluetoothDeviceInfo *device)
         m_accessPoints->clearModel();
     }, Qt::QueuedConnection);
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 2, 0)
     typedef void (QLowEnergyController::*errorsSignal)(QLowEnergyController::Error);
     connect(m_btController, static_cast<errorsSignal>(&QLowEnergyController::error), this, [this](QLowEnergyController::Error error){
+#else
+    connect(m_btController, &QLowEnergyController::errorOccurred, this, [this](QLowEnergyController::Error error){
+#endif
         qCWarning(dcBtWiFiSetup()) << "Bluetooth error:" << error;
         emit this->bluetoothConnectionError();
     }, Qt::QueuedConnection);
@@ -231,7 +235,7 @@ WirelessAccessPoint *BtWiFiSetup::currentConnection() const
 void BtWiFiSetup::setupServices()
 {
     qCDebug(dcBtWiFiSetup()) << "Setting up Bluetooth services";
-    m_deviceInformationService = m_btController->createServiceObject(QBluetoothUuid::DeviceInformation, m_btController);
+    m_deviceInformationService = m_btController->createServiceObject(QBluetoothUuid::ServiceClassUuid::DeviceInformation, m_btController);
     m_networkService = m_btController->createServiceObject(networkServiceUuid, m_btController);
     m_wifiService = m_btController->createServiceObject(wifiServiceUuid, m_btController);
     m_systemService = m_btController->createServiceObject(systemServiceUuid, m_btController);
@@ -253,15 +257,15 @@ void BtWiFiSetup::setupServices()
         if (state != QLowEnergyService::ServiceDiscovered)
             return;
         qCDebug(dcBtWiFiSetup()) << "Device info service discovered";
-        m_manufacturer = QString::fromUtf8(m_deviceInformationService->characteristic(QBluetoothUuid::ManufacturerNameString).value());
+        m_manufacturer = QString::fromUtf8(m_deviceInformationService->characteristic(QBluetoothUuid::CharacteristicType::ManufacturerNameString).value());
         emit manufacturerChanged();
-        m_modelNumber = QString::fromUtf8(m_deviceInformationService->characteristic(QBluetoothUuid::ModelNumberString).value());
+        m_modelNumber = QString::fromUtf8(m_deviceInformationService->characteristic(QBluetoothUuid::CharacteristicType::ModelNumberString).value());
         emit modelNumberChanged();
-        m_softwareRevision = QString::fromUtf8(m_deviceInformationService->characteristic(QBluetoothUuid::SoftwareRevisionString).value());
+        m_softwareRevision = QString::fromUtf8(m_deviceInformationService->characteristic(QBluetoothUuid::CharacteristicType::SoftwareRevisionString).value());
         emit softwareRevisionChanged();
-        m_firmwareRevision = QString::fromUtf8(m_deviceInformationService->characteristic(QBluetoothUuid::FirmwareRevisionString).value());
+        m_firmwareRevision = QString::fromUtf8(m_deviceInformationService->characteristic(QBluetoothUuid::CharacteristicType::FirmwareRevisionString).value());
         emit firmwareRevisionChanged();
-        m_hardwareRevision = QString::fromUtf8(m_deviceInformationService->characteristic(QBluetoothUuid::HardwareRevisionString).value());
+        m_hardwareRevision = QString::fromUtf8(m_deviceInformationService->characteristic(QBluetoothUuid::CharacteristicType::HardwareRevisionString).value());
         emit hardwareRevisionChanged();
     });
     m_deviceInformationService->discoverDetails();
@@ -281,9 +285,9 @@ void BtWiFiSetup::setupServices()
             return;
         }
         // Enable notifications
-        m_networkService->writeDescriptor(networkCharacteristic.descriptor(QBluetoothUuid::ClientCharacteristicConfiguration), QByteArray::fromHex("0100"));
-        m_networkService->writeDescriptor(networkingEnabledCharacteristic.descriptor(QBluetoothUuid::ClientCharacteristicConfiguration), QByteArray::fromHex("0100"));
-        m_networkService->writeDescriptor(wirelessEnabledCharacteristic.descriptor(QBluetoothUuid::ClientCharacteristicConfiguration), QByteArray::fromHex("0100"));
+        m_networkService->writeDescriptor(networkCharacteristic.descriptor(QBluetoothUuid::DescriptorType::ClientCharacteristicConfiguration), QByteArray::fromHex("0100"));
+        m_networkService->writeDescriptor(networkingEnabledCharacteristic.descriptor(QBluetoothUuid::DescriptorType::ClientCharacteristicConfiguration), QByteArray::fromHex("0100"));
+        m_networkService->writeDescriptor(wirelessEnabledCharacteristic.descriptor(QBluetoothUuid::DescriptorType::ClientCharacteristicConfiguration), QByteArray::fromHex("0100"));
 
         m_networkStatus = static_cast<NetworkStatus>(networkCharacteristic.value().toHex().toUInt(nullptr, 16));
         emit networkStatusChanged();
@@ -306,8 +310,8 @@ void BtWiFiSetup::setupServices()
         m_wifiService->readCharacteristic(m_wifiService->characteristic(wifiServiceVersionCharacteristicUuid));
 
         // Enable notifations
-        m_wifiService->writeDescriptor(m_wifiService->characteristic(wifiResponseCharacteristicUuid).descriptor(QBluetoothUuid::ClientCharacteristicConfiguration), QByteArray::fromHex("0100"));
-        m_wifiService->writeDescriptor(m_wifiService->characteristic(wifiStatusCharacteristicUuid).descriptor(QBluetoothUuid::ClientCharacteristicConfiguration), QByteArray::fromHex("0100"));
+        m_wifiService->writeDescriptor(m_wifiService->characteristic(wifiResponseCharacteristicUuid).descriptor(QBluetoothUuid::DescriptorType::ClientCharacteristicConfiguration), QByteArray::fromHex("0100"));
+        m_wifiService->writeDescriptor(m_wifiService->characteristic(wifiStatusCharacteristicUuid).descriptor(QBluetoothUuid::DescriptorType::ClientCharacteristicConfiguration), QByteArray::fromHex("0100"));
 
         qCDebug(dcBtWiFiSetup()) << "Fetching networks after init";
         loadNetworks();
@@ -323,7 +327,7 @@ void BtWiFiSetup::setupServices()
             if (state != QLowEnergyService::ServiceDiscovered)
                 return;
             qCDebug(dcBtWiFiSetup()) << "System service discovered";
-            m_systemService->writeDescriptor(m_systemService->characteristic(systemResponseCharacteristicUuid).descriptor(QBluetoothUuid::ClientCharacteristicConfiguration), QByteArray::fromHex("0100"));
+            m_systemService->writeDescriptor(m_systemService->characteristic(systemResponseCharacteristicUuid).descriptor(QBluetoothUuid::DescriptorType::ClientCharacteristicConfiguration), QByteArray::fromHex("0100"));
         });
         m_systemService->discoverDetails();
     }

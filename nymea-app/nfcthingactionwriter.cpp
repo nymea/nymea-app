@@ -22,7 +22,11 @@ NfcThingActionWriter::NfcThingActionWriter(QObject *parent):
 
     connect(m_actions, &RuleActions::countChanged, this, &NfcThingActionWriter::updateContent);
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     m_manager->startTargetDetection();
+#else
+    m_manager->startTargetDetection(QNearFieldTarget::AnyAccess);
+#endif
 
 }
 
@@ -33,7 +37,11 @@ NfcThingActionWriter::~NfcThingActionWriter()
 
 bool NfcThingActionWriter::isAvailable() const
 {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     return m_manager->isAvailable();
+#else
+    return m_manager->isEnabled();
+#endif
 }
 
 Engine *NfcThingActionWriter::engine() const
@@ -102,11 +110,11 @@ void NfcThingActionWriter::updateContent()
     if (!m_engine || !m_thing) {
         return;
     }
-    url.setHost(m_engine->jsonRpcClient()->currentHost()->uuid().toString().remove(QRegExp("[{}]")));
+    url.setHost(m_engine->jsonRpcClient()->currentHost()->uuid().toString().remove(QRegularExpression("[{}]")));
 
     QUrlQuery query;
 
-    query.addQueryItem("t", m_thing->id().toString().remove(QRegExp("[{}]")));
+    query.addQueryItem("t", m_thing->id().toString().remove(QRegularExpression("[{}]")));
 
     for (int i = 0; i < m_actions->rowCount(); i++) {
         RuleAction *action = m_actions->get(i);
@@ -148,17 +156,6 @@ void NfcThingActionWriter::targetDetected(QNearFieldTarget *target)
 {
     QDateTime startTime = QDateTime::currentDateTime();
     qDebug() << "target detected";
-    connect(target, &QNearFieldTarget::error, this, [=](QNearFieldTarget::Error error, const QNearFieldTarget::RequestId &id){
-        Q_UNUSED(id)
-        qDebug() << "Tag error:" << error;
-        m_status = TagStatusFailed;
-        emit statusChanged();
-    });
-    connect(target, &QNearFieldTarget::ndefMessagesWritten, this, [=](){
-        qDebug() << "Tag written in" << startTime.msecsTo(QDateTime::currentDateTime());
-        m_status = TagStatusWritten;
-        emit statusChanged();
-    });
 
     QNearFieldTarget::RequestId m_request = target->writeNdefMessages(QList<QNdefMessage>() << m_currentMessage);
     if (!m_request.isValid()) {
@@ -166,6 +163,20 @@ void NfcThingActionWriter::targetDetected(QNearFieldTarget *target)
         m_status = TagStatusFailed;
         emit statusChanged();
     }
+
+    connect(target, &QNearFieldTarget::error, this, [=](QNearFieldTarget::Error error, const QNearFieldTarget::RequestId &id){
+        Q_UNUSED(id)
+        qDebug() << "Tag error:" << error;
+        m_status = TagStatusFailed;
+        emit statusChanged();
+    });
+    connect(target, &QNearFieldTarget::requestCompleted, this, [=](const QNearFieldTarget::RequestId &id){
+        if (id == m_request) {
+            qDebug() << "Tag written in" << startTime.msecsTo(QDateTime::currentDateTime());
+            m_status = TagStatusWritten;
+            emit statusChanged();
+        }
+    });
 
     m_status = TagStatusWriting;
     emit statusChanged();

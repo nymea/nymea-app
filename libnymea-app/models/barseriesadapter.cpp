@@ -22,12 +22,12 @@ void BarSeriesAdapter::setLogsModel(LogsModel *logsModel)
     }
 }
 
-QtCharts::QAbstractBarSeries *BarSeriesAdapter::barSeries() const
+QAbstractBarSeries *BarSeriesAdapter::barSeries() const
 {
     return m_barSeries;
 }
 
-void BarSeriesAdapter::setBarSeries(QtCharts::QAbstractBarSeries *barSeries)
+void BarSeriesAdapter::setBarSeries(QAbstractBarSeries *barSeries)
 {
     if (m_barSeries != barSeries) {
         m_barSeries = barSeries;
@@ -54,7 +54,7 @@ void BarSeriesAdapter::update()
     if (!m_barSeries || !m_logsModel) {
         return;
     }
-    m_set = new QtCharts::QBarSet(m_barSeries->name());
+    m_set = new QBarSet(m_barSeries->name());
     m_barSeries->append(m_set);
 
     for (int i = 0; i < m_logsModel->rowCount(); i++) {

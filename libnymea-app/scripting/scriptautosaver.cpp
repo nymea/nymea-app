@@ -3,6 +3,7 @@
 #include <QStandardPaths>
 #include <QDir>
 #include <QDebug>
+#include <QRegularExpression>
 
 ScriptAutoSaver::ScriptAutoSaver(QObject *parent) : QObject(parent)
 {
@@ -56,7 +57,7 @@ void ScriptAutoSaver::setScriptId(const QUuid &scriptId)
             qWarning() << "Cannot create cache directory. Autosaving will not work...";
             return;
         }
-        QString fileName = path + m_scriptId.toString().remove(QRegExp("[{}]")) + ".qml.autosave";
+        QString fileName = path + m_scriptId.toString().remove(QRegularExpression("[{}]")) + ".qml.autosave";
         m_cacheFile.setFileName(fileName);
         if (!m_cacheFile.open(QFile::ReadWrite)) {
             qWarning() << "Cannot open cache file. Autosaving will not work...";

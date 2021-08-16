@@ -44,8 +44,7 @@ TcpSocketTransport::TcpSocketTransport(QObject *parent) : NymeaTransportInterfac
     typedef void (QSslSocket:: *sslErrorsSignal)(const QList<QSslError> &);
     QObject::connect(&m_socket, static_cast<sslErrorsSignal>(&QSslSocket::sslErrors), this, &TcpSocketTransport::sslErrors);
     QObject::connect(&m_socket, &QSslSocket::readyRead, this, &TcpSocketTransport::socketReadyRead);
-    typedef void (QSslSocket:: *errorSignal)(QAbstractSocket::SocketError);
-    QObject::connect(&m_socket, static_cast<errorSignal>(&QSslSocket::error), this, &TcpSocketTransport::error);
+    QObject::connect(&m_socket, &QSslSocket::errorOccurred, this, &TcpSocketTransport::error);
     QObject::connect(&m_socket, &QSslSocket::stateChanged, this, &TcpSocketTransport::onSocketStateChanged);
 
 }

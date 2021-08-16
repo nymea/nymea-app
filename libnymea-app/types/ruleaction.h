@@ -34,7 +34,7 @@
 #include <QObject>
 #include <QUuid>
 
-class RuleActionParams;
+#include "ruleactionparams.h"
 
 class RuleAction : public QObject
 {

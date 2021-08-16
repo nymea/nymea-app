@@ -34,10 +34,10 @@
 #include <QObject>
 #include <QUuid>
 
-class EventDescriptors;
-class RuleActions;
-class StateEvaluator;
-class TimeDescriptor;
+#include "eventdescriptors.h"
+#include "ruleactions.h"
+#include "stateevaluator.h"
+#include "timedescriptor.h"
 
 class Rule : public QObject
 {

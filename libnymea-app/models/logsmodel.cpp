@@ -318,8 +318,8 @@ void LogsModel::logsReply(int /*commandId*/, const QVariantMap &data)
     foreach (const QVariant &logEntryVariant, logEntries) {
         QVariantMap entryMap = logEntryVariant.toMap();
         QDateTime timeStamp = QDateTime::fromMSecsSinceEpoch(entryMap.value("timestamp").toLongLong());
-        QString thingId = entryMap.value("thingId").toString();
-        QString typeId = entryMap.value("typeId").toString();
+        QUuid thingId = entryMap.value("thingId").toUuid();
+        QUuid typeId = entryMap.value("typeId").toUuid();
         QMetaEnum sourceEnum = QMetaEnum::fromType<LogEntry::LoggingSource>();
         LogEntry::LoggingSource loggingSource = static_cast<LogEntry::LoggingSource>(sourceEnum.keyToValue(entryMap.value("source").toByteArray()));
         QMetaEnum loggingEventTypeEnum = QMetaEnum::fromType<LogEntry::LoggingEventType>();

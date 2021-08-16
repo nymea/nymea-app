@@ -35,7 +35,7 @@ import QtQuick.Layouts 1.2
 import QtQuick.Window 2.3
 import Qt.labs.settings 1.0
 import Qt.labs.folderlistmodel 2.2
-import QtGraphicalEffects 1.0
+import Qt5Compat.GraphicalEffects
 import Nymea 1.0
 import "components"
 import "delegates"

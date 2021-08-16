@@ -327,7 +327,7 @@ void ThingClass::setBrowserItemActionTypes(ActionTypes *browserActionTypes)
     emit browserItemActionTypesChanged();
 }
 
-bool ThingClass::hasActionType(const QString &actionTypeId)
+bool ThingClass::hasActionType(const QUuid &actionTypeId)
 {
     foreach (ActionType *actionType, m_actionTypes->actionTypes()) {
         if (actionType->id() == actionTypeId) {

@@ -61,7 +61,7 @@ public:
     Q_INVOKABLE Tag* get(int index) const;
 
     Q_INVOKABLE Tag* findThingTag(const QUuid &thingId, const QString &tagId) const;
-    Q_INVOKABLE Tag* findRuleTag(const QString &ruleId, const QString &tagId) const;
+    Q_INVOKABLE Tag* findRuleTag(const QUuid &ruleId, const QString &tagId) const;
 
     void clear();
 

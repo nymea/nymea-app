@@ -34,6 +34,7 @@
 #include <QObject>
 #include <QSslCertificate>
 #include <QHostAddress>
+#include <QSslError>
 
 class NymeaTransportInterface;
 

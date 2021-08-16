@@ -55,7 +55,19 @@ Engine::Engine(QObject *parent) :
     connect(m_thingManager, &ThingManager::fetchingDataChanged, this, &Engine::onThingManagerFetchingChanged);
 
     connect(m_jsonRpcClient, &JsonRpcClient::connectedChanged, this, [this]() {
-        qDebug() << "JSONRpc connected changed:" << m_jsonRpcClient->connected();
+        qDebug() << "JSONRpc connected changed:" << m_jsonRpcClient->connected() << "AWS status:" << AWSClient::instance()->awsDevices()->rowCount();
+        if (m_jsonRpcClient->connected() && m_jsonRpcClient->cloudConnectionState() == JsonRpcClient::CloudConnectionStateConnected) {
+            if (AWSClient::instance()->awsDevices()->getDevice(m_jsonRpcClient->serverUuid().toString()) == nullptr) {
+                m_jsonRpcClient->setupRemoteAccess(AWSClient::instance()->idToken(), AWSClient::instance()->userId());
+            }
+        }
+    });
+    connect(m_jsonRpcClient, &JsonRpcClient::cloudConnectionStateChanged, this, [this](){
+        if (m_jsonRpcClient->connected() && m_jsonRpcClient->cloudConnectionState() == JsonRpcClient::CloudConnectionStateConnected) {
+            if (AWSClient::instance()->awsDevices()->getDevice(m_jsonRpcClient->serverUuid().toString()) == nullptr) {
+                m_jsonRpcClient->setupRemoteAccess(AWSClient::instance()->idToken(), AWSClient::instance()->userId());
+            }
+        }
     });
 }
 
@@ -97,6 +109,22 @@ NymeaConfiguration *Engine::nymeaConfiguration() const
 SystemController *Engine::systemController() const
 {
     return m_systemController;
+}
+
+void Engine::deployCertificate()
+{
+    if (!m_jsonRpcClient->connected()) {
+        qWarning() << "JSONRPC not connected. Cannot deploy certificate";
+        return;
+    }
+    if (!AWSClient::instance()->isLoggedIn()) {
+        qWarning() << "Not logged in at AWS. Cannot deploy certificate";
+        return;
+    }
+    AWSClient::instance()->fetchCertificate(m_jsonRpcClient->serverUuid().toString(), [this](const QByteArray &rootCA, const QByteArray &certificate, const QByteArray &publicKey, const QByteArray &privateKey, const QString &endpoint){
+        qDebug() << "Certificate received" << certificate << publicKey << privateKey;
+        m_jsonRpcClient->deployCertificate(rootCA, certificate, publicKey, privateKey, endpoint);
+    });
 }
 
 void Engine::onConnectedChanged()

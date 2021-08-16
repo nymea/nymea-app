@@ -1,7 +1,7 @@
 import QtQuick 2.0
 import QtCharts 2.2
 import QtQuick.Layouts 1.2
-import QtQuick.Controls 2.2
+import QtQuick.Controls 2.3
 import Nymea 1.0
 import "qrc:/ui/components"
 

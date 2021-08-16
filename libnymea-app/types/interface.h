@@ -33,9 +33,10 @@
 
 #include <QObject>
 
-class EventTypes;
-class StateTypes;
-class ActionTypes;
+#include "eventtypes.h"
+#include "statetypes.h"
+#include "actiontypes.h"
+
 class ThingClass;
 
 class Interface : public QObject

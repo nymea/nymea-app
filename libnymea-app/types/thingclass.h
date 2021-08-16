@@ -139,7 +139,7 @@ public:
     ActionTypes *browserItemActionTypes() const;
     void setBrowserItemActionTypes(ActionTypes *browserActionTypes);
 
-    Q_INVOKABLE bool hasActionType(const QString &actionTypeId);
+    Q_INVOKABLE bool hasActionType(const QUuid &actionTypeId);
 
 signals:
     void paramTypesChanged();

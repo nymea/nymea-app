@@ -25,12 +25,12 @@ void XYSeriesAdapter::setLogsModel(LogsModel *logsModel)
     }
 }
 
-QtCharts::QXYSeries *XYSeriesAdapter::xySeries() const
+QXYSeries *XYSeriesAdapter::xySeries() const
 {
     return m_series;
 }
 
-void XYSeriesAdapter::setXySeries(QtCharts::QXYSeries *series)
+void XYSeriesAdapter::setXySeries(QXYSeries *series)
 {
     if (m_series != series) {
         m_series = series;
@@ -40,18 +40,18 @@ void XYSeriesAdapter::setXySeries(QtCharts::QXYSeries *series)
     }
 }
 
-QtCharts::QXYSeries *XYSeriesAdapter::baseSeries() const
+QXYSeries *XYSeriesAdapter::baseSeries() const
 {
     return m_baseSeries;
 }
 
-void XYSeriesAdapter::setBaseSeries(QtCharts::QXYSeries *series)
+void XYSeriesAdapter::setBaseSeries(QXYSeries *series)
 {
     if (m_baseSeries != series) {
         m_baseSeries = series;
         emit baseSeriesChanged();
 
-        connect(m_baseSeries, &QtCharts::QXYSeries::pointAdded, this, [=](int index){
+        connect(m_baseSeries, &QXYSeries::pointAdded, this, [=](int index){
             if (m_series->count() > index) {
                 qreal value = calculateSampleValue(index);
                 m_series->replace(index, m_series->at(index).x(), value);
@@ -67,7 +67,7 @@ void XYSeriesAdapter::setBaseSeries(QtCharts::QXYSeries *series)
                 }
             }
         });
-        connect(m_baseSeries, &QtCharts::QXYSeries::pointReplaced, this, [=](int index){
+        connect(m_baseSeries, &QXYSeries::pointReplaced, this, [=](int index){
             if (m_series->count() > index) {
                 qreal value = calculateSampleValue(index);
                 m_series->replace(index, m_series->at(index).x(), value);

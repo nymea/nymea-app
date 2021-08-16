@@ -57,7 +57,7 @@ class JsonRpcClient : public QObject
     Q_PROPERTY(bool authenticated READ authenticated NOTIFY authenticatedChanged)
     Q_PROPERTY(QString serverVersion READ serverVersion NOTIFY handshakeReceived)
     Q_PROPERTY(QString jsonRpcVersion READ jsonRpcVersion NOTIFY handshakeReceived)
-    Q_PROPERTY(QString serverUuid READ serverUuid NOTIFY handshakeReceived)
+    Q_PROPERTY(QUuid serverUuid READ serverUuid NOTIFY handshakeReceived)
     Q_PROPERTY(QString serverName READ serverName NOTIFY serverNameChanged)
     Q_PROPERTY(QString serverQtVersion READ serverQtVersion NOTIFY serverQtVersionChanged)
     Q_PROPERTY(QString serverQtBuildVersion READ serverQtBuildVersion NOTIFY serverQtVersionChanged)
@@ -91,7 +91,7 @@ public:
 
     QString serverVersion() const;
     QString jsonRpcVersion() const;
-    QString serverUuid() const;
+    QUuid serverUuid() const;
     QString serverName() const;
     QString serverQtVersion();
     QString serverQtBuildVersion();
@@ -100,7 +100,7 @@ public:
     // ui methods
     Q_INVOKABLE void connectToHost(NymeaHost *host, Connection *connection = nullptr);
     Q_INVOKABLE void disconnectFromHost();
-    Q_INVOKABLE void acceptCertificate(const QString &serverUuid, const QByteArray &pem);
+    Q_INVOKABLE void acceptCertificate(const QUuid &serverUuid, const QByteArray &pem);
     Q_INVOKABLE bool tokenExists(const QString &serverUuid) const;
     Q_INVOKABLE void addToken(const QString &serverUuid, const QByteArray &token);
 
@@ -160,6 +160,7 @@ private:
     bool m_pushButtonAuthAvailable = false;
     bool m_authenticated = false;
     int m_pendingPushButtonTransaction = -1;
+    QUuid m_serverUuid;
     QVersionNumber m_jsonRpcVersion;
     QString m_serverVersion;
     QString m_serverQtVersion;

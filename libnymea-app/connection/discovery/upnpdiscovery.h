@@ -35,7 +35,7 @@
 #include <QHostAddress>
 #include <QNetworkReply>
 #include <QNetworkAccessManager>
-#include <QNetworkConfigurationManager>
+//#include <QNetworkConfigurationManager>
 #include <QTimer>
 
 #include "../nymeahost.h"
@@ -69,7 +69,7 @@ private slots:
 private:
     QHash<QHostAddress, QUdpSocket*> m_sockets;
     QNetworkAccessManager *m_networkAccessManager;
-    QNetworkConfigurationManager *m_networkConfigurationManager;
+//    QNetworkConfigurationManager *m_networkConfigurationManager;
 
     QTimer m_repeatTimer;
 

@@ -35,8 +35,8 @@
 
 #include <QAbstractListModel>
 
-class TimeEventItems;
-class CalendarItems;
+#include "timeeventitems.h"
+#include "calendaritems.h"
 
 class TimeDescriptor : public QObject
 {

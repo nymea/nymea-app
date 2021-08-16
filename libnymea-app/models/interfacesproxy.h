@@ -33,8 +33,8 @@
 
 #include <QSortFilterProxyModel>
 
-class Things;
-class ThingsProxy;
+#include "things.h"
+#include "thingsproxy.h"
 class Interface;
 class Interfaces;
 

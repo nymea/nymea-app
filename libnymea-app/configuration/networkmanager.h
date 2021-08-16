@@ -34,8 +34,10 @@
 #include <QObject>
 #include <QHash>
 
-class Engine;
-class NetworkDevices;
+#include "engine.h"
+#include "types/networkdevices.h"
+
+
 class WiredNetworkDevices;
 class WirelessNetworkDevices;
 

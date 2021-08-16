@@ -195,7 +195,7 @@ void UserManager::getTokensResponse(int /*commandId*/, const QVariantMap &data)
     foreach (const QVariant &tokenVariant, data.value("tokenInfoList").toList()) {
         //        qDebug() << "Token received" << tokenVariant.toMap();
         QVariantMap token = tokenVariant.toMap();
-        QUuid id = token.value("id").toString();
+        QUuid id = token.value("id").toUuid();
         QString username = token.value("username").toString();
         QString deviceName = token.value("deviceName").toString();
         QDateTime creationTime = QDateTime::fromSecsSinceEpoch(token.value("creationTime").toInt());

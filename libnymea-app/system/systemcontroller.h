@@ -34,9 +34,8 @@
 #include <QObject>
 
 #include "jsonrpc/jsonrpcclient.h"
-
-class Repositories;
-class Packages;
+#include "types/packages.h"
+#include "types/repositories.h"
 
 class SystemController : public QObject
 {

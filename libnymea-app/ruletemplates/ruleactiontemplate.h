@@ -33,7 +33,8 @@
 
 #include <QObject>
 
-class RuleActionParamTemplates;
+#include "ruleactionparamtemplate.h"
+
 
 class RuleActionTemplate : public QObject
 {

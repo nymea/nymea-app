@@ -32,13 +32,11 @@
 #define ZIGBEEMANAGER_H
 
 #include <QObject>
-#include "zigbeeadapter.h"
+#include "zigbeeadapters.h"
+#include "zigbeenetworks.h"
+#include "engine.h"
 
-class Engine;
 class JsonRpcClient;
-class ZigbeeAdapters;
-class ZigbeeNetwork;
-class ZigbeeNetworks;
 class ZigbeeNode;
 class ZigbeeNodes;
 class ZigbeeNodeBinding;

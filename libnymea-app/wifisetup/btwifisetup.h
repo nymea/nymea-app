@@ -4,10 +4,9 @@
 #include <QObject>
 #include <QBluetoothDeviceInfo>
 #include <QLowEnergyController>
-
-class BluetoothDeviceInfo;
-class WirelessAccessPoints;
-class WirelessAccessPoint;
+#include "types/wirelessaccesspoint.h"
+#include "types/wirelessaccesspoints.h"
+#include "bluetoothdeviceinfo.h"
 
 class BtWiFiSetup : public QObject
 {

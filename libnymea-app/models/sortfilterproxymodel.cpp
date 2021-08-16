@@ -93,5 +93,5 @@ bool SortFilterProxyModel::lessThan(const QModelIndex &source_left, const QModel
     QVariant left = sourceModel()->data(source_left, sortRole);
     QVariant right = sourceModel()->data(source_right, sortRole);
 
-    return left <= right;
+    return left.toString() <= right.toString();
 }

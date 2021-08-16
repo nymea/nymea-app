@@ -38,8 +38,8 @@
 #include <QBluetoothUuid>
 #include <QUrlQuery>
 #include <QSettings>
-#include <QNetworkConfigurationManager>
-#include <QNetworkSession>
+//#include <QNetworkConfigurationManager>
+//#include <QNetworkSession>
 
 #include "logging.h"
 NYMEA_LOGGING_CATEGORY(dcDiscovery, "Discovery")
@@ -197,7 +197,6 @@ void NymeaDiscovery::setUpnpDiscoveryEnabled(bool upnpDiscoveryEnabled)
         }
     }
 }
-
 
 void NymeaDiscovery::loadFromDisk()
 {

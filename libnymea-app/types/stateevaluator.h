@@ -33,8 +33,8 @@
 
 #include <QObject>
 
-class StateEvaluators;
-class StateDescriptor;
+#include "stateevaluators.h"
+#include "statedescriptor.h"
 
 class StateEvaluator : public QObject
 {

@@ -34,7 +34,7 @@
 #include <QObject>
 #include <QDateTime>
 
-class RepeatingOption;
+#include "repeatingoption.h"
 
 class CalendarItem : public QObject
 {

@@ -154,7 +154,7 @@ ModbusRtuMaster *ModbusRtuManager::unpackModbusRtuMaster(const QVariantMap &modb
 void ModbusRtuManager::notificationReceived(const QVariantMap &notification)
 {
     QString notificationString = notification.value("notification").toString();
-    qDebug() << "Received notification" << notificationString << endl << notification;
+    qDebug() << "Received notification" << notificationString << Qt::endl << notification;
     if (notificationString == "ModbusRtu.SerialPortAdded") {
         QVariantMap serialPortMap = notification.value("params").toMap().value("serialPort").toMap();
         m_serialPorts->addSerialPort(SerialPort::unpackSerialPort(serialPortMap, m_serialPorts));

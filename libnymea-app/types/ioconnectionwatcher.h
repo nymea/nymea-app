@@ -34,8 +34,8 @@
 #include <QObject>
 #include <QUuid>
 
-class IOConnection;
-class IOConnections;
+#include "ioconnection.h"
+#include "ioconnections.h"
 
 class IOInputConnectionWatcher : public QObject
 {

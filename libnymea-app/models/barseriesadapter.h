@@ -7,11 +7,15 @@
 #include <QBarSeries>
 #include <QBarSet>
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+using namespace QtCharts;
+#endif
+
 class BarSeriesAdapter : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(LogsModel* logsModel READ logsModel WRITE setLogsModel NOTIFY logsModelChanged)
-    Q_PROPERTY(QtCharts::QAbstractBarSeries* barSeries READ barSeries WRITE setBarSeries NOTIFY barSeriesChanged)
+    Q_PROPERTY(QAbstractBarSeries* barSeries READ barSeries WRITE setBarSeries NOTIFY barSeriesChanged)
 
     Q_PROPERTY(Interval interval READ interval WRITE setInterval NOTIFY intervalChanged)
 
@@ -28,8 +32,8 @@ public:
     LogsModel *logsModel() const;
     void setLogsModel(LogsModel *logsModel);
 
-    QtCharts::QAbstractBarSeries *barSeries() const;
-    void setBarSeries(QtCharts::QAbstractBarSeries *barSeries);
+    QAbstractBarSeries *barSeries() const;
+    void setBarSeries(QAbstractBarSeries *barSeries);
 
     Interval interval() const;
     void setInterval(Interval interval);
@@ -56,8 +60,8 @@ private:
     };
 
     LogsModel *m_logsModel = nullptr;
-    QtCharts::QAbstractBarSeries *m_barSeries = nullptr;
-    QtCharts::QBarSet *m_set = nullptr;
+    QAbstractBarSeries *m_barSeries = nullptr;
+    QBarSet *m_set = nullptr;
     Interval m_interval = IntervalMinutes;
 
     QList<TimeSlot> m_timeslots;

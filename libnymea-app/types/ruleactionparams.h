@@ -58,15 +58,15 @@ public:
 
     Q_INVOKABLE void setRuleActionParam(const QUuid &paramTypeId, const QVariant &value);
     Q_INVOKABLE void setRuleActionParamByName(const QString &paramName, const QVariant &value);
-    Q_INVOKABLE void setRuleActionParamEvent(const QString &paramTypeId, const QString &eventTypeId, const QString &eventParamTypeId);
+    Q_INVOKABLE void setRuleActionParamEvent(const QUuid &paramTypeId, const QString &eventTypeId, const QString &eventParamTypeId);
     Q_INVOKABLE void setRuleActionParamEventByName(const QString &paramName, const QString &eventTypeId, const QString &eventParamTypeId);
-    Q_INVOKABLE void setRuleActionParamState(const QString &paramTypeId, const QString &stateThingId, const QString &stateTypeId);
+    Q_INVOKABLE void setRuleActionParamState(const QUuid &paramTypeId, const QString &stateThingId, const QString &stateTypeId);
     Q_INVOKABLE void setRuleActionParamStateByName(const QString &paramName, const QString &stateThingId, const QString &stateTypeId);
 
     Q_INVOKABLE RuleActionParam* get(int index) const;
     Q_INVOKABLE RuleActionParam* getParam(const QUuid &paramTypeId);
 
-    Q_INVOKABLE bool hasRuleActionParam(const QString &paramTypeId) const;
+    Q_INVOKABLE bool hasRuleActionParam(const QUuid &paramTypeId) const;
 
     Q_INVOKABLE void clear();
 

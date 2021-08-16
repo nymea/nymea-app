@@ -36,7 +36,12 @@
 #include <QSysInfo>
 #include <QCommandLineParser>
 #include <QCommandLineOption>
-#include "utils/qhashqml.h"
+#include <QTranslator>
+#include <QLibraryInfo>
+#include <QIcon>
+#include <QQmlFileSelector>
+#include <QDir>
+#include <QFileInfo>
 
 #include "libnymea-app-core.h"
 #include "libnymea-app-airconditioning.h"
@@ -143,8 +148,10 @@ int main(int argc, char *argv[])
     QString defaultStyle;
     if (parser.isSet(defaultStyleOption)) {
         defaultStyle = parser.value(defaultStyleOption);
+#ifndef DISABLE_DARK_MODE
     } else if (PlatformHelper::instance()->darkModeEnabled()) {
         defaultStyle = "dark";
+#endif
     } else {
         defaultStyle = "light";
     }

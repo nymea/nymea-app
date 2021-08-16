@@ -34,8 +34,7 @@
 #include <QSortFilterProxyModel>
 #include <QUuid>
 
-class Tag;
-class Tags;
+#include "types/tags.h"
 
 class TagsProxyModel : public QSortFilterProxyModel
 {

@@ -91,7 +91,7 @@ void AppData::load()
 
     for (int i = metaObject()->propertyOffset(); i < metaObject()->propertyCount(); i++) {
         QMetaProperty prop = metaObject()->property(i);
-        qCDebug(dcAppData) << "ComponentComplete property:" << prop.name() << prop.isUser() << prop.type() << prop.isScriptable(this) << prop.isScriptable();
+        qCDebug(dcAppData) << "ComponentComplete property:" << prop.name() << prop.isUser() << prop.type() << prop.isScriptable();
         QVariantMap params;
         params.insert("appId", APPLICATION_NAME);
         if (!m_group.isEmpty()) {

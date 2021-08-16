@@ -36,7 +36,7 @@
 #include <QSslError>
 #include <QAbstractSocket>
 #include <QUrl>
-#include <QNetworkConfigurationManager>
+//#include <QNetworkConfigurationManager>
 #include <QTimer>
 
 #include "nymeahost.h"
@@ -131,7 +131,8 @@ private:
 
 private:
     ConnectionStatus m_connectionStatus = ConnectionStatusUnconnected;
-    NetworkReachabilityMonitor *m_networkReachabilityMonitor = nullptr;
+//    QNetworkConfigurationManager *m_networkConfigManager = nullptr;
+    NymeaConnection::BearerTypes m_availableBearerTypes = BearerTypeNone;
 
     QHash<QString, NymeaTransportInterfaceFactory *> m_transportFactories;
     QHash<NymeaTransportInterface *, Connection *> m_transportCandidates;

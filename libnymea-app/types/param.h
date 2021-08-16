@@ -42,7 +42,7 @@ class Param : public QObject
     Q_PROPERTY(QVariant value READ value WRITE setValue NOTIFY valueChanged)
 
 public:
-    Param(const QUuid &paramTypeId = QString(), const QVariant &value = QVariant(), QObject *parent = nullptr);
+    Param(const QUuid &paramTypeId = QUuid(), const QVariant &value = QVariant(), QObject *parent = nullptr);
     Param(QObject *parent);
 
     QUuid paramTypeId() const;

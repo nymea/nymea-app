@@ -32,12 +32,12 @@
 #define RULETEMPLATES_H
 
 #include <QAbstractListModel>
+#include "thingsproxy.h"
 
 class RuleTemplate;
 class StateEvaluatorTemplate;
 class TimeDescriptorTemplate;
 class RepeatingOption;
-class ThingsProxy;
 class Thing;
 
 class RuleTemplates : public QAbstractListModel

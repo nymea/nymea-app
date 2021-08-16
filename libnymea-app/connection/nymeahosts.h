@@ -36,8 +36,6 @@
 #include <QBluetoothAddress>
 #include <QSortFilterProxyModel>
 #include "nymeahost.h"
-
-class NymeaDiscovery;
 class JsonRpcClient;
 
 class NymeaHosts : public QAbstractListModel

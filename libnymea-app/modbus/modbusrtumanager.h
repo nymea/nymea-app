@@ -35,10 +35,10 @@
 
 #include "types/serialports.h"
 
-class Engine;
-class JsonRpcClient;
+#include "engine.h"
+#include "modbusrtumasters.h"
+
 class ModbusRtuMaster;
-class ModbusRtuMasters;
 
 class ModbusRtuManager : public QObject
 {
