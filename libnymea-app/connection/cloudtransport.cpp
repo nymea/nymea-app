@@ -66,7 +66,7 @@ CloudTransport::CloudTransport(AWSClient *awsClient, QObject *parent):
     QObject::connect(m_remoteproxyConnection, &RemoteProxyConnection::dataReady, this, [this](const QByteArray &data) {
         emit dataReady(data);
     });
-    QObject::connect(m_remoteproxyConnection, &RemoteProxyConnection::errorOccured, this, [] (QAbstractSocket::SocketError error) {
+    QObject::connect(m_remoteproxyConnection, &RemoteProxyConnection::errorOccurred, this, [] (QAbstractSocket::SocketError error) {
         qDebug() << "Remote proxy Error:" << error;
 //        emit NymeaTransportInterface::error(QAbstractSocket::ConnectionRefusedError);
     });
