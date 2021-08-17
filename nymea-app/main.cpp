@@ -120,6 +120,17 @@ int main(int argc, char *argv[])
     }
     application.installTranslator(&appTranslator);
 
+#ifdef OVERLAY_PATH
+    QTranslator overlayTranslator;
+    translationResult = overlayTranslator.load(QString("%1-%2").arg(APPLICATION_NAME).arg(QLocale().name()), ":/translations");
+    if (translationResult) {
+        qCDebug(dcApplication()) << "Loaded overlay translation for locale" << QString("%1-%2").arg(APPLICATION_NAME).arg(QLocale().name());
+    } else {
+        qCInfo(dcApplication()) << "Failed to load overlay translations for locale" << QString("%1-%2").arg(APPLICATION_NAME).arg(QLocale().name());
+    }
+    application.installTranslator(&overlayTranslator);
+#endif
+
     registerQmlTypes();
 
     QQmlApplicationEngine *engine = new QQmlApplicationEngine();
@@ -175,7 +186,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<ConfiguredHostsProxyModel>("Nymea", 1, 0, "ConfiguredHostsProxyModel");
     qmlRegisterUncreatableType<ConfiguredHost>("Nymea", 1, 0, "ConfiguredHost", "Get them from ConfiguredHostsModel");
 
-#ifdef OVERLAY_QMLTYPES
+#ifdef OVERLAY_PATH
     registerOverlayTypes("Nymea", 1, 0);
 #endif
 
