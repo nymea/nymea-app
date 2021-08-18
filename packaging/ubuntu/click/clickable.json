@@ -1,6 +1,7 @@
 {
   "builder": "qmake",
   "kill": "nymea-app",
+  "qt_version": "5.12",
   "build_args": "CONFIG+=ubports",
   "dependencies_target": [
     "libavahi-client-dev",
