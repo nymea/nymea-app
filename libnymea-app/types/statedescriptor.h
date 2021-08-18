@@ -44,6 +44,8 @@ class StateDescriptor : public QObject
     Q_PROPERTY(QString interfaceState READ interfaceState WRITE setInterfaceState NOTIFY interfaceStateChanged)
     Q_PROPERTY(ValueOperator valueOperator READ valueOperator WRITE setValueOperator NOTIFY valueOperatorChanged)
     Q_PROPERTY(QVariant value READ value WRITE setValue NOTIFY valueChanged)
+    Q_PROPERTY(QUuid valueThingId READ valueThingId WRITE setValueThingId NOTIFY valueThingIdChanged)
+    Q_PROPERTY(QUuid valueStateTypeId READ valueStateTypeId WRITE setValueStateTypeId NOTIFY valueStateTypeIdChanged)
 
 public:
     enum ValueOperator {
@@ -78,6 +80,12 @@ public:
     QVariant value() const;
     void setValue(const QVariant &value);
 
+    QUuid valueThingId() const;
+    void setValueThingId(const QUuid &valueThingId);
+
+    QUuid valueStateTypeId() const;
+    void setValueStateTypeId(const QUuid &valueStateTypeId);
+
     StateDescriptor* clone() const;
     bool operator==(StateDescriptor *other) const;
 
@@ -88,6 +96,8 @@ signals:
     void interfaceStateChanged();
     void valueOperatorChanged();
     void valueChanged();
+    void valueThingIdChanged();
+    void valueStateTypeIdChanged();
 
 private:
     QUuid m_thingId;
@@ -96,6 +106,8 @@ private:
     QString m_interfaceState;
     ValueOperator m_operator = ValueOperatorEquals;
     QVariant m_value;
+    QUuid m_valueThingId;
+    QUuid m_valueStateTypeId;
 };
 
 #endif // STATEDESCRIPTOR_H
