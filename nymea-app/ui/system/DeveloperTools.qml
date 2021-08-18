@@ -100,24 +100,19 @@ SettingsPageBase {
         text: qsTr("Please enable the web server to be accessed on this address.")
         wrapMode: Text.WordWrap
         font.pixelSize: app.smallFont
-        visible: engine.nymeaConfiguration.webServerConfigurations.count > 0 && root.usedConfig === null
+        visible: engine.nymeaConfiguration.webServerConfigurations.count > 0 && root.usedConfig == null
     }
 
-    Button {
-        id: debugServerButton
+    Label {
         Layout.fillWidth: true
-        Layout.margins: app.margins
-        visible: debugServerEnabledSwitch.checked
-        enabled: root.usedConfig !== null && engine.nymeaConfiguration.webServerConfigurations.count > 0
-        text: qsTr("Open debug interface")
-        onClicked: {
-            print("opening:", engine.jsonRpcClient.currentConnection.url)
-
+        Layout.margins: Style.margins
+        wrapMode: Text.WordWrap
+        visible: debugServerEnabledSwitch.checked && root.usedConfig != null
+        text: {
             var proto = "http" + (root.usedConfig.sslEnabled ? "s" : "") + "://"
             var path = engine.jsonRpcClient.currentConnection.hostAddress + ":" + root.usedConfig.port + "/debug"
-            print("opening:", proto + path)
-            Qt.openUrlExternally(proto + path)
+            return qsTr("Debug interface active at %1.").arg('<a href="' + proto + path + '">' + proto + path + '</a>')
         }
+        onLinkActivated: Qt.openUrlExternally(link)
     }
-
 }
