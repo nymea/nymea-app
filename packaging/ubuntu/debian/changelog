@@ -1,3 +1,14 @@
+nymea-app (1.0.339) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Update UBPorts package to Qt 5.12
+  * Improve setup wizard for things
+  * Add support for state based value comparison in rules
+  * Fix webview clipping on OSX
+  * Use Button controls on thing tiles too
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 18 Aug 2021 15:12:22 +0200
+
 nymea-app (1.0.338) bionic; urgency=medium
 
   [ Michael Zanetti ]
