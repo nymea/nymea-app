@@ -64,9 +64,15 @@ DashboardDelegateBase {
             }
         }
 
-        property bool needsHack: ["android", "ios"].indexOf(Qt.platform.os) >= 0
+        // Some platforms cannot embed webviews inside an app. In those cases, a platform native
+        // Browser will be overlaid on top of the app. As we can't draw on top of that, we'll need to be
+        // clever in resizing and hding...
+        property bool needsHack: ["android", "ios", "osx"].indexOf(Qt.platform.os) >= 0
         property bool webViewVisible: !needsHack ||
                      (!app.mainMenu.visible && !root.editMode && root.topClip < root.height && root.bottomClip < height && !pageStack.busy)
+
+        property int topClip: needsHack ? root.topClip : 0
+        property int bottomClip: needsHack ? root.bottomClip : 0
 
         property string webViewString:
             '
@@ -77,8 +83,8 @@ DashboardDelegateBase {
             WebView {
                 id: webView
                 anchors.fill: parent
-                anchors.bottomMargin: root.bottomClip + Style.smallMargins
-                anchors.topMargin: root.topClip + Style.smallMargins
+                anchors.bottomMargin: delegateRoot.bottomClip + Style.smallMargins
+                anchors.topMargin: delegateRoot.topClip + Style.smallMargins
                 url: root.item.url
                 enabled: root.item.interactive
                 visible: delegateRoot.webViewVisible
