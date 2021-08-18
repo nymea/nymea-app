@@ -37,13 +37,25 @@ Rectangle {
     visible: shown
 
     property bool shown: false
+    property alias text: textLabel.text
 
     // Event eater
     MouseArea {
         anchors.fill: parent
     }
 
-    BusyIndicator {
+    Column {
         anchors.centerIn: parent
+        width: parent.width - app.margins * 2
+        spacing: app.margins * 2
+        BusyIndicator {
+            anchors.horizontalCenter: parent.horizontalCenter
+        }
+        Label {
+            id: textLabel
+            width: parent.width
+            horizontalAlignment: Text.AlignHCenter
+            wrapMode: Text.WordWrap
+        }
     }
 }

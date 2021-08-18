@@ -174,6 +174,9 @@ Page {
                     pageStack.pop(root, StackView.Immediate);
                     pageStack.pop();
                 })
+                page.aborted.connect(function() {
+                    pageStack.pop();
+                })
             }
         }
     }

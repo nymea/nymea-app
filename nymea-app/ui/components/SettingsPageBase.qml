@@ -42,8 +42,9 @@ Page {
         onBackPressed: pageStack.pop()
     }
 
-    property alias busy: busyOverlay.shown
     default property alias content: contentColumn.data
+    property alias busy: busyOverlay.shown
+    property alias busyText: busyOverlay.text
 
     Flickable {
         anchors.fill: parent

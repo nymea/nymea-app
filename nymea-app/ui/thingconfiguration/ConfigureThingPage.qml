@@ -86,6 +86,7 @@ SettingsPageBase {
         function reconfigureThing() {
             var configPage = pageStack.push(Qt.resolvedUrl("SetupWizard.qml"), {thing: root.thing})
             configPage.done.connect(function() {pageStack.pop(root)})
+            configPage.aborted.connect(function() {pageStack.pop(root)})
         }
 
         Component {
