@@ -3783,39 +3783,39 @@ Please make sure the modbus RTU interface is connected to the system.</source>
     <name>ModbusRtuSettingsPage</name>
     <message>
         <source>Modbus RTU</source>
-        <translation>Modbus RTU</translation>
+        <translation type="unfinished">Modbus RTU</translation>
     </message>
     <message>
         <source>Add Modbus RTU master</source>
-        <translation type="unfinished"></translation>
+        <translation>Modbus RTU master&apos;ı ekleyin</translation>
     </message>
     <message>
         <source>The serial port is not available any more.</source>
-        <translation type="unfinished"></translation>
+        <translation>Seri bağlantı noktası artık mevcut değil.</translation>
     </message>
     <message>
         <source>Modbus is not supported on this platform.</source>
-        <translation type="unfinished"></translation>
+        <translation>Modbus bu platformda desteklenmemektedir.</translation>
     </message>
     <message>
         <source>The modbus RTU hardware could not be found.</source>
-        <translation type="unfinished"></translation>
+        <translation>Modbus RTU donanımı bulunamadı.</translation>
     </message>
     <message>
         <source>The selected modbus RTU master does not exist any more.</source>
-        <translation type="unfinished"></translation>
+        <translation>Seçilen modbus RTU master artık mevcut değil.</translation>
     </message>
     <message>
         <source>Unable to connect to the modbus RTU master.
 
 Maybe the hardware is already in use.</source>
-        <translation type="unfinished"></translation>
+        <translation>Modbus RTU master&apos;a bağlanılamıyor. Donanım kullanımda olabilir.</translation>
     </message>
     <message>
         <source>The specified timeout value is not valid.
 
 Please use a timeout value bigger or equal to 10 ms.</source>
-        <translation type="unfinished"></translation>
+        <translation>Belirtilen zaman aşımı değeri geçerli değil. Lütfen 10 ms&apos;ye eşit veya daha büyük bir zaman aşımı değeri kullanın.</translation>
     </message>
     <message>
         <source>9600 Bd</source>
