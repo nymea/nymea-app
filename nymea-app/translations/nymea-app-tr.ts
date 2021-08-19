@@ -3819,103 +3819,103 @@ Please use a timeout value bigger or equal to 10 ms.</source>
     </message>
     <message>
         <source>9600 Bd</source>
-        <translation type="unfinished"></translation>
+        <translation>9600 bit hızı</translation>
     </message>
     <message>
         <source>14400 Bd</source>
-        <translation type="unfinished"></translation>
+        <translation>14400 bit hızı</translation>
     </message>
     <message>
         <source>19200 Bd</source>
-        <translation type="unfinished"></translation>
+        <translation>19200 bit hızı</translation>
     </message>
     <message>
         <source>38400 Bd</source>
-        <translation type="unfinished"></translation>
+        <translation>38400 bit hızı</translation>
     </message>
     <message>
         <source>57600 Bd</source>
-        <translation type="unfinished"></translation>
+        <translation>57600 bit hızı</translation>
     </message>
     <message>
         <source>115200 Bd</source>
-        <translation type="unfinished"></translation>
+        <translation>115200 bit hızı</translation>
     </message>
     <message>
         <source>128000 Bd</source>
-        <translation type="unfinished"></translation>
+        <translation>128000 bit hızı</translation>
     </message>
     <message>
         <source>230400 Bd</source>
-        <translation type="unfinished"></translation>
+        <translation>230400 bit hızı</translation>
     </message>
     <message>
         <source>256000 Bd</source>
-        <translation type="unfinished"></translation>
+        <translation>256000 bit hızı</translation>
     </message>
     <message>
         <source>Unknown baud rate</source>
-        <translation type="unfinished"></translation>
+        <translation>Bilinmeyen baud hızı</translation>
     </message>
     <message>
         <source>No parity</source>
-        <translation type="unfinished"></translation>
+        <translation>parite yok</translation>
     </message>
     <message>
         <source>Even parity</source>
-        <translation type="unfinished"></translation>
+        <translation>Eşit parite</translation>
     </message>
     <message>
         <source>Odd parity</source>
-        <translation type="unfinished"></translation>
+        <translation>Tek parite</translation>
     </message>
     <message>
         <source>Space parity</source>
-        <translation type="unfinished"></translation>
+        <translation>uzay paritesi</translation>
     </message>
     <message>
         <source>Mark parity</source>
-        <translation type="unfinished"></translation>
+        <translation>pariteyi işaretle</translation>
     </message>
     <message>
         <source>Unknown parity</source>
-        <translation type="unfinished"></translation>
+        <translation>Bilinmeyen parite</translation>
     </message>
     <message>
         <source>5 data bits</source>
-        <translation type="unfinished"></translation>
+        <translation>5 veri biti</translation>
     </message>
     <message>
         <source>6 data bits</source>
-        <translation type="unfinished"></translation>
+        <translation>6 veri biti</translation>
     </message>
     <message>
         <source>7 data bits</source>
-        <translation type="unfinished"></translation>
+        <translation>7 veri biti</translation>
     </message>
     <message>
         <source>8 data bits</source>
-        <translation type="unfinished"></translation>
+        <translation>8 veri biti</translation>
     </message>
     <message>
         <source>Unknown data bits</source>
-        <translation type="unfinished"></translation>
+        <translation>Bilinmeyen veri bitleri</translation>
     </message>
     <message>
         <source>One stop bit</source>
-        <translation type="unfinished"></translation>
+        <translation>Bir durak biti</translation>
     </message>
     <message>
         <source>One and a half stop bits</source>
-        <translation type="unfinished"></translation>
+        <translation>Bir buçuk durak biti</translation>
     </message>
     <message>
         <source>Two stop bits</source>
-        <translation type="unfinished"></translation>
+        <translation>İki durdurma biti</translation>
     </message>
     <message>
         <source>Unknown stop bits</source>
-        <translation type="unfinished"></translation>
+        <translation>Bilinmeyen durdurma bitleri</translation>
     </message>
     <message>
         <source>Modbus RTU masters</source>
