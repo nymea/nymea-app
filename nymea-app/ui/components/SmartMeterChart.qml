@@ -36,7 +36,7 @@ import QtCharts 2.2
 import Nymea 1.0
 
 ChartView {
-    id: chart
+    id: root
     backgroundColor: Style.tileBackgroundColor
     backgroundRoundness: Style.cornerRadius
     theme: ChartView.ChartThemeLight
@@ -45,16 +45,19 @@ ChartView {
     legend.alignment: Qt.AlignRight
     titleColor: Style.foregroundColor
 
+    property Thing rootMeter: null
     property ThingsProxy meters: null
     property int multiplier: 1
 
+    readonly property State rootMeterTotalConsumedEnergyState: rootMeter ? rootMeter.stateByName("totalEnergyConsumed") : null
+
     Connections {
         target: meters
-        onCountChanged: chart.refresh()
+        onCountChanged: root.refresh()
     }
 
     Component.onCompleted: {
-        chart.refresh()
+        root.refresh()
     }
 
     QtObject {
@@ -65,22 +68,28 @@ ChartView {
     function refresh() {
         pieSeries.clear();
         d.sliceMap = {}
+
+        var unknownConsumerEnergy = 0;
+        if (rootMeter) {
+            unknownConsumerEnergy = rootMeter.stateByName("totalEnergyConsumed").value
+        }
+
         for (var i = 0; i < meters.count; i++) {
             var thing = meters.get(i);
             var value = 0;
             var totalConsumedStateType = thing.thingClass.stateTypes.findByName("totalEnergyConsumed")
             if (totalConsumedStateType) {
                 var totalConsumedState = thing.states.getState(totalConsumedStateType.id)
-                value = value + (totalConsumedState.value * chart.multiplier)
+                value = value + (totalConsumedState.value * root.multiplier)
             }
             var totalProducedStateType = thing.thingClass.stateTypes.findByName("totalEnergyProduced")
             if (totalProducedStateType) {
                 var totalProducedState = thing.states.getState(totalProducedStateType.id)
-                value = value - (totalProducedState.value * chart.multiplier)
+                value = value - (totalProducedState.value * root.multiplier)
             }
             var slice = pieSeries.append(thing.name, Math.max(0, value))
             var color = Style.accentColor
-            for (var j = 0; j < i; j+=2) {
+            for (var j = 0; j <= i; j+=2) {
                 if (i % 2 == 0) {
                     color = Qt.lighter(color, 1.2);
                 } else {
@@ -88,7 +97,13 @@ ChartView {
                 }
             }
             slice.color = color
-            d.sliceMap[slice] = i
+            d.sliceMap[slice] = thing
+            unknownConsumerEnergy -= value
+        }
+        if (rootMeter) {
+            var slice = pieSeries.append(qsTr("Unknown"), unknownConsumerEnergy)
+            slice.color = Style.accentColor
+            d.sliceMap[slice] = rootMeter
         }
     }
 
@@ -98,24 +113,29 @@ ChartView {
         size: 0.8
 
         onClicked: {
-            print("clicked slice", slice, d.sliceMap[slice], meters.get(d.sliceMap[slice]))
-            pageStack.push("../devicepages/SmartMeterDevicePage.qml", {thing: meters.get(d.sliceMap[slice])})
+            print("clicked slice", slice, d.sliceMap[slice], d.sliceMap[slice].name)
+            pageStack.push("../devicepages/SmartMeterDevicePage.qml", {thing: d.sliceMap[slice]})
         }
     }
 
     ColumnLayout {
-        x: chart.plotArea.x + (chart.plotArea.width * 0.5) - (width / 2)
-        y: chart.plotArea.y + (chart.plotArea.height * 0.5) - (height / 2)
+        x: root.plotArea.x + (root.plotArea.width * 0.5) - (width / 2)
+        y: root.plotArea.y + (root.plotArea.height * 0.5) - (height / 2)
+        width: root.width
 
         Label {
             font.pixelSize: app.largeFont
-            Layout.alignment: Qt.AlignHCenter
-            text: Math.round(pieSeries.sum * 1000) / 1000
+            Layout.fillWidth: true
+            horizontalAlignment: Text.AlignHCenter
+            text: root.rootMeter
+                  ? root.rootMeterTotalConsumedEnergyState.value.toFixed(2)
+                  : Math.round(pieSeries.sum * 1000) / 1000
         }
 
         Label {
             text: "KWh"
-            Layout.alignment: Qt.AlignHCenter
+            Layout.fillWidth: true
+            horizontalAlignment: Text.AlignHCenter
         }
     }
 }

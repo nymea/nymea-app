@@ -104,7 +104,7 @@ ThingsListPageBase {
                                 Label {
                                     Layout.fillWidth: true
                                     text: sensorValueDelegate.stateValue
-                                          ? "%1 %2".arg(1.0 * Math.round(Types.toUiValue(sensorValueDelegate.stateValue.value, sensorValueDelegate.stateType.unit) * 100000) / 100000).arg(Types.toUiUnit(sensorValueDelegate.stateType.unit))
+                                          ? "%1 %2".arg((1.0 * Math.round(Types.toUiValue(sensorValueDelegate.stateValue.value, sensorValueDelegate.stateType.unit) * 100000) / 100000).toFixed(3)).arg(Types.toUiUnit(sensorValueDelegate.stateType.unit))
                                           : ""
                                     elide: Text.ElideRight
                                     verticalAlignment: Text.AlignVCenter

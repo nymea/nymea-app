@@ -41,10 +41,17 @@ MainViewBase {
     id: root
 
     ThingsProxy {
+        id: energyMeters
+        engine: _engine
+        shownInterfaces: ["energymeter"]
+    }
+
+    ThingsProxy {
         id: consumers
         engine: _engine
         shownInterfaces: ["smartmeterconsumer"]
     }
+
     ThingsProxy {
         id: producers
         engine: _engine
@@ -55,11 +62,11 @@ MainViewBase {
         anchors.fill: parent
         anchors.margins: app.margins / 2
         contentHeight: energyGrid.childrenRect.height
+        visible: energyMeters.count > 0
 
         GridLayout {
             id: energyGrid
             width: parent.width
-            visible: consumers.count > 0
             columns: root.width > 600 ? 2 : 1
             rowSpacing: 0
             columnSpacing: 0
@@ -68,6 +75,8 @@ MainViewBase {
                 Layout.fillWidth: true
 //                Layout.preferredWidth: energyGrid.width / energyGrid.columns
                 Layout.preferredHeight: width * .7
+                // FIXME: multiple root meters... Not exactly a use case, still possible tho
+                rootMeter: energyMeters.count > 0 ? energyMeters.get(0) : null
                 meters: consumers
                 title: qsTr("Total consumed energy")
                 visible: consumers.count > 0
@@ -183,7 +192,7 @@ MainViewBase {
                 ValueAxis {
                     id: yAxis
                     readonly property XYSeriesAdapter adapter: consumersRepeater.count > 0 ? consumersRepeater.itemAt(consumersRepeater.count - 1).adapter : null
-                    max: adapter ? Math.ceil(Math.max(adapter.maxValue * 0.95, adapter.maxValue * 1.05)) : 1
+                    max: 7// adapter ? Math.ceil(Math.max(adapter.maxValue * 0.95, adapter.maxValue * 1.05)) : 1
                     min: adapter ? Math.floor(Math.min(adapter.minValue * 0.95, adapter.minValue * 1.05)) : 0
                     // This seems to crash occationally
 //                    onMinChanged: applyNiceNumbers();
@@ -360,6 +369,7 @@ MainViewBase {
                 Layout.preferredHeight: width * .7
                 backgroundColor: Style.tileBackgroundColor
                 backgroundRoundness: Style.cornerRadius
+                rootMeter: energyMeters.count > 0 ? energyMeters.get(0) : null
                 meters: producers
                 title: qsTr("Total produced energy")
                 visible: producers.count > 0
@@ -371,9 +381,9 @@ MainViewBase {
     EmptyViewPlaceholder {
         anchors.centerIn: parent
         width: parent.width - app.margins * 2
-        visible: !engine.thingManager.fetchingData && consumers.count == 0
+        visible: !engine.thingManager.fetchingData && energyMeters.count == 0
         title: qsTr("There are no energy meters installed.")
-        text: qsTr("To get an overview of your current energy usage, install some energy meters.")
+        text: qsTr("To get an overview of your current energy usage, install an energy meter.")
         imageSource: "../images/smartmeter.svg"
         buttonText: qsTr("Add things")
         onButtonClicked: pageStack.push(Qt.resolvedUrl("../thingconfiguration/NewThingPage.qml"))
