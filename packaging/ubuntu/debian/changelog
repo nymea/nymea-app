@@ -1,3 +1,11 @@
+nymea-app (1.0.340) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix setup for push notifications
+  * Show the URL for the debug interface
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 19 Aug 2021 12:56:09 +0200
+
 nymea-app (1.0.339) bionic; urgency=medium
 
   [ Michael Zanetti ]
