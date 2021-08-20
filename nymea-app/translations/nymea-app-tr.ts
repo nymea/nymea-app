@@ -3919,12 +3919,12 @@ Please use a timeout value bigger or equal to 10 ms.</source>
     </message>
     <message>
         <source>Modbus RTU masters</source>
-        <translation>Modbus RTU master&apos;ları</translation>
+        <translation>Modbus RTU yönetici&apos;leri</translation>
     </message>
     <message>
         <source>There are no Modbus RTU masters set up yet.
 In order to have Modbus RTU available as resource in the system, please add a new Modbus RTU master.</source>
-        <translation>Henüz ayarlanmış bir Modbus RTU master yok. Modbus RTU&apos;nun sistemde kaynak olarak kullanılabilir olması için lütfen yeni bir Modbus RTU master ekleyin.</translation>
+        <translation>Henüz ayarlanmış bir Modbus RTU yönetici yok. Modbus RTU&apos;nun sistemde kaynak olarak kullanılabilir olması için lütfen yeni bir Modbus RTU yönetici ekleyin.</translation>
     </message>
     <message>
         <source>Modbus RTU is not supported on this platorm.</source>
