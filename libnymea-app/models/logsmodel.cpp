@@ -38,6 +38,10 @@
 #include "types/logentry.h"
 #include "logmanager.h"
 
+#include "logging.h"
+NYMEA_LOGGING_CATEGORY(dcLogEngine, "LogEngine")
+
+
 LogsModel::LogsModel(QObject *parent) : QAbstractListModel(parent)
 {
 
@@ -151,6 +155,7 @@ void LogsModel::setTypeIds(const QStringList &typeIds)
     if (m_typeIds != fixedTypeIds) {
         m_typeIds = fixedTypeIds;
         emit typeIdsChanged();
+        qCDebug(dcLogEngine()) << "Resetting model because type ids changed";
         beginResetModel();
         qDeleteAll(m_list);
         m_list.clear();
@@ -261,6 +266,9 @@ void LogsModel::logsReply(int /*commandId*/, const QVariantMap &data)
     foreach (const QVariant &logEntryVariant, logEntries) {
         QVariantMap entryMap = logEntryVariant.toMap();
         QDateTime timeStamp = QDateTime::fromMSecsSinceEpoch(entryMap.value("timestamp").toLongLong());
+        if (!m_viewStartTime.isNull() && timeStamp < m_viewStartTime) {
+            continue;
+        }
         QString thingId = entryMap.value("thingId").toString();
         QString typeId = entryMap.value("typeId").toString();
         QMetaEnum sourceEnum = QMetaEnum::fromType<LogEntry::LoggingSource>();
@@ -273,7 +281,7 @@ void LogsModel::logsReply(int /*commandId*/, const QVariantMap &data)
         newBlock.append(entry);
     }
 
-//    qDebug() << "Received logs from" << offset << "to" << offset + count << "Actual count:" << newBlock.count();
+//    qCDebug(dcLogEngine()) << objectName() << "Received logs from" << offset << "to" << offset + count << "Actual count:" << newBlock.count();
 
     if (count < m_blockSize) {
         m_canFetchMore = false;
@@ -288,9 +296,11 @@ void LogsModel::logsReply(int /*commandId*/, const QVariantMap &data)
 
     beginInsertRows(QModelIndex(), offset, offset + newBlock.count() - 1);
     for (int i = 0; i < newBlock.count(); i++) {
+//        qCDebug(dcLogEngine()) << objectName() << "Inserting: list count" << m_list.count() << "blockSize" << newBlock.count() << "insterting at:" << offset + i;
         LogEntry *entry = newBlock.at(i);
         m_list.insert(offset + i, entry);
         emit logEntryAdded(entry);
+//        qCDebug(dcLogEngine()) << objectName() << "done";
     }
     endInsertRows();
     emit countChanged();
@@ -298,7 +308,7 @@ void LogsModel::logsReply(int /*commandId*/, const QVariantMap &data)
     m_busyInternal = false;
 
     if (m_viewStartTime.isValid() && m_list.count() > 0 && m_list.last()->timestamp() > m_viewStartTime && m_canFetchMore) {
-//        qDebug() << "Fetching more because of viewStartTime" << m_viewStartTime.toString() << "last" << m_list.last()->timestamp().toString();
+        qCDebug(dcLogEngine()) << objectName() << "Fetching more because of viewStartTime" << m_viewStartTime.toString() << "last" << m_list.last()->timestamp().toString();
         fetchMore();
     } else {
         m_busy = false;
@@ -311,7 +321,7 @@ void LogsModel::fetchMore(const QModelIndex &parent)
     Q_UNUSED(parent)
 
     if (!m_engine) {
-        qWarning() << "Cannot update. Engine not set";
+        qCWarning(dcLogEngine()) << objectName() << "Cannot update. Engine not set";
         return;
     }
     if (m_busyInternal) {
@@ -319,7 +329,7 @@ void LogsModel::fetchMore(const QModelIndex &parent)
     }
 
     if ((!m_startTime.isNull() && m_endTime.isNull()) || (m_startTime.isNull() && !m_endTime.isNull())) {
-        qDebug() << "Need neither or both, startTime and endTime set";
+        qCDebug(dcLogEngine()) << objectName() << "Need neither or both, startTime and endTime set";
         return;
     }
 

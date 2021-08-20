@@ -59,6 +59,7 @@ public:
 
     Q_INVOKABLE Thing *get(int index) const;
     Q_INVOKABLE Thing *getThing(const QUuid &thingId) const;
+    Q_INVOKABLE int indexOf(Thing *thing) const;
 
     int rowCount(const QModelIndex & parent = QModelIndex()) const override;
     QVariant data(const QModelIndex & index, int role = RoleName) const override;

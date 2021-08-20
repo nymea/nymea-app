@@ -45,6 +45,7 @@ MainViewBase {
         engine: _engine
         shownInterfaces: ["energymeter"]
     }
+    readonly property Thing rootMeter: energyMeters.count > 0 ? energyMeters.get(0) : null
 
     ThingsProxy {
         id: consumers
@@ -58,11 +59,13 @@ MainViewBase {
         shownInterfaces: ["smartmeterproducer"]
     }
 
+
     Flickable {
         anchors.fill: parent
         anchors.margins: app.margins / 2
         contentHeight: energyGrid.childrenRect.height
         visible: energyMeters.count > 0
+
 
         GridLayout {
             id: energyGrid
@@ -74,14 +77,13 @@ MainViewBase {
             SmartMeterChart {
                 Layout.fillWidth: true
 //                Layout.preferredWidth: energyGrid.width / energyGrid.columns
-                Layout.preferredHeight: width * .7
+                Layout.preferredHeight: (energyGrid.width / energyGrid.columns) * .7
                 // FIXME: multiple root meters... Not exactly a use case, still possible tho
-                rootMeter: energyMeters.count > 0 ? energyMeters.get(0) : null
+                rootMeter: root.rootMeter
                 meters: consumers
                 title: qsTr("Total consumed energy")
                 visible: consumers.count > 0
             }
-
 
             ChartView {
                 id: chartView
@@ -90,9 +92,11 @@ MainViewBase {
                 Layout.preferredHeight: width * .7
                 legend.alignment: Qt.AlignBottom
                 legend.font.pixelSize: app.smallFont
-                legend.visible: false
+//                legend.visible: false
+                legend.labelColor: Style.foregroundColor
                 backgroundColor: Style.tileBackgroundColor
                 backgroundRoundness: Style.cornerRadius
+                theme: ChartView.ChartThemeLight
                 titleColor: Style.foregroundColor
                 title: qsTr("Power usage history")
 
@@ -109,9 +113,67 @@ MainViewBase {
                     running: visible
                 }
 
+                LogsModel {
+                    id: rootMeterLogsModel
+                    objectName: "Root meter model"
+                    engine: rootMeter ? _engine : null // Don't start fetching before we know what we want
+                    thingId: rootMeter ? rootMeter.id : ""
+                    typeIds: rootMeter ? [rootMeter.thingClass.stateTypes.findByName("currentPower").id] : []
+                    viewStartTime: xAxis.min
+                    live: true
+                }
+                XYSeriesAdapter {
+                    id: rootMeterSeriesAdapter
+                    logsModel: rootMeterLogsModel
+                    sampleRate: chartView.sampleRate
+                    xySeries: rootMeterSeries
+                    Component.onCompleted: ensureSamples(xAxis.min, xAxis.max)
+                }
+                Connections {
+                    target: xAxis
+                    onMinChanged: rootMeterSeriesAdapter.ensureSamples(xAxis.min, xAxis.max)
+                    onMaxChanged: rootMeterSeriesAdapter.ensureSamples(xAxis.min, xAxis.max)
+                }
+
+                AreaSeries {
+                    id: rootMeterAreaSeries
+                    color: Style.accentColor
+                    borderWidth: 0
+                    axisX: xAxis
+                    axisY: yAxis
+                    name: qsTr("Unknown")
+                    useOpenGL: true
+                    lowerSeries: LineSeries {
+                        id: rootMeterLowerSeries
+                        XYPoint { x: xAxis.max.getTime(); y: 0 }
+                        XYPoint { x: xAxis.min.getTime(); y: 0 }
+                    }
+                    // HACK: We want this to be created (added to the chart) *before* the repeater Series below...
+                    // That might not be the case for a reason I don't understand. Most likely due to a mix of the declarative
+                    // approach here and the imperative approach using chartView.createSeries() below.
+                    // So hacking around by blocking the repeater from loading until this one is done
+                    property bool ready: false
+                    Component.onCompleted: ready = true
+
+                    upperSeries: LineSeries {
+                        id: rootMeterSeries
+
+                        onPointAdded: {
+                            var newPoint = rootMeterSeries.at(index)
+
+                            if (newPoint.x > rootMeterLowerSeries.at(0).x) {
+                                rootMeterLowerSeries.replace(0, newPoint.x, 0)
+                            }
+                            if (newPoint.x < rootMeterLowerSeries.at(1).x) {
+                                rootMeterLowerSeries.replace(1, newPoint.x, 0)
+                            }
+                        }
+                    }
+                }
+
                 Repeater {
                     id: consumersRepeater
-                    model: consumers
+                    model: rootMeterAreaSeries.ready && !engine.thingManager.fetchingData ? consumers : null
 
                     delegate: Item {
                         id: consumer
@@ -119,6 +181,7 @@ MainViewBase {
 
                         property var model: LogsModel {
                             id: logsModel
+                            objectName: consumer.thing.name
                             engine: _engine
                             thingId: consumer.thing.id
                             typeIds: [consumer.thing.thingClass.stateTypes.findByName("currentPower").id]
@@ -163,9 +226,11 @@ MainViewBase {
                         }
 
                         Component.onCompleted: {
-                            print("creating series", consumer.thing.name, index)
+                            var indexInModel = consumers.indexOf(consumer.thing)
+                            print("creating series", consumer.thing.name, index, indexInModel)
                             seriesAdapter.ensureSamples(xAxis.min, xAxis.max)
                             var areaSeries = chartView.createSeries(ChartView.SeriesTypeArea, consumer.thing.name, xAxis, yAxis)
+                            areaSeries.useOpenGL = true
                             areaSeries.upperSeries = upperSeries;
                             if (index > 0) {
                                 areaSeries.lowerSeries = consumersRepeater.itemAt(index - 1).lineSeries
@@ -175,8 +240,8 @@ MainViewBase {
                             }
 
                             var color = Style.accentColor
-                            for (var j = 0; j < index; j+=2) {
-                                if (index % 2 == 0) {
+                            for (var j = 0; j <= indexInModel; j+=2) {
+                                if (indexInModel % 2 == 0) {
                                     color = Qt.lighter(color, 1.2);
                                 } else {
                                     color = Qt.darker(color, 1.2)
@@ -191,9 +256,13 @@ MainViewBase {
 
                 ValueAxis {
                     id: yAxis
-                    readonly property XYSeriesAdapter adapter: consumersRepeater.count > 0 ? consumersRepeater.itemAt(consumersRepeater.count - 1).adapter : null
-                    max: 7// adapter ? Math.ceil(Math.max(adapter.maxValue * 0.95, adapter.maxValue * 1.05)) : 1
-                    min: adapter ? Math.floor(Math.min(adapter.minValue * 0.95, adapter.minValue * 1.05)) : 0
+                    readonly property XYSeriesAdapter highestSeriesAdapter: consumersRepeater.count > 0 ? consumersRepeater.itemAt(consumersRepeater.count - 1).adapter : null
+                    property double rawMax: rootMeter ? rootMeterSeriesAdapter.maxValue
+                                                      : highestSeriesAdapter ? highestSeriesAdapter.maxValue : 1
+                    property double rawMin: rootMeter ? rootMeterSeriesAdapter.minValue
+                                                      : highestSeriesAdapter ? highestSeriesAdapter.minValue : 0
+                    max: Math.ceil(Math.max(rawMax * 0.9, rawMax * 1.1))
+                    min: Math.floor(Math.min(rawMin * 0.9, rawMin * 1.1))
                     // This seems to crash occationally
 //                    onMinChanged: applyNiceNumbers();
 //                    onMaxChanged: applyNiceNumbers();
@@ -369,10 +438,10 @@ MainViewBase {
                 Layout.preferredHeight: width * .7
                 backgroundColor: Style.tileBackgroundColor
                 backgroundRoundness: Style.cornerRadius
-                rootMeter: energyMeters.count > 0 ? energyMeters.get(0) : null
+                rootMeter: root.rootMeter
                 meters: producers
                 title: qsTr("Total produced energy")
-                visible: producers.count > 0
+                visible: root.rootMeter || producers.count > 0
                 multiplier: -1
             }
         }

@@ -39,7 +39,7 @@
 #include "logmanager.h"
 
 #include "logging.h"
-NYMEA_LOGGING_CATEGORY(dcLogEngine, "LogEngine")
+Q_DECLARE_LOGGING_CATEGORY(dcLogEngine)
 
 LogsModelNg::LogsModelNg(QObject *parent) : QAbstractListModel(parent)
 {

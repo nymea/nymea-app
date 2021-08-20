@@ -2,6 +2,9 @@
 
 #include <QDebug>
 
+#include <QLoggingCategory>
+Q_DECLARE_LOGGING_CATEGORY(dcLogEngine)
+
 XYSeriesAdapter::XYSeriesAdapter(QObject *parent) : QObject(parent)
 {
 
@@ -156,12 +159,11 @@ void XYSeriesAdapter::logEntryAdded(LogEntry *entry)
         return;
     }
 
-
     ensureSamples(entry->timestamp(), entry->timestamp());
 
     int idx = entry->timestamp().secsTo(m_newestSample) / m_sampleRate;
     if (idx > m_samples.count()) {
-        qWarning() << "Overflowing integer size for XYSeriesAdapter!";
+        qCWarning(dcLogEngine) << "Overflowing integer size for XYSeriesAdapter!";
         return;
     }
     Sample *sample = m_samples.at(static_cast<int>(idx));

@@ -61,6 +61,11 @@ Thing *Things::getThing(const QUuid &thingId) const
     return nullptr;
 }
 
+int Things::indexOf(Thing *thing) const
+{
+    return m_things.indexOf(thing);
+}
+
 int Things::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)

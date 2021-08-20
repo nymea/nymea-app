@@ -148,6 +148,7 @@ public:
 
     Q_INVOKABLE Thing *get(int index) const;
     Q_INVOKABLE Thing *getThing(const QUuid &thingId) const;
+    Q_INVOKABLE int indexOf(Thing *thing) const;
 
 signals:
     void engineChanged();

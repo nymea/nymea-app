@@ -424,6 +424,22 @@ Thing *ThingsProxy::getThing(const QUuid &thingId) const
     return nullptr;
 }
 
+int ThingsProxy::indexOf(Thing *thing) const
+{
+    Things *t = qobject_cast<Things*>(sourceModel());
+    ThingsProxy *tp = qobject_cast<ThingsProxy*>(sourceModel());
+    int idx = -1;
+    if (t) {
+        idx = t->indexOf(thing);
+    } else if (tp) {
+        idx = tp->indexOf(thing);
+    } else {
+        return -1;
+    }
+    QModelIndex sourceIndex = sourceModel()->index(idx, 0);
+    return mapFromSource(sourceIndex).row();
+}
+
 Thing *ThingsProxy::getInternal(int source_index) const
 {
     Things* d = qobject_cast<Things*>(sourceModel());
