@@ -4309,126 +4309,126 @@ In order to have Modbus RTU available as resource in the system, please add a ne
     </message>
     <message>
         <source>Network management is unavailable on this system.</source>
-        <translation></translation>
+        <translation>Ağ yönetimi bu sistemde kullanılamıyor.</translation>
     </message>
     <message>
         <source>Access Point</source>
-        <translation></translation>
+        <translation>Erişim noktası</translation>
     </message>
     <message>
         <source>Create Access Point</source>
-        <translation></translation>
+        <translation>Erişim Noktası Oluştur</translation>
     </message>
     <message>
         <source>Connect to wireless network</source>
-        <translation></translation>
+        <translation>Kablosuz ağa bağlan</translation>
     </message>
     <message>
         <source>Hidden Network</source>
-        <translation></translation>
+        <translation>Gizli Ağ</translation>
     </message>
     <message>
         <source>Connected to</source>
-        <translation></translation>
+        <translation>Bağlı</translation>
     </message>
     <message>
         <source>IPv4 Address</source>
-        <translation></translation>
+        <translation>IPv4 Adresi</translation>
     </message>
     <message>
         <source>IPv6 Address</source>
-        <translation></translation>
+        <translation>IPv6 Adresi</translation>
     </message>
     <message>
         <source>WiFi frequency</source>
-        <translation></translation>
+        <translation>WiFi frekansı</translation>
     </message>
     <message>
         <source>No wireless network interfaces available</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanılabilir kablosuz ağ arabirimi yok</translation>
     </message>
 </context>
 <context>
     <name>NewConnectionWizard</name>
     <message>
         <source>Welcome</source>
-        <translation type="unfinished"></translation>
+        <translation>Hoş geldin</translation>
     </message>
     <message>
         <source>This wizard will guide you through the process of setting up a new nymea system.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bu sihirbaz, yeni bir nymea sistemi kurma sürecinde size rehberlik edecektir.</translation>
     </message>
     <message>
         <source>Demo mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Demo modu</translation>
     </message>
     <message>
         <source>In order to use nymea, you will need to install nymea:core on a computer in your network. This can be a Raspberry Pi or any generic Linux computer.</source>
-        <translation type="unfinished"></translation>
+        <translation>nymea&apos;yı kullanmak için ağınızdaki bir bilgisayara nymea:core yüklemeniz gerekir. Bu bir Raspberry Pi veya herhangi bir genel Linux bilgisayarı olabilir.</translation>
     </message>
     <message>
         <source>Please follow the installation instructions on %1 to install a nymea system.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bir nymea sistemi kurmak için lütfen %1 üzerindeki kurulum talimatlarını takip edin.</translation>
     </message>
     <message>
         <source>Connectivity</source>
-        <translation type="unfinished"></translation>
+        <translation>bağlantı</translation>
     </message>
     <message>
         <source>How would you like to connect nymea to your network?</source>
-        <translation type="unfinished"></translation>
+        <translation>Nymea&apos;yı ağınıza nasıl bağlamak istersiniz?</translation>
     </message>
     <message>
         <source>Skip</source>
-        <translation type="unfinished"></translation>
+        <translation>Atla</translation>
     </message>
     <message>
         <source>Wired network</source>
-        <translation type="unfinished"></translation>
+        <translation>Kablolu ağ</translation>
     </message>
     <message>
         <source>Connect nymea to your network using a network cable. This is recommended for best performance.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bir ağ kablosu kullanarak nymea&apos;yı ağınıza bağlayın. Bu, en iyi performans için önerilir.</translation>
     </message>
     <message>
         <source>Wireless network</source>
-        <translation type="unfinished"></translation>
+        <translation>Kablosuz ağ</translation>
     </message>
     <message>
         <source>Connect nymea to your WiFi network.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nymea&apos;yı WiFi ağınıza bağlayın.</translation>
     </message>
     <message>
         <source>If your nymea system is already connected to the network you can skip this step.</source>
-        <translation type="unfinished"></translation>
+        <translation>nymea sisteminiz zaten ağa bağlıysa bu adımı atlayabilirsiniz.</translation>
     </message>
     <message>
         <source>Connection</source>
-        <translation type="unfinished"></translation>
+        <translation>Bağlantı</translation>
     </message>
     <message>
         <source>Connecting to the nymea system.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nymea sistemine bağlanma.</translation>
     </message>
     <message>
         <source>Manual connection</source>
-        <translation type="unfinished"></translation>
+        <translation>Manuel bağlantı</translation>
     </message>
     <message>
         <source>Please wait while your nymea system is being discovered.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lütfen nymea sisteminiz keşfedilirken bekleyin.</translation>
     </message>
     <message>
         <source>Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Bilgi</translation>
     </message>
     <message>
         <source>Please enter the connection information for your nymea system</source>
-        <translation type="unfinished"></translation>
+        <translation>Lütfen nymea sisteminiz için bağlantı bilgilerini girin</translation>
     </message>
     <message>
         <source>Protocol</source>
-        <translation type="unfinished"></translation>
+        <translation>Protokol</translation>
     </message>
     <message>
         <source>TCP</source>
@@ -4436,11 +4436,11 @@ In order to have Modbus RTU available as resource in the system, please add a ne
     </message>
     <message>
         <source>Websocket</source>
-        <translation type="unfinished"></translation>
+        <translation>Web yuvası</translation>
     </message>
     <message>
         <source>Address:</source>
-        <translation type="unfinished"></translation>
+        <translation>Adres:</translation>
     </message>
     <message>
         <source>Port:</source>
@@ -4448,229 +4448,229 @@ In order to have Modbus RTU available as resource in the system, please add a ne
     </message>
     <message>
         <source>Encrypted connection:</source>
-        <translation type="unfinished"></translation>
+        <translation>Şifreli bağlantı:</translation>
     </message>
     <message>
         <source>Wired connection</source>
-        <translation type="unfinished"></translation>
+        <translation>Kablolu bağlantı</translation>
     </message>
     <message>
         <source>Connect the nymea system to your network using an ethernet cable and turn it on.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bir ethernet kablosu kullanarak nymea sistemini ağınıza bağlayın ve açın.</translation>
     </message>
     <message>
         <source>Wireless connection</source>
-        <translation type="unfinished"></translation>
+        <translation>Kablosuz bağlantı</translation>
     </message>
     <message>
         <source>Turn the nymea system on by connecting the power cable and wait for it to start up.</source>
-        <translation type="unfinished"></translation>
+        <translation>Güç kablosunu bağlayarak nymea sistemini açın ve başlamasını bekleyin.</translation>
     </message>
     <message>
         <source>Wireless setup</source>
-        <translation type="unfinished"></translation>
+        <translation>Kablosuz kurulum</translation>
     </message>
     <message>
         <source>Searching for the nymea system...</source>
-        <translation type="unfinished"></translation>
+        <translation>Nymea sistemi aranıyor...</translation>
     </message>
     <message>
         <source>Connecting to the nymea system...</source>
-        <translation type="unfinished"></translation>
+        <translation>Nymea sistemine bağlanılıyor...</translation>
     </message>
     <message>
         <source>Select the WiFi you want to use.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanmak istediğiniz WiFi&apos;yi seçin.</translation>
     </message>
     <message>
         <source>Hidden Network</source>
-        <translation type="unfinished"></translation>
+        <translation>Gizli Ağ</translation>
     </message>
     <message>
         <source>Enter the password for the WiFi network.</source>
-        <translation type="unfinished"></translation>
+        <translation>WiFi ağının şifresini girin.</translation>
     </message>
     <message>
         <source>An error happened in the Bluetooth connection. Please try again.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bluetooth bağlantısında bir hata oluştu. Lütfen tekrar deneyin.</translation>
     </message>
     <message>
         <source>Please wait while the nymea system is being connected to the WiFi.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nymea sistemi WiFi&apos;ye bağlanırken lütfen bekleyin.</translation>
     </message>
     <message>
         <source>The nymea system has been connected successfully.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nymea sistemi başarıyla bağlandı.</translation>
     </message>
     <message>
         <source>You can now go ahead and configure your nymea system.</source>
-        <translation type="unfinished"></translation>
+        <translation>Şimdi devam edebilir ve nymea sisteminizi yapılandırabilirsiniz.</translation>
     </message>
     <message>
         <source>Waiting for your nymea setup to appear in the network.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nymea kurulumunuzun ağda görünmesini bekliyorum.</translation>
     </message>
     <message>
         <source>Box information</source>
-        <translation type="unfinished">Box bilgisi</translation>
+        <translation>Kutu bilgisi</translation>
     </message>
     <message>
         <source>Available connections</source>
-        <translation type="unfinished"></translation>
+        <translation>Mevcut bağlantılar</translation>
     </message>
 </context>
 <context>
     <name>NewMagicPage</name>
     <message>
         <source>New magic</source>
-        <translation></translation>
+        <translation>Yeni sihir</translation>
     </message>
 </context>
 <context>
     <name>NewScenePage</name>
     <message>
         <source>New scene</source>
-        <translation></translation>
+        <translation>Yeni sahne</translation>
     </message>
 </context>
 <context>
     <name>NewThingMagicPage</name>
     <message>
         <source>New magic</source>
-        <translation></translation>
+        <translation>Yeni sihir</translation>
     </message>
     <message>
         <source>Create some magic manually</source>
-        <translation></translation>
+        <translation>Elle biraz sihir yaratın</translation>
     </message>
     <message>
         <source>New magic for %1</source>
-        <translation></translation>
+        <translation>%1 için yeni sihir</translation>
     </message>
 </context>
 <context>
     <name>NewThingPage</name>
     <message>
         <source>Set up new thing</source>
-        <translation></translation>
+        <translation>Yeni bir şey ayarla</translation>
     </message>
     <message>
         <source>Vendor</source>
-        <translation></translation>
+        <translation>SATICI</translation>
     </message>
     <message>
         <source>All</source>
-        <translation></translation>
+        <translation>Hepsi</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation></translation>
+        <translation>Tip</translation>
     </message>
 </context>
 <context>
     <name>NotificationsDevicePage</name>
     <message>
         <source>Title</source>
-        <translation></translation>
+        <translation>Başlık</translation>
     </message>
     <message>
         <source>Text</source>
-        <translation></translation>
+        <translation>Metin</translation>
     </message>
     <message>
         <source>Notification details</source>
-        <translation></translation>
+        <translation>Bildirim ayrıntıları</translation>
     </message>
     <message>
         <source>Date sent</source>
-        <translation></translation>
+        <translation>Tarih gönderildi</translation>
     </message>
     <message>
         <source>No messages sent yet.</source>
-        <translation></translation>
+        <translation>Henüz mesaj gönderilmedi.</translation>
     </message>
     <message>
         <source>Sent messages will appear here.</source>
-        <translation></translation>
+        <translation>Gönderilen mesajlar burada görünecektir.</translation>
     </message>
     <message>
         <source>Sending failed</source>
-        <translation></translation>
+        <translation>Gönderim başarısız</translation>
     </message>
     <message>
         <source>Resend</source>
-        <translation></translation>
+        <translation>Yeniden gönder</translation>
     </message>
     <message>
         <source>Close</source>
-        <translation></translation>
+        <translation>Kapat</translation>
     </message>
 </context>
 <context>
     <name>Nymea</name>
     <message>
         <source>Lighting</source>
-        <translation></translation>
+        <translation>Aydınlatma</translation>
     </message>
     <message>
         <source>Weather</source>
-        <translation></translation>
+        <translation>Hava Durumu</translation>
     </message>
     <message>
         <source>Sensors</source>
-        <translation></translation>
+        <translation>Sensörler</translation>
     </message>
     <message>
         <source>Media</source>
-        <translation></translation>
+        <translation>medya</translation>
     </message>
     <message>
         <source>Switches</source>
-        <translation></translation>
+        <translation>Anahtarlar</translation>
     </message>
     <message>
         <source>Gateways</source>
-        <translation></translation>
+        <translation>ağ geçitleri</translation>
     </message>
     <message>
         <source>Notifications</source>
-        <translation></translation>
+        <translation>Bildirimler</translation>
     </message>
     <message>
         <source>Temperature</source>
-        <translation></translation>
+        <translation>Sıcaklık</translation>
     </message>
     <message>
         <source>Humidity</source>
-        <translation></translation>
+        <translation>Nem</translation>
     </message>
     <message>
         <source>Pressure</source>
-        <translation></translation>
+        <translation>Basınç</translation>
     </message>
     <message>
         <source>Noise level</source>
-        <translation></translation>
+        <translation>Gürültü seviyesi</translation>
     </message>
     <message>
         <source>CO2 level</source>
-        <translation></translation>
+        <translation>CO2 seviyesi</translation>
     </message>
     <message>
         <source>Incoming Events</source>
-        <translation></translation>
+        <translation>Gelen Etkinlikler</translation>
     </message>
     <message>
         <source>Events</source>
-        <translation></translation>
+        <translation>Etkinlikler</translation>
     </message>
     <message>
         <source>Shutters</source>
-        <translation></translation>
+        <translation>panjurlar</translation>
     </message>
     <message>
         <source>Blinds</source>
-        <translation></translation>
+        <translation>panjur</translation>
     </message>
     <message>
         <source>Awnings</source>
