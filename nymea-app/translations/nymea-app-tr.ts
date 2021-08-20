@@ -3944,23 +3944,23 @@ In order to have Modbus RTU available as resource in the system, please add a ne
     </message>
     <message>
         <source>Remove modbus RTU master</source>
-        <translation type="unfinished"></translation>
+        <translation>Modbus RTU yönetici&apos;yi kaldırın</translation>
     </message>
     <message>
         <source>Are you sure you want to remove this modbus RTU master?</source>
-        <translation type="unfinished"></translation>
+        <translation>Bu modbus RTU yönetiçi&apos;yi kaldırmak istediğinizden emin misiniz?</translation>
     </message>
     <message>
         <source>Please note that all related things will stop working until you assign a new modbus RTU master to them.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lütfen bunlara yeni bir modbus RTU yönetici atayana kadar ilgili tüm şeylerin çalışmayı durduracağını unutmayın.</translation>
     </message>
     <message>
         <source>Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Bilgi</translation>
     </message>
     <message>
         <source>Connection status</source>
-        <translation type="unfinished"></translation>
+        <translation>Bağlantı durumu</translation>
     </message>
     <message>
         <source>UUID</source>
@@ -3968,268 +3968,268 @@ In order to have Modbus RTU available as resource in the system, please add a ne
     </message>
     <message>
         <source>System location</source>
-        <translation type="unfinished"></translation>
+        <translation>Sistem konumu</translation>
     </message>
     <message>
         <source>Baud rate</source>
-        <translation type="unfinished"></translation>
+        <translation>Baud hızı</translation>
     </message>
     <message>
         <source>Parity</source>
-        <translation type="unfinished"></translation>
+        <translation>parite</translation>
     </message>
     <message>
         <source>Data bits</source>
-        <translation type="unfinished"></translation>
+        <translation>Veri bitleri</translation>
     </message>
     <message>
         <source>Stop bits</source>
-        <translation type="unfinished"></translation>
+        <translation>Bitleri durdur</translation>
     </message>
     <message>
         <source>Number of request retries</source>
-        <translation type="unfinished"></translation>
+        <translation>İstek yeniden deneme sayısı</translation>
     </message>
     <message>
         <source>Request timeout</source>
-        <translation type="unfinished"></translation>
+        <translation>İstek zaman aşımına uğradı</translation>
     </message>
     <message>
         <source>Reconfigure</source>
-        <translation type="unfinished"></translation>
+        <translation>yeniden yapılandır</translation>
     </message>
 </context>
 <context>
     <name>MqttBrokerSettingsPage</name>
     <message>
         <source>MQTT broker</source>
-        <translation></translation>
+        <translation>MQTT aracı</translation>
     </message>
     <message>
         <source>MQTT Server Interfaces</source>
-        <translation></translation>
+        <translation>MQTT Sunucu Arayüzleri</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation></translation>
+        <translation>Ekle</translation>
     </message>
     <message>
         <source>MQTT permissions</source>
-        <translation></translation>
+        <translation>MQTT izinleri</translation>
     </message>
     <message>
         <source>Client ID: %1</source>
-        <translation></translation>
+        <translation>İstemci Kimliği: %1</translation>
     </message>
     <message>
         <source>Username: %1</source>
-        <translation></translation>
+        <translation>Kullanıcı adı: %1</translation>
     </message>
 </context>
 <context>
     <name>MqttPolicyPage</name>
     <message>
         <source>Mqtt permission</source>
-        <translation></translation>
+        <translation>Mqtt izni</translation>
     </message>
     <message>
         <source>Client ID:</source>
-        <translation></translation>
+        <translation>Müşteri Kimliği:</translation>
     </message>
     <message>
         <source>E.g. Sensor_1</source>
-        <translation></translation>
+        <translation>E.g. Sensör_1</translation>
     </message>
     <message>
         <source>%1 is already used</source>
-        <translation></translation>
+        <translation>%1 zaten kullanılıyor</translation>
     </message>
     <message>
         <source>Can&apos;t be blank</source>
-        <translation></translation>
+        <translation>boş olamaz</translation>
     </message>
     <message>
         <source>Username:</source>
-        <translation></translation>
+        <translation>Kullanıcı adı:</translation>
     </message>
     <message>
         <source>Optional</source>
-        <translation></translation>
+        <translation>İsteğe bağlı</translation>
     </message>
     <message>
         <source>Password:</source>
-        <translation></translation>
+        <translation>Şifre:</translation>
     </message>
     <message>
         <source>Allowed publish topics</source>
-        <translation></translation>
+        <translation>İzin verilen yayınlama konuları</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation></translation>
+        <translation>Tamam</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation></translation>
+        <translation>Ekle</translation>
     </message>
     <message>
         <source>Allowed subscribe filters</source>
-        <translation></translation>
+        <translation>İzin verilen abone filtreleri</translation>
     </message>
     <message>
         <source>Client info</source>
-        <translation></translation>
+        <translation>Müşteri bilgileri</translation>
     </message>
 </context>
 <context>
     <name>NetworkSettingsPage</name>
     <message>
         <source>Network settings</source>
-        <translation></translation>
+        <translation>Ağ ayarları</translation>
     </message>
     <message>
         <source>Networking</source>
-        <translation></translation>
+        <translation>ağ</translation>
     </message>
     <message>
         <source>Wireless network</source>
-        <translation></translation>
+        <translation>Kablosuz ağ</translation>
     </message>
     <message>
         <source>Trigger a wireless scan on the device.</source>
-        <translation></translation>
+        <translation>Cihazda kablosuz taramayı başlatın.</translation>
     </message>
     <message>
         <source>Unknown</source>
-        <translation></translation>
+        <translation>Bilinmeyen</translation>
     </message>
     <message>
         <source>Unmanaged</source>
-        <translation></translation>
+        <translation>yönetilmeyen</translation>
     </message>
     <message>
         <source>Unavailable</source>
-        <translation></translation>
+        <translation>Kullanım dışı</translation>
     </message>
     <message>
         <source>Disconnected</source>
-        <translation></translation>
+        <translation>Bağlantı kesildi</translation>
     </message>
     <message>
         <source>Deactivating</source>
-        <translation></translation>
+        <translation>devre dışı bırakılıyor</translation>
     </message>
     <message>
         <source>Failed</source>
-        <translation></translation>
+        <translation>Başarısız</translation>
     </message>
     <message>
         <source>Preparing</source>
-        <translation></translation>
+        <translation>hazırlanıyor</translation>
     </message>
     <message>
         <source>Configuring</source>
-        <translation></translation>
+        <translation>yapılandırma</translation>
     </message>
     <message>
         <source>Waiting for password</source>
-        <translation></translation>
+        <translation>yapılandırma</translation>
     </message>
     <message>
         <source>Setting IP configuration</source>
-        <translation></translation>
+        <translation>IP yapılandırmasını ayarlama</translation>
     </message>
     <message>
         <source>Checking IP configuration</source>
-        <translation></translation>
+        <translation>IP yapılandırmasını kontrol et</translation>
     </message>
     <message>
         <source>Secondaries</source>
-        <translation></translation>
+        <translation>ikinciller</translation>
     </message>
     <message>
         <source>Connected</source>
-        <translation></translation>
+        <translation>bağlı</translation>
     </message>
     <message>
         <source>Current connection state</source>
-        <translation></translation>
+        <translation>Mevcut bağlantı durumu</translation>
     </message>
     <message>
         <source>Asleep</source>
-        <translation></translation>
+        <translation>Uykuda</translation>
     </message>
     <message>
         <source>Disconnecting</source>
-        <translation></translation>
+        <translation>bağlantı kesiliyor</translation>
     </message>
     <message>
         <source>Connecting</source>
-        <translation></translation>
+        <translation>Bağlanıyor</translation>
     </message>
     <message>
         <source>Locally connected</source>
-        <translation></translation>
+        <translation>Yerel bağlantı</translation>
     </message>
     <message>
         <source>Site connected</source>
-        <translation></translation>
+        <translation>Siteye bağlı</translation>
     </message>
     <message>
         <source>Globally connected</source>
-        <translation></translation>
+        <translation>Küresel olarak bağlı</translation>
     </message>
     <message>
         <source>Networking enabled</source>
-        <translation></translation>
+        <translation>Ağ etkin</translation>
     </message>
     <message>
         <source>Enable or disable networking altogether</source>
-        <translation></translation>
+        <translation>Ağı tamamen etkinleştirin veya devre dışı bırakın</translation>
     </message>
     <message>
         <source>Disable networking?</source>
-        <translation></translation>
+        <translation>Ağ devre dışı bırakılsın mı?</translation>
     </message>
     <message>
         <source>Wired network</source>
-        <translation></translation>
+        <translation>Kablolu ağ</translation>
     </message>
     <message>
         <source>Plugged in</source>
-        <translation></translation>
+        <translation>Fişe takılı</translation>
     </message>
     <message>
         <source>Unplugged</source>
-        <translation></translation>
+        <translation>fişsiz</translation>
     </message>
     <message>
         <source>Enable or disable WiFi</source>
-        <translation></translation>
+        <translation>WiFi&apos;yi etkinleştirin veya devre dışı bırakın</translation>
     </message>
     <message>
         <source>Disable WiFi?</source>
-        <translation></translation>
+        <translation>WiFi devre dışı bırakılsın mı?</translation>
     </message>
     <message>
         <source>WiFi networks</source>
-        <translation></translation>
+        <translation>WiFi ağları</translation>
     </message>
     <message>
         <source>Authenticate</source>
-        <translation></translation>
+        <translation>kimlik doğrulama</translation>
     </message>
     <message>
         <source>Enter the password for %1</source>
-        <translation></translation>
+        <translation>%1 için şifreyi girin</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation></translation>
+        <translation>Tamam</translation>
     </message>
     <message>
         <source>Current connection</source>
-        <translation></translation>
+        <translation>Mevcut bağlantı</translation>
     </message>
     <message>
         <source>SSID</source>
@@ -4237,23 +4237,23 @@ In order to have Modbus RTU available as resource in the system, please add a ne
     </message>
     <message>
         <source>MAC Address</source>
-        <translation></translation>
+        <translation>Mac Adresi</translation>
     </message>
     <message>
         <source>Signal strength</source>
-        <translation></translation>
+        <translation>Sinyal gücü</translation>
     </message>
     <message>
         <source>Disconnect</source>
-        <translation></translation>
+        <translation>bağlantıyı kes</translation>
     </message>
     <message>
         <source>Disabling networking will disconnect all connected clients. Be aware that you will not be able to interact remotely with this %1 system any more. Do not proceed unless you know what your are doing.</source>
-        <translation></translation>
+        <translation>Ağın devre dışı bırakılması, bağlı tüm istemcilerin bağlantısını kesecektir. Bu %1 sistemiyle artık uzaktan etkileşim kuramayacağınızı unutmayın. Ne yaptığınızı bilmeden devam etmeyin.</translation>
     </message>
     <message>
         <source>Do you want to proceed?</source>
-        <translation></translation>
+        <translation>Devam etmek istiyor musunuz?</translation>
     </message>
     <message>
         <source>Disabling WiFi will disconnect all clients connected via WiFi. Be aware that you will not be able to interact remotely with this %1 system any more unless a LAN cable is connected.</source>
