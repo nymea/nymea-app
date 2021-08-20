@@ -1,3 +1,10 @@
+nymea-app (1.0.342) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add support for gas and CO sensors
+
+ -- Jenkins <jenkins@nymea.io>  Sat, 21 Aug 2021 00:58:38 +0200
+
 nymea-app (1.0.341) bionic; urgency=medium
 
   [ Michael Zanetti ]
