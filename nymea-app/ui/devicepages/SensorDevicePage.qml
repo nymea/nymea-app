@@ -56,7 +56,7 @@ ThingPageBase {
             Repeater {
                 model: ListModel {
                     Component.onCompleted: {
-                        var supportedInterfaces = ["temperaturesensor", "humiditysensor", "pressuresensor", "moisturesensor", "lightsensor", "conductivitysensor", "noisesensor", "co2sensor", "presencesensor", "daylightsensor", "closablesensor", "watersensor", "phsensor", "o2sensor", "orpsensor"]
+                        var supportedInterfaces = ["temperaturesensor", "humiditysensor", "pressuresensor", "moisturesensor", "lightsensor", "conductivitysensor", "noisesensor", "cosensor", "co2sensor", "gassensor", "presencesensor", "daylightsensor", "closablesensor", "watersensor", "phsensor", "o2sensor", "orpsensor"]
                         for (var i = 0; i < supportedInterfaces.length; i++) {
                             if (root.thingClass.interfaces.indexOf(supportedInterfaces[i]) >= 0) {
                                 append({name: supportedInterfaces[i]});
@@ -85,7 +85,9 @@ ThingPageBase {
                         "lightsensor": "lightIntensity",
                         "conductivitysensor": "conductivity",
                         "noisesensor": "noise",
+                        "cosensor": "co",
                         "co2sensor": "co2",
+                        "gassensor": "gas",
                         "presencesensor": "isPresent",
                         "daylightsensor": "daylight",
                         "closablesensor": "closed",

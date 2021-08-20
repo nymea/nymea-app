@@ -79,7 +79,9 @@ ThingsListPageBase {
                                 ListElement { interfaceName: "lightsensor"; stateName: "lightIntensity" }
                                 ListElement { interfaceName: "conductivitysensor"; stateName: "conductivity" }
                                 ListElement { interfaceName: "noisesensor"; stateName: "noise" }
+                                ListElement { interfaceName: "cosensor"; stateName: "co" }
                                 ListElement { interfaceName: "co2sensor"; stateName: "co2" }
+                                ListElement { interfaceName: "gassensor"; stateName: "gas" }
                                 ListElement { interfaceName: "daylightsensor"; stateName: "daylight" }
                                 ListElement { interfaceName: "presencesensor"; stateName: "isPresent" }
                                 ListElement { interfaceName: "closablesensor"; stateName: "closed" }
