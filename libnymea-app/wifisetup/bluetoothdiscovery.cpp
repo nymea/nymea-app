@@ -178,11 +178,21 @@ void BluetoothDiscovery::onBluetoothHostModeChanged(const QBluetoothLocalDevice:
 
 void BluetoothDiscovery::deviceDiscovered(const QBluetoothDeviceInfo &deviceInfo)
 {
-    qCDebug(dcBtWiFiSetup()) << "BluetoothDiscovery: Device discovered:" << deviceInfo.address().toString() << deviceInfo.deviceUuid();
+    qCDebug(dcBtWiFiSetup()) << "BluetoothDiscovery: Device discovered:" << deviceInfo.name() << deviceInfo.address().toString() << deviceInfo.deviceUuid();
     foreach (BluetoothDeviceInfo *di, m_deviceInfos->deviceInfos()) {
-        if (di->bluetoothDeviceInfo().deviceUuid() == deviceInfo.deviceUuid()) {
-            di->setBluetoothDeviceInfo(deviceInfo);
-            return;
+        // Some platforms only provide device UUID (e.g. Apple) and MAC address is 00:00:00:00:00
+        // Others provide only a MAC address and the UUID is null.
+        // If we have a UUID, use that, otherwise use the MAC for comparison
+        if (!deviceInfo.deviceUuid().isNull()) {
+            if (di->bluetoothDeviceInfo().deviceUuid() == deviceInfo.deviceUuid()) {
+                di->setBluetoothDeviceInfo(deviceInfo);
+                return;
+            }
+        } else {
+            if (di->bluetoothDeviceInfo().address() == deviceInfo.address()) {
+                di->setBluetoothDeviceInfo(deviceInfo);
+                return;
+            }
         }
     }
 
