@@ -4674,161 +4674,161 @@ In order to have Modbus RTU available as resource in the system, please add a ne
     </message>
     <message>
         <source>Awnings</source>
-        <translation></translation>
+        <translation>Tenteler</translation>
     </message>
     <message>
         <source>Access control</source>
-        <translation></translation>
+        <translation>Giriş kontrolu</translation>
     </message>
     <message>
         <source>Smart meters</source>
-        <translation></translation>
+        <translation>Akıllı sayaçlar</translation>
     </message>
     <message>
         <source>EV-chargers</source>
-        <translation></translation>
+        <translation>EV-şarj cihazları</translation>
     </message>
     <message>
         <source>Power sockets</source>
-        <translation></translation>
+        <translation>Güç prizleri</translation>
     </message>
     <message>
         <source>Uncategorized</source>
-        <translation></translation>
+        <translation>Kategorize edilmemiş</translation>
     </message>
     <message>
         <source>light</source>
         <extracomment>Select ...</extracomment>
-        <translation></translation>
+        <translation>ışık</translation>
     </message>
     <message>
         <source>sensor</source>
         <extracomment>Select ...</extracomment>
-        <translation></translation>
+        <translation>sensör</translation>
     </message>
     <message>
         <source>battery powered thing</source>
         <extracomment>Select ...</extracomment>
-        <translation></translation>
+        <translation>pille çalışan şey</translation>
     </message>
     <message>
         <source>connectable thing</source>
         <extracomment>Select ...</extracomment>
-        <translation></translation>
+        <translation>bağlanabilir şey</translation>
     </message>
     <message>
         <source>switchable thing</source>
         <extracomment>Select ...</extracomment>
-        <translation></translation>
+        <translation>değiştirilebilir şey</translation>
     </message>
     <message>
         <source>daylight sensor</source>
         <extracomment>Select ...</extracomment>
-        <translation></translation>
+        <translation>gün ışığı sensörü</translation>
     </message>
     <message>
         <source>presence sensor</source>
         <extracomment>Select ...</extracomment>
-        <translation></translation>
+        <translation>Durum sensörü</translation>
     </message>
     <message>
         <source>Doorbells</source>
-        <translation></translation>
+        <translation>kapı zilleri</translation>
     </message>
     <message>
         <source>doorbell</source>
         <extracomment>Select ...</extracomment>
-        <translation></translation>
+        <translation>kapı zili</translation>
     </message>
     <message>
         <source>alert</source>
         <extracomment>Select ...</extracomment>
-        <translation></translation>
+        <translation>uyarı</translation>
     </message>
     <message>
         <source>button</source>
         <extracomment>Select ...</extracomment>
-        <translation></translation>
+        <translation>buton</translation>
     </message>
     <message>
         <source>access control</source>
         <extracomment>Select ...</extracomment>
-        <translation></translation>
+        <translation>giriş kontrolu</translation>
     </message>
     <message>
         <source>smart meter</source>
         <extracomment>Select ...</extracomment>
-        <translation></translation>
+        <translation>akıllı sayaç</translation>
     </message>
     <message>
         <source>media player</source>
         <extracomment>Select ...</extracomment>
-        <translation></translation>
+        <translation>Medya oynatıcı</translation>
     </message>
     <message>
         <source>Fingerprint reader</source>
-        <translation></translation>
+        <translation>parmak izi okuyucu</translation>
     </message>
     <message>
         <source>moisture sensor</source>
         <extracomment>Select ...</extracomment>
-        <translation></translation>
+        <translation>nem sensörü</translation>
     </message>
     <message>
         <source>thing to notify</source>
         <extracomment>Select ...</extracomment>
-        <translation></translation>
+        <translation>bildirilecek şey</translation>
     </message>
     <message>
         <source>Garage doors</source>
-        <translation></translation>
+        <translation>Garaj kapıları</translation>
     </message>
     <message>
         <source>Heating</source>
-        <translation></translation>
+        <translation>Isıtma</translation>
     </message>
     <message>
         <source>Accounts</source>
-        <translation></translation>
+        <translation>Hesaplar</translation>
     </message>
     <message>
         <source>Smartlocks</source>
-        <translation></translation>
+        <translation>Akıllı kilitler</translation>
     </message>
     <message>
         <source>smartlock</source>
         <extracomment>Select ...</extracomment>
-        <translation></translation>
+        <translation>akıllı kilit</translation>
     </message>
     <message>
         <source>Irrigation</source>
-        <translation></translation>
+        <translation>Sulama</translation>
     </message>
     <message>
         <source>Ventilation</source>
-        <translation></translation>
+        <translation>Havalandırma</translation>
     </message>
     <message>
         <source>irrigation</source>
         <extracomment>Select ...</extracomment>
-        <translation></translation>
+        <translation>sulama</translation>
     </message>
     <message>
         <source>ventilation</source>
         <extracomment>Select ...</extracomment>
-        <translation></translation>
+        <translation>havalandırma</translation>
     </message>
     <message>
         <source>Thermostats</source>
-        <translation></translation>
+        <translation>termostatlar</translation>
     </message>
     <message>
         <source>Barcode scanners</source>
-        <translation></translation>
+        <translation>Barkod tarayıcılar</translation>
     </message>
     <message>
         <source>Cleaning robots</source>
-        <translation type="unfinished"></translation>
+        <translation>temizlik robotları</translation>
     </message>
 </context>
 <context>
