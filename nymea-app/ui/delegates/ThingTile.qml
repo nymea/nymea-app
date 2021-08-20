@@ -179,8 +179,14 @@ MainPageTile {
                 if (thing.thingClass.interfaces.indexOf("noisesensor") >= 0) {
                     tmp.push({iface: "noisesensor", state: "noise"});
                 }
+                if (thing.thingClass.interfaces.indexOf("cosensor") >= 0) {
+                    tmp.push({iface: "cosensor", state: "co"});
+                }
                 if (thing.thingClass.interfaces.indexOf("co2sensor") >= 0) {
                     tmp.push({iface: "co2sensor", state: "co2"});
+                }
+                if (thing.thingClass.interfaces.indexOf("gassensor") >= 0) {
+                    tmp.push({iface: "gassensor", state: "gas"});
                 }
                 if (thing.thingClass.interfaces.indexOf("smartmeterconsumer") >= 0) {
                     tmp.push({iface: "smartmeterconsumer", state: "totalEnergyConsumed"});

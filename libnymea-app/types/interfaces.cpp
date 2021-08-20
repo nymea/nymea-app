@@ -98,8 +98,14 @@ Interfaces::Interfaces(QObject *parent) : QAbstractListModel(parent)
     addInterface("closablesensor", tr("Closable sensors"), {"sensor"});
     addStateType("closablesensor", "closed", QVariant::Bool, false, tr("Closed"), tr("Opened or closed"));
 
+    addInterface("cosensor", tr("CO sensor"), {"sensor"});
+    addStateType("cosensor", "co2", QVariant::Double, false, tr("CO level"), tr("CO level changed"));
+
     addInterface("co2sensor", tr("CO2 sensor"), {"sensor"});
     addStateType("co2sensor", "co2", QVariant::Double, false, tr("CO2 level"), tr("CO2 level changed"));
+
+    addInterface("gassensor", tr("Flammable gas sensor"), {"sensor"});
+    addStateType("gassensor", "co2", QVariant::Double, false, tr("Flammable gas level"), tr("Flammable gas level changed"));
 
     addInterface("power", tr("Powered things"));
     addStateType("power", "power", QVariant::Bool, true, tr("Thing is turned on"), tr("A thing is turned on or off"), tr("Turn things on or off"));

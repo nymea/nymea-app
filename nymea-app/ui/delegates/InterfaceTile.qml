@@ -315,7 +315,9 @@ MainPageTile {
                 ListElement { ifaceName: "closablesensor"; stateName: "closed" }
                 ListElement { ifaceName: "lightsensor"; stateName: "lightIntensity" }
                 ListElement { ifaceName: "watersensor"; stateName: "waterDetected" }
+                ListElement { ifaceName: "cosensor"; stateName: "co" }
                 ListElement { ifaceName: "co2sensor"; stateName: "co2" }
+                ListElement { ifaceName: "gassensor"; stateName: "gas" }
                 ListElement { ifaceName: "conductivity"; stateName: "conductivity" }
                 ListElement { ifaceName: "noisesensor"; stateName: "noise" }
                 ListElement { ifaceName: "smartmeterconsumer"; stateName: "totalEnergyConsumed" }
