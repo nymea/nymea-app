@@ -3903,11 +3903,11 @@ Please use a timeout value bigger or equal to 10 ms.</source>
     </message>
     <message>
         <source>One stop bit</source>
-        <translation>Bir durak biti</translation>
+        <translation>Bir durdurma biti</translation>
     </message>
     <message>
         <source>One and a half stop bits</source>
-        <translation>Bir buçuk durak biti</translation>
+        <translation>Bir buçuk durdurma biti</translation>
     </message>
     <message>
         <source>Two stop bits</source>
