@@ -1,3 +1,10 @@
+nymea-app (1.0.341) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix Bluetooth Discovery on Android again
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 20 Aug 2021 12:54:22 +0200
+
 nymea-app (1.0.340) bionic; urgency=medium
 
   [ Michael Zanetti ]
