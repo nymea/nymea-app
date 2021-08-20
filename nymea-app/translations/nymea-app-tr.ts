@@ -4249,7 +4249,7 @@ In order to have Modbus RTU available as resource in the system, please add a ne
     </message>
     <message>
         <source>Disabling networking will disconnect all connected clients. Be aware that you will not be able to interact remotely with this %1 system any more. Do not proceed unless you know what your are doing.</source>
-        <translation>Ağın devre dışı bırakılması, bağlı tüm istemcilerin bağlantısını kesecektir. Bu %1 sistemiyle artık uzaktan etkileşim kuramayacağınızı unutmayın. Ne yaptığınızı bilmeden devam etmeyin.</translation>
+        <translation>Ağın devre dışı bırakılması, bağlı tüm istemcilerin bağlantısını kesecektir. Bu %1 sistemiyle artık uzaktan etkileşim kuramayacağınızı unutmayın. Ne yaptığınızı bilmiyorsanız devam etmeyin.</translation>
     </message>
     <message>
         <source>Do you want to proceed?</source>
@@ -4257,55 +4257,55 @@ In order to have Modbus RTU available as resource in the system, please add a ne
     </message>
     <message>
         <source>Disabling WiFi will disconnect all clients connected via WiFi. Be aware that you will not be able to interact remotely with this %1 system any more unless a LAN cable is connected.</source>
-        <translation></translation>
+        <translation>WiFi&apos;yi devre dışı bırakmak, WiFi üzerinden bağlanan tüm istemcilerin bağlantısını kesecektir. Bir LAN kablosu bağlı olmadığı sürece bu %1 sistemiyle artık uzaktan etkileşim kuramayacağınızı unutmayın.</translation>
     </message>
     <message>
         <source>General</source>
-        <translation></translation>
+        <translation>Genel</translation>
     </message>
     <message>
         <source>No wired network interfaces available</source>
-        <translation></translation>
+        <translation>Kablolu ağ arabirimi yok</translation>
     </message>
     <message>
         <source>Enabled</source>
-        <translation></translation>
+        <translation>Etkin</translation>
     </message>
     <message>
         <source>No wireless hardware available.</source>
-        <translation></translation>
+        <translation>Kablosuz donanım mevcut değil.</translation>
     </message>
     <message>
         <source>The access point cannot be found.</source>
-        <translation></translation>
+        <translation>Erişim noktası bulunamıyor.</translation>
     </message>
     <message>
         <source>The network interface cannot be found.</source>
-        <translation></translation>
+        <translation>Ağ arabirimi bulunamadı.</translation>
     </message>
     <message>
         <source>Invalid network device type.</source>
-        <translation></translation>
+        <translation>Geçersiz ağ cihazı türü.</translation>
     </message>
     <message>
         <source>Wireless networking is disabled.</source>
-        <translation></translation>
+        <translation>Kablosuz ağ devre dışı bırakıldı.</translation>
     </message>
     <message>
         <source>The wireless connection failed.</source>
-        <translation></translation>
+        <translation>Kablosuz bağlantı başarısız oldu.</translation>
     </message>
     <message>
         <source>Networking is disabled.</source>
-        <translation></translation>
+        <translation>Ağ devre dışı bırakıldı.</translation>
     </message>
     <message>
         <source>The network manager is not available.</source>
-        <translation></translation>
+        <translation>Ağ yöneticisi mevcut değil.</translation>
     </message>
     <message>
         <source>Hosting access point</source>
-        <translation></translation>
+        <translation>Barındırma erişim noktası</translation>
     </message>
     <message>
         <source>Network management is unavailable on this system.</source>
