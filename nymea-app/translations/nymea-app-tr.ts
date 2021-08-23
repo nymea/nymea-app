@@ -4835,14 +4835,14 @@ In order to have Modbus RTU available as resource in the system, please add a ne
     <name>NymeaItemDelegate</name>
     <message>
         <source>Delete</source>
-        <translation></translation>
+        <translation>Sil</translation>
     </message>
 </context>
 <context>
     <name>NymeaSwipeDelegate</name>
     <message>
         <source>Delete</source>
-        <translation></translation>
+        <translation>Sil</translation>
     </message>
 </context>
 <context>
@@ -4853,144 +4853,144 @@ In order to have Modbus RTU available as resource in the system, please add a ne
     </message>
     <message>
         <source>is not</source>
-        <translation></translation>
+        <translation>değil</translation>
     </message>
     <message>
         <source>is greater</source>
-        <translation></translation>
+        <translation>daha büyüktür</translation>
     </message>
     <message>
         <source>is smaller</source>
-        <translation></translation>
+        <translation>daha küçük</translation>
     </message>
     <message>
         <source>is greater or equal</source>
-        <translation></translation>
+        <translation>daha büyük veya eşittir</translation>
     </message>
     <message>
         <source>is smaller or equal</source>
-        <translation></translation>
+        <translation>daha küçük veya eşittir</translation>
     </message>
 </context>
 <context>
     <name>PasswordTextField</name>
     <message>
         <source>Pick a password</source>
-        <translation></translation>
+        <translation>Bir şifre seç</translation>
     </message>
     <message>
         <source>Minimum %1 characters</source>
-        <translation></translation>
+        <translation>Minimum %1 karakter</translation>
     </message>
     <message>
         <source>Lowercase letters</source>
-        <translation></translation>
+        <translation>Küçük harfler</translation>
     </message>
     <message>
         <source>Uppercase letters</source>
-        <translation></translation>
+        <translation>Büyük harfler</translation>
     </message>
     <message>
         <source>Numbers</source>
-        <translation></translation>
+        <translation>Sayılar</translation>
     </message>
     <message>
         <source>Special characters</source>
-        <translation></translation>
+        <translation>Özel karakterler</translation>
     </message>
     <message>
         <source>Confirm password</source>
-        <translation></translation>
+        <translation>Şifreyi Onayla</translation>
     </message>
     <message>
         <source>Password</source>
-        <translation></translation>
+        <translation>Şifre</translation>
     </message>
 </context>
 <context>
     <name>PluginParamsPage</name>
     <message>
         <source>Settings</source>
-        <translation></translation>
+        <translation>Ayarlar</translation>
     </message>
 </context>
 <context>
     <name>PluginsPage</name>
     <message>
         <source>Plugins</source>
-        <translation></translation>
+        <translation>Eklentiler</translation>
     </message>
     <message>
         <source>Installed integration plugins</source>
-        <translation></translation>
+        <translation>Yüklü entegrasyon eklentileri</translation>
     </message>
 </context>
 <context>
     <name>PowerSocketsDeviceListPage</name>
     <message>
         <source>My %1</source>
-        <translation></translation>
+        <translation>benim %1</translation>
     </message>
 </context>
 <context>
     <name>PushButtonAuthPage</name>
     <message>
         <source>Welcome to %1!</source>
-        <translation></translation>
+        <translation>%1&apos;e hoş geldiniz!</translation>
     </message>
     <message>
         <source>Sorry, something went wrong during the setup. Try again please.</source>
-        <translation></translation>
+        <translation>Maalesef kurulum sırasında bir şeyler ters gitti. Lütfen tekrar deneyiniz.</translation>
     </message>
     <message>
         <source>Authentication required</source>
-        <translation></translation>
+        <translation>Kimlik doğrulama gerekli</translation>
     </message>
     <message>
         <source>Please press the button on your %1 box to authenticate this device.</source>
-        <translation></translation>
+        <translation>Bu cihazın kimliğini doğrulamak için lütfen %1 kutunuzdaki düğmeye basın.</translation>
     </message>
 </context>
 <context>
     <name>RemoveThingMethodDialog</name>
     <message>
         <source>This thing is currently used in one or more rules:</source>
-        <translation></translation>
+        <translation>Bu şey şu anda bir veya daha fazla kuralda kullanılıyor:</translation>
     </message>
     <message>
         <source>Remove all those rules</source>
-        <translation></translation>
+        <translation>Tüm bu kuralları kaldır</translation>
     </message>
     <message>
         <source>Update rules, removing this thing</source>
-        <translation></translation>
+        <translation>Kuralları güncelle, bu şeyi kaldır</translation>
     </message>
     <message>
         <source>Don&apos;t remove this thing</source>
-        <translation></translation>
+        <translation>Bu şeyi kaldırma</translation>
     </message>
 </context>
 <context>
     <name>RootItem</name>
     <message>
         <source>Connection error</source>
-        <translation></translation>
+        <translation>Bağlantı hatası</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation></translation>
+        <translation>Tamam</translation>
     </message>
     <message>
         <source>New connection</source>
-        <translation></translation>
+        <translation>Yeni bağlantı</translation>
     </message>
     <message>
         <source>The version of the %1 system you are trying to connect to is too old. This app requires at least version %2 but this %1 system only supports %3. Please update your %1 system.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bağlanmaya çalıştığınız %1 sisteminin sürümü çok eski. Bu uygulama en az %2 sürümünü gerektirir, ancak bu %1 sistemi yalnızca %3&apos;ü destekler. Lütfen %1 sisteminizi güncelleyin.</translation>
     </message>
     <message>
         <source>The version of the %1 system you are trying to connect to is too new. This app supports only up to version %2 but this %1 system provides %3. Please update %4.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bağlanmaya çalıştığınız %1 sisteminin sürümü çok yeni. Bu uygulama yalnızca %2 sürümünü destekler, ancak bu %1 sistemi %3 sağlar. Lütfen %4&apos;ü güncelleyin.</translation>
     </message>
 </context>
 <context>
@@ -5005,19 +5005,19 @@ In order to have Modbus RTU available as resource in the system, please add a ne
     </message>
     <message>
         <source>value from event</source>
-        <translation></translation>
+        <translation>olaydan gelen değer</translation>
     </message>
     <message>
         <source>Unknown item</source>
-        <translation></translation>
+        <translation>Bilinmeyen öğe</translation>
     </message>
     <message>
         <source>True</source>
-        <translation></translation>
+        <translation>Doğru</translation>
     </message>
     <message>
         <source>False</source>
-        <translation></translation>
+        <translation>YANLIŞ</translation>
     </message>
 </context>
 <context>
@@ -5029,96 +5029,96 @@ In order to have Modbus RTU available as resource in the system, please add a ne
     </message>
     <message>
         <source>only if %1 %2 %3</source>
-        <translation></translation>
+        <translation>sadece %1 %2 %3 ise</translation>
     </message>
     <message>
         <source>and %1 %2 %3</source>
-        <translation></translation>
+        <translation>ve %1 %2 %3</translation>
     </message>
 </context>
 <context>
     <name>ScenesView</name>
     <message>
         <source>There are no scenes set up yet.</source>
-        <translation></translation>
+        <translation>Henüz ayarlanmış bir sahne yok.</translation>
     </message>
     <message>
         <source>It appears there are no things set up either yet. In order to use scenes you need to add some things first.</source>
-        <translation></translation>
+        <translation>Henüz ayarlanmış bir şey yok gibi görünüyor. Sahneleri kullanmak için önce bazı şeyler eklemeniz gerekir.</translation>
     </message>
     <message>
         <source>Scenes provide a useful way to control your things with just one click.</source>
-        <translation></translation>
+        <translation>Sahneler, eşyalarınızı tek bir tıklamayla kontrol etmenin kullanışlı bir yolunu sunar.</translation>
     </message>
     <message>
         <source>Add things</source>
-        <translation></translation>
+        <translation>Bir şeyler ekle</translation>
     </message>
     <message>
         <source>Add scenes</source>
-        <translation></translation>
+        <translation>Sahne ekle</translation>
     </message>
 </context>
 <context>
     <name>ScriptEditor</name>
     <message>
         <source>Did you know...</source>
-        <translation></translation>
+        <translation>Biliyor musun...</translation>
     </message>
     <message>
         <source>nymea:app is available for all kinds of devices. In order to edit scripts we recommend to use nymea:app on your personal computer or connect a keyboard to your tablet.</source>
-        <translation></translation>
+        <translation>nymea:app her türlü cihaz için kullanılabilir. Komut dosyalarını düzenlemek için kişisel bilgisayarınızda nymea:app kullanmanızı veya tabletinize bir klavye bağlamanızı öneririz.</translation>
     </message>
     <message>
         <source>Unsaved changes</source>
-        <translation></translation>
+        <translation>Kaydedilmemiş değişiklikler</translation>
     </message>
     <message>
         <source>There are unsaved changes in the script. Do you want to discard the changes?</source>
-        <translation></translation>
+        <translation>Komut dosyasında kaydedilmemiş değişiklikler var. Değişiklikleri silmek istiyor musunuz?</translation>
     </message>
     <message>
         <source>Script name</source>
-        <translation></translation>
+        <translation>komut dosyası adı</translation>
     </message>
     <message>
         <source>Help</source>
-        <translation></translation>
+        <translation>Yardım</translation>
     </message>
     <message>
         <source>Deploy script</source>
-        <translation></translation>
+        <translation>Komut dosyasını dağıt</translation>
     </message>
     <message>
         <source>The script has not been deployed because it contains errors.</source>
-        <translation></translation>
+        <translation>Komut dosyası, hatalar içerdiğinden dağıtılmadı.</translation>
     </message>
     <message>
         <source>Errors</source>
-        <translation></translation>
+        <translation>Hatalar</translation>
     </message>
     <message>
         <source>Console</source>
-        <translation></translation>
+        <translation>Konsol</translation>
     </message>
     <message>
         <source>An autosaved version of this script has been loaded. Deploy to store this version or reload to restore the deployed version.</source>
-        <translation></translation>
+        <translation>Bu komut dosyasının otomatik olarak kaydedilmiş bir sürümü yüklendi. Bu sürümü depolamak için dağıtın veya dağıtılan sürümü geri yüklemek için yeniden yükleyin.</translation>
     </message>
     <message>
         <source>Reload</source>
-        <translation></translation>
+        <translation>Tekrar yükle</translation>
     </message>
 </context>
 <context>
     <name>ScriptsPage</name>
     <message>
         <source>Scripts</source>
-        <translation></translation>
+        <translation>Kodlar</translation>
     </message>
     <message>
         <source>Add new script</source>
-        <translation></translation>
+        <translation>Yeni komut dosyası ekle</translation>
     </message>
     <message>
         <source>No scripts are installed yet.</source>
