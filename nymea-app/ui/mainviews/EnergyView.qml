@@ -124,6 +124,7 @@ MainViewBase {
                 }
                 XYSeriesAdapter {
                     id: rootMeterSeriesAdapter
+                    objectName: "Root meter adapter"
                     logsModel: rootMeterLogsModel
                     sampleRate: chartView.sampleRate
                     xySeries: rootMeterSeries
@@ -197,6 +198,7 @@ MainViewBase {
                         }
                         property XYSeriesAdapter adapter: XYSeriesAdapter {
                             id: seriesAdapter
+                            objectName: consumer.thing.name +  " adapter"
                             logsModel: logsModel
                             sampleRate: chartView.sampleRate
                             xySeries: upperSeries
@@ -441,8 +443,8 @@ MainViewBase {
                 rootMeter: root.rootMeter
                 meters: producers
                 title: qsTr("Total produced energy")
+                stateName: "totalEnergyProduced"
                 visible: root.rootMeter || producers.count > 0
-                multiplier: -1
             }
         }
     }

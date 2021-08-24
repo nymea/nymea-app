@@ -48,8 +48,9 @@ ChartView {
     property Thing rootMeter: null
     property ThingsProxy meters: null
     property int multiplier: 1
+    property string stateName: "totalEnergyConsumed"
 
-    readonly property State rootMeterTotalConsumedEnergyState: rootMeter ? rootMeter.stateByName("totalEnergyConsumed") : null
+    readonly property State rootMeterTotalEnergyState: rootMeter ? rootMeter.stateByName(stateName) : null
 
     Connections {
         target: meters
@@ -69,29 +70,14 @@ ChartView {
         pieSeries.clear();
         d.sliceMap = {}
 
-        var unknownConsumerEnergy = 0;
-        if (rootMeter) {
-            unknownConsumerEnergy = rootMeter.stateByName("totalEnergyConsumed").value
-        }
-
-        if (rootMeter) {
-            var slice = pieSeries.append(qsTr("Unknown"), unknownConsumerEnergy)
-            slice.color = Style.accentColor
-            d.sliceMap[slice] = rootMeter
-        }
+        var unknownEnergy = rootMeterTotalEnergyState ? rootMeterTotalEnergyState.value : 0
 
         for (var i = 0; i < meters.count; i++) {
             var thing = meters.get(i);
             var value = 0;
-            var totalConsumedStateType = thing.thingClass.stateTypes.findByName("totalEnergyConsumed")
-            if (totalConsumedStateType) {
-                var totalConsumedState = thing.states.getState(totalConsumedStateType.id)
-                value = value + (totalConsumedState.value * root.multiplier)
-            }
-            var totalProducedStateType = thing.thingClass.stateTypes.findByName("totalEnergyProduced")
-            if (totalProducedStateType) {
-                var totalProducedState = thing.states.getState(totalProducedStateType.id)
-                value = value - (totalProducedState.value * root.multiplier)
+            var energyState = thing.stateByName(root.stateName)
+            if (energyState) {
+                value += energyState.value
             }
             var slice = pieSeries.append(thing.name, Math.max(0, value))
             var color = Style.accentColor
@@ -104,7 +90,13 @@ ChartView {
             }
             slice.color = color
             d.sliceMap[slice] = thing
-            unknownConsumerEnergy -= value
+            unknownEnergy -= value
+        }
+
+        if (unknownEnergy > 0) {
+            var slice = pieSeries.append(qsTr("Unknown"), unknownEnergy)
+            slice.color = Style.accentColor
+            d.sliceMap[slice] = rootMeter
         }
     }
 
@@ -128,8 +120,8 @@ ChartView {
             font.pixelSize: app.largeFont
             Layout.fillWidth: true
             horizontalAlignment: Text.AlignHCenter
-            text: root.rootMeterTotalConsumedEnergyState
-                  ? root.rootMeterTotalConsumedEnergyState.value.toFixed(2)
+            text: root.rootMeterTotalEnergyState
+                  ? root.rootMeterTotalEnergyState.value.toFixed(2)
                   : Math.round(pieSeries.sum * 1000) / 1000
         }
 

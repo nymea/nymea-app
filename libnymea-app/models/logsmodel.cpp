@@ -159,6 +159,7 @@ void LogsModel::setTypeIds(const QStringList &typeIds)
         beginResetModel();
         qDeleteAll(m_list);
         m_list.clear();
+        m_generatedEntries = 0;
         endResetModel();
         fetchMore();
     }
@@ -256,7 +257,7 @@ LogEntry *LogsModel::findClosest(const QDateTime &dateTime)
 
 void LogsModel::logsReply(int /*commandId*/, const QVariantMap &data)
 {
-    int offset = data.value("offset").toInt();
+    int offset = data.value("offset").toInt() + m_generatedEntries;
     int count = data.value("count").toInt();
 
 //    qDebug() << qUtf8Printable(QJsonDocument::fromVariant(data).toJson());
@@ -266,9 +267,6 @@ void LogsModel::logsReply(int /*commandId*/, const QVariantMap &data)
     foreach (const QVariant &logEntryVariant, logEntries) {
         QVariantMap entryMap = logEntryVariant.toMap();
         QDateTime timeStamp = QDateTime::fromMSecsSinceEpoch(entryMap.value("timestamp").toLongLong());
-        if (!m_viewStartTime.isNull() && timeStamp < m_viewStartTime) {
-            continue;
-        }
         QString thingId = entryMap.value("thingId").toString();
         QString typeId = entryMap.value("typeId").toString();
         QMetaEnum sourceEnum = QMetaEnum::fromType<LogEntry::LoggingSource>();
@@ -277,8 +275,19 @@ void LogsModel::logsReply(int /*commandId*/, const QVariantMap &data)
         LogEntry::LoggingEventType loggingEventType = static_cast<LogEntry::LoggingEventType>(loggingEventTypeEnum.keyToValue(entryMap.value("eventType").toByteArray()));
         QVariant value = loggingEventType == LogEntry::LoggingEventTypeActiveChange ? entryMap.value("active").toBool() : entryMap.value("value");
         QString errorCode = entryMap.value("errorCode").toString();
+
+        bool stopProcessing = false;
+        if (m_viewStartTime.isValid() && timeStamp.addSecs(-60) < m_viewStartTime) {
+            timeStamp = m_viewStartTime.addSecs(-60);
+            stopProcessing = true;
+            m_generatedEntries++;
+        }
         LogEntry *entry = new LogEntry(timeStamp, value, thingId, typeId, loggingSource, loggingEventType, errorCode, this);
         newBlock.append(entry);
+//        qCDebug(dcLogEngine()) << objectName() << "adding entry at" << timeStamp << m_viewStartTime;
+        if (stopProcessing) {
+            break;
+        }
     }
 
 //    qCDebug(dcLogEngine()) << objectName() << "Received logs from" << offset << "to" << offset + count << "Actual count:" << newBlock.count();
@@ -363,7 +372,7 @@ void LogsModel::fetchMore(const QModelIndex &parent)
     }
 
     params.insert("limit", m_blockSize);
-    params.insert("offset", m_list.count());
+    params.insert("offset", m_list.count() - m_generatedEntries);
 
 //    qDebug() << "Fetching logs from" << m_startTime.toString() << "to" << m_endTime.toString() << "with offset" << m_list.count() << "and limit" << m_blockSize;
 

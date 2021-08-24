@@ -133,6 +133,8 @@ protected:
 
     bool m_canFetchMore = true;
 
+    int m_generatedEntries = 0;
+
 };
 
 #endif // LOGSMODEL_H

@@ -163,12 +163,21 @@ void XYSeriesAdapter::logEntryAdded(LogEntry *entry)
 
     int idx = entry->timestamp().secsTo(m_newestSample) / m_sampleRate;
     if (idx > m_samples.count()) {
-        qCWarning(dcLogEngine) << "Overflowing integer size for XYSeriesAdapter!";
+        qCWarning(dcLogEngine) << objectName() << "Overflowing integer size for XYSeriesAdapter!";
         return;
     }
-    Sample *sample = m_samples.at(static_cast<int>(idx));
-    LogEntry *oldLast = sample->entries.count() > 0 ? sample->entries.last() : nullptr;
-    sample->entries.append(entry);
+//    qCDebug(dcLogEngine()) << objectName() << "Inserting sample at:" << idx << entry->timestamp();
+    Sample *sample = m_samples.at(idx);
+    LogEntry *oldLast = nullptr;
+    // In theory we'd need to insert sorted, but only the last one actually matters for subsequent samples
+    // For the current sample we're calculating the median anyways, so just append/prepend t be a bit faster
+    if (sample->entries.count() > 0 && sample->entries.last()->timestamp() < entry->timestamp()) {
+        oldLast = sample->entries.last();
+        sample->entries.append(entry);
+    } else {
+        sample->entries.prepend(entry);
+    }
+    LogEntry *newLast = sample->entries.last();
 
     qreal value = calculateSampleValue(idx);
     m_series->replace(idx, sample->timestamp.toMSecsSinceEpoch(), value);
@@ -189,7 +198,7 @@ void XYSeriesAdapter::logEntryAdded(LogEntry *entry)
     for (int i = idx - 1; i >= 0; i--) {
         Sample *nextSample = m_samples.at(i);
         if (nextSample->startingPoint == oldLast) {
-            nextSample->startingPoint = entry;
+            nextSample->startingPoint = newLast;
             qreal value = calculateSampleValue(i);
 //            qWarning() << "Updating" << i << value;
             m_series->replace(i, nextSample->timestamp.toMSecsSinceEpoch(), value);
