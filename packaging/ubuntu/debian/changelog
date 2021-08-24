@@ -1,3 +1,10 @@
+nymea-app (1.0.344) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add api to handle discovery errors better
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 24 Aug 2021 16:38:24 +0200
+
 nymea-app (1.0.343) bionic; urgency=medium
 
   [ Michael Zanetti ]
