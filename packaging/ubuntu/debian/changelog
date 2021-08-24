@@ -1,3 +1,10 @@
+nymea-app (1.0.343) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Energy view fixes
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 24 Aug 2021 14:46:54 +0200
+
 nymea-app (1.0.342) bionic; urgency=medium
 
   [ Michael Zanetti ]
