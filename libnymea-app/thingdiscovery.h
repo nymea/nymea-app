@@ -85,8 +85,8 @@ public:
     QHash<int, QByteArray> roleNames() const override;
 
 
-    Q_INVOKABLE void discoverThings(const QUuid &thingClassId, const QVariantList &discoveryParams = {});
-    Q_INVOKABLE void discoverThingsByInterface(const QString &interfaceName);
+    Q_INVOKABLE int discoverThings(const QUuid &thingClassId, const QVariantList &discoveryParams = {});
+    Q_INVOKABLE QList<int> discoverThingsByInterface(const QString &interfaceName);
 
     Q_INVOKABLE ThingDescriptor* get(int index) const;
 
@@ -96,15 +96,15 @@ public:
     bool busy() const;
     QString displayMessage() const;
 
-private slots:
-    void discoverThingsInternal(const QUuid &thingClassId, const QVariantList &discoveryParams = {});
-
-    void discoverThingsResponse(int commandId, const QVariantMap &params);
-
 signals:
     void busyChanged();
     void countChanged();
     void engineChanged();
+    void discoverThingsReply(int commandId, Thing::ThingError thingError, const QString &displayMessage);
+
+private slots:
+    int discoverThingsInternal(const QUuid &thingClassId, const QVariantList &discoveryParams = {});
+    void discoverThingsResponse(int commandId, const QVariantMap &params);
 
 private:
     Engine *m_engine = nullptr;
