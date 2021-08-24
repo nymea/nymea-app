@@ -5114,7 +5114,7 @@ In order to have Modbus RTU available as resource in the system, please add a ne
     <name>ScriptsPage</name>
     <message>
         <source>Scripts</source>
-        <translation>Kodlar</translation>
+        <translation>Komutlar</translation>
     </message>
     <message>
         <source>Add new script</source>
@@ -5122,332 +5122,332 @@ In order to have Modbus RTU available as resource in the system, please add a ne
     </message>
     <message>
         <source>No scripts are installed yet.</source>
-        <translation></translation>
+        <translation>Henüz hiçbir komut dosyası yüklenmedi.</translation>
     </message>
     <message>
         <source>Press &quot;Add script&quot; to get started.</source>
-        <translation></translation>
+        <translation>Başlamak için &quot;Komut dosyası ekle&quot;ye basın.</translation>
     </message>
     <message>
         <source>Add script</source>
-        <translation></translation>
+        <translation>Komut dosyası ekle</translation>
     </message>
 </context>
 <context>
     <name>SelectBrowserItemActionPage</name>
     <message>
         <source>Select item</source>
-        <translation></translation>
+        <translation>Öğeyi seçin</translation>
     </message>
 </context>
 <context>
     <name>SelectEventDescriptorParamsPage</name>
     <message>
         <source>Only consider event if</source>
-        <translation></translation>
+        <translation>Olayı yalnızca şu durumlarda göz önünde bulundurun:</translation>
     </message>
 </context>
 <context>
     <name>SelectRuleActionPage</name>
     <message>
         <source>Open an item on this thing...</source>
-        <translation></translation>
+        <translation>Bu konuda bir öğe aç...</translation>
     </message>
 </context>
 <context>
     <name>SelectRuleActionParamsPage</name>
     <message>
         <source>Use static value as parameter</source>
-        <translation></translation>
+        <translation>Parametre olarak statik değeri kullan</translation>
     </message>
     <message>
         <source>Use event parameter</source>
-        <translation></translation>
+        <translation>Etkinlik parametresini kullan</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation></translation>
+        <translation>Tamam</translation>
     </message>
     <message>
         <source>Use a thing&apos;s state value</source>
-        <translation></translation>
+        <translation>Bir şeyin durum değerini kullanın</translation>
     </message>
     <message>
         <source>Insert value here</source>
-        <translation></translation>
+        <translation>Değeri buraya girin</translation>
     </message>
     <message>
         <source>Select a state</source>
-        <translation></translation>
+        <translation>Bir devlet seçin</translation>
     </message>
 </context>
 <context>
     <name>SelectStateDescriptorParamsPage</name>
     <message>
         <source>Options</source>
-        <translation></translation>
+        <translation>Seçenekler</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation></translation>
+        <translation>Tamam</translation>
     </message>
 </context>
 <context>
     <name>SelectStatePage</name>
     <message>
         <source>Select state</source>
-        <translation></translation>
+        <translation>Devlet seç</translation>
     </message>
 </context>
 <context>
     <name>SelectThingPage</name>
     <message>
         <source>Any %1</source>
-        <translation></translation>
+        <translation>Herhangi bir %1</translation>
     </message>
     <message>
         <source>Select kind of things</source>
-        <translation></translation>
+        <translation>tür şeyler seçin</translation>
     </message>
     <message>
         <source>Select %1</source>
-        <translation></translation>
+        <translation>%1 seç</translation>
     </message>
     <message>
         <source>Select thing</source>
-        <translation></translation>
+        <translation>Bir şey seçin</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation></translation>
+        <translation>Tamam</translation>
     </message>
 </context>
 <context>
     <name>SensorDevicePage</name>
     <message>
         <source>Last seen:</source>
-        <translation></translation>
+        <translation>Son görülen:</translation>
     </message>
     <message>
         <source>Sunrise:</source>
-        <translation></translation>
+        <translation>Gündoğumu:</translation>
     </message>
     <message>
         <source>Sunset:</source>
-        <translation></translation>
+        <translation>Gün batımı:</translation>
     </message>
     <message>
         <source>Presence</source>
-        <translation></translation>
+        <translation>Mevcudiyet</translation>
     </message>
     <message>
         <source>Vacant</source>
-        <translation></translation>
+        <translation>Boş</translation>
     </message>
     <message>
         <source>Nighttime</source>
-        <translation></translation>
+        <translation>gece vakti</translation>
     </message>
     <message>
         <source>Closed</source>
-        <translation></translation>
+        <translation>Kapalı</translation>
     </message>
     <message>
         <source>Open</source>
-        <translation></translation>
+        <translation>Açık</translation>
     </message>
     <message>
         <source>Wet</source>
-        <translation></translation>
+        <translation>Islak</translation>
     </message>
     <message>
         <source>Dry</source>
-        <translation></translation>
+        <translation>Kuru</translation>
     </message>
     <message>
         <source>Daytime</source>
-        <translation></translation>
+        <translation>Gündüz</translation>
     </message>
 </context>
 <context>
     <name>SensorsDeviceListPage</name>
     <message>
         <source>Sensors</source>
-        <translation></translation>
+        <translation>Sensörler</translation>
     </message>
     <message>
         <source>Heating</source>
-        <translation></translation>
+        <translation>Isıtma</translation>
     </message>
     <message>
         <source>Closed</source>
-        <translation></translation>
+        <translation>Kapalı</translation>
     </message>
     <message>
         <source>Open</source>
-        <translation></translation>
+        <translation>Açık</translation>
     </message>
     <message>
         <source>Presence</source>
-        <translation></translation>
+        <translation>Mevcudiyet</translation>
     </message>
     <message>
         <source>Vacant</source>
-        <translation></translation>
+        <translation>Boş</translation>
     </message>
     <message>
         <source>Daytime</source>
-        <translation></translation>
+        <translation>Gündüz</translation>
     </message>
     <message>
         <source>Nighttime</source>
-        <translation></translation>
+        <translation>gece vakti</translation>
     </message>
     <message>
         <source>Wet</source>
-        <translation></translation>
+        <translation>Islak</translation>
     </message>
     <message>
         <source>Dry</source>
-        <translation></translation>
+        <translation>Kuru</translation>
     </message>
     <message>
         <source>On</source>
-        <translation></translation>
+        <translation>Açık</translation>
     </message>
     <message>
         <source>Off</source>
-        <translation></translation>
+        <translation>Kapalı</translation>
     </message>
 </context>
 <context>
     <name>ServerConfigurationDialog</name>
     <message>
         <source>Server configuration</source>
-        <translation></translation>
+        <translation>Sunucu yapılandırması</translation>
     </message>
     <message>
         <source>Interface</source>
-        <translation></translation>
+        <translation>Arayüz</translation>
     </message>
     <message>
         <source>Any</source>
-        <translation></translation>
+        <translation>Herhangi</translation>
     </message>
     <message>
         <source>Localhost</source>
-        <translation></translation>
+        <translation>yerel ana bilgisayar</translation>
     </message>
     <message>
         <source>Custom</source>
-        <translation></translation>
+        <translation>Gelenek</translation>
     </message>
     <message>
         <source>Address:</source>
-        <translation></translation>
+        <translation>Adres:</translation>
     </message>
     <message>
         <source>Port:</source>
-        <translation></translation>
+        <translation>bağlantı:</translation>
     </message>
     <message>
         <source>SSL enabled</source>
-        <translation></translation>
+        <translation>SSL etkin</translation>
     </message>
     <message>
         <source>Login required</source>
-        <translation></translation>
+        <translation>Oturum açmak gereklidir</translation>
     </message>
 </context>
 <context>
     <name>SettingsPage</name>
     <message>
         <source>General</source>
-        <translation></translation>
+        <translation>Genel</translation>
     </message>
     <message>
         <source>Change system name and time zone</source>
-        <translation></translation>
+        <translation>Sistem adını ve saat dilimini değiştir</translation>
     </message>
     <message>
         <source>Log viewer</source>
-        <translation></translation>
+        <translation>Günlük görüntüleyici</translation>
     </message>
     <message>
         <source>View system log</source>
-        <translation></translation>
+        <translation>Sistem günlüğünü görüntüle</translation>
     </message>
     <message>
         <source>Cloud</source>
-        <translation></translation>
+        <translation>Bulut</translation>
     </message>
     <message>
         <source>API interfaces</source>
-        <translation></translation>
+        <translation>API arayüzleri</translation>
     </message>
     <message>
         <source>MQTT broker</source>
-        <translation></translation>
+        <translation>MQTT aracı</translation>
     </message>
     <message>
         <source>Configure the MQTT broker</source>
-        <translation></translation>
+        <translation>MQTT aracısını yapılandırın</translation>
     </message>
     <message>
         <source>Web server</source>
-        <translation></translation>
+        <translation>Web sunucusu</translation>
     </message>
     <message>
         <source>Configure the web server</source>
-        <translation></translation>
+        <translation>Web sunucusunu yapılandırın</translation>
     </message>
     <message>
         <source>Plugins</source>
-        <translation></translation>
+        <translation>Eklentiler</translation>
     </message>
     <message>
         <source>List and cofigure installed plugins</source>
-        <translation></translation>
+        <translation>Yüklü eklentileri listeleyin ve yapılandırın</translation>
     </message>
     <message>
         <source>Developer tools</source>
-        <translation></translation>
+        <translation>Geliştirici araçları</translation>
     </message>
     <message>
         <source>Access tools for debugging and error reporting</source>
-        <translation></translation>
+        <translation>Hata ayıklama ve hata raporlama araçlarına erişin</translation>
     </message>
     <message>
         <source>Find server UUID and versions</source>
-        <translation></translation>
+        <translation>Sunucu UUID&apos;sini ve sürümlerini bulun</translation>
     </message>
     <message>
         <source>System update</source>
-        <translation></translation>
+        <translation>Sistem güncellemesi</translation>
     </message>
     <message>
         <source>System settings</source>
-        <translation></translation>
+        <translation>Sistem ayarları</translation>
     </message>
     <message>
         <source>Networking</source>
-        <translation></translation>
+        <translation>ağ</translation>
     </message>
     <message>
         <source>Configure the system&apos;s network connection</source>
-        <translation></translation>
+        <translation>Sistemin ağ bağlantısını yapılandırın</translation>
     </message>
     <message>
         <source>Configure how clients interact with this system</source>
-        <translation></translation>
+        <translation>İstemcilerin bu sistemle nasıl etkileşime gireceğini yapılandırın</translation>
     </message>
     <message>
         <source>User settings</source>
-        <translation></translation>
+        <translation>Kullanıcı ayarları</translation>
     </message>
     <message>
         <source>Configure who can log in</source>
-        <translation></translation>
+        <translation>Kimlerin giriş yapabileceğini yapılandırın</translation>
     </message>
     <message>
         <source>ZigBee</source>
@@ -5455,11 +5455,11 @@ In order to have Modbus RTU available as resource in the system, please add a ne
     </message>
     <message>
         <source>Configure ZigBee networks</source>
-        <translation></translation>
+        <translation>ZigBee ağlarını yapılandırın</translation>
     </message>
     <message>
         <source>Connect this %1 system to %1:cloud</source>
-        <translation type="unfinished"></translation>
+        <translation>Bu %1 sistemini %1:bulut&apos;a bağlayın</translation>
     </message>
     <message>
         <source>Modbus RTU</source>
@@ -5467,11 +5467,11 @@ In order to have Modbus RTU available as resource in the system, please add a ne
     </message>
     <message>
         <source>Configure Modbus RTU master interfaces</source>
-        <translation type="unfinished"></translation>
+        <translation>Modbus RTU ana arayüzlerini yapılandırın</translation>
     </message>
     <message>
         <source>Update your %1 system</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 sisteminizi güncelleyin</translation>
     </message>
     <message>
         <source>About %1</source>
@@ -5482,105 +5482,105 @@ In order to have Modbus RTU available as resource in the system, please add a ne
     <name>SetupWizard</name>
     <message>
         <source>Search again</source>
-        <translation></translation>
+        <translation>Tekrar arama</translation>
     </message>
     <message>
         <source>Add thing manually</source>
-        <translation></translation>
+        <translation>Bir şeyi manuel olarak ekle</translation>
     </message>
     <message>
         <source>Searching for things...</source>
-        <translation></translation>
+        <translation>Bir şeyler aramak...</translation>
     </message>
     <message>
         <source>Too bad...</source>
-        <translation></translation>
+        <translation>Çok kötü...</translation>
     </message>
     <message>
         <source>No things of this kind could be found...</source>
-        <translation></translation>
+        <translation>Bu tür şeyler bulunamadı...</translation>
     </message>
     <message>
         <source>Make sure your things are set up and connected, try searching again or go back and pick a different kind of thing.</source>
-        <translation></translation>
+        <translation>Eşyalarınızın kurulu ve bağlantılı olduğundan emin olun, tekrar aramayı deneyin veya geri dönüp farklı türde bir şey seçin.</translation>
     </message>
     <message>
         <source>Name the thing:</source>
-        <translation></translation>
+        <translation>Şeyi adlandırın:</translation>
     </message>
     <message>
         <source>Pairing...</source>
-        <translation></translation>
+        <translation>Eşleştirme...</translation>
     </message>
     <message>
         <source>Thing reconfigured!</source>
-        <translation></translation>
+        <translation>Şey yeniden yapılandırıldı!</translation>
     </message>
     <message>
         <source>Thing added!</source>
-        <translation></translation>
+        <translation>Şey eklendi!</translation>
     </message>
     <message>
         <source>Uh oh</source>
-        <translation></translation>
+        <translation>ah ah</translation>
     </message>
     <message>
         <source>All done. You can now start using %1.</source>
-        <translation></translation>
+        <translation>Hepsi tamam. Artık %1&apos;i kullanmaya başlayabilirsiniz.</translation>
     </message>
     <message>
         <source>Something went wrong setting up this thing...</source>
-        <translation></translation>
+        <translation>Bu şeyi kurarken bir şeyler ters gitti...</translation>
     </message>
     <message>
         <source>Ok</source>
-        <translation></translation>
+        <translation>Tamam</translation>
     </message>
     <message>
         <source>First setup</source>
-        <translation></translation>
+        <translation>İlk kurulum</translation>
     </message>
     <message>
         <source>Welcome to %1!</source>
-        <translation></translation>
+        <translation>%1&apos;e hoş geldiniz!</translation>
     </message>
     <message>
         <source>This %1 system has not been set up yet. This wizard will guide you through a few simple steps to set it up.</source>
-        <translation></translation>
+        <translation>Bu %1 sistemi henüz kurulmadı. Bu sihirbaz, onu kurmak için birkaç basit adımda size rehberlik edecektir.</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation></translation>
+        <translation>Sonraki</translation>
     </message>
     <message>
         <source>OAuth is not supported on this platform. Please use this app on a different device to set up this thing.</source>
-        <translation></translation>
+        <translation>OAuth bu platformda desteklenmiyor. Bu şeyi kurmak için lütfen bu uygulamayı farklı bir cihazda kullanın.</translation>
     </message>
     <message>
         <source>In order to use OAuth on this platform, make sure qml-module-qtwebview is installed.</source>
-        <translation></translation>
+        <translation>OAuth&apos;u bu platformda kullanmak için qml-module-qtwebview&apos;in kurulu olduğundan emin olun.</translation>
     </message>
     <message>
         <source>Reconfigure %1</source>
-        <translation></translation>
+        <translation>%1&apos;i yeniden yapılandır</translation>
     </message>
     <message>
         <source>Set up %1</source>
-        <translation></translation>
+        <translation>%1&apos;i kur</translation>
     </message>
 </context>
 <context>
     <name>ShutterDeviceListPage</name>
     <message>
         <source>Shutters</source>
-        <translation></translation>
+        <translation>panjurlar</translation>
     </message>
 </context>
 <context>
     <name>SimpleStateEvaluatorDelegate</name>
     <message>
         <source>Press to edit condition</source>
-        <translation></translation>
+        <translation>Durumu düzenlemek için basın</translation>
     </message>
     <message>
         <source>%1: %2 %3 %4</source>
@@ -5588,98 +5588,98 @@ In order to have Modbus RTU available as resource in the system, please add a ne
     </message>
     <message>
         <source>True</source>
-        <translation></translation>
+        <translation>Doğru</translation>
     </message>
     <message>
         <source>False</source>
-        <translation></translation>
+        <translation>Yanlış</translation>
     </message>
 </context>
 <context>
     <name>SmartMeterDeviceListPage</name>
     <message>
         <source>Smart meters</source>
-        <translation></translation>
+        <translation>Akıllı sayaçlar</translation>
     </message>
 </context>
 <context>
     <name>SmartMeterDevicePage</name>
     <message>
         <source>Total energy consumption</source>
-        <translation></translation>
+        <translation>Toplam enerji tüketimi</translation>
     </message>
 </context>
 <context>
     <name>StateEvaluatorDelegate</name>
     <message>
         <source>and all of those</source>
-        <translation></translation>
+        <translation>ve bunların hepsi</translation>
     </message>
     <message>
         <source>or any of those</source>
-        <translation></translation>
+        <translation>veya bunlardan herhangi biri</translation>
     </message>
     <message>
         <source>Add a condition</source>
-        <translation></translation>
+        <translation>Koşul ekle</translation>
     </message>
     <message>
         <source>Edit condition...</source>
-        <translation></translation>
+        <translation>Koşulu düzenle...</translation>
     </message>
     <message>
         <source>When one of my things is in a certain state</source>
-        <translation></translation>
+        <translation>Eşyalarımdan biri belli bir durumdayken</translation>
     </message>
     <message>
         <source>When a thing of a given type enters a state</source>
-        <translation></translation>
+        <translation>Belirli bir türdeki bir şey bir duruma girdiğinde</translation>
     </message>
 </context>
 <context>
     <name>StateLogPage</name>
     <message>
         <source>History for %1</source>
-        <translation></translation>
+        <translation>%1 için geçmiş</translation>
     </message>
     <message>
         <source>Log</source>
-        <translation></translation>
+        <translation>Kayıt</translation>
     </message>
     <message>
         <source>Graph</source>
-        <translation></translation>
+        <translation>grafik</translation>
     </message>
 </context>
 <context>
     <name>SystemUpdatePage</name>
     <message>
         <source>System update</source>
-        <translation></translation>
+        <translation>Sistem güncellemesi</translation>
     </message>
     <message>
         <source>Your system is up to date.</source>
-        <translation></translation>
+        <translation>Sisteminiz güncel.</translation>
     </message>
     <message>
         <source>Update all</source>
-        <translation></translation>
+        <translation>Tümünü güncelle</translation>
     </message>
     <message>
         <source>Configure update sources</source>
-        <translation></translation>
+        <translation>Güncelleme kaynaklarını yapılandırın</translation>
     </message>
     <message>
         <source>Enable package source</source>
-        <translation></translation>
+        <translation>Paket kaynağını etkinleştir</translation>
     </message>
     <message>
         <source>All packages</source>
-        <translation></translation>
+        <translation>Tüm paketler</translation>
     </message>
     <message>
         <source>Installed version:</source>
-        <translation></translation>
+        <translation>Yüklü sürüm:</translation>
     </message>
     <message>
         <source>Candidate version:</source>
