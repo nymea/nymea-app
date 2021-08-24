@@ -32,6 +32,7 @@
 
 #include "engine.h"
 
+#include <QMetaEnum>
 #include <QLoggingCategory>
 
 Q_DECLARE_LOGGING_CATEGORY(dcThingManager)
@@ -73,7 +74,7 @@ QHash<int, QByteArray> ThingDiscovery::roleNames() const
     return roles;
 }
 
-void ThingDiscovery::discoverThings(const QUuid &thingClassId, const QVariantList &discoveryParams)
+int ThingDiscovery::discoverThings(const QUuid &thingClassId, const QVariantList &discoveryParams)
 {
     beginResetModel();
     m_foundThings.clear();
@@ -82,32 +83,35 @@ void ThingDiscovery::discoverThings(const QUuid &thingClassId, const QVariantLis
 
     if (!m_engine) {
         qCWarning(dcThingManager()) << "Cannot discover things. No Engine set";
-        return;
+        return -1;
     }
     if (!m_engine->jsonRpcClient()->connected()) {
         qCWarning(dcThingManager()) << "Cannot discover things. Not connected.";
-        return;
+        return -1;
     }
 
-    discoverThingsInternal(thingClassId, discoveryParams);
+    int commandId = discoverThingsInternal(thingClassId, discoveryParams);
     m_displayMessage.clear();
     emit busyChanged();
+    return commandId;
 }
 
-void ThingDiscovery::discoverThingsByInterface(const QString &interfaceName)
+QList<int> ThingDiscovery::discoverThingsByInterface(const QString &interfaceName)
 {
     beginResetModel();
     m_foundThings.clear();
     endResetModel();
     emit countChanged();
 
+    QList<int> pendingCommands;
+
     if (!m_engine) {
         qCWarning(dcThingManager()) << "Cannot discover things. No Engine set";
-        return;
+        return pendingCommands;
     }
     if (!m_engine->jsonRpcClient()->connected()) {
         qCWarning(dcThingManager()) << "Cannot discover things. Not connected.";
-        return;
+        return pendingCommands;
     }
 
     for (int i = 0; i < m_engine->thingManager()->thingClasses()->rowCount(); i++) {
@@ -115,11 +119,12 @@ void ThingDiscovery::discoverThingsByInterface(const QString &interfaceName)
         if (!thingClass->interfaces().contains(interfaceName)) {
             continue;
         }
-        discoverThingsInternal(thingClass->id());
+        pendingCommands.append(discoverThingsInternal(thingClass->id()));
     }
 
     m_displayMessage.clear();
     emit busyChanged();
+    return pendingCommands;
 }
 
 ThingDescriptor *ThingDiscovery::get(int index) const
@@ -153,7 +158,7 @@ QString ThingDiscovery::displayMessage() const
     return m_displayMessage;
 }
 
-void ThingDiscovery::discoverThingsInternal(const QUuid &thingClassId, const QVariantList &discoveryParams)
+int ThingDiscovery::discoverThingsInternal(const QUuid &thingClassId, const QVariantList &discoveryParams)
 {
     qCDebug(dcThingManager()) << "Starting thing discovery for thing class" << m_engine->thingManager()->thingClasses()->getThingClass(thingClassId)->name() << thingClassId;
     QVariantMap params;
@@ -163,6 +168,7 @@ void ThingDiscovery::discoverThingsInternal(const QUuid &thingClassId, const QVa
     }
     int commandId = m_engine->jsonRpcClient()->sendCommand("Integrations.DiscoverThings", params, this, "discoverThingsResponse");
     m_pendingRequests.append(commandId);
+    return commandId;
 }
 
 void ThingDiscovery::discoverThingsResponse(int commandId, const QVariantMap &params)
@@ -199,6 +205,11 @@ void ThingDiscovery::discoverThingsResponse(int commandId, const QVariantMap &pa
     // Note: in case of multiple discoveries we'll just overwrite the message... Not ideal but multiple error messages from different plugins
     // wouldn't be of much use to the user anyways.
     m_displayMessage = params.value("displayMessage").toString();
+
+    QMetaEnum metaEnum = QMetaEnum::fromType<Thing::ThingError>();
+    Thing::ThingError thingError = static_cast<Thing::ThingError>(metaEnum.keyToValue(params.value("thingError").toByteArray()));
+    emit discoverThingsReply(commandId, thingError, m_displayMessage);
+
     m_pendingRequests.removeAll(commandId);
     if (m_pendingRequests.isEmpty()) {
         emit busyChanged();
