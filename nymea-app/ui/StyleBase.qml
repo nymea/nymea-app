@@ -100,8 +100,10 @@ Item {
         "currentPower": "deepskyblue",
     }
 
-    readonly property color red: "#952727"
-    readonly property color white: "white"
+    property color red: "#952727"
+    property color white: "white"
+    property color gray: "gray"
+    property color darkGray: "darkGray"
 
     readonly property int fastAnimationDuration: 100
     readonly property int animationDuration: 150
