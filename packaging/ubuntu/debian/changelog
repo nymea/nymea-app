@@ -1,3 +1,11 @@
+nymea-app (1.0.345) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add constants for gray to style base
+  * Add 15 mins sample rate to xyseriesadapter
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 25 Aug 2021 22:52:30 +0200
+
 nymea-app (1.0.344) bionic; urgency=medium
 
   [ Michael Zanetti ]
