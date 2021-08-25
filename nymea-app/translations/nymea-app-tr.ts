@@ -6126,201 +6126,201 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     </message>
     <message>
         <source>Port:</source>
-        <translation>bağlantı</translation>
+        <translation>bağlantı:</translation>
     </message>
     <message>
         <source>SSL enabled</source>
-        <translation></translation>
+        <translation>SSL etkin</translation>
     </message>
     <message>
         <source>Login required</source>
-        <translation></translation>
+        <translation>Oturum açmak gereklidir</translation>
     </message>
     <message>
         <source>Public folder</source>
-        <translation></translation>
+        <translation>Ortak klasör</translation>
     </message>
 </context>
 <context>
     <name>WebServerSettingsPage</name>
     <message>
         <source>Web server</source>
-        <translation></translation>
+        <translation>Web sunucusu</translation>
     </message>
     <message>
         <source>Web server interfaces</source>
-        <translation></translation>
+        <translation>Web sunucusu arayüzleri</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation></translation>
+        <translation>Ekle</translation>
     </message>
 </context>
 <context>
     <name>WirelessSetupPage</name>
     <message>
         <source>Wireless network setup</source>
-        <translation></translation>
+        <translation>Kablosuz ağ kurulumu</translation>
     </message>
     <message>
         <source>IP address: %1</source>
-        <translation></translation>
+        <translation>IP adresi: %1</translation>
     </message>
     <message>
         <source>Change network</source>
-        <translation></translation>
+        <translation>Ağı değiştir</translation>
     </message>
     <message>
         <source>Close wireless setup</source>
-        <translation></translation>
+        <translation>Kablosuz kurulumu kapat</translation>
     </message>
     <message>
         <source>Your %1 system is connected to %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 sisteminiz %2&apos;ye bağlı</translation>
     </message>
     <message>
         <source>Waiting for the %1 to appear in your network.</source>
-        <translation type="unfinished"></translation>
+        <translation>%1&apos;in ağınızda görünmesi bekleniyor.</translation>
     </message>
     <message>
         <source>Connect to %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1&apos;e bağlan</translation>
     </message>
 </context>
 <context>
     <name>WizardPageBase</name>
     <message>
         <source>Back</source>
-        <translation type="unfinished"></translation>
+        <translation>Geri</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonraki</translation>
     </message>
 </context>
 <context>
     <name>WriteNfcTagPage</name>
     <message>
         <source>Write NFC tag</source>
-        <translation></translation>
+        <translation>NFC etiketi yaz</translation>
     </message>
     <message>
         <source>Tap an NFC tag to link it to %1.</source>
-        <translation></translation>
+        <translation>%1&apos;e bağlamak için bir NFC etiketine dokunun.</translation>
     </message>
     <message>
         <source>Writing NFC tag...</source>
-        <translation></translation>
+        <translation>NFC etiketi yazılıyor...</translation>
     </message>
     <message>
         <source>NFC tag linked to %1.</source>
-        <translation></translation>
+        <translation>%1&apos;e bağlı NFC etiketi.</translation>
     </message>
     <message>
         <source>Failed linking the NFC tag to %1.</source>
-        <translation></translation>
+        <translation>NFC etiketi %1&apos;e bağlanamadı.</translation>
     </message>
     <message>
         <source>Required tag size: %1 bytes</source>
-        <translation></translation>
+        <translation>Gerekli etiket boyutu: %1 bayt</translation>
     </message>
     <message>
         <source>Add action</source>
-        <translation></translation>
+        <translation>Eylem ekle</translation>
     </message>
 </context>
 <context>
     <name>ZigbeeAddNetworkPage</name>
     <message>
         <source>The selected adapter is not available or the selected serial port configration is incorrect.</source>
-        <translation></translation>
+        <translation>Seçilen bağdaştırıcı kullanılamıyor veya seçilen seri bağlantı noktası yapılandırması yanlış.</translation>
     </message>
     <message>
         <source>The selected adapter is already in use.</source>
-        <translation></translation>
+        <translation>Seçilen bağdaştırıcı zaten kullanımda.</translation>
     </message>
     <message>
         <source>Hardware not available</source>
-        <translation></translation>
+        <translation>Donanım mevcut değil</translation>
     </message>
     <message>
         <source>No ZigBee adapters or serial ports are available on this system. Connect a ZigBee adapter via USB or UART serial port.</source>
-        <translation></translation>
+        <translation>Bu sistemde herhangi bir ZigBee adaptörü veya seri bağlantı noktası bulunmamaktadır. USB veya UART seri bağlantı noktası üzerinden bir ZigBee adaptörü bağlayın.</translation>
     </message>
     <message>
         <source>Available ZigBee adapters</source>
-        <translation></translation>
+        <translation>Mevcut ZigBee adaptörleri</translation>
     </message>
     <message>
         <source>Please select the ZigBee adapter on which the new network will be created.</source>
-        <translation></translation>
+        <translation>Lütfen yeni ağın oluşturulacağı ZigBee adaptörünü seçin.</translation>
     </message>
     <message>
         <source>Available serial ports</source>
-        <translation></translation>
+        <translation>Kullanılabilir seri bağlantı noktaları</translation>
     </message>
     <message>
         <source>Please verify that the ZigBee adapter is properly connected to a serial port and select the appropriate port.</source>
-        <translation></translation>
+        <translation>Lütfen ZigBee adaptörünün bir seri bağlantı noktasına düzgün şekilde bağlandığını doğrulayın ve uygun bağlantı noktasını seçin.</translation>
     </message>
     <message>
         <source>Serial port options</source>
-        <translation></translation>
+        <translation>Seri bağlantı noktası seçenekleri</translation>
     </message>
     <message>
         <source>Please select the serial port options for using the ZigBee adapter</source>
-        <translation></translation>
+        <translation>Lütfen ZigBee adaptörünü kullanmak için seri bağlantı seçeneklerini seçin</translation>
     </message>
     <message>
         <source>Adapter</source>
-        <translation></translation>
+        <translation>adaptör</translation>
     </message>
     <message>
         <source>Baud rate</source>
-        <translation></translation>
+        <translation>Baud hızı</translation>
     </message>
     <message>
         <source>Add a new ZigBee network</source>
-        <translation></translation>
+        <translation>Yeni bir ZigBee ağı ekleyin</translation>
     </message>
 </context>
 <context>
     <name>ZigbeeNetworkPage</name>
     <message>
         <source>Network</source>
-        <translation></translation>
+        <translation>Ağ</translation>
     </message>
     <message>
         <source>Channel</source>
-        <translation></translation>
+        <translation>Kanal</translation>
     </message>
     <message>
         <source>ZigBee network</source>
-        <translation type="unfinished"></translation>
+        <translation>ZigBee ağı</translation>
     </message>
     <message>
         <source>Network settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Ağ ayarları</translation>
     </message>
     <message>
         <source>The selected adapter is not available or the selected serial port configration is incorrect.</source>
-        <translation type="unfinished"></translation>
+        <translation>Seçilen bağdaştırıcı kullanılamıyor veya seçilen seri bağlantı noktası yapılandırması yanlış.</translation>
     </message>
     <message>
         <source>The selected adapter is already in use.</source>
-        <translation type="unfinished"></translation>
+        <translation>Seçilen bağdaştırıcı zaten kullanımda.</translation>
     </message>
     <message>
         <source>Network state:</source>
-        <translation type="unfinished"></translation>
+        <translation>Ağ durumu:</translation>
     </message>
     <message>
         <source>Online</source>
-        <translation type="unfinished"></translation>
+        <translation>İnternet üzerinden</translation>
     </message>
     <message>
         <source>Offline</source>
-        <translation type="unfinished"></translation>
+        <translation>Çevrimdışı</translation>
     </message>
     <message>
         <source>Starting</source>
