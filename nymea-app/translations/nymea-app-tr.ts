@@ -277,16 +277,16 @@
         <translation type="unfinished">Açık</translation>
     </message>
     <message>
+        <source>Off</source>
+        <translation type="unfinished">Kapalı</translation>
+    </message>
+    <message>
         <source>All off</source>
         <translation type="unfinished">hepsi kapalı</translation>
     </message>
     <message>
         <source>%1 on</source>
         <translation type="unfinished">%1 açık</translation>
-    </message>
-    <message>
-        <source>Off</source>
-        <translation type="unfinished">Kapalı</translation>
     </message>
 </context>
 <context>
@@ -3684,6 +3684,10 @@ Please try again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Configure Modbus RTU master</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Path</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3693,10 +3697,6 @@ Please try again.</source>
     </message>
     <message>
         <source>Request timeout [ms]</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Configure Modbus RTU master</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3755,6 +3755,10 @@ Please try again.</source>
         <translation>Uygula</translation>
     </message>
     <message>
+        <source>Reconfigure Modbus RTU master</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Select a serial port.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3776,10 +3780,6 @@ Please try again.</source>
     </message>
     <message>
         <source>Request timeout [ms]</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Reconfigure Modbus RTU master</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3918,26 +3918,6 @@ Please try again.</source>
         <translation>yeniden yapılandır</translation>
     </message>
     <message>
-        <source>Path</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Request retries</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Request timeout [ms]</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>There are no Modbus RTU masters set up yet.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>In order to use Modbus RTU devices, add a new Modbus RTU master.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>The Modbus RTU hardware could not be found.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3952,6 +3932,24 @@ Maybe the hardware is already in use.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>The specified timeout value is not valid.
+
+Use a timeout value greater or equal to 10 ms.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There are no Modbus RTU masters set up yet.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>In order to use Modbus RTU devices, add a new Modbus RTU master.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove Modbus RTU master</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Are you sure you want to remove this Modbus RTU master?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3960,13 +3958,15 @@ Maybe the hardware is already in use.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Remove Modbus RTU master</source>
+        <source>Path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The specified timeout value is not valid.
-
-Use a timeout value greater or equal to 10 ms.</source>
+        <source>Request retries</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Request timeout [ms]</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4415,7 +4415,7 @@ Use a timeout value greater or equal to 10 ms.</source>
     </message>
     <message>
         <source>Port:</source>
-        <translation type="unfinished">bağlantı:</translation>
+        <translation>Bağlantı:</translation>
     </message>
     <message>
         <source>Encrypted connection:</source>
