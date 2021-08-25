@@ -5683,285 +5683,287 @@ In order to have Modbus RTU available as resource in the system, please add a ne
     </message>
     <message>
         <source>Candidate version:</source>
-        <translation></translation>
+        <translation>Aday versiyonu:</translation>
     </message>
     <message>
         <source>Update</source>
-        <translation></translation>
+        <translation>Güncelleme</translation>
     </message>
     <message>
         <source>Install</source>
-        <translation></translation>
+        <translation>Yükle</translation>
     </message>
     <message>
         <source>Start update</source>
-        <translation></translation>
+        <translation>Güncellemeyi Başlat</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation></translation>
+        <translation>Kaldır</translation>
     </message>
     <message>
         <source>Remove package</source>
-        <translation></translation>
+        <translation>Paketi kaldır</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation></translation>
+        <translation>Ayarlar</translation>
     </message>
     <message>
         <source>Checking for updates...</source>
-        <translation></translation>
+        <translation>Güncellemeler kontrol ediliyor...</translation>
     </message>
     <message>
         <source>Check for updates</source>
-        <translation></translation>
+        <translation>Güncellemeleri kontrol et</translation>
     </message>
     <message numerus="yes">
         <source>%n update(s) available</source>
-        <translation>
-            <numerusform></numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%n güncellemeler mevcut</numerusform>
+        <numerusform>%n güncelleme mevcut</numerusform>
+        </translation></message>
     <message>
         <source>Check again</source>
-        <translation></translation>
+        <translation>Tekrar kontrol et</translation>
     </message>
     <message>
         <source>Install or remove software</source>
-        <translation></translation>
+        <translation>Yazılım yükleyin veya kaldırın</translation>
     </message>
     <message>
         <source>Package information</source>
-        <translation></translation>
+        <translation>Paket Bilgileri</translation>
     </message>
     <message>
         <source>Not installed</source>
-        <translation></translation>
+        <translation>Yüklü değil</translation>
     </message>
     <message>
         <source>
 Do you want to proceed?</source>
-        <translation></translation>
+        <translation>
+Devam etmek istiyor musunuz?</translation>
     </message>
     <message>
         <source>Failure adding repository.</source>
-        <translation></translation>
+        <translation>Depo eklenemedi.</translation>
     </message>
     <message>
         <source>This will start a system update. Note that the update might take several minutes and your %1 system might not be functioning properly during this time and restart during the process.
 Do you want to proceed?</source>
-        <translation type="unfinished"></translation>
+        <translation>Bu bir sistem güncellemesi başlatacaktır. Güncellemenin birkaç dakika sürebileceğini ve %1 sisteminizin bu süre içinde düzgün çalışmayabileceğini ve işlem sırasında yeniden başlatılabileceğini unutmayın. Devam etmek istiyor musunuz?</translation>
     </message>
     <message>
         <source>Enabling additional software sources allows to install unreleased %1 packages.
 This can potentially break your system and lead to problems.
 Please only use this if you are sure you want this and consider reporting the issues you find when testing unreleased channels.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ek yazılım kaynaklarının etkinleştirilmesi, yayınlanmamış %1 paketlerinin yüklenmesine izin verir.
+Bu, potansiyel olarak sisteminizi bozabilir ve sorunlara yol açabilir.
+Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları test ederken bulduğunuz sorunları bildirin.</translation>
     </message>
     <message>
         <source>This will start a system update. Note that the update might take several minutes and your %1 might not be functioning properly or restart during this time.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bu bir sistem güncellemesi başlatacaktır. Güncellemenin birkaç dakika sürebileceğini ve bu süre içinde %1&apos;inizin düzgün çalışmayabileceğini veya yeniden başlamayabileceğini unutmayın.</translation>
     </message>
 </context>
 <context>
     <name>ThermostatDevicePage</name>
     <message>
         <source>Boost</source>
-        <translation></translation>
+        <translation>Artırmak</translation>
     </message>
 </context>
 <context>
     <name>ThingClassDetailsPage</name>
     <message>
         <source>Type</source>
-        <translation></translation>
+        <translation>Tip</translation>
     </message>
     <message>
         <source>Parameters</source>
-        <translation></translation>
+        <translation>parametreler</translation>
     </message>
     <message>
         <source>ID copied to clipboard</source>
-        <translation></translation>
+        <translation>Kimlik panoya kopyalandı</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation></translation>
+        <translation>Ayarlar</translation>
     </message>
     <message>
         <source>Events</source>
-        <translation></translation>
+        <translation>Olaylar</translation>
     </message>
     <message>
         <source>States</source>
-        <translation></translation>
+        <translation>Ülkeler</translation>
     </message>
     <message>
         <source>Actions</source>
-        <translation></translation>
+        <translation>Hareketler</translation>
     </message>
 </context>
 <context>
     <name>ThingContextMenu</name>
     <message>
         <source>Magic</source>
-        <translation></translation>
+        <translation>Sihir</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation></translation>
+        <translation>Detaylar</translation>
     </message>
     <message>
         <source>Logs</source>
-        <translation></translation>
+        <translation>Kayıtlar</translation>
     </message>
     <message>
         <source>Mark as favorite</source>
-        <translation></translation>
+        <translation>Favori olarak işaretle</translation>
     </message>
     <message>
         <source>Remove from favorites</source>
-        <translation></translation>
+        <translation>Favorilerden çıkar</translation>
     </message>
     <message>
         <source>Grouping</source>
-        <translation></translation>
+        <translation>gruplama</translation>
     </message>
     <message>
         <source>Write NFC tag</source>
-        <translation></translation>
+        <translation>NFC etiketi yaz</translation>
     </message>
     <message>
         <source>Groups for %1</source>
-        <translation></translation>
+        <translation>%1 için gruplar</translation>
     </message>
     <message>
         <source>New group</source>
-        <translation></translation>
+        <translation>Yeni Grup</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation></translation>
+        <translation>Tamam</translation>
     </message>
 </context>
 <context>
     <name>ThingInfoPane</name>
     <message>
         <source>Thing is being set up...</source>
-        <translation></translation>
+        <translation>Şey kuruluyor...</translation>
     </message>
     <message>
         <source>Thing setup failed!</source>
-        <translation></translation>
+        <translation>Öğe kurulumu başarısız oldu!</translation>
     </message>
     <message>
         <source>Thing is not connected!</source>
-        <translation></translation>
+        <translation>Şey bağlı değil!</translation>
     </message>
     <message>
         <source>Update available!</source>
-        <translation></translation>
+        <translation>Güncelleme uygun!</translation>
     </message>
     <message>
         <source>Updating...</source>
-        <translation></translation>
+        <translation>güncelleniyor...</translation>
     </message>
     <message>
         <source>Thing runs out of battery!</source>
-        <translation></translation>
+        <translation>Pil bitiyor!</translation>
     </message>
 </context>
 <context>
     <name>ThingRulesPage</name>
     <message>
         <source>Magic involving %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 içeren sihir</translation>
     </message>
     <message>
         <source>There&apos;s no magic involving %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 ile ilgili sihir yok.</translation>
     </message>
     <message>
         <source>Add some using the wizard stick!</source>
-        <translation type="unfinished"></translation>
+        <translation>Sihirbaz çubuğunu kullanarak biraz ekleyin!</translation>
     </message>
 </context>
 <context>
     <name>ThingStatusIcons</name>
     <message>
         <source>An update for %1 is available. Do you want to start the update now?</source>
-        <translation></translation>
+        <translation>%1 için bir güncelleme mevcut. Güncellemeyi şimdi başlatmak istiyor musunuz?</translation>
     </message>
     <message>
         <source>Current version: %1</source>
-        <translation></translation>
+        <translation>Geçerli sürüm: %1</translation>
     </message>
     <message>
         <source>Available version: %1</source>
-        <translation></translation>
+        <translation>Kullanılabilir sürüm: %1</translation>
     </message>
     <message>
         <source>Update</source>
-        <translation></translation>
+        <translation>Güncelleme</translation>
     </message>
 </context>
 <context>
     <name>ThingsView</name>
     <message>
         <source>Welcome to %1!</source>
-        <translation></translation>
+        <translation>%1&apos;e hoş geldiniz!</translation>
     </message>
     <message>
         <source>There are no things set up yet.</source>
-        <translation></translation>
+        <translation>Henüz ayarlanmış bir şey yok.</translation>
     </message>
     <message>
         <source>In order for your %1 system to be useful, go ahead and add some things.</source>
-        <translation></translation>
+        <translation>%1 sisteminizin kullanışlı olması için devam edin ve bazı şeyler ekleyin.</translation>
     </message>
     <message>
         <source>Add things</source>
-        <translation></translation>
+        <translation>Bir şeyler ekle</translation>
     </message>
 </context>
 <context>
     <name>TimeEventDelegate</name>
     <message>
         <source>At %1</source>
-        <translation></translation>
+        <translation>%1 de</translation>
     </message>
     <message>
         <source>repeated %1</source>
-        <translation></translation>
+        <translation>tekrarlanan %1</translation>
     </message>
     <message>
         <source>never</source>
-        <translation></translation>
+        <translation>asla</translation>
     </message>
     <message>
         <source>hourly</source>
-        <translation></translation>
+        <translation>saatlik</translation>
     </message>
     <message>
         <source>daily</source>
-        <translation></translation>
+        <translation>günlük</translation>
     </message>
     <message>
         <source>Mon</source>
-        <translation></translation>
+        <translation>Pzt</translation>
     </message>
     <message>
         <source>Tue</source>
-        <translation></translation>
+        <translation>sal</translation>
     </message>
     <message>
         <source>Wed</source>
-        <translation></translation>
+        <translation>Çarş</translation>
     </message>
     <message>
         <source>Thu</source>
-        <translation></translation>
+        <translation>Per</translation>
     </message>
     <message>
         <source>Fri</source>
