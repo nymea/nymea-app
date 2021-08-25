@@ -5959,7 +5959,7 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     </message>
     <message>
         <source>Wed</source>
-        <translation>Çarş</translation>
+        <translation>Çar</translation>
     </message>
     <message>
         <source>Thu</source>
@@ -5967,100 +5967,100 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     </message>
     <message>
         <source>Fri</source>
-        <translation></translation>
+        <translation>Cum</translation>
     </message>
     <message>
         <source>Sat</source>
-        <translation></translation>
+        <translation>Cmt</translation>
     </message>
     <message>
         <source>Sun</source>
-        <translation></translation>
+        <translation>Paz</translation>
     </message>
     <message>
         <source>weekly on %1</source>
-        <translation></translation>
+        <translation>haftalık %1</translation>
     </message>
     <message>
         <source>monthly on the %1</source>
-        <translation></translation>
+        <translation>aylık %1</translation>
     </message>
     <message>
         <source>every year</source>
-        <translation></translation>
+        <translation>her yıl</translation>
     </message>
 </context>
 <context>
     <name>UpdateRunningOverlay</name>
     <message>
         <source>System update in progress...</source>
-        <translation></translation>
+        <translation>Sistem güncellemesi devam ediyor...</translation>
     </message>
     <message>
         <source>Please wait</source>
-        <translation></translation>
+        <translation>Lütfen bekle</translation>
     </message>
     <message>
         <source>The system may restart in order to complete the update. %1:app will reconnect automatically after the update.</source>
-        <translation></translation>
+        <translation>Güncellemeyi tamamlamak için sistem yeniden başlatılabilir. %1:uygulama güncellemeden sonra otomatik olarak yeniden bağlanacak.</translation>
     </message>
 </context>
 <context>
     <name>UsersSettingsPage</name>
     <message>
         <source>User settings</source>
-        <translation></translation>
+        <translation>Kullanıcı ayarları</translation>
     </message>
     <message>
         <source>The given password is not valid.</source>
-        <translation></translation>
+        <translation>Verilen şifre geçerli değil.</translation>
     </message>
     <message>
         <source>Permission denied.</source>
-        <translation></translation>
+        <translation>İzin reddedildi.</translation>
     </message>
     <message>
         <source>The new password could not be stored.</source>
-        <translation></translation>
+        <translation>Yeni şifre saklanamadı.</translation>
     </message>
     <message>
         <source>Un unexpected error happened when changing the password. We&apos;re sorry for this. (Error code: %1)</source>
-        <translation></translation>
+        <translation>Şifre değiştirilirken beklenmeyen bir hata oluştu. Bunun için üzgünüz. (Hata kodu: %1)</translation>
     </message>
     <message>
         <source>User info</source>
-        <translation></translation>
+        <translation>Kullanıcı bilgisi</translation>
     </message>
     <message>
         <source>Username</source>
-        <translation></translation>
+        <translation>Kullanıcı adı</translation>
     </message>
     <message>
         <source>Change password</source>
-        <translation></translation>
+        <translation>Şifre değiştir</translation>
     </message>
     <message>
         <source>Devices / Apps accessing nymea:core</source>
-        <translation></translation>
+        <translation>nymea:core&apos;a erişen cihazlar/uygulamalar</translation>
     </message>
     <message>
         <source>Created on %1</source>
-        <translation></translation>
+        <translation>%1 tarihinde oluşturuldu</translation>
     </message>
     <message>
         <source>Please enter the new password for %1</source>
-        <translation></translation>
+        <translation>Lütfen %1 için yeni şifreyi girin</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation></translation>
+        <translation>Tamam</translation>
     </message>
 </context>
 <context>
     <name>WeatherDeviceListPage</name>
     <message>
         <source>Weather</source>
-        <translation></translation>
+        <translation>Hava Durumu</translation>
     </message>
 </context>
 <context>
@@ -6102,31 +6102,31 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     <name>WebServerConfigurationDialog</name>
     <message>
         <source>Server configuration</source>
-        <translation></translation>
+        <translation>Sunucu yapılandırması</translation>
     </message>
     <message>
         <source>Interface</source>
-        <translation></translation>
+        <translation>Arayüz</translation>
     </message>
     <message>
         <source>Any</source>
-        <translation></translation>
+        <translation>Herhangi</translation>
     </message>
     <message>
         <source>Localhost</source>
-        <translation></translation>
+        <translation>yerel ana bilgisayar</translation>
     </message>
     <message>
         <source>Custom</source>
-        <translation></translation>
+        <translation>Özel</translation>
     </message>
     <message>
         <source>Address:</source>
-        <translation></translation>
+        <translation>Adres:</translation>
     </message>
     <message>
         <source>Port:</source>
-        <translation></translation>
+        <translation>bağlantı</translation>
     </message>
     <message>
         <source>SSL enabled</source>
