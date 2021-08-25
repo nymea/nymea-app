@@ -37,7 +37,7 @@
     </message>
     <message>
         <source>About %1</source>
-        <translation type="unfinished">Hakkında %1</translation>
+        <translation>Hakkında %1</translation>
     </message>
     <message>
         <source>Device serial number</source>
@@ -76,7 +76,7 @@
     </message>
     <message>
         <source>OpenSSL libraries by Eric Young</source>
-        <translation type="unfinished">Eric Young tarafından OpenSSL kütüphaneleri</translation>
+        <translation>Eric Young tarafından OpenSSL kütüphaneleri</translation>
     </message>
     <message>
         <source>Oswald font by The Oswald Project</source>
@@ -148,7 +148,7 @@
     <name>AwningThingsListPage</name>
     <message>
         <source>Awnings</source>
-        <translation type="unfinished">Tenteler</translation>
+        <translation>Tenteler</translation>
     </message>
 </context>
 <context>
@@ -177,7 +177,7 @@
     <name>BlindThingsListPage</name>
     <message>
         <source>Blinds</source>
-        <translation type="unfinished">Panjur</translation>
+        <translation>Panjur</translation>
     </message>
 </context>
 <context>
@@ -323,11 +323,11 @@
     <name>ButtonThingPage</name>
     <message>
         <source>This switch has not been used yet.</source>
-        <translation type="unfinished">Bu anahtar henüz kullanılmadı.</translation>
+        <translation>Bu anahtar henüz kullanılmadı.</translation>
     </message>
     <message>
         <source>Press a button on the switch to see logs appearing here.</source>
-        <translation type="unfinished">Burada görünen günlükleri görmek için anahtardaki bir düğmeye basın.</translation>
+        <translation>Burada görünen günlükleri görmek için anahtardaki bir düğmeye basın.</translation>
     </message>
 </context>
 <context>
@@ -609,7 +609,7 @@
         </translation></message>
     <message>
         <source>Sorry to see you go. If you log out you won&apos;t be able to connect to %1 systems remotely any more. However, you can come back any time, we&apos;ll keep your user account. If you whish to completely delete your account and all the data associated with it, check the box below before hitting ok. If you decide to delete your account, all your personal information will be removed from %1:cloud and cannot be restored.</source>
-        <translation type="unfinished">Gittiğini görmek üzücü. Oturumu kapatırsanız, artık %1 sistemlerine uzaktan bağlanamayacaksınız. Ancak, istediğiniz zaman geri dönebilirsiniz, kullanıcı hesabınızı saklayacağız. Hesabınızı ve onunla ilişkili tüm verileri tamamen silmek istiyorsanız, tamam&apos;a basmadan önce aşağıdaki kutuyu işaretleyin. Hesabınızı silmeye karar verirseniz, tüm kişisel bilgileriniz %1:cloud&apos;dan kaldırılır ve geri yüklenemez.</translation>
+        <translation>Gittiğini görmek üzücü. Oturumu kapatırsanız, artık %1 sistemlerine uzaktan bağlanamayacaksınız. Ancak, istediğiniz zaman geri dönebilirsiniz, kullanıcı hesabınızı saklayacağız. Hesabınızı ve onunla ilişkili tüm verileri tamamen silmek istiyorsanız, tamam&apos;a basmadan önce aşağıdaki kutuyu işaretleyin. Hesabınızı silmeye karar verirseniz, tüm kişisel bilgileriniz %1:bulut&apos;dan kaldırılır ve geri yüklenemez.</translation>
     </message>
 </context>
 <context>
@@ -702,7 +702,7 @@
     <name>ConfigureThingPage</name>
     <message>
         <source>Vendor:</source>
-        <translation type="unfinished">SATICI:</translation>
+        <translation>Satıcı:</translation>
     </message>
     <message>
         <source>Apply</source>
@@ -908,7 +908,7 @@
     </message>
     <message>
         <source>The SSL Certificate is not trusted.</source>
-        <translation>Güvenilmeyen SSL Sertifikası</translation>
+        <translation>Güvenilmeyen SSL Sertifikası.</translation>
     </message>
     <message>
         <source>An unknown error happened. We&apos;re very sorry for that. (Error code: %1)</source>
@@ -1044,7 +1044,7 @@
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">İptal</translation>
+        <translation>İptal</translation>
     </message>
     <message>
         <source>Back</source>
@@ -1052,7 +1052,7 @@
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished">Tamam</translation>
+        <translation>Tamam</translation>
     </message>
 </context>
 <context>
@@ -1188,7 +1188,7 @@
     </message>
     <message>
         <source>Logging</source>
-        <translation type="unfinished">Günlük</translation>
+        <translation>Günlük</translation>
     </message>
     <message>
         <source>Advanced options</source>
@@ -1323,7 +1323,7 @@
     </message>
     <message>
         <source>Dez</source>
-        <translation type="unfinished">Dez</translation>
+        <translation></translation>
     </message>
     <message>
         <source>To</source>
@@ -1651,7 +1651,7 @@
     </message>
     <message>
         <source>Dez</source>
-        <translation type="unfinished">On</translation>
+        <translation></translation>
     </message>
     <message>
         <source>Weekdays</source>
@@ -1732,7 +1732,7 @@
     <name>ErrorDialog</name>
     <message>
         <source>Oh snap!</source>
-        <translation>oh çabuk</translation>
+        <translation>oh çabuk!</translation>
     </message>
     <message>
         <source>An unexpected error happened. We&apos;re sorry for that.</source>
@@ -2241,7 +2241,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Thing is turned on</source>
-        <translation type="unfinished">şey devre açık</translation>
+        <translation>Şey açık</translation>
     </message>
     <message>
         <source>A thing is turned on or off</source>
@@ -3099,12 +3099,12 @@ Please try again.</source>
     <message>
         <source>Watering until</source>
         <extracomment>Irrigation will be turned of at, e.g. 09:00</extracomment>
-        <translation type="unfinished">kadar sulama</translation>
+        <translation>kadar sulama</translation>
     </message>
     <message>
         <source>Turn off in</source>
         <extracomment>Turn on irrigation for, e.g. 5 minutes</extracomment>
-        <translation type="unfinished">kapat</translation>
+        <translation>Girişi kapat</translation>
     </message>
     <message>
         <source>Water for</source>
@@ -3447,7 +3447,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Discord</source>
-        <translation>Discord</translation>
+        <translation></translation>
     </message>
     <message>
         <source>Twitter</source>
@@ -3720,7 +3720,7 @@ Please make sure the modbus RTU interface is connected to the system.</source>
     </message>
     <message>
         <source>UUID</source>
-        <translation type="unfinished">UUID</translation>
+        <translation></translation>
     </message>
     <message>
         <source>Serial port</source>
@@ -3783,7 +3783,7 @@ Please make sure the modbus RTU interface is connected to the system.</source>
     <name>ModbusRtuSettingsPage</name>
     <message>
         <source>Modbus RTU</source>
-        <translation type="unfinished">Modbus RTU</translation>
+        <translation></translation>
     </message>
     <message>
         <source>Add Modbus RTU master</source>
@@ -5144,7 +5144,7 @@ In order to have Modbus RTU available as resource in the system, please add a ne
     <name>SelectEventDescriptorParamsPage</name>
     <message>
         <source>Only consider event if</source>
-        <translation>Olayı yalnızca şu durumlarda göz önünde bulundurun:</translation>
+        <translation>Olayı yalnızca şu durumlarda göz önünde bulundurun</translation>
     </message>
 </context>
 <context>
@@ -5475,7 +5475,7 @@ In order to have Modbus RTU available as resource in the system, please add a ne
     </message>
     <message>
         <source>About %1</source>
-        <translation type="unfinished">Hakkında %1</translation>
+        <translation>Hakkında %1</translation>
     </message>
 </context>
 <context>
@@ -6502,7 +6502,7 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     </message>
     <message>
         <source>There are no ZigBee networks set up yet. In order to use ZigBee, create a ZigBee network.</source>
-        <translation>Henüz kurulmuş bir ZigBee ağı yok. ZigBee&apos;yi kullanmak için bir ZigBee ağı oluşturun</translation>
+        <translation>Henüz kurulmuş bir ZigBee ağı yok. ZigBee&apos;yi kullanmak için bir ZigBee ağı oluşturun.</translation>
     </message>
     <message>
         <source>Add network</source>
@@ -6545,7 +6545,7 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     <name>description for accesscontroltemplates</name>
     <message>
         <source>Alert me on denied access attempts</source>
-        <translation>Reddedilen erişim denemelerinde beni uyar</translation>
+        <translation>Reddedilen erişim girişimleri konusunda beni uyar</translation>
     </message>
     <message>
         <source>Notify my about access</source>
@@ -6553,231 +6553,231 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     </message>
     <message>
         <source>Notify my about user access</source>
-        <translation></translation>
+        <translation>Kullanıcı erişimi hakkında bana bildir</translation>
     </message>
 </context>
 <context>
     <name>description for buttontemplates</name>
     <message>
         <source>Turn on a light</source>
-        <translation></translation>
+        <translation>bir ışık aç</translation>
     </message>
     <message>
         <source>Turn off a light</source>
-        <translation></translation>
+        <translation>bir ışığı kapat</translation>
     </message>
     <message>
         <source>Switch a light</source>
-        <translation></translation>
+        <translation>Işık değiştir</translation>
     </message>
     <message>
         <source>Turn off all lights</source>
-        <translation></translation>
+        <translation>Tüm ışıkları kapat</translation>
     </message>
 </context>
 <context>
     <name>description for daylightsensor</name>
     <message>
         <source>Turn on a light while it&apos;s dark outside</source>
-        <translation></translation>
+        <translation>Dışarısı karanlıkken ışığı aç</translation>
     </message>
     <message>
         <source>Turn on a light when it gets dark outside</source>
-        <translation></translation>
+        <translation>Dışarısı karanlık olduğunda bir ışık aç</translation>
     </message>
     <message>
         <source>Turn on all lights when it gets dark outside</source>
-        <translation></translation>
+        <translation>Dışarısı karardığında tüm ışıkları aç</translation>
     </message>
 </context>
 <context>
     <name>description for doorbellruletemplates</name>
     <message>
         <source>Alert on doorbell ring</source>
-        <translation></translation>
+        <translation>Kapı zili çaldığında uyarı</translation>
     </message>
 </context>
 <context>
     <name>description for mediatemplates</name>
     <message>
         <source>Dim light while watching TV</source>
-        <translation></translation>
+        <translation>TV izlerken ışığı kıs</translation>
     </message>
 </context>
 <context>
     <name>description for notificationtemplates</name>
     <message>
         <source>Notify me when a device runs out of battery</source>
-        <translation></translation>
+        <translation>Bir cihazın pili bittiğinde bana bildir</translation>
     </message>
     <message>
         <source>Notify me when something runs dry</source>
-        <translation></translation>
+        <translation>Bir şey kuruduğunda bana haber ver</translation>
     </message>
     <message>
         <source>Notify me when a thing gets disconnected</source>
-        <translation></translation>
+        <translation>Bir şeyin bağlantısı kesildiğinde bana haber ver</translation>
     </message>
     <message>
         <source>Notify me when a thing connects</source>
-        <translation></translation>
+        <translation>Bir şey bağlandığında bana haber ver</translation>
     </message>
 </context>
 <context>
     <name>description for presencesensortemplates</name>
     <message>
         <source>Turn on something while being present</source>
-        <translation></translation>
+        <translation>Hazır bulunurken bir şeyi açın</translation>
     </message>
     <message>
         <source>Turn off something when leaving</source>
-        <translation></translation>
+        <translation>Ayrılırken bir şeyi kapatın</translation>
     </message>
     <message>
         <source>Turn off everything when leaving</source>
-        <translation></translation>
+        <translation>Ayrılırken her şeyi kapatın</translation>
     </message>
     <message>
         <source>Turn off all lights when leaving</source>
-        <translation></translation>
+        <translation>Ayrılırken tüm ışıkları kapatın</translation>
     </message>
     <message>
         <source>Turn on something when arriving</source>
-        <translation></translation>
+        <translation>Geldiğinde bir şeyi aç</translation>
     </message>
 </context>
 <context>
     <name>description for smartmetertemplates</name>
     <message>
         <source>Charge my car while producing energy</source>
-        <translation></translation>
+        <translation>Enerji üretirken arabamı şarj et</translation>
     </message>
     <message>
         <source>Turn on heating while producing energy</source>
-        <translation></translation>
+        <translation>Enerji üretirken ısıtmayı açın</translation>
     </message>
 </context>
 <context>
     <name>description for thermostattemplates</name>
     <message>
         <source>Set temperature while I&apos;m home</source>
-        <translation></translation>
+        <translation>Ben evdeyken sıcaklığı ayarla</translation>
     </message>
 </context>
 <context>
     <name>ruleNameTemplate for accesscontroltemplates</name>
     <message>
         <source>Denied access attempt on %0</source>
-        <translation></translation>
+        <translation>%0 üzerinde erişim girişimi reddedildi</translation>
     </message>
     <message>
         <source>Access granted on %0</source>
-        <translation></translation>
+        <translation>%0 üzerinde erişim izni verildi</translation>
     </message>
     <message>
         <source>Access granted to user on %0</source>
-        <translation></translation>
+        <translation>%0 üzerinde kullanıcıya erişim verildi</translation>
     </message>
 </context>
 <context>
     <name>ruleNameTemplate for buttontemplates</name>
     <message>
         <source>%0 turns on %1</source>
-        <translation></translation>
+        <translation>%0, %1&apos;i açar</translation>
     </message>
     <message>
         <source>%0 turns off %1</source>
-        <translation></translation>
+        <translation>%0, %1&apos;i kapatıyor</translation>
     </message>
     <message>
         <source>%0 switches %1</source>
-        <translation></translation>
+        <translation>%0 anahtarları %1</translation>
     </message>
     <message>
         <source>Turn off everything with %0</source>
-        <translation></translation>
+        <translation>%0 ile her şeyi kapat</translation>
     </message>
 </context>
 <context>
     <name>ruleNameTemplate for daylightsensor</name>
     <message>
         <source>Turn on %1 while it&apos;s dark outside</source>
-        <translation></translation>
+        <translation>Dışarısı karanlıkken %1&apos;i aç</translation>
     </message>
     <message>
         <source>Turn on %1 when it gets dark outside (%0)</source>
-        <translation></translation>
+        <translation>Dışarısı karardığında %1&apos;i açın (%0)</translation>
     </message>
     <message>
         <source>Turn on all lights when it gets dark outside</source>
-        <translation></translation>
+        <translation>Dışarısı karardığında tüm ışıkları aç</translation>
     </message>
 </context>
 <context>
     <name>ruleNameTemplate for doorbellruletemplates</name>
     <message>
         <source>Alert %1 when someone is at %0</source>
-        <translation></translation>
+        <translation>Birisi %0 olduğunda %1 uyarısı</translation>
     </message>
 </context>
 <context>
     <name>ruleNameTemplate for mediatemplates</name>
     <message>
         <source>%0 dims %1 for movie time</source>
-        <translation></translation>
+        <translation>%0, film süresi için %1&apos;i karartır</translation>
     </message>
 </context>
 <context>
     <name>ruleNameTemplate for notificationtemplates</name>
     <message>
         <source>Low battery alert for %0</source>
-        <translation></translation>
+        <translation>%0 için düşük pil uyarısı</translation>
     </message>
     <message>
         <source>Notify %1 when %0 runs dry</source>
-        <translation></translation>
+        <translation>%0 kuruduğunda %1&apos;e bildir</translation>
     </message>
     <message>
         <source>Disconnect alert for %0</source>
-        <translation></translation>
+        <translation>%0 için bağlantıyı kes uyarısı</translation>
     </message>
     <message>
         <source>Connection notification for %0</source>
-        <translation></translation>
+        <translation>%0 için bağlantı bildirimi</translation>
     </message>
 </context>
 <context>
     <name>ruleNameTemplate for presencesensortemplates</name>
     <message>
         <source>Turn on %1 while %0 reports presence</source>
-        <translation></translation>
+        <translation>%0 varlığı bildirirken %1&apos;i açın</translation>
     </message>
     <message>
         <source>Turn off %1 when %0 reports leaving</source>
-        <translation></translation>
+        <translation>%0 ayrıldığını bildirdiğinde %1&apos;i kapat</translation>
     </message>
     <message>
         <source>Turn off everything when %0 reports leaving</source>
-        <translation></translation>
+        <translation>%0 ayrıldığını bildirdiğinde her şeyi kapat</translation>
     </message>
     <message>
         <source>Turn off all lights when %0 reports leaving</source>
-        <translation></translation>
+        <translation>%0 ayrıldığını bildirdiğinde tüm ışıkları kapat</translation>
     </message>
     <message>
         <source>Turn on %1 when %0 reports arriving</source>
-        <translation></translation>
+        <translation>%0 rapor geldiğinde %1&apos;i açın</translation>
     </message>
 </context>
 <context>
     <name>ruleNameTemplate for smartmetertemplates</name>
     <message>
         <source>Smart car charging</source>
-        <translation></translation>
+        <translation>Akıllı araba şarjı</translation>
     </message>
     <message>
         <source>Smart heating</source>
-        <translation></translation>
+        <translation>Akıllı ısıtma</translation>
     </message>
 </context>
 <context>
