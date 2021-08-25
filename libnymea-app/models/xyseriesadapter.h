@@ -23,6 +23,7 @@ public:
     enum SampleRate {
         SampleRateSecond = 1,
         SampleRateMinute = 60,
+        SampleRate10Minutes = 60 * 10,
         SampleRateHour =  60 * 60,
         SampleRateDays = 24 * 60 * 60
     };
