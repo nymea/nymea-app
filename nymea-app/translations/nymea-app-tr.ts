@@ -6316,7 +6316,7 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     </message>
     <message>
         <source>Online</source>
-        <translation>İnternet üzerinden</translation>
+        <translation>Çevrimiçi</translation>
     </message>
     <message>
         <source>Offline</source>
@@ -6324,170 +6324,170 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     </message>
     <message>
         <source>Starting</source>
-        <translation type="unfinished"></translation>
+        <translation>Başlangıç</translation>
     </message>
     <message>
         <source>Updating</source>
-        <translation type="unfinished"></translation>
+        <translation>güncelleniyor</translation>
     </message>
     <message>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Hata</translation>
     </message>
     <message>
         <source>Permit new devices:</source>
-        <translation type="unfinished"></translation>
+        <translation>Yeni cihazlara izin ver:</translation>
     </message>
     <message>
         <source>Open for %0 s</source>
-        <translation type="unfinished"></translation>
+        <translation>%0 s için aç</translation>
     </message>
     <message>
         <source>Closed</source>
-        <translation type="unfinished"></translation>
+        <translation>Kapalı</translation>
     </message>
     <message>
         <source>Extend open duration</source>
-        <translation type="unfinished"></translation>
+        <translation>Açık süreyi uzat</translation>
     </message>
     <message>
         <source>Open for new devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Yeni cihazlar için aç</translation>
     </message>
     <message>
         <source>Zigbee nodes</source>
-        <translation type="unfinished"></translation>
+        <translation>Zigbee düğümleri</translation>
     </message>
     <message>
         <source>network coordinator</source>
-        <translation type="unfinished"></translation>
+        <translation>ağ koordinatörü</translation>
     </message>
     <message>
         <source>Version</source>
-        <translation type="unfinished"></translation>
+        <translation>Sürüm</translation>
     </message>
     <message>
         <source>IEEE address</source>
-        <translation type="unfinished"></translation>
+        <translation>IEEE adresi</translation>
     </message>
     <message>
         <source>Network address</source>
-        <translation type="unfinished"></translation>
+        <translation>Ağ adresi</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>Kaldır</translation>
     </message>
     <message>
         <source>Remove zigbee node</source>
-        <translation type="unfinished"></translation>
+        <translation>Zigbee düğümünü kaldır</translation>
     </message>
     <message>
         <source>Are you sure you want to remove this node from the network?</source>
-        <translation type="unfinished"></translation>
+        <translation>Bu düğümü ağdan kaldırmak istediğinizden emin misiniz?</translation>
     </message>
     <message>
         <source>Please note that if this node has been assigned to a thing, it will also be removed from the system.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lütfen bu düğüm bir şeye atanmışsa, sistemden de kaldırılacağını unutmayın.</translation>
     </message>
     <message>
         <source>ZigBee network help</source>
-        <translation type="unfinished"></translation>
+        <translation>ZigBee ağ yardımı</translation>
     </message>
     <message>
         <source>Zigbee network coordinator</source>
-        <translation type="unfinished"></translation>
+        <translation>Zigbee ağ koordinatörü</translation>
     </message>
     <message>
         <source>Zigbee router</source>
-        <translation type="unfinished"></translation>
+        <translation>Zigbee yönlendirici</translation>
     </message>
     <message>
         <source>Zigbee end device</source>
-        <translation type="unfinished"></translation>
+        <translation>Zigbee uç cihazı</translation>
     </message>
     <message>
         <source>Sleepy device</source>
-        <translation type="unfinished"></translation>
+        <translation>uykulu cihaz</translation>
     </message>
 </context>
 <context>
     <name>ZigbeeNetworkSettingsPage</name>
     <message>
         <source>ZigBee network settings</source>
-        <translation type="unfinished"></translation>
+        <translation>ZigBee ağ ayarları</translation>
     </message>
     <message>
         <source>Network information</source>
-        <translation type="unfinished"></translation>
+        <translation>ağ bilgileri</translation>
     </message>
     <message>
         <source>Network state</source>
-        <translation type="unfinished"></translation>
+        <translation>Ağ durumu</translation>
     </message>
     <message>
         <source>The network is online</source>
-        <translation type="unfinished"></translation>
+        <translation>ağ çevrimiçi</translation>
     </message>
     <message>
         <source>The network is offline</source>
-        <translation type="unfinished"></translation>
+        <translation>ağ çevrimdışı</translation>
     </message>
     <message>
         <source>The network is starting...</source>
-        <translation type="unfinished"></translation>
+        <translation>Ağ başlıyor...</translation>
     </message>
     <message>
         <source>The controller is currently installing an update</source>
-        <translation type="unfinished"></translation>
+        <translation>Denetleyici şu anda bir güncelleme yüklüyor</translation>
     </message>
     <message>
         <source>The network is in an error state.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ağ bir hata durumunda.</translation>
     </message>
     <message>
         <source>Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanal</translation>
     </message>
     <message>
         <source>Network PAN ID</source>
-        <translation type="unfinished"></translation>
+        <translation>Ağ PAN Kimliği</translation>
     </message>
     <message>
         <source>Hardware information</source>
-        <translation type="unfinished"></translation>
+        <translation>donanım bilgileri</translation>
     </message>
     <message>
         <source>MAC address:</source>
-        <translation type="unfinished"></translation>
+        <translation>Mac Adresi:</translation>
     </message>
     <message>
         <source>Serial port</source>
-        <translation type="unfinished"></translation>
+        <translation>Seri bağlantı</translation>
     </message>
     <message>
         <source>Baud rate</source>
-        <translation type="unfinished"></translation>
+        <translation>Baud hızı</translation>
     </message>
     <message>
         <source>Controller backend</source>
-        <translation type="unfinished"></translation>
+        <translation>Denetleyici arka ucu</translation>
     </message>
     <message>
         <source>Controller firmware version</source>
-        <translation type="unfinished"></translation>
+        <translation>Denetleyici donanım yazılımı sürümü</translation>
     </message>
     <message>
         <source>Manage network</source>
-        <translation type="unfinished"></translation>
+        <translation>Ağı yönet</translation>
     </message>
     <message>
         <source>Remove network</source>
-        <translation type="unfinished"></translation>
+        <translation>Ağı kaldır</translation>
     </message>
     <message>
         <source>Factory reset controller</source>
-        <translation type="unfinished"></translation>
+        <translation>Fabrika ayarlarına sıfırlama denetleyicisi</translation>
     </message>
 </context>
 <context>
@@ -6498,58 +6498,58 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     </message>
     <message>
         <source>Add ZigBee network</source>
-        <translation></translation>
+        <translation>ZigBee ağı ekle</translation>
     </message>
     <message>
         <source>There are no ZigBee networks set up yet. In order to use ZigBee, create a ZigBee network.</source>
-        <translation></translation>
+        <translation>Henüz kurulmuş bir ZigBee ağı yok. ZigBee&apos;yi kullanmak için bir ZigBee ağı oluşturun</translation>
     </message>
     <message>
         <source>Add network</source>
-        <translation type="unfinished"></translation>
+        <translation>Ağ ekle</translation>
     </message>
     <message>
         <source>Network state:</source>
-        <translation type="unfinished"></translation>
+        <translation>Ağ durumu:</translation>
     </message>
     <message>
         <source>Online</source>
-        <translation type="unfinished"></translation>
+        <translation>Çevrimiçi</translation>
     </message>
     <message>
         <source>Offline</source>
-        <translation type="unfinished"></translation>
+        <translation>Çevrimdışı</translation>
     </message>
     <message>
         <source>Starting</source>
-        <translation type="unfinished"></translation>
+        <translation>Başlangıç</translation>
     </message>
     <message>
         <source>Updating</source>
-        <translation type="unfinished"></translation>
+        <translation>güncelleniyor</translation>
     </message>
     <message>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Hata</translation>
     </message>
     <message>
         <source>MAC address:</source>
-        <translation type="unfinished"></translation>
+        <translation>Mac Adresi:</translation>
     </message>
     <message>
         <source>Firmware version:</source>
-        <translation type="unfinished"></translation>
+        <translation>Yazılım sürümü:</translation>
     </message>
 </context>
 <context>
     <name>description for accesscontroltemplates</name>
     <message>
         <source>Alert me on denied access attempts</source>
-        <translation></translation>
+        <translation>Reddedilen erişim denemelerinde beni uyar</translation>
     </message>
     <message>
         <source>Notify my about access</source>
-        <translation></translation>
+        <translation>Erişim hakkımı bildir</translation>
     </message>
     <message>
         <source>Notify my about user access</source>
