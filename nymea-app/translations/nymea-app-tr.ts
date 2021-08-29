@@ -890,7 +890,7 @@
     <name>ConnectionInfoDialog</name>
     <message>
         <source>Box information</source>
-        <translation type="unfinished"></translation>
+        <translation>Kutu bilgisi</translation>
     </message>
     <message>
         <source>Available connections</source>
@@ -1205,7 +1205,7 @@
     </message>
     <message>
         <source>Debug interface active at %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 konumunda hata ayıklama arayüzü etkin.</translation>
     </message>
 </context>
 <context>
@@ -1706,7 +1706,7 @@
     </message>
     <message>
         <source>To get an overview of your current energy usage, install an energy meter.</source>
-        <translation type="unfinished"></translation>
+        <translation>Mevcut enerji kullanımınıza genel bir bakış için bir enerji sayacı kurun.</translation>
     </message>
 </context>
 <context>
@@ -3017,39 +3017,39 @@ Please try again.</source>
     </message>
     <message>
         <source>CO sensor</source>
-        <translation type="unfinished"></translation>
+        <translation>CO sensörü</translation>
     </message>
     <message>
         <source>CO level</source>
-        <translation type="unfinished"></translation>
+        <translation>CO seviyesi</translation>
     </message>
     <message>
         <source>CO level changed</source>
-        <translation type="unfinished"></translation>
+        <translation>CO seviyesi değişti</translation>
     </message>
     <message>
         <source>Flammable gas sensor</source>
-        <translation type="unfinished"></translation>
+        <translation>Yanıcı gaz sensörü</translation>
     </message>
     <message>
         <source>Flammable gas level</source>
-        <translation type="unfinished"></translation>
+        <translation>yanıcı gaz seviyesi</translation>
     </message>
     <message>
         <source>Flammable gas level changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Yanıcı gaz seviyesi değişti</translation>
     </message>
     <message>
         <source>Total consumed energy changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Toplam tüketilen enerji değişti</translation>
     </message>
     <message>
         <source>Total energy produced</source>
-        <translation type="unfinished"></translation>
+        <translation>Üretilen toplam enerji</translation>
     </message>
     <message>
         <source>Total produced energy changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Toplam üretilen enerji değişti</translation>
     </message>
 </context>
 <context>
@@ -3673,19 +3673,19 @@ Please try again.</source>
     </message>
     <message>
         <source>Select a serial port.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bir seri bağlantı noktası seçin.</translation>
     </message>
     <message>
         <source>There are no serial ports available.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanılabilir seri bağlantı noktası yok.</translation>
     </message>
     <message>
         <source>Please make sure the Modbus RTU interface is connected to the system.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lütfen Modbus RTU arayüzünün sisteme bağlı olduğundan emin olun.</translation>
     </message>
     <message>
         <source>Configure Modbus RTU master</source>
-        <translation type="unfinished"></translation>
+        <translation>Modbus RTU master&apos;ı yapılandırın</translation>
     </message>
     <message>
         <source>Path</source>
