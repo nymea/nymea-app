@@ -271,6 +271,25 @@
     </message>
 </context>
 <context>
+    <name>ButtonControls</name>
+    <message>
+        <source>On</source>
+        <translation>An</translation>
+    </message>
+    <message>
+        <source>All off</source>
+        <translation>Alle aus</translation>
+    </message>
+    <message>
+        <source>%1 on</source>
+        <translation>%1 an</translation>
+    </message>
+    <message>
+        <source>Off</source>
+        <translation>Aus</translation>
+    </message>
+</context>
+<context>
     <name>ButtonThingPage</name>
     <message>
         <source>This switch has not been used yet.</source>
@@ -829,10 +848,6 @@
 <context>
     <name>ConnectingPage</name>
     <message>
-        <source>Cancel</source>
-        <translation type="vanished">Abbrechen</translation>
-    </message>
-    <message>
         <source>Connecting...</source>
         <translation>Verbinden...</translation>
     </message>
@@ -871,6 +886,17 @@
     <message>
         <source>%1 did not respond. Please make sure your network connection works properly</source>
         <translation>%1 antwortet nicht. Bitte stelle sicher, dass Deine Netzwerkverbindung funktioniert</translation>
+    </message>
+</context>
+<context>
+    <name>ConnectionInfoDialog</name>
+    <message>
+        <source>Box information</source>
+        <translation>Box-Informationen</translation>
+    </message>
+    <message>
+        <source>Available connections</source>
+        <translation>Verfügbare Verbindungen</translation>
     </message>
 </context>
 <context>
@@ -915,132 +941,132 @@
     <name>Dashboard</name>
     <message>
         <source>Dashboard is empty</source>
-        <translation type="unfinished"></translation>
+        <translation>Das Dashboard ist leer</translation>
     </message>
     <message>
         <source>Start with adding a new item to this dashboard.</source>
-        <translation type="unfinished"></translation>
+        <translation>Füge neue Einträge zu diesem Dashboard hinzu.</translation>
     </message>
     <message>
         <source>Add item</source>
-        <translation type="unfinished"></translation>
+        <translation>Eintrag hinzufügen</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished">Entfernen</translation>
+        <translation>Entfernen</translation>
     </message>
 </context>
 <context>
     <name>DashboardAddWizard</name>
     <message>
         <source>Add item</source>
-        <translation type="unfinished"></translation>
+        <translation>Eintrag hinzufügen</translation>
     </message>
     <message>
         <source>Thing</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;Thing&quot;</translation>
     </message>
     <message>
         <source>Folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Ordner</translation>
     </message>
     <message>
         <source>Chart</source>
-        <translation type="unfinished"></translation>
+        <translation>Diagramm</translation>
     </message>
     <message>
         <source>Scene</source>
-        <translation type="unfinished"></translation>
+        <translation>Szene</translation>
     </message>
     <message>
         <source>Web view</source>
-        <translation type="unfinished"></translation>
+        <translation>Web Ansicht</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished">Name</translation>
+        <translation>Name</translation>
     </message>
     <message>
         <source>Location</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresse</translation>
     </message>
     <message>
         <source>Enter a URL</source>
-        <translation type="unfinished"></translation>
+        <translation>Gib eine URL ein</translation>
     </message>
     <message>
         <source>Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Größe</translation>
     </message>
     <message>
         <source>Columns</source>
-        <translation type="unfinished"></translation>
+        <translation>Spalten</translation>
     </message>
     <message>
         <source>Rows</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeilen</translation>
     </message>
     <message>
         <source>Behavior</source>
-        <translation type="unfinished">Verhalten</translation>
+        <translation>Verhalten</translation>
     </message>
     <message>
         <source>Interactive</source>
-        <translation type="unfinished"></translation>
+        <translation>Interaktiv</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Abbrechen</translation>
+        <translation>Abbrechen</translation>
     </message>
     <message>
         <source>Back</source>
-        <translation type="unfinished"></translation>
+        <translation>Zurück</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
 </context>
 <context>
     <name>DashboardFolderDelegate</name>
     <message>
         <source>Name</source>
-        <translation type="unfinished">Name</translation>
+        <translation>Name</translation>
     </message>
 </context>
 <context>
     <name>DashboardWebViewDelegate</name>
     <message>
         <source>Web view is not supported on this platform.</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Web-Ansicht ist auf dieser Plattform nicht unterstützt.</translation>
     </message>
     <message>
         <source>Location</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresse</translation>
     </message>
     <message>
         <source>Enter a URL</source>
-        <translation type="unfinished"></translation>
+        <translation>Gib eine URL ein</translation>
     </message>
     <message>
         <source>Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Größe</translation>
     </message>
     <message>
         <source>Columns</source>
-        <translation type="unfinished"></translation>
+        <translation>Spalten</translation>
     </message>
     <message>
         <source>Rows</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeilen</translation>
     </message>
     <message>
         <source>Behavior</source>
-        <translation type="unfinished">Verhalten</translation>
+        <translation>Verhalten</translation>
     </message>
     <message>
         <source>Interactive</source>
-        <translation type="unfinished"></translation>
+        <translation>Interaktiv</translation>
     </message>
 </context>
 <context>
@@ -1176,12 +1202,12 @@
         <translation>Bitte aktiviere den WebServer für diese Adresse.</translation>
     </message>
     <message>
-        <source>Open debug interface</source>
-        <translation>Testschnittstelle öffnen</translation>
-    </message>
-    <message>
         <source>Debug server</source>
         <translation>Debug Server</translation>
+    </message>
+    <message>
+        <source>Debug interface active at %1.</source>
+        <translation>Entwicklerschnittstelle aktiv unter %1.</translation>
     </message>
 </context>
 <context>
@@ -1631,10 +1657,6 @@
         <translation>Es sind noch keine Stromzähler installiert.</translation>
     </message>
     <message>
-        <source>To get an overview of your current energy usage, install some energy meters.</source>
-        <translation>Installiere einen oder mehrere Stromzähler um einen Überlick über Deinen Energieverbrauch zu sehen.</translation>
-    </message>
-    <message>
         <source>Add things</source>
         <translation>&quot;Things&quot; hinzufügen</translation>
     </message>
@@ -1686,6 +1708,14 @@
             <numerusform>Ein Jahr</numerusform>
             <numerusform>%n Jahre</numerusform>
         </translation>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation>Unbekannt</translation>
+    </message>
+    <message>
+        <source>To get an overview of your current energy usage, install an energy meter.</source>
+        <translation>Installiere ein Energiemessgerät um eine Überischt über Deinen Energieverbraucht zu erhalten.</translation>
     </message>
 </context>
 <context>
@@ -2138,14 +2168,6 @@ Bitte versuche es erneut.</translation>
     <message>
         <source>uncategorized</source>
         <translation>nicht kategorisiert</translation>
-    </message>
-    <message>
-        <source>All off</source>
-        <translation>Alle aus</translation>
-    </message>
-    <message>
-        <source>%1 on</source>
-        <translation>%1 an</translation>
     </message>
 </context>
 <context>
@@ -2619,24 +2641,12 @@ Bitte versuche es erneut.</translation>
         <translation>Energieverbrauch</translation>
     </message>
     <message>
-        <source>Total energy consumed changed</source>
-        <translation>Energieverbrauch geändert</translation>
-    </message>
-    <message>
         <source>Current power</source>
         <translation>Aktueller Energiefluss</translation>
     </message>
     <message>
         <source>Current power changed</source>
         <translation>Aktueller Energiefluss geändert</translation>
-    </message>
-    <message>
-        <source>Total energy producedd</source>
-        <translation>Erzeugte Energie</translation>
-    </message>
-    <message>
-        <source>Total energy produced changed</source>
-        <translation>Erzeugte Energie geändert</translation>
     </message>
     <message>
         <source>Mute</source>
@@ -3021,6 +3031,42 @@ Bitte versuche es erneut.</translation>
     <message>
         <source>Return to base</source>
         <translation>Zurück zur Basisstation</translation>
+    </message>
+    <message>
+        <source>CO sensor</source>
+        <translation>CO Sensor</translation>
+    </message>
+    <message>
+        <source>CO level</source>
+        <translation>CO Wert</translation>
+    </message>
+    <message>
+        <source>CO level changed</source>
+        <translation>CO Wert geändert</translation>
+    </message>
+    <message>
+        <source>Flammable gas sensor</source>
+        <translation>Sensor für entflammbare Gase</translation>
+    </message>
+    <message>
+        <source>Flammable gas level</source>
+        <translation>Wert für entflammbare Gase</translation>
+    </message>
+    <message>
+        <source>Flammable gas level changed</source>
+        <translation>Wert für Entflammbare Gase geändert</translation>
+    </message>
+    <message>
+        <source>Total consumed energy changed</source>
+        <translation>Gesamtenergieverbraucht geändert</translation>
+    </message>
+    <message>
+        <source>Total energy produced</source>
+        <translation>Gesamte erzeugte Energie</translation>
+    </message>
+    <message>
+        <source>Total produced energy changed</source>
+        <translation>Gesamte erzeugte Energie geändert</translation>
     </message>
 </context>
 <context>
@@ -3407,18 +3453,6 @@ Bitte versuche es erneut.</translation>
 <context>
     <name>MainMenu</name>
     <message>
-        <source>Wireless setup</source>
-        <translation type="vanished">Kabelloses Setup</translation>
-    </message>
-    <message>
-        <source>Manual connection</source>
-        <translation type="vanished">Manuelle Verbindung</translation>
-    </message>
-    <message>
-        <source>Demo mode</source>
-        <translation type="vanished">Demo-Modus</translation>
-    </message>
-    <message>
         <source>Configure things</source>
         <translation>&quot;Things&quot; einrichten</translation>
     </message>
@@ -3464,11 +3498,11 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>New connection</source>
-        <translation type="unfinished">Neue Verbindung</translation>
+        <translation>Neue Verbindung</translation>
     </message>
     <message>
         <source>Set up another...</source>
-        <translation type="unfinished"></translation>
+        <translation>Ein weiteres einrichten...</translation>
     </message>
 </context>
 <context>
@@ -3502,17 +3536,6 @@ Bitte versuche es erneut.</translation>
         <translation>Trennen</translation>
     </message>
     <message>
-        <source>System update in progress...</source>
-        <translation>System wird aktualisiert...</translation>
-    </message>
-    <message numerus="yes">
-        <source>%n system update(s) available</source>
-        <translation>
-            <numerusform>%n System-Update verfügbar</numerusform>
-            <numerusform>%n System-Updates verfügbar</numerusform>
-        </translation>
-    </message>
-    <message>
         <source>Groups</source>
         <translation>Gruppen</translation>
     </message>
@@ -3537,12 +3560,8 @@ Bitte versuche es erneut.</translation>
         <translation>Einrichten</translation>
     </message>
     <message>
-        <source>Configure main view</source>
-        <translation>Hauptansicht einrichten</translation>
-    </message>
-    <message>
         <source>Dashboard</source>
-        <translation type="unfinished"></translation>
+        <translation>Dashboard</translation>
     </message>
 </context>
 <context>
@@ -3632,378 +3651,353 @@ Bitte versuche es erneut.</translation>
     <name>ModbusRtuAddMasterPage</name>
     <message>
         <source>Add a new Modbus RTU master</source>
-        <translation type="unfinished"></translation>
+        <translation>Füge einen neuen Modbus RTU hinzu</translation>
     </message>
     <message>
         <source>Serial ports</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Please select one of the following serial ports detected on the system.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>There are no serial ports available.
-
-Please make sure the modbus RTU interface is connected to the system.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Configure modbus RTU master</source>
-        <translation type="unfinished"></translation>
+        <translation>Serielle Schnittstellen</translation>
     </message>
     <message>
         <source>Serial port</source>
-        <translation type="unfinished">Serielle Schnittstelle</translation>
-    </message>
-    <message>
-        <source>System location</source>
-        <translation type="unfinished"></translation>
+        <translation>Serielle Schnittstelle</translation>
     </message>
     <message>
         <source>Description</source>
-        <translation type="unfinished"></translation>
+        <translation>Beschreibung</translation>
     </message>
     <message>
         <source>Manufacturer</source>
-        <translation type="unfinished">Hersteller</translation>
+        <translation>Hersteller</translation>
     </message>
     <message>
         <source>Serialnumber</source>
-        <translation type="unfinished"></translation>
+        <translation>Seriennummer</translation>
     </message>
     <message>
         <source>Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Einstellungen</translation>
     </message>
     <message>
         <source>Baud rate</source>
-        <translation type="unfinished">Baud Rate</translation>
+        <translation>Baudrate</translation>
     </message>
     <message>
         <source>Parity</source>
-        <translation type="unfinished"></translation>
+        <translation>Parität</translation>
     </message>
     <message>
         <source>Data bits</source>
-        <translation type="unfinished"></translation>
+        <translation>Datenbits</translation>
     </message>
     <message>
         <source>Stop bits</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Number of request retries:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Request timeout [ms]:</source>
-        <translation type="unfinished"></translation>
+        <translation>Stopbits</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation type="unfinished">Hinzufügen</translation>
+        <translation>Hinzufügen</translation>
+    </message>
+    <message>
+        <source>Select a serial port.</source>
+        <translation>Wähle eine serielle Schnittstelle.</translation>
+    </message>
+    <message>
+        <source>There are no serial ports available.</source>
+        <translation>Es sind keine seriellen Schnittstellen verfügbar.</translation>
+    </message>
+    <message>
+        <source>Please make sure the Modbus RTU interface is connected to the system.</source>
+        <translation>Stelle sicher, dass die Modbus RTU Schnittstelle mit dem System verbunden ist.</translation>
+    </message>
+    <message>
+        <source>Path</source>
+        <translation>Pfad</translation>
+    </message>
+    <message>
+        <source>Request retries</source>
+        <translation>Anfrageversuche</translation>
+    </message>
+    <message>
+        <source>Request timeout [ms]</source>
+        <translation>Versuchsdauer [ms]</translation>
+    </message>
+    <message>
+        <source>Configure Modbus RTU master</source>
+        <translation>Modbus RTU Master einrichten</translation>
     </message>
 </context>
 <context>
     <name>ModbusRtuReconfigureMasterPage</name>
     <message>
-        <source>Reconfigure modbus RTU master</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Serial ports</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Please select one of the following serial ports detected on the system.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>There are no serial ports available.
-
-Please make sure the modbus RTU interface is connected to the system.</source>
-        <translation type="unfinished"></translation>
+        <translation>Serielle Schnittstellen</translation>
     </message>
     <message>
         <source>UUID</source>
-        <translation type="unfinished"></translation>
+        <translation>UUID</translation>
     </message>
     <message>
         <source>Serial port</source>
-        <translation type="unfinished">Serielle Schnittstelle</translation>
-    </message>
-    <message>
-        <source>System location</source>
-        <translation type="unfinished"></translation>
+        <translation>Serielle Schnittstelle</translation>
     </message>
     <message>
         <source>Description</source>
-        <translation type="unfinished"></translation>
+        <translation>Beschreibung</translation>
     </message>
     <message>
         <source>Unknown</source>
-        <translation type="unfinished">Unbekannt</translation>
+        <translation>Unbekannt</translation>
     </message>
     <message>
         <source>Manufacturer</source>
-        <translation type="unfinished">Hersteller</translation>
+        <translation>Hersteller</translation>
     </message>
     <message>
         <source>Serialnumber</source>
-        <translation type="unfinished"></translation>
+        <translation>Seriennummer</translation>
     </message>
     <message>
         <source>Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Einstellungen</translation>
     </message>
     <message>
         <source>Baud rate</source>
-        <translation type="unfinished">Baud Rate</translation>
+        <translation>Baudrate</translation>
     </message>
     <message>
         <source>Parity</source>
-        <translation type="unfinished"></translation>
+        <translation>Parität</translation>
     </message>
     <message>
         <source>Data bits</source>
-        <translation type="unfinished"></translation>
+        <translation>Datenbits</translation>
     </message>
     <message>
         <source>Stop bits</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Number of request retries:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Request timeout [ms]:</source>
-        <translation type="unfinished"></translation>
+        <translation>Stopbits</translation>
     </message>
     <message>
         <source>Apply</source>
-        <translation type="unfinished">Anwenden</translation>
+        <translation>Anwenden</translation>
+    </message>
+    <message>
+        <source>Select a serial port.</source>
+        <translation>Wähle eine serielle Schnittstelle.</translation>
+    </message>
+    <message>
+        <source>There are no serial ports available.</source>
+        <translation>Es sind keine seriellen Schnittstellen verfügbar.</translation>
+    </message>
+    <message>
+        <source>Please make sure the Modbus RTU interface is connected to the system.</source>
+        <translation>Stelle sicher, dass die Modbus RTU Schnittstelle mit dem System verbunden ist.</translation>
+    </message>
+    <message>
+        <source>Path</source>
+        <translation>Pfad</translation>
+    </message>
+    <message>
+        <source>Request retries</source>
+        <translation>Anfrageversuche</translation>
+    </message>
+    <message>
+        <source>Request timeout [ms]</source>
+        <translation>Versuchsdauer [ms]</translation>
+    </message>
+    <message>
+        <source>Reconfigure Modbus RTU master</source>
+        <translation>Mobus RTU Master neu einrichten</translation>
     </message>
 </context>
 <context>
     <name>ModbusRtuSettingsPage</name>
     <message>
         <source>Modbus RTU</source>
-        <translation type="unfinished"></translation>
+        <translation>Modbus RTU</translation>
     </message>
     <message>
         <source>Add Modbus RTU master</source>
-        <translation type="unfinished"></translation>
+        <translation>Modbus RTU Master hinzufügen</translation>
     </message>
     <message>
         <source>The serial port is not available any more.</source>
-        <translation type="unfinished"></translation>
+        <translation>Die serielle Schnittstelle ist nicht mehr verfügbar.</translation>
     </message>
     <message>
         <source>Modbus is not supported on this platform.</source>
-        <translation type="unfinished"></translation>
+        <translation>Modbus ist auf diesem System nicht unterstützt.</translation>
     </message>
     <message>
-        <source>The modbus RTU hardware could not be found.</source>
-        <translation type="unfinished"></translation>
+        <source>Unknown baud rate</source>
+        <translation>Unbekannte Baudrate</translation>
     </message>
     <message>
-        <source>The selected modbus RTU master does not exist any more.</source>
-        <translation type="unfinished"></translation>
+        <source>No parity</source>
+        <translation>Keine Parität</translation>
     </message>
     <message>
-        <source>Unable to connect to the modbus RTU master.
+        <source>Even parity</source>
+        <translation>Gerade Parität</translation>
+    </message>
+    <message>
+        <source>Odd parity</source>
+        <translation>Ungerade Parität</translation>
+    </message>
+    <message>
+        <source>Space parity</source>
+        <translation>Raumparität</translation>
+    </message>
+    <message>
+        <source>Mark parity</source>
+        <translation>Markierung</translation>
+    </message>
+    <message>
+        <source>Unknown parity</source>
+        <translation>Unbekannte Parität</translation>
+    </message>
+    <message>
+        <source>5 data bits</source>
+        <translation>5 Datenbits</translation>
+    </message>
+    <message>
+        <source>6 data bits</source>
+        <translation>6 Datenbits</translation>
+    </message>
+    <message>
+        <source>7 data bits</source>
+        <translation>7 Datenbits</translation>
+    </message>
+    <message>
+        <source>8 data bits</source>
+        <translation>8 Datenbits</translation>
+    </message>
+    <message>
+        <source>Unknown data bits</source>
+        <translation>Unbekannte Datenbits</translation>
+    </message>
+    <message>
+        <source>One stop bit</source>
+        <translation>Ein Stopbit</translation>
+    </message>
+    <message>
+        <source>One and a half stop bits</source>
+        <translation>Eineinhalt Stopbits</translation>
+    </message>
+    <message>
+        <source>Two stop bits</source>
+        <translation>Zwei Stopbits</translation>
+    </message>
+    <message>
+        <source>Unknown stop bits</source>
+        <translation>Unbekannte Stopbits</translation>
+    </message>
+    <message>
+        <source>Modbus RTU masters</source>
+        <translation>Modbus RTU Masters</translation>
+    </message>
+    <message>
+        <source>Modbus RTU is not supported on this platorm.</source>
+        <translation>Modbus RTU ist auf diesem System nicht unterstützt.</translation>
+    </message>
+    <message>
+        <source>Connected</source>
+        <translation>Verbunden</translation>
+    </message>
+    <message>
+        <source>Disconnected</source>
+        <translation>Getrennt</translation>
+    </message>
+    <message>
+        <source>Modbus RTU master</source>
+        <translation>Modbus RTU Master</translation>
+    </message>
+    <message>
+        <source>Information</source>
+        <translation>Informationen</translation>
+    </message>
+    <message>
+        <source>Connection status</source>
+        <translation>Verbindungsstatus</translation>
+    </message>
+    <message>
+        <source>UUID</source>
+        <translation>UUID</translation>
+    </message>
+    <message>
+        <source>Baud rate</source>
+        <translation>Baudrate</translation>
+    </message>
+    <message>
+        <source>Parity</source>
+        <translation>Parität</translation>
+    </message>
+    <message>
+        <source>Data bits</source>
+        <translation>Datenbits</translation>
+    </message>
+    <message>
+        <source>Stop bits</source>
+        <translation>Stopbits</translation>
+    </message>
+    <message>
+        <source>Reconfigure</source>
+        <translation>Neu einrichten</translation>
+    </message>
+    <message>
+        <source>Path</source>
+        <translation>Pfad</translation>
+    </message>
+    <message>
+        <source>Request retries</source>
+        <translation>Anfrageversuche</translation>
+    </message>
+    <message>
+        <source>Request timeout [ms]</source>
+        <translation>Versuchsdauer [ms]</translation>
+    </message>
+    <message>
+        <source>There are no Modbus RTU masters set up yet.</source>
+        <translation>Es sind noch keine Modbus RTU Masters eingerichtet.</translation>
+    </message>
+    <message>
+        <source>In order to use Modbus RTU devices, add a new Modbus RTU master.</source>
+        <translation>Füge einen Modbus RTU Master hinzu, um Modbus RTU Geräte zu nutzen.</translation>
+    </message>
+    <message>
+        <source>The Modbus RTU hardware could not be found.</source>
+        <translation>Das Modbus RTU Gerät konnte nicht gefunden werden.</translation>
+    </message>
+    <message>
+        <source>The selected Modbus RTU master does not exist any more.</source>
+        <translation>Der ausgewählte Modbus RTU Master existiert nicht mehr.</translation>
+    </message>
+    <message>
+        <source>Unable to connect to the Modbus RTU master.
 
 Maybe the hardware is already in use.</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbindung zum Modbus RTU Master kann nicht hergestellt werden.
+
+Wird das Gerät bereits benutzt?</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to remove this Modbus RTU master?</source>
+        <translation>Bist Du sicher, dass Du diesen Modbus RTU Master entfernen möchtest?</translation>
+    </message>
+    <message>
+        <source>Please note that all related things will stop working until you assign a new Modbus RTU master to them.</source>
+        <translation>Bitte beachte, dass alle verknüpften &quot;Things&quot; nicht mehr funktionieren werden, bis sie einem neuen Modbus RTU Master zugewiesen werden.</translation>
+    </message>
+    <message>
+        <source>Remove Modbus RTU master</source>
+        <translation>Modbus RTU Master entfernen</translation>
     </message>
     <message>
         <source>The specified timeout value is not valid.
 
-Please use a timeout value bigger or equal to 10 ms.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>9600 Bd</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>14400 Bd</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>19200 Bd</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>38400 Bd</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>57600 Bd</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>115200 Bd</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>128000 Bd</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>230400 Bd</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>256000 Bd</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Unknown baud rate</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>No parity</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Even parity</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Odd parity</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Space parity</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Mark parity</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Unknown parity</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>5 data bits</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>6 data bits</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>7 data bits</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>8 data bits</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Unknown data bits</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>One stop bit</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>One and a half stop bits</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Two stop bits</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Unknown stop bits</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Modbus RTU masters</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>There are no Modbus RTU masters set up yet.
-In order to have Modbus RTU available as resource in the system, please add a new Modbus RTU master.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Modbus RTU is not supported on this platorm.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Connected</source>
-        <translation type="unfinished">Verbunden</translation>
-    </message>
-    <message>
-        <source>Disconnected</source>
-        <translation type="unfinished">Getrennt</translation>
-    </message>
-    <message>
-        <source>Modbus RTU master</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Remove modbus RTU master</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Are you sure you want to remove this modbus RTU master?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Please note that all related things will stop working until you assign a new modbus RTU master to them.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Information</source>
-        <translation type="unfinished">Informationen</translation>
-    </message>
-    <message>
-        <source>Connection status</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>UUID</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>System location</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Baud rate</source>
-        <translation type="unfinished">Baud Rate</translation>
-    </message>
-    <message>
-        <source>Parity</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Data bits</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Stop bits</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Number of request retries</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Request timeout</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Reconfigure</source>
-        <translation type="unfinished">Neu einrichten</translation>
+Use a timeout value greater or equal to 10 ms.</source>
+        <translation>Die angegebene Versuchsdauer ist ungültig.
+
+Die Versuchsdauer muss mindestens 10 ms betragen.</translation>
     </message>
 </context>
 <context>
@@ -4359,171 +4353,163 @@ In order to have Modbus RTU available as resource in the system, please add a ne
     <name>NewConnectionWizard</name>
     <message>
         <source>Welcome</source>
-        <translation type="unfinished"></translation>
+        <translation>Willkommen</translation>
     </message>
     <message>
         <source>This wizard will guide you through the process of setting up a new nymea system.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dieser Assistent wird Dich durch die Einrichtung eines neuen nymea Systems begleiten.</translation>
     </message>
     <message>
         <source>Demo mode</source>
-        <translation type="unfinished">Demo-Modus</translation>
+        <translation>Demo-Modus</translation>
     </message>
     <message>
         <source>In order to use nymea, you will need to install nymea:core on a computer in your network. This can be a Raspberry Pi or any generic Linux computer.</source>
-        <translation type="unfinished"></translation>
+        <translation>Um nymea zu nutzen wird eine nymea:core Installation auf einem Compunter in Deinem Netzwerk benötigt. Dies könnte ein Raspberry Pi oder ein normaler Linux PC sein.</translation>
     </message>
     <message>
         <source>Please follow the installation instructions on %1 to install a nymea system.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bitte befolge die Installationsanweisungen unter %1 um ein nymea System zu installieren.</translation>
     </message>
     <message>
         <source>Connectivity</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbindung</translation>
     </message>
     <message>
         <source>How would you like to connect nymea to your network?</source>
-        <translation type="unfinished"></translation>
+        <translation>Wie möchtest Du nymea mit dem Netzwerk verbinden?</translation>
     </message>
     <message>
         <source>Skip</source>
-        <translation type="unfinished"></translation>
+        <translation>Überspringen</translation>
     </message>
     <message>
         <source>Wired network</source>
-        <translation type="unfinished">Kabelgebundenes Netzwerk</translation>
+        <translation>Kabelgebundenes Netzwerk</translation>
     </message>
     <message>
         <source>Connect nymea to your network using a network cable. This is recommended for best performance.</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbinde nymea mit einem Netzwerkkabel. Für die beste Leistung ist dies die empfohlene Variante.</translation>
     </message>
     <message>
         <source>Wireless network</source>
-        <translation type="unfinished">Funknetzwerk</translation>
+        <translation>Funknetzwerk</translation>
     </message>
     <message>
         <source>Connect nymea to your WiFi network.</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbinde nymea über dein WLAN-Netzwerk.</translation>
     </message>
     <message>
         <source>If your nymea system is already connected to the network you can skip this step.</source>
-        <translation type="unfinished"></translation>
+        <translation>Falls dein nymea System bereits mit dem Netzwerk verbunden ist, kannst Du diesen Schritt überspringen.</translation>
     </message>
     <message>
         <source>Connection</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbindung</translation>
     </message>
     <message>
         <source>Connecting to the nymea system.</source>
-        <translation type="unfinished"></translation>
+        <translation>Das nymea System wird verbunden.</translation>
     </message>
     <message>
         <source>Manual connection</source>
-        <translation type="unfinished">Manuelle Verbindung</translation>
+        <translation>Manuelle Verbindung</translation>
     </message>
     <message>
         <source>Please wait while your nymea system is being discovered.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bitte warte einen Moment während nach deinem nymea System gesucht wird.</translation>
     </message>
     <message>
         <source>Info</source>
-        <translation type="unfinished">Information</translation>
+        <translation>Information</translation>
     </message>
     <message>
         <source>Please enter the connection information for your nymea system</source>
-        <translation type="unfinished"></translation>
+        <translation>Gib die Verbindungsinformationen für dein nymea System ein.</translation>
     </message>
     <message>
         <source>Protocol</source>
-        <translation type="unfinished">Protokoll</translation>
+        <translation>Protokoll</translation>
     </message>
     <message>
         <source>TCP</source>
-        <translation type="unfinished">TCP</translation>
+        <translation>TCP</translation>
     </message>
     <message>
         <source>Websocket</source>
-        <translation type="unfinished">Websocket</translation>
+        <translation>Websocket</translation>
     </message>
     <message>
         <source>Address:</source>
-        <translation type="unfinished">Adresse:</translation>
+        <translation>Adresse:</translation>
     </message>
     <message>
         <source>Port:</source>
-        <translation type="unfinished">Port:</translation>
+        <translation>Port:</translation>
     </message>
     <message>
         <source>Encrypted connection:</source>
-        <translation type="unfinished">Verschlüsselte Verbindung:</translation>
+        <translation>Verschlüsselte Verbindung:</translation>
     </message>
     <message>
         <source>Wired connection</source>
-        <translation type="unfinished"></translation>
+        <translation>Kabelgebundene Verbindung</translation>
     </message>
     <message>
         <source>Connect the nymea system to your network using an ethernet cable and turn it on.</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutze ein Netzwerkkabel um Dein nymea System zu verbinden und Schalte es dann ein.</translation>
     </message>
     <message>
         <source>Wireless connection</source>
-        <translation type="unfinished"></translation>
+        <translation>Schnurlose Verbindung</translation>
     </message>
     <message>
         <source>Turn the nymea system on by connecting the power cable and wait for it to start up.</source>
-        <translation type="unfinished"></translation>
+        <translation>Schalte Dein nymea System ein und warte einen Moment bis es gestartet ist.</translation>
     </message>
     <message>
         <source>Wireless setup</source>
-        <translation type="unfinished">Kabelloses Setup</translation>
+        <translation>Kabelloses Setup</translation>
     </message>
     <message>
         <source>Searching for the nymea system...</source>
-        <translation type="unfinished"></translation>
+        <translation>Suche nach dem nymea System...</translation>
     </message>
     <message>
         <source>Connecting to the nymea system...</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbinde mit dem nymea System...</translation>
     </message>
     <message>
         <source>Select the WiFi you want to use.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wähle das WLAN aus welches Du benutzen möchtest.</translation>
     </message>
     <message>
         <source>Hidden Network</source>
-        <translation type="unfinished">Verstecktes Netzwerk</translation>
+        <translation>Verstecktes Netzwerk</translation>
     </message>
     <message>
         <source>Enter the password for the WiFi network.</source>
-        <translation type="unfinished"></translation>
+        <translation>Gib das Passwort für das WLAN Netzwerk ein.</translation>
     </message>
     <message>
         <source>An error happened in the Bluetooth connection. Please try again.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ein Fehler ist in der Bluetooth-Verbindung aufgetreten. Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Please wait while the nymea system is being connected to the WiFi.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bitte warte bis Dein nymea System mit dem WLAN verbunden ist.</translation>
     </message>
     <message>
         <source>The nymea system has been connected successfully.</source>
-        <translation type="unfinished"></translation>
+        <translation>Das nymea System wurde erfolgreich verbunden.</translation>
     </message>
     <message>
         <source>You can now go ahead and configure your nymea system.</source>
-        <translation type="unfinished"></translation>
+        <translation>Du kannst nun fortfahren und Dein nymea System einrichten.</translation>
     </message>
     <message>
         <source>Waiting for your nymea setup to appear in the network.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Box information</source>
-        <translation type="unfinished">Box-Informationen</translation>
-    </message>
-    <message>
-        <source>Available connections</source>
-        <translation type="unfinished">Verfügbare Verbindungen</translation>
+        <translation>Warte bis Dein nymea System im Netzwerk auftaucht.</translation>
     </message>
 </context>
 <context>
@@ -4836,6 +4822,14 @@ In order to have Modbus RTU available as resource in the system, please add a ne
     <message>
         <source>Cleaning robots</source>
         <translation>Putzroboter</translation>
+    </message>
+    <message>
+        <source>CO level</source>
+        <translation>CO Wert</translation>
+    </message>
+    <message>
+        <source>Flammable gas level</source>
+        <translation>Wert für entflammbare Gase</translation>
     </message>
 </context>
 <context>
@@ -5195,8 +5189,56 @@ In order to have Modbus RTU available as resource in the system, please add a ne
         <translation>OK</translation>
     </message>
     <message>
-        <source>Options</source>
-        <translation>Optionen</translation>
+        <source>Condition</source>
+        <translation>Bedingung</translation>
+    </message>
+    <message>
+        <source>is equal to</source>
+        <translation>ist gleich wie</translation>
+    </message>
+    <message>
+        <source>is not equal to</source>
+        <translation>ist anders als</translation>
+    </message>
+    <message>
+        <source>is smaller than</source>
+        <translation>ist kleiner als</translation>
+    </message>
+    <message>
+        <source>is greater than</source>
+        <translation>ist größer als</translation>
+    </message>
+    <message>
+        <source>is smaller or equal than</source>
+        <translation>ist kleiner oder gleich</translation>
+    </message>
+    <message>
+        <source>is greater or equal than</source>
+        <translation>ist größer oder gleich</translation>
+    </message>
+    <message>
+        <source>is</source>
+        <translation>ist</translation>
+    </message>
+    <message>
+        <source>is not</source>
+        <translation>ist nicht</translation>
+    </message>
+    <message>
+        <source>a static value:</source>
+        <translation>ein fester Wert:</translation>
+    </message>
+    <message>
+        <source>another thing&apos;s state:</source>
+        <translation>Zustand eines anderen &quot;Things&quot;:</translation>
+    </message>
+    <message>
+        <source>Insert value here</source>
+        <translation>Wert hier eingeben</translation>
+    </message>
+    <message>
+        <source>Select a state</source>
+        <translation>Zustand auswählen</translation>
     </message>
 </context>
 <context>
@@ -5478,11 +5520,11 @@ In order to have Modbus RTU available as resource in the system, please add a ne
     </message>
     <message>
         <source>Modbus RTU</source>
-        <translation type="unfinished"></translation>
+        <translation>Modbus RTU</translation>
     </message>
     <message>
         <source>Configure Modbus RTU master interfaces</source>
-        <translation type="unfinished"></translation>
+        <translation>Modbug RTU Master Schnittstellen einrichten</translation>
     </message>
 </context>
 <context>
@@ -5514,10 +5556,6 @@ In order to have Modbus RTU available as resource in the system, please add a ne
     <message>
         <source>Name the thing:</source>
         <translation>Name:</translation>
-    </message>
-    <message>
-        <source>Pairing...</source>
-        <translation>Pairing...</translation>
     </message>
     <message>
         <source>Thing reconfigured!</source>
@@ -5575,6 +5613,30 @@ In order to have Modbus RTU available as resource in the system, please add a ne
         <source>Set up %1</source>
         <translation>%1 einrichten</translation>
     </message>
+    <message>
+        <source>Discover %1</source>
+        <translation>Finde %1</translation>
+    </message>
+    <message>
+        <source>Discovery options</source>
+        <translation>Suchoptionen</translation>
+    </message>
+    <message>
+        <source>Nymea found the following things</source>
+        <translation>Nymea hat die folgenden &quot;Things&quot; gefunden</translation>
+    </message>
+    <message>
+        <source>Thing parameters</source>
+        <translation>&quot;Thing&quot; Parameter</translation>
+    </message>
+    <message>
+        <source>Login required</source>
+        <translation>Login benötigt</translation>
+    </message>
+    <message>
+        <source>Username</source>
+        <translation>Benutzername</translation>
+    </message>
 </context>
 <context>
     <name>ShutterDeviceListPage</name>
@@ -5590,16 +5652,19 @@ In order to have Modbus RTU available as resource in the system, please add a ne
         <translation>Drücken um Bedingung zu ändern</translation>
     </message>
     <message>
-        <source>%1: %2 %3 %4</source>
-        <translation>%1: %2 %3 %4</translation>
-    </message>
-    <message>
         <source>True</source>
         <translation>Wahr</translation>
     </message>
     <message>
         <source>False</source>
         <translation>Falsch</translation>
+    </message>
+</context>
+<context>
+    <name>SmartMeterChart</name>
+    <message>
+        <source>Unknown</source>
+        <translation>Unbekannt</translation>
     </message>
 </context>
 <context>
@@ -5812,6 +5877,10 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     <message>
         <source>Actions</source>
         <translation>Aktionen</translation>
+    </message>
+    <message>
+        <source>Interfaces</source>
+        <translation>Schnittstellen</translation>
     </message>
 </context>
 <context>
@@ -6201,11 +6270,11 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     <name>WizardPageBase</name>
     <message>
         <source>Back</source>
-        <translation type="unfinished"></translation>
+        <translation>Zurück</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation type="unfinished">Weiter</translation>
+        <translation>Weiter</translation>
     </message>
 </context>
 <context>
@@ -6297,32 +6366,163 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
 <context>
     <name>ZigbeeNetworkPage</name>
     <message>
+        <source>Channel</source>
+        <translation>Kanal</translation>
+    </message>
+    <message>
+        <source>ZigBee network</source>
+        <translation>ZigBee Netzwerk</translation>
+    </message>
+    <message>
+        <source>Network settings</source>
+        <translation>Netzwerkeinstellungen</translation>
+    </message>
+    <message>
+        <source>The selected adapter is not available or the selected serial port configration is incorrect.</source>
+        <translation>Der ausgewählte Adapter ist nicht verfügbar oder die ausgewählten Optionen für die serielle Schnittstelle sind nicht korrekt.</translation>
+    </message>
+    <message>
+        <source>The selected adapter is already in use.</source>
+        <translation>Der ausgewählte Adapter ist bereits in Benutzung.</translation>
+    </message>
+    <message>
+        <source>Network</source>
+        <translation>Netzwerk</translation>
+    </message>
+    <message>
+        <source>Network state:</source>
+        <translation>Netzwerkstatus:</translation>
+    </message>
+    <message>
+        <source>Online</source>
+        <translation>Online</translation>
+    </message>
+    <message>
+        <source>Offline</source>
+        <translation>Offline</translation>
+    </message>
+    <message>
+        <source>Starting</source>
+        <translation>Wird gestartet</translation>
+    </message>
+    <message>
+        <source>Updating</source>
+        <translation>Wird upgedated</translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation>Fehler</translation>
+    </message>
+    <message>
+        <source>Permit new devices:</source>
+        <translation>Erlaube neue Geräte:</translation>
+    </message>
+    <message>
+        <source>Open for %0 s</source>
+        <translation>Für %0 s öffnen</translation>
+    </message>
+    <message>
+        <source>Closed</source>
+        <translation>Geschlossen</translation>
+    </message>
+    <message>
+        <source>Extend open duration</source>
+        <translation>Öffnungszeit verängern</translation>
+    </message>
+    <message>
+        <source>Open for new devices</source>
+        <translation>Für neue Geräte öffnen</translation>
+    </message>
+    <message>
+        <source>network coordinator</source>
+        <translation>Netzwerkkoordinator</translation>
+    </message>
+    <message>
+        <source>Version</source>
+        <translation>Version</translation>
+    </message>
+    <message>
+        <source>IEEE address</source>
+        <translation>IEEE Adresse</translation>
+    </message>
+    <message>
+        <source>Network address</source>
+        <translation>Netzwerkadresse</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>Entfernen</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to remove this node from the network?</source>
+        <translation>Bist Du sicher, dass dieser Knoten aus dem Netzwerk entfernt werden soll?</translation>
+    </message>
+    <message>
+        <source>Please note that if this node has been assigned to a thing, it will also be removed from the system.</source>
+        <translation>Bitte beachte, dass mit diesem Knoten verknüpfte &quot;Things&quot; auch entfernt werden.</translation>
+    </message>
+    <message>
+        <source>ZigBee network help</source>
+        <translation>ZigBee Netzwerk Hilfe</translation>
+    </message>
+    <message>
+        <source>Sleepy device</source>
+        <translation>Schlafendes Gerät</translation>
+    </message>
+    <message>
+        <source>ZigBee nodes</source>
+        <translation>ZigBee Knoten</translation>
+    </message>
+    <message>
+        <source>Remove ZigBee node</source>
+        <translation>ZigBee Knoten entfernen</translation>
+    </message>
+    <message>
+        <source>ZigBee network coordinator</source>
+        <translation>ZigBee Netzwerk Koordinator</translation>
+    </message>
+    <message>
+        <source>ZigBee router</source>
+        <translation>ZigBee Router</translation>
+    </message>
+    <message>
+        <source>ZigBee end device</source>
+        <translation>ZigBee Endgerät</translation>
+    </message>
+</context>
+<context>
+    <name>ZigbeeNetworkSettingsPage</name>
+    <message>
+        <source>ZigBee network settings</source>
+        <translation>ZigBee Netzwerkeinstellungen</translation>
+    </message>
+    <message>
         <source>Network information</source>
-        <translation type="vanished">Netzwerkinformation</translation>
+        <translation>Netzwerkinformation</translation>
     </message>
     <message>
         <source>Network state</source>
-        <translation type="vanished">Netzwerk-Status</translation>
+        <translation>Netzwerk-Status</translation>
     </message>
     <message>
         <source>The network is online</source>
-        <translation type="vanished">Das Netzwerk ist online</translation>
+        <translation>Das Netzwerk ist online</translation>
     </message>
     <message>
         <source>The network is offline</source>
-        <translation type="vanished">Das Netzwerk ist offline</translation>
+        <translation>Das Netzwerk ist offline</translation>
     </message>
     <message>
         <source>The network is starting...</source>
-        <translation type="vanished">Das Netzwerk startet...</translation>
+        <translation>Das Netzwerk startet...</translation>
     </message>
     <message>
         <source>The controller is currently installing an update</source>
-        <translation type="vanished">Ein Update wird auf dem Adapter installiert</translation>
+        <translation>Ein Update wird auf dem Adapter installiert</translation>
     </message>
     <message>
         <source>The network is in an error state.</source>
-        <translation type="vanished">Das Netzwerk ist in einem fehlerhaften Zustand.</translation>
+        <translation>Das Netzwerk ist in einem fehlerhaften Zustand.</translation>
     </message>
     <message>
         <source>Channel</source>
@@ -6330,246 +6530,43 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     </message>
     <message>
         <source>Network PAN ID</source>
-        <translation type="vanished">Netzwerk PAN ID</translation>
-    </message>
-    <message>
-        <source>ZigBee network settings</source>
-        <translation type="vanished">ZigBee Netzwerkeinstellungen</translation>
+        <translation>Netzwerk PAN ID</translation>
     </message>
     <message>
         <source>Hardware information</source>
-        <translation type="vanished">Geräteinformationen</translation>
+        <translation>Geräteinformationen</translation>
     </message>
     <message>
         <source>MAC address:</source>
-        <translation type="vanished">MAC Adresse:</translation>
+        <translation>MAC Adresse:</translation>
     </message>
     <message>
         <source>Serial port</source>
-        <translation type="vanished">Serielle Schnittstelle</translation>
+        <translation>Serielle Schnittstelle</translation>
     </message>
     <message>
         <source>Baud rate</source>
-        <translation type="vanished">Baud Rate</translation>
+        <translation>Baud Rate</translation>
     </message>
     <message>
         <source>Controller backend</source>
-        <translation type="vanished">Backend</translation>
+        <translation>Backend</translation>
     </message>
     <message>
         <source>Controller firmware version</source>
-        <translation type="vanished">Firmware Version</translation>
+        <translation>Firmware Version</translation>
     </message>
     <message>
         <source>Manage network</source>
-        <translation type="vanished">Netzwerke verwalten</translation>
+        <translation>Netzwerke verwalten</translation>
     </message>
     <message>
         <source>Remove network</source>
-        <translation type="vanished">Netzwerk entfernen</translation>
+        <translation>Netzwerk entfernen</translation>
     </message>
     <message>
         <source>Factory reset controller</source>
-        <translation type="vanished">Adapter zurücksetzen</translation>
-    </message>
-    <message>
-        <source>ZigBee network</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Network settings</source>
-        <translation type="unfinished">Netzwerkeinstellungen</translation>
-    </message>
-    <message>
-        <source>The selected adapter is not available or the selected serial port configration is incorrect.</source>
-        <translation type="unfinished">Der ausgewählte Adapter ist nicht verfügbar oder die ausgewählten Optionen für die serielle Schnittstelle sind nicht korrekt.</translation>
-    </message>
-    <message>
-        <source>The selected adapter is already in use.</source>
-        <translation type="unfinished">Der ausgewählte Adapter ist bereits in Benutzung.</translation>
-    </message>
-    <message>
-        <source>Network</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Network state:</source>
-        <translation type="unfinished">Netzwerkstatus:</translation>
-    </message>
-    <message>
-        <source>Online</source>
-        <translation type="unfinished">Online</translation>
-    </message>
-    <message>
-        <source>Offline</source>
-        <translation type="unfinished">Offline</translation>
-    </message>
-    <message>
-        <source>Starting</source>
-        <translation type="unfinished">Wird gestartet</translation>
-    </message>
-    <message>
-        <source>Updating</source>
-        <translation type="unfinished">Wird upgedated</translation>
-    </message>
-    <message>
-        <source>Error</source>
-        <translation type="unfinished">Fehler</translation>
-    </message>
-    <message>
-        <source>Permit new devices:</source>
-        <translation type="unfinished">Erlaube neue Geräte:</translation>
-    </message>
-    <message>
-        <source>Open for %0 s</source>
-        <translation type="unfinished">Für %0 s öffnen</translation>
-    </message>
-    <message>
-        <source>Closed</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Extend open duration</source>
-        <translation type="unfinished">Öffnungszeit verängern</translation>
-    </message>
-    <message>
-        <source>Open for new devices</source>
-        <translation type="unfinished">Für neue Geräte öffnen</translation>
-    </message>
-    <message>
-        <source>Zigbee nodes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>network coordinator</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Version</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>IEEE address</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Network address</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation type="unfinished">Entfernen</translation>
-    </message>
-    <message>
-        <source>Remove zigbee node</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Are you sure you want to remove this node from the network?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Please note that if this node has been assigned to a thing, it will also be removed from the system.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>ZigBee network help</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Zigbee network coordinator</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Zigbee router</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Zigbee end device</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Sleepy device</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>ZigbeeNetworkSettingsPage</name>
-    <message>
-        <source>ZigBee network settings</source>
-        <translation type="unfinished">ZigBee Netzwerkeinstellungen</translation>
-    </message>
-    <message>
-        <source>Network information</source>
-        <translation type="unfinished">Netzwerkinformation</translation>
-    </message>
-    <message>
-        <source>Network state</source>
-        <translation type="unfinished">Netzwerk-Status</translation>
-    </message>
-    <message>
-        <source>The network is online</source>
-        <translation type="unfinished">Das Netzwerk ist online</translation>
-    </message>
-    <message>
-        <source>The network is offline</source>
-        <translation type="unfinished">Das Netzwerk ist offline</translation>
-    </message>
-    <message>
-        <source>The network is starting...</source>
-        <translation type="unfinished">Das Netzwerk startet...</translation>
-    </message>
-    <message>
-        <source>The controller is currently installing an update</source>
-        <translation type="unfinished">Ein Update wird auf dem Adapter installiert</translation>
-    </message>
-    <message>
-        <source>The network is in an error state.</source>
-        <translation type="unfinished">Das Netzwerk ist in einem fehlerhaften Zustand.</translation>
-    </message>
-    <message>
-        <source>Channel</source>
-        <translation type="unfinished">Kanal</translation>
-    </message>
-    <message>
-        <source>Network PAN ID</source>
-        <translation type="unfinished">Netzwerk PAN ID</translation>
-    </message>
-    <message>
-        <source>Hardware information</source>
-        <translation type="unfinished">Geräteinformationen</translation>
-    </message>
-    <message>
-        <source>MAC address:</source>
-        <translation type="unfinished">MAC Adresse:</translation>
-    </message>
-    <message>
-        <source>Serial port</source>
-        <translation type="unfinished">Serielle Schnittstelle</translation>
-    </message>
-    <message>
-        <source>Baud rate</source>
-        <translation type="unfinished">Baud Rate</translation>
-    </message>
-    <message>
-        <source>Controller backend</source>
-        <translation type="unfinished">Backend</translation>
-    </message>
-    <message>
-        <source>Controller firmware version</source>
-        <translation type="unfinished">Firmware Version</translation>
-    </message>
-    <message>
-        <source>Manage network</source>
-        <translation type="unfinished">Netzwerke verwalten</translation>
-    </message>
-    <message>
-        <source>Remove network</source>
-        <translation type="unfinished">Netzwerk entfernen</translation>
-    </message>
-    <message>
-        <source>Factory reset controller</source>
-        <translation type="unfinished">Adapter zurücksetzen</translation>
+        <translation>Adapter zurücksetzen</translation>
     </message>
 </context>
 <context>
@@ -6615,32 +6612,12 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
         <translation>Fehler</translation>
     </message>
     <message>
-        <source>Open for %0 s</source>
-        <translation type="vanished">Für %0 s öffnen</translation>
-    </message>
-    <message>
-        <source>Closed</source>
-        <translation type="vanished">Geschlossen Geschlossen</translation>
-    </message>
-    <message>
-        <source>Extend open duration</source>
-        <translation type="vanished">Öffnungszeit verängern</translation>
-    </message>
-    <message>
-        <source>Open for new devices</source>
-        <translation type="vanished">Für neue Geräte öffnen</translation>
-    </message>
-    <message>
-        <source>Permit new devices:</source>
-        <translation type="vanished">Erlaube neue Geräte:</translation>
-    </message>
-    <message>
         <source>MAC address:</source>
-        <translation type="unfinished">MAC Adresse:</translation>
+        <translation>MAC Adresse:</translation>
     </message>
     <message>
         <source>Firmware version:</source>
-        <translation type="unfinished"></translation>
+        <translation>Firmware Version:</translation>
     </message>
 </context>
 <context>

@@ -234,7 +234,7 @@ SettingsPageBase {
     }
 
     SettingsPageSectionHeader {
-        text: qsTr("Zigbee nodes")
+        text: qsTr("ZigBee nodes")
     }
 
     Repeater {
@@ -429,7 +429,7 @@ SettingsPageBase {
             property ZigbeeNode zigbeeNode
 
             headerIcon: "/ui/images/zigbee.svg"
-            title: qsTr("Remove zigbee node") + " " + (zigbeeNode ? zigbeeNode.model : "")
+            title: qsTr("Remove ZigBee node") + " " + (zigbeeNode ? zigbeeNode.model : "")
             text: qsTr("Are you sure you want to remove this node from the network?")
             standardButtons: Dialog.Ok | Dialog.Cancel
 
@@ -474,7 +474,7 @@ SettingsPageBase {
                     }
 
                     Label {
-                        text: qsTr("Zigbee network coordinator")
+                        text: qsTr("ZigBee network coordinator")
                     }
                 }
 
@@ -488,7 +488,7 @@ SettingsPageBase {
                     }
 
                     Label {
-                        text: qsTr("Zigbee router")
+                        text: qsTr("ZigBee router")
                     }
                 }
 
@@ -501,7 +501,7 @@ SettingsPageBase {
                     }
 
                     Label {
-                        text: qsTr("Zigbee end device")
+                        text: qsTr("ZigBee end device")
                     }
                 }
 

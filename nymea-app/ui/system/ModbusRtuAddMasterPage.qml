@@ -59,7 +59,7 @@ SettingsPageBase {
         Layout.topMargin: app.margins
         Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
         wrapMode: Text.WordWrap
-        text: modbusRtuManager.serialPorts.count !== 0 ? qsTr("Please select one of the following serial ports detected on the system.") : qsTr("There are no serial ports available.\n\nPlease make sure the modbus RTU interface is connected to the system.")
+        text: modbusRtuManager.serialPorts.count !== 0 ? qsTr("Select a serial port.") : qsTr("There are no serial ports available.") + "\n\n" + qsTr("Please make sure the Modbus RTU interface is connected to the system.")
     }
 
     Repeater {
@@ -84,7 +84,7 @@ SettingsPageBase {
             busy: d.pendingCommandId != -1
 
             header: NymeaHeader {
-                text: qsTr("Configure modbus RTU master")
+                text: qsTr("Configure Modbus RTU master")
                 backButtonVisible: true
                 onBackPressed: pageStack.pop()
             }
@@ -118,7 +118,7 @@ SettingsPageBase {
 
             NymeaSwipeDelegate {
                 Layout.fillWidth: true
-                text: qsTr("System location")
+                text: qsTr("Path")
                 subText: serialPort.systemLocation
                 progressive: false
                 prominentSubText: false
@@ -232,7 +232,7 @@ SettingsPageBase {
                 Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
 
                 Label {
-                    text: qsTr("Number of request retries:")
+                    text: qsTr("Request retries")
                     Layout.fillWidth: true
                 }
                 TextField {
@@ -247,7 +247,7 @@ SettingsPageBase {
                 Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
 
                 Label {
-                    text: qsTr("Request timeout [ms]:")
+                    text: qsTr("Request timeout [ms]")
                     Layout.fillWidth: true
                 }
                 TextField {
@@ -272,7 +272,7 @@ SettingsPageBase {
                     var numberOfRetries = numberOfRetriesText.text
                     var timeout = timeoutText.text
 
-                    console.log("Adding modbus RTU with", serialPort.systemLocation, baudrate, parity, dataBits, stopBits, numberOfRetries, timeout)
+                    console.log("Adding Modbus RTU with", serialPort.systemLocation, baudrate, parity, dataBits, stopBits, numberOfRetries, timeout)
 
                     d.addModbusRtuMaster(serialPort.systemLocation, baudrate, parity, dataBits, stopBits, numberOfRetries, timeout)
                 }

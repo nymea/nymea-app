@@ -268,7 +268,7 @@ Page {
                     Binding {
                         target: mainViewLoader.item
                         property: "isCurrentItem"
-                        value: swipeView.currentIndex === index
+                        value: swipeView.currentIndex == index
                     }
 
                     Image {

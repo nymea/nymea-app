@@ -271,6 +271,25 @@
     </message>
 </context>
 <context>
+    <name>ButtonControls</name>
+    <message>
+        <source>On</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All off</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 on</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Off</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ButtonThingPage</name>
     <message>
         <source>This switch has not been used yet.</source>
@@ -868,6 +887,17 @@
     </message>
 </context>
 <context>
+    <name>ConnectionInfoDialog</name>
+    <message>
+        <source>Box information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Available connections</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ConnectionInterfaceDelegate</name>
     <message>
         <source>Interface: %1</source>
@@ -1170,12 +1200,12 @@
         <translation></translation>
     </message>
     <message>
-        <source>Open debug interface</source>
+        <source>Debug server</source>
         <translation></translation>
     </message>
     <message>
-        <source>Debug server</source>
-        <translation></translation>
+        <source>Debug interface active at %1.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1619,10 +1649,6 @@
         <translation></translation>
     </message>
     <message>
-        <source>To get an overview of your current energy usage, install some energy meters.</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Add things</source>
         <translation></translation>
     </message>
@@ -1667,6 +1693,14 @@
         <translation>
             <numerusform></numerusform>
         </translation>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To get an overview of your current energy usage, install an energy meter.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2110,14 +2144,6 @@ Please try again.</source>
     <name>InterfaceTile</name>
     <message>
         <source>uncategorized</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>All off</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>%1 on</source>
         <translation></translation>
     </message>
 </context>
@@ -2592,23 +2618,11 @@ Please try again.</source>
         <translation></translation>
     </message>
     <message>
-        <source>Total energy consumed changed</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Current power</source>
         <translation></translation>
     </message>
     <message>
         <source>Current power changed</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Total energy producedd</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Total energy produced changed</source>
         <translation></translation>
     </message>
     <message>
@@ -2993,6 +3007,42 @@ Please try again.</source>
     </message>
     <message>
         <source>Water detected changed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>CO sensor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>CO level</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>CO level changed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Flammable gas sensor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Flammable gas level</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Flammable gas level changed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Total consumed energy changed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Total energy produced</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Total produced energy changed</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3454,16 +3504,6 @@ Please try again.</source>
         <translation></translation>
     </message>
     <message>
-        <source>System update in progress...</source>
-        <translation></translation>
-    </message>
-    <message numerus="yes">
-        <source>%n system update(s) available</source>
-        <translation>
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message>
         <source>Groups</source>
         <translation></translation>
     </message>
@@ -3485,10 +3525,6 @@ Please try again.</source>
     </message>
     <message>
         <source>Configure</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Configure main view</source>
         <translation></translation>
     </message>
     <message>
@@ -3590,25 +3626,7 @@ Please try again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Please select one of the following serial ports detected on the system.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>There are no serial ports available.
-
-Please make sure the modbus RTU interface is connected to the system.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Configure modbus RTU master</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Serial port</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>System location</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3644,36 +3662,42 @@ Please make sure the modbus RTU interface is connected to the system.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Number of request retries:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Request timeout [ms]:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Add</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select a serial port.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There are no serial ports available.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please make sure the Modbus RTU interface is connected to the system.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Request retries</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Request timeout [ms]</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Configure Modbus RTU master</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ModbusRtuReconfigureMasterPage</name>
     <message>
-        <source>Reconfigure modbus RTU master</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Serial ports</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Please select one of the following serial ports detected on the system.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>There are no serial ports available.
-
-Please make sure the modbus RTU interface is connected to the system.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3682,10 +3706,6 @@ Please make sure the modbus RTU interface is connected to the system.</source>
     </message>
     <message>
         <source>Serial port</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>System location</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3725,15 +3745,35 @@ Please make sure the modbus RTU interface is connected to the system.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Number of request retries:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Request timeout [ms]:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Apply</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select a serial port.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There are no serial ports available.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please make sure the Modbus RTU interface is connected to the system.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Request retries</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Request timeout [ms]</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reconfigure Modbus RTU master</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3753,62 +3793,6 @@ Please make sure the modbus RTU interface is connected to the system.</source>
     </message>
     <message>
         <source>Modbus is not supported on this platform.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The modbus RTU hardware could not be found.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The selected modbus RTU master does not exist any more.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Unable to connect to the modbus RTU master.
-
-Maybe the hardware is already in use.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The specified timeout value is not valid.
-
-Please use a timeout value bigger or equal to 10 ms.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>9600 Bd</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>14400 Bd</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>19200 Bd</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>38400 Bd</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>57600 Bd</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>115200 Bd</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>128000 Bd</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>230400 Bd</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>256000 Bd</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3880,11 +3864,6 @@ Please use a timeout value bigger or equal to 10 ms.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>There are no Modbus RTU masters set up yet.
-In order to have Modbus RTU available as resource in the system, please add a new Modbus RTU master.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Modbus RTU is not supported on this platorm.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3901,18 +3880,6 @@ In order to have Modbus RTU available as resource in the system, please add a ne
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Remove modbus RTU master</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Are you sure you want to remove this modbus RTU master?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Please note that all related things will stop working until you assign a new modbus RTU master to them.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Information</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3922,10 +3889,6 @@ In order to have Modbus RTU available as resource in the system, please add a ne
     </message>
     <message>
         <source>UUID</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>System location</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3945,15 +3908,59 @@ In order to have Modbus RTU available as resource in the system, please add a ne
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Number of request retries</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Request timeout</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Reconfigure</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Request retries</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Request timeout [ms]</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There are no Modbus RTU masters set up yet.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>In order to use Modbus RTU devices, add a new Modbus RTU master.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The Modbus RTU hardware could not be found.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The selected Modbus RTU master does not exist any more.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unable to connect to the Modbus RTU master.
+
+Maybe the hardware is already in use.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to remove this Modbus RTU master?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please note that all related things will stop working until you assign a new Modbus RTU master to them.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove Modbus RTU master</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The specified timeout value is not valid.
+
+Use a timeout value greater or equal to 10 ms.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4468,14 +4475,6 @@ In order to have Modbus RTU available as resource in the system, please add a ne
         <source>Waiting for your nymea setup to appear in the network.</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>Box information</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Available connections</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>NewMagicPage</name>
@@ -4786,6 +4785,14 @@ In order to have Modbus RTU available as resource in the system, please add a ne
     </message>
     <message>
         <source>Cleaning robots</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>CO level</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Flammable gas level</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5142,12 +5149,60 @@ In order to have Modbus RTU available as resource in the system, please add a ne
 <context>
     <name>SelectStateDescriptorParamsPage</name>
     <message>
-        <source>Options</source>
+        <source>OK</source>
         <translation></translation>
     </message>
     <message>
-        <source>OK</source>
-        <translation></translation>
+        <source>Condition</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>is equal to</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>is not equal to</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>is smaller than</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>is greater than</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>is smaller or equal than</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>is greater or equal than</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>is</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>is not</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>a static value:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>another thing&apos;s state:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Insert value here</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select a state</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5467,10 +5522,6 @@ In order to have Modbus RTU available as resource in the system, please add a ne
         <translation></translation>
     </message>
     <message>
-        <source>Pairing...</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Thing reconfigured!</source>
         <translation></translation>
     </message>
@@ -5526,6 +5577,30 @@ In order to have Modbus RTU available as resource in the system, please add a ne
         <source>Set up %1</source>
         <translation></translation>
     </message>
+    <message>
+        <source>Discover %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Discovery options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Nymea found the following things</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Thing parameters</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Login required</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Username</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ShutterDeviceListPage</name>
@@ -5541,16 +5616,19 @@ In order to have Modbus RTU available as resource in the system, please add a ne
         <translation></translation>
     </message>
     <message>
-        <source>%1: %2 %3 %4</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>True</source>
         <translation></translation>
     </message>
     <message>
         <source>False</source>
         <translation></translation>
+    </message>
+</context>
+<context>
+    <name>SmartMeterChart</name>
+    <message>
+        <source>Unknown</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5758,6 +5836,10 @@ Please only use this if you are sure you want this and consider reporting the is
     <message>
         <source>Actions</source>
         <translation></translation>
+    </message>
+    <message>
+        <source>Interfaces</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -6311,10 +6393,6 @@ Please only use this if you are sure you want this and consider reporting the is
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Zigbee nodes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>network coordinator</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6335,10 +6413,6 @@ Please only use this if you are sure you want this and consider reporting the is
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Remove zigbee node</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Are you sure you want to remove this node from the network?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6351,19 +6425,27 @@ Please only use this if you are sure you want this and consider reporting the is
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Zigbee network coordinator</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Zigbee router</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Zigbee end device</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Sleepy device</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ZigBee nodes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove ZigBee node</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ZigBee network coordinator</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ZigBee router</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ZigBee end device</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

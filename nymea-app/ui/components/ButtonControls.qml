@@ -66,7 +66,7 @@ RowLayout {
             case "powersocket":
             case "evcharger":
                 if (root.thing) {
-                    return root.thing.stateByName("power").value === true ? qsTr("On") : qsTr("off")
+                    return root.thing.stateByName("power").value === true ? qsTr("On") : qsTr("Off")
                 }
 
                 var count = 0;

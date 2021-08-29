@@ -4,14 +4,6 @@
 <context>
     <name>AboutNymeaPage</name>
     <message>
-        <source>About %1:core</source>
-        <translation type="vanished">Hakkında %1:core</translation>
-    </message>
-    <message>
-        <source>%1:core</source>
-        <translation type="vanished">Hakkında %1:core</translation>
-    </message>
-    <message>
         <source>Connection:</source>
         <translation>Bağlantı:</translation>
     </message>
@@ -86,10 +78,6 @@
 <context>
     <name>AppLogPage</name>
     <message>
-        <source>App log</source>
-        <translation type="vanished">Uygulama günlüğü</translation>
-    </message>
-    <message>
         <source>Application logs</source>
         <translation>Uygulama günlükleri</translation>
     </message>
@@ -125,23 +113,12 @@
         <translation>Uygulama sürümlerini ve lisans bilgilerini bulun</translation>
     </message>
     <message>
-        <source>Log into %1:cloud and manage connected %1:core systems</source>
-        <translation type="vanished">%1: bulutta oturum açın ve bağlı %1: çekirdek sistemleri yönetin</translation>
-    </message>
-    <message>
         <source>Access tools for debugging and error reporting</source>
         <translation>Hata ayıklama ve hata raporlama için erişim araçları</translation>
     </message>
     <message>
         <source>Log into %1:cloud and manage connected %1 systems</source>
         <translation>%1:bulutta oturum açın ve bağlı %1 sistemlerini yönetin</translation>
-    </message>
-</context>
-<context>
-    <name>AwningDeviceListPage</name>
-    <message>
-        <source>Awnings</source>
-        <translation type="vanished">Tenteler</translation>
     </message>
 </context>
 <context>
@@ -164,13 +141,6 @@
     <message>
         <source>Last scan</source>
         <translation>Son tarama</translation>
-    </message>
-</context>
-<context>
-    <name>BlindDeviceListPage</name>
-    <message>
-        <source>Blinds</source>
-        <translation type="vanished">Panjur</translation>
     </message>
 </context>
 <context>
@@ -250,14 +220,6 @@
         <translation>%1 ile bağlantı kuruluyor</translation>
     </message>
     <message>
-        <source>Searching for %1:core systems.</source>
-        <translation type="vanished">%1:core sistemler aranıyor.</translation>
-    </message>
-    <message>
-        <source>Troubles finding your %1:core?</source>
-        <translation type="vanished">%1:core&apos;unuzu bulmakta sorun mu yaşıyorsunuz?</translation>
-    </message>
-    <message>
         <source>%1 box</source>
         <translation>%1 Kutu</translation>
     </message>
@@ -309,14 +271,22 @@
     </message>
 </context>
 <context>
-    <name>ButtonDevicePage</name>
+    <name>ButtonControls</name>
     <message>
-        <source>This switch has not been used yet.</source>
-        <translation type="vanished">Bu anahtar henüz kullanılmadı.</translation>
+        <source>On</source>
+        <translation type="unfinished">Açık</translation>
     </message>
     <message>
-        <source>Press a button on the switch to see logs appearing here.</source>
-        <translation type="vanished">Burada görünen günlükleri görmek için anahtardaki bir düğmeye basın.</translation>
+        <source>All off</source>
+        <translation type="unfinished">hepsi kapalı</translation>
+    </message>
+    <message>
+        <source>%1 on</source>
+        <translation type="unfinished">%1 açık</translation>
+    </message>
+    <message>
+        <source>Off</source>
+        <translation type="unfinished">Kapalı</translation>
     </message>
 </context>
 <context>
@@ -562,19 +532,6 @@
         <translation>Yeni bir şifre seçin:</translation>
     </message>
     <message>
-        <source>There are no %1:core systems connected to your cloud yet.</source>
-        <translation type="vanished">Henüz bulutunuza bağlı %1:core sistem yok.</translation>
-    </message>
-    <message numerus="yes">
-        <source>There are %n %1:core systems connected to your cloud.</source>
-        <translation><numerusform>Bulutunuza bağlı %n %1:core sistemler var.</numerusform>
-        <numerusform>Bulutunuza bağlı %n %1:core sistem var.</numerusform>
-        </translation></message>
-    <message>
-        <source>Sorry to see you go. If you log out you won&apos;t be able to connect to %1:core systems remotely any more. However, you can come back any time, we&apos;ll keep your user account. If you whish to completely delete your account and all the data associated with it, check the box below before hitting ok. If you decide to delete your account, all your personal information will be removed from %1:cloud and cannot be restored.</source>
-        <translation type="vanished">Gittiğini görmek üzücü. Oturumu kapatırsanız, artık %1:core sistemlerine uzaktan bağlanamayacaksınız. Ancak istediğiniz zaman geri dönebilirsiniz, kullanıcı hesabınız bizde kalacaktır. Hesabınızı ve onunla ilişkili tüm verileri tamamen silmek isterseniz, ok&apos;a basmadan önce aşağıdaki kutuyu işaretleyin. Hesabınızı silmeye karar verirseniz, tüm kişisel bilgileriniz %1:cloud kaldırılacak ve geri yüklenemeyecektir.</translation>
-    </message>
-    <message>
         <source>Failed to connect to the login server. Please mase sure your network connection is working.</source>
         <translation>Giriş sunucusuna bağlanılamadı. Lütfen ağ bağlantınızın çalıştığından emin olun.</translation>
     </message>
@@ -604,9 +561,10 @@
     </message>
     <message numerus="yes">
         <source>There are %n %1 systems connected to your cloud.</source>
-        <translation><numerusform>Bulutunuza bağlı %n %1 sistem var.</numerusform>
-        <numerusform>Bulutunuza bağlı %n %1 sistem var..</numerusform>
-        </translation></message>
+        <translation>
+            <numerusform>Bulutunuza bağlı %n %1 sistem var.</numerusform>
+        </translation>
+    </message>
     <message>
         <source>Sorry to see you go. If you log out you won&apos;t be able to connect to %1 systems remotely any more. However, you can come back any time, we&apos;ll keep your user account. If you whish to completely delete your account and all the data associated with it, check the box below before hitting ok. If you decide to delete your account, all your personal information will be removed from %1:cloud and cannot be restored.</source>
         <translation>Gittiğini görmek üzücü. Oturumu kapatırsanız, artık %1 sistemlerine uzaktan bağlanamayacaksınız. Ancak, istediğiniz zaman geri dönebilirsiniz, kullanıcı hesabınızı saklayacağız. Hesabınızı ve onunla ilişkili tüm verileri tamamen silmek istiyorsanız, tamam&apos;a basmadan önce aşağıdaki kutuyu işaretleyin. Hesabınızı silmeye karar verirseniz, tüm kişisel bilgileriniz %1:bulut&apos;dan kaldırılır ve geri yüklenemez.</translation>
@@ -833,9 +791,10 @@
     </message>
     <message numerus="yes">
         <source>There are %n %1 systems in your network! Which one would you like to use?</source>
-        <translation><numerusform>Ağınızda %n %1 sistem var! Hangisini kullanmak istersin?</numerusform>
-        <numerusform>Ağınızda %n %1 birden fazla sistem var! Hangisini kullanmak istersin?</numerusform>
-        </translation></message>
+        <translation>
+            <numerusform>Ağınızda %n %1 sistem var! Hangisini kullanmak istersin?</numerusform>
+        </translation>
+    </message>
     <message>
         <source>We haven&apos;t found a %1 system in your network yet.</source>
         <translation>Ağınızda henüz %1 sistemi bulamadık.</translation>
@@ -925,6 +884,17 @@
     <message>
         <source>%1 did not respond. Please make sure your network connection works properly</source>
         <translation>%1 yanıt vermedi. Lütfen ağ bağlantınızın düzgün çalıştığından emin olun</translation>
+    </message>
+</context>
+<context>
+    <name>ConnectionInfoDialog</name>
+    <message>
+        <source>Box information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Available connections</source>
+        <translation type="unfinished">Mevcut bağlantılar</translation>
     </message>
 </context>
 <context>
@@ -1230,12 +1200,12 @@
         <translation>Lütfen bu adresten erişilebilecek web sunucusunu etkinleştirin.</translation>
     </message>
     <message>
-        <source>Open debug interface</source>
-        <translation>Hata ayıklama arayüzünü aç</translation>
-    </message>
-    <message>
         <source>Debug server</source>
         <translation>Hata ayıklama sunucusu</translation>
+    </message>
+    <message>
+        <source>Debug interface active at %1.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1685,48 +1655,59 @@
         <translation>Kurulu enerji sayaçları yok.</translation>
     </message>
     <message>
-        <source>To get an overview of your current energy usage, install some energy meters.</source>
-        <translation>Mevcut enerji kullanımınız hakkında bir genel bakış elde etmek için bazı enerji sayaçları kurun.</translation>
-    </message>
-    <message>
         <source>Add things</source>
         <translation>Bir şeyler ekle</translation>
     </message>
     <message numerus="yes">
         <source>%n seconds</source>
-        <translation><numerusform>%n saniye</numerusform>
-        <numerusform>%n saniyeler</numerusform>
-        </translation></message>
+        <translation>
+            <numerusform>%n saniye</numerusform>
+        </translation>
+    </message>
     <message numerus="yes">
         <source>%n minutes</source>
-        <translation><numerusform>%n dakika</numerusform>
-        <numerusform>%n dakikalar</numerusform>
-        </translation></message>
+        <translation>
+            <numerusform>%n dakika</numerusform>
+        </translation>
+    </message>
     <message numerus="yes">
         <source>%n hours</source>
-        <translation><numerusform>%n saat</numerusform>
-        <numerusform>%n saatler</numerusform>
-        </translation></message>
+        <translation>
+            <numerusform>%n saat</numerusform>
+        </translation>
+    </message>
     <message numerus="yes">
         <source>%n days</source>
-        <translation><numerusform>%n gün</numerusform>
-        <numerusform>%n günler</numerusform>
-        </translation></message>
+        <translation>
+            <numerusform>%n gün</numerusform>
+        </translation>
+    </message>
     <message numerus="yes">
         <source>%n weeks</source>
-        <translation><numerusform>%n hafta</numerusform>
-        <numerusform>%n haftalar</numerusform>
-        </translation></message>
+        <translation>
+            <numerusform>%n hafta</numerusform>
+        </translation>
+    </message>
     <message numerus="yes">
         <source>%n months</source>
-        <translation><numerusform>%n ay</numerusform>
-        <numerusform>%n aylar</numerusform>
-        </translation></message>
+        <translation>
+            <numerusform>%n ay</numerusform>
+        </translation>
+    </message>
     <message numerus="yes">
         <source>%n years</source>
-        <translation><numerusform>%n yıl</numerusform>
-        <numerusform>%n yıllar</numerusform>
-        </translation></message>
+        <translation>
+            <numerusform>%n yıl</numerusform>
+        </translation>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation type="unfinished">Bilinmeyen</translation>
+    </message>
+    <message>
+        <source>To get an overview of your current energy usage, install an energy meter.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ErrorDialog</name>
@@ -2048,39 +2029,46 @@ Please try again.</source>
     </message>
     <message numerus="yes">
         <source>%n seconds</source>
-        <translation><numerusform>%n saniye</numerusform>
-        <numerusform>%n saniyeler</numerusform>
-        </translation></message>
+        <translation>
+            <numerusform>%n saniye</numerusform>
+        </translation>
+    </message>
     <message numerus="yes">
         <source>%n minutes</source>
-        <translation><numerusform>%n dakika</numerusform>
-        <numerusform>%n dakikalar</numerusform>
-        </translation></message>
+        <translation>
+            <numerusform>%n dakika</numerusform>
+        </translation>
+    </message>
     <message numerus="yes">
         <source>%n hours</source>
-        <translation><numerusform>%n saat</numerusform>
-        <numerusform>%n saatler</numerusform>
-        </translation></message>
+        <translation>
+            <numerusform>%n saat</numerusform>
+        </translation>
+    </message>
     <message numerus="yes">
         <source>%n days</source>
-        <translation><numerusform>%n gün</numerusform>
-        <numerusform>%n günler</numerusform>
-        </translation></message>
+        <translation>
+            <numerusform>%n gün</numerusform>
+        </translation>
+    </message>
     <message numerus="yes">
         <source>%n weeks</source>
-        <translation><numerusform>%n hafta</numerusform>
-        <numerusform>%n haftalar</numerusform>
-        </translation></message>
+        <translation>
+            <numerusform>%n hafta</numerusform>
+        </translation>
+    </message>
     <message numerus="yes">
         <source>%n months</source>
-        <translation><numerusform>%n ay</numerusform>
-        <numerusform>%n aylar</numerusform>
-        </translation></message>
+        <translation>
+            <numerusform>%n ay</numerusform>
+        </translation>
+    </message>
     <message numerus="yes">
         <source>%n years</source>
-        <translation><numerusform>%n yıl</numerusform>
-        <numerusform>%n yıllar</numerusform>
-        </translation></message>
+        <translation>
+            <numerusform>%n yıl</numerusform>
+        </translation>
+    </message>
 </context>
 <context>
     <name>GenericTypeLogView</name>
@@ -2163,14 +2151,6 @@ Please try again.</source>
     <message>
         <source>uncategorized</source>
         <translation>kategorize edilmemiş</translation>
-    </message>
-    <message>
-        <source>All off</source>
-        <translation>hepsi kapalı</translation>
-    </message>
-    <message>
-        <source>%1 on</source>
-        <translation>%1 açık</translation>
     </message>
 </context>
 <context>
@@ -2644,24 +2624,12 @@ Please try again.</source>
         <translation>Tüketilen toplam enerji</translation>
     </message>
     <message>
-        <source>Total energy consumed changed</source>
-        <translation>Tüketilen toplam enerji değişti</translation>
-    </message>
-    <message>
         <source>Current power</source>
         <translation>Mevcut güç</translation>
     </message>
     <message>
         <source>Current power changed</source>
         <translation>Mevcut güç değişti</translation>
-    </message>
-    <message>
-        <source>Total energy producedd</source>
-        <translation>Üretilen toplam enerji</translation>
-    </message>
-    <message>
-        <source>Total energy produced changed</source>
-        <translation>Üretilen toplam enerji değişti</translation>
     </message>
     <message>
         <source>Mute</source>
@@ -3047,6 +3015,42 @@ Please try again.</source>
         <source>Return to base</source>
         <translation>Üsse geri dön</translation>
     </message>
+    <message>
+        <source>CO sensor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>CO level</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>CO level changed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Flammable gas sensor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Flammable gas level</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Flammable gas level changed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Total consumed energy changed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Total energy produced</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Total produced energy changed</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>IrrigationDevicePage</name>
@@ -3068,34 +3072,40 @@ Please try again.</source>
     </message>
     <message numerus="yes">
         <source>%n minute(s)</source>
-        <translation><numerusform>%n dakikalar</numerusform>
-        <numerusform>%n dakika</numerusform>
-        </translation></message>
+        <translation>
+            <numerusform>%n dakikalar</numerusform>
+        </translation>
+    </message>
     <message numerus="yes">
         <source>%n hour(s)</source>
-        <translation><numerusform>%n saatler</numerusform>
-        <numerusform>%n saat</numerusform>
-        </translation></message>
+        <translation>
+            <numerusform>%n saatler</numerusform>
+        </translation>
+    </message>
     <message numerus="yes">
         <source>%n day(s)</source>
-        <translation><numerusform>%n günler</numerusform>
-        <numerusform>%n gün</numerusform>
-        </translation></message>
+        <translation>
+            <numerusform>%n günler</numerusform>
+        </translation>
+    </message>
     <message numerus="yes">
         <source>%n minute(s) ago</source>
-        <translation><numerusform>%n dakikalar önce</numerusform>
-        <numerusform>%n dakika önce</numerusform>
-        </translation></message>
+        <translation>
+            <numerusform>%n dakikalar önce</numerusform>
+        </translation>
+    </message>
     <message numerus="yes">
         <source>%n hour(s) ago</source>
-        <translation><numerusform>%n saatler önce</numerusform>
-        <numerusform>%n saat önce</numerusform>
-        </translation></message>
+        <translation>
+            <numerusform>%n saatler önce</numerusform>
+        </translation>
+    </message>
     <message numerus="yes">
         <source>%n day(s) ago</source>
-        <translation><numerusform>%n günler önce</numerusform>
-        <numerusform>%n gün önce</numerusform>
-        </translation></message>
+        <translation>
+            <numerusform>%n günler önce</numerusform>
+        </translation>
+    </message>
     <message>
         <source>Watering until</source>
         <extracomment>Irrigation will be turned of at, e.g. 09:00</extracomment>
@@ -3136,19 +3146,22 @@ Please try again.</source>
     </message>
     <message numerus="yes">
         <source>%n minute(s) left</source>
-        <translation><numerusform>%n dakikalar kaldı</numerusform>
-        <numerusform>%n dakika kaldı</numerusform>
-        </translation></message>
+        <translation>
+            <numerusform>%n dakikalar kaldı</numerusform>
+        </translation>
+    </message>
     <message numerus="yes">
         <source>%n hour(s) left</source>
-        <translation><numerusform>%n saatler kaldı</numerusform>
-        <numerusform>%n saat kaldı</numerusform>
-        </translation></message>
+        <translation>
+            <numerusform>%n saatler kaldı</numerusform>
+        </translation>
+    </message>
     <message numerus="yes">
         <source>%n day(s) left</source>
-        <translation><numerusform>%n günler kaldı</numerusform>
-        <numerusform>%n gün kaldı</numerusform>
-        </translation></message>
+        <translation>
+            <numerusform>%n günler kaldı</numerusform>
+        </translation>
+    </message>
 </context>
 <context>
     <name>LightThingsListPage</name>
@@ -3497,15 +3510,6 @@ Please try again.</source>
         <translation>bağlantıyı kes</translation>
     </message>
     <message>
-        <source>System update in progress...</source>
-        <translation>Sistem güncellemesi devam ediyor...</translation>
-    </message>
-    <message numerus="yes">
-        <source>%n system update(s) available</source>
-        <translation><numerusform>%n sistem güncellemeleri mevcut</numerusform>
-        <numerusform>%n sistem güncellemesi mevcut</numerusform>
-        </translation></message>
-    <message>
         <source>Groups</source>
         <translation>Gruplar</translation>
     </message>
@@ -3528,10 +3532,6 @@ Please try again.</source>
     <message>
         <source>Configure</source>
         <translation>Yapılandır</translation>
-    </message>
-    <message>
-        <source>Configure main view</source>
-        <translation>Ana görünümü yapılandır</translation>
     </message>
     <message>
         <source>Dashboard</source>
@@ -3632,26 +3632,8 @@ Please try again.</source>
         <translation>Seri bağlantı girişleri</translation>
     </message>
     <message>
-        <source>Please select one of the following serial ports detected on the system.</source>
-        <translation>Lütfen sistemde algılanan aşağıdaki seri bağlantı noktalarından birini seçin.</translation>
-    </message>
-    <message>
-        <source>There are no serial ports available.
-
-Please make sure the modbus RTU interface is connected to the system.</source>
-        <translation>Kullanılabilir seri bağlantı noktası yok. Lütfen modbus RTU arayüzünün sisteme bağlı olduğundan emin olun.</translation>
-    </message>
-    <message>
-        <source>Configure modbus RTU master</source>
-        <translation>Modbus RTU master&apos;ı yapılandırın</translation>
-    </message>
-    <message>
         <source>Serial port</source>
         <translation>Seri port</translation>
-    </message>
-    <message>
-        <source>System location</source>
-        <translation>Sistem konumu</translation>
     </message>
     <message>
         <source>Description</source>
@@ -3686,37 +3668,43 @@ Please make sure the modbus RTU interface is connected to the system.</source>
         <translation>Bitleri durdur</translation>
     </message>
     <message>
-        <source>Number of request retries:</source>
-        <translation>İstek yeniden deneme sayısı:</translation>
-    </message>
-    <message>
-        <source>Request timeout [ms]:</source>
-        <translation>İstek zaman aşımı [ms]:</translation>
-    </message>
-    <message>
         <source>Add</source>
         <translation>Ekle</translation>
+    </message>
+    <message>
+        <source>Select a serial port.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There are no serial ports available.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please make sure the Modbus RTU interface is connected to the system.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Request retries</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Request timeout [ms]</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Configure Modbus RTU master</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ModbusRtuReconfigureMasterPage</name>
     <message>
-        <source>Reconfigure modbus RTU master</source>
-        <translation>Modbus RTU master&apos;ı yeniden yapılandırın</translation>
-    </message>
-    <message>
         <source>Serial ports</source>
         <translation>Seri bağlantı girişleri</translation>
-    </message>
-    <message>
-        <source>Please select one of the following serial ports detected on the system.</source>
-        <translation>Lütfen sistemde algılanan aşağıdaki seri bağlantı noktalarından birini seçin.</translation>
-    </message>
-    <message>
-        <source>There are no serial ports available.
-
-Please make sure the modbus RTU interface is connected to the system.</source>
-        <translation>Kullanılabilir seri bağlantı noktası yok. Lütfen modbus RTU arayüzünün sisteme bağlı olduğundan emin olun.</translation>
     </message>
     <message>
         <source>UUID</source>
@@ -3725,10 +3713,6 @@ Please make sure the modbus RTU interface is connected to the system.</source>
     <message>
         <source>Serial port</source>
         <translation>Seri port</translation>
-    </message>
-    <message>
-        <source>System location</source>
-        <translation>Sistem konumu</translation>
     </message>
     <message>
         <source>Description</source>
@@ -3767,16 +3751,36 @@ Please make sure the modbus RTU interface is connected to the system.</source>
         <translation>Bitleri durdur</translation>
     </message>
     <message>
-        <source>Number of request retries:</source>
-        <translation>İstek yeniden deneme sayısı:</translation>
-    </message>
-    <message>
-        <source>Request timeout [ms]:</source>
-        <translation>İstek zaman aşımı [ms]:</translation>
-    </message>
-    <message>
         <source>Apply</source>
         <translation>Uygula</translation>
+    </message>
+    <message>
+        <source>Select a serial port.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There are no serial ports available.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please make sure the Modbus RTU interface is connected to the system.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Request retries</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Request timeout [ms]</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reconfigure Modbus RTU master</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3796,62 +3800,6 @@ Please make sure the modbus RTU interface is connected to the system.</source>
     <message>
         <source>Modbus is not supported on this platform.</source>
         <translation>Modbus bu platformda desteklenmemektedir.</translation>
-    </message>
-    <message>
-        <source>The modbus RTU hardware could not be found.</source>
-        <translation>Modbus RTU donanımı bulunamadı.</translation>
-    </message>
-    <message>
-        <source>The selected modbus RTU master does not exist any more.</source>
-        <translation>Seçilen modbus RTU master artık mevcut değil.</translation>
-    </message>
-    <message>
-        <source>Unable to connect to the modbus RTU master.
-
-Maybe the hardware is already in use.</source>
-        <translation>Modbus RTU master&apos;a bağlanılamıyor. Donanım kullanımda olabilir.</translation>
-    </message>
-    <message>
-        <source>The specified timeout value is not valid.
-
-Please use a timeout value bigger or equal to 10 ms.</source>
-        <translation>Belirtilen zaman aşımı değeri geçerli değil. Lütfen 10 ms&apos;ye eşit veya daha büyük bir zaman aşımı değeri kullanın.</translation>
-    </message>
-    <message>
-        <source>9600 Bd</source>
-        <translation>9600 bit hızı</translation>
-    </message>
-    <message>
-        <source>14400 Bd</source>
-        <translation>14400 bit hızı</translation>
-    </message>
-    <message>
-        <source>19200 Bd</source>
-        <translation>19200 bit hızı</translation>
-    </message>
-    <message>
-        <source>38400 Bd</source>
-        <translation>38400 bit hızı</translation>
-    </message>
-    <message>
-        <source>57600 Bd</source>
-        <translation>57600 bit hızı</translation>
-    </message>
-    <message>
-        <source>115200 Bd</source>
-        <translation>115200 bit hızı</translation>
-    </message>
-    <message>
-        <source>128000 Bd</source>
-        <translation>128000 bit hızı</translation>
-    </message>
-    <message>
-        <source>230400 Bd</source>
-        <translation>230400 bit hızı</translation>
-    </message>
-    <message>
-        <source>256000 Bd</source>
-        <translation>256000 bit hızı</translation>
     </message>
     <message>
         <source>Unknown baud rate</source>
@@ -3922,11 +3870,6 @@ Please use a timeout value bigger or equal to 10 ms.</source>
         <translation>Modbus RTU yönetici&apos;leri</translation>
     </message>
     <message>
-        <source>There are no Modbus RTU masters set up yet.
-In order to have Modbus RTU available as resource in the system, please add a new Modbus RTU master.</source>
-        <translation>Henüz ayarlanmış bir Modbus RTU yöneticisi yok. Modbus RTU&apos;nun sistemde kaynak olarak kullanılabilir olması için lütfen yeni bir Modbus RTU yönetici ekleyin.</translation>
-    </message>
-    <message>
         <source>Modbus RTU is not supported on this platorm.</source>
         <translation>Modbus RTU bu platformda desteklenmemektedir.</translation>
     </message>
@@ -3943,18 +3886,6 @@ In order to have Modbus RTU available as resource in the system, please add a ne
         <translation>Modbus RTU yöneticisi</translation>
     </message>
     <message>
-        <source>Remove modbus RTU master</source>
-        <translation>Modbus RTU yönetici&apos;yi kaldırın</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to remove this modbus RTU master?</source>
-        <translation>Bu modbus RTU yönetiçi&apos;yi kaldırmak istediğinizden emin misiniz?</translation>
-    </message>
-    <message>
-        <source>Please note that all related things will stop working until you assign a new modbus RTU master to them.</source>
-        <translation>Lütfen bunlara yeni bir modbus RTU yönetici atayana kadar ilgili tüm şeylerin çalışmayı durduracağını unutmayın.</translation>
-    </message>
-    <message>
         <source>Information</source>
         <translation>Bilgi</translation>
     </message>
@@ -3965,10 +3896,6 @@ In order to have Modbus RTU available as resource in the system, please add a ne
     <message>
         <source>UUID</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>System location</source>
-        <translation>Sistem konumu</translation>
     </message>
     <message>
         <source>Baud rate</source>
@@ -3987,16 +3914,60 @@ In order to have Modbus RTU available as resource in the system, please add a ne
         <translation>Bitleri durdur</translation>
     </message>
     <message>
-        <source>Number of request retries</source>
-        <translation>İstek yeniden deneme sayısı</translation>
-    </message>
-    <message>
-        <source>Request timeout</source>
-        <translation>İstek zaman aşımına uğradı</translation>
-    </message>
-    <message>
         <source>Reconfigure</source>
         <translation>yeniden yapılandır</translation>
+    </message>
+    <message>
+        <source>Path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Request retries</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Request timeout [ms]</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There are no Modbus RTU masters set up yet.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>In order to use Modbus RTU devices, add a new Modbus RTU master.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The Modbus RTU hardware could not be found.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The selected Modbus RTU master does not exist any more.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unable to connect to the Modbus RTU master.
+
+Maybe the hardware is already in use.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to remove this Modbus RTU master?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please note that all related things will stop working until you assign a new Modbus RTU master to them.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove Modbus RTU master</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The specified timeout value is not valid.
+
+Use a timeout value greater or equal to 10 ms.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4444,7 +4415,7 @@ In order to have Modbus RTU available as resource in the system, please add a ne
     </message>
     <message>
         <source>Port:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">bağlantı:</translation>
     </message>
     <message>
         <source>Encrypted connection:</source>
@@ -4509,14 +4480,6 @@ In order to have Modbus RTU available as resource in the system, please add a ne
     <message>
         <source>Waiting for your nymea setup to appear in the network.</source>
         <translation>Nymea kurulumunuzun ağda görünmesini bekliyorum.</translation>
-    </message>
-    <message>
-        <source>Box information</source>
-        <translation>Kutu bilgisi</translation>
-    </message>
-    <message>
-        <source>Available connections</source>
-        <translation>Mevcut bağlantılar</translation>
     </message>
 </context>
 <context>
@@ -4829,6 +4792,14 @@ In order to have Modbus RTU available as resource in the system, please add a ne
     <message>
         <source>Cleaning robots</source>
         <translation>temizlik robotları</translation>
+    </message>
+    <message>
+        <source>CO level</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Flammable gas level</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5184,12 +5155,60 @@ In order to have Modbus RTU available as resource in the system, please add a ne
 <context>
     <name>SelectStateDescriptorParamsPage</name>
     <message>
-        <source>Options</source>
-        <translation>Seçenekler</translation>
-    </message>
-    <message>
         <source>OK</source>
         <translation>Tamam</translation>
+    </message>
+    <message>
+        <source>Condition</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>is equal to</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>is not equal to</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>is smaller than</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>is greater than</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>is smaller or equal than</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>is greater or equal than</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>is</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>is not</source>
+        <translation type="unfinished">değil</translation>
+    </message>
+    <message>
+        <source>a static value:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>another thing&apos;s state:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Insert value here</source>
+        <translation type="unfinished">Değeri buraya girin</translation>
+    </message>
+    <message>
+        <source>Select a state</source>
+        <translation type="unfinished">Bir devlet seçin</translation>
     </message>
 </context>
 <context>
@@ -5509,10 +5528,6 @@ In order to have Modbus RTU available as resource in the system, please add a ne
         <translation>Şeyi adlandırın:</translation>
     </message>
     <message>
-        <source>Pairing...</source>
-        <translation>Eşleştirme...</translation>
-    </message>
-    <message>
         <source>Thing reconfigured!</source>
         <translation>Şey yeniden yapılandırıldı!</translation>
     </message>
@@ -5568,6 +5583,30 @@ In order to have Modbus RTU available as resource in the system, please add a ne
         <source>Set up %1</source>
         <translation>%1&apos;i kur</translation>
     </message>
+    <message>
+        <source>Discover %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Discovery options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Nymea found the following things</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Thing parameters</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Login required</source>
+        <translation type="unfinished">Oturum açmak gereklidir</translation>
+    </message>
+    <message>
+        <source>Username</source>
+        <translation type="unfinished">Kullanıcı adı</translation>
+    </message>
 </context>
 <context>
     <name>ShutterDeviceListPage</name>
@@ -5583,16 +5622,19 @@ In order to have Modbus RTU available as resource in the system, please add a ne
         <translation>Durumu düzenlemek için basın</translation>
     </message>
     <message>
-        <source>%1: %2 %3 %4</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>True</source>
         <translation>Doğru</translation>
     </message>
     <message>
         <source>False</source>
         <translation>Yanlış</translation>
+    </message>
+</context>
+<context>
+    <name>SmartMeterChart</name>
+    <message>
+        <source>Unknown</source>
+        <translation type="unfinished">Bilinmeyen</translation>
     </message>
 </context>
 <context>
@@ -5719,9 +5761,10 @@ In order to have Modbus RTU available as resource in the system, please add a ne
     </message>
     <message numerus="yes">
         <source>%n update(s) available</source>
-        <translation><numerusform>%n güncellemeler mevcut</numerusform>
-        <numerusform>%n güncelleme mevcut</numerusform>
-        </translation></message>
+        <translation>
+            <numerusform>%n güncellemeler mevcut</numerusform>
+        </translation>
+    </message>
     <message>
         <source>Check again</source>
         <translation>Tekrar kontrol et</translation>
@@ -5802,6 +5845,10 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     <message>
         <source>Actions</source>
         <translation>Hareketler</translation>
+    </message>
+    <message>
+        <source>Interfaces</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -6355,10 +6402,6 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
         <translation>Yeni cihazlar için aç</translation>
     </message>
     <message>
-        <source>Zigbee nodes</source>
-        <translation>Zigbee düğümleri</translation>
-    </message>
-    <message>
         <source>network coordinator</source>
         <translation>ağ koordinatörü</translation>
     </message>
@@ -6379,10 +6422,6 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
         <translation>Kaldır</translation>
     </message>
     <message>
-        <source>Remove zigbee node</source>
-        <translation>Zigbee düğümünü kaldır</translation>
-    </message>
-    <message>
         <source>Are you sure you want to remove this node from the network?</source>
         <translation>Bu düğümü ağdan kaldırmak istediğinizden emin misiniz?</translation>
     </message>
@@ -6395,20 +6434,28 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
         <translation>ZigBee ağ yardımı</translation>
     </message>
     <message>
-        <source>Zigbee network coordinator</source>
-        <translation>Zigbee ağ koordinatörü</translation>
-    </message>
-    <message>
-        <source>Zigbee router</source>
-        <translation>Zigbee yönlendirici</translation>
-    </message>
-    <message>
-        <source>Zigbee end device</source>
-        <translation>Zigbee uç cihazı</translation>
-    </message>
-    <message>
         <source>Sleepy device</source>
         <translation>uykulu cihaz</translation>
+    </message>
+    <message>
+        <source>ZigBee nodes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove ZigBee node</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ZigBee network coordinator</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ZigBee router</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ZigBee end device</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

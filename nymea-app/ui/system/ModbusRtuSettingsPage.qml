@@ -72,16 +72,16 @@ SettingsPageBase {
                 props.text = qsTr("Modbus is not supported on this platform.");
                 break;
             case "ModbusRtuErrorHardwareNotFound":
-                props.text = qsTr("The modbus RTU hardware could not be found.");
+                props.text = qsTr("The Modbus RTU hardware could not be found.");
                 break;
             case "ModbusRtuErrorUuidNotFound":
-                props.text = qsTr("The selected modbus RTU master does not exist any more.");
+                props.text = qsTr("The selected Modbus RTU master does not exist any more.");
                 break;
             case "ModbusRtuErrorConnectionFailed":
-                props.text = qsTr("Unable to connect to the modbus RTU master.\n\nMaybe the hardware is already in use.");
+                props.text = qsTr("Unable to connect to the Modbus RTU master.\n\nMaybe the hardware is already in use.");
                 break;
             case "ModbusRtuInvalidTimeoutValue":
-                props.text = qsTr("The specified timeout value is not valid.\n\nPlease use a timeout value bigger or equal to 10 ms.");
+                props.text = qsTr("The specified timeout value is not valid.\n\nUse a timeout value greater or equal to 10 ms.");
                 break;
             default:
                 props.errorCode = error;
@@ -96,20 +96,20 @@ SettingsPageBase {
 
     ListModel {
         id: serialPortBaudrateModel
-        ListElement { value: 9600; text: qsTr("9600 Bd") }
-        ListElement { value: 14400; text: qsTr("14400 Bd") }
-        ListElement { value: 19200; text: qsTr("19200 Bd") }
-        ListElement { value: 38400; text: qsTr("38400 Bd") }
-        ListElement { value: 57600; text: qsTr("57600 Bd") }
-        ListElement { value: 115200; text: qsTr("115200 Bd") }
-        ListElement { value: 128000; text: qsTr("128000 Bd") }
-        ListElement { value: 230400; text: qsTr("230400 Bd") }
-        ListElement { value: 256000; text: qsTr("256000 Bd") }
+        ListElement { value: 9600; }
+        ListElement { value: 14400; }
+        ListElement { value: 19200; }
+        ListElement { value: 38400; }
+        ListElement { value: 57600; }
+        ListElement { value: 115200; }
+        ListElement { value: 128000; }
+        ListElement { value: 230400; }
+        ListElement { value: 256000; }
 
         function getText(baudrate) {
             for (var index = 0; index < serialPortBaudrateModel.count; index++) {
                 if (serialPortBaudrateModel.get(index).value === baudrate) {
-                    return serialPortBaudrateModel.get(index).text
+                    return serialPortBaudrateModel.get(index).value
                 }
             }
 
@@ -180,7 +180,7 @@ SettingsPageBase {
             width: parent.width - app.margins * 2
             anchors.centerIn: parent
             title: qsTr("Modbus RTU masters")
-            text: qsTr("There are no Modbus RTU masters set up yet.\nIn order to have Modbus RTU available as resource in the system, please add a new Modbus RTU master.")
+            text: qsTr("There are no Modbus RTU masters set up yet.") + "\n" + qsTr("In order to use Modbus RTU devices, add a new Modbus RTU master.")
             imageSource: "/ui/images/modbus.svg"
             buttonText: qsTr("Add Modbus RTU master")
             onButtonClicked: {
@@ -234,7 +234,7 @@ SettingsPageBase {
 
                 HeaderButton {
                     imageSource: "../images/delete.svg"
-                    text: qsTr("Remove modbus RTU master")
+                    text: qsTr("Remove Modbus RTU master")
                     enabled: modbusRtuManager.supported
                     onClicked: {
                         var dialog = removeModbusMasterDialogComponent.createObject(app, {modbusRtuMaster: root.modbusRtuMaster})
@@ -252,12 +252,12 @@ SettingsPageBase {
                     property ModbusRtuMaster modbusRtuMaster
 
                     headerIcon: "../images/modbus.svg"
-                    title: qsTr("Remove modbus RTU master")
-                    text: qsTr("Are you sure you want to remove this modbus RTU master?")
+                    title: qsTr("Remove Modbus RTU master")
+                    text: qsTr("Are you sure you want to remove this Modbus RTU master?")
                     standardButtons: Dialog.Ok | Dialog.Cancel
 
                     Label {
-                        text: qsTr("Please note that all related things will stop working until you assign a new modbus RTU master to them.")
+                        text: qsTr("Please note that all related things will stop working until you assign a new Modbus RTU master to them.")
                         Layout.fillWidth: true
                         wrapMode: Text.WordWrap
                     }
@@ -327,7 +327,7 @@ SettingsPageBase {
 
             NymeaSwipeDelegate {
                 Layout.fillWidth: true
-                text: qsTr("System location")
+                text: qsTr("Path")
                 subText: modbusRtuMaster ? modbusRtuMaster.serialPort : ""
                 progressive: false
                 prominentSubText: false
@@ -367,7 +367,7 @@ SettingsPageBase {
 
             NymeaSwipeDelegate {
                 Layout.fillWidth: true
-                text: qsTr("Number of request retries")
+                text: qsTr("Request retries")
                 subText: modbusRtuMaster ? modbusRtuMaster.numberOfRetries : ""
                 progressive: false
                 prominentSubText: false
@@ -375,7 +375,7 @@ SettingsPageBase {
 
             NymeaSwipeDelegate {
                 Layout.fillWidth: true
-                text: qsTr("Request timeout")
+                text: qsTr("Request timeout [ms]")
                 subText: modbusRtuMaster ? modbusRtuMaster.timeout + " ms" : ""
                 progressive: false
                 prominentSubText: false
