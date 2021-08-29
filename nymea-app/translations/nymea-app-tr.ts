@@ -561,10 +561,9 @@
     </message>
     <message numerus="yes">
         <source>There are %n %1 systems connected to your cloud.</source>
-        <translation>
-            <numerusform>Bulutunuza bağlı %n %1 sistem var.</numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>Bulutunuza bağlı %n %1 sistem var.</numerusform>
+        <numerusform>Bulutunuza bağlı %n %1 sistemler var.</numerusform>
+        </translation></message>
     <message>
         <source>Sorry to see you go. If you log out you won&apos;t be able to connect to %1 systems remotely any more. However, you can come back any time, we&apos;ll keep your user account. If you whish to completely delete your account and all the data associated with it, check the box below before hitting ok. If you decide to delete your account, all your personal information will be removed from %1:cloud and cannot be restored.</source>
         <translation>Gittiğini görmek üzücü. Oturumu kapatırsanız, artık %1 sistemlerine uzaktan bağlanamayacaksınız. Ancak, istediğiniz zaman geri dönebilirsiniz, kullanıcı hesabınızı saklayacağız. Hesabınızı ve onunla ilişkili tüm verileri tamamen silmek istiyorsanız, tamam&apos;a basmadan önce aşağıdaki kutuyu işaretleyin. Hesabınızı silmeye karar verirseniz, tüm kişisel bilgileriniz %1:bulut&apos;dan kaldırılır ve geri yüklenemez.</translation>
@@ -791,10 +790,9 @@
     </message>
     <message numerus="yes">
         <source>There are %n %1 systems in your network! Which one would you like to use?</source>
-        <translation>
-            <numerusform>Ağınızda %n %1 sistem var! Hangisini kullanmak istersin?</numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>Ağınızda %n %1 sistem var! Hangisini kullanmak istersin?</numerusform>
+        <numerusform>Ağınızda %n %1 sistemleri var! Hangisini kullanmak istersin?</numerusform>
+        </translation></message>
     <message>
         <source>We haven&apos;t found a %1 system in your network yet.</source>
         <translation>Ağınızda henüz %1 sistemi bulamadık.</translation>
@@ -1660,46 +1658,39 @@
     </message>
     <message numerus="yes">
         <source>%n seconds</source>
-        <translation>
-            <numerusform>%n saniye</numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%n saniye</numerusform>
+        <numerusform>%n saniyeler</numerusform>
+        </translation></message>
     <message numerus="yes">
         <source>%n minutes</source>
-        <translation>
-            <numerusform>%n dakika</numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%n dakika</numerusform>
+        <numerusform>%n dakikalar</numerusform>
+        </translation></message>
     <message numerus="yes">
         <source>%n hours</source>
-        <translation>
-            <numerusform>%n saat</numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%n saat</numerusform>
+        <numerusform>%n saatler</numerusform>
+        </translation></message>
     <message numerus="yes">
         <source>%n days</source>
-        <translation>
-            <numerusform>%n gün</numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%n gün</numerusform>
+        <numerusform>%n günler</numerusform>
+        </translation></message>
     <message numerus="yes">
         <source>%n weeks</source>
-        <translation>
-            <numerusform>%n hafta</numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%n hafta</numerusform>
+        <numerusform>%n haftalar</numerusform>
+        </translation></message>
     <message numerus="yes">
         <source>%n months</source>
-        <translation>
-            <numerusform>%n ay</numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%n ay</numerusform>
+        <numerusform>%n aylar</numerusform>
+        </translation></message>
     <message numerus="yes">
         <source>%n years</source>
-        <translation>
-            <numerusform>%n yıl</numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%n yıl</numerusform>
+        <numerusform>%n yıllar</numerusform>
+        </translation></message>
     <message>
         <source>Unknown</source>
         <translation type="unfinished">Bilinmeyen</translation>
@@ -2029,46 +2020,39 @@ Please try again.</source>
     </message>
     <message numerus="yes">
         <source>%n seconds</source>
-        <translation>
-            <numerusform>%n saniye</numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%n saniye</numerusform>
+        <numerusform>%n saniyeler</numerusform>
+        </translation></message>
     <message numerus="yes">
         <source>%n minutes</source>
-        <translation>
-            <numerusform>%n dakika</numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%n dakika</numerusform>
+        <numerusform>%n dakikalar</numerusform>
+        </translation></message>
     <message numerus="yes">
         <source>%n hours</source>
-        <translation>
-            <numerusform>%n saat</numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%n saat</numerusform>
+        <numerusform>%n saatler</numerusform>
+        </translation></message>
     <message numerus="yes">
         <source>%n days</source>
-        <translation>
-            <numerusform>%n gün</numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%n gün</numerusform>
+        <numerusform>%n günler</numerusform>
+        </translation></message>
     <message numerus="yes">
         <source>%n weeks</source>
-        <translation>
-            <numerusform>%n hafta</numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%n hafta</numerusform>
+        <numerusform>%n haftalar</numerusform>
+        </translation></message>
     <message numerus="yes">
         <source>%n months</source>
-        <translation>
-            <numerusform>%n ay</numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%n ay</numerusform>
+        <numerusform>%n aylar</numerusform>
+        </translation></message>
     <message numerus="yes">
         <source>%n years</source>
-        <translation>
-            <numerusform>%n yıl</numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%n yıl</numerusform>
+        <numerusform>%n yıllar</numerusform>
+        </translation></message>
 </context>
 <context>
     <name>GenericTypeLogView</name>
@@ -3072,16 +3056,14 @@ Please try again.</source>
     </message>
     <message numerus="yes">
         <source>%n minute(s)</source>
-        <translation>
-            <numerusform>%n dakikalar</numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%n dakikalar</numerusform>
+        <numerusform>%n dakika</numerusform>
+        </translation></message>
     <message numerus="yes">
         <source>%n hour(s)</source>
-        <translation>
-            <numerusform>%n saatler</numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%n saatler</numerusform>
+        <numerusform>%n saat</numerusform>
+        </translation></message>
     <message numerus="yes">
         <source>%n day(s)</source>
         <translation>
@@ -3689,15 +3671,15 @@ Please try again.</source>
     </message>
     <message>
         <source>Path</source>
-        <translation type="unfinished"></translation>
+        <translation>Yol</translation>
     </message>
     <message>
         <source>Request retries</source>
-        <translation type="unfinished"></translation>
+        <translation>eniden deneme isteğinde bulunun</translation>
     </message>
     <message>
         <source>Request timeout [ms]</source>
-        <translation type="unfinished"></translation>
+        <translation>İstek zaman aşımı [ms]</translation>
     </message>
 </context>
 <context>
@@ -3756,31 +3738,31 @@ Please try again.</source>
     </message>
     <message>
         <source>Reconfigure Modbus RTU master</source>
-        <translation type="unfinished"></translation>
+        <translation>Modbus RTU master&apos;ı yeniden yapılandırın</translation>
     </message>
     <message>
         <source>Select a serial port.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bir seri bağlantı noktası seçin.</translation>
     </message>
     <message>
         <source>There are no serial ports available.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanılabilir seri bağlantı noktası yok.</translation>
     </message>
     <message>
         <source>Please make sure the Modbus RTU interface is connected to the system.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lütfen Modbus RTU arayüzünün sisteme bağlı olduğundan emin olun.</translation>
     </message>
     <message>
         <source>Path</source>
-        <translation type="unfinished"></translation>
+        <translation>Yol</translation>
     </message>
     <message>
         <source>Request retries</source>
-        <translation type="unfinished"></translation>
+        <translation>Yeniden deneme isteğinde bulunun</translation>
     </message>
     <message>
         <source>Request timeout [ms]</source>
-        <translation type="unfinished"></translation>
+        <translation>İstek zaman aşımı [ms]</translation>
     </message>
 </context>
 <context>
@@ -3919,55 +3901,55 @@ Please try again.</source>
     </message>
     <message>
         <source>The Modbus RTU hardware could not be found.</source>
-        <translation type="unfinished"></translation>
+        <translation>Modbus RTU donanımı bulunamadı.</translation>
     </message>
     <message>
         <source>The selected Modbus RTU master does not exist any more.</source>
-        <translation type="unfinished"></translation>
+        <translation>Seçilen Modbus RTU master artık mevcut değil.</translation>
     </message>
     <message>
         <source>Unable to connect to the Modbus RTU master.
 
 Maybe the hardware is already in use.</source>
-        <translation type="unfinished"></translation>
+        <translation>Modbus RTU master&apos;a bağlanılamıyor. Belki donanım zaten kullanımdadır.</translation>
     </message>
     <message>
         <source>The specified timeout value is not valid.
 
 Use a timeout value greater or equal to 10 ms.</source>
-        <translation type="unfinished"></translation>
+        <translation>Belirtilen zaman aşımı değeri geçerli değil. 10 ms&apos;ye eşit veya daha büyük bir zaman aşımı değeri kullanın.</translation>
     </message>
     <message>
         <source>There are no Modbus RTU masters set up yet.</source>
-        <translation type="unfinished"></translation>
+        <translation>Henüz ayarlanmış bir Modbus RTU master yok.</translation>
     </message>
     <message>
         <source>In order to use Modbus RTU devices, add a new Modbus RTU master.</source>
-        <translation type="unfinished"></translation>
+        <translation>Modbus RTU cihazlarını kullanmak için yeni bir Modbus RTU master ekleyin.</translation>
     </message>
     <message>
         <source>Remove Modbus RTU master</source>
-        <translation type="unfinished"></translation>
+        <translation>Modbus RTU master&apos;ı kaldırın</translation>
     </message>
     <message>
         <source>Are you sure you want to remove this Modbus RTU master?</source>
-        <translation type="unfinished"></translation>
+        <translation>Bu Modbus RTU master&apos;ı kaldırmak istediğinizden emin misiniz?</translation>
     </message>
     <message>
         <source>Please note that all related things will stop working until you assign a new Modbus RTU master to them.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lütfen bunlara yeni bir Modbus RTU master atayana kadar ilgili tüm şeylerin çalışmayı durduracağını unutmayın.</translation>
     </message>
     <message>
         <source>Path</source>
-        <translation type="unfinished"></translation>
+        <translation>Yol</translation>
     </message>
     <message>
         <source>Request retries</source>
-        <translation type="unfinished"></translation>
+        <translation>Yeniden deneme isteğinde bulunun</translation>
     </message>
     <message>
         <source>Request timeout [ms]</source>
-        <translation type="unfinished"></translation>
+        <translation>İstek zaman aşımı [ms]</translation>
     </message>
 </context>
 <context>
@@ -4795,11 +4777,11 @@ Use a timeout value greater or equal to 10 ms.</source>
     </message>
     <message>
         <source>CO level</source>
-        <translation type="unfinished"></translation>
+        <translation>CO seviyesi</translation>
     </message>
     <message>
         <source>Flammable gas level</source>
-        <translation type="unfinished"></translation>
+        <translation>yanıcı gaz seviyesi</translation>
     </message>
 </context>
 <context>
@@ -5160,31 +5142,31 @@ Use a timeout value greater or equal to 10 ms.</source>
     </message>
     <message>
         <source>Condition</source>
-        <translation type="unfinished"></translation>
+        <translation>Şart</translation>
     </message>
     <message>
         <source>is equal to</source>
-        <translation type="unfinished"></translation>
+        <translation>eşittir</translation>
     </message>
     <message>
         <source>is not equal to</source>
-        <translation type="unfinished"></translation>
+        <translation>eşit değildir</translation>
     </message>
     <message>
         <source>is smaller than</source>
-        <translation type="unfinished"></translation>
+        <translation>den daha küçük</translation>
     </message>
     <message>
         <source>is greater than</source>
-        <translation type="unfinished"></translation>
+        <translation>daha büyüktür</translation>
     </message>
     <message>
         <source>is smaller or equal than</source>
-        <translation type="unfinished"></translation>
+        <translation>daha küçük veya eşittir</translation>
     </message>
     <message>
         <source>is greater or equal than</source>
-        <translation type="unfinished"></translation>
+        <translation>daha büyük veya eşittir</translation>
     </message>
     <message>
         <source>is</source>
@@ -5192,23 +5174,23 @@ Use a timeout value greater or equal to 10 ms.</source>
     </message>
     <message>
         <source>is not</source>
-        <translation type="unfinished">değil</translation>
+        <translation>değil</translation>
     </message>
     <message>
         <source>a static value:</source>
-        <translation type="unfinished"></translation>
+        <translation>sabit bir değer:</translation>
     </message>
     <message>
         <source>another thing&apos;s state:</source>
-        <translation type="unfinished"></translation>
+        <translation>başka bir şeyin durumu:</translation>
     </message>
     <message>
         <source>Insert value here</source>
-        <translation type="unfinished">Değeri buraya girin</translation>
+        <translation>Değeri buraya ekle</translation>
     </message>
     <message>
         <source>Select a state</source>
-        <translation type="unfinished">Bir devlet seçin</translation>
+        <translation>Bir ülke seçin</translation>
     </message>
 </context>
 <context>
@@ -5585,23 +5567,23 @@ Use a timeout value greater or equal to 10 ms.</source>
     </message>
     <message>
         <source>Discover %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1&apos;i keşfet</translation>
     </message>
     <message>
         <source>Discovery options</source>
-        <translation type="unfinished"></translation>
+        <translation>Keşif seçenekleri</translation>
     </message>
     <message>
         <source>Nymea found the following things</source>
-        <translation type="unfinished"></translation>
+        <translation>Nymea aşağıdaki şeyleri buldu</translation>
     </message>
     <message>
         <source>Thing parameters</source>
-        <translation type="unfinished"></translation>
+        <translation>şey parametreleri</translation>
     </message>
     <message>
         <source>Login required</source>
-        <translation type="unfinished">Oturum açmak gereklidir</translation>
+        <translation>Giriş gerekli</translation>
     </message>
     <message>
         <source>Username</source>
@@ -5848,7 +5830,7 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     </message>
     <message>
         <source>Interfaces</source>
-        <translation type="unfinished"></translation>
+        <translation>Arayüzler</translation>
     </message>
 </context>
 <context>
@@ -6439,23 +6421,23 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     </message>
     <message>
         <source>ZigBee nodes</source>
-        <translation type="unfinished"></translation>
+        <translation>ZigBee düğümleri</translation>
     </message>
     <message>
         <source>Remove ZigBee node</source>
-        <translation type="unfinished"></translation>
+        <translation>ZigBee düğümünü kaldır</translation>
     </message>
     <message>
         <source>ZigBee network coordinator</source>
-        <translation type="unfinished"></translation>
+        <translation>ZigBee ağ koordinatörü</translation>
     </message>
     <message>
         <source>ZigBee router</source>
-        <translation type="unfinished"></translation>
+        <translation>ZigBee yönlendirici</translation>
     </message>
     <message>
         <source>ZigBee end device</source>
-        <translation type="unfinished"></translation>
+        <translation>ZigBee uç cihazı</translation>
     </message>
 </context>
 <context>
