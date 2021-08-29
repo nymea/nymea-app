@@ -2050,8 +2050,8 @@ Please try again.</source>
         </translation></message>
     <message numerus="yes">
         <source>%n years</source>
-        <translation><numerusform>%n yıllar</numerusform>
-        <numerusform>%n yıl</numerusform>
+        <translation><numerusform>%n yıl</numerusform>
+        <numerusform>%n yıllar</numerusform>
         </translation></message>
 </context>
 <context>
@@ -3066,28 +3066,24 @@ Please try again.</source>
         </translation></message>
     <message numerus="yes">
         <source>%n day(s)</source>
-        <translation>
-            <numerusform>%n günler</numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%n günler</numerusform>
+        <numerusform>%n gün</numerusform>
+        </translation></message>
     <message numerus="yes">
         <source>%n minute(s) ago</source>
-        <translation>
-            <numerusform>%n dakikalar önce</numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%n dakikalar önce</numerusform>
+        <numerusform>%n dakika önce</numerusform>
+        </translation></message>
     <message numerus="yes">
         <source>%n hour(s) ago</source>
-        <translation>
-            <numerusform>%n saatler önce</numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%n saatler önce</numerusform>
+        <numerusform>%n saat önce</numerusform>
+        </translation></message>
     <message numerus="yes">
         <source>%n day(s) ago</source>
-        <translation>
-            <numerusform>%n günler önce</numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%n günler önce</numerusform>
+        <numerusform>%n gün önce</numerusform>
+        </translation></message>
     <message>
         <source>Watering until</source>
         <extracomment>Irrigation will be turned of at, e.g. 09:00</extracomment>
@@ -3128,22 +3124,19 @@ Please try again.</source>
     </message>
     <message numerus="yes">
         <source>%n minute(s) left</source>
-        <translation>
-            <numerusform>%n dakikalar kaldı</numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%n dakikalar kaldı</numerusform>
+        <numerusform>%n dakika kaldı</numerusform>
+        </translation></message>
     <message numerus="yes">
         <source>%n hour(s) left</source>
-        <translation>
-            <numerusform>%n saatler kaldı</numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%n saatler kaldı</numerusform>
+        <numerusform>%n saat kaldı</numerusform>
+        </translation></message>
     <message numerus="yes">
         <source>%n day(s) left</source>
-        <translation>
-            <numerusform>%n günler kaldı</numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%n günler kaldı</numerusform>
+        <numerusform>%n gün kaldı</numerusform>
+        </translation></message>
 </context>
 <context>
     <name>LightThingsListPage</name>
@@ -5743,10 +5736,9 @@ Use a timeout value greater or equal to 10 ms.</source>
     </message>
     <message numerus="yes">
         <source>%n update(s) available</source>
-        <translation>
-            <numerusform>%n güncellemeler mevcut</numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%n güncellemeler mevcut</numerusform>
+        <numerusform>%n güncelleme mevcut</numerusform>
+        </translation></message>
     <message>
         <source>Check again</source>
         <translation>Tekrar kontrol et</translation>
