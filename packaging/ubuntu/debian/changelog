@@ -1,3 +1,10 @@
+nymea-app (1.0.346) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Modernize the header visuals
+
+ -- Jenkins <jenkins@nymea.io>  Sun, 29 Aug 2021 21:06:30 +0200
+
 nymea-app (1.0.345) bionic; urgency=medium
 
   [ Michael Zanetti ]
